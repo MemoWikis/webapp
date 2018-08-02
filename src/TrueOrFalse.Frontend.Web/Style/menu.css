@@ -367,7 +367,7 @@
   display: inline-block;
 }
 .list-group-item {
-  color: #203256 !important;
+  color: #707070 !important;
   background-color: white;
   border: none;
   font-size: 14px;
@@ -436,7 +436,11 @@
 #mainMenuQuestionsSetsCategories,
 #mainMenuGamesUsersMessages {
   border: none;
-  border-bottom: solid #707070 1px;
+  border-top: solid #707070 1px;
+  border-left: solid #707070 1px;
+}
+#mainMenuThemeNavigation {
+  border-top: none;
 }
 #mainMenuGamesUsersMessages {
   border-bottom: none;

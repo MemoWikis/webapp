@@ -51,7 +51,7 @@
                 <li style="border: solid #707070 1px; margin-left:-1px; width:101%;">
                     <a style="padding:0px;" href="<%= Links.Messages(Url)%>">
                         <div style="white-space:normal; display:flex; padding:22px 0px 24px 22px;">
-                            <i class="far fa-bell"></i>
+                            <i style="font-size:24px;" class="fa fa-bell"></i>
                             <span style="display:block;" class="badge dropdown-badge show-tooltip" title="<%= Model.SidebarModel.UnreadMessageCount%> ungelesene Nachrichten" <%if(Model.SidebarModel.UnreadMessageCount != 0){%> style="background-color:#FF001F;" <%}%>><%= Model.SidebarModel.UnreadMessageCount %></span>
                             <span style="display:block;">Du hast <%if(Model.SidebarModel.UnreadMessageCount != 0){ %> <b><%= Model.SidebarModel.UnreadMessageCount %> neue Nachrichten.</b><%}else{ %>keine neuen Benachrichtigungen<%} %></span>
                         </div>
@@ -77,7 +77,7 @@
     }
 %>    
     </div>
-    <div class="header-item" style="margin-right:0px; margin-top:2px;">
+    <div id="MenuButtonContainer" class="header-item" style="margin-right:0px;">
         <a id="MenuButton" class="TextLinkWithIcon"><i class="fa fa-bars"></i>
         <span class="TextSpan">Menü</span></a>
         <%Html.RenderPartial("/Views/Shared/MainMenuThemeCentered.ascx", Model.SidebarModel); %>

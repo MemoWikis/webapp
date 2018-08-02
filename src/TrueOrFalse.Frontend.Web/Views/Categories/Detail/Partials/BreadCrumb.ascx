@@ -25,13 +25,15 @@
             if (Model.TopNavMenu.IsAnswerQuestionOrSetBreadCrumb) { %>
              <%= Html.Partial("/Views/Categories/Detail/Partials/BreadCrumbCategories.ascx", Model.TopNavMenu) %>
           <%}
-             
-              foreach (var breadCrumbItem in Model.TopNavMenu.BreadCrumb) { %>
-        <div style="display: flex; height: auto; margin-bottom: 5px" class="show-tooltip" data-placement="bottom" <% if (Model.TopNavMenu.IsAnswerQuestionOrSetBreadCrumb){%>title="Zum Lernset" <% }else{ %> title="<%= breadCrumbItem.ToolTipText%>" <%}%> >                                                                                          
+        
+       var i = 0;
+       foreach (var breadCrumbItem in Model.TopNavMenu.BreadCrumb) {
+            i++;%>
+        <div id="<%=i %>BreadCrumbContainer" style="display: flex; height: auto; margin-bottom: 5px" class="show-tooltip" data-placement="bottom" <% if (Model.TopNavMenu.IsAnswerQuestionOrSetBreadCrumb){%>title="Zum Lernset" <% }else{ %> title="<%= breadCrumbItem.ToolTipText%>" <%}%> >                                                                                          
            <%if (breadCrumbItem.Equals(Model.TopNavMenu.BreadCrumb.Last())){%>
-              <span style="display: inline-table; margin-left: 10px; color:#000000; opacity:0.50;"><a href="<%= breadCrumbItem.Url %>"><% if (Model.TopNavMenu.IsAnswerQuestionOrSetBreadCrumb){%>Lernset: <%} %><%= breadCrumbItem.Text %></a></span>
+              <span style="display: inline-table; margin-left: 10px; color:#000000; opacity:0.50;"><a id="LastBreadcrumb" style="display:block; overflow:hidden; text-overflow:ellipsis;"  href="<%= breadCrumbItem.Url %>"><% if (Model.TopNavMenu.IsAnswerQuestionOrSetBreadCrumb){%>Lernset: <%} %><%= breadCrumbItem.Text %></a></span>
             <%} else {%>
-               <span style="display: inline-table; margin-left: 10px;"><a href="<%= breadCrumbItem.Url %>"><%= breadCrumbItem.Text %></a>
+               <span style="display: inline-table; margin-left: 10px;"><a id="<%= i %>BreadCrumb" style="display:block; overflow:hidden; text-overflow:ellipsis;"  href="<%= breadCrumbItem.Url %>"><%= breadCrumbItem.Text %></a>
                 <i style="display: inline;" class="fa fa-chevron-right"></i>
                </span>  
             <%} %>
@@ -63,9 +65,9 @@
                 <li style="border: solid #707070 1px; margin-left:-1px; width:101%;">
                     <a style="padding:0px;" href="<%= Links.Messages(Url)%>">
                         <div style="white-space:normal; display:flex; padding:22px 0px 24px 22px;">
-                            <i class="far fa-bell"></i>
-                            <span class="badge dropdown-badge show-tooltip" title="<%= Model.SidebarModel.UnreadMessageCount%> ungelesene Nachrichten" <%if(Model.SidebarModel.UnreadMessageCount != 0){%> style="background-color:#FF001F;" <%}%>><%= Model.SidebarModel.UnreadMessageCount %></span>
-                            <span >Du hast <%if(Model.SidebarModel.UnreadMessageCount != 0){ %> <b><%= Model.SidebarModel.UnreadMessageCount %> neue Nachrichten.</b><%}else{ %>keine neuen Benachrichtigungen<%} %></span>
+                            <i style="font-size:24px;" class="fa fa-bell"></i>
+                            <span style="display:block;" class="badge dropdown-badge show-tooltip" title="<%= Model.SidebarModel.UnreadMessageCount%> ungelesene Nachrichten" <%if(Model.SidebarModel.UnreadMessageCount != 0){%> style="background-color:#FF001F;" <%}%>><%= Model.SidebarModel.UnreadMessageCount %></span>
+                            <span style="display:block;">Du hast <%if(Model.SidebarModel.UnreadMessageCount != 0){ %> <b><%= Model.SidebarModel.UnreadMessageCount %> neue Nachrichten.</b><%}else{ %>keine neuen Benachrichtigungen<%} %></span>
                         </div>
                     </a>
                 </li>

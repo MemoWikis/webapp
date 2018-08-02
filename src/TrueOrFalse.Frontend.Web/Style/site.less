@@ -205,6 +205,13 @@ img {
             margin-bottom: 6px;
         }
 
+        .fa-dot-circle-o {
+            @media(max-width: 580px) {
+                font-size: 26px !important;
+                margin-top: 4px;
+            }
+        }
+
         #HeaderSearchBoxDiv {
             left: 115px;
             margin-top: 17px;
@@ -254,11 +261,11 @@ img {
 
         );
 
-        .media-below-sm({
-            margin-top:0px;
+        .media-below-sm( {
+            margin-top: 0px;
         }
-        );
 
+        );
         height: @masterHeaderMainRowHeight-xs;
     }
 }
@@ -410,7 +417,7 @@ img {
         margin-right: 25px;
         text-align: center;
 
-        @media(max-width:@screen-md) {
+        @media(max-width:(@screen-md - 0.5)) {
             margin-right: 5px;
         }
 
@@ -443,10 +450,6 @@ img {
             white-space: nowrap;
             text-overflow: ellipsis;
         }
-    }
-
-    a, span {
-        line-height: @masterHeaderMainRowHeight-xs;
     }
 
     span {
@@ -531,7 +534,7 @@ img {
         display: inline-block;
         font-size: 14px;
 
-        @media(max-width: @screen-md) {
+        @media(max-width: (@screen-md - 0.5)) {
             display: none;
         }
     }
@@ -705,6 +708,22 @@ img {
         //.buttonBackground (#2C5FB2, #2E487B, #e7ecf6);
         .MenuButtonXS;
     }
+}
+
+
+#MenuButtonContainer {
+    margin-top:auto;
+
+    .media-below-md({
+        margin-top:5px
+    });
+     .media-below-sm({
+         margin-top:-6px;
+     });
+      @media(max-width:580px){
+          margin-top:1px;
+      }
+        
 }
 
 #StickyMenuButton{
@@ -1791,12 +1810,12 @@ img {
         .ShadowBox;
         background-color: white;
     }
-    /*ROWS
+
+/*ROWS
 ---------------------------------------------------------*/
-    
-    .row{
-        background-color:#fff;
-    }
+.row {
+    background-color: #fff;
+}
     
     .rowBase:after {
         clear: both;

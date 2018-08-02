@@ -63,11 +63,8 @@
         }
         else
         {
-           Model.TopNavMenu.BreadCrumb.Add(new TopNavMenuItem {Text = "", Url = ""});
+           Model.TopNavMenu.BreadCrumb.Add(new TopNavMenuItem {Text = Model.SetMinis[0].Name, Url = Model.SetMinis[0].Name});
         }
-
-
-
         Model.TopNavMenu.IsAnswerQuestionOrSetBreadCrumb = true;
         Model.TopNavMenu.IsCategoryBreadCrumb = false;
     %>

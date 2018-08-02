@@ -9,6 +9,9 @@
         $('#Breadcrumb').addClass('ShowBreadcrumb');
         $('#RightMainMenu').css('position', 'fixed');
         $('#RightMainMenu').css('right', '100px');
+        $('#mainMenuThemeNavigation').css('border-left', 'none');
+        $('#mainMenuQuestionsSetsCategories').css('border-left', 'none');
+        $('#mainMenuGamesUsersMessages').css('border-left', 'none');
 
     } else {
         $('#BreadcrumbLogoSmall').hide();
@@ -18,7 +21,9 @@
         $('#Breadcrumb').removeClass('ShowBreadcrumb');
         $('#RightMainMenu').css('position', 'absolute');
         $('#RightMainMenu').css('right', '');
-
+        $('#mainMenuThemeNavigation').css('border-left', 'solid #707070 1px');
+        $('#mainMenuQuestionsSetsCategories').css('border-left', 'solid #707070 1px');
+        $('#mainMenuGamesUsersMessages').css('border-left', 'solid #707070 1px');
 
     }
 });

@@ -221,6 +221,12 @@ img {
     margin-bottom: 6px;
   }
 }
+@media (max-width: 580px) {
+  #MasterHeader .HeaderMainRow .fa-dot-circle-o {
+    font-size: 26px !important;
+    margin-top: 4px;
+  }
+}
 #MasterHeader .HeaderMainRow #HeaderSearchBoxDiv {
   left: 115px;
   margin-top: 17px;
@@ -416,7 +422,7 @@ img {
   margin-right: 25px;
   text-align: center;
 }
-@media (max-width: 992px) {
+@media (max-width: 991.5px) {
   #loginAndHelp .header-item,
   #StickyHeaderContainer .header-item {
     margin-right: 5px;
@@ -457,12 +463,6 @@ img {
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
-}
-#loginAndHelp a,
-#StickyHeaderContainer a,
-#loginAndHelp span,
-#StickyHeaderContainer span {
-  line-height: 34px;
 }
 #loginAndHelp span,
 #StickyHeaderContainer span {
@@ -564,7 +564,7 @@ img {
   display: inline-block;
   font-size: 14px;
 }
-@media (max-width: 992px) {
+@media (max-width: 991.5px) {
   #loginAndHelp .TextSpan,
   #StickyHeaderContainer .TextSpan,
   #loginAndHelp span:not(.level-display),
@@ -862,6 +862,24 @@ fieldset[disabled] #StickyMenuButton:hover {
     border-radius: 6px;
     padding: 0px;
     font-size: 25px;
+  }
+}
+#MenuButtonContainer {
+  margin-top: auto;
+}
+@media (max-width: 991px) {
+  #MenuButtonContainer {
+    margin-top: 5px;
+  }
+}
+@media (max-width: 767px) {
+  #MenuButtonContainer {
+    margin-top: -6px;
+  }
+}
+@media (max-width: 580px) {
+  #MenuButtonContainer {
+    margin-top: 1px;
   }
 }
 #StickyMenuButton {

@@ -65,16 +65,16 @@
         <div id="<%=i %>BreadCrumbContainer" style="display: flex; height: auto; margin-bottom: 5px;" class="show-tooltip" data-placement="bottom" title="Zur Themenseite"> 
             <% if (!(Model.IsAnswerQuestionOrSetBreadCrumb)) {
                     if (i == breadCrumbCategoriesCount) { %> 
-                     <div style="margin-left:10px; color:#000000; opacity:0.50;"><div><a id="LastBreadcrumb" href="<%= Links.CategoryDetail(breadCrumbCategories[i]) %>" class=""><%= breadCrumbCategories[i].Name %></a></div></div>              
+                     <div style="margin-left:10px; color:#000000; opacity:0.50;"><div><a style="display:block; text-overflow:ellipsis; overflow:hidden;" id="LastBreadcrumb" href="<%= Links.CategoryDetail(breadCrumbCategories[i]) %>" class=""><%= breadCrumbCategories[i].Name %></a></div></div>              
                   <%} else { %>
-                     <div  style="display: flex; margin-left:10px;"> <div><a id="<%=i %>BreadCrumb" href="<%= Links.CategoryDetail(breadCrumbCategories[i]) %>" style="display:block; overflow:hidden; text-overflow:ellipsis;" class=""><%= breadCrumbCategories[i].Name %></a></div>
+                     <div  style="display: flex; margin-left:10px;"><div><a id="<%=i %>BreadCrumb" href="<%= Links.CategoryDetail(breadCrumbCategories[i]) %>" style="display:block; overflow:hidden; text-overflow:ellipsis;" class=""><%= breadCrumbCategories[i].Name %></a></div>
                       <div><i style="display: inline;" class="fa fa-chevron-right"></i></div>
                      </div> 
                   <%}%>
              <%}else{%>
-                <span style="display: inline-table; margin-left:10px;"><a href="<%= Links.CategoryDetail(breadCrumbCategories[i]) %>" class=""><%= breadCrumbCategories[i].Name %></a>
-                  <i style="display: inline;" class="fa fa-chevron-right"></i>
-                </span> 
+                <div style="display:flex; margin-left:10px;"><div><a id="<%= i %>BreadCrumb" style="display:block; text-overflow:ellipsis; overflow:hidden;" href="<%= Links.CategoryDetail(breadCrumbCategories[i]) %>" class=""><%= breadCrumbCategories[i].Name %></a></div>
+                  <div><i style="display: inline;" class="fa fa-chevron-right"></i></div>
+                </div> 
              <%} %>
         </div>
     <% } %>
