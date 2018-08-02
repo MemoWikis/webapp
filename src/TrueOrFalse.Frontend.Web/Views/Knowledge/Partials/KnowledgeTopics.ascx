@@ -26,8 +26,8 @@
               <div class="KnowledgeBarWrapper" v-html="props.rowData.KnowlegdeWishPartial" v-on:mouseover="mouseOver"></div>
           </template>
 
-          <template slot="image" scope="props">
-              <div class="bo boimg-1">
+          <template slot="image" scope="props" >
+              <div class="image" >
                 <image class="imageTable"v-bind:src="props.rowData.ImageFrontendData.ImageMetaData.SourceUrl" ></image>
               </div>
           </template>

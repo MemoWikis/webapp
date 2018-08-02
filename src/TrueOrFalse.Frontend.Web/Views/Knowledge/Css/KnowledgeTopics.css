@@ -18,12 +18,13 @@ td {
   width: 30px;
   height: 30px;
 }
-.bo {
-  min-width: 45px;
+table.table.table-striped .image {
+  margin-right: -5px;
+  width: 30px;
   float: right;
 }
 table.table.table-striped .title {
-  padding-left: -120px;
+  float: left;
 }
 .KnowledgeBarWrapper {
   display: inline-block;
