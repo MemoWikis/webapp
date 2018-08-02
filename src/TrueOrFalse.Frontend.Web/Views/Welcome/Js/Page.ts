@@ -13,11 +13,4 @@
 
     });
     new NumbersCountUp();
-    $("#team").css("cursor", "pointer");
-    $("#team").on('click', function (e) {
-        e.preventDefault();
-        window.open($("#hdd-team").val());
-
-    });
-
 });
