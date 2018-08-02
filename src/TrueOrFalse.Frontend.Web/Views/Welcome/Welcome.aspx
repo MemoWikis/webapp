@@ -11,7 +11,7 @@
 
 <asp:Content ID="Content1" runat="server" ContentPlaceHolderID="Head">
     <script type="text/javascript" src="https://www.google.com/jsapi"></script>
-    
+
     <link href="/Views/Welcome/Welcome.css" rel="stylesheet" />
 
     <script type="text/javascript">
@@ -165,9 +165,9 @@
 
                     <div class="NextLevelContainer">
                         <div class="ProgressBarContainer">
-                        <div id="NextLevelProgressPercentageDone" class="ProgressBarSegment ProgressBarDone CountUpProgress" data-number="<%= Model.ActivityPointsPercentageOfNextLevel %>" data-character="%" style="width: 95px;">
+                            <div id="NextLevelProgressPercentageDone" class="ProgressBarSegment ProgressBarDone CountUpProgress" data-number="<%= Model.ActivityPointsPercentageOfNextLevel %>" data-character="%" style="width: 95px;">
                                 <div class="ProgressBarSegment ProgressBarLegend">
-                                <span id="NextLevelProgressSpanPercentageDone" class="CountUp" data-number="<%= Model.ActivityPointsPercentageOfNextLevel %>" data-character ="%">0</span>
+                                    <span id="NextLevelProgressSpanPercentageDone" class="CountUp" data-number="<%= Model.ActivityPointsPercentageOfNextLevel %>" data-character="%">0</span>
                                 </div>
                             </div>
                             <div class="ProgressBarSegment ProgressBarLeft" style="width: 100%;"></div>
@@ -304,23 +304,24 @@
         <div class="infoBox container-fluid">
             <div class="row">
                 <div class="col-md-3 vertical-center">
-                    <img alt="Hier sollte der Oer Award sein" style="width: 300px" src="/Images/LogosPartners/badge_nominiert_2017_250real.png"/>
+                    <img alt="Hier sollte der Oer Award sein" style="width: 300px" src="/Images/LogosPartners/badge_nominiert_2017_250real.png" />
                 </div>
                 <div class="col-md-9">
-                <h3>memucho 2x nominiert für OER-Award 2017</h3>
-                <p>
-                    Bei den OER-Awards 2017 wurde memucho gleich zweimal nominiert:
+                    <h3>memucho 2x nominiert für OER-Award 2017</h3>
+                    <p>
+                        Bei den OER-Awards 2017 wurde memucho gleich zweimal nominiert:
                     <ul class="ul">
                         <li>In der Kategorie OER-Infrastruktur und</li>
                         <li>speziell für unsere freien Lerninhalte für den <a href="<%= Links.CategoryDetail("Basispass Pferdekunde",343) %>">Basispass Pferdekunde</a>.</li>
                     </ul>
-                </p>
-                <p>Darüber freuen wir uns sehr! Die <a href="https://open-educational-resources.de/veranstaltungen/17/award/" target="_blank">OER-Awards <i class="fa fa-external-link" style="font-size: smaller;"></i></a>
-                    zeichnen jährlich die besten Angebote im Bereich freie Bildungsinhalte (OER) aus.
+                    </p>
+                    <p>
+                        Darüber freuen wir uns sehr! Die <a href="https://open-educational-resources.de/veranstaltungen/17/award/" target="_blank">OER-Awards <i class="fa fa-external-link" style="font-size: smaller;"></i></a>
+                        zeichnen jährlich die besten Angebote im Bereich freie Bildungsinhalte (OER) aus.
                     Die Preis-Verleihung fand am 27. November 2017 in Berlin im Rahmen des 
                     <a href="https://open-educational-resources.de/veranstaltungen/17/" target="_blank">OER-Festivals <i class="fa fa-external-link" style="font-size: smaller;"></i>
                     </a>statt.
-                </p>
+                    </p>
                 </div>
             </div>
         </div>
@@ -753,7 +754,7 @@
 
         <% Html.RenderPartial("~/Views/Shared/LinkToTop.ascx");  %>
 
-        <input id="hdd-team"type="hidden" value="<%=Links.Team() %>"/>
+        <input id="hdd-team" type="hidden" value="<%=Links.Team() %>" />
         <div id="team">
             <h2>Team</h2>
             <div class="row infoItemRow">
@@ -792,7 +793,7 @@
                         (Gründer)
                     </div>
                 </div>
-            </div>    
+            </div>
             <div class="row infoItemRow">
                 <div class="col-xs-4 infoItemColumn">
                     <div class="TeamPic">
@@ -805,7 +806,7 @@
                         (Content Managerin)
                     </div>
                 </div>
-                
+
                 <div class="col-xs-4 infoItemColumn">
                     <div class="TeamPic">
                         <img src="https://ucarecdn.com/cbf57b0d-491b-49f0-97d6-573d7d9b539f/-/scale_crop/155x155/" />
@@ -817,7 +818,7 @@
                         (Product Manager)
                     </div>
                 </div>
-                
+
                 <div class="col-xs-4 infoItemColumn">
                     <div class="TeamPic">
                         <img src="https://ucarecdn.com/06b596a8-3787-44d7-9edc-4b9dd493acfd/-/scale_crop/155x155/" />
@@ -830,6 +831,7 @@
                     </div>
                 </div>
             </div>
+
             <div class="row infoItemRow">
                 <div class="col-xs-4 infoItemColumn">
                     <div class="TeamPic">
@@ -842,7 +844,7 @@
                         (Developer)
                     </div>
                 </div>
-                
+
                 <div class="col-xs-4 infoItemColumn">
                     <div class="TeamPic">
                         <img src="https://ucarecdn.com/5174fd26-5db4-43d4-b73c-6f81e872c6dd/-/scale_crop/155x155/" />
@@ -854,12 +856,11 @@
                         (Developer)
                     </div>
                 </div>
+
             </div>
-          </div>        
-     </div>    
- 
-<a class="right"href="<%=Links.Team() %>">Erfahre mehr...</a>
-    <% Html.RenderPartial("~/Views/Shared/LinkToTop.ascx");  %>
-    
-    
+        </div>
+        <div class="separator"></div>
+        <a class="right" href="<%=Links.Team() %>">Erfahre mehr...</a>
+        <% Html.RenderPartial("~/Views/Shared/LinkToTop.ascx");  %>
+    </div>
 </asp:Content>
