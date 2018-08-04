@@ -4,11 +4,11 @@
     var user = userSession.User;
     var imageSetttings = new UserImageSettings(userSession.User.Id); %>
 
-<div  class="container">
+<div id="BreadCrumbContainer" class="container">
   <div id="BreadcrumbContainer" style="display:flex; width:100%; flex-wrap: nowrap;">
-    <div id="BreadcrumbLogoSmall" style="display:none;">
+    <a href="/" id="BreadcrumbLogoSmall" class="show-tooltip" data-placement="bottom" title="Zur Startseite" style="display:none;">
         <img src="/Images/Logo/LogoSmall.png">
-    </div>
+    </a>
     <div style="height: auto;" id="BreadcrumbHome" class="show-tooltip" data-placement="bottom"  title="Zur Startseite">
      <%if(!(Model.TopNavMenu.IsWelcomePage)){ %> 
         <a href="/" class="category-icon">
@@ -48,12 +48,12 @@
                 <button class="btn btn-default" id="StickySearchButton" onclick="SearchButtonClick()" style="height:34px;" type="submit"><i class="fa fa-search" style="font-size:25px; padding:0px;margin:0px; margin-top:-3px" aria-hidden="true"></i></button>
             </div>
         </div>
-        <div style="margin-right:0px;"><i style="margin-top:6px; font-size:31px;" class="fa fa-dot-circle-o"></i></div>
+        <div style="margin-right:0px;"><i style="margin-top:6px; font-size:31px !important;" class="fa fa-dot-circle-o"></i></div>
         <div style="margin-right:25px">
            <a class="TextLinkWithIcon dropdown-toggle" id="dLabel" role="button" data-toggle="dropdown" data-target="#" href="#">
             <img class="userImage" style="margin-top:21px; border:none;" src="<%= imageSetttings.GetUrl_30px_square(userSession.User).Url %>" />
            </a>   
-           <ul class="dropdown-menu pull-right" role="menu" aria-labelledby="dLabel" style="right:auto;">
+           <ul id="DropdownMenu" class="dropdown-menu pull-right" role="menu" aria-labelledby="dLabel">
                 <li>
                    <a style="white-space:unset; padding:0px;" href="<%= Links.Knowledge()%>">
                        <div id="activity-popover-title">Dein erreichtes Level</div>
@@ -65,7 +65,7 @@
                 <li style="border: solid #707070 1px; margin-left:-1px; width:101%;">
                     <a style="padding:0px;" href="<%= Links.Messages(Url)%>">
                         <div style="white-space:normal; display:flex; padding:22px 0px 24px 22px;">
-                            <i style="font-size:24px;" class="fa fa-bell"></i>
+                            <i style="font-size:24px; padding:0px;" class="fa fa-bell"></i>
                             <span style="display:block;" class="badge dropdown-badge show-tooltip" title="<%= Model.SidebarModel.UnreadMessageCount%> ungelesene Nachrichten" <%if(Model.SidebarModel.UnreadMessageCount != 0){%> style="background-color:#FF001F;" <%}%>><%= Model.SidebarModel.UnreadMessageCount %></span>
                             <span style="display:block;">Du hast <%if(Model.SidebarModel.UnreadMessageCount != 0){ %> <b><%= Model.SidebarModel.UnreadMessageCount %> neue Nachrichten.</b><%}else{ %>keine neuen Benachrichtigungen<%} %></span>
                         </div>
@@ -81,7 +81,7 @@
                 <% } %>
             </ul>
         </div>
-        <div><a id="StickyMenuButton" style="margin-top:0px;"><i class="fa fa-bars" style="font-size:inherit; margin-right:0px;"></i></a></div>
+        <div><a id="StickyMenuButton"><i class="fa fa-bars" style="font-size:inherit; margin-right:0px;"></i></a></div>
     </div>
  </div>
 </div> 

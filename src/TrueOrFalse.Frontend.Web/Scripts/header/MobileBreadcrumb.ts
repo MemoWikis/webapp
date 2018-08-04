@@ -1,9 +1,34 @@
-﻿window.onresize = function (event) {
+﻿window.onload = function (event) {
+    var i;
+    var BreadCrumbCount = getCount(document.getElementById("BreadcrumbContainer")) - 3;
 
+    if (BreadCrumbCount > 2) {
+
+        for (i = 1; i < BreadCrumbCount; i++) {
+            var BreadCrumbItem = $('#' + i + 'BreadCrumb')
+            BreadCrumbItem.css({ width: "auto" }); 
+            BreadCrumbItem.css('max-width', (BreadCrumbItem.outerWidth() + 1));
+            $('#' + i + 'BreadCrumbContainer').css('max-width', (BreadCrumbItem.outerWidth() + 42));
+            BreadCrumbItem.css({width: ""})
+        }
+
+         var LastBreadCrumbItem = $('#LastBreadcrumb');
+        LastBreadCrumbItem.css({ width: "auto" });
+        LastBreadCrumbItem.css('max-width', (LastBreadCrumbItem.outerWidth() + 1));
+        $('#' + (BreadCrumbCount + 1) + 'BreadCrumbContainer').css('max-width', (BreadCrumbItem.outerWidth() + 42));
+    }
+}
+
+window.onresize = function (event) {
 var BreadCrumbCount = getCount(document.getElementById("BreadcrumbContainer")) - 3;
 if (BreadCrumbCount > 1) {
     var offset = $('#LastBreadcrumb').offset();
     var rightspace = ($(window).width() - ($('#LastBreadcrumb').offset().left + $('#LastBreadcrumb').outerWidth()));
+   
+    if ($('#1BreadCrumb').width() < 23.2) {
+        document.getElementById("BreadcrumbHome").style.display = "none";
+        document.getElementById("BreadcrumbLogoSmall").style.display = "block";
+    }
     if (rightspace < 0) {
         ShortenBreadcrumb(1);
         rightspace = ($(window).width() - ($('#LastBreadcrumb').offset().left + $('#LastBreadcrumb').outerWidth()))
@@ -16,7 +41,25 @@ if (BreadCrumbCount > 1) {
             }
         }
     }
-}
+    if (rightspace > 0) {
+        var i;
+        var width = ((document.getElementById("BreadcrumbContainer").offsetWidth) - document.getElementById("BreadcrumbHome").offsetWidth) / BreadCrumbCount;
+        document.getElementById("LastBreadcrumb").style.width = (width - 41) + "px";
+
+        if (BreadCrumbCount > 2) {
+            for (i = 1; i < BreadCrumbCount; i++) {
+                document.getElementById(i + "BreadCrumb").style.width = (width - 41) + "px";
+                document.getElementById(i + "BreadCrumbContainer").style.width = width + "px";
+                $('#' + i + 'BreadCrumbContainer').attr('title', "Zur Themenseite")
+                    .tooltip('fixTitle')
+            }
+        }
+
+    }
+
+    
+
+  }
 };
 
 function ShortenBreadcrumb(index) {

@@ -16,7 +16,7 @@
     </div>
     <div class="header-item">
         <a href="/Wissenszentrale" class="TextLinkWithIcon KnowledgeLink"><i style="font-size:32px;" class="fa fa-dot-circle-o"></i>
-            <span class="primary-point-text TextSpan">Wissenszentrale</span>
+            <span class="primary-point-text TextSpan" style="padding-top:11px;">Wissenszentrale</span>
         </a>
     </div>
     <div class="header-item" id="Login">
@@ -26,7 +26,6 @@
 %>
       <div style="display:flex; flex-direction:column;">
         <div class="dropdown" style="display: inline-block;">
-
           <a class="TextLinkWithIcon dropdown-toggle" id="dLabel" role="button" data-toggle="dropdown" data-target="#" href="#">
               <div style="display: flex;">
                   <span id="badgeNewMessages" class="badge show-tooltip"  data-placement="bottom" title="<%= Model.SidebarModel.UnreadMessageCount%> Ungelesene Nachrichten" <%if(Model.SidebarModel.UnreadMessageCount != 0){ %>style="background-color:#FF001F"<%}%>> <%= Model.SidebarModel.UnreadMessageCount %></span>
@@ -79,7 +78,7 @@
     </div>
     <div id="MenuButtonContainer" class="header-item" style="margin-right:0px;">
         <a id="MenuButton" class="TextLinkWithIcon"><i class="fa fa-bars"></i>
-        <span class="TextSpan">Menü</span></a>
+        <span style="padding-top:11px;" class="TextSpan">Menü</span></a>
         <%Html.RenderPartial("/Views/Shared/MainMenuThemeCentered.ascx", Model.SidebarModel); %>
     </div>
   </div>

@@ -771,7 +771,7 @@ fieldset[disabled] #StickyMenuButton {
 @media (max-width: 767px) {
   #MenuButton,
   #StickyMenuButton {
-    margin-top: 0px;
+    margin-top: 0px !important;
   }
 }
 @media (min-width: 768px) {
@@ -884,6 +884,7 @@ fieldset[disabled] #StickyMenuButton:hover {
 }
 #StickyMenuButton {
   opacity: 0.5;
+  margin-top: 5px;
 }
 ul.AutocompleteHeader {
   max-width: 550px;
@@ -1234,7 +1235,8 @@ ul.AutocompleteHeader {
   margin-top: -19px;
 }
 @media (max-width: 518px) {
-  #Breadcrumb #StickyHeaderContainer div {
+  #Breadcrumb #StickyHeaderContainer div,
+  #Breadcrumb #StickyHeaderContainer .fa-dot-circle-o {
     margin-right: 0px !important;
   }
 }
@@ -1245,7 +1247,7 @@ ul.AutocompleteHeader {
 }
 @media (max-width: 518px) {
   #Breadcrumb #StickyHeaderContainer .fa-bars {
-    font-size: 25px !important;
+    font-size: 30px !important;
   }
 }
 #Breadcrumb #StickyHeaderContainer .userImage {
