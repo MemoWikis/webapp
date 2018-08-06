@@ -28,7 +28,7 @@
                         Jule
                     </div>
                     <div class="infoExplanationSnippet">
-                        (Gründer)
+                        (Gründerin)
                     </div>
                 </div>
 
@@ -107,7 +107,7 @@
                 </div>
             </div>
 
-        <div class="TeamText">                                          https://memucho.local/Kategorien/memucho-Tutorials/945
+        <div class="TeamText">                                         
             <p class="ShortParagraph">
                 memucho ist ein gemeinwohlorientiertes Unternehmen, das freie Bildungsinhalte fördert.<br />
                 Unser Team möchte dich beim Lernen unterstützen. Dafür konzipieren, gestalten und<br />

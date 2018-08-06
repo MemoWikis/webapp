@@ -778,7 +778,7 @@
                         Jule
                     </div>
                     <div class="infoExplanationSnippet">
-                        (Gründer)
+                        (Gründerin)
                     </div>
                 </div>
 
