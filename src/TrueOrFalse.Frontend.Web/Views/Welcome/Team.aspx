@@ -107,14 +107,14 @@
                 </div>
             </div>
 
-        <div class="TeamText">
+        <div class="TeamText">                                          https://memucho.local/Kategorien/memucho-Tutorials/945
             <p class="ShortParagraph">
                 memucho ist ein gemeinwohlorientiertes Unternehmen, das freie Bildungsinhalte fördert.<br />
-                Unser Team möchte dich beim Lernen unterstützen Dafür konzipieren, gestalten und<br />
+                Unser Team möchte dich beim Lernen unterstützen. Dafür konzipieren, gestalten und<br />
                 programmieren wir gemeinsam und laden dich ein, es auch auszuprobieren.
             </p>
             <p class="ShortParagraph" id="link-share">
-                <a class="btn btn-primary" href="https://memucho.de/Kategorien/memucho-Tutorials/945"><i class="fa fa-lg fa-play-circle">&nbsp;</i>Teile dein Wissen und mache es anderen zugänglich! </a>
+                <a class="btn btn-primary" href="<%=Links.CategoryDetail("memucho-Tutorials",945) %>"><i class="fa fa-lg fa-play-circle">&nbsp;</i>Teile dein Wissen und mache es anderen zugänglich! </a>
             </p>
             <p class="ShortParagraph">
                 Wenn du Fragen oder Anregungen hast, schreibe uns eine Email an <a href="mailto:team@memucho.de">team@memucho.de</a>   oder<br />
