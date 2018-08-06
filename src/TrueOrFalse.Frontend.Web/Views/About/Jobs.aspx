@@ -26,7 +26,7 @@
         </ul>
     </div>
 </div>
-        	  ⦁	 Stellenbeginn: Ab sofort Umfang: 30h/Woche Arbeitsort: Schönes Büro in Wildau, nähe Bahnhof und Uni Die Stelle wird gefördert durch das Programm Gründung innovativ der ILB mit Geldern aus dem Europäischen Fond für regionale Entwicklung (EFRE). Kontakt: Robert Mischke<span class="mailme"> robert at memucho dot de</span>
+        	  ⦁	 Stellenbeginn: Ab sofort. Umfang: 30h/Woche. Arbeitsort: Schönes Büro in Wildau, nähe Bahnhof und Uni. Die Stelle wird gefördert durch das Programm Gründung innovativ der ILB mit Geldern aus dem Europäischen Fond für regionale Entwicklung (EFRE). Kontakt: Robert Mischke<span class="mailme"> robert at memucho dot de</span>
 <div class="row">
     <div class="col-xs-12 col-md-8" style="margin-top: 20px;" id="contentmanager">
         <div class="well">
