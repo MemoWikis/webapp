@@ -10,8 +10,6 @@ public class CategoryAndSetDataWishKnowledge: BaseController
 {
     public List<CategoryAndSetWishKnowledge> filteredCategoryWishKnowledge(ControllerContext controllerContext) 
     {
-       
-       
         var CategorieWishes = GetCategoryData();
         var setWishes = GetSetData();
         var filteredCategoryAndSetWishKnowledges = GetObjectCategoryAndSetWishKnowledges(CategorieWishes, setWishes,controllerContext);
@@ -76,14 +74,17 @@ public class CategoryAndSetDataWishKnowledge: BaseController
 
     public List<CategoryAndSetWishKnowledge> GetObjectCategoryAndSetWishKnowledges(IList<Category> CategorieWishes, IList<Set> setWishes, ControllerContext controllerContext)
     {
+     
         List<CategoryAndSetWishKnowledge> filteredCategoryAndSetWishKnowledges = new List<CategoryAndSetWishKnowledge>();
       
         foreach (var categoryWish in CategorieWishes)
         {
+            
             var facebookLink = "https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2F"+ changeUrlToFacebookCompatible(Settings.CanonicalHost + Links.CategoryDetail(categoryWish.Name, categoryWish.Id)) + "%2F&amp;src=sdkpreparse";
             var categoryAndSetWishKnowledge = new CategoryAndSetWishKnowledge();
             var category = Sl.CategoryRepo.GetByIdEager(categoryWish.Id);
 
+         
             categoryAndSetWishKnowledge.Description = categoryWish.Description;
             categoryAndSetWishKnowledge.Titel = categoryWish.Name;
             categoryAndSetWishKnowledge.ImageFrontendData = GetCategoryImage(categoryWish.Id);
@@ -99,11 +100,14 @@ public class CategoryAndSetDataWishKnowledge: BaseController
             categoryAndSetWishKnowledge.EditCategoryOrSetLink = Links.CategoryEdit(category);
             categoryAndSetWishKnowledge.ShareFacebookLink = facebookLink;
             categoryAndSetWishKnowledge.HasVideo = false;
+           
+            
             filteredCategoryAndSetWishKnowledges.Add(categoryAndSetWishKnowledge);
         }
 
         foreach (var setWish in setWishes)
-        {
+        {   
+
             var facebookLink = "https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2F" + changeUrlToFacebookCompatible(Settings.CanonicalHost + Links.SetDetail(setWish.Name, setWish.Id)) + "%2F&amp;src=sdkpreparse";
             var categoryAndSetWishKnowledge = new CategoryAndSetWishKnowledge();
             var set = Sl.SetRepo.GetByIdEager(setWish.Id);
@@ -123,9 +127,8 @@ public class CategoryAndSetDataWishKnowledge: BaseController
             categoryAndSetWishKnowledge.EditCategoryOrSetLink = Links.SetEdit(set);
             categoryAndSetWishKnowledge.ShareFacebookLink = facebookLink;
             categoryAndSetWishKnowledge.HasVideo = set.HasVideo;
-
+           
             filteredCategoryAndSetWishKnowledges.Add(categoryAndSetWishKnowledge);
-            
         }
 
         return filteredCategoryAndSetWishKnowledges;
@@ -156,4 +159,21 @@ public class CategoryAndSetDataWishKnowledge: BaseController
        return url.Replace("https://", "www.");
     }
 
+    public  List<int> GetWuWICountSetAndCategories()
+    {
+        List<int> CountSetsandCategories = new List<int>();
+        var helper = new Helper();
+        helper.countCategories = GetCategoryData().Count;
+        helper.countSets = GetSetData().Count;
+        CountSetsandCategories.Add(helper.countSets);
+        CountSetsandCategories.Add(helper.countCategories);
+
+        return CountSetsandCategories;
+    }
+
+    class Helper
+    {
+       public int countCategories { get; set; }
+       public int countSets { get; set; }
+    }
 }

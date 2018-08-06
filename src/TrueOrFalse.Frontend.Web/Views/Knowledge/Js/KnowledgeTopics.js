@@ -1,4 +1,28 @@
-﻿Vue.use(Vuetable);
+﻿ let v=new Vue({
+    el: "#countCatAndSet",
+    data: {
+        datas: []
+    },
+    methods: {
+   
+     }, mounted: function () {
+        var self = this;
+        $.ajax({
+            url: '/Knowledge/CountedWUWItoCategoryAndSet',
+            method: 'POST',
+            datatype: "jsonp",
+            success: function (Data) {
+                self.datas = Data;
+                console.log(self.datas[0] );
+            },
+            error: function (error) {
+                console.log(error);
+            }
+        });
+    }
+});
+
+Vue.use(Vuetable);
 
 new Vue({
     el: '#app',
@@ -56,12 +80,6 @@ new Vue({
             this.$refs.vuetable.changePage(page);
         },
         editRow(rowData) {
-            alert("You clicked edit on" + JSON.stringify(rowData));
-            $.post("/Api/Category/Unpin/",
-                { categoryId: 231 },
-                function () {
-
-                });
 
             $.post("/Api/Category/Pin/",
                 { categoryId: 683 },
@@ -121,4 +139,3 @@ new Vue({
     }
 });
 
-    // TODO FunktonsIFs für Set und Category auslagern, sind zu oft vorhanden.

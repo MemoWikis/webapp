@@ -1,16 +1,19 @@
 ﻿<%@ Language="C#" Inherits="System.Web.Mvc.ViewUserControl<KnowledgeModel>"%>
 <%@ Import Namespace="System.Web.Optimization" %>
 <%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
-<%= Styles.Render("~/bundles/KnowledgeTopics") %>
+
 
 
 <link rel='stylesheet prefetch' href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css'>
-
+<%= Styles.Render("~/bundles/KnowledgeTopics") %>
 <body>
+
+<div>
+    <h2 id ="countCatAndSet">Du hast {{datas[0]}} Themen und {{datas[1]}} Lernsets in deinem Wunschwissen </h2>
+</div>
 
     <div id="app">
      <div id="table-wrapper" class="ui container">
-       <h2><strong>&lt;Vuetable-2&gt;</strong> with Bootstrap 3</h2>
       <vuetable ref="vuetable"
         api-url="/Knowledge/GetCatsAndSetsWish"
         :fields="fields"
@@ -66,6 +69,7 @@
                     <li style="margin-top: 2rem;"><a target="_blank" v-bind:href="props.rowData.ShareFacebookLink"><i class="fa fa-pencil"></i>&nbsp; Lernset auf Facebook teilen </a></li>     
 
                     <li @click="deleteRow(props.rowData.Id, props.rowData.IsCategory, props.rowIndex)"><a href="#"><i class="fa fa-pencil"></i>&nbsp; Thema aus Wunschwissen entfernen </a></li> 
+                    <li @click="editRow()"><a href="#"><i class="fa fa-pencil"></i>&nbsp; Themen hinzufügen nur DeveloperHelperLink </a></li> 
                 <% }  %>
             </ul>
         </div>

@@ -75,7 +75,9 @@ namespace TrueOrFalse.View
                 .IncludeDirectory("~/Views/Knowledge/", "*.css"));
 
             bundles.Add(new ScriptBundle("~/bundles/js/Knowledge")
-                .Include("~/Views/Knowledge/Js/*.js")
+                .Include("~/Views/Knowledge/Js/Page.js")
+                .Include("~/Views/Knowledge/Js/_dashboard.js")
+                .Include("~/Views/Knowledge/Js/WishKnowledgeContent.js")
             );
                
                 //.Include("~/Scripts/vendor/vue.min.js")

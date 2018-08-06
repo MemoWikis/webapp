@@ -10,6 +10,9 @@
 th.sortable {
   color: #ec971f;
 }
+h1 {
+  font-size: 30px;
+}
 td {
   height: 30px;
 }

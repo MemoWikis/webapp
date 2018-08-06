@@ -6,7 +6,7 @@ using TrueOrFalse.Frontend.Web.Code;
 
 public class KnowledgeController : BaseController
 {
-
+    CategoryAndSetDataWishKnowledge categoryAndSetDataWishKnowledge = new CategoryAndSetDataWishKnowledge();
     [SetMenu(MenuEntry.Knowledge)]
     public ActionResult Knowledge()
     {
@@ -87,7 +87,7 @@ public class KnowledgeController : BaseController
     [HttpGet]
     public JsonResult GetCatsAndSetsWish(int page, int per_page, string sort = "")
     {
-        var categoryAndSetDataWishKnowledge = new CategoryAndSetDataWishKnowledge();
+        
         var unsort = categoryAndSetDataWishKnowledge.filteredCategoryWishKnowledge(ControllerContext);
         var sortList = categoryAndSetDataWishKnowledge.SortList(unsort, sort);
         var data = sortList.Skip((page-1) * per_page).Take(page*per_page);
@@ -99,7 +99,13 @@ public class KnowledgeController : BaseController
         if(last_page >= sortList.Count)
             last_page = 1;
 
-
         return Json (new {total,per_page,current_page = page ,last_page, data }, JsonRequestBehavior.AllowGet );  
+    }
+
+    [HttpPost]
+    public JsonResult CountedWUWItoCategoryAndSet()
+    {
+        var countedWUWItoCategoryAndSet = categoryAndSetDataWishKnowledge.GetWuWICountSetAndCategories();
+        return Json(countedWUWItoCategoryAndSet);
     }
 }
