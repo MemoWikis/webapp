@@ -110,7 +110,7 @@
         <div class="TeamText">                                          https://memucho.local/Kategorien/memucho-Tutorials/945
             <p class="ShortParagraph">
                 memucho ist ein gemeinwohlorientiertes Unternehmen, das freie Bildungsinhalte fördert.<br />
-                Unser Team möchte dich beim Lernen unterstützen Dafür konzipieren, gestalten und<br />
+                Unser Team möchte dich beim Lernen unterstützen. Dafür konzipieren, gestalten und<br />
                 programmieren wir gemeinsam und laden dich ein, es auch auszuprobieren.
             </p>
             <p class="ShortParagraph" id="link-share">

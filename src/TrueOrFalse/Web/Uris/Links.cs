@@ -442,8 +442,6 @@ namespace TrueOrFalse.Frontend.Web.Code
 
             return Regex.IsMatch(url, "https?://.{0,3}wikipedia.");
         }
-
-        public static string Tutorials(int catID)=> GetUrlHelper().Action()
     }
 }
  
