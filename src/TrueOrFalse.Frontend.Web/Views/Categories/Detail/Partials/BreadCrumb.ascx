@@ -2,7 +2,15 @@
 <%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
 <%  var userSession = new SessionUser();
     var user = userSession.User;
-    var imageSetttings = new UserImageSettings(userSession.User.Id); %>
+    string userImage = "";
+
+    if (Model.IsLoggedIn)
+    {
+        var imageSetttings = new UserImageSettings(userSession.User.Id);
+        userImage = imageSetttings.GetUrl_30px_square(userSession.User).Url;
+    }
+
+     %>
 
 <div id="BreadCrumbContainer" class="container">
   <div id="BreadcrumbContainer" style="display:flex; width:100%; flex-wrap: nowrap;">
@@ -51,7 +59,7 @@
         <div style="margin-right:0px;"><a href="<%= Links.Knowledge() %>"><i style="margin-top:6px; font-size:32px;" class="fa fa-dot-circle-o"></i></a></div>
         <div style="margin-right:25px">
            <a class="TextLinkWithIcon dropdown-toggle" id="dLabel" role="button" data-toggle="dropdown" data-target="#" href="#">
-            <img class="userImage" style="margin-top:21px; border:none; text-align:center;" src="<%= imageSetttings.GetUrl_30px_square(userSession.User).Url %>" />
+            <img class="userImage" style="margin-top:21px; border:none; text-align:center;" src="<%if(Model.IsLoggedIn){ %>"<%= userImage%> <%}%>" />
            </a>   
            <ul id="DropdownMenu" class="dropdown-menu pull-right" role="menu" aria-labelledby="dLabel">
                 <li>
@@ -71,14 +79,15 @@
                         </div>
                     </a>
                 </li>
-                <li><a  href="<%=Url.Action(Links.UserAction, Links.UserController, new {name = userSession.User.Name, id = userSession.User.Id}) %>"><i class="fa fa-user"></i> Deine Profilseite</a></li>
-                <li><a href="<%= Url.Action(Links.UserSettingsAction, Links.UserSettingsController) %>"><i class="fa fa-wrench" title="Einstellungen"></i> Konto-Einstellungen</a></li>
-                <li class="divider"></li>                 
-                <li><a href="#" id="btn-logout" data-url="<%= Url.Action(Links.Logout, Links.WelcomeController) %>" data-is-facebook="<%= user.IsFacebookUser() ? "true" : ""  %>"><i class="fa fa-power-off" title="Ausloggen"></i> Ausloggen</a>  </li>
-                <% if (userSession.IsInstallationAdmin)
-                    { %>
-                    <li><a href="<%= Url.Action("RemoveAdminRights", Links.AccountController) %>"><i class="fa fa-power-off" title="Ausloggen"></i> Adminrechte abgeben</a>  </li>
-                <% } %>
+               <%if(Model.IsLoggedIn){ %>
+                     <li><a href="<%=Url.Action(Links.UserAction, Links.UserController, new {name = userSession.User.Name, id = userSession.User.Id}) %>"><i class="fa fa-user"></i> Deine Profilseite</a></li>
+                     <li><a href="<%= Url.Action(Links.UserSettingsAction, Links.UserSettingsController) %>"><i class="fa fa-wrench" title="Einstellungen"></i> Konto-Einstellungen</a></li>
+                     <li class="divider"></li>                 
+                     <li><a href="#" id="btn-logout" data-url="<%= Url.Action(Links.Logout, Links.WelcomeController) %>" data-is-facebook="<%= user.IsFacebookUser() ? "true" : ""  %>"><i class="fa fa-power-off" title="Ausloggen"></i> Ausloggen</a>  </li>
+                     <% if (userSession.IsInstallationAdmin){ %>
+                         <li><a href="<%= Url.Action("RemoveAdminRights", Links.AccountController) %>"><i class="fa fa-power-off" title="Ausloggen"></i> Adminrechte abgeben</a>  </li>
+                     <% } %>
+               <%} %>
             </ul>
         </div>
         <div><a id="StickyMenuButton"><i class="fa fa-bars" style="font-size:inherit; margin-right:0px;"></i></a></div>

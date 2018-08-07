@@ -70,8 +70,8 @@
 <%
     }else {
 %> 
-        <a class="TextLinkWithIcon" href="#" data-btn-login="true" title="Einloggen"><i style="font-size:32px;" class="fa fa-sign-in"></i>
-        <span class="TextSpan">Einloggen</span></a>
+        <a class="TextLinkWithIcon" href="#" data-btn-login="true"><i style="font-size:32px;" class="fa fa-sign-in"></i>
+        <span style="padding-top:11px" class="TextSpan">Einloggen</span></a>
 <%
     }
 %>    

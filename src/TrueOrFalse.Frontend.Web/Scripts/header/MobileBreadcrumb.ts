@@ -34,11 +34,12 @@ function ResizeBreadcrumb() {
         if ($('#1BreadCrumb').width() < 23.2) {
             document.getElementById("BreadcrumbHome").style.display = "none";
             document.getElementById("BreadcrumbLogoSmall").style.display = "block";
-        } else {
-            document.getElementById("BreadcrumbHome").style.display = "block";
-            if (!(position > 80)) {
-                document.getElementById("BreadcrumbLogoSmall").style.display = "none";
-            }
+        }
+        if ($('#1BreadCrumb').width() > 40) { 
+                document.getElementById("BreadcrumbHome").style.display = "block";
+                if (!(position > 80)) {
+                    document.getElementById("BreadcrumbLogoSmall").style.display = "none";
+                }
         }
 
         if (rightspace < 0) {

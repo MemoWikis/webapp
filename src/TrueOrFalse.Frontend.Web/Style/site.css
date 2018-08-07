@@ -1214,13 +1214,6 @@ ul.AutocompleteHeader {
   font-size: 14px;
   font-weight: bold;
 }
-#Breadcrumb a:not(.current):hover,
-#Breadcrumb a:not(.current):focus,
-#Breadcrumb a:not(.current):active {
-  color: #1B3651;
-  text-decoration: underline;
-  text-underline-position: alphabetic;
-}
 #Breadcrumb a.current {
   cursor: default;
 }
