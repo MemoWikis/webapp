@@ -1096,6 +1096,7 @@ img {
 
     img {
         width: 29.57px !important;
+        min-width: 29.57px;
         height: 33.08px !important;
         border-radius: 50%;
         margin-top: -8px;
@@ -1173,21 +1174,34 @@ img {
             }
         }
 
-        i:not(.fa-bars) {
+        .fa-dot-circle-o {
+            @media(max-width: 518px) {
+                font-size: 26px !important;
+            }
+        }
+
+        i:not(.fa-bars, .fa-dot-circle-o) {
             @media(max-width: 518px) {
                 font-size: 18px !important;
             }
         }
 
+
+
         .fa-bars {
             @media(max-width: 518px) {
-                font-size: 30px !important;
+                font-size: 25px !important;
             }
         }
 
         .userImage {
             width: 28px !important;
             height: 28px !important;
+
+            @media(max-width:581px) {
+                width: 22px !important;
+                height: 22px !important;
+            }
         }
 
         #StickySearchButton {
@@ -1514,11 +1528,9 @@ img {
 #KnowledgeBtn {
     width: 100%;
     display: flex;
-    border:solid #707070 0.5px;
-    border-bottom-width:1px;
-    border-right:none;
-    border-radius:0px;
-
+    border: none !important;
+    border-bottom-width: 1px;
+    border-radius: 0px;
 }
     /*  MODALS
 ----------------------------------------------------------*/

@@ -31,11 +31,11 @@
             i++;%>
         <div id="<%=i %>BreadCrumbContainer" style="display: flex; height: auto; margin-bottom: 5px" class="show-tooltip" data-placement="bottom" <% if (Model.TopNavMenu.IsAnswerQuestionOrSetBreadCrumb){%>title="Zum Lernset" <% }else{ %> title="<%= breadCrumbItem.ToolTipText%>" <%}%> >                                                                                          
            <%if (breadCrumbItem.Equals(Model.TopNavMenu.BreadCrumb.Last())){%>
-              <span style="display: inline-table; margin-left: 10px; color:#000000; opacity:0.50;"><a id="LastBreadcrumb" style="display:block; overflow:hidden; text-overflow:ellipsis;"  href="<%= breadCrumbItem.Url %>"><% if (Model.TopNavMenu.IsAnswerQuestionOrSetBreadCrumb){%>Lernset: <%} %><%= breadCrumbItem.Text %></a></span>
+              <div style="display: flex; margin-left: 10px; color:#000000; opacity:0.50;"><div><a id="LastBreadcrumb" style="display:block; overflow:hidden; text-overflow:ellipsis;"  href="<%= breadCrumbItem.Url %>"><% if (Model.TopNavMenu.IsAnswerQuestionOrSetBreadCrumb){%>Lernset: <%} %><%= breadCrumbItem.Text %></a></div></div>
             <%} else {%>
-               <span style="display: inline-table; margin-left: 10px;"><a id="<%= i %>BreadCrumb" style="display:block; overflow:hidden; text-overflow:ellipsis;"  href="<%= breadCrumbItem.Url %>"><%= breadCrumbItem.Text %></a>
-                <i style="display: inline;" class="fa fa-chevron-right"></i>
-               </span>  
+               <div style="display: flex; margin-left: 10px;"><div><a id="<%= i %>BreadCrumb" style="display:block; overflow:hidden; text-overflow:ellipsis;"  href="<%= breadCrumbItem.Url %>"><%= breadCrumbItem.Text %></a></div>
+               <div><i style="display: inline;" class="fa fa-chevron-right"></i></div>
+               </div>  
             <%} %>
         </div>
     <% } %>        
@@ -48,10 +48,10 @@
                 <button class="btn btn-default" id="StickySearchButton" onclick="SearchButtonClick()" style="height:34px;" type="submit"><i class="fa fa-search" style="font-size:25px; padding:0px;margin:0px; margin-top:-3px" aria-hidden="true"></i></button>
             </div>
         </div>
-        <div style="margin-right:0px;"><i style="margin-top:6px; font-size:31px !important;" class="fa fa-dot-circle-o"></i></div>
+        <div style="margin-right:0px;"><a href="<%= Links.Knowledge() %>"><i style="margin-top:6px; font-size:32px;" class="fa fa-dot-circle-o"></i></a></div>
         <div style="margin-right:25px">
            <a class="TextLinkWithIcon dropdown-toggle" id="dLabel" role="button" data-toggle="dropdown" data-target="#" href="#">
-            <img class="userImage" style="margin-top:21px; border:none;" src="<%= imageSetttings.GetUrl_30px_square(userSession.User).Url %>" />
+            <img class="userImage" style="margin-top:21px; border:none; text-align:center;" src="<%= imageSetttings.GetUrl_30px_square(userSession.User).Url %>" />
            </a>   
            <ul id="DropdownMenu" class="dropdown-menu pull-right" role="menu" aria-labelledby="dLabel">
                 <li>

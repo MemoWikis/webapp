@@ -19,6 +19,7 @@ function SearchButtonClick() {
         SearchButton.style.background = '#ebebeb';
         inputBox.style.border = '1px #979797 solid';
         isOpen = true;
+        ResizeBreadcrumb();
     } else {
         searchBox.classList.remove("SearchBoxDivMaxWidth");
         inputBox.style.padding = '0px';
@@ -28,14 +29,16 @@ function SearchButtonClick() {
         isOpen = false;
     }
 
+
     if (isSmallHeaderSearchBoxOpen == false) {
         SmallHeaderSearchBox.classList.add("SearchBoxDivMaxWidth");
         SmallHeaderInputBox.style.padding = '6px 12px';
         SmallHeaderInputBox.style.border = '1px #979797 solid';
         SmallHeaderInputBox.style.display = 'block';
         isSmallHeaderSearchBoxOpen = true;
-        SmallHeaderSearchButton.style.background = '#ebebeb';     
         SmallHeaderSearchButton.style.border = '#979797 1px solid';
+        SmallHeaderSearchButton.style.background = '#ebebeb';     
+
 
     } else {
         SmallHeaderSearchBox.classList.remove("SearchBoxDivMaxWidth");
@@ -71,6 +74,5 @@ function SearchButtonClick() {
                 }
         }
     });
-
 }
 

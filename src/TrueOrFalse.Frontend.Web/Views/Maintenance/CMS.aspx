@@ -4,6 +4,9 @@
 
 <asp:Content ID="Content2" runat="server" ContentPlaceHolderID="Head">
     <%= Scripts.Render("~/bundles/js/MaintenanceCMS") %>
+      <% Model.TopNavMenu.BreadCrumb.Add(new TopNavMenuItem{Text = "Administrativ", Url = "/Maintenance", ToolTipText = "Administrativ"});
+         Model.TopNavMenu.BreadCrumb.Add(new TopNavMenuItem{Text = "CMS", Url = "/Maintenance/CMS", ToolTipText = "CMS"});
+        Model.TopNavMenu.IsCategoryBreadCrumb = false; %>
     <meta id="blablabla"/>
 </asp:Content>
 

@@ -1177,6 +1177,7 @@ ul.AutocompleteHeader {
 }
 #Breadcrumb img {
   width: 29.57px !important;
+  min-width: 29.57px;
   height: 33.08px !important;
   border-radius: 50%;
   margin-top: -8px;
@@ -1241,18 +1242,29 @@ ul.AutocompleteHeader {
   }
 }
 @media (max-width: 518px) {
-  #Breadcrumb #StickyHeaderContainer i:not(.fa-bars) {
+  #Breadcrumb #StickyHeaderContainer .fa-dot-circle-o {
+    font-size: 26px !important;
+  }
+}
+@media (max-width: 518px) {
+  #Breadcrumb #StickyHeaderContainer i:not(.fa-bars, .fa-dot-circle-o) {
     font-size: 18px !important;
   }
 }
 @media (max-width: 518px) {
   #Breadcrumb #StickyHeaderContainer .fa-bars {
-    font-size: 30px !important;
+    font-size: 25px !important;
   }
 }
 #Breadcrumb #StickyHeaderContainer .userImage {
   width: 28px !important;
   height: 28px !important;
+}
+@media (max-width: 581px) {
+  #Breadcrumb #StickyHeaderContainer .userImage {
+    width: 22px !important;
+    height: 22px !important;
+  }
 }
 #Breadcrumb #StickyHeaderContainer #StickySearchButton {
   border: none;
@@ -1544,9 +1556,8 @@ a.button span.ui-icon {
 #KnowledgeBtn {
   width: 100%;
   display: flex;
-  border: solid #707070 0.5px;
+  border: none !important;
   border-bottom-width: 1px;
-  border-right: none;
   border-radius: 0px;
 }
 /*  MODALS

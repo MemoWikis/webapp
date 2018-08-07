@@ -3,6 +3,10 @@
 <%@ Import Namespace="System.Web.Optimization" %>
 
 <asp:Content ID="Content2" runat="server" ContentPlaceHolderID="Head">
+      <% Model.TopNavMenu.BreadCrumb.Add(new TopNavMenuItem{Text = "Administrativ", Url = "/Maintenance", ToolTipText = "Administrativ"});
+         Model.TopNavMenu.BreadCrumb.Add(new TopNavMenuItem{Text = "Stats", Url = "/Maintenance/Statistics", ToolTipText = "Stats"});
+        Model.TopNavMenu.IsCategoryBreadCrumb = false; %>
+
     <script type="text/javascript" src="https://www.google.com/jsapi"></script>
     <script type="text/javascript">
         google.load("visualization", "1", { packages: ["corechart"] });

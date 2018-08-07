@@ -10,6 +10,7 @@
         $('#RightMainMenu').css('position', 'fixed');
         $('#RightMainMenu').css('margin-right', $('#BreadCrumbContainer').css('margin-right'));
         $('#DropdownMenu').css('margin-right', $('#BreadCrumbContainer').css('margin-right'));
+        ResizeBreadcrumb();
 
     } else {
         $('#BreadcrumbLogoSmall').hide();
@@ -19,6 +20,7 @@
         $('#Breadcrumb').removeClass('ShowBreadcrumb');
         $('#RightMainMenu').css('position', 'absolute');
         $('#RightMainMenu').css('margin-right', '');
+        ResizeBreadcrumb();
 
     }
 });
