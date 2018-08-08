@@ -75,35 +75,33 @@ public class CategoryAndSetDataWishKnowledge: BaseController
     }
 
     public IList<CategoryAndSetWishKnowledge> SortList(List<CategoryAndSetWishKnowledge> unSortList, string sortCondition)
-    { 
-        if (sortCondition.Equals("name|asc"))
+    {
+        switch (sortCondition)
         {
-            unSortList.Sort((x, y) => String.CompareOrdinal(x.Titel, y.Titel));
-        }
-        else if(sortCondition.Equals("name|desc"))
-        {
-        unSortList.Sort((x, y) => String.CompareOrdinal(y.Titel, x.Titel));
-        }
-        else if (sortCondition.Equals("knowledgeBar|asc"))
-        {
-            unSortList.Sort((a, b) =>
-            {
-                int result = b.KnowledgeWishQuestionCount.Solid.CompareTo(a.KnowledgeWishQuestionCount.Solid);
-                return (result != 0)
-                    ? result
-                    : b.KnowledgeWishQuestionCount.NeedsConsolidation.CompareTo(a.KnowledgeWishQuestionCount.NeedsConsolidation);
-            });
-        }          
-        else if (sortCondition.Equals("knowledgeBar|desc"))
-        {
-           unSortList.Sort((a, b) =>
-            {
-                int result = a.KnowledgeWishQuestionCount.Solid.CompareTo(b.KnowledgeWishQuestionCount.Solid);
-                return (result != 0)
-                    ? result
-                    :  1*a.KnowledgeWishQuestionCount.NeedsConsolidation.CompareTo(b.KnowledgeWishQuestionCount.NeedsConsolidation);
-            });
-          
+            case "name|asc":
+                unSortList.Sort((x, y) => String.CompareOrdinal(x.Titel, y.Titel));
+                break;
+            case "name|desc":
+                unSortList.Sort((x, y) => String.CompareOrdinal(y.Titel, x.Titel));
+                break;
+            case "knowledgeBar|asc":
+                unSortList.Sort((a, b) =>
+                {
+                    int result = b.KnowledgeWishQuestionCount.Solid.CompareTo(a.KnowledgeWishQuestionCount.Solid);
+                    return (result != 0)
+                        ? result
+                        : b.KnowledgeWishQuestionCount.NeedsConsolidation.CompareTo(a.KnowledgeWishQuestionCount.NeedsConsolidation);
+                });
+                break;
+            case "knowledgeBar|desc":
+                unSortList.Sort((a, b) =>
+                {
+                    int result = a.KnowledgeWishQuestionCount.Solid.CompareTo(b.KnowledgeWishQuestionCount.Solid);
+                    return (result != 0)
+                        ? result
+                        : 1 * a.KnowledgeWishQuestionCount.NeedsConsolidation.CompareTo(b.KnowledgeWishQuestionCount.NeedsConsolidation);
+                });
+                break;
         }
 
         var sortList = unSortList;
