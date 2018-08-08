@@ -88,9 +88,17 @@ public class CategoryAndSetDataWishKnowledge: BaseController
                 unSortList.Sort((a, b) =>
                 {
                     int result = b.KnowledgeWishQuestionCount.Solid.CompareTo(a.KnowledgeWishQuestionCount.Solid);
-                    return (result != 0)
-                        ? result
-                        : b.KnowledgeWishQuestionCount.NeedsConsolidation.CompareTo(a.KnowledgeWishQuestionCount.NeedsConsolidation);
+                    if (result != 0)
+                    {
+                        return result;
+                    }
+                   
+                        int result1 = b.KnowledgeWishQuestionCount.NeedsConsolidation.CompareTo(a.KnowledgeWishQuestionCount.NeedsConsolidation);
+                        if (result1 != 0)
+                        {
+                            return result1;
+                        }
+                            return b.KnowledgeWishQuestionCount.NotLearned.CompareTo(a.KnowledgeWishQuestionCount.NotLearned);
                 });
                 break;
             case "knowledgeBar|desc":
