@@ -25,20 +25,13 @@
         @vuetable:loading="onLoading"
         @vuetable:loaded="onLoaded">
           
-          <template slot="wishKnowledge" scope="props">
-              <div class="KnowledgeBarWrapper" v-html="props.rowData.KnowlegdeWishPartial" v-on:mouseover="mouseOver"></div>
-          </template>
 
           <template slot="image" scope="props" >
               <div class="image" >
                 <image class="imageTable"v-bind:src="props.rowData.ImageFrontendData.ImageMetaData.SourceUrl" ></image>
               </div>
           </template>
-
-          <template slot="wishKnowledge" scope="props">
-              <div class="KnowledgeBarWrapper" v-html="props.rowData.KnowlegdeWishPartial" v-on:mouseover="mouseOver"></div>
-          </template>
-          
+                  
           <template slot="topicCount" scope="props">
               <div v-if="props.rowData.IsCategory"><span>{{props.rowData.LearnSetsCount}} Lernsets mit {{props.rowData.QuestionsCount}} Fragen</span></div>
               <div v-if="!props.rowData.IsCategory"><span>{{props.rowData.QuestionsCount}} Fragen</span></div>

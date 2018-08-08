@@ -27,24 +27,30 @@ Vue.use(Vuetable);
 new Vue({
     el: '#app',
     components: {
-        'vuetable-pagination': Vuetable.VuetablePagination,
+        'vuetable-pagination': Vuetable.VuetablePagination
     },
     data: {
         fields: [
             '__slot:image',
+
             {
                 name: 'Titel',
                 title: 'Titel',
-                sortField: 'name',
-                dataClass: 'title'
-
+                sortField: 'name'
             },
-            '__slot:wishKnowledge',
+            {
+                name: "KnowlegdeWishPartial",
+                title: "Wissensstand",
+                dataClass: "KnowledgeBarWrapper",
+                sortField: "knowledgeBar",
+                html: true
+            },
             '__slot:topicCount',
             '__slot:actions'
         ],
         sortOrder: [
-            { field: 'name', direction: 'asc' }
+            { field: 'name', direction: 'asc' },
+            { field: 'knowledgeBar', direction: 'asc' }
         ],
         css: {
             table: {
