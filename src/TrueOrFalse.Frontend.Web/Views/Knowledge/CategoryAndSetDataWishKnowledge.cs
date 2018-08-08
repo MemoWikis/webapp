@@ -10,7 +10,7 @@ using TrueOrFalse.Frontend.Web.Code;
 
 public class CategoryAndSetDataWishKnowledge: BaseController
 {
-    class Helper
+    private class Helper
     {
         public int countCategories { get; set; }
         public int countSets { get; set; }
@@ -35,27 +35,27 @@ public class CategoryAndSetDataWishKnowledge: BaseController
         return filteredCategoryAndSetWishKnowledges;
     }
 
-    public ImageFrontendData GetCategoryImage(int CategoryId)
+    private ImageFrontendData GetCategoryImage(int CategoryId)
     {
         var imageMetaData = Sl.ImageMetaDataRepo.GetBy(CategoryId, ImageType.Category);
         return new ImageFrontendData(imageMetaData);
     }
 
-    public string KnowledgeWishPartial(Category category, ControllerContext controllerContext)
+    private string KnowledgeWishPartial(Category category, ControllerContext controllerContext)
     {
         var KnowledgeBarPartial = ViewRenderer.RenderPartialView("~/Views/Categories/Detail/CategoryKnowledgeBar.ascx", new CategoryKnowledgeBarModel(category), controllerContext);
 
         return KnowledgeBarPartial;
     }
 
-    public string KnowledgeWishPartial(Set set, ControllerContext controllerContext)
+    private string KnowledgeWishPartial(Set set, ControllerContext controllerContext)
     {
         var KnowledgeBarPartial = ViewRenderer.RenderPartialView("~/Views/Sets/Detail/SetKnowledgeBar.ascx", new SetKnowledgeBarModel(set), controllerContext);
 
         return KnowledgeBarPartial;
     }
 
-    public IList<Category> GetCategoryData()
+    private IList<Category> GetCategoryData()
     {
         var categoryValuationIds = UserValuationCache.GetCategoryValuations(UserId)
             .Where(v => v.IsInWishKnowledge())
@@ -65,7 +65,7 @@ public class CategoryAndSetDataWishKnowledge: BaseController
         return R<CategoryRepository>().GetByIds(categoryValuationIds);
     }
 
-    public IList<Set> GetSetData()
+    private IList<Set> GetSetData()
     {
         var setValuationIds = UserValuationCache.GetSetValuations(UserId)
             .Where(v => v.IsInWishKnowledge())
@@ -238,12 +238,12 @@ public class CategoryAndSetDataWishKnowledge: BaseController
     }
 
 
-    public string  changeUrlToFacebookCompatible(string url)
+    private string  changeUrlToFacebookCompatible(string url)
     {
        return url.Replace("https://", "www.");
     }
 
-    public  List<int> GetWuWICountSetAndCategories()
+    public List<int> GetWuWICountSetAndCategories()
     {
         List<int> CountSetsandCategories = new List<int>();
         var helper = new Helper();
