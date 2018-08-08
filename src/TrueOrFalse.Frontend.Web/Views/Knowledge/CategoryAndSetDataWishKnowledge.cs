@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Activities.Statements;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -8,6 +10,22 @@ using TrueOrFalse.Frontend.Web.Code;
 
 public class CategoryAndSetDataWishKnowledge: BaseController
 {
+    class Helper
+    {
+        public int countCategories { get; set; }
+        public int countSets { get; set; }
+    }
+
+    public class QuestionsCount
+    {
+        public int Solid { get; set; }
+        public int NotLearned { get; set; }
+        public int NotInWishKnowledge { get; set; }
+        public int NeedsConsolidation { get; set; }
+        public int NeedsLearned { get; set; }
+
+    }
+
     public List<CategoryAndSetWishKnowledge> filteredCategoryWishKnowledge(ControllerContext controllerContext) 
     {
         var CategorieWishes = GetCategoryData();
@@ -57,14 +75,35 @@ public class CategoryAndSetDataWishKnowledge: BaseController
     }
 
     public IList<CategoryAndSetWishKnowledge> SortList(List<CategoryAndSetWishKnowledge> unSortList, string sortCondition)
-    {
+    { 
         if (sortCondition.Equals("name|asc"))
         {
             unSortList.Sort((x, y) => String.CompareOrdinal(x.Titel, y.Titel));
         }
-        else
+        else if(sortCondition.Equals("name|desc"))
         {
         unSortList.Sort((x, y) => String.CompareOrdinal(y.Titel, x.Titel));
+        }
+        else if (sortCondition.Equals("knowledgeBar|asc"))
+        {
+            unSortList.Sort((a, b) =>
+            {
+                int result = b.KnowledgeWishQuestionCount.Solid.CompareTo(a.KnowledgeWishQuestionCount.Solid);
+                return (result != 0)
+                    ? result
+                    : b.KnowledgeWishQuestionCount.NeedsConsolidation.CompareTo(a.KnowledgeWishQuestionCount.NeedsConsolidation);
+            });
+        }          
+        else if (sortCondition.Equals("knowledgeBar|desc"))
+        {
+           unSortList.Sort((a, b) =>
+            {
+                int result = a.KnowledgeWishQuestionCount.Solid.CompareTo(b.KnowledgeWishQuestionCount.Solid);
+                return (result != 0)
+                    ? result
+                    :  1*a.KnowledgeWishQuestionCount.NeedsConsolidation.CompareTo(b.KnowledgeWishQuestionCount.NeedsConsolidation);
+            });
+          
         }
 
         var sortList = unSortList;
@@ -79,12 +118,9 @@ public class CategoryAndSetDataWishKnowledge: BaseController
       
         foreach (var categoryWish in CategorieWishes)
         {
-            
             var facebookLink = "https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2F"+ changeUrlToFacebookCompatible(Settings.CanonicalHost + Links.CategoryDetail(categoryWish.Name, categoryWish.Id)) + "%2F&amp;src=sdkpreparse";
             var categoryAndSetWishKnowledge = new CategoryAndSetWishKnowledge();
-            var category = Sl.CategoryRepo.GetByIdEager(categoryWish.Id);
 
-         
             categoryAndSetWishKnowledge.Description = categoryWish.Description;
             categoryAndSetWishKnowledge.Titel = categoryWish.Name;
             categoryAndSetWishKnowledge.ImageFrontendData = GetCategoryImage(categoryWish.Id);
@@ -97,20 +133,21 @@ public class CategoryAndSetDataWishKnowledge: BaseController
             categoryAndSetWishKnowledge.StartGameLink = Links.GameCreateFromCategory(categoryWish.Id);
             categoryAndSetWishKnowledge.LearnSetsCount = Sl.CategoryRepo.CountAggregatedSets(categoryWish.Id);
             categoryAndSetWishKnowledge.QuestionsCount = Sl.CategoryRepo.CountAggregatedQuestions(categoryWish.Id);
-            categoryAndSetWishKnowledge.EditCategoryOrSetLink = Links.CategoryEdit(category);
+            categoryAndSetWishKnowledge.EditCategoryOrSetLink = Links.CategoryEdit(categoryWish);
             categoryAndSetWishKnowledge.ShareFacebookLink = facebookLink;
             categoryAndSetWishKnowledge.HasVideo = false;
-           
-            
+            categoryAndSetWishKnowledge.KnowledgeWishQuestionCount = CountDesiredKnowledge(categoryWish);
+
+
             filteredCategoryAndSetWishKnowledges.Add(categoryAndSetWishKnowledge);
         }
 
         foreach (var setWish in setWishes)
-        {   
+        {
 
+            
             var facebookLink = "https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2F" + changeUrlToFacebookCompatible(Settings.CanonicalHost + Links.SetDetail(setWish.Name, setWish.Id)) + "%2F&amp;src=sdkpreparse";
             var categoryAndSetWishKnowledge = new CategoryAndSetWishKnowledge();
-            var set = Sl.SetRepo.GetByIdEager(setWish.Id);
 
             categoryAndSetWishKnowledge.Description = setWish.Text;
             categoryAndSetWishKnowledge.Titel = setWish.Name;
@@ -124,14 +161,54 @@ public class CategoryAndSetDataWishKnowledge: BaseController
             categoryAndSetWishKnowledge.StartGameLink = Links.GameCreateFromSet(setWish.Id);
             categoryAndSetWishKnowledge.LearnSetsCount = 1;
             categoryAndSetWishKnowledge.QuestionsCount = Sl.SetRepo.GetByIdEager(setWish.Id).QuestionsInSetPublic.Count ;
-            categoryAndSetWishKnowledge.EditCategoryOrSetLink = Links.SetEdit(set);
+            categoryAndSetWishKnowledge.EditCategoryOrSetLink = Links.SetEdit(setWish);
             categoryAndSetWishKnowledge.ShareFacebookLink = facebookLink;
-            categoryAndSetWishKnowledge.HasVideo = set.HasVideo;
-           
+            categoryAndSetWishKnowledge.HasVideo = setWish.HasVideo;
+            categoryAndSetWishKnowledge.KnowledgeWishQuestionCount = CountDesiredKnowledge(setWish);
+
             filteredCategoryAndSetWishKnowledges.Add(categoryAndSetWishKnowledge);
         }
 
         return filteredCategoryAndSetWishKnowledges;
+    }
+
+    private QuestionsCount CountDesiredKnowledge(object categoryOrSet)
+    {
+        var questionsCount = new QuestionsCount();
+
+        if (categoryOrSet is Category)
+        {
+            var category = (Category) categoryOrSet;
+            var categoryModel = new CategoryKnowledgeBarModel(category);
+           
+            questionsCount.NeedsConsolidation = categoryModel.CategoryKnowledgeSummary.NeedsLearning;
+            questionsCount.Solid = categoryModel.CategoryKnowledgeSummary.Solid;
+            questionsCount.NotLearned = categoryModel.CategoryKnowledgeSummary.NotLearned;
+            questionsCount.NotInWishKnowledge = categoryModel.CategoryKnowledgeSummary.NotInWishknowledge;
+
+            return questionsCount;
+        }
+
+        if (categoryOrSet is Set)
+        {
+            var set = (Set)categoryOrSet;
+            
+            var setKnowledge = KnowledgeSummaryLoader.Run(UserId, set);
+            questionsCount.NeedsConsolidation = setKnowledge.NeedsConsolidation  ;
+            questionsCount.Solid = setKnowledge.Solid;
+            questionsCount.NotLearned = setKnowledge.NotLearned;
+            questionsCount.NotInWishKnowledge = setKnowledge.NotInWishknowledge;
+            questionsCount.NeedsLearned = setKnowledge.NeedsLearning;
+
+            return questionsCount;
+        }
+
+        questionsCount.NeedsConsolidation = -1;
+        questionsCount.Solid = -1;
+        questionsCount.NotLearned = -1;
+        questionsCount.NotInWishKnowledge = -1;
+
+        return questionsCount;
     }
 
     public class CategoryAndSetWishKnowledge
@@ -151,6 +228,7 @@ public class CategoryAndSetDataWishKnowledge: BaseController
         public string EditCategoryOrSetLink { get; set; }
         public string ShareFacebookLink { get; set; }
         public bool HasVideo { get; set; }
+        public QuestionsCount KnowledgeWishQuestionCount { get; set; }
     }
 
 
@@ -169,11 +247,5 @@ public class CategoryAndSetDataWishKnowledge: BaseController
         CountSetsandCategories.Add(helper.countCategories);
 
         return CountSetsandCategories;
-    }
-
-    class Helper
-    {
-       public int countCategories { get; set; }
-       public int countSets { get; set; }
     }
 }
