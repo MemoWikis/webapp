@@ -46,7 +46,9 @@ new Vue({
                 html: true
             },
             '__slot:topicCount',
-            '__slot:actions'
+            '__slot:actions',
+            '__slot:dropDown'
+
         ],
         sortOrder: [
             { field: 'name', direction: 'asc' },

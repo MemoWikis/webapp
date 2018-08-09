@@ -12,8 +12,8 @@
     <h2 id ="countCatAndSet">Du hast {{datas[0]}} Themen und {{datas[1]}} Lernsets in deinem Wunschwissen </h2>
 </div>
 
-    <div id="app">
-     <div id="table-wrapper" class="ui container">
+<div id="app">
+    <div id="table-wrapper" class="ui container">
       <vuetable ref="vuetable"
         api-url="/Knowledge/GetCatsAndSetsWish"
         :fields="fields"
@@ -38,21 +38,24 @@
           </template>
 
           <!-- Buttons-->
-        <template slot="actions" scope="props" >
-            <div class="Button " style="float: left">
+          <template slot="actions" scope="props">
+            <div class="Button" style="width: 50px" >
                 <a v-bind:href="props.rowData.LinkStartLearningSession" class="btn btn-link" data-allowed="logged-in" data-allowed-type="learning-session" rel="nofollow">
-                    <i class="fa fa-lg fa-line-chart">&nbsp;</i>lernen
+                    <i class="fa fa-lg fa-line-chart">&nbsp;lernen</i>
                 </a>
-            </div> 
-            <!-- Dropdownmenu -->
-            <div class="Button dropdown" >
+            </div>
+          </template>  
+
+          <!-- Dropdownmenu -->
+          <template slot="dropDown" scope="props">
+            <div class="Button dropdown" style="float: right"  style="transform: rotate(90deg)">
                 <% var buttonId = Guid.NewGuid(); %>
-                <a href="#" id="<%=buttonId %>" class="dropdown-toggle  btn btn-link btn-sm ButtonEllipsis" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" style="transform: rotate(90deg)">
+                <a href="#" id="<%=buttonId %>" class="dropdown-toggle  btn btn-link btn-sm ButtonEllipsis" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" >
                     <i class="fa fa-ellipsis-v"></i>
                 </a>
                 <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="<%=buttonId %>"  >
                 <% if (Model.IsLoggedIn)
-                   { %>
+                    { %>
                     <li><a v-bind:href="props.rowData.DateToLearningTopicLink" rel="nofollow" data-allowed="logged-in" data-allowed-type="date-create"><i class="fa fa-calendar"></i>&nbsp;Prüfungstermin festlegen</a></li>
                     <li><a v-bind:href="props.rowData.StartGameLink" rel="nofollow" data-allowed="logged-in" data-allowed-type="game"><i class="fa fa-gamepad"></i>&nbsp;Spiel starten</a></li>
 
@@ -64,14 +67,14 @@
                     <li @click="deleteRow(props.rowData.Id, props.rowData.IsCategory, props.rowIndex)"><a href="#"><i class="fa fa-pencil"></i>&nbsp; Thema aus Wunschwissen entfernen </a></li> 
                     <li @click="editRow()"><a href="#"><i class="fa fa-pencil"></i>&nbsp; Themen hinzufügen nur DeveloperHelperLink </a></li> 
                 <% }  %>
-            </ul>
-        </div>
+               </ul>
+            </div>
           </template>
-        </vuetable>
-        <vuetable-pagination ref="pagination"
-          :css="css.pagination"
-          @vuetable-pagination:change-page="onChangePage">
-        </vuetable-pagination>
+       </vuetable>
+       <vuetable-pagination ref="pagination"
+         :css="css.pagination"
+         @vuetable-pagination:change-page="onChangePage">
+       </vuetable-pagination>
     </div>
 </div>
 </body>
