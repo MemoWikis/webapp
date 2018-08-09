@@ -61,7 +61,9 @@
                 { content: "topics" },
                 function (data) {
                     $(".content").html(data);
-                    $("#LinkIsDirectedToPartialView").text("Thema erstellen is doesn´t work");
+                    $("#LinkIsDirectedToPartialView").text("Thema erstellen");
+                    $("#LinkIsDirectedToPartialView").attr("href",$("#hddUrlAddTopic").val());
+                    
                 });
         });
 
