@@ -62,10 +62,10 @@
                         
     for (var i = 1; i <= breadCrumbCategoriesCount; i++)
     { %>
-        <div id="<%=i %>BreadCrumbContainer" style="display: flex; height: auto; margin-bottom: 5px;" class="show-tooltip" data-placement="bottom" title="Zur Themenseite"> 
+        <div id="<%if (i == breadCrumbCategoriesCount && !(Model.IsAnswerQuestionOrSetBreadCrumb)){%>Last<%} else{ %><%=i %><%} %>BreadCrumbContainer" style="display: flex; height: auto; margin-bottom: 5px;" class="show-tooltip" data-placement="bottom" title="Zur Themenseite"> 
             <% if (!(Model.IsAnswerQuestionOrSetBreadCrumb)) {
                     if (i == breadCrumbCategoriesCount) { %> 
-                     <div style="margin-left:10px; color:#000000; opacity:0.50;"><div><a style="display:block; text-overflow:ellipsis; overflow:hidden;" id="LastBreadcrumb" href="<%= Links.CategoryDetail(breadCrumbCategories[i]) %>" class=""><%= breadCrumbCategories[i].Name %></a></div></div>              
+                     <div style="margin-left:10px; color:#000000; opacity:0.50;"><div><a style="display:block; text-overflow:ellipsis; overflow:hidden;" id="LastBreadCrumb" href="<%= Links.CategoryDetail(breadCrumbCategories[i]) %>" class=""><%= breadCrumbCategories[i].Name %></a></div></div>              
                   <%} else { %>
                      <div  style="display: flex; margin-left:10px;"><div><a id="<%=i %>BreadCrumb" href="<%= Links.CategoryDetail(breadCrumbCategories[i]) %>" style="display:block; overflow:hidden; text-overflow:ellipsis;" class=""><%= breadCrumbCategories[i].Name %></a></div>
                       <div><i style="display: inline;" class="fa fa-chevron-right"></i></div>

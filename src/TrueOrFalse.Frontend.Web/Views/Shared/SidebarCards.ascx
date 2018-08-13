@@ -11,7 +11,9 @@
             <img class="autor-card-image ItemImage JS-InitImage" alt="" src="<%= Model.AutorImageUrl%>"  data-append-image-link-to="ImageContainer" />
         </div>
         <div class="card-footer-text">
-       <%= Model.CardFooterText%> 
+            <a href="<%= Links.UserDetail(Model.Creator) %>">
+               <%= Model.CardFooterText%> 
+            </a>
         </div>
     </div>
    <%} %>

@@ -2,7 +2,7 @@
     var i;
     var BreadCrumbCount = getCount(document.getElementById("BreadcrumbContainer")) - 3;
 
-    if (BreadCrumbCount > 2) {
+    if (BreadCrumbCount > 1) {
 
         for (i = 1; i < BreadCrumbCount; i++) {
             var BreadCrumbItem = $('#' + i + 'BreadCrumb')
@@ -11,69 +11,42 @@
             $('#' + i + 'BreadCrumbContainer').css('max-width', (BreadCrumbItem.outerWidth() + 42));
             BreadCrumbItem.css({width: ""})
         }
-
-        var LastBreadCrumbItem = $('#LastBreadcrumb');
+        
+        var LastBreadCrumbItem = $('#LastBreadCrumb');
         LastBreadCrumbItem.css({ width: "auto" });
         LastBreadCrumbItem.css('max-width', (LastBreadCrumbItem.outerWidth() + 1));
-        $('#' + (BreadCrumbCount + 1) + 'BreadCrumbContainer').css('max-width', (BreadCrumbItem.outerWidth() + 42));
+        $('#LastBreadCrumbContainer').css('max-width', (LastBreadCrumbItem.outerWidth() + 42));
+        LastBreadCrumbItem.css({width: ""})
     }
     ResizeBreadcrumb();
-
+    ReorientateMenu();
 }
 
 window.onresize = function (event) {
     ResizeBreadcrumb();
+    ReorientateMenu();
 };
 
 function ResizeBreadcrumb() {
     var BreadCrumbCount = getCount(document.getElementById("BreadcrumbContainer")) - 3;
-    if (BreadCrumbCount > 1) {
-        var offset = $('#LastBreadcrumb').offset();
-        var rightspace = ($(window).width() - ($('#LastBreadcrumb').offset().left + $('#LastBreadcrumb').outerWidth()));
+    var position = $(this).scrollTop();
 
+    if (BreadCrumbCount > 2) {
         if ($('#1BreadCrumb').width() < 23.2) {
             document.getElementById("BreadcrumbHome").style.display = "none";
             document.getElementById("BreadcrumbLogoSmall").style.display = "block";
         }
+        
+
         if ($('#1BreadCrumb').width() > 40) { 
-                document.getElementById("BreadcrumbHome").style.display = "block";
-                if (!(position > 80)) {
-                    document.getElementById("BreadcrumbLogoSmall").style.display = "none";
-                }
+            document.getElementById("BreadcrumbHome").style.display = "block";
+            if (!(position > 80)) {
+                document.getElementById("BreadcrumbLogoSmall").style.display = "none";
+            }
         }
 
-        if (rightspace < 0) {
+        if (IsToLong) {
             ShortenBreadcrumb(1);
-            rightspace = ($(window).width() - ($('#LastBreadcrumb').offset().left + $('#LastBreadcrumb').outerWidth()))
-            if (rightspace < 0) {
-                ShortenBreadcrumb(2);
-                rightspace = ($(window).width() - ($('#LastBreadcrumb').offset().left + $('#LastBreadcrumb').outerWidth()))
-                if (rightspace < 0) {
-                    ShortenBreadcrumb(3);
-                    rightspace = ($(window).width() - ($('#LastBreadcrumb').offset().left + $('#LastBreadcrumb').outerWidth()))
-                }
-            }
-        }
-
-        if (rightspace > 0) {
-            var i;
-            var position = $(this).scrollTop();
-            if (position > 80) {
-                var width = (document.getElementById("BreadcrumbContainer").offsetWidth - document.getElementById("BreadcrumbHome").offsetWidth - document.getElementById("BreadcrumbLogoSmall").offsetWidth - document.getElementById("StickyHeaderContainer").offsetWidth) / BreadCrumbCount;
-            } else {
-                var width = (document.getElementById("BreadcrumbContainer").offsetWidth - document.getElementById("BreadcrumbHome").offsetWidth) / BreadCrumbCount;
-            }
-
-            document.getElementById("LastBreadcrumb").style.width = (width - 41) + "px";
-            if (BreadCrumbCount > 2) {
-                for (i = 1; i < BreadCrumbCount; i++) {
-                    document.getElementById(i + "BreadCrumb").style.width = (width - 41) + "px";
-                    document.getElementById(i + "BreadCrumbContainer").style.width = width + "px";
-                    $('#' + i + 'BreadCrumbContainer').attr('title', "Zur Themenseite")
-                        .tooltip('fixTitle')
-                }
-            }
-
         }
     }
 }
@@ -84,32 +57,34 @@ function ShortenBreadcrumb(index) {
 
     switch (index) {
         case 1:
-            if (BreadCrumbCount < 3) {
-            break;
-            }
             var i;
-            if (position > 80) {
-               var width = ((document.getElementById("BreadcrumbContainer").offsetWidth) - document.getElementById("LastBreadcrumb").offsetWidth - document.getElementById("BreadcrumbHome").offsetWidth - document.getElementById("BreadcrumbLogoSmall").offsetWidth - document.getElementById("StickyHeaderContainer").offsetWidth - document.getElementById((BreadCrumbCount - 1) + "BreadCrumb").offsetWidth) / (BreadCrumbCount - 2);
-            } else {
-               var width = ((document.getElementById("BreadcrumbContainer").offsetWidth) - document.getElementById("LastBreadcrumb").offsetWidth - document.getElementById("BreadcrumbHome").offsetWidth - document.getElementById((BreadCrumbCount - 1) + "BreadCrumb").offsetWidth) / (BreadCrumbCount - 2);
+            if (BreadCrumbCount < 3) {
+                ShortenBreadcrumb(3);
             }
 
-            for (i = 1; i < BreadCrumbCount - 1; i++) {
+            if (position > 80) {
+               var width = ((document.getElementById("BreadCrumbContainer").offsetWidth) - document.getElementById("LastBreadCrumb").offsetWidth - document.getElementById("BreadcrumbHome").offsetWidth - document.getElementById("BreadcrumbLogoSmall").offsetWidth - document.getElementById("StickyHeaderContainer").offsetWidth - document.getElementById((BreadCrumbCount - 1) + "BreadCrumb").offsetWidth) / (BreadCrumbCount - 2);
+            } else {
+                var width = ((document.getElementById("BreadCrumbContainer").offsetWidth) - document.getElementById("LastBreadCrumb").offsetWidth - document.getElementById("BreadcrumbHome").offsetWidth - document.getElementById((BreadCrumbCount - 1) + "BreadCrumb").offsetWidth) / (BreadCrumbCount - 2);
+            }
+
+            for (i = 1; i < BreadCrumbCount; i++) {
                document.getElementById(i + "BreadCrumb").style.width = (width - 41) + "px";
                document.getElementById(i + "BreadCrumbContainer").style.width = width + "px";
                $('#' + i + 'BreadCrumbContainer').attr('title', "Zur Themenseite " + document.getElementById(i + "BreadCrumb").innerText)
                    .tooltip('fixTitle')
             }
+
+            if (IsToLong) {
+                ShortenBreadcrumb(2);
+            }
          break;
         case 2:
-            if (BreadCrumbCount < 3) {
-                break;
-            }
             var i;
             if (position > 80) {
-                var width = ((document.getElementById("BreadcrumbContainer").offsetWidth) - document.getElementById("LastBreadcrumb").offsetWidth - document.getElementById("BreadcrumbHome").offsetWidth - document.getElementById("BreadcrumbLogoSmall").offsetWidth - document.getElementById("StickyHeaderContainer").offsetWidth) / (BreadCrumbCount -1);
+                var width = ((document.getElementById("BreadCrumbContainer").offsetWidth) - document.getElementById("LastBreadCrumb").offsetWidth - document.getElementById("BreadcrumbHome").offsetWidth - document.getElementById("BreadcrumbLogoSmall").offsetWidth - document.getElementById("StickyHeaderContainer").offsetWidth) / (BreadCrumbCount -1);
             } else {
-                var width = ((document.getElementById("BreadcrumbContainer").offsetWidth) - document.getElementById("LastBreadcrumb").offsetWidth - document.getElementById("BreadcrumbHome").offsetWidth) / (BreadCrumbCount -1);
+                var width = ((document.getElementById("BreadCrumbContainer").offsetWidth) - document.getElementById("LastBreadCrumb").offsetWidth - document.getElementById("BreadcrumbHome").offsetWidth) / (BreadCrumbCount -1);
             }
 
             for (i = 1; i < BreadCrumbCount; i++) {
@@ -118,24 +93,29 @@ function ShortenBreadcrumb(index) {
                 $('#' + i + 'BreadCrumbContainer').attr('title', "Zur Themenseite " + document.getElementById(i + "BreadCrumb").innerText)
                     .tooltip('fixTitle')
             }
+
+            if (IsToLong) {
+                ShortenBreadcrumb(3);
+            }
             break;
         case 3:
             var i;
             if (position > 80) {
-                var width = ((document.getElementById("BreadcrumbContainer").offsetWidth) - document.getElementById("BreadcrumbHome").offsetWidth - document.getElementById("BreadcrumbLogoSmall").offsetWidth - document.getElementById("StickyHeaderContainer").offsetWidth) / BreadCrumbCount;
+                var width = ((document.getElementById("BreadCrumbContainer").offsetWidth) - document.getElementById("BreadcrumbHome").offsetWidth - document.getElementById("BreadcrumbLogoSmall").offsetWidth - document.getElementById("StickyHeaderContainer").offsetWidth) / BreadCrumbCount;
             } else {
-                var width = ((document.getElementById("BreadcrumbContainer").offsetWidth) - document.getElementById("BreadcrumbHome").offsetWidth) / BreadCrumbCount;
+                var width = ((document.getElementById("BreadCrumbContainer").offsetWidth) - document.getElementById("BreadcrumbHome").offsetWidth) / BreadCrumbCount;
             }
-
-            document.getElementById("LastBreadcrumb").style.width = (width - 41) + "px";
-            if (BreadCrumbCount > 2) {
-                for (i = 1; i < BreadCrumbCount; i++) {
+            for (i = 1; i < BreadCrumbCount; i++) {
                     document.getElementById(i + "BreadCrumb").style.width = (width - 41) + "px";
                     document.getElementById(i + "BreadCrumbContainer").style.width = width + "px";
                     $('#' + i + 'BreadCrumbContainer').attr('title', "Zur Themenseite " + document.getElementById(i + "BreadCrumb").innerText)
                         .tooltip('fixTitle')
-                }
             }
+            document.getElementById("LastBreadCrumb").style.width = (width - 41) + "px";
+            document.getElementById("LastBreadCrumbContainer").style.width = width + "px";
+            $('#LastBreadCrumbContainer').attr('title', document.getElementById("LastBreadCrumb").innerText)
+                .tooltip('fixTitle')
+            
     }
 }
 
@@ -148,4 +128,13 @@ function getCount(parent) {
         }
     }
     return relevantChildren;
+}
+
+function IsToLong() {
+    var rightspace = ($(window).width() - ($('#LastBreadCrumbContainer').offset().left + $('#LastBreadCrumbContainer').outerWidth()));
+    if (rightspace < 0) {
+        return true;
+    } else {
+        return false;
+    }
 }

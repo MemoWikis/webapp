@@ -18,6 +18,8 @@ function SearchButtonClick() {
         SearchButton.style.border = '#979797 1px solid';
         SearchButton.style.background = '#ebebeb';
         inputBox.style.border = '1px #979797 solid';
+        document.getElementById('KnowledgeImage').style.display = 'none';
+        document.getElementById('UserImage').style.display = 'none';
         isOpen = true;
     } else {
         searchBox.classList.remove("SearchBoxDivMaxWidth");
@@ -25,7 +27,10 @@ function SearchButtonClick() {
         SearchButton.style.border = 'none';
         SearchButton.style.background = 'none';
         inputBox.style.border = 'none';
+        document.getElementById('KnowledgeImage').style.display = 'block';
+        document.getElementById('UserImage').style.display = 'block';
         isOpen = false;
+
     }
 
     if (isSmallHeaderSearchBoxOpen == false) {
@@ -71,8 +76,5 @@ function SearchButtonClick() {
                 }
         }
     });
-
-    ResizeBreadcrumb();
-
 }
 

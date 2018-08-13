@@ -207,7 +207,6 @@ img {
 
         .fa-dot-circle-o {
             @media(max-width: 580px) {
-                font-size: 26px !important;
                 margin-top: 4px;
             }
         }
@@ -421,9 +420,6 @@ img {
             margin-right: 5px;
         }
 
-        @media(max-width:518px) {
-            margin-right: 0px;
-        }
 
         .btn-default {
             display: none;
@@ -494,39 +490,20 @@ img {
     }
 
     .userImage {
-        height: 29px;
+        height: 30px;
         width: 29px;
         margin-left: 1px;
         border: 1px solid @memo-blue;
         border-radius: 4px;
-
-        @media(max-width:581px) {
-            width: 22px;
-            height: 22px;
-        }
-    }
-
-    a {
-        &:hover, &:active, &:focus {
-            .userImage {
-                height: 31px;
-                width: 31px;
-                margin-left: 0;
-            }
-        }
     }
 
     i:not(.fa-bars, .fa-plus-circle, .fa-dot-circle-o) {
         font-size: 32px;
-
-        @media(max-width: 581px) {
-            font-size: 18px;
-        }
     }
 
     .fa-bars {
-        @media(max-width:581px) {
-            font-size: 25px;
+        @media(max-width: 580px) {
+            margin-top: -3px;
         }
     }
 
@@ -726,9 +703,13 @@ img {
         
 }
 
-#StickyMenuButton{
-    opacity:0.5;
-    margin-top:5px;
+#StickyMenuButton {
+    opacity: 0.5;
+    margin-top: 5px;
+
+    @media(max-width:580px){
+        margin-top:3px !important;
+    }
 }
 
     ul.AutocompleteHeader {
@@ -1072,6 +1053,12 @@ img {
     width: 262.41px !important;
 }
 
+.sticky {
+    position: fixed;
+    top: 0;
+    width: 100%;
+}
+
 #Breadcrumb {
     font-size: 14px;
     background-color: white;
@@ -1158,42 +1145,12 @@ img {
         margin-left: auto;
         display: none;
         justify-content: space-between;
-        margin-top: -19px;
-
-        div, .fa-dot-circle-o {
-            @media(max-width:518px) {
-                margin-right: 0px !important;
-            }
-        }
-
-        .fa-dot-circle-o {
-            @media(max-width: 518px) {
-                font-size: 26px !important;
-            }
-        }
-
-        i:not(.fa-bars, .fa-dot-circle-o) {
-            @media(max-width: 518px) {
-                font-size: 18px !important;
-            }
-        }
-
-
-
-        .fa-bars {
-            @media(max-width: 518px) {
-                font-size: 25px !important;
-            }
-        }
+        margin-top: -22px;
 
         .userImage {
             width: 28px !important;
             height: 28px !important;
 
-            @media(max-width:581px) {
-                width: 22px !important;
-                height: 22px !important;
-            }
         }
 
         #StickySearchButton {
@@ -1204,10 +1161,6 @@ img {
             margin-top: 16px;
             width: 40px;
             -webkit-transition: width 0.3s;
-
-            @media(max-width:518px) {
-                margin-right: 0px !important;
-            }
         }
 
 

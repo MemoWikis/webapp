@@ -17,6 +17,7 @@ public class SidebarModel : BaseResolve
     public string CardFooterText;
     public string AutorImageUrl;
     public string CreatorName;
+    public User Creator;
 
     public bool IsWelcomePage;
 
