@@ -30,7 +30,6 @@ function SearchButtonClick() {
         document.getElementById('KnowledgeImage').style.display = 'block';
         document.getElementById('UserImage').style.display = 'block';
         isOpen = false;
-
     }
 
     if (isSmallHeaderSearchBoxOpen == false) {
@@ -63,6 +62,8 @@ function SearchButtonClick() {
                 SearchButton.style.background = 'none';
                 inputBox.style.border = 'none';
                 isOpen = false;
+                document.getElementById('KnowledgeImage').style.display = 'block';
+                document.getElementById('UserImage').style.display = 'block';
             }
         }
         if ($("#SmallHeaderSearchBox, #SmallHeaderSearchBoxDiv").has(e.target).length === 0 &&
@@ -76,5 +77,5 @@ function SearchButtonClick() {
                 }
         }
     });
+    ResizeBreadcrumb();
 }
-
