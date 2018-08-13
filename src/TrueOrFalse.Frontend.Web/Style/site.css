@@ -1103,13 +1103,13 @@ ul.AutocompleteHeader {
 .SearchBoxDivMaxWidth {
   width: 262.41px !important;
 }
-@media (max-width: 480px) {
+@media (max-width: 500px) {
   .SearchBoxDivMaxWidth {
     width: 220px !important;
     margin-left: 10px;
   }
 }
-@media (max-width: 432px) {
+@media (max-width: 450px) {
   .SearchBoxDivMaxWidth {
     width: 170px !important;
   }
@@ -1124,7 +1124,7 @@ ul.AutocompleteHeader {
     width: 96px !important;
   }
 }
-@media (max-width: 300px) {
+@media (max-width: 325px) {
   .SearchBoxDivMaxWidth {
     width: 76px !important;
   }

@@ -31,7 +31,7 @@ function ResizeBreadcrumb() {
     var BreadCrumbCount = getCount(document.getElementById("BreadcrumbContainer")) - 3;
     var position = $(this).scrollTop();
 
-    if (BreadCrumbCount > 2) {
+    if (BreadCrumbCount > 1) {
         if ($('#1BreadCrumb').width() < 23.2) {
             document.getElementById("BreadcrumbHome").style.display = "none";
             document.getElementById("BreadcrumbLogoSmall").style.display = "block";
