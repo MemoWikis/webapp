@@ -1,8 +1,7 @@
 ﻿
 var setVideo: SetVideo;                                               
 
-declare var initPlayer: () => void;
-declare var player;
+declare var initPlayer: () => void;                                   
 
 class StopVideoAt {                                                     
 
@@ -30,7 +29,8 @@ class SetVideoPlayer
             player = new YT.Player('player', {               
                 playerVars: { rel: 0 },
                 events: {
-                    'onReady': setVideoPlayer.OnPlayerReady,                   
+                    'onReady':
+                        setVideoPlayer.OnPlayerReady,                   
                     'onStateChange': function (e) { setVideoPlayer.OnStateChange(e, setVideoPlayer) }       
                 }                                                                                           
             });
@@ -56,7 +56,6 @@ class SetVideoPlayer
         if (event.data == YT.PlayerState.PLAYING) {
             setVideoPlayer.VideoIsPlaying = true;
             this.VideoCheckIntervalPaused = false;
-            $('#continue').hide();
         } else {
             setVideoPlayer.VideoIsPlaying = false;    
         }

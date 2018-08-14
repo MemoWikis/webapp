@@ -6,12 +6,12 @@
     <div id="mainMenuThemeCenteredMobile">
         <div id="RightMainMenu" class="RightMainMenu">
             <div id="KnowledgeBtn" class="menu-section">
-               <a style="width:100%; padding: 20px 0px 19px 15px;" class="list-group-item cat <%= Model.Active(MenuEntry.Knowledge) %>" href="<%= Links.Knowledge() %>">
+               <a style="width:100%; padding: 20px 0px 19px 15px; display:flex; align-items:center; border-radius:0px;" class="list-group-item cat <%= Model.Active(MenuEntry.Knowledge) %>" href="<%= Links.Knowledge() %>">
                 <%if(Model.IsLoggedIn){ %>
-                   <i style="color:#AED71B; font-size:21px;" class="fa fa-dot-circle"></i>                 
+                   <i style="color:#AED71B; font-size:21px;" class="fa fa-dot-circle-o"></i>                 
                    <span style="margin-left:17px;">Deine Wissenszentrale</span> 
                 <%}else{ %>
-                   <i style="font-size:21px;" class="fa fa-dot-circle"></i>                 
+                   <i style="font-size:21px;" class="fa fa-dot-circle-o"></i>                 
                    <span style="margin-left:17px;">Wissenszentrale</span> 
                 <%} %>
                </a>

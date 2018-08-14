@@ -9,6 +9,10 @@
 <asp:Content ID="Content2" ContentPlaceHolderID="Head" runat="server">
     <%= Styles.Render("~/bundles/message") %>
     <%= Scripts.Render("~/bundles/js/Messages") %>
+    <% Model.TopNavMenu.BreadCrumb.Add(new TopNavMenuItem{Text = "Nutzer", Url = "/Nutzer", ToolTipText = "Nutzer"});
+        Model.TopNavMenu.BreadCrumb.Add(new TopNavMenuItem{Text = "Profilseite", Url = Url.Action(Links.UserAction, Links.UserController, new { name = User.Identity.Name, id = Model.UserId}), ToolTipText = "Profilseite"});
+        Model.TopNavMenu.BreadCrumb.Add(new TopNavMenuItem{Text = "Nachrichten", Url = "/Nachrichten", ToolTipText = "Nachrichten"});
+        Model.TopNavMenu.IsCategoryBreadCrumb = false; %>
 </asp:Content>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">

@@ -29,18 +29,24 @@ function SearchButtonClick() {
     }
 
     if (isSmallHeaderSearchBoxOpen == false) {
+        SmallHeaderInputBox.style.borderColor = 'rgb(151, 151, 151)';
+        SmallHeaderInputBox.style.backgroundColor = '#fff';
         SmallHeaderSearchBox.classList.add("SearchBoxDivMaxWidth");
         SmallHeaderInputBox.style.padding = '6px 12px';
         SmallHeaderInputBox.style.border = '1px #979797 solid';
+        SmallHeaderInputBox.style.display = 'block';
         isSmallHeaderSearchBoxOpen = true;
-        SmallHeaderSearchButton.style.background = '#ebebeb';     
         SmallHeaderSearchButton.style.border = '#979797 1px solid';
+        SmallHeaderSearchButton.style.background = '#ebebeb';     
 
     } else {
         SmallHeaderSearchBox.classList.remove("SearchBoxDivMaxWidth");
         SmallHeaderInputBox.style.padding = '0px';
         isSmallHeaderSearchBoxOpen = false;
+        SmallHeaderInputBox.style.borderColor = '#003264';
+        SmallHeaderInputBox.style.backgroundColor = 'transparent';
     }
+
 
     $(document).mouseup((e) => {
         if ($("#StickyHeaderSearchBox, #StickyHeaderSearchBoxDiv").has(e.target).length === 0 &&
@@ -60,9 +66,13 @@ function SearchButtonClick() {
                     SmallHeaderSearchBox.classList.remove("SearchBoxDivMaxWidth");
                     SmallHeaderInputBox.style.padding = '0px';
                     isSmallHeaderSearchBoxOpen = false;
+                    SmallHeaderInputBox.style.borderColor = '#003264';
+                    SmallHeaderInputBox.style.backgroundColor = 'transparent';
                 }
         }
     });
+
+    ResizeBreadcrumb();
 
 }
 

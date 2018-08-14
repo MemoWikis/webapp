@@ -8,7 +8,9 @@
         $('#Breadcrumb').css('position', 'sticky');
         $('#Breadcrumb').addClass('ShowBreadcrumb');
         $('#RightMainMenu').css('position', 'fixed');
-        $('#RightMainMenu').css('right', '100px');
+        $('#RightMainMenu').css('margin-right', $('#BreadCrumbContainer').css('margin-right'));
+        $('#DropdownMenu').css('margin-right', $('#BreadCrumbContainer').css('margin-right'));
+        ResizeBreadcrumb();
 
     } else {
         $('#BreadcrumbLogoSmall').hide();
@@ -17,8 +19,8 @@
         $('#Breadcrumb').css('position', 'unset');
         $('#Breadcrumb').removeClass('ShowBreadcrumb');
         $('#RightMainMenu').css('position', 'absolute');
-        $('#RightMainMenu').css('right', '');
-
+        $('#RightMainMenu').css('margin-right', '');
+        ResizeBreadcrumb();
 
     }
 });

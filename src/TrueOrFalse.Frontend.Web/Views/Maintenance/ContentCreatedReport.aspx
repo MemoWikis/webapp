@@ -5,6 +5,9 @@
 <asp:Content ID="Content2" runat="server" ContentPlaceHolderID="Head">
     <link href="/Style/site.css" rel="stylesheet" />
     <link href="/Views/Maintenance/ContentCreatedReport.css" rel="stylesheet" />
+      <% Model.TopNavMenu.BreadCrumb.Add(new TopNavMenuItem{Text = "Administrativ", Url = "/Maintenance", ToolTipText = "Administrativ"});
+         Model.TopNavMenu.BreadCrumb.Add(new TopNavMenuItem{Text = "Cnt-Created", Url = "/Maintenance/ContentCreatedReport", ToolTipText = "Cnt-Created"});
+        Model.TopNavMenu.IsCategoryBreadCrumb = false; %>
 </asp:Content>
 
 

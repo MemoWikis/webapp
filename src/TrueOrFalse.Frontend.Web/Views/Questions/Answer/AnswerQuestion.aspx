@@ -57,13 +57,14 @@
     <% if (Model.IsTestSession)
         {
             Model.TopNavMenu.BreadCrumb.Add(new TopNavMenuItem {Text = Model.TestSession.SetName, Url = Model.TestSession.SetLink});
-        }
-
-        if(Model.IsLearningSession)
+        }else if(Model.IsLearningSession)
         {
             Model.TopNavMenu.BreadCrumb.Add(new TopNavMenuItem {Text = Model.LearningSession.SetToLearn.Name, Url = Links.SetDetail(Url, Model.LearningSession.SetToLearn)});
         }
-
+        else
+        {
+           Model.TopNavMenu.BreadCrumb.Add(new TopNavMenuItem {Text = Model.SetMinis[0].Name, Url = Model.SetMinis[0].Name});
+        }
         Model.TopNavMenu.IsAnswerQuestionOrSetBreadCrumb = true;
         Model.TopNavMenu.IsCategoryBreadCrumb = false;
     %>

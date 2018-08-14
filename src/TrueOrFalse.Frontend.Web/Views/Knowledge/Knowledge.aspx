@@ -10,7 +10,7 @@
 <asp:Content runat="server" ID="header" ContentPlaceHolderID="Head">
     <script type="text/javascript" src="https://www.google.com/jsapi"></script>
     <% Model.TopNavMenu.BreadCrumb.Add(new TopNavMenuItem{Text = "Nutzer", Url = "/Nutzer", ToolTipText = "Nutzer"});
-       Model.TopNavMenu.BreadCrumb.Add(new TopNavMenuItem{Text = "Profilseite", Url = "/Nutzer", ToolTipText = "Profilseite"});
+       Model.TopNavMenu.BreadCrumb.Add(new TopNavMenuItem{Text = "Profilseite", Url = Url.Action(Links.UserAction, Links.UserController, new { name = Model.User.Name, id = Model.User.Id}), ToolTipText = "Profilseite"});
        Model.TopNavMenu.BreadCrumb.Add(new TopNavMenuItem{Text = "Wissenszentrale", Url = "/Wissenszentrale", ToolTipText = "Wissenszentrale"});
        Model.TopNavMenu.IsCategoryBreadCrumb = false; %>
     <script>

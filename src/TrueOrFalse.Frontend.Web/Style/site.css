@@ -198,7 +198,7 @@ img {
   z-index: 100;
   background-color: #003264;
 }
-@media (max-width: 580px) {
+@media (max-width: 767px) {
   #MasterHeader {
     height: 47px;
   }
@@ -219,6 +219,12 @@ img {
     height: 37px;
     margin-top: 6px;
     margin-bottom: 6px;
+  }
+}
+@media (max-width: 580px) {
+  #MasterHeader .HeaderMainRow .fa-dot-circle-o {
+    font-size: 26px !important;
+    margin-top: 4px;
   }
 }
 #MasterHeader .HeaderMainRow #HeaderSearchBoxDiv {
@@ -268,7 +274,7 @@ img {
     float: right;
   }
 }
-@media (max-width: 580px) {
+@media (max-width: 767px) {
   #MasterHeader .col-LoginAndHelp {
     margin-top: 0px;
   }
@@ -299,7 +305,7 @@ img {
   width: auto;
   height: 100%;
 }
-@media (max-width: 580px) {
+@media (max-width: 767px) {
   #BetaLogo {
     margin-top: 0px;
   }
@@ -333,7 +339,7 @@ img {
         display: none;
     });*/
 }
-@media (max-width: 580px) {
+@media (max-width: 767px) {
   #Wordmark {
     display: none;
   }
@@ -348,7 +354,7 @@ img {
         display: none;
     });*/
 }
-@media (min-width: 581px) {
+@media (min-width: 767px) {
   #LogoSmall {
     display: none;
   }
@@ -392,7 +398,7 @@ img {
 }
 #loginAndHelp #SmallHeaderSearchBoxDiv,
 #StickyHeaderContainer #SmallHeaderSearchBoxDiv {
-  width: 48px;
+  width: 43px;
   -webkit-transition: width 0.3s;
   display: none;
 }
@@ -407,7 +413,6 @@ img {
   border: none;
   padding: 0px;
   font-weight: 400;
-  height: 44px;
   text-overflow: ellipsis;
 }
 #loginAndHelp .header-item,
@@ -417,7 +422,7 @@ img {
   margin-right: 25px;
   text-align: center;
 }
-@media (max-width: 992px) {
+@media (max-width: 991.5px) {
   #loginAndHelp .header-item,
   #StickyHeaderContainer .header-item {
     margin-right: 5px;
@@ -458,12 +463,6 @@ img {
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
-}
-#loginAndHelp a,
-#StickyHeaderContainer a,
-#loginAndHelp span,
-#StickyHeaderContainer span {
-  line-height: 34px;
 }
 #loginAndHelp span,
 #StickyHeaderContainer span {
@@ -519,8 +518,8 @@ img {
 }
 #loginAndHelp .userImage,
 #StickyHeaderContainer .userImage {
-  height: 30px;
-  width: 30px;
+  height: 29px;
+  width: 29px;
   margin-left: 1px;
   border: 1px solid #003264;
   border-radius: 4px;
@@ -542,13 +541,13 @@ img {
   width: 31px;
   margin-left: 0;
 }
-#loginAndHelp i:not(.fa-bars, .fa-plus-circle, .fa-dot-circle),
-#StickyHeaderContainer i:not(.fa-bars, .fa-plus-circle, .fa-dot-circle) {
+#loginAndHelp i:not(.fa-bars, .fa-plus-circle, .fa-dot-circle-o),
+#StickyHeaderContainer i:not(.fa-bars, .fa-plus-circle, .fa-dot-circle-o) {
   font-size: 32px;
 }
 @media (max-width: 581px) {
-  #loginAndHelp i:not(.fa-bars, .fa-plus-circle, .fa-dot-circle),
-  #StickyHeaderContainer i:not(.fa-bars, .fa-plus-circle, .fa-dot-circle) {
+  #loginAndHelp i:not(.fa-bars, .fa-plus-circle, .fa-dot-circle-o),
+  #StickyHeaderContainer i:not(.fa-bars, .fa-plus-circle, .fa-dot-circle-o) {
     font-size: 18px;
   }
 }
@@ -565,7 +564,7 @@ img {
   display: inline-block;
   font-size: 14px;
 }
-@media (max-width: 992px) {
+@media (max-width: 991.5px) {
   #loginAndHelp .TextSpan,
   #StickyHeaderContainer .TextSpan,
   #loginAndHelp span:not(.level-display),
@@ -706,7 +705,9 @@ img {
   user-select: none;
   display: inline-block;
   float: left;
-  font-size: 32px !important;
+  font-size: 36px !important;
+  padding-left: 0px !important;
+  margin-top: -5px;
   padding: 3px 3px 3px 7px;
   margin-right: 10px;
   font-size: 18px;
@@ -760,6 +761,18 @@ fieldset[disabled] #StickyMenuButton {
 #MenuButton .caret,
 #StickyMenuButton .caret {
   margin-left: 3px;
+}
+@media (max-width: 991px) {
+  #MenuButton,
+  #StickyMenuButton {
+    margin-top: -8px;
+  }
+}
+@media (max-width: 767px) {
+  #MenuButton,
+  #StickyMenuButton {
+    margin-top: 0px !important;
+  }
 }
 @media (min-width: 768px) {
   #MenuButton,
@@ -851,8 +864,27 @@ fieldset[disabled] #StickyMenuButton:hover {
     font-size: 25px;
   }
 }
+#MenuButtonContainer {
+  margin-top: auto;
+}
+@media (max-width: 991px) {
+  #MenuButtonContainer {
+    margin-top: 5px;
+  }
+}
+@media (max-width: 767px) {
+  #MenuButtonContainer {
+    margin-top: -6px;
+  }
+}
+@media (max-width: 580px) {
+  #MenuButtonContainer {
+    margin-top: 1px;
+  }
+}
 #StickyMenuButton {
   opacity: 0.5;
+  margin-top: 5px;
 }
 ul.AutocompleteHeader {
   max-width: 550px;
@@ -1096,20 +1128,30 @@ ul.AutocompleteHeader {
 .SearchBoxDivMaxWidth {
   width: 262.41px !important;
 }
-@media (max-width: 992px) {
-  .SearchBoxDivMaxWidth {
-    width: 150px !important;
-  }
-}
 @media (max-width: 480px) {
   .SearchBoxDivMaxWidth {
-    width: 120px !important;
+    width: 220px !important;
     margin-left: 10px;
   }
 }
-@media (max-width: 298px) {
+@media (max-width: 432px) {
   .SearchBoxDivMaxWidth {
-    width: 102px !important;
+    width: 170px !important;
+  }
+}
+@media (max-width: 400px) {
+  .SearchBoxDivMaxWidth {
+    width: 110px !important;
+  }
+}
+@media (max-width: 340px) {
+  .SearchBoxDivMaxWidth {
+    width: 96px !important;
+  }
+}
+@media (max-width: 300px) {
+  .SearchBoxDivMaxWidth {
+    width: 76px !important;
   }
 }
 #Breadcrumb {
@@ -1135,6 +1177,7 @@ ul.AutocompleteHeader {
 }
 #Breadcrumb img {
   width: 29.57px !important;
+  min-width: 29.57px;
   height: 33.08px !important;
   border-radius: 50%;
   margin-top: -8px;
@@ -1161,7 +1204,7 @@ ul.AutocompleteHeader {
   border-radius: 0px;
   padding: 0px;
 }
-#Breadcrumb .fa-dot-circle {
+#Breadcrumb .fa-dot-circle-o {
   color: #AED71B;
 }
 #Breadcrumb a {
@@ -1170,13 +1213,6 @@ ul.AutocompleteHeader {
   font-family: "Open Sans";
   font-size: 14px;
   font-weight: bold;
-}
-#Breadcrumb a:not(.current):hover,
-#Breadcrumb a:not(.current):focus,
-#Breadcrumb a:not(.current):active {
-  color: #1B3651;
-  text-decoration: underline;
-  text-underline-position: alphabetic;
 }
 #Breadcrumb a.current {
   cursor: default;
@@ -1193,12 +1229,18 @@ ul.AutocompleteHeader {
   margin-top: -19px;
 }
 @media (max-width: 518px) {
-  #Breadcrumb #StickyHeaderContainer div {
+  #Breadcrumb #StickyHeaderContainer div,
+  #Breadcrumb #StickyHeaderContainer .fa-dot-circle-o {
     margin-right: 0px !important;
   }
 }
 @media (max-width: 518px) {
-  #Breadcrumb #StickyHeaderContainer i:not(.fa-bars) {
+  #Breadcrumb #StickyHeaderContainer .fa-dot-circle-o {
+    font-size: 26px !important;
+  }
+}
+@media (max-width: 518px) {
+  #Breadcrumb #StickyHeaderContainer i:not(.fa-bars, .fa-dot-circle-o) {
     font-size: 18px !important;
   }
 }
@@ -1208,14 +1250,20 @@ ul.AutocompleteHeader {
   }
 }
 #Breadcrumb #StickyHeaderContainer .userImage {
-  width: 22px !important;
-  height: 22px !important;
+  width: 28px !important;
+  height: 28px !important;
+}
+@media (max-width: 581px) {
+  #Breadcrumb #StickyHeaderContainer .userImage {
+    width: 22px !important;
+    height: 22px !important;
+  }
 }
 #Breadcrumb #StickyHeaderContainer #StickySearchButton {
   border: none;
 }
 #Breadcrumb #StickyHeaderContainer #StickyHeaderSearchBoxDiv {
-  margin-top: 12px;
+  margin-top: 16px;
   width: 40px;
   -webkit-transition: width 0.3s;
 }
@@ -1501,9 +1549,8 @@ a.button span.ui-icon {
 #KnowledgeBtn {
   width: 100%;
   display: flex;
-  border: solid #707070 0.5px;
+  border: none !important;
   border-bottom-width: 1px;
-  border-right: none;
   border-radius: 0px;
 }
 /*  MODALS

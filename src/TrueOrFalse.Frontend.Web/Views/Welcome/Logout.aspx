@@ -2,6 +2,8 @@
 
 <asp:Content ID="ContentHeadSEO" ContentPlaceHolderID="HeadSEO" runat="server">
     <link rel="canonical" href="<%= Settings.CanonicalHost %><%= Url.Action("Logout", "Welcome") %>">   
+     <% Model.TopNavMenu.BreadCrumb.Add(new TopNavMenuItem{Text = "Ausgeloggt", Url = "/Ausloggen", ToolTipText = "Ausgeloggt"});
+       Model.TopNavMenu.IsCategoryBreadCrumb = false; %>
 </asp:Content>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">

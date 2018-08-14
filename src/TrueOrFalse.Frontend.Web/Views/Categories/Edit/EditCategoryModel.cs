@@ -129,12 +129,12 @@ public class EditCategoryModel : BaseModel
     {
         category.Name = Name;
         category.Description = Description;
-        category.TopicMarkdown = TopicMarkdown;
-        category.FeaturedSetsIdsString = FeaturedSetIdsString;
 
         if (IsInstallationAdmin)//Prevent overwrite of hidden fields if edited by non-admin
         {
             category.DisableLearningFunctions = DisableLearningFunctions;
+            category.TopicMarkdown = TopicMarkdown;
+            category.FeaturedSetsIdsString = FeaturedSetIdsString;
         }
 
         ModifyRelationsForCategory.UpdateCategoryRelationsOfType(category, ParentCategories, CategoryRelationType.IsChildCategoryOf);

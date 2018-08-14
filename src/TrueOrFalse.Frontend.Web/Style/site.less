@@ -185,7 +185,7 @@ img {
     z-index: 100;
     background-color: @memo-blue;
 
-    @media(max-width:580px) {
+    @media(max-width:767px) {
         height: 47px;
     }
 
@@ -203,6 +203,13 @@ img {
             height: (@masterHeaderMainRowHeight-md);
             margin-top: 6px;
             margin-bottom: 6px;
+        }
+
+        .fa-dot-circle-o {
+            @media(max-width: 580px) {
+                font-size: 26px !important;
+                margin-top: 4px;
+            }
         }
 
         #HeaderSearchBoxDiv {
@@ -254,10 +261,11 @@ img {
 
         );
 
-        @media(max-width: 580px) {
+        .media-below-sm( {
             margin-top: 0px;
         }
 
+        );
         height: @masterHeaderMainRowHeight-xs;
     }
 }
@@ -288,7 +296,7 @@ img {
         height: 100%;
     }
 
-    @media (max-width: 580px) {
+    @media (max-width: 767px) {
        margin-top:0px;
     }
 
@@ -325,7 +333,7 @@ img {
     /*.media-below-xs ({
         display: none;
     });*/
-    @media (max-width: 580px) {
+    @media (max-width: 767px) {
         display: none;
     }
 
@@ -343,7 +351,7 @@ img {
         display: none;
     });*/
 
-    @media (min-width: 581px) {
+    @media (min-width: 767px) {
         display: none;
     }
 
@@ -387,7 +395,7 @@ img {
     }
 
     #SmallHeaderSearchBoxDiv {
-        width: 48px;
+        width: 43px;
         -webkit-transition: width 0.3s;
         display: none;
 
@@ -399,7 +407,6 @@ img {
             border: none;
             padding: 0px;
             font-weight: 400;
-            height: 44px;
             text-overflow: ellipsis;
         }
     }
@@ -410,7 +417,7 @@ img {
         margin-right: 25px;
         text-align: center;
 
-        @media(max-width:@screen-md) {
+        @media(max-width:(@screen-md - 0.5)) {
             margin-right: 5px;
         }
 
@@ -443,10 +450,6 @@ img {
             white-space: nowrap;
             text-overflow: ellipsis;
         }
-    }
-
-    a, span {
-        line-height: @masterHeaderMainRowHeight-xs;
     }
 
     span {
@@ -491,8 +494,8 @@ img {
     }
 
     .userImage {
-        height: 30px;
-        width: 30px;
+        height: 29px;
+        width: 29px;
         margin-left: 1px;
         border: 1px solid @memo-blue;
         border-radius: 4px;
@@ -513,7 +516,7 @@ img {
         }
     }
 
-    i:not(.fa-bars, .fa-plus-circle, .fa-dot-circle) {
+    i:not(.fa-bars, .fa-plus-circle, .fa-dot-circle-o) {
         font-size: 32px;
 
         @media(max-width: 581px) {
@@ -531,7 +534,7 @@ img {
         display: inline-block;
         font-size: 14px;
 
-        @media(max-width: @screen-md) {
+        @media(max-width: (@screen-md - 0.5)) {
             display: none;
         }
     }
@@ -653,11 +656,24 @@ img {
     .btn;
     display: inline-block;
     float: left;
-    font-size: 32px !important;
+    font-size: 36px !important;
+    padding-left:0px !important;
+    margin-top:-5px;
         
     .caret {
         margin-left: 3px;
     }
+
+.media-below-md({
+         margin-top:-8px;
+     });
+
+    .media-below-sm({
+        margin-top:0px !important;
+    });
+
+
+     
 
     @media (min-width: @screen-sm-min) {
         .btn-lg;
@@ -694,8 +710,25 @@ img {
     }
 }
 
+
+#MenuButtonContainer {
+    margin-top:auto;
+
+    .media-below-md({
+        margin-top:5px
+    });
+     .media-below-sm({
+         margin-top:-6px;
+     });
+      @media(max-width:580px){
+          margin-top:1px;
+      }
+        
+}
+
 #StickyMenuButton{
     opacity:0.5;
+    margin-top:5px;
 }
 
     ul.AutocompleteHeader {
@@ -1015,17 +1048,25 @@ img {
 }
 
 .SearchBoxDivMaxWidth {
-    @media(max-width:@screen-md) {
-        width: 150px !important;
-    }
-
     @media(max-width:@screen-xs) {
-        width: 120px !important;
+        width: 220px !important;
         margin-left: 10px;
     }
 
-    @media(max-width:298px) {
-        width: 102px !important;
+    @media(max-width:432px) {
+        width: 170px !important;
+    }
+
+    @media(max-width:400px) {
+        width: 110px !important;
+    }
+
+    @media(max-width:340px) {
+        width: 96px !important;
+    }
+
+    @media(max-width:300px) {
+        width: 76px !important;
     }
 
     width: 262.41px !important;
@@ -1055,6 +1096,7 @@ img {
 
     img {
         width: 29.57px !important;
+        min-width: 29.57px;
         height: 33.08px !important;
         border-radius: 50%;
         margin-top: -8px;
@@ -1075,8 +1117,6 @@ img {
         }
     }
 
-    i.fa {
-    }
 
     i.fa-chevron-right {
         font-size: 11.2px;
@@ -1089,7 +1129,7 @@ img {
         padding: 0px;
     }
 
-    .fa-dot-circle {
+    .fa-dot-circle-o {
         color: #AED71B;
     }
 
@@ -1099,15 +1139,7 @@ img {
         font-family: "Open Sans";
         font-size: 14px;
         font-weight: bold;
-
-
-        &:not(.current) {
-            &:hover, &:focus, &:active {
-                color: #1B3651;
-                text-decoration: underline;
-                text-underline-position: alphabetic;
-            }
-        }
+        
 
         &.current {
             cursor: default;
@@ -1128,17 +1160,25 @@ img {
         justify-content: space-between;
         margin-top: -19px;
 
-        div {
+        div, .fa-dot-circle-o {
             @media(max-width:518px) {
                 margin-right: 0px !important;
             }
         }
 
-        i:not(.fa-bars) {
+        .fa-dot-circle-o {
+            @media(max-width: 518px) {
+                font-size: 26px !important;
+            }
+        }
+
+        i:not(.fa-bars, .fa-dot-circle-o) {
             @media(max-width: 518px) {
                 font-size: 18px !important;
             }
         }
+
+
 
         .fa-bars {
             @media(max-width: 518px) {
@@ -1146,9 +1186,14 @@ img {
             }
         }
 
-        .userImage{
-            width:22px !important;
-            height:22px !important;
+        .userImage {
+            width: 28px !important;
+            height: 28px !important;
+
+            @media(max-width:581px) {
+                width: 22px !important;
+                height: 22px !important;
+            }
         }
 
         #StickySearchButton {
@@ -1156,7 +1201,7 @@ img {
         }
 
         #StickyHeaderSearchBoxDiv {
-            margin-top: 12px;
+            margin-top: 16px;
             width: 40px;
             -webkit-transition: width 0.3s;
 
@@ -1475,11 +1520,9 @@ img {
 #KnowledgeBtn {
     width: 100%;
     display: flex;
-    border:solid #707070 0.5px;
-    border-bottom-width:1px;
-    border-right:none;
-    border-radius:0px;
-
+    border: none !important;
+    border-bottom-width: 1px;
+    border-radius: 0px;
 }
     /*  MODALS
 ----------------------------------------------------------*/
@@ -1770,12 +1813,12 @@ img {
         .ShadowBox;
         background-color: white;
     }
-    /*ROWS
+
+/*ROWS
 ---------------------------------------------------------*/
-    
-    .row{
-        background-color:#fff;
-    }
+.row {
+    background-color: #fff;
+}
     
     .rowBase:after {
         clear: both;
