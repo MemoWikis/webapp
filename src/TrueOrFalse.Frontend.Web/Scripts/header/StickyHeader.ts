@@ -11,10 +11,9 @@
         $('#Breadcrumb').css('position', 'sticky');
         $('#Breadcrumb').addClass('ShowBreadcrumb');
         $('#RightMainMenu').css('position', 'fixed');
-        ResizeBreadcrumb();
 
         if (positionSticky != "sticky") {
-                    header.classList.add("sticky");
+          header.classList.add("sticky");
         }
        
 
@@ -25,7 +24,6 @@
         $('#Breadcrumb').css('position', 'unset');
         $('#Breadcrumb').removeClass('ShowBreadcrumb');
         $('#RightMainMenu').css('position', 'absolute');
-        ResizeBreadcrumb();
     }
 
     ReorientateMenu();

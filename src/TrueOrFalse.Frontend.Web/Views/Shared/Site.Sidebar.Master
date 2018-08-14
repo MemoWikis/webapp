@@ -30,7 +30,7 @@
                     <% } %>
                 </section>
                 <%} %>
-                <section id="MasterMainColumn" class="">        
+                <section id="MasterMainColumn" <%if(Model.TopNavMenu.IsCategoryBreadCrumb){ %> style="width:80%;" <%}%> class="">        
                     <div id="IsInGameMessage">
                         <% if(Model.IsInGame){ %>
                             <% Html.RenderPartial("MessageGame", Model); %>

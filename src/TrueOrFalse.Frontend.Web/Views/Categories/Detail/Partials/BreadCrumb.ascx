@@ -12,8 +12,7 @@
 
      %>
 
-<div id="BreadCrumbContainer" class="container">
-  <div id="BreadcrumbContainer" style="display:flex; width:100%; flex-wrap: nowrap;">
+<div id="BreadCrumbContainer" class="container" style="display:flex; flex-wrap: wrap;">
     <a href="/" id="BreadcrumbLogoSmall" class="show-tooltip" data-placement="bottom" title="Zur Startseite" style="display:none;">
         <img src="/Images/Logo/LogoSmall.png">
     </a>
@@ -37,13 +36,13 @@
        var i = 0;
        foreach (var breadCrumbItem in Model.TopNavMenu.BreadCrumb) {
             i++;%>
-        <div id="<%if (breadCrumbItem.Equals(Model.TopNavMenu.BreadCrumb.Last())){%>Last<%} else{ %><%=i %><%} %>BreadCrumbContainer" style="display: flex; height: auto; margin-bottom: 5px" class="show-tooltip" data-placement="bottom" <% if (Model.TopNavMenu.IsAnswerQuestionOrSetBreadCrumb){%>title="Zum Lernset" <% }else{ %> title="<%= breadCrumbItem.ToolTipText%>" <%}%> >                                                                                          
+        <div style="display: flex; height: auto; margin-bottom: 5px" class="show-tooltip" data-placement="bottom" <% if (Model.TopNavMenu.IsAnswerQuestionOrSetBreadCrumb){%>title="Zum Lernset" <% }else{ %> title="<%= breadCrumbItem.ToolTipText%>" <%}%> >                                                                                          
            <%if (breadCrumbItem.Equals(Model.TopNavMenu.BreadCrumb.Last())){%>
-              <div style="display: flex; margin-left: 10px; color:#000000; opacity:0.50;"><div><a id="LastBreadCrumb" style="display:block; overflow:hidden; text-overflow:ellipsis;"  href="<%= breadCrumbItem.Url %>"><% if (Model.TopNavMenu.IsAnswerQuestionOrSetBreadCrumb){%>Lernset: <%} %><%= breadCrumbItem.Text %></a></div></div>
+              <span style="display: flex; margin-left: 10px; color:#000000; opacity:0.50;"><a id="<%=i %>BreadCrumb" href="<%= breadCrumbItem.Url %>"><% if (Model.TopNavMenu.IsAnswerQuestionOrSetBreadCrumb){%>Lernset: <%} %><%= breadCrumbItem.Text %></a></span>
             <%} else {%>
-               <div style="display: flex; margin-left: 10px;"><div><a id="<%= i %>BreadCrumb" style="display:block; overflow:hidden; text-overflow:ellipsis;"  href="<%= breadCrumbItem.Url %>"><%= breadCrumbItem.Text %></a></div>
-               <div><i style="display: inline;" class="fa fa-chevron-right"></i></div>
-               </div>  
+               <span style="display: inline-table; margin-left: 10px;"><a id="<%= i %>BreadCrumb" style="display:block; overflow:hidden; text-overflow:ellipsis;"  href="<%= breadCrumbItem.Url %>"><%= breadCrumbItem.Text %></a>
+                  <i style="display: inline;" class="fa fa-chevron-right"></i>
+               </span>  
             <%} %>
         </div>
     <% } %>        
@@ -96,5 +95,4 @@
         </div>
         <div><a id="StickyMenuButton"><i class="fa fa-bars" style="font-size:inherit; margin-right:0px;"></i></a></div>
     </div>
- </div>
 </div> 

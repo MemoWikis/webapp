@@ -77,5 +77,4 @@ function SearchButtonClick() {
                 }
         }
     });
-    ResizeBreadcrumb();
 }
