@@ -9,6 +9,10 @@
             document.getElementById(i + 'BreadCrumb').innerHTML = "...";
         }
     }
+    if (BreadCrumbItemCount == 0) {
+        $('#Breadcrumb').css('height', '55px');
+    }
+   
 }
 
 function getCount(parent) {

@@ -1,21 +1,28 @@
 ﻿$(window).scroll(function (event) {
+    StickyHeader();
+});
+
+window.onresize = function (event) {
+    StickyHeader();
+}
+
+function StickyHeader() {
     var position = $(this).scrollTop();
     var header = document.getElementById("Breadcrumb");
     var positionSticky = window.getComputedStyle(header).getPropertyValue("position");
 
-    if (position > 80) {
+    if (position > 80 && window.innerWidth >= 720) {
 
-        $('#BreadcrumbLogoSmall').show();
-        $('#StickyHeaderContainer').css('display', 'flex');
-        $('#Breadcrumb').css('top', '0px');
-        $('#Breadcrumb').css('position', 'sticky');
-        $('#Breadcrumb').addClass('ShowBreadcrumb');
-        $('#RightMainMenu').css('position', 'fixed');
+            $('#BreadcrumbLogoSmall').show();
+            $('#StickyHeaderContainer').css('display', 'flex');
+            $('#Breadcrumb').css('top', '0px');
+            $('#Breadcrumb').css('position', 'sticky');
+            $('#RightMainMenu').css('position', 'fixed');
+            $('#Breadcrumb').addClass('ShowBreadcrumb');
 
-        if (positionSticky != "sticky") {
-          header.classList.add("sticky");
-        }
-       
+            if (positionSticky != "sticky") {
+                header.classList.add("sticky");
+            }
 
     } else {
         $('#BreadcrumbLogoSmall').hide();
@@ -27,8 +34,7 @@
     }
 
     ReorientateMenu();
-
-});
+}
 
 function ReorientateMenu() {
  var position = $(this).scrollTop();
