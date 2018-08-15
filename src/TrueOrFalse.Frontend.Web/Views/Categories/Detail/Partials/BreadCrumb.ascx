@@ -12,8 +12,7 @@
 
      %>
 
-<div id="BreadCrumbContainer" class="container">
-  <div id="BreadcrumbContainer" style="display:flex; width:100%; flex-wrap: nowrap;">
+<div id="BreadCrumbContainer" class="container" style="display:flex; flex-wrap: wrap;">
     <a href="/" id="BreadcrumbLogoSmall" class="show-tooltip" data-placement="bottom" title="Zur Startseite" style="display:none;">
         <img src="/Images/Logo/LogoSmall.png">
     </a>
@@ -37,13 +36,13 @@
        var i = 0;
        foreach (var breadCrumbItem in Model.TopNavMenu.BreadCrumb) {
             i++;%>
-        <div id="<%=i %>BreadCrumbContainer" style="display: flex; height: auto; margin-bottom: 5px" class="show-tooltip" data-placement="bottom" <% if (Model.TopNavMenu.IsAnswerQuestionOrSetBreadCrumb){%>title="Zum Lernset" <% }else{ %> title="<%= breadCrumbItem.ToolTipText%>" <%}%> >                                                                                          
+        <div style="display: flex; height: auto; margin-bottom: 5px" class="show-tooltip" data-placement="bottom" <% if (Model.TopNavMenu.IsAnswerQuestionOrSetBreadCrumb){%>title="Zum Lernset" <% }else{ %> title="<%= breadCrumbItem.ToolTipText%>" <%}%> >                                                                                          
            <%if (breadCrumbItem.Equals(Model.TopNavMenu.BreadCrumb.Last())){%>
-              <div style="display: flex; margin-left: 10px; color:#000000; opacity:0.50;"><div><a id="LastBreadcrumb" style="display:block; overflow:hidden; text-overflow:ellipsis;"  href="<%= breadCrumbItem.Url %>"><% if (Model.TopNavMenu.IsAnswerQuestionOrSetBreadCrumb){%>Lernset: <%} %><%= breadCrumbItem.Text %></a></div></div>
+              <span style="display: flex; margin-left: 10px; color:#000000; opacity:0.50;"><a id="<%=i %>BreadCrumb" href="<%= breadCrumbItem.Url %>"><% if (Model.TopNavMenu.IsAnswerQuestionOrSetBreadCrumb){%>Lernset: <%} %><%= breadCrumbItem.Text %></a></span>
             <%} else {%>
-               <div style="display: flex; margin-left: 10px;"><div><a id="<%= i %>BreadCrumb" style="display:block; overflow:hidden; text-overflow:ellipsis;"  href="<%= breadCrumbItem.Url %>"><%= breadCrumbItem.Text %></a></div>
-               <div><i style="display: inline;" class="fa fa-chevron-right"></i></div>
-               </div>  
+               <span style="display: inline-table; margin-left: 10px;"><a id="<%= i %>BreadCrumb" style="display:block; overflow:hidden; text-overflow:ellipsis;"  href="<%= breadCrumbItem.Url %>"><%= breadCrumbItem.Text %></a>
+                  <i style="display: inline;" class="fa fa-chevron-right"></i>
+               </span>  
             <%} %>
         </div>
     <% } %>        
@@ -56,10 +55,11 @@
                 <button class="btn btn-default" id="StickySearchButton" onclick="SearchButtonClick()" style="height:34px;" type="submit"><i class="fa fa-search" style="font-size:25px; padding:0px;margin:0px; margin-top:-3px" aria-hidden="true"></i></button>
             </div>
         </div>
-        <div style="margin-right:0px;"><a href="<%= Links.Knowledge() %>"><i style="margin-top:6px; font-size:32px;" class="fa fa-dot-circle-o"></i></a></div>
-        <div style="margin-right:25px">
+        <div id="KnowledgeImage" style="margin-right:0px;"><a href="<%= Links.Knowledge() %>"><i style="margin-top:6px; font-size:32px;" class="fa fa-dot-circle-o"></i></a></div>
+        <div id="UserImage" style="margin-right:25px">
+        <%if(Model.IsLoggedIn){ %>
            <a class="TextLinkWithIcon dropdown-toggle" id="dLabel" role="button" data-toggle="dropdown" data-target="#" href="#">
-            <img class="userImage" style="margin-top:21px; border:none; text-align:center;" src="<%if(Model.IsLoggedIn){ %>"<%= userImage%> <%}%>" />
+            <img class="userImage" style="margin-top:21px; border:none; text-align:center;" src="<%= userImage%>" />
            </a>   
            <ul id="DropdownMenu" class="dropdown-menu pull-right" role="menu" aria-labelledby="dLabel">
                 <li>
@@ -89,8 +89,10 @@
                      <% } %>
                <%} %>
             </ul>
+        <%}else{%>
+             <a class="TextLinkWithIcon" href="#" data-btn-login="true"><i style="font-size:32px; color:grey; padding-top:19px;" class="fa fa-sign-in"></i></a>
+        <%} %>
         </div>
         <div><a id="StickyMenuButton"><i class="fa fa-bars" style="font-size:inherit; margin-right:0px;"></i></a></div>
     </div>
- </div>
 </div> 
