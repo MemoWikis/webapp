@@ -282,6 +282,48 @@ public class LicenseImageRepo
 
             new LicenseImage
             {
+                Id = 19,
+                WikiSearchString = "MIT_License",
+                LicenseApplicability = LicenseApplicability.LicenseAuthorizedAndAllRequirementsRecorded,
+
+                LicenseRequirementsType = LicenseRequirementsType.MIT,
+                LicenseLink = "https://opensource.org/licenses/mit-license.php",
+
+                LicenseShortDescriptionLink = "https://de.wikipedia.org/wiki/MIT-Lizenz",
+                LicenseLongName = "MIT-Lizenz",
+                LicenseShortName = "MIT",
+            },
+
+            new LicenseImage
+            {
+                Id = 20,
+                WikiSearchString = "Unsplash License",
+                LicenseApplicability = LicenseApplicability.LicenseAuthorizedAndAllRequirementsRecorded,
+
+                LicenseRequirementsType = LicenseRequirementsType.Cc0,
+                LicenseLink = "https://unsplash.com/license",
+
+                LicenseShortDescriptionLink = "https://unsplash.com/license",
+                LicenseLongName = "Unsplash license",
+                LicenseShortName = "Unsplash",
+            },
+
+            new LicenseImage
+            {
+                Id = 21,
+                WikiSearchString = "GNU Lesser General Public License",
+                LicenseApplicability = LicenseApplicability.LicenseAuthorizedAndAllRequirementsRecorded,
+
+                LicenseRequirementsType = LicenseRequirementsType.NoCategory,
+                LicenseLink = "http://www.gnu.org/licenses/lgpl.html",
+
+                LicenseShortDescriptionLink = "http://www.gnu.org/licenses/lgpl.html",
+                LicenseLongName = "GNU Lesser General Public License",
+                LicenseShortName = "LGPL",
+            },
+
+            new LicenseImage
+            {
                 Id = 198,
                 WikiSearchString = "Public Domain / Gemeinfrei (Amtliches Werk)", //Wiki-URL: https://de.wikipedia.org/wiki/Vorlage:Bild-PD-Amtliches_Werk
                 LicenseApplicability = LicenseApplicability.LicenseAuthorizedAndAllRequirementsRecorded,
