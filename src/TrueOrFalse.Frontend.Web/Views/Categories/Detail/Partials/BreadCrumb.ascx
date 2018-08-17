@@ -40,7 +40,7 @@
            <%if (breadCrumbItem.Equals(Model.TopNavMenu.BreadCrumb.Last())){%>
               <span style="display: flex; margin-left: 10px; color:#000000; opacity:0.50;"><a id="<%=i %>BreadCrumb" href="<%= breadCrumbItem.Url %>"><% if (Model.TopNavMenu.IsAnswerQuestionOrSetBreadCrumb){%>Lernset: <%} %><%= breadCrumbItem.Text %></a></span>
             <%} else {%>
-               <span style="display: inline-table; margin-left: 10px;"><a id="<%= i %>BreadCrumb" style="display:block; overflow:hidden; text-overflow:ellipsis;"  href="<%= breadCrumbItem.Url %>"><%= breadCrumbItem.Text %></a>
+               <span style="display: inline-table; margin-left: 10px;"><a id="<%= i %>BreadCrumb" style="display:inline;"  href="<%= breadCrumbItem.Url %>"><%= breadCrumbItem.Text %></a>
                   <i style="display: inline;" class="fa fa-chevron-right"></i>
                </span>  
             <%} %>

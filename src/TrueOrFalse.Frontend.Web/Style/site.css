@@ -889,27 +889,75 @@ ul.AutocompleteHeader {
   font-size: 18px;
   text-align: center;
 }
-#SidebarCards .card-headline {
-  height: 29px;
+#SidebarCards .card-title {
+  font-size: 14px;
   text-transform: uppercase;
-  color: #9F9F9F;
+  color: #000000;
+  margin-top: 21.67px;
 }
-#SidebarCards .card-footer-text {
-  margin-top: 15px;
+#SidebarCards .card-link {
+  margin-top: 4.8px;
   color: #0560AB;
 }
+#AutorCard {
+  border: #979797 solid 0.5px;
+}
 #AutorCard .autor-card-image {
-  width: 80px;
-  height: 80px;
-  border-radius: 50px;
+  background-size: cover;
+  width: 100%;
+  height: 112px;
+}
+#AutorCard .autor-card-footer-bar {
+  margin-top: 33.04px;
+  margin-bottom: 9px;
+  display: flex;
+  justify-content: space-around;
+}
+#AutorCard .footer-bar-text {
+  font-size: 10px;
+  border: #979797 solid 0.5px;
+  border-radius: 25px;
+  padding: 1px 3px 1px 3px;
+  color: #979797;
 }
 #MultipleAutorCard {
   margin-top: 70px;
+  border: #979797 solid 0.5px;
 }
 #MultipleAutorCard .multiple-autor-card-image {
-  width: 41.82px;
-  height: 41.82px;
+  width: 50px;
+  height: 50px;
   border-radius: 50px;
+  margin-right: 28.14px;
+}
+#MultipleAutorCard #AllAutorsContainer {
+  font-size: 14px;
+  height: 54.5px;
+  justify-content: center;
+  display: flex;
+}
+#MultipleAutorCard #AllAutorsContainer #ExtendAngle {
+  margin-left: 45px;
+  font-size: 18px;
+  transition-duration: 0.4s;
+  display: inline-block;
+}
+#MultipleAutorCard .autor-container {
+  border-top: solid 0.25px #979797;
+  border-bottom: solid 0.25px #979797;
+  padding-top: 12.64px;
+  margin-top: 12.64px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+#MultipleAutorCard .single-autor-container {
+  display: flex;
+  height: 59px;
+  padding-left: 16px;
+}
+.rotate {
+  transform: rotate(90deg);
 }
 #CreateCategoryCard {
   margin-top: 70px;

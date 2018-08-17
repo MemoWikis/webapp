@@ -23,15 +23,19 @@
     <%= Scripts.Render("~/bundles/js/AnswerQuestion") %>
     <script type="text/javascript" src="https://www.google.com/jsapi"></script>
     <script src="http://d3js.org/d3.v4.min.js"></script>
-    <% Model.SidebarModel.CardFooterText = Model.CreatorName;
-       Model.SidebarModel.AutorImageUrl = Model.ImageUrl_250;
-       Model.SidebarModel.Creator = Model.Creator;
+    <% Model.SidebarModel.AutorCardLinkText = Model.CreatorName;
+        Model.SidebarModel.AutorImageUrl = Model.ImageUrl_250;
+        Model.SidebarModel.Creator = Model.Creator;
+        Model.SidebarModel.MultipleImageUrl.Add(Model.ImageUrl_250);
+        Model.SidebarModel.MultipleCreatorName.Add(Model.Creator.Name);
+        Model.SidebarModel.MultipleCreator.Add(Model.Creator);
         foreach(var child in Model.CategoriesChildren)
         {
-            var imageResult = new UserImageSettings(child.Id).GetUrl_250px(child.Creator);
-            var ImageUrl = imageResult.Url;
-             Model.SidebarModel.MultipleImageUrl.Add(ImageUrl);
-            Model.SidebarModel.MultipleCreatorName.Add(child.Creator.Name);
+            if (!(Model.SidebarModel.MultipleCreatorName.Where(o=> string.Equals(child.Creator.Name, o, StringComparison.OrdinalIgnoreCase)).Any())) {
+                Model.SidebarModel.MultipleImageUrl.Add(new UserImageSettings(child.Id).GetUrl_250px(child.Creator).Url);
+                Model.SidebarModel.MultipleCreatorName.Add(child.Creator.Name);
+                Model.SidebarModel.MultipleCreator.Add(child.Creator);
+            }
         }%>    
 </asp:Content>
 

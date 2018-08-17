@@ -14,10 +14,15 @@ public class SidebarModel : BaseResolve
 
     public int UnreadMessageCount = 0;
 
-    public string CardFooterText;
+    public string AutorCardLinkText;
     public string AutorImageUrl;
     public string CreatorName;
     public User Creator;
+
+    public ReputationCalcResult Reputation;
+    public int AmountWishCountQuestions;
+    public bool DoIFollow;
+    public bool IsCurrentUser;
 
     public bool IsWelcomePage;
 
@@ -25,6 +30,8 @@ public class SidebarModel : BaseResolve
 
     public List<string> MultipleCreatorName = new List<string>();
     public List<string> MultipleImageUrl = new List<string>();
+    public List<User> MultipleCreator = new List<User>();
+
 
     public SidebarModel()
     {

@@ -22,8 +22,6 @@
        Model.TopNavMenu.BreadCrumb.Add(new TopNavMenuItem {Text = Model.Name});
        Model.TopNavMenu.IsCategoryBreadCrumb = false;%>
     <script type="text/javascript" src="https://www.google.com/jsapi"></script>
-    <% Model.SidebarModel.CardFooterText = Model.CreatorName; 
-       Model.SidebarModel.AutorImageUrl = Model.ImageUrl_250; %>    
 </asp:Content>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">   

@@ -143,6 +143,13 @@ public class CategoryModel : BaseModel
         AggregatedSetCount = AggregatedSets.Count;
 
         AggregatedQuestionCount = Category.GetCountQuestionsAggregated();
+
+        SidebarModel.Reputation = Resolve<ReputationCalc>().Run(Creator);
+        SidebarModel.AmountWishCountQuestions = Resolve<GetWishQuestionCount>().Run(Creator.Id);
+        var followerIAm = R<FollowerIAm>().Init(new List<int> { Creator.Id}, UserId);
+        SidebarModel.DoIFollow = followerIAm.Of(Creator.Id);
+        SidebarModel.IsCurrentUser = Creator.Id == UserId && IsLoggedIn;
+
     }
 
     private List<Question> GetTopQuestionsInSubCats()
