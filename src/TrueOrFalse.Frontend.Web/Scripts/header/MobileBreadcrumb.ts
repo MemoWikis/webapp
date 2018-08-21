@@ -9,7 +9,7 @@
             document.getElementById(i + 'BreadCrumb').innerHTML = "...";
         }
     }
-    if (BreadCrumbItemCount == 0) {
+    if (BreadCrumbItemCount <= 1) {
         $('#Breadcrumb').css('height', '55px');
     }
    

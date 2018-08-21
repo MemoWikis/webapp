@@ -69,7 +69,7 @@
         Model.TopNavMenu.IsCategoryBreadCrumb = false;
     %>
       
-    <% Model.SidebarModel.CardFooterText = Model.Creator.Name;
+    <% Model.SidebarModel.AutorCardLinkText = Model.Creator.Name;
        Model.SidebarModel.AutorImageUrl = Model.ImageUrl_250; %>    
     <link type="text/css" href="/Content/blue.monday/jplayer.blue.monday.css" rel="stylesheet" />
 </asp:Content>

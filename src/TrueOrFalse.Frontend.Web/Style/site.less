@@ -764,12 +764,6 @@ img {
 #AutorCard {
     border: #979797 solid 0.5px;
 
-    .autor-card-image {
-        background-size: cover;
-        width: 100%;
-        height: 112px;
-    }
-
     .autor-card-footer-bar {
         margin-top: 33.04px;
         margin-bottom:9px;
@@ -784,6 +778,12 @@ img {
         padding: 1px 3px 1px 3px;
         color: #979797;
     }
+}
+
+.card-image-large {
+    background-size: cover !important;
+    width: 100%;
+    height: 112px;
 }
 
 #MultipleAutorCard {
@@ -825,6 +825,7 @@ img {
         display: flex;
         height: 59px;
         padding-left: 16px;
+        align-items: center;
     }
 }
 
@@ -832,24 +833,19 @@ img {
   transform: rotate(90deg);
 }
 
-
-#CreateCategoryCard {
+#CategorySuggestionCard {
+    border: #979797 solid 0.5px;
     margin-top: 70px;
+}
 
-    i.fa-plus-square {
-        color: white;
-        position: absolute;
-        margin-top: -19px;
-        font-size:14px;
-    }
+#CreateQuestionCard {
+    margin-top: 70px;
+    border: #979797 solid 0.5px;
+}
 
-    i.fa-circle {
-        color: #DDDDDD;
-        position: absolute;
-        margin-top: -23.5px;
-        margin-left:-4px;
-        font-size:23px;
-    }
+SponsorCard {
+    margin-top: 70px;
+    border: #979797 solid 0.5px;
 }
 
 /* MASTER SECTION
@@ -1428,24 +1424,29 @@ img {
     }
     /* SPONSOR
 ----------------------------------------------------------*/
-    .EduPartnerLeftWrapper { //Avoid "sponsor" and the like in css classes because of ad blockers
-        font-size: 90%;
-        margin-top: 50px;
+    #EduPartnerCard {
+     margin-top: 70px;
+     border: #979797 solid 0.5px;
+     padding:15px;
+     padding-bottom:5px;
+
+    .EduPartnerLSidebarWrapper { //Avoid "sponsor" and the like in css classes because of ad blockers
+        font-size: 12.6px;
         text-align: center;
 
         @media (max-width: (@show-menu-from-width - 1px)) {
             display: none;
         }
 
-        .EduPartnerAdLabel {
-            font-size: 80%;
-            color: @global-text-color-grey;
-            margin-bottom: 20px;
-            text-align: left;
+        .fa {
+            color: #CCCCCC;
+            display: flex;
+            justify-content: flex-end;
+            margin-right: 4px;
+            font-size: 18px;
         }
-    }
 
-    .EduPartnerLeftLogo {
+    .EduPartnerSidebarLogo {
         margin-bottom: 20px;
 
         img {
@@ -1453,6 +1454,8 @@ img {
             max-height: 100px;
         }
     }
+  }
+}
     /* VALIDATION
 ----------------------------------------------------------*/
     textarea.input-validation-error, input.input-validation-error {

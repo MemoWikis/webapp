@@ -8183,7 +8183,7 @@
     </Content>
     <Content Include="Views\Shared\Cards\CardSingleCategory.ascx" />
     <Content Include="Views\Shared\AddToWishknowledge.ascx" />
-    <Content Include="Views\Shared\SponsorLeft.ascx" />
+    <Content Include="Views\Shared\SidebarSponsor.ascx" />
     <Content Include="Views\Shared\UnpinCategoryModal.ascx" />
     <Content Include="Views\Shared\WuWiMessage.ascx" />
     <Content Include="Views\About\AboutMemucho.css">

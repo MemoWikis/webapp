@@ -902,11 +902,6 @@ ul.AutocompleteHeader {
 #AutorCard {
   border: #979797 solid 0.5px;
 }
-#AutorCard .autor-card-image {
-  background-size: cover;
-  width: 100%;
-  height: 112px;
-}
 #AutorCard .autor-card-footer-bar {
   margin-top: 33.04px;
   margin-bottom: 9px;
@@ -919,6 +914,11 @@ ul.AutocompleteHeader {
   border-radius: 25px;
   padding: 1px 3px 1px 3px;
   color: #979797;
+}
+.card-image-large {
+  background-size: cover !important;
+  width: 100%;
+  height: 112px;
 }
 #MultipleAutorCard {
   margin-top: 70px;
@@ -955,25 +955,22 @@ ul.AutocompleteHeader {
   display: flex;
   height: 59px;
   padding-left: 16px;
+  align-items: center;
 }
 .rotate {
   transform: rotate(90deg);
 }
-#CreateCategoryCard {
+#CategorySuggestionCard {
+  border: #979797 solid 0.5px;
   margin-top: 70px;
 }
-#CreateCategoryCard i.fa-plus-square {
-  color: white;
-  position: absolute;
-  margin-top: -19px;
-  font-size: 14px;
+#CreateQuestionCard {
+  margin-top: 70px;
+  border: #979797 solid 0.5px;
 }
-#CreateCategoryCard i.fa-circle {
-  color: #DDDDDD;
-  position: absolute;
-  margin-top: -23.5px;
-  margin-left: -4px;
-  font-size: 23px;
+SponsorCard {
+  margin-top: 70px;
+  border: #979797 solid 0.5px;
 }
 /* MASTER SECTION
 ----------------------------------------------------------*/
@@ -1457,26 +1454,32 @@ ul.AutocompleteHeader {
 }
 /* SPONSOR
 ----------------------------------------------------------*/
-.EduPartnerLeftWrapper {
-  font-size: 90%;
-  margin-top: 50px;
+#EduPartnerCard {
+  margin-top: 70px;
+  border: #979797 solid 0.5px;
+  padding: 15px;
+  padding-bottom: 5px;
+}
+#EduPartnerCard .EduPartnerLSidebarWrapper {
+  font-size: 12.6px;
   text-align: center;
 }
 @media (max-width: 1199px) {
-  .EduPartnerLeftWrapper {
+  #EduPartnerCard .EduPartnerLSidebarWrapper {
     display: none;
   }
 }
-.EduPartnerLeftWrapper .EduPartnerAdLabel {
-  font-size: 80%;
-  color: #999999;
-  margin-bottom: 20px;
-  text-align: left;
+#EduPartnerCard .EduPartnerLSidebarWrapper .fa {
+  color: #CCCCCC;
+  display: flex;
+  justify-content: flex-end;
+  margin-right: 4px;
+  font-size: 18px;
 }
-.EduPartnerLeftLogo {
+#EduPartnerCard .EduPartnerLSidebarWrapper .EduPartnerSidebarLogo {
   margin-bottom: 20px;
 }
-.EduPartnerLeftLogo img {
+#EduPartnerCard .EduPartnerLSidebarWrapper .EduPartnerSidebarLogo img {
   max-width: 50%;
   max-height: 100px;
 }

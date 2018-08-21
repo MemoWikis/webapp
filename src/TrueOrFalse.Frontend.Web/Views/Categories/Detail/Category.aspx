@@ -32,9 +32,10 @@
         foreach(var child in Model.CategoriesChildren)
         {
             if (!(Model.SidebarModel.MultipleCreatorName.Where(o=> string.Equals(child.Creator.Name, o, StringComparison.OrdinalIgnoreCase)).Any())) {
-                Model.SidebarModel.MultipleImageUrl.Add(new UserImageSettings(child.Id).GetUrl_250px(child.Creator).Url);
-                Model.SidebarModel.MultipleCreatorName.Add(child.Creator.Name);
-                Model.SidebarModel.MultipleCreator.Add(child.Creator);
+                  var imageResult = new UserImageSettings(child.Creator.Id).GetUrl_250px(child.Creator);
+                  Model.SidebarModel.MultipleImageUrl.Add(imageResult.Url);
+                  Model.SidebarModel.MultipleCreatorName.Add(child.Creator.Name);
+                  Model.SidebarModel.MultipleCreator.Add(child.Creator);
             }
         }%>    
 </asp:Content>
