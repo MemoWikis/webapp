@@ -61,7 +61,8 @@ namespace TrueOrFalse.View
                 .IncludeDirectory("~/Views/Help/Js", "*.js"));
 
             bundles.Add(new StyleBundle("~/bundles/Category")
-                .Include("~/Views/Categories/Detail/Category.css"));
+                .Include("~/Views/Categories/Detail/Category.css")
+                .Include("~/Views/Categories/Detail/Js/SquareWishKnowledge.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/js/Category")
                 .Include("~/Views/Knowledge/Wheel/KnowledgeWheel.js")
@@ -297,9 +298,24 @@ namespace TrueOrFalse.View
             );
          
 
+            bundles.Add(new StyleBundle("~/bundles/Promoter")
+                .Include("~/Views/Welcome/Promoter.css"));
+
+            bundles.Add(new ScriptBundle("~/bundles/AboutMemucho")
+                .Include("~/Views/About/Js/Page.js"));
+
+            bundles.Add(new StyleBundle("~/bundles/Team")
+                .Include("~/Views/Welcome/Team.css"));
+
 #if RELEASE
             BundleTable.EnableOptimizations = true;
 #endif
+            SetIgnorePatterns(bundles.IgnoreList);
+        }
+
+        public static void SetIgnorePatterns(IgnoreList ignoreList)
+        {
+            ignoreList.Ignore("*SetVideoPlayer.js");
         }
     }
 }

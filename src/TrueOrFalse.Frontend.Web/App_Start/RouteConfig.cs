@@ -17,6 +17,7 @@ namespace TrueOrFalse
             routes.MapRoute("CheckEmailForAvailability", "Registrieren/IsEmailAvailable", new { controller = "Login", action = "IsEmailAvailable" });
             routes.MapRoute("PasswordRecovery", "Login/PasswortZuruecksetzen", new { controller = "Welcome", action = "PasswordRecovery" });
             routes.MapRoute("Contact", "Kontakt", new { controller = "Welcome", action = "Contact" });
+            routes.MapRoute("Team", "Team", new {controller = "Welcome", action = "Team"});
 
             routes.MapRoute("Register", "Registrieren", new { controller = "Register", action = "Register" });
             routes.MapRoute("Login", "Login/{action}", new { controller = "Login" });
@@ -177,8 +178,12 @@ namespace TrueOrFalse
             routes.MapRoute("WidgetLearningSession", "widget/fragesatz/templateset/{setId}", new { controller = "Widget", action = "SetWithoutStartScreen" });
             routes.MapRoute("WidgetSetVideo", "widget/fragesatz-v/{setId}", new { controller = "Widget", action = "SetVideo" });
 
+            routes.MapRoute("Übersicht", "Übersicht/Förderer", new { controller = "Welcome", action = "Promoter" });
+
             routes.MapRoute("Default", "{controller}/{action}/{id}", new { controller = "Welcome", action = "Welcome", id = UrlParameter.Optional });
             routes.MapRoute("Various", "{action}", new { controller = "VariousPublic" });
+
+           
         }
     }
 }

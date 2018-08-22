@@ -26,11 +26,17 @@
                 if (!this.ContentIsPresent(tabname)) {
                     this.RenderTabContent(tabname);
                 }
+                if (tabname === "LearningTab" && $('#hddLearningSessionStarted').val() === "False" && $('#hddQuestionCount').val() !== "0") {
+                    console.log();
+ 
+                    var answerBody = new AnswerBody();
 
-                if (tabname === "LearningTab" && $('#hddLearningSessionStarted').val() === "False") {
-                    this.InitializeLearningTab();
+                    if (answerBody.IsTestSession()) {
+                        answerBody.Loader.loadNewTestSession();
+                    }
+
+                    $('#hddLearningSessionStarted').val("True");
                 }
-
                 this.ShowTab(tabname);
 
             });

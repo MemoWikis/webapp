@@ -203,50 +203,45 @@
                         </div>
                     </div>
 
-                    <% if (Model.IsInstallationAdmin){ %>
-
-                        <div class="form-group">
-                            <label class="columnLabel control-label" for="TopicMarkdown">
-                                <i class="fa fa-user-secret show-tooltip" data-original-title="Nur für Admins sichtbar">&nbsp;</i>Freie Seitengestaltung für Themenseite:
-                                <i class="fa fa-question-circle show-tooltip" 
-                                    title="Erfordert Markdown-Syntax. Zum Vergrößern des Eingabefelds bitte unten rechts größer ziehen." 
-                                    data-placement="<%= CssJs.TooltipPlacementLabel %>" data-trigger="hover click"></i>
-                                <a href="https://docs.google.com/document/d/1Wc3TZlE7gmw04i5WhzNcyaxDa05KEJPlXinGsT-a1AU/edit?usp=sharing" target="_blank">
-                                    Doku für Templates
-                                    <i class="fa fa-external-link"></i>
-                                </a>
+                    <div class="form-group">
+                        <label class="columnLabel control-label" for="TopicMarkdown">
+                            Freie Seitengestaltung für Themenseite:
+                            <i class="fa fa-question-circle show-tooltip" 
+                                title="Erfordert Markdown-Syntax. Zum Vergrößern des Eingabefelds bitte unten rechts größer ziehen." 
+                                data-placement="<%= CssJs.TooltipPlacementLabel %>" data-trigger="hover click"></i>
+                            <a href="<%= Links.CategoryDetail("Themenseiten bearbeiten", 965) %>" target="_blank">
+                                Hilfe zu den Templates
+                                <i class="fa fa-external-link"></i>
+                            </a>
                                 
-                            </label>
-                            <div class="columnControlsFull">
-                                <textarea class="form-control" name="TopicMarkdown" id="TopicMarkdown" 
-                                    <% var x = Model.TopicMarkdown; %>
-                                    rows="<%= string.IsNullOrEmpty(Model.TopicMarkdown) ? "4" : "16" %>" 
-                                    style="width: 100%; max-width: 100%;"><%= Model.TopicMarkdown %></textarea>
-                            </div>
+                        </label>
+                        <div class="columnControlsFull">
+                            <textarea class="form-control" name="TopicMarkdown" id="TopicMarkdown" 
+                                <% var x = Model.TopicMarkdown; %>
+                                rows="<%= string.IsNullOrEmpty(Model.TopicMarkdown) ? "4" : "16" %>" 
+                                style="width: 100%; max-width: 100%;"><%= Model.TopicMarkdown %></textarea>
                         </div>
-                        <div class="form-group">
-                            <label class="columnLabel control-label" for="FeaturedSetIdsString">
-                                <i class="fa fa-user-secret show-tooltip" data-original-title="Nur für Admins sichtbar">&nbsp;</i>Offiziell präsentierte Lernsets
-                                <i class="fa fa-question-circle show-tooltip" 
-                                    title="Bitte Ids der Lernsets in der Form '1,2,3' angeben. Bitte darauf achten, dass diese Lernsets tatsächlich mit dem Thema versehen sind." 
-                                    data-placement="<%= CssJs.TooltipPlacementLabel %>" data-trigger="hover click"></i>
-                            </label>
-                            <div class="columnControlsFull">
-                                <input class="form-control" name="FeaturedSetIdsString" type="text" value="<%= Model.FeaturedSetIdsString %>">
-                            </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="columnLabel control-label" for="FeaturedSetIdsString">
+                            Offiziell präsentierte Lernsets (wird aktuell nicht verwendet)
+                            <i class="fa fa-question-circle show-tooltip" 
+                                title="Bitte Ids der Lernsets in der Form '1,2,3' angeben. Bitte darauf achten, dass diese Lernsets tatsächlich mit dem Thema versehen sind." 
+                                data-placement="<%= CssJs.TooltipPlacementLabel %>" data-trigger="hover click"></i>
+                        </label>
+                        <div class="columnControlsFull">
+                            <input class="form-control" disabled name="FeaturedSetIdsString" type="text" value="<%= Model.FeaturedSetIdsString %>">
                         </div>
-                    <% } else {%>
-                        <div class="alert alert-info">
-                            <strong>Info:</strong> Die Administratoren von memucho haben erweiterte Gestaltungsmöglichkeiten für die Themenseiten. 
-                            Bitte sag uns Bescheid, wenn du eine Themenseite gestalten möchtest.
-                        </div>
-                    <% } %>
+                    </div>
                 </div>
                 <div class="FormSection JS-ShowWithPartial" style="display: none;">
                     <div class="form-group">
                         <div class="noLabel columnControlsFull">
                             <p class="form-control-static"><span class="RequiredField"></span> Pflichtfeld</p>
                         </div>
+                    </div>
+                    <div id="deleteAlert" class="alert alert-danger" role="alert" style="display: none ">
+                        <strong>Bitte habe etwas Geduld, das Löschen dauert einen Augenblick</strong> 
                     </div>
                     <div class="form-group">
                         <div class="noLabel columnControlsFull">
