@@ -29,13 +29,22 @@
         Model.SidebarModel.MultipleImageUrl.Add(Model.ImageUrl_250);
         Model.SidebarModel.MultipleCreatorName.Add(Model.Creator.Name);
         Model.SidebarModel.MultipleCreator.Add(Model.Creator);
+        if (Model.CategoriesChildren.Count != 0)
+        {
+            Random rnd = new Random();
+            int r = rnd.Next(Model.CategoriesChildren.Count);
+            var SuggestionCategory = (Category)Model.CategoriesChildren[r];
+            Model.SidebarModel.CategorySuggestionName = SuggestionCategory.Name;
+            Model.SidebarModel.CategorySuggestionUrl = Links.CategoryDetail(SuggestionCategory.Name, SuggestionCategory.Id);
+            Model.SidebarModel.CategorySuggestionImageUrl = Model.GetCategoryImageUrl(SuggestionCategory).Url;
+        }
         foreach(var child in Model.CategoriesChildren)
         {
             if (!(Model.SidebarModel.MultipleCreatorName.Where(o=> string.Equals(child.Creator.Name, o, StringComparison.OrdinalIgnoreCase)).Any())) {
-                  var imageResult = new UserImageSettings(child.Creator.Id).GetUrl_250px(child.Creator);
-                  Model.SidebarModel.MultipleImageUrl.Add(imageResult.Url);
-                  Model.SidebarModel.MultipleCreatorName.Add(child.Creator.Name);
-                  Model.SidebarModel.MultipleCreator.Add(child.Creator);
+                var imageResult = new UserImageSettings(child.Creator.Id).GetUrl_250px(child.Creator);
+                Model.SidebarModel.MultipleImageUrl.Add(imageResult.Url);
+                Model.SidebarModel.MultipleCreatorName.Add(child.Creator.Name);
+                Model.SidebarModel.MultipleCreator.Add(child.Creator);
             }
         }%>    
 </asp:Content>

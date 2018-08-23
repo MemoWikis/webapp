@@ -1,8 +1,8 @@
 ﻿<%@ Control Language="C#" Inherits="System.Web.Mvc.ViewUserControl<SidebarModel>" %>
 <%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
-
+<%  var imageSetttings = new UserImageSettings(Model.Creator.Id);%>
 <div id="SidebarCards" style="display: block;">
-   <%if(Model.AutorCardLinkText != null){ %>
+ <%if(Model.MultipleCreatorName.Count() == 1){%>
     <div id="AutorCard">
         <div class="ImageContainer" style="width: 100%; padding-top:0.5px;">
            <div class="card-image-large" style="background:url(<%= Model.AutorImageUrl%>) center;"></div>
@@ -17,20 +17,21 @@
         </div>
         <div class="autor-card-footer-bar">               
             <div class="show-tooltip" <% if(!Model.IsCurrentUser){%>title="<%if(Model.DoIFollow){ %>Du folgst <%= Model.AutorCardLinkText%> und nimmst an seinen Aktivitäten teil.<%}else{ %>Folge <%= Model.AutorCardLinkText%>, um an ihren/seinen Aktivitäten teilzuhaben.<%} %>" <%} %>>
-              <i class="fa fa-heart"></i>
+             <img style="width:auto; height:24px;" class="userImage" src="<%= imageSetttings.GetUrl_30px_square(Model.Creator).Url %>" />
               <span class="footer-bar-text"><%= Model.Reputation.ForUsersFollowingMe %></span> 
             </div>
             <div class="show-tooltip" title='"<%= Model.Reputation.TotalReputation%>" ist eine stolze Zahl! Reputationspunkte zeigen, wieviel  <%= Model.AutorCardLinkText%> für memucho getan hat.'>
                 <i style="color:#b13a48;" class="fa fa-heart"></i>
                <span class="footer-bar-text"> <%=Model.Reputation.TotalReputation %></span>
             </div>
-            <div class="show-tooltip" title="<%= Model.AutorCardLinkText%> hat sein Wunschwissen veröffentlicht und 530 Fragen gesammelt. Alles klar soweit?">
+            <div class="show-tooltip"  <% if(!Model.IsCurrentUser){%>title="<%= Model.AutorCardLinkText%> hat ihr/sein Wunschwissen<% if(Model.Creator.ShowWishKnowledge){ %> veröffentlicht und <%= Model.AmountWishCountQuestions %> Fragen gesammelt. Alles klar soweit?<%}else{ %> nicht veröffentlicht.<%} %>"<%} %>>
                 <i class="fa fa-pencil"></i>
                <span class="footer-bar-text"><%= Model.AmountWishCountQuestions %></span>
             </div>
         </div>
     </div>
-   <%} %>
+ <%} 
+  if (Model.MultipleCreatorName.Count() != 1){%>
     <div id="MultipleAutorCard">
         <div class="card-title">
             <span>Beitragende</span>
@@ -64,19 +65,22 @@
            </div>
         <%} %>
     </div>
-    <div id="CategorySuggestionCard">
-       <div class="ImageContainer" style="width: 100%; padding-top:0.5px;">
-           <div class="card-image-large" style="background:url(<%= Model.CategorySuggestionImageUrl%>) center;"></div>
-        </div>
-        <div class="card-title">
-            <span>Themen-Vorschlag</span>
-        </div>
-        <div class="card-link">
-           <a  href="<%= Model.CategorySuggestionUrl %>">
-               <%= Model.CategorySuggestionName %> 
-           </a>
-        </div>
-    </div>
+<%} %>
+    <%if (Model.CategorySuggestionName != null){%>
+       <div id="CategorySuggestionCard">
+          <div class="ImageContainer" style="width: 100%; padding-top:0.5px;">
+              <div class="card-image-large" style="background:url(<%= Model.CategorySuggestionImageUrl%>) center;"></div>
+           </div>
+           <div class="card-title">
+               <span>Themen-Vorschlag</span>
+           </div>
+           <div class="card-link" style="margin-bottom:25px;">
+              <a class="show-tooltip" title="Zur Themenseite  <%= Model.CategorySuggestionName %>" href="<%= Model.CategorySuggestionUrl %>">
+                  <%= Model.CategorySuggestionName %> 
+              </a>
+           </div>
+       </div>
+    <%} %>
     <div id="EduPartnerCard">
      <% if (Model.SponsorModel != null && !Model.SponsorModel.IsAdFree)
         { %>

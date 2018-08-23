@@ -889,6 +889,9 @@ ul.AutocompleteHeader {
   font-size: 18px;
   text-align: center;
 }
+#SidebarCards a {
+  overflow: hidden;
+}
 #SidebarCards .card-title {
   font-size: 14px;
   text-transform: uppercase;
@@ -919,9 +922,9 @@ ul.AutocompleteHeader {
   background-size: cover !important;
   width: 100%;
   height: 112px;
+  border-radius: 0px;
 }
 #MultipleAutorCard {
-  margin-top: 70px;
   border: #979797 solid 0.5px;
 }
 #MultipleAutorCard .multiple-autor-card-image {

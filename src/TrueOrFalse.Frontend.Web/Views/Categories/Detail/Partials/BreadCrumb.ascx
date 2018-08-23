@@ -12,10 +12,11 @@
 
      %>
 
-<div id="BreadCrumbContainer" class="container" style="display:flex; flex-wrap: wrap;">
+<div id="BreadCrumbContainer" class="container" style="display:flex;">
     <a href="/" id="BreadcrumbLogoSmall" class="show-tooltip" data-placement="bottom" title="Zur Startseite" style="display:none;">
         <img src="/Images/Logo/LogoSmall.png">
     </a>
+    <div id="BreadCrumbTrail" style="display:flex; flex-wrap: wrap;">
     <div style="height: auto;" id="BreadcrumbHome" class="show-tooltip" data-placement="bottom"  title="Zur Startseite">
      <%if(!(Model.TopNavMenu.IsWelcomePage)){ %> 
         <a href="/" class="category-icon">
@@ -48,6 +49,7 @@
     <% } %>        
     <%}%>
 <%} %>
+</div>
     <div id="StickyHeaderContainer">    
         <div class="input-group" id="StickyHeaderSearchBoxDiv" style="margin-right:25px">
             <input type="text" class="form-control" placeholder="Suche" id="StickyHeaderSearchBox">
@@ -56,7 +58,7 @@
             </div>
         </div>
         <div id="KnowledgeImage" style="margin-right:0px;"><a href="<%= Links.Knowledge() %>"><i style="margin-top:6px; font-size:32px;" class="fa fa-dot-circle-o"></i></a></div>
-        <div id="UserImage" style="margin-right:25px">
+        <div id="UserImage"  <%if(Model.IsLoggedIn){ %> style="margin-right:25px" <%} %>>
         <%if(Model.IsLoggedIn){ %>
            <a class="TextLinkWithIcon dropdown-toggle" id="dLabel" role="button" data-toggle="dropdown" data-target="#" href="#">
             <img class="userImage" style="margin-top:21px; border:none; text-align:center;" src="<%= userImage%>" />

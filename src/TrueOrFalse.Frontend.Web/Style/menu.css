@@ -318,6 +318,9 @@
 }
 .RightMainMenu span {
   display: block !important;
+  overflow: hidden;
+  -ms-text-overflow: ellipsis;
+  text-overflow: ellipsis;
 }
 @media (max-width: 479px) {
   .RightMainMenu {
@@ -402,9 +405,6 @@
   background-color: rgba(165, 209, 221, 0.8);
 }
 .list-group-item.sub {
-  overflow: hidden;
-  -ms-text-overflow: ellipsis;
-  text-overflow: ellipsis;
   font-weight: normal;
   white-space: nowrap;
   padding-top: 6px;

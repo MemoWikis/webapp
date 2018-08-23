@@ -166,6 +166,13 @@ public class CategoryModel : BaseModel
             .Distinct(ProjectionEqualityComparer<Question>.Create(x => x.Id))
             .ToList();
     }
+
+    public ImageUrl GetCategoryImageUrl(Category category)
+    {
+        var imageMetaData = Sl.ImageMetaDataRepo.GetBy(category.Id, ImageType.Category);
+        return new ImageFrontendData(imageMetaData).GetImageUrl(232);
+    }
+
     private void GetTopQuestionsFromChildrenOfChildren(List<Question> topQuestions)
     {
         foreach (var childCat in CategoriesChildren)
