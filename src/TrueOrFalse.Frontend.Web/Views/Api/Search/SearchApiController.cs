@@ -43,7 +43,7 @@ public class SearchApiController : BaseController
 
     public JsonResult ByNameEduSharing(string term, int pageSize = 5)
     {
-        var result = Sl.SearchCategories.Run(term, new Pager {PageSize = pageSize });
+        var result = Sl.SearchCategories.Run(term, new Pager {PageSize = (pageSize + 1) });
 
         return Json(new
         {
@@ -53,10 +53,11 @@ public class SearchApiController : BaseController
                 .Select(category => new
                 {
                     TopicId = category.Id,
-                    IconHtml = category.Type.GetCategoryTypeIconHtml(),
-                    ImageUrl = new CategoryImageSettings(category.Id).GetUrl_50px(asSquare: true).Url,
-                    ItemUrl = Links.CategoryDetail(category.Name, category.Id),
-                    Licence = "CC_BY_4.0"
+                    Name = category.Name,
+                    ImageUrl = Settings.CanonicalHost + new CategoryImageSettings(category.Id).GetUrl_50px(asSquare: true).Url,
+                    ItemUrl = Settings.CanonicalHost + Links.CategoryDetail(category.Name, category.Id),
+                    Licence = "CC_BY_4.0",
+                    Author = category.Creator.Name 
                 })
         }, JsonRequestBehavior.AllowGet);
     }
