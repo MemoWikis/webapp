@@ -54,9 +54,9 @@ public class SearchApiController : BaseController
                 {
                     TopicId = category.Id,
                     Name = category.Name,
-                    ImageUrl = Settings.CanonicalHost + new CategoryImageSettings(category.Id).GetUrl_50px(asSquare: true).Url,
+                    ImageUrl = Settings.CanonicalHost + new CategoryImageSettings(category.Id).GetUrl(300).Url,
                     ItemUrl = Settings.CanonicalHost + Links.CategoryDetail(category.Name, category.Id),
-                    Licence = "CC_BY_4.0",
+                    Licence = "CC_BY",
                     Author = category.Creator.Name 
                 })
         }, JsonRequestBehavior.AllowGet);

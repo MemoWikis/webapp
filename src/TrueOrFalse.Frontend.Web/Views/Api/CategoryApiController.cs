@@ -129,7 +129,7 @@ public class CategoryApiController : BaseController
             Creator = category.Creator.Name,
             CreatorMetaData = category.Creator.Name,
             Url = Settings.CanonicalHost + Links.CategoryDetail(category.Name, category.Id), 
-            Thumbnail = Settings.CanonicalHost + new CategoryImageSettings(category.Id).GetUrl_50px(asSquare: true).Url
+            Thumbnail = Settings.CanonicalHost + new CategoryImageSettings(category.Id).GetUrl(300).Url
         }, JsonRequestBehavior.AllowGet);
     }
 
