@@ -41,15 +41,15 @@ public class SearchApiController : BaseController
     }
 
 
-    public JsonResult ByNameEduSharing(string term/*, int pageSize*/)
+    public JsonResult ByNameEduSharing(string term, int pageSize = 5)
     {
-        var result = Sl.SearchCategories.Run(term, new Pager {PageSize = 5});
+        var result = Sl.SearchCategories.Run(term, new Pager {PageSize = pageSize });
 
         return Json(new
         {
             ResultCount = result.Count,
-            Items = result.CategoryIds
-                .Select(categoryId => Sl.CategoryRepo.GetById(categoryId))
+            Items = result
+                .GetCategories()
                 .Select(category => new
                 {
                     TopicId = category.Id,
