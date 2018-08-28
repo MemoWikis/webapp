@@ -4,7 +4,7 @@ using System.Web.Mvc;
 using Seedworks.Lib.Persistence;
 using TrueOrFalse.Frontend.Web.Code;
 
-public class EduSharingController : BaseController
+public class EduSharingApiController : BaseController
 {
 
     public JsonResult Topic(int id)
@@ -88,6 +88,25 @@ public class EduSharingController : BaseController
                 }
             },
             isAccessibleForFree = "true"
+        }, JsonRequestBehavior.AllowGet);
+    }
+
+    public JsonResult Statistics()
+    {
+        //var allCategories = EntityCache.GetCategories();
+        //var allQuestions = EntityCache.Que
+
+        var questionCount = R<QuestionGetCount>().Run();
+        
+
+        return Json(new
+        {
+            overall =  22,
+            id = "fileformat",
+            count = new object[]
+            {
+                new {}
+            }
         });
     }
 }
