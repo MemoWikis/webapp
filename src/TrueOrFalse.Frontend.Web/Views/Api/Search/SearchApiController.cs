@@ -1,7 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
+using NHibernate.Linq.Expressions;
 using Seedworks.Lib;
+using Seedworks.Lib.Persistence;
 using TrueOrFalse.Frontend.Web.Code;
 
 public class SearchApiController : BaseController
@@ -36,6 +38,26 @@ public class SearchApiController : BaseController
         }
         
         return Json( new{ Items = items }, JsonRequestBehavior.AllowGet);
+    }
+
+    public JsonResult ByNameEduSharing(string term/*, int pageSize*/)
+    {
+        var result = Sl.SearchCategories.Run(term, new Pager {PageSize = 5});
+
+        return Json(new
+        {
+            ResultCount = result.Count,
+            Items = result.CategoryIds
+                .Select(categoryId => Sl.CategoryRepo.GetById(categoryId))
+                .Select(category => new
+                {
+                    TopicId = category.Id,
+                    IconHtml = category.Type.GetCategoryTypeIconHtml(),
+                    ImageUrl = new CategoryImageSettings(category.Id).GetUrl_50px(asSquare: true).Url,
+                    ItemUrl = Links.CategoryDetail(category.Name, category.Id),
+                    Licence = "CC_BY_4.0"
+                })
+        });
     }
 
     private static void AddHeader(List<ResultItem> items, ResultItemType resultItemType, int resultCount, string term)
