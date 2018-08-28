@@ -123,8 +123,8 @@ public class CategoryApiController : BaseController
         {
             Title = category.Name,
             Keyword = category.ParentCategories().Select(x => x.Name).Aggregate((a, b) => a + ", " + b),
-            DateCreated = category.DateCreated,
-            DateModified = category.DateModified,
+            DateCreated = new DateTimeOffset(category.DateCreated).ToUnixTimeSeconds(),
+            DateModified = new DateTimeOffset(category.DateModified).ToUnixTimeSeconds(),
             Format = "",
             Creator = category.Creator.Name,
             CreatorMetaData = category.Creator.Name,
