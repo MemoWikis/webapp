@@ -41,27 +41,6 @@ public class SearchApiController : BaseController
     }
 
 
-    public JsonResult ByNameEduSharing(string term, int pageSize = 5)
-    {
-        var result = Sl.SearchCategories.Run(term, new Pager {PageSize = (pageSize + 1) });
-
-        return Json(new
-        {
-            ResultCount = result.Count,
-            Items = result
-                .GetCategories()
-                .Select(category => new
-                {
-                    TopicId = category.Id,
-                    Name = category.Name,
-                    ImageUrl = Settings.CanonicalHost + new CategoryImageSettings(category.Id).GetUrl(300).Url,
-                    ItemUrl = Settings.CanonicalHost + Links.CategoryDetail(category.Name, category.Id),
-                    Licence = "CC_BY",
-                    Author = category.Creator.Name 
-                })
-        }, JsonRequestBehavior.AllowGet);
-    }
-
     private static void AddHeader(List<ResultItem> items, ResultItemType resultItemType, int resultCount, string term)
     {
         string searchUrl = "";

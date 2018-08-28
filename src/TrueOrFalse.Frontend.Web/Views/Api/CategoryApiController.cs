@@ -115,23 +115,6 @@ public class CategoryApiController : BaseController
         return Json(result, JsonRequestBehavior.AllowGet);
     }
 
-    public JsonResult ByIdEduSharing(int id)
-    {
-        var category = Sl.CategoryRepo.GetById(id);
-
-        return Json(new
-        {
-            Title = category.Name,
-            Keyword = category.ParentCategories().Select(x => x.Name).Aggregate((a, b) => a + ", " + b),
-            DateCreated = new DateTimeOffset(category.DateCreated).ToUnixTimeSeconds(),
-            DateModified = new DateTimeOffset(category.DateModified).ToUnixTimeSeconds(),
-            Format = "",
-            Creator = category.Creator.Name,
-            CreatorMetaData = category.Creator.Name,
-            Url = Settings.CanonicalHost + Links.CategoryDetail(category.Name, category.Id), 
-            Thumbnail = Settings.CanonicalHost + new CategoryImageSettings(category.Id).GetUrl(300).Url
-        }, JsonRequestBehavior.AllowGet);
-    }
 
     public static bool TermExistsAsCategory(string term, IEnumerable<CategoryJsonResult> result)
     {
