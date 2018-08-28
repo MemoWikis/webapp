@@ -40,6 +40,7 @@ public class SearchApiController : BaseController
         return Json( new{ Items = items }, JsonRequestBehavior.AllowGet);
     }
 
+
     public JsonResult ByNameEduSharing(string term/*, int pageSize*/)
     {
         var result = Sl.SearchCategories.Run(term, new Pager {PageSize = 5});
@@ -57,7 +58,7 @@ public class SearchApiController : BaseController
                     ItemUrl = Links.CategoryDetail(category.Name, category.Id),
                     Licence = "CC_BY_4.0"
                 })
-        });
+        }, JsonRequestBehavior.AllowGet);
     }
 
     private static void AddHeader(List<ResultItem> items, ResultItemType resultItemType, int resultCount, string term)
