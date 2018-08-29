@@ -99,35 +99,39 @@ public class EduSharingApiController : BaseController
 
         var total = totalPublicQuestionCount + totalSetCount + totalTopicCount;
 
+        var subGroups = new object[]
+        {
+            new {
+                id = "fileformat",
+                count = new object[]
+                {
+                    new
+                    {
+                        key = "questions",
+                        displayName = "Fragen",
+                        count = totalPublicQuestionCount
+                    },
+                    new
+                    {
+                        key = "sets",
+                        displayName = "Lernsets",
+                        count = totalSetCount
+                    },
+                    new
+                    {
+                        key = "topics",
+                        displayName = "Themen",
+                        count = totalTopicCount
+                    },
+                },
+            }
+        };
+
         return Json(new
             {
                 overall = new {
                     count = total,
-                    subGroups = new
-                    {
-                        id = "fileformat",
-                        count = new object[]
-                        {
-                            new
-                            {
-                                key = "questions",
-                                displayName = "Fragen",
-                                count = totalPublicQuestionCount
-                            },
-                            new
-                            {
-                                key = "sets",
-                                displayName = "Lernsets",
-                                count = totalSetCount
-                            },
-                            new
-                            {
-                                key = "topics",
-                                displayName = "Themen",
-                                count = totalTopicCount
-                            },
-                        },
-                    }
+                    subGroups = subGroups
                 },
                 groups = new object[]
                 {
@@ -136,6 +140,7 @@ public class EduSharingApiController : BaseController
                         key = "CC_BY",
                         displayName = "Creative Commons",
                         count = total,
+                        subGroups
                     }
                 },
                 user = new
