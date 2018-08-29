@@ -21,7 +21,7 @@ public class EduSharingApiController : BaseController
             Creator = category.Creator.Name,
             CreatorMetaData = category.Creator.Name,
             Url = Settings.CanonicalHost + Links.CategoryDetail(category.Name, category.Id),
-            Thumbnail = Settings.CanonicalHost + new CategoryImageSettings(category.Id).GetUrl(300).Url
+            Thumbnail = Settings.CanonicalHost + new CategoryImageSettings(category.Id).GetUrl_350px_square().Url
         }, JsonRequestBehavior.AllowGet);
     }
 
@@ -39,7 +39,7 @@ public class EduSharingApiController : BaseController
                 {
                     TopicId = category.Id,
                     Name = category.Name,
-                    ImageUrl = Settings.CanonicalHost + new CategoryImageSettings(category.Id).GetUrl_350px_square(),
+                    ImageUrl = Settings.CanonicalHost + new CategoryImageSettings(category.Id).GetUrl_350px_square().Url,
                     ItemUrl = Settings.CanonicalHost + Links.CategoryDetail(category.Name, category.Id),
                     Licence = "CC_BY",
                     Author = category.Creator.Name
@@ -74,12 +74,12 @@ public class EduSharingApiController : BaseController
                     url = $"{Settings.CanonicalHost}api",
                     set = "",
                     metadataPrefix = "",
-                    documentation = $"{Settings.CanonicalHost}api",
+                    documentation = $"{Settings.CanonicalHost}/api",
                     format = "Json",
                     type = "Generic_Api"
                 },
                 new {
-                    url = $"{Settings.CanonicalHost}api/edusharing/statistics",
+                    url = $"{Settings.CanonicalHost}/api/edusharing/statistics",
                     set =  "null",
                     metadataPrefix =  "",
                     documentation = "",
@@ -93,20 +93,56 @@ public class EduSharingApiController : BaseController
 
     public JsonResult Statistics()
     {
-        //var allCategories = EntityCache.GetCategories();
-        //var allQuestions = EntityCache.Que
+        var totalPublicQuestionCount = Sl.R<QuestionRepo>().TotalPublicQuestionCount();
+        var totalSetCount = Sl.R<SetRepo>().TotalSetCount();
+        var totalTopicCount = Sl.R<CategoryRepository>().TotalCategoryCount();
 
-        var questionCount = R<QuestionGetCount>().Run();
-        
+        var total = totalPublicQuestionCount + totalSetCount + totalTopicCount;
 
         return Json(new
-        {
-            overall =  22,
-            id = "fileformat",
-            count = new object[]
             {
-                new {}
+                overall = new {
+                    count = total,
+                    subGroups = new
+                    {
+                        id = "fileformat",
+                        count = new object[]
+                        {
+                            new
+                            {
+                                key = "questions",
+                                displayName = "Fragen",
+                                count = totalPublicQuestionCount
+                            },
+                            new
+                            {
+                                key = "sets",
+                                displayName = "Lernsets",
+                                count = totalSetCount
+                            },
+                            new
+                            {
+                                key = "topics",
+                                displayName = "Themen",
+                                count = totalTopicCount
+                            },
+                        },
+                    }
+                },
+                groups = new object[]
+                {
+                    new
+                    {
+                        key = "CC_BY",
+                        displayName = "Creative Commons",
+                        count = total,
+                    }
+                },
+                user = new
+                {
+                    count = 0
+                }
             }
-        });
+        );
     }
 }
