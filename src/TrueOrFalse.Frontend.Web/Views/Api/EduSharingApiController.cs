@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Web.Mvc;
 using Seedworks.Lib.Persistence;
+using SolrNet.Utils;
 using TrueOrFalse.Frontend.Web.Code;
 
 public class EduSharingApiController : BaseController
@@ -38,7 +39,7 @@ public class EduSharingApiController : BaseController
                 .Select(category => new
                 {
                     TopicId = category.Id,
-                    Name = category.Name,
+                    Name = HttpUtility.HtmlEncode(category.Name) ,
                     ImageUrl = Settings.CanonicalHost + new CategoryImageSettings(category.Id).GetUrl_350px_square().Url,
                     ItemUrl = Settings.CanonicalHost + Links.CategoryDetail(category.Name, category.Id),
                     Licence = "CC_BY",
