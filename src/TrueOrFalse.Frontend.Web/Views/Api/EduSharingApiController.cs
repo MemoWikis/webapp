@@ -102,7 +102,7 @@ public class EduSharingApiController : BaseController
         var subGroups = new object[]
         {
             new {
-                id = "fileformat",
+                id = "fileFormat",
                 count = new object[]
                 {
                     new
