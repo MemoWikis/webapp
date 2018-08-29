@@ -71,7 +71,7 @@ public class EduSharingApiController : BaseController
             startDate = "",
             interfaces = new object[]{ 
                 new {
-                    url = $"{Settings.CanonicalHost}api",
+                    url = $"{Settings.CanonicalHost}/api",
                     set = "",
                     metadataPrefix = "",
                     documentation = $"{Settings.CanonicalHost}/api",
@@ -142,7 +142,7 @@ public class EduSharingApiController : BaseController
                 {
                     count = 0
                 }
-            }
+            }, JsonRequestBehavior.AllowGet
         );
     }
 }
