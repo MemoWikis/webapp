@@ -25,6 +25,8 @@
     </div>
 
     <div id="app">
+        <button v-on:click ="moreParamsFunction() ">more Params</button>
+
         <div id="table-wrapper" class="ui container">
           <vuetable ref="vuetable"
             api-url="/Knowledge/GetCatsAndSetsWish"
@@ -33,6 +35,7 @@
             :css="css.table"
             pagination-path=""
             :per-page="50"
+            :append-params="moreParams"
             @vuetable:pagination-data="onPaginationData"
             @vuetable:loading="onLoading"
             @vuetable:loaded="onLoaded">

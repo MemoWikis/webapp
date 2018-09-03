@@ -24,12 +24,16 @@
 
 Vue.use(Vuetable);
 
-new Vue({
-    el: '#app',
-    components: {
-        'vuetable-pagination': Vuetable.VuetablePagination
-    },
-    data: {
+ new Vue({
+     el: '#app',
+     components: {
+         'vuetable-pagination': Vuetable.VuetablePagination
+     },
+     data: {
+         test: "true",
+         moreParams: {
+             
+         },
         fields: [
             '__slot:image',
 
@@ -78,6 +82,7 @@ new Vue({
     },
 
     methods: {
+     
         mouseOver() {
             $('.show-tooltip').tooltip();
         },
@@ -143,7 +148,61 @@ new Vue({
         },
         onLoaded() {
             console.log('loaded! .. hide your spinner here');
+        },
+        moreParamsFunction: function() {
+            let self = this;
+            debugger;
+            self.moreParams = { "isAuthor": "false" }
+            self.$refs.vuetable.refresh();
         }
-    }
+     }, created: function() {
+        let self = this;
+        this.moreParams = {"isAuthor":"true"}
+     }
+    //mounted: function () {
+    //    import Switch from './components/Switch'
+    //    var self = this;
+    //    var state = false;
+    //    $(".onoffswitch").on("change",
+    //        () => {
+    //            var test = $("#myonoffswitch").prop("checked");
+    //            if (test === true) {
+    //                $.ajax({
+    //                    url: '/Knowledge/GetCatsAndSetsWish?page=1&per_page=50&sort=name|asc&myTopic=true',
+    //                    method: 'Get',
+    //                    datatype: "jsonp",
+    //                    success: function(Data) {
+    //                        self.props = Data;
+    //                        console.log(self.props);
+    //                    },
+    //                    error: function(error) {
+    //                        console.log(error);
+    //                    }
+    //                });
+    //            } else {
+    //                $.ajax({
+    //                    url: '/Knowledge/GetCatsAndSetsWish?page=1&per_page=50&sort=name|asc&myTopic=false',
+    //                    method: 'Get',
+    //                    datatype: "jsonp",
+    //                    success: function (Data) {
+    //                        self.props = Data;
+    //                        console.log(self.props);
+    //                    },
+    //                    error: function (error) {
+    //                        console.log(error);
+    //                    }
+    //                });
+    //            }
+    //            console.log(test);
+
+    //        });
+
+
+
+    //}, watch: {
+    //    value(val) {
+    //        this.text = val ? 'Yes' : 'No'
+    //    }
+    //}
 });
 
