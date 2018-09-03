@@ -298,5 +298,13 @@
   {
     "outputFile": "Views/Knowledge/Css/KnowledgeTopics.css",
     "inputFile": "Views/Knowledge/Css/KnowledgeTopics.less"
+  },
+  {
+    "outputFile": "Views/Welcome/Promoter.css",
+    "inputFile": "Views/Welcome/Promoter.less"
+  },
+  {
+    "outputFile": "Views/Welcome/Team.css",
+    "inputFile": "Views/Welcome/Team.less"
   }
 ]

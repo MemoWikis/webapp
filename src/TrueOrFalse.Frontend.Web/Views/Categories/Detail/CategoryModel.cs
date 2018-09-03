@@ -33,7 +33,6 @@ public class CategoryModel : BaseModel
     public IList<Question> TopQuestionsWithReferences;
     public List<Question> TopQuestionsInSubCats = new List<Question>();
     public IList<Question> TopWishQuestions;
-    public IList<Question> SingleQuestions;
 
     public IList<User> TopCreaters;
 
@@ -127,12 +126,7 @@ public class CategoryModel : BaseModel
         if (category.Type == CategoryType.Standard)
             TopQuestionsInSubCats = GetTopQuestionsInSubCats();
 
-       
-          //  LearningTabModel = new LearningTabModel(Category);
-
         TopWishQuestions = wishQuestions.Items;
-
-        SingleQuestions = GetQuestionsForCategory.QuestionsNotIncludedInSet(Id);
 
         AggregatedSets = category.GetAggregatedSetsFromMemoryCache();
         AggregatedSetCount = AggregatedSets.Count;

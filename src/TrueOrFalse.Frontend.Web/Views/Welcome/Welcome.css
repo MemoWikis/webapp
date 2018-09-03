@@ -18,6 +18,10 @@
 }
 @media (min-width: 650px) {
 }
+.right {
+  float: right;
+  padding-top: 10px;
+}
 .CardsMiniPortrait .CardMiniColumn {
   display: -webkit-box;
   display: -webkit-flex;
@@ -149,7 +153,7 @@ h4 {
 }
 #welcomeContainer {
   background-color: white;
-  padding: 0 20px 100px 20px;
+  padding: 0 20px 50px 20px;
   font-size: 18px;
   overflow: auto;
   overflow-x: hidden;
@@ -492,67 +496,51 @@ fieldset[disabled] .EduCategory.active {
   padding-top: 0;
   background-color: white;
   margin-bottom: 30px;
-  /*.media-below-sm( {
-        text-align: center;
-    });*/
-  /*span .btn {
-        margin-top: 10px;
-        display: inline-block;
-    }*/
 }
 #memuchoInfoFooter div a.btn {
   margin-top: 10px;
 }
 /* INFO BOX */
-.infoBox {
-  background-color: #d0e689;
-  margin-top: 144px;
-  margin-bottom: 40px;
-  margin-left: -10px;
-  margin-right: -10px;
-  /*margin-left: -10px;
-    margin-right: -10px;
-
-    .media-md-up( {
-        margin-left: -30px;
-        margin-right: -30px;
-    }
-
-    );
-
-    .media-lg( {
-        margin-left: -60px;
-        margin-right: -60px;
-    }
-
-    );*/
-  padding: 20px;
-}
-@media (min-width: 992px) {
-  .infoBox {
-    margin-left: -30px;
-    margin-right: -30px;
-  }
-}
-@media (min-width: 1200px) {
-  .infoBox {
-    margin-left: -60px;
-    margin-right: -60px;
-  }
-}
-.infoBox .imageTop {
+.infoBox .row .col-md-3 {
   text-align: center;
 }
-.infoBox .contentFullWidth h2 {
-  margin: 20px 10px 30px;
+.infoBox .vertical-center {
+  vertical-align: middle;
 }
-@media (min-width: 768px) {
-  .infoBox .contentFullWidth p {
-    text-align: center;
-    margin-left: auto;
-    margin-right: auto;
-  }
+.infoBox h3 {
+  text-align: center;
+  color: #003564;
+  padding-bottom: 15px;
 }
+/*margin-top: 144px;
+    margin-bottom: 40px;
+    .makeFullWidth;
+    padding: 20px;
+
+   .imageTop {
+       
+        text-align: center;
+    }
+
+
+    .contentFullWidth {
+
+        li {
+            margin-left: 220px;
+        }
+
+       
+
+        p {
+            .media-sm-up( {
+                text-align: center;
+                margin-left: auto;
+                margin-right: auto;
+            }
+
+            )
+        }
+    }*/
 /* TOPIC OF THE WEEK
 ------------------------------------------------------*/
 .topicOfWeekContainer {
@@ -790,13 +778,6 @@ fieldset[disabled] .EduCategory.active {
   text-align: right;
   background-color: white;
   margin-bottom: 30px;
-  /*.media-below-sm( {
-        text-align: center;
-    });*/
-  /*span .btn {
-        margin-top: 10px;
-        display: inline-block;
-    }*/
   padding-top: 0;
 }
 #principles #memuchoPrinciplesFooter div a.btn {

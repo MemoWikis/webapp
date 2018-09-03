@@ -12,6 +12,11 @@ public class WelcomeController : BaseController
         return View(new WelcomeModel());
     }
 
+    public ActionResult Team()
+    {
+        return View(new BaseModel());
+    }
+
     public ActionResult Contact()
     {
         return View(new BaseModel());
@@ -124,5 +129,10 @@ public class WelcomeController : BaseController
             Settings.EmailToMemucho,
             "Newsletter sign up request",
             requesterEmail + " asked to sign up for newsletter."));
+    }
+
+    public ActionResult Promoter()
+    {
+        return View(new BaseModel());
     }
 }
