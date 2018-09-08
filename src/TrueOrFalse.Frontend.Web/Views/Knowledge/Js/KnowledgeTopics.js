@@ -32,7 +32,7 @@ Vue.use(Vuetable);
      data: {
          test: "true",
          moreParams: {
-             
+             "isAuthor": false
          },
         fields: [
             '__slot:image',
@@ -149,20 +149,19 @@ Vue.use(Vuetable);
         onLoaded() {
             console.log('loaded! .. hide your spinner here');
         },
-        moreParamsFunction: function() {
-            let self = this;
-            debugger;
-            self.moreParams = { "isAuthor": "false" }
-            self.$refs.vuetable.refresh();
+        moreParamsFunction: function () {
+            if ($("#myonoffswitch").is(":checked")) {
+                this.moreParams = { "isAuthor": true }
+            } else {
+                this.moreParams = { "isAuthor": false }
+            }
+            this.$refs.vuetable.refresh();
         },
         GetImageSourceUrl(url) {
             if (url == null)
                 return "/Images/no-category-picture-350.png";
             return url.SourceUrl;
         }
-     }, created: function() {
-        let self = this;
-        this.moreParams = {"isAuthor":"true"}
      }
 });
 
