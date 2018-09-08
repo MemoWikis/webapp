@@ -85,9 +85,8 @@ public class KnowledgeController : BaseController
     }
 
     [HttpGet]
-    public JsonResult GetCatsAndSetsWish(int page, int per_page, string sort = "", string isAuthor="false")
+    public JsonResult GetCatsAndSetsWish(int page, int per_page, string sort = "", bool isAuthor=false)
     {
-       var   IsAuthor = isAuthor;
         var unsort = categoryAndSetDataWishKnowledge.filteredCategoryWishKnowledge(ControllerContext);
         var sortList = categoryAndSetDataWishKnowledge.SortList(unsort, sort);
         var data = sortList.Skip((page-1) * per_page).Take(page*per_page);
@@ -99,7 +98,7 @@ public class KnowledgeController : BaseController
         if(last_page >= sortList.Count)
             last_page = 1;
 
-        return Json (new {total,per_page,current_page = page ,last_page, data }, JsonRequestBehavior.AllowGet );  
+        return Json (new {total, per_page, current_page = page, last_page, data }, JsonRequestBehavior.AllowGet );  
     }
 
     [HttpPost]
