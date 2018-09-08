@@ -32,8 +32,8 @@ Vue.use(Vuetable);
      data: {
          test: "true",
          moreParams: {
-             //"isAuthor": false
-         },
+             'isAuthor' : false
+        },
         fields: [
             '__slot:image',
 
@@ -52,7 +52,6 @@ Vue.use(Vuetable);
             '__slot:topicCount',
             '__slot:actions',
             '__slot:dropDown'
-
         ],
         sortOrder: [
             { field: 'name', direction: 'asc' },
@@ -150,8 +149,14 @@ Vue.use(Vuetable);
             console.log('loaded! .. hide your spinner here');
         },
         moreParamsFunction: function () {
-            this.moreParams = { "isAuthor": $("#myonoffswitch").is(":checked") }
+            this.moreParams.isAuthor = $("#myonoffswitch").is(":checked");
             this.$refs.vuetable.refresh();
+
+            //var self = this;
+            //setTimeout(function () {
+                
+            //}, 0)
+            
         },
         GetImageSourceUrl(url) {
             if (url == null)
