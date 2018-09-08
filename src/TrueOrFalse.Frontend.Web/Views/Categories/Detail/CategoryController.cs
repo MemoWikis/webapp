@@ -6,8 +6,6 @@ using System.Web.Mvc;
 using TrueOrFalse.Frontend.Web.Code;
 
 public class CategoryController : BaseController
-
-
 {
     private const string _viewLocation = "~/Views/Categories/Detail/Category.aspx";
 

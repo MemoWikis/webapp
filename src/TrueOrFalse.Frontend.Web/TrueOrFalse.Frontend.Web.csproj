@@ -331,6 +331,8 @@
     <Compile Include="Views\Categories\Detail\TemplateParser\TemplateParser.cs" />
     <Compile Include="Views\Categories\Detail\Partials\SingleSetModel.cs" />
     <Compile Include="Views\Categories\Edit\GraphDisplay\CategoryGraphModel.cs" />
+    <Compile Include="Views\Categories\History\CategoryHistoryController.cs" />
+    <Compile Include="Views\Categories\History\CategoryHistoryModel.cs" />
     <Compile Include="Views\Categories\Navigation\CategoryNetworkNavigationModel.cs" />
     <Compile Include="Views\Categories\Navigation\CategoryNavigationModel.cs" />
     <Compile Include="Views\Dates\DateRowModel.cs" />
@@ -477,6 +479,7 @@
       <DependentUpon>EditAggregation.ts</DependentUpon>
     </Content>
     <Content Include="Views\Categories\Edit\TypeControls\EducationProvider.ascx" />
+    <Content Include="Views\Categories\History\CategoryHistory.aspx" />
     <Content Include="Views\Categories\ResultTestSession\Js\GetResultTestSession.js">
       <DependentUpon>GetResultTestSession.ts</DependentUpon>
     </Content>
