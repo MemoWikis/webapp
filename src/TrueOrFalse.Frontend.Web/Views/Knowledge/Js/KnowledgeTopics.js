@@ -148,15 +148,9 @@ Vue.use(Vuetable);
         onLoaded() {
             console.log('loaded! .. hide your spinner here');
         },
-        moreParamsFunction: function () {
-            this.moreParams.isAuthor = $("#myonoffswitch").is(":checked");
+        switchOnlySelfCreatedChanged: function () {
+            this.moreParams.isAuthor = $("#switchShowOnlySelfCreated").is(":checked");
             this.$refs.vuetable.refresh();
-
-            //var self = this;
-            //setTimeout(function () {
-                
-            //}, 0)
-            
         },
         GetImageSourceUrl(url) {
             if (url == null)
