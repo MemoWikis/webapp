@@ -154,55 +154,16 @@ Vue.use(Vuetable);
             debugger;
             self.moreParams = { "isAuthor": "false" }
             self.$refs.vuetable.refresh();
+        },
+        GetImageSourceUrl(url) {
+            debugger;
+            if (url == null)
+                return "/Images/no-category-picture-350.png";
+            return url.SourceUrl;
         }
      }, created: function() {
         let self = this;
         this.moreParams = {"isAuthor":"true"}
      }
-    //mounted: function () {
-    //    import Switch from './components/Switch'
-    //    var self = this;
-    //    var state = false;
-    //    $(".onoffswitch").on("change",
-    //        () => {
-    //            var test = $("#myonoffswitch").prop("checked");
-    //            if (test === true) {
-    //                $.ajax({
-    //                    url: '/Knowledge/GetCatsAndSetsWish?page=1&per_page=50&sort=name|asc&myTopic=true',
-    //                    method: 'Get',
-    //                    datatype: "jsonp",
-    //                    success: function(Data) {
-    //                        self.props = Data;
-    //                        console.log(self.props);
-    //                    },
-    //                    error: function(error) {
-    //                        console.log(error);
-    //                    }
-    //                });
-    //            } else {
-    //                $.ajax({
-    //                    url: '/Knowledge/GetCatsAndSetsWish?page=1&per_page=50&sort=name|asc&myTopic=false',
-    //                    method: 'Get',
-    //                    datatype: "jsonp",
-    //                    success: function (Data) {
-    //                        self.props = Data;
-    //                        console.log(self.props);
-    //                    },
-    //                    error: function (error) {
-    //                        console.log(error);
-    //                    }
-    //                });
-    //            }
-    //            console.log(test);
-
-    //        });
-
-
-
-    //}, watch: {
-    //    value(val) {
-    //        this.text = val ? 'Yes' : 'No'
-    //    }
-    //}
 });
 
