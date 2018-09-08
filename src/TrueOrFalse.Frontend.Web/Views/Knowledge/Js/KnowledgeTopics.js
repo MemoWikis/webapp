@@ -150,13 +150,7 @@ Vue.use(Vuetable);
             console.log('loaded! .. hide your spinner here');
         },
         moreParamsFunction: function () {
-            let self = this;
-           
-            if ($("#myonoffswitch").is(":checked")) {
-                self.moreParams = { "isAuthor": true }
-            } else {
-                this.moreParams = { "isAuthor": false }
-            }
+            this.moreParams = { "isAuthor": $("#myonoffswitch").is(":checked") }
             this.$refs.vuetable.refresh();
         },
         GetImageSourceUrl(url) {
