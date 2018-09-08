@@ -156,7 +156,6 @@ Vue.use(Vuetable);
             self.$refs.vuetable.refresh();
         },
         GetImageSourceUrl(url) {
-            debugger;
             if (url == null)
                 return "/Images/no-category-picture-350.png";
             return url.SourceUrl;

@@ -5,24 +5,22 @@
 <%= Styles.Render("~/bundles/KnowledgeTopics") %>
 <body>
  <div class="container-fluid">
-     <div class="row">
-         <div class="col-xs-4" style="text-align: left; font-size: 18px;  width: 27%">Zeige nur von mir erstellte Inhalte</div>
-         <div class="col-xs-1">
-            <div class="onoffswitch">
-                <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="myonoffswitch">
-                <label class="onoffswitch-label" for="myonoffswitch">
-                    <span class="onoffswitch-inner"></span>
-                    <span class="onoffswitch-switch"></span>
-                </label>
-            </div>
-         </div>
-    </div>
     <div>
         <h2 id ="countCatAndSet">Du hast {{datas[0]}} Themen und {{datas[1]}} Lernsets in deinem Wunschwissen </h2>
     </div>
 
     <div id="app">
-        <button v-on:click ="moreParamsFunction() ">more Params</button>
+
+        <div class="col-xs-4" style="text-align: left; font-size: 18px;  width: 27%">Zeige nur von mir erstellte Inhalte</div>
+        <div class="col-xs-1">
+            <div class="onoffswitch">
+                <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="myonoffswitch" @click="moreParamsFunction()">
+                <label class="onoffswitch-label" for="myonoffswitch">
+                    <span class="onoffswitch-inner"></span>
+                    <span class="onoffswitch-switch"></span>
+                </label>
+            </div>
+        </div>
 
         <div id="table-wrapper" class="ui container">
           <vuetable ref="vuetable"
