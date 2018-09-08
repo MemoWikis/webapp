@@ -64,8 +64,20 @@ public class CategoryAndSetDataWishKnowledge: BaseController
         return R<SetRepo>().GetByIds(setValuationIds);
     }
 
-    public IList<CategoryAndSetWishKnowledge> SortList(List<CategoryAndSetWishKnowledge> unSortList, string sortCondition)
+    public IList<CategoryAndSetWishKnowledge> SortList(List<CategoryAndSetWishKnowledge> unSortList, string sortCondition,bool isAuthor= false)
     {
+        if (isAuthor)
+        {
+            var isAuthorListUnsorted = new List<CategoryAndSetWishKnowledge>();
+            foreach (var uSL in unSortList)
+            {
+                if (uSL.AuthorId == UserId)
+                {
+                    isAuthorListUnsorted.Add(uSL);
+                }
+            }
+            unSortList = isAuthorListUnsorted;
+        }
         switch (sortCondition)
         {
             case "name|asc":
@@ -113,6 +125,7 @@ public class CategoryAndSetDataWishKnowledge: BaseController
             categoryAndSetWishKnowledge.ShareFacebookLink = facebookLink;
             categoryAndSetWishKnowledge.HasVideo = false;
             categoryAndSetWishKnowledge.KnowledgeWishAVGPercantage = CountDesiredKnowledge(categoryWish);
+            categoryAndSetWishKnowledge.AuthorId = categoryWish.Creator.Id;
 
 
             filteredCategoryAndSetWishKnowledges.Add(categoryAndSetWishKnowledge);
@@ -141,6 +154,7 @@ public class CategoryAndSetDataWishKnowledge: BaseController
             categoryAndSetWishKnowledge.ShareFacebookLink = facebookLink;
             categoryAndSetWishKnowledge.HasVideo = setWish.HasVideo;
             categoryAndSetWishKnowledge.KnowledgeWishAVGPercantage = CountDesiredKnowledge(setWish);
+            categoryAndSetWishKnowledge.AuthorId = setWish.Creator.Id;
 
             filteredCategoryAndSetWishKnowledges.Add(categoryAndSetWishKnowledge);
         }
@@ -211,6 +225,7 @@ public class CategoryAndSetDataWishKnowledge: BaseController
         public string ShareFacebookLink { get; set; }
         public bool HasVideo { get; set; }
         public int KnowledgeWishAVGPercantage { get; set; }
+        public int AuthorId { get; set; }
     }
 
 

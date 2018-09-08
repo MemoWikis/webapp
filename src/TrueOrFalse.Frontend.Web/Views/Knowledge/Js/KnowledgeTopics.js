@@ -32,7 +32,7 @@ Vue.use(Vuetable);
      data: {
          test: "true",
          moreParams: {
-             "isAuthor": false
+             //"isAuthor": false
          },
         fields: [
             '__slot:image',
@@ -150,8 +150,10 @@ Vue.use(Vuetable);
             console.log('loaded! .. hide your spinner here');
         },
         moreParamsFunction: function () {
+            let self = this;
+           
             if ($("#myonoffswitch").is(":checked")) {
-                this.moreParams = { "isAuthor": true }
+                self.moreParams = { "isAuthor": true }
             } else {
                 this.moreParams = { "isAuthor": false }
             }

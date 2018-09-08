@@ -88,10 +88,9 @@ public class KnowledgeController : BaseController
     public JsonResult GetCatsAndSetsWish(int page, int per_page, string sort = "", bool isAuthor=false)
     {
         var unsort = categoryAndSetDataWishKnowledge.filteredCategoryWishKnowledge(ControllerContext);
-        var sortList = categoryAndSetDataWishKnowledge.SortList(unsort, sort);
+        var sortList = categoryAndSetDataWishKnowledge.SortList(unsort, sort,isAuthor);
         var data = sortList.Skip((page-1) * per_page).Take(page*per_page);
-      
-       
+
         var total = data.Count();
         var last_page = (sortList.Count/ (per_page) + (sortList.Count % per_page));
 
