@@ -5,5 +5,10 @@ using System.Web;
 
 public class CategoryHistoryModel : BaseModel
 {
-    public string Hello;
+    public string CategoryName;
+
+    public CategoryHistoryModel(Category category)
+    {
+        CategoryName = category.Name;
+    }
 }

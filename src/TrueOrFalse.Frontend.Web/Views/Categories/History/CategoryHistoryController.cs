@@ -10,8 +10,8 @@ public class CategoryHistoryController : Controller
 
     public ActionResult Detail(int categoryId)
     {
-        //Sl.CategoryRepo.Query.Select(x => x.Name)
+        var category = Sl.CategoryRepo.GetById(categoryId);
 
-        return View(_viewLocation, new CategoryHistoryModel());
+        return View(_viewLocation, new CategoryHistoryModel(category));
     }
 }
