@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using Newtonsoft.Json;
 
 public class CategoryEditData_V1
 {
@@ -11,11 +12,6 @@ public class CategoryEditData_V1
 
     public IList<CategoryRelation_EditData_V1> CategoryRelations;
 
-    public virtual string CategoriesToExcludeIdsString { get; set; }
-    public virtual string CategoriesToIncludeIdsString { get; set; }
-
-    public string FeaturedSetsIdsString;
-
     public CategoryEditData_V1(Category category)
     {
         Name = category.Name;
@@ -25,4 +21,8 @@ public class CategoryEditData_V1
         DisableLearningFunctions = category.DisableLearningFunctions;
         CategoryRelations = category.CategoryRelations.Select(cr => new CategoryRelation_EditData_V1(cr)).ToList();
     }
+
+    public string ToJson() => JsonConvert.SerializeObject(this);
+
+    public static CategoryEditData_V1 CreateFromJson(string json) => JsonConvert.DeserializeObject<CategoryEditData_V1>(json);
 }

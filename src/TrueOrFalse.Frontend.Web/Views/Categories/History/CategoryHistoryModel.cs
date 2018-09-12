@@ -7,7 +7,7 @@ public class CategoryHistoryModel : BaseModel
 {
     public string CategoryName;
 
-    public CategoryHistoryModel(Category category)
+    public CategoryHistoryModel(Category category, IList<CategoryChange> categoryChanges)
     {
         CategoryName = category.Name;
     }

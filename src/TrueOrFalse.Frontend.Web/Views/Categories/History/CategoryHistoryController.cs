@@ -11,7 +11,9 @@ public class CategoryHistoryController : Controller
     public ActionResult Detail(int categoryId)
     {
         var category = Sl.CategoryRepo.GetById(categoryId);
+        
+        var categoryChanges = Sl.CategoryChangeRepo.GetForCategory(categoryId);
 
-        return View(_viewLocation, new CategoryHistoryModel(category));
+        return View(_viewLocation, new CategoryHistoryModel(category, categoryChanges));
     }
 }

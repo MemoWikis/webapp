@@ -27,11 +27,12 @@ public class CategoryChangeRepo : RepositoryDbBase<CategoryChange>
         var categoryChange = new CategoryChange
         {
             Category = category,
-            Data = JsonConvert.SerializeObject(new CategoryEditData_V1(category)),
             Type = categoryChangeType,
             Author = author,
             DataVersion = 1
         };
+        
+        categoryChange.SetData(category);
 
         base.Create(categoryChange);
     }
@@ -41,6 +42,14 @@ public class CategoryChangeRepo : RepositoryDbBase<CategoryChange>
         return _session
             .QueryOver<CategoryChange>()
             .Left.JoinQueryOver(q => q.Category)
+            .List();
+    }
+
+    public IList<CategoryChange> GetForCategory(int categoryId)
+    {
+        return _session
+            .QueryOver<CategoryChange>()
+            .Where(c => c.Category.Id == categoryId)
             .List();
     }
 }
