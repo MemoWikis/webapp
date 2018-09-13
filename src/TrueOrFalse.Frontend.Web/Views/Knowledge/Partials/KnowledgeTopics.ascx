@@ -48,7 +48,7 @@
 
             <!-- Buttons-->
             <template slot="actions" scope="props">
-            <div class="Button" style="width: 50px" >
+            <div class="Button">
                 <a v-bind:href="props.rowData.LinkStartLearningSession" class="btn btn-link" data-allowed="logged-in" data-allowed-type="learning-session" rel="nofollow">
                     <i class="fa fa-lg fa-line-chart">&nbsp;lernen</i>
                 </a>
