@@ -67,7 +67,6 @@ public class KnowledgeModel : BaseModel
         QuestionsCount = R<GetWishQuestionCountCached>().Run(UserId);
         SetsCount = R<GetWishSetCount>().Run(UserId);
         TopicCount = R<GetWishTopicCount>().Run(UserId);
-        
 
         ActivityPoints = User.ActivityPoints;
         ActivityLevel = User.ActivityLevel;
@@ -80,6 +79,7 @@ public class KnowledgeModel : BaseModel
         TopicCreatedCount = Resolve<UserSummary>().AmountCreatedCategories(User.Id);
 
         var reputation = Resolve<ReputationCalc>().Run(User);
+
         ReputationRank = User.ReputationPos;
         ReputationTotal = reputation.TotalReputation;
         
@@ -106,8 +106,6 @@ public class KnowledgeModel : BaseModel
         var setValuationIds = R<SetValuationRepo>().GetByUser(UserId).Select(v => v.SetId).ToList();
         var setsWish = R<SetRepo>().GetByIds(setValuationIds).OrderByDescending(s => s.QuestionCount()).ToList(); // sorts by questioncount including private questions! Excluding them would also exclude private questions visible to user
         CatsAndSetsWish = SortSetsIntoListOfCategories.Run(categoriesWish, setsWish);
-
-
 
         //GET DATES information
         Dates = R<DateRepo>().GetBy(UserId, true);
@@ -193,7 +191,6 @@ public class KnowledgeModel : BaseModel
             LastLength = 12,
             TotalLearningDays = 214
         };
-
 
         var wishCategories = Sl.R<CategoryRepository>().GetByIds(652, 145, 6) ?? new List<Category>();
         var wishSets = Sl.R<SetRepo>().GetByIds(14, 20, 189) ?? new List<Set>();

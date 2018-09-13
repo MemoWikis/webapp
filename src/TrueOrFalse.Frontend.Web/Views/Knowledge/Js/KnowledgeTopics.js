@@ -1,39 +1,4 @@
 ﻿
-//$("#switchShowOnlySelfCreated").on('click', (
-//) => {
-//        debugger;
-//        let v = new Vue({
-//            el: "#countCatAndSet",
-//            data: {
-//                datas: [],
-//            },
-//            methods: {
-//                appendParams: function () {
-//                    debugger;
-//                    let ischecked = $("#switchShowOnlySelfCreated").is(":checked");
-//                    this.Object.assign(data, json);
-//                    return ischecked;
-//                }
-
-//            }, mounted: function () {
-//                var self = this;
-//                $.ajax({
-//                    url: '/Knowledge/CountedWUWItoCategoryAndSet&isAuthor= ' + this.appendParams(),
-//                    method: 'POST',
-//                    async: false,
-//                    datatype: "jsonp",
-//                    success: function (Data) {
-//                        self.datas = Data;
-//                    },
-//                    error: function (error) {
-//                        console.log(error);
-//                    }
-//                });
-//            }
-//        });
-//    });
-
-
 Vue.use(Vuetable);
 
  new Vue({
@@ -108,32 +73,26 @@ Vue.use(Vuetable);
             $.post("/Api/Category/Pin/",
                 { categoryId: 683 },
                 function () {
-
                 });
             $.post("/Api/Category/Pin/",
                 { categoryId: 686 },
                 function () {
-
                 });
             $.post("/Api/Category/Pin/",
                 { categoryId: 744 },
                 function () {
-
                 });
             $.post("/Api/Sets/Pin/",
                 { setId: 279 },
                 function () {
-
                 });
             $.post("/Api/Sets/Pin/",
                 { setId: 409 },
                 function () {
-
                 });
             $.post("/Api/Sets/Pin/",
                 { setId: 414 },
                 function () {
-
                 });
         },
         deleteRow: function (id, IsCategory, index) {
@@ -199,7 +158,5 @@ Vue.use(Vuetable);
              }
          });
      }
-         
-     
 });
 

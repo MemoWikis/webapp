@@ -11,12 +11,6 @@ using TrueOrFalse.Frontend.Web.Code;
 
 public class CategoryAndSetDataWishKnowledge: BaseController
 {
-    private class Helper
-    {
-        public int countCategories { get; set; }
-        public int countSets { get; set; }
-    }
-
     public List<CategoryAndSetWishKnowledge> filteredCategoryWishKnowledge(ControllerContext controllerContext) 
     {
         var CategorieWishes = GetCategoryData();
@@ -102,7 +96,6 @@ public class CategoryAndSetDataWishKnowledge: BaseController
 
     public List<CategoryAndSetWishKnowledge> GetObjectCategoryAndSetWishKnowledges(IList<Category> CategorieWishes, IList<Set> setWishes, ControllerContext controllerContext)
     {
-     
         List<CategoryAndSetWishKnowledge> filteredCategoryAndSetWishKnowledges = new List<CategoryAndSetWishKnowledge>();
       
         foreach (var categoryWish in CategorieWishes)
@@ -128,14 +121,11 @@ public class CategoryAndSetDataWishKnowledge: BaseController
             categoryAndSetWishKnowledge.KnowledgeWishAVGPercantage = CountDesiredKnowledge(categoryWish);
             categoryAndSetWishKnowledge.AuthorId = categoryWish.Creator.Id;
 
-
             filteredCategoryAndSetWishKnowledges.Add(categoryAndSetWishKnowledge);
         }
 
         foreach (var setWish in setWishes)
         {
-
-            
             var facebookLink = "https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2F" + changeUrlToFacebookCompatible(Settings.CanonicalHost + Links.SetDetail(setWish.Name, setWish.Id)) + "%2F&amp;src=sdkpreparse";
             var categoryAndSetWishKnowledge = new CategoryAndSetWishKnowledge();
 
@@ -159,7 +149,6 @@ public class CategoryAndSetDataWishKnowledge: BaseController
 
             filteredCategoryAndSetWishKnowledges.Add(categoryAndSetWishKnowledge);
         }
-
         return filteredCategoryAndSetWishKnowledges;
     }
 
@@ -199,13 +188,11 @@ public class CategoryAndSetDataWishKnowledge: BaseController
         {
             // error Handling
             return -1;
-            
         }
 
         questionTotalNumber = solid + needsConsolidation + needsLearning + notInWishKnowledge + notLearned;
         questionAVGPercantage = ((solid * 100) + (needsConsolidation * 50) + (needsLearning * 20) + (notLearned * 2)) / questionTotalNumber;
         return questionAVGPercantage;
-
     }
 
     public class CategoryAndSetWishKnowledge
