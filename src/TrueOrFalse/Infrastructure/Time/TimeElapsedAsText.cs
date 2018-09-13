@@ -5,7 +5,7 @@ namespace TrueOrFalse
     public class TimeElapsedAsText
     {
 
-        static public string Run(DateTime dateTime)
+        public static string Run(DateTime dateTime)
         {
             return Run(dateTime, DateTime.Now);
         }
@@ -17,7 +17,7 @@ namespace TrueOrFalse
         /// 22 Tagen
         /// </summary>
         /// <returns></returns>
-        static public string Run(DateTime dateTimeBegin, DateTime dateTimeEnd)
+        public static string Run(DateTime dateTimeBegin, DateTime dateTimeEnd)
         {
             var elapsedTime = dateTimeEnd - dateTimeBegin;
             var calDaysPassed = dateTimeEnd.Date - dateTimeBegin.Date;

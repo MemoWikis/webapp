@@ -480,6 +480,12 @@
     </Content>
     <Content Include="Views\Categories\Edit\TypeControls\EducationProvider.ascx" />
     <Content Include="Views\Categories\History\CategoryHistory.aspx" />
+    <Content Include="Views\Categories\History\CategoryHistory.css">
+      <DependentUpon>CategoryHistory.less</DependentUpon>
+    </Content>
+    <Content Include="Views\Categories\History\CategoryHistory.min.css">
+      <DependentUpon>CategoryHistory.css</DependentUpon>
+    </Content>
     <Content Include="Views\Categories\ResultTestSession\Js\GetResultTestSession.js">
       <DependentUpon>GetResultTestSession.ts</DependentUpon>
     </Content>
@@ -545,6 +551,7 @@
     <Content Include="Views\Categories\ResultTestSession\Js\GetResultTestSession.js.map">
       <DependentUpon>GetResultTestSession.ts</DependentUpon>
     </Content>
+    <Content Include="Views\Categories\History\CategoryHistory.less" />
     <None Include="Views\Maintenance\ContentStats.less" />
     <Compile Include="Views\Maintenance\ContentStatsModel.cs" />
     <Compile Include="Views\Maintenance\Images\MaintenanceImagesController.cs" />

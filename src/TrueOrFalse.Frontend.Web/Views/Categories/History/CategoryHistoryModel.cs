@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using TrueOrFalse;
 
 public class CategoryHistoryModel : BaseModel
 {
@@ -26,18 +27,21 @@ public class ChangeDayModel
 
     public ChangeDayModel(DateTime date, IList<CategoryChange> changes)
     {
-        Date = date.ToString();
+        Date = date.ToString("dd.MM.yyyy");
         Items = changes.Select(cc => new ChangeDetailModel
         {
-            AuthorName = cc.Author.Name
+            Author = cc.Author,
+            AuthorName = cc.Author.Name,
+            AuthorImageUrl = new UserImageSettings(cc.Author.Id).GetUrl_85px_square(cc.Author).Url,
+            Date = TimeElapsedAsText.Run(cc.DateCreated)
         }).ToList();
     }
 }
 
 public class ChangeDetailModel
 {
-    public string Title;
+    public User Author;
     public string AuthorName;
     public string AuthorImageUrl;
-    public string ChangeDetailDay;
+    public string Date;
 }
