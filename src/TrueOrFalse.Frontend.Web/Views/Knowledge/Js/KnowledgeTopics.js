@@ -1,26 +1,38 @@
-﻿ let v=new Vue({
-    el: "#countCatAndSet",
-    data: {
-        datas: []
-    },
-    methods: {
-   
-     }, mounted: function () {
-        var self = this;
-        $.ajax({
-            url: '/Knowledge/CountedWUWItoCategoryAndSet',
-            method: 'POST',
-            datatype: "jsonp",
-            success: function (Data) {
-                self.datas = Data;
-                console.log(self.datas[0] );
-            },
-            error: function (error) {
-                console.log(error);
-            }
-        });
-    }
-});
+﻿
+//$("#switchShowOnlySelfCreated").on('click', (
+//) => {
+//        debugger;
+//        let v = new Vue({
+//            el: "#countCatAndSet",
+//            data: {
+//                datas: [],
+//            },
+//            methods: {
+//                appendParams: function () {
+//                    debugger;
+//                    let ischecked = $("#switchShowOnlySelfCreated").is(":checked");
+//                    this.Object.assign(data, json);
+//                    return ischecked;
+//                }
+
+//            }, mounted: function () {
+//                var self = this;
+//                $.ajax({
+//                    url: '/Knowledge/CountedWUWItoCategoryAndSet&isAuthor= ' + this.appendParams(),
+//                    method: 'POST',
+//                    async: false,
+//                    datatype: "jsonp",
+//                    success: function (Data) {
+//                        self.datas = Data;
+//                    },
+//                    error: function (error) {
+//                        console.log(error);
+//                    }
+//                });
+//            }
+//        });
+//    });
+
 
 Vue.use(Vuetable);
 
@@ -30,10 +42,10 @@ Vue.use(Vuetable);
          'vuetable-pagination': Vuetable.VuetablePagination
      },
      data: {
-         test: "true",
          moreParams: {
-             'isAuthor' : false
-        },
+             'isAuthor': false,
+             'countList': '0'
+         },
         fields: [
             '__slot:image',
 
@@ -145,11 +157,24 @@ Vue.use(Vuetable);
         onLoading() {
             console.log('loading... show your spinner here');
         },
-        onLoaded() {
-            console.log('loaded! .. hide your spinner here');
+        onLoaded(props) {
+            console.log(props);
         },
         switchOnlySelfCreatedChanged: function () {
             this.moreParams.isAuthor = $("#switchShowOnlySelfCreated").is(":checked");
+            var self = this;
+            $.ajax({
+                url: '/Knowledge/CountedWUWItoCategoryAndSet?isAuthor=' + this.moreParams.isAuthor,
+                method: 'POST',
+                async: false,
+                datatype: "jsonp",
+                success: function(Data) {
+                    self.moreParams.countList = Data;
+                },
+                error: function(error) {
+                    console.log(error);
+                }
+            });
             this.$refs.vuetable.refresh();
         },
         GetImageSourceUrl(url) {
@@ -157,6 +182,24 @@ Vue.use(Vuetable);
                 return "/Images/no-category-picture-350.png";
             return url.SourceUrl;
         }
+     }, mounted: function () {
+        var self = this;
+         debugger;
+         $.ajax({
+             url: '/Knowledge/CountedWUWItoCategoryAndSet?isAuthor=' + false,
+             method: 'POST',
+             async: false,
+             datatype: "number",
+             success: function (Data) {
+             self.moreParams.countList = Data;
+                 console.log(self.moreParams.countList);
+             },
+             error: function (error) {
+                 console.log(error);
+             }
+         });
      }
+         
+     
 });
 

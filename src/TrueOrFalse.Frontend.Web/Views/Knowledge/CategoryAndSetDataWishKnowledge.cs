@@ -5,6 +5,7 @@ using System.Drawing;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using EasyNetQ.Events;
 using TrueOrFalse.Frontend.Web.Code;
 
 
@@ -234,15 +235,22 @@ public class CategoryAndSetDataWishKnowledge: BaseController
        return url.Replace("https://", "www.");
     }
 
-    public List<int> GetWuWICountSetAndCategories()
+    public int GetWuWICountSetAndCategories(bool isAuthor,ControllerContext controllerContext)
     {
-        List<int> CountSetsandCategories = new List<int>();
-        var helper = new Helper();
-        helper.countCategories = GetCategoryData().Count;
-        helper.countSets = GetSetData().Count;
-        CountSetsandCategories.Add(helper.countSets);
-        CountSetsandCategories.Add(helper.countCategories);
+        if (isAuthor)
+        {
+           return  filteredCategoryWishKnowledge(controllerContext).Count;
+        }
+        return GetCatAndSetList().Count;
+    }
 
-        return CountSetsandCategories;
+    private List<object> GetCatAndSetList()
+    {
+        var sets = GetSetData();
+        var categories = GetCategoryData();
+        var listcatsAndSets = new List<object>();
+        listcatsAndSets.Add(sets);
+        listcatsAndSets.Add(categories);
+        return listcatsAndSets;
     }
 }

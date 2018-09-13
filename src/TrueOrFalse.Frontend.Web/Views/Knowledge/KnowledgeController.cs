@@ -6,7 +6,8 @@ using TrueOrFalse.Frontend.Web.Code;
 
 public class KnowledgeController : BaseController
 {
-    CategoryAndSetDataWishKnowledge categoryAndSetDataWishKnowledge = new CategoryAndSetDataWishKnowledge();
+    readonly CategoryAndSetDataWishKnowledge categoryAndSetDataWishKnowledge = new CategoryAndSetDataWishKnowledge();
+
     [SetMenu(MenuEntry.Knowledge)]
     public ActionResult Knowledge()
     {
@@ -19,14 +20,12 @@ public class KnowledgeController : BaseController
         return View("Knowledge", new KnowledgeModel(emailKey: emailKey));
     }
 
-
     public int GetNumberOfWishknowledgeQuestions()
     {
         if (_sessionUser.User != null)
         {
             return Resolve<GetWishQuestionCountCached>().Run(_sessionUser.User.Id, true);
         }
-        else
             return -1;
     }
 
@@ -66,8 +65,6 @@ public class KnowledgeController : BaseController
 
     public String GetKnowledgeContent(string content)
     {
-        
-
         switch (content)
         {
             case "dashboard": return ViewRenderer.RenderPartialView("~/Views/Knowledge/Partials/_Dashboard.ascx", new KnowledgeModel(), ControllerContext);
@@ -85,25 +82,28 @@ public class KnowledgeController : BaseController
     }
 
     [HttpGet]
-    public JsonResult GetCatsAndSetsWish(int page, int per_page, string sort = "", bool isAuthor=false)
+    public JsonResult GetCatsAndSetsWish(int page, int per_page, string sort = "", bool isAuthor = false)
     {
         var unsort = categoryAndSetDataWishKnowledge.filteredCategoryWishKnowledge(ControllerContext);
-        var sortList = categoryAndSetDataWishKnowledge.SortList(unsort, sort,isAuthor);
-        var data = sortList.Skip((page-1) * per_page).Take(page*per_page);
+        var sortList = categoryAndSetDataWishKnowledge.SortList(unsort, sort, isAuthor);
+        var data = sortList.Skip((page - 1) * per_page).Take(page * per_page);
 
         var total = data.Count();
-        var last_page = (sortList.Count/ (per_page) + (sortList.Count % per_page));
+        var last_page = (sortList.Count / (per_page) + (sortList.Count % per_page));
 
-        if(last_page >= sortList.Count)
+        if (last_page >= sortList.Count)
             last_page = 1;
 
-        return Json (new {total, per_page, current_page = page, last_page, data }, JsonRequestBehavior.AllowGet );  
+        return Json(new { total, per_page, current_page = page, last_page, data }, JsonRequestBehavior.AllowGet);
     }
 
     [HttpPost]
-    public JsonResult CountedWUWItoCategoryAndSet()
+    public int  CountedWUWItoCategoryAndSet(bool isAuthor = false)
     {
-        var countedWUWItoCategoryAndSet = categoryAndSetDataWishKnowledge.GetWuWICountSetAndCategories();
-        return Json(countedWUWItoCategoryAndSet);
+        var unsortList = categoryAndSetDataWishKnowledge.filteredCategoryWishKnowledge(ControllerContext);
+        if (isAuthor)
+            return (categoryAndSetDataWishKnowledge.SortList(unsortList, "name|asc", isAuthor).Count);
+
+        return (unsortList.Count);
     }
 }

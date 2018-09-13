@@ -5,11 +5,9 @@
 <%= Styles.Render("~/bundles/KnowledgeTopics") %>
 <body>
  <div class="container-fluid">
-    <div>
-        <h2 id ="countCatAndSet">Du hast {{datas[0]}} Themen und {{datas[1]}} Lernsets in deinem Wunschwissen </h2>
-    </div>
 
     <div id="app">
+        <h2> Du hast {{moreParams.countList}} Topics und Sets in deinem Wunschwissen </h2>
 
         <div class="col-xs-4" style="text-align: left; font-size: 18px;  width: 27%">Zeige nur von mir erstellte Inhalte</div>
         <div class="col-xs-1">
@@ -21,7 +19,6 @@
                 </label>
             </div>
         </div>
-
         <div id="table-wrapper" class="ui container">
           <vuetable ref="vuetable"
             api-url="/Knowledge/GetCatsAndSetsWish"
@@ -33,8 +30,8 @@
             :append-params="moreParams"
             @vuetable:pagination-data="onPaginationData"
             @vuetable:loading="onLoading"
-            @vuetable:loaded="onLoaded">
-          
+            @vuetable:loaded="onLoaded()">
+            
             <template slot="image" scope="props" >
                 <div class="image" >
                 <image class="imageTable"v-bind:src="GetImageSourceUrl(props.rowData.ImageFrontendData.ImageMetaData)" ></image>
