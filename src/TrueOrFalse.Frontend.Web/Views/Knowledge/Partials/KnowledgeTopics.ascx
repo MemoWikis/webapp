@@ -9,8 +9,9 @@
     <div id="app">
         <h2 id="h2TpopicAndLearnset"> Du hast {{moreParams.countList}} Topics und Sets in deinem Wunschwissen </h2>
 
-        <div class="col-xs-4" style="text-align: left; font-size: 18px;  width: 27%">Zeige nur von mir erstellte Inhalte</div>
-        <div class="col-xs-1">
+        <div class="col-xs-4 switch" style="text-align: left; font-size: 18px;  width: 27%">Zeige nur von mir erstellte Inhalte</div>
+        <div class="col-xs-1 switch">
+
             <div class="onoffswitch">
                 <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="switchShowOnlySelfCreated" @click="switchOnlySelfCreatedChanged()">
                 <label class="onoffswitch-label" for="switchShowOnlySelfCreated">

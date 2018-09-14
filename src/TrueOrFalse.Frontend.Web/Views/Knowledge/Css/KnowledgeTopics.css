@@ -4,6 +4,12 @@
   -moz-osx-font-smoothing: grayscale;
   color: #2c3e50;
 }
+#app #h2TpopicAndLearnset {
+  margin-bottom: 21px;
+}
+#app .switch {
+  margin-bottom: 62px;
+}
 .orange.glyphicon {
   color: orange;
 }
