@@ -7,7 +7,7 @@
  <div class="container-fluid">
 
     <div id="app">
-        <h2> Du hast {{moreParams.countList}} Topics und Sets in deinem Wunschwissen </h2>
+        <h2 id="h2TpopicAndLearnset"> Du hast {{moreParams.countList}} Topics und Sets in deinem Wunschwissen </h2>
 
         <div class="col-xs-4" style="text-align: left; font-size: 18px;  width: 27%">Zeige nur von mir erstellte Inhalte</div>
         <div class="col-xs-1">

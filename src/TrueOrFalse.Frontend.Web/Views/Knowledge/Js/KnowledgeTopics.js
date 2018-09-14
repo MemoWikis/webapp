@@ -16,7 +16,7 @@ Vue.use(Vuetable);
 
             {
                 name: 'Titel',
-                title: 'Titel',
+                title: 'Thema/Lernset',
                 sortField: 'name'
             },
             {
@@ -26,7 +26,11 @@ Vue.use(Vuetable);
                 sortField: "knowledgeBar",
                 html: true
             },
-            '__slot:topicCount',
+            {
+                name: '__slot:topicCount',
+                title: "Größe"
+            },
+            
             '__slot:actions',
             '__slot:dropDown'
         ],
@@ -137,13 +141,12 @@ Vue.use(Vuetable);
             this.$refs.vuetable.refresh();
         },
         GetImageSourceUrl(url) {
-            if (url == null)
+            if (url === null)
                 return "/Images/no-category-picture-350.png";
             return url.SourceUrl;
         }
      }, mounted: function () {
         var self = this;
-         debugger;
          $.ajax({
              url: '/Knowledge/CountedWUWItoCategoryAndSet?isAuthor=' + false,
              method: 'POST',
