@@ -751,6 +751,9 @@ img {
 
     a {
         overflow:hidden;
+        display:block;
+        text-overflow:ellipsis;
+        padding:2px;
     }
 
     .card-title {
@@ -848,9 +851,30 @@ img {
     border: #979797 solid 0.5px;
 }
 
-SponsorCard {
+#SponsorCard {
     margin-top: 70px;
     border: #979797 solid 0.5px;
+}
+
+#CreateCategoryCard {
+    margin-top: 70px;
+    border: #979797 solid 0.5px;
+    padding:5px;
+
+    i.fa-plus-square {
+        color: white;
+        position: absolute;
+        margin-top: -19px;
+        font-size: 14px;
+    }
+
+    i.fa-circle {
+        color: #DDDDDD;
+        position: absolute;
+        margin-top: -23.5px;
+        margin-left: -4px;
+        font-size: 23px;
+    }
 }
 
 /* MASTER SECTION
@@ -1127,7 +1151,7 @@ SponsorCard {
     color: #000000 !important;
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.16);
     position: unset;
-    z-index: 100;
+    z-index: 99;
     white-space: nowrap;
     top: 80px;
     .greyed;

@@ -8,7 +8,7 @@
 </asp:Content>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="Head" runat="server">
-    <% Model.TopNavMenu.BreadCrumb.Add(new TopNavMenuItem{Text = "", Url = "/FAQ.aspx"});
+    <% Model.TopNavMenu.BreadCrumb.Add(new TopNavMenuItem{Text = "FAQ", Url = "/FAQ.aspx"});
        Model.TopNavMenu.IsCategoryBreadCrumb = false; %>
 <script type="text/javascript" >
 
