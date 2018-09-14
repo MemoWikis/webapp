@@ -13,6 +13,9 @@
 .orange.glyphicon {
   color: orange;
 }
+.dropdown-toggle {
+  transform: rotate(90deg);
+}
 .vuetable #_Titel,
 .vuetable #_KnowlegdeWishPartial,
 .vuetable .vuetable-th-slot-image,
