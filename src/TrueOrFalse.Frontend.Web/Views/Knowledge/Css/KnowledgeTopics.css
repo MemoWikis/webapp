@@ -22,7 +22,7 @@
 .vuetable .vuetable-th-slot-topicCount,
 .vuetable .vuetable-th-slot-actions,
 .vuetable .vuetable-th-slot-dropDown {
-  border-bottom: solid 1px #337ab7;
+  border-bottom: solid 2px #337ab7;
 }
 thead {
   color: #ec971f;
