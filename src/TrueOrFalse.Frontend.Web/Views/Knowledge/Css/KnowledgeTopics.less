@@ -11,11 +11,19 @@
     color: orange;
 }
 
-th.sortable {
+.vuetable {
+    #_Titel, #_KnowlegdeWishPartial, .vuetable-th-slot-image, .vuetable-th-slot-topicCount, .vuetable-th-slot-actions, .vuetable-th-slot-dropDown {
+        border-bottom: solid 1px #337ab7;
+    }
+}
+
+thead {
     color: #ec971f;
 }
 
-h1{font-size: 30px;}
+h1 {
+    font-size: 30px;
+}
 
 td {
     height: 30px;
@@ -26,14 +34,15 @@ td {
     width: 30px;
     height: 30px;
 }
+
 table.table.table-striped .image {
-    margin-right:-5px;
+    margin-right: -5px;
     width: 30px;
     float: right;
 }
+
 table.table.table-striped .title {
     float: left;
-   
 }
 
 
@@ -143,7 +152,6 @@ table.table.table-striped .title {
     background-color: #EEEEEE;
     color: #999999;
     text-align: right;
-    
 }
 
 .onoffswitch-switch {
@@ -163,11 +171,8 @@ table.table.table-striped .title {
 
 .onoffswitch-checkbox:checked + .onoffswitch-label .onoffswitch-inner {
     margin-left: 0;
-   
 }
 
 .onoffswitch-checkbox:checked + .onoffswitch-label .onoffswitch-switch {
     right: 0px;
 }
-
-

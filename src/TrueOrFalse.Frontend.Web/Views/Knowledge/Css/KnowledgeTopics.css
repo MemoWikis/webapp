@@ -7,7 +7,15 @@
 .orange.glyphicon {
   color: orange;
 }
-th.sortable {
+.vuetable #_Titel,
+.vuetable #_KnowlegdeWishPartial,
+.vuetable .vuetable-th-slot-image,
+.vuetable .vuetable-th-slot-topicCount,
+.vuetable .vuetable-th-slot-actions,
+.vuetable .vuetable-th-slot-dropDown {
+  border-bottom: solid 1px #337ab7;
+}
+thead {
   color: #ec971f;
 }
 h1 {
