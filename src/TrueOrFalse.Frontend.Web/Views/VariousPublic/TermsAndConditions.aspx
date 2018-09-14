@@ -17,9 +17,7 @@
 </script>    
     
     <% Model.TopNavMenu.BreadCrumb.Add(new TopNavMenuItem{Text = "Nutzungsbedingungen", Url = "/AGB", ToolTipText = "Nutzungsbedingungen"});
-       Model.TopNavMenu.IsCategoryBreadCrumb = false;
-       Model.SidebarModel.HasKnowledgeBtnText = true;
-       Model.SidebarModel.KnowldegeBtnText = "jetzt kostenlos registrieren!"; %>
+       Model.TopNavMenu.IsCategoryBreadCrumb = false;%>
 </asp:Content>
 
 

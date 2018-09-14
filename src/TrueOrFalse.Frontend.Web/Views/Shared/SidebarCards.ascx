@@ -6,7 +6,7 @@
 <div id="SidebarCards" style="display: block;">
  <%if(Model.MultipleCreatorName.Count() == 1){%>
     <div id="AutorCard" style="padding-top:0.1px;">
-        <div class="ImageContainer" style="width: 100%;">
+        <div class="ImageContainer" style="width: 100%; padding-left:0.5px;">
            <div class="card-image-large" style="background:url(<%= Model.AutorImageUrl%>) center;"></div>
         </div>
         <div class="card-title">

@@ -6,7 +6,7 @@
     var user = userSession.User;
 %>
 <div style="display: flex;">
-    <div class="header-item">
+    <div class="header-item" style="margin-top:0px;">
         <div class="input-group" id="SmallHeaderSearchBoxDiv">
             <input type="text" class="form-control" placeholder="Suche" id="SmallHeaderSearchBox">
             <div class="input-group-btn" style="height:34px;">

@@ -434,6 +434,12 @@ img {
     display: block;
   }
 }
+@media (max-width: 580px) {
+  #loginAndHelp .header-item:not(#MenuButtonContainer),
+  #StickyHeaderContainer .header-item:not(#MenuButtonContainer) {
+    margin-top: -5px;
+  }
+}
 #loginAndHelp .dropdown,
 #StickyHeaderContainer .dropdown {
   height: 100%;
@@ -844,7 +850,7 @@ fieldset[disabled] #StickyMenuButton:hover {
 }
 @media (max-width: 580px) {
   #MenuButtonContainer {
-    margin-top: 1px;
+    margin-top: -3px;
   }
 }
 #StickyMenuButton {
@@ -968,18 +974,15 @@ ul.AutocompleteHeader {
 }
 #CategorySuggestionCard {
   border: #979797 solid 0.5px;
-  margin-top: 70px;
+  margin-top: 19px;
+  padding-left: 0.5px;
 }
 #CreateQuestionCard {
-  margin-top: 70px;
-  border: #979797 solid 0.5px;
-}
-#SponsorCard {
-  margin-top: 70px;
+  margin-top: 19px;
   border: #979797 solid 0.5px;
 }
 #CreateCategoryCard {
-  margin-top: 70px;
+  margin-top: 19px;
   border: #979797 solid 0.5px;
   padding: 5px;
 }
@@ -1479,7 +1482,7 @@ ul.AutocompleteHeader {
 /* SPONSOR
 ----------------------------------------------------------*/
 #EduPartnerCard {
-  margin-top: 70px;
+  margin-top: 19px;
   border: #979797 solid 0.5px;
   padding: 15px;
   padding-bottom: 5px;
@@ -1915,7 +1918,7 @@ i:hover {
 }
 /*UI*/
 ul.ui-autocomplete {
-  z-index: 3;
+  z-index: 100;
 }
 /* VARIOUS
 ----------------------------------------------------------*/

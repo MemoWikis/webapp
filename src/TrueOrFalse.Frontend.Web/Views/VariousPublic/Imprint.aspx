@@ -1,4 +1,4 @@
-﻿<%@ Page Title="Impressum & Datenschutz" Language="C#" MasterPageFile="~/Views/Shared/Site.MenuNo.Master" Inherits="System.Web.Mvc.ViewPage" %>
+﻿<%@ Page Title="Impressum & Datenschutz" Language="C#" MasterPageFile="~/Views/Shared/Site.MenuNo.Master" Inherits="System.Web.Mvc.ViewPage<BaseModel>" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="Head" runat="server">
 
@@ -13,7 +13,9 @@
         $(spt).after('<a href="mailto:' + addr + '" title="Send an email">' + addr + '</a>').hover(function () { window.status = "Send a letter!"; }, function () { window.status = ""; });
         $(spt).remove();
     });
-</script>    
+</script>  
+    <% Model.TopNavMenu.BreadCrumb.Add(new TopNavMenuItem {Text = "Impressum & Datenschutz", Url = "/Impressum", ToolTipText = "Impressum & Datenschutz"});
+       Model.TopNavMenu.IsCategoryBreadCrumb = false;%>
 </asp:Content>
 
 

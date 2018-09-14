@@ -428,6 +428,12 @@ img {
         }
     }
 
+    .header-item:not(#MenuButtonContainer) {
+        @media(max-width:580px) {
+            margin-top: -5px;
+        }
+       }
+
     .dropdown {
         height: 100%;
         line-height: @masterHeaderMainRowHeight-xs;
@@ -694,7 +700,7 @@ img {
          margin-top:-6px;
      });
       @media(max-width:580px){
-          margin-top:1px;
+          margin-top:-3px;
       }
         
 }
@@ -843,23 +849,19 @@ img {
 
 #CategorySuggestionCard {
     border: #979797 solid 0.5px;
-    margin-top: 70px;
+    margin-top: 19px;
+    padding-left:0.5px;
 }
 
 #CreateQuestionCard {
-    margin-top: 70px;
-    border: #979797 solid 0.5px;
-}
-
-#SponsorCard {
-    margin-top: 70px;
+    margin-top: 19px;
     border: #979797 solid 0.5px;
 }
 
 #CreateCategoryCard {
-    margin-top: 70px;
+    margin-top: 19px;
     border: #979797 solid 0.5px;
-    padding:5px;
+    padding: 5px;
 
     i.fa-plus-square {
         color: white;
@@ -1454,7 +1456,7 @@ img {
     /* SPONSOR
 ----------------------------------------------------------*/
     #EduPartnerCard {
-     margin-top: 70px;
+     margin-top: 19px;
      border: #979797 solid 0.5px;
      padding:15px;
      padding-bottom:5px;
@@ -1905,7 +1907,7 @@ img {
     }
     /*UI*/
     ul.ui-autocomplete {
-        z-index: 3;
+        z-index: 100;
     }
     /* VARIOUS
 ----------------------------------------------------------*/
