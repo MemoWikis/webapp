@@ -306,5 +306,9 @@
   {
     "outputFile": "Views/Welcome/Team.css",
     "inputFile": "Views/Welcome/Team.less"
+  },
+  {
+    "outputFile": "Views/Knowledge/Css/KnowledgeQuestions.css",
+    "inputFile": "Views/Knowledge/Css/KnowledgeQuestions.less"
   }
 ]

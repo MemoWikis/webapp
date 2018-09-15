@@ -483,12 +483,16 @@
     <Content Include="Views\Categories\ResultTestSession\Js\GetResultTestSession.js">
       <DependentUpon>GetResultTestSession.ts</DependentUpon>
     </Content>
+    <Content Include="Views\Knowledge\Css\KnowledgeQuestions.css">
+      <DependentUpon>KnowledgeQuestions.less</DependentUpon>
+    </Content>
     <Content Include="Views\Knowledge\Css\KnowledgeTopics.css">
       <DependentUpon>KnowledgeTopics.less</DependentUpon>
     </Content>
     <Content Include="Views\Knowledge\Css\_dashBoard.css">
       <DependentUpon>_dashBoard.less</DependentUpon>
     </Content>
+    <Content Include="Views\Knowledge\Js\KnowledgeQuestions.js" />
     <Content Include="Views\Knowledge\Js\KnowledgeTopics.js" />
     <Content Include="Views\Knowledge\Js\Page.js">
       <DependentUpon>Page.ts</DependentUpon>
@@ -569,6 +573,7 @@
     <Content Include="Views\Knowledge\Partials\_Dashboard.ascx" />
     <Content Include="Views\Knowledge\Css\_dashBoard.less" />
     <Content Include="Views\Knowledge\Css\KnowledgeTopics.less" />
+    <Content Include="Views\Knowledge\Css\KnowledgeQuestions.less" />
     <None Include="Views\Maintenance\ContentStats.less" />
     <Compile Include="Views\Maintenance\ContentStatsModel.cs" />
     <Compile Include="Views\Maintenance\Images\MaintenanceImagesController.cs" />

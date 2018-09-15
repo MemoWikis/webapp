@@ -294,9 +294,15 @@ namespace TrueOrFalse.View
             bundles.Add(new ScriptBundle("~/bundles/js/KnowledgeTopics")
                 .Include("~/Scripts/vendor/vuetable-2.js")
                 .Include("~/Scripts/vendor/vue.min.js")
-                .Include("~/Views/Knowledge/Js/KnowledgeTopics.js")
-            );
-         
+                .Include("~/Views/Knowledge/Js/KnowledgeTopics.js"));
+            bundles.Add(new ScriptBundle("~/bundles/js/KnowledgeQuestions")
+                .Include("~/Scripts/vendor/vuetable-2.js")
+                .Include("~/Scripts/vendor/vue.min.js")
+                .Include("~/Views/Knowledge/Js/KnowledgeQuestions.js"));
+
+            bundles.Add(new StyleBundle("~/bundles/KnowledgeQuestions")
+                .Include("~/Views/Knowledge/Css/KnowledgeQuestions.css"));
+
 
             bundles.Add(new StyleBundle("~/bundles/Promoter")
                 .Include("~/Views/Welcome/Promoter.css"));

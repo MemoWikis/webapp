@@ -2,7 +2,7 @@
 <%@ Import Namespace="System.Web.Optimization" %>
 
 <link rel='stylesheet prefetch' href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css'>
-<%= Styles.Render("~/bundles/KnowledgeTopics") %>
+<%= Styles.Render("~/bundles/KnowledgeQuestions") %>
 <body>
  <div class="container-fluid">
 
@@ -87,5 +87,5 @@
  </div>
 </body>
 
-<%= Scripts.Render("~/bundles/js/KnowledgeTopics") %> 
+<%= Scripts.Render("~/bundles/js/KnowledgeQuestions") %> 
 
