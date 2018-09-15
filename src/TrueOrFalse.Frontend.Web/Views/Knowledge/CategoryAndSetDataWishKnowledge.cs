@@ -13,14 +13,10 @@ public class CategoryAndSetDataWishKnowledge: BaseController
 {
     public List<CategoryAndSetWishKnowledge> filteredCategoryWishKnowledge(ControllerContext controllerContext) 
     {
-        var CategorieWishes = GetCategoryData();
-        var setWishes = GetSetData();
-        var filteredCategoryAndSetWishKnowledges = GetObjectCategoryAndSetWishKnowledges(CategorieWishes, setWishes,controllerContext);
-     
-        return filteredCategoryAndSetWishKnowledges;
+        return GetObjectCategoryAndSetWishKnowledges(GetCategoryData(), GetSetData(), controllerContext);
     }
 
-    private ImageFrontendData GetCategoryImage(int CategoryId)
+    public ImageFrontendData GetCategoryImage(int CategoryId)
     {
         var imageMetaData = Sl.ImageMetaDataRepo.GetBy(CategoryId, ImageType.Category);
         return new ImageFrontendData(imageMetaData);
