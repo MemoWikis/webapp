@@ -115,4 +115,15 @@ public class KnowledgeController : BaseController
 
         return "Du hast " + count + " Topics und/oder Sets in deinem Wunschwissen";
     }
+
+    [HttpGet]
+    public JsonResult GetQuestionsWish(int page, int per_page, string sort = "")
+    {
+        var total = 2;
+        var last_page = 1;
+        var questions = Sl.QuestionRepo.GetByKnowledge(UserId,true,true,true,true);
+        var data = categoryAndSetDataWishKnowledge.filteredCategoryWishKnowledge(ControllerContext);
+        var jsonv = Json(new {total, per_page, current_page = page, last_page, data}, JsonRequestBehavior.AllowGet);
+        return jsonv;
+    }
 }

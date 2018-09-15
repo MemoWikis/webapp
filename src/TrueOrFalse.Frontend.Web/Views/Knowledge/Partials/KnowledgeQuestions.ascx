@@ -22,13 +22,12 @@
         </div>
         <div id="table-wrapper" class="ui container">
           <vuetable ref="vuetable"
-            api-url="/Knowledge/GetCatsAndSetsWish"
+            api-url="/Knowledge/GetQuestionsWish"
             :fields="fields"
             :sort-order="sortOrder"
             :css="css.table"
             pagination-path=""
             :per-page="50"
-            :append-params="moreParams"
             @vuetable:pagination-data="onPaginationData"
             @vuetable:loading="onLoading"
             @vuetable:loaded="onLoaded()">
