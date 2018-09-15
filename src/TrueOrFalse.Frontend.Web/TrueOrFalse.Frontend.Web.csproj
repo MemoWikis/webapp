@@ -351,6 +351,7 @@
     <Compile Include="Views\Help\FAQAccordeonItem.cs" />
     <Compile Include="Views\Help\WidgetMenuModel.cs" />
     <Compile Include="Views\Knowledge\CategoryAndSetDataWishKnowledge.cs" />
+    <Compile Include="Views\Knowledge\KnowledgeQuestionsModel.cs" />
     <Compile Include="Views\Knowledge\Partials\KnowledgeCardMiniSetModel.cs" />
     <Compile Include="Views\Knowledge\Partials\KnowledgeCardMiniCategoryModel.cs" />
     <Compile Include="Views\Knowledge\TrainingDateModel.cs" />
@@ -495,6 +496,7 @@
     <Content Include="Views\Knowledge\Js\WishKnowledgeContent.js">
       <DependentUpon>WishKnowledgeContent.ts</DependentUpon>
     </Content>
+    <Content Include="Views\Knowledge\Partials\KnowledgeQuestions.ascx" />
     <Content Include="Views\Knowledge\Partials\KnowledgeTopics.ascx" />
     <Content Include="Views\Categories\Navigation\CategoryNetworkNavigationCatLabel.ascx" />
     <Content Include="Views\Categories\Navigation\CategoryNavigation.ascx" />
