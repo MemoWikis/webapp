@@ -9,7 +9,7 @@ Vue.use(Vuetable);
      data: {
          moreParams: {
              'isAuthor': false,
-             'countList': '0'
+             'heading': ""
          },
         fields: [
             '__slot:image',
@@ -132,7 +132,7 @@ Vue.use(Vuetable);
                 async: false,
                 datatype: "jsonp",
                 success: function(Data) {
-                    self.moreParams.countList = Data;
+                    self.moreParams.heading = Data;
                 },
                 error: function(error) {
                     console.log(error);
@@ -151,10 +151,9 @@ Vue.use(Vuetable);
              url: '/Knowledge/CountedWUWItoCategoryAndSet?isAuthor=' + false,
              method: 'POST',
              async: false,
-             datatype: "number",
+             datatype: "jsonp",
              success: function (Data) {
-             self.moreParams.countList = Data;
-                 console.log(self.moreParams.countList);
+             self.moreParams.heading = Data;
              },
              error: function (error) {
                  console.log(error);

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
+using NHibernate.Event;
 using TrueOrFalse.Frontend.Web.Code;
 
 public class KnowledgeController : BaseController
@@ -98,12 +99,20 @@ public class KnowledgeController : BaseController
     }
 
     [HttpPost]
-    public int  CountedWUWItoCategoryAndSet(bool isAuthor = false)
+    public string  CountedWUWItoCategoryAndSet(bool isAuthor = false)
     {
+        var count = 0;
         var unsortList = categoryAndSetDataWishKnowledge.filteredCategoryWishKnowledge(ControllerContext);
         if (isAuthor)
-            return (categoryAndSetDataWishKnowledge.SortList(unsortList, "name|asc", isAuthor).Count);
+            count = (categoryAndSetDataWishKnowledge.SortList(unsortList, "name|asc", isAuthor).Count);
+        else
+            count = (unsortList.Count);
 
-        return (unsortList.Count);
+        if (count == 1)
+            return "Du hast " + count + " Topic oder Set in deinem Wunschwissen";
+        if (count == 0)
+            return "Du hast noch keine Topics oder Sets in deinem Wunschwissen";
+
+        return "Du hast " + count + " Topics und/oder Sets in deinem Wunschwissen";
     }
 }
