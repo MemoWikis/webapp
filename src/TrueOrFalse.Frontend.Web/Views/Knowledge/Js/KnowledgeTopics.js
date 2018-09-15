@@ -13,7 +13,6 @@ Vue.use(Vuetable);
          },
         fields: [
             '__slot:image',
-
             {
                 name: 'Titel',
                 title: 'Thema/Lernset',
@@ -30,7 +29,6 @@ Vue.use(Vuetable);
                 name: '__slot:topicCount',
                 title: "Größe"
             },
-            
             '__slot:actions',
             '__slot:dropDown'
         ],

@@ -32,7 +32,7 @@ public class KnowledgeQuestionsModel
             
             questions.Titel = question.GetShortTitle();
             questions.Categories = categories[0].Name;
-            questions.ImageFrontendData = categoryAndSetDataWishKnowledge.GetCategoryImage(categories[0].Id);
+            questions.ImageFrontendData = categoryAndSetDataWishKnowledge.GetCategoryImage(categories[0].Id);     
 
             questionsList.Add(questions);
         }

@@ -33,9 +33,9 @@
             @vuetable:loading="onLoading"
             @vuetable:loaded="onLoaded()">
             
-            <template slot="image" scope="props" >
-                <div class="image" >
-                <image class="imageTable"v-bind:src="GetImageSourceUrl(props.rowData.ImageFrontendData.ImageMetaData)" ></image>
+            <template slot="image" scope="props">
+                <div class="image">
+                    <image class="imageTable"v-bind:src="GetImageSourceUrl(props.rowData.ImageFrontendData.ImageMetaData)"></image>
                 </div>
             </template>
                   
