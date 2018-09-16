@@ -10,6 +10,27 @@
 #app .switch {
   margin-bottom: 62px;
 }
+#app .greenD,
+#app .yellow,
+#app .red,
+#app .grey {
+  border-radius: 10px;
+  position: absolute;
+  width: 20px;
+  height: 20px;
+}
+#app .greenD {
+  background-color: seagreen;
+}
+#app .yellow {
+  background-color: yellow;
+}
+#app .red {
+  background-color: red;
+}
+#app .grey {
+  background-color: grey;
+}
 .orange.glyphicon {
   color: orange;
 }

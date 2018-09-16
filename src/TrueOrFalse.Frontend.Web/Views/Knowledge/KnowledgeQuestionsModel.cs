@@ -8,7 +8,6 @@ using Microsoft.AspNet.SignalR;
 
 public class KnowledgeQuestionsModel
 {
-
     public List<Questions> GetQuestionsWishFromDatabase(int userId)
     {
        var questionsListSolid = GetListWithKnowWas("solid", userId);
@@ -27,11 +26,8 @@ public class KnowledgeQuestionsModel
         )
     {
         var questionsList = new List<Questions>();
-        var totalQuestions = questionsListSolid.Count + questionsListShouldConsolidate.Count +
-                             questionsListShouldLearning.Count + questionsListNotLearned.Count; 
         var categoryAndSetDataWishKnowledge = new CategoryAndSetDataWishKnowledge();
         
-
         foreach (var question in questionsListSolid)
         {
             var questions = new Questions();
@@ -40,7 +36,7 @@ public class KnowledgeQuestionsModel
             questions.Titel = question.GetShortTitle();
             questions.Categories = categories[0].Name;
             questions.ImageFrontendData = categoryAndSetDataWishKnowledge.GetCategoryImage(categories[0].Id);
-            questions.LearningStatus = "solid";
+            questions.LearningStatus = "greenD";
             questionsList.Add(questions);
         }
 
@@ -52,7 +48,7 @@ public class KnowledgeQuestionsModel
             questions.Titel = question.GetShortTitle();
             questions.Categories = categories[0].Name;
             questions.ImageFrontendData = categoryAndSetDataWishKnowledge.GetCategoryImage(categories[0].Id);
-            questions.LearningStatus = "shouldConsolidate";
+            questions.LearningStatus = "yellow";
             questionsList.Add(questions);
         }
 
@@ -65,7 +61,7 @@ public class KnowledgeQuestionsModel
             questions.Titel = question.GetShortTitle();
             questions.Categories = categories[0].Name;
             questions.ImageFrontendData = categoryAndSetDataWishKnowledge.GetCategoryImage(categories[0].Id);
-            questions.LearningStatus = "shouldLearning";
+            questions.LearningStatus = "red";
             questionsList.Add(questions);
         }
 
@@ -78,7 +74,7 @@ public class KnowledgeQuestionsModel
             questions.Titel = question.GetShortTitle();
             questions.Categories = categories[0].Name;
             questions.ImageFrontendData = categoryAndSetDataWishKnowledge.GetCategoryImage(categories[0].Id);
-            questions.LearningStatus = "notLearned";
+            questions.LearningStatus = "grey";
             questionsList.Add(questions);
         }
 
@@ -98,25 +94,28 @@ public class KnowledgeQuestionsModel
         {
             var questionsSolid = Sl.QuestionRepo.GetByKnowledge(userId, true, false, false, false);
             questionsIListInList = new List<int>(questionsSolid);
+
             return new List<Question>(Sl.QuestionRepo.GetByIds(questionsIListInList));
         }
         if (knowWas.Equals("shouldConsolidate"))
         {
             var questionsShouldConsolidate = Sl.QuestionRepo.GetByKnowledge(userId, false, true, false, false);
             questionsIListInList = new List<int>(questionsShouldConsolidate);
+
             return new List<Question>(Sl.QuestionRepo.GetByIds(questionsIListInList));
         }
         if (knowWas.Equals("shouldLearning"))
         {
             var questionsshouldLearning = Sl.QuestionRepo.GetByKnowledge(userId, false, false, true, false);
             questionsIListInList = new List<int>(questionsshouldLearning);
+
             return new List<Question>(Sl.QuestionRepo.GetByIds(questionsIListInList));
         }
 
         var questionsNotLearned = Sl.QuestionRepo.GetByKnowledge(userId, false, false, false, true);
         questionsIListInList = new List<int>(questionsNotLearned);
-        return new List<Question>(Sl.QuestionRepo.GetByIds(questionsIListInList));
 
+        return new List<Question>(Sl.QuestionRepo.GetByIds(questionsIListInList));
     }
 
     public class Questions
@@ -126,9 +125,4 @@ public class KnowledgeQuestionsModel
         public ImageFrontendData ImageFrontendData { get; set; }
         public string LearningStatus { get; set; }
     }
-
-
-
-
-
 }
