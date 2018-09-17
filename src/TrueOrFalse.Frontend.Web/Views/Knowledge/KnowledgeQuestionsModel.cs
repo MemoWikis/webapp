@@ -4,10 +4,13 @@ using System.Linq;
 using System.Web;
 using EasyNetQ.Events;
 using Microsoft.AspNet.SignalR;
+using NHibernate.Bytecode;
 
 
 public class KnowledgeQuestionsModel
 {
+    private UserImageSettings userImageSettings = new UserImageSettings(); 
+
     public List<Questions> GetQuestionsWishFromDatabase(int userId)
     {
        var questionsListSolid = GetListWithKnowWas("solid", userId);
@@ -37,6 +40,8 @@ public class KnowledgeQuestionsModel
             questions.Categories = categories[0].Name;
             questions.ImageFrontendData = categoryAndSetDataWishKnowledge.GetCategoryImage(categories[0].Id);
             questions.LearningStatus = "greenD";
+            questions.Author = question.Creator.Name;
+            questions.AuthorImageUrl = userImageSettings.GetUrl_30px_square(Sl.UserRepo.GetById(question.Creator.Id));
             questionsList.Add(questions);
         }
 
@@ -49,9 +54,10 @@ public class KnowledgeQuestionsModel
             questions.Categories = categories[0].Name;
             questions.ImageFrontendData = categoryAndSetDataWishKnowledge.GetCategoryImage(categories[0].Id);
             questions.LearningStatus = "yellow";
+            questions.Author = question.Creator.Name;
+            questions.AuthorImageUrl = userImageSettings.GetUrl_30px_square(Sl.UserRepo.GetById(question.Creator.Id));
             questionsList.Add(questions);
         }
-
 
         foreach (var question in questionsListShouldLearning)
         {
@@ -62,19 +68,24 @@ public class KnowledgeQuestionsModel
             questions.Categories = categories[0].Name;
             questions.ImageFrontendData = categoryAndSetDataWishKnowledge.GetCategoryImage(categories[0].Id);
             questions.LearningStatus = "red";
+            questions.Author = question.Creator.Name;
+            questions.AuthorImageUrl = userImageSettings.GetUrl_30px_square(Sl.UserRepo.GetById(question.Creator.Id));
             questionsList.Add(questions);
         }
-
 
         foreach (var question in questionsListNotLearned)
         {
             var questions = new Questions();
             var categories = question.Categories;
-
+           
             questions.Titel = question.GetShortTitle();
             questions.Categories = categories[0].Name;
             questions.ImageFrontendData = categoryAndSetDataWishKnowledge.GetCategoryImage(categories[0].Id);
             questions.LearningStatus = "grey";
+            questions.Author = question.Creator.Name;
+            questions.AuthorImageUrl = userImageSettings.GetUrl_30px_square(Sl.UserRepo.GetById(question.Creator.Id)); 
+
+
             questionsList.Add(questions);
         }
 
@@ -124,5 +135,7 @@ public class KnowledgeQuestionsModel
         public string Categories { get; set; }
         public ImageFrontendData ImageFrontendData { get; set; }
         public string LearningStatus { get; set; }
+        public string Author { get; set; }
+        public ImageUrl AuthorImageUrl;
     }
 }
