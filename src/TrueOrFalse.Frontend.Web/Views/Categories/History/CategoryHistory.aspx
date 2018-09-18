@@ -35,7 +35,8 @@
                     <a>
                         <i class="fa fa-comment-o"></i> #
                     </a>&nbsp;
-                    <a class="btn btn-sm btn-default btn-primary">
+                    
+                    <a class="btn btn-sm btn-default btn-primary" href="<%= Links.CategoryHistoryDetail(Model.CategoryId, item.CategoryChangeId) %>">
                         <i class="fa fa-eye"></i> Anzeigen
                     </a>
                 </div>

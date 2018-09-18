@@ -6,12 +6,14 @@ using TrueOrFalse;
 
 public class CategoryHistoryModel : BaseModel
 {
+    public int CategoryId { get; set; }
     public string CategoryName;
     public IList<ChangeDayModel> Days;
 
     public CategoryHistoryModel(Category category, IList<CategoryChange> categoryChanges)
     {
         CategoryName = category.Name;
+        CategoryId = category.Id;
 
         Days = categoryChanges
             .GroupBy(change => change.DateCreated.Date)
@@ -33,7 +35,8 @@ public class ChangeDayModel
             Author = cc.Author,
             AuthorName = cc.Author.Name,
             AuthorImageUrl = new UserImageSettings(cc.Author.Id).GetUrl_85px_square(cc.Author).Url,
-            Date = TimeElapsedAsText.Run(cc.DateCreated)
+            Date = TimeElapsedAsText.Run(cc.DateCreated),
+            CategoryChangeId = cc.Id
         }).ToList();
     }
 }
@@ -44,4 +47,5 @@ public class ChangeDetailModel
     public string AuthorName;
     public string AuthorImageUrl;
     public string Date;
+    public int CategoryChangeId;
 }
