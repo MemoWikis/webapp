@@ -52,4 +52,13 @@ public class CategoryChangeRepo : RepositoryDbBase<CategoryChange>
             .Where(c => c.Category.Id == categoryId)
             .List();
     }
+
+    public CategoryChange GetByIdEager(int categoryChangeId)
+    {
+        return _session
+            .QueryOver<CategoryChange>()
+            .Where(cc => cc.Id == categoryChangeId)
+            .Left.JoinQueryOver(q => q.Category)
+            .SingleOrDefault();
+    }
 }
