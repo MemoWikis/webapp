@@ -8,7 +8,7 @@ public class CategoryHistoryController : Controller
 {
     private const string _viewLocation = "~/Views/Categories/History/CategoryHistory.aspx";
 
-    public ActionResult Detail(int categoryId)
+    public ActionResult List(int categoryId)
     {
         var category = Sl.CategoryRepo.GetById(categoryId);
         
