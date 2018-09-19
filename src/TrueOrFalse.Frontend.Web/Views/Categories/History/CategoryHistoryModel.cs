@@ -17,7 +17,11 @@ public class CategoryHistoryModel : BaseModel
 
         Days = categoryChanges
             .GroupBy(change => change.DateCreated.Date)
-            .Select(group => new ChangeDayModel(group.Key, (IList<CategoryChange>) group))
+            .OrderByDescending(group => group.Key)
+            .Select(group => new ChangeDayModel(
+                group.Key, 
+                (IList<CategoryChange>) group.OrderByDescending(g => g.DateCreated).ToList()
+            ))
             .ToList();
     }
 }
@@ -35,7 +39,9 @@ public class ChangeDayModel
             Author = cc.Author,
             AuthorName = cc.Author.Name,
             AuthorImageUrl = new UserImageSettings(cc.Author.Id).GetUrl_85px_square(cc.Author).Url,
-            Date = TimeElapsedAsText.Run(cc.DateCreated),
+            ElapsedTime = TimeElapsedAsText.Run(cc.DateCreated),
+            DateTime = cc.DateCreated.ToString("dd.MM.yyyy HH:mm"),
+            Time = cc.DateCreated.ToString("HH:mm"),
             CategoryChangeId = cc.Id
         }).ToList();
     }
@@ -46,6 +52,8 @@ public class ChangeDetailModel
     public User Author;
     public string AuthorName;
     public string AuthorImageUrl;
-    public string Date;
+    public string ElapsedTime;
+    public string DateTime;
+    public string Time;
     public int CategoryChangeId;
 }
