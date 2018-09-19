@@ -36,7 +36,7 @@ public class KnowledgeQuestionsModel
             var questions = new Questions();
             var categories = question.Categories;
             
-            questions.Titel = question.GetShortTitle();
+            questions.Titel = question.GetShortTitle(40);
             questions.Categories = categories[0].Name;
             questions.ImageFrontendData = categoryAndSetDataWishKnowledge.GetCategoryImage(categories[0].Id);
             questions.LearningStatus = "greenD";
@@ -50,7 +50,7 @@ public class KnowledgeQuestionsModel
             var questions = new Questions();
             var categories = question.Categories;
 
-            questions.Titel = question.GetShortTitle();
+            questions.Titel = question.GetShortTitle(40);
             questions.Categories = categories[0].Name;
             questions.ImageFrontendData = categoryAndSetDataWishKnowledge.GetCategoryImage(categories[0].Id);
             questions.LearningStatus = "yellow";
@@ -64,7 +64,7 @@ public class KnowledgeQuestionsModel
             var questions = new Questions();
             var categories = question.Categories;
 
-            questions.Titel = question.GetShortTitle();
+            questions.Titel = question.GetShortTitle(40);
             questions.Categories = categories[0].Name;
             questions.ImageFrontendData = categoryAndSetDataWishKnowledge.GetCategoryImage(categories[0].Id);
             questions.LearningStatus = "red";
@@ -78,7 +78,7 @@ public class KnowledgeQuestionsModel
             var questions = new Questions();
             var categories = question.Categories;
            
-            questions.Titel = question.GetShortTitle();
+            questions.Titel = question.GetShortTitle(40);
             questions.Categories = categories[0].Name;
             questions.ImageFrontendData = categoryAndSetDataWishKnowledge.GetCategoryImage(categories[0].Id);
             questions.LearningStatus = "grey";

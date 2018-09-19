@@ -13,7 +13,8 @@
 #app .greenD,
 #app .yellow,
 #app .red,
-#app .grey {
+#app .grey,
+#app .round {
   border-radius: 10px;
   position: absolute;
   width: 20px;
@@ -44,6 +45,12 @@
 .vuetable .vuetable-th-slot-actions,
 .vuetable .vuetable-th-slot-dropDown {
   border-bottom: solid 2px #337ab7;
+}
+.vuetable .vuetable-th-slot-image {
+  width: 50px;
+}
+.vuetable #_Titel {
+  width: 300px;
 }
 thead {
   color: #ec971f;
