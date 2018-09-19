@@ -12,6 +12,8 @@ public class CategoryEditData_V1
 
     public IList<CategoryRelation_EditData_V1> CategoryRelations;
 
+    public CategoryEditData_V1(){}
+
     public CategoryEditData_V1(Category category)
     {
         Name = category.Name;
