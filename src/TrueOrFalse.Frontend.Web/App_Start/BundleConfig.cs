@@ -72,6 +72,12 @@ namespace TrueOrFalse.View
             bundles.Add(new StyleBundle("~/bundles/CategoryHistory")
                 .Include("~/Views/Categories/History/*.css"));
 
+            bundles.Add(new StyleBundle("~/bundles/CategoryHistoryDetail")
+                .Include("~/Views/Categories/History/Detail/*.css"));
+
+            bundles.Add(new ScriptBundle("~/bundles/js/CategoryHistoryDetail")
+                .Include("~/Views/Categories/History/Detail/Js/*.js"));
+
             bundles.Add(new StyleBundle("~/bundles/Login")
                 .Include("~/Views/Welcome/Registration/SocialButtons.css"));
 

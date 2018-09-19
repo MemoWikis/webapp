@@ -3,7 +3,8 @@
 <%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="Head" runat="server">
-    <%= Styles.Render("~/Views/Categories/History/CategoryHistory.css") %>
+    <%= Styles.Render("~/bundles/CategoryHistoryDetail") %>
+    <%= Scripts.Render("~/bundles/js/CategoryHistoryDetail") %>
 </asp:Content>
 
 <asp:Content ID="Content3" ContentPlaceHolderID="MainContent" runat="server">
