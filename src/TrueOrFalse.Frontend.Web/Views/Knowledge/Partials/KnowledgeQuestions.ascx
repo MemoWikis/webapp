@@ -41,9 +41,9 @@
                   <div v-bind:class="props.rowData.LearningStatus" id = 'box1'><p></p></div>
               </template>
                   
-            <template slot="topicCount" scope="props">
-                <div v-if="props.rowData.IsCategory"><span>{{props.rowData.LearnSetsCount}} Lernsets mit {{props.rowData.QuestionsCount}} Fragen</span></div>
-                <div v-if="!props.rowData.IsCategory"><span>{{props.rowData.QuestionsCount}} Fragen</span></div>
+            <template slot="authorImage" scope="props">
+                <image v-bind:src="props.rowData.AuthorImageUrl.Url" class="round">&nbsp;&nbsp; {{props.rowData.Author}}</image>
+                <div></div>
             </template>
 
             <!-- Buttons-->
