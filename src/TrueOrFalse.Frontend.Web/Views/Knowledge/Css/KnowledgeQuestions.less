@@ -1,4 +1,8 @@
 ﻿
+@solid: #afd534;
+@needs-consolidation: #fdd648;
+@not-learned: silver;
+@needs-learning: lightsalmon;
 
 #app {
     font-family: 'Avenir', Helvetica, Arial, sans-serif;
@@ -19,26 +23,29 @@
         position: absolute;
         width: 20px;
         height: 20px;
-
-        
     }
 
     .greenD {
-        background-color: seagreen;
+        background-color: @solid;
     }
 
     .yellow {
-        background-color: yellow;
+        background-color: @needs-consolidation;
     }
 
     .red {
-        background-color: red;
+        background-color: @not-learned;
     }
 
     .grey {
-        background-color: grey;
+        background-color: silver;
+    }
+
+    .imageAuthor {
+        padding-left: 30px;
     }
 }
+
 
 .orange.glyphicon {
     color: orange;
@@ -121,19 +128,19 @@ table.table.table-striped .title {
         }
 
         .needs-learning {
-            background-color: lightsalmon;
+            background-color: @needs-learning;
         }
 
         .needs-consolidation {
-            background-color: #fdd648;
+            background-color: @needs-consolidation;
         }
 
         .solid-knowledge {
-            background-color: #afd534;
+            background-color: @solid;
         }
 
         .not-learned {
-            background-color: silver;
+            background-color: @not-learned;
         }
 
         .not-in-wish-knowledge {

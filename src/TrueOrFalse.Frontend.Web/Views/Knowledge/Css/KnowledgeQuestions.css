@@ -21,16 +21,19 @@
   height: 20px;
 }
 #app .greenD {
-  background-color: seagreen;
+  background-color: #afd534;
 }
 #app .yellow {
-  background-color: yellow;
+  background-color: #fdd648;
 }
 #app .red {
-  background-color: red;
+  background-color: silver;
 }
 #app .grey {
-  background-color: grey;
+  background-color: silver;
+}
+#app .imageAuthor {
+  padding-left: 30px;
 }
 .orange.glyphicon {
   color: orange;

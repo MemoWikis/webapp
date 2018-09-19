@@ -9,17 +9,6 @@
     <div id="app">
         <h2 id="h2TpopicAndLearnset">{{moreParams.heading}}</h2>
 
-        <div class="col-xs-4 switch" style="text-align: left; font-size: 18px;  width: 27%">Zeige nur von mir erstellte Inhalte</div>
-        <div class="col-xs-1 switch">
-
-            <div class="onoffswitch">
-                <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="switchShowOnlySelfCreated" @click="switchOnlySelfCreatedChanged()">
-                <label class="onoffswitch-label" for="switchShowOnlySelfCreated">
-                    <span class="onoffswitch-inner"></span>
-                    <span class="onoffswitch-switch"></span>
-                </label>
-            </div>
-        </div>
         <div id="table-wrapper" class="ui container">
           <vuetable ref="vuetable"
             api-url="/Knowledge/GetQuestionsWish"
@@ -42,9 +31,17 @@
               </template>
                   
             <template slot="authorImage" scope="props">
-                <image v-bind:src="props.rowData.AuthorImageUrl.Url" class="round">&nbsp;&nbsp; {{props.rowData.Author}}</image>
-                <div></div>
+               <div >
+                    <image v-bind:src="props.rowData.AuthorImageUrl.Url" class="round"></image>
+               </div>
+                <div class="imageAuthor">{{props.rowData.Author}}</div>
+                
             </template>
+              
+              <template slot="category" scope="props">
+                  <image v-bind:src="GetImageSourceUrl(props.rowData.ImageFrontendData.ImageMetaData)" class="round">&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp; {{props.rowData.Categories}}</image>
+                  <div></div>
+              </template>
 
             <!-- Buttons-->
             <template slot="actions" scope="props">
