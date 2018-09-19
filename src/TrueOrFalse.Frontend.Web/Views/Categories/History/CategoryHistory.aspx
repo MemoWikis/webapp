@@ -4,7 +4,7 @@
 <%@ Import Namespace="Microsoft.Owin.Security.DataHandler.Encoder" %>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="Head" runat="server">
-    <%= Styles.Render("~/Views/Categories/History/CategoryHistory.css") %>
+    <%= Styles.Render("~/bundles/CategoryHistory") %>
 </asp:Content>
 
 <asp:Content ID="Content3" ContentPlaceHolderID="MainContent" runat="server">
