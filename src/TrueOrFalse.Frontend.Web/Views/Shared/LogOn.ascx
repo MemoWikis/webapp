@@ -19,7 +19,7 @@
             <span class="primary-point-text TextSpan" style="padding-top:11px;">Wissenszentrale</span>
         </a>
     </div>
-    <div class="header-item" id="Login">
+    <div class="header-item"  <%if (!userSession.IsLoggedIn){%>style="margin-top:-2px" <%} %> id="Login">
   <%if (userSession.IsLoggedIn)
     {
         var imageSetttings = new UserImageSettings(userSession.User.Id);
@@ -70,7 +70,7 @@
 <%
     }else {
 %> 
-        <a class="TextLinkWithIcon" href="#" data-btn-login="true"><i style="font-size:32px;" class="fa fa-sign-in"></i>
+        <a class="TextLinkWithIcon" href="#" data-btn-login="true"><i style="font-size:36px;" class="fa fa-sign-in"></i>
         <span style="padding-top:11px" class="TextSpan">Einloggen</span></a>
 <%
     }

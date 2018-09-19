@@ -18,7 +18,7 @@
            </a>
         </div>
         <div class="autor-card-footer-bar">               
-            <div class="show-tooltip" <% if(!Model.IsCurrentUser){%>title="<%if(Model.DoIFollow){ %>Du folgst <%= Model.AutorCardLinkText%> und nimmst an seinen Aktivitäten teil.<%}else{ %>Folge <%= Model.AutorCardLinkText%>, um an ihren/seinen Aktivitäten teilzuhaben.<%} %>" <%} %>>
+            <div class="show-tooltip" <% if(!Model.IsCurrentUser){%>title="<%if(Model.DoIFollow){ %>Du folgst <%= Model.AutorCardLinkText%> und nimmst an ihren/seinen Aktivitäten teil.<%}else{ %>Folge <%= Model.AutorCardLinkText%>, um an ihren/seinen Aktivitäten teilzuhaben.<%} %>" <%} %>>
               <i class="fa fa-user"></i>
               <span class="footer-bar-text"><%= Model.Reputation.ForUsersFollowingMe %></span> 
             </div>

@@ -7,7 +7,7 @@
         </div>
         <%= Model.Sponsor.TextBeforeLink %> <a href="<%= Model.Sponsor.SponsorUrl%>" rel="nofollow"><%= Model.Sponsor.LinkText %></a> <%= Model.Sponsor.TextAfterLink %>
         <div style="width:100%; display:flex; justify-content:flex-end;">
-            <i class="fa fa-info-circle show-tooltip" style="width:15px;" title="Wir bieten Werbeflächen und die Möglichkeit zur Präsentation von Inhalten vor allem Bildungsanbietern wie Schulbuchverlagen an. Daneben gibt es Sponsoren, die die Bereitsstellung von freien Bildungsinhalten unter der offenen Lizenz CC BY 4.0 durch memucho finanziell unterstützen. Sie nehmen dabei aber keinen Einfluss auf die inhaltliche Gestaltung der Bildungsmaterialien."></i>
+            <i class="fa fa-info-circle show-tooltip" style="width:15px;" title="Unser Bildungssponsor unterstützt die Erstellung von freien Lerninhalten durch memucho. Eine inhaltliche Einflussnahme gibt es dabei nicht."></i>
        </div>
     </div>
 <% } %>

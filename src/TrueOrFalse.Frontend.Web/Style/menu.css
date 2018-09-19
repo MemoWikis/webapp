@@ -338,7 +338,7 @@
   padding: 7px 7px 7px 40px;
 }
 .tooltip > .tooltip-inner {
-  min-width: 200px;
+  min-width: 0px;
   text-align: left;
 }
 /*$ToDo: enable with js functions*/
