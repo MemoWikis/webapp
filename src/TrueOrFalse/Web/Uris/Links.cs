@@ -403,6 +403,8 @@ namespace TrueOrFalse.Frontend.Web.Code
         public static string CategoryCreate() => GetUrlHelper().Action(CategoryCreateAction, CategoryEditController);
         public static string CategoryHistoryDetail(int categoryId, int categoryChangeId) => 
             GetUrlHelper().Action("Detail", "CategoryHistoryDetail", new { categoryId  = categoryId , categoryChangeId = categoryChangeId });
+        public static string CategoryHistory(int categoryId) =>
+            GetUrlHelper().Action("List", "CategoryHistory", new { categoryId = categoryId });
 
         public static string CategoryDetail(Category category) =>
             HttpContext.Current == null 
