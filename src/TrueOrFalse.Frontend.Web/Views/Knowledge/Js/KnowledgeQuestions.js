@@ -1,44 +1,44 @@
 ﻿
 Vue.use(Vuetable);
 
- new Vue({
-     el: '#app',
-     components: {
-         'vuetable-pagination': Vuetable.VuetablePagination
-     },
-     data: {
-         moreParams: {
-             'isAuthor': false,
-             'heading': ""
-         },
+new Vue({
+    el: '#app',
+    components: {
+        'vuetable-pagination': Vuetable.VuetablePagination
+    },
+    data: {
+        moreParams: {
+            'isAuthor': false,
+            'heading': ""
+        },
 
-         fields: [
-             {
-                 name: "__slot:image",
-                 title: "Frage"
-             },
+        fields: [
+            {
+                name: "__slot:image",
+                title: "Frage"
+            },
             {
                 name: 'Titel',
                 title: ""
-               
+
                 //sortField: 'name'
-             },
-             {
-                 name: "__slot:knowWas",
-                 title: 'Wissensstand',
-                 sortField: "knowWas"
-             },
-             {
-                 name: "__slot:authorImage",
-                 title: "Author",
-                 sortField: "author"
-             },
-             {
-                 name: "__slot:category",
-                 title: "Kategorie",
-                 sortField: "category"
-                 
-             }
+            },
+            {
+                name: "__slot:knowWas",
+                title: 'Wissensstand',
+                sortField: "knowWas"
+            },
+            {
+                name: "__slot:authorImage",
+                title: "Author",
+                sortField: "author"
+            },
+            {
+                name: "__slot:category",
+                title: "Kategorie",
+                sortField: "category"
+
+            }
         ],
         sortOrder: [
             { field: 'knowWas', direction: 'asc' },
@@ -64,12 +64,11 @@ Vue.use(Vuetable);
             //        next: '',
             //        last: ''
             //    }
-           // }
+            // }
         }
     },
 
     methods: {
-     
         mouseOver() {
             $('.show-tooltip').tooltip();
         },
@@ -79,48 +78,12 @@ Vue.use(Vuetable);
         onChangePage(page) {
             this.$refs.vuetable.changePage(page);
         },
-        onLoading() {
-            console.log('loading... show your spinner here');
-        },
-        onLoaded(props) {
-            console.log(props);
-        },
-        switchOnlySelfCreatedChanged: function () {
-            this.moreParams.isAuthor = $("#switchShowOnlySelfCreated").is(":checked");
-            var self = this;
-            $.ajax({
-                url: '/Knowledge/CountedWUWItoCategoryAndSet?isAuthor=' + this.moreParams.isAuthor,
-                method: 'POST',
-                async: false,
-                datatype: "jsonp",
-                success: function(Data) {
-                    self.moreParams.heading = Data;
-                },
-                error: function(error) {
-                    console.log(error);
-                }
-            });
-            this.$refs.vuetable.refresh();
-        },
         GetImageSourceUrl(url) {
             if (url === null)
                 return "/Images/no-category-picture-350.png";
             return url.SourceUrl;
         }
-     }, mounted: function () {
-        var self = this;
-         $.ajax({
-             url: '/Knowledge/CountedWUWItoCategoryAndSet?isAuthor=' + false,
-             method: 'POST',
-             async: false,
-             datatype: "jsonp",
-             success: function (Data) {
-             self.moreParams.heading = Data;
-             },
-             error: function (error) {
-                 console.log(error);
-             }
-         });
-     }
+
+    }
 });
 
