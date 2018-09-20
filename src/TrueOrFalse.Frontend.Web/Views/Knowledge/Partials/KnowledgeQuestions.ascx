@@ -15,9 +15,8 @@
             :sort-order="sortOrder"
             :css="css.table"
             pagination-path=""
-            :per-page="50"
-            @vuetable:loading="onLoading"
-            @vuetable:loaded="onLoaded()">
+            :per-page="30"
+            @vuetable:pagination-data="onPaginationData">
             
             <template slot="image" scope="props">
                 <div class="image" >

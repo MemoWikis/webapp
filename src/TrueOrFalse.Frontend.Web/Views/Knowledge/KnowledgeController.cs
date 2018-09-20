@@ -91,11 +91,8 @@ public class KnowledgeController : BaseController
         var sortList = categoryAndSetDataWishKnowledge.SortList(unsort, sort, isAuthor);
         var data = sortList.Skip((page - 1) * per_page).Take(page * per_page);
 
-        var total = data.Count();
-        var last_page = (sortList.Count / (per_page) + (sortList.Count % per_page));
-
-        if (last_page >= sortList.Count)
-            last_page = 1;
+        var total = sortList.Count();
+        var last_page = getLastPage(sortList.Count, per_page);
 
         return Json(new { total, per_page, current_page = page, last_page, data }, JsonRequestBehavior.AllowGet);
     }
@@ -121,13 +118,29 @@ public class KnowledgeController : BaseController
     [HttpGet]
     public JsonResult GetQuestionsWish(int page, int per_page, string sort = "")
     {
-        var total = 2;
-        var last_page = 1;
-
         var unsortList = knowledgeQuestionsModel.GetQuestionsWishFromDatabase(UserId);
-        var data = knowledgeQuestionsModel.GetSortList(unsortList, sort);
-
+        var sortList = knowledgeQuestionsModel.GetSortList(unsortList, sort);
+        var data = sortList.Skip((page - 1) * per_page).Take(page * per_page);
+        var total = sortList.Count();
+        var last_page = getLastPage(sortList.Count, per_page);
+      
 
         return Json(new { total, per_page, current_page = page, last_page, data }, JsonRequestBehavior.AllowGet);
+    }
+
+    private int getLastPage(int listCount, int perPage)
+    {
+        var pages  = listCount / perPage;
+        var rest = listCount % perPage;
+        var lastPage = 0;
+
+        if (rest > 0)
+        {
+            lastPage = pages + 1;
+            return lastPage;
+        }
+
+        lastPage = pages;
+        return  lastPage;
     }
 }
