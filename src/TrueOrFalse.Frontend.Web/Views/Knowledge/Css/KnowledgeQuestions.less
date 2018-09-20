@@ -10,14 +10,6 @@
     -moz-osx-font-smoothing: grayscale;
     color: #2c3e50;
 
-    #h2TpopicAndLearnset {
-        margin-bottom: 21px;
-    }
-
-    .switch {
-        margin-bottom: 62px;
-    }
-
     .greenD, .yellow, .red, .grey, .round {
         border-radius: 10px;
         position: absolute;
@@ -27,6 +19,7 @@
 
     .greenD {
         background-color: @solid;
+       text-align: center;
     }
 
     .yellow {
@@ -66,12 +59,16 @@
         border-bottom: solid 2px #337ab7;
     }
 
+    .vuetable-th-slot-knowWas{
+        width: 50px;
+    }
+    
     .vuetable-th-slot-image {
         width: 50px;
     }
 
     #_Titel {
-        width: 300px;
+        width: 350px;
     }
 }
 
@@ -154,83 +151,3 @@ table.table.table-striped .title {
     }
 }
 
-//switch
-
-.onoffswitch {
-    position: relative;
-    width: 40px;
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-}
-
-.onoffswitch-checkbox {
-    display: none;
-}
-
-.onoffswitch-label {
-    display: block;
-    overflow: hidden;
-    cursor: pointer;
-    border: 2px solid #999999;
-    border-radius: 50px;
-}
-
-.onoffswitch-inner {
-    display: block;
-    width: 200%;
-    margin-left: -100%;
-    transition: margin 0.3s ease-in 0s;
-}
-
-.onoffswitch-inner:before, .onoffswitch-inner:after {
-    display: block;
-    float: left;
-    width: 50%;
-    height: 12px;
-    padding: 0;
-    line-height: 12px;
-    font-size: 14px;
-    color: white;
-    font-family: Trebuchet, Arial, sans-serif;
-    font-weight: bold;
-    box-sizing: border-box;
-}
-
-.onoffswitch-inner:before {
-    content: "";
-    padding-left: 10px;
-    background-color: #2C5FB2;
-    color: #2C5FB2;
-}
-
-.onoffswitch-inner:after {
-    content: "";
-    padding-right: 10px;
-    background-color: #EEEEEE;
-    color: #999999;
-    text-align: right;
-}
-
-.onoffswitch-switch {
-    display: block;
-    width: 8px;
-    height: 8px;
-    margin: 3px;
-    background: #FFFFFF;
-    position: absolute;
-    top: 1px;
-    bottom: 0;
-    right: 24px;
-    border: 2px solid #999999;
-    border-radius: 4px;
-    transition: all 0.3s ease-in 0s;
-}
-
-.onoffswitch-checkbox:checked + .onoffswitch-label .onoffswitch-inner {
-    margin-left: 0;
-}
-
-.onoffswitch-checkbox:checked + .onoffswitch-label .onoffswitch-switch {
-    right: 0px;
-}

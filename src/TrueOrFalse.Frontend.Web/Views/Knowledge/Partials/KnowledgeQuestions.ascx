@@ -25,7 +25,7 @@
             </template>
               
               <template slot="knowWas" scope="props">
-                  <div v-bind:class="props.rowData.LearningStatus" id = 'box1'><p></p></div>
+                  <div v-bind:class="props.rowData.LearningStatus "><p></p></div>
               </template>
                   
             <template slot="authorImage" scope="props">
