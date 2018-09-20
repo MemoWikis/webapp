@@ -7,7 +7,6 @@
  <div class="container-fluid">
 
     <div id="app">
-        <h2 id="h2TpopicAndLearnset">{{moreParams.heading}}</h2>
 
         <div id="table-wrapper" class="ui container">
           <vuetable ref="vuetable"

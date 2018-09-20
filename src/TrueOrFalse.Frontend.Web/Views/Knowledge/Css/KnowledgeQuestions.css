@@ -43,10 +43,10 @@
 }
 .vuetable #_Titel,
 .vuetable #_KnowlegdeWishPartial,
-.vuetable .vuetable-th-slot-image,
-.vuetable .vuetable-th-slot-topicCount,
-.vuetable .vuetable-th-slot-actions,
-.vuetable .vuetable-th-slot-dropDown {
+.vuetable .vuetable-th-slot-knowWas,
+.vuetable .vuetable-th-slot-authorImage,
+.vuetable .vuetable-th-slot-category,
+.vuetable .vuetable-th-slot-image {
   border-bottom: solid 2px #337ab7;
 }
 .vuetable .vuetable-th-slot-image {
