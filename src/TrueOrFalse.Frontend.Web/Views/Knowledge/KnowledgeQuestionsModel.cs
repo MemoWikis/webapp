@@ -37,11 +37,13 @@ public class KnowledgeQuestionsModel
             var categories = question.Categories;
             
             questions.Titel = question.GetShortTitle(40);
-            questions.Categories = categories[0].Name;
+            questions.Category = categories[0].Name;
             questions.ImageFrontendData = categoryAndSetDataWishKnowledge.GetCategoryImage(categories[0].Id);
             questions.LearningStatus = "greenD";
             questions.Author = question.Creator.Name;
             questions.AuthorImageUrl = userImageSettings.GetUrl_30px_square(Sl.UserRepo.GetById(question.Creator.Id));
+            questions.LearningStatusNumber = 1;
+
             questionsList.Add(questions);
         }
 
@@ -51,11 +53,13 @@ public class KnowledgeQuestionsModel
             var categories = question.Categories;
 
             questions.Titel = question.GetShortTitle(40);
-            questions.Categories = categories[0].Name;
+            questions.Category = categories[0].Name;
             questions.ImageFrontendData = categoryAndSetDataWishKnowledge.GetCategoryImage(categories[0].Id);
             questions.LearningStatus = "yellow";
             questions.Author = question.Creator.Name;
             questions.AuthorImageUrl = userImageSettings.GetUrl_30px_square(Sl.UserRepo.GetById(question.Creator.Id));
+            questions.LearningStatusNumber = 2;
+
             questionsList.Add(questions);
         }
 
@@ -65,11 +69,13 @@ public class KnowledgeQuestionsModel
             var categories = question.Categories;
 
             questions.Titel = question.GetShortTitle(40);
-            questions.Categories = categories[0].Name;
+            questions.Category = categories[0].Name;
             questions.ImageFrontendData = categoryAndSetDataWishKnowledge.GetCategoryImage(categories[0].Id);
             questions.LearningStatus = "red";
             questions.Author = question.Creator.Name;
             questions.AuthorImageUrl = userImageSettings.GetUrl_30px_square(Sl.UserRepo.GetById(question.Creator.Id));
+            questions.LearningStatusNumber = 3;
+
             questionsList.Add(questions);
         }
 
@@ -79,12 +85,12 @@ public class KnowledgeQuestionsModel
             var categories = question.Categories;
            
             questions.Titel = question.GetShortTitle(40);
-            questions.Categories = categories[0].Name;
+            questions.Category = categories[0].Name;
             questions.ImageFrontendData = categoryAndSetDataWishKnowledge.GetCategoryImage(categories[0].Id);
             questions.LearningStatus = "grey";
             questions.Author = question.Creator.Name;
-            questions.AuthorImageUrl = userImageSettings.GetUrl_30px_square(Sl.UserRepo.GetById(question.Creator.Id)); 
-
+            questions.AuthorImageUrl = userImageSettings.GetUrl_30px_square(Sl.UserRepo.GetById(question.Creator.Id));
+            questions.LearningStatusNumber = 4;
 
             questionsList.Add(questions);
         }
@@ -129,13 +135,42 @@ public class KnowledgeQuestionsModel
         return new List<Question>(Sl.QuestionRepo.GetByIds(questionsIListInList));
     }
 
+    public List<Questions> GetSortList(List<Questions> unSortList, string sortCondition)
+    {
+        switch (sortCondition)
+        {
+            case "knowWas|asc":
+                unSortList.Sort((x, y) => y.LearningStatusNumber.CompareTo(x.LearningStatusNumber));
+                break;
+            case "knowWas|desc":
+                unSortList.Sort((x, y) => -1 * y.LearningStatusNumber.CompareTo(x.LearningStatusNumber));
+                break;
+            case "author|asc":
+                unSortList.Sort((x, y) => String.CompareOrdinal(x.Author, y.Author));
+                break;
+            case "author|desc":
+                unSortList.Sort((x, y) => String.CompareOrdinal(y.Author, x.Author));
+                break;
+            case "category|asc":
+                unSortList.Sort((x, y) => String.CompareOrdinal(x.Category, y.Category));
+                break;
+            case "category|desc":
+                unSortList.Sort((x, y) => String.CompareOrdinal(y.Category, x.Category));
+                break;
+        }
+
+        var sortList = unSortList;
+        return sortList;
+    }
+
     public class Questions
     {
         public string Titel { get; set; }
-        public string Categories { get; set; }
+        public string Category { get; set; }
         public ImageFrontendData ImageFrontendData { get; set; }
         public string LearningStatus { get; set; }
         public string Author { get; set; }
         public ImageUrl AuthorImageUrl;
+        public int LearningStatusNumber;
     }
 }

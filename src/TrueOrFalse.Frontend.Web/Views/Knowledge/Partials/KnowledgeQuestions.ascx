@@ -13,7 +13,7 @@
           <vuetable ref="vuetable"
             api-url="/Knowledge/GetQuestionsWish"
             :fields="fields"
-          
+            :sort-order="sortOrder"
             :css="css.table"
             pagination-path=""
             :per-page="50"
@@ -39,7 +39,7 @@
             </template>
               
               <template slot="category" scope="props">
-                  <image v-bind:src="GetImageSourceUrl(props.rowData.ImageFrontendData.ImageMetaData)" class="round">&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp; {{props.rowData.Categories}}</image>
+                  <image v-bind:src="GetImageSourceUrl(props.rowData.ImageFrontendData.ImageMetaData)" class="round">&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp; {{props.rowData.Category}}</image>
                   <div></div>
               </template>
 

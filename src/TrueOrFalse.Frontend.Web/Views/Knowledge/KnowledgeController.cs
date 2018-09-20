@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.Eventing.Reader;
 using System.Linq;
 using System.Web.Mvc;
 using NHibernate.Event;
@@ -7,7 +8,8 @@ using TrueOrFalse.Frontend.Web.Code;
 
 public class KnowledgeController : BaseController
 {
-    readonly CategoryAndSetDataWishKnowledge categoryAndSetDataWishKnowledge = new CategoryAndSetDataWishKnowledge();
+    private readonly CategoryAndSetDataWishKnowledge categoryAndSetDataWishKnowledge = new CategoryAndSetDataWishKnowledge();
+    private readonly KnowledgeQuestionsModel knowledgeQuestionsModel = new KnowledgeQuestionsModel();
 
     [SetMenu(MenuEntry.Knowledge)]
     public ActionResult Knowledge()
@@ -122,7 +124,9 @@ public class KnowledgeController : BaseController
         var total = 2;
         var last_page = 1;
 
-        var data = new KnowledgeQuestionsModel().GetQuestionsWishFromDatabase(UserId);
+        var unsortList = knowledgeQuestionsModel.GetQuestionsWishFromDatabase(UserId);
+        var data = knowledgeQuestionsModel.GetSortList(unsortList, sort);
+
 
         return Json(new { total, per_page, current_page = page, last_page, data }, JsonRequestBehavior.AllowGet);
     }
