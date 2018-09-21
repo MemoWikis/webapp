@@ -279,6 +279,12 @@ namespace TrueOrFalse.View
                 .Include("~/Scripts/vendor.somewhere/jquery.dataTables.js")
                 .Include("~/Views/Maintenance/Js/ContentStats.js"));
 
+            bundles.Add(new ScriptBundle("~/bundles/js/diff2html")
+                .Include("~/Scripts/vendor/diff2html/*.js"));
+
+            bundles.Add(new ScriptBundle("~/bundles/diff2html")
+                .Include("~/Scripts/vendor/diff2html/*.css"));
+
             bundles.Add(new ScriptBundle("~/bundles/mailto")
                 .Include("~/Scripts/various/mailto.js"));
 

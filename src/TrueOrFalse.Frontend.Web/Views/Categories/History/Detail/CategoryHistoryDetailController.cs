@@ -10,7 +10,11 @@ public class CategoryHistoryDetailController : Controller
     public ActionResult Detail(int categoryChangeId)
     {
         var categoryChange = Sl.CategoryChangeRepo.GetByIdEager(categoryChangeId);
+        var previousChange = Sl.CategoryChangeRepo.GetForCategory(categoryChange.Category.Id)
+            .OrderByDescending(cc => cc.DateCreated)
+            .SkipWhile(previous => previous.DateCreated >= categoryChange.DateCreated)
+            .FirstOrDefault();
 
-        return View("~/Views/Categories/History/Detail/CategoryHistoryDetail.aspx", new CategoryHistoryDetailModel(categoryChange));
+        return View("~/Views/Categories/History/Detail/CategoryHistoryDetail.aspx", new CategoryHistoryDetailModel(categoryChange, previousChange));
     }
 }
