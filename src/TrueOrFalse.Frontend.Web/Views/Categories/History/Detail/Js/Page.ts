@@ -24,12 +24,17 @@ function ShowDiff2Html() {
             lineterm: ''
         }).join("\r\n");
 
-    var diff2htmlUi = new Diff2HtmlUI({ diff: difflibRes });
-    diff2htmlUi.draw('#outputdiv',
-        {
-            inputFormat: 'diff',
-            outputFormat: 'line-by-line',
-            showFiles: false,
-            matching: 'none'
-        });
+    if (difflibRes) {
+        var diff2htmlUi = new Diff2HtmlUI({ diff: difflibRes });
+        diff2htmlUi.draw('#outputdiv',
+            {
+                inputFormat: 'diff',
+                outputFormat: 'line-by-line',
+                showFiles: false,
+                matching: 'none'
+            });
+    } else {
+        $("#outputdiv").hide();
+        $("#nochangesdiv").show();
+    }
 }

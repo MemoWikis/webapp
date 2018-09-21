@@ -34,8 +34,13 @@
         
         <div class="row">
             <div class="col-12">
-                <input type="hidden" id="currentData" value="<%= Model.CurrentData %>"/>
-                <input type="hidden" id="previousData" value="<%= Model.PrevData %>"/>
+                <input type="hidden" id="currentData" value="<%= Server.HtmlEncode(Model.CurrentData) %>"/>
+                <input type="hidden" id="previousData" value="<%= Server.HtmlEncode(Model.PrevData) %>"/>
+                <br/>
+                <div id="outputdiv"></div>
+                <div id="nochangesdiv" style="display: none;">
+                    <h4><i class="fa fa-check"></i> Zwischen den beiden Revisionen gibt es keine inhaltlichen Unterschiede.</h4>
+                </div>
             </div>
         </div>
     </div>

@@ -19,15 +19,11 @@ public class CategoryHistoryDetailModel : BaseModel
     {
         CurrentChange = currentChange;
         PrevChange = prevChange;
-        
-        CurrentData = currentChange.Data;
-        PrevData = (prevChange != null) ? prevChange.Data : "";
 
-
-        dynamic currentCatRevision = JsonConvert.DeserializeObject(currentChange.Data);
-        dynamic prevCatRevision = JsonConvert.DeserializeObject(prevChange.Data);
-        CurrentData = ((string) currentCatRevision.TopicMardkown).Replace("\\r\\n", "\r\n");
-        PrevData = (prevChange != null) ? ((string) prevCatRevision.TopicMardkown).Replace("\\r\\n", "\r\n") : "";
+        var currentCatRevision = currentChange.GetCategoryChangeData();
+        var prevCatRevision = prevChange?.GetCategoryChangeData();
+        CurrentData = currentCatRevision.TopicMardkown.Replace("\\r\\n", "\r\n");
+        PrevData = prevCatRevision?.TopicMardkown.Replace("\\r\\n", "\r\n");
 
         CategoryId = currentChange.Category.Id;
         CategoryName = currentChange.Category.Name;
