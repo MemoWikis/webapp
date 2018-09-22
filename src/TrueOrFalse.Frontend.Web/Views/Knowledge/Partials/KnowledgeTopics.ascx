@@ -1,8 +1,6 @@
 ﻿<%@ Language="C#" Inherits="System.Web.Mvc.ViewUserControl<KnowledgeModel>"%>
 <%@ Import Namespace="System.Web.Optimization" %>
 
-<link rel='stylesheet prefetch' href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css'>
-<%= Styles.Render("~/bundles/KnowledgeTopics") %>
 <body>
  <div class="container-fluid">
 
@@ -32,13 +30,14 @@
             @vuetable:pagination-data="onPaginationData"
             @vuetable:loading="onLoading"
             @vuetable:loaded="onLoaded()">
-            
+
+              <!-- Topic Count-->
             <template slot="image" scope="props">
                 <div class="image">
                     <image class="imageTable"v-bind:src="GetImageSourceUrl(props.rowData.ImageFrontendData.ImageMetaData)"></image>
                 </div>
             </template>
-                  
+            <!-- Topic Count-->      
             <template slot="topicCount" scope="props">
                 <div v-if="props.rowData.IsCategory"><span>{{props.rowData.LearnSetsCount}} Lernsets mit {{props.rowData.QuestionsCount}} Fragen</span></div>
                 <div v-if="!props.rowData.IsCategory"><span>{{props.rowData.QuestionsCount}} Fragen</span></div>
@@ -87,5 +86,6 @@
  </div>
 </body>
 
-<%= Scripts.Render("~/bundles/js/KnowledgeTopics") %> 
-
+<%= Styles.Render("~/bundles/KnowledgeTopics") %>
+<%= Scripts.Render("~/bundles/js/KnowledgeTopics") %>
+<%= Scripts.Render("/Views/Knowledge/Js/KnowledgeTopics.js") %>
