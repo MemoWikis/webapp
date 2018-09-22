@@ -10,9 +10,8 @@
 <asp:Content runat="server" ID="header" ContentPlaceHolderID="Head">
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
     <script type="text/javascript" src="https://www.google.com/jsapi"></script>
-<%= Styles.Render("~/bundles/Knowledge") %>
-<%= Scripts.Render("~/bundles/js/Knowledge") %>  
- 
+    <%= Styles.Render("~/bundles/Knowledge") %>
+    <%= Scripts.Render("~/bundles/js/Knowledge") %>  
 </asp:Content>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
@@ -43,12 +42,10 @@
             <div class="col-xs-2"><a href="#" id="questions">Fragen</a></div>
             <div class="col-xs-3 col-sm-offset-3 "><a href="#" id="LinkIsDirectedToPartialView">Lernsitzung starten</a></div>
         </div>
-        <% if (Model.IsLoggedIn)
-            { %>
-        <div class="content" style="margin-top: 2rem">
-           <% Html.RenderPartial("~/Views/Knowledge/Partials/_Dashboard.ascx"); %>
-           
-        </div>
+        <% if (Model.IsLoggedIn){ %>
+            <div class="content" style="margin-top: 2rem">
+               <% Html.RenderPartial("~/Views/Knowledge/Partials/_Dashboard.ascx"); %>
+            </div>
         <% } %>
     </div>
 </div>

@@ -1,4 +1,5 @@
 ﻿using System.Web.Optimization;
+using NHibernate.Util;
 
 namespace TrueOrFalse.View
 {
@@ -293,8 +294,8 @@ namespace TrueOrFalse.View
 
             bundles.Add(new ScriptBundle("~/bundles/js/KnowledgeTopics")
                 .Include("~/Scripts/vendor/vuetable-2.js")
-                .Include("~/Scripts/vendor/vue.min.js")
-                .Include("~/Views/Knowledge/Js/KnowledgeTopics.js"));
+                .Include("~/Scripts/vendor/vue.min.js"));
+
             bundles.Add(new ScriptBundle("~/bundles/js/KnowledgeQuestions")
                 .Include("~/Scripts/vendor/vuetable-2.js")
                 .Include("~/Scripts/vendor/vue.min.js")
@@ -316,6 +317,7 @@ namespace TrueOrFalse.View
 #if RELEASE
             BundleTable.EnableOptimizations = true;
 #endif
+
             SetIgnorePatterns(bundles.IgnoreList);
         }
 

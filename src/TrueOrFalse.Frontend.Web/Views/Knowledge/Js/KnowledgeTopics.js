@@ -1,16 +1,16 @@
-﻿
+
 Vue.use(Vuetable);
 
- new Vue({
-     el: '#app',
-     components: {
-         'vuetable-pagination': Vuetable.VuetablePagination
-     },
-     data: {
-         moreParams: {
-             'isAuthor': false,
-             'heading': ""
-         },
+new Vue({
+    el: '#app',
+    components: {
+        'vuetable-pagination': Vuetable.VuetablePagination
+    },
+    data: {
+        moreParams: {
+            'isAuthor': false,
+            'heading': ""
+        },
         fields: [
             '__slot:image',
             {
@@ -58,17 +58,13 @@ Vue.use(Vuetable);
             }
         }
     },
-
     methods: {
-     
-        mouseOver() {
-            $('.show-tooltip').tooltip();
-        },
         onPaginationData(paginationData) {
             this.$refs.pagination.setPaginationData(paginationData);
         },
         onChangePage(page) {
             this.$refs.vuetable.changePage(page);
+          this.initializeTooltip();
         },
         editRow(rowData) {
 
@@ -116,14 +112,14 @@ Vue.use(Vuetable);
             }
         },
         onLoading() {
-            console.log('loading... show your spinner here');
         },
         onLoaded(props) {
-            console.log(props);
+            $('.show-tooltip').tooltip();
         },
         switchOnlySelfCreatedChanged: function () {
             this.moreParams.isAuthor = $("#switchShowOnlySelfCreated").is(":checked");
             var self = this;
+
             $.ajax({
                 url: '/Knowledge/CountedWUWItoCategoryAndSet?isAuthor=' + this.moreParams.isAuthor,
                 method: 'POST',
@@ -145,13 +141,14 @@ Vue.use(Vuetable);
         }
      }, mounted: function () {
         var self = this;
+
          $.ajax({
              url: '/Knowledge/CountedWUWItoCategoryAndSet?isAuthor=' + false,
              method: 'POST',
              async: false,
              datatype: "jsonp",
              success: function (Data) {
-             self.moreParams.heading = Data;
+                 self.moreParams.heading = Data;
              },
              error: function (error) {
                  console.log(error);
@@ -159,4 +156,3 @@ Vue.use(Vuetable);
          });
      }
 });
-
