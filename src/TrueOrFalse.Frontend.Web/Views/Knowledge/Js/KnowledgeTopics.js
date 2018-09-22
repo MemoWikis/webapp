@@ -123,12 +123,13 @@ Vue.use(Vuetable);
         },
         switchOnlySelfCreatedChanged: function () {
             this.moreParams.isAuthor = $("#switchShowOnlySelfCreated").is(":checked");
+            var self = this;
             $.ajax({
                 url: '/Knowledge/CountedWUWItoCategoryAndSet?isAuthor=' + this.moreParams.isAuthor,
                 method: 'POST',
                 async: false,
                 datatype: "jsonp",
-                success: (Data)=> {
+                success: function(Data) {
                     self.moreParams.heading = Data;
                 },
                 error: function(error) {
@@ -143,13 +144,14 @@ Vue.use(Vuetable);
             return url.SourceUrl;
         }
      }, mounted: function () {
+        var self = this;
          $.ajax({
              url: '/Knowledge/CountedWUWItoCategoryAndSet?isAuthor=' + false,
              method: 'POST',
              async: false,
              datatype: "jsonp",
-             success: (Data)=> {
-             this.moreParams.heading = Data;
+             success: function (Data) {
+             self.moreParams.heading = Data;
              },
              error: function (error) {
                  console.log(error);
