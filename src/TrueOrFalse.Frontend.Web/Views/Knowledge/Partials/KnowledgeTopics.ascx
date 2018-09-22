@@ -2,8 +2,6 @@
 <%@ Import Namespace="System.Web.Optimization" %>
 
 <body>
- <div class="container-fluid">
-
     <div id="app">
         <h2 id="h2TpopicAndLearnset">{{moreParams.heading}}</h2>
 
@@ -83,7 +81,6 @@
            </vuetable-pagination>
         </div>
     </div>
- </div>
 </body>
 
 <%= Styles.Render("~/bundles/KnowledgeTopics") %>
