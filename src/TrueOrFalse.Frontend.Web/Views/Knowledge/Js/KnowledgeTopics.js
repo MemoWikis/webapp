@@ -16,7 +16,8 @@ new Vue({
             {
                 name: 'Titel',
                 title: 'Thema/Lernset',
-                sortField: 'name'
+                sortField: 'name',
+                dataClass: 'Topic'
             },
             {
                 name: "KnowlegdeWishPartial",
