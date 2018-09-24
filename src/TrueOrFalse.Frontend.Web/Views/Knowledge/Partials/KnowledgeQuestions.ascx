@@ -13,7 +13,8 @@
             :css="css.table"
             pagination-path=""
             :per-page="30"
-            @vuetable:pagination-data="onPaginationData">
+            @vuetable:pagination-data="onPaginationData"
+            @vuetable:loaded ="onLoaded()">
             
             <template slot="image" scope="props">
                 <div class="image" >
@@ -22,7 +23,7 @@
             </template>
               
             <template slot="knowWas" scope="props">
-                <div v-bind:class="props.rowData.LearningStatus "><p></p></div>
+                <div v-bind:class="props.rowData.LearningStatus" data-toggle="tooltip" v-bind:title="props.rowData.LearningStatusTooltip"><p></p></div>
             </template>
                   
             <template slot="authorImage" scope="props">

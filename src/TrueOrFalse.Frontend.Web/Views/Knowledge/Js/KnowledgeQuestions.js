@@ -67,7 +67,6 @@ new Vue({
              }
         }
     },
-
     methods: {
         mouseOver() {
             $('.show-tooltip').tooltip();
@@ -82,8 +81,10 @@ new Vue({
             if (url === null)
                 return "/Images/no-category-picture-350.png";
             return url.SourceUrl;
+        },
+        onLoaded(props) {
+            $('[data-toggle="tooltip"]').tooltip();
         }
-
     }
 });
 

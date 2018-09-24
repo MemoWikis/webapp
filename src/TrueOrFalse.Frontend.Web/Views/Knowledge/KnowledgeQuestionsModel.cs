@@ -43,6 +43,7 @@ public class KnowledgeQuestionsModel
             questions.Author = question.Creator.Name;
             questions.AuthorImageUrl = userImageSettings.GetUrl_30px_square(Sl.UserRepo.GetById(question.Creator.Id));
             questions.LearningStatusNumber = 1;
+            questions.LearningStatusTooltip = "Sicher gewusst";
 
             questionsList.Add(questions);
         }
@@ -59,6 +60,7 @@ public class KnowledgeQuestionsModel
             questions.Author = question.Creator.Name;
             questions.AuthorImageUrl = userImageSettings.GetUrl_30px_square(Sl.UserRepo.GetById(question.Creator.Id));
             questions.LearningStatusNumber = 2;
+            questions.LearningStatusTooltip = "Zu festigen";
 
             questionsList.Add(questions);
         }
@@ -75,6 +77,7 @@ public class KnowledgeQuestionsModel
             questions.Author = question.Creator.Name;
             questions.AuthorImageUrl = userImageSettings.GetUrl_30px_square(Sl.UserRepo.GetById(question.Creator.Id));
             questions.LearningStatusNumber = 3;
+            questions.LearningStatusTooltip = "Zu lernen";
 
             questionsList.Add(questions);
         }
@@ -91,6 +94,7 @@ public class KnowledgeQuestionsModel
             questions.Author = question.Creator.Name;
             questions.AuthorImageUrl = userImageSettings.GetUrl_30px_square(Sl.UserRepo.GetById(question.Creator.Id));
             questions.LearningStatusNumber = 4;
+            questions.LearningStatusTooltip = "Nicht gelernt";
 
             questionsList.Add(questions);
         }
@@ -172,5 +176,6 @@ public class KnowledgeQuestionsModel
         public string Author { get; set; }
         public ImageUrl AuthorImageUrl;
         public int LearningStatusNumber;
+        public string LearningStatusTooltip;
     }
 }

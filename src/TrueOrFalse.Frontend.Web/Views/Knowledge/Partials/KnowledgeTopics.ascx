@@ -29,12 +29,13 @@
             @vuetable:loading="onLoading"
             @vuetable:loaded="onLoaded()">
 
-              <!-- Topic Count-->
+              <!-- Topic Image-->
             <template slot="image" scope="props">
                 <div class="image">
                     <image class="imageTable"v-bind:src="GetImageSourceUrl(props.rowData.ImageFrontendData.ImageMetaData)"></image>
                 </div>
             </template>
+
             <!-- Topic Count-->      
             <template slot="topicCount" scope="props">
                 <div v-if="props.rowData.IsCategory"><span>{{props.rowData.LearnSetsCount}} Lernsets mit {{props.rowData.QuestionsCount}} Fragen</span></div>
