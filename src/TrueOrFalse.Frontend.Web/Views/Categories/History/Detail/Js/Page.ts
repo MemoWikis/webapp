@@ -14,15 +14,15 @@ function ShowDiff2Html() {
     var previousData = $('#previousData').val();
 
     var difflibRes = difflib.unifiedDiff(
-        currentData.split('\n'),
         previousData.split('\n'),
+        currentData.split('\n'),
         {
             fromfile: 'Original',
             tofile: 'Current',
             fromfiledate: '2005-01-26 23:30:50',
             tofiledate: '2010-04-02 10:20:52',
             lineterm: ''
-        }).join("\r\n");
+        }).join("\n");
 
     if (difflibRes) {
         var diff2htmlUi = new Diff2HtmlUI({ diff: difflibRes });
