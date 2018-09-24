@@ -9,6 +9,7 @@
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     color: #2c3e50;
+   // margin-left: 0px;
 
     .greenD, .yellow, .red, .grey, .round {
         border-radius: 10px;
@@ -37,8 +38,16 @@
         padding-left: 30px;
     }
 }
+// overwrite Bootstrap
+.container{
+    padding-left: 0px;
 
+}
 
+.row{
+    margin-left: 0px;
+    margin-right: 0px;
+}
 .orange.glyphicon {
     color: orange;
 }
@@ -46,7 +55,9 @@
 .dropdown-toggle {
     transform: rotate(90deg);
 }
-
+.row{
+   // margin-right:0px;
+}
 .vuetable {
 
     #_Titel,
@@ -57,6 +68,7 @@
     .vuetable-th-slot-image {
         border-bottom: solid 2px #337ab7;
     }
+
     .vuetable-th-slot-knowWas {
         width: 50px;
     }
@@ -97,7 +109,6 @@ table.table.table-striped .image {
 table.table.table-striped .title {
     float: left;
 }
-
 
 .KnowledgeBarWrapper {
     display: inline-block;

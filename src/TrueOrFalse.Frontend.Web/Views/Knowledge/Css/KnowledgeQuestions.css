@@ -30,6 +30,13 @@
 #app .imageAuthor {
   padding-left: 30px;
 }
+.container {
+  padding-left: 0px;
+}
+.row {
+  margin-left: 0px;
+  margin-right: 0px;
+}
 .orange.glyphicon {
   color: orange;
 }

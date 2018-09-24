@@ -1,13 +1,10 @@
 ﻿<%@ Language="C#" Inherits="System.Web.Mvc.ViewUserControl<KnowledgeModel>"%>
 <%@ Import Namespace="System.Web.Optimization" %>
 
-<link rel='stylesheet prefetch' href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css'>
-<%= Styles.Render("~/bundles/KnowledgeQuestions") %>
+
+
 <body>
- <div class="container-fluid">
-
     <div id="app">
-
         <div id="table-wrapper" class="ui container">
           <vuetable ref="vuetable"
             api-url="/Knowledge/GetQuestionsWish"
@@ -24,16 +21,15 @@
                 </div>
             </template>
               
-              <template slot="knowWas" scope="props">
-                  <div v-bind:class="props.rowData.LearningStatus "><p></p></div>
-              </template>
+            <template slot="knowWas" scope="props">
+                <div v-bind:class="props.rowData.LearningStatus "><p></p></div>
+            </template>
                   
             <template slot="authorImage" scope="props">
-               <div >
+                <div>
                     <image v-bind:src="props.rowData.AuthorImageUrl.Url" class="round"></image>
-               </div>
+                </div>
                 <div class="imageAuthor">{{props.rowData.Author}}</div>
-                
             </template>
               
               <template slot="category" scope="props">
@@ -81,8 +77,8 @@
            </vuetable-pagination>
         </div>
     </div>
- </div>
 </body>
 
 <%= Scripts.Render("~/bundles/js/KnowledgeQuestions") %> 
+<%= Styles.Render("~/bundles/KnowledgeQuestions") %>
 
