@@ -24,6 +24,10 @@ function ShowDiff2Html() {
             lineterm: ''
         }).join("\n");
 
+    //var diff = JsDiff.diffChars(one, other),
+    //    display = document.getElementById('display'),
+    //    fragment = document.createDocumentFragment();
+
     if (difflibRes) {
         var diff2htmlUi = new Diff2HtmlUI({ diff: difflibRes });
         diff2htmlUi.draw('#outputdiv',

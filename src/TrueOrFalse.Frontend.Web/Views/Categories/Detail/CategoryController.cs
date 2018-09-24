@@ -29,6 +29,7 @@ public class CategoryController : BaseController
         return View(_viewLocation, GetModelWithContentHtml(category));
     }
 
+    //TODO: FK show revision
     private CategoryModel GetModelWithContentHtml(Category category)
     {
         var contentHtml = string.IsNullOrEmpty(category.TopicMarkdown?.Trim())
