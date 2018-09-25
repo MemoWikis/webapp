@@ -23,12 +23,14 @@
                 </template>
                   
                 <template slot="knowWas" scope="props">
+                    <div class="know-was">
                     <div v-bind:class="props.rowData.LearningStatus" data-toggle="tooltip" v-bind:title="props.rowData.LearningStatusTooltip"><p></p></div>
+                    </div>
                 </template>
                       
                 <template slot="authorImage" scope="props">
                     <div>
-                        <image v-bind:src="props.rowData.AuthorImageUrl.Url" class="round"></image>
+                        <image v-bind:src="props.rowData.AuthorImageUrl.Url" class="image-author"></image>
                     </div>
                     <div class="imageAuthor">{{props.rowData.Author}}</div>
                 </template>

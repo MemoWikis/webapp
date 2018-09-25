@@ -4,29 +4,6 @@
   -moz-osx-font-smoothing: grayscale;
   color: #2c3e50;
 }
-#app .greenD,
-#app .yellow,
-#app .red,
-#app .grey,
-#app .round {
-  border-radius: 10px;
-  position: absolute;
-  width: 20px;
-  height: 20px;
-}
-#app .greenD {
-  background-color: #afd534;
-  text-align: center;
-}
-#app .yellow {
-  background-color: #fdd648;
-}
-#app .red {
-  background-color: silver;
-}
-#app .grey {
-  background-color: silver;
-}
 #app .imageAuthor {
   padding-left: 30px;
 }
@@ -49,17 +26,60 @@
   border-bottom: solid 2px #337ab7;
   padding-left: 0px;
   font-size: 18px;
+  font-weight: normal;
+  color: #2c5fb2;
+}
+.vuetable .vuetable-th-slot-knowWas {
+  padding-left: 17px;
 }
 .vuetable .tdImage {
   padding-left: 0px;
   padding-right: 0px;
-  width: 350px;
+  width: 382px;
+}
+.vuetable .know-was {
+  padding-left: 70px;
+  padding-right: 124px;
 }
 .vuetable .title-table {
   padding-left: 10px;
 }
 .vuetable .vuetable-th-slot-knowWas {
   width: 50px;
+}
+.vuetable .greenD,
+.vuetable .yellow,
+.vuetable .red,
+.vuetable .grey,
+.vuetable .round {
+  width: 21px;
+  height: 21px;
+}
+.vuetable .greenD,
+.vuetable .yellow,
+.vuetable .red,
+.vuetable .grey,
+.vuetable .round {
+  border-radius: 10px;
+  position: absolute;
+}
+.vuetable .image-author {
+  width: 22px;
+  height: 22px;
+  position: absolute;
+}
+.vuetable .greenD {
+  background-color: #afd534;
+  text-align: center;
+}
+.vuetable .yellow {
+  background-color: #fdd648;
+}
+.vuetable .red {
+  background-color: silver;
+}
+.vuetable .grey {
+  background-color: silver;
 }
 thead {
   color: #ec971f;

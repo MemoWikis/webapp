@@ -11,28 +11,7 @@
     color: #2c3e50;
    // margin-left: 0px;
 
-    .greenD, .yellow, .red, .grey, .round {
-        border-radius: 10px;
-        position: absolute;
-        width: 20px;
-        height: 20px;
-    }
-    .greenD {
-        background-color: @solid;
-       text-align: center;
-    }
 
-    .yellow {
-        background-color: @needs-consolidation;
-    }
-
-    .red {
-        background-color: @not-learned;
-    }
-
-    .grey {
-        background-color: silver;
-    }
 
     .imageAuthor {
         padding-left: 30px;
@@ -65,14 +44,26 @@
         border-bottom: solid 2px #337ab7;
         padding-left: 0px;
         font-size: 18px;
-
+        font-weight: normal;
+        color: #2c5fb2;
     }
-    .tdImage{
+
+    .vuetable-th-slot-knowWas {
+        padding-left: 17px;
+    }
+
+    .tdImage {
         padding-left: 0px;
         padding-right: 0px;
-        width: 350px;
+        width: 382px;
     }
-    .title-table{
+
+    .know-was {
+        padding-left: 70px;
+        padding-right: 124px;
+    }
+
+    .title-table {
         padding-left: 10px;
     }
 
@@ -80,6 +71,38 @@
         width: 50px;
     }
 
+    .greenD, .yellow, .red, .grey, .round {
+        width: 21px;
+        height: 21px;
+    }
+
+    .greenD, .yellow, .red, .grey, .round {
+        border-radius: 10px;
+        position: absolute;
+    }
+
+    .image-author {
+        width: 22px;
+        height: 22px;
+        position: absolute;
+    }
+
+    .greenD {
+        background-color: @solid;
+        text-align: center;
+    }
+
+    .yellow {
+        background-color: @needs-consolidation;
+    }
+
+    .red {
+        background-color: @not-learned;
+    }
+
+    .grey {
+        background-color: silver;
+    }
 }
 
 thead {

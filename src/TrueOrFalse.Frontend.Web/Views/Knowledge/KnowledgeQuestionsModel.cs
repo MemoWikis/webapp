@@ -34,7 +34,7 @@ public class KnowledgeQuestionsModel
             var questions = new Questions();
             var categories = question.Categories;
 
-            questions.Title = question.GetShortTitle(40);
+            questions.Title = question.GetShortTitle(50);
             questions.Category = categories[0].Name;
             questions.ImageFrontendData = categoryAndSetDataWishKnowledge.GetCategoryImage(categories[0].Id);
             questions.Author = question.Creator.Name;
