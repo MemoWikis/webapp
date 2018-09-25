@@ -19,12 +19,6 @@ new Vue({
                 dataClass: "tdImage"
             },
             {
-                name: 'Titel',
-                title: ""
-
-                //sortField: 'name'
-            },
-            {
                 name: "__slot:knowWas",
                 title: 'Wissensstand',
                 sortField: "knowWas"
