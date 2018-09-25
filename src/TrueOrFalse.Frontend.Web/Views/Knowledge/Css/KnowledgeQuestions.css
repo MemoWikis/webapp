@@ -40,9 +40,6 @@
 .orange.glyphicon {
   color: orange;
 }
-.dropdown-toggle {
-  transform: rotate(90deg);
-}
 .vuetable #_Titel,
 .vuetable #_KnowlegdeWishPartial,
 .vuetable .vuetable-th-slot-knowWas,
@@ -56,6 +53,10 @@
 .vuetable .tdImage {
   padding-left: 0px;
   padding-right: 0px;
+  width: 350px;
+}
+.vuetable .title-table {
+  padding-left: 10px;
 }
 .vuetable .vuetable-th-slot-knowWas {
   width: 50px;
