@@ -55,7 +55,7 @@
             <template slot="dropDown" scope="props">
             <div class="Button dropdown" style="float: right">
                 <% var buttonId = Guid.NewGuid(); %>
-                <a href="#" id="<%=buttonId %>" class="dropdown-toggle  btn btn-link btn-sm ButtonEllipsis" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" >
+                <a href="#" id="<%=buttonId %>" class="dropdown-toggle fa-rotate-90  btn btn-link btn-sm ButtonEllipsis" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" >
                     <i class="fa fa-ellipsis-v"></i>
                 </a>
                 <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="<%=buttonId %>"  >
