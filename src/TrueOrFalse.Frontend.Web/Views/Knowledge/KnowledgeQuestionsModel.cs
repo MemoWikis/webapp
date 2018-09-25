@@ -102,12 +102,6 @@ public class KnowledgeQuestionsModel
         return questionsList;
     }
 
-    public string GetKnowledgeKnowWasRound(string knowWas)
-    {
-        var solid = "<div id = 'box1' style='background-color: green; position: absolute; width: 200px; height: 100px;'><p> Box als Karteikartenreiter</p></div>";
-        return solid;
-    }
-
     public List<Question> GetListWithKnowWas(string knowWas, int userId)
     {
         List<int> questionsIListInList;
