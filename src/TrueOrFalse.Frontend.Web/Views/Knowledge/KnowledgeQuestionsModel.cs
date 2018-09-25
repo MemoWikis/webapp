@@ -9,11 +9,11 @@ using NHibernate.Bytecode;
 
 public class KnowledgeQuestionsModel
 {
-    private UserImageSettings userImageSettings = new UserImageSettings(); 
+    private UserImageSettings userImageSettings = new UserImageSettings();
 
     public List<Questions> GetQuestionsWishFromDatabase(int userId)
     {
-       var questionsListSolid = GetListWithKnowWas("solid", userId);
+        var questionsListSolid = GetListWithKnowWas("solid", userId);
         var shouldConsolidate = GetListWithKnowWas("shouldConsolidate", userId);
         var shouldLearning = GetListWithKnowWas("shouldLearning", userId);
         var NotLearned = GetListWithKnowWas("", userId);
@@ -21,8 +21,62 @@ public class KnowledgeQuestionsModel
         return QuestionsFactory(questionsListSolid, shouldConsolidate, shouldLearning, NotLearned);
     }
 
+    private List<Questions> ObjectFactory(
+        IList<Question> questionsListForFactory,
+        CategoryAndSetDataWishKnowledge categoryAndSetDataWishKnowledge,
+        List<Questions> questionsList,
+        string whichList
+        )
+    {
+
+        foreach (var question in questionsListForFactory)
+        {
+            var questions = new Questions();
+            var categories = question.Categories;
+
+            questions.Titel = question.GetShortTitle(40);
+            questions.Category = categories[0].Name;
+            questions.ImageFrontendData = categoryAndSetDataWishKnowledge.GetCategoryImage(categories[0].Id);
+            questions.Author = question.Creator.Name;
+            questions.AuthorImageUrl = userImageSettings.GetUrl_30px_square(Sl.UserRepo.GetById(question.Creator.Id));
+
+            if (whichList.Equals("solid"))
+            {
+                questions.LearningStatus = "greenD";
+                questions.LearningStatusNumber = 1;
+                questions.LearningStatusTooltip = "Sicher gewusst";
+            }
+
+            if (whichList.Equals("questionsListShouldConsolidate"))
+            {
+                questions.LearningStatus = "yellow";
+                questions.LearningStatusNumber = 2;
+                questions.LearningStatusTooltip = "Zu festigen";
+            }
+
+            if (whichList.Equals("questionsListShouldLearning"))
+            {
+                questions.LearningStatus = "red";
+                questions.LearningStatusNumber = 3;
+                questions.LearningStatusTooltip = "Zu lernen";
+
+            }
+
+            if (whichList.Equals("questionsListNotLearned"))
+            {
+                questions.LearningStatus = "grey";
+                questions.LearningStatusNumber = 4;
+                questions.LearningStatusTooltip = "Nicht gelernt";
+            }
+
+            questionsList.Add(questions);
+        }
+
+        return questionsList;
+    }
+
     public List<Questions> QuestionsFactory(
-        IList<Question> questionsListSolid, 
+        IList<Question> questionsListSolid,
         IList<Question> questionsListShouldConsolidate,
         IList<Question> questionsListShouldLearning,
         IList<Question> questionsListNotLearned
@@ -30,74 +84,20 @@ public class KnowledgeQuestionsModel
     {
         var questionsList = new List<Questions>();
         var categoryAndSetDataWishKnowledge = new CategoryAndSetDataWishKnowledge();
-        
-        foreach (var question in questionsListSolid)
-        {
-            var questions = new Questions();
-            var categories = question.Categories;
-            
-            questions.Titel = question.GetShortTitle(40);
-            questions.Category = categories[0].Name;
-            questions.ImageFrontendData = categoryAndSetDataWishKnowledge.GetCategoryImage(categories[0].Id);
-            questions.LearningStatus = "greenD";
-            questions.Author = question.Creator.Name;
-            questions.AuthorImageUrl = userImageSettings.GetUrl_30px_square(Sl.UserRepo.GetById(question.Creator.Id));
-            questions.LearningStatusNumber = 1;
-            questions.LearningStatusTooltip = "Sicher gewusst";
 
-            questionsList.Add(questions);
-        }
+        if (questionsListSolid.Count != 0)
+            questionsList = ObjectFactory(questionsListSolid, categoryAndSetDataWishKnowledge, questionsList, "solid");
 
-        foreach (var question in questionsListShouldConsolidate)
-        {
-            var questions = new Questions();
-            var categories = question.Categories;
+        if (questionsListShouldConsolidate.Count != 0)
+            questionsList = ObjectFactory(questionsListShouldConsolidate, categoryAndSetDataWishKnowledge, questionsList, "questionsListShouldConsolidate");
 
-            questions.Titel = question.GetShortTitle(40);
-            questions.Category = categories[0].Name;
-            questions.ImageFrontendData = categoryAndSetDataWishKnowledge.GetCategoryImage(categories[0].Id);
-            questions.LearningStatus = "yellow";
-            questions.Author = question.Creator.Name;
-            questions.AuthorImageUrl = userImageSettings.GetUrl_30px_square(Sl.UserRepo.GetById(question.Creator.Id));
-            questions.LearningStatusNumber = 2;
-            questions.LearningStatusTooltip = "Zu festigen";
 
-            questionsList.Add(questions);
-        }
+        if (questionsListShouldConsolidate.Count != 0)
+            questionsList = ObjectFactory(questionsListShouldLearning, categoryAndSetDataWishKnowledge, questionsList, "questionsListShouldLearning");
 
-        foreach (var question in questionsListShouldLearning)
-        {
-            var questions = new Questions();
-            var categories = question.Categories;
 
-            questions.Titel = question.GetShortTitle(40);
-            questions.Category = categories[0].Name;
-            questions.ImageFrontendData = categoryAndSetDataWishKnowledge.GetCategoryImage(categories[0].Id);
-            questions.LearningStatus = "red";
-            questions.Author = question.Creator.Name;
-            questions.AuthorImageUrl = userImageSettings.GetUrl_30px_square(Sl.UserRepo.GetById(question.Creator.Id));
-            questions.LearningStatusNumber = 3;
-            questions.LearningStatusTooltip = "Zu lernen";
-
-            questionsList.Add(questions);
-        }
-
-        foreach (var question in questionsListNotLearned)
-        {
-            var questions = new Questions();
-            var categories = question.Categories;
-           
-            questions.Titel = question.GetShortTitle(40);
-            questions.Category = categories[0].Name;
-            questions.ImageFrontendData = categoryAndSetDataWishKnowledge.GetCategoryImage(categories[0].Id);
-            questions.LearningStatus = "grey";
-            questions.Author = question.Creator.Name;
-            questions.AuthorImageUrl = userImageSettings.GetUrl_30px_square(Sl.UserRepo.GetById(question.Creator.Id));
-            questions.LearningStatusNumber = 4;
-            questions.LearningStatusTooltip = "Nicht gelernt";
-
-            questionsList.Add(questions);
-        }
+        if (questionsListShouldConsolidate.Count != 0)
+            questionsList = ObjectFactory(questionsListNotLearned, categoryAndSetDataWishKnowledge, questionsList, "questionsListNotLearned");
 
         return questionsList;
     }
