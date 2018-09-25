@@ -31,8 +31,9 @@
                 <template slot="authorImage" scope="props">
                     <div>
                         <image v-bind:src="props.rowData.AuthorImageUrl.Url" class="image-author"></image>
+                        <span class="author-name">{{props.rowData.Author}}</span>
                     </div>
-                    <div class="imageAuthor">{{props.rowData.Author}}</div>
+                    
                 </template>
               
                 <template slot="category" scope="props">
