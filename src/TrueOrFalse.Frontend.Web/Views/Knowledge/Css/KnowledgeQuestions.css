@@ -79,6 +79,9 @@ table.table.table-striped .image {
   width: 30px;
   float: right;
 }
+.link-to-category {
+  margin-left: 30px;
+}
 table.table.table-striped .title {
   float: left;
 }

@@ -34,7 +34,7 @@
             </template>
               
               <template slot="category" scope="props">
-                  <image v-bind:src="GetImageSourceUrl(props.rowData.ImageFrontendData.ImageMetaData)"   class="round"></image><a data-toggle="tooltip" title="Thema in neuem Tab öffnen">&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp; {{props.rowData.Category}}</a>
+                  <image v-bind:src="GetImageSourceUrl(props.rowData.ImageFrontendData.ImageMetaData)"   class="round"></image><a data-toggle="tooltip" title="Thema in neuem Tab öffnen" v-bind:href="props.rowData.LinkToCategory" target="_blank" class="link-to-category">{{props.rowData.Category}}</a>
                   <div></div>
               </template>
 

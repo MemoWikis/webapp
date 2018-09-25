@@ -5,6 +5,7 @@ using System.Web;
 using EasyNetQ.Events;
 using Microsoft.AspNet.SignalR;
 using NHibernate.Bytecode;
+using TrueOrFalse.Frontend.Web.Code;
 
 
 public class KnowledgeQuestionsModel
@@ -23,12 +24,11 @@ public class KnowledgeQuestionsModel
 
     private List<Questions> ObjectFactory(
         IList<Question> questionsListForFactory,
-        CategoryAndSetDataWishKnowledge categoryAndSetDataWishKnowledge,
         List<Questions> questionsList,
         string whichList
         )
     {
-
+        var categoryAndSetDataWishKnowledge = new CategoryAndSetDataWishKnowledge();
         foreach (var question in questionsListForFactory)
         {
             var questions = new Questions();
@@ -39,6 +39,8 @@ public class KnowledgeQuestionsModel
             questions.ImageFrontendData = categoryAndSetDataWishKnowledge.GetCategoryImage(categories[0].Id);
             questions.Author = question.Creator.Name;
             questions.AuthorImageUrl = userImageSettings.GetUrl_30px_square(Sl.UserRepo.GetById(question.Creator.Id));
+            questions.LinkToCategory = Links.GetUrl(categories[0]);
+
 
             if (whichList.Equals("solid"))
             {
@@ -83,21 +85,21 @@ public class KnowledgeQuestionsModel
         )
     {
         var questionsList = new List<Questions>();
-        var categoryAndSetDataWishKnowledge = new CategoryAndSetDataWishKnowledge();
+
 
         if (questionsListSolid.Count != 0)
-            questionsList = ObjectFactory(questionsListSolid, categoryAndSetDataWishKnowledge, questionsList, "solid");
+            questionsList = ObjectFactory(questionsListSolid, questionsList, "solid");
 
         if (questionsListShouldConsolidate.Count != 0)
-            questionsList = ObjectFactory(questionsListShouldConsolidate, categoryAndSetDataWishKnowledge, questionsList, "questionsListShouldConsolidate");
-
-
-        if (questionsListShouldConsolidate.Count != 0)
-            questionsList = ObjectFactory(questionsListShouldLearning, categoryAndSetDataWishKnowledge, questionsList, "questionsListShouldLearning");
+            questionsList = ObjectFactory(questionsListShouldConsolidate,  questionsList, "questionsListShouldConsolidate");
 
 
         if (questionsListShouldConsolidate.Count != 0)
-            questionsList = ObjectFactory(questionsListNotLearned, categoryAndSetDataWishKnowledge, questionsList, "questionsListNotLearned");
+            questionsList = ObjectFactory(questionsListShouldLearning, questionsList, "questionsListShouldLearning");
+
+
+        if (questionsListShouldConsolidate.Count != 0)
+            questionsList = ObjectFactory(questionsListNotLearned, questionsList, "questionsListNotLearned");
 
         return questionsList;
     }
@@ -171,5 +173,6 @@ public class KnowledgeQuestionsModel
         public ImageUrl AuthorImageUrl;
         public int LearningStatusNumber;
         public string LearningStatusTooltip;
+        public string LinkToCategory;
     }
 }
