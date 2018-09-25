@@ -34,7 +34,7 @@ public class KnowledgeQuestionsModel
             var questions = new Questions();
             var categories = question.Categories;
 
-            questions.Titel = question.GetShortTitle(40);
+            questions.Title = question.GetShortTitle(40);
             questions.Category = categories[0].Name;
             questions.ImageFrontendData = categoryAndSetDataWishKnowledge.GetCategoryImage(categories[0].Id);
             questions.Author = question.Creator.Name;
@@ -165,7 +165,7 @@ public class KnowledgeQuestionsModel
 
     public class Questions
     {
-        public string Titel { get; set; }
+        public string Title { get; set; }
         public string Category { get; set; }
         public ImageFrontendData ImageFrontendData { get; set; }
         public string LearningStatus { get; set; }
