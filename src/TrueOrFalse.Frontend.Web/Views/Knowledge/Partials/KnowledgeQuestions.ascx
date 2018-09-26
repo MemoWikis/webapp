@@ -29,9 +29,9 @@
                 </template>
                       
                 <template slot="authorImage" scope="props">
-                    <div>
+                    <div data-toggle="tooltip" v-bind:title="props.rowData.AuthorName">
                         <image v-bind:src="props.rowData.AuthorImageUrl.Url" class="image-author"></image>
-                        <span class="author-name">{{props.rowData.Author}}</span>
+                        <span class="author-name">{{props.rowData.AuthorNameShort}}</span>
                     </div>
                     
                 </template>

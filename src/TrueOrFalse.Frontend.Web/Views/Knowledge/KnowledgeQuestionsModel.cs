@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices.WindowsRuntime;
 using System.Web;
 using EasyNetQ.Events;
 using Microsoft.AspNet.SignalR;
@@ -22,6 +23,16 @@ public class KnowledgeQuestionsModel
         return QuestionsFactory(questionsListSolid, shouldConsolidate, shouldLearning, NotLearned);
     }
 
+    private string GetCategoryNameShort(string name)
+    {
+        if (name.Length > 15)
+        {
+           return name.Substring(0, 16);
+        }
+
+        return name;
+    }
+
     private List<Questions> ObjectFactory(
         IList<Question> questionsListForFactory,
         List<Questions> questionsList,
@@ -37,7 +48,8 @@ public class KnowledgeQuestionsModel
             questions.Title = question.GetShortTitle(50);
             questions.Category = categories[0].Name;
             questions.ImageFrontendData = categoryAndSetDataWishKnowledge.GetCategoryImage(categories[0].Id);
-            questions.Author = question.Creator.Name;
+            questions.AuthorName = question.Creator.Name;
+            questions.AuthorNameShort = GetCategoryNameShort(question.Creator.Name);
             questions.AuthorImageUrl = userImageSettings.GetUrl_30px_square(Sl.UserRepo.GetById(question.Creator.Id));
             questions.LinkToCategory = Links.GetUrl(categories[0]);
 
@@ -146,10 +158,10 @@ public class KnowledgeQuestionsModel
                 unSortList.Sort((x, y) => -1 * y.LearningStatusNumber.CompareTo(x.LearningStatusNumber));
                 break;
             case "author|asc":
-                unSortList.Sort((x, y) => String.CompareOrdinal(x.Author, y.Author));
+                unSortList.Sort((x, y) => String.CompareOrdinal(x.AuthorName, y.AuthorName));
                 break;
             case "author|desc":
-                unSortList.Sort((x, y) => String.CompareOrdinal(y.Author, x.Author));
+                unSortList.Sort((x, y) => String.CompareOrdinal(y.AuthorName, x.AuthorName));
                 break;
             case "category|asc":
                 unSortList.Sort((x, y) => String.CompareOrdinal(x.Category, y.Category));
@@ -169,10 +181,11 @@ public class KnowledgeQuestionsModel
         public string Category { get; set; }
         public ImageFrontendData ImageFrontendData { get; set; }
         public string LearningStatus { get; set; }
-        public string Author { get; set; }
-        public ImageUrl AuthorImageUrl;
-        public int LearningStatusNumber;
-        public string LearningStatusTooltip;
-        public string LinkToCategory;
+        public string AuthorName { get; set; }
+        public ImageUrl AuthorImageUrl { get; set; }
+        public int LearningStatusNumber { get; set; }
+        public string LearningStatusTooltip { get; set; }
+        public string LinkToCategory { get; set; }
+        public string AuthorNameShort { get; set; }
     }
 }
