@@ -32,6 +32,9 @@
 .vuetable .vuetable-th-slot-knowWas {
   padding-left: 17px;
 }
+.vuetable .vuetable-th-slot-category {
+  padding-left: 20px;
+}
 .vuetable .tdImage {
   padding-left: 0px;
   padding-right: 0px;
@@ -70,6 +73,10 @@
 .vuetable .author-image-name {
   padding-left: 0px;
   padding-right: 0px;
+}
+.vuetable .category-table {
+  padding-left: 20px;
+  width: 255.5px;
 }
 .vuetable .author-name {
   font-size: 14px;
