@@ -39,6 +39,10 @@
                     
                     <a class="btn btn-sm btn-default btn-primary" href="<%= Links.CategoryHistoryDetail(Model.CategoryId, item.CategoryChangeId) %>">
                         <i class="fa fa-eye"></i> Anzeigen
+                    </a>&nbsp;
+                    
+                    <a class="btn btn-sm btn-default btn-primary" href="<%= Links.CategoryHistoryDetail(Model.CategoryId, item.CategoryChangeId) %>">
+                        <i class="fa fa-eye"></i> Anzeigen
                     </a>
                 </div>
             </div>       

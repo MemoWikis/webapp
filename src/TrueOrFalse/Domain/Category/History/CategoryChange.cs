@@ -17,6 +17,11 @@ public class CategoryChange : Entity, WithDateCreated
     public virtual void SetData(Category category) => Data = new CategoryEditData_V1(category).ToJson();
 
     public virtual CategoryEditData_V1 GetCategoryChangeData() => CategoryEditData_V1.CreateFromJson(Data);
+
+    public virtual Category ToHistoricCategory()
+    {
+        return GetCategoryChangeData().ToCategory(Category.Id);
+    }
 }
 
 public enum CategoryChangeType
