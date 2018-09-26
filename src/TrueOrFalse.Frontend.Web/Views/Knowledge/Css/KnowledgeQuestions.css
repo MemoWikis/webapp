@@ -26,6 +26,9 @@
   font-weight: normal;
   color: #2c5fb2;
 }
+.vuetable .vuetable-th-slot-authorImage {
+  width: 175px;
+}
 .vuetable .vuetable-th-slot-knowWas {
   padding-left: 17px;
 }
@@ -66,6 +69,7 @@
 }
 .vuetable .author-image-name {
   padding-left: 0px;
+  padding-right: 0px;
 }
 .vuetable .author-name {
   font-size: 14px;
