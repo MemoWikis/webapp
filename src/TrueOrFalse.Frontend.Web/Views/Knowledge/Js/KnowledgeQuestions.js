@@ -32,6 +32,7 @@ new Vue({
             {
                 name: "__slot:category",
                 title: "Kategorie",
+                sortField: "category"
 
             }
         ],
@@ -45,7 +46,7 @@ new Vue({
                 tableClass: ' table table-striped table-hovered',
                 ascendingIcon: 'fa fa-sort',
                 descendingIcon: 'fa fa-sort',
-                renderIcon: function (classes, options) {
+                renderIcon: function () {
                     return '<i class="sort-icon fa fa-sort" style="opacity:1;position:relative;"></i>' ;
                 }
             },
