@@ -119,15 +119,14 @@ new Vue({
         },
         switchOnlySelfCreatedChanged: function () {
             this.moreParams.isAuthor = $("#switchShowOnlySelfCreated").is(":checked");
-            var self = this;
 
             $.ajax({
                 url: '/Knowledge/CountedWUWItoCategoryAndSet?isAuthor=' + this.moreParams.isAuthor,
                 method: 'POST',
-                async: false,
+                async: true,
                 datatype: "jsonp",
-                success: function(Data) {
-                    self.moreParams.heading = Data;
+                success: (Data)=> {
+                    this.moreParams.heading = Data;
                 },
                 error: function(error) {
                     console.log(error);
@@ -140,20 +139,20 @@ new Vue({
                 return "/Images/no-category-picture-350.png";
             return url.SourceUrl;
         }
-     }, mounted: function () {
-        var self = this;
-
+    }, mounted: function () {
          $.ajax({
              url: '/Knowledge/CountedWUWItoCategoryAndSet?isAuthor=' + false,
              method: 'POST',
-             async: false,
+             async: true,
              datatype: "jsonp",
-             success: function (Data) {
-                 self.moreParams.heading = Data;
+             success: (Data) => {
+                 this.moreParams.heading = Data;
              },
              error: function (error) {
                  console.log(error);
              }
          });
-     }
+    }
 });
+
+
