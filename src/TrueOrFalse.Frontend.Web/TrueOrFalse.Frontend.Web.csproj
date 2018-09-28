@@ -492,6 +492,7 @@
     <Content Include="Views\Knowledge\Css\_dashBoard.css">
       <DependentUpon>_dashBoard.less</DependentUpon>
     </Content>
+    <Content Include="Views\Knowledge\Js\Events.js" />
     <Content Include="Views\Knowledge\Js\KnowledgeQuestions.js" />
     <Content Include="Views\Knowledge\Js\KnowledgeTopics.js" />
     <Content Include="Views\Knowledge\Js\Page.js">
@@ -500,6 +501,7 @@
     <Content Include="Views\Knowledge\Js\WishKnowledgeContent.js">
       <DependentUpon>WishKnowledgeContent.ts</DependentUpon>
     </Content>
+    <Content Include="Views\Knowledge\Partials\Events.ascx" />
     <Content Include="Views\Knowledge\Partials\KnowledgeQuestions.ascx" />
     <Content Include="Views\Knowledge\Partials\KnowledgeTopics.ascx" />
     <Content Include="Views\Categories\Navigation\CategoryNetworkNavigationCatLabel.ascx" />
@@ -574,6 +576,7 @@
     <Content Include="Views\Knowledge\Css\_dashBoard.less" />
     <Content Include="Views\Knowledge\Css\KnowledgeTopics.less" />
     <Content Include="Views\Knowledge\Css\KnowledgeQuestions.less" />
+    <Content Include="Views\Knowledge\Css\Event.less" />
     <None Include="Views\Maintenance\ContentStats.less" />
     <Compile Include="Views\Maintenance\ContentStatsModel.cs" />
     <Compile Include="Views\Maintenance\Images\MaintenanceImagesController.cs" />

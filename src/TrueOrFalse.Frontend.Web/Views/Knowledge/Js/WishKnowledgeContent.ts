@@ -77,6 +77,16 @@
                 });
         });
 
+        $("#events").click(function (e) {
+            e.preventDefault();
+            $.post("/Knowledge/GetKnowledgeContent",
+                { content: "events" },
+                function (data) {
+                    $(".content").html(data);
+                    $("#LinkIsDirectedToPartialView").text("Frage erstellen is doesn´t work");
+                });
+        });
+
     }
 
     private static alertFadeInWhenNoWhisKnowledge(element: string, show: string) {
