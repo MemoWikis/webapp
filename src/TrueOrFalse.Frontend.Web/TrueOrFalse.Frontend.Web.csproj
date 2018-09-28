@@ -335,8 +335,6 @@
     <Compile Include="Views\Dates\DateRowModel.cs" />
     <Compile Include="Views\Dates\Edit\EditDateController.cs" />
     <Compile Include="Views\Dates\Edit\EditDateModel.cs" />
-    <Compile Include="Views\Dates\Modals\TrainingSettingsDatesModel.cs" />
-    <Compile Include="Views\Dates\Modals\TrainingSettingsModel.cs" />
     <Compile Include="Views\Games\Edit\GameModel.cs" />
     <Compile Include="Views\Games\Edit\GameController.cs" />
     <Compile Include="Views\Games\GameRowModel.cs" />
@@ -1265,9 +1263,6 @@
     <Content Include="Views\Knowledge\AllOfDates\Js\TrainingSettings.js.map">
       <DependentUpon>TrainingSettings.ts</DependentUpon>
     </Content>
-    <Content Include="Views\Dates\Modals\CopyDate.ascx" />
-    <Content Include="Views\Dates\Modals\TrainingSettingsDates.ascx" />
-    <Content Include="Views\Dates\Modals\TrainingSettings.ascx" />
     <Content Include="Views\Drafts\Widget.html" />
     <Content Include="Views\Knowledge\TrainingDate.ascx" />
     <Content Include="Views\Maintenance\AntiForgeryToken.ascx" />
@@ -1517,7 +1512,6 @@
     <Content Include="Views\Knowledge\AllOfDates\Js\Page.js">
       <DependentUpon>Page.ts</DependentUpon>
     </Content>
-    <Content Include="Views\Dates\Modals\DeleteDate.ascx" />
     <Content Include="Views\Drafts\FontAwesome.aspx" />
     <Content Include="Views\Games\Edit\Game.aspx" />
     <Content Include="Views\Games\Edit\Game.css">
