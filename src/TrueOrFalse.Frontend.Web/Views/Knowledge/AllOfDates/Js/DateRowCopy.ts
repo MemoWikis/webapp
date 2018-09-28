@@ -1,5 +1,5 @@
-﻿/// <reference path="../../../Scripts/typescript.defs/jquery.d.ts" />
-/// <reference path="../../../Scripts/typescript.defs/bootstrap.d.ts" />
+﻿/// <reference path="../../../../Scripts/typescript.defs/jquery.d.ts" />
+/// <reference path="../../../../Scripts/typescript.defs/bootstrap.d.ts" />
 
 declare var drawKnowledgeCharts: any;
 declare var dateRowDelete: any;
