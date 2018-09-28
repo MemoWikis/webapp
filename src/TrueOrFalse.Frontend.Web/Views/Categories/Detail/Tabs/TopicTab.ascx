@@ -1,6 +1,21 @@
 ﻿<%@ Control Language="C#" AutoEventWireup="true" 
     Inherits="System.Web.Mvc.ViewUserControl<CategoryModel>" %>
 <%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
+    
+<% if (Model.Revision != null) { %>
+    <div class="row alert alert-info" role="alert">
+            <div class="col-xs-9">
+                <b>Revision vom <%= Sl.CategoryChangeRepo.GetByIdEager((int)Model.Revision).DateCreated %></b>
+                <br/>
+                Diese Seite zeigt einen frühreren Stand des Themas. Diese Revision kann über den entsprechenden Button wiederhergestellt werden.
+            </div>
+            <div class="col-xs-3">
+                <br/>
+                <a class="btn btn-default btn-primary"><i class="fa fa-undo"></i> Wiederherstellen</a>
+            </div>
+    </div>
+    <br/>
+<% } %>
 
 <div class="DescriptionSection">
     <%if (Model.ImageFrontendData.ImageMetaDataExists) { %>

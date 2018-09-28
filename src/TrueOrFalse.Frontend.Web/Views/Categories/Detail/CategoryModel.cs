@@ -20,6 +20,7 @@ public class CategoryModel : BaseModel
     public IList<Category> BreadCrumb => Sl.SessionUiData.TopicMenu.CategoryPath;
 
     public string CustomPageHtml;//Is set in controller because controller context is needed
+    public int? Revision;//Is set in controller because controller context is needed
     public IList<Set> FeaturedSets;
 
     public IList<Category> CategoriesParent;
