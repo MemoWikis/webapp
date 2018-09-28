@@ -366,9 +366,9 @@
     </div>
  </div>
 
-<% Html.RenderPartial("~/Views/Dates/Modals/DeleteDate.ascx"); %>
-<% Html.RenderPartial("~/Views/Dates/Modals/TrainingSettings.ascx"); %>
-<% Html.RenderPartial("~/Views/Dates/Modals/CopyDate.ascx"); %>
+<% Html.RenderPartial("AllOfDates/Modals/DeleteDate"); %>
+<% Html.RenderPartial("AllOfDates/Modals/TrainingSettings"); %>
+<% Html.RenderPartial("AllOfDates/Modals/CopyDate"); %>
 
 <%= Scripts.Render("~/bundles/js/_dashboard") %>
 
