@@ -5,7 +5,7 @@
 
 <body>
     <div id="app">
-        <div id="table-wrapper" class="ui container">
+        <div id="table-wrapper" class="ui">
               <vuetable ref="vuetable"
                 api-url="/Knowledge/GetQuestionsWish"
                 :fields="fields"
@@ -38,7 +38,6 @@
               
                 <template slot="category" scope="props">
                     <image v-bind:src="GetImageSourceUrl(props.rowData.ImageFrontendData.ImageMetaData)"   class="round"></image><a data-toggle="tooltip" title="Thema in neuem Tab öffnen" v-bind:href="props.rowData.LinkToCategory" target="_blank" class="link-to-category">{{props.rowData.Category}}</a>
-                    <div></div>
                 </template>
 
                 <!-- Buttons-->

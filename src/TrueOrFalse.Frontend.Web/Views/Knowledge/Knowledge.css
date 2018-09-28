@@ -73,3 +73,7 @@
     text-align: center;
   }
 }
+#MasterMainContent #MasterMainColumn {
+  width: 100%;
+  background-color: white;
+}

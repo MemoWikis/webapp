@@ -32,7 +32,8 @@ new Vue({
             {
                 name: "__slot:category",
                 title: "Kategorie",
-                sortField: "category"
+                sortField: "category",
+                dataClass: "category-table"
 
             }
         ],

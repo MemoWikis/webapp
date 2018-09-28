@@ -114,7 +114,7 @@ new Vue({
         },
         onLoading() {
         },
-        onLoaded(props) {
+        onLoaded() {
             $('.show-tooltip').tooltip();
         },
         switchOnlySelfCreatedChanged: function () {
