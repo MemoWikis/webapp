@@ -41,7 +41,7 @@
                 <div class="col-xs-2"><a href="#" id="topics">Themen</a></div>
                 <div class="col-xs-2"><a href="#" id="questions">Fragen</a></div>
                 <div class="col-xs-2"><a href="#" id="events">Events</a></div>
-                <div class="col-xs-3 col-sm-offset-3 "><a href="#" id="LinkIsDirectedToPartialView">Lernsitzung starten</a></div>
+                <div class="col-xs-3 "><a href="#" id="LinkIsDirectedToPartialView">Lernsitzung starten</a></div>
             </div>
             <div class="row">
                 <% if (Model.IsLoggedIn)

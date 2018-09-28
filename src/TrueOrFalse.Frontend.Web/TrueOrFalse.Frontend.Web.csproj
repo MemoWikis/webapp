@@ -492,7 +492,6 @@
     <Content Include="Views\Knowledge\Css\_dashBoard.css">
       <DependentUpon>_dashBoard.less</DependentUpon>
     </Content>
-    <Content Include="Views\Knowledge\Js\Events.js" />
     <Content Include="Views\Knowledge\Js\KnowledgeQuestions.js" />
     <Content Include="Views\Knowledge\Js\KnowledgeTopics.js" />
     <Content Include="Views\Knowledge\Js\Page.js">
@@ -501,7 +500,6 @@
     <Content Include="Views\Knowledge\Js\WishKnowledgeContent.js">
       <DependentUpon>WishKnowledgeContent.ts</DependentUpon>
     </Content>
-    <Content Include="Views\Knowledge\Partials\Events.ascx" />
     <Content Include="Views\Knowledge\Partials\KnowledgeQuestions.ascx" />
     <Content Include="Views\Knowledge\Partials\KnowledgeTopics.ascx" />
     <Content Include="Views\Categories\Navigation\CategoryNetworkNavigationCatLabel.ascx" />
@@ -576,7 +574,6 @@
     <Content Include="Views\Knowledge\Css\_dashBoard.less" />
     <Content Include="Views\Knowledge\Css\KnowledgeTopics.less" />
     <Content Include="Views\Knowledge\Css\KnowledgeQuestions.less" />
-    <Content Include="Views\Knowledge\Css\Event.less" />
     <None Include="Views\Maintenance\ContentStats.less" />
     <Compile Include="Views\Maintenance\ContentStatsModel.cs" />
     <Compile Include="Views\Maintenance\Images\MaintenanceImagesController.cs" />
@@ -616,8 +613,8 @@
     <Compile Include="Views\Categories\Edit\CssJs.cs" />
     <Compile Include="Views\Categories\Edit\TypeControls\EditCategoryTypeModel.cs" />
     <Compile Include="Views\Categories\CategoriesSearchResultModel.cs" />
-    <Compile Include="Views\Dates\DatesController.cs" />
-    <Compile Include="Views\Dates\DatesModel.cs" />
+    <Compile Include="Views\Knowledge\AllOfDates\DatesController.cs" />
+    <Compile Include="Views\Knowledge\AllOfDates\DatesModel.cs" />
     <Compile Include="Views\Error\ErrorController.cs" />
     <Compile Include="Views\Help\HelpController.cs" />
     <Compile Include="Views\Users\Detail\TabBadgesModel.cs" />
@@ -1492,7 +1489,7 @@
       <DependentUpon>PreviousDates.ts</DependentUpon>
     </Content>
     <Content Include="Views\Dates\PreviousDates.ascx" />
-    <Content Include="Views\Dates\Dates.css">
+    <Content Include="Views\Knowledge\AllOfDates\Dates.css">
       <DependentUpon>Dates.less</DependentUpon>
     </Content>
     <Content Include="Views\Dates\Edit\bootstrap-datepicker3.css" />
@@ -2052,7 +2049,7 @@
     <Content Include="Views\Categories\Edit\TypeControls\WebsiteVideo.ascx" />
     <Content Include="Views\Categories\Edit\TypeControls\WebsiteArticle.ascx" />
     <Content Include="Views\Categories\Modals\ModalDeleteCategory.ascx" />
-    <Content Include="Views\Dates\Dates.aspx" />
+    <Content Include="Views\Knowledge\AllOfDates\Dates.ascx" />
     <Content Include="Views\Drafts\Icons.aspx" />
     <Content Include="Views\Drafts\bootstrap.aspx" />
     <Content Include="Views\Drafts\Forms.aspx" />
@@ -2705,8 +2702,8 @@
     <Content Include="Views\Dates\Edit\EditDate.css.map">
       <DependentUpon>EditDate.css</DependentUpon>
     </Content>
-    <Content Include="Views\Dates\Dates.less" />
-    <Content Include="Views\Dates\Dates.css.map">
+    <Content Include="Views\Knowledge\AllOfDates\Dates.less" />
+    <Content Include="Views\Knowledge\AllOfDates\Dates.css.map">
       <DependentUpon>Dates.css</DependentUpon>
     </Content>
     <Content Include="Views\Dates\Edit\Js\Page.js.map">

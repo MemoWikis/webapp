@@ -177,7 +177,7 @@ namespace TrueOrFalse.View
 
             //Dates
             bundles.Add(new StyleBundle("~/bundles/Dates")
-                .Include("~/Views/Dates/*.css"));
+                .Include("~/Views/Knowledge/AllOfDates/Dates.css"));
 
             bundles.Add(new ScriptBundle("~/bundles/js/Dates")
                 .Include("~/Views/Dates/Js/*.js"));
