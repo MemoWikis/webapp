@@ -51,7 +51,7 @@ table.table.table-striped .title {
   float: left;
 }
 .KnowledgeBarWrapper {
-  display: inline-block;
+  /*display: inline-block;*/
 }
 .KnowledgeBarWrapper .KnowledgeBarLegend {
   color: #999999;
