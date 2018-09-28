@@ -8,8 +8,8 @@
   padding-left: 0px;
 }
 .row {
-  margin-left: 0px;
-  margin-right: 0px;
+  margin-left: 1px;
+  margin-right: 4px;
 }
 .orange.glyphicon {
   color: orange;
