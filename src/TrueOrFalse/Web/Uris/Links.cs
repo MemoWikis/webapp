@@ -406,13 +406,13 @@ namespace TrueOrFalse.Frontend.Web.Code
         public static string CategoryHistory(int categoryId) =>
             GetUrlHelper().Action("List", "CategoryHistory", new { categoryId = categoryId });
 
-        public static string CategoryDetail(Category category) =>
+        public static string CategoryDetail(Category category, int? version = null) =>
             HttpContext.Current == null 
                 ? "" 
-                : CategoryDetail(category.Name, category.Id);
+                : CategoryDetail(category.Name, category.Id, version);
 
-        public static string CategoryDetail(string name, int id) => 
-            GetUrlHelper().Action("Category", CategoryController, new { text = UriSanitizer.Run(name), id = id }, null);
+        public static string CategoryDetail(string name, int id, int? version = null) => 
+            GetUrlHelper().Action("Category", CategoryController, new { text = UriSanitizer.Run(name), id = id, version = version }, null);
 
         public static string GetUrl(object type)
         {
