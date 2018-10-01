@@ -48,7 +48,7 @@ public class CategoryController : BaseController
         var categoryChange = Sl.CategoryChangeRepo.GetByIdEager((int) version);
         var historicCategory = categoryChange.ToHistoricCategory();
         categoryModel.CustomPageHtml = MarkdownToHtml.Run(historicCategory, ControllerContext);
-        categoryModel.Revision = version;
+        categoryModel.CategoryChangeId = version;
     }
 
     public void CategoryById(int id)

@@ -2,17 +2,24 @@
     Inherits="System.Web.Mvc.ViewUserControl<CategoryModel>" %>
 <%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
     
-<% if (Model.Revision != null) { %>
+<% if (Model.CategoryChangeId != null) { %>
     <div class="row alert alert-info" role="alert">
-            <div class="col-xs-9">
-                <b>Revision vom <%= Sl.CategoryChangeRepo.GetByIdEager((int)Model.Revision).DateCreated %></b>
-                <br/>
-                Diese Seite zeigt einen frühreren Stand des Themas. Diese Revision kann über den entsprechenden Button wiederhergestellt werden.
-            </div>
-            <div class="col-xs-3">
-                <br/>
-                <a class="btn btn-default btn-primary"><i class="fa fa-undo"></i> Wiederherstellen</a>
-            </div>
+        <div class="col-12">
+            <b>Revision vom <%= Sl.CategoryChangeRepo.GetByIdEager((int)Model.CategoryChangeId).DateCreated %></b>
+            <br/>
+            Diese Seite zeigt einen frühreren Stand des Themas. Diese Revision kann über den entsprechenden Button wiederhergestellt werden.
+        </div>
+        <br/>
+        <div class="col-12">
+            <nav>
+                <a class="btn btn-primary navbar-btn" href="<%= Links.CategoryHistory(Model.Id) %>">
+                    <i class="fa fa-chevron-left"></i> Zurück zur Bearbeitungshistorie
+                </a>
+                <a class="btn btn-default navbar-btn" href="<%= Links.CategoryRestore(Model.Id, (int)Model.CategoryChangeId) %>">
+                    <i class="fa fa-undo"></i> Wiederherstellen
+                </a>
+            </nav>
+        </div>
     </div>
     <br/>
 <% } %>

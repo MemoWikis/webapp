@@ -26,9 +26,14 @@
             </div>
             
             <div class="col-xs-9">
-                <a class="btn btn-sm btn-default" href="<%= Links.CategoryRestore(Model.CategoryId, Model.CurrentChange.Id) %>">
-                    <i class="fa fa-undo"></i> Wiederherstellen
-                </a>
+                <nav class="navbar-right">
+                    <a class="btn btn-primary navbar-btn" href="<%= Links.CategoryHistory(Model.CategoryId) %>">
+                        <i class="fa fa-chevron-left"></i> Zurück zur Bearbeitungshistorie
+                    </a>
+                    <a class="btn btn-default navbar-btn" href="<%= Links.CategoryRestore(Model.CategoryId, Model.CurrentChange.Id) %>">
+                        <i class="fa fa-undo"></i> Wiederherstellen
+                    </a>
+                </nav>
             </div>
         </div>
         
@@ -42,16 +47,6 @@
                     <h4><i class="fa fa-check"></i> Zwischen den beiden Revisionen gibt es keine inhaltlichen Unterschiede.</h4>
                 </div>
             </div>
-        </div>
-    </div>
-    
-    <br/>
-
-    <div class="row">
-        <div class="col-12">
-            <a href="<%= Links.CategoryHistory(Model.CategoryId) %>">
-                <i class="fa fa-chevron-left"></i> Zurück zur Bearbeitungshistorie
-            </a>
         </div>
     </div>
 
