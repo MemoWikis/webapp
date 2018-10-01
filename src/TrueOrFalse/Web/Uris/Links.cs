@@ -414,6 +414,9 @@ namespace TrueOrFalse.Frontend.Web.Code
         public static string CategoryDetail(string name, int id, int? version = null) => 
             GetUrlHelper().Action("Category", CategoryController, new { text = UriSanitizer.Run(name), id = id, version = version }, null);
 
+        public static string CategoryRestore(int categoryId, int categoryChangeId) => 
+            GetUrlHelper().Action("Restore", CategoryController, new { categoryId = categoryId, categoryChangeId = categoryChangeId});
+
         public static string GetUrl(object type)
         {
             if (type == null)

@@ -26,7 +26,7 @@
             </div>
             
             <div class="col-xs-9">
-                <a class="btn btn-sm btn-default">
+                <a class="btn btn-sm btn-default" href="<%= Links.CategoryRestore(Model.CategoryId, Model.CurrentChange.Id) %>">
                     <i class="fa fa-undo"></i> Wiederherstellen
                 </a>
             </div>
