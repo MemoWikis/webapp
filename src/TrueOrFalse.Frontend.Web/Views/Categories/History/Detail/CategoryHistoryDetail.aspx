@@ -41,11 +41,18 @@
             <div class="col-12">
                 <input type="hidden" id="currentData" value="<%= Server.HtmlEncode(Model.CurrentData) %>"/>
                 <input type="hidden" id="previousData" value="<%= Server.HtmlEncode(Model.PrevData) %>"/>
+                <% if (Model.PrevChange == null) {  %>
+                <br />
+                <div id="initialRevision" class="alert alert-info" role="alert">
+                    Dies ist die <b>initiale Revision</b>, weswegen hier keine Änderungen angezeigt werden können.
+                </div>
+                <% } else { %>
                 <br/>
                 <div id="outputdiv"></div>
                 <div id="nochangesdiv" style="display: none;">
                     <h4><i class="fa fa-check"></i> Zwischen den beiden Revisionen gibt es keine inhaltlichen Unterschiede.</h4>
                 </div>
+                <% } %>
             </div>
         </div>
     </div>
