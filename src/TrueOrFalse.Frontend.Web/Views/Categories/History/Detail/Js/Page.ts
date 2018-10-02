@@ -10,24 +10,26 @@ $(() => {
 
 function ShowDiff2Html() {
 
-    var currentData = $('#currentData').val();
-    var previousData = $('#previousData').val();
-
+    var currentRevData = $('#currentRevData').val();
+    var previousRevData = $('#previousRevData').val();
+    var currentRevDateCreated = $('#currentRevDateCreated').val();
+    var previousRevDateCreated = $('#previousRevDateCreated').val();
+    
     var difflibRes = difflib.unifiedDiff(
-        previousData.split('\n'),
-        currentData.split('\n'),
+        previousRevData.split('\n'),
+        currentRevData.split('\n'),
         {
-            fromfile: 'Original',
-            tofile: 'Current',
-            fromfiledate: '2005-01-26 23:30:50',
-            tofiledate: '2010-04-02 10:20:52',
+            fromfile: 'Revision',
+            tofile: 'Revision',
+            fromfiledate: previousRevDateCreated,
+            tofiledate: currentRevDateCreated,
             lineterm: ''
         }).join("\n");
 
     //var diff = JsDiff.diffChars(one, other),
     //    display = document.getElementById('display'),
     //    fragment = document.createDocumentFragment();
-
+    
     if (difflibRes) {
         var diff2htmlUi = new Diff2HtmlUI({ diff: difflibRes });
         diff2htmlUi.draw('#outputdiv',

@@ -46,8 +46,10 @@
                     </div>
                 <% } else { %>
                     <br/>
-                    <input type="hidden" id="currentData" value="<%= Server.HtmlEncode(Model.CurrentData) %>"/>
-                    <input type="hidden" id="previousData" value="<%= Server.HtmlEncode(Model.PrevData) %>"/>
+                    <input type="hidden" id="currentRevData" value="<%= Server.HtmlEncode(Model.CurrentData) %>"/>
+                    <input type="hidden" id="previousRevData" value="<%= Server.HtmlEncode(Model.PrevData) %>"/>
+                    <input type="hidden" id="currentRevDateCreated" value="<%= Model.CurrentChange.DateCreated %>" />
+                    <input type="hidden" id="previousRevDateCreated" value="<%= Model.PrevChange.DateCreated %>" />
                     <div id="outputdiv"></div>
                     <div id="nochangesdiv" style="display: none;">
                         <h4><i class="fa fa-check"></i> Zwischen den beiden Revisionen gibt es keine inhaltlichen Unterschiede.</h4>
