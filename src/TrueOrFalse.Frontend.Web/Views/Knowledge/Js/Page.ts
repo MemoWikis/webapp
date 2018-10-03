@@ -1,4 +1,4 @@
-﻿$(function () {
+﻿$(() => {
     new DateRowDelete();
     new DateRowCopy();
     new PreviousDates();
