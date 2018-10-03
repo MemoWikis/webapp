@@ -75,7 +75,6 @@
         </div>
         <div id="Management">
             <div class="Border">
-                
             </div>
             <div class="KnowledgeBarWrapper">
                 <% Html.RenderPartial("~/Views/Categories/Detail/CategoryKnowledgeBar.ascx", new CategoryKnowledgeBarModel(Model.Category)); %>

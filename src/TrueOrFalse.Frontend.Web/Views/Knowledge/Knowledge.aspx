@@ -41,7 +41,10 @@
                     <div class="Tab"><a href="#" id="topics">Themen</a></div>
                     <div class="Tab"><a href="#" id="questions">Fragen</a></div>
                     <div class="Tab"><a href="#" id="events">Events</a></div>
-                    <div class="Tab"><a href="#" id="LinkIsDirectedToPartialView">Lernsitzung starten</a></div>
+                </div>
+                <div id="Management">
+                    <div class="Border"></div>
+                    <div class="Button"><a href="#" id="LinkIsDirectedToPartialView">Lernsitzung starten</a></div>
                 </div>
             </div>
             <div class="row">

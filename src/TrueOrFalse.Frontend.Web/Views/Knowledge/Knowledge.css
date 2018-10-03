@@ -2,7 +2,10 @@
   margin-bottom: 36px;
 }
 #TabsBar .Tabs.TabsBarKnowledge {
-  width: 100%;
+  width: 70%;
+}
+#TabsBar .Management {
+  width: 30%;
 }
 .link-set {
   padding-bottom: 9px;

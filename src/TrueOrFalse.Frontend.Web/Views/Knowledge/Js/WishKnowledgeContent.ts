@@ -45,8 +45,9 @@
                 window.location.replace("/Fragesatz/Lernen/" + $(this).attr("data-setId"));
             });
 
-        $("#dashboard").click(function (e) {
+        $("#dashboard").click((e) => {
             e.preventDefault();
+            this.SetTabActive(e);
             $.post("/Knowledge/GetKnowledgeContent",
                 {content: "dashboard"},
                 function (data) {
@@ -55,8 +56,9 @@
                 });
         });
 
-        $("#topics").click(function (e) {
+        $("#topics").click((e) => {
             e.preventDefault();
+            this.SetTabActive(e);
             $.post("/Knowledge/GetKnowledgeContent",
                 { content: "topics" },
                 function (data) {
@@ -67,8 +69,9 @@
                 });
         });
 
-        $("#questions").click(function (e) {
+        $("#questions").click((e) => {
             e.preventDefault();
+            this.SetTabActive(e);
             $.post("/Knowledge/GetKnowledgeContent",
                 { content: "questions" },
                 function (data) {
@@ -77,8 +80,9 @@
                 });
         });
 
-        $("#events").click(function (e) {
+        $("#events").click((e) => {
             e.preventDefault();
+            this.SetTabActive(e);
             $.post("/Knowledge/GetKnowledgeContent",
                 { content: "events" },
                 function (data) {
@@ -87,6 +91,11 @@
                 });
         });
 
+    }
+
+    public SetTabActive(e: JQueryEventObject) {
+        $("div.Tab").removeClass("active");
+        $($(e.target).parent()).addClass("active");
     }
 
     private static alertFadeInWhenNoWhisKnowledge(element: string, show: string) {

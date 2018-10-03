@@ -1045,12 +1045,6 @@ p:empty {
   display: -ms-flexbox;
   display: flex;
 }
-#CategoryHeader .Border {
-  width: 1px;
-  background-color: #d6d6d6;
-  margin-top: 7px;
-  margin-bottom: 7px;
-}
 #CategoryHeader .KnowledgeBarWrapper {
   padding-top: 17px;
   padding-left: 30px;
