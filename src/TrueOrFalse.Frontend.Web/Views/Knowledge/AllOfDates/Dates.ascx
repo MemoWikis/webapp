@@ -184,7 +184,7 @@
                 </div>
 
                 <% foreach(var date in Model.Dates){ %>
-                    <% Html.RenderPartial("DateRow", new DateRowModel(date)); %>
+                    <% Html.RenderPartial("AllOfDates/Js/DateRow", new DateRowModel(date)); %>
                 <% } %>
                 <div id="endOfFutureDates"></div>
 
