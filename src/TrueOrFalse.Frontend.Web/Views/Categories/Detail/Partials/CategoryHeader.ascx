@@ -3,10 +3,6 @@
 <%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
 
 <div id="CategoryHeader">
-    
-    <div class="BreadcrumbsMobile">
-        <% Html.RenderPartial("/Views/Categories/Detail/Partials/BreadCrumbMobile.ascx", Model); %>
-    </div>
 
     <div id="ManagementMobile">
         <div class="KnowledgeBarWrapper">
@@ -45,8 +41,7 @@
             <div>
                 <div class="greyed">
                     <%= Model.Category.Type == CategoryType.Standard ? "Thema" : Model.Type %> mit <%= Model.AggregatedSetCount %> Lernset<%= StringUtils.PluralSuffix(Model.AggregatedSetCount, "s") %> und <%= Model.AggregatedQuestionCount %> Frage<%= StringUtils.PluralSuffix(Model.AggregatedQuestionCount, "n") %>
-                    <% if (Model.IsInstallationAdmin)
-                       { %>
+                    <% if (Model.IsInstallationAdmin) { %>
                         <a href="#" id="jsAdminStatistics">
                             <span style="margin-left: 10px; font-size: smaller;" class="show-tooltip" data-placement="right" data-original-title="Nur von admin sichtbar">
                                 (<i class="fa fa-user-secret" data-details="<%= Model.GetViewsPerDay() %>">&nbsp;</i><%= Model.GetViews() %> views)
