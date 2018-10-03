@@ -26,8 +26,8 @@
                 if (!this.ContentIsPresent(tabname)) {
                     this.RenderTabContent(tabname);
                 }
-                if (tabname === "LearningTab" && $('#hddLearningSessionStarted').val() === "False") {
-
+                if (tabname === "LearningTab" && $('#hddLearningSessionStarted').val() === "False" && $('#hddQuestionCount').val() !== "0") {
+                    console.log();
  
                     var answerBody = new AnswerBody();
 

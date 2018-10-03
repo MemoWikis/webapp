@@ -17,6 +17,11 @@ public class WelcomeController : BaseController
         return View(new BaseModel());
     }
 
+    public ActionResult Promoter()
+    {
+        return View(new BaseModel());
+    }
+
     public ActionResult Contact()
     {
         return View(new BaseModel());

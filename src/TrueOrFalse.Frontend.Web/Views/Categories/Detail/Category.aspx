@@ -22,7 +22,7 @@
     <%= Scripts.Render("~/bundles/js/DeleteQuestion") %>
     <%= Scripts.Render("~/bundles/js/AnswerQuestion") %>
     <script type="text/javascript" src="https://www.google.com/jsapi"></script>
-    <script src="http://d3js.org/d3.v4.min.js"></script>
+    <script src="<%= Request.Url.Scheme %>://d3js.org/d3.v4.min.js"></script>
     <% Model.SidebarModel.AutorCardLinkText = Model.CreatorName;
         Model.SidebarModel.AutorImageUrl = Model.ImageUrl_250;
         Model.SidebarModel.Creator = Model.Creator;
@@ -52,7 +52,7 @@
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
     <input type="hidden" id="hhdCategoryId" value="<%= Model.Category.Id %>"/>
     <input type="hidden" id="hddUserId" value="<%= Model.UserId %>"/>
-   
+    <input type="hidden" id="hddQuestionCount" value="<%=Model.AggregatedQuestionCount %>"/>   
 
     <% Html.RenderPartial("~/Views/Categories/Detail/Partials/CategoryHeader.ascx", Model);%>
                 

@@ -160,9 +160,11 @@ public class EntityCache
     {
         var questions = new List<Question>();
 
+        var cachedQuestions = Questions;
+
         foreach (var questionId in questionIds)
         {
-            if (Questions.TryGetValue(questionId, out var questionToAdd))
+            if (cachedQuestions.TryGetValue(questionId, out var questionToAdd))
             {
                 questions.Add(questionToAdd);
             }
@@ -183,9 +185,11 @@ public class EntityCache
     {
         var sets = new List<Set>();
 
+        var setsCached = Sets;
+
         foreach (var id in setIds)
         {
-            if (Sets.TryGetValue(id, out var setToAdd))
+            if (setsCached.TryGetValue(id, out var setToAdd))
             {
                 sets.Add(setToAdd);
             }
