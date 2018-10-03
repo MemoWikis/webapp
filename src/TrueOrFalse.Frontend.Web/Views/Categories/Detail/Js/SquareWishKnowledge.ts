@@ -1,19 +1,19 @@
-﻿class SquareWishKnowledge {
+﻿
+class SquareWishKnowledge {
 
     constructor(page: CategoryPage) {
 
-        if (!$("#knowledgeAsABox").html())
-            return;
 
-        $.post("/Category/WishKnowledgeInTheBox", { categoryId: page.CategoryId })
+        $.post("/Category/WishKnowledgeInTheBox", { categoryId: page.CategoryId })                      //
             .done((result) => {
 
                 $(".wishKnowledgeTemplate").html(result);
                 console.log("We returned: " + result);
 
+
                 var allSquares = $(".square-wish-knowledge");
                 allSquares.on("mouseover", function () {
-                    console.log(event);
+                    console.log(event);                                              //event.srcElement.attributes[1].nodeValue
                     $(this).tooltip("show");
                 });
 

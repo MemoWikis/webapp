@@ -174,7 +174,7 @@
     }
 
     private showLearningSessionResult(result) {
-        var container = this._isInLearningTab ? $('#AnswerBody') : $("#MasterMainWrapper");
+        var container = this._isInLearningTab ? $('#LearningTabContent') : $("#MasterMainWrapper");
         container.html(result.LearningSessionResult);
         new LearningSessionResult();
     }

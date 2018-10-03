@@ -16,8 +16,6 @@ public class CategoryModel : BaseModel
     
     public KnowledgeSummary KnowledgeSummary;
 
-    public List<Category> RootCategoriesList;
-    public IList<Category> BreadCrumb => Sl.SessionUiData.TopicMenu.CategoryPath;
 
     public string CustomPageHtml;//Is set in controller because controller context is needed
     public IList<Set> FeaturedSets;
@@ -33,6 +31,7 @@ public class CategoryModel : BaseModel
     public IList<Question> TopQuestionsWithReferences;
     public List<Question> TopQuestionsInSubCats = new List<Question>();
     public IList<Question> TopWishQuestions;
+    public IList<Question> SingleQuestions;
 
     public IList<User> TopCreaters;
 
@@ -40,6 +39,8 @@ public class CategoryModel : BaseModel
     public string CreatorName;
     public string CreationDate;
     public string CreationDateNiceText;
+
+    public string ImageUrl_250;
 
     public Category Category;
 
@@ -70,8 +71,7 @@ public class CategoryModel : BaseModel
 
     public LearningTabModel LearningTabModel; 
     public CategoryModel(Category category, bool loadKnowledgeSummary = true)
-    {
-        RootCategoriesList = Sl.CategoryRepo.GetRootCategoriesList();
+    {      
         MetaTitle = category.Name;
         MetaDescription = SeoUtils.ReplaceDoubleQuotes(category.Description).Truncate(250, true);
 
@@ -95,6 +95,12 @@ public class CategoryModel : BaseModel
                         : MarkdownMarkdig.ToHtml(category.Description);
        
         Type = category.Type.GetShortName();
+
+        Creator = category.Creator;
+        CreatorName = category.Creator.Name;
+
+        var imageResult = new UserImageSettings(Creator.Id).GetUrl_250px(Creator);
+        ImageUrl_250 = imageResult.Url;
 
         FeaturedSets = category.FeaturedSets();
 
@@ -126,12 +132,24 @@ public class CategoryModel : BaseModel
         if (category.Type == CategoryType.Standard)
             TopQuestionsInSubCats = GetTopQuestionsInSubCats();
 
+       
+          //  LearningTabModel = new LearningTabModel(Category);
+
         TopWishQuestions = wishQuestions.Items;
+
+        SingleQuestions = GetQuestionsForCategory.QuestionsNotIncludedInSet(Id);
 
         AggregatedSets = category.GetAggregatedSetsFromMemoryCache();
         AggregatedSetCount = AggregatedSets.Count;
 
         AggregatedQuestionCount = Category.GetCountQuestionsAggregated();
+
+        SidebarModel.Reputation = Resolve<ReputationCalc>().Run(Creator);
+        SidebarModel.AmountWishCountQuestions = Resolve<GetWishQuestionCount>().Run(Creator.Id);
+        var followerIAm = R<FollowerIAm>().Init(new List<int> { Creator.Id}, UserId);
+        SidebarModel.DoIFollow = followerIAm.Of(Creator.Id);
+        SidebarModel.IsCurrentUser = Creator.Id == UserId && IsLoggedIn;
+
     }
 
     private List<Question> GetTopQuestionsInSubCats()
@@ -147,6 +165,12 @@ public class CategoryModel : BaseModel
         return topQuestions
             .Distinct(ProjectionEqualityComparer<Question>.Create(x => x.Id))
             .ToList();
+    }
+
+    public ImageUrl GetCategoryImageUrl(Category category)
+    {
+        var imageMetaData = Sl.ImageMetaDataRepo.GetBy(category.Id, ImageType.Category);
+        return new ImageFrontendData(imageMetaData).GetImageUrl(232);
     }
 
     private void GetTopQuestionsFromChildrenOfChildren(List<Question> topQuestions)

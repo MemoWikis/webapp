@@ -1,5 +1,5 @@
 ﻿<%@ Page Title="Spielen" Language="C#" 
-    MasterPageFile="~/Views/Shared/Site.MenuLeft.Master" 
+    MasterPageFile="~/Views/Shared/Site.Sidebar.Master" 
     Inherits="ViewPage<GamesModel>" %>
 <%@ Import Namespace="System.Web.Optimization" %>
 <%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
@@ -11,10 +11,11 @@
 <asp:Content ID="Content2" ContentPlaceHolderID="Head" runat="server">
     <%= Scripts.Render("~/bundles/js/Games") %>
     <%= Styles.Render("~/bundles/Games") %>
+    <% Model.TopNavMenu.BreadCrumb.Add(new TopNavMenuItem{Text = "Spielen", Url = "/Spielen",ToolTipText = "Spielen"});
+       Model.TopNavMenu.IsCategoryBreadCrumb = false; %>
 </asp:Content>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
-    
     <input type="hidden" id="hddCurrentUserId" value="<%= Model.UserId %>"/>
     
     <div class="row">

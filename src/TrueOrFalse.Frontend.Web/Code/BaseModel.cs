@@ -17,7 +17,6 @@
     }
 
     private SponsorModel _sponsorModel;
-
     protected SessionUser _sessionUser => Resolve<SessionUser>();
     protected SessionUiData _sessionUiData => Resolve<SessionUiData>();
 
@@ -32,9 +31,11 @@
 
     public bool IsCreatorOfGame;
 
-    public MenuLeftModel MenuLeftModel = new MenuLeftModel();
+    public SidebarModel SidebarModel = new SidebarModel();
 
     public TopicMenu TopicMenu;
+
+    public TopNavMenu TopNavMenu = new TopNavMenu();
 
     public bool ShowUserReportWidget = true;
 

@@ -298,6 +298,10 @@
   {
     "outputFile": "Views/Knowledge/Css/KnowledgeTopics.css",
     "inputFile": "Views/Knowledge/Css/KnowledgeTopics.less"
+  },  
+  {
+    "outputFile": "Views/Categories/Detail/Category.es5.js",
+    "inputFile": "Views/Categories/Detail/Category.js"
   },
   {
     "outputFile": "Views/Welcome/Promoter.css",

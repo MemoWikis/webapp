@@ -1,4 +1,4 @@
-﻿<%@ Control Language="C#" Inherits="System.Web.Mvc.ViewUserControl"  %>
+﻿<%@ Control Language="C#" Inherits="System.Web.Mvc.ViewUserControl<BaseModel>"  %>
 <%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
 
 <% if(Request.Url.Host == "memucho.local" || Request.Url.Host == "memucho"){ %>
@@ -18,11 +18,10 @@
 <% } %>
 <header id="MasterHeader">
     <div class="container">
-        <div class="row">
+        <div class="row" style="background-color:#003264">
             <div class="col-md-12">
-                <div class="row HeaderMainRow">
+                <div class="row HeaderMainRow" style="background-color:#003264">
                     <div class="col-xs-6 col-Logo">
-                        <a id="MenuButton"><i class="fa fa-bars"></i><span class="caret"></span></a>
                         <a id="LogoLink" href="/">
                             <div id="Pictogram">
                                 <img src="/Images/Logo/LogoPictogram.png">
@@ -41,16 +40,15 @@
                         <div class="input-group" id="HeaderSearchBoxDiv">
                             <input type="text" class="form-control" placeholder="Suche" id="headerSearchBox">
                             <div class="input-group-btn">
-                                <button class="btn btn-default" type="submit"><i class="fa fa-search" aria-hidden="true"></i></button>
+                                <button class="btn btn-default"  style="border: 1px #979797 solid; border-left:none;" type="submit"><i class="fa fa-search"  aria-hidden="true"></i></button>
                             </div>
                         </div>
-
                     </div>
                     <div class="col-xs-6 col-LoginAndHelp">
             	        <div id="loginAndHelp" >
                             <% Html.RenderPartial(UserControls.Logon); %>
                         </div>
-                    </div>
+                    </div>                    
                 </div>
             </div>
         </div>

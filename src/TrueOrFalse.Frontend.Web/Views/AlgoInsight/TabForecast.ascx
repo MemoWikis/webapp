@@ -1,7 +1,6 @@
 ﻿<%@ Control Language="C#" Inherits="System.Web.Mvc.ViewUserControl<TabForecastModel>" %>
 <%@ Import Namespace="NHibernate.Util" %>
 
-
 <script type="text/javascript" src="https://www.google.com/jsapi"></script>
 
 <script>

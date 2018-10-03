@@ -1,4 +1,4 @@
-﻿<%@ Page Title="Kontakt & Anfahrt" Language="C#" MasterPageFile="~/Views/Shared/Site.MenuLeft.Master" 
+﻿<%@ Page Title="Kontakt & Anfahrt" Language="C#" MasterPageFile="~/Views/Shared/Site.Sidebar.Master" 
 	Inherits="ViewPage<BaseModel>"%>
 <%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
 <%@ Import Namespace="System.Web.Optimization" %>
@@ -10,6 +10,9 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="Head" runat="server">
     <link href="/Views/Welcome/Contact.css" rel="stylesheet" />
     <%= Scripts.Render("~/bundles/mailto") %>
+    
+    <% Model.TopNavMenu.BreadCrumb.Add(new TopNavMenuItem{Text = "Kontakt", Url = "/Kontakt", ToolTipText = "Kontakt"});
+       Model.TopNavMenu.IsCategoryBreadCrumb = false; %>
 </asp:Content>
 
 

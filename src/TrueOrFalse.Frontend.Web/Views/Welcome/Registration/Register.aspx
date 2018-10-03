@@ -103,9 +103,7 @@
                 <div class="form-group">
                     <div class="col-sm-offset-2 col-sm-6" style="font-size: 12px; padding-top: 20px;">
                         In dem du dich registrierst, erklärst du dich mit unseren <a href="<%=Links.TermsAndConditions %>">Nutzungsbedingungen</a>
-                        und unserer <a href="<%=Links.Imprint %>">Datenschutzerklärung</a> einverstanden. <br />
-                        <br/>
-                        <b>Du musst mind. 16 Jahre alt sein, um Dich zu registrieren! <a href="/Impressum#under16">Hier findest Du mehr Infos dazu.</a></b>
+                        und unserer <a href="<%=Links.Imprint %>">Datenschutzrichtlinie</a> einverstanden. 
                     </div>
                 </div>
 

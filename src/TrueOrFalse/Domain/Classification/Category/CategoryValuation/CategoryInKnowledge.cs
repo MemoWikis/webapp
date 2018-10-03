@@ -110,14 +110,7 @@ public class CategoryInKnowledge
         var catRepo = Sl.CategoryRepo;
 
         var questionsInOtherValuatedCategories = valuatedCategories
-            .SelectMany(v =>
-            {
-                var category = catRepo.GetById(v.CategoryId);
-
-                return category == null ? 
-                    new List<Question>() : 
-                    category.GetAggregatedQuestionsFromMemoryCache();
-            })
+            .SelectMany(v => catRepo.GetById(v.CategoryId).GetAggregatedQuestionsFromMemoryCache())
             .GetIds()
             .Distinct()
             .ToList();

@@ -1,4 +1,4 @@
-﻿<%@ Page Title="Widget: Beispiele für Fragen und Lernsets (Quiz)" Language="C#" MasterPageFile="~/Views/Shared/Site.MenuLeft.Master" Inherits="System.Web.Mvc.ViewPage" %>
+﻿<%@ Page Title="Widget: Beispiele für Fragen und Lernsets (Quiz)" Language="C#" MasterPageFile="~/Views/Shared/Site.Sidebar.Master" Inherits="System.Web.Mvc.ViewPage<BaseModel>" %>
 <%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
 <%@ Import Namespace="System.Web.Optimization" %>
 
@@ -6,7 +6,9 @@
     <link href="/Views/Help/Widget.css" rel="stylesheet" />
     
     <%= Scripts.Render("~/bundles/mailto") %>
-    
+    <% Model.TopNavMenu.BreadCrumb.Add(new TopNavMenuItem{Text = "Widgets", Url = "~/Hilfe/Widget", , ToolTipText  = "Widgets"});
+       Model.TopNavMenu.BreadCrumb.Add(new TopNavMenuItem{Text = "Beispiele", Url = "~/Widget-Beispiele", ToolTipText  = "Beispiele"});
+       Model.TopNavMenu.IsCategoryBreadCrumb = false; %>
     <%= Scripts.Render("~/bundles/js/Help") %>
 
 </asp:Content>

@@ -10,36 +10,29 @@
     <script src='<%: ResolveClientUrl("~/signalr/hubs") %>'></script>
     <asp:ContentPlaceHolder ID="Head" runat="server" />
 </head>
-
 <body>
-    <% Html.RenderPartial("Site.Partial.MasterHeader"); %>    
-    <section id="MasterSection">
-        
+    <% Model.SidebarModel.categoryNavigationModel = new CategoryNavigationModel(); %>
+    <% Html.RenderPartial("Site.Partial.MasterHeader");%>   
+    <div id="Breadcrumb">
+        <% Html.RenderPartial("/Views/Categories/Detail/Partials/BreadCrumb.ascx", Model); %>
+    </div>  
+    <section id="MasterSection">     
         <input type="hidden" id="IsLoggedIn" value="<%= Model.IsLoggedIn %>" />
-
         <asp:ContentPlaceHolder ID="SubHeader" runat="server" />
-
         <section id="MasterMainContent" class="container">
             <div class="row">
-                <section id="MasterLeftColumn" class="">
-                    <% Html.RenderPartial(
-                           Model.TopicMenu.IsActive
-                           ? UserControls.MenuLeftThemeCentered
-                           : UserControls.MenuLeft, Model.MenuLeftModel); %>
-
-                    <% if (Model.SponsorModel != null && !Model.SponsorModel.IsAdFree)
-                       { %>
-                        <% Html.RenderPartial("SponsorLeft", Model.SponsorModel); %>
-                    <% } %>
+                <%if(Model.TopNavMenu.IsCategoryBreadCrumb){ %>
+                <section id="MasterSidebarColumn" >                  
+                    <% Html.RenderPartial("SidebarCards", Model.SidebarModel); %>                                        
                 </section>
-                <section id="MasterMainColumn" class="">
-                    
+                <%} %>
+                <section id="MasterMainColumn" <%if(Model.TopNavMenu.IsCategoryBreadCrumb){ %> style="width:80%;" <%}%> class="">        
                     <div id="IsInGameMessage">
                         <% if(Model.IsInGame){ %>
                             <% Html.RenderPartial("MessageGame", Model); %>
                         <% } %>
                     </div>
-                    
+                   
                     <%-- MAIN CONTENT--%>
                     <section id="MasterMainWrapper">
                         <asp:ContentPlaceHolder ID="MainContent" runat="server"  />
@@ -74,3 +67,4 @@
     <div id="modalContainer"></div>
 </body>
 </html>
+ 

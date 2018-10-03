@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" MasterPageFile="~/Views/Shared/Site.MenuLeft.Master" Inherits="System.Web.Mvc.ViewPage<AnswerQuestionModel>" %>
+﻿<%@ Page Language="C#" MasterPageFile="~/Views/Shared/Site.Sidebar.Master" Inherits="System.Web.Mvc.ViewPage<AnswerQuestionModel>" %>
 <%@ Import Namespace="System.Web.Optimization" %>
 <%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
 <%@ Import Namespace="TrueOrFalse" %>
@@ -52,13 +52,29 @@
         var relevanceForAllAvg = "<%= Model.TotalRelevanceForAllAvg %>";
         var relevanceForAllEntries = "<%= Model.TotalRelevanceForAllEntries %>";
     </script>
+    
 
+    <% if (Model.IsTestSession)
+        {
+            Model.TopNavMenu.BreadCrumb.Add(new TopNavMenuItem {Text = Model.TestSession.SetName, Url = Model.TestSession.SetLink});
+        }else if(Model.IsLearningSession)
+        {
+            Model.TopNavMenu.BreadCrumb.Add(new TopNavMenuItem {Text = Model.LearningSession.SetToLearn.Name, Url = Links.SetDetail(Url, Model.LearningSession.SetToLearn)});
+        }
+        else
+        {
+           Model.TopNavMenu.BreadCrumb.Add(new TopNavMenuItem {Text = Model.SetMinis[0].Name, Url = Model.SetMinis[0].Name});
+        }
+        Model.TopNavMenu.IsAnswerQuestionOrSetBreadCrumb = true;
+        Model.TopNavMenu.IsCategoryBreadCrumb = false;
+    %>
+      
+    <% Model.SidebarModel.AutorCardLinkText = Model.Creator.Name;
+       Model.SidebarModel.AutorImageUrl = Model.ImageUrl_250; %>    
     <link type="text/css" href="/Content/blue.monday/jplayer.blue.monday.css" rel="stylesheet" />
 </asp:Content>
 
-<asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
-    
-    
+<asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">    
     <input type="hidden" id="hddIsLearningSession" value="<%= Model.IsLearningSession %>" 
         data-learning-session-id="<%= Model.IsLearningSession ? Model.LearningSession.Id : -1 %>"
         data-current-step-guid="<%= Model.IsLearningSession ? Model.LearningSessionStep.Guid.ToString() : "" %>"
@@ -70,6 +86,7 @@
         data-current-step-idx="<%= Model.IsTestSession ? Model.TestSessionCurrentStep : -1 %>"
         data-is-last-step="<%= Model.TestSessionIsLastStep %>"/>
     <input type="hidden" id="hddQuestionId" value="<%= Model.QuestionId %>"/>
+
 
             <% if (Model.IsLearningSession) { %>
                    <% Html.RenderPartial("~/Views/Questions/Answer/LearningSession/LearningSessionHeader.ascx", Model); %>

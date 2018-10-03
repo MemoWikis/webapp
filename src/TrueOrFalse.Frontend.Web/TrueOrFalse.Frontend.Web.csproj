@@ -365,7 +365,6 @@
     <Content Include="Images\DocumentationHelp\TopicNavigation.png" />
     <Content Include="Images\DocumentationHelp\VideoWidget.png" />
     <Content Include="Images\Illustrations\PreviewFullResponsiveScreens.jpg" />
-    <Content Include="Images\LogosPartners\efre.png" />
     <Content Include="Images\LogosPartners\efre_s.png" />
     <Content Include="Images\LogosPartners\landderideen_ausgezeichnet-2017_w190c.jpg" />
     <Content Include="Images\LogosPartners\Logo_DEP_rgb_300x98.jpg" />
@@ -441,9 +440,10 @@
     <Content Include="Views\Categories\Detail\Js\Tabbing.js">
       <DependentUpon>Tabbing.ts</DependentUpon>
     </Content>
+    <Content Include="Views\Categories\Detail\Partials\BreadCrumbCategories.ascx" />
     <Content Include="Views\Categories\Detail\Partials\MediaListReferenceTitle.ascx" />
     <Content Include="Views\Categories\Detail\Partials\SetCardMiniList.ascx" />
-    <Content Include="Views\Categories\Detail\Partials\BreadCrumbMobile.ascx" />
+    <Content Include="Views\Categories\Detail\Partials\BreadCrumb.ascx" />
     <Content Include="Views\Categories\Detail\Partials\Spacer.ascx" />
     <Content Include="Views\Categories\Detail\Partials\SingleQuestionsQuiz.ascx" />
     <Content Include="Views\Categories\Detail\Partials\CategoryHeader.ascx" />
@@ -906,12 +906,16 @@
     </Content>
     <Content Include="Views\Sets\Detail\Modals\ShareSetModal.ascx" />
     <Content Include="Views\Sets\Edit\Js\AddQuestions.js" />
+    <TypeScriptCompile Include="Scripts\header\MobileBreadcrumb.ts" />
+    <TypeScriptCompile Include="Scripts\header\StickyHeaderSearchBox.ts" />
+    <TypeScriptCompile Include="Scripts\SidebarCards.ts" />
     <TypeScriptCompile Include="Scripts\YoutubeApi.ts" />
     <TypeScriptCompile Include="Scripts\NumbersCountUp.ts" />
     <TypeScriptCompile Include="Views\About\Js\Page.ts" />
     <TypeScriptCompile Include="Views\Categories\Detail\Js\Category.ts" />
     <TypeScriptCompile Include="Views\Categories\Detail\Js\CategoryHeader.ts" />
     <TypeScriptCompile Include="Views\Categories\Detail\Js\SquareWishKnowledge.ts" />
+    <TypeScriptCompile Include="Scripts\header\StickyHeader.ts" />
     <TypeScriptCompile Include="Views\Categories\Detail\Js\Tabbing.ts" />
     <TypeScriptCompile Include="Views\Categories\ResultTestSession\Js\GetResultTestSession.ts" />
     <TypeScriptCompile Include="Views\Knowledge\Js\Page.ts" />
@@ -927,7 +931,8 @@
       <DependentUpon>YoutubePreview.ts</DependentUpon>
     </Content>
     <Content Include="Views\Shared\CategoryLabel.ascx" />
-    <Content Include="Views\Shared\MenuLeftThemeCentered.ascx" />
+    <Content Include="Views\Shared\MainMenuThemeCentered.ascx" />
+    <Content Include="Views\Shared\SidebarCards.ascx" />
     <Content Include="Views\Sets\Edit\QuestionInSet.ascx" />
     <Content Include="Views\Shared\LinkToTop.ascx" />
     <Content Include="Views\Shared\GlobalLicense.ascx" />
@@ -1063,6 +1068,8 @@
     </Content>
     <Content Include="Images\Licenses\cc-by 88x31.png" />
     <Content Include="Images\Licenses\cc-by-sa 88x31.png" />
+    <Content Include="Images\LogosPartners\BMWi-Logo-t.png" />
+    <Content Include="Images\LogosPartners\Claim-ESF-cmyk-eps.png" />
     <Content Include="Images\LogosPartners\innovationspreis-Logo-quer-positiv-web-HGw.png" />
     <Content Include="Images\LogosPartners\Logo-ESF-rgb-gif.png" />
     <Content Include="Images\LogosPartners\Logo-EU-cmyk-eps.png" />
@@ -1208,7 +1215,7 @@
     </Content>
     <Content Include="Views\Shared\Cards\CardSingleCategory.ascx" />
     <Content Include="Views\Shared\AddToWishknowledge.ascx" />
-    <Content Include="Views\Shared\SponsorLeft.ascx" />
+    <Content Include="Views\Shared\SidebarSponsor.ascx" />
     <Content Include="Views\Shared\UnpinCategoryModal.ascx" />
     <Content Include="Views\Shared\WuWiMessage.ascx" />
     <Content Include="Views\About\AboutMemucho.css">
@@ -2151,7 +2158,7 @@
     <Compile Include="Views\Shared\AnswerHistoryModel.cs" />
     <Compile Include="Views\Shared\CorrectnessProbabilityModel.cs" />
     <Compile Include="Views\Images\ImageUpload\ImageUploadController.cs" />
-    <Compile Include="Views\Shared\MenuLeftModel.cs" />
+    <Compile Include="Views\Shared\SidebarModel.cs" />
     <Compile Include="Views\Shared\PagerModel.cs" />
     <Compile Include="Views\Users\Detail\UserController.cs" />
     <Compile Include="Views\Users\Detail\UserModel.cs" />
@@ -2892,7 +2899,7 @@
     <Content Include="Views\Users\Users.aspx" />
     <Content Include="Views\VariousPublic\Imprint.aspx" />
     <Content Include="Views\Questions\Answer\AnswerQuestion.aspx" />
-    <Content Include="Views\Shared\MenuLeft.ascx" />
+    <Content Include="Views\Shared\Sidebar.ascx" />
     <Content Include="Views\VariousPublic\NotDoneYet.aspx" />
     <Content Include="Views\Shared\TopUsers.ascx" />
     <Content Include="Views\About\WelfareCompany.aspx" />
@@ -2908,7 +2915,7 @@
     <Content Include="Views\Questions\Edit\EditQuestion.aspx" />
     <Content Include="Views\Error\_500.aspx" />
     <Content Include="Views\Shared\LogOn.ascx" />
-    <Content Include="Views\Shared\Site.MenuLeft.Master" />
+    <Content Include="Views\Shared\Site.Sidebar.Master" />
     <Content Include="packages.config">
       <SubType>Designer</SubType>
     </Content>
@@ -2928,6 +2935,7 @@
     <Folder Include="bin\Domain\Message\Types\" />
     <Folder Include="bin\Utilities\Update\Scripts\" />
     <Folder Include="bin\Utilities\Update\SolrSchemas\" />
+    <Folder Include="Views\Categories\Detail\Partials\BreadCrumb\" />
     <Folder Include="Views\Dates\Details\" />
   </ItemGroup>
   <PropertyGroup>

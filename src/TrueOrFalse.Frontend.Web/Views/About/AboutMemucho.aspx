@@ -1,13 +1,13 @@
-﻿<%@ Page Title="Über memucho" Language="C#" MasterPageFile="~/Views/Shared/Site.MenuLeft.Master" 
+﻿<%@ Page Title="Über memucho" Language="C#" MasterPageFile="~/Views/Shared/Site.Sidebar.Master" 
     Inherits="System.Web.Mvc.ViewPage<AboutMemuchoModel>" %>
 <%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
 <%@ Import Namespace="System.Web.Optimization" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="Head" runat="server">
     <link href="/Views/About/AboutMemucho.css" rel="stylesheet" />
-    <%: Scripts.Render("~/bundles/AboutMemucho") %>
+    <% Model.TopNavMenu.BreadCrumb.Add(new TopNavMenuItem{Text = "Über memucho", Url = "/Ueber-memucho", ToolTipText = "Über memucho"});
+       Model.TopNavMenu.IsCategoryBreadCrumb = false; %>
 </asp:Content>
-
 
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
 
@@ -17,7 +17,7 @@
     </div>
             
     <div id="teamImgQuote">
-        <img id="teamImg" src="/Images/Team/founderTeam_20161027_e1.jpg" alt="Hier sollte ien Bild sein"/>
+        <img id="teamImg" src="/Images/Team/founderTeam_20161027_e1.jpg" />
 
         <div id="teamQuoteCircle" class="">
             <div class="circle">
@@ -204,7 +204,7 @@
             <p>
                 Wir nutzen deine Daten, damit du besser lernen kannst und um memucho besser zu machen. 
                 Aber wir werden deine Daten niemals verkaufen. 
-                (<a class="helpLink" href="<%= Links.FAQItem("DataPrivacy") %>">Mehr zum <i class="fa fa-lock">&nbsp;</i>Datenschutzerklärung</a>)
+                (<a class="helpLink" href="<%= Links.FAQItem("DataPrivacy") %>">Mehr zum <i class="fa fa-lock">&nbsp;</i>Datenschutz</a>)
             </p>
             <p>
                 Damit du überprüfen kannst, was wir versprechen und weil wir Open Source eine tolle Idee finden, 

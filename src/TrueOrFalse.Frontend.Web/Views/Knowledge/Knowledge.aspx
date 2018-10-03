@@ -1,4 +1,4 @@
-﻿<%@ Page Title="Wissenszentrale" Language="C#" MasterPageFile="~/Views/Shared/Site.MenuNo.Master" Inherits="ViewPage<KnowledgeModel>" %>
+﻿<%@ Page Title="Wissenszentrale" Language="C#" MasterPageFile="~/Views/Shared/Site.Sidebar.Master" Inherits="ViewPage<KnowledgeModel>" %>
 
 <%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
 <%@ Import Namespace="System.Web.Optimization" %>
@@ -10,6 +10,10 @@
 <asp:Content runat="server" ID="header" ContentPlaceHolderID="Head">
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
     <script type="text/javascript" src="https://www.google.com/jsapi"></script>
+    <% Model.TopNavMenu.BreadCrumb.Add(new TopNavMenuItem{Text = "Nutzer", Url = "/Nutzer", ToolTipText = "Nutzer"});
+       Model.TopNavMenu.BreadCrumb.Add(new TopNavMenuItem{Text = "Profilseite", Url = Url.Action(Links.UserAction, Links.UserController, new { name = Model.User.Name, id = Model.User.Id}), ToolTipText = "Profilseite"});
+       Model.TopNavMenu.BreadCrumb.Add(new TopNavMenuItem{Text = "Wissenszentrale", Url = "/Wissenszentrale", ToolTipText = "Wissenszentrale"});
+       Model.TopNavMenu.IsCategoryBreadCrumb = false; %>
     <%= Styles.Render("~/bundles/Knowledge") %>
     <%= Scripts.Render("~/bundles/js/Knowledge") %>
 </asp:Content>

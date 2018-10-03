@@ -1,12 +1,16 @@
-﻿<%@ Page Title="Thema bearbeiten" Language="C#" MasterPageFile="~/Views/Shared/Site.MenuLeft.Master" Inherits="ViewPage<EditCategoryModel>" %>
+﻿<%@ Page Title="Thema bearbeiten" Language="C#" MasterPageFile="~/Views/Shared/Site.Sidebar.Master" Inherits="ViewPage<EditCategoryModel>" %>
 <%@ Import Namespace="System.Web.Optimization" %>
 <%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
 
 <asp:Content ID="ContentHeadSEO" ContentPlaceHolderID="HeadSEO" runat="server">
     <% if (Model.IsEditing) { %>
         <link rel="canonical" href="<%= Settings.CanonicalHost %><%= Links.CategoryEdit(Url, Model.Name, Model.Category.Id) %>">
+        <% Model.TopNavMenu.BreadCrumb.Add(new TopNavMenuItem{Text = "Themen", Url = "/Kategorien.aspx"});
+           Model.TopNavMenu.IsCategoryBreadCrumb = false; %>
     <% } else {  %>
         <link rel="canonical" href="<%= Settings.CanonicalHost %><%= Links.CategoryCreate() %>">
+        <% Model.TopNavMenu.BreadCrumb.Add(new TopNavMenuItem{Text = "Themen", Url = "/Kategorien/Erstelle", ToolTipText = "Thema erstellen"});
+           Model.TopNavMenu.IsCategoryBreadCrumb = false; %>
     <% } %>
 </asp:Content>
 
@@ -209,8 +213,8 @@
                             <i class="fa fa-question-circle show-tooltip" 
                                 title="Erfordert Markdown-Syntax. Zum Vergrößern des Eingabefelds bitte unten rechts größer ziehen." 
                                 data-placement="<%= CssJs.TooltipPlacementLabel %>" data-trigger="hover click"></i>
-                            <a href="<%= Links.CategoryDetail("Themenseiten bearbeiten", 965) %>" target="_blank">
-                                Hilfe zu den Templates
+                            <a href="https://docs.google.com/document/d/1Wc3TZlE7gmw04i5WhzNcyaxDa05KEJPlXinGsT-a1AU/edit?usp=sharing" target="_blank">
+                                Doku für Templates
                                 <i class="fa fa-external-link"></i>
                             </a>
                                 
@@ -239,9 +243,6 @@
                         <div class="noLabel columnControlsFull">
                             <p class="form-control-static"><span class="RequiredField"></span> Pflichtfeld</p>
                         </div>
-                    </div>
-                    <div id="deleteAlert" class="alert alert-danger" role="alert" style="display: none ">
-                        <strong>Bitte habe etwas Geduld, das Löschen dauert einen Augenblick</strong> 
                     </div>
                     <div class="form-group">
                         <div class="noLabel columnControlsFull">

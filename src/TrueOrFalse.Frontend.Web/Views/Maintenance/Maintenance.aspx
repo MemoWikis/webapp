@@ -1,9 +1,13 @@
 ﻿<%@ Page Title="" Language="C#" 
-    MasterPageFile="~/Views/Shared/Site.MenuLeft.Master" 
+    MasterPageFile="~/Views/Shared/Site.Sidebar.Master" 
     Inherits="System.Web.Mvc.ViewPage<MaintenanceModel>"
     ValidateRequest="false"
     EnableSessionState="ReadOnly" %>
 
+<asp:Content ID="Content2" ContentPlaceHolderID="Head" runat="server">
+    <% Model.TopNavMenu.BreadCrumb.Add(new TopNavMenuItem{Text = "Administrativ", Url = "/Maintenance", ToolTipText = "Administrativ"});
+       Model.TopNavMenu.IsCategoryBreadCrumb = false; %>
+</asp:Content>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
     

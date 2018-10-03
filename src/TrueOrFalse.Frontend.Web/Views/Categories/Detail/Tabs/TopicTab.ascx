@@ -35,7 +35,6 @@
         <% } %>
     </div>
 </div>
-
 <% if (string.IsNullOrEmpty(Model.CustomPageHtml)) {
 
        if (Model.CategoriesChildren.Any(c => c.Type.GetCategoryTypeGroup() == CategoryTypeGroup.Standard))

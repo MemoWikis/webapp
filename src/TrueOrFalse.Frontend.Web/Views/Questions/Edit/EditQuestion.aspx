@@ -1,13 +1,18 @@
-﻿<%@ Page Language="C#" MasterPageFile="~/Views/Shared/Site.MenuLeft.Master" Inherits="ViewPage<EditQuestionModel>" ValidateRequest="false" %>
+﻿<%@ Page Language="C#" MasterPageFile="~/Views/Shared/Site.Sidebar.Master" Inherits="ViewPage<EditQuestionModel>" ValidateRequest="false" %>
 <%@ Import Namespace="System.Web.Optimization" %>
 <%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
 
 <asp:Content ID="ContentHeadSEO" ContentPlaceHolderID="HeadSEO" runat="server">
     <% Title = Model.PageTitle; %>
     <% if (Model.IsEditing) { %>
-        <link rel="canonical" href="<%= Settings.CanonicalHost %><%= Links.EditQuestion(Model.QuestionText, Model.Id) %>">
+        <link rel="canonical" href="<%= Settings.CanonicalHost %><%= Links.EditQuestion(Model.QuestionText, Model.Id) %>"/>
+        <%  Model.TopNavMenu.BreadCrumb.Add(new TopNavMenuItem {Text = "SetName"});
+            Model.TopNavMenu.IsAnswerQuestionOrSetBreadCrumb = true;
+            Model.TopNavMenu.IsCategoryBreadCrumb = false; %>
     <% } else {  %>
-        <link rel="canonical" href="<%= Settings.CanonicalHost %><%= Links.CreateQuestion() %>">
+        <link rel="canonical" href="<%= Settings.CanonicalHost %><%= Links.CreateQuestion() %>"/>
+        <% Model.TopNavMenu.BreadCrumb.Add(new TopNavMenuItem{Text = "Fragen", Url = "/Fragen/Erstelle",  ToolTipText = "Frage erstellen"});
+           Model.TopNavMenu.IsCategoryBreadCrumb = false; %>
     <% } %>
 </asp:Content>
 

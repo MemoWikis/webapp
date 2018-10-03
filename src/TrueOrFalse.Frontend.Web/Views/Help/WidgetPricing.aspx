@@ -1,4 +1,4 @@
-﻿<%@ Page Title="Widget: Angebote und Preise" Language="C#" MasterPageFile="~/Views/Shared/Site.MenuLeft.Master" Inherits="System.Web.Mvc.ViewPage" %>
+﻿<%@ Page Title="Widget: Angebote und Preise" Language="C#" MasterPageFile="~/Views/Shared/Site.Sidebar.Master" Inherits="System.Web.Mvc.ViewPage<BaseModel>" %>
 <%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
 <%@ Import Namespace="System.Web.Optimization" %>
 
@@ -22,6 +22,9 @@
     </script>    
     
     <%= Scripts.Render("~/bundles/js/Help") %>
+    <% Model.TopNavMenu.BreadCrumb.Add(new TopNavMenuItem{Text = "Widgets", Url = "~/Hilfe/Widget", ToolTipText = "Widgets"});
+       Model.TopNavMenu.BreadCrumb.Add(new TopNavMenuItem{Text = "Angebote und Preise", Url = "~/Widget-Angebote-Preisliste", ToolTipText = "Angebote und Preise"});
+       Model.TopNavMenu.IsCategoryBreadCrumb = false; %>
 
 </asp:Content>
 

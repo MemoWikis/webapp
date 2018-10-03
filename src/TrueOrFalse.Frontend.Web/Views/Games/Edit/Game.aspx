@@ -1,5 +1,5 @@
 ﻿<%@ Page Title="Spielen" Language="C#" 
-    MasterPageFile="~/Views/Shared/Site.MenuLeft.Master" 
+    MasterPageFile="~/Views/Shared/Site.Sidebar.Master" 
     Inherits="ViewPage<GameModel>" %>
 <%@ Import Namespace="System.Web.Optimization" %>
 <%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
@@ -11,6 +11,8 @@
 <asp:Content ID="Content2" ContentPlaceHolderID="Head" runat="server">
     <%= Styles.Render("~/bundles/Game") %>
     <%= Scripts.Render("~/bundles/js/Game") %>
+    <% Model.TopNavMenu.BreadCrumb.Add(new TopNavMenuItem{Text = "Spielen", Url = "/Spiel/Erstellen", ToolTipText = "Spiel erstellen"});
+       Model.TopNavMenu.IsCategoryBreadCrumb = false; %>
 </asp:Content>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">

@@ -51,9 +51,7 @@
                 <div class="form-group">
                     <div class="col-xs-offset-1 col-xs-10 xxs-stack" style="font-size: 12px; padding-top: 7px;">
                         *Durch die Registrierung mit Google oder Facebook erklärst du dich mit unseren <a href="<%=Links.TermsAndConditions %>">Nutzungsbedingungen</a>
-                        und unserer <a href="<%=Links.Imprint %>">Datenschutzerklärung</a> einverstanden. 
-                        <br/><br/>
-                        Du musst mind. 16 Jahre alt sein, <a href="/Impressum#under16">hier mehr Infos</a>!
+                        und unserer <a href="<%=Links.Imprint %>">Datenschutzrichtlinie</a> einverstanden. 
                     </div>
                 </div>
                                 

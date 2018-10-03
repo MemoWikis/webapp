@@ -1,9 +1,12 @@
-﻿<%@ Page Title="Maintenance: ContentStats" Language="C#" MasterPageFile="~/Views/Shared/Site.MenuLeft.Master" Inherits="System.Web.Mvc.ViewPage<ContentStatsModel>" %>
+﻿<%@ Page Title="Maintenance: ContentStats" Language="C#" MasterPageFile="~/Views/Shared/Site.Sidebar.Master" Inherits="System.Web.Mvc.ViewPage<ContentStatsModel>" %>
 <%@ Import Namespace="System.Web.Optimization" %>
 
 <asp:Content ID="Content2" runat="server" ContentPlaceHolderID="Head">
     <%= Styles.Render("~/bundles/MaintenanceContentStats") %>
     <%= Scripts.Render("~/bundles/js/MaintenanceContentStats") %>
+     <% Model.TopNavMenu.BreadCrumb.Add(new TopNavMenuItem{Text = "Administrativ", Url = "/Maintenance", ToolTipText = "Administrativ"});
+         Model.TopNavMenu.BreadCrumb.Add(new TopNavMenuItem{Text = "Cnt Stats", Url = "/Maintenance/ContentStats", ToolTipText = "Cnt Stats"});
+        Model.TopNavMenu.IsCategoryBreadCrumb = false; %>
 </asp:Content>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">

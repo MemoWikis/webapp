@@ -12,7 +12,7 @@ public class InitializeCategoryChanges
         foreach(var category in allCategories)
         {
             if (allCategoryChanges.All(x => x.Category.Id != category.Id))
-                Sl.CategoryChangeRepo.AddUpdateEntry(category, memuchoUser);
+                Sl.CategoryChangeRepo.Create(category, memuchoUser);
         }
     }
 }

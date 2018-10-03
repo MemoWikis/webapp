@@ -1,4 +1,4 @@
-﻿<%@ Page Title="Einstellungen" Language="C#" MasterPageFile="~/Views/Shared/Site.MenuLeft.Master"
+﻿<%@ Page Title="Einstellungen" Language="C#" MasterPageFile="~/Views/Shared/Site.Sidebar.Master"
     Inherits="System.Web.Mvc.ViewPage<UserSettingsModel>" %>
 <%@ Import Namespace="System.Web.Optimization" %>
 <%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
@@ -6,6 +6,10 @@
 <asp:Content ContentPlaceHolderID="Head" runat="server">
     <%= Scripts.Render("~/Views/Users/Account/Settings/Validation.js") %>
     <%= Styles.Render("~/Views/Users/Account/Settings/UserSettings.css") %>
+    <% Model.TopNavMenu.BreadCrumb.Add(new TopNavMenuItem{Text = "Nutzer", Url = "/Nutzer", ToolTipText = "Nutzer"});
+        Model.TopNavMenu.BreadCrumb.Add(new TopNavMenuItem{Text = "Profilseite", Url = Url.Action(Links.UserAction, Links.UserController, new { name =  Model.Name, id = Model.UserId}), ToolTipText = "Profilseite"});
+        Model.TopNavMenu.BreadCrumb.Add(new TopNavMenuItem{Text = "Einstellungen", Url = Url.Action(Links.UserSettingsAction, Links.UserSettingsController), ToolTipText = "Einstellungen"});
+        Model.TopNavMenu.IsCategoryBreadCrumb = false; %>
     <style>
         .column{ width: 167px;float: left; padding-right: 4px;}
     </style>

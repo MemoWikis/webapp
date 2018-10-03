@@ -17,27 +17,42 @@ class MenuMobile {
     private _isOpen: boolean = false;
     private _isInProgress: boolean = false;
 
-    constructor() {
 
+    constructor() {
+        
         $("#MenuButton").click(() => {
             if (this._isOpen) {
-                this.closeMenu();
+                this.closeMenu(); 
+               
             } else {
                 this.openMenu();
+                
+            }
+        });
+
+        $("#StickyMenuButton").click(() => {
+            if (this._isOpen) {
+                this.closeMenu();
+
+            } else {
+                this.openMenu();
+
             }
         });
 
         //close on click outside the menu
-        $(document).mouseup((e) =>  {
-            if (!this._isOpen && !this._isInProgress){
+        $(document).mouseup((e) => {
+            if (!this._isOpen && !this._isInProgress) {
                 return;
             }
 
-            if ($("#mainMenu, #mainMenuThemeCentered").has(e.target).length === 0 &&
+            if ($("#mainMenu, #RightMainMenu").has(e.target).length === 0 &&
                 $("#MenuButton").has(e.target).length === 0) {
                 this.closeMenu();
-            }
+            }           
+            
         });
+
 
         //close on ESC
         $(document).keyup((e: any) => {
@@ -56,13 +71,13 @@ class MenuMobile {
         if (this._isInProgress) {
             return;
         }
-            
+
         this._isInProgress = true;
-        $("#mainMenu, #mainMenuThemeCentered").slideDown(400, () => {
+        $("#mainMenu, #RightMainMenu").slideDown(400, () => {
             this._isOpen = true;
             this._isInProgress = false;
-        });
-        
+        });     
+       
     }
 
     closeMenu() {
@@ -72,13 +87,15 @@ class MenuMobile {
         }
 
         this._isInProgress = true;
-        $("#mainMenu, #mainMenuThemeCentered").slideUp(400, () => {
+        $("#mainMenu, #RightMainMenu").slideUp(400, () => {
             this._isOpen = false;
             this._isInProgress = false;    
         });
+
         
     }
 
+    
 }
 
 $(function() {

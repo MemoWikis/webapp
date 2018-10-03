@@ -1,4 +1,4 @@
-﻿<%@ Page Title="memucho Nutzungsbedingungen" Language="C#" MasterPageFile="~/Views/Shared/Site.MenuNo.Master" Inherits="System.Web.Mvc.ViewPage" %>
+﻿<%@ Page Title="memucho Nutzungsbedingungen" Language="C#" MasterPageFile="~/Views/Shared/Site.Sidebar.Master" Inherits="System.Web.Mvc.ViewPage<BaseModel>" %>
 <%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="Head" runat="server">
@@ -15,6 +15,9 @@
         $(spt).remove();
     });
 </script>    
+    
+    <% Model.TopNavMenu.BreadCrumb.Add(new TopNavMenuItem{Text = "Nutzungsbedingungen", Url = "/AGB", ToolTipText = "Nutzungsbedingungen"});
+       Model.TopNavMenu.IsCategoryBreadCrumb = false;%>
 </asp:Content>
 
 

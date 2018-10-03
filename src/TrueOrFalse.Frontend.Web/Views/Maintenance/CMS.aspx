@@ -1,9 +1,12 @@
-﻿<%@ Page Title="CMS" Language="C#" MasterPageFile="~/Views/Shared/Site.MenuLeft.Master" Inherits="System.Web.Mvc.ViewPage<CMSModel>" %>
+﻿<%@ Page Title="CMS" Language="C#" MasterPageFile="~/Views/Shared/Site.Sidebar.Master" Inherits="System.Web.Mvc.ViewPage<CMSModel>" %>
 <%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
 <%@ Import Namespace="System.Web.Optimization" %>
 
 <asp:Content ID="Content2" runat="server" ContentPlaceHolderID="Head">
     <%= Scripts.Render("~/bundles/js/MaintenanceCMS") %>
+      <% Model.TopNavMenu.BreadCrumb.Add(new TopNavMenuItem{Text = "Administrativ", Url = "/Maintenance", ToolTipText = "Administrativ"});
+         Model.TopNavMenu.BreadCrumb.Add(new TopNavMenuItem{Text = "CMS", Url = "/Maintenance/CMS", ToolTipText = "CMS"});
+        Model.TopNavMenu.IsCategoryBreadCrumb = false; %>
     <meta id="blablabla"/>
 </asp:Content>
 

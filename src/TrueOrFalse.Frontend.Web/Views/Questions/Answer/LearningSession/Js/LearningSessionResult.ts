@@ -1,13 +1,6 @@
 ﻿class LearningSessionResult {
     
     constructor() {
-        
-       
-         
-        if ($("#LearningTab").hasClass("active")) {
-            $(".SessionBar").hide();
-            $(".SessionHeading").hide();
-        }
 
         $("[data-action=showAllDetails]").click((e) => {
             e.preventDefault();
@@ -33,19 +26,6 @@
             $(".dateSets").toggle(300);
         });
 
-        $(".nextLearningTestSession").click((e) => {
-            e.preventDefault();
-            $(".EduPartnerWrapper").remove();
-            $("#QuestionCountCompletSideBar").fadeIn(); 
-            var answerBody = new AnswerBody();
-            answerBody.Loader.loadNewLearningSession();
-            $(".SessionHeading").fadeIn();
-            $(".SessionBar").fadeIn();
-            $("#progressPercentageDone").width("0%");
-            $("#spanPercentageDone").text("0%");
-            $(".ProgressBarSegment .ProgressBarLegend").show();
-        });
-
         new LearningSessionResultCharts();
     }
-} 
+}

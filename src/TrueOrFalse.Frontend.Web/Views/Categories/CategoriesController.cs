@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Web.Mvc;
-using System.Web.Script.Serialization;
 using Seedworks.Lib;
 using static System.String;
 
@@ -179,4 +178,5 @@ public class CategoriesController : BaseController
             searchSpec.SearchTerm = model.SearchTerm = searchTerm;
         }
     }
+
 }
