@@ -419,6 +419,9 @@
     <Content Include="Scripts\NumbersCountUp.js">
       <DependentUpon>NumbersCountUp.ts</DependentUpon>
     </Content>
+    <Content Include="Style\tabs.css">
+      <DependentUpon>tabs.less</DependentUpon>
+    </Content>
     <Content Include="Views\About\Js\Page.js">
       <DependentUpon>Page.ts</DependentUpon>
     </Content>
@@ -579,6 +582,7 @@
     <Content Include="Views\Knowledge\Css\_dashBoard.less" />
     <Content Include="Views\Knowledge\Css\KnowledgeTopics.less" />
     <Content Include="Views\Knowledge\Css\KnowledgeQuestions.less" />
+    <Content Include="Style\tabs.less" />
     <None Include="Views\Maintenance\ContentStats.less" />
     <Compile Include="Views\Maintenance\ContentStatsModel.cs" />
     <Compile Include="Views\Maintenance\Images\MaintenanceImagesController.cs" />
