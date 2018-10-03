@@ -1,7 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
+using NHibernate.Linq.Expressions;
 using Seedworks.Lib;
+using Seedworks.Lib.Persistence;
 using TrueOrFalse.Frontend.Web.Code;
 
 public class SearchApiController : BaseController
@@ -37,6 +39,7 @@ public class SearchApiController : BaseController
         
         return Json( new{ Items = items }, JsonRequestBehavior.AllowGet);
     }
+
 
     private static void AddHeader(List<ResultItem> items, ResultItemType resultItemType, int resultCount, string term)
     {
