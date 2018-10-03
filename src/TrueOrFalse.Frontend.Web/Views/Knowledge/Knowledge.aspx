@@ -35,17 +35,14 @@
         </script>
 
         <div class="container-fluid">
-            <div class="row h1Head">
-                <div class="col-xs-10">
-                    <h1>Wissenszentrale - Überblick und Zahlen </h1>
+            <div id="TabsBar">
+                <div class="Tabs TabsBarKnowledge">
+                    <div class="Tab active"><a href="#" id="dashboard">Dashboard</a></div>
+                    <div class="Tab"><a href="#" id="topics">Themen</a></div>
+                    <div class="Tab"><a href="#" id="questions">Fragen</a></div>
+                    <div class="Tab"><a href="#" id="events">Events</a></div>
+                    <div class="Tab"><a href="#" id="LinkIsDirectedToPartialView">Lernsitzung starten</a></div>
                 </div>
-            </div>
-            <div class="row  link-set">
-                <div class="col-xs-2"><a href="#" id="dashboard">Dashboard</a></div>
-                <div class="col-xs-2"><a href="#" id="topics">Themen</a></div>
-                <div class="col-xs-2"><a href="#" id="questions">Fragen</a></div>
-                <div class="col-xs-2"><a href="#" id="events">Events</a></div>
-                <div class="col-xs-3 "><a href="#" id="LinkIsDirectedToPartialView">Lernsitzung starten</a></div>
             </div>
             <div class="row">
                 <% if (Model.IsLoggedIn)

@@ -1,0 +1,77 @@
+﻿@media (min-width: 768px) {
+}
+@media (min-width: 768px) {
+}
+@media (max-width: 767px) {
+}
+@media (min-width: 768px) {
+}
+@media (min-width: 768px) {
+}
+@media (min-width: 768px) {
+}
+@media (max-width: 767px) {
+}
+@media (max-width: 767px) {
+}
+@media (max-width: 649px) {
+}
+@media (min-width: 650px) {
+}
+#TabsBar {
+  height: 45px;
+  border-top: solid 1px #d6d6d6;
+  border-bottom: solid 1px #d6d6d6;
+  display: flex;
+}
+.Tabs {
+  display: flex;
+  width: 50%;
+  justify-content: space-between;
+  align-items: center;
+  color: #999999;
+  text-transform: uppercase;
+  padding-right: 20px;
+}
+.Tabs .Tab {
+  position: relative;
+  top: 3px;
+  border-bottom: solid 6px transparent;
+}
+.Tabs .Tab a {
+  display: block;
+  height: 100%;
+  line-height: 38px;
+  padding-left: 20px;
+  padding-right: 20px;
+  color: #999999;
+}
+@media (min-width: 768px) and (max-width: 991px) {
+  .Tabs .Tab a {
+    padding-left: 12px;
+    padding-right: 12px;
+  }
+}
+@media (max-width: 479px) {
+  .Tabs .Tab a {
+    padding-left: 0;
+    padding-right: 0;
+  }
+}
+.Tabs .Tab a:hover,
+.Tabs .Tab a:focus {
+  text-decoration: none;
+  color: #003264;
+}
+.Tabs .Tab.active {
+  border-bottom-color: #003264;
+}
+.Tabs .Tab.active a {
+  color: #003264;
+  font-weight: bold;
+  cursor: default;
+}
+.Tabs .Tab.active a:active,
+.Tabs .Tab.active a:focus {
+  outline: none;
+}

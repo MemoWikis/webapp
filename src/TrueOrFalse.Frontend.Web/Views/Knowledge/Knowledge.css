@@ -1,64 +1,8 @@
-﻿/*.heading-chart-knowledge {
-    #chartKnowledgeH1 {
-        height: 7rem;
-        align-content: center
-    }
-
-    h1 {
-        align-content: left;
-        margin-left: -3rem;
-    }
+﻿#TabsBar {
+  margin-bottom: 36px;
 }
-
-.link-set {
-    margin-top: 7rem;
-    .learn-session-start {
-        text-align: right;
-    }
-}
-
-// Content 
-
-.knowledge-stood-h3{
-    margin-top: 6rem; 
-    padding-bottom:0px;
-}
-
-.knowledge-stood-p {
-
-    p {
-        margin-top: -15px;
-        font-size: 1rem;
-    }
-}
-
-/* Progress bar Next Level 
-------------------------------------------------------*/
-/*
- #learningPoints, #reputationPoints {
-    font-size: 18px;
-    margin: 20px 0;
-
-    h3 {
-        margin-top: 0;
-        margin-bottom: 20px;
-    }
-}
-
-#learningPoints {
-
-    p.textPointsAndLevel {
-        margin-left: 50px;
-        text-align: left;
-    }
-}
-    */
-/*.ProgressBarLeft {
-    background-color: lighten(@memo-green, 30);
-}*/
----------- .h1Head {
-  margin-bottom: 29px;
-  text-align: left;
+#TabsBar .Tabs.TabsBarKnowledge {
+  width: 100%;
 }
 .link-set {
   padding-bottom: 9px;
