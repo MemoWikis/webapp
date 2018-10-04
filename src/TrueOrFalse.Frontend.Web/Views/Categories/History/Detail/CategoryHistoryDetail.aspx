@@ -67,9 +67,14 @@
                     <br/>
                     <input type="hidden" id="currentRevData" value="<%= Server.HtmlEncode(Model.CurrentData) %>"/>
                     <input type="hidden" id="previousRevData" value="<%= Server.HtmlEncode(Model.PrevData) %>"/>
+                    <input type="hidden" id="currentRevDescription" value="<%= Server.HtmlEncode(Model.CurrentDescription) %>"/>
+                    <input type="hidden" id="previousRevDescription" value="<%= Server.HtmlEncode(Model.PrevDescription) %>"/>
                     <input type="hidden" id="currentRevDateCreated" value="<%= Model.CurrentChange.DateCreated %>" />
                     <input type="hidden" id="previousRevDateCreated" value="<%= Model.PrevChange.DateCreated %>" />
-                    <div id="outputdiv"></div>
+                    <div id="diffPanel">
+                        <div id="diffDescription"></div>
+                        <div id="diffData"></div>
+                    </div>
                     <div id="nochangesdiv" style="display: none;">
                         <h4><i class="fa fa-check"></i> Zwischen den beiden Revisionen gibt es keine inhaltlichen Unterschiede.</h4>
                     </div>

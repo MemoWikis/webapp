@@ -11,7 +11,9 @@ public class CategoryHistoryDetailModel : BaseModel
     public CategoryChange CurrentChange;
     public CategoryChange PrevChange;
     public string CurrentData;
+    public string CurrentDescription;
     public string PrevData;
+    public string PrevDescription;
     public string AuthorName;
     public string AuthorImageUrl;
 
@@ -22,11 +24,13 @@ public class CategoryHistoryDetailModel : BaseModel
 
         var currentCatRevision = currentChange.GetCategoryChangeData();
         CurrentData = currentCatRevision.TopicMardkown?.Replace("\\r\\n", "\r\n");
+        CurrentDescription = currentCatRevision.Description?.Replace("\\r\\n", "\r\n");
 
         if (PrevChange != null)
         {
             var prevCatRevision = prevChange?.GetCategoryChangeData();
             PrevData = prevCatRevision?.TopicMardkown?.Replace("\\r\\n", "\r\n");
+            PrevDescription = prevCatRevision?.Description?.Replace("\\r\\n", "\r\n");
         }
 
         CategoryId = currentChange.Category.Id;
