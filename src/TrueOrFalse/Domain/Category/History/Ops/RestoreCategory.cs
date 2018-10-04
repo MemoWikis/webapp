@@ -1,4 +1,6 @@
-﻿public class RestoreCategory
+﻿using System.Net.Mail;
+
+public class RestoreCategory
 {
 
     public static void Run(int categoryChangeId, User author)
@@ -19,8 +21,21 @@
                    $"Zurückgesetzt auf Revision: vom {categoryChange.DateCreated} (Id {categoryChange.Id})\n" +
                    $"Von Benutzer: {currentUser.Name} (Id {currentUser.Id})";
 
-        CustomMsg.Send(category.Creator.Id, subject, body);
-        CustomMsg.Send(Constants.MemuchoAdminUserId, subject, body);
-        //CustomMsg.Send("Franziska", subject, body);
+        SendEmail(category.Creator.Id, subject, body);
+        SendEmail(Constants.MemuchoAdminUserId, subject, body);
+        //SendEmail(Franziska, subject, body);
+    }
+
+    private static void SendEmail(int receiverId, string subject, string body)
+    {
+        CustomMsg.Send(receiverId, subject, body);
+
+        var user = Sl.UserRepo.GetById(receiverId);
+        var mail = new MailMessage();
+        mail.To.Add(user.EmailAddress);
+        mail.From = new MailAddress(Settings.EmailFrom);
+        mail.Subject = subject;
+        mail.Body = body;
+        global::SendEmail.Run(mail);
     }
 }
