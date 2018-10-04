@@ -21,9 +21,9 @@ public class RestoreCategory
                    $"Zurückgesetzt auf Revision: vom {categoryChange.DateCreated} (Id {categoryChange.Id})\n" +
                    $"Von Benutzer: {currentUser.Name} (Id {currentUser.Id})";
 
-        SendEmail(category.Creator.Id, subject, body);
         SendEmail(Constants.MemuchoAdminUserId, subject, body);
-        //SendEmail(Franziska, subject, body);
+        if (currentUser.Id != category.Creator.Id) 
+            SendEmail(category.Creator.Id, subject, body);
     }
 
     private static void SendEmail(int receiverId, string subject, string body)
