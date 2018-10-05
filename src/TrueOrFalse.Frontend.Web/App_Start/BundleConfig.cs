@@ -70,6 +70,15 @@ namespace TrueOrFalse.View
                 .IncludeDirectory("~/Views/Categories/Detail/Js/", "*.js")
                 .Include("~/Views/Categories/ResultTestSession/Js/GetResultTestSession.js"));
 
+            bundles.Add(new StyleBundle("~/bundles/CategoryHistory")
+                .Include("~/Views/Categories/History/*.css"));
+
+            bundles.Add(new StyleBundle("~/bundles/CategoryHistoryDetail")
+                .Include("~/Views/Categories/History/Detail/*.css"));
+
+            bundles.Add(new ScriptBundle("~/bundles/js/CategoryHistoryDetail")
+                .Include("~/Views/Categories/History/Detail/Js/*.js"));
+
             bundles.Add(new StyleBundle("~/bundles/Login")
                 .Include("~/Views/Welcome/Registration/SocialButtons.css"));
 
@@ -275,6 +284,12 @@ namespace TrueOrFalse.View
                 .Include("~/Scripts/vendor.somewhere/dataTables.bootstrap.js")
                 .Include("~/Scripts/vendor.somewhere/jquery.dataTables.js")
                 .Include("~/Views/Maintenance/Js/ContentStats.js"));
+
+            bundles.Add(new ScriptBundle("~/bundles/js/diff2html")
+                .Include("~/Scripts/vendor/diff2html/*.js"));
+
+            bundles.Add(new ScriptBundle("~/bundles/diff2html")
+                .Include("~/Scripts/vendor/diff2html/*.css"));
 
             bundles.Add(new ScriptBundle("~/bundles/mailto")
                 .Include("~/Scripts/various/mailto.js"));

@@ -331,6 +331,10 @@
     <Compile Include="Views\Categories\Detail\TemplateParser\TemplateParser.cs" />
     <Compile Include="Views\Categories\Detail\Partials\SingleSetModel.cs" />
     <Compile Include="Views\Categories\Edit\GraphDisplay\CategoryGraphModel.cs" />
+    <Compile Include="Views\Categories\History\CategoryHistoryController.cs" />
+    <Compile Include="Views\Categories\History\CategoryHistoryModel.cs" />
+    <Compile Include="Views\Categories\History\Detail\CategoryHistoryDetailController.cs" />
+    <Compile Include="Views\Categories\History\Detail\CategoryHistoryDetailModel.cs" />
     <Compile Include="Views\Categories\Navigation\CategoryNetworkNavigationModel.cs" />
     <Compile Include="Views\Categories\Navigation\CategoryNavigationModel.cs" />
     <Compile Include="Views\Dates\DateRowModel.cs" />
@@ -380,6 +384,9 @@
     <Content Include="Images\Various\graphExampleTransp.png" />
     <Content Include="Images\Various\tabAnalyticsMockup1.png" />
     <Content Include="Images\Various\treemapChartPsychology.png" />
+    <Content Include="robots.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="Scripts\header\ActivityPointsPopup.js">
       <DependentUpon>ActivityPointsPopup.ts</DependentUpon>
     </Content>
@@ -484,6 +491,14 @@
       <DependentUpon>EditAggregation.ts</DependentUpon>
     </Content>
     <Content Include="Views\Categories\Edit\TypeControls\EducationProvider.ascx" />
+    <Content Include="Views\Categories\History\CategoryHistory.aspx" />
+    <Content Include="Views\Categories\History\CategoryHistory.css">
+      <DependentUpon>CategoryHistory.less</DependentUpon>
+    </Content>
+    <Content Include="Views\Categories\History\CategoryHistory.min.css">
+      <DependentUpon>CategoryHistory.css</DependentUpon>
+    </Content>
+    <Content Include="Views\Categories\History\Detail\CategoryHistoryDetail.aspx" />
     <Content Include="Views\Categories\ResultTestSession\Js\GetResultTestSession.js">
       <DependentUpon>GetResultTestSession.ts</DependentUpon>
     </Content>
@@ -574,7 +589,9 @@
     </Content>
     <Content Include="Views\Knowledge\Js\Page.js.map">
       <DependentUpon>Page.ts</DependentUpon>
-    </Content>
+    </Content>      
+    <Content Include="Views\Categories\History\CategoryHistory.less" />
+    <Content Include="Views\Categories\History\Detail\CategoryHistoryDetail.less" />
     <Content Include="Views\Knowledge\Js\WishKnowledgeContent.js.map">
       <DependentUpon>WishKnowledgeContent.ts</DependentUpon>
     </Content>
@@ -921,6 +938,7 @@
     <TypeScriptCompile Include="Views\Categories\Detail\Js\SquareWishKnowledge.ts" />
     <TypeScriptCompile Include="Scripts\header\StickyHeader.ts" />
     <TypeScriptCompile Include="Views\Categories\Detail\Js\Tabbing.ts" />
+    <TypeScriptCompile Include="Views\Categories\History\Detail\Js\Page.ts" />
     <TypeScriptCompile Include="Views\Categories\ResultTestSession\Js\GetResultTestSession.ts" />
     <TypeScriptCompile Include="Views\Knowledge\Js\Page.ts" />
     <TypeScriptCompile Include="Views\Knowledge\Js\WishKnowledgeContent.ts" />

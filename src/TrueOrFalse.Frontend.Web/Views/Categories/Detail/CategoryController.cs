@@ -4,48 +4,65 @@ using System.Diagnostics;
 using System.Linq;
 using System.Web.Mvc;
 using TrueOrFalse.Frontend.Web.Code;
+using TrueOrFalse.Web;
 
 public class CategoryController : BaseController
-
-
 {
     private const string _viewLocation = "~/Views/Categories/Detail/Category.aspx";
 
     [SetMenu(MenuEntry.CategoryDetail)]
     [SetThemeMenu(true)]
-    public ActionResult Category(string text, int id)
+    public ActionResult Category(string text, int id, int? version)
     {
         if (SeoUtils.HasUnderscores(text))
             return SeoUtils.RedirectToHyphendVersion_Category(RedirectPermanent, text, id);
 
         var category = Resolve<CategoryRepository>().GetById(id);
-        return Category(category);
+        return Category(category, version);
     }
 
-    private ActionResult Category(Category category)
+    private ActionResult Category(Category category, int? version)
     {
-        SaveCategoryView.Run(category, User_());
-
         _sessionUiData.VisitedCategories.Add(new CategoryHistoryItem(category));
 
-        return View(_viewLocation, GetModelWithContentHtml(category));
-    }
+        var categoryModel = GetModelWithContentHtml(category);
 
+        if (version != null)
+            ApplyCategoryChangeToModel(categoryModel, version);
+        else
+            SaveCategoryView.Run(category, User_());
+   
+        return View(_viewLocation, categoryModel);
+    }
+    
     private CategoryModel GetModelWithContentHtml(Category category)
     {
-        var contentHtml = string.IsNullOrEmpty(category.TopicMarkdown?.Trim())
-            ? null
-            : MarkdownToHtml.Run(category, ControllerContext);
-
         return new CategoryModel(category)
         {
-            CustomPageHtml = contentHtml
+            CustomPageHtml = MarkdownToHtml.Run(category, ControllerContext)
         };
+    }
+    
+    private void ApplyCategoryChangeToModel(CategoryModel categoryModel, int? version)
+    {
+        var categoryChange = Sl.CategoryChangeRepo.GetByIdEager((int) version);
+        var historicCategory = categoryChange.ToHistoricCategory();
+        categoryModel.CustomPageHtml = MarkdownToHtml.Run(historicCategory, ControllerContext);
+        categoryModel.CategoryChangeId = version;
     }
 
     public void CategoryById(int id)
     {
         Response.Redirect(Links.CategoryDetail(Resolve<CategoryRepository>().GetById(id)));
+    }
+
+    [AccessOnlyAsLoggedIn]
+    public ActionResult Restore(int categoryId, int categoryChangeId)
+    {
+        RestoreCategory.Run(categoryChangeId, this.User_());
+
+        var categoryName = Sl.CategoryRepo.GetById(categoryId).Name;
+        return Redirect(Links.CategoryDetail(categoryName, categoryId));
     }
 
     public ActionResult StartTestSession(int categoryId)
