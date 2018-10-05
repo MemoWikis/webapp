@@ -38,9 +38,6 @@
   width: 50%;
   justify-content: space-between;
   align-items: center;
-  color: #999999;
-  text-transform: uppercase;
-  padding-right: 20px;
 }
 #CategoryHeader .Tabs .Tab {
   position: relative;
