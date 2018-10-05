@@ -35,21 +35,24 @@
     </script>
 
     <div id="CategoryHeader">
+
         <div id="ManagementMobile">
             <div class="Buttons">
                 <div class="Button"><a href="#" id="LinkIsDirectedToPartialView">Lernsitzung starten</a></div>
             </div>
         </div>
         <div id="TabsBar">
-            <div class="Tabs TabsBarKnowledge">
+            <div class="Tabs">
                 <div class="Tab active"><a href="#" id="dashboard">Dashboard</a></div>
                 <div class="Tab"><a href="#" id="topics">Themen</a></div>
                 <div class="Tab"><a href="#" id="questions">Fragen</a></div>
                 <div class="Tab"><a href="#" id="events">Events</a></div>
             </div>
-            <div id="Management">
-                <div class="Border"></div>
-                <div class="Button"><a href="#" id="LinkIsDirectedToPartialView">Lernsitzung starten</a></div>
+            <div class="Border"></div>
+            <div id="Management">           
+                <div class="Buttons">
+                    <div class="Button"><a href="#" id="LinkIsDirectedToPartialView">Lernsitzung starten</a></div>
+                </div>
             </div>
         </div>
     </div>
@@ -60,5 +63,7 @@
             <% Html.RenderPartial("~/Views/Knowledge/Partials/_Dashboard.ascx"); %>
         </div>
         <% } %>
-    </div>           
+    </div>
+    <%= Scripts.Render("~/bundles/js/Vue") %>
 </asp:Content>
+
