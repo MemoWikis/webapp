@@ -1,24 +1,4 @@
-﻿@media (min-width: 768px) {
-}
-@media (min-width: 768px) {
-}
-@media (max-width: 767px) {
-}
-@media (min-width: 768px) {
-}
-@media (min-width: 768px) {
-}
-@media (min-width: 768px) {
-}
-@media (max-width: 767px) {
-}
-@media (max-width: 767px) {
-}
-@media (max-width: 649px) {
-}
-@media (min-width: 650px) {
-}
-#CategoryHeader {
+﻿#CategoryHeader {
   margin-bottom: 36px;
 }
 #CategoryHeader .Tabs {
@@ -27,21 +7,6 @@
 #CategoryHeader #Management {
   width: 30%;
   text-align: center;
-}
-#CategoryHeader #Management .Buttons {
-  flex-grow: 0;
-}
-#CategoryHeader #Management .Buttons .Button {
-  padding-left: 5px;
-  padding-right: 5px;
-  padding-top: 10px;
-  font-weight: bold;
-}
-#CategoryHeader #ManagementMobile {
-  height: 30px;
-}
-#CategoryHeader #ManagementMobile .Buttons .Button {
-  font-weight: bold;
 }
 @media (max-width: 767px) {
   #CategoryHeader {
@@ -55,9 +20,6 @@
     width: 100%;
     padding-left: 0px;
     padding-right: 0px;
-  }
-  #CategoryHeader #TabsBar .Border {
-    display: none;
   }
 }
 .link-set {
