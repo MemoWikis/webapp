@@ -1,20 +1,28 @@
 ﻿
-
-#TabsBar {
-    .Tabs {
-        &.TabsBarKnowledge {
-            width: 70%;
-        }
-    }
-
-    .Management{
-        width: 30%;
-    }
-
+#CategoryHeader {
     margin-bottom: 36px;
+    .Tabs{
+        width:70%;
+    }
+    #Management{
+        width: 30%;
+        text-align: center;
+    }
 
 }
+@media (max-width: 767px) {
+    #CategoryHeader {
+        font-size: 14px;
+        line-height: 21px;
+        font-weight: normal;
+    }
+}
 
+@media (max-width: 767px) {
+    #CategoryHeader .Tabs {
+        width: 100%;
+    }
+}
 
 .link-set {
     padding-bottom: 9px;

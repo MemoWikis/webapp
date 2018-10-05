@@ -1,11 +1,24 @@
-﻿#TabsBar {
+﻿#CategoryHeader {
   margin-bottom: 36px;
 }
-#TabsBar .Tabs.TabsBarKnowledge {
+#CategoryHeader .Tabs {
   width: 70%;
 }
-#TabsBar .Management {
+#CategoryHeader #Management {
   width: 30%;
+  text-align: center;
+}
+@media (max-width: 767px) {
+  #CategoryHeader {
+    font-size: 14px;
+    line-height: 21px;
+    font-weight: normal;
+  }
+}
+@media (max-width: 767px) {
+  #CategoryHeader .Tabs {
+    width: 100%;
+  }
 }
 .link-set {
   padding-bottom: 9px;
