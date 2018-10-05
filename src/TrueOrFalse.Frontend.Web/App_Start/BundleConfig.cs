@@ -82,8 +82,6 @@ namespace TrueOrFalse.View
                 .Include("~/Views/Knowledge/Js/WishKnowledgeContent.js")
             );
                
-                //.Include("~/Scripts/vendor/vue.min.js")
-
             bundles.Add(new StyleBundle("~/bundles/AlgoInsight")
                 .IncludeDirectory("~/Views/AlgoInsight/", "*.css"));
 
