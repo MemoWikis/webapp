@@ -26,9 +26,6 @@
   font-weight: normal;
   color: #2c5fb2;
 }
-.vuetable .vuetable-th-slot-authorImage {
-  width: 175px;
-}
 .vuetable .vuetable-th-slot-knowWas {
   padding-left: 17px;
 }
@@ -38,7 +35,6 @@
 .vuetable .tdImage {
   padding-left: 0px;
   padding-right: 0px;
-  width: 382px;
 }
 .vuetable .know-was {
   padding-left: 70px;
@@ -46,9 +42,6 @@
 }
 .vuetable .title-table {
   padding-left: 10px;
-}
-.vuetable .vuetable-th-slot-knowWas {
-  width: 50px;
 }
 .vuetable .greenD,
 .vuetable .yellow,
@@ -71,12 +64,11 @@
   margin-right: 10px;
 }
 .vuetable .author-image-name {
-  padding-left: 0px;
-  padding-right: 0px;
+  padding-left: 10px;
+  padding-right: 10px;
 }
 .vuetable .category-table {
   padding-left: 20px;
-  width: 255.5px;
 }
 .vuetable .author-name {
   font-size: 14px;
@@ -106,11 +98,6 @@ td {
   width: 30px;
   height: 30px;
 }
-/*table.table.table-striped {
-    margin-right: -5px;
-    width: 30px;
-    float: right;
-}*/
 .link-to-category {
   margin-left: 30px;
 }
