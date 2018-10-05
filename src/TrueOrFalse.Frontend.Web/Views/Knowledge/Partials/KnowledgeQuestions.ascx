@@ -58,6 +58,5 @@
 </body>
 
 <%= Scripts.Render("~/bundles/js/KnowledgeQuestions") %> 
-<%= Scripts.Render("~/bundles/js/Vue") %> 
 <%= Styles.Render("~/bundles/KnowledgeQuestions") %>
 
