@@ -14,6 +14,9 @@
 .orange.glyphicon {
   color: orange;
 }
+.vuetable {
+  font-size: 18px;
+}
 .vuetable #_Titel,
 .vuetable #_KnowlegdeWishPartial,
 .vuetable .vuetable-th-slot-knowWas,
@@ -23,7 +26,7 @@
   border-bottom: solid 2px #337ab7;
   padding-left: 0px;
   font-size: 18px;
-  font-weight: normal;
+  font-weight: bold;
   color: #2c5fb2;
 }
 .vuetable .vuetable-th-slot-knowWas {
@@ -71,7 +74,7 @@
   padding-left: 20px;
 }
 .vuetable .author-name {
-  font-size: 14px;
+  font-size: 18px;
   color: #0560AB;
 }
 .vuetable .greenD {
