@@ -18,8 +18,9 @@
             
                 <template slot="image" scope="props">
                     <div class="image" >
-                        <image class="imageTable"v-bind:src="GetImageSourceUrl(props.rowData.ImageFrontendData.ImageMetaData)" ></image><span class="title-table">{{props.rowData.Title}}</span>
+                        <image class="imageTable"v-bind:src="GetImageSourceUrl(props.rowData.ImageFrontendData.ImageMetaData)" ></image>
                     </div>
+                    <div class="title-table">{{props.rowData.Title}}</div>
                 </template>
                   
                 <template slot="knowWas" scope="props">

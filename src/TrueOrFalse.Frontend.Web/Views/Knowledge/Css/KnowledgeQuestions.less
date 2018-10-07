@@ -16,16 +16,23 @@
 
 }
 
+
 .row{
     margin-left: 1px;
     margin-right: 4px;
 }
-.orange.glyphicon {
-    color: orange;
+th {
+    width: 25%;
 }
+table {
+    table-layout: fixed;
 
+  
+}
 .vuetable {
     font-size: 18px;
+
+
 
     #_Titel,
     #_KnowlegdeWishPartial,
@@ -40,13 +47,24 @@
         color: #2c5fb2;
     }
 
+    .imageTable {
+        float: left;
+    }
+
+    .vuetable-th-slot-image {
+        width: 35%;
+    }
+
     .vuetable-th-slot-knowWas {
-        padding-left: 37px;
-        width: 100px;
+        width: 15%;
     }
 
     .vuetable-th-slot-category {
         padding-left: 20px;
+    }
+
+    th {
+        width: 25%;
     }
 
     .tdImage {
@@ -55,26 +73,23 @@
     }
 
     .know-was {
-        padding-left: 90px;
-      
+        padding-left: 45px;
     }
 
     .title-table {
         padding-left: 10px;
+        width: 336px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        position: relative;
+        display: inline-block;
     }
 
     .greenD, .yellow, .red, .grey, .round {
         width: 21px;
         height: 21px;
-    }
-
-    .greenD, .yellow, .red, .grey, .round {
         border-radius: 10px;
-        position: absolute;
-    }
-
-    .category-table {
-        padding-left: 20px;
     }
 
     .author-name {
@@ -109,6 +124,7 @@ td {
     width: 136px;
 }
 
+
 .imageTable {
     border-radius: 100%;
     width: 30px;
@@ -116,7 +132,7 @@ td {
 }
 
 .link-to-category{
-    margin-left: 30px;
+    margin-left: 10px;
 }
 
 table.table.table-striped .title {
@@ -173,3 +189,6 @@ table.table.table-striped .title {
     }
 }
 
+.title-table {
+
+}

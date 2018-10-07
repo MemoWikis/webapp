@@ -11,8 +11,11 @@
   margin-left: 1px;
   margin-right: 4px;
 }
-.orange.glyphicon {
-  color: orange;
+th {
+  width: 25%;
+}
+table {
+  table-layout: fixed;
 }
 .vuetable {
   font-size: 18px;
@@ -29,22 +32,36 @@
   font-weight: bold;
   color: #2c5fb2;
 }
+.vuetable .imageTable {
+  float: left;
+}
+.vuetable .vuetable-th-slot-image {
+  width: 35%;
+}
 .vuetable .vuetable-th-slot-knowWas {
-  padding-left: 37px;
-  width: 100px;
+  width: 15%;
 }
 .vuetable .vuetable-th-slot-category {
   padding-left: 20px;
+}
+.vuetable th {
+  width: 25%;
 }
 .vuetable .tdImage {
   padding-left: 0px;
   padding-right: 0px;
 }
 .vuetable .know-was {
-  padding-left: 90px;
+  padding-left: 45px;
 }
 .vuetable .title-table {
   padding-left: 10px;
+  width: 336px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  position: relative;
+  display: inline-block;
 }
 .vuetable .greenD,
 .vuetable .yellow,
@@ -53,17 +70,7 @@
 .vuetable .round {
   width: 21px;
   height: 21px;
-}
-.vuetable .greenD,
-.vuetable .yellow,
-.vuetable .red,
-.vuetable .grey,
-.vuetable .round {
   border-radius: 10px;
-  position: absolute;
-}
-.vuetable .category-table {
-  padding-left: 20px;
 }
 .vuetable .author-name {
   font-size: 18px;
@@ -95,7 +102,7 @@ td {
   height: 30px;
 }
 .link-to-category {
-  margin-left: 30px;
+  margin-left: 10px;
 }
 table.table.table-striped .title {
   float: left;
