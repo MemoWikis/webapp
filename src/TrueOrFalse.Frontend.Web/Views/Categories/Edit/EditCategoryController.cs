@@ -38,7 +38,7 @@ public class EditCategoryController : BaseController
         var category = _categoryRepository.GetById(id);
 
         if(!IsAllowedTo.ToEdit(category))
-            throw new SecurityException("Not allowed to edit categoty");
+            throw new SecurityException("Not allowed to edit category");
 
         _sessionUiData.VisitedCategories.Add(new CategoryHistoryItem(category, HistoryItemType.Edit));
         
