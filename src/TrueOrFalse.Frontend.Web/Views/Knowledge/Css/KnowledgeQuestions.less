@@ -29,6 +29,7 @@ table {
 
   
 }
+
 .vuetable {
     font-size: 18px;
 
@@ -41,26 +42,29 @@ table {
     .vuetable-th-slot-category,
     .vuetable-th-slot-image {
         border-bottom: solid 2px #337ab7;
-        padding-left: 0px;
+        padding-left: 8px;
         font-size: 18px;
         font-weight: bold;
         color: #2c5fb2;
+    }
+
+    .vuetable-th-slot-authorImage {
+        width: 18%;
     }
 
     .imageTable {
         float: left;
     }
 
+
+
     .vuetable-th-slot-image {
-        width: 35%;
+        width: 46%;
+        padding-left: 0px;
     }
 
     .vuetable-th-slot-knowWas {
         width: 15%;
-    }
-
-    .vuetable-th-slot-category {
-        padding-left: 20px;
     }
 
     th {
@@ -78,12 +82,17 @@ table {
 
     .title-table {
         padding-left: 10px;
-        width: 336px;
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
         position: relative;
         display: inline-block;
+        width: 437px;
+    }
+
+    .author-image {
+        float: left;
+        padding-right: 10px;
     }
 
     .greenD, .yellow, .red, .grey, .round {
@@ -95,6 +104,12 @@ table {
     .author-name {
         font-size: 18px;
         color: #0560AB;
+        width: 130px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        position: relative;
+        display: inline-block;
     }
 
     .greenD {
