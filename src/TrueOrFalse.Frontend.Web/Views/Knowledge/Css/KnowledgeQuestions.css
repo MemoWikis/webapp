@@ -30,7 +30,8 @@
   color: #2c5fb2;
 }
 .vuetable .vuetable-th-slot-knowWas {
-  padding-left: 17px;
+  padding-left: 37px;
+  width: 100px;
 }
 .vuetable .vuetable-th-slot-category {
   padding-left: 20px;
@@ -40,8 +41,7 @@
   padding-right: 0px;
 }
 .vuetable .know-was {
-  padding-left: 70px;
-  padding-right: 124px;
+  padding-left: 90px;
 }
 .vuetable .title-table {
   padding-left: 10px;
@@ -61,14 +61,6 @@
 .vuetable .round {
   border-radius: 10px;
   position: absolute;
-}
-.vuetable .image-author {
-  width: 22px;
-  margin-right: 10px;
-}
-.vuetable .author-image-name {
-  padding-left: 10px;
-  padding-right: 10px;
 }
 .vuetable .category-table {
   padding-left: 20px;
@@ -95,6 +87,7 @@ thead {
 }
 td {
   height: 30px;
+  width: 136px;
 }
 .imageTable {
   border-radius: 100%;
@@ -159,4 +152,7 @@ table.table.table-striped .title {
 .KnowledgeBarWrapper .set-knowledge-bar .not-in-wish-knowledge,
 .KnowledgeBarWrapper .category-knowledge-bar .not-in-wish-knowledge {
   background-color: #dddddd;
+}
+* {
+  box-sizing: content-box;
 }
