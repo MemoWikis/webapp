@@ -46,7 +46,7 @@
                 <div class="Tab active"><a href="#" id="dashboard">Dashboard</a></div>
                 <div class="Tab"><a href="#" id="topics">Themen</a></div>
                 <div class="Tab"><a href="#" id="questions">Fragen</a></div>
-                <div class="Tab"><a href="#" id="events">Events</a></div>
+                <div class="Tab"><a href="#" id="events">Termine</a></div>
             </div>
             <div class="Border"></div>
             <div id="Management">           

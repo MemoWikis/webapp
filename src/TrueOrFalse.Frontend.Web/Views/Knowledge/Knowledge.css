@@ -9,6 +9,9 @@
   text-align: center;
   margin-top: 10px;
 }
+#CategoryHeader .Border {
+  margin-left: 25px;
+}
 @media (max-width: 767px) {
   #CategoryHeader {
     font-size: 14px;
