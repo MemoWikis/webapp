@@ -30,10 +30,10 @@
                 </template>
                       
                 <template slot="authorImage" scope="props">
-                    <div data-toggle="tooltip" v-bind:title="props.rowData.AuthorName">
+                    <div class="author-image" data-toggle="tooltip" v-bind:title="props.rowData.AuthorName">
                         <image v-bind:src="props.rowData.AuthorImageUrl.Url" class="image-author"></image>
-                        <span class="author-name">{{props.rowData.AuthorNameShort}}</span>
                     </div>
+                    <div class="author-name">{{props.rowData.AuthorName}}</div>
                     
                 </template>
               
