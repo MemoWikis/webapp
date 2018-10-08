@@ -1,4 +1,4 @@
-﻿<%@ Page Title="Förderer" Language="C#" MasterPageFile="~/Views/Shared/Site.MenuLeft.Master"
+﻿<%@ Page Title="Förderer" Language="C#" MasterPageFile="~/Views/Shared/Site.Sidebar.Master"
     Inherits="ViewPage<BaseModel>" %>
 
 
