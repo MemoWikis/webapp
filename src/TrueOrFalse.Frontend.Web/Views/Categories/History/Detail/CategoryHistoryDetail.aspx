@@ -39,20 +39,22 @@
         
         <br/>
         
-        <div id="alertConfirmRestore" class="row alert alert-warning" role="alert" style="display: none">
-            <div class="col-12">
-                Der aktuelle Stand wird durch diese Version ersetzt. Wollen Sie das wirklich?
-            </div>
-            <br/>
-            <div class="col-12">
-                <nav>
-                    <a class="btn btn-primary navbar-btn" href="<%= Links.CategoryRestore(Model.CategoryId, Model.CurrentChange.Id) %>">
-                        <i class="fa fa-undo"></i> Ja, Wiederherstellen
-                    </a>
-                    <a class="btn btn-default navbar-btn" onclick="$('#alertConfirmRestore').hide();">
-                        <i class="fa fa-remove"></i> Nein, Abbrechen
-                    </a>
-                </nav>
+        <div class="row">
+            <div id="alertConfirmRestore" class="alert alert-warning" role="alert" style="display: none">
+                <div class="col-12">
+                    Der aktuelle Stand wird durch diese Version ersetzt. Wollen Sie das wirklich?
+                </div>
+                <br/>
+                <div class="col-12">
+                    <nav>
+                        <a class="btn btn-primary navbar-btn" href="<%= Links.CategoryRestore(Model.CategoryId, Model.CurrentChange.Id) %>">
+                            <i class="fa fa-undo"></i> Ja, Wiederherstellen
+                        </a>
+                        <a class="btn btn-default navbar-btn" onclick="$('#alertConfirmRestore').hide();">
+                            <i class="fa fa-remove"></i> Nein, Abbrechen
+                        </a>
+                    </nav>
+                </div>
             </div>
         </div>
         
