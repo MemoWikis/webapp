@@ -20,6 +20,10 @@
 .orange.glyphicon {
   color: orange;
 }
+.vuetable {
+  font-size: 18px;
+  font-family: "Open Sans", Arial, sans-serif;
+}
 .vuetable #_Titel,
 .vuetable #_KnowlegdeWishPartial,
 .vuetable .vuetable-th-slot-image,
@@ -28,26 +32,29 @@
 .vuetable .vuetable-th-slot-dropDown {
   border-bottom: solid 2px #337ab7;
 }
-thead {
-  color: #ec971f;
+.vuetable thead {
+  color: #2d60b4;
 }
-h1 {
+.vuetable h1 {
   font-size: 30px;
 }
-td {
+.vuetable td {
   height: 30px;
 }
-.imageTable {
+.vuetable .topic-count {
+  color: #2d60b4;
+}
+.vuetable .imageTable {
   border-radius: 100%;
   width: 30px;
   height: 30px;
 }
-table.table.table-striped .image {
+.vuetable table.table.table-striped .image {
   margin-right: -5px;
   width: 30px;
   float: right;
 }
-table.table.table-striped .title {
+.vuetable table.table.table-striped .title {
   float: left;
 }
 .KnowledgeBarWrapper {
