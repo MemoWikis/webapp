@@ -45,11 +45,10 @@ public class KnowledgeQuestionsModel
             var questions = new Questions();
             var categories = question.Categories;
 
-            questions.Title = question.GetShortTitle(50);
+            questions.Title = question.Text;
             questions.Category = categories[0].Name;
             questions.ImageFrontendData = categoryAndSetDataWishKnowledge.GetCategoryImage(categories[0].Id);
             questions.AuthorName = question.Creator.Name;
-            questions.AuthorNameShort = GetCategoryNameShort(question.Creator.Name);
             questions.AuthorImageUrl = userImageSettings.GetUrl_30px_square(Sl.UserRepo.GetById(question.Creator.Id));
             questions.LinkToCategory = Links.GetUrl(categories[0]);
 
@@ -186,6 +185,5 @@ public class KnowledgeQuestionsModel
         public int LearningStatusNumber { get; set; }
         public string LearningStatusTooltip { get; set; }
         public string LinkToCategory { get; set; }
-        public string AuthorNameShort { get; set; }
     }
 }
