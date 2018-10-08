@@ -29,7 +29,7 @@ function ShowDiff2Html() {
         ShowDiff(diffData, '#diffData');
     if (!diffData && !diffDescription) {
         $("#diffPanel").hide();
-        $("#nochangesdiv").show();
+        $("#noChangesAlert").show();
     }
 }
 

@@ -60,11 +60,15 @@
             <div class="col-12">
                 <% if (Model.PrevChange == null) {  %>
                     <br />
-                    <div id="initialRevision" class="alert alert-info" role="alert">
+                    <div class="alert alert-info" role="alert">
                         Dies ist die <b>initiale Revision</b>, weswegen hier keine Änderungen angezeigt werden können.
                     </div>
                 <% } else { %>
                     <br/>
+                    <div id="noChangesAlert" class="alert alert-info" role="alert" style="display: none;">
+                        Zwischen den beiden Revisionen (vom <%= Model.PrevChange.DateCreated %> und 
+                        vom <%= Model.CurrentChange.DateCreated %>) gibt es <b>keine inhaltlichen Unterschiede</b>.
+                    </div>
                     <input type="hidden" id="currentMarkdown" value="<%= Server.HtmlEncode(Model.CurrentMarkdown) %>"/>
                     <input type="hidden" id="prevMarkdown" value="<%= Server.HtmlEncode(Model.PrevMarkdown) %>"/>
                     <input type="hidden" id="currentDescription" value="<%= Server.HtmlEncode(Model.CurrentDescription) %>"/>
@@ -77,9 +81,6 @@
                         <div id="diffDescription"></div>
                         <div id="diffWikipediaUrl"></div>
                         <div id="diffData"></div>
-                    </div>
-                    <div id="nochangesdiv" style="display: none;">
-                        <h4><i class="fa fa-check"></i> Zwischen den beiden Revisionen gibt es keine inhaltlichen Unterschiede.</h4>
                     </div>
                 <% } %>
             </div>
