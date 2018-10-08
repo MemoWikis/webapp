@@ -17,10 +17,12 @@
                 @vuetable:loaded ="onLoaded()">
             
                 <template slot="image" scope="props">
-                    <div class="image" >
-                        <image class="imageTable"v-bind:src="GetImageSourceUrl(props.rowData.ImageFrontendData.ImageMetaData)" ></image>
+                    <div data-toggle="tooltip" v-bind:title="props.rowData.Title">
+                        <div class="image"  >
+                            <image class="imageTable"v-bind:src="GetImageSourceUrl(props.rowData.ImageFrontendData.ImageMetaData)" ></image>
+                        </div>
+                        <div class="title-table">{{props.rowData.Title}}</div>
                     </div>
-                    <div class="title-table">{{props.rowData.Title}}</div>
                 </template>
                   
                 <template slot="knowWas" scope="props">
@@ -30,11 +32,12 @@
                 </template>
                       
                 <template slot="authorImage" scope="props">
-                    <div class="author-image" data-toggle="tooltip" v-bind:title="props.rowData.AuthorName">
-                        <image v-bind:src="props.rowData.AuthorImageUrl.Url" class="image-author"></image>
+                    <div data-toggle="tooltip" v-bind:title="props.rowData.AuthorName">
+                        <div class="author-image">
+                            <image v-bind:src="props.rowData.AuthorImageUrl.Url" class="image-author"></image>
+                        </div>
+                        <div class="author-name">{{props.rowData.AuthorName}}</div>
                     </div>
-                    <div class="author-name">{{props.rowData.AuthorName}}</div>
-                    
                 </template>
               
                 <template slot="category" scope="props">
