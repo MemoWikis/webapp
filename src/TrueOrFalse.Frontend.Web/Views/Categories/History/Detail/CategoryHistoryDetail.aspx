@@ -37,10 +37,9 @@
             </div>
         </div>
         
-        <br/>
-        
-        <div class="row">
-            <div id="alertConfirmRestore" class="alert alert-warning" role="alert" style="display: none">
+        <div id="alertConfirmRestore" class="row" style="display: none">
+            <br/>
+            <div class="alert alert-warning" role="alert">
                 <div class="col-12">
                     Der aktuelle Stand wird durch diese Version ersetzt. Wollen Sie das wirklich?
                 </div>
