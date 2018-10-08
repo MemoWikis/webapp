@@ -72,10 +72,10 @@ public class CategoryAndSetDataWishKnowledge: BaseController
         switch (sortCondition)
         {
             case "name|asc":
-                unSortList.Sort((x, y) => String.CompareOrdinal(x.Titel, y.Titel));
+                unSortList.Sort((x, y) => String.CompareOrdinal(x.Title, y.Title));
                 break;
             case "name|desc":
-                unSortList.Sort((x, y) => String.CompareOrdinal(y.Titel, x.Titel));
+                unSortList.Sort((x, y) => String.CompareOrdinal(y.Title, x.Title));
                 break;
             case "knowledgeBar|asc":
                 unSortList.Sort((x,y)=> y.KnowledgeWishAVGPercantage.CompareTo(x.KnowledgeWishAVGPercantage));
@@ -100,7 +100,7 @@ public class CategoryAndSetDataWishKnowledge: BaseController
             var categoryAndSetWishKnowledge = new CategoryAndSetWishKnowledge();
 
             categoryAndSetWishKnowledge.Description = categoryWish.Description;
-            categoryAndSetWishKnowledge.Titel = categoryWish.Name;
+            categoryAndSetWishKnowledge.Title = categoryWish.Name;
             categoryAndSetWishKnowledge.ImageFrontendData = GetCategoryImage(categoryWish.Id);
             categoryAndSetWishKnowledge.KnowlegdeWishPartial = KnowledgeWishPartial(categoryWish, controllerContext);
             categoryAndSetWishKnowledge.Id = categoryWish.Id;
@@ -126,7 +126,7 @@ public class CategoryAndSetDataWishKnowledge: BaseController
             var categoryAndSetWishKnowledge = new CategoryAndSetWishKnowledge();
 
             categoryAndSetWishKnowledge.Description = setWish.Text;
-            categoryAndSetWishKnowledge.Titel = setWish.Name;
+            categoryAndSetWishKnowledge.Title = setWish.Name;
             categoryAndSetWishKnowledge.ImageFrontendData = GetCategoryImage(setWish.Id);
             categoryAndSetWishKnowledge.KnowlegdeWishPartial = KnowledgeWishPartial(setWish, controllerContext);
             categoryAndSetWishKnowledge.Id = setWish.Id;
@@ -195,7 +195,7 @@ public class CategoryAndSetDataWishKnowledge: BaseController
     {
         public int Id;
         public string Description;
-        public string Titel;
+        public string Title;
         public ImageFrontendData ImageFrontendData;
         public string KnowlegdeWishPartial;
         public bool IsCategory;

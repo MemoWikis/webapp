@@ -12,10 +12,9 @@ new Vue({
             'heading': ""
         },
         fields: [
-            '__slot:image',
             {
-                name: 'Titel',
-                title: 'Thema/Lernset',
+                name: "__slot:imageAndTitle",
+                title: "Thema/Lernset",
                 sortField: 'name',
                 dataClass: 'Topic'
             },
@@ -40,8 +39,11 @@ new Vue({
         css: {
             table: {
                 tableClass: ' table table-striped table-hovered',
-                ascendingIcon: 'glyphicon glyphicon-chevron-up',
-                descendingIcon: 'glyphicon glyphicon-chevron-down'
+                ascendingIcon: 'fa fa-sort',
+                descendingIcon: 'fa fa-sort',
+                renderIcon: function () {
+                    return '<i class="sort-icon fa fa-sort" style="opacity:1;position:relative;"></i>';
+                }
             },
             pagination: {
                 infoClass: 'pull-left',

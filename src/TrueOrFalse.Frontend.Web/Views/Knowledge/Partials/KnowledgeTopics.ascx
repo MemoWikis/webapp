@@ -29,11 +29,12 @@
             @vuetable:loading="onLoading"
             @vuetable:loaded="onLoaded()">
 
-              <!-- Topic Image-->
-            <template slot="image" scope="props">
+              <!-- Topic ImageAndTitle-->
+            <template slot="imageAndTitle" scope="props">
                 <div class="image">
                     <image class="imageTable"v-bind:src="GetImageSourceUrl(props.rowData.ImageFrontendData.ImageMetaData)"></image>
                 </div>
+                <div>{{props.rowData.Title}}</div>
             </template>
 
             <!-- Topic Count-->      

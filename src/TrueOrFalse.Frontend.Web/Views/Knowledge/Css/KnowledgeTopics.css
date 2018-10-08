@@ -41,6 +41,10 @@
 .vuetable td {
   height: 30px;
 }
+.vuetable td .image {
+  float: left;
+  padding-right: 10px;
+}
 .vuetable .topic-count {
   color: #2d60b4;
 }

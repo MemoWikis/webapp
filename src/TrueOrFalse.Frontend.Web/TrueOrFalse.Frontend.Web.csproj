@@ -523,6 +523,9 @@
     <Content Include="Views\Knowledge\Js\WishKnowledgeContent.js">
       <DependentUpon>WishKnowledgeContent.ts</DependentUpon>
     </Content>
+    <Content Include="Views\Knowledge\Js\_dashboard.js">
+      <DependentUpon>_dashboard.ts</DependentUpon>
+    </Content>
     <Content Include="Views\Knowledge\Partials\KnowledgeQuestions.ascx" />
     <Content Include="Views\Knowledge\Partials\KnowledgeTopics.ascx" />
     <Content Include="Views\Categories\Navigation\CategoryNetworkNavigationCatLabel.ascx" />
@@ -589,7 +592,7 @@
     </Content>
     <Content Include="Views\Knowledge\Js\Page.js.map">
       <DependentUpon>Page.ts</DependentUpon>
-    </Content>      
+    </Content>
     <Content Include="Views\Categories\History\CategoryHistory.less" />
     <Content Include="Views\Categories\History\Detail\CategoryHistoryDetail.less" />
     <Content Include="Views\Knowledge\Js\WishKnowledgeContent.js.map">
@@ -600,6 +603,9 @@
     <Content Include="Views\Knowledge\Css\KnowledgeTopics.less" />
     <Content Include="Views\Knowledge\Css\KnowledgeQuestions.less" />
     <Content Include="Style\tabs.less" />
+    <Content Include="Views\Knowledge\Js\_dashboard.js.map">
+      <DependentUpon>_dashboard.ts</DependentUpon>
+    </Content>
     <None Include="Views\Maintenance\ContentStats.less" />
     <Compile Include="Views\Maintenance\ContentStatsModel.cs" />
     <Compile Include="Views\Maintenance\Images\MaintenanceImagesController.cs" />
