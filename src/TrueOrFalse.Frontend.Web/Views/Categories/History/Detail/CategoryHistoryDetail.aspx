@@ -46,10 +46,10 @@
                 <br/>
                 <div class="col-12">
                     <nav>
-                        <a class="btn btn-primary navbar-btn" href="<%= Links.CategoryRestore(Model.CategoryId, Model.CurrentChange.Id) %>">
+                        <a class="btn btn-default navbar-btn" href="<%= Links.CategoryRestore(Model.CategoryId, Model.CurrentChange.Id) %>">
                             <i class="fa fa-undo"></i> Ja, Wiederherstellen
                         </a>
-                        <a class="btn btn-default navbar-btn" onclick="$('#alertConfirmRestore').hide();">
+                        <a class="btn btn-primary navbar-btn" onclick="$('#alertConfirmRestore').hide();">
                             <i class="fa fa-remove"></i> Nein, Abbrechen
                         </a>
                     </nav>
