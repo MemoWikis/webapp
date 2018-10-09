@@ -261,7 +261,7 @@
         <div class ="col-xs-8">
              <div>
                 <h3 >Termine</h3>
-                <p class="greyed" style="font-size: 12px;"><a href="<%= Links.Dates() %>">Zur Terminübersicht</a></p>
+                <p class="greyed" style="font-size: 12px;" id="datesOverview"><a href="#">Zur Terminübersicht</a></p>
                 <p id="noOpenDates">
                     Du hast momentan keine offenen Termine. Termine helfen dir dabei, dich optimal auf eine Prüfung vorzubereiten.
                 </p>

@@ -8,6 +8,21 @@
 
         if ($("#hddCountDates").val() === "0")
             $("#noOpenDates").fadeIn();
+
+        $("#datesOverview").on("click",
+            (e) => {
+                e.preventDefault();
+                $.ajax({
+                    url: "/Dates/GetDatesOverview",
+                    type: "POST",
+                    success: (result) => {
+                        console.log(result);
+                    },
+                    error: (e)=> {
+                        console.log(e.statusText);
+                    }
+            });
+            });
     }
 
     private getCountDates(userId: number) {
