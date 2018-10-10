@@ -17,6 +17,7 @@
                     type: "POST",
                     success: (result) => {
                         console.log(result);
+                        $(".content").html(result);
                     },
                     error: (e)=> {
                         console.log(e.statusText);
@@ -45,3 +46,9 @@
         });
     }
 }
+
+$(document).ready(function () {
+    new _Dashboard();
+});
+
+   

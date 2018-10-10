@@ -371,6 +371,7 @@
 <% Html.RenderPartial("AllOfDates/Modals/CopyDate"); %>
 
 <%= Scripts.Render("~/bundles/js/_dashboard") %>
+<%= Scripts.Render("~/bundles/js/Dates") %>
 
   <%--  <div class="row">
         <div class="col-md-6">
