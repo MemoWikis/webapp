@@ -30,32 +30,36 @@
                     <a class="btn btn-primary navbar-btn" href="<%= Links.CategoryHistory(Model.CategoryId) %>">
                         <i class="fa fa-chevron-left"></i> Zurück zur Bearbeitungshistorie
                     </a>
-                    <a id="restoreButton" class="btn btn-default navbar-btn" onclick="$('#alertConfirmRestore').show();">
-                        <i class="fa fa-undo"></i> Wiederherstellen
-                    </a>
+                    <% if (new SessionUser().IsLoggedIn) { %>
+                        <a id="restoreButton" class="btn btn-default navbar-btn" onclick="$('#alertConfirmRestore').show();">
+                            <i class="fa fa-undo"></i> Wiederherstellen
+                        </a>
+                    <% } %>
                 </nav>
             </div>
         </div>
         
-        <div id="alertConfirmRestore" class="row" style="display: none">
-            <br/>
-            <div class="alert alert-warning" role="alert">
-                <div class="col-12">
-                    Der aktuelle Stand wird durch diese Version ersetzt. Wollen Sie das wirklich?
-                </div>
+        <% if (new SessionUser().IsLoggedIn) { %>
+            <div id="alertConfirmRestore" class="row" style="display: none">
                 <br/>
-                <div class="col-12">
-                    <nav>
-                        <a class="btn btn-default navbar-btn" href="<%= Links.CategoryRestore(Model.CategoryId, Model.CurrentChange.Id) %>">
-                            <i class="fa fa-undo"></i> Ja, Wiederherstellen
-                        </a>
-                        <a class="btn btn-primary navbar-btn" onclick="$('#alertConfirmRestore').hide();">
-                            <i class="fa fa-remove"></i> Nein, Abbrechen
-                        </a>
-                    </nav>
+                <div class="alert alert-warning" role="alert">
+                    <div class="col-12">
+                        Der aktuelle Stand wird durch diese Version ersetzt. Wollen Sie das wirklich?
+                    </div>
+                    <br/>
+                    <div class="col-12">
+                        <nav>
+                            <a class="btn btn-default navbar-btn" href="<%= Links.CategoryRestore(Model.CategoryId, Model.CurrentChange.Id) %>">
+                                <i class="fa fa-undo"></i> Ja, Wiederherstellen
+                            </a>
+                            <a class="btn btn-primary navbar-btn" onclick="$('#alertConfirmRestore').hide();">
+                                <i class="fa fa-remove"></i> Nein, Abbrechen
+                            </a>
+                        </nav>
+                    </div>
                 </div>
             </div>
-        </div>
+        <% } %>
         
         <div class="row">
             <div class="col-12">
