@@ -399,6 +399,9 @@
     <Content Include="Scripts\vendor.somewhere\d3.js" />
     <Content Include="Images\memucho_MEMO_happy_blau.svg" />
     <Content Include="Scripts\vendor.somewhere\d3v3.js" />
+    <Content Include="Scripts\vendor\diff2html\diff2html-ui.js" />
+    <Content Include="Scripts\vendor\diff2html\diff2html.css" />
+    <Content Include="Scripts\vendor\diff2html\diff2html.js" />
     <Content Include="Scripts\vendor\modernizr-config.json" />
     <Content Include="Images\Error\memo-404_german_600.png" />
     <Content Include="Images\Error\memo-500_german.png" />

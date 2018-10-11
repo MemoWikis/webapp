@@ -10,23 +10,26 @@ $(() => {
 
 function ShowDiff2Html() {
 
-    
+    var currentMarkdown = $('#currentMarkdown').val();
+    var prevMarkdown = $('#prevMarkdown').val();
+    var currentDescription = $('#currentDescription').val();
+    var prevDescription = $('#prevDescription').val();
+    var currentWikipediaUrl = $('#currentWikipediaUrl').val();
+    var prevWikipediaUrl = $('#prevWikipediaUrl').val();
 
-    var currentRevData = $('#currentRevData').val();
-    var previousRevData = $('#previousRevData').val();
-    var currentRevDescription = $('#currentRevDescription').val();
-    var previousRevDescription= $('#previousRevDescription').val();
+    var diffData = Diff(prevMarkdown, currentMarkdown, 'Änderungen des Inhaltes');
+    var diffDescription = Diff(prevDescription, currentDescription, 'Änderungen der Beschreibung');
+    var diffWikipediaUrl = Diff(prevWikipediaUrl, currentWikipediaUrl, 'Änderungen der Wikipedia-URL');
 
-    var diffData = Diff(previousRevData, currentRevData, 'Änderungen des Inhaltes');
-    var diffDescription = Diff(previousRevDescription, currentRevDescription, 'Änderungen der Beschreibung');
-    
     if (diffDescription)
         ShowDiff(diffDescription, '#diffDescription');
+    if (diffWikipediaUrl)
+        ShowDiff(diffWikipediaUrl, '#diffWikipediaUrl');
     if (diffData)
         ShowDiff(diffData, '#diffData');
     if (!diffData && !diffDescription) {
         $("#diffPanel").hide();
-        $("#nochangesdiv").show();
+        $("#noChangesAlert").show();
     }
 }
 
