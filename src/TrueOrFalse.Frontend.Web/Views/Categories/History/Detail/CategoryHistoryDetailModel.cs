@@ -10,10 +10,12 @@ public class CategoryHistoryDetailModel : BaseModel
     public string CategoryName;
     public CategoryChange CurrentChange;
     public CategoryChange PrevChange;
-    public string CurrentData;
+    public string CurrentMarkdown;
+    public string PrevMarkdown;
     public string CurrentDescription;
-    public string PrevData;
     public string PrevDescription;
+    public string CurrentWikipediaUrl;
+    public string PrevWikipediaUrl;
     public string AuthorName;
     public string AuthorImageUrl;
 
@@ -22,15 +24,17 @@ public class CategoryHistoryDetailModel : BaseModel
         CurrentChange = currentChange;
         PrevChange = prevChange;
 
-        var currentCatRevision = currentChange.GetCategoryChangeData();
-        CurrentData = currentCatRevision.TopicMardkown?.Replace("\\r\\n", "\r\n");
-        CurrentDescription = currentCatRevision.Description?.Replace("\\r\\n", "\r\n");
+        var currentRevisionData = currentChange.GetCategoryChangeData();
+        CurrentMarkdown = currentRevisionData.TopicMardkown?.Replace("\\r\\n", "\r\n");
+        CurrentDescription = currentRevisionData.Description?.Replace("\\r\\n", "\r\n");
+        CurrentWikipediaUrl = currentRevisionData.WikipediaURL;
 
         if (PrevChange != null)
         {
-            var prevCatRevision = prevChange?.GetCategoryChangeData();
-            PrevData = prevCatRevision?.TopicMardkown?.Replace("\\r\\n", "\r\n");
-            PrevDescription = prevCatRevision?.Description?.Replace("\\r\\n", "\r\n");
+            var prevRevisionData = prevChange?.GetCategoryChangeData();
+            PrevMarkdown = prevRevisionData?.TopicMardkown?.Replace("\\r\\n", "\r\n");
+            PrevDescription = prevRevisionData?.Description?.Replace("\\r\\n", "\r\n");
+            PrevWikipediaUrl = prevRevisionData?.WikipediaURL;
         }
 
         CategoryId = currentChange.Category.Id;
