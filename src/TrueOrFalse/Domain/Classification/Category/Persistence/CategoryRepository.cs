@@ -216,7 +216,7 @@ public class CategoryRepository : RepositoryDbBase<Category>
         return parents;
     }
 
-    public IList<int> GetMultipleAutorsId(int categoryId)
+  /*  public IList<int> GetMultipleAutorsId(int categoryId)
     {
         var query = _session.QueryOver<CategoryView>()
              .Where(r =>  r.Category.Id == categoryId);
@@ -248,7 +248,7 @@ public class CategoryRepository : RepositoryDbBase<Category>
         }
 
         return Autors;
-    }
+    }*/
 
 
     public int CountAggregatedSets(int categoryId)
