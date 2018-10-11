@@ -4,8 +4,8 @@
         var imageSetttings = new UserImageSettings(Model.Creator.Id);
         %>
 <div id="SidebarCards" style="display: block;">
- <%if(Model.MultipleCreatorName.Count() == 1){%>
-    <div id="AutorCard" style="padding-top:0.1px;">
+   <%if(Model.MultipleCreatorName.Count() == 1){%>
+      <div id="AutorCard" style="padding-top:0.1px;">
         <div class="ImageContainer" style="width: 100%; padding-left:0.5px;">
            <div class="card-image-large" style="background:url(<%= Model.AutorImageUrl%>) center;"></div>
         </div>
@@ -31,8 +31,8 @@
                <span class="footer-bar-text"><%= Model.AmountWishCountQuestions %></span>
             </div>
         </div>
-    </div>
- <%} 
+      </div>
+   <%} 
   if (Model.MultipleCreatorName.Count() != 1){%>
     <div id="MultipleAutorCard">
         <div class="card-title">
