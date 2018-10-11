@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-public class SidebarModel : BaseResolve 
+public class SidebarModel : BaseResolve
 {
     public int WishKnowledgeCount;
     public bool IsInstallationAdmin;
@@ -9,15 +9,17 @@ public class SidebarModel : BaseResolve
     protected SessionUser _sessionUser => Resolve<SessionUser>();
     public bool IsLoggedIn => _sessionUser.IsLoggedIn;
 
-    public bool HasKnowledgeBtnText = false;
-    public string KnowldegeBtnText;
-
     public int UnreadMessageCount = 0;
 
-    public string CardFooterText;
+    public string AutorCardLinkText;
     public string AutorImageUrl;
     public string CreatorName;
     public User Creator;
+
+    public ReputationCalcResult Reputation;
+    public int AmountWishCountQuestions;
+    public bool DoIFollow;
+    public bool IsCurrentUser;
 
     public bool IsWelcomePage;
 
@@ -25,6 +27,11 @@ public class SidebarModel : BaseResolve
 
     public List<string> MultipleCreatorName = new List<string>();
     public List<string> MultipleImageUrl = new List<string>();
+    public List<User> MultipleCreator = new List<User>();
+
+    public string CategorySuggestionImageUrl;
+    public string CategorySuggestionName;
+    public string CategorySuggestionUrl;
 
     public SidebarModel()
     {
@@ -41,6 +48,24 @@ public class SidebarModel : BaseResolve
             UnreadMessageCount = Resolve<GetUnreadMessageCount>().Run(userSession.User.Id);
         }
     }
+
+    public SponsorModel SponsorModel
+    {
+        get
+        {
+            if (_sponsorModel != null)
+            {
+                return _sponsorModel;
+            }
+
+            _sponsorModel = new SponsorModel();
+            return _sponsorModel;
+        }
+
+        set => _sponsorModel = value;
+    }
+
+    private SponsorModel _sponsorModel;
 
     public string Active(MenuEntry menuEntry)
     {

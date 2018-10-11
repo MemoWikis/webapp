@@ -319,8 +319,12 @@
 
 .RightMainMenu {
 
-    span{
-        display:block !important;
+    span {
+        display: block !important;
+        overflow: hidden;
+        -ms-text-overflow: ellipsis;
+        -o-text-overflow: ellipsis;
+        text-overflow: ellipsis;
     }
 
     .media-below-xs( {
@@ -328,7 +332,7 @@
         max-width: none;
         padding-right: 0px;
         right: 0px !important;
-        position:fixed !important;
+        position: fixed !important;
     }
 
     );
@@ -360,7 +364,7 @@
     }
 
     .tooltip > .tooltip-inner {
-        min-width: 200px;
+        min-width: 0px;
         text-align: left;
     }
     /*$ToDo: enable with js functions*/
@@ -431,10 +435,6 @@
     }
 
     &.sub {
-        overflow: hidden;
-        -ms-text-overflow: ellipsis;
-        -o-text-overflow: ellipsis;
-        text-overflow: ellipsis;
         font-weight: normal;
         white-space: nowrap;
         padding-top: 6px;

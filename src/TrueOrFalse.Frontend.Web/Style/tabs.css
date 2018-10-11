@@ -1,0 +1,119 @@
+﻿@media (min-width: 768px) {
+}
+@media (min-width: 768px) {
+}
+@media (max-width: 767px) {
+}
+@media (min-width: 768px) {
+}
+@media (min-width: 768px) {
+}
+@media (min-width: 768px) {
+}
+@media (max-width: 767px) {
+}
+@media (max-width: 767px) {
+}
+@media (max-width: 649px) {
+}
+@media (min-width: 650px) {
+}
+#CategoryHeader {
+  font-size: 18px;
+}
+#CategoryHeader #TabsBar {
+  height: 45px;
+  border-top: solid 1px #d6d6d6;
+  border-bottom: solid 1px #d6d6d6;
+  display: flex;
+}
+#CategoryHeader #TabsBar .Border {
+  width: 1px;
+  background-color: #d6d6d6;
+  margin-top: 7px;
+  margin-bottom: 7px;
+}
+#CategoryHeader .Tabs {
+  display: flex;
+  width: 50%;
+  justify-content: space-between;
+  align-items: center;
+}
+#CategoryHeader .Tabs .Tab {
+  position: relative;
+  top: 3px;
+  border-bottom: solid 6px transparent;
+}
+#CategoryHeader .Tabs .Tab a {
+  display: block;
+  height: 100%;
+  line-height: 38px;
+  padding-left: 20px;
+  padding-right: 20px;
+  color: #999999;
+}
+@media (min-width: 768px) and (max-width: 991px) {
+  #CategoryHeader .Tabs .Tab a {
+    padding-left: 12px;
+    padding-right: 12px;
+  }
+}
+@media (max-width: 479px) {
+  #CategoryHeader .Tabs .Tab a {
+    padding-left: 0;
+    padding-right: 0;
+  }
+}
+#CategoryHeader .Tabs .Tab a:hover,
+#CategoryHeader .Tabs .Tab a:focus {
+  text-decoration: none;
+  color: #003264;
+}
+#CategoryHeader .Tabs .Tab.active {
+  border-bottom-color: #003264;
+}
+#CategoryHeader .Tabs .Tab.active a {
+  color: #003264;
+  font-weight: bold;
+  cursor: default;
+}
+#CategoryHeader .Tabs .Tab.active a:active,
+#CategoryHeader .Tabs .Tab.active a:focus {
+  outline: none;
+}
+#CategoryHeader #ManagementMobile {
+  display: none;
+  justify-content: space-between;
+  margin-bottom: 30px;
+}
+@media (max-width: 767px) {
+  #CategoryHeader #ManagementMobile {
+    display: flex;
+  }
+  #CategoryHeader #Management {
+    display: none;
+  }
+  #CategoryHeader .Tabs {
+    width: 100%;
+    padding-right: 0;
+    justify-content: space-between;
+  }
+  #CategoryHeader .Tab {
+    width: 30%;
+    text-align: center;
+  }
+}
+@media (max-width: 767px) {
+  #CategoryHeader {
+    margin-bottom: 30px;
+  }
+  #CategoryHeader .BreadcrumbsMobile {
+    padding-bottom: 0;
+  }
+  #CategoryHeader #ManagementMobile {
+    margin-bottom: 10px;
+  }
+  #CategoryHeader #HeadingSection {
+    margin-bottom: 30px;
+  }
+}

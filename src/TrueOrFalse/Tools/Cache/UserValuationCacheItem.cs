@@ -6,4 +6,5 @@ public class UserValuationCacheItem
     
     public ConcurrentDictionary<int, CategoryValuation> CategoryValuations;
     public ConcurrentDictionary<int, QuestionValuation> QuestionValuations;
+    public ConcurrentDictionary<int, SetValuation> SetValuations;
 }

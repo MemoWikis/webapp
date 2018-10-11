@@ -17,4 +17,8 @@ $(() => {
     new Tabbing(page);
     new CategoryHeader(page);
     new SquareWishKnowledge(page);
+    
+    var queryParams = Utils.GetQueryString();
+    if (queryParams.openTab === "learningTab")
+        $("#LearningTab").click();
 });

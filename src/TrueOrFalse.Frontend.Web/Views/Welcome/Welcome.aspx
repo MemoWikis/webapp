@@ -11,6 +11,7 @@
 
 <asp:Content ID="Content1" runat="server" ContentPlaceHolderID="Head">
     <script type="text/javascript" src="https://www.google.com/jsapi"></script>
+
     <link href="/Views/Welcome/Welcome.css" rel="stylesheet" />
 
     <script type="text/javascript">
@@ -166,9 +167,9 @@
 
                     <div class="NextLevelContainer">
                         <div class="ProgressBarContainer">
-                            <div id="NextLevelProgressPercentageDone" class="ProgressBarSegment ProgressBarDone" style="width: <%= Model.ActivityPointsPercentageOfNextLevel %>%;">
+                            <div id="NextLevelProgressPercentageDone" class="ProgressBarSegment ProgressBarDone CountUpProgress" data-number="<%= Model.ActivityPointsPercentageOfNextLevel %>" data-character="%" style="width: 95px;">
                                 <div class="ProgressBarSegment ProgressBarLegend">
-                                    <span id="NextLevelProgressSpanPercentageDone"><%= Model.ActivityPointsPercentageOfNextLevel %> %</span>
+                                    <span id="NextLevelProgressSpanPercentageDone" class="CountUp" data-number="<%= Model.ActivityPointsPercentageOfNextLevel %>" data-character="%">0</span>
                                 </div>
                             </div>
                             <div class="ProgressBarSegment ProgressBarLeft" style="width: 100%;"></div>
@@ -305,23 +306,24 @@
         <div class="infoBox container-fluid">
             <div class="row">
                 <div class="col-md-3 vertical-center">
-                    <img alt="Hier sollte der Oer Award sein" style="width: 300px" src="/Images/OerAward.png" />
+                    <img alt="Hier sollte der Oer Award sein" style="width: 300px" src="/Images/LogosPartners/badge_nominiert_2017_250real.png" />
                 </div>
                 <div class="col-md-9">
-                <h3>memucho 2x nominiert für OER-Award 2017</h3>
-                <p>
-                    Bei den OER-Awards 2017 wurde memucho gleich zweimal nominiert:
+                    <h3>memucho 2x nominiert für OER-Award 2017</h3>
+                    <p>
+                        Bei den OER-Awards 2017 wurde memucho gleich zweimal nominiert:
                     <ul class="ul">
                         <li>In der Kategorie OER-Infrastruktur und</li>
                         <li>speziell für unsere freien Lerninhalte für den <a href="<%= Links.CategoryDetail("Basispass Pferdekunde",343) %>">Basispass Pferdekunde</a>.</li>
                     </ul>
-                </p>
-                <p>Darüber freuen wir uns sehr! Die <a href="https://open-educational-resources.de/veranstaltungen/17/award/" target="_blank">OER-Awards <i class="fa fa-external-link" style="font-size: smaller;"></i></a>
-                    zeichnen jährlich die besten Angebote im Bereich freie Bildungsinhalte (OER) aus.
+                    </p>
+                    <p>
+                        Darüber freuen wir uns sehr! Die <a href="https://open-educational-resources.de/veranstaltungen/17/award/" target="_blank">OER-Awards <i class="fa fa-external-link" style="font-size: smaller;"></i></a>
+                        zeichnen jährlich die besten Angebote im Bereich freie Bildungsinhalte (OER) aus.
                     Die Preis-Verleihung fand am 27. November 2017 in Berlin im Rahmen des 
                     <a href="https://open-educational-resources.de/veranstaltungen/17/" target="_blank">OER-Festivals <i class="fa fa-external-link" style="font-size: smaller;"></i>
                     </a>statt.
-                </p>
+                    </p>
                 </div>
             </div>
         </div>
@@ -754,10 +756,9 @@
 
         <% Html.RenderPartial("~/Views/Shared/LinkToTop.ascx");  %>
 
-
+        <input id="hdd-team" type="hidden" value="<%=Links.Team() %>" />
         <div id="team">
-            <h2>Team
-            </h2>
+            <h2>Team</h2>
             <div class="row infoItemRow">
                 <div class="col-xs-4 infoItemColumn">
                     <div class="TeamPic">
@@ -779,7 +780,7 @@
                         Jule
                     </div>
                     <div class="infoExplanationSnippet">
-                        (Gründer)
+                        (Gründerin)
                     </div>
                 </div>
 
@@ -794,101 +795,74 @@
                         (Gründer)
                     </div>
                 </div>
-
+            </div>
+            <div class="row infoItemRow">
                 <div class="col-xs-4 infoItemColumn">
                     <div class="TeamPic">
-                        <img src="/Images/Team/team_lisa_sq_155.jpg" />
+                        <img src="https://ucarecdn.com/6158355b-fff8-4f22-9a04-6a6fc2b6dd61/-/scale_crop/155x155/" />
                     </div>
                     <div class="infoCatchWord">
-                        Lisa
+                        Franziska
                     </div>
                     <div class="infoExplanationSnippet">
-                        (Kommunikation)
+                        (Content Managerin)
                     </div>
                 </div>
 
                 <div class="col-xs-4 infoItemColumn">
                     <div class="TeamPic">
-                        <img src="/Images/Team/team_julian20170404_P3312327_155.jpg" />
+                        <img src="https://ucarecdn.com/cbf57b0d-491b-49f0-97d6-573d7d9b539f/-/scale_crop/155x155/" />
                     </div>
                     <div class="infoCatchWord">
-                        Julian
+                        Justus
                     </div>
                     <div class="infoExplanationSnippet">
-                        (Entwicklung)
+                        (Product Manager)
+                    </div>
+                </div>
+
+                <div class="col-xs-4 infoItemColumn">
+                    <div class="TeamPic">
+                        <img src="https://ucarecdn.com/06b596a8-3787-44d7-9edc-4b9dd493acfd/-/scale_crop/155x155/" />
+                    </div>
+                    <div class="infoCatchWord">
+                        Janine
+                    </div>
+                    <div class="infoExplanationSnippet">
+                        (Designerin)
                     </div>
                 </div>
             </div>
 
-            <div class="TeamText">
-                <p class="ShortParagraph">
-                    Wir möchten freie Bildungsinhalte fördern und dich beim Lernen unterstützen. 
-                Auf dieser Idee werden wir ein stabiles gemeinwohlorientiertes Unternehmen aufbauen. 
-                Wir konzipieren, gestalten und programmieren memucho gemeinsam.
-                </p>
-                <p class="ShortParagraph">
-                    Wenn du Fragen oder Anregungen hast, schreibe uns eine E-Mail an <span class="mailme">team at memucho dot de</span> oder rufe uns an: +49 - 30 - 616 566 26.
-                </p>
-            </div>
+            <div class="row infoItemRow">
+                <div class="col-xs-4 infoItemColumn">
+                    <div class="TeamPic">
+                        <img src="https://ucarecdn.com/3b330292-fff7-4f7c-8ee8-5d8050a8d1f4/-/scale_crop/155x155/" />
+                    </div>
+                    <div class="infoCatchWord">
+                        Daniel
+                    </div>
+                    <div class="infoExplanationSnippet">
+                        (Developer)
+                    </div>
+                </div>
 
-        </div>
+                <div class="col-xs-4 infoItemColumn">
+                    <div class="TeamPic">
+                        <img src="https://ucarecdn.com/5174fd26-5db4-43d4-b73c-6f81e872c6dd/-/scale_crop/155x155/" />
+                    </div>
+                    <div class="infoCatchWord">
+                        Marco
+                    </div>
+                    <div class="infoExplanationSnippet">
+                        (Developer)
+                    </div>
+                </div>
 
-        <%--<div class="row">
-        <div class="col-xs-6 col-md-3">
-            <h4>Neueste Lernsets</h4>
-            <div class="LabelList">
-                <% Html.RenderPartial("WelcomeBoxTopSets", WelcomeBoxTopSetsModel.CreateMostRecent(5)); %>
             </div>
         </div>
-        <div class="col-xs-6 col-md-3">
-            <h4>Neueste Themen:</h4>
-            <div class="LabelList">
-                <% Html.RenderPartial("WelcomeBoxTopCategories", WelcomeBoxTopCategoriesModel.CreateMostRecent(5)); %>
-            </div>
-        </div>
-        <div class="col-xs-6 col-md-3">
-            <h4>Neueste Fragen</h4>
-            <div class="LabelList">
-                <% Html.RenderPartial("WelcomeBoxTopQuestions", WelcomeBoxTopQuestionsModel.CreateMostRecent(8)); %>
-            </div>
-        </div>
-        <div class="col-xs-6 col-md-3">
-            <h4>Top-Themen nach Anzahl Fragen</h4>
-            <div class="LabelList">
-                <% Html.RenderPartial("WelcomeBoxTopCategories", WelcomeBoxTopCategoriesModel.CreateTopCategories(5)); %>
-            </div>
-        </div>
-    </div>--%>
-
+        <div class="separator"></div>
+        <a class="right" href="<%=Links.Team() %>">Erfahre mehr...</a>
         <% Html.RenderPartial("~/Views/Shared/LinkToTop.ascx");  %>
-
-        <%--    <div class="col-md-12">
-        <% if (!Model.IsLoggedIn)
-           { %>
-            <div class="well" id="newsletterSignUp" style="padding: 20px; ">
-                <h4>Newsletter</h4>
-                <p>Du möchtest bei wichtigen Neuigkeiten benachrichtigt werden? Melde dich hier an:</p>
-                <div class="alert alert-danger" role="alert" id="msgInvalidEmail" style="display:none">
-                    Keine gültige E-Mail-Adresse.
-                </div>
-            
-                <div class="alert alert-success" role="alert" id="msgEmailSend" style="display:none">
-                    Deine Adresse wurde für den Newsletter angemeldet.
-                </div>
-
-                <form class="form-inline" style="color: white;">
-                    <div class="">
-                        <input type="email" class="form-control" id="txtNewsletterRequesterEmail" placeholder="deine@email.de" style="width: 100%;">
-                    </div>
-                    <div class="" style="text-align: center; margin-top: 10px;">
-                        <a class="btn btn-primary" href="#" id="btnNewsletterRequest" style="">
-                            <i class="fa fa-envelope-o">&nbsp;</i>Anmelden
-                        </a>
-                    </div>
-                </form> 
-            </div>
-        <% } %>        
-    </div>--%>
     </div>
-
 </asp:Content>

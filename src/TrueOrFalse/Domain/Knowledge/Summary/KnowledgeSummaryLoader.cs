@@ -108,7 +108,8 @@ public class KnowledgeSummaryLoader
     public static KnowledgeSummary Run(
         int userId, 
         IList<int> questionIds = null, 
-        bool onlyValuated = true)
+        bool onlyValuated = true,
+        string options = "standard")
     {
         if (userId == -1 && questionIds != null)
             return new KnowledgeSummary(notInWishKnowledge: questionIds.Count);
@@ -134,7 +135,8 @@ public class KnowledgeSummaryLoader
             needsLearning: needsLearning, 
             needsConsolidation: needsConsolidation, 
             solid: solid, 
-            notInWishKnowledge: notInWishknowledge);
+            notInWishKnowledge: notInWishknowledge,
+            options: options);
     }
 
     public static KnowledgeSummary Run(

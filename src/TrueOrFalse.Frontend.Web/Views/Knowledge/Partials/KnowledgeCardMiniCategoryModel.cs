@@ -1,11 +1,15 @@
 ﻿using System;
+using System.Security.Policy;
 
-public class KnowledgeCardMiniCategoryModel
+public class KnowledgeCardMiniCategoryModel:BaseModel
 {
     public Category Category;
+    public bool isInWishKnowledge;
+
     public KnowledgeCardMiniCategoryModel(Category category)
     {
         Category = category;
+        isInWishKnowledge = Sl.CategoryValuationRepo.IsInWishKnowledge(Category.Id, UserId);
     }
 
     public ImageFrontendData GetCategoryImage(Category category)
@@ -13,6 +17,7 @@ public class KnowledgeCardMiniCategoryModel
         var imageMetaData = Sl.ImageMetaDataRepo.GetBy(category.Id, ImageType.Category);
         return new ImageFrontendData(imageMetaData);
     }
+
     public int GetTotalQuestionCount(Category category)
     {
         return category.GetAggregatedQuestionsFromMemoryCache().Count;

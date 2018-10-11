@@ -59,11 +59,7 @@
     }
 
     breadCrumbCategoriesCount--;
-    var StartItem = 1;
-    if (breadCrumbCategories.Count > 0 && breadCrumbCategories.Count < 3){
-     StartItem++;
-    }
-    for (var i = StartItem; i <= breadCrumbCategoriesCount; i++)
+    for (var i = 1; i <= breadCrumbCategoriesCount; i++)
     { %>
         <div id="<%=i %>BreadCrumbContainer" style="display: flex; height: auto; margin-bottom: 5px;" class="show-tooltip" data-placement="bottom" title="Zur Themenseite"> 
             <% if (!(Model.IsAnswerQuestionOrSetBreadCrumb)) {

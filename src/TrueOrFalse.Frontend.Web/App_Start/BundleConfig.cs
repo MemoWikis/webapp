@@ -1,4 +1,5 @@
 ﻿using System.Web.Optimization;
+using NHibernate.Util;
 
 namespace TrueOrFalse.View
 {
@@ -69,6 +70,15 @@ namespace TrueOrFalse.View
                 .IncludeDirectory("~/Views/Categories/Detail/Js/", "*.js")
                 .Include("~/Views/Categories/ResultTestSession/Js/GetResultTestSession.js"));
 
+            bundles.Add(new StyleBundle("~/bundles/CategoryHistory")
+                .Include("~/Views/Categories/History/*.css"));
+
+            bundles.Add(new StyleBundle("~/bundles/CategoryHistoryDetail")
+                .Include("~/Views/Categories/History/Detail/*.css"));
+
+            bundles.Add(new ScriptBundle("~/bundles/js/CategoryHistoryDetail")
+                .Include("~/Views/Categories/History/Detail/Js/*.js"));
+
             bundles.Add(new StyleBundle("~/bundles/Login")
                 .Include("~/Views/Welcome/Registration/SocialButtons.css"));
 
@@ -76,8 +86,11 @@ namespace TrueOrFalse.View
                 .IncludeDirectory("~/Views/Knowledge/", "*.css"));
 
             bundles.Add(new ScriptBundle("~/bundles/js/Knowledge")
-                .Include("~/Views/Knowledge/Js/*.js"));
-
+                .Include("~/Views/Knowledge/Js/Page.js")
+                .Include("~/Views/Knowledge/Js/_dashboard.js")
+                .Include("~/Views/Knowledge/Js/WishKnowledgeContent.js")
+            );
+               
             bundles.Add(new StyleBundle("~/bundles/AlgoInsight")
                 .IncludeDirectory("~/Views/AlgoInsight/", "*.css"));
 
@@ -171,10 +184,10 @@ namespace TrueOrFalse.View
 
             //Dates
             bundles.Add(new StyleBundle("~/bundles/Dates")
-                .Include("~/Views/Dates/*.css"));
+                .Include("~/Views/Knowledge/AllOfDates/Dates.css"));
 
             bundles.Add(new ScriptBundle("~/bundles/js/Dates")
-                .Include("~/Views/Dates/Js/*.js"));
+                .Include("~/Views/Knowledge/AllOfDates/Js/*.js"));
 
             bundles.Add(new StyleBundle("~/bundles/EditDate")
                 .Include("~/Views/Dates/Edit/*.css"));
@@ -270,12 +283,53 @@ namespace TrueOrFalse.View
                 .Include("~/Scripts/vendor.somewhere/jquery.dataTables.js")
                 .Include("~/Views/Maintenance/Js/ContentStats.js"));
 
+            bundles.Add(new ScriptBundle("~/bundles/js/diff2html")
+                .Include("~/Scripts/vendor/diff2html/*.js"));
+
+            bundles.Add(new ScriptBundle("~/bundles/diff2html")
+                .Include("~/Scripts/vendor/diff2html/*.css"));
+
             bundles.Add(new ScriptBundle("~/bundles/mailto")
                 .Include("~/Scripts/various/mailto.js"));
+
+            bundles.Add(new ScriptBundle("~/bundles/js/_dashboard")
+                .Include("~/Views/Knowledge/AllOfDates/Js/*.js"));
+
+            bundles.Add(new StyleBundle("~/bundles/_dashboard")
+                .Include("~/Views/Knowledge/Css/_dashBoard.css"));
+
+            bundles.Add(new StyleBundle("~/bundles/KnowledgeTopics")
+                .Include("~/Views/Knowledge/Css/KnowledgeTopics.css"));
+
+            bundles.Add(new ScriptBundle("~/bundles/js/KnowledgeQuestions")
+                .Include("~/Views/Knowledge/Js/KnowledgeQuestions.js"));
+
+            bundles.Add(new ScriptBundle("~/bundles/js/Vue")
+                .Include("~/Scripts/vendor/vuetable-2.js")
+                .Include("~/Scripts/vendor/vue.min.js"));
+
+            bundles.Add(new StyleBundle("~/bundles/KnowledgeQuestions")
+                .Include("~/Views/Knowledge/Css/KnowledgeQuestions.css"));
+
+            bundles.Add(new StyleBundle("~/bundles/Promoter")
+                .Include("~/Views/Welcome/Promoter.css"));
+
+            bundles.Add(new ScriptBundle("~/bundles/AboutMemucho")
+                .Include("~/Views/About/Js/Page.js"));
+
+            bundles.Add(new StyleBundle("~/bundles/Team")
+                .Include("~/Views/Welcome/Team.css"));
 
 #if RELEASE
             BundleTable.EnableOptimizations = true;
 #endif
+
+            SetIgnorePatterns(bundles.IgnoreList);
+        }
+
+        public static void SetIgnorePatterns(IgnoreList ignoreList)
+        {
+            ignoreList.Ignore("*SetVideoPlayer.js");
         }
     }
 }

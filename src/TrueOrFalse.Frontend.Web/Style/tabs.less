@@ -1,0 +1,126 @@
+﻿@import (reference) '/includes/imports.less';
+
+#CategoryHeader {
+    font-size: 18px;
+
+
+
+    #TabsBar {
+        height: 45px;
+        border-top: solid 1px @border-grey;
+        border-bottom: solid 1px @border-grey;
+        display: flex;
+
+        .Border {
+            width: 1px;
+            background-color: @border-grey;
+            margin-top: 7px;
+            margin-bottom: 7px;
+        }
+    }
+
+    .Tabs {
+        display: flex;
+        width: 50%;
+        justify-content: space-between;
+        align-items: center;
+
+
+        .Tab {
+            position: relative;
+            top: 3px;
+            border-bottom: solid 6px transparent;
+
+            a {
+                display: block;
+                height: 100%;
+                line-height: 38px;
+                padding-left: 20px;
+                padding-right: 20px;
+
+                .media-sm( {
+                    padding-left: 12px;
+                    padding-right: 12px;
+                }
+
+                );
+
+                .media-below-xs( {
+                    padding-left: 0;
+                    padding-right: 0;
+                }
+
+                );
+                .greyed;
+
+                &:hover, &:focus {
+                    text-decoration: none;
+                    color: @memo-blue;
+                }
+            }
+
+            &.active {
+
+                a {
+                    color: @memo-blue;
+                    font-weight: bold;
+                    cursor: default;
+
+                    &:active, &:focus {
+                        outline: none;
+                    }
+                }
+
+                border-bottom-color: @memo-blue;
+            }
+        }
+    }
+
+    #ManagementMobile {
+        display: none;
+        justify-content: space-between;
+        margin-bottom: 30px;
+    }
+
+    .media-below-sm( {
+
+        #ManagementMobile {
+            display: flex;
+        }
+
+        #Management {
+            display: none;
+        }
+
+        .Tabs {
+            width: 100%;
+            padding-right: 0;
+            justify-content: space-between;
+        }
+
+        .Tab {
+            width: 30%;
+            text-align: center;
+        }
+    }
+
+    );
+
+    .media-below-sm( {
+        margin-bottom: 30px;
+
+        .BreadcrumbsMobile {
+            padding-bottom: 0;
+        }
+
+        #ManagementMobile {
+            margin-bottom: 10px;
+        }
+
+        #HeadingSection {
+            margin-bottom: 30px;
+        }
+    }
+
+    );
+}

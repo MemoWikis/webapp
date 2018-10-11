@@ -1,0 +1,186 @@
+﻿#app {
+  font-family: Open Sans, Regular;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  color: #2c3e50;
+}
+#app .Topic {
+  font-size: 18px;
+}
+#app #h2TpopicAndLearnset {
+  margin-bottom: 21px;
+}
+#app .switch {
+  margin-bottom: 62px;
+  padding-left: 0px;
+}
+.container {
+  padding-left: 0px;
+}
+.orange.glyphicon {
+  color: orange;
+}
+.vuetable {
+  font-size: 18px;
+  font-family: "Open Sans", Arial, sans-serif;
+}
+.vuetable #_Titel,
+.vuetable #_KnowlegdeWishPartial,
+.vuetable .vuetable-th-slot-image,
+.vuetable .vuetable-th-slot-topicCount,
+.vuetable .vuetable-th-slot-actions,
+.vuetable .vuetable-th-slot-dropDown {
+  border-bottom: solid 2px #337ab7;
+}
+.vuetable thead {
+  color: #2d60b4;
+}
+.vuetable h1 {
+  font-size: 30px;
+}
+.vuetable td {
+  height: 30px;
+}
+.vuetable td .image {
+  float: left;
+  padding-right: 10px;
+}
+.vuetable .topic-count {
+  color: #2d60b4;
+}
+.vuetable .imageTable {
+  border-radius: 100%;
+  width: 30px;
+  height: 30px;
+}
+.vuetable table.table.table-striped .image {
+  margin-right: -5px;
+  width: 30px;
+  float: right;
+}
+.vuetable table.table.table-striped .title {
+  float: left;
+}
+.KnowledgeBarWrapper {
+  /*display: inline-block;*/
+}
+.KnowledgeBarWrapper .KnowledgeBarLegend {
+  color: #999999;
+  margin-top: -10px;
+  font-size: 12px;
+  line-height: 1.5em;
+  opacity: 0;
+  transition: opacity 0.2s linear;
+}
+.KnowledgeBarWrapper:hover .KnowledgeBarLegend {
+  opacity: 1;
+}
+.KnowledgeBarWrapper .set-knowledge-bar,
+.KnowledgeBarWrapper .category-knowledge-bar {
+  display: inline-block;
+  height: 10px;
+  width: 180px;
+}
+.KnowledgeBarWrapper .set-knowledge-bar .solid-knowledge,
+.KnowledgeBarWrapper .category-knowledge-bar .solid-knowledge,
+.KnowledgeBarWrapper .set-knowledge-bar .needs-learning,
+.KnowledgeBarWrapper .category-knowledge-bar .needs-learning,
+.KnowledgeBarWrapper .set-knowledge-bar .needs-consolidation,
+.KnowledgeBarWrapper .category-knowledge-bar .needs-consolidation,
+.KnowledgeBarWrapper .set-knowledge-bar .not-learned,
+.KnowledgeBarWrapper .category-knowledge-bar .not-learned,
+.KnowledgeBarWrapper .set-knowledge-bar .not-in-wish-knowledge,
+.KnowledgeBarWrapper .category-knowledge-bar .not-in-wish-knowledge {
+  height: inherit;
+  float: left;
+}
+.KnowledgeBarWrapper .set-knowledge-bar .needs-learning,
+.KnowledgeBarWrapper .category-knowledge-bar .needs-learning {
+  background-color: lightsalmon;
+}
+.KnowledgeBarWrapper .set-knowledge-bar .needs-consolidation,
+.KnowledgeBarWrapper .category-knowledge-bar .needs-consolidation {
+  background-color: #fdd648;
+}
+.KnowledgeBarWrapper .set-knowledge-bar .solid-knowledge,
+.KnowledgeBarWrapper .category-knowledge-bar .solid-knowledge {
+  background-color: #afd534;
+}
+.KnowledgeBarWrapper .set-knowledge-bar .not-learned,
+.KnowledgeBarWrapper .category-knowledge-bar .not-learned {
+  background-color: silver;
+}
+.KnowledgeBarWrapper .set-knowledge-bar .not-in-wish-knowledge,
+.KnowledgeBarWrapper .category-knowledge-bar .not-in-wish-knowledge {
+  background-color: #dddddd;
+}
+.onoffswitch {
+  position: relative;
+  width: 40px;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+}
+.onoffswitch-checkbox {
+  display: none;
+}
+.onoffswitch-label {
+  display: block;
+  overflow: hidden;
+  cursor: pointer;
+  border: 2px solid #999999;
+  border-radius: 50px;
+}
+.onoffswitch-inner {
+  display: block;
+  width: 200%;
+  margin-left: -100%;
+  transition: margin 0.3s ease-in 0s;
+}
+.onoffswitch-inner:before,
+.onoffswitch-inner:after {
+  display: block;
+  float: left;
+  width: 50%;
+  height: 12px;
+  padding: 0;
+  line-height: 12px;
+  font-size: 14px;
+  color: white;
+  font-family: Trebuchet, Arial, sans-serif;
+  font-weight: bold;
+  box-sizing: border-box;
+}
+.onoffswitch-inner:before {
+  content: "";
+  padding-left: 10px;
+  background-color: #2C5FB2;
+  color: #2C5FB2;
+}
+.onoffswitch-inner:after {
+  content: "";
+  padding-right: 10px;
+  background-color: #EEEEEE;
+  color: #999999;
+  text-align: right;
+}
+.onoffswitch-switch {
+  display: block;
+  width: 8px;
+  height: 8px;
+  margin: 3px;
+  background: #FFFFFF;
+  position: absolute;
+  top: 1px;
+  bottom: 0;
+  right: 24px;
+  border: 2px solid #999999;
+  border-radius: 4px;
+  transition: all 0.3s ease-in 0s;
+}
+.onoffswitch-checkbox:checked + .onoffswitch-label .onoffswitch-inner {
+  margin-left: 0;
+}
+.onoffswitch-checkbox:checked + .onoffswitch-label .onoffswitch-switch {
+  right: 0px;
+}

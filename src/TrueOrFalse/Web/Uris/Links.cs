@@ -49,10 +49,12 @@ namespace TrueOrFalse.Frontend.Web.Code
         /* About */
         public const string AboutController = "About";
 
+        public static string Team() => GetUrlHelper().Action("Team", WelcomeController);
         public static string AboutMemucho() => GetUrlHelper().Action("AboutMemucho", AboutController);
         public static string WelfareCompany() => GetUrlHelper().Action("WelfareCompany", AboutController);
         public static string Jobs() => GetUrlHelper().Action("Jobs", AboutController);
         public static string ForTeachers() => GetUrlHelper().Action("ForTeachers", AboutController);
+        public static string Promoter() => GetUrlHelper().Action("Promoter", WelcomeController);
 
         /* AlgoInsight */
         public const string AlgoInsightController = "AlgoInsight";
@@ -347,6 +349,8 @@ namespace TrueOrFalse.Frontend.Web.Code
         public static string SetsWish() { return GetUrlHelper().Action(SetsWishAction, SetsController); }
         public static string SetsMine() { return GetUrlHelper().Action(SetsMineAction, SetsController); }
         public static string SetCreate() { return GetUrlHelper().Action(SetCreateAction, SetEditController); }
+        public static string SetEdit(Set set) => SetEdit(GetUrlHelper(), set.Name, set.Id);
+        public static string SetEdit(UrlHelper url, string name, int id) => url.Action("Edit", "EditSet", new { text = UriSanitizer.Run(name), id = id });
         public const string SetController = "Set";
         public const string SetCreateAction = "Create";
         public const string SetEditController = "EditSet";
@@ -399,14 +403,21 @@ namespace TrueOrFalse.Frontend.Web.Code
         public static string CategoriesAll() => GetUrlHelper().Action(CategoriesAction, CategoriesController);
         public static string CategoriesWish() => GetUrlHelper().Action("CategoriesWish", CategoriesController);
         public static string CategoryCreate() => GetUrlHelper().Action(CategoryCreateAction, CategoryEditController);
+        public static string CategoryHistoryDetail(int categoryId, int categoryChangeId) => 
+            GetUrlHelper().Action("Detail", "CategoryHistoryDetail", new { categoryId  = categoryId , categoryChangeId = categoryChangeId });
+        public static string CategoryHistory(int categoryId) =>
+            GetUrlHelper().Action("List", "CategoryHistory", new { categoryId = categoryId });
 
-        public static string CategoryDetail(Category category) =>
+        public static string CategoryDetail(Category category, int? version = null) =>
             HttpContext.Current == null 
                 ? "" 
-                : CategoryDetail(category.Name, category.Id);
+                : CategoryDetail(category.Name, category.Id, version);
 
-        public static string CategoryDetail(string name, int id) => 
-            GetUrlHelper().Action("Category", CategoryController, new { text = UriSanitizer.Run(name), id = id }, null);
+        public static string CategoryDetail(string name, int id, int? version = null) => 
+            GetUrlHelper().Action("Category", CategoryController, new { text = UriSanitizer.Run(name), id = id, version = version }, null);
+
+        public static string CategoryRestore(int categoryId, int categoryChangeId) => 
+            GetUrlHelper().Action("Restore", CategoryController, new { categoryId = categoryId, categoryChangeId = categoryChangeId});
 
         public static string GetUrl(object type)
         {

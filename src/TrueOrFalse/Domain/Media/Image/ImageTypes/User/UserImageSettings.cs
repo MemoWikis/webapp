@@ -23,6 +23,11 @@ public class UserImageSettings : ImageSettings, IImageSettings
         Id = id;
     }
 
+    public UserImageSettings()
+    {
+
+    }
+
     public void Init(int typeId)
     {
         throw new NotImplementedException();

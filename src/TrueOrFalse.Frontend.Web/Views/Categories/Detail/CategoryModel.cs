@@ -18,6 +18,7 @@ public class CategoryModel : BaseModel
 
 
     public string CustomPageHtml;//Is set in controller because controller context is needed
+    public int? CategoryChangeId;//Is set in controller because controller context is needed
     public IList<Set> FeaturedSets;
 
     public IList<Category> CategoriesParent;
@@ -143,6 +144,13 @@ public class CategoryModel : BaseModel
         AggregatedSetCount = AggregatedSets.Count;
 
         AggregatedQuestionCount = Category.GetCountQuestionsAggregated();
+
+        SidebarModel.Reputation = Resolve<ReputationCalc>().Run(Creator);
+        SidebarModel.AmountWishCountQuestions = Resolve<GetWishQuestionCount>().Run(Creator.Id);
+        var followerIAm = R<FollowerIAm>().Init(new List<int> { Creator.Id}, UserId);
+        SidebarModel.DoIFollow = followerIAm.Of(Creator.Id);
+        SidebarModel.IsCurrentUser = Creator.Id == UserId && IsLoggedIn;
+
     }
 
     private List<Question> GetTopQuestionsInSubCats()
@@ -159,6 +167,13 @@ public class CategoryModel : BaseModel
             .Distinct(ProjectionEqualityComparer<Question>.Create(x => x.Id))
             .ToList();
     }
+
+    public ImageUrl GetCategoryImageUrl(Category category)
+    {
+        var imageMetaData = Sl.ImageMetaDataRepo.GetBy(category.Id, ImageType.Category);
+        return new ImageFrontendData(imageMetaData).GetImageUrl(232);
+    }
+
     private void GetTopQuestionsFromChildrenOfChildren(List<Question> topQuestions)
     {
         foreach (var childCat in CategoriesChildren)

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
+using TrueOrFalse.Frontend.Web.Code;
 using TrueOrFalse.Search;
 
 public class CategoryApiController : BaseController
@@ -114,6 +115,7 @@ public class CategoryApiController : BaseController
         return Json(result, JsonRequestBehavior.AllowGet);
     }
 
+
     public static bool TermExistsAsCategory(string term, IEnumerable<CategoryJsonResult> result)
     {
         return (term != null && result.Any(c => String.Equals(c.name, term, StringComparison.CurrentCultureIgnoreCase)));
@@ -133,7 +135,7 @@ public class CategoryApiController : BaseController
     {
         if (_sessionUser.User == null)
             return;
-
+        
         CategoryInKnowledge.Unpin(Convert.ToInt32(categoryId), _sessionUser.User);
     }
 

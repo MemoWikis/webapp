@@ -1,11 +1,15 @@
 ﻿using System;
+using NHibernate.Criterion;
 
-public class KnowledgeCardMiniSetModel
+public class KnowledgeCardMiniSetModel:BaseModel
 {
     public Set Set;
+    public bool isInWishKnowledge;
+
     public KnowledgeCardMiniSetModel(Set set)
     {
         Set = set;
+        isInWishKnowledge = Sl.SetValuationRepo.IsInWishKnowledge(Set.Id, UserId );
     }
 
     public ImageFrontendData GetSetImage(Set set)

@@ -9,5 +9,8 @@
             NotLoggedIn.ShowErrorMsg("LearnWishKnowledge");
             return;
         }
+
+
     });
+    new NumbersCountUp();
 });

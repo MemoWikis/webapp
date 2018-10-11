@@ -24,20 +24,17 @@
                     <div class="KnowledgeBarLegend">Dein Wissensstand</div>
                 </div>
             </div>
-
             <div class="setTitle">
                 <h3><%: Model.Title %></h3>
             </div>
-
-
             <div class="setDescription">
                 <%= Model.Text %>
             </div>
-
             <div class="buttons">
                 <a href="<%= Links.TestSessionStartForSet(Model.Title, Model.SetId) %>" class="btn btn-primary">
                     <i class="fa fa-lg fa-play-circle">&nbsp;</i> Wissen testen
-                </a><br />
+                </a>
+                <br />
                 <a href="<%= Links.StartLearningSessionForSet(Model.SetId) %>" class="btn btn-link" data-allowed="logged-in" data-allowed-type="learning-session" rel="nofollow">
                     <i class="fa fa-lg fa-line-chart">&nbsp;</i> Gleich richtig lernen
                 </a>
@@ -52,15 +49,8 @@
                         <li><a href="<%= Links.DateCreateForSet(Model.SetId) %>"><i class="fa fa-calendar">&nbsp;</i> Prüfungstermin anlegen</a></li>
                     </ul>
                 </div>
-
             </div>
         </div>
     </div>
 </div>
 
-
-<%--<div class="setTestSessionAssessment2">
-    <h2><%: Model.Title %></h2>
-    <h5><%: Model.Text %></h5>
-    <script src="http://memucho/views/widgets/w.js" data-t="setCard" data-id="<%= Model.Set.Id %>" data-width="100%" data-maxwidth="100%" data-logoon="false" data-questioncount="5"></script>
-</div>--%>

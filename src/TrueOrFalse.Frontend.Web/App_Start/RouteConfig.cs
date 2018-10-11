@@ -17,6 +17,7 @@ namespace TrueOrFalse
             routes.MapRoute("CheckEmailForAvailability", "Registrieren/IsEmailAvailable", new { controller = "Login", action = "IsEmailAvailable" });
             routes.MapRoute("PasswordRecovery", "Login/PasswortZuruecksetzen", new { controller = "Welcome", action = "PasswordRecovery" });
             routes.MapRoute("Contact", "Kontakt", new { controller = "Welcome", action = "Contact" });
+            routes.MapRoute("Team", "Team", new {controller = "Welcome", action = "Team"});
 
             routes.MapRoute("Register", "Registrieren", new { controller = "Register", action = "Register" });
             routes.MapRoute("Login", "Login/{action}", new { controller = "Login" });
@@ -108,13 +109,18 @@ namespace TrueOrFalse
             routes.MapRoute("Categories_Delete", "Kategorien/Loesche/{id}", new { controller = "Categories", action = "Delete" });
             routes.MapRoute("Categories_ById", "Kategorien/{id}", new { controller = "Category", action = "CategoryById" }); // route is used when creating question/questionset (AutocompleteCategories.ts) and adding categories via ajax
             routes.MapRoute("Categories_Edit", "Kategorien/{text}/Bearbeite/{id}", new { controller = "EditCategory", action = "Edit" });
+            routes.MapRoute("Category_Detail_Revision", "Kategorien/{text}/{id}/version/{version}", new { controller = "Category", action = "Category" });
             routes.MapRoute("Category_Detail", "Kategorien/{text}/{id}", new { controller = "Category", action = "Category" });
-            /* API */ routes.MapRoute("Categories_AddSubCategoryRow", "Categories/AddSubCategoryRow", new { controller = "EditCategory", action = "AddSubCategoryRow" });
+            routes.MapRoute("Category_History", "Kategorien/{categoryName}/{categoryId}/Historie", new { controller = "CategoryHistory", action = "List" });
+            routes.MapRoute("Category_History_Detail", "Kategorien/{categoryName}/{categoryId}/Historie/{categoryChangeId}", new { controller = "CategoryHistoryDetail", action = "Detail" });
+            /* API */
+            routes.MapRoute("Categories_AddSubCategoryRow", "Categories/AddSubCategoryRow", new { controller = "EditCategory", action = "AddSubCategoryRow" });
             /* API */ routes.MapRoute("Categories_EditSubCategoryItems", "Categories/EditSubCategoryItems/{id}", new { controller = "EditSubCategoryItems", action = "Edit" });
             /* API */ routes.MapRoute("Categories_AddSubCategoryItemRow", "Categories/EditSubCategoryItems/{id}/Add", new { controller = "EditSubCategoryItems", action = "AddSubCategoryItemRow" });
 
             routes.MapRoute("Category_StartTestSession", "Kategorie/Testen/{categoryName}/{categoryId}", new { controller = "Category", action = "StartTestSession" });
 
+      
             routes.MapRoute("Knowledge_Learn", "Lernen/Wunschwissen", new { controller = "Knowledge", action = "StartLearningSession" });
             routes.MapRoute("Knowledge", "Wissenszentrale/{action}", new { controller = "Knowledge", action = "Knowledge" });
             routes.MapRoute("Knowledge_ConfirmEmail", "EmailBestaetigen/{emailKey}", new { controller = "Knowledge", action = "EmailConfirmation" });
@@ -155,6 +161,8 @@ namespace TrueOrFalse
             routes.MapRoute("ApiSearch", "Api/Search/{action}", new { controller = "SearchApi" });
             routes.MapRoute("ApiActivityPoints", "Api/ActivityPoints/{action}", new { controller = "ActivityPointsApi" });
             routes.MapRoute("ApiLom", "Api/Lom/{action}", new { controller = "LomApi" });
+            routes.MapRoute("ApiEduSharing", "Api/EduSharing/{action}", new { controller = "EduSharingApi" });
+
 
             routes.MapRoute("ImageUpload", "Images/ImageUpload/{action}", new { controller = "ImageUpload" });
             
@@ -177,8 +185,12 @@ namespace TrueOrFalse
             routes.MapRoute("WidgetLearningSession", "widget/fragesatz/templateset/{setId}", new { controller = "Widget", action = "SetWithoutStartScreen" });
             routes.MapRoute("WidgetSetVideo", "widget/fragesatz-v/{setId}", new { controller = "Widget", action = "SetVideo" });
 
+            routes.MapRoute("Übersicht", "Übersicht/Förderer", new { controller = "Welcome", action = "Promoter" });
+
             routes.MapRoute("Default", "{controller}/{action}/{id}", new { controller = "Welcome", action = "Welcome", id = UrlParameter.Optional });
             routes.MapRoute("Various", "{action}", new { controller = "VariousPublic" });
+
+           
         }
     }
 }

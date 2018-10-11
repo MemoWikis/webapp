@@ -1,307 +1,59 @@
-﻿@import (reference) '../../Style/includes/imports.less';
+﻿
+#CategoryHeader {
+    margin-bottom: 36px;
 
-/* Progress bar Next Level 
-------------------------------------------------------*/
-
-#learningPoints, #reputationPoints {
-    font-size: 18px;
-    margin: 20px 0;
-
-    h3 {
-        margin-top: 0;
-        margin-bottom: 20px;
+    .Tabs {
+        width: 70%;
     }
-}
 
-#learningPoints {
-
-    p.textPointsAndLevel {
-        margin-left: 50px;
-        text-align: left;
-    }
-}
-
-.ProgressBarContainer, .ProgressBarSegment {
-    height: 30px;
-}
-
-.ProgressBarContainer {
-    display: table;
-    width: 100%;
-    border: solid 2px @memo-green;
-    background-color: @memo-green;
-    margin-bottom: 5px;
-    .clearfix;
-}
-
-.ProgressBarSegment {
-    display: table-cell;
-    overflow: hidden;
-    text-align: center;
-    vertical-align: top; //Fix Firefox height bug
-}
-
-.ProgressBarLegend {
-    position: absolute;
-    left: 0px;
-    top: 4px;
-    width: 100%;
-    min-width: 30px;
-    font-weight: bold;
-}
-
-.ProgressBarDone {
-    background-color: @memo-green;
-    position: relative;
-    overflow: visible;
-}
-
-.ProgressBarLeft {
-    background-color: lighten(@memo-green, 30);
-}
-
-/*----------*/
-
-#reputationPoints {
-    p.moreInfoLink {
-        margin-bottom: 0;
+    #Management {
+        width: 30%;
+        text-align: center;
         margin-top: 10px;
-        font-size: smaller;
-        text-align: right;
+    }
+    .Border{
+        margin-left: 25px;
+    }
+
+
+}
+@media (max-width: 767px) {
+    #CategoryHeader {
+        font-size: 14px;
+        line-height: 21px;
+        font-weight: normal;
     }
 }
 
-
-/* STATISTIC CHARTS
--------------------------------------------*/
-
-#chartKnowledge text {
-    font-size: 13px; 
-    cursor: pointer;
-    
-    :hover{
-        font-weight: bold;
-        color: green;
-    } 
-}
-
-.number-box-questions2{
-
-    a{color: white}
-    a:hover, a:active{color: white; text-decoration:none}
-
-    :hover{
-        background-color: #c5f03a;
+@media (max-width: 767px) {
+    #CategoryHeader .Tabs {
+        width: 100%;
+        padding-left: 0px;
+        padding-right: 0px;
     }
+}
 
-    background-color: #afd534; 
-    color: white; 
-} 
+.link-set {
+    padding-bottom: 9px;
+    padding-top: 11px;
+    border-top: 1px solid #e2e2e2;
+    border-bottom: 1px solid #e2e2e2;
+    margin-bottom: 29px;
 
-.number-box-sets2{
 
-    a{color: white}
-    a:hover, a:active{color: white; text-decoration:none}
-
-    :hover{
-        background-color: #ffe243;
+    @media only screen and (max-width: 750px) {
+        [class*="col-"] {
+            width: 100%;
+            text-align: center;
+        }
     }
-
-    background-color: #ffd700; color: white; 
 }
-
-.number-box-questions{
-
-    a{color: white}
-    a:hover, a:active{color: white; text-decoration:none}
-
-    :hover{
-        border-radius: 15px;
-        background-color: #c5f03a;
-    }
-    background-color: #afd534; 
-    color: white; 
-    border-radius: 15px;
-    border: 1px solid #e2f899;
-    margin-top: 3px;
-}
-
-.number-box-sets{
-
-    a{color: white}
-    a:hover, a:active{color: white; text-decoration:none}
-
-    :hover{
-        border-radius: 15px;
-        background-color: #ffe243;
-    }
-    background-color: #ffd700; 
-    color: white; 
-    border-radius: 15px;
-    border: 1px solid #fff09d;
-    margin-top: 3px;
-}
-
-.number-box-reputation{
-
-    a{color: white}
-    a:hover, a:active{color: white; text-decoration:none}
-
-    :hover{
-        border-radius: 15px;
-        background-color: #a4bde7;
-    }
-    font-size: 17px;
-    background-color: #7ca2e1; 
-    border-radius: 15px; 
-    color: white; 
-    margin-top: 3px;
-}
-
-#FutureDatesOverview .label {
-    max-width: 100%;
-}
-
-
-
-/*------------------------------------------------------
-    Wishknowledge Categories and Sets
--------------------------------------------------------*/
-
-#wishKnowledge {
-    margin-top: 20px;
-    margin-bottom: 20px;
-    padding-bottom: 20px;
-    
-    
-    /*temporary stuff to imitate rowbase to get same layout for box like other elements on page without having to deal with the other stuff that comes with rowbase and e.g. disturbs layout of license information*/
+#MasterMainContent #MasterMainColumn {
+    width: 100%;
     background-color: white;
-    box-shadow: 0 0px 0px rgba(0, 0, 0, 0.16), 0 1px 0px rgba(0, 0, 0, 0.23);
-    border-radius: 4px;
-    border: 1px solid #dddddd;
-    margin-left: 0;
-    margin-right: 0;
-    /*end of temporary stoff*/
-
-
-    .wishKnowledgeItems {
-        display: flex;
-        flex-wrap: wrap;
-        align-content: space-between;
-        justify-content: space-between;
-    }
-
-    img {
-        border-radius: 50%;
-        box-shadow: 5px 5px 10px @gray-lighter;
-    }
-
-    a {
-        color: @global-text-color;
-
-        &:hover, &:active, &:focus {
-            text-decoration: none;
-        }
-    }
-
-    .set-question-count {
-        color: @gray-light;
-    }
-
-    .topic {
-        .row {
-            margin-top: 20px;
-            //margin-bottom: 20px;
-            padding-left: 20px;
-        }
-
-        .stack-below(@extra-breakpoint-cards);
-
-        .ImageContainer {
-            max-width: 80px;
-            min-width: 70px;
-
-            .LicenseInfo {
-                text-align: center;
-                color: @gray-light;
-
-                &:after {
-                    content: "Lizenz";
-                }
-            }
-        }
-
-        .topic-name {
-            max-height: 65px;
-            overflow: hidden;
-
-            @media (max-width: (@extra-breakpoint-cards - 1px)) {
-                max-height: none;
-            }
-        }
-
-        .KnowledgeBarLegend {
-            .greyed;
-            font-size: 12px;
-            line-height: 1.5em;
-            //text-transform: uppercase;
-            opacity: 0;
-            transition: opacity 0.2s linear;
-
-            .media-below-sm ( {
-                opacity: 1;
-            }
-
-            );
-        }
-
-        &:hover { //show on hover over navigation tile
-            .KnowledgeBarLegend {
-                opacity: 1;
-            }
-        }
-    }
-
-    .category-knowledge-bar, .set-knowledge-bar {
-        margin-top: 15px;
-        height: 10px;
-        width: 180px;
-
-        .solid-knowledge, .needs-learning, .needs-consolidation, .not-learned, .not-in-wish-knowledge {
-            height: inherit;
-            float: left;
-        }
-
-        .needs-learning {
-            background-color: @needs-learning-color;
-        }
-
-        .needs-consolidation {
-            background-color: @needs-consolidation-color;
-        }
-
-        .solid-knowledge {
-            background-color: @solid-knowledge-color;
-        }
-
-        .not-learned {
-            background-color: @not-learned-color;
-        }
-
-        .not-in-wish-knowledge {
-            background-color: @not-in-wish-knowledge-color;
-        }
-    }
-
-    #btnShowAllWishKnowledgeContent {
-        margin-top: 30px;
-        text-align: center;
-        display: block;
-    }
-
-    #btnShowLessWishKnowledgeContent {
-        margin-top: 30px;
-        text-align: center;
-        display: block;
-    }
+}
+h1{
+    font-size: 45px;
+    padding-bottom: 29px;
+   
 }

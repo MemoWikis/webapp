@@ -1,4 +1,6 @@
-﻿interface ViewsPerDay {
+﻿declare var d3;
+
+interface ViewsPerDay {
     Date: string;
     Views: number;
 }

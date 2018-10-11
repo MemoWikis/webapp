@@ -39,7 +39,10 @@ public class UserValuationCache
                 .Select(v => new KeyValuePair<int, CategoryValuation>(v.CategoryId, v))),
             QuestionValuations = new ConcurrentDictionary<int, QuestionValuation>(
                 Sl.QuestionValuationRepo.GetByUser(userId, onlyActiveKnowledge: false)
-                .Select(v => new KeyValuePair<int, QuestionValuation>(v.Question.Id, v)))
+                .Select(v => new KeyValuePair<int, QuestionValuation>(v.Question.Id, v))),
+            SetValuations = new ConcurrentDictionary<int, SetValuation>(
+                Sl.SetValuationRepo.GetByUser(userId, onlyActiveKnowledge: false)
+                .Select(v => new KeyValuePair<int, SetValuation>(v.SetId, v)))
         };
         Add_valuationCacheItem_to_cache(cacheItem, userId);
 
@@ -52,11 +55,12 @@ public class UserValuationCache
     }
 
     public static IList<QuestionValuation> GetQuestionValuations(int userId) => GetItem(userId).QuestionValuations.Values.ToList();
-
+    public static IList<SetValuation> GetSetValuations(int userId) => GetItem(userId).SetValuations.Values.ToList();
     public static IList<CategoryValuation> GetCategoryValuations(int userId) => GetItem(userId).CategoryValuations.Values.ToList();
 
     public static void AddOrUpdate(QuestionValuation questionValuation)
     {
+        
         var cacheItem = GetItem(questionValuation.User.Id);
 
         lock ("7187a2c9-a3a2-42ca-8202-f9cb8cb54137")
@@ -80,6 +84,16 @@ public class UserValuationCache
         }
     }
 
+    public static void AddOrUpdate(SetValuation setValuation)
+    {
+        var cacheItem = GetItem(setValuation.UserId);
+
+        lock ("76g99f0r-784h-222f-778g-kl7755889h7d")
+        {
+            cacheItem.SetValuations.AddOrUpdate(setValuation.SetId, setValuation, (k, v) => setValuation);
+        }
+    }
+
     public static void RemoveAllForQuestion(int questionId)
     {
         foreach (var userId in Sl.UserRepo.GetAllIds())
@@ -95,6 +109,15 @@ public class UserValuationCache
         {
             var cacheItem = GetItem(userId);
             cacheItem.CategoryValuations.TryRemove(categoryId, out var catValOut);
+        }
+    }
+
+    public static void RemoveAllForSet(int setId)
+    {
+        foreach (var userId in Sl.UserRepo.GetAllIds())
+        {
+            var cacheItem = GetItem(userId);
+            cacheItem.SetValuations.TryRemove(setId, out var setValOut);
         }
     }
 }

@@ -1,12 +1,57 @@
 <%@ Control Language="C#" Inherits="System.Web.Mvc.ViewUserControl<KnowledgeSummary>" %>
 
 <script>
-        
+
+
     google.load("visualization", "1", { packages: ["corechart"] });
 
     google.setOnLoadCallback(function () { drawKnowledgeChart("chartKnowledge") });
 
     function drawKnowledgeChart(chartElementId) {
+        var options = null;
+        var option = "<%= Model.Options%>";
+
+        switch (option) {
+            case "standard":
+                options = {
+                    pieHole: 0.6,
+                    tooltip: { isHtml: true },
+                    legend: { position: "labeled" },
+                    pieSliceText: 'none',
+                    chartArea: { 'width': '100%', height: '100%', top: 10 },
+                    slices: {
+                        0: { color: '#afd534' },
+                        1: { color: '#fdd648' },
+                        2: { color: 'lightsalmon' },
+                        3: { color: 'silver' },
+                        4: { color: '#dddddd' }
+                    },
+                    pieStartAngle: 0
+                }
+                $("#chartKnowledge").css({ "height": "150px" });
+                break;
+            case "withoutLegend":
+                options = {
+                    pieHole: 0.6,
+                    tooltip: { isHtml: true },
+                    legend: { position: "none" },
+                    pieSliceText: 'none',
+                    chartArea: { 'width': '100%', height: '100px', top: 10 },
+                    slices: {
+                        0: { color: '#afd534' },
+                        1: { color: '#fdd648' },
+                        2: { color: 'lightsalmon' },
+                        3: { color: 'silver' },
+                        4: { color: '#dddddd' }
+                    },
+                    pieStartAngle: 0
+                }
+               // $("#chartKnowledge").addClass("col col-md-6");
+                $("#chartKnowledge").css({ "height": "80px", "text-align": "center" });
+                break;
+        }
+
+
 
         if ($("#" + chartElementId).length === 0) {
             return;
@@ -21,22 +66,6 @@
             ['Nicht im Wunschwissen', '', <%= Model.NotInWishknowledge %>]
         ]);
 
-        var options = {
-            pieHole: 0.6,
-            tooltip: { isHtml: true },
-            legend: { position: 'labeled' },
-            pieSliceText: 'none',
-            chartArea: { 'width': '100%', height: '100%', top: 10},
-            slices: {
-                0: { color: '#afd534' },
-                1: { color: '#fdd648' },
-                2: { color: 'lightsalmon' },
-                3: { color: 'silver' },
-                4: { color: '#dddddd' }
-            },
-            pieStartAngle: 0
-        };
-
         var view = new google.visualization.DataView(data);
         view.setColumns([0, 2]);
 
@@ -50,6 +79,8 @@
             location.href = urlPart;
         }
     }
+
 </script>
 
-<div id="chartKnowledge" style="height: 150px; text-align: left;"></div>
+<div id="chartKnowledge" style="text-align: left;"></div>
+

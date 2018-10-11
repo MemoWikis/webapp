@@ -30,12 +30,15 @@ public class SetValuationRepo : RepositoryDb<SetValuation>
                 .Where(q => q.UserId == userId && q.SetId == setId)
                 .SingleOrDefault();
 
-    public IList<SetValuation> GetByUser(int userId) => 
-        _session.QueryOver<SetValuation>()
-                .Where(q =>
-                    q.UserId == userId &&
-                    q.RelevancePersonal >= 0)
-                .List<SetValuation>();
+    public IList<SetValuation> GetByUser(int userId, bool onlyActiveKnowledge = true)
+    {
+       var query =  _session.QueryOver<SetValuation>()
+            .Where(q => q.UserId == userId);
+
+        if(onlyActiveKnowledge)
+        query.Where(q=> q.RelevancePersonal >= -1);
+           return  query.List<SetValuation>();
+    }
 
     public bool IsInWishKnowledge(int setId, int userId) => 
         Sl.SetValuationRepo.GetBy(setId, userId)?.IsInWishKnowledge() ?? false;
@@ -63,24 +66,31 @@ public class SetValuationRepo : RepositoryDb<SetValuation>
     {
         base.Create(setValuations);
         _searchIndexSet.Update(_setRepo.GetByIds(setValuations.SetIds().ToArray()));
+        foreach (var setValuation in setValuations)
+        {
+            UserValuationCache.AddOrUpdate(setValuation);
+        }
     }
 
     public override void Create(SetValuation setValuation)
     {
         base.Create(setValuation);
         _searchIndexSet.Update(_setRepo.GetById(setValuation.SetId));
+        UserValuationCache.AddOrUpdate(setValuation);
     }
 
     public override void CreateOrUpdate(SetValuation setValuation)
     {
         base.CreateOrUpdate(setValuation);
         _searchIndexSet.Update(_setRepo.GetById(setValuation.SetId));
+        UserValuationCache.AddOrUpdate(setValuation);
     }
 
     public override void Update(SetValuation setValuation)
     {
         base.Update(setValuation);
         _searchIndexSet.Update(_setRepo.GetById(setValuation.SetId));
+        UserValuationCache.AddOrUpdate(setValuation);
     }
 
     public void DeleteWhereSetIdIs(int setId)

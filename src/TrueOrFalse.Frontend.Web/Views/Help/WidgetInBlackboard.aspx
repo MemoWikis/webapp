@@ -1,10 +1,13 @@
-﻿<%@ Page Title="memucho-Quiz in Blackboard einbetten" Language="C#" MasterPageFile="~/Views/Shared/Site.Sidebar.Master" Inherits="System.Web.Mvc.ViewPage" %>
+﻿<%@ Page Title="memucho-Quiz in Blackboard einbetten" Language="C#" MasterPageFile="~/Views/Shared/Site.Sidebar.Master" Inherits="System.Web.Mvc.ViewPage<BaseModel>" %>
 <%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
 <%@ Import Namespace="System.Web.Optimization" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="Head" runat="server">
     <link href="/Views/Help/Widget.css" rel="stylesheet" />
     <%= Scripts.Render("~/bundles/mailto") %>
+    <% Model.TopNavMenu.BreadCrumb.Add(new TopNavMenuItem{Text = "Widgets", Url = "~/Hilfe/Widget", ToolTipText  = "Widget"});
+       Model.TopNavMenu.BreadCrumb.Add(new TopNavMenuItem{Text = "In Blackboard einbinden", Url = "~/Hilfe/memucho-Quiz-in-Blackboard-einbetten", ToolTipText  = "In Blackboard einbinden"});
+       Model.TopNavMenu.IsCategoryBreadCrumb = false; %>
 </asp:Content>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">

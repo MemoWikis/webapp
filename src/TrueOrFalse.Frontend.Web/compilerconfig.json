@@ -292,11 +292,31 @@
     "inputFile": "Views/Users/Account/Settings/UserSettings.less"
   },
   {
-    "outputFile": "Views/Categories/Detail/Js/CategoryHeader - Copy.es5.js",
-    "inputFile": "Views/Categories/Detail/Js/CategoryHeader - Copy.js"
+    "outputFile": "Views/Knowledge/Css/_dashBoard.css",
+    "inputFile": "Views/Knowledge/Css/_dashBoard.less"
+  },
+  {
+    "outputFile": "Views/Knowledge/Css/KnowledgeTopics.css",
+    "inputFile": "Views/Knowledge/Css/KnowledgeTopics.less"
   },
   {
     "outputFile": "Views/Categories/Detail/Category.es5.js",
     "inputFile": "Views/Categories/Detail/Category.js"
+  },
+  {
+    "outputFile": "Views/Welcome/Promoter.css",
+    "inputFile": "Views/Welcome/Promoter.less"
+  },
+  {
+    "outputFile": "Views/Welcome/Team.css",
+    "inputFile": "Views/Welcome/Team.less"
+  },
+  {
+    "outputFile": "Views/Knowledge/Css/KnowledgeQuestions.css",
+    "inputFile": "Views/Knowledge/Css/KnowledgeQuestions.less"
+  },
+  {
+    "outputFile": "Style/tabs.css",
+    "inputFile": "Style/tabs.less"
   }
 ]

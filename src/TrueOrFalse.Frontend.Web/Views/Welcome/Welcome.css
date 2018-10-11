@@ -18,6 +18,10 @@
 }
 @media (min-width: 650px) {
 }
+.right {
+  float: right;
+  padding-top: 10px;
+}
 .CardsMiniPortrait .CardMiniColumn {
   display: -webkit-box;
   display: -webkit-flex;
@@ -149,7 +153,7 @@ h4 {
 }
 #welcomeContainer {
   background-color: white;
-  padding: 0 20px 100px 20px;
+  padding: 0 20px 50px 20px;
   font-size: 18px;
   overflow: auto;
   overflow-x: hidden;

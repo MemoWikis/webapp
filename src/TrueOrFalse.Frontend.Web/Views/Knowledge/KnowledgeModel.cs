@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Web;
 using TrueOrFalse.Web;
 
@@ -21,8 +22,11 @@ public class KnowledgeModel : BaseModel
 
     public int QuestionsCount;
     public int QuestionsCreatedCount;
+    public int TopicCreatedCount;
+
     public int SetsCount;
     public int SetsCreatedCount;
+    public int TopicCount;
 
     public KnowledgeSummary KnowledgeSummary = new KnowledgeSummary();
     public GetStreaksDaysResult StreakDays = new GetStreaksDaysResult();
@@ -35,13 +39,14 @@ public class KnowledgeModel : BaseModel
     public User User = new User();
     public int ReputationRank;
     public int ReputationTotal;
-
     public IList<object> CatsAndSetsWish;
 
     public UIMessage Message;
 
     public IList<UserActivity> NetworkActivities;
-    public IList<string> NetworkActivitiesActionString;
+    public IList<string> NetworkActivitiesActionString; 
+    
+    public IList<DateRowModel> DateRowModelList = new List<DateRowModel>();
 
     public KnowledgeModel(string emailKey = null)
     {
@@ -61,6 +66,7 @@ public class KnowledgeModel : BaseModel
         User = R<UserRepo>().GetById(UserId);
         QuestionsCount = R<GetWishQuestionCountCached>().Run(UserId);
         SetsCount = R<GetWishSetCount>().Run(UserId);
+        TopicCount = R<GetWishTopicCount>().Run(UserId);
 
         ActivityPoints = User.ActivityPoints;
         ActivityLevel = User.ActivityLevel;
@@ -70,10 +76,13 @@ public class KnowledgeModel : BaseModel
 
         QuestionsCreatedCount = Resolve<UserSummary>().AmountCreatedQuestions(UserId);
         SetsCreatedCount = Resolve<UserSummary>().AmountCreatedSets(UserId);
+        TopicCreatedCount = Resolve<UserSummary>().AmountCreatedCategories(User.Id);
 
         var reputation = Resolve<ReputationCalc>().Run(User);
+
         ReputationRank = User.ReputationPos;
         ReputationTotal = reputation.TotalReputation;
+        
 
         var msg = new RecalcProbabilitiesMsg {UserId = UserId};
         //Bus.Get().Publish(msg);
@@ -98,8 +107,6 @@ public class KnowledgeModel : BaseModel
         var setsWish = R<SetRepo>().GetByIds(setValuationIds).OrderByDescending(s => s.QuestionCount()).ToList(); // sorts by questioncount including private questions! Excluding them would also exclude private questions visible to user
         CatsAndSetsWish = SortSetsIntoListOfCategories.Run(categoriesWish, setsWish);
 
-
-
         //GET DATES information
         Dates = R<DateRepo>().GetBy(UserId, true);
         DatesInNetwork = R<GetDatesInNetwork>().Run(UserId);
@@ -114,6 +121,12 @@ public class KnowledgeModel : BaseModel
         foreach (var tdTrainingDate in tdTrainingDates)
         {
             TrainingDates.Add(new TrainingDateModel(tdTrainingDate));
+        }
+
+        //Add DateRowModel to List
+        foreach (var date in Dates)
+        {
+            DateRowModelList.Add(new DateRowModel(date));
         }
     }
 
@@ -179,7 +192,6 @@ public class KnowledgeModel : BaseModel
             TotalLearningDays = 214
         };
 
-
         var wishCategories = Sl.R<CategoryRepository>().GetByIds(652, 145, 6) ?? new List<Category>();
         var wishSets = Sl.R<SetRepo>().GetByIds(14, 20, 189) ?? new List<Set>();
         CatsAndSetsWish = SortSetsIntoListOfCategories.Run(wishCategories, wishSets);
@@ -227,5 +239,4 @@ public class KnowledgeModel : BaseModel
             })
         };
     }
-
 }

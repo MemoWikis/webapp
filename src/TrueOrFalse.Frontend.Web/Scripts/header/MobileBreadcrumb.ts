@@ -1,6 +1,6 @@
 ﻿window.onload = function (event) {
-    var BreadCrumbContainerCount = getCount(document.getElementById('BreadCrumbContainer'));
-    var BreadCrumbItemCount = BreadCrumbContainerCount - 3;
+    var BreadCrumbContainerCount = getCount(document.getElementById('BreadCrumbTrail'));
+    var BreadCrumbItemCount = BreadCrumbContainerCount - 1;
 
     if (BreadCrumbItemCount > 4) {
         for (var i = 3; i < (BreadCrumbItemCount - 1); i++) {
@@ -9,7 +9,7 @@
             document.getElementById(i + 'BreadCrumb').innerHTML = "...";
         }
     }
-    if (BreadCrumbItemCount == 0) {
+    if (BreadCrumbItemCount <= 1) {
         $('#Breadcrumb').css('height', '55px');
     }
    

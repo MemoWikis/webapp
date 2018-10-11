@@ -10,9 +10,13 @@
 
             var tab = $(item);
             var tabname = tab.attr('id');
+
             tab.click((e) =>  {
+
                 e.preventDefault();
-                if (tab.hasClass('active')) return;
+
+                if (tab.hasClass('active'))
+                    return;
 
                 if (tab.hasClass('LoggedInOnly') && NotLoggedIn.Yes()) {
                     NotLoggedIn.ShowErrorMsg(tabname);
@@ -22,8 +26,9 @@
                 if (!this.ContentIsPresent(tabname)) {
                     this.RenderTabContent(tabname);
                 }
-                if (tabname === "LearningTab" && $('#hddLearningSessionStarted').val() === "False") {
-
+                if (tabname === "LearningTab" && $('#hddLearningSessionStarted').val() === "False" && $('#hddQuestionCount').val() !== "0") {
+                    console.log();
+ 
                     var answerBody = new AnswerBody();
 
                     if (answerBody.IsTestSession()) {
@@ -33,6 +38,7 @@
                     $('#hddLearningSessionStarted').val("True");
                 }
                 this.ShowTab(tabname);
+
             });
         });
     }
@@ -50,8 +56,17 @@
         });
     }
 
-    private ContentIsPresent(tabName: string): boolean {
+    private InitializeLearningTab(): void{
+        var answerBody = new AnswerBody();
 
+        if (answerBody.IsTestSession()) {
+        answerBody.Loader.loadNewTestSession();
+    }
+
+    $('#hddLearningSessionStarted').val("True");
+    }
+
+    private ContentIsPresent(tabName: string): boolean {
         return !($.trim($('#' + tabName + 'Content').html())=='');
     }
 

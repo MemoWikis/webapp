@@ -18,7 +18,9 @@ function StickyHeader() {
             $('#Breadcrumb').css('top', '0px');
             $('#Breadcrumb').css('position', 'sticky');
             $('#RightMainMenu').css('position', 'fixed');
+            $('#RightMainMenu').css('top', '52px');
             $('#Breadcrumb').addClass('ShowBreadcrumb');
+            $('#BreadCrumbTrail').css('max-width', '51%');
 
             if (positionSticky != "sticky") {
                 header.classList.add("sticky");
@@ -31,6 +33,8 @@ function StickyHeader() {
         $('#Breadcrumb').css('position', 'unset');
         $('#Breadcrumb').removeClass('ShowBreadcrumb');
         $('#RightMainMenu').css('position', 'absolute');
+        $('#RightMainMenu').css('top', '41px');
+        $('#BreadCrumbTrail').css('max-width', '');
     }
 
     ReorientateMenu();
