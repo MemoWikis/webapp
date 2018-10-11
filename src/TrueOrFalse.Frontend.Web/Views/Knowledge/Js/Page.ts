@@ -4,5 +4,5 @@
     new PreviousDates();
     new WishKnowledgeContent();
     new TrainingSettings();
-    new _Dashboard();
+    
 });

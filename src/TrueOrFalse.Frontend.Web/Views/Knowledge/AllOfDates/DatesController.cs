@@ -12,6 +12,13 @@ public class DatesController : BaseController
     //    return View(new DatesModel());
     //}
 
+    
+    public string  GetDatesOverview()
+    {
+        return ViewRenderer.RenderPartialView("~/Views/Knowledge/AllOfDates/Dates.ascx", new DatesModel(), ControllerContext);
+    }
+
+
     [HttpPost]
     public JsonResult DeleteDetails(int id)
     {

@@ -132,7 +132,7 @@ namespace TrueOrFalse
             routes.MapRoute("Messages", "Nachrichten/{action}", new { controller = "Messages", action = "Messages" });
 
             routes.MapRoute("Dates_StartLearningSession", "Termin/Lernen/{dateId}", new { controller = "Dates", action = "StartLearningSession" });
-            routes.MapRoute("Dates", "Termine/{action}", new { controller = "Dates", action = "Dates" });
+           // routes.MapRoute("Dates", "Termine/{action}", new { controller = "Dates", action = "Dates" });
             routes.MapRoute("DatesCreate", "Termin/Erstellen", new { controller = "EditDate", action = "Create" });
             routes.MapRoute("DatesEdit", "Termin/Bearbeiten/{dateId}", new { controller = "EditDate", action = "Edit" });
             routes.MapRoute("DatesDetails", "Termin/Details/{0}", new { controller = "Date", action = "Edit" });

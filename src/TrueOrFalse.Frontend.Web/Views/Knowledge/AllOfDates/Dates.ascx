@@ -227,7 +227,7 @@
         </div>
     </div>
     
-    <% Html.RenderPartial("AllOfDates/Modals/DeleteDate"); %>
-    <% Html.RenderPartial("AllOfDates/Modals/TrainingSettings"); %>
-    <% Html.RenderPartial("AllOfDates/Modals/CopyDate"); %>
+    <% Html.RenderPartial("~/Views/Knowledge/AllOfDates/Modals/DeleteDate.ascx"); %>
+    <% Html.RenderPartial("~/Views/Knowledge/AllOfDates/Modals/TrainingSettings.ascx"); %>
+    <% Html.RenderPartial("~/Views/Knowledge/AllOfDates/Modals/CopyDate.ascx"); %>
             

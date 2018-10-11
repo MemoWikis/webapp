@@ -87,9 +87,11 @@ namespace TrueOrFalse.View
 
             bundles.Add(new ScriptBundle("~/bundles/js/Knowledge")
                 .Include("~/Views/Knowledge/Js/Page.js")
-                .Include("~/Views/Knowledge/Js/_dashboard.js")
                 .Include("~/Views/Knowledge/Js/WishKnowledgeContent.js")
             );
+
+            bundles.Add(new ScriptBundle("~/bundles/js/Dates")
+                );
                
             bundles.Add(new StyleBundle("~/bundles/AlgoInsight")
                 .IncludeDirectory("~/Views/AlgoInsight/", "*.css"));
@@ -293,7 +295,8 @@ namespace TrueOrFalse.View
                 .Include("~/Scripts/various/mailto.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/js/_dashboard")
-                .Include("~/Views/Knowledge/AllOfDates/Js/*.js"));
+                .Include("~/Views/Knowledge/AllOfDates/Js/*.js")
+                .Include("~/Views/Knowledge/Js/_dashboard.js")); 
 
             bundles.Add(new StyleBundle("~/bundles/_dashboard")
                 .Include("~/Views/Knowledge/Css/_dashBoard.css"));
