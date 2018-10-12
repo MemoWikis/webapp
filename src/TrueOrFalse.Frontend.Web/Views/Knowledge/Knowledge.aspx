@@ -57,11 +57,10 @@
         </div>
     </div>
     <div class="row">
-        <% if (Model.IsLoggedIn)
-            { %>
-        <div class="content" style="margin-top: 2rem">
-            <% Html.RenderPartial("~/Views/Knowledge/Partials/_Dashboard.ascx"); %>
-        </div>
+        <% if (Model.IsLoggedIn) { %>
+            <div class="content" style="margin-top: 2rem">
+                <% Html.RenderPartial("~/Views/Knowledge/Partials/_Dashboard.ascx"); %>
+            </div>
         <% } %>
     </div>
     <%= Scripts.Render("~/bundles/js/Vue") %>
