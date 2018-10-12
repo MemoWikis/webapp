@@ -4,7 +4,20 @@
 
 
 <body>
+
     <div id="app">
+        <!--Switch-->
+        <div class=" switch" style="text-align: left; font-size: 18px; width: 27%; float: left; ">Zeige nur von mir erstellte Inhalte</div>
+        <div class="col-xs-1 switch">
+            <div class="onoffswitch">
+                <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="switchShowOnlySelfCreated" @click="switchOnlySelfCreatedChanged()">
+                <label class="onoffswitch-label" for="switchShowOnlySelfCreated">
+                    <span class="onoffswitch-inner"></span>
+                    <span class="onoffswitch-switch"></span>
+                </label>
+            </div>
+        </div>
+        
         <div id="table-wrapper" class="ui">
               <vuetable ref="vuetable"
                 api-url="/Knowledge/GetQuestionsWish"
