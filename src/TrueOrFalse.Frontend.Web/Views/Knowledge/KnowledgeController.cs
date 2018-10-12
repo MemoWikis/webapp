@@ -117,14 +117,13 @@ public class KnowledgeController : BaseController
     }
 
     [HttpGet]
-    public JsonResult GetQuestionsWish(int page, int per_page, string sort = "")
+    public JsonResult GetQuestionsWish(int page, int per_page, string sort = "", bool isAuthor = false)
     {
-        var unsortList = knowledgeQuestionsModel.GetQuestionsWishFromDatabase(UserId);
+        var unsortList = knowledgeQuestionsModel.GetQuestionsWishFromDatabase(UserId, isAuthor);
         var sortList = knowledgeQuestionsModel.GetSortList(unsortList, sort);
         var data = sortList.Skip((page - 1) * per_page).Take(page * per_page);
         var total = sortList.Count();
         var last_page = getLastPage(sortList.Count, per_page);
-      
 
         return Json(new { total, per_page, current_page = page, last_page, data }, JsonRequestBehavior.AllowGet);
     }

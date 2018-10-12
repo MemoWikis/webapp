@@ -8,8 +8,7 @@ new Vue({
     },
     data: {
         moreParams: {
-            'isAuthor': false,
-            'heading': ""
+            'isAuthor': false
         },
 
         fields: [
@@ -84,7 +83,11 @@ new Vue({
         },
         onLoaded(props) {
             $('[data-toggle="tooltip"]').tooltip();
-        }
+        },
+        switchOnlySelfCreatedChanged: function () {
+            this.moreParams.isAuthor = $("#switchShowOnlySelfCreated").is(":checked");
+            this.$refs.vuetable.refresh();
+        },
     }
 });
 

@@ -26,6 +26,7 @@
                 :css="css.table"
                 pagination-path=""
                 :per-page="30"
+                :append-params="moreParams"
                 @vuetable:pagination-data="onPaginationData"
                 @vuetable:loaded ="onLoaded()">
             
