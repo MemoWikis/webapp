@@ -5,7 +5,25 @@
 
 <body>
 
+
+<!-- Spinner-->
+<div id="circle">
+    <div class="circle-inner">
+        <div class="circle-inner">
+            <div class="circle-inner">
+                <div class="circle-inner">
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+    <!-- Table -->
     <div id="app">
+
+
+
         <!--Switch-->
         <div class=" switch" style="text-align: left; font-size: 18px; width: 27%; float: left; ">Zeige nur von mir erstellte Inhalte</div>
         <div class="col-xs-1 switch">
@@ -28,6 +46,7 @@
                 :per-page="30"
                 :append-params="moreParams"
                 @vuetable:pagination-data="onPaginationData"
+                @vuetable:initialized ="loading()"
                 @vuetable:loaded ="onLoaded()">
             
                 <template slot="image" scope="props">
