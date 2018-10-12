@@ -21,7 +21,7 @@
                         <div class="image"  >
                             <image class="imageTable"v-bind:src="GetImageSourceUrl(props.rowData.ImageFrontendData.ImageMetaData)" ></image>
                         </div>
-                        <div class="title-table">{{props.rowData.Title}}</div>
+                        <div class="title-table"><a v-bind:href="props.rowData.LinkToQuestion">{{props.rowData.Title}}</a></div>
                     </div>
                 </template>
                   
