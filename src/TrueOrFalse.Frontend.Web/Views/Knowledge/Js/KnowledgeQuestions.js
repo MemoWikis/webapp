@@ -84,7 +84,7 @@ new Vue({
         onLoaded(props) {
             $("#circle").fadeOut();
             $("#app").css("Opacity", "1");
-              $('[data-toggle="tooltip"]').tooltip();
+            $('[data-toggle="tooltip"]').tooltip();
         },
         loading() {
             $("#app").css("Opacity", "0.3");
