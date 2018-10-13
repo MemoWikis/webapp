@@ -42,8 +42,8 @@ public class CategoryModel : BaseModel
     public string ImageUrl_250;
 
     public IList<User> MultipleCreators;
-    public List<string> MultipleCreatorsName;
-    public IList<string> MutlipleCreatorsImageUrl_250;
+    public IList<string> MultipleCreatorsName = new List<string>();
+    public IList<string> MutlipleCreatorsImageUrl_250 = new List<string>();
 
     public Category Category;
 
@@ -104,16 +104,16 @@ public class CategoryModel : BaseModel
 
         var imageResult = new UserImageSettings(Creator.Id).GetUrl_250px(Creator);
         ImageUrl_250 = imageResult.Url;
+    
+        MultipleCreators = _categoryRepo.GetMultipleAutors(Id);
 
-      /*  MultipleCreators = _categoryRepo.GetMultipleAutors(Id);
-        MultipleCreatorsName.AddRange(MultipleCreators.Select(C => C.Name).ToList());
-      
-        foreach (var Creator in MultipleCreators)
+        foreach (var Author in MultipleCreators)
         {
-            imageResult = new UserImageSettings(Creator.Id).GetUrl_250px(Creator);
+            MultipleCreatorsName.Add(Author.Name);
+            imageResult = new UserImageSettings(Author.Id).GetUrl_250px(Author);
             MutlipleCreatorsImageUrl_250.Add(imageResult.Url);
         }
-  */
+  
         FeaturedSets = category.FeaturedSets();
 
         IsOwnerOrAdmin = _sessionUser.IsLoggedInUserOrAdmin(category.Creator.Id);

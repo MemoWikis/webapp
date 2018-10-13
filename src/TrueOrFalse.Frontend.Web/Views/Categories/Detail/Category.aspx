@@ -44,9 +44,10 @@
         MultipleImageUrl.Add(Model.ImageUrl_250);
         MultipleCreatorName.Add(Model.Creator.Name);
         MultipleCreator.Add(Model.Creator);
-      /*  MultipleCreator.AddRange(Model.MultipleCreators);
+
+        MultipleCreator.AddRange(Model.MultipleCreators);
         MultipleCreatorName.AddRange(Model.MultipleCreatorsName);
-        MultipleImageUrl.AddRange(Model.MutlipleCreatorsImageUrl_250);*/
+        MultipleImageUrl.AddRange(Model.MutlipleCreatorsImageUrl_250);
        %>    
 </asp:Content>
 
