@@ -1,2 +1,7 @@
-﻿User-agent: BLEXBot
+﻿User-agent: *
+Disallow: /Kategorien/*/*/Historie
+Disallow: /Kategorien/*/*/Historie/*
+Disallow: /Kategorien/*/*/Version/*
+
+User-agent: BLEXBot
 Disallow: /
