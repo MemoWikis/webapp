@@ -10,6 +10,8 @@ $(() => {
 
 function ShowDiff2Html() {
 
+    var currentName = $('#currentName').val();
+    var prevName = $('#prevName').val();
     var currentMarkdown = $('#currentMarkdown').val();
     var prevMarkdown = $('#prevMarkdown').val();
     var currentDescription = $('#currentDescription').val();
@@ -17,17 +19,22 @@ function ShowDiff2Html() {
     var currentWikipediaUrl = $('#currentWikipediaUrl').val();
     var prevWikipediaUrl = $('#prevWikipediaUrl').val();
 
-    var diffData = Diff(prevMarkdown, currentMarkdown, 'Änderungen des Inhaltes');
+    var diffName = Diff(prevName, currentName, 'Änderungen des Kategorienamens');
+    var diffMarkdown = Diff(prevMarkdown, currentMarkdown, 'Änderungen des Inhaltes');
     var diffDescription = Diff(prevDescription, currentDescription, 'Änderungen der Beschreibung');
     var diffWikipediaUrl = Diff(prevWikipediaUrl, currentWikipediaUrl, 'Änderungen der Wikipedia-URL');
+    var diffRelations = 'Es können keine Beziehungsdaten angezeigt werden, da für diese Revisionen keine enstsprechenden Daten vorliegen.';
 
+    if (diffName)
+        ShowDiff(diffName, '#diffName');
     if (diffDescription)
         ShowDiff(diffDescription, '#diffDescription');
     if (diffWikipediaUrl)
         ShowDiff(diffWikipediaUrl, '#diffWikipediaUrl');
-    if (diffData)
-        ShowDiff(diffData, '#diffData');
-    if (!diffData && !diffDescription) {
+    if (diffMarkdown)
+        ShowDiff(diffMarkdown, '#diffData');
+    $('#diffRelations').text(diffRelations);
+    if (!diffName && !diffDescription && !diffWikipediaUrl && !diffMarkdown) {
         $("#diffPanel").hide();
         $("#noChangesAlert").show();
     }
