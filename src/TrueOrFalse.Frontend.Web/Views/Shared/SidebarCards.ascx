@@ -1,8 +1,9 @@
 ﻿<%@ Control Language="C#" Inherits="System.Web.Mvc.ViewUserControl<SidebarModel>" %>
 <%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
-
-<%if (Model.Creator != null){ %>
-    <div id="SidebarCards" style="display: block;">
+<%if (Model.Creator != null){
+        var imageSetttings = new UserImageSettings(Model.Creator.Id);
+        %>
+<div id="SidebarCards" style="display: block;">
          <%if(Model.MultipleCreatorName.Count() == 1){%>
             <div id="AutorCard" style="padding-top:0.1px;">
                 <div class="ImageContainer" style="width: 100%; padding-left:0.5px;">

@@ -40,8 +40,11 @@ public class CategoryModel : BaseModel
     public string CreatorName;
     public string CreationDate;
     public string CreationDateNiceText;
-
     public string ImageUrl_250;
+
+    public IList<User> MultipleCreators;
+    public IList<string> MultipleCreatorsName = new List<string>();
+    public IList<string> MutlipleCreatorsImageUrl_250 = new List<string>();
 
     public Category Category;
 
@@ -102,7 +105,16 @@ public class CategoryModel : BaseModel
 
         var imageResult = new UserImageSettings(Creator.Id).GetUrl_250px(Creator);
         ImageUrl_250 = imageResult.Url;
+    
+        MultipleCreators = _categoryRepo.GetMultipleAutors(Id);
 
+        foreach (var Author in MultipleCreators)
+        {
+            MultipleCreatorsName.Add(Author.Name);
+            imageResult = new UserImageSettings(Author.Id).GetUrl_250px(Author);
+            MutlipleCreatorsImageUrl_250.Add(imageResult.Url);
+        }
+  
         FeaturedSets = category.FeaturedSets();
 
         IsOwnerOrAdmin = _sessionUser.IsLoggedInUserOrAdmin(category.Creator.Id);
@@ -137,6 +149,7 @@ public class CategoryModel : BaseModel
           //  LearningTabModel = new LearningTabModel(Category);
 
         TopWishQuestions = wishQuestions.Items;
+
 
         SingleQuestions = GetQuestionsForCategory.QuestionsNotIncludedInSet(Id);
 
