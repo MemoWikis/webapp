@@ -8,8 +8,7 @@ new Vue({
     },
     data: {
         moreParams: {
-            'isAuthor': false,
-            'heading': ""
+            'isAuthor': false
         },
 
         fields: [
@@ -83,8 +82,23 @@ new Vue({
             return url.SourceUrl;
         },
         onLoaded(props) {
+            $("#circle").fadeOut();
+            $("#app").css("Opacity", "1");
             $('[data-toggle="tooltip"]').tooltip();
+        },
+        loading() {
+            $("#app").css("Opacity", "0.3");
+        },
+        switchOnlySelfCreatedChanged: function () {
+            console.log("wird geändert");
+            $("#app").css("Opacity", "0.3");
+
+            this.moreParams.isAuthor = $("#switchShowOnlySelfCreated").is(":checked");
+            this.$refs.vuetable.refresh();
         }
     }
 });
+
+$(".onoffswitch-label").on("click", () => { $("#circle").css("display", "block"); });
+
 

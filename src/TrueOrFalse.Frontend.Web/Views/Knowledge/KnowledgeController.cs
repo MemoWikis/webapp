@@ -8,7 +8,9 @@ using TrueOrFalse.Frontend.Web.Code;
 
 public class KnowledgeController : BaseController
 {
-    private readonly CategoryAndSetDataWishKnowledge categoryAndSetDataWishKnowledge = new CategoryAndSetDataWishKnowledge();
+    private readonly CategoryAndSetDataWishKnowledge categoryAndSetDataWishKnowledge =
+        new CategoryAndSetDataWishKnowledge();
+
     private readonly KnowledgeQuestionsModel knowledgeQuestionsModel = new KnowledgeQuestionsModel();
 
     [SetMenu(MenuEntry.Knowledge)]
@@ -29,7 +31,8 @@ public class KnowledgeController : BaseController
         {
             return Resolve<GetWishQuestionCountCached>().Run(_sessionUser.User.Id, true);
         }
-            return -1;
+
+        return -1;
     }
 
     [RedirectToErrorPage_IfNotLoggedIn]
@@ -70,10 +73,18 @@ public class KnowledgeController : BaseController
     {
         switch (content)
         {
-            case "dashboard": return ViewRenderer.RenderPartialView("~/Views/Knowledge/Partials/_Dashboard.ascx", new KnowledgeModel(), ControllerContext);
-            case "topics": return ViewRenderer.RenderPartialView("~/Views/Knowledge/Partials/KnowledgeTopics.ascx", new KnowledgeModel(), ControllerContext);
-            case "questions": return ViewRenderer.RenderPartialView("~/Views/Knowledge/Partials/KnowledgeQuestions.ascx", new KnowledgeModel(), ControllerContext);
-            case "events": return ViewRenderer.RenderPartialView("~/Views/Knowledge/AllOfDates/Dates.ascx", new DatesModel(), ControllerContext);
+            case "dashboard":
+                return ViewRenderer.RenderPartialView("~/Views/Knowledge/Partials/_Dashboard.ascx",
+                    new KnowledgeModel(), ControllerContext);
+            case "topics":
+                return ViewRenderer.RenderPartialView("~/Views/Knowledge/Partials/KnowledgeTopics.ascx",
+                    new KnowledgeModel(), ControllerContext);
+            case "questions":
+                return ViewRenderer.RenderPartialView("~/Views/Knowledge/Partials/KnowledgeQuestions.ascx",
+                    new KnowledgeModel(), ControllerContext);
+            case "events":
+                return ViewRenderer.RenderPartialView("~/Views/Knowledge/AllOfDates/Dates.ascx", new DatesModel(),
+                    ControllerContext);
             default: throw new ArgumentException("Argument false or null");
         }
     }
@@ -89,17 +100,17 @@ public class KnowledgeController : BaseController
     public JsonResult GetCatsAndSetsWish(int page, int per_page, string sort = "", bool isAuthor = false)
     {
         var unsort = categoryAndSetDataWishKnowledge.filteredCategoryWishKnowledge(ControllerContext);
-        var sortList = categoryAndSetDataWishKnowledge.SortList(unsort, sort, isAuthor);
-        var data = sortList.Skip((page - 1) * per_page).Take(page * per_page);
+        var sortList = categoryAndSetDataWishKnowledge.SortList(unsort, sort, isAuthor).ToList();
+        var data = GetSiteForPagination(sortList, page, per_page);
 
         var total = sortList.Count();
         var last_page = getLastPage(sortList.Count, per_page);
 
-        return Json(new { total, per_page, current_page = page, last_page, data }, JsonRequestBehavior.AllowGet);
+        return Json(new {total, per_page, current_page = page, last_page, data}, JsonRequestBehavior.AllowGet);
     }
 
     [HttpPost]
-    public string  CountedWUWItoCategoryAndSet(bool isAuthor = false)
+    public string CountedWUWItoCategoryAndSet(bool isAuthor = false)
     {
         var count = 0;
         var unsortList = categoryAndSetDataWishKnowledge.filteredCategoryWishKnowledge(ControllerContext);
@@ -117,21 +128,21 @@ public class KnowledgeController : BaseController
     }
 
     [HttpGet]
-    public JsonResult GetQuestionsWish(int page, int per_page, string sort = "")
+    public JsonResult GetQuestionsWish(int page, int per_page, string sort = "", bool isAuthor = false)
     {
-        var unsortList = knowledgeQuestionsModel.GetQuestionsWishFromDatabase(UserId);
+        var unsortList = knowledgeQuestionsModel.GetQuestionsWishFromDatabase(UserId, isAuthor);
         var sortList = knowledgeQuestionsModel.GetSortList(unsortList, sort);
-        var data = sortList.Skip((page - 1) * per_page).Take(page * per_page);
+        var test = (page - 1) * per_page;
         var total = sortList.Count();
+        var data = GetSiteForPagination(sortList, page, per_page);
         var last_page = getLastPage(sortList.Count, per_page);
-      
 
-        return Json(new { total, per_page, current_page = page, last_page, data }, JsonRequestBehavior.AllowGet);
+        return Json(new {total, per_page, current_page = page, last_page, data}, JsonRequestBehavior.AllowGet);
     }
 
     private int getLastPage(int listCount, int perPage)
     {
-        var pages  = listCount / perPage;
+        var pages = listCount / perPage;
         var rest = listCount % perPage;
         var lastPage = 0;
 
@@ -142,6 +153,11 @@ public class KnowledgeController : BaseController
         }
 
         lastPage = pages;
-        return  lastPage;
+        return lastPage;
+    }
+
+    private List<T> GetSiteForPagination<T>(List<T> sortList, int page, int per_page)
+    {
+       return sortList.Skip((page - 1) * per_page).Take(per_page).ToList();
     }
 }

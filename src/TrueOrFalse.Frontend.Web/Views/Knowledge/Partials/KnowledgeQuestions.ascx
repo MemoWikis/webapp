@@ -4,7 +4,38 @@
 
 
 <body>
+
+
+<!-- Spinner-->
+<div id="circle">
+    <div class="circle-inner">
+        <div class="circle-inner">
+            <div class="circle-inner">
+                <div class="circle-inner">
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+    <!-- Table -->
     <div id="app">
+
+
+
+        <!--Switch-->
+        <div class=" switch" style="text-align: left; font-size: 18px; width: 27%; float: left; ">Zeige nur von mir erstellte Inhalte</div>
+        <div class="col-xs-1 switch">
+            <div class="onoffswitch">
+                <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="switchShowOnlySelfCreated" @click="switchOnlySelfCreatedChanged()">
+                <label class="onoffswitch-label" for="switchShowOnlySelfCreated">
+                    <span class="onoffswitch-inner"></span>
+                    <span class="onoffswitch-switch"></span>
+                </label>
+            </div>
+        </div>
+        
         <div id="table-wrapper" class="ui">
               <vuetable ref="vuetable"
                 api-url="/Knowledge/GetQuestionsWish"
@@ -13,7 +44,9 @@
                 :css="css.table"
                 pagination-path=""
                 :per-page="30"
+                :append-params="moreParams"
                 @vuetable:pagination-data="onPaginationData"
+                @vuetable:initialized ="loading()"
                 @vuetable:loaded ="onLoaded()">
             
                 <template slot="image" scope="props">
@@ -21,7 +54,7 @@
                         <div class="image"  >
                             <image class="imageTable"v-bind:src="GetImageSourceUrl(props.rowData.ImageFrontendData.ImageMetaData)" ></image>
                         </div>
-                        <div class="title-table">{{props.rowData.Title}}</div>
+                        <div class="title-table"><a v-bind:href="props.rowData.LinkToQuestion">{{props.rowData.Title}}</a></div>
                     </div>
                 </template>
                   
