@@ -16,7 +16,7 @@
     </div>
     <div class="header-item">
         <a href="/Wissenszentrale" class="TextLinkWithIcon KnowledgeLink"><i style="font-size:32px;" class="fa fa-dot-circle-o"></i>
-            <span class="primary-point-text TextSpan" style="padding-top:4px;">Wissenszentrale</span>
+            <span class="primary-point-text TextSpan" style="padding-top:6px;">Wissenszentrale</span>
         </a>
     </div>
     <div class="header-item"  <%if (!userSession.IsLoggedIn){%>style="margin-top:-2px" <%} %> id="Login">
@@ -80,7 +80,7 @@
     </div>
     <div id="MenuButtonContainer" class="header-item" style="margin-right:0px;">
         <a id="MenuButton" class="TextLinkWithIcon"><i class="fa fa-bars"></i>
-        <span style="padding-top:4px;" class="TextSpan">Menü</span></a>
+        <span style="padding-top:7px;" class="TextSpan">Menü</span></a>
         <%Html.RenderPartial("/Views/Shared/MainMenuThemeCentered.ascx", Model.SidebarModel); %>
     </div>
   </div>

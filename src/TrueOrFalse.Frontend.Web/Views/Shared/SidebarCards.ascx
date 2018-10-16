@@ -70,7 +70,6 @@
                 <% } %>
             </div>
         <%} %>
-    </div>
 <% } %>
 
 <%if (Model.CategorySuggestionName != null){%>
@@ -117,4 +116,5 @@
     <div class="card-link">
        <a href="<%= Url.Action("Create", "EditCategory") %>">Zum Erstell-Tool</a>                 
     </div>
+ </div>
 </div>
