@@ -1,11 +1,7 @@
 ﻿using System;
-using System.Activities.Statements;
 using System.Collections.Generic;
-using System.Drawing;
 using System.Linq;
-using System.Web;
 using System.Web.Mvc;
-using EasyNetQ.Events;
 using TrueOrFalse.Frontend.Web.Code;
 
 
@@ -116,6 +112,7 @@ public class CategoryAndSetDataWishKnowledge: BaseController
             categoryAndSetWishKnowledge.HasVideo = false;
             categoryAndSetWishKnowledge.KnowledgeWishAVGPercantage = CountDesiredKnowledge(categoryWish);
             categoryAndSetWishKnowledge.AuthorId = categoryWish.Creator.Id;
+            categoryAndSetWishKnowledge.LinkToSetOrCategory = Links.GetUrl(categoryWish);
 
             filteredCategoryAndSetWishKnowledges.Add(categoryAndSetWishKnowledge);
         }
@@ -142,6 +139,7 @@ public class CategoryAndSetDataWishKnowledge: BaseController
             categoryAndSetWishKnowledge.HasVideo = setWish.HasVideo;
             categoryAndSetWishKnowledge.KnowledgeWishAVGPercantage = CountDesiredKnowledge(setWish);
             categoryAndSetWishKnowledge.AuthorId = setWish.Creator.Id;
+            categoryAndSetWishKnowledge.LinkToSetOrCategory = Links.GetUrl(setWish);
 
             filteredCategoryAndSetWishKnowledges.Add(categoryAndSetWishKnowledge);
         }
@@ -210,6 +208,7 @@ public class CategoryAndSetDataWishKnowledge: BaseController
         public bool HasVideo { get; set; }
         public int KnowledgeWishAVGPercantage { get; set; }
         public int AuthorId { get; set; }
+        public string LinkToSetOrCategory { get; set; }
     }
 
 

@@ -89,9 +89,6 @@ namespace TrueOrFalse.View
                 .Include("~/Views/Knowledge/Js/Page.js")
                 .Include("~/Views/Knowledge/Js/WishKnowledgeContent.js")
             );
-
-            bundles.Add(new ScriptBundle("~/bundles/js/Dates")
-                );
                
             bundles.Add(new StyleBundle("~/bundles/AlgoInsight")
                 .IncludeDirectory("~/Views/AlgoInsight/", "*.css"));
