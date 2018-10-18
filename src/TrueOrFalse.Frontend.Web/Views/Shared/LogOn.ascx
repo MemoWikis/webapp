@@ -6,7 +6,7 @@
     var user = userSession.User;
 %>
 <div style="display: flex;">
-    <div class="header-item" style="margin-top:0px;">
+    <div class="header-item" style="margin-top:-3px;">
         <div class="input-group" id="SmallHeaderSearchBoxDiv">
             <input type="text" class="form-control" placeholder="Suche" id="SmallHeaderSearchBox">
             <div class="input-group-btn" style="height:34px;">
@@ -16,7 +16,7 @@
     </div>
     <div class="header-item">
         <a href="/Wissenszentrale" class="TextLinkWithIcon KnowledgeLink"><i style="font-size:32px;" class="fa fa-dot-circle-o"></i>
-            <span class="primary-point-text TextSpan" style="padding-top:11px;">Wissenszentrale</span>
+            <span class="primary-point-text TextSpan" style="padding-top:4px;">Wissenszentrale</span>
         </a>
     </div>
     <div class="header-item"  <%if (!userSession.IsLoggedIn){%>style="margin-top:-2px" <%} %> id="Login">
@@ -36,7 +36,7 @@
                       </span>
                   </span>
               </div>
-              <span class="userName TextSpan" style="font-weight:normal;">Hallo <b><%= userSession.User.Name%></b><b class="caret"></b></span>
+              <span class="userName TextSpan" style="font-weight:normal; line-height:normal; padding-top:4px;">Hallo <b><%= userSession.User.Name%></b><b class="caret"></b></span>
           </a> 
             <ul class="dropdown-menu pull-right" role="menu" aria-labelledby="dLabel" style="right:0px;">
                 <li>
@@ -78,7 +78,7 @@
     </div>
     <div id="MenuButtonContainer" class="header-item" style="margin-right:0px;">
         <a id="MenuButton" class="TextLinkWithIcon"><i class="fa fa-bars"></i>
-        <span style="padding-top:11px;" class="TextSpan">Menü</span></a>
+        <span style="padding-top:4px;" class="TextSpan">Menü</span></a>
         <%Html.RenderPartial("/Views/Shared/MainMenuThemeCentered.ascx", Model.SidebarModel); %>
     </div>
   </div>
