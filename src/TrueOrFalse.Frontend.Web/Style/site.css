@@ -503,11 +503,12 @@ img {
 }
 #loginAndHelp .userImage,
 #StickyHeaderContainer .userImage {
-  height: 30px;
-  width: 29px;
+  height: 33px;
+  width: 31px;
+  margin-top: -1px;
   margin-left: 1px;
   border: 1px solid #003264;
-  border-radius: 4px;
+  border-radius: 0px;
 }
 #loginAndHelp i:not(.fa-bars, .fa-plus-circle, .fa-dot-circle-o),
 #StickyHeaderContainer i:not(.fa-bars, .fa-plus-circle, .fa-dot-circle-o) {
@@ -564,17 +565,17 @@ img {
   max-width: 600px !important;
 }
 #activity-popover-title {
-  font-size: 14px;
+  font-size: 16px;
   font-weight: bold;
   padding: 6px 0;
   text-align: center;
-  color: #203256;
-  background-color: #EFEFEF;
+  color: black;
+  background-color: #DDDDDD;
 }
 #activity-popover-content-inner {
-  padding-top: 10px;
+  padding-top: 25px;
   line-height: normal;
-  color: #333333;
+  color: black;
   font-size: 12px;
   text-align: center;
   white-space: normal;
@@ -857,7 +858,7 @@ ul.AutocompleteHeader {
   max-width: 550px;
 }
 .level-display {
-  margin-left: 3px;
+  margin-left: 2.42px;
 }
 .level-display .half-circle {
   width: 31px;

@@ -27,12 +27,14 @@
       <div style="display:flex; flex-direction:column;">
         <div class="dropdown" style="display: inline-block;">
           <a class="TextLinkWithIcon dropdown-toggle" id="dLabel" role="button" data-toggle="dropdown" data-target="#" href="#">
-              <div style="display: flex;">
-                  <span id="badgeNewMessages" class="badge show-tooltip"  data-placement="bottom" title="<%= Model.SidebarModel.UnreadMessageCount%> Ungelesene Nachrichten" <%if(Model.SidebarModel.UnreadMessageCount != 0){ %>style="background-color:#FF001F"<%}%>> <%= Model.SidebarModel.UnreadMessageCount %></span>
+              <div style="display: flex; justify-content:center;">
+                 <%if(Model.SidebarModel.UnreadMessageCount != 0){ %> 
+                     <span id="badgeNewMessages" class="badge show-tooltip"  data-placement="bottom" title="<%= Model.SidebarModel.UnreadMessageCount%> Ungelesene Nachrichten" style="background-color:#FF001F"> <%= Model.SidebarModel.UnreadMessageCount %></span>
+                 <%}%>
                   <img class="userImage" src="<%= imageSetttings.GetUrl_30px_square(userSession.User).Url %>" />
                   <span id="header-level-display" class="level-display">
                       <span style="display: inline-block; white-space: nowrap; margin-top: -8px;" class="" data-placement="bottom">
-                          <span class="half-circle"><span style="margin-top: -5px;" class="level-count"><%= userSession.User.ActivityLevel %></span></span>
+                          <span class="half-circle"><span style="margin-top: -5px; height:31px; width:31; text-align:center;" class="level-count"><%= userSession.User.ActivityLevel %></span></span>
                       </span>
                   </span>
               </div>

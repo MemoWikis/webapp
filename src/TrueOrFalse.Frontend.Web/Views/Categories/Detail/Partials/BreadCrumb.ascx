@@ -95,6 +95,6 @@
              <a class="TextLinkWithIcon" href="#" data-btn-login="true"><i style="font-size:32px; color:grey; padding-top:19px;" class="fa fa-sign-in"></i></a>
         <%} %>
         </div>
-        <div><a id="StickyMenuButton"><i class="fa fa-bars" style="font-size:inherit; margin-right:0px;"></i></a></div>
+        <div><a id="StickyMenuButton"><i class="fa fa-bars" style="font-size:inherit; margin-right:0px; color:grey"></i></a></div>
     </div>
 </div> 

@@ -41,13 +41,15 @@
             Model.SidebarModel.CategorySuggestionImageUrl = Model.GetCategoryImageUrl(SuggestionCategory).Url;
         }
 
-        MultipleImageUrl.Add(Model.ImageUrl_250);
-        MultipleCreatorName.Add(Model.Creator.Name);
-        MultipleCreator.Add(Model.Creator);
-
         MultipleCreator.AddRange(Model.MultipleCreators);
         MultipleCreatorName.AddRange(Model.MultipleCreatorsName);
         MultipleImageUrl.AddRange(Model.MutlipleCreatorsImageUrl_250);
+
+        if (!MultipleCreator.Contains(Model.Creator)) {
+            MultipleImageUrl.Add(Model.ImageUrl_250);
+            MultipleCreatorName.Add(Model.Creator.Name);
+            MultipleCreator.Add(Model.Creator);
+        }
        %>    
 </asp:Content>
 
