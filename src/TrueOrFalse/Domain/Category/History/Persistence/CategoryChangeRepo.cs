@@ -13,7 +13,7 @@ public class CategoryChangeRepo : RepositoryDbBase<CategoryChange>
             Category = category,
             Author = Sl.SessionUser.User,
             Type = CategoryChangeType.Delete,
-            DataVersion = 1
+            DataVersion = 2
         };
 
         base.Create(categoryChange);
@@ -29,7 +29,7 @@ public class CategoryChangeRepo : RepositoryDbBase<CategoryChange>
             Category = category,
             Type = categoryChangeType,
             Author = author,
-            DataVersion = 1
+            DataVersion = 2
         };
         
         categoryChange.SetData(category);

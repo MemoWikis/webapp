@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Newtonsoft.Json;
 using Seedworks.Lib.Persistence;
 
@@ -14,9 +15,37 @@ public class CategoryChange : Entity, WithDateCreated
 
     public virtual DateTime DateCreated { get; set; }
 
-    public virtual void SetData(Category category) => Data = new CategoryEditData_V1(category).ToJson();
+    public virtual void SetData(Category category)
+    {
+        switch (DataVersion)
+        {
+            case 1:
+                Data = new CategoryEditData_V1(category).ToJson();
+                break;
 
-    public virtual CategoryEditData_V1 GetCategoryChangeData() => CategoryEditData_V1.CreateFromJson(Data);
+            case 2:
+                Data = new CategoryEditData_V2(category).ToJson();
+                break;
+
+            default:
+                throw new ArgumentOutOfRangeException($"Invalid data version number {DataVersion} for category change id {Id}");
+        }
+    }
+
+    public virtual CategoryEditData GetCategoryChangeData()
+    {
+        switch (DataVersion)
+        {
+            case 1:
+                return CategoryEditData_V1.CreateFromJson(Data);
+                
+            case 2:
+                return CategoryEditData_V2.CreateFromJson(Data);
+                
+            default:
+                throw new ArgumentOutOfRangeException($"Invalid data version number {DataVersion} for category change id {Id}");
+        }
+    }
 
     public virtual Category ToHistoricCategory()
     {

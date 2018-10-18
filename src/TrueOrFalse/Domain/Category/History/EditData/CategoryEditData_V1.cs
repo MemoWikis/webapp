@@ -1,15 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Newtonsoft.Json;
 
-public class CategoryEditData_V1
+public class CategoryEditData_V1 : CategoryEditData
 {
-    public string Name;
-    public string Description;
-    public string TopicMardkown;
-    public string WikipediaURL;
-    public bool DisableLearningFunctions;
-
     public IList<CategoryRelation_EditData_V1> CategoryRelations;
 
     public CategoryEditData_V1(){}
@@ -18,32 +13,15 @@ public class CategoryEditData_V1
     {
         Name = category.Name;
         Description = category.Description;
-        TopicMardkown = category.TopicMarkdown;
+        TopicMarkdown = category.TopicMarkdown;
         WikipediaURL = category.WikipediaURL;
         DisableLearningFunctions = category.DisableLearningFunctions;
-        CategoryRelations = category.CategoryRelations.Select(cr => new CategoryRelation_EditData_V1(cr)).ToList();
+        CategoryRelations = category.CategoryRelations
+            .Select(cr => new CategoryRelation_EditData_V1(cr))
+            .ToList();
     }
 
-    public string ToJson() => JsonConvert.SerializeObject(this);
+    public override string ToJson() => JsonConvert.SerializeObject(this);
 
     public static CategoryEditData_V1 CreateFromJson(string json) => JsonConvert.DeserializeObject<CategoryEditData_V1>(json);
-
-    public Category ToCategory(int categoryId)
-    {
-        var category = Sl.CategoryRepo.GetById(categoryId);
-
-        Sl.Session.Evict(category);
-
-        category.Name = this.Name;
-        category.Description = this.Description;
-        category.TopicMarkdown = this.TopicMardkown;
-        category.WikipediaURL = this.WikipediaURL;
-        category.DisableLearningFunctions = this.DisableLearningFunctions;
-
-        //we decided not to load historic CategoryRelations
-        //because it seems to complicated
-        //category.CategoryRelations = this.CategoryRelations.ToList();
-
-        return category;
-    }
 }

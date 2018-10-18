@@ -7,6 +7,7 @@
     <%= Scripts.Render("~/bundles/js/CategoryHistoryDetail") %>
     <%= Scripts.Render("~/bundles/js/diff2html") %>
     <%= Styles.Render("~/bundles/diff2html") %>
+    <%--<script src="Js/jquery-2.0.3.js"></script>--%>
 </asp:Content>
 
 <asp:Content ID="Content3" ContentPlaceHolderID="MainContent" runat="server">
@@ -82,7 +83,8 @@
                     <input type="hidden" id="prevDescription" value="<%= Server.HtmlEncode(Model.PrevDescription) %>"/>
                     <input type="hidden" id="currentWikipediaUrl" value="<%= Server.HtmlEncode(Model.CurrentWikipediaUrl) %>"/>
                     <input type="hidden" id="prevWikipediaUrl" value="<%= Server.HtmlEncode(Model.PrevWikipediaUrl) %>"/>
-                    <%--<input type="hidden" id="relationsDiff" value="<%= Server.HtmlEncode(Model.RelationsDiff) %>"/>--%>
+                    <input type="hidden" id="currentRelations" value="<%= Server.HtmlEncode(Model.CurrentRelations) %>"/>
+                    <input type="hidden" id="prevRelations" value="<%= Server.HtmlEncode(Model.PrevRelations) %>"/>
                     <input type="hidden" id="currentDateCreated" value="<%= Model.CurrentChange.DateCreated %>" />
                     <input type="hidden" id="prevDateCreated" value="<%= Model.PrevChange.DateCreated %>" />
                     <div id="diffPanel">
@@ -90,7 +92,10 @@
                         <div id="diffDescription"></div>
                         <div id="diffWikipediaUrl"></div>
                         <div id="diffData"></div>
-                        <div id="diffRelations" class="alert alert-info" role="alert"></div>
+                        <div id="diffRelations"></div>
+                        <div id="noRelationsAlert" class="alert alert-info" role="alert" style="display: none;">
+                            Es können <b>keine Beziehungsdaten</b> angezeigt werden, da für die gewählten Revisionen keine enstsprechenden Daten vorliegen.
+                        </div>
                     </div>
                 <% } %>
             </div>
