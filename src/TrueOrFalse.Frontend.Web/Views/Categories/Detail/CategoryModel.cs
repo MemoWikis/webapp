@@ -42,7 +42,7 @@ public class CategoryModel : BaseModel
     public string CreationDateNiceText;
     public string ImageUrl_250;
 
-    public IList<User> MultipleCreators;
+    public IList<User> Authors;
     public IList<string> MultipleCreatorsName = new List<string>();
     public IList<string> MutlipleCreatorsImageUrl_250 = new List<string>();
 
@@ -106,9 +106,9 @@ public class CategoryModel : BaseModel
         var imageResult = new UserImageSettings(Creator.Id).GetUrl_250px(Creator);
         ImageUrl_250 = imageResult.Url;
     
-        MultipleCreators = _categoryRepo.GetMultipleAutors(Id);
+        Authors = _categoryRepo.GetMultipleAutors(Id);
 
-        foreach (var author in MultipleCreators)
+        foreach (var author in Authors)
         {
             MultipleCreatorsName.Add(author.Name);
             imageResult = new UserImageSettings(author.Id).GetUrl_250px(author);

@@ -23,9 +23,9 @@
     <%= Scripts.Render("~/bundles/js/AnswerQuestion") %>
     <script type="text/javascript" src="https://www.google.com/jsapi"></script>
     <script src="<%= Request.Url.Scheme %>://d3js.org/d3.v4.min.js"></script>
-    <%  var MultipleImageUrl = Model.SidebarModel.MultipleImageUrl;
-        var MultipleCreatorName = Model.SidebarModel.MultipleCreatorName;
-        var MultipleCreator = Model.SidebarModel.MultipleCreator;
+    <%  var authorImageUrls = Model.SidebarModel.MultipleImageUrl;
+        var authorNames = Model.SidebarModel.MultipleCreatorName;
+        var authors = Model.SidebarModel.MultipleCreator;
 
         Model.SidebarModel.AutorCardLinkText = Model.CreatorName;
         Model.SidebarModel.AutorImageUrl = Model.ImageUrl_250;
@@ -34,21 +34,21 @@
         if (Model.CategoriesChildren.Count != 0)
         {
             Random rnd = new Random();
-            int r = rnd.Next(Model.CategoriesChildren.Count);
-            var SuggestionCategory = (Category)Model.CategoriesChildren[r];
-            Model.SidebarModel.CategorySuggestionName = SuggestionCategory.Name;
-            Model.SidebarModel.CategorySuggestionUrl = Links.CategoryDetail(SuggestionCategory.Name, SuggestionCategory.Id);
-            Model.SidebarModel.CategorySuggestionImageUrl = Model.GetCategoryImageUrl(SuggestionCategory).Url;
+            int random = rnd.Next(Model.CategoriesChildren.Count);
+            var suggestionCategory = (Category)Model.CategoriesChildren[random];
+            Model.SidebarModel.CategorySuggestionName = suggestionCategory.Name;
+            Model.SidebarModel.CategorySuggestionUrl = Links.CategoryDetail(suggestionCategory.Name, suggestionCategory.Id);
+            Model.SidebarModel.CategorySuggestionImageUrl = Model.GetCategoryImageUrl(suggestionCategory).Url;
         }
 
-        MultipleCreator.AddRange(Model.MultipleCreators);
-        MultipleCreatorName.AddRange(Model.MultipleCreatorsName);
-        MultipleImageUrl.AddRange(Model.MutlipleCreatorsImageUrl_250);
+        authors.AddRange(Model.Authors);
+        authorNames.AddRange(Model.MultipleCreatorsName);
+        authorImageUrls.AddRange(Model.MutlipleCreatorsImageUrl_250);
 
-        if (!MultipleCreator.Contains(Model.Creator)) {
-            MultipleImageUrl.Add(Model.ImageUrl_250);
-            MultipleCreatorName.Add(Model.Creator.Name);
-            MultipleCreator.Add(Model.Creator);
+        if (!authors.Contains(Model.Creator)) {
+            authorImageUrls.Add(Model.ImageUrl_250);
+            authorNames.Add(Model.Creator.Name);
+            authors.Add(Model.Creator);
         }
        %>    
 </asp:Content>
