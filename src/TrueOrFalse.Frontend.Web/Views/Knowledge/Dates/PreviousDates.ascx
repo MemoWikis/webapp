@@ -7,7 +7,7 @@
 </div>
 
 <% foreach(var dateRowModel in Model){ %>
-    <% Html.RenderPartial("DateRow", dateRowModel); %>
+    <% Html.RenderPartial("~/Views/Knowledge/Dates/DateRow.ascx", dateRowModel); %>
 <% } %>
 
 

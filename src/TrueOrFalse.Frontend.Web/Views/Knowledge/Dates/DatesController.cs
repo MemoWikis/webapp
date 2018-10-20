@@ -92,7 +92,7 @@ public class DatesController : BaseController
             .ToList();
 
         return ViewRenderer.RenderPartialView(
-            "~/Views/Dates/PreviousDates.ascx",
+            "~/Views/Knowledge/Dates/PreviousDates.ascx",
             previousDates,
             ControllerContext
         );

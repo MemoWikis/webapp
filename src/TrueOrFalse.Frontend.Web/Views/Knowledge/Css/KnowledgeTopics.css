@@ -24,6 +24,9 @@
   font-size: 18px;
   font-family: "Open Sans", Arial, sans-serif;
 }
+.vuetable .btn {
+  font-size: 18px;
+}
 .vuetable #_Titel,
 .vuetable #_KnowlegdeWishPartial,
 .vuetable .vuetable-th-slot-image,
