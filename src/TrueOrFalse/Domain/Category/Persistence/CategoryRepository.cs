@@ -228,10 +228,10 @@ public class CategoryRepository : RepositoryDbBase<Category>
             .ToList();
     }
 
-    public IList<User> GetMultipleAutor(int AutorId)
+    public IList<User> GetMultipleAutor(int autorId)
     {
         var query = _session.QueryOver<User>()
-           .Where(r => r.Id == AutorId);
+           .Where(r => r.Id == autorId);
 
         return query.List()
             .Select(r => r)
@@ -240,16 +240,16 @@ public class CategoryRepository : RepositoryDbBase<Category>
 
     public IList<User> GetMultipleAutors(int categoryId)
     {
-        var Autors = new List<User>();
-        var MultipleAutorIds = GetMultipleAutorIds(categoryId);
+        var authors = new List<User>();
+        var multipleAutorIds = GetMultipleAutorIds(categoryId);
 
-        foreach (var Id in MultipleAutorIds)
+        foreach (var id in multipleAutorIds)
         {
-            var getMultipleAutors = GetMultipleAutor(Id);
-            Autors.Add(getMultipleAutors[0]);
+            var getMultipleAutors = GetMultipleAutor(id);
+            authors.Add(getMultipleAutors[0]);
         }
 
-        return Autors;
+        return authors;
     }
 
 

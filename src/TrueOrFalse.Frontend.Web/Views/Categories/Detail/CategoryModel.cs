@@ -108,10 +108,10 @@ public class CategoryModel : BaseModel
     
         MultipleCreators = _categoryRepo.GetMultipleAutors(Id);
 
-        foreach (var Author in MultipleCreators)
+        foreach (var author in MultipleCreators)
         {
-            MultipleCreatorsName.Add(Author.Name);
-            imageResult = new UserImageSettings(Author.Id).GetUrl_250px(Author);
+            MultipleCreatorsName.Add(author.Name);
+            imageResult = new UserImageSettings(author.Id).GetUrl_250px(author);
             MutlipleCreatorsImageUrl_250.Add(imageResult.Url);
         }
   
