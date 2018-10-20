@@ -13,7 +13,6 @@ public class EditDateController : BaseController
     private const string _viewLocation = "~/Views/Dates/Edit/EditDate.aspx";
 
     [HttpGet]
-    [SetMenu(MenuEntry.Dates)]
     public ViewResult Create(int? setId = null, int? categoryId = null, List<int> setIds = null, string setListTitle = null)
     {
         var model = new EditDateModel();
@@ -43,11 +42,11 @@ public class EditDateController : BaseController
             }
         }
 
+        //return ViewRenderer.RenderPartialView(_viewLocation, model, ControllerContext);
         return View(_viewLocation, model);
     }
 
     [HttpPost]
-    [SetMenu(MenuEntry.Dates)]
     public ViewResult Create(EditDateModel model)
     {
         if (model.IsDateTimeInPast())

@@ -15,7 +15,7 @@ public class DatesController : BaseController
     
     public string  GetDatesOverview()
     {
-        return ViewRenderer.RenderPartialView("~/Views/Knowledge/AllOfDates/Dates.ascx", new DatesModel(), ControllerContext);
+        return ViewRenderer.RenderPartialView("~/Views/Knowledge/Dates/Dates.ascx", new DatesModel(), ControllerContext);
     }
 
 
@@ -92,7 +92,7 @@ public class DatesController : BaseController
             .ToList();
 
         return ViewRenderer.RenderPartialView(
-            "~/Views/Dates/PreviousDates.ascx",
+            "~/Views/Knowledge/Dates/PreviousDates.ascx",
             previousDates,
             ControllerContext
         );

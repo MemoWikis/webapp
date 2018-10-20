@@ -184,7 +184,7 @@
                 </div>
 
                 <% foreach(var date in Model.Dates){ %>
-                    <% Html.RenderPartial("AllOfDates/Js/DateRow", new DateRowModel(date)); %>
+                    <% Html.RenderPartial("~/Views/Knowledge/Dates/DateRow.ascx", new DateRowModel(date)); %>
                 <% } %>
                 <div id="endOfFutureDates"></div>
 
@@ -218,7 +218,7 @@
                     </div>
                 <% } else { %>
                     <% foreach(var date in Model.DatesInNetwork){ %>
-                        <% Html.RenderPartial("DateRow", new DateRowModel(date, isNetworkDate:true)); %>
+                        <% Html.RenderPartial("~/Views/Knowledge/Dates/DateRow.ascx", new DateRowModel(date, isNetworkDate:true)); %>
                     <% } %>            
                 <% } %>
 
@@ -227,7 +227,7 @@
         </div>
     </div>
     
-    <% Html.RenderPartial("~/Views/Knowledge/AllOfDates/Modals/DeleteDate.ascx"); %>
-    <% Html.RenderPartial("~/Views/Knowledge/AllOfDates/Modals/TrainingSettings.ascx"); %>
-    <% Html.RenderPartial("~/Views/Knowledge/AllOfDates/Modals/CopyDate.ascx"); %>
+    <% Html.RenderPartial("~/Views/Knowledge/Dates/Modals/DeleteDate.ascx"); %>
+    <% Html.RenderPartial("~/Views/Knowledge/Dates/Modals/TrainingSettings.ascx"); %>
+    <% Html.RenderPartial("~/Views/Knowledge/Dates/Modals/CopyDate.ascx"); %>
             
