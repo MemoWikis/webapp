@@ -70,7 +70,7 @@
                 So sparst du Zeit und gewinnst an Sicherheit. 
             </p>
             <p>
-                Interaktiven Fragen helfen dir, Wissen im Gedächtnis besser zu verankern.
+                Interaktive Fragen helfen dir, Wissen im Gedächtnis besser zu verankern.
                 Lernpunkte motivieren dich und führen dich zu immer neuen Levels.
             </p>
             <p>

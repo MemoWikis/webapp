@@ -23,30 +23,18 @@
     <%= Scripts.Render("~/bundles/js/AnswerQuestion") %>
     <script type="text/javascript" src="https://www.google.com/jsapi"></script>
     <script src="<%= Request.Url.Scheme %>://d3js.org/d3.v4.min.js"></script>
-    <% Model.SidebarModel.AutorCardLinkText = Model.CreatorName;
-        Model.SidebarModel.AutorImageUrl = Model.ImageUrl_250;
-        Model.SidebarModel.Creator = Model.Creator;
-        Model.SidebarModel.MultipleImageUrl.Add(Model.ImageUrl_250);
-        Model.SidebarModel.MultipleCreatorName.Add(Model.Creator.Name);
-        Model.SidebarModel.MultipleCreator.Add(Model.Creator);
+    <%  
         if (Model.CategoriesChildren.Count != 0)
         {
             Random rnd = new Random();
-            int r = rnd.Next(Model.CategoriesChildren.Count);
-            var SuggestionCategory = (Category)Model.CategoriesChildren[r];
-            Model.SidebarModel.CategorySuggestionName = SuggestionCategory.Name;
-            Model.SidebarModel.CategorySuggestionUrl = Links.CategoryDetail(SuggestionCategory.Name, SuggestionCategory.Id);
-            Model.SidebarModel.CategorySuggestionImageUrl = Model.GetCategoryImageUrl(SuggestionCategory).Url;
+            int random = rnd.Next(Model.CategoriesChildren.Count);
+            var suggestionCategory = (Category)Model.CategoriesChildren[random];
+            Model.SidebarModel.CategorySuggestionName = suggestionCategory.Name;
+            Model.SidebarModel.CategorySuggestionUrl = Links.CategoryDetail(suggestionCategory.Name, suggestionCategory.Id);
+            Model.SidebarModel.CategorySuggestionImageUrl = Model.GetCategoryImageUrl(suggestionCategory).Url;
         }
-        foreach(var child in Model.CategoriesChildren)
-        {
-            if (!(Model.SidebarModel.MultipleCreatorName.Where(o=> string.Equals(child.Creator.Name, o, StringComparison.OrdinalIgnoreCase)).Any())) {
-                var imageResult = new UserImageSettings(child.Creator.Id).GetUrl_250px(child.Creator);
-                Model.SidebarModel.MultipleImageUrl.Add(imageResult.Url);
-                Model.SidebarModel.MultipleCreatorName.Add(child.Creator.Name);
-                Model.SidebarModel.MultipleCreator.Add(child.Creator);
-            }
-        }%>    
+
+       %>    
 </asp:Content>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">

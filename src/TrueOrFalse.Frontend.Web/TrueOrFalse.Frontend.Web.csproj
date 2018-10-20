@@ -396,12 +396,19 @@
     <Content Include="Scripts\hubs\GameHubEvents.js">
       <DependentUpon>GameHubEvents.ts</DependentUpon>
     </Content>
+    <Content Include="Scripts\SidebarCards.js">
+      <DependentUpon>SidebarCards.ts</DependentUpon>
+    </Content>
+    <Content Include="Scripts\SidebarCards.js.map">
+      <DependentUpon>SidebarCards.js</DependentUpon>
+    </Content>
     <Content Include="Scripts\vendor.somewhere\d3.js" />
     <Content Include="Images\memucho_MEMO_happy_blau.svg" />
     <Content Include="Scripts\vendor.somewhere\d3v3.js" />
     <Content Include="Scripts\vendor\diff2html\diff2html-ui.js" />
     <Content Include="Scripts\vendor\diff2html\diff2html.css" />
     <Content Include="Scripts\vendor\diff2html\diff2html.js" />
+    <Content Include="Scripts\vendor\difflib-browser.js" />
     <Content Include="Scripts\vendor\modernizr-config.json" />
     <Content Include="Images\Error\memo-404_german_600.png" />
     <Content Include="Images\Error\memo-500_german.png" />
@@ -502,6 +509,12 @@
       <DependentUpon>CategoryHistory.css</DependentUpon>
     </Content>
     <Content Include="Views\Categories\History\Detail\CategoryHistoryDetail.aspx" />
+    <Content Include="Views\Categories\History\Detail\Js\Page.js">
+      <DependentUpon>Page.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Categories\History\Detail\Js\Page.js.map">
+      <DependentUpon>Page.ts</DependentUpon>
+    </Content>
     <Content Include="Views\Categories\ResultTestSession\Js\GetResultTestSession.js">
       <DependentUpon>GetResultTestSession.ts</DependentUpon>
     </Content>
