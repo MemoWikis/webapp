@@ -42,10 +42,7 @@ public class CategoryModel : BaseModel
     public string CreationDateNiceText;
     public string ImageUrl_250;
 
-    public IList<User> Authors;
-    public IList<string> MultipleCreatorsName = new List<string>();
-    public IList<string> MutlipleCreatorsImageUrl_250 = new List<string>();
-
+    
     public Category Category;
 
     public ImageFrontendData ImageFrontendData;
@@ -106,13 +103,14 @@ public class CategoryModel : BaseModel
         var imageResult = new UserImageSettings(Creator.Id).GetUrl_250px(Creator);
         ImageUrl_250 = imageResult.Url;
     
-        Authors = _categoryRepo.GetMultipleAutors(Id);
+        SidebarModel.Authors = _categoryRepo.GetAuthors(Id);
+        SidebarModel.Creator = Category.Creator;
 
-        foreach (var author in Authors)
+        foreach (var author in SidebarModel.Authors)
         {
-            MultipleCreatorsName.Add(author.Name);
+            SidebarModel.AuthorNames.Add(author.Name);
             imageResult = new UserImageSettings(author.Id).GetUrl_250px(author);
-            MutlipleCreatorsImageUrl_250.Add(imageResult.Url);
+            SidebarModel.AuthorImageUrls.Add(imageResult.Url);
         }
   
         FeaturedSets = category.FeaturedSets();

@@ -238,7 +238,7 @@ public class CategoryRepository : RepositoryDbBase<Category>
             .ToList();
     }
 
-    public IList<User> GetMultipleAutors(int categoryId)
+    public IList<User> GetAuthors(int categoryId)
     {
         var authors = new List<User>();
         var multipleAutorIds = GetMultipleAutorIds(categoryId);

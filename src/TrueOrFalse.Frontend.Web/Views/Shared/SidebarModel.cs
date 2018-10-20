@@ -25,9 +25,9 @@ public class SidebarModel : BaseResolve
 
     public CategoryNavigationModel categoryNavigationModel;
 
-    public List<string> MultipleCreatorName = new List<string>();
-    public List<string> MultipleImageUrl = new List<string>();
-    public List<User> MultipleCreator = new List<User>();
+    public List<string> AuthorNames = new List<string>();
+    public List<string> AuthorImageUrls = new List<string>();
+    public IList<User> Authors = new List<User>();
 
     public string CategorySuggestionImageUrl;
     public string CategorySuggestionName;

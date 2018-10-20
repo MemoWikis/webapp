@@ -23,14 +23,7 @@
     <%= Scripts.Render("~/bundles/js/AnswerQuestion") %>
     <script type="text/javascript" src="https://www.google.com/jsapi"></script>
     <script src="<%= Request.Url.Scheme %>://d3js.org/d3.v4.min.js"></script>
-    <%  var authorImageUrls = Model.SidebarModel.MultipleImageUrl;
-        var authorNames = Model.SidebarModel.MultipleCreatorName;
-        var authors = Model.SidebarModel.MultipleCreator;
-
-        Model.SidebarModel.AutorCardLinkText = Model.CreatorName;
-        Model.SidebarModel.AutorImageUrl = Model.ImageUrl_250;
-        Model.SidebarModel.Creator = Model.Creator;
-
+    <%  
         if (Model.CategoriesChildren.Count != 0)
         {
             Random rnd = new Random();
@@ -41,15 +34,6 @@
             Model.SidebarModel.CategorySuggestionImageUrl = Model.GetCategoryImageUrl(suggestionCategory).Url;
         }
 
-        authors.AddRange(Model.Authors);
-        authorNames.AddRange(Model.MultipleCreatorsName);
-        authorImageUrls.AddRange(Model.MutlipleCreatorsImageUrl_250);
-
-        if (!authors.Contains(Model.Creator)) {
-            authorImageUrls.Add(Model.ImageUrl_250);
-            authorNames.Add(Model.Creator.Name);
-            authors.Add(Model.Creator);
-        }
        %>    
 </asp:Content>
 
