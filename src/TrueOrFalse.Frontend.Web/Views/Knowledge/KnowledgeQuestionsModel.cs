@@ -66,13 +66,25 @@ public class KnowledgeQuestionsModel
             var categories = question.Categories;
 
             questions.Title = question.Text;
-            questions.Category = categories[0].Name;
-            questions.ImageFrontendData = categoryAndSetDataWishKnowledge.GetCategoryImage(categories[0].Id);
+            
             questions.AuthorName = question.Creator.Name;
             questions.AuthorImageUrl = userImageSettings.GetUrl_30px_square(Sl.UserRepo.GetById(question.Creator.Id));
-            questions.LinkToCategory = Links.GetUrl(categories[0]);
             questions.LinkToQuestion = Links.GetUrl(question);
             questions.AuthorId = question.Creator.Id;
+            try
+            {
+                questions.LinkToCategory = Links.GetUrl(categories[0]);
+                questions.Category = categories[0].Name;
+                questions.ImageFrontendData = categoryAndSetDataWishKnowledge.GetCategoryImage(categories[0].Id);
+            }
+            catch (Exception e)
+            {
+                questions.LinkToCategory = " ";
+                questions.Category = "keine Kategorie";
+                questions.ImageFrontendData = categoryAndSetDataWishKnowledge.GetCategoryImage(682);
+            }
+
+           
 
 
             if (whichList.Equals("solid"))
@@ -199,7 +211,7 @@ public class KnowledgeQuestionsModel
     public class Questions
     {
         public string Title { get; set; }
-        public string Category { get; set; }
+        public string Category = " "; 
         public ImageFrontendData ImageFrontendData { get; set; }
         public string LearningStatus { get; set; }
         public string AuthorName { get; set; }
