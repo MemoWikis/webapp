@@ -67,6 +67,7 @@ table {
 .vuetable .author-image {
   float: left;
   padding-right: 10px;
+  max-width: 40px;
 }
 .vuetable .greenD,
 .vuetable .yellow,

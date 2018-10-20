@@ -4,8 +4,6 @@
 
 
 <body>
-
-
 <!-- Spinner-->
 <div id="circle">
     <div class="circle-inner">
@@ -51,8 +49,8 @@
             
                 <template slot="image" scope="props">
                     <div data-toggle="tooltip" v-bind:title="props.rowData.Title">
-                        <div class="image"  >
-                            <image class="imageTable"v-bind:src="GetImageSourceUrl(props.rowData.ImageFrontendData.ImageMetaData)" ></image>
+                        <div class="image">
+                            <image class="imageTable" v-bind:src="GetImageSourceUrl(props.rowData.ImageFrontendData.ImageMetaData)" ></image>
                         </div>
                         <div class="title-table"><a v-bind:href="props.rowData.LinkToQuestion">{{props.rowData.Title}}</a></div>
                     </div>
@@ -74,7 +72,7 @@
                 </template>
               
                 <template slot="category" scope="props">
-                    <image v-bind:src="GetImageSourceUrl(props.rowData.ImageFrontendData.ImageMetaData)"   class="round"></image><a data-toggle="tooltip" title="Thema in neuem Tab öffnen" v-bind:href="props.rowData.LinkToCategory" target="_blank" class="link-to-category">{{props.rowData.Category}}</a>
+                    <image v-bind:src="GetImageSourceUrl(props.rowData.ImageFrontendData.ImageMetaData)"   class="round"></image><a data-toggle="tooltip" title="Thema in neuem Tab öffnen" v-bind:href="props.rowData.LinkToCategory" target="_blank" class="link-to-category">{{props.rowData.Category}}</a> 
                 </template>
 
                 <!-- Buttons-->

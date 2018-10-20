@@ -29,7 +29,8 @@
 <%if(!(Model.TopNavMenu.IsWelcomePage)){ %>  
     <%if(Model.TopNavMenu.IsCategoryBreadCrumb){ %>
         <%= Html.Partial("/Views/Categories/Detail/Partials/BreadCrumbCategories.ascx", Model.TopNavMenu) %>
-    <% }else{
+    <% }else
+      {
             if (Model.TopNavMenu.IsAnswerQuestionOrSetBreadCrumb) { %>
              <%= Html.Partial("/Views/Categories/Detail/Partials/BreadCrumbCategories.ascx", Model.TopNavMenu) %>
           <%}
