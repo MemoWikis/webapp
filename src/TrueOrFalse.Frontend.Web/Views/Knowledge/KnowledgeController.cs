@@ -83,7 +83,7 @@ public class KnowledgeController : BaseController
                 return ViewRenderer.RenderPartialView("~/Views/Knowledge/Partials/KnowledgeQuestions.ascx",
                     new KnowledgeModel(), ControllerContext);
             case "events":
-                return ViewRenderer.RenderPartialView("~/Views/Knowledge/AllOfDates/Dates.ascx", new DatesModel(),
+                return ViewRenderer.RenderPartialView("~/Views/Knowledge/Dates/Dates.ascx", new DatesModel(),
                     ControllerContext);
             default: throw new ArgumentException("Argument false or null");
         }

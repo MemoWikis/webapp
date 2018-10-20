@@ -15,7 +15,7 @@ public class DatesController : BaseController
     
     public string  GetDatesOverview()
     {
-        return ViewRenderer.RenderPartialView("~/Views/Knowledge/AllOfDates/Dates.ascx", new DatesModel(), ControllerContext);
+        return ViewRenderer.RenderPartialView("~/Views/Knowledge/Dates/Dates.ascx", new DatesModel(), ControllerContext);
     }
 
 

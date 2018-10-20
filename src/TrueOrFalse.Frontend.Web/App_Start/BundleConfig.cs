@@ -183,10 +183,10 @@ namespace TrueOrFalse.View
 
             //Dates
             bundles.Add(new StyleBundle("~/bundles/Dates")
-                .Include("~/Views/Knowledge/AllOfDates/Dates.css"));
+                .Include("~/Views/Knowledge/Dates/Dates.css"));
 
             bundles.Add(new ScriptBundle("~/bundles/js/Dates")
-                .Include("~/Views/Knowledge/AllOfDates/Js/*.js"));
+                .Include("~/Views/Knowledge/Dates/Js/*.js"));
 
             bundles.Add(new StyleBundle("~/bundles/EditDate")
                 .Include("~/Views/Dates/Edit/*.css"));
@@ -292,7 +292,7 @@ namespace TrueOrFalse.View
                 .Include("~/Scripts/various/mailto.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/js/_dashboard")
-                .Include("~/Views/Knowledge/AllOfDates/Js/*.js")
+                .Include("~/Views/Knowledge/Dates/Js/*.js")
                 .Include("~/Views/Knowledge/Js/_dashboard.js")); 
 
             bundles.Add(new StyleBundle("~/bundles/_dashboard")
