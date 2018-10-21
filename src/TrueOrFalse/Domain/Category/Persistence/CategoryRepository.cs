@@ -221,8 +221,10 @@ public class CategoryRepository : RepositoryDbBase<Category>
     public IList<User> GetAuthors(int categoryId)
     {
         return Sl.CategoryChangeRepo
-            .GetForCategory(categoryId, distinctAuthor: true)
+            .GetForCategory(categoryId)
             .Select(categoryChange => categoryChange.Author)
+            .GroupBy(a => a.Id)
+            .Select(groupedAuthor => groupedAuthor.First())
             .ToList();
     }
 

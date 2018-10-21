@@ -40,11 +40,11 @@ if (Model.AuthorNames.Count() != 1){%>
             <span>Beitragende</span>
         </div>
         <div class="autor-container">
-        <% var End = 3;
+        <% var end = 3;
             if (Model.AuthorNames.Count() < 3) {
-                End = Model.AuthorNames.Count();
+                end = Model.AuthorNames.Count();
             }
-            for (var i = 0; i < End; i++)  { %>
+            for (var i = 0; i < end; i++)  { %>
             <div class="single-autor-container">
                 <img class="multiple-autor-card-image ItemImage JS-InitImage" alt="" src="<%= Model.AuthorImageUrls[i] %>" data-append-image-link-to="ImageContainer" />
                 <a style="font-size: 14px;" href="<%= Links.UserDetail(Model.Authors[i])%>" class="card-link"><%= Model.AuthorNames[i] %></a>

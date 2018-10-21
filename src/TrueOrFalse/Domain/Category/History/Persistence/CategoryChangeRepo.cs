@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using Newtonsoft.Json;
 using NHibernate;
 using NHibernate.Criterion;
@@ -46,21 +47,14 @@ public class CategoryChangeRepo : RepositoryDbBase<CategoryChange>
             .List();
     }
 
-    public IList<CategoryChange> GetForCategory(int categoryId, bool distinctAuthor = false)
+    public IList<CategoryChange> GetForCategory(int categoryId)
     {
         User aliasUser = null;
         Category aliasCategory = null;
 
         var query = _session
-            .QueryOver<CategoryChange>();
-        
-        //if (distinctAuthor)
-        //    query = query.Select(
-        //        Projections.Distinct(
-        //            Projections.ProjectionList()
-        //                .Add(Projections.Property<CategoryChange>(x => x.Author))));
-
-        query = query.Where(c => c.Category.Id == categoryId)
+            .QueryOver<CategoryChange>()
+            .Where(c => c.Category.Id == categoryId)
             .JoinAlias(c => c.Author, () => aliasUser)
             .JoinAlias(c => c.Category, () => aliasCategory);
 
