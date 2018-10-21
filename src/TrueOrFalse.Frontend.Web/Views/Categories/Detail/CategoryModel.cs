@@ -98,14 +98,16 @@ public class CategoryModel : BaseModel
         var imageResult = new UserImageSettings(Creator.Id).GetUrl_250px(Creator);
         ImageUrl_250 = imageResult.Url;
     
-        SidebarModel.Authors = _categoryRepo.GetAuthors(Id);
+        var authors = _categoryRepo.GetAuthors(Id);
         SidebarModel.Creator = Category.Creator;
 
-        foreach (var author in SidebarModel.Authors)
+        foreach (var author in authors)
         {
-            SidebarModel.AuthorNames.Add(author.Name);
-            imageResult = new UserImageSettings(author.Id).GetUrl_250px(author);
-            SidebarModel.AuthorImageUrls.Add(imageResult.Url);
+            SidebarModel.Authors.Add(new SidebarAuthorModel
+            {
+                ImageUrl = new UserImageSettings(author.Id).GetUrl_250px(author).Url,
+                User = author
+            });
         }
   
         FeaturedSets = category.FeaturedSets();

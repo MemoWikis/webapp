@@ -2,23 +2,27 @@
 
 <div id="SidebarCards" style="display: block;">
 
-<%if(Model.AuthorNames.Count() == 1){%>
+<%if(Model.Authors.Count == 1){
+
+    var author = Model.Authors.First();
+
+%>
     <div id="AutorCard" style="padding-top:0.1px;">
         <div class="ImageContainer" style="width: 100%; padding-left:0.5px;">
-            <div class="card-image-large" style="background:url(<%= Model.AutorImageUrl%>) center;"></div>
+            <div class="card-image-large" style="background:url(<%= author.ImageUrl %>) center;"></div>
         </div>
         <div class="card-title">
             <span>Autorenschaft</span>
         </div>
         <% if(Model.Creator != null){  %>
             <div class="card-link">
-                <a  href="<%= Links.UserDetail(Model.Creator) %>">
-                    <%= Model.AutorCardLinkText %> 
+                <a  href="<%= Links.UserDetail(author.User) %>">
+                    <%= author.Name %> 
                 </a>
             </div>
         <% } %>
         <div class="autor-card-footer-bar">               
-            <div class="show-tooltip" <% if(!Model.IsCurrentUser){%>title="<%if(Model.DoIFollow){ %>Du folgst <%= Model.AutorCardLinkText%> und nimmst an ihren/seinen Aktivitäten teil.<%}else{ %>Folge <%= Model.AutorCardLinkText%>, um an ihren/seinen Aktivitäten teilzuhaben.<%} %>" <%} %>>
+            <div class="show-tooltip" <% if(!Model.IsCurrentUser){%>title="<%if(Model.DoIFollow){ %>Du folgst <%= author.Name %> und nimmst an ihren/seinen Aktivitäten teil.<%}else{ %>Folge <%= author.Name %>, um an ihren/seinen Aktivitäten teilzuhaben.<%} %>" <%} %>>
                 <i class="fa fa-user"></i>
                 <span class="footer-bar-text"><%= Model.Reputation.ForUsersFollowingMe %></span> 
             </div>
@@ -34,37 +38,28 @@
     </div>
     <%} 
 
-if (Model.AuthorNames.Count() != 1){%>
+if (Model.Authors.Count != 1){%>
     <div id="MultipleAutorCard">
         <div class="card-title">
             <span>Beitragende</span>
         </div>
         <div class="autor-container">
-        <% var end = 3;
-            if (Model.AuthorNames.Count() < 3) {
-                end = Model.AuthorNames.Count();
-            }
-            for (var i = 0; i < end; i++)  { %>
-            <div class="single-autor-container">
-                <img class="multiple-autor-card-image ItemImage JS-InitImage" alt="" src="<%= Model.AuthorImageUrls[i] %>" data-append-image-link-to="ImageContainer" />
-                <a style="font-size: 14px;" href="<%= Links.UserDetail(Model.Authors[i])%>" class="card-link"><%= Model.AuthorNames[i] %></a>
-            </div>
-        <%} %>
+        <% 
+            foreach (var author in Model.Authors.Take(3))  { %>
+                <div class="single-autor-container">
+                    <img class="multiple-autor-card-image ItemImage JS-InitImage" alt="" src="<%= author.ImageUrl %>" data-append-image-link-to="ImageContainer" />
+                    <a style="font-size: 14px;" href="<%= Links.UserDetail(author.User)%>" class="card-link"><%= author.Name %></a>
+                </div>
+        <%  } %>
         </div>
         
-        <%if(Model.AuthorNames.Count() > 3){ %>
+        <%if(Model.Authors.Count > 3){ %>
             <div id="AllAutorsContainer" class="card-link">
-                <span style="align-self:center;">Alle Beitragenden <i id="ExtendAngle" style="color:#979797;" class="fa fa-angle-right"></i></span> 
+                <span style="align-self:center;">weitere Beitragende <i id="ExtendAngle" style="color:#979797;" class="fa fa-angle-right"></i></span> 
             </div>
             <div id="AllAutorsList" style="display:none; margin-bottom:19px" class="card-link">
-                <% for (var i = 3; i < Model.AuthorNames.Count(); i++)  {
-                    if(i == Model.AuthorNames.Count() - 1) { %>
-                        <a href="<%= Links.UserDetail(Model.Authors[i])%>" style="display:unset; font-size: 14px;" class="card-link"> <%= Model.AuthorNames[i] %></a>
-                    <%} else if( i == 3) { %>
-                        <a href="<%= Links.UserDetail(Model.Authors[i])%>" style="display:unset; font-size: 14px;" class="card-link"><%= Model.AuthorNames[i] %>,</a>
-                    <%} else { %>
-                        <a href="<%= Links.UserDetail(Model.Authors[i])%>" style="display:unset; font-size: 14px;" class="card-link"> <%= Model.AuthorNames[i] %>,</a>
-                    <%} %>
+                <% foreach(var author in Model.Authors.Skip(3))  {%>
+                    <a href="<%= Links.UserDetail(author.User)%>" style="display:unset; font-size: 14px;" class="card-link"> <%= author.Name %></a>
                 <%} %>
             </div>
         <% } %>

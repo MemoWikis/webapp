@@ -25,9 +25,7 @@ public class SidebarModel : BaseResolve
 
     public CategoryNavigationModel categoryNavigationModel;
 
-    public List<string> AuthorNames = new List<string>();
-    public List<string> AuthorImageUrls = new List<string>();
-    public IList<User> Authors = new List<User>();
+    public IList<SidebarAuthorModel> Authors = new List<SidebarAuthorModel>();
 
     public string CategorySuggestionImageUrl;
     public string CategorySuggestionName;
@@ -76,4 +74,11 @@ public class SidebarModel : BaseResolve
     {
         return !string.IsNullOrEmpty(Menu.Active(menuEntry));
     }
+}
+
+public class SidebarAuthorModel
+{
+    public string Name => User.Name;
+    public string ImageUrl;
+    public User User;
 }
