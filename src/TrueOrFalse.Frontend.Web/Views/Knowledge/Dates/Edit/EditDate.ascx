@@ -1,18 +1,13 @@
-﻿<%@ Title="Termin erstellen" Language="C#" Inherits="ViewPage<EditDateModel>" %>
+﻿<%@ Language="C#" Inherits="System.Web.Mvc.ViewUserControl<EditDateModel>" %>
 <%@ Import Namespace="System.Web.Optimization" %>
 <%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
 
-<asp:Content ID="ContentHeadSEO" ContentPlaceHolderID="HeadSEO" runat="server">
     <% if (Model.IsEditing) { %>
         <link rel="canonical" href="<%= Settings.CanonicalHost %><%= Links.DateEdit(Model.DateId) %>">
     <% } else {  %>
         <link rel="canonical" href="<%= Settings.CanonicalHost %><%= Links.DateCreate() %>">
     <% } %>
-</asp:Content>
 
-<asp:Content ID="Content2" ContentPlaceHolderID="Head" runat="server">
-
-    
     <script type="text/javascript">
         $(function() {
             $('.clockpicker').clockpicker();
@@ -26,9 +21,6 @@
             });
         });
     </script>
-</asp:Content>
-
-<asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
     
 <% using (Html.BeginForm(Model.IsEditing ? "Edit" : "Create", "EditDate", null, 
     FormMethod.Post, new { enctype = "multipart/form-data", id="EditDateForm"})){%>
@@ -174,4 +166,3 @@
 
 
 <% } %>
-</asp:Content>

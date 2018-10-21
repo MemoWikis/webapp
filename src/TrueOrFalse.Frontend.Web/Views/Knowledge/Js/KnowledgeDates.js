@@ -5,7 +5,14 @@
     },
     methods: {
         getEditDate: function() {
-            alert("hallo Daniel");
+            $.ajax({
+                url: "/EditDate/Create",
+                dataType: "text",
+                type: "POST",
+                success: function(result) {
+                    $(".content").html(result);
+                }
+            });
         }
     }
 })
