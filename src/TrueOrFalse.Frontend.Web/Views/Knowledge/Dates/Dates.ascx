@@ -1,12 +1,6 @@
 ﻿<%@  Language="C#" Inherits="System.Web.Mvc.ViewUserControl<DatesModel>" %>
 <%@ Import Namespace="System.Web.Optimization" %>
 <%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
-
-<%--<asp:Content ID="ContentHeadSEO" ContentPlaceHolderID="HeadSEO" runat="server">
-    <link rel="canonical" href="<%= Settings.CanonicalHost %><%= Links.Dates() %>">
-</asp:Content>--%>
-
-
     
     <script type="text/javascript" src="https://www.google.com/jsapi"></script>
     
@@ -74,7 +68,7 @@
 
  
 
-    <div class="row">
+    <div class="row" id="addDates">
         <div class="PageHeader col-md-9">
             <h1 style="margin-bottom: 15px; margin-top: 0px;" class="pull-left">
                 <span class="ColoredUnderline Date">Deine Termine</span>
@@ -83,7 +77,7 @@
         <div class="col-md-3">
             <div class="headerControls pull-right">
                 <div style="padding-top: 5px;">
-                    <a href="<%= Url.Action("Create", "EditDate") %>" class="btn btn-sm pull-right">
+                    <a href="#" class="btn btn-sm pull-right addDates" v-on:click="getEditDate()">
                         <i class="fa fa-plus-circle"></i> &nbsp; Termin erstellen
                     </a>
                 </div>
@@ -230,4 +224,5 @@
     <% Html.RenderPartial("~/Views/Knowledge/Dates/Modals/DeleteDate.ascx"); %>
     <% Html.RenderPartial("~/Views/Knowledge/Dates/Modals/TrainingSettings.ascx"); %>
     <% Html.RenderPartial("~/Views/Knowledge/Dates/Modals/CopyDate.ascx"); %>
+    <%= Scripts.Render("~/bundles/js/KnowledgeDates") %>
             
