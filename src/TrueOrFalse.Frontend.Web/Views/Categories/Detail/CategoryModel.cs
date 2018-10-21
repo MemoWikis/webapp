@@ -13,9 +13,7 @@ public class CategoryModel : BaseModel
     public string Description;
     public string Type;
 
-    
     public KnowledgeSummary KnowledgeSummary;
-
 
     public string CustomPageHtml;//Is set in controller because controller context is needed
     public int? CategoryChangeId;//Is set in controller because controller context is needed
@@ -34,14 +32,11 @@ public class CategoryModel : BaseModel
     public IList<Question> TopWishQuestions;
     public IList<Question> SingleQuestions;
 
-    public IList<User> TopCreaters;
 
     public User Creator;
     public string CreatorName;
     public string CreationDate;
-    public string CreationDateNiceText;
     public string ImageUrl_250;
-
     
     public Category Category;
 
