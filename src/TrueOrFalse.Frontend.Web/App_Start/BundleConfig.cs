@@ -310,8 +310,9 @@ namespace TrueOrFalse.View
                 .Include("~/Views/Knowledge/Dates/Edit/*.css"));
 
             bundles.Add(new ScriptBundle("~/bundles/js/EditDate")
+                .Include("~/Scripts/autocompletes/AutocompleteSets.js")
                 .IncludeDirectory("~/Views/Knowledge/Dates/Edit/Js/", "*.js")
-                .Include("~/Scripts/autocompletes/AutocompleteSets.js"));
+                .Include("~/Views/Knowledge/Dates/Edit/Js/Page.js"));
 
             //------------------------ END KNOWLEDGECENTRAL------------------------------------------------------------
 

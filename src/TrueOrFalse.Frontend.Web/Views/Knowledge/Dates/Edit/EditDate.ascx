@@ -7,20 +7,8 @@
     <% } else {  %>
         <link rel="canonical" href="<%= Settings.CanonicalHost %><%= Links.DateCreate() %>">
     <% } %>
-
-    <script type="text/javascript">
-        $(function() {
-            $('.clockpicker').clockpicker();
-
-            $('.input-group.date').datepicker({
-                language: "de",
-                calendarWeeks: true,
-                autoclose: true,
-                todayHighlight: true,
-                startDate: new Date().toString()
-            });
-        });
-    </script>
+          
+<%= Styles.Render("~/bundles/EditDate") %>
     
 <% using (Html.BeginForm(Model.IsEditing ? "Edit" : "Create", "EditDate", null, 
     FormMethod.Post, new { enctype = "multipart/form-data", id="EditDateForm"})){%>
@@ -98,7 +86,7 @@
                                 </div>                                
                             </div>
                             <div class="col-xs-6 xxs-stack">
-                                <div class="form-group">
+                                <div class="form-group" >
                                     <label class="columnLabel control-label">
                                         Uhrzeit
                                     </label>
@@ -114,7 +102,7 @@
                             </div>
                         </div>
 
-                        <div class="form-group" style="margin-bottom: 5px;">
+                        <div class="form-group" style="margin-bottom: 5px;" >
                             <label class="columnLabel control-label">
                                 Lernsets, die du zu diesem Termin lernen möchtest:
                             </label>
@@ -160,9 +148,22 @@
                 </div>
             </div>
         </div>
-        
-        <%= Styles.Render("~/bundles/EditDate") %>
-        <%= Scripts.Render("~/bundles/js/EditDate") %>
 
+
+    <%= Scripts.Render("~/bundles/js/EditDate") %>
+    
+    <script type="text/javascript">
+        $(function() {
+            $('.clockpicker').clockpicker();
+
+            $('.input-group.date').datepicker({
+                language: "de",
+                calendarWeeks: true,
+                autoclose: true,
+                todayHighlight: true,
+                startDate: new Date().toString()
+            });
+        });
+    </script>
 
 <% } %>
