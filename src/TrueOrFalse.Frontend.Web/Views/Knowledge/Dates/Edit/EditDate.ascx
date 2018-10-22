@@ -136,9 +136,9 @@
                             </div>
                         </div>
                         
-                        <div class="form-group">
+                        <div class="form-group" id="safeDates">
                             <div class="noLabel columnControlsFull">
-                                <button type="submit" class="btn btn-primary" id="btnSave" <% if(!Model.IsLoggedIn){ %> disabled="disabled" <% } %>>
+                                <button href="#" id="btnSave" class="btn btn-primary" v-on:click="setDate($event)">
                                     <%= Model.IsEditing ? "Termin bearbeiten" :  "Termin erstellen " %>
                                 </button>
                             </div>

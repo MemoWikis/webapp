@@ -519,6 +519,7 @@
       <DependentUpon>GetResultTestSession.ts</DependentUpon>
     </Content>
     <Content Include="Views\Knowledge\Dates\DateRow.ascx" />
+    <Content Include="Views\Knowledge\Dates\Edit\Js\EditDate.js" />
     <Content Include="Views\Knowledge\Dates\PreviousDates.ascx" />
     <Content Include="Views\Knowledge\Dates\Modals\CopyDate.ascx" />
     <Content Include="Views\Knowledge\Dates\Modals\DeleteDate.ascx" />
