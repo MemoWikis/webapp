@@ -12,40 +12,40 @@ public class EditDateController : BaseController
 {
     private const string _viewLocation = "~/Views/Knowledge/Dates/Edit/EditDate.ascx";
 
-    //[HttpPost]
-    //public string Create(int? setId = null, int? categoryId = null, List<int> setIds = null, string setListTitle = null)
-    //{
-    //    var model = new EditDateModel();
+    [HttpPost]
+    public string CreateNew(int? setId = null, int? categoryId = null, List<int> setIds = null, string setListTitle = null)
+    {
+        var model = new EditDateModel();
 
-    //    if (setId != null)
-    //    {
-    //        var set = Sl.R<SetRepo>().GetById((int)setId);
-    //        if (set != null)
-    //        {
-    //            model.Details = set.Name;
-    //            model.Sets.Add(set);
-    //        }
-    //    }
-    //    else if ((setIds != null) && setListTitle != null)
-    //    {
-    //        var sets = Sl.R<SetRepo>().GetByIds(setIds);
-    //        ((List<Set>)model.Sets).AddRange(sets);
-    //        model.Details = setListTitle;
-    //    }
-    //    else if (categoryId != null)
-    //    {
-    //        var category = Sl.R<CategoryRepository>().GetById((int)categoryId);
-    //        var sets = category.GetAggregatedSetsFromMemoryCache();
-    //        if (sets != null)
-    //        {
-    //            model.Details = category.Name;
-    //            model.Sets = sets;
-    //        }
-    //    }
+        if (setId != null)
+        {
+            var set = Sl.R<SetRepo>().GetById((int)setId);
+            if (set != null)
+            {
+                model.Details = set.Name;
+                model.Sets.Add(set);
+            }
+        }
+        else if ((setIds != null) && setListTitle != null)
+        {
+            var sets = Sl.R<SetRepo>().GetByIds(setIds);
+            ((List<Set>)model.Sets).AddRange(sets);
+            model.Details = setListTitle;
+        }
+        else if (categoryId != null)
+        {
+            var category = Sl.R<CategoryRepository>().GetById((int)categoryId);
+            var sets = category.GetAggregatedSetsFromMemoryCache();
+            if (sets != null)
+            {
+                model.Details = category.Name;
+                model.Sets = sets;
+            }
+        }
 
-    //    return ViewRenderer.RenderPartialView(_viewLocation, model, ControllerContext);
-    //    return View(_viewLocation, model);
-    //}
+        return ViewRenderer.RenderPartialView(_viewLocation, model, ControllerContext);
+       // return View(_viewLocation, model);
+    }
 
     [HttpPost]
     public string Create()
