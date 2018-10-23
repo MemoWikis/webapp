@@ -4,12 +4,11 @@ public abstract class CategoryEditData
 {
     public string Name;
     public string Description;
-    public string TopicMarkdown;
+    public string TopicMardkown;
     public string WikipediaURL;
     public bool DisableLearningFunctions;
 
     public abstract string ToJson();
-    //public abstract Category ToCategory(int categoryId);
 
     public Category ToCategory(int categoryId)
     {
@@ -19,7 +18,7 @@ public abstract class CategoryEditData
 
         category.Name = this.Name;
         category.Description = this.Description;
-        category.TopicMarkdown = this.TopicMarkdown;
+        category.TopicMarkdown = this.TopicMardkown;
         category.WikipediaURL = this.WikipediaURL;
         category.DisableLearningFunctions = this.DisableLearningFunctions;
 

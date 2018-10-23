@@ -13,7 +13,7 @@ public class CategoryEditData_V1 : CategoryEditData
     {
         Name = category.Name;
         Description = category.Description;
-        TopicMarkdown = category.TopicMarkdown;
+        TopicMardkown = category.TopicMarkdown;
         WikipediaURL = category.WikipediaURL;
         DisableLearningFunctions = category.DisableLearningFunctions;
         CategoryRelations = category.CategoryRelations
