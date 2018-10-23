@@ -77,7 +77,7 @@
                                     </label>
                                     <div class="col-md-11">
                                         <div class="input-group date">
-                                            <input class="form-control" name="Date" value="<%= Model.Date.ToString("dd.MM.yyyy") %>" style="height: 30px;" />
+                                            <input class="form-control" name="Date" id="Date" value="<%= Model.Date.ToString("dd.MM.yyyy") %>" style="height: 30px;" />
                                             <span class="input-group-addon" style="height: 30px;">
                                                 <i class="fa fa-calendar"></i>
                                             </span>
@@ -92,7 +92,7 @@
                                     </label>
                                     <div class="col-md-10">
                                         <div class="input-group clockpicker" data-autoclose="true">
-                                            <input class="form-control" name="Time" value="<%= Model.Time %>" style="height: 30px;" />
+                                            <input class="form-control" name="Time" id="Time" value="<%= Model.Time %>" style="height: 30px;" />
                                             <span class="input-group-addon" style="height: 30px;">
                                                 <i class="fa fa-clock-o"></i>
                                             </span>
@@ -136,7 +136,7 @@
                             </div>
                         </div>
                         
-                        <div class="form-group" id="safeDates">
+                        <div class=" " id="safeDates">
                             <div class="noLabel columnControlsFull">
                                 <button href="#" id="btnSave" class="btn btn-primary" v-on:click="setDate($event)">
                                     <%= Model.IsEditing ? "Termin bearbeiten" :  "Termin erstellen " %>
@@ -148,6 +148,7 @@
                 </div>
             </div>
         </div>
+    <div id="test"></div>
 
 
     <%= Scripts.Render("~/bundles/js/EditDate") %>

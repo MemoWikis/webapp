@@ -220,7 +220,7 @@
 
         </div>
     </div>
-    
+  
     <% Html.RenderPartial("~/Views/Knowledge/Dates/Modals/DeleteDate.ascx"); %>
     <% Html.RenderPartial("~/Views/Knowledge/Dates/Modals/TrainingSettings.ascx"); %>
     <% Html.RenderPartial("~/Views/Knowledge/Dates/Modals/CopyDate.ascx"); %>
