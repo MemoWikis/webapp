@@ -32,7 +32,7 @@ public class CategoryHistoryDetailModel : BaseModel
 
         var currentRevisionData = currentChange.GetCategoryChangeData();
         CurrentName = currentRevisionData.Name;
-        CurrentMarkdown = currentRevisionData.TopicMarkdown?.Replace("\\r\\n", "\r\n");
+        CurrentMarkdown = currentRevisionData.TopicMardkown?.Replace("\\r\\n", "\r\n");
         CurrentDescription = currentRevisionData.Description?.Replace("\\r\\n", "\r\n");
         CurrentWikipediaUrl = currentRevisionData.WikipediaURL;
 
@@ -40,7 +40,7 @@ public class CategoryHistoryDetailModel : BaseModel
         {
             var prevRevisionData = PrevChange.GetCategoryChangeData();
             PrevName = prevRevisionData?.Name;
-            PrevMarkdown = prevRevisionData?.TopicMarkdown?.Replace("\\r\\n", "\r\n");
+            PrevMarkdown = prevRevisionData?.TopicMardkown?.Replace("\\r\\n", "\r\n");
             PrevDescription = prevRevisionData?.Description?.Replace("\\r\\n", "\r\n");
             PrevWikipediaUrl = prevRevisionData?.WikipediaURL;
 
