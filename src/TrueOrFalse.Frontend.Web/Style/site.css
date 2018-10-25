@@ -376,8 +376,8 @@ img {
 #loginAndHelp .dropdown-badge,
 #StickyHeaderContainer .dropdown-badge {
   line-height: 16px !important;
-  left: -9px;
-  margin-top: -2px;
+  left: -10px;
+  margin-top: -5px;
   border: 1px solid #FFFFFF;
 }
 #loginAndHelp #SmallHeaderSearchBoxDiv,
@@ -503,8 +503,8 @@ img {
 }
 #loginAndHelp .userImage,
 #StickyHeaderContainer .userImage {
-  height: 33px;
-  width: 31px;
+  height: 32px;
+  width: 32px;
   margin-top: -1px;
   margin-left: 1px;
   border: 1px solid #003264;
@@ -552,6 +552,9 @@ img {
 #loginAndHelp .dropdown-menu a,
 #StickyHeaderContainer .dropdown-menu a {
   font-weight: normal;
+  color: black;
+  font-size: 16px;
+  padding: 0px 0px 29px 23.34px;
 }
 #loginAndHelp .dropdown-menu i,
 #StickyHeaderContainer .dropdown-menu i {
@@ -568,9 +571,13 @@ img {
   font-size: 16px;
   font-weight: bold;
   padding: 6px 0;
-  text-align: center;
   color: black;
+  height: 48px;
   background-color: #DDDDDD;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  text-align: center;
 }
 #activity-popover-content-inner {
   padding-top: 25px;
@@ -588,13 +595,13 @@ img {
 #activity-popover-content-inner .ProgressBarContainer,
 #activity-popover-content-inner .ProgressBarSegment {
   height: 25px;
+  border: transparent;
+  background-color: transparent;
 }
 #activity-popover-content-inner .ProgressBarContainer {
   display: table;
   width: 100%;
-  border: solid 2px #AFD534;
-  background-color: #AFD534;
-  margin-bottom: 5px;
+  margin-bottom: 10px;
   margin-top: 15px;
 }
 #activity-popover-content-inner .ProgressBarContainer:before,
@@ -618,6 +625,8 @@ img {
   overflow: hidden;
   text-align: center;
   vertical-align: top;
+  left: 5px;
+  border-radius: 0px 16px 16px 0px;
 }
 #activity-popover-content-inner .ProgressBarLegend {
   position: absolute;
@@ -631,14 +640,21 @@ img {
   background-color: #AFD534;
   position: relative;
   overflow: visible;
+  border-radius: 0px 16px 16px 0px;
+  border-right: white 2px solid;
 }
 #activity-popover-content-inner .ProgressBarLeft {
-  background-color: #e1efb3;
+  background-color: #DDDDDD;
 }
 #activity-popover-content-inner .ProgressInfoText {
   text-align: center;
   color: #999999;
   font-weight: normal !important;
+}
+#activity-popover-content-inner #NextLevelProgressSpanPercentageDone {
+  font-size: 16px;
+  font-weight: bold;
+  color: white;
 }
 .MenuButtonXS {
   padding: 3px 3px 3px 7px;
@@ -924,6 +940,9 @@ ul.AutocompleteHeader {
   width: 100%;
   height: 112px;
   border-radius: 0px;
+  overflow: hidden;
+  background-color: white !important;
+  background-repeat: no-repeat !important;
 }
 #MultipleAutorCard {
   border: #979797 solid 0.5px;
@@ -933,6 +952,10 @@ ul.AutocompleteHeader {
   height: 50px;
   border-radius: 50px;
   margin-right: 28.14px;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
 }
 #MultipleAutorCard #AllAutorsContainer {
   font-size: 14px;
@@ -1226,8 +1249,10 @@ ul.AutocompleteHeader {
   margin-top: -8px;
 }
 #Breadcrumb i.fa-chevron-right {
-  font-size: 80%;
-  color: #1B3651;
+  font-size: 11.2px;
+  width: auto;
+  margin-left: 13px;
+  color: #707070;
   margin-right: 10px;
   background-color: white;
   border-radius: 0px;
@@ -1237,21 +1262,11 @@ ul.AutocompleteHeader {
 #Breadcrumb .category-icon:focus {
   text-decoration: none;
 }
-#Breadcrumb i.fa-chevron-right {
-  font-size: 11.2px;
-  width: auto;
-  margin-left: 13px;
-  color: #1B3651;
-  margin-right: 10px;
-  background-color: white;
-  border-radius: 0px;
-  padding: 0px;
-}
 #Breadcrumb .fa-dot-circle-o {
   color: #AED71B;
 }
 #Breadcrumb a {
-  color: #1B3651;
+  color: #707070;
   text-decoration: none;
   font-family: "Open Sans";
   font-size: 14px;

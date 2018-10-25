@@ -8,7 +8,7 @@
 
 %>
     <div id="AutorCard" style="padding-top:0.1px;">
-        <div class="ImageContainer" style="width: 100%; padding-left:0.5px;">
+        <div class="ImageContainer" style="width: 100%; padding-left:0.5px; border-right: #979797 solid 0.5px;">
             <div class="card-image-large" style="background:url(<%= author.ImageUrl %>) center;"></div>
         </div>
         <div class="card-title">
@@ -47,14 +47,16 @@ if (Model.Authors.Count != 1){%>
         <% 
             foreach (var author in Model.Authors.Take(3))  { %>
                 <div class="single-autor-container">
-                    <img class="multiple-autor-card-image ItemImage JS-InitImage" alt="" src="<%= author.ImageUrl %>" data-append-image-link-to="ImageContainer" />
+                    <div class="multiple-autor-card-image">
+                    <img class="ItemImage JS-InitImage" alt="" src="<%= author.ImageUrl %>" data-append-image-link-to="ImageContainer" />
+                    </div>
                     <a style="font-size: 14px;" href="<%= Links.UserDetail(author.User)%>" class="card-link"><%= author.Name %></a>
                 </div>
         <%  } %>
         </div>
         
         <%if(Model.Authors.Count > 3){ %>
-            <div id="AllAutorsContainer" class="card-link">
+            <div id="AllAutorsContainer" class="card-link cursor-hand">
                 <span style="align-self:center;">weitere Beitragende <i id="ExtendAngle" style="color:#979797;" class="fa fa-angle-right"></i></span> 
             </div>
             <div id="AllAutorsList" style="display:none; margin-bottom:19px" class="card-link">

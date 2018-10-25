@@ -6,7 +6,41 @@
    for (int i = 0; i < defaultCategories.Count; i++)
    { %>
        <a class="list-group-item cat primary-point" id="default-category-<%= defaultCategories[i].Id %>" href="<%= Links.CategoryDetail(defaultCategories[i].Name, defaultCategories[i].Id) %>">
-            <span class="primary-point-text">
+           <% switch (i)
+              {
+                  case 0:
+           %>
+           <span class="fa-stack fa-fw">
+               <i class="fa fa-child fa-stack-1x"></i>
+           </span>
+           <%
+               break;
+
+           case 1:
+           %> 
+           <span class="fa-stack fa-fw">
+               <i class="fa fa-graduation-cap fa-stack-1x"></i>
+           </span>
+           <%
+               break;
+
+           case 2:
+           %>
+           <span class="fa-stack fa-fw">
+               <i class="fa fa-file-text-o fa-stack-1x"></i>
+           </span>
+           <%
+               break;
+
+           case 3:
+           %>
+           <span class="fa-stack fa-fw">
+               <i class="fa fa-lightbulb-o fa-stack-1x"></i>
+           </span>
+           <%
+               break;
+       } %>
+           <span class="primary-point-text">
                 <%: defaultCategories[i].Name %>
             </span>
        </a>

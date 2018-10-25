@@ -13,8 +13,8 @@
                      case 0:
                     %>
                     <div style="display: flex; height: auto; margin-bottom: 5px" class="category-icon show-tooltip" data-placement="bottom" title="Schule">                                              
-                          <span <%if(breadCrumbCategories.Count == 1){ %> style="display: inline-table; margin-left: 10px; color:#000000; opacity:0.50;" <%}else{ %>style="display: inline-table; margin-left: 10px;"<%} %>><a href="<%= Links.CategoryDetail(rootCategory) %>">Schule</a>                         
-                           <%if(!(breadCrumbCategories.Count == 1)){ %> <i style="display: inline;" class="fa fa-chevron-right"></i><%} %>
+                         <span style="display: inline-table; margin-left: 10px;"><a  <%if(breadCrumbCategories.Count == 1){ %> style="color:#003264;" <%}%> href="<%= Links.CategoryDetail(rootCategory) %>">Schule</a>                         
+                           <%if(breadCrumbCategories.Count != 1){ %> <i style="display: inline;" class="fa fa-chevron-right"></i><%} %>
                          </span>                      
                     </div>
                     <%
@@ -23,8 +23,8 @@
                     case 1:
                     %> 
                      <div style="display: flex; height: auto; margin-bottom: 5px" class="category-icon show-tooltip" data-placement="bottom" title="Studium">                      
-                          <span <%if(breadCrumbCategories.Count == 1){ %> style="display: inline-table; margin-left: 10px; color:#000000; opacity:0.50;" <%}else{ %>style="display: inline-table; margin-left: 10px;"<%} %>><a href="<%= Links.CategoryDetail(rootCategory) %>">Studium</a>                         
-                           <%if(!(breadCrumbCategories.Count == 1)){ %> <i style="display: inline;" class="fa fa-chevron-right"></i><%} %>
+                         <span style="display: inline-table; margin-left: 10px;"><a  <%if(breadCrumbCategories.Count == 1){ %> style="color:#003264;" <%}%> href="<%= Links.CategoryDetail(rootCategory) %>">Studium</a>                         
+                           <%if(breadCrumbCategories.Count != 1){ %> <i style="display: inline;" class="fa fa-chevron-right"></i><%} %>
                          </span>                      
                     </div>
                     <%
@@ -33,8 +33,8 @@
                     case 2:
                     %>
                      <div style="display: flex; height: auto; margin-bottom: 5px" class="category-icon show-tooltip" data-placement="bottom" title="Zertifikate">                      
-                          <span <%if(breadCrumbCategories.Count == 1){ %> style="display: inline-table; margin-left: 10px; color:#000000; opacity:0.50;" <%}else{ %>style="display: inline-table; margin-left: 10px;"<%} %>><a href="<%= Links.CategoryDetail(rootCategory) %>">Zertifikate</a>                         
-                           <%if(!(breadCrumbCategories.Count == 1)){ %> <i style="display: inline;" class="fa fa-chevron-right"></i><%} %>
+                         <span style="display: inline-table; margin-left: 10px;"><a  <%if(breadCrumbCategories.Count == 1){ %> style="color:#003264;" <%}%> href="<%= Links.CategoryDetail(rootCategory) %>">Zertifikate</a>                         
+                           <%if(breadCrumbCategories.Count != 1){ %> <i style="display: inline;" class="fa fa-chevron-right"></i><%} %>
                          </span>                      
                     </div>
                     <%
@@ -43,8 +43,8 @@
                     case 3:
                     %>
                     <div style="display: flex; height: auto; margin-bottom: 5px" class="category-icon show-tooltip" data-placement="bottom" title="Allgemeinwissen">                      
-                          <span <%if(breadCrumbCategories.Count == 1){ %> style="display: inline-table; margin-left: 10px; color:#000000; opacity:0.50;" <%}else{ %>style="display: inline-table; margin-left: 10px;"<%} %>><a href="<%= Links.CategoryDetail(rootCategory) %>">Allgemeinwissen</a>                         
-                           <%if(!(breadCrumbCategories.Count == 1)){ %> <i style="display: inline;" class="fa fa-chevron-right"></i><%} %>
+                         <span style="display: inline-table; margin-left: 10px;"><a  <%if(breadCrumbCategories.Count == 1){ %> style="color:#003264;" <%}%> href="<%= Links.CategoryDetail(rootCategory) %>">Allgemeinwissen</a>                         
+                           <%if(breadCrumbCategories.Count != 1){ %> <i style="display: inline;" class="fa fa-chevron-right"></i><%} %>
                          </span>                      
                     </div>
                     <%
@@ -62,18 +62,22 @@
     for (var i = 1; i <= breadCrumbCategoriesCount; i++)
     { %>
         <div id="<%=i %>BreadCrumbContainer" style="display: flex; height: auto; margin-bottom: 5px;" class="show-tooltip" data-placement="bottom" title="Zur Themenseite"> 
-            <% if (!(Model.IsAnswerQuestionOrSetBreadCrumb)) {
+            <% if (!Model.IsAnswerQuestionOrSetBreadCrumb) {
                     if (i == breadCrumbCategoriesCount) { %> 
-                     <span style="margin-left:10px; color:#000000; opacity:0.50;"><a  id="<%=  i%>BreadCrumb"  href="<%= Links.CategoryDetail(breadCrumbCategories[i]) %>" class=""><%= breadCrumbCategories[i].Name %></a></span>              
+                     <span style="margin-left:10px;"><a  id="<%=  i%>BreadCrumb" style="color:#003264;" href="<%= Links.CategoryDetail(breadCrumbCategories[i]) %>" class=""><%= breadCrumbCategories[i].Name %></a></span>              
                   <%} else { %>
                      <span  style="display:inline-table; margin-left:10px;"><a id="<%=i %>BreadCrumb" href="<%= Links.CategoryDetail(breadCrumbCategories[i]) %>" class=""><%= breadCrumbCategories[i].Name %></a>
                       <i style="display: inline;" class="fa fa-chevron-right"></i>
                      </span> 
                   <%}%>
-             <%}else{%>
-                <span style="display:inline-table; margin-left:10px;"><a id="<%= i %>BreadCrumb"  href="<%= Links.CategoryDetail(breadCrumbCategories[i]) %>" class=""><%= breadCrumbCategories[i].Name %></a>
-                  <i style="display: inline;" class="fa fa-chevron-right"></i>
-                </span> 
+             <%}else{
+                      if (i == breadCrumbCategoriesCount) { %> 
+                          <span style="margin-left:10px;"><a  id="<%= i%>BreadCrumb" style="color:#003264;" href="<%= Links.CategoryDetail(breadCrumbCategories[i]) %>" class=""><%= breadCrumbCategories[i].Name %></a></span>              
+                    <%} else { %>
+                         <span style="display:inline-table; margin-left:10px;"><a id="<%= i %>BreadCrumb"  href="<%= Links.CategoryDetail(breadCrumbCategories[i]) %>" class=""><%= breadCrumbCategories[i].Name %></a>
+                         <i style="display: inline;" class="fa fa-chevron-right"></i>
+                        </span> 
+                   <% } %>
              <%} %>
         </div>
     <% } %>
