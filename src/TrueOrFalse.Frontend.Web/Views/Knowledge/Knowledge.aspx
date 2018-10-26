@@ -33,35 +33,39 @@
             isGoogleApiInitialized = true;
         }
     </script>
-
-    <div id="CategoryHeader">
-
-        <div id="ManagementMobile">
-            <div class="Buttons">
-                <div class="Button"><a href="#" id="LinkIsDirectedToPartialView">Lernsitzung starten</a></div>
-            </div>
-        </div>
-        <div id="TabsBar">
-            <div class="Tabs">
-                <div class="Tab active"><a href="#" id="dashboard">Dashboard</a></div>
-                <div class="Tab"><a href="#" id="topics">Themen</a></div>
-                <div class="Tab"><a href="#" id="questions">Fragen</a></div>
-                <div class="Tab"><a href="#" id="events">Termine</a></div>
-            </div>
-            <div class="Border"></div>
-            <div id="Management">           
-                <div class="Buttons">
-                    <div class="Button"><a href="#" id="LinkIsDirectedToPartialView">Lernsitzung starten</a></div>
+    <div class="row">
+        <div class="col-xs-12">
+            <div id="CategoryHeader">
+                <div id="ManagementMobile">
+                    <div class="Buttons">
+                        <div class="Button"><a href="#" id="LinkIsDirectedToPartialView">Lernsitzung starten</a></div>
+                    </div>
+                </div>
+                <div id="TabsBar">
+                    <div class="Tabs">
+                        <div class="Tab active"><a href="#" id="dashboard">Dashboard</a></div>
+                        <div class="Tab"><a href="#" id="topics">Themen</a></div>
+                        <div class="Tab"><a href="#" id="questions">Fragen</a></div>
+                        <%--<div class="Tab"><a href="#" id="events">Termine</a></div>--%>
+                    </div>
+                    <div class="Border"></div>
+                    <div id="Management">           
+                        <div class="Buttons">
+                            <div class="Button"><a href="#" id="LinkIsDirectedToPartialView">Lernsitzung starten</a></div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
     <div class="row">
-        <% if (Model.IsLoggedIn) { %>
-            <div class="content" style="margin-top: 2rem">
-                <% Html.RenderPartial("~/Views/Knowledge/Partials/_Dashboard.ascx"); %>
-            </div>
-        <% } %>
+        <div class="col-xs-12">
+            <% if (Model.IsLoggedIn) { %>
+                <div class="content" style="margin-top: 2rem">
+                    <% Html.RenderPartial("~/Views/Knowledge/Partials/_Dashboard.ascx"); %>
+                </div>
+            <% } %>
+        </div>
     </div>
     <%= Scripts.Render("~/bundles/js/Vue") %>
 </asp:Content>

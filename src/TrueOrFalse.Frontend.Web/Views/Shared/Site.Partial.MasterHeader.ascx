@@ -17,7 +17,6 @@
     </div>
 <% } %>
 <header id="MasterHeader">
-    <div class="container">
         <div class="row" style="background-color:#003264">
             <div class="col-md-12">
                 <div class="row HeaderMainRow" style="background-color:#003264">
@@ -52,5 +51,4 @@
                 </div>
             </div>
         </div>
-    </div>
 </header>

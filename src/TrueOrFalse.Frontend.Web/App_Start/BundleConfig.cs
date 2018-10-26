@@ -82,13 +82,7 @@ namespace TrueOrFalse.View
             bundles.Add(new StyleBundle("~/bundles/Login")
                 .Include("~/Views/Welcome/Registration/SocialButtons.css"));
 
-            bundles.Add(new StyleBundle("~/bundles/Knowledge")
-                .IncludeDirectory("~/Views/Knowledge/", "*.css"));
 
-            bundles.Add(new ScriptBundle("~/bundles/js/Knowledge")
-                .Include("~/Views/Knowledge/Js/Page.js")
-                .Include("~/Views/Knowledge/Js/WishKnowledgeContent.js")
-            );
                
             bundles.Add(new StyleBundle("~/bundles/AlgoInsight")
                 .IncludeDirectory("~/Views/AlgoInsight/", "*.css"));
@@ -181,19 +175,7 @@ namespace TrueOrFalse.View
             bundles.Add(new ScriptBundle("~/bundles/js/Messages")
                 .IncludeDirectory("~/Views/Messages/Js/", "*.js"));
 
-            //Dates
-            bundles.Add(new StyleBundle("~/bundles/Dates")
-                .Include("~/Views/Knowledge/Dates/Dates.css"));
 
-            bundles.Add(new ScriptBundle("~/bundles/js/Dates")
-                .Include("~/Views/Knowledge/Dates/Js/*.js"));
-
-            bundles.Add(new StyleBundle("~/bundles/EditDate")
-                .Include("~/Views/Dates/Edit/*.css"));
-
-            bundles.Add(new ScriptBundle("~/bundles/js/EditDate")
-                .IncludeDirectory("~/Views/Dates/Edit/Js/", "*.js")
-                .Include("~/Scripts/autocompletes/AutocompleteSets.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/js/LearningSessionResult")
                 .IncludeDirectory("~/Views/Questions/Answer/LearningSession/Js/", "*.js"));
@@ -288,6 +270,19 @@ namespace TrueOrFalse.View
             bundles.Add(new ScriptBundle("~/bundles/mailto")
                 .Include("~/Scripts/various/mailto.js"));
 
+            //-------------------------------------- KnowledgeCentral----------------------------------------
+
+            bundles.Add(new StyleBundle("~/bundles/Knowledge")
+                .IncludeDirectory("~/Views/Knowledge/", "*.css"));
+
+            bundles.Add(new ScriptBundle("~/bundles/js/Knowledge")
+                .Include("~/Views/Knowledge/Js/Page.js")
+                .Include("~/Views/Knowledge/Js/WishKnowledgeContent.js"));
+
+            bundles.Add(new ScriptBundle("~/bundles/js/KnowledgeDates")
+                .Include("~/Views/Knowledge/Dates/Js/*.js")
+                .Include("~/Views/Knowledge/Js/KnowledgeDates.js"));
+
             bundles.Add(new ScriptBundle("~/bundles/js/_dashboard")
                 .Include("~/Views/Knowledge/Dates/Js/*.js")
                 .Include("~/Views/Knowledge/Js/_dashboard.js")); 
@@ -301,12 +296,29 @@ namespace TrueOrFalse.View
             bundles.Add(new ScriptBundle("~/bundles/js/KnowledgeQuestions")
                 .Include("~/Views/Knowledge/Js/KnowledgeQuestions.js"));
 
+            bundles.Add(new StyleBundle("~/bundles/KnowledgeQuestions")
+                .Include("~/Views/Knowledge/Css/KnowledgeQuestions.css"));
+
+            //Dates
+            bundles.Add(new StyleBundle("~/bundles/Dates")
+                .Include("~/Views/Knowledge/Dates/Dates.css"));
+
+            bundles.Add(new ScriptBundle("~/bundles/js/Dates")
+                .Include("~/Views/Knowledge/Dates/Js/*.js"));
+
+            bundles.Add(new StyleBundle("~/bundles/EditDate")
+                .Include("~/Views/Knowledge/Dates/Edit/*.css"));
+
+            bundles.Add(new ScriptBundle("~/bundles/js/EditDate")
+                .Include("~/Scripts/autocompletes/AutocompleteSets.js")
+                .IncludeDirectory("~/Views/Knowledge/Dates/Edit/Js/", "*.js")
+                .Include("~/Views/Knowledge/Dates/Edit/Js/Page.js"));
+
+            //------------------------ END KNOWLEDGECENTRAL------------------------------------------------------------
+
             bundles.Add(new ScriptBundle("~/bundles/js/Vue")
                 .Include("~/Scripts/vendor/vuetable-2.js")
                 .Include("~/Scripts/vendor/vue.min.js"));
-
-            bundles.Add(new StyleBundle("~/bundles/KnowledgeQuestions")
-                .Include("~/Views/Knowledge/Css/KnowledgeQuestions.css"));
 
             bundles.Add(new StyleBundle("~/bundles/Promoter")
                 .Include("~/Views/Welcome/Promoter.css"));
