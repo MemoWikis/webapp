@@ -1,19 +1,30 @@
+﻿declare var Vue: any;
+
+
 Vue.component('user-message', {
     props: ['text'],
     //template: "<div style='background-color:green;'>{{text}}</div>"
-    template: "<div class=\"fade in\">\n            <a class=\"close\" data-dismiss=\"alert\" href=\"#\">\u00D7</a>\n            {{text}}\n        </div>"
+    template: 
+        `<div class="fade in">
+            <a class="close" data-dismiss="alert" href="#">×</a>
+            {{text}}
+        </div>` 
 });
+
 var safeDates = new Vue({
     el: '#vueSafeDates',
+
     data: {
         isEditing: false,
-        title: "Termin erstellen",
+        title: "Termin erstellen", //bearbeiten
         userMessage: "d3",
         name: "",
         date: null,
     },
+
     methods: {
-        save: function () {
+
+        save: function(){
             //$.ajax({
             //    url: "/EditDate/CreateNew",
             //    type: "POST",
@@ -28,15 +39,17 @@ var safeDates = new Vue({
             //        this.userMessage = "hurray gespeichert";
             //    }
             //});
+
             this.userMessage = "hurray gespeichert";
         },
+
         setDate: function () {
             event.preventDefault();
-            var nameOfDate = $("#Details").val();
-            var dateVar = $("#Date").val();
+            let nameOfDate = $("#Details").val();
+            let dateVar = $("#Date").val();
             console.log(dateVar);
-            var timeVar = $("#Time").val();
-            var sets = $('.JS-Sets input').map(function () {
+            let timeVar = $("#Time").val();
+            let sets = $('.JS-Sets input').map(function () {
                 return $(this).val();
             }).toArray();
             console.log(sets);
@@ -47,15 +60,15 @@ var safeDates = new Vue({
                     'setIdsArray': sets,
                     'timeVar': timeVar,
                     'dateVar': dateVar,
-                    'nameOfDate': nameOfDate
+                    'nameOfDate': nameOfDate  
                 },
                 dataType: "json",
                 success: function (result) {
                     $("#test").html(result);
                 }
             });
-            var network = $("[name=Visibility]").val();
+            let network = $("[name=Visibility]").val();
+            
         }
     }
 });
-//# sourceMappingURL=EditDate.js.map
