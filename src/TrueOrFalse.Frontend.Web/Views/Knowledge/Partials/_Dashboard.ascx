@@ -149,7 +149,6 @@
                     var chart = new google.visualization.ColumnChart(document.getElementById("chartActivityLastDays"));
                     chart.draw(view, options);
                <% } %>
-
          }
      </script>
 <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Open+Sans" />
