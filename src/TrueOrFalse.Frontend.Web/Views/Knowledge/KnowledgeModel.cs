@@ -114,7 +114,7 @@ public class KnowledgeModel : BaseModel
         AnswerRecent = R<AnswerRepo>().GetUniqueByUser(UserId, amount: 15);
 
         //GET NETWORK ACTIVITY
-        NetworkActivities = R<UserActivityRepo>().GetByUser(User, 8);
+        NetworkActivities = R<UserActivityRepo>().GetByUser(User, 5);
 
         //GET TRAINING DATES
         var tdTrainingDates = R<TrainingDateRepo>().GetUpcomingTrainingDates(7);
