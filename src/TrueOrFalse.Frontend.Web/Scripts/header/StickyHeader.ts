@@ -22,7 +22,7 @@ function StickyHeader() {
             $('#Breadcrumb').addClass('ShowBreadcrumb');
             $('#BreadCrumbTrail').css('max-width', '51%');
 
-            if (positionSticky != "sticky") {
+        if (positionSticky != "sticky") {
                 header.classList.add("sticky");
             }
 
@@ -33,8 +33,9 @@ function StickyHeader() {
         $('#Breadcrumb').css('position', 'unset');
         $('#Breadcrumb').removeClass('ShowBreadcrumb');
         $('#RightMainMenu').css('position', 'absolute');
-        $('#RightMainMenu').css('top', '41px');
+        $('#RightMainMenu').css('top', '60px');
         $('#BreadCrumbTrail').css('max-width', '');
+       
     }
 
     ReorientateMenu();

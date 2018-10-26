@@ -28,8 +28,8 @@
         {
             Random rnd = new Random();
             int random = rnd.Next(Model.CategoriesChildren.Count);
-            var suggestionCategory = (Category)Model.CategoriesChildren[random];
-            Model.SidebarModel.CategorySuggestionName = suggestionCategory.Name;
+            var suggestionCategory = Model.CategoriesChildren[random];
+            Model.SidebarModel.SuggestionCategory = suggestionCategory;
             Model.SidebarModel.CategorySuggestionUrl = Links.CategoryDetail(suggestionCategory.Name, suggestionCategory.Id);
             Model.SidebarModel.CategorySuggestionImageUrl = Model.GetCategoryImageUrl(suggestionCategory).Url;
         }

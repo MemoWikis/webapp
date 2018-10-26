@@ -64,7 +64,7 @@
            <a class="TextLinkWithIcon dropdown-toggle" id="dLabel" role="button" data-toggle="dropdown" data-target="#" href="#">
             <img class="userImage" style="margin-top:21px; border:none; text-align:center;" src="<%= userImage%>" />
            </a>   
-            <ul class="dropdown-menu pull-right" role="menu" aria-labelledby="dLabel" style="right:0px;">
+            <ul id="BreadcrumbUserDropdown" class="dropdown-menu pull-right" role="menu" aria-labelledby="dLabel" style="right:0px;">
                 <li>
                    <a style="white-space:unset; padding:0px;" href="<%= Links.Knowledge()%>">
                        <div id="activity-popover-title">Dein erreichtes Level</div>

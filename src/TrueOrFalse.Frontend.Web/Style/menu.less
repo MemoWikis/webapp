@@ -346,12 +346,86 @@
     float: right;
     display: none;
     text-align: left;
-    top: 41px;
+    top: 60px;
     right: 4px;
 
 
     a {
         line-height: normal !important;
+    }
+
+    .list-group-item {
+        color: #707070 !important;
+        background-color: lighten(@light-blue, 4%);
+        border: none;
+        font-size: 16px;
+        padding-top: 14px;
+        padding-bottom: 14px;
+        padding-left: 8px;
+        margin-bottom: unset;
+        border-radius: unset;
+
+
+        &.active, &.active:focus {
+            .primary-point {
+                background-color: @menu-darker-blue !important;
+                color: #203256 !important;
+                font-weight: bold;
+            }
+        }
+
+        &:hover {
+            color: #203256 !important;
+            background-color: @menu-darker-blue !important;
+        }
+
+        .add-new {
+            margin-top: 2px;
+            .pull-right();
+        }
+
+        .fa-stack {
+            font-size: 15px;
+
+            .default-category-icon {
+                color: @memo-blue;
+            }
+        }
+
+        &.actual-category {
+            &:hover {
+                background-color: @menu-darker-blue;
+            }
+        }
+
+        &.sub {
+            font-weight: normal;
+            padding-top: 6px;
+            color: @global-text-color !important;
+            padding-left: 40px;
+            padding-bottom: 7px;
+            font-size: 16px;
+            margin-top: 0px;
+            line-height: 22px;
+
+            &.actual-category, &.under-sub-category {
+                padding-left: 50px;
+
+                .actual-sub-category {
+                    margin-left: 6px;
+                }
+            }
+
+            i.fa-caret-right {
+                font-size: 16px;
+            }
+        }
+
+        #mainMenuKnowledgeHeart {
+            font-size: 24px;
+            padding-right: 3px;
+            padding-left: 3px;
+        }
     }
 }
 
@@ -386,84 +460,11 @@
         font-size:16px;
         font-weight:normal;
 
+
         .primary-point-text {
             display: inline-block;
         }
     }
-
-.list-group-item {
-    color: #707070 !important;
-    background-color: lighten(@light-blue, 4%);
-    border: none;
-    font-size: 16px;
-    padding-top: 14px;
-    padding-bottom: 14px;
-    padding-left: 8px;
-    margin-bottom: unset;
-    border-radius: unset;
-
-
-    &.active, &.active:focus {
-        .primary-point {
-            background-color: @menu-darker-blue !important;
-            color: #203256 !important;
-            font-weight: bold;
-        }
-    }
-
-    &:hover {
-        color: #203256 !important;
-        background-color: @menu-darker-blue !important;
-    }
-
-    .add-new {
-        margin-top: 2px;
-        .pull-right();
-    }
-
-    .fa-stack {
-        font-size: 15px;
-
-        .default-category-icon {
-            color: @memo-blue;
-        }
-    }
-
-    &.actual-category {
-        &:hover {
-            background-color: @menu-darker-blue;
-        }
-    }
-
-    &.sub {
-        font-weight: normal;
-        padding-top: 6px;
-        color: @global-text-color !important;
-        padding-left: 40px;
-        padding-bottom: 7px;
-        font-size: 16px;
-        margin-top: 0px;
-        line-height: 22px;
-
-        &.actual-category, &.under-sub-category {
-            padding-left: 50px;
-
-            .actual-sub-category {
-                margin-left: 6px;
-            }
-        }
-
-        i.fa-caret-right {
-            font-size: 16px;
-        }
-    }
-
-    #mainMenuKnowledgeHeart {
-        font-size: 24px;
-        padding-right: 3px;
-        padding-left: 3px;
-    }
-}
 
 #mainMenuThemeNavigation, #mainMenuQuestionsSetsCategories, #mainMenuGamesUsersMessages {
     border: none;

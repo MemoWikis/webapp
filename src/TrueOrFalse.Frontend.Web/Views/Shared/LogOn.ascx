@@ -34,13 +34,13 @@
                   <img class="userImage" src="<%= imageSetttings.GetUrl_30px_square(userSession.User).Url %>" />
                   <span id="header-level-display" class="level-display">
                       <span style="display: inline-block; white-space: nowrap; margin-top: -8px;" class="" data-placement="bottom">
-                          <span class="half-circle"><span style="margin-top: -5px; height:31px; width:31; text-align:center;" class="level-count"><%= userSession.User.ActivityLevel %></span></span>
+                          <span class="half-circle"><span style="margin-top: -5px; height:31px; width:31px; text-align:center;" class="level-count"><%= userSession.User.ActivityLevel %></span></span>
                       </span>
                   </span>
               </div>
               <span class="userName TextSpan" style="font-weight:normal; line-height:normal; padding-top:4px;">Hallo <b><%= userSession.User.Name%></b><b class="caret"></b></span>
           </a> 
-            <ul class="dropdown-menu pull-right" role="menu" aria-labelledby="dLabel" style="right:0px;">
+            <ul id="HeaderUserDropdown" class="dropdown-menu pull-right" role="menu" aria-labelledby="dLabel" style="right:0px;">
                 <li>
                    <a style="white-space:unset; padding:0px;" href="<%= Links.Knowledge()%>">
                        <div id="activity-popover-title">Dein erreichtes Level</div>

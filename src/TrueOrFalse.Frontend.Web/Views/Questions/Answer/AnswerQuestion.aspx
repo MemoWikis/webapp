@@ -76,8 +76,8 @@
         Model.TopNavMenu.IsCategoryBreadCrumb = false;
     %>
       
-    <% Model.SidebarModel.AutorCardLinkText = Model.Creator.Name;
-       Model.SidebarModel.AutorImageUrl = Model.ImageUrl_250; %>    
+    <% Model.SidebarModel.AuthorCardLinkText = Model.Creator.Name;
+       Model.SidebarModel.AuthorImageUrl = Model.ImageUrl_250; %>    
     <link type="text/css" href="/Content/blue.monday/jplayer.blue.monday.css" rel="stylesheet" />
 </asp:Content>
 

@@ -14,23 +14,21 @@
         <div class="card-title">
             <span>Autorenschaft</span>
         </div>
-        <% if(Model.Creator != null){  %>
-            <div class="card-link">
-                <a  href="<%= Links.UserDetail(author.User) %>">
-                    <%= author.Name %> 
-                </a>
-            </div>
-        <% } %>
+        <div class="card-link">
+            <a  href="<%= Links.UserDetail(author.User) %>">
+               <%= author.Name %> 
+            </a>
+        </div>
         <div class="autor-card-footer-bar">               
             <div class="show-tooltip" <% if(!Model.IsCurrentUser){%>title="<%if(Model.DoIFollow){ %>Du folgst <%= author.Name %> und nimmst an ihren/seinen Aktivitäten teil.<%}else{ %>Folge <%= author.Name %>, um an ihren/seinen Aktivitäten teilzuhaben.<%} %>" <%} %>>
                 <i class="fa fa-user"></i>
                 <span class="footer-bar-text"><%= Model.Reputation.ForUsersFollowingMe %></span> 
             </div>
-            <div class="show-tooltip" title='"<%= Model.Reputation.TotalReputation%>" ist eine stolze Zahl! Reputationspunkte zeigen, wieviel  <%= Model.AutorCardLinkText%> für memucho getan hat.'>
+            <div class="show-tooltip" title='"<%= Model.Reputation.TotalReputation%>" ist eine stolze Zahl! Reputationspunkte zeigen, wieviel  <%= Model.AuthorCardLinkText%> für memucho getan hat.'>
                 <i style="color:#b13a48;" class="fa fa-heart"></i>
                 <span class="footer-bar-text"> <%=Model.Reputation.TotalReputation %></span>
             </div>
-            <div class="show-tooltip"  <% if(!Model.IsCurrentUser){%>title="<%= Model.AutorCardLinkText%> hat ihr/sein Wunschwissen<% if(Model.Creator.ShowWishKnowledge){ %> veröffentlicht und <%= Model.AmountWishCountQuestions %> Fragen gesammelt. Alles klar soweit?<%}else{ %> nicht veröffentlicht.<%} %>"<%} %>>
+            <div class="show-tooltip"  <% if(!Model.IsCurrentUser){%>title="<%= Model.AuthorCardLinkText%> hat ihr/sein Wunschwissen<% if(author.ShowWishKnowledge){ %> veröffentlicht und <%= Model.AmountWishCountQuestions %> Fragen gesammelt. Alles klar soweit?<%}else{ %> nicht veröffentlicht.<%} %>"<%} %>>
                 <span class="fa fa-pencil" ></span>
                 <span class="footer-bar-text"><%= Model.AmountWishCountQuestions %></span>
             </div>
@@ -69,7 +67,7 @@ if (Model.Authors.Count != 1){%>
 <%} %>
 
 
-<%if (Model.CategorySuggestionName != null){ %>
+<%if (Model.SuggestionCategory != null){ %>
    <div id="CategorySuggestionCard" style="padding-top:0.2px;">
       <div class="ImageContainer" style="width: 100%;">
           <div class="card-image-large" style="background:url(<%= Model.CategorySuggestionImageUrl%>) center;"></div>
@@ -78,10 +76,21 @@ if (Model.Authors.Count != 1){%>
            <span>Themen-Vorschlag</span>
        </div>
        <div class="card-link" style="margin-bottom:25px;">
-          <a class="show-tooltip"  title="Zur Themenseite  <%= Model.CategorySuggestionName %>" href="<%= Model.CategorySuggestionUrl %>">
-              <%= Model.CategorySuggestionName %> 
+          <a class="show-tooltip"  title="Zur Themenseite  <%= Model.SuggestionCategory.Name %>" href="<%= Model.CategorySuggestionUrl %>">
+              <%= Model.SuggestionCategory.Name %> 
           </a>
        </div>
+    <%if(Model.SuggestionCategory.GetAggregatedSetsFromMemoryCache().Count  != 0){ %>
+       <div class="category-suggestion-footer">
+         <div class="set-question-count">           
+               <%: Model.SuggestionCategory.GetAggregatedSetsFromMemoryCache().Count  %> Lernset<% if(Model.SuggestionCategory.GetAggregatedSetsFromMemoryCache().Count  != 1){ %>s mit&nbsp;<% } else { %> mit&nbsp;<% } %>
+               <%: Model.SuggestionCategory.GetAggregatedQuestionsFromMemoryCache().Count %> Frage<% if(Model.SuggestionCategory.GetAggregatedQuestionsFromMemoryCache().Count  != 1){ %>n<% } %>          
+         </div>
+         <div class="KnowledgeBarWrapper">
+               <% Html.RenderPartial("~/Views/Categories/Detail/CategoryKnowledgeBar.ascx", new CategoryKnowledgeBarModel(Model.SuggestionCategory)); %>
+         </div>
+       </div>
+    <%} %>
    </div>
 <% } %>
 
@@ -102,16 +111,4 @@ if (Model.Authors.Count != 1){%>
        <a href="<%= Url.Action("Create", "EditQuestion") %>">Was willst du wissen?</a>                 
     </div>
 </div>
-
- <div id="CreateCategoryCard">
-    <div class="card-title">
-        <span>Thema erstellen</span>
-    </div>
-    <p style="margin-top: 21px; border-bottom:solid 1px #d6d6d6; padding-bottom: 23px;">Lass memucho wachsen, durch eine neue Themenseite.</p>
-    <i class="fa fa-circle"></i>
-    <i class="fa fa-plus-square"></i>
-    <div class="card-link">
-       <a href="<%= Url.Action("Create", "EditCategory") %>">Zum Erstell-Tool</a>                 
-    </div>
- </div>
 </div>

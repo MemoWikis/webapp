@@ -99,7 +99,6 @@ public class CategoryModel : BaseModel
         ImageUrl_250 = imageResult.Url;
     
         var authors = _categoryRepo.GetAuthors(Id);
-        SidebarModel.Creator = Category.Creator;
 
         foreach (var author in authors)
         {
@@ -109,7 +108,17 @@ public class CategoryModel : BaseModel
                 User = author
             });
         }
-  
+
+        if (authors.Count == 1)
+        {
+            SidebarModel.Reputation = Resolve<ReputationCalc>().Run(authors[0]);
+            SidebarModel.AmountWishCountQuestions = Resolve<GetWishQuestionCount>().Run(authors[0].Id);
+            var followerIAm = R<FollowerIAm>().Init(new List<int> { authors[0].Id}, UserId);
+            SidebarModel.DoIFollow = followerIAm.Of(authors[0].Id);
+            SidebarModel.IsCurrentUser = authors[0].Id == UserId && IsLoggedIn;
+            SidebarModel.Authors[0].ShowWishKnowledge = authors[0].ShowWishKnowledge;
+        }
+
         FeaturedSets = category.FeaturedSets();
 
         IsOwnerOrAdmin = _sessionUser.IsLoggedInUserOrAdmin(category.Creator.Id);
@@ -152,13 +161,6 @@ public class CategoryModel : BaseModel
         AggregatedSetCount = AggregatedSets.Count;
 
         AggregatedQuestionCount = Category.GetCountQuestionsAggregated();
-
-        SidebarModel.Reputation = Resolve<ReputationCalc>().Run(Creator);
-        SidebarModel.AmountWishCountQuestions = Resolve<GetWishQuestionCount>().Run(Creator.Id);
-        var followerIAm = R<FollowerIAm>().Init(new List<int> { Creator.Id}, UserId);
-        SidebarModel.DoIFollow = followerIAm.Of(Creator.Id);
-        SidebarModel.IsCurrentUser = Creator.Id == UserId && IsLoggedIn;
-
     }
 
     private List<Question> GetTopQuestionsInSubCats()
