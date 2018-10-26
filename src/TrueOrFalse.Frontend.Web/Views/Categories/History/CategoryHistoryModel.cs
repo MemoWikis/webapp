@@ -42,7 +42,9 @@ public class ChangeDayModel
             ElapsedTime = TimeElapsedAsText.Run(cc.DateCreated),
             DateTime = cc.DateCreated.ToString("dd.MM.yyyy HH:mm"),
             Time = cc.DateCreated.ToString("HH:mm"),
-            CategoryChangeId = cc.Id
+            CategoryChangeId = cc.Id,
+            CategoryId = cc.Category.Id,
+            CategoryName = cc.Category.Name
         }).ToList();
     }
 }
@@ -56,4 +58,6 @@ public class ChangeDetailModel
     public string DateTime;
     public string Time;
     public int CategoryChangeId;
+    public int CategoryId;
+    public string CategoryName;
 }

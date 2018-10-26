@@ -331,7 +331,9 @@
     <Compile Include="Views\Categories\Detail\TemplateParser\TemplateParser.cs" />
     <Compile Include="Views\Categories\Detail\Partials\SingleSetModel.cs" />
     <Compile Include="Views\Categories\Edit\GraphDisplay\CategoryGraphModel.cs" />
+    <Compile Include="Views\Categories\History\HistoryOfEverythingController.cs" />
     <Compile Include="Views\Categories\History\CategoryHistoryController.cs" />
+    <Compile Include="Views\Categories\History\HistoryOfEverythingModel.cs" />
     <Compile Include="Views\Categories\History\CategoryHistoryModel.cs" />
     <Compile Include="Views\Categories\History\Detail\CategoryHistoryDetailController.cs" />
     <Compile Include="Views\Categories\History\Detail\CategoryHistoryDetailModel.cs" />
@@ -491,6 +493,7 @@
       <DependentUpon>EditAggregation.ts</DependentUpon>
     </Content>
     <Content Include="Views\Categories\Edit\TypeControls\EducationProvider.ascx" />
+    <Content Include="Views\Categories\History\HistoryOfEverything.aspx" />
     <Content Include="Views\Categories\History\CategoryHistory.aspx" />
     <Content Include="Views\Categories\History\CategoryHistory.css">
       <DependentUpon>CategoryHistory.less</DependentUpon>
@@ -589,7 +592,7 @@
     </Content>
     <Content Include="Views\Knowledge\Js\Page.js.map">
       <DependentUpon>Page.ts</DependentUpon>
-    </Content>      
+    </Content>
     <Content Include="Views\Categories\History\CategoryHistory.less" />
     <Content Include="Views\Categories\History\Detail\CategoryHistoryDetail.less" />
     <Content Include="Views\Knowledge\Js\WishKnowledgeContent.js.map">

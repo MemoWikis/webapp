@@ -419,6 +419,9 @@ namespace TrueOrFalse.Frontend.Web.Code
         public static string CategoryRestore(int categoryId, int categoryChangeId) => 
             GetUrlHelper().Action("Restore", CategoryController, new { categoryId = categoryId, categoryChangeId = categoryChangeId});
 
+        public static string HistoryOfEverything(int pageToShow) =>
+            GetUrlHelper().Action("List", "HistoryOfEverything", new { pageToShow = pageToShow });
+
         public static string GetUrl(object type)
         {
             if (type == null)
