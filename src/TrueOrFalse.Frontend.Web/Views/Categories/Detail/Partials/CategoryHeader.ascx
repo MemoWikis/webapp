@@ -22,7 +22,7 @@
                 <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="<%= buttonId %>">
                     <% if (Model.AggregatedSetCount > 0)
                        { %>
-                        <li><a href="<%= Links.DateCreateForCategory(Model.Id) %>" rel="nofollow" data-allowed="logged-in" data-allowed-type="date-create"><i class="fa fa-calendar"></i>&nbsp;Thema zum Termin lernen</a></li>
+                        <%--<li><a href="<%= Links.DateCreateForCategory(Model.Id) %>" rel="nofollow" data-allowed="logged-in" data-allowed-type="date-create"><i class="fa fa-calendar"></i>&nbsp;Thema zum Termin lernen</a></li>--%>
                         
                         <li><a href="<%= Links.GameCreateFromCategory(Model.Id) %>" rel="nofollow" data-allowed="logged-in" data-allowed-type="game"><i class="fa fa-gamepad"></i>&nbsp;Spiel starten</a></li>
                     <% } %>
@@ -94,7 +94,7 @@
                     <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="<%= buttonId %>">
                         <% if (Model.AggregatedSetCount > 0)
                            { %>
-                        <li><a href="<%= Links.DateCreateForCategory(Model.Id) %>" rel="nofollow" data-allowed="logged-in" data-allowed-type="date-create"><i class="fa fa-calendar"></i>&nbsp;Thema zum Termin lernen</a></li>
+                        <%--<li><a href="<%= Links.DateCreateForCategory(Model.Id) %>" rel="nofollow" data-allowed="logged-in" data-allowed-type="date-create"><i class="fa fa-calendar"></i>&nbsp;Thema zum Termin lernen</a></li>--%>
                         
                         <li><a href="<%= Links.GameCreateFromCategory(Model.Id) %>" rel="nofollow" data-allowed="logged-in" data-allowed-type="game"><i class="fa fa-gamepad"></i>&nbsp;Spiel starten</a></li>
                         <% } %>

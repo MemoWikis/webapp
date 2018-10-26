@@ -519,7 +519,10 @@
       <DependentUpon>GetResultTestSession.ts</DependentUpon>
     </Content>
     <Content Include="Views\Knowledge\Dates\DateRow.ascx" />
-    <Content Include="Views\Knowledge\Dates\Edit\Js\EditDate.js" />
+    <TypeScriptCompile Include="Views\Knowledge\Dates\Edit\Js\EditDate.ts" />
+    <Content Include="Views\Knowledge\Dates\Edit\Js\EditDate.js">
+      <DependentUpon>EditDate.ts</DependentUpon>
+    </Content>
     <Content Include="Views\Knowledge\Dates\PreviousDates.ascx" />
     <Content Include="Views\Knowledge\Dates\Modals\CopyDate.ascx" />
     <Content Include="Views\Knowledge\Dates\Modals\DeleteDate.ascx" />
@@ -625,6 +628,9 @@
     <Content Include="Style\tabs.less" />
     <Content Include="Views\Knowledge\Js\_dashboard.js.map">
       <DependentUpon>_dashboard.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Knowledge\Dates\Edit\Js\EditDate.js.map">
+      <DependentUpon>EditDate.ts</DependentUpon>
     </Content>
     <None Include="Views\Maintenance\ContentStats.less" />
     <Compile Include="Views\Maintenance\ContentStatsModel.cs" />

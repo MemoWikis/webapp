@@ -223,40 +223,39 @@
             </div>
         </div>
         <div class="col-xs-4">
-                <h3>Im Netzwerk</h3>
-                        <p class="greyed" style="font-size: 12px;"><a href="<%= Url.Action("Network", "Users") %>">Zu deinem Netzwerk</a></p>
-       
-                        <% if (Model.NetworkActivities.Count == 0)
-                            { %>
-                                Keine Aktivitäten in deinem <a href="<%= Url.Action("Network", "Users") %>">Netzwerk</a>. 
-                                Erweitere dein Netzwerk, indem du anderen <a href="<%= Url.Action("Users", "Users") %>">Nutzern folgst</a>.
-                        <% }
-                            else
-                            { %>
-                            <% foreach (var activity in Model.NetworkActivities)
-                                { %>
-                                <div class="row" style="margin-bottom: 10px;">
-                                    <div class="col-xs-3">
-                                        <a href="<%= Links.UserDetail(activity.UserCauser) %>">
-                                        <img class="ItemImage" src="<%= new UserImageSettings(activity.UserCauser.Id).GetUrl_128px_square(activity.UserCauser).Url %>" />
-                                        </a>
-                                    </div>
-                                    <div class="col-xs-9" id="textNetzwerk" >
-                                        <div class="greyed" style="font-size: 10px; margin: -4px 0;">vor <%= DateTimeUtils.TimeElapsedAsText(activity.At) %></div>
-                                        <div  style="clear: left;" >
-                                            <a href="<%= Links.UserDetail(activity.UserCauser) %>"><%= activity.UserCauser.Name %></a> <%= UserActivityTools.GetActionDescription(activity) %>
-                                            <%= UserActivityTools.GetActionObject(activity) %>
-                                        </div>
-                                    </div>
-                                </div>
-                            <% } %>
-                            <div class="row" style="opacity: 0.4;">
-                                <div class="col-xs-12"><a class="featureNotImplemented">mehr...</a></div>
+            <h3>Im Netzwerk</h3>
+                <p class="greyed" style="font-size: 12px;"><a href="<%= Url.Action("Network", "Users") %>">Zu deinem Netzwerk</a></p>
+                <% if (Model.NetworkActivities.Count == 0)
+                   { %>
+                        Keine Aktivitäten in deinem <a href="<%= Url.Action("Network", "Users") %>">Netzwerk</a>. 
+                        Erweitere dein Netzwerk, indem du anderen <a href="<%= Url.Action("Users", "Users") %>">Nutzern folgst</a>.
+                <% }
+                   else
+                   { %>
+                    <% foreach (var activity in Model.NetworkActivities)
+                       { %>
+                        <div class="row" style="margin-bottom: 10px;">
+                            <div class="col-xs-3">
+                                <a href="<%= Links.UserDetail(activity.UserCauser) %>">
+                                <img class="ItemImage" src="<%= new UserImageSettings(activity.UserCauser.Id).GetUrl_128px_square(activity.UserCauser).Url %>" />
+                                </a>
                             </div>
-                        <% } %>
+                            <div class="col-xs-9" id="textNetzwerk" >
+                                <div class="greyed" style="font-size: 10px; margin: -4px 0;">vor <%= DateTimeUtils.TimeElapsedAsText(activity.At) %></div>
+                                <div  style="clear: left;" >
+                                    <a href="<%= Links.UserDetail(activity.UserCauser) %>"><%= activity.UserCauser.Name %></a> <%= UserActivityTools.GetActionDescription(activity) %>
+                                    <%= UserActivityTools.GetActionObject(activity) %>
+                                </div>
+                            </div>
+                        </div>
+                    <% } %>
+                    <div class="row" style="opacity: 0.4;">
+                        <div class="col-xs-12"><a class="featureNotImplemented">mehr...</a></div>
+                    </div>
+                <% } %>
         </div>
     </div>
-    
+<%--    
     <div id="allDateRows"class="row third-row">
         <div class ="col-xs-8">
              <div>
@@ -363,15 +362,15 @@
                 </p>
             </div>
         </div>
-    </div>
+    </div>--%>
  </div>
 
-<% Html.RenderPartial("Dates/Modals/DeleteDate"); %>
+<%--<% Html.RenderPartial("Dates/Modals/DeleteDate"); %>
 <% Html.RenderPartial("Dates/Modals/TrainingSettings"); %>
-<% Html.RenderPartial("Dates/Modals/CopyDate"); %>
+<% Html.RenderPartial("Dates/Modals/CopyDate"); %>--%>
 
 <%= Scripts.Render("~/bundles/js/_dashboard") %>
-<%= Scripts.Render("~/bundles/js/Dates") %>
+<%--<%= Scripts.Render("~/bundles/js/Dates") %>--%>
 
   <%--  <div class="row">
         <div class="col-md-6">
