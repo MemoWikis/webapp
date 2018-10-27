@@ -162,7 +162,7 @@
 </div>
 <!-- Dein Training -->
 <div class ="col-xs-5">
-    <h3> Dein Training</h3>
+    <h3 class="center"> Dein Training</h3>
     <div id="chartActivityLastDays"></div>
 </div>
 <div class="col-xs-4">
