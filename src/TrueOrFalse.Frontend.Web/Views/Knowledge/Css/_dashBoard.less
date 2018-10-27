@@ -64,19 +64,25 @@ h3 {
 
 //second-row
 .second-row {
-    margin-top: 0px;
-    padding-top: 0px;
-
-    .col-xs-3 {
-        padding-top: 0px;
-
-        @media only screen and (max-width: 970px) {
+    @media only screen and (max-width: 970px) {
+        [class*="col-"] {
+            width: 50%;
+            text-align: center;
+            align-content: center;
+            margin-bottom: 30px;
             margin-top: 30px;
         }
 
+        .col-xs-4 {
+            margin-top: -117px;
+        }
+    }
+
+
+
+    .col-xs-3 {
         .reputation-number {
             font-size: 1.5em;
-            margin-right: 0.3em;
         }
 
         span {
@@ -89,16 +95,10 @@ h3 {
     }
 
     .col-xs-5 {
-        margin-top: 50px;
-        padding-right: 40px;
-
-
 
         .ProgressBarContainer, .ProgressBarSegment {
             height: 30px;
         }
-
-
 
         .ProgressBarContainer {
             display: table;
@@ -132,26 +132,9 @@ h3 {
         }
     }
 
-    @media only screen and (max-width: 970px) {
-        [class*="col-"] {
-            width: 100%;
-            text-align: center;
-            align-content: center;
-            margin-bottom: 30px;
-        }
-    }
+
 
     .col-xs-5 {
-
-        @media only screen and (max-width: 970px) {
-            [class*="col-"] {
-                width: 100%;
-                text-align: center;
-                align-content: center;
-                margin-bottom: 30px;
-            }
-        }
-
         .ProgressBarContainer, .ProgressBarSegment {
             height: 30px;
         }
@@ -163,25 +146,19 @@ h3 {
 
     .col-xs-4 {
         margin-top: -117px;
-
-        @media only screen and (max-width: 970px) {
-            margin-top: 40px;
-            height: auto;
-        }
-
-        .col-xs-3 {
-            margin-top: 0px;
-        }
     }
 
     @media only screen and (max-width: 970px) {
-        [class*="col-"] {
+        .col-xs-4 {
+            margin-top: 10px;
             width: 100%;
             text-align: center;
-            align-content: center;
-            margin-bottom: 30px;
-            text-align: center;
 
+            .col-xs-3, .col-xs-9 {
+                width: 100%;
+                text-align: center;
+                font-size: 18px;
+            }
             .ItemImage {
                 height: 40px;
                 width: 40px;

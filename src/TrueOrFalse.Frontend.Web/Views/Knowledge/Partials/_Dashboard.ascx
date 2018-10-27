@@ -83,7 +83,7 @@
                  ['Sicheres Wissen', amountSolid],
                  ['Solltest du festigen', amountToConsolidate],
                  ['Solltest du lernen', amountToLearn],
-                 ['Noch nicht gelernt', amountNotLearned],
+                 ['Noch nicht gelernt', amountNotLearned]
              ]);
 
              var options = {
@@ -179,11 +179,11 @@
             <a href="<%= Links.UserDetail(Model.User) %>">Details auf deiner Profilseite</a>
         </p>
         <p>
-            <b class="reputation-number"><%= Model.TopicCreatedCount %></b><span>erstellte Themen</span><br/>
-            <b class="reputation-number"><%= Model.SetsCreatedCount %></b><span>erstellte Lernsets</span><br/>
-            <b class="reputation-number"><%= Model.QuestionsCreatedCount %></b><span>erstellte Fragen</span> <br/>
+            <b class="reputation-number"><%= Model.TopicCreatedCount %></b><span> erstellte Themen</span><br/>
+            <b class="reputation-number"><%= Model.SetsCreatedCount %></b><span> erstellte Lernsets</span><br/>
+            <b class="reputation-number"><%= Model.QuestionsCreatedCount %></b><span> erstellte Fragen</span> <br/>
             <h3 id="rang">Rang <%=Model.ReputationRank %></h3>
-            <b>(<%= Model.ReputationTotal %> ReputationsPunkte)</b>
+            <b>(<%= Model.ReputationTotal %> Reputations Punkte)</b>
             </p>
      <%--   <p>
             <i class="fa fa-question-circle show-tooltip" data-original-title="Reputationspunkte erhältst du, wenn du gute Lerninhalte erstellst und andere damit lernen."></i>

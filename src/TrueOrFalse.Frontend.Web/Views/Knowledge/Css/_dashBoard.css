@@ -49,31 +49,26 @@
     margin-bottom: 30px;
   }
 }
-.second-row {
-  margin-top: 0px;
-  padding-top: 0px;
-}
-.second-row .col-xs-3 {
-  padding-top: 0px;
-}
 @media only screen and (max-width: 970px) {
-  .second-row .col-xs-3 {
+  .second-row [class*="col-"] {
+    width: 50%;
+    text-align: center;
+    align-content: center;
+    margin-bottom: 30px;
     margin-top: 30px;
+  }
+  .second-row .col-xs-4 {
+    margin-top: -117px;
   }
 }
 .second-row .col-xs-3 .reputation-number {
   font-size: 1.5em;
-  margin-right: 0.3em;
 }
 .second-row .col-xs-3 span {
   font-size: 1.1em;
 }
 .second-row .col-xs-3 #rang {
   font-weight: bolder;
-}
-.second-row .col-xs-5 {
-  margin-top: 50px;
-  padding-right: 40px;
 }
 .second-row .col-xs-5 .ProgressBarContainer,
 .second-row .col-xs-5 .ProgressBarSegment {
@@ -105,22 +100,6 @@
   position: relative;
   overflow: visible;
 }
-@media only screen and (max-width: 970px) {
-  .second-row [class*="col-"] {
-    width: 100%;
-    text-align: center;
-    align-content: center;
-    margin-bottom: 30px;
-  }
-}
-@media only screen and (max-width: 970px) {
-  .second-row .col-xs-5 [class*="col-"] {
-    width: 100%;
-    text-align: center;
-    align-content: center;
-    margin-bottom: 30px;
-  }
-}
 .second-row .col-xs-5 .ProgressBarContainer,
 .second-row .col-xs-5 .ProgressBarSegment {
   height: 30px;
@@ -133,21 +112,17 @@
 }
 @media only screen and (max-width: 970px) {
   .second-row .col-xs-4 {
-    margin-top: 40px;
-    height: auto;
-  }
-}
-.second-row .col-xs-4 .col-xs-3 {
-  margin-top: 0px;
-}
-@media only screen and (max-width: 970px) {
-  .second-row [class*="col-"] {
+    margin-top: 10px;
     width: 100%;
-    align-content: center;
-    margin-bottom: 30px;
     text-align: center;
   }
-  .second-row [class*="col-"] .ItemImage {
+  .second-row .col-xs-4 .col-xs-3,
+  .second-row .col-xs-4 .col-xs-9 {
+    width: 100%;
+    text-align: center;
+    font-size: 18px;
+  }
+  .second-row .col-xs-4 .ItemImage {
     height: 40px;
     width: 40px;
   }
