@@ -6,6 +6,12 @@ window.onresize = function (event) {
     StickyHeader();
 }
 
+window.onload = function(event) {
+    if (window.innerWidth <= 767 && top.location.pathname === '/') {
+            $('#Breadcrumb').show();
+    }
+}
+
 function StickyHeader() {
     var position = $(this).scrollTop();
     var header = document.getElementById("Breadcrumb");
@@ -35,7 +41,11 @@ function StickyHeader() {
         $('#RightMainMenu').css('position', 'absolute');
         $('#RightMainMenu').css('top', '60px');
         $('#BreadCrumbTrail').css('max-width', '');
-       
+        $('#Breadcrumb').hide();   
+
+        if (window.innerWidth <= 767 && top.location.pathname === '/') {
+            $('#Breadcrumb').show();
+        }
     }
 
     ReorientateMenu();
