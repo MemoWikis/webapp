@@ -4,6 +4,11 @@
   -moz-osx-font-smoothing: grayscale;
   color: #2c3e50;
 }
+@media only screen and (max-width: 670px) {
+  #app .KnowledgeBarWrapper {
+    vertical-align: middle;
+  }
+}
 #app .Topic {
   font-size: 18px;
 }
@@ -33,6 +38,11 @@ table {
 .vuetable .btn {
   font-size: 18px;
 }
+@media only screen and (max-width: 360px) {
+  .vuetable .btn {
+    font-size: 13px;
+  }
+}
 .vuetable #_Titel,
 .vuetable #_KnowlegdeWishPartial,
 .vuetable .vuetable-th-slot-image,
@@ -44,11 +54,61 @@ table {
 .vuetable thead {
   color: #2d60b4;
 }
+.vuetable thead .vuetable-th-slot-imageAndTitle {
+  width: 35%;
+}
+.vuetable thead #_KnowlegdeWishPartial {
+  width: 25%;
+}
+@media only screen and (max-width: 522px) {
+  .vuetable thead #_KnowlegdeWishPartial {
+    display: none;
+  }
+}
+.vuetable thead .vuetable-th-slot-topicCount {
+  width: 25%;
+}
+@media only screen and (max-width: 750px) {
+  .vuetable thead .vuetable-th-slot-topicCount {
+    width: 20%;
+  }
+}
+@media only screen and (max-width: 675px) {
+  .vuetable thead .vuetable-th-slot-topicCount {
+    display: none;
+  }
+}
+.vuetable thead .vuetable-th-slot-dropDown {
+  width: 15%;
+}
+@media only screen and (max-width: 750px) {
+  .vuetable thead .vuetable-th-slot-dropDown {
+    width: 20%;
+  }
+}
 .vuetable h1 {
   font-size: 30px;
 }
+@media only screen and (max-width: 675px) {
+  .vuetable .topic-count-td {
+    display: none;
+  }
+}
 .vuetable td {
   height: 30px;
+}
+.vuetable td .Button {
+  float: left;
+}
+@media only screen and (max-width: 1200px) {
+  .vuetable td .Button {
+    float: none;
+    text-align: center;
+  }
+}
+.vuetable td .Button .fa-line-chart {
+  font-size: 18px;
+  vertical-align: -5%;
 }
 .vuetable td .image {
   float: left;
@@ -73,8 +133,13 @@ table {
 .vuetable table.table.table-striped .title {
   float: left;
 }
-.vuetable .vuetable-slot .Button {
-  float: left;
+.KnowledgeBarWrapper {
+  vertical-align: middle;
+}
+@media only screen and (max-width: 522px) {
+  .KnowledgeBarWrapper {
+    display: none;
+  }
 }
 .KnowledgeBarWrapper .KnowledgeBarLegend {
   color: #999999;
@@ -91,13 +156,7 @@ table {
 .KnowledgeBarWrapper .category-knowledge-bar {
   display: inline-block;
   height: 10px;
-  width: 180px;
-}
-@media only screen and (max-width: 800px) {
-  .KnowledgeBarWrapper .set-knowledge-bar,
-  .KnowledgeBarWrapper .category-knowledge-bar {
-    width: 139px;
-  }
+  width: 100%;
 }
 .KnowledgeBarWrapper .set-knowledge-bar .solid-knowledge,
 .KnowledgeBarWrapper .category-knowledge-bar .solid-knowledge,
