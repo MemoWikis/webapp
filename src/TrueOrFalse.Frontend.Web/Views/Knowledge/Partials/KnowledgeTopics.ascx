@@ -33,7 +33,7 @@
             <div class="image">
                 <image class="imageTable"v-bind:src="GetImageSourceUrl(props.rowData.ImageFrontendData.ImageMetaData)"></image>
             </div>
-            <div>
+            <div class="set-category-title">
                 <a v-bind:href="props.rowData.LinkToSetOrCategory">{{props.rowData.Title}}</a>
             </div>
         </template>
@@ -46,18 +46,14 @@
             </div>
         </template>
 
-        <!-- Buttons-->
-        <template slot="actions" scope="props">
+        <!-- Dropdownmenu -->
+        <template slot="dropDown" scope="props">
         <div class="Button">
             <a v-bind:href="props.rowData.LinkStartLearningSession" class="btn btn-link" data-allowed="logged-in" data-allowed-type="learning-session" rel="nofollow">
                 <i class="fa fa-lg fa-line-chart" style="font-size: 16px"></i>&nbsp;lernen
             </a>
         </div>
-        </template>  
-
-        <!-- Dropdownmenu -->
-        <template slot="dropDown" scope="props">
-        <div class="Button dropdown" style="float: right">
+        <div class="Button dropdown">
             <% var buttonId = Guid.NewGuid(); %>
             <a href="#" id="<%=buttonId %>" class="dropdown-toggle fa-rotate-90  btn btn-link btn-sm ButtonEllipsis" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" >
                 <i class="fa fa-ellipsis-v"></i>

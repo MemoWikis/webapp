@@ -29,7 +29,6 @@ new Vue({
                 name: '__slot:topicCount',
                 title: "Größe"
             },
-            '__slot:actions',
             '__slot:dropDown'
         ],
         sortOrder: [
