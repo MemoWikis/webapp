@@ -9,6 +9,11 @@
     vertical-align: middle;
   }
 }
+@media only screen and (max-width: 670px) {
+  #app td {
+    vertical-align: middle;
+  }
+}
 #app .Topic {
   font-size: 18px;
 }
@@ -16,6 +21,11 @@
   #app .Topic {
     float: none;
     text-align: center;
+  }
+}
+@media only screen and (max-width: 440px) {
+  #app .Topic {
+    font-size: 13px;
   }
 }
 #app #h2TpopicAndLearnset {
@@ -38,9 +48,14 @@ table {
 .vuetable .btn {
   font-size: 18px;
 }
-@media only screen and (max-width: 360px) {
+@media only screen and (max-width: 440px) {
   .vuetable .btn {
     font-size: 13px;
+  }
+}
+@media only screen and (max-width: 370px) {
+  .vuetable .btn {
+    padding-left: 0px;
   }
 }
 .vuetable #_Titel,
@@ -60,7 +75,7 @@ table {
 .vuetable thead #_KnowlegdeWishPartial {
   width: 25%;
 }
-@media only screen and (max-width: 522px) {
+@media only screen and (max-width: 583px) {
   .vuetable thead #_KnowlegdeWishPartial {
     display: none;
   }
@@ -68,9 +83,14 @@ table {
 .vuetable thead .vuetable-th-slot-topicCount {
   width: 25%;
 }
-@media only screen and (max-width: 750px) {
+@media only screen and (max-width: 1200px) {
   .vuetable thead .vuetable-th-slot-topicCount {
     width: 20%;
+  }
+}
+@media only screen and (max-width: 1000px) {
+  .vuetable thead .vuetable-th-slot-topicCount {
+    width: 15%;
   }
 }
 @media only screen and (max-width: 675px) {
@@ -81,9 +101,14 @@ table {
 .vuetable thead .vuetable-th-slot-dropDown {
   width: 15%;
 }
-@media only screen and (max-width: 750px) {
+@media only screen and (max-width: 1200px) {
   .vuetable thead .vuetable-th-slot-dropDown {
     width: 20%;
+  }
+}
+@media only screen and (max-width: 1000px) {
+  .vuetable thead .vuetable-th-slot-dropDown {
+    width: 25%;
   }
 }
 .vuetable h1 {
@@ -99,12 +124,10 @@ table {
 }
 .vuetable td .Button {
   float: left;
-}
-@media only screen and (max-width: 1200px) {
-  .vuetable td .Button {
-    float: none;
-    text-align: center;
-  }
+  /*@media only screen and (max-width: 1200px) {
+                float: none;
+                text-align: center;
+            }*/
 }
 .vuetable td .Button .fa-line-chart {
   font-size: 18px;
@@ -136,7 +159,7 @@ table {
 .KnowledgeBarWrapper {
   vertical-align: middle;
 }
-@media only screen and (max-width: 522px) {
+@media only screen and (max-width: 583px) {
   .KnowledgeBarWrapper {
     display: none;
   }

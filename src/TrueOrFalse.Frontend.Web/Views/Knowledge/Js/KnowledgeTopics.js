@@ -30,7 +30,11 @@ new Vue({
                 dataClass: "topic-count-td",
                 title: "Größe"
             },
-            '__slot:dropDown'
+            {
+                name: '__slot:dropDown' ,
+                dataClass: "drop-down-td"
+            }
+            
         ],
         sortOrder: [
             { field: 'name', direction: 'asc' },

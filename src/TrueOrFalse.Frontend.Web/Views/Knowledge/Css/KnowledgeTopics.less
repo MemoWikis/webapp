@@ -12,12 +12,22 @@
         }
     }
 
+    td {
+        @media only screen and (max-width: 670px) {
+            vertical-align: middle;
+        }
+    }
+
     .Topic {
         font-size: 18px;
 
         @media only screen and (max-width: 670px) {
             float: none;
             text-align: center;
+        }
+
+        @media only screen and (max-width: 440px) {
+            font-size: 13px;
         }
     }
 
@@ -47,8 +57,12 @@ table {
     .btn {
         font-size: 18px;
 
-        @media only screen and (max-width: 360px) {
+        @media only screen and (max-width: 440px) {
             font-size: 13px;
+        }
+
+        @media only screen and (max-width: 370px) {
+            padding-left: 0px;
         }
     }
 
@@ -66,7 +80,7 @@ table {
         #_KnowlegdeWishPartial {
             width: 25%;
 
-            @media only screen and (max-width: 522px) {
+            @media only screen and (max-width: 583px) {
                 display: none;
             }
         }
@@ -74,8 +88,12 @@ table {
         .vuetable-th-slot-topicCount {
             width: 25%;
 
-            @media only screen and (max-width: 750px) {
+            @media only screen and (max-width: 1200px) {
                 width: 20%;
+            }
+
+            @media only screen and (max-width: 1000px) {
+                width: 15%;
             }
 
             @media only screen and (max-width: 675px) {
@@ -86,8 +104,12 @@ table {
         .vuetable-th-slot-dropDown {
             width: 15%;
 
-            @media only screen and (max-width: 750px) {
+            @media only screen and (max-width: 1200px) {
                 width: 20%;
+            }
+
+            @media only screen and (max-width: 1000px) {
+                width: 25%;
             }
         }
     }
@@ -106,14 +128,14 @@ table {
     td {
         height: 30px;
 
+       
+
         .Button {
             float: left;
-
-            @media only screen and (max-width: 1200px) {
+            /*@media only screen and (max-width: 1200px) {
                 float: none;
                 text-align: center;
-            }
-
+            }*/
             .fa-line-chart {
                 font-size: 18px;
                 vertical-align: -5%;
@@ -151,7 +173,7 @@ table {
 .KnowledgeBarWrapper {
     vertical-align: middle;
 
-    @media only screen and (max-width: 522px) {
+    @media only screen and (max-width: 583px) {
         display: none;
     }
 
