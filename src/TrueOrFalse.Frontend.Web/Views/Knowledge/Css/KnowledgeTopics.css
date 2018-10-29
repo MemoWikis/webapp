@@ -72,6 +72,11 @@ table {
 .vuetable thead .vuetable-th-slot-imageAndTitle {
   width: 35%;
 }
+@media only screen and (max-width: 350px) {
+  .vuetable thead .vuetable-th-slot-imageAndTitle {
+    font-size: 16px;
+  }
+}
 .vuetable thead #_KnowlegdeWishPartial {
   width: 25%;
 }
