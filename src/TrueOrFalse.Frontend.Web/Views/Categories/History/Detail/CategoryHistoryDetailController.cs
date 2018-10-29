@@ -1,20 +1,23 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.Mvc;
-using System.Web.UI.WebControls;
+﻿using System.Web.Mvc;
+using NHibernate;
 
 public class CategoryHistoryDetailController : Controller
 {
     public ActionResult Detail(int categoryChangeId)
     {
-        var categoryChange = Sl.CategoryChangeRepo.GetByIdEager(categoryChangeId);
-        var previousChange = Sl.CategoryChangeRepo.GetForCategory(categoryChange.Category.Id)
-            .OrderByDescending(cc => cc.DateCreated)
-            .SkipWhile(previous => previous.DateCreated >= categoryChange.DateCreated)
-            .FirstOrDefault();
+        var currentRevision = Sl.CategoryChangeRepo.GetByIdEager(categoryChangeId);
 
-        return View("~/Views/Categories/History/Detail/CategoryHistoryDetail.aspx", new CategoryHistoryDetailModel(categoryChange, previousChange));
+        var categoryId = currentRevision.Category.Id;
+        var currentRevisionDate = currentRevision.DateCreated.ToString("yyyy-MM-dd HH-mm-ss");
+        var query = $@"
+            
+            SELECT * FROM CategoryChange cc
+            WHERE cc.Category_id = {categoryId} and cc.DateCreated < '{currentRevisionDate}' 
+            ORDER BY cc.DateCreated DESC LIMIT 1
+
+            ";
+        var previousRevision = Sl.R<ISession>().CreateSQLQuery(query).AddEntity(typeof(CategoryChange)).UniqueResult<CategoryChange>();
+
+        return View("~/Views/Categories/History/Detail/CategoryHistoryDetail.aspx", new CategoryHistoryDetailModel(currentRevision, previousRevision));
     }
 }
