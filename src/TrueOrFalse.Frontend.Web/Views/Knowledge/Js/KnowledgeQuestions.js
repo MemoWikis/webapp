@@ -13,9 +13,9 @@ new Vue({
 
         fields: [
             {
-                name: "__slot:image",
+                name: "__slot:questionTitel",
                 title: "Frage",
-                dataClass: "tdImage"
+                dataClass: "td-question"
             },
             {
                 name: "__slot:knowWas",
