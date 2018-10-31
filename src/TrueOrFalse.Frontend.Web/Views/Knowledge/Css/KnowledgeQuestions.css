@@ -30,6 +30,14 @@ table {
 .vuetable .vuetable-th-slot-authorImage {
   width: 18%;
 }
+.vuetable .vuetable-th-slot-category {
+  width: 21%;
+}
+.vuetable .category-table .round {
+  border-radius: 100%;
+  width: 30px;
+  height: 30px;
+}
 .vuetable .td-question {
   padding-left: 0px;
 }
