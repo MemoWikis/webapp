@@ -42,7 +42,7 @@
             @vuetable:initialized ="loading()"
             @vuetable:loaded ="onLoaded()">
         
-            <template slot="questionTitel" scope="props">
+            <template slot="questionTitle" scope="props">
                 <div data-toggle="tooltip" v-bind:title="props.rowData.Title">
                     <div class="image">
                         <image class="imageTable" v-bind:src="GetImageSourceUrl(props.rowData.ImageFrontendData.ImageMetaData)" ></image>

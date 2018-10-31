@@ -10,7 +10,7 @@ table {
 .vuetable {
   font-size: 18px;
 }
-.vuetable .vuetable-th-slot-questionTitel,
+.vuetable .vuetable-th-slot-questionTitle,
 .vuetable .vuetable-th-slot-knowWas,
 .vuetable .vuetable-th-slot-authorImage,
 .vuetable .vuetable-th-slot-category {
@@ -20,15 +20,15 @@ table {
   font-weight: bold;
   color: #2c5fb2;
 }
-.vuetable .vuetable-th-slot-authorImage {
-  width: 18%;
-}
-.vuetable .vuetable-th-slot-th-titel {
+.vuetable .vuetable-th-slot-questionTitle {
   width: 46%;
   padding-left: 0px;
 }
 .vuetable .vuetable-th-slot-knowWas {
   width: 15%;
+}
+.vuetable .vuetable-th-slot-authorImage {
+  width: 18%;
 }
 .vuetable .td-question {
   padding-left: 0px;

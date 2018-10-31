@@ -13,7 +13,7 @@ new Vue({
 
         fields: [
             {
-                name: "__slot:questionTitel",
+                name: "__slot:questionTitle",
                 title: "Frage",
                 dataClass: "td-question"
             },
