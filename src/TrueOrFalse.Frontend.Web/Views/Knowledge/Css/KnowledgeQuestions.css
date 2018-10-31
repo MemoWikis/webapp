@@ -24,14 +24,88 @@ table {
   width: 46%;
   padding-left: 0px;
 }
+@media only screen and (max-width: 1000px) {
+  .vuetable .vuetable-th-slot-questionTitle {
+    width: 25%;
+  }
+}
+@media only screen and (max-width: 675px) {
+  .vuetable .vuetable-th-slot-questionTitle {
+    width: 45%;
+  }
+}
 .vuetable .vuetable-th-slot-knowWas {
   width: 15%;
+}
+@media only screen and (max-width: 1200px) {
+  .vuetable .vuetable-th-slot-knowWas {
+    width: 18%;
+  }
+}
+@media only screen and (max-width: 1000px) {
+  .vuetable .vuetable-th-slot-knowWas {
+    width: 25%;
+  }
+}
+@media only screen and (max-width: 675px) {
+  .vuetable .vuetable-th-slot-knowWas {
+    width: 33%;
+  }
+}
+@media only screen and (max-width: 521px) {
+  .vuetable .vuetable-th-slot-knowWas {
+    text-align: center;
+  }
 }
 .vuetable .vuetable-th-slot-authorImage {
   width: 18%;
 }
+@media only screen and (max-width: 1200px) {
+  .vuetable .vuetable-th-slot-authorImage {
+    width: 15%;
+  }
+}
+@media only screen and (max-width: 1000px) {
+  .vuetable .vuetable-th-slot-authorImage {
+    width: 25%;
+  }
+}
+@media only screen and (max-width: 675px) {
+  .vuetable .vuetable-th-slot-authorImage {
+    width: 21%;
+  }
+}
+@media only screen and (max-width: 521px) {
+  .vuetable .vuetable-th-slot-authorImage {
+    display: none;
+  }
+}
 .vuetable .vuetable-th-slot-category {
   width: 21%;
+}
+@media only screen and (max-width: 1000px) {
+  .vuetable .vuetable-th-slot-category {
+    width: 25%;
+  }
+}
+@media only screen and (max-width: 675px) {
+  .vuetable .vuetable-th-slot-category {
+    display: none;
+  }
+}
+@media only screen and (max-width: 675px) {
+  .vuetable .category-table {
+    display: none;
+  }
+}
+.vuetable .category-table a {
+  padding-left: 10px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  position: relative;
+  display: inline-block;
+  width: calc(100% - 30px - 10px);
 }
 .vuetable .category-table .round {
   border-radius: 100%;
@@ -44,9 +118,6 @@ table {
 .vuetable .td-question .image {
   float: left;
 }
-.vuetable .know-was {
-  padding-left: 45px;
-}
 .vuetable .title-table {
   padding-left: 10px;
   white-space: nowrap;
@@ -56,21 +127,17 @@ table {
   display: inline-block;
   width: calc(100% - 30px);
 }
-.vuetable .author-image {
+@media only screen and (max-width: 521px) {
+  .vuetable .author-image-name {
+    display: none;
+  }
+}
+.vuetable .author-image-name .author-image {
   float: left;
   padding-right: 10px;
   max-width: 40px;
 }
-.vuetable .greenD,
-.vuetable .yellow,
-.vuetable .red,
-.vuetable .grey,
-.vuetable .round {
-  width: 21px;
-  height: 21px;
-  border-radius: 10px;
-}
-.vuetable .author-name {
+.vuetable .author-image-name .author-name {
   font-size: 18px;
   color: #0560AB;
   width: calc(100% - 40px - 10px);
@@ -80,17 +147,48 @@ table {
   position: relative;
   display: inline-block;
 }
-.vuetable .greenD {
+.vuetable .know-was {
+  padding-left: 45px;
+}
+@media only screen and (max-width: 521px) {
+  .vuetable .know-was {
+    padding-left: 0px;
+  }
+}
+@media only screen and (max-width: 521px) {
+  .vuetable .know-was {
+    margin: auto;
+  }
+}
+.vuetable .know-was .greenD,
+.vuetable .know-was .yellow,
+.vuetable .know-was .red,
+.vuetable .know-was .grey,
+.vuetable .know-was .round {
+  width: 21px;
+  height: 21px;
+  border-radius: 10px;
+}
+@media only screen and (max-width: 521px) {
+  .vuetable .know-was .greenD,
+  .vuetable .know-was .yellow,
+  .vuetable .know-was .red,
+  .vuetable .know-was .grey,
+  .vuetable .know-was .round {
+    margin: auto;
+  }
+}
+.vuetable .know-was .greenD {
   background-color: #afd534;
   text-align: center;
 }
-.vuetable .yellow {
+.vuetable .know-was .yellow {
   background-color: #fdd648;
 }
-.vuetable .red {
+.vuetable .know-was .red {
   background-color: silver;
 }
-.vuetable .grey {
+.vuetable .know-was .grey {
   background-color: silver;
 }
 thead {

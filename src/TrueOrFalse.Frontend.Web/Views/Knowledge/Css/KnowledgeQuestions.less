@@ -3,6 +3,8 @@
 @needs-consolidation: #fdd648;
 @not-learned: silver;
 @needs-learning: lightsalmon;
+@quarter: 25%;
+@one-third: 33%;
 
 #app {
     font-family: Open Sans, Regular;
@@ -32,22 +34,85 @@ table {
     .vuetable-th-slot-questionTitle {
         width: 46%;
         padding-left: 0px;
+
+        @media only screen and (max-width: 1000px) {
+            width: @quarter;
+        }
+
+        @media only screen and (max-width: 675px) {
+            width: 45%;
+        }
     }
 
     .vuetable-th-slot-knowWas {
         width: 15%;
+
+        @media only screen and (max-width: 1200px) {
+            width: 18%;
+        }
+
+        @media only screen and (max-width: 1000px) {
+            width: @quarter;
+        }
+
+        @media only screen and (max-width: 675px) {
+            width: @one-third;
+        }
+
+        @media only screen and (max-width: 521px) {
+            text-align: center;
+        }
     }
 
     .vuetable-th-slot-authorImage {
         width: 18%;
+
+        @media only screen and (max-width: 1200px) {
+            width: 15%;
+        }
+
+        @media only screen and (max-width: 1000px) {
+            width: @quarter;
+        }
+
+        @media only screen and (max-width: 675px) {
+            width: 21%;
+        }
+
+        @media only screen and (max-width: 521px) {
+            display: none;
+        }
     }
 
 
     .vuetable-th-slot-category {
         width: 21%;
+
+        @media only screen and (max-width: 1000px) {
+            width: @quarter
+        }
+
+        @media only screen and (max-width: 675px) {
+            display: none;
+        }
     }
 
     .category-table {
+
+        @media only screen and (max-width: 675px) {
+            display: none;
+        }
+
+        a {
+            padding-left: 10px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            position: relative;
+            display: inline-block;
+            width: calc(100% - 30px - 10px);
+        }
+
         .round {
             border-radius: 100%;
             width: 30px;
@@ -63,10 +128,6 @@ table {
         }
     }
 
-    .know-was {
-        padding-left: 45px;
-    }
-
     .title-table {
         padding-left: 10px;
         white-space: nowrap;
@@ -77,44 +138,66 @@ table {
         width: calc(100% - 30px);
     }
 
-    .author-image {
-        float: left;
-        padding-right: 10px;
-        max-width: 40px;
+    .author-image-name {
+        @media only screen and (max-width: 521px) {
+            display: none;
+        }
+
+        .author-image {
+            float: left;
+            padding-right: 10px;
+            max-width: 40px;
+        }
+
+        .author-name {
+            font-size: 18px;
+            color: #0560AB;
+            width: calc(100% - 40px - 10px);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            position: relative;
+            display: inline-block;
+        }
     }
 
-    .greenD, .yellow, .red, .grey, .round {
-        width: 21px;
-        height: 21px;
-        border-radius: 10px;
-    }
+    .know-was {
+        padding-left: 45px;
 
-    .author-name {
-        font-size: 18px;
-        color: #0560AB;
-        width: calc(100% - 40px - 10px);
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        position: relative;
-        display: inline-block;
-    }
+        @media only screen and (max-width: 521px) {
+            padding-left: 0px;
+        }
 
-    .greenD {
-        background-color: @solid;
-        text-align: center;
-    }
+        @media only screen and (max-width: 521px) {
+            margin: auto;
+        }
 
-    .yellow {
-        background-color: @needs-consolidation;
-    }
+        .greenD, .yellow, .red, .grey, .round {
+            width: 21px;
+            height: 21px;
+            border-radius: 10px;
 
-    .red {
-        background-color: @not-learned;
-    }
+            @media only screen and (max-width: 521px) {
+                margin: auto;
+            }
+        }
 
-    .grey {
-        background-color: silver;
+        .greenD {
+            background-color: @solid;
+            text-align: center;
+        }
+
+        .yellow {
+            background-color: @needs-consolidation;
+        }
+
+        .red {
+            background-color: @not-learned;
+        }
+
+        .grey {
+            background-color: silver;
+        }
     }
 }
 
@@ -180,7 +263,6 @@ table.table.table-striped .title {
 .title-table {
 }
 //|-----------------------switch--------------------------|
-
 .onoffswitch {
     position: relative;
     width: 40px;
@@ -265,8 +347,6 @@ table.table.table-striped .title {
     padding-bottom: 62px;
     padding-left: 0px;
 }
-
-
 //------------- Spinner --------------------
 #circle {
     position: absolute;
