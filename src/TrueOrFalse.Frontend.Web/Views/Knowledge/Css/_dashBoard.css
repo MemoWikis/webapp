@@ -4,11 +4,7 @@
 .first-row {
   /*.col-xs-3 {
         margin-bottom: 0px;
-    }
-
-    .col-xs-5 {
-        padding-right: 30px;
-    }*/
+    } */
 }
 .first-row h3 {
   margin-top: 0px;
@@ -16,10 +12,19 @@
 .first-row .bold {
   font-weight: bold;
 }
-.first-row .col-xs-4 {
-  /*h3 {
-            margin-bottom: 30px;
-        }*/
+@media only screen and (max-width: 970px) {
+  .first-row .col-xs-5 {
+    display: inline-block;
+    vertical-align: middle;
+    float: none;
+  }
+}
+@media only screen and (max-width: 970px) {
+  .first-row .col-xs-4 {
+    display: inline-block;
+    vertical-align: middle;
+    float: none;
+  }
 }
 @media only screen and (max-width: 990px) {
   .first-row [class*="col-"] {
