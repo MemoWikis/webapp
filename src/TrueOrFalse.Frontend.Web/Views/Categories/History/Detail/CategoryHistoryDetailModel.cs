@@ -1,19 +1,22 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 using FluentNHibernate.Conventions;
-using Microsoft.Ajax.Utilities;
-using Newtonsoft.Json;
 
 public class CategoryHistoryDetailModel : BaseModel
 {
     public int CategoryId;
     public string CategoryName;
-    public CategoryChange CurrentChange;
-    public CategoryChange PrevChange;
+    public User CurrentAuthor;
+    public string AuthorName;
+    public string AuthorImageUrl;
+    public bool PrevRevisionExists;
+    public bool NextRevExists;
+    public int CurrentId;
     public string CurrentName;
     public string PrevName;
+    public DateTime CurrentDateCreated;
+    public DateTime PrevDateCreated;
     public string CurrentMarkdown;
     public string PrevMarkdown;
     public string CurrentDescription;
@@ -22,29 +25,29 @@ public class CategoryHistoryDetailModel : BaseModel
     public string PrevWikipediaUrl;
     public string CurrentRelations;
     public string PrevRelations;
-    public string AuthorName;
-    public string AuthorImageUrl;
-
-    public CategoryHistoryDetailModel(CategoryChange currentChange, CategoryChange prevChange)
+    
+    public CategoryHistoryDetailModel(CategoryChange currentRevision, CategoryChange previousRevision, CategoryChange nextRevision)
     {
-        CurrentChange = currentChange;
-        PrevChange = prevChange;
+        PrevRevisionExists = previousRevision != null;
+        NextRevExists = nextRevision != null;
 
-        var currentRevisionData = currentChange.GetCategoryChangeData();
+        var currentRevisionData = currentRevision.GetCategoryChangeData();
+        CurrentId = currentRevision.Id;
+        CurrentDateCreated = currentRevision.DateCreated;
         CurrentName = currentRevisionData.Name;
         CurrentMarkdown = currentRevisionData.TopicMardkown?.Replace("\\r\\n", "\r\n");
         CurrentDescription = currentRevisionData.Description?.Replace("\\r\\n", "\r\n");
         CurrentWikipediaUrl = currentRevisionData.WikipediaURL;
 
-        if (PrevChange != null)
+        if (PrevRevisionExists)
         {
-            var prevRevisionData = PrevChange.GetCategoryChangeData();
+            var prevRevisionData = previousRevision.GetCategoryChangeData();
             PrevName = prevRevisionData?.Name;
             PrevMarkdown = prevRevisionData?.TopicMardkown?.Replace("\\r\\n", "\r\n");
             PrevDescription = prevRevisionData?.Description?.Replace("\\r\\n", "\r\n");
             PrevWikipediaUrl = prevRevisionData?.WikipediaURL;
 
-            if (currentChange.DataVersion >= 2 && prevChange.DataVersion >= 2)
+            if (currentRevision.DataVersion >= 2 && previousRevision.DataVersion >= 2)
             {
                 var currentRelationsList = ((CategoryEditData_V2)currentRevisionData).CategoryRelations;
                 var prevRelationsList = ((CategoryEditData_V2)prevRevisionData).CategoryRelations;
@@ -54,10 +57,11 @@ public class CategoryHistoryDetailModel : BaseModel
             }
         }
 
-        CategoryId = currentChange.Category.Id;
-        CategoryName = currentChange.Category.Name;
-        AuthorName = currentChange.Author.Name;
-        AuthorImageUrl = new UserImageSettings(currentChange.Author.Id).GetUrl_85px_square(currentChange.Author).Url;
+        CategoryId = currentRevision.Category.Id;
+        CategoryName = currentRevision.Category.Name;
+        CurrentAuthor = currentRevision.Author;
+        AuthorName = currentRevision.Author.Name;
+        AuthorImageUrl = new UserImageSettings(currentRevision.Author.Id).GetUrl_85px_square(currentRevision.Author).Url;
     }
 
     private string Relation2String(CategoryRelation_EditData_V2 relation)

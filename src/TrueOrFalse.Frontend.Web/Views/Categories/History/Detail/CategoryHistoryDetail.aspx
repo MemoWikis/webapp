@@ -21,9 +21,9 @@
     <div class="change-detail-model">
         <div class="row">
             <div class="col-xs-3">            
-                <a href="<%= Links.UserDetail(Model.CurrentChange.Author) %>"><img src="<%= Model.AuthorImageUrl %>" height="20"/></a>
-                <b><a href="<%= Links.UserDetail(Model.CurrentChange.Author) %>"><%= Model.AuthorName %></a></b><br/>
-                vom <%= Model.CurrentChange.DateCreated %>
+                <a href="<%= Links.UserDetail(Model.CurrentAuthor) %>"><img src="<%= Model.AuthorImageUrl %>" height="20"/></a>
+                <b><a href="<%= Links.UserDetail(Model.CurrentAuthor) %>"><%= Model.AuthorName %></a></b><br/>
+                vom <%= Model.CurrentDateCreated %> 
             </div>
             
             <div class="col-xs-9">
@@ -31,7 +31,7 @@
                     <a class="btn btn-primary navbar-btn" href="<%= Links.CategoryHistory(Model.CategoryId) %>">
                         <i class="fa fa-chevron-left"></i> Zurück zur Bearbeitungshistorie
                     </a>
-                    <% if (new SessionUser().IsLoggedIn) { %>
+                    <% if (new SessionUser().IsLoggedIn && Model.NextRevExists) { %>
                         <a id="restoreButton" class="btn btn-default navbar-btn" onclick="$('#alertConfirmRestore').show();">
                             <i class="fa fa-undo"></i> Wiederherstellen
                         </a>
@@ -40,7 +40,7 @@
             </div>
         </div>
         
-        <% if (new SessionUser().IsLoggedIn) { %>
+        <% if (new SessionUser().IsLoggedIn && Model.NextRevExists) { %>
             <div id="alertConfirmRestore" class="row" style="display: none">
                 <br/>
                 <div class="alert alert-warning" role="alert">
@@ -50,7 +50,7 @@
                     <br/>
                     <div class="col-12">
                         <nav>
-                            <a class="btn btn-default navbar-btn" href="<%= Links.CategoryRestore(Model.CategoryId, Model.CurrentChange.Id) %>">
+                            <a class="btn btn-default navbar-btn" href="<%= Links.CategoryRestore(Model.CategoryId, Model.CurrentId) %>">
                                 <i class="fa fa-undo"></i> Ja, Wiederherstellen
                             </a>
                             <a class="btn btn-primary navbar-btn" onclick="$('#alertConfirmRestore').hide();">
@@ -64,16 +64,23 @@
         
         <div class="row">
             <div class="col-12">
-                <% if (Model.PrevChange == null) {  %>
+                <% if (!Model.PrevRevisionExists) {  %>
                     <br />
                     <div class="alert alert-info" role="alert">
-                        Dies ist die <b>initiale Revision</b>, weswegen hier keine Änderungen angezeigt werden können.
+                        Dies ist die <b>initiale Revision</b> des Themas, weswegen hier keine Änderungen angezeigt werden können.
                     </div>
                 <% } else { %>
-                    <br/>
+                    <% if (!Model.NextRevExists) { %>
+                        <br />
+                        <div class="alert alert-info" role="alert">
+                            Dies ist die <b>aktuelle Revision</b> des Themas.
+                        </div>
+                    <% } else { %>
+                        <br />
+                    <% } %>
                     <div id="noChangesAlert" class="alert alert-info" role="alert" style="display: none;">
-                        Zwischen den beiden Revisionen (vom <%= Model.PrevChange.DateCreated %> und 
-                        vom <%= Model.CurrentChange.DateCreated %>) gibt es <b>keine inhaltlichen Unterschiede</b>.
+                        Zwischen den beiden Revisionen (vom <%= Model.PrevDateCreated %> und 
+                        vom <%= Model.CurrentDateCreated %>) gibt es <b>keine inhaltlichen Unterschiede</b>.
                     </div>
                     <input type="hidden" id="currentName" value="<%= Server.HtmlEncode(Model.CurrentName) %>"/>
                     <input type="hidden" id="prevName" value="<%= Server.HtmlEncode(Model.PrevName) %>"/>
@@ -85,8 +92,8 @@
                     <input type="hidden" id="prevWikipediaUrl" value="<%= Server.HtmlEncode(Model.PrevWikipediaUrl) %>"/>
                     <input type="hidden" id="currentRelations" value="<%= Server.HtmlEncode(Model.CurrentRelations) %>"/>
                     <input type="hidden" id="prevRelations" value="<%= Server.HtmlEncode(Model.PrevRelations) %>"/>
-                    <input type="hidden" id="currentDateCreated" value="<%= Model.CurrentChange.DateCreated %>" />
-                    <input type="hidden" id="prevDateCreated" value="<%= Model.PrevChange.DateCreated %>" />
+                    <input type="hidden" id="currentDateCreated" value="<%= Model.CurrentDateCreated %>" />
+                    <input type="hidden" id="prevDateCreated" value="<%= Model.PrevDateCreated %>" />
                     <div id="diffPanel">
                         <div id="diffName"></div>
                         <div id="diffDescription"></div>
