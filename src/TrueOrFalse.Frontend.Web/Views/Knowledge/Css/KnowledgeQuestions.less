@@ -11,41 +11,29 @@
     color: #2c3e50;
 }
 
-th {
-    width: 25%;
-}
 table {
     table-layout: fixed;
-
-  
 }
 
 .vuetable {
     font-size: 18px;
-        #_Titel,
-        #_KnowlegdeWishPartial,
-        .vuetable-th-slot-knowWas,
-        .vuetable-th-slot-authorImage,
-        .vuetable-th-slot-category,
-        .vuetable-th-slot-image {
-            border-bottom: solid 2px #337ab7;
-            padding-left: 8px;
-            font-size: 18px;
-            font-weight: bold;
-            color: #2c5fb2;
-        }
 
+    .vuetable-th-slot-questionTitel,
+    .vuetable-th-slot-knowWas,
+    .vuetable-th-slot-authorImage,
+    .vuetable-th-slot-category {
+        border-bottom: solid 2px #337ab7;
+        padding-left: 8px;
+        font-size: 18px;
+        font-weight: bold;
+        color: #2c5fb2;
+    }
+    // TableHeader
     .vuetable-th-slot-authorImage {
         width: 18%;
     }
 
-    .imageTable {
-        float: left;
-    }
-
-
-
-    .vuetable-th-slot-image {
+    .vuetable-th-slot-th-titel {
         width: 46%;
         padding-left: 0px;
     }
@@ -54,13 +42,15 @@ table {
         width: 15%;
     }
 
-    th {
-        width: 25%;
+    .vuetable-th-slot-category {
     }
 
-    .tdImage {
+    .td-question {
         padding-left: 0px;
-        padding-right: 0px;
+
+        .image {
+            float: left;
+        }
     }
 
     .know-was {
@@ -74,7 +64,7 @@ table {
         text-overflow: ellipsis;
         position: relative;
         display: inline-block;
-        width: 437px;
+        width: calc(100% - 30px);
     }
 
     .author-image {
@@ -92,7 +82,7 @@ table {
     .author-name {
         font-size: 18px;
         color: #0560AB;
-        width: 130px;
+        width: calc(100% - 40px - 10px);
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
@@ -122,19 +112,13 @@ thead {
     color: #ec971f;
 }
 
-td {
-    height: 30px;
-    width: 136px;
-}
-
-
 .imageTable {
     border-radius: 100%;
     width: 30px;
     height: 30px;
 }
 
-.link-to-category{
+.link-to-category {
     margin-left: 10px;
 }
 
@@ -143,8 +127,7 @@ table.table.table-striped .title {
 }
 
 .KnowledgeBarWrapper {
-    display: inline-block;
-    
+
     .KnowledgeBarLegend {
         color: #999999;
         margin-top: -10px;
@@ -161,14 +144,6 @@ table.table.table-striped .title {
     }
 
     .set-knowledge-bar, .category-knowledge-bar {
-        display: inline-block;
-        height: 10px;
-        width: 180px;
-
-        .solid-knowledge, .needs-learning, .needs-consolidation, .not-learned, .not-in-wish-knowledge {
-            height: inherit;
-            float: left;
-        }
 
         .needs-learning {
             background-color: @needs-learning;
@@ -193,7 +168,6 @@ table.table.table-striped .title {
 }
 
 .title-table {
-
 }
 //|-----------------------switch--------------------------|
 
@@ -308,4 +282,4 @@ table.table.table-striped .title {
     100% {
         transform: rotate(360deg);
     }
-} 
+}

@@ -4,21 +4,16 @@
   -moz-osx-font-smoothing: grayscale;
   color: #2c3e50;
 }
-th {
-  width: 25%;
-}
 table {
   table-layout: fixed;
 }
 .vuetable {
   font-size: 18px;
 }
-.vuetable #_Titel,
-.vuetable #_KnowlegdeWishPartial,
+.vuetable .vuetable-th-slot-questionTitel,
 .vuetable .vuetable-th-slot-knowWas,
 .vuetable .vuetable-th-slot-authorImage,
-.vuetable .vuetable-th-slot-category,
-.vuetable .vuetable-th-slot-image {
+.vuetable .vuetable-th-slot-category {
   border-bottom: solid 2px #337ab7;
   padding-left: 8px;
   font-size: 18px;
@@ -28,22 +23,18 @@ table {
 .vuetable .vuetable-th-slot-authorImage {
   width: 18%;
 }
-.vuetable .imageTable {
-  float: left;
-}
-.vuetable .vuetable-th-slot-image {
+.vuetable .vuetable-th-slot-th-titel {
   width: 46%;
   padding-left: 0px;
 }
 .vuetable .vuetable-th-slot-knowWas {
   width: 15%;
 }
-.vuetable th {
-  width: 25%;
-}
-.vuetable .tdImage {
+.vuetable .td-question {
   padding-left: 0px;
-  padding-right: 0px;
+}
+.vuetable .td-question .image {
+  float: left;
 }
 .vuetable .know-was {
   padding-left: 45px;
@@ -55,7 +46,7 @@ table {
   text-overflow: ellipsis;
   position: relative;
   display: inline-block;
-  width: 437px;
+  width: calc(100% - 30px);
 }
 .vuetable .author-image {
   float: left;
@@ -74,7 +65,7 @@ table {
 .vuetable .author-name {
   font-size: 18px;
   color: #0560AB;
-  width: 130px;
+  width: calc(100% - 40px - 10px);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -97,10 +88,6 @@ table {
 thead {
   color: #ec971f;
 }
-td {
-  height: 30px;
-  width: 136px;
-}
 .imageTable {
   border-radius: 100%;
   width: 30px;
@@ -112,9 +99,6 @@ td {
 table.table.table-striped .title {
   float: left;
 }
-.KnowledgeBarWrapper {
-  display: inline-block;
-}
 .KnowledgeBarWrapper .KnowledgeBarLegend {
   color: #999999;
   margin-top: -10px;
@@ -125,25 +109,6 @@ table.table.table-striped .title {
 }
 .KnowledgeBarWrapper:hover .KnowledgeBarLegend {
   opacity: 1;
-}
-.KnowledgeBarWrapper .set-knowledge-bar,
-.KnowledgeBarWrapper .category-knowledge-bar {
-  display: inline-block;
-  height: 10px;
-  width: 180px;
-}
-.KnowledgeBarWrapper .set-knowledge-bar .solid-knowledge,
-.KnowledgeBarWrapper .category-knowledge-bar .solid-knowledge,
-.KnowledgeBarWrapper .set-knowledge-bar .needs-learning,
-.KnowledgeBarWrapper .category-knowledge-bar .needs-learning,
-.KnowledgeBarWrapper .set-knowledge-bar .needs-consolidation,
-.KnowledgeBarWrapper .category-knowledge-bar .needs-consolidation,
-.KnowledgeBarWrapper .set-knowledge-bar .not-learned,
-.KnowledgeBarWrapper .category-knowledge-bar .not-learned,
-.KnowledgeBarWrapper .set-knowledge-bar .not-in-wish-knowledge,
-.KnowledgeBarWrapper .category-knowledge-bar .not-in-wish-knowledge {
-  height: inherit;
-  float: left;
 }
 .KnowledgeBarWrapper .set-knowledge-bar .needs-learning,
 .KnowledgeBarWrapper .category-knowledge-bar .needs-learning {
