@@ -10,7 +10,7 @@
         <div class="input-group" id="SmallHeaderSearchBoxDiv">
             <input type="text" class="form-control" placeholder="Suche" id="SmallHeaderSearchBox">
             <div class="input-group-btn" style="height:34px;">
-              <button class="btn btn-default" id="SearchButton" style="padding-top:0px; font-size:29px; align-content: center; display: flex; height: 34px;" onclick="SearchButtonClick()" type="submit"><i class="fa fa-search" style="color: white;" aria-hidden="true"></i></button>
+              <button class="btn btn-default" id="SmallHeaderSearchButton" style="padding-top:0px; font-size:29px; align-content: center; display: flex; height: 34px;" onclick="SearchButtonClick()" type="submit"><i class="fa fa-search" style="color: white;" aria-hidden="true"></i></button>
             </div>
         </div>
     </div>
@@ -25,7 +25,7 @@
         var imageSetttings = new UserImageSettings(userSession.User.Id);
 %>
       <div style="display:flex; flex-direction:column;">
-        <div class="dropdown" style="display: inline-block;">
+        <div class="dropdown" id="HeaderUserDropdown" style="display: inline-block;">
           <a class="TextLinkWithIcon dropdown-toggle" id="dLabel" role="button" data-toggle="dropdown" data-target="#" href="#">
               <div style="display: flex; justify-content:center;">
                  <%if(Model.SidebarModel.UnreadMessageCount != 0){ %> 
@@ -40,7 +40,7 @@
               </div>
               <span class="userName TextSpan" style="font-weight:normal; line-height:normal; padding-top:4px;">Hallo <b><%= userSession.User.Name%></b><b class="caret"></b></span>
           </a> 
-            <ul id="HeaderUserDropdown" class="dropdown-menu pull-right" role="menu" aria-labelledby="dLabel" style="right:0px;">
+            <ul class="dropdown-menu pull-right" role="menu" aria-labelledby="dLabel" style="right:0px;">
                 <li>
                    <a style="white-space:unset; padding:0px;" href="<%= Links.Knowledge()%>">
                        <div id="activity-popover-title">Dein erreichtes Level</div>

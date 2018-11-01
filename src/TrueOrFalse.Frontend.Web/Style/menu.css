@@ -69,7 +69,7 @@
 #mainMenu .list-group-item.active,
 #mainMenu .list-group-item.active:focus {
   color: #555555;
-  background-color: #f6f8fc;
+  background-color: rgba(165, 209, 221, 0.8) !important;
 }
 #mainMenu .list-group-item.active i.fa-caret-right {
   visibility: visible;
