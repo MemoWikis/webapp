@@ -42,6 +42,11 @@ table {
         @media only screen and (max-width: 675px) {
             width: 45%;
         }
+
+        @media only screen and (max-width: 424px) {
+            font-size: 13px;
+            width: 48%;
+        }
     }
 
     .vuetable-th-slot-knowWas {
@@ -61,6 +66,11 @@ table {
 
         @media only screen and (max-width: 521px) {
             text-align: center;
+        }
+
+        @media only screen and (max-width: 424px) {
+            font-size: 13px;
+            width: 52%;
         }
     }
 
@@ -84,7 +94,6 @@ table {
         }
     }
 
-
     .vuetable-th-slot-category {
         width: 21%;
 
@@ -96,68 +105,26 @@ table {
             display: none;
         }
     }
-
-    .category-table {
-
-        @media only screen and (max-width: 675px) {
-            display: none;
-        }
-
-        a {
-            padding-left: 10px;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            position: relative;
-            display: inline-block;
-            width: calc(100% - 30px - 10px);
-        }
-
-        .round {
-            border-radius: 100%;
-            width: 30px;
-            height: 30px;
-        }
-    }
-
+    // Table Body
     .td-question {
         padding-left: 0px;
 
         .image {
             float: left;
         }
-    }
 
-    .title-table {
-        padding-left: 10px;
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        position: relative;
-        display: inline-block;
-        width: calc(100% - 30px);
-    }
-
-    .author-image-name {
-        @media only screen and (max-width: 521px) {
-            display: none;
-        }
-
-        .author-image {
-            float: left;
-            padding-right: 10px;
-            max-width: 40px;
-        }
-
-        .author-name {
-            font-size: 18px;
-            color: #0560AB;
-            width: calc(100% - 40px - 10px);
+        .title-table {
+            padding-left: 10px;
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
             position: relative;
             display: inline-block;
+            width: calc(100% - 30px);
+
+            @media only screen and (max-width: 424px) {
+                font-size: 13px;
+            }
         }
     }
 
@@ -199,6 +166,52 @@ table {
             background-color: silver;
         }
     }
+
+    .author-image-name {
+        @media only screen and (max-width: 521px) {
+            display: none;
+        }
+
+        .author-image {
+            float: left;
+            padding-right: 10px;
+            max-width: 40px;
+        }
+
+        .author-name {
+            font-size: 18px;
+            color: #0560AB;
+            width: calc(100% - 40px - 10px);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            position: relative;
+            display: inline-block;
+        }
+    }
+
+    .category-table {
+
+        @media only screen and (max-width: 675px) {
+            display: none;
+        }
+
+        a {
+            padding-left: 10px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            position: relative;
+            display: inline-block;
+            width: calc(100% - 30px - 10px);
+        }
+
+        .round {
+            border-radius: 100%;
+            width: 30px;
+            height: 30px;
+        }
+    }
 }
 
 thead {
@@ -219,49 +232,6 @@ table.table.table-striped .title {
     float: left;
 }
 
-.KnowledgeBarWrapper {
-
-    .KnowledgeBarLegend {
-        color: #999999;
-        margin-top: -10px;
-        font-size: 12px;
-        line-height: 1.5em;
-        opacity: 0;
-        transition: opacity 0.2s linear;
-    }
-
-    &:hover { //show on hover over navigation tile
-        .KnowledgeBarLegend {
-            opacity: 1;
-        }
-    }
-
-    .set-knowledge-bar, .category-knowledge-bar {
-
-        .needs-learning {
-            background-color: @needs-learning;
-        }
-
-        .needs-consolidation {
-            background-color: @needs-consolidation;
-        }
-
-        .solid-knowledge {
-            background-color: @solid;
-        }
-
-        .not-learned {
-            background-color: @not-learned;
-        }
-
-        .not-in-wish-knowledge {
-            background-color: #dddddd;
-        }
-    }
-}
-
-.title-table {
-}
 //|-----------------------switch--------------------------|
 .onoffswitch {
     position: relative;
