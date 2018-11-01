@@ -15,7 +15,7 @@
             </label>
         </div>
     </div>
-    <div id="table-wrapper" class="ui container">
+    <div id="table-wrapper" class="ui">
       <vuetable ref="vuetable"
         api-url="/Knowledge/GetCatsAndSetsWish"
         :fields="fields"

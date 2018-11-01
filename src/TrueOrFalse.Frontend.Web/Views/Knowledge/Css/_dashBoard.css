@@ -122,7 +122,6 @@ h3 {
 }
 .second-row .col-xs-4 {
   margin-top: -117px;
-  height: 797px;
 }
 @media only screen and (max-width: 970px) {
   .second-row .col-xs-4 {
@@ -145,40 +144,46 @@ h3 {
     width: 40px;
   }
 }
-@media only screen and (max-width: 970px) {
-  .third-row [class*="col-"] {
-    width: 100%;
-    align-content: center;
-    text-align: center;
-  }
-}
-.third-row .col-xs-8 {
-  margin-top: -390px;
-}
-@media only screen and (max-width: 970px) {
-  .third-row .col-xs-8 {
-    margin-top: 30px;
-  }
-}
-.third-row .col-xs-8 .third-cell #detailsToEdit {
-  margin-left: 0px;
-  width: 103px;
-  margin-top: 10px;
-}
-@media only screen and (max-width: 970px) {
-  .third-row .col-xs-8 .third-cell #detailsToEdit {
-    margin-left: 5px;
-    margin-top: 0px;
-  }
-}
-.third-row .col-xs-8 .third-cell #startGame {
-  margin-left: -11px;
-}
-@media only screen and (max-width: 970px) {
-  .third-row .col-xs-8 .third-cell #startGame {
-    margin-left: 5px;
-  }
-}
-.third-row .col-xs-8 #noOpenDates {
-  display: none;
-}
+/*.third-row {
+    @media only screen and (max-width: 970px) {
+        [class*="col-"] {
+            width: 100%;
+            text-align: center;
+            align-content: center;
+            text-align: center;
+        }
+    }
+
+    .col-xs-8 {
+        margin-top: -390px;
+
+        @media only screen and (max-width: 970px) {
+            margin-top: 30px;
+        }
+
+        .third-cell {
+            #detailsToEdit {
+                margin-left: 0px;
+                width: 103px;
+                margin-top: 10px;
+
+                @media only screen and (max-width: 970px) {
+                    margin-left: 5px;
+                    margin-top: 0px;
+                }
+            }
+
+            #startGame {
+                margin-left: -11px;
+
+                @media only screen and (max-width: 970px) {
+                    margin-left: 5px;
+                }
+            }
+        }
+
+        #noOpenDates {
+            display: none;
+        }
+    }
+}*/
