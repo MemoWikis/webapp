@@ -16,7 +16,7 @@ new Vue({
                 name: "__slot:imageAndTitle",
                 title: "Thema/Lernset",
                 sortField: 'name',
-                dataClass: 'Topic'
+                dataClass: 'td-topic'
             },
             {
                 name: "KnowlegdeWishPartial",

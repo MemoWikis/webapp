@@ -111,38 +111,38 @@ table {
   font-size: 18px;
   vertical-align: -5%;
 }
-.vuetable td .imageParent {
-  float: left;
-  padding-right: 10px;
-}
-@media only screen and (max-width: 670px) {
-  .vuetable td .imageParent {
-    float: none;
-    text-align: center;
-  }
-}
 .vuetable .drop-down-td {
   vertical-align: middle;
 }
-.vuetable .image {
-  border-radius: 100%;
-  width: 30px;
-  height: 30px;
-}
-.vuetable .Topic {
+.vuetable .td-topic {
   font-size: 18px;
   vertical-align: middle;
 }
 @media only screen and (max-width: 670px) {
-  .vuetable .Topic {
+  .vuetable .td-topic {
     float: none;
     text-align: center;
   }
 }
 @media only screen and (max-width: 440px) {
-  .vuetable .Topic {
+  .vuetable .td-topic {
     font-size: 13px;
   }
+}
+.vuetable .td-topic .imageParent {
+  float: left;
+  padding-right: 10px;
+}
+@media only screen and (max-width: 670px) {
+  .vuetable .td-topic .imageParent {
+    float: none;
+    text-align: center;
+  }
+}
+.vuetable .td-topic .image {
+  border-radius: 100%;
+  width: 30px;
+  height: 30px;
 }
 .vuetable .KnowledgeBarWrapper {
   vertical-align: middle;
