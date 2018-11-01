@@ -8,18 +8,84 @@
   margin-bottom: 21px;
 }
 #app .switch {
-  padding-bottom: 62px;
+  margin-bottom: 62px;
   padding-left: 0px;
 }
-.orange.glyphicon {
-  color: orange;
+#app .switch .onoffswitch {
+  position: relative;
+  width: 40px;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  margin-top: 5px;
 }
-table {
-  table-layout: fixed;
+#app .switch .onoffswitch-checkbox {
+  display: none;
+}
+#app .switch .onoffswitch-label {
+  display: block;
+  overflow: hidden;
+  cursor: pointer;
+  border: 2px solid #999999;
+  border-radius: 50px;
+}
+#app .switch .onoffswitch-inner {
+  display: block;
+  width: 200%;
+  margin-left: -100%;
+  transition: margin 0.3s ease-in 0s;
+}
+#app .switch .onoffswitch-inner:before,
+#app .switch .onoffswitch-inner:after {
+  display: block;
+  float: left;
+  width: 50%;
+  height: 12px;
+  padding: 0;
+  line-height: 12px;
+  font-size: 14px;
+  color: white;
+  font-family: Trebuchet, Arial, sans-serif;
+  font-weight: bold;
+  box-sizing: border-box;
+}
+#app .switch .onoffswitch-inner:before {
+  content: "";
+  padding-left: 10px;
+  background-color: #2C5FB2;
+  color: #2C5FB2;
+}
+#app .switch .onoffswitch-inner:after {
+  content: "";
+  padding-right: 10px;
+  background-color: #EEEEEE;
+  color: #999999;
+  text-align: right;
+}
+#app .switch .onoffswitch-switch {
+  display: block;
+  width: 8px;
+  height: 8px;
+  margin: 3px;
+  background: #FFFFFF;
+  position: absolute;
+  top: 1px;
+  bottom: 0;
+  right: 24px;
+  border: 2px solid #999999;
+  border-radius: 4px;
+  transition: all 0.3s ease-in 0s;
+}
+#app .switch .onoffswitch-checkbox:checked + .onoffswitch-label .onoffswitch-inner {
+  margin-left: 0;
+}
+#app .switch .onoffswitch-checkbox:checked + .onoffswitch-label .onoffswitch-switch {
+  right: 0px;
 }
 .vuetable {
   font-size: 18px;
   font-family: "Open Sans", Arial, sans-serif;
+  table-layout: fixed;
 }
 .vuetable .btn {
   font-size: 18px;
@@ -120,24 +186,6 @@ table {
   width: 30px;
   height: 30px;
 }
-.vuetable .topic-count-td {
-  vertical-align: middle;
-}
-@media only screen and (max-width: 675px) {
-  .vuetable .topic-count-td {
-    display: none;
-  }
-}
-.vuetable .drop-down-td {
-  vertical-align: middle;
-}
-.vuetable .drop-down-td .Button {
-  float: left;
-}
-.vuetable .drop-down-td .Button .fa-line-chart {
-  font-size: 18px;
-  vertical-align: -5%;
-}
 .vuetable .td-knowledge-bar-wrapper {
   vertical-align: middle;
 }
@@ -196,74 +244,21 @@ table {
 .vuetable .td-knowledge-bar-wrapper .category-knowledge-bar .not-in-wish-knowledge {
   background-color: #dddddd;
 }
-.onoffswitch {
-  position: relative;
-  width: 40px;
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  margin-top: 5px;
+.vuetable .topic-count-td {
+  vertical-align: middle;
 }
-.onoffswitch-checkbox {
-  display: none;
+@media only screen and (max-width: 675px) {
+  .vuetable .topic-count-td {
+    display: none;
+  }
 }
-.onoffswitch-label {
-  display: block;
-  overflow: hidden;
-  cursor: pointer;
-  border: 2px solid #999999;
-  border-radius: 50px;
+.vuetable .drop-down-td {
+  vertical-align: middle;
 }
-.onoffswitch-inner {
-  display: block;
-  width: 200%;
-  margin-left: -100%;
-  transition: margin 0.3s ease-in 0s;
-}
-.onoffswitch-inner:before,
-.onoffswitch-inner:after {
-  display: block;
+.vuetable .drop-down-td .Button {
   float: left;
-  width: 50%;
-  height: 12px;
-  padding: 0;
-  line-height: 12px;
-  font-size: 14px;
-  color: white;
-  font-family: Trebuchet, Arial, sans-serif;
-  font-weight: bold;
-  box-sizing: border-box;
 }
-.onoffswitch-inner:before {
-  content: "";
-  padding-left: 10px;
-  background-color: #2C5FB2;
-  color: #2C5FB2;
-}
-.onoffswitch-inner:after {
-  content: "";
-  padding-right: 10px;
-  background-color: #EEEEEE;
-  color: #999999;
-  text-align: right;
-}
-.onoffswitch-switch {
-  display: block;
-  width: 8px;
-  height: 8px;
-  margin: 3px;
-  background: #FFFFFF;
-  position: absolute;
-  top: 1px;
-  bottom: 0;
-  right: 24px;
-  border: 2px solid #999999;
-  border-radius: 4px;
-  transition: all 0.3s ease-in 0s;
-}
-.onoffswitch-checkbox:checked + .onoffswitch-label .onoffswitch-inner {
-  margin-left: 0;
-}
-.onoffswitch-checkbox:checked + .onoffswitch-label .onoffswitch-switch {
-  right: 0px;
+.vuetable .drop-down-td .Button .fa-line-chart {
+  font-size: 18px;
+  vertical-align: -5%;
 }
