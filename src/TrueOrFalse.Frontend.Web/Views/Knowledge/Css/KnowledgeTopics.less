@@ -7,30 +7,6 @@
     color: #2c3e50;
 
 
-    .KnowledgeBarWrapper {
-        vertical-align: middle;
-    }
-
-    td {
-        @media only screen and (max-width: 670px) {
-            vertical-align: middle;
-        }
-    }
-
-    .Topic {
-        font-size: 18px;
-        vertical-align: middle;
-
-        @media only screen and (max-width: 670px) {
-            float: none;
-            text-align: center;
-        }
-
-        @media only screen and (max-width: 440px) {
-            font-size: 13px;
-        }
-    }
-
     #h2TpopicAndLearnset {
         margin-bottom: 21px;
     }
@@ -133,21 +109,16 @@ table {
     td {
         height: 30px;
 
-
-
         .Button {
             float: left;
-            /*@media only screen and (max-width: 1200px) {
-                float: none;
-                text-align: center;
-            }*/
+
             .fa-line-chart {
                 font-size: 18px;
                 vertical-align: -5%;
             }
         }
 
-        .image {
+        .imageParent {
             float: left;
             padding-right: 10px;
 
@@ -162,73 +133,78 @@ table {
         vertical-align: middle;
     }
 
-    .imageTable {
+    .image {
         border-radius: 100%;
         width: 30px;
         height: 30px;
     }
 
-    table.table.table-striped .image {
-        margin-right: -5px;
-        width: 30px;
-        float: right;
-    }
 
-    table.table.table-striped .title {
-        float: left;
-    }
-}
-// |-------------------KnowledgeBarWrapper----------------|
-.KnowledgeBarWrapper {
-    vertical-align: middle;
+    .Topic {
+        font-size: 18px;
+        vertical-align: middle;
 
-    @media only screen and (max-width: 583px) {
-        display: none;
-    }
+        @media only screen and (max-width: 670px) {
+            float: none;
+            text-align: center;
+        }
 
-    .KnowledgeBarLegend {
-        color: #999999;
-        margin-top: -10px;
-        font-size: 12px;
-        line-height: 1.5em;
-        opacity: 0;
-        transition: opacity 0.2s linear;
+        @media only screen and (max-width: 440px) {
+            font-size: 13px;
+        }
     }
+    // |-------------------KnowledgeBarWrapper----------------|
+    .KnowledgeBarWrapper {
+        vertical-align: middle;
 
-    &:hover { //show on hover over navigation tile
+        @media only screen and (max-width: 583px) {
+            display: none;
+        }
+
         .KnowledgeBarLegend {
-            opacity: 1;
-        }
-    }
-
-    .set-knowledge-bar, .category-knowledge-bar {
-        display: inline-block;
-        height: 10px;
-        width: 100%;
-
-        .solid-knowledge, .needs-learning, .needs-consolidation, .not-learned, .not-in-wish-knowledge {
-            height: inherit;
-            float: left;
+            color: #999999;
+            margin-top: -10px;
+            font-size: 12px;
+            line-height: 1.5em;
+            opacity: 0;
+            transition: opacity 0.2s linear;
         }
 
-        .needs-learning {
-            background-color: lightsalmon;
+        &:hover { //show on hover over navigation tile
+            .KnowledgeBarLegend {
+                opacity: 1;
+            }
         }
 
-        .needs-consolidation {
-            background-color: #fdd648;
-        }
+        .set-knowledge-bar, .category-knowledge-bar {
+            display: inline-block;
+            height: 10px;
+            width: 100%;
 
-        .solid-knowledge {
-            background-color: #afd534;
-        }
+            .solid-knowledge, .needs-learning, .needs-consolidation, .not-learned, .not-in-wish-knowledge {
+                height: inherit;
+                float: left;
+            }
 
-        .not-learned {
-            background-color: silver;
-        }
+            .needs-learning {
+                background-color: lightsalmon;
+            }
 
-        .not-in-wish-knowledge {
-            background-color: #dddddd;
+            .needs-consolidation {
+                background-color: #fdd648;
+            }
+
+            .solid-knowledge {
+                background-color: #afd534;
+            }
+
+            .not-learned {
+                background-color: silver;
+            }
+
+            .not-in-wish-knowledge {
+                background-color: #dddddd;
+            }
         }
     }
 }

@@ -30,8 +30,8 @@
 
           <!-- Topic ImageAndTitle-->
         <template slot="imageAndTitle" scope="props">
-            <div class="image">
-                <image class="imageTable"v-bind:src="GetImageSourceUrl(props.rowData.ImageFrontendData.ImageMetaData)"></image>
+            <div class="imageParent">
+                <image class="image"v-bind:src="GetImageSourceUrl(props.rowData.ImageFrontendData.ImageMetaData)"></image>
             </div>
             <div class="set-category-title">
                 <a v-bind:href="props.rowData.LinkToSetOrCategory">{{props.rowData.Title}}</a>

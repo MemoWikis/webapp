@@ -4,29 +4,6 @@
   -moz-osx-font-smoothing: grayscale;
   color: #2c3e50;
 }
-#app .KnowledgeBarWrapper {
-  vertical-align: middle;
-}
-@media only screen and (max-width: 670px) {
-  #app td {
-    vertical-align: middle;
-  }
-}
-#app .Topic {
-  font-size: 18px;
-  vertical-align: middle;
-}
-@media only screen and (max-width: 670px) {
-  #app .Topic {
-    float: none;
-    text-align: center;
-  }
-}
-@media only screen and (max-width: 440px) {
-  #app .Topic {
-    font-size: 13px;
-  }
-}
 #app #h2TpopicAndLearnset {
   margin-bottom: 21px;
 }
@@ -129,21 +106,17 @@ table {
 }
 .vuetable td .Button {
   float: left;
-  /*@media only screen and (max-width: 1200px) {
-                float: none;
-                text-align: center;
-            }*/
 }
 .vuetable td .Button .fa-line-chart {
   font-size: 18px;
   vertical-align: -5%;
 }
-.vuetable td .image {
+.vuetable td .imageParent {
   float: left;
   padding-right: 10px;
 }
 @media only screen and (max-width: 670px) {
-  .vuetable td .image {
+  .vuetable td .imageParent {
     float: none;
     text-align: center;
   }
@@ -151,28 +124,35 @@ table {
 .vuetable .drop-down-td {
   vertical-align: middle;
 }
-.vuetable .imageTable {
+.vuetable .image {
   border-radius: 100%;
   width: 30px;
   height: 30px;
 }
-.vuetable table.table.table-striped .image {
-  margin-right: -5px;
-  width: 30px;
-  float: right;
+.vuetable .Topic {
+  font-size: 18px;
+  vertical-align: middle;
 }
-.vuetable table.table.table-striped .title {
-  float: left;
+@media only screen and (max-width: 670px) {
+  .vuetable .Topic {
+    float: none;
+    text-align: center;
+  }
 }
-.KnowledgeBarWrapper {
+@media only screen and (max-width: 440px) {
+  .vuetable .Topic {
+    font-size: 13px;
+  }
+}
+.vuetable .KnowledgeBarWrapper {
   vertical-align: middle;
 }
 @media only screen and (max-width: 583px) {
-  .KnowledgeBarWrapper {
+  .vuetable .KnowledgeBarWrapper {
     display: none;
   }
 }
-.KnowledgeBarWrapper .KnowledgeBarLegend {
+.vuetable .KnowledgeBarWrapper .KnowledgeBarLegend {
   color: #999999;
   margin-top: -10px;
   font-size: 12px;
@@ -180,46 +160,46 @@ table {
   opacity: 0;
   transition: opacity 0.2s linear;
 }
-.KnowledgeBarWrapper:hover .KnowledgeBarLegend {
+.vuetable .KnowledgeBarWrapper:hover .KnowledgeBarLegend {
   opacity: 1;
 }
-.KnowledgeBarWrapper .set-knowledge-bar,
-.KnowledgeBarWrapper .category-knowledge-bar {
+.vuetable .KnowledgeBarWrapper .set-knowledge-bar,
+.vuetable .KnowledgeBarWrapper .category-knowledge-bar {
   display: inline-block;
   height: 10px;
   width: 100%;
 }
-.KnowledgeBarWrapper .set-knowledge-bar .solid-knowledge,
-.KnowledgeBarWrapper .category-knowledge-bar .solid-knowledge,
-.KnowledgeBarWrapper .set-knowledge-bar .needs-learning,
-.KnowledgeBarWrapper .category-knowledge-bar .needs-learning,
-.KnowledgeBarWrapper .set-knowledge-bar .needs-consolidation,
-.KnowledgeBarWrapper .category-knowledge-bar .needs-consolidation,
-.KnowledgeBarWrapper .set-knowledge-bar .not-learned,
-.KnowledgeBarWrapper .category-knowledge-bar .not-learned,
-.KnowledgeBarWrapper .set-knowledge-bar .not-in-wish-knowledge,
-.KnowledgeBarWrapper .category-knowledge-bar .not-in-wish-knowledge {
+.vuetable .KnowledgeBarWrapper .set-knowledge-bar .solid-knowledge,
+.vuetable .KnowledgeBarWrapper .category-knowledge-bar .solid-knowledge,
+.vuetable .KnowledgeBarWrapper .set-knowledge-bar .needs-learning,
+.vuetable .KnowledgeBarWrapper .category-knowledge-bar .needs-learning,
+.vuetable .KnowledgeBarWrapper .set-knowledge-bar .needs-consolidation,
+.vuetable .KnowledgeBarWrapper .category-knowledge-bar .needs-consolidation,
+.vuetable .KnowledgeBarWrapper .set-knowledge-bar .not-learned,
+.vuetable .KnowledgeBarWrapper .category-knowledge-bar .not-learned,
+.vuetable .KnowledgeBarWrapper .set-knowledge-bar .not-in-wish-knowledge,
+.vuetable .KnowledgeBarWrapper .category-knowledge-bar .not-in-wish-knowledge {
   height: inherit;
   float: left;
 }
-.KnowledgeBarWrapper .set-knowledge-bar .needs-learning,
-.KnowledgeBarWrapper .category-knowledge-bar .needs-learning {
+.vuetable .KnowledgeBarWrapper .set-knowledge-bar .needs-learning,
+.vuetable .KnowledgeBarWrapper .category-knowledge-bar .needs-learning {
   background-color: lightsalmon;
 }
-.KnowledgeBarWrapper .set-knowledge-bar .needs-consolidation,
-.KnowledgeBarWrapper .category-knowledge-bar .needs-consolidation {
+.vuetable .KnowledgeBarWrapper .set-knowledge-bar .needs-consolidation,
+.vuetable .KnowledgeBarWrapper .category-knowledge-bar .needs-consolidation {
   background-color: #fdd648;
 }
-.KnowledgeBarWrapper .set-knowledge-bar .solid-knowledge,
-.KnowledgeBarWrapper .category-knowledge-bar .solid-knowledge {
+.vuetable .KnowledgeBarWrapper .set-knowledge-bar .solid-knowledge,
+.vuetable .KnowledgeBarWrapper .category-knowledge-bar .solid-knowledge {
   background-color: #afd534;
 }
-.KnowledgeBarWrapper .set-knowledge-bar .not-learned,
-.KnowledgeBarWrapper .category-knowledge-bar .not-learned {
+.vuetable .KnowledgeBarWrapper .set-knowledge-bar .not-learned,
+.vuetable .KnowledgeBarWrapper .category-knowledge-bar .not-learned {
   background-color: silver;
 }
-.KnowledgeBarWrapper .set-knowledge-bar .not-in-wish-knowledge,
-.KnowledgeBarWrapper .category-knowledge-bar .not-in-wish-knowledge {
+.vuetable .KnowledgeBarWrapper .set-knowledge-bar .not-in-wish-knowledge,
+.vuetable .KnowledgeBarWrapper .category-knowledge-bar .not-in-wish-knowledge {
   background-color: #dddddd;
 }
 .onoffswitch {
