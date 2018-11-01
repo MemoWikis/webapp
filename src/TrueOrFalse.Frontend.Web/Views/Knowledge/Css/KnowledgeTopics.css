@@ -4,10 +4,8 @@
   -moz-osx-font-smoothing: grayscale;
   color: #2c3e50;
 }
-@media only screen and (max-width: 670px) {
-  #app .KnowledgeBarWrapper {
-    vertical-align: middle;
-  }
+#app .KnowledgeBarWrapper {
+  vertical-align: middle;
 }
 @media only screen and (max-width: 670px) {
   #app td {
@@ -16,6 +14,7 @@
 }
 #app .Topic {
   font-size: 18px;
+  vertical-align: middle;
 }
 @media only screen and (max-width: 670px) {
   #app .Topic {
@@ -58,16 +57,14 @@ table {
     padding-left: 0px;
   }
 }
-.vuetable #_Titel,
-.vuetable #_KnowlegdeWishPartial,
-.vuetable .vuetable-th-slot-image,
-.vuetable .vuetable-th-slot-topicCount,
-.vuetable .vuetable-th-slot-actions,
-.vuetable .vuetable-th-slot-dropDown {
-  border-bottom: solid 2px #337ab7;
-}
 .vuetable thead {
   color: #2d60b4;
+}
+.vuetable thead .vuetable-th-slot-imageAndTitle,
+.vuetable thead .vuetable-th-KnowlegdeWishPartial,
+.vuetable thead .vuetable-th-slot-topicCount,
+.vuetable thead .vuetable-th-slot-dropDown {
+  border-bottom: solid 2px #337ab7;
 }
 .vuetable thead .vuetable-th-slot-imageAndTitle {
   width: 35%;
@@ -77,11 +74,11 @@ table {
     font-size: 16px;
   }
 }
-.vuetable thead #_KnowlegdeWishPartial {
+.vuetable thead .vuetable-th-KnowlegdeWishPartial {
   width: 25%;
 }
 @media only screen and (max-width: 583px) {
-  .vuetable thead #_KnowlegdeWishPartial {
+  .vuetable thead .vuetable-th-KnowlegdeWishPartial {
     display: none;
   }
 }
@@ -119,6 +116,9 @@ table {
 .vuetable h1 {
   font-size: 30px;
 }
+.vuetable .topic-count-td {
+  vertical-align: middle;
+}
 @media only screen and (max-width: 675px) {
   .vuetable .topic-count-td {
     display: none;
@@ -147,6 +147,9 @@ table {
     float: none;
     text-align: center;
   }
+}
+.vuetable .drop-down-td {
+  vertical-align: middle;
 }
 .vuetable .imageTable {
   border-radius: 100%;

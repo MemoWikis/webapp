@@ -24,7 +24,7 @@ new Vue({
             },
             {
                 name: "__slot:authorImage",
-                title: "Author",
+                title: "Autor",
                 sortField: "author",
                 dataClass: "author-image-name"
             },

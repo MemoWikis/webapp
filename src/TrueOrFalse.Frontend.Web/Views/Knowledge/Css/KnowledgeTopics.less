@@ -6,10 +6,9 @@
     -moz-osx-font-smoothing: grayscale;
     color: #2c3e50;
 
+
     .KnowledgeBarWrapper {
-        @media only screen and (max-width: 670px) {
-            vertical-align: middle;
-        }
+        vertical-align: middle;
     }
 
     td {
@@ -20,6 +19,7 @@
 
     .Topic {
         font-size: 18px;
+        vertical-align: middle;
 
         @media only screen and (max-width: 670px) {
             float: none;
@@ -65,13 +65,13 @@ table {
             padding-left: 0px;
         }
     }
-
-    #_Titel, #_KnowlegdeWishPartial, .vuetable-th-slot-image, .vuetable-th-slot-topicCount, .vuetable-th-slot-actions, .vuetable-th-slot-dropDown {
-        border-bottom: solid 2px #337ab7;
-    }
     // --------------------Table Head----------------
     thead {
         color: @color-font;
+
+        .vuetable-th-slot-imageAndTitle, .vuetable-th-KnowlegdeWishPartial, .vuetable-th-slot-topicCount, .vuetable-th-slot-dropDown {
+            border-bottom: solid 2px #337ab7;
+        }
 
         .vuetable-th-slot-imageAndTitle {
             width: 35%;
@@ -81,7 +81,7 @@ table {
             }
         }
 
-        #_KnowlegdeWishPartial {
+        .vuetable-th-KnowlegdeWishPartial {
             width: 25%;
 
             @media only screen and (max-width: 583px) {
@@ -123,6 +123,7 @@ table {
     }
 
     .topic-count-td {
+        vertical-align: middle;
 
         @media only screen and (max-width: 675px) {
             display: none;
@@ -155,6 +156,10 @@ table {
                 text-align: center;
             }
         }
+    }
+
+    .drop-down-td {
+        vertical-align: middle;
     }
 
     .imageTable {
