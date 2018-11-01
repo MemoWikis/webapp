@@ -90,30 +90,6 @@ table {
     width: 25%;
   }
 }
-.vuetable h1 {
-  font-size: 30px;
-}
-.vuetable .topic-count-td {
-  vertical-align: middle;
-}
-@media only screen and (max-width: 675px) {
-  .vuetable .topic-count-td {
-    display: none;
-  }
-}
-.vuetable td {
-  height: 30px;
-}
-.vuetable td .Button {
-  float: left;
-}
-.vuetable td .Button .fa-line-chart {
-  font-size: 18px;
-  vertical-align: -5%;
-}
-.vuetable .drop-down-td {
-  vertical-align: middle;
-}
 .vuetable .td-topic {
   font-size: 18px;
   vertical-align: middle;
@@ -144,15 +120,33 @@ table {
   width: 30px;
   height: 30px;
 }
-.vuetable .KnowledgeBarWrapper {
+.vuetable .topic-count-td {
   vertical-align: middle;
 }
-@media only screen and (max-width: 583px) {
-  .vuetable .KnowledgeBarWrapper {
+@media only screen and (max-width: 675px) {
+  .vuetable .topic-count-td {
     display: none;
   }
 }
-.vuetable .KnowledgeBarWrapper .KnowledgeBarLegend {
+.vuetable .drop-down-td {
+  vertical-align: middle;
+}
+.vuetable .drop-down-td .Button {
+  float: left;
+}
+.vuetable .drop-down-td .Button .fa-line-chart {
+  font-size: 18px;
+  vertical-align: -5%;
+}
+.vuetable .td-knowledge-bar-wrapper {
+  vertical-align: middle;
+}
+@media only screen and (max-width: 583px) {
+  .vuetable .td-knowledge-bar-wrapper {
+    display: none;
+  }
+}
+.vuetable .td-knowledge-bar-wrapper .KnowledgeBarLegend {
   color: #999999;
   margin-top: -10px;
   font-size: 12px;
@@ -160,46 +154,46 @@ table {
   opacity: 0;
   transition: opacity 0.2s linear;
 }
-.vuetable .KnowledgeBarWrapper:hover .KnowledgeBarLegend {
+.vuetable .td-knowledge-bar-wrapper:hover .KnowledgeBarLegend {
   opacity: 1;
 }
-.vuetable .KnowledgeBarWrapper .set-knowledge-bar,
-.vuetable .KnowledgeBarWrapper .category-knowledge-bar {
+.vuetable .td-knowledge-bar-wrapper .set-knowledge-bar,
+.vuetable .td-knowledge-bar-wrapper .category-knowledge-bar {
   display: inline-block;
   height: 10px;
   width: 100%;
 }
-.vuetable .KnowledgeBarWrapper .set-knowledge-bar .solid-knowledge,
-.vuetable .KnowledgeBarWrapper .category-knowledge-bar .solid-knowledge,
-.vuetable .KnowledgeBarWrapper .set-knowledge-bar .needs-learning,
-.vuetable .KnowledgeBarWrapper .category-knowledge-bar .needs-learning,
-.vuetable .KnowledgeBarWrapper .set-knowledge-bar .needs-consolidation,
-.vuetable .KnowledgeBarWrapper .category-knowledge-bar .needs-consolidation,
-.vuetable .KnowledgeBarWrapper .set-knowledge-bar .not-learned,
-.vuetable .KnowledgeBarWrapper .category-knowledge-bar .not-learned,
-.vuetable .KnowledgeBarWrapper .set-knowledge-bar .not-in-wish-knowledge,
-.vuetable .KnowledgeBarWrapper .category-knowledge-bar .not-in-wish-knowledge {
+.vuetable .td-knowledge-bar-wrapper .set-knowledge-bar .solid-knowledge,
+.vuetable .td-knowledge-bar-wrapper .category-knowledge-bar .solid-knowledge,
+.vuetable .td-knowledge-bar-wrapper .set-knowledge-bar .needs-learning,
+.vuetable .td-knowledge-bar-wrapper .category-knowledge-bar .needs-learning,
+.vuetable .td-knowledge-bar-wrapper .set-knowledge-bar .needs-consolidation,
+.vuetable .td-knowledge-bar-wrapper .category-knowledge-bar .needs-consolidation,
+.vuetable .td-knowledge-bar-wrapper .set-knowledge-bar .not-learned,
+.vuetable .td-knowledge-bar-wrapper .category-knowledge-bar .not-learned,
+.vuetable .td-knowledge-bar-wrapper .set-knowledge-bar .not-in-wish-knowledge,
+.vuetable .td-knowledge-bar-wrapper .category-knowledge-bar .not-in-wish-knowledge {
   height: inherit;
   float: left;
 }
-.vuetable .KnowledgeBarWrapper .set-knowledge-bar .needs-learning,
-.vuetable .KnowledgeBarWrapper .category-knowledge-bar .needs-learning {
+.vuetable .td-knowledge-bar-wrapper .set-knowledge-bar .needs-learning,
+.vuetable .td-knowledge-bar-wrapper .category-knowledge-bar .needs-learning {
   background-color: lightsalmon;
 }
-.vuetable .KnowledgeBarWrapper .set-knowledge-bar .needs-consolidation,
-.vuetable .KnowledgeBarWrapper .category-knowledge-bar .needs-consolidation {
+.vuetable .td-knowledge-bar-wrapper .set-knowledge-bar .needs-consolidation,
+.vuetable .td-knowledge-bar-wrapper .category-knowledge-bar .needs-consolidation {
   background-color: #fdd648;
 }
-.vuetable .KnowledgeBarWrapper .set-knowledge-bar .solid-knowledge,
-.vuetable .KnowledgeBarWrapper .category-knowledge-bar .solid-knowledge {
+.vuetable .td-knowledge-bar-wrapper .set-knowledge-bar .solid-knowledge,
+.vuetable .td-knowledge-bar-wrapper .category-knowledge-bar .solid-knowledge {
   background-color: #afd534;
 }
-.vuetable .KnowledgeBarWrapper .set-knowledge-bar .not-learned,
-.vuetable .KnowledgeBarWrapper .category-knowledge-bar .not-learned {
+.vuetable .td-knowledge-bar-wrapper .set-knowledge-bar .not-learned,
+.vuetable .td-knowledge-bar-wrapper .category-knowledge-bar .not-learned {
   background-color: silver;
 }
-.vuetable .KnowledgeBarWrapper .set-knowledge-bar .not-in-wish-knowledge,
-.vuetable .KnowledgeBarWrapper .category-knowledge-bar .not-in-wish-knowledge {
+.vuetable .td-knowledge-bar-wrapper .set-knowledge-bar .not-in-wish-knowledge,
+.vuetable .td-knowledge-bar-wrapper .category-knowledge-bar .not-in-wish-knowledge {
   background-color: #dddddd;
 }
 .onoffswitch {

@@ -21,7 +21,7 @@ new Vue({
             {
                 name: "KnowlegdeWishPartial",
                 title: "Wissensstand",
-                dataClass: "KnowledgeBarWrapper",
+                dataClass: "td-knowledge-bar-wrapper",
                 sortField: "knowledgeBar",
                 html: true
             },
