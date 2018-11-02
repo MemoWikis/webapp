@@ -38,7 +38,7 @@
             <div id="CategoryHeader">
                 <div id="ManagementMobile">
                     <div class="Buttons">
-                        <div class="Button LinkIsDirectedToPartialView"><a href="#">Lernsitzung starten</a></div>
+                        <div class="Button"><a class="LinkIsDirectedToPartialView" href="#">Lernsitzung starten</a></div>
                     </div>
                 </div>
                 <div id="TabsBar">
@@ -51,7 +51,7 @@
                     <div class="Border"></div>
                     <div id="Management">           
                         <div class="Buttons">
-                            <div class="Button LinkIsDirectedToPartialView"><a href="#">Lernsitzung starten</a></div>
+                            <div class="Button"><a class="LinkIsDirectedToPartialView" href="#">Lernsitzung starten</a></div>
                         </div>
                     </div>
                 </div>
