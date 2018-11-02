@@ -3,6 +3,8 @@
 @needs-consolidation: #fdd648;
 @not-learned: silver;
 @needs-learning: lightsalmon;
+@quarter: 25%;
+@one-third: 33%;
 
 #app {
     font-family: Open Sans, Regular;
@@ -11,110 +13,204 @@
     color: #2c3e50;
 }
 
-th {
-    width: 25%;
-}
 table {
     table-layout: fixed;
-
-  
 }
 
 .vuetable {
     font-size: 18px;
-        #_Titel,
-        #_KnowlegdeWishPartial,
-        .vuetable-th-slot-knowWas,
-        .vuetable-th-slot-authorImage,
-        .vuetable-th-slot-category,
-        .vuetable-th-slot-image {
-            border-bottom: solid 2px #337ab7;
-            padding-left: 8px;
-            font-size: 18px;
-            font-weight: bold;
-            color: #2c5fb2;
-        }
-
-    .vuetable-th-slot-authorImage {
-        width: 18%;
+    // TableHeader
+    .vuetable-th-slot-questionTitle,
+    .vuetable-th-slot-knowWas,
+    .vuetable-th-slot-authorImage,
+    .vuetable-th-slot-category {
+        border-bottom: solid 2px #337ab7;
+        padding-left: 8px;
+        font-size: 18px;
+        font-weight: bold;
+        color: #2c5fb2;
     }
 
-    .imageTable {
-        float: left;
-    }
-
-
-
-    .vuetable-th-slot-image {
+    .vuetable-th-slot-questionTitle {
         width: 46%;
         padding-left: 0px;
+
+        @media only screen and (max-width: 1000px) {
+            width: @quarter;
+        }
+
+        @media only screen and (max-width: 675px) {
+            width: 45%;
+        }
+
+        @media only screen and (max-width: 424px) {
+            font-size: 13px;
+            width: 48%;
+        }
     }
 
     .vuetable-th-slot-knowWas {
         width: 15%;
+
+        @media only screen and (max-width: 1200px) {
+            width: 18%;
+        }
+
+        @media only screen and (max-width: 1000px) {
+            width: @quarter;
+        }
+
+        @media only screen and (max-width: 675px) {
+            width: @one-third;
+        }
+
+        @media only screen and (max-width: 521px) {
+            text-align: center;
+        }
+
+        @media only screen and (max-width: 424px) {
+            font-size: 13px;
+            width: 52%;
+        }
     }
 
-    th {
-        width: 25%;
+    .vuetable-th-slot-authorImage {
+        width: 18%;
+
+        @media only screen and (max-width: 1200px) {
+            width: 15%;
+        }
+
+        @media only screen and (max-width: 1000px) {
+            width: @quarter;
+        }
+
+        @media only screen and (max-width: 675px) {
+            width: 21%;
+        }
+
+        @media only screen and (max-width: 521px) {
+            display: none;
+        }
     }
 
-    .tdImage {
+    .vuetable-th-slot-category {
+        width: 21%;
+
+        @media only screen and (max-width: 1000px) {
+            width: @quarter
+        }
+
+        @media only screen and (max-width: 675px) {
+            display: none;
+        }
+    }
+    // Table Body
+    .td-question {
         padding-left: 0px;
-        padding-right: 0px;
+
+        .image {
+            float: left;
+        }
+
+        .title-table {
+            padding-left: 10px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            position: relative;
+            display: inline-block;
+            width: calc(100% - 30px);
+
+            @media only screen and (max-width: 424px) {
+                font-size: 13px;
+            }
+        }
     }
 
     .know-was {
         padding-left: 45px;
+
+        @media only screen and (max-width: 521px) {
+            padding-left: 0px;
+        }
+
+        @media only screen and (max-width: 521px) {
+            margin: auto;
+        }
+
+        .greenD, .yellow, .red, .grey, .round {
+            width: 21px;
+            height: 21px;
+            border-radius: 10px;
+
+            @media only screen and (max-width: 521px) {
+                margin: auto;
+            }
+        }
+
+        .greenD {
+            background-color: @solid;
+            text-align: center;
+        }
+
+        .yellow {
+            background-color: @needs-consolidation;
+        }
+
+        .red {
+            background-color: @not-learned;
+        }
+
+        .grey {
+            background-color: silver;
+        }
     }
 
-    .title-table {
-        padding-left: 10px;
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        position: relative;
-        display: inline-block;
-        width: 437px;
+    .author-image-name {
+        @media only screen and (max-width: 521px) {
+            display: none;
+        }
+
+        .author-image {
+            float: left;
+            padding-right: 10px;
+            max-width: 40px;
+        }
+
+        .author-name {
+            font-size: 18px;
+            color: #0560AB;
+            width: calc(100% - 40px - 10px);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            position: relative;
+            display: inline-block;
+        }
     }
 
-    .author-image {
-        float: left;
-        padding-right: 10px;
-        max-width: 40px;
-    }
+    .category-table {
 
-    .greenD, .yellow, .red, .grey, .round {
-        width: 21px;
-        height: 21px;
-        border-radius: 10px;
-    }
+        @media only screen and (max-width: 675px) {
+            display: none;
+        }
 
-    .author-name {
-        font-size: 18px;
-        color: #0560AB;
-        width: 130px;
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        position: relative;
-        display: inline-block;
-    }
+        a {
+            padding-left: 10px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            position: relative;
+            display: inline-block;
+            width: calc(100% - 30px - 10px);
+        }
 
-    .greenD {
-        background-color: @solid;
-        text-align: center;
-    }
-
-    .yellow {
-        background-color: @needs-consolidation;
-    }
-
-    .red {
-        background-color: @not-learned;
-    }
-
-    .grey {
-        background-color: silver;
+        .round {
+            border-radius: 100%;
+            width: 30px;
+            height: 30px;
+        }
     }
 }
 
@@ -122,19 +218,13 @@ thead {
     color: #ec971f;
 }
 
-td {
-    height: 30px;
-    width: 136px;
-}
-
-
 .imageTable {
     border-radius: 100%;
     width: 30px;
     height: 30px;
 }
 
-.link-to-category{
+.link-to-category {
     margin-left: 10px;
 }
 
@@ -142,61 +232,7 @@ table.table.table-striped .title {
     float: left;
 }
 
-.KnowledgeBarWrapper {
-    display: inline-block;
-    
-    .KnowledgeBarLegend {
-        color: #999999;
-        margin-top: -10px;
-        font-size: 12px;
-        line-height: 1.5em;
-        opacity: 0;
-        transition: opacity 0.2s linear;
-    }
-
-    &:hover { //show on hover over navigation tile
-        .KnowledgeBarLegend {
-            opacity: 1;
-        }
-    }
-
-    .set-knowledge-bar, .category-knowledge-bar {
-        display: inline-block;
-        height: 10px;
-        width: 180px;
-
-        .solid-knowledge, .needs-learning, .needs-consolidation, .not-learned, .not-in-wish-knowledge {
-            height: inherit;
-            float: left;
-        }
-
-        .needs-learning {
-            background-color: @needs-learning;
-        }
-
-        .needs-consolidation {
-            background-color: @needs-consolidation;
-        }
-
-        .solid-knowledge {
-            background-color: @solid;
-        }
-
-        .not-learned {
-            background-color: @not-learned;
-        }
-
-        .not-in-wish-knowledge {
-            background-color: #dddddd;
-        }
-    }
-}
-
-.title-table {
-
-}
 //|-----------------------switch--------------------------|
-
 .onoffswitch {
     position: relative;
     width: 40px;
@@ -281,8 +317,6 @@ table.table.table-striped .title {
     padding-bottom: 62px;
     padding-left: 0px;
 }
-
-
 //------------- Spinner --------------------
 #circle {
     position: absolute;
@@ -308,4 +342,4 @@ table.table.table-striped .title {
     100% {
         transform: rotate(360deg);
     }
-} 
+}
