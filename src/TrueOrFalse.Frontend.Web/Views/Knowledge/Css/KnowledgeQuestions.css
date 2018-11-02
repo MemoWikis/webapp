@@ -320,3 +320,8 @@ table.table.table-striped .title {
     transform: rotate(360deg);
   }
 }
+@media only screen and (max-width: 417px) {
+  .vuetable-pagination a {
+    padding: 6px;
+  }
+}
