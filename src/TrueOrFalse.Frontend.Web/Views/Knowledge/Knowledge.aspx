@@ -21,6 +21,8 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
 
     <input type="hidden" id="hddUrlAddTopic" value="<%= Url.Action("Create", "EditCategory") %>" />
+    <input type="hidden" id="hddUrlAddQuestion" value="<%= Links.CreateQuestion() %>" />
+
 
     <script type="text/javascript">
 

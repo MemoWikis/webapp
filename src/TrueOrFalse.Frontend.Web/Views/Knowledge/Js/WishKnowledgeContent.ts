@@ -76,7 +76,8 @@
                 { content: "questions" },
                 function (data) {
                     $(".content").html(data);
-                    $(".LinkIsDirectedToPartialView").text("Frage erstellen");
+                    $(".LinkIsDirectedToPartialView").text("Frage erstellen"); //<%= Links.CreateQuestion() %>
+                    $(".LinkIsDirectedToPartialView").attr("href", $("#hddUrlAddQuestion").val() );
                 });
         });
     }
