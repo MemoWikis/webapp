@@ -7,7 +7,7 @@
     <%= Scripts.Render("~/bundles/js/CategoryHistoryDetail") %>
     <%= Scripts.Render("~/bundles/js/diff2html") %>
     <%= Styles.Render("~/bundles/diff2html") %>
-    <%--<script src="Js/jquery-2.0.3.js"></script>--%>
+    <%= Styles.Render("~/Views/Categories/Detail/Category.css") %>
 </asp:Content>
 
 <asp:Content ID="Content3" ContentPlaceHolderID="MainContent" runat="server">
@@ -18,25 +18,40 @@
         </div>
     </div>
     
-    <div class="change-detail-model">
+    <div class="Buttons">
         <div class="row">
-            <div class="col-xs-3">            
+            <div class="col-md-3 col-lg-3">            
                 <a href="<%= Links.UserDetail(Model.CurrentAuthor) %>"><img src="<%= Model.AuthorImageUrl %>" height="20"/></a>
                 <b><a href="<%= Links.UserDetail(Model.CurrentAuthor) %>"><%= Model.AuthorName %></a></b><br/>
                 vom <%= Model.CurrentDateCreated %> 
             </div>
             
-            <div class="col-xs-9">
-                <nav class="navbar-right">
-                    <a class="btn btn-primary navbar-btn" href="<%= Links.CategoryHistory(Model.CategoryId) %>">
-                        <i class="fa fa-chevron-left"></i> Zurück zur Bearbeitungshistorie
-                    </a>
-                    <% if (new SessionUser().IsLoggedIn && Model.NextRevExists) { %>
-                        <a id="restoreButton" class="btn btn-default navbar-btn" onclick="$('#alertConfirmRestore').show();">
-                            <i class="fa fa-undo"></i> Wiederherstellen
+            <div class="col dropdown" style="float: right">                
+                <a class="btn btn-primary" href="<%= Links.CategoryDetail(Model.CategoryName, Model.CategoryId, Model.CurrentId) %>">
+                    <i class="fa fa-desktop"></i> &nbsp; Anzeige dieser Revision
+                </a>
+                <a class="btn btn-default" href="<%= Links.CategoryHistory(Model.CategoryId) %>">
+                    <i class="fa fa-list-ul"></i> &nbsp; Zur Bearbeitungshistorie
+                </a>
+                <% var buttonSetId = Guid.NewGuid(); %>
+                <a href="#" id="<%= buttonSetId %>" class="dropdown-toggle btn btn-link btn-sm ButtonEllipsis" 
+                   type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                    <i class="fa fa-ellipsis-v" style="font-size: 18px; margin-top: 2px;"></i>
+                </a>
+                <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="<%= buttonSetId %>">
+                    <li>
+                        <% if (new SessionUser().IsLoggedIn && Model.NextRevExists) { %>
+                            <a id="restoreButton" data-allowed="logged-in" onclick="$('#alertConfirmRestore').show();">
+                                <i class="fa fa-undo"></i> &nbsp; Wiederherstellen
+                            </a>
+                        <% } %>
+                    </li>
+                    <li>
+                        <a href="<%= Links.HistoryOfEverything(1) %>">
+                            <i class="fa fa-list"></i> &nbsp; Zur Bearbeitungshistorie aller Themen
                         </a>
-                    <% } %>
-                </nav>
+                    </li>
+                </ul>
             </div>
         </div>
         

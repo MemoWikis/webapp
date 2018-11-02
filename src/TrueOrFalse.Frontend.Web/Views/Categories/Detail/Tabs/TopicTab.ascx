@@ -6,10 +6,16 @@
     <div class="alert alert-info" role="alert">
         <b>Revision vom <%= Sl.CategoryChangeRepo.GetByIdEager((int)Model.CategoryChangeId).DateCreated %></b>
         <br/>
-        Diese Seite zeigt einen frühreren Stand des Themas.
+        Diese Seite zeigt einen früheren Stand des Themas.
         <nav>
-            <a class="btn btn-primary navbar-btn" href="<%= Links.CategoryHistory(Model.Id) %>">
-                <i class="fa fa-chevron-left"></i> Zurück zur Bearbeitungshistorie
+            <a class="btn btn-primary navbar-btn" href="<%= Links.CategoryHistoryDetail(Model.Id, (int)Model.CategoryChangeId) %>">
+                <i class="fa fa-eye"></i> &nbsp; Änderungen anzeigen
+            </a>
+            <a class="btn btn-default navbar-btn" href="<%= Links.CategoryHistory(Model.Id) %>">
+                <i class="fa fa-list-ul"></i> &nbsp; Zur Bearbeitungshistorie
+            </a>
+            <a class="btn btn-default navbar-btn" href="<%= Links.HistoryOfEverything(1) %>">
+                <i class="fa fa-list"></i> &nbsp; Zur Bearbeitungshistorie aller Themen
             </a>
         </nav>
     </div>
