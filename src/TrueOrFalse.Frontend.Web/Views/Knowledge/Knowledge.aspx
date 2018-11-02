@@ -48,10 +48,9 @@
                         <div class="Tab active"><a href="#" id="dashboard">Dashboard</a></div>
                         <div class="Tab"><a href="#" id="topics">Themen</a></div>
                         <div class="Tab"><a href="#" id="questions">Fragen</a></div>
-                        <%--<div class="Tab"><a href="#" id="events">Termine</a></div>--%>
                     </div>
                     <div class="Border"></div>
-                    <div id="Management">           
+                    <div id="Management">
                         <div class="Buttons">
                             <div class="Button"><a class="LinkIsDirectedToPartialView" href="#">Lernsitzung starten</a></div>
                         </div>
@@ -62,11 +61,9 @@
     </div>
     <div class="row">
         <div class="col-xs-12">
-            <% if (Model.IsLoggedIn) { %>
-                <div class="content" style="margin-top: 2rem">
-                    <% Html.RenderPartial("~/Views/Knowledge/Partials/_Dashboard.ascx"); %>
-                </div>
-            <% } %>
+            <div class="content" style="margin-top: 2rem">
+                <% Html.RenderPartial("~/Views/Knowledge/Partials/_Dashboard.ascx"); %>
+            </div>
         </div>
     </div>
     <%= Scripts.Render("~/bundles/js/Vue") %>

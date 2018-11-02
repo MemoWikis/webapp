@@ -5,9 +5,7 @@
             (e) => {
                 Login.HideFeatureInfo();
                 Login.OpenModal(e);
-            }
-        );
-        
+            });
     }
 
     static OpenModal(e: JQueryEventObject = null, afterLoad: () => void = null) {
