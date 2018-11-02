@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 public class SidebarModel : BaseResolve
 {
@@ -11,27 +12,24 @@ public class SidebarModel : BaseResolve
 
     public int UnreadMessageCount = 0;
 
-    public string AutorCardLinkText;
-    public string AutorImageUrl;
-    public string CreatorName;
-    public User Creator;
-
-    public ReputationCalcResult Reputation;
-    public int AmountWishCountQuestions;
-    public bool DoIFollow;
-    public bool IsCurrentUser;
+    
 
     public bool IsWelcomePage;
 
     public CategoryNavigationModel categoryNavigationModel;
 
-    public List<string> AuthorNames = new List<string>();
-    public List<string> AuthorImageUrls = new List<string>();
-    public IList<User> Authors = new List<User>();
+    public IList<SidebarAuthorModel> Authors = new List<SidebarAuthorModel>();
+
+    public ReputationCalcResult Reputation;
+    public int AmountWishCountQuestions;
+    public bool DoIFollow;
+    public bool IsCurrentUser;
+    public string AuthorCardLinkText;
+    public string AuthorImageUrl;
 
     public string CategorySuggestionImageUrl;
-    public string CategorySuggestionName;
     public string CategorySuggestionUrl;
+    public Category SuggestionCategory;
 
     public SidebarModel()
     {
@@ -76,4 +74,12 @@ public class SidebarModel : BaseResolve
     {
         return !string.IsNullOrEmpty(Menu.Active(menuEntry));
     }
+}
+
+public class SidebarAuthorModel
+{
+    public string Name => User.Name;
+    public string ImageUrl;
+    public User User;
+    public Boolean ShowWishKnowledge;
 }

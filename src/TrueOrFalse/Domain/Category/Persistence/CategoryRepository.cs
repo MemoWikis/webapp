@@ -218,40 +218,16 @@ public class CategoryRepository : RepositoryDbBase<Category>
         return parents;
     }
 
-    public IList<int> GetMultipleAutorIds(int categoryId)
-    {
-        var query = _session.QueryOver<CategoryChange>()
-             .Where(r =>  r.Category.Id == categoryId);
-
-        return query.List()
-            .Select(r => r.Author.Id)
-            .ToList();
-    }
-
-    public IList<User> GetMultipleAutor(int autorId)
-    {
-        var query = _session.QueryOver<User>()
-           .Where(r => r.Id == autorId);
-
-        return query.List()
-            .Select(r => r)
-            .ToList();
-    }
-
     public IList<User> GetAuthors(int categoryId)
     {
-        var authors = new List<User>();
-        var multipleAutorIds = GetMultipleAutorIds(categoryId);
+        var allAuthors = Sl.CategoryChangeRepo
+            .GetForCategory(categoryId)
+            .Select(categoryChange => categoryChange.Author);
 
-        foreach (var id in multipleAutorIds)
-        {
-            var getMultipleAutors = GetMultipleAutor(id);
-            authors.Add(getMultipleAutors[0]);
-        }
-
-        return authors;
+        return allAuthors.GroupBy(a => a.Id)
+            .Select(groupedAuthor => groupedAuthor.First())
+            .ToList();
     }
-
 
     public int CountAggregatedSets(int categoryId)
     {

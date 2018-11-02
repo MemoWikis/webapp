@@ -14,7 +14,7 @@
     <div id="activity-popover-content">
         <div id="activity-popover-content-inner">
             Mit <b><%= userSession.User.ActivityPoints.ToString("N0") %> Lernpunkten</b> 
-            <span style="white-space: nowrap">bist du <b>Level <%= userSession.User.ActivityLevel %></b>.</span>
+            <span style="white-space: nowrap;  display: block;">bist du <b>Level <%= userSession.User.ActivityLevel %></b>.</span>
             <div class="NextLevelContainer">
                 <div class="ProgressBarContainer">
                     <div id="NextLevelProgressPercentageDone" class="ProgressBarSegment ProgressBarDone" style="width: <%= activityPointsPercentageOfNextLevel %>%;">

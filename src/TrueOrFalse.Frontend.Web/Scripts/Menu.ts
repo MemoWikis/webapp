@@ -15,7 +15,6 @@
 class MenuMobile {
 
     private _isOpen: boolean = false;
-    private _isInProgress: boolean = false;
 
 
     constructor() {
@@ -42,7 +41,7 @@ class MenuMobile {
 
         //close on click outside the menu
         $(document).mouseup((e) => {
-            if (!this._isOpen && !this._isInProgress) {
+            if (!this._isOpen) {
                 return;
             }
 
@@ -56,7 +55,7 @@ class MenuMobile {
 
         //close on ESC
         $(document).keyup((e: any) => {
-            if (!this._isOpen && !this._isInProgress) {
+            if (!this._isOpen) {
                 return;
             }
 
@@ -68,31 +67,14 @@ class MenuMobile {
 
     openMenu() {
 
-        if (this._isInProgress) {
-            return;
-        }
-
-        this._isInProgress = true;
-        $("#mainMenu, #RightMainMenu").slideDown(400, () => {
-            this._isOpen = true;
-            this._isInProgress = false;
-        });     
-       
+        $("#mainMenu, #RightMainMenu").show();
+        this._isOpen = true;       
     }
 
     closeMenu() {
 
-        if (this._isInProgress) {
-            return;
-        }
-
-        this._isInProgress = true;
-        $("#mainMenu, #RightMainMenu").slideUp(400, () => {
-            this._isOpen = false;
-            this._isInProgress = false;    
-        });
-
-        
+        $("#mainMenu, #RightMainMenu").hide();
+        this._isOpen = false;
     }
 
     

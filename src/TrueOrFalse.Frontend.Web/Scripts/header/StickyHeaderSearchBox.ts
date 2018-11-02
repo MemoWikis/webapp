@@ -1,80 +1,77 @@
-﻿var isOpen = false;
+﻿var isStickyHeaderSearchBoxOpen = false;
 var isSmallHeaderSearchBoxOpen = false;
 
 function SearchButtonClick() {
 
-    var SearchButton = document.getElementById('StickySearchButton');
+    var searchButton = document.getElementById('StickyHeaderSearchButton');
     var inputBox = document.getElementById('StickyHeaderSearchBox');
     var searchBox = document.getElementById('StickyHeaderSearchBoxDiv');
 
-    var SmallHeaderSearchButton = document.getElementById('SmallHeaderSearchButton');
-    var SmallHeaderInputBox = document.getElementById('SmallHeaderSearchBox');
-    var SmallHeaderSearchBox = document.getElementById('SmallHeaderSearchBoxDiv');
+    var smallHeaderInputBox = document.getElementById('SmallHeaderSearchBox');
+    var smallHeaderSearchBox = document.getElementById('SmallHeaderSearchBoxDiv');
 
 
-    if (isOpen == false) {
-        searchBox.classList.add("SearchBoxDivMaxWidth");
-        inputBox.style.padding = '6px 12px';
-        SearchButton.style.border = '#979797 1px solid';
-        SearchButton.style.background = '#ebebeb';
-        inputBox.style.border = '1px #979797 solid';
-        document.getElementById('KnowledgeImage').style.display = 'none';
-        document.getElementById('UserImage').style.display = 'none';
-        isOpen = true;
+    if (!isSmallHeaderSearchBoxOpen && !isStickyHeaderSearchBoxOpen) {
+        OpenSmallHeaderSearchBox();
+        OpenStickyHeaderSearchBox();
     } else {
-        searchBox.classList.remove("SearchBoxDivMaxWidth");
-        inputBox.style.padding = '0px';
-        SearchButton.style.border = 'none';
-        SearchButton.style.background = 'none';
-        inputBox.style.border = 'none';
-        document.getElementById('KnowledgeImage').style.display = 'block';
-        document.getElementById('UserImage').style.display = 'block';
-        isOpen = false;
+        CloseSmallHeaderSearchBox();
+        CloseStickyHeaderSearchBox();
     }
 
-    if (isSmallHeaderSearchBoxOpen == false) {
-        SmallHeaderInputBox.style.borderColor = 'rgb(151, 151, 151)';
-        SmallHeaderInputBox.style.backgroundColor = '#fff';
-        SmallHeaderSearchBox.classList.add("SearchBoxDivMaxWidth");
-        SmallHeaderInputBox.style.padding = '6px 12px';
-        SmallHeaderInputBox.style.border = '1px #979797 solid';
-        SmallHeaderInputBox.style.display = 'block';
-        isSmallHeaderSearchBoxOpen = true;
-        SmallHeaderSearchButton.style.border = '#979797 1px solid';
-        SmallHeaderSearchButton.style.background = '#ebebeb';     
+    function OpenStickyHeaderSearchBox() {
+            searchBox.classList.add("SearchBoxDivMaxWidth");
+            inputBox.style.padding = '6px 12px';
+            searchButton.style.border = '#979797 1px solid';
+            searchButton.style.background = '#ebebeb';
+            inputBox.style.border = '1px #979797 solid';
+            document.getElementById('KnowledgeImage').style.display = "none";
+            document.getElementById('BreadcrumbUserDropdownImage').style.display = "none";          
+            isStickyHeaderSearchBoxOpen = true;
 
-    } else {
-        SmallHeaderSearchBox.classList.remove("SearchBoxDivMaxWidth");
-        SmallHeaderInputBox.style.padding = '0px';
-        isSmallHeaderSearchBoxOpen = false;
-        SmallHeaderInputBox.style.borderColor = '#003264';
-        SmallHeaderInputBox.style.backgroundColor = 'transparent';
+           
+    } 
+
+    function CloseStickyHeaderSearchBox() {
+            searchBox.classList.remove("SearchBoxDivMaxWidth");
+            inputBox.style.padding = '0px';
+            searchButton.style.border = "none";
+            searchButton.style.background = "none";
+            inputBox.style.border = "none";
+            document.getElementById('KnowledgeImage').style.display = 'block';
+            document.getElementById('BreadcrumbUserDropdownImage').style.display = 'block';
+            isStickyHeaderSearchBoxOpen = false;
+    }
+
+    function OpenSmallHeaderSearchBox() {
+        smallHeaderInputBox.style.borderColor = 'rgb(151, 151, 151)';
+        smallHeaderInputBox.style.backgroundColor = '#fff';
+        smallHeaderSearchBox.classList.add("SearchBoxDivMaxWidth");
+        smallHeaderInputBox.style.padding = '6px 12px';
+        smallHeaderInputBox.style.border = '1px #979797 solid';
+        smallHeaderInputBox.style.display = 'block';
+        isSmallHeaderSearchBoxOpen = true;
+    }
+
+    function CloseSmallHeaderSearchBox() {
+            smallHeaderSearchBox.classList.remove("SearchBoxDivMaxWidth");
+            smallHeaderInputBox.style.padding = '0px';
+            isSmallHeaderSearchBoxOpen = false;
+            smallHeaderInputBox.style.borderColor = '#003264';
+            smallHeaderInputBox.style.backgroundColor = 'transparent';       
     }
 
 
     $(document).mouseup((e) => {
-        if ($("#StickyHeaderSearchBox, #StickyHeaderSearchBoxDiv").has(e.target).length === 0 &&
-            $("#StickySearchButton").has(e.target).length === 0) {
-            if (isOpen == true) {
-                searchBox.classList.remove("SearchBoxDivMaxWidth");
-                inputBox.style.padding = '0px';
-                SearchButton.style.border = 'none';
-                SearchButton.style.background = 'none';
-                inputBox.style.border = 'none';
-                isOpen = false;
-                document.getElementById('KnowledgeImage').style.display = 'block';
-                document.getElementById('UserImage').style.display = 'block';
-            }
-        }
         if ($("#SmallHeaderSearchBox, #SmallHeaderSearchBoxDiv").has(e.target).length === 0 &&
-            $("#SmallHeaderSearchButton").has(e.target).length === 0) {
-                if (isSmallHeaderSearchBoxOpen == true) {
-                    SmallHeaderSearchBox.classList.remove("SearchBoxDivMaxWidth");
-                    SmallHeaderInputBox.style.padding = '0px';
-                    isSmallHeaderSearchBoxOpen = false;
-                    SmallHeaderInputBox.style.borderColor = '#003264';
-                    SmallHeaderInputBox.style.backgroundColor = 'transparent';
-                }
+            $("#StickyHeaderSearchBox, #StickyHeaderSearchBoxDiv").has(e.target).length === 0 &&
+            $("#SmallHeaderSearchButton").has(e.target).length === 0 &&
+            $("#StickyHeaderSearchButton").has(e.target).length === 0) {
+
+            if (isSmallHeaderSearchBoxOpen && isStickyHeaderSearchBoxOpen) {
+                CloseSmallHeaderSearchBox();
+                CloseStickyHeaderSearchBox();
+            }
         }
     });
 }

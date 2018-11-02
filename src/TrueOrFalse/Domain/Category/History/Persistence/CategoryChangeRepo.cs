@@ -1,6 +1,8 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using Newtonsoft.Json;
 using NHibernate;
+using NHibernate.Criterion;
 
 public class CategoryChangeRepo : RepositoryDbBase<CategoryChange>
 {
@@ -47,9 +49,16 @@ public class CategoryChangeRepo : RepositoryDbBase<CategoryChange>
 
     public IList<CategoryChange> GetForCategory(int categoryId)
     {
-        return _session
+        User aliasUser = null;
+        Category aliasCategory = null;
+
+        var query = _session
             .QueryOver<CategoryChange>()
             .Where(c => c.Category.Id == categoryId)
+            .JoinAlias(c => c.Author, () => aliasUser)
+            .JoinAlias(c => c.Category, () => aliasCategory);
+
+        return query
             .List();
     }
 

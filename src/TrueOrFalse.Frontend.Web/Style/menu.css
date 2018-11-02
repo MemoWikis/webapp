@@ -1,24 +1,14 @@
 ﻿@media (min-width: 768px) {
-}
-@media (min-width: 768px) {
-}
-@media (max-width: 767px) {
-}
-@media (min-width: 768px) {
-}
-@media (min-width: 768px) {
-}
-@media (min-width: 768px) {
-}
-@media (max-width: 767px) {
-}
-@media (max-width: 767px) {
-}
-@media (max-width: 649px) {
-}
-@media (min-width: 650px) {
-}
-#mainMenu {
+}@media (min-width: 768px) {
+}@media (max-width: 767px) {
+}@media (min-width: 768px) {
+}@media (min-width: 768px) {
+}@media (min-width: 768px) {
+}@media (max-width: 767px) {
+}@media (max-width: 767px) {
+}@media (max-width: 649px) {
+}@media (min-width: 650px) {
+}#mainMenu {
   /*$ToDo: enable with js functions*/
 }
 #mainMenu .tooltip > .tooltip-inner {
@@ -79,7 +69,7 @@
 #mainMenu .list-group-item.active,
 #mainMenu .list-group-item.active:focus {
   color: #555555;
-  background-color: #ebeff7;
+  background-color: rgba(165, 209, 221, 0.8) !important;
 }
 #mainMenu .list-group-item.active i.fa-caret-right {
   visibility: visible;
@@ -313,14 +303,12 @@
   float: right;
   display: none;
   text-align: left;
-  top: 41px;
+  top: 60px;
   right: 4px;
 }
 .RightMainMenu span {
   display: block !important;
-  overflow: hidden;
-  -ms-text-overflow: ellipsis;
-  text-overflow: ellipsis;
+  font-size: 16px !important;
 }
 @media (max-width: 479px) {
   .RightMainMenu {
@@ -334,8 +322,70 @@
 .RightMainMenu a {
   line-height: normal !important;
 }
+.RightMainMenu .list-group-item {
+  color: #707070 !important;
+  background-color: #f6f8fc;
+  border: none;
+  font-size: 16px;
+  padding-top: 14px;
+  padding-bottom: 14px;
+  padding-left: 8px;
+  margin-bottom: unset;
+  -webkit-border-radius: unset;
+          border-radius: unset;
+}
+.RightMainMenu .list-group-item.active .primary-point,
+.RightMainMenu .list-group-item.active:focus .primary-point {
+  background-color: rgba(165, 209, 221, 0.8) !important;
+  color: #203256 !important;
+  font-weight: bold;
+}
+.RightMainMenu .list-group-item:hover {
+  color: #203256 !important;
+  background-color: rgba(165, 209, 221, 0.8) !important;
+}
+.RightMainMenu .list-group-item .add-new {
+  margin-top: 2px;
+  float: right !important;
+  float: right;
+}
+.RightMainMenu .list-group-item .fa-stack {
+  font-size: 15px;
+}
+.RightMainMenu .list-group-item .fa-stack .default-category-icon {
+  color: #003264;
+}
+.RightMainMenu .list-group-item.actual-category:hover {
+  background-color: rgba(165, 209, 221, 0.8);
+}
+.RightMainMenu .list-group-item.sub {
+  font-weight: normal;
+  padding-top: 6px;
+  color: #203256 !important;
+  padding-left: 40px;
+  padding-bottom: 7px;
+  font-size: 16px;
+  margin-top: 0px;
+  line-height: 22px;
+}
+.RightMainMenu .list-group-item.sub.actual-category,
+.RightMainMenu .list-group-item.sub.under-sub-category {
+  padding-left: 50px;
+}
+.RightMainMenu .list-group-item.sub.actual-category .actual-sub-category,
+.RightMainMenu .list-group-item.sub.under-sub-category .actual-sub-category {
+  margin-left: 6px;
+}
+.RightMainMenu .list-group-item.sub i.fa-caret-right {
+  font-size: 16px;
+}
+.RightMainMenu .list-group-item #mainMenuKnowledgeHeart {
+  font-size: 24px;
+  padding-right: 3px;
+  padding-left: 3px;
+}
 .secondary-section .list-group-item {
-  padding: 7px 7px 7px 40px;
+  padding: 14px 7px 15px 30px;
 }
 .tooltip > .tooltip-inner {
   min-width: 0px;
@@ -368,75 +418,22 @@
 .primary-point .primary-point-text {
   display: inline-block;
 }
-.list-group-item {
-  color: #707070 !important;
-  background-color: white;
-  border: none;
-  font-size: 14px;
-  padding-top: 14px;
-  padding-bottom: 14px;
-  padding-left: 8px;
-  margin-bottom: unset;
-  -webkit-border-radius: unset;
-          border-radius: unset;
-}
-.list-group-item.active,
-.list-group-item.active:focus {
-  background-color: white !important;
-  color: #203256 !important;
-  font-weight: bold;
-}
-.list-group-item:hover {
-  color: #203256 !important;
-  background-color: rgba(165, 209, 221, 0.8) !important;
-}
-.list-group-item .add-new {
-  margin-top: 2px;
-  float: right !important;
-  float: right;
-}
-.list-group-item .fa-stack {
-  font-size: 15px;
-}
-.list-group-item .fa-stack .default-category-icon {
-  color: #003264;
-}
-.list-group-item.actual-category:hover {
-  background-color: rgba(165, 209, 221, 0.8);
-}
-.list-group-item.sub {
-  font-weight: normal;
-  white-space: nowrap;
-  padding-top: 6px;
-  color: #203256 !important;
-  padding-left: 40px;
-  padding-bottom: 7px;
-  font-size: 14px;
-  margin-top: 0px;
-  line-height: 22px;
-}
-.list-group-item.sub.actual-category,
-.list-group-item.sub.under-sub-category {
-  padding-left: 50px;
-}
-.list-group-item.sub.actual-category .actual-sub-category,
-.list-group-item.sub.under-sub-category .actual-sub-category {
-  margin-left: 6px;
-}
-.list-group-item.sub i.fa-caret-right {
-  font-size: 16px;
-}
-.list-group-item #mainMenuKnowledgeHeart {
-  font-size: 24px;
-  padding-right: 3px;
-  padding-left: 3px;
-}
 #mainMenuThemeNavigation,
 #mainMenuQuestionsSetsCategories,
 #mainMenuGamesUsersMessages {
   border: none;
   border-top: solid #707070 1px;
   border-left: none;
+}
+#mainMenuThemeNavigation i.fa,
+#mainMenuQuestionsSetsCategories i.fa,
+#mainMenuGamesUsersMessages i.fa {
+  font-size: 20px;
+}
+#mainMenuThemeNavigation .fa-stack,
+#mainMenuQuestionsSetsCategories .fa-stack,
+#mainMenuGamesUsersMessages .fa-stack {
+  margin-right: 20px;
 }
 #mainMenuGamesUsersMessages {
   border-bottom: none;
