@@ -18,6 +18,9 @@
     line-height: 21px;
     font-weight: normal;
   }
+  #CategoryHeader #TabsBar .Border {
+    display: none;
+  }
 }
 @media (max-width: 767px) {
   #CategoryHeader .Tabs {
