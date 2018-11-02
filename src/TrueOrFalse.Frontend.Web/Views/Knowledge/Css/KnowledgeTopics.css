@@ -262,3 +262,8 @@
   font-size: 18px;
   vertical-align: -5%;
 }
+@media only screen and (max-width: 417px) {
+  .vuetable-pagination a {
+    padding: 6px;
+  }
+}

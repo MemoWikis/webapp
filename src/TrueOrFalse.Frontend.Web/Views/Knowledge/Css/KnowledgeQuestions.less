@@ -317,6 +317,8 @@ table.table.table-striped .title {
     padding-bottom: 62px;
     padding-left: 0px;
 }
+
+
 //------------- Spinner --------------------
 #circle {
     position: absolute;
@@ -341,5 +343,16 @@ table.table.table-striped .title {
 @keyframes rotate {
     100% {
         transform: rotate(360deg);
+    }
+}
+
+
+//--------------- Pagination ------------------------------------------------
+.vuetable-pagination {
+
+    @media only screen and (max-width: 417px) {
+        a {
+            padding: 6px;
+        }
     }
 }
