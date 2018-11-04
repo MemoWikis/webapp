@@ -4,6 +4,7 @@ using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
 using System.Web;
 using EasyNetQ.Events;
+using FluentNHibernate.Conventions;
 using Microsoft.AspNet.SignalR;
 using NHibernate.Bytecode;
 using TrueOrFalse.Frontend.Web.Code;
@@ -71,21 +72,10 @@ public class KnowledgeQuestionsModel
             questions.AuthorImageUrl = userImageSettings.GetUrl_30px_square(Sl.UserRepo.GetById(question.Creator.Id));
             questions.LinkToQuestion = Links.GetUrl(question);
             questions.AuthorId = question.Creator.Id;
-            try
-            {
-                questions.LinkToCategory = Links.GetUrl(categories[0]);
-                questions.Category = categories[0].Name;
-                questions.ImageFrontendData = categoryAndSetDataWishKnowledge.GetCategoryImage(categories[0].Id);
-            }
-            catch (Exception e)
-            {
-                questions.LinkToCategory = " ";
-                questions.Category = "keine Kategorie";
-                questions.ImageFrontendData = categoryAndSetDataWishKnowledge.GetCategoryImage(682);
-            }
-
-           
-
+            questions.LinkToCategory = categories.IsEmpty() ?  " " : Links.GetUrl(categories[0]);
+            questions.Category = categories.IsEmpty() ? "keine Kategorie" : categories[0].Name;
+            questions.ImageFrontendData = categories.IsEmpty() ? categoryAndSetDataWishKnowledge.GetCategoryImage(682) : categoryAndSetDataWishKnowledge.GetCategoryImage(categories[0].Id);
+       
 
             if (whichList.Equals("solid"))
             {
