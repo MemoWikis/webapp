@@ -1,4 +1,5 @@
 ﻿<%@ Control Language="C#" Inherits="System.Web.Mvc.ViewUserControl<BaseModel>" %>
+<%@ Import Namespace="FluentNHibernate.Utils" %>
 <%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
 
 <% 
@@ -15,18 +16,9 @@
         </div>
     </div>
     <div class="header-item">
-        <% if (!userSession.IsLoggedIn)
-            { %>
-        <a href="/Wissenszentrale" data-btn-login="true" class="TextLinkWithIcon KnowledgeLink"><i style="font-size: 32px;" class="fa fa-dot-circle-o"></i>
+        <a href="/Wissenszentrale" data-btn-login="<%= !userSession.IsLoggedIn %>" class="TextLinkWithIcon KnowledgeLink"><i style="font-size: 32px;" class="fa fa-dot-circle-o"></i>
             <span class="primary-point-text TextSpan" style="padding-top: 6px;">Wissenszentrale</span>
         </a>
-        <% }
-            else
-            { %>
-        <a href="/Wissenszentrale" class="TextLinkWithIcon KnowledgeLink"><i style="font-size: 32px;" class="fa fa-dot-circle-o"></i>
-            <span class="primary-point-text TextSpan" style="padding-top: 6px;">Wissenszentrale</span>
-        </a>
-        <% } %>
     </div>
     <div class="header-item" <%if (!userSession.IsLoggedIn)
         {%>style="margin-top:-2px"
