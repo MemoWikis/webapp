@@ -7,21 +7,27 @@
     }
 
     #Management {
-        width: 30%;
+        width: calc(30% - 1px);
         text-align: center;
         margin-top: 10px;
     }
-    .Border{
+
+    .Border {
         margin-left: 24px;
     }
-
-
 }
+
 @media (max-width: 767px) {
     #CategoryHeader {
         font-size: 14px;
         line-height: 21px;
         font-weight: normal;
+
+        #TabsBar {
+            .Border {
+                display: none;
+            }
+        }
     }
 }
 
@@ -33,27 +39,21 @@
     }
 }
 
-.link-set {
-    padding-bottom: 9px;
-    padding-top: 11px;
-    border-top: 1px solid #e2e2e2;
-    border-bottom: 1px solid #e2e2e2;
-    margin-bottom: 29px;
-
-
-    @media only screen and (max-width: 750px) {
-        [class*="col-"] {
-            width: 100%;
-            text-align: center;
-        }
+@media (max-width: 335px) {
+    #CategoryHeader .Tabs {
+        font-size: 13px;
     }
 }
+
+
+
+
 #MasterMainContent #MasterMainColumn {
     width: 100%;
     background-color: white;
 }
-h1{
+
+h1 {
     font-size: 45px;
     padding-bottom: 29px;
-   
 }
