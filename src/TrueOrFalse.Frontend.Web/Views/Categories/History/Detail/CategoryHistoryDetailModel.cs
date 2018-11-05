@@ -10,7 +10,7 @@ public class CategoryHistoryDetailModel : BaseModel
     public User CurrentAuthor;
     public string AuthorName;
     public string AuthorImageUrl;
-    public bool PrevRevisionExists;
+    public bool PrevRevExists;
     public bool NextRevExists;
     public int CurrentId;
     public string CurrentName;
@@ -28,7 +28,7 @@ public class CategoryHistoryDetailModel : BaseModel
     
     public CategoryHistoryDetailModel(CategoryChange currentRevision, CategoryChange previousRevision, CategoryChange nextRevision)
     {
-        PrevRevisionExists = previousRevision != null;
+        PrevRevExists = previousRevision != null;
         NextRevExists = nextRevision != null;
 
         var currentRevisionData = currentRevision.GetCategoryChangeData();
@@ -39,7 +39,7 @@ public class CategoryHistoryDetailModel : BaseModel
         CurrentDescription = currentRevisionData.Description?.Replace("\\r\\n", "\r\n");
         CurrentWikipediaUrl = currentRevisionData.WikipediaURL;
 
-        if (PrevRevisionExists)
+        if (PrevRevExists)
         {
             var prevRevisionData = previousRevision.GetCategoryChangeData();
             PrevName = prevRevisionData?.Name;

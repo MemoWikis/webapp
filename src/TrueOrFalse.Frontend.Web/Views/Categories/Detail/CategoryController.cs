@@ -50,6 +50,7 @@ public class CategoryController : BaseController
         categoryModel.CustomPageHtml = MarkdownToHtml.Run(historicCategory.TopicMarkdown, historicCategory, ControllerContext);
         categoryModel.Description = MarkdownToHtml.Run(historicCategory.Description, historicCategory, ControllerContext);
         categoryModel.CategoryChangeId = version;
+        categoryModel.NextRevExists = categoryChange.GetNextRevision() != null;
     }
 
     public void CategoryById(int id)

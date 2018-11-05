@@ -79,7 +79,7 @@
         
         <div class="row">
             <div class="col-12">
-                <% if (!Model.PrevRevisionExists) {  %>
+                <% if (!Model.PrevRevExists) {  %>
                     <br />
                     <div class="alert alert-info" role="alert">
                         Dies ist die <b>initiale Revision</b> des Themas, weswegen hier keine Änderungen angezeigt werden können.

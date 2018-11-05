@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Newtonsoft.Json;
+using NHibernate;
 using Seedworks.Lib.Persistence;
 
 public class CategoryChange : Entity, WithDateCreated
@@ -50,6 +51,38 @@ public class CategoryChange : Entity, WithDateCreated
     public virtual Category ToHistoricCategory()
     {
         return GetCategoryChangeData().ToCategory(Category.Id);
+    }
+
+    public virtual CategoryChange GetNextRevision()
+    {
+        var categoryId = Category.Id;
+        var currentRevisionDate = DateCreated.ToString("yyyy-MM-dd HH-mm-ss");
+        var query = $@"
+            
+            SELECT * FROM CategoryChange cc
+            WHERE cc.Category_id = {categoryId} and cc.DateCreated > '{currentRevisionDate}' 
+            ORDER BY cc.DateCreated 
+            LIMIT 1
+
+            ";
+        var nextRevision = Sl.R<ISession>().CreateSQLQuery(query).AddEntity(typeof(CategoryChange)).UniqueResult<CategoryChange>();
+        return nextRevision;
+    }
+
+    public virtual CategoryChange GetPreviousRevision()
+    {
+        var categoryId = Category.Id;
+        var currentRevisionDate = DateCreated.ToString("yyyy-MM-dd HH-mm-ss");
+        var query = $@"
+            
+            SELECT * FROM CategoryChange cc
+            WHERE cc.Category_id = {categoryId} and cc.DateCreated < '{currentRevisionDate}' 
+            ORDER BY cc.DateCreated DESC 
+            LIMIT 1
+
+            ";
+        var previousRevision = Sl.R<ISession>().CreateSQLQuery(query).AddEntity(typeof(CategoryChange)).UniqueResult<CategoryChange>();
+        return previousRevision;
     }
 }
 
