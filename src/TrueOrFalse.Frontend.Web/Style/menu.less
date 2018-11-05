@@ -35,7 +35,6 @@
 
     .list-group-item {
         margin-top: 3px;
-        background-color: lighten(@light-blue, 4%);
         background-color: white;
         border: solid 4px @link-blue;
         border-top: none;
@@ -55,7 +54,6 @@
 
         &.active, &.active:focus {
             color: #555555;
-            background-color: @menu-darker-blue !important;
         }
 
         &.active i.fa-caret-right {
@@ -356,7 +354,6 @@
 
     .list-group-item {
         color: #707070 !important;
-        background-color: lighten(@light-blue, 4%);
         border: none;
         font-size: 16px;
         padding-top: 14px;
@@ -367,15 +364,15 @@
 
 
         &.active, &.active:focus {
-            .primary-point {
+            &.primary-point {
                 background-color: @menu-darker-blue !important;
-                color: #203256 !important;
+                color: #003264 !important;
                 font-weight: bold;
             }
         }
 
         &:hover {
-            color: #203256 !important;
+            color: #003264 !important;
             background-color: @menu-darker-blue !important;
         }
 
@@ -402,18 +399,15 @@
             font-weight: normal;
             padding-top: 6px;
             color: @global-text-color !important;
-            padding-left: 40px;
+            padding-left: 80px;
             padding-bottom: 7px;
             font-size: 16px;
             margin-top: 0px;
             line-height: 22px;
+            background-color: white;
 
             &.actual-category, &.under-sub-category {
-                padding-left: 50px;
-
-                .actual-sub-category {
-                    margin-left: 6px;
-                }
+                padding-left: 81px;
             }
 
             i.fa-caret-right {
@@ -459,7 +453,6 @@
         color: #707070;
         font-size:16px;
         font-weight:normal;
-
 
         .primary-point-text {
             display: inline-block;
