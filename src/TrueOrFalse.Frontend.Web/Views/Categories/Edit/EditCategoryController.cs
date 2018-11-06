@@ -175,7 +175,7 @@ public class EditCategoryController : BaseController
 
         Sl.Session.Evict(category); //prevent change tracking and updates
 
-        return Json(MarkdownToHtml.Run(category, ControllerContext));
+        return Json(MarkdownToHtml.Run(category.TopicMarkdown, category, ControllerContext));
     }
 
     [HttpPost]

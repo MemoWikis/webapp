@@ -3,52 +3,26 @@
 <%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
     
 <% if (Model.CategoryChangeId != null) { %>
-    <div class="row">
-        <div class="alert alert-info" role="alert">
-            <div class="col-12">
-                <b>Revision vom <%= Sl.CategoryChangeRepo.GetByIdEager((int)Model.CategoryChangeId).DateCreated %></b>
-                <br/>
-                Diese Seite zeigt einen frühreren Stand des Themas. Diese Revision kann über den entsprechenden Button wiederhergestellt werden.
-            </div>
-            <br/>
-            <div class="col-12">
-                <nav>
-                    <a class="btn btn-primary navbar-btn" href="<%= Links.CategoryHistory(Model.Id) %>">
-                        <i class="fa fa-chevron-left"></i> Zurück zur Bearbeitungshistorie
-                    </a>
-                    <% if (new SessionUser().IsLoggedIn) { %>
-                        <a class="btn btn-default navbar-btn" onclick="$('#alertConfirmRestore').show();">
-                            <i class="fa fa-undo"></i> Wiederherstellen
-                        </a>
-                    <% } %>
-                </nav>
-            </div>
-        </div>
-
-        <% if (new SessionUser().IsLoggedIn)
-           { %>
-            <div id="alertConfirmRestore" class="alert alert-warning" role="alert" style="display: none">
-                <div class="col-12">
-                    Der aktuelle Stand wird durch diese Version ersetzt. Wollen Sie das wirklich?
-                </div>
-                <br/>
-                <div class="col-12">
-                    <nav>
-                        <a class="btn btn-default navbar-btn" href="<%= Links.CategoryRestore(Model.Id, (int) Model.CategoryChangeId) %>">
-                            <i class="fa fa-undo"></i> Ja, Wiederherstellen
-                        </a>
-                        <a class="btn btn-primary navbar-btn" onclick="$('#alertConfirmRestore').hide();">
-                            <i class="fa fa-remove"></i> Nein, Abbrechen
-                        </a>
-                    </nav>
-                </div>
-            </div>
-        <% } %>
-
+    <div class="alert alert-info" role="alert">
+        <b>Revision vom <%= Sl.CategoryChangeRepo.GetByIdEager((int)Model.CategoryChangeId).DateCreated %></b>
+        <br/>
+        <%= (Model.NextRevExists) 
+                ? "Diese Seite zeigt einen <b>früheren Stand</b> des Themas."
+                : "Dies ist die <b>aktuelle Revision</b> des Themas."
+        %>
+        <nav>
+            <a class="btn btn-primary navbar-btn" href="<%= Links.CategoryHistoryDetail(Model.Id, (int)Model.CategoryChangeId) %>">
+                <i class="fa fa-eye"></i> &nbsp; Änderungen anzeigen
+            </a>
+            <a class="btn btn-default navbar-btn" href="<%= Links.CategoryHistory(Model.Id) %>">
+                <i class="fa fa-list-ul"></i> &nbsp; Zur Bearbeitungshistorie
+            </a>
+            <a class="btn btn-default navbar-btn" href="<%= Links.HistoryOfEverything(1) %>">
+                <i class="fa fa-list"></i> &nbsp; Zur Bearbeitungshistorie aller Themen
+            </a>
+        </nav>
     </div>
-
     <br/>
-
 <% } %>
 
 <div class="DescriptionSection">

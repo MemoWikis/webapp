@@ -3,13 +3,13 @@ declare var Diff2Html;
 declare var Diff2HtmlUI;
 
 $(() => {
-
+    
     ShowDiff2Html();
 
 });
 
 function ShowDiff2Html() {
-
+    
     var currentName = $('#currentName').val();
     var prevName = $('#prevName').val();
     var currentMarkdown = $('#currentMarkdown').val();
@@ -18,12 +18,14 @@ function ShowDiff2Html() {
     var prevDescription = $('#prevDescription').val();
     var currentWikipediaUrl = $('#currentWikipediaUrl').val();
     var prevWikipediaUrl = $('#prevWikipediaUrl').val();
-
-    var diffName = Diff(prevName, currentName, 'Änderungen des Kategorienamens');
+    var currentRelations = $('#currentRelations').val();
+    var prevRelations = $('#prevRelations').val();
+    
+    var diffName = Diff(prevName, currentName, 'Änderungen des Namens');
     var diffMarkdown = Diff(prevMarkdown, currentMarkdown, 'Änderungen des Inhaltes');
     var diffDescription = Diff(prevDescription, currentDescription, 'Änderungen der Beschreibung');
     var diffWikipediaUrl = Diff(prevWikipediaUrl, currentWikipediaUrl, 'Änderungen der Wikipedia-URL');
-    var diffRelations = 'Es können keine Beziehungsdaten angezeigt werden, da für diese Revisionen keine enstsprechenden Daten vorliegen.';
+    var diffRelations = Diff(prevRelations, currentRelations, 'Änderungen der Beziehungsdaten');
 
     if (diffName)
         ShowDiff(diffName, '#diffName');
@@ -33,10 +35,17 @@ function ShowDiff2Html() {
         ShowDiff(diffWikipediaUrl, '#diffWikipediaUrl');
     if (diffMarkdown)
         ShowDiff(diffMarkdown, '#diffData');
-    $('#diffRelations').text(diffRelations);
-    if (!diffName && !diffDescription && !diffWikipediaUrl && !diffMarkdown) {
+    if (diffRelations)
+        ShowDiff(diffRelations, '#diffRelations');
+
+    // Zeige Hinweis, falls es keine inhaltichen Änderungen zu geben scheint
+    if (!diffName && !diffDescription && !diffWikipediaUrl && !diffMarkdown && !diffRelations)
+    {
         $("#diffPanel").hide();
         $("#noChangesAlert").show();
+    } else {
+        if (!diffRelations)
+            $('#noRelationsAlert').show();
     }
 }
 

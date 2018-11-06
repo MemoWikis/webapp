@@ -39,7 +39,7 @@ public class CategoryController : BaseController
     {
         return new CategoryModel(category)
         {
-            CustomPageHtml = MarkdownToHtml.Run(category, ControllerContext)
+            CustomPageHtml = MarkdownToHtml.Run(category.TopicMarkdown, category, ControllerContext)
         };
     }
     
@@ -47,8 +47,10 @@ public class CategoryController : BaseController
     {
         var categoryChange = Sl.CategoryChangeRepo.GetByIdEager((int) version);
         var historicCategory = categoryChange.ToHistoricCategory();
-        categoryModel.CustomPageHtml = MarkdownToHtml.Run(historicCategory, ControllerContext);
+        categoryModel.CustomPageHtml = MarkdownToHtml.Run(historicCategory.TopicMarkdown, historicCategory, ControllerContext);
+        categoryModel.Description = MarkdownToHtml.Run(historicCategory.Description, historicCategory, ControllerContext);
         categoryModel.CategoryChangeId = version;
+        categoryModel.NextRevExists = categoryChange.GetNextRevision() != null;
     }
 
     public void CategoryById(int id)
