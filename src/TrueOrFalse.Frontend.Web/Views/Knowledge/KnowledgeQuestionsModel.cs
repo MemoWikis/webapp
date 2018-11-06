@@ -1,31 +1,28 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
-using System.Web;
-using EasyNetQ.Events;
 using FluentNHibernate.Conventions;
-using Microsoft.AspNet.SignalR;
-using NHibernate.Bytecode;
 using TrueOrFalse.Frontend.Web.Code;
 
 
-public class KnowledgeQuestionsModel
+public class KnowledgeQuestionsModel 
 {
     private UserImageSettings userImageSettings = new UserImageSettings();
 
-    public List<Questions> GetQuestionsWishFromDatabase(int userId, bool isAuthor)
+    private IList<Question> getIdsPerPage(IList<int> unsortedListOneSite, IList<int> allLearningStatusIds)
     {
-        var questionsListSolid = GetListWithKnowWas("solid", userId);
-        var shouldConsolidate = GetListWithKnowWas("shouldConsolidate", userId);
-        var shouldLearning = GetListWithKnowWas("shouldLearning", userId);
-        var NotLearned = GetListWithKnowWas("", userId);
-        var unsortList = QuestionsFactory(questionsListSolid, shouldConsolidate, shouldLearning, NotLearned);
+        IList<int> IdsPerPage = new List<int>();
+        foreach (var learningStatusId in allLearningStatusIds)
+        {
+            if( unsortedListOneSite.Contains(learningStatusId))
+                IdsPerPage.Add(learningStatusId); 
+        }
 
-        return IsAuthor(unsortList, isAuthor, userId);
+        int[] idsPerPageArray = new int[IdsPerPage.Count];
+        IdsPerPage.CopyTo(idsPerPageArray, 0);
+        return Sl.QuestionRepo.GetByIds(idsPerPageArray);
     }
 
-    public List<Questions> IsAuthor(List<Questions> unsortList, bool isAuthor, int userId)
+    private List<Questions> IsAuthor(List<Questions> unsortList, bool isAuthor, int userId)
     {
         var sortList = new List<Questions>();
 
@@ -42,16 +39,6 @@ public class KnowledgeQuestionsModel
             return sortList;
         }
         return unsortList;
-    }
-
-    private string GetCategoryNameShort(string name)
-    {
-        if (name.Length > 15)
-        {
-            return name.Substring(0, 16);
-        }
-
-        return name;
     }
 
     private List<Questions> ObjectFactory(
@@ -112,7 +99,7 @@ public class KnowledgeQuestionsModel
         return questionsList;
     }
 
-    public List<Questions> QuestionsFactory(
+    private List<Questions> QuestionsFactory(
         IList<Question> questionsListSolid,
         IList<Question> questionsListShouldConsolidate,
         IList<Question> questionsListShouldLearning,
@@ -137,37 +124,6 @@ public class KnowledgeQuestionsModel
             questionsList = ObjectFactory(questionsListNotLearned, questionsList, "questionsListNotLearned");
 
         return questionsList;
-    }
-
-    public List<Question> GetListWithKnowWas(string knowWas, int userId)
-    {
-        List<int> questionsIListInList;
-        if (knowWas.Equals("solid"))
-        {
-            var questionsSolid = Sl.QuestionRepo.GetByKnowledge(userId, true, false, false, false);
-            questionsIListInList = new List<int>(questionsSolid);
-
-            return new List<Question>(Sl.QuestionRepo.GetByIds(questionsIListInList));
-        }
-        if (knowWas.Equals("shouldConsolidate"))
-        {
-            var questionsShouldConsolidate = Sl.QuestionRepo.GetByKnowledge(userId, false, true, false, false);
-            questionsIListInList = new List<int>(questionsShouldConsolidate);
-
-            return new List<Question>(Sl.QuestionRepo.GetByIds(questionsIListInList));
-        }
-        if (knowWas.Equals("shouldLearning"))
-        {
-            var questionsshouldLearning = Sl.QuestionRepo.GetByKnowledge(userId, false, false, true, false);
-            questionsIListInList = new List<int>(questionsshouldLearning);
-
-            return new List<Question>(Sl.QuestionRepo.GetByIds(questionsIListInList));
-        }
-
-        var questionsNotLearned = Sl.QuestionRepo.GetByKnowledge(userId, false, false, false, true);
-        questionsIListInList = new List<int>(questionsNotLearned);
-
-        return new List<Question>(Sl.QuestionRepo.GetByIds(questionsIListInList));
     }
 
     public List<Questions> GetSortList(List<Questions> unSortList, string sortCondition)
@@ -196,6 +152,29 @@ public class KnowledgeQuestionsModel
 
         var sortList = unSortList;
         return sortList;
+    }
+
+    public IList<int> GetAllIdsWUWI(int userId)
+    {
+        return Sl.QuestionRepo.GetByKnowledge(userId, true, true, true, true);
+    }
+
+    public List<Questions> GetQuestionsWishFromDatabase(int userId, bool isAuthor, IList<int> unsortedListOneSite)
+    {
+        var solidIdsAll = Sl.QuestionRepo.GetByKnowledge(userId, true, false, false, false);
+        var shouldConsolidateIdsAll = Sl.QuestionRepo.GetByKnowledge(userId, false, true, false, false);
+        var shouldLearningIdsAll = Sl.QuestionRepo.GetByKnowledge(userId, false, false, true, false);
+        var notLearnedIdsAll = Sl.QuestionRepo.GetByKnowledge(userId, false, false, false, true);
+
+        var solidIdsPerPage = getIdsPerPage(unsortedListOneSite, solidIdsAll);
+        var shouldConsolidateIdsPerPage = getIdsPerPage(unsortedListOneSite, shouldConsolidateIdsAll);
+        var shouldLearningeIdsPerPage = getIdsPerPage(unsortedListOneSite, shouldLearningIdsAll);
+        var notLearnedIdsPerPage = getIdsPerPage(unsortedListOneSite, notLearnedIdsAll);
+
+
+        var unsortList = QuestionsFactory(solidIdsPerPage, shouldConsolidateIdsPerPage, shouldLearningeIdsPerPage, notLearnedIdsPerPage);
+
+        return IsAuthor(unsortList, isAuthor, userId);
     }
 
     public class Questions
