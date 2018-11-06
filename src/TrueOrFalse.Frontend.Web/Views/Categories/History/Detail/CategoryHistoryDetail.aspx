@@ -7,7 +7,6 @@
     <%= Scripts.Render("~/bundles/js/CategoryHistoryDetail") %>
     <%= Scripts.Render("~/bundles/js/diff2html") %>
     <%= Styles.Render("~/bundles/diff2html") %>
-    <%= Styles.Render("~/Views/Categories/Detail/Category.css") %>
 </asp:Content>
 
 <asp:Content ID="Content3" ContentPlaceHolderID="MainContent" runat="server">
