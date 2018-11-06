@@ -192,6 +192,18 @@ public class QuestionRepo : RepositoryDbBase<Question>
             .ToList();
     }
 
+    public IList<int> GetAllKnowledgeList(int userId)
+    {
+        return _session
+            .QueryOver<QuestionValuation>()
+            .Where(q =>
+                q.User.Id == userId &&
+                q.RelevancePersonal != -1)
+            .JoinQueryOver(q => q.Question)
+            .Select(q => q.Question.Id)
+            .List<int>();
+    }
+
     public IList<int> GetByKnowledge(
         int userId, 
         bool isKnowledgeSolidFilter, 

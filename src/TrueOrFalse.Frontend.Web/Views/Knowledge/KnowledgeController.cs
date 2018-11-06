@@ -128,7 +128,7 @@ public class KnowledgeController : BaseController
     [HttpGet]
     public JsonResult GetQuestionsWish(int page, int per_page, string sort = "", bool isAuthor = false)
     {
-        var unsortedIListIds = knowledgeQuestionsModel.GetAllIdsWUWI(UserId);
+        var unsortedIListIds = Sl.QuestionRepo.GetAllKnowledgeList(UserId);
         var unsortedWuwiIdsPerSite = GetSiteForPagination(unsortedIListIds, page, per_page);
         var unsortedListWithIsAuthor =  knowledgeQuestionsModel.GetQuestionsWishFromDatabase(UserId, isAuthor, unsortedWuwiIdsPerSite);
 

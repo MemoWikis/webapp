@@ -154,11 +154,6 @@ public class KnowledgeQuestionsModel
         return sortList;
     }
 
-    public IList<int> GetAllIdsWUWI(int userId)
-    {
-        return Sl.QuestionRepo.GetByKnowledge(userId, true, true, true, true);
-    }
-
     public List<Questions> GetQuestionsWishFromDatabase(int userId, bool isAuthor, IList<int> unsortedListOneSite)
     {
         var solidIdsAll = Sl.QuestionRepo.GetByKnowledge(userId, true, false, false, false);
