@@ -13,9 +13,9 @@ new Vue({
 
         fields: [
             {
-                name: "__slot:image",
+                name: "__slot:questionTitle",
                 title: "Frage",
-                dataClass: "tdImage"
+                dataClass: "td-question"
             },
             {
                 name: "__slot:knowWas",
@@ -24,7 +24,7 @@ new Vue({
             },
             {
                 name: "__slot:authorImage",
-                title: "Author",
+                title: "Autor",
                 sortField: "author",
                 dataClass: "author-image-name"
             },

@@ -50,7 +50,6 @@
 }
 #mainMenu .list-group-item {
   margin-top: 3px;
-  background-color: #f6f8fc;
   background-color: white;
   border: solid 4px #2C5FB2;
   border-top: none;
@@ -69,7 +68,6 @@
 #mainMenu .list-group-item.active,
 #mainMenu .list-group-item.active:focus {
   color: #555555;
-  background-color: #f6f8fc;
 }
 #mainMenu .list-group-item.active i.fa-caret-right {
   visibility: visible;
@@ -324,7 +322,6 @@
 }
 .RightMainMenu .list-group-item {
   color: #707070 !important;
-  background-color: #f6f8fc;
   border: none;
   font-size: 16px;
   padding-top: 14px;
@@ -334,14 +331,14 @@
   -webkit-border-radius: unset;
           border-radius: unset;
 }
-.RightMainMenu .list-group-item.active .primary-point,
-.RightMainMenu .list-group-item.active:focus .primary-point {
+.RightMainMenu .list-group-item.active.primary-point,
+.RightMainMenu .list-group-item.active:focus.primary-point {
   background-color: rgba(165, 209, 221, 0.8) !important;
-  color: #203256 !important;
+  color: #003264 !important;
   font-weight: bold;
 }
 .RightMainMenu .list-group-item:hover {
-  color: #203256 !important;
+  color: #003264 !important;
   background-color: rgba(165, 209, 221, 0.8) !important;
 }
 .RightMainMenu .list-group-item .add-new {
@@ -362,19 +359,16 @@
   font-weight: normal;
   padding-top: 6px;
   color: #203256 !important;
-  padding-left: 40px;
+  padding-left: 80px;
   padding-bottom: 7px;
   font-size: 16px;
   margin-top: 0px;
   line-height: 22px;
+  background-color: white;
 }
 .RightMainMenu .list-group-item.sub.actual-category,
 .RightMainMenu .list-group-item.sub.under-sub-category {
-  padding-left: 50px;
-}
-.RightMainMenu .list-group-item.sub.actual-category .actual-sub-category,
-.RightMainMenu .list-group-item.sub.under-sub-category .actual-sub-category {
-  margin-left: 6px;
+  padding-left: 81px;
 }
 .RightMainMenu .list-group-item.sub i.fa-caret-right {
   font-size: 16px;

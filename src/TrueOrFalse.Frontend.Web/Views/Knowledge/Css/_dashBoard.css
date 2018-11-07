@@ -1,39 +1,27 @@
-﻿.body {
-  width: 1144px;
-  background-color: white;
+﻿h3 {
+  color: #003264;
 }
-@media only screen and (max-width: 1160px) {
-  .body {
+@media only screen and (max-width: 990px) {
+  .first-row [class*="col-"] {
+    width: 33%;
+  }
+  .first-row [class*="col-"] h3 {
+    font-size: 18px;
+    text-align: center;
+  }
+}
+@media only screen and (max-width: 400px) {
+  .first-row [class*="col-"] {
+    width: 50%;
+    text-align: center;
+    align-content: center;
+    margin-bottom: 30px;
+  }
+  .first-row .col-xs-4 {
     width: 100%;
   }
 }
-h3 {
-  color: #003264;
-}
-.first-row h3 {
-  margin-top: 0px;
-}
-.first-row .bold {
-  font-weight: bold;
-}
-.first-row .col-xs-3 {
-  margin-bottom: 0px;
-}
-.first-row .col-xs-5 {
-  padding-right: 30px;
-}
-.first-row .col-xs-4 {
-  height: 98px;
-}
-.first-row .col-xs-4 h3 {
-  margin-bottom: 30px;
-}
-@media only screen and (max-width: 970px) {
-  .first-row .col-xs-4 {
-    margin-top: 40px;
-  }
-}
-@media only screen and (max-width: 970px) {
+@media only screen and (max-width: 330px) {
   .first-row [class*="col-"] {
     width: 100%;
     text-align: center;
@@ -41,31 +29,54 @@ h3 {
     margin-bottom: 30px;
   }
 }
-.second-row {
+.first-row h3 {
   margin-top: 0px;
-  padding-top: 0px;
 }
-.second-row .col-xs-3 {
-  padding-top: 0px;
+.first-row .bold {
+  font-weight: bold;
 }
 @media only screen and (max-width: 970px) {
-  .second-row .col-xs-3 {
+  .first-row .col-xs-5 {
+    display: inline-block;
+    vertical-align: middle;
+    float: none;
+  }
+}
+@media only screen and (max-width: 970px) {
+  .first-row .col-xs-4 {
+    display: inline-block;
+    vertical-align: middle;
+    float: none;
+  }
+}
+@media only screen and (max-width: 970px) {
+  .second-row [class*="col-"] {
+    width: 50%;
+    text-align: center;
+    align-content: center;
+    margin-bottom: 30px;
     margin-top: 30px;
+  }
+  .second-row .col-xs-4 {
+    margin-top: -117px;
+  }
+}
+@media only screen and (max-width: 330px) {
+  .second-row [class*="col-"] {
+    width: 100%;
+    text-align: center;
+    align-content: center;
+    margin-bottom: 30px;
   }
 }
 .second-row .col-xs-3 .reputation-number {
   font-size: 1.5em;
-  margin-right: 0.3em;
 }
 .second-row .col-xs-3 span {
   font-size: 1.1em;
 }
 .second-row .col-xs-3 #rang {
   font-weight: bolder;
-}
-.second-row .col-xs-5 {
-  margin-top: 50px;
-  padding-right: 40px;
 }
 .second-row .col-xs-5 .ProgressBarContainer,
 .second-row .col-xs-5 .ProgressBarSegment {
@@ -97,22 +108,6 @@ h3 {
   position: relative;
   overflow: visible;
 }
-@media only screen and (max-width: 970px) {
-  .second-row [class*="col-"] {
-    width: 100%;
-    text-align: center;
-    align-content: center;
-    margin-bottom: 30px;
-  }
-}
-@media only screen and (max-width: 970px) {
-  .second-row .col-xs-5 [class*="col-"] {
-    width: 100%;
-    text-align: center;
-    align-content: center;
-    margin-bottom: 30px;
-  }
-}
 .second-row .col-xs-5 .ProgressBarContainer,
 .second-row .col-xs-5 .ProgressBarSegment {
   height: 30px;
@@ -125,21 +120,17 @@ h3 {
 }
 @media only screen and (max-width: 970px) {
   .second-row .col-xs-4 {
-    margin-top: 40px;
-    height: auto;
-  }
-}
-.second-row .col-xs-4 .col-xs-3 {
-  margin-top: 0px;
-}
-@media only screen and (max-width: 970px) {
-  .second-row [class*="col-"] {
+    margin-top: 10px;
     width: 100%;
-    align-content: center;
-    margin-bottom: 30px;
     text-align: center;
   }
-  .second-row [class*="col-"] .ItemImage {
+  .second-row .col-xs-4 .col-xs-3,
+  .second-row .col-xs-4 .col-xs-9 {
+    width: 100%;
+    text-align: center;
+    font-size: 18px;
+  }
+  .second-row .col-xs-4 .ItemImage {
     height: 40px;
     width: 40px;
   }

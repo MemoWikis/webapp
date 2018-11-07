@@ -5,7 +5,7 @@
 <div style="display: flex;">
     <div id="mainMenuThemeCenteredMobile">
         <div id="RightMainMenu" class="RightMainMenu">
-            <div id="KnowledgeBtn" class="menu-section">
+            <div id="KnowledgeBtn" class="menu-section"  data-btn-login="<%= !Model.IsLoggedIn %>">
                <a style="width:100%; padding: 20px 0px 19px 15px; display:flex; align-items:center; border-radius:0px;" class="list-group-item cat <%= Model.Active(MenuEntry.Knowledge) %>" href="<%= Links.Knowledge() %>">
                 <%if(Model.IsLoggedIn){ %>
                    <i style="color:#AED71B; font-size:21px;" class="fa fa-dot-circle-o"></i>                 

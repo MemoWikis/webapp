@@ -16,21 +16,25 @@ new Vue({
                 name: "__slot:imageAndTitle",
                 title: "Thema/Lernset",
                 sortField: 'name',
-                dataClass: 'Topic'
+                dataClass: 'td-topic'
             },
             {
                 name: "KnowlegdeWishPartial",
                 title: "Wissensstand",
-                dataClass: "KnowledgeBarWrapper",
+                dataClass: "td-knowledge-bar-wrapper",
                 sortField: "knowledgeBar",
                 html: true
             },
             {
                 name: '__slot:topicCount',
+                dataClass: "topic-count-td",
                 title: "Größe"
             },
-            '__slot:actions',
-            '__slot:dropDown'
+            {
+                name: '__slot:dropDown' ,
+                dataClass: "drop-down-td"
+            }
+            
         ],
         sortOrder: [
             { field: 'name', direction: 'asc' },
@@ -68,33 +72,6 @@ new Vue({
         onChangePage(page) {
             this.$refs.vuetable.changePage(page);
           this.initializeTooltip();
-        },
-        editRow(rowData) {
-
-            $.post("/Api/Category/Pin/",
-                { categoryId: 683 },
-                function () {
-                });
-            $.post("/Api/Category/Pin/",
-                { categoryId: 686 },
-                function () {
-                });
-            $.post("/Api/Category/Pin/",
-                { categoryId: 744 },
-                function () {
-                });
-            $.post("/Api/Sets/Pin/",
-                { setId: 279 },
-                function () {
-                });
-            $.post("/Api/Sets/Pin/",
-                { setId: 409 },
-                function () {
-                });
-            $.post("/Api/Sets/Pin/",
-                { setId: 414 },
-                function () {
-                });
         },
         deleteRow: function (id, IsCategory, index) {
             var self = this;

@@ -656,6 +656,7 @@ img {
   font-size: 16px;
   font-weight: bold;
   color: white;
+  display: block;
 }
 .MenuButtonXS {
   padding: 3px 3px 3px 7px;
@@ -1216,7 +1217,7 @@ ul.AutocompleteHeader {
 #Breadcrumb {
   font-size: 14px;
   background-color: white;
-  line-height: 1.5em;
+  line-height: 21px;
   width: 100%;
   display: block;
   font-family: sans;
