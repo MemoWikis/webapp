@@ -1,10 +1,16 @@
-﻿<%@ Page Title="memucho Team" Language="C#" MasterPageFile="~/Views/Shared/Site.Sidebar.Master"  %>
+﻿<%@ Page Title="memucho Team" Language="C#" MasterPageFile="~/Views/Shared/Site.Sidebar.Master" Inherits="System.Web.Mvc.ViewPage<BaseModel>"  %>
 
 <%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
 <%@ Import Namespace="System.Web.Optimization" %>
 
-<asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
+<asp:Content ID="Content1" ContentPlaceHolderID="Head" runat="server">    
+    <% 
+        Model.TopNavMenu.BreadCrumb.Add(new TopNavMenuItem { Text = "Das Memucho-Team", Url = "/Team", ToolTipText = "Das Memucho-Team" });
+        Model.TopNavMenu.IsCategoryBreadCrumb = false;
+    %>
+</asp:Content>
 
+<asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
     <div id="team">
         <h2>Das memucho Team</h2>
             <div class="row infoItemRow">

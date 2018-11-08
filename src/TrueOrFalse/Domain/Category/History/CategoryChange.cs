@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using Newtonsoft.Json;
+using NHibernate;
 using Seedworks.Lib.Persistence;
 
 public class CategoryChange : Entity, WithDateCreated
@@ -14,13 +16,73 @@ public class CategoryChange : Entity, WithDateCreated
 
     public virtual DateTime DateCreated { get; set; }
 
-    public virtual void SetData(Category category) => Data = new CategoryEditData_V1(category).ToJson();
+    public virtual void SetData(Category category)
+    {
+        switch (DataVersion)
+        {
+            case 1:
+                Data = new CategoryEditData_V1(category).ToJson();
+                break;
 
-    public virtual CategoryEditData_V1 GetCategoryChangeData() => CategoryEditData_V1.CreateFromJson(Data);
+            case 2:
+                Data = new CategoryEditData_V2(category).ToJson();
+                break;
+
+            default:
+                throw new ArgumentOutOfRangeException($"Invalid data version number {DataVersion} for category change id {Id}");
+        }
+    }
+
+    public virtual CategoryEditData GetCategoryChangeData()
+    {
+        switch (DataVersion)
+        {
+            case 1:
+                return CategoryEditData_V1.CreateFromJson(Data);
+                
+            case 2:
+                return CategoryEditData_V2.CreateFromJson(Data);
+                
+            default:
+                throw new ArgumentOutOfRangeException($"Invalid data version number {DataVersion} for category change id {Id}");
+        }
+    }
 
     public virtual Category ToHistoricCategory()
     {
         return GetCategoryChangeData().ToCategory(Category.Id);
+    }
+
+    public virtual CategoryChange GetNextRevision()
+    {
+        var categoryId = Category.Id;
+        var currentRevisionDate = DateCreated.ToString("yyyy-MM-dd HH-mm-ss");
+        var query = $@"
+            
+            SELECT * FROM CategoryChange cc
+            WHERE cc.Category_id = {categoryId} and cc.DateCreated > '{currentRevisionDate}' 
+            ORDER BY cc.DateCreated 
+            LIMIT 1
+
+            ";
+        var nextRevision = Sl.R<ISession>().CreateSQLQuery(query).AddEntity(typeof(CategoryChange)).UniqueResult<CategoryChange>();
+        return nextRevision;
+    }
+
+    public virtual CategoryChange GetPreviousRevision()
+    {
+        var categoryId = Category.Id;
+        var currentRevisionDate = DateCreated.ToString("yyyy-MM-dd HH-mm-ss");
+        var query = $@"
+            
+            SELECT * FROM CategoryChange cc
+            WHERE cc.Category_id = {categoryId} and cc.DateCreated < '{currentRevisionDate}' 
+            ORDER BY cc.DateCreated DESC 
+            LIMIT 1
+
+            ";
+        var previousRevision = Sl.R<ISession>().CreateSQLQuery(query).AddEntity(typeof(CategoryChange)).UniqueResult<CategoryChange>();
+        return previousRevision;
     }
 }
 
