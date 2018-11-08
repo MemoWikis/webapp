@@ -1,8 +1,7 @@
 ﻿using System.Web.Mvc;
-
 public class AboutController : Controller
 {
-    [SetMenu(MenuEntry.None)]
+    [SetMenu(MenuEntry.About)]
     public ActionResult AboutMemucho()
     {
         return View(new AboutMemuchoModel());

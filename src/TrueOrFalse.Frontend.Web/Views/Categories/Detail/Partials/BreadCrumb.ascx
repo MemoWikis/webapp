@@ -27,7 +27,7 @@
      </div>
 
 <%if(!Model.TopNavMenu.IsWelcomePage){ %>  
-    <%if(Model.TopNavMenu.IsCategoryBreadCrumb){ %>
+    <%if(Model.TopNavMenu.IsCategoryBreadCrumb || Model.TopNavMenu.IsCategoryLearningOrHistoryBreadCrumb){ %>
         <%= Html.Partial("/Views/Categories/Detail/Partials/BreadCrumbCategories.ascx", Model.TopNavMenu) %>
     <% }else
       {

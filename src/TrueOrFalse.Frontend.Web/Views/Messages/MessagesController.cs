@@ -5,7 +5,6 @@ using System.Web.Mvc;
 
 public class MessagesController : BaseController
 {
-    [SetMenu(MenuEntry.Messages)]
     public ActionResult Messages()
     {
         return View(new MessageModel());

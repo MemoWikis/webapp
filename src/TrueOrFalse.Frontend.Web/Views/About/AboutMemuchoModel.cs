@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Web.Mvc;
 
+[SetMenu(MenuEntry.About)]
 public class AboutMemuchoModel : BaseModel
 {
     public int TotalActivityPoints;

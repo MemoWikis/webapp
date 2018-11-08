@@ -290,7 +290,7 @@
 .RightMainMenu {
   padding: 0px;
   position: absolute;
-  background-color: #F6F8FA;
+  background-color: white;
   width: 232px;
   max-width: 270px;
   opacity: 1;
@@ -321,7 +321,7 @@
   line-height: normal !important;
 }
 .RightMainMenu .list-group-item {
-  color: #707070 !important;
+  color: black;
   border: none;
   font-size: 16px;
   padding-top: 14px;
@@ -331,15 +331,14 @@
   -webkit-border-radius: unset;
           border-radius: unset;
 }
-.RightMainMenu .list-group-item.active.primary-point,
-.RightMainMenu .list-group-item.active:focus.primary-point {
+.RightMainMenu .list-group-item.active:not(.sub),
+.RightMainMenu .list-group-item.active:focus:not(.sub) {
   background-color: rgba(165, 209, 221, 0.8) !important;
   color: #003264 !important;
   font-weight: bold;
 }
 .RightMainMenu .list-group-item:hover {
-  color: #003264 !important;
-  background-color: rgba(165, 209, 221, 0.8) !important;
+  background-color: #f5f5f5 !important;
 }
 .RightMainMenu .list-group-item .add-new {
   margin-top: 2px;
@@ -353,12 +352,12 @@
   color: #003264;
 }
 .RightMainMenu .list-group-item.actual-category:hover {
-  background-color: rgba(165, 209, 221, 0.8);
+  background-color: rgba(210, 236, 243, 0.8);
 }
 .RightMainMenu .list-group-item.sub {
   font-weight: normal;
   padding-top: 6px;
-  color: #203256 !important;
+  color: #003264 !important;
   padding-left: 80px;
   padding-bottom: 7px;
   font-size: 16px;
@@ -401,35 +400,36 @@
   display: -webkit-flex;
   display: -ms-flexbox;
   display: flex;
+  color: #003264 !important;
   -webkit-box-align: center;
   -webkit-align-items: center;
       -ms-flex-align: center;
           align-items: center;
-  color: #707070;
   font-size: 16px;
   font-weight: normal;
 }
 .primary-point .primary-point-text {
   display: inline-block;
+  color: #003264 !important;
 }
 #mainMenuThemeNavigation,
 #mainMenuQuestionsSetsCategories,
-#mainMenuGamesUsersMessages {
+#mainMenuAboutUsersAdmin {
   border: none;
   border-top: solid #707070 1px;
   border-left: none;
 }
 #mainMenuThemeNavigation i.fa,
 #mainMenuQuestionsSetsCategories i.fa,
-#mainMenuGamesUsersMessages i.fa {
+#mainMenuAboutUsersAdmin i.fa {
   font-size: 20px;
 }
 #mainMenuThemeNavigation .fa-stack,
 #mainMenuQuestionsSetsCategories .fa-stack,
-#mainMenuGamesUsersMessages .fa-stack {
+#mainMenuAboutUsersAdmin .fa-stack {
   margin-right: 20px;
 }
-#mainMenuGamesUsersMessages {
+#mainMenuAboutUsersAdmin {
   border-bottom: none;
 }
 #mainMenuThemeCenteredMobile {
@@ -444,7 +444,7 @@
   padding-right: 7px;
   font-size: 18px;
 }
-#mainMenuThemeCentered #mainMenuGamesUsersMessages,
+#mainMenuThemeCentered #mainMenuAboutUsersAdmin,
 #mainMenuThemeCenteredMobile {
   margin-top: 15px;
 }

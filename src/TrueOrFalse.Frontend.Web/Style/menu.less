@@ -316,7 +316,6 @@
     }
 
 .RightMainMenu {
-
     span {
         display: block !important;
         font-size: 16px !important;
@@ -333,7 +332,7 @@
     );
     padding: 0px;
     position: absolute;
-    background-color: #F6F8FA;
+    background-color: white;
     width: 232px;
     max-width: 270px;
     opacity: 1;
@@ -353,7 +352,7 @@
     }
 
     .list-group-item {
-        color: #707070 !important;
+        color: black;
         border: none;
         font-size: 16px;
         padding-top: 14px;
@@ -364,7 +363,7 @@
 
 
         &.active, &.active:focus {
-            &.primary-point {
+            &:not(.sub) {
                 background-color: @menu-darker-blue !important;
                 color: #003264 !important;
                 font-weight: bold;
@@ -372,8 +371,7 @@
         }
 
         &:hover {
-            color: #003264 !important;
-            background-color: @menu-darker-blue !important;
+            background-color: #f5f5f5 !important;
         }
 
         .add-new {
@@ -391,14 +389,14 @@
 
         &.actual-category {
             &:hover {
-                background-color: @menu-darker-blue;
+                background-color: @menu-light-blue;
             }
         }
 
         &.sub {
             font-weight: normal;
             padding-top: 6px;
-            color: @global-text-color !important;
+            color: #003264 !important;
             padding-left: 80px;
             padding-bottom: 7px;
             font-size: 16px;
@@ -449,17 +447,19 @@
 
     .primary-point {
         display: flex;
+        color: #003264 !important;
         align-items: center;
-        color: #707070;
         font-size:16px;
         font-weight:normal;
 
+
         .primary-point-text {
             display: inline-block;
+            color: #003264 !important;
         }
     }
 
-#mainMenuThemeNavigation, #mainMenuQuestionsSetsCategories, #mainMenuGamesUsersMessages {
+#mainMenuThemeNavigation, #mainMenuQuestionsSetsCategories, #mainMenuAboutUsersAdmin {
     border: none;
     border-top: solid #707070 1px;
     border-left: none;
@@ -473,7 +473,7 @@
     }
 }
 
-#mainMenuGamesUsersMessages {
+#mainMenuAboutUsersAdmin {
     border-bottom: none;
 }
 
@@ -490,7 +490,7 @@
         font-size: 18px;
     }
 
-#mainMenuThemeCentered #mainMenuGamesUsersMessages, #mainMenuThemeCenteredMobile{
+#mainMenuThemeCentered #mainMenuAboutUsersAdmin, #mainMenuThemeCenteredMobile {
     margin-top: 15px;
 }
 

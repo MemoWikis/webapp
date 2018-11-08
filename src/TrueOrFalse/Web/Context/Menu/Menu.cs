@@ -7,10 +7,9 @@ public enum MenuEntry
     QuestionSet, QuestionSetDetail,
     Users, UserDetail,
     Categories, CategoryDetail,
-    Messages,
     Help,
     Dates, DateDetail,
-    Play,
+    About,
     Maintenance
 }
 

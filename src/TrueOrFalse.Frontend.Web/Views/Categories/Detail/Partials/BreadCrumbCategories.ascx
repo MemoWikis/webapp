@@ -71,7 +71,7 @@
                      </span> 
                   <%}%>
              <%}else{
-                      if (i == breadCrumbCategoriesCount) { %> 
+                      if (i == breadCrumbCategoriesCount && !Model.IsAnswerQuestionOrSetBreadCrumb) { %> 
                           <span style="margin-left:10px;"><a  id="<%= i%>BreadCrumb" style="color:#003264;" href="<%= Links.CategoryDetail(breadCrumbCategories[i]) %>" class=""><%= breadCrumbCategories[i].Name %></a></span>              
                     <%} else { %>
                          <span style="display:inline-table; margin-left:10px;"><a id="<%= i %>BreadCrumb"  href="<%= Links.CategoryDetail(breadCrumbCategories[i]) %>" class=""><%= breadCrumbCategories[i].Name %></a>

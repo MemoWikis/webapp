@@ -2,7 +2,6 @@
 
 public class GamesController : BaseController
 {
-    [SetMenu(MenuEntry.Play)]
     public ActionResult Games()
     {
         return View(new GamesModel(R<GameRepo>().GetAllActive()));

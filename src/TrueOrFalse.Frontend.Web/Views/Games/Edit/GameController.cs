@@ -6,7 +6,6 @@ using TrueOrFalse;
 using TrueOrFalse.Frontend.Web.Code;
 using TrueOrFalse.Web;
 
-[SetMenu(MenuEntry.Play)]
 public class GameController : BaseController
 {
     private const string _viewLocation = "~/Views/Games/Edit/Game.aspx";
