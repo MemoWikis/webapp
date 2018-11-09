@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
@@ -128,13 +129,18 @@ public class KnowledgeController : BaseController
     [HttpGet]
     public JsonResult GetQuestionsWish(int page, int per_page, string sort = "", bool isAuthor = false)
     {
-        var unsortedIListIds = Sl.QuestionRepo.GetAllKnowledgeList(UserId);
-        var unsortedWuwiIdsPerSite = GetSiteForPagination(unsortedIListIds, page, per_page);
+        // Daniel denke in deinem Wahn bitte daran das du totalknowledgeIds nur zum ausprobieren anlegst du benötigst diese Variable nicht übergebe gefälligst die komplette enumerable
+        var totalWishKnowledge = UserValuationCache.GetQuestionValuations(UserId)
+            .Where(v => v.IsInWishKnowledge())
+            .Distinct().
+            ToList();
+
+        var unsortedWuwiIdsPerSite = GetSiteForPagination(totalWishKnowledge, page, per_page);
         var unsortedListWithIsAuthor =  knowledgeQuestionsModel.GetQuestionsWishFromDatabase(UserId, isAuthor, unsortedWuwiIdsPerSite);
 
         var data = knowledgeQuestionsModel.GetSortList(unsortedListWithIsAuthor, sort);
-        var total = unsortedIListIds.Count();
-        var last_page = getLastPage(unsortedIListIds.Count, per_page);
+        var total = totalWishKnowledge.Count();
+        var last_page = getLastPage(totalWishKnowledge.Count(), per_page);
 
         return Json(new { total, per_page, current_page = page, last_page, data }, JsonRequestBehavior.AllowGet);
     }

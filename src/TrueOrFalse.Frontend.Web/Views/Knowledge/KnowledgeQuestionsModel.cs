@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.Linq;
 using FluentNHibernate.Conventions;
 using TrueOrFalse.Frontend.Web.Code;
 
@@ -8,18 +10,9 @@ public class KnowledgeQuestionsModel
 {
     private UserImageSettings userImageSettings = new UserImageSettings();
 
-    private IList<Question> getIdsPerPage(IList<int> unsortedListOneSite, IList<int> allLearningStatusIds)
+    private IList<Question> getQuestions(List<int> IdList)
     {
-        IList<int> IdsPerPage = new List<int>();
-        foreach (var learningStatusId in allLearningStatusIds)
-        {
-            if( unsortedListOneSite.Contains(learningStatusId))
-                IdsPerPage.Add(learningStatusId); 
-        }
-
-        int[] idsPerPageArray = new int[IdsPerPage.Count];
-        IdsPerPage.CopyTo(idsPerPageArray, 0);
-        return Sl.QuestionRepo.GetByIds(idsPerPageArray);
+        return Sl.QuestionRepo.GetByIds(IdList);
     }
 
     private List<Questions> IsAuthor(List<Questions> unsortList, bool isAuthor, int userId)
@@ -154,20 +147,25 @@ public class KnowledgeQuestionsModel
         return sortList;
     }
 
-    public List<Questions> GetQuestionsWishFromDatabase(int userId, bool isAuthor, IList<int> unsortedListOneSite)
+    public List<Questions> GetQuestionsWishFromDatabase(int userId, bool isAuthor,IList<QuestionValuation> unsortedListOneSite)
     {
-        var solidIdsAll = Sl.QuestionRepo.GetByKnowledge(userId, true, false, false, false);
-        var shouldConsolidateIdsAll = Sl.QuestionRepo.GetByKnowledge(userId, false, true, false, false);
-        var shouldLearningIdsAll = Sl.QuestionRepo.GetByKnowledge(userId, false, false, true, false);
-        var notLearnedIdsAll = Sl.QuestionRepo.GetByKnowledge(userId, false, false, false, true);
+        
+        var solidIdsPerPageIds = unsortedListOneSite.Where(v => v.KnowledgeStatus == KnowledgeStatus.Solid).Select(v => v.Question.Id).ToList();
+        var shouldConsolidateIdsPerPageIds = unsortedListOneSite.Where(v => v.KnowledgeStatus == KnowledgeStatus.NeedsConsolidation).Select(v => v.Question.Id).ToList();
+        var shouldLearningIdsPerPageIds = unsortedListOneSite.Where(v => v.KnowledgeStatus == KnowledgeStatus.NeedsLearning).Select(v => v.Question.Id).ToList();
+        var notLearnedIdsPerPageIds = unsortedListOneSite.Where(v => v.KnowledgeStatus == KnowledgeStatus.NotLearned).Select(v => v.Question.Id).ToList();
 
-        var solidIdsPerPage = getIdsPerPage(unsortedListOneSite, solidIdsAll);
-        var shouldConsolidateIdsPerPage = getIdsPerPage(unsortedListOneSite, shouldConsolidateIdsAll);
-        var shouldLearningeIdsPerPage = getIdsPerPage(unsortedListOneSite, shouldLearningIdsAll);
-        var notLearnedIdsPerPage = getIdsPerPage(unsortedListOneSite, notLearnedIdsAll);
+        var test = new ConcurrentDictionary<int, QuestionValuation>(
+            Sl.QuestionValuationRepo.GetByUser(userId, onlyActiveKnowledge: false).Where(q=>q.IsInWishKnowledge())
+                .Select(v => new KeyValuePair<int, QuestionValuation>(v.Question.Id, v)));
 
+        
+        var solidIdsPerPage = getQuestions(solidIdsPerPageIds);
+        var shouldConsolidateIdsPerPage = getQuestions(shouldConsolidateIdsPerPageIds);
+        var shouldLearningIdsPerPage = getQuestions(shouldLearningIdsPerPageIds);
+        var notLearnedIdsPerPage = getQuestions(notLearnedIdsPerPageIds);
 
-        var unsortList = QuestionsFactory(solidIdsPerPage, shouldConsolidateIdsPerPage, shouldLearningeIdsPerPage, notLearnedIdsPerPage);
+        var unsortList = QuestionsFactory(solidIdsPerPage, shouldConsolidateIdsPerPage, shouldLearningIdsPerPage, notLearnedIdsPerPage);
 
         return IsAuthor(unsortList, isAuthor, userId);
     }
