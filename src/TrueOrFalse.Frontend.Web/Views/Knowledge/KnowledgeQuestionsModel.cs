@@ -1,8 +1,11 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using FluentNHibernate.Conventions;
+using FluentNHibernate.Testing.Values;
+using NHibernate.Criterion;
 using TrueOrFalse.Frontend.Web.Code;
 
 
@@ -33,6 +36,20 @@ public class KnowledgeQuestionsModel
         }
         return unsortList;
     }
+
+    private List<Question> compareLists( IList<Question> ListFull, IList<int> ListIds)
+    {
+        var listFiltered = new List<Question>();
+        foreach (var c in ListFull)
+        {
+            if (ListIds.Contains(c.Id))
+                listFiltered.Add(c);
+        }
+
+        return listFiltered;
+
+    }
+
 
     private List<Questions> ObjectFactory(
         IList<Question> questionsListForFactory,
@@ -149,23 +166,22 @@ public class KnowledgeQuestionsModel
 
     public List<Questions> GetQuestionsWishFromDatabase(int userId, bool isAuthor,IList<QuestionValuation> unsortedListOneSite)
     {
+
         
+       
+        var unsortedListQuestions = getQuestions(unsortedListOneSite.QuestionIds().ToList());
+
         var solidIdsPerPageIds = unsortedListOneSite.Where(v => v.KnowledgeStatus == KnowledgeStatus.Solid).Select(v => v.Question.Id).ToList();
         var shouldConsolidateIdsPerPageIds = unsortedListOneSite.Where(v => v.KnowledgeStatus == KnowledgeStatus.NeedsConsolidation).Select(v => v.Question.Id).ToList();
         var shouldLearningIdsPerPageIds = unsortedListOneSite.Where(v => v.KnowledgeStatus == KnowledgeStatus.NeedsLearning).Select(v => v.Question.Id).ToList();
         var notLearnedIdsPerPageIds = unsortedListOneSite.Where(v => v.KnowledgeStatus == KnowledgeStatus.NotLearned).Select(v => v.Question.Id).ToList();
 
-        var test = new ConcurrentDictionary<int, QuestionValuation>(
-            Sl.QuestionValuationRepo.GetByUser(userId, onlyActiveKnowledge: false).Where(q=>q.IsInWishKnowledge())
-                .Select(v => new KeyValuePair<int, QuestionValuation>(v.Question.Id, v)));
+        var solidsPerPage = compareLists(unsortedListQuestions, solidIdsPerPageIds);
+        var shouldConsolidatePerPage = compareLists(unsortedListQuestions, shouldConsolidateIdsPerPageIds);
+        var shouldLearningIdsPerPage = compareLists(unsortedListQuestions, shouldLearningIdsPerPageIds);
+        var notLearnedIdsPerPage = compareLists(unsortedListQuestions, notLearnedIdsPerPageIds);
 
-        
-        var solidIdsPerPage = getQuestions(solidIdsPerPageIds);
-        var shouldConsolidateIdsPerPage = getQuestions(shouldConsolidateIdsPerPageIds);
-        var shouldLearningIdsPerPage = getQuestions(shouldLearningIdsPerPageIds);
-        var notLearnedIdsPerPage = getQuestions(notLearnedIdsPerPageIds);
-
-        var unsortList = QuestionsFactory(solidIdsPerPage, shouldConsolidateIdsPerPage, shouldLearningIdsPerPage, notLearnedIdsPerPage);
+        var unsortList = QuestionsFactory(solidsPerPage, shouldConsolidatePerPage, shouldLearningIdsPerPage, notLearnedIdsPerPage);
 
         return IsAuthor(unsortList, isAuthor, userId);
     }

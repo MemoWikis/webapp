@@ -129,7 +129,6 @@ public class KnowledgeController : BaseController
     [HttpGet]
     public JsonResult GetQuestionsWish(int page, int per_page, string sort = "", bool isAuthor = false)
     {
-        // Daniel denke in deinem Wahn bitte daran das du totalknowledgeIds nur zum ausprobieren anlegst du benötigst diese Variable nicht übergebe gefälligst die komplette enumerable
         var totalWishKnowledge = UserValuationCache.GetQuestionValuations(UserId)
             .Where(v => v.IsInWishKnowledge())
             .Distinct().
