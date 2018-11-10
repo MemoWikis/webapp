@@ -52,8 +52,8 @@
             </template>
               
             <template slot="knowWas" scope="props">
-                <div class="know-was">
-                <div v-bind:class="props.rowData.LearningStatus" data-toggle="tooltip" v-bind:title="props.rowData.LearningStatusTooltip"><p></p></div>
+                <div class="know-was show-tooltip" data-placement="bottom" v-bind:data-original-title ="props.rowData.LearningStatusTooltip" data-toggle="tooltip">
+                    <div v-bind:class="props.rowData.LearningStatus"></div>
                 </div>
             </template>
                   

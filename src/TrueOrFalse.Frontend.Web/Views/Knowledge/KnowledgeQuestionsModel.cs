@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Concurrent;
+﻿using FluentNHibernate.Conventions;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using FluentNHibernate.Conventions;
-using FluentNHibernate.Testing.Values;
-using NHibernate.Criterion;
 using TrueOrFalse.Frontend.Web.Code;
 
 

@@ -10,7 +10,6 @@ new Vue({
         moreParams: {
             'isAuthor': false
         },
-
         fields: [
             {
                 name: "__slot:questionTitle",
@@ -67,9 +66,6 @@ new Vue({
         }
     },
     methods: {
-        mouseOver() {
-            $('.show-tooltip').tooltip();
-        },
         onPaginationData(paginationData) {
             this.$refs.pagination.setPaginationData(paginationData);
         },
@@ -92,7 +88,6 @@ new Vue({
         switchOnlySelfCreatedChanged: function () {
             console.log("wird geändert");
             $("#app").css("Opacity", "0.3");
-
             this.moreParams.isAuthor = $("#switchShowOnlySelfCreated").is(":checked");
             this.$refs.vuetable.refresh();
         }
