@@ -58,7 +58,7 @@
             </template>
                   
             <template slot="authorImage" scope="props">
-                <div data-toggle="tooltip" v-bind:title="props.rowData.AuthorName">
+                <div class="show-tooltip" data-toggle="tooltip" data-placement="bottom" v-bind:data-original-title="props.rowData.AuthorName">
                     <div class="author-image">
                         <image v-bind:src="props.rowData.AuthorImageUrl.Url" class="image-author"></image>
                     </div>
@@ -67,7 +67,8 @@
             </template>
           
             <template slot="category" scope="props">
-                <image v-bind:src="GetImageSourceUrl(props.rowData.ImageFrontendData.ImageMetaData)"   class="round"></image><a data-toggle="tooltip" title="Thema in neuem Tab öffnen" v-bind:href="props.rowData.LinkToCategory" target="_blank" class="link-to-category">{{props.rowData.Category}}</a> 
+                <image class="round" v-bind:src="GetImageSourceUrl(props.rowData.ImageFrontendData.ImageMetaData)" ></image>
+                <a class="show-tooltip link-to-category" data-toggle="tooltip" v-bind:data-original-title="props.rowData.TooltipLinkToCategory" v-bind:href="props.rowData.LinkToCategory" data-placement="bottom" target="_blank" >{{props.rowData.Category}}</a> 
             </template>
 
             <!-- Buttons-->

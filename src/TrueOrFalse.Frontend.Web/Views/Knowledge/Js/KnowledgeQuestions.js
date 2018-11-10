@@ -7,6 +7,7 @@ new Vue({
         'vuetable-pagination': Vuetable.VuetablePagination
     },
     data: {
+        tooltip: 'in neuem Link öffnen',
         moreParams: {
             'isAuthor': false
         },

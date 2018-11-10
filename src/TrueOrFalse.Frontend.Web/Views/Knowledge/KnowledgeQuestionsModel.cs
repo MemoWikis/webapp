@@ -68,7 +68,7 @@ public class KnowledgeQuestionsModel
             questions.LinkToCategory = categories.IsEmpty() ?  " " : Links.GetUrl(categories[0]);
             questions.Category = categories.IsEmpty() ? "keine Kategorie" : categories[0].Name;
             questions.ImageFrontendData = categories.IsEmpty() ? categoryAndSetDataWishKnowledge.GetCategoryImage(682) : categoryAndSetDataWishKnowledge.GetCategoryImage(categories[0].Id);
-       
+            questions.TooltipLinkToCategory = "Kategorie " + questions.Category + " in neuem Tab öffnen";
 
             if (whichList.Equals("solid"))
             {
@@ -195,5 +195,6 @@ public class KnowledgeQuestionsModel
         public string LinkToCategory { get; set; }
         public string LinkToQuestion { get; set; }
         public int AuthorId { get; set; }
+        public string TooltipLinkToCategory { get; set; }
     }
 }
