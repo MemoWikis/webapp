@@ -93,7 +93,7 @@ private const string _viewLocation = "~/Views/Knowledge/Dates/Edit/EditDate.ascx
     }
 
     //    [HttpGet]
-    //    [SetMenu(MenuEntry.DateDetail)]
+    //    [SetMenu(MainMenuEntry.DateDetail)]
     //    public ViewResult Edit(int dateId)
     //    {
     //        var date = R<DateRepo>().GetById(dateId);
@@ -107,7 +107,7 @@ private const string _viewLocation = "~/Views/Knowledge/Dates/Edit/EditDate.ascx
     //    }
 
     //    [HttpPost]
-    //    [SetMenu(MenuEntry.DateDetail)]
+    //    [SetMenu(MainMenuEntry.DateDetail)]
     //    public ViewResult Edit(EditDateModel model)
     //    {
     //        if (!_sessionUser.IsLoggedInUser(model.UserId))

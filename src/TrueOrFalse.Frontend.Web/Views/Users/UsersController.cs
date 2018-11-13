@@ -41,7 +41,7 @@ public class UsersController : BaseController
         };
     }
 
-    [SetMenu(MenuEntry.Users)]
+    [SetMainMenu(MainMenuEntry.Users)]
     public ActionResult Users(int? page, UsersModel model, string orderBy = null)
     {
         SetUsersOrderBy(orderBy);

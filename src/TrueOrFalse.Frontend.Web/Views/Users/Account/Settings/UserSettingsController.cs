@@ -15,7 +15,7 @@ public class UserSettingsController : BaseController
     }
 
     [HttpGet]
-    [SetMenu(MenuEntry.None)]
+    [SetMainMenu(MainMenuEntry.None)]
     public ViewResult UserSettings()
     {
         var userSettingsModel = new UserSettingsModel(_sessionUser.User);
@@ -37,7 +37,7 @@ public class UserSettingsController : BaseController
     }
 
     [HttpPost]
-    [SetMenu(MenuEntry.None)]
+    [SetMainMenu(MainMenuEntry.None)]
     public ViewResult UserSettings(UserSettingsModel model)
     {
         if (!ModelState.IsValid)

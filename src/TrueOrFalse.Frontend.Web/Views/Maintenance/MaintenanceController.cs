@@ -16,18 +16,18 @@ using TrueOrFalse.Web;
 [SessionState(System.Web.SessionState.SessionStateBehavior.ReadOnly)]
 public class MaintenanceController : BaseController
 {
-    [SetMenu(MenuEntry.Maintenance)]
+    [SetMainMenu(MainMenuEntry.Maintenance)]
     public ActionResult Maintenance(){
         return View(new MaintenanceModel());
     }
 
-    [SetMenu(MenuEntry.Maintenance)]
+    [SetMainMenu(MainMenuEntry.Maintenance)]
     public ActionResult Messages()
     {
         return View(new MessagesModel());
     }
 
-    [SetMenu(MenuEntry.Maintenance)]
+    [SetMainMenu(MainMenuEntry.Maintenance)]
     public ActionResult CMS()
     {
         var settings = Sl.R<DbSettingsRepo>().Get();
@@ -116,25 +116,25 @@ public class MaintenanceController : BaseController
         return result;
     }
 
-    [SetMenu(MenuEntry.Maintenance)]
+    [SetMainMenu(MainMenuEntry.Maintenance)]
     public ActionResult ContentCreatedReport()
     {
         return View(new ContentCreatedReportModel());
     }
 
-    [SetMenu(MenuEntry.Maintenance)]
+    [SetMainMenu(MainMenuEntry.Maintenance)]
     public ActionResult ContentStats()
     {
         return View(new ContentStatsModel());
     }
 
-    [SetMenu(MenuEntry.Maintenance)]
+    [SetMainMenu(MainMenuEntry.Maintenance)]
     public ActionResult ContentStatsShowStats()
     {
         return View("ContentStats", new ContentStatsModel(true));
     }
 
-    [SetMenu(MenuEntry.Maintenance)]
+    [SetMainMenu(MainMenuEntry.Maintenance)]
     public ActionResult Statistics()
     {
         return View(new StatisticsModel());
@@ -224,7 +224,7 @@ public class MaintenanceController : BaseController
         return View("Maintenance", new MaintenanceModel { Message = new SuccessMessage("Nutzer wurden neu indiziert.") });
     }
 
-    [ValidateAntiForgeryToken][HttpPost][SetMenu(MenuEntry.Maintenance)]
+    [ValidateAntiForgeryToken][HttpPost][SetMainMenu(MainMenuEntry.Maintenance)]
     public ActionResult SendMessage(MessagesModel model)
     {
         CustomMsg.Send(
@@ -236,7 +236,7 @@ public class MaintenanceController : BaseController
         return View("Messages", model);
     }
 
-    [ValidateAntiForgeryToken][HttpPost][SetMenu(MenuEntry.Maintenance)]
+    [ValidateAntiForgeryToken][HttpPost][SetMainMenu(MainMenuEntry.Maintenance)]
     public ActionResult SendKnowledgeReportMessage(MessagesModel model)
     {
         KnowledgeReportMsg.SendHtmlMail(_sessionUser.User);
@@ -245,7 +245,7 @@ public class MaintenanceController : BaseController
         return View("Messages", model);
     }
 
-    [SetMenu(MenuEntry.Maintenance)]
+    [SetMainMenu(MainMenuEntry.Maintenance)]
     public ActionResult Tools()
     {
         return View(new ToolsModel());

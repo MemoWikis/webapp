@@ -27,7 +27,7 @@ public class CategoriesController : BaseController
     public ActionResult SearchApi(string searchTerm) =>
         _util.SearchApi(searchTerm, _sessionUiData.SearchSpecCategory, SearchTabType.All, ControllerContext);
 
-    [SetMenu(MenuEntry.Categories)]
+    [SetMainMenu(MainMenuEntry.Categories)]
     [SetThemeMenu]
     public ActionResult Categories(int? page, CategoriesModel model, string orderBy = null)
     {
@@ -38,7 +38,7 @@ public class CategoriesController : BaseController
         return View(_viewLocation, categoriesModel);
     }
 
-    [SetMenu(MenuEntry.Categories)]
+    [SetMainMenu(MainMenuEntry.Categories)]
     [SetThemeMenu]
     public ActionResult CategoriesWish(int? page, SetsModel model, string orderBy)
     {

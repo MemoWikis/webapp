@@ -1,7 +1,7 @@
 ﻿using System.Web.Mvc;
 using TrueOrFalse.Web;
 
-[SetMenu(MenuEntry.None)]
+[SetMainMenu(MainMenuEntry.None)]
 [AccessOnlyLocal]
 public class AlgoInsightController : BaseController
 {

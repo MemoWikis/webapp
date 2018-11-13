@@ -21,7 +21,7 @@ namespace TrueOrFalse
             _util = new QuestionsControllerUtil(_questionsControllerSearch);
         }
 
-        [SetMenu(MenuEntry.Questions)]
+        [SetMainMenu(MainMenuEntry.Questions)]
         public ActionResult Questions(int? page, QuestionsModel model, string orderBy)
         {
             _util.SetSearchSpecVars(_sessionUiData.SearchSpecQuestionAll, page, model, orderBy);
@@ -33,14 +33,14 @@ namespace TrueOrFalse
                     SearchTabType.All));
         }
 
-        [SetMenu(MenuEntry.Questions)]
+        [SetMainMenu(MainMenuEntry.Questions)]
         public ActionResult QuestionsSearch(string searchTerm, QuestionsModel model, int? page, string orderBy)
         {
             _util.SetSearchFilter(_sessionUiData.SearchSpecQuestionAll, model, searchTerm);
             return Questions(page, model, orderBy);
         }
 
-        [SetMenu(MenuEntry.Questions)]
+        [SetMainMenu(MainMenuEntry.Questions)]
         public ActionResult QuestionsSearchCategoryFilter(string categoryName, int categoryId)
         {
             _sessionUiData.SearchSpecQuestionAll.Filter.Clear();
@@ -56,7 +56,7 @@ namespace TrueOrFalse
             return _util.SearchApi(searchTerm, _sessionUiData.SearchSpecQuestionAll, SearchTabType.All, ControllerContext);
         }
 
-        [SetMenu(MenuEntry.Questions)]
+        [SetMainMenu(MainMenuEntry.Questions)]
         public ActionResult QuestionsMine(int? page, QuestionsModel model, string orderBy)
         {
             if (!_sessionUser.IsLoggedIn){
@@ -79,7 +79,7 @@ namespace TrueOrFalse
             return _util.SearchApi(searchTerm, _sessionUiData.SearchSpecQuestionMine, SearchTabType.Mine, ControllerContext);
         }
 
-        [SetMenu(MenuEntry.Questions)]
+        [SetMainMenu(MainMenuEntry.Questions)]
         public ActionResult QuestionsWish(int? page, string filter, QuestionsModel model, string orderBy)
         {
             if (!_sessionUser.IsLoggedIn)

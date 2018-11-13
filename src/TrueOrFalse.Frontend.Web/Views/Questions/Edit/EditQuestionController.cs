@@ -17,7 +17,7 @@ public class EditQuestionController : BaseController
         _questionRepo = questionRepo;
     }
 
-    [SetMenu(MenuEntry.Questions)]
+    [SetMainMenu(MainMenuEntry.Questions)]
     public ActionResult Create(int? categoryId, int? setId)
     {
         var model = new EditQuestionModel();
@@ -43,7 +43,7 @@ public class EditQuestionController : BaseController
         return View(_viewLocation, model);
     }
 
-    [SetMenu(MenuEntry.None)]
+    [SetMainMenu(MainMenuEntry.None)]
     [SetThemeMenu(isQuestionPage: true)]
     public ViewResult Edit(int id)
     {
@@ -63,7 +63,7 @@ public class EditQuestionController : BaseController
     }
 
     [HttpPost]
-    [SetMenu(MenuEntry.None)]
+    [SetMainMenu(MainMenuEntry.None)]
     [SetThemeMenu(isQuestionPage: true)]
     public ActionResult Edit(int id, EditQuestionModel model, HttpPostedFileBase imagefile, HttpPostedFileBase soundfile)
     {
@@ -98,7 +98,7 @@ public class EditQuestionController : BaseController
     }
 
     [HttpPost]
-    [SetMenu(MenuEntry.Questions)]
+    [SetMainMenu(MainMenuEntry.Questions)]
     public ActionResult Create(EditQuestionModel model, HttpPostedFileBase soundfile)
     {
         model.FillCategoriesFromPostData(Request.Form);

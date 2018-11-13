@@ -19,7 +19,7 @@ public class EditCategoryController : BaseController
         ActionInvoker = new JavaScriptActionInvoker();
     }
 
-    [SetMenu(MenuEntry.Categories)]
+    [SetMainMenu(MainMenuEntry.Categories)]
     [SetThemeMenu]
     public ViewResult Create(string name, string parent, string type)
     {
@@ -31,7 +31,7 @@ public class EditCategoryController : BaseController
         return View(_viewPath, model);
     }
 
-    //[SetMenu(MenuEntry.Categories)]
+    //[SetMenu(MainMenuEntry.Categories)]
     [SetThemeMenu(true)]
     public ViewResult Edit(int id)
     {
@@ -52,7 +52,7 @@ public class EditCategoryController : BaseController
     }
 
     [HttpPost]
-    //[SetMenu(MenuEntry.Categories)]
+    //[SetMenu(MainMenuEntry.Categories)]
     [SetThemeMenu(true)]
     public ViewResult Edit(int id, EditCategoryModel model, HttpPostedFileBase file)
     {
@@ -87,7 +87,7 @@ public class EditCategoryController : BaseController
     }
 
     [HttpPost]
-    [SetMenu(MenuEntry.Categories)]
+    [SetMainMenu(MainMenuEntry.Categories)]
     [SetThemeMenu]
     public ActionResult Create(EditCategoryModel model, HttpPostedFileBase file)
     {                

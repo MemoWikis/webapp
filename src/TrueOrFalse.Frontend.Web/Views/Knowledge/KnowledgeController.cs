@@ -11,13 +11,13 @@ public class KnowledgeController : BaseController
 
     private readonly KnowledgeQuestionsModel knowledgeQuestionsModel = new KnowledgeQuestionsModel();
 
-    [SetMenu(MenuEntry.Knowledge)]
+    [SetMainMenu(MainMenuEntry.Knowledge)]
     public ActionResult Knowledge()
     {
         return View(new KnowledgeModel());
     }
 
-    [SetMenu(MenuEntry.Knowledge)]
+    [SetMainMenu(MainMenuEntry.Knowledge)]
     public ActionResult EmailConfirmation(string emailKey)
     {
         return View("Knowledge", new KnowledgeModel(emailKey: emailKey));

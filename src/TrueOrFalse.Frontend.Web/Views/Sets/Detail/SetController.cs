@@ -8,7 +8,7 @@ public class SetController : BaseController
 {
     private const string _viewLocation = "~/Views/Sets/Detail/Set.aspx";
 
-    [SetMenu(MenuEntry.None)]
+    [SetMainMenu(MainMenuEntry.None)]
     [SetThemeMenu(isQuestionSetPage: true)]
     public ActionResult QuestionSet(string text, int id)
     {

@@ -31,7 +31,7 @@ public class SetsController : BaseController
         return _util.SearchApi(searchTerm, _sessionUiData.SearchSpecSetWish, SearchTabType.Wish, ControllerContext);
     }
 
-    [SetMenu(MenuEntry.QuestionSet)]
+    [SetMainMenu(MainMenuEntry.QuestionSet)]
     [SetThemeMenu]
     public ActionResult SetsWish(int? page, SetsModel model, string orderBy)
     {
@@ -60,7 +60,7 @@ public class SetsController : BaseController
         return SetsMine(page, model, orderBy);
     }
 
-    [SetMenu(MenuEntry.QuestionSet)]
+    [SetMainMenu(MainMenuEntry.QuestionSet)]
     [SetThemeMenu]
     public ActionResult SetsMine(int? page, SetsModel model, string orderBy)
     {
@@ -88,7 +88,7 @@ public class SetsController : BaseController
         return _util.SearchApi(searchTerm, _sessionUiData.SearchSpecSetsAll, SearchTabType.All, ControllerContext);
     }
 
-    [SetMenu(MenuEntry.QuestionSet)]
+    [SetMainMenu(MainMenuEntry.QuestionSet)]
     [SetThemeMenu]
     public ActionResult Sets(int? page, SetsModel model, string orderBy)
     {
