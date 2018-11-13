@@ -12,8 +12,6 @@ public class SidebarModel : BaseResolve
 
     public int UnreadMessageCount = 0;
 
-    
-
     public bool IsWelcomePage;
 
     public CategoryNavigationModel categoryNavigationModel;

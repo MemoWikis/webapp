@@ -42,6 +42,7 @@ public class UsersController : BaseController
     }
 
     [SetMainMenu(MainMenuEntry.Users)]
+    [SetUserMenu(UserMenuEntry.None)]
     public ActionResult Users(int? page, UsersModel model, string orderBy = null)
     {
         SetUsersOrderBy(orderBy);
@@ -58,6 +59,7 @@ public class UsersController : BaseController
         return View(_viewLocationUsers, model);
     }
 
+    [SetUserMenu(UserMenuEntry.Network)]
     public ActionResult Network()
     {
         return View(_viewLocationNetwork, new NetworkModel());

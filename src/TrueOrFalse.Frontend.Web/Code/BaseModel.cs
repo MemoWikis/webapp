@@ -26,6 +26,8 @@
     public int UserId => _sessionUser.UserId;
 
     public Game UpcomingGame;
+
+    public UserMenu UserMenu;
     
     public bool IsInGame;
 
@@ -54,6 +56,19 @@
                 UpcomingGame = new Game();
         }
 
+        var sessionUiData = Resolve<SessionUiData>();
+        UserMenu = sessionUiData.UserMenu;
+
         TopicMenu = Sl.SessionUiData.TopicMenu;
+    }
+
+    public string UserMenuActive(UserMenuEntry userMenuEntry)
+    {
+        return  UserMenu.UserMenuActive(userMenuEntry);
+    }
+
+    public bool UserMenuIsActive(UserMenuEntry userMenuEntry)
+    {
+        return !string.IsNullOrEmpty(UserMenu.UserMenuActive(userMenuEntry));
     }
 }

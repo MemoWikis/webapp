@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web.Mvc;
 using TrueOrFalse.Frontend.Web.Code;
 
+[SetUserMenu(UserMenuEntry.Knowledge)]
 public class KnowledgeController : BaseController
 {
     private readonly CategoryAndSetDataWishKnowledge categoryAndSetDataWishKnowledge =

@@ -1,4 +1,6 @@
 ﻿using System.Web.Mvc;
+
+[SetUserMenu(UserMenuEntry.None)]
 public class AboutController : Controller
 {
     [SetMainMenu(MainMenuEntry.About)]

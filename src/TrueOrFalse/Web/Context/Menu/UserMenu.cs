@@ -3,8 +3,8 @@
 public enum UserMenuEntry
 {
     None, Messages, 
-    Network, UserProfile, 
-    UserSettings
+    Network, UserDetail, 
+    UserSettings, Knowledge
 }
 
 [Serializable]
@@ -12,7 +12,7 @@ public class UserMenu
 {
     public UserMenuEntry Current = UserMenuEntry.None;
 
-    public string Active(UserMenuEntry userMenuEntry)
+    public string UserMenuActive(UserMenuEntry userMenuEntry)
     {
         if (Current == userMenuEntry)
             return "active";

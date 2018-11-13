@@ -389,7 +389,7 @@ img {
         width: 43px;
         -webkit-transition: width 0.3s;
         display: none;
-        margin-top:2px;
+        margin-top: 2px;
 
         @media(max-width:(@screen-md-min - 0.5)) {
             display: table;
@@ -450,6 +450,8 @@ img {
 
     span {
         vertical-align: middle;
+        overflow:hidden;
+        text-overflow:ellipsis;
     }
 
     .KnowledgeLink {
@@ -521,7 +523,6 @@ img {
         text-align: left;
         border-radius: 0px;
         border: 1px solid #707070;
-        width: 197px;
         padding-top: 0px;
 
         span {
@@ -534,7 +535,11 @@ img {
             font-weight: normal;
             color: black;
             font-size: 16px;
-            padding:15px 0px 15px 23.34px;
+            padding: 15px 23.34px 15px 23.34px;
+
+            &.active {
+                background-color: @light-grey-hover;
+            }
         }
 
         i {

@@ -7,6 +7,7 @@ using System.Web.Mvc;
 using TrueOrFalse.Frontend.Web.Code;
 using TrueOrFalse.Web;
 
+[SetUserMenu(UserMenuEntry.None)]
 public class EditCategoryController : BaseController
 {
     private readonly CategoryRepository _categoryRepository;

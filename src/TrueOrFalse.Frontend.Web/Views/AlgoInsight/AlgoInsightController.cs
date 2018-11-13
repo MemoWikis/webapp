@@ -2,6 +2,7 @@
 using TrueOrFalse.Web;
 
 [SetMainMenu(MainMenuEntry.None)]
+[SetUserMenu(UserMenuEntry.None)]
 [AccessOnlyLocal]
 public class AlgoInsightController : BaseController
 {

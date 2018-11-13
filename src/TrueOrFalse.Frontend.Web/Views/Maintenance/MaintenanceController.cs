@@ -14,6 +14,7 @@ using TrueOrFalse.Web;
 
 [AccessOnlyAsAdmin]
 [SessionState(System.Web.SessionState.SessionStateBehavior.ReadOnly)]
+[SetUserMenu(UserMenuEntry.None)]
 public class MaintenanceController : BaseController
 {
     [SetMainMenu(MainMenuEntry.Maintenance)]

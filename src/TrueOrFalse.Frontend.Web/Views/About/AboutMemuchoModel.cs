@@ -2,6 +2,7 @@
 using System.Web.Mvc;
 
 [SetMainMenu(MainMenuEntry.About)]
+[SetUserMenu(UserMenuEntry.None)]
 public class AboutMemuchoModel : BaseModel
 {
     public int TotalActivityPoints;

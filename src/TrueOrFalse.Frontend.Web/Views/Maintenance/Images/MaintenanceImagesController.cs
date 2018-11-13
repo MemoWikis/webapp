@@ -6,6 +6,7 @@ using TrueOrFalse.Maintenance;
 using TrueOrFalse.Web;
 
 [AccessOnlyAsAdmin]
+[SetUserMenu(UserMenuEntry.None)]
 public class MaintenanceImagesController : BaseController
 {
     private const string _viewLocation = "~/Views/Maintenance/Images/Images.aspx";

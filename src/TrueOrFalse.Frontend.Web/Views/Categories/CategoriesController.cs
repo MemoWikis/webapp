@@ -4,6 +4,7 @@ using System.Web.Mvc;
 using Seedworks.Lib;
 using static System.String;
 
+[SetUserMenu(UserMenuEntry.None)]
 public class CategoriesController : BaseController
 {
     private readonly CategoryRepository _categoryRepo;

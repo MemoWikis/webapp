@@ -13,6 +13,7 @@ public class UserController : BaseController
     }
 
     [SetMainMenu(MainMenuEntry.UserDetail)]
+    [SetUserMenu(UserMenuEntry.UserDetail)]
     public ViewResult User(string userName, int id)
     {
         var user = _userRepo.GetById(id);
