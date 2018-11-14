@@ -1,13 +1,11 @@
 ﻿class Login {
 
     constructor() {
-        $("[data-btn-login=true]").click(
+        $("[data-btn-login=true], [data-btn-login=True] ").click(
             (e) => {
                 Login.HideFeatureInfo();
                 Login.OpenModal(e);
-            }
-        );
-        
+            });
     }
 
     static OpenModal(e: JQueryEventObject = null, afterLoad: () => void = null) {

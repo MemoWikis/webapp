@@ -83,7 +83,7 @@
                  ['Sicheres Wissen', amountSolid],
                  ['Solltest du festigen', amountToConsolidate],
                  ['Solltest du lernen', amountToLearn],
-                 ['Noch nicht gelernt', amountNotLearned],
+                 ['Noch nicht gelernt', amountNotLearned]
              ]);
 
              var options = {
@@ -139,7 +139,7 @@
              <% if (!Model.HasLearnedInLast30Days)
          { %>
              var infoDivNotLearned = document.createElement('div');
-             infoDivNotLearned.setAttribute('style', ' margin-top: 50px; left: 20px; right: 20px; height: 150px; padding-top: 40px');
+             infoDivNotLearned.setAttribute('style', ' margin-top: 50px; left: 20px; right: 20px; padding-top: 40px');
              infoDivNotLearned.setAttribute('class', 'alert alert-info');
              infoDivNotLearned.innerHTML = '<p>Du hast in den letzten 30 Tagen keine Fragen beantwortet, daher kann hier keine Übersicht angezeigt werden.</p>';
              document.getElementById("chartActivityLastDays").appendChild(infoDivNotLearned);
@@ -156,19 +156,19 @@
 <input type="hidden" id="hddUserId" value="<%=Model.UserId %>"/>
 
 <div class="row first-row">
-<div class="col-xs-3 " >
-    <h3>Dein Wissenstand</h3>
-    <div id="chartKnowledgeP" ></div>
-</div>
-<!-- Dein Training -->
-<div class ="col-xs-5">
-    <h3> Dein Training</h3>
-    <div id="chartActivityLastDays"></div>
-</div>
-<div class="col-xs-4">
-    <h3> Dein Wunschwissen</h3>
-    <div><i class="bold"><%=Model.TopicCount %></i> Themen <i class="bold"><%=Model.User.WishCountSets %></i> Lernsets <i class="bold"><%=Model.User.WishCountQuestions %></i> Fragen</div> 
-</div>
+    <div class="col-xs-3 " >
+        <h3>Dein Wissenstand</h3>
+        <div id="chartKnowledgeP" ></div>
+    </div>
+    <!-- Dein Training -->
+    <div class ="col-xs-5">
+        <h3 class="center"> Dein Training</h3>
+        <div id="chartActivityLastDays"></div>
+    </div>
+    <div class="col-xs-4">
+        <h3> Dein Wunschwissen</h3>
+        <div><i class="bold"><%=Model.TopicCount %></i> Themen <i class="bold"><%=Model.User.WishCountSets %></i> Lernsets <i class="bold"><%=Model.User.WishCountQuestions %></i> Fragen</div> 
+    </div>
 </div>
 
 <div class="row second-row">
@@ -179,11 +179,11 @@
             <a href="<%= Links.UserDetail(Model.User) %>">Details auf deiner Profilseite</a>
         </p>
         <p>
-            <b class="reputation-number"><%= Model.TopicCreatedCount %></b><span>erstellte Themen</span><br/>
-            <b class="reputation-number"><%= Model.SetsCreatedCount %></b><span>erstellte Lernsets</span><br/>
-            <b class="reputation-number"><%= Model.QuestionsCreatedCount %></b><span>erstellte Fragen</span> <br/>
+            <b class="reputation-number"><%= Model.TopicCreatedCount %></b><span> erstellte Themen</span><br/>
+            <b class="reputation-number"><%= Model.SetsCreatedCount %></b><span> erstellte Lernsets</span><br/>
+            <b class="reputation-number"><%= Model.QuestionsCreatedCount %></b><span> erstellte Fragen</span> <br/>
             <h3 id="rang">Rang <%=Model.ReputationRank %></h3>
-            <b>(<%= Model.ReputationTotal %> ReputationsPunkte)</b>
+            <b>(<%= Model.ReputationTotal %> Reputations Punkte)</b>
             </p>
      <%--   <p>
             <i class="fa fa-question-circle show-tooltip" data-original-title="Reputationspunkte erhältst du, wenn du gute Lerninhalte erstellst und andere damit lernen."></i>

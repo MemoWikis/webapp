@@ -1,21 +1,46 @@
 ﻿// variables
 @bluefont: #003264;
 
-.body {
-    width: 1144px;
-    background-color: white;
-
-    @media only screen and (max-width: 1160px) {
-        width: 100%;
-    }
-
-}
 
 h3 {
     color: @bluefont;
 }
 
 .first-row {
+
+    @media only screen and (max-width: 990px) {
+        [class*="col-"] {
+            width: 33%;
+
+            h3 {
+                font-size: 18px;
+                text-align: center;
+            }
+        }
+    }
+
+    @media only screen and (max-width: 400px) {
+        [class*="col-"] {
+            width: 50%;
+            text-align: center;
+            align-content: center;
+            margin-bottom: 30px;
+        }
+
+        .col-xs-4 {
+            width: 100%;
+        }
+    }
+
+    @media only screen and (max-width: 330px) {
+        [class*="col-"] {
+            width: 100%;
+            text-align: center;
+            align-content: center;
+            margin-bottom: 30px;
+        }
+    }
+
     h3 {
         margin-top: 0px;
     }
@@ -24,29 +49,39 @@ h3 {
         font-weight: bold;
     }
 
-    .col-xs-3 {
-        margin-bottom: 0px;
-    }
-
     .col-xs-5 {
-        padding-right: 30px;
+        @media only screen and (max-width: 970px) {
+            display: inline-block;
+            vertical-align: middle;
+            float: none;
+        }
     }
 
     .col-xs-4 {
-
-
-        h3 {
+        @media only screen and (max-width: 970px) {
+            display: inline-block;
+            vertical-align: middle;
+            float: none;
+        }
+    }
+}
+//second-row
+.second-row {
+    @media only screen and (max-width: 970px) {
+        [class*="col-"] {
+            width: 50%;
+            text-align: center;
+            align-content: center;
             margin-bottom: 30px;
+            margin-top: 30px;
         }
 
-        height: 98px;
-
-        @media only screen and (max-width: 970px) {
-            margin-top: 40px;
+        .col-xs-4 {
+            margin-top: -117px;
         }
     }
 
-    @media only screen and (max-width: 970px) {
+    @media only screen and (max-width: 330px) {
         [class*="col-"] {
             width: 100%;
             text-align: center;
@@ -54,24 +89,12 @@ h3 {
             margin-bottom: 30px;
         }
     }
-}
 
 
-//second-row
-.second-row {
-    margin-top: 0px;
-    padding-top: 0px;
 
     .col-xs-3 {
-        padding-top: 0px;
-
-        @media only screen and (max-width: 970px) {
-            margin-top: 30px;
-        }
-
         .reputation-number {
             font-size: 1.5em;
-            margin-right: 0.3em;
         }
 
         span {
@@ -84,16 +107,10 @@ h3 {
     }
 
     .col-xs-5 {
-        margin-top: 50px;
-        padding-right: 40px;
-
-
 
         .ProgressBarContainer, .ProgressBarSegment {
             height: 30px;
         }
-
-      
 
         .ProgressBarContainer {
             display: table;
@@ -127,26 +144,9 @@ h3 {
         }
     }
 
-    @media only screen and (max-width: 970px) {
-        [class*="col-"] {
-            width: 100%;
-            text-align: center;
-            align-content: center;
-            margin-bottom: 30px;
-        }
-    }
+
 
     .col-xs-5 {
-
-        @media only screen and (max-width: 970px) {
-            [class*="col-"] {
-                width: 100%;
-                text-align: center;
-                align-content: center;
-                margin-bottom: 30px;
-            }
-        }
-
         .ProgressBarContainer, .ProgressBarSegment {
             height: 30px;
         }
@@ -158,24 +158,19 @@ h3 {
 
     .col-xs-4 {
         margin-top: -117px;
-
-        @media only screen and (max-width: 970px) {
-            margin-top: 40px;
-            height: auto;
-        }
-
-        .col-xs-3 {
-            margin-top: 0px;
-        }
     }
 
     @media only screen and (max-width: 970px) {
-        [class*="col-"] {
+        .col-xs-4 {
+            margin-top: 10px;
             width: 100%;
             text-align: center;
-            align-content: center;
-            margin-bottom: 30px;
-            text-align: center;
+
+            .col-xs-3, .col-xs-9 {
+                width: 100%;
+                text-align: center;
+                font-size: 18px;
+            }
 
             .ItemImage {
                 height: 40px;
@@ -184,9 +179,6 @@ h3 {
         }
     }
 }
-
-
-
 /*.third-row {
     @media only screen and (max-width: 970px) {
         [class*="col-"] {

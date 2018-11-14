@@ -1,9 +1,8 @@
-﻿using System;
+﻿using Seedworks.Web.State;
+using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
-using Seedworks.Web.State;
 
 public class UserValuationCache
 {

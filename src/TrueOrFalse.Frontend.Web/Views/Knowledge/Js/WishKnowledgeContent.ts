@@ -52,7 +52,7 @@
                 {content: "dashboard"},
                 function (data) {
                     $(".content").html(data);
-                    $("#LinkIsDirectedToPartialView").text("Lernsitzung starten is doesn´t work");
+                    $(".LinkIsDirectedToPartialView").text("Lernsitzung starten");
                 });
         });
 
@@ -63,8 +63,8 @@
                 { content: "topics" },
                 function (data) {
                     $(".content").html(data);
-                    $("#LinkIsDirectedToPartialView").text("Thema erstellen");
-                    $("#LinkIsDirectedToPartialView").attr("href",$("#hddUrlAddTopic").val());
+                    $(".LinkIsDirectedToPartialView").text("Thema erstellen");
+                    $(".LinkIsDirectedToPartialView").attr("href",$("#hddUrlAddTopic").val());
                     
                 });
         });
@@ -76,21 +76,10 @@
                 { content: "questions" },
                 function (data) {
                     $(".content").html(data);
-                    $("#LinkIsDirectedToPartialView").text("Frage erstellen is doesn´t work");
+                    $(".LinkIsDirectedToPartialView").text("Frage erstellen"); //<%= Links.CreateQuestion() %>
+                    $(".LinkIsDirectedToPartialView").attr("href", $("#hddUrlAddQuestion").val() );
                 });
         });
-
-        $("#events").click((e) => {
-            e.preventDefault();
-            this.SetTabActive(e);
-            $.post("/Knowledge/GetKnowledgeContent",
-                { content: "events" },
-                function (data) {
-                    $(".content").html(data);
-                    $("#LinkIsDirectedToPartialView").text("Frage erstellen is doesn´t work");
-                });
-        });
-
     }
 
     public SetTabActive(e: JQueryEventObject) {

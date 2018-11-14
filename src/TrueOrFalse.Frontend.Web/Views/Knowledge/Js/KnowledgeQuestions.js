@@ -7,15 +7,15 @@ new Vue({
         'vuetable-pagination': Vuetable.VuetablePagination
     },
     data: {
+        tooltip: 'in neuem Link öffnen',
         moreParams: {
             'isAuthor': false
         },
-
         fields: [
             {
-                name: "__slot:image",
+                name: "__slot:questionTitle",
                 title: "Frage",
-                dataClass: "tdImage"
+                dataClass: "td-question"
             },
             {
                 name: "__slot:knowWas",
@@ -24,7 +24,7 @@ new Vue({
             },
             {
                 name: "__slot:authorImage",
-                title: "Author",
+                title: "Autor",
                 sortField: "author",
                 dataClass: "author-image-name"
             },
@@ -67,9 +67,6 @@ new Vue({
         }
     },
     methods: {
-        mouseOver() {
-            $('.show-tooltip').tooltip();
-        },
         onPaginationData(paginationData) {
             this.$refs.pagination.setPaginationData(paginationData);
         },
@@ -92,7 +89,6 @@ new Vue({
         switchOnlySelfCreatedChanged: function () {
             console.log("wird geändert");
             $("#app").css("Opacity", "0.3");
-
             this.moreParams.isAuthor = $("#switchShowOnlySelfCreated").is(":checked");
             this.$refs.vuetable.refresh();
         }

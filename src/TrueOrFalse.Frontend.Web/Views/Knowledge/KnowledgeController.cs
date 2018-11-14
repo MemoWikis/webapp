@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics.Eventing.Reader;
 using System.Linq;
 using System.Web.Mvc;
-using NHibernate.Event;
 using TrueOrFalse.Frontend.Web.Code;
 
 public class KnowledgeController : BaseController
@@ -130,14 +128,19 @@ public class KnowledgeController : BaseController
     [HttpGet]
     public JsonResult GetQuestionsWish(int page, int per_page, string sort = "", bool isAuthor = false)
     {
-        var unsortList = knowledgeQuestionsModel.GetQuestionsWishFromDatabase(UserId, isAuthor);
-        var sortList = knowledgeQuestionsModel.GetSortList(unsortList, sort);
-        var test = (page - 1) * per_page;
-        var total = sortList.Count();
-        var data = GetSiteForPagination(sortList, page, per_page);
-        var last_page = getLastPage(sortList.Count, per_page);
+        var totalWishKnowledge = UserValuationCache.GetQuestionValuations(UserId)
+            .Where(v => v.IsInWishKnowledge())
+            .Distinct().
+            ToList();
 
-        return Json(new {total, per_page, current_page = page, last_page, data}, JsonRequestBehavior.AllowGet);
+        var unsortedWuwiIdsPerSite = GetSiteForPagination(totalWishKnowledge, page, per_page);
+        var unsortedListWithIsAuthor =  knowledgeQuestionsModel.GetQuestionsWishFromDatabase(UserId, isAuthor, unsortedWuwiIdsPerSite);
+
+        var data = knowledgeQuestionsModel.GetSortList(unsortedListWithIsAuthor, sort);
+        var total = totalWishKnowledge.Count();
+        var last_page = getLastPage(totalWishKnowledge.Count(), per_page);
+
+        return Json(new { total, per_page, current_page = page, last_page, data }, JsonRequestBehavior.AllowGet);
     }
 
     private int getLastPage(int listCount, int perPage)
@@ -156,7 +159,7 @@ public class KnowledgeController : BaseController
         return lastPage;
     }
 
-    private List<T> GetSiteForPagination<T>(List<T> sortList, int page, int per_page)
+    private IList<T> GetSiteForPagination<T>(IList<T> sortList, int page, int per_page)
     {
        return sortList.Skip((page - 1) * per_page).Take(per_page).ToList();
     }
