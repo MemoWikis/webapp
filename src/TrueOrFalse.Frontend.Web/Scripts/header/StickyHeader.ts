@@ -94,9 +94,9 @@ function ReorientateMenu() {
     if (position > 80) {
 
         $('#RightMainMenu').css('margin-right', $('#BreadCrumbContainer').css('margin-right'));
-        $('#DropdownMenu').css('margin-right', $('#BreadCrumbContainer').css('margin-right'));
+        $('#BreadcrumbUserDropdown').css('margin-right', $('#BreadCrumbContainer').css('margin-right'));
     } else {
         $('#RightMainMenu').css('margin-right', '');
-        $('#DropdownMenu').css('margin-right', '');
+        $('#BreadcrumbUserDropdown').css('margin-right', '');
     }
 }

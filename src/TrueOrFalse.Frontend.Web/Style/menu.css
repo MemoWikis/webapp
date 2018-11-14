@@ -416,8 +416,6 @@
 #mainMenuQuestionsSetsCategories,
 #mainMenuAboutUsersAdmin {
   border: none;
-  border-top: solid #707070 1px;
-  border-left: none;
 }
 #mainMenuThemeNavigation i.fa,
 #mainMenuQuestionsSetsCategories i.fa,
