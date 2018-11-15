@@ -367,7 +367,10 @@ img {
   line-height: 14px;
   font-size: 10px !important;
   width: 19px;
-  display: inline-block;
+  display: flex !important;
+  flex-direction: column;
+  justify-content: center;
+  text-align: center;
   position: relative;
   border: 1.5px solid #003264;
 }
@@ -652,7 +655,11 @@ img {
   font-size: 16px;
   font-weight: bold;
   color: white;
-  display: block;
+  height: 100% !important;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  text-align: center;
 }
 .MenuButtonXS {
   padding: 3px 3px 3px 7px;

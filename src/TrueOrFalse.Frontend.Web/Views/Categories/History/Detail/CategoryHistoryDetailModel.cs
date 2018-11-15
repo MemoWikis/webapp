@@ -84,7 +84,7 @@ public class CategoryHistoryDetailModel : BaseModel
         return res;
     }
 
-    private string SortedListOfRelations(IList<CategoryRelation_EditData> relations)
+    private string SortedListOfRelations(IList<CategoryRelation_EditData_V2> relations)
     {
         string res = "";
         if (relations.IsNotEmpty())
