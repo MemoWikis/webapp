@@ -374,18 +374,17 @@ img {
         padding: 0px;
         line-height: 14px;
         font-size: 10px !important;
-        left: 10px;
-        min-width: 19px;
-        display: inline-block;
+        width: 19px;
+        display: flex !important;
+        flex-direction: column;
+        justify-content: center;
+        text-align:center;
         position: relative;
         border: 1.5px solid #003264;
-        margin-top: -9px;
     }
 
     .dropdown-badge {
         line-height: 16px !important;
-        left: -10px;
-        margin-top: -5px;
         border: 1px solid #FFFFFF;
     }
 
@@ -393,7 +392,7 @@ img {
         width: 43px;
         -webkit-transition: width 0.3s;
         display: none;
-        margin-top:2px;
+        margin-top: 2px;
 
         @media(max-width:(@screen-md-min - 0.5)) {
             display: table;
@@ -454,6 +453,8 @@ img {
 
     span {
         vertical-align: middle;
+        overflow:hidden;
+        text-overflow:ellipsis;
     }
 
     .KnowledgeLink {
@@ -525,7 +526,6 @@ img {
         text-align: left;
         border-radius: 0px;
         border: 1px solid #707070;
-        width: 197px;
         padding-top: 0px;
 
         span {
@@ -538,7 +538,11 @@ img {
             font-weight: normal;
             color: black;
             font-size: 16px;
-            padding:0px 0px 29px 23.34px;
+            padding: 15px 23.34px 15px 23.34px;
+
+            &.active {
+                background-color: @light-grey-hover;
+            }
         }
 
         i {
@@ -559,19 +563,14 @@ img {
 #activity-popover-title {
     font-size: 16px;
     font-weight: bold;
-    padding: 6px 0;
-    text-align: center;
+    padding: 13px 0;
     color: black;
+    padding-left:20px;
     height:48px;
-    background-color: #DDDDDD;
-    display:flex;
-    justify-content:center;
-    flex-direction:column;
-    text-align:center,
+
 }
 
 #activity-popover-content-inner {
-    padding-top: 25px;
     line-height: normal;
     color: black;
     font-size: 12px;
@@ -634,11 +633,15 @@ img {
         font-weight: normal !important;
     }
 
-    #NextLevelProgressSpanPercentageDone{
-        font-size:16px;
-        font-weight:bold;
-        color:white;
-        display:block;
+    #NextLevelProgressSpanPercentageDone {
+        font-size: 16px;
+        font-weight: bold;
+        color: white;
+        height: 100% !important;
+        display: flex;
+        justify-content: center;
+        flex-direction: column;
+        text-align: center;
     }
 }
 

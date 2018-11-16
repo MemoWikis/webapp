@@ -7,7 +7,7 @@ public class VariousPublicController : Controller
         return View(new BaseModel());
     }
 
-    [SetMenu(MenuEntry.None)]
+    [SetMainMenu(MainMenuEntry.None)]
     public ActionResult MemuchoBeta()
     {
         return View(new BaseModel());

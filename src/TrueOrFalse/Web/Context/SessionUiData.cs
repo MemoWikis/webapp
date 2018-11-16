@@ -4,8 +4,9 @@ using TrueOrFalse.Search;
 
 public class SessionUiData : SessionBase, IRegisterAsInstancePerLifetime
 {
-    public Menu Menu => Data.Get("menu", new Menu());
+    public MainMenu MainMenu => Data.Get("menu", new MainMenu());
     public TopicMenu TopicMenu => Data.Get("ThemeMenu", new TopicMenu());
+    public UserMenu UserMenu => Data.Get("UserMenu", new UserMenu());
 
     /* History **************/
     public QuestionHistory VisitedQuestions{

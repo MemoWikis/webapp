@@ -17,6 +17,7 @@ public class TopNavMenu
     public virtual IList<Category> Categories { get; set; }
 
     public bool IsCategoryBreadCrumb = true;
+    public bool IsCategoryLearningOrHistoryBreadCrumb = false;
     public bool IsAnswerQuestionOrSetBreadCrumb = false;
 
     public bool IsWelcomePage;

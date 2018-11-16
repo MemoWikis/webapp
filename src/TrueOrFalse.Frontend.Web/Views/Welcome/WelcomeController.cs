@@ -6,7 +6,7 @@ using TrueOrFalse.Web;
 
 public class WelcomeController : BaseController
 {
-    [SetMenu(MenuEntry.None)]
+    [SetMainMenu(MainMenuEntry.None)]
     [SetThemeMenu]
     public ActionResult Welcome(){
         return View(new WelcomeModel());

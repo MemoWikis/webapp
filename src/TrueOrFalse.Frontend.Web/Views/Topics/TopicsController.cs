@@ -3,7 +3,7 @@ using MarkdownSharp;
 
 public class TopicsController : BaseController
 {
-    [SetMenu(MenuEntry.None)]
+    [SetMainMenu(MainMenuEntry.None)]
     public ActionResult Topic(string topicName)
     {
         var topicPath = Server.MapPath($"~/Views/Topics/Docs/{topicName}.md");

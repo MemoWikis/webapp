@@ -64,7 +64,7 @@ public class CategoryHistoryDetailModel : BaseModel
         AuthorImageUrl = new UserImageSettings(currentRevision.Author.Id).GetUrl_85px_square(currentRevision.Author).Url;
     }
 
-    private string Relation2String(CategoryRelation_EditData_V2 relation)
+    private string Relation2String(CategoryRelation_EditData relation)
     {
         var relatedCategory = Sl.CategoryRepo.GetById(relation.RelatedCategoryId);
         string res;

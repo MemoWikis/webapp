@@ -12,7 +12,8 @@ public class UserController : BaseController
         _userRepo = userRepo;
     }
 
-    [SetMenu(MenuEntry.UserDetail)]
+    [SetMainMenu(MainMenuEntry.UserDetail)]
+    [SetUserMenu(UserMenuEntry.UserDetail)]
     public ViewResult User(string userName, int id)
     {
         var user = _userRepo.GetById(id);
@@ -21,7 +22,7 @@ public class UserController : BaseController
         return View(_viewLocation, new UserModel(user, isActiveTabKnowledge: true));
     }
 
-    [SetMenu(MenuEntry.UserDetail)]
+    [SetMainMenu(MainMenuEntry.UserDetail)]
     public ViewResult Badges(string userName, int id)
     {
         var user = _userRepo.GetById(id);

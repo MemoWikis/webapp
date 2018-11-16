@@ -6,6 +6,7 @@ using TrueOrFalse.Maintenance;
 using TrueOrFalse.Web;
 
 [AccessOnlyAsAdmin]
+[SetUserMenu(UserMenuEntry.None)]
 public class MaintenanceImagesController : BaseController
 {
     private const string _viewLocation = "~/Views/Maintenance/Images/Images.aspx";
@@ -13,7 +14,7 @@ public class MaintenanceImagesController : BaseController
     private const string _viewLocationModal = "~/Views/Maintenance/Images/ImageMaintenanceModal.ascx";
     private const string _viewLocationRow = "~/Views/Maintenance/Images/ImageMaintenanceRow.ascx";
 
-    [SetMenu(MenuEntry.Maintenance)]
+    [SetMainMenu(MainMenuEntry.Maintenance)]
     public ActionResult Images(int? page)
     {
         var model = new ImagesModel();
@@ -37,7 +38,7 @@ public class MaintenanceImagesController : BaseController
     }
 
     [HttpPost]
-    [SetMenu(MenuEntry.Maintenance)]
+    [SetMainMenu(MainMenuEntry.Maintenance)]
     public ActionResult Images(int? page, ImagesModel imageModel)
     {
         imageModel.Init(1);

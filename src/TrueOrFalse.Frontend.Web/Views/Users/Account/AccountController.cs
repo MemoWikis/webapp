@@ -5,7 +5,7 @@ using TrueOrFalse.Web;
 
 public class AccountController : BaseController
 {
-    [SetMenu(MenuEntry.None)]
+    [SetMainMenu(MainMenuEntry.None)]
     [HttpGet]
     public ActionResult Membership()
     {
@@ -48,7 +48,7 @@ public class AccountController : BaseController
         return Redirect(Request.UrlReferrer.AbsolutePath);
     }
 
-    [SetMenu(MenuEntry.None)]
+    [SetMainMenu(MainMenuEntry.None)]
     [AccessOnlyAsLoggedIn]
     public ActionResult WidgetStats()
     {

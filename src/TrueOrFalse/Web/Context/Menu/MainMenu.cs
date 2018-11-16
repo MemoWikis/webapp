@@ -1,27 +1,26 @@
 ﻿using System;
 
-public enum MenuEntry
+public enum MainMenuEntry
 {
     None, Knowledge, 
     Questions, QuestionDetail, 
     QuestionSet, QuestionSetDetail,
     Users, UserDetail,
     Categories, CategoryDetail,
-    Messages,
     Help,
     Dates, DateDetail,
-    Play,
+    About,
     Maintenance
 }
 
 [Serializable]
-public class Menu
+public class MainMenu
 {
-    public MenuEntry Current = MenuEntry.None;
+    public MainMenuEntry Current = MainMenuEntry.None;
 
-    public string Active(MenuEntry menuEntry)
+    public string Active(MainMenuEntry mainMenuEntry)
     {
-        if (Current == menuEntry)
+        if (Current == mainMenuEntry)
             return "active";
 
         return "";

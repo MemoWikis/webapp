@@ -2,7 +2,7 @@
 using System.Web.Mvc;
 using static System.String;
 
-[SetMenu(MenuEntry.None)]
+[SetMainMenu(MainMenuEntry.None)]
 public class WidgetController : BaseController
 {
     public ActionResult Question(int questionId, bool? hideAddToKnowledge, string host, string widgetKey)

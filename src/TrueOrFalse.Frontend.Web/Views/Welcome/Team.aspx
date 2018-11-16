@@ -1,4 +1,4 @@
-﻿<%@ Page Title="memucho Team" Language="C#" MasterPageFile="~/Views/Shared/Site.Sidebar.Master" Inherits="System.Web.Mvc.ViewPage<BaseModel>"  %>
+﻿<%@ Page Title="memucho Team" Language="C#" MasterPageFile="~/Views/Shared/Site.Sidebar.Master" Inherits="System.Web.Mvc.ViewPage<BaseModel>" %>
 
 <%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
 <%@ Import Namespace="System.Web.Optimization" %>
@@ -9,6 +9,8 @@
         Model.TopNavMenu.IsCategoryBreadCrumb = false;
     %>
 </asp:Content>
+ 
+<asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
 
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
     <div id="team">

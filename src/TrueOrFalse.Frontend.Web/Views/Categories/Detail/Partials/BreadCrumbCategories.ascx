@@ -7,55 +7,14 @@
          foreach (var rootCategory in Model.RootCategoriesList)
          {
              if (breadCrumbCategories.First() == rootCategory)
-             {
-                 switch (Model.RootCategoriesList.IndexOf(rootCategory))
-                 {
-                     case 0:
-                    %>
-                    <div style="display: flex; height: auto; margin-bottom: 5px" class="category-icon show-tooltip" data-placement="bottom" title="Schule">                                              
-                         <span style="display: inline-table; margin-left: 10px;"><a  <%if(breadCrumbCategories.Count == 1){ %> style="color:#003264;" <%}%> href="<%= Links.CategoryDetail(rootCategory) %>">Schule</a>                         
+             {%>
+                  <div style="display: flex; height: auto; margin-bottom: 5px" class="category-icon show-tooltip" data-placement="bottom" title="<%= rootCategory.Name %>">                                              
+                         <span style="display: inline-table; margin-left: 10px;"><a  <%if(breadCrumbCategories.Count == 1){ %> style="color:#003264;" <%}%> href="<%= Links.CategoryDetail(rootCategory) %>"><%= rootCategory.Name %></a>                         
                            <%if(breadCrumbCategories.Count != 1){ %> <i style="display: inline;" class="fa fa-chevron-right"></i><%} %>
                          </span>                      
-                    </div>
-                    <%
-                    break;
-
-                    case 1:
-                    %> 
-                     <div style="display: flex; height: auto; margin-bottom: 5px" class="category-icon show-tooltip" data-placement="bottom" title="Studium">                      
-                         <span style="display: inline-table; margin-left: 10px;"><a  <%if(breadCrumbCategories.Count == 1){ %> style="color:#003264;" <%}%> href="<%= Links.CategoryDetail(rootCategory) %>">Studium</a>                         
-                           <%if(breadCrumbCategories.Count != 1){ %> <i style="display: inline;" class="fa fa-chevron-right"></i><%} %>
-                         </span>                      
-                    </div>
-                    <%
-                    break;
-
-                    case 2:
-                    %>
-                     <div style="display: flex; height: auto; margin-bottom: 5px" class="category-icon show-tooltip" data-placement="bottom" title="Zertifikate">                      
-                         <span style="display: inline-table; margin-left: 10px;"><a  <%if(breadCrumbCategories.Count == 1){ %> style="color:#003264;" <%}%> href="<%= Links.CategoryDetail(rootCategory) %>">Zertifikate</a>                         
-                           <%if(breadCrumbCategories.Count != 1){ %> <i style="display: inline;" class="fa fa-chevron-right"></i><%} %>
-                         </span>                      
-                    </div>
-                    <%
-                    break;
-
-                    case 3:
-                    %>
-                    <div style="display: flex; height: auto; margin-bottom: 5px" class="category-icon show-tooltip" data-placement="bottom" title="Allgemeinwissen">                      
-                         <span style="display: inline-table; margin-left: 10px;"><a  <%if(breadCrumbCategories.Count == 1){ %> style="color:#003264;" <%}%> href="<%= Links.CategoryDetail(rootCategory) %>">Allgemeinwissen</a>                         
-                           <%if(breadCrumbCategories.Count != 1){ %> <i style="display: inline;" class="fa fa-chevron-right"></i><%} %>
-                         </span>                      
-                    </div>
-                    <%
-                    break;
-                            
-                    //default:
-                    //throw new Exception("This should not happen");
-                }
-                break;
-            }
-        }
+                  </div>
+          <% }
+         }
     }
 
     breadCrumbCategoriesCount--;
@@ -71,7 +30,7 @@
                      </span> 
                   <%}%>
              <%}else{
-                      if (i == breadCrumbCategoriesCount) { %> 
+                      if (i == breadCrumbCategoriesCount && !Model.IsAnswerQuestionOrSetBreadCrumb) { %> 
                           <span style="margin-left:10px;"><a  id="<%= i%>BreadCrumb" style="color:#003264;" href="<%= Links.CategoryDetail(breadCrumbCategories[i]) %>" class=""><%= breadCrumbCategories[i].Name %></a></span>              
                     <%} else { %>
                          <span style="display:inline-table; margin-left:10px;"><a id="<%= i %>BreadCrumb"  href="<%= Links.CategoryDetail(breadCrumbCategories[i]) %>" class=""><%= breadCrumbCategories[i].Name %></a>

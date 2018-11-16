@@ -1090,6 +1090,7 @@
     <Compile Include="Tools\Update\UpdateStepExecuter.cs" />
     <Compile Include="Tools\Update\Update.cs" />
     <Compile Include="Web\Attributes\Filters\AccessOnlyLocalAttribute.cs" />
+    <Compile Include="Web\Attributes\Filters\SetUserMenuAttribute.cs" />
     <Compile Include="Web\Attributes\Filters\SetThemeMenu.cs" />
     <Compile Include="Web\Attributes\Validation\MustBeTrueAttribute.cs" />
     <Compile Include="Web\Context\MenuHistory\DateHistory.cs" />
@@ -1102,8 +1103,9 @@
     <Compile Include="Web\Context\MenuHistory\ThemeMenuHistoryOps.cs" />
     <Compile Include="Web\Context\MenuHistory\UserHistory.cs" />
     <Compile Include="Web\Context\ContextItemKeys.cs" />
+    <Compile Include="Web\Context\Menu\UserMenu.cs" />
     <Compile Include="Web\Context\Menu\TopicMenu.cs" />
-    <Compile Include="Web\Context\Menu\Menu.cs" />
+    <Compile Include="Web\Context\Menu\MainMenu.cs" />
     <Compile Include="Web\Context\Menu\TopNavMenu.cs" />
     <Compile Include="Web\Context\SessionUiData.cs" />
     <Compile Include="Web\Context\SessionUser.cs" />
@@ -1118,7 +1120,7 @@
     <Compile Include="Web\Attributes\Filters\RedirectToErrorPage_IfNotLoggedInAttribute.cs" />
     <Compile Include="Web\Attributes\Filters\AccessOnlyAsLoggedInAttribute.cs" />
     <Compile Include="Web\Attributes\Filters\AccessOnlyAsAdminAttribute.cs" />
-    <Compile Include="Web\Attributes\Filters\SetMenuAttribute.cs" />
+    <Compile Include="Web\Attributes\Filters\SetMainMenuAttribute.cs" />
     <Compile Include="Web\HtmlLabelExtensions.cs" />
     <Compile Include="Web\HtmlPrefixScopeExtensions.cs" />
     <Compile Include="Domain\Question\Question.Image\DeleteUnusedImages.cs" />

@@ -5,14 +5,12 @@ public class SidebarModel : BaseResolve
 {
     public int WishKnowledgeCount;
     public bool IsInstallationAdmin;
-    public Menu Menu;
+    public MainMenu MainMenu;
 
     protected SessionUser _sessionUser => Resolve<SessionUser>();
     public bool IsLoggedIn => _sessionUser.IsLoggedIn;
 
     public int UnreadMessageCount = 0;
-
-    
 
     public bool IsWelcomePage;
 
@@ -36,7 +34,7 @@ public class SidebarModel : BaseResolve
         var userSession = Resolve<SessionUser>();
         var sessionUiData= Resolve<SessionUiData>();
 
-        Menu = sessionUiData.Menu;
+        MainMenu = sessionUiData.MainMenu;
 
         if (userSession.User != null)
         {
@@ -65,14 +63,14 @@ public class SidebarModel : BaseResolve
 
     private SponsorModel _sponsorModel;
 
-    public string Active(MenuEntry menuEntry)
+    public string Active(MainMenuEntry mainMenuEntry)
     {
-        return Menu.Active(menuEntry);
+        return MainMenu.Active(mainMenuEntry);
     }
 
-    public bool IsActive(MenuEntry menuEntry)
+    public bool IsActive(MainMenuEntry mainMenuEntry)
     {
-        return !string.IsNullOrEmpty(Menu.Active(menuEntry));
+        return !string.IsNullOrEmpty(MainMenu.Active(mainMenuEntry));
     }
 }
 

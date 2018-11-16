@@ -1,4 +1,4 @@
-public class CategoryRelation_EditData_V1 : CategoryRelation_EditData
+public class CategoryRelation_EditData_V1
 {
     public int RelationType;
     public int CategoryId;

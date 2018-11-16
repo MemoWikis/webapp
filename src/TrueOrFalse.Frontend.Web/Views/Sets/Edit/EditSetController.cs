@@ -13,7 +13,7 @@ public class EditSetController : BaseController
 {
     private const string _viewLocation = "~/Views/Sets/Edit/EditSet.aspx";
 
-    [SetMenu(MenuEntry.QuestionSet)]
+    [SetMainMenu(MainMenuEntry.QuestionSet)]
     [SetThemeMenu]
     public ActionResult Create()
     {
@@ -23,7 +23,7 @@ public class EditSetController : BaseController
     }
 
     [HttpPost]
-    [SetMenu(MenuEntry.QuestionSet)]
+    [SetMainMenu(MainMenuEntry.QuestionSet)]
     [SetThemeMenu]
     public ActionResult Create(EditSetModel model)
     {
@@ -47,7 +47,7 @@ public class EditSetController : BaseController
         return Redirect(Links.QuestionSetEdit(set.Name, set.Id));
     }
 
-    [SetMenu(MenuEntry.None)]
+    [SetMainMenu(MainMenuEntry.None)]
     [SetThemeMenu(isQuestionSetPage: true)]
     public ViewResult Edit(int id)
     {
@@ -66,7 +66,7 @@ public class EditSetController : BaseController
     }
 
     [HttpPost]
-    [SetMenu(MenuEntry.None)]
+    [SetMainMenu(MainMenuEntry.None)]
     [SetThemeMenu(isQuestionSetPage: true)]
     public ViewResult Edit(int id, EditSetModel model)
     {

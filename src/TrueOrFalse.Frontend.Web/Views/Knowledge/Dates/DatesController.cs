@@ -6,7 +6,7 @@ using TrueOrFalse.Frontend.Web.Code;
 
 public class DatesController : BaseController
 {
-    //[SetMenu(MenuEntry.Dates)]
+    //[SetMenu(MainMenuEntry.Dates)]
     //public ActionResult Dates()
     //{
     //    return View(new DatesModel());

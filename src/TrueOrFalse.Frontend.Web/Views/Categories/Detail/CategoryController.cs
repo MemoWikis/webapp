@@ -6,11 +6,12 @@ using System.Web.Mvc;
 using TrueOrFalse.Frontend.Web.Code;
 using TrueOrFalse.Web;
 
+[SetUserMenu(UserMenuEntry.None)]
 public class CategoryController : BaseController
 {
     private const string _viewLocation = "~/Views/Categories/Detail/Category.aspx";
 
-    [SetMenu(MenuEntry.CategoryDetail)]
+    [SetMainMenu(MainMenuEntry.CategoryDetail)]
     [SetThemeMenu(true)]
     public ActionResult Category(string text, int id, int? version)
     {

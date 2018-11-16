@@ -1,9 +1,5 @@
-public class CategoryRelation_EditData_V2
+public class CategoryRelation_EditData_V2 : CategoryRelation_EditData
 {
-    public int RelationType;
-    public int CategoryId;
-    public int RelatedCategoryId;
-
     public CategoryRelation_EditData_V2() { }
 
     public CategoryRelation_EditData_V2(CategoryRelation categoryRelation)
