@@ -116,7 +116,7 @@ new Vue({
         GetImageSourceUrl(url) {
             if (url === null)
                 return "/Images/no-category-picture-350.png";
-            return url.SourceUrl;
+            return url;
         }
     }, mounted: function () {
          $.ajax({

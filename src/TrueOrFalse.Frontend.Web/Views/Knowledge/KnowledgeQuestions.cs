@@ -34,7 +34,7 @@ public class KnowledgeQuestions
             questions.AuthorId = question.Creator.Id;
             questions.LinkToCategory = categories.IsEmpty() ?  " " : Links.GetUrl(categories[0]);
             questions.Category = categories.IsEmpty() ? "keine Kategorie" : categories[0].Name;
-            questions.ImageFrontendData = categories.IsEmpty() ? categoryAndSetDataWishKnowledge.GetCategoryImage(682) : categoryAndSetDataWishKnowledge.GetCategoryImage(categories[0].Id);
+            //questions.ImageFrontendData = categories.IsEmpty() ? categoryAndSetDataWishKnowledge.GetCategoryImage(682) : categoryAndSetDataWishKnowledge.GetCategoryImage(categories[0].Id);
             questions.TooltipLinkToCategory = "Kategorie " + questions.Category + " in neuem Tab öffnen";
 
             if (whichList.Equals("solid"))
