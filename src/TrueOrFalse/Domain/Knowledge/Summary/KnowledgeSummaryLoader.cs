@@ -38,8 +38,6 @@ public class KnowledgeSummaryLoader
 
     public static KnowledgeSummary RunFromMemoryCache(Category category, int userId)
     {
-        var stopWatch = Stopwatch.StartNew();
-
         var aggregatedQuestions = new List<Question>();
 
         var aggregatedCategories = category.AggregatedCategories(includingSelf: true);
@@ -91,9 +89,6 @@ public class KnowledgeSummaryLoader
             solid: aggregatedQuestionValuationsInWishKnowledge.Count(v => v.KnowledgeStatus == KnowledgeStatus.Solid)
             );
         
-
-        Logg.r().Information("Loaded KnowledgeSummary in {Elapsed}", stopWatch.Elapsed);
-
         return knowledgeSummary;
     }
 

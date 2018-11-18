@@ -123,26 +123,27 @@ public class CategoryAndSetDataWishKnowledge: BaseController
         foreach (var setWish in setWishes)
         {
             var facebookLink = "https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2F" + changeUrlToFacebookCompatible(Settings.CanonicalHost + Links.SetDetail(setWish.Name, setWish.Id)) + "%2F&amp;src=sdkpreparse";
-            var categoryAndSetWishKnowledge = new CategoryAndSetWishKnowledge();
-
-            categoryAndSetWishKnowledge.Description = setWish.Text;
-            categoryAndSetWishKnowledge.Title = setWish.Name;
-            categoryAndSetWishKnowledge.ImageFrontendData = SetFrontendImageDataIList[counterSetImage];
-            categoryAndSetWishKnowledge.KnowlegdeWishPartial = KnowledgeWishPartial(setWish, controllerContext);
-            categoryAndSetWishKnowledge.Id = setWish.Id;
-            categoryAndSetWishKnowledge.IsCategory = false;
-            categoryAndSetWishKnowledge.LinkStartLearningSession = Links.StartLearningSessionForSet(setWish.Id);
-            categoryAndSetWishKnowledge.DateToLearningTopicLink = Links.DateCreateForSet(setWish.Id).ToString();
-            categoryAndSetWishKnowledge.CreateQuestionLink = Links.CreateQuestion(setId: setWish.Id);
-            categoryAndSetWishKnowledge.StartGameLink = Links.GameCreateFromSet(setWish.Id);
-            categoryAndSetWishKnowledge.LearnSetsCount = 1;
-            categoryAndSetWishKnowledge.QuestionsCount = setWish.QuestionCount() ;
-            categoryAndSetWishKnowledge.EditCategoryOrSetLink = Links.SetEdit(setWish);
-            categoryAndSetWishKnowledge.ShareFacebookLink = facebookLink;
-            categoryAndSetWishKnowledge.HasVideo = setWish.HasVideo;
-            categoryAndSetWishKnowledge.KnowledgeWishAVGPercantage = CountDesiredKnowledge(setWish);
-            categoryAndSetWishKnowledge.AuthorId = setWish.Creator.Id;
-            categoryAndSetWishKnowledge.LinkToSetOrCategory = Links.GetUrl(setWish);
+            var categoryAndSetWishKnowledge = new CategoryAndSetWishKnowledge
+            {
+                Description = setWish.Text,
+                Title = setWish.Name,
+                ImageFrontendData = SetFrontendImageDataIList[counterSetImage],
+                KnowlegdeWishPartial = KnowledgeWishPartial(setWish, controllerContext),
+                Id = setWish.Id,
+                IsCategory = false,
+                LinkStartLearningSession = Links.StartLearningSessionForSet(setWish.Id),
+                DateToLearningTopicLink = Links.DateCreateForSet(setWish.Id).ToString(),
+                CreateQuestionLink = Links.CreateQuestion(setId: setWish.Id),
+                StartGameLink = Links.GameCreateFromSet(setWish.Id),
+                LearnSetsCount = 1,
+                QuestionsCount = setWish.QuestionCount(),
+                EditCategoryOrSetLink = Links.SetEdit(setWish),
+                ShareFacebookLink = facebookLink,
+                HasVideo = setWish.HasVideo,
+                KnowledgeWishAVGPercantage = CountDesiredKnowledge(setWish),
+                AuthorId = setWish.Creator.Id,
+                LinkToSetOrCategory = Links.GetUrl(setWish)
+            };
 
             filteredCategoryAndSetWishKnowledges.Add(categoryAndSetWishKnowledge);
             counterSetImage++;
