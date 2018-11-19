@@ -4,6 +4,7 @@ using System.Web.Mvc;
 using Seedworks.Lib;
 using TrueOrFalse.Web;
 
+[SetUserMenu(UserMenuEntry.UserSettings)]
 public class UserSettingsController : BaseController
 {
     private const string _viewLocation = "~/Views/Users/Account/Settings/UserSettings.aspx";

@@ -31,7 +31,7 @@
             <div class="dropdown" id="HeaderUserDropdown" style="display: inline-block;">
                 <a class="TextLinkWithIcon dropdown-toggle" id="dLabel" role="button" data-toggle="dropdown" data-target="#" href="#">
                     <div style="display: flex; justify-content: center;">
-                        <%if (Model.SidebarModel.UnreadMessageCount == 0)
+                        <%if (Model.SidebarModel.UnreadMessageCount != 0)
                             { %>
                         <span id="badgeNewMessages" class="badge show-tooltip" data-placement="bottom" title="<%= Model.SidebarModel.UnreadMessageCount%> Ungelesene Nachrichten" style="background-color: #FF001F"><%= Model.SidebarModel.UnreadMessageCount %></span>
                         <%}%>

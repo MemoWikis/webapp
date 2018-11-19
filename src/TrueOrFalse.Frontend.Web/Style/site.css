@@ -369,9 +369,10 @@ img {
   width: 19px;
   display: flex !important;
   flex-direction: column;
-  justify-content: center;
   text-align: center;
-  position: relative;
+  position: absolute;
+  bottom: 48px;
+  right: 70px;
   border: 1.5px solid #003264;
 }
 #loginAndHelp .dropdown-badge,

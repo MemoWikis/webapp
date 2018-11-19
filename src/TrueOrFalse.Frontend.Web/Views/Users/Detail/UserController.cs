@@ -23,6 +23,7 @@ public class UserController : BaseController
     }
 
     [SetMainMenu(MainMenuEntry.UserDetail)]
+    [SetUserMenu(UserMenuEntry.UserDetail)]
     public ViewResult Badges(string userName, int id)
     {
         var user = _userRepo.GetById(id);
