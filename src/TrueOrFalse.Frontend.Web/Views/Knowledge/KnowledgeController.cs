@@ -93,9 +93,9 @@ public class KnowledgeController : BaseController
     [HttpGet]
     public JsonResult GetCatsAndSetsWish(int page, int per_page, string sort = "", bool isAuthor = false)
     {
-        var categoryAndSetDataWishKnowledge = new CategoryAndSetDataWishKnowledge();
+        var categoryAndSetDataWishKnowledge = new CategoryAndSetDataWishKnowledge(isAuthor);
         var unsort = categoryAndSetDataWishKnowledge.filteredCategoryWishKnowledge(ControllerContext);
-        var sortList = categoryAndSetDataWishKnowledge.SortList(unsort, sort, isAuthor).ToList();
+        var sortList = categoryAndSetDataWishKnowledge.SortList(unsort, sort).ToList();
         var data = GetSiteForPagination(sortList, page, per_page);
 
         var total = sortList.Count;
@@ -103,26 +103,6 @@ public class KnowledgeController : BaseController
 
         return Json(new { total, per_page, current_page = page, last_page, data }, JsonRequestBehavior.AllowGet);
     }
-
-
-    // Was hast Du Depp Dir bei der Methode gedacht ? Biste Doof ? 
-    //[HttpPost]
-    //public string CountedWUWItoCategoryAndSet(bool isAuthor = false)
-    //{
-    //    var count = 0;
-    //    var unsortList = categoryAndSetDataWishKnowledge.filteredCategoryWishKnowledge(ControllerContext);
-    //    if (isAuthor)
-    //        count = (categoryAndSetDataWishKnowledge.SortList(unsortList, "name|asc", isAuthor).Count);
-    //    else
-    //        count = (unsortList.Count);
-                        
-    //    if (count == 1)
-    //        return "Du hast " + count + " Topic oder Set in deinem Wunschwissen";
-    //    if (count == 0)
-    //        return "Du hast noch keine Topics oder Sets in deinem Wunschwissen";
-
-    //    return "Du hast " + count + " Topics und/oder Sets in deinem Wunschwissen";
-    //}
 
     [HttpGet]
     public JsonResult GetQuestionsWish(int page, int per_page, string sort = "", bool isAuthor = false)

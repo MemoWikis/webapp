@@ -2,7 +2,7 @@
 <%@ Import Namespace="System.Web.Optimization" %>
 
 <div id="app">
-    <h2 id="h2TpopicAndLearnset">{{moreParams.heading}}</h2>
+    <h2 id="h2TpopicAndLearnset"></h2>
 
     <div class="col-xs-4 switch" style="text-align: left; font-size: 18px;  width: 27%">Zeige nur von mir erstellte Inhalte</div>
     <div class="col-xs-1 switch">
@@ -22,16 +22,17 @@
         :sort-order="sortOrder"
         :css="css.table"
         pagination-path=""
-        :per-page="50"
+        :per-page="15"
         :append-params="moreParams"
         @vuetable:pagination-data="onPaginationData"
-        @vuetable:loading="onLoading"
+        @vuetable:loading="onLoading()"
         @vuetable:loaded="onLoaded()">
 
           <!-- Topic ImageAndTitle-->
         <template slot="imageAndTitle" scope="props">
+            <input type="hidden" id="hddCountDates" v-bind:value="props.rowData.ListCount"/>
             <div class="imageParent">
-                <image class="image"v-bind:src="GetImageSourceUrl(props.rowData.ImageFrontendData.SourceUrl)"></image>
+                <image class="image" v-bind:src="GetImageSourceUrl(props.rowData.ImageFrontendData.SourceUrl)"></image>
             </div>
             <div class="set-category-title">
                 <a v-bind:href="props.rowData.LinkToSetOrCategory">{{props.rowData.Title}}</a>

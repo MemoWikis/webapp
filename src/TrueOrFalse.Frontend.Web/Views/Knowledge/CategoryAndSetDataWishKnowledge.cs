@@ -6,7 +6,7 @@ using TrueOrFalse.Frontend.Web.Code;
 
 
 
-public class CategoryAndSetDataWishKnowledge: BaseController
+public class CategoryAndSetDataWishKnowledge : BaseController
 {
     readonly IList<Category> Categories;
     readonly IList<ImageMetaData> CategoryFrontendImageDataIList;
@@ -14,16 +14,19 @@ public class CategoryAndSetDataWishKnowledge: BaseController
     IList<Set> Sets;
     readonly IList<ImageMetaData> SetFrontendImageDataIList;
 
-    public CategoryAndSetDataWishKnowledge()
+    public CategoryAndSetDataWishKnowledge(bool isAuthor)
     {
-       var categoriesIds = UserValuationCache.GetCategoryValuations(UserId)  
+        var categoriesIds = UserValuationCache.GetCategoryValuations(UserId)
             .Where(v => v.IsInWishKnowledge())
             .Select(i => i.CategoryId)
             .ToList();
-        Categories = EntityCache.GetCategories(categoriesIds).ToList();
+
+        Categories = isAuthor
+            ? EntityCache.GetCategories(categoriesIds).Where(v => v.Creator.Id == UserId).ToList()
+            : EntityCache.GetCategories(categoriesIds).ToList();
         CategoryFrontendImageDataIList = Sl.ImageMetaDataRepo.GetBy(categoriesIds, ImageType.Category);
 
-        var setIds = UserValuationCache.GetSetValuations(UserId) 
+        var setIds = UserValuationCache.GetSetValuations(UserId)
             .Where(v => v.IsInWishKnowledge())
             .Select(i => i.SetId)
             .ToList();
@@ -31,40 +34,13 @@ public class CategoryAndSetDataWishKnowledge: BaseController
         SetFrontendImageDataIList = Sl.ImageMetaDataRepo.GetBy(setIds, ImageType.QuestionSet);
     }
 
-    //----------------------------------------------------------------------------------- 
     public List<CategoryAndSetWishKnowledge> filteredCategoryWishKnowledge(ControllerContext controllerContext)
-    {   
-        return GetObjectCategoryAndSetWishKnowledges(Categories, Sets, controllerContext);  // 1300 ms wau 
+    {
+        return GetObjectCategoryAndSetWishKnowledges(Categories, Sets, controllerContext);
     }
 
-    private string KnowledgeWishPartial(Category category, ControllerContext controllerContext)
+    public IList<CategoryAndSetWishKnowledge> SortList(List<CategoryAndSetWishKnowledge> unSortList, string sortCondition)
     {
-        var KnowledgeBarPartial = ViewRenderer.RenderPartialView("~/Views/Categories/Detail/CategoryKnowledgeBar.ascx", new CategoryKnowledgeBarModel(category), controllerContext); // 128 ms
-        
-        return KnowledgeBarPartial;
-    }
-
-    private string KnowledgeWishPartial(Set set, ControllerContext controllerContext)
-    {
-        var KnowledgeBarPartial = ViewRenderer.RenderPartialView("~/Views/Sets/Detail/SetKnowledgeBar.ascx", new SetKnowledgeBarModel(set), controllerContext);
-
-        return KnowledgeBarPartial;
-    }
-   
-    public IList<CategoryAndSetWishKnowledge> SortList(List<CategoryAndSetWishKnowledge> unSortList, string sortCondition,bool isAuthor= false) 
-    {
-        if (isAuthor)
-        {
-            var isAuthorListUnsorted = new List<CategoryAndSetWishKnowledge>();
-            foreach (var uSL in unSortList)
-            {
-                if (uSL.AuthorId == UserId)
-                {
-                    isAuthorListUnsorted.Add(uSL);
-                }
-            }
-            unSortList = isAuthorListUnsorted;
-        }
         switch (sortCondition)
         {
             case "name|asc":
@@ -74,7 +50,7 @@ public class CategoryAndSetDataWishKnowledge: BaseController
                 unSortList.Sort((x, y) => String.CompareOrdinal(y.Title, x.Title));
                 break;
             case "knowledgeBar|asc":
-                unSortList.Sort((x,y)=> y.KnowledgeWishAVGPercantage.CompareTo(x.KnowledgeWishAVGPercantage));
+                unSortList.Sort((x, y) => y.KnowledgeWishAVGPercantage.CompareTo(x.KnowledgeWishAVGPercantage));
                 break;
             case "knowledgeBar|desc":
                 unSortList.Sort((x, y) => -1 * y.KnowledgeWishAVGPercantage.CompareTo(x.KnowledgeWishAVGPercantage));
@@ -86,14 +62,16 @@ public class CategoryAndSetDataWishKnowledge: BaseController
         return sortList;
     }
 
-    public List<CategoryAndSetWishKnowledge> GetObjectCategoryAndSetWishKnowledges(IList<Category> CategorieWishes,  IList<Set> setWishes, ControllerContext controllerContext)
+    private List<CategoryAndSetWishKnowledge> GetObjectCategoryAndSetWishKnowledges(IList<Category> CategorieWishes, IList<Set> setWishes, ControllerContext controllerContext)
     {
         List<CategoryAndSetWishKnowledge> filteredCategoryAndSetWishKnowledges = new List<CategoryAndSetWishKnowledge>();
         var counterCategoryImage = 0;
         var counterSetImage = 0;
+        var countList = CategorieWishes.Count + setWishes.Count;
+
         foreach (var categoryWish in CategorieWishes)
         {
-            var facebookLink = "https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2F"+ changeUrlToFacebookCompatible(Settings.CanonicalHost + Links.CategoryDetail(categoryWish.Name, categoryWish.Id)) + "%2F&amp;src=sdkpreparse";
+            var facebookLink = "https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2F" + changeUrlToFacebookCompatible(Settings.CanonicalHost + Links.CategoryDetail(categoryWish.Name, categoryWish.Id)) + "%2F&amp;src=sdkpreparse";
             var categoryAndSetWishKnowledge = new CategoryAndSetWishKnowledge
             {
                 Description = categoryWish.Description,
@@ -113,7 +91,8 @@ public class CategoryAndSetDataWishKnowledge: BaseController
                 HasVideo = false,
                 KnowledgeWishAVGPercantage = CountDesiredKnowledge(categoryWish),
                 AuthorId = categoryWish.Creator.Id,
-                LinkToSetOrCategory = Links.GetUrl(categoryWish)
+                LinkToSetOrCategory = Links.GetUrl(categoryWish),
+                ListCount = countList
             };
 
             filteredCategoryAndSetWishKnowledges.Add(categoryAndSetWishKnowledge);
@@ -142,56 +121,14 @@ public class CategoryAndSetDataWishKnowledge: BaseController
                 HasVideo = setWish.HasVideo,
                 KnowledgeWishAVGPercantage = CountDesiredKnowledge(setWish),
                 AuthorId = setWish.Creator.Id,
-                LinkToSetOrCategory = Links.GetUrl(setWish)
+                LinkToSetOrCategory = Links.GetUrl(setWish),
+                ListCount = countList
             };
 
             filteredCategoryAndSetWishKnowledges.Add(categoryAndSetWishKnowledge);
             counterSetImage++;
         }
         return filteredCategoryAndSetWishKnowledges;
-    }
-
-    private int CountDesiredKnowledge(object categoryOrSet)
-    {
-        var solid = 0;
-        var needsConsolidation = 0;
-        var notLearned = 0;
-        var notInWishKnowledge = 0;
-        var needsLearning = 0;
-        var questionAVGPercantage = 0;
-        var questionTotalNumber = 0;
-
-        if (categoryOrSet is Category)
-        {
-            var category = (Category) categoryOrSet;
-            var categoryKnowledge = KnowledgeSummaryLoader.RunFromMemoryCache(category.Id, UserId);
-
-            solid = categoryKnowledge.Solid;
-            needsConsolidation = categoryKnowledge.NeedsConsolidation;
-            needsLearning = categoryKnowledge.NeedsLearning;
-            notLearned = categoryKnowledge.NotLearned;
-            notInWishKnowledge = categoryKnowledge.NotInWishknowledge;
-            
-        }else if (categoryOrSet is Set)
-        {
-            var set = (Set)categoryOrSet;
-            var setKnowledge = KnowledgeSummaryLoader.Run(UserId, set);
-            
-            solid = setKnowledge.Solid;
-            needsConsolidation = setKnowledge.NeedsConsolidation;
-            notLearned = setKnowledge.NotLearned;
-            needsLearning = setKnowledge.NeedsLearning;
-            notInWishKnowledge = setKnowledge.NotInWishknowledge;
-        }
-        else
-        {
-            // error Handling
-            return -1;
-        }
-
-        questionTotalNumber = solid + needsConsolidation + needsLearning + notInWishKnowledge + notLearned;
-        questionAVGPercantage = ((solid * 100) + (needsConsolidation * 50) + (needsLearning * 20) + (notLearned * 2)) / questionTotalNumber;
-        return questionAVGPercantage;
     }
 
     public class CategoryAndSetWishKnowledge
@@ -214,29 +151,69 @@ public class CategoryAndSetDataWishKnowledge: BaseController
         public int KnowledgeWishAVGPercantage { get; set; }
         public int AuthorId { get; set; }
         public string LinkToSetOrCategory { get; set; }
+        public int ListCount { get; set; }
     }
 
-    private string  changeUrlToFacebookCompatible(string url)
+    private string changeUrlToFacebookCompatible(string url)
     {
-       return url.Replace("https://", "www.");
+        return url.Replace("https://", "www.");
     }
 
-    //public int GetWuWICountSetAndCategories(bool isAuthor,ControllerContext controllerContext)
-    //{
-    //    if (isAuthor)
-    //    {
-    //       return  filteredCategoryWishKnowledge(controllerContext).Count;
-    //    }
-    //    return GetCatAndSetList().Count;
-    //}
+    private string KnowledgeWishPartial(Category category, ControllerContext controllerContext)
+    {
+        var KnowledgeBarPartial = ViewRenderer.RenderPartialView("~/Views/Categories/Detail/CategoryKnowledgeBar.ascx", new CategoryKnowledgeBarModel(category), controllerContext); // 128 ms
 
-    //private List<object> GetCatAndSetList()
-    //{
-    //    var sets = Sets;
-    //    var categories = Categories;
-    //    var listcatsAndSets = new List<object>();
-    //    listcatsAndSets.Add(sets);
-    //    listcatsAndSets.Add(categories);
-    //    return listcatsAndSets;
-    //}
+        return KnowledgeBarPartial;
+    }
+
+    private string KnowledgeWishPartial(Set set, ControllerContext controllerContext)
+    {
+        var KnowledgeBarPartial = ViewRenderer.RenderPartialView("~/Views/Sets/Detail/SetKnowledgeBar.ascx", new SetKnowledgeBarModel(set), controllerContext);
+
+        return KnowledgeBarPartial;
+    }
+
+    private int CountDesiredKnowledge(object categoryOrSet)
+    {
+        var solid = 0;
+        var needsConsolidation = 0;
+        var notLearned = 0;
+        var notInWishKnowledge = 0;
+        var needsLearning = 0;
+        var questionAVGPercantage = 0;
+        var questionTotalNumber = 0;
+
+        if (categoryOrSet is Category)
+        {
+            var category = (Category)categoryOrSet;
+            var categoryKnowledge = KnowledgeSummaryLoader.RunFromMemoryCache(category.Id, UserId);
+
+            solid = categoryKnowledge.Solid;
+            needsConsolidation = categoryKnowledge.NeedsConsolidation;
+            needsLearning = categoryKnowledge.NeedsLearning;
+            notLearned = categoryKnowledge.NotLearned;
+            notInWishKnowledge = categoryKnowledge.NotInWishknowledge;
+
+        }
+        else if (categoryOrSet is Set)
+        {
+            var set = (Set)categoryOrSet;
+            var setKnowledge = KnowledgeSummaryLoader.Run(UserId, set);
+
+            solid = setKnowledge.Solid;
+            needsConsolidation = setKnowledge.NeedsConsolidation;
+            notLearned = setKnowledge.NotLearned;
+            needsLearning = setKnowledge.NeedsLearning;
+            notInWishKnowledge = setKnowledge.NotInWishknowledge;
+        }
+        else
+        {
+            // error Handling
+            return -1;
+        }
+
+        questionTotalNumber = solid + needsConsolidation + needsLearning + notInWishKnowledge + notLearned;
+        questionAVGPercantage = ((solid * 100) + (needsConsolidation * 50) + (needsLearning * 20) + (notLearned * 2)) / questionTotalNumber;
+        return questionAVGPercantage;
+    }
 }
