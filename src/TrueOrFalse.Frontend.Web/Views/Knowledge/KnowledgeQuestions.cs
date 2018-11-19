@@ -7,6 +7,12 @@ using TrueOrFalse.Frontend.Web.Code;
 
 public class KnowledgeQuestions 
 {
+    private ImageFrontendData GetCategoryImage(int CategoryId)
+    {
+        var imageMetaData = Sl.ImageMetaDataRepo.GetBy(CategoryId, ImageType.Category);
+        return new ImageFrontendData(imageMetaData);
+    }
+
     private UserImageSettings userImageSettings = new UserImageSettings();
 
     private IList<Question> getQuestions(List<int> IdList)
@@ -20,7 +26,6 @@ public class KnowledgeQuestions
         string whichList
         )
     {
-        var categoryAndSetDataWishKnowledge = new CategoryAndSetDataWishKnowledge();
         foreach (var question in questionsListForFactory)
         {
             var questions = new Questions();
@@ -34,7 +39,7 @@ public class KnowledgeQuestions
             questions.AuthorId = question.Creator.Id;
             questions.LinkToCategory = categories.IsEmpty() ?  " " : Links.GetUrl(categories[0]);
             questions.Category = categories.IsEmpty() ? "keine Kategorie" : categories[0].Name;
-            //questions.ImageFrontendData = categories.IsEmpty() ? categoryAndSetDataWishKnowledge.GetCategoryImage(682) : categoryAndSetDataWishKnowledge.GetCategoryImage(categories[0].Id);
+            questions.ImageFrontendData = categories.IsEmpty() ? GetCategoryImage(682) : GetCategoryImage(categories[0].Id);
             questions.TooltipLinkToCategory = "Kategorie " + questions.Category + " in neuem Tab öffnen";
 
             if (whichList.Equals("solid"))
