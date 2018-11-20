@@ -92,45 +92,22 @@ new Vue({
             }
         },
         onLoading() {
+            console.log("loading");
         },
         onLoaded() {
             $('.show-tooltip').tooltip();
+            $("#h2TpopicAndLearnset").text("Du hast " + $("#hddCountDates").val() + " Kategorien und Sets in deinem Wunschwissen");
         },
         switchOnlySelfCreatedChanged: function () {
             this.moreParams.isAuthor = $("#switchShowOnlySelfCreated").is(":checked");
-
-            $.ajax({
-                url: '/Knowledge/CountedWUWItoCategoryAndSet?isAuthor=' + this.moreParams.isAuthor,
-                method: 'POST',
-                async: true,
-                datatype: "jsonp",
-                success: (Data)=> {
-                    this.moreParams.heading = Data;
-                },
-                error: function(error) {
-                    console.log(error);
-                }
-            });
             this.$refs.vuetable.refresh();
         },
         GetImageSourceUrl(url) {
             if (url === null)
                 return "/Images/no-category-picture-350.png";
-            return url.SourceUrl;
+            return url;
         }
     }, mounted: function () {
-         $.ajax({
-             url: '/Knowledge/CountedWUWItoCategoryAndSet?isAuthor=' + false,
-             method: 'POST',
-             async: true,
-             datatype: "jsonp",
-             success: (Data) => {
-                 this.moreParams.heading = Data;
-             },
-             error: function (error) {
-                 console.log(error);
-             }
-         });
     }
 });
 

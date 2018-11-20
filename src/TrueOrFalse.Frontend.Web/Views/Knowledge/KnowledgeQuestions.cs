@@ -5,47 +5,20 @@ using System.Linq;
 using TrueOrFalse.Frontend.Web.Code;
 
 
-public class KnowledgeQuestionsModel 
+public class KnowledgeQuestions 
 {
+    private ImageFrontendData GetCategoryImage(int CategoryId)
+    {
+        var imageMetaData = Sl.ImageMetaDataRepo.GetBy(CategoryId, ImageType.Category);
+        return new ImageFrontendData(imageMetaData);
+    }
+
     private UserImageSettings userImageSettings = new UserImageSettings();
 
     private IList<Question> getQuestions(List<int> IdList)
     {
-        return Sl.QuestionRepo.GetByIds(IdList);
+        return EntityCache.GetQuestionsByIds(IdList);
     }
-
-    private List<Questions> IsAuthor(List<Questions> unsortList, bool isAuthor, int userId)
-    {
-        var sortList = new List<Questions>();
-
-        if (isAuthor)
-        {
-            foreach (var unsort in unsortList)
-            {
-                if (unsort.AuthorId == userId)
-                {
-                    sortList.Add(unsort);
-                }
-            }
-
-            return sortList;
-        }
-        return unsortList;
-    }
-
-    private List<Question> compareLists( IList<Question> ListFull, IList<int> ListIds)
-    {
-        var listFiltered = new List<Question>();
-        foreach (var c in ListFull)
-        {
-            if (ListIds.Contains(c.Id))
-                listFiltered.Add(c);
-        }
-
-        return listFiltered;
-
-    }
-
 
     private List<Questions> ObjectFactory(
         IList<Question> questionsListForFactory,
@@ -53,7 +26,6 @@ public class KnowledgeQuestionsModel
         string whichList
         )
     {
-        var categoryAndSetDataWishKnowledge = new CategoryAndSetDataWishKnowledge();
         foreach (var question in questionsListForFactory)
         {
             var questions = new Questions();
@@ -67,7 +39,7 @@ public class KnowledgeQuestionsModel
             questions.AuthorId = question.Creator.Id;
             questions.LinkToCategory = categories.IsEmpty() ?  " " : Links.GetUrl(categories[0]);
             questions.Category = categories.IsEmpty() ? "keine Kategorie" : categories[0].Name;
-            questions.ImageFrontendData = categories.IsEmpty() ? categoryAndSetDataWishKnowledge.GetCategoryImage(682) : categoryAndSetDataWishKnowledge.GetCategoryImage(categories[0].Id);
+            questions.ImageFrontendData = categories.IsEmpty() ? GetCategoryImage(682) : GetCategoryImage(categories[0].Id);
             questions.TooltipLinkToCategory = "Kategorie " + questions.Category + " in neuem Tab öffnen";
 
             if (whichList.Equals("solid"))
@@ -160,26 +132,23 @@ public class KnowledgeQuestionsModel
         return sortList;
     }
 
-    public List<Questions> GetQuestionsWishFromDatabase(int userId, bool isAuthor,IList<QuestionValuation> unsortedListOneSite)
+    public List<Questions> GetQuestionsWishFromDatabase(int userId, bool isAuthor,IList<QuestionValuation> unsortedList)
     {
+        var unsortedListQuestions = getQuestions(unsortedList.QuestionIds().ToList()).ToList();
+ 
+        var solidIdsPerPageIds = unsortedList.Where(v => v.KnowledgeStatus == KnowledgeStatus.Solid).Select(v => v.Question.Id).ToList();
+        var shouldConsolidateIdsPerPageIds = unsortedList.Where(v => v.KnowledgeStatus == KnowledgeStatus.NeedsConsolidation).Select(v => v.Question.Id).ToList();
+        var shouldLearningIdsPerPageIds = unsortedList.Where(v => v.KnowledgeStatus == KnowledgeStatus.NeedsLearning).Select(v => v.Question.Id).ToList();
+        var notLearnedIdsPerPageIds = unsortedList.Where(v => v.KnowledgeStatus == KnowledgeStatus.NotLearned).Select(v => v.Question.Id).ToList();
 
-        
-       
-        var unsortedListQuestions = getQuestions(unsortedListOneSite.QuestionIds().ToList());
-
-        var solidIdsPerPageIds = unsortedListOneSite.Where(v => v.KnowledgeStatus == KnowledgeStatus.Solid).Select(v => v.Question.Id).ToList();
-        var shouldConsolidateIdsPerPageIds = unsortedListOneSite.Where(v => v.KnowledgeStatus == KnowledgeStatus.NeedsConsolidation).Select(v => v.Question.Id).ToList();
-        var shouldLearningIdsPerPageIds = unsortedListOneSite.Where(v => v.KnowledgeStatus == KnowledgeStatus.NeedsLearning).Select(v => v.Question.Id).ToList();
-        var notLearnedIdsPerPageIds = unsortedListOneSite.Where(v => v.KnowledgeStatus == KnowledgeStatus.NotLearned).Select(v => v.Question.Id).ToList();
-
-        var solidsPerPage = compareLists(unsortedListQuestions, solidIdsPerPageIds);
-        var shouldConsolidatePerPage = compareLists(unsortedListQuestions, shouldConsolidateIdsPerPageIds);
-        var shouldLearningIdsPerPage = compareLists(unsortedListQuestions, shouldLearningIdsPerPageIds);
-        var notLearnedIdsPerPage = compareLists(unsortedListQuestions, notLearnedIdsPerPageIds);
+        var solidsPerPage = unsortedListQuestions.Where(u => solidIdsPerPageIds.Contains(u.Id)).ToList();
+        var shouldConsolidatePerPage = unsortedListQuestions.Where(u => shouldConsolidateIdsPerPageIds.Contains(u.Id)).ToList();
+        var shouldLearningIdsPerPage = unsortedListQuestions.Where(u => shouldLearningIdsPerPageIds.Contains(u.Id)).ToList();
+        var notLearnedIdsPerPage = unsortedListQuestions.Where(u => notLearnedIdsPerPageIds.Contains(u.Id)).ToList();
 
         var unsortList = QuestionsFactory(solidsPerPage, shouldConsolidatePerPage, shouldLearningIdsPerPage, notLearnedIdsPerPage);
 
-        return IsAuthor(unsortList, isAuthor, userId);
+        return unsortList;
     }
 
     public class Questions

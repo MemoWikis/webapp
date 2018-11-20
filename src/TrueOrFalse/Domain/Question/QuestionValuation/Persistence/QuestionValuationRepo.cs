@@ -84,6 +84,18 @@ public class QuestionValuationRepo : RepositoryDb<QuestionValuation>
         return query.List<QuestionValuation>();
     }
 
+    public IList<QuestionValuation> GetByUserWithQuestion(int userId)
+    {
+        var query =  _session
+            .QueryOver<QuestionValuation>()
+            .Fetch(v => v.Question).Eager
+            .Where(q => q.User.Id == userId &&  q.RelevancePersonal > -1)
+            .List<QuestionValuation>();
+
+
+        return query;
+    }
+
     public IList<QuestionValuation> GetByUserFromCache(int userId, bool onlyActiveKnowledge = true)
     {
         var cacheItem = UserValuationCache.GetItem(userId);

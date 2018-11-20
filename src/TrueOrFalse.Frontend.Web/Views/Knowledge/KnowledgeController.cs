@@ -7,11 +7,6 @@ using TrueOrFalse.Frontend.Web.Code;
 [SetUserMenu(UserMenuEntry.Knowledge)]
 public class KnowledgeController : BaseController
 {
-    private readonly CategoryAndSetDataWishKnowledge categoryAndSetDataWishKnowledge =
-        new CategoryAndSetDataWishKnowledge();
-
-    private readonly KnowledgeQuestionsModel knowledgeQuestionsModel = new KnowledgeQuestionsModel();
-
     [SetMainMenu(MainMenuEntry.Knowledge)]
     public ActionResult Knowledge()
     {
@@ -98,48 +93,36 @@ public class KnowledgeController : BaseController
     [HttpGet]
     public JsonResult GetCatsAndSetsWish(int page, int per_page, string sort = "", bool isAuthor = false)
     {
+        var categoryAndSetDataWishKnowledge = new CategoryAndSetDataWishKnowledge(isAuthor);
         var unsort = categoryAndSetDataWishKnowledge.filteredCategoryWishKnowledge(ControllerContext);
-        var sortList = categoryAndSetDataWishKnowledge.SortList(unsort, sort, isAuthor).ToList();
+        var sortList = categoryAndSetDataWishKnowledge.SortList(unsort, sort).ToList();
         var data = GetSiteForPagination(sortList, page, per_page);
 
-        var total = sortList.Count();
+        var total = sortList.Count;
         var last_page = getLastPage(sortList.Count, per_page);
 
-        return Json(new {total, per_page, current_page = page, last_page, data}, JsonRequestBehavior.AllowGet);
-    }
-
-    [HttpPost]
-    public string CountedWUWItoCategoryAndSet(bool isAuthor = false)
-    {
-        var count = 0;
-        var unsortList = categoryAndSetDataWishKnowledge.filteredCategoryWishKnowledge(ControllerContext);
-        if (isAuthor)
-            count = (categoryAndSetDataWishKnowledge.SortList(unsortList, "name|asc", isAuthor).Count);
-        else
-            count = (unsortList.Count);
-
-        if (count == 1)
-            return "Du hast " + count + " Topic oder Set in deinem Wunschwissen";
-        if (count == 0)
-            return "Du hast noch keine Topics oder Sets in deinem Wunschwissen";
-
-        return "Du hast " + count + " Topics und/oder Sets in deinem Wunschwissen";
+        return Json(new { total, per_page, current_page = page, last_page, data }, JsonRequestBehavior.AllowGet);
     }
 
     [HttpGet]
     public JsonResult GetQuestionsWish(int page, int per_page, string sort = "", bool isAuthor = false)
     {
-        var totalWishKnowledge = UserValuationCache.GetQuestionValuations(UserId)
-            .Where(v => v.IsInWishKnowledge())
-            .Distinct().
-            ToList();
+        var knowledgeQuestions = new KnowledgeQuestions();
+        var totalWishKnowledgeValuations = isAuthor
+            ? UserValuationCache.GetQuestionValuations(UserId)
+                .Where(v => v.Question.Creator.Id == UserId)
+                .Distinct()
+                .ToList()
+           : UserValuationCache.GetQuestionValuations(UserId)
+                .Distinct()
+                .ToList();
 
-        var unsortedWuwiIdsPerSite = GetSiteForPagination(totalWishKnowledge, page, per_page);
-        var unsortedListWithIsAuthor =  knowledgeQuestionsModel.GetQuestionsWishFromDatabase(UserId, isAuthor, unsortedWuwiIdsPerSite);
+        totalWishKnowledgeValuations = GetSiteForPagination(totalWishKnowledgeValuations, page, per_page).ToList();
+        var unsortedListWithIsAuthor = knowledgeQuestions.GetQuestionsWishFromDatabase(UserId, isAuthor, totalWishKnowledgeValuations);
 
-        var data = knowledgeQuestionsModel.GetSortList(unsortedListWithIsAuthor, sort);
-        var total = totalWishKnowledge.Count();
-        var last_page = getLastPage(totalWishKnowledge.Count(), per_page);
+        var data = knowledgeQuestions.GetSortList(unsortedListWithIsAuthor, sort);
+        var total = totalWishKnowledgeValuations.Count;
+        var last_page = getLastPage(totalWishKnowledgeValuations.Count, per_page);
 
         return Json(new { total, per_page, current_page = page, last_page, data }, JsonRequestBehavior.AllowGet);
     }
@@ -160,8 +143,8 @@ public class KnowledgeController : BaseController
         return lastPage;
     }
 
-    private IList<T> GetSiteForPagination<T>(IList<T> sortList, int page, int per_page)
+    public static IList<T> GetSiteForPagination<T>(IList<T> sortList, int page, int per_page)
     {
-       return sortList.Skip((page - 1) * per_page).Take(per_page).ToList();
+        return sortList.Skip((page - 1) * per_page).Take(per_page).ToList();
     }
 }
