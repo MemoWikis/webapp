@@ -25,20 +25,11 @@ public class KnowledgeQuestions : BaseModel
             : UserValuationCache.GetQuestionValuations(UserId)
                 .Distinct()
                 .ToList();
-
+        CountWishQuestions = TotalWishKnowledgeValuationsWithAuthor.Count;
         TotalWishKnowledgeValuationsPerPage = KnowledgeController.GetSiteForPagination(TotalWishKnowledgeValuationsWithAuthor, page, per_page).ToList();
         TotalWishKnowledgeQuestions = GetQuestionsWishFromDatabase();
-        CountWishQuestions = TotalWishKnowledgeValuationsWithAuthor.Count;
         LastPage = KnowledgeController.getLastPage(CountWishQuestions, per_page);
     }
-
-    private ImageFrontendData GetCategoryImage(int CategoryId)
-    {
-        var imageMetaData = Sl.ImageMetaDataRepo.GetBy(CategoryId, ImageType.Category);
-        return new ImageFrontendData(imageMetaData);
-    }
-
-  
 
     private List<Questions> ObjectFactory(
         IList<Question> questionsListForFactory,
@@ -63,6 +54,7 @@ public class KnowledgeQuestions : BaseModel
             questions.Category = categories.IsEmpty() ? "keine Kategorie" : categories[0].Name;
             questions.ImageFrontendData = categories.IsEmpty() ? Sl.ImageMetaDataRepo.GetBy(682, ImageType.Category) : Sl.ImageMetaDataRepo.GetBy(categories[0].Id, ImageType.Category); //  GetCategoryImage(categories[0].Id);
             questions.TooltipLinkToCategory = "Kategorie " + questions.Category + " in neuem Tab öffnen";
+            questions.CountQuestions = CountWishQuestions;
 
             if (whichList.Equals("solid"))
             {
@@ -187,5 +179,6 @@ public class KnowledgeQuestions : BaseModel
         public string LinkToQuestion { get; set; }
         public int AuthorId { get; set; }
         public string TooltipLinkToCategory { get; set; }
+        public int CountQuestions { get; set; }
     }
 }

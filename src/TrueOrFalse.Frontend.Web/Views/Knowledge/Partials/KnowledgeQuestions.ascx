@@ -16,6 +16,8 @@
 
 <!-- Table -->
 <div id="app">
+    
+    <h2 id="header"></h2>
 
     <!--Switch-->
     <div class=" switch" style="text-align: left; font-size: 18px; width: 27%; float: left; ">Zeige nur von mir erstellte Inhalte</div>
@@ -43,6 +45,7 @@
             @vuetable:loaded ="onLoaded()">
         
             <template slot="questionTitle" scope="props">
+                <input type="hidden" id="hddCountQuestion" v-bind:value="props.rowData.CountQuestions"/>
                 <div class="show-tooltip" data-placement="bottom" data-toggle="tooltip" v-bind:data-original-title="props.rowData.Title">
                     <div class="image">
                         <image class="imageTable" v-bind:src="props.rowData.ImageFrontendData.SourceUrl" ></image>
