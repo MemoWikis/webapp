@@ -52,9 +52,6 @@ function StickyHeader() {
             $("#HeaderUserDropdown").addClass("open");
         }
 
-        if (window.innerWidth <= 767 && top.location.pathname === '/') {
-            $('#Breadcrumb').show();
-        }
     }
    
     if (countLines(document.getElementById("Breadcrumb")) === 1) {
