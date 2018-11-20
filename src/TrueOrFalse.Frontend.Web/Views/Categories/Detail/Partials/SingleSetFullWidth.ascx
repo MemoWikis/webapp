@@ -45,7 +45,7 @@
                     </a>
                     <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="<%=buttonId %>">
                         <li><a href="<%= Links.SetDetail(Model.Title, Model.SetId) %>"><i class="fa fa-search-plus">&nbsp;</i> Detailseite des Lernsets</a></li>
-                        <li><a href="<%= Links.GameCreateFromSet(Model.SetId) %>"><i class="fa fa-gamepad">&nbsp;</i> Spiel starten</a></li>
+                        <%--<li><a href="<%= Links.GameCreateFromSet(Model.SetId) %>"><i class="fa fa-gamepad">&nbsp;</i> Spiel starten</a></li>--%>
                         <li><a href="<%= Links.DateCreateForSet(Model.SetId) %>"><i class="fa fa-calendar">&nbsp;</i> Prüfungstermin anlegen</a></li>
                     </ul>
                 </div>

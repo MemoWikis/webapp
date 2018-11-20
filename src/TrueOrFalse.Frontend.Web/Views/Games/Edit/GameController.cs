@@ -6,10 +6,11 @@ using TrueOrFalse;
 using TrueOrFalse.Frontend.Web.Code;
 using TrueOrFalse.Web;
 
+[AccessOnlyAsAdmin]
 public class GameController : BaseController
 {
     private const string _viewLocation = "~/Views/Games/Edit/Game.aspx";
-
+    
     [HttpGet]
     public ViewResult Create()
     {

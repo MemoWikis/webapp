@@ -99,13 +99,12 @@
                 </div>
             </div>
 
-            <div class="row">
+            <%--<div class="row">
                 <% if (!Model.IsNetworkDate){ %>
                     <div class="col-xs-12" style="text-align: left; margin-top: 15px; margin-bottom: 10px;">
                         <a style="display: inline-block;" class="btn btn-primary btn-sm"
                             data-btn="startLearningSession" 
                             href="<%= Links.StartDateLearningSession(Model.Date.Id) %>"><i class="fa fa-line-chart"></i> 
-<%--                            href="/Termin/Lernen/<%=Model.Date.Id %>"><i class="fa fa-line-chart"></i> --%>
                             Jetzt lernen
                         </a>
                         <a href="<%= Links.GameCreateFromDate(date.Id) %>" class="btn btn-link btn-sm show-tooltip" data-original-title="Spiel mit Fragen aus diesem Termin starten."
@@ -115,7 +114,7 @@
                         </a>
                     </div>
                 <% } %>
-            </div>
+            </div>--%>
         </div>
 
         <div class="col-sm-2">

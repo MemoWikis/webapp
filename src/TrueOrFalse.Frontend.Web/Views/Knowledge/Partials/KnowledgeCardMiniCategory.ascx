@@ -34,7 +34,7 @@
             </a>
             <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="<%=buttonId %>">
                 <li><a href="#"><i class="fa fa-search-plus">&nbsp;</i> Detailseite des Lernsets</a></li>
-                <li><a href="#"><i class="fa fa-gamepad">&nbsp;</i> Spiel starten</a></li>
+                <%--<li><a href="#"><i class="fa fa-gamepad">&nbsp;</i> Spiel starten</a></li>--%>
                 <li><a href="#"><i class="fa fa-calendar">&nbsp;</i> Prüfungstermin anlegen</a></li>
             </ul>
         </div>
