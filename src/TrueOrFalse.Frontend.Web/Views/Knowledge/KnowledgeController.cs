@@ -93,7 +93,7 @@ public class KnowledgeController : BaseController
     [HttpGet]
     public JsonResult GetCatsAndSetsWish(int page, int per_page, string sort = "", bool isAuthor = false)
     {
-        var categoryAndSetDataWishKnowledge = new CategoryAndSetDataWishKnowledge(isAuthor);
+        var categoryAndSetDataWishKnowledge = new KnowledgeTopics(isAuthor);
         var unsort = categoryAndSetDataWishKnowledge.filteredCategoryWishKnowledge(ControllerContext);
         var sortList = categoryAndSetDataWishKnowledge.SortList(unsort, sort).ToList();
         var data = GetSiteForPagination(sortList, page, per_page);

@@ -6,7 +6,7 @@ using TrueOrFalse.Frontend.Web.Code;
 
 
 
-public class CategoryAndSetDataWishKnowledge : BaseController
+public class KnowledgeTopics : BaseController
 {
     readonly IList<Category> Categories;
     readonly IList<ImageMetaData> CategoryFrontendImageDataIList;
@@ -14,7 +14,7 @@ public class CategoryAndSetDataWishKnowledge : BaseController
     IList<Set> Sets;
     readonly IList<ImageMetaData> SetFrontendImageDataIList;
 
-    public CategoryAndSetDataWishKnowledge(bool isAuthor)
+    public KnowledgeTopics(bool isAuthor)
     {
         var categoriesIds = UserValuationCache.GetCategoryValuations(UserId)
             .Where(v => v.IsInWishKnowledge())
@@ -84,7 +84,7 @@ public class CategoryAndSetDataWishKnowledge : BaseController
                 DateToLearningTopicLink = Links.DateCreateForCategory(categoryWish.Id).ToString(),
                 CreateQuestionLink = Links.CreateQuestion(categoryId: categoryWish.Id),
                 StartGameLink = Links.GameCreateFromCategory(categoryWish.Id),
-                LearnSetsCount = categoryWish.CountSets,
+                LearnSetsCount = categoryWish.GetCountSets(),
                 QuestionsCount = categoryWish.CountQuestionsAggregated,
                 EditCategoryOrSetLink = Links.CategoryEdit(categoryWish),
                 ShareFacebookLink = facebookLink,
