@@ -45,7 +45,7 @@
             <template slot="questionTitle" scope="props">
                 <div class="show-tooltip" data-placement="bottom" data-toggle="tooltip" v-bind:data-original-title="props.rowData.Title">
                     <div class="image">
-                        <image class="imageTable" v-bind:src="GetImageSourceUrl(props.rowData.ImageFrontendData.ImageMetaData)" ></image>
+                        <image class="imageTable" v-bind:src="props.rowData.ImageFrontendData.SourceUrl" ></image>
                     </div>
                     <div class="title-table"><a v-bind:href="props.rowData.LinkToQuestion">{{props.rowData.Title}}</a></div>
                 </div>
@@ -67,7 +67,7 @@
             </template>
           
             <template slot="category" scope="props">
-                <image class="round" v-bind:src="GetImageSourceUrl(props.rowData.ImageFrontendData.ImageMetaData)" ></image>
+                <image class="round" v-bind:src="props.rowData.ImageFrontendData.SourceUrl" ></image>
                 <a class="show-tooltip link-to-category" data-toggle="tooltip" v-bind:data-original-title="props.rowData.TooltipLinkToCategory" v-bind:href="props.rowData.LinkToCategory" data-placement="bottom" target="_blank" >{{props.rowData.Category}}</a> 
             </template>
 

@@ -107,27 +107,12 @@ public class KnowledgeController : BaseController
     [HttpGet]
     public JsonResult GetQuestionsWish(int page, int per_page, string sort = "", bool isAuthor = false)
     {
-        var knowledgeQuestions = new KnowledgeQuestions();
-        var totalWishKnowledgeValuations = isAuthor
-            ? UserValuationCache.GetQuestionValuations(UserId)
-                .Where(v => v.Question.Creator.Id == UserId)
-                .Distinct()
-                .ToList()
-           : UserValuationCache.GetQuestionValuations(UserId)
-                .Distinct()
-                .ToList();
+        var knowledgeQuestions = new KnowledgeQuestions(isAuthor, page, per_page);
 
-        totalWishKnowledgeValuations = GetSiteForPagination(totalWishKnowledgeValuations, page, per_page).ToList();
-        var unsortedListWithIsAuthor = knowledgeQuestions.GetQuestionsWishFromDatabase(UserId, isAuthor, totalWishKnowledgeValuations);
-
-        var data = knowledgeQuestions.GetSortList(unsortedListWithIsAuthor, sort);
-        var total = totalWishKnowledgeValuations.Count;
-        var last_page = getLastPage(totalWishKnowledgeValuations.Count, per_page);
-
-        return Json(new { total, per_page, current_page = page, last_page, data }, JsonRequestBehavior.AllowGet);
+        return Json(new { total = knowledgeQuestions.CountWishQuestions, per_page, current_page = page, last_page =  knowledgeQuestions.LastPage, data=knowledgeQuestions.GetSortList(knowledgeQuestions.TotalWishKnowledgeQuestions, sort) }, JsonRequestBehavior.AllowGet);
     }
 
-    private int getLastPage(int listCount, int perPage)
+    public static int getLastPage(int listCount, int perPage)
     {
         var pages = listCount / perPage;
         var rest = listCount % perPage;
