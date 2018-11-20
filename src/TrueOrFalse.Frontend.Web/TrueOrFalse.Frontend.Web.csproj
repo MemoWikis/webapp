@@ -357,7 +357,7 @@
     <Compile Include="Views\Help\WidgetMenuModel.cs" />
     <Compile Include="Views\Knowledge\Dates\Modals\TrainingSettingsDatesModel.cs" />
     <Compile Include="Views\Knowledge\Dates\Modals\TrainingSettingsModel.cs" />
-    <Compile Include="Views\Knowledge\CategoryAndSetDataWishKnowledge.cs" />
+    <Compile Include="Views\Knowledge\KnowledgeTopics.cs" />
     <Compile Include="Views\Knowledge\KnowledgeQuestions.cs" />
     <Compile Include="Views\Knowledge\Partials\KnowledgeCardMiniSetModel.cs" />
     <Compile Include="Views\Knowledge\Partials\KnowledgeCardMiniCategoryModel.cs" />

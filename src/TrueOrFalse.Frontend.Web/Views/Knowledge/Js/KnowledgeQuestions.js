@@ -78,10 +78,11 @@ new Vue({
                 return "/Images/no-category-picture-350.png";
             return url.SourceUrl;
         },
-        onLoaded(props) {
+        onLoaded() {
             $("#circle").fadeOut();
             $("#app").css("Opacity", "1");
             $('[data-toggle="tooltip"]').tooltip();
+            $('#header').text("Du hast " + $('#hddCountQuestion').val() + " Fragen in deinem Wunschwissen");
         },
         loading() {
             $("#app").css("Opacity", "0.3");
