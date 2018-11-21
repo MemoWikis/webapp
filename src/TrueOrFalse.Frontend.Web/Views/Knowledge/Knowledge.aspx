@@ -19,6 +19,16 @@
 </asp:Content>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
+    <style>
+
+    </style>
+
+    <!-- Spinner-->
+    <div class="spinner">
+        <div class="double-bounce1"></div>
+        <div class="double-bounce2"></div>
+    </div>
+    
 
     <input type="hidden" id="hddUrlAddTopic" value="<%= Url.Action("Create", "EditCategory") %>" />
     <input type="hidden" id="hddUrlAddQuestion" value="<%= Links.CreateQuestion() %>" />

@@ -92,13 +92,14 @@ new Vue({
             }
         },
         onLoading() {
-            console.log("loading");
         },
         onLoaded() {
             $('.show-tooltip').tooltip();
             $("#h2TpopicAndLearnset").text("Du hast " + $("#hddCountDates").val() + " Kategorien und Sets in deinem Wunschwissen");
+            $(".spinner").hide();
         },
         switchOnlySelfCreatedChanged: function () {
+            $(".spinner").fadeIn();
             this.moreParams.isAuthor = $("#switchShowOnlySelfCreated").is(":checked");
             this.$refs.vuetable.refresh();
         },

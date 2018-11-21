@@ -47,7 +47,7 @@ new Vue({
                 ascendingIcon: 'fa fa-sort',
                 descendingIcon: 'fa fa-sort',
                 renderIcon: function () {
-                    return '<i class="sort-icon fa fa-sort" style="opacity:1;position:relative;"></i>' ;
+                    return '<i class="sort-icon fa fa-sort" style="opacity:1;position:relative;"></i>';
                 }
             },
             pagination: {
@@ -63,7 +63,7 @@ new Vue({
                     next: '',
                     last: ''
                 }
-             }
+            }
         }
     },
     methods: {
@@ -73,25 +73,23 @@ new Vue({
         onChangePage(page) {
             this.$refs.vuetable.changePage(page);
         },
-        GetImageSourceUrl(url) {
-            if (url === null)
-                return "/Images/no-category-picture-350.png";
-            return url.SourceUrl;
-        },
         onLoaded() {
-            $("#circle").fadeOut();
             $("#app").css("Opacity", "1");
             $('[data-toggle="tooltip"]').tooltip();
             $('#header').text("Du hast " + $('#hddCountQuestion').val() + " Fragen in deinem Wunschwissen");
+            $(".spinner").hide();
         },
         loading() {
             $("#app").css("Opacity", "0.3");
         },
         switchOnlySelfCreatedChanged: function () {
-            console.log("wird geändert");
             $("#app").css("Opacity", "0.3");
             this.moreParams.isAuthor = $("#switchShowOnlySelfCreated").is(":checked");
             this.$refs.vuetable.refresh();
+            $(".spinner").fadeIn();
+        }, mounted() {
+        }, destroyed() {
+        }, beforeUpdate() {
         }
     }
 });
