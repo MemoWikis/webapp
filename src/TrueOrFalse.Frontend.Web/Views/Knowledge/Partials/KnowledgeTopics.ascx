@@ -4,7 +4,7 @@
 <div id="app">
     <h2 id="h2TpopicAndLearnset"></h2>
 
-    <div class="col-xs-4 switch" style="text-align: left; font-size: 18px;  width: 27%">Zeige nur von mir erstellte Inhalte</div>
+    <div class="col-xs-4 switch" style="text-align: left; font-size: 18px;  width: 27%">Zeige  mir nackte Frauen</div>
     <div class="col-xs-1 switch">
 
         <div class="onoffswitch">
