@@ -1,18 +1,7 @@
 ﻿<%@ Language="C#" Inherits="System.Web.Mvc.ViewUserControl<KnowledgeModel>"%>
 <%@ Import Namespace="System.Web.Optimization" %>
 
-<!-- Spinner-->
-<div id="circle">
-    <div class="circle-inner">
-        <div class="circle-inner">
-            <div class="circle-inner">
-                <div class="circle-inner">
-                    
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
+
 
 <!-- Table -->
 <div id="app">
