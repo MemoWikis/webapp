@@ -17,7 +17,7 @@
             <span style="white-space: nowrap;  display: block;">bist du in <b>Level <%= userSession.User.ActivityLevel %></b>.</span>
             <div class="NextLevelContainer">
                 <div class="ProgressBarContainer">
-                    <div id="NextLevelProgressPercentageDone" class="ProgressBarSegment ProgressBarDone" style="width: <%= activityPointsPercentageOfNextLevel %>%;">
+                    <div id="NextLevelProgressPercentageDone" <%if(activityPointsPercentageOfNextLevel == 0){%> style="border-right: none;" <%} %> class="ProgressBarSegment ProgressBarDone" style="width: <%= activityPointsPercentageOfNextLevel %>%;">
                         <div class="ProgressBarSegment ProgressBarLegend">
                             <span id="NextLevelProgressSpanPercentageDone"><%= activityPointsPercentageOfNextLevel %> %</span>
                         </div>
