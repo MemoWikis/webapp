@@ -12,7 +12,7 @@
         %>
         <nav>
             <a class="btn btn-primary navbar-btn" href="<%= Links.CategoryHistoryDetail(Model.Id, (int)Model.CategoryChangeId) %>">
-                <i class="fa fa-eye"></i> &nbsp; Änderungen anzeigen
+                <i class="fa fa-code-fork"></i> &nbsp; Änderungen anzeigen
             </a>
             <a class="btn btn-default navbar-btn" href="<%= Links.CategoryHistory(Model.Id) %>">
                 <i class="fa fa-list-ul"></i> &nbsp; Zur Bearbeitungshistorie
