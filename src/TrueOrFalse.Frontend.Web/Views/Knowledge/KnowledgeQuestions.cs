@@ -5,47 +5,31 @@ using System.Linq;
 using TrueOrFalse.Frontend.Web.Code;
 
 
-public class KnowledgeQuestionsModel 
+public class KnowledgeQuestions : BaseModel
 {
-    private UserImageSettings userImageSettings = new UserImageSettings();
+    public List<QuestionValuation> TotalWishKnowledgeValuationsWithAuthor;
+    public List<QuestionValuation> TotalWishKnowledgeValuationsPerPage;
+    public List<Questions> TotalWishKnowledgeQuestions;
+    public int CountWishQuestions;
+    public int LastPage;
 
-    private IList<Question> getQuestions(List<int> IdList)
+   
+
+    public KnowledgeQuestions(bool isAuthor, int page, int per_page)
     {
-        return Sl.QuestionRepo.GetByIds(IdList);
+        TotalWishKnowledgeValuationsWithAuthor = isAuthor
+            ? UserValuationCache.GetQuestionValuations(UserId)
+                .Where(v => v.Question.Creator.Id == UserId)
+                .Distinct()
+                .ToList()
+            : UserValuationCache.GetQuestionValuations(UserId)
+                .Distinct()
+                .ToList();
+        CountWishQuestions = TotalWishKnowledgeValuationsWithAuthor.Count;
+        TotalWishKnowledgeValuationsPerPage = KnowledgeController.GetSiteForPagination(TotalWishKnowledgeValuationsWithAuthor, page, per_page).ToList();
+        TotalWishKnowledgeQuestions = GetQuestionsWishFromDatabase();
+        LastPage = KnowledgeController.getLastPage(CountWishQuestions, per_page);
     }
-
-    private List<Questions> IsAuthor(List<Questions> unsortList, bool isAuthor, int userId)
-    {
-        var sortList = new List<Questions>();
-
-        if (isAuthor)
-        {
-            foreach (var unsort in unsortList)
-            {
-                if (unsort.AuthorId == userId)
-                {
-                    sortList.Add(unsort);
-                }
-            }
-
-            return sortList;
-        }
-        return unsortList;
-    }
-
-    private List<Question> compareLists( IList<Question> ListFull, IList<int> ListIds)
-    {
-        var listFiltered = new List<Question>();
-        foreach (var c in ListFull)
-        {
-            if (ListIds.Contains(c.Id))
-                listFiltered.Add(c);
-        }
-
-        return listFiltered;
-
-    }
-
 
     private List<Questions> ObjectFactory(
         IList<Question> questionsListForFactory,
@@ -53,7 +37,8 @@ public class KnowledgeQuestionsModel
         string whichList
         )
     {
-        var categoryAndSetDataWishKnowledge = new CategoryAndSetDataWishKnowledge();
+        var userImageSettings = new UserImageSettings();
+
         foreach (var question in questionsListForFactory)
         {
             var questions = new Questions();
@@ -67,8 +52,9 @@ public class KnowledgeQuestionsModel
             questions.AuthorId = question.Creator.Id;
             questions.LinkToCategory = categories.IsEmpty() ?  " " : Links.GetUrl(categories[0]);
             questions.Category = categories.IsEmpty() ? "keine Kategorie" : categories[0].Name;
-            questions.ImageFrontendData = categories.IsEmpty() ? categoryAndSetDataWishKnowledge.GetCategoryImage(682) : categoryAndSetDataWishKnowledge.GetCategoryImage(categories[0].Id);
+            questions.ImageFrontendData = categories.IsEmpty() ? Sl.ImageMetaDataRepo.GetBy(682, ImageType.Category) : Sl.ImageMetaDataRepo.GetBy(categories[0].Id, ImageType.Category); //  GetCategoryImage(categories[0].Id);
             questions.TooltipLinkToCategory = "Kategorie " + questions.Category + " in neuem Tab öffnen";
+            questions.CountQuestions = CountWishQuestions;
 
             if (whichList.Equals("solid"))
             {
@@ -160,33 +146,30 @@ public class KnowledgeQuestionsModel
         return sortList;
     }
 
-    public List<Questions> GetQuestionsWishFromDatabase(int userId, bool isAuthor,IList<QuestionValuation> unsortedListOneSite)
+    public List<Questions> GetQuestionsWishFromDatabase()
     {
+        var unsortedListQuestions = EntityCache.GetQuestionsByIds(TotalWishKnowledgeValuationsPerPage.QuestionIds());
 
-        
-       
-        var unsortedListQuestions = getQuestions(unsortedListOneSite.QuestionIds().ToList());
+        var solidIdsPerPageIds = TotalWishKnowledgeValuationsPerPage.Where(v => v.KnowledgeStatus == KnowledgeStatus.Solid).Select(v => v.Question.Id).ToList();
+        var shouldConsolidateIdsPerPageIds = TotalWishKnowledgeValuationsPerPage.Where(v => v.KnowledgeStatus == KnowledgeStatus.NeedsConsolidation).Select(v => v.Question.Id).ToList();
+        var shouldLearningIdsPerPageIds = TotalWishKnowledgeValuationsPerPage.Where(v => v.KnowledgeStatus == KnowledgeStatus.NeedsLearning).Select(v => v.Question.Id).ToList();
+        var notLearnedIdsPerPageIds = TotalWishKnowledgeValuationsPerPage.Where(v => v.KnowledgeStatus == KnowledgeStatus.NotLearned).Select(v => v.Question.Id).ToList();
 
-        var solidIdsPerPageIds = unsortedListOneSite.Where(v => v.KnowledgeStatus == KnowledgeStatus.Solid).Select(v => v.Question.Id).ToList();
-        var shouldConsolidateIdsPerPageIds = unsortedListOneSite.Where(v => v.KnowledgeStatus == KnowledgeStatus.NeedsConsolidation).Select(v => v.Question.Id).ToList();
-        var shouldLearningIdsPerPageIds = unsortedListOneSite.Where(v => v.KnowledgeStatus == KnowledgeStatus.NeedsLearning).Select(v => v.Question.Id).ToList();
-        var notLearnedIdsPerPageIds = unsortedListOneSite.Where(v => v.KnowledgeStatus == KnowledgeStatus.NotLearned).Select(v => v.Question.Id).ToList();
-
-        var solidsPerPage = compareLists(unsortedListQuestions, solidIdsPerPageIds);
-        var shouldConsolidatePerPage = compareLists(unsortedListQuestions, shouldConsolidateIdsPerPageIds);
-        var shouldLearningIdsPerPage = compareLists(unsortedListQuestions, shouldLearningIdsPerPageIds);
-        var notLearnedIdsPerPage = compareLists(unsortedListQuestions, notLearnedIdsPerPageIds);
+        var solidsPerPage = unsortedListQuestions.Where(u => solidIdsPerPageIds.Contains(u.Id)).ToList();
+        var shouldConsolidatePerPage = unsortedListQuestions.Where(u => shouldConsolidateIdsPerPageIds.Contains(u.Id)).ToList();
+        var shouldLearningIdsPerPage = unsortedListQuestions.Where(u => shouldLearningIdsPerPageIds.Contains(u.Id)).ToList();
+        var notLearnedIdsPerPage = unsortedListQuestions.Where(u => notLearnedIdsPerPageIds.Contains(u.Id)).ToList();
 
         var unsortList = QuestionsFactory(solidsPerPage, shouldConsolidatePerPage, shouldLearningIdsPerPage, notLearnedIdsPerPage);
 
-        return IsAuthor(unsortList, isAuthor, userId);
+        return unsortList;
     }
 
     public class Questions
     {
         public string Title { get; set; }
         public string Category = " "; 
-        public ImageFrontendData ImageFrontendData { get; set; }
+        public ImageMetaData ImageFrontendData { get; set; }
         public string LearningStatus { get; set; }
         public string AuthorName { get; set; }
         public ImageUrl AuthorImageUrl { get; set; }
@@ -196,5 +179,6 @@ public class KnowledgeQuestionsModel
         public string LinkToQuestion { get; set; }
         public int AuthorId { get; set; }
         public string TooltipLinkToCategory { get; set; }
+        public int CountQuestions { get; set; }
     }
 }

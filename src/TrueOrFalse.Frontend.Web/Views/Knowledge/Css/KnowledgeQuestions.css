@@ -4,6 +4,9 @@
   -moz-osx-font-smoothing: grayscale;
   color: #2c3e50;
 }
+#app h2 {
+  margin-bottom: 21px;
+}
 table {
   table-layout: fixed;
 }
@@ -297,29 +300,6 @@ table.table.table-striped .title {
 .switch {
   padding-bottom: 62px;
   padding-left: 0px;
-}
-#circle {
-  position: absolute;
-  top: 300px;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 150px;
-  height: 150px;
-  z-index: 100;
-}
-.circle-inner {
-  width: calc(100% - 0px);
-  height: calc(100% - 0px);
-  border: 8px solid #162534;
-  border-top: 8px solid #09f;
-  border-radius: 50%;
-  animation: rotate 5s linear infinite;
-  display: block;
-}
-@keyframes rotate {
-  100% {
-    transform: rotate(360deg);
-  }
 }
 @media only screen and (max-width: 417px) {
   .vuetable-pagination a {

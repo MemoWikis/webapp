@@ -2,7 +2,7 @@
 
     constructor() {
         WishKnowledgeContent.alertFadeInWhenNoWhisKnowledge(".topic", "#noWishKnowledge");
-
+        $(".spinner").hide();
         $("#btnShowAllWishKnowledgeContent").click(function (e) {
             e.preventDefault();
             $("#wishKnowledgeMore").show();
@@ -48,37 +48,45 @@
         $("#dashboard").click((e) => {
             e.preventDefault();
             this.SetTabActive(e);
-            $.post("/Knowledge/GetKnowledgeContent",
-                {content: "dashboard"},
-                function (data) {
-                    $(".content").html(data);
-                    $(".LinkIsDirectedToPartialView").text("Lernsitzung starten");
-                });
+            $.ajax({
+                url: "/Knowledge/GetKnowledgeContent?content=dashboard",
+                type: "POST",
+                beforeSend() { $(".spinner").fadeIn() },
+            }).done(function(data) {
+                $(".content").html(data);
+                $(".LinkIsDirectedToPartialView").text("Lernsitzung starten");
+                $(".spinner").hide();
+            });
         });
 
         $("#topics").click((e) => {
             e.preventDefault();
             this.SetTabActive(e);
-            $.post("/Knowledge/GetKnowledgeContent",
-                { content: "topics" },
-                function (data) {
-                    $(".content").html(data);
-                    $(".LinkIsDirectedToPartialView").text("Thema erstellen");
-                    $(".LinkIsDirectedToPartialView").attr("href",$("#hddUrlAddTopic").val());
-                    
-                });
+            $.ajax({
+                url: "/Knowledge/GetKnowledgeContent?content=topics",
+                type: "POST",
+                beforeSend() {$(".spinner").fadeIn()},
+            }).done(function(data) {
+                $(".content").html(data);
+                $(".LinkIsDirectedToPartialView").text("Thema erstellen");
+                $(".LinkIsDirectedToPartialView").attr("href", $("#hddUrlAddTopic").val());
+                $(".spinner").hide();
+            });
         });
 
         $("#questions").click((e) => {
             e.preventDefault();
             this.SetTabActive(e);
-            $.post("/Knowledge/GetKnowledgeContent",
-                { content: "questions" },
-                function (data) {
-                    $(".content").html(data);
-                    $(".LinkIsDirectedToPartialView").text("Frage erstellen"); //<%= Links.CreateQuestion() %>
-                    $(".LinkIsDirectedToPartialView").attr("href", $("#hddUrlAddQuestion").val() );
-                });
+            $.ajax({
+                url: "/Knowledge/GetKnowledgeContent?content=questions",
+                type: "POST",
+                beforeSend() { $(".spinner").fadeIn()},
+            }).done(function(data) {
+                $(".content").html(data);
+                $(".LinkIsDirectedToPartialView").text("Frage erstellen"); //<%= Links.CreateQuestion() %>
+                $(".LinkIsDirectedToPartialView").attr("href", $("#hddUrlAddQuestion").val());
+                $(".spinner").hide();
+            });
         });
     }
 

@@ -37,7 +37,7 @@ public class UserValuationCache
                 Sl.CategoryValuationRepo.GetByUser(userId, onlyActiveKnowledge: false)
                 .Select(v => new KeyValuePair<int, CategoryValuation>(v.CategoryId, v))),
             QuestionValuations = new ConcurrentDictionary<int, QuestionValuation>(
-                Sl.QuestionValuationRepo.GetByUser(userId, onlyActiveKnowledge: false)
+                Sl.QuestionValuationRepo.GetByUserWithQuestion(userId)
                 .Select(v => new KeyValuePair<int, QuestionValuation>(v.Question.Id, v))),
             SetValuations = new ConcurrentDictionary<int, SetValuation>(
                 Sl.SetValuationRepo.GetByUser(userId, onlyActiveKnowledge: false)
