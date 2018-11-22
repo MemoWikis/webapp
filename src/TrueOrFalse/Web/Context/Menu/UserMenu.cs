@@ -4,7 +4,7 @@ public enum UserMenuEntry
 {
     None, Messages, 
     Network, UserDetail, 
-    UserSettings, Knowledge
+    UserSettings
 }
 
 [Serializable]
