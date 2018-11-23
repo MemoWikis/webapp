@@ -48,7 +48,7 @@
                     <li>
                         <a style="white-space: unset; padding: 0px;" href="<%= Links.Knowledge()%>">
                             <div id="activity-popover-title">Deine Lernpunkte</div>
-                            <div style="padding: 3px 20px 26px 20px;">
+                            <div style="padding: 3px 20px 0px 20px;">
                                 <% Html.RenderPartial("/Views/Shared/ActivityPopupContent.ascx"); %>
                             </div>
                         </a>
