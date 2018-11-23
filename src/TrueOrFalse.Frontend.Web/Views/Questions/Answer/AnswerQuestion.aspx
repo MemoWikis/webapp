@@ -61,7 +61,7 @@
             else
        {
                 Model.TopNavMenu.BreadCrumb.Add(new TopNavMenuItem {Text = Model.TestSession.CategoryToTest.Name, Url = Model.TestSession.CategoryToTest.Url});
-                Model.TopNavMenu.IsCategoryLearningOrHistoryBreadCrumb = true;
+                Model.TopNavMenu.IsCategoryLearningBreadCrumb = true;
             }
         } else if(Model.IsLearningSession) {
             if (Model.LearningSession.SetToLearn != null) {
@@ -71,7 +71,7 @@
                 if (!Model.LearningSession.IsWishSession){
                     Model.TopNavMenu.BreadCrumb.Add(new TopNavMenuItem {Text = Model.LearningSession.CategoryToLearn.Name, Url = Links.CategoryDetail( Model.LearningSession.CategoryToLearn)});
                 }
-                Model.TopNavMenu.IsCategoryLearningOrHistoryBreadCrumb = true;
+                Model.TopNavMenu.IsCategoryLearningBreadCrumb = true;
             }
 
         }
@@ -86,7 +86,7 @@
         // return bool
         Model.TopNavMenu.IsCategoryBreadCrumb = false;
         Model.TopNavMenu.IsAnswerQuestionOrSetBreadCrumb = Model.TopicMenu.PageCategories.Count != 0;
-        if (Model.TopNavMenu.IsCategoryLearningOrHistoryBreadCrumb) Model.TopNavMenu.IsAnswerQuestionOrSetBreadCrumb = false;
+        if (Model.TopNavMenu.IsCategoryLearningBreadCrumb) Model.TopNavMenu.IsAnswerQuestionOrSetBreadCrumb = false;
 
 
     %>

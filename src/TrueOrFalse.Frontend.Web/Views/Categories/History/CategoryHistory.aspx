@@ -5,7 +5,10 @@
 
 <asp:Content ID="Content2" ContentPlaceHolderID="Head" runat="server">
     <%= Styles.Render("~/bundles/CategoryHistory") %>
-    <%  Model.TopNavMenu.IsCategoryLearningOrHistoryBreadCrumb = true; %>
+    <% 
+        Model.TopNavMenu.BreadCrumb.Add(new TopNavMenuItem {Text = Model.CategoryName, Url = Model.CategoryUrl, ToolTipText = Model.CategoryName});
+        Model.TopNavMenu.IsCategoryBreadCrumb = false;
+    %>
 </asp:Content>
 
 <asp:Content ID="Content3" ContentPlaceHolderID="MainContent" runat="server">

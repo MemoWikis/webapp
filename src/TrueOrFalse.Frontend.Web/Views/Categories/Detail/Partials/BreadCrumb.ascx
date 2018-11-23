@@ -27,10 +27,10 @@
      </div>
 
 <%if(!Model.TopNavMenu.IsWelcomePage){ %>  
-    <%if(Model.TopNavMenu.IsCategoryBreadCrumb || Model.TopNavMenu.IsCategoryLearningOrHistoryBreadCrumb){ %>
+    <%if(Model.TopNavMenu.IsCategoryBreadCrumb || Model.TopNavMenu.IsCategoryLearningBreadCrumb){ %>
         <%= Html.Partial("/Views/Categories/Detail/Partials/BreadCrumbCategories.ascx", Model.TopNavMenu) %>
     <% }else
-      {
+       {
             if (Model.TopNavMenu.IsAnswerQuestionOrSetBreadCrumb) { %>
              <%= Html.Partial("/Views/Categories/Detail/Partials/BreadCrumbCategories.ascx", Model.TopNavMenu) %>
           <%}
