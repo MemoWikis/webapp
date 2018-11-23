@@ -526,8 +526,9 @@ img {
     .dropdown-menu {
         text-align: left;
         border-radius: 0px;
-        border: 1px solid #707070;
         padding-top: 0px;
+        max-width:220px;
+        top:52px;
 
         span {
             font-size: 12px;
@@ -543,6 +544,7 @@ img {
 
             &.active {
                 background-color: @light-grey-hover;
+                font-weight:bold;
             }
         }
 
@@ -562,8 +564,7 @@ img {
 }
 
 #activity-popover-title {
-    font-size: 16px;
-    font-weight: bold;
+    font-size: 12px;
     padding: 13px 0;
     color: black;
     padding-left:20px;
