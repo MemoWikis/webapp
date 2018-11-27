@@ -3,17 +3,20 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using TrueOrFalse;
+using TrueOrFalse.Frontend.Web.Code;
 
 public class CategoryHistoryModel : BaseModel
 {
     public int CategoryId { get; set; }
     public string CategoryName;
+    public string CategoryUrl;
     public IList<ChangeDayModel> Days;
 
     public CategoryHistoryModel(Category category, IList<CategoryChange> categoryChanges)
     {
         CategoryName = category.Name;
         CategoryId = category.Id;
+        CategoryUrl = Links.CategoryDetail(CategoryName, CategoryId);
 
         Days = categoryChanges
             .GroupBy(change => change.DateCreated.Date)

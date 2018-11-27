@@ -27,10 +27,10 @@
      </div>
 
 <%if(!Model.TopNavMenu.IsWelcomePage){ %>  
-    <%if(Model.TopNavMenu.IsCategoryBreadCrumb || Model.TopNavMenu.IsCategoryLearningOrHistoryBreadCrumb){ %>
+    <%if(Model.TopNavMenu.IsCategoryBreadCrumb || Model.TopNavMenu.IsCategoryLearningBreadCrumb){ %>
         <%= Html.Partial("/Views/Categories/Detail/Partials/BreadCrumbCategories.ascx", Model.TopNavMenu) %>
     <% }else
-      {
+       {
             if (Model.TopNavMenu.IsAnswerQuestionOrSetBreadCrumb) { %>
              <%= Html.Partial("/Views/Categories/Detail/Partials/BreadCrumbCategories.ascx", Model.TopNavMenu) %>
           <%}
@@ -66,9 +66,9 @@
            </a>   
             <ul id="BreadcrumbUserDropdown" class="dropdown-menu pull-right" role="menu" aria-labelledby="dLabel" style="right:0px;">
                 <li>
-                        <a class="<%= Model.UserMenuActive(UserMenuEntry.Knowledge) %>" style="white-space: unset; padding: 0px;" href="<%= Links.Knowledge()%>">
+                        <a style="white-space: unset; padding: 0px;" href="<%= Links.Knowledge()%>">
                             <div id="activity-popover-title">Deine Lernpunkte</div>
-                            <div style="padding: 3px 20px 26px 20px;">
+                            <div style="padding: 3px 20px 0px 20px;">
                                 <% Html.RenderPartial("/Views/Shared/ActivityPopupContent.ascx"); %>
                             </div>
                         </a>

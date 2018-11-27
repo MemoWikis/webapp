@@ -21,7 +21,7 @@
         <asp:ContentPlaceHolder ID="SubHeader" runat="server" />
         <section id="MasterMainContent" class="container">
             <div class="row">
-                <%if(Model.TopNavMenu.IsCategoryBreadCrumb && !Model.TopNavMenu.IsCategoryLearningOrHistoryBreadCrumb){ %>
+                <%if(Model.TopNavMenu.IsCategoryBreadCrumb && !Model.TopNavMenu.IsCategoryLearningBreadCrumb){ %>
                 <section id="MasterSidebarColumn" >                  
                     <% Html.RenderPartial("SidebarCards", Model.SidebarModel); %>                                        
                 </section>
