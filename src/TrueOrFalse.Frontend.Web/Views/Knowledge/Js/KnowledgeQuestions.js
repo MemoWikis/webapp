@@ -69,6 +69,17 @@ new Vue({
     methods: {
         onPaginationData(paginationData) {
             this.$refs.pagination.setPaginationData(paginationData);
+        }, GetCategoryImageSourceUrl(CategoryImageData) {
+            if (CategoryImageData == null || CategoryImageData.Url === null || CategoryImageData.Url === $("#hddNoQuestionUrl").val())
+                return $("#hddNoCategoryUrl").val();
+            else
+                return CategoryImageData.Url;
+        },
+        GetQuestionImageSourceUrl(QuestionImageData) {
+            if (QuestionImageData == null || QuestionImageData.SourceUrl === null)
+                return $("#hddNoQuestionUrl").val();
+            else
+                return QuestionImageData.Url;
         },
         onChangePage(page) {
             this.$refs.vuetable.changePage(page);

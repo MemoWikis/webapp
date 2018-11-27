@@ -13,8 +13,6 @@ public class KnowledgeQuestions : BaseModel
     public int CountWishQuestions;
     public int LastPage;
 
-   
-
     public KnowledgeQuestions(bool isAuthor, int page, int per_page)
     {
         TotalWishKnowledgeValuationsWithAuthor = isAuthor
@@ -43,7 +41,7 @@ public class KnowledgeQuestions : BaseModel
         {
             var questions = new Questions();
             var categories = question.Categories;
-
+            
             questions.Title = question.Text;
             
             questions.AuthorName = question.Creator.Name;
@@ -52,9 +50,13 @@ public class KnowledgeQuestions : BaseModel
             questions.AuthorId = question.Creator.Id;
             questions.LinkToCategory = categories.IsEmpty() ?  " " : Links.GetUrl(categories[0]);
             questions.Category = categories.IsEmpty() ? "keine Kategorie" : categories[0].Name;
-            questions.ImageFrontendData = categories.IsEmpty() ? Sl.ImageMetaDataRepo.GetBy(682, ImageType.Category) : Sl.ImageMetaDataRepo.GetBy(categories[0].Id, ImageType.Category); //  GetCategoryImage(categories[0].Id);
+            questions.CategoryImageData = categories.IsEmpty() ? null : new ImageFrontendData(Sl.ImageMetaDataRepo.GetBy(categories[0].Id, ImageType.Category)).GetImageUrl(120);
+            questions.QuestionMetaData = new ImageFrontendData(Sl.ImageMetaDataRepo.GetBy(question.Id, ImageType.Question)).GetImageUrl(120);
             questions.TooltipLinkToCategory = "Kategorie " + questions.Category + " in neuem Tab öffnen";
             questions.CountQuestions = CountWishQuestions;
+
+            if (questions.QuestionMetaData.Url.Equals("/Images/no-question-128.png"))
+                questions.QuestionMetaData = questions.CategoryImageData;
 
             if (whichList.Equals("solid"))
             {
@@ -90,6 +92,7 @@ public class KnowledgeQuestions : BaseModel
 
         return questionsList;
     }
+
 
     private List<Questions> QuestionsFactory(
         IList<Question> questionsListSolid,
@@ -169,7 +172,7 @@ public class KnowledgeQuestions : BaseModel
     {
         public string Title { get; set; }
         public string Category = " "; 
-        public ImageMetaData ImageFrontendData { get; set; }
+        public ImageUrl CategoryImageData { get; set; }
         public string LearningStatus { get; set; }
         public string AuthorName { get; set; }
         public ImageUrl AuthorImageUrl { get; set; }
@@ -180,5 +183,6 @@ public class KnowledgeQuestions : BaseModel
         public int AuthorId { get; set; }
         public string TooltipLinkToCategory { get; set; }
         public int CountQuestions { get; set; }
+        public ImageUrl QuestionMetaData { get; set; }
     }
 }
