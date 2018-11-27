@@ -3,7 +3,7 @@
 <% var breadCrumbCategories = Model.BreadCrumbCategories;
    var breadCrumbCategoriesCount = breadCrumbCategories.Count;%>   
 
- <% if (breadCrumbCategories.Count > 0 && breadCrumbCategories.Count < 3 ) { 
+ <% if (breadCrumbCategories.Count > 0) { 
          foreach (var rootCategory in Model.RootCategoriesList)
          {
              if (breadCrumbCategories.First() == rootCategory)
