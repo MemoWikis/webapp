@@ -5,7 +5,7 @@
 
 <asp:Content ID="Content1" ContentPlaceHolderID="Head" runat="server">    
     <% 
-        Model.TopNavMenu.BreadCrumb.Add(new TopNavMenuItem { Text = "Das Memucho-Team", Url = "/Team", ToolTipText = "Das Memucho-Team" });
+        Model.TopNavMenu.BreadCrumb.Add(new TopNavMenuItem { Text = "Team", Url = "/Team", ToolTipText = "Team" });
         Model.TopNavMenu.IsCategoryBreadCrumb = false;
     %>
 </asp:Content>

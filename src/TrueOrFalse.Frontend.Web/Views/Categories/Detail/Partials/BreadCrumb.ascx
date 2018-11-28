@@ -14,7 +14,7 @@
 
 <div id="BreadCrumbContainer" class="container" style="display:flex;">
     <a href="/" id="BreadcrumbLogoSmall" class="show-tooltip" data-placement="bottom" title="Zur Startseite" style="display:none;">
-        <img src="/Images/Logo/LogoSmall.png">
+        <img src="/android-chrome-36x36.png">
     </a>
     <div id="BreadCrumbTrail" style="display:flex; flex-wrap: wrap;">
     <div style="height: auto;" id="BreadcrumbHome" class="show-tooltip" data-placement="bottom"  title="Zur Startseite">

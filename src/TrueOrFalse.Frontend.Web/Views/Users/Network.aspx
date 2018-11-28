@@ -5,7 +5,7 @@
 <asp:Content ID="ContentHeadSEO" ContentPlaceHolderID="HeadSEO" runat="server">
     <link rel="canonical" href="<%= Settings.CanonicalHost %><%= Links.Network() %>"/> 
     <% 
-        Model.TopNavMenu.BreadCrumb.Add(new TopNavMenuItem {Text = "Mein Netzwerk", Url = "/Netzwerk", ToolTipText = "Mein Netzwerk"});
+        Model.TopNavMenu.BreadCrumb.Add(new TopNavMenuItem {Text = "Netzwerk", Url = "/Netzwerk", ToolTipText = "Netzwerk"});
         Model.TopNavMenu.IsCategoryBreadCrumb = false;
     %>
 </asp:Content>
