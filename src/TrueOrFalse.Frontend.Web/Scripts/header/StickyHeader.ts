@@ -7,16 +7,32 @@ window.onresize = event => {
 }
 
 window.onload = event => {
+    var position = document.documentElement.scrollTop;
     if (window.innerWidth <= 767 && top.location.pathname === '/') {
-        $('#Breadcrumb').show();
+        if (position < 80) {
+            $('#Breadcrumb').hide();
+        } else {
+            $('#Breadcrumb').show();
+        }
+    }
+
+    if ($('#Breadcrumb').offsetParent() === null) {
+        $('#MasterMainContent').css('margin-top', '0px');
+    } else {
+        $('#MasterMainContent').css('margin-top', '55px');
+    }
+
+    if (window.innerWidth < 720) {
+        $('#Breadcrumb').css('position', 'unset');
+        $('#MasterMainContent').css('margin-top', '0px');
     }
 }
 
 function StickyHeader() {
-    var position = $(this).scrollTop();
     var header = document.getElementById("Breadcrumb");
     var positionSticky = window.getComputedStyle(header).getPropertyValue("position");
 
+    var position = document.documentElement.scrollTop;
     if (position > 80 && window.innerWidth >= 720) {
 
             $('#BreadcrumbLogoSmall').show();
@@ -33,11 +49,15 @@ function StickyHeader() {
                 $("#BreadcrumbUserDropdownImage").addClass("open");
             }
 
-        if (positionSticky != "sticky") {
+        if (positionSticky !== "sticky") {
                 header.classList.add("sticky");
         }
 
         $('#MasterMainContent').css('margin-top', '0px');
+
+        if (top.location.pathname === '/') {
+            $('#Breadcrumb').show();
+        }
 
     } else {
         $('#BreadcrumbLogoSmall').hide();
@@ -54,16 +74,29 @@ function StickyHeader() {
             $("#HeaderUserDropdown").addClass("open");
         }
 
-
         if ($('#Breadcrumb').offsetParent() === null) {
             $('#MasterMainContent').css('margin-top', '0px');
         } else {
              $('#MasterMainContent').css('margin-top', '55px');
         }
+
+        if (top.location.pathname === '/') {
+            $('#Breadcrumb').hide();
+        }
     }
 
-    
-   
+    if (top.location.pathname === '/') {
+        if ($('#Breadcrumb').offsetParent() === null) {
+            $('#MasterMainContent').css('margin-top', '0px');
+        } else {
+            $('#MasterMainContent').css('margin-top', '55px');
+        }
+    }
+
+    if (window.innerWidth < 768 && position < 80) {
+        $('#Breadcrumb').css('top', '50px');
+    }
+
     if (countLines(document.getElementById("Breadcrumb")) === 1) {
         $('#Breadcrumb').css('height', '55px');
     } else

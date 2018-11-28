@@ -543,7 +543,7 @@ img {
   border-radius: 0px;
   padding-top: 0px;
   max-width: 220px;
-  top: 52px;
+  top: 60px;
 }
 #loginAndHelp .dropdown-menu span,
 #StickyHeaderContainer .dropdown-menu span {
@@ -1014,6 +1014,7 @@ ul.AutocompleteHeader {
 ----------------------------------------------------------*/
 #MasterSection {
   position: relative;
+  background-color: white;
   /*.media-sm-up( {
         padding-bottom: 100px;
     });*/
@@ -1089,6 +1090,7 @@ ul.AutocompleteHeader {
 #MasterMainContent {
   padding-top: 25px;
   padding-bottom: 20px;
+  margin-top: 55px;
 }
 @media (max-width: 767px) {
   #MasterMainContent {
@@ -1228,7 +1230,7 @@ ul.AutocompleteHeader {
   padding-bottom: 14px !important;
   color: #000000 !important;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.16);
-  position: unset;
+  position: absolute;
   z-index: 99;
   white-space: nowrap;
   top: 80px;
@@ -1238,11 +1240,7 @@ ul.AutocompleteHeader {
   font-family: 'Open Sans';
 }
 #Breadcrumb img {
-  width: 29.57px !important;
-  min-width: 29.57px;
-  height: 33.08px !important;
-  border-radius: 50%;
-  margin-top: -8px;
+  margin-top: -10px;
 }
 #Breadcrumb i.fa-chevron-right {
   font-size: 11.2px;
