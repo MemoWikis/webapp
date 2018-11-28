@@ -125,7 +125,14 @@ public class CategoryModel : BaseModel
         IsOwnerOrAdmin = _sessionUser.IsLoggedInUserOrAdmin(category.Creator.Id);
 
         CategoriesParent = category.ParentCategories();
-        CategoriesChildren = _categoryRepo.GetChildren(category.Id);
+        // FK: hier wurde früher das CategoryRepository benutzt, ich weiß nicht warum. Ich brauche für
+        // die Revisionsansicht (alte Revisionen eines Themas) die Möglichkeit, das Laden über die
+        // Tabelle RelatedCategoriesToRelatedCategories zu umgehen und habe deswegen das Flag
+        // IsHistoric eingeführt, um es hier prüfen zu können.
+        if (category.IsHistoric)
+            CategoriesChildren = category.ChildCategories();
+        else
+            CategoriesChildren = _categoryRepo.GetChildren(category.Id);
 
         CorrectnesProbability = category.CorrectnessProbability;
         AnswersTotal = category.CorrectnessProbabilityAnswerCount;

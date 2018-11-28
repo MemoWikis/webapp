@@ -48,9 +48,13 @@ public class CategoryController : BaseController
     {
         var categoryChange = Sl.CategoryChangeRepo.GetByIdEager((int) version);
         var historicCategory = categoryChange.ToHistoricCategory();
+        categoryModel.Name = historicCategory.Name;
+        categoryModel.CategoryChangeId = version;
+        categoryModel.CategoriesParent = historicCategory.ParentCategories();
+        categoryModel.CategoriesChildren = historicCategory.ChildCategories();
         categoryModel.CustomPageHtml = MarkdownToHtml.Run(historicCategory.TopicMarkdown, historicCategory, ControllerContext);
         categoryModel.Description = MarkdownToHtml.Run(historicCategory.Description, historicCategory, ControllerContext);
-        categoryModel.CategoryChangeId = version;
+        categoryModel.WikipediaURL = historicCategory.WikipediaURL;
         categoryModel.NextRevExists = categoryChange.GetNextRevision() != null;
     }
 

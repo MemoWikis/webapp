@@ -21,7 +21,30 @@ public class CategoryEditData_V2 : CategoryEditData
             .ToList();
 }
 
-    public override string ToJson() => JsonConvert.SerializeObject(this);
+    public override string ToJson()
+    {
+        return JsonConvert.SerializeObject(this);
+    }
 
-    public static CategoryEditData_V2 CreateFromJson(string json) => JsonConvert.DeserializeObject<CategoryEditData_V2>(json);
+    public static CategoryEditData_V2 CreateFromJson(string json)
+    {
+        return JsonConvert.DeserializeObject<CategoryEditData_V2>(json);
+    }
+
+    public override Category ToCategory(int categoryId)
+    {
+        var category = Sl.CategoryRepo.GetById(categoryId);
+
+        Sl.Session.Evict(category);
+
+        category.IsHistoric = true;
+        category.Name = this.Name;
+        category.Description = this.Description;
+        category.TopicMarkdown = this.TopicMardkown;
+        category.WikipediaURL = this.WikipediaURL;
+        category.DisableLearningFunctions = this.DisableLearningFunctions;
+        category.CategoryRelations = this.CategoryRelations.Select(cr => cr.ToCategoryRelation()).ToList();
+
+        return category;
+    }
 }
