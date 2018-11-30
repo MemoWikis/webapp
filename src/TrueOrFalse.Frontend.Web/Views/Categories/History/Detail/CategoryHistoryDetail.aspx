@@ -45,7 +45,7 @@
                                     <i class="fa fa-undo"></i> &nbsp; Wiederherstellen
                                 </a>
                             <% } else { %>
-                                <a id="editButton" data-allowed="logged-in" onclick="<%= Links.CategoryEdit(Model.CategoryName, Model.CategoryId) %>">
+                                <a id="editButton" data-allowed="logged-in" href="<%= Links.CategoryEdit(Model.CategoryName, Model.CategoryId) %>">
                                     <i class="fa fa-edit"></i> &nbsp; Thema bearbeiten
                                 </a>
                             <% } %>
