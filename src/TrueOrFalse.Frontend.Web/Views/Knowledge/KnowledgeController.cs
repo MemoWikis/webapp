@@ -107,9 +107,9 @@ public class KnowledgeController : BaseController
     [HttpGet]
     public JsonResult GetQuestionsWish(int page, int per_page, string sort = "", bool isAuthor = false)
     {
-        var knowledgeQuestions = new KnowledgeQuestions(isAuthor, page, per_page);
+        var knowledgeQuestions = new KnowledgeQuestions(isAuthor, page, per_page,sort);
 
-        return Json(new { total = knowledgeQuestions.CountWishQuestions, per_page, current_page = page, last_page =  knowledgeQuestions.LastPage, data=knowledgeQuestions.GetSortList(knowledgeQuestions.TotalWishKnowledgeQuestions, sort) }, JsonRequestBehavior.AllowGet);
+        return Json(new { total = knowledgeQuestions.CountWishQuestions, per_page, current_page = page, last_page =  knowledgeQuestions.LastPage, data=knowledgeQuestions.TotalWishKnowledgeQuestions }, JsonRequestBehavior.AllowGet);
     }
 
     public static int getLastPage(int listCount, int perPage)
