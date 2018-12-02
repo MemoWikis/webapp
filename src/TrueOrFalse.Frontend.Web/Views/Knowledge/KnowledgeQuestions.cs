@@ -15,17 +15,20 @@ public class KnowledgeQuestions : BaseModel
 
     public KnowledgeQuestions(bool isAuthor, int page, int per_page, string sort)
     {
+
+       // var test = UserValuationCache.CreateItemFromDatabase(UserId);  is not commented then Work Categories OrderBy
         TotalWishKnowledgeValuationsWithAuthor = isAuthor
             ? UserValuationCache.GetQuestionValuations(UserId)
-                .Where(v => v.Question.Creator.Id == UserId)
+                .Where(v => v.Question.Creator.Id == UserId && v.IsInWishKnowledge())
                 .Distinct()
                 .ToList()
             : UserValuationCache.GetQuestionValuations(UserId)
+                .Where(v => v.IsInWishKnowledge())
                 .Distinct()
                 .ToList();
 
         TotalWishKnowledgeValuationsWithAuthor = GetSortList(TotalWishKnowledgeValuationsWithAuthor, sort);
-        
+
         CountWishQuestions = TotalWishKnowledgeValuationsWithAuthor.Count;
         TotalWishKnowledgeValuationsPerPage = KnowledgeController.GetSiteForPagination(TotalWishKnowledgeValuationsWithAuthor, page, per_page).ToList();
         TotalWishKnowledgeQuestions = ObjectFactory();
@@ -42,14 +45,14 @@ public class KnowledgeQuestions : BaseModel
         {
             var questions = new Questions();
             var categories = question.Categories;
-            
+
             questions.Title = question.Text;
-            
+
             questions.AuthorName = question.Creator.Name;
             questions.AuthorImageUrl = userImageSettings.GetUrl_30px_square(Sl.UserRepo.GetById(question.Creator.Id));
             questions.LinkToQuestion = Links.GetUrl(question);
             questions.AuthorId = question.Creator.Id;
-            questions.LinkToCategory = categories.IsEmpty() ?  " " : Links.GetUrl(categories[0]);
+            questions.LinkToCategory = categories.IsEmpty() ? " " : Links.GetUrl(categories[0]);
             questions.Category = categories.IsEmpty() ? "keine Kategorie" : categories[0].Name;
             questions.CategoryImageData = categories.IsEmpty() ? null : new ImageFrontendData(Sl.ImageMetaDataRepo.GetBy(categories[0].Id, ImageType.Category)).GetImageUrl(30);
             questions.QuestionMetaData = new ImageFrontendData(Sl.ImageMetaDataRepo.GetBy(question.Id, ImageType.Question)).GetImageUrl(30);
@@ -59,21 +62,21 @@ public class KnowledgeQuestions : BaseModel
             if (questions.QuestionMetaData.Url.Equals("/Images/no-question-128.png"))
                 questions.QuestionMetaData = questions.CategoryImageData;
 
-            if ((int)TotalWishKnowledgeValuationsWithAuthor[i].KnowledgeStatus == 4)
+            if ((int)TotalWishKnowledgeValuationsPerPage[i].KnowledgeStatus == 4)
             {
                 questions.LearningStatus = "greenD";
                 questions.LearningStatusNumber = 1;
                 questions.LearningStatusTooltip = TotalWishKnowledgeValuationsWithAuthor[i].KnowledgeStatus.GetText();
             }
 
-            if ((int)TotalWishKnowledgeValuationsWithAuthor[i].KnowledgeStatus == 3)
+            if ((int)TotalWishKnowledgeValuationsPerPage[i].KnowledgeStatus == 3)
             {
                 questions.LearningStatus = "yellow";
                 questions.LearningStatusNumber = 2;
                 questions.LearningStatusTooltip = TotalWishKnowledgeValuationsWithAuthor[i].KnowledgeStatus.GetText();
             }
 
-            if ((int)TotalWishKnowledgeValuationsWithAuthor[i].KnowledgeStatus == 2)
+            if ((int)TotalWishKnowledgeValuationsPerPage[i].KnowledgeStatus == 2)
             {
                 questions.LearningStatus = "red";
                 questions.LearningStatusNumber = 3;
@@ -81,10 +84,10 @@ public class KnowledgeQuestions : BaseModel
 
             }
 
-            if ((int)TotalWishKnowledgeValuationsWithAuthor[i].KnowledgeStatus == 1)
+            if ((int)TotalWishKnowledgeValuationsPerPage[i].KnowledgeStatus == 1)
             {
                 questions.LearningStatus = "grey";
-                questions.LearningStatusNumber = 4 ;
+                questions.LearningStatusNumber = 4;
                 questions.LearningStatusTooltip = TotalWishKnowledgeValuationsWithAuthor[i].KnowledgeStatus.GetText();
             }
 
@@ -98,37 +101,47 @@ public class KnowledgeQuestions : BaseModel
 
     public List<QuestionValuation> GetSortList(List<QuestionValuation> unSortList, string sortCondition)
     {
-        switch (sortCondition)
-        {// Orderby muss returned werden da es keine Liste ändert sondern zurück gibt
 
-            case "knowWas|asc":
-               unSortList.OrderBy(v => (int)v.KnowledgeStatus);
-                break;
-            case "knowWas|desc":
-                unSortList.OrderByDescending(v => (int)v.KnowledgeStatus);
-                break;
-            case "author|asc":
-                unSortList.Sort((x, y) => String.CompareOrdinal(x.Question.Creator.Name, y.Question.Creator.Name));
-                break;
-            case "author|desc":
-                unSortList.Sort((x, y) => String.CompareOrdinal(y.Question.Creator.Name, x.Question.Creator.Name));
-                break;
-            case "category|asc":
-                unSortList.Sort((x, y) => String.CompareOrdinal(x.Question.Categories[0].Name, y.Question.Categories[0].Name));
-                break;
-            case "category|desc":
-                unSortList.Sort((x, y) => String.CompareOrdinal(y.Question.Categories[0].Name, x.Question.Categories[0].Name));
-                break;
+        var sortList = new List<QuestionValuation>();
+        if (sortCondition.Equals("knowWas|asc,author|asc,category|asc"))
+        {
+        sortList = unSortList.OrderBy(v => v.Question.Text ?? "").ToList();
+        }
+        else
+        {
+            switch (sortCondition)
+            {
+
+                case "knowWas|asc":
+                    sortList = unSortList.OrderBy(v => (int)v.KnowledgeStatus).ToList();
+                    break;
+                case "knowWas|desc":
+                    sortList = unSortList.OrderByDescending(v => (int)v.KnowledgeStatus).ToList();
+                    break;
+                case "author|asc":
+                    sortList = unSortList.OrderBy(v => v.Question.Creator.Id).ToList();
+                    break;
+                case "author|desc":
+                    sortList = unSortList.OrderByDescending(v => v.Question.Creator.Id).ToList();
+                    break;
+                case "category|asc":
+                    var test = unSortList[7].Question.Categories.GetIds();
+                    sortList = unSortList.OrderBy(qv => qv.Question.Categories?[0].Id ?? 0 ).ToList();
+                    break;
+                case "category|desc":
+                    sortList = unSortList.OrderByDescending(qv => qv.Question.Categories?[0].Id ?? 0).ToList();
+                    break;
+            }
+
         }
 
-        var sortList = unSortList;
         return sortList;
     }
 
     public class Questions
     {
         public string Title { get; set; }
-        public string Category = " "; 
+        public string Category = " ";
         public ImageUrl CategoryImageData { get; set; }
         public string LearningStatus { get; set; }
         public string AuthorName { get; set; }

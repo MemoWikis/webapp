@@ -69,7 +69,8 @@ new Vue({
     methods: {
         onPaginationData(paginationData) {
             this.$refs.pagination.setPaginationData(paginationData);
-        }, GetCategoryImageSourceUrl(CategoryImageData) {
+        },
+        GetCategoryImageSourceUrl(CategoryImageData) {
             if (CategoryImageData == null || CategoryImageData.Url === null || CategoryImageData.Url === $("#hddNoQuestionUrl").val())
                 return $("#hddNoCategoryUrl").val();
             else

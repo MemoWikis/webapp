@@ -28,7 +28,7 @@ public class UserValuationCache
         return allUserValuations;
     }
 
-    private static UserValuationCacheItem CreateItemFromDatabase(int userId)
+    public static UserValuationCacheItem CreateItemFromDatabase(int userId)
     {
         var cacheItem = new UserValuationCacheItem
         {
