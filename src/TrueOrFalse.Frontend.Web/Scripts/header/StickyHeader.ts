@@ -9,7 +9,7 @@ window.onresize = event => {
 }
 
 window.onload = event => {
-    var position = $(document).scrollTop();
+    var position = $(window).scrollTop();
     if (window.innerWidth <= 767 && top.location.pathname === '/') {
         if (position < 80) {
             $('#Breadcrumb').hide();
@@ -34,13 +34,15 @@ function StickyHeader() {
     var header = document.getElementById("Breadcrumb");
     var positionSticky = window.getComputedStyle(header).getPropertyValue("position");
 
-    var position = $(document).scrollTop();
+    var position = document.documentElement.scrollTop;
     if (position > 80 && window.innerWidth >= 720) {
 
             $('#BreadcrumbLogoSmall').show();
             $('#StickyHeaderContainer').css('display', 'flex');
             $('#Breadcrumb').css('top', '0px');
-            $('#Breadcrumb').css('position', 'sticky');
+            if (document.getElementById("Breadcrumb").style.position === "sticky") {
+                 $('#Breadcrumb').css('position', 'sticky');
+            }
             $('#RightMainMenu').css('position', 'fixed');
             $('#RightMainMenu').css('top', '52px');
             $('#Breadcrumb').addClass('ShowBreadcrumb');
