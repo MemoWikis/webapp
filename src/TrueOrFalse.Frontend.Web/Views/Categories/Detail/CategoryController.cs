@@ -29,7 +29,7 @@ public class CategoryController : BaseController
         var categoryModel = GetModelWithContentHtml(category);
 
         if (version != null)
-            ApplyCategoryChangeToModel(categoryModel, version);
+            ApplyCategoryChangeToModel(categoryModel, (int)version);
         else
             SaveCategoryView.Run(category, User_());
    
@@ -44,12 +44,13 @@ public class CategoryController : BaseController
         };
     }
     
-    private void ApplyCategoryChangeToModel(CategoryModel categoryModel, int? version)
+    private void ApplyCategoryChangeToModel(CategoryModel categoryModel, int version)
     {
-        var categoryChange = Sl.CategoryChangeRepo.GetByIdEager((int) version);
+        var categoryChange = Sl.CategoryChangeRepo.GetByIdEager(version);
+        Sl.Session.Evict(categoryChange);
         var historicCategory = categoryChange.ToHistoricCategory();
         categoryModel.Name = historicCategory.Name;
-        categoryModel.CategoryChangeId = version;
+        categoryModel.CategoryChange = categoryChange;
         categoryModel.CategoriesParent = historicCategory.ParentCategories();
         categoryModel.CategoriesChildren = historicCategory.ChildCategories();
         categoryModel.CustomPageHtml = MarkdownToHtml.Run(historicCategory.TopicMarkdown, historicCategory, ControllerContext);

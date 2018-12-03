@@ -16,7 +16,7 @@ public class CategoryModel : BaseModel
     public KnowledgeSummary KnowledgeSummary;
 
     public string CustomPageHtml;//Is set in controller because controller context is needed
-    public int? CategoryChangeId;//Is set in controller because controller context is needed
+    public CategoryChange CategoryChange;//Is set in controller because controller context is needed
     public bool NextRevExists;   //Is set in controller because controller context is needed
     public IList<Set> FeaturedSets;
 
