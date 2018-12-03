@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Text.RegularExpressions;
 using System.Web.Mvc;
 using Newtonsoft.Json;
@@ -66,7 +67,11 @@ public class TemplateParser
             case "singlecategory":
             case "singlequestionsquiz":
             case "spacer":
-                return GetPartialHtml(templateJson, category, controllerContext);
+                string[] dontShowForHistoricRevisions = { "contentlists"};
+                if (category.IsHistoric && dontShowForHistoricRevisions.Contains(templateJson.TemplateName.ToLower()))
+                    return "";
+                else
+                    return GetPartialHtml(templateJson, category, controllerContext);
             default:
             {
                 var elementHtml = GetElementHtml(templateJson);

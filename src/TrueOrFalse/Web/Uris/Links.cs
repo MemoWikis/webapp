@@ -440,6 +440,7 @@ namespace TrueOrFalse.Frontend.Web.Code
         }
 
         public static string CategoryEdit(Category category) => CategoryEdit(GetUrlHelper(), category.Name, category.Id);
+        public static string CategoryEdit(string name, int id) => CategoryEdit(GetUrlHelper(), name, id);
         public static string CategoryEdit(UrlHelper url, string name, int id) => url.Action("Edit", "EditCategory", new { text = UriSanitizer.Run(name), id = id });
 
         public static string FAQItem(string itemNameInView) => GetUrlHelper().Action("FAQ", "Help") + "#" + itemNameInView;
