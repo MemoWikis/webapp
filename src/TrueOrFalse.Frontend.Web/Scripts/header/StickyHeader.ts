@@ -1,5 +1,7 @@
-﻿$(window).scroll(event => {
-    StickyHeader();
+﻿var timeout;
+
+$(window).scroll(event => {
+        StickyHeader();
 });
 
 window.onresize = event => {
@@ -7,7 +9,7 @@ window.onresize = event => {
 }
 
 window.onload = event => {
-    var position = document.documentElement.scrollTop;
+    var position = $(document).scrollTop();
     if (window.innerWidth <= 767 && top.location.pathname === '/') {
         if (position < 80) {
             $('#Breadcrumb').hide();
@@ -32,7 +34,7 @@ function StickyHeader() {
     var header = document.getElementById("Breadcrumb");
     var positionSticky = window.getComputedStyle(header).getPropertyValue("position");
 
-    var position = document.documentElement.scrollTop;
+    var position = $(document).scrollTop();
     if (position > 80 && window.innerWidth >= 720) {
 
             $('#BreadcrumbLogoSmall').show();
@@ -53,9 +55,11 @@ function StickyHeader() {
                 header.classList.add("sticky");
         }
 
-        $('#MasterMainContent').css('margin-top', '0px');
+        if (document.getElementById("MasterMainContent").style.marginTop !== "0px") {
+            $('#MasterMainContent').css('margin-top', '0px');
+        }
 
-        if (top.location.pathname === '/') {
+        if (top.location.pathname === '/' && $('#Breadcrumb').offsetParent() === null) {
             $('#Breadcrumb').show();
         }
 
@@ -104,7 +108,7 @@ function StickyHeader() {
         $('#Breadcrumb').css('height', 'auto');
     }
 
-    ReorientateMenu();
+    reorientateMenu(position);
 }
 
 function countLines(target) {
@@ -129,10 +133,9 @@ function countLines(target) {
     return lines;
 }
 
-function ReorientateMenu() {
- var position = $(this).scrollTop();
+function reorientateMenu(pos) {
 
-    if (position > 80) {
+    if (pos > 80) {
         $('#RightMainMenu').css('margin-right', $('#BreadCrumbContainer').css('margin-right'));
         $('#BreadcrumbUserDropdown').css('margin-right', $('#BreadCrumbContainer').css('margin-right'));
     } else {

@@ -334,7 +334,7 @@
     position: absolute;
     background-color: white;
     width: 232px !important;
-    max-width:unset !important;
+    max-width: unset !important;
     opacity: 1;
     z-index: 100;
     -webkit-box-shadow: 0 8px 10px #555555, 5px 5px 15px #555555;
@@ -360,12 +360,19 @@
         margin-bottom: unset;
         border-radius: unset;
 
-
         &.active, &.active:focus {
             &:not(.sub) {
-                background-color: @menu-darker-blue !important;
-                color: #003264 !important;
-                font-weight: bold;
+                &.primary-point {
+                    background-color: @menu-darker-blue !important;
+                    color: #003264 !important;
+                    font-weight: bold;
+                }
+
+                &:not(.primary-point) {
+                    background-color: @light-grey-hover !important;
+                    color: #003264 !important;
+                    font-weight: bold;
+                }
             }
         }
 
