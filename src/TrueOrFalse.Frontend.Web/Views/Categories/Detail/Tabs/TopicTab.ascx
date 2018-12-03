@@ -2,17 +2,17 @@
     Inherits="System.Web.Mvc.ViewUserControl<CategoryModel>" %>
 <%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
     
-<% if (Model.CategoryChangeId != null) { %>
+<% if (Model.Category.IsHistoric) { %>
     <div class="alert alert-info" role="alert">
-        <b>Revision vom <%= Sl.CategoryChangeRepo.GetByIdEager((int)Model.CategoryChangeId).DateCreated %></b>
+        <b>Revision vom <%= Model.CategoryChange.DateCreated %></b>
         <br/>
         <%= (Model.NextRevExists) 
                 ? "Diese Seite zeigt einen <b>früheren Stand</b> des Themas."
                 : "Dies ist die <b>aktuelle Revision</b> des Themas."
         %>
         <nav>
-            <a class="btn btn-primary navbar-btn" href="<%= Links.CategoryHistoryDetail(Model.Id, (int)Model.CategoryChangeId) %>">
-                <i class="fa fa-eye"></i> &nbsp; Änderungen anzeigen
+            <a class="btn btn-primary navbar-btn" href="<%= Links.CategoryHistoryDetail(Model.Id, Model.CategoryChange.Id) %>">
+                <i class="fa fa-code-fork"></i> &nbsp; Änderungen anzeigen
             </a>
             <a class="btn btn-default navbar-btn" href="<%= Links.CategoryHistory(Model.Id) %>">
                 <i class="fa fa-list-ul"></i> &nbsp; Zur Bearbeitungshistorie

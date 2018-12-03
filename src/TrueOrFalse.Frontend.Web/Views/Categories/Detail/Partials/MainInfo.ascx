@@ -112,7 +112,7 @@
 <% if (!Model.Category.DisableLearningFunctions) { %>
 
     <div class="row BoxButtonBar">
-        <div class="BoxButtonColumn">
+        <%--<div class="BoxButtonColumn">
             <% var tooltipGame = "Tritt zu diesem Thema gegen andere Nutzer im Echtzeit-Quizspiel an.";
                if (Model.CountSets == 0)
                    tooltipGame = "Noch keine Lernsets zum Spielen zu diesem Thema vorhanden"; %>
@@ -132,7 +132,7 @@
                     </a>
                 <% } %>
             </div>
-        </div>
+        </div>--%>
         <div class="BoxButtonColumn">
             <% var tooltipDate = "Gib an, bis wann du alle Lernsets zu diesem Thema lernen musst und erhalte deinen persönlichen Lernplan.";
                if (Model.CountSets == 0)

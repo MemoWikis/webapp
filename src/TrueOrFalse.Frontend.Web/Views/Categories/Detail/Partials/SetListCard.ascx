@@ -43,7 +43,7 @@
                     </a>
                     <ul class="dropdown-menu" aria-labelledby="<%=buttonId %>">
                         <li><a href="<%= Links.StartLearningSessionForSets(Model.Sets.Select(s => s.Id).ToList(), Model.Title) %>" data-allowed="logged-in" data-allowed-type="learning-session" rel="nofollow">Jetzt lernen</a></li>
-                        <li><a href="<%= Links.GameCreateFromSets(Model.Sets.Select(s => s.Id).ToList()) %>"> Spiel starten</a></li>
+                        <%--<li><a href="<%= Links.GameCreateFromSets(Model.Sets.Select(s => s.Id).ToList()) %>"> Spiel starten</a></li>--%>
                         <li><a href="<%= Links.DateCreateForSets(Model.Sets.Select(s => s.Id).ToList(), Model.Title) %>"> Termin anlegen</a></li>
                     </ul>
                 </div>
