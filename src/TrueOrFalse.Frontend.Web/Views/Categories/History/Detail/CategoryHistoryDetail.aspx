@@ -7,6 +7,8 @@
     <%= Scripts.Render("~/bundles/js/CategoryHistoryDetail") %>
     <%= Scripts.Render("~/bundles/js/diff2html") %>
     <%= Styles.Render("~/Scripts/vendor/diff2html/diff2html.css") %>
+    <%  Model.TopNavMenu.BreadCrumb.Add(new TopNavMenuItem {Text = Model.CategoryName, Url = Model.CategoryUrl, ToolTipText = Model.CategoryName});
+        Model.TopNavMenu.IsCategoryBreadCrumb = false; %>
 </asp:Content>
 
 <asp:Content ID="Content3" ContentPlaceHolderID="MainContent" runat="server">

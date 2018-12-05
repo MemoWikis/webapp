@@ -1033,7 +1033,6 @@ img {
     #MasterMainContent {
         padding-top: 25px;
         padding-bottom: 20px;
-        margin-top:55px;
         //position: relative;
         // z-index: @z-Index-mainContainer;
         .media-below-sm( {
@@ -1047,6 +1046,7 @@ img {
 
         #MasterMainColumn {
             .make-lg-column(9);
+            margin-top:55px;
 
             .media-lg ( {
                 width: 100%;
@@ -1159,7 +1159,7 @@ img {
 }
 
 .sticky {
-    position: fixed;
+    position: fixed !important;
     top: 0;
     width: 100%;
 }
@@ -1179,7 +1179,6 @@ img {
     position: absolute;
     z-index: 99;
     white-space: nowrap;
-    top: 80px;
     .greyed;
 
     div {
@@ -1278,12 +1277,12 @@ img {
 #MasterSidebarColumn {
     .make-lg-column(3);
     position: static;
+    margin-top: 61px;
 
 
     .media-lg ( {
         width: 232px;
         float: right;
-        margin-top: 6px;
     }
 
     );

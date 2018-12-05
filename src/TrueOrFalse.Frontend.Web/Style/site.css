@@ -1090,7 +1090,6 @@ ul.AutocompleteHeader {
 #MasterMainContent {
   padding-top: 25px;
   padding-bottom: 20px;
-  margin-top: 55px;
 }
 @media (max-width: 767px) {
   #MasterMainContent {
@@ -1104,6 +1103,7 @@ ul.AutocompleteHeader {
   min-height: 1px;
   padding-left: 10px;
   padding-right: 10px;
+  margin-top: 55px;
 }
 @media (min-width: 1200px) {
   #MasterMainContent #MasterMainColumn {
@@ -1215,7 +1215,7 @@ ul.AutocompleteHeader {
   }
 }
 .sticky {
-  position: fixed;
+  position: fixed !important;
   top: 0;
   width: 100%;
 }
@@ -1233,7 +1233,6 @@ ul.AutocompleteHeader {
   position: absolute;
   z-index: 99;
   white-space: nowrap;
-  top: 80px;
   color: #999999;
 }
 #Breadcrumb div {
@@ -1312,6 +1311,7 @@ ul.AutocompleteHeader {
   padding-left: 10px;
   padding-right: 10px;
   position: static;
+  margin-top: 61px;
 }
 @media (min-width: 1200px) {
   #MasterSidebarColumn {
@@ -1323,7 +1323,6 @@ ul.AutocompleteHeader {
   #MasterSidebarColumn {
     width: 232px;
     float: right;
-    margin-top: 6px;
   }
 }
 @media (max-width: 1199.9px) {

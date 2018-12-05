@@ -2,11 +2,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using FluentNHibernate.Conventions;
+using TrueOrFalse.Frontend.Web.Code;
 
 public class CategoryHistoryDetailModel : BaseModel
 {
     public int CategoryId;
     public string CategoryName;
+    public string CategoryUrl;
     public User CurrentAuthor;
     public string AuthorName;
     public string AuthorImageUrl;
@@ -30,6 +32,8 @@ public class CategoryHistoryDetailModel : BaseModel
     {
         PrevRevExists = previousRevision != null;
         NextRevExists = nextRevision != null;
+
+        CategoryUrl = Links.CategoryDetail(CategoryName, CategoryId);
 
         var currentRevisionData = currentRevision.GetCategoryChangeData();
         CurrentId = currentRevision.Id;
