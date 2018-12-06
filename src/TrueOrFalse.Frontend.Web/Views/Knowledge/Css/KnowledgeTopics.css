@@ -178,9 +178,16 @@
     font-size: 13px;
   }
 }
+.vuetable .td-topic .set-category-title {
+  padding-left: 2.5em;
+}
+@media only screen and (max-width: 670px) {
+  .vuetable .td-topic .set-category-title {
+    padding-left: 0;
+  }
+}
 .vuetable .td-topic .imageParent {
   float: left;
-  padding-right: 10px;
 }
 @media only screen and (max-width: 670px) {
   .vuetable .td-topic .imageParent {
