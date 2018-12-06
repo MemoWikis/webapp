@@ -15,14 +15,14 @@ public class KnowledgeQuestions : BaseModel
 
     public KnowledgeQuestions(bool isAuthor, int page, int per_page, string sort)
     {
-
-       // var test = UserValuationCache.CreateItemFromDatabase(UserId);  is not commented then Work Categories OrderBy
+        var test = UserValuationCache.GetQuestionValuations(UserId);
+        //var test = UserValuationCache.CreateItemFromDatabase(UserId).QuestionValuations.Values.ToList(); // is not commented then Work Categories OrderBy
         TotalWishKnowledgeValuationsWithAuthor = isAuthor
-            ? UserValuationCache.GetQuestionValuations(UserId)
+            ? UserValuationCache.CreateItemFromDatabase(UserId).QuestionValuations.Values
                 .Where(v => v.Question.Creator.Id == UserId && v.IsInWishKnowledge())
                 .Distinct()
                 .ToList()
-            : UserValuationCache.GetQuestionValuations(UserId)
+            : UserValuationCache.CreateItemFromDatabase(UserId).QuestionValuations.Values
                 .Where(v => v.IsInWishKnowledge())
                 .Distinct()
                 .ToList();

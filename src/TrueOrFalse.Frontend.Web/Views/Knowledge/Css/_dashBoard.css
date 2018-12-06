@@ -1,16 +1,23 @@
 ﻿h3 {
   color: #003264;
+  font-size: 18px;
+  font-weight: bold;
 }
 @media only screen and (max-width: 990px) {
+  .first-row {
+    margin-bottom: 4em;
+  }
   .first-row [class*="col-"] {
     width: 33%;
   }
   .first-row [class*="col-"] h3 {
-    font-size: 18px;
     text-align: center;
   }
 }
-@media only screen and (max-width: 400px) {
+@media only screen and (max-width: 760px) {
+  .first-row {
+    margin-bottom: 0;
+  }
   .first-row [class*="col-"] {
     width: 50%;
     text-align: center;
@@ -21,19 +28,8 @@
     width: 100%;
   }
 }
-@media only screen and (max-width: 330px) {
-  .first-row [class*="col-"] {
-    width: 100%;
-    text-align: center;
-    align-content: center;
-    margin-bottom: 30px;
-  }
-}
 .first-row h3 {
-  margin-top: 0px;
-}
-.first-row .bold {
-  font-weight: bold;
+  margin-top: 0;
 }
 @media only screen and (max-width: 970px) {
   .first-row .col-xs-5 {
@@ -59,14 +55,6 @@
   }
   .second-row .col-xs-4 {
     margin-top: -117px;
-  }
-}
-@media only screen and (max-width: 330px) {
-  .second-row [class*="col-"] {
-    width: 100%;
-    text-align: center;
-    align-content: center;
-    margin-bottom: 30px;
   }
 }
 .second-row .col-xs-3 .reputation-number {
@@ -131,8 +119,17 @@
     font-size: 18px;
   }
   .second-row .col-xs-4 .ItemImage {
-    height: 40px;
-    width: 40px;
+    height: 2.5em;
+    width: 2.5em;
+  }
+}
+@media only screen and (max-width: 25em) {
+  .first-row [class*="col-"],
+  .second-row [class*="col-"] {
+    width: 100%;
+    text-align: center;
+    align-content: center;
+    margin-bottom: 30px;
   }
 }
 /*.third-row {
