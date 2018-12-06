@@ -10,6 +10,8 @@ public class CategoryHistoryDetailModel : BaseModel
     public User CurrentAuthor;
     public string AuthorName;
     public string AuthorImageUrl;
+    public bool ImageWasUpdated;
+    public ImageFrontendData ImageFrontendData;
     public bool PrevRevExists;
     public bool NextRevExists;
     public int CurrentId;
@@ -38,6 +40,13 @@ public class CategoryHistoryDetailModel : BaseModel
         CurrentMarkdown = currentRevisionData.TopicMardkown?.Replace("\\r\\n", "\r\n");
         CurrentDescription = currentRevisionData.Description?.Replace("\\r\\n", "\r\n");
         CurrentWikipediaUrl = currentRevisionData.WikipediaURL;
+
+        if (currentRevision.DataVersion == 2)
+        {
+            ImageWasUpdated = ((CategoryEditData_V2)currentRevisionData).ImageWasUpdated;
+            var imageMetaData = Sl.ImageMetaDataRepo.GetBy(currentRevision.Category.Id, ImageType.Category);
+            ImageFrontendData = new ImageFrontendData(imageMetaData);
+        }
 
         if (PrevRevExists)
         {

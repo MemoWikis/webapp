@@ -116,6 +116,16 @@
                     <input type="hidden" id="prevDateCreated" value="<%= Model.PrevDateCreated %>" />
                     <div id="diffPanel">
                         <div id="diffName"></div>
+                        <%if (Model.ImageWasUpdated) { %>
+                            <div class="diffImage">
+                                <div id="newImageAlert" class="panel panel-default">
+                                    <div class="panel-heading">Änderung des Bildes. Das aktuelle Bild ist:</div>
+                                    <div class="panel-body">
+                                        <%= Model.ImageFrontendData.RenderHtmlImageBasis(350, false, ImageType.Category, "ImageContainer") %>
+                                    </div>
+                                </div>
+                            </div>
+                        <% } %>  
                         <div id="diffDescription"></div>
                         <div id="diffWikipediaUrl"></div>
                         <div id="diffData"></div>
