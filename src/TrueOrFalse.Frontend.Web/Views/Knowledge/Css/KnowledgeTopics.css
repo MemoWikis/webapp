@@ -90,14 +90,14 @@
 .vuetable .btn {
   font-size: 18px;
 }
-@media only screen and (max-width: 440px) {
+@media only screen and (max-width: 476px) {
   .vuetable .btn {
     font-size: 13px;
   }
 }
-@media only screen and (max-width: 370px) {
+@media only screen and (max-width: 414px) {
   .vuetable .btn {
-    padding-left: 0px;
+    padding-left: 3px;
   }
 }
 .vuetable thead {
@@ -110,15 +110,35 @@
   border-bottom: solid 2px #337ab7;
 }
 .vuetable thead .vuetable-th-slot-imageAndTitle {
-  width: 35%;
+  width: 38%;
 }
-@media only screen and (max-width: 350px) {
+@media only screen and (max-width: 711px) {
+  .vuetable thead .vuetable-th-slot-imageAndTitle {
+    width: 37%;
+  }
+}
+@media only screen and (max-width: 677px) {
+  .vuetable thead .vuetable-th-slot-imageAndTitle {
+    width: 48%;
+  }
+}
+@media only screen and (max-width: 583px) {
+  .vuetable thead .vuetable-th-slot-imageAndTitle {
+    width: 70%;
+  }
+}
+@media only screen and (max-width: 476px) {
   .vuetable thead .vuetable-th-slot-imageAndTitle {
     font-size: 16px;
   }
 }
 .vuetable thead .vuetable-th-KnowlegdeWishPartial {
   width: 25%;
+}
+@media only screen and (max-width: 677px) {
+  .vuetable thead .vuetable-th-KnowlegdeWishPartial {
+    width: 28%;
+  }
 }
 @media only screen and (max-width: 583px) {
   .vuetable thead .vuetable-th-KnowlegdeWishPartial {
@@ -130,30 +150,17 @@
 }
 @media only screen and (max-width: 1200px) {
   .vuetable thead .vuetable-th-slot-topicCount {
-    width: 20%;
+    width: 22%;
   }
 }
 @media only screen and (max-width: 1000px) {
   .vuetable thead .vuetable-th-slot-topicCount {
-    width: 15%;
+    width: 18%;
   }
 }
-@media only screen and (max-width: 675px) {
+@media only screen and (max-width: 677px) {
   .vuetable thead .vuetable-th-slot-topicCount {
     display: none;
-  }
-}
-.vuetable thead .vuetable-th-slot-dropDown {
-  width: 15%;
-}
-@media only screen and (max-width: 1200px) {
-  .vuetable thead .vuetable-th-slot-dropDown {
-    width: 20%;
-  }
-}
-@media only screen and (max-width: 1000px) {
-  .vuetable thead .vuetable-th-slot-dropDown {
-    width: 25%;
   }
 }
 .vuetable .td-topic {
@@ -166,7 +173,7 @@
     text-align: center;
   }
 }
-@media only screen and (max-width: 440px) {
+@media only screen and (max-width: 476px) {
   .vuetable .td-topic {
     font-size: 13px;
   }
@@ -247,13 +254,16 @@
 .vuetable .topic-count-td {
   vertical-align: middle;
 }
-@media only screen and (max-width: 675px) {
+@media only screen and (max-width: 677px) {
   .vuetable .topic-count-td {
     display: none;
   }
 }
 .vuetable .drop-down-td {
   vertical-align: middle;
+}
+.vuetable .drop-down-td .btn {
+  padding-right: 0em;
 }
 .vuetable .drop-down-td .Button {
   float: left;
