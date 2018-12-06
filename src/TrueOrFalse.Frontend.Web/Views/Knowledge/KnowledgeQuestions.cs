@@ -105,7 +105,7 @@ public class KnowledgeQuestions : BaseModel
         var sortList = new List<QuestionValuation>();
         if (sortCondition.Equals("knowWas|asc,author|asc,category|asc"))
         {
-        sortList = unSortList.OrderBy(v => v.Question.Text ?? "").ToList();
+            sortList = unSortList; //.OrderBy(v => v.Question.Text ?? "").ToList();
         }
         else
         {
