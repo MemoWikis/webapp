@@ -19,9 +19,6 @@
 </asp:Content>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
-    <style>
-
-    </style>
     
     <input type="hidden" id="hddNoQuestionUrl" value="<%=Links.NoQuestionUrl %>" />
     <input type="hidden" id="hddNoCategoryUrl" value="<%=Links.NoCategoryUrl %>" />

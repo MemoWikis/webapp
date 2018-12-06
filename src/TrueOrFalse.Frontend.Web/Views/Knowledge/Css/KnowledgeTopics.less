@@ -1,5 +1,9 @@
 ﻿@color-font: #2d60b4;
 
+html {
+
+}
+
 #app {
     font-family: Open Sans, Regular;
     -webkit-font-smoothing: antialiased;
@@ -102,6 +106,9 @@
     font-family: "Open Sans", Arial, sans-serif;
     table-layout: fixed;
 
+
+
+
     .btn {
         font-size: 18px;
 
@@ -132,7 +139,7 @@
                 width: 48%;
             }
 
-            @media only screen and (max-width: 583px) {
+            @media only screen and (max-width: 600px) {
                 width: 70%;
             }
 
@@ -174,11 +181,6 @@
         font-size: 18px;
         vertical-align: middle;
 
-        @media only screen and (max-width: 670px) {
-            float: none;
-            text-align: center;
-        }
-
         @media only screen and (max-width: 476px) {
             font-size: 13px;
         }
@@ -186,8 +188,9 @@
         .set-category-title {
             padding-left: 2.5em;
 
-
-            @media only screen and (max-width: 670px) {
+            @media only screen and (max-width: 736px) {
+                float: none;
+                text-align: center;
                 padding-left: 0;
             }
         }
@@ -195,7 +198,7 @@
         .imageParent {
             float: left;
 
-            @media only screen and (max-width: 670px) {
+            @media only screen and (max-width: 736px) {
                 float: none;
                 text-align: center;
             }
@@ -211,7 +214,7 @@
     .td-knowledge-bar-wrapper {
         vertical-align: middle;
 
-        @media only screen and (max-width: 583px) {
+        @media only screen and (max-width: 600px) {
             display: none;
         }
 
@@ -286,6 +289,11 @@
             }
         }
     }
+    /* hyphens */
+    -moz-hyphens: auto;
+    -webkit-hyphens: auto;
+    -ms-hyphens: auto;
+    hyphens: auto;
 }
 
 //--------------- Pagination ------------------------------------------------
