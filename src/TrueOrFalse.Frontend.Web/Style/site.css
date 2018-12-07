@@ -365,13 +365,14 @@ img {
   height: 19px;
   padding: 0px;
   line-height: 14px;
+  position: relative;
   font-size: 10px !important;
   width: 19px;
   display: flex !important;
   flex-direction: column;
   text-align: center;
-  bottom: 48px;
-  right: 70px;
+  bottom: 9px;
+  left: 10px;
   border: 1.5px solid #003264;
 }
 #loginAndHelp .dropdown-badge,
@@ -403,15 +404,9 @@ img {
 #StickyHeaderContainer .header-item {
   display: flex;
   flex-direction: column;
-  margin-right: 25px;
   height: 100%;
   text-align: center;
-}
-@media (max-width: 991.5px) {
-  #loginAndHelp .header-item,
-  #StickyHeaderContainer .header-item {
-    margin-right: 5px;
-  }
+  margin-right: 15px;
 }
 #loginAndHelp .header-item .btn-default,
 #StickyHeaderContainer .header-item .btn-default {
@@ -1299,7 +1294,7 @@ ul.AutocompleteHeader {
   text-overflow: ellipsis;
 }
 #Breadcrumb .fa {
-  margin-right: 25px;
+  margin-right: 15px;
   padding-top: 12px;
 }
 .ShowBreadcrumb {
