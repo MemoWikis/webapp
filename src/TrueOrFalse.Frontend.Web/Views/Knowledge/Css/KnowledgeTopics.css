@@ -86,18 +86,23 @@
   font-size: 18px;
   font-family: "Open Sans", Arial, sans-serif;
   table-layout: fixed;
+  /* hyphens */
+  -moz-hyphens: auto;
+  -webkit-hyphens: auto;
+  -ms-hyphens: auto;
+  hyphens: auto;
 }
 .vuetable .btn {
   font-size: 18px;
 }
-@media only screen and (max-width: 440px) {
+@media only screen and (max-width: 476px) {
   .vuetable .btn {
     font-size: 13px;
   }
 }
-@media only screen and (max-width: 370px) {
+@media only screen and (max-width: 414px) {
   .vuetable .btn {
-    padding-left: 0px;
+    padding-left: 3px;
   }
 }
 .vuetable thead {
@@ -110,15 +115,35 @@
   border-bottom: solid 2px #337ab7;
 }
 .vuetable thead .vuetable-th-slot-imageAndTitle {
-  width: 35%;
+  width: 38%;
 }
-@media only screen and (max-width: 350px) {
+@media only screen and (max-width: 711px) {
+  .vuetable thead .vuetable-th-slot-imageAndTitle {
+    width: 37%;
+  }
+}
+@media only screen and (max-width: 677px) {
+  .vuetable thead .vuetable-th-slot-imageAndTitle {
+    width: 48%;
+  }
+}
+@media only screen and (max-width: 600px) {
+  .vuetable thead .vuetable-th-slot-imageAndTitle {
+    width: 70%;
+  }
+}
+@media only screen and (max-width: 476px) {
   .vuetable thead .vuetable-th-slot-imageAndTitle {
     font-size: 16px;
   }
 }
 .vuetable thead .vuetable-th-KnowlegdeWishPartial {
   width: 25%;
+}
+@media only screen and (max-width: 677px) {
+  .vuetable thead .vuetable-th-KnowlegdeWishPartial {
+    width: 28%;
+  }
 }
 @media only screen and (max-width: 583px) {
   .vuetable thead .vuetable-th-KnowlegdeWishPartial {
@@ -130,52 +155,42 @@
 }
 @media only screen and (max-width: 1200px) {
   .vuetable thead .vuetable-th-slot-topicCount {
-    width: 20%;
+    width: 22%;
   }
 }
 @media only screen and (max-width: 1000px) {
   .vuetable thead .vuetable-th-slot-topicCount {
-    width: 15%;
+    width: 18%;
   }
 }
-@media only screen and (max-width: 675px) {
+@media only screen and (max-width: 677px) {
   .vuetable thead .vuetable-th-slot-topicCount {
     display: none;
-  }
-}
-.vuetable thead .vuetable-th-slot-dropDown {
-  width: 15%;
-}
-@media only screen and (max-width: 1200px) {
-  .vuetable thead .vuetable-th-slot-dropDown {
-    width: 20%;
-  }
-}
-@media only screen and (max-width: 1000px) {
-  .vuetable thead .vuetable-th-slot-dropDown {
-    width: 25%;
   }
 }
 .vuetable .td-topic {
   font-size: 18px;
   vertical-align: middle;
 }
-@media only screen and (max-width: 670px) {
-  .vuetable .td-topic {
-    float: none;
-    text-align: center;
-  }
-}
-@media only screen and (max-width: 440px) {
+@media only screen and (max-width: 476px) {
   .vuetable .td-topic {
     font-size: 13px;
   }
 }
+.vuetable .td-topic .set-category-title {
+  padding-left: 2.5em;
+}
+@media only screen and (max-width: 736px) {
+  .vuetable .td-topic .set-category-title {
+    float: none;
+    text-align: center;
+    padding-left: 0;
+  }
+}
 .vuetable .td-topic .imageParent {
   float: left;
-  padding-right: 10px;
 }
-@media only screen and (max-width: 670px) {
+@media only screen and (max-width: 736px) {
   .vuetable .td-topic .imageParent {
     float: none;
     text-align: center;
@@ -189,7 +204,7 @@
 .vuetable .td-knowledge-bar-wrapper {
   vertical-align: middle;
 }
-@media only screen and (max-width: 583px) {
+@media only screen and (max-width: 600px) {
   .vuetable .td-knowledge-bar-wrapper {
     display: none;
   }
@@ -247,13 +262,16 @@
 .vuetable .topic-count-td {
   vertical-align: middle;
 }
-@media only screen and (max-width: 675px) {
+@media only screen and (max-width: 677px) {
   .vuetable .topic-count-td {
     display: none;
   }
 }
 .vuetable .drop-down-td {
   vertical-align: middle;
+}
+.vuetable .drop-down-td .btn {
+  padding-right: 0em;
 }
 .vuetable .drop-down-td .Button {
   float: left;

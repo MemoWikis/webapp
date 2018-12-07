@@ -2,7 +2,7 @@
 <%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
 
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html lang="de" xmlns="http://www.w3.org/1999/xhtml">
 <head runat="server">
     <%--<title><%= Page.Title %></title>--%>
     <asp:ContentPlaceHolder ID="HeadSEO" runat="server" />

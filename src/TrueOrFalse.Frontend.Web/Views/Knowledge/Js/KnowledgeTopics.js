@@ -95,7 +95,7 @@ new Vue({
         },
         onLoaded() {
             $('.show-tooltip').tooltip();
-            $("#h2TpopicAndLearnset").text("Du hast " + $("#hddCountDates").val() + " Kategorien und Sets in deinem Wunschwissen");
+            $("#h2TpopicAndLearnset").text("Du hast " + $("#hddCountDates").val() + " Themen und Lernsets in deinem Wunschwissen");
             $(".spinner").hide();
         },
         switchOnlySelfCreatedChanged: function () {

@@ -91,7 +91,9 @@ namespace TrueOrFalse.Frontend.Web.Code
 
         public const string NetworkAction = "Network";
         public static string Network() => GetUrlHelper().Action(NetworkAction, UsersController);
-
+        /* Images*/
+        public const string NoCategoryUrl = "/Images/no-category-picture-350.png";
+        public const string NoQuestionUrl = "/Images/no-question-128.png";
 
         /*Question*/
         public const string Questions = "Questions";

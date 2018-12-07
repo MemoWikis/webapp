@@ -1,5 +1,9 @@
 ﻿@color-font: #2d60b4;
 
+html {
+
+}
+
 #app {
     font-family: Open Sans, Regular;
     -webkit-font-smoothing: antialiased;
@@ -102,15 +106,18 @@
     font-family: "Open Sans", Arial, sans-serif;
     table-layout: fixed;
 
+
+
+
     .btn {
         font-size: 18px;
 
-        @media only screen and (max-width: 440px) {
+        @media only screen and (max-width: 476px) {
             font-size: 13px;
         }
 
-        @media only screen and (max-width: 370px) {
-            padding-left: 0px;
+        @media only screen and (max-width: 414px) {
+            padding-left: 3px;
         }
     }
     // --------------------Table Head----------------
@@ -122,15 +129,31 @@
         }
 
         .vuetable-th-slot-imageAndTitle {
-            width: 35%;
+            width: 38%;
 
-            @media only screen and (max-width: 350px) {
+            @media only screen and (max-width: 711px) {
+                width: 37%;
+            }
+
+            @media only screen and (max-width: 677px) {
+                width: 48%;
+            }
+
+            @media only screen and (max-width: 600px) {
+                width: 70%;
+            }
+
+            @media only screen and (max-width: 476px) {
                 font-size: 16px;
             }
         }
 
         .vuetable-th-KnowlegdeWishPartial {
             width: 25%;
+
+            @media only screen and (max-width: 677px) {
+                width: 28%;
+            }
 
             @media only screen and (max-width: 583px) {
                 display: none;
@@ -141,27 +164,15 @@
             width: 25%;
 
             @media only screen and (max-width: 1200px) {
-                width: 20%;
+                width: 22%;
             }
 
             @media only screen and (max-width: 1000px) {
-                width: 15%;
+                width: 18%;
             }
 
-            @media only screen and (max-width: 675px) {
+            @media only screen and (max-width: 677px) {
                 display: none;
-            }
-        }
-
-        .vuetable-th-slot-dropDown {
-            width: 15%;
-
-            @media only screen and (max-width: 1200px) {
-                width: 20%;
-            }
-
-            @media only screen and (max-width: 1000px) {
-                width: 25%;
             }
         }
     }
@@ -170,20 +181,24 @@
         font-size: 18px;
         vertical-align: middle;
 
-        @media only screen and (max-width: 670px) {
-            float: none;
-            text-align: center;
+        @media only screen and (max-width: 476px) {
+            font-size: 13px;
         }
 
-        @media only screen and (max-width: 440px) {
-            font-size: 13px;
+        .set-category-title {
+            padding-left: 2.5em;
+
+            @media only screen and (max-width: 736px) {
+                float: none;
+                text-align: center;
+                padding-left: 0;
+            }
         }
 
         .imageParent {
             float: left;
-            padding-right: 10px;
 
-            @media only screen and (max-width: 670px) {
+            @media only screen and (max-width: 736px) {
                 float: none;
                 text-align: center;
             }
@@ -199,7 +214,7 @@
     .td-knowledge-bar-wrapper {
         vertical-align: middle;
 
-        @media only screen and (max-width: 583px) {
+        @media only screen and (max-width: 600px) {
             display: none;
         }
 
@@ -253,13 +268,17 @@
     .topic-count-td {
         vertical-align: middle;
 
-        @media only screen and (max-width: 675px) {
+        @media only screen and (max-width: 677px) {
             display: none;
         }
     }
 
     .drop-down-td {
         vertical-align: middle;
+
+        .btn {
+            padding-right: 0em;
+        }
 
         .Button {
             float: left;
@@ -270,6 +289,11 @@
             }
         }
     }
+    /* hyphens */
+    -moz-hyphens: auto;
+    -webkit-hyphens: auto;
+    -ms-hyphens: auto;
+    hyphens: auto;
 }
 
 //--------------- Pagination ------------------------------------------------
