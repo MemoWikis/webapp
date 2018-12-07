@@ -20,7 +20,8 @@ new Vue({
             {
                 name: "__slot:knowWas",
                 title: 'Wissensstand',
-                sortField: "knowWas"
+                sortField: "knowWas",
+                dataClass: "td-know-was"
             },
             {
                 name: "__slot:authorImage",
@@ -30,7 +31,7 @@ new Vue({
             },
             {
                 name: "__slot:category",
-                title: "Kategorie",
+                title: "Thema",
                 sortField: "category",
                 dataClass: "category-table"
 
