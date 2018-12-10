@@ -235,6 +235,7 @@ img {
 #MasterHeader .HeaderMainRow #HeaderSearchBoxDiv #headerSearchBox {
   border-right: none !important;
   border: 1px #979797 solid;
+  height: 44px;
 }
 #MasterHeader .col-Logo {
   height: 100%;
@@ -1181,7 +1182,7 @@ ul.AutocompleteHeader {
   border-left: 10px solid #adadad;
 }
 .SearchBoxDivMaxWidth {
-  width: 262.41px !important;
+  width: 259px !important;
 }
 @media (max-width: 500px) {
   .SearchBoxDivMaxWidth {
