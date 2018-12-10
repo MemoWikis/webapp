@@ -302,6 +302,7 @@
   text-align: left;
   top: 60px !important;
   right: 4px;
+  left: unset;
 }
 .RightMainMenu span {
   display: block !important;
@@ -330,14 +331,14 @@
   -webkit-border-radius: unset;
           border-radius: unset;
 }
-.RightMainMenu .list-group-item.active:not(.sub).primary-point,
-.RightMainMenu .list-group-item.active:focus:not(.sub).primary-point {
+.RightMainMenu .list-group-item.active:not(.sub, .mainMenuBtnCategories, mainMenuBtnSets, mainMenuBtnQuestions).primary-point,
+.RightMainMenu .list-group-item.active:focus:not(.sub, .mainMenuBtnCategories, mainMenuBtnSets, mainMenuBtnQuestions).primary-point {
   background-color: rgba(165, 209, 221, 0.8) !important;
   color: #003264 !important;
   font-weight: bold;
 }
-.RightMainMenu .list-group-item.active:not(.sub):not(.primary-point),
-.RightMainMenu .list-group-item.active:focus:not(.sub):not(.primary-point) {
+.RightMainMenu .list-group-item.active:not(.sub, .mainMenuBtnCategories, mainMenuBtnSets, mainMenuBtnQuestions):not(.primary-point),
+.RightMainMenu .list-group-item.active:focus:not(.sub, .mainMenuBtnCategories, mainMenuBtnSets, mainMenuBtnQuestions):not(.primary-point) {
   background-color: #f5f5f5 !important;
   color: #003264 !important;
   font-weight: bold;

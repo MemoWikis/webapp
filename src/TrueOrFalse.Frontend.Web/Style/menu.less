@@ -344,6 +344,7 @@
     text-align: left;
     top: 60px !important;
     right: 4px;
+    left:unset;
 
 
     a {
@@ -361,7 +362,7 @@
         border-radius: unset;
 
         &.active, &.active:focus {
-            &:not(.sub) {
+            &:not(.sub, .mainMenuBtnCategories, mainMenuBtnSets, mainMenuBtnQuestions) {
                 &.primary-point {
                     background-color: @menu-darker-blue !important;
                     color: #003264 !important;
