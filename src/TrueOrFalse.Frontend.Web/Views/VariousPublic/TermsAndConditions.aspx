@@ -16,7 +16,7 @@
     });
 </script>    
     
-    <% Model.TopNavMenu.BreadCrumb.Add(new TopNavMenuItem{Text = "Nutzungsbedingungen", Url = "/AGB", ToolTipText = "Nutzungsbedingungen"});
+    <% Model.TopNavMenu.BreadCrumb.Add(new TopNavMenuItem{Text = "Nutzungsbedingungen", Url = Links.TermsAndConditions, ToolTipText = "Nutzungsbedingungen"});
        Model.TopNavMenu.IsCategoryBreadCrumb = false;%>
 </asp:Content>
 

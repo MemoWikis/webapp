@@ -7,7 +7,7 @@
     <% Title = Model.PageTitle; %>
     <% if (Model.IsEditing) { %>
         <link rel="canonical" href="<%= Settings.CanonicalHost + Links.QuestionSetEdit(Model.Set.Name, Model.Set.Id) %>">
-        <% Model.TopNavMenu.BreadCrumb.Add(new TopNavMenuItem{Text = "Lernset", Url = "/Fragesaetze"});
+        <% Model.TopNavMenu.BreadCrumb.Add(new TopNavMenuItem{Text = "Lernset", Url = Links.SetsAll()});
            Model.TopNavMenu.IsCategoryBreadCrumb = false; %>
     <% } else {  %>
         <link rel="canonical" href="<%= Settings.CanonicalHost + Links.SetCreate() %>">

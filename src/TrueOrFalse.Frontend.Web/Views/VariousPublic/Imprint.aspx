@@ -1,4 +1,5 @@
 ﻿<%@ Page Title="Impressum & Datenschutzerklärung" Language="C#" MasterPageFile="~/Views/Shared/Site.MenuNo.Master" Inherits="System.Web.Mvc.ViewPage<BaseModel>" %>
+<%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="Head" runat="server">
 
@@ -15,7 +16,7 @@
         });
     </script>    
     
-    <% Model.TopNavMenu.BreadCrumb.Add(new TopNavMenuItem {Text = "Impressum & Datenschutz", Url = "/Impressum", ToolTipText = "Impressum & Datenschutz"});
+    <% Model.TopNavMenu.BreadCrumb.Add(new TopNavMenuItem {Text = "Impressum & Datenschutz", Url = Links.Imprint, ToolTipText = "Impressum & Datenschutz"});
        Model.TopNavMenu.IsCategoryBreadCrumb = false; %>
     
 </asp:Content>

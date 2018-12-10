@@ -5,8 +5,8 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="Head" runat="server">
     <link href="/Views/Help/Widget.css" rel="stylesheet" />
     <%= Scripts.Render("~/bundles/mailto") %>
-    <% Model.TopNavMenu.BreadCrumb.Add(new TopNavMenuItem{Text = "Widgets", Url = "~/Hilfe/Widget", ToolTipText = "Widgets"});
-       Model.TopNavMenu.BreadCrumb.Add(new TopNavMenuItem{Text = "In Wordpress einbinden", Url = "~/Hilfe/memucho-Quiz-in-Wordpress-einbetten", ToolTipText = "In Wordpress einbinden"});
+    <% Model.TopNavMenu.BreadCrumb.Add(new TopNavMenuItem{Text = "Widgets", Url = Links.HelpWidget(), ToolTipText = "Widgets"});
+       Model.TopNavMenu.BreadCrumb.Add(new TopNavMenuItem{Text = "In Wordpress einbinden", Url = Links.HelpWidgetWordpress(), ToolTipText = "In Wordpress einbinden"});
        Model.TopNavMenu.IsCategoryBreadCrumb = false; %>
 </asp:Content>
 

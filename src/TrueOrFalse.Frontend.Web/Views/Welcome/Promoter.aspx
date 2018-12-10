@@ -1,6 +1,6 @@
 ﻿<%@ Page Title="Förderer" Language="C#" MasterPageFile="~/Views/Shared/Site.Sidebar.Master"
     Inherits="ViewPage<BaseModel>" %>
-
+<%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
 
 
 <asp:Content ID="ContentHeadSEO" ContentPlaceHolderID="HeadSEO" runat="server">
@@ -9,7 +9,8 @@
 
 <asp:Content ID="Content1" ContentPlaceHolderID="Head" runat="server">
     <link href="/Views/Welcome/Promoter.css" rel="stylesheet" />
-
+    <%  Model.TopNavMenu.BreadCrumb.Add(new TopNavMenuItem { Text = "Förderer", Url = Links.Promoter(), ToolTipText = "Förderer" });
+        Model.TopNavMenu.IsCategoryBreadCrumb = false;  %>
 </asp:Content>
 
 

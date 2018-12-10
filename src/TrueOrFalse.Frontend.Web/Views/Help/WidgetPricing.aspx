@@ -22,8 +22,8 @@
     </script>    
     
     <%= Scripts.Render("~/bundles/js/Help") %>
-    <% Model.TopNavMenu.BreadCrumb.Add(new TopNavMenuItem{Text = "Widgets", Url = "~/Hilfe/Widget", ToolTipText = "Widgets"});
-       Model.TopNavMenu.BreadCrumb.Add(new TopNavMenuItem{Text = "Angebote und Preise", Url = "~/Widget-Angebote-Preisliste", ToolTipText = "Angebote und Preise"});
+    <% Model.TopNavMenu.BreadCrumb.Add(new TopNavMenuItem{Text = "Widgets", Url = Links.WidgetPricing(), ToolTipText = "Widgets"});
+       Model.TopNavMenu.BreadCrumb.Add(new TopNavMenuItem{Text = "Angebote und Preise", Url = Links.WidgetPricing(), ToolTipText = "Angebote und Preise"});
        Model.TopNavMenu.IsCategoryBreadCrumb = false; %>
 
 </asp:Content>

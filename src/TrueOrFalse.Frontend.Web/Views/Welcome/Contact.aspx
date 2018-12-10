@@ -11,7 +11,7 @@
     <link href="/Views/Welcome/Contact.css" rel="stylesheet" />
     <%= Scripts.Render("~/bundles/mailto") %>
     
-    <% Model.TopNavMenu.BreadCrumb.Add(new TopNavMenuItem{Text = "Kontakt", Url = "/Kontakt", ToolTipText = "Kontakt"});
+    <% Model.TopNavMenu.BreadCrumb.Add(new TopNavMenuItem{Text = "Kontakt", Url = Links.Contact, ToolTipText = "Kontakt"});
        Model.TopNavMenu.IsCategoryBreadCrumb = false; %>
 </asp:Content>
 

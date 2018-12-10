@@ -6,7 +6,7 @@
 <asp:Content ContentPlaceHolderID="Head" runat="server">
     <%= Scripts.Render("~/Views/Users/Account/Settings/Validation.js") %>
     <%= Styles.Render("~/Views/Users/Account/Settings/UserSettings.css") %>
-    <% Model.TopNavMenu.BreadCrumb.Add(new TopNavMenuItem{Text = "Nutzer", Url = "/Nutzer", ToolTipText = "Nutzer"});
+    <% Model.TopNavMenu.BreadCrumb.Add(new TopNavMenuItem{Text = "Nutzer", Url = Links.Users(), ToolTipText = "Nutzer"});
         Model.TopNavMenu.BreadCrumb.Add(new TopNavMenuItem{Text = "Profilseite", Url = Url.Action(Links.UserAction, Links.UserController, new { name =  Model.Name, id = Model.UserId}), ToolTipText = "Profilseite"});
         Model.TopNavMenu.BreadCrumb.Add(new TopNavMenuItem{Text = "Einstellungen", Url = Url.Action(Links.UserSettingsAction, Links.UserSettingsController), ToolTipText = "Einstellungen"});
         Model.TopNavMenu.IsCategoryBreadCrumb = false; %>
