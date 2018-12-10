@@ -4,22 +4,29 @@
 
 h3 {
     color: @bluefont;
+    font-size: 18px;
+    font-weight: bold;
 }
+
+
 
 .first-row {
 
     @media only screen and (max-width: 990px) {
+        margin-bottom: 4em;
+
         [class*="col-"] {
             width: 33%;
 
             h3 {
-                font-size: 18px;
                 text-align: center;
             }
         }
     }
 
-    @media only screen and (max-width: 400px) {
+    @media only screen and (max-width: 760px) {
+        margin-bottom: 0;
+
         [class*="col-"] {
             width: 50%;
             text-align: center;
@@ -32,21 +39,8 @@ h3 {
         }
     }
 
-    @media only screen and (max-width: 330px) {
-        [class*="col-"] {
-            width: 100%;
-            text-align: center;
-            align-content: center;
-            margin-bottom: 30px;
-        }
-    }
-
     h3 {
-        margin-top: 0px;
-    }
-
-    .bold {
-        font-weight: bold;
+        margin-top: 0;
     }
 
     .col-xs-5 {
@@ -65,6 +59,8 @@ h3 {
         }
     }
 }
+
+
 //second-row
 .second-row {
     @media only screen and (max-width: 970px) {
@@ -80,17 +76,6 @@ h3 {
             margin-top: -117px;
         }
     }
-
-    @media only screen and (max-width: 330px) {
-        [class*="col-"] {
-            width: 100%;
-            text-align: center;
-            align-content: center;
-            margin-bottom: 30px;
-        }
-    }
-
-
 
     .col-xs-3 {
         .reputation-number {
@@ -144,8 +129,6 @@ h3 {
         }
     }
 
-
-
     .col-xs-5 {
         .ProgressBarContainer, .ProgressBarSegment {
             height: 30px;
@@ -173,9 +156,21 @@ h3 {
             }
 
             .ItemImage {
-                height: 40px;
-                width: 40px;
+                height: 2.5em;
+                width: 2.5em;
             }
+        }
+    }
+}
+
+.first-row, .second-row {
+
+    @media only screen and (max-width: 25em) {
+        [class*="col-"] {
+            width: 100%;
+            text-align: center;
+            align-content: center;
+            margin-bottom: 30px;
         }
     }
 }

@@ -1,7 +1,6 @@
 ﻿<%@ Language="C#" Inherits="System.Web.Mvc.ViewUserControl<KnowledgeModel>"%>
 <%@ Import Namespace="System.Web.Optimization" %>
-
-
+<%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
 
 <!-- Table -->
 <div id="app">
@@ -37,7 +36,7 @@
                 <input type="hidden" id="hddCountQuestion" v-bind:value="props.rowData.CountQuestions"/>
                 <div class="show-tooltip" data-placement="bottom" data-toggle="tooltip" v-bind:data-original-title="props.rowData.Title">
                     <div class="image">
-                        <image class="imageTable" v-bind:src="props.rowData.ImageFrontendData.SourceUrl" ></image>
+                        <image class="imageTable" v-bind:src="GetQuestionImageSourceUrl(props.rowData.QuestionMetaData)"></image>
                     </div>
                     <div class="title-table"><a v-bind:href="props.rowData.LinkToQuestion">{{props.rowData.Title}}</a></div>
                 </div>
@@ -59,8 +58,12 @@
             </template>
           
             <template slot="category" scope="props">
-                <image class="round" v-bind:src="props.rowData.ImageFrontendData.SourceUrl" ></image>
-                <a class="show-tooltip link-to-category" data-toggle="tooltip" v-bind:data-original-title="props.rowData.TooltipLinkToCategory" v-bind:href="props.rowData.LinkToCategory" data-placement="bottom" target="_blank" >{{props.rowData.Category}}</a> 
+                <div class="round">
+                    <image class="round" v-bind:src="GetCategoryImageSourceUrl(props.rowData.CategoryImageData)" ></image>
+                </div>
+                <div class="link-to-category">
+                <a class="show-tooltip" data-toggle="tooltip" v-bind:data-original-title="props.rowData.TooltipLinkToCategory" v-bind:href="props.rowData.LinkToCategory" data-placement="bottom" target="_blank" >{{props.rowData.Category}}</a> 
+                </div>
             </template>
 
             <!-- Buttons-->

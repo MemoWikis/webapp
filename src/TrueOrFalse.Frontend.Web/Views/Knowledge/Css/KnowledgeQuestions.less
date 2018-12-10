@@ -6,19 +6,20 @@
 @quarter: 25%;
 @one-third: 33%;
 
+
 #app {
     font-family: Open Sans, Regular;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     color: #2c3e50;
 
-    h2{
+    h2 {
         margin-bottom: 21px;
     }
 }
 
 table {
-    table-layout: fixed;
+    table-layout: initial;
 }
 
 .vuetable {
@@ -36,95 +37,58 @@ table {
     }
 
     .vuetable-th-slot-questionTitle {
-        width: 46%;
         padding-left: 0px;
 
-        @media only screen and (max-width: 1000px) {
-            width: @quarter;
-        }
-
-        @media only screen and (max-width: 675px) {
-            width: 45%;
-        }
-
         @media only screen and (max-width: 424px) {
             font-size: 13px;
-            width: 48%;
         }
     }
 
-    .vuetable-th-slot-knowWas {
-        width: 15%;
+    thead {
+        color: #ec971f;
 
-        @media only screen and (max-width: 1200px) {
-            width: 18%;
+
+        .vuetable-th-slot-knowWas {
+            min-width: 9.25em;
+
+            @media only screen and (max-width: 424px) {
+                font-size: 13px;
+            }
         }
 
-        @media only screen and (max-width: 1000px) {
-            width: @quarter;
+        .vuetable-th-slot-authorImage {
+            min-width: 5em;
+
+            @media only screen and (max-width: 48.125em) {
+                display: none;
+            }
         }
 
-        @media only screen and (max-width: 675px) {
-            width: @one-third;
-        }
-
-        @media only screen and (max-width: 521px) {
-            text-align: center;
-        }
-
-        @media only screen and (max-width: 424px) {
-            font-size: 13px;
-            width: 52%;
-        }
-    }
-
-    .vuetable-th-slot-authorImage {
-        width: 18%;
-
-        @media only screen and (max-width: 1200px) {
-            width: 15%;
-        }
-
-        @media only screen and (max-width: 1000px) {
-            width: @quarter;
-        }
-
-        @media only screen and (max-width: 675px) {
-            width: 21%;
-        }
-
-        @media only screen and (max-width: 521px) {
-            display: none;
-        }
-    }
-
-    .vuetable-th-slot-category {
-        width: 21%;
-
-        @media only screen and (max-width: 1000px) {
-            width: @quarter
-        }
-
-        @media only screen and (max-width: 675px) {
-            display: none;
+        .vuetable-th-slot-category {
+            @media only screen and (max-width: 675px) {
+                display: none;
+            }
         }
     }
     // Table Body
     .td-question {
         padding-left: 0px;
+        vertical-align: middle;
 
         .image {
             float: left;
+
+            @media only screen and (max-width: 48.125em) {
+                display: none;
+            }
         }
 
         .title-table {
-            padding-left: 10px;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            position: relative;
-            display: inline-block;
-            width: calc(100% - 30px);
+            padding-left: 2.5em;
+
+            @media only screen and (max-width: 48.125em) {
+                padding-left: 0;
+            }
 
             @media only screen and (max-width: 424px) {
                 font-size: 13px;
@@ -132,25 +96,17 @@ table {
         }
     }
 
+    .td-know-was {
+        vertical-align: middle;
+    }
+
     .know-was {
         padding-left: 45px;
-
-        @media only screen and (max-width: 521px) {
-            padding-left: 0px;
-        }
-
-        @media only screen and (max-width: 521px) {
-            margin: auto;
-        }
 
         .greenD, .yellow, .red, .grey, .round {
             width: 21px;
             height: 21px;
             border-radius: 10px;
-
-            @media only screen and (max-width: 521px) {
-                margin: auto;
-            }
         }
 
         .greenD {
@@ -172,42 +128,31 @@ table {
     }
 
     .author-image-name {
-        @media only screen and (max-width: 521px) {
+        vertical-align: middle;
+
+
+        @media only screen and (max-width: 48.125em) {
             display: none;
         }
 
         .author-image {
             float: left;
-            padding-right: 10px;
-            max-width: 40px;
         }
 
         .author-name {
-            font-size: 18px;
-            color: #0560AB;
-            width: calc(100% - 40px - 10px);
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            position: relative;
-            display: inline-block;
+            padding: 0em 2.5em;
+
+            @media only screen and (max-width: 1200px) {
+                display: none;
+            }
         }
     }
 
     .category-table {
+        vertical-align: middle;
 
-        @media only screen and (max-width: 675px) {
-            display: none;
-        }
-
-        a {
-            padding-left: 10px;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            position: relative;
-            display: inline-block;
-            width: calc(100% - 30px - 10px);
+        .link-to-category {
+            padding-left: 2.5em;
         }
 
         .round {
@@ -216,25 +161,28 @@ table {
             height: 30px;
             float: left
         }
+
+        @media only screen and (max-width: 1000px) {
+            .round {
+                display: none;
+            }
+
+            .link-to-category {
+                padding-left: 0;
+            }
+        }
+
+        @media only screen and (max-width: 675px) {
+            display: none;
+        }
     }
 }
 
-thead {
-    color: #ec971f;
-}
 
 .imageTable {
     border-radius: 100%;
     width: 30px;
     height: 30px;
-}
-
-.link-to-category {
-    margin-left: 10px;
-}
-
-table.table.table-striped .title {
-    float: left;
 }
 
 //|-----------------------switch--------------------------|
@@ -322,9 +270,6 @@ table.table.table-striped .title {
     padding-bottom: 62px;
     padding-left: 0px;
 }
-
-
-
 
 
 //--------------- Pagination ------------------------------------------------
