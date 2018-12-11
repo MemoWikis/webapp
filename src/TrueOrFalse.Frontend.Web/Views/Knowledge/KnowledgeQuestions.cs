@@ -2,6 +2,8 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Web.UI.WebControls.Expressions;
+using Antlr.Runtime.Misc;
 using TrueOrFalse.Frontend.Web.Code;
 
 
@@ -125,11 +127,25 @@ public class KnowledgeQuestions : BaseModel
                     sortList = unSortList.OrderByDescending(v => v.Question.Creator.Id).ToList();
                     break;
                 case "category|asc":
-                    var test = unSortList[7].Question.Categories.GetIds();
-                    sortList = unSortList.OrderBy(qv => qv.Question.Categories?[0].Id ?? 0 ).ToList();
+                    sortList = unSortList
+                        .OrderBy(qv =>
+                        {
+                            if (qv.Question.Categories.IsEmpty())
+                                return ""; //should be first;
+
+                            return qv.Question.Categories[0].Name;
+                        }).ToList();
                     break;
                 case "category|desc":
-                    sortList = unSortList.OrderByDescending(qv => qv.Question.Categories?[0].Id ?? 0).ToList();
+                    sortList = unSortList
+                        .OrderByDescending(qv =>
+                        {
+                            if (qv.Question.Categories.IsEmpty())
+                                return ""; //should be last;
+
+                            return qv.Question.Categories[0].Name;
+                        }).ToList();
+
                     break;
             }
 
