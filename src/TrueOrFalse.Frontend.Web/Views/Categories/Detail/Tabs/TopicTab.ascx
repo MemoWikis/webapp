@@ -10,18 +10,69 @@
                 ? "Diese Seite zeigt einen <b>früheren Stand</b> des Themas."
                 : "Dies ist die <b>aktuelle Revision</b> des Themas."
         %>
-        <nav>
-            <a class="btn btn-primary navbar-btn" href="<%= Links.CategoryHistoryDetail(Model.Id, Model.CategoryChange.Id) %>">
+        
+        <div class="dropdown pull-right" style="margin-top: 1em">
+            <a class="btn btn-primary" href="<%= Links.CategoryHistoryDetail(Model.Id, Model.CategoryChange.Id) %>">
                 <i class="fa fa-code-fork"></i> &nbsp; Änderungen anzeigen
             </a>
-            <a class="btn btn-default navbar-btn" href="<%= Links.CategoryHistory(Model.Id) %>">
+            <a class="btn btn-default" href="<%= Links.CategoryHistory(Model.Id) %>">
                 <i class="fa fa-list-ul"></i> &nbsp; Zur Bearbeitungshistorie
             </a>
-            <a class="btn btn-default navbar-btn" href="<%= Links.HistoryOfEverything(1) %>">
-                <i class="fa fa-list"></i> &nbsp; Zur Bearbeitungshistorie aller Themen
+            <% var buttonSetId = Guid.NewGuid(); %>
+            <a href="#" id="<%= buttonSetId %>" class="dropdown-toggle btn btn-link btn-sm ButtonEllipsis" 
+               type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                <i class="fa fa-ellipsis-v" style="font-size: 18px; margin-top: 2px;"></i>
             </a>
-        </nav>
+            <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="<%= buttonSetId %>">
+                <li>
+                    <% if (new SessionUser().IsLoggedIn) {
+                           if (Model.NextRevExists) { %>
+                            <a id="restoreButton" data-allowed="logged-in" onclick="$('#alertConfirmRestore').show();">
+                                <i class="fa fa-undo"></i> &nbsp; Wiederherstellen
+                            </a>
+                        <% } else { %>
+                            <a id="editButton" data-allowed="logged-in" href="<%= Links.CategoryEdit(Model.Category) %>">
+                                <i class="fa fa-edit"></i> &nbsp; Thema bearbeiten
+                            </a>
+                        <% } %>
+                    <% } %>
+                </li>
+                <li>
+                    <a href="<%= Links.HistoryOfEverything(1) %>">
+                        <i class="fa fa-list"></i> &nbsp; Zur Bearbeitungshistorie aller Themen
+                    </a>
+                </li>
+            </ul>
+        </div>
+        
+        <br />
+        <br />
+        &nbsp;
+
     </div>
+        
+    <% if (new SessionUser().IsLoggedIn && Model.NextRevExists) { %>
+        <div id="alertConfirmRestore" class="row" style="display: none">
+            <br/>
+            <div class="alert alert-warning" role="alert">
+                <div class="col-12">
+                    Der aktuelle Stand wird durch diese Version ersetzt. Wollen Sie das wirklich?
+                </div>
+                <br/>
+                <div class="col-12">
+                    <nav>
+                        <a class="btn btn-default navbar-btn" href="<%= Links.CategoryRestore(Model.Category.Id, Model.CategoryChange.Id) %>">
+                            <i class="fa fa-undo"></i> Ja, Wiederherstellen
+                        </a>
+                        <a class="btn btn-primary navbar-btn" onclick="$('#alertConfirmRestore').hide();">
+                            <i class="fa fa-remove"></i> Nein, Abbrechen
+                        </a>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    <% } %>
+
     <br/>
 <% } %>
 
