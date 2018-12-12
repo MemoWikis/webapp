@@ -9,16 +9,4 @@ public abstract class CategoryRelation_EditData
     public CategoryRelationType RelationType;
     public int CategoryId;
     public int RelatedCategoryId;
-
-    public CategoryRelation ToCategoryRelation()
-    {
-        var cat = Sl.CategoryRepo.GetById(CategoryId);
-        var relatedCat = Sl.CategoryRepo.GetById(RelatedCategoryId);
-        return new CategoryRelation
-        {
-            Category = cat,
-            RelatedCategory = relatedCat,
-            CategoryRelationType = RelationType
-        };
-    }
 }

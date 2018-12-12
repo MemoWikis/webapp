@@ -41,6 +41,8 @@ public class CategoryEditData_V1 : CategoryEditData
         // Historic CategoryRelations cannot be loaded for DataVersion 1 because there
         // was a bug where data didn't get written properly so correct relation data
         // simply do not exist for V1.
+        // Also they cannot be loaded because we do not have archive data and
+        // loading them leads to nasty conflicts and nuisance with NHibernate.
 
         return category;
     }

@@ -7,8 +7,11 @@
         <b>Revision vom <%= Model.CategoryChange.DateCreated %></b>
         <br/>
         <%= (Model.NextRevExists) 
-                ? "Diese Seite zeigt einen <b>früheren Stand</b> des Themas."
-                : "Dies ist die <b>aktuelle Revision</b> des Themas."
+                ? "Diese Seite zeigt einen <b>früheren Stand</b> des Themas." +
+                  "Aus technischen Gründen können keine Archivdaten für untergeordnete und " +
+                  "übergeordnete Themen angezeigt werden, d.h. es werden die aktuellen " +
+                  "Themenbeziehungen dargestellt, so dies im Thema konfiguriert ist."
+                : "Dies ist die <b>aktuelle Revision</b> des Themas.<br/>"
         %>
         
         <div class="dropdown pull-right" style="margin-top: 1em">
@@ -45,8 +48,8 @@
             </ul>
         </div>
         
-        <br />
-        <br />
+        <br/>
+        <br/>
         &nbsp;
 
     </div>

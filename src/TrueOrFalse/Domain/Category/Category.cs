@@ -37,16 +37,6 @@ public class Category : DomainEntity, ICreator
             : new List<Category>();
     }
 
-    public virtual IList<Category> ChildCategories()
-    {
-        return CategoryRelations.Any()
-            ? CategoryRelations
-                .Where(r => r.CategoryRelationType == CategoryRelationType.IncludesContentOf)
-                .Select(x => x.RelatedCategory)
-                .ToList()
-            : new List<Category>();
-    }
-
     public virtual string CategoriesToExcludeIdsString { get; set; }
 
     public virtual string CategoriesToIncludeIdsString { get; set; }

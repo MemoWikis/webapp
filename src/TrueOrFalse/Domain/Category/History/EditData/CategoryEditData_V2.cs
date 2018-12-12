@@ -45,7 +45,9 @@ public class CategoryEditData_V2 : CategoryEditData
         category.TopicMarkdown = this.TopicMardkown;
         category.WikipediaURL = this.WikipediaURL;
         category.DisableLearningFunctions = this.DisableLearningFunctions;
-        category.CategoryRelations = this.CategoryRelations.Select(cr => cr.ToCategoryRelation()).ToList();
+
+        // Historic category relations cannot be loaded because we do not have archive data and
+        // loading them leads to nasty conflicts and nuisance with NHibernate.
 
         return category;
     }
