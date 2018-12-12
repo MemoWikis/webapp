@@ -7,7 +7,7 @@
         <b>Revision vom <%= Model.CategoryChange.DateCreated %></b>
         <br/>
         <%= (Model.NextRevExists) 
-                ? "Diese Seite zeigt einen <b>früheren Stand</b> des Themas." +
+                ? "Diese Seite zeigt einen <b>früheren Stand</b> des Themas. " +
                   "Aus technischen Gründen können keine Archivdaten für untergeordnete und " +
                   "übergeordnete Themen angezeigt werden, d.h. es werden die aktuellen " +
                   "Themenbeziehungen dargestellt, so dies im Thema konfiguriert ist."
