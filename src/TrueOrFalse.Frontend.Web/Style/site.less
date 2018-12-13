@@ -364,7 +364,7 @@ img {
     height: 100%;
 
     .media-below-sm( {
-        margin-top: 1px;
+        margin-top: 6px;
     }
 
     );
@@ -374,15 +374,23 @@ img {
         height: 19px;
         padding: 0px;
         line-height: 14px;
-        position:relative;
         font-size: 10px !important;
-        width: 19px;
+        width: 27px;
         display: flex !important;
         flex-direction: column;
         text-align: center;
-        bottom: 9px;
-        left: 10px;
-        border: 1.5px solid #003264;
+        background-color: transparent;
+
+        &.badge-header {
+            background-color: #FF001F;
+            width: 19px;
+            margin-left: 8px;
+            margin-top: 3px;
+            left: 11px;
+            top: -11px;
+            border: 1.5px solid #003264;
+            position: relative;
+        }
     }
 
     .dropdown-badge {

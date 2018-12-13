@@ -31,9 +31,9 @@
             <div class="dropdown" id="HeaderUserDropdown" style="display: inline-block;">
                 <a class="TextLinkWithIcon dropdown-toggle" id="dLabel" role="button" data-toggle="dropdown" data-target="#" href="#">
                     <div style="display: flex; justify-content: center;">
-                        <%if (Model.SidebarModel.UnreadMessageCount != 0)
+                        <%if (Model.SidebarModel.UnreadMessageCount == 0)
                             { %>
-                        <span id="badgeNewMessages" class="badge show-tooltip" data-placement="bottom" title="<%= Model.SidebarModel.UnreadMessageCount%> Ungelesene Nachrichten" style="background-color: #FF001F"><%= Model.SidebarModel.UnreadMessageCount %></span>
+                        <span id="badgeNewMessages" class="badge show-tooltip badge-header"><%= Model.SidebarModel.UnreadMessageCount %></span>
                         <%}%>
                         <img class="userImage" src="<%= imageSetttings.GetUrl_30px_square(userSession.User).Url %>" />
                         <span id="header-level-display" class="level-display">
@@ -56,9 +56,11 @@
                     <li class="divider"></li>
                     <li>
                         <a class="<%= Model.UserMenuActive(UserMenuEntry.Messages) %>" href="<%=Links.Messages(Url) %>"  style="display: flex;">Deine Nachrichten                        
-                            <% if (Model.SidebarModel.UnreadMessageCount != 0) { %>
-                                <span style="display: block; background-color: #FF001F; margin-left: 8px; margin-top: 3px;" class="badge dropdown-badge show-tooltip" title="<%= Model.SidebarModel.UnreadMessageCount%> ungelesene Nachrichten"><%= Model.SidebarModel.UnreadMessageCount %></span>
-                            <% } %>
+                            <% if (Model.SidebarModel.UnreadMessageCount == 0) { %>
+                                <svg class="badge">
+                                    <circle cx="16" cy="11" r="8" fill="#FF001F"/>
+                                    <text class="level-count" x="13" font-size="10" y="12" dy=".34em" fill="white"><%= Model.SidebarModel.UnreadMessageCount %></text>
+                                </svg>                            <% } %>
                         </a>
                        
                     </li>

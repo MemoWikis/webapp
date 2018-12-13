@@ -358,7 +358,7 @@ img {
 @media (max-width: 767px) {
   #loginAndHelp,
   #StickyHeaderContainer {
-    margin-top: 1px;
+    margin-top: 6px;
   }
 }
 #loginAndHelp .badge,
@@ -366,15 +366,23 @@ img {
   height: 19px;
   padding: 0px;
   line-height: 14px;
-  position: relative;
   font-size: 10px !important;
-  width: 19px;
+  width: 27px;
   display: flex !important;
   flex-direction: column;
   text-align: center;
-  bottom: 9px;
-  left: 10px;
+  background-color: transparent;
+}
+#loginAndHelp .badge.badge-header,
+#StickyHeaderContainer .badge.badge-header {
+  background-color: #FF001F;
+  width: 19px;
+  margin-left: 8px;
+  margin-top: 3px;
+  left: 11px;
+  top: -11px;
   border: 1.5px solid #003264;
+  position: relative;
 }
 #loginAndHelp .dropdown-badge,
 #StickyHeaderContainer .dropdown-badge {
