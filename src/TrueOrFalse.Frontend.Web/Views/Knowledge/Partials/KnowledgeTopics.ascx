@@ -30,7 +30,7 @@
 
           <!-- Topic ImageAndTitle-->
         <template slot="imageAndTitle" scope="props">
-            <input type="hidden" id="hddCountDates" v-bind:value="props.rowData.ListCount"/>
+            <input type="hidden" class="hddCountDates" v-bind:value="props.rowData.ListCount"/>
             <div class="imageParent">
                 <image class="image" v-bind:src="GetImageSourceUrl(props.rowData.ImageFrontendData.SourceUrl)"></image>
             </div>

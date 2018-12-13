@@ -31,10 +31,10 @@ new Vue({
                 title: "Größe"
             },
             {
-                name: '__slot:dropDown' ,
+                name: '__slot:dropDown',
                 dataClass: "drop-down-td"
             }
-            
+
         ],
         sortOrder: [
             { field: 'name', direction: 'asc' },
@@ -71,7 +71,7 @@ new Vue({
         },
         onChangePage(page) {
             this.$refs.vuetable.changePage(page);
-          this.initializeTooltip();
+            this.initializeTooltip();
         },
         deleteRow: function (id, IsCategory, index) {
             var self = this;
@@ -95,7 +95,7 @@ new Vue({
         },
         onLoaded() {
             $('.show-tooltip').tooltip();
-            $("#h2TpopicAndLearnset").text("Du hast " + $("#hddCountDates").val() + " Themen und Lernsets in deinem Wunschwissen");
+            $("#h2TpopicAndLearnset").text("Du hast " + this.hasNullTopicsORSets($(".hddCountDates").val()) + " Themen und Lernsets in deinem Wunschwissen");
             $(".spinner").hide();
         },
         switchOnlySelfCreatedChanged: function () {
@@ -107,8 +107,13 @@ new Vue({
             if (url === null)
                 return "/Images/no-category-picture-350.png";
             return url;
+        },
+        hasNullTopicsORSets(counterQuestions) {
+            if (counterQuestions !== undefined) {
+                return counterQuestions;
+            }
+            return 0;
         }
-    }, mounted: function () {
     }
 });
 
