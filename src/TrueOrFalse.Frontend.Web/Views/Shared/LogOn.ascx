@@ -31,7 +31,7 @@
             <div class="dropdown" id="HeaderUserDropdown" style="display: inline-block;">
                 <a class="TextLinkWithIcon dropdown-toggle" id="dLabel" role="button" data-toggle="dropdown" data-target="#" href="#">
                     <div style="display: flex; justify-content: center;">
-                        <%if (Model.SidebarModel.UnreadMessageCount == 0)
+                        <%if (Model.SidebarModel.UnreadMessageCount != 0)
                             { %>
                         <span id="badgeNewMessages" class="badge show-tooltip badge-header"><%= Model.SidebarModel.UnreadMessageCount %></span>
                         <%}%>
@@ -56,7 +56,7 @@
                     <li class="divider"></li>
                     <li>
                         <a class="<%= Model.UserMenuActive(UserMenuEntry.Messages) %>" href="<%=Links.Messages(Url) %>"  style="display: flex;">Deine Nachrichten                        
-                            <% if (Model.SidebarModel.UnreadMessageCount == 0) { %>
+                            <% if (Model.SidebarModel.UnreadMessageCount != 0) { %>
                                 <svg class="badge">
                                     <circle cx="16" cy="11" r="8" fill="#FF001F"/>
                                     <text class="level-count" x="13" font-size="10" y="12" dy=".34em" fill="white"><%= Model.SidebarModel.UnreadMessageCount %></text>
