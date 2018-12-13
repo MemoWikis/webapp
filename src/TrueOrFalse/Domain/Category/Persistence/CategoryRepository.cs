@@ -52,13 +52,13 @@ public class CategoryRepository : RepositoryDbBase<Category>
     public override void Update(Category category) => Update(category, null);
 
     // ReSharper disable once MethodOverloadWithOptionalParameter
-    public void Update(Category category, User author = null)
+    public void Update(Category category, User author = null, bool imageWasUpdated = false)
     {
         _searchIndexCategory.Update(category);
         base.Update(category);
 
         if(author != null)
-            Sl.CategoryChangeRepo.AddUpdateEntry(category, author);
+            Sl.CategoryChangeRepo.AddUpdateEntry(category, author, imageWasUpdated);
 
         Flush();
 
