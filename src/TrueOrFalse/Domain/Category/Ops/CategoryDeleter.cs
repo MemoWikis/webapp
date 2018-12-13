@@ -18,7 +18,7 @@ public class CategoryDeleter : IRegisterAsInstancePerLifetime
     {
         if (category == null)
             return;
-
+        Sl.R<CategoryValuationRepo>().DeleteCategoryValuation(category);
         ThrowIfNot_IsLoggedInUserOrAdmin.Run(category.Creator.Id);
 
         _session.CreateSQLQuery("DELETE FROM relatedcategoriestorelatedcategories where Related_id = " + category.Id).ExecuteUpdate();

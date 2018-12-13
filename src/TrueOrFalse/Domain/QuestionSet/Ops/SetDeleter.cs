@@ -19,7 +19,7 @@ public class SetDeleter
 
         Sl.R<SetValuationRepo>().DeleteWhereSetIdIs(setId);
         Sl.R<UpdateSetDataForQuestion>().Run(set.QuestionsInSet);
-
+        Sl.R<SetValuationRepo>().DeleteWhereSetIdIs(set.Id);
         Sl.R<UpdateSetCountForCategory>().Run(categoriesToUpdate);
 
         var aggregatedCategoriesToUpdate = CategoryAggregation.GetAggregatingAncestors(categoriesToUpdate);

@@ -101,6 +101,7 @@ public class SetValuationRepo : RepositoryDb<SetValuation>
 
         _session.Delete("FROM SetValuation WHERE SetId = " + setId + "");
 
+        UserValuationCache.RemoveAllForSet(setId);
         Sl.Resolve<UpdateWishcount>().Run(users);
     }
 }
