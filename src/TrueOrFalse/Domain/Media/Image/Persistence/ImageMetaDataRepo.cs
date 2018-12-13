@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using NHibernate;
 using NHibernate.Criterion;
+using SolrNet.Impl.FacetQuerySerializers;
 using TrueOrFalse;
 using TrueOrFalse.Maintenance;
 
@@ -39,13 +40,21 @@ public class ImageMetaDataRepo : RepositoryDbBase<ImageMetaData>
         return metaData;
     }
 
-    public IList<ImageMetaData> GetBy(IList<int> typeIds, ImageType imageType)
+    public IList<ImageMetaData> GetBy(IList<int> typeIds, ImageType imageType, bool withNullValues = false)
     {
+        if (withNullValues)
+        {
+            return _session.QueryOver<ImageMetaData>()
+                .Where(Restrictions.In("TypeId", typeIds.ToList()))
+                .List<ImageMetaData>();
+        }
+
         return _session.QueryOver<ImageMetaData>()
             .Where(Restrictions.In("TypeId", typeIds.ToList()))
             .And(x => x.Type == imageType)
             .List<ImageMetaData>();
     }
+
 
     public IList<ImageMetaData> GetBy(ImageMetaDataSearchSpec searchSpec)
     {

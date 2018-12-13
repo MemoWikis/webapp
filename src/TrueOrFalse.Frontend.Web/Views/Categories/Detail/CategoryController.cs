@@ -51,8 +51,6 @@ public class CategoryController : BaseController
         var historicCategory = categoryChange.ToHistoricCategory();
         categoryModel.Name = historicCategory.Name;
         categoryModel.CategoryChange = categoryChange;
-        categoryModel.CategoriesParent = historicCategory.ParentCategories();
-        categoryModel.CategoriesChildren = historicCategory.ChildCategories();
         categoryModel.CustomPageHtml = MarkdownToHtml.Run(historicCategory.TopicMarkdown, historicCategory, ControllerContext);
         categoryModel.Description = MarkdownToHtml.Run(historicCategory.Description, historicCategory, ControllerContext);
         categoryModel.WikipediaURL = historicCategory.WikipediaURL;
