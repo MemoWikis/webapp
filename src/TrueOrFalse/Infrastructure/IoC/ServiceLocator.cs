@@ -30,6 +30,8 @@ public class Sl
     public static SetViewRepo SetViewRepo => R<SetViewRepo>();
     public static UpdateSetDataForQuestion UpdateSetDataForQuestion => R<UpdateSetDataForQuestion>();
 
+    public static UpdateSetCountForCategory UpdateSetCountForCategory => R<UpdateSetCountForCategory>();
+
     public static QuestionInSetRepo QuestionInSetRepo => R<QuestionInSetRepo>();
 
     public static QuestionRepo QuestionRepo => R<QuestionRepo>();

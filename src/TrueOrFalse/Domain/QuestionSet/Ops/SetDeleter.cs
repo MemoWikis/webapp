@@ -13,14 +13,14 @@ public class SetDeleter
 
         var categoriesToUpdate = set.Categories.ToList();
 
-        Sl.R<UserActivityRepo>().DeleteForSet(setId);
-        Sl.R<LearningSessionRepo>().UpdateForDeletedSet(setId);
+        Sl.UserActivityRepo.DeleteForSet(setId);
+        Sl.LearningSessionRepo.UpdateForDeletedSet(setId);
         setRepo.Delete(set);
 
-        Sl.R<SetValuationRepo>().DeleteWhereSetIdIs(setId);
-        Sl.R<UpdateSetDataForQuestion>().Run(set.QuestionsInSet);
-        Sl.R<SetValuationRepo>().DeleteWhereSetIdIs(set.Id);
-        Sl.R<UpdateSetCountForCategory>().Run(categoriesToUpdate);
+        Sl.SetValuationRepo.DeleteWhereSetIdIs(setId);
+        Sl.UpdateSetDataForQuestion.Run(set.QuestionsInSet);
+        Sl.SetValuationRepo.DeleteWhereSetIdIs(set.Id);
+        Sl.UpdateSetCountForCategory.Run(categoriesToUpdate);
 
         var aggregatedCategoriesToUpdate = CategoryAggregation.GetAggregatingAncestors(categoriesToUpdate);
 

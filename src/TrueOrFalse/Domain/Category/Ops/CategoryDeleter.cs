@@ -18,7 +18,7 @@ public class CategoryDeleter : IRegisterAsInstancePerLifetime
     {
         if (category == null)
             return;
-        Sl.R<CategoryValuationRepo>().DeleteCategoryValuation(category);
+        
         ThrowIfNot_IsLoggedInUserOrAdmin.Run(category.Creator.Id);
 
         _session.CreateSQLQuery("DELETE FROM relatedcategoriestorelatedcategories where Related_id = " + category.Id).ExecuteUpdate();
@@ -27,10 +27,10 @@ public class CategoryDeleter : IRegisterAsInstancePerLifetime
         _session.CreateSQLQuery("DELETE FROM categories_to_sets where Category_id = " + category.Id).ExecuteUpdate();
 
         Sl.UserActivityRepo.DeleteForCategory(category.Id);
-
         Sl.CategoryRepo.Delete(category);
-
         Sl.CategoryChangeRepo.AddDeleteEntry(category);
+        Sl.CategoryValuationRepo.DeleteCategoryValuation(category);
 
+        UserValuationCache.RemoveAllForCategory(category.Id);
     }
 }
