@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using NHibernate;
+using NHibernate.Linq;
 using Seedworks.Lib.Persistence;
 using TrueOrFalse;
 using TrueOrFalse.Search;
@@ -86,14 +87,14 @@ public class QuestionValuationRepo : RepositoryDb<QuestionValuation>
 
     public IList<QuestionValuation> GetByUserWithQuestion(int userId)
     {
-        var query =  _session
-            .QueryOver<QuestionValuation>()
-            .Fetch(v => v.Question).Eager
-            .Where(q => q.User.Id == userId &&  q.RelevancePersonal > -1)
-            .List<QuestionValuation>();
+        var result =  _session
+            .Query<QuestionValuation>()
+            .Where(qv => qv.User.Id == userId &&  qv.RelevancePersonal > -1)
+            .Fetch(qv => qv.Question)
+            .ThenFetchMany(q => q.Categories)
+            .ToList();
 
-
-        return query;
+        return result;
     }
 
     public IList<QuestionValuation> GetByUserFromCache(int userId, bool onlyActiveKnowledge = true)

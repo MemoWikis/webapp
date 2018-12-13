@@ -24,14 +24,14 @@ public class KnowledgeTopics : BaseController
         Categories = isAuthor
             ? EntityCache.GetCategories(categoriesIds).Where(v => v.Creator.Id == UserId).ToList()
             : EntityCache.GetCategories(categoriesIds).ToList();
-        CategoryFrontendImageDataIList = Sl.ImageMetaDataRepo.GetBy(categoriesIds, ImageType.Category);
+        CategoryFrontendImageDataIList = Sl.ImageMetaDataRepo.GetBy(categoriesIds, ImageType.Category, true);
 
         var setIds = UserValuationCache.GetSetValuations(UserId)
             .Where(v => v.IsInWishKnowledge())
             .Select(i => i.SetId)
             .ToList();
         Sets = EntityCache.GetSetsByIds(setIds);
-        SetFrontendImageDataIList = Sl.ImageMetaDataRepo.GetBy(setIds, ImageType.QuestionSet);
+        SetFrontendImageDataIList = Sl.ImageMetaDataRepo.GetBy(setIds, ImageType.QuestionSet, true);
     }
 
     public List<CategoryAndSetWishKnowledge> filteredCategoryWishKnowledge(ControllerContext controllerContext)
@@ -212,8 +212,8 @@ public class KnowledgeTopics : BaseController
             return -1;
         }
 
-        questionTotalNumber = solid + needsConsolidation + needsLearning + notInWishKnowledge + notLearned;
-        questionAVGPercantage = ((solid * 100) + (needsConsolidation * 50) + (needsLearning * 20) + (notLearned * 2)) / questionTotalNumber;
+        questionTotalNumber = (solid + needsConsolidation + needsLearning + notInWishKnowledge + notLearned) == 0  ? -1 : solid + needsConsolidation + needsLearning + notInWishKnowledge + notLearned;  // Die Bedingung ist für die Möglichkeit das ein Set hinzugefügt wird das keine Fragen enthält ,damit wird der Wert negativ und sie landet am Ende 
+        questionAVGPercantage = ((solid * 100) + (needsConsolidation * 50) + (needsLearning * 20) + (notLearned * 2))/ questionTotalNumber;
         return questionAVGPercantage;
     }
 }
