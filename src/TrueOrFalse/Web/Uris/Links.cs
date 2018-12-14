@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.Routing;
+using FluentNHibernate.Utils;
 using TrueOrFalse.Web;
 using TrueOrFalse.Web.Uris;
 using static System.String;
@@ -44,7 +46,12 @@ namespace TrueOrFalse.Frontend.Web.Code
         public static string WidgetStats() => GetUrlHelper().Action("WidgetStats", AccountController);
         public static string BetaInfo() => GetUrlHelper().Action("MemuchoBeta", VariousController);
 
-        public static UrlHelper GetUrlHelper() => new UrlHelper(HttpContext.Current.Request.RequestContext);
+        public static UrlHelper GetUrlHelper()
+        {
+            var res = new UrlHelper(HttpContext.Current.Request.RequestContext);
+            res.RemoveRoutes(new[] { "version" });
+            return res;
+        }
 
         /* About */
         public const string AboutController = "About";
@@ -410,12 +417,20 @@ namespace TrueOrFalse.Frontend.Web.Code
         public static string CategoryHistory(int categoryId) =>
             GetUrlHelper().Action("List", "CategoryHistory", new { categoryId = categoryId });
 
-        public static string CategoryDetail(Category category, int? version = null) =>
+        public static string CategoryDetail(Category category) =>
+            HttpContext.Current == null 
+                ? "" 
+                : CategoryDetail(category.Name, category.Id);
+
+        public static string CategoryDetail(Category category, int version) =>
             HttpContext.Current == null 
                 ? "" 
                 : CategoryDetail(category.Name, category.Id, version);
 
-        public static string CategoryDetail(string name, int id, int? version = null) => 
+        public static string CategoryDetail(string name, int id) =>
+            GetUrlHelper().Action("Category", CategoryController, new { text = UriSanitizer.Run(name), id = id });
+
+        public static string CategoryDetail(string name, int id, int version) => 
             GetUrlHelper().Action("Category", CategoryController, new { text = UriSanitizer.Run(name), id = id, version = version }, null);
 
         public static string CategoryRestore(int categoryId, int categoryChangeId) => 

@@ -6,13 +6,29 @@
     <div class="alert alert-info" role="alert">
         <b>Revision vom <%= Model.CategoryChange.DateCreated %></b>
         <br/>
-        <%= (Model.NextRevExists) 
-                ? "Diese Seite zeigt einen <b>früheren Stand</b> des Themas. " +
-                  "Aus technischen Gründen können keine Archivdaten für untergeordnete und " +
-                  "übergeordnete Themen angezeigt werden, d.h. es werden die aktuellen " +
-                  "Themenbeziehungen dargestellt, so dies im Thema konfiguriert ist."
-                : "Dies ist die <b>aktuelle Revision</b> des Themas.<br/>"
-        %>
+        <% if (Model.NextRevExists) { %>
+            <p>
+                Diese Seite zeigt einen <b>früheren Stand</b> des Themas.
+            </p>
+        <% } else {%>
+            Dies ist die <b>aktuelle Revision</b> des Themas.<br/>
+        <% } %>
+        <ul>
+            <li>
+                In dieser Revisionsansicht gibt es nur eingeschränkte Möglichkeiten, mit dem Thema 
+                zu interagieren, bspw. eine Lernsitzung zu starten. Bitte gehe dazu am besten zur 
+                Liveansicht des Themas:
+                <a href="<%= Links.CategoryDetail(Model.Category.Name, Model.Category.Id) %>">
+                    <%= Model.Name %>
+                </a>
+            </li>
+            <li>
+                Aus technischen Gründen können keine Archivdaten für "Über- und untergeordnete 
+                Themen" sowie "Lernsets" und "Fragen" angezeigt werden. Es werden die aktuellen 
+                Themenbeziehungen dargestellt, so dies in der Themenrevision konfiguriert war.
+                Lernsets und Fragen werden in der Revisionsansicht nicht angezeigt.
+            </li>
+        </ul>
         
         <div class="dropdown pull-right" style="margin-top: 1em">
             <a class="btn btn-primary" href="<%= Links.CategoryHistoryDetail(Model.Id, Model.CategoryChange.Id) %>">
