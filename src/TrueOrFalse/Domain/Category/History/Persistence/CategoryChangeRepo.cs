@@ -4,6 +4,12 @@ using Newtonsoft.Json;
 using NHibernate;
 using NHibernate.Criterion;
 
+
+public class CategoryChangeParameters
+{
+
+}
+
 public class CategoryChangeRepo : RepositoryDbBase<CategoryChange>
 {
     public CategoryChangeRepo(ISession session) : base(session){}
@@ -22,9 +28,9 @@ public class CategoryChangeRepo : RepositoryDbBase<CategoryChange>
     }
 
     public void AddCreateEntry(Category category, User author) => AddUpdateOrCreateEntry(category, author, CategoryChangeType.Create);
-    public void AddUpdateEntry(Category category, User author) => AddUpdateOrCreateEntry(category, author, CategoryChangeType.Update);
+    public void AddUpdateEntry(Category category, User author, bool imageWasUpdated) => AddUpdateOrCreateEntry(category, author, CategoryChangeType.Update, imageWasUpdated);
 
-    private void AddUpdateOrCreateEntry(Category category, User author, CategoryChangeType categoryChangeType)
+    private void AddUpdateOrCreateEntry(Category category, User author, CategoryChangeType categoryChangeType, bool imageWasUpdated = false)
     {
         var categoryChange = new CategoryChange
         {
@@ -34,7 +40,7 @@ public class CategoryChangeRepo : RepositoryDbBase<CategoryChange>
             DataVersion = 2
         };
         
-        categoryChange.SetData(category);
+        categoryChange.SetData(category, imageWasUpdated);
 
         base.Create(categoryChange);
     }

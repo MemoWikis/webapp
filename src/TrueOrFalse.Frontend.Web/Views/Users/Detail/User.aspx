@@ -11,7 +11,7 @@
 <asp:Content ContentPlaceHolderID="Head" runat="server">
     <%= Styles.Render("~/bundles/User") %>
     <%= Scripts.Render("~/bundles/Js/User") %>
-    <% Model.TopNavMenu.BreadCrumb.Add(new TopNavMenuItem{Text = "Nutzer", Url = "/Nutzer", ToolTipText = "Nutzer"});
+    <% Model.TopNavMenu.BreadCrumb.Add(new TopNavMenuItem{Text = "Nutzer", Url = "/Nutzer", ToolTipText = Links.Users()});
         Model.TopNavMenu.BreadCrumb.Add(new TopNavMenuItem{Text = "Profilseite", Url = Url.Action(Links.UserAction, Links.UserController, new { name = Model.User.Name, id = Model.User.Id}), ToolTipText = "Profilseite"});
         Model.TopNavMenu.IsCategoryBreadCrumb = false; %>
 

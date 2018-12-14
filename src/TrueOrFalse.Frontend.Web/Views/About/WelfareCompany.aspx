@@ -1,7 +1,8 @@
 ﻿<%@ Page Title="memucho Gemeinwohlökonomie" Language="C#" MasterPageFile="~/Views/Shared/Site.Sidebar.Master" Inherits="System.Web.Mvc.ViewPage<BaseModel>" %>
+<%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="Head" runat="server">
-    <% Model.TopNavMenu.BreadCrumb.Add(new TopNavMenuItem{Text = "Gemeinwohlökonomie", Url = "/Gemeinwohlökonomie", ToolTipText = "Gemainwohlökonomie"});
+    <% Model.TopNavMenu.BreadCrumb.Add(new TopNavMenuItem{Text = "Gemeinwohlökonomie", Url = Links.WelfareCompany(), ToolTipText = "Gemainwohlökonomie"});
        Model.TopNavMenu.IsCategoryBreadCrumb = false; %>
 
 </asp:Content>

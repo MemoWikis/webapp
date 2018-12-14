@@ -1,24 +1,14 @@
 ﻿@media (min-width: 768px) {
-}
-@media (min-width: 768px) {
-}
-@media (max-width: 767px) {
-}
-@media (min-width: 768px) {
-}
-@media (min-width: 768px) {
-}
-@media (min-width: 768px) {
-}
-@media (max-width: 767px) {
-}
-@media (max-width: 767px) {
-}
-@media (max-width: 649px) {
-}
-@media (min-width: 650px) {
-}
-.right {
+}@media (min-width: 768px) {
+}@media (max-width: 767px) {
+}@media (min-width: 768px) {
+}@media (min-width: 768px) {
+}@media (min-width: 768px) {
+}@media (max-width: 767px) {
+}@media (max-width: 767px) {
+}@media (max-width: 649px) {
+}@media (min-width: 650px) {
+}.right {
   float: right;
   padding-top: 10px;
 }
@@ -157,6 +147,7 @@ h4 {
   font-size: 18px;
   overflow: auto;
   overflow-x: hidden;
+  width: 100%;
 }
 @media (min-width: 992px) {
   #welcomeContainer {

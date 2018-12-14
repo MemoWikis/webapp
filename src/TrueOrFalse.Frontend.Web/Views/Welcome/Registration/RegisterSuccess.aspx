@@ -3,7 +3,7 @@
 
 <asp:Content ID="Content1" ContentPlaceHolderID="Head" runat="server">
     <% 
-        Model.TopNavMenu.BreadCrumb.Add(new TopNavMenuItem { Text = "Registrierung erfolgreich", Url = "/Register/RegisterSuccess", ToolTipText = "Registrierung erfolgreich" });
+        Model.TopNavMenu.BreadCrumb.Add(new TopNavMenuItem { Text = "Registrierung erfolgreich", Url = Links.RegisterSuccess, ToolTipText = "Registrierung erfolgreich" });
         Model.TopNavMenu.IsCategoryBreadCrumb = false;
     %>
 </asp:Content>

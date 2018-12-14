@@ -7,6 +7,8 @@
     <%= Scripts.Render("~/bundles/js/CategoryHistoryDetail") %>
     <%= Scripts.Render("~/bundles/js/diff2html") %>
     <%= Styles.Render("~/Scripts/vendor/diff2html/diff2html.css") %>
+    <%  Model.TopNavMenu.BreadCrumb.Add(new TopNavMenuItem {Text = Model.CategoryName, Url = Model.CategoryUrl, ToolTipText = Model.CategoryName});
+        Model.TopNavMenu.IsCategoryBreadCrumb = false; %>
 </asp:Content>
 
 <asp:Content ID="Content3" ContentPlaceHolderID="MainContent" runat="server">
@@ -39,10 +41,16 @@
                 </a>
                 <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="<%= buttonSetId %>">
                     <li>
-                        <% if (new SessionUser().IsLoggedIn && Model.NextRevExists) { %>
-                            <a id="restoreButton" data-allowed="logged-in" onclick="$('#alertConfirmRestore').show();">
-                                <i class="fa fa-undo"></i> &nbsp; Wiederherstellen
-                            </a>
+                        <% if (new SessionUser().IsLoggedIn) {
+                            if (Model.NextRevExists) { %>
+                                <a id="restoreButton" data-allowed="logged-in" onclick="$('#alertConfirmRestore').show();">
+                                    <i class="fa fa-undo"></i> &nbsp; Wiederherstellen
+                                </a>
+                            <% } else { %>
+                                <a id="editButton" data-allowed="logged-in" href="<%= Links.CategoryEdit(Model.CategoryName, Model.CategoryId) %>">
+                                    <i class="fa fa-edit"></i> &nbsp; Thema bearbeiten
+                                </a>
+                            <% } %>
                         <% } %>
                     </li>
                     <li>
@@ -110,6 +118,16 @@
                     <input type="hidden" id="prevDateCreated" value="<%= Model.PrevDateCreated %>" />
                     <div id="diffPanel">
                         <div id="diffName"></div>
+                        <%if (Model.ImageWasUpdated) { %>
+                            <div class="diffImage">
+                                <div id="newImageAlert" class="panel panel-default">
+                                    <div class="panel-heading">Änderung des Bildes. Das aktuelle Bild ist:</div>
+                                    <div class="panel-body">
+                                        <%= Model.ImageFrontendData.RenderHtmlImageBasis(350, false, ImageType.Category, "ImageContainer") %>
+                                    </div>
+                                </div>
+                            </div>
+                        <% } %>  
                         <div id="diffDescription"></div>
                         <div id="diffWikipediaUrl"></div>
                         <div id="diffData"></div>

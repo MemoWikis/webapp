@@ -2,14 +2,18 @@
 using System.Collections.Generic;
 using System.Linq;
 using FluentNHibernate.Conventions;
+using TrueOrFalse.Frontend.Web.Code;
 
 public class CategoryHistoryDetailModel : BaseModel
 {
     public int CategoryId;
     public string CategoryName;
+    public string CategoryUrl;
     public User CurrentAuthor;
     public string AuthorName;
     public string AuthorImageUrl;
+    public bool ImageWasUpdated;
+    public ImageFrontendData ImageFrontendData;
     public bool PrevRevExists;
     public bool NextRevExists;
     public int CurrentId;
@@ -31,6 +35,8 @@ public class CategoryHistoryDetailModel : BaseModel
         PrevRevExists = previousRevision != null;
         NextRevExists = nextRevision != null;
 
+        CategoryUrl = Links.CategoryDetail(CategoryName, CategoryId);
+
         var currentRevisionData = currentRevision.GetCategoryChangeData();
         CurrentId = currentRevision.Id;
         CurrentDateCreated = currentRevision.DateCreated;
@@ -38,6 +44,13 @@ public class CategoryHistoryDetailModel : BaseModel
         CurrentMarkdown = currentRevisionData.TopicMardkown?.Replace("\\r\\n", "\r\n");
         CurrentDescription = currentRevisionData.Description?.Replace("\\r\\n", "\r\n");
         CurrentWikipediaUrl = currentRevisionData.WikipediaURL;
+
+        if (currentRevision.DataVersion == 2)
+        {
+            ImageWasUpdated = ((CategoryEditData_V2)currentRevisionData).ImageWasUpdated;
+            var imageMetaData = Sl.ImageMetaDataRepo.GetBy(currentRevision.Category.Id, ImageType.Category);
+            ImageFrontendData = new ImageFrontendData(imageMetaData);
+        }
 
         if (PrevRevExists)
         {
@@ -70,10 +83,10 @@ public class CategoryHistoryDetailModel : BaseModel
         string res;
         switch (relation.RelationType)
         {
-            case 1:
+            case CategoryRelationType.IsChildCategoryOf:
                 res = $"\"{relatedCategory.Name}\" (ist übergeordnet)";
                 break;
-            case 2:
+            case CategoryRelationType.IncludesContentOf:
                 res = $"\"{relatedCategory.Name}\" (ist untergeordnet)";
                 break;
             default:
@@ -89,19 +102,19 @@ public class CategoryHistoryDetailModel : BaseModel
         string res = "";
         if (relations.IsNotEmpty())
         {
-            var parents = relations.Where(r => r.RelationType == 1);
+            var parents = relations.Where(r => r.RelationType == CategoryRelationType.IsChildCategoryOf);
             res += "Übergeordnete Themen\n";
             res += (parents.IsEmpty())
                 ? "<keine>"
                 : string.Join("\n", parents.Select(Relation2String));
 
-            var children = relations.Where(r => r.RelationType == 2);
+            var children = relations.Where(r => r.RelationType == CategoryRelationType.IncludesContentOf);
             res += "\n\nUntergeordnete Themen\n";
             res += (children.IsEmpty())
                 ? "<keine>"
                 : string.Join("\n", children.Select(Relation2String));
 
-            var otherRelations = relations.Where(r => r.RelationType != 1 && r.RelationType != 2);
+            var otherRelations = relations.Where(r => r.RelationType != CategoryRelationType.IsChildCategoryOf && r.RelationType != CategoryRelationType.IncludesContentOf);
             res += "\n\nAndere Beziehungsdaten\n";
             res += (otherRelations.IsEmpty())
                 ? "<keine>"

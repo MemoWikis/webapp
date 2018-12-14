@@ -235,6 +235,7 @@ img {
 #MasterHeader .HeaderMainRow #HeaderSearchBoxDiv #headerSearchBox {
   border-right: none !important;
   border: 1px #979797 solid;
+  height: 44px;
 }
 #MasterHeader .col-Logo {
   height: 100%;
@@ -357,7 +358,7 @@ img {
 @media (max-width: 767px) {
   #loginAndHelp,
   #StickyHeaderContainer {
-    margin-top: 1px;
+    margin-top: 6px;
   }
 }
 #loginAndHelp .badge,
@@ -366,13 +367,22 @@ img {
   padding: 0px;
   line-height: 14px;
   font-size: 10px !important;
-  width: 19px;
+  width: 27px;
   display: flex !important;
   flex-direction: column;
   text-align: center;
-  bottom: 48px;
-  right: 70px;
+  background-color: transparent;
+}
+#loginAndHelp .badge.badge-header,
+#StickyHeaderContainer .badge.badge-header {
+  background-color: #FF001F;
+  width: 19px;
+  margin-left: 8px;
+  margin-top: 3px;
+  left: 11px;
+  top: -11px;
   border: 1.5px solid #003264;
+  position: relative;
 }
 #loginAndHelp .dropdown-badge,
 #StickyHeaderContainer .dropdown-badge {
@@ -403,15 +413,9 @@ img {
 #StickyHeaderContainer .header-item {
   display: flex;
   flex-direction: column;
-  margin-right: 25px;
   height: 100%;
   text-align: center;
-}
-@media (max-width: 991.5px) {
-  #loginAndHelp .header-item,
-  #StickyHeaderContainer .header-item {
-    margin-right: 5px;
-  }
+  margin-right: 15px;
 }
 #loginAndHelp .header-item .btn-default,
 #StickyHeaderContainer .header-item .btn-default {
@@ -543,7 +547,7 @@ img {
   border-radius: 0px;
   padding-top: 0px;
   max-width: 220px;
-  top: 52px;
+  top: 60px;
 }
 #loginAndHelp .dropdown-menu span,
 #StickyHeaderContainer .dropdown-menu span {
@@ -1014,6 +1018,7 @@ ul.AutocompleteHeader {
 ----------------------------------------------------------*/
 #MasterSection {
   position: relative;
+  background-color: white;
   /*.media-sm-up( {
         padding-bottom: 100px;
     });*/
@@ -1102,6 +1107,7 @@ ul.AutocompleteHeader {
   min-height: 1px;
   padding-left: 10px;
   padding-right: 10px;
+  margin-top: 55px;
 }
 @media (min-width: 1200px) {
   #MasterMainContent #MasterMainColumn {
@@ -1184,7 +1190,7 @@ ul.AutocompleteHeader {
   border-left: 10px solid #adadad;
 }
 .SearchBoxDivMaxWidth {
-  width: 262.41px !important;
+  width: 259px !important;
 }
 @media (max-width: 500px) {
   .SearchBoxDivMaxWidth {
@@ -1213,7 +1219,7 @@ ul.AutocompleteHeader {
   }
 }
 .sticky {
-  position: fixed;
+  position: fixed !important;
   top: 0;
   width: 100%;
 }
@@ -1228,21 +1234,16 @@ ul.AutocompleteHeader {
   padding-bottom: 14px !important;
   color: #000000 !important;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.16);
-  position: unset;
+  position: absolute;
   z-index: 99;
   white-space: nowrap;
-  top: 80px;
   color: #999999;
 }
 #Breadcrumb div {
   font-family: 'Open Sans';
 }
 #Breadcrumb img {
-  width: 29.57px !important;
-  min-width: 29.57px;
-  height: 33.08px !important;
-  border-radius: 50%;
-  margin-top: -8px;
+  margin-top: -10px;
 }
 #Breadcrumb i.fa-chevron-right {
   font-size: 11.2px;
@@ -1302,7 +1303,7 @@ ul.AutocompleteHeader {
   text-overflow: ellipsis;
 }
 #Breadcrumb .fa {
-  margin-right: 25px;
+  margin-right: 15px;
   padding-top: 12px;
 }
 .ShowBreadcrumb {
@@ -1314,6 +1315,7 @@ ul.AutocompleteHeader {
   padding-left: 10px;
   padding-right: 10px;
   position: static;
+  margin-top: 61px;
 }
 @media (min-width: 1200px) {
   #MasterSidebarColumn {
@@ -1325,7 +1327,6 @@ ul.AutocompleteHeader {
   #MasterSidebarColumn {
     width: 232px;
     float: right;
-    margin-top: 6px;
   }
 }
 @media (max-width: 1199.9px) {

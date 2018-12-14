@@ -14,7 +14,7 @@
 <asp:Content ID="Content2" ContentPlaceHolderID="Head" runat="server">
     <%= Styles.Render("~/Views/Categories/Categories.css") %>
     <%= Scripts.Render("~/bundles/Categories") %>
-    <% Model.TopNavMenu.BreadCrumb.Add(new TopNavMenuItem{Text = "Themen", Url = "/Kategorien", ToolTipText = "Themen"});
+    <% Model.TopNavMenu.BreadCrumb.Add(new TopNavMenuItem{Text = "Themen", Url = Links.CategoriesAll(), ToolTipText = "Themen"});
        Model.TopNavMenu.IsCategoryBreadCrumb = false; %>
 </asp:Content>
 
@@ -25,10 +25,14 @@
                 <h3 class="">
                     Themen
                 </h3>
-                <a href="<%= Url.Action("Create", "EditCategory") %>" class="btnCreateItem btn btn-success btn-sm">
-                    <i class="fa fa-plus-circle"></i>
-                    Thema erstellen
-                </a>
+                <div class="" style="float: right;">
+                    <a class="btn btn-sm btn-default" href="<%= Links.HistoryOfEverything(1) %>">
+                        <i class="fa fa-list"></i> Bearbeitungshistorie
+                    </a>
+                    <a href="<%= Url.Action("Create", "EditCategory") %>" class="btnCreateItem btn btn-success btn-sm">
+                        <i class="fa fa-plus-circle"></i>  Thema erstellen
+                    </a>
+                </div>
             </div>
             <nav id="mobilePageHeader2" class="navbar navbar-default" style="display: none;">
                 <h4>
@@ -99,6 +103,9 @@
                         </li>
                     </ul>
                     <div class="" style="float: right; position: absolute; right: 0; top: 5px;">
+                        <a class="btn btn-sm btn-default" href="<%= Links.HistoryOfEverything(1) %>">
+                            <i class="fa fa-list"></i> &nbsp; Zur Bearbeitungshistorie aller Themen
+                        </a>
                         <a href="<%= Url.Action("Create", "EditCategory") %>" class="btn btn-success btn-sm">
                             <i class="fa fa-plus-circle"></i>  Thema erstellen
                         </a>

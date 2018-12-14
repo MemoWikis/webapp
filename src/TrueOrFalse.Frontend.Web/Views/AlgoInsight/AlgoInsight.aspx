@@ -4,7 +4,7 @@
 
 <asp:Content runat="server" ID="header" ContentPlaceHolderID="Head">
     <%= Styles.Render("~/bundles/AlgoInsight") %>
-       <% Model.TopNavMenu.BreadCrumb.Add(new TopNavMenuItem {Text = "Algorithmus-Einblick", Url = "/AlgoInsight/Forecast"});
+       <% Model.TopNavMenu.BreadCrumb.Add(new TopNavMenuItem {Text = "Algorithmus-Einblick", Url = Links.AlgoInsightForecast()});
           Model.TopNavMenu.IsCategoryBreadCrumb = false;%>
 </asp:Content>
 

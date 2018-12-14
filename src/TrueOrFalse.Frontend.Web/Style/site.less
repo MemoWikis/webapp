@@ -228,6 +228,7 @@ img {
             #headerSearchBox {
                 border-right: none !important;
                 border: 1px #979797 solid;
+                height:44px;
             }
         }
     }
@@ -363,7 +364,7 @@ img {
     height: 100%;
 
     .media-below-sm( {
-        margin-top: 1px;
+        margin-top: 6px;
     }
 
     );
@@ -374,13 +375,22 @@ img {
         padding: 0px;
         line-height: 14px;
         font-size: 10px !important;
-        width: 19px;
+        width: 27px;
         display: flex !important;
         flex-direction: column;
         text-align: center;
-        bottom: 48px;
-        right: 70px;
-        border: 1.5px solid #003264;
+        background-color: transparent;
+
+        &.badge-header {
+            background-color: #FF001F;
+            width: 19px;
+            margin-left: 8px;
+            margin-top: 3px;
+            left: 11px;
+            top: -11px;
+            border: 1.5px solid #003264;
+            position: relative;
+        }
     }
 
     .dropdown-badge {
@@ -409,13 +419,9 @@ img {
     .header-item {
         display: flex;
         flex-direction: column;
-        margin-right: 25px;
         height: 100%;
         text-align: center;
-
-        @media(max-width:(@screen-md - 0.5)) {
-            margin-right: 5px;
-        }
+        margin-right: 15px;
 
 
         .btn-default {
@@ -526,8 +532,8 @@ img {
         text-align: left;
         border-radius: 0px;
         padding-top: 0px;
-        max-width:220px;
-        top:52px;
+        max-width: 220px;
+        top: 60px;
 
         span {
             font-size: 12px;
@@ -543,7 +549,7 @@ img {
 
             &.active {
                 background-color: @light-grey-hover;
-                font-weight:bold;
+                font-weight: bold;
             }
         }
 
@@ -905,6 +911,7 @@ img {
 ----------------------------------------------------------*/
 #MasterSection {
     position: relative; //for z-index-positioning inside
+    background-color: white;
     //padding-bottom: 100px;
     /*.media-sm-up( {
         padding-bottom: 100px;
@@ -1045,6 +1052,7 @@ img {
 
         #MasterMainColumn {
             .make-lg-column(9);
+            margin-top:55px;
 
             .media-lg ( {
                 width: 100%;
@@ -1153,11 +1161,11 @@ img {
         width: 76px !important;
     }
 
-    width: 262.41px !important;
+    width: 259px !important;
 }
 
 .sticky {
-    position: fixed;
+    position: fixed !important;
     top: 0;
     width: 100%;
 }
@@ -1174,10 +1182,9 @@ img {
     padding-bottom: 14px !important;
     color: #000000 !important;
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.16);
-    position: unset;
+    position: absolute;
     z-index: 99;
     white-space: nowrap;
-    top: 80px;
     .greyed;
 
     div {
@@ -1185,11 +1192,7 @@ img {
     }
 
     img {
-        width: 29.57px !important;
-        min-width: 29.57px;
-        height: 33.08px !important;
-        border-radius: 50%;
-        margin-top: -8px;
+        margin-top: -10px;
     }
 
     i.fa-chevron-right {
@@ -1268,7 +1271,7 @@ img {
     }
 
     .fa {
-        margin-right: 25px;
+        margin-right: 15px;
         padding-top: 12px;
     }
 }
@@ -1280,12 +1283,12 @@ img {
 #MasterSidebarColumn {
     .make-lg-column(3);
     position: static;
+    margin-top: 61px;
 
 
     .media-lg ( {
         width: 232px;
         float: right;
-        margin-top: 6px;
     }
 
     );

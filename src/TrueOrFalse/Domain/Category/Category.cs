@@ -159,6 +159,7 @@ public class Category : DomainEntity, ICreator
     public virtual int CorrectnessProbabilityAnswerCount { get; set; }
 
     public virtual int TotalRelevancePersonalEntries { get; set; }
+    public virtual bool IsHistoric { get; set; }
 
     public Category(){
         CategoryRelations = new List<CategoryRelation>();

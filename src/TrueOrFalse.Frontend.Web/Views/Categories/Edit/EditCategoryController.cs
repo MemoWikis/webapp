@@ -71,7 +71,7 @@ public class EditCategoryController : BaseController
             model.Message = new ErrorMessage(
                 $"Es existiert bereits ein Thema mit dem Namen <strong>'{categoryAllowed.ExistingCategories.First().Name}'</strong>.");
         } else {
-            _categoryRepository.Update(category, _sessionUser.User);
+            _categoryRepository.Update(category, _sessionUser.User, (Request["ImageIsNew"] == "true"));
 
             model.Message 
                 = new SuccessMessage(
