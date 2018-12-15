@@ -1,24 +1,14 @@
 ﻿@media (min-width: 768px) {
-}
-@media (min-width: 768px) {
-}
-@media (max-width: 767px) {
-}
-@media (min-width: 768px) {
-}
-@media (min-width: 768px) {
-}
-@media (min-width: 768px) {
-}
-@media (max-width: 767px) {
-}
-@media (max-width: 767px) {
-}
-@media (max-width: 649px) {
-}
-@media (min-width: 650px) {
-}
-.columnControlsFull {
+}@media (min-width: 768px) {
+}@media (max-width: 767px) {
+}@media (min-width: 768px) {
+}@media (min-width: 768px) {
+}@media (min-width: 768px) {
+}@media (max-width: 767px) {
+}@media (max-width: 767px) {
+}@media (max-width: 649px) {
+}@media (min-width: 650px) {
+}.columnControlsFull {
   font-size: 90%;
 }
 .columnControlsFull .radio,
@@ -136,7 +126,7 @@ select.form-control {
 #ulQuestions li {
   margin: 0 5px 5px 5px;
   padding: 5px;
-  font-size: 1.0em;
+  font-size: 1em;
   line-height: 1.2em;
   background: none;
   background-color: white;
@@ -251,6 +241,7 @@ textarea.form-control {
 }
 .buttons .btn-primary {
   min-width: 180px;
+  float: right;
 }
 #questionSearch {
   margin-top: 15px;
