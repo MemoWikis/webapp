@@ -128,6 +128,8 @@ public class QuestionValuationRepo : RepositoryDb<QuestionValuation>
     {
         Session.CreateSQLQuery("DELETE FROM questionvaluation WHERE QuestionId = :questionId")
                 .SetParameter("questionId", questionId).ExecuteUpdate();
+
+        UserValuationCache.RemoveAllForQuestion(questionId);
     }
 
     public override void Create(IList<QuestionValuation> questionValuations)

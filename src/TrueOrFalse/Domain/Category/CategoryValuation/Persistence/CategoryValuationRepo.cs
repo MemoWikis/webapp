@@ -114,4 +114,10 @@ public class CategoryValuationRepo : RepositoryDb<CategoryValuation>
         UserValuationCache.AddOrUpdate(categoryValuation);
         Sl.SearchIndexCategory.Update(Sl.CategoryRepo.GetById(categoryValuation.CategoryId));
     }
+
+    public void DeleteCategoryValuation(Category category)
+    {
+        Session.CreateSQLQuery("DELETE FROM categoryvaluation WHERE CategoryId = :categoryId")
+            .SetParameter("categoryId", category.Id).ExecuteUpdate();
+    }
 }
