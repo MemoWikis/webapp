@@ -89,7 +89,7 @@ new Vue({
         onLoaded() {
             $("#app").css("Opacity", "1");
             $('[data-toggle="tooltip"]').tooltip();
-            $('#header').text("Du hast " + $('#hddCountQuestion').val() + " Fragen in deinem Wunschwissen");
+            $('#header').text("Du hast " + this.hasNullQuestions($(".hddCountQuestion").val())   + " Fragen in deinem Wunschwissen");
             $(".spinner").hide();
         },
         loading() {
@@ -100,7 +100,12 @@ new Vue({
             this.moreParams.isAuthor = $("#switchShowOnlySelfCreated").is(":checked");
             this.$refs.vuetable.refresh();
             $(".spinner").fadeIn();
-        }, mounted() {
+        }, hasNullQuestions(counterQuestions) {
+            if (counterQuestions !== undefined) {
+                return counterQuestions;
+            }
+            return 0;
+        },mounted() {
         }, destroyed() {
         }, beforeUpdate() {
         }

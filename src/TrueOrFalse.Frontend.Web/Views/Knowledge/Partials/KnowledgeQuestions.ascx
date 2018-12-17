@@ -33,7 +33,7 @@
             @vuetable:loaded ="onLoaded()">
         
             <template slot="questionTitle" scope="props">
-                <input type="hidden" id="hddCountQuestion" v-bind:value="props.rowData.CountQuestions"/>
+                <input type="hidden" class="hddCountQuestion" v-bind:value="props.rowData.CountQuestions"/>
                 <div class="show-tooltip" data-placement="bottom" data-toggle="tooltip" v-bind:data-original-title="props.rowData.Title">
                     <div class="image">
                         <image class="imageTable" v-bind:src="GetQuestionImageSourceUrl(props.rowData.QuestionMetaData)"></image>
