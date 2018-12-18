@@ -10,12 +10,13 @@ window.onload = event => {
     var position = $(window).scrollTop();
     var rightMainMenu = document.getElementById("RightMainMenu");
     var breadcrumb = document.getElementById("Breadcrumb");
+    var header = document.getElementById("MasterHeader");
 
     if (position > 80) {
         breadcrumb.style.top = "0px";
         rightMainMenu.style.top = "52px";
     } else {
-        breadcrumb.style.top = "80px";
+        breadcrumb.style.top = (80 + header.scrollTop).toString() + "px";
         rightMainMenu.style.top = "60px";
 
         if (window.innerWidth < 768) {
@@ -34,6 +35,7 @@ function StickyHeader() {
     var breadcrumb = document.getElementById("Breadcrumb");
     var rightMainMenu = document.getElementById("RightMainMenu");
     var position = $(window).scrollTop();
+    var header = document.getElementById("MasterHeader");
 
     if (position > 80) {
         $('#BreadcrumbLogoSmall').show();
@@ -54,7 +56,7 @@ function StickyHeader() {
         }
 
     } else {
-        breadcrumb.style.top = "80px";
+        breadcrumb.style.top = (80 + header.scrollTop).toString() + "px";
         breadcrumb.style.position = "absolute";
 
         if (breadcrumb.classList.contains("ShowBreadcrumb")) breadcrumb.classList.remove("ShowBreadcrumb");
@@ -84,7 +86,7 @@ function StickyHeader() {
         }
 
         if (window.innerWidth < 768) {
-            breadcrumb.style.top = "50px";
+            breadcrumb.style.top = (50 + header.scrollTop).toString() + "px"
         }
     }
 
