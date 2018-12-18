@@ -52,7 +52,7 @@
 <%} %>
 </div>
     <div id="StickyHeaderContainer">    
-        <div class="input-group" id="StickyHeaderSearchBoxDiv" style="margin-right:15px">
+        <div class="input-group" id="StickyHeaderSearchBoxDiv" style="margin-right:3px">
             <input type="text" class="form-control" placeholder="Suche" id="StickyHeaderSearchBox">
             <div class="input-group-btn">
                 <button class="btn btn-default" id="StickyHeaderSearchButton" onclick="SearchButtonClick()" style="height:34px; border: none;" type="submit"><i class="fa fa-search" style="font-size:25px; padding:0px;margin:0px; margin-top:-3px" aria-hidden="true"></i></button>
