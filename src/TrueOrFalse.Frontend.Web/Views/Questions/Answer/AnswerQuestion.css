@@ -1,24 +1,14 @@
 ﻿@media (min-width: 768px) {
-}
-@media (min-width: 768px) {
-}
-@media (max-width: 767px) {
-}
-@media (min-width: 768px) {
-}
-@media (min-width: 768px) {
-}
-@media (min-width: 768px) {
-}
-@media (max-width: 767px) {
-}
-@media (max-width: 767px) {
-}
-@media (max-width: 649px) {
-}
-@media (min-width: 650px) {
-}
-#MasterMainWrapper {
+}@media (min-width: 768px) {
+}@media (max-width: 767px) {
+}@media (min-width: 768px) {
+}@media (min-width: 768px) {
+}@media (min-width: 768px) {
+}@media (max-width: 767px) {
+}@media (max-width: 767px) {
+}@media (max-width: 649px) {
+}@media (min-width: 650px) {
+}#MasterMainWrapper {
   background-color: transparent;
   padding-top: 10px;
   padding-left: 10px;
@@ -787,6 +777,8 @@
   -webkit-align-content: space-around;
       -ms-flex-line-pack: distribute;
           align-content: space-around;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
   -webkit-flex-flow: row wrap;
       -ms-flex-flow: row wrap;
           flex-flow: row wrap;
@@ -947,10 +939,6 @@
 .singleSetFullWidth .highlightSet,
 .singleCatFullWidth .highlightSet {
   background-color: #ffda7f;
-}
-.SingleCategoryAttention .singleSetFullWidth,
-.SingleCategoryAttention .singleCatFullWidth {
-  background-color: #D3E0F2;
 }
 .singleSetFullWidth .ImageContainer,
 .singleCatFullWidth .ImageContainer {

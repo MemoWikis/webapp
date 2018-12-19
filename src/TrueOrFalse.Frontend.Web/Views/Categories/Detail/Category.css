@@ -1,24 +1,14 @@
 ﻿@media (min-width: 768px) {
-}
-@media (min-width: 768px) {
-}
-@media (max-width: 767px) {
-}
-@media (min-width: 768px) {
-}
-@media (min-width: 768px) {
-}
-@media (min-width: 768px) {
-}
-@media (max-width: 767px) {
-}
-@media (max-width: 767px) {
-}
-@media (max-width: 649px) {
-}
-@media (min-width: 650px) {
-}
-div.column {
+}@media (min-width: 768px) {
+}@media (max-width: 767px) {
+}@media (min-width: 768px) {
+}@media (min-width: 768px) {
+}@media (min-width: 768px) {
+}@media (max-width: 767px) {
+}@media (max-width: 767px) {
+}@media (max-width: 649px) {
+}@media (min-width: 650px) {
+}div.column {
   width: 33%;
   float: left;
 }
@@ -794,10 +784,6 @@ p:empty {
 .singleCatFullWidth .highlightSet {
   background-color: #ffda7f;
 }
-.SingleCategoryAttention .singleSetFullWidth,
-.SingleCategoryAttention .singleCatFullWidth {
-  background-color: #D3E0F2;
-}
 .singleSetFullWidth .ImageContainer,
 .singleCatFullWidth .ImageContainer {
   text-align: center;
@@ -1202,7 +1188,6 @@ p:empty {
     max-width: 100%;
     -webkit-align-self: center;
         -ms-flex-item-align: center;
-                -ms-grid-row-align: center;
             align-self: center;
   }
 }
