@@ -19,9 +19,9 @@
 </asp:Content>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
-    
-    <input type="hidden" id="hddNoQuestionUrl" value="<%=Links.NoQuestionUrl %>" />
-    <input type="hidden" id="hddNoCategoryUrl" value="<%=Links.NoCategoryUrl %>" />
+    <% if (Model.IsLoggedIn){ %>
+    <input type="hidden" id="hddNoQuestionUrl" value="<%= Links.NoQuestionUrl %>" />
+    <input type="hidden" id="hddNoCategoryUrl" value="<%= Links.NoCategoryUrl %>" />
     <!-- Spinner-->
     <div class="spinner">
         <div class="double-bounce1"></div>
@@ -75,6 +75,12 @@
             </div>
         </div>
     </div>
+        <% }
+       else
+       {
+           Response.Redirect(Links.Welcome(), true);
+       }%>
     <%= Scripts.Render("~/bundles/js/Vue") %>
+
 </asp:Content>
 

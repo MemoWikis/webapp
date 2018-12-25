@@ -56,6 +56,9 @@ namespace TrueOrFalse.Frontend.Web.Code
         public static string ForTeachers() => GetUrlHelper().Action("ForTeachers", AboutController);
         public static string Promoter() => GetUrlHelper().Action("Promoter", WelcomeController);
 
+        /* Welcome */
+        public static string Welcome() => GetUrlHelper().Action("Welcome", WelcomeController);
+
         /* AlgoInsight */
         public const string AlgoInsightController = "AlgoInsight";
         public static string AlgoInsightForecast() => GetUrlHelper().Action("Forecast", AlgoInsightController);
