@@ -41,17 +41,18 @@ public class KnowledgeQuestions : BaseModel
     {
         var unsortedListQuestions = EntityCache.GetQuestionsByIds(TotalWishKnowledgeValuationsPerPage.QuestionIds());
         var questionsList = new List<Questions>();
-        var userImageSettings = new UserImageSettings();
+        
         var i = 0;
         foreach (var question in unsortedListQuestions)
         {
+            var userImageSettings = new UserImageSettings(question.Creator.Id);
             var questions = new Questions();
             var categories = question.Categories;
 
             questions.Title = question.Text;
 
             questions.AuthorName = question.Creator.Name;
-            questions.AuthorImageUrl = userImageSettings.GetUrl_30px_square(Sl.UserRepo.GetById(question.Creator.Id));
+            questions.AuthorImageUrl = userImageSettings.GetUrl_128px_square(question.Creator);
             questions.LinkToQuestion = Links.GetUrl(question);
             questions.AuthorId = question.Creator.Id;
             questions.LinkToCategory = categories.IsEmpty() ? " " : Links.GetUrl(categories[0]);
