@@ -408,8 +408,11 @@ namespace TrueOrFalse.Frontend.Web.Code
         public static string CategoriesAll() => GetUrlHelper().Action(CategoriesAction, CategoriesController);
         public static string CategoriesWish() => GetUrlHelper().Action("CategoriesWish", CategoriesController);
         public static string CategoryCreate() => GetUrlHelper().Action(CategoryCreateAction, CategoryEditController);
+        public static string CategoryCreate(int parentCategoryId) => GetUrlHelper().Action("Create", "EditCategory", new { parent = parentCategoryId });
+
         public static string CategoryHistoryDetail(int categoryId, int categoryChangeId) => 
             GetUrlHelper().Action("Detail", "CategoryHistoryDetail", new { categoryId  = categoryId , categoryChangeId = categoryChangeId });
+
         public static string CategoryHistory(int categoryId) =>
             GetUrlHelper().Action("List", "CategoryHistory", new { categoryId = categoryId });
 
@@ -447,6 +450,7 @@ namespace TrueOrFalse.Frontend.Web.Code
         public static string CategoryEdit(Category category) => CategoryEdit(GetUrlHelper(), category.Name, category.Id);
         public static string CategoryEdit(string name, int id) => CategoryEdit(GetUrlHelper(), name, id);
         public static string CategoryEdit(UrlHelper url, string name, int id) => url.Action("Edit", "EditCategory", new { text = UriSanitizer.Run(name), id = id });
+        
 
         public static string FAQItem(string itemNameInView) => GetUrlHelper().Action("FAQ", "Help") + "#" + itemNameInView;
         public static string Contact => GetUrlHelper().Action("Contact", "Welcome");
