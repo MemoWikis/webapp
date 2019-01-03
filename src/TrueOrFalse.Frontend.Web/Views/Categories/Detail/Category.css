@@ -95,14 +95,6 @@ span.CategoryType {
 }
 /*  Markdown Content
 ----------------------------------------------------------*/
-.MarkdownContent p,
-.MarkdownContent ul,
-.MarkdownContent ol,
-.MarkdownContent blockquote {
-  max-width: 720px;
-  margin-left: auto;
-  margin-right: auto;
-}
 .MarkdownContent blockquote {
   font-style: italic;
   padding-left: 20px;

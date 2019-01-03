@@ -36,8 +36,8 @@ namespace TrueOrFalse.Frontend.Web
             ViewEngines.Engines.Add(new PartialSubDirectoriesViewEngine());
 
 #if DEBUG
-            if (Settings.DebugUserNHProfiler())
-                NHibernateProfiler.Initialize();
+            //if (Settings.DebugUserNHProfiler())
+            //    NHibernateProfiler.Initialize();
 #endif            
 
             if (!Settings.DisableAllJobs())

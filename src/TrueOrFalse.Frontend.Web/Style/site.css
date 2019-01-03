@@ -1900,9 +1900,6 @@ div.box-main .box-content {
 }
 /*ROWS
 ---------------------------------------------------------*/
-.row {
-  background-color: #fff;
-}
 .rowBase:after {
   clear: both;
 }
