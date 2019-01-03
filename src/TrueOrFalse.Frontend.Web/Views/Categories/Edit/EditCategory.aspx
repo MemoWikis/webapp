@@ -251,6 +251,7 @@
                         <div class="noLabel columnControlsFull">
                             <% if (Model.IsEditing){ %>
                                 <a data-toggle="modal" href="#modalDeleteCategory" data-categoryId="<%= Model.Id %>" class="btn btn-danger"><i class="fa fa-trash-o"></i> Löschen</a>
+
                                 <input type="submit" value="Speichern" class="btn btn-primary" name="btnSave" style="float: right; width: 200px;" />
                             <% } else { %>
                                 <input type="submit" value="Thema erstellen" class="btn btn-primary" name="btnSave" <% if(!Model.IsLoggedIn){ %> disabled="disabled" <% } %>/>
@@ -284,9 +285,13 @@
 <% }
     Html.RenderPartial("~/Views/Images/ImageUpload/ImageUpload.ascx");
     Html.RenderPartial("~/Views/Categories/Modals/ModalDeleteCategory.ascx");
+    Html.RenderPartial("~/Views/Shared/Modals/ForTheTimeToDeleteModal.ascx");
+    
 
     if (Model.IsEditing)
-    { %>
+    {   
+%>
+
     <div id="EditAggregationModal" class="modal fade">
         <div class="modal-dialog">
             <div class="modal-content">
