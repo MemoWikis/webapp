@@ -9,10 +9,7 @@ using TrueOrFalse.Frontend.Web.Code;
 public class KnowledgeTopics : BaseController
 {
     readonly IList<Category> Categories;
-    readonly IList<ImageMetaData> CategoryFrontendImageDataIList;
-
-    IList<Set> Sets;
-    readonly IList<ImageMetaData> SetFrontendImageDataIList;
+    readonly IList<Set> Sets;
 
     public KnowledgeTopics(bool isAuthor)
     {
@@ -24,14 +21,14 @@ public class KnowledgeTopics : BaseController
         Categories = isAuthor
             ? EntityCache.GetCategories(categoriesIds).Where(v => v.Creator.Id == UserId).ToList()
             : EntityCache.GetCategories(categoriesIds).ToList();
-        CategoryFrontendImageDataIList = Sl.ImageMetaDataRepo.GetBy(categoriesIds, ImageType.Category, true);
 
         var setIds = UserValuationCache.GetSetValuations(UserId)
             .Where(v => v.IsInWishKnowledge())
             .Select(i => i.SetId)
             .ToList();
-        Sets = EntityCache.GetSetsByIds(setIds);
-        SetFrontendImageDataIList = Sl.ImageMetaDataRepo.GetBy(setIds, ImageType.QuestionSet, true);
+
+        Sets = isAuthor ? EntityCache.GetSetsByIds(setIds).Where(v => v.Creator.Id == UserId).ToList()
+            : EntityCache.GetSetsByIds(setIds);
     }
 
     public List<CategoryAndSetWishKnowledge> filteredCategoryWishKnowledge(ControllerContext controllerContext)
@@ -65,38 +62,35 @@ public class KnowledgeTopics : BaseController
     private List<CategoryAndSetWishKnowledge> GetObjectCategoryAndSetWishKnowledges(IList<Category> CategorieWishes, IList<Set> setWishes, ControllerContext controllerContext)
     {
         List<CategoryAndSetWishKnowledge> filteredCategoryAndSetWishKnowledges = new List<CategoryAndSetWishKnowledge>();
-        var counterCategoryImage = 0;
-        var counterSetImage = 0;
         var countList = CategorieWishes.Count + setWishes.Count;
 
         foreach (var categoryWish in CategorieWishes)
         {
             var facebookLink = "https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2F" + changeUrlToFacebookCompatible(Settings.CanonicalHost + Links.CategoryDetail(categoryWish.Name, categoryWish.Id)) + "%2F&amp;src=sdkpreparse";
-            var categoryAndSetWishKnowledge = new CategoryAndSetWishKnowledge
-            {
-                Description = categoryWish.Description,
-                Title = categoryWish.Name,
-                ImageFrontendData = CategoryFrontendImageDataIList[counterCategoryImage],
-                KnowlegdeWishPartial = KnowledgeWishPartial(categoryWish, controllerContext),
-                Id = categoryWish.Id,
-                IsCategory = true,
-                LinkStartLearningSession = Links.StartCategoryLearningSession(categoryWish.Id),
-                DateToLearningTopicLink = Links.DateCreateForCategory(categoryWish.Id).ToString(),
-                CreateQuestionLink = Links.CreateQuestion(categoryId: categoryWish.Id),
-                StartGameLink = Links.GameCreateFromCategory(categoryWish.Id),
-                LearnSetsCount = categoryWish.GetCountSets(),
-                QuestionsCount = categoryWish.CountQuestionsAggregated,
-                EditCategoryOrSetLink = Links.CategoryEdit(categoryWish),
-                ShareFacebookLink = facebookLink,
-                HasVideo = false,
-                KnowledgeWishAVGPercantage = CountDesiredKnowledge(categoryWish),
-                AuthorId = categoryWish.Creator.Id,
-                LinkToSetOrCategory = Links.GetUrl(categoryWish),
-                ListCount = countList
-            };
+            var categoryAndSetWishKnowledge = new CategoryAndSetWishKnowledge();
+
+            categoryAndSetWishKnowledge.Description = categoryWish.Description;
+            categoryAndSetWishKnowledge.Title = categoryWish.Name;
+            categoryAndSetWishKnowledge.ImageFrontendData = Sl.ImageMetaDataRepo.GetById(categoryWish.Id); ;
+            categoryAndSetWishKnowledge.KnowlegdeWishPartial = KnowledgeWishPartial(categoryWish, controllerContext);
+            categoryAndSetWishKnowledge.Id = categoryWish.Id;
+            categoryAndSetWishKnowledge.IsCategory = true;
+            categoryAndSetWishKnowledge.LinkStartLearningSession = Links.StartCategoryLearningSession(categoryWish.Id);
+            categoryAndSetWishKnowledge.DateToLearningTopicLink =Links.DateCreateForCategory(categoryWish.Id).ToString();
+            categoryAndSetWishKnowledge.CreateQuestionLink = Links.CreateQuestion(categoryId: categoryWish.Id);
+            categoryAndSetWishKnowledge.StartGameLink = Links.GameCreateFromCategory(categoryWish.Id);
+            categoryAndSetWishKnowledge.LearnSetsCount = categoryWish.GetCountSets();
+            categoryAndSetWishKnowledge.QuestionsCount = categoryWish.CountQuestionsAggregated;
+            categoryAndSetWishKnowledge.EditCategoryOrSetLink = Links.CategoryEdit(categoryWish);
+            categoryAndSetWishKnowledge.ShareFacebookLink = facebookLink;
+            categoryAndSetWishKnowledge.HasVideo = false;
+            categoryAndSetWishKnowledge.KnowledgeWishAVGPercantage = CountDesiredKnowledge(categoryWish);
+            categoryAndSetWishKnowledge.AuthorId = categoryWish.Creator.Id;
+            categoryAndSetWishKnowledge.LinkToSetOrCategory = Links.GetUrl(categoryWish);
+            categoryAndSetWishKnowledge.ListCount = countList;
+            
 
             filteredCategoryAndSetWishKnowledges.Add(categoryAndSetWishKnowledge);
-            counterCategoryImage++;
         }
 
         foreach (var setWish in setWishes)
@@ -106,7 +100,7 @@ public class KnowledgeTopics : BaseController
             {
                 Description = setWish.Text,
                 Title = setWish.Name,
-                ImageFrontendData = SetFrontendImageDataIList[counterSetImage],
+                ImageFrontendData = Sl.ImageMetaDataRepo.GetById(setWish.Id),
                 KnowlegdeWishPartial = KnowledgeWishPartial(setWish, controllerContext),
                 Id = setWish.Id,
                 IsCategory = false,
@@ -126,7 +120,6 @@ public class KnowledgeTopics : BaseController
             };
 
             filteredCategoryAndSetWishKnowledges.Add(categoryAndSetWishKnowledge);
-            counterSetImage++;
         }
         return filteredCategoryAndSetWishKnowledges;
     }
