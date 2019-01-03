@@ -103,10 +103,10 @@ new Vue({
             this.moreParams.isAuthor = $("#switchShowOnlySelfCreated").is(":checked");
             this.$refs.vuetable.refresh();
         },
-        GetImageSourceUrl(url) {
-            if (url === null)
+        GetImageSourceUrl(ImageFrontendData) {
+            if (ImageFrontendData == null)
                 return "/Images/no-category-picture-350.png";
-            return url;
+            return ImageFrontendData.SourceUrl;
         },
         hasNullTopicsORSets(counterQuestions) {
             if (counterQuestions !== undefined) {
