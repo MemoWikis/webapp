@@ -20007,8 +20007,6 @@
     <Content Include="Scripts\hubs\GameHubEvents.js">
       <DependentUpon>GameHubEvents.ts</DependentUpon>
     </Content>
-    <Content Include="Scripts\jquery.signalR-2.2.1.js" />
-    <Content Include="Scripts\jquery.signalR-2.2.1.min.js" />
     <Content Include="Scripts\SidebarCards.js">
       <DependentUpon>SidebarCards.ts</DependentUpon>
     </Content>
@@ -20295,7 +20293,6 @@
     <Content Include="Views\Knowledge\Dates\Edit\Js\EditDate.js.map">
       <DependentUpon>EditDate.ts</DependentUpon>
     </Content>
-    <Content Include="Scripts\jquery-2.0.3.min.map" />
     <None Include="Views\Maintenance\ContentStats.less" />
     <Compile Include="Views\Maintenance\ContentStatsModel.cs" />
     <Compile Include="Views\Maintenance\Images\MaintenanceImagesController.cs" />
