@@ -1,24 +1,14 @@
 ﻿@media (min-width: 768px) {
-}
-@media (min-width: 768px) {
-}
-@media (max-width: 767px) {
-}
-@media (min-width: 768px) {
-}
-@media (min-width: 768px) {
-}
-@media (min-width: 768px) {
-}
-@media (max-width: 767px) {
-}
-@media (max-width: 767px) {
-}
-@media (max-width: 649px) {
-}
-@media (min-width: 650px) {
-}
-#MasterMainWrapper {
+}@media (min-width: 768px) {
+}@media (max-width: 767px) {
+}@media (min-width: 768px) {
+}@media (min-width: 768px) {
+}@media (min-width: 768px) {
+}@media (max-width: 767px) {
+}@media (max-width: 767px) {
+}@media (max-width: 649px) {
+}@media (min-width: 650px) {
+}#MasterMainWrapper {
   background-color: white;
   padding: 20px;
   font-size: 18px;
@@ -108,7 +98,7 @@
   font-weight: bold;
   margin-top: 13px;
   font-size: 14px;
-  letter-spacing: .05em;
+  letter-spacing: 0.05em;
 }
 @media (max-width: 479px) {
   #teamImgQuote #teamQuoteCircle #teamQuoteNames {
@@ -121,7 +111,7 @@
   color: white;
   font-weight: normal;
   font-size: 14px;
-  letter-spacing: .05em;
+  letter-spacing: 0.05em;
 }
 @media (max-width: 479px) {
   #teamImgQuote #teamQuoteCircle #teamQuoteNamesSub {

@@ -119,19 +119,10 @@
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group">
-<%--                                <% if(!String.IsNullOrEmpty(Model.Suggestion)){ %> 
-                                        <div style="padding-bottom: 10px; font-size: large">
-                                            Oder suchst du: 
-                                            <a href="<%= Model.SearchUrl + Model.Suggestion %>">
-                                                <%= Model.Suggestion %>
-                                            </a> ?
-                                        </div>
-                                    <% } %>--%>
-                                
                                     <div class="input-group">
                                         <%: Html.TextBoxFor(model => model.SearchTerm, new {@class="form-control", placeholder="Beginne zu tippen, um Lernsets zu finden", id="txtSearch", formUrl=Model.SearchUrl }) %>
                                         <span class="input-group-btn">
-                                            <button class="btn btn-default" id="btnSearch"><i class="fa fa-search"></i></button>
+                                            <button class="btn btn-default"id="btnSearch"><i class="fa fa-search"></i></button>
                                         </span>
                                     </div>
                                 </div>

@@ -52,7 +52,7 @@
 <%} %>
 </div>
     <div id="StickyHeaderContainer">    
-        <div class="input-group" id="StickyHeaderSearchBoxDiv" style="margin-right:15px">
+        <div class="input-group" id="StickyHeaderSearchBoxDiv" style="margin-right:3px">
             <input type="text" class="form-control" placeholder="Suche" id="StickyHeaderSearchBox">
             <div class="input-group-btn">
                 <button class="btn btn-default" id="StickyHeaderSearchButton" onclick="SearchButtonClick()" style="height:34px; border: none;" type="submit"><i class="fa fa-search" style="font-size:25px; padding:0px;margin:0px; margin-top:-3px" aria-hidden="true"></i></button>
@@ -78,8 +78,10 @@
                         <a class="<%= Model.UserMenuActive(UserMenuEntry.Messages) %>" href="<%=Links.Messages(Url) %>"  style="display: flex;">Deine Nachrichten                        
                             <% if (Model.SidebarModel.UnreadMessageCount != 0) { %>
                                 <svg class="badge">
+                                  <g>
                                     <circle cx="16" cy="11" r="8" fill="#FF001F"/>
-                                    <text class="level-count" x="13" font-size="10" y="12" dy=".34em" fill="white"><%= Model.SidebarModel.UnreadMessageCount %></text>
+                                    <text class="level-count" x="59%" text-anchor="middle" font-size="10" y="59%" dy=".34em" fill="white"><%= Model.SidebarModel.UnreadMessageCount %></text>
+                                  </g>
                                 </svg>
                             <% } %>
                         </a>

@@ -7,7 +7,7 @@
     var user = userSession.User;
 %>
 <div style="display: flex;">
-    <div class="header-item" style="margin-top: -3px;">
+    <div class="header-item" style="margin-top: -3px; margin-right: 3px;">
         <div class="input-group" id="SmallHeaderSearchBoxDiv">
             <input type="text" class="form-control" placeholder="Suche" id="SmallHeaderSearchBox">
             <div class="input-group-btn" style="height: 34px;">
@@ -58,9 +58,12 @@
                         <a class="<%= Model.UserMenuActive(UserMenuEntry.Messages) %>" href="<%=Links.Messages(Url) %>"  style="display: flex;">Deine Nachrichten                        
                             <% if (Model.SidebarModel.UnreadMessageCount != 0) { %>
                                 <svg class="badge">
-                                    <circle cx="16" cy="11" r="8" fill="#FF001F"/>
-                                    <text class="level-count" x="13" font-size="10" y="12" dy=".34em" fill="white"><%= Model.SidebarModel.UnreadMessageCount %></text>
-                                </svg>                            <% } %>
+                                    <g>
+                                        <circle cx="16" cy="11" r="8" fill="#FF001F"/>
+                                        <text class="level-count" x="59%" text-anchor="middle" font-size="10" y="59%" dy=".34em" fill="white"><%= Model.SidebarModel.UnreadMessageCount %></text>
+                                    </g>
+                                </svg>                
+                            <% } %>
                         </a>
                        
                     </li>

@@ -18,7 +18,6 @@ class MenuMobile {
 
 
     constructor() {
-        
         $("#MenuButton").click(() => {
             if (this._isOpen) {
                 this.closeMenu(); 
@@ -46,7 +45,7 @@ class MenuMobile {
             }
 
             if ($("#mainMenu, #RightMainMenu").has(e.target).length === 0 &&
-                $("#MenuButton").has(e.target).length === 0) {
+                $("#MenuButton, #StickyMenuButton").has(e.target).length === 0) {
                 this.closeMenu();
             }           
             
