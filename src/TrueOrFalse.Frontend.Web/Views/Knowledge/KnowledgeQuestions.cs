@@ -17,8 +17,6 @@ public class KnowledgeQuestions : BaseModel
 
     public KnowledgeQuestions(bool isAuthor, int page, int per_page, string sort)
     {
-        var test = UserValuationCache.GetQuestionValuations(UserId);
-        //var test = UserValuationCache.CreateItemFromDatabase(UserId).QuestionValuations.Values.ToList(); // is not commented then Work Categories OrderBy
         TotalWishKnowledgeValuationsWithAuthor = isAuthor
             ? UserValuationCache.CreateItemFromDatabase(UserId).QuestionValuations.Values
                 .Where(v => v.Question.Creator.Id == UserId && v.IsInWishKnowledge())
@@ -61,9 +59,6 @@ public class KnowledgeQuestions : BaseModel
             questions.QuestionMetaData = new ImageFrontendData(Sl.ImageMetaDataRepo.GetBy(question.Id, ImageType.Question)).GetImageUrl(30);
             questions.TooltipLinkToCategory = "Kategorie " + questions.Category + " in neuem Tab öffnen";
             questions.CountQuestions = CountWishQuestions;
-
-            if (questions.QuestionMetaData.Url.Equals("/Images/no-question-128.png"))
-                questions.QuestionMetaData = questions.CategoryImageData;
 
             if ((int)TotalWishKnowledgeValuationsPerPage[i].KnowledgeStatus == 4)
             {
