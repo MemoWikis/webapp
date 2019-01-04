@@ -49,12 +49,10 @@
             </template>
                   
             <template slot="authorImage" scope="props">
-                <div class="show-tooltip" data-toggle="tooltip" data-placement="bottom" v-bind:data-original-title="props.rowData.AuthorName">
-                    <div class="author-image">
+                    <div class="author-image show-tooltip" data-toggle="tooltip" data-placement="bottom" v-bind:data-original-title="props.rowData.AuthorName">
                         <image v-bind:src="props.rowData.AuthorImageUrl.Url" class="image-author"></image>
                     </div>
-                    <div class="author-name">{{props.rowData.AuthorName}}</div>
-                </div>
+                    <div  class="show-tooltip author-name" data-toggle="tooltip" data-placement="bottom" v-bind:data-original-title="props.rowData.AuthorName">{{props.rowData.AuthorName}}</div>
             </template>
           
             <template slot="category" scope="props">
