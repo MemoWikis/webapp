@@ -274,7 +274,8 @@ namespace TrueOrFalse.View
             //-------------------------------------- KnowledgeCentral----------------------------------------
 
             bundles.Add(new StyleBundle("~/bundles/Knowledge")
-                .IncludeDirectory("~/Views/Knowledge/", "*.css"));
+                .IncludeDirectory("~/Views/Knowledge/", "*.css")
+                .Include("~/Views/Shared/Spinner/Spinner.css "));
 
             bundles.Add(new ScriptBundle("~/bundles/js/Knowledge")
                 .Include("~/Views/Knowledge/Js/Page.js")

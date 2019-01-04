@@ -318,5 +318,9 @@
   {
     "outputFile": "Style/tabs.css",
     "inputFile": "Style/tabs.less"
+  },
+  {
+    "outputFile": "Views/Shared/Spinner/Spinner.css",
+    "inputFile": "Views/Shared/Spinner/Spinner.less"
   }
 ]

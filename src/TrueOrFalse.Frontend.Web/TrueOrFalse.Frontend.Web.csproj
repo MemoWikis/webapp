@@ -20650,6 +20650,10 @@
     <Content Include="Views\Sets\Edit\QuestionInSet.ascx" />
     <Content Include="Views\Shared\LinkToTop.ascx" />
     <Content Include="Views\Shared\GlobalLicense.ascx" />
+    <Content Include="Views\Shared\Spinner\Spinner.ascx" />
+    <Content Include="Views\Shared\Spinner\Spinner.css">
+      <DependentUpon>Spinner.less</DependentUpon>
+    </Content>
     <Content Include="Views\Users\Account\WidgetStats\Partials\WidgetStatsDetailViews.ascx" />
     <Content Include="Views\Users\Account\WidgetStats\Partials\WidgetStatsForHost.ascx" />
     <Content Include="Views\Users\Account\WidgetStats\WidgetStats.aspx" />
@@ -22517,6 +22521,7 @@
     <Content Include="Views\Welcome\Promoter.less" />
     <Content Include="Views\Welcome\Team.aspx" />
     <Content Include="Views\Welcome\Team.less" />
+    <Content Include="Views\Shared\Spinner\Spinner.less" />
     <None Include="Web.overwritten.config" />
     <None Include="Web.overwritten.config.sample" />
     <Content Include="Views\Welcome\Logout.aspx" />
