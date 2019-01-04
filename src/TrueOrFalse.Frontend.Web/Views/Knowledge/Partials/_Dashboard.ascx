@@ -158,7 +158,9 @@
 <div class="row first-row">
     <div class="col-xs-3 " >
         <h3>Dein Wissenstand</h3>
-        <div id="chartKnowledgeP" ></div>
+        <div class="chartKnowledgePContainer">
+            <div id="chartKnowledgeP" ></div>
+        </div>
     </div>
     <!-- Dein Training -->
     <div class ="col-xs-5">
@@ -174,7 +176,7 @@
 <div class="row second-row">
 <div class="col-xs-3">
     <span>
-        <h3 style="margin-top: 60px;">Deine Reputation</h3>
+        <h3>Deine Reputation</h3>
         <p>
             <a href="<%= Links.UserDetail(Model.User) %>">Details auf deiner Profilseite</a>
         </p>

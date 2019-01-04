@@ -86,3 +86,6 @@ h1 {
     -webkit-transform: scale(1);
   }
 }
+.chartKnowledgePContainer {
+  height: 250px;
+}
