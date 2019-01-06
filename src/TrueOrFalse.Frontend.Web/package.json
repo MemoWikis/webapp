@@ -1,8 +1,8 @@
 {
   "dependencies": {
-    "vue": "2.5.21",
-    "vue-template-compiler": "2.5.21",
-    "tiptap": "^1.7.0"
+    "tiptap": "^1.7.0",
+    "vue": "^2.5.21",
+    "vue-template-compiler": "2.5.21"
   },
   "devDependencies": {
     "@types/d3": "^4.12.0",

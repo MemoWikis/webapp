@@ -315,11 +315,14 @@ namespace TrueOrFalse.View
                 .IncludeDirectory("~/Views/Knowledge/Dates/Edit/Js/", "*.js")
                 .Include("~/Views/Knowledge/Dates/Edit/Js/Page.js"));
 
+            bundles.Add(new ScriptBundle("~/bundles/js/TipTap")
+                .Include("~/Scripts/npm/tiptap/tiptap.js"));
+
             //------------------------ END KNOWLEDGECENTRAL------------------------------------------------------------
 
             bundles.Add(new ScriptBundle("~/bundles/js/Vue")
                 .Include("~/Scripts/vendor/vuetable-2.js")
-                .Include("~/Scripts/vendor/vue.min.js"));
+                .Include("~/Scripts/vendor/vue.js"));
 
             bundles.Add(new StyleBundle("~/bundles/Promoter")
                 .Include("~/Views/Welcome/Promoter.css"));
