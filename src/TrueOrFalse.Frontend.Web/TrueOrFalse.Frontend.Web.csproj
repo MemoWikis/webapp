@@ -428,6 +428,7 @@
     <Content Include="Content\themes\base\minified\jquery.ui.tabs.min.css" />
     <Content Include="Content\themes\base\minified\jquery.ui.theme.min.css" />
     <Content Include="Content\themes\base\minified\jquery.ui.tooltip.min.css" />
+    <Content Include="gulpfile.js" />
     <Content Include="Images\animated-overlay.gif" />
     <Content Include="Images\Categories\100_128s.jpg" />
     <Content Include="Images\Categories\100_206s.jpg" />
@@ -20005,6 +20006,7 @@
     <Content Include="Scripts\hubs\GameHubEvents.js">
       <DependentUpon>GameHubEvents.ts</DependentUpon>
     </Content>
+    <Content Include="Scripts\npm\tiptap\tiptap.js" />
     <Content Include="Scripts\SidebarCards.js">
       <DependentUpon>SidebarCards.ts</DependentUpon>
     </Content>
