@@ -2,6 +2,9 @@
 var deps = {
     "tiptap": {
         "dist/tiptap.js": ""
+    },
+    "vue": {
+        "dist/vue.js": ""
     }
 };
 

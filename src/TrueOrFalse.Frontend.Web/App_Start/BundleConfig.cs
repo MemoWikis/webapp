@@ -322,7 +322,7 @@ namespace TrueOrFalse.View
 
             bundles.Add(new ScriptBundle("~/bundles/js/Vue")
                 .Include("~/Scripts/vendor/vuetable-2.js")
-                .Include("~/Scripts/vendor/vue.js"));
+                .Include("~/Scripts/npm/vue/vue.js"));
 
             bundles.Add(new StyleBundle("~/bundles/Promoter")
                 .Include("~/Views/Welcome/Promoter.css"));
