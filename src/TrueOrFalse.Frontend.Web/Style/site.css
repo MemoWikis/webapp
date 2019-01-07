@@ -997,7 +997,6 @@ ul.AutocompleteHeader {
   transform: rotate(90deg);
 }
 #CategorySuggestionCard {
-  border: #979797 solid 0.5px;
   margin-top: 19px;
   padding-left: 0.5px;
 }
@@ -1012,6 +1011,20 @@ ul.AutocompleteHeader {
 }
 #CreateQuestionCard {
   margin-top: 19px;
+}
+#CategorySuggestionCard,
+#CreateQuestionCard {
+  position: relative;
+  overflow: auto;
+}
+#CategorySuggestionCard::after,
+#CreateQuestionCard::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
   border: #979797 solid 0.5px;
 }
 /* MASTER SECTION
