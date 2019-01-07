@@ -5,6 +5,14 @@
 
 
 <h4>Alle Inhalte</h4>
+
+<% if (Model.Category.IsHistoric) { %>
+    <div class="alert alert-info" role="alert">
+        Aus technischen Gründen können <b>keine Archivdaten für <i>Lernsets</i> und <i>Fragen</i></b> angezeigt 
+        werden. Es werden die aktuellen Lernsets und Fragen dargestellt.
+    </div>
+<% } %>
+
 <div id="Content" class="Box">
     <h5 class="ContentSubheading Set">
         <%= Model.CountSets %> Lernset<%= StringUtils.PluralSuffix(Model.CountSets,"s") %> zu diesem Thema

@@ -44,7 +44,7 @@ function ShowDiff2Html() {
         $("#diffPanel").hide();
         $("#noChangesAlert").show();
     } else {
-        if (!diffRelations)
+        if (!prevRelations || !currentRelations)
             $('#noRelationsAlert').show();
     }
 }

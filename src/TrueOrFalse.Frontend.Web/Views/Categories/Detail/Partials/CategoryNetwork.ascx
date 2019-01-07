@@ -3,6 +3,14 @@
 <%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
 
 <h4>Über- und untergeordnete Themen</h4>
+
+<% if (Model.Category.IsHistoric) { %>
+    <div class="alert alert-info" role="alert">
+        Aus technischen Gründen können <b>keine Archivdaten für <i>Über- und untergeordnete 
+        Themen</i></b> angezeigt werden. Es werden die aktuellen Themenbeziehungen dargestellt.
+    </div>
+<% } %>
+
 <div class="CategoryRelations Box">
     <% if (Model.CategoriesParent.Count > 0) { %>
         <div>
