@@ -1,5 +1,6 @@
 ﻿<%@ Control Language="C#" AutoEventWireup="true"
     Inherits="System.Web.Mvc.ViewUserControl<CategoryModel>" %>
+<%@ Import Namespace="System.Web.Optimization" %>
 
 <input type="hidden" id="hddIsLearningSession" value="<%= Model.IsLearningSession %>"
     data-learning-session-id="-1"

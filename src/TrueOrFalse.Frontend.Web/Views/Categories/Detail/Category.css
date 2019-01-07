@@ -1228,3 +1228,6 @@ p:empty {
     font-weight: normal;
   }
 }
+.spinner {
+  display: none;
+}

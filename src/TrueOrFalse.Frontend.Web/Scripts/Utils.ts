@@ -149,5 +149,13 @@ class Utils
         return slashes.concat(window.location.hostname);        
     }
 
+    static ShowSpinner() {
+        $(".spinner").show();
+    }
+
+    static HideSpinner() {
+        $(".spinner").hide();
+    }
+
 }
 
