@@ -1,6 +1,5 @@
 ﻿<%@ Control Language="C#" AutoEventWireup="true" 
     Inherits="System.Web.Mvc.ViewUserControl<CategoryModel>" %>
-<%@ Import Namespace="System.Web.Optimization" %>
  
 <div class="alert alert-info" style="max-width: 700px; margin-left: auto; margin-right: auto; margin-top: 55px; margin-bottom: 40px; padding: 15px;">
     <h3 style="margin-top: 0; font-size: 25px;">Schlaue Lernanalyse: Bald hier für dich</h3>
@@ -26,5 +25,3 @@
         </div>
     </div>
 </div>
-
-<%--<%= Scripts.Render("~/bundles/js/AnalyticTab") %>--%>

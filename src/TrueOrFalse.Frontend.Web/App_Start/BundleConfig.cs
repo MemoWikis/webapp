@@ -82,8 +82,6 @@ namespace TrueOrFalse.View
             bundles.Add(new StyleBundle("~/bundles/Login")
                 .Include("~/Views/Welcome/Registration/SocialButtons.css"));
 
-
-               
             bundles.Add(new StyleBundle("~/bundles/AlgoInsight")
                 .IncludeDirectory("~/Views/AlgoInsight/", "*.css"));
 
