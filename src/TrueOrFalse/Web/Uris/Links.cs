@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.Routing;
+using FluentNHibernate.Utils;
 using TrueOrFalse.Web;
 using TrueOrFalse.Web.Uris;
 using static System.String;
@@ -44,7 +46,12 @@ namespace TrueOrFalse.Frontend.Web.Code
         public static string WidgetStats() => GetUrlHelper().Action("WidgetStats", AccountController);
         public static string BetaInfo() => GetUrlHelper().Action("MemuchoBeta", VariousController);
 
-        public static UrlHelper GetUrlHelper() => new UrlHelper(HttpContext.Current.Request.RequestContext);
+        public static UrlHelper GetUrlHelper()
+        {
+            var res = new UrlHelper(HttpContext.Current.Request.RequestContext);
+            res.RemoveRoutes(new[] { "version" });
+            return res;
+        }
 
         /* About */
         public const string AboutController = "About";
@@ -55,6 +62,9 @@ namespace TrueOrFalse.Frontend.Web.Code
         public static string Jobs() => GetUrlHelper().Action("Jobs", AboutController);
         public static string ForTeachers() => GetUrlHelper().Action("ForTeachers", AboutController);
         public static string Promoter() => GetUrlHelper().Action("Promoter", WelcomeController);
+
+        /* Welcome */
+        public static string Welcome() => GetUrlHelper().Action("Welcome", WelcomeController);
 
         /* AlgoInsight */
         public const string AlgoInsightController = "AlgoInsight";
@@ -405,17 +415,28 @@ namespace TrueOrFalse.Frontend.Web.Code
         public static string CategoriesAll() => GetUrlHelper().Action(CategoriesAction, CategoriesController);
         public static string CategoriesWish() => GetUrlHelper().Action("CategoriesWish", CategoriesController);
         public static string CategoryCreate() => GetUrlHelper().Action(CategoryCreateAction, CategoryEditController);
+        public static string CategoryCreate(int parentCategoryId) => GetUrlHelper().Action("Create", "EditCategory", new { parent = parentCategoryId });
+
         public static string CategoryHistoryDetail(int categoryId, int categoryChangeId) => 
             GetUrlHelper().Action("Detail", "CategoryHistoryDetail", new { categoryId  = categoryId , categoryChangeId = categoryChangeId });
+
         public static string CategoryHistory(int categoryId) =>
             GetUrlHelper().Action("List", "CategoryHistory", new { categoryId = categoryId });
 
-        public static string CategoryDetail(Category category, int? version = null) =>
+        public static string CategoryDetail(Category category) =>
+            HttpContext.Current == null 
+                ? "" 
+                : CategoryDetail(category.Name, category.Id);
+
+        public static string CategoryDetail(Category category, int version) =>
             HttpContext.Current == null 
                 ? "" 
                 : CategoryDetail(category.Name, category.Id, version);
 
-        public static string CategoryDetail(string name, int id, int? version = null) => 
+        public static string CategoryDetail(string name, int id) =>
+            GetUrlHelper().Action("Category", CategoryController, new { text = UriSanitizer.Run(name), id = id });
+
+        public static string CategoryDetail(string name, int id, int version) => 
             GetUrlHelper().Action("Category", CategoryController, new { text = UriSanitizer.Run(name), id = id, version = version }, null);
 
         public static string CategoryRestore(int categoryId, int categoryChangeId) => 
@@ -444,6 +465,7 @@ namespace TrueOrFalse.Frontend.Web.Code
         public static string CategoryEdit(Category category) => CategoryEdit(GetUrlHelper(), category.Name, category.Id);
         public static string CategoryEdit(string name, int id) => CategoryEdit(GetUrlHelper(), name, id);
         public static string CategoryEdit(UrlHelper url, string name, int id) => url.Action("Edit", "EditCategory", new { text = UriSanitizer.Run(name), id = id });
+        
 
         public static string FAQItem(string itemNameInView) => GetUrlHelper().Action("FAQ", "Help") + "#" + itemNameInView;
         public static string Contact => GetUrlHelper().Action("Contact", "Welcome");

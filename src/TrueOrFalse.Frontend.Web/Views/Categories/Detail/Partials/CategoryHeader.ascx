@@ -21,15 +21,10 @@
                         <i class="fa fa-ellipsis-v"></i>
                     </a>
                     <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="<%= buttonId %>">
-                        <% if (Model.AggregatedSetCount > 0)
-                           { %>
-                            <%--<li><a href="<%= Links.DateCreateForCategory(Model.Id) %>" rel="nofollow" data-allowed="logged-in" data-allowed-type="date-create"><i class="fa fa-calendar"></i>&nbsp;Thema zum Termin lernen</a></li>--%>
-                            
-                            <%--<li><a href="<%= Links.GameCreateFromCategory(Model.Id) %>" rel="nofollow" data-allowed="logged-in" data-allowed-type="game"><i class="fa fa-gamepad"></i>&nbsp;Spiel starten</a></li>--%>
-                        <% } %>
-                            <li><a href="<%= Links.CategoryHistory(Model.Id) %>" data-allowed="logged-in"><i class="fa fa-code-fork"></i>&nbsp;Bearbeitungshistorie</a></li>
-                            <li><a href="<%= Links.CategoryEdit(Url, Model.Name, Model.Id) %>" data-allowed="logged-in" ><i class="fa fa-pencil"></i>&nbsp;bearbeiten</a></li>
-                            <li><a href="<%= Links.CreateQuestion(categoryId: Model.Id) %>" data-allowed="logged-in" ><i class="fa fa-plus-circle"></i>&nbsp;Frage hinzufügen</a></li>
+                        <li><a href="<%= Links.CategoryHistory(Model.Id) %>" data-allowed="logged-in"><i class="fa fa-code-fork"></i>&nbsp;Bearbeitungshistorie</a></li>
+                        <li><a href="<%= Links.CategoryEdit(Url, Model.Name, Model.Id) %>" data-allowed="logged-in" ><i class="fa fa-pencil"></i>&nbsp;bearbeiten</a></li>
+                        <li><a href="<%= Links.CreateQuestion(categoryId: Model.Id) %>" data-allowed="logged-in" ><i class="fa fa-plus-circle"></i>&nbsp;Frage hinzufügen</a></li>
+                        <li><a href="<%= Links.CategoryCreate(Model.Id) %>" data-allowed="logged-in" ><i class="fa fa-plus-circle"></i>&nbsp;Unterthema hinzufügen</a></li>
                     </ul>
                 </div>
             </div>
@@ -98,16 +93,10 @@
                             <i class="fa fa-ellipsis-v"></i>
                         </a>
                         <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="<%= buttonId %>">
-                            <% if (Model.AggregatedSetCount > 0)
-                               { %>
-                            <%--<li><a href="<%= Links.DateCreateForCategory(Model.Id) %>" rel="nofollow" data-allowed="logged-in" data-allowed-type="date-create"><i class="fa fa-calendar"></i>&nbsp;Thema zum Termin lernen</a></li>--%>
-                            
-                            <%--<li><a href="<%= Links.GameCreateFromCategory(Model.Id) %>" rel="nofollow" data-allowed="logged-in" data-allowed-type="game"><i class="fa fa-gamepad"></i>&nbsp;Spiel starten</a></li>--%>
-                            <% } %>
-                              
                             <li><a href="<%= Links.CategoryHistory(Model.Id) %>" data-allowed="logged-in"><i class="fa fa-code-fork"></i>&nbsp;Bearbeitungshistorie</a></li>
                             <li><a href="<%= Links.CategoryEdit(Url, Model.Name, Model.Id) %>" data-allowed="logged-in"><i class="fa fa-pencil"></i>&nbsp;bearbeiten</a></li>
                             <li><a href="<%= Links.CreateQuestion(categoryId: Model.Id) %>" data-allowed="logged-in"><i class="fa fa-plus-circle"></i>&nbsp;Frage hinzufügen</a></li>
+                            <li><a href="<%= Links.CategoryCreate(Model.Id) %>" data-allowed="logged-in" ><i class="fa fa-plus-circle"></i>&nbsp;Unterthema hinzufügen</a></li>
                         </ul>
                     </div>
                 </div>

@@ -32,7 +32,7 @@
         <template slot="imageAndTitle" scope="props">
             <input type="hidden" class="hddCountDates" v-bind:value="props.rowData.ListCount"/>
             <div class="imageParent">
-                <image class="image" v-bind:src="GetImageSourceUrl(props.rowData.ImageFrontendData.SourceUrl)"></image>
+                <image class="image" v-bind:src="GetImageSourceUrl(props.rowData.ImageFrontendData)"></image>
             </div>
             <div class="set-category-title">
                 <a v-bind:href="props.rowData.LinkToSetOrCategory">{{props.rowData.Title}}</a>
@@ -62,12 +62,10 @@
             <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="<%=buttonId %>"  >
             <% if (Model.IsLoggedIn)
                 { %>
-                <li><a v-bind:href="props.rowData.DateToLearningTopicLink" rel="nofollow" data-allowed="logged-in" data-allowed-type="date-create"><i class="fa fa-calendar"></i>&nbsp;Prüfungstermin festlegen</a></li>
-                <%--<li><a v-bind:href="props.rowData.StartGameLink" rel="nofollow" data-allowed="logged-in" data-allowed-type="game"><i class="fa fa-gamepad"></i>&nbsp;Spiel starten</a></li>--%>
-                <li style="margin-top: 2rem;"><a v-bind:href="props.rowData.EditCategoryOrSetLink" rel="nofollow" data-allowed="logged-in"><i class="fa fa-calendar"></i>&nbsp;Lernset/Category bearbeiten</a></li>
-                <li><a v-bind:href="props.rowData.CreateQuestionLink" data-allowed="logged-in"><i class="fa fa-plus-circle"></i>&nbsp;Frage erstellen und hinzufügen</a></li>
-                <li style="margin-top: 2rem;"><a target="_blank" v-bind:href="props.rowData.ShareFacebookLink"><i class="fa fa-pencil"></i>&nbsp; Lernset auf Facebook teilen </a></li>     
-                <li @click="deleteRow(props.rowData.Id, props.rowData.IsCategory, props.rowIndex)"><a href="#"><i class="fa fa-pencil"></i>&nbsp; Thema aus Wunschwissen entfernen </a></li> 
+                <li><a v-bind:href="props.rowData.EditCategoryOrSetLink" target="_blank" rel="nofollow" data-allowed="logged-in"><i class="fa fa-pencil"></i>&nbsp;Bearbeiten</a></li>
+                <li><a v-bind:href="props.rowData.CreateQuestionLink" target="_blank" data-allowed="logged-in"><i class="fa fa-plus-circle"></i>&nbsp;Frage erstellen und hinzufügen</a></li>
+                <li style="margin-top: 2rem;"><a target="_blank" v-bind:href="props.rowData.ShareFacebookLink"><i class="fa fa-share"></i>&nbsp;Auf Facebook teilen </a></li>     
+                <li @click="deleteRow(props.rowData.Id, props.rowData.IsCategory, props.rowIndex)"><a href="#"><i class="fa fa-trash-o"></i>&nbsp; Aus Wunschwissen entfernen </a></li> 
             <% }  %>
             </ul>
         </div>

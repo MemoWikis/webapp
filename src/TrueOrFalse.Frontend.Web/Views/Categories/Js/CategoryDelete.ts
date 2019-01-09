@@ -18,6 +18,7 @@
         $('#confirmDelete').click(function (e) {
             self.DeleteCategory(categoryIdToDelete);
             $('#modalDeleteCategory').modal('hide');
+            $('#forTheTimeToDeleteModal').modal('show');
             e.preventDefault();
         });
     }
@@ -32,7 +33,7 @@
             },
             error: function (result) {
                 window.console.log(result);
-                window.alert("Ein Fehler ist aufgetreten");
+                $('#forTheTimeToDeleteModal').modal('hide');
             }
         });
     }
@@ -42,13 +43,12 @@
             type: 'POST',
             url: "/Categories/Delete/" + catId,
             cache: false,
-            success: function() {
-                window.alert("Das Thema wurde erfolgreich gelöscht.");
+            success: function () {
+                $('#forTheTimeToDeleteModal').modal('hide');
                 window.location.href = "/Kategorien";
             },
             error: function (result) {
                 window.console.log(result);
-                window.alert("Ein Fehler ist aufgetreten");
             }
         });
     }

@@ -17,8 +17,6 @@ public class KnowledgeQuestions : BaseModel
 
     public KnowledgeQuestions(bool isAuthor, int page, int per_page, string sort)
     {
-        var test = UserValuationCache.GetQuestionValuations(UserId);
-        //var test = UserValuationCache.CreateItemFromDatabase(UserId).QuestionValuations.Values.ToList(); // is not commented then Work Categories OrderBy
         TotalWishKnowledgeValuationsWithAuthor = isAuthor
             ? UserValuationCache.CreateItemFromDatabase(UserId).QuestionValuations.Values
                 .Where(v => v.Question.Creator.Id == UserId && v.IsInWishKnowledge())
@@ -41,17 +39,18 @@ public class KnowledgeQuestions : BaseModel
     {
         var unsortedListQuestions = EntityCache.GetQuestionsByIds(TotalWishKnowledgeValuationsPerPage.QuestionIds());
         var questionsList = new List<Questions>();
-        var userImageSettings = new UserImageSettings();
+        
         var i = 0;
         foreach (var question in unsortedListQuestions)
         {
+            var userImageSettings = new UserImageSettings(question.Creator.Id);
             var questions = new Questions();
             var categories = question.Categories;
 
             questions.Title = question.Text;
 
             questions.AuthorName = question.Creator.Name;
-            questions.AuthorImageUrl = userImageSettings.GetUrl_30px_square(Sl.UserRepo.GetById(question.Creator.Id));
+            questions.AuthorImageUrl = userImageSettings.GetUrl_128px_square(question.Creator);
             questions.LinkToQuestion = Links.GetUrl(question);
             questions.AuthorId = question.Creator.Id;
             questions.LinkToCategory = categories.IsEmpty() ? " " : Links.GetUrl(categories[0]);
@@ -60,9 +59,6 @@ public class KnowledgeQuestions : BaseModel
             questions.QuestionMetaData = new ImageFrontendData(Sl.ImageMetaDataRepo.GetBy(question.Id, ImageType.Question)).GetImageUrl(30);
             questions.TooltipLinkToCategory = "Kategorie " + questions.Category + " in neuem Tab öffnen";
             questions.CountQuestions = CountWishQuestions;
-
-            if (questions.QuestionMetaData.Url.Equals("/Images/no-question-128.png"))
-                questions.QuestionMetaData = questions.CategoryImageData;
 
             if ((int)TotalWishKnowledgeValuationsPerPage[i].KnowledgeStatus == 4)
             {

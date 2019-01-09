@@ -139,7 +139,7 @@
              <% if (!Model.HasLearnedInLast30Days)
          { %>
              var infoDivNotLearned = document.createElement('div');
-             infoDivNotLearned.setAttribute('style', ' margin-top: 50px; left: 20px; right: 20px; padding-top: 40px');
+             infoDivNotLearned.setAttribute('style', ' margin-top: 50px; left: 20px; right: 20px; padding-top: 20px');
              infoDivNotLearned.setAttribute('class', 'alert alert-info');
              infoDivNotLearned.innerHTML = '<p>Du hast in den letzten 30 Tagen keine Fragen beantwortet, daher kann hier keine Übersicht angezeigt werden.</p>';
              document.getElementById("chartActivityLastDays").appendChild(infoDivNotLearned);
@@ -158,7 +158,9 @@
 <div class="row first-row">
     <div class="col-xs-3 " >
         <h3>Dein Wissenstand</h3>
-        <div id="chartKnowledgeP" ></div>
+        <div class="chartKnowledgePContainer">
+            <div id="chartKnowledgeP" ></div>
+        </div>
     </div>
     <!-- Dein Training -->
     <div class ="col-xs-5">
@@ -207,16 +209,14 @@
             Mit <b><%= Model.ActivityPoints.ToString("N0") %> Lernpunkten</b> bist du in <span style="white-space: nowrap"><b>Level <%= Model.ActivityLevel %></b>.</span>
         </p>
     </div>
-    <div class="row">
-        <div class="NextLevelContainer">
-            <div class="ProgressBarContainer">
-                 <div id="NextLevelProgressPercentageDone" class="ProgressBarSegment ProgressBarDone" style="width: <%= Model.ActivityPointsPercentageOfNextLevel %>%;">
-                    <div class="ProgressBarSegment ProgressBarLegend">
-                        <span id="NextLevelProgressSpanPercentageDone"><%= Model.ActivityPointsPercentageOfNextLevel %> %</span>
-                    </div>
+    <div class="NextLevelContainer">
+        <div class="ProgressBarContainer">
+             <div id="NextLevelProgressPercentageDone" class="ProgressBarSegment ProgressBarDone" style="width: <%= Model.ActivityPointsPercentageOfNextLevel %>%;">
+                <div class="ProgressBarSegment ProgressBarLegend">
+                    <span id="NextLevelProgressSpanPercentageDone"><%= Model.ActivityPointsPercentageOfNextLevel %> %</span>
                 </div>
-                <div class="ProgressBarSegment ProgressBarLeft" style="width: 100%;"></div> 
             </div>
+            <div class="ProgressBarSegment ProgressBarLeft" style="width: 100%;"></div> 
         </div>
     </div>
 </div>

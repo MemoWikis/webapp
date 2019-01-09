@@ -241,6 +241,7 @@ textarea.form-control {
 }
 .buttons .btn-primary {
   min-width: 180px;
+  float: right;
 }
 #questionSearch {
   margin-top: 15px;

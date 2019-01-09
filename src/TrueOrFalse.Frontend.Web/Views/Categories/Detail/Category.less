@@ -102,25 +102,19 @@ span.CategoryType {
 
 .MarkdownContent {
 
-    p, ul, ol, blockquote {
-        max-width: @paragraph-max-width;
-        margin-left: auto;
-        margin-right: auto;
-    }
-
     blockquote {
         font-style: italic;
         padding-left: 20px;
     }
 
     h2 {
-        margin-top: 45px;
-        margin-bottom: 30px;
+        margin-top: 50px;
+        margin-bottom: 20px;
     }
 
     h3 {
-        margin-top: 45px;
-        margin-bottom: 30px;
+        margin-top: 50px;
+        margin-bottom: 20px;
     }
 
     h4 {
@@ -995,6 +989,13 @@ p:empty {
     margin-top: 60px;
 }
 
+/*------------------------------------------------------
+    Spinner Overwrite
+-------------------------------------------------------*/
+.spinner{
+    left: calc(45% - 20px);
+}
+
 
 /*------------------------------------------------------
     LearningTab
@@ -1014,4 +1015,10 @@ p:empty {
 .NoQuestions {
     margin-top: 40px;
     .new-font-style;
+}
+
+//-------------------------Spinner.css overwrite----------------
+
+.spinner{
+    display: none;
 }

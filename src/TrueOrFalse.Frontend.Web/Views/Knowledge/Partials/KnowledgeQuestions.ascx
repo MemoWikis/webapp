@@ -34,12 +34,10 @@
         
             <template slot="questionTitle" scope="props">
                 <input type="hidden" class="hddCountQuestion" v-bind:value="props.rowData.CountQuestions"/>
-                <div class="show-tooltip" data-placement="bottom" data-toggle="tooltip" v-bind:data-original-title="props.rowData.Title">
                     <div class="image">
                         <image class="imageTable" v-bind:src="GetQuestionImageSourceUrl(props.rowData.QuestionMetaData)"></image>
                     </div>
                     <div class="title-table"><a v-bind:href="props.rowData.LinkToQuestion">{{props.rowData.Title}}</a></div>
-                </div>
             </template>
               
             <template slot="knowWas" scope="props">
@@ -49,12 +47,10 @@
             </template>
                   
             <template slot="authorImage" scope="props">
-                <div class="show-tooltip" data-toggle="tooltip" data-placement="bottom" v-bind:data-original-title="props.rowData.AuthorName">
-                    <div class="author-image">
+                    <div class="author-image show-tooltip" data-toggle="tooltip" data-placement="bottom" v-bind:data-original-title="props.rowData.AuthorName">
                         <image v-bind:src="props.rowData.AuthorImageUrl.Url" class="image-author"></image>
                     </div>
-                    <div class="author-name">{{props.rowData.AuthorName}}</div>
-                </div>
+                    <div  class="show-tooltip author-name" data-toggle="tooltip" data-placement="bottom" v-bind:data-original-title="props.rowData.AuthorName">{{props.rowData.AuthorName}}</div>
             </template>
           
             <template slot="category" scope="props">

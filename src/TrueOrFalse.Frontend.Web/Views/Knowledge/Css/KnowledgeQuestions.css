@@ -24,7 +24,7 @@ table {
   color: #2c5fb2;
 }
 .vuetable .vuetable-th-slot-questionTitle {
-  padding-left: 0px;
+  padding-left: 10px;
 }
 @media only screen and (max-width: 424px) {
   .vuetable .vuetable-th-slot-questionTitle {
@@ -56,7 +56,7 @@ table {
   }
 }
 .vuetable .td-question {
-  padding-left: 0px;
+  padding-left: 10px;
   vertical-align: middle;
 }
 .vuetable .td-question .image {

@@ -5,7 +5,7 @@
         $(function () {
             $('a[href*=#modalDelete]').click(function () {
                 setIdToDelete = $(this).attr("data-setId");
-                populateDeleteSet(setIdToDelete);
+                    populateDeleteSet(setIdToDelete);
             });
 
             $('#btnCloseSetDelete').click(function () {
@@ -13,7 +13,11 @@
             });
 
             $('#confirmSetDelete').click(function () {
-                deleteSet(setIdToDelete);
+                if (typeof isEditMode === "undefined")
+                    deleteSet(setIdToDelete);
+                else
+                    deleteSet(setIdToDelete, isEditMode);
+
                 $('#modalDelete').modal('hide');
             });
         });
@@ -23,7 +27,6 @@
                 type: 'POST',
                 url: "/Sets/DeleteDetails/" + setId,
                 cache: false,
-
                 success: function (result) {
                     if (result.canNotBeDeleted) {
                         $("#setDeleteCanDelete").hide();
@@ -46,12 +49,18 @@
             });
         }
 
-        function deleteSet(setId) {
+        function deleteSet(setId, isEdit = false) {
             $.ajax({
                 type: 'POST',
                 url: "/Sets/Delete/" + setId,
                 cache: false,
-                success: function () { window.location.reload(); },
+                success: function() {
+                    if (isEdit) {
+                        window.alert("Das Set wurde erfolgreich gelöscht");
+                        window.location.href = "/Fragesaetze";
+                    }else
+                        window.location.reload();
+                },
                 error: function (e) {
                     console.log(e);
                     window.alert("Ein Fehler ist aufgetreten");

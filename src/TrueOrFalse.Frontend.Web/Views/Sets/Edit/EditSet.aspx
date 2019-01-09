@@ -33,6 +33,9 @@
 
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
 
+
+<% Html.RenderPartial("~/Views/Sets/Modals/DeleteSet.ascx"); %>
+
 <div id="questionSetId" data-id="<%: Model.Id %>"></div>
     
 <% using (Html.BeginForm(Model.IsEditing ? "Edit" : "Create",
@@ -176,7 +179,9 @@
 
             <div class="buttons">
                 <% if (Model.IsEditing) { %>
+                    <a data-toggle="modal" href="#modalDelete" data-setId="<%= Model.Id %>" class="btn btn-danger"><i class="fa fa-trash-o"></i> Löschen</a>
                     <input type="submit"  value="Speichern" class="btn btn-primary" name="btnSave" id="btnSave"  />
+                    
                 <% } else { %>
                     <input type="submit" value="Lernset erstellen"  class="btn btn-primary" id="btn-save" 
                             name="btnSave" <% if (!Model.IsLoggedIn) { %> disabled="disabled" <% } %>/>
