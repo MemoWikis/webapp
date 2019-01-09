@@ -62,8 +62,9 @@ namespace TrueOrFalse.View
                 .IncludeDirectory("~/Views/Help/Js", "*.js"));
 
             bundles.Add(new StyleBundle("~/bundles/Category")
-                .Include("~/Views/Categories/Detail/Category.css")
-                .Include("~/Views/Categories/Detail/Js/SquareWishKnowledge.js"));
+                .Include("~/Views/Shared/Spinner/Spinner.css")
+                .Include("~/Views/Categories/Detail/Category.css"));
+
 
             bundles.Add(new ScriptBundle("~/bundles/js/Category")
                 .Include("~/Views/Knowledge/Wheel/KnowledgeWheel.js")
@@ -82,8 +83,6 @@ namespace TrueOrFalse.View
             bundles.Add(new StyleBundle("~/bundles/Login")
                 .Include("~/Views/Welcome/Registration/SocialButtons.css"));
 
-
-               
             bundles.Add(new StyleBundle("~/bundles/AlgoInsight")
                 .IncludeDirectory("~/Views/AlgoInsight/", "*.css"));
 
@@ -274,7 +273,8 @@ namespace TrueOrFalse.View
             //-------------------------------------- KnowledgeCentral----------------------------------------
 
             bundles.Add(new StyleBundle("~/bundles/Knowledge")
-                .IncludeDirectory("~/Views/Knowledge/", "*.css"));
+                .IncludeDirectory("~/Views/Knowledge/", "*.css")
+                .Include("~/Views/Shared/Spinner/Spinner.css "));
 
             bundles.Add(new ScriptBundle("~/bundles/js/Knowledge")
                 .Include("~/Views/Knowledge/Js/Page.js")

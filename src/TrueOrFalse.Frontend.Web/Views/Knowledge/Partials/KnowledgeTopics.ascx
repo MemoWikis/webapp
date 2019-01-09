@@ -65,7 +65,7 @@
                 <li><a v-bind:href="props.rowData.EditCategoryOrSetLink" target="_blank" rel="nofollow" data-allowed="logged-in"><i class="fa fa-pencil"></i>&nbsp;Bearbeiten</a></li>
                 <li><a v-bind:href="props.rowData.CreateQuestionLink" target="_blank" data-allowed="logged-in"><i class="fa fa-plus-circle"></i>&nbsp;Frage erstellen und hinzufügen</a></li>
                 <li style="margin-top: 2rem;"><a target="_blank" v-bind:href="props.rowData.ShareFacebookLink"><i class="fa fa-share"></i>&nbsp;Auf Facebook teilen </a></li>     
-                <li @click="deleteRow(props.rowData.Id, props.rowData.IsCategory, props.rowIndex)"><a href="#"><i class="fa fa-pencil"></i>&nbsp; Aus Wunschwissen entfernen </a></li> 
+                <li @click="deleteRow(props.rowData.Id, props.rowData.IsCategory, props.rowIndex)"><a href="#"><i class="fa fa-trash-o"></i>&nbsp; Aus Wunschwissen entfernen </a></li> 
             <% }  %>
             </ul>
         </div>
