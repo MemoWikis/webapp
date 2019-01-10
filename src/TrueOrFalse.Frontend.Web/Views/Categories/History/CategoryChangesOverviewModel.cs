@@ -2,12 +2,12 @@
 using System.Linq;
 using NHibernate;
 
-public class HistoryOfEverythingModel : BaseModel
+public class CategoryChangesOverviewModel : BaseModel
 {
-    public IList<ChangeDayModel> Days;
+    public IList<CategoryChangeDayModel> Days;
     public int PageToShow;
     
-    public HistoryOfEverythingModel(int pageToShow)
+    public CategoryChangesOverviewModel(int pageToShow)
     {
         PageToShow = pageToShow;
         const int revisionsToShow = 10;
@@ -22,7 +22,7 @@ public class HistoryOfEverythingModel : BaseModel
         Days = revisions
             .GroupBy(change => change.DateCreated.Date)
             .OrderByDescending(group => group.Key)
-            .Select(group => new ChangeDayModel(
+            .Select(group => new CategoryChangeDayModel(
                 group.Key,
                 (IList<CategoryChange>)group.OrderByDescending(g => g.DateCreated).ToList()
             ))
