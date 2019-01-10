@@ -4,7 +4,7 @@ public abstract class QuestionEditData
 {
     public string QuestionText;
     public string QuestionTextExtended;
-    public LicenseQuestion ImageLicense;
+    public LicenseQuestion License;
     public QuestionVisibility Visibility;
     public string Solution;
     public string SolutionDescription;

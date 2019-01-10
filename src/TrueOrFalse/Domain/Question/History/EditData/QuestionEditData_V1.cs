@@ -11,7 +11,7 @@ public class QuestionEditData_V1 : QuestionEditData
     {
         QuestionText = question.Text;
         QuestionTextExtended = question.TextExtended;
-        ImageLicense = question.License;
+        License = question.License;
         Visibility = question.Visibility;
         Solution = question.Solution;
         SolutionDescription = question.Description;
