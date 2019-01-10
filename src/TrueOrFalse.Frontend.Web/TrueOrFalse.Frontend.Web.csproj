@@ -20132,6 +20132,7 @@
       <DependentUpon>GetResultTestSession.ts</DependentUpon>
     </Content>
     <Content Include="Views\Knowledge\Dates\DateRow.ascx" />
+    <TypeScriptCompile Include="Scripts\inline-editor-component.ts" />
     <TypeScriptCompile Include="Views\Knowledge\Dates\Edit\Js\EditDate.ts" />
     <Content Include="Views\Knowledge\Dates\Edit\Js\EditDate.js">
       <DependentUpon>EditDate.ts</DependentUpon>

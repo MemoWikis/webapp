@@ -118,7 +118,8 @@ namespace TrueOrFalse.View
                 .Include("~/Scripts/autocompletes/AutocompleteCategories.js")
                 .Include("~/Scripts/vendor.somewhere/simplemde.js")
                 .Include("~/Views/Categories/Edit/Js/EditCategoryNavBar.js")
-                .Include("~/Scripts/vendor.somewhere/d3v3.js"));
+                .Include("~/Scripts/vendor.somewhere/d3v3.js")
+                .Include("~/Scripts/npm/tiptap/tiptap.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/js/Users")
                 .IncludeDirectory("~/Views/Users/Js/", "*.js"));
@@ -316,7 +317,8 @@ namespace TrueOrFalse.View
                 .Include("~/Views/Knowledge/Dates/Edit/Js/Page.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/js/TipTap")
-                .Include("~/Scripts/npm/tiptap/tiptap.js"));
+                .Include("~/Scripts/npm/tiptap/tiptap.js")
+                .Include("~/Scripts/npm/tiptap-extensions/extensions.js"));
 
             //------------------------ END KNOWLEDGECENTRAL------------------------------------------------------------
 
