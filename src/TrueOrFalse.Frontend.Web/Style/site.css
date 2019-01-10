@@ -340,7 +340,7 @@ img {
         display: none;
     });*/
 }
-@media (min-width: 767px) {
+@media (min-width: 768px) {
   #LogoSmall {
     display: none;
   }
@@ -1214,30 +1214,25 @@ ul.AutocompleteHeader {
 .SearchBoxDivMaxWidth {
   width: 259px !important;
 }
-@media (max-width: 500px) {
+@media (max-width: 520px) {
   .SearchBoxDivMaxWidth {
     width: 220px !important;
     margin-left: 10px;
   }
 }
-@media (max-width: 450px) {
+@media (max-width: 490px) {
   .SearchBoxDivMaxWidth {
     width: 170px !important;
   }
 }
-@media (max-width: 400px) {
+@media (max-width: 420px) {
   .SearchBoxDivMaxWidth {
     width: 110px !important;
   }
 }
-@media (max-width: 340px) {
+@media (max-width: 360px) {
   .SearchBoxDivMaxWidth {
     width: 96px !important;
-  }
-}
-@media (max-width: 325px) {
-  .SearchBoxDivMaxWidth {
-    width: 76px !important;
   }
 }
 .sticky {
