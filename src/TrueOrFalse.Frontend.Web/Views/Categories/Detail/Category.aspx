@@ -16,12 +16,13 @@
 
 <asp:Content ID="head" ContentPlaceHolderID="Head" runat="server">
     <link href="/Views/Questions/Answer/LearningSession/LearningSessionResult.css" rel="stylesheet" />
+    <%= Scripts.Render("~/bundles/js/Vue") %>
     <%= Styles.Render("~/bundles/AnswerQuestion") %>
     <%= Styles.Render("~/bundles/Category") %>
     <%= Scripts.Render("~/bundles/js/Category") %>
     <%= Scripts.Render("~/bundles/js/DeleteQuestion") %>
     <%= Scripts.Render("~/bundles/js/AnswerQuestion") %>
-    <%= Scripts.Render("~/bundles/js/Vue") %>
+    
     <%= Scripts.Render("~/bundles/js/TipTap") %>
     <script type="text/javascript" src="https://www.google.com/jsapi"></script>
     <script src="<%= Request.Url.Scheme %>://d3js.org/d3.v4.min.js"></script>
@@ -185,82 +186,4 @@
     </div>
     <div id="AnalyticsTabContent" class="TabContent"></div>  
     
-    <script>
-import Icon from 'Components/Icon'
-import { Editor, EditorContent, EditorMenuBar } from 'tiptap'
-import {
-  Blockquote,
-  CodeBlock,
-  HardBreak,
-  Heading,
-  OrderedList,
-  BulletList,
-  ListItem,
-  TodoItem,
-  TodoList,
-  Bold,
-  Code,
-  Italic,
-  Link,
-  Strike,
-  Underline,
-  History,
-} from 'tiptap-extensions'
-export default {
-  components: {
-    EditorContent,
-    EditorMenuBar,
-    Icon,
-  },
-  data() {
-    return {
-      editor: new Editor({
-        extensions: [
-          new Blockquote(),
-          new BulletList(),
-          new CodeBlock(),
-          new HardBreak(),
-          new Heading({ levels: [1, 2, 3] }),
-          new ListItem(),
-          new OrderedList(),
-          new TodoItem(),
-          new TodoList(),
-          new Bold(),
-          new Code(),
-          new Italic(),
-          new Link(),
-          new Strike(),
-          new Underline(),
-          new History(),
-        ],
-        content: `
-          <h2>
-            Hi there,
-          </h2>
-          <p>
-            this is a very <em>basic</em> example of tiptap.
-          </p>
-          <pre><code>body { display: none; }</code></pre>
-          <ul>
-            <li>
-              A regular list
-            </li>
-            <li>
-              With regular items
-            </li>
-          </ul>
-          <blockquote>
-            It's amazing 👏
-            <br />
-            – mom
-          </blockquote>
-        `,
-      }),
-    }
-  },
-  beforeDestroy() {
-    this.editor.destroy()
-  },
-}
-</script>
 </asp:Content>

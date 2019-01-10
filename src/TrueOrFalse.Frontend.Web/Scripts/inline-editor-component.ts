@@ -1,62 +1,35 @@
-﻿var _tiptap = { tiptap }
-var _tiptapExtensions = { extensions }
+﻿declare var Vue: any;
+declare var tiptap: any;
+declare var extensions: any;
+
 
 Vue.component('inline-editor-component',
     {
-        
-
-        exports.default = {
-        components: {
-            EditorContent: _tiptap.EditorContent,
-            EditorMenuBar: _tiptap.EditorMenuBar,
-            Icon: _Icon2.default
-        },
-
-        import Icon from 'Components/Icon',
-        import { Editor, EditorContent, EditorMenuBar } from 'tiptap',
-        import {
-            Blockquote,
-            CodeBlock,
-            HardBreak,
-            Heading,
-            OrderedList,
-            BulletList,
-            ListItem,
-            TodoItem,
-            TodoList,
-            Bold,
-            Code,
-            Italic,
-            Link,
-            Strike,
-            Underline,
-            History,
-                } from 'tiptap-extensions'
-            export default {
+          
+            tiptap: {
                 components: {
-                    EditorContent,
-                    EditorMenuBar,
-                    Icon,
+                    EditorContent: tiptap.EditorContent,
+                    EditorMenuBar: tiptap.EditorMenuBar
                 },
                 data() {
                     return {
-                        editor: new Editor({
+                        editor: new tiptap.Editor({
                             extensions: [
-                                new Blockquote(),
-                                new BulletList(),
-                                new CodeBlock(),
-                                new HardBreak(),
-                                new Heading({ levels: [1, 2, 3] }),
-                                new ListItem(),
-                                new OrderedList(),
-                                new TodoItem(),
-                                new TodoList(),
-                                new Bold(),
-                                new Code(),
-                                new Italic(),
-                                new Link(),
-                                new Strike(),
-                                new Underline(),
+                                new extensions.Blockquote(),
+                                new extensions.BulletList(),
+                                new extensions.CodeBlock(),
+                                new extensions.HardBreak(),
+                                new extensions.Heading({ levels: [1, 2, 3] }),
+                                new extensions.ListItem(),
+                                new extensions.OrderedList(),
+                                new extensions.TodoItem(),
+                                new extensions.TodoList(),
+                                new extensions.Bold(),
+                                new extensions.Code(),
+                                new extensions.Italic(),
+                                new extensions.Link(),
+                                new extensions.Strike(),
+                                new extensions.Underline(),
                                 new History(),
                             ],
                             content: `
@@ -87,6 +60,6 @@ Vue.component('inline-editor-component',
                 beforeDestroy() {
                     this.editor.destroy()
                 },
-            }
+            },
 
-    })
+    });

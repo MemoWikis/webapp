@@ -318,7 +318,8 @@ namespace TrueOrFalse.View
 
             bundles.Add(new ScriptBundle("~/bundles/js/TipTap")
                 .Include("~/Scripts/npm/tiptap/tiptap.js")
-                .Include("~/Scripts/npm/tiptap-extensions/extensions.js"));
+                .Include("~/Scripts/npm/tiptap-extensions/extensions.js")
+                .Include("~/Scripts/inline-editor-component.js"));
 
             //------------------------ END KNOWLEDGECENTRAL------------------------------------------------------------
 
