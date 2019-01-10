@@ -22,8 +22,8 @@
     <div class="Buttons">
         <div class="row">
             <div class="col-md-3 col-lg-3">            
-                <a href="<%= Links.UserDetail(Model.CurrentAuthor) %>"><img src="<%= Model.AuthorImageUrl %>" height="20"/></a>
-                <b><a href="<%= Links.UserDetail(Model.CurrentAuthor) %>"><%= Model.AuthorName %></a></b><br/>
+                <a href="<%= Links.UserDetail(Model.Author) %>"><img src="<%= Model.AuthorImageUrl %>" height="20"/></a>
+                <b><a href="<%= Links.UserDetail(Model.Author) %>"><%= Model.AuthorName %></a></b><br/>
                 vom <%= Model.CurrentDateCreated %> 
             </div>
             
