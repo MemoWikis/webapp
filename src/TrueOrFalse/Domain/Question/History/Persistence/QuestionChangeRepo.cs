@@ -50,7 +50,7 @@ public class QuestionChangeRepo : RepositoryDbBase<QuestionChange>
             .List();
     }
 
-    public IList<QuestionChange> GetForCategory(int questionId)
+    public IList<QuestionChange> GetForQuestion(int questionId)
     {
         User aliasUser = null;
         Question aliasQuestion = null;
@@ -72,5 +72,37 @@ public class QuestionChangeRepo : RepositoryDbBase<QuestionChange>
             .Where(cc => cc.Id == questionChangeId)
             .Left.JoinQueryOver(q => q.Question)
             .SingleOrDefault();
+    }
+
+    public virtual QuestionChange GetNextRevision(QuestionChange questionChange)
+    {
+        var questionId = questionChange.Question.Id;
+        var currentRevisionDate = questionChange.DateCreated.ToString("yyyy-MM-dd HH-mm-ss");
+        var query = $@"
+
+            SELECT * FROM QuestionChange qc
+            WHERE qc.Question_Id = {questionId} and qc.DateCreated > '{currentRevisionDate}' 
+            ORDER BY qc.DateCreated 
+            LIMIT 1
+
+            ";
+        var nextRevision = Sl.R<ISession>().CreateSQLQuery(query).AddEntity(typeof(QuestionChange)).UniqueResult<QuestionChange>();
+        return nextRevision;
+    }
+
+    public virtual QuestionChange GetPreviousRevision(QuestionChange questionChange)
+    {
+        var questionId = questionChange.Question.Id;
+        var currentRevisionDate = questionChange.DateCreated.ToString("yyyy-MM-dd HH-mm-ss");
+        var query = $@"
+
+            SELECT * FROM QuestionChange qc
+            WHERE qc.Question_Id = {questionId} and qc.DateCreated < '{currentRevisionDate}' 
+            ORDER BY qc.DateCreated DESC 
+            LIMIT 1
+
+            ";
+        var previousRevision = Sl.R<ISession>().CreateSQLQuery(query).AddEntity(typeof(QuestionChange)).UniqueResult<QuestionChange>();
+        return previousRevision;
     }
 }

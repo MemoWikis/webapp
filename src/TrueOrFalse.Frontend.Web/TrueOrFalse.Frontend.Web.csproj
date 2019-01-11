@@ -20182,6 +20182,17 @@
     </Content>
     <Content Include="Views\Questions\Answer\LearningSession\LearningSessionResultInner.ascx" />
     <Content Include="Views\Questions\Answer\TestSession\TestSessionResult.ascx" />
+    <Content Include="Views\Questions\History\Detail\Js\Page.js">
+      <DependentUpon>Page.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Questions\History\Detail\QuestionHistoryDetail.aspx" />
+    <Content Include="Views\Questions\History\QuestionHistory.aspx" />
+    <Content Include="Views\Questions\History\CategoryHistory.css">
+      <DependentUpon>QuestionHistory.less</DependentUpon>
+    </Content>
+    <Content Include="Views\Questions\History\CategoryHistory.min.css">
+      <DependentUpon>CategoryHistory.css</DependentUpon>
+    </Content>
     <Content Include="Views\Sets\Detail\Modals\CopySetModal.ascx" />
     <Content Include="Views\Error\Error.css">
       <DependentUpon>Error.less</DependentUpon>
@@ -20308,6 +20319,10 @@
     <Compile Include="Views\Questions\Answer\LearningSession\LearningSessionResultModel.cs" />
     <Compile Include="Views\Questions\Answer\TestSession\TestSessionResultModel.cs" />
     <Compile Include="Views\Questions\Answer\TestSession\TestSessionController.cs" />
+    <Compile Include="Views\Questions\History\Detail\QuestionHistoryDetailController.cs" />
+    <Compile Include="Views\Questions\History\Detail\QuestionHistoryDetailModel.cs" />
+    <Compile Include="Views\Questions\History\QuestionHistoryController.cs" />
+    <Compile Include="Views\Questions\History\QuestionHistoryModel.cs" />
     <Compile Include="Views\Sets\Detail\SetKnowledgeBarModel.cs" />
     <Compile Include="Views\Sets\Detail\Modals\ShareSetModalModel.cs" />
     <Compile Include="Views\Sets\Detail\Video\SetVideoController.cs" />
@@ -20639,6 +20654,7 @@
     <TypeScriptCompile Include="Views\Messages\Js\Page.ts" />
     <TypeScriptCompile Include="Views\Messages\Js\ShowAllMessages.ts" />
     <TypeScriptCompile Include="Views\Questions\Answer\LearningSession\Js\LearningSessionResult.ts" />
+    <TypeScriptCompile Include="Views\Questions\History\Detail\Js\Page.ts" />
     <TypeScriptCompile Include="Views\Sets\Detail\Js\SetCopy.ts" />
     <TypeScriptCompile Include="Views\Sets\Edit\Js\YoutubePreview.ts" />
     <Content Include="Views\Sets\Edit\Js\YoutubePreview.js">
@@ -22517,6 +22533,11 @@
     <Content Include="Views\Welcome\Promoter.less" />
     <Content Include="Views\Welcome\Team.aspx" />
     <Content Include="Views\Welcome\Team.less" />
+    <Content Include="Views\Questions\History\QuestionHistory.less" />
+    <Content Include="Views\Questions\History\Detail\Js\Page.js.map">
+      <DependentUpon>Page.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Questions\History\Detail\QuestionHistoryDetail.less" />
     <None Include="Web.overwritten.config" />
     <None Include="Web.overwritten.config.sample" />
     <Content Include="Views\Welcome\Logout.aspx" />

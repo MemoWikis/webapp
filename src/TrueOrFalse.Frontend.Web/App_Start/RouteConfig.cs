@@ -50,6 +50,7 @@ namespace TrueOrFalse
             routes.MapRoute("Questions_SearchApi", "Fragen/SucheApi", new { controller = "Questions", action = "QuestionsSearchApi" }, new[] { "TrueOrFalse" });
             routes.MapRoute("Questions_SearchFilterCategory", "Fragen/Suche/Kategorie/{categoryName}/{categoryId}", new { controller = "Questions", action = "QuestionsSearchCategoryFilter"}, new[] { "TrueOrFalse" });
             routes.MapRoute("Questions_Search", "Fragen/Suche/{searchTerm}", new { controller = "Questions", action = "QuestionsSearch", searchTerm = UrlParameter.Optional }, new[] { "TrueOrFalse" });
+            routes.MapRoute("Question_Answer_History", "Fragen/Historie/{text}/{questionId}", new { controller = "QuestionHistory", action = "List" });
             routes.MapRoute("Questions", "Fragen", new { controller = "Questions", action = "Questions" }, new[] { "TrueOrFalse" });
 
             routes.MapRoute("Question_Delete", "Fragen/Loesche/{id}", new { controller = "Questions", action = "Delete" }, new[] { "TrueOrFalse" });

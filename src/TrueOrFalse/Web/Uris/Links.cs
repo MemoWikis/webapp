@@ -139,6 +139,11 @@ namespace TrueOrFalse.Frontend.Web.Code
         public static string SetsSearch(string searchTerm) => "/Fragesaetze/Suche/" + searchTerm;
         public static string UsersSearch(string searchTerm) => "/Nutzer/Suche/" + searchTerm;
 
+        public static string QuestionHistory(int questionId) =>
+            GetUrlHelper().Action("List", "QuestionHistory", new { questionId = questionId });
+
+        public static string QuestionHistoryDetail(int questionId, int revisionId) =>
+            GetUrlHelper().Action("Detail", "QuestionHistoryDetail", new { questionId = questionId, revisionId = revisionId});
 
         public static string AnswerQuestion(Question question, Set set) => AnswerQuestion(GetUrlHelper(), question, set);
 
