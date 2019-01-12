@@ -2118,3 +2118,7 @@ a.noTextdecoration:hover {
   height: 100%;
   border: none;
 }
+.separationBorderTop {
+  border-top: 1px grey solid;
+  opacity: 0.4;
+}
