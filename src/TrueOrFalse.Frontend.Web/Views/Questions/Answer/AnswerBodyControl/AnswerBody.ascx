@@ -28,10 +28,6 @@
 
     <div style="float: right; margin-left: 10px;">
 
-<%--    <span id="brainWaveConnected" style="margin-right: 5px; position: relative; top: -6px;">
-            <span class="label label-primary" id="concentrationLevel" title="Konzentration"></span>
-            <span class="label label-info" id="mellowLevel" title="Entspanntheit"></span>
-        </span>--%>
         <% if (!Model.IsInWidget)
            { %>
                 <span id="activityPointsDispaly">
@@ -228,25 +224,27 @@
         </div>
     </div>
 </div>
+<div class="FooterQuestionDetails">
+    <div id="LicenseQuestion" >
+        <% if (Model.LicenseQuestion.IsDefault()) { %>
+            <a class="TextLinkWithIcon" rel="license" href="http://creativecommons.org/licenses/by/4.0/" data-toggle="popover" data-trigger="focus" title="Infos zur Lizenz <%= LicenseQuestionRepo.GetDefaultLicense().NameShort %>" data-placement="auto top"
+                data-content="Autor: <a href='<%= Links.UserDetail(Model.Creator) %>' <%= Model.IsInWidget ? "target='_blank'" : "" %>><%= Model.Creator.Name %></a><%= Model.IsInWidget ? " (Nutzer auf <a href='/' target='_blank'>memucho.de</a>)" : " " %><br/><%= LicenseQuestionRepo.GetDefaultLicense().DisplayTextFull %>">
+                <div> <img src="/Images/Licenses/cc-by 88x31.png" width="60" style="margin-top: 4px; opacity: 0.6; padding-bottom: 2px;" />&nbsp;</div>
+                <div  class="TextDiv"> <span class="TextSpan"><%= LicenseQuestionRepo.GetDefaultLicense().NameShort %></span></div>
+            </a><%--target blank to open outside the iframe of widget--%>
 
-<div id="LicenseQuestion" class="Clearfix">
-    <% if (Model.LicenseQuestion.IsDefault()) { %>
-        <a class="TextLinkWithIcon" rel="license" href="http://creativecommons.org/licenses/by/4.0/" data-toggle="popover" data-trigger="focus" title="Infos zur Lizenz <%= LicenseQuestionRepo.GetDefaultLicense().NameShort %>" data-placement="auto top"
-            data-content="Autor: <a href='<%= Links.UserDetail(Model.Creator) %>' <%= Model.IsInWidget ? "target='_blank'" : "" %>><%= Model.Creator.Name %></a><%= Model.IsInWidget ? " (Nutzer auf <a href='/' target='_blank'>memucho.de</a>)" : " " %><br/><%= LicenseQuestionRepo.GetDefaultLicense().DisplayTextFull %>">
-            <img src="/Images/Licenses/cc-by 88x31.png" width="60" style="margin-top: 4px; opacity: 0.6; padding-bottom: 2px;" />&nbsp;
-            <span class="TextSpan"><%= LicenseQuestionRepo.GetDefaultLicense().NameShort %></span>
-        </a><%--target blank to open outside the iframe of widget--%>
-    <% } else { %>
-        <a class="TextLinkWithIcon" href="#" data-toggle="popover" data-trigger="focus" title="Infos zur Lizenz" data-placement="auto top" data-content="<%= Model.LicenseQuestion.DisplayTextFull %>">
-            <span class="TextSpan"><%= Model.LicenseQuestion.DisplayTextShort %></span>&nbsp;&nbsp;<i class="fa fa-info-circle">&nbsp;</i>
-        </a>
-    <% } %>
-
+        <% } else { %>
+            <a class="TextLinkWithIcon" href="#" data-toggle="popover" data-trigger="focus" title="Infos zur Lizenz" data-placement="auto top" data-content="<%= Model.LicenseQuestion.DisplayTextFull %>">
+                <div class="TextDiv"><span class="TextSpan"><%= Model.LicenseQuestion.DisplayTextShort %></span>&nbsp;&nbsp;<i class="fa fa-info-circle">&nbsp;</i></div>
+            </a>
+        <% } %>
+    </div>
+    <div> Erstellt von: <a href="<%= Links.UserDetail(Model.Creator) %>"><%= Model.Creator.Name %></a> vor <%= Model.CreationDateNiceText %></div>
+    <div> Diese Frage wurde zuletzt bearbeitet von:  <a href="<%= Links.UserDetail(Model.Creator) %>"><%= Model.Creator.Name %></a> vor  <%= Model.QuestionLastEditedOn %></div>
     <%if (Model.ShowCommentLink) { %>
-        <div style="float: right; position: relative; top: 4px;">
+        <div class="InLicenseQuestion">
             <a href="#comments"><i class="fa fa-comment-o"></i>
                 <% if (Model.CommentCount == 0){ %>
-                    Jetzt kommentieren
                 <% } else if (Model.CommentCount == 1) { %>
                     1 Kommentar
                 <% } else if (Model.CommentCount > 1) { %>
@@ -254,6 +252,8 @@
                 <% } %>
             </a>
         </div>
+
     <% } %>
-    </div>
+ 
+</div>
 

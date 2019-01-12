@@ -1,56 +1,62 @@
 ﻿@import (reference) '../../../Style/includes/imports.less';
-
 .no-white-background;
 
 .navLinks {
-
     float: right;
     margin-bottom: 10px;
 
-    .media-below-md({
+    .media-below-md( {
         width: 100%;
         float: none;
-    });
+    }
+
+    );
 
     & > div {
-       display: inline-block !important;
+        display: inline-block !important;
     }
 }
 
 .AnswerQuestionHeader {
-
     margin-bottom: 10px;
 
-    .media-sm-up({
-
+    .media-sm-up( {
         display: flex;
         align-items: center;
 
         .EduPartnerWrapper {
             float: right;
         }
-    });
+    }
+
+    );
 }
 
 .EduPartnerWrapper {
-
     font-size: 11px;
     line-height: @line-height-base;
     font-weight: normal;
     order: 2;
     .clearfix;
 
-    .media-below-sm({
+    .media-below-sm( {
         margin-bottom: 10px;
-    });
+    }
 
-    .media-sm-up({
+    );
+
+    .media-sm-up( {
         width: 30%;
         text-align: center;
-    });
-     .media-md-up({
+    }
+
+    );
+
+    .media-md-up( {
         width: 20%;
-    });
+    }
+
+    );
 
     .EduPartnerLink {
         white-space: nowrap;
@@ -58,27 +64,27 @@
 }
 
 #AnswerQuestionPager, .SessionTitle {
-
     flex-grow: 1; //Make it take the whole width if no .EduPartnerWrapper present
-
     .EduPartnerWrapper + & {
-
-        flex-grow: inherit;//Overwrite if .EduPartnerWrapper present
+        flex-grow: inherit; //Overwrite if .EduPartnerWrapper present
         order: 1;
 
-        .media-sm-up({
+        .media-sm-up( {
             width: 70%;
             padding-right: 15px;
-        });
+        }
 
-         .media-md-up({
+        );
+
+        .media-md-up( {
             width: 80%;
-        });
+        }
+
+        );
     }
 }
 
 #AnswerQuestionPager {
-
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -90,16 +96,18 @@
     .Previous {
         order: 1;
     }
-        
+
     .Next {
         order: 3;
     }
 
-    .media-below-md({
+    .media-below-md( {
         .NavButtonText {
             display: none;
         }
-    });
+    }
+
+    );
 }
 
 
@@ -112,14 +120,18 @@
     display: flex;
     .clearfix;
 
-    .media-below-xs({
+    .media-below-xs( {
         flex-direction: column-reverse;
-    });
+    }
 
-    .media-xs-up({
+    );
+
+    .media-xs-up( {
         align-items: center;
         justify-content: space-between;
-    });
+    }
+
+    );
 }
 
 .LabelLink {
@@ -141,32 +153,42 @@
     }
 }
 
-.media-xs-up({
+.media-xs-up( {
     .SessionHeaderColumnWidth(30%);
-});
- 
-.media-md-up({
+}
+
+);
+
+.media-md-up( {
     .SessionHeaderColumnWidth(20%);
-});
- 
+}
+
+);
+
 .SessionTitle {
-    .media-xs-up({
+    .media-xs-up( {
         padding-right: 10px;
-    });
+    }
+
+    );
 }
 
 .EduPartnerWrapper {
     clear: left;
 
-    .media-xs-up({
+    .media-xs-up( {
         text-align: center;
-    });
+    }
+
+    );
 }
 
 .EduPartnerLogoWrapper {
-    .media-below-xs({
+    .media-below-xs( {
         float: right;
-    });
+    }
+
+    );
     width: 100px;
 }
 
@@ -180,15 +202,18 @@
     background-color: @memo-green;
     margin-bottom: 20px;
     .clearfix;
-    .media-below-sm ({
-        margin-bottom:  0;
+
+    .media-below-sm ( {
+        margin-bottom: 0;
 
         & + #AnswerBody, & + .row #AnswerBody {
             border-top: none;
             border-top-left-radius: 0;
             border-top-right-radius: 0;
         }
-    });
+    }
+
+    );
 }
 
 .ProgressBarContainer, .SessionType, .QuestionCount, .ProgressBarSegment {
@@ -198,15 +223,19 @@
 .SessionType, .QuestionCount {
     background-color: @memo-green;
 
-    .media-below-xs({
+    .media-below-xs( {
         padding-left: 15px;
         padding-right: 15px;
-    });
+    }
+
+    );
 
     &, & span {
-        .media-xs-up({
+        .media-xs-up( {
             text-align: center;
-        });
+        }
+
+        );
     }
 
     > span {
@@ -224,37 +253,51 @@
         font-weight: bold;
     }
 
-    .media-xs-up({
+    .media-xs-up( {
         width: 20%;
-    });
+    }
 
-    .media-sm-up({
+    );
+
+    .media-sm-up( {
         width: 15%;
-    });
+    }
 
-    .media-md-up({
+    );
+
+    .media-md-up( {
         width: 10%;
-    });
+    }
+
+    );
 }
 
 .ProgressBarContainer {
     display: table;
 
-    .media-below-xs({
+    .media-below-xs( {
         width: 100%;
-    });
+    }
 
-    .media-xs-up({
+    );
+
+    .media-xs-up( {
         width: 50%;
-    });
+    }
 
-    .media-sm-up({
+    );
+
+    .media-sm-up( {
         width: 55%;
-    });
+    }
 
-    .media-md-up({
+    );
+
+    .media-md-up( {
         width: 70%;
-    });
+    }
+
+    );
 }
 
 .ProgressBarSegment {
@@ -310,9 +353,11 @@
 .QuestionText {
     padding-bottom: 20px;
 
-    .media-sm-up ({
+    .media-sm-up ( {
         padding-bottom: 30px;
-    });
+    }
+
+    );
 }
 
 #activityPointsDispaly {
@@ -379,393 +424,411 @@
     .modal-footer {
         border-top: none;
         margin-top: unset;
+
         @media (min-width: @screen-xs-max) {
-            margin-bottom:20px;
+            margin-bottom: 20px;
         }
     }
 }
 
-    #MarkdownCol {
-        .make-sm-column(4);
-        overflow-wrap: break-word;
-        word-wrap: break-word;
-        -ms-word-break: break-all;
-        word-break: break-word;
-    }
+#MarkdownCol {
+    .make-sm-column(4);
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+    -ms-word-break: break-all;
+    word-break: break-word;
+}
 
-    #AnswerAndSolutionCol {
-        .make-sm-column(12);
+#AnswerAndSolutionCol {
+    .make-sm-column(12);
 
 
-        #MarkdownCol + & {
-            .make-sm-column(8);
+    #MarkdownCol + & {
+        .make-sm-column(8);
 
-            > div {
-
-                .media-sm-up( {
-                    margin-left: 20px;
-                }
-
-                );
-            }
-        }
-
-        #AnswerInputSection {
-            .make-sm-column(6);
-
-            .media-below-sm( {
-                max-width: 550px;
-            }
-
-            );
-
-            #MarkdownCol + & {
-                margin-bottom: 10px;
-                width: 100%;
-            }
-        }
-
-        #ButtonsAndSolutionCol {
-            .make-sm-column(6);
-
-            #MarkdownCol + & {
-                width: 100%;
-            }
-        }
-
-        #ButtonsAndSolution {
+        > div {
 
             .media-sm-up( {
                 margin-left: 20px;
             }
 
             );
-
-            #MarkdownCol + & {
-                margin-left: 0;
-            }
         }
     }
 
     #AnswerInputSection {
-        position: relative;
-        display: inline-block;
-        vertical-align: bottom;
-        padding-left: 10px;
-        padding-right: 10px;
-        padding-bottom: 20px;
-        margin-bottom: 0px;
-        width: 100%;
+        .make-sm-column(6);
 
-        .right-answer {
-            color: green;
-            font-weight: bold;
-        }
-
-        .wrong-answer {
-            color: @dark-red;
-        }
-
-        textarea, input {
-            margin-bottom: 10px;
-        }
-
-        label {
-            position: relative;
-        }
-
-        .radio {
-            margin-bottom: 0;
-            margin-top: -2px;
-
-            & + .radio {
-                margin-top: 10px;
-
-                .media-below-sm( {
-                    margin-top: 15px;
-                }
-
-                );
-            }
-        }
-
-        .checkbox {
-            margin-bottom: 0;
-            margin-top: -2px;
-
-            & + .checkbox {
-                margin-top: 10px;
-
-                .media-below-sm( {
-                    margin-top: 15px;
-                }
-
-                );
-            }
-        }
-    }
-
-    #txtAnswer {
-        max-width: 450px;
-    }
-
-    #Buttons {
-        display: inline-block;
-        vertical-align: bottom;
-        margin-bottom: 15px;
-        width: 100%;
-
-        .btn-link {
-            padding-left: 0;
-            padding-top: 0;
-            padding-bottom: 0;
-            margin-left: 0;
-        }
-
-        .btn {
-            margin-right: 10px;
-            margin-bottom: 15px;
-        }
-
-        .HeartToAddButton {
-            float: right;
-            margin-bottom: 10px;
-        }
-    }
-
-    #answerQuestionDetails .label {
-        max-width: 100%;
-    }
-    /*#AnswerFeedbackAndSolutionDetails {
-    margin-top: 20px;
-}*/
-    #SolutionDetails {
         .media-below-sm( {
-            padding-bottom: 20px;
+            max-width: 550px;
         }
 
         );
+
+        #MarkdownCol + & {
+            margin-bottom: 10px;
+            width: 100%;
+        }
     }
 
-    .answerFeedback {
-        position: absolute;
-        bottom: 10px;
-        left: 30%;
-        right: 30%;
-        height: 40px;
-        min-width: 150px;
-        padding: 10px;
-        text-align: center;
-        opacity: 0.7;
-        border-radius: 4px;
-        color: white;
+    #ButtonsAndSolutionCol {
+        .make-sm-column(6);
+
+        #MarkdownCol + & {
+            width: 100%;
+        }
+    }
+
+    #ButtonsAndSolution {
+
+        .media-sm-up( {
+            margin-left: 20px;
+        }
+
+        );
+
+        #MarkdownCol + & {
+            margin-left: 0;
+        }
+    }
+}
+
+#AnswerInputSection {
+    position: relative;
+    display: inline-block;
+    vertical-align: bottom;
+    padding-left: 10px;
+    padding-right: 10px;
+    padding-bottom: 20px;
+    margin-bottom: 0px;
+    width: 100%;
+
+    .right-answer {
+        color: green;
         font-weight: bold;
     }
 
-
-    .answerFeedbackCorrect, .answerFeedbackWrong {
-        z-index: 999;
+    .wrong-answer {
+        color: @dark-red;
     }
 
-    .answerFeedbackCorrect {
-        background-color: @memo-green;
+    textarea, input {
+        margin-bottom: 10px;
     }
 
-    .answerFeedbackWrong {
-        background-color: @dark-red; //#efc7ce
+    label {
+        position: relative;
     }
 
-    #divAnsweredCorrect {
-        margin-bottom: 15px;
-    }
+    .radio {
+        margin-bottom: 0;
+        margin-top: -2px;
 
-    #LicenseQuestion {
-        margin-top: -10px;
-        margin-left: 0px;
-        padding: 1px 20px 10px;
-        font-size: small;
-        text-align: left;
-    }
-
-    .commentSettledInfo {
-        color: darkgray;
-    }
-
-    .MarkdownImage {
-        img {
-            max-height: 500px;
+        & + .radio {
+            margin-top: 10px;
 
             .media-below-sm( {
-                max-height: 250px;
+                margin-top: 15px;
             }
 
             );
         }
     }
 
-    #MasterWidget {
-        #AnswerBody {
-            border: none;
-            box-shadow: none;
-            padding: 0;
-            margin-bottom: 0;
-        }
+    .checkbox {
+        margin-bottom: 0;
+        margin-top: -2px;
 
-        .SessionBar {
-            margin-bottom: 15px;
-        }
-
-        #LicenseQuestion {
+        & + .checkbox {
             margin-top: 10px;
-            padding: 0;
-        }
 
-        #video-pager {
-            border: none;
-            padding-left: 0;
-            padding-right: 0;
-        }
-    }
-    //MatchList
-    .matchlist-leftelementwrapper {
-        text-align: center;
-    }
-
-    .matchlist-pairrow {
-        margin-bottom: 10px;
-        margin-top: 2px;
-        display: flex;
-        align-content: center;
-        align-items: center;
-    }
-
-    .matchlist-droppable {
-        border: 1px dashed;
-        border-radius: 5px;
-        height: 33px;
-        //position: relative;
-        //bottom: 5px;
-    }
-
-    .matchlist-divider {
-        border-bottom: 1px solid;
-        margin: 20px 25% 0 25%;
-    }
-
-    .matchlist-hovered {
-        background-color: gainsboro;
-    }
-
-    #matchlist-rightelements {
-        margin-top: 20px;
-        padding: 0 13px 0 10px;
-        display: flex;
-        align-items: flex-start;
-        align-content: space-around;
-        flex-flow: row wrap;
-        justify-content: space-between;
-    }
-
-    .matchlist-rightelement {
-        display: inline-block;
-        word-wrap: break-word;
-        border: 1px solid;
-        padding: 2px 0 3px 0;
-        border-radius: 3px;
-        margin: 10px 0 0 0;
-        cursor: move;
-        background-color: white;
-        text-align: center;
-        white-space: pre-wrap;
-    }
-
-    .matchlist-droppable-dropped {
-        height: initial;
-        padding: 2px;
-        display: inline-block;
-        width: 100%;
-    }
-
-    .matchlist-rightelement-dropped {
-        position: static !important;
-        margin: unset;
-        width: 100%;
-    }
-    //matchlist-mobile
-    .matchlist-mobilepairrow {
-        margin-bottom: 20px;
-    }
-
-    .matchlist-elementlabel {
-        text-align: left;
-        margin-bottom: 5px;
-        font-size: 16px;
-    }
-    //FlashCard
-    #flashCardContent {
-        min-height: 250px;
-        cursor: pointer;
-
-        @media (max-width: 768px) {
-            margin-bottom: 25px;
-        }
-
-        > div, #flashCard-frontContent > p {
-            min-height: inherit;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            align-content: center;
-            justify-content: center;
-        }
-
-        #flashCard-back > p {
-            width: 100%;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            align-content: center;
-            justify-content: center;
-
-            img {
-                max-width: 60%;
+            .media-below-sm( {
+                margin-top: 15px;
             }
-        }
 
-        > div {
-            background-color: white;
-            border: 1px solid darken(@border-grey, 5);
-            box-shadow: 10px 10px 5px -5px rgba(0,0,0,0.20);
+            );
         }
+    }
+}
+
+#txtAnswer {
+    max-width: 450px;
+}
+
+#Buttons {
+    display: inline-block;
+    vertical-align: bottom;
+    margin-bottom: 15px;
+    width: 100%;
+
+    .btn-link {
+        padding-left: 0;
+        padding-top: 0;
+        padding-bottom: 0;
+        margin-left: 0;
+    }
+
+    .btn {
+        margin-right: 10px;
+        margin-bottom: 15px;
+    }
+
+    .HeartToAddButton {
+        float: right;
+        margin-bottom: 10px;
+    }
+}
+
+#answerQuestionDetails .label {
+    max-width: 100%;
+}
+
+#SolutionDetails {
+    .media-below-sm( {
+        padding-bottom: 20px;
+    }
+
+    );
+}
+
+.answerFeedback {
+    position: absolute;
+    bottom: 10px;
+    left: 30%;
+    right: 30%;
+    height: 40px;
+    min-width: 150px;
+    padding: 10px;
+    text-align: center;
+    opacity: 0.7;
+    border-radius: 4px;
+    color: white;
+    font-weight: bold;
+}
+
+
+.answerFeedbackCorrect, .answerFeedbackWrong {
+    z-index: 999;
+}
+
+.answerFeedbackCorrect {
+    background-color: @memo-green;
+}
+
+.answerFeedbackWrong {
+    background-color: @dark-red; //#efc7ce
+}
+
+#divAnsweredCorrect {
+    margin-bottom: 15px;
+}
+/*---------------------------------------------------------------------------
+                                 FooterQuestionDetails
+-----------------------------------------------------------------------------*/
+.FooterQuestionDetails div:last-child {
+    margin-left: auto;
+    padding-right: 0px;
+}
+
+.FooterQuestionDetails {
+    display: flex !important;
+    flex-flow: row;
+    align-items: center;
+    padding: 1px 20px 10px;
+    font-size: small;
+    text-align: left;
+
+    div {
+        padding-right: 10px;
+    }
+
+    #LicenseQuestion {
+        .TextDiv {
+            padding-top: 3px;
+        }
+    }
+
+    .TextLinkWithIcon {
+        flex-flow: row;
+    }
+}
+
+.commentSettledInfo {
+    color: darkgray;
+}
+
+.MarkdownImage {
+    img {
+        max-height: 500px;
+
+        .media-below-sm( {
+            max-height: 250px;
+        } );
+    }
+}
+
+#MasterWidget {
+    #AnswerBody {
+        border: none;
+        box-shadow: none;
+        padding: 0;
+        margin-bottom: 0;
+    }
+
+    .SessionBar {
+        margin-bottom: 15px;
+    }
+
+    #LicenseQuestion {
+        margin-top: 10px;
+        padding: 0;
+    }
+
+    #video-pager {
+        border: none;
+        padding-left: 0;
+        padding-right: 0;
+    }
+}
+//MatchList
+.matchlist-leftelementwrapper {
+    text-align: center;
+}
+
+.matchlist-pairrow {
+    margin-bottom: 10px;
+    margin-top: 2px;
+    display: flex;
+    align-content: center;
+    align-items: center;
+}
+
+.matchlist-droppable {
+    border: 1px dashed;
+    border-radius: 5px;
+    height: 33px;
+}
+
+.matchlist-divider {
+    border-bottom: 1px solid;
+    margin: 20px 25% 0 25%;
+}
+
+.matchlist-hovered {
+    background-color: gainsboro;
+}
+
+#matchlist-rightelements {
+    margin-top: 20px;
+    padding: 0 13px 0 10px;
+    display: flex;
+    align-items: flex-start;
+    align-content: space-around;
+    flex-flow: row wrap;
+    justify-content: space-between;
+}
+
+.matchlist-rightelement {
+    display: inline-block;
+    word-wrap: break-word;
+    border: 1px solid;
+    padding: 2px 0 3px 0;
+    border-radius: 3px;
+    margin: 10px 0 0 0;
+    cursor: move;
+    background-color: white;
+    text-align: center;
+    white-space: pre-wrap;
+}
+
+.matchlist-droppable-dropped {
+    height: initial;
+    padding: 2px;
+    display: inline-block;
+    width: 100%;
+}
+
+.matchlist-rightelement-dropped {
+    position: static !important;
+    margin: unset;
+    width: 100%;
+}
+
+//matchlist-mobile
+.matchlist-mobilepairrow {
+    margin-bottom: 20px;
+}
+
+.matchlist-elementlabel {
+    text-align: left;
+    margin-bottom: 5px;
+    font-size: 16px;
+}
+//FlashCard
+#flashCardContent {
+    min-height: 250px;
+    cursor: pointer;
+
+    @media (max-width: 768px) {
+        margin-bottom: 25px;
+    }
+
+    > div, #flashCard-frontContent > p {
+        min-height: inherit;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        align-content: center;
+        justify-content: center;
+    }
+
+    #flashCard-back > p {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        align-content: center;
+        justify-content: center;
 
         img {
-            padding-bottom: 20px;
-        }
-
-        .flipClickHint {
-            position: absolute;
-            bottom: 1rem;
-            right: 1rem;
-
-            span {
-                color: silver;
-            }
-        }
-
-        #flashCard-frontContent, #flashCard-back {
-            padding: 15px 15px 40px 15px;
-        }
-
-        #flashCard-frontContent img {
             max-width: 60%;
         }
     }
 
-    .flashCardAnswerButtons > .btn {
-        margin-left: unset;
+    > div {
+        background-color: white;
+        border: 1px solid darken(@border-grey, 5);
+        box-shadow: 10px 10px 5px -5px rgba(0,0,0,0.20);
     }
-    //http://jsfiddle.net/YB8UW/8/
-    /*#AnswerInputSection .radio { //styles for radio html like in bootestrap style (input inside label)
+
+    img {
+        padding-bottom: 20px;
+    }
+
+    .flipClickHint {
+        position: absolute;
+        bottom: 1rem;
+        right: 1rem;
+
+        span {
+            color: silver;
+        }
+    }
+
+    #flashCard-frontContent, #flashCard-back {
+        padding: 15px 15px 40px 15px;
+    }
+
+    #flashCard-frontContent img {
+        max-width: 60%;
+    }
+}
+
+.flashCardAnswerButtons > .btn {
+    margin-left: unset;
+}
+//http://jsfiddle.net/YB8UW/8/
+/*#AnswerInputSection .radio { //styles for radio html like in bootestrap style (input inside label)
     background-color: lightgray;
     margin-bottom: 10px;
 
@@ -775,7 +838,7 @@
         width: 100%;
     }
 }*/
-    /*#AnswerInputSection .radio { //styles for html with input before label
+/*#AnswerInputSection .radio { //styles for html with input before label
     background-color: lightgray;
     margin-bottom: 10px;
 
