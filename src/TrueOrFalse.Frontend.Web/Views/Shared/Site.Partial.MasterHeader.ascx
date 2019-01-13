@@ -20,7 +20,7 @@
 %>
 
 <% if(showEnvironment){ %>
-    <div class="" style="background-color: <%= backgroundColor%>; z-index: 10000; position: fixed; top: 11px; right: -23px; width: 60px; text-align: center; font-size: 9px; padding: 2px; padding-left: 12px; transform: rotate(90deg); color:white">
+    <div class="" style="background-color: <%= backgroundColor%>; z-index: 10000; position: fixed; top: 11px; right: -57px; width: 127px; text-align: center; font-size: 11px; padding: 2px; padding-left: 40px; transform: rotate(90deg); color:white">
         <%= text %>
     </div>
 <% } %>
