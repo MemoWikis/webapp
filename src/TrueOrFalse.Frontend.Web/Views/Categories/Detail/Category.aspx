@@ -23,7 +23,7 @@
     <%= Scripts.Render("~/bundles/js/DeleteQuestion") %>
     <%= Scripts.Render("~/bundles/js/AnswerQuestion") %>
     
-    <%= Scripts.Render("~/bundles/js/TipTap") %>
+    <%= Scripts.Render("~/bundles/js/CategoryEditMode") %>
     <script type="text/javascript" src="https://www.google.com/jsapi"></script>
     <script src="<%= Request.Url.Scheme %>://d3js.org/d3.v4.min.js"></script>
     <%  
@@ -48,139 +48,164 @@
 
     <% Html.RenderPartial("~/Views/Categories/Detail/Partials/CategoryHeader.ascx", Model);%>
     
+  <%--   <inline-editor-component> --%>
+  <%--        <div class="editor"> --%>
+  <%--   <editor-menu-bar :editor="editor"> --%>
+  <%--     <div class="menubar" slot-scope="{ commands, isActive }"> --%>
+  <%-- --%>
+  <%--       <button --%>
+  <%--         class="menubar__button" --%>
+  <%--         :class="{ 'is-active': isActive.bold() }" --%>
+  <%--         @click="commands.bold" --%>
+  <%--       > --%>
+  <%--         <icon name="bold" /> --%>
+  <%--       </button> --%>
+  <%-- --%>
+  <%--       <button --%>
+  <%--         class="menubar__button" --%>
+  <%--         :class="{ 'is-active': isActive.italic() }" --%>
+  <%--         @click="commands.italic" --%>
+  <%--       > --%>
+  <%--         <icon name="italic" /> --%>
+  <%--       </button> --%>
+  <%-- --%>
+  <%--       <button --%>
+  <%--         class="menubar__button" --%>
+  <%--         :class="{ 'is-active': isActive.strike() }" --%>
+  <%--         @click="commands.strike" --%>
+  <%--       > --%>
+  <%--         <icon name="strike" /> --%>
+  <%--       </button> --%>
+  <%-- --%>
+  <%--       <button --%>
+  <%--         class="menubar__button" --%>
+  <%--         :class="{ 'is-active': isActive.underline() }" --%>
+  <%--         @click="commands.underline" --%>
+  <%--       > --%>
+  <%--         <icon name="underline" /> --%>
+  <%--       </button> --%>
+  <%-- --%>
+  <%--       <button --%>
+  <%--         class="menubar__button" --%>
+  <%--         :class="{ 'is-active': isActive.code() }" --%>
+  <%--         @click="commands.code" --%>
+  <%--       > --%>
+  <%--         <icon name="code" /> --%>
+  <%--       </button> --%>
+  <%-- --%>
+  <%--       <button --%>
+  <%--         class="menubar__button" --%>
+  <%--         :class="{ 'is-active': isActive.paragraph() }" --%>
+  <%--         @click="commands.paragraph" --%>
+  <%--       > --%>
+  <%--         <icon name="paragraph" /> --%>
+  <%--       </button> --%>
+  <%-- --%>
+  <%--       <button --%>
+  <%--         class="menubar__button" --%>
+  <%--         :class="{ 'is-active': isActive.heading({ level: 1 }) }" --%>
+  <%--         @click="commands.heading({ level: 1 })" --%>
+  <%--       > --%>
+  <%--         H1 --%>
+  <%--       </button> --%>
+  <%-- --%>
+  <%--       <button --%>
+  <%--         class="menubar__button" --%>
+  <%--         :class="{ 'is-active': isActive.heading({ level: 2 }) }" --%>
+  <%--         @click="commands.heading({ level: 2 })" --%>
+  <%--       > --%>
+  <%--         H2 --%>
+  <%--       </button> --%>
+  <%-- --%>
+  <%--       <button --%>
+  <%--         class="menubar__button" --%>
+  <%--         :class="{ 'is-active': isActive.heading({ level: 3 }) }" --%>
+  <%--         @click="commands.heading({ level: 3 })" --%>
+  <%--       > --%>
+  <%--         H3 --%>
+  <%--       </button> --%>
+  <%-- --%>
+  <%--       <button --%>
+  <%--         class="menubar__button" --%>
+  <%--         :class="{ 'is-active': isActive.bullet_list() }" --%>
+  <%--         @click="commands.bullet_list" --%>
+  <%--       > --%>
+  <%--         <icon name="ul" /> --%>
+  <%--       </button> --%>
+  <%-- --%>
+  <%--       <button --%>
+  <%--         class="menubar__button" --%>
+  <%--         :class="{ 'is-active': isActive.ordered_list() }" --%>
+  <%--         @click="commands.ordered_list" --%>
+  <%--       > --%>
+  <%--         <icon name="ol" /> --%>
+  <%--       </button> --%>
+  <%-- --%>
+  <%--       <button --%>
+  <%--         class="menubar__button" --%>
+  <%--         :class="{ 'is-active': isActive.blockquote() }" --%>
+  <%--         @click="commands.blockquote" --%>
+  <%--       > --%>
+  <%--         <icon name="quote" /> --%>
+  <%--       </button> --%>
+  <%-- --%>
+  <%--       <button --%>
+  <%--         class="menubar__button" --%>
+  <%--         :class="{ 'is-active': isActive.code_block() }" --%>
+  <%--         @click="commands.code_block" --%>
+  <%--       > --%>
+  <%--         <icon name="code" /> --%>
+  <%--       </button> --%>
+  <%-- --%>
+  <%--       <button --%>
+  <%--         class="menubar__button" --%>
+  <%--         @click="commands.undo" --%>
+  <%--       > --%>
+  <%--         <icon name="undo" /> --%>
+  <%--       </button> --%>
+  <%-- --%>
+  <%--       <button --%>
+  <%--         class="menubar__button" --%>
+  <%--         @click="commands.redo" --%>
+  <%--       > --%>
+  <%--         <icon name="redo" /> --%>
+  <%--       </button> --%>
+  <%-- --%>
+  <%--     </div> --%>
+  <%--   </editor-menu-bar> --%>
+  <%-- --%>
+  <%--   <editor-content class="editor__content" :editor="editor" /> --%>
+  <%-- </div> --%>
+  <%--   </inline-editor-component> --%>
+    
     <inline-editor-component>
-         <div class="editor">
-    <editor-menu-bar :editor="editor">
-      <div class="menubar" slot-scope="{ commands, isActive }">
+        
+        <div>
+            <ul class="list-group">
+                <%-- <li class="list-group-item active"> --%>
+                <%--     <h4 class="list-group-item-heading">Inline Editing</h4> --%>
+                <%-- </li> --%>
+                <li v-for="(item, index) in text" class="list-group-item">
+                    <h4 v-show="editOffset != index" class="list-group-item-heading">
+                        <a href="#" @click.prevent="startEditing(index)" class="btn btn-md btn-info">
+                            <i class="fa fa-pencil show-tooltip"></i>
+                        </a>
+                        {{ item.article }}
+                    </h4>
+                    <input v-show="editOffset==index" type="text" :id = "'item-article-'+index" @keydown.enter="updatePost" @keydown.esc="cancelEditing" class="form-control" v-model="editPost.user">
+                    <p :id="'item-id-'+index" class="list-group-item-text">{{ item.id }}</p>
+                </li>
+            </ul>
+        </div>
+    </inline-editor-component>     
 
-        <button
-          class="menubar__button"
-          :class="{ 'is-active': isActive.bold() }"
-          @click="commands.bold"
-        >
-          <icon name="bold" />
-        </button>
+        <div id="TopicTabContent" class="TabContent">
+            <% Html.RenderPartial("~/Views/Categories/Detail/Tabs/TopicTab.ascx", Model); %>
+        </div>
 
-        <button
-          class="menubar__button"
-          :class="{ 'is-active': isActive.italic() }"
-          @click="commands.italic"
-        >
-          <icon name="italic" />
-        </button>
+    
+    
 
-        <button
-          class="menubar__button"
-          :class="{ 'is-active': isActive.strike() }"
-          @click="commands.strike"
-        >
-          <icon name="strike" />
-        </button>
-
-        <button
-          class="menubar__button"
-          :class="{ 'is-active': isActive.underline() }"
-          @click="commands.underline"
-        >
-          <icon name="underline" />
-        </button>
-
-        <button
-          class="menubar__button"
-          :class="{ 'is-active': isActive.code() }"
-          @click="commands.code"
-        >
-          <icon name="code" />
-        </button>
-
-        <button
-          class="menubar__button"
-          :class="{ 'is-active': isActive.paragraph() }"
-          @click="commands.paragraph"
-        >
-          <icon name="paragraph" />
-        </button>
-
-        <button
-          class="menubar__button"
-          :class="{ 'is-active': isActive.heading({ level: 1 }) }"
-          @click="commands.heading({ level: 1 })"
-        >
-          H1
-        </button>
-
-        <button
-          class="menubar__button"
-          :class="{ 'is-active': isActive.heading({ level: 2 }) }"
-          @click="commands.heading({ level: 2 })"
-        >
-          H2
-        </button>
-
-        <button
-          class="menubar__button"
-          :class="{ 'is-active': isActive.heading({ level: 3 }) }"
-          @click="commands.heading({ level: 3 })"
-        >
-          H3
-        </button>
-
-        <button
-          class="menubar__button"
-          :class="{ 'is-active': isActive.bullet_list() }"
-          @click="commands.bullet_list"
-        >
-          <icon name="ul" />
-        </button>
-
-        <button
-          class="menubar__button"
-          :class="{ 'is-active': isActive.ordered_list() }"
-          @click="commands.ordered_list"
-        >
-          <icon name="ol" />
-        </button>
-
-        <button
-          class="menubar__button"
-          :class="{ 'is-active': isActive.blockquote() }"
-          @click="commands.blockquote"
-        >
-          <icon name="quote" />
-        </button>
-
-        <button
-          class="menubar__button"
-          :class="{ 'is-active': isActive.code_block() }"
-          @click="commands.code_block"
-        >
-          <icon name="code" />
-        </button>
-
-        <button
-          class="menubar__button"
-          @click="commands.undo"
-        >
-          <icon name="undo" />
-        </button>
-
-        <button
-          class="menubar__button"
-          @click="commands.redo"
-        >
-          <icon name="redo" />
-        </button>
-
-      </div>
-    </editor-menu-bar>
-
-    <editor-content class="editor__content" :editor="editor" />
-  </div>
-    </inline-editor-component>
-                
-    <div id="TopicTabContent" class="TabContent">
-        <% Html.RenderPartial("~/Views/Categories/Detail/Tabs/TopicTab.ascx", Model); %>
-    </div>
     <div id="LearningTabContent" class="TabContent" style="display: none;">
         <% Html.RenderPartial("~/Views/Categories/Detail/Tabs/LearningTab.ascx", Model); %>
     </div>

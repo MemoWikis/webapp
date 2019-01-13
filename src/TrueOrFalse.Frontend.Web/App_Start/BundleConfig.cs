@@ -70,6 +70,11 @@ namespace TrueOrFalse.View
                 .IncludeDirectory("~/Views/Categories/Detail/Js/", "*.js")
                 .Include("~/Views/Categories/ResultTestSession/Js/GetResultTestSession.js"));
 
+            bundles.Add(new ScriptBundle("~/bundles/js/CategoryEditMode")
+                .Include("~/Scripts/npm/tiptap/tiptap.js")
+                .Include("~/Scripts/npm/tiptap-extensions/extensions.js")
+                .IncludeDirectory("~/Views/Categories/Detail/JsEditMode/", "*.js"));
+
             bundles.Add(new StyleBundle("~/bundles/CategoryHistory")
                 .Include("~/Views/Categories/History/*.css"));
 
@@ -118,8 +123,7 @@ namespace TrueOrFalse.View
                 .Include("~/Scripts/autocompletes/AutocompleteCategories.js")
                 .Include("~/Scripts/vendor.somewhere/simplemde.js")
                 .Include("~/Views/Categories/Edit/Js/EditCategoryNavBar.js")
-                .Include("~/Scripts/vendor.somewhere/d3v3.js")
-                .Include("~/Scripts/npm/tiptap/tiptap.js"));
+                .Include("~/Scripts/vendor.somewhere/d3v3.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/js/Users")
                 .IncludeDirectory("~/Views/Users/Js/", "*.js"));
@@ -316,10 +320,6 @@ namespace TrueOrFalse.View
                 .IncludeDirectory("~/Views/Knowledge/Dates/Edit/Js/", "*.js")
                 .Include("~/Views/Knowledge/Dates/Edit/Js/Page.js"));
 
-            bundles.Add(new ScriptBundle("~/bundles/js/TipTap")
-                .Include("~/Scripts/npm/tiptap/tiptap.js")
-                .Include("~/Scripts/npm/tiptap-extensions/extensions.js")
-                .Include("~/Scripts/inline-editor-component.js"));
 
             //------------------------ END KNOWLEDGECENTRAL------------------------------------------------------------
 
