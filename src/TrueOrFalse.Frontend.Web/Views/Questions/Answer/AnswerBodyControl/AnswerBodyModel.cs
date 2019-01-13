@@ -13,15 +13,18 @@ public class AnswerBodyModel : BaseModel
     public SetMini PrimarySetMini;
 
     public int QuestionId;
+
     public User Creator;
     public bool IsInWishknowledge;
+    public KnowledgeStatus KnowledgeStatus;
+
+    public int QuestionId;
     public string QuestionLastEditedOn;
-
     public string QuestionText;
-
     public string QuestionTextMarkdown;
-
     public LicenseQuestion LicenseQuestion;
+    public bool IsLastQuestion = false;
+    public Question Question;
 
     public bool HasSound => !string.IsNullOrEmpty(SoundUrl);
     public string SoundUrl;
@@ -93,6 +96,7 @@ public class AnswerBodyModel : BaseModel
 
         IsInWishknowledge = answerQuestionModel.IsInWishknowledge;
 
+
         IsMobileRequest = answerQuestionModel.IsMobileDevice;
 
         IsInWidget = answerQuestionModel.IsInWidget;
@@ -137,8 +141,11 @@ public class AnswerBodyModel : BaseModel
         Creator = question.Creator;
         CreationDate = question.DateCreated.ToString("dd.MM.yyyy HH:mm:ss");
         CreationDateNiceText = DateTimeUtils.TimeElapsedAsText(question.DateCreated);
-        QuestionLastEditedOn = DateTimeUtils.TimeElapsedAsText(question.DateModified); 
-        
+        QuestionLastEditedOn = DateTimeUtils.TimeElapsedAsText(question.DateModified);
+        Question = question;
+
+        var questionValuationForUser = NotNull.Run(Sl.QuestionValuationRepo.GetByFromCache(question.Id, UserId));
+        KnowledgeStatus = questionValuationForUser.KnowledgeStatus; 
 
         AjaxUrl_CountLastAnswerAsCorrect = url => Links.CountLastAnswerAsCorrect(url, question);
         AjaxUrl_CountUnansweredAsCorrect = url => Links.CountUnansweredAsCorrect(url, question);

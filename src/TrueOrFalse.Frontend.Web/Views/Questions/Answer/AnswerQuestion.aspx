@@ -136,7 +136,7 @@
                 </div>
             <% } %>
             <div class="row">
-                <div class="col-sm-6 xxs-stack">
+                <div class="col-sm-12 xxs-stack">
                     <% Html.RenderPartial("~/Views/Questions/Answer/AnswerQuestionDetails.ascx", Model); %>
                 </div>
             </div>
