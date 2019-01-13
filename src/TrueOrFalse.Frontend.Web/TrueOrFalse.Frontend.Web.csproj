@@ -22512,7 +22512,6 @@
     <Content Include="Views\Questions\Answer\Js\AnswerBodyLoader.js.map">
       <DependentUpon>AnswerBodyLoader.ts</DependentUpon>
     </Content>
-    <Content Include="Views\Shared\SquareWishPartialHtml.aspx" />
     <Content Include="Views\Maintenance\Js\CMSCategoryNetworkNavigation.js.map">
       <DependentUpon>CmsCategoryNetworkNavigation.ts</DependentUpon>
     </Content>

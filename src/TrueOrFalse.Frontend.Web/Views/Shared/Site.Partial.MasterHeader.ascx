@@ -1,21 +1,30 @@
 ﻿<%@ Control Language="C#" Inherits="System.Web.Mvc.ViewUserControl<BaseModel>"  %>
 <%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
 
-<% if(Request.Url.Host == "memucho.local" || Request.Url.Host == "memucho"){ %>
-    <div class="" style="background-color: #afd534; z-index: 10000; position: fixed; top: 11px; right: -23px; width: 60px; text-align: center; font-size: 9px; padding: 2px; padding-left: 12px; transform: rotate(90deg); color:white">L O C A L</div>
-<% } %>
+<%
+    var showEnvironment = false;
+    var backgroundColor = "";
+    var text = "";
 
-<% if(Request.Url.Host == "future.memucho.de"){ %>
-    <div class="container" style="width: 100%">
-        <div class="row" style="background-color: lightpink; text-align: center; color:white"><div class="col-xs-12">F U T U R E</div></div>
+    if (Request.Url.Host == "memucho.local" || Request.Url.Host == "memucho"){
+        showEnvironment = true; backgroundColor = "#afd534"; text = "L O C A L";
+    }
+
+    if (Request.Url.Host == "future.memucho.de"){
+        showEnvironment = true; backgroundColor = "lightpink"; text = "F U T U R E";
+    }
+
+    if (Request.Url.Host == "stage.memucho.de"){
+        showEnvironment = true; backgroundColor = "orange"; text = "S T A G E";
+    }
+%>
+
+<% if(showEnvironment){ %>
+    <div class="" style="background-color: <%= backgroundColor%>; z-index: 10000; position: fixed; top: 11px; right: -23px; width: 60px; text-align: center; font-size: 9px; padding: 2px; padding-left: 12px; transform: rotate(90deg); color:white">
+        <%= text %>
     </div>
 <% } %>
 
-<% if(Request.Url.Host == "stage.memucho.de"){ %>
-    <div class="container" style="width: 100%">
-        <div class="row" style="background-color: orange; text-align: center; color:white"><div class="col-xs-12">S T A G E</div></div>
-    </div>
-<% } %>
 <header id="MasterHeader">
     <div class="container">
         <div class="row" style="background-color:#003264">
