@@ -7471,11 +7471,11 @@
     <Content Include="Images\DocumentationHelp\TopicNavigation.png" />
     <Content Include="Images\DocumentationHelp\VideoWidget.png" />
     <Content Include="Images\Illustrations\PreviewFullResponsiveScreens.jpg" />
-    <Content Include="Images\LogosPartners\efre_s.png" />
+    <Content Include="Images\LogosPartners\badge_nominiert_2017.png" />
+    <Content Include="Images\LogosPartners\badge_nominiert_2017_250real.png" />
+    <Content Include="Images\LogosPartners\efre.png" />
     <Content Include="Images\LogosPartners\landderideen_ausgezeichnet-2017_w190c.jpg" />
     <Content Include="Images\LogosPartners\Logo_DEP_rgb_300x98.jpg" />
-    <Content Include="Images\LogosPartners\Logo_LearningLevelUp_transparent.png" />
-    <Content Include="Images\LogosPartners\Logo_lernenmitspass_w200.gif" />
     <Content Include="Images\LogosPartners\Logo_lernox.png" />
     <Content Include="Images\LogosPartners\Logo_netzsieger_170905-memucho-medium.png" />
     <Content Include="Images\LogosPartners\Logo_netzsieger_170905-memucho-small.png" />
@@ -20218,7 +20218,6 @@
     <Content Include="Views\About\Js\Page.js.map">
       <DependentUpon>Page.ts</DependentUpon>
     </Content>
-    <Content Include="Images\LogosPartners\OERcamp-2017-Flyer.pdf" />
     <Content Include="Images\Questions\Questions.7z" />
     <Content Include="Content\fonts\glyphicons-halflings-regular.woff" />
     <Content Include="Content\fonts\glyphicons-halflings-regular.ttf" />
