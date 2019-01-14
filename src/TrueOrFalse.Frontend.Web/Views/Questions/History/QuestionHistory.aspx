@@ -41,9 +41,9 @@
                     vor <%= item.ElapsedTime %> um <%= item.Time %>
                 </div>
                 <div class="col-xs-6 pull-right">    
-                    <a>
+                    <%--<a>
                         <i class="fa fa-comment-o"></i> #
-                    </a>&nbsp;
+                    </a>&nbsp;--%>
                     
                     <%--TODO FK <a class="btn btn-sm btn-default btn-primary" href="<%= Links.QuestionDetail(Model.QuestionName, Model.QuestionId, item.RevisionId) %>">
                         <i class="fa fa-desktop"></i> Revision anzeigen
