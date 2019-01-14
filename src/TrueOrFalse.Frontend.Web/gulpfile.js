@@ -8,6 +8,9 @@ var deps = {
     },
     "vue": {
         "dist/vue.js": ""
+    },
+    "d3": {
+        "dist/d3.js": ""
     }
 };
 

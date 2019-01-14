@@ -24,7 +24,6 @@
     <%= Scripts.Render("~/bundles/js/AnswerQuestion") %>    
     <%= Scripts.Render("~/bundles/js/CategoryEditMode") %>
     <script type="text/javascript" src="https://www.google.com/jsapi"></script>
-    <script src="<%= Request.Url.Scheme %>://d3js.org/d3.v4.min.js"></script>
     <%  
         if (Model.CategoriesChildren.Count != 0)
         {
