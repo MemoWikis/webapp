@@ -177,26 +177,33 @@
   <%--   <editor-content class="editor__content" :editor="editor" /> --%>
   <%-- </div> --%>
   <%--   </inline-editor-component> --%>
+    <script src="https://unpkg.com/marked@0.3.6"></script>
+    <script src="https://unpkg.com/lodash@4.16.0"></script>
     
+
     <inline-editor-component>
+
+        <textarea :value="input" @input="update"></textarea>
+        <div v-html="compiledMarkdown"></div>
         
-        <div>
-            <ul class="list-group">
-                <%-- <li class="list-group-item active"> --%>
-                <%--     <h4 class="list-group-item-heading">Inline Editing</h4> --%>
-                <%-- </li> --%>
-                <li v-for="(item, index) in text" class="list-group-item">
-                    <h4 v-show="editOffset != index" class="list-group-item-heading">
-                        <a href="#" @click.prevent="startEditing(index)" class="btn btn-md btn-info">
-                            <i class="fa fa-pencil show-tooltip"></i>
-                        </a>
-                        {{ item.article }}
-                    </h4>
-                    <input v-show="editOffset==index" type="text" :id = "'item-article-'+index" @keydown.enter="updatePost" @keydown.esc="cancelEditing" class="form-control" v-model="editPost.user">
-                    <p :id="'item-id-'+index" class="list-group-item-text">{{ item.id }}</p>
-                </li>
-            </ul>
-        </div>
+
+        <%-- <div> --%>
+        <%--     <ul class="list-group"> --%>
+        <%--         $1$ <li class="list-group-item active"> #1# --%>
+        <%--         $1$     <h4 class="list-group-item-heading">Inline Editing</h4> #1# --%>
+        <%--         $1$ </li> #1# --%>
+        <%--         <li v-for="(item, index) in text" class="list-group-item"> --%>
+        <%--             <h4 v-show="editOffset != index" class="list-group-item-heading"> --%>
+        <%--                 <a href="#" @click.prevent="startEditing(index)" class="btn btn-md btn-info"> --%>
+        <%--                     <i class="fa fa-pencil show-tooltip"></i> --%>
+        <%--                 </a> --%>
+        <%--                 {{ item.article }} --%>
+        <%--             </h4> --%>
+        <%--             <input v-show="editOffset==index" type="text" :id = "'item-article-'+index" @keydown.enter="updatePost" @keydown.esc="cancelEditing" class="form-control" v-model="editPost.user"> --%>
+        <%--             <p :id="'item-id-'+index" class="list-group-item-text">{{ item.id }}</p> --%>
+        <%--         </li> --%>
+        <%--     </ul> --%>
+        <%-- </div> --%>
     </inline-editor-component>     
 
         <div id="TopicTabContent" class="TabContent">
