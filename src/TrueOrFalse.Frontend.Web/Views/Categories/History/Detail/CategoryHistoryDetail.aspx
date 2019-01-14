@@ -15,7 +15,7 @@
     
     <div class="row">
         <div class="col-12">
-            <h1>Änderungen für '<%= Model.CategoryName %>'</h1>
+            <h1><i class="fa fa-code-fork"></i> &nbsp; Änderungen für '<%= Model.CategoryName %>'</h1>
         </div>
     </div>
     

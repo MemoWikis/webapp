@@ -15,7 +15,7 @@
     
     <div class="row">
         <div class="col-12">
-            <h1><i class="fa fa-code-fork"></i>&nbsp; Bearbeitungshistorie '<%= Model.CategoryName %>'</h1>
+            <h1><i class="fa fa-list-ul"></i>&nbsp; Bearbeitungshistorie '<%= Model.CategoryName %>'</h1>
         </div>
     </div>
     <% foreach (var day in Model.Days) { %>
