@@ -67,10 +67,6 @@ public class TemplateParser
             case "singlecategory":
             case "singlequestionsquiz":
             case "spacer":
-                string[] dontShowForHistoricRevisions = { "contentlists"};
-                if (category.IsHistoric && dontShowForHistoricRevisions.Contains(templateJson.TemplateName.ToLower()))
-                    return "";
-                else
                     return GetPartialHtml(templateJson, category, controllerContext);
             default:
             {

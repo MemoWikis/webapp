@@ -885,37 +885,58 @@ img {
 }
 
 #CategorySuggestionCard {
-    border: #979797 solid 0.5px;
     margin-top: 19px;
     padding-left: 0.5px;
 
     .category-suggestion-footer {
-      padding: 0px 19px 0px 19px;
-      margin-bottom:23px;
+        padding: 0px 19px 0px 19px;
+        margin-bottom: 23px;
+        position: relative;
+        z-index: 2;
 
         .set-question-count {
-             color: #979797;
-             font-size: 14px;
-             margin-bottom:5px;
-          }
+            color: #979797;
+            font-size: 14px;
+            margin-bottom: 5px;
+        }
     }
 }
 
 #CreateQuestionCard {
     margin-top: 19px;
-    border: #979797 solid 0.5px;
 }
 
-/* MASTER SECTION
+#CategorySuggestionCard, #CreateQuestionCard {
+    position: relative;
+    overflow: auto;
+    z-index: 2;
+    //Add border to pseudo element to prevent border issues due to rounding error:
+    &::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        border: #979797 solid 0.5px;
+        z-index: 1;
+    }
+
+    .card-link {
+        position: relative;
+        z-index: 2;
+    }
+}
+    /* MASTER SECTION
 ----------------------------------------------------------*/
-#MasterSection {
-    position: relative; //for z-index-positioning inside
-    background-color: white;
-    //padding-bottom: 100px;
-    /*.media-sm-up( {
+    #MasterSection {
+        position: relative; //for z-index-positioning inside
+        background-color: white;
+        //padding-bottom: 100px;
+        /*.media-sm-up( {
         padding-bottom: 100px;
     });*/
-}
+    }
     /* MOBILE SUBHEADER
 ----------------------------------------------------------*/
     #MobileSubHeader {
@@ -1051,7 +1072,7 @@ img {
 
         #MasterMainColumn {
             .make-lg-column(9);
-            margin-top:55px;
+            margin-top: 55px;
 
             .media-lg ( {
                 width: 100%;
@@ -1059,299 +1080,298 @@ img {
 
             );
 
-             @media(max-width: 1199.9px) {
-                   width:100% !important;
-             }
+            @media(max-width: 1199.9px) {
+                width: 100% !important;
+            }
         }
     }
-
-/*******************************************************************/
-/*  Breadcrumbs
+    /*******************************************************************/
+    /*  Breadcrumbs
 ----------------------------------------------------------*/
-/** Default button **/
-.btn-breadcrumb {
-    a {
-        text-decoration: underline;
-    }
+    /** Default button **/
+    .btn-breadcrumb {
+        a {
+            text-decoration: underline;
+        }
 
-    a.current {
-        text-decoration: none;
-    }
-    /** Breadcrumb **/
-    .btn:not(:last-child):after {
-        content: " ";
-        display: block;
-        width: 0;
-        height: 0;
-        border-top: 17px solid transparent;
-        border-bottom: 17px solid transparent;
-        border-left: 10px solid white;
-        position: absolute;
-        top: 50%;
-        margin-top: -17px;
-        left: 100%;
-        z-index: 3;
-    }
-
-    .btn:not(:last-child):before {
-        content: " ";
-        display: block;
-        width: 0;
-        height: 0;
-        border-top: 17px solid transparent;
-        border-bottom: 17px solid transparent;
-        border-left: 10px solid rgb(173, 173, 173);
-        position: absolute;
-        top: 50%;
-        margin-top: -17px;
-        margin-left: 1px;
-        left: 100%;
-        z-index: 3;
-    }
-    /** The Spacing **/
-    .btn {
-        padding: 6px 12px 6px 24px;
-    }
-
-    .btn:first-child {
-        padding: 6px 6px 6px 10px;
-    }
-
-    .btn:last-child {
-        padding: 6px 18px 6px 24px;
-    }
-
-    .btn.btn-default:not(:last-child):after {
-        border-left: 10px solid #fff;
-    }
-
-    .btn.btn-default:not(:last-child):before {
-        border-left: 10px solid #ccc;
-    }
-
-    .btn.btn-default:hover:not(:last-child):after {
-        border-left: 10px solid #ebebeb;
-    }
-
-    .btn.btn-default:hover:not(:last-child):before {
-        border-left: 10px solid #adadad;
-    }
-}
-
-.SearchBoxDivMaxWidth {
-    @media(max-width:500px) {
-        width: 220px !important;
-        margin-left: 10px;
-    }
-
-    @media(max-width:450px) {
-        width: 170px !important;
-    }
-
-    @media(max-width:400px) {
-        width: 110px !important;
-    }
-
-    @media(max-width:340px) {
-        width: 96px !important;
-    }
-
-    @media(max-width:325px) {
-        width: 76px !important;
-    }
-
-    width: 259px !important;
-}
-
-.sticky {
-    position: fixed !important;
-    top: 0;
-    width: 100%;
-}
-
-
-#Breadcrumb {
-    font-size: 14px;
-    background-color: white;
-    line-height: 21px;
-    width: 100%;
-    display: block;
-    font-family: sans;
-    padding-top: 17px;
-    padding-bottom: 14px !important;
-    color: #000000 !important;
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.16);
-    position: absolute;
-    z-index: 99;
-    white-space: nowrap;
-    .greyed;
-
-    div {
-        font-family: 'Open Sans';
-    }
-
-    img {
-        margin-top: -10px;
-    }
-
-    i.fa-chevron-right {
-        padding: 0px;
-        font-size: 11.2px;
-        width: auto;
-        margin-left: 13px;
-        color: #707070;
-        margin-right: 10px;
-        background-color: white;
-        border-radius: 0px;
-        padding: 0px;
-    }
-
-    .category-icon {
-        &:hover, &:focus {
+        a.current {
             text-decoration: none;
         }
+        /** Breadcrumb **/
+        .btn:not(:last-child):after {
+            content: " ";
+            display: block;
+            width: 0;
+            height: 0;
+            border-top: 17px solid transparent;
+            border-bottom: 17px solid transparent;
+            border-left: 10px solid white;
+            position: absolute;
+            top: 50%;
+            margin-top: -17px;
+            left: 100%;
+            z-index: 3;
+        }
+
+        .btn:not(:last-child):before {
+            content: " ";
+            display: block;
+            width: 0;
+            height: 0;
+            border-top: 17px solid transparent;
+            border-bottom: 17px solid transparent;
+            border-left: 10px solid rgb(173, 173, 173);
+            position: absolute;
+            top: 50%;
+            margin-top: -17px;
+            margin-left: 1px;
+            left: 100%;
+            z-index: 3;
+        }
+        /** The Spacing **/
+        .btn {
+            padding: 6px 12px 6px 24px;
+        }
+
+        .btn:first-child {
+            padding: 6px 6px 6px 10px;
+        }
+
+        .btn:last-child {
+            padding: 6px 18px 6px 24px;
+        }
+
+        .btn.btn-default:not(:last-child):after {
+            border-left: 10px solid #fff;
+        }
+
+        .btn.btn-default:not(:last-child):before {
+            border-left: 10px solid #ccc;
+        }
+
+        .btn.btn-default:hover:not(:last-child):after {
+            border-left: 10px solid #ebebeb;
+        }
+
+        .btn.btn-default:hover:not(:last-child):before {
+            border-left: 10px solid #adadad;
+        }
+    }
+
+    .SearchBoxDivMaxWidth {
+        @media(max-width:500px) {
+            width: 220px !important;
+            margin-left: 10px;
+        }
+
+        @media(max-width:450px) {
+            width: 170px !important;
+        }
+
+        @media(max-width:400px) {
+            width: 110px !important;
+        }
+
+        @media(max-width:340px) {
+            width: 96px !important;
+        }
+
+        @media(max-width:325px) {
+            width: 76px !important;
+        }
+
+        width: 259px !important;
+    }
+
+    .sticky {
+        position: fixed !important;
+        top: 0;
+        width: 100%;
     }
 
 
-    .fa-dot-circle-o {
-        color: #AED71B;
-    }
-
-    a {
-        color: #707070;
-        text-decoration: none;
-        font-family: "Open Sans";
+    #Breadcrumb {
         font-size: 14px;
-        font-weight: bold;
+        background-color: white;
+        line-height: 21px;
+        width: 100%;
+        display: block;
+        font-family: sans;
+        padding-top: 17px;
+        padding-bottom: 14px !important;
+        color: #000000 !important;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.16);
+        position: absolute;
+        z-index: 99;
+        white-space: nowrap;
+        .greyed;
 
-
-        &.current {
-            cursor: default;
-        }
-    }
-
-    .media-below-lg( {
-        padding-bottom: 20px;
-    }
-
-    );
-
-
-
-    #StickyHeaderContainer {
-        margin-left: auto;
-        display: none;
-        justify-content: space-between;
-        margin-top: -22px;
-
-        .userImage {
-            width: 28px !important;
-            height: 28px !important;
+        div {
+            font-family: 'Open Sans';
         }
 
-        #StickySearchButton {
-            border: none;
+        img {
+            margin-top: -10px;
         }
 
-        #StickyHeaderSearchBoxDiv {
-            margin-top: 16px;
-            width: 40px;
-            -webkit-transition: width 0.3s;
-        }
-
-
-        #StickyHeaderSearchBox {
-            border-right: none !important;
-            border: none;
+        i.fa-chevron-right {
             padding: 0px;
-            font-weight: 400;
-            text-overflow: ellipsis;
+            font-size: 11.2px;
+            width: auto;
+            margin-left: 13px;
+            color: #707070;
+            margin-right: 10px;
+            background-color: white;
+            border-radius: 0px;
+            padding: 0px;
+        }
+
+        .category-icon {
+            &:hover, &:focus {
+                text-decoration: none;
+            }
+        }
+
+
+        .fa-dot-circle-o {
+            color: #AED71B;
+        }
+
+        a {
+            color: #707070;
+            text-decoration: none;
+            font-family: "Open Sans";
+            font-size: 14px;
+            font-weight: bold;
+
+
+            &.current {
+                cursor: default;
+            }
+        }
+
+        .media-below-lg( {
+            padding-bottom: 20px;
+        }
+
+        );
+
+
+
+        #StickyHeaderContainer {
+            margin-left: auto;
+            display: none;
+            justify-content: space-between;
+            margin-top: -22px;
+
+            .userImage {
+                width: 28px !important;
+                height: 28px !important;
+            }
+
+            #StickySearchButton {
+                border: none;
+            }
+
+            #StickyHeaderSearchBoxDiv {
+                margin-top: 16px;
+                width: 40px;
+                -webkit-transition: width 0.3s;
+            }
+
+
+            #StickyHeaderSearchBox {
+                border-right: none !important;
+                border: none;
+                padding: 0px;
+                font-weight: 400;
+                text-overflow: ellipsis;
+            }
+        }
+
+        .fa {
+            margin-right: 15px;
+            padding-top: 12px;
         }
     }
 
-    .fa {
-        margin-right: 15px;
-        padding-top: 12px;
-    }
-}
-
-.ShowBreadcrumb{
-    display:block !important;
-}
-
-#MasterSidebarColumn {
-    .make-lg-column(3);
-    position: static;
-    margin-top: 61px;
-
-
-    .media-lg ( {
-        width: 232px;
-        float: right;
+    .ShowBreadcrumb {
+        display: block !important;
     }
 
-    );
+    #MasterSidebarColumn {
+        .make-lg-column(3);
+        position: static;
+        margin-top: 61px;
 
-    @media(max-width: 1199.9px) {
-        display: none;
+
+        .media-lg ( {
+            width: 232px;
+            float: right;
+        }
+
+        );
+
+        @media(max-width: 1199.9px) {
+            display: none;
+        }
     }
-}
 
 
-#MasterMainWrapper {
-    background-color: white;
-    padding-left: 20px;
-    padding-right: 20px;
-    padding-bottom: 20px;
-    padding-top: 25px;
-    width: 100% !important;
+    #MasterMainWrapper {
+        background-color: white;
+        padding-left: 20px;
+        padding-right: 20px;
+        padding-bottom: 20px;
+        padding-top: 25px;
+        width: 100% !important;
 
-    html.flexbox:not(.Explorer):not(.Safari) {
-        .CardsLandscape {
-            display: flex;
-            flex-wrap: wrap;
-            align-items: stretch;
-
-            .CardColumn {
+        html.flexbox:not(.Explorer):not(.Safari) {
+            .CardsLandscape {
                 display: flex;
-            }
+                flex-wrap: wrap;
+                align-items: stretch;
 
-            .Card {
-                display: flex;
-                width: 100%;
-
-                .ImageContainer {
-                    flex: 0 0 100px;
-                    flex-grow: 0%; //sic!
-                    flex-shrink: 0%; //sic!
-                    flex-basis: 100px;
-                    align-self: flex-start;
-                }
-
-                .ContentContainer {
-                    margin-left: 0 !important;
+                .CardColumn {
                     display: flex;
-                    flex-direction: column;
-                    justify-content: space-between;
-                    flex: auto;
                 }
 
-                .CardContent {
-                    margin-left: 0;
-                    height: auto;
-                    max-height: 243px;
-                    border-bottom: none !important;
-                }
+                .Card {
+                    display: flex;
+                    width: 100%;
 
-                .BottomBar {
-                    border-top: 1px solid @ruler-grey;
-                    margin-left: 0 !important;
-                    margin-right: 15px !important;
+                    .ImageContainer {
+                        flex: 0 0 100px;
+                        flex-grow: 0%; //sic!
+                        flex-shrink: 0%; //sic!
+                        flex-basis: 100px;
+                        align-self: flex-start;
+                    }
+
+                    .ContentContainer {
+                        margin-left: 0 !important;
+                        display: flex;
+                        flex-direction: column;
+                        justify-content: space-between;
+                        flex: auto;
+                    }
+
+                    .CardContent {
+                        margin-left: 0;
+                        height: auto;
+                        max-height: 243px;
+                        border-bottom: none !important;
+                    }
+
+                    .BottomBar {
+                        border-top: 1px solid @ruler-grey;
+                        margin-left: 0 !important;
+                        margin-right: 15px !important;
+                    }
                 }
             }
         }
     }
-}
 
     #MobileSubHeader + #MasterMainContent {
 
@@ -1452,30 +1472,29 @@ img {
             }
         }
     }
-    
-.Promoter {
-    #efre {
-        width: 140px;
-        padding-top: 20px;
-    }
 
-    #infoLink {
-        text-align: left;
-        padding-top: 60px;
-    }
+    .Promoter {
+        #efre {
+            width: 140px;
+            padding-top: 20px;
+        }
 
-    @media only screen and (max-width: 768px) {
         #infoLink {
-            text-align: center;
-            margin-left: -30px;
+            text-align: left;
+            padding-top: 60px;
         }
 
-        [class*="col-"] {
-            width: 100%;
+        @media only screen and (max-width: 768px) {
+            #infoLink {
+                text-align: center;
+                margin-left: -30px;
+            }
+
+            [class*="col-"] {
+                width: 100%;
+            }
         }
     }
-}
-        
     /* MASTER WIDGET
 ----------------------------------------------------------*/
     #MasterWidget {
@@ -1495,37 +1514,37 @@ img {
     /* SPONSOR
 ----------------------------------------------------------*/
     #EduPartnerCard {
-     margin-top: 19px;
-     border: #979797 solid 0.5px;
-     padding:15px;
-     padding-bottom:5px;
+        margin-top: 19px;
+        border: #979797 solid 0.5px;
+        padding: 15px;
+        padding-bottom: 5px;
 
-    .EduPartnerLSidebarWrapper { //Avoid "sponsor" and the like in css classes because of ad blockers
-        font-size: 12.6px;
-        text-align: center;
+        .EduPartnerLSidebarWrapper { //Avoid "sponsor" and the like in css classes because of ad blockers
+            font-size: 12.6px;
+            text-align: center;
 
-        @media (max-width: (@show-menu-from-width - 1px)) {
-            display: none;
+            @media (max-width: (@show-menu-from-width - 1px)) {
+                display: none;
+            }
+
+            .fa {
+                color: #CCCCCC;
+                display: flex;
+                justify-content: flex-end;
+                margin-right: 4px;
+                font-size: 18px;
+            }
         }
 
-        .fa {
-            color: #CCCCCC;
-            display: flex;
-            justify-content: flex-end;
-            margin-right: 4px;
-            font-size: 18px;
-        }
-}
+        .EduPartnerSidebarLogo {
+            margin-bottom: 20px;
 
-    .EduPartnerSidebarLogo {
-        margin-bottom: 20px;
-
-        img {
-            max-width: 50%;
-            max-height: 100px;
+            img {
+                max-width: 50%;
+                max-height: 100px;
+            }
         }
     }
-  }
     /* VALIDATION
 ----------------------------------------------------------*/
     textarea.input-validation-error, input.input-validation-error {
@@ -1597,13 +1616,13 @@ img {
         );
     }
 
-#KnowledgeBtn {
-    width: 100%;
-    display: flex;
-    border: none !important;
-    border-bottom-width: 1px;
-    border-radius: 0px;
-}
+    #KnowledgeBtn {
+        width: 100%;
+        display: flex;
+        border: none !important;
+        border-bottom-width: 1px;
+        border-radius: 0px;
+    }
     /*  MODALS
 ----------------------------------------------------------*/
     .modal-footer .ButtonContainer {
@@ -1893,10 +1912,8 @@ img {
         .ShadowBox;
         background-color: white;
     }
-
-/*ROWS
+    /*ROWS
 ---------------------------------------------------------*/
-    
     .rowBase:after {
         clear: both;
     }
@@ -1934,8 +1951,8 @@ img {
 
 
     .TextLinkWithIcon {
-        display:flex !important;
-        flex-direction:column;
+        display: flex !important;
+        flex-direction: column;
 
         .fa-check-square-o, .fa-square-o {
             margin-top: 1px;
