@@ -7,7 +7,7 @@
     <%= Scripts.Render("~/bundles/js/QuestionHistoryDetail") %>
     <%= Scripts.Render("~/bundles/js/diff2html") %>
     <%= Styles.Render("~/Scripts/vendor/diff2html/diff2html.css") %>
-    <%  Model.TopNavMenu.BreadCrumb.Add(new TopNavMenuItem {Text = Model.CurrentQuestionText, Url = Model.QuestionUrl, ToolTipText = Model.CurrentQuestionText});
+    <%  Model.TopNavMenu.BreadCrumb.Add(new TopNavMenuItem {Text = Model.CurrentQuestionText.TruncateAtWord(80), Url = Model.QuestionUrl, ToolTipText = Model.CurrentQuestionText});
         Model.TopNavMenu.IsCategoryBreadCrumb = false; %>
 </asp:Content>
 
@@ -15,7 +15,11 @@
     
     <div class="row">
         <div class="col-12">
-            <h1>Änderungen für '<%= Model.CurrentQuestionText %>'</h1>
+            <h1><i class="fa fa-code-fork"></i> &nbsp; Änderungen für die Frage </h1>
+            <h3 style="text-align: center">
+                '<%= Model.CurrentQuestionText %>'
+            </h3>
+            <br />
         </div>
     </div>
     
@@ -47,9 +51,9 @@
                                     <i class="fa fa-undo"></i> &nbsp; Wiederherstellen
                                 </a>
                             <% } else { %>
-                                <%--TODO FK <a id="editButton" data-allowed="logged-in" href="<%= Links.QuestionEdit(Model.QuestionText, Model.QuestionId) %>">
+                                <a id="editButton" data-allowed="logged-in" href="<%= Links.EditQuestion(Model.QuestionText, Model.QuestionId) %>">
                                     <i class="fa fa-edit"></i> &nbsp; Thema bearbeiten
-                                </a>--%>
+                                </a>
                             <% } %>
                         <% } %>
                     </li>

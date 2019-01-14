@@ -6,7 +6,7 @@
 <asp:Content ID="Content2" ContentPlaceHolderID="Head" runat="server">
     <%= Styles.Render("~/bundles/QuestionHistory") %>
     <% 
-        Model.TopNavMenu.BreadCrumb.Add(new TopNavMenuItem {Text = Model.QuestionName, Url = Model.QuestionUrl, ToolTipText = Model.QuestionName});
+        Model.TopNavMenu.BreadCrumb.Add(new TopNavMenuItem {Text = Model.QuestionName.TruncateAtWord(80), Url = Model.QuestionUrl, ToolTipText = Model.QuestionName});
         Model.TopNavMenu.IsCategoryBreadCrumb = false;
     %>
 </asp:Content>
@@ -15,7 +15,11 @@
     
     <div class="row">
         <div class="col-12">
-            <h1><i class="fa fa-code-fork"></i>&nbsp; Bearbeitungshistorie '<%= Model.QuestionName %>'</h1>
+            <h1><i class="fa fa-list-ul"></i>&nbsp; Bearbeitungshistorie für die Frage</h1>
+            <h3 style="text-align: center">
+                '<%= Model.QuestionName %>'
+            </h3>
+            <br />
         </div>
     </div>
     <% foreach (var day in Model.Days) { %>
