@@ -1,6 +1,9 @@
 ﻿<%@ Control Language="C#" AutoEventWireup="true" Inherits="System.Web.Mvc.ViewUserControl<SingleCategoryFullWidthModel>" %>
 <%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
 
+<vue-nestable-handle :item="item">
+
+
 
 <div class="singleCatFullWidth">
     <div class="well">
@@ -46,4 +49,4 @@
 </div>
 
 
-
+</vue-nestable-handle>

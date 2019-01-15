@@ -1,9 +1,40 @@
 ﻿declare var Vue: any;
 declare var marked: any;
 
+import VueNestable from 'vue-nestable';
+
+export default {
+    data() {
+        return {
+            nestableItems: [
+                {
+                    key: 0,
+                    class: 'purple-text-color',
+                    text: 'Andy'
+                }, {
+                    key: 1,
+                    class: 'blue-text-color',
+                    text: 'Harry',
+                    nested: [
+                        {
+                            key: 2,
+                            text: 'David'
+                        }
+                    ]
+                }, {
+                    key: 3,
+                    class: 'red-text-color',
+                    text: 'Lisa'
+                }
+            ]
+        }
+    }
+};
+
+Vue.use(VueNestable);
+
 Vue.component('inline-editor-component',
     { 
-        template: "<h4>header</h4>",
 
         data: function() {
             return {
@@ -11,7 +42,7 @@ Vue.component('inline-editor-component',
                 editText: {},
                 editTextOri: {},
                 text: [
-                    { article: 'Inline Editor Test lorem ipsum etc' + this.template},
+                    { article: 'Inline Editor Test lorem ipsum etc'},
                 ],
                 hoverState: false,
 

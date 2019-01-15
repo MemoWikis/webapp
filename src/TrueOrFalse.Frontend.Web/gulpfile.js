@@ -9,6 +9,9 @@ var deps = {
     "vue": {
         "dist/vue.js": ""
     },
+    "vue-nestable": {
+        "dist/vue-nestable.js": ""
+    },
     "d3": {
         "dist/d3.js": ""
     }

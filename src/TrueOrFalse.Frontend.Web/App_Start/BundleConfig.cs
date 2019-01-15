@@ -75,6 +75,7 @@ namespace TrueOrFalse.View
             bundles.Add(new ScriptBundle("~/bundles/js/CategoryEditMode")
                 //.Include("~/Scripts/npm/tiptap/tiptap.js")
                 //.Include("~/Scripts/npm/tiptap-extensions/extensions.js")
+                .Include("~/Scripts/npm/vue-nestable/vue-nestable.js")
                 .IncludeDirectory("~/Views/Categories/Detail/JsEditMode/", "*.js"));
 
             bundles.Add(new StyleBundle("~/bundles/CategoryHistory")
