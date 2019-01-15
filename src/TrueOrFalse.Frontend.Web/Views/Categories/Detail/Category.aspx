@@ -22,7 +22,6 @@
     <%= Scripts.Render("~/bundles/js/Category") %>
     <%= Scripts.Render("~/bundles/js/DeleteQuestion") %>
     <%= Scripts.Render("~/bundles/js/AnswerQuestion") %>    
-    <%= Scripts.Render("~/bundles/js/CategoryEditMode") %>
     <script type="text/javascript" src="https://www.google.com/jsapi"></script>
     <%  
         if (Model.CategoriesChildren.Count != 0)
@@ -44,7 +43,7 @@
     <% Html.RenderPartial("~/Views/Shared/Spinner/Spinner.ascx"); %>
     <% Html.RenderPartial("~/Views/Categories/Detail/Partials/CategoryHeader.ascx", Model);%>
     
-    <div id="TopicTabContent" class="TabContent">
+    <div id="TopicTabContent" class="TabContent" >
         <% Html.RenderPartial("~/Views/Categories/Detail/Tabs/TopicTab.ascx", Model); %>
     </div>
     <div id="LearningTabContent" class="TabContent" style="display: none;">
@@ -52,4 +51,6 @@
     </div>
     <div id="AnalyticsTabContent" class="TabContent"></div>  
     
+    <%= Scripts.Render("~/bundles/js/CategoryEditMode") %>
+
 </asp:Content>

@@ -21,7 +21,7 @@
         <a href="<%= Links.CategoryDetail(Model.Category.Name, Model.Category.Id) %>">
             <%= Model.Name %>
         </a>
-        
+
         <div class="dropdown pull-right" style="margin-top: 1em">
             <a class="btn btn-primary" href="<%= Links.CategoryHistoryDetail(Model.Id, Model.CategoryChange.Id) %>">
                 <i class="fa fa-code-fork"></i> &nbsp; Änderungen anzeigen
@@ -94,32 +94,71 @@
         </div>
         <% } %>   
     
-    <div class="TextColumn">
-        <% if (Model.Type != "Standard") { %>
-            <div>                    
-                <% Html.RenderPartial("Reference", Model.Category); %>
+    
+    <inline-editor-component inline-template>
+        <div class="container" @mouseenter="updateHoverState(true)" @mouseleave="updateHoverState(false)" :style="styling">
+            <div v-for="(item, index) in text">
+                <p v-show="editOffset != index" @click.prevent="startEditing(index)">
+                    <a href="#" @click.prevent="startEditing(index)" class="btn btn-md btn-info">
+                        <i class="fa fa-pencil show-tooltip"></i>
+                    </a>
+                    {{ item.article }}
+                </p>
+                <input v-show="editOffset == index" type="text" :id = "'item-article-'+index" @keydown.enter="updateText" @keydown.esc="cancelEditing" class="form-control" v-model="editText.article">
             </div>
-        <% } %>
-                
-        <div class="Description"><span><%= Model.Description %></span></div>
-                
-        <% if (!String.IsNullOrEmpty(Model.Url)){ %>
-            <div class="WikiLink">
-                <a href="<%= Model.Url %>" target="_blank" class="" title="" data-placement="left" data-html="true">
-                    <i class='fa fa-external-link'>&nbsp;&nbsp;</i><%= string.IsNullOrEmpty(Model.Category.UrlLinkText) ? Model.Url : Model.Category.UrlLinkText %>
+            
+            <div class="Button dropdown" v-if="hoverState">
+                <a href="#" class="dropdown-toggle  btn btn-link btn-sm ButtonEllipsis" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                    <i class="fa fa-ellipsis-v"></i>
                 </a>
             </div>
-        <% } %>
-        <% if (!String.IsNullOrEmpty(Model.WikipediaURL)){ %>
-            <div class="WikiLink">
-                <a href="<%= Model.WikipediaURL %>" target="_blank" class="show-tooltip" title="<%= Links.IsLinkToWikipedia(Model.WikipediaURL) ? "Link&nbsp;auf&nbsp;Wikipedia" : "" %>" data-placement="left" data-html="true">
-                    <% if(Links.IsLinkToWikipedia(Model.WikipediaURL)){ %>
-                        <i class="fa fa-wikipedia-w">&nbsp;</i><% } %><%= Model.WikipediaURL %>
-                </a>
+            
+
+            <div class="TextColumn">
+                <% if (Model.Type != "Standard") { %>
+                    <div>                    
+                        <% Html.RenderPartial("Reference", Model.Category); %>
+                    </div>
+                <% } %>
+                        
+                <div class="Description"><span><%= Model.Description %></span></div>
+                        
+                <% if (!String.IsNullOrEmpty(Model.Url)){ %>
+                    <div class="WikiLink">
+                        <a href="<%= Model.Url %>" target="_blank" class="" title="" data-placement="left" data-html="true">
+                            <i class='fa fa-external-link'>&nbsp;&nbsp;</i><%= string.IsNullOrEmpty(Model.Category.UrlLinkText) ? Model.Url : Model.Category.UrlLinkText %>
+                        </a>
+                    </div>
+                <% } %>
+                <% if (!String.IsNullOrEmpty(Model.WikipediaURL)){ %>
+                    <div class="WikiLink">
+                        <a href="<%= Model.WikipediaURL %>" target="_blank" class="show-tooltip" title="<%= Links.IsLinkToWikipedia(Model.WikipediaURL) ? "Link&nbsp;auf&nbsp;Wikipedia" : "" %>" data-placement="left" data-html="true">
+                            <% if(Links.IsLinkToWikipedia(Model.WikipediaURL)){ %>
+                                <i class="fa fa-wikipedia-w">&nbsp;</i><% } %><%= Model.WikipediaURL %>
+                        </a>
+                    </div>
+                <% } %>
             </div>
-        <% } %>
-    </div>
+        </div>
+    </inline-editor-component>
 </div>
+
+<%-- <inline-editor-component inline-template> --%>
+<%--     <div class="container"> --%>
+<%--             <div v-for="(item, index) in text" class="list-group-item"> --%>
+<%--                 <h4 v-show="editOffset != index" class="list-group-item-heading"> --%>
+<%--                     <a href="#" @click.prevent="startEditing(index)" class="btn btn-md btn-info"> --%>
+<%--                         <i class="fa fa-pencil show-tooltip"></i> --%>
+<%--                     </a> --%>
+<%--                     {{ item.article }} --%>
+<%--                 </h4> --%>
+<%--                 <input v-show="editOffset == index" type="text" :id = "'item-article-'+index" @keydown.enter="updateText" @keydown.esc="cancelEditing" class="form-control" v-model="editText.article"> --%>
+<%--                 <p :id="'item-article-'+index" class="list-group-item-text">{{ item.id }}</p> --%>
+<%--             </div> --%>
+<%--     </div> --%>
+    
+</inline-editor-component>
+
 <% if (string.IsNullOrEmpty(Model.CustomPageHtml)) {
 
        if (Model.CategoriesChildren.Any(c => c.Type.GetCategoryTypeGroup() == CategoryTypeGroup.Standard))
