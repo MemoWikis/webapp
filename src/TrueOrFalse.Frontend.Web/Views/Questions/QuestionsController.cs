@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
 using Newtonsoft.Json;
+using TrueOrFalse.Frontend.Web.Code;
 using TrueOrFalse.Search;
 
 namespace TrueOrFalse
@@ -174,6 +175,15 @@ namespace TrueOrFalse
                 QuestionsAddedCount = result.AmountAddedQuestions,
                 QuestionAlreadyInSet = result.AmountOfQuestionsAlreadyInSet
             }};
+        }
+
+        [AccessOnlyAsLoggedIn]
+        public ActionResult Restore(int questionId, int questionChangeId)
+        {
+            RestoreQuestion.Run(questionChangeId, this.User_());
+
+            var question = Sl.QuestionRepo.GetById(questionId);
+            return Redirect(Links.AnswerQuestion(question));
         }
     }
 

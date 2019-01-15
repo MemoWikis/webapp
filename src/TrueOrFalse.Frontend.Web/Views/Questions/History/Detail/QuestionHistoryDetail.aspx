@@ -76,9 +76,9 @@
                     <br/>
                     <div class="col-12">
                         <nav>
-                            <%--TODO FK <a class="btn btn-default navbar-btn" href="<%= Links.QuestionRestore(Model.QuestionId, Model.RevisionId) %>">
+                            <a class="btn btn-default navbar-btn" href="<%= Links.QuestionRestore(Model.QuestionId, Model.RevisionId) %>">
                                 <i class="fa fa-undo"></i> Ja, Wiederherstellen
-                            </a>--%>
+                            </a>
                             <a class="btn btn-primary navbar-btn" onclick="$('#alertConfirmRestore').hide();">
                                 <i class="fa fa-remove"></i> Nein, Abbrechen
                             </a>

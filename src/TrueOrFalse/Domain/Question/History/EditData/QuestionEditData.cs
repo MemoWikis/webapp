@@ -9,4 +9,6 @@
     public string SolutionMetadataJson;
 
     public abstract string ToJson();
+
+    public abstract Question ToQuestion(int questionId);
 }

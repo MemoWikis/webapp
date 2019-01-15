@@ -38,10 +38,10 @@ public class QuestionChange : Entity, WithDateCreated
         }
     }
 
-    //public virtual Category ToHistoricCategory()
-    //{
-    //    return GetQuestionChangeData().ToCategory(Category.Id);
-    //}
+    public virtual Question ToHistoricQuestion()
+    {
+        return GetQuestionChangeData().ToQuestion(Question.Id);
+    }
 }
 
 public enum QuestionChangeType
