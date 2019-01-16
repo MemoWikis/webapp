@@ -24,18 +24,23 @@
                 }
 
                 if (!this.ContentIsPresent(tabname)) {
+                    Utils.ShowSpinner();
                     this.RenderTabContent(tabname);
                 }
                 if (tabname === "LearningTab" && $('#hddLearningSessionStarted').val() === "False" && $('#hddQuestionCount').val() !== "0") {
-                    console.log();
- 
                     var answerBody = new AnswerBody();
+
+                    Utils.ShowSpinner();
 
                     if (answerBody.IsTestSession()) {
                         answerBody.Loader.loadNewTestSession();
                     }
 
                     $('#hddLearningSessionStarted').val("True");
+
+                    $(() => {
+                        $("#TabContent .show-tooltip").tooltip();
+                    });
                 }
                 this.ShowTab(tabname);
 
@@ -48,11 +53,12 @@
 
         $.get(url, (html) => {
 
+            Utils.HideSpinner();
+
             $('#' + tabName + 'Content')
                 .empty()
                 .append(html);
-
-            $("#TabContent .show-tooltip").tooltip();
+ 
         });
     }
 

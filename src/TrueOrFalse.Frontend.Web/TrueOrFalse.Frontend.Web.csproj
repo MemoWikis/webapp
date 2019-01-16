@@ -158,7 +158,8 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="NHibernate, Version=5.2.0.0, Culture=neutral, PublicKeyToken=aa95f207798dfdb4, processorArchitecture=MSIL">
-      <HintPath>..\packages\NHibernate.5.2.1\lib\net461\NHibernate.dll</HintPath>
+      <HintPath>..\packages\NHibernate.5.2.2\lib\net461\NHibernate.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="Owin, Version=1.0.0.0, Culture=neutral, PublicKeyToken=f0ebd12fd5e55cc5, processorArchitecture=MSIL">
       <HintPath>..\packages\Owin.1.0\lib\net40\Owin.dll</HintPath>
@@ -20666,6 +20667,10 @@
     <Content Include="Views\Sets\Edit\QuestionInSet.ascx" />
     <Content Include="Views\Shared\LinkToTop.ascx" />
     <Content Include="Views\Shared\GlobalLicense.ascx" />
+    <Content Include="Views\Shared\Spinner\Spinner.ascx" />
+    <Content Include="Views\Shared\Spinner\Spinner.css">
+      <DependentUpon>Spinner.less</DependentUpon>
+    </Content>
     <Content Include="Views\Users\Account\WidgetStats\Partials\WidgetStatsDetailViews.ascx" />
     <Content Include="Views\Users\Account\WidgetStats\Partials\WidgetStatsForHost.ascx" />
     <Content Include="Views\Users\Account\WidgetStats\WidgetStats.aspx" />
@@ -21877,6 +21882,7 @@
     <TypeScriptCompile Include="Views\Sets\Edit\Js\EditSet.ts" />
     <TypeScriptCompile Include="Views\Sets\Edit\Js\Validation.ts" />
     <TypeScriptCompile Include="Views\Sets\Js\SetDelete.ts" />
+    <TypeScriptCompile Include="Views\Shared\Spinner\Js\Spinner.ts" />
     <TypeScriptCompile Include="Views\Users\Account\Js\Membership.ts" />
     <TypeScriptCompile Include="Views\Users\Account\WidgetStats\Js\WidgetStats.ts" />
     <TypeScriptCompile Include="Views\Users\Account\Settings\Validation.ts" />
@@ -22522,7 +22528,6 @@
     <Content Include="Views\Questions\Answer\Js\AnswerBodyLoader.js.map">
       <DependentUpon>AnswerBodyLoader.ts</DependentUpon>
     </Content>
-    <Content Include="Views\Shared\SquareWishPartialHtml.aspx" />
     <Content Include="Views\Maintenance\Js\CMSCategoryNetworkNavigation.js.map">
       <DependentUpon>CmsCategoryNetworkNavigation.ts</DependentUpon>
     </Content>
@@ -22533,6 +22538,7 @@
     <Content Include="Views\Welcome\Promoter.less" />
     <Content Include="Views\Welcome\Team.aspx" />
     <Content Include="Views\Welcome\Team.less" />
+    <Content Include="Views\Shared\Spinner\Spinner.less" />
     <Content Include="Views\Questions\History\QuestionHistory.less" />
     <Content Include="Views\Questions\History\Detail\Js\Page.js.map">
       <DependentUpon>Page.ts</DependentUpon>

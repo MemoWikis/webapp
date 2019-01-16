@@ -44,9 +44,9 @@
     <div class="FooterCol xxs-stack col-xs-6 col-md-4">
 
         <b>Software</b><br />
-        <a href="https://github.com/TrueOrFalse/TrueOrFalse"><i class="fa fa-github">&nbsp;</i>Github</a>
+        <a href="https://github.com/TrueOrFalse/TrueOrFalse" target="_blank"><i class="fa fa-github">&nbsp;</i>Github</a>
         <br />
-        <a href="http://teamcity.memucho.de:8080/project.html?projectId=TrueOrFalse&guest=1">
+        <a href="http://teamcity.memucho.de:8080/project.html?projectId=TrueOrFalse&guest=1" target="_blank">
             <i class="fa fa-cogs">&nbsp;</i>Teamcity
         </a>
         <br />
@@ -78,8 +78,8 @@
         <b>Mehr</b><br />
         <div class="fb-like" data-href="https://www.facebook.com/MemuchoWissen" data-layout="button" data-action="like" data-size="small" data-show-faces="true" data-share="false"></div>
         <br />
-        <a href="https://www.facebook.com/MemuchoWissen"><i class="fa fa-facebook-official" aria-hidden="true">&nbsp;</i>auf Facebook</a><br />
-        <a href="https://twitter.com/memuchoWissen"><i class="fa fa-twitter" aria-hidden="true">&nbsp;</i>auf Twitter</a><br />
+        <a href="https://www.facebook.com/MemuchoWissen" target="_blank"><i class="fa fa-facebook-official" aria-hidden="true">&nbsp;</i>auf Facebook</a><br />
+        <a href="https://twitter.com/memuchoWissen" target="_blank"><i class="fa fa-twitter" aria-hidden="true">&nbsp;</i>auf Twitter</a><br />
     </div>
 </div>
 <div class="Clearfix"></div>
