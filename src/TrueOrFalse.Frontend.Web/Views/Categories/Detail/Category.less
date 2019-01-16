@@ -1036,9 +1036,33 @@ p:empty {
         cursor: pointer;
         border: solid transparent 1px;
         transition: 0.2s;
+        padding: 20px;
 
-        :hover {
+
+        &.active {
             border-color: #45aece;
+        }
+    }
+
+    .well {
+        margin-bottom: 0px
+    }
+
+
+    .Button {
+        position: absolute;
+        top: 0px;
+        right: -25px;
+
+        .ButtonEllipsis {
+            font-size: 18px;
+            color: #999999;
+        }
+
+        .delete {
+            border-top: 1px solid #ccc;
+            margin-top: 7px;
+            padding-top: 7px;
         }
     }
 
@@ -1048,19 +1072,7 @@ p:empty {
         left: -20px;
         font-size: 18px;
         color: #999999;
-    }
-
-    .Button {
-        position: absolute;
-        top: 5px;
-        right: -20px;
-        font-size: 18px;
-        color: #999999;
-
-        .delete {
-            border-top: 1px solid #ccc;
-            margin-top: 7px;
-            padding-top: 7px;
-        }
+        max-width: 21px;
+        max-height: 40px;
     }
 }

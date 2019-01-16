@@ -1242,12 +1242,43 @@ p:empty {
     ContentModule
 -------------------------------------------------------*/
 .ContentModule {
-  display: inline-block;
-  -webkit-border-radius: 1px;
-          border-radius: 1px;
+  position: relative;
+}
+.ContentModule .ModuleBorder {
+  -webkit-border-radius: 3px;
+          border-radius: 3px;
   cursor: pointer;
   border: solid transparent 1px;
+  -webkit-transition: 0.2s;
+  transition: 0.2s;
+  padding: 20px;
 }
-.ContentModule:hover {
-  border-color: #c6c6c6;
+.ContentModule .ModuleBorder.active {
+  border-color: #45aece;
+}
+.ContentModule .well {
+  margin-bottom: 0px;
+}
+.ContentModule .Button {
+  position: absolute;
+  top: 0px;
+  right: -25px;
+}
+.ContentModule .Button .ButtonEllipsis {
+  font-size: 18px;
+  color: #999999;
+}
+.ContentModule .Button .delete {
+  border-top: 1px solid #ccc;
+  margin-top: 7px;
+  padding-top: 7px;
+}
+.ContentModule .Handle {
+  position: absolute;
+  top: 50%;
+  left: -20px;
+  font-size: 18px;
+  color: #999999;
+  max-width: 21px;
+  max-height: 40px;
 }

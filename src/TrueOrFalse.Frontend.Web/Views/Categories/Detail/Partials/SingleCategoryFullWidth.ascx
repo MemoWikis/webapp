@@ -6,11 +6,9 @@
     <div class="singleCatFullWidth">
         
         <content-module inline-template>
-            <div class="ContentModule" @mouseenter="updateHoverState(true)" @mouseleave="updateHoverState(false)">
-                <div class="ModuleBorder">
-                    <%-- <vue-nestable-handle :item="item"> --%>
-                <%--     <i class="fa fa-bars" /> --%>
-                <%-- </vue-nestable-handle> --%>
+            <div class="ContentModule" @mouseenter="updateHoverState(true)" @mouseleave="updateHoverState(false)" v-if="!isDeleted">
+                <div class="ModuleBorder" v-bind:class="{ active : hoverState }">
+
                 <div class="well">
                     <div class="row">
                         <div class="col-xs-3">
@@ -53,10 +51,13 @@
                     </div>
                 </div>
                 </div>
+
+                <%-- <vue-nestable-handle :item="item"> --%>
+                    <div class="Button Handle" v-if="hoverState">
+                        <i class="fa fa-bars"></i>
+                    </div>
+                <%-- </vue-nestable-handle> --%>
                 
-                <div class="Handle" v-if="hoverState">
-                    <i class="fa fa-bars"></i>
-                </div>
             
                 <div class="Button dropdown" v-if="hoverState">
                     <a href="#" id="Dropdown" class="dropdown-toggle btn btn-link btn-sm ButtonEllipsis" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" >
@@ -67,7 +68,7 @@
                         <li><a href="" data-allowed="logged-in"><i class="fa fa-caret-up"></i> Inhalt oben einfügen</a></li>
                         <li><a href="" data-allowed="logged-in"><i class="fa fa-caret-down"></i> Inhalt unten einfügen</a></li>
                         <li><a href="" data-allowed="logged-in"><i class="fa fa-code"></i> Als HTML bearbeiten</a></li>
-                        <li class="delete"><a href="" data-allowed="logged-in"><i class="fa fa-trash"></i> Löschen</a></li>
+                        <li class="delete"><a href="" data-allowed="logged-in" @click.prevent="deleteModule()"><i class="fa fa-trash"></i> Löschen</a></li>
                     </ul>
                 </div>
 

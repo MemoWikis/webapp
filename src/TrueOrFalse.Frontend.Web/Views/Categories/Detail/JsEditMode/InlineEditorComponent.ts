@@ -1,37 +1,6 @@
 ﻿declare var Vue: any;
 declare var marked: any;
-
-import VueNestable from 'vue-nestable';
-
-export default {
-    data() {
-        return {
-            nestableItems: [
-                {
-                    key: 0,
-                    class: 'purple-text-color',
-                    text: 'Andy'
-                }, {
-                    key: 1,
-                    class: 'blue-text-color',
-                    text: 'Harry',
-                    nested: [
-                        {
-                            key: 2,
-                            text: 'David'
-                        }
-                    ]
-                }, {
-                    key: 3,
-                    class: 'red-text-color',
-                    text: 'Lisa'
-                }
-            ]
-        }
-    }
-};
-
-Vue.use(VueNestable);
+declare var require: any;
 
 Vue.component('inline-editor-component',
     { 
@@ -44,26 +13,8 @@ Vue.component('inline-editor-component',
                 text: [
                     { article: 'Inline Editor Test lorem ipsum etc'},
                 ],
-                hoverState: false,
-
-                border: {
-                    borderWidth: '0px',
-                    borderWidthHover: "1px"
-                },
             }
             
-        },
-
-        computed: {
-            styling() {
-                var modifier = '';
-                if (this.hoverState)
-                    modifier = 'Hover';
-
-                return {
-                    borderWidth: this.border['borderWidth' + modifier],
-                };
-            },
         },
 
         methods: {
@@ -89,10 +40,6 @@ Vue.component('inline-editor-component',
                 this.editTextOri = {}
                 this.editText = {}
             },
-
-            updateHoverState(isHover) {
-                this.hoverState = isHover;
-            },
         },
 
     }
@@ -100,17 +47,30 @@ Vue.component('inline-editor-component',
 
 
 Vue.component('content-module', {
-    data: function () {
+    data: function() {
         return {
-            count: 0
+            hoverState: false,
+            isDeleted: false,
         }
+    },
+
+    methods: {
+        updateHoverState(isHover) {
+            var self = this;
+            self.hoverState = isHover;
+            console.log(self.hoverState);
+        },
+
+        deleteModule() {
+            var self = this;
+            self.isDeleted = true;
+        },
     }
 });
 
 Vue.component('content-module-edit-button', {
     data: function() {
         return {
-            count: 0
         }
     },
     template: "<button @click='test'>test</button>"
@@ -121,5 +81,5 @@ Vue.component('content-module-edit-button', {
 
 
 new Vue({
-    el: '#TopicTabContent'
+    el: '#ContentModuleApp',
 });
