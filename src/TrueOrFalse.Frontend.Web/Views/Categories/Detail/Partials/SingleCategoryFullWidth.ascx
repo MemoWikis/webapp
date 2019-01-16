@@ -2,51 +2,62 @@
 <%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
 
 <vue-nestable-handle :item="item">
-
-
-
-<div class="singleCatFullWidth">
-    <div class="well">
-        <div class="row">
-            <div class="col-xs-3">
-                <div class="ImageContainer">
-                    <%= Model.ImageFrontendData.RenderHtmlImageBasis(128, true, ImageType.Category) %>
-                </div>
-            </div>
-            <div class="col-xs-9">
-                <div>
-                    <div class="categoryQuestionCount">
-                        <span class="Pin" data-category-id="<%= Model.CategoryId %>" style="">
-                            <a href="#" class="noTextdecoration">
-                                <%= Html.Partial("AddToWishknowledge", new AddToWishknowledge(Model.IsInWishknowledge)) %>
-                            </a>
-                        </span>&nbsp;
-                        <%= Model.Category.Type == CategoryType.Standard ? "Thema" : Model.CategoryType %> mit <%= Model.AggregatedSetCount %> Lernset<%= StringUtils.PluralSuffix(Model.AggregatedSetCount, "s") %> und <%= Model.AggregatedQuestionCount %> Frage<%= StringUtils.PluralSuffix(Model.AggregatedQuestionCount, "n") %>
+    
+    <div class="singleCatFullWidth">
+        
+        <content-module inline-template>
+            <div class="ContentModule" @mouseenter="updateHoverState(true)" @mouseleave="updateHoverState(false)">
+                 
+                <div class="well">
+                    <div class="row">
+                        <div class="col-xs-3">
+                            <div class="ImageContainer">
+                                <%= Model.ImageFrontendData.RenderHtmlImageBasis(128, true, ImageType.Category) %>
+                            </div>
+                        </div>
+                        <div class="col-xs-9">
+                            <div>
+                                <div class="categoryQuestionCount">
+                                    <span class="Pin" data-category-id="<%= Model.CategoryId %>" style="">
+                                        <a href="#" class="noTextdecoration">
+                                            <%= Html.Partial("AddToWishknowledge", new AddToWishknowledge(Model.IsInWishknowledge)) %>
+                                        </a>
+                                    </span>&nbsp;
+                                    <%= Model.Category.Type == CategoryType.Standard ? "Thema" : Model.CategoryType %> mit <%= Model.AggregatedSetCount %> Lernset<%= StringUtils.PluralSuffix(Model.AggregatedSetCount, "s") %> und <%= Model.AggregatedQuestionCount %> Frage<%= StringUtils.PluralSuffix(Model.AggregatedQuestionCount, "n") %>
+                                </div>
+                                <div class="KnowledgeBarWrapper">
+                                    <% Html.RenderPartial("~/Views/Categories/Detail/CategoryKnowledgeBar.ascx", new CategoryKnowledgeBarModel(Model.Category)); %>
+                                    <div class="KnowledgeBarLegend">Dein Wissensstand</div>
+                                </div>
+                            </div>
+    
+                            <div class="categoryTitle">
+                                <h3><%: Model.Name %></h3>
+                            </div>
+    
+    
+                            <div class="categoryDescription">
+                                    <%= Model.Description %>
+                            </div>
+    
+                            <div class="buttons">
+                                <a href="<%= Links.CategoryDetail(Model.Category) %>" class="btn btn-primary">
+                                    <i class="fa fa-lg fa-search-plus">&nbsp;</i> Zur Themenseite
+                                </a>
+                            </div>
+                        </div>
                     </div>
-                    <div class="KnowledgeBarWrapper">
-                        <% Html.RenderPartial("~/Views/Categories/Detail/CategoryKnowledgeBar.ascx", new CategoryKnowledgeBarModel(Model.Category)); %>
-                        <div class="KnowledgeBarLegend">Dein Wissensstand</div>
-                    </div>
                 </div>
-
-                <div class="categoryTitle">
-                    <h3><%: Model.Name %></h3>
-                </div>
-
-
-                <div class="categoryDescription">
-                        <%= Model.Description %>
-                </div>
-
-                <div class="buttons">
-                    <a href="<%= Links.CategoryDetail(Model.Category) %>" class="btn btn-primary">
-                        <i class="fa fa-lg fa-search-plus">&nbsp;</i> Zur Themenseite
+            
+                <div class="Button dropdown" v-if="hoverState">
+                    <a href="#" class="dropdown-toggle btn btn-link btn-sm ButtonEllipsis" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" >
+                        <i class="fa fa-ellipsis-v"></i>
                     </a>
                 </div>
-            </div>
-        </div>
+
+            </div>    
+        </content-module>
+
     </div>
-</div>
-
-
+        
 </vue-nestable-handle>

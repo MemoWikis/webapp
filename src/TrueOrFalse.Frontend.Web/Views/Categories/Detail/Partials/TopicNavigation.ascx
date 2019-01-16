@@ -2,9 +2,9 @@
 <%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
 
 <vue-nestable-handle :item="item">
-
-    <content-module inline-template>
-        <div>
+    <content-module inline-template >
+        
+        <div @mouseenter="updateHoverState(true)" @mouseleave="updateHoverState(false)" class="ContentModule">
     
             <% if (Model.CategoryList.Any()) {
                     if(!String.IsNullOrEmpty(Model.Title)){%>
@@ -52,9 +52,13 @@
             <% } else { %>
                 <div class="hidden">&nbsp;</div><% //if empty, templateparser throws error %>
             <% } %>
-        
-            <content-module-edit-button></content-module-edit-button>
+            
+            <div class="Button dropdown" v-if="hoverState">
+                <a href="#" class="dropdown-toggle  btn btn-link btn-sm ButtonEllipsis" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                    <i class="fa fa-ellipsis-v"></i>
+                </a>
+            </div>
         </div>
-    </content-module>
-    
+       
+    </content-module>    
 </vue-nestable-handle>

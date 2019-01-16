@@ -1238,3 +1238,16 @@ p:empty {
 .spinner {
   display: none;
 }
+/*------------------------------------------------------
+    ContentModule
+-------------------------------------------------------*/
+.ContentModule {
+  display: inline-block;
+  -webkit-border-radius: 1px;
+          border-radius: 1px;
+  cursor: pointer;
+  border: solid transparent 1px;
+}
+.ContentModule:hover {
+  border-color: #c6c6c6;
+}
