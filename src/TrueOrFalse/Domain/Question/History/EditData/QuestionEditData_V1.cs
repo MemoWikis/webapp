@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using System.Linq;
+using Newtonsoft.Json;
 
 public class QuestionEditData_V1 : QuestionEditData
 {
@@ -28,6 +29,11 @@ public class QuestionEditData_V1 : QuestionEditData
     public override Question ToQuestion(int questionId)
     {
         var question = Sl.QuestionRepo.GetById(questionId);
+
+        // Query Categories and References properties to load and thus prevent an
+        // NHibernate.LazyInitializationException
+        question.Categories.ToList();
+        question.References.ToList();
 
         Sl.Session.Evict(question);
 
