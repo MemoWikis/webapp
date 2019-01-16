@@ -45,10 +45,6 @@
                         <i class="fa fa-comment-o"></i> #
                     </a>&nbsp;--%>
                     
-                    <%--TODO FK <a class="btn btn-sm btn-default btn-primary" href="<%= Links.QuestionDetail(Model.QuestionName, Model.QuestionId, item.RevisionId) %>">
-                        <i class="fa fa-desktop"></i> Revision anzeigen
-                    </a>&nbsp;--%>
-                    
                     <a class="btn btn-sm btn-default btn-primary" href="<%= Links.QuestionHistoryDetail(Model.QuestionId, item.RevisionId) %>">
                         <i class="fa fa-code-fork"></i> Änderungen anzeigen
                     </a>

@@ -31,10 +31,7 @@
                 vom <%= Model.CurrentDateCreated %> 
             </div>
             
-            <div class="col dropdown" style="float: right">   
-                <%--TODO FK <a class="btn btn-primary" href="<%= Links.QuestionDetail(Model.QuestionText, Model.QuestionId, Model.RevisionId) %>">
-                    <i class="fa fa-desktop"></i> &nbsp; Anzeige dieser Revision
-                </a>--%>
+            <div class="col dropdown" style="float: right">
                 <a class="btn btn-default" href="<%= Links.QuestionHistory(Model.QuestionId) %>">
                     <i class="fa fa-list-ul"></i> &nbsp; Zur Bearbeitungshistorie
                 </a>
