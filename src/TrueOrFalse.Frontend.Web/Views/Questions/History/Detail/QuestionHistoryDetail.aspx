@@ -49,14 +49,14 @@
                                 </a>
                             <% } else { %>
                                 <a id="editButton" data-allowed="logged-in" href="<%= Links.EditQuestion(Model.QuestionText, Model.QuestionId) %>">
-                                    <i class="fa fa-edit"></i> &nbsp; Thema bearbeiten
+                                    <i class="fa fa-edit"></i> &nbsp; Frage bearbeiten
                                 </a>
                             <% } %>
                         <% } %>
                     </li>
                     <li>
                         <a href="<%= Links.HistoryOfEverything(1) %>">
-                            <i class="fa fa-list"></i> &nbsp; Zur Bearbeitungshistorie aller Themen
+                            <i class="fa fa-list"></i> &nbsp; Zur Bearbeitungshistorie aller Fragen
                         </a>
                     </li>
                 </ul>
@@ -90,13 +90,13 @@
                 <% if (!Model.PrevRevExists) {  %>
                     <br />
                     <div class="alert alert-info" role="alert">
-                        Dies ist die <b>initiale Revision</b> des Themas, weswegen hier keine Änderungen angezeigt werden können.
+                        Dies ist die <b>initiale Revision</b> der Frage, weswegen hier keine Änderungen angezeigt werden können.
                     </div>
                 <% } else { %>
                     <% if (!Model.NextRevExists) { %>
                         <br />
                         <div class="alert alert-info" role="alert">
-                            Dies ist die <b>aktuelle Revision</b> des Themas.
+                            Dies ist die <b>aktuelle Revision</b> der Frage.
                         </div>
                     <% } else { %>
                         <br />

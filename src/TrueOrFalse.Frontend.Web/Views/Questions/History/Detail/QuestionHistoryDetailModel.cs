@@ -119,13 +119,13 @@ public class QuestionHistoryDetailModel : BaseModel
     //    if (relations.IsNotEmpty())
     //    {
     //        var parents = relations.Where(r => r.RelationType == QuestionRelationType.IsChildQuestionOf);
-    //        res += "Übergeordnete Themen\n";
+    //        res += "Übergeordnete Fragen\n";
     //        res += (parents.IsEmpty())
     //            ? "<keine>"
     //            : string.Join("\n", parents.Select(Relation2String));
 
     //        var children = relations.Where(r => r.RelationType == QuestionRelationType.IncludesContentOf);
-    //        res += "\n\nUntergeordnete Themen\n";
+    //        res += "\n\nUntergeordnete Fragen\n";
     //        res += (children.IsEmpty())
     //            ? "<keine>"
     //            : string.Join("\n", children.Select(Relation2String));
