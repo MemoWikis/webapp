@@ -104,7 +104,7 @@
                     </ul>
                     <div class="" style="float: right; position: absolute; right: 0; top: 5px;">
                         <a class="btn btn-sm btn-default" href="<%= Links.HistoryOfEverything(1) %>">
-                            <i class="fa fa-list"></i> &nbsp; Zur Bearbeitungshistorie aller Themen
+                            <i class="fa fa-list"></i> &nbsp; Bearbeitungshistorie aller Themen
                         </a>
                         <a href="<%= Url.Action("Create", "EditCategory") %>" class="btn btn-success btn-sm">
                             <i class="fa fa-plus-circle"></i>  Thema erstellen
