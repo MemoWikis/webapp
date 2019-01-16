@@ -1,6 +1,7 @@
 ﻿using System;
 using Newtonsoft.Json;
 using TrueOrFalse;
+using TrueOrFalse.Frontend.Web.Code;
 
 public class QuestionHistoryDetailModel : BaseModel
 {
@@ -38,10 +39,10 @@ public class QuestionHistoryDetailModel : BaseModel
     public QuestionHistoryDetailModel(QuestionChange currentRevision, QuestionChange previousRevision,
         QuestionChange nextRevision)
     {
+        var question = Sl.QuestionRepo.GetById(currentRevision.Question.Id);
+
         PrevRevExists = previousRevision != null;
         NextRevExists = nextRevision != null;
-
-        QuestionUrl = ""; //TODO FK Links.QuestionDetail(QuestionName, QuestionId);
 
         var currentRevisionData = currentRevision.GetQuestionChangeData();
         RevisionId = currentRevision.Id;
@@ -84,6 +85,7 @@ public class QuestionHistoryDetailModel : BaseModel
         }
 
         QuestionId = currentRevision.Question.Id;
+        QuestionUrl = Links.AnswerQuestion(question);
         QuestionText = currentRevision.Question.Text;
         Author = currentRevision.Author;
         AuthorName = currentRevision.Author.Name;

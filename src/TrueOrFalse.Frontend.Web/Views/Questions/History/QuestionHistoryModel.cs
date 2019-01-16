@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using TrueOrFalse;
+using TrueOrFalse.Frontend.Web.Code;
 
 public class QuestionHistoryModel : BaseModel
 {
@@ -14,7 +15,7 @@ public class QuestionHistoryModel : BaseModel
     {
         QuestionName = question.Text;
         QuestionId = question.Id;
-        QuestionUrl = "";//TODO Links.QuestionDetail(QuestionName, QuestionId);
+        QuestionUrl = Links.AnswerQuestion(question);
 
         Days = QuestionChanges
             .GroupBy(change => change.DateCreated.Date)
