@@ -96,22 +96,8 @@
     
     
     <inline-editor-component inline-template>
-        <div class="container" @mouseenter="updateHoverState(true)" @mouseleave="updateHoverState(false)" :style="styling">
-            <div v-for="(item, index) in text">
-                <p v-show="editOffset != index" @click.prevent="startEditing(index)">
-                    <a href="#" @click.prevent="startEditing(index)" class="btn btn-md btn-info">
-                        <i class="fa fa-pencil show-tooltip"></i>
-                    </a>
-                    {{ item.article }}
-                </p>
-                <input v-show="editOffset == index" type="text" :id = "'item-article-'+index" @keydown.enter="updateText" @keydown.esc="cancelEditing" class="form-control" v-model="editText.article">
-            </div>
-            
-            <div class="Button dropdown" v-if="hoverState">
-                <a href="#" class="dropdown-toggle  btn btn-link btn-sm ButtonEllipsis" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                    <i class="fa fa-ellipsis-v"></i>
-                </a>
-            </div>
+        <%-- <div class="container" @mouseenter="updateHoverState(true)" @mouseleave="updateHoverState(false)" :style="styleObject"> --%>
+
             
 
             <div class="TextColumn">
@@ -139,7 +125,7 @@
                     </div>
                 <% } %>
             </div>
-        </div>
+        <%-- </div> --%>
     </inline-editor-component>
 </div>
 
@@ -157,7 +143,7 @@
 <%--             </div> --%>
 <%--     </div> --%>
     
-</inline-editor-component>
+<%-- </inline-editor-component> --%>
 
 <% if (string.IsNullOrEmpty(Model.CustomPageHtml)) {
 

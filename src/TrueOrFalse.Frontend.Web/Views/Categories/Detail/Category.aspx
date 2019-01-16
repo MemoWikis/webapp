@@ -22,6 +22,7 @@
     <%= Scripts.Render("~/bundles/js/Category") %>
     <%= Scripts.Render("~/bundles/js/DeleteQuestion") %>
     <%= Scripts.Render("~/bundles/js/AnswerQuestion") %>    
+    <%= Scripts.Render("~/bundles/js/CategoryEditMode") %>
     <script type="text/javascript" src="https://www.google.com/jsapi"></script>
     <%  
         if (Model.CategoriesChildren.Count != 0)
@@ -42,17 +43,15 @@
     <input type="hidden" id="hddQuestionCount" value="<%=Model.AggregatedQuestionCount %>"/>   
     <% Html.RenderPartial("~/Views/Shared/Spinner/Spinner.ascx"); %>
     <% Html.RenderPartial("~/Views/Categories/Detail/Partials/CategoryHeader.ascx", Model);%>
-    <vue-nestable
-        v-model="nestableItems"
-        :max-depth="2"
-        key-prop="key"
-        children-prop="nested"
-        class-prop="class"
-    >
-        <div id="TopicTabContent" class="TabContent" slot-scope="{ item }">
-            <% Html.RenderPartial("~/Views/Categories/Detail/Tabs/TopicTab.ascx", Model); %>
-        </div>
-    </vue-nestable>
+    
+    <div id="TopicTabContent" class="TabContent">
+        <div id="ContentModuleApp">
+            <%-- <vue-nestable v-model="nestableItems" key-prop="key" children-prop="nested" class-prop="class"> --%>
+                <% Html.RenderPartial("~/Views/Categories/Detail/Tabs/TopicTab.ascx", Model); %>
+            <%-- </vue-nestable> --%>
+        </div>               
+    </div>
+    
     
     <div id="LearningTabContent" class="TabContent" style="display: none;">
         <% Html.RenderPartial("~/Views/Categories/Detail/Tabs/LearningTab.ascx", Model); %>

@@ -1029,12 +1029,38 @@ p:empty {
 -------------------------------------------------------*/
 
 .ContentModule {
-    display: inline-block;
-    border-radius: 1px;
-    cursor: pointer;
-    border: solid transparent 1px;
+    position: relative;
 
-    :hover {
-        border-color: #c6c6c6;
+    .ModuleBorder {
+        border-radius: 3px;
+        cursor: pointer;
+        border: solid transparent 1px;
+        transition: 0.2s;
+
+        :hover {
+            border-color: #45aece;
+        }
+    }
+
+    .Handle {
+        position: absolute;
+        top: 50%;
+        left: -20px;
+        font-size: 18px;
+        color: #999999;
+    }
+
+    .Button {
+        position: absolute;
+        top: 5px;
+        right: -20px;
+        font-size: 18px;
+        color: #999999;
+
+        .delete {
+            border-top: 1px solid #ccc;
+            margin-top: 7px;
+            padding-top: 7px;
+        }
     }
 }
