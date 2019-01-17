@@ -1259,6 +1259,9 @@ p:empty {
 .ContentModule .well {
   margin-bottom: 0px;
 }
+.ContentModule ul li .module {
+  list-style-type: none;
+}
 .ContentModule .Button {
   position: absolute;
   top: 0px;

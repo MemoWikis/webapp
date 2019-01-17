@@ -1,8 +1,8 @@
 ﻿<%@ Control Language="C#" AutoEventWireup="true" Inherits="System.Web.Mvc.ViewUserControl<TopicNavigationModel>" %>
 <%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
 
-
-<content-module inline-template >
+<li class="module">
+    <content-module inline-template >
     
     <div @mouseenter="updateHoverState(true)" @mouseleave="updateHoverState(false)" class="ContentModule" v-if="!isDeleted">
         <div class="ModuleBorder" v-bind:class="{ active : hoverState }">
@@ -75,3 +75,4 @@
     </div>
    
 </content-module>    
+</li>

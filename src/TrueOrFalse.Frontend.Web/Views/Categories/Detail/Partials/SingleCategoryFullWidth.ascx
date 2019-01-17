@@ -2,7 +2,7 @@
 <%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
 
 
-    
+<li class="module">
     <div class="singleCatFullWidth">
         
         <content-module inline-template>
@@ -76,5 +76,5 @@
         </content-module>
 
     </div>
-        
+</li>        
 

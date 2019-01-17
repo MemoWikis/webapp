@@ -1,6 +1,5 @@
 ﻿declare var Vue: any;
-declare var marked: any;
-declare var require: any;
+declare var Sortable: any;
 
 Vue.component('inline-editor-component',
     { 
@@ -47,6 +46,7 @@ Vue.component('inline-editor-component',
 
 
 Vue.component('content-module', {
+
     data: function() {
         return {
             hoverState: false,
@@ -76,10 +76,14 @@ Vue.component('content-module-edit-button', {
     template: "<button @click='test'>test</button>"
 });
 
-
+Vue.directive('sortable', {
+    inserted: function (el, binding) {
+        new Sortable(el, binding.value || {})
+    }
+})
 
 
 
 new Vue({
-    el: '#ContentModuleApp',
+    el: '#module',
 });

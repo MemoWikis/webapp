@@ -9,11 +9,14 @@ var deps = {
     "vue": {
         "dist/vue.js": ""
     },
-    "vue-nestable": {
-        "dist/vue-nestable.js": ""
+    "vue-sortable": {
+        "vue-sortable.js": ""
     },
     "d3": {
         "dist/d3.js": ""
+    },
+    "sortablejs": {
+        "Sortable.js": ""
     }
 };
 

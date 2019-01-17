@@ -22,7 +22,12 @@
     <%= Scripts.Render("~/bundles/js/Category") %>
     <%= Scripts.Render("~/bundles/js/DeleteQuestion") %>
     <%= Scripts.Render("~/bundles/js/AnswerQuestion") %>    
-    <%= Scripts.Render("~/bundles/js/CategoryEditMode") %>
+    <script src="https://unpkg.com/sortablejs@1.4.2"></script>
+    <%= Scripts.Render("~/bundles/js/CategorySort") %>
+    
+    
+    <%-- <script src="https://unpkg.com/vue-sortable@0.1.3"></script> --%>
+
     <script type="text/javascript" src="https://www.google.com/jsapi"></script>
     <%  
         if (Model.CategoriesChildren.Count != 0)
@@ -45,10 +50,15 @@
     <% Html.RenderPartial("~/Views/Categories/Detail/Partials/CategoryHeader.ascx", Model);%>
     
     <div id="TopicTabContent" class="TabContent">
-        <div id="ContentModuleApp">
+        <div id="module">
+            <ul class="list-group" v-sortable>
+                <li class="list-group-item">test1</li>
+                <li class="list-group-item">test2</li>
+                <li class="list-group-item">test3</li>
             <%-- <vue-nestable v-model="nestableItems" key-prop="key" children-prop="nested" class-prop="class"> --%>
                 <% Html.RenderPartial("~/Views/Categories/Detail/Tabs/TopicTab.ascx", Model); %>
             <%-- </vue-nestable> --%>
+            </ul>
         </div>               
     </div>
     

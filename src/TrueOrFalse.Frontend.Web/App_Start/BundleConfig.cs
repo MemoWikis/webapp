@@ -73,9 +73,12 @@ namespace TrueOrFalse.View
                 .Include("~/Views/Categories/ResultTestSession/Js/GetResultTestSession.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/js/CategoryEditMode")
+//                .Include("~/Scripts/npm/sortable/Sortable.js")
+                .Include("~/Scripts/npm/vue-sortable/vue-sortable.js"));
+
+            bundles.Add(new ScriptBundle("~/bundles/js/CategoryEditMode")
                 //.Include("~/Scripts/npm/tiptap/tiptap.js")
-                //.Include("~/Scripts/npm/tiptap-extensions/extensions.js")
-                .Include("~/Scripts/npm/vue-nestable/vue-nestable.js")
+                //.Include("~/Scripts/npm/tiptap-extensions/extensions.js")            
                 .IncludeDirectory("~/Views/Categories/Detail/JsEditMode/", "*.js"));
 
             bundles.Add(new StyleBundle("~/bundles/CategoryHistory")

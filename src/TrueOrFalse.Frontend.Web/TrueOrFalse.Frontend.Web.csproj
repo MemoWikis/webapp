@@ -20008,9 +20008,10 @@
       <DependentUpon>GameHubEvents.ts</DependentUpon>
     </Content>
     <Content Include="Scripts\npm\d3\d3.js" />
+    <Content Include="Scripts\npm\sortablejs\Sortable.js" />
     <Content Include="Scripts\npm\tiptap-extensions\extensions.js" />
     <Content Include="Scripts\npm\tiptap\tiptap.js" />
-    <Content Include="Scripts\npm\vue-nestable\vue-nestable.js" />
+    <Content Include="Scripts\npm\vue-sortable\vue-sortable.js" />
     <Content Include="Scripts\npm\vue\vue.js" />
     <Content Include="Scripts\SidebarCards.js">
       <DependentUpon>SidebarCards.ts</DependentUpon>
