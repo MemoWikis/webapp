@@ -33,7 +33,7 @@
             
             <div class="col dropdown" style="float: right">
                 <a class="btn btn-default" href="<%= Links.QuestionHistory(Model.QuestionId) %>">
-                    <i class="fa fa-list-ul"></i> &nbsp; Zur Bearbeitungshistorie
+                    <i class="fa fa-list-ul"></i> &nbsp; Bearbeitungshistorie
                 </a>
                 <% var buttonSetId = Guid.NewGuid(); %>
                 <a href="#" id="<%= buttonSetId %>" class="dropdown-toggle btn btn-link btn-sm ButtonEllipsis" 
@@ -56,7 +56,7 @@
                     </li>
                     <li>
                         <a href="<%= Links.HistoryOfEverything(1) %>">
-                            <i class="fa fa-list"></i> &nbsp; Zur Bearbeitungshistorie aller Fragen
+                            <i class="fa fa-list"></i> &nbsp; Bearbeitungshistorie aller Fragen
                         </a>
                     </li>
                 </ul>
