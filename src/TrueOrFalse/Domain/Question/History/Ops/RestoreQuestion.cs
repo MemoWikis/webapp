@@ -9,7 +9,8 @@ public class RestoreQuestion
         var historicQuestion = questionChange.ToHistoricQuestion();
         // TODO FK author?
         //Sl.QuestionRepo.Update(historicQuestion, author);
-        Sl.QuestionRepo.Update(historicQuestion);
+        //Sl.QuestionRepo.Update(historicQuestion, merge: true);
+        Sl.QuestionRepo.Merge(historicQuestion);
 
         NotifyAboutRestore(questionChange);
     }
