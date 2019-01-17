@@ -5,6 +5,7 @@ using System.Text.RegularExpressions;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
+using EasyNetQ.Events;
 using FluentNHibernate.Utils;
 using TrueOrFalse.Web;
 using TrueOrFalse.Web.Uris;
@@ -479,6 +480,12 @@ namespace TrueOrFalse.Frontend.Web.Code
 
             return Regex.IsMatch(url, "https?://.{0,3}wikipedia.");
         }
+
+
+        // Partner
+
+        public static string Tutory = "https://www.tutory.de";
+        public static string TutoryImage = "/Images/LogosPartners/Logo_tutory_250px.png";
     }
 }
  
