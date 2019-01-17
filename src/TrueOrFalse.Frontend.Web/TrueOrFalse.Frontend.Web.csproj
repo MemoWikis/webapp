@@ -20175,6 +20175,9 @@
     <Content Include="Views\Maintenance\Js\ContentStats.js">
       <DependentUpon>ContentStats.ts</DependentUpon>
     </Content>
+    <Content Include="Views\Questions\Answer\AnswerQuestionDetails.css">
+      <DependentUpon>AnswerQuestionDetails.less</DependentUpon>
+    </Content>
     <Content Include="Views\Questions\Answer\Js\AnswerBody.js">
       <DependentUpon>AnswerBody.ts</DependentUpon>
     </Content>
@@ -22524,6 +22527,7 @@
     <Content Include="Views\Welcome\Team.aspx" />
     <Content Include="Views\Welcome\Team.less" />
     <Content Include="Views\Shared\Spinner\Spinner.less" />
+    <Content Include="Views\Questions\Answer\AnswerQuestionDetails.less" />
     <None Include="Web.overwritten.config" />
     <None Include="Web.overwritten.config.sample" />
     <Content Include="Views\Welcome\Logout.aspx" />

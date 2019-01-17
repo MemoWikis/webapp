@@ -322,5 +322,9 @@
   {
     "outputFile": "Views/Shared/Spinner/Spinner.css",
     "inputFile": "Views/Shared/Spinner/Spinner.less"
+  },
+  {
+    "outputFile": "Views/Questions/Answer/AnswerQuestionDetails.css",
+    "inputFile": "Views/Questions/Answer/AnswerQuestionDetails.less"
   }
 ]
