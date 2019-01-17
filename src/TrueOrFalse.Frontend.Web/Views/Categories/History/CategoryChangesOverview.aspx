@@ -33,9 +33,9 @@
                     um <%= item.Time %>
                 </div>
                 <div class="col-xs-6 pull-right">    
-                    <a>
+                    <%--<a>
                         <i class="fa fa-comment-o"></i> #
-                    </a>&nbsp;
+                    </a>&nbsp;--%>
                     
                     <a class="btn btn-sm btn-default btn-primary" href="<%= Links.CategoryDetail(item.CategoryName, item.CategoryId, item.CategoryChangeId) %>">
                         <i class="fa fa-desktop"></i> Revision anzeigen
