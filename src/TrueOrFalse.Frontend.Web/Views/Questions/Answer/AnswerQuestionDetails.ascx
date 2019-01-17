@@ -1,37 +1,14 @@
 ﻿<%@ Control Language="C#" Inherits="System.Web.Mvc.ViewUserControl<AnswerQuestionModel>" %>
-<%@ Import Namespace="TrueOrFalse" %>
 <%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
 
 <div class="row">
     <div class="separationBorderTop col-xs-12" style="min-height: 20px;"></div>
 </div>
 <div class="row">
-    <div class="col-xs-12">
-<%--            <p>
-            von: <a href="<%= Links.UserDetail(Model.Creator) %>"><%= Model.CreatorName %></a><%= Model.Visibility != QuestionVisibility.All ? " <i class='fa fa-lock show-tooltip' title='Private Frage'></i>" : "" %><br />
-            vor <span class="show-tooltip" title="erstellt am <%= Model.CreationDate %>" ><%= Model.CreationDateNiceText %></span> <br />
-        </p>--%>
-                                
-<%--            <% if (Model.IsOwner)
-           { %>
-            <div id="EditQuestion">
-                <a href="<%= Links.EditQuestion(Url, Model.QuestionText, Model.QuestionId) %>" class="TextLinkWithIcon">
-                    <i class="fa fa-pencil"></i>
-                    <span class="TextSpan">Frage bearbeiten</span>
-                </a>
-            </div>
-        
-            <div id="DeleteQuestion">
-                <a class="TextLinkWithIcon" data-toggle="modal" data-questionId="<%= Model.QuestionId %>" href="#modalDeleteQuestion">
-                    <i class="fa fa-trash-o"></i> <span class="TextSpan">Frage löschen</span>
-                </a>
-            </div>
-            <%--</div>--%>
-      <%--  <% } %>--%>
-    
+    <div class="col-xs-12">  
         <% if (Model.Categories.Count > 0)
            { %>
-            <div class="margin-left-first" style="float:left">
+            <div class="margin-left-first float-left">
                 <% Html.RenderPartial("CategoriesOfQuestion", Model.Question); %>
             </div>
         <% } %>
@@ -51,8 +28,8 @@
             <% } %>
 
         <% } %>
-        <div class="fa fa-chevron-right margin-left margin-right-50"></div>     
-        
+        <div class="fa fa-chevron-right margin-left"></div>     
+        <span class="float-right">
         <% if(Model.HistoryAndProbability.QuestionValuation.IsInWishKnowledge()) { 
                var status = Model.HistoryAndProbability.QuestionValuation.KnowledgeStatus; %>
             
@@ -60,23 +37,23 @@
                     <%= status.GetText() %>
                 </span>
             
-        <% }
-           else
-           { %>
-               <%--<div class="width-100"></div>--%>
-         <%  } %>
-        <span class="show-tooltip margin-left" title="Insgesamt <%=Model.HistoryAndProbability.AnswerHistory.TimesAnsweredTotal%>x beantwortet"><%=Model.HistoryAndProbability.AnswerHistory.TimesAnsweredTotal%>x </span>
-        <span class="sparklineTotals margin-left" data-answersTrue="<%= Model.HistoryAndProbability.AnswerHistory.TimesAnsweredCorrect %>" data-answersFalse="<%= Model.HistoryAndProbability.AnswerHistory.TimesAnsweredWrongTotal %>"></span>
-        <span class="show-tooltip margin-left" title="Von dir <%=Model.HistoryAndProbability.AnswerHistory.TimesAnsweredUser%>x beantwortet">  ich: <%= Model.HistoryAndProbability.AnswerHistory.TimesAnsweredUser%>x </span>
-        <span class="sparklineTotalsUser margin-left" data-answersTrue="<%= Model.HistoryAndProbability.AnswerHistory.TimesAnsweredUserTrue  %>" data-answersFalse="<%= Model.HistoryAndProbability.AnswerHistory.TimesAnsweredUserWrong %>"></span>
-
-        <span class="show-tooltip margin-left" title="Die Frage wurde <%= Model.TotalRelevancePersonalEntries %>x zum Wunschwissen hinzugefügt.">
-            <i class="fa fa-heart greyed"></i> 
-            <span id="sideWishKnowledgeCount"><%= Model.TotalRelevancePersonalEntries %>x</span>
-        </span>                
-        <span class="show-tooltip margin-left" title="Die Frage wurde <%= Model.TotalViews %>x mal gesehen.">
-            <i class="fa fa-eye"></i> <%= Model.TotalViews %>x
+        <% } %>
+        <span class="show-tooltip margin-left-20" title="Insgesamt <%=Model.HistoryAndProbability.AnswerHistory.TimesAnsweredTotal%>x beantwortet"><%=Model.HistoryAndProbability.AnswerHistory.TimesAnsweredTotal%>x </span>
+        <span class="sparklineTotals" data-answersTrue="<%= Model.HistoryAndProbability.AnswerHistory.TimesAnsweredCorrect %>" data-answersFalse="<%= Model.HistoryAndProbability.AnswerHistory.TimesAnsweredWrongTotal %>"></span>
+        
+        <span class="show-tooltip" title="Von dir <%=Model.HistoryAndProbability.AnswerHistory.TimesAnsweredUser%>x beantwortet">  ich: <%= Model.HistoryAndProbability.AnswerHistory.TimesAnsweredUser%>x </span>
+        <span class="sparklineTotalsUser" data-answersTrue="<%= Model.HistoryAndProbability.AnswerHistory.TimesAnsweredUserTrue  %>" data-answersFalse="<%= Model.HistoryAndProbability.AnswerHistory.TimesAnsweredUserWrong %>"></span>
+        <span class="margin-left-20">
+            <% Html.RenderPartial("~/Views/Shared/CorrectnessProbability.ascx", Model.HistoryAndProbability.CorrectnessProbability); %>             
         </span>
-        <% Html.RenderPartial("~/Views/Shared/CorrectnessProbability.ascx", Model.HistoryAndProbability.CorrectnessProbability); %>
+        
+            <span class="show-tooltip margin-left-20" title="Die Frage wurde <%= Model.TotalViews %>x mal gesehen.">
+                <i class="fa fa-eye"></i> <%= Model.TotalViews %>x
+            </span>
+            <span class="show-tooltip margin-left" title="Die Frage wurde <%= Model.TotalRelevancePersonalEntries %>x zum Wunschwissen hinzugefügt.">
+                <i class="fa fa-heart greyed"></i> 
+                <span id="sideWishKnowledgeCount"><%= Model.TotalRelevancePersonalEntries %>x</span>
+            </span> 
+        </span>
     </div>
 </div>

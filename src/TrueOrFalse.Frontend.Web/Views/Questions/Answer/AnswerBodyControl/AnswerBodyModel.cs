@@ -18,7 +18,6 @@ public class AnswerBodyModel : BaseModel
     public bool IsInWishknowledge;
     public KnowledgeStatus KnowledgeStatus;
 
-    public int QuestionId;
     public string QuestionLastEditedOn;
     public string QuestionText;
     public string QuestionTextMarkdown;
@@ -44,8 +43,6 @@ public class AnswerBodyModel : BaseModel
     public bool IsLastLearningStep = false;
     public bool IsTestSession;
     public int TestSessionProgessAfterAnswering;
-
-    public bool IsLastQuestion = false;
 
     public bool ShowCommentLink => 
         CommentCount != -1 && 
