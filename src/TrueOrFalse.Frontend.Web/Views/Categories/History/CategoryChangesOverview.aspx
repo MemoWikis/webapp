@@ -55,11 +55,11 @@
     <br />
     <div class="col-md-12 text-center">
         <div class="btn-group" role="group">
-            <a type="button" class="btn btn-default" href="<%= Links.HistoryOfEverything(Model.PageToShow-1) %>" <%= Model.PageToShow == 1 ? "disabled" : "" %>>
+            <a type="button" class="btn btn-default" href="<%= Links.CategoryChangesOverview(Model.PageToShow-1) %>" <%= Model.PageToShow == 1 ? "disabled" : "" %>>
                 Neuere Revisionen
 
             </a>
-            <a type="button" class="btn btn-default" href="<%= Links.HistoryOfEverything(Model.PageToShow+1) %>">
+            <a type="button" class="btn btn-default" href="<%= Links.CategoryChangesOverview(Model.PageToShow+1) %>">
                 Ältere Revisionen
             </a>
         </div>

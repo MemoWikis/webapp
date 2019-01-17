@@ -101,6 +101,7 @@ namespace TrueOrFalse
             /* API */ routes.MapRoute("Set_ChangeIndicies", "Set/UpdateQuestionsOrder", new { controller = "EditSet", action = "UpdateQuestionsOrder" });
             /* API */ routes.MapRoute("Set_ImageUpload", "Set/UploadImage/{id}", new { controller = "EditSet", action = "UploadImage", id = UrlParameter.Optional });
 
+            routes.MapRoute("Category_Changes_Overview", "Kategorien/Historie/{pageToShow}", new { controller = "CategoryChangesOverview", action = "List" });
             routes.MapRoute("Categories_WishSearch", "Kategorien/Wunschwissen/Suche/{searchTerm}", new { controller = "Categories", action = "CategoriesWish", searchTerm = UrlParameter.Optional });
             routes.MapRoute("Categories_WishSearchApi", "Kategorien/Wunschwissen/SucheApi", new { controller = "Categories", action = "SearchApiWish" });
             routes.MapRoute("Categories", "Kategorien", new { controller = "Categories", action = "Categories" });
@@ -114,7 +115,6 @@ namespace TrueOrFalse
             routes.MapRoute("Category_Detail", "Kategorien/{text}/{id}", new { controller = "Category", action = "Category" });
             routes.MapRoute("Category_History", "Kategorien/{categoryName}/{categoryId}/Historie", new { controller = "CategoryHistory", action = "List" });
             routes.MapRoute("Category_History_Detail", "Kategorien/{categoryName}/{categoryId}/Historie/{categoryChangeId}", new { controller = "CategoryHistoryDetail", action = "Detail" });
-            routes.MapRoute("HistoryOfEverything", "Historie/{pageToShow}", new { controller = "HistoryOfEverything", action = "List" });
             /* API */
             routes.MapRoute("Categories_AddSubCategoryRow", "Categories/AddSubCategoryRow", new { controller = "EditCategory", action = "AddSubCategoryRow" });
             /* API */ routes.MapRoute("Categories_EditSubCategoryItems", "Categories/EditSubCategoryItems/{id}", new { controller = "EditSubCategoryItems", action = "Edit" });
