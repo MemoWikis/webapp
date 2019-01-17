@@ -34,7 +34,7 @@ public class QuestionRepo : RepositoryDbBase<Question>
         UpdateOrMerge(question, merge: true);
     }
 
-    private new void UpdateOrMerge(Question question, bool merge)
+    private void UpdateOrMerge(Question question, bool merge)
     {
         var categoriesIds = _session
             .CreateSQLQuery("SELECT Category_id FROM categories_to_questions WHERE Question_id =" + question.Id)
@@ -49,6 +49,7 @@ public class QuestionRepo : RepositoryDbBase<Question>
         var categoriesBeforeUpdateIds = categoriesIds.Union(categoriesReferences);
 
         _searchIndexQuestion.Update(question);
+
         if (merge)
             base.Merge(question);
         else

@@ -37,8 +37,6 @@ public class QuestionEditData_V1 : QuestionEditData
 
         Sl.Session.Evict(question);
 
-        //TODO FK ToQuestion
-        //question.IsHistoric = true;
         question.Text = this.QuestionText;
         question.TextExtended = this.QuestionTextExtended;
         question.License = this.License;
