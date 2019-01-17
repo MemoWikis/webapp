@@ -10,7 +10,7 @@
     
     <div class="row">
         <div class="col-12">
-            <h1><i class="fa fa-code-fork"></i>&nbsp; Bearbeitungshistorie aller Themen</h1>
+            <h1><i class="fa fa-list"></i>&nbsp; Bearbeitungshistorie aller Themen</h1>
         </div>
     </div>
     <% foreach (var day in Model.Days) { %>
