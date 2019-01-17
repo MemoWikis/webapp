@@ -51,14 +51,9 @@
     
     <div id="TopicTabContent" class="TabContent">
         <div id="module">
-            <ul class="list-group" v-sortable>
-                <li class="list-group-item">test1</li>
-                <li class="list-group-item">test2</li>
-                <li class="list-group-item">test3</li>
             <%-- <vue-nestable v-model="nestableItems" key-prop="key" children-prop="nested" class-prop="class"> --%>
                 <% Html.RenderPartial("~/Views/Categories/Detail/Tabs/TopicTab.ascx", Model); %>
             <%-- </vue-nestable> --%>
-            </ul>
         </div>               
     </div>
     
