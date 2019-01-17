@@ -2,7 +2,7 @@
 <%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
 
 
-<li class="list-group-item module">
+<li class="module">
     <content-module inline-template>
           
         <div class="ContentModule" @mouseenter="updateHoverState(true)" @mouseleave="updateHoverState(false)" v-if="!isDeleted">

@@ -179,6 +179,7 @@
    } else { %>
                     
     <div class="MarkdownContent">
+        <ul class="module" v-sortable="{ handle: '.Handle' }" style="list-style-type: none;"><%= Model.CustomPageHtml %></ul>
     </div>
 
 <% } %>
