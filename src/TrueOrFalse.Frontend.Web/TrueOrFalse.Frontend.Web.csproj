@@ -20187,6 +20187,7 @@
       <DependentUpon>Page.ts</DependentUpon>
     </Content>
     <Content Include="Views\Questions\History\Detail\QuestionHistoryDetail.aspx" />
+    <Content Include="Views\Questions\History\QuestionChangesOverview.aspx" />
     <Content Include="Views\Questions\History\QuestionHistory.aspx" />
     <Content Include="Views\Questions\History\CategoryHistory.css">
       <DependentUpon>QuestionHistory.less</DependentUpon>
@@ -20322,6 +20323,8 @@
     <Compile Include="Views\Questions\Answer\TestSession\TestSessionController.cs" />
     <Compile Include="Views\Questions\History\Detail\QuestionHistoryDetailController.cs" />
     <Compile Include="Views\Questions\History\Detail\QuestionHistoryDetailModel.cs" />
+    <Compile Include="Views\Questions\History\QuestionChangesOverviewController.cs" />
+    <Compile Include="Views\Questions\History\QuestionChangesOverviewModel.cs" />
     <Compile Include="Views\Questions\History\QuestionHistoryController.cs" />
     <Compile Include="Views\Questions\History\QuestionHistoryModel.cs" />
     <Compile Include="Views\Sets\Detail\SetKnowledgeBarModel.cs" />

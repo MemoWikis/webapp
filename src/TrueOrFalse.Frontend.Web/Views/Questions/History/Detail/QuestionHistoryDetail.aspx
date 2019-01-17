@@ -55,7 +55,7 @@
                         <% } %>
                     </li>
                     <li>
-                        <a href="<%= Links.HistoryOfEverything(1) %>">
+                        <a href="<%= Links.QuestionChangesOverview(1) %>">
                             <i class="fa fa-list"></i> &nbsp; Bearbeitungshistorie aller Fragen
                         </a>
                     </li>

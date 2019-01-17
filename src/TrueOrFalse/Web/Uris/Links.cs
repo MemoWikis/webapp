@@ -148,6 +148,9 @@ namespace TrueOrFalse.Frontend.Web.Code
         public static string QuestionRestore(int questionId, int questionChangeId) =>
             GetUrlHelper().Action("Restore", QuestionsController, new { questionId = questionId, questionChangeId = questionChangeId });
 
+        public static string QuestionChangesOverview(int pageToShow) =>
+            GetUrlHelper().Action("List", "QuestionChangesOverview", new { pageToShow = pageToShow });
+
         public static string AnswerQuestion(Question question, Set set) => AnswerQuestion(GetUrlHelper(), question, set);
 
         public static string AnswerQuestion(UrlHelper url, Question question, Set set){

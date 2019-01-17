@@ -40,6 +40,7 @@ namespace TrueOrFalse
             routes.MapRoute("Users", "Nutzer", new { controller = "Users", action = "Users" }); //included: , page = UrlParameter.Optional 
             routes.MapRoute("Users_Network", "Netzwerk", new { controller = "Users", action = "Network"});
 
+            routes.MapRoute("Questions_Changes_Overview", "Fragen/Historie/{pageToShow}", new { controller = "QuestionChangesOverview", action = "List" });
             routes.MapRoute("Questions_MineSearchApi", "Fragen/Meine/SucheApi", new { controller = "Questions", action = "QuestionsMineSearchApi" }, new[] { "TrueOrFalse" });
             routes.MapRoute("Questions_MineSearch", "Fragen/Meine/Suche/{searchTerm}", new { controller = "Questions", action = "QuestionsMineSearch", searchTerm = UrlParameter.Optional }, new[]{"TrueOrFalse"});
             routes.MapRoute("Questions_Mine", "Fragen/Meine", new { controller = "Questions", action = "QuestionsMine" }, new[]{"TrueOrFalse"});
