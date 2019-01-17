@@ -2,14 +2,14 @@
 <%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
 
 
-<li class="module">
-    <div class="singleCatFullWidth">
-        
-        <content-module inline-template>
-            <div class="ContentModule" @mouseenter="updateHoverState(true)" @mouseleave="updateHoverState(false)" v-if="!isDeleted">
-                <div class="ModuleBorder" v-bind:class="{ active : hoverState }">
-
-                <div class="well">
+<li class="list-group-item module">
+    <content-module inline-template>
+          
+        <div class="ContentModule" @mouseenter="updateHoverState(true)" @mouseleave="updateHoverState(false)" v-if="!isDeleted">
+            <div class="ModuleBorder" v-bind:class="{ active : hoverState }">  
+                
+                <div class="singleCatFullWidth">            
+                    <div class="well">
                     <div class="row">
                         <div class="col-xs-3">
                             <div class="ImageContainer">
@@ -73,8 +73,8 @@
                 </div>
 
             </div>    
-        </content-module>
+        </div>
 
-    </div>
+    </content-module>    
 </li>        
 

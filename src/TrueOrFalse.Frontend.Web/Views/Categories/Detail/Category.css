@@ -1285,3 +1285,6 @@ p:empty {
   max-width: 21px;
   max-height: 40px;
 }
+.sortable-ghost {
+  background: #dddddd;
+}

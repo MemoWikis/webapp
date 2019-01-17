@@ -22,11 +22,7 @@
     <%= Scripts.Render("~/bundles/js/Category") %>
     <%= Scripts.Render("~/bundles/js/DeleteQuestion") %>
     <%= Scripts.Render("~/bundles/js/AnswerQuestion") %>    
-    <script src="https://unpkg.com/sortablejs@1.4.2"></script>
     <%= Scripts.Render("~/bundles/js/CategorySort") %>
-    
-    
-    <%-- <script src="https://unpkg.com/vue-sortable@0.1.3"></script> --%>
 
     <script type="text/javascript" src="https://www.google.com/jsapi"></script>
     <%  
@@ -51,9 +47,7 @@
     
     <div id="TopicTabContent" class="TabContent">
         <div id="module">
-            <%-- <vue-nestable v-model="nestableItems" key-prop="key" children-prop="nested" class-prop="class"> --%>
-                <% Html.RenderPartial("~/Views/Categories/Detail/Tabs/TopicTab.ascx", Model); %>
-            <%-- </vue-nestable> --%>
+            <% Html.RenderPartial("~/Views/Categories/Detail/Tabs/TopicTab.ascx", Model); %>
         </div>               
     </div>
     

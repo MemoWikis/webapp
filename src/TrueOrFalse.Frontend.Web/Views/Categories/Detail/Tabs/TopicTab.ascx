@@ -106,7 +106,9 @@
                         <% Html.RenderPartial("Reference", Model.Category); %>
                     </div>
                 <% } %>
-                        
+                
+                
+
                 <div class="Description"><span><%= Model.Description %></span></div>
                         
                 <% if (!String.IsNullOrEmpty(Model.Url)){ %>
@@ -177,7 +179,6 @@
    } else { %>
                     
     <div class="MarkdownContent">
-        <ul class="module" v-sortable="{ handle: '.Handle' }" style="list-style-type: none;"><%= Model.CustomPageHtml %></ul>
     </div>
 
 <% } %>

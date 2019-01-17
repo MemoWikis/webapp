@@ -1,41 +1,34 @@
 ﻿declare var Vue: any;
 declare var Sortable: any;
+declare var Editor: any;
 
-Vue.component('inline-editor-component',
-    { 
-
+Vue.component('inline-editor-component', { 
         data: function() {
             return {
-                editOffset: -1,
-                editText: {},
-                editTextOri: {},
-                text: [
-                    { article: 'Inline Editor Test lorem ipsum etc'},
-                ],
+                editor: null,
             }
-            
         },
 
         methods: {
 
             startEditing(index) {
-                this.editOffset = index
-                this.editText = this.text[index]
-                this.editTextOri = JSON.parse(JSON.stringify(this.editText))
+                this.editOffset = index;
+                this.editText = this.text[index];
+                this.editTextOri = JSON.parse(JSON.stringify(this.editText));
 
-                this.$nextTick(function () {
-                    console.log('item-article-' + this.editOffset)
-                    document.getElementById('item-article-' + this.editOffset).focus()
-                }.bind(this))
+                this.$nextTick(function() {
+                    console.log('item-article-' + this.editOffset);
+                    document.getElementById('item-article-' + this.editOffset).focus();
+                }.bind(this));
             },
             updateText() {
-                this.editOffset = -1
+                this.editOffset = -1;
                 this.editTextOri = {}
                 this.editText = {}
             },
             cancelEditing() {
-                this.$set(this.text, this.editOffset, this.editTextOri)
-                this.editOffset = -1
+                this.$set(this.text, this.editOffset, this.editTextOri);
+                this.editOffset = -1;
                 this.editTextOri = {}
                 this.editText = {}
             },
@@ -43,7 +36,6 @@ Vue.component('inline-editor-component',
 
     }
 );
-
 
 Vue.component('content-module', {
 
@@ -56,13 +48,13 @@ Vue.component('content-module', {
 
     methods: {
         updateHoverState(isHover) {
-            var self = this;
+            const self = this;
             self.hoverState = isHover;
             console.log(self.hoverState);
         },
 
         deleteModule() {
-            var self = this;
+            const self = this;
             self.isDeleted = true;
         },
     }
@@ -80,9 +72,7 @@ Vue.directive('sortable', {
     inserted: function (el, binding) {
         new Sortable(el, binding.value || {})
     }
-})
-
-
+});
 
 new Vue({
     el: '#module',
