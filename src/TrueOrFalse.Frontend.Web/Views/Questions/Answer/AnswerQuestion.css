@@ -430,6 +430,9 @@
   font-size: 14px;
   line-height: 1.42857143;
 }
+#AnswerBody h1 {
+  width: 20em;
+}
 .QuestionText {
   padding-bottom: 20px;
 }
@@ -1095,4 +1098,19 @@
 .singleSetFullWidth .buttons .dropdown,
 .singleCatFullWidth .buttons .dropdown {
   display: inline-block;
+}
+/*--------------------------ActivityPoints---------------------
+
+---------------------------------------------------------------*/
+#activityPointsDispaly {
+  float: right;
+}
+/*-----------------------AnswerQuestionBodyMenu--------------------
+
+---------------------------------------------------------------*/
+.AnswerQuestionBodyMenu {
+  float: right;
+}
+.AnswerQuestionBodyMenu .float-left {
+  float: left;
 }

@@ -124,7 +124,7 @@
         
 
     <div class="row">
-        <div class="col-xs-12">
+        <div class="col-xs-8">
             
             <% Html.RenderPartial("~/Views/Questions/Answer/AnswerBodyControl/AnswerBody.ascx",
                    new AnswerBodyModel(Model)); %>
@@ -140,24 +140,34 @@
                     <% Html.RenderPartial("~/Views/Questions/Answer/AnswerQuestionDetails.ascx", Model); %>
                 </div>
             </div>
-            
-            <% if (Model.ContentRecommendationResult != null) { %>
-                <h4 style="margin-top: 30px;">Das könnte dich auch interessieren:</h4>
-                <div class="row CardsLandscapeNarrow" id="contentRecommendation">
-                    <% foreach (var set in Model.ContentRecommendationResult.Sets)
-                       {
-                            Html.RenderPartial("~/Views/Welcome/WelcomeBoxSingleSet.ascx", WelcomeBoxSingleSetModel.GetWelcomeBoxSetSingleModel(set.Id));
-                       } %>
-                    <% foreach (var category in Model.ContentRecommendationResult.Categories)
-                       {
-                            Html.RenderPartial("Cards/CardSingleCategory", CardSingleCategoryModel.GetCardSingleCategoryModel(category.Id));
-                       } %>
-                    <% foreach (var set in Model.ContentRecommendationResult.PopularSets)
-                       { 
-                            Html.RenderPartial("~/Views/Welcome/WelcomeBoxSingleSet.ascx", WelcomeBoxSingleSetModel.GetWelcomeBoxSetSingleModel(set.Id));
-                       } %>
-                </div>
-            <% } %>
+        </div>
+        <div class="col-xs-4">
+            <% Html.RenderPartial("~/Views/Shared/Cards/CardQuestionAuthor.ascx", new CardQuestionAuthorModel()); %>
+            <% Html.RenderPartial("~/Views/Shared/Cards/CardTutory.ascx"); %>
+            <div class="well"> Frage erstellen </div>
+        </div>
+    </div>
+
+
+        <div class="row">
+            <div class ="col-xs-12">
+                <% if (Model.ContentRecommendationResult != null) { %>
+                    <h4 style="margin-top: 30px;">Das könnte dich auch interessieren:</h4>
+                    <div class="row CardsLandscapeNarrow" id="contentRecommendation">
+                        <% foreach (var set in Model.ContentRecommendationResult.Sets)
+                           {
+                                Html.RenderPartial("~/Views/Welcome/WelcomeBoxSingleSet.ascx", WelcomeBoxSingleSetModel.GetWelcomeBoxSetSingleModel(set.Id));
+                           } %>
+                        <% foreach (var category in Model.ContentRecommendationResult.Categories)
+                           {
+                                Html.RenderPartial("Cards/CardSingleCategory", CardSingleCategoryModel.GetCardSingleCategoryModel(category.Id));
+                           } %>
+                        <% foreach (var set in Model.ContentRecommendationResult.PopularSets)
+                           { 
+                                Html.RenderPartial("~/Views/Welcome/WelcomeBoxSingleSet.ascx", WelcomeBoxSingleSetModel.GetWelcomeBoxSetSingleModel(set.Id));
+                           } %>
+                    </div>
+                <% } %>
 
             <div class="row" style="margin-top: 30px; color: darkgray; font-weight: bold;">
 
@@ -207,6 +217,7 @@
             <% } %>
 
         </div>
+  
         
         
     

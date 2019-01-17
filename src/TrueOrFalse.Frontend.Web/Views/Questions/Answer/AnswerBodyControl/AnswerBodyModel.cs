@@ -15,6 +15,7 @@ public class AnswerBodyModel : BaseModel
     public int QuestionId;
 
     public User Creator;
+    public bool IsCreator;
     public bool IsInWishknowledge;
     public KnowledgeStatus KnowledgeStatus;
 
@@ -136,10 +137,13 @@ public class AnswerBodyModel : BaseModel
         PrimarySetMini = question.SetTop5Minis.FirstOrDefault();
         QuestionId = question.Id;
         Creator = question.Creator;
+        IsCreator = Creator.Id == UserId;
+        
         CreationDate = question.DateCreated.ToString("dd.MM.yyyy HH:mm:ss");
         CreationDateNiceText = DateTimeUtils.TimeElapsedAsText(question.DateCreated);
         QuestionLastEditedOn = DateTimeUtils.TimeElapsedAsText(question.DateModified);
         Question = question;
+
 
         var questionValuationForUser = NotNull.Run(Sl.QuestionValuationRepo.GetByFromCache(question.Id, UserId));
         KnowledgeStatus = questionValuationForUser.KnowledgeStatus; 
