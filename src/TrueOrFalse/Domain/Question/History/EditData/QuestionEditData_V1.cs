@@ -44,9 +44,6 @@ public class QuestionEditData_V1 : QuestionEditData
         question.Solution = this.Solution;
         question.Description = this.SolutionDescription;
         question.SolutionMetadataJson = this.SolutionMetadataJson;
-        
-        // Historic question relations cannot be loaded because we do not have archive data and
-        // loading them leads to nasty conflicts and nuisance with NHibernate.
 
         return question;
     }

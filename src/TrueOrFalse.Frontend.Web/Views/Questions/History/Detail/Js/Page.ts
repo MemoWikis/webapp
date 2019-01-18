@@ -58,9 +58,6 @@ function ShowQuestionDiff2Html() {
     {
         $("#diffPanel").hide();
         $("#noChangesAlert").show();
-    } else {
-        //if (!prevRelations || !currentRelations)
-        //    $('#noRelationsAlert').show();
     }
 }
 

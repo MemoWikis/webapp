@@ -1,12 +1,16 @@
 ﻿<%@ Page Language="C#" MasterPageFile="~/Views/Shared/Site.Sidebar.Master" Inherits="ViewPage<QuestionHistoryModel>" %>
 <%@ Import Namespace="System.Web.Optimization" %>
 <%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
-<%@ Import Namespace="Microsoft.Owin.Security.DataHandler.Encoder" %>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="Head" runat="server">
     <%= Styles.Render("~/bundles/QuestionHistory") %>
     <% 
-        Model.TopNavMenu.BreadCrumb.Add(new TopNavMenuItem {Text = Model.QuestionName.TruncateAtWord(80), Url = Model.QuestionUrl, ToolTipText = Model.QuestionName});
+        Model.TopNavMenu.BreadCrumb.Add(new TopNavMenuItem
+        {
+            Text = Model.QuestionName.TruncateAtWord(80),
+            Url = Model.QuestionUrl,
+            ToolTipText = Model.QuestionName
+        });
         Model.TopNavMenu.IsCategoryBreadCrumb = false;
     %>
 </asp:Content>

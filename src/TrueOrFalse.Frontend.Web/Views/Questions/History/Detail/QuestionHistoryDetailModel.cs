@@ -74,14 +74,6 @@ public class QuestionHistoryDetailModel : BaseModel
             PrevSolutionDescription = prevRevisionData.SolutionDescription?.Replace("\\r\\n", "\r\n");
             PrevSolutionMetadataJson = prevRevisionData.SolutionMetadataJson;
 
-            //if (currentRevision.DataVersion >= 2 && previousRevision.DataVersion >= 2)
-            //{
-            //    var currentRelationsList = ((QuestionEditData_V2)currentRevisionData).QuestionRelations;
-            //    var prevRelationsList = ((QuestionEditData_V2)prevRevisionData).QuestionRelations;
-
-            //    CurrentRelations = SortedListOfRelations(currentRelationsList);
-            //    PrevRelations = SortedListOfRelations(prevRelationsList);
-            //}
         }
 
         QuestionId = currentRevision.Question.Id;
@@ -92,52 +84,5 @@ public class QuestionHistoryDetailModel : BaseModel
         AuthorImageUrl = new UserImageSettings(currentRevision.Author.Id).GetUrl_85px_square(currentRevision.Author).Url;
     }
 
-
-    //private string Relation2String(QuestionRelation_EditData relation)
-    //{
-    //    var relatedQuestion = Sl.QuestionRepo.GetById(relation.RelatedQuestionId);
-    //    string res;
-    //    switch (relation.RelationType)
-    //    {
-    //        case QuestionRelationType.IsChildQuestionOf:
-    //            res = $"\"{relatedQuestion.Name}\" (ist übergeordnet)";
-    //            break;
-    //        case QuestionRelationType.IncludesContentOf:
-    //            res = $"\"{relatedQuestion.Name}\" (ist untergeordnet)";
-    //            break;
-    //        default:
-    //            res = $"\"{relatedQuestion.Name}\" (hat undefinierte Beziehung)";
-    //            break;
-    //    }
-
-    //    return res;
-    //}
-
-    //private string SortedListOfRelations(IList<QuestionRelation_EditData_V2> relations)
-    //{
-    //    string res = "";
-    //    if (relations.IsNotEmpty())
-    //    {
-    //        var parents = relations.Where(r => r.RelationType == QuestionRelationType.IsChildQuestionOf);
-    //        res += "Übergeordnete Fragen\n";
-    //        res += (parents.IsEmpty())
-    //            ? "<keine>"
-    //            : string.Join("\n", parents.Select(Relation2String));
-
-    //        var children = relations.Where(r => r.RelationType == QuestionRelationType.IncludesContentOf);
-    //        res += "\n\nUntergeordnete Fragen\n";
-    //        res += (children.IsEmpty())
-    //            ? "<keine>"
-    //            : string.Join("\n", children.Select(Relation2String));
-
-    //        var otherRelations = relations.Where(r => r.RelationType != QuestionRelationType.IsChildQuestionOf && r.RelationType != QuestionRelationType.IncludesContentOf);
-    //        res += "\n\nAndere Beziehungsdaten\n";
-    //        res += (otherRelations.IsEmpty())
-    //            ? "<keine>"
-    //            : string.Join("\n", children.Select(Relation2String));
-    //    }
-
-    //    return res;
-    //}
 }
 

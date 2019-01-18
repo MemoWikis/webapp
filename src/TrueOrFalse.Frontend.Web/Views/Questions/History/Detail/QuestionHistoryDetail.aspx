@@ -7,8 +7,15 @@
     <%= Scripts.Render("~/bundles/js/QuestionHistoryDetail") %>
     <%= Scripts.Render("~/bundles/js/diff2html") %>
     <%= Styles.Render("~/Scripts/vendor/diff2html/diff2html.css") %>
-    <%  Model.TopNavMenu.BreadCrumb.Add(new TopNavMenuItem {Text = Model.CurrentQuestionText.TruncateAtWord(80), Url = Model.QuestionUrl, ToolTipText = Model.CurrentQuestionText});
-        Model.TopNavMenu.IsCategoryBreadCrumb = false; %>
+    <% 
+        Model.TopNavMenu.BreadCrumb.Add(new TopNavMenuItem
+        {
+            Text = Model.CurrentQuestionText.TruncateAtWord(80),
+            Url = Model.QuestionUrl,
+            ToolTipText = Model.CurrentQuestionText
+        });
+        Model.TopNavMenu.IsCategoryBreadCrumb = false;
+    %>
 </asp:Content>
 
 <asp:Content ID="Content3" ContentPlaceHolderID="MainContent" runat="server">
