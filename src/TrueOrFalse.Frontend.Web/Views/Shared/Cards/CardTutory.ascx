@@ -1,7 +1,4 @@
-﻿
-
-
-<%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
+﻿<%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
 
 <div class="well">
     <div class="img-logo">
