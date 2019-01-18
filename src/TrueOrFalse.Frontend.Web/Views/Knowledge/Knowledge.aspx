@@ -19,68 +19,62 @@
 </asp:Content>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
-    <% if (Model.IsLoggedIn){ %>
-    <input type="hidden" id="hddNoQuestionUrl" value="<%= Links.NoQuestionUrl %>" />
-    <input type="hidden" id="hddNoCategoryUrl" value="<%= Links.NoCategoryUrl %>" />
-    <!-- Spinner-->
-    <div class="spinner">
-        <div class="double-bounce1"></div>
-        <div class="double-bounce2"></div>
-    </div>
-    
+    <% if (Model.IsLoggedIn){
 
-    <input type="hidden" id="hddUrlAddTopic" value="<%= Url.Action("Create", "EditCategory") %>" />
-    <input type="hidden" id="hddUrlAddQuestion" value="<%= Links.CreateQuestion() %>" />
+        Html.RenderPartial("~/Views/Shared/Spinner/spinner.ascx"); %>
+        <input type="hidden" id="hddNoQuestionUrl" value="<%= Links.NoQuestionUrl %>" />
+        <input type="hidden" id="hddNoCategoryUrl" value="<%= Links.NoCategoryUrl %>" />
+        <input type="hidden" id="hddUrlAddTopic" value="<%= Url.Action("Create", "EditCategory") %>" />
+        <input type="hidden" id="hddUrlAddQuestion" value="<%= Links.CreateQuestion() %>" />
 
 
-    <script type="text/javascript">
+        <script type="text/javascript">
 
-        google.load("visualization", "1", { packages: ["corechart"] });
+            google.load("visualization", "1", { packages: ["corechart"] });
 
-        var isGoogleApiInitialized = false;
-        google.setOnLoadCallback(isApiInitialized);
+            var isGoogleApiInitialized = false;
+            google.setOnLoadCallback(isApiInitialized);
 
-        function isApiInitialized() {
-            isGoogleApiInitialized = true;
-        }
-    </script>
-    <div class="row">
-        <div class="col-xs-12">
-            <div id="CategoryHeader">
-                <div id="ManagementMobile">
-                    <div class="Buttons">
-                        <div class="Button"><a class="LinkIsDirectedToPartialView" href="<%= Links.StartWishLearningSession() %>">Lernsitzung starten</a></div>
-                    </div>
-                </div>
-                <div id="TabsBar">
-                    <div class="Tabs">
-                        <div class="Tab active"><a href="#" id="dashboard">Überblick</a></div>
-                        <div class="Tab"><a href="#" id="topics">Themen</a></div>
-                        <div class="Tab"><a href="#" id="questions">Fragen</a></div>
-                    </div>
-                    <div class="Border"></div>
-                    <div id="Management">
+            function isApiInitialized() {
+                isGoogleApiInitialized = true;
+            }
+        </script>
+        <div class="row">
+            <div class="col-xs-12">
+                <div id="CategoryHeader">
+                    <div id="ManagementMobile">
                         <div class="Buttons">
                             <div class="Button"><a class="LinkIsDirectedToPartialView" href="<%= Links.StartWishLearningSession() %>">Lernsitzung starten</a></div>
+                        </div>
+                    </div>
+                    <div id="TabsBar">
+                        <div class="Tabs">
+                            <div class="Tab active"><a href="#" id="dashboard">Überblick</a></div>
+                            <div class="Tab"><a href="#" id="topics">Themen</a></div>
+                            <div class="Tab"><a href="#" id="questions">Fragen</a></div>
+                        </div>
+                        <div class="Border"></div>
+                        <div id="Management">
+                            <div class="Buttons">
+                                <div class="Button"><a class="LinkIsDirectedToPartialView" href="<%= Links.StartWishLearningSession() %>">Lernsitzung starten</a></div>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
-    <div class="row">
-        <div class="col-xs-12">
-            <div class="content" style="margin-top: 2rem">
-                <% Html.RenderPartial("~/Views/Knowledge/Partials/_Dashboard.ascx"); %>
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="content" style="margin-top: 2rem">
+                    <% Html.RenderPartial("~/Views/Knowledge/Partials/_Dashboard.ascx"); %>
+                </div>
             </div>
         </div>
-    </div>
-        <% }
-       else
-       {
-           Response.Redirect(Links.Welcome(), true);
-       }%>
+    <% }
+        else
+        {
+            Response.Redirect(Links.Welcome(), true);
+        }%>
     <%= Scripts.Render("~/bundles/js/Vue") %>
-
 </asp:Content>
 

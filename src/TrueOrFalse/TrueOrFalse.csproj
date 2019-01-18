@@ -127,7 +127,7 @@
       <HintPath>..\packages\Newtonsoft.Json.8.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="NHibernate, Version=5.2.0.0, Culture=neutral, PublicKeyToken=aa95f207798dfdb4, processorArchitecture=MSIL">
-      <HintPath>..\packages\NHibernate.5.2.1\lib\net461\NHibernate.dll</HintPath>
+      <HintPath>..\packages\NHibernate.5.2.2\lib\net461\NHibernate.dll</HintPath>
     </Reference>
     <Reference Include="ObjectDumper, Version=1.0.0.12, Culture=neutral, PublicKeyToken=9e2fabf3af85dba9, processorArchitecture=MSIL">
       <HintPath>..\packages\ObjectDumper.1.0.0.12\lib\net35-Client\ObjectDumper.dll</HintPath>
@@ -1110,6 +1110,7 @@
     <Compile Include="Web\Crawlers\Crawler.cs" />
     <Compile Include="Web\Markdown\MarkdownMarkdig.cs" />
     <Compile Include="Web\Seo\SeoUtils.cs" />
+    <Compile Include="Web\Uris\UrlHelperExtensions.cs" />
     <Compile Include="Web\UserAgent.cs" />
     <Compile Include="Web\ViewEngine\JavascriptViewEngine\JavascriptActionDescriptor.cs" />
     <Compile Include="Web\ViewEngine\JavascriptViewEngine\JavascriptActionInvoker.cs" />
@@ -1153,13 +1154,6 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <Content Include="Infrastructure\Seedworks\Lib.Settings\Model\Setting.hbm.xml" />
-    <Content Include="Scripts\jquery-1.6.4-vsdoc.js" />
-    <Content Include="Scripts\jquery-1.6.4.js" />
-    <Content Include="Scripts\jquery-1.6.4.min.js" />
-    <Content Include="Scripts\jquery.signalR-2.2.1.js" />
-    <Content Include="Scripts\jquery.signalR-2.2.1.min.js" />
-    <Content Include="Scripts\jquery.signalR-2.4.0.js" />
-    <Content Include="Scripts\jquery.signalR-2.4.0.min.js" />
     <Content Include="Tools\Update\Scripts\012-new-tbl-passwordRecoveryToken.sql">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>

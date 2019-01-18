@@ -1,9 +1,13 @@
 ﻿<%@ Control Language="C#" AutoEventWireup="true" Inherits="System.Web.Mvc.ViewUserControl<TopicNavigationModel>" %>
 <%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
 
-<% if (Model.CategoryList.Any()) { %>
-    <h2><%: Model.Title %></h2>
-    <p><%: Model.Text %></p>
+<% if (Model.CategoryList.Any()) {
+        if(!String.IsNullOrEmpty(Model.Title)){%>
+            <h2><%: Model.Title %></h2>
+        <% }
+        if(!String.IsNullOrEmpty(Model.Text)){%>
+             <p><%: Model.Text %></p>
+        <% } %>
 
     <div class="topicNavigation row" style= <%= Model.CategoryList.Count == 1 ? " \"justify-content: start;\" " : "" %>>
         <% foreach (var category in Model.CategoryList)

@@ -17,4 +17,16 @@ public static class UrlHelperExtensions
         return UrlHelper.GenerateUrl(null, actionName, controllerName, routeValueDictionary,
             urlHelper.RouteCollection, requestContext, includeImplicitMvcValues: false);
     }
+
+    public static void RemoveRoutes(this UrlHelper urlHelper, string[] routesToRemove)
+    {
+        RouteValueDictionary currentRouteData = urlHelper.RequestContext.RouteData.Values;
+        if (routesToRemove != null && routesToRemove.Length > 0)
+        {
+            foreach (string route in routesToRemove)
+            {
+                currentRouteData.Remove(route);
+            }
+        }
+    }
 }

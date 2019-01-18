@@ -145,6 +145,7 @@
                 InitClickLog("div#answerQuestionDetails");
                 InitClickLog("div#comments");
                 PreventDropdonwnsFromBeingHorizontallyOffscreen("div#AnswerBody");
+                Utils.HideSpinner();
             }
         });
     }

@@ -6,20 +6,28 @@
     <div class="alert alert-info" role="alert">
         <b>Revision vom <%= Model.CategoryChange.DateCreated %></b>
         <br/>
-        <%= (Model.NextRevExists) 
-                ? "Diese Seite zeigt einen <b>früheren Stand</b> des Themas. " +
-                  "Aus technischen Gründen können keine Archivdaten für untergeordnete und " +
-                  "übergeordnete Themen angezeigt werden, d.h. es werden die aktuellen " +
-                  "Themenbeziehungen dargestellt, so dies im Thema konfiguriert ist."
-                : "Dies ist die <b>aktuelle Revision</b> des Themas.<br/>"
-        %>
+        <% if (Model.NextRevExists) { %>
+            Diese Seite zeigt einen <b>früheren Stand</b> des Themas.
+        <% } else {%>
+            Dies ist die <b>aktuelle Revision</b> des Themas.
+        <% } %>
+        
+        <br />
+        <br />
+
+        In dieser Revisionsansicht gibt es nur <b>eingeschränkte Möglichkeiten, mit dem Thema 
+        zu interagieren</b>, bspw. eine Lernsitzung zu starten. Bitte gehe dazu am besten zur 
+        Liveansicht des Themas:
+        <a href="<%= Links.CategoryDetail(Model.Category.Name, Model.Category.Id) %>">
+            <%= Model.Name %>
+        </a>
         
         <div class="dropdown pull-right" style="margin-top: 1em">
             <a class="btn btn-primary" href="<%= Links.CategoryHistoryDetail(Model.Id, Model.CategoryChange.Id) %>">
                 <i class="fa fa-code-fork"></i> &nbsp; Änderungen anzeigen
             </a>
             <a class="btn btn-default" href="<%= Links.CategoryHistory(Model.Id) %>">
-                <i class="fa fa-list-ul"></i> &nbsp; Zur Bearbeitungshistorie
+                <i class="fa fa-list-ul"></i> &nbsp; Bearbeitungshistorie
             </a>
             <% var buttonSetId = Guid.NewGuid(); %>
             <a href="#" id="<%= buttonSetId %>" class="dropdown-toggle btn btn-link btn-sm ButtonEllipsis" 
@@ -42,7 +50,7 @@
                 </li>
                 <li>
                     <a href="<%= Links.HistoryOfEverything(1) %>">
-                        <i class="fa fa-list"></i> &nbsp; Zur Bearbeitungshistorie aller Themen
+                        <i class="fa fa-list"></i> &nbsp; Bearbeitungshistorie aller Themen
                     </a>
                 </li>
             </ul>
@@ -134,8 +142,6 @@
 
        if (Model.CategoriesChildren.Any(c => c.Type.GetCategoryTypeGroup() == CategoryTypeGroup.Media))
            Html.RenderPartial("~/Views/Categories/Detail/Partials/MediaList.ascx", new MediaListModel(Model.Category));
-
-       Html.RenderPartial("~/Views/Categories/Detail/Partials/Spacer.ascx", new SpacerModel(1, true));
 
        Html.RenderPartial("~/Views/Categories/Detail/Partials/ContentLists.ascx", Model);
 

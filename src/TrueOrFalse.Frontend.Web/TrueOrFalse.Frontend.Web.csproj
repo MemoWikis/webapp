@@ -158,7 +158,8 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="NHibernate, Version=5.2.0.0, Culture=neutral, PublicKeyToken=aa95f207798dfdb4, processorArchitecture=MSIL">
-      <HintPath>..\packages\NHibernate.5.2.1\lib\net461\NHibernate.dll</HintPath>
+      <HintPath>..\packages\NHibernate.5.2.2\lib\net461\NHibernate.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="Owin, Version=1.0.0.0, Culture=neutral, PublicKeyToken=f0ebd12fd5e55cc5, processorArchitecture=MSIL">
       <HintPath>..\packages\Owin.1.0\lib\net40\Owin.dll</HintPath>
@@ -221,10 +222,8 @@
     <Reference Include="System.Net.Http" />
     <Reference Include="System.ServiceModel" />
     <Reference Include="System.Transactions" />
-    <Reference Include="System.ValueTuple, Version=4.0.1.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.ValueTuple.4.3.0\lib\netstandard1.0\System.ValueTuple.dll</HintPath>
-      <Private>True</Private>
-      <Private>True</Private>
+    <Reference Include="System.ValueTuple, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.ValueTuple.4.5.0\lib\net47\System.ValueTuple.dll</HintPath>
     </Reference>
     <Reference Include="System.Web.ApplicationServices" />
     <Reference Include="System.Web.DynamicData" />
@@ -20007,8 +20006,6 @@
     <Content Include="Scripts\hubs\GameHubEvents.js">
       <DependentUpon>GameHubEvents.ts</DependentUpon>
     </Content>
-    <Content Include="Scripts\jquery.signalR-2.2.1.js" />
-    <Content Include="Scripts\jquery.signalR-2.2.1.min.js" />
     <Content Include="Scripts\SidebarCards.js">
       <DependentUpon>SidebarCards.ts</DependentUpon>
     </Content>
@@ -20295,7 +20292,6 @@
     <Content Include="Views\Knowledge\Dates\Edit\Js\EditDate.js.map">
       <DependentUpon>EditDate.ts</DependentUpon>
     </Content>
-    <Content Include="Scripts\jquery-2.0.3.min.map" />
     <None Include="Views\Maintenance\ContentStats.less" />
     <Compile Include="Views\Maintenance\ContentStatsModel.cs" />
     <Compile Include="Views\Maintenance\Images\MaintenanceImagesController.cs" />
@@ -20655,6 +20651,10 @@
     <Content Include="Views\Sets\Edit\QuestionInSet.ascx" />
     <Content Include="Views\Shared\LinkToTop.ascx" />
     <Content Include="Views\Shared\GlobalLicense.ascx" />
+    <Content Include="Views\Shared\Spinner\Spinner.ascx" />
+    <Content Include="Views\Shared\Spinner\Spinner.css">
+      <DependentUpon>Spinner.less</DependentUpon>
+    </Content>
     <Content Include="Views\Users\Account\WidgetStats\Partials\WidgetStatsDetailViews.ascx" />
     <Content Include="Views\Users\Account\WidgetStats\Partials\WidgetStatsForHost.ascx" />
     <Content Include="Views\Users\Account\WidgetStats\WidgetStats.aspx" />
@@ -21866,6 +21866,7 @@
     <TypeScriptCompile Include="Views\Sets\Edit\Js\EditSet.ts" />
     <TypeScriptCompile Include="Views\Sets\Edit\Js\Validation.ts" />
     <TypeScriptCompile Include="Views\Sets\Js\SetDelete.ts" />
+    <TypeScriptCompile Include="Views\Shared\Spinner\Js\Spinner.ts" />
     <TypeScriptCompile Include="Views\Users\Account\Js\Membership.ts" />
     <TypeScriptCompile Include="Views\Users\Account\WidgetStats\Js\WidgetStats.ts" />
     <TypeScriptCompile Include="Views\Users\Account\Settings\Validation.ts" />
@@ -22511,7 +22512,6 @@
     <Content Include="Views\Questions\Answer\Js\AnswerBodyLoader.js.map">
       <DependentUpon>AnswerBodyLoader.ts</DependentUpon>
     </Content>
-    <Content Include="Views\Shared\SquareWishPartialHtml.aspx" />
     <Content Include="Views\Maintenance\Js\CMSCategoryNetworkNavigation.js.map">
       <DependentUpon>CmsCategoryNetworkNavigation.ts</DependentUpon>
     </Content>
@@ -22522,6 +22522,7 @@
     <Content Include="Views\Welcome\Promoter.less" />
     <Content Include="Views\Welcome\Team.aspx" />
     <Content Include="Views\Welcome\Team.less" />
+    <Content Include="Views\Shared\Spinner\Spinner.less" />
     <None Include="Web.overwritten.config" />
     <None Include="Web.overwritten.config.sample" />
     <Content Include="Views\Welcome\Logout.aspx" />
