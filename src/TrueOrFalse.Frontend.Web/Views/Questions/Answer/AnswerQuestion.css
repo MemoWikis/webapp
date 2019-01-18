@@ -430,9 +430,6 @@
   font-size: 14px;
   line-height: 1.42857143;
 }
-#AnswerBody h1 {
-  width: 20em;
-}
 .QuestionText {
   padding-bottom: 20px;
 }
@@ -1109,7 +1106,26 @@
 
 ---------------------------------------------------------------*/
 .AnswerQuestionBodyMenu {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
   float: right;
+}
+.AnswerQuestionBodyMenu .Button .dropdown-menu {
+  left: -7em;
+}
+.AnswerQuestionBodyMenu .margin-top-11 {
+  margin-top: 0.7em;
+}
+.AnswerQuestionBodyMenu span {
+  margin-left: 0.5em;
+}
+.AnswerQuestionBodyMenu .Pin {
+  margin-left: 0px;
+}
+.AnswerQuestionBodyMenu .margin-top-4 {
+  margin-top: 0.25em;
 }
 .AnswerQuestionBodyMenu .float-left {
   float: left;

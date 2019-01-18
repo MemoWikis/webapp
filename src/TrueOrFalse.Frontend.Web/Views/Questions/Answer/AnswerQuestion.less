@@ -346,7 +346,6 @@
 #AnswerBody {
     font-size: @font-size-base;
     line-height: @line-height-base;
-    h1{width: 20em;}
 }
 
 .QuestionText {
@@ -847,8 +846,31 @@
 ---------------------------------------------------------------*/
 
 .AnswerQuestionBodyMenu {
+    display: flex;
     float: right;
-    
+
+    .Button {
+        .dropdown-menu {
+            left: -7em;
+        }
+    }
+
+
+    .margin-top-11 {
+        margin-top: 0.7em;
+    }
+
+    span {
+        margin-left: 0.5em;
+    }
+
+    .Pin {
+        margin-left: 0px;
+    }
+
+    .margin-top-4 {
+        margin-top: 0.25em;
+    }
 
     .float-left {
         float: left;
