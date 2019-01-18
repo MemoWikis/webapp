@@ -71,7 +71,7 @@ public class KnowledgeTopics : BaseController
 
             categoryAndSetWishKnowledge.Description = categoryWish.Description;
             categoryAndSetWishKnowledge.Title = categoryWish.Name;
-            categoryAndSetWishKnowledge.ImageFrontendData = Sl.ImageMetaDataRepo.GetById(categoryWish.Id); ;
+            categoryAndSetWishKnowledge.ImageFrontendData = new ImageFrontendData(categoryWish.Id, ImageType.Category).GetImageUrl(128);
             categoryAndSetWishKnowledge.KnowlegdeWishPartial = KnowledgeWishPartial(categoryWish, controllerContext);
             categoryAndSetWishKnowledge.Id = categoryWish.Id;
             categoryAndSetWishKnowledge.IsCategory = true;
@@ -100,7 +100,7 @@ public class KnowledgeTopics : BaseController
             {
                 Description = setWish.Text,
                 Title = setWish.Name,
-                ImageFrontendData = Sl.ImageMetaDataRepo.GetById(setWish.Id),
+                ImageFrontendData = new ImageFrontendData(setWish.Id, ImageType.QuestionSet).GetImageUrl(128),
                 KnowlegdeWishPartial = KnowledgeWishPartial(setWish, controllerContext),
                 Id = setWish.Id,
                 IsCategory = false,
@@ -129,7 +129,7 @@ public class KnowledgeTopics : BaseController
         public int Id;
         public string Description;
         public string Title;
-        public ImageMetaData ImageFrontendData;
+        public ImageUrl ImageFrontendData;
         public string KnowlegdeWishPartial;
         public bool IsCategory;
         public string LinkStartLearningSession;
