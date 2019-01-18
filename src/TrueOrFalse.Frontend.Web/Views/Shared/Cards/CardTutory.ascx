@@ -10,6 +10,6 @@
         </a>
     </div>
     <div>
-        <span>Freier Bildungsinhalt - mit Unterstützung von <a href="<%= Links.Tutory %>">tutory.de</a></span>
+        <span>Freier Bildungsinhalt - mit Unterstützung von <a href="<%= Links.Tutory %>">tutory.de</a><i class="fa fa-info-circle" style="font-size: 120%; margin-left: 0.5em;"></i></span>
     </div>
 </div>
