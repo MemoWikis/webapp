@@ -1,6 +1,6 @@
 ﻿using System;
+using System.Text.RegularExpressions;
 using Newtonsoft.Json;
-using TrueOrFalse;
 using TrueOrFalse.Frontend.Web.Code;
 
 public class QuestionHistoryDetailModel : BaseModel
@@ -15,9 +15,11 @@ public class QuestionHistoryDetailModel : BaseModel
     public User Author;
     public string AuthorName;
     public string AuthorImageUrl;
-    //public ImageFrontendData ImageFrontendData;
-    
+
     public int RevisionId;
+    public bool ImageWasUpdated;
+    public ImageFrontendData ImageFrontendData;
+
     public DateTime CurrentDateCreated;
     public string CurrentQuestionText;
     public string CurrentQuestionTextExtended;
@@ -39,6 +41,8 @@ public class QuestionHistoryDetailModel : BaseModel
     public QuestionHistoryDetailModel(QuestionChange currentRevision, QuestionChange previousRevision,
         QuestionChange nextRevision)
     {
+        var imageMatchPrev = "";
+
         var question = Sl.QuestionRepo.GetById(currentRevision.Question.Id);
 
         PrevRevExists = previousRevision != null;
@@ -55,13 +59,6 @@ public class QuestionHistoryDetailModel : BaseModel
         CurrentSolutionDescription = currentRevisionData.SolutionDescription?.Replace("\\r\\n", "\r\n");
         CurrentSolutionMetadataJson = currentRevisionData.SolutionMetadataJson;
 
-        //if (currentRevision.DataVersion == 2)
-        //{
-        //    ImageWasUpdated = ((QuestionEditData_V2)currentRevisionData).ImageWasUpdated;
-        //    var imageMetaData = Sl.ImageMetaDataRepo.GetBy(currentRevision.Question.Id, ImageType.Question);
-        //    ImageFrontendData = new ImageFrontendData(imageMetaData);
-        //}
-
         if (PrevRevExists)
         {
             var prevRevisionData = previousRevision.GetQuestionChangeData();
@@ -73,7 +70,15 @@ public class QuestionHistoryDetailModel : BaseModel
             PrevSolution = prevRevisionData.Solution;
             PrevSolutionDescription = prevRevisionData.SolutionDescription?.Replace("\\r\\n", "\r\n");
             PrevSolutionMetadataJson = prevRevisionData.SolutionMetadataJson;
+            imageMatchPrev = Regex.Match(PrevQuestionTextExtended, @"/Images/Questions/(\d+_\d+)").Groups[1].Value;
+        }
 
+        var imageMatchCurrent = Regex.Match(CurrentQuestionTextExtended, @"/Images/Questions/(\d+_\d+)").Groups[1].Value;
+        if (!PrevRevExists || !imageMatchCurrent.Equals(imageMatchPrev))
+        {
+            ImageWasUpdated = true;
+            var imageMetaData = Sl.ImageMetaDataRepo.GetBy(currentRevision.Question.Id, ImageType.Question);
+            ImageFrontendData = new ImageFrontendData(imageMetaData);
         }
 
         QuestionId = currentRevision.Question.Id;

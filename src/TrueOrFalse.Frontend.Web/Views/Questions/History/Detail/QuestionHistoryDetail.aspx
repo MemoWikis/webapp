@@ -140,16 +140,16 @@
                     <div id="diffPanel">
                         <div id="diffQuestionText"></div>
                         <div id="diffQuestionTextExtended"></div>
-                        <%--TODO FK <%if (Model.CurrentImageWasUpdated) { %>
+                        <%if (Model.ImageWasUpdated) { %>
                             <div class="diffImage">
                                 <div id="newImageAlert" class="panel panel-default">
                                     <div class="panel-heading">Änderung des Bildes. Das aktuelle Bild ist:</div>
                                     <div class="panel-body">
-                                        <%= Model.CurrentImageFrontendData.RenderHtmlImageBasis(350, false, ImageType.Question, "ImageContainer") %>
+                                        <%= Model.ImageFrontendData.RenderHtmlImageBasis(350, false, ImageType.Question, "ImageContainer") %>
                                     </div>
                                 </div>
                             </div>
-                        <% } %> --%> 
+                        <% } %>  
                         <div id="diffLicense"></div>
                         <div id="diffVisibility"></div>
                         <div id="diffSolution"></div>
