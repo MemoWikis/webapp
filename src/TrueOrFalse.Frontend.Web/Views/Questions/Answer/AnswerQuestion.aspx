@@ -116,7 +116,6 @@
                    <% Html.RenderPartial("~/Views/Questions/Answer/TestSession/TestSessionHeader.ascx", Model); %>
             <% }else { %>
                 <div class="AnswerQuestionHeader">
-                    <% Html.RenderPartial("~/Views/Questions/Answer/Sponsor.ascx", Model); %>
                     <% Html.RenderPartial("~/Views/Questions/Answer/AnswerQuestionPager.ascx", Model); %>
                 </div>
            <% } %>
