@@ -1,6 +1,7 @@
 ﻿class WishKnowledgeContent {
 
     constructor() {
+
         WishKnowledgeContent.alertFadeInWhenNoWhisKnowledge(".topic", "#noWishKnowledge");
         $(".spinner").hide();
         $("#btnShowAllWishKnowledgeContent").click(function (e) {
@@ -40,66 +41,123 @@
             });
 
         $(".link-to-learnset").on("click",
-            function(e) {
+            function (e) {
                 e.preventDefault();
                 window.location.replace("/Fragesatz/Lernen/" + $(this).attr("data-setId"));
             });
 
         $("#dashboard").click((e) => {
             e.preventDefault();
-            this.SetTabActive(e);
-            $.ajax({
-                url: "/Knowledge/GetKnowledgeContent?content=dashboard",
-                type: "POST",
-                beforeSend() { $(".spinner").fadeIn() },
-            }).done(function(data) {
-                $(".content").html(data);
-                $(".LinkIsDirectedToPartialView").text("Lernsitzung starten");
-                $(".spinner").hide();
-            });
+            this.LoadDashboard();
         });
+
+        if (window.location.href.endsWith("Themen"))
+            this.LoadTopicTab();
+
+        if (window.location.href.endsWith("Fragen"))
+            this.LoadQuestionsTab();
 
         $("#topics").click((e) => {
             e.preventDefault();
-            this.SetTabActive(e);
-            $.ajax({
-                url: "/Knowledge/GetKnowledgeContent?content=topics",
-                type: "POST",
-                beforeSend() {$(".spinner").fadeIn()},
-            }).done(function(data) {
-                $(".content").html(data);
-                $(".LinkIsDirectedToPartialView").text("Thema erstellen");
-                $(".LinkIsDirectedToPartialView").attr("href", $("#hddUrlAddTopic").val());
-                $(".spinner").hide();
-            });
+            this.LoadTopicTab();
+            
         });
 
         $("#questions").click((e) => {
             e.preventDefault();
-            this.SetTabActive(e);
-            $.ajax({
-                url: "/Knowledge/GetKnowledgeContent?content=questions",
-                type: "POST",
-                beforeSend() { $(".spinner").fadeIn()},
-            }).done(function(data) {
-                $(".content").html(data);
-                $(".LinkIsDirectedToPartialView").text("Frage erstellen"); //<%= Links.CreateQuestion() %>
-                $(".LinkIsDirectedToPartialView").attr("href", $("#hddUrlAddQuestion").val());
-                $(".spinner").hide();
-            });
+            this.LoadQuestionsTab();
+        });
+
+        $(window).on('popstate', (e) => {
+            var state = e.originalEvent.state;
+            console.log(state, e);
+
+            if (state.endsWith("Themen"))
+                this.LoadTopicTab(/*pushState*/false);
+
+            else if (state.endsWith("Fragen"))
+                this.LoadQuestionsTab(/*pushState*/false);
+
+            else if (state.endsWith("Wissenszentrale"))
+                this.LoadQuestionsTab(/*pushState*/false);
+
         });
     }
 
-    public SetTabActive(e: JQueryEventObject) {
+    private LoadDashboard(pushState: boolean = true) {
+        this.LoadTab({   
+            stringTabId: "#dashboard",
+            tabUrl: "/Knowledge/GetKnowledgeContent?content=dashboard",
+            titleAction: "Lernsitzung starten",
+            fnPushStateAction: () => {
+                if (pushState)
+                    window.history.pushState('Themen', 'Themen', '/Wissenszentrale');
+            }
+        });
+    }
+
+    private LoadTopicTab(pushState: boolean = true) {
+        this.LoadTab({
+            stringTabId: "#topics",
+            tabUrl: "/Knowledge/GetKnowledgeContent?content=topics",
+            titleAction: "Thema erstellen",
+            urlAction: $("#hddUrlAddTopic").val(),
+            fnPushStateAction: () => {
+                if (pushState)
+                    window.history.pushState('Themen', 'Themen', '/Wissenszentrale/Themen')
+            }
+        });
+    }
+
+    private LoadQuestionsTab(pushState: boolean = true) {
+        this.LoadTab({
+            stringTabId: "#questions", 
+            tabUrl: "/Knowledge/GetKnowledgeContent?content=questions",
+            titleAction: "Frage erstellen", 
+            urlAction: $("#hddUrlAddQuestion").val(),
+            fnPushStateAction: () => {
+                if(pushState)
+                    window.history.pushState('Fragen', 'Fragen', '/Wissenszentrale/Fragen')
+            }
+        });
+    }
+
+    private LoadTab(loadTabParams: ILoadTabParams) {
+
+        this.SetTabActiveString(loadTabParams.stringTabId);
+        $.ajax({
+            url: loadTabParams.tabUrl,
+            type: "POST",
+            beforeSend() { $(".spinner").fadeIn() },
+        }).done(function (data) {
+            $(".content").html(data);
+            $(".LinkIsDirectedToPartialView").text(loadTabParams.titleAction); 
+            if(loadTabParams.urlAction)
+                $(".LinkIsDirectedToPartialView").attr("href", loadTabParams.urlAction);
+            $(".spinner").hide();
+        });
+
+        loadTabParams.fnPushStateAction();
+    }
+
+    public SetTabActiveString(idString) {
         $("div.Tab").removeClass("active");
-        $($(e.target).parent()).addClass("active");
+        $($(idString).parent()).addClass("active");
     }
 
     private static alertFadeInWhenNoWhisKnowledge(element: string, show: string) {
         if ($(element).length < 1) {
             $(show).show();
-        } 
-        
+        }
+
     }
 
+}
+
+interface ILoadTabParams {
+    stringTabId: string;
+    tabUrl: string;
+    titleAction: string; 
+    urlAction?: string;
+    fnPushStateAction: () => void;
 }
