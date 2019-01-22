@@ -2,6 +2,7 @@
 {
     public string QuestionText;
     public string QuestionTextExtended;
+    public bool ImageWasChanged;
     public LicenseQuestion License;
     public QuestionVisibility Visibility;
     public string Solution;

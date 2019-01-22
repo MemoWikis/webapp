@@ -136,11 +136,13 @@
 
                     <input type="hidden" id="currentSolutionMetadataJson" value="<%= Server.HtmlEncode(Model.CurrentSolutionMetadataJson) %>"/>
                     <input type="hidden" id="prevSolutionMetadataJson" value="<%= Server.HtmlEncode(Model.PrevSolutionMetadataJson) %>"/>
+
+                    <input type="hidden" id="imageWasChanged" value="<%= Model.ImageWasChanged %>"/>
                     
                     <div id="diffPanel">
                         <div id="diffQuestionText"></div>
                         <div id="diffQuestionTextExtended"></div>
-                        <%if (Model.ImageWasUpdated) { %>
+                        <%if (Model.ImageWasChanged) { %>
                             <div class="diffImage">
                                 <div id="newImageAlert" class="panel panel-default">
                                     <div class="panel-heading">Änderung des Bildes. Das aktuelle Bild ist:</div>
@@ -155,9 +157,6 @@
                         <div id="diffSolution"></div>
                         <div id="diffSolutionDescription"></div>
                         <div id="diffSolutionMetadataJson"></div>
-                        <div id="noRelationsAlert" class="alert alert-info" role="alert" style="display: none;">
-                            Es können <b>keine Beziehungsdaten</b> angezeigt werden, da für die gewählten Revisionen keine enstsprechenden Daten vorliegen.
-                        </div>
                     </div>
                 <% } %>
             </div>

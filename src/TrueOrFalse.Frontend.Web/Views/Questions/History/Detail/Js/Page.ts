@@ -37,6 +37,8 @@ function ShowQuestionDiff2Html() {
     var currentSolutionMetadataJson = $('#currentSolutionMetadataJson').val();
     var prevSolutionMetadataJson = $('#prevSolutionMetadataJson').val();
     var diffSolutionMetadataJson = QuestionDiff(prevSolutionMetadataJson, currentSolutionMetadataJson, 'Änderungen der Metadaten der Lösung');
+
+    var imageWasChanged = $('#imageWasChanged').val().toLowerCase();
     
     if (diffQuestionText)
         ShowQuestionDiff(diffQuestionText, '#diffQuestionText');
@@ -54,7 +56,7 @@ function ShowQuestionDiff2Html() {
         ShowQuestionDiff(diffSolutionMetadataJson, '#diffSolutionMetadataJson');
     
     // Zeige Hinweis, falls es keine inhaltichen Änderungen zu geben scheint
-    if (!diffQuestionText && !diffQuestionTextExtended && !diffLicense && !diffVisibility && !diffSolution && !diffSolutionDescription && !diffSolutionMetadataJson)
+    if (!diffQuestionText && !diffQuestionTextExtended && !diffLicense && !diffVisibility && !diffSolution && !diffSolutionDescription && !diffSolutionMetadataJson && imageWasChanged === "false")
     {
         $("#diffPanel").hide();
         $("#noChangesAlert").show();

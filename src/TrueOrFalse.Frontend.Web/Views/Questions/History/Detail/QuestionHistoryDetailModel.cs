@@ -17,7 +17,7 @@ public class QuestionHistoryDetailModel : BaseModel
     public string AuthorImageUrl;
 
     public int RevisionId;
-    public bool ImageWasUpdated;
+    public bool ImageWasChanged;
     public ImageFrontendData ImageFrontendData;
 
     public DateTime CurrentDateCreated;
@@ -41,8 +41,6 @@ public class QuestionHistoryDetailModel : BaseModel
     public QuestionHistoryDetailModel(QuestionChange currentRevision, QuestionChange previousRevision,
         QuestionChange nextRevision)
     {
-        var imageMatchPrev = "";
-
         var question = Sl.QuestionRepo.GetById(currentRevision.Question.Id);
 
         PrevRevExists = previousRevision != null;
@@ -70,13 +68,11 @@ public class QuestionHistoryDetailModel : BaseModel
             PrevSolution = prevRevisionData.Solution;
             PrevSolutionDescription = prevRevisionData.SolutionDescription?.Replace("\\r\\n", "\r\n");
             PrevSolutionMetadataJson = prevRevisionData.SolutionMetadataJson;
-            imageMatchPrev = Regex.Match(PrevQuestionTextExtended, @"/Images/Questions/(\d+_\d+)").Groups[1].Value;
         }
-
-        var imageMatchCurrent = Regex.Match(CurrentQuestionTextExtended, @"/Images/Questions/(\d+_\d+)").Groups[1].Value;
-        if (!PrevRevExists || !imageMatchCurrent.Equals(imageMatchPrev))
+        
+        if (!PrevRevExists || currentRevisionData.ImageWasChanged)
         {
-            ImageWasUpdated = true;
+            ImageWasChanged = true;
             var imageMetaData = Sl.ImageMetaDataRepo.GetBy(currentRevision.Question.Id, ImageType.Question);
             ImageFrontendData = new ImageFrontendData(imageMetaData);
         }

@@ -55,8 +55,6 @@ public class QuestionRepo : RepositoryDbBase<Question>
         else
             base.Update(question);
 
-        Sl.QuestionChangeRepo.AddUpdateEntry(question);
-
         Flush();
 
         var categoriesToUpdateIds = categoriesBeforeUpdateIds

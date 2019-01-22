@@ -13,12 +13,12 @@ public class QuestionChange : Entity, WithDateCreated
 
     public virtual DateTime DateCreated { get; set; }
 
-    public virtual void SetData(Question question)
+    public virtual void SetData(Question question, bool imageWasChanged)
     {
         switch (DataVersion)
         {
             case 1:
-                Data = new QuestionEditData_V1(question).ToJson();
+                Data = new QuestionEditData_V1(question, imageWasChanged).ToJson();
                 break;
 
             default:

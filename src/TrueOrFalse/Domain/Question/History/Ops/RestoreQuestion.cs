@@ -9,6 +9,8 @@ public class RestoreQuestion
         var historicQuestion = questionChange.ToHistoricQuestion();
         Sl.QuestionRepo.Merge(historicQuestion);
 
+        Sl.QuestionChangeRepo.AddUpdateEntry(historicQuestion);
+
         NotifyAboutRestore(questionChange);
     }
 

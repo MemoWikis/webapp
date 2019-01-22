@@ -24,10 +24,10 @@ public class QuestionChangeRepo : RepositoryDbBase<QuestionChange>
         base.Create(QuestionChange);
     }
 
-    public void AddCreateEntry(Question question) => AddUpdateOrCreateEntry(question, QuestionChangeType.Create);
-    public void AddUpdateEntry(Question question) => AddUpdateOrCreateEntry(question, QuestionChangeType.Update);
+    public void AddCreateEntry(Question question) => AddUpdateOrCreateEntry(question, QuestionChangeType.Create, imageWasChanged:false);
+    public void AddUpdateEntry(Question question, bool imageWasChanged = false) => AddUpdateOrCreateEntry(question, QuestionChangeType.Update, imageWasChanged);
 
-    private void AddUpdateOrCreateEntry(Question question, QuestionChangeType questionChangeType)
+    private void AddUpdateOrCreateEntry(Question question, QuestionChangeType questionChangeType, bool imageWasChanged)
     {
         var QuestionChange = new QuestionChange
         {
@@ -37,7 +37,7 @@ public class QuestionChangeRepo : RepositoryDbBase<QuestionChange>
             DataVersion = 1
         };
         
-        QuestionChange.SetData(question);
+        QuestionChange.SetData(question, imageWasChanged);
 
         base.Create(QuestionChange);
     }

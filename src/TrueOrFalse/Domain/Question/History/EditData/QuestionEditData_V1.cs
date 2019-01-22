@@ -5,10 +5,11 @@ public class QuestionEditData_V1 : QuestionEditData
 {
     public QuestionEditData_V1(){}
 
-    public QuestionEditData_V1(Question question)
+    public QuestionEditData_V1(Question question, bool imageWasChanged)
     {
         QuestionText = question.Text;
         QuestionTextExtended = question.TextExtended;
+        ImageWasChanged = imageWasChanged;
         License = question.License;
         Visibility = question.Visibility;
         Solution = question.Solution;
