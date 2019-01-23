@@ -39,7 +39,12 @@ public class CategoryHistoryDetailModel : BaseModel
         PrevRevExists = previousRevision != null;
         NextRevExists = nextRevision != null;
 
-        CategoryUrl = Links.CategoryDetail(CategoryName, CategoryId); //TODO FK
+        CategoryId = currentRevision.Category.Id;
+        CategoryName = currentRevision.Category.Name;
+        Author = currentRevision.Author;
+        AuthorName = currentRevision.Author.Name;
+        AuthorImageUrl = new UserImageSettings(currentRevision.Author.Id).GetUrl_85px_square(currentRevision.Author).Url;
+        CategoryUrl = Links.CategoryDetail(CategoryName, CategoryId);
 
         var currentRevisionData = currentRevision.GetCategoryChangeData();
         CurrentId = currentRevision.Id;
@@ -73,12 +78,6 @@ public class CategoryHistoryDetailModel : BaseModel
                 PrevRelations = SortedListOfRelations(prevRelationsList);
             }
         }
-
-        CategoryId = currentRevision.Category.Id;
-        CategoryName = currentRevision.Category.Name;
-        Author = currentRevision.Author;
-        AuthorName = currentRevision.Author.Name;
-        AuthorImageUrl = new UserImageSettings(currentRevision.Author.Id).GetUrl_85px_square(currentRevision.Author).Url;
     }
 
     private string Relation2String(CategoryRelation_EditData relation)
