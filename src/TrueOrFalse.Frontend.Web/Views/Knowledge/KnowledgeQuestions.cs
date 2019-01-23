@@ -55,7 +55,7 @@ public class KnowledgeQuestions : BaseModel
             questions.AuthorId = question.Creator.Id;
             questions.LinkToCategory = categories.IsEmpty() ? " " : Links.GetUrl(categories[0]);
             questions.Category = categories.IsEmpty() ? "keine Kategorie" : categories[0].Name;
-            questions.CategoryImageData = categories.IsEmpty() ? null : new ImageFrontendData(Sl.ImageMetaDataRepo.GetBy(categories[0].Id, ImageType.Category)).GetImageUrl(30);
+            questions.CategoryImageData = categories.IsEmpty() ? null : new ImageFrontendData(question.Categories[0].Id, ImageType.Category).GetImageUrl(128); ;
             questions.QuestionMetaData = new ImageFrontendData(Sl.ImageMetaDataRepo.GetBy(question.Id, ImageType.Question)).GetImageUrl(30);
             questions.TooltipLinkToCategory = "Kategorie " + questions.Category + " in neuem Tab öffnen";
             questions.CountQuestions = CountWishQuestions;

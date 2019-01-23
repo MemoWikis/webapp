@@ -16,6 +16,7 @@
         Model.TopNavMenu.IsCategoryBreadCrumb = false; %>
     <%= Styles.Render("~/bundles/Knowledge") %>
     <%= Scripts.Render("~/bundles/js/Knowledge") %>
+    
 </asp:Content>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
