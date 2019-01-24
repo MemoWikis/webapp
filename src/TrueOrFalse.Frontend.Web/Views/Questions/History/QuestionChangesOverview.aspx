@@ -34,7 +34,9 @@
     
             <div class="row change-detail-model">
                 <div class="col-xs-6">
-                    <b><%= item.QuestionName %></b>
+                    <a href="<%= Links.AnswerQuestion(item.QuestionName, item.QuestionId) %>">
+                        <b><%= item.QuestionName %></b>
+                    </a>
                 </div>
                 <div class="col-xs-3 show-tooltip"  data-toggle="tooltip" data-placement="left" title="<%= item.DateTime %>">
                     <a href="<%= Links.UserDetail(item.Author) %>"><img src="<%= item.AuthorImageUrl %>" height="20"/></a>
