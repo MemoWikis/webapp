@@ -24,22 +24,25 @@ public class QuestionChangeRepo : RepositoryDbBase<QuestionChange>
         base.Create(QuestionChange);
     }
 
-    public void AddCreateEntry(Question question) => AddUpdateOrCreateEntry(question, QuestionChangeType.Create, imageWasChanged:false);
-    public void AddUpdateEntry(Question question, bool imageWasChanged = false) => AddUpdateOrCreateEntry(question, QuestionChangeType.Update, imageWasChanged);
+    public void AddCreateEntry(Question question, User author = null) => AddUpdateOrCreateEntry(question, QuestionChangeType.Create, author, imageWasChanged:true);
+    public void AddUpdateEntry(Question question, User author = null, bool imageWasChanged = false) => AddUpdateOrCreateEntry(question, QuestionChangeType.Update, author, imageWasChanged);
 
-    private void AddUpdateOrCreateEntry(Question question, QuestionChangeType questionChangeType, bool imageWasChanged)
+    private void AddUpdateOrCreateEntry(Question question, QuestionChangeType questionChangeType, User author, bool imageWasChanged)
     {
-        var QuestionChange = new QuestionChange
+        if (author == null)
+            author = Sl.SessionUser.User;
+
+        var questionChange = new QuestionChange
         {
             Question = question,
             Type = questionChangeType,
-            Author = Sl.SessionUser.User,
+            Author = author,
             DataVersion = 1
         };
-        
-        QuestionChange.SetData(question, imageWasChanged);
 
-        base.Create(QuestionChange);
+        questionChange.SetData(question, imageWasChanged);
+
+        base.Create(questionChange);
     }
 
     public IList<QuestionChange> GetAllEager()

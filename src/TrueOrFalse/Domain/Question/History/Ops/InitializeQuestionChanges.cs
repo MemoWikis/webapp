@@ -1,18 +1,18 @@
-﻿//using System.Linq;
+﻿using System.Linq;
 
-//public class InitializeCategoryChanges
-//{
-//    public static void Go()
-//    {
-//        var allCategories = Sl.CategoryRepo.GetAll();
-//        var allCategoryChanges = Sl.CategoryChangeRepo.GetAllEager();
+public class InitializeQuestionChanges
+{
+    public static void Go()
+    {
+        var allQuestions = Sl.QuestionRepo.GetAll();
+        var allQuestionChanges = Sl.QuestionChangeRepo.GetAllEager();
 
-//        var memuchoUser = Sl.UserRepo.GetMemuchoUser();
+        var memuchoUser = Sl.UserRepo.GetMemuchoUser();
 
-//        foreach(var category in allCategories)
-//        {
-//            if (allCategoryChanges.All(x => x.Category.Id != category.Id))
-//                Sl.CategoryChangeRepo.AddUpdateEntry(category, memuchoUser, imageWasUpdated:false);
-//        }
-//    }
-//}
+        foreach (var question in allQuestions)
+        {
+            if (allQuestionChanges.All(x => x.Question.Id != question.Id))
+                Sl.QuestionChangeRepo.AddUpdateEntry(question, memuchoUser, imageWasChanged: true);
+        }
+    }
+}
