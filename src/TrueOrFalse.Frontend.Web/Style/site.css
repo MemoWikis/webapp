@@ -509,12 +509,9 @@ img {
 }
 #loginAndHelp .userImage,
 #StickyHeaderContainer .userImage {
-  height: 32px;
-  width: 32px;
-  margin-top: -1px;
+  height: 31px;
+  width: 31px;
   margin-left: 1px;
-  border: 1px solid #003264;
-  border-radius: 0px;
 }
 #loginAndHelp i:not(.fa-bars, .fa-plus-circle, .fa-dot-circle-o),
 #StickyHeaderContainer i:not(.fa-bars, .fa-plus-circle, .fa-dot-circle-o) {
