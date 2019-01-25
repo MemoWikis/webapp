@@ -1,6 +1,7 @@
 ﻿<%@ Page Language="C#" MasterPageFile="~/Views/Shared/Site.Sidebar.Master" Inherits="ViewPage<QuestionHistoryDetailModel>" %>
 <%@ Import Namespace="System.Web.Optimization" %>
 <%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
+<%@ Import Namespace="FluentNHibernate.Conventions" %>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="Head" runat="server">
     <%= Styles.Render("~/bundles/QuestionHistoryDetail") %>
@@ -94,71 +95,75 @@
         
         <div class="row">
             <div class="col-12">
-                <% if (!Model.PrevRevExists) {  %>
+                <% var revisionMessage = "";
+                    if (!Model.NextRevExists)
+                        revisionMessage = "Dies ist die <b>aktuelle Revision</b> der Frage. ";
+                    if (!Model.PrevRevExists)
+                    {
+                        revisionMessage += (revisionMessage.IsNotEmpty()) ?
+                            "<br/><br/>Es ist auch die <b>initiale Revision</b> der Frage. " :
+                            "Dies ist die <b>initiale Revision</b> der Frage. ";
+                        revisionMessage += "Deswegen werden im folgenden als Änderungen die Werte dargestellt, mit denen die Frage erstellt wurde.";
+                    }
+                %>
+                <% if (revisionMessage.IsNotEmpty()) { %>
                     <br />
                     <div class="alert alert-info" role="alert">
-                        Dies ist die <b>initiale Revision</b> der Frage, weswegen hier keine Änderungen angezeigt werden können.
+                        <%= revisionMessage %>
                     </div>
                 <% } else { %>
-                    <% if (!Model.NextRevExists) { %>
-                        <br />
-                        <div class="alert alert-info" role="alert">
-                            Dies ist die <b>aktuelle Revision</b> der Frage.
-                        </div>
-                    <% } else { %>
-                        <br />
-                    <% } %>
-                    <div id="noChangesAlert" class="alert alert-info" role="alert" style="display: none;">
-                        Zwischen den beiden Revisionen (vom <%= Model.PrevDateCreated %> und 
-                        vom <%= Model.CurrentDateCreated %>) gibt es <b>keine inhaltlichen Unterschiede</b>.
-                    </div>
-                    
-                    <input type="hidden" id="currentDateCreated" value="<%= Model.CurrentDateCreated %>" />
-                    <input type="hidden" id="prevDateCreated" value="<%= Model.PrevDateCreated %>" />
+                    <br />
+                <% } %>
+                <div id="noChangesAlert" class="alert alert-info" role="alert" style="display: none;">
+                    Zwischen den beiden Revisionen (vom <%= Model.PrevDateCreated %> und 
+                    vom <%= Model.CurrentDateCreated %>) gibt es <b>keine inhaltlichen Unterschiede</b>.
+                </div>
+                
+                <input type="hidden" id="currentDateCreated" value="<%= Model.CurrentDateCreated %>" />
+                <input type="hidden" id="prevDateCreated" value="<%= Model.PrevDateCreated %>" />
 
-                    <input type="hidden" id="currentQuestionText" value="<%= Server.HtmlEncode(Model.CurrentQuestionText) %>"/>
-                    <input type="hidden" id="prevQuestionText" value="<%= Server.HtmlEncode(Model.PrevQuestionText) %>"/>
+                <input type="hidden" id="currentQuestionText" value="<%= Server.HtmlEncode(Model.CurrentQuestionText) %>"/>
+                <input type="hidden" id="prevQuestionText" value="<%= Server.HtmlEncode(Model.PrevQuestionText) %>"/>
 
-                    <input type="hidden" id="currentQuestionTextExtended" value="<%= Server.HtmlEncode(Model.CurrentQuestionTextExtended) %>"/>
-                    <input type="hidden" id="prevQuestionTextExtended" value="<%= Server.HtmlEncode(Model.PrevQuestionTextExtended) %>"/>
+                <input type="hidden" id="currentQuestionTextExtended" value="<%= Server.HtmlEncode(Model.CurrentQuestionTextExtended) %>"/>
+                <input type="hidden" id="prevQuestionTextExtended" value="<%= Server.HtmlEncode(Model.PrevQuestionTextExtended) %>"/>
 
-                    <input type="hidden" id="currentLicense" value="<%= Server.HtmlEncode(Model.CurrentLicense) %>"/>
-                    <input type="hidden" id="prevLicense" value="<%= Server.HtmlEncode(Model.PrevLicense) %>"/>
-                    
-                    <input type="hidden" id="currentVisibility" value="<%= Server.HtmlEncode(Model.CurrentVisibility) %>"/>
-                    <input type="hidden" id="prevVisibility" value="<%= Server.HtmlEncode(Model.PrevVisibility) %>"/>
-                    
-                    <input type="hidden" id="currentSolution" value="<%= Server.HtmlEncode(Model.CurrentSolution) %>"/>
-                    <input type="hidden" id="prevSolution" value="<%= Server.HtmlEncode(Model.PrevSolution) %>"/>
-                    
-                    <input type="hidden" id="currentSolutionDescription" value="<%= Server.HtmlEncode(Model.CurrentSolutionDescription) %>"/>
-                    <input type="hidden" id="prevSolutionDescription" value="<%= Server.HtmlEncode(Model.PrevSolutionDescription) %>"/>
+                <input type="hidden" id="currentLicense" value="<%= Server.HtmlEncode(Model.CurrentLicense) %>"/>
+                <input type="hidden" id="prevLicense" value="<%= Server.HtmlEncode(Model.PrevLicense) %>"/>
+                
+                <input type="hidden" id="currentVisibility" value="<%= Server.HtmlEncode(Model.CurrentVisibility) %>"/>
+                <input type="hidden" id="prevVisibility" value="<%= Server.HtmlEncode(Model.PrevVisibility) %>"/>
+                
+                <input type="hidden" id="currentSolution" value="<%= Server.HtmlEncode(Model.CurrentSolution) %>"/>
+                <input type="hidden" id="prevSolution" value="<%= Server.HtmlEncode(Model.PrevSolution) %>"/>
+                
+                <input type="hidden" id="currentSolutionDescription" value="<%= Server.HtmlEncode(Model.CurrentSolutionDescription) %>"/>
+                <input type="hidden" id="prevSolutionDescription" value="<%= Server.HtmlEncode(Model.PrevSolutionDescription) %>"/>
 
-                    <input type="hidden" id="currentSolutionMetadataJson" value="<%= Server.HtmlEncode(Model.CurrentSolutionMetadataJson) %>"/>
-                    <input type="hidden" id="prevSolutionMetadataJson" value="<%= Server.HtmlEncode(Model.PrevSolutionMetadataJson) %>"/>
+                <input type="hidden" id="currentSolutionMetadataJson" value="<%= Server.HtmlEncode(Model.CurrentSolutionMetadataJson) %>"/>
+                <input type="hidden" id="prevSolutionMetadataJson" value="<%= Server.HtmlEncode(Model.PrevSolutionMetadataJson) %>"/>
 
-                    <input type="hidden" id="imageWasChanged" value="<%= Model.ImageWasChanged %>"/>
-                    
-                    <div id="diffPanel">
-                        <div id="diffQuestionText"></div>
-                        <div id="diffQuestionTextExtended"></div>
-                        <%if (Model.ImageWasChanged) { %>
-                            <div class="diffImage">
-                                <div id="newImageAlert" class="panel panel-default">
-                                    <div class="panel-heading">Änderung des Bildes. Das aktuelle Bild ist:</div>
-                                    <div class="panel-body">
-                                        <%= Model.ImageFrontendData.RenderHtmlImageBasis(350, false, ImageType.Question, "ImageContainer") %>
-                                    </div>
+                <input type="hidden" id="imageWasChanged" value="<%= Model.ImageWasChanged %>"/>
+                
+                <div id="diffPanel">
+                    <div id="diffQuestionText"></div>
+                    <div id="diffQuestionTextExtended"></div>
+                    <%if (Model.ImageWasChanged) { %>
+                        <div class="diffImage">
+                            <div id="newImageAlert" class="panel panel-default">
+                                <div class="panel-heading">Änderung des Bildes. Das aktuelle Bild ist:</div>
+                                <div class="panel-body">
+                                    <%= Model.ImageFrontendData.RenderHtmlImageBasis(350, false, ImageType.Question, "ImageContainer") %>
                                 </div>
                             </div>
-                        <% } %>  
-                        <div id="diffLicense"></div>
-                        <div id="diffVisibility"></div>
-                        <div id="diffSolution"></div>
-                        <div id="diffSolutionDescription"></div>
-                        <div id="diffSolutionMetadataJson"></div>
-                    </div>
-                <% } %>
+                        </div>
+                    <% } %>  
+                    <div id="diffLicense"></div>
+                    <div id="diffVisibility"></div>
+                    <div id="diffSolution"></div>
+                    <div id="diffSolutionDescription"></div>
+                    <div id="diffSolutionMetadataJson"></div>
+                </div>
             </div>
         </div>
     </div>
