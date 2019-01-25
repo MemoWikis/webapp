@@ -1,6 +1,7 @@
 ﻿<%@ Page Language="C#" MasterPageFile="~/Views/Shared/Site.Sidebar.Master" Inherits="ViewPage<CategoryHistoryDetailModel>" %>
 <%@ Import Namespace="System.Web.Optimization" %>
 <%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
+<%@ Import Namespace="FluentNHibernate.Conventions" %>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="Head" runat="server">
     <%= Styles.Render("~/bundles/CategoryHistoryDetail") %>
@@ -86,57 +87,69 @@
         
         <div class="row">
             <div class="col-12">
-                <% if (!Model.PrevRevExists) {  %>
+                <% var revisionMessage = "";
+                   if (!Model.NextRevExists)
+                       revisionMessage = "Dies ist die <b>aktuelle Revision</b> des Themas. ";
+                   if (!Model.PrevRevExists)
+                   {
+                       revisionMessage += (revisionMessage.IsNotEmpty()) ?
+                           "<br/><br/>Es ist auch die <b>initiale Revision</b> des Themas. " :
+                           "Dies ist die <b>initiale Revision</b> des Themas. ";
+                       revisionMessage += "Deswegen werden im folgenden als Änderungen die Werte dargestellt, mit denen das Thema erstellt wurde.";
+                   }
+                %>
+                <% if (revisionMessage.IsNotEmpty()) { %>
                     <br />
                     <div class="alert alert-info" role="alert">
-                        Dies ist die <b>initiale Revision</b> des Themas, weswegen hier keine Änderungen angezeigt werden können.
+                        <%= revisionMessage %>
                     </div>
                 <% } else { %>
-                    <% if (!Model.NextRevExists) { %>
-                        <br />
-                        <div class="alert alert-info" role="alert">
-                            Dies ist die <b>aktuelle Revision</b> des Themas.
-                        </div>
-                    <% } else { %>
-                        <br />
-                    <% } %>
-                    <div id="noChangesAlert" class="alert alert-info" role="alert" style="display: none;">
-                        Zwischen den beiden Revisionen (vom <%= Model.PrevDateCreated %> und 
-                        vom <%= Model.CurrentDateCreated %>) gibt es <b>keine inhaltlichen Unterschiede</b>.
-                    </div>
-                    <input type="hidden" id="currentName" value="<%= Server.HtmlEncode(Model.CurrentName) %>"/>
-                    <input type="hidden" id="prevName" value="<%= Server.HtmlEncode(Model.PrevName) %>"/>
-                    <input type="hidden" id="currentMarkdown" value="<%= Server.HtmlEncode(Model.CurrentMarkdown) %>"/>
-                    <input type="hidden" id="prevMarkdown" value="<%= Server.HtmlEncode(Model.PrevMarkdown) %>"/>
-                    <input type="hidden" id="currentDescription" value="<%= Server.HtmlEncode(Model.CurrentDescription) %>"/>
-                    <input type="hidden" id="prevDescription" value="<%= Server.HtmlEncode(Model.PrevDescription) %>"/>
-                    <input type="hidden" id="currentWikipediaUrl" value="<%= Server.HtmlEncode(Model.CurrentWikipediaUrl) %>"/>
-                    <input type="hidden" id="prevWikipediaUrl" value="<%= Server.HtmlEncode(Model.PrevWikipediaUrl) %>"/>
-                    <input type="hidden" id="currentRelations" value="<%= Server.HtmlEncode(Model.CurrentRelations) %>"/>
-                    <input type="hidden" id="prevRelations" value="<%= Server.HtmlEncode(Model.PrevRelations) %>"/>
-                    <input type="hidden" id="currentDateCreated" value="<%= Model.CurrentDateCreated %>" />
-                    <input type="hidden" id="prevDateCreated" value="<%= Model.PrevDateCreated %>" />
-                    <div id="diffPanel">
-                        <div id="diffName"></div>
-                        <%if (Model.ImageWasUpdated) { %>
-                            <div class="diffImage">
-                                <div id="newImageAlert" class="panel panel-default">
-                                    <div class="panel-heading">Änderung des Bildes. Das aktuelle Bild ist:</div>
-                                    <div class="panel-body">
-                                        <%= Model.ImageFrontendData.RenderHtmlImageBasis(350, false, ImageType.Category, "ImageContainer") %>
-                                    </div>
+                    <br />
+                <% } %>
+                <div id="noChangesAlert" class="alert alert-info" role="alert" style="display: none;">
+                    Zwischen den beiden Revisionen (vom <%= Model.PrevDateCreated %> und 
+                    vom <%= Model.CurrentDateCreated %>) gibt es <b>keine inhaltlichen Unterschiede</b>.
+                </div>
+                <input type="hidden" id="currentName" value="<%= Server.HtmlEncode(Model.CurrentName) %>"/>
+                <input type="hidden" id="prevName" value="<%= Server.HtmlEncode(Model.PrevName) %>"/>
+
+                <input type="hidden" id="currentMarkdown" value="<%= Server.HtmlEncode(Model.CurrentMarkdown) %>"/>
+                <input type="hidden" id="prevMarkdown" value="<%= Server.HtmlEncode(Model.PrevMarkdown) %>"/>
+                
+                <input type="hidden" id="currentDescription" value="<%= Server.HtmlEncode(Model.CurrentDescription) %>"/>
+                <input type="hidden" id="prevDescription" value="<%= Server.HtmlEncode(Model.PrevDescription) %>"/>
+                
+                <input type="hidden" id="currentWikipediaUrl" value="<%= Server.HtmlEncode(Model.CurrentWikipediaUrl) %>"/>
+                <input type="hidden" id="prevWikipediaUrl" value="<%= Server.HtmlEncode(Model.PrevWikipediaUrl) %>"/>
+                
+                <input type="hidden" id="currentRelations" value="<%= Server.HtmlEncode(Model.CurrentRelations) %>"/>
+                <input type="hidden" id="prevRelations" value="<%= Server.HtmlEncode(Model.PrevRelations) %>"/>
+                
+                <input type="hidden" id="currentDateCreated" value="<%= Model.CurrentDateCreated %>" />
+                <input type="hidden" id="prevDateCreated" value="<%= Model.PrevDateCreated %>" />
+
+                <input type="hidden" id="imageWasUpdated" value="<%= Model.ImageWasUpdated %>"/>
+
+                <div id="diffPanel">
+                    <div id="diffName"></div>
+                    <%if (Model.ImageWasUpdated) { %>
+                        <div class="diffImage">
+                            <div id="newImageAlert" class="panel panel-default">
+                                <div class="panel-heading">Änderung des Bildes. Das aktuelle Bild ist:</div>
+                                <div class="panel-body">
+                                    <%= Model.ImageFrontendData.RenderHtmlImageBasis(350, false, ImageType.Category, "ImageContainer") %>
                                 </div>
                             </div>
-                        <% } %>  
-                        <div id="diffDescription"></div>
-                        <div id="diffWikipediaUrl"></div>
-                        <div id="diffData"></div>
-                        <div id="diffRelations"></div>
-                        <div id="noRelationsAlert" class="alert alert-info" role="alert" style="display: none;">
-                            Es können <b>keine Beziehungsdaten</b> angezeigt werden, da für die gewählten Revisionen keine enstsprechenden Daten vorliegen.
                         </div>
+                    <% } %>  
+                    <div id="diffDescription"></div>
+                    <div id="diffWikipediaUrl"></div>
+                    <div id="diffData"></div>
+                    <div id="diffRelations"></div>
+                    <div id="noRelationsAlert" class="alert alert-info" role="alert" style="display: none;">
+                        Es können <b>keine Beziehungsdaten</b> angezeigt werden, da für die gewählten Revisionen keine enstsprechenden Daten vorliegen.
                     </div>
-                <% } %>
+                </div>
             </div>
         </div>
     </div>

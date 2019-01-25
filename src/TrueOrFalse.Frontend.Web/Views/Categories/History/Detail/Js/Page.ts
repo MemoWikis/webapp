@@ -27,6 +27,8 @@ function ShowDiff2Html() {
     var diffWikipediaUrl = Diff(prevWikipediaUrl, currentWikipediaUrl, 'Änderungen der Wikipedia-URL');
     var diffRelations = Diff(prevRelations, currentRelations, 'Änderungen der Beziehungsdaten');
 
+    var imageWasUpdated = $('#imageWasUpdated').val().toLowerCase();
+
     if (diffName)
         ShowDiff(diffName, '#diffName');
     if (diffDescription)
@@ -37,9 +39,9 @@ function ShowDiff2Html() {
         ShowDiff(diffMarkdown, '#diffData');
     if (diffRelations)
         ShowDiff(diffRelations, '#diffRelations');
-
+    
     // Zeige Hinweis, falls es keine inhaltichen Änderungen zu geben scheint
-    if (!diffName && !diffDescription && !diffWikipediaUrl && !diffMarkdown && !diffRelations)
+    if (!diffName && !diffDescription && !diffWikipediaUrl && !diffMarkdown && !diffRelations && imageWasUpdated === "false")
     {
         $("#diffPanel").hide();
         $("#noChangesAlert").show();
