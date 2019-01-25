@@ -14,7 +14,13 @@ public class QuestionChangesOverviewModel : BaseModel
         var revisionsToSkip = (PageToShow - 1) * revisionsToShow;
         var query = $@"
             
-            SELECT * FROM QuestionChange qc ORDER BY qc.DateCreated DESC LIMIT {revisionsToSkip},{revisionsToShow}
+            (SELECT * FROM QuestionChange qc WHERE qc.Question_Id IN
+	            (SELECT Id FROM Question q WHERE q.Visibility = {QuestionVisibility.All}))
+            UNION
+            (SELECT * FROM QuestionChange qc WHERE qc.Question_Id IN 
+	            (SELECT Id FROM Question q WHERE (q.Visibility = {QuestionVisibility.Owner} OR q.Visibility = {QuestionVisibility.OwnerAndFriends}) AND q.Creator_Id = {Sl.SessionUser.UserId}))
+            ORDER BY DateCreated DESC
+            LIMIT {revisionsToSkip},{revisionsToShow}
 
             ";
         var revisions = Sl.R<ISession>().CreateSQLQuery(query).AddEntity(typeof(QuestionChange)).List<QuestionChange>();
