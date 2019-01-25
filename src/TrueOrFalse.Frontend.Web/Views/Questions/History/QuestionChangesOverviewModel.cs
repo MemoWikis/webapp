@@ -15,10 +15,10 @@ public class QuestionChangesOverviewModel : BaseModel
         var query = $@"
             
             (SELECT * FROM QuestionChange qc WHERE qc.Question_Id IN
-	            (SELECT Id FROM Question q WHERE q.Visibility = {QuestionVisibility.All}))
+	            (SELECT Id FROM Question q WHERE q.Visibility = {(int)QuestionVisibility.All}))
             UNION
             (SELECT * FROM QuestionChange qc WHERE qc.Question_Id IN 
-	            (SELECT Id FROM Question q WHERE (q.Visibility = {QuestionVisibility.Owner} OR q.Visibility = {QuestionVisibility.OwnerAndFriends}) AND q.Creator_Id = {Sl.SessionUser.UserId}))
+	            (SELECT Id FROM Question q WHERE (q.Visibility = {(int)QuestionVisibility.Owner} OR q.Visibility = {(int)QuestionVisibility.OwnerAndFriends}) AND q.Creator_Id = {Sl.SessionUser.UserId}))
             ORDER BY DateCreated DESC
             LIMIT {revisionsToSkip},{revisionsToShow}
 
