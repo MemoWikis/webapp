@@ -59,7 +59,7 @@
                             <% if (Model.SidebarModel.UnreadMessageCount != 0) { %>
                                 <svg class="badge" height="100" width="100">
                                     <g>
-                                        <circle cx="14" cy="11" r="8" fill="#FF001F"/>
+                                        <circle cx="13" cy="11" r="8" fill="#FF001F"/>
                                         <text class="level-count" x="60%" text-anchor="middle" font-size="10" y="55%" dy=".34em" fill="white"><%= Model.SidebarModel.UnreadMessageCount %></text>
                                     </g>
                                 </svg>                
