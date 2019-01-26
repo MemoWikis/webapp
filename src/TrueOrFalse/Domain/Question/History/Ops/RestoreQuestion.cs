@@ -2,7 +2,6 @@
 
 public class RestoreQuestion
 {
-    [RedirectToErrorPage_IfNotLoggedIn]
     public static void Run(int questionChangeId, User author)
     {
         var questionChange = Sl.QuestionChangeRepo.GetByIdEager(questionChangeId);
