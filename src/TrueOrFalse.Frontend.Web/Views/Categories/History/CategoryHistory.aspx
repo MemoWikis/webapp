@@ -36,11 +36,7 @@
                 <div class="col-xs-3 show-tooltip"  data-toggle="tooltip" data-placement="left" title="<%= item.DateTime %>">
                     vor <%= item.ElapsedTime %> um <%= item.Time %>
                 </div>
-                <div class="col-xs-6 pull-right">    
-                    <%--<a>
-                        <i class="fa fa-comment-o"></i> #
-                    </a>&nbsp;--%>
-                    
+                <div class="col-xs-6 pull-right">
                     <a class="btn btn-sm btn-default btn-primary" href="<%= Links.CategoryDetail(Model.CategoryName, Model.CategoryId, item.CategoryChangeId) %>">
                         <i class="fa fa-desktop"></i> Revision anzeigen
                     </a>&nbsp;

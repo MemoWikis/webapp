@@ -41,6 +41,12 @@ public class QuestionHistoryDetailModel : BaseModel
         QuestionChange nextRevision)
     {
         var question = Sl.QuestionRepo.GetById(currentRevision.Question.Id);
+        QuestionId = currentRevision.Question.Id;
+        QuestionUrl = Links.AnswerQuestion(question);
+        QuestionText = currentRevision.Question.Text;
+        Author = currentRevision.Author;
+        AuthorName = currentRevision.Author.Name;
+        AuthorImageUrl = new UserImageSettings(currentRevision.Author.Id).GetUrl_85px_square(currentRevision.Author).Url;
 
         PrevRevExists = previousRevision != null;
         NextRevExists = nextRevision != null;
@@ -75,13 +81,6 @@ public class QuestionHistoryDetailModel : BaseModel
             var imageMetaData = Sl.ImageMetaDataRepo.GetBy(currentRevision.Question.Id, ImageType.Question);
             ImageFrontendData = new ImageFrontendData(imageMetaData);
         }
-
-        QuestionId = currentRevision.Question.Id;
-        QuestionUrl = Links.AnswerQuestion(question);
-        QuestionText = currentRevision.Question.Text;
-        Author = currentRevision.Author;
-        AuthorName = currentRevision.Author.Name;
-        AuthorImageUrl = new UserImageSettings(currentRevision.Author.Id).GetUrl_85px_square(currentRevision.Author).Url;
     }
 
 }
