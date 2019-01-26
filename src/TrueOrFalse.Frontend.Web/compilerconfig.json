@@ -322,5 +322,9 @@
   {
     "outputFile": "Views/Shared/Spinner/Spinner.css",
     "inputFile": "Views/Shared/Spinner/Spinner.less"
+  },
+  {
+    "outputFile": "Style/TopHeader.css",
+    "inputFile": "Style/TopHeader.less"
   }
 ]

@@ -1,0 +1,316 @@
+﻿
+@import (reference) 'includes/imports.less';
+
+
+/*  [Local variables:]
+----------------------------------------------------------*/
+
+@masterHeaderMainRowHeight-xs: 34px;
+@masterHeaderMainRowHeight-md: 37px;
+
+
+/* MASTER HEADER  
+----------------------------------------------------------*/
+
+#MasterHeader {
+    position: sticky;
+    margin: 0;
+    width: 100%;
+    min-height: 84px;
+    z-index: 100;
+    background-color: @memo-blue;
+
+    @media(max-width:767px) {
+        min-height: 47px;
+    }
+
+
+
+    .HeaderMainRow {
+        height: @masterHeaderMainRowHeight-xs;
+        margin-top: 3px;
+        margin-bottom: 3px;
+
+        @media (min-width: @screen-sm-min) {
+            margin-top: 1%;
+            margin-bottom: 1%;
+        }
+
+        @media (min-width: @screen-sm-min) {
+            height: (@masterHeaderMainRowHeight-md);
+            margin-top: 6px;
+            margin-bottom: 6px;
+        }
+
+        .fa-dot-circle-o {
+            @media(max-width: 580px) {
+                margin-top: 4px;
+            }
+        }
+
+        #HeaderSearchBoxDiv {
+            left: 115px;
+            margin-top: 17px;
+            width: 262.41px;
+
+            @media (max-width:(@screen-lg - 0.5)) {
+                width: 215.41px;
+                left: 29px;
+            }
+
+            @media (max-width:(@screen-md-min - 0.5)) {
+                display: none;
+            }
+
+            #headerSearchBox {
+                border-right: none !important;
+                border: 1px #979797 solid;
+                height: 44px;
+            }
+        }
+
+        .userImage {
+            height: 31px;
+            width: 31px;
+            margin-left: 1px;
+        }
+    }
+
+
+
+
+    .col-Logo {
+        height: 100%;
+
+        .media-below-xs( {
+            padding-right: 0;
+        }
+
+        );
+        width: auto;
+        float: left;
+    }
+
+    .col-LoginAndHelp {
+        width: auto;
+        float: right;
+        margin-top: 12px;
+        margin-bottom: 12px;
+
+        .media-below-xs( {
+            padding-left: 0;
+            float: right;
+        }
+
+        );
+
+        .media-below-sm( {
+            margin-top: 0px;
+        }
+
+        );
+        height: @masterHeaderMainRowHeight-xs;
+    }
+}
+
+
+/*
+    Dropdown Masterheader
+*/
+
+#loginAndHelp, #StickyHeaderContainer {
+    color: @light-blue;
+    float: right;
+    height: 100%;
+
+    .media-below-sm( {
+        margin-top: 6px;
+    }
+
+    );
+
+
+    .badge {
+        height: 19px;
+        padding: 0px;
+        line-height: 14px;
+        font-size: 10px !important;
+        width: 27px;
+        display: flex !important;
+        flex-direction: column;
+        text-align: center;
+        background-color: transparent;
+
+        &.badge-header {
+            background-color: #FF001F;
+            width: 19px;
+            margin-left: 8px;
+            margin-top: 3px;
+            left: 11px;
+            top: -11px;
+            border: 1.5px solid #003264;
+            position: relative;
+        }
+    }
+
+    .dropdown-badge {
+        line-height: 16px !important;
+        border: 1px solid #FFFFFF;
+    }
+
+    #SmallHeaderSearchBoxDiv {
+        width: 43px;
+        -webkit-transition: width 0.3s;
+        display: none;
+        margin-top: 2px;
+
+        @media(max-width:(@screen-md-min - 0.5)) {
+            display: table;
+        }
+
+        #SmallHeaderSearchBox {
+            border: none;
+            padding: 0px;
+            font-weight: 400;
+            text-overflow: ellipsis;
+        }
+    }
+
+    .header-item {
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+        text-align: center;
+        margin-right: 15px;
+
+        .btn-default {
+            display: none;
+            background-color: transparent;
+            border: none;
+
+            @media (max-width:(@screen-md-min - 0.5)) {
+                display: block;
+            }
+        }
+    }
+
+    .header-item:not(#MenuButtonContainer) {
+        @media(max-width:580px) {
+            margin-top: -5px;
+        }
+    }
+
+    .dropdown {
+        height: 100%;
+        line-height: @masterHeaderMainRowHeight-xs;
+
+        @media(max-width:580px) {
+            padding-top: 5px;
+        }
+
+        .userName {
+            max-width: 145px;
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+        }
+    }
+
+    span {
+        vertical-align: middle;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    .KnowledgeLink {
+        color: #AED71B !important;
+    }
+
+    a.TextLinkWithIcon {
+        color: @light-blue;
+
+        &:hover, &:active, &:focus {
+            color: @memo-green;
+
+            * {
+                text-decoration: none;
+            }
+        }
+    }
+
+    a.helpLink {
+
+        @media (min-width: @screen-xs-min) {
+            margin-right: 5px;
+        }
+
+        @media (min-width: @screen-sm-min) {
+            margin-right: 10px;
+        }
+
+        @media (max-width: 370px) {
+            display: none;
+        }
+
+        &.helpLinkFaq {
+            @media (max-width: 700px) {
+                display: none;
+            }
+        }
+    }
+
+
+
+    i:not(.fa-bars, .fa-plus-circle, .fa-dot-circle-o) {
+        font-size: 32px;
+    }
+
+    .fa-bars {
+        @media(max-width: 580px) {
+            margin-top: -3px;
+        }
+    }
+
+    .TextSpan, span:not(.level-display) {
+        display: inline-block;
+        font-size: 14px;
+
+        @media(max-width: (@screen-md - 0.5)) {
+            display: none;
+        }
+    }
+
+    .dropdown-menu {
+        text-align: left;
+        border-radius: 0px;
+        padding-top: 0px;
+        max-width: 220px;
+        top: 60px;
+
+        span {
+            font-size: 12px;
+            line-height: normal;
+            font-weight: normal;
+        }
+
+        a {
+            font-weight: normal;
+            color: black;
+            font-size: 16px;
+            padding: 15px 23.34px 15px 23.34px;
+
+            &.active {
+                background-color: @light-grey-hover;
+                font-weight: bold;
+            }
+        }
+
+        i {
+            margin: 0px;
+        }
+    }
+
+    i#tabInfoMyKnowledge {
+        margin-right: 1px;
+    }
+}

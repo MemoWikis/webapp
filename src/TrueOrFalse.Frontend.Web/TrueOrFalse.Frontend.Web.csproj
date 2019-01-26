@@ -20049,6 +20049,9 @@
     <Content Include="Style\tabs.css">
       <DependentUpon>tabs.less</DependentUpon>
     </Content>
+    <Content Include="Style\TopHeader.css">
+      <DependentUpon>TopHeader.less</DependentUpon>
+    </Content>
     <Content Include="Views\About\Js\Page.js">
       <DependentUpon>Page.ts</DependentUpon>
     </Content>
@@ -20304,6 +20307,7 @@
     <Content Include="Views\Knowledge\Dates\Edit\Js\EditDate.js.map">
       <DependentUpon>EditDate.ts</DependentUpon>
     </Content>
+    <Content Include="Style\TopHeader.less" />
     <None Include="Views\Maintenance\ContentStats.less" />
     <Compile Include="Views\Maintenance\ContentStatsModel.cs" />
     <Compile Include="Views\Maintenance\Images\MaintenanceImagesController.cs" />
