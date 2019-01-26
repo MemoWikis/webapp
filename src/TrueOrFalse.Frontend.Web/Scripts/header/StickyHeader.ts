@@ -16,8 +16,8 @@ window.onload = event => {
         breadcrumb.style.top = "0px";
         rightMainMenu.style.top = "52px";
     } else {
-        breadcrumb.style.top = (80 + header.scrollTop).toString() + "px";
-        rightMainMenu.style.top = "60px";
+        breadcrumb.style.top = (80 + $("#MasterHeader").toString() + "px");
+        //rightMainMenu.style.top = "60px";
 
         if (window.innerWidth < 768) {
             breadcrumb.style.top = "50px";
@@ -45,7 +45,7 @@ function StickyHeader() {
         breadcrumb.classList.add("ShowBreadcrumb");
         breadcrumb.classList.add("sticky");
 
-        rightMainMenu.style.position = "fixed";
+        rightMainMenu.style.position = "absolute";
         rightMainMenu.style.top = "52px";
 
         $('#BreadCrumbTrail').css('max-width', "51%");
@@ -66,7 +66,7 @@ function StickyHeader() {
         $('#StickyHeaderContainer').hide();
 
         rightMainMenu.style.position = "absolute";
-        rightMainMenu.style.top = "60px";
+        rightMainMenu.style.top = "64px";
         rightMainMenu.style.position = "absolute";
 
         $('#BreadCrumbTrail').css("max-width", "");
@@ -124,10 +124,10 @@ function countLines(target) {
 
 function reorientateMenu(pos) {
     if (pos > 80) {
-        $('#RightMainMenu').css('margin-right', $('#BreadCrumbContainer').css('margin-right'));
+       // $('#RightMainMenu').css('margin-right', $('#BreadCrumbContainer').css('margin-right'));
         $('#BreadcrumbUserDropdown').css('margin-right', $('#BreadCrumbContainer').css('margin-right'));
     } else {
-        $('#RightMainMenu').css('margin-right', '');
+        //$('#RightMainMenu').css('margin-right', '');
         $('#BreadcrumbUserDropdown').css('margin-right', '');
     }
 }
