@@ -2,6 +2,7 @@
 
 public class QuestionHistoryDetailController : Controller
 {
+    [AccessOnlyAsQuestionOwner]
     public ActionResult Detail(int questionId, int revisionId)
     {
         var currentRevision = Sl.QuestionChangeRepo.GetByIdEager(revisionId);
