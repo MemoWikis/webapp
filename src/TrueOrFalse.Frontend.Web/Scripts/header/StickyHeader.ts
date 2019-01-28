@@ -51,10 +51,10 @@ function StickyHeader() {
 
         $('#BreadCrumbTrail').css('max-width', "51%");
 
-        if ($("#HeaderUserDropdown").hasClass("open")) {
-              $("#HeaderUserDropdown").removeClass("open");
-              $("#BreadcrumbUserDropdownImage").addClass("open");
-        }
+        //if ($("#HeaderUserDropdown").hasClass("open")) {
+        //      $("#HeaderUserDropdown").removeClass("open");
+        //      $("#BreadcrumbUserDropdownImage").addClass("open");
+        //}
 
     } else {
         breadcrumb.style.top = (80 + header.scrollTop).toString() + "px";
@@ -73,10 +73,10 @@ function StickyHeader() {
 
         $('#BreadCrumbTrail').css("max-width", "");
 
-        if ($("#BreadcrumbUserDropdownImage").hasClass("open")) {
-            $("#BreadcrumbUserDropdownImage").removeClass("open");
-            $("#HeaderUserDropdown").addClass("open");
-        }
+        //if ($("#BreadcrumbUserDropdownImage").hasClass("open")) {
+        //    $("#BreadcrumbUserDropdownImage").removeClass("open");
+        //    $("#HeaderUserDropdown").addClass("open");
+        //}
 
         if (breadcrumb.classList.contains("sticky")) {
            breadcrumb.classList.remove("sticky");
