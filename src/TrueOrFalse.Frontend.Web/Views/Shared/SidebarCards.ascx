@@ -8,16 +8,28 @@
 
 %>
     <div id="AutorCard" style="padding-top:0.1px;">
-        <div class="ImageContainer" style="width: 100%; padding-left:0.5px; border-right: #979797 solid 0.5px;">
-            <div class="card-image-large" style="background:url(<%= author.ImageUrl %>) center;"></div>
-        </div>
-        <div class="card-title">
-            <span>Autorenschaft</span>
-        </div>
-        <div class="card-link">
-            <a  href="<%= Links.UserDetail(author.User) %>">
-               <%= author.Name %> 
-            </a>
+        <div class="top-container">
+            <div class="column-left">
+                <div class="ImageContainer" style="width: 75px; padding-left: 0.5px;">
+                    <div class="card-image-large" style="background: url(<%= author.ImageUrl %>) center;"></div>
+                </div>
+            </div>
+            <div class="column-right">
+                <div class="card-title">
+                    <span>Autorenschaft</span>
+                </div>
+                <div class="card-link">
+                    <a href="<%= Links.UserDetail(author.User) %>">
+                        <%= author.Name %> 
+                    </a>
+                    <i class="fa fa-user-plus"></i>
+                </div>
+                <div class="author-reputation">
+                    <span>Reputation:</span>
+                    <br/>
+                    <span><%= author.Reputation %> Punkte (Rang <%= author.ReputationPos %>)</span>
+                </div>
+            </div>
         </div>
         <div class="autor-card-footer-bar">               
             <div class="show-tooltip" <% if(!Model.IsCurrentUser){%>title="<%if(Model.DoIFollow){ %>Du folgst <%= author.Name %> und nimmst an ihren/seinen Aktivitäten teil.<%}else{ %>Folge <%= author.Name %>, um an ihren/seinen Aktivitäten teilzuhaben.<%} %>" <%} %>>
@@ -25,7 +37,7 @@
                 <span class="footer-bar-text"><%= Model.Reputation.ForUsersFollowingMe %></span> 
             </div>
             <div class="show-tooltip" title='"<%= Model.Reputation.TotalReputation%>" ist eine stolze Zahl! Reputationspunkte zeigen, wieviel  <%= Model.AuthorCardLinkText%> für memucho getan hat.'>
-                <i style="color:#b13a48;" class="fa fa-heart"></i>
+                <i class="fa fa-heart"></i>
                 <span class="footer-bar-text"> <%=Model.Reputation.TotalReputation %></span>
             </div>
             <div class="show-tooltip"  <% if(!Model.IsCurrentUser){%>title="<%= Model.AuthorCardLinkText%> hat ihr/sein Wunschwissen<% if(author.ShowWishKnowledge){ %> veröffentlicht und <%= Model.AmountWishCountQuestions %> Fragen gesammelt. Alles klar soweit?<%}else{ %> nicht veröffentlicht.<%} %>"<%} %>>

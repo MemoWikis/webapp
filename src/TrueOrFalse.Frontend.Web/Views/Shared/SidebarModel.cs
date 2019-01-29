@@ -80,4 +80,6 @@ public class SidebarAuthorModel
     public string ImageUrl;
     public User User;
     public Boolean ShowWishKnowledge;
+    public int Reputation;
+    public int ReputationPos;
 }
