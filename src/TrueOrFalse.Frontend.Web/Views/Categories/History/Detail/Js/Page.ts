@@ -12,20 +12,25 @@ function ShowDiff2Html() {
     
     var currentName = $('#currentName').val();
     var prevName = $('#prevName').val();
+    var diffName = Diff(prevName, currentName, 'Änderungen des Namens');
+
     var currentMarkdown = $('#currentMarkdown').val();
     var prevMarkdown = $('#prevMarkdown').val();
+    var diffMarkdown = Diff(prevMarkdown, currentMarkdown, 'Änderungen des Inhaltes');
+
     var currentDescription = $('#currentDescription').val();
     var prevDescription = $('#prevDescription').val();
+    var diffDescription = Diff(prevDescription, currentDescription, 'Änderungen der Beschreibung');
+
     var currentWikipediaUrl = $('#currentWikipediaUrl').val();
     var prevWikipediaUrl = $('#prevWikipediaUrl').val();
+    var diffWikipediaUrl = Diff(prevWikipediaUrl, currentWikipediaUrl, 'Änderungen der Wikipedia-URL');
+
     var currentRelations = $('#currentRelations').val();
     var prevRelations = $('#prevRelations').val();
-    
-    var diffName = Diff(prevName, currentName, 'Änderungen des Namens');
-    var diffMarkdown = Diff(prevMarkdown, currentMarkdown, 'Änderungen des Inhaltes');
-    var diffDescription = Diff(prevDescription, currentDescription, 'Änderungen der Beschreibung');
-    var diffWikipediaUrl = Diff(prevWikipediaUrl, currentWikipediaUrl, 'Änderungen der Wikipedia-URL');
     var diffRelations = Diff(prevRelations, currentRelations, 'Änderungen der Beziehungsdaten');
+    
+    var imageWasUpdated = $('#imageWasUpdated').val().toLowerCase();
 
     if (diffName)
         ShowDiff(diffName, '#diffName');
@@ -37,9 +42,9 @@ function ShowDiff2Html() {
         ShowDiff(diffMarkdown, '#diffData');
     if (diffRelations)
         ShowDiff(diffRelations, '#diffRelations');
-
+    
     // Zeige Hinweis, falls es keine inhaltichen Änderungen zu geben scheint
-    if (!diffName && !diffDescription && !diffWikipediaUrl && !diffMarkdown && !diffRelations)
+    if (!diffName && !diffDescription && !diffWikipediaUrl && !diffMarkdown && !diffRelations && imageWasUpdated === "false")
     {
         $("#diffPanel").hide();
         $("#noChangesAlert").show();

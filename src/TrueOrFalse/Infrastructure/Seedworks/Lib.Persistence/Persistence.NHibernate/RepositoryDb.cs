@@ -139,6 +139,18 @@ namespace Seedworks.Lib.Persistence
 				OnItemUpdated(this, new RepositoryDbEventArgs(domainObject));
 		}
 
+    	public virtual void Merge(TDomainObject domainObject)
+        {
+			if (domainObject is WithDateModified)
+				(domainObject as WithDateModified).DateModified = DateTime.Now;
+
+            domainObject = _session.Merge(domainObject);
+			ClearAllItemCache();
+
+			if (OnItemUpdated != null)
+				OnItemUpdated(this, new RepositoryDbEventArgs(domainObject));
+		}
+
         public virtual void CreateOrUpdate(TDomainObject domainObject)
 		{
         	var creating = domainObject.Id == 0;

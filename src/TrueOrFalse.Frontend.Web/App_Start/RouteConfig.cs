@@ -40,6 +40,7 @@ namespace TrueOrFalse
             routes.MapRoute("Users", "Nutzer", new { controller = "Users", action = "Users" }); //included: , page = UrlParameter.Optional 
             routes.MapRoute("Users_Network", "Netzwerk", new { controller = "Users", action = "Network"});
 
+            routes.MapRoute("Questions_Changes_Overview", "Fragen/Historie/{pageToShow}", new { controller = "QuestionChangesOverview", action = "List" });
             routes.MapRoute("Questions_MineSearchApi", "Fragen/Meine/SucheApi", new { controller = "Questions", action = "QuestionsMineSearchApi" }, new[] { "TrueOrFalse" });
             routes.MapRoute("Questions_MineSearch", "Fragen/Meine/Suche/{searchTerm}", new { controller = "Questions", action = "QuestionsMineSearch", searchTerm = UrlParameter.Optional }, new[]{"TrueOrFalse"});
             routes.MapRoute("Questions_Mine", "Fragen/Meine", new { controller = "Questions", action = "QuestionsMine" }, new[]{"TrueOrFalse"});
@@ -50,6 +51,7 @@ namespace TrueOrFalse
             routes.MapRoute("Questions_SearchApi", "Fragen/SucheApi", new { controller = "Questions", action = "QuestionsSearchApi" }, new[] { "TrueOrFalse" });
             routes.MapRoute("Questions_SearchFilterCategory", "Fragen/Suche/Kategorie/{categoryName}/{categoryId}", new { controller = "Questions", action = "QuestionsSearchCategoryFilter"}, new[] { "TrueOrFalse" });
             routes.MapRoute("Questions_Search", "Fragen/Suche/{searchTerm}", new { controller = "Questions", action = "QuestionsSearch", searchTerm = UrlParameter.Optional }, new[] { "TrueOrFalse" });
+            routes.MapRoute("Question_Answer_History", "Fragen/{text}/{questionId}/Historie", new { controller = "QuestionHistory", action = "List" });
             routes.MapRoute("Questions", "Fragen", new { controller = "Questions", action = "Questions" }, new[] { "TrueOrFalse" });
 
             routes.MapRoute("Question_Delete", "Fragen/Loesche/{id}", new { controller = "Questions", action = "Delete" }, new[] { "TrueOrFalse" });
@@ -100,6 +102,7 @@ namespace TrueOrFalse
             /* API */ routes.MapRoute("Set_ChangeIndicies", "Set/UpdateQuestionsOrder", new { controller = "EditSet", action = "UpdateQuestionsOrder" });
             /* API */ routes.MapRoute("Set_ImageUpload", "Set/UploadImage/{id}", new { controller = "EditSet", action = "UploadImage", id = UrlParameter.Optional });
 
+            routes.MapRoute("Category_Changes_Overview", "Kategorien/Historie/{pageToShow}", new { controller = "CategoryChangesOverview", action = "List" });
             routes.MapRoute("Categories_WishSearch", "Kategorien/Wunschwissen/Suche/{searchTerm}", new { controller = "Categories", action = "CategoriesWish", searchTerm = UrlParameter.Optional });
             routes.MapRoute("Categories_WishSearchApi", "Kategorien/Wunschwissen/SucheApi", new { controller = "Categories", action = "SearchApiWish" });
             routes.MapRoute("Categories", "Kategorien", new { controller = "Categories", action = "Categories" });
@@ -113,7 +116,6 @@ namespace TrueOrFalse
             routes.MapRoute("Category_Detail", "Kategorien/{text}/{id}", new { controller = "Category", action = "Category" });
             routes.MapRoute("Category_History", "Kategorien/{categoryName}/{categoryId}/Historie", new { controller = "CategoryHistory", action = "List" });
             routes.MapRoute("Category_History_Detail", "Kategorien/{categoryName}/{categoryId}/Historie/{categoryChangeId}", new { controller = "CategoryHistoryDetail", action = "Detail" });
-            routes.MapRoute("HistoryOfEverything", "Historie/{pageToShow}", new { controller = "HistoryOfEverything", action = "List" });
             /* API */
             routes.MapRoute("Categories_AddSubCategoryRow", "Categories/AddSubCategoryRow", new { controller = "EditCategory", action = "AddSubCategoryRow" });
             /* API */ routes.MapRoute("Categories_EditSubCategoryItems", "Categories/EditSubCategoryItems/{id}", new { controller = "EditSubCategoryItems", action = "Edit" });

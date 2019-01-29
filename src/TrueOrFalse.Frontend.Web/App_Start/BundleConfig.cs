@@ -148,6 +148,15 @@ namespace TrueOrFalse.View
             bundles.Add(new StyleBundle("~/bundles/AnswerQuestion")
                 .Include("~/Views/Questions/Answer/*.css"));
 
+            bundles.Add(new StyleBundle("~/bundles/QuestionHistory")
+                .Include("~/Views/Questions/History/*.css"));
+
+            bundles.Add(new StyleBundle("~/bundles/QuestionHistoryDetail")
+                .Include("~/Views/Questions/History/Detail/*.css"));
+
+            bundles.Add(new ScriptBundle("~/bundles/js/QuestionHistoryDetail")
+                .Include("~/Views/Questions/History/Detail/Js/*.js"));
+
             bundles.Add(new StyleBundle("~/bundles/js/DeleteQuestion")
                 .Include("~/Views/Questions/Js/QuestionRowDelete.js"));
 

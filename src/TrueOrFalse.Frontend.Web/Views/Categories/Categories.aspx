@@ -26,7 +26,7 @@
                     Themen
                 </h3>
                 <div class="" style="float: right;">
-                    <a class="btn btn-sm btn-default" href="<%= Links.HistoryOfEverything(1) %>">
+                    <a class="btn btn-sm btn-default" href="<%= Links.CategoryChangesOverview(1) %>">
                         <i class="fa fa-list"></i> Bearbeitungshistorie
                     </a>
                     <a href="<%= Url.Action("Create", "EditCategory") %>" class="btnCreateItem btn btn-success btn-sm">
@@ -103,7 +103,7 @@
                         </li>
                     </ul>
                     <div class="" style="float: right; position: absolute; right: 0; top: 5px;">
-                        <a class="btn btn-sm btn-default" href="<%= Links.HistoryOfEverything(1) %>">
+                        <a class="btn btn-sm btn-default" href="<%= Links.CategoryChangesOverview(1) %>">
                             <i class="fa fa-list"></i> &nbsp; Bearbeitungshistorie aller Themen
                         </a>
                         <a href="<%= Url.Action("Create", "EditCategory") %>" class="btn btn-success btn-sm">

@@ -2,7 +2,6 @@
 
 public class RestoreCategory
 {
-    [RedirectToErrorPage_IfNotLoggedIn]
     public static void Run(int categoryChangeId, User author)
     {
         var categoryChange = Sl.CategoryChangeRepo.GetByIdEager(categoryChangeId);

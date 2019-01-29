@@ -49,7 +49,7 @@
                     <% } %>
                 </li>
                 <li>
-                    <a href="<%= Links.HistoryOfEverything(1) %>">
+                    <a href="<%= Links.CategoryChangesOverview(1) %>">
                         <i class="fa fa-list"></i> &nbsp; Bearbeitungshistorie aller Themen
                     </a>
                 </li>
