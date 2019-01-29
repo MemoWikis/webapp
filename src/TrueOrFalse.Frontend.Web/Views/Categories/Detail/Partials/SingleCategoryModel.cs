@@ -4,7 +4,7 @@ using System.Web.Mvc;
 using NHibernate.Util;
 using TrueOrFalse.Frontend.Web.Code;
 
-public class SingleCategoryModel : BaseModel
+public class SingleCategoryModel : BaseContentModule
 {
     public int CategoryId;
     public string CategoryName;

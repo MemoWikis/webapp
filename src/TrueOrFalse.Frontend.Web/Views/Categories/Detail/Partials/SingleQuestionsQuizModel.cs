@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-public class SingleQuestionsQuizModel : BaseModel
+public class SingleQuestionsQuizModel : BaseContentModule
 {
     public string Title;
     public string Text;

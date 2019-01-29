@@ -1,6 +1,6 @@
 ﻿using System;
 
-public class SingleSetFullWidthModel : BaseModel
+public class SingleSetFullWidthModel : BaseContentModule
 {
     public Set Set;
     public int SetId;

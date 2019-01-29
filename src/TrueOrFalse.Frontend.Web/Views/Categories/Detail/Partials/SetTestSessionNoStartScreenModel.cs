@@ -1,6 +1,6 @@
 ﻿using System;
 
-public class SetTestSessionNoStartScreenModel : BaseModel
+public class SetTestSessionNoStartScreenModel : BaseContentModule
 {
     public Set Set;
     public string Title;

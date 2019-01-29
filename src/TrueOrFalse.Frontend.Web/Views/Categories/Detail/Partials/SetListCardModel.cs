@@ -7,7 +7,7 @@ using NHibernate.Util;
 using TrueOrFalse.Frontend.Web.Code;
 
 
-public class SetListCardModel : BaseModel
+public class SetListCardModel : BaseContentModule
 {
     public IList<Set> Sets;
 

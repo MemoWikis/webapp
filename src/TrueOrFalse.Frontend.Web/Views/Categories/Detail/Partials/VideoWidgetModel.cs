@@ -1,4 +1,4 @@
-﻿public class VideoWidgetModel : BaseModel
+﻿public class VideoWidgetModel : BaseContentModule
 {
     public int SetId;
 

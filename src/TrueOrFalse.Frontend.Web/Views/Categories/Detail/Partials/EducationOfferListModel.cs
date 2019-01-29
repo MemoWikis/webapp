@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-public class EducationOfferListModel : BaseModel
+public class EducationOfferListModel : BaseContentModule
 {
     public Category Category;
 

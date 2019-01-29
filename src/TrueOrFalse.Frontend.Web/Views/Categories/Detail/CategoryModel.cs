@@ -3,7 +3,7 @@ using System.Linq;
 using NHibernate.Cfg;
 using TrueOrFalse.Web;
 
-public class CategoryModel : BaseModel
+public class CategoryModel : BaseContentModule
 {
     public string MetaTitle;
     public string MetaDescription;
@@ -67,6 +67,7 @@ public class CategoryModel : BaseModel
     public bool IsInWishknowledge;
 
     public LearningTabModel LearningTabModel; 
+
     public CategoryModel(Category category, bool loadKnowledgeSummary = true)
     {      
         MetaTitle = category.Name;

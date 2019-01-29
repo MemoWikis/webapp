@@ -5,7 +5,7 @@ using System.Web;
 using NHibernate.Util;
 
 
-public class SingleSetModel : BaseModel
+public class SingleSetModel : BaseContentModule
 {
     public Set Set;
 

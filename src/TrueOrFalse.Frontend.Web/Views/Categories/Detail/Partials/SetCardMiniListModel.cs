@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-public class SetCardMiniListModel : BaseModel
+public class SetCardMiniListModel : BaseContentModule
 {
     public IList<Set> Sets;
 

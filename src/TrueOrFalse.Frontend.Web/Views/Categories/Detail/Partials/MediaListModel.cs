@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-public class MediaListModel : BaseModel
+public class MediaListModel : BaseContentModule
 {
     public Category Category;
 

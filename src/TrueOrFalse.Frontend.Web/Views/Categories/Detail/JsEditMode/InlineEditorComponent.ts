@@ -50,7 +50,6 @@ Vue.component('content-module', {
         updateHoverState(isHover) {
             const self = this;
             self.hoverState = isHover;
-            console.log(self.hoverState);
         },
 
         deleteModule() {

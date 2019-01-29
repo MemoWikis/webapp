@@ -1,4 +1,4 @@
-﻿public class SpacerModel : BaseModel
+﻿public class SpacerModel : BaseContentModule
 {
     public int AmountSpaces;
     public bool AddBorderTop;

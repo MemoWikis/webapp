@@ -6,8 +6,7 @@ using System.Linq;
 using Microsoft.Ajax.Utilities;
 using NHibernate.Criterion;
 
-
-public class TopicNavigationModel : BaseModel
+public class TopicNavigationModel : BaseContentModule
 {
     public Category Category;
 
@@ -21,7 +20,7 @@ public class TopicNavigationModel : BaseModel
 
     public TopicNavigationModel(Category category, string title, string text = null, string load = null, string order = null)
     {
-     
+
         Category = category;
 
         var isLoadList = false;

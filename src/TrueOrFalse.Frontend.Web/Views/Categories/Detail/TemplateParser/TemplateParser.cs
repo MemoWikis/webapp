@@ -1,11 +1,13 @@
-﻿using System;
-using System.Linq;
+﻿using Newtonsoft.Json;
+using System;
+using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using System.Web.Mvc;
-using Newtonsoft.Json;
 
 public class TemplateParser
 {
+    public static List<TemplateJson> TemplateJsonList = new List<TemplateJson>();
+    public static List<string> TemplateMarkdownList = new List<string>();
     public static string Run(string stringToParse, Category category, ControllerContext controllerContext)
     {
         //Matches "[[something]]" (optionally with surrounding p tag) non-greedily across multiple lines and only if not nested
@@ -24,7 +26,18 @@ public class TemplateParser
                         .Replace("&quot;", @""""),
                     category.Id);
 
-                var html = GetHtml(templateJson, category, controllerContext);
+                var templateMarkdown = match.Value
+                        .Replace("<p>", "")
+                        .Replace("</p>", "");
+
+                TemplateMarkdownList.Add(templateMarkdown);
+
+                var html = GetHtml(
+                    templateJson, 
+                    category, 
+                    controllerContext, 
+                    templateMarkdown
+                );
 
                 if (string.IsNullOrEmpty(html))
                     throw new Exception("Es konnte kein Html erzeugt werden.");
@@ -48,7 +61,7 @@ public class TemplateParser
         return templateJson;
     }
 
-    private static string GetHtml(TemplateJson templateJson, Category category, ControllerContext controllerContext)
+    private static string GetHtml(TemplateJson templateJson, Category category, ControllerContext controllerContext, string templateMarkdown)
     {
         switch (templateJson.TemplateName.ToLower())
         {
@@ -67,7 +80,7 @@ public class TemplateParser
             case "singlecategory":
             case "singlequestionsquiz":
             case "spacer":
-                    return GetPartialHtml(templateJson, category, controllerContext);
+                    return GetPartialHtml(templateJson, category, controllerContext, templateMarkdown);
             default:
             {
                 var elementHtml = GetElementHtml(templateJson);
@@ -80,13 +93,17 @@ public class TemplateParser
         }
     }
 
-    private static string GetPartialHtml(TemplateJson templateJson, Category category, ControllerContext controllerContext)
+    private static string GetPartialHtml(
+        TemplateJson templateJson, 
+        Category category,
+        ControllerContext controllerContext, 
+        string templateMarkdown)
     {
         var partialModel = GetPartialModel(templateJson, category);
+        partialModel.Markdown = templateMarkdown;
 
         return GetPartialHtml(templateJson, controllerContext, partialModel);
     }
-
 
     private static string GetPartialHtml(TemplateJson templateJson, ControllerContext controllerContext, BaseModel partialModel)
     {
@@ -96,7 +113,7 @@ public class TemplateParser
             controllerContext);
     }
 
-    private static BaseModel GetPartialModel(TemplateJson templateJson, Category category)
+    private static BaseContentModule GetPartialModel(TemplateJson templateJson, Category category)
     {
         switch (templateJson.TemplateName.ToLower())
         {

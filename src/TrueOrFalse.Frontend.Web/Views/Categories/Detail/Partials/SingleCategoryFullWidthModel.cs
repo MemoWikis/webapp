@@ -1,6 +1,6 @@
 ﻿using System;
 
-public class SingleCategoryFullWidthModel : BaseModel
+public class SingleCategoryFullWidthModel : BaseContentModule
 {
     public Category Category;
     public int CategoryId;
