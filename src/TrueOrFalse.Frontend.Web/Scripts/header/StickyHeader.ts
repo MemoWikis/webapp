@@ -20,7 +20,7 @@ class StickeyHeaderClass {
         }
     }
 
-    public StickyHeader() {
+    private StickyHeader() {
 
         if ($(window).scrollTop() > 80) {
             $('#BreadcrumbLogoSmall').show();
@@ -109,6 +109,4 @@ class StickeyHeaderClass {
 
 $(() => {
 var SHC = new StickeyHeaderClass(); 
-
-
 });
