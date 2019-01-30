@@ -1,11 +1,10 @@
 ﻿<%@ Control Language="C#" AutoEventWireup="true" Inherits="System.Web.Mvc.ViewUserControl<SingleCategoryFullWidthModel>" %>
 <%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
 
-<li class="module" markdown="<%: Model.Markdown %>">
-    <content-module inline-template>
-          
-        <div class="ContentModule" @mouseenter="updateHoverState(true)" @mouseleave="updateHoverState(false)" v-if="!isDeleted">
-            <div class="ModuleBorder" :class="{ active : hoverState }">  
+<content-module inline-template >
+    <li class="module" markdown="<%: Model.Markdown %>" v-if="!isDeleted">
+        <div class="ContentModule" @mouseenter="updateHoverState(true)" @mouseleave="updateHoverState(false)">
+            <div class="ModuleBorder" :class="{ active : hoverState }">
                 
                 <div class="singleCatFullWidth">            
                     <div class="well">
@@ -72,8 +71,6 @@
                 </div>
 
             </div>    
-        </div>
-
-    </content-module>    
-</li>        
-
+        </div>     
+    </li>        
+</content-module>   

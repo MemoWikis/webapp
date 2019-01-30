@@ -67,6 +67,9 @@ Vue.component('content-module', {
             const self = this;
             self.isDeleted = true;
         },
+
+        markForDelete() {
+        },
     }
 });
 
@@ -106,9 +109,9 @@ new Vue({
             console.log('editState is ' + this.editState)
         },
 
-        save() {
+        saveMarkdown() {
             const markdownParts = $("li.module").map((idx, elem) => $(elem).attr("markdown")).get();
-            const markdownDoc = markdownParts.reduce((a, b) => { return a + "\r\n" + b });
+            const markdownDoc = markdownParts.reduce((list, doc) => { return list + "\r\n" + doc });
 
             $.post("/Category/SaveMarkdown",
                 { categoryId: $("#hhdCategoryId").val(), markdown: markdownDoc },
