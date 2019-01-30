@@ -81,27 +81,32 @@
                     <% Html.RenderPartial("~/Views/Categories/Detail/CategoryKnowledgeBar.ascx", new CategoryKnowledgeBarModel(Model.Category)); %>
                     <%--<div class="KnowledgeBarLegend">Dein Wissensstand</div>--%>
                 </div>
-                <div class="Buttons">
-                    <div class="Button Pin" data-category-id="<%= Model.Id %>">
-                        <a href="#" class="noTextdecoration" style="font-size: 22px; height: 10px;">
-                            <%= Html.Partial("AddToWishknowledge", new AddToWishknowledge(Model.IsInWishknowledge)) %>
-                        </a>
-                    </div>
-                    <div class="Button dropdown">
-                        <% buttonId = Guid.NewGuid(); %>
-                        <a href="#" id="<%= buttonId %>" class="dropdown-toggle  btn btn-link btn-sm ButtonEllipsis" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                            <i class="fa fa-ellipsis-v"></i>
-                        </a>
-                        <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="<%= buttonId %>">
-                            <li><a href="<%= Links.CategoryHistory(Model.Id) %>" data-allowed="logged-in"><i class="fa fa-code-fork"></i>&nbsp;Bearbeitungshistorie</a></li>
-                            <li><a href="<%= Links.CategoryEdit(Url, Model.Name, Model.Id) %>" data-allowed="logged-in"><i class="fa fa-pencil"></i>&nbsp;bearbeiten</a></li>
-                            <li><a href="<%= Links.CreateQuestion(categoryId: Model.Id) %>" data-allowed="logged-in"><i class="fa fa-plus-circle"></i>&nbsp;Frage hinzufügen</a></li>
-                            <li><a href="<%= Links.CategoryCreate(Model.Id) %>" data-allowed="logged-in" ><i class="fa fa-plus-circle"></i>&nbsp;Unterthema hinzufügen</a></li>
-                            <li><a href="<%= Links.CategoryEdit(Url, Model.Name, Model.Id) %>" data-allowed="logged-in"><i class="fa fa-pencil"></i>&nbsp;Inline bearbeiten</a></li>
+                <category-management-buttons inline-template>
+                    <div class="Buttons">
+                        <div class="Button Pin" data-category-id="<%= Model.Id %>">
+                            <a href="#" class="noTextdecoration" style="font-size: 22px; height: 10px;">
+                                <%= Html.Partial("AddToWishknowledge", new AddToWishknowledge(Model.IsInWishknowledge)) %>
+                            </a>
+                        </div>
+                        <div class="Button dropdown">
+                            <% buttonId = Guid.NewGuid(); %>
+                            <a href="#" id="<%= buttonId %>" class="dropdown-toggle  btn btn-link btn-sm ButtonEllipsis" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                <i class="fa fa-ellipsis-v"></i>
+                            </a>
+                            <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="<%= buttonId %>">
+                                <li><a href="<%= Links.CategoryHistory(Model.Id) %>" data-allowed="logged-in"><i class="fa fa-code-fork"></i>&nbsp;Bearbeitungshistorie</a></li>
+                                <li><a href="<%= Links.CategoryEdit(Url, Model.Name, Model.Id) %>" data-allowed="logged-in"><i class="fa fa-pencil"></i>&nbsp;bearbeiten</a></li>
+                                <li><a href="<%= Links.CreateQuestion(categoryId: Model.Id) %>" data-allowed="logged-in"><i class="fa fa-plus-circle"></i>&nbsp;Frage hinzufügen</a></li>
+                                <li><a href="<%= Links.CategoryCreate(Model.Id) %>" data-allowed="logged-in" ><i class="fa fa-plus-circle"></i>&nbsp;Unterthema hinzufügen</a></li>
+                                <li><a @click="setEditMode()"><i class="fa fa-pencil"></i>&nbsp;Inline bearbeiten</a></li>
 
-                        </ul>
+                            </ul>
+                        </div>
+                        <div class="Button Save" v-if="editMode"><i class="fa fa-save"></i></div>
                     </div>
-                </div>
+                </category-management-buttons>
+                
+
             </div>
         </div>
     <% } %>

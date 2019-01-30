@@ -146,5 +146,15 @@ public class CategoryController : BaseController
             ControllerContext
         );
 
+
+    [HttpPost]
+    [AccessOnlyAsLoggedIn]
+    public void SaveMarkdown(int categoryId, string markdown)
+    {
+        var category = Sl.CategoryRepo.GetById(categoryId);
+        category.TopicMarkdown = markdown;
+        Sl.CategoryRepo.Update(category, User_());
+    }
+
    
 }

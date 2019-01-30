@@ -39,14 +39,25 @@ Vue.component('inline-editor-component', {
 
 Vue.component('content-module', {
 
+    props: ['editState'],
+
     data() {
         return {
             hoverState: false,
             isDeleted: false,
+            canBeSorted: false,
+        }
+    },
+
+    watch: {
+        editState: function (newValue, oldValue) {
+            this.canBeSorted = newValue;
+            console.log(newValue + oldValue);
         }
     },
 
     methods: {
+
         updateHoverState(isHover) {
             const self = this;
             self.hoverState = isHover;
@@ -64,7 +75,6 @@ Vue.component('content-module-edit-button', {
         return {
         }
     },
-    template: "<button @click='test'>test</button>"
 });
 
 Vue.directive('sortable', {
@@ -79,22 +89,51 @@ new Vue({
         return {
             options: {
                 handle: '.Handle',
-                onSort: this.onSort,
-                animation: 100
-            }
+                animation: 100,
+            },
+            showSaveButton: false,
+            editState: false
         }
     }, 
 
+    mounted() {      
+    },
+
     methods: {
-        onSort(event) {
-            var itemElement = event.item;
-            var markdown = itemElement.getAttribute('markdown');
-            console.log(
-                markdown,
-//                event.oldIndex,
-//                event.newIndex,
-            )
+        setEditMode() {
+            this.editState = !this.editState;
+            this.showSaveButton = !this.showSaveButton;
+            console.log('editState is ' + this.editState)
+        },
+
+        save() {
+            const markdownParts = $("li.module").map((idx, elem) => $(elem).attr("markdown")).get();
+            const markdownDoc = markdownParts.reduce((a, b) => { return a + "\r\n" + b });
+
+            $.post("/Category/SaveMarkdown",
+                { categoryId: $("#hhdCategoryId").val(), markdown: markdownDoc },
+                () => { console.log("completed") }
+            );
+        },
+    }
+});
+
+
+Vue.component('category-management-buttons', {
+    data() {
+        return {
+            editMode: false
+        }
+    },
+
+    methods: {
+        setEditMode() {
+            this.editMode = !this.editMode;
+            console.log(this.editMode)
         }
     }
+});
 
+new Vue({
+    el: '#Management'
 });

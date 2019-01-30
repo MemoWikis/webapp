@@ -179,7 +179,11 @@
    } else { %>
                     
     <div class="MarkdownContent">
+        <a @click="setEditMode()">editMode</a>
+
         <ul class="module" v-sortable="options" style="list-style-type: none;"><%= Model.CustomPageHtml %></ul>
+        
+        <div v-if="showSaveButton" @click="save()">Save</div>
     </div>
 
 <% } %>

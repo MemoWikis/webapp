@@ -1,12 +1,11 @@
 ﻿<%@ Control Language="C#" AutoEventWireup="true" Inherits="System.Web.Mvc.ViewUserControl<SingleCategoryFullWidthModel>" %>
 <%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
 
-
 <li class="module" markdown="<%: Model.Markdown %>">
     <content-module inline-template>
           
         <div class="ContentModule" @mouseenter="updateHoverState(true)" @mouseleave="updateHoverState(false)" v-if="!isDeleted">
-            <div class="ModuleBorder" v-bind:class="{ active : hoverState }">  
+            <div class="ModuleBorder" :class="{ active : hoverState }">  
                 
                 <div class="singleCatFullWidth">            
                     <div class="well">
