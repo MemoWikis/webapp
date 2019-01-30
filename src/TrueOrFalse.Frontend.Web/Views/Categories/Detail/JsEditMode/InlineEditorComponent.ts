@@ -3,7 +3,7 @@ declare var Sortable: any;
 declare var Editor: any;
 
 Vue.component('inline-editor-component', { 
-        data: function() {
+        data() {
             return {
                 editor: null,
             }
@@ -39,7 +39,7 @@ Vue.component('inline-editor-component', {
 
 Vue.component('content-module', {
 
-    data: function() {
+    data() {
         return {
             hoverState: false,
             isDeleted: false,
@@ -60,7 +60,7 @@ Vue.component('content-module', {
 });
 
 Vue.component('content-module-edit-button', {
-    data: function() {
+    data() {
         return {
         }
     },
@@ -68,11 +68,33 @@ Vue.component('content-module-edit-button', {
 });
 
 Vue.directive('sortable', {
-    inserted: function (el, binding) {
+    inserted(el, binding) {
         new Sortable(el, binding.value || {})
     }
 });
 
 new Vue({
     el: '#module',
+    data() {
+        return {
+            options: {
+                handle: '.Handle',
+                onSort: this.onSort,
+                animation: 100
+            }
+        }
+    }, 
+
+    methods: {
+        onSort(event) {
+            var itemElement = event.item;
+            var markdown = itemElement.getAttribute('markdown');
+            console.log(
+                markdown,
+//                event.oldIndex,
+//                event.newIndex,
+            )
+        }
+    }
+
 });

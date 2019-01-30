@@ -6,8 +6,6 @@ using System.Web.Mvc;
 
 public class TemplateParser
 {
-    public static List<TemplateJson> TemplateJsonList = new List<TemplateJson>();
-    public static List<string> TemplateMarkdownList = new List<string>();
     public static string Run(string stringToParse, Category category, ControllerContext controllerContext)
     {
         //Matches "[[something]]" (optionally with surrounding p tag) non-greedily across multiple lines and only if not nested
@@ -30,7 +28,7 @@ public class TemplateParser
                         .Replace("<p>", "")
                         .Replace("</p>", "");
 
-                TemplateMarkdownList.Add(templateMarkdown);
+//                BaseContentModule.ContentModuleList.Add(templateMarkdown);
 
                 var html = GetHtml(
                     templateJson, 
