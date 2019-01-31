@@ -21,19 +21,19 @@ Vue.component('content-module', {
         return {
             hoverState: false,
             isDeleted: false,
-            canBeSorted: false,
+            canBeEdited: false,
         }
     },
 
     mounted() {
-        eventBus.$on("set-edit-mode", state => this.canBeSorted = state);
+        eventBus.$on("set-edit-mode", state => this.canBeEdited = state);
     },
 
     methods: {
 
         updateHoverState(isHover) {
             const self = this;
-            if (self.canBeSorted) {
+            if (self.canBeEdited) {
                 self.hoverState = isHover;
             }
         },
