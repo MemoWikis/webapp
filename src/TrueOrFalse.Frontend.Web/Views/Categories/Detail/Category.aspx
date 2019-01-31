@@ -46,9 +46,10 @@
     <% Html.RenderPartial("~/Views/Categories/Detail/Partials/CategoryHeader.ascx", Model);%>
     
     <div id="TopicTabContent" class="TabContent">
-        <div id="module">
+        <div id="ContentModule">
             <% Html.RenderPartial("~/Views/Categories/Detail/Tabs/TopicTab.ascx", Model); %>
-        </div>               
+            <div class="btn btn-primary MarkdownSaveButton" @click="saveMarkdown()">Speichern</div>
+        </div>           
     </div>
     
     

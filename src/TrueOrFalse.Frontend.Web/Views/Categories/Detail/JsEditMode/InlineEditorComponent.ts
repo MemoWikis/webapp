@@ -1,6 +1,6 @@
 ﻿declare var Vue: any;
 declare var Sortable: any;
-declare var Editor: any;
+var eventBus = new Vue();
 
 Vue.component('inline-editor-component', { 
         data() {
@@ -10,36 +10,12 @@ Vue.component('inline-editor-component', {
         },
 
         methods: {
-
-            startEditing(index) {
-                this.editOffset = index;
-                this.editText = this.text[index];
-                this.editTextOri = JSON.parse(JSON.stringify(this.editText));
-
-                this.$nextTick(function() {
-                    console.log('item-article-' + this.editOffset);
-                    document.getElementById('item-article-' + this.editOffset).focus();
-                }.bind(this));
-            },
-            updateText() {
-                this.editOffset = -1;
-                this.editTextOri = {}
-                this.editText = {}
-            },
-            cancelEditing() {
-                this.$set(this.text, this.editOffset, this.editTextOri);
-                this.editOffset = -1;
-                this.editTextOri = {}
-                this.editText = {}
-            },
         },
 
     }
 );
 
 Vue.component('content-module', {
-
-    props: ['editState'],
 
     data() {
         return {
@@ -49,18 +25,17 @@ Vue.component('content-module', {
         }
     },
 
-    watch: {
-        editState: function (newValue, oldValue) {
-            this.canBeSorted = newValue;
-            console.log(newValue + oldValue);
-        }
+    mounted() {
+        eventBus.$on("set-edit-mode", state => this.canBeSorted = state);
     },
 
     methods: {
 
         updateHoverState(isHover) {
             const self = this;
-            self.hoverState = isHover;
+            if (self.canBeSorted) {
+                self.hoverState = isHover;
+            }
         },
 
         deleteModule() {
@@ -70,13 +45,6 @@ Vue.component('content-module', {
     }
 });
 
-Vue.component('content-module-edit-button', {
-    data() {
-        return {
-        }
-    },
-});
-
 Vue.directive('sortable', {
     inserted(el, binding) {
         new Sortable(el, binding.value || {})
@@ -84,46 +52,34 @@ Vue.directive('sortable', {
 });
 
 new Vue({
-    el: '#module',
+    el: '#ContentModule',
     data() {
         return {
             options: {
                 handle: '.Handle',
                 animation: 100,
             },
-            showSaveButton: false,
-            editState: false
         }
     }, 
 
-    mounted() {      
-    },
-
     methods: {
-        setEditMode() {
-            this.editState = !this.editState;
-            this.showSaveButton = !this.showSaveButton;
-            console.log('editState is ' + this.editState)
-        },
 
         saveMarkdown() {
             const markdownParts = $("li.module").map((idx, elem) => $(elem).attr("markdown")).get();
             let markdownDoc = "";
             if (markdownParts.length >= 1) 
                 markdownDoc = markdownParts.reduce((list, doc) => { return list + "\r\n" + doc });
-            
-            
 
             $.post("/Category/SaveMarkdown",
                 { categoryId: $("#hhdCategoryId").val(), markdown: markdownDoc },
                 () => { console.log("completed") }
-            );
+            )
         },
     }
 });
 
-
-Vue.component('category-management-buttons', {
+new Vue({
+    el: '#Management',
     data() {
         return {
             editMode: false
@@ -133,11 +89,20 @@ Vue.component('category-management-buttons', {
     methods: {
         setEditMode() {
             this.editMode = !this.editMode;
-            console.log(this.editMode)
-        }
-    }
-});
+            eventBus.$emit('set-edit-mode', this.editMode)
+        },
 
-new Vue({
-    el: '#Management'
+        saveMarkdown() {
+//            eventBus.$emit('save-markdown')
+            const markdownParts = $("li.module").map((idx, elem) => $(elem).attr("markdown")).get();
+            let markdownDoc = "";
+            if (markdownParts.length >= 1)
+                markdownDoc = markdownParts.reduce((list, doc) => { return list + "\r\n" + doc });
+
+            $.post("/Category/SaveMarkdown",
+                { categoryId: $("#hhdCategoryId").val(), markdown: markdownDoc },
+                () => { console.log("completed") }
+            )
+        },
+    }
 });

@@ -180,8 +180,6 @@
                     
     <div class="MarkdownContent">
         <ul class="module" v-sortable="options" style="list-style-type: none;"><%= Model.CustomPageHtml %></ul>
-        
-        <div class="btn btn-primary MarkdownSaveButton" @click="saveMarkdown()">Speichern</div>
     </div>
 
 <% } %>
