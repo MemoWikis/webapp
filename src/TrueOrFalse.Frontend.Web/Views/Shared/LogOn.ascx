@@ -64,8 +64,7 @@
                                     </g>
                                 </svg>                
                             <% } %>
-                        </a>
-                       
+                        </a> 
                     </li>
                     <li><a class="<%= Model.UserMenuActive(UserMenuEntry.Network) %>" href="<%=Links.Network() %>">Dein Netzwerk</a></li>
                     <li><a class="<%= Model.UserMenuActive(UserMenuEntry.UserDetail) %>" href="<%=Url.Action(Links.UserAction, Links.UserController, new {name = userSession.User.Name, id = userSession.User.Id}) %>">Deine Profilseite</a></li>

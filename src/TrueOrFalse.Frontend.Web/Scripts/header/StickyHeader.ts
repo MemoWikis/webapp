@@ -14,7 +14,7 @@ class StickeyHeaderClass {
         this.RightMainMenu = $("#RightMainMenu").get(0);
         this.Header = $("#MasterHeader").get(0);
         this.OuterHeightBreadCrumb = $("#Breadcrumb").outerHeight();     
-        $("#userDropdown").css("top", $("#Breadcrumb").outerHeight() + $("#MasterHeader").outerHeight() - $("#HeaderUserDropdown").offset().top + "px");
+        $("#userDropdown").css("top", $("#Breadcrumb").outerHeight() + $("#MasterHeader").outerHeight() - $("#HeaderUserDropdown").offset().top  + "px");
 
 
 
@@ -22,20 +22,21 @@ class StickeyHeaderClass {
             this.StickyHeader();
         });
 
-        window.onresize = () => {
+        $(window).resize(() => {
             this.StickyHeader();
-        }
+        });
 
+       
     }
 
-    private StickyHeader() {
+ public StickyHeader() {
 
         if ($(window).scrollTop() > 80) {
             $('#BreadcrumbLogoSmall').show();
             $('#StickyHeaderContainer').css('display', 'flex');
             $("#Breadcrumb").css("z-index", 100);
 
-            $("#userDropdown").css("top", $(window).scrollTop() + $("#Breadcrumb").outerHeight() + "px");  // I have no idea where the 3 pixels come from  
+            $("#BreadcrumbUserDropdown").css("top", $("#Breadcrumb").outerHeight() + "px");  
 
 
 
@@ -120,5 +121,6 @@ class StickeyHeaderClass {
 }
 
 $(() => {
- new StickeyHeaderClass(); 
+    var SHC = new StickeyHeaderClass(); 
+    SHC.StickyHeader();
 });
