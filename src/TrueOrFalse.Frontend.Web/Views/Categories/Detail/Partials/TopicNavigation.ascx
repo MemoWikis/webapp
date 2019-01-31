@@ -2,7 +2,7 @@
 <%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
 
 <content-module inline-template >
-    <li class="module" markdown="<%: Model.Markdown %>" v-if="!isDeleted">        
+    <li class="module" markdown="<%: Model.Markdown %>" v-if="!isDeleted">
         <div class="ContentModule" @mouseenter="updateHoverState(true)" @mouseleave="updateHoverState(false)">
             <div class="ModuleBorder" :class="{ active : hoverState }">
 
@@ -53,10 +53,12 @@
                 <div class="hidden">&nbsp;</div><% //if empty, templateparser throws error %>
             <% } %>
             
+                <%-- <%: Html.Partial("~/Views/Categories/Detail/Partials/HoverOptions.ascx") %> --%>
+
                 <div class="Button Handle" v-if="hoverState">
                     <i class="fa fa-bars"></i>
                 </div>
-                
+
                 <div class="Button dropdown" v-if="hoverState">
                     <a href="#" id="Dropdown" class="dropdown-toggle btn btn-link btn-sm ButtonEllipsis" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" >
                         <i class="fa fa-ellipsis-v"></i>
@@ -69,9 +71,8 @@
                         <li class="delete"><a href="" data-allowed="logged-in" @click.prevent="deleteModule()"><i class="fa fa-trash"></i> Löschen</a></li>
                     </ul>
                 </div>
-
             
             </div>
-        </div>   
+        </div>
     </li>
-</content-module> 
+</content-module>

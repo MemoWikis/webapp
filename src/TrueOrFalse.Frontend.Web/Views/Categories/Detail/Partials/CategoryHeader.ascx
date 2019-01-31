@@ -100,7 +100,7 @@
                             <li><a @click.prevent="setEditMode()" data-allowed="logged-in" style="cursor:pointer"><i class="fa fa-pencil"></i>&nbsp;Inline bearbeiten</a></li>
                         </ul>
                     </div>
-                    <a class="header-savebtn btn btn-link btn-sm ButtonEllipsis" type="button" v-if="editMode" @click.prevent="console.log('hello')"><i class="fa fa-save"></i></a>
+                    <a class="header-savebtn btn btn-link btn-sm ButtonEllipsis" type="button" v-if="editMode" @click.prevent="saveMarkdown()"><i class="fa fa-save"></i></a>
                 </div>
                 
 
