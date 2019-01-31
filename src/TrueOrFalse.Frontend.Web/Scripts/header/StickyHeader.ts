@@ -4,20 +4,25 @@ class StickeyHeaderClass {
     private Breadcrumb;
     private RightMainMenu;   
     private Header;
+    private OuterHeightBreadCrumb;
 
 
     constructor() {
         this.Breadcrumb = $('#Breadcrumb').get(0);
         this.RightMainMenu = $("#RightMainMenu").get(0);
         this.Header = $("#MasterHeader").get(0);
+        this.OuterHeightBreadCrumb = $("#Breadcrumb").outerHeight();
 
-        $(window).scroll(event => {
+
+
+        $(window).scroll(() => {
             this.StickyHeader();
         });
 
-        window.onresize = event => {
+        window.onresize = () => {
             this.StickyHeader();
         }
+
     }
 
     private StickyHeader() {
@@ -27,17 +32,38 @@ class StickeyHeaderClass {
             $('#StickyHeaderContainer').css('display', 'flex');
             $("#Breadcrumb").css("z-index", 100);
 
+            $("#BreadcrumbUserDropdownImage").on("click",
+                (e) => {
+                    e.preventDefault();
+                    setTimeout(() => {                                                     // class open removed from jquery or Bootstrap the Problem is #HeaderUserDropdown is used only once
+                        $("#HeaderUserDropdown").addClass("open");
+                    }, 10);
+                    var t = $("#HeaderUserDropdown").offset().top;
+                   
+                    $("#userDropdown").css("top", $(window).scrollTop() + $("#Breadcrumb").outerHeight() - $("#userDropdown").parent().offset().top  + "px");  // I have no idea where the 3 pixels come from
+                    $("#userDropdown").css("z-index", 1000);
+                });
+
+
 
             this.Breadcrumb.style.top = "0";
             this.Breadcrumb.classList.add("ShowBreadcrumb");
             this.Breadcrumb.classList.add("sticky");
 
             this.RightMainMenu.style.position = "absolute";
-            this.RightMainMenu.style.top = "52px";
+            //this.RightMainMenu.style.top = "52px";               // überprüfen, die Größe der Breadcrumb ändert sich doch, also kann man das doch nicht fest verdrahten (fest verdrahten eh bööööse) 
 
             $('#BreadCrumbTrail').css('max-width', "51%");
 
         } else {
+            //$("#BreadcrumbUserDropdownImage").on("click", () => {
+            //        $("#HeaderUserDropdown").addClass("open");
+            //    var t = $("#MasterHeader").outerHeight();
+            //    var v = $("#Breadcrumb").outerHeight();
+            //    var r = t + v;
+            //        $("#userDropdown").css("top", $("#MasterHeader").outerHeight() + $("#Breadcrumb").outerHeight() + "px");
+            //    });
+
             this.Breadcrumb.style.top = (80 + this.Header.scrollTop).toString() + "px";
             this.Breadcrumb.style.position = "absolute";
             $("#Breadcrumb").css("z-index", 100);
@@ -47,8 +73,8 @@ class StickeyHeaderClass {
             $('#BreadcrumbLogoSmall').hide();
             $('#StickyHeaderContainer').hide();
 
-            this.RightMainMenu.style.position = "absolute";
-            this.RightMainMenu.style.top = "64px";
+           // this.RightMainMenu.style.position = "absolute";
+            this.RightMainMenu.style.top = ($("#MasterHeader").outerHeight() + $("#Breadcrumb").outerHeight() + "px");
             this.RightMainMenu.style.position = "absolute";
 
             $('#BreadCrumbTrail').css("max-width", "");
@@ -108,5 +134,5 @@ class StickeyHeaderClass {
 }
 
 $(() => {
-var SHC = new StickeyHeaderClass(); 
+ new StickeyHeaderClass(); 
 });
