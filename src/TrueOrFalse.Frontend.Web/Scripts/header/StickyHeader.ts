@@ -14,8 +14,8 @@ class StickeyHeaderClass {
         this.RightMainMenu = $("#RightMainMenu").get(0);
         this.Header = $("#MasterHeader").get(0);
         this.OuterHeightBreadCrumb = $("#Breadcrumb").outerHeight();     
-        $("#userDropdown").css("top", $("#Breadcrumb").outerHeight() + $("#MasterHeader").outerHeight() - $("#HeaderUserDropdown").offset().top  + "px");
-
+       
+        
 
 
         $(window).scroll(() => {
@@ -36,13 +36,12 @@ class StickeyHeaderClass {
             $('#StickyHeaderContainer').css('display', 'flex');
             $("#Breadcrumb").css("z-index", 100);
 
-            $("#BreadcrumbUserDropdown").css("top", $("#Breadcrumb").outerHeight() + "px");  
-
-
-
             this.Breadcrumb.style.top = "0";
             this.Breadcrumb.classList.add("ShowBreadcrumb");
             this.Breadcrumb.classList.add("sticky");
+
+            
+            $("#BreadcrumbUserDropdown").css("top", $("#Breadcrumb").outerHeight() + "px");
 
             this.RightMainMenu.style.position = "absolute";
             //this.RightMainMenu.style.top = "52px";               // überprüfen, die Größe der Breadcrumb ändert sich doch, also kann man das doch nicht fest verdrahten (fest verdrahten eh bööööse) 
