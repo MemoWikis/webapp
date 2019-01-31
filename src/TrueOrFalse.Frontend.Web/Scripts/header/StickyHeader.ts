@@ -1,4 +1,6 @@
-﻿
+﻿// Todos
+// toggleClass function anlegen.
+
 
 class StickeyHeaderClass {
     private Breadcrumb;
@@ -11,7 +13,8 @@ class StickeyHeaderClass {
         this.Breadcrumb = $('#Breadcrumb').get(0);
         this.RightMainMenu = $("#RightMainMenu").get(0);
         this.Header = $("#MasterHeader").get(0);
-        this.OuterHeightBreadCrumb = $("#Breadcrumb").outerHeight();
+        this.OuterHeightBreadCrumb = $("#Breadcrumb").outerHeight();     
+        $("#userDropdown").css("top", $("#Breadcrumb").outerHeight() + $("#MasterHeader").outerHeight() - $("#HeaderUserDropdown").offset().top + "px");
 
 
 
@@ -32,17 +35,7 @@ class StickeyHeaderClass {
             $('#StickyHeaderContainer').css('display', 'flex');
             $("#Breadcrumb").css("z-index", 100);
 
-            $("#BreadcrumbUserDropdownImage").on("click",
-                (e) => {
-                    e.preventDefault();
-                    setTimeout(() => {                                                     // class open removed from jquery or Bootstrap the Problem is #HeaderUserDropdown is used only once
-                        $("#HeaderUserDropdown").addClass("open");
-                    }, 10);
-                    var t = $("#HeaderUserDropdown").offset().top;
-                   
-                    $("#userDropdown").css("top", $(window).scrollTop() + $("#Breadcrumb").outerHeight() - $("#userDropdown").parent().offset().top  + "px");  // I have no idea where the 3 pixels come from
-                    $("#userDropdown").css("z-index", 1000);
-                });
+            $("#userDropdown").css("top", $(window).scrollTop() + $("#Breadcrumb").outerHeight() + "px");  // I have no idea where the 3 pixels come from  
 
 
 
@@ -56,14 +49,7 @@ class StickeyHeaderClass {
             $('#BreadCrumbTrail').css('max-width', "51%");
 
         } else {
-            //$("#BreadcrumbUserDropdownImage").on("click", () => {
-            //        $("#HeaderUserDropdown").addClass("open");
-            //    var t = $("#MasterHeader").outerHeight();
-            //    var v = $("#Breadcrumb").outerHeight();
-            //    var r = t + v;
-            //        $("#userDropdown").css("top", $("#MasterHeader").outerHeight() + $("#Breadcrumb").outerHeight() + "px");
-            //    });
-
+            $("#userDropdown").css("top", $("#Breadcrumb").outerHeight() + $("#MasterHeader").outerHeight() -20 +   "px");
             this.Breadcrumb.style.top = (80 + this.Header.scrollTop).toString() + "px";
             this.Breadcrumb.style.position = "absolute";
             $("#Breadcrumb").css("z-index", 100);
@@ -73,8 +59,8 @@ class StickeyHeaderClass {
             $('#BreadcrumbLogoSmall').hide();
             $('#StickyHeaderContainer').hide();
 
-           // this.RightMainMenu.style.position = "absolute";
-            this.RightMainMenu.style.top = ($("#MasterHeader").outerHeight() + $("#Breadcrumb").outerHeight() + "px");
+            // this.RightMainMenu.style.position = "absolute";
+            this.RightMainMenu.style.top = ($("#MasterHeader").outerHeight() + $("#Breadcrumb").outerHeight() - $("#MenuButtonContainer").offset().top + "px");
             this.RightMainMenu.style.position = "absolute";
 
             $('#BreadCrumbTrail').css("max-width", "");
