@@ -922,11 +922,6 @@ ul.AutocompleteHeader {
     width: 96px !important;
   }
 }
-.sticky {
-  position: fixed !important;
-  top: 0;
-  width: 100%;
-}
 #Breadcrumb {
   font-size: 14px;
   background-color: white;

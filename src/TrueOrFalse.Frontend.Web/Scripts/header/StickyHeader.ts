@@ -7,14 +7,19 @@ class StickeyHeaderClass {
     private RightMainMenu;   
     private Header;
     private OuterHeightBreadCrumb;
+    private UserDropDownMenuBreadCrumb;
 
 
     constructor() {
         this.Breadcrumb = $('#Breadcrumb').get(0);
         this.RightMainMenu = $("#RightMainMenu").get(0);
         this.Header = $("#MasterHeader").get(0);
-        this.OuterHeightBreadCrumb = $("#Breadcrumb").outerHeight();     
-       
+        this.OuterHeightBreadCrumb = $("#Breadcrumb").outerHeight();
+        this.UserDropDownMenuBreadCrumb = $("#BreadcrumbUserDropdown");
+
+
+        $("#userDropdown").css("top", $("#Breadcrumb").outerHeight() + $("#MasterHeader").outerHeight() - $("#HeaderUserDropdown").offset().top + "px");
+        this.Breadcrumb.style.position = "absolute";
         
 
 
@@ -34,55 +39,41 @@ class StickeyHeaderClass {
         if ($(window).scrollTop() > 80) {
             $('#BreadcrumbLogoSmall').show();
             $('#StickyHeaderContainer').css('display', 'flex');
-            $("#Breadcrumb").css("z-index", 100);
-
-            this.Breadcrumb.style.top = "0";
-            this.Breadcrumb.classList.add("ShowBreadcrumb");
-            this.Breadcrumb.classList.add("sticky");
-
-            
             $("#BreadcrumbUserDropdown").css("top", $("#Breadcrumb").outerHeight() + "px");
-
-            this.RightMainMenu.style.position = "absolute";
-            //this.RightMainMenu.style.top = "52px";               // überprüfen, die Größe der Breadcrumb ändert sich doch, also kann man das doch nicht fest verdrahten (fest verdrahten eh bööööse) 
-
             $('#BreadCrumbTrail').css('max-width', "51%");
 
-        } else {
-            $("#userDropdown").css("top", $("#Breadcrumb").outerHeight() + $("#MasterHeader").outerHeight() -20 +   "px");
-            this.Breadcrumb.style.top = (80 + this.Header.scrollTop).toString() + "px";
-            this.Breadcrumb.style.position = "absolute";
-            $("#Breadcrumb").css("z-index", 100);
+            this.Breadcrumb.style.zIndex = 100;
+            this.Breadcrumb.style.top = "0";
+            this.Breadcrumb.classList.add("ShowBreadcrumb");
+            this.Breadcrumb.style.position = "fixed";
+            this.UserDropDownMenuBreadCrumb.css("position", "absolute");
+            this.RightMainMenu.style.position = "absolute";
 
-            if (this.Breadcrumb.classList.contains("ShowBreadcrumb")) this.Breadcrumb.classList.remove("ShowBreadcrumb");
+        } else {
+            this.Breadcrumb.style.top = ($("#MasterHeader").outerHeight() + this.Header.scrollTop) + "px";
+            this.Breadcrumb.style.position = "absolute";
+            this.Breadcrumb.classList.remove("ShowBreadcrumb");
+
+            $("#userDropdown").css("top", $("#Breadcrumb").outerHeight() + $("#MasterHeader").outerHeight() - $("#HeaderUserDropdown").offset().top + "px");
+            $("#Breadcrumb").css("z-index", 100);
 
             $('#BreadcrumbLogoSmall').hide();
             $('#StickyHeaderContainer').hide();
 
-            // this.RightMainMenu.style.position = "absolute";
             this.RightMainMenu.style.top = ($("#MasterHeader").outerHeight() + $("#Breadcrumb").outerHeight() - $("#MenuButtonContainer").offset().top + "px");
             this.RightMainMenu.style.position = "absolute";
 
             $('#BreadCrumbTrail').css("max-width", "");
 
-            if (this.Breadcrumb.classList.contains("sticky")) {
-                this.Breadcrumb.classList.remove("sticky");
-            }
-
             if (top.location.pathname === "/") {
                 this.Breadcrumb.style.display = "none";
             }
-
-            if (window.innerWidth < 768) {
-                this.Breadcrumb.style.top = (50 + this.Header.scrollTop).toString() + "px";
-            }
         }
 
-        if (this.countLines(this.Breadcrumb) === 1) {
-            this.Breadcrumb.style.height = "55px";
-        } else {
+        if (this.countLines(this.Breadcrumb) !== 1) 
             this.Breadcrumb.style.height = "auto";
-        }
+        else
+            this.Breadcrumb.style.height = "55px";
 
         this.reorientatedMenu($(window).scrollTop());
     }
@@ -121,5 +112,6 @@ class StickeyHeaderClass {
 
 $(() => {
     var SHC = new StickeyHeaderClass(); 
-    SHC.StickyHeader();
+    //SHC.StickyHeader();
+
 });
