@@ -16,52 +16,51 @@ class StickeyHeaderClass {
         this.Header = $("#MasterHeader").get(0);
         this.OuterHeightBreadCrumb = $("#Breadcrumb").outerHeight();
         this.UserDropDownMenuBreadCrumb = $("#BreadcrumbUserDropdown");
-
+        this.RightMainMenu.style.position = "fixed"; 
+        this.calculateTheSizeOfTheMenu(false);
+        this.StickyHeader();
 
         $("#userDropdown").css("top", $("#Breadcrumb").outerHeight() + $("#MasterHeader").outerHeight() - $("#HeaderUserDropdown").offset().top + "px");
         this.Breadcrumb.style.position = "absolute";
-        
-
 
         $(window).scroll(() => {
-            this.StickyHeader();
+                this.StickyHeader();
         });
 
         $(window).resize(() => {
-            this.StickyHeader();
+                this.StickyHeader();
+                this.calculateTheSizeOfTheMenu(false);
         });
-
-       
     }
 
- public StickyHeader() {
-
+    public StickyHeader() {
+        
         if ($(window).scrollTop() > 80) {
             $('#BreadcrumbLogoSmall').show();
             $('#StickyHeaderContainer').css('display', 'flex');
             $("#BreadcrumbUserDropdown").css("top", $("#Breadcrumb").outerHeight() + "px");
             $('#BreadCrumbTrail').css('max-width', "51%");
+            this.RightMainMenu.style.top = ( $("#Breadcrumb").outerHeight() + "px");
+            
 
             this.Breadcrumb.style.zIndex = 100;
             this.Breadcrumb.style.top = "0";
             this.Breadcrumb.classList.add("ShowBreadcrumb");
             this.Breadcrumb.style.position = "fixed";
             this.UserDropDownMenuBreadCrumb.css("position", "absolute");
-            this.RightMainMenu.style.position = "absolute";
+
 
         } else {
             this.Breadcrumb.style.top = ($("#MasterHeader").outerHeight() + this.Header.scrollTop) + "px";
             this.Breadcrumb.style.position = "absolute";
             this.Breadcrumb.classList.remove("ShowBreadcrumb");
-
             $("#userDropdown").css("top", $("#Breadcrumb").outerHeight() + $("#MasterHeader").outerHeight() - $("#HeaderUserDropdown").offset().top + "px");
             $("#Breadcrumb").css("z-index", 100);
 
             $('#BreadcrumbLogoSmall').hide();
             $('#StickyHeaderContainer').hide();
 
-            this.RightMainMenu.style.top = ($("#MasterHeader").outerHeight() + $("#Breadcrumb").outerHeight() - $("#MenuButtonContainer").offset().top + "px");
-            this.RightMainMenu.style.position = "absolute";
+            this.RightMainMenu.style.top = ($("#MasterHeader").outerHeight() + $("#Breadcrumb").outerHeight() + "px");
 
             $('#BreadCrumbTrail').css("max-width", "");
 
@@ -108,10 +107,14 @@ class StickeyHeaderClass {
             $('#BreadcrumbUserDropdown').css('margin-right', '');
         }
     }
+
+    private calculateTheSizeOfTheMenu(isScrolled: boolean) {
+            $("#RightMainMenu").css("max-height", $(window).innerHeight() - $("#Breadcrumb").outerHeight() + "px");
+            this.RightMainMenu.style.overflow = "scroll";
+    }
+
 }
 
 $(() => {
-    var SHC = new StickeyHeaderClass(); 
-    //SHC.StickyHeader();
-
+   new StickeyHeaderClass(); 
 });
