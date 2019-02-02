@@ -78,6 +78,7 @@ public class TemplateParser
             case "singlecategory":
             case "singlequestionsquiz":
             case "spacer":
+            case "textblock":
                     return GetPartialHtml(templateJson, category, controllerContext, templateMarkdown);
             default:
             {
@@ -153,6 +154,8 @@ public class TemplateParser
                 return new SingleQuestionsQuizModel(category, templateJson.MaxQuestions, templateJson.Title, templateJson.Text, templateJson.QuestionIds, templateJson.Order);
             case "spacer":
                 return new SpacerModel(templateJson.AmountSpaces, templateJson.AddBorderTop);
+            case "textblock":
+                return new TextBlockModel(templateJson.Text);
             default:
                 throw new Exception("Kein Model für diese Template hinterlegt.");
         }

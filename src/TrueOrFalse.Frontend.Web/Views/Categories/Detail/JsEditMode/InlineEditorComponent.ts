@@ -58,6 +58,7 @@ new Vue({
             options: {
                 handle: '.Handle',
                 animation: 100,
+                fallbackOnBody: true,
             },
         }
     }, 

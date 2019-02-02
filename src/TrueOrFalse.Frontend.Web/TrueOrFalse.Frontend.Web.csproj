@@ -310,6 +310,7 @@
     <Compile Include="Views\Api\User\GoogleUsersApiController.cs" />
     <Compile Include="Views\Beta\BetaController.cs" />
     <Compile Include="Views\Categories\Detail\Partials\BaseContentModule.cs" />
+    <Compile Include="Views\Categories\Detail\Partials\TextBlockModel.cs" />
     <Compile Include="Views\Categories\Detail\Partials\SetCardMiniListModel.cs" />
     <Compile Include="Views\Categories\Detail\Partials\SpacerModel.cs" />
     <Compile Include="Views\Categories\Detail\Partials\SingleQuestionsQuizModel.cs" />
@@ -20083,6 +20084,7 @@
     </Content>
     <Content Include="Views\Categories\Detail\Partials\BreadCrumbCategories.ascx" />
     <Content Include="Views\Categories\Detail\Partials\ContentModuleWrapperStart.ascx" />
+    <Content Include="Views\Categories\Detail\Partials\TextBlock.ascx" />
     <Content Include="Views\Categories\Detail\Partials\MediaListReferenceTitle.ascx" />
     <Content Include="Views\Categories\Detail\Partials\SetCardMiniList.ascx" />
     <Content Include="Views\Categories\Detail\Partials\BreadCrumb.ascx" />
