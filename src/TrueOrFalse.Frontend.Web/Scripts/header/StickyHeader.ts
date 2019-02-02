@@ -41,28 +41,20 @@ class StickeyHeaderClass {
             $("#BreadcrumbUserDropdown").css("top", $("#Breadcrumb").outerHeight() + "px");
             $('#BreadCrumbTrail').css('max-width', "51%");
 
-            if ($("#HeaderUserDropdown").hasClass("open")) {
-                $("#HeaderUserDropdown").removeClass("open");
-                $("#BreadcrumbUserDropdownImage").addClass("open");
-            }
-
+            this.toggleClass($("#HeaderUserDropdown"), $("#BreadcrumbUserDropdownImage"), "open");
 
             this.RightMainMenu.style.top = ($("#Breadcrumb").outerHeight() + "px");
             this.Breadcrumb.style.zIndex = 100;
             this.Breadcrumb.style.top = "0";
             this.Breadcrumb.classList.add("ShowBreadcrumb");
             this.Breadcrumb.style.position = "fixed";
-           // this.UserDropDownMenuBreadCrumb.css("position", "absolute");
-
-        } else {
+        }
+        else {
             this.Breadcrumb.style.top = ($("#MasterHeader").outerHeight() + this.Header.scrollTop) + "px";
             this.Breadcrumb.style.position = "absolute";
             this.Breadcrumb.classList.remove("ShowBreadcrumb");
 
-            if ($("#BreadcrumbUserDropdownImage").hasClass("open")) {
-                $("#BreadcrumbUserDropdownImage").removeClass("open");
-                $("#HeaderUserDropdown").addClass("open");
-            }
+            this.toggleClass($("#BreadcrumbUserDropdownImage"), $("#HeaderUserDropdown"), "open");
 
             $("#userDropdown").css("top", $("#Breadcrumb").outerHeight() + $("#MasterHeader").outerHeight() - $("#HeaderUserDropdown").offset().top + "px");
             $("#Breadcrumb").css("z-index", 100);
@@ -81,7 +73,7 @@ class StickeyHeaderClass {
         if (this.countLines(this.Breadcrumb) !== 1) 
             this.Breadcrumb.style.height = "auto";
         else
-            this.Breadcrumb.style.height = "55px";
+            this.Breadcrumb.style.height = "55px";                                                      // Warum geht hier Auto nicht , bearbeiten , theoretisch muss Höhe doch nicht festgelegt werden  
 
         this.reorientatedMenu($(window).scrollTop());
     }
@@ -120,6 +112,15 @@ class StickeyHeaderClass {
     private calculateTheSizeOfTheMenu(isScrolled: boolean) {
             $("#RightMainMenu").css("max-height", $(window).innerHeight() - $("#Breadcrumb").outerHeight() + "px");
             this.RightMainMenu.style.overflow = "scroll";
+    }
+
+    private toggleClass(removeClassFromElement: JQuery, addClassToElement: JQuery, toggleClass: string) {
+        if (removeClassFromElement.hasClass(toggleClass)) {
+            removeClassFromElement.removeClass(toggleClass);
+            addClassToElement.addClass(toggleClass);
+
+        }
+
     }
 
 }
