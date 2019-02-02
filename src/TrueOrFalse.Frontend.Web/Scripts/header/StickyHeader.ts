@@ -21,7 +21,7 @@ class StickeyHeaderClass {
         this.StickyHeader();
 
         $("#userDropdown").css("top", $("#Breadcrumb").outerHeight() + $("#MasterHeader").outerHeight() - $("#HeaderUserDropdown").offset().top + "px");
-        this.Breadcrumb.style.position = "absolute";
+        //this.Breadcrumb.style.position = "absolute";
 
         $(window).scroll(() => {
                 this.StickyHeader();
@@ -40,23 +40,32 @@ class StickeyHeaderClass {
             $('#StickyHeaderContainer').css('display', 'flex');
             $("#BreadcrumbUserDropdown").css("top", $("#Breadcrumb").outerHeight() + "px");
             $('#BreadCrumbTrail').css('max-width', "51%");
-            this.RightMainMenu.style.top = ( $("#Breadcrumb").outerHeight() + "px");
-            
 
+            if ($("#HeaderUserDropdown").hasClass("open")) {
+                $("#HeaderUserDropdown").removeClass("open");
+                $("#BreadcrumbUserDropdownImage").addClass("open");
+            }
+
+
+            this.RightMainMenu.style.top = ($("#Breadcrumb").outerHeight() + "px");
             this.Breadcrumb.style.zIndex = 100;
             this.Breadcrumb.style.top = "0";
             this.Breadcrumb.classList.add("ShowBreadcrumb");
             this.Breadcrumb.style.position = "fixed";
-            this.UserDropDownMenuBreadCrumb.css("position", "absolute");
-
+           // this.UserDropDownMenuBreadCrumb.css("position", "absolute");
 
         } else {
             this.Breadcrumb.style.top = ($("#MasterHeader").outerHeight() + this.Header.scrollTop) + "px";
             this.Breadcrumb.style.position = "absolute";
             this.Breadcrumb.classList.remove("ShowBreadcrumb");
+
+            if ($("#BreadcrumbUserDropdownImage").hasClass("open")) {
+                $("#BreadcrumbUserDropdownImage").removeClass("open");
+                $("#HeaderUserDropdown").addClass("open");
+            }
+
             $("#userDropdown").css("top", $("#Breadcrumb").outerHeight() + $("#MasterHeader").outerHeight() - $("#HeaderUserDropdown").offset().top + "px");
             $("#Breadcrumb").css("z-index", 100);
-
             $('#BreadcrumbLogoSmall').hide();
             $('#StickyHeaderContainer').hide();
 
