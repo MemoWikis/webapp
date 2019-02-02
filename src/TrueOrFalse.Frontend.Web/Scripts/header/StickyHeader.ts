@@ -1,5 +1,5 @@
 ﻿// Todos
-// toggleClass function anlegen.
+
 
 
 class StickeyHeaderClass {
@@ -17,19 +17,20 @@ class StickeyHeaderClass {
         this.OuterHeightBreadCrumb = $("#Breadcrumb").outerHeight();
         this.UserDropDownMenuBreadCrumb = $("#BreadcrumbUserDropdown");
         this.RightMainMenu.style.position = "fixed"; 
-        this.calculateTheSizeOfTheMenu(false);
+        this.calculateTheSizeOfTheMenu($("#RightMainMenu"));
+        this.calculateTheSizeOfTheMenu($("#userDropdown"));
         this.StickyHeader();
 
         $("#userDropdown").css("top", $("#Breadcrumb").outerHeight() + $("#MasterHeader").outerHeight() - $("#HeaderUserDropdown").offset().top + "px");
-        //this.Breadcrumb.style.position = "absolute";
 
         $(window).scroll(() => {
                 this.StickyHeader();
         });
 
         $(window).resize(() => {
-                this.StickyHeader();
-                this.calculateTheSizeOfTheMenu(false);
+            this.StickyHeader();
+            this.calculateTheSizeOfTheMenu($("#RightMainMenu"));
+            this.calculateTheSizeOfTheMenu($("#userDropdown"));
         });
     }
 
@@ -42,6 +43,8 @@ class StickeyHeaderClass {
             $('#BreadCrumbTrail').css('max-width', "51%");
 
             this.toggleClass($("#HeaderUserDropdown"), $("#BreadcrumbUserDropdownImage"), "open");
+            this.calculateTheSizeOfTheMenu($("#BreadcrumbUserDropdown"));
+            
 
             this.RightMainMenu.style.top = ($("#Breadcrumb").outerHeight() + "px");
             this.Breadcrumb.style.zIndex = 100;
@@ -89,7 +92,7 @@ class StickeyHeaderClass {
 
         if (isNaN(line_height)) line_height = font_size * 1.2;
 
-        if (box_sizing == 'border-box') {
+        if (box_sizing === 'border-box') {
             var padding_top = parseInt(style.getPropertyValue("padding-top"));
             var padding_bottom = parseInt(style.getPropertyValue("padding-bottom"));
             var border_top = parseInt(style.getPropertyValue("border-top-width"));
@@ -109,9 +112,9 @@ class StickeyHeaderClass {
         }
     }
 
-    private calculateTheSizeOfTheMenu(isScrolled: boolean) {
-            $("#RightMainMenu").css("max-height", $(window).innerHeight() - $("#Breadcrumb").outerHeight() + "px");
-            this.RightMainMenu.style.overflow = "scroll";
+    private calculateTheSizeOfTheMenu(menu: JQuery,) {
+            menu.css("max-height", $(window).innerHeight() - $("#Breadcrumb").outerHeight() + "px");
+            menu.css( "overflow", "scroll");
     }
 
     private toggleClass(removeClassFromElement: JQuery, addClassToElement: JQuery, toggleClass: string) {
@@ -126,5 +129,5 @@ class StickeyHeaderClass {
 }
 
 $(() => {
-   new StickeyHeaderClass(); 
+    new StickeyHeaderClass(); 
 });
