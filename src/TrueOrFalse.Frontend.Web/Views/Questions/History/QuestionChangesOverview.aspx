@@ -30,7 +30,7 @@
             </div>
         </div>
         
-        <% foreach (var item in day.Items){ %>
+        <% foreach (var item in day.RevisionModels){ %>
     
             <div class="row change-detail-model">
                 <div class="col-xs-6">
