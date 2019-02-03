@@ -1208,9 +1208,9 @@ p:empty {
 #TopicTabContent {
   margin-top: 60px;
 }
-#ContentModule .MarkdownSaveButton {
+#TopicTabContent #SaveMarkdownBottom .MarkdownSaveButton {
   float: right;
-  margin-bottom: 50px;
+  position: relative;
 }
 /*------------------------------------------------------
     Spinner Overwrite

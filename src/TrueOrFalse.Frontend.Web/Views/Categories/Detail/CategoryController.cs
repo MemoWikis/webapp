@@ -149,12 +149,21 @@ public class CategoryController : BaseController
 
     [HttpPost]
     [AccessOnlyAsLoggedIn]
-    public void SaveMarkdown(int categoryId, string markdown)
+    public ActionResult SaveMarkdown(int categoryId, string markdown)
     {
         var category = Sl.CategoryRepo.GetById(categoryId);
-        category.TopicMarkdown = markdown;
-        Sl.CategoryRepo.Update(category, User_());
-    }
 
-   
+        if (category != null && markdown != null)
+        {
+            category.TopicMarkdown = markdown;
+            Sl.CategoryRepo.Update(category, User_());
+
+            return Json(true);
+        }
+        else
+        {
+            return Json(false);
+        }
+        
+    }   
 }
