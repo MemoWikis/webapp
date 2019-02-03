@@ -46,12 +46,12 @@
     <% Html.RenderPartial("~/Views/Categories/Detail/Partials/CategoryHeader.ascx", Model);%>
     
     <div id="TopicTabContent" class="TabContent">
-        <div id="ContentModule">      
+        <div id="ContentModule">
+            <div v-if="showTopAlert"><% Html.RenderPartial("~/Views/Categories/Detail/Partials/Alert.ascx"); %></div>
             <% Html.RenderPartial("~/Views/Categories/Detail/Tabs/TopicTab.ascx", Model); %>
-            
-            <div id="SaveMarkdownBottom" v-if="showSaveButton">
-                <% Html.RenderPartial("~/Views/Categories/Detail/Partials/Alert.ascx"); %>
-                <div class="btn btn-primary MarkdownSaveButton" @click="saveMarkdown()">Speichern</div>                
+            <div v-if="!showTopAlert"><% Html.RenderPartial("~/Views/Categories/Detail/Partials/Alert.ascx"); %></div>
+            <div id="SaveMarkdownBottom">
+                <div class="btn btn-primary MarkdownSaveButton" @click="saveMarkdown()" v-if="showSaveButton">Speichern</div>                
             </div>
         </div>           
     </div>

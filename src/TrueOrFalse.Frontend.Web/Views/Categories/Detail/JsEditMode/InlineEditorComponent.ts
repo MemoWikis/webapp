@@ -64,13 +64,15 @@ new Vue({
             saveSuccess: false,
             saveMessage: '',
             showSaveButton: false,
+            showTopAlert: false,
         }
     }, 
 
     created() {
-        eventBus.$on('save',
+        eventBus.$on('save-markdown',
             (data) => {
-                if (data == 'markdown') {
+                if (data == 'top') {
+                    this.showTopAlert = true;
                     this.saveMarkdown();
                 }
             });
@@ -80,8 +82,9 @@ new Vue({
     methods: {
 
         removeAlert() {
-            this.saveMessage = '',
+            this.saveMessage = '';
             this.saveSuccess = false;
+            this.showTopAlert = false;
         },
 
         saveMarkdown() {
@@ -124,7 +127,7 @@ new Vue({
         },
 
         saveMarkdown() {
-            eventBus.$emit('save', 'markdown')
+            eventBus.$emit('save-markdown', 'top')
 //            eventBus.$emit('save-markdown')
 //            const markdownParts = $("li.module").map((idx, elem) => $(elem).attr("markdown")).get();
 //            let markdownDoc = "";
