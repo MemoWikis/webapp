@@ -72,8 +72,7 @@ new Vue({
         eventBus.$on('save-markdown',
             (data) => {
                 if (data == 'top') {
-                    this.showTopAlert = true;
-                    this.saveMarkdown();
+                    this.saveMarkdown(data);
                 }
             });
         eventBus.$on("set-edit-mode", state => this.showSaveButton = state);
@@ -87,7 +86,12 @@ new Vue({
             this.showTopAlert = false;
         },
 
-        saveMarkdown() {
+        saveMarkdown(data) {
+            if (data == 'top') {
+                this.showTopAlert = true;
+            } else {
+                this.showTopAlert = false;
+            };
             const markdownParts = $("li.module").map((idx, elem) => $(elem).attr("markdown")).get();
             let markdownDoc = "";
             if (markdownParts.length >= 1) 
