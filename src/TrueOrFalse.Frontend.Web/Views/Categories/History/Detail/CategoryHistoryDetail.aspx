@@ -124,9 +124,6 @@
                 
                 <input type="hidden" id="currentRelations" value="<%= Server.HtmlEncode(Model.CurrentRelations) %>"/>
                 <input type="hidden" id="prevRelations" value="<%= Server.HtmlEncode(Model.PrevRelations) %>"/>
-                
-                <input type="hidden" id="currentDateCreated" value="<%= Model.CurrentDateCreated %>" />
-                <input type="hidden" id="prevDateCreated" value="<%= Model.PrevDateCreated %>" />
 
                 <input type="hidden" id="imageWasUpdated" value="<%= Model.ImageWasUpdated %>"/>
 

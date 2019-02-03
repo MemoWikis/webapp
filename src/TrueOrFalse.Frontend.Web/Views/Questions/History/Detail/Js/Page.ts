@@ -2,64 +2,58 @@
 declare var Diff2Html;
 declare var Diff2HtmlUI;
 
-$(() => {
+function ShowQuestionDiff2Html(revId) {
     
-    ShowQuestionDiff2Html();
-
-});
-
-function ShowQuestionDiff2Html() {
-    
-    var currentQuestionText = $('#currentQuestionText').val();
-    var prevQuestionText = $('#prevQuestionText').val();
+    var currentQuestionText = $('#currentQuestionText_' + revId).val();
+    var prevQuestionText = $('#prevQuestionText_' + revId).val();
     var diffQuestionText = QuestionDiff(prevQuestionText, currentQuestionText, 'Änderungen der Frage');
-
-    var currentQuestionTextExtended = $('#currentQuestionTextExtended').val();
-    var prevQuestionTextExtended = $('#prevQuestionTextExtended').val();
+    
+    var currentQuestionTextExtended = $('#currentQuestionTextExtended_' + revId).val();
+    var prevQuestionTextExtended = $('#prevQuestionTextExtended_' + revId).val();
     var diffQuestionTextExtended = QuestionDiff(prevQuestionTextExtended, currentQuestionTextExtended, 'Änderungen der erweiterten Fragedefinition (u.a. Bildinformationen)');
 
-    var currentLicense = $('#currentLicense').val();
-    var prevLicense = $('#prevLicense').val();
+    var currentLicense = $('#currentLicense_' + revId).val();
+    var prevLicense = $('#prevLicense_' + revId).val();
     var diffLicense = QuestionDiff(prevLicense, currentLicense, 'Änderungen der Lizenzinformationen');
 
-    var currentVisibility = $('#currentVisibility').val();
-    var prevVisibility = $('#prevVisibility').val();
+    var currentVisibility = $('#currentVisibility_' + revId).val();
+    var prevVisibility = $('#prevVisibility_' + revId).val();
     var diffVisibility = QuestionDiff(prevVisibility, currentVisibility, 'Änderungen der Sichtbarkeit');
 
-    var currentSolution = $('#currentSolution').val();
-    var prevSolution = $('#prevSolution').val();
+    var currentSolution = $('#currentSolution_' + revId).val();
+    var prevSolution = $('#prevSolution_' + revId).val();
     var diffSolution = QuestionDiff(prevSolution, currentSolution, 'Änderungen der Lösung');
 
-    var currentSolutionDescription = $('#currentSolutionDescription').val();
-    var prevSolutionDescription = $('#prevSolutionDescription').val();
+    var currentSolutionDescription = $('#currentSolutionDescription_' + revId).val();
+    var prevSolutionDescription = $('#prevSolutionDescription_' + revId).val();
     var diffSolutionDescription = QuestionDiff(prevSolutionDescription, currentSolutionDescription, 'Änderungen der Lösungsbeschreibung');
 
-    var currentSolutionMetadataJson = $('#currentSolutionMetadataJson').val();
-    var prevSolutionMetadataJson = $('#prevSolutionMetadataJson').val();
+    var currentSolutionMetadataJson = $('#currentSolutionMetadataJson_' + revId).val();
+    var prevSolutionMetadataJson = $('#prevSolutionMetadataJson_' + revId).val();
     var diffSolutionMetadataJson = QuestionDiff(prevSolutionMetadataJson, currentSolutionMetadataJson, 'Änderungen der Metadaten der Lösung');
 
-    var imageWasChanged = $('#imageWasChanged').val().toLowerCase();
+    var imageWasChanged = $('#imageWasChanged_' + revId).val().toLowerCase();
     
     if (diffQuestionText)
-        ShowQuestionDiff(diffQuestionText, '#diffQuestionText');
+        ShowQuestionDiff(diffQuestionText, '#diffQuestionText_' + revId);
     if (diffQuestionTextExtended)
-        ShowQuestionDiff(diffQuestionTextExtended, '#diffQuestionTextExtended');
+        ShowQuestionDiff(diffQuestionTextExtended, '#diffQuestionTextExtended_' + revId);
     if (diffLicense)
-        ShowQuestionDiff(diffLicense, '#diffLicense');
+        ShowQuestionDiff(diffLicense, '#diffLicense_' + revId);
     if (diffVisibility)
-        ShowQuestionDiff(diffVisibility, '#diffVisibility');
+        ShowQuestionDiff(diffVisibility, '#diffVisibility_' + revId);
     if (diffSolution)
-        ShowQuestionDiff(diffSolution, '#diffSolution');
+        ShowQuestionDiff(diffSolution, '#diffSolution_' + revId);
     if (diffSolutionDescription)
-        ShowQuestionDiff(diffSolutionDescription, '#diffSolutionDescription');
+        ShowQuestionDiff(diffSolutionDescription, '#diffSolutionDescription_' + revId);
     if (diffSolutionMetadataJson)
-        ShowQuestionDiff(diffSolutionMetadataJson, '#diffSolutionMetadataJson');
+        ShowQuestionDiff(diffSolutionMetadataJson, '#diffSolutionMetadataJson_' + revId);
     
     // Zeige Hinweis, falls es keine inhaltichen Änderungen zu geben scheint
     if (!diffQuestionText && !diffQuestionTextExtended && !diffLicense && !diffVisibility && !diffSolution && !diffSolutionDescription && !diffSolutionMetadataJson && imageWasChanged === "false")
     {
-        $("#diffPanel").hide();
-        $("#noChangesAlert").show();
+        $('diffPanel_' + revId).hide();
+        $('#noChangesAlert_' + revId).show();
     }
 }
 
