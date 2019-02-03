@@ -1,22 +1,19 @@
-﻿// Todos
-
-
-
+﻿
 class StickeyHeaderClass {
-    private Breadcrumb;
-    private RightMainMenu;   
-    private Header;
-    private OuterHeightBreadCrumb;
-    private UserDropDownMenuBreadCrumb;
+    private _breadcrumb;
+    private _rightMainMenu;   
+    private _header;
+    private _outerHeightBreadCrumb;
+    private _userDropDownMenuBreadCrumb;
 
 
     constructor() {
-        this.Breadcrumb = $('#Breadcrumb').get(0);
-        this.RightMainMenu = $("#RightMainMenu").get(0);
-        this.Header = $("#MasterHeader").get(0);
-        this.OuterHeightBreadCrumb = $("#Breadcrumb").outerHeight();
-        this.UserDropDownMenuBreadCrumb = $("#BreadcrumbUserDropdown");
-        this.RightMainMenu.style.position = "fixed"; 
+        this._breadcrumb = $('#Breadcrumb').get(0);
+        this._rightMainMenu = $("#RightMainMenu").get(0);
+        this._header = $("#MasterHeader").get(0);
+        this._outerHeightBreadCrumb = $("#Breadcrumb").outerHeight();
+        this._userDropDownMenuBreadCrumb = $("#BreadcrumbUserDropdown");
+        this._rightMainMenu.style.position = "absolute"; 
         this.calculateTheSizeOfTheMenu($("#RightMainMenu"));
         this.calculateTheSizeOfTheMenu($("#userDropdown"));
         this.StickyHeader();
@@ -44,19 +41,18 @@ class StickeyHeaderClass {
 
             this.toggleClass($("#HeaderUserDropdown"), $("#BreadcrumbUserDropdownImage"), "open");
             this.calculateTheSizeOfTheMenu($("#BreadcrumbUserDropdown"));
-            
 
-            this.RightMainMenu.style.top = ($("#Breadcrumb").outerHeight() + "px");
-            this.Breadcrumb.style.zIndex = 100;
-            this.Breadcrumb.style.top = "0";
-            this.Breadcrumb.classList.add("ShowBreadcrumb");
-            this.Breadcrumb.style.position = "fixed";
+            this._rightMainMenu.style.position = "fixed";
+            this._rightMainMenu.style.top = ($("#Breadcrumb").outerHeight() + "px");
+            this._breadcrumb.style.zIndex = 100;
+            this._breadcrumb.style.top = "0";
+            this._breadcrumb.classList.add("ShowBreadcrumb");
+            this._breadcrumb.style.position = "fixed";
         }
         else {
-            this.Breadcrumb.style.top = ($("#MasterHeader").outerHeight() + this.Header.scrollTop) + "px";
-            this.Breadcrumb.style.position = "absolute";
-            this.Breadcrumb.classList.remove("ShowBreadcrumb");
-
+            this._breadcrumb.style.top = ($("#MasterHeader").outerHeight() + this._header.scrollTop) + "px";
+            this._breadcrumb.style.position = "absolute";
+            this._breadcrumb.classList.remove("ShowBreadcrumb");
             this.toggleClass($("#BreadcrumbUserDropdownImage"), $("#HeaderUserDropdown"), "open");
 
             $("#userDropdown").css("top", $("#Breadcrumb").outerHeight() + $("#MasterHeader").outerHeight() - $("#HeaderUserDropdown").offset().top + "px");
@@ -64,19 +60,20 @@ class StickeyHeaderClass {
             $('#BreadcrumbLogoSmall').hide();
             $('#StickyHeaderContainer').hide();
 
-            this.RightMainMenu.style.top = ($("#MasterHeader").outerHeight() + $("#Breadcrumb").outerHeight() + "px");
+            this._rightMainMenu.style.top = ($("#MasterHeader").outerHeight() + $("#Breadcrumb").outerHeight() - $("#MenuButtonContainer").offset().top + "px");
+            this._rightMainMenu.style.position = "absolute";
 
             $('#BreadCrumbTrail').css("max-width", "");
 
             if (top.location.pathname === "/") {
-                this.Breadcrumb.style.display = "none";
+                this._breadcrumb.style.display = "none";
             }
         }
 
-        if (this.countLines(this.Breadcrumb) !== 1) 
-            this.Breadcrumb.style.height = "auto";
+        if (this.countLines(this._breadcrumb) !== 1) 
+            this._breadcrumb.style.height = "auto";
         else
-            this.Breadcrumb.style.height = "55px";                                                      // Warum geht hier Auto nicht , bearbeiten , theoretisch muss Höhe doch nicht festgelegt werden  
+            this._breadcrumb.style.height = "55px";                                                      // Warum geht hier Auto nicht , bearbeiten , theoretisch muss Höhe doch nicht festgelegt werden  
 
         this.reorientatedMenu($(window).scrollTop());
     }

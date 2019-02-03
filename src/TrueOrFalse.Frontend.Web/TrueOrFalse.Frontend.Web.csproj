@@ -20000,8 +20000,17 @@
     <Content Include="Scripts\header\ActivityPointsPopup.js">
       <DependentUpon>ActivityPointsPopup.ts</DependentUpon>
     </Content>
+    <Content Include="Scripts\header\MobileBreadcrumb.js">
+      <DependentUpon>MobileBreadcrumb.ts</DependentUpon>
+    </Content>
     <Content Include="Scripts\header\SearchBox.js">
       <DependentUpon>SearchBox.ts</DependentUpon>
+    </Content>
+    <Content Include="Scripts\header\StickyHeader.js">
+      <DependentUpon>StickyHeader.ts</DependentUpon>
+    </Content>
+    <Content Include="Scripts\header\StickyHeaderSearchBox.js">
+      <DependentUpon>StickyHeaderSearchBox.ts</DependentUpon>
     </Content>
     <Content Include="Scripts\hubs\GameHubEvents.js">
       <DependentUpon>GameHubEvents.ts</DependentUpon>
@@ -20308,6 +20317,15 @@
       <DependentUpon>EditDate.ts</DependentUpon>
     </Content>
     <Content Include="Style\TopHeader.less" />
+    <Content Include="Scripts\header\MobileBreadcrumb.js.map">
+      <DependentUpon>MobileBreadcrumb.ts</DependentUpon>
+    </Content>
+    <Content Include="Scripts\header\StickyHeader.js.map">
+      <DependentUpon>StickyHeader.ts</DependentUpon>
+    </Content>
+    <Content Include="Scripts\header\StickyHeaderSearchBox.js.map">
+      <DependentUpon>StickyHeaderSearchBox.ts</DependentUpon>
+    </Content>
     <None Include="Views\Maintenance\ContentStats.less" />
     <Compile Include="Views\Maintenance\ContentStatsModel.cs" />
     <Compile Include="Views\Maintenance\Images\MaintenanceImagesController.cs" />
