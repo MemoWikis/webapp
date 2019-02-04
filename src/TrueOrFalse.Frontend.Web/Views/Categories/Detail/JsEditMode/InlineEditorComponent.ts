@@ -126,8 +126,12 @@ new Vue({
 
     methods: {
         setEditMode() {
-            this.editMode = !this.editMode;
-            eventBus.$emit('set-edit-mode', this.editMode);
+            if (NotLoggedIn.Yes()) {
+                return;
+            } else {
+                this.editMode = !this.editMode;
+                eventBus.$emit('set-edit-mode', this.editMode);
+            } 
         },
 
         saveMarkdown() {
