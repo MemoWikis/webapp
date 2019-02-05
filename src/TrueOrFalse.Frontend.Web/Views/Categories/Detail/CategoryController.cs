@@ -54,7 +54,7 @@ public class CategoryController : BaseController
         categoryModel.CustomPageHtml = MarkdownToHtml.Run(historicCategory.TopicMarkdown, historicCategory, ControllerContext);
         categoryModel.Description = MarkdownToHtml.Run(historicCategory.Description, historicCategory, ControllerContext);
         categoryModel.WikipediaURL = historicCategory.WikipediaURL;
-        categoryModel.NextRevExists = categoryChange.GetNextRevision() != null;
+        categoryModel.NextRevExists = Sl.CategoryChangeRepo.GetNextRevision(categoryChange) != null;
     }
 
     public void CategoryById(int id)

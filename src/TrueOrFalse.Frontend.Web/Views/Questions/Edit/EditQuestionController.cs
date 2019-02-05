@@ -91,6 +91,8 @@ public class EditQuestionController : BaseController
             EditQuestionModel_to_Question.Update(model, question, Request.Form)
         );
 
+        Sl.QuestionChangeRepo.AddUpdateEntry(question);
+
         UpdateSound(soundfile, id);
         model.Message = new SuccessMessage("Die Frage wurde gespeichert.");
 
@@ -111,6 +113,8 @@ public class EditQuestionController : BaseController
         {
             question = _questionRepo.GetById(Convert.ToInt32(Request["questionId"]));
             _questionRepo.Update(EditQuestionModel_to_Question.Update(model, question, Request.Form));
+
+            Sl.QuestionChangeRepo.AddUpdateEntry(question);
         }
         else
         {
@@ -129,6 +133,8 @@ public class EditQuestionController : BaseController
         DeleteUnusedImages.Run(model.QuestionExtended, question.Id);
 
         _questionRepo.Update(question);
+
+        Sl.QuestionChangeRepo.AddUpdateEntry(question);
 
         UpdateSound(soundfile, question.Id);
 
@@ -192,9 +198,10 @@ public class EditQuestionController : BaseController
         )
     {
         int newQuestionId = -1;
+        Question question;
         if (questionId == -1)
         {
-            var question = new Question();
+            question = new Question();
             question.Text = String.IsNullOrEmpty(Request["Question"]) ? "Temporäre Frage" : Request["Question"];
             question.Solution = "Temporäre Frage";
             question.Creator = _sessionUser.User;
@@ -218,6 +225,9 @@ public class EditQuestionController : BaseController
             Resolve<ImageStore>().RunUploaded<QuestionImageSettings>(
                 _sessionUiData.TmpImagesStore.ByGuid(uploadImageGuid), questionId, _sessionUser.User.Id, uploadImageLicenseOwner);
         }
+
+        question = Sl.QuestionRepo.GetById(questionId);
+        Sl.QuestionChangeRepo.AddUpdateEntry(question, imageWasChanged:true);
 
         var imageSettings = new QuestionImageSettings(questionId);
 

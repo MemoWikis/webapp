@@ -8,7 +8,14 @@
                 von: <a href="<%= Links.UserDetail(Model.Creator) %>"><%= Model.CreatorName %></a><%= Model.Visibility != QuestionVisibility.All ? " <i class='fa fa-lock show-tooltip' title='Private Frage'></i>" : "" %><br />
                 vor <span class="show-tooltip" title="erstellt am <%= Model.CreationDate %>" ><%= Model.CreationDateNiceText %></span> <br />
             </p>
-                                    
+            
+            <div id="QuestionHistory">
+                <a href="<%= Links.QuestionHistory(Model.QuestionId) %>" class="TextLinkWithIcon">
+                    <i class="fa fa-list-ul"></i>
+                    <span class="TextSpan">Bearbeitungshistorie</span>
+                </a>
+            </div>
+
             <% if (Model.IsOwner)
                { %>
                 <%--<div class="navLinks">--%>

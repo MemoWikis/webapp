@@ -76,4 +76,36 @@ public class CategoryChangeRepo : RepositoryDbBase<CategoryChange>
             .Left.JoinQueryOver(q => q.Category)
             .SingleOrDefault();
     }
+
+    public virtual CategoryChange GetNextRevision(CategoryChange categoryChange)
+    {
+        var categoryId = categoryChange.Category.Id;
+        var currentRevisionDate = categoryChange.DateCreated.ToString("yyyy-MM-dd HH-mm-ss");
+        var query = $@"
+            
+            SELECT * FROM CategoryChange cc
+            WHERE cc.Category_id = {categoryId} and cc.DateCreated > '{currentRevisionDate}' 
+            ORDER BY cc.DateCreated 
+            LIMIT 1
+
+            ";
+        var nextRevision = Sl.R<ISession>().CreateSQLQuery(query).AddEntity(typeof(CategoryChange)).UniqueResult<CategoryChange>();
+        return nextRevision;
+    }
+
+    public virtual CategoryChange GetPreviousRevision(CategoryChange categoryChange)
+    {
+        var categoryId = categoryChange.Category.Id;
+        var currentRevisionDate = categoryChange.DateCreated.ToString("yyyy-MM-dd HH-mm-ss");
+        var query = $@"
+            
+            SELECT * FROM CategoryChange cc
+            WHERE cc.Category_id = {categoryId} and cc.DateCreated < '{currentRevisionDate}' 
+            ORDER BY cc.DateCreated DESC 
+            LIMIT 1
+
+            ";
+        var previousRevision = Sl.R<ISession>().CreateSQLQuery(query).AddEntity(typeof(CategoryChange)).UniqueResult<CategoryChange>();
+        return previousRevision;
+    }
 }

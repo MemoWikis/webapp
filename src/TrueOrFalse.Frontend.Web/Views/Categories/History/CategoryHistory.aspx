@@ -15,7 +15,7 @@
     
     <div class="row">
         <div class="col-12">
-            <h1><i class="fa fa-code-fork"></i>&nbsp; Bearbeitungshistorie '<%= Model.CategoryName %>'</h1>
+            <h1><i class="fa fa-list-ul"></i>&nbsp; Bearbeitungshistorie '<%= Model.CategoryName %>'</h1>
         </div>
     </div>
     <% foreach (var day in Model.Days) { %>
@@ -37,9 +37,9 @@
                     vor <%= item.ElapsedTime %> um <%= item.Time %>
                 </div>
                 <div class="col-xs-6 pull-right">    
-                    <a>
+                    <%--<a>
                         <i class="fa fa-comment-o"></i> #
-                    </a>&nbsp;
+                    </a>&nbsp;--%>
                     
                     <a class="btn btn-sm btn-default btn-primary" href="<%= Links.CategoryDetail(Model.CategoryName, Model.CategoryId, item.CategoryChangeId) %>">
                         <i class="fa fa-desktop"></i> Revision anzeigen

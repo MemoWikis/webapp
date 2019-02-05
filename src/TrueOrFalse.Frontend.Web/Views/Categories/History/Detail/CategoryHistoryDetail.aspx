@@ -15,15 +15,15 @@
     
     <div class="row">
         <div class="col-12">
-            <h1>Änderungen für '<%= Model.CategoryName %>'</h1>
+            <h1><i class="fa fa-code-fork"></i> &nbsp; Änderungen für '<%= Model.CategoryName %>'</h1>
         </div>
     </div>
     
     <div class="Buttons">
         <div class="row">
             <div class="col-md-3 col-lg-3">            
-                <a href="<%= Links.UserDetail(Model.CurrentAuthor) %>"><img src="<%= Model.AuthorImageUrl %>" height="20"/></a>
-                <b><a href="<%= Links.UserDetail(Model.CurrentAuthor) %>"><%= Model.AuthorName %></a></b><br/>
+                <a href="<%= Links.UserDetail(Model.Author) %>"><img src="<%= Model.AuthorImageUrl %>" height="20"/></a>
+                <b><a href="<%= Links.UserDetail(Model.Author) %>"><%= Model.AuthorName %></a></b><br/>
                 vom <%= Model.CurrentDateCreated %> 
             </div>
             
@@ -32,7 +32,7 @@
                     <i class="fa fa-desktop"></i> &nbsp; Anzeige dieser Revision
                 </a>
                 <a class="btn btn-default" href="<%= Links.CategoryHistory(Model.CategoryId) %>">
-                    <i class="fa fa-list-ul"></i> &nbsp; Zur Bearbeitungshistorie
+                    <i class="fa fa-list-ul"></i> &nbsp; Bearbeitungshistorie
                 </a>
                 <% var buttonSetId = Guid.NewGuid(); %>
                 <a href="#" id="<%= buttonSetId %>" class="dropdown-toggle btn btn-link btn-sm ButtonEllipsis" 
@@ -54,8 +54,8 @@
                         <% } %>
                     </li>
                     <li>
-                        <a href="<%= Links.HistoryOfEverything(1) %>">
-                            <i class="fa fa-list"></i> &nbsp; Zur Bearbeitungshistorie aller Themen
+                        <a href="<%= Links.CategoryChangesOverview(1) %>">
+                            <i class="fa fa-list"></i> &nbsp; Bearbeitungshistorie aller Themen
                         </a>
                     </li>
                 </ul>

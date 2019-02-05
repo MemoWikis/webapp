@@ -41,6 +41,8 @@ public class QuestionDelete
         Sl.R<LearningSessionRepo>().DeleteQuestionInAllLearningSessions(questionId);
 
         questionRepo.Delete(question);
+        Sl.QuestionChangeRepo.AddDeleteEntry(question);
+
         Sl.R<UpdateQuestionCountForCategory>().Run(categoriesToUpdate);
 
         var aggregatedCategoriesToUpdate = CategoryAggregation.GetAggregatingAncestors(categoriesToUpdate);

@@ -44,7 +44,7 @@
                     </div>
                     <span class="userName TextSpan" style="font-weight: normal; line-height: normal; padding-top: 4px;">Hallo <b><%= userSession.User.Name%></b><b class="caret"></b></span>
                 </a>
-                <ul class="dropdown-menu pull-right" role="menu" aria-labelledby="dLabel" style="right: 0px;">
+                <ul class="dropdown-menu pull-right" id="userDropdown" role="menu" aria-labelledby="dLabel" style="right: 0px;">
                     <li>
                         <a style="white-space: unset; padding: 0px;" href="<%= Links.Knowledge()%>">
                             <div id="activity-popover-title">Deine Lernpunkte</div>
@@ -57,15 +57,14 @@
                     <li>
                         <a class="<%= Model.UserMenuActive(UserMenuEntry.Messages) %>" href="<%=Links.Messages(Url) %>"  style="display: flex;">Deine Nachrichten                        
                             <% if (Model.SidebarModel.UnreadMessageCount != 0) { %>
-                                <svg class="badge">
+                                <svg class="badge" height="100" width="100">
                                     <g>
-                                        <circle cx="16" cy="11" r="8" fill="#FF001F"/>
-                                        <text class="level-count" x="59%" text-anchor="middle" font-size="10" y="59%" dy=".34em" fill="white"><%= Model.SidebarModel.UnreadMessageCount %></text>
+                                        <circle cx="13" cy="10" r="8" fill="#FF001F"/>
+                                        <text class="level-count" x="60%" text-anchor="middle" font-size="10" y="55%" dy=".34em" fill="white"><%= Model.SidebarModel.UnreadMessageCount %></text>
                                     </g>
                                 </svg>                
                             <% } %>
-                        </a>
-                       
+                        </a> 
                     </li>
                     <li><a class="<%= Model.UserMenuActive(UserMenuEntry.Network) %>" href="<%=Links.Network() %>">Dein Netzwerk</a></li>
                     <li><a class="<%= Model.UserMenuActive(UserMenuEntry.UserDetail) %>" href="<%=Url.Action(Links.UserAction, Links.UserController, new {name = userSession.User.Name, id = userSession.User.Id}) %>">Deine Profilseite</a></li>

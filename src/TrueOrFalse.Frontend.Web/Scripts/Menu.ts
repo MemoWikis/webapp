@@ -34,7 +34,6 @@ class MenuMobile {
 
             } else {
                 this.openMenu();
-
             }
         });
 
@@ -67,13 +66,14 @@ class MenuMobile {
     openMenu() {
 
         $("#mainMenu, #RightMainMenu").show();
-        this._isOpen = true;       
+        this._isOpen = true;  
     }
 
     closeMenu() {
 
         $("#mainMenu, #RightMainMenu").hide();
         this._isOpen = false;
+
     }
 
     

@@ -36,6 +36,7 @@ public class Sl
 
     public static QuestionRepo QuestionRepo => R<QuestionRepo>();
     public static QuestionValuationRepo QuestionValuationRepo => R<QuestionValuationRepo>();
+    public static QuestionChangeRepo QuestionChangeRepo => R<QuestionChangeRepo>();
 
     public static SearchIndexCategory SearchIndexCategory => R<SearchIndexCategory>();
 

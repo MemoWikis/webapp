@@ -27,7 +27,7 @@
                 <i class="fa fa-code-fork"></i> &nbsp; Änderungen anzeigen
             </a>
             <a class="btn btn-default" href="<%= Links.CategoryHistory(Model.Id) %>">
-                <i class="fa fa-list-ul"></i> &nbsp; Zur Bearbeitungshistorie
+                <i class="fa fa-list-ul"></i> &nbsp; Bearbeitungshistorie
             </a>
             <% var buttonSetId = Guid.NewGuid(); %>
             <a href="#" id="<%= buttonSetId %>" class="dropdown-toggle btn btn-link btn-sm ButtonEllipsis" 
@@ -49,8 +49,8 @@
                     <% } %>
                 </li>
                 <li>
-                    <a href="<%= Links.HistoryOfEverything(1) %>">
-                        <i class="fa fa-list"></i> &nbsp; Zur Bearbeitungshistorie aller Themen
+                    <a href="<%= Links.CategoryChangesOverview(1) %>">
+                        <i class="fa fa-list"></i> &nbsp; Bearbeitungshistorie aller Themen
                     </a>
                 </li>
             </ul>

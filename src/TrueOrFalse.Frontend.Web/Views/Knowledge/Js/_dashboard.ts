@@ -47,7 +47,7 @@
     }
 }
 
-$(document).ready(function () {
+$(document).ready(() => {
     new _Dashboard();
 });
 
