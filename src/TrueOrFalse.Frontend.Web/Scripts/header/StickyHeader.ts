@@ -5,6 +5,7 @@ class StickeyHeaderClass {
     private _header;
     private _outerHeightBreadCrumb;
     private _userDropDownMenuBreadCrumb;
+    private _masterHeaderOuterHeight =  $("#MasterHeader").outerHeight();
 
 
     constructor() {
@@ -31,11 +32,13 @@ class StickeyHeaderClass {
 
     public StickyHeader() {
         
-        if ($(window).scrollTop() > 80) {
+        if ($(window).scrollTop() >= this._masterHeaderOuterHeight) {
             $('#BreadcrumbLogoSmall').show();
             $('#StickyHeaderContainer').css('display', 'flex');
+
             if (IsLoggedIn.Yes)
                 $("#BreadcrumbUserDropdown").css("top", $("#Breadcrumb").outerHeight() + "px");
+
             $('#BreadCrumbTrail').css('max-width', "51%");
 
             this.toggleClass($("#HeaderUserDropdown"), $("#BreadcrumbUserDropdownImage"), "open");
@@ -103,10 +106,12 @@ class StickeyHeaderClass {
     }
 
    private reorientatedMenu(pos: number):void {
-        if (pos > 80) {
+        if (pos > this._masterHeaderOuterHeight) {
             $('#BreadcrumbUserDropdown').css('margin-right', $('#BreadCrumbContainer').css('margin-right'));
+            $('#RightMainMenu').css('margin-right', $('#BreadCrumbContainer').css('margin-right'));
         } else {
             $('#BreadcrumbUserDropdown').css('margin-right', '');
+            $('#RightMainMenu').css('margin-right', '');
         }
     }
 
