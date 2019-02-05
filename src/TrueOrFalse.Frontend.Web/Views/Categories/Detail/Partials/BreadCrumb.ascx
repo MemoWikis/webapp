@@ -75,7 +75,7 @@
                     </li>
                     <li class="divider"></li>
                     <li>
-                        <a class="<%= Model.UserMenuActive(UserMenuEntry.Messages) %>" href="<%=Links.Messages(Url) %>"  style="display: flex;">Deine Nachrichten                        
+                        <a class="messages,<%= Model.UserMenuActive(UserMenuEntry.Messages) %>" href="<%=Links.Messages(Url) %>"  style="display: flex;">Deine Nachrichten                        
                             <% if (Model.SidebarModel.UnreadMessageCount != 0) { %>
                                 <svg class="badge">
                                   <g>

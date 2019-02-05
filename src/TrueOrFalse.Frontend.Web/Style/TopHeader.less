@@ -31,6 +31,71 @@
         margin-top: 3px;
         margin-bottom: 3px;
 
+        #HeaderSearchBoxDiv {
+        }
+
+        .col-LoginAndHelp {
+            #loginAndHelp {
+                color: @light-blue;
+                float: right;
+                height: 100%;
+
+                .media-below-sm( {
+                    margin-top: 6px;
+                }
+
+                );
+
+                .header-item {
+                    display: flex;
+                    flex-direction: column;
+                    height: 100%;
+                    text-align: center;
+                    margin-right: 15px;
+
+                    .btn-default {
+                        display: none;
+                        background-color: transparent;
+                        border: none;
+
+                        @media (max-width:(@screen-md-min - 0.5)) {
+                            display: block;
+                        }
+                    }
+
+                    @media(max-width: 992px) {
+                        margin-right: 0px;
+                    }
+                }
+
+                #Login {
+                    .badge {
+                        height: 19px;
+                        padding: 0px;
+                        line-height: 14px;
+                        font-size: 10px !important;
+                        width: 27px;
+                        display: flex !important;
+                        flex-direction: column;
+                        text-align: center;
+                        background-color: transparent;
+
+                        &.badge-header {
+                            background-color: #FF001F;
+                            width: 19px;
+                            // margin-left: 8px;
+                            margin-top: 3px;
+                            left: 11px;
+                            top: -11px;
+                            border: 1.5px solid #003264;
+                            position: relative;
+                        }
+                    }
+                }
+            }
+        }
+
+
         @media (min-width: @screen-sm-min) {
             margin-top: 1%;
             margin-bottom: 1%;
@@ -47,6 +112,11 @@
                 margin-top: 4px;
             }
         }
+
+        .header-item-knowledge {
+            margin-top: -5px;
+        }
+
 
         #HeaderSearchBoxDiv {
             left: 115px;
@@ -119,44 +189,12 @@
 */
 
 #loginAndHelp, #StickyHeaderContainer {
-    color: @light-blue;
-    float: right;
-    height: 100%;
-
-    .media-below-sm( {
-        margin-top: 6px;
-    }
-
-    );
 
 
-    .badge {
-        height: 19px;
-        padding: 0px;
-        line-height: 14px;
-        font-size: 10px !important;
-        width: 27px;
-        display: flex !important;
-        flex-direction: column;
-        text-align: center;
-        background-color: transparent;
-
-        &.badge-header {
-            background-color: #FF001F;
-            width: 19px;
-            margin-left: 8px;
-            margin-top: 3px;
-            left: 11px;
-            top: -11px;
-            border: 1.5px solid #003264;
-            position: relative;
-        }
-    }
-
-    .dropdown-badge {
+    /*.dropdown-badge {
         line-height: 16px !important;
         border: 1px solid #FFFFFF;
-    }
+    }*/
 
     #SmallHeaderSearchBoxDiv {
         width: 43px;
@@ -177,25 +215,17 @@
     }
 
     .header-item {
-        display: flex;
-        flex-direction: column;
-        height: 100%;
-        text-align: center;
-        margin-right: 15px;
 
-        .btn-default {
-            display: none;
-            background-color: transparent;
-            border: none;
+    }
 
-            @media (max-width:(@screen-md-min - 0.5)) {
-                display: block;
-            }
+    #MenuButtonContainer {
+        @media(max-width: 992px) {
+           padding-left: 15px;
         }
     }
 
     .header-item:not(#MenuButtonContainer) {
-        @media(max-width:580px) {
+        @media(max-width: 580px) {
             margin-top: -5px;
         }
     }
@@ -297,7 +327,7 @@
             font-weight: normal;
             color: black;
             font-size: 16px;
-            padding: 15px 23.34px 15px 23.34px;
+            padding: 15px 0 15px 23.34px;
 
             &.active {
                 background-color: @light-grey-hover;
@@ -312,5 +342,29 @@
 
     i#tabInfoMyKnowledge {
         margin-right: 1px;
+    }
+}
+
+#Breadcrumb {
+    #BreadCrumbContainer {
+        #StickyHeaderContainer {
+            #BreadcrumbUserDropdownImage {
+                #BreadcrumbUserDropdown {
+                    .messages{padding-right: 5px;}
+                    .badge {
+                        height: 19px;
+                        padding: 0;
+                        
+                        line-height: 14px;
+                        font-size: 10px !important;
+                        width: 27px;
+                        display: flex !important;
+                        flex-direction: column;
+                        text-align: center;
+                        background-color: transparent;
+                    }
+                }
+            }
+        }
     }
 }

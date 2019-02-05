@@ -30,6 +30,58 @@
   margin-top: 3px;
   margin-bottom: 3px;
 }
+#MasterHeader .HeaderMainRow .col-LoginAndHelp #loginAndHelp {
+  color: #E7ECF6;
+  float: right;
+  height: 100%;
+}
+@media (max-width: 767px) {
+  #MasterHeader .HeaderMainRow .col-LoginAndHelp #loginAndHelp {
+    margin-top: 6px;
+  }
+}
+#MasterHeader .HeaderMainRow .col-LoginAndHelp #loginAndHelp .header-item {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  text-align: center;
+  margin-right: 15px;
+}
+#MasterHeader .HeaderMainRow .col-LoginAndHelp #loginAndHelp .header-item .btn-default {
+  display: none;
+  background-color: transparent;
+  border: none;
+}
+@media (max-width: 991.5px) {
+  #MasterHeader .HeaderMainRow .col-LoginAndHelp #loginAndHelp .header-item .btn-default {
+    display: block;
+  }
+}
+@media (max-width: 992px) {
+  #MasterHeader .HeaderMainRow .col-LoginAndHelp #loginAndHelp .header-item {
+    margin-right: 0px;
+  }
+}
+#MasterHeader .HeaderMainRow .col-LoginAndHelp #loginAndHelp #Login .badge {
+  height: 19px;
+  padding: 0px;
+  line-height: 14px;
+  font-size: 10px !important;
+  width: 27px;
+  display: flex !important;
+  flex-direction: column;
+  text-align: center;
+  background-color: transparent;
+}
+#MasterHeader .HeaderMainRow .col-LoginAndHelp #loginAndHelp #Login .badge.badge-header {
+  background-color: #FF001F;
+  width: 19px;
+  margin-top: 3px;
+  left: 11px;
+  top: -11px;
+  border: 1.5px solid #003264;
+  position: relative;
+}
 @media (min-width: 768px) {
   #MasterHeader .HeaderMainRow {
     margin-top: 1%;
@@ -47,6 +99,9 @@
   #MasterHeader .HeaderMainRow .fa-dot-circle-o {
     margin-top: 4px;
   }
+}
+#MasterHeader .HeaderMainRow .header-item-knowledge {
+  margin-top: -5px;
 }
 #MasterHeader .HeaderMainRow #HeaderSearchBoxDiv {
   left: 115px;
@@ -107,43 +162,10 @@
 */
 #loginAndHelp,
 #StickyHeaderContainer {
-  color: #E7ECF6;
-  float: right;
-  height: 100%;
-}
-@media (max-width: 767px) {
-  #loginAndHelp,
-  #StickyHeaderContainer {
-    margin-top: 6px;
-  }
-}
-#loginAndHelp .badge,
-#StickyHeaderContainer .badge {
-  height: 19px;
-  padding: 0px;
-  line-height: 14px;
-  font-size: 10px !important;
-  width: 27px;
-  display: flex !important;
-  flex-direction: column;
-  text-align: center;
-  background-color: transparent;
-}
-#loginAndHelp .badge.badge-header,
-#StickyHeaderContainer .badge.badge-header {
-  background-color: #FF001F;
-  width: 19px;
-  margin-left: 8px;
-  margin-top: 3px;
-  left: 11px;
-  top: -11px;
-  border: 1.5px solid #003264;
-  position: relative;
-}
-#loginAndHelp .dropdown-badge,
-#StickyHeaderContainer .dropdown-badge {
-  line-height: 16px !important;
-  border: 1px solid #FFFFFF;
+  /*.dropdown-badge {
+        line-height: 16px !important;
+        border: 1px solid #FFFFFF;
+    }*/
 }
 #loginAndHelp #SmallHeaderSearchBoxDiv,
 #StickyHeaderContainer #SmallHeaderSearchBoxDiv {
@@ -165,24 +187,10 @@
   font-weight: 400;
   text-overflow: ellipsis;
 }
-#loginAndHelp .header-item,
-#StickyHeaderContainer .header-item {
-  display: flex;
-  flex-direction: column;
-  height: 100%;
-  text-align: center;
-  margin-right: 15px;
-}
-#loginAndHelp .header-item .btn-default,
-#StickyHeaderContainer .header-item .btn-default {
-  display: none;
-  background-color: transparent;
-  border: none;
-}
-@media (max-width: 991.5px) {
-  #loginAndHelp .header-item .btn-default,
-  #StickyHeaderContainer .header-item .btn-default {
-    display: block;
+@media (max-width: 992px) {
+  #loginAndHelp #MenuButtonContainer,
+  #StickyHeaderContainer #MenuButtonContainer {
+    padding-left: 15px;
   }
 }
 @media (max-width: 580px) {
@@ -307,7 +315,7 @@
   font-weight: normal;
   color: black;
   font-size: 16px;
-  padding: 15px 23.34px 15px 23.34px;
+  padding: 15px 0 15px 23.34px;
 }
 #loginAndHelp .dropdown-menu a.active,
 #StickyHeaderContainer .dropdown-menu a.active {
@@ -321,4 +329,18 @@
 #loginAndHelp i#tabInfoMyKnowledge,
 #StickyHeaderContainer i#tabInfoMyKnowledge {
   margin-right: 1px;
+}
+#Breadcrumb #BreadCrumbContainer #StickyHeaderContainer #BreadcrumbUserDropdownImage #BreadcrumbUserDropdown .messages {
+  padding-right: 5px;
+}
+#Breadcrumb #BreadCrumbContainer #StickyHeaderContainer #BreadcrumbUserDropdownImage #BreadcrumbUserDropdown .badge {
+  height: 19px;
+  padding: 0;
+  line-height: 14px;
+  font-size: 10px !important;
+  width: 27px;
+  display: flex !important;
+  flex-direction: column;
+  text-align: center;
+  background-color: transparent;
 }
