@@ -988,10 +988,21 @@ p:empty {
     margin-top: 60px;
 
     #SaveMarkdownBottom {
+        margin-left: auto;
+        float: right;
+        font-size: 14px;
+
 
         .MarkdownSaveButton {
-            float:right;
-            position:relative
+            float: right;
+        }
+
+        a {
+            margin-right: 10px;
+            cursor:pointer;
+
+            .CancelEdit {
+            }
         }
     }
 }
@@ -1059,11 +1070,15 @@ p:empty {
         margin-bottom: 0px
     }
 
-    ul li {
-        .module {
-            list-style-type: none 
-        }
+
+    .module {
+        list-style-type: none;
     }
+
+    .list-group-item{
+        border: 0px;
+    }
+
 
 
     .Button {

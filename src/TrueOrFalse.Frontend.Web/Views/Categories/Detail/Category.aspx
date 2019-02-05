@@ -50,9 +50,12 @@
             <div v-if="showTopAlert"><% Html.RenderPartial("~/Views/Categories/Detail/Partials/Alert.ascx"); %></div>
             <% Html.RenderPartial("~/Views/Categories/Detail/Tabs/TopicTab.ascx", Model); %>
             <div v-if="!showTopAlert"><% Html.RenderPartial("~/Views/Categories/Detail/Partials/Alert.ascx"); %></div>
-            <div id="SaveMarkdownBottom">
-                <div class="btn btn-primary MarkdownSaveButton" @click="saveMarkdown('bottom')" v-if="showSaveButton">Speichern</div>                
-            </div>
+            <section id="SaveMarkdownBottom" v-if="editMode">
+                <div>
+                    <div class="btn btn-primary MarkdownSaveButton" @click="saveMarkdown('bottom')">Speichern</div>       
+                    <a class="CancelEdit" @click="cancelEditMode()">Editieren abbrechen</a>
+                </div>                
+            </section>
         </div>           
     </div>
     

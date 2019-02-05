@@ -1208,9 +1208,17 @@ p:empty {
 #TopicTabContent {
   margin-top: 60px;
 }
+#TopicTabContent #SaveMarkdownBottom {
+  margin-left: auto;
+  float: right;
+  font-size: 14px;
+}
 #TopicTabContent #SaveMarkdownBottom .MarkdownSaveButton {
   float: right;
-  position: relative;
+}
+#TopicTabContent #SaveMarkdownBottom a {
+  margin-right: 10px;
+  cursor: pointer;
 }
 /*------------------------------------------------------
     Spinner Overwrite
@@ -1267,8 +1275,11 @@ p:empty {
 .ContentModule .well {
   margin-bottom: 0px;
 }
-.ContentModule ul li .module {
+.ContentModule .module {
   list-style-type: none;
+}
+.ContentModule .list-group-item {
+  border: 0px;
 }
 .ContentModule .Button {
   position: absolute;

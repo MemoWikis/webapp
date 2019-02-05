@@ -79,7 +79,9 @@ public class TemplateParser
             case "singlequestionsquiz":
             case "spacer":
             case "textblock":
-                    return GetPartialHtml(templateJson, category, controllerContext, templateMarkdown);
+            case "divstart":
+            case "divend":
+                return GetPartialHtml(templateJson, category, controllerContext, templateMarkdown);
             default:
             {
                 var elementHtml = GetElementHtml(templateJson);
@@ -156,6 +158,10 @@ public class TemplateParser
                 return new SpacerModel(templateJson.AmountSpaces, templateJson.AddBorderTop);
             case "textblock":
                 return new TextBlockModel(templateJson.Text);
+            case "divstart":
+                return new DivStartModel(templateJson.CssClasses); 
+            case "divend":
+                return new DivEndModel();
             default:
                 throw new Exception("Kein Model für diese Template hinterlegt.");
         }
@@ -165,10 +171,10 @@ public class TemplateParser
     {
         switch (templateJson.TemplateName.ToLower())
         {
-            case "divstart":
-                return "<div class='" + templateJson.CssClasses + "'>";
-            case "divend":
-                return "</div>";
+//            case "divstart":
+//                return "<div class='" + templateJson.CssClasses + "'>";
+//            case "divend":
+//                return "</div>";
             case "wishknowledgeinthebox":
                 return "<div class = 'wishKnowledgeTemplate'></div>";
             default:

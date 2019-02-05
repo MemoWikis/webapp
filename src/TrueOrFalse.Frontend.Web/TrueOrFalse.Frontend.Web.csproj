@@ -310,6 +310,8 @@
     <Compile Include="Views\Api\User\GoogleUsersApiController.cs" />
     <Compile Include="Views\Beta\BetaController.cs" />
     <Compile Include="Views\Categories\Detail\Partials\BaseContentModule.cs" />
+    <Compile Include="Views\Categories\Detail\Partials\DivEndModel.cs" />
+    <Compile Include="Views\Categories\Detail\Partials\DivStartModel.cs" />
     <Compile Include="Views\Categories\Detail\Partials\TextBlockModel.cs" />
     <Compile Include="Views\Categories\Detail\Partials\SetCardMiniListModel.cs" />
     <Compile Include="Views\Categories\Detail\Partials\SpacerModel.cs" />
@@ -20085,6 +20087,8 @@
     <Content Include="Views\Categories\Detail\Partials\BreadCrumbCategories.ascx" />
     <Content Include="Views\Categories\Detail\Partials\ContentModuleWrapperStart.ascx" />
     <Content Include="Views\Categories\Detail\Partials\Alert.ascx" />
+    <Content Include="Views\Categories\Detail\Partials\DivEnd.ascx" />
+    <Content Include="Views\Categories\Detail\Partials\DivStart.ascx" />
     <Content Include="Views\Categories\Detail\Partials\TextBlock.ascx" />
     <Content Include="Views\Categories\Detail\Partials\MediaListReferenceTitle.ascx" />
     <Content Include="Views\Categories\Detail\Partials\SetCardMiniList.ascx" />

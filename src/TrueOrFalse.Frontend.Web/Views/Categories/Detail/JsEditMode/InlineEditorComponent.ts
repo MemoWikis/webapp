@@ -60,10 +60,11 @@ new Vue({
                 handle: '.Handle',
                 animation: 100,
                 fallbackOnBody: true,
+                group: 'nested',
             },
             saveSuccess: false,
             saveMessage: '',
-            showSaveButton: false,
+            editMode: false,
             showTopAlert: false,
         }
     }, 
@@ -75,10 +76,16 @@ new Vue({
                     this.saveMarkdown(data);
                 }
             });
-        eventBus.$on("set-edit-mode", state => this.showSaveButton = state);
+        eventBus.$on("set-edit-mode", state => this.editMode = state);
     },
    
     methods: {
+
+        cancelEditMode() {
+            this.editMode = false;
+            eventBus.$emit('set-edit-mode', this.editMode);
+            this.$forceUpdate()
+        },
 
         removeAlert() {
             this.saveMessage = '';
@@ -102,7 +109,6 @@ new Vue({
                     categoryId: $("#hhdCategoryId").val(), markdown: markdownDoc,
                 },
                 (success) => {
-//                    console.log("completed"),
                     if (success == true) {
                         this.saveSuccess = true;
                         this.saveMessage = "Das Thema wurde gespeichert.";
@@ -124,6 +130,10 @@ new Vue({
         }
     },
 
+    created() {
+        eventBus.$on("set-edit-mode", state => this.editMode = state);
+    },
+
     methods: {
         setEditMode() {
             if (NotLoggedIn.Yes()) {
@@ -136,16 +146,6 @@ new Vue({
 
         saveMarkdown() {
             eventBus.$emit('save-markdown', 'top')
-//            eventBus.$emit('save-markdown')
-//            const markdownParts = $("li.module").map((idx, elem) => $(elem).attr("markdown")).get();
-//            let markdownDoc = "";
-//            if (markdownParts.length >= 1)
-//                markdownDoc = markdownParts.reduce((list, doc) => { return list + "\r\n" + doc });
-//
-//            $.post("/Category/SaveMarkdown",
-//                { categoryId: $("#hhdCategoryId").val(), markdown: markdownDoc },
-//                () => { console.log("completed") }
-//            )
         },
     }
 });
