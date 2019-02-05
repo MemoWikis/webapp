@@ -148,28 +148,15 @@
                         }
                     }
 
-                    .badge {
-                        height: 19px;
-                        padding: 0px;
-                        line-height: 14px;
-                        font-size: 10px !important;
-                        width: 27px;
-                        display: flex !important;
-                        flex-direction: column;
-                        text-align: center;
-                        background-color: transparent;
-                        margin-right: 6px;
-
-                        &.badge-header {
-                            background-color: #FF001F;
-                            width: 19px;
-                            margin-top: 3px;
-                            left: 11px;
-                            top: -11px;
-                            border: 1.5px solid #003264;
-                            position: relative;
-                            margin-right: 0px;
-                        }
+                    .badge-header {
+                        background-color: #FF001F;
+                        width: 19px;
+                        margin-top: 3px;
+                        left: 11px;
+                        top: -11px;
+                        border: 1.5px solid #003264;
+                        position: relative;
+                        margin-right: 0px;
                     }
                 }
             }
@@ -244,6 +231,17 @@
 
 #loginAndHelp, #StickyHeaderContainer {
 
+    .badge {
+        height: 19px;
+        padding: 0;
+        line-height: 14px;
+        font-size: 10px !important;
+        width: 27px;
+        display: flex !important;
+        flex-direction: column;
+        text-align: center;
+        background-color: transparent;
+    }
 
     span {
         vertical-align: middle;
@@ -263,29 +261,6 @@
         }
     }
 
-    /*a.helpLink {
-
-        @media (min-width: @screen-xs-min) {
-            margin-right: 5px;
-        }
-
-        @media (min-width: @screen-sm-min) {                                                is unavailable    the helpLink is available in Abotu Memucho in the MasterContent
-            margin-right: 10px;
-        }
-
-        @media (max-width: 370px) {
-            display: none;
-        }
-
-        &.helpLinkFaq {
-            @media (max-width: 700px) {
-                display: none;
-            }
-        }
-    }*/
-
-
-
     i:not(.fa-bars, .fa-plus-circle, .fa-dot-circle-o) {
         font-size: 32px;
     }
@@ -295,8 +270,6 @@
             margin-top: -3px;
         }
     }
-
-
 
     .dropdown-menu {
         text-align: left;
@@ -338,18 +311,8 @@
         #StickyHeaderContainer {
             #BreadcrumbUserDropdownImage {
                 #BreadcrumbUserDropdown {
-                    .messages{padding-right: 5px;}
-                    .badge {
-                        height: 19px;
-                        padding: 0;
-                        
-                        line-height: 14px;
-                        font-size: 10px !important;
-                        width: 27px;
-                        display: flex !important;
-                        flex-direction: column;
-                        text-align: center;
-                        background-color: transparent;
+                    .messages {
+                        padding-right: 5px;
                     }
                 }
             }

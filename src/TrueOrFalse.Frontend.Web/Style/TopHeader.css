@@ -136,19 +136,7 @@
   white-space: nowrap;
   text-overflow: ellipsis;
 }
-#MasterHeader .HeaderMainRow .col-LoginAndHelp #loginAndHelp #Login .badge {
-  height: 19px;
-  padding: 0px;
-  line-height: 14px;
-  font-size: 10px !important;
-  width: 27px;
-  display: flex !important;
-  flex-direction: column;
-  text-align: center;
-  background-color: transparent;
-  margin-right: 6px;
-}
-#MasterHeader .HeaderMainRow .col-LoginAndHelp #loginAndHelp #Login .badge.badge-header {
+#MasterHeader .HeaderMainRow .col-LoginAndHelp #loginAndHelp #Login .badge-header {
   background-color: #FF001F;
   width: 19px;
   margin-top: 3px;
@@ -215,28 +203,17 @@
 /*
     Dropdown Masterheader
 */
-#loginAndHelp,
-#StickyHeaderContainer {
-  /*a.helpLink {
-
-        @media (min-width: @screen-xs-min) {
-            margin-right: 5px;
-        }
-
-        @media (min-width: @screen-sm-min) {                                                is unavailable    the helpLink is available in Abotu Memucho in the MasterContent
-            margin-right: 10px;
-        }
-
-        @media (max-width: 370px) {
-            display: none;
-        }
-
-        &.helpLinkFaq {
-            @media (max-width: 700px) {
-                display: none;
-            }
-        }
-    }*/
+#loginAndHelp .badge,
+#StickyHeaderContainer .badge {
+  height: 19px;
+  padding: 0;
+  line-height: 14px;
+  font-size: 10px !important;
+  width: 27px;
+  display: flex !important;
+  flex-direction: column;
+  text-align: center;
+  background-color: transparent;
 }
 #loginAndHelp span,
 #StickyHeaderContainer span {
@@ -310,15 +287,4 @@
 }
 #Breadcrumb #BreadCrumbContainer #StickyHeaderContainer #BreadcrumbUserDropdownImage #BreadcrumbUserDropdown .messages {
   padding-right: 5px;
-}
-#Breadcrumb #BreadCrumbContainer #StickyHeaderContainer #BreadcrumbUserDropdownImage #BreadcrumbUserDropdown .badge {
-  height: 19px;
-  padding: 0;
-  line-height: 14px;
-  font-size: 10px !important;
-  width: 27px;
-  display: flex !important;
-  flex-direction: column;
-  text-align: center;
-  background-color: transparent;
 }
