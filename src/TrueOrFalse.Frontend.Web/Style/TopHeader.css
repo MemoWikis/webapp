@@ -47,6 +47,23 @@
   text-align: center;
   margin-right: 15px;
 }
+#MasterHeader .HeaderMainRow .col-LoginAndHelp #loginAndHelp .header-item #SmallHeaderSearchBoxDiv {
+  width: 43px;
+  -webkit-transition: width 0.3s;
+  display: none;
+  margin-top: 2px;
+}
+@media (max-width: 991.5px) {
+  #MasterHeader .HeaderMainRow .col-LoginAndHelp #loginAndHelp .header-item #SmallHeaderSearchBoxDiv {
+    display: table;
+  }
+}
+#MasterHeader .HeaderMainRow .col-LoginAndHelp #loginAndHelp .header-item #SmallHeaderSearchBoxDiv #SmallHeaderSearchBox {
+  border: none;
+  padding: 0px;
+  font-weight: 400;
+  text-overflow: ellipsis;
+}
 #MasterHeader .HeaderMainRow .col-LoginAndHelp #loginAndHelp .header-item .btn-default {
   display: none;
   background-color: transparent;
@@ -60,6 +77,16 @@
 @media (max-width: 992px) {
   #MasterHeader .HeaderMainRow .col-LoginAndHelp #loginAndHelp .header-item {
     margin-right: 0px;
+  }
+}
+@media (max-width: 580px) {
+  #MasterHeader .HeaderMainRow .col-LoginAndHelp #loginAndHelp .header-item:not(#MenuButtonContainer) {
+    margin-top: -5px;
+  }
+}
+@media (max-width: 992px) {
+  #MasterHeader .HeaderMainRow .col-LoginAndHelp #loginAndHelp #MenuButtonContainer {
+    padding-left: 15px;
   }
 }
 #MasterHeader .HeaderMainRow .col-LoginAndHelp #loginAndHelp #Login .badge {
@@ -101,9 +128,6 @@
   #MasterHeader .HeaderMainRow .fa-dot-circle-o {
     margin-top: 4px;
   }
-}
-#MasterHeader .HeaderMainRow .header-item-knowledge {
-  margin-top: -5px;
 }
 #MasterHeader .HeaderMainRow #HeaderSearchBoxDiv {
   left: 115px;
@@ -168,38 +192,6 @@
         line-height: 16px !important;
         border: 1px solid #FFFFFF;
     }*/
-}
-#loginAndHelp #SmallHeaderSearchBoxDiv,
-#StickyHeaderContainer #SmallHeaderSearchBoxDiv {
-  width: 43px;
-  -webkit-transition: width 0.3s;
-  display: none;
-  margin-top: 2px;
-}
-@media (max-width: 991.5px) {
-  #loginAndHelp #SmallHeaderSearchBoxDiv,
-  #StickyHeaderContainer #SmallHeaderSearchBoxDiv {
-    display: table;
-  }
-}
-#loginAndHelp #SmallHeaderSearchBoxDiv #SmallHeaderSearchBox,
-#StickyHeaderContainer #SmallHeaderSearchBoxDiv #SmallHeaderSearchBox {
-  border: none;
-  padding: 0px;
-  font-weight: 400;
-  text-overflow: ellipsis;
-}
-@media (max-width: 992px) {
-  #loginAndHelp #MenuButtonContainer,
-  #StickyHeaderContainer #MenuButtonContainer {
-    padding-left: 15px;
-  }
-}
-@media (max-width: 580px) {
-  #loginAndHelp .header-item:not(#MenuButtonContainer),
-  #StickyHeaderContainer .header-item:not(#MenuButtonContainer) {
-    margin-top: -5px;
-  }
 }
 #loginAndHelp .dropdown,
 #StickyHeaderContainer .dropdown {
