@@ -14,11 +14,10 @@ class StickeyHeaderClass {
         this._outerHeightBreadCrumb = $("#Breadcrumb").outerHeight();
         this._userDropDownMenuBreadCrumb = $("#BreadcrumbUserDropdown");
         this._rightMainMenu.style.position = "absolute"; 
-        this.calculateTheSizeOfTheMenu($("#RightMainMenu"));
-        this.calculateTheSizeOfTheMenu($("#userDropdown"));
+        this.doubleStuff();
         this.StickyHeader();
-
-        $("#userDropdown").css("top", $("#Breadcrumb").outerHeight() + $("#MasterHeader").outerHeight() - $("#HeaderUserDropdown").offset().top + "px");
+        if (IsLoggedIn.Yes)
+            $("#userDropdown").css("top", $("#Breadcrumb").outerHeight() + $("#MasterHeader").outerHeight() - $("#HeaderUserDropdown").offset().top + "px");
 
         $(window).scroll(() => {
                 this.StickyHeader();
@@ -26,8 +25,7 @@ class StickeyHeaderClass {
 
         $(window).resize(() => {
             this.StickyHeader();
-            this.calculateTheSizeOfTheMenu($("#RightMainMenu"));
-            this.calculateTheSizeOfTheMenu($("#userDropdown"));
+            this.doubleStuff();
         });
     }
 
@@ -36,7 +34,8 @@ class StickeyHeaderClass {
         if ($(window).scrollTop() > 80) {
             $('#BreadcrumbLogoSmall').show();
             $('#StickyHeaderContainer').css('display', 'flex');
-            $("#BreadcrumbUserDropdown").css("top", $("#Breadcrumb").outerHeight() + "px");
+            if (IsLoggedIn.Yes)
+                $("#BreadcrumbUserDropdown").css("top", $("#Breadcrumb").outerHeight() + "px");
             $('#BreadCrumbTrail').css('max-width', "51%");
 
             this.toggleClass($("#HeaderUserDropdown"), $("#BreadcrumbUserDropdownImage"), "open");
@@ -55,7 +54,9 @@ class StickeyHeaderClass {
             this._breadcrumb.classList.remove("ShowBreadcrumb");
             this.toggleClass($("#BreadcrumbUserDropdownImage"), $("#HeaderUserDropdown"), "open");
 
-            $("#userDropdown").css("top", $("#Breadcrumb").outerHeight() + $("#MasterHeader").outerHeight() - $("#HeaderUserDropdown").offset().top + "px");
+
+            if(IsLoggedIn.Yes)
+                $("#userDropdown").css("top", $("#Breadcrumb").outerHeight() + $("#MasterHeader").outerHeight() - $("#HeaderUserDropdown").offset().top + "px");    
             $("#Breadcrumb").css("z-index", 100);
             $('#BreadcrumbLogoSmall').hide();
             $('#StickyHeaderContainer').hide();
@@ -74,8 +75,8 @@ class StickeyHeaderClass {
             this._breadcrumb.style.height = "auto";
         else
             this._breadcrumb.style.height = "55px";                                                      // Warum geht hier Auto nicht , bearbeiten , theoretisch muss Höhe doch nicht festgelegt werden  
-
-        this.reorientatedMenu($(window).scrollTop());
+        if (IsLoggedIn.Yes)
+            this.reorientatedMenu($(window).scrollTop());
     }
 
    private countLines(target) {
@@ -121,6 +122,11 @@ class StickeyHeaderClass {
 
         }
 
+    }
+
+    private doubleStuff() {
+        this.calculateTheSizeOfTheMenu($("#RightMainMenu"));
+        this.calculateTheSizeOfTheMenu($("#userDropdown"));
     }
 
 }
