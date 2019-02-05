@@ -35,6 +35,25 @@
         }
 
         .col-LoginAndHelp {
+            width: auto;
+            float: right;
+            margin-top: 12px;
+            margin-bottom: 12px;
+
+            .media-below-xs( {
+                padding-left: 0;
+                float: right;
+            }
+
+            );
+
+            .media-below-sm( {
+                margin-top: 0px;
+            }
+
+            );
+            height: @masterHeaderMainRowHeight-xs;
+
             #loginAndHelp {
                 color: @light-blue;
                 float: right;
@@ -52,6 +71,19 @@
                     height: 100%;
                     text-align: center;
                     margin-right: 15px;
+
+                    .TextSpan, span:not(.level-display) {
+                        display: inline-block;
+                        font-size: 14px;
+
+                        @media(max-width: (@screen-md - 0.5)) {
+                            display: none;
+                        }
+                    }
+
+                    .KnowledgeLink {
+                        color: #AED71B !important;
+                    }
 
                     #SmallHeaderSearchBoxDiv {
                         width: 43px;
@@ -100,6 +132,22 @@
                 }
 
                 #Login {
+                    .dropdown {
+                        height: 100%;
+                        line-height: @masterHeaderMainRowHeight-xs;
+
+                        @media(max-width:580px) {
+                            padding-top: 5px;
+                        }
+
+                        .userName {
+                            max-width: 145px;
+                            overflow: hidden;
+                            white-space: nowrap;
+                            text-overflow: ellipsis;
+                        }
+                    }
+
                     .badge {
                         height: 19px;
                         padding: 0px;
@@ -187,27 +235,6 @@
         width: auto;
         float: left;
     }
-
-    .col-LoginAndHelp {
-        width: auto;
-        float: right;
-        margin-top: 12px;
-        margin-bottom: 12px;
-
-        .media-below-xs( {
-            padding-left: 0;
-            float: right;
-        }
-
-        );
-
-        .media-below-sm( {
-            margin-top: 0px;
-        }
-
-        );
-        height: @masterHeaderMainRowHeight-xs;
-    }
 }
 
 
@@ -218,39 +245,10 @@
 #loginAndHelp, #StickyHeaderContainer {
 
 
-    /*.dropdown-badge {
-        line-height: 16px !important;
-        border: 1px solid #FFFFFF;
-    }*/
-
-
-
-
-
-    .dropdown {
-        height: 100%;
-        line-height: @masterHeaderMainRowHeight-xs;
-
-        @media(max-width:580px) {
-            padding-top: 5px;
-        }
-
-        .userName {
-            max-width: 145px;
-            overflow: hidden;
-            white-space: nowrap;
-            text-overflow: ellipsis;
-        }
-    }
-
     span {
         vertical-align: middle;
         overflow: hidden;
         text-overflow: ellipsis;
-    }
-
-    .KnowledgeLink {
-        color: #AED71B !important;
     }
 
     a.TextLinkWithIcon {
@@ -265,13 +263,13 @@
         }
     }
 
-    a.helpLink {
+    /*a.helpLink {
 
         @media (min-width: @screen-xs-min) {
             margin-right: 5px;
         }
 
-        @media (min-width: @screen-sm-min) {
+        @media (min-width: @screen-sm-min) {                                                is unavailable    the helpLink is available in Abotu Memucho in the MasterContent
             margin-right: 10px;
         }
 
@@ -284,7 +282,7 @@
                 display: none;
             }
         }
-    }
+    }*/
 
 
 
@@ -298,14 +296,7 @@
         }
     }
 
-    .TextSpan, span:not(.level-display) {
-        display: inline-block;
-        font-size: 14px;
 
-        @media(max-width: (@screen-md - 0.5)) {
-            display: none;
-        }
-    }
 
     .dropdown-menu {
         text-align: left;

@@ -30,6 +30,24 @@
   margin-top: 3px;
   margin-bottom: 3px;
 }
+#MasterHeader .HeaderMainRow .col-LoginAndHelp {
+  width: auto;
+  float: right;
+  margin-top: 12px;
+  margin-bottom: 12px;
+  height: 34px;
+}
+@media (max-width: 479px) {
+  #MasterHeader .HeaderMainRow .col-LoginAndHelp {
+    padding-left: 0;
+    float: right;
+  }
+}
+@media (max-width: 767px) {
+  #MasterHeader .HeaderMainRow .col-LoginAndHelp {
+    margin-top: 0px;
+  }
+}
 #MasterHeader .HeaderMainRow .col-LoginAndHelp #loginAndHelp {
   color: #E7ECF6;
   float: right;
@@ -46,6 +64,20 @@
   height: 100%;
   text-align: center;
   margin-right: 15px;
+}
+#MasterHeader .HeaderMainRow .col-LoginAndHelp #loginAndHelp .header-item .TextSpan,
+#MasterHeader .HeaderMainRow .col-LoginAndHelp #loginAndHelp .header-item span:not(.level-display) {
+  display: inline-block;
+  font-size: 14px;
+}
+@media (max-width: 991.5px) {
+  #MasterHeader .HeaderMainRow .col-LoginAndHelp #loginAndHelp .header-item .TextSpan,
+  #MasterHeader .HeaderMainRow .col-LoginAndHelp #loginAndHelp .header-item span:not(.level-display) {
+    display: none;
+  }
+}
+#MasterHeader .HeaderMainRow .col-LoginAndHelp #loginAndHelp .header-item .KnowledgeLink {
+  color: #AED71B !important;
 }
 #MasterHeader .HeaderMainRow .col-LoginAndHelp #loginAndHelp .header-item #SmallHeaderSearchBoxDiv {
   width: 43px;
@@ -88,6 +120,21 @@
   #MasterHeader .HeaderMainRow .col-LoginAndHelp #loginAndHelp #MenuButtonContainer {
     padding-left: 15px;
   }
+}
+#MasterHeader .HeaderMainRow .col-LoginAndHelp #loginAndHelp #Login .dropdown {
+  height: 100%;
+  line-height: 34px;
+}
+@media (max-width: 580px) {
+  #MasterHeader .HeaderMainRow .col-LoginAndHelp #loginAndHelp #Login .dropdown {
+    padding-top: 5px;
+  }
+}
+#MasterHeader .HeaderMainRow .col-LoginAndHelp #loginAndHelp #Login .dropdown .userName {
+  max-width: 145px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }
 #MasterHeader .HeaderMainRow .col-LoginAndHelp #loginAndHelp #Login .badge {
   height: 19px;
@@ -165,61 +212,37 @@
     padding-right: 0;
   }
 }
-#MasterHeader .col-LoginAndHelp {
-  width: auto;
-  float: right;
-  margin-top: 12px;
-  margin-bottom: 12px;
-  height: 34px;
-}
-@media (max-width: 479px) {
-  #MasterHeader .col-LoginAndHelp {
-    padding-left: 0;
-    float: right;
-  }
-}
-@media (max-width: 767px) {
-  #MasterHeader .col-LoginAndHelp {
-    margin-top: 0px;
-  }
-}
 /*
     Dropdown Masterheader
 */
 #loginAndHelp,
 #StickyHeaderContainer {
-  /*.dropdown-badge {
-        line-height: 16px !important;
-        border: 1px solid #FFFFFF;
+  /*a.helpLink {
+
+        @media (min-width: @screen-xs-min) {
+            margin-right: 5px;
+        }
+
+        @media (min-width: @screen-sm-min) {                                                is unavailable    the helpLink is available in Abotu Memucho in the MasterContent
+            margin-right: 10px;
+        }
+
+        @media (max-width: 370px) {
+            display: none;
+        }
+
+        &.helpLinkFaq {
+            @media (max-width: 700px) {
+                display: none;
+            }
+        }
     }*/
-}
-#loginAndHelp .dropdown,
-#StickyHeaderContainer .dropdown {
-  height: 100%;
-  line-height: 34px;
-}
-@media (max-width: 580px) {
-  #loginAndHelp .dropdown,
-  #StickyHeaderContainer .dropdown {
-    padding-top: 5px;
-  }
-}
-#loginAndHelp .dropdown .userName,
-#StickyHeaderContainer .dropdown .userName {
-  max-width: 145px;
-  overflow: hidden;
-  white-space: nowrap;
-  text-overflow: ellipsis;
 }
 #loginAndHelp span,
 #StickyHeaderContainer span {
   vertical-align: middle;
   overflow: hidden;
   text-overflow: ellipsis;
-}
-#loginAndHelp .KnowledgeLink,
-#StickyHeaderContainer .KnowledgeLink {
-  color: #AED71B !important;
 }
 #loginAndHelp a.TextLinkWithIcon,
 #StickyHeaderContainer a.TextLinkWithIcon {
@@ -241,30 +264,6 @@
 #StickyHeaderContainer a.TextLinkWithIcon:focus * {
   text-decoration: none;
 }
-@media (min-width: 480px) {
-  #loginAndHelp a.helpLink,
-  #StickyHeaderContainer a.helpLink {
-    margin-right: 5px;
-  }
-}
-@media (min-width: 768px) {
-  #loginAndHelp a.helpLink,
-  #StickyHeaderContainer a.helpLink {
-    margin-right: 10px;
-  }
-}
-@media (max-width: 370px) {
-  #loginAndHelp a.helpLink,
-  #StickyHeaderContainer a.helpLink {
-    display: none;
-  }
-}
-@media (max-width: 700px) {
-  #loginAndHelp a.helpLink.helpLinkFaq,
-  #StickyHeaderContainer a.helpLink.helpLinkFaq {
-    display: none;
-  }
-}
 #loginAndHelp i:not(.fa-bars, .fa-plus-circle, .fa-dot-circle-o),
 #StickyHeaderContainer i:not(.fa-bars, .fa-plus-circle, .fa-dot-circle-o) {
   font-size: 32px;
@@ -273,21 +272,6 @@
   #loginAndHelp .fa-bars,
   #StickyHeaderContainer .fa-bars {
     margin-top: -3px;
-  }
-}
-#loginAndHelp .TextSpan,
-#StickyHeaderContainer .TextSpan,
-#loginAndHelp span:not(.level-display),
-#StickyHeaderContainer span:not(.level-display) {
-  display: inline-block;
-  font-size: 14px;
-}
-@media (max-width: 991.5px) {
-  #loginAndHelp .TextSpan,
-  #StickyHeaderContainer .TextSpan,
-  #loginAndHelp span:not(.level-display),
-  #StickyHeaderContainer span:not(.level-display) {
-    display: none;
   }
 }
 #loginAndHelp .dropdown-menu,
