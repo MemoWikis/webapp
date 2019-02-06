@@ -200,9 +200,7 @@
     padding-right: 0;
   }
 }
-/*
-    Dropdown Masterheader
-*/
+/* BreadCrumb and Masterheader*/
 #loginAndHelp .badge,
 #StickyHeaderContainer .badge {
   height: 19px;
@@ -281,10 +279,7 @@
 #StickyHeaderContainer .dropdown-menu i {
   margin: 0px;
 }
-#loginAndHelp i#tabInfoMyKnowledge,
-#StickyHeaderContainer i#tabInfoMyKnowledge {
-  margin-right: 1px;
-}
+/*Breadcrumb*/
 #Breadcrumb #BreadCrumbContainer #StickyHeaderContainer #BreadcrumbUserDropdownImage #BreadcrumbUserDropdown .messages {
   padding-right: 5px;
 }
