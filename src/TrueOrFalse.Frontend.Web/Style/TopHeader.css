@@ -66,13 +66,13 @@
   margin-right: 15px;
 }
 #MasterHeader .HeaderMainRow .col-LoginAndHelp #loginAndHelp .header-item .TextSpan,
-#MasterHeader .HeaderMainRow .col-LoginAndHelp #loginAndHelp .header-item span:not(.level-display) {
+#MasterHeader .HeaderMainRow .col-LoginAndHelp #loginAndHelp .header-item span:not(.level-display):not(#NextLevelProgressSpanPercentageDone) {
   display: inline-block;
   font-size: 14px;
 }
 @media (max-width: 991.5px) {
   #MasterHeader .HeaderMainRow .col-LoginAndHelp #loginAndHelp .header-item .TextSpan,
-  #MasterHeader .HeaderMainRow .col-LoginAndHelp #loginAndHelp .header-item span:not(.level-display) {
+  #MasterHeader .HeaderMainRow .col-LoginAndHelp #loginAndHelp .header-item span:not(.level-display):not(#NextLevelProgressSpanPercentageDone) {
     display: none;
   }
 }
@@ -309,6 +309,6 @@
   margin: 0px;
 }
 /*Breadcrumb*/
-#Breadcrumb #BreadCrumbContainer #StickyHeaderContainer #BreadcrumbUserDropdownImage #BreadcrumbUserDropdown .messages {
+#Breadcrumb .messages {
   padding-right: 5px;
 }
