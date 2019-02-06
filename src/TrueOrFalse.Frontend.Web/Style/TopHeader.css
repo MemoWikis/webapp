@@ -201,6 +201,35 @@
   }
 }
 /* BreadCrumb and Masterheader*/
+#loginAndHelp .SearchBoxDivMaxWidth,
+#StickyHeaderContainer .SearchBoxDivMaxWidth {
+  width: 259px !important;
+}
+@media (max-width: 520px) {
+  #loginAndHelp .SearchBoxDivMaxWidth,
+  #StickyHeaderContainer .SearchBoxDivMaxWidth {
+    width: 220px !important;
+    margin-left: 10px;
+  }
+}
+@media (max-width: 492px) {
+  #loginAndHelp .SearchBoxDivMaxWidth,
+  #StickyHeaderContainer .SearchBoxDivMaxWidth {
+    width: 170px !important;
+  }
+}
+@media (max-width: 420px) {
+  #loginAndHelp .SearchBoxDivMaxWidth,
+  #StickyHeaderContainer .SearchBoxDivMaxWidth {
+    width: 110px !important;
+  }
+}
+@media (max-width: 360px) {
+  #loginAndHelp .SearchBoxDivMaxWidth,
+  #StickyHeaderContainer .SearchBoxDivMaxWidth {
+    width: 96px !important;
+  }
+}
 #loginAndHelp .badge,
 #StickyHeaderContainer .badge {
   height: 19px;

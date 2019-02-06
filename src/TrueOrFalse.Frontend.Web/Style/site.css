@@ -898,30 +898,6 @@ ul.AutocompleteHeader {
 .btn-breadcrumb .btn.btn-default:hover:not(:last-child):before {
   border-left: 10px solid #adadad;
 }
-.SearchBoxDivMaxWidth {
-  width: 259px !important;
-}
-@media (max-width: 520px) {
-  .SearchBoxDivMaxWidth {
-    width: 220px !important;
-    margin-left: 10px;
-  }
-}
-@media (max-width: 490px) {
-  .SearchBoxDivMaxWidth {
-    width: 170px !important;
-  }
-}
-@media (max-width: 420px) {
-  .SearchBoxDivMaxWidth {
-    width: 110px !important;
-  }
-}
-@media (max-width: 360px) {
-  .SearchBoxDivMaxWidth {
-    width: 96px !important;
-  }
-}
 #Breadcrumb {
   font-size: 14px;
   background-color: white;
