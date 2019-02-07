@@ -17,7 +17,7 @@
                         <div class="col-xs-6 mediaReference">
                             <a href="<%= Links.GetUrl(category) %>">
                                 <div class="topic-name">
-                                    <% Html.RenderPartial("~/Views/Categories/Detail/Partials/MediaListReferenceTitle.ascx", category); %>
+                                    <% Html.RenderPartial("~/Views/Categories/Detail/Partials/MediaList/MediaListReferenceTitle.ascx", category); %>
                                 </div>
                             </a>
                             <div class="set-question-count">

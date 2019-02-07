@@ -9,27 +9,40 @@ public class TemplateJson
 {
     public string TemplateName;
 
+    [Obsolete]
     public int ContainingCategoryId;//Doesn't have to be included in Json, is passed internally
 
+    [Obsolete]
     public string Load;
+
+    [Obsolete]
     public string Order;
 
+    [Obsolete]
     public string Title;
 
+    [Obsolete]
     public string Text;
 
+    [Obsolete]
     public int TitleRowCount;
 
+    [Obsolete]
     public string Description;
 
+    [Obsolete]
     public int DescriptionRowCount;
 
+    [Obsolete]
     public int SetId;
 
+    [Obsolete]
     public string SetText;
 
+    [Obsolete]
     public string SetListIds;
 
+    [Obsolete]
     public IList<Set> SetList
     {
         get
@@ -51,17 +64,26 @@ public class TemplateJson
         }
     }
 
+    [Obsolete]
     public int SetRowCount;
 
+    [Obsolete]
     public int CategoryId;
 
+    [Obsolete]
     public string QuestionIds;
 
+    [Obsolete]
     public int MaxQuestions;
 
+    [Obsolete]
     public int AmountSpaces;
 
+    [Obsolete]
     public bool AddBorderTop;
 
+    [Obsolete]
     public string CssClasses;
+
+    public string Type;
 }

@@ -310,29 +310,31 @@
     <Compile Include="Views\Api\User\GoogleUsersApiController.cs" />
     <Compile Include="Views\Beta\BetaController.cs" />
     <Compile Include="Views\Categories\Detail\Partials\BaseContentModule.cs" />
+    <Compile Include="Views\Categories\Detail\Partials\Cards\CardsModel.cs" />
     <Compile Include="Views\Categories\Detail\Partials\DivEndModel.cs" />
     <Compile Include="Views\Categories\Detail\Partials\DivStartModel.cs" />
-    <Compile Include="Views\Categories\Detail\Partials\TextBlockModel.cs" />
-    <Compile Include="Views\Categories\Detail\Partials\SetCardMiniListModel.cs" />
-    <Compile Include="Views\Categories\Detail\Partials\SpacerModel.cs" />
-    <Compile Include="Views\Categories\Detail\Partials\SingleQuestionsQuizModel.cs" />
-    <Compile Include="Views\Categories\Detail\Partials\SingleCategoryFullWidthModel.cs" />
-    <Compile Include="Views\Categories\Detail\Partials\SingleSetFullWidthModel.cs" />
-    <Compile Include="Views\Categories\Detail\Partials\MediaListModel.cs" />
-    <Compile Include="Views\Categories\Detail\Partials\EducationOfferListModel.cs" />
+    <Compile Include="Views\Categories\Detail\Partials\TextBlock\TextBlockModel.cs" />
+    <Compile Include="Views\Categories\Detail\Partials\SetCardMiniList\SetCardMiniListModel.cs" />
+    <Compile Include="Views\Categories\Detail\Partials\Spacer\SpacerModel.cs" />
+    <Compile Include="Views\Categories\Detail\Partials\SingleQuestionQuiz\SingleQuestionsQuizModel.cs" />
+    <Compile Include="Views\Categories\Detail\Partials\SingleCategoryFullWidth\SingleCategoryFullWidthModel.cs" />
+    <Compile Include="Views\Categories\Detail\Partials\SingleSetFullWidth\SingleSetFullWidthModel.cs" />
+    <Compile Include="Views\Categories\Detail\Partials\MediaList\MediaListModel.cs" />
+    <Compile Include="Views\Categories\Detail\Partials\EducationOfferList\EducationOfferListModel.cs" />
+    <Compile Include="Views\Categories\Detail\Partials\TopicNavigation\TopicNavigationJson.cs" />
     <Compile Include="Views\Categories\Detail\Partials\WishKnowledgeInTheBoxModel.cs" />
-    <Compile Include="Views\Categories\Detail\Partials\TopicNavigationModel.cs" />
+    <Compile Include="Views\Categories\Detail\Partials\TopicNavigation\TopicNavigationModel.cs" />
     <Compile Include="Views\Categories\Detail\MarkdownToHtml.cs" />
-    <Compile Include="Views\Categories\Detail\Partials\SingleCategoryModel.cs" />
+    <Compile Include="Views\Categories\Detail\Partials\SingleCategory\SingleCategoryModel.cs" />
     <Compile Include="Views\Categories\Detail\Partials\SingleSetCollectionModel.cs" />
-    <Compile Include="Views\Categories\Detail\Partials\SetListCardModel.cs" />
-    <Compile Include="Views\Categories\Detail\Partials\SetTestSessionNoStartScreenModel.cs" />
-    <Compile Include="Views\Categories\Detail\Partials\VideoWidgetModel.cs" />
+    <Compile Include="Views\Categories\Detail\Partials\SetListCard\SetListCardModel.cs" />
+    <Compile Include="Views\Categories\Detail\Partials\SetTestSessionNoStartScreen\SetTestSessionNoStartScreenModel.cs" />
+    <Compile Include="Views\Categories\Detail\Partials\VideoWidget\VideoWidgetModel.cs" />
     <Compile Include="Views\Categories\Detail\CategoryKnowledgeBarModel.cs" />
     <Compile Include="Views\Categories\Detail\Tabs\LearningTabModel.cs" />
     <Compile Include="Views\Categories\Detail\TemplateParser\TemplateJson.cs" />
     <Compile Include="Views\Categories\Detail\TemplateParser\TemplateParser.cs" />
-    <Compile Include="Views\Categories\Detail\Partials\SingleSetModel.cs" />
+    <Compile Include="Views\Categories\Detail\Partials\SingleSet\SingleSetModel.cs" />
     <Compile Include="Views\Categories\Edit\GraphDisplay\CategoryGraphModel.cs" />
     <Compile Include="Views\Categories\History\CategoryChangesOverviewController.cs" />
     <Compile Include="Views\Categories\History\CategoryHistoryController.cs" />
@@ -20097,27 +20099,28 @@
       <DependentUpon>Tabbing.ts</DependentUpon>
     </Content>
     <Content Include="Views\Categories\Detail\Partials\BreadCrumbCategories.ascx" />
+    <Content Include="Views\Categories\Detail\Partials\Cards\Cards.ascx" />
     <Content Include="Views\Categories\Detail\Partials\ContentModuleWrapperStart.ascx" />
     <Content Include="Views\Categories\Detail\Partials\Alert.ascx" />
     <Content Include="Views\Categories\Detail\Partials\DivEnd.ascx" />
     <Content Include="Views\Categories\Detail\Partials\DivStart.ascx" />
-    <Content Include="Views\Categories\Detail\Partials\TextBlock.ascx" />
-    <Content Include="Views\Categories\Detail\Partials\MediaListReferenceTitle.ascx" />
-    <Content Include="Views\Categories\Detail\Partials\SetCardMiniList.ascx" />
+    <Content Include="Views\Categories\Detail\Partials\TextBlock\TextBlock.ascx" />
+    <Content Include="Views\Categories\Detail\Partials\MediaList\MediaListReferenceTitle.ascx" />
+    <Content Include="Views\Categories\Detail\Partials\SetCardMiniList\SetCardMiniList.ascx" />
     <Content Include="Views\Categories\Detail\Partials\BreadCrumb.ascx" />
     <Content Include="Views\Categories\Detail\Partials\ContentModuleWrapperEnd.ascx" />
-    <Content Include="Views\Categories\Detail\Partials\Spacer.ascx" />
-    <Content Include="Views\Categories\Detail\Partials\SingleQuestionsQuiz.ascx" />
+    <Content Include="Views\Categories\Detail\Partials\Spacer\Spacer.ascx" />
+    <Content Include="Views\Categories\Detail\Partials\SingleQuestionQuiz\SingleQuestionsQuiz.ascx" />
     <Content Include="Views\Categories\Detail\Partials\CategoryHeader.ascx" />
     <Content Include="Views\Categories\Detail\Partials\WishKnowledgeInTheBox.ascx" />
     <Content Include="Views\Categories\Detail\Tabs\LearningTab.ascx" />
     <Content Include="Views\Categories\Detail\Tabs\AnalyticsTab.ascx" />
     <Content Include="Views\Categories\Detail\Tabs\TopicTab.ascx" />
-    <Content Include="Views\Categories\Detail\Partials\SingleCategoryFullWidth.ascx" />
-    <Content Include="Views\Categories\Detail\Partials\SingleSetFullWidth.ascx" />
-    <Content Include="Views\Categories\Detail\Partials\MediaList.ascx" />
-    <Content Include="Views\Categories\Detail\Partials\EducationOfferList.ascx" />
-    <Content Include="Views\Categories\Detail\Partials\TopicNavigation.ascx" />
+    <Content Include="Views\Categories\Detail\Partials\SingleCategoryFullWidth\SingleCategoryFullWidth.ascx" />
+    <Content Include="Views\Categories\Detail\Partials\SingleSetFullWidth\SingleSetFullWidth.ascx" />
+    <Content Include="Views\Categories\Detail\Partials\MediaList\MediaList.ascx" />
+    <Content Include="Views\Categories\Detail\Partials\EducationOfferList\EducationOfferList.ascx" />
+    <Content Include="Views\Categories\Detail\Partials\TopicNavigation\TopicNavigation.ascx" />
     <Content Include="Views\Categories\Edit\GraphDisplay\CategoryGraph.ascx" />
     <Content Include="Views\Categories\Edit\Js\ChangeTypeControls.js">
       <DependentUpon>ChangeTypeControls.ts</DependentUpon>
@@ -20468,9 +20471,9 @@
     <Content Include="Scripts\widgets\ShareDialog.js">
       <DependentUpon>ShareDialog.ts</DependentUpon>
     </Content>
-    <Content Include="Views\Categories\Detail\Partials\SingleCategory.ascx" />
-    <Content Include="Views\Categories\Detail\Partials\VideoWidget.ascx" />
-    <Content Include="Views\Categories\Detail\Partials\SetTestSessionNoStartScreen.ascx" />
+    <Content Include="Views\Categories\Detail\Partials\SingleCategory\SingleCategory.ascx" />
+    <Content Include="Views\Categories\Detail\Partials\VideoWidget\VideoWidget.ascx" />
+    <Content Include="Views\Categories\Detail\Partials\SetTestSessionNoStartScreen\SetTestSessionNoStartScreen.ascx" />
     <Content Include="Views\Categories\Modals\EditAggregationModal.ascx" />
     <Content Include="Views\Help\Js\WidgetPricing.js">
       <DependentUpon>WidgetPricing.ts</DependentUpon>
@@ -20870,13 +20873,13 @@
     <Content Include="Views\Categories\Detail\Category.css">
       <DependentUpon>Category.less</DependentUpon>
     </Content>
-    <Content Include="Views\Categories\Detail\Partials\CategoryNetwork.ascx" />
+    <Content Include="Views\Categories\Detail\Partials\CategoryNetwork\CategoryNetwork.ascx" />
     <Content Include="Views\Categories\Detail\Partials\MainInfo.ascx" />
     <Content Include="Views\Categories\Detail\Partials\RelatedContentLists.ascx" />
-    <Content Include="Views\Categories\Detail\Partials\ContentLists.ascx" />
-    <Content Include="Views\Categories\Detail\Partials\SetListCard.ascx" />
+    <Content Include="Views\Categories\Detail\Partials\ContentLists\ContentLists.ascx" />
+    <Content Include="Views\Categories\Detail\Partials\SetListCard\SetListCard.ascx" />
     <Content Include="Views\Categories\Detail\Partials\SingleSetCollection.ascx" />
-    <Content Include="Views\Categories\Detail\Partials\SingleSet.ascx" />
+    <Content Include="Views\Categories\Detail\Partials\SingleSet\SingleSet.ascx" />
     <Content Include="Views\Categories\Js\CategoryDelete.js">
       <DependentUpon>CategoryDelete.ts</DependentUpon>
     </Content>
@@ -22652,7 +22655,6 @@
     <Folder Include="bin\Domain\Message\Types\" />
     <Folder Include="bin\Utilities\Update\Scripts\" />
     <Folder Include="bin\Utilities\Update\SolrSchemas\" />
-    <Folder Include="Views\Categories\Detail\Partials\BreadCrumb\" />
     <Folder Include="Views\Dates\" />
   </ItemGroup>
   <PropertyGroup>

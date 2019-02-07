@@ -109,7 +109,7 @@ public class TemplateParser
     private static string GetPartialHtml(TemplateJson templateJson, ControllerContext controllerContext, BaseModel partialModel)
     {
         return ViewRenderer.RenderPartialView(
-            "~/Views/Categories/Detail/Partials/" + templateJson.TemplateName + ".ascx",
+            $"~/Views/Categories/Detail/Partials/{templateJson.TemplateName}/{templateJson.TemplateName}.ascx",
             partialModel,
             controllerContext);
     }
@@ -119,7 +119,8 @@ public class TemplateParser
         switch (templateJson.TemplateName.ToLower())
         {
             case "topicnavigation":
-                return new TopicNavigationModel(category, templateJson.Title, templateJson.Text, templateJson.Load, templateJson.Order);
+            //return new TopicNavigationModel(category, JsonConvert.DeserializeObject<TopicNavigationJsonConfig>(json));
+            return new TopicNavigationModel(category, templateJson.Title, templateJson.Text, templateJson.Load, templateJson.Order);
             case "medialist":
                 return new MediaListModel(category, templateJson.Title, templateJson.Text);
             case "educationofferlist":
