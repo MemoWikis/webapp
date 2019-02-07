@@ -26,23 +26,39 @@
     
     <input type="hidden" id="hddTimeRecords" />
 
-    <div style="float: right; margin-left: 10px;">
+    <div class="AnswerQuestionBodyMenu">
 
-<%--    <span id="brainWaveConnected" style="margin-right: 5px; position: relative; top: -6px;">
-            <span class="label label-primary" id="concentrationLevel" title="Konzentration"></span>
-            <span class="label label-info" id="mellowLevel" title="Entspanntheit"></span>
-        </span>--%>
         <% if (!Model.IsInWidget)
            { %>
-                <span id="activityPointsDispaly">
-                    <small>Punkte</small>
-                    <span id="activityPoints"><%= Model.TotalActivityPoints %></span>
-                    <span style="display: inline-block; white-space: nowrap;" class="show-tooltip" data-placement="bottom" title="Du bekommst Lernpunkte für das Beantworten von Fragen">
-                        <i class="fa fa-info-circle"></i>
-                    </span>
+            <% if (!Model.DisableAddKnowledgeButton)
+               { %>
+                <span class="Pin" data-question-id="<%= Model.QuestionId %>">
+                    <%= Html.Partial("AddToWishknowledgeButton", new AddToWishknowledge(Model.IsInWishknowledge, isShortVersion: true)) %>
                 </span>
-        <% } %>
+            <% } %>
+            <% if (Model.IsCreator || Model.IsInstallationAdmin)
+               { %>
+            <span class="margin-top-11">
+                <a href="<%= Links.EditQuestion(Url, Model.QuestionText, Model.QuestionId) %>" class="TextLinkWithIcon"><i class="fa fa-pencil"></i></a>
+            </span>
+            <% }  %>
+             <div class="Button dropdown">
+                <span class="margin-top-4">
+                    <a href="#" class="dropdown-toggle btn btn-link btn-sm ButtonEllipsis" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" >
+                        <i class="fa fa-ellipsis-v"></i>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a v-bind:href="props.rowData.EditCategoryOrSetLink" target="_blank" rel="nofollow" data-allowed="logged-in"><i class="fa fa-pencil"></i>&nbsp;Bearbeiten</a></li>
+                        <li><a v-bind:href="props.rowData.CreateQuestionLink" target="_blank" data-allowed="logged-in"><i class="fa fa-plus-circle"></i>&nbsp;Frage erstellen und hinzufügen</a></li>
+                        <li style="margin-top: 2rem;"><a target="_blank" v-bind:href="props.rowData.ShareFacebookLink"><i class="fa fa-share"></i>&nbsp;Auf Facebook teilen </a></li>     
+                        <li @click="deleteRow(props.rowData.Id, props.rowData.IsCategory, props.rowIndex)"><a href="#"><i class="fa fa-trash-o"></i>&nbsp; Aus Wunschwissen entfernen </a></li> 
+                    </ul>
+                </span>
+            </div>
+            
+         <% } %>
     </div>
+
     
     <% if (Model.SolutionType != SolutionType.FlashCard.ToString()) { %>
     <h1 class="QuestionText" style="font-size: 22px; font-family: Open Sans, Arial, sans-serif; line-height: 31px; margin: 0;">
@@ -117,17 +133,22 @@
                                     <% if (Model.SolutionType == SolutionType.FlashCard.ToString()) { %>
                                         <a href="#" id="btnFlipCard" class="btn btn-warning" rel="nofollow">Umdrehen</a>
                                     <% } %>
-
-                                    <% if (!Model.DisableAddKnowledgeButton){ %>
-                                        <span class="Pin" data-question-id="<%= Model.QuestionId %>">
-                                            <%= Html.Partial("AddToWishknowledgeButton", new AddToWishknowledge(Model.IsInWishknowledge, isShortVersion: true)) %>
-                                        </span>
-                                    <% } %>
+                             
 
                                     <% if (Model.SolutionType != SolutionType.FlashCard.ToString()){ %>
                                         <div id="buttons-first-try" class="ButtonGroup">
                                         <a href="#" id="btnCheck" class="btn btn-primary" rel="nofollow" style="padding-right: 10px">Antworten</a>
                                         <a href="#" class="selectorShowSolution SecAction btn btn-link"><i class="fa fa-lightbulb-o">&nbsp;</i>Lösung anzeigen</a>
+                                        <% if (!Model.IsInWidget)
+                                           { %>
+                                            <span id="activityPointsDispaly">
+                                                <small>Punkte</small>
+                                                <span id="activityPoints"><%= Model.TotalActivityPoints %></span>
+                                                <span style="display: inline-block; white-space: nowrap;" class="show-tooltip" data-placement="bottom" title="Du bekommst Lernpunkte für das Beantworten von Fragen">
+                                                    <i class="fa fa-info-circle"></i>
+                                                </span>
+                                            </span>
+                                        <% } %>
                                     <% } else { %>
                                         <div id="buttons-answer" class="ButtonGroup flashCardAnswerButtons" style="display: none">
                                             <a href="#" id="btnRightAnswer" class="btn btn-warning" rel="nofollow">Wusste ich!</a>
@@ -228,25 +249,27 @@
         </div>
     </div>
 </div>
+<div class="FooterQuestionDetails">
+    <div id="LicenseQuestion" >
+        <% if (Model.LicenseQuestion.IsDefault()) { %>
+            <a class="TextLinkWithIcon" rel="license" href="http://creativecommons.org/licenses/by/4.0/" data-toggle="popover" data-trigger="focus" title="Infos zur Lizenz <%= LicenseQuestionRepo.GetDefaultLicense().NameShort %>" data-placement="auto top"
+                data-content="Autor: <a href='<%= Links.UserDetail(Model.Creator) %>' <%= Model.IsInWidget ? "target='_blank'" : "" %>><%= Model.Creator.Name %></a><%= Model.IsInWidget ? " (Nutzer auf <a href='/' target='_blank'>memucho.de</a>)" : " " %><br/><%= LicenseQuestionRepo.GetDefaultLicense().DisplayTextFull %>">
+                <div> <img src="/Images/Licenses/cc-by 88x31.png" width="60" style="margin-top: 4px; opacity: 0.6; padding-bottom: 2px;" />&nbsp;</div>
+                <div  class="TextDiv"> <span class="TextSpan"><%= LicenseQuestionRepo.GetDefaultLicense().NameShort %></span></div>
+            </a><%--target blank to open outside the iframe of widget--%>
 
-<div id="LicenseQuestion" class="Clearfix">
-    <% if (Model.LicenseQuestion.IsDefault()) { %>
-        <a class="TextLinkWithIcon" rel="license" href="http://creativecommons.org/licenses/by/4.0/" data-toggle="popover" data-trigger="focus" title="Infos zur Lizenz <%= LicenseQuestionRepo.GetDefaultLicense().NameShort %>" data-placement="auto top"
-            data-content="Autor: <a href='<%= Links.UserDetail(Model.Creator) %>' <%= Model.IsInWidget ? "target='_blank'" : "" %>><%= Model.Creator.Name %></a><%= Model.IsInWidget ? " (Nutzer auf <a href='/' target='_blank'>memucho.de</a>)" : " " %><br/><%= LicenseQuestionRepo.GetDefaultLicense().DisplayTextFull %>">
-            <img src="/Images/Licenses/cc-by 88x31.png" width="60" style="margin-top: 4px; opacity: 0.6; padding-bottom: 2px;" />&nbsp;
-            <span class="TextSpan"><%= LicenseQuestionRepo.GetDefaultLicense().NameShort %></span>
-        </a><%--target blank to open outside the iframe of widget--%>
-    <% } else { %>
-        <a class="TextLinkWithIcon" href="#" data-toggle="popover" data-trigger="focus" title="Infos zur Lizenz" data-placement="auto top" data-content="<%= Model.LicenseQuestion.DisplayTextFull %>">
-            <span class="TextSpan"><%= Model.LicenseQuestion.DisplayTextShort %></span>&nbsp;&nbsp;<i class="fa fa-info-circle">&nbsp;</i>
-        </a>
-    <% } %>
-
+        <% } else { %>
+            <a class="TextLinkWithIcon" href="#" data-toggle="popover" data-trigger="focus" title="Infos zur Lizenz" data-placement="auto top" data-content="<%= Model.LicenseQuestion.DisplayTextFull %>">
+                <div class="TextDiv"><span class="TextSpan"><%= Model.LicenseQuestion.DisplayTextShort %></span>&nbsp;&nbsp;<i class="fa fa-info-circle">&nbsp;</i></div>
+            </a>
+        <% } %>
+    </div>
+    <div> Erstellt von: <a href="<%= Links.UserDetail(Model.Creator) %>"><%= Model.Creator.Name %></a> vor <%= Model.CreationDateNiceText %></div>
+    <div> Diese Frage wurde zuletzt bearbeitet von:  <a href="<%= Links.UserDetail(Model.Creator) %>"><%= Model.Creator.Name %></a> vor  <%= Model.QuestionLastEditedOn %></div>
     <%if (Model.ShowCommentLink) { %>
-        <div style="float: right; position: relative; top: 4px;">
+        <div class="InLicenseQuestion">
             <a href="#comments"><i class="fa fa-comment-o"></i>
                 <% if (Model.CommentCount == 0){ %>
-                    Jetzt kommentieren
                 <% } else if (Model.CommentCount == 1) { %>
                     1 Kommentar
                 <% } else if (Model.CommentCount > 1) { %>
@@ -254,6 +277,10 @@
                 <% } %>
             </a>
         </div>
+
     <% } %>
-    </div>
+ 
+</div>
+
+ 
 

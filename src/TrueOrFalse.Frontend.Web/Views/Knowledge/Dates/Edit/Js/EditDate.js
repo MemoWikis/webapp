@@ -1,6 +1,5 @@
 Vue.component('user-message', {
     props: ['text'],
-    //template: "<div style='background-color:green;'>{{text}}</div>"
     template: "<div class=\"fade in\">\n            <a class=\"close\" data-dismiss=\"alert\" href=\"#\">\u00D7</a>\n            {{text}}\n        </div>"
 });
 var safeDates = new Vue({
@@ -14,20 +13,6 @@ var safeDates = new Vue({
     },
     methods: {
         save: function () {
-            //$.ajax({
-            //    url: "/EditDate/CreateNew",
-            //    type: "POST",
-            //    data: {
-            //        //'setIdsArray': sets,
-            //        //'timeVar': timeVar,
-            //        'dateVar': this.date,
-            //        'nameOfDate': this.name
-            //    },
-            //    dataType: "json",
-            //    success: function (result) {
-            //        this.userMessage = "hurray gespeichert";
-            //    }
-            //});
             this.userMessage = "hurray gespeichert";
         },
         setDate: function () {

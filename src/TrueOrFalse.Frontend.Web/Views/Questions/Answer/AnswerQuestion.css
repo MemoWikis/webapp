@@ -659,9 +659,6 @@
 #answerQuestionDetails .label {
   max-width: 100%;
 }
-/*#AnswerFeedbackAndSolutionDetails {
-    margin-top: 20px;
-}*/
 @media (max-width: 767px) {
   #SolutionDetails {
     padding-bottom: 20px;
@@ -695,12 +692,43 @@
 #divAnsweredCorrect {
   margin-bottom: 15px;
 }
-#LicenseQuestion {
-  margin-top: -10px;
-  margin-left: 0px;
+/*---------------------------------------------------------------------------
+                                 FooterQuestionDetails
+-----------------------------------------------------------------------------*/
+.FooterQuestionDetails div:last-child {
+  margin-left: auto;
+  padding-right: 0px;
+}
+.FooterQuestionDetails {
+  display: -webkit-box !important;
+  display: -webkit-flex !important;
+  display: -ms-flexbox !important;
+  display: flex !important;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+  -webkit-flex-flow: row;
+      -ms-flex-flow: row;
+          flex-flow: row;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+      -ms-flex-align: center;
+          align-items: center;
   padding: 1px 20px 10px;
   font-size: small;
   text-align: left;
+}
+.FooterQuestionDetails div {
+  padding-right: 10px;
+}
+.FooterQuestionDetails #LicenseQuestion .TextDiv {
+  padding-top: 3px;
+}
+.FooterQuestionDetails .TextLinkWithIcon {
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+  -webkit-flex-flow: row;
+      -ms-flex-flow: row;
+          flex-flow: row;
 }
 .commentSettledInfo {
   color: darkgray;
@@ -905,31 +933,6 @@
 .flashCardAnswerButtons > .btn {
   margin-left: unset;
 }
-/*#AnswerInputSection .radio { //styles for radio html like in bootestrap style (input inside label)
-    background-color: lightgray;
-    margin-bottom: 10px;
-
-    label {
-        padding: 15px;
-        display: block;
-        width: 100%;
-    }
-}*/
-/*#AnswerInputSection .radio { //styles for html with input before label
-    background-color: lightgray;
-    margin-bottom: 10px;
-
-    label {
-        padding: 15px;
-        display: block;
-        width: 100%;
-    }
-
-    input {
-        margin-left: -10px;
-        margin-top: 19px;
-    }
-}*/
 /* Primary Category Card */
 .singleSetFullWidth,
 .singleCatFullWidth {
@@ -1092,4 +1095,38 @@
 .singleSetFullWidth .buttons .dropdown,
 .singleCatFullWidth .buttons .dropdown {
   display: inline-block;
+}
+/*--------------------------ActivityPoints---------------------
+
+---------------------------------------------------------------*/
+#activityPointsDispaly {
+  float: right;
+}
+/*-----------------------AnswerQuestionBodyMenu--------------------
+
+---------------------------------------------------------------*/
+.AnswerQuestionBodyMenu {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  float: right;
+}
+.AnswerQuestionBodyMenu .Button .dropdown-menu {
+  left: -7em;
+}
+.AnswerQuestionBodyMenu .margin-top-11 {
+  margin-top: 0.7em;
+}
+.AnswerQuestionBodyMenu span {
+  margin-left: 0.5em;
+}
+.AnswerQuestionBodyMenu .Pin {
+  margin-left: 0px;
+}
+.AnswerQuestionBodyMenu .margin-top-4 {
+  margin-top: 0.25em;
+}
+.AnswerQuestionBodyMenu .float-left {
+  float: left;
 }

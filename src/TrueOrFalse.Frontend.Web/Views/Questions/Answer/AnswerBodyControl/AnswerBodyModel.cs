@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
 using TrueOrFalse.Frontend.Web.Code;
@@ -7,18 +8,23 @@ using TrueOrFalse.Web;
 public class AnswerBodyModel : BaseModel
 {
     public Guid QuestionViewGuid;
-
+    public string CreationDate;
+    public string CreationDateNiceText;
     public SetMini PrimarySetMini;
 
     public int QuestionId;
+
     public User Creator;
+    public bool IsCreator;
     public bool IsInWishknowledge;
+    public KnowledgeStatus KnowledgeStatus;
 
+    public string QuestionLastEditedOn;
     public string QuestionText;
-
     public string QuestionTextMarkdown;
-
-public LicenseQuestion LicenseQuestion;
+    public LicenseQuestion LicenseQuestion;
+    public bool IsLastQuestion = false;
+    public Question Question;
 
     public bool HasSound => !string.IsNullOrEmpty(SoundUrl);
     public string SoundUrl;
@@ -38,8 +44,6 @@ public LicenseQuestion LicenseQuestion;
     public bool IsLastLearningStep = false;
     public bool IsTestSession;
     public int TestSessionProgessAfterAnswering;
-
-    public bool IsLastQuestion = false;
 
     public bool ShowCommentLink => 
         CommentCount != -1 && 
@@ -64,7 +68,7 @@ public LicenseQuestion LicenseQuestion;
     public AnswerBodyModel(Question question, Game game, Player player, Round round)
     {
         QuestionViewGuid = Guid.NewGuid();
-
+        
         R<SaveQuestionView>().Run(QuestionViewGuid, question, _sessionUser.User.Id, player, round);
         
         var questionValuationForUser = NotNull.Run(Resolve<QuestionValuationRepo>().GetBy(question.Id, UserId));
@@ -89,6 +93,7 @@ public LicenseQuestion LicenseQuestion;
         QuestionViewGuid = answerQuestionModel.QuestionViewGuid;
 
         IsInWishknowledge = answerQuestionModel.IsInWishknowledge;
+
 
         IsMobileRequest = answerQuestionModel.IsMobileDevice;
 
@@ -132,6 +137,16 @@ public LicenseQuestion LicenseQuestion;
         PrimarySetMini = question.SetTop5Minis.FirstOrDefault();
         QuestionId = question.Id;
         Creator = question.Creator;
+        IsCreator = Creator.Id == UserId;
+        
+        CreationDate = question.DateCreated.ToString("dd.MM.yyyy HH:mm:ss");
+        CreationDateNiceText = DateTimeUtils.TimeElapsedAsText(question.DateCreated);
+        QuestionLastEditedOn = DateTimeUtils.TimeElapsedAsText(question.DateModified);
+        Question = question;
+
+
+        var questionValuationForUser = NotNull.Run(Sl.QuestionValuationRepo.GetByFromCache(question.Id, UserId));
+        KnowledgeStatus = questionValuationForUser.KnowledgeStatus; 
 
         AjaxUrl_CountLastAnswerAsCorrect = url => Links.CountLastAnswerAsCorrect(url, question);
         AjaxUrl_CountUnansweredAsCorrect = url => Links.CountUnansweredAsCorrect(url, question);
@@ -162,6 +177,8 @@ public LicenseQuestion LicenseQuestion;
 
         TotalActivityPoints = IsLoggedIn ? Sl.SessionUser.User.ActivityPoints : Sl.R<SessionUser>().getTotalActivityPoints();
     }
+
+
 
     private string EscapeFlashCardText(string text)
     {

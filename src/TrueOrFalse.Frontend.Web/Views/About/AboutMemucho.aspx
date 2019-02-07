@@ -337,8 +337,8 @@
                 <div class="col-sm-4">
                     <div class="logo-box">
                         <div class="img-logo">
-                            <a href="https://www.tutory.de/" target="_blank">
-                                <img src="/Images/LogosPartners/Logo_tutory_250px.png" alt="tutory.de"/>
+                            <a href="<%= Links.Tutory %>" target="_blank">
+                                <img src="<%= Links.TutoryImage %>" alt="tutory.de"/>
                             </a>
                         </div>
                         <p>
