@@ -12,6 +12,10 @@ public class SingleSetFullWidthModel : BaseContentModule
     public ImageFrontendData ImageFrontendData;
     public bool IsInWishknowledge;
 
+    public SingleSetFullWidthModel(int setId) : this(new SingleSetFullWidthJson { SetId = setId })
+    {
+    }
+
     public SingleSetFullWidthModel(SingleSetFullWidthJson singleSetFullWidthJson)
     {
         Set = Sl.SetRepo.GetById(singleSetFullWidthJson.SetId);

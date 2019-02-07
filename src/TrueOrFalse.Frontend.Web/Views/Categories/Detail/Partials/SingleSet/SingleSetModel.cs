@@ -17,6 +17,10 @@ public class SingleSetModel : BaseContentModule
     public bool IsInWishknowledge;
 
     public ImageFrontendData ImageFrontendData;
+    
+    public SingleSetModel(Set set) : this(new SingleSetJson { Set = set })
+    {
+    }
 
     public SingleSetModel(SingleSetJson singleSetJson)
     {

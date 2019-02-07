@@ -7,7 +7,7 @@ public class SetCardMiniListModel : BaseContentModule
 
     public SetCardMiniListModel(SetCardMiniListJson setCardMiniListJson)
     {
-        Sets = setCardMiniListJson.Sets;
+        Sets = setCardMiniListJson.SetList;
     }
 
     public ImageFrontendData GetSetImage(Set set)

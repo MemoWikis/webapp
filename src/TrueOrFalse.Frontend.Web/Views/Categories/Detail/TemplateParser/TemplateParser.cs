@@ -81,8 +81,7 @@ public class TemplateParser
             case "singlequestionsquiz":
             case "spacer":
             case "textblock":
-            case "divstart":
-            case "divend":
+            case "cards":
                 return GetPartialHtml(templateJson, category, controllerContext, templateMarkdown);
             default:
             {
@@ -122,7 +121,6 @@ public class TemplateParser
         {
             case "topicnavigation":
                 return new TopicNavigationModel(category, JsonConvert.DeserializeObject<TopicNavigationJson>(templateJson.OriginalJson));
-                //return new TopicNavigationModel(category, templateJson.Title, templateJson.Text, templateJson.Load, templateJson.Order);
             case "medialist":
                 return new MediaListModel(category, JsonConvert.DeserializeObject<MediaListJson>(templateJson.OriginalJson));
             case "educationofferlist":
@@ -152,10 +150,8 @@ public class TemplateParser
                 return new SpacerModel(JsonConvert.DeserializeObject<SpacerJson>(templateJson.OriginalJson));
             case "textblock":
                 return new TextBlockModel(JsonConvert.DeserializeObject<TextBlockJson>(templateJson.OriginalJson));
-            case "divstart":
-                return new DivStartModel(templateJson.CssClasses); 
-            case "divend":
-                return new DivEndModel();
+            case "cards":
+                return new CardsModel(JsonConvert.DeserializeObject<CardsJson>(templateJson.OriginalJson));
             default:
                 throw new Exception("Kein Model für diese Template hinterlegt.");
         }

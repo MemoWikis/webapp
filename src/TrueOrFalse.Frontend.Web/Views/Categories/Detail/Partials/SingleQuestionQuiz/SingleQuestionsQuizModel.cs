@@ -8,6 +8,10 @@ public class SingleQuestionsQuizModel : BaseContentModule
     public string Text;
     public IList<Question> Questions;
 
+    public SingleQuestionsQuizModel(Category category, int n) : this(category, new SingleQuestionsQuizJson { MaxQuestions = n })
+    {
+    }
+
     public SingleQuestionsQuizModel(Category category, SingleQuestionsQuizJson singleQuestionsQuizJson)
     {
         Title = String.IsNullOrEmpty(singleQuestionsQuizJson.Title) ? "Wie viel weißt du über das Thema " + category.Name + "?" : singleQuestionsQuizJson.Title;

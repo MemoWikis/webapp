@@ -1,18 +1,21 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 public class CardsModel : BaseContentModule
 {
     public IList<Set> Sets;
+    public string Title;
+    public string CardOrientation;
 
-    public CardsModel(IList<Set> sets)
+    public CardsModel(CardsJson cardsjson)
     {
-        Sets = sets;
-    }
+        Sets = cardsjson.SetList;
+        Title = cardsjson.Title;
 
-    public ImageFrontendData GetSetImage(Set set)
-    {
-        var imageMetaData = Sl.ImageMetaDataRepo.GetBy(set.Id, ImageType.QuestionSet);
-        return new ImageFrontendData(imageMetaData);
+        if (cardsjson.CardOrientation == "Landscape" || cardsjson.CardOrientation == "Portrait")
+            CardOrientation = cardsjson.CardOrientation;
+        else
+        {
+            CardOrientation = Sets.Count % 3 == 0 ? "Portrait" : "Landscape";
+        }
     }
 }

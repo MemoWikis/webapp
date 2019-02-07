@@ -11,6 +11,10 @@ public class MediaListModel : BaseContentModule
 
     public List<Category> MediaList;
 
+    public MediaListModel(Category category) : this(category, new MediaListJson())
+    {
+    }
+
     public MediaListModel(Category category, MediaListJson mediaListJson)
     {
         Category = category;

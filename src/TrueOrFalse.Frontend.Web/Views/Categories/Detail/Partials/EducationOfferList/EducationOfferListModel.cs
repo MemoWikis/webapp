@@ -13,6 +13,10 @@ public class EducationOfferListModel : BaseContentModule
 
     public bool HasUsedOrderListWithLoadList;
 
+    public EducationOfferListModel(Category category) : this(category, new EducationOfferListJson())
+    {
+    }
+
     public EducationOfferListModel(Category category, EducationOfferListJson educationOfferListJson)
     {
         Category = category;
