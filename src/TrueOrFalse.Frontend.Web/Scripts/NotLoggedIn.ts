@@ -16,3 +16,10 @@
         Utils.SendGaEvent("NotLoggedIn", "Click", feature);
     }
 }
+
+class IsLoggedIn {
+    
+    static get Yes(): boolean {
+        return !NotLoggedIn.Yes();
+    }
+}

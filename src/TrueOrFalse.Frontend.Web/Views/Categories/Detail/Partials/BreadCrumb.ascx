@@ -55,16 +55,16 @@
         <div class="input-group" id="StickyHeaderSearchBoxDiv" style="margin-right:3px">
             <input type="text" class="form-control" placeholder="Suche" id="StickyHeaderSearchBox">
             <div class="input-group-btn">
-                <button class="btn btn-default" id="StickyHeaderSearchButton" onclick="SearchButtonClick()" style="height:34px; border: none;" type="submit"><i class="fa fa-search" style="font-size:25px; padding:0px;margin:0px; margin-top:-3px" aria-hidden="true"></i></button>
+                <button class="btn btn-default" id="StickyHeaderSearchButton" onclick="SearchButtonClick()" style="height:34px; border: none;" type="submit"><i class="fa fa-search" style="font-size:25px; padding:0;margin:0; margin-top:-3px" aria-hidden="true"></i></button>
             </div>
         </div>
-        <div id="KnowledgeImage" style="margin-right:0px;"><a href="<%= Links.Knowledge() %>"><i style="margin-top:6px; font-size:32px;" class="fa fa-dot-circle-o"></i></a></div>
+        <div id="KnowledgeImage" style="margin-right:0;"><a href="<%= Links.Knowledge() %>"><i style="margin-top:6px; font-size:32px;" class="fa fa-dot-circle-o"></i></a></div>
         <div id="BreadcrumbUserDropdownImage"  <%if(Model.IsLoggedIn){ %> style="margin-right: 15px; min-width: 29px;" <%} %>>
         <%if(Model.IsLoggedIn){ %>
-           <a class="TextLinkWithIcon dropdown-toggle" id="dLabel" role="button" data-toggle="dropdown" data-target="#" href="#">
+           <a class="TextLinkWithIcon dropdown-toggle" id="dLabelBreadCrumb" data-toggle="dropdown" href="#">
             <img class="userImage" style="margin-top:21px; border:none; text-align:center;" src="<%= userImage%>" />
            </a>   
-            <ul id="BreadcrumbUserDropdown" class="dropdown-menu pull-right" role="menu" aria-labelledby="dLabel" style="right:0px;">
+            <ul id="BreadcrumbUserDropdown" class="dropdown-menu pull-right" role="menu" aria-labelledby="dLabel" style="right:0; position: absolute;">
                 <li>
                     <a style="white-space: unset; padding: 0px;" href="<%= Links.Knowledge()%>">
                             <div id="activity-popover-title">Deine Lernpunkte</div>
@@ -75,7 +75,7 @@
                     </li>
                     <li class="divider"></li>
                     <li>
-                        <a class="<%= Model.UserMenuActive(UserMenuEntry.Messages) %>" href="<%=Links.Messages(Url) %>"  style="display: flex;">Deine Nachrichten                        
+                        <a class="messages,<%= Model.UserMenuActive(UserMenuEntry.Messages) %>" href="<%=Links.Messages(Url) %>"  style="display: flex;">Deine Nachrichten                        
                             <% if (Model.SidebarModel.UnreadMessageCount != 0) { %>
                                 <svg class="badge">
                                   <g>
