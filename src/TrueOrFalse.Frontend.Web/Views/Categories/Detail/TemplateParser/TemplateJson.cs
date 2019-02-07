@@ -86,4 +86,6 @@ public class TemplateJson
     public string CssClasses;
 
     public string Type;
+
+    public string OriginalJson;
 }

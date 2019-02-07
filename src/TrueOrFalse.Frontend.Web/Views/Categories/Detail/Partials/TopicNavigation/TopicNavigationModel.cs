@@ -12,19 +12,21 @@ public class TopicNavigationModel : BaseContentModule
 
     public string Title;
     public string Text;
-    public KnowledgeSummary SetKnowledgeSummary;
 
     public List<Category> CategoryList;
 
-    public bool HasUsedOrderListWithLoadList;
 
-    public TopicNavigationModel(Category category, string title, string text = null, string load = null, string order = null)
+    public TopicNavigationModel(Category category, string name) : this(category, new TopicNavigationJson { Title = name })
+    {
+    }
+
+    public TopicNavigationModel(Category category, TopicNavigationJson topicNavigation)
     {
 
         Category = category;
 
         var isLoadList = false;
-        switch (load)
+        switch (topicNavigation.Load)
         {
             case null:
             case "All":
@@ -32,17 +34,17 @@ public class TopicNavigationModel : BaseContentModule
                 break;
 
             default:
-                var categoryIdList = load.Split(',').ToList().ConvertAll(Int32.Parse);
+                var categoryIdList = topicNavigation.Load.Split(',').ToList().ConvertAll(Int32.Parse);
                 CategoryList = ConvertToCategoryList(categoryIdList);
                 isLoadList = true;
                 break;
         }
 
-        switch (order)
+        switch (topicNavigation.Order)
         {
             case null:
             case "QuestionAmount":
-                if(load == null || load == "All")
+                if(topicNavigation.Load == null || topicNavigation.Load == "All")
                     CategoryList = CategoryList.OrderByDescending(c => c.GetAggregatedQuestionsFromMemoryCache().Count).ToList();
                 break;
 
@@ -55,7 +57,7 @@ public class TopicNavigationModel : BaseContentModule
                 {
                     throw new Exception("\"Load: \" und \"Order: \" können nicht gleichzeitig mit Category-Id-Listen als Parameter verwendet werden!");
                 }
-                var firstCategories = ConvertToCategoryList(order.Split(',').ToList().ConvertAll(Int32.Parse));
+                var firstCategories = ConvertToCategoryList(topicNavigation.Order.Split(',').ToList().ConvertAll(Int32.Parse));
                 CategoryList = OrderByCategoryList(firstCategories);
                 break;
         }
@@ -63,8 +65,8 @@ public class TopicNavigationModel : BaseContentModule
 
         CategoryList = CategoryList.Where(c => c.Type.GetCategoryTypeGroup() == CategoryTypeGroup.Standard).ToList();
 
-        Title = title;
-        Text = text;
+        Title = topicNavigation.Title;
+        Text = topicNavigation.Text;
     }
 
 

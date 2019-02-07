@@ -326,7 +326,6 @@
     <Compile Include="Views\Categories\Detail\Partials\TopicNavigation\TopicNavigationModel.cs" />
     <Compile Include="Views\Categories\Detail\MarkdownToHtml.cs" />
     <Compile Include="Views\Categories\Detail\Partials\SingleCategory\SingleCategoryModel.cs" />
-    <Compile Include="Views\Categories\Detail\Partials\SingleSetCollectionModel.cs" />
     <Compile Include="Views\Categories\Detail\Partials\SetListCard\SetListCardModel.cs" />
     <Compile Include="Views\Categories\Detail\Partials\SetTestSessionNoStartScreen\SetTestSessionNoStartScreenModel.cs" />
     <Compile Include="Views\Categories\Detail\Partials\VideoWidget\VideoWidgetModel.cs" />
@@ -20878,7 +20877,6 @@
     <Content Include="Views\Categories\Detail\Partials\RelatedContentLists.ascx" />
     <Content Include="Views\Categories\Detail\Partials\ContentLists\ContentLists.ascx" />
     <Content Include="Views\Categories\Detail\Partials\SetListCard\SetListCard.ascx" />
-    <Content Include="Views\Categories\Detail\Partials\SingleSetCollection.ascx" />
     <Content Include="Views\Categories\Detail\Partials\SingleSet\SingleSet.ascx" />
     <Content Include="Views\Categories\Js\CategoryDelete.js">
       <DependentUpon>CategoryDelete.ts</DependentUpon>

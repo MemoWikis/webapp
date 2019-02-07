@@ -201,6 +201,7 @@
     <Compile Include="1 View\MarkdownMarkdigTests.cs" />
     <Compile Include="1 View\MarkdownSharpTests.cs" />
     <Compile Include="1 View\RouteTests.cs" />
+    <Compile Include="1 View\TemplateParserTest.cs" />
     <Compile Include="1 View\UserNavigationModelListTest.cs" />
     <Compile Include="2 Domain.Jobs\TrainingPlanUpdateCheckJobTest.cs" />
     <Compile Include="2 Domain\Category\CategoryChange_tests.cs" />
@@ -358,6 +359,7 @@
     <None Include="App.overwritten.config.sample" />
     <None Include="App.overwritten.config">
       <SubType>Designer</SubType>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="job_scheduling_data_2_0.xsd">
       <SubType>Designer</SubType>
