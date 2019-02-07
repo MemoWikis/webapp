@@ -13,16 +13,16 @@ public class SingleCategoryModel : BaseContentModule
 
     public ImageFrontendData ImageFrontendData;
 
-    public SingleCategoryModel(int categoryId, string categoryText = null)
+    public SingleCategoryModel(SingleCategoryJson singleCategoryJson)
     {
-        var category = Resolve<CategoryRepository>().GetById(categoryId) ?? new Category();
+        var category = Resolve<CategoryRepository>().GetById(singleCategoryJson.CategoryId) ?? new Category();
         
         var imageMetaData = Sl.ImageMetaDataRepo.GetBy(category.Id, ImageType.Category);
         ImageFrontendData = new ImageFrontendData(imageMetaData);
 
         CategoryId = category.Id;
         CategoryName = category.Name;
-        CategoryText = categoryText ?? category.Description;
+        CategoryText = singleCategoryJson.Description ?? category.Description;
 
         QCount = category.CountQuestionsAggregated;
     }

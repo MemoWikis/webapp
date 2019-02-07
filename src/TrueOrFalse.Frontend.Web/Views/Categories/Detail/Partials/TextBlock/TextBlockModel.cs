@@ -6,8 +6,8 @@ public class TextBlockModel : BaseContentModule
 {
     public string Text;
 
-    public TextBlockModel(string text)
+    public TextBlockModel(TextBlockJson textBlockJson)
     {
-        Text = text;
+        Text = textBlockJson.Text;
     }
 }

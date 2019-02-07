@@ -3,9 +3,9 @@
     public int AmountSpaces;
     public bool AddBorderTop;
 
-    public SpacerModel(int amountSpaces = 0, bool addBorderTop = false)
+    public SpacerModel(SpacerJson spacerJson)
     {
-        AmountSpaces = amountSpaces < 1 ? 2 : amountSpaces;
-        AddBorderTop = addBorderTop;
+        AmountSpaces = spacerJson.AmountSpaces < 1 ? 2 : spacerJson.AmountSpaces;
+        AddBorderTop = spacerJson.AddBorderTop;
     }
 }

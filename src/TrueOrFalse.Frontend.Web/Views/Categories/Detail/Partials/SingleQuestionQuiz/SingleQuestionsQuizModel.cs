@@ -8,18 +8,18 @@ public class SingleQuestionsQuizModel : BaseContentModule
     public string Text;
     public IList<Question> Questions;
 
-    public SingleQuestionsQuizModel(Category category, int maxQuestions, string title = "", string text = "", string questionIds = null, string order = null)
+    public SingleQuestionsQuizModel(Category category, SingleQuestionsQuizJson singleQuestionsQuizJson)
     {
-        Title = String.IsNullOrEmpty(title) ? "Wie viel weißt du über das Thema " + category.Name + "?" : title;
-        Text = text;
+        Title = String.IsNullOrEmpty(singleQuestionsQuizJson.Title) ? "Wie viel weißt du über das Thema " + category.Name + "?" : singleQuestionsQuizJson.Title;
+        Text = singleQuestionsQuizJson.Text;
 
-        if (string.IsNullOrEmpty(questionIds))
+        if (string.IsNullOrEmpty(singleQuestionsQuizJson.QuestionIds))
         {
             Questions = category.GetAggregatedQuestionsFromMemoryCache().Where(q => q.IsVisibleToCurrentUser()).ToList();
         }
         else
         {
-            var questionIdsList = questionIds
+            var questionIdsList = singleQuestionsQuizJson.QuestionIds
                 .Split(new[] {','}, StringSplitOptions.RemoveEmptyEntries)
                 .Select(x => Convert.ToInt32(x));
 
@@ -30,7 +30,7 @@ public class SingleQuestionsQuizModel : BaseContentModule
                 .ToList();
         }
 
-        switch (order)
+        switch (singleQuestionsQuizJson.Order)
         {
             case "ViewsDescending":
                 Questions = Questions.OrderByDescending(q => q.TotalViews).ToList();
@@ -53,7 +53,7 @@ public class SingleQuestionsQuizModel : BaseContentModule
                 break;
         }
 
-        Questions = Questions.Take(maxQuestions).ToList();
+        Questions = Questions.Take(singleQuestionsQuizJson.MaxQuestions).ToList();
     }
 
 }
