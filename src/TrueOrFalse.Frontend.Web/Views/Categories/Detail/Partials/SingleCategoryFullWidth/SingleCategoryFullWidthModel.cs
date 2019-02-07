@@ -12,14 +12,14 @@ public class SingleCategoryFullWidthModel : BaseContentModule
     public ImageFrontendData ImageFrontendData;
     public bool IsInWishknowledge;
 
-    public SingleCategoryFullWidthModel(int categoryId, string name = null, string description = null)
+    public SingleCategoryFullWidthModel(SingleCategoryFullWidthJson singleCategoryFullWidthJson)
     {
-        Category = Sl.CategoryRepo.GetById(categoryId);
+        Category = Sl.CategoryRepo.GetById(singleCategoryFullWidthJson.CategoryId);
         CategoryId = Category.Id;
         if (Category== null)
             throw new Exception("Die angegebene Themen-ID verweist nicht auf ein existierendes Thema.");
-        Name = name ?? Category.Name;
-        Description = description ?? Category.Description;
+        Name = singleCategoryFullWidthJson.Name ?? Category.Name;
+        Description = singleCategoryFullWidthJson.Description ?? Category.Description;
         AggregatedQuestionCount = Category.CountQuestionsAggregated;
         AggregatedSetCount = Category.GetAggregatedSetsFromMemoryCache().Count;
         CategoryType = Category.Type.GetShortName();

@@ -1,4 +1,4 @@
-﻿public class TopicNavigationJson
+﻿public class EducationOfferListJson
 {
     public string Title;
     public string Text;

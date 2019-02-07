@@ -8,6 +8,7 @@ using System.Linq;
 public class TemplateJson
 {
     public string TemplateName;
+    public string OriginalJson;
 
     [Obsolete]
     public int ContainingCategoryId;//Doesn't have to be included in Json, is passed internally
@@ -84,8 +85,8 @@ public class TemplateJson
 
     [Obsolete]
     public string CssClasses;
+    
+    [Obsolete]
+    public string CardOrientation;
 
-    public string Type;
-
-    public string OriginalJson;
 }

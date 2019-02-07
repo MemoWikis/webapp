@@ -124,43 +124,34 @@ public class TemplateParser
                 return new TopicNavigationModel(category, JsonConvert.DeserializeObject<TopicNavigationJson>(templateJson.OriginalJson));
                 //return new TopicNavigationModel(category, templateJson.Title, templateJson.Text, templateJson.Load, templateJson.Order);
             case "medialist":
-                return new MediaListModel(category, templateJson.Title, templateJson.Text);
+                return new MediaListModel(category, JsonConvert.DeserializeObject<MediaListJson>(templateJson.OriginalJson));
             case "educationofferlist":
-                return new EducationOfferListModel(category, templateJson.Title, templateJson.Text, templateJson.Load, templateJson.Order);
+                return new EducationOfferListModel(category, JsonConvert.DeserializeObject<EducationOfferListJson>(templateJson.OriginalJson));
             case "videowidget":
-                return new VideoWidgetModel(templateJson.SetId);
+                return new VideoWidgetModel(JsonConvert.DeserializeObject<VideoWidgetJson>(templateJson.OriginalJson));
             case "settestsessionnostartscreen":
-                return new SetTestSessionNoStartScreenModel(templateJson.SetId, templateJson.Title, templateJson.Text);
+                return new SetTestSessionNoStartScreenModel(JsonConvert.DeserializeObject<SetTestSessionNoStartScreenJson>(templateJson.OriginalJson));
             case "singlesetfullwidth":
-                return new SingleSetFullWidthModel(templateJson.SetId, templateJson.Title, templateJson.Text);
+                return new SingleSetFullWidthModel(JsonConvert.DeserializeObject<SingleSetFullWidthJson>(templateJson.OriginalJson));
             case "singlecategoryfullwidth":
-                return  new SingleCategoryFullWidthModel(templateJson.CategoryId, templateJson.Title, templateJson.Description);
+                return  new SingleCategoryFullWidthModel(JsonConvert.DeserializeObject<SingleCategoryFullWidthJson>(templateJson.OriginalJson));
             case "categorynetwork":
             case "contentlists":
                 return new CategoryModel(category, loadKnowledgeSummary : false);
             case "singleset":
-                return new SingleSetModel(Sl.R<SetRepo>().GetById(templateJson.SetId), setText: templateJson.SetText);
+                return new SingleSetModel(JsonConvert.DeserializeObject<SingleSetJson>(templateJson.OriginalJson));
             case "setlistcard":
-                return new SetListCardModel(
-                    templateJson.SetList,
-                    templateJson.Title,
-                    templateJson.Description,
-                    category.Id,
-                    templateJson.TitleRowCount,
-                    templateJson.DescriptionRowCount,
-                    templateJson.SetRowCount);
+                return new SetListCardModel(category.Id, JsonConvert.DeserializeObject<SetListCardJson>(templateJson.OriginalJson));
             case "setcardminilist":
-                return new SetCardMiniListModel(templateJson.SetList);
+                return new SetCardMiniListModel(JsonConvert.DeserializeObject<SetCardMiniListJson>(templateJson.OriginalJson));
             case "singlecategory":
-                return new SingleCategoryModel(
-                    templateJson.CategoryId,
-                    templateJson.Description);
+                return new SingleCategoryModel(JsonConvert.DeserializeObject<SingleCategoryJson>(templateJson.OriginalJson));
             case "singlequestionsquiz":
-                return new SingleQuestionsQuizModel(category, templateJson.MaxQuestions, templateJson.Title, templateJson.Text, templateJson.QuestionIds, templateJson.Order);
+                return new SingleQuestionsQuizModel(category, JsonConvert.DeserializeObject<SingleQuestionsQuizJson>(templateJson.OriginalJson));
             case "spacer":
-                return new SpacerModel(templateJson.AmountSpaces, templateJson.AddBorderTop);
+                return new SpacerModel(JsonConvert.DeserializeObject<SpacerJson>(templateJson.OriginalJson));
             case "textblock":
-                return new TextBlockModel(templateJson.Text);
+                return new TextBlockModel(JsonConvert.DeserializeObject<TextBlockJson>(templateJson.OriginalJson));
             case "divstart":
                 return new DivStartModel(templateJson.CssClasses); 
             case "divend":

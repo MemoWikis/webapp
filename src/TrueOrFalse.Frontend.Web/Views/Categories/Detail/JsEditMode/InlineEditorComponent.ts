@@ -52,6 +52,7 @@ Vue.directive('sortable', {
     }
 });
 
+
 new Vue({
     el: '#ContentModule',
     data() {

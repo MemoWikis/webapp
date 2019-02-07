@@ -18,19 +18,20 @@ public class SingleSetModel : BaseContentModule
 
     public ImageFrontendData ImageFrontendData;
 
-    public SingleSetModel(Set set, string setText = null)
+    public SingleSetModel(SingleSetJson singleSetJson)
     {
+        var set = Sl.R<SetRepo>().GetById(singleSetJson.SetId);
+
         var imageMetaData = Resolve<ImageMetaDataRepo>().GetBy(set.Id, ImageType.QuestionSet);
         ImageFrontendData = new ImageFrontendData(imageMetaData);
 
         Set = set;
         SetId = set.Id;
         SetName = set.Name;
-        SetText = setText ?? set.Text;
+        SetText = singleSetJson.SetText;
 
         QCount = set.Questions().Count;
 
-        IsInWishknowledge = R<SetValuationRepo>().GetBy(SetId, _sessionUser.UserId)?.IsInWishKnowledge() ?? false;
-
+        IsInWishknowledge = R<SetValuationRepo>().GetBy(SetId, _sessionUser.UserId)?.IsInWishKnowledge() ?? false;   
     }
 }

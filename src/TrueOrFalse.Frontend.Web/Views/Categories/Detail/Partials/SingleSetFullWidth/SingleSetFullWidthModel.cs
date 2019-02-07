@@ -12,17 +12,17 @@ public class SingleSetFullWidthModel : BaseContentModule
     public ImageFrontendData ImageFrontendData;
     public bool IsInWishknowledge;
 
-    public SingleSetFullWidthModel(int setId, string title = null, string text = null)
+    public SingleSetFullWidthModel(SingleSetFullWidthJson singleSetFullWidthJson)
     {
-        Set = Sl.SetRepo.GetById(setId);
+        Set = Sl.SetRepo.GetById(singleSetFullWidthJson.SetId);
         SetId = Set.Id;
         if (Set == null)
             throw new Exception("Die angegebene Lernset-ID verweist nicht auf ein existierendes Lernset.");
 
         CreatorId = Set.Creator.Id;
         Creator = Set.Creator.Name;
-        Title = title ?? Set.Name;
-        Text = text ?? Set.Text;
+        Title = singleSetFullWidthJson.Title ?? Set.Name;
+        Text = singleSetFullWidthJson.Text ?? Set.Text;
         QuestionCount = Set.QuestionsPublicCount();
 
         var imageMetaData = Sl.ImageMetaDataRepo.GetBy(Set.Id, ImageType.QuestionSet);

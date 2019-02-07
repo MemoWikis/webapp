@@ -2,9 +2,9 @@
 {
     public int SetId;
 
-    public VideoWidgetModel(int setId)
+    public VideoWidgetModel(VideoWidgetJson videoWidgetJson)
     {
-        SetId = setId;
+        SetId = videoWidgetJson.SetId;
     }
 
 }

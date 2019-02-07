@@ -11,11 +11,11 @@ public class MediaListModel : BaseContentModule
 
     public List<Category> MediaList;
 
-    public MediaListModel(Category category, string title = null, string text = null)
+    public MediaListModel(Category category, MediaListJson mediaListJson)
     {
         Category = category;
-        Title = title ?? "Medien";
-        Text = text;
+        Title = mediaListJson.Title ?? "Medien";
+        Text = mediaListJson.Text;
         MediaList = Sl.CategoryRepo.GetChildren(category.Id).Where(c => c.Type.GetCategoryTypeGroup() == CategoryTypeGroup.Media).ToList(); //use GetDescendents instead of GetChildren?
     }
 

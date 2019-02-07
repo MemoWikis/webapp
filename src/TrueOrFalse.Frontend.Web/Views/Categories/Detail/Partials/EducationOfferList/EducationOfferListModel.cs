@@ -13,12 +13,12 @@ public class EducationOfferListModel : BaseContentModule
 
     public bool HasUsedOrderListWithLoadList;
 
-    public EducationOfferListModel(Category category, string title = null, string text = null, string load = null, string order = null)
+    public EducationOfferListModel(Category category, EducationOfferListJson educationOfferListJson)
     {
         Category = category;
 
         var isLoadList = false;
-        switch (load)
+        switch (educationOfferListJson.Load)
         {
             case null:
             case "All":
@@ -26,17 +26,17 @@ public class EducationOfferListModel : BaseContentModule
                 break;
 
             default:
-                var categoryIdList = load.Split(',').ToList().ConvertAll(Int32.Parse);
+                var categoryIdList = educationOfferListJson.Load.Split(',').ToList().ConvertAll(Int32.Parse);
                 CategoryList = ConvertToCategoryList(categoryIdList);
                 isLoadList = true;
                 break;
         }
 
-        switch (order)
+        switch (educationOfferListJson.Order)
         {
             case null:
             case "QuestionAmount":
-                if(load == null || load == "All")
+                if(educationOfferListJson.Load == null || educationOfferListJson.Load == "All")
                     CategoryList = CategoryList.OrderByDescending(c => c.GetAggregatedQuestionsFromMemoryCache().Count).ToList();
                 break;
 
@@ -49,15 +49,15 @@ public class EducationOfferListModel : BaseContentModule
                 {
                     throw new Exception("\"Load: \" und \"Order: \" können nicht gleichzeitig mit Category-Id-Listen als Parameter verwendet werden!");
                 }
-                var firstCategories = ConvertToCategoryList(order.Split(',').ToList().ConvertAll(Int32.Parse));
+                var firstCategories = ConvertToCategoryList(educationOfferListJson.Order.Split(',').ToList().ConvertAll(Int32.Parse));
                 CategoryList = OrderByCategoryList(firstCategories);
                 break;
         }
 
 
 
-        Title = title ?? "Bildungsangebote";
-        Text = text;
+        Title = educationOfferListJson.Title ?? "Bildungsangebote";
+        Text = educationOfferListJson.Text;
     }
 
     public int GetTotalQuestionCount(Category category)

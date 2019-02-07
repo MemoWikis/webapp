@@ -6,13 +6,13 @@ public class SetTestSessionNoStartScreenModel : BaseContentModule
     public string Title;
     public string Text;
 
-    public SetTestSessionNoStartScreenModel(int setId, string title = null, string text = null)
+    public SetTestSessionNoStartScreenModel(SetTestSessionNoStartScreenJson setTestSessionNoStartScreenJson)
     {
-        Set = Sl.SetRepo.GetById(setId);
+        Set = Sl.SetRepo.GetById(setTestSessionNoStartScreenJson.SetId);
         if (Set == null)
             throw new Exception("Die angegebene Lernset-ID verweist nicht auf ein existierendes Lernset.");
-        Title = title ?? Set.Name;
-        Text = text ?? Set.Text;
+        Title = setTestSessionNoStartScreenJson.Title ?? Set.Name;
+        Text = setTestSessionNoStartScreenJson.Text ?? Set.Text;
     }
 
 }
