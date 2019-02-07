@@ -150,31 +150,31 @@
 <% if (string.IsNullOrEmpty(Model.CustomPageHtml)) {
 
        if (Model.CategoriesChildren.Any(c => c.Type.GetCategoryTypeGroup() == CategoryTypeGroup.Standard))
-           Html.RenderPartial("~/Views/Categories/Detail/Partials/TopicNavigation.ascx",new TopicNavigationModel(Model.Category, "Unterthemen"));
+           Html.RenderPartial("~/Views/Categories/Detail/Partials/TopicNavigation/TopicNavigation.ascx",new TopicNavigationModel(Model.Category, "Unterthemen"));
                 
 
        if (Model.AggregatedSetCount > 0 && Model.AggregatedSetCount <= 5){
            foreach (var set in Model.AggregatedSets)
            {
-               Html.RenderPartial("~/Views/Categories/Detail/Partials/SingleSetFullWidth.ascx", new SingleSetFullWidthModel(set.Id));
+               Html.RenderPartial("~/Views/Categories/Detail/Partials/SingleSetFullWidth/SingleSetFullWidth.ascx", new SingleSetFullWidthModel(set.Id));
            }
        }
        else if (Model.AggregatedSetCount == 0 && Model.AggregatedQuestionCount > 0)
        {
-           Html.RenderPartial("~/Views/Categories/Detail/Partials/SingleQuestionsQuiz.ascx", new SingleQuestionsQuizModel(Model.Category,5));
+           Html.RenderPartial("~/Views/Categories/Detail/Partials/SingleQuestionsQuiz/SingleQuestionsQuiz.ascx", new SingleQuestionsQuizModel(Model.Category,5));
        }
 
        if (Model.CategoriesChildren.Any(c => c.Type.GetCategoryTypeGroup() == CategoryTypeGroup.Education))
-           Html.RenderPartial("~/Views/Categories/Detail/Partials/EducationOfferList.ascx", new EducationOfferListModel(Model.Category));
+           Html.RenderPartial("~/Views/Categories/Detail/Partials/EducationOfferList/EducationOfferList.ascx", new EducationOfferListModel(Model.Category));
 
        if (Model.CategoriesChildren.Any(c => c.Type.GetCategoryTypeGroup() == CategoryTypeGroup.Media))
-           Html.RenderPartial("~/Views/Categories/Detail/Partials/MediaList.ascx", new MediaListModel(Model.Category));
+           Html.RenderPartial("~/Views/Categories/Detail/Partials/MediaList/MediaList.ascx", new MediaListModel(Model.Category));
 
-       Html.RenderPartial("~/Views/Categories/Detail/Partials/ContentLists.ascx", Model);
+       Html.RenderPartial("~/Views/Categories/Detail/Partials/ContentLists/ContentLists.ascx", Model);
 
        Html.RenderPartial("~/Views/Categories/Detail/Partials/RelatedContentLists.ascx", Model);
 
-       Html.RenderPartial("~/Views/Categories/Detail/Partials/CategoryNetwork.ascx", Model);
+       Html.RenderPartial("~/Views/Categories/Detail/Partials/CategoryNetwork/CategoryNetwork.ascx", Model);
 
    } else { %>
                     
