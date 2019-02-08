@@ -18,7 +18,7 @@ public class SingleSetModel : BaseContentModule
 
     public ImageFrontendData ImageFrontendData;
     
-    public SingleSetModel(Set set) : this(new SingleSetJson { Set = set })
+    public SingleSetModel(Set set) : this(new SingleSetJson(set))
     {
     }
 

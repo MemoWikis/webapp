@@ -2,7 +2,7 @@
     Inherits="System.Web.Mvc.ViewUserControl<SingleSetModel>" %>
 <%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
 
-<%: Html.Partial("~/Views/Categories/Detail/Partials/ContentModuleWrapperStart.ascx") %>
+<%-- <%: Html.Partial("~/Views/Categories/Detail/Partials/ContentModuleWrapperStart.ascx") %> --%>
                 
     <div class="CardColumn">
         <div class="Card SingleItem Set ">
@@ -46,4 +46,4 @@
         </div>
     </div>
 
-<%: Html.Partial("~/Views/Categories/Detail/Partials/ContentModuleWrapperEnd.ascx") %>
+<%-- <%: Html.Partial("~/Views/Categories/Detail/Partials/ContentModuleWrapperEnd.ascx") %> --%>

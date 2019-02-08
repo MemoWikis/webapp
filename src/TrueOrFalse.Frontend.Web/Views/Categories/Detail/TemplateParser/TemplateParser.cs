@@ -74,7 +74,7 @@ public class TemplateParser
             case "categorynetwork":
             case "contentlists":
             case "educationofferlist":
-            case "singleset":
+//            case "singleset":
             case "setlistcard":
             case "setcardminilist":
             case "singlecategory":
@@ -136,8 +136,8 @@ public class TemplateParser
             case "categorynetwork":
             case "contentlists":
                 return new CategoryModel(category, loadKnowledgeSummary : false);
-            case "singleset":
-                return new SingleSetModel(JsonConvert.DeserializeObject<SingleSetJson>(templateJson.OriginalJson));
+//            case "singleset":
+//                return new SingleSetModel(JsonConvert.DeserializeObject<SingleSetJson>(templateJson.OriginalJson));
             case "setlistcard":
                 return new SetListCardModel(category.Id, JsonConvert.DeserializeObject<SetListCardJson>(templateJson.OriginalJson));
             case "setcardminilist":
