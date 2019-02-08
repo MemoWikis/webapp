@@ -617,9 +617,28 @@ ul.AutocompleteHeader {
 }
 #AutorCard {
   border: #979797 solid 0.5px;
+  height: 260px;
+  width: 230px;
+}
+#AutorCard .mid-container {
+  text-align: center;
+  align-content: center;
+  padding-top: 1em;
+}
+#AutorCard .mid-container .author-titel {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+#AutorCard .card-image-large {
+  width: 100%;
+  background-size: 100%;
+  height: 7.43em;
+  background-color: white !important;
+  background-repeat: no-repeat !important;
 }
 #AutorCard .autor-card-footer-bar {
-  margin-top: 33.04px;
+  margin-top: 1.2em;
   margin-bottom: 9px;
   display: flex;
   justify-content: space-around;
@@ -638,15 +657,15 @@ ul.AutocompleteHeader {
   font-size: 12px;
   color: #707070;
 }
-.card-image-large {
-  background-size: cover !important;
-  width: 75px;
-  height: 75px;
-  border-radius: 50%;
-  overflow: hidden;
-  background-color: white !important;
-  background-repeat: no-repeat !important;
-}
+/*.card-image-large {
+    background-size: cover !important;
+    width: 75px;
+    height: 75px;
+    border-radius: 50%;
+    overflow: hidden;
+    background-color: white !important;
+    background-repeat: no-repeat !important;
+}*/
 #MultipleAutorCard {
   border: #979797 solid 0.5px;
 }
@@ -992,22 +1011,12 @@ ul.AutocompleteHeader {
   display: block !important;
 }
 #MasterSidebarColumn {
-  position: relative;
-  min-height: 1px;
-  padding-left: 10px;
-  padding-right: 10px;
   position: static;
   margin-top: 61px;
 }
 @media (min-width: 1200px) {
   #MasterSidebarColumn {
-    float: left;
-    width: 25%;
-  }
-}
-@media (min-width: 1200px) {
-  #MasterSidebarColumn {
-    width: 232px;
+    width: 230px;
     float: right;
   }
 }

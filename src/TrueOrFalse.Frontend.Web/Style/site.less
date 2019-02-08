@@ -514,9 +514,31 @@ img {
 
 #AutorCard {
     border: #979797 solid 0.5px;
+    height: 260px;
+    width: 230px;
+
+    .mid-container {
+        text-align: center;
+        align-content: center;
+        padding-top: 1em;
+
+        .author-titel {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+    }
+
+    .card-image-large {
+        width: 100%;
+        background-size: 100%;
+        height: 7.43em;
+        background-color: white !important;
+        background-repeat: no-repeat !important;
+    }
 
     .autor-card-footer-bar {
-        margin-top: 33.04px;
+        margin-top: 1.2em;
         margin-bottom: 9px;
         display: flex;
         justify-content: space-around;
@@ -540,7 +562,7 @@ img {
     }
 }
 
-.card-image-large {
+/*.card-image-large {
     background-size: cover !important;
     width: 75px;
     height: 75px;
@@ -548,7 +570,7 @@ img {
     overflow: hidden;
     background-color: white !important;
     background-repeat: no-repeat !important;
-}
+}*/
 
 #MultipleAutorCard {
     border: #979797 solid 0.5px;
@@ -987,13 +1009,13 @@ img {
     }
 
     #MasterSidebarColumn {
-        .make-lg-column(3);
+        //.make-lg-column(3);
         position: static;
         margin-top: 61px;
 
 
         .media-lg ( {
-            width: 232px;
+            width: 230px;
             float: right;
         }
 
