@@ -486,7 +486,7 @@ img {
 }
 
 #SidebarCards {
-    width: 100%;
+    width: 272px;
     font-size: 18px;
 
     a {
@@ -498,13 +498,12 @@ img {
 
     .card-title {
         font-size: 12px;
-        text-transform: uppercase;
         color: @sidebar-cards-grey;
         margin-top: 21.67px;
     }
 
     .card-link {
-        margin-top: 4.8px;
+        align-items: center;
         color: #0560AB;
         display: flex;
     }
@@ -514,10 +513,10 @@ img {
 
 #AutorCard {
     border: #979797 solid 0.5px;
-    height: 260px;
-    width: 230px;
-
-    .mid-container {
+    min-height: 10.75em;
+    display: flex;
+    flex-wrap: wrap;
+    /*.mid-container {
         text-align: center;
         align-content: center;
         padding-top: 1em;
@@ -527,22 +526,16 @@ img {
             align-items: center;
             justify-content: center;
         }
-    }
-
-    .card-image-large {
-        width: 100%;
-        background-size: 100%;
-        height: 7.43em;
-        background-color: white !important;
-        background-repeat: no-repeat !important;
-    }
-
+    }*/
     .autor-card-footer-bar {
-        margin-top: 1.2em;
-        margin-bottom: 9px;
+      //  margin-top: 1.2em;
+        margin-bottom: 1.3125em;
         display: flex;
         justify-content: space-around;
         color: @sidebar-cards-grey;
+        width: 100%;
+        align-items: flex-end;
+        
     }
 
     .footer-bar-text {
@@ -560,9 +553,13 @@ img {
         font-size: 12px;
         color: @sidebar-cards-grey;
     }
+
+    .ImageContainer {
+        margin: 1.25em 1.25em 0 1.25em;
+    }
 }
 
-/*.card-image-large {
+.card-image-large {
     background-size: cover !important;
     width: 75px;
     height: 75px;
@@ -570,7 +567,7 @@ img {
     overflow: hidden;
     background-color: white !important;
     background-repeat: no-repeat !important;
-}*/
+}
 
 #MultipleAutorCard {
     border: #979797 solid 0.5px;

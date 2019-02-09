@@ -5,68 +5,53 @@
 
     <%if (Model.Authors.Count == 1)
         {
-
             var author = Model.Authors.First();
-
     %>
+
     <div id="AutorCard" style="padding-top: 0.1px;">
-        <div class="top-container">
-            <div class="card-image-large" style="background: url(<%= author.ImageUrl %>) center;"></div>
+        <div class="column-left">
+            <div class="ImageContainer" style="width: 75px; padding-left: 0.5px;">
+                <div class="card-image-large" style="background: url(<%= author.ImageUrl %>) center;"></div>
+            </div>
         </div>
-        <div class="mid-container">
-            <span>Autorenschaft</span>
-            <div class="author-titel">
-                <span>
+        <div class="column-right">
+            <div class="card-title">
+                <span>Erstellt von:</span>
+            </div>
+            <div class="card-link">
                 <a href="<%= Links.UserDetail(author.User) %>">
                     <%= author.Name %> 
                 </a>
-                </span>
-                <span class="fa fa-user-plus"></span>
+                <i class="fa fa-user-plus"></i>
             </div>
-            
-            
+            <div class="author-reputation">
+                <span>Reputation:</span>
+                <br />
+                <span><%= author.Reputation %> Punkte (Rang <%= author.ReputationPos %>)</span>
+            </div>
         </div>
-        <%--            <div class="column-left">
-                <div class="ImageContainer" style="width: 75px; padding-left: 0.5px;">
-                    <div class="card-image-large" style="background: url(<%= author.ImageUrl %>) center;"></div>
-                </div>
-            </div>
-            <div class="column-right">
-                <div class="card-title">
-                    <span>Autorenschaft</span>
-                </div>
-                <div class="card-link">
-                    <a href="<%= Links.UserDetail(author.User) %>">
-                        <%= author.Name %> 
-                    </a>
-                    <i class="fa fa-user-plus"></i>
-                </div>
-                <div class="author-reputation">
-                    <span>Reputation:</span>
-                    <br/>
-                    <span><%= author.Reputation %> Punkte (Rang <%= author.ReputationPos %>)</span>
-                </div>
-            </div>--%>
         <div class="autor-card-footer-bar">
-            <div class="show-tooltip" <% if (!Model.IsCurrentUser)
-                {%>title="<%if (Model.DoIFollow)
-                { %>Du folgst <%= author.Name %> und nimmst an ihren/seinen Aktivitäten teil.<%}
-                else
-                { %>Folge <%= author.Name %>, um an ihren/seinen Aktivitäten teilzuhaben.<%} %>" <%} %>>
-                <i class="fa fa-user"></i>
-                <span class="footer-bar-text"><%= Model.Reputation.ForUsersFollowingMe %></span>
-            </div>
             <div class="show-tooltip" title='"<%= Model.Reputation.TotalReputation%>" ist eine stolze Zahl! Reputationspunkte zeigen, wieviel  <%= Model.AuthorCardLinkText%> für memucho getan hat.'>
-                <i class="fa fa-heart"></i>
+                <i class="fa fa fa-question-circle"></i>
                 <span class="footer-bar-text"><%=Model.Reputation.TotalReputation %></span>
             </div>
             <div class="show-tooltip" <% if (!Model.IsCurrentUser)
                 {%>title="<%= Model.AuthorCardLinkText%> hat ihr/sein Wunschwissen<% if (author.ShowWishKnowledge)
                 { %> veröffentlicht und <%= Model.AmountWishCountQuestions %> Fragen gesammelt. Alles klar soweit?<%}
                 else
-                { %> nicht veröffentlicht.<%} %>" <%} %>>
-                <span class="fa fa-pencil"></span>
+                { %> nicht veröffentlicht.<%} %>"
+                <%} %>>
+                <span class="fa fa-heart"></span>
                 <span class="footer-bar-text"><%= Model.AmountWishCountQuestions %></span>
+            </div>
+            <div class="show-tooltip" <% if (!Model.IsCurrentUser)
+                {%>title="<%if (Model.DoIFollow)
+                { %>Du folgst <%= author.Name %> und nimmst an ihren/seinen Aktivitäten teil.<%}
+                else
+                { %>Folge <%= author.Name %>, um an ihren/seinen Aktivitäten teilzuhaben.<%} %>"
+                <%} %>>
+                <i class="fa fa-user-plus"></i>
+                <span class="footer-bar-text"><%= Model.Reputation.ForUsersFollowingMe %></span>
             </div>
         </div>
     </div>
@@ -126,11 +111,11 @@
         <div class="category-suggestion-footer">
             <div class="set-question-count">
                 <%: Model.SuggestionCategory.GetAggregatedSetsFromMemoryCache().Count  %> Lernset<% if (Model.SuggestionCategory.GetAggregatedSetsFromMemoryCache().Count != 1)
-                { %>s mit&nbsp;<% }
-                                                                                                                                  else
-                                                                                                                                  { %> mit&nbsp;<% } %>
+                                                                                                     { %>s mit&nbsp;<% }
+                                   else
+                                   { %> mit&nbsp;<% } %>
                 <%: Model.SuggestionCategory.GetAggregatedQuestionsFromMemoryCache().Count %> Frage<% if (Model.SuggestionCategory.GetAggregatedQuestionsFromMemoryCache().Count != 1)
-                { %>n<% } %>
+                                                                                                       { %>n<% } %>
             </div>
             <div class="KnowledgeBarWrapper">
                 <% Html.RenderPartial("~/Views/Categories/Detail/CategoryKnowledgeBar.ascx", new CategoryKnowledgeBarModel(Model.SuggestionCategory)); %>

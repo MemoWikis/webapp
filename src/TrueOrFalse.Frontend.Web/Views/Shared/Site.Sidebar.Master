@@ -26,7 +26,7 @@
                     <% Html.RenderPartial("SidebarCards", Model.SidebarModel); %>                                        
                 </section>
                 <%} %>
-                <section id="MasterMainColumn" <%if(Model.TopNavMenu.IsCategoryBreadCrumb){ %> style="width:80%;" <%}%> class="">        
+                <section id="MasterMainColumn" <%if(Model.TopNavMenu.IsCategoryBreadCrumb){ %> style="width:76%;" <%}%> class="">        
                     <div id="IsInGameMessage">
                         <% if(Model.IsInGame){ %>
                             <% Html.RenderPartial("MessageGame", Model); %>
