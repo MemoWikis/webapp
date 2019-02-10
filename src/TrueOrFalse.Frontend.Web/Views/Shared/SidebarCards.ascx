@@ -94,8 +94,8 @@
 
     <%if (Model.SuggestionCategory != null)
         { %>
-    <div id="CategorySuggestionCard" style="padding-top: 0.2px;">
-        <div class="ImageContainer" style="width: 100%;">
+    <div id="CategorySuggestionCard">
+        <div class="ImageContainer">
             <div class="card-image-large" style="background: url(<%= Model.CategorySuggestionImageUrl%>) center;"></div>
         </div>
         <div class="card-title">
@@ -133,7 +133,7 @@
     </div>
 
     <div id="CreateQuestionCard">
-        <div class="ImageContainer" style="width: 100%;">
+        <div class="ImageContainer">
             <div class="card-image-large" style="background: url(/Images/no-question-533.png) center;"></div>
         </div>
         <div class="card-title">

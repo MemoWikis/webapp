@@ -604,7 +604,7 @@ img {
         margin-top: 12.64px;
         width: 100%;
         display: flex;
-        flex-direction: column;
+      //  flex-direction: column;
     }
 
     .single-autor-container {
@@ -620,14 +620,12 @@ img {
 }
 
 #CategorySuggestionCard {
-    margin-top: 19px;
-    padding-left: 0.5px;
-
     .category-suggestion-footer {
         padding: 0px 19px 0px 19px;
         margin-bottom: 23px;
         position: relative;
         z-index: 2;
+        width: 100%;
 
         .set-question-count {
             color: #979797;
@@ -637,12 +635,22 @@ img {
     }
 }
 
-#CreateQuestionCard {
-    margin-top: 19px;
-}
-
 #CategorySuggestionCard, #CreateQuestionCard {
-    position: relative;
+    border: #979797 solid 0.5px;
+    margin-top: 19px;
+    padding-left: 0.5px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    .ImageContainer {
+        margin-top: 1.25em;
+    }
+
+    .card-link {
+        text-align: center;
+    }
+    /*position: relative;
     overflow: auto;
     z-index: 2;
     //Add border to pseudo element to prevent border issues due to rounding error:
@@ -660,7 +668,7 @@ img {
     .card-link {
         position: relative;
         z-index: 2;
-    }
+    }*/
 }
     /* MASTER SECTION
 ----------------------------------------------------------*/

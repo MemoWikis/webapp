@@ -696,7 +696,6 @@ ul.AutocompleteHeader {
   margin-top: 12.64px;
   width: 100%;
   display: flex;
-  flex-direction: column;
 }
 #MultipleAutorCard .single-autor-container {
   display: flex;
@@ -707,45 +706,53 @@ ul.AutocompleteHeader {
 .rotate {
   transform: rotate(90deg);
 }
-#CategorySuggestionCard {
-  margin-top: 19px;
-  padding-left: 0.5px;
-}
 #CategorySuggestionCard .category-suggestion-footer {
   padding: 0px 19px 0px 19px;
   margin-bottom: 23px;
   position: relative;
   z-index: 2;
+  width: 100%;
 }
 #CategorySuggestionCard .category-suggestion-footer .set-question-count {
   color: #979797;
   font-size: 14px;
   margin-bottom: 5px;
 }
-#CreateQuestionCard {
-  margin-top: 19px;
-}
 #CategorySuggestionCard,
 #CreateQuestionCard {
-  position: relative;
-  overflow: auto;
-  z-index: 2;
-}
-#CategorySuggestionCard::after,
-#CreateQuestionCard::after {
-  content: '';
-  position: absolute;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
   border: #979797 solid 0.5px;
-  z-index: 1;
+  margin-top: 19px;
+  padding-left: 0.5px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  /*position: relative;
+    overflow: auto;
+    z-index: 2;
+    //Add border to pseudo element to prevent border issues due to rounding error:
+    &::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        border: #979797 solid 0.5px;
+        z-index: 1;
+    }
+
+    .card-link {
+        position: relative;
+        z-index: 2;
+    }*/
+}
+#CategorySuggestionCard .ImageContainer,
+#CreateQuestionCard .ImageContainer {
+  margin-top: 1.25em;
 }
 #CategorySuggestionCard .card-link,
 #CreateQuestionCard .card-link {
-  position: relative;
-  z-index: 2;
+  text-align: center;
 }
 /* MASTER SECTION
 ----------------------------------------------------------*/
