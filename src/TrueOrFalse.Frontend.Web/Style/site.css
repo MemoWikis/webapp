@@ -595,7 +595,7 @@ ul.AutocompleteHeader {
   text-anchor: middle;
 }
 #SidebarCards {
-  width: 100%;
+  width: 272px;
   font-size: 18px;
 }
 #SidebarCards a {
@@ -606,48 +606,34 @@ ul.AutocompleteHeader {
 }
 #SidebarCards .card-title {
   font-size: 12px;
-  text-transform: uppercase;
   color: #707070;
-  margin-top: 21.67px;
+  margin-top: 1.25em;
 }
 #SidebarCards .card-link {
-  margin-top: 4.8px;
+  align-items: center;
   color: #0560AB;
   display: flex;
 }
 #AutorCard {
   border: #979797 solid 0.5px;
-  height: 260px;
-  width: 230px;
-}
-#AutorCard .mid-container {
-  text-align: center;
-  align-content: center;
-  padding-top: 1em;
-}
-#AutorCard .mid-container .author-titel {
+  min-height: 10.75em;
   display: flex;
-  align-items: center;
-  justify-content: center;
+  flex-wrap: wrap;
 }
-#AutorCard .card-image-large {
-  width: 100%;
-  background-size: 100%;
-  height: 7.43em;
-  background-color: white !important;
-  background-repeat: no-repeat !important;
+#AutorCard .column-right .card-link .fa-user-plus {
+  font-size: 0.81em;
+  padding-left: 0.67em;
 }
 #AutorCard .autor-card-footer-bar {
-  margin-top: 1.2em;
-  margin-bottom: 9px;
+  margin-bottom: 1.3125em;
   display: flex;
   justify-content: space-around;
   color: #707070;
+  width: 100%;
+  align-items: flex-end;
 }
 #AutorCard .footer-bar-text {
   font-size: 10px;
-  border: #979797 solid 0.5px;
-  border-radius: 25px;
   padding: 1px 3px 1px 3px;
 }
 #AutorCard .top-container {
@@ -657,33 +643,33 @@ ul.AutocompleteHeader {
   font-size: 12px;
   color: #707070;
 }
-/*.card-image-large {
-    background-size: cover !important;
-    width: 75px;
-    height: 75px;
-    border-radius: 50%;
-    overflow: hidden;
-    background-color: white !important;
-    background-repeat: no-repeat !important;
-}*/
+#AutorCard .ImageContainer {
+  margin: 1.25em 1.25em 0 1.25em;
+}
+.card-image-large {
+  background-size: cover !important;
+  width: 75px;
+  height: 75px;
+  border-radius: 50%;
+  overflow: hidden;
+  background-color: white !important;
+  background-repeat: no-repeat !important;
+}
 #MultipleAutorCard {
   border: #979797 solid 0.5px;
+  padding: 0 0.67em 0 0.6em;
 }
-#MultipleAutorCard .multiple-autor-card-image {
-  width: 50px;
-  height: 50px;
-  border-radius: 50px;
-  margin-right: 28.14px;
-  overflow: hidden;
-  display: flex;
-  justify-content: center;
-  flex-direction: column;
+#MultipleAutorCard .card-title {
+  margin-left: 1.25em;
+}
+#MultipleAutorCard #AllAutorsList {
+  padding-left: 0.65em;
 }
 #MultipleAutorCard #AllAutorsContainer {
   font-size: 14px;
   height: 54.5px;
-  justify-content: center;
   display: flex;
+  padding-left: 0.85em;
 }
 #MultipleAutorCard #AllAutorsContainer #ExtendAngle {
   margin-left: 45px;
@@ -692,62 +678,83 @@ ul.AutocompleteHeader {
   display: inline-block;
 }
 #MultipleAutorCard .autor-container {
-  border-top: solid 0.25px #979797;
-  border-bottom: solid 0.25px #979797;
+  border-bottom: solid 0.25px #ddd;
   padding-top: 12.64px;
   margin-top: 12.64px;
+  padding-left: 0.85em;
   width: 100%;
   display: flex;
+  flex-shrink: 1;
   flex-direction: column;
+}
+#MultipleAutorCard .autor-container .card-link {
+  padding-left: 0.67em;
 }
 #MultipleAutorCard .single-autor-container {
   display: flex;
   height: 59px;
-  padding-left: 16px;
   align-items: center;
+  margin: 0 1.25em 1.25em 0;
+}
+#MultipleAutorCard .single-autor-container .multiple-autor-card-image {
+  width: 60px;
+  height: 60px;
+  border-radius: 50px;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
 }
 .rotate {
   transform: rotate(90deg);
-}
-#CategorySuggestionCard {
-  margin-top: 19px;
-  padding-left: 0.5px;
 }
 #CategorySuggestionCard .category-suggestion-footer {
   padding: 0px 19px 0px 19px;
   margin-bottom: 23px;
   position: relative;
   z-index: 2;
+  width: 100%;
 }
 #CategorySuggestionCard .category-suggestion-footer .set-question-count {
   color: #979797;
   font-size: 14px;
   margin-bottom: 5px;
 }
-#CreateQuestionCard {
-  margin-top: 19px;
-}
 #CategorySuggestionCard,
 #CreateQuestionCard {
-  position: relative;
-  overflow: auto;
-  z-index: 2;
-}
-#CategorySuggestionCard::after,
-#CreateQuestionCard::after {
-  content: '';
-  position: absolute;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
   border: #979797 solid 0.5px;
-  z-index: 1;
+  margin-top: 19px;
+  padding-left: 0.5px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0 1.25em 0 1.25em;
+  /*position: relative;
+    
+    z-index: 2;
+    //Add border to pseudo element to prevent border issues due to rounding error:
+    &::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        border: #979797 solid 0.5px;
+        z-index: 1;
+    }
+
+    .card-link {
+        position: relative;
+        z-index: 2;
+    }*/
+}
+#CategorySuggestionCard .ImageContainer,
+#CreateQuestionCard .ImageContainer {
+  margin-top: 1.25em;
 }
 #CategorySuggestionCard .card-link,
 #CreateQuestionCard .card-link {
-  position: relative;
-  z-index: 2;
+  text-align: center;
 }
 /* MASTER SECTION
 ----------------------------------------------------------*/
@@ -1016,7 +1023,7 @@ ul.AutocompleteHeader {
 }
 @media (min-width: 1200px) {
   #MasterSidebarColumn {
-    width: 230px;
+    width: 272px;
     float: right;
   }
 }
