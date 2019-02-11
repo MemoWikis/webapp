@@ -71,7 +71,7 @@
                 <div class="multiple-autor-card-image">
                     <img class="ItemImage JS-InitImage" alt="" src="<%= author.ImageUrl %>" data-append-image-link-to="ImageContainer" />
                 </div>
-                <a style="font-size: 14px;" href="<%= Links.UserDetail(author.User)%>" class="card-link"><%= author.Name %></a>
+                <a href="<%= Links.UserDetail(author.User)%>" class="card-link"><%= author.Name %></a>
             </div>
             <%  } %>
         </div>

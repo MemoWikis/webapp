@@ -607,7 +607,7 @@ ul.AutocompleteHeader {
 #SidebarCards .card-title {
   font-size: 12px;
   color: #707070;
-  margin-top: 21.67px;
+  margin-top: 1.25em;
 }
 #SidebarCards .card-link {
   align-items: center;
@@ -619,17 +619,10 @@ ul.AutocompleteHeader {
   min-height: 10.75em;
   display: flex;
   flex-wrap: wrap;
-  /*.mid-container {
-        text-align: center;
-        align-content: center;
-        padding-top: 1em;
-
-        .author-titel {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-    }*/
+}
+#AutorCard .column-right .card-link .fa-user-plus {
+  font-size: 0.81em;
+  padding-left: 0.67em;
 }
 #AutorCard .autor-card-footer-bar {
   margin-bottom: 1.3125em;
@@ -641,8 +634,6 @@ ul.AutocompleteHeader {
 }
 #AutorCard .footer-bar-text {
   font-size: 10px;
-  border: #979797 solid 0.5px;
-  border-radius: 25px;
   padding: 1px 3px 1px 3px;
 }
 #AutorCard .top-container {
@@ -666,22 +657,19 @@ ul.AutocompleteHeader {
 }
 #MultipleAutorCard {
   border: #979797 solid 0.5px;
+  padding: 0 0.67em 0 0.6em;
 }
-#MultipleAutorCard .multiple-autor-card-image {
-  width: 50px;
-  height: 50px;
-  border-radius: 50px;
-  margin-right: 28.14px;
-  overflow: hidden;
-  display: flex;
-  justify-content: center;
-  flex-direction: column;
+#MultipleAutorCard .card-title {
+  margin-left: 1.25em;
+}
+#MultipleAutorCard #AllAutorsList {
+  padding-left: 0.65em;
 }
 #MultipleAutorCard #AllAutorsContainer {
   font-size: 14px;
   height: 54.5px;
-  justify-content: center;
   display: flex;
+  padding-left: 0.85em;
 }
 #MultipleAutorCard #AllAutorsContainer #ExtendAngle {
   margin-left: 45px;
@@ -690,18 +678,31 @@ ul.AutocompleteHeader {
   display: inline-block;
 }
 #MultipleAutorCard .autor-container {
-  border-top: solid 0.25px #979797;
-  border-bottom: solid 0.25px #979797;
+  border-bottom: solid 0.25px #ddd;
   padding-top: 12.64px;
   margin-top: 12.64px;
+  padding-left: 0.85em;
   width: 100%;
   display: flex;
+  flex-shrink: 1;
+  flex-direction: column;
+}
+#MultipleAutorCard .autor-container .card-link {
+  padding-left: 0.67em;
 }
 #MultipleAutorCard .single-autor-container {
   display: flex;
   height: 59px;
-  padding-left: 16px;
   align-items: center;
+  margin: 0 1.25em 1.25em 0;
+}
+#MultipleAutorCard .single-autor-container .multiple-autor-card-image {
+  width: 60px;
+  height: 60px;
+  border-radius: 50px;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
 }
 .rotate {
   transform: rotate(90deg);
@@ -726,8 +727,9 @@ ul.AutocompleteHeader {
   display: flex;
   flex-direction: column;
   align-items: center;
+  padding: 0 1.25em 0 1.25em;
   /*position: relative;
-    overflow: auto;
+    
     z-index: 2;
     //Add border to pseudo element to prevent border issues due to rounding error:
     &::after {
@@ -1021,7 +1023,7 @@ ul.AutocompleteHeader {
 }
 @media (min-width: 1200px) {
   #MasterSidebarColumn {
-    width: 230px;
+    width: 272px;
     float: right;
   }
 }
