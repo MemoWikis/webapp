@@ -22,9 +22,7 @@ public class TemplateParser
                     .Replace("]]", "")
                     .Replace("&quot;", @"""");
 
-                var templateJson = GetTemplateJson(
-                    json,
-                    category.Id);
+                var templateJson = GetTemplateJson(json);
 
                 var templateMarkdown = match.Value
                         .Replace("<p>", "")
@@ -54,11 +52,9 @@ public class TemplateParser
         });
     }
 
-    private static TemplateJson GetTemplateJson(string template, int categoryId)
+    private static TemplateJson GetTemplateJson(string template)
     {
-        var templateJson = JsonConvert.DeserializeObject<TemplateJson>(template);
-        templateJson.ContainingCategoryId = categoryId;
-        return templateJson;
+        return JsonConvert.DeserializeObject<TemplateJson>(template);
     }
 
     private static string GetHtml(TemplateJson templateJson, Category category, ControllerContext controllerContext, string templateMarkdown)
@@ -74,7 +70,6 @@ public class TemplateParser
             case "categorynetwork":
             case "contentlists":
             case "educationofferlist":
-//            case "singleset":
             case "setlistcard":
             case "setcardminilist":
             case "singlecategory":
@@ -136,8 +131,6 @@ public class TemplateParser
             case "categorynetwork":
             case "contentlists":
                 return new CategoryModel(category, loadKnowledgeSummary : false);
-//            case "singleset":
-//                return new SingleSetModel(JsonConvert.DeserializeObject<SingleSetJson>(templateJson.OriginalJson));
             case "setlistcard":
                 return new SetListCardModel(category.Id, JsonConvert.DeserializeObject<SetListCardJson>(templateJson.OriginalJson));
             case "setcardminilist":
@@ -161,10 +154,6 @@ public class TemplateParser
     {
         switch (templateJson.TemplateName.ToLower())
         {
-//            case "divstart":
-//                return "<div class='" + templateJson.CssClasses + "'>";
-//            case "divend":
-//                return "</div>";
             case "wishknowledgeinthebox":
                 return "<div class = 'wishKnowledgeTemplate'></div>";
             default:
