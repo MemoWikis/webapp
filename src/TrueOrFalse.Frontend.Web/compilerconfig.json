@@ -322,5 +322,9 @@
   {
     "outputFile": "Style/TopHeader.css",
     "inputFile": "Style/TopHeader.less"
+  },
+  {
+    "outputFile": "Views/Questions/Answer/AnswerQuestionDetails.css",
+    "inputFile": "Views/Questions/Answer/AnswerQuestionDetails.less"
   }
 ]

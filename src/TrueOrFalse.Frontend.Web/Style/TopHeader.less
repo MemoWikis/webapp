@@ -31,9 +31,6 @@
         margin-top: 3px;
         margin-bottom: 3px;
 
-        #HeaderSearchBoxDiv {
-        }
-
         .col-LoginAndHelp {
             width: auto;
             float: right;
@@ -72,7 +69,7 @@
                     text-align: center;
                     margin-right: 15px;
 
-                    .TextSpan, span:not(.level-display) {
+                    .TextSpan, span:not(.level-display):not(#NextLevelProgressSpanPercentageDone) {
                         display: inline-block;
                         font-size: 14px;
 
@@ -224,12 +221,31 @@
     }
 }
 
+/* BreadCrumb and Masterheader*/
 
-/*
-    Dropdown Masterheader
-*/
 
 #loginAndHelp, #StickyHeaderContainer {
+
+    .SearchBoxDivMaxWidth {
+        @media(max-width:520px) {
+            width: 220px !important;
+            margin-left: 10px;
+        }
+
+        @media(max-width:492px) {
+            width: 170px !important;
+        }
+
+        @media(max-width:420px) {
+            width: 110px !important;
+        }
+
+        @media(max-width:360px) {
+            width: 96px !important;
+        }
+
+        width: 259px !important;
+    }
 
     .badge {
         height: 19px;
@@ -300,22 +316,14 @@
             margin: 0px;
         }
     }
-
-    i#tabInfoMyKnowledge {
-        margin-right: 1px;
-    }
 }
 
+
+/*Breadcrumb*/
+
+
 #Breadcrumb {
-    #BreadCrumbContainer {
-        #StickyHeaderContainer {
-            #BreadcrumbUserDropdownImage {
-                #BreadcrumbUserDropdown {
-                    .messages {
-                        padding-right: 5px;
-                    }
-                }
-            }
-        }
+    .messages {
+        padding-right: 5px;
     }
 }

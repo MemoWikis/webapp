@@ -20237,6 +20237,9 @@
     <Content Include="Views\Maintenance\Js\ContentStats.js">
       <DependentUpon>ContentStats.ts</DependentUpon>
     </Content>
+    <Content Include="Views\Questions\Answer\AnswerQuestionDetails.css">
+      <DependentUpon>AnswerQuestionDetails.less</DependentUpon>
+    </Content>
     <Content Include="Views\Questions\Answer\Js\AnswerBody.js">
       <DependentUpon>AnswerBody.ts</DependentUpon>
     </Content>
@@ -20418,8 +20421,11 @@
     <Compile Include="Views\Sets\Detail\Video\SetVideoController.cs" />
     <Compile Include="Views\Sets\Detail\Video\SetVideoModel.cs" />
     <Compile Include="Views\Sets\Edit\QuestionInSetModel.cs" />
+    <Compile Include="Views\Shared\Cards\CardQuestionAuthorModel.cs" />
     <Compile Include="Views\Shared\Cards\CardSingleCategoryModel.cs" />
     <Compile Include="Views\Shared\AddToWishknowledge.cs" />
+    <Content Include="Views\Shared\Cards\CardTutory.ascx" />
+    <Content Include="Views\Shared\Cards\CardQuestionAuthor.ascx" />
     <Content Include="Views\Shared\Modals\ForTheTimeToDeleteModal.ascx" />
     <Compile Include="Views\Shared\SharedController.cs" />
     <Compile Include="Views\Shared\SponsorModel.cs" />
@@ -22628,6 +22634,7 @@
     <Content Include="Views\Welcome\Team.less" />
     <Content Include="Views\Shared\Spinner\Spinner.less" />
     <Content Include="Views\Questions\History\QuestionHistory.less" />
+    <Content Include="Views\Questions\Answer\AnswerQuestionDetails.less" />
     <Content Include="Views\Questions\History\Detail\Js\Page.js.map">
       <DependentUpon>Page.ts</DependentUpon>
     </Content>

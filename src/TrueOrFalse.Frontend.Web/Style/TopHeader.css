@@ -66,13 +66,13 @@
   margin-right: 15px;
 }
 #MasterHeader .HeaderMainRow .col-LoginAndHelp #loginAndHelp .header-item .TextSpan,
-#MasterHeader .HeaderMainRow .col-LoginAndHelp #loginAndHelp .header-item span:not(.level-display) {
+#MasterHeader .HeaderMainRow .col-LoginAndHelp #loginAndHelp .header-item span:not(.level-display):not(#NextLevelProgressSpanPercentageDone) {
   display: inline-block;
   font-size: 14px;
 }
 @media (max-width: 991.5px) {
   #MasterHeader .HeaderMainRow .col-LoginAndHelp #loginAndHelp .header-item .TextSpan,
-  #MasterHeader .HeaderMainRow .col-LoginAndHelp #loginAndHelp .header-item span:not(.level-display) {
+  #MasterHeader .HeaderMainRow .col-LoginAndHelp #loginAndHelp .header-item span:not(.level-display):not(#NextLevelProgressSpanPercentageDone) {
     display: none;
   }
 }
@@ -200,9 +200,36 @@
     padding-right: 0;
   }
 }
-/*
-    Dropdown Masterheader
-*/
+/* BreadCrumb and Masterheader*/
+#loginAndHelp .SearchBoxDivMaxWidth,
+#StickyHeaderContainer .SearchBoxDivMaxWidth {
+  width: 259px !important;
+}
+@media (max-width: 520px) {
+  #loginAndHelp .SearchBoxDivMaxWidth,
+  #StickyHeaderContainer .SearchBoxDivMaxWidth {
+    width: 220px !important;
+    margin-left: 10px;
+  }
+}
+@media (max-width: 492px) {
+  #loginAndHelp .SearchBoxDivMaxWidth,
+  #StickyHeaderContainer .SearchBoxDivMaxWidth {
+    width: 170px !important;
+  }
+}
+@media (max-width: 420px) {
+  #loginAndHelp .SearchBoxDivMaxWidth,
+  #StickyHeaderContainer .SearchBoxDivMaxWidth {
+    width: 110px !important;
+  }
+}
+@media (max-width: 360px) {
+  #loginAndHelp .SearchBoxDivMaxWidth,
+  #StickyHeaderContainer .SearchBoxDivMaxWidth {
+    width: 96px !important;
+  }
+}
 #loginAndHelp .badge,
 #StickyHeaderContainer .badge {
   height: 19px;
@@ -281,10 +308,7 @@
 #StickyHeaderContainer .dropdown-menu i {
   margin: 0px;
 }
-#loginAndHelp i#tabInfoMyKnowledge,
-#StickyHeaderContainer i#tabInfoMyKnowledge {
-  margin-right: 1px;
-}
-#Breadcrumb #BreadCrumbContainer #StickyHeaderContainer #BreadcrumbUserDropdownImage #BreadcrumbUserDropdown .messages {
+/*Breadcrumb*/
+#Breadcrumb .messages {
   padding-right: 5px;
 }

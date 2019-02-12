@@ -177,7 +177,7 @@ namespace TrueOrFalse
             }};
         }
 
-        [AccessOnlyAsLoggedIn]
+        [RedirectToErrorPage_IfNotLoggedIn]
         public ActionResult Restore(int questionId, int questionChangeId)
         {
             RestoreQuestion.Run(questionChangeId, this.User_());

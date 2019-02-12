@@ -62,7 +62,7 @@ public class CategoryController : BaseController
         Response.Redirect(Links.CategoryDetail(Resolve<CategoryRepository>().GetById(id)));
     }
 
-    [AccessOnlyAsLoggedIn]
+    [RedirectToErrorPage_IfNotLoggedIn]
     public ActionResult Restore(int categoryId, int categoryChangeId)
     {
         RestoreCategory.Run(categoryChangeId, this.User_());
