@@ -1,5 +1,5 @@
 ﻿new Vue({
-    el: '#ContentModule',
+    el: '#ContentModuleApp',
     data() {
         return {
             options: {

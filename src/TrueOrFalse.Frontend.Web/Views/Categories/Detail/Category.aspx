@@ -46,7 +46,7 @@
     <% Html.RenderPartial("~/Views/Categories/Detail/Partials/CategoryHeader.ascx", Model);%>
     
     <div id="TopicTabContent" class="TabContent">
-        <div id="ContentModule">
+        <div id="ContentModuleApp">
             <div v-if="showTopAlert"><% Html.RenderPartial("~/Views/Categories/Detail/Partials/Alert.ascx"); %></div>
             <% Html.RenderPartial("~/Views/Categories/Detail/Tabs/TopicTab.ascx", Model); %>
             <div v-if="!showTopAlert"><% Html.RenderPartial("~/Views/Categories/Detail/Partials/Alert.ascx"); %></div>
