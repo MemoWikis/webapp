@@ -15,12 +15,26 @@ public class QuestionRepo : RepositoryDbBase<Question>
         _searchIndexQuestion = searchIndexQuestion;
     }
 
+    /// <summary>
+    /// Basic update method, to be used to update only the internally used statistics.
+    /// No cross referencing or validation with other tables is happening here.
+    /// </summary>
     public void UpdateFieldsOnly(Question question)
     {
         base.Update(question);
     }
 
     public new void Update(Question question)
+    {
+        UpdateOrMerge(question, merge: false);
+    }
+
+    public new void Merge(Question question)
+    {
+        UpdateOrMerge(question, merge: true);
+    }
+
+    private void UpdateOrMerge(Question question, bool merge)
     {
         var categoriesIds = _session
             .CreateSQLQuery("SELECT Category_id FROM categories_to_questions WHERE Question_id =" + question.Id)
@@ -35,7 +49,12 @@ public class QuestionRepo : RepositoryDbBase<Question>
         var categoriesBeforeUpdateIds = categoriesIds.Union(categoriesReferences);
 
         _searchIndexQuestion.Update(question);
-        base.Update(question);
+
+        if (merge)
+            base.Merge(question);
+        else
+            base.Update(question);
+
         Flush();
 
         var categoriesToUpdateIds = categoriesBeforeUpdateIds
@@ -81,6 +100,8 @@ public class QuestionRepo : RepositoryDbBase<Question>
         }
         _searchIndexQuestion.Update(question);
         EntityCache.AddOrUpdate(question);
+
+        Sl.QuestionChangeRepo.AddCreateEntry(question);
     }
 
     public override void Delete(Question question)

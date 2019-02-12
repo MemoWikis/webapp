@@ -106,7 +106,9 @@ public class CategoryModel : BaseModel
             SidebarModel.Authors.Add(new SidebarAuthorModel
             {
                 ImageUrl = new UserImageSettings(author.Id).GetUrl_250px(author).Url,
-                User = author
+                User = author,
+                Reputation = author.Reputation,
+                ReputationPos = author.ReputationPos
             });
         }
 

@@ -254,6 +254,13 @@
     <Compile Include="Domain\QuestionSet\Ops\GetAllOvercategorizedSets.cs" />
     <Compile Include="Domain\QuestionSet\Ops\GetAllSetsWithDifferentlyCategorizedQuestions.cs" />
     <Compile Include="Domain\QuestionSet\Ops\SortSetsIntoListOfCategories.cs" />
+    <Compile Include="Domain\Question\History\QuestionChange.cs" />
+    <Compile Include="Domain\Question\History\EditData\QuestionEditData.cs" />
+    <Compile Include="Domain\Question\History\EditData\QuestionEditData_V1.cs" />
+    <Compile Include="Domain\Question\History\Ops\InitializeQuestionChanges.cs" />
+    <Compile Include="Domain\Question\History\Ops\RestoreQuestion.cs" />
+    <Compile Include="Domain\Question\History\Persistence\QuestionChangeMap.cs" />
+    <Compile Include="Domain\Question\History\Persistence\QuestionChangeRepo.cs" />
     <Compile Include="Domain\SaveType.cs" />
     <Compile Include="Tools\Analytics\Widget\WidgetDetailViewsPerMonthAndTypeResult.cs" />
     <Compile Include="Tools\Analytics\Widget\WidgetViewsPerMonthAndKeyResult.cs" />
@@ -1066,10 +1073,13 @@
     <Compile Include="Tools\Update\Steps\UpdateToVs164.cs" />
     <Compile Include="Tools\Update\Steps\UpdateToVs194.cs" />
     <Compile Include="Tools\Update\Steps\UpdateToVs195.cs" />
+    <Compile Include="Tools\Update\Steps\UpdateToVs199.cs" />
+    <Compile Include="Tools\Update\Steps\UpdateToVs198.cs" />
     <Compile Include="Tools\Update\Steps\UpdateToVs197.cs" />
     <Compile Include="Tools\Update\Steps\UpdateToVs196.cs" />
     <Compile Include="Tools\Update\UpdateStepExecuter.cs" />
     <Compile Include="Tools\Update\Update.cs" />
+    <Compile Include="Web\Attributes\Filters\AccessOnlyAsQuestionOwnerAttribute.cs" />
     <Compile Include="Web\Attributes\Filters\AccessOnlyLocalAttribute.cs" />
     <Compile Include="Web\Attributes\Filters\SetUserMenuAttribute.cs" />
     <Compile Include="Web\Attributes\Filters\SetThemeMenu.cs" />

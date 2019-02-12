@@ -25,6 +25,9 @@
                 <h3 class="">
                     Fragen
                 </h3>
+                <a class="btn btn-sm btn-default" href="<%= Links.QuestionChangesOverview(1) %>">
+                    <i class="fa fa-list"></i> Bearbeitungshistorie
+                </a>
                 <a href="<%= Links.CreateQuestion() %>" class="btnCreateItem btn btn-success btn-sm">
                     <i class="fa fa-plus-circle"></i>
                     Frage erstellen
@@ -86,10 +89,15 @@
      <div class="boxtainer-outlined-tabs">
          
         <div class="boxtainer-header MobileHide">
-                <a href="<%= Links.CreateQuestion() %>" class="btnCreateItem btn btn-success btn-sm">
+            <div class="" style="float: right; position: absolute; right: 0; top: 5px;">
+                <a class="btn btn-sm btn-default" href="<%= Links.QuestionChangesOverview(1) %>">
+                    <i class="fa fa-list"></i> &nbsp; Bearbeitungshistorie aller Fragen
+                </a>
+                <a href="<%= Links.CreateQuestion() %>" class="btn btn-success btn-sm">
                     <i class="fa fa-plus-circle"></i>
                     Frage erstellen
                 </a>
+            </div>
             <ul class="nav nav-tabs JS-Tabs">
                 <li class="<%= Model.ActiveTabAll ? "active" : ""  %> JS-<%= SearchTabType.All.ToString() %>">
                     <a href="<%= Links.QuestionsAll() %>">

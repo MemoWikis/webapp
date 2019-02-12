@@ -32,7 +32,7 @@
         <template slot="imageAndTitle" scope="props">
             <input type="hidden" class="hddCountDates" v-bind:value="props.rowData.ListCount"/>
             <div class="imageParent">
-                <image class="image" v-bind:src="GetImageSourceUrl(props.rowData.ImageFrontendData)"></image>
+                <image class="image" v-bind:src="props.rowData.ImageFrontendData.Url"></image>
             </div>
             <div class="set-category-title">
                 <a v-bind:href="props.rowData.LinkToSetOrCategory">{{props.rowData.Title}}</a>

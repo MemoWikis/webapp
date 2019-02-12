@@ -49,6 +49,9 @@ public class CategoryRepository : RepositoryDbBase<Category>
         Sl.CategoryChangeRepo.AddCreateEntry(category, Sl.SessionUser.User);
     }
 
+    /// <summary>
+    /// Update method for internal purpose, takes care that no change sets are created.
+    /// </summary>
     public override void Update(Category category) => Update(category, null);
 
     // ReSharper disable once MethodOverloadWithOptionalParameter

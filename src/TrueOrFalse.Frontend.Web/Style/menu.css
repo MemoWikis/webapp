@@ -300,7 +300,7 @@
   float: right;
   display: none;
   text-align: left;
-  top: 60px !important;
+  top: 60px;
   right: 4px;
   left: unset;
 }
@@ -314,7 +314,6 @@
     max-width: none;
     padding-right: 0px;
     right: 0px !important;
-    position: fixed !important;
   }
 }
 .RightMainMenu a {

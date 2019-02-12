@@ -10,7 +10,7 @@ public class CategoryHistoryModel : BaseModel
     public int CategoryId { get; set; }
     public string CategoryName;
     public string CategoryUrl;
-    public IList<ChangeDayModel> Days;
+    public IList<CategoryChangeDayModel> Days;
 
     public CategoryHistoryModel(Category category, IList<CategoryChange> categoryChanges)
     {
@@ -21,7 +21,7 @@ public class CategoryHistoryModel : BaseModel
         Days = categoryChanges
             .GroupBy(change => change.DateCreated.Date)
             .OrderByDescending(group => group.Key)
-            .Select(group => new ChangeDayModel(
+            .Select(group => new CategoryChangeDayModel(
                 group.Key, 
                 (IList<CategoryChange>) group.OrderByDescending(g => g.DateCreated).ToList()
             ))
@@ -29,15 +29,15 @@ public class CategoryHistoryModel : BaseModel
     }
 }
 
-public class ChangeDayModel
+public class CategoryChangeDayModel
 {
     public string Date;
-    public IList<ChangeDetailModel> Items;
+    public IList<CategoryChangeDetailModel> Items;
 
-    public ChangeDayModel(DateTime date, IList<CategoryChange> changes)
+    public CategoryChangeDayModel(DateTime date, IList<CategoryChange> changes)
     {
         Date = date.ToString("dd.MM.yyyy");
-        Items = changes.Select(cc => new ChangeDetailModel
+        Items = changes.Select(cc => new CategoryChangeDetailModel
         {
             Author = cc.Author,
             AuthorName = cc.Author.Name,
@@ -52,7 +52,7 @@ public class ChangeDayModel
     }
 }
 
-public class ChangeDetailModel
+public class CategoryChangeDetailModel
 {
     public User Author;
     public string AuthorName;

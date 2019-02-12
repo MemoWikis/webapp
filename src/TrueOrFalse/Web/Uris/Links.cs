@@ -140,6 +140,17 @@ namespace TrueOrFalse.Frontend.Web.Code
         public static string SetsSearch(string searchTerm) => "/Fragesaetze/Suche/" + searchTerm;
         public static string UsersSearch(string searchTerm) => "/Nutzer/Suche/" + searchTerm;
 
+        public static string QuestionHistory(int questionId) =>
+            GetUrlHelper().Action("List", "QuestionHistory", new { questionId = questionId });
+
+        public static string QuestionHistoryDetail(int questionId, int revisionId) =>
+            GetUrlHelper().Action("Detail", "QuestionHistoryDetail", new { questionId = questionId, revisionId = revisionId});
+
+        public static string QuestionRestore(int questionId, int questionChangeId) =>
+            GetUrlHelper().Action("Restore", QuestionsController, new { questionId = questionId, questionChangeId = questionChangeId });
+
+        public static string QuestionChangesOverview(int pageToShow) =>
+            GetUrlHelper().Action("List", "QuestionChangesOverview", new { pageToShow = pageToShow });
 
         public static string AnswerQuestion(Question question, Set set) => AnswerQuestion(GetUrlHelper(), question, set);
 
@@ -443,8 +454,8 @@ namespace TrueOrFalse.Frontend.Web.Code
         public static string CategoryRestore(int categoryId, int categoryChangeId) => 
             GetUrlHelper().Action("Restore", CategoryController, new { categoryId = categoryId, categoryChangeId = categoryChangeId});
 
-        public static string HistoryOfEverything(int pageToShow) =>
-            GetUrlHelper().Action("List", "HistoryOfEverything", new { pageToShow = pageToShow });
+        public static string CategoryChangesOverview(int pageToShow) =>
+            GetUrlHelper().Action("List", "CategoryChangesOverview", new { pageToShow = pageToShow });
 
         public static string GetUrl(object type)
         {

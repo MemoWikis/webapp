@@ -9,25 +9,29 @@ public class CategoryHistoryDetailModel : BaseModel
     public int CategoryId;
     public string CategoryName;
     public string CategoryUrl;
-    public User CurrentAuthor;
+
+    public bool PrevRevExists;
+    public bool NextRevExists;
+
+    public User Author;
     public string AuthorName;
     public string AuthorImageUrl;
     public bool ImageWasUpdated;
     public ImageFrontendData ImageFrontendData;
-    public bool PrevRevExists;
-    public bool NextRevExists;
+
     public int CurrentId;
     public string CurrentName;
-    public string PrevName;
     public DateTime CurrentDateCreated;
-    public DateTime PrevDateCreated;
     public string CurrentMarkdown;
-    public string PrevMarkdown;
     public string CurrentDescription;
-    public string PrevDescription;
     public string CurrentWikipediaUrl;
-    public string PrevWikipediaUrl;
     public string CurrentRelations;
+
+    public string PrevName;
+    public DateTime PrevDateCreated;
+    public string PrevMarkdown;
+    public string PrevDescription;
+    public string PrevWikipediaUrl;
     public string PrevRelations;
     
     public CategoryHistoryDetailModel(CategoryChange currentRevision, CategoryChange previousRevision, CategoryChange nextRevision)
@@ -35,6 +39,11 @@ public class CategoryHistoryDetailModel : BaseModel
         PrevRevExists = previousRevision != null;
         NextRevExists = nextRevision != null;
 
+        CategoryId = currentRevision.Category.Id;
+        CategoryName = currentRevision.Category.Name;
+        Author = currentRevision.Author;
+        AuthorName = currentRevision.Author.Name;
+        AuthorImageUrl = new UserImageSettings(currentRevision.Author.Id).GetUrl_85px_square(currentRevision.Author).Url;
         CategoryUrl = Links.CategoryDetail(CategoryName, CategoryId);
 
         var currentRevisionData = currentRevision.GetCategoryChangeData();
@@ -69,12 +78,6 @@ public class CategoryHistoryDetailModel : BaseModel
                 PrevRelations = SortedListOfRelations(prevRelationsList);
             }
         }
-
-        CategoryId = currentRevision.Category.Id;
-        CategoryName = currentRevision.Category.Name;
-        CurrentAuthor = currentRevision.Author;
-        AuthorName = currentRevision.Author.Name;
-        AuthorImageUrl = new UserImageSettings(currentRevision.Author.Id).GetUrl_85px_square(currentRevision.Author).Url;
     }
 
     private string Relation2String(CategoryRelation_EditData relation)
