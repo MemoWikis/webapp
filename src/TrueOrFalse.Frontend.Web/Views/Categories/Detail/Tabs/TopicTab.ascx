@@ -93,93 +93,70 @@
             <%= Model.ImageFrontendData.RenderHtmlImageBasis(350, false, ImageType.Category, "ImageContainer") %>
         </div>
         <% } %>   
-    
-    
-    <inline-editor-component inline-template>
-        <%-- <div class="container" @mouseenter="updateHoverState(true)" @mouseleave="updateHoverState(false)" :style="styleObject"> --%>
-
-            
-
-            <div class="TextColumn">
-                <% if (Model.Type != "Standard") { %>
-                    <div>                    
-                        <% Html.RenderPartial("Reference", Model.Category); %>
-                    </div>
-                <% } %>
-                
-                
-
-                <div class="Description"><span><%= Model.Description %></span></div>
-                        
-                <% if (!String.IsNullOrEmpty(Model.Url)){ %>
-                    <div class="WikiLink">
-                        <a href="<%= Model.Url %>" target="_blank" class="" title="" data-placement="left" data-html="true">
-                            <i class='fa fa-external-link'>&nbsp;&nbsp;</i><%= string.IsNullOrEmpty(Model.Category.UrlLinkText) ? Model.Url : Model.Category.UrlLinkText %>
-                        </a>
-                    </div>
-                <% } %>
-                <% if (!String.IsNullOrEmpty(Model.WikipediaURL)){ %>
-                    <div class="WikiLink">
-                        <a href="<%= Model.WikipediaURL %>" target="_blank" class="show-tooltip" title="<%= Links.IsLinkToWikipedia(Model.WikipediaURL) ? "Link&nbsp;auf&nbsp;Wikipedia" : "" %>" data-placement="left" data-html="true">
-                            <% if(Links.IsLinkToWikipedia(Model.WikipediaURL)){ %>
-                                <i class="fa fa-wikipedia-w">&nbsp;</i><% } %><%= Model.WikipediaURL %>
-                        </a>
-                    </div>
-                <% } %>
+    <div class="TextColumn">
+        <% if (Model.Type != "Standard") { %>
+            <div>                    
+                <% Html.RenderPartial("Reference", Model.Category); %>
             </div>
-        <%-- </div> --%>
-    </inline-editor-component>
+        <% } %>
+        
+        
+    
+        <div class="Description"><span><%= Model.Description %></span></div>
+                
+        <% if (!String.IsNullOrEmpty(Model.Url)){ %>
+            <div class="WikiLink">
+                <a href="<%= Model.Url %>" target="_blank" class="" title="" data-placement="left" data-html="true">
+                    <i class='fa fa-external-link'>&nbsp;&nbsp;</i><%= string.IsNullOrEmpty(Model.Category.UrlLinkText) ? Model.Url : Model.Category.UrlLinkText %>
+                </a>
+            </div>
+        <% } %>
+        <% if (!String.IsNullOrEmpty(Model.WikipediaURL)){ %>
+            <div class="WikiLink">
+                <a href="<%= Model.WikipediaURL %>" target="_blank" class="show-tooltip" title="<%= Links.IsLinkToWikipedia(Model.WikipediaURL) ? "Link&nbsp;auf&nbsp;Wikipedia" : "" %>" data-placement="left" data-html="true">
+                    <% if(Links.IsLinkToWikipedia(Model.WikipediaURL)){ %>
+                        <i class="fa fa-wikipedia-w">&nbsp;</i><% } %><%= Model.WikipediaURL %>
+                </a>
+            </div>
+        <% } %>
+    </div>
 </div>
 
-<%-- <inline-editor-component inline-template> --%>
-<%--     <div class="container"> --%>
-<%--             <div v-for="(item, index) in text" class="list-group-item"> --%>
-<%--                 <h4 v-show="editOffset != index" class="list-group-item-heading"> --%>
-<%--                     <a href="#" @click.prevent="startEditing(index)" class="btn btn-md btn-info"> --%>
-<%--                         <i class="fa fa-pencil show-tooltip"></i> --%>
-<%--                     </a> --%>
-<%--                     {{ item.article }} --%>
-<%--                 </h4> --%>
-<%--                 <input v-show="editOffset == index" type="text" :id = "'item-article-'+index" @keydown.enter="updateText" @keydown.esc="cancelEditing" class="form-control" v-model="editText.article"> --%>
-<%--                 <p :id="'item-article-'+index" class="list-group-item-text">{{ item.id }}</p> --%>
-<%--             </div> --%>
-<%--     </div> --%>
-    
-<%-- </inline-editor-component> --%>
-
-<% if (string.IsNullOrEmpty(Model.CustomPageHtml)) {
-
-       if (Model.CategoriesChildren.Any(c => c.Type.GetCategoryTypeGroup() == CategoryTypeGroup.Standard))
-           Html.RenderPartial("~/Views/Categories/Detail/Partials/TopicNavigation/TopicNavigation.ascx",new TopicNavigationModel(Model.Category, "Unterthemen"));
-                
-
-       if (Model.AggregatedSetCount > 0 && Model.AggregatedSetCount <= 5){
-           foreach (var set in Model.AggregatedSets)
-           {
-               Html.RenderPartial("~/Views/Categories/Detail/Partials/SingleSetFullWidth/SingleSetFullWidth.ascx", new SingleSetFullWidthModel(set.Id));
-           }
-       }
-       else if (Model.AggregatedSetCount == 0 && Model.AggregatedQuestionCount > 0)
-       {
-           Html.RenderPartial("~/Views/Categories/Detail/Partials/SingleQuestionsQuiz/SingleQuestionsQuiz.ascx", new SingleQuestionsQuizModel(Model.Category,5));
-       }
-
-       if (Model.CategoriesChildren.Any(c => c.Type.GetCategoryTypeGroup() == CategoryTypeGroup.Education))
-           Html.RenderPartial("~/Views/Categories/Detail/Partials/EducationOfferList/EducationOfferList.ascx", new EducationOfferListModel(Model.Category));
-
-       if (Model.CategoriesChildren.Any(c => c.Type.GetCategoryTypeGroup() == CategoryTypeGroup.Media))
-           Html.RenderPartial("~/Views/Categories/Detail/Partials/MediaList/MediaList.ascx", new MediaListModel(Model.Category));
-
-       Html.RenderPartial("~/Views/Categories/Detail/Partials/ContentLists/ContentLists.ascx", Model);
-
-       Html.RenderPartial("~/Views/Categories/Detail/Partials/RelatedContentLists.ascx", Model);
-
-       Html.RenderPartial("~/Views/Categories/Detail/Partials/CategoryNetwork/CategoryNetwork.ascx", Model);
-
-   } else { %>
-                    
-    <div class="MarkdownContent">
-        <ul class="module" v-sortable="options" style="list-style-type: none;"><%= Model.CustomPageHtml %></ul>
-    </div>
-
-<% } %>
+<div class="MarkdownContent">
+    <ul class="module" v-sortable="options" style="list-style-type: none;">
+        <% if (string.IsNullOrEmpty(Model.CustomPageHtml)) {
+        
+               if (Model.CategoriesChildren.Any(c => c.Type.GetCategoryTypeGroup() == CategoryTypeGroup.Standard))
+                   Html.RenderPartial("~/Views/Categories/Detail/Partials/TopicNavigation/TopicNavigation.ascx",new TopicNavigationModel(Model.Category, "Unterthemen"));
+                        
+        
+               if (Model.AggregatedSetCount > 0 && Model.AggregatedSetCount <= 5){
+                   foreach (var set in Model.AggregatedSets)
+                   {
+                       Html.RenderPartial("~/Views/Categories/Detail/Partials/SingleSetFullWidth/SingleSetFullWidth.ascx", new SingleSetFullWidthModel(set.Id));
+                   }
+               }
+               else if (Model.AggregatedSetCount == 0 && Model.AggregatedQuestionCount > 0)
+               {
+                   Html.RenderPartial("~/Views/Categories/Detail/Partials/SingleQuestionsQuiz/SingleQuestionsQuiz.ascx", new SingleQuestionsQuizModel(Model.Category,5));
+               }
+        
+               if (Model.CategoriesChildren.Any(c => c.Type.GetCategoryTypeGroup() == CategoryTypeGroup.Education))
+                   Html.RenderPartial("~/Views/Categories/Detail/Partials/EducationOfferList/EducationOfferList.ascx", new EducationOfferListModel(Model.Category));
+        
+               if (Model.CategoriesChildren.Any(c => c.Type.GetCategoryTypeGroup() == CategoryTypeGroup.Media))
+                   Html.RenderPartial("~/Views/Categories/Detail/Partials/MediaList/MediaList.ascx", new MediaListModel(Model.Category));
+        
+               Html.RenderPartial("~/Views/Categories/Detail/Partials/ContentLists/ContentLists.ascx", Model);
+        
+               Html.RenderPartial("~/Views/Categories/Detail/Partials/RelatedContentLists.ascx", Model);
+        
+               Html.RenderPartial("~/Views/Categories/Detail/Partials/CategoryNetwork/CategoryNetwork.ascx", Model);
+        
+           } else { %>
+                            
+            <%= Model.CustomPageHtml %>
+        
+        <% } %>
+    </ul>
+</div>
