@@ -82,7 +82,7 @@ namespace TrueOrFalse.Tests
         [Test]
         public static void Serialize_template()
         {
-            var templateJson = new TemplateJson {TemplateName = "Name", SetId = 9};
+            var templateJson = new TemplateJson {TemplateName = "Name"};
             var json = JsonConvert.SerializeObject(templateJson);
         }
     }
