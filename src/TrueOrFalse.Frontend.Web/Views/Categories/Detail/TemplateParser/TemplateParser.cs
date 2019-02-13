@@ -25,8 +25,10 @@ public class TemplateParser
                 var templateJson = GetTemplateJson(json);
 
                 var templateMarkdown = match.Value
-                        .Replace("<p>", "")
-                        .Replace("</p>", "");
+                    .Replace("[[", "")
+                    .Replace("]]", "")
+                    .Replace("<p>", "")
+                    .Replace("</p>", "");
 
                 templateJson.OriginalJson = json;
 

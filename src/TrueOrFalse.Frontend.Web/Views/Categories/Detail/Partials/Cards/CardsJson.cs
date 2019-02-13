@@ -7,24 +7,22 @@ public class CardsJson
     public string Title = "";
     public string CardOrientation;
     public string SetListIds;
-    public IList<Set> SetList
+
+    public IList<Set> GetSetList()
     {
-        get
+        if (string.IsNullOrEmpty(SetListIds))
         {
-            if (string.IsNullOrEmpty(SetListIds))
-            {
-                return new List<Set>();
-            }
-            var setIds = SetListIds
-                .Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries)
-                .Select(x => Convert.ToInt32(x));
-
-            var setRepo = Sl.R<SetRepo>();
-
-            return setIds
-                .Select(setId => setRepo.GetById(setId))
-                .Where(set => set != null)
-                .ToList();
+            return new List<Set>();
         }
+        var setIds = SetListIds
+            .Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries)
+            .Select(x => Convert.ToInt32(x));
+
+        var setRepo = Sl.R<SetRepo>();
+
+        return setIds
+            .Select(setId => setRepo.GetById(setId))
+            .Where(set => set != null)
+            .ToList();
     }
 }

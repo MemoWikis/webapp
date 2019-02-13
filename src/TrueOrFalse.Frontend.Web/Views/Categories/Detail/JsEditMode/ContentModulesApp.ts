@@ -1,4 +1,10 @@
-﻿new Vue({
+﻿Vue.directive('sortable', {
+    inserted(el, binding) {
+        new Sortable(el, binding.value || {})
+    }
+});
+
+new Vue({
     el: '#ContentModuleApp',
     data() {
         return {
@@ -67,3 +73,4 @@
         },
     }
 });
+

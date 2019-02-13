@@ -20091,14 +20091,14 @@
     <Content Include="Views\Categories\Detail\JsEditMode\ContentEditButtonsApp.js">
       <DependentUpon>ContentEditButtonsApp.ts</DependentUpon>
     </Content>
-    <Content Include="Views\Categories\Detail\JsEditMode\ContentMduleSettingCards.js">
-      <DependentUpon>ContentMduleSettingCards.ts</DependentUpon>
-    </Content>
     <Content Include="Views\Categories\Detail\JsEditMode\ContentModule.js">
       <DependentUpon>ContentModule.ts</DependentUpon>
     </Content>
     <Content Include="Views\Categories\Detail\JsEditMode\ContentModulesApp.js">
       <DependentUpon>ContentModulesApp.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Categories\Detail\JsEditMode\ContentModuleSettings\ContentModuleSettingCards.js">
+      <DependentUpon>ContentModuleSettingCards.ts</DependentUpon>
     </Content>
     <Content Include="Views\Categories\Detail\Js\Category.js">
       <DependentUpon>Category.ts</DependentUpon>
@@ -20188,7 +20188,7 @@
     </Content>
     <Content Include="Views\Knowledge\Dates\DateRow.ascx" />
     <TypeScriptCompile Include="Views\Categories\Detail\JsEditMode\ContentEditButtonsApp.ts" />
-    <TypeScriptCompile Include="Views\Categories\Detail\JsEditMode\ContentMduleSettingCards.ts" />
+    <TypeScriptCompile Include="Views\Categories\Detail\JsEditMode\ContentModuleSettings\ContentModuleSettingCards.ts" />
     <TypeScriptCompile Include="Views\Categories\Detail\JsEditMode\ContentModule.ts" />
     <TypeScriptCompile Include="Views\Categories\Detail\JsEditMode\ContentModulesApp.ts" />
     <TypeScriptCompile Include="Views\Categories\Detail\JsEditMode\InlineEditorComponent.ts" />
@@ -20384,14 +20384,14 @@
     <Content Include="Views\Categories\Detail\JsEditMode\ContentEditButtonsApp.js.map">
       <DependentUpon>ContentEditButtonsApp.ts</DependentUpon>
     </Content>
-    <Content Include="Views\Categories\Detail\JsEditMode\ContentMduleSettingCards.js.map">
-      <DependentUpon>ContentMduleSettingCards.ts</DependentUpon>
-    </Content>
     <Content Include="Views\Categories\Detail\JsEditMode\ContentModule.js.map">
       <DependentUpon>ContentModule.ts</DependentUpon>
     </Content>
     <Content Include="Views\Categories\Detail\JsEditMode\ContentModulesApp.js.map">
       <DependentUpon>ContentModulesApp.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Categories\Detail\JsEditMode\ContentModuleSettings\ContentModuleSettingCards.js.map">
+      <DependentUpon>ContentModuleSettingCards.ts</DependentUpon>
     </Content>
     <None Include="Views\Maintenance\ContentStats.less" />
     <Compile Include="Views\Maintenance\ContentStatsModel.cs" />

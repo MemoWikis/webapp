@@ -157,5 +157,30 @@ class Utils
         $(".spinner").hide();
     }
 
+    static ConvertEncodedHtmlToJson(encodedHtml: string) {
+
+        var decodeEntities = (function() {
+            // this prevents any overhead from creating the object each time
+            var element = document.createElement('json');
+
+            function decodeHTMLEntities(str) {
+                if (str && typeof str === 'string') {
+                    // strip script/html tags
+                    str = str.replace(/<\/?\w(?:[^"'>]|"[^"]*"|'[']*')*>/gmi, '');
+                    element.innerHTML = str;
+                    str = element.textContent;
+                    element.textContent = '';
+                }
+
+                return str;
+            }
+
+            return decodeHTMLEntities;
+        })();
+
+        var decodedHtml = decodeEntities(encodedHtml);
+
+        return JSON.parse(decodedHtml);
+    }
 }
 
