@@ -131,7 +131,7 @@ class StickyHeaderClass {
             var padding_bottom = parseInt(style.getPropertyValue("padding-bottom"));
             var border_top = parseInt(style.getPropertyValue("border-top-width"));
             var border_bottom = parseInt(style.getPropertyValue("border-bottom-width"));
-            height = height - padding_top - padding_bottom - border_top - border_bottom
+            height = height - padding_top - padding_bottom - border_top - border_bottom;
         }
         var lines = Math.ceil(height / line_height);
         lines = lines - 1;
