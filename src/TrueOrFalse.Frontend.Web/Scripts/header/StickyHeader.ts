@@ -27,12 +27,11 @@ class StickyHeaderClass {
     }
 
     public StickyHeader() {
-        if (IsLoggedIn.Yes)
-            $("#BreadcrumbUserDropdown").css("top", $("#Breadcrumb").outerHeight() + "px");
-            this._rightMainMenu.style.top = ($("#Breadcrumb").outerHeight() + "px")
 
         if ($(window).scrollTop() >= this._masterHeaderOuterHeight) {
-
+            if (IsLoggedIn.Yes)
+                $("#BreadcrumbUserDropdown").css("top", $("#Breadcrumb").outerHeight() + "px");
+            this._rightMainMenu.style.top = ($("#Breadcrumb").outerHeight() + "px");
 
             if (this._stickyHeaderisFixed) {
                 return;
@@ -55,15 +54,15 @@ class StickyHeaderClass {
             this.calculateTheSizeOfTheMenu($("#BreadcrumbUserDropdown"));
 
             this._rightMainMenu.style.position = "fixed";
-            ;
-
-
-
+            
         } else {
+            this.positioningMenus($("#userDropdown"));
+            this.positioningMenus($("#RightMainMenu"));
 
-            //if (!this._stickyHeaderisFixed) {
-            //    return;
-            //} 
+
+            if (!this._stickyHeaderisFixed) {
+                return;
+            } 
 
                 this._stickyHeaderisFixed = false;
                 this._breadcrumb.style.top = ($("#MasterHeader").outerHeight() + this._header.scrollTop) + "px";
@@ -71,12 +70,7 @@ class StickyHeaderClass {
                 this._breadcrumb.classList.remove("ShowBreadcrumb");
                 this.toggleClass($("#BreadcrumbUserDropdownImage"), $("#HeaderUserDropdown"), "open");
 
-                if (IsLoggedIn.Yes)
-                    $("#userDropdown").css("top",
-                        $("#Breadcrumb").outerHeight() +
-                        $("#MasterHeader").outerHeight() -
-                        $("#HeaderUserDropdown").offset().top +
-                        "px");
+
 
                 $("#Breadcrumb").css("z-index", 100);
                 $('#BreadcrumbLogoSmall').hide();
@@ -102,6 +96,22 @@ class StickyHeaderClass {
                     "55px"; // Warum geht hier Auto nicht , bearbeiten , theoretisch muss Höhe doch nicht festgelegt werden  
             if (IsLoggedIn.Yes)
                 this.reorientatedMenu($(window).scrollTop());
+    }
+
+    private positioningMenus(menu:JQuery) {
+        if (IsLoggedIn.Yes && top.location.pathname !== "/")
+            menu.css("top",
+                $("#Breadcrumb").outerHeight() +
+                $("#MasterHeader").outerHeight() -
+                $("#HeaderUserDropdown").offset().top +
+                "px");
+        else {
+            menu.css("top",
+                $("#MasterHeader").outerHeight() -
+                $("#HeaderUserDropdown").offset().top +
+                "px");
+
+        }
     }
 
    private countLines(target) {
