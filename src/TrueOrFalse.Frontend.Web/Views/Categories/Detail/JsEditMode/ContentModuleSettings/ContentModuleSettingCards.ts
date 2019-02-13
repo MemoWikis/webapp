@@ -12,24 +12,27 @@ Vue.component('modal-cards-settings', {
 
     data() {
         return {
-            contentModuleJson: '',
-            markdownContent: '',
+            selectedCardOrientation: '',
         }
     },
 
-    mounted() {
+    created() {
         this._cardSettings = Utils.ConvertEncodedHtmlToJson(this.markdown);
+        this.selectedCardOrientation = this._cardSettings.CardOrientation;
+    },
 
+    mounted() {
+        
         $('#modalCardsSettings').on('show.bs.modal',
-            event => {
-                console.log("test");
-            });
+            function () {});
     },
 
     methods: {
-        checkJson(json) {
-            this.contentModuleJson = json;
-            console.log(json);
+        showNewMarkdown() {
+            this._cardSettings.CardOrientation = this.selectedCardOrientation;
+
+            var encodedHtml = Utils.ConvertJsonToEncodedHtml(this._cardSettings);
+            console.log('[[' + encodedHtml + ']]');
         }
     }
 });

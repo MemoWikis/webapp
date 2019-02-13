@@ -158,29 +158,16 @@ class Utils
     }
 
     static ConvertEncodedHtmlToJson(encodedHtml: string) {
-
-        var decodeEntities = (function() {
-            // this prevents any overhead from creating the object each time
-            var element = document.createElement('json');
-
-            function decodeHTMLEntities(str) {
-                if (str && typeof str === 'string') {
-                    // strip script/html tags
-                    str = str.replace(/<\/?\w(?:[^"'>]|"[^"]*"|'[']*')*>/gmi, '');
-                    element.innerHTML = str;
-                    str = element.textContent;
-                    element.textContent = '';
-                }
-
-                return str;
-            }
-
-            return decodeHTMLEntities;
-        })();
-
-        var decodedHtml = decodeEntities(encodedHtml);
+        var decodedHtml = unescape(encodedHtml);
 
         return JSON.parse(decodedHtml);
+    }
+
+    static ConvertJsonToEncodedHtml(json: JSON) {
+        var jsonstring = JSON.stringify(json);
+        var encodedHtml = escape(jsonstring);
+
+        return encodedHtml;
     }
 }
 

@@ -15,9 +15,18 @@
         <div class="modal fade" id="modalContentModuleSettings" tabindex="-1" role="dialog" aria-labelledby="modal-content-module-settings" aria-hidden="true">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
-                    <span>"Cards" bearbeiten</span>
-                    
-                    {{markdown}}
+                    <div style="margin:20px">
+                        <span>{{_cardSettings.TemplateName}} bearbeiten</span>
+                        <br/>
+                        <select v-model="selectedCardOrientation">
+                            <option>Landscape</option>
+                            <option>Portrait</option>
+                        </select>
+                        <span>Selected: {{selectedCardOrientation}}</span>
+                        <br/>
+                        <br/>
+                        <button @click="showNewMarkdown()">Show New Markdown</button>
+                    </div>                    
                 </div>
             </div>
         </div>
