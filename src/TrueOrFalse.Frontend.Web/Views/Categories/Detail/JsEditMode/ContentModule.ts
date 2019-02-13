@@ -1,12 +1,14 @@
 ﻿Vue.component('content-module', {
 
+    props: ['origMarkdown'],
+
     data() {
         return {
             hoverState: false,
             isDeleted: false,
             canBeEdited: false,
             showMarkdownInfo: false,
-            markdown: '',
+            markdown: '[[' + this.origMarkdown + ']]',
         }
     },
 
