@@ -1,4 +1,4 @@
-﻿<div v-if="saveMessage.length > 0">
+﻿<div v-cloak v-if="saveMessage.length > 0">
     <div class="alert alert-success fade in" style="opacity: 1;" v-if="saveSuccess">
         <a class="close" @click.prevent="removeAlert()" href="#">×</a>
         {{saveMessage}}
