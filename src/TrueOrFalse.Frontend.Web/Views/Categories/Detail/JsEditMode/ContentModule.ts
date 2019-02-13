@@ -6,11 +6,13 @@
             isDeleted: false,
             canBeEdited: false,
             showMarkdownInfo: false,
+            markdown: '',
         }
     },
 
     mounted() {
         eventBus.$on("set-edit-mode", state => this.canBeEdited = state);
+        eventBus.$on("set-new-markdown", string => this.markdown = string);
     },
 
     methods: {

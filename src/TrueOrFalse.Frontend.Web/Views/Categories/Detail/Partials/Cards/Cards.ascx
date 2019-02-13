@@ -11,7 +11,7 @@
         <% } %>
     </div>
 
-    <modal-cards-settings inline-template markdown="<%: Model.Markdown %>">
+    <modal-cards-settings inline-template orig-markdown="<%: Model.Markdown %>">
         <div class="modal fade" id="modalContentModuleSettings" tabindex="-1" role="dialog" aria-labelledby="modal-content-module-settings" aria-hidden="true">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
