@@ -27,18 +27,27 @@ class StickyHeaderClass {
     }
 
     public StickyHeader() {
+        if (IsLoggedIn.Yes)
+            $("#BreadcrumbUserDropdown").css("top", $("#Breadcrumb").outerHeight() + "px");
+            this._rightMainMenu.style.top = ($("#Breadcrumb").outerHeight() + "px")
 
         if ($(window).scrollTop() >= this._masterHeaderOuterHeight) {
+
+
             if (this._stickyHeaderisFixed) {
                 return;
             }
+            this._breadcrumb.style.zIndex = 100;
+            this._breadcrumb.style.top = "0";
+            this._breadcrumb.classList.add("ShowBreadcrumb");
+            this._breadcrumb.style.position = "fixed";
+
             this._stickyHeaderisFixed = true;
 
             $('#BreadcrumbLogoSmall').show();
             $('#StickyHeaderContainer').css('display', 'flex');
 
-            if (IsLoggedIn.Yes)
-                $("#BreadcrumbUserDropdown").css("top", $("#Breadcrumb").outerHeight() + "px");
+
 
             $('#BreadCrumbTrail').css('max-width', "51%");
 
@@ -46,19 +55,15 @@ class StickyHeaderClass {
             this.calculateTheSizeOfTheMenu($("#BreadcrumbUserDropdown"));
 
             this._rightMainMenu.style.position = "fixed";
-            this._rightMainMenu.style.top = ($("#Breadcrumb").outerHeight() + "px");
+            ;
 
-            this._breadcrumb.style.zIndex = 100;
-            this._breadcrumb.style.top = "0";
-            this._breadcrumb.classList.add("ShowBreadcrumb");
-            this._breadcrumb.style.position = "fixed";
 
 
         } else {
 
-            if (!this._stickyHeaderisFixed) {
-                return;
-            } 
+            //if (!this._stickyHeaderisFixed) {
+            //    return;
+            //} 
 
                 this._stickyHeaderisFixed = false;
                 this._breadcrumb.style.top = ($("#MasterHeader").outerHeight() + this._header.scrollTop) + "px";
@@ -152,5 +157,7 @@ class StickyHeaderClass {
 }
 
 $(() => {
-    new StickyHeaderClass(); 
+    var s = new StickyHeaderClass(); 
+    s.StickyHeader();
+
 });
