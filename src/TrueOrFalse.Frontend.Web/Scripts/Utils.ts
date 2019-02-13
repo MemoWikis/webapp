@@ -158,14 +158,25 @@ class Utils
     }
 
     static ConvertEncodedHtmlToJson(encodedHtml: string) {
-        var decodedHtml = unescape(encodedHtml);
+
+        var decodeEntities = (function() {
+            function decodeHtml(html) {
+                var txt = document.createElement("textarea");
+                txt.innerHTML = html;
+                return txt.value;
+            }
+
+            return decodeHtml;
+        })();
+
+        var decodedHtml = decodeEntities(encodedHtml);
 
         return JSON.parse(decodedHtml);
     }
 
-    static ConvertJsonToEncodedHtml(json: JSON) {
-        var jsonstring = JSON.stringify(json);
-        var encodedHtml = escape(jsonstring);
+    static ConvertJsonToEncodedHtml(json: object) {
+        var jsonString = JSON.stringify(json);
+        var encodedHtml = String(jsonString).replace(/"/g, '&quot;');
 
         return encodedHtml;
     }

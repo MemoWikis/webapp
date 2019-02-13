@@ -5,7 +5,6 @@
 }
 
 Vue.component('modal-cards-settings', {
-
     props: ['markdown'],
 
     _cardSettings: CardSettings,
@@ -19,12 +18,7 @@ Vue.component('modal-cards-settings', {
     created() {
         this._cardSettings = Utils.ConvertEncodedHtmlToJson(this.markdown);
         this.selectedCardOrientation = this._cardSettings.CardOrientation;
-    },
 
-    mounted() {
-        
-        $('#modalCardsSettings').on('show.bs.modal',
-            function () {});
     },
 
     methods: {

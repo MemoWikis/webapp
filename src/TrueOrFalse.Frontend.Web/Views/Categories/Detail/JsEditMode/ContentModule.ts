@@ -28,7 +28,10 @@
         },
 
         editContentModule(markdown) {
-            console.log(markdown);
+            if (this.hoverState) {
+                console.log(markdown);
+            }
+            
         },
     }
 });
