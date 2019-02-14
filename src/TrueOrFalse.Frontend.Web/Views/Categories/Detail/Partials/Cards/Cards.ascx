@@ -18,14 +18,23 @@
                     <div style="margin:20px">
                         <span>{{_cardSettings.TemplateName}} bearbeiten</span>
                         <br/>
+                        Format: 
                         <select v-model="selectedCardOrientation">
                             <option>Landscape</option>
                             <option>Portrait</option>
                         </select>
-                        <span>Selected: {{selectedCardOrientation}}</span>
                         <br/>
                         <br/>
-                        <button @click="showNewMarkdown()">Show New Markdown</button>
+                        <ul class="cardSettings" v-sortable>
+                            <li class="cardSettings" v-sortable v-for="(id, index) in sets" :setId="id" :key="index">
+                                {{id}} 
+                                <a @click.prevent="removeSet(index)"><i class="fa fa-trash"></i> Set entfernen</a>
+                            </li>
+                        </ul>
+                        <input type="number" v-model="newSetId"/>
+                        <button @click="addSet(newSetId)">Set hinzufügen</button>
+                        <br/>
+                        <button @click="applyNewMarkdown()">Konfiguration übernehmen</button>
                     </div>                    
                 </div>
             </div>

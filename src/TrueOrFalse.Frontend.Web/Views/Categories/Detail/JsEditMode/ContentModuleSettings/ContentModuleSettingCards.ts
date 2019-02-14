@@ -13,23 +13,34 @@ Vue.component('modal-cards-settings', {
         return {
             selectedCardOrientation: '',
             newMarkdown: '',
+            sets: [],
+            newSetId: 0,
         }
     },
 
     created() {
-        console.log(this.origMarkdown);
         this._cardSettings = Utils.ConvertEncodedHtmlToJson(this.origMarkdown);
         this.newMarkdown = this.origMarkdown;
         this.selectedCardOrientation = this._cardSettings.CardOrientation;
         this.updateMarkdown();
+        this.sets = this._cardSettings.SetListIds.split(',');
     },
 
     methods: {
-        showNewMarkdown() {
-            this._cardSettings.CardOrientation = this.selectedCardOrientation;
+        addSet(val) {
+            this.sets.push(val);
+        },
+        removeSet(index) {
+            this.sets.splice(index, 1);
+        },
 
+        applyNewMarkdown() {
+            const setIdParts = $("li.cardSettings").map((idx, elem) => $(elem).attr("setId")).get();
+            if (setIdParts.length >= 1)
+                this._cardSettings.SetListIds = setIdParts.join(',');
+
+            this._cardSettings.CardOrientation = this.selectedCardOrientation;
             this.newMarkdown = Utils.ConvertJsonToMarkdown(this._cardSettings);
-            console.log(this.newMarkdown);
             this.updateMarkdown();
         },
 
