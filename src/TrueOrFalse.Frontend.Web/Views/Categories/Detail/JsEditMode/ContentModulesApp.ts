@@ -45,7 +45,7 @@ new Vue({
             this.showTopAlert = false;
         },
 
-        saveMarkdown(data) {
+        async saveMarkdown(data) {
             if (data == 'top') {
                 this.showTopAlert = true;
             } else {
@@ -70,7 +70,7 @@ new Vue({
                         this.saveMessage = "Das Speichern schlug fehl.";
                     }
                 }
-            )
+            );
         },
     }
 });

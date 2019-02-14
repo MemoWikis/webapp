@@ -11,8 +11,8 @@
                     </a>
                     <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="Dropdown">
                         <li><a href="" data-allowed="logged-in" role="button" 
-                               @click.prevent="editContentModule()"
-                               data-toggle="modal" data-target="#modalContentModuleSettings"><i class="fa fa-copy"></i> Modul konfigurieren</a></li>
+                               <%-- @click="editContentModule()" --%>
+                               data-toggle="modal" data-target="#modalContentModuleSettings" :data-markdown="origMarkdown" :component-id="componentId"><i class="fa fa-copy"></i> Modul konfigurieren</a></li>
                         <li><a href="" data-allowed="logged-in"><i class="fa fa-caret-up"></i> Inhalt oben einfügen</a></li>
                         <li><a href="" data-allowed="logged-in"><i class="fa fa-caret-down"></i> Inhalt unten einfügen</a></li>
                         <li class="delete"><a href="" data-allowed="logged-in" @click.prevent="deleteModule()"><i class="fa fa-trash"></i> Löschen</a></li>

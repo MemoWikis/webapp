@@ -165,5 +165,15 @@ public class CategoryController : BaseController
             return Json(false);
         }
         
-    }   
+    }
+
+
+    [HttpPost]
+    [AccessOnlyAsLoggedIn]
+    public ActionResult RenderMarkdown(int categoryId, string markdown)
+    {
+        var category = Sl.CategoryRepo.GetById(categoryId);
+
+        return Json(TemplateParser.Run(markdown, category, this.ControllerContext));
+    }
 }

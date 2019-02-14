@@ -1,7 +1,7 @@
 ﻿class CardSettings {
-    Title: string;
-    CardOrientation: string;
-    SetListIds: string;
+    Title: string = "";
+    CardOrientation: string = "";
+    SetListIds: string = "";
 }
 
 Vue.component('modal-cards-settings', {
@@ -15,15 +15,26 @@ Vue.component('modal-cards-settings', {
             newMarkdown: '',
             sets: [],
             newSetId: 0,
+            parentId: '',
+            result: '',
         }
     },
 
     created() {
-        this._cardSettings = Utils.ConvertEncodedHtmlToJson(this.origMarkdown);
-        this.newMarkdown = this.origMarkdown;
-        this.selectedCardOrientation = this._cardSettings.CardOrientation;
-        this.updateMarkdown();
-        this.sets = this._cardSettings.SetListIds.split(',');
+        var self = this;
+        self._cardSettings = new CardSettings();
+    },
+
+    mounted: function () {
+        $('#modalContentModuleSettings').on('show.bs.modal',
+            event => {
+                this.newMarkdown = event.relatedTarget.getAttribute('data-markdown');
+                this.parentId = event.relatedTarget.getAttribute('component-id');
+                this._cardSettings = Utils.ConvertEncodedHtmlToJson(this.newMarkdown);
+                this.selectedCardOrientation = this._cardSettings.CardOrientation;
+                this.sets = this._cardSettings.SetListIds.split(',');
+                console.log(this.parentId);
+            });
     },
 
     methods: {
@@ -42,10 +53,16 @@ Vue.component('modal-cards-settings', {
             this._cardSettings.CardOrientation = this.selectedCardOrientation;
             this.newMarkdown = Utils.ConvertJsonToMarkdown(this._cardSettings);
             this.updateMarkdown();
+            console.log(this.parentId);
         },
-
+        
         updateMarkdown() {
-            eventBus.$emit('set-new-markdown', this.newMarkdown);
+            $.post("/Category/RenderMarkdown/", { categoryId: $("#hhdCategoryId").val(), markdown: this.newMarkdown },
+                (result) => {
+                    console.log(result);
+                    this.result = result;
+                }
+            );
         }
     }
 });

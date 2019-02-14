@@ -21,9 +21,9 @@ new Vue({
                 eventBus.$emit('set-edit-mode', this.editMode);
             }
         },
-
+         
         saveMarkdown() {
-            eventBus.$emit('save-markdown', 'top')
+            eventBus.$emit('save-markdown', 'top');
         },
     }
 });

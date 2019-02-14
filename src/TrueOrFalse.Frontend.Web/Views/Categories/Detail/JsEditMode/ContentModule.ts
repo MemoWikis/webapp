@@ -8,13 +8,18 @@
             isDeleted: false,
             canBeEdited: false,
             showMarkdownInfo: false,
-            markdown: this.origMarkdown,
+            markdown: '',
+            componentId: '',
         }
+    },
+
+    created() {
+        this.markdown = this.origMarkdown;
+        this.componentId = this._uid;
     },
 
     mounted() {
         eventBus.$on("set-edit-mode", state => this.canBeEdited = state);
-        eventBus.$on("set-new-markdown", string => this.markdown = string);
     },
 
     methods: {
@@ -31,11 +36,8 @@
             self.isDeleted = true;
         },
 
-        editContentModule(markdown) {
-            if (this.hoverState) {
-                console.log(markdown);
-            }
-            
+        getMarkdown(string) {
+            console.log(string);
         },
     }
 });
