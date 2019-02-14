@@ -12,18 +12,18 @@
   border: #979797 solid 0.5px;
 }
 #SidebarCards {
-  width: 272px;
-  font-size: 18px;
+  width: 17em;
+  font-size: 1.125em;
   /* SPONSOR----------------------------------------------------------*/
 }
 #SidebarCards a {
   overflow: hidden;
   display: block;
   text-overflow: ellipsis;
-  padding: 2px;
+  padding: 0.125em;
 }
 #SidebarCards .card-title {
-  font-size: 12px;
+  font-size: 0.75em;
   color: #707070;
   margin-top: 1.25em;
   margin-left: 1.25em;
@@ -52,14 +52,14 @@
   align-items: flex-end;
 }
 #SidebarCards #AutorCard .footer-bar-text {
-  font-size: 10px;
-  padding: 1px 3px 1px 3px;
+  font-size: 0.625em;
+  padding: 0.0625em 0.1875em 0.0625em 0.1875em;
 }
 #SidebarCards #AutorCard .top-container {
   display: flex;
 }
 #SidebarCards #AutorCard .author-reputation {
-  font-size: 12px;
+  font-size: 0.75em;
   color: #707070;
 }
 #SidebarCards #AutorCard .ImageContainer {
@@ -73,21 +73,20 @@
   padding-left: 0.65em;
 }
 #SidebarCards #MultipleAutorCard #AllAutorsContainer {
-  font-size: 14px;
-  height: 54.5px;
+  font-size: 0.875em;
+  height: 3.40625em;
   display: flex;
   padding-left: 0.85em;
 }
 #SidebarCards #MultipleAutorCard #AllAutorsContainer #ExtendAngle {
-  margin-left: 45px;
-  font-size: 18px;
+  margin-left: 2.8125em;
   transition-duration: 0.4s;
   display: inline-block;
 }
 #SidebarCards #MultipleAutorCard .autor-container {
-  border-bottom: solid 0.25px #ddd;
-  padding-top: 12.64px;
-  margin-top: 12.64px;
+  border-bottom: solid 0.015625em #ddd;
+  padding-top: 0.79em;
+  margin-top: 0.79em;
   padding-left: 0.85em;
   width: 100%;
   display: flex;
@@ -99,14 +98,14 @@
 }
 #SidebarCards #MultipleAutorCard .single-autor-container {
   display: flex;
-  height: 59px;
+  height: 3.6875em;
   align-items: center;
   margin: 0 1.25em 1.25em 0;
 }
 #SidebarCards #MultipleAutorCard .single-autor-container .multiple-autor-card-image {
-  width: 60px;
-  height: 60px;
-  border-radius: 50px;
+  width: 3.75em;
+  height: 3.75em;
+  border-radius: 3.125em;
   overflow: hidden;
   display: flex;
   justify-content: center;
@@ -114,8 +113,8 @@
 #SidebarCards #CategorySuggestionCard,
 #SidebarCards #CreateQuestionCard {
   border: #979797 solid 0.5px;
-  margin-top: 19px;
-  padding-left: 0.5px;
+  margin-top: 1.1875em;
+  padding-left: 0.03125em;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -130,13 +129,13 @@
   text-align: center;
 }
 #SidebarCards #EduPartnerCard {
-  margin-top: 19px;
+  margin-top: 1.1875em;
   border: #979797 solid 0.5px;
-  padding: 15px;
-  padding-bottom: 5px;
+  padding: 0.9375em;
+  padding-bottom: 0.3125em;
 }
 #SidebarCards #EduPartnerCard .EduPartnerLSidebarWrapper {
-  font-size: 12.6px;
+  font-size: 0.7875em;
   text-align: center;
 }
 @media (max-width: 1199px) {
@@ -148,13 +147,12 @@
   color: #CCCCCC;
   display: flex;
   justify-content: flex-end;
-  margin-right: 4px;
-  font-size: 18px;
+  margin-right: 0.25em;
 }
 #SidebarCards #EduPartnerCard .EduPartnerSidebarLogo {
-  margin-bottom: 20px;
+  margin-bottom: 1.25em;
 }
 #SidebarCards #EduPartnerCard .EduPartnerSidebarLogo img {
   max-width: 50%;
-  max-height: 100px;
+  max-height: 6.25em;
 }

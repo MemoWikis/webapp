@@ -1,23 +1,27 @@
 ﻿@import (reference) 'includes/imports.less';
 
+.pxinem(@valuepx){
+    @r: @valuepx/16+0em;
+}
+
 .SidebarCardMixin {
     border: #979797 solid 0.5px;
 }
 
 
 #SidebarCards {
-    width: 272px;
-    font-size: 18px;
+    width: .pxinem(272)[@r];
+    font-size: .pxinem(18)[@r];
 
     a {
         overflow: hidden;
         display: block;
         text-overflow: ellipsis;
-        padding: 2px;
+        padding: .pxinem(2)[@r];
     }
 
     .card-title {
-        font-size: 12px;
+        font-size: .pxinem(12)[@r];
         color: @sidebar-cards-grey;
         margin-top: 1.25em;
         margin-left: 1.25em;
@@ -54,8 +58,8 @@
         }
 
         .footer-bar-text {
-            font-size: 10px;
-            padding: 1px 3px 1px 3px;
+            font-size: .pxinem(10)[@r];
+            padding: .pxinem(1)[@r] .pxinem(3)[@r] .pxinem(1)[@r] .pxinem(3)[@r];
         }
 
         .top-container {
@@ -63,7 +67,7 @@
         }
 
         .author-reputation {
-            font-size: 12px;
+            font-size: .pxinem(12)[@r];
             color: @sidebar-cards-grey;
         }
 
@@ -81,23 +85,22 @@
         }
 
         #AllAutorsContainer {
-            font-size: 14px;
-            height: 54.5px;
+            font-size: .pxinem(14)[@r];
+            height: .pxinem(54.5)[@r];
             display: flex;
             padding-left: 0.85em;
 
             #ExtendAngle {
-                margin-left: 45px;
-                font-size: 18px;
+                margin-left: .pxinem(45)[@r];
                 transition-duration: 0.4s;
                 display: inline-block;
             }
         }
 
         .autor-container {
-            border-bottom: solid 0.25px #ddd;
-            padding-top: 12.64px;
-            margin-top: 12.64px;
+            border-bottom: solid .pxinem(0.25)[@r] #ddd;
+            padding-top: .pxinem(12.64)[@r];
+            margin-top: .pxinem(12.64)[@r];
             padding-left: 0.85em;
             width: 100%;
             display: flex;
@@ -111,14 +114,14 @@
 
         .single-autor-container {
             display: flex;
-            height: 59px;
+            height: .pxinem(59)[@r];
             align-items: center;
             margin: 0 1.25em 1.25em 0;
 
             .multiple-autor-card-image {
-                width: 60px;
-                height: 60px;
-                border-radius: 50px;
+                width: .pxinem(60)[@r];
+                height: .pxinem(60)[@r];
+                border-radius: .pxinem(50)[@r];
                 overflow: hidden;
                 display: flex;
                 justify-content: center;
@@ -128,8 +131,8 @@
 
     #CategorySuggestionCard, #CreateQuestionCard {
         .SidebarCardMixin();
-        margin-top: 19px;
-        padding-left: 0.5px;
+        margin-top: .pxinem(19)[@r];
+        padding-left: .pxinem(0.5)[@r];
         display: flex;
         flex-direction: column;
         align-items: center;
@@ -146,13 +149,13 @@
     
     /* SPONSOR----------------------------------------------------------*/
     #EduPartnerCard {
-        margin-top: 19px;
+        margin-top: .pxinem(19)[@r];
         .SidebarCardMixin();
-        padding: 15px;
-        padding-bottom: 5px;
+        padding: .pxinem(15)[@r];
+        padding-bottom: .pxinem(5)[@r];
 
         .EduPartnerLSidebarWrapper { //Avoid "sponsor" and the like in css classes because of ad blockers
-            font-size: 12.6px;
+            font-size: .pxinem(12.6)[@r];
             text-align: center;
 
             @media (max-width: (@show-menu-from-width - 1px)) {
@@ -163,17 +166,16 @@
                 color: #CCCCCC;
                 display: flex;
                 justify-content: flex-end;
-                margin-right: 4px;
-                font-size: 18px;
+                margin-right: .pxinem(4)[@r];;                
             }
         }
 
         .EduPartnerSidebarLogo {
-            margin-bottom: 20px;
+            margin-bottom: .pxinem(20)[@r];;
 
             img {
                 max-width: 50%;
-                max-height: 100px;
+                max-height: .pxinem(100)[@r];;
             }
         }
     }
