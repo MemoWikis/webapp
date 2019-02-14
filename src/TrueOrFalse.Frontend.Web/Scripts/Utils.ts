@@ -163,7 +163,7 @@ class Utils
             function decodeHtml(html) {
                 var txt = document.createElement("textarea");
                 txt.innerHTML = html;
-                return txt.value;
+                return txt.value.replace('[[', '').replace(']]', '');
             }
 
             return decodeHtml;
@@ -174,11 +174,11 @@ class Utils
         return JSON.parse(decodedHtml);
     }
 
-    static ConvertJsonToEncodedHtml(json: object) {
+    static ConvertJsonToMarkdown(json: object) {
         var jsonString = JSON.stringify(json);
         var encodedHtml = String(jsonString).replace(/"/g, '&quot;');
 
-        return encodedHtml;
+        return '[[' + encodedHtml + ']]';
     }
 }
 

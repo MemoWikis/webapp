@@ -8,7 +8,7 @@
             isDeleted: false,
             canBeEdited: false,
             showMarkdownInfo: false,
-            markdown: '[[' + this.origMarkdown + ']]',
+            markdown: this.origMarkdown,
         }
     },
 

@@ -36,7 +36,7 @@ new Vue({
         cancelEditMode() {
             this.editMode = false;
             eventBus.$emit('set-edit-mode', this.editMode);
-            this.$forceUpdate()
+            location.reload();
         },
 
         removeAlert() {
@@ -64,6 +64,7 @@ new Vue({
                     if (success == true) {
                         this.saveSuccess = true;
                         this.saveMessage = "Das Thema wurde gespeichert.";
+                        location.reload();
                     } else {
                         this.saveSuccess = false;
                         this.saveMessage = "Das Speichern schlug fehl.";
