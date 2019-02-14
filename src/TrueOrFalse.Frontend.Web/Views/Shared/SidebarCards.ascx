@@ -1,16 +1,19 @@
 ﻿<%@ Control Language="C#" Inherits="System.Web.Mvc.ViewUserControl<SidebarModel>" %>
 <%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
 
-<div id="SidebarCards" style="display: block;">
+<div id="SidebarCards" style="display: block;"> 
 
     <%if (Model.Authors.Count == 1)
         {
             var author = Model.Authors.First();
-    %>
 
-    <div id="AutorCard" style="padding-top: 0.1px;">
+    %>
+        <input id="isFollow" type="hidden" value="<%=Model.DoIFollow %>"/>
+        <input id="author" type="hidden" value="<%= author.User.Id%>" />
+
+    <div id="AutorCard">
         <div class="column-left">
-            <div class="ImageContainer" style="width: 75px; padding-left: 0.5px;">
+            <div class="ImageContainer">
                 <div class="card-image-large" style="background: url(<%= author.ImageUrl %>) center;"></div>
             </div>
         </div>
@@ -18,7 +21,7 @@
             <div class="card-title">
                 <span>Erstellt von:</span>
             </div>
-            <div class="card-link">
+            <div id="card-link" class="card-link">
                 <a href="<%= Links.UserDetail(author.User) %>">
                     <%= author.Name %> 
                 </a>
@@ -31,13 +34,13 @@
             </div>
         </div>
         <div class="autor-card-footer-bar">
-            <div class="show-tooltip" title='"<%= Model.Reputation.TotalReputation%>" ist eine stolze Zahl! Reputationspunkte zeigen, wieviel  <%= Model.AuthorCardLinkText%> für memucho getan hat.'>
+            <div class="show-tooltip" title='<%=Model.Reputation.User.Name%> hat <%= Model.Reputation.ForQuestionsCreated%> Fragen / <%=Model.Reputation.ForSetsCreated %> Lernsets erstellt.'>
                 <i class="fa fa fa-question-circle"></i>
-                <span class="footer-bar-text"><%=Model.Reputation.TotalReputation %></span>
+                <span class="footer-bar-text"><%=Model.Reputation.ForQuestionsCreated %></span>
             </div>
             <div class="show-tooltip" <% if (!Model.IsCurrentUser)
                 {%>title="<%= Model.AuthorCardLinkText%> hat ihr/sein Wunschwissen<% if (author.ShowWishKnowledge)
-                { %> veröffentlicht und <%= Model.AmountWishCountQuestions %> Fragen gesammelt. Alles klar soweit?<%}
+                { %> veröffentlicht und <%= Model.AmountWishCountQuestions %> Fragen gesammelt. <%}
                 else
                 { %> nicht veröffentlicht.<%} %>"
                 <%} %>>
@@ -50,8 +53,8 @@
                 else
                 { %>Folge <%= author.Name %>, um an ihren/seinen Aktivitäten teilzuhaben.<%} %>"
                 <%} %>>
-                <i class="fa fa-user-plus"></i>
-                <span class="footer-bar-text"><%= Model.Reputation.ForUsersFollowingMe %></span>
+                 <div id="follower" class="fa"></div>  
+                 <span class="footer-bar-text"><%= Model.Reputation.ForUsersFollowingMe %></span>
             </div>
         </div>
     </div>

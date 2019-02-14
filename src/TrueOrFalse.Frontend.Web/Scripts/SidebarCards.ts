@@ -10,4 +10,58 @@
             $("#AllAutorsList").slideUp(400);
         }
     });
+
+    new Follower();
 });
+
+
+class Follower {
+    private _follower: JQuery;
+    private _isFollow: JQuery; 
+    private _authorId: number; 
+
+    constructor() {
+
+        this._follower = $("#follower");
+        this._isFollow = $("#isFollow");
+        this.loadCorrektClass();
+        
+        
+
+        $("#follower").on("click", () => {
+            this._authorId = parseInt($("#author").val());
+            this.toggleClasses();
+        });
+    }
+
+    private toggleClasses(): void {
+        if (this._isFollow.val().toLowerCase() === "true") {
+
+            if (this._follower.hasClass("fa-user-times"))
+                this._follower.addClass("fa-user-plus").removeClass("fa-user-times");
+            else
+                this._follower.addClass("fa-user-plus");
+
+            $.post("/Users/UnFollow/", { "userId": this._authorId }, () => {
+                this._isFollow.val("False");
+            });
+        } else {
+            if (this._follower.hasClass("fa-user-plus"))
+                this._follower.addClass("fa-user-times").removeClass("fa-user-plus");
+            else
+                this._follower.addClass("fa-user-times");
+
+            $.post("/Users/Follow/", { "userId": this._authorId }, () => {
+                this._isFollow.val("True");
+            });  
+        }
+    }
+
+    private loadCorrektClass() {
+        if (this._isFollow.val().toLowerCase() === "true") 
+            this._follower.addClass("fa-user-times");
+        else
+            this._follower.addClass("fa-user-plus");        
+    }
+    
+}

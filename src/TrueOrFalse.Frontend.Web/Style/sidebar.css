@@ -9,44 +9,60 @@
 }@media (max-width: 649px) {
 }@media (min-width: 650px) {
 }.SidebarCardMixin {
-  border: #979797 solid 0.5px;
+  border: #979797 solid 0.03125em;
+  margin-bottom: 1.25em;
+}
+.SidebarCardMixin a {
+  color: #0560AB;
 }
 #SidebarCards {
   width: 17em;
   font-size: 1.125em;
   /* SPONSOR----------------------------------------------------------*/
 }
+#SidebarCards .card-title {
+  font-size: 0.75em;
+  color: #707070;
+  margin-top: 1.7em;
+  margin-bottom: 0.3125em;
+}
+#SidebarCards .card-title span {
+  text-transform: uppercase;
+}
 #SidebarCards a {
   overflow: hidden;
   display: block;
   text-overflow: ellipsis;
-  padding: 0.125em;
-}
-#SidebarCards .card-title {
-  font-size: 0.75em;
-  color: #707070;
-  margin-top: 1.25em;
-  margin-left: 1.25em;
 }
 #SidebarCards .card-link {
   align-items: center;
-  color: #0560AB;
   display: flex;
 }
 #SidebarCards #AutorCard {
-  border: #979797 solid 0.5px;
+  border: #979797 solid 0.03125em;
+  margin-bottom: 1.25em;
   min-height: 10.75em;
   display: flex;
   flex-wrap: wrap;
 }
+#SidebarCards #AutorCard a {
+  color: #0560AB;
+}
+#SidebarCards #AutorCard .column-right {
+  margin: 0 1.33em 1.75em 0;
+}
+#SidebarCards #AutorCard .column-right .card-link {
+  margin: 0 0 0.3125em 0;
+}
 #SidebarCards #AutorCard .column-right .card-link .fa-user-plus {
-  font-size: 0.81em;
+  font-size: 0.75em;
   padding-left: 0.67em;
+  color: #0560AB;
 }
 #SidebarCards #AutorCard .autor-card-footer-bar {
-  margin-bottom: 1.3125em;
+  margin: 0 1.33em 1.28em 1.33em;
   display: flex;
-  justify-content: space-around;
+  justify-content: space-between;
   color: #707070;
   width: 100%;
   align-items: flex-end;
@@ -66,8 +82,12 @@
   margin: 1.25em 1.25em 0 1.25em;
 }
 #SidebarCards #MultipleAutorCard {
-  border: #979797 solid 0.5px;
+  border: #979797 solid 0.03125em;
+  margin-bottom: 1.25em;
   padding: 0 0.67em 0 0.6em;
+}
+#SidebarCards #MultipleAutorCard a {
+  color: #0560AB;
 }
 #SidebarCards #MultipleAutorCard #AllAutorsList {
   padding-left: 0.65em;
@@ -84,7 +104,6 @@
   display: inline-block;
 }
 #SidebarCards #MultipleAutorCard .autor-container {
-  border-bottom: solid 0.015625em #ddd;
   padding-top: 0.79em;
   margin-top: 0.79em;
   padding-left: 0.85em;
@@ -98,7 +117,6 @@
 }
 #SidebarCards #MultipleAutorCard .single-autor-container {
   display: flex;
-  height: 3.6875em;
   align-items: center;
   margin: 0 1.25em 1.25em 0;
 }
@@ -112,13 +130,16 @@
 }
 #SidebarCards #CategorySuggestionCard,
 #SidebarCards #CreateQuestionCard {
-  border: #979797 solid 0.5px;
-  margin-top: 1.1875em;
-  padding-left: 0.03125em;
+  border: #979797 solid 0.03125em;
+  margin-bottom: 1.25em;
   display: flex;
   flex-direction: column;
   align-items: center;
   padding: 0 1.25em 0 1.25em;
+}
+#SidebarCards #CategorySuggestionCard a,
+#SidebarCards #CreateQuestionCard a {
+  color: #0560AB;
 }
 #SidebarCards #CategorySuggestionCard .ImageContainer,
 #SidebarCards #CreateQuestionCard .ImageContainer {
@@ -129,10 +150,13 @@
   text-align: center;
 }
 #SidebarCards #EduPartnerCard {
-  margin-top: 1.1875em;
-  border: #979797 solid 0.5px;
+  border: #979797 solid 0.03125em;
+  margin-bottom: 1.25em;
   padding: 0.9375em;
   padding-bottom: 0.3125em;
+}
+#SidebarCards #EduPartnerCard a {
+  color: #0560AB;
 }
 #SidebarCards #EduPartnerCard .EduPartnerLSidebarWrapper {
   font-size: 0.7875em;
