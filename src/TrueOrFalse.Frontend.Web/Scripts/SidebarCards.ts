@@ -10,8 +10,8 @@
             $("#AllAutorsList").slideUp(400);
         }
     });
-
-    new Follower();
+    
+        new Follower();
 });
 
 
@@ -22,22 +22,26 @@ class Follower {
 
     constructor() {
 
-        this._follower = $("#follower");
+        this._follower = $(".follower");
         this._isFollow = $("#isFollow");
-        this.loadCorrektClass();
-        
-        
 
-        $("#follower").on("click", () => {
-            this._authorId = parseInt($("#author").val());
-            this.toggleClasses();
-        });
+        if (typeof $("#isFollow").val() !== "undefined") {
+            this.loadCorrektClass();
+        }
+
+        if (IsLoggedIn.Yes) {
+            $(".follower").on("click",
+                () => {
+                    this._authorId = parseInt($("#author").val());
+                    this.toggleClasses();
+                });
+        }
     }
 
     private toggleClasses(): void {
         if (this._isFollow.val().toLowerCase() === "true") {
 
-            if (this._follower.hasClass("fa-user-times"))
+            if (this._follower.hasClass("fa-user-minus"))
                 this._follower.addClass("fa-user-plus").removeClass("fa-user-times");
             else
                 this._follower.addClass("fa-user-plus");
@@ -47,9 +51,9 @@ class Follower {
             });
         } else {
             if (this._follower.hasClass("fa-user-plus"))
-                this._follower.addClass("fa-user-times").removeClass("fa-user-plus");
+                this._follower.addClass("fa-user-minus").removeClass("fa-user-plus");
             else
-                this._follower.addClass("fa-user-times");
+                this._follower.addClass("fa-user-minus");
 
             $.post("/Users/Follow/", { "userId": this._authorId }, () => {
                 this._isFollow.val("True");
@@ -59,7 +63,7 @@ class Follower {
 
     private loadCorrektClass() {
         if (this._isFollow.val().toLowerCase() === "true") 
-            this._follower.addClass("fa-user-times");
+            this._follower.addClass("fa-user-minus");
         else
             this._follower.addClass("fa-user-plus");        
     }

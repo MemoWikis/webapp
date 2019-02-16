@@ -25,7 +25,7 @@
                 <a href="<%= Links.UserDetail(author.User) %>">
                     <%= author.Name %> 
                 </a>
-                <i class="fa fa-user-plus"></i>
+                <i id="followIcon"class="fas follower"></i>
             </div>
             <div class="author-reputation">
                 <span>Reputation:</span>
@@ -53,7 +53,7 @@
                 else
                 { %>Folge <%= author.Name %>, um an ihren/seinen Aktivitäten teilzuhaben.<%} %>"
                 <%} %>>
-                 <div id="follower" class="fa"></div>  
+                 <div id="follower" class="fas follower"></div>  
                  <span class="footer-bar-text"><%= Model.Reputation.ForUsersFollowingMe %></span>
             </div>
         </div>

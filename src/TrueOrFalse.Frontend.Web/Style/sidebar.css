@@ -59,6 +59,11 @@
   padding-left: 0.67em;
   color: #0560AB;
 }
+#SidebarCards #AutorCard .column-right .card-link .fa-user-minus {
+  font-size: 0.75em;
+  padding-left: 0.67em;
+  color: #0560AB;
+}
 #SidebarCards #AutorCard .autor-card-footer-bar {
   margin: 0 1.33em 1.28em 1.33em;
   display: flex;
