@@ -1,23 +1,46 @@
 ﻿@import (reference) 'includes/imports.less';
-// Mixins
-.pxinem(@valuepx){
-    @r: @valuepx/16+0em;
-}
 
 // Variables
 @image-multi-author: 3.75em;
 @sidebar-card-link-color: #0560AB;
 @font-size-small: 0.75em;
+@distance-top-20-px: 1.25em;
+@distanceBottom20px: 1.25em;
+@distance13px: 0.8125em;
+@border: #979797 solid 0.03125em;
 
-// Content
+// Mixins
+
 .SidebarCardMixin {
-    border: #979797 solid 0.03125em;
-    margin-bottom: 1.25em;
+    border: @border;
+    margin-bottom: @distanceBottom20px;
     a{
        color: @sidebar-card-link-color;
     }
 }
 
+.AutorCardMixin {
+    .top-container {
+        display: flex;
+    }
+
+
+    .column-right {
+        margin: 0 1.33em 1.75em 0;
+
+        .card-link {
+            margin: 0 0 0.3125em 0;
+        }
+    }
+
+    .author-reputation {
+        font-size: @font-size-small;
+        color: @sidebar-cards-grey;
+    }
+}
+
+
+// Content
 #SidebarCards {
     width: 17em;
     font-size: 1.125em;
@@ -48,29 +71,16 @@
     }
 
     #AutorCard {
+        .AutorCardMixin();
         .SidebarCardMixin();
         min-height: 10.75em;
         display: flex;
         flex-wrap: wrap;
 
-        .column-right {
-            margin: 0 1.33em 1.75em 0;
 
-            .card-link {
-                margin: 0 0 0.3125em 0;
 
-                .fa-user-plus {
-                    font-size: @font-size-small;
-                    padding-left: 0.67em;
-                    color: @sidebar-card-link-color;
-                }
-
-                .fa-user-minus {
-                    font-size: @font-size-small;
-                    padding-left: 0.67em;
-                    color: @sidebar-card-link-color;
-                }
-            }
+        .ImageContainer {
+            margin: @distance-top-20-px 1.25em 0 1.25em;
         }
 
         .autor-card-footer-bar {
@@ -87,17 +97,18 @@
             padding: 0.0625em 0.1875em 0.0625em 0.1875em;
         }
 
-        .top-container {
-            display: flex;
-        }
+        .card-link {
+            .fa-user-plus {
+                font-size: @font-size-small;
+                padding-left: 0.67em;
+                color: @sidebar-card-link-color;
+            }
 
-        .author-reputation {
-            font-size: @font-size-small;
-            color: @sidebar-cards-grey;
-        }
-
-        .ImageContainer {
-            margin: 1.25em 1.25em 0 1.25em;
+            .fa-user-minus {
+                font-size: @font-size-small;
+                padding-left: 0.67em;
+                color: @sidebar-card-link-color;
+            }
         }
     }
 
@@ -139,7 +150,7 @@
         .single-autor-container {
             display: flex;
             align-items: center;
-            margin: 0 1.25em 1.25em 0;
+            margin: 0 1.25em @distanceBottom20px 0;
 
             .multiple-autor-card-image {
                 width: @image-multi-author;
@@ -160,7 +171,7 @@
         padding: 0 1.25em 0 1.25em;
 
         .ImageContainer {
-            margin-top: 1.25em;
+            margin-top: @distance-top-20-px;
         }
 
         .card-link {
@@ -190,7 +201,7 @@
         }
 
         .EduPartnerSidebarLogo {
-            margin-bottom: 1.25em;
+            margin-bottom: @distanceBottom20px;
 
             img {
                 max-width: 50%;

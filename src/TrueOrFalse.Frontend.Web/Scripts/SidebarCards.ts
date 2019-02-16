@@ -18,17 +18,26 @@
 class Follower {
     private _follower: JQuery;
     private _isFollow: JQuery; 
+    private _followTooltip: JQuery;
     private _authorId: number; 
+    private _questionsCreated: string;
+    private _setsCreated: string;
+    private _authorName: string;
 
     constructor() {
-
         this._follower = $(".follower");
         this._isFollow = $("#isFollow");
+        this._followTooltip = $("#follow-tooltip");
 
-        if (typeof $("#isFollow").val() !== "undefined") {
-            this.loadCorrektClass();
+        if (typeof this._isFollow.val() !== "undefined") {
+            this.loadCorrektClassAndTooltip();
             this._follower.css('cursor', 'pointer');
+            this._authorName = $("#author").attr("name");
+            this._questionsCreated = $("#author").attr("data-questions-created");
+            this._setsCreated = $("#author").attr("data-sets-created");
+
         }
+
 
         if (IsLoggedIn.Yes) {
             $(".follower").on("click",
@@ -49,6 +58,10 @@ class Follower {
 
             $.post("/Users/UnFollow/", { "userId": this._authorId }, () => {
                 this._isFollow.val("False");
+                $("#follow-tooltip").attr("data-original-title",
+                    "Folge " + this._authorName + ", um an ihren/seinen Aktivitäten teilzuhaben.");
+
+
             });
         } else {
             if (this._follower.hasClass("fa-user-plus"))
@@ -58,15 +71,17 @@ class Follower {
 
             $.post("/Users/Follow/", { "userId": this._authorId }, () => {
                 this._isFollow.val("True");
+                $("#follow-tooltip").attr("data-original-title",
+                    "Du folgst " + this._authorName + " und nimmst an ihren/seinen Aktivitäten teil.");
             });  
         }
     }
 
-    private loadCorrektClass() {
-        if (this._isFollow.val().toLowerCase() === "true") 
+    private loadCorrektClassAndTooltip() {
+        if (this._isFollow.val().toLowerCase() === "true") {
             this._follower.addClass("fa-user-minus");
-        else
-            this._follower.addClass("fa-user-plus");        
+        } else
+            this._follower.addClass("fa-user-plus");
     }
     
 }

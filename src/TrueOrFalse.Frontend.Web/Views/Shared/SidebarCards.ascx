@@ -9,7 +9,7 @@
 
     %>
         <input id="isFollow" type="hidden" value="<%=Model.DoIFollow %>"/>
-        <input id="author" type="hidden" value="<%= author.User.Id%>" />
+        <input id="author" type="hidden" value="<%= author.User.Id%>" name="<%= author.User.Name %>" data-question-created="<%=Model.Reputation.ForQuestionsCreated %>" data-sets-created="<%= author.User.Name %>" data-question-created="<%=Model.Reputation.ForSetsCreated %>" />
 
     <div id="AutorCard">
         <div class="column-left">
@@ -38,16 +38,12 @@
                 <i class="fa fa fa-question-circle"></i>
                 <span class="footer-bar-text"><%=Model.Reputation.ForQuestionsCreated %></span>
             </div>
-            <div class="show-tooltip" <% if (!Model.IsCurrentUser)
-                {%>title="<%= Model.AuthorCardLinkText%> hat ihr/sein Wunschwissen<% if (author.ShowWishKnowledge)
-                { %> veröffentlicht und <%= Model.AmountWishCountQuestions %> Fragen gesammelt. <%}
-                else
-                { %> nicht veröffentlicht.<%} %>"
-                <%} %>>
+            <div class="show-tooltip" title="<% if(Model.Reputation.User.ShowWishKnowledge) {%> <%=author.Name %> hat sein/ihr Wunschwissen veröffentlicht und <%=Model.AmountWishCountQuestions %> Fragen gesammelt <% }
+                                                else {%>  <%=author.Name %> hat sein Wunschwissen leider nicht veröffentlicht. <%}%> " >
                 <span class="fa fa-heart"></span>
                 <span class="footer-bar-text"><%= Model.AmountWishCountQuestions %></span>
             </div>
-            <div class="show-tooltip" <% if (!Model.IsCurrentUser)
+            <div id="follow-tooltip"class="show-tooltip " <% if (!Model.IsCurrentUser)
                 {%>title="<%if (Model.DoIFollow)
                 { %>Du folgst <%= author.Name %> und nimmst an ihren/seinen Aktivitäten teil.<%}
                 else
@@ -59,7 +55,6 @@
         </div>
     </div>
     <%}
-
         if (Model.Authors.Count != 1)
         {%>
     <div id="MultipleAutorCard">
