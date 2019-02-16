@@ -27,6 +27,7 @@ class Follower {
 
         if (typeof $("#isFollow").val() !== "undefined") {
             this.loadCorrektClass();
+            this._follower.css('cursor', 'pointer');
         }
 
         if (IsLoggedIn.Yes) {
