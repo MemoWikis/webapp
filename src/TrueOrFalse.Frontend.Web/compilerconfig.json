@@ -330,5 +330,9 @@
   {
     "outputFile": "Views/Questions/Answer/AnswerQuestionDetails.css",
     "inputFile": "Views/Questions/Answer/AnswerQuestionDetails.less"
+  },
+  {
+    "outputFile": "Style/sidebar.css",
+    "inputFile": "Style/sidebar.less"
   }
 ]

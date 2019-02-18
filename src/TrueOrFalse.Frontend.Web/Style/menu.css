@@ -94,7 +94,6 @@
 #mainMenu .list-group-item .add-new {
   margin-top: 2px;
   float: right !important;
-  float: right;
 }
 #mainMenu .list-group-item .set-color {
   color: #FFD700;
@@ -348,7 +347,6 @@
 .RightMainMenu .list-group-item .add-new {
   margin-top: 2px;
   float: right !important;
-  float: right;
 }
 .RightMainMenu .list-group-item .fa-stack {
   font-size: 15px;
