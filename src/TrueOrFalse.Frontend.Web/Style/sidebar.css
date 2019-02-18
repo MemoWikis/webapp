@@ -9,7 +9,7 @@
 }@media (max-width: 649px) {
 }@media (min-width: 650px) {
 }.SidebarCardMixin {
-  border: #979797 solid 0.03125em;
+  border: #d6d6d6 solid 0.03125em;
   margin-bottom: 1.25em;
 }
 .SidebarCardMixin a {
@@ -52,7 +52,7 @@
   display: flex;
 }
 #SidebarCards #AutorCard {
-  border: #979797 solid 0.03125em;
+  border: #d6d6d6 solid 0.03125em;
   margin-bottom: 1.25em;
   min-height: 10.75em;
   display: flex;
@@ -100,7 +100,7 @@
   color: #0560AB;
 }
 #SidebarCards #MultipleAutorCard {
-  border: #979797 solid 0.03125em;
+  border: #d6d6d6 solid 0.03125em;
   margin-bottom: 1.25em;
   padding: 0 0.67em 0 0.6em;
 }
@@ -110,11 +110,14 @@
 #SidebarCards #MultipleAutorCard #AllAutorsList {
   padding-left: 0.65em;
 }
+#SidebarCards #MultipleAutorCard .card-title {
+  padding: 0 0 0 1.25em;
+}
 #SidebarCards #MultipleAutorCard #AllAutorsContainer {
   font-size: 0.875em;
   height: 3.40625em;
   display: flex;
-  padding-left: 0.85em;
+  padding: 1.105em 0 1.105em 0.85em;
 }
 #SidebarCards #MultipleAutorCard #AllAutorsContainer #ExtendAngle {
   margin-left: 2.8125em;
@@ -122,13 +125,13 @@
   display: inline-block;
 }
 #SidebarCards #MultipleAutorCard .autor-container {
-  padding-top: 0.79em;
-  margin-top: 0.79em;
+  margin-top: 0.71em;
   padding-left: 0.85em;
   width: 100%;
   display: flex;
   flex-shrink: 1;
   flex-direction: column;
+  border-bottom: #d6d6d6 solid 0.03125em;
 }
 #SidebarCards #MultipleAutorCard .autor-container .card-link {
   padding-left: 0.67em;
@@ -148,7 +151,7 @@
 }
 #SidebarCards #CategorySuggestionCard,
 #SidebarCards #CreateQuestionCard {
-  border: #979797 solid 0.03125em;
+  border: #d6d6d6 solid 0.03125em;
   margin-bottom: 1.25em;
   display: flex;
   flex-direction: column;
@@ -168,7 +171,7 @@
   text-align: center;
 }
 #SidebarCards #EduPartnerCard {
-  border: #979797 solid 0.03125em;
+  border: #d6d6d6 solid 0.03125em;
   margin-bottom: 1.25em;
   padding: 0.9375em;
   padding-bottom: 0.3125em;

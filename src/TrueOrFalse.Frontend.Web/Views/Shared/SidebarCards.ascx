@@ -90,8 +90,7 @@
     <%} %>
 
 
-    <%if (Model.SuggestionCategory != null)
-        { %>
+    <%if (Model.SuggestionCategory != null){ %>
     <div id="CategorySuggestionCard">
         <div class="ImageContainer">
             <div class="card-image-large" style="background: url(<%= Model.CategorySuggestionImageUrl%>) center;"></div>
@@ -108,12 +107,11 @@
             { %>
         <div class="category-suggestion-footer">
             <div class="set-question-count">
-                <%: Model.SuggestionCategory.GetAggregatedSetsFromMemoryCache().Count  %> Lernset<% if (Model.SuggestionCategory.GetAggregatedSetsFromMemoryCache().Count != 1)
-                                                                                                     { %>s mit&nbsp;<% }
-                                   else
-                                   { %> mit&nbsp;<% } %>
-                <%: Model.SuggestionCategory.GetAggregatedQuestionsFromMemoryCache().Count %> Frage<% if (Model.SuggestionCategory.GetAggregatedQuestionsFromMemoryCache().Count != 1)
-                                                                                                       { %>n<% } %>
+                <%: Model.SuggestionCategory.GetAggregatedSetsFromMemoryCache().Count  %> Lernset
+                <% if (Model.SuggestionCategory.GetAggregatedSetsFromMemoryCache().Count != 1)                                                                                                     { %>s mit&nbsp;<% }
+                    else{ %> mit&nbsp;<% } %>
+                <%: Model.SuggestionCategory.GetAggregatedQuestionsFromMemoryCache().Count %> Frage
+                <% if (Model.SuggestionCategory.GetAggregatedQuestionsFromMemoryCache().Count != 1){ %>n<% } %>
             </div>
             <div class="KnowledgeBarWrapper">
                 <% Html.RenderPartial("~/Views/Categories/Detail/CategoryKnowledgeBar.ascx", new CategoryKnowledgeBarModel(Model.SuggestionCategory)); %>
@@ -122,13 +120,14 @@
         <%} %>
     </div>
     <% } %>
-
-    <div id="EduPartnerCard">
-        <% if (Model.SponsorModel != null && !Model.SponsorModel.IsAdFree)
-            { %>
-        <% Html.RenderPartial("SidebarSponsor", Model.SponsorModel); %>
-        <% } %>
-    </div>
+    
+    <% if(Settings.ShowAdvertisment){ %>
+        <div id="EduPartnerCard">
+            <% if (Model.SponsorModel != null && !Model.SponsorModel.IsAdFree) { %>
+                <% Html.RenderPartial("SidebarSponsor", Model.SponsorModel); %>
+            <% } %>
+        </div>
+    <% } %>
 
     <div id="CreateQuestionCard">
         <div class="ImageContainer">

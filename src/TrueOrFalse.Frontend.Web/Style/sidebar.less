@@ -7,15 +7,16 @@
 @distance-top-20-px: 1.25em;
 @distanceBottom20px: 1.25em;
 @distance13px: 0.8125em;
-@border: #979797 solid 0.03125em;
+//@border: #979797 solid 0.03125em;
+@border: #d6d6d6 solid 0.03125em;
 
 // Mixins
-
 .SidebarCardMixin {
     border: @border;
     margin-bottom: @distanceBottom20px;
-    a{
-       color: @sidebar-card-link-color;
+
+    a {
+        color: @sidebar-card-link-color;
     }
 }
 
@@ -120,11 +121,15 @@
             padding-left: 0.65em;
         }
 
+        .card-title{
+            padding: 0 0 0 1.25em;
+        }
+
         #AllAutorsContainer {
             font-size: 0.875em;
             height: 3.40625em;
             display: flex;
-            padding-left: 0.85em;
+            padding: 1.105em 0 1.105em 0.85em;
 
             #ExtendAngle {
                 margin-left: 2.8125em;
@@ -134,13 +139,13 @@
         }
 
         .autor-container {
-            padding-top: 0.79em;
-            margin-top: 0.79em;
+            margin-top: 0.71em;
             padding-left: 0.85em;
             width: 100%;
             display: flex;
             flex-shrink: 1;
             flex-direction: column;
+            border-bottom: @border;
 
             .card-link {
                 padding-left: 0.67em;
