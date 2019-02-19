@@ -426,6 +426,12 @@
 }
 /* Answer Section
 ------------------------------------------------------*/
+#FirstRow .col-xs-8 {
+  width: 865px;
+}
+#FirstRow .col-xs-4 {
+  width: 270px;
+}
 #AnswerBody {
   font-size: 14px;
   line-height: 1.42857143;

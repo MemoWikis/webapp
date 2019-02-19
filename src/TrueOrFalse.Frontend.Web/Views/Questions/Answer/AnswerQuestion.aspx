@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" MasterPageFile="~/Views/Shared/Site.Sidebar.Master" Inherits="System.Web.Mvc.ViewPage<AnswerQuestionModel>" %>
+﻿<%@ Page Language="C#" MasterPageFile="~/Views/Shared/Site.MenuNo.Master" Inherits="System.Web.Mvc.ViewPage<AnswerQuestionModel>" %>
 <%@ Import Namespace="System.Web.Optimization" %>
 <%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
 <%@ Import Namespace="TrueOrFalse" %>
@@ -122,7 +122,7 @@
 
         
 
-    <div class="row">
+    <div id="FirstRow"class="row">
         <div class="col-xs-8">
             
             <% Html.RenderPartial("~/Views/Questions/Answer/AnswerBodyControl/AnswerBody.ascx",
