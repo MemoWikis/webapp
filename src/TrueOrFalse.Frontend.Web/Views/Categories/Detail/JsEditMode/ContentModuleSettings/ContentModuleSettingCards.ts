@@ -62,6 +62,8 @@ Vue.component('modal-cards-settings', {
 //                    this.result = result;
 //                    eventBus.$emit('set-edit-mode', this.editMode);
                     eventBus.$emit('new-markdown', { preview: true, newHtml: result });
+                    $('#modalContentModuleSettings').modal('hide');
+                    this.$parent.isDeleted = true;
                 }
             );
         }

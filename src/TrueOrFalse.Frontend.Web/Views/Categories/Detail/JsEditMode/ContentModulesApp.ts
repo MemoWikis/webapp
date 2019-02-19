@@ -34,10 +34,9 @@ new Vue({
         eventBus.$on('new-markdown',
             (event) => {
                 if (event.preview == true) {
-                    const pewviewHtml = event.newHtml;
-//                    console.log(template);
-                    this.compiled = Vue.compile(pewviewHtml);
-                    this.editMode = true;
+                    const previewHtml = event.newHtml;
+                    this.compiled = Vue.compile(previewHtml);
+                    eventBus.$emit('set-edit-mode', this.editMode);
                 } else {
                     console.log(event);
                 }
