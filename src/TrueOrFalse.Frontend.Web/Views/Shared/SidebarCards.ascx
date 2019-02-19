@@ -1,16 +1,19 @@
 ﻿<%@ Control Language="C#" Inherits="System.Web.Mvc.ViewUserControl<SidebarModel>" %>
 <%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
 
-<div id="SidebarCards" style="display: block;">
+<div id="SidebarCards" style="display: block;"> 
 
     <%if (Model.Authors.Count == 1)
         {
             var author = Model.Authors.First();
-    %>
 
-    <div id="AutorCard" style="padding-top: 0.1px;">
+    %>
+        <input id="isFollow" type="hidden" value="<%=Model.DoIFollow %>"/>
+        <input id="author" type="hidden" value="<%= author.User.Id%>" name="<%= author.User.Name %>" data-question-created="<%=Model.Reputation.ForQuestionsCreated %>" data-sets-created="<%= author.User.Name %>" data-question-created="<%=Model.Reputation.ForSetsCreated %>" />
+
+    <div id="AutorCard">
         <div class="column-left">
-            <div class="ImageContainer" style="width: 75px; padding-left: 0.5px;">
+            <div class="ImageContainer">
                 <div class="card-image-large" style="background: url(<%= author.ImageUrl %>) center;"></div>
             </div>
         </div>
@@ -18,11 +21,11 @@
             <div class="card-title">
                 <span>Erstellt von:</span>
             </div>
-            <div class="card-link">
+            <div id="card-link" class="card-link">
                 <a href="<%= Links.UserDetail(author.User) %>">
                     <%= author.Name %> 
                 </a>
-                <i class="fa fa-user-plus"></i>
+                <i id="followIcon"class="fas follower"></i>
             </div>
             <div class="author-reputation">
                 <span>Reputation:</span>
@@ -31,32 +34,27 @@
             </div>
         </div>
         <div class="autor-card-footer-bar">
-            <div class="show-tooltip" title='"<%= Model.Reputation.TotalReputation%>" ist eine stolze Zahl! Reputationspunkte zeigen, wieviel  <%= Model.AuthorCardLinkText%> für memucho getan hat.'>
+            <div class="show-tooltip" title='<%=Model.Reputation.User.Name%> hat <%= Model.Reputation.ForQuestionsCreated%> Fragen / <%=Model.Reputation.ForSetsCreated %> Lernsets erstellt.'>
                 <i class="fa fa fa-question-circle"></i>
-                <span class="footer-bar-text"><%=Model.Reputation.TotalReputation %></span>
+                <span class="footer-bar-text"><%=Model.Reputation.ForQuestionsCreated %></span>
             </div>
-            <div class="show-tooltip" <% if (!Model.IsCurrentUser)
-                {%>title="<%= Model.AuthorCardLinkText%> hat ihr/sein Wunschwissen<% if (author.ShowWishKnowledge)
-                { %> veröffentlicht und <%= Model.AmountWishCountQuestions %> Fragen gesammelt. Alles klar soweit?<%}
-                else
-                { %> nicht veröffentlicht.<%} %>"
-                <%} %>>
+            <div class="show-tooltip" title="<% if(Model.Reputation.User.ShowWishKnowledge) {%> <%=author.Name %> hat sein/ihr Wunschwissen veröffentlicht und <%=Model.AmountWishCountQuestions %> Fragen gesammelt <% }
+                                                else {%>  <%=author.Name %> hat sein Wunschwissen leider nicht veröffentlicht. <%}%> " >
                 <span class="fa fa-heart"></span>
                 <span class="footer-bar-text"><%= Model.AmountWishCountQuestions %></span>
             </div>
-            <div class="show-tooltip" <% if (!Model.IsCurrentUser)
+            <div id="follow-tooltip"class="show-tooltip " <% if (!Model.IsCurrentUser)
                 {%>title="<%if (Model.DoIFollow)
                 { %>Du folgst <%= author.Name %> und nimmst an ihren/seinen Aktivitäten teil.<%}
                 else
                 { %>Folge <%= author.Name %>, um an ihren/seinen Aktivitäten teilzuhaben.<%} %>"
                 <%} %>>
-                <i class="fa fa-user-plus"></i>
-                <span class="footer-bar-text"><%= Model.Reputation.ForUsersFollowingMe %></span>
+                 <div id="follower" class="fas follower"></div>  
+                 <span class="footer-bar-text"><%= Model.Reputation.ForUsersFollowingMe %></span>
             </div>
         </div>
     </div>
     <%}
-
         if (Model.Authors.Count != 1)
         {%>
     <div id="MultipleAutorCard">
@@ -92,8 +90,7 @@
     <%} %>
 
 
-    <%if (Model.SuggestionCategory != null)
-        { %>
+    <%if (Model.SuggestionCategory != null){ %>
     <div id="CategorySuggestionCard">
         <div class="ImageContainer">
             <div class="card-image-large" style="background: url(<%= Model.CategorySuggestionImageUrl%>) center;"></div>
@@ -110,12 +107,11 @@
             { %>
         <div class="category-suggestion-footer">
             <div class="set-question-count">
-                <%: Model.SuggestionCategory.GetAggregatedSetsFromMemoryCache().Count  %> Lernset<% if (Model.SuggestionCategory.GetAggregatedSetsFromMemoryCache().Count != 1)
-                                                                                                     { %>s mit&nbsp;<% }
-                                   else
-                                   { %> mit&nbsp;<% } %>
-                <%: Model.SuggestionCategory.GetAggregatedQuestionsFromMemoryCache().Count %> Frage<% if (Model.SuggestionCategory.GetAggregatedQuestionsFromMemoryCache().Count != 1)
-                                                                                                       { %>n<% } %>
+                <%: Model.SuggestionCategory.GetAggregatedSetsFromMemoryCache().Count  %> Lernset
+                <% if (Model.SuggestionCategory.GetAggregatedSetsFromMemoryCache().Count != 1)                                                                                                     { %>s mit&nbsp;<% }
+                    else{ %> mit&nbsp;<% } %>
+                <%: Model.SuggestionCategory.GetAggregatedQuestionsFromMemoryCache().Count %> Frage
+                <% if (Model.SuggestionCategory.GetAggregatedQuestionsFromMemoryCache().Count != 1){ %>n<% } %>
             </div>
             <div class="KnowledgeBarWrapper">
                 <% Html.RenderPartial("~/Views/Categories/Detail/CategoryKnowledgeBar.ascx", new CategoryKnowledgeBarModel(Model.SuggestionCategory)); %>
@@ -124,13 +120,14 @@
         <%} %>
     </div>
     <% } %>
-
-    <div id="EduPartnerCard">
-        <% if (Model.SponsorModel != null && !Model.SponsorModel.IsAdFree)
-            { %>
-        <% Html.RenderPartial("SidebarSponsor", Model.SponsorModel); %>
-        <% } %>
-    </div>
+    
+    <% if(Settings.ShowAdvertisment){ %>
+        <div id="EduPartnerCard">
+            <% if (Model.SponsorModel != null && !Model.SponsorModel.IsAdFree) { %>
+                <% Html.RenderPartial("SidebarSponsor", Model.SponsorModel); %>
+            <% } %>
+        </div>
+    <% } %>
 
     <div id="CreateQuestionCard">
         <div class="ImageContainer">

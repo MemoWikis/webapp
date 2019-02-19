@@ -1,0 +1,221 @@
+﻿@import (reference) 'includes/imports.less';
+
+// Variables
+@image-multi-author: 3.75em;
+@sidebar-card-link-color: #0560AB;
+@font-size-small: 0.75em;
+@distance-top-20-px: 1.25em;
+@distanceBottom20px: 1.25em;
+@distance13px: 0.8125em;
+//@border: #979797 solid 0.03125em;
+@border: #d6d6d6 solid 0.03125em;
+
+// Mixins
+.SidebarCardMixin {
+    border: @border;
+    margin-bottom: @distanceBottom20px;
+
+    a {
+        color: @sidebar-card-link-color;
+    }
+}
+
+.AutorCardMixin {
+    .top-container {
+        display: flex;
+    }
+
+
+    .column-right {
+        margin: 0 1.33em 1.75em 0;
+
+        .card-link {
+            margin: 0 0 0.3125em 0;
+        }
+    }
+
+    .author-reputation {
+        font-size: @font-size-small;
+        color: @sidebar-cards-grey;
+    }
+}
+
+
+// Content
+#SidebarCards {
+    width: 17em;
+    font-size: 1.125em;
+
+
+    .card-title {
+        font-size: @font-size-small;
+        color: @sidebar-cards-grey;
+        margin-top: 1.70em;
+        margin-bottom: 0.3125em;
+
+        span {
+            text-transform: uppercase;
+        }
+    }
+
+    a {
+        overflow: hidden;
+        display: block;
+        text-overflow: ellipsis;
+    }
+
+
+
+    .card-link {
+        align-items: center;
+        display: flex;
+    }
+
+    #AutorCard {
+        .AutorCardMixin();
+        .SidebarCardMixin();
+        min-height: 10.75em;
+        display: flex;
+        flex-wrap: wrap;
+
+
+
+        .ImageContainer {
+            margin: @distance-top-20-px 1.25em 0 1.25em;
+        }
+
+        .autor-card-footer-bar {
+            margin: 0 1.33em 1.28em 1.33em;
+            display: flex;
+            justify-content: space-between;
+            color: @sidebar-cards-grey;
+            width: 100%;
+            align-items: flex-end;
+        }
+
+        .footer-bar-text {
+            font-size: 0.625em;
+            padding: 0.0625em 0.1875em 0.0625em 0.1875em;
+        }
+
+        .card-link {
+            .fa-user-plus {
+                font-size: @font-size-small;
+                padding-left: 0.67em;
+                color: @sidebar-card-link-color;
+            }
+
+            .fa-user-minus {
+                font-size: @font-size-small;
+                padding-left: 0.67em;
+                color: @sidebar-card-link-color;
+            }
+        }
+    }
+
+    #MultipleAutorCard {
+        .SidebarCardMixin();
+        padding: 0 0.67em 0 0.6em;
+
+        #AllAutorsList {
+            padding-left: 0.65em;
+        }
+
+        .card-title{
+            padding: 0 0 0 1.25em;
+        }
+
+        #AllAutorsContainer {
+            font-size: 0.875em;
+            height: 3.40625em;
+            display: flex;
+            padding: 1.105em 0 1.105em 0.85em;
+
+            #ExtendAngle {
+                margin-left: 2.8125em;
+                transition-duration: 0.4s;
+                display: inline-block;
+            }
+        }
+
+        .autor-container {
+            margin-top: 0.71em;
+            padding-left: 0.85em;
+            width: 100%;
+            display: flex;
+            flex-shrink: 1;
+            flex-direction: column;
+            border-bottom: @border;
+
+            .card-link {
+                padding-left: 0.67em;
+            }
+        }
+
+        .single-autor-container {
+            display: flex;
+            align-items: center;
+            margin: 0 1.25em @distanceBottom20px 0;
+
+            .multiple-autor-card-image {
+                width: @image-multi-author;
+                height: @image-multi-author;
+                border-radius: 3.125em;
+                overflow: hidden;
+                display: flex;
+                justify-content: center;
+            }
+        }
+    }
+
+    #CategorySuggestionCard, #CreateQuestionCard {
+        .SidebarCardMixin();
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 0 1.25em 0 1.25em;
+
+        .ImageContainer {
+            margin-top: @distance-top-20-px;
+        }
+
+        .card-link {
+            text-align: center;
+        }
+    }
+    /* SPONSOR----------------------------------------------------------*/
+    #EduPartnerCard {
+        .SidebarCardMixin();
+        padding: 0.9375em;
+        padding-bottom: 0.3125em;
+
+        .EduPartnerLSidebarWrapper { //Avoid "sponsor" and the like in css classes because of ad blockers
+            font-size: 0.7875em;
+            text-align: center;
+
+            @media (max-width: (@show-menu-from-width - 1px)) {
+                display: none;
+            }
+
+            .fa {
+                color: #CCCCCC;
+                display: flex;
+                justify-content: flex-end;
+                margin-right: 0.25em;
+            }
+        }
+
+        .EduPartnerSidebarLogo {
+            margin-bottom: @distanceBottom20px;
+
+            img {
+                max-width: 50%;
+                max-height: 6.25em;
+            }
+        }
+    }
+}
+
+
+
+

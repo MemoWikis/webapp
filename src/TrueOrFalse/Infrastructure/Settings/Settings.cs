@@ -32,6 +32,8 @@ public class Settings
 
     public static string LomExportPath;
 
+    public static bool ShowAdvertisment; 
+
     private static bool? _developOffline;
 
     public static bool DevelopOffline()
@@ -116,5 +118,7 @@ public class Settings
         CanonicalHost = GetValue(OverwrittenConfig.Value("CanonicalHost"), "CanonicalHost");
         AdvertisementTurnedOn = bool.Parse(GetValue(OverwrittenConfig.Value("advertisementTurnedOn"), "AdvertisementTurnedOn"));
         LomExportPath = GetValue(OverwrittenConfig.Value("lomExportPath"), "LomExportPath");
+
+        ShowAdvertisment = Environment() != "Live";
     }
 }

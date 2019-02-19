@@ -594,58 +594,6 @@ ul.AutocompleteHeader {
   font-size: 16px;
   text-anchor: middle;
 }
-#SidebarCards {
-  width: 272px;
-  font-size: 18px;
-}
-#SidebarCards a {
-  overflow: hidden;
-  display: block;
-  text-overflow: ellipsis;
-  padding: 2px;
-}
-#SidebarCards .card-title {
-  font-size: 12px;
-  color: #707070;
-  margin-top: 1.25em;
-}
-#SidebarCards .card-link {
-  align-items: center;
-  color: #0560AB;
-  display: flex;
-}
-#AutorCard {
-  border: #979797 solid 0.5px;
-  min-height: 10.75em;
-  display: flex;
-  flex-wrap: wrap;
-}
-#AutorCard .column-right .card-link .fa-user-plus {
-  font-size: 0.81em;
-  padding-left: 0.67em;
-}
-#AutorCard .autor-card-footer-bar {
-  margin-bottom: 1.3125em;
-  display: flex;
-  justify-content: space-around;
-  color: #707070;
-  width: 100%;
-  align-items: flex-end;
-}
-#AutorCard .footer-bar-text {
-  font-size: 10px;
-  padding: 1px 3px 1px 3px;
-}
-#AutorCard .top-container {
-  display: flex;
-}
-#AutorCard .author-reputation {
-  font-size: 12px;
-  color: #707070;
-}
-#AutorCard .ImageContainer {
-  margin: 1.25em 1.25em 0 1.25em;
-}
 .card-image-large {
   background-size: cover !important;
   width: 75px;
@@ -654,55 +602,6 @@ ul.AutocompleteHeader {
   overflow: hidden;
   background-color: white !important;
   background-repeat: no-repeat !important;
-}
-#MultipleAutorCard {
-  border: #979797 solid 0.5px;
-  padding: 0 0.67em 0 0.6em;
-}
-#MultipleAutorCard .card-title {
-  margin-left: 1.25em;
-}
-#MultipleAutorCard #AllAutorsList {
-  padding-left: 0.65em;
-}
-#MultipleAutorCard #AllAutorsContainer {
-  font-size: 14px;
-  height: 54.5px;
-  display: flex;
-  padding-left: 0.85em;
-}
-#MultipleAutorCard #AllAutorsContainer #ExtendAngle {
-  margin-left: 45px;
-  font-size: 18px;
-  transition-duration: 0.4s;
-  display: inline-block;
-}
-#MultipleAutorCard .autor-container {
-  border-bottom: solid 0.25px #ddd;
-  padding-top: 12.64px;
-  margin-top: 12.64px;
-  padding-left: 0.85em;
-  width: 100%;
-  display: flex;
-  flex-shrink: 1;
-  flex-direction: column;
-}
-#MultipleAutorCard .autor-container .card-link {
-  padding-left: 0.67em;
-}
-#MultipleAutorCard .single-autor-container {
-  display: flex;
-  height: 59px;
-  align-items: center;
-  margin: 0 1.25em 1.25em 0;
-}
-#MultipleAutorCard .single-autor-container .multiple-autor-card-image {
-  width: 60px;
-  height: 60px;
-  border-radius: 50px;
-  overflow: hidden;
-  display: flex;
-  justify-content: center;
 }
 .rotate {
   transform: rotate(90deg);
@@ -718,43 +617,6 @@ ul.AutocompleteHeader {
   color: #979797;
   font-size: 14px;
   margin-bottom: 5px;
-}
-#CategorySuggestionCard,
-#CreateQuestionCard {
-  border: #979797 solid 0.5px;
-  margin-top: 19px;
-  padding-left: 0.5px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 0 1.25em 0 1.25em;
-  /*position: relative;
-    
-    z-index: 2;
-    //Add border to pseudo element to prevent border issues due to rounding error:
-    &::after {
-        content: '';
-        position: absolute;
-        top: 0;
-        right: 0;
-        bottom: 0;
-        left: 0;
-        border: #979797 solid 0.5px;
-        z-index: 1;
-    }
-
-    .card-link {
-        position: relative;
-        z-index: 2;
-    }*/
-}
-#CategorySuggestionCard .ImageContainer,
-#CreateQuestionCard .ImageContainer {
-  margin-top: 1.25em;
-}
-#CategorySuggestionCard .card-link,
-#CreateQuestionCard .card-link {
-  text-align: center;
 }
 /* MASTER SECTION
 ----------------------------------------------------------*/
@@ -1197,37 +1059,6 @@ ul.AutocompleteHeader {
 #MasterWidget #WidgetContent blockquote {
   border-color: #ddd;
   border-color: rgba(0, 0, 0, 0.15);
-}
-/* SPONSOR
-----------------------------------------------------------*/
-#EduPartnerCard {
-  margin-top: 19px;
-  border: #979797 solid 0.5px;
-  padding: 15px;
-  padding-bottom: 5px;
-}
-#EduPartnerCard .EduPartnerLSidebarWrapper {
-  font-size: 12.6px;
-  text-align: center;
-}
-@media (max-width: 1199px) {
-  #EduPartnerCard .EduPartnerLSidebarWrapper {
-    display: none;
-  }
-}
-#EduPartnerCard .EduPartnerLSidebarWrapper .fa {
-  color: #CCCCCC;
-  display: flex;
-  justify-content: flex-end;
-  margin-right: 4px;
-  font-size: 18px;
-}
-#EduPartnerCard .EduPartnerSidebarLogo {
-  margin-bottom: 20px;
-}
-#EduPartnerCard .EduPartnerSidebarLogo img {
-  max-width: 50%;
-  max-height: 100px;
 }
 /* VALIDATION
 ----------------------------------------------------------*/
