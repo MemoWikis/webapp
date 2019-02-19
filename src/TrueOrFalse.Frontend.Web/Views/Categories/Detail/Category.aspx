@@ -49,6 +49,7 @@
         <div id="ContentModuleApp">
             <div v-if="showTopAlert"><% Html.RenderPartial("~/Views/Categories/Detail/Partials/Alert.ascx"); %></div>
             <% Html.RenderPartial("~/Views/Categories/Detail/Tabs/TopicTab.ascx", Model); %>
+            <div id="previewEdit"></div>
             <div v-if="!showTopAlert"><% Html.RenderPartial("~/Views/Categories/Detail/Partials/Alert.ascx"); %></div>
             <section id="SaveMarkdownBottom" v-if="editMode">
                 <div>

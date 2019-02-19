@@ -59,8 +59,9 @@ Vue.component('modal-cards-settings', {
         updateMarkdown() {
             $.post("/Category/RenderMarkdown/", { categoryId: $("#hhdCategoryId").val(), markdown: this.newMarkdown },
                 (result) => {
-                    console.log(result);
-                    this.result = result;
+//                    this.result = result;
+//                    eventBus.$emit('set-edit-mode', this.editMode);
+                    eventBus.$emit('new-markdown', { preview: true, newHtml: result });
                 }
             );
         }

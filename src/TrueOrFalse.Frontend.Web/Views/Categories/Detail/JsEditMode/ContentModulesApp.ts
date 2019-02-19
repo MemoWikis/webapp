@@ -18,6 +18,8 @@ new Vue({
             saveMessage: '',
             editMode: false,
             showTopAlert: false,
+            previewModule: null,
+            compiled: null,
         }
     },
 
@@ -29,6 +31,17 @@ new Vue({
                 }
             });
         eventBus.$on("set-edit-mode", state => this.editMode = state);
+        eventBus.$on('new-markdown',
+            (event) => {
+                if (event.preview == true) {
+                    const pewviewHtml = event.newHtml;
+//                    console.log(template);
+                    this.compiled = Vue.compile(pewviewHtml);
+                    this.editMode = true;
+                } else {
+                    console.log(event);
+                }
+            });
     },
 
     methods: {
