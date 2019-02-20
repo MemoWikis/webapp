@@ -1,4 +1,5 @@
-﻿    <modal-cards-settings inline-template>
+﻿<div v-if="editMode">    
+    <modal-cards-settings inline-template> 
         <div class="modal fade" id="cardsContentModuleSettings" tabindex="-1" role="dialog" aria-labelledby="modal-content-module-settings" aria-hidden="true">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
@@ -27,3 +28,4 @@
             </div>
         </div>            
     </modal-cards-settings>
+</div>

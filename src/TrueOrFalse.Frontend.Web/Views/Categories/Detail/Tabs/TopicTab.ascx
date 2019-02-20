@@ -124,7 +124,7 @@
 
 <div class="MarkdownContent">
     <ul class="module" v-sortable="options" style="list-style-type: none;">
-        <component :is="compiled"></component>
+        <preview-component :is="compiled"></preview-component>
         <% if (string.IsNullOrEmpty(Model.CustomPageHtml)) {
         
                if (Model.CategoriesChildren.Any(c => c.Type.GetCategoryTypeGroup() == CategoryTypeGroup.Standard))
