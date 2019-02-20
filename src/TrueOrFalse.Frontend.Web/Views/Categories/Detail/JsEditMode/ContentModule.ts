@@ -1,6 +1,9 @@
 ﻿Vue.component('content-module', {
 
-    props: ['origMarkdown'],
+    props: {
+        origMarkdown: String,
+        contentModuleType: String,
+    },
 
     data() {
         return {
@@ -9,11 +12,13 @@
             canBeEdited: false,
             markdown: '',
             isListening: false,
+            modalType: '',
         }
     },
 
     created() {
         this.markdown = this.origMarkdown;
+        this.modalType = '#' + this.contentModuleType + 'ContentModuleSettings';
     },
 
     mounted() {

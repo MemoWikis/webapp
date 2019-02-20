@@ -27,17 +27,16 @@ Vue.component('modal-cards-settings', {
     },
 
     mounted: function () {
-        $('#modalContentModuleSettings').on('show.bs.modal',
+        $('#cardsContentModuleSettings').on('show.bs.modal',
             event => {
                 this.newMarkdown = event.relatedTarget.getAttribute('data-markdown');
                 this.parentId = event.relatedTarget.getAttribute('component-id');
                 this._cardSettings = Utils.ConvertEncodedHtmlToJson(this.newMarkdown);
                 this.selectedCardOrientation = this._cardSettings.CardOrientation;
                 this.sets = this._cardSettings.SetListIds.split(',');
-                console.log(this.parentId);
             });
 
-        $('#modalContentModuleSettings').on('hidden.bs.modal', function () {
+        $('#cardsContentModuleSettings').on('hidden.bs.modal', function () {
             this.sets = [];
             this.preview = false;
         });

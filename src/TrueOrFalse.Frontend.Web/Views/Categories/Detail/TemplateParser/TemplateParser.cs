@@ -98,6 +98,7 @@ public class TemplateParser
     {
         var partialModel = GetPartialModel(templateJson, category);
         partialModel.Markdown = templateMarkdown;
+        partialModel.Type = templateJson.TemplateName.ToLower();
 
         return GetPartialHtml(templateJson, controllerContext, partialModel);
     }
