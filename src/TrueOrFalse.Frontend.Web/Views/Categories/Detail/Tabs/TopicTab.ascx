@@ -160,4 +160,6 @@
         
         <% } %>
     </ul>
+    
+    <%: Html.Partial("~/Views/Categories/Detail/Partials/Cards/CardsModal.ascx")%>
 </div>

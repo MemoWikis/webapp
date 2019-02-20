@@ -17,6 +17,7 @@ Vue.component('modal-cards-settings', {
             newSetId: 0,
             parentId: '',
             result: '',
+            preview: '',
         }
     },
 
@@ -35,6 +36,11 @@ Vue.component('modal-cards-settings', {
                 this.sets = this._cardSettings.SetListIds.split(',');
                 console.log(this.parentId);
             });
+
+        $('#modalContentModuleSettings').on('hidden.bs.modal', function () {
+            this.sets = [];
+            this.preview = false;
+        });
     },
 
     methods: {
@@ -59,11 +65,10 @@ Vue.component('modal-cards-settings', {
         updateMarkdown() {
             $.post("/Category/RenderMarkdown/", { categoryId: $("#hhdCategoryId").val(), markdown: this.newMarkdown },
                 (result) => {
-//                    this.result = result;
-//                    eventBus.$emit('set-edit-mode', this.editMode);
-                    eventBus.$emit('new-markdown', { preview: true, newHtml: result });
+                    this.preview = true;
+                    eventBus.$emit('new-markdown', { preview: this.preview, newHtml: result });
+                    eventBus.$emit('close-content-module-settings-modal', this.preview);
                     $('#modalContentModuleSettings').modal('hide');
-                    this.$parent.isDeleted = true;
                 }
             );
         }

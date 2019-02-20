@@ -7,19 +7,25 @@
             hoverState: false,
             isDeleted: false,
             canBeEdited: false,
-            showMarkdownInfo: false,
             markdown: '',
-            componentId: '',
+            isListening: false,
         }
     },
 
     created() {
         this.markdown = this.origMarkdown;
-        this.componentId = this._uid;
     },
 
     mounted() {
-        eventBus.$on("set-edit-mode", state => this.canBeEdited = state);
+        eventBus.$on('set-edit-mode', state => this.canBeEdited = state);
+        eventBus.$on('close-content-module-settings-modal', (event) => {
+            if (this.isListening && event == true) {
+                this.isDeleted = true;
+                this.isListening = false;
+            } else if (this.isListening && event == false) {
+                this.isListening = false;
+            }
+        });
     },
 
     methods: {
