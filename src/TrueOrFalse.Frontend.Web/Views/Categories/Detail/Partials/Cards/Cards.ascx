@@ -11,6 +11,7 @@
         <% } %>
     </div>
 
+
 <%: Html.Partial("~/Views/Categories/Detail/Partials/ContentModuleWrapperEnd.ascx") %>
 
 

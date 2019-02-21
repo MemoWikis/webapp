@@ -39,6 +39,10 @@
 </asp:Content>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
+        
+    <!-- Vue Templates must be loaded before Vue Apps --------------------------- -->
+    <%: Html.Partial("~/Views/Categories/Detail/Partials/VueTemplateCollection.ascx") %>
+
     <input type="hidden" id="hhdCategoryId" value="<%= Model.Category.Id %>"/>
     <input type="hidden" id="hddUserId" value="<%= Model.UserId %>"/>
     <input type="hidden" id="hddQuestionCount" value="<%=Model.AggregatedQuestionCount %>"/>   

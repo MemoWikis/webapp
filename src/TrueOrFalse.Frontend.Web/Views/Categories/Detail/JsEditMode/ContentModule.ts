@@ -1,4 +1,4 @@
-﻿Vue.component('content-module', {
+﻿var contentModuleComponent = Vue.component('content-module', {
 
     props: {
         origMarkdown: String,

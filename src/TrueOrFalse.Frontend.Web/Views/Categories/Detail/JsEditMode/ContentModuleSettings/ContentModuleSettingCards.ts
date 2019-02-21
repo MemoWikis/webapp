@@ -4,10 +4,12 @@
     SetListIds: string = "";
 }
 
-Vue.component('modal-cards-settings', {
+Vue.component('cards-modal-settings', {
     props: ['origMarkdown'],
 
-    _cardSettings: CardSettings,
+    template: '#cards-modal-template',
+
+     _cardSettings: CardSettings,
 
     data() {
         return {
@@ -67,7 +69,7 @@ Vue.component('modal-cards-settings', {
                     this.preview = true;
                     eventBus.$emit('new-markdown', { preview: this.preview, newHtml: result });
                     eventBus.$emit('close-content-module-settings-modal', this.preview);
-                    $('#modalContentModuleSettings').modal('hide');
+                    $('#cardsContentModuleSettings').modal('hide');
                 }
             );
         }

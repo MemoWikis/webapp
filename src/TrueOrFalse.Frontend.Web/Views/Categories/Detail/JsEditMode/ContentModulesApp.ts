@@ -1,8 +1,9 @@
-﻿Vue.directive('sortable', {
-    inserted(el, binding) {
-        new Sortable(el, binding.value || {})
-    }
-});
+﻿Vue.directive('sortable',
+    {
+        inserted(el, binding) {
+            new Sortable(el, binding.value || {})
+        }
+    });
 
 new Vue({
     el: '#ContentModuleApp',
@@ -19,7 +20,8 @@ new Vue({
             editMode: false,
             showTopAlert: false,
             previewModule: null,
-            compiled: null,
+            changedMarkdown: false,
+//            compiled: '',
         }
     },
 
@@ -30,25 +32,41 @@ new Vue({
                     this.saveMarkdown(data);
                 }
             });
-        eventBus.$on("set-edit-mode", state => this.editMode = state);
+        eventBus.$on("set-edit-mode",
+            (state) => {
+                this.editMode = state;
+                if (this.changedMarkdown && !this.editMode) {
+                    location.reload();
+                }
+            });
         eventBus.$on('new-markdown',
             (event) => {
                 if (event.preview == true) {
                     const previewHtml = event.newHtml;
-                    this.compiled = Vue.compile(previewHtml);
-                    eventBus.$emit('set-edit-mode', this.editMode);
+                    this.changedMarkdown = true;
+                    var appended = $(previewHtml).appendTo('#ContentModuleApp');
+                    var instance = new contentModuleComponent({
+                        el: appended.get(0)
+                    });
+//                    this.compiled = Vue.compile(previewHtml);
+//                    eventBus.$emit('set-edit-mode', this.editMode);
                 } else {
                     console.log(event);
                 }
             });
     },
 
-    methods: {
+    mounted() {
+        this.changedMarkdown = false;
+    },
 
+    methods: {
         cancelEditMode() {
             this.editMode = false;
             eventBus.$emit('set-edit-mode', this.editMode);
-            location.reload();
+            if (this.changedMarkdown) {
+                location.reload();
+            };
         },
 
         removeAlert() {
@@ -70,7 +88,8 @@ new Vue({
 
             $.post("/Category/SaveMarkdown",
                 {
-                    categoryId: $("#hhdCategoryId").val(), markdown: markdownDoc,
+                    categoryId: $("#hhdCategoryId").val(),
+                    markdown: markdownDoc,
                 },
                 (success) => {
                     if (success == true) {
@@ -87,3 +106,4 @@ new Vue({
     }
 });
 
+//var v = initV();

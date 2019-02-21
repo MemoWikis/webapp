@@ -19,9 +19,9 @@ new Vue({
             } else {
                 this.editMode = !this.editMode;
                 eventBus.$emit('set-edit-mode', this.editMode);
-                if (!this.editMode) {
-                    location.reload();
-                };
+//                if (!this.editMode) {
+//                    location.reload();
+//                };
             };
         },
          

@@ -17,7 +17,7 @@
                     </ul>
                 </div>
                 
-                <%-- <%: Html.Partial("~/Views/Categories/Detail/Partials/ContentModuleSettingsModal.ascx") %> --%>
+                <cards-modal-settings></cards-modal-settings>
 
             </div>    
         </div>     
