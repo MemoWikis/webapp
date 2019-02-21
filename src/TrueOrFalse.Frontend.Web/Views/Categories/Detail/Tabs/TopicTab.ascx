@@ -123,7 +123,7 @@
 </div>
 
 <div class="MarkdownContent">
-    <ul class="module" v-sortable="options" style="list-style-type: none;">
+    <ul id="MarkdownContentComponent"class="module" v-sortable="options" style="list-style-type: none;">
         <% if (string.IsNullOrEmpty(Model.CustomPageHtml)) {
         
                if (Model.CategoriesChildren.Any(c => c.Type.GetCategoryTypeGroup() == CategoryTypeGroup.Standard))
@@ -159,6 +159,4 @@
         
         <% } %>
     </ul>
-    
-    <%: Html.Partial("~/Views/Categories/Detail/Partials/Cards/CardsModal.ascx")%>
 </div>

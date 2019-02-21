@@ -41,7 +41,7 @@
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
         
     <!-- Vue Templates must be loaded before Vue Apps --------------------------- -->
-    <%: Html.Partial("~/Views/Categories/Detail/Partials/VueTemplateCollection.ascx") %>
+    <%: Html.Partial("~/Views/Categories/Detail/Partials/SettingsDialogCollection.ascx") %>
 
     <input type="hidden" id="hhdCategoryId" value="<%= Model.Category.Id %>"/>
     <input type="hidden" id="hddUserId" value="<%= Model.UserId %>"/>
@@ -61,14 +61,15 @@
                     <a class="CancelEdit" @click="cancelEditMode()">Editieren abbrechen</a>
                 </div>                
             </section>
+            <cards-modal-settings/>
         </div>           
     </div>
-    
+
     
     <div id="LearningTabContent" class="TabContent" style="display: none;">
         <% Html.RenderPartial("~/Views/Categories/Detail/Tabs/LearningTab.ascx", Model); %>
     </div>
-    <div id="AnalyticsTabContent" class="TabContent"></div>  
+    <div id="AnalyticsTabContent" class="TabContent"></div>
     
     <%= Scripts.Render("~/bundles/js/CategoryEditMode") %>
 

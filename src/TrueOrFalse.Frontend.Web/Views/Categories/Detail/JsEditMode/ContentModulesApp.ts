@@ -1,9 +1,10 @@
 ﻿Vue.directive('sortable',
     {
         inserted(el, binding) {
-            new Sortable(el, binding.value || {})
+            new Sortable(el, binding.value || {});
         }
     });
+
 
 new Vue({
     el: '#ContentModuleApp',
@@ -21,7 +22,6 @@ new Vue({
             showTopAlert: false,
             previewModule: null,
             changedMarkdown: false,
-//            compiled: '',
         }
     },
 
@@ -43,15 +43,16 @@ new Vue({
             (event) => {
                 if (event.preview == true) {
                     const previewHtml = event.newHtml;
+                    const moduleToReplace = event.toReplace;
                     this.changedMarkdown = true;
-                    var appended = $(previewHtml).appendTo('#ContentModuleApp');
+                    var appended = $(previewHtml).insertAfter(moduleToReplace);
                     var instance = new contentModuleComponent({
                         el: appended.get(0)
                     });
-//                    this.compiled = Vue.compile(previewHtml);
-//                    eventBus.$emit('set-edit-mode', this.editMode);
+                    eventBus.$emit('close-content-module-settings-modal', event.preview);
+                    eventBus.$emit('set-edit-mode', this.editMode);
                 } else {
-                    console.log(event);
+                    console.log('kein neues Markdown verfügbar');
                 }
             });
     },

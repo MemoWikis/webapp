@@ -7,7 +7,7 @@
 Vue.component('cards-modal-settings', {
     props: ['origMarkdown'],
 
-    template: '#cards-modal-template',
+    template: '#cards-settings-dialog-template',
 
      _cardSettings: CardSettings,
 
@@ -29,16 +29,16 @@ Vue.component('cards-modal-settings', {
     },
 
     mounted: function () {
-        $('#cardsContentModuleSettings').on('show.bs.modal',
+        $('#cardsSettingsDialog').on('show.bs.modal',
             event => {
                 this.newMarkdown = event.relatedTarget.getAttribute('data-markdown');
-                this.parentId = event.relatedTarget.getAttribute('component-id');
+                this.parentId = event.relatedTarget.getAttribute('data-component-id');
                 this._cardSettings = Utils.ConvertEncodedHtmlToJson(this.newMarkdown);
                 this.selectedCardOrientation = this._cardSettings.CardOrientation;
                 this.sets = this._cardSettings.SetListIds.split(',');
             });
 
-        $('#cardsContentModuleSettings').on('hidden.bs.modal', function () {
+        $('#cardsSettingsDialog').on('hidden.bs.modal', function () {
             this.sets = [];
             this.preview = false;
         });
@@ -60,16 +60,14 @@ Vue.component('cards-modal-settings', {
             this._cardSettings.CardOrientation = this.selectedCardOrientation;
             this.newMarkdown = Utils.ConvertJsonToMarkdown(this._cardSettings);
             this.updateMarkdown();
-            console.log(this.parentId);
         },
         
         updateMarkdown() {
             $.post("/Category/RenderMarkdown/", { categoryId: $("#hhdCategoryId").val(), markdown: this.newMarkdown },
                 (result) => {
                     this.preview = true;
-                    eventBus.$emit('new-markdown', { preview: this.preview, newHtml: result });
-                    eventBus.$emit('close-content-module-settings-modal', this.preview);
-                    $('#cardsContentModuleSettings').modal('hide');
+                    eventBus.$emit('new-markdown', { preview: this.preview, newHtml: result, toReplace: 'li#' + this.parentId });
+                    $('#cardsSettingsDialog').modal('hide');
                 }
             );
         }

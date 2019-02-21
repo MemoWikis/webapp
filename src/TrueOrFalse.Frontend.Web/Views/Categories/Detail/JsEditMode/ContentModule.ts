@@ -13,12 +13,14 @@
             markdown: '',
             isListening: false,
             modalType: '',
+            id: '',
         }
     },
 
     created() {
         this.markdown = this.origMarkdown;
-        this.modalType = '#' + this.contentModuleType + 'ContentModuleSettings';
+        this.modalType = '#' + this.contentModuleType + 'SettingsDialog';
+        this.id = this.contentModuleType + 'Module-' + this._uid;
     },
 
     mounted() {
