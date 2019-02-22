@@ -14,7 +14,9 @@
             isListening: false,
             modalType: '',
             id: '',
-        }
+            modal: '',
+            button: '',
+        };
     },
 
     created() {
@@ -26,13 +28,25 @@
     mounted() {
         eventBus.$on('set-edit-mode', state => this.canBeEdited = state);
         eventBus.$on('close-content-module-settings-modal', (event) => {
-            if (this.isListening && event == true) {
+            if (this.isListening && event) {
                 this.isDeleted = true;
                 this.isListening = false;
-            } else if (this.isListening && event == false) {
+            } else if (this.isListening && event) {
                 this.isListening = false;
-            }
+            };
         });
+    },
+
+    watch: {
+        canBeEdited: function (val) {
+            if (val) {
+                this.modal = 'modal';
+                this.button = 'button';
+            } else {
+                this.modal = '';
+                this.button = '';
+            };
+        },
     },
 
     methods: {
