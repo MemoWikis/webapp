@@ -131,7 +131,7 @@
             <% if (!Model.IsLoggedIn && !Model.IsTestSession && !Model.IsLearningSession && Model.SetMinis.Any()) { %>
                <div class="SingleCategoryAttention">
                     
-                   <% Html.RenderPartial("~/Views/Categories/Detail/Partials/SingleCategoryFullWidth.ascx", new SingleCategoryFullWidthModel(Model.PrimaryCategory.Id)); %>
+                   <% Html.RenderPartial("~/Views/Categories/Detail/Partials/SingleCategoryFullWidth/SingleCategoryFullWidth.ascx", new SingleCategoryFullWidthModel(Model.PrimaryCategory.Id)); %>
                 </div>
             <% } %>
             <div class="row">
