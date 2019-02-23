@@ -123,29 +123,36 @@
         
 
     <div id="FirstRow"class="row">
-        <div class="col-xs-8">
+        <div class="col-lg-9">
             
             <% Html.RenderPartial("~/Views/Questions/Answer/AnswerBodyControl/AnswerBody.ascx",
                    new AnswerBodyModel(Model)); %>
 
-            <% if (!Model.IsLoggedIn && !Model.IsTestSession && !Model.IsLearningSession && Model.SetMinis.Any()) { %>
-               <div class="SingleCategoryAttention">
-                    
-                   <% Html.RenderPartial("~/Views/Categories/Detail/Partials/SingleCategoryFullWidth.ascx", new SingleCategoryFullWidthModel(Model.PrimaryCategory.Id)); %>
-                </div>
-            <% } %>
+
             <div class="row">
                 <div class="col-sm-12 xxs-stack">
                     <% Html.RenderPartial("~/Views/Questions/Answer/AnswerQuestionDetails.ascx", Model); %>
                 </div>
             </div>
         </div>
-        <div class="col-xs-4">
+        <div class="col-lg-3">
             <% Html.RenderPartial("~/Views/Shared/Cards/CardQuestionAuthor.ascx", new CardQuestionAuthorModel()); %>
             <% Html.RenderPartial("~/Views/Shared/Cards/CardTutory.ascx"); %>
             <div class="well"> Frage erstellen </div>
         </div>
     </div>
+<div class="row">
+    <div class="col-lg-12">
+        <% if (!Model.IsLoggedIn && !Model.IsTestSession && !Model.IsLearningSession && Model.SetMinis.Any()) { %>
+            <div class="SingleCategoryAttention">
+                    
+                <% Html.RenderPartial("~/Views/Categories/Detail/Partials/SingleCategoryFullWidth.ascx", new SingleCategoryFullWidthModel(Model.PrimaryCategory.Id)); %>
+            </div>
+        <% } %>
+    </div>
+</div>
+
+
 
 
         <div class="row">
