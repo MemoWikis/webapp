@@ -66,5 +66,13 @@
         getMarkdown(string) {
             console.log(string);
         },
-    }
+
+        moveUp() {
+
+        },
+
+        moveDown() {
+
+        },
+    },
 });

@@ -1263,7 +1263,6 @@ p:empty {
 .ContentModule .ModuleBorder {
   -webkit-border-radius: 3px;
           border-radius: 3px;
-  cursor: pointer;
   border: solid transparent 1px;
   -webkit-transition: 0.2s;
   transition: 0.2s;
@@ -1271,6 +1270,7 @@ p:empty {
 }
 .ContentModule .ModuleBorder.active {
   border-color: #45aece;
+  cursor: pointer;
 }
 .ContentModule .well {
   margin-bottom: 0px;
