@@ -429,6 +429,24 @@
     <Content Include="Content\themes\base\minified\jquery.ui.tabs.min.css" />
     <Content Include="Content\themes\base\minified\jquery.ui.theme.min.css" />
     <Content Include="Content\themes\base\minified\jquery.ui.tooltip.min.css" />
+    <Content Include="Fonts\font-awesome-5.7.2\less\brands.css">
+      <DependentUpon>brands.less</DependentUpon>
+    </Content>
+    <Content Include="Fonts\font-awesome-5.7.2\less\fontawesome.css">
+      <DependentUpon>fontawesome.less</DependentUpon>
+    </Content>
+    <Content Include="Fonts\font-awesome-5.7.2\less\regular.css">
+      <DependentUpon>regular.less</DependentUpon>
+    </Content>
+    <Content Include="Fonts\font-awesome-5.7.2\less\solid.css">
+      <DependentUpon>solid.less</DependentUpon>
+    </Content>
+    <Content Include="Fonts\font-awesome-5.7.2\less\v4-shims.css">
+      <DependentUpon>v4-shims.less</DependentUpon>
+    </Content>
+    <Content Include="Fonts\font-awesome-5.7.2\less\_variables.css">
+      <DependentUpon>_variables.less</DependentUpon>
+    </Content>
     <Content Include="Fonts\font-awesome-5.7.2\svgs\brands\500px.svg" />
     <Content Include="Fonts\font-awesome-5.7.2\svgs\brands\accessible-icon.svg" />
     <Content Include="Fonts\font-awesome-5.7.2\svgs\brands\accusoft.svg" />
@@ -24153,7 +24171,6 @@
     <Folder Include="bin\Domain\Message\Types\" />
     <Folder Include="bin\Utilities\Update\Scripts\" />
     <Folder Include="bin\Utilities\Update\SolrSchemas\" />
-    <Folder Include="Fonts\font-awesome-5.7.2\css\" />
     <Folder Include="Views\Categories\Detail\Partials\BreadCrumb\" />
     <Folder Include="Views\Dates\" />
   </ItemGroup>
