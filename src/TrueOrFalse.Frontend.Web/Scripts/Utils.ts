@@ -180,5 +180,14 @@ class Utils
 
         return '[[' + encodedHtml + ']]';
     }
+
+    static UpdateMarkdown(newMarkdown: string, parentId: string) {
+
+        $.post("/Category/RenderMarkdown/", { categoryId: $("#hhdCategoryId").val(), markdown: newMarkdown },
+            (result) => {
+                eventBus.$emit('new-markdown', { preview: true, newHtml: result, toReplace: 'li#' + parentId });
+            }
+        );
+    }
 }
 

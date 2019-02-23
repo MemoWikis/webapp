@@ -4,7 +4,7 @@ using System.Linq;
 
 public class CardsJson
 {
-    public string Title = "";
+    public string TemplateName = "";
     public string CardOrientation;
     public string SetListIds;
 

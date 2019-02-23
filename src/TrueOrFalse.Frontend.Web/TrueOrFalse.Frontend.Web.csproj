@@ -20097,8 +20097,11 @@
     <Content Include="Views\Categories\Detail\JsEditMode\ContentModulesApp.js">
       <DependentUpon>ContentModulesApp.ts</DependentUpon>
     </Content>
-    <Content Include="Views\Categories\Detail\JsEditMode\ContentModuleSettings\ContentModuleSettingCards.js">
-      <DependentUpon>ContentModuleSettingCards.ts</DependentUpon>
+    <Content Include="Views\Categories\Detail\JsEditMode\ContentModuleSettings\CardsDialogComponent.js">
+      <DependentUpon>CardsDialogComponent.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Categories\Detail\JsEditMode\ContentModuleSettings\TopicNavigationDialogComponent.js">
+      <DependentUpon>TopicNavigationDialogComponent.ts</DependentUpon>
     </Content>
     <Content Include="Views\Categories\Detail\Js\Category.js">
       <DependentUpon>Category.ts</DependentUpon>
@@ -20134,6 +20137,7 @@
     <Content Include="Views\Categories\Detail\Partials\Spacer\Spacer.ascx" />
     <Content Include="Views\Categories\Detail\Partials\SingleQuestionQuiz\SingleQuestionsQuiz.ascx" />
     <Content Include="Views\Categories\Detail\Partials\CategoryHeader.ascx" />
+    <Content Include="Views\Categories\Detail\Partials\TopicNavigation\TopicNavigation.vue.ascx" />
     <Content Include="Views\Categories\Detail\Partials\WishKnowledgeInTheBox.ascx" />
     <Content Include="Views\Categories\Detail\Tabs\LearningTab.ascx" />
     <Content Include="Views\Categories\Detail\Tabs\AnalyticsTab.ascx" />
@@ -20188,7 +20192,8 @@
     </Content>
     <Content Include="Views\Knowledge\Dates\DateRow.ascx" />
     <TypeScriptCompile Include="Views\Categories\Detail\JsEditMode\ContentEditButtonsApp.ts" />
-    <TypeScriptCompile Include="Views\Categories\Detail\JsEditMode\ContentModuleSettings\ContentModuleSettingCards.ts" />
+    <TypeScriptCompile Include="Views\Categories\Detail\JsEditMode\ContentModuleSettings\TopicNavigationDialogComponent.ts" />
+    <TypeScriptCompile Include="Views\Categories\Detail\JsEditMode\ContentModuleSettings\CardsDialogComponent.ts" />
     <TypeScriptCompile Include="Views\Categories\Detail\JsEditMode\ContentModule.ts" />
     <TypeScriptCompile Include="Views\Categories\Detail\JsEditMode\ContentModulesApp.ts" />
     <TypeScriptCompile Include="Views\Categories\Detail\JsEditMode\InlineEditorComponent.ts" />
@@ -20390,10 +20395,13 @@
     <Content Include="Views\Categories\Detail\JsEditMode\ContentModulesApp.js.map">
       <DependentUpon>ContentModulesApp.ts</DependentUpon>
     </Content>
-    <Content Include="Views\Categories\Detail\JsEditMode\ContentModuleSettings\ContentModuleSettingCards.js.map">
-      <DependentUpon>ContentModuleSettingCards.ts</DependentUpon>
-    </Content>
     <Content Include="Views\Categories\Detail\Partials\Cards\CardsModal.vue.ascx" />
+    <Content Include="Views\Categories\Detail\JsEditMode\ContentModuleSettings\CardsDialogComponent.js.map">
+      <DependentUpon>CardsDialogComponent.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Categories\Detail\JsEditMode\ContentModuleSettings\TopicNavigationDialogComponent.js.map">
+      <DependentUpon>TopicNavigationDialogComponent.ts</DependentUpon>
+    </Content>
     <None Include="Views\Maintenance\ContentStats.less" />
     <Compile Include="Views\Maintenance\ContentStatsModel.cs" />
     <Compile Include="Views\Maintenance\Images\MaintenanceImagesController.cs" />

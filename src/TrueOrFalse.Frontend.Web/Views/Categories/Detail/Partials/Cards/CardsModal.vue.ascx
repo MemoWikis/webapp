@@ -4,7 +4,7 @@
             <div class="modal-content">
     
                 <div style="margin:20px">
-                    <span>{{_cardSettings.Title}} bearbeiten</span>
+                    <span>"Cards" bearbeiten</span>
                     <br/>
                     Format: 
                     <select v-model="selectedCardOrientation">
@@ -13,8 +13,8 @@
                     </select>
                     <br/>
                     <br/>
-                    <ul class="cardSettings" v-sortable>
-                        <li class="cardSettings" v-sortable v-for="(id, index) in sets" :setId="id" :key="index">
+                    <ul class="cardsSettings" v-sortable>
+                        <li class="cardsSettings" v-sortable v-for="(id, index) in sets" :setId="id" :key="index">
                             {{id}} 
                             <a @click.prevent="removeSet(index)"><i class="fa fa-trash"></i> Set entfernen</a>
                         </li>
