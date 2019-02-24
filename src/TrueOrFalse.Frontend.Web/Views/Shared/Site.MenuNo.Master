@@ -18,6 +18,7 @@
 </head>
 
 <body>
+
     <%--HEADER--%>
     <% Model.SidebarModel.categoryNavigationModel = new CategoryNavigationModel(); %>
     <% Html.RenderPartial("Site.Partial.MasterHeader"); %>

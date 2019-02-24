@@ -19,11 +19,14 @@
     }
 %>
 
+<%Html.RenderPartial("/Views/Shared/MainMenuThemeCentered.ascx", Model.SidebarModel); %>    
+
 <% if(showEnvironment){ %>
     <div class="" style="background-color: <%= backgroundColor%>; z-index: 10000; position: fixed; top: 11px; right: -57px; width: 127px; text-align: center; font-size: 11px; padding: 2px; padding-left: 40px; transform: rotate(90deg); color:white">
         <%= text %>
     </div>
 <% } %>
+
 
 <header id="MasterHeader">
     <div class="container">

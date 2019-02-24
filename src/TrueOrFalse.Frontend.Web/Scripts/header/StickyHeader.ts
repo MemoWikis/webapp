@@ -31,7 +31,8 @@ class StickyHeaderClass {
         if ($(window).scrollTop() >= this._masterHeaderOuterHeight) {
             if (IsLoggedIn.Yes)
                 $("#BreadcrumbUserDropdown").css("top", $("#Breadcrumb").outerHeight() + "px");
-            this._rightMainMenu.style.top = ($("#Breadcrumb").outerHeight() + "px");
+
+            //this._rightMainMenu.style.top = ($("#Breadcrumb").outerHeight() + "px");
 
             if (this._stickyHeaderisFixed) {
                 return;
@@ -46,9 +47,6 @@ class StickyHeaderClass {
             $('#BreadcrumbLogoSmall').show();
             $('#StickyHeaderContainer').css('display', 'flex');
 
-
-
-            $('#BreadCrumbTrail').css('max-width', "51%");
 
             this.toggleClass($("#HeaderUserDropdown"), $("#BreadcrumbUserDropdownImage"), "open");
             this.calculateTheSizeOfTheMenu($("#BreadcrumbUserDropdown"));
@@ -71,7 +69,6 @@ class StickyHeaderClass {
             this.toggleClass($("#BreadcrumbUserDropdownImage"), $("#HeaderUserDropdown"), "open");
 
 
-
             $("#Breadcrumb").css("z-index", 100);
             $('#BreadcrumbLogoSmall').hide();
             $('#StickyHeaderContainer').hide();
@@ -82,60 +79,23 @@ class StickyHeaderClass {
             //    "px");
             this._rightMainMenu.style.position = "absolute";
 
-            $('#BreadCrumbTrail').css("max-width", "");
-
             if (top.location.pathname === "/") {
                 this._breadcrumb.style.display = "none";
             }
         }
 
-        if (this.countLines(this._breadcrumb) !== 1)
-            this._breadcrumb.style.height = "auto";
-        else
-            this._breadcrumb.style.height =
-                "55px"; // Warum geht hier Auto nicht , bearbeiten , theoretisch muss Höhe doch nicht festgelegt werden  
+        this._breadcrumb.style.height = "55px";
+
         if (IsLoggedIn.Yes)
             this.reorientatedMenu($(window).scrollTop());
     }
 
     private positioningMenus(menu: JQuery) {
-        if (IsLoggedIn.Yes && top.location.pathname !== "/" && menu.selector !== "#RightMainMenu")
-            menu.css("top",
-                $("#Breadcrumb").outerHeight() +
-                $("#MasterHeader").outerHeight() - 10
-                /*$("#RightMainMenu").offset().top*/ +
-                "px");
-        else if (menu.selector === "#RightMainMenu" && top.location.pathname !== "/")
-            menu.css("top",
-                $("#MasterHeader").outerHeight() +
-                $("#Breadcrumb").outerHeight() -
-                $("#MenuButtonContainer").offset().top + "px");
+        if (menu.selector === "#RightMainMenu" && top.location.pathname !== "/")
+            menu.css("top", $("#MasterHeader").outerHeight());
         else {
-            menu.css("top", $("#MasterHeader").outerHeight() - $("#MenuButtonContainer").offset().top + "px");
+            menu.css("top", $("#Breadcrumb").outerHeight());
         }
-    }
-
-    private countLines(target) {
-
-        document.getElementById("Breadcrumb").style.height = "auto";
-        var style = window.getComputedStyle(target, null);
-        var height = parseInt(style.getPropertyValue("height"));
-        var font_size = parseInt(style.getPropertyValue("font-size"));
-        var line_height = parseInt(style.getPropertyValue("line-height"));
-        var box_sizing = style.getPropertyValue("box-sizing");
-
-        if (isNaN(line_height)) line_height = font_size * 1.2;
-
-        if (box_sizing === 'border-box') {
-            var padding_top = parseInt(style.getPropertyValue("padding-top"));
-            var padding_bottom = parseInt(style.getPropertyValue("padding-bottom"));
-            var border_top = parseInt(style.getPropertyValue("border-top-width"));
-            var border_bottom = parseInt(style.getPropertyValue("border-bottom-width"));
-            height = height - padding_top - padding_bottom - border_top - border_bottom;
-        }
-        var lines = Math.ceil(height / line_height);
-        lines = lines - 1;
-        return lines;
     }
 
     private reorientatedMenu(pos: number): void {

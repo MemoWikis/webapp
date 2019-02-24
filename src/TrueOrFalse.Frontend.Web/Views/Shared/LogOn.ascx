@@ -91,6 +91,5 @@
     <div id="MenuButtonContainer" class="header-item" style="margin-right: 0px;">
         <a id="MenuButton" class="TextLinkWithIcon"><i class="fa fa-bars"></i>
             <span style="padding-top: 7px;" class="TextSpan">Menü</span></a>
-        <%Html.RenderPartial("/Views/Shared/MainMenuThemeCentered.ascx", Model.SidebarModel); %>
     </div>
 </div>

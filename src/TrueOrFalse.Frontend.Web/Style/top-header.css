@@ -293,6 +293,10 @@
 #Breadcrumb #BreadCrumbContainer {
   display: flex;
 }
+#Breadcrumb #BreadCrumbContainer #BreadCrumbTrail {
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
 #Breadcrumb div {
   font-family: 'Open Sans';
 }
@@ -346,6 +350,7 @@
 }
 #Breadcrumb #StickyHeaderContainer #StickyHeaderSearchBoxDiv {
   margin-top: 19px;
+  margin-left: 10px;
   width: 40px;
   -webkit-transition: width 0.3s;
 }

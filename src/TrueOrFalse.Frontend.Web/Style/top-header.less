@@ -299,6 +299,11 @@
 
     #BreadCrumbContainer {
         display: flex;
+
+        #BreadCrumbTrail {
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
     }
 
     font-size: 14px;
@@ -385,6 +390,7 @@
 
         #StickyHeaderSearchBoxDiv {
             margin-top: 19px;
+            margin-left: 10px;
             width: 40px;
             -webkit-transition: width 0.3s;
         }

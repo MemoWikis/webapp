@@ -283,7 +283,7 @@
   padding: 0px;
   position: absolute;
   background-color: white;
-  width: 232px !important;
+  width: 292px;
   max-width: unset !important;
   opacity: 1;
   z-index: 100;
@@ -294,6 +294,7 @@
   top: 60px;
   right: 4px;
   left: unset;
+  z-index: 101;
 }
 .RightMainMenu span {
   display: block !important;
