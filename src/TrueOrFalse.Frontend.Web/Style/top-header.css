@@ -1,18 +1,29 @@
-﻿@media (min-width: 768px) {
-}@media (min-width: 768px) {
-}@media (max-width: 767px) {
-}@media (min-width: 768px) {
-}@media (min-width: 768px) {
-}@media (min-width: 768px) {
-}@media (max-width: 767px) {
-}@media (max-width: 767px) {
-}@media (max-width: 649px) {
-}@media (min-width: 650px) {
-}/*  [Local variables:]
+@media (min-width: 768px) {
+}
+@media (min-width: 768px) {
+}
+@media (max-width: 767px) {
+}
+@media (min-width: 768px) {
+}
+@media (min-width: 768px) {
+}
+@media (min-width: 768px) {
+}
+@media (max-width: 767px) {
+}
+@media (max-width: 767px) {
+}
+@media (max-width: 649px) {
+}
+@media (min-width: 650px) {
+}
+/*  [Local variables:]
 ----------------------------------------------------------*/
 /* MASTER HEADER  
 ----------------------------------------------------------*/
 #MasterHeader {
+  position: -webkit-sticky;
   position: sticky;
   margin: 0;
   width: 100%;
@@ -195,9 +206,10 @@
   width: auto;
   float: left;
 }
-@media (max-width: 479px) {
+@media (max-width: 991px) {
   #MasterHeader .col-Logo {
     padding-right: 0;
+    margin-top: 3px;
   }
 }
 /* BreadCrumb and Masterheader*/
