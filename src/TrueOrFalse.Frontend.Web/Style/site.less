@@ -683,20 +683,8 @@ ul.AutocompleteHeader {
 
     );
 
-
     #MasterMainColumn {
-        .make-lg-column(9);
         margin-top: 55px;
-
-        .media-lg ( {
-            width: 100%;
-        }
-
-        );
-
-        @media(max-width: 1199.9px) {
-            width: 100% !important;
-        }
     }
 }
 /*******************************************************************/
@@ -705,12 +693,12 @@ ul.AutocompleteHeader {
 /** Default button **/
 .btn-breadcrumb {
     a {
-        text-decoration: underline;
+        text-decoration: underline; 
     }
 
     a.current {
         text-decoration: none;
-    }
+    } 
     /** Breadcrumb **/
     .btn:not(:last-child):after {
         content: " ";
@@ -891,11 +879,8 @@ ul.AutocompleteHeader {
 
 
     .media-lg ( {
-        width: 272px;
         float: right;
-    }
-
-    );
+    });
 
     @media(max-width: 1199.9px) {
         display: none;
@@ -962,9 +947,7 @@ ul.AutocompleteHeader {
 
     .media-below-md( {
         padding-top: 0;
-    }
-
-    );
+    });
 }
 
 #GlobalLicense {
