@@ -21581,7 +21581,7 @@
     <Content Include="Style\tabs.css">
       <DependentUpon>tabs.less</DependentUpon>
     </Content>
-    <Content Include="Style\TopHeader.css">
+    <Content Include="Style\top-header.css">
       <DependentUpon>top-header.less</DependentUpon>
     </Content>
     <Content Include="Style\z_variables_2.3.2.css">

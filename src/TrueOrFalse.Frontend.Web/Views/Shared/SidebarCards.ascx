@@ -3,10 +3,8 @@
 
 <div id="SidebarCards" style="display: block;"> 
 
-    <%if (Model.Authors.Count == 1)
-        {
+    <%if (Model.Authors.Count == 1){
             var author = Model.Authors.First();
-
     %>
         <input id="isFollow" type="hidden" value="<%=Model.DoIFollow %>"/>
         <input id="author" type="hidden" value="<%= author.User.Id%>" name="<%= author.User.Name %>" data-question-created="<%=Model.Reputation.ForQuestionsCreated %>" data-sets-created="<%= author.User.Name %>" data-question-created="<%=Model.Reputation.ForSetsCreated %>" />
@@ -54,9 +52,8 @@
             </div>
         </div>
     </div>
-    <%}
-        if (Model.Authors.Count != 1)
-        {%>
+    <%} if (Model.Authors.Count != 1) {%>
+
     <div id="MultipleAutorCard">
         <div class="card-title">
             <span>Beitragende</span>
