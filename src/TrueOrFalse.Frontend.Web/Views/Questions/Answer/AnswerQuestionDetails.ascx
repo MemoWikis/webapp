@@ -3,14 +3,6 @@
 
 <div class="row">
     <div class="separationBorderTop col-xs-12" style="min-height: 20px;"></div>
-            
-            <div id="QuestionHistory">
-                <a href="<%= Links.QuestionHistory(Model.QuestionId) %>" class="TextLinkWithIcon">
-                    <i class="fa fa-list-ul"></i>
-                    <span class="TextSpan">Bearbeitungshistorie</span>
-                </a>
-            </div>
-
 </div>
 <div class="row">
     <div class="col-xs-12">  

@@ -123,7 +123,7 @@
         
 
     <div id="FirstRow"class="row">
-        <div class="col-lg-9">
+        <div class="col-xs-9">
             
             <% Html.RenderPartial("~/Views/Questions/Answer/AnswerBodyControl/AnswerBody.ascx",
                    new AnswerBodyModel(Model)); %>
@@ -135,7 +135,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-lg-3">
+        <div class="col-xs-3">
             <% Html.RenderPartial("~/Views/Shared/Cards/CardQuestionAuthor.ascx", new CardQuestionAuthorModel()); %>
             <% Html.RenderPartial("~/Views/Shared/Cards/CardTutory.ascx"); %>
             <div class="well"> Frage erstellen </div>
