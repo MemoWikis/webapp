@@ -136,7 +136,7 @@
             </div>
         </div>
         <div class="col-xs-3">
-            <% Html.RenderPartial("~/Views/Shared/Cards/CardQuestionAuthor.ascx", new CardQuestionAuthorModel()); %>
+            <% Html.RenderPartial("~/Views/Shared/Cards/CardQuestionAuthor.ascx",new CardQuestionAuthorModel(Model.Question)); %>
             <% Html.RenderPartial("~/Views/Shared/Cards/CardTutory.ascx"); %>
             <div class="well"> Frage erstellen </div>
         </div>
