@@ -4,7 +4,7 @@
 <div class="row">
     <div class="separationBorderTop col-xs-12" style="min-height: 20px;"></div>
 </div>
-<div class="row">
+<div class="row models-categories ">
     <div class="col-xs-12">  
         <% if (Model.Categories.Count > 0)
            { %>
@@ -27,8 +27,7 @@
                 </div>
             <% } %>
 
-        <% } %>
-        <div class="fa fa-chevron-right margin-left"></div>     
+        <% } %>    
         <span class="float-right">
         <% if(Model.HistoryAndProbability.QuestionValuation.IsInWishKnowledge()) { 
                var status = Model.HistoryAndProbability.QuestionValuation.KnowledgeStatus; %>

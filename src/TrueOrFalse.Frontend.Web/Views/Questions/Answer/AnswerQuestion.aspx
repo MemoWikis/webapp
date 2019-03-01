@@ -136,21 +136,22 @@
             </div>
         </div>
         <div class="col-xs-3">
-            <% Html.RenderPartial("~/Views/Shared/Cards/CardQuestionAuthor.ascx",new CardQuestionAuthorModel(Model.Question)); %>
-            <% Html.RenderPartial("~/Views/Shared/Cards/CardTutory.ascx"); %>
-            <div class="well"> Frage erstellen </div>
+            <div id="SidebarCards">
+                <% Html.RenderPartial("~/Views/Shared/Cards/CardQuestionAuthor.ascx",new CardQuestionAuthorModel(Model.Question)); %>
+                <% Html.RenderPartial("~/Views/Shared/Cards/CardTutory.ascx"); %>
+                <% Html.RenderPartial("~/Views/Shared/SidebarCards/CreateQuestion.ascx"); %>
+            </div>
         </div>
     </div>
-<div class="row">
-    <div class="col-xs-12">
-        <% if (!Model.IsLoggedIn && !Model.IsTestSession && !Model.IsLearningSession && Model.SetMinis.Any()) { %>
-            <div class="SingleCategoryAttention">
-                    
-                <% Html.RenderPartial("~/Views/Categories/Detail/Partials/SingleCategoryFullWidth.ascx", new SingleCategoryFullWidthModel(Model.PrimaryCategory.Id)); %>
-            </div>
-        <% } %>
+    <div class=" row">
+        <div class="col-xs-12 singleCategory" >
+            <% if (!Model.IsLoggedIn && !Model.IsTestSession && !Model.IsLearningSession && Model.SetMinis.Any()) { %>
+                <div class="SingleCategoryAttention">         
+                    <% Html.RenderPartial("~/Views/Categories/Detail/Partials/SingleCategoryFullWidth.ascx", new SingleCategoryFullWidthModel(Model.PrimaryCategory.Id)); %>
+                </div>
+            <% } %>
+        </div>
     </div>
-</div>
 
 
 

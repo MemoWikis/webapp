@@ -722,6 +722,7 @@
   padding: 1px 20px 10px;
   font-size: small;
   text-align: left;
+  padding: 4.25em 0 0 0;
 }
 .FooterQuestionDetails div {
   padding-right: 10px;
@@ -1102,6 +1103,9 @@
 .singleCatFullWidth .buttons .dropdown {
   display: inline-block;
 }
+.singleCatFullWidth {
+  margin-top: 2.25em;
+}
 /*--------------------------ActivityPoints---------------------
 
 ---------------------------------------------------------------*/
@@ -1135,4 +1139,7 @@
 }
 .AnswerQuestionBodyMenu .float-left {
   float: left;
+}
+.SingleCategoryAttention .well {
+  background-color: rgba(112, 112, 112, 0.08);
 }
