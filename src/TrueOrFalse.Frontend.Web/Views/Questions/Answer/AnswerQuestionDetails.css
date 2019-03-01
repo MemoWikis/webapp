@@ -1,12 +1,8 @@
-﻿@font-size 12: font-size: 0.75em;
-.float-right {
+﻿.float-right {
   float: right;
 }
 .float-right .margin-left {
   margin-left: 0.7em;
-}
-.float-right .margin-right-50 {
-  margin-right: 3.125em;
 }
 .float-right .margin-left-20 {
   margin-left: 2.25em;
@@ -24,7 +20,7 @@
   margin-left: 0.625em;
 }
 #Category .font-size12 {
-  @font-size 12;
+  font-size: 0.75em;
 }
 .text-sponsor {
   text-align: center;
