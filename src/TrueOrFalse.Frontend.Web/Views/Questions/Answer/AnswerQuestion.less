@@ -637,28 +637,25 @@
 /*---------------------------------------------------------------------------
                                  FooterQuestionDetails
 -----------------------------------------------------------------------------*/
-.FooterQuestionDetails div:last-child {
+.comment-link {
     margin-left: auto;
-    padding-right: 0px;
+    padding-right: 0;
+    .fa{
+        padding-right: 0;
+    }
 }
 
 .FooterQuestionDetails {
     display: flex !important;
     flex-flow: row;
-    align-items: center;
     padding: 1px 20px 10px;
     font-size: small;
     text-align: left;
-    padding: 4.25em 0 0 0 ; 
+    padding: 4.25em 0 0.325em 0;
+    position: relative;
 
     div {
         padding-right: 10px;
-    }
-
-    #LicenseQuestion {
-        .TextDiv {
-            padding-top: 3px;
-        }
     }
 
     .TextLinkWithIcon {

@@ -706,9 +706,12 @@
 /*---------------------------------------------------------------------------
                                  FooterQuestionDetails
 -----------------------------------------------------------------------------*/
-.FooterQuestionDetails div:last-child {
+.comment-link {
   margin-left: auto;
-  padding-right: 0px;
+  padding-right: 0;
+}
+.comment-link .fa {
+  padding-right: 0;
 }
 .FooterQuestionDetails {
   display: -webkit-box !important;
@@ -720,20 +723,14 @@
   -webkit-flex-flow: row;
       -ms-flex-flow: row;
           flex-flow: row;
-  -webkit-box-align: center;
-  -webkit-align-items: center;
-      -ms-flex-align: center;
-          align-items: center;
   padding: 1px 20px 10px;
   font-size: small;
   text-align: left;
-  padding: 4.25em 0 0 0;
+  padding: 4.25em 0 0.325em 0;
+  position: relative;
 }
 .FooterQuestionDetails div {
   padding-right: 10px;
-}
-.FooterQuestionDetails #LicenseQuestion .TextDiv {
-  padding-top: 3px;
 }
 .FooterQuestionDetails .TextLinkWithIcon {
   -webkit-box-orient: horizontal;

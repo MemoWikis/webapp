@@ -1,9 +1,7 @@
 ﻿<%@ Control Language="C#" Inherits="System.Web.Mvc.ViewUserControl<AnswerQuestionModel>" %>
 <%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
 
-<div class="row">
-    <div class="separationBorderTop col-xs-12" style="min-height: 20px;"></div>
-</div>
+    <div class="separationBorderTop" style="min-height: 20px;"></div>
 <div class="row models-categories ">
     <div class="col-xs-12">  
         <% if (Model.Categories.Count > 0)
