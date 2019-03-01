@@ -96,7 +96,8 @@
     <link type="text/css" href="/Content/blue.monday/jplayer.blue.monday.css" rel="stylesheet" />
 </asp:Content>
 
-<asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">    
+<asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">  
+<div class="container">
     <input type="hidden" id="hddIsLearningSession" value="<%= Model.IsLearningSession %>" 
         data-learning-session-id="<%= Model.IsLearningSession ? Model.LearningSession.Id : -1 %>"
         data-current-step-guid="<%= Model.IsLearningSession ? Model.LearningSessionStep.Guid.ToString() : "" %>"
@@ -357,5 +358,5 @@
     </div>
     
 <% if (Model.IsOwner) Html.RenderPartial("~/Views/Questions/Modals/ModalDeleteQuestion.ascx"); %>
-
+</div>
 </asp:Content>

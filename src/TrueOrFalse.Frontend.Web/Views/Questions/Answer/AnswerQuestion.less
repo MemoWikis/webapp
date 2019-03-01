@@ -339,18 +339,24 @@
         margin: 0;
     }
 }
+/*SideBar*/
+
+@media (max-width: @screen-lg-min) {
+    #SidebarCards {
+        display: none;
+    }
+}
 
 /* Answer Section
 ------------------------------------------------------*/
-#FirstRow{
-    .col-xs-8{
-        width: 865px;
-    }
-    .col-xs-4{ 
-        width: 270px;
-
+#FirstRow {
+    .col-xs-9 {
+        @media (max-width: @screen-lg-min) {
+            width: 100%
+        }
     }
 }
+
 #AnswerBody {
     font-size: @font-size-base;
     line-height: @line-height-base;

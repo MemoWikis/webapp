@@ -10,7 +10,7 @@
 <input id="isFollow" type="hidden" value="<%= Model.DoIFollow %>" />
 <input id="author" type="hidden" value="<%= author.User.Id %>" name="<%= author.User.Name %>" data-question-created="<%= Model.Reputation.ForQuestionsCreated %>" data-sets-created="<%= author.User.Name %>" data-question-created="<%= Model.Reputation.ForSetsCreated %>" />
 
-<div id="AutorCard" style="width: 270px">
+<div id="AutorCard" style="width: 267px">
     <div class="column-left">
         <div class="ImageContainer">
             <div class="card-image-large" style="background: url(<%= author.ImageUrl %>) center;"></div>

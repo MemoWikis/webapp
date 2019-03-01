@@ -424,13 +424,18 @@
   font-size: 100%;
   margin: 0;
 }
+/*SideBar*/
+@media (max-width: 1200px) {
+  #SidebarCards {
+    display: none;
+  }
+}
 /* Answer Section
 ------------------------------------------------------*/
-#FirstRow .col-xs-8 {
-  width: 865px;
-}
-#FirstRow .col-xs-4 {
-  width: 270px;
+@media (max-width: 1200px) {
+  #FirstRow .col-xs-9 {
+    width: 100%;
+  }
 }
 #AnswerBody {
   font-size: 14px;
