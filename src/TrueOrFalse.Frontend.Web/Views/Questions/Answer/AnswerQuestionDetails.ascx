@@ -8,8 +8,8 @@
     <div class="col-xs-12">  
         <% if (Model.Categories.Count > 0)
            { %>
-            <div class="margin-left-first float-left">
-                <% Html.RenderPartial("CategoriesOfQuestion", Model.Question); %>
+            <div id="Category"class="margin-left-first float-left">
+            <span class="font-size12">Thema:&nbsp;</span> <% Html.RenderPartial("CategoriesOfQuestion", Model.Question); %>
             </div>
         <% } %>
     
@@ -38,14 +38,14 @@
                 </span>
             
         <% } %>
-        <span class="show-tooltip margin-left-20" title="Insgesamt <%=Model.HistoryAndProbability.AnswerHistory.TimesAnsweredTotal%>x beantwortet"><%=Model.HistoryAndProbability.AnswerHistory.TimesAnsweredTotal%>x </span>
+<%--        <span class="show-tooltip margin-left-20" title="Insgesamt <%=Model.HistoryAndProbability.AnswerHistory.TimesAnsweredTotal%>x beantwortet"><%=Model.HistoryAndProbability.AnswerHistory.TimesAnsweredTotal%>x </span>
         <span class="sparklineTotals" data-answersTrue="<%= Model.HistoryAndProbability.AnswerHistory.TimesAnsweredCorrect %>" data-answersFalse="<%= Model.HistoryAndProbability.AnswerHistory.TimesAnsweredWrongTotal %>"></span>
         
         <span class="show-tooltip" title="Von dir <%=Model.HistoryAndProbability.AnswerHistory.TimesAnsweredUser%>x beantwortet">  ich: <%= Model.HistoryAndProbability.AnswerHistory.TimesAnsweredUser%>x </span>
         <span class="sparklineTotalsUser" data-answersTrue="<%= Model.HistoryAndProbability.AnswerHistory.TimesAnsweredUserTrue  %>" data-answersFalse="<%= Model.HistoryAndProbability.AnswerHistory.TimesAnsweredUserWrong %>"></span>
         <span class="margin-left-20">
             <% Html.RenderPartial("~/Views/Shared/CorrectnessProbability.ascx", Model.HistoryAndProbability.CorrectnessProbability); %>             
-        </span>
+        </span>--%>
         
             <span class="show-tooltip margin-left-20" title="Die Frage wurde <%= Model.TotalViews %>x mal gesehen.">
                 <i class="fa fa-eye"></i> <%= Model.TotalViews %>x

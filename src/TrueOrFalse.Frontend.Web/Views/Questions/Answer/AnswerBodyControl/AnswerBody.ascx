@@ -3,7 +3,7 @@
 <%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
 
 
-<div id="AnswerBody" class="well">
+<div id="AnswerBody">
 
     <input type="hidden" id="hddQuestionViewGuid" value="<%= Model.QuestionViewGuid.ToString() %>" />
     <input type="hidden" id="hddInteractionNumber" value="1" />
@@ -53,7 +53,6 @@
                         <li style="margin-top: 2rem;"><a target="_blank" v-bind:href="props.rowData.ShareFacebookLink"><i class="fa fa-share"></i>&nbsp;Auf Facebook teilen </a></li>     
                         <li @click="deleteRow(props.rowData.Id, props.rowData.IsCategory, props.rowIndex)"><a href="#"><i class="fa fa-trash-o"></i>&nbsp; Aus Wunschwissen entfernen </a></li> 
                         <li><a href="<%= Links.QuestionHistory(Model.QuestionId) %>"><i class="fa fa-list-ul"></i>&nbsp; Bearbeitungshistorie</a></li> 
-
                     </ul>
                 </span>
             </div>

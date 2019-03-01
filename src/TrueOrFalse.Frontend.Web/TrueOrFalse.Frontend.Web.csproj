@@ -24156,6 +24156,7 @@
     <Folder Include="Fonts\font-awesome-5.7.2\css\" />
     <Folder Include="Views\Categories\Detail\Partials\BreadCrumb\" />
     <Folder Include="Views\Dates\" />
+    <Folder Include="Views\Shared\SidebarCards\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

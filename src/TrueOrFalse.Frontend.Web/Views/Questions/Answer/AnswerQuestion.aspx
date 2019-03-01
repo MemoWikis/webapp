@@ -142,7 +142,7 @@
         </div>
     </div>
 <div class="row">
-    <div class="col-lg-12">
+    <div class="col-xs-12">
         <% if (!Model.IsLoggedIn && !Model.IsTestSession && !Model.IsLearningSession && Model.SetMinis.Any()) { %>
             <div class="SingleCategoryAttention">
                     
