@@ -131,6 +131,7 @@
 
 
             <div class="row">
+                <div class="separationBorderTop" style="min-height: 20px;"></div>
                 <div class="col-sm-12 xxs-stack">
                     <% Html.RenderPartial("~/Views/Questions/Answer/AnswerQuestionDetails.ascx", Model); %>
                 </div>

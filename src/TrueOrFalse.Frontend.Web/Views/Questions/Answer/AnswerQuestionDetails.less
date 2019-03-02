@@ -1,6 +1,6 @@
 ﻿//Variables
 
-@font-size12: 0.75em;
+@font-size12: 12px;
 
 // Mixins
 
@@ -10,43 +10,32 @@
 
 //Code
 
-.float-right {
-    float: right;
+.flex-box {
+    display: flex;
+   
 
-
-    .margin-left {
-        margin-left: 0.7em;
+    .category-set {
+        display: flex;
+        
+        #Category {
+            .font-size12();
+        }
     }
 
-    .margin-left-20 {
-        margin-left: 2.25em;
-    }
+    .right {
+        margin-left: auto;
+        display: flex;
 
-    .width-100 {
-        width: 6.25em;
+        .margin-left {
+            margin-left: 0.7em;
+        }
     }
 }
 
-
-.float-left {
-    float: left;
-}
-    .margin-left-first {
-        margin-left: 1.3em;
-    }
-
-    .margin-left {
-        margin-left: 0.625em;
-    }
-
-#Category {
-   .font-size12();
-}
-
-.text-sponsor{
+.text-sponsor {
     text-align: center;
 }
 
-.model-categories{
+.model-categories {
     padding-top: 0.375em;
 }

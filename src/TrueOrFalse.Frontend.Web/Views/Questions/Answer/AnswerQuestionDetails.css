@@ -1,29 +1,21 @@
 ﻿.font-size12 {
-  font-size: 0.75em;
+  font-size: 12px;
 }
-.float-right {
-  float: right;
+.flex-box {
+  display: flex;
 }
-.float-right .margin-left {
+.flex-box .category-set {
+  display: flex;
+}
+.flex-box .category-set #Category {
+  font-size: 12px;
+}
+.flex-box .right {
+  margin-left: auto;
+  display: flex;
+}
+.flex-box .right .margin-left {
   margin-left: 0.7em;
-}
-.float-right .margin-left-20 {
-  margin-left: 2.25em;
-}
-.float-right .width-100 {
-  width: 6.25em;
-}
-.float-left {
-  float: left;
-}
-.margin-left-first {
-  margin-left: 1.3em;
-}
-.margin-left {
-  margin-left: 0.625em;
-}
-#Category {
-  font-size: 0.75em;
 }
 .text-sponsor {
   text-align: center;
