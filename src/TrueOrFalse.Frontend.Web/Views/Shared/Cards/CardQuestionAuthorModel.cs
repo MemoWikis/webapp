@@ -14,7 +14,8 @@ public class CardQuestionAuthorModel : BaseModel
     public bool IsCurrentUser;
 
     public CardQuestionAuthorModel(Question question)
-    {   Authors = new List<Author>();
+    {
+        Authors = new List<Author>();
         QuestionRepo = Sl.QuestionRepo;
 
         var _questionRepo = R<QuestionRepo>();
