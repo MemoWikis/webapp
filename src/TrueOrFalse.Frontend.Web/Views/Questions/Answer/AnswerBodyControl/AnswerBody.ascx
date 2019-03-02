@@ -263,20 +263,12 @@
             </a>
         <% } %>
     </div>
-    <div> Erstellt von: <a href="<%= Links.UserDetail(Model.Creator) %>"><%= Model.Creator.Name %></a> vor <%= Model.CreationDateNiceText %></div>
-    <div> Diese Frage wurde zuletzt bearbeitet von:  <a href="<%= Links.UserDetail(Model.Creator) %>"><%= Model.Creator.Name %></a> vor  <%= Model.QuestionLastEditedOn %> </div>
+    <div class="created"> Erstellt von: <a href="<%= Links.UserDetail(Model.Creator) %>"><%= Model.Creator.Name %></a> vor <%= Model.CreationDateNiceText %></div>
+    <div class="processed"> Diese Frage wurde zuletzt bearbeitet von:  <a href="<%= Links.UserDetail(Model.Creator) %>"><%= Model.Creator.Name %></a> vor  <%= Model.QuestionLastEditedOn %> </div>
         <%if (Model.ShowCommentLink) { %>
             <div class="comment-link">
-                <a href="#comments"><div class="fa fa-comment-o"></div>
-                    <%-- <% if (Model.CommentCount == 0){ %>
-                    <% } else if (Model.CommentCount == 1) { %>
-                        1 Kommentar
-                    <% } else if (Model.CommentCount > 1) { %>
-                        <%= Model.CommentCount %> Kommentare
-                    <% } %>--%>
-                </a>
-       
-        </div>
+                <a href="#comments"><div class="fa fa-comment-o"></div></a>
+            </div>
         <% } %>
 </div>
     <% Html.RenderPartial("~/Views/Questions/Answer/ShareQuestionModal.ascx", new ShareQuestionModalModel(Model.QuestionId)); %>

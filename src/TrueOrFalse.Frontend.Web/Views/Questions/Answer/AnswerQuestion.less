@@ -1,6 +1,12 @@
 ﻿@import (reference) '../../../Style/includes/imports.less';
 .no-white-background;
+//Variables
 
+//Mixins
+.font-size12-and-padding2{
+    font-size: 12px;
+    padding-top: 2px;
+}
 .navLinks {
     float: right;
     margin-bottom: 10px;
@@ -341,11 +347,6 @@
 }
 /*SideBar*/
 
-@media (max-width: @screen-lg-min) {
-    #SidebarCards {
-        display: none;
-    }
-}
 
 /* Answer Section
 ------------------------------------------------------*/
@@ -353,6 +354,12 @@
     .col-xs-9 {
         @media (max-width: @screen-lg-min) {
             width: 100%
+        }
+    }
+
+    #SidebarCards {
+        @media (max-width: @screen-lg-min) {
+            display: none;
         }
     }
 }
@@ -660,6 +667,14 @@
 
     .TextLinkWithIcon {
         flex-flow: row;
+    }
+
+    .created {
+        .font-size12-and-padding2();
+    }
+
+    .processed {
+        .font-size12-and-padding2();
     }
 }
 

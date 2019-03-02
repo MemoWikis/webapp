@@ -21,6 +21,10 @@
     padding-right: 0;
   }
 }
+.font-size12-and-padding2 {
+  font-size: 12px;
+  padding-top: 2px;
+}
 .navLinks {
   float: right;
   margin-bottom: 10px;
@@ -425,16 +429,16 @@
   margin: 0;
 }
 /*SideBar*/
-@media (max-width: 1200px) {
-  #SidebarCards {
-    display: none;
-  }
-}
 /* Answer Section
 ------------------------------------------------------*/
 @media (max-width: 1200px) {
   #FirstRow .col-xs-9 {
     width: 100%;
+  }
+}
+@media (max-width: 1200px) {
+  #FirstRow #SidebarCards {
+    display: none;
   }
 }
 #AnswerBody {
@@ -738,6 +742,14 @@
   -webkit-flex-flow: row;
       -ms-flex-flow: row;
           flex-flow: row;
+}
+.FooterQuestionDetails .created {
+  font-size: 12px;
+  padding-top: 2px;
+}
+.FooterQuestionDetails .processed {
+  font-size: 12px;
+  padding-top: 2px;
 }
 .commentSettledInfo {
   color: darkgray;

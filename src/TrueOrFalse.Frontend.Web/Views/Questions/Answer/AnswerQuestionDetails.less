@@ -1,5 +1,14 @@
-﻿@font-size12: 0.75em;
+﻿//Variables
 
+@font-size12: 0.75em;
+
+// Mixins
+
+.font-size12 {
+    font-size: @font-size12;
+}
+
+//Code
 
 .float-right {
     float: right;
@@ -31,9 +40,7 @@
     }
 
 #Category {
-    .font-size12 {
-       font-size: @font-size12;
-    }
+   .font-size12();
 }
 
 .text-sponsor{
