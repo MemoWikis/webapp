@@ -33,7 +33,7 @@
             <% if (!Model.DisableAddKnowledgeButton)
                { %>
                 <span class="Pin" data-question-id="<%= Model.QuestionId %>">
-                    <%= Html.Partial("AddToWishknowledgeButton", new AddToWishknowledge(Model.IsInWishknowledge, isShortVersion: true)) %>
+                    <%= Html.Partial("AddToWishknowledgeButtonQuestionDetail", new AddToWishknowledge(Model.IsInWishknowledge, isShortVersion: true)) %>
                 </span>
             <% } %>
             <% if (Model.IsCreator || Model.IsInstallationAdmin)
@@ -44,13 +44,13 @@
             <% }  %>
              <div class="Button dropdown">
                 <span class="margin-top-4">
-                    <a href="#" class="dropdown-toggle btn btn-link btn-sm ButtonEllipsis" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" >
+                    <a href="#" class="dropdown-toggle btn btn-link btn-sm ButtonEllipsis" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" style="font-size: 14px;">
                         <i class="fa fa-ellipsis-v"></i>
                     </a>
                     <ul class="dropdown-menu">
-                        <li style="margin-top: 2rem;"><a target="_blank" v-bind:href="props.rowData.ShareFacebookLink">Frage teilen </a></li>     
+                        <li><a target="_blank" v-bind:href="props.rowData.ShareFacebookLink">Frage teilen </a></li>     
+                        <li><a style="white-space: nowrap" href="#" data-action="embed-question">Frage einbetten</a></li>
                         <li><a href="<%= Links.QuestionHistory(Model.QuestionId) %>">Versionen anzeigen</a></li>
-                        <li><a style="white-space: nowrap" href="#" data-action="embed-question">Einbetten</a></li>
                     </ul>
                 </span>
             </div>
