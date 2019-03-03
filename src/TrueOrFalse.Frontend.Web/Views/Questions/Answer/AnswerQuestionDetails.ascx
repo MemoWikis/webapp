@@ -2,11 +2,11 @@
 <%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
 
     
-<div class="row models-categories ">
-    <div class="col-xs-12"> 
+<div class="row">
+    <div class="col-xs-12 xxs-stack"> 
         <div class="flex-box">
            <span class=" category-set">
-               <div id="Category">
+               <span id="Category">
             <% if (Model.Categories.Count > 0)
                { %>
                
@@ -18,27 +18,22 @@
                { %>
                 <% foreach (var setMini in Model.SetMinis)
                    { %>
-                    <a class="margin-left" href="<%= Links.SetDetail(Url, setMini) %>"><span class="label label-set"><%: setMini.Name %></span></a>
-               </div>
+                    <a class="margin-left" href="<%= Links.SetDetail(Url, setMini) %>"><span class="label label-set"><%: setMini.Name %></span></a>           
                 <% } %>
-        
                 <% if (Model.SetCount > 5)
-                   { %>
-                    <div style="margin-top: 3px;">
-                        <a class="margin-left" href="#" popover-all-sets-for="<%= Model.QuestionId %>">+  <%= Model.SetCount - 5 %> weitere </a>
-                    </div>
+                   { %>        
+                    <a class="margin-left" href="#" popover-all-sets-for="<%= Model.QuestionId %>">+  <%= Model.SetCount - 5 %> weitere </a>
                 <% } %>
 
-            <% } %>  
+            <% } %> 
+               </span>
            </span>
             <span class="right">
             <% if(Model.HistoryAndProbability.QuestionValuation.IsInWishKnowledge()) { 
                    var status = Model.HistoryAndProbability.QuestionValuation.KnowledgeStatus; %>
-                
                     <span style="background-color: <%= status.GetColor() %>;  font-size: 13px;  padding: 2px 4px; -ms-border-radius: 5px; border-radius: 5px; width: 100%;">
                         <%= status.GetText() %>
                     </span>
-                
             <% } %>
                 <span class="show-tooltip" title="Die Frage wurde <%= Model.TotalViews %>x mal gesehen.">
                     <span><i class="fa fa-eye greyed"></i> <%= Model.TotalViews %>x </span>
