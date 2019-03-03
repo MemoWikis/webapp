@@ -47,9 +47,17 @@
                     <a href="#" class="dropdown-toggle btn btn-link btn-sm ButtonEllipsis" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" style="font-size: 14px;">
                         <i class="fa fa-ellipsis-v"></i>
                     </a>
-                    <ul class="dropdown-menu">
+                    <ul class="dropdown-menu dropdown-menu-right">
                         <li><a target="_blank" v-bind:href="props.rowData.ShareFacebookLink">Frage teilen </a></li>     
                         <li><a style="white-space: nowrap" href="#" data-action="embed-question">Frage einbetten</a></li>
+                        <% if (Model.IsCreator || Model.IsInstallationAdmin)
+                           { %>
+                            <li id="DeleteQuestion">
+                                <a class="TextLinkWithIcon" data-toggle="modal" data-questionid="808" href="#modalDeleteQuestion">
+                                  <span>Frage löschen</span>
+                                </a>
+                            </li>
+                        <% } %>
                         <li><a href="<%= Links.QuestionHistory(Model.QuestionId) %>">Versionen anzeigen</a></li>
                     </ul>
                 </span>
