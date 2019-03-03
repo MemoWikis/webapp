@@ -256,8 +256,9 @@
         </div>
     </div>
 </div>
-<div class="FooterQuestionDetails">
-    <div id="LicenseQuestion">
+
+<div class="FooterQuestionDetails row">
+    <div id="LicenseQuestion" class=" col-md-2">
         <% if (Model.LicenseQuestion.IsDefault()) { %>
             <a class="TextLinkWithIcon" rel="license" href="http://creativecommons.org/licenses/by/4.0/" data-toggle="popover" data-trigger="focus" title="Infos zur Lizenz <%= LicenseQuestionRepo.GetDefaultLicense().NameShort %>" data-placement="auto top"
                 data-content="Autor: <a href='<%= Links.UserDetail(Model.Creator) %>' <%= Model.IsInWidget ? "target='_blank'" : "" %>><%= Model.Creator.Name %></a><%= Model.IsInWidget ? " (Nutzer auf <a href='/' target='_blank'>memucho.de</a>)" : " " %><br/><%= LicenseQuestionRepo.GetDefaultLicense().DisplayTextFull %>">
@@ -271,6 +272,7 @@
             </a>
         <% } %>
     </div>
+    <div class="col-md-10">
     <div class="created"> Erstellt von: <a href="<%= Links.UserDetail(Model.Creator) %>"><%= Model.Creator.Name %></a> vor <%= Model.CreationDateNiceText %></div>
     <div class="processed"> Diese Frage wurde zuletzt bearbeitet von:  <a href="<%= Links.UserDetail(Model.Creator) %>"><%= Model.Creator.Name %></a> vor  <%= Model.QuestionLastEditedOn %> </div>
         <%if (Model.ShowCommentLink) { %>
@@ -278,7 +280,9 @@
                 <a href="#comments"><div class="fa fa-comment-o"></div></a>
             </div>
         <% } %>
+    </div>
 </div>
+
     <% Html.RenderPartial("~/Views/Questions/Answer/ShareQuestionModal.ascx", new ShareQuestionModalModel(Model.QuestionId)); %>
  
 

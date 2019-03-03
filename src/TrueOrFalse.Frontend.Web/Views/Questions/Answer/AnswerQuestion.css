@@ -718,23 +718,38 @@
   padding-right: 0;
 }
 .FooterQuestionDetails {
-  display: -webkit-box !important;
-  display: -webkit-flex !important;
-  display: -ms-flexbox !important;
-  display: flex !important;
-  -webkit-box-orient: horizontal;
-  -webkit-box-direction: normal;
-  -webkit-flex-flow: row;
-      -ms-flex-flow: row;
-          flex-flow: row;
-  padding: 1px 20px 10px;
-  font-size: small;
-  text-align: left;
-  padding: 4.25em 0 0.325em 0;
-  position: relative;
+  /*//display: flex !important;
+    //flex-flow: row;
+    //padding: 1px 20px 10px;
+    font-size: small;
+    //text-align: left;
+    padding: 4.25em 0 0.325em 0;
+    //position: relative;
+
+    div {
+        padding-right: 10px;
+    }*/
 }
-.FooterQuestionDetails div {
-  padding-right: 10px;
+.FooterQuestionDetails .col-md-2 {
+  width: 17%;
+}
+@media (max-width: 991px) {
+  .FooterQuestionDetails .col-md-2 {
+    width: 100%;
+  }
+}
+.FooterQuestionDetails .col-md-10 {
+  width: 83%;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  padding-top: 2px;
+}
+@media (max-width: 991px) {
+  .FooterQuestionDetails .col-md-10 {
+    width: 100%;
+  }
 }
 .FooterQuestionDetails .TextLinkWithIcon {
   -webkit-box-orient: horizontal;
