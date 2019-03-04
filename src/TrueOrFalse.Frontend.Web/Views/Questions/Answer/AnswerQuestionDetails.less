@@ -1,4 +1,7 @@
-﻿//Variables
+﻿// Imports
+@import (reference) '../../../Style/includes/imports.less';
+
+//Variables
 
 @font-size12: 12px;
 
@@ -8,27 +11,52 @@
     font-size: @font-size12;
 }
 
+.SetAndCategory {
+    margin-right: 10px;
+}
+
+
 //Code
 
-.flex-box {
-    display: flex;
-   
-
+.question-details {
+    font-size: 12px;
     .category-set {
         display: flex;
-        
+
+        .label-category {
+            .SetAndCategory();
+        }
+
+        .label-set {
+            .SetAndCategory();
+        }
+
         #Category {
             .font-size12();
         }
+
+        .fa-chevron-right {
+            margin-top: 4px;
+        }
+    }
+    .second-row{
+        padding-left: 16px;
+
+
+        .media-below-lg({
+            padding-left: 10px;
+            padding-top: 10px;});
+    }
+    .sparklineTotalsUser {
+        padding-right: 24px;
     }
 
-    .right {
-        margin-left: auto;
-        display: flex;
+    .correctness-prohability {
+        padding-right: 24px;
+    }
 
-        .margin-left {
-            margin-left: 0.7em;
-        }
+    .learning-status {
+        padding-right: 15px;
     }
 }
 

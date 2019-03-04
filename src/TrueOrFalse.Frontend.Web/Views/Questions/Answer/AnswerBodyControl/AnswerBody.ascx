@@ -38,7 +38,7 @@
             <% } %>
             <% if (Model.IsCreator || Model.IsInstallationAdmin)
                { %>
-            <span class="margin-top-11">
+            <span class="edit-question">
                 <a href="<%= Links.EditQuestion(Url, Model.QuestionText, Model.QuestionId) %>" class="TextLinkWithIcon"><i class="fa fa-pencil"></i></a>
             </span>
             <% }  %>

@@ -21,9 +21,10 @@
     padding-right: 0;
   }
 }
-.font-size12-and-padding2 {
+.font-size12-and-padding {
   font-size: 12px;
   padding-top: 2px;
+  padding-left: 10px;
 }
 .navLinks {
   float: right;
@@ -729,6 +730,7 @@
     div {
         padding-right: 10px;
     }*/
+  padding-top: 80px;
 }
 .FooterQuestionDetails .col-md-2 {
   width: 17%;
@@ -761,10 +763,12 @@
 .FooterQuestionDetails .created {
   font-size: 12px;
   padding-top: 2px;
+  padding-left: 10px;
 }
 .FooterQuestionDetails .processed {
   font-size: 12px;
   padding-top: 2px;
+  padding-left: 10px;
 }
 .commentSettledInfo {
   color: darkgray;
@@ -1151,8 +1155,18 @@
   display: flex;
   float: right;
 }
-.AnswerQuestionBodyMenu .margin-top-11 {
+.AnswerQuestionBodyMenu .Pin {
+  padding-right: 20px;
+}
+.AnswerQuestionBodyMenu .edit-question {
   margin-top: 0.7em;
+  padding-right: 20px;
+}
+.AnswerQuestionBodyMenu .category {
+  margin-right: 15px;
+}
+.AnswerQuestionBodyMenu .set {
+  margin-right: 15px;
 }
 .AnswerQuestionBodyMenu .margin-top-4 {
   margin-top: 0.25em;
