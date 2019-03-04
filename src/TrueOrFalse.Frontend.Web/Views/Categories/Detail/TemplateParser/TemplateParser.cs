@@ -9,20 +9,22 @@ public class TemplateParser
     public static string Run(string stringToParse, Category category, ControllerContext controllerContext)
     {
         //Matches "[[something]]" (optionally with surrounding p tag) non-greedily across multiple lines and only if not nested
+
         var regex = new Regex(@"(<p>)?\[\[(.*?)\]\](<\/p>)?", RegexOptions.Singleline);
+//        var regex = new Regex(@"(<p>)(.*?)(<\/p>)?", RegexOptions.Singleline);
 
         return regex.Replace(stringToParse, match =>
         {
             try
             {
-                var json = match.Value
-                    .Replace("<p>[[", "")
-                    .Replace("]]</p>", "")
-                    .Replace("[[", "")
-                    .Replace("]]", "")
-                    .Replace("&quot;", @"""");
+                string json = match.Value
+                        .Replace("<p>", "")
+                        .Replace("</p>", "")
+                        .Replace("[[", "")
+                        .Replace("]]", "")
+                        .Replace("&quot;", @"""");
 
-                var templateJson = GetTemplateJson(json);
+                TemplateJson templateJson = GetTemplateJson(json);
 
                 var templateMarkdown = match.Value
                     .Replace("<p>", "")
@@ -77,6 +79,7 @@ public class TemplateParser
             case "spacer":
             case "textblock":
             case "cards":
+            case "inlinetext":
                 return GetPartialHtml(templateJson, category, controllerContext, templateMarkdown);
             default:
             {
@@ -146,6 +149,8 @@ public class TemplateParser
                 return new TextBlockModel(JsonConvert.DeserializeObject<TextBlockJson>(templateJson.OriginalJson));
             case "cards":
                 return new CardsModel(JsonConvert.DeserializeObject<CardsJson>(templateJson.OriginalJson));
+            case "inlinetext":
+                return new InlineTextModel(JsonConvert.DeserializeObject<InlineTextJson>(templateJson.OriginalJson));
             default:
                 throw new Exception("Kein Model für diese Template hinterlegt.");
         }

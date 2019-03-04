@@ -5,7 +5,7 @@
     Order: string = "";
 }
 
-Vue.component('topicnavigation-modal-settings', {
+Vue.component('topicnavigation-modal-component', {
     props: ['origMarkdown'],
 
     template: '#topicnavigation-settings-dialog-template',
@@ -16,10 +16,7 @@ Vue.component('topicnavigation-modal-settings', {
         return {
             newMarkdown: '',
             sets: [],
-            newSetId: 0,
             parentId: '',
-            result: '',
-            preview: '',
         }
     },
 

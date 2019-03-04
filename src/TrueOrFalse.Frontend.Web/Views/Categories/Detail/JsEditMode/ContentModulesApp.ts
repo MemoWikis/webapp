@@ -2,9 +2,8 @@
     {
         inserted(el, binding) {
             new Sortable(el, binding.value || {});
-        }
+        },
     });
-
 
 new Vue({
     el: '#ContentModuleApp',
@@ -22,7 +21,7 @@ new Vue({
             showTopAlert: false,
             previewModule: null,
             changedMarkdown: false,
-        }
+        };
     },
 
     created() {
@@ -30,7 +29,7 @@ new Vue({
             (data) => {
                 if (data == 'top') {
                     this.saveMarkdown(data);
-                }
+                };
             });
         eventBus.$on("set-edit-mode",
             (state) => {
@@ -53,7 +52,7 @@ new Vue({
                     eventBus.$emit('set-edit-mode', this.editMode);
                 } else {
                     console.log('kein neues Markdown verfügbar');
-                }
+                };
             });
     },
 
@@ -100,11 +99,9 @@ new Vue({
                     } else {
                         this.saveSuccess = false;
                         this.saveMessage = "Das Speichern schlug fehl.";
-                    }
-                }
+                    };
+                },
             );
         },
-    }
+    },
 });
-
-//var v = initV();

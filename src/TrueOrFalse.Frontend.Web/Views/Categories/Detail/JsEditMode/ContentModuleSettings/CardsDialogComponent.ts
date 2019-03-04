@@ -4,7 +4,7 @@
     SetListIds: string = "";
 }
 
-Vue.component('cards-modal-settings', {
+Vue.component('cards-modal-component', {
     props: ['origMarkdown'],
 
     template: '#cards-settings-dialog-template',
@@ -18,8 +18,6 @@ Vue.component('cards-modal-settings', {
             sets: [],
             newSetId: 0,
             parentId: '',
-            result: '',
-            preview: '',
         };
     },
 
@@ -40,7 +38,6 @@ Vue.component('cards-modal-settings', {
 
         $('#cardsSettingsDialog').on('hidden.bs.modal', function () {
             this.sets = [];
-            this.preview = false;
         });
     },
 
