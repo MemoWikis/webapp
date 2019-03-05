@@ -28,11 +28,17 @@
     max-width: 75%;
     margin-bottom: 10px;
 
-    .media-below-lg( {
-       max-width: 100%;
+    .Next {
+        padding-right: 5px;
+
+        .media-below-lg( {
+            padding-right: 0px;
+        });
     }
 
-    );
+    .media-below-lg( {
+        max-width: 100%;
+    });
 
     .media-sm-up( {
         display: flex;
@@ -41,9 +47,7 @@
         .EduPartnerWrapper {
             float: right;
         }
-    }
-
-    );
+    });
 }
 
 .EduPartnerWrapper {
@@ -925,6 +929,10 @@
 
     .dropdown-menu {
         z-index: 10;
+    }
+
+    .dropdown-toggle{
+        padding-right: 0px;
     }
 }
 

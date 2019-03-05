@@ -43,6 +43,14 @@
   max-width: 75%;
   margin-bottom: 10px;
 }
+.AnswerQuestionHeader .Next {
+  padding-right: 5px;
+}
+@media (max-width: 1199px) {
+  .AnswerQuestionHeader .Next {
+    padding-right: 0px;
+  }
+}
 @media (max-width: 1199px) {
   .AnswerQuestionHeader {
     max-width: 100%;
@@ -1180,6 +1188,9 @@
 }
 .AnswerQuestionBodyMenu .dropdown-menu {
   z-index: 10;
+}
+.AnswerQuestionBodyMenu .dropdown-toggle {
+  padding-right: 0px;
 }
 .SingleCategoryAttention .well {
   background-color: rgba(112, 112, 112, 0.08);
