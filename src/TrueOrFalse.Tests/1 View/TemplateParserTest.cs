@@ -16,6 +16,12 @@ class TemplateParserTest
     }
 
     [Test]
+    public void Parser_should_parse_text()
+    {
+//        var html = TemplateParser.Run("Test", new Category("test"), new ControllerContext());
+    }
+
+    [Test]
     public void Should_parse_markdown()
     {
         var splitMarkdown = MarkdownToHtml.SplitMarkdown("Test Anfang\r\n\r\nTest 2\r\n[[{\"TemplateName\":\"Cards\", \"CardOrientation\":\"Landscape\", \"SetListIds\":\"105,87\"}]]\r\nTest\r\n\r\n[[{\"TemplateName\":\"Cards\", \"CardOrientation\":\"Landscape\", \"SetListIds\":\"109,87\"}]]");

@@ -1,9 +1,14 @@
-﻿public class InlineTextModel : BaseContentModule
+﻿using System.Security.AccessControl;
+using TrueOrFalse.Web;
+
+public class InlineTextModel : BaseContentModule
 {
     public string Content;
-
-    public InlineTextModel(InlineTextJson inlineTextJson)
+    public string Raw;
+    
+    public InlineTextModel(string htmlContent)
     {
-        Content = inlineTextJson.Content;
+        Raw = htmlContent;
+        Content = MarkdownMarkdig.ToHtml(htmlContent);
     }
 }

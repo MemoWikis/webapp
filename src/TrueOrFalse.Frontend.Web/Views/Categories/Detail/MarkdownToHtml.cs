@@ -28,8 +28,9 @@ public class MarkdownToHtml
         foreach (Part element in parts)
         {
             var html = "";
-            var textElement = textWrapperStart + element.ToText() + textWrapperEnd;
-            html = element.Type == PartType.Text ? MarkdownMarkdig.ToHtml(textElement) : MarkdownMarkdig.ToHtml(element.ToText());
+//            var textElement = textWrapperStart + element.ToText() + textWrapperEnd;
+            var textContent = element.ToText();
+            html = element.Type == PartType.Text ? textContent : MarkdownMarkdig.ToHtml(element.ToText());
 
             var htmlResult = TemplateParser.Run(html, category, controllerContext);
 
@@ -37,6 +38,14 @@ public class MarkdownToHtml
         }
 
         return result.ToString();
+    }
+
+    private static string GetPartialInlineHtml(ControllerContext controllerContext, BaseModel partialModel)
+    {
+        return ViewRenderer.RenderPartialView(
+            $"~/Views/Categories/Detail/Partials/InlineText/InlineText.ascx",
+            partialModel,
+            controllerContext);
     }
 
 

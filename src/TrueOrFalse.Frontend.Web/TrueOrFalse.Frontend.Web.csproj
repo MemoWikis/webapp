@@ -322,7 +322,6 @@
     <Compile Include="Views\Categories\Detail\Partials\SingleQuestionQuiz\SingleQuestionQuizJson.cs" />
     <Compile Include="Views\Categories\Detail\Partials\SingleSetFullWidth\SingleSetFullWidthJson.cs" />
     <Compile Include="Views\Categories\Detail\Partials\SingleSet\SingleSetJson.cs" />
-    <Compile Include="Views\Categories\Detail\Partials\InlineText\InlineTextJson.cs" />
     <Compile Include="Views\Categories\Detail\Partials\InlineText\InlineTextModel.cs" />
     <Compile Include="Views\Categories\Detail\Partials\Spacer\SpacerJson.cs" />
     <Compile Include="Views\Categories\Detail\Partials\TextBlock\TextBlockJson.cs" />

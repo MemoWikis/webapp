@@ -11,47 +11,57 @@ public class TemplateParser
         //Matches "[[something]]" (optionally with surrounding p tag) non-greedily across multiple lines and only if not nested
 
         var regex = new Regex(@"(<p>)?\[\[(.*?)\]\](<\/p>)?", RegexOptions.Singleline);
-//        var regex = new Regex(@"(<p>)(.*?)(<\/p>)?", RegexOptions.Singleline);
-
-        return regex.Replace(stringToParse, match =>
+        //        var regex = new Regex(@"(<p>)(.*?)(<\/p>)?", RegexOptions.Singleline);
+        try
         {
-            try
+            var templateMarkdown = "";
+            var templateJson = new TemplateJson();
+        
+            if (stringToParse.Contains("[[") && stringToParse.Contains("]]"))
             {
-                string json = match.Value
-                        .Replace("<p>", "")
-                        .Replace("</p>", "")
-                        .Replace("[[", "")
-                        .Replace("]]", "")
-                        .Replace("&quot;", @"""");
-
-                TemplateJson templateJson = GetTemplateJson(json);
-
-                var templateMarkdown = match.Value
+                var json = stringToParse
+                    .Replace("<p>", "")
+                    .Replace("</p>", "")
+                    .Replace("[[", "")
+                    .Replace("]]", "")
+                    .Replace("&quot;", @"""");
+        
+                templateMarkdown = stringToParse
                     .Replace("<p>", "")
                     .Replace("</p>", "");
-
+        
+                templateJson = GetTemplateJson(json);
                 templateJson.OriginalJson = json;
-
-                var html = GetHtml(
-                    templateJson, 
-                    category, 
-                    controllerContext, 
-                    templateMarkdown
-                );
-
-                if (string.IsNullOrEmpty(html))
-                    throw new Exception("Es konnte kein Html erzeugt werden.");
-
-                return html;
-
             }
-            catch (Exception e)
+            else
             {
-                Logg.r().Error($"Fehler beim Parsen der Kategorie Id={category.Id} ({e.Message} {e.StackTrace}).");
-                return GetReplacementForNonparsableTemplate(match.Value, e.Message);
-            }
+                templateJson = new TemplateJson
+                {
+                    TemplateName = "InlineText",
+                };
+                InlineText = stringToParse;
 
-        });
+                templateMarkdown = stringToParse;
+            }
+        
+            var html = GetHtml(
+                templateJson, 
+                category, 
+                controllerContext, 
+                templateMarkdown
+            );
+        
+            if (string.IsNullOrEmpty(html))
+                throw new Exception("Es konnte kein Html erzeugt werden.");
+        
+            return html;
+        
+        }
+        catch (Exception e)
+        {
+            Logg.r().Error($"Fehler beim Parsen der Kategorie Id={category.Id} ({e.Message} {e.StackTrace}).");
+            return GetReplacementForNonparsableTemplate(stringToParse, e.Message);
+        }
     }
 
     private static TemplateJson GetTemplateJson(string template)
@@ -92,6 +102,8 @@ public class TemplateParser
             }
         }
     }
+
+    public static string InlineText;
 
     private static string GetPartialHtml(
         TemplateJson templateJson, 
@@ -150,7 +162,7 @@ public class TemplateParser
             case "cards":
                 return new CardsModel(JsonConvert.DeserializeObject<CardsJson>(templateJson.OriginalJson));
             case "inlinetext":
-                return new InlineTextModel(JsonConvert.DeserializeObject<InlineTextJson>(templateJson.OriginalJson));
+                return new InlineTextModel(InlineText);
             default:
                 throw new Exception("Kein Model für diese Template hinterlegt.");
         }
