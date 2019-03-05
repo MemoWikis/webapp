@@ -5,7 +5,7 @@
         <div class="ContentModule" @mouseenter="updateHoverState(true)" @mouseleave="updateHoverState(false)">
             <div class="ModuleBorder" :class="{ active : hoverState }">
                 
-                <%: Html.Partial(Model.Content) %>
+                <%: Html.Raw(HttpUtility.HtmlDecode(Model.Content))  %>
 
                 <div class="Button Handle" v-if="hoverState">
                     <i class="fa fa-bars"></i>
