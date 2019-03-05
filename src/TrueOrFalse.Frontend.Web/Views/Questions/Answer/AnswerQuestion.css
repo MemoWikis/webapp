@@ -723,17 +723,7 @@
   padding-right: 0;
 }
 .FooterQuestionDetails {
-  /*//display: flex !important;
-    //flex-flow: row;
-    //padding: 1px 20px 10px;
-    font-size: small;
-    //text-align: left;
-    padding: 4.25em 0 0.325em 0;
-    //position: relative;
-
-    div {
-        padding-right: 10px;
-    }*/
+  color: #555555;
   padding-top: 80px;
 }
 .FooterQuestionDetails .col-md-2 {
