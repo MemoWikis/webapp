@@ -12,42 +12,24 @@ public class MarkdownToHtml
         if(String.IsNullOrEmpty(markdown?.Trim()))
             return "";
 
-//        var result = MarkdownMarkdig.ToHtml(markdown);
-//        result = TemplateParser.Run(result, category, controllerContext);
-
-        var result = TurnPartsIntoHtml(markdown, category, controllerContext);
+        var result = MarkdownContentToHtml(markdown, category, controllerContext);
         return result;
     }
 
-    public static string TurnPartsIntoHtml(string markdown, Category category, ControllerContext controllerContext)
+    public static string MarkdownContentToHtml(string markdown, Category category, ControllerContext controllerContext)
     {
         var parts = SplitMarkdown(markdown);
         var result = new StringBuilder();
-        var textWrapperStart = "[[{\"TemplateName\" : \"InlineText\" , \"Content\" : \"";
-        var textWrapperEnd = "\"}]]";
         foreach (Part element in parts)
         {
-            var html = "";
-//            var textElement = textWrapperStart + element.ToText() + textWrapperEnd;
-            var textContent = element.ToText();
-            html = element.Type == PartType.Text ? textContent : MarkdownMarkdig.ToHtml(element.ToText());
-
-            var htmlResult = TemplateParser.Run(html, category, controllerContext);
+            var content = element.ToText();
+            var htmlResult = TemplateParser.Run(content, category, controllerContext);
 
             result.Append(htmlResult);
         }
 
         return result.ToString();
     }
-
-    private static string GetPartialInlineHtml(ControllerContext controllerContext, BaseModel partialModel)
-    {
-        return ViewRenderer.RenderPartialView(
-            $"~/Views/Categories/Detail/Partials/InlineText/InlineText.ascx",
-            partialModel,
-            controllerContext);
-    }
-
 
     public static List<Part> SplitMarkdown(string markdown)
     {

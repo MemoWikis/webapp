@@ -8,10 +8,6 @@ public class TemplateParser
 {
     public static string Run(string stringToParse, Category category, ControllerContext controllerContext)
     {
-        //Matches "[[something]]" (optionally with surrounding p tag) non-greedily across multiple lines and only if not nested
-
-        var regex = new Regex(@"(<p>)?\[\[(.*?)\]\](<\/p>)?", RegexOptions.Singleline);
-        //        var regex = new Regex(@"(<p>)(.*?)(<\/p>)?", RegexOptions.Singleline);
         try
         {
             var templateMarkdown = "";
