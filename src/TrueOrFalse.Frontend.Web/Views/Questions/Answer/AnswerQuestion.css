@@ -40,7 +40,13 @@
   display: inline-block !important;
 }
 .AnswerQuestionHeader {
+  max-width: 75%;
   margin-bottom: 10px;
+}
+@media (max-width: 1199px) {
+  .AnswerQuestionHeader {
+    max-width: 100%;
+  }
 }
 @media (min-width: 768px) {
   .AnswerQuestionHeader {

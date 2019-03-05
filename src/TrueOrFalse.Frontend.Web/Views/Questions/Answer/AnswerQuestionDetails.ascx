@@ -8,7 +8,6 @@
             <span id="Category">
                 <% if (Model.Categories.Count > 0)
                     { %>
-
                 <span>Thema:&nbsp;</span> <% Html.RenderPartial("CategoriesOfQuestion", Model.Question); %>
 
                 <% } %>
