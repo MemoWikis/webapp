@@ -46,7 +46,7 @@
         <span class="correctness-prohability">
             <% Html.RenderPartial("~/Views/Shared/CorrectnessProbability.ascx", Model.HistoryAndProbability.CorrectnessProbability); %>             
         </span>
-        <span class="show-tooltip" title="Die Frage wurde <%= Model.TotalViews %>x mal gesehen.">
+        <span class="show-tooltip seen" title="Die Frage wurde <%= Model.TotalViews %>x mal gesehen.">
             <span><i class="fa fa-eye greyed"></i><%= Model.TotalViews %>x </span>
         </span>
         <span class="show-tooltip margin-left" title="Die Frage wurde <%= Model.TotalRelevancePersonalEntries %>x zum Wunschwissen hinzugefügt.">
