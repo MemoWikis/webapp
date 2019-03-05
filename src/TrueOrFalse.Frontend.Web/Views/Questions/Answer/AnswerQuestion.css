@@ -460,16 +460,6 @@
     padding-bottom: 30px;
   }
 }
-#activityPointsDispaly {
-  font-size: 22px;
-  font-family: sans-serif;
-  line-height: normal;
-  color: #b9db4f;
-}
-#activityPointsDispaly small {
-  font-size: 10px;
-  display: block;
-}
 #levelPopupModal,
 #levelPopupModal .modal-title,
 #levelPopupModal .title-text {
@@ -1150,6 +1140,17 @@
 ---------------------------------------------------------------*/
 #activityPointsDispaly {
   float: right;
+  font-size: 22px;
+  font-family: sans-serif;
+  line-height: normal;
+  color: #b9db4f;
+}
+#activityPointsDispaly .fa-info-circle {
+  font-size: 14px;
+}
+#activityPointsDispaly small {
+  font-size: 10px;
+  display: block;
 }
 /*-----------------------AnswerQuestionBodyMenu--------------------
 
