@@ -24,7 +24,6 @@
                 <% } %>
 
                 <% } %>
-                <span class="fa fa-chevron-right"></span>
             </span>
         </span>
     </div>
