@@ -277,7 +277,14 @@
     <div class="processed"> Diese Frage wurde zuletzt bearbeitet von:  <a href="<%= Links.UserDetail(Model.Creator) %>"><%= Model.Creator.Name %></a> vor  <%= Model.QuestionLastEditedOn %> </div>
         <%if (Model.ShowCommentLink) { %>
             <div class="comment-link">
-                <a href="#comments"><div class="fa fa-comment-o"></div></a>
+                <% if (Model.IsLoggedIn)
+                   { %>
+                    <a href="#comments"><div class="fa fa-comment-o"></div></a>
+                  <% }
+                   else
+                   { %>
+                    <a href="#comments"><div class="fas fa-comment"></div></a>
+                    <% } %>
             </div>
         <% } %>
     </div>

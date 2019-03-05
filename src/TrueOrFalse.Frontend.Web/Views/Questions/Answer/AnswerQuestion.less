@@ -647,23 +647,20 @@
 /*---------------------------------------------------------------------------
                                  FooterQuestionDetails
 -----------------------------------------------------------------------------*/
-.comment-link {
-    margin-left: auto;
-    padding-right: 0;
-    .fa{
-        padding-right: 0;
-    }
-}
+
 
 .FooterQuestionDetails {
     color: #555555;
     padding-top: 80px;
+
     .col-md-2 {
         width: 17%;
 
         .media-below-md( {
             width: 100%;
-        });
+        }
+
+        );
     }
 
     .col-md-10 {
@@ -673,7 +670,9 @@
 
         .media-below-md( {
             width: 100%;
-        });
+        }
+
+        );
     }
 
     .TextLinkWithIcon {
@@ -686,6 +685,19 @@
 
     .processed {
         .font-size12-and-padding();
+    }
+
+    .comment-link {
+        margin-left: auto;
+        padding-right: 0;
+
+        .fa {
+            padding-right: 0;
+        }
+
+        .fa-comment {
+            color: #979797;
+        }
     }
 }
 

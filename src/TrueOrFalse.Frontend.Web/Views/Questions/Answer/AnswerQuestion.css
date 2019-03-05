@@ -715,13 +715,6 @@
 /*---------------------------------------------------------------------------
                                  FooterQuestionDetails
 -----------------------------------------------------------------------------*/
-.comment-link {
-  margin-left: auto;
-  padding-right: 0;
-}
-.comment-link .fa {
-  padding-right: 0;
-}
 .FooterQuestionDetails {
   color: #555555;
   padding-top: 80px;
@@ -763,6 +756,16 @@
   font-size: 12px;
   padding-top: 2px;
   padding-left: 10px;
+}
+.FooterQuestionDetails .comment-link {
+  margin-left: auto;
+  padding-right: 0;
+}
+.FooterQuestionDetails .comment-link .fa {
+  padding-right: 0;
+}
+.FooterQuestionDetails .comment-link .fa-comment {
+  color: #979797;
 }
 .commentSettledInfo {
   color: darkgray;
