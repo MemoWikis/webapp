@@ -34,7 +34,7 @@
             if (this.isListening && event) {
                 this.isDeleted = true;
                 this.isListening = false;
-            } else if (this.isListening && event) {
+            } else if (this.isListening && !event) {
                 this.isListening = false;
             };
         });
@@ -72,13 +72,14 @@
             self.isDeleted = true;
         },
 
-        getMarkdown(string) {
-            console.log(string);
-        },
-
         editModule() {
             if (this.contentModuleType != 'inlineText') {
                 this.isListening = true;
+                let parent = {
+                    id: this.id,
+                    markdown: this.markdown,
+                };
+                $(this.modalType).data('parent', parent).modal('show');
             };
         },
 

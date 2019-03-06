@@ -1220,6 +1220,43 @@ p:empty {
   margin-right: 10px;
   cursor: pointer;
 }
+#cardsSettingsDialog {
+  /*------------------------------------------------------
+    Dialog and Settings
+-------------------------------------------------------*/
+}
+#cardsSettingsDialog .cardsSettings {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-wrap: wrap;
+      -ms-flex-wrap: wrap;
+          flex-wrap: wrap;
+  -webkit-box-pack: start;
+  -webkit-justify-content: start;
+      -ms-flex-pack: start;
+          justify-content: start;
+}
+#cardsSettingsDialog .cardsSettings.grid {
+  width: 257px;
+  height: 157px;
+  display: inline-block;
+  background-color: #fff;
+  border: solid 1px silver;
+  padding: 10px;
+  margin: 10px;
+}
+#cardsSettingsDialog .cardsSettings.grid.portrait {
+  width: 166px;
+  height: 365px;
+}
+#cardsSettingsDialog .cardsSettings.card {
+  -webkit-box-pack: justify;
+  -webkit-justify-content: space-between;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+}
 /*------------------------------------------------------
     Spinner Overwrite
 -------------------------------------------------------*/

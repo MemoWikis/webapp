@@ -1007,8 +1007,34 @@ p:empty {
     }
 }
 
-#ContentModule {
- 
+#cardsSettingsDialog {
+    /*------------------------------------------------------
+    Dialog and Settings
+-------------------------------------------------------*/
+    .cardsSettings {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: start;
+
+        &.grid {
+            width: 257px;
+            height: 157px;
+            display: inline-block;
+            background-color: #fff;
+            border: solid 1px silver;
+            padding: 10px;
+            margin: 10px;
+
+            &.portrait {
+                width: 166px;
+                height: 365px;
+            }
+        }
+
+        &.card {
+            justify-content: space-between;
+        }
+    }
 }
 
 /*------------------------------------------------------

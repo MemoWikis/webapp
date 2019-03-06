@@ -1,5 +1,6 @@
 ﻿class CardsSettings {
     TemplateName: string = "";
+    Title: string = "";
     CardOrientation: string = "";
     SetListIds: string = "";
 }
@@ -9,36 +10,53 @@ Vue.component('cards-modal-component', {
 
     template: '#cards-settings-dialog-template',
 
-     _cardsSettings: CardsSettings,
+    cardsSettings: CardsSettings,
 
     data() {
         return {
             selectedCardOrientation: '',
+            title: '',
             newMarkdown: '',
             sets: [],
             newSetId: 0,
             parentId: '',
+            hasPreview: false,
+            vertical: false,
         };
     },
 
     created() {
         var self = this;
-        self._cardsSettings = new CardsSettings();
+        self.cardsSettings = new CardsSettings();
     },
 
-    mounted: function () {
+    watch: {
+        selectedCardOrientation: function(val) {
+            if (val == 'Portrait')
+                this.vertical = true;
+            else this.vertical = false;
+        },
+    },
+    
+    mounted: function() {
         $('#cardsSettingsDialog').on('show.bs.modal',
             event => {
-                this.newMarkdown = event.relatedTarget.getAttribute('markdown');
-                this.parentId = event.relatedTarget.getAttribute('id');
-                this._cardsSettings = Utils.ConvertEncodedHtmlToJson(this.newMarkdown);
-                this.selectedCardOrientation = this._cardsSettings.CardOrientation;
-                this.sets = this._cardsSettings.SetListIds.split(',');
+                this.newMarkdown = $('#cardsSettingsDialog').data('parent').markdown;
+                this.parentId = $('#cardsSettingsDialog').data('parent').id;
+                this.cardsSettings = Utils.ConvertEncodedHtmlToJson(this.newMarkdown);
+                this.selectedCardOrientation = this.cardsSettings.CardOrientation;
+                this.sets = this.cardsSettings.SetListIds.split(',');
+                if (this.cardsSettings.Title)
+                    this.title = this.cardsSettings.Title;
+                console.log(this.cardsSettings);
             });
 
-        $('#cardsSettingsDialog').on('hidden.bs.modal', function () {
-            this.sets = [];
-        });
+        $('#cardsSettingsDialog').on('hidden.bs.modal',
+            function() {
+                this.sets = [];
+                if (!this.hasPreview)
+                    eventBus.$emit('close-content-module-settings-modal', false);
+            });
     },
 
     methods: {
@@ -52,10 +70,16 @@ Vue.component('cards-modal-component', {
         applyNewMarkdown() {
             const setIdParts = $("li.cardsSettings").map((idx, elem) => $(elem).attr("setId")).get();
             if (setIdParts.length >= 1)
-                this._cardsSettings.SetListIds = setIdParts.join(',');
-            this._cardsSettings.CardOrientation = this.selectedCardOrientation;
-            this.newMarkdown = Utils.ConvertJsonToMarkdown(this._cardsSettings);
+                this.cardsSettings.SetListIds = setIdParts.join(',');
+            this.cardsSettings.Title = this.title;
+            this.cardsSettings.CardOrientation = this.selectedCardOrientation;
+            this.newMarkdown = Utils.ConvertJsonToMarkdown(this.cardsSettings);
             Utils.UpdateMarkdown(this.newMarkdown, this.parentId);
+            this.hasPreview = true;
+            $('#cardsSettingsDialog').modal('hide');
+        },
+
+        closeModal() {
             $('#cardsSettingsDialog').modal('hide');
         },
     },
