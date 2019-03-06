@@ -9,7 +9,7 @@ public class CardsModel : BaseContentModule
     public CardsModel(CardsJson cardsjson)
     {
         Sets = cardsjson.GetSetList();
-        Title = cardsjson.TemplateName;
+        Title = cardsjson.Title;
 
         if (cardsjson.CardOrientation == "Landscape" || cardsjson.CardOrientation == "Portrait")
             CardOrientation = cardsjson.CardOrientation;

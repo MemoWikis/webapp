@@ -1,11 +1,16 @@
 ﻿<%@ Control Language="C#" AutoEventWireup="true" Inherits="System.Web.Mvc.ViewUserControl<InlineTextModel>" %>
 
 <content-module inline-template orig-markdown="<%: Model.Markdown %>" content-module-type="<%: Model.Type %>">
-    <li class="module" v-if="!isDeleted" :markdown="markdown" :id="id" :role="button" :data-toggle="modal" :data-target="modalType" :data-component-id="id" :data-markdown="origMarkdown" @click="isListening = true" v-cloak>
+    <li class="module" v-if="!isDeleted" :markdown="markdown" :id="id" :role="button" :data-toggle="modal" :data-target="modalType" :data-component-id="id" :data-markdown="origMarkdown" v-cloak>
         <div class="ContentModule" @mouseenter="updateHoverState(true)" @mouseleave="updateHoverState(false)">
             <div class="ModuleBorder" :class="{ active : hoverState }">
                 
-                <%: Html.Raw(HttpUtility.HtmlDecode(Model.Content))  %>
+                <div v-if="editMe">
+                    <inline-text-component/>
+                </div>
+                <div v-else @click="editInlineText()">
+                    <%: Html.Raw(HttpUtility.HtmlDecode(Model.Content))  %>
+                </div>
 
                 <div class="Button Handle" v-if="hoverState">
                     <i class="fa fa-bars"></i>
@@ -21,7 +26,6 @@
                         <li class="delete"><a href="" data-allowed="logged-in" @click.prevent="deleteModule()"><i class="fa fa-trash"></i> Löschen</a></li>
                     </ul>
                 </div>
-
 
             </div>    
         </div>     

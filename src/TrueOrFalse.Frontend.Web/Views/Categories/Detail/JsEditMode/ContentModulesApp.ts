@@ -1,4 +1,8 @@
-﻿Vue.directive('sortable',
+﻿declare var VueTextareaAutosize: any;
+
+Vue.use(VueTextareaAutosize);
+
+Vue.directive('sortable',
     {
         inserted(el, binding) {
             new Sortable(el, binding.value || {});

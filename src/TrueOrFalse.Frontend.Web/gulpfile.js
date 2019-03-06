@@ -12,6 +12,9 @@ var deps = {
     "vue-sortable": {
         "vue-sortable.js": ""
     },
+    "vue-textarea-autosize": {
+        "dist/vue-textarea-autosize.browser.js": ""
+    },
     "d3": {
         "dist/d3.js": ""
     },

@@ -16,6 +16,7 @@
             id: '',
             modal: '',
             button: '',
+            editMe: false,
         };
     },
 
@@ -65,6 +66,13 @@
 
         getMarkdown(string) {
             console.log(string);
+        },
+
+        editInlineText() {
+            if (this.canBeEdited) {
+                this.editMe = true;
+                this.isListening = true;
+            }
         },
 
         moveUp() {
