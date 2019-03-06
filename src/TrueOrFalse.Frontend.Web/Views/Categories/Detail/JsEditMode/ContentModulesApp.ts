@@ -85,7 +85,7 @@ new Vue({
             } else {
                 this.showTopAlert = false;
             };
-            const markdownParts = $("li.module").map((idx, elem) => $(elem).attr("data-markdown")).get();
+            const markdownParts = $("li.module").map((idx, elem) => $(elem).attr("markdown")).get();
             let markdownDoc = "";
             if (markdownParts.length >= 1)
                 markdownDoc = markdownParts.reduce((list, doc) => { return list + "\r\n" + doc });
