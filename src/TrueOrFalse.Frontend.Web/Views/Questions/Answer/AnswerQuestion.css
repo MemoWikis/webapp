@@ -718,6 +718,7 @@
 .FooterQuestionDetails {
   color: #555555;
   padding-top: 80px;
+  padding-bottom: 10px;
 }
 .FooterQuestionDetails .col-md-2 {
   width: 17%;
@@ -733,7 +734,7 @@
   display: -webkit-flex;
   display: -ms-flexbox;
   display: flex;
-  padding-top: 2px;
+  padding-top: 4px;
 }
 @media (max-width: 991px) {
   .FooterQuestionDetails .col-md-10 {
@@ -746,6 +747,9 @@
   -webkit-flex-flow: row;
       -ms-flex-flow: row;
           flex-flow: row;
+}
+.FooterQuestionDetails .TextLinkWithIcon .TextDiv {
+  padding-top: 3px;
 }
 .FooterQuestionDetails .created {
   font-size: 12px;
