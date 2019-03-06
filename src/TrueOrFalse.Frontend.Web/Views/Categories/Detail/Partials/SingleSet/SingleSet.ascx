@@ -1,11 +1,9 @@
 ﻿<%@ Control Language="C#" AutoEventWireup="true" 
     Inherits="System.Web.Mvc.ViewUserControl<SingleSetModel>" %>
 <%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
-
-<%-- <%: Html.Partial("~/Views/Categories/Detail/Partials/ContentModuleWrapperStart.ascx") %> --%>
                 
     <div class="CardColumn">
-        <div class="Card SingleItem Set ">
+        <div class="Card SingleItem Set" @click.stop="">
             <div class="ImageContainer">
                 <%= Model.ImageFrontendData.RenderHtmlImageBasis(300, true, ImageType.QuestionSet, linkToItem: Links.SetDetail(Model.Set), noFollow: true) %>
             </div>
@@ -45,5 +43,3 @@
             </div>
         </div>
     </div>
-
-<%-- <%: Html.Partial("~/Views/Categories/Detail/Partials/ContentModuleWrapperEnd.ascx") %> --%>
