@@ -88,14 +88,14 @@
     var developOffline = "True" === "<%= Settings.DevelopOffline().ToString() %>";
 </script>
 
-<% if(Model is BaseModel && ((BaseModel)Model).ShowUserReportWidget && !Settings.DevelopOffline()) { %>
+<%-- if(Model is BaseModel && ((BaseModel)Model).ShowUserReportWidget && !Settings.DevelopOffline()) { %>
     <%--UserReport Feedback system--%>
 <%--    <script type="text/javascript">
     if (screen && screen.width > 767) {
         document.write('<script type="text/javascript" src="/Scripts/userreport/userreport-plugin.js"><\/script>');
     }
     </script>--%>    
-<% } %>
+<%-- } --%>
 
 <% if(!Settings.DevelopOffline()){ %>
 
