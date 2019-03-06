@@ -1220,11 +1220,9 @@ p:empty {
   margin-right: 10px;
   cursor: pointer;
 }
-#cardsSettingsDialog {
-  /*------------------------------------------------------
+/*------------------------------------------------------
     Dialog and Settings
 -------------------------------------------------------*/
-}
 #cardsSettingsDialog .cardsSettings {
   display: -webkit-box;
   display: -webkit-flex;
@@ -1256,6 +1254,9 @@ p:empty {
   -webkit-justify-content: space-between;
       -ms-flex-pack: justify;
           justify-content: space-between;
+}
+#cardsSettingsDialog .sortable-ghost {
+  background: #dddddd;
 }
 /*------------------------------------------------------
     Spinner Overwrite
