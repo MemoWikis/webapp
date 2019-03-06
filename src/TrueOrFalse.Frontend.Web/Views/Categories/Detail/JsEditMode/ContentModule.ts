@@ -16,14 +16,16 @@
             id: '',
             modal: '',
             button: '',
-            editMe: false,
+            textCanBeEdited: false,
+            dataTarget: '',
         };
     },
 
     created() {
-        this.markdown = this.origMarkdown;
-        this.modalType = '#' + this.contentModuleType + 'SettingsDialog';
-        this.id = this.contentModuleType + 'Module-' + this._uid;
+        if (this.contentModuleType != "inlinetext") {
+            this.modalType = '#' + this.contentModuleType + 'SettingsDialog';
+        }
+        this.id = this.contentModuleType + 'Module-' + (this._uid - 2);
     },
 
     mounted() {
@@ -41,11 +43,17 @@
     watch: {
         canBeEdited: function (val) {
             if (val) {
-                this.modal = 'modal';
-                this.button = 'button';
+                if (this.contentModuleType != 'inlinetext') {
+                    this.modal = 'modal';
+                    this.button = 'button';
+                }
+                this.dataTarget = this.modalType;
+                this.markdown = this.origMarkdown;
             } else {
                 this.modal = '';
                 this.button = '';
+                this.markdown = '';
+                this.dataTarget = '';
             };
         },
     },
@@ -68,11 +76,17 @@
             console.log(string);
         },
 
+        editModule() {
+            if (this.contentModuleType != 'inlineText') {
+                this.isListening = true;
+            };
+        },
+
         editInlineText() {
             if (this.canBeEdited) {
-                this.editMe = true;
+                this.textCanBeEdited = true;
                 this.isListening = true;
-            }
+            };
         },
 
         moveUp() {

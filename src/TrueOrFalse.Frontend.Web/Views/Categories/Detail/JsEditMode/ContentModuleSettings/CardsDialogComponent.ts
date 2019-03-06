@@ -29,8 +29,8 @@ Vue.component('cards-modal-component', {
     mounted: function () {
         $('#cardsSettingsDialog').on('show.bs.modal',
             event => {
-                this.newMarkdown = event.relatedTarget.getAttribute('data-markdown');
-                this.parentId = event.relatedTarget.getAttribute('data-component-id');
+                this.newMarkdown = event.relatedTarget.getAttribute('markdown');
+                this.parentId = event.relatedTarget.getAttribute('id');
                 this._cardsSettings = Utils.ConvertEncodedHtmlToJson(this.newMarkdown);
                 this.selectedCardOrientation = this._cardsSettings.CardOrientation;
                 this.sets = this._cardsSettings.SetListIds.split(',');

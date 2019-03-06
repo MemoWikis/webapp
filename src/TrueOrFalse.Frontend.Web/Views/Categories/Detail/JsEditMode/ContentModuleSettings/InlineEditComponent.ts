@@ -30,9 +30,10 @@ Vue.component('inline-text-component', {
         },
 
         cancelTextEdit() {
-            this.$parent.editMe = false;
+            this.$parent.textCanBeEdited = false;
             this.$parent.isListening = false;
-        },
+            this.$parent.hoverState = false;
+        }
     },
 });
 
