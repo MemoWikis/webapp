@@ -90,18 +90,12 @@
 
 <% if(Model is BaseModel && ((BaseModel)Model).ShowUserReportWidget && !Settings.DevelopOffline()) { %>
     <%--UserReport Feedback system--%>
-    <script type="text/javascript">
+<%--    <script type="text/javascript">
     if (screen && screen.width > 767) {
         document.write('<script type="text/javascript" src="/Scripts/userreport/userreport-plugin.js"><\/script>');
     }
-    </script>    
+    </script>--%>    
 <% } %>
-<%--$( document ).ready(function() {      
-    var isMobile = window.matchMedia("only screen and (max-width: 760px)");
-    if (isMobile.matches) {
-        //Conditional script here
-    }
-});--%>
 
 <% if(!Settings.DevelopOffline()){ %>
 
