@@ -21,12 +21,12 @@
         <asp:ContentPlaceHolder ID="SubHeader" runat="server" />
         <section id="MasterMainContent" class="container">
             <div class="row">
-                <%if(Model.TopNavMenu.IsCategoryBreadCrumb && !Model.TopNavMenu.IsCategoryLearningBreadCrumb){ %>
-                <section id="MasterSidebarColumn" >                  
-                    <% Html.RenderPartial("SidebarCards", Model.SidebarModel); %>                                        
-                </section>
+                <%if(Model.SidebarModel.Show()){ %>
+                    <section id="MasterSidebarColumn" class="col-md-3">                  
+                        <% Html.RenderPartial("SidebarCards", Model.SidebarModel); %>                                        
+                    </section>
                 <%} %>
-                <section id="MasterMainColumn" <%if(Model.TopNavMenu.IsCategoryBreadCrumb){ %> style="width:76%;" <%}%> class="">        
+                <section id="MasterMainColumn" <%if(Model.SidebarModel.Show()){ %> class="col-md-9" <% } else { %> class="col-md-12" <% } %> >
                     <div id="IsInGameMessage">
                         <% if(Model.IsInGame){ %>
                             <% Html.RenderPartial("MessageGame", Model); %>

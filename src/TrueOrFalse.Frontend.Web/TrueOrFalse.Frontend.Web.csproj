@@ -429,6 +429,20 @@
     <Content Include="Content\themes\base\minified\jquery.ui.tabs.min.css" />
     <Content Include="Content\themes\base\minified\jquery.ui.theme.min.css" />
     <Content Include="Content\themes\base\minified\jquery.ui.tooltip.min.css" />
+    <Content Include="Fonts\font-awesome-5.7.2\css\all.css" />
+    <Content Include="Fonts\font-awesome-5.7.2\css\all.min.css" />
+    <Content Include="Fonts\font-awesome-5.7.2\css\brands.css" />
+    <Content Include="Fonts\font-awesome-5.7.2\css\brands.min.css" />
+    <Content Include="Fonts\font-awesome-5.7.2\css\fontawesome.css" />
+    <Content Include="Fonts\font-awesome-5.7.2\css\fontawesome.min.css" />
+    <Content Include="Fonts\font-awesome-5.7.2\css\regular.css" />
+    <Content Include="Fonts\font-awesome-5.7.2\css\regular.min.css" />
+    <Content Include="Fonts\font-awesome-5.7.2\css\solid.css" />
+    <Content Include="Fonts\font-awesome-5.7.2\css\solid.min.css" />
+    <Content Include="Fonts\font-awesome-5.7.2\css\svg-with-js.css" />
+    <Content Include="Fonts\font-awesome-5.7.2\css\svg-with-js.min.css" />
+    <Content Include="Fonts\font-awesome-5.7.2\css\v4-shims.css" />
+    <Content Include="Fonts\font-awesome-5.7.2\css\v4-shims.min.css" />
     <Content Include="Fonts\font-awesome-5.7.2\svgs\brands\500px.svg" />
     <Content Include="Fonts\font-awesome-5.7.2\svgs\brands\accessible-icon.svg" />
     <Content Include="Fonts\font-awesome-5.7.2\svgs\brands\accusoft.svg" />
@@ -21567,7 +21581,7 @@
     <Content Include="Style\tabs.css">
       <DependentUpon>tabs.less</DependentUpon>
     </Content>
-    <Content Include="Style\TopHeader.css">
+    <Content Include="Style\top-header.css">
       <DependentUpon>top-header.less</DependentUpon>
     </Content>
     <Content Include="Style\z_variables_2.3.2.css">
@@ -24155,7 +24169,6 @@
     <Folder Include="bin\Domain\Message\Types\" />
     <Folder Include="bin\Utilities\Update\Scripts\" />
     <Folder Include="bin\Utilities\Update\SolrSchemas\" />
-    <Folder Include="Fonts\font-awesome-5.7.2\css\" />
     <Folder Include="Views\Categories\Detail\Partials\BreadCrumb\" />
     <Folder Include="Views\Dates\" />
   </ItemGroup>
