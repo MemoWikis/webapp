@@ -86,7 +86,6 @@
         editInlineText() {
             if (this.canBeEdited) {
                 this.textCanBeEdited = true;
-                this.isListening = true;
             };
         },
 

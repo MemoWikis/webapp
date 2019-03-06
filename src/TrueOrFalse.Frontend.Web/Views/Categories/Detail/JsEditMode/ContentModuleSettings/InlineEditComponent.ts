@@ -26,12 +26,12 @@ Vue.component('inline-text-component', {
         },
 
         applyNewMarkdown() {
+            this.$parent.isListening = true;
             Utils.UpdateMarkdown(this.textContent, this.parentId);
         },
 
         cancelTextEdit() {
             this.$parent.textCanBeEdited = false;
-            this.$parent.isListening = false;
             this.$parent.hoverState = false;
         }
     },
