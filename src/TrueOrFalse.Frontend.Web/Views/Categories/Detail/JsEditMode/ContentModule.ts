@@ -14,8 +14,6 @@
             isListening: false,
             modalType: '',
             id: '',
-            modal: '',
-            button: '',
             textCanBeEdited: false,
             dataTarget: '',
         };
@@ -44,14 +42,10 @@
         canBeEdited: function (val) {
             if (val) {
                 if (this.contentModuleType != 'inlinetext') {
-                    this.modal = 'modal';
-                    this.button = 'button';
                 }
                 this.dataTarget = this.modalType;
                 this.markdown = this.origMarkdown;
             } else {
-                this.modal = '';
-                this.button = '';
                 this.markdown = '';
                 this.dataTarget = '';
             };

@@ -4,24 +4,26 @@
             <div class="modal-content">
     
                 <div class="contentModuleSettings">
-                    <h4 class="modalHeader">Cards bearbeiten</h4>
+                    <h4 class="modalHeader">TopicNavigation bearbeiten</h4>
                     <form>
                         <div class="form-group">
                             <label for="title">Titel</label>
                             <input class="form-control" v-model="title" placeholder="">
                             <small class="form-text text-muted">Der Titel ist optional.</small>
                         </div>
-                        <div>
-                            <label class="clickable">
-                                <input type="radio" value="Landscape" v-model="selectedCardOrientation">
-                                Querformat
-                            </label>
-                            <div>
+                        <div class="form-group">
+                            <div class="radio">
+                                <label class="clickable">
+                                    <input type="radio" value="Landscape" v-model="selectedCardOrientation">
+                                    Querformat
+                                </label>
                             </div>
-                            <label class="clickable">
-                                <input type="radio" value="Portrait" v-model="selectedCardOrientation">
-                                Hochformat
-                            </label>
+                            <div class="radio">
+                                <label class="clickable">
+                                    <input type="radio" value="Portrait" v-model="selectedCardOrientation">
+                                    Hochformat
+                                </label>
+                            </div>
                         </div>
                     </form>
 

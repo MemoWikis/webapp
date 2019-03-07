@@ -61,8 +61,12 @@
                     <a class="CancelEdit" @click="cancelEditMode()">Editieren abbrechen</a>
                 </div>                
             </section>
-            <cards-modal-component/>
-            <topicnavigation-modal-component/>
+            <div>
+                <cards-modal-component/>
+            </div>
+            <div>
+                <topicnavigation-modal-component/>
+            </div>
         </div>           
     </div>
 

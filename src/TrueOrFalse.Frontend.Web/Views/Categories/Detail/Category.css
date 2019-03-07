@@ -1232,6 +1232,9 @@ p:empty {
 .contentModuleSettings form {
   margin: 10px;
 }
+.contentModuleSettings form input.radio {
+  float: none !important;
+}
 .contentModuleSettings .clickable {
   cursor: pointer;
 }
