@@ -12,6 +12,8 @@ public class AnswerBodyModel : BaseModel
     public string CreationDateNiceText;
     public SetMini PrimarySetMini;
 
+    public string ShareFacebook;
+
     public int QuestionId;
 
     public User Creator;
@@ -176,9 +178,9 @@ public class AnswerBodyModel : BaseModel
         SolutionModel = GetQuestionSolution.Run(question);
 
         TotalActivityPoints = IsLoggedIn ? Sl.SessionUser.User.ActivityPoints : Sl.R<SessionUser>().getTotalActivityPoints();
+
+        ShareFacebook = Links.FaceBookShare(Question.GetShortTitle(61), QuestionId);
     }
-
-
 
     private string EscapeFlashCardText(string text)
     {

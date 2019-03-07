@@ -48,7 +48,7 @@
                         <i class="fa fa-ellipsis-v"></i>
                     </a>
                     <ul class="dropdown-menu dropdown-menu-right">
-                        <li><a target="_blank" v-bind:href="props.rowData.ShareFacebookLink">Frage teilen </a></li>     
+                        <li><a target="_blank"href="<%= Model.ShareFacebook %>">Frage teilen </a></li>     
                         <li><a style="white-space: nowrap" href="#" data-action="embed-question">Frage einbetten</a></li>
                         <% if (Model.IsCreator || Model.IsInstallationAdmin)
                            { %>

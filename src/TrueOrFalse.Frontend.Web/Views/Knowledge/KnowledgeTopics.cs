@@ -147,7 +147,7 @@ public class KnowledgeTopics : BaseController
         public int ListCount { get; set; }
     }
 
-    private string changeUrlToFacebookCompatible(string url)
+    public string changeUrlToFacebookCompatible(string url)
     {
         return url.Replace("https://", "www.");
     }
