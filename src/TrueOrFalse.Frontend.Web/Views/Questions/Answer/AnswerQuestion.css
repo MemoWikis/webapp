@@ -786,7 +786,6 @@
   border: none;
   -webkit-box-shadow: none;
           box-shadow: none;
-  padding: 0;
   margin-bottom: 0;
 }
 #MasterWidget .SessionBar {
@@ -794,7 +793,6 @@
 }
 #MasterWidget #LicenseQuestion {
   margin-top: 10px;
-  padding: 0;
 }
 #MasterWidget #video-pager {
   border: none;
