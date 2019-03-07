@@ -284,12 +284,10 @@
                    else
                    { %>
                     <a href="#comments"><div class="fas fa-comment"></div></a>
-                    <% } %>
+                <% } %>
             </div>
         <% } %>
     </div>
 </div>
 
-    <% Html.RenderPartial("~/Views/Questions/Answer/ShareQuestionModal.ascx", new ShareQuestionModalModel(Model.QuestionId)); %>
- 
-
+<% Html.RenderPartial("~/Views/Questions/Answer/ShareQuestionModal.ascx", new ShareQuestionModalModel(Model.QuestionId)); %>
