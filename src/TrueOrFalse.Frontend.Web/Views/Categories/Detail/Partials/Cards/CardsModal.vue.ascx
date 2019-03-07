@@ -3,33 +3,54 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content">
     
-                <div style="margin:20px">
-                    <span>"Cards" bearbeiten</span>
-                    <br/>
-                    <br/>
-                    <input v-model="title" placeholder="optionaler Titel"></input>
-                    <br/>
-                    Format: 
-                    <select v-model="selectedCardOrientation">
-                        <option>Landscape</option>
-                        <option>Portrait</option>
-                    </select>
-                    <br/>
-                    <br/>
-                    <div class="cardsSettings" v-sortable>
-                        <div class="cardsSettings grid" v-sortable v-for="(id, index) in sets" :setId="id" :key="index" :class="{ portrait : vertical }">
+                <div class="contentModuleSettings">
+                    <h4 class="modalHeader">Cards bearbeiten</h4>
+                    <form>
+                        <div class="form-group">
+                            <label for="title">Titel</label>
+                            <input class="form-control" v-model="title" placeholder="">
+                            <small class="form-text text-muted">Der Titel ist optional.</small>
+                        </div>
+                        <div>
+                            <label class="clickable">
+                                <input type="radio" value="Landscape" v-model="selectedCardOrientation">
+                                Querformat
+                            </label>
+                            <div>
+                            </div>
+                            <label class="clickable">
+                                <input type="radio" value="Portrait" v-model="selectedCardOrientation">
+                                Hochformat
+                            </label>
+                        </div>
+                    </form>
+
+                    <div class="cardsSettings" v-sortable="cardOptions">
+                        <div class="cardsSettings grid" v-for="(id, index) in sets" :setId="id" :key="index" :class="{ portrait : vertical }">
                             <div class="cardSettings card">
-                                Set: {{id}}
-                                <br/>
-                                <a @click.prevent="removeSet(index)" style="align-self:flex-end"><i class="fa fa-trash"></i> Set entfernen</a>
+                                <div>
+                                    <span>Set: {{id}}</span>
+                                </div>
+                                <div>
+                                    <a class="clickable" @click.prevent="removeSet(index)"><i class="fa fa-trash"></i> Set entfernen</a>
+                                </div>
                             </div>
                         </div>
+                        <div class="cardsSettings grid placeholder" :class="{ portrait : vertical }">
+                            <div class="addCard" v-if="showSetInput" :class="{ portrait : vertical }">
+                                <div class="form-group">
+                                    <input class="form-control" v-model="newSetId" placeholder="" type="number">
+                                    <div class="applyAndCancel" :class="{ portrait : vertical }">
+                                        <a class="clickable" @click="hideSetInput">abbrechen</a>
+                                        <div class="btn btn-primary" @click="addCard(newSetId)">hinzufügen</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div v-else class="addCard btn btn-primary" @click="showSetInput = true" :class="{ portrait : vertical }">Set hinzufügen</div>
+                        </div>
                     </div>
-                    <input type="number" v-model="newSetId"/>
-                    <button @click="addSet(newSetId)">Set hinzufügen</button>
-                    <br/>
-                    <div style="display: flex; justify-content: flex-end; margin-top:0.5rem">
-                        <a class="CancelEdit" @click="closeModal()" style="margin-right:0.5rem">abbrechen</a>
+                    <div class="applyAndCancel modalFooter">
+                        <a class="CancelEdit clickable" @click="closeModal()">abbrechen</a>
                         <div class="btn btn-primary" @click="applyNewMarkdown()">Konfiguration übernehmen</div>       
                     </div>   
                 </div>

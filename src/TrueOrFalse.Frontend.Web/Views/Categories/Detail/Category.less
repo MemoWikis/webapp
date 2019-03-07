@@ -1011,7 +1011,55 @@ p:empty {
     Dialog and Settings
 -------------------------------------------------------*/
 
-#cardsSettingsDialog {
+.contentModuleSettings {
+    margin: 20px;
+
+    .modalHeader {
+        margin: 0 0 20px 10px;
+    }
+
+    form {
+        margin: 10px
+    }
+
+    .clickable {
+        cursor: pointer;
+    }
+
+    .addCard {
+        &.portrait {
+            width: 150px;
+        }
+
+        .form-group {
+            margin: 0 !important;
+        }
+    }
+
+    a {
+        font-size: 14px;
+        line-height: 1.42857143;
+        padding: 6px 8px;
+    }
+
+    .applyAndCancel {
+        display: flex;
+        justify-content: flex-end;
+        margin-top: 4px;
+
+        &.portrait {
+            flex-flow: column-reverse;
+
+            a {
+                text-align: center;
+            }
+        }
+
+        &.modalFooter {
+            margin-top: 100px;
+            margin-right: 10px;
+        }
+    }
 
     .cardsSettings {
         display: flex;
@@ -1023,18 +1071,28 @@ p:empty {
             height: 157px;
             display: inline-block;
             background-color: #fff;
-            border: solid 1px silver;
+            border: 1px solid #ccc;
+            border-radius: 4px;
             padding: 10px;
             margin: 10px;
+            cursor: all-scroll;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: row;
 
             &.portrait {
                 width: 166px;
-                height: 365px;
+                height: 344px;
             }
-        }
 
-        &.card {
-            justify-content: space-between;
+            &.placeholder {
+                border: 1px dotted #45aece;
+            }
+
+            .card {
+                text-align: center;
+            }
         }
     }
 

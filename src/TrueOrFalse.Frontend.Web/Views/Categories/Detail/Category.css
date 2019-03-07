@@ -1223,7 +1223,55 @@ p:empty {
 /*------------------------------------------------------
     Dialog and Settings
 -------------------------------------------------------*/
-#cardsSettingsDialog .cardsSettings {
+.contentModuleSettings {
+  margin: 20px;
+}
+.contentModuleSettings .modalHeader {
+  margin: 0 0 20px 10px;
+}
+.contentModuleSettings form {
+  margin: 10px;
+}
+.contentModuleSettings .clickable {
+  cursor: pointer;
+}
+.contentModuleSettings .addCard.portrait {
+  width: 150px;
+}
+.contentModuleSettings .addCard .form-group {
+  margin: 0 !important;
+}
+.contentModuleSettings a {
+  font-size: 14px;
+  line-height: 1.42857143;
+  padding: 6px 8px;
+}
+.contentModuleSettings .applyAndCancel {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: end;
+  -webkit-justify-content: flex-end;
+      -ms-flex-pack: end;
+          justify-content: flex-end;
+  margin-top: 4px;
+}
+.contentModuleSettings .applyAndCancel.portrait {
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: reverse;
+  -webkit-flex-flow: column-reverse;
+      -ms-flex-flow: column-reverse;
+          flex-flow: column-reverse;
+}
+.contentModuleSettings .applyAndCancel.portrait a {
+  text-align: center;
+}
+.contentModuleSettings .applyAndCancel.modalFooter {
+  margin-top: 100px;
+  margin-right: 10px;
+}
+.contentModuleSettings .cardsSettings {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -1236,26 +1284,46 @@ p:empty {
       -ms-flex-pack: start;
           justify-content: start;
 }
-#cardsSettingsDialog .cardsSettings.grid {
+.contentModuleSettings .cardsSettings.grid {
   width: 257px;
   height: 157px;
   display: inline-block;
   background-color: #fff;
-  border: solid 1px silver;
+  border: 1px solid #ccc;
+  -webkit-border-radius: 4px;
+          border-radius: 4px;
   padding: 10px;
   margin: 10px;
+  cursor: all-scroll;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+  -webkit-flex-direction: row;
+      -ms-flex-direction: row;
+          flex-direction: row;
 }
-#cardsSettingsDialog .cardsSettings.grid.portrait {
+.contentModuleSettings .cardsSettings.grid.portrait {
   width: 166px;
-  height: 365px;
+  height: 344px;
 }
-#cardsSettingsDialog .cardsSettings.card {
-  -webkit-box-pack: justify;
-  -webkit-justify-content: space-between;
-      -ms-flex-pack: justify;
-          justify-content: space-between;
+.contentModuleSettings .cardsSettings.grid.placeholder {
+  border: 1px dotted #45aece;
 }
-#cardsSettingsDialog .sortable-ghost {
+.contentModuleSettings .cardsSettings.grid .card {
+  text-align: center;
+}
+.contentModuleSettings .sortable-ghost {
   background: #dddddd;
 }
 /*------------------------------------------------------
