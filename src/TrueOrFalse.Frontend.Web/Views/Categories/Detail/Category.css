@@ -1232,7 +1232,7 @@ p:empty {
 .contentModuleSettings form {
   margin: 10px;
 }
-.contentModuleSettings form input.radio {
+.contentModuleSettings form .radio input[type="radio"] {
   float: none !important;
 }
 .contentModuleSettings .clickable {
