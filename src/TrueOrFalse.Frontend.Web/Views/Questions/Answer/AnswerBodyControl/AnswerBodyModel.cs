@@ -179,7 +179,7 @@ public class AnswerBodyModel : BaseModel
 
         TotalActivityPoints = IsLoggedIn ? Sl.SessionUser.User.ActivityPoints : Sl.R<SessionUser>().getTotalActivityPoints();
 
-        ShareFacebook = Links.FaceBookShare(Question.GetShortTitle(61), QuestionId);
+        ShareFacebook = Links.FaceBookShareQuestion(Question);
     }
 
     private string EscapeFlashCardText(string text)

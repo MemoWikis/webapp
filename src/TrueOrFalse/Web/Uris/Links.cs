@@ -140,10 +140,10 @@ namespace TrueOrFalse.Frontend.Web.Code
         public static string SetsSearch(string searchTerm) => "/Fragesaetze/Suche/" + searchTerm;
         public static string UsersSearch(string searchTerm) => "/Nutzer/Suche/" + searchTerm;
 
-        public static string FaceBookShare(string title, int id)
+        public static string FaceBookShareQuestion(Question question)
         {
             var t =  "https://www.facebook.com/sharer/sharer.php?kid_directed_site=0&sdk=joey&u=https%3A%2F%2Fmemucho.de/Fragen/" +
-                title + "/" + id + "%2F&amp;src=sdkpreparse";
+                question.GetShortTitle(61) + "/" + question.Id + "%2F&amp;src=sdkpreparse";
 
             return t.Replace("...", "");
         }
