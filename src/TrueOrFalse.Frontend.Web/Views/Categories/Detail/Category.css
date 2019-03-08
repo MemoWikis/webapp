@@ -1274,7 +1274,8 @@ p:empty {
   margin-top: 100px;
   margin-right: 10px;
 }
-.contentModuleSettings .setCards {
+.contentModuleSettings .setCards,
+.contentModuleSettings .topicCards {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -1287,7 +1288,8 @@ p:empty {
       -ms-flex-pack: start;
           justify-content: start;
 }
-.contentModuleSettings .setCards.grid {
+.contentModuleSettings .setCards.grid,
+.contentModuleSettings .topicCards.grid {
   width: 257px;
   height: 157px;
   display: inline-block;
@@ -1297,7 +1299,7 @@ p:empty {
           border-radius: 4px;
   padding: 10px;
   margin: 10px;
-  cursor: all-scroll;
+  cursor: move;
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -1316,18 +1318,28 @@ p:empty {
       -ms-flex-direction: row;
           flex-direction: row;
 }
-.contentModuleSettings .setCards.grid.portrait {
+.contentModuleSettings .setCards.grid.portrait,
+.contentModuleSettings .topicCards.grid.portrait {
   width: 166px;
   height: 344px;
 }
-.contentModuleSettings .setCards.grid.topicNavigation {
-  height: 120px;
+.contentModuleSettings .setCards.grid.topicNavigationCard,
+.contentModuleSettings .topicCards.grid.topicNavigationCard {
+  height: 91px;
 }
-.contentModuleSettings .setCards.grid.placeholder {
+.contentModuleSettings .setCards.grid.placeholder,
+.contentModuleSettings .topicCards.grid.placeholder {
   border: 1px dotted #45aece;
+  cursor: default;
 }
-.contentModuleSettings .setCards.grid .card {
+.contentModuleSettings .setCards.grid .card,
+.contentModuleSettings .topicCards.grid .card {
   text-align: center;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -webkit-flex-direction: column;
+      -ms-flex-direction: column;
+          flex-direction: column;
 }
 .contentModuleSettings .sortable-ghost {
   background: #dddddd;

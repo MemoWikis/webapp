@@ -4,7 +4,7 @@
             <div class="modal-content">
     
                 <div class="contentModuleSettings">
-                    <h4 class="modalHeader">TopicNavigation bearbeiten</h4>
+                    <h4 class="modalHeader">Cards bearbeiten</h4>
                     <form>
                         <div class="form-group">
                             <label for="title">Titel</label>
@@ -31,7 +31,7 @@
                         <div class="setCards grid" v-for="(id, index) in sets" :setId="id" :key="index" :class="{ portrait : vertical }">
                             <div class="setCards card">
                                 <div>
-                                    <span>Set: {{id}}</span>
+                                    <div>Set: {{id}}</div>
                                 </div>
                                 <div>
                                     <a class="clickable" @click.prevent="removeSet(index)"><i class="fa fa-trash"></i> Set entfernen</a>

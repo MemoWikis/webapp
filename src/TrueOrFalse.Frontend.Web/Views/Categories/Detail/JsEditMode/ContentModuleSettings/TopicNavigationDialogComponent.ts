@@ -21,14 +21,14 @@ Vue.component('topicnavigation-modal-component', {
             text: '',
             load: '',
             order: '',
-            sets: [],
-            loadSets: [],
-            orderSets: [],
+            topics: [],
+            loadTopics: [],
+            orderTopics: [],
             prevOrder: '',
             settingsHasChanged: false,
-            newSetId: '',
-            showSetInput: false,
-            setOptions: {
+            newTopicId: '',
+            showTopicInput: false,
+            topicOptions: {
                 animation: 100,
                 fallbackOnBody: true,
                 filter: '.placeholder',
@@ -61,12 +61,12 @@ Vue.component('topicnavigation-modal-component', {
     },
 
     computed: {
-        showSetList: function () {
+        showTopicList: function () {
             if (this.load == 'All' && this.order == 'ManualSort') {
-                this.sets = this.orderSets;
+                this.topics = this.orderTopics;
                 return true;
             } else if (this.load != 'All') {
-                this.sets = this.loadSets;
+                this.topics = this.loadTopics;
                 return true;
             }
         },
@@ -89,14 +89,14 @@ Vue.component('topicnavigation-modal-component', {
         clearData() {
             this.newMarkdown = '';
             this.parentId = '';
-            this.sets = [];
+            this.topics = [];
             this.settingsHasChanged = false;
             this.title = '';
             this.text = '';
             this.load = '';
             this.order = '';
-            this.newSetId = '';
-            this.showSetInput = false;
+            this.newTopicId = '';
+            this.showTopicInput = false;
         },
 
         initializeData() {
@@ -108,7 +108,7 @@ Vue.component('topicnavigation-modal-component', {
                 this.text = this.topicNavigationSettings.Text;
             if (this.topicNavigationSettings.Load) {
                 if (this.topicNavigationSettings.Load != 'All') {
-                    this.loadSets = this.topicNavigationSettings.Load.split(',');
+                    this.loadTopics = this.topicNavigationSettings.Load.split(',');
                     this.load = 'Custom';
                 } else {
                     this.load = this.topicNavigationSettings.Load;
@@ -119,25 +119,25 @@ Vue.component('topicnavigation-modal-component', {
                 if (this.topicNavigationSettings.Order != 'Name' &&
                     this.topicNavigationSettings.Order != 'QuestionAmount') {
                     this.order = 'ManualSort';
-                    this.orderSets = this.topicNavigationSettings.Order.split(',');
+                    this.orderTopics = this.topicNavigationSettings.Order.split(',');
                 } else {
                     this.order = this.topicNavigationSettings.Order;
                 };
             }
         },
 
-        addSet(val) {
-            this.sets.push(val);
-            this.newSetId = '';
+        addTopic(val) {
+            this.topics.push(val);
+            this.newTopicId = '';
         },
 
-        hideSetInput() {
-            this.newSetId = '';
-            this.showSetInput = false;
+        hideTopicInput() {
+            this.newTopicId = '';
+            this.showTopicInput = false;
         },
 
-        removeSet(index) {
-            this.sets.splice(index, 1);
+        removeTopic(index) {
+            this.topics.splice(index, 1);
         },
 
         applyNewMarkdown() {
@@ -146,12 +146,12 @@ Vue.component('topicnavigation-modal-component', {
             this.topicNavigationSettings.Text = this.text;
             this.topicNavigationSettings.Load = this.load;
 
-            const setIdParts = $(".setCards").map((idx, elem) => $(elem).attr("setId")).get();
-            if (setIdParts.length >= 1) {
+            const topicIdParts = $(".topicCards").map((idx, elem) => $(elem).attr("topicId")).get();
+            if (topicIdParts.length >= 1) {
                 if (this.load != 'All') {
-                    this.topicNavigationSettings.Load = setIdParts.join(',');
+                    this.topicNavigationSettings.Load = topicIdParts.join(',');
                 } else if (this.order == 'ManualSort') {
-                    this.topicNavigationSettings.Order = setIdParts.join(',');
+                    this.topicNavigationSettings.Order = topicIdParts.join(',');
                 }
             }
 

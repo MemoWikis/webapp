@@ -19,29 +19,28 @@
                         </div>
 
                         
-                            <div class="form-group">
-                                <label for="load">Themenauswahl</label>
-                                <form class="form-inline" style="margin:0">
-                                <div class="radio">
-                                    <label class="clickable">
-                                        <input type="radio" value="All" v-model="load">
-                                        Alle Unterthemen
-                                    </label>
-                                </div>
-                                <small class="form-text" style="margin: 0 10px;">oder</small>
-                                <div class="radio">
-                                    <label class="clickable">
-                                        <input type="radio" value="Custom" v-model="load">
-                                        Benutzerdefinierte Themen
-                                    </label>
-                                </div>
-                                </form>
+                        <div class="form-group" style="margin-top: 30px;">
+                            <label for="load">Themenauswahl</label>
+                            <form class="form-inline" style="margin:0">
+                            <div class="radio">
+                                <label class="clickable">
+                                    <input type="radio" value="All" v-model="load">
+                                    Alle Unterthemen
+                                </label>
                             </div>
-                        
-                        <label for="order">Sortierung</label>
+                            <small class="form-text" style="margin: 0 10px;">oder</small>
+                            <div class="radio">
+                                <label class="clickable">
+                                    <input type="radio" value="Custom" v-model="load">
+                                    Benutzerdefinierte Themen
+                                </label>
+                            </div>
+                            </form>
+                        </div>
                         
                         <div class="form-group">
-                            <div class="radio">
+                            <label for="order">Sortierung</label>
+                            <div class="radio" style="margin-top:0">
                                 <label class="clickable">
                                     <input type="radio" value="Name" v-model="order">
                                     Alphabetisch
@@ -53,45 +52,34 @@
                                     Anzahl Fragen
                                 </label>
                             </div>
-                            <div v-if="load == 'All'"class="radio">
+                            <div v-if="load == 'All'" class="radio">
                                 <label class="clickable">
                                     <input type="radio" value="ManualSort" v-model="order">
                                     Manuelle Sortierung
                                 </label>
                             </div>
-                            
-                            <%-- <div class="radio disabled"> --%>
-                            <%--     <label> --%>
-                            <%--         <input type="radio" disabled> --%>
-                            <%--         Freie Sortierung --%>
-                            <%--     </label> --%>
-                            <%-- </div> --%>
                         </div>     
                     </form>
                     
-                    <div v-if="showSetList">
-                        <div class="setCards" v-sortable="setOptions">
-                            <div class="setCards topic grid" v-for="(id, index) in sets" :setId="id" :key="index">
-                                <div class="setCards card">
-                                    <div>
-                                        <span>Set: {{id}}</span>
-                                    </div>
-                                    <div>
-                                        <a class="clickable" @click.prevent="removeSet(index)"><i class="fa fa-trash"></i> Set entfernen</a>
-                                    </div>
+                    <div v-if="showTopicList">
+                        <div class="topicCards" v-sortable="topicOptions">
+                            <div class="topicCards topicNavigationCard grid" v-for="(id, index) in topics" :topicId="id" :key="index">
+                                <div class="topicCards card">
+                                    <div>Thema: {{id}}</div>
+                                     <a class="clickable" @click.prevent="removeTopic(index)"><i class="fa fa-trash"></i> Thema entfernen</a>
                                 </div>
                             </div>
-                            <div id="addCardPlaceholder" class="setCards topic grid placeholder">
-                                <div class="addCard" v-if="showSetInput">
+                            <div id="addCardPlaceholder" class="topicCards topicNavigationCard grid placeholder">
+                                <div class="addCard" v-if="showTopicInput">
                                     <div class="form-group">
-                                        <input class="form-control" v-model="newSetId" placeholder="" type="number">
+                                        <input class="form-control" v-model="newTopicId" placeholder="" type="number">
                                         <div class="applyAndCancel">
-                                            <a class="clickable" @click="hideSetInput">abbrechen</a>
-                                            <div class="btn btn-primary" @click="addSet(newSetId)">hinzufügen</div>
+                                            <a class="clickable" @click="hideTopicInput">abbrechen</a>
+                                            <div class="btn btn-primary" @click="addTopic(newTopicId)">hinzufügen</div>
                                         </div>
                                     </div>
                                 </div>
-                                <div v-else class="addCard btn btn-primary" @click="showSetInput = true">Set hinzufügen</div>
+                                <div v-else class="addCard btn btn-primary" @click="showTopicInput = true">Thema hinzufügen</div>
                             </div>
                         </div>
                     </div>

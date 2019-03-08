@@ -1065,7 +1065,7 @@ p:empty {
         }
     }
 
-    .setCards {
+    .setCards, .topicCards {
         display: flex;
         flex-wrap: wrap;
         justify-content: start;
@@ -1079,7 +1079,7 @@ p:empty {
             border-radius: 4px;
             padding: 10px;
             margin: 10px;
-            cursor: all-scroll;
+            cursor: move;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -1090,16 +1090,18 @@ p:empty {
                 height: 344px;
             }
 
-            &.topicNavigation {
-                height: 120px;
+            &.topicNavigationCard {
+                height: 91px;
             }
 
             &.placeholder {
                 border: 1px dotted #45aece;
+                cursor: default;
             }
 
             .card {
                 text-align: center;
+                flex-direction: column;
             }
         }
     }
