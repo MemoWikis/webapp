@@ -1,24 +1,14 @@
-@media (min-width: 768px) {
-}
-@media (min-width: 768px) {
-}
-@media (max-width: 767px) {
-}
-@media (min-width: 768px) {
-}
-@media (min-width: 768px) {
-}
-@media (min-width: 768px) {
-}
-@media (max-width: 767px) {
-}
-@media (max-width: 767px) {
-}
-@media (max-width: 649px) {
-}
-@media (min-width: 650px) {
-}
-#mainMenu {
+﻿@media (min-width: 768px) {
+}@media (min-width: 768px) {
+}@media (max-width: 767px) {
+}@media (min-width: 768px) {
+}@media (min-width: 768px) {
+}@media (min-width: 768px) {
+}@media (max-width: 767px) {
+}@media (max-width: 767px) {
+}@media (max-width: 649px) {
+}@media (min-width: 650px) {
+}#mainMenu {
   /*$ToDo: enable with js functions*/
 }
 #mainMenu .tooltip > .tooltip-inner {
@@ -28,8 +18,10 @@
 @media (max-width: 1199px) {
   #mainMenu {
     padding: 15px;
-    border-bottom-left-radius: 4px;
-    border-bottom-right-radius: 4px;
+    -webkit-border-bottom-left-radius: 4px;
+            border-bottom-left-radius: 4px;
+    -webkit-border-bottom-right-radius: 4px;
+            border-bottom-right-radius: 4px;
     position: absolute;
     top: 0;
     background-color: #F6F8FA;
@@ -37,7 +29,8 @@
     max-width: 270px;
     opacity: 1;
     z-index: 100;
-    box-shadow: 0 8px 10px #555555, 5px 5px 15px #555555;
+    -webkit-box-shadow: 0 8px 10px #555555, 5px 5px 15px #555555;
+            box-shadow: 0 8px 10px #555555, 5px 5px 15px #555555;
   }
   #mainMenu .list-group {
     margin-bottom: 0;
@@ -46,7 +39,8 @@
 @media (max-width: 767px) {
   #mainMenu {
     left: 0;
-    border-bottom-left-radius: 0;
+    -webkit-border-bottom-left-radius: 0;
+            border-bottom-left-radius: 0;
   }
 }
 @media (min-width: 1200px) {
@@ -86,12 +80,16 @@
   top: 8px;
 }
 #mainMenu .list-group-item:first-child {
-  border-top-right-radius: 0;
-  border-top-left-radius: 0;
+  -webkit-border-top-right-radius: 0;
+          border-top-right-radius: 0;
+  -webkit-border-top-left-radius: 0;
+          border-top-left-radius: 0;
 }
 #mainMenu .list-group-item:last-child {
-  border-bottom-right-radius: 0;
-  border-bottom-left-radius: 0;
+  -webkit-border-bottom-right-radius: 0;
+          border-bottom-right-radius: 0;
+  -webkit-border-bottom-left-radius: 0;
+          border-bottom-left-radius: 0;
 }
 #mainMenu .list-group-item .add-new {
   margin-top: 2px;
@@ -258,8 +256,14 @@
 #mainMenuThemeCenteredMobile .sidebar-menu-container {
   padding: 0;
   margin: 0;
+  display: -webkit-box !important;
+  display: -webkit-flex !important;
+  display: -ms-flexbox !important;
   display: flex !important;
-  align-items: flex-end;
+  -webkit-box-align: end;
+  -webkit-align-items: flex-end;
+      -ms-flex-align: end;
+          align-items: flex-end;
 }
 @media (max-width: 767px) {
   #mainMenuThemeCentered .menu-container,
@@ -277,7 +281,10 @@
 }
 .menu-item {
   float: right;
-  align-items: flex-end;
+  -webkit-box-align: end;
+  -webkit-align-items: flex-end;
+      -ms-flex-align: end;
+          align-items: flex-end;
 }
 .RightMainMenu {
   padding: 0px;
@@ -287,6 +294,7 @@
   max-width: unset !important;
   opacity: 1;
   z-index: 100;
+  -webkit-box-shadow: 0 8px 10px #555555, 5px 5px 15px #555555;
   box-shadow: 0 8px 10px #555555, 5px 5px 15px #555555;
   float: right;
   display: none;
@@ -318,7 +326,8 @@
   padding-bottom: 14px;
   padding-left: 8px;
   margin-bottom: unset;
-  border-radius: unset;
+  -webkit-border-radius: unset;
+          border-radius: unset;
 }
 .RightMainMenu .list-group-item.active:not(.sub, .mainMenuBtnCategories, mainMenuBtnSets, mainMenuBtnQuestions).primary-point,
 .RightMainMenu .list-group-item.active:focus:not(.sub, .mainMenuBtnCategories, mainMenuBtnSets, mainMenuBtnQuestions).primary-point {
@@ -383,15 +392,22 @@
   margin-bottom: 0;
 }
 @media (max-width: 767px) {
-  border-bottom-left-radius: 0;
+  -webkit-border-bottom-left-radius: 0;
+          border-bottom-left-radius: 0;
 }
 @media (min-width: 1200px) {
   display: block !important;
 }
 .primary-point {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
   display: flex;
   color: #003264 !important;
-  align-items: center;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+      -ms-flex-align: center;
+          align-items: center;
   font-size: 16px;
   font-weight: normal;
 }

@@ -85,7 +85,7 @@
                         <h3 class="PageHeader">Single Choice</h3>
                     </div>
                     <div class="col-sm-12 col-md-10">
-                        <script src="https://memucho.de/views/widgets/w.js" data-t="question" data-id="3629" data-width="100%" data-maxWidth="100%" data-hideKnowledgeBtn="true"></script>
+                        <script src="http://memucho.de/views/widgets/w.js" data-t="question" data-id="3629" data-width="100%" data-maxWidth="100%" data-hideKnowledgeBtn="true"></script>
                     </div>
                 </div>
 

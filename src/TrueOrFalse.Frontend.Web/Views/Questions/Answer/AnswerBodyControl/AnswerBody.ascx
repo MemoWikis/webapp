@@ -3,7 +3,7 @@
 <%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
 
 
-<div id="AnswerBody" class="well">
+<div id="AnswerBody">
 
     <input type="hidden" id="hddQuestionViewGuid" value="<%= Model.QuestionViewGuid.ToString() %>" />
     <input type="hidden" id="hddInteractionNumber" value="1" />
@@ -33,25 +33,32 @@
             <% if (!Model.DisableAddKnowledgeButton)
                { %>
                 <span class="Pin" data-question-id="<%= Model.QuestionId %>">
-                    <%= Html.Partial("AddToWishknowledgeButton", new AddToWishknowledge(Model.IsInWishknowledge, isShortVersion: true)) %>
+                    <%= Html.Partial("AddToWishknowledgeButtonQuestionDetail", new AddToWishknowledge(Model.IsInWishknowledge, isShortVersion: true)) %>
                 </span>
             <% } %>
             <% if (Model.IsCreator || Model.IsInstallationAdmin)
                { %>
-            <span class="margin-top-11">
+            <span class="edit-question">
                 <a href="<%= Links.EditQuestion(Url, Model.QuestionText, Model.QuestionId) %>" class="TextLinkWithIcon"><i class="fa fa-pencil"></i></a>
             </span>
             <% }  %>
              <div class="Button dropdown">
                 <span class="margin-top-4">
-                    <a href="#" class="dropdown-toggle btn btn-link btn-sm ButtonEllipsis" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" >
+                    <a href="#" class="dropdown-toggle btn btn-link btn-sm ButtonEllipsis" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" style="font-size: 14px;">
                         <i class="fa fa-ellipsis-v"></i>
                     </a>
-                    <ul class="dropdown-menu">
-                        <li><a v-bind:href="props.rowData.EditCategoryOrSetLink" target="_blank" rel="nofollow" data-allowed="logged-in"><i class="fa fa-pencil"></i>&nbsp;Bearbeiten</a></li>
-                        <li><a v-bind:href="props.rowData.CreateQuestionLink" target="_blank" data-allowed="logged-in"><i class="fa fa-plus-circle"></i>&nbsp;Frage erstellen und hinzufügen</a></li>
-                        <li style="margin-top: 2rem;"><a target="_blank" v-bind:href="props.rowData.ShareFacebookLink"><i class="fa fa-share"></i>&nbsp;Auf Facebook teilen </a></li>     
-                        <li @click="deleteRow(props.rowData.Id, props.rowData.IsCategory, props.rowIndex)"><a href="#"><i class="fa fa-trash-o"></i>&nbsp; Aus Wunschwissen entfernen </a></li> 
+                    <ul class="dropdown-menu dropdown-menu-right">
+                        <li><a target="_blank"href="<%= Model.ShareFacebook %>">Frage teilen </a></li>     
+                        <li><a style="white-space: nowrap" href="#" data-action="embed-question">Frage einbetten</a></li>
+                        <% if (Model.IsCreator || Model.IsInstallationAdmin)
+                           { %>
+                            <li id="DeleteQuestion">
+                                <a class="TextLinkWithIcon" data-toggle="modal" data-questionid="808" href="#modalDeleteQuestion">
+                                  <span>Frage löschen</span>
+                                </a>
+                            </li>
+                        <% } %>
+                        <li><a href="<%= Links.QuestionHistory(Model.QuestionId) %>">Versionen anzeigen</a></li>
                     </ul>
                 </span>
             </div>
@@ -249,8 +256,9 @@
         </div>
     </div>
 </div>
-<div class="FooterQuestionDetails">
-    <div id="LicenseQuestion" >
+
+<div class="FooterQuestionDetails row" <%if(Model.IsInWidget){%> style="padding-bottom:0"<%} %> >
+    <div id="LicenseQuestion" class=" col-md-2">
         <% if (Model.LicenseQuestion.IsDefault()) { %>
             <a class="TextLinkWithIcon" rel="license" href="http://creativecommons.org/licenses/by/4.0/" data-toggle="popover" data-trigger="focus" title="Infos zur Lizenz <%= LicenseQuestionRepo.GetDefaultLicense().NameShort %>" data-placement="auto top"
                 data-content="Autor: <a href='<%= Links.UserDetail(Model.Creator) %>' <%= Model.IsInWidget ? "target='_blank'" : "" %>><%= Model.Creator.Name %></a><%= Model.IsInWidget ? " (Nutzer auf <a href='/' target='_blank'>memucho.de</a>)" : " " %><br/><%= LicenseQuestionRepo.GetDefaultLicense().DisplayTextFull %>">
@@ -264,23 +272,26 @@
             </a>
         <% } %>
     </div>
-    <div> Erstellt von: <a href="<%= Links.UserDetail(Model.Creator) %>"><%= Model.Creator.Name %></a> vor <%= Model.CreationDateNiceText %></div>
-    <div> Diese Frage wurde zuletzt bearbeitet von:  <a href="<%= Links.UserDetail(Model.Creator) %>"><%= Model.Creator.Name %></a> vor  <%= Model.QuestionLastEditedOn %></div>
-    <%if (Model.ShowCommentLink) { %>
-        <div class="InLicenseQuestion">
-            <a href="#comments"><i class="fa fa-comment-o"></i>
-                <% if (Model.CommentCount == 0){ %>
-                <% } else if (Model.CommentCount == 1) { %>
-                    1 Kommentar
-                <% } else if (Model.CommentCount > 1) { %>
-                    <%= Model.CommentCount %> Kommentare
-                <% } %>
-            </a>
+    <% if (!Model.IsInWidget)
+       { %>
+        <div class="col-md-10">
+        <div class="created"> Erstellt von: <a href="<%= Links.UserDetail(Model.Creator) %>"><%= Model.Creator.Name %></a> vor <%= Model.CreationDateNiceText %></div>
+        <div class="processed"> Diese Frage wurde zuletzt bearbeitet von:  <a href="<%= Links.UserDetail(Model.Creator) %>"><%= Model.Creator.Name %></a> vor  <%= Model.QuestionLastEditedOn %> </div>
+            <% if (Model.ShowCommentLink)
+               { %>
+                <div class="comment-link">
+                    <% if (Model.IsLoggedIn)
+                       { %>
+                        <a href="#comments"><div class="fa fa-comment-o"></div></a>
+                      <% }
+                       else
+                       { %>
+                        <a href="#comments"><div class="fas fa-comment"></div></a>
+                    <% } %>
+                </div>
+            <% } %>
         </div>
-
     <% } %>
- 
 </div>
 
- 
-
+<% Html.RenderPartial("~/Views/Questions/Answer/ShareQuestionModal.ascx", new ShareQuestionModalModel(Model.QuestionId)); %>
