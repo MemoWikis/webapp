@@ -98,6 +98,9 @@ Vue.component('topicnavigation-modal-component', {
             this.order = '';
             this.newTopicId = '';
             this.showTopicInput = false;
+            this.loadTopics = [];
+            this.orderTopics = [];
+            this.prevOrder = '';
         },
 
         initializeData() {
@@ -145,20 +148,19 @@ Vue.component('topicnavigation-modal-component', {
             
             this.topicNavigationSettings.Title = this.title;
             this.topicNavigationSettings.Text = this.text;
-            this.topicNavigationSettings.Load = this.load;
 
             const topicIdParts = $(".topicCards").map((idx, elem) => $(elem).attr("topicId")).get();
             if (topicIdParts.length >= 1) {
-                if (this.load != 'All') {
+                if (this.load != 'All')
                     this.topicNavigationSettings.Load = topicIdParts.join(',');
-                } else if (this.order == 'ManualSort') {
+                if (this.order == 'ManualSort')
                     this.topicNavigationSettings.Order = topicIdParts.join(',');
-                }
+                else
+                    this.topicNavigationSettings.Order = this.order;
             }
 
             this.newMarkdown = Utils.ConvertJsonToMarkdown(this.topicNavigationSettings);
             console.log(this.topicNavigationSettings);
-            console.log(this.newMarkdown);
             Utils.UpdateMarkdown(this.newMarkdown, this.parentId);
             $('#topicnavigationSettingsDialog').modal('hide');
         },

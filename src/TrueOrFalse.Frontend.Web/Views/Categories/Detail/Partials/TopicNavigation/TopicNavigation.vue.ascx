@@ -8,13 +8,13 @@
                     <form>
                         <div class="form-group">
                             <label for="title">Titel</label>
-                            <input class="form-control" v-model="title" placeholder="">
+                            <input class="form-control" v-model="title" placeholder="" />
                             <small class="form-text text-muted">Der Titel ist optional.</small>
                         </div>
                         
                         <div class="form-group">
                             <label for="text">Text</label>
-                            <textarea-autosize class="form-control" rows="2" v-model="text" :min-height="40" />
+                            <input class="form-control" v-model="text" />
                             <small class="form-text text-muted">Beschreibe die Navigation</small>
                         </div>
 
