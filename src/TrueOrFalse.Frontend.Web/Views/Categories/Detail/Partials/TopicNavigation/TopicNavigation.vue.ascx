@@ -20,65 +20,53 @@
 
                         
                             <div class="form-group">
-                                <label for="load">Lade</label>
+                                <label for="load">Themenauswahl</label>
                                 <form class="form-inline" style="margin:0">
                                 <div class="radio">
                                     <label class="clickable">
                                         <input type="radio" value="All" v-model="load">
-                                        Alles
+                                        Alle Unterthemen
                                     </label>
                                 </div>
                                 <small class="form-text" style="margin: 0 10px;">oder</small>
-                                <input class="form-control" v-model="load" placeholder="12,58,100">
+                                <div class="radio">
+                                    <label class="clickable">
+                                        <input type="radio" value="Custom" v-model="load">
+                                        Benutzerdefinierte Themen
+                                    </label>
+                                </div>
                                 </form>
-                                <small class="form-text text-muted">Gebe eine SetId ein und trenne dies mit einem Komma.</small>
                             </div>
                         
                         <label for="order">Sortierung</label>
-                        <div v-if="load != 'All'">
-                            <div class="form-group">
-                                <div class="radio disabled">
-                                    <label>
-                                        <input type="radio" disabled>
-                                        Alphabetisch
-                                    </label>
-                                </div>
-                                <div class="radio disabled">
-                                    <label>
-                                        <input type="radio" disabled>
-                                        Anzahl Fragen
-                                    </label>
-                                </div>
-                                <div class="radio disabled">
-                                    <label>
-                                        <input type="radio" disabled>
-                                        Freie Sortierung
-                                    </label>
-                                </div>
-                            </div>     
-                        </div>
-                        <div v-else>
-                            <div class="form-group">
-                                <div class="radio">
-                                    <label class="clickable">
-                                        <input type="radio" value="Name" v-model="order">
-                                        Alphabetisch
-                                    </label>
-                                </div>
-                                <div class="radio">
-                                    <label class="clickable">
-                                        <input type="radio" value="QuestionAmount" v-model="order">
-                                        Anzahl Fragen
-                                    </label>
-                                </div>
-                                <div class="radio">
-                                    <label class="clickable">
-                                        <input type="radio" value="Free" v-model="order">
-                                        Freie Sortierung
-                                    </label>
-                                </div>
-                            </div>     
-                        </div>
+                        
+                        <div class="form-group">
+                            <div class="radio">
+                                <label class="clickable">
+                                    <input type="radio" value="Name" v-model="order">
+                                    Alphabetisch
+                                </label>
+                            </div>
+                            <div class="radio">
+                                <label class="clickable">
+                                    <input type="radio" value="QuestionAmount" v-model="order">
+                                    Anzahl Fragen
+                                </label>
+                            </div>
+                            <div v-if="load == 'All'"class="radio">
+                                <label class="clickable">
+                                    <input type="radio" value="ManualSort" v-model="order">
+                                    Manuelle Sortierung
+                                </label>
+                            </div>
+                            
+                            <%-- <div class="radio disabled"> --%>
+                            <%--     <label> --%>
+                            <%--         <input type="radio" disabled> --%>
+                            <%--         Freie Sortierung --%>
+                            <%--     </label> --%>
+                            <%-- </div> --%>
+                        </div>     
                     </form>
                     
                     <div v-if="showSetList">

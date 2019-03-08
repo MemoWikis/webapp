@@ -22,6 +22,9 @@ Vue.component('topicnavigation-modal-component', {
             load: '',
             order: '',
             sets: [],
+            loadSets: [],
+            orderSets: [],
+            prevOrder: '',
             settingsHasChanged: false,
             newSetId: '',
             showSetInput: false,
@@ -58,14 +61,27 @@ Vue.component('topicnavigation-modal-component', {
     },
 
     computed: {
-        showSetList: function() {
-            return ((this.load == 'All' && this.order == 'Free') || this.load != 'All');
+        showSetList: function () {
+            if (this.load == 'All' && this.order == 'ManualSort') {
+                this.sets = this.orderSets;
+                return true;
+            } else if (this.load != 'All') {
+                this.sets = this.loadSets;
+                return true;
+            }
         },
     },
 
     watch: {
         newMarkdown: function () {
             this.settingsHasChanged = true;
+        },
+        order: function(newVal, oldVal) {
+            this.prevOrder = oldVal;
+        },
+        load: function(val) {
+            if (val == 'Custom' && this.order == 'ManualSort')
+                this.order = this.prevOrder;
         },
     },
 
@@ -91,19 +107,22 @@ Vue.component('topicnavigation-modal-component', {
             if (this.topicNavigationSettings.Text)
                 this.text = this.topicNavigationSettings.Text;
             if (this.topicNavigationSettings.Load) {
-                if (this.topicNavigationSettings.Load != 'All') 
-                    this.sets = this.topicNavigationSettings.Load.split(',');
-                this.load = this.topicNavigationSettings.Load;
+                if (this.topicNavigationSettings.Load != 'All') {
+                    this.loadSets = this.topicNavigationSettings.Load.split(',');
+                    this.load = 'Custom';
+                } else {
+                    this.load = this.topicNavigationSettings.Load;
+                };
             }
 
             if (this.topicNavigationSettings.Order) {
                 if (this.topicNavigationSettings.Order != 'Name' &&
                     this.topicNavigationSettings.Order != 'QuestionAmount') {
-                    this.order = 'Free';
-                    this.sets = this.topicNavigationSettings.Order.split(',');
+                    this.order = 'ManualSort';
+                    this.orderSets = this.topicNavigationSettings.Order.split(',');
                 } else {
                     this.order = this.topicNavigationSettings.Order;
-                } 
+                };
             }
         },
 
@@ -131,7 +150,7 @@ Vue.component('topicnavigation-modal-component', {
             if (setIdParts.length >= 1) {
                 if (this.load != 'All') {
                     this.topicNavigationSettings.Load = setIdParts.join(',');
-                } else if (this.order == 'Free') {
+                } else if (this.order == 'ManualSort') {
                     this.topicNavigationSettings.Order = setIdParts.join(',');
                 }
             }
