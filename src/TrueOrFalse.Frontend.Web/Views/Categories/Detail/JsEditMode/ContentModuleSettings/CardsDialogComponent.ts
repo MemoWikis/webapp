@@ -14,13 +14,12 @@ Vue.component('cards-modal-component', {
 
     data() {
         return {
-            selectedCardOrientation: '',
+            selectedCardOrientation: 'Landscape',
             title: '',
             newMarkdown: '',
             sets: [],
             newSetId: 0,
             parentId: '',
-            hasPreview: false,
             vertical: false,
             settingsHasChanged: false,
             showSetInput: false,
@@ -30,7 +29,7 @@ Vue.component('cards-modal-component', {
                 filter: '.placeholder',
                 preventOnFilter: false,
                 onMove: this.onMove,
-    },
+            },
         };
     },
 
@@ -54,29 +53,45 @@ Vue.component('cards-modal-component', {
     mounted: function() {
         $('#cardsSettingsDialog').on('show.bs.modal',
             event => {
-                this.showSetInput = false;
-                this.settingsHasChanged = false;
-                this.newSetId = '';
+                
                 this.newMarkdown = $('#cardsSettingsDialog').data('parent').markdown;
                 this.parentId = $('#cardsSettingsDialog').data('parent').id;
-                this.cardsSettings = Utils.ConvertEncodedHtmlToJson(this.newMarkdown);
-                this.selectedCardOrientation = this.cardsSettings.CardOrientation;
-                this.sets = this.cardsSettings.SetListIds.split(',');
-                if (this.cardsSettings.Title)
-                    this.title = this.cardsSettings.Title;
+                this.initializeData();
             });
 
         $('#cardsSettingsDialog').on('hidden.bs.modal',
-            function() {
-                this.sets = [];
+            event => {
                 if (!this.settingsHasChanged)
                     eventBus.$emit('close-content-module-settings-modal', false);
+                this.clearData();
             });
     },
 
     methods: {
+        clearData() {
+            this.newMarkdown = '';
+            this.parentId = '';
+            this.sets = [];
+            this.settingsHasChanged = false;
+            this.title = '';
+            this.selectedCardOrientation = 'Landscape';
+            this.newSetId = '';
+            this.showSetInput = false;
+        },
+
+        initializeData() {
+            this.cardsSettings = Utils.ConvertEncodedHtmlToJson(this.newMarkdown);
+
+            if (this.cardsSettings.Title)
+                this.title = this.cardsSettings.Title;
+            if (this.cardsSettings.CardOrientation)
+                this.selectedCardOrientation = this.cardsSettings.CardOrientation;
+            if (this.cardsSettings.SetListIds.length)
+                this.sets = this.cardsSettings.SetListIds.split(',');
+        },
+
         hideSetInput() {
-            this.newSetId = 0;
+            this.newSetId = '';
             this.showSetInput = false;
         },
     
@@ -89,7 +104,7 @@ Vue.component('cards-modal-component', {
         },
 
         applyNewMarkdown() {
-            const setIdParts = $(".cardsSettings").map((idx, elem) => $(elem).attr("setId")).get();
+            const setIdParts = $(".setCards").map((idx, elem) => $(elem).attr("setId")).get();
             if (setIdParts.length >= 1)
                 this.cardsSettings.SetListIds = setIdParts.join(',');
             this.cardsSettings.Title = this.title;

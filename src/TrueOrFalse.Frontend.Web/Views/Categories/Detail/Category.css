@@ -1274,7 +1274,7 @@ p:empty {
   margin-top: 100px;
   margin-right: 10px;
 }
-.contentModuleSettings .cardsSettings {
+.contentModuleSettings .setCards {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -1287,7 +1287,7 @@ p:empty {
       -ms-flex-pack: start;
           justify-content: start;
 }
-.contentModuleSettings .cardsSettings.grid {
+.contentModuleSettings .setCards.grid {
   width: 257px;
   height: 157px;
   display: inline-block;
@@ -1316,14 +1316,17 @@ p:empty {
       -ms-flex-direction: row;
           flex-direction: row;
 }
-.contentModuleSettings .cardsSettings.grid.portrait {
+.contentModuleSettings .setCards.grid.portrait {
   width: 166px;
   height: 344px;
 }
-.contentModuleSettings .cardsSettings.grid.placeholder {
+.contentModuleSettings .setCards.grid.topicNavigation {
+  height: 120px;
+}
+.contentModuleSettings .setCards.grid.placeholder {
   border: 1px dotted #45aece;
 }
-.contentModuleSettings .cardsSettings.grid .card {
+.contentModuleSettings .setCards.grid .card {
   text-align: center;
 }
 .contentModuleSettings .sortable-ghost {

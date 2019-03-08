@@ -27,9 +27,9 @@
                         </div>
                     </form>
 
-                    <div class="cardsSettings" v-sortable="cardOptions">
-                        <div class="cardsSettings grid" v-for="(id, index) in sets" :setId="id" :key="index" :class="{ portrait : vertical }">
-                            <div class="cardSettings card">
+                    <div class="setCards" v-sortable="cardOptions">
+                        <div class="setCards grid" v-for="(id, index) in sets" :setId="id" :key="index" :class="{ portrait : vertical }">
+                            <div class="setCards card">
                                 <div>
                                     <span>Set: {{id}}</span>
                                 </div>
@@ -38,7 +38,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div id="addCardPlaceholder" class="cardsSettings grid placeholder" :class="{ portrait : vertical }">
+                        <div id="addCardPlaceholder" class="setCards grid placeholder" :class="{ portrait : vertical }">
                             <div class="addCard" v-if="showSetInput" :class="{ portrait : vertical }">
                                 <div class="form-group">
                                     <input class="form-control" v-model="newSetId" placeholder="" type="number">
