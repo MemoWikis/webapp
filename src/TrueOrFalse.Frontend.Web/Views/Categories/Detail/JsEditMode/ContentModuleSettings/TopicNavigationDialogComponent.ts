@@ -79,9 +79,10 @@ Vue.component('topicnavigation-modal-component', {
         order: function(newVal, oldVal) {
             this.prevOrder = oldVal;
         },
-        load: function(val) {
-            if (val == 'Custom' && this.order == 'ManualSort')
+        load: function() {
+            if (this.order == 'ManualSort')
                 this.order = this.prevOrder;
+            this.showTopicInput = false;
         },
     },
 
