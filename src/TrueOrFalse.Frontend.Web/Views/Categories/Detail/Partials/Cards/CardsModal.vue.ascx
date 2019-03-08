@@ -38,7 +38,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="cardsSettings grid placeholder" :class="{ portrait : vertical }">
+                        <div id="addCardPlaceholder" class="cardsSettings grid placeholder" :class="{ portrait : vertical }">
                             <div class="addCard" v-if="showSetInput" :class="{ portrait : vertical }">
                                 <div class="form-group">
                                     <input class="form-control" v-model="newSetId" placeholder="" type="number">

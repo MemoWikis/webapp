@@ -27,9 +27,10 @@ Vue.component('cards-modal-component', {
             cardOptions: {
                 animation: 100,
                 fallbackOnBody: true,
-                filter: 'input',
+                filter: '.placeholder',
                 preventOnFilter: false,
-            },
+                onMove: this.onMove,
+    },
         };
     },
 
@@ -100,6 +101,10 @@ Vue.component('cards-modal-component', {
 
         closeModal() {
             $('#cardsSettingsDialog').modal('hide');
+        },
+
+        onMove(event) {
+            return event.related.id !== 'addCardPlaceholder';;
         },
     },
 });
