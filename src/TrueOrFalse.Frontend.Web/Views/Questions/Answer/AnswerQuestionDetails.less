@@ -1,32 +1,74 @@
-﻿
-.float-right {
-    float: right;
+﻿// Imports
+@import (reference) '../../../Style/includes/imports.less';
 
+//Variables
 
-    .margin-left {
-        margin-left: 0.7em;
-    }
-    .margin-right-50 {
-        margin-right: 3.125em;
-    }
+@font-size12: 12px;
 
-    .margin-left-20 {
-        margin-left: 2.25em;
-    }
+// Mixins
 
-    .width-100 {
-        width: 6.25em;
-    }
+.font-size12 {
+    font-size: @font-size12;
+}
+
+.SetAndCategory {
+    margin-right: 10px;
 }
 
 
-.float-left {
-    float: left;
-}
-    .margin-left-first {
-        margin-left: 1.3em;
+//Code
+
+.question-details {
+    color: @grey6x5;
+    font-size: 12px;
+
+    .category-set {
+        display: flex;
+
+        .label-category {
+            .SetAndCategory();
+        }
+
+        .label-set {
+            .SetAndCategory();
+        }
+
+        #Category {
+            .font-size12();
+        }
+
+        .fa-chevron-right {
+            margin-top: 4px;
+        }
     }
 
-    .margin-left {
-        margin-left: 0.7em;
+    .second-row {
+        padding-left: 0px;
+        display: flex;
+
+
+        .media-below-lg( {
+            padding-left: 10px;
+            padding-top: 10px;
+        }
+
+        );
     }
+
+    .seen {
+        padding-right: 15px;
+        margin-left: auto;
+    }
+
+    .learning-status {
+        margin-right: auto;
+    }
+}
+
+.text-sponsor {
+    text-align: center;
+}
+
+.model-categories {
+    padding-top: 0.375em;
+}

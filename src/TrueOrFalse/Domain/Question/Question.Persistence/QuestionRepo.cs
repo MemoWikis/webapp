@@ -24,6 +24,17 @@ public class QuestionRepo : RepositoryDbBase<Question>
         base.Update(question);
     }
 
+    public IList<User> GetAuthorsQuestion(int questionId)
+    {
+        var allAuthors = Sl.QuestionChangeRepo
+            .GetForQuestion(questionId)
+            .Select(QuestionChange => QuestionChange.Author);
+
+        return allAuthors.GroupBy(a => a.Id)
+            .Select(groupedAuthor => groupedAuthor.First())
+            .ToList();
+    }
+
     public new void Update(Question question)
     {
         UpdateOrMerge(question, merge: false);

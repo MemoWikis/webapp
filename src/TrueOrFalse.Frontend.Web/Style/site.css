@@ -1,4 +1,4 @@
-/*--------------------------------------------------------
+﻿/*--------------------------------------------------------
 [Description]
 
 
@@ -36,26 +36,16 @@
 [Imports:]
 --------------------------------------------------------*/
 @media (min-width: 768px) {
-}
-@media (min-width: 768px) {
-}
-@media (max-width: 767px) {
-}
-@media (min-width: 768px) {
-}
-@media (min-width: 768px) {
-}
-@media (min-width: 768px) {
-}
-@media (max-width: 767px) {
-}
-@media (max-width: 767px) {
-}
-@media (max-width: 649px) {
-}
-@media (min-width: 650px) {
-}
-/*  [Local variables:]
+}@media (min-width: 768px) {
+}@media (max-width: 767px) {
+}@media (min-width: 768px) {
+}@media (min-width: 768px) {
+}@media (min-width: 768px) {
+}@media (max-width: 767px) {
+}@media (max-width: 767px) {
+}@media (max-width: 649px) {
+}@media (min-width: 650px) {
+}/*  [Local variables:]
 ----------------------------------------------------------*/
 /*  PRIMARY LAYOUT ELEMENTS   
 ----------------------------------------------------------*/
@@ -427,6 +417,7 @@ img {
 #StickyMenuButton.active {
   outline: 0;
   background-image: none;
+  -webkit-box-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
   box-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
 }
 #MenuButton.disabled,
@@ -439,6 +430,7 @@ fieldset[disabled] #StickyMenuButton {
   pointer-events: none;
   opacity: 0.65;
   filter: alpha(opacity=65);
+  -webkit-box-shadow: none;
   box-shadow: none;
 }
 #MenuButton .caret,
@@ -520,6 +512,7 @@ fieldset[disabled] #StickyMenuButton {
 #StickyMenuButton:hover.active {
   outline: 0;
   background-image: none;
+  -webkit-box-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
   box-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
 }
 #MenuButton:hover.disabled,
@@ -532,6 +525,7 @@ fieldset[disabled] #StickyMenuButton:hover {
   pointer-events: none;
   opacity: 0.65;
   filter: alpha(opacity=65);
+  -webkit-box-shadow: none;
   box-shadow: none;
 }
 @media (min-width: 768px) {
@@ -887,6 +881,7 @@ ul.AutocompleteHeader {
   background-color: #f5f5f5;
   border: 1px solid #e3e3e3;
   border-radius: 4px;
+  -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.05);
   box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.05);
   box-shadow: 0 0px 0px rgba(0, 0, 0, 0.16), 0 1px 0px rgba(0, 0, 0, 0.23);
   margin-bottom: 0;
@@ -927,14 +922,14 @@ div.button {
   margin: 15px 0 10px 0;
 }
 a.button {
-  padding: .3em 1em .4em 20px;
+  padding: 0.3em 1em 0.4em 20px;
   text-decoration: none;
   position: relative;
 }
 a.button span.ui-icon {
   margin: 0 5px 0 0;
   position: absolute;
-  left: .2em;
+  left: 0.2em;
   top: 50%;
   margin-top: -8px;
 }
@@ -1000,7 +995,7 @@ a.button span.ui-icon {
   display: inline-block;
   vertical-align: middle;
   font-weight: normal;
-  letter-spacing: .3px;
+  letter-spacing: 0.3px;
   margin-top: 3px;
   margin-bottom: 5px;
   max-width: 145px;
@@ -1073,6 +1068,8 @@ div.search-container label,
 ---------------------------------------------------------*/
 .box {
   background-color: #E7ECF6;
+  -webkit-border-radius: 6px;
+  -moz-border-radius: 6px;
   border-radius: 6px;
   padding: 10px;
   margin-bottom: 15px;
@@ -1094,6 +1091,8 @@ div.box h2 {
   padding-left: 5px;
 }
 div.box-content {
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
   border-radius: 3px;
   margin: -1px;
 }
@@ -1101,6 +1100,8 @@ div.box-content {
   background-color: #D1EBA7;
 }
 .box-head {
+  -webkit-border-radius: 6px;
+  -moz-border-radius: 6px;
   border-radius: 6px;
   padding: 10px;
 }
@@ -1340,7 +1341,7 @@ ul.show-tooltip-ul {
   font-size: 12px !important;
   margin-top: -10px !important;
   margin-right: 9px !important;
-  letter-spacing: .1em !important;
+  letter-spacing: 0.1em !important;
   max-width: 100% !important;
   line-height: 17px !important;
 }
@@ -1448,7 +1449,7 @@ a.noTextdecoration:hover {
   background-color: white;
   width: 100%;
   height: 100%;
-  opacity: 0.90;
+  opacity: 0.9;
   text-align: center;
   vertical-align: middle;
   padding-top: 16%;

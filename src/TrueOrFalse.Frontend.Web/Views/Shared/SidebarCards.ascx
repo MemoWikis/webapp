@@ -1,7 +1,7 @@
 ﻿<%@ Control Language="C#" Inherits="System.Web.Mvc.ViewUserControl<SidebarModel>" %>
 <%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
 
-<div id="SidebarCards" style="display: block;"> 
+<div id="SidebarCards"> 
 
     <%if (Model.Authors.Count == 1){
             var author = Model.Authors.First();
@@ -125,16 +125,5 @@
             <% } %>
         </div>
     <% } %>
-
-    <div id="CreateQuestionCard">
-        <div class="ImageContainer">
-            <div class="card-image-large" style="background: url(/Images/no-question-533.png) center;"></div>
-        </div>
-        <div class="card-title">
-            <span>Frage erstellen</span>
-        </div>
-        <div class="card-link" style="margin-bottom: 33px;">
-            <a href="<%= Url.Action("Create", "EditQuestion") %>">Was willst du wissen?</a>
-        </div>
-    </div>
+     <% Html.RenderPartial("~/Views/Shared/SidebarCards/CreateQuestion.ascx"); %>
 </div>
