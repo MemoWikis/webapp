@@ -165,6 +165,10 @@ Vue.component('topicnavigation-modal-component', {
         closeModal() {
             $('#topicnavigationSettingsDialog').modal('hide');
         },
+
+        onMove(event) {
+            return event.related.id !== 'addCardPlaceholder';;
+        },
     },
 });
 

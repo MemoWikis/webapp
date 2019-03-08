@@ -21,21 +21,18 @@
                         
                         <div class="form-group" style="margin-top: 30px;">
                             <label for="load">Themenauswahl</label>
-                            <form class="form-inline" style="margin:0">
-                            <div class="radio">
+                            <div class="radio" style="margin-top:0">
                                 <label class="clickable">
                                     <input type="radio" value="All" v-model="load">
                                     Alle Unterthemen
                                 </label>
                             </div>
-                            <small class="form-text" style="margin: 0 10px;">oder</small>
                             <div class="radio">
                                 <label class="clickable">
                                     <input type="radio" value="Custom" v-model="load">
                                     Benutzerdefinierte Themen
                                 </label>
                             </div>
-                            </form>
                         </div>
                         
                         <div class="form-group">
