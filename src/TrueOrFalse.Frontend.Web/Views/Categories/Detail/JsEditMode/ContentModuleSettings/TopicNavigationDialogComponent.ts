@@ -160,7 +160,6 @@ Vue.component('topicnavigation-modal-component', {
             }
 
             this.newMarkdown = Utils.ConvertJsonToMarkdown(this.topicNavigationSettings);
-            console.log(this.topicNavigationSettings);
             Utils.UpdateMarkdown(this.newMarkdown, this.parentId);
             $('#topicnavigationSettingsDialog').modal('hide');
         },
