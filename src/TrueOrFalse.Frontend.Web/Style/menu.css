@@ -287,6 +287,7 @@
           align-items: flex-end;
 }
 .RightMainMenu {
+  margin-top: 0;
   padding: 0px;
   position: absolute;
   background-color: white;

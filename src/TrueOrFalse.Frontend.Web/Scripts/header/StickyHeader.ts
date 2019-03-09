@@ -5,15 +5,14 @@ class StickyHeaderClass {
     private _header;
     private _masterHeaderOuterHeight = $("#MasterHeader").outerHeight();
     private _stickyHeaderisFixed = false;
+    private _breadCrumbDistanceRight: string;
 
     constructor() {
         this._breadcrumb = $('#Breadcrumb').get(0);
-        this._rightMainMenu = $("#RighttMainMenu").get(0);
+        this._rightMainMenu = $("#RightMainMenu").get(0);
         this._header = $("#MasterHeader").get(0);
         this._rightMainMenu.style.position = "absolute";
        
-        
-        this.doubleStuff();
         this.StickyHeader();
         if (IsLoggedIn.Yes)
             $("#userDropdown").css("top", $("#Breadcrumb").outerHeight() + $("#MasterHeader").outerHeight() - $("#HeaderUserDropdown").offset().top + "px");
@@ -24,7 +23,6 @@ class StickyHeaderClass {
 
         $(window).resize(() => {
             this.StickyHeader();
-            this.doubleStuff();
         });
     }
 
@@ -32,7 +30,9 @@ class StickyHeaderClass {
 
         if ($(window).scrollTop() >= this._masterHeaderOuterHeight) {
             if (IsLoggedIn.Yes)
-                $("#BreadcrumbUserDropdown").css("top", $("#Breadcrumb").outerHeight() + "px");
+                this.positioningMenus($("#userDropdown"), true);
+
+            this.positioningMenus($("#RightMainMenu"), true);
 
             if (this._stickyHeaderisFixed) {
                 return;
@@ -49,13 +49,12 @@ class StickyHeaderClass {
 
 
             this.toggleClass($("#HeaderUserDropdown"), $("#BreadcrumbUserDropdownImage"), "open");
-            this.calculateTheSizeOfTheMenu($("#BreadcrumbUserDropdown"));
 
             this._rightMainMenu.style.position = "fixed";
 
         } else {
-            this.positioningMenus($("#userDropdown"));
-            this.positioningMenus($("#RightMainMenu"));
+            this.positioningMenus($("#userDropdown"), false);
+            this.positioningMenus($("#RightMainMenu"), false);
 
 
             if (!this._stickyHeaderisFixed) {
@@ -81,15 +80,16 @@ class StickyHeaderClass {
 
         this._breadcrumb.style.height = "55px";
 
-        if (IsLoggedIn.Yes)
-            this.reorientatedMenu($(window).scrollTop());
+        //if (IsLoggedIn.Yes)
+        //    this.reorientatedMenu($(window).scrollTop());
     }
 
-    private positioningMenus(menu: JQuery) {
-        if (menu.selector === "#RightMainMenu" && top.location.pathname !== "/")
+    private positioningMenus(menu: JQuery, isScrollGreather: boolean) {
+        if (!isScrollGreather && top.location.pathname !== "/")
             menu.css("top", $("#MasterHeader").outerHeight());
         else {
             menu.css("top", $("#Breadcrumb").outerHeight());
+           
         }
     }
 
@@ -103,21 +103,12 @@ class StickyHeaderClass {
         }
     }
 
-    private calculateTheSizeOfTheMenu(menu: JQuery, ) {
-        menu.css("max-height", $(window).innerHeight() - $("#Breadcrumb").outerHeight() + "px");
-        menu.css("overflow", "scroll");
-    }
 
     private toggleClass(removeClassFromElement: JQuery, addClassToElement: JQuery, toggleClass: string) {
         if (removeClassFromElement.hasClass(toggleClass)) {
             removeClassFromElement.removeClass(toggleClass);
             addClassToElement.addClass(toggleClass);
         }
-    }
-
-    private doubleStuff() {
-        this.calculateTheSizeOfTheMenu($("#RightMainMenu"));
-        this.calculateTheSizeOfTheMenu($("#userDropdown"));
     }
 
 }
