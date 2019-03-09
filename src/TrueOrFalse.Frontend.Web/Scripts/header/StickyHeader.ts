@@ -79,9 +79,6 @@ class StickyHeaderClass {
         }
 
         this._breadcrumb.style.height = "55px";
-
-        //if (IsLoggedIn.Yes)
-        //    this.reorientatedMenu($(window).scrollTop());
     }
 
     private positioningMenus(menu: JQuery, isScrollGreather: boolean) {
@@ -92,17 +89,6 @@ class StickyHeaderClass {
            
         }
     }
-
-    private reorientatedMenu(pos: number): void {
-        if (pos > this._masterHeaderOuterHeight) {
-            $('#BreadcrumbUserDropdown').css('margin-right', $('#BreadCrumbContainer').css('margin-right'));
-            $('#RightMainMenu').css('margin-right', $('#BreadCrumbContainer').css('margin-right'));
-        } else {
-            $('#BreadcrumbUserDropdown').css('margin-right', '');
-            $('#RightMainMenu').css('margin-right', '');
-        }
-    }
-
 
     private toggleClass(removeClassFromElement: JQuery, addClassToElement: JQuery, toggleClass: string) {
         if (removeClassFromElement.hasClass(toggleClass)) {
