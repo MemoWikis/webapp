@@ -20,6 +20,7 @@
 %>
 
 <%Html.RenderPartial("/Views/Shared/MainMenuThemeCentered.ascx", Model.SidebarModel); %>    
+   
 
 <% if(showEnvironment){ %>
     <div class="" style="background-color: <%= backgroundColor%>; z-index: 10000; position: fixed; top: 11px; right: -57px; width: 127px; text-align: center; font-size: 11px; padding: 2px; padding-left: 40px; transform: rotate(90deg); color:white">
@@ -29,7 +30,7 @@
 
 
 <header id="MasterHeader">
-    <div class="container">
+    <div id="MasterHeaderContainer"class="container">
         <div class="row" style="background-color:#003264">
             <div class="col-md-12" style="padding-right: 10px;">
                 <div class="row HeaderMainRow" style="background-color:#003264">

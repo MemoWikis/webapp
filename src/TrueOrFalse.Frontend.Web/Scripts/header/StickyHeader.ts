@@ -8,9 +8,11 @@ class StickyHeaderClass {
 
     constructor() {
         this._breadcrumb = $('#Breadcrumb').get(0);
-        this._rightMainMenu = $("#RightMainMenu").get(0);
+        this._rightMainMenu = $("#RighttMainMenu").get(0);
         this._header = $("#MasterHeader").get(0);
         this._rightMainMenu.style.position = "absolute";
+       
+        
         this.doubleStuff();
         this.StickyHeader();
         if (IsLoggedIn.Yes)
@@ -32,12 +34,10 @@ class StickyHeaderClass {
             if (IsLoggedIn.Yes)
                 $("#BreadcrumbUserDropdown").css("top", $("#Breadcrumb").outerHeight() + "px");
 
-            //this._rightMainMenu.style.top = ($("#Breadcrumb").outerHeight() + "px");
-
             if (this._stickyHeaderisFixed) {
                 return;
             }
-            this._breadcrumb.style.zIndex = 100;
+            this._breadcrumb.style.zIndex = "100";
             this._breadcrumb.style.top = "0";
             this._breadcrumb.classList.add("ShowBreadcrumb");
             this._breadcrumb.style.position = "fixed";
@@ -72,11 +72,6 @@ class StickyHeaderClass {
             $("#Breadcrumb").css("z-index", 100);
             $('#BreadcrumbLogoSmall').hide();
             $('#StickyHeaderContainer').hide();
-
-            //this._rightMainMenu.style.top = ($("#MasterHeader").outerHeight() +
-            //    $("#Breadcrumb").outerHeight() -
-            //    $("#MenuButtonContainer").offset().top +
-            //    "px");
             this._rightMainMenu.style.position = "absolute";
 
             if (top.location.pathname === "/") {

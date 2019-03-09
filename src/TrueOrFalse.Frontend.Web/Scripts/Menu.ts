@@ -15,16 +15,28 @@
 class MenuMobile {
 
     private _isOpen: boolean = false;
+    private _masterHeaderContainermarginRight: string; 
+
 
 
     constructor() {
+        this._masterHeaderContainermarginRight = (parseInt($("#MasterHeaderContainer").css("margin-right"), 10) + parseInt($("#MasterHeaderContainer").css("padding-right"), 10) + 5).toString();
+
+        $(window).resize(() => {
+            this._masterHeaderContainermarginRight = (parseInt($("#MasterHeaderContainer").css("margin-right"), 10) + parseInt($("#MasterHeaderContainer").css("padding-right"), 10) + 5).toString();
+            this.calculateMarginRightToElement(this._masterHeaderContainermarginRight, $("#RightMainMenu"));
+        });
+
+
         $("#MenuButton").click(() => {
             if (this._isOpen) {
                 this.closeMenu(); 
                
             } else {
                 this.openMenu();
-                
+                this.calculateMarginRightToElement(this._masterHeaderContainermarginRight, $("#RightMainMenu"));
+
+
             }
         });
 
@@ -34,6 +46,7 @@ class MenuMobile {
 
             } else {
                 this.openMenu();
+                this.calculateMarginRightToElement(this._masterHeaderContainermarginRight, $("#RightMainMenu"));
             }
         });
 
@@ -76,7 +89,9 @@ class MenuMobile {
 
     }
 
-    
+    private calculateMarginRightToElement(marginRight: string, elementThatGetsTheMargin:JQuery ) {
+        elementThatGetsTheMargin.css("margin-right", marginRight + "px" );
+    }
 }
 
 $(function() {
