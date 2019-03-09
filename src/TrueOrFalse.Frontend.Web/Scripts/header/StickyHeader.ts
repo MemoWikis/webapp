@@ -13,6 +13,7 @@ class StickyHeaderClass {
         this._header = $("#MasterHeader").get(0);
         this._rightMainMenu.style.position = "absolute";
         this.StickyHeader();
+        this.positioningMenus($("#userDropdown"), false);
 
         $(window).scroll(() => {
             this.StickyHeader();
@@ -33,7 +34,6 @@ class StickyHeaderClass {
             if (this._stickyHeaderisFixed) {
                 return;
             }
-            this._breadcrumb.style.zIndex = "1";
             this._breadcrumb.style.top = "0";
             this._breadcrumb.classList.add("ShowBreadcrumb");
             this._breadcrumb.style.position = "fixed";
@@ -49,9 +49,8 @@ class StickyHeaderClass {
             this._rightMainMenu.style.position = "fixed";
 
         } else {
-            this.positioningMenus($("#userDropdown"), false);
-            this.positioningMenus($("#RightMainMenu"), false);
 
+            this.positioningMenus($("#RightMainMenu"), false);
 
             if (!this._stickyHeaderisFixed) {
                 return;
@@ -64,7 +63,6 @@ class StickyHeaderClass {
             this.toggleClass($("#BreadcrumbUserDropdownImage"), $("#HeaderUserDropdown"), "open");
 
 
-            $("#Breadcrumb").css("z-index", 1);
             $('#BreadcrumbLogoSmall').hide();
             $('#StickyHeaderContainer').hide();
             this._rightMainMenu.style.position = "absolute";
@@ -78,7 +76,7 @@ class StickyHeaderClass {
     }
 
     private positioningMenus(menu: JQuery, isScrollGreather: boolean) {
-        if (!isScrollGreather && top.location.pathname !== "/" && menu.selector !== "#userDropdown")
+        if (!isScrollGreather && menu.selector !== "#userDropdown")
             menu.css("top", $("#MasterHeader").outerHeight());
         else if (!isScrollGreather && top.location.pathname !== "/" && menu.selector === "#userDropdown") {
             menu.css("top",
