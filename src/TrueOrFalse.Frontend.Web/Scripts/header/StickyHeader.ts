@@ -12,18 +12,14 @@ class StickyHeaderClass {
         this._rightMainMenu = $("#RightMainMenu").get(0);
         this._header = $("#MasterHeader").get(0);
         this._rightMainMenu.style.position = "absolute";
-       
         this.StickyHeader();
-        if (IsLoggedIn.Yes)
-            $("#userDropdown").css("top", $("#Breadcrumb").outerHeight() + $("#MasterHeader").outerHeight() - $("#HeaderUserDropdown").offset().top + "px");
 
         $(window).scroll(() => {
             this.StickyHeader();
         });
 
         $(window).resize(() => {
-            this.StickyHeader();
-        });
+            this.StickyHeader();    });
     }
 
     public StickyHeader() {
@@ -37,7 +33,7 @@ class StickyHeaderClass {
             if (this._stickyHeaderisFixed) {
                 return;
             }
-            this._breadcrumb.style.zIndex = "100";
+            this._breadcrumb.style.zIndex = "1";
             this._breadcrumb.style.top = "0";
             this._breadcrumb.classList.add("ShowBreadcrumb");
             this._breadcrumb.style.position = "fixed";
@@ -68,7 +64,7 @@ class StickyHeaderClass {
             this.toggleClass($("#BreadcrumbUserDropdownImage"), $("#HeaderUserDropdown"), "open");
 
 
-            $("#Breadcrumb").css("z-index", 100);
+            $("#Breadcrumb").css("z-index", 1);
             $('#BreadcrumbLogoSmall').hide();
             $('#StickyHeaderContainer').hide();
             this._rightMainMenu.style.position = "absolute";
@@ -82,12 +78,18 @@ class StickyHeaderClass {
     }
 
     private positioningMenus(menu: JQuery, isScrollGreather: boolean) {
-        if (!isScrollGreather && top.location.pathname !== "/")
+        if (!isScrollGreather && top.location.pathname !== "/" && menu.selector !== "#userDropdown")
             menu.css("top", $("#MasterHeader").outerHeight());
-        else {
+        else if (!isScrollGreather && top.location.pathname !== "/" && menu.selector === "#userDropdown") {
+            menu.css("top",
+               ($("#MasterHeader").outerHeight()) -
+                        parseInt($(".col-LoginAndHelp").css("margin-top")) -
+                        parseInt($(".HeaderMainRow").css("margin-top")))+ "px";
+        }
+        else 
             menu.css("top", $("#Breadcrumb").outerHeight());
            
-        }
+        
     }
 
     private toggleClass(removeClassFromElement: JQuery, addClassToElement: JQuery, toggleClass: string) {
