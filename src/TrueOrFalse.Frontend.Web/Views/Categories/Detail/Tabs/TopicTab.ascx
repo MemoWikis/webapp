@@ -122,8 +122,8 @@
     </div>
 </div>
 
-<div class="MarkdownContent">
-    <ul id="MarkdownContentComponent"class="module" v-sortable="options" style="list-style-type: none;">
+<%-- <div class="MarkdownContent"> --%>
+    <div id="MarkdownContent" class="module" v-sortable="options" style="list-style-type: none;">
         <% if (string.IsNullOrEmpty(Model.CustomPageHtml)) {
         
                if (Model.CategoriesChildren.Any(c => c.Type.GetCategoryTypeGroup() == CategoryTypeGroup.Standard))
@@ -158,5 +158,5 @@
             <%= Model.CustomPageHtml %>
         
         <% } %>
-    </ul>
-</div>
+    </div>
+<%-- </div> --%>

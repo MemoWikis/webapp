@@ -18,5 +18,5 @@
 
             </div>    
         </div>     
-    </li>        
+    </div>        
 </content-module> 
