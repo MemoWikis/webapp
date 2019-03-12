@@ -20,4 +20,8 @@
     <%: Html.Partial("~/Views/Categories/Detail/Partials/SingleSetFullWidth/SingleSetFullWidthModal.vue.ascx") %>
 </script>
 
+<script type="text/x-template" id="videowidget-settings-dialog-template">
+    <%: Html.Partial("~/Views/Categories/Detail/Partials/VideoWidget/VideoWidgetModal.vue.ascx") %>
+</script>
+
 

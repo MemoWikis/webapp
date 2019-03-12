@@ -20106,7 +20106,10 @@
       <DependentUpon>InlineEditComponent.ts</DependentUpon>
     </Content>
     <Content Include="Views\Categories\Detail\JsEditMode\ContentModuleSettings\SingleCategoryFullWidthComponent.js">
-      <DependentUpon>SingleCategoryFullWidthComponent.ts</DependentUpon>
+      <DependentUpon>SingleCategoryFullWidthDialogComponent.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Categories\Detail\JsEditMode\ContentModuleSettings\SingleSetFullWidthComponent.js">
+      <DependentUpon>SingleSetFullWidthDialogComponent.ts</DependentUpon>
     </Content>
     <Content Include="Views\Categories\Detail\JsEditMode\ContentModuleSettings\TopicNavigationDialogComponent.js">
       <DependentUpon>TopicNavigationDialogComponent.ts</DependentUpon>
@@ -20151,6 +20154,7 @@
     <Content Include="Views\Categories\Detail\Partials\SingleQuestionQuiz\SingleQuestionsQuiz.ascx" />
     <Content Include="Views\Categories\Detail\Partials\CategoryHeader.ascx" />
     <Content Include="Views\Categories\Detail\Partials\TopicNavigation\TopicNavigationModal.vue.ascx" />
+    <Content Include="Views\Categories\Detail\Partials\VideoWidget\VideoWidgetModal.vue.ascx" />
     <Content Include="Views\Categories\Detail\Partials\WishKnowledgeInTheBox.ascx" />
     <Content Include="Views\Categories\Detail\Tabs\LearningTab.ascx" />
     <Content Include="Views\Categories\Detail\Tabs\AnalyticsTab.ascx" />
@@ -20205,8 +20209,9 @@
     </Content>
     <Content Include="Views\Knowledge\Dates\DateRow.ascx" />
     <TypeScriptCompile Include="Views\Categories\Detail\JsEditMode\ContentEditButtonsApp.ts" />
-    <TypeScriptCompile Include="Views\Categories\Detail\JsEditMode\ContentModuleSettings\SingleSetFullWidthComponent.ts" />
-    <TypeScriptCompile Include="Views\Categories\Detail\JsEditMode\ContentModuleSettings\SingleCategoryFullWidthComponent.ts" />
+    <TypeScriptCompile Include="Views\Categories\Detail\JsEditMode\ContentModuleSettings\VideoWidgetDialogComponent.ts" />
+    <TypeScriptCompile Include="Views\Categories\Detail\JsEditMode\ContentModuleSettings\SingleSetFullWidthDialogComponent.ts" />
+    <TypeScriptCompile Include="Views\Categories\Detail\JsEditMode\ContentModuleSettings\SingleCategoryFullWidthDialogComponent.ts" />
     <TypeScriptCompile Include="Views\Categories\Detail\JsEditMode\ContentModuleSettings\InlineEditComponent.ts" />
     <TypeScriptCompile Include="Views\Categories\Detail\JsEditMode\ContentModuleSettings\TopicNavigationDialogComponent.ts" />
     <TypeScriptCompile Include="Views\Categories\Detail\JsEditMode\ContentModuleSettings\CardsDialogComponent.ts" />
@@ -20422,7 +20427,10 @@
       <DependentUpon>InlineEditComponent.ts</DependentUpon>
     </Content>
     <Content Include="Views\Categories\Detail\JsEditMode\ContentModuleSettings\SingleCategoryFullWidthComponent.js.map">
-      <DependentUpon>SingleCategoryFullWidthComponent.ts</DependentUpon>
+      <DependentUpon>SingleCategoryFullWidthDialogComponent.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Categories\Detail\JsEditMode\ContentModuleSettings\SingleSetFullWidthComponent.js.map">
+      <DependentUpon>SingleSetFullWidthDialogComponent.ts</DependentUpon>
     </Content>
     <None Include="Views\Maintenance\ContentStats.less" />
     <Compile Include="Views\Maintenance\ContentStatsModel.cs" />

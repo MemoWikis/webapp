@@ -40,7 +40,7 @@ Vue.component('singlesetfullwidth-modal-component', {
                 this.initializeData();
             });
 
-        $('#ssinglesetfullwidthSettingsDialog').on('hidden.bs.modal',
+        $('#singlesetfullwidthSettingsDialog').on('hidden.bs.modal',
             event => {
                 if (!this.settingsHasChanged)
                     eventBus.$emit('close-content-module-settings-modal', false);

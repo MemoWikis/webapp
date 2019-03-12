@@ -10,3 +10,6 @@
 <div>
     <singlesetfullwidth-modal-component/>
 </div>
+<div>
+    <videowidget-modal-component/>
+</div>
