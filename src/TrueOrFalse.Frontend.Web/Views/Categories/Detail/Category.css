@@ -1249,7 +1249,7 @@ p:empty {
   line-height: 1.42857143;
   padding: 6px 8px;
 }
-.contentModuleSettings .applyAndCancel {
+.contentModuleSettings .settingsConfirmation {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -1260,17 +1260,17 @@ p:empty {
           justify-content: flex-end;
   margin-top: 4px;
 }
-.contentModuleSettings .applyAndCancel.portrait {
+.contentModuleSettings .settingsConfirmation.portrait {
   -webkit-box-orient: vertical;
   -webkit-box-direction: reverse;
   -webkit-flex-flow: column-reverse;
       -ms-flex-flow: column-reverse;
           flex-flow: column-reverse;
 }
-.contentModuleSettings .applyAndCancel.portrait a {
+.contentModuleSettings .settingsConfirmation.portrait a {
   text-align: center;
 }
-.contentModuleSettings .applyAndCancel.modalFooter {
+.contentModuleSettings .settingsConfirmation.modalFooter {
   margin-top: 100px;
   margin-right: 10px;
 }

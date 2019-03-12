@@ -42,16 +42,16 @@
                             <div class="addCard" v-if="showSetInput" :class="{ portrait : vertical }">
                                 <div class="form-group">
                                     <input class="form-control" v-model="newSetId" placeholder="" type="number">
-                                    <div class="applyAndCancel" :class="{ portrait : vertical }">
+                                    <div class="settingsConfirmation" :class="{ portrait : vertical }">
                                         <a class="clickable" @click="hideSetInput">abbrechen</a>
-                                        <div class="btn btn-primary" @click="addCard(newSetId)">hinzufügen</div>
+                                        <div class="btn btn-primary" @click="addCard(newSetId)">Hinzufügen</div>
                                     </div>
                                 </div>
                             </div>
                             <div v-else class="addCard btn btn-primary" @click="showSetInput = true" :class="{ portrait : vertical }">Set hinzufügen</div>
                         </div>
                     </div>
-                    <div class="applyAndCancel modalFooter">
+                    <div class="settingsConfirmation modalFooter">
                         <a class="CancelEdit clickable" @click="closeModal()">abbrechen</a>
                         <div class="btn btn-primary" @click="applyNewMarkdown()">Konfiguration übernehmen</div>       
                     </div>   

@@ -185,7 +185,7 @@ class Utils
 
         $.post("/Category/RenderMarkdown/", { categoryId: $("#hhdCategoryId").val(), markdown: newMarkdown },
             (result) => {
-                eventBus.$emit('new-markdown', { preview: true, newHtml: result, toReplace: 'li#' + parentId });
+                eventBus.$emit('new-markdown', { preview: true, newHtml: result, toReplace: '#' + parentId });
             }
         );
     }

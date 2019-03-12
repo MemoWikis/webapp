@@ -9,7 +9,15 @@
 </script>
 
 <script type="text/x-template" id="topicnavigation-settings-dialog-template">
-    <%: Html.Partial("~/Views/Categories/Detail/Partials/TopicNavigation/TopicNavigation.vue.ascx") %>
+    <%: Html.Partial("~/Views/Categories/Detail/Partials/TopicNavigation/TopicNavigationModal.vue.ascx") %>
+</script>
+
+<script type="text/x-template" id="singlecategoryfullwidth-settings-dialog-template">
+    <%: Html.Partial("~/Views/Categories/Detail/Partials/SingleCategoryFullWidth/SingleCategoryFullWidthModal.vue.ascx") %>
+</script>
+
+<script type="text/x-template" id="singlesetfullwidth-settings-dialog-template">
+    <%: Html.Partial("~/Views/Categories/Detail/Partials/SingleSetFullWidth/SingleSetFullWidthModal.vue.ascx") %>
 </script>
 
 

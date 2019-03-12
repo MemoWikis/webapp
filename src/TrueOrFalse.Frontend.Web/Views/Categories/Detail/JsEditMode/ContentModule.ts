@@ -67,14 +67,16 @@
         },
 
         editModule() {
-            if (this.contentModuleType != 'inlineText') {
-                this.isListening = true;
-                let parent = {
-                    id: this.id,
-                    markdown: this.markdown,
+            if (this.canBeEdited) {
+                if (this.contentModuleType != 'inlineText') {
+                    this.isListening = true;
+                    let parent = {
+                        id: this.id,
+                        markdown: this.markdown,
+                    };
+                    $(this.modalType).data('parent', parent).modal('show');
                 };
-                $(this.modalType).data('parent', parent).modal('show');
-            };
+            }
         },
 
         editInlineText() {

@@ -7,7 +7,6 @@
 }
 
 Vue.component('topicnavigation-modal-component', {
-    props: ['origMarkdown'],
 
     template: '#topicnavigation-settings-dialog-template',
 

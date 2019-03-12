@@ -6,7 +6,6 @@
 }
 
 Vue.component('cards-modal-component', {
-    props: ['origMarkdown'],
 
     template: '#cards-settings-dialog-template',
 

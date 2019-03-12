@@ -20105,6 +20105,9 @@
     <Content Include="Views\Categories\Detail\JsEditMode\ContentModuleSettings\InlineEditComponent.js">
       <DependentUpon>InlineEditComponent.ts</DependentUpon>
     </Content>
+    <Content Include="Views\Categories\Detail\JsEditMode\ContentModuleSettings\SingleCategoryFullWidthComponent.js">
+      <DependentUpon>SingleCategoryFullWidthComponent.ts</DependentUpon>
+    </Content>
     <Content Include="Views\Categories\Detail\JsEditMode\ContentModuleSettings\TopicNavigationDialogComponent.js">
       <DependentUpon>TopicNavigationDialogComponent.ts</DependentUpon>
     </Content>
@@ -20132,10 +20135,13 @@
     <Content Include="Views\Categories\Detail\Partials\BreadCrumbCategories.ascx" />
     <Content Include="Views\Categories\Detail\Partials\Cards\Cards.ascx" />
     <Content Include="Views\Categories\Detail\Partials\InlineText\InlineTextComponent.vue.ascx" />
+    <Content Include="Views\Categories\Detail\Partials\ModalComponentCollection.ascx" />
     <Content Include="Views\Categories\Detail\Partials\SettingsDialogCollection.ascx" />
     <Content Include="Views\Categories\Detail\Partials\ContentModuleWrapperStart.ascx" />
     <Content Include="Views\Categories\Detail\Partials\Alert.ascx" />
     <Content Include="Views\Categories\Detail\Partials\InlineText\InlineText.ascx" />
+    <Content Include="Views\Categories\Detail\Partials\SingleCategoryFullWidth\SingleCategoryFullWidthModal.vue.ascx" />
+    <Content Include="Views\Categories\Detail\Partials\SingleSetFullWidth\SingleSetFullWidthModal.vue.ascx" />
     <Content Include="Views\Categories\Detail\Partials\TextBlock\TextBlock.ascx" />
     <Content Include="Views\Categories\Detail\Partials\MediaList\MediaListReferenceTitle.ascx" />
     <Content Include="Views\Categories\Detail\Partials\SetCardMiniList\SetCardMiniList.ascx" />
@@ -20144,7 +20150,7 @@
     <Content Include="Views\Categories\Detail\Partials\Spacer\Spacer.ascx" />
     <Content Include="Views\Categories\Detail\Partials\SingleQuestionQuiz\SingleQuestionsQuiz.ascx" />
     <Content Include="Views\Categories\Detail\Partials\CategoryHeader.ascx" />
-    <Content Include="Views\Categories\Detail\Partials\TopicNavigation\TopicNavigation.vue.ascx" />
+    <Content Include="Views\Categories\Detail\Partials\TopicNavigation\TopicNavigationModal.vue.ascx" />
     <Content Include="Views\Categories\Detail\Partials\WishKnowledgeInTheBox.ascx" />
     <Content Include="Views\Categories\Detail\Tabs\LearningTab.ascx" />
     <Content Include="Views\Categories\Detail\Tabs\AnalyticsTab.ascx" />
@@ -20199,6 +20205,8 @@
     </Content>
     <Content Include="Views\Knowledge\Dates\DateRow.ascx" />
     <TypeScriptCompile Include="Views\Categories\Detail\JsEditMode\ContentEditButtonsApp.ts" />
+    <TypeScriptCompile Include="Views\Categories\Detail\JsEditMode\ContentModuleSettings\SingleSetFullWidthComponent.ts" />
+    <TypeScriptCompile Include="Views\Categories\Detail\JsEditMode\ContentModuleSettings\SingleCategoryFullWidthComponent.ts" />
     <TypeScriptCompile Include="Views\Categories\Detail\JsEditMode\ContentModuleSettings\InlineEditComponent.ts" />
     <TypeScriptCompile Include="Views\Categories\Detail\JsEditMode\ContentModuleSettings\TopicNavigationDialogComponent.ts" />
     <TypeScriptCompile Include="Views\Categories\Detail\JsEditMode\ContentModuleSettings\CardsDialogComponent.ts" />
@@ -20412,6 +20420,9 @@
     </Content>
     <Content Include="Views\Categories\Detail\JsEditMode\ContentModuleSettings\InlineEditComponent.js.map">
       <DependentUpon>InlineEditComponent.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Categories\Detail\JsEditMode\ContentModuleSettings\SingleCategoryFullWidthComponent.js.map">
+      <DependentUpon>SingleCategoryFullWidthComponent.ts</DependentUpon>
     </Content>
     <None Include="Views\Maintenance\ContentStats.less" />
     <Compile Include="Views\Maintenance\ContentStatsModel.cs" />

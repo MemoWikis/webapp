@@ -61,12 +61,8 @@
                     <a class="CancelEdit" @click="cancelEditMode()">Editieren abbrechen</a>
                 </div>                
             </section>
-            <div>
-                <cards-modal-component/>
-            </div>
-            <div>
-                <topicnavigation-modal-component/>
-            </div>
+            <%: Html.Partial("~/Views/Categories/Detail/Partials/ModalComponentCollection.ascx") %>
+
         </div>           
     </div>
 

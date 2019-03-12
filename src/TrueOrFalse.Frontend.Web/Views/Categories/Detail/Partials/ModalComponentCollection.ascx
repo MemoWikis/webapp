@@ -1,0 +1,12 @@
+﻿<div>
+    <cards-modal-component/>
+</div>
+<div>
+    <topicnavigation-modal-component/>
+</div>
+<div>
+    <singlecategoryfullwidth-modal-component/>
+</div>
+<div>
+    <singlesetfullwidth-modal-component/>
+</div>

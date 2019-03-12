@@ -70,9 +70,9 @@
                                 <div class="addCard" v-if="showTopicInput">
                                     <div class="form-group">
                                         <input class="form-control" v-model="newTopicId" placeholder="" type="number">
-                                        <div class="applyAndCancel">
+                                        <div class="settingsConfirmation">
                                             <a class="clickable" @click="hideTopicInput">abbrechen</a>
-                                            <div class="btn btn-primary" @click="addTopic(newTopicId)">hinzufügen</div>
+                                            <div class="btn btn-primary" @click="addTopic(newTopicId)">Hinzufügen</div>
                                         </div>
                                     </div>
                                 </div>
@@ -82,7 +82,7 @@
                     </div>
                     
                     
-                    <div class="applyAndCancel modalFooter">
+                    <div class="settingsConfirmation modalFooter">
                         <a class="CancelEdit clickable" @click="closeModal()">abbrechen</a>
                         <div class="btn btn-primary" @click="applyNewMarkdown()">Konfiguration übernehmen</div>       
                     </div>   
