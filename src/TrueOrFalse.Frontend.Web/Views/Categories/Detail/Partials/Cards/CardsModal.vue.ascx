@@ -28,7 +28,7 @@
                     </form>
 
                     <div class="setCards" v-sortable="cardOptions">
-                        <div class="setCards grid" v-for="(id, index) in sets" :setId="id" :key="index" :class="{ portrait : vertical }">
+                        <div class="setCards grid cardsDialogData" v-for="(id, index) in sets" :setId="id" :key="index" :class="{ portrait : vertical }">
                             <div class="setCards card">
                                 <div>
                                     <div>Set: {{id}}</div>

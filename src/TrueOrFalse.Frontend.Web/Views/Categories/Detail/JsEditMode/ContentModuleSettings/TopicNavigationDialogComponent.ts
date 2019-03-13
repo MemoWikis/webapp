@@ -148,7 +148,7 @@ Vue.component('topicnavigation-modal-component', {
             this.topicNavigationSettings.Title = this.title;
             this.topicNavigationSettings.Text = this.text;
 
-            const topicIdParts = $("#TopicNavigationDialogData").map((idx, elem) => $(elem).attr("topicId")).get();
+            const topicIdParts = $(".topicNavigationDialogData").map((idx, elem) => $(elem).attr("topicId")).get();
             if (topicIdParts.length >= 1) {
                 if (this.load != 'All')
                     this.topicNavigationSettings.Load = topicIdParts.join(',');

@@ -103,7 +103,7 @@ Vue.component('cards-modal-component', {
         },
 
         applyNewMarkdown() {
-            const setIdParts = $("#CardsDialogData").map((idx, elem) => $(elem).attr("setId")).get();
+            const setIdParts = $(".cardsDialogData").map((idx, elem) => $(elem).attr("setId")).get();
             if (setIdParts.length >= 1)
                 this.cardsSettings.SetListIds = setIdParts.join(',');
             this.cardsSettings.Title = this.title;

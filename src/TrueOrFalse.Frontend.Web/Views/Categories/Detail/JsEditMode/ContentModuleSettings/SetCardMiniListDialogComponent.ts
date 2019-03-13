@@ -1,4 +1,4 @@
-﻿class SetCardMiniList {
+﻿class SetCardMiniListSettings {
     TemplateName: string = "";
     SetListIds: string = "";
 }
@@ -7,7 +7,7 @@ Vue.component('setcardminilist-modal-component', {
 
     template: '#setcardminilist-settings-dialog-template',
 
-    cardsSettings: CardsSettings,
+    setCardMiniListSettings: SetCardMiniListSettings,
 
     data() {
         return {
@@ -29,7 +29,7 @@ Vue.component('setcardminilist-modal-component', {
 
     created() {
         var self = this;
-        self.setCardMiniList = new SetCardMiniList();
+        self.setCardMiniListSettings = new SetCardMiniListSettings();
     },
 
     watch: {
@@ -39,7 +39,7 @@ Vue.component('setcardminilist-modal-component', {
     },
     
     mounted: function() {
-        $('#cardsSettingsDialog').on('show.bs.modal',
+        $('#setcardminilistSettingsDialog').on('show.bs.modal',
             event => {
                 
                 this.newMarkdown = $('#setcardminilistSettingsDialog').data('parent').markdown;
@@ -47,7 +47,7 @@ Vue.component('setcardminilist-modal-component', {
                 this.initializeData();
             });
 
-        $('#cardsSettingsDialog').on('hidden.bs.modal',
+        $('#setcardminilistSettingsDialog').on('hidden.bs.modal',
             event => {
                 if (!this.settingsHasChanged)
                     eventBus.$emit('close-content-module-settings-modal', false);
@@ -66,8 +66,8 @@ Vue.component('setcardminilist-modal-component', {
         },
 
         initializeData() {
-            this.setCardMiniList = Utils.ConvertEncodedHtmlToJson(this.newMarkdown);
-            this.sets = this.setCardMiniList.SetListIds.split(',');
+            this.setCardMiniListSettings = Utils.ConvertEncodedHtmlToJson(this.newMarkdown);
+            this.sets = this.setCardMiniListSettings.SetListIds.split(',');
         },
 
         hideSetInput() {
@@ -75,7 +75,7 @@ Vue.component('setcardminilist-modal-component', {
             this.showSetInput = false;
         },
     
-        addCard(val) {
+        addSet(val) {
             this.sets.push(val);
             this.newSetId = '';
         },
@@ -84,12 +84,10 @@ Vue.component('setcardminilist-modal-component', {
         },
 
         applyNewMarkdown() {
-            const setIdParts = $("#SetCardMiniListDialogData").map((idx, elem) => $(elem).attr("setId")).get();
+            const setIdParts = $(".setCardMiniListDialogData").map((idx, elem) => $(elem).attr("setId")).get();
             if (setIdParts.length >= 1)
-                this.cardsSettings.SetListIds = setIdParts.join(',');
-            this.cardsSettings.Title = this.title;
-            this.cardsSettings.CardOrientation = this.selectedCardOrientation;
-            this.newMarkdown = Utils.ConvertJsonToMarkdown(this.cardsSettings);
+                this.setCardMiniListSettings.SetListIds = setIdParts.join(',');
+            this.newMarkdown = Utils.ConvertJsonToMarkdown(this.setCardMiniListSettings);
             Utils.UpdateMarkdown(this.newMarkdown, this.parentId);
             $('#setcardminilistSettingsDialog').modal('hide');
         },

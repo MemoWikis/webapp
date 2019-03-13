@@ -7,7 +7,7 @@
                     <h4 class="modalHeader">SetCardMiniList bearbeiten</h4>
 
                     <div class="setCards" v-sortable="cardOptions">
-                        <div id="SetCardMiniListDialogData" class="setCards smallCard grid" v-for="(id, index) in sets" :setId="id" :key="index">
+                        <div class="setCards smallCard grid setCardMiniListDialogData" v-for="(id, index) in sets" :setId="id" :key="index">
                             <div class="setCards card">
                                 <div>Set: {{id}}</div>
                                 <a class="clickable" @click.prevent="removeSet(index)"><i class="fa fa-trash"></i>Set entfernen</a>

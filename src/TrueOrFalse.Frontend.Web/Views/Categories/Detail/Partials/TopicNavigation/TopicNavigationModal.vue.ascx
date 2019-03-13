@@ -60,7 +60,7 @@
                     
                     <div v-if="showTopicList">
                         <div class="topicCards" v-sortable="topicOptions">
-                            <div id="TopicNavigationDialogData" class="topicCards smallCard grid" v-for="(id, index) in topics" :topicId="id" :key="index">
+                            <div class="topicCards smallCard grid topicNavigationDialogData" v-for="(id, index) in topics" :topicId="id" :key="index">
                                 <div class="topicCards card">
                                     <div>Thema: {{id}}</div>
                                      <a class="clickable" @click.prevent="removeTopic(index)"><i class="fa fa-trash"></i> Thema entfernen</a>
