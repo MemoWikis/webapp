@@ -1323,8 +1323,8 @@ p:empty {
   width: 166px;
   height: 344px;
 }
-.contentModuleSettings .setCards.grid.topicNavigationCard,
-.contentModuleSettings .topicCards.grid.topicNavigationCard {
+.contentModuleSettings .setCards.grid.smallCard,
+.contentModuleSettings .topicCards.grid.smallCard {
   height: 91px;
 }
 .contentModuleSettings .setCards.grid.placeholder,

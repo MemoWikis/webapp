@@ -1,7 +1,5 @@
-﻿class CardsSettings {
+﻿class SetCardMiniList {
     TemplateName: string = "";
-    Title: string = "";
-    CardOrientation: string = "";
     SetListIds: string = "";
 }
 
@@ -13,13 +11,10 @@ Vue.component('cards-modal-component', {
 
     data() {
         return {
-            selectedCardOrientation: 'Landscape',
-            title: '',
             newMarkdown: '',
             sets: [],
             newSetId: 0,
             parentId: '',
-            vertical: false,
             settingsHasChanged: false,
             showSetInput: false,
             cardOptions: {
@@ -34,16 +29,10 @@ Vue.component('cards-modal-component', {
 
     created() {
         var self = this;
-        self.cardsSettings = new CardsSettings();
+        self.setCardMiniList = new SetCardMiniList();
     },
 
     watch: {
-        selectedCardOrientation: function(val) {
-            if (val == 'Portrait')
-                this.vertical = true;
-            else this.vertical = false;
-        },
-
         newMarkdown: function() {
             this.settingsHasChanged = true;
         },
@@ -72,21 +61,13 @@ Vue.component('cards-modal-component', {
             this.parentId = '';
             this.sets = [];
             this.settingsHasChanged = false;
-            this.title = '';
-            this.selectedCardOrientation = 'Landscape';
             this.newSetId = '';
             this.showSetInput = false;
         },
 
         initializeData() {
-            this.cardsSettings = Utils.ConvertEncodedHtmlToJson(this.newMarkdown);
-
-            if (this.cardsSettings.Title)
-                this.title = this.cardsSettings.Title;
-            if (this.cardsSettings.CardOrientation)
-                this.selectedCardOrientation = this.cardsSettings.CardOrientation;
-            if (this.cardsSettings.SetListIds.length)
-                this.sets = this.cardsSettings.SetListIds.split(',');
+            this.setCardMiniList = Utils.ConvertEncodedHtmlToJson(this.newMarkdown);
+            this.sets = this.setCardMiniList.SetListIds.split(',');
         },
 
         hideSetInput() {
@@ -103,7 +84,7 @@ Vue.component('cards-modal-component', {
         },
 
         applyNewMarkdown() {
-            const setIdParts = $("#CardsDialogData").map((idx, elem) => $(elem).attr("setId")).get();
+            const setIdParts = $("#SetCardMiniListDialogData").map((idx, elem) => $(elem).attr("setId")).get();
             if (setIdParts.length >= 1)
                 this.cardsSettings.SetListIds = setIdParts.join(',');
             this.cardsSettings.Title = this.title;

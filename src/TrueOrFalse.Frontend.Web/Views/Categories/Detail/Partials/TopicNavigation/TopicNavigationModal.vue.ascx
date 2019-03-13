@@ -60,13 +60,13 @@
                     
                     <div v-if="showTopicList">
                         <div class="topicCards" v-sortable="topicOptions">
-                            <div class="topicCards topicNavigationCard grid" v-for="(id, index) in topics" :topicId="id" :key="index">
+                            <div class="topicCards smallCard grid" v-for="(id, index) in topics" :topicId="id" :key="index">
                                 <div class="topicCards card">
                                     <div>Thema: {{id}}</div>
                                      <a class="clickable" @click.prevent="removeTopic(index)"><i class="fa fa-trash"></i> Thema entfernen</a>
                                 </div>
                             </div>
-                            <div id="addCardPlaceholder" class="topicCards topicNavigationCard grid placeholder">
+                            <div id="addCardPlaceholder" class="topicCards smallCard grid placeholder">
                                 <div class="addCard" v-if="showTopicInput">
                                     <div class="form-group">
                                         <input class="form-control" v-model="newTopicId" placeholder="" type="number">
