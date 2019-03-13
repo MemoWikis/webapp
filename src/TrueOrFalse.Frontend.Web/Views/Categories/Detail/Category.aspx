@@ -62,7 +62,6 @@
                 </div>                
             </section>
             <%: Html.Partial("~/Views/Categories/Detail/Partials/ModalComponentCollection.ascx") %>
-
         </div>           
     </div>
 

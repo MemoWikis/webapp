@@ -24,4 +24,12 @@
     <%: Html.Partial("~/Views/Categories/Detail/Partials/VideoWidget/VideoWidgetModal.vue.ascx") %>
 </script>
 
+<script type="text/x-template" id="medialist-settings-dialog-template">
+    <%: Html.Partial("~/Views/Categories/Detail/Partials/MediaList/MediaListModal.vue.ascx") %>
+</script>
+
+<script type="text/x-template" id="setcardminilist-settings-dialog-template">
+    <%: Html.Partial("~/Views/Categories/Detail/Partials/SetCardMiniList/SetCardMiniListModal.vue.ascx") %>
+</script>
+
 

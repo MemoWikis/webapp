@@ -3,9 +3,9 @@
     SetListIds: string = "";
 }
 
-Vue.component('cards-modal-component', {
+Vue.component('setcardminilist-modal-component', {
 
-    template: '#cards-settings-dialog-template',
+    template: '#setcardminilist-settings-dialog-template',
 
     cardsSettings: CardsSettings,
 
@@ -42,8 +42,8 @@ Vue.component('cards-modal-component', {
         $('#cardsSettingsDialog').on('show.bs.modal',
             event => {
                 
-                this.newMarkdown = $('#cardsSettingsDialog').data('parent').markdown;
-                this.parentId = $('#cardsSettingsDialog').data('parent').id;
+                this.newMarkdown = $('#setcardminilistSettingsDialog').data('parent').markdown;
+                this.parentId = $('#setcardminilistSettingsDialog').data('parent').id;
                 this.initializeData();
             });
 
@@ -91,11 +91,11 @@ Vue.component('cards-modal-component', {
             this.cardsSettings.CardOrientation = this.selectedCardOrientation;
             this.newMarkdown = Utils.ConvertJsonToMarkdown(this.cardsSettings);
             Utils.UpdateMarkdown(this.newMarkdown, this.parentId);
-            $('#cardsSettingsDialog').modal('hide');
+            $('#setcardminilistSettingsDialog').modal('hide');
         },
 
         closeModal() {
-            $('#cardsSettingsDialog').modal('hide');
+            $('#setcardminilistSettingsDialog').modal('hide');
         },
 
         onMove(event) {

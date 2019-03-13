@@ -20105,6 +20105,9 @@
     <Content Include="Views\Categories\Detail\JsEditMode\ContentModuleSettings\InlineEditComponent.js">
       <DependentUpon>InlineEditComponent.ts</DependentUpon>
     </Content>
+    <Content Include="Views\Categories\Detail\JsEditMode\ContentModuleSettings\SetCardMiniListDialogComponent.js">
+      <DependentUpon>SetCardMiniListDialogComponent.ts</DependentUpon>
+    </Content>
     <Content Include="Views\Categories\Detail\JsEditMode\ContentModuleSettings\SingleCategoryFullWidthDialogComponent.js">
       <DependentUpon>SingleCategoryFullWidthDialogComponent.ts</DependentUpon>
     </Content>
@@ -20440,6 +20443,9 @@
     </Content>
     <Content Include="Views\Categories\Detail\JsEditMode\ContentModuleSettings\VideoWidgetDialogComponent.js.map">
       <DependentUpon>VideoWidgetDialogComponent.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Categories\Detail\JsEditMode\ContentModuleSettings\SetCardMiniListDialogComponent.js.map">
+      <DependentUpon>SetCardMiniListDialogComponent.ts</DependentUpon>
     </Content>
     <None Include="Views\Maintenance\ContentStats.less" />
     <Compile Include="Views\Maintenance\ContentStatsModel.cs" />
