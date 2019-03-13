@@ -84,15 +84,10 @@ class StickyHeaderClass {
     }
 
     private positioningMenus(menu: JQuery, isScrollGreather: boolean) {
-        if (!isScrollGreather && menu.selector !== "#userDropdown")
+        if (!isScrollGreather && menu.selector !== "#userDropdown") 
             menu.css("top", $("#MasterHeader").outerHeight());
-        else if (!isScrollGreather && top.location.pathname !== "/" && menu.selector === "#userDropdown") {
-            if (!IsLoggedIn.Yes)
-                return;
-            menu.css("top",
-                ($("#MasterHeader").outerHeight()) -
-                parseInt($(".col-LoginAndHelp").css("margin-top")) -
-                parseInt($(".HeaderMainRow").css("margin-top"))) + "px";
+        else if (!isScrollGreather && menu.selector === "#userDropdown") {
+            this.computePositionUserDropDownNoScroll($("#userDropdown"));
         }
         else 
             menu.css("top", $("#Breadcrumb").outerHeight());
@@ -106,6 +101,30 @@ class StickyHeaderClass {
             addClassToElement.addClass(toggleClass);
         }
     }
+
+    private computePositionUserDropDownNoScroll(menu: JQuery) {
+
+        if (window.innerWidth > 768) {
+            menu.css("top",
+                $("#MasterHeader").outerHeight() -
+                parseInt($(".col-LoginAndHelp").css("margin-top")) -
+                parseInt($(".HeaderMainRow").css("margin-top"))) +
+                "px";
+        }
+        else if (window.innerWidth < 768) {
+            menu.css("top",
+                    $("#MasterHeader").outerHeight() -
+                    parseInt($(".HeaderMainRow").css("margin-top")) -
+                    parseInt($("#loginAndHelp").css("margin-top"))) +
+                "px";
+        }
+        //else if (window.screenX <= 958)
+        //    $("#MasterHeader").outerHeight() -
+        //        parseInt($(".col-LoginAndHelp").css("margin-top")) -
+        //        parseInt($("#loginAndHelp").css("margin-top"));
+
+    }
+
 
 }
 
