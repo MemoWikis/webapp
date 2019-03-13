@@ -20,15 +20,23 @@ class StickyHeaderClass {
         });
 
         $(window).resize(() => {
-            this.StickyHeader();    });
+            this.StickyHeader();
+            if (window.scrollY < this._masterHeaderOuterHeight) {
+                this.positioningMenus($("#RightMainMenu"), false);
+                this.positioningMenus($("#userDropdown"), false);
+            } else {
+                this.positioningMenus($("#RightMainMenu"), true);
+                this.positioningMenus($("#userDropdown"), false);
+            }
+        });
+
     }
 
     public StickyHeader() {
 
         if ($(window).scrollTop() >= this._masterHeaderOuterHeight) {
-            if (IsLoggedIn.Yes)
-                this.positioningMenus($("#userDropdown"), true);
 
+            this.positioningMenus($("#userDropdown"), true);
             this.positioningMenus($("#RightMainMenu"), true);
 
             if (this._stickyHeaderisFixed) {
@@ -79,10 +87,12 @@ class StickyHeaderClass {
         if (!isScrollGreather && menu.selector !== "#userDropdown")
             menu.css("top", $("#MasterHeader").outerHeight());
         else if (!isScrollGreather && top.location.pathname !== "/" && menu.selector === "#userDropdown") {
+            if (!IsLoggedIn.Yes)
+                return;
             menu.css("top",
-               ($("#MasterHeader").outerHeight()) -
-                        parseInt($(".col-LoginAndHelp").css("margin-top")) -
-                        parseInt($(".HeaderMainRow").css("margin-top")))+ "px";
+                ($("#MasterHeader").outerHeight()) -
+                parseInt($(".col-LoginAndHelp").css("margin-top")) -
+                parseInt($(".HeaderMainRow").css("margin-top"))) + "px";
         }
         else 
             menu.css("top", $("#Breadcrumb").outerHeight());
