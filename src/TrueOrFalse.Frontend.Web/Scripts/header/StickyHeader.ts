@@ -111,18 +111,16 @@ class StickyHeaderClass {
                 parseInt($(".HeaderMainRow").css("margin-top"))) +
                 "px";
         }
-        else if (window.innerWidth < 768) {
+        else if (window.innerWidth < 768 && window.innerWidth > 580 ) {
             menu.css("top",
-                    $("#MasterHeader").outerHeight() -
-                    parseInt($(".HeaderMainRow").css("margin-top")) -
-                    parseInt($("#loginAndHelp").css("margin-top"))) +
+                $("#MasterHeader").outerHeight() -
+                parseInt($(".HeaderMainRow").css("margin-top")) -
+                parseInt($("#loginAndHelp").css("margin-top"))) +
                 "px";
+        } else if (window.innerWidth < 581) {
+           
+            menu.css("top", $(".col-LoginAndHelp").outerHeight() + parseInt($(".col-LoginAndHelp").css("margin-bottom")) - 1    + "px");
         }
-        //else if (window.screenX <= 958)
-        //    $("#MasterHeader").outerHeight() -
-        //        parseInt($(".col-LoginAndHelp").css("margin-top")) -
-        //        parseInt($("#loginAndHelp").css("margin-top"));
-
     }
 
 
@@ -131,5 +129,4 @@ class StickyHeaderClass {
 $(() => {
     var s = new StickyHeaderClass();
     s.StickyHeader();
-
 });
