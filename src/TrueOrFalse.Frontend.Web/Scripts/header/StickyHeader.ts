@@ -4,7 +4,7 @@ class StickyHeaderClass {
     private _rightMainMenu;
     private _header;
     private _masterHeaderOuterHeight = $("#MasterHeader").outerHeight();
-    private _stickyHeaderisFixed = false;
+    private _stickyHeaderisFixed = true;
     private _breadCrumbDistanceRight: string;
 
     constructor() {
@@ -12,8 +12,10 @@ class StickyHeaderClass {
         this._rightMainMenu = $("#RightMainMenu").get(0);
         this._header = $("#MasterHeader").get(0);
         this._rightMainMenu.style.position = "absolute";
+        this._breadcrumb.style.height = "55px";
+
+        this.firstLoad();
         this.StickyHeader();
-        this.positioningMenus($("#userDropdown"), false);
 
         $(window).scroll(() => {
             this.StickyHeader();
@@ -26,22 +28,21 @@ class StickyHeaderClass {
                 this.positioningMenus($("#userDropdown"), false);
             } else {
                 this.positioningMenus($("#RightMainMenu"), true);
-                this.positioningMenus($("#userDropdown"), false);
+                this.positioningMenus($("#BreadcrumbUserDropdown"), true);
             }
         });
-
     }
 
     public StickyHeader() {
 
         if ($(window).scrollTop() >= this._masterHeaderOuterHeight) {
 
-            this.positioningMenus($("#userDropdown"), true);
+            if (this._stickyHeaderisFixed) 
+                return;
+
+            this.positioningMenus($("#BreadcrumbUserDropdown"), true);
             this.positioningMenus($("#RightMainMenu"), true);
 
-            if (this._stickyHeaderisFixed) {
-                return;
-            }
             this._breadcrumb.style.top = "0";
             this._breadcrumb.classList.add("ShowBreadcrumb");
             this._breadcrumb.style.position = "fixed";
@@ -56,14 +57,13 @@ class StickyHeaderClass {
 
             this._rightMainMenu.style.position = "fixed";
 
-        } else {
+        } else if ($(window).scrollTop() < this._masterHeaderOuterHeight) {
 
-            this.positioningMenus($("#RightMainMenu"), false);
-
-            if (!this._stickyHeaderisFixed) {
+            if (!this._stickyHeaderisFixed ) 
                 return;
-            }
-
+        
+            this.positioningMenus($("#RightMainMenu"), false);
+            this.positioningMenus($("#userDropdown"), false);
             this._stickyHeaderisFixed = false;
             this._breadcrumb.style.top = ($("#MasterHeader").outerHeight() + this._header.scrollTop) + "px";
             this._breadcrumb.style.position = "absolute";
@@ -81,7 +81,54 @@ class StickyHeaderClass {
         }
 
         this._breadcrumb.style.height = "55px";
+
     }
+
+    private firstLoad() {
+
+
+        if ($(window).scrollTop() >= this._masterHeaderOuterHeight) {
+
+            this.positioningMenus($("#BreadcrumbUserDropdown"), true);
+            this.positioningMenus($("#RightMainMenu"), true);
+
+            this._breadcrumb.style.top = "0";
+            this._breadcrumb.classList.add("ShowBreadcrumb");
+            this._breadcrumb.style.position = "fixed";
+
+            this._stickyHeaderisFixed = true;
+
+            $('#BreadcrumbLogoSmall').show();
+            $('#StickyHeaderContainer').css('display', 'flex');
+            $("#BreadcrumbUserDropdown").css("margin-top", "0");
+
+
+            this.toggleClass($("#HeaderUserDropdown"), $("#BreadcrumbUserDropdownImage"), "open");
+
+            this._rightMainMenu.style.position = "fixed";
+
+        } else {
+
+            this.positioningMenus($("#RightMainMenu"), false);
+            this.positioningMenus($("#userDropdown"), false);
+            this._stickyHeaderisFixed = false;
+            this._breadcrumb.style.top = ($("#MasterHeader").outerHeight() + this._header.scrollTop) + "px";
+            this._breadcrumb.style.position = "absolute";
+            this._breadcrumb.classList.remove("ShowBreadcrumb");
+            this.toggleClass($("#BreadcrumbUserDropdownImage"), $("#HeaderUserDropdown"), "open");
+            $("#BreadcrumbUserDropdown").css("margin-top", "0");
+
+
+            $('#BreadcrumbLogoSmall').hide();
+            $('#StickyHeaderContainer').hide();
+            this._rightMainMenu.style.position = "absolute";
+
+            if (top.location.pathname === "/") {
+                this._breadcrumb.style.display = "none";
+            }
+        }
+    }
+
 
     private positioningMenus(menu: JQuery, isScrollGreather: boolean) {
         if (!isScrollGreather && menu.selector !== "#userDropdown") 

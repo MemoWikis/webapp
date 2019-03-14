@@ -14,8 +14,11 @@
 
 class MenuMobile {
 
-    private _isOpen: boolean = false;
-    private _masterHeaderContainermarginRight: string; 
+    private _isOpen: boolean = false;   
+    private _isOpenUser: boolean = false;
+
+    private _masterHeaderContainermarginRight: string;
+    private _breadcrumbUserDropdownMarginRight: number; 
 
 
 
@@ -24,7 +27,10 @@ class MenuMobile {
 
         $(window).resize(() => {
             this._masterHeaderContainermarginRight = (parseInt($("#MasterHeaderContainer").css("margin-right"), 10) + parseInt($("#MasterHeaderContainer").css("padding-right"), 10) + 5).toString();
+            this._breadcrumbUserDropdownMarginRight = parseInt($("#BreadCrumbContainer").css("margin-right"), 10) + $("#StickyMenuButton").outerHeight() + parseInt($("#BreadcrumbUserDropdownImage").css("margin-right"));
             this.calculateMarginRightToElement(this._masterHeaderContainermarginRight, $("#RightMainMenu"));
+            this.calculateMarginRightToElement(this._breadcrumbUserDropdownMarginRight.toString(), $("#BreadcrumbUserDropdown"));
+            $("#BreadcrumbUserDropdown").css("margin-right", this._breadcrumbUserDropdownMarginRight + "px");
         });
 
 
@@ -49,6 +55,12 @@ class MenuMobile {
                 this.calculateMarginRightToElement(this._masterHeaderContainermarginRight, $("#RightMainMenu"));
             }
         });
+
+        $("#BreadcrumbUserDropdownImage").on("click",
+            () => {
+                this._breadcrumbUserDropdownMarginRight = parseInt($("#BreadCrumbContainer").css("margin-right"), 10) + $("#StickyMenuButton").outerHeight() + parseInt($("#BreadcrumbUserDropdownImage").css("margin-right")); // doesnt work in  constructor
+                this.calculateMarginRightToElement(this._breadcrumbUserDropdownMarginRight.toString(), $("#BreadcrumbUserDropdown") );
+            }); 
 
         //close on click outside the menu
         $(document).mouseup((e) => {
@@ -76,25 +88,25 @@ class MenuMobile {
         });
     }
 
-    openMenu() {
-
+    openMenu() {      
         $("#mainMenu, #RightMainMenu").show();
-        this._isOpen = true;  
+            this._isOpen = true;
     }
 
     closeMenu() {
-
         $("#mainMenu, #RightMainMenu").hide();
         this._isOpen = false;
-
     }
-
+    private test(element: boolean) {
+        return element;
+    }
     private calculateMarginRightToElement(marginRight: string, elementThatGetsTheMargin:JQuery ) {
         elementThatGetsTheMargin.css("margin-right", marginRight + "px" );
     }
 }
 
-$(function() {
+$(() => {   
     new MenuMobile();
     new Menu();
+    
 });
