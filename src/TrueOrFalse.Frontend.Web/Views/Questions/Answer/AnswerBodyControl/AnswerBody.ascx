@@ -257,7 +257,8 @@
     </div>
 </div>
 
-<div class="FooterQuestionDetails row" <%if(Model.IsInWidget){%> style="padding-bottom:0"<%} %> >
+<div class="FooterQuestionDetails row" style=" <%if(Model.IsInWidget){%> padding-bottom: 0; <%}
+                                         else{ %> padding-top: 80px;<% } %> " >
     <div id="LicenseQuestion" class=" col-md-2">
         <% if (Model.LicenseQuestion.IsDefault()) { %>
             <a class="TextLinkWithIcon" rel="license" href="http://creativecommons.org/licenses/by/4.0/" data-toggle="popover" data-trigger="focus" title="Infos zur Lizenz <%= LicenseQuestionRepo.GetDefaultLicense().NameShort %>" data-placement="auto top"
