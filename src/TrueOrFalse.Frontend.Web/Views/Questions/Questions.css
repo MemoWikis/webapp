@@ -115,11 +115,6 @@ div.question-row{background-color:silver;}*/
 .sparklineTotalsUser {
   font-size: 11px;
 }
-/*.QuestionAuthor {
-    .media-sm-up({
-        padding-top: 16px;
-    })
-}*/
 @media DISABLE (min-width: 480px) and (max-width: 767px) {
   .StatsGroup {
     float: left;
