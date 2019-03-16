@@ -176,4 +176,7 @@ class StickyHeaderClass {
 $(() => {
     var s = new StickyHeaderClass();
     s.StickyHeader();
+    $(() => {
+    new BreadrumbMobile();
+});
 });

@@ -20,7 +20,7 @@
         <div style="height: auto;" id="BreadcrumbHome" class="show-tooltip" data-placement="bottom"  title="Zur Startseite">
          <%if(!Model.TopNavMenu.IsWelcomePage){ %> 
             <a href="/" class="category-icon">
-                <span style="margin-left: 10px">Home</span>
+                <span class="fas fa-home"style="margin-left: 10px"></span>
             </a>
             <span><i class="fa fa-chevron-right"></i></span>
          <%}%>

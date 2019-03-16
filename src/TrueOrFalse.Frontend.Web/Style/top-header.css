@@ -1,29 +1,18 @@
-@media (min-width: 768px) {
-}
-@media (min-width: 768px) {
-}
-@media (max-width: 767px) {
-}
-@media (min-width: 768px) {
-}
-@media (min-width: 768px) {
-}
-@media (min-width: 768px) {
-}
-@media (max-width: 767px) {
-}
-@media (max-width: 767px) {
-}
-@media (max-width: 649px) {
-}
-@media (min-width: 650px) {
-}
-/*  [Local variables:]
+﻿@media (min-width: 768px) {
+}@media (min-width: 768px) {
+}@media (max-width: 767px) {
+}@media (min-width: 768px) {
+}@media (min-width: 768px) {
+}@media (min-width: 768px) {
+}@media (max-width: 767px) {
+}@media (max-width: 767px) {
+}@media (max-width: 649px) {
+}@media (min-width: 650px) {
+}/*  [Local variables:]
 ----------------------------------------------------------*/
 /* MASTER HEADER  
 ----------------------------------------------------------*/
 #MasterHeader {
-  position: -webkit-sticky;
   position: sticky;
   margin: 0;
   width: 100%;
@@ -293,10 +282,6 @@
 #Breadcrumb #BreadCrumbContainer {
   display: flex;
 }
-#Breadcrumb #BreadCrumbContainer #BreadCrumbTrail {
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
 #Breadcrumb div {
   font-family: 'Open Sans';
 }
@@ -306,9 +291,9 @@
 #Breadcrumb i.fa-chevron-right {
   font-size: 11.2px;
   width: auto;
-  margin-left: 13px;
+  margin-left: 10px;
   color: #707070;
-  margin-right: 10px;
+  margin-right: 0;
   background-color: white;
   border-radius: 0px;
   padding: 0px;
@@ -476,6 +461,9 @@
   margin: 0px;
 }
 /*Breadcrumb*/
+#Breadcrumb {
+  z-index: 1;
+}
 #Breadcrumb .messages {
   padding-right: 5px;
 }

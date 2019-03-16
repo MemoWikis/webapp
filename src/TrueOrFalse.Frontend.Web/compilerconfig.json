@@ -334,5 +334,9 @@
   {
     "outputFile": "Style/sidebar.css",
     "inputFile": "Style/sidebar.less"
+  },
+  {
+    "outputFile": "Style/top-header.css",
+    "inputFile": "Style/top-header.less"
   }
 ]
