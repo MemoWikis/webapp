@@ -64,7 +64,7 @@
            <a class="TextLinkWithIcon dropdown-toggle" id="dLabelBreadCrumb" data-toggle="dropdown" href="#">
             <img class="userImage" style="margin-top:21px; border:none; text-align:center;" src="<%= userImage%>" />
            </a>   
-            <ul id="BreadcrumbUserDropdown" class="dropdown-menu pull-right" role="menu" aria-labelledby="dLabel" style="right:0; position: absolute;">
+            <ul id="BreadcrumbUserDropdown" class="dropdown-menu pull-right" role="menu" aria-labelledby="dLabel" style="right:0; position: absolute; padding-right: 20px;">
                 <li>
                     <a style="white-space: unset; padding: 0px;" href="<%= Links.Knowledge()%>">
                             <div id="activity-popover-title">Deine Lernpunkte</div>
