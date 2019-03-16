@@ -14,6 +14,9 @@
 .SetAndCategory {
   margin-right: 10px;
 }
+.correctness-prohability {
+  margin-left: 10px;
+}
 .question-details {
   color: #555555;
   font-size: 12px;
@@ -44,11 +47,14 @@
   }
 }
 .question-details .seen {
-  padding-right: 15px;
-  margin-left: auto;
+  padding-right: 10px;
+  margin-left: 25px;
 }
 .question-details .learning-status {
-  margin-right: auto;
+  margin-right: 25px;
+}
+.question-details .sparklineTotals {
+  margin-right: 10px;
 }
 .text-sponsor {
   text-align: center;

@@ -35,35 +35,6 @@
                     <li><a href="#moreWidgets" style="margin-top: 25px;"><i class="fa fa-caret-right">&nbsp;</i>Wissensmanagement und personalisiertes Lernen</a></li>
                     <li><a href="#contact"><i class="fa fa-caret-right">&nbsp;</i>Kontakt</a></li>
                 </ul>
-
-<%--                <div class="row">
-                    <div class="col-sm-4">
-                        <ul class="nav nav-pills nav-stacked">
-                            <li><a href="#widgetsQuestion" style="font-size: 22px; margin-left: -10px;">Interaktive Fragen</a></li>
-                            <li><a href="#singleChoice">Single Choice</a></li>
-                            <li><a href="#multipleChoice">Multiple Choice</a></li>
-                            <li><a href="#dragAndDrop">Zuordnen (Drag'n'Drop)</a></li>
-                            <li><a href="#flip">Umdrehen (Flip, Karteikarte)</a></li>
-                            <li><a href="#text" style="margin-bottom: 20px;">Text, Zahl, Datum</a></li>
-                        </ul>
-                    </div>
-                    <div class="col-sm-4">
-                        <ul class="nav nav-pills nav-stacked">
-                            <li><a href="#widgetsQuiz" style="font-size: 22px; margin-left: -10px;">Quiz</a></li>
-                            <li><a href="#setDefault">Standard-Lernset (Quiz)</a></li>
-                            <li><a href="#setVideo" style="margin-bottom: 20px;">Video-Lernset <i class="fa fa-youtube-play" aria-hidden="true"></i></a></li>
-                        </ul>
-                    </div>
-                    <div class="col-sm-4">
-                        <ul class="nav nav-pills nav-stacked">
-                            <li><a href="#moreInfos" style="font-size: 22px; margin-left: -10px;">Weitere Informationen</a></li>
-                            <li><a href="#features">Eigenschaften & Konfiguration</a></li>
-                            <li><a href="#moreWidgets">Widgets auf Anfrage</a></li>
-                            <li><a href="#contact" style="font-size: 22px; margin-left: -10px; margin-top: 20px;">Kontakt</a></li>
-                        </ul>
-                    </div>
-                </div>--%>
-                
             </div>
         </div>
     </div>
