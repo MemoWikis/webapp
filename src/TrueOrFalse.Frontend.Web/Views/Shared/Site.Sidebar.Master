@@ -27,7 +27,7 @@
                         <% Html.RenderPartial("SidebarCards", Model.SidebarModel); %>                                        
                     </section>
                 <%} %>
-                <section id="MasterMainColumn" <%if(Model.SidebarModel.Show()){ %> class="col-md-9" <% } else { %> class="col-md-12" <% } %> >
+                <section id="MasterMainColumn" <%if(Model.SidebarModel.Show()){ %> class="col-lg-9" <% } else { %> class="col-md-12" <% } %> >
                     <div id="IsInGameMessage">
                         <% if(Model.IsInGame){ %>
                             <% Html.RenderPartial("MessageGame", Model); %>
