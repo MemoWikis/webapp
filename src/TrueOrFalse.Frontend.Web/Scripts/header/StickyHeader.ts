@@ -7,6 +7,7 @@ class StickyHeaderClass {
     private _stickyHeaderisFixed = true;
     private _breadCrumbDistanceRight: string;
 
+
     constructor() {
         this._breadcrumb = $('#Breadcrumb').get(0);
         this._rightMainMenu = $("#RightMainMenu").get(0);
@@ -14,8 +15,8 @@ class StickyHeaderClass {
         this._rightMainMenu.style.position = "absolute";
         this._breadcrumb.style.height = "55px";
 
+       // this.StickyHeader();
         this.firstLoad();
-        this.StickyHeader();
 
         $(window).scroll(() => {
             this.StickyHeader();
@@ -85,12 +86,14 @@ class StickyHeaderClass {
     }
 
     private firstLoad() {
+    public firstLoad() {
 
 
         if ($(window).scrollTop() >= this._masterHeaderOuterHeight) {
 
             this.positioningMenus($("#BreadcrumbUserDropdown"), true);
             this.positioningMenus($("#RightMainMenu"), true);
+            
 
             this._breadcrumb.style.top = "0";
             this._breadcrumb.classList.add("ShowBreadcrumb");
@@ -106,11 +109,14 @@ class StickyHeaderClass {
             this.toggleClass($("#HeaderUserDropdown"), $("#BreadcrumbUserDropdownImage"), "open");
 
             this._rightMainMenu.style.position = "fixed";
+            
 
         } else {
 
             this.positioningMenus($("#RightMainMenu"), false);
             this.positioningMenus($("#userDropdown"), false);
+           
+
             this._stickyHeaderisFixed = false;
             this._breadcrumb.style.top = ($("#MasterHeader").outerHeight() + this._header.scrollTop) + "px";
             this._breadcrumb.style.position = "absolute";
@@ -169,14 +175,55 @@ class StickyHeaderClass {
             menu.css("top", $(".col-LoginAndHelp").outerHeight() + parseInt($(".col-LoginAndHelp").css("margin-bottom")) - 1    + "px");
         }
     }
+}
 
 
+class ComputeBradCrumb {
+    private _masterMainWrapperInnerWidth: number;
+    private _breadCrumbTrailWidth: number;
+    private _breadCrumbContainerCount: number;
+
+
+    constructor() {
+        this._masterMainWrapperInnerWidth = parseInt($("#MasterMainContent").css("width")) - 230;
+        debugger;
+        this._breadCrumbTrailWidth = parseInt($("#BreadCrumbTrail").css("width"));
+        this._breadCrumbContainerCount = $('#BreadCrumbTrail').children().length - 3;
+    }
+
+    public computeBreadcrumb(widthStickyHeaderContainer: number) {
+        var i = 1;
+        var j = 1;
+
+        if (this._breadCrumbTrailWidth > this._masterMainWrapperInnerWidth) {
+            $('#BreadCrumbTrail > div').eq(1).attr('title',
+                    "Zur Themenseite " + $(i + "BreadCrumb").text())
+                .tooltip('fixTitle');
+            $('#BreadCrumbTrail > div').eq(1).children("span").children("a").text("...");
+            this._masterMainWrapperInnerWidth = parseInt($("#MasterMainContent").css("width")) - widthStickyHeaderContainer;
+        }
+
+        while (this._breadCrumbTrailWidth > this._masterMainWrapperInnerWidth && i <= this._breadCrumbContainerCount) {
+            try {
+                $('#' + i + 'BreadCrumbContainer').attr('title',
+                        "Zur Themenseite " + $(i + "BreadCrumb").text())
+                    .tooltip('fixTitle');
+                document.getElementById(i + 'BreadCrumb').innerHTML = "...";
+                this._breadCrumbTrailWidth = parseInt($("#BreadCrumbTrail").css("width")) - widthStickyHeaderContainer;
+                i++;
+            } catch (e) {
+                console.log("incorrect counter Breadcrumb");
+                break;
+            }
+        }
+    }
 }
 
 $(() => {
     var s = new StickyHeaderClass();
     s.StickyHeader();
-    $(() => {
-    new BreadrumbMobile();
-});
+    var c = new ComputeBradCrumb();
+    c.computeBreadcrumb(230);
+
+
 });
