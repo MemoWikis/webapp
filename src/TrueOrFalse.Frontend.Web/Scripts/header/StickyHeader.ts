@@ -6,7 +6,7 @@ class StickyHeaderClass {
     private _masterHeaderOuterHeight = $("#MasterHeader").outerHeight();
     private _stickyHeaderisFixed = true;
     private _breadCrumbDistanceRight: string;
-
+    private _breadCrumbContainerCount: number;
 
     constructor() {
         this._breadcrumb = $('#Breadcrumb').get(0);
@@ -27,11 +27,15 @@ class StickyHeaderClass {
             if (window.scrollY < this._masterHeaderOuterHeight) {
                 this.positioningMenus($("#RightMainMenu"), false);
                 this.positioningMenus($("#userDropdown"), false);
+                this.computeBreadcrumb(0, true);
             } else {
                 this.positioningMenus($("#RightMainMenu"), true);
                 this.positioningMenus($("#BreadcrumbUserDropdown"), true);
+                this.computeBreadcrumb(230, true);
             }
-        });
+        });   
+        this._breadCrumbContainerCount = $('#BreadCrumbTrail').children().length - 2;
+        
     }
 
     public StickyHeader() {
@@ -90,7 +94,6 @@ class StickyHeaderClass {
 
             this.positioningMenus($("#BreadcrumbUserDropdown"), true);
             this.positioningMenus($("#RightMainMenu"), true);
-            
 
             this._breadcrumb.style.top = "0";
             this._breadcrumb.classList.add("ShowBreadcrumb");
@@ -106,7 +109,7 @@ class StickyHeaderClass {
             this.toggleClass($("#HeaderUserDropdown"), $("#BreadcrumbUserDropdownImage"), "open");
 
             this._rightMainMenu.style.position = "fixed";
-            
+            this.computeBreadcrumb(230, true);
 
         } else {
 
@@ -129,6 +132,7 @@ class StickyHeaderClass {
             if (top.location.pathname === "/") {
                 this._breadcrumb.style.display = "none";
             }
+            this.computeBreadcrumb(230, true);
         }
     }
 
@@ -172,55 +176,49 @@ class StickyHeaderClass {
             menu.css("top", $(".col-LoginAndHelp").outerHeight() + parseInt($(".col-LoginAndHelp").css("margin-bottom")) - 1    + "px");
         }
     }
-}
 
-
-class ComputeBradCrumb {
-    private _masterMainWrapperInnerWidth: number;
-    private _breadCrumbTrailWidth: number;
-    private _breadCrumbContainerCount: number;
-
-
-    constructor() {
-        this._masterMainWrapperInnerWidth = parseInt($("#MasterMainContent").css("width")) - 230;
-        debugger;
-        this._breadCrumbTrailWidth = parseInt($("#BreadCrumbTrail").css("width"));
-        this._breadCrumbContainerCount = $('#BreadCrumbTrail').children().length - 3;
-    }
-
-    public computeBreadcrumb(widthStickyHeaderContainer: number) {
+    public computeBreadcrumb(widthStickyHeaderContainer: number, isResize: boolean = false) {
         var i = 1;
-        var j = 1;
+        var breadCrumbTrailWidth = parseInt($("#BreadCrumbTrail").css("width")) + 230;
+        var masterMainWrapperInnerWidth = parseInt($("#MasterMainContent").css("width"));
 
-        if (this._breadCrumbTrailWidth > this._masterMainWrapperInnerWidth) {
-            $('#BreadCrumbTrail > div').eq(1).attr('title',
+        if (breadCrumbTrailWidth > masterMainWrapperInnerWidth) {
+            $('#BreadCrumbTrail > div').eq(0).attr('title',
                     "Zur Themenseite " + $(i + "BreadCrumb").text())
                 .tooltip('fixTitle');
-            $('#BreadCrumbTrail > div').eq(1).children("span").children("a").text("...");
-            this._masterMainWrapperInnerWidth = parseInt($("#MasterMainContent").css("width")) - widthStickyHeaderContainer;
+            $('#BreadCrumbTrail > div').eq(0).children("span").children("a").text("...");
+            breadCrumbTrailWidth = parseInt($("#BreadCrumbTrail").css("width")) + widthStickyHeaderContainer;
+
+            if(isResize)
+                masterMainWrapperInnerWidth = parseInt($("#MasterMainContent").css("width"));
+
         }
 
-        while (this._breadCrumbTrailWidth > this._masterMainWrapperInnerWidth && i <= this._breadCrumbContainerCount) {
+        while (breadCrumbTrailWidth > masterMainWrapperInnerWidth && i <= this._breadCrumbContainerCount) {
             try {
                 $('#' + i + 'BreadCrumbContainer').attr('title',
                         "Zur Themenseite " + $(i + "BreadCrumb").text())
                     .tooltip('fixTitle');
                 document.getElementById(i + 'BreadCrumb').innerHTML = "...";
-                this._breadCrumbTrailWidth = parseInt($("#BreadCrumbTrail").css("width")) - widthStickyHeaderContainer;
+
+                breadCrumbTrailWidth = parseInt($("#BreadCrumbTrail").css("width")) + widthStickyHeaderContainer;
                 i++;
             } catch (e) {
                 console.log("incorrect counter Breadcrumb");
                 break;
             }
+            if (isResize) {
+                masterMainWrapperInnerWidth =
+                    parseInt($("#MasterMainContent").css("width"));
+                console.log(masterMainWrapperInnerWidth);
+            }
         }
     }
 }
 
+
+
 $(() => {
     var s = new StickyHeaderClass();
     s.StickyHeader();
-    var c = new ComputeBradCrumb();
-    c.computeBreadcrumb(230);
-
-
 });
