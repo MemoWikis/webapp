@@ -86,9 +86,6 @@ class StickyHeaderClass {
     }
 
     private firstLoad() {
-    public firstLoad() {
-
-
         if ($(window).scrollTop() >= this._masterHeaderOuterHeight) {
 
             this.positioningMenus($("#BreadcrumbUserDropdown"), true);

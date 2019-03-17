@@ -21517,9 +21517,6 @@
     <Content Include="Scripts\header\ActivityPointsPopup.js">
       <DependentUpon>ActivityPointsPopup.ts</DependentUpon>
     </Content>
-    <Content Include="Scripts\header\MobileBreadcrumb.js">
-      <DependentUpon>MobileBreadcrumb.ts</DependentUpon>
-    </Content>
     <Content Include="Scripts\header\SearchBox.js">
       <DependentUpon>SearchBox.ts</DependentUpon>
     </Content>
@@ -21830,9 +21827,6 @@
       <DependentUpon>EditDate.ts</DependentUpon>
     </Content>
     <Content Include="Style\top-header.less" />
-    <Content Include="Scripts\header\MobileBreadcrumb.js.map">
-      <DependentUpon>MobileBreadcrumb.ts</DependentUpon>
-    </Content>
     <Content Include="Scripts\header\StickyHeader.js.map">
       <DependentUpon>StickyHeader.ts</DependentUpon>
     </Content>
@@ -22178,7 +22172,6 @@
     </Content>
     <Content Include="Views\Sets\Detail\Modals\ShareSetModal.ascx" />
     <Content Include="Views\Sets\Edit\Js\AddQuestions.js" />
-    <TypeScriptCompile Include="Scripts\header\MobileBreadcrumb.ts" />
     <TypeScriptCompile Include="Scripts\header\StickyHeaderSearchBox.ts" />
     <TypeScriptCompile Include="Scripts\SidebarCards.ts" />
     <TypeScriptCompile Include="Scripts\YoutubeApi.ts" />
