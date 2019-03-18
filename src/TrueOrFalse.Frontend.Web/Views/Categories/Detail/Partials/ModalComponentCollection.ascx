@@ -19,3 +19,6 @@
 <div>
     <setcardminilist-modal-component/>
 </div>
+<div>
+    <singlequestionsquiz-modal-component/>
+</div>

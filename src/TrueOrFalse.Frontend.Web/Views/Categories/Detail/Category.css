@@ -1275,7 +1275,8 @@ p:empty {
   margin-right: 10px;
 }
 .contentModuleSettings .setCards,
-.contentModuleSettings .topicCards {
+.contentModuleSettings .topicCards,
+.contentModuleSettings .questionCards {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -1289,7 +1290,8 @@ p:empty {
           justify-content: start;
 }
 .contentModuleSettings .setCards.grid,
-.contentModuleSettings .topicCards.grid {
+.contentModuleSettings .topicCards.grid,
+.contentModuleSettings .questionCards.grid {
   width: 257px;
   height: 157px;
   display: inline-block;
@@ -1319,21 +1321,30 @@ p:empty {
           flex-direction: row;
 }
 .contentModuleSettings .setCards.grid.portrait,
-.contentModuleSettings .topicCards.grid.portrait {
+.contentModuleSettings .topicCards.grid.portrait,
+.contentModuleSettings .questionCards.grid.portrait {
   width: 166px;
   height: 344px;
 }
+.contentModuleSettings .setCards.grid.fullwidth,
+.contentModuleSettings .topicCards.grid.fullwidth,
+.contentModuleSettings .questionCards.grid.fullwidth {
+  width: 100%;
+}
 .contentModuleSettings .setCards.grid.smallCard,
-.contentModuleSettings .topicCards.grid.smallCard {
+.contentModuleSettings .topicCards.grid.smallCard,
+.contentModuleSettings .questionCards.grid.smallCard {
   height: 91px;
 }
 .contentModuleSettings .setCards.grid.placeholder,
-.contentModuleSettings .topicCards.grid.placeholder {
+.contentModuleSettings .topicCards.grid.placeholder,
+.contentModuleSettings .questionCards.grid.placeholder {
   border: 1px dotted #45aece;
   cursor: default;
 }
 .contentModuleSettings .setCards.grid .card,
-.contentModuleSettings .topicCards.grid .card {
+.contentModuleSettings .topicCards.grid .card,
+.contentModuleSettings .questionCards.grid .card {
   text-align: center;
   -webkit-box-orient: vertical;
   -webkit-box-direction: normal;

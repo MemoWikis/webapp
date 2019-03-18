@@ -153,8 +153,6 @@ public class TemplateParser
                 return new SingleQuestionsQuizModel(category, JsonConvert.DeserializeObject<SingleQuestionsQuizJson>(templateJson.OriginalJson));
             case "spacer":
                 return new SpacerModel(JsonConvert.DeserializeObject<SpacerJson>(templateJson.OriginalJson));
-            case "textblock":
-                return new TextBlockModel(JsonConvert.DeserializeObject<TextBlockJson>(templateJson.OriginalJson));
             case "cards":
                 return new CardsModel(JsonConvert.DeserializeObject<CardsJson>(templateJson.OriginalJson));
             case "inlinetext":

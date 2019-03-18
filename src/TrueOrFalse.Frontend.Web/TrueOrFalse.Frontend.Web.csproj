@@ -319,16 +319,14 @@
     <Compile Include="Views\Categories\Detail\Partials\SetTestSessionNoStartScreen\SetTestSessionNoStartScreenJson.cs" />
     <Compile Include="Views\Categories\Detail\Partials\SingleCategoryFullWidth\SingleCategoryFullWidthJson.cs" />
     <Compile Include="Views\Categories\Detail\Partials\SingleCategory\SingleCategoryJson.cs" />
-    <Compile Include="Views\Categories\Detail\Partials\SingleQuestionQuiz\SingleQuestionQuizJson.cs" />
+    <Compile Include="Views\Categories\Detail\Partials\SingleQuestionsQuiz\SingleQuestionsQuizJson.cs" />
     <Compile Include="Views\Categories\Detail\Partials\SingleSetFullWidth\SingleSetFullWidthJson.cs" />
     <Compile Include="Views\Categories\Detail\Partials\SingleSet\SingleSetJson.cs" />
     <Compile Include="Views\Categories\Detail\Partials\InlineText\InlineTextModel.cs" />
     <Compile Include="Views\Categories\Detail\Partials\Spacer\SpacerJson.cs" />
-    <Compile Include="Views\Categories\Detail\Partials\TextBlock\TextBlockJson.cs" />
-    <Compile Include="Views\Categories\Detail\Partials\TextBlock\TextBlockModel.cs" />
     <Compile Include="Views\Categories\Detail\Partials\SetCardMiniList\SetCardMiniListModel.cs" />
     <Compile Include="Views\Categories\Detail\Partials\Spacer\SpacerModel.cs" />
-    <Compile Include="Views\Categories\Detail\Partials\SingleQuestionQuiz\SingleQuestionsQuizModel.cs" />
+    <Compile Include="Views\Categories\Detail\Partials\SingleQuestionsQuiz\SingleQuestionsQuizModel.cs" />
     <Compile Include="Views\Categories\Detail\Partials\SingleCategoryFullWidth\SingleCategoryFullWidthModel.cs" />
     <Compile Include="Views\Categories\Detail\Partials\SingleSetFullWidth\SingleSetFullWidthModel.cs" />
     <Compile Include="Views\Categories\Detail\Partials\MediaList\MediaListModel.cs" />
@@ -20111,6 +20109,9 @@
     <Content Include="Views\Categories\Detail\JsEditMode\ContentModuleSettings\SingleCategoryFullWidthDialogComponent.js">
       <DependentUpon>SingleCategoryFullWidthDialogComponent.ts</DependentUpon>
     </Content>
+    <Content Include="Views\Categories\Detail\JsEditMode\ContentModuleSettings\SingleQuestionsQuiz.js">
+      <DependentUpon>SingleQuestionsQuiz.ts</DependentUpon>
+    </Content>
     <Content Include="Views\Categories\Detail\JsEditMode\ContentModuleSettings\SingleSetFullWidthDialogComponent.js">
       <DependentUpon>SingleSetFullWidthDialogComponent.ts</DependentUpon>
     </Content>
@@ -20152,14 +20153,14 @@
     <Content Include="Views\Categories\Detail\Partials\Alert.ascx" />
     <Content Include="Views\Categories\Detail\Partials\InlineText\InlineText.ascx" />
     <Content Include="Views\Categories\Detail\Partials\SingleCategoryFullWidth\SingleCategoryFullWidthModal.vue.ascx" />
+    <Content Include="Views\Categories\Detail\Partials\SingleQuestionsQuiz\SingleQuestionsQuizModal.vue.ascx" />
     <Content Include="Views\Categories\Detail\Partials\SingleSetFullWidth\SingleSetFullWidthModal.vue.ascx" />
-    <Content Include="Views\Categories\Detail\Partials\TextBlock\TextBlock.ascx" />
     <Content Include="Views\Categories\Detail\Partials\MediaList\MediaListReferenceTitle.ascx" />
     <Content Include="Views\Categories\Detail\Partials\SetCardMiniList\SetCardMiniList.ascx" />
     <Content Include="Views\Categories\Detail\Partials\BreadCrumb.ascx" />
     <Content Include="Views\Categories\Detail\Partials\ContentModuleWrapperEnd.ascx" />
     <Content Include="Views\Categories\Detail\Partials\Spacer\Spacer.ascx" />
-    <Content Include="Views\Categories\Detail\Partials\SingleQuestionQuiz\SingleQuestionsQuiz.ascx" />
+    <Content Include="Views\Categories\Detail\Partials\SingleQuestionsQuiz\SingleQuestionsQuiz.ascx" />
     <Content Include="Views\Categories\Detail\Partials\CategoryHeader.ascx" />
     <Content Include="Views\Categories\Detail\Partials\TopicNavigation\TopicNavigationModal.vue.ascx" />
     <Content Include="Views\Categories\Detail\Partials\VideoWidget\VideoWidgetModal.vue.ascx" />
@@ -20217,6 +20218,7 @@
     </Content>
     <Content Include="Views\Knowledge\Dates\DateRow.ascx" />
     <TypeScriptCompile Include="Views\Categories\Detail\JsEditMode\ContentEditButtonsApp.ts" />
+    <TypeScriptCompile Include="Views\Categories\Detail\JsEditMode\ContentModuleSettings\SingleQuestionsQuiz.ts" />
     <TypeScriptCompile Include="Views\Categories\Detail\JsEditMode\ContentModuleSettings\SetCardMiniListDialogComponent.ts" />
     <TypeScriptCompile Include="Views\Categories\Detail\JsEditMode\ContentModuleSettings\VideoWidgetDialogComponent.ts" />
     <TypeScriptCompile Include="Views\Categories\Detail\JsEditMode\ContentModuleSettings\SingleSetFullWidthDialogComponent.ts" />
@@ -20446,6 +20448,9 @@
     </Content>
     <Content Include="Views\Categories\Detail\JsEditMode\ContentModuleSettings\SetCardMiniListDialogComponent.js.map">
       <DependentUpon>SetCardMiniListDialogComponent.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Categories\Detail\JsEditMode\ContentModuleSettings\SingleQuestionsQuiz.js.map">
+      <DependentUpon>SingleQuestionsQuiz.ts</DependentUpon>
     </Content>
     <None Include="Views\Maintenance\ContentStats.less" />
     <Compile Include="Views\Maintenance\ContentStatsModel.cs" />

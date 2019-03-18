@@ -32,4 +32,9 @@
     <%: Html.Partial("~/Views/Categories/Detail/Partials/SetCardMiniList/SetCardMiniListModal.vue.ascx") %>
 </script>
 
+<script type="text/x-template" id="singlequestionsquiz-settings-dialog-template">
+    <%: Html.Partial("~/Views/Categories/Detail/Partials/SingleQuestionsQuiz/SingleQuestionsQuizModal.vue.ascx") %>
+</script>
+
+
 

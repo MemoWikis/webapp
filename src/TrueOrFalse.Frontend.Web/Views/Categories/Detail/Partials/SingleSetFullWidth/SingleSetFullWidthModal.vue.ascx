@@ -4,7 +4,7 @@
             <div class="modal-content">
     
                 <div class="contentModuleSettings">
-                    <h4 class="modalHeader">TopicNavigation bearbeiten</h4>
+                    <h4 class="modalHeader">SingleSetFullWidth bearbeiten</h4>
                     <form>
                         <div class="form-group">
                             <label for="title">Titel</label>
