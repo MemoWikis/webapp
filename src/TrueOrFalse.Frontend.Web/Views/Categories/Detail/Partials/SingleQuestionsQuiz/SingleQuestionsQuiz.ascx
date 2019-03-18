@@ -8,7 +8,9 @@
     
         <% foreach (var question in Model.Questions)
            { %>
-            <script src="https://memucho.de/views/widgets/w.js" data-t="question" data-id="<%= question.Id %>" data-width="100%" data-maxwidth="100%" data-logoon="false" data-hideKnowledgeBtn="true"></script>
+            <div ref:script-widget :data-id="<%= question.Id %>"></div>
+
+            <%-- <script src="https://memucho.de/views/widgets/w.js" data-t="question" data-id="<%= question.Id %>" data-width="100%" data-maxwidth="100%" data-logoon="false" data-hideKnowledgeBtn="true"></script> --%>
             <div class="SpacerDiv"></div>
         <% } %>
     </div>
