@@ -1,4 +1,40 @@
-﻿var contentModuleComponent = Vue.component('content-module', {
+﻿declare var postscribe: any;
+
+Vue.component('content-module-widget', {
+    props: {
+        widgetType: String,
+        widgetId: String,
+        src: String,
+        dataT: String,
+        dataId: String,
+        dataWidth: String,
+        dataMaxwidth: String,
+        dataLogoon: String,
+        dataHideKnowledgeBtn: String,
+    },
+
+    data() {
+        return {
+        };
+    },
+    
+    mounted() {
+        var el = this.$parent.$refs[this.widgetId];
+
+        if (this.widgetType == 'video') {
+            let script = '<\script src="' + this.src + '" data-t="' + this.dataT + '" data-id="' + this.dataId + '" data-width="' + this.dataWidth + '"></\script>';
+
+            postscribe(el, script, {
+                error: function (e) {
+                    console.log(e);
+                }
+            });
+        };
+    },
+});
+
+
+var contentModuleComponent = Vue.component('content-module', {
 
     props: {
         origMarkdown: String,
@@ -16,41 +52,18 @@
             id: '',
             textCanBeEdited: false,
             dataTarget: '',
-            dataId: '',
+            widgetId: '',
         };
     },
 
-    ready() {
-        if (this.contentModuleType == 'videowidget' || this.contentModuleType == 'singlequestionsquiz') {
-            let scriptEl = document.createElement('script');
-
-            if (this.contentModuleType == 'videowidget') {
-                scriptEl.setAttribute('data-t', 'setVideo');
-            } else if (this.contentModuleType == 'singlequestionsquiz') {
-                scriptEl.setAttribute('data-t', 'question');
-                scriptEl.setAttribute('data-maxwidth', '100%');
-                scriptEl.setAttribute('data-logoon', 'false');
-                scriptEl.setAttribute('data-hideKnowledgeBtn', 'true');
-            }
-
-            scriptEl.setAttribute('src', 'https://memucho.de/views/widgets/w.js');
-            scriptEl.setAttribute('data-width', '100%');
-            scriptEl.setAttribute('data-id', this.dataId);
-
-
-            this.$refs.scriptWidget.appendChild(scriptEl);
-        }
-
-    },
 
     created() {
         if (this.contentModuleType != "inlinetext") {
             this.modalType = '#' + this.contentModuleType + 'SettingsDialog';
         }
-        this.id = this.contentModuleType + 'Module-' + (this._uid - 2);
-
-        let ckeditor = document.createElement('script'); ckeditor.setAttribute('src', "//cdn.ckeditor.com/4.6.2/full/ckeditor.js");
-        document.head.appendChild(ckeditor);
+        this.id = this.contentModuleType + 'Module-' + (this._uid + Math.floor((Math.random() * 10000) + 1));
+        if (this.contentModuleType == 'videowidget' || this.contentModuleType == 'singlequestionsquiz')
+            this.widgetId = 'widget' + (this._uid + Math.floor((Math.random() * 2000) + 1));
     },
 
     mounted() {

@@ -15,6 +15,9 @@ var deps = {
     "vue-textarea-autosize": {
         "dist/vue-textarea-autosize.browser.js": ""
     },
+    "postscribe": {
+        "dist/postscribe.js": ""
+    },
     "d3": {
         "dist/d3.js": ""
     },

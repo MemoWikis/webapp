@@ -1,6 +1,7 @@
 {
   "dependencies": {
     "d3": "5.7.0",
+    "postscribe": "^2.0.8",
     "tiptap": "^1.7.0",
     "tiptap-extensions": "^1.7.0",
     "vue": "^2.5.21",
