@@ -13,9 +13,6 @@
 <div>
     <videowidget-modal-component/>
 </div>
-<%-- <div> --%>
-<%--     <medialist-modal-component/> --%>
-<%-- </div> --%>
 <div>
     <setcardminilist-modal-component/>
 </div>
