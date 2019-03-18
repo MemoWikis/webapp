@@ -3,6 +3,7 @@ var senderDomains = ['http://memucho', 'http://memucho.local', 'https://memucho.
 
 //https://github.com/closingtag/super-awesome-responsive-iframe-solution/blob/master/index.html
 function receiveMessage(event) {
+    console.log(event);
 
     var message = event.data.split(':');
     var eventName = message[0];

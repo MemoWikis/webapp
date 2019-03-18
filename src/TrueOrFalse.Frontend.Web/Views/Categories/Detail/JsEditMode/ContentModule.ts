@@ -13,13 +13,15 @@ Vue.component('content-module-widget', {
         dataHideKnowledgeBtn: String,
     },
 
+    template: '<span :ref="widgetId"></span>',
+
     data() {
         return {
         };
     },
     
     mounted() {
-        var el = this.$parent.$refs[this.widgetId];
+        var el = this.$refs[this.widgetId];
 
         if (this.widgetType == 'video') {
             let script = '<\script src="' + this.src + '" data-t="' + this.dataT + '" data-id="' + this.dataId + '" data-width="' + this.dataWidth + '"></\script>';
