@@ -74,7 +74,7 @@ Vue.component('singlesetfullwidth-modal-component', {
             this.singleSetFullWidthSettings.SetId = this.setId;
             this.singleSetFullWidthSettings.Text = this.description;
             this.newMarkdown = Utils.ConvertJsonToMarkdown(this.singleSetFullWidthSettings);
-            Utils.UpdateMarkdown(this.newMarkdown, this.parentId);
+            Utils.ApplyMarkdown(this.newMarkdown, this.parentId);
             $('#singlesetfullwidthSettingsDialog').modal('hide');
         },
 

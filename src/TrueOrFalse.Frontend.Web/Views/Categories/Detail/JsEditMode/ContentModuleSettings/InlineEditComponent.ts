@@ -27,7 +27,7 @@ Vue.component('inline-text-component', {
 
         applyNewMarkdown() {
             this.$parent.isListening = true;
-            Utils.UpdateMarkdown(this.textContent, this.parentId);
+            Utils.ApplyMarkdown(this.textContent, this.parentId);
         },
 
         cancelTextEdit() {

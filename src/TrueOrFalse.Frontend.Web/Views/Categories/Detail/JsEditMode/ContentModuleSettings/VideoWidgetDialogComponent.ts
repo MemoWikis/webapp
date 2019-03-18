@@ -60,7 +60,7 @@ Vue.component('videowidget-modal-component', {
 
             this.videoWidgetSettings.SetId = this.setId;
             this.newMarkdown = Utils.ConvertJsonToMarkdown(this.videoWidgetSettings);
-            Utils.UpdateMarkdown(this.newMarkdown, this.parentId);
+            Utils.ApplyMarkdown(this.newMarkdown, this.parentId);
             $('#videowidgetSettingsDialog').modal('hide');
         },
 

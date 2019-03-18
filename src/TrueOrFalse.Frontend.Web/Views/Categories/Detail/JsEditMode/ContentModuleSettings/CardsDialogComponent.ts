@@ -13,9 +13,9 @@ Vue.component('cards-modal-component', {
 
     data() {
         return {
-            selectedCardOrientation: 'Landscape',
-            title: '',
             newMarkdown: '',
+            title: '',
+            selectedCardOrientation: 'Landscape',
             sets: [],
             newSetId: 0,
             parentId: '',
@@ -109,7 +109,7 @@ Vue.component('cards-modal-component', {
             this.cardsSettings.Title = this.title;
             this.cardsSettings.CardOrientation = this.selectedCardOrientation;
             this.newMarkdown = Utils.ConvertJsonToMarkdown(this.cardsSettings);
-            Utils.UpdateMarkdown(this.newMarkdown, this.parentId);
+            Utils.ApplyMarkdown(this.newMarkdown, this.parentId);
             $('#cardsSettingsDialog').modal('hide');
         },
 

@@ -103,7 +103,7 @@ Vue.component('singlequestionsquiz-modal-component', {
             if (setIdParts.length >= 1)
                 this.singleQuestionsQuizSettings.SetListIds = setIdParts.join(',');
             this.newMarkdown = Utils.ConvertJsonToMarkdown(this.singleQuestionsQuizSettings);
-            Utils.UpdateMarkdown(this.newMarkdown, this.parentId);
+            Utils.ApplyMarkdown(this.newMarkdown, this.parentId);
             $('#singlquestionsquizSettingsDialog').modal('hide');
         },
 

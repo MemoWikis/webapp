@@ -58,6 +58,20 @@ new Vue({
                     console.log('kein neues Markdown verfügbar');
                 };
             });
+        eventBus.$on('new-content-module',
+            (result) => {
+                if (result) {
+                    const previewHtml = result;
+                    var prepended = $('#MarkdownContent').prepend(previewHtml);
+                    var instance = new contentModuleComponent({
+                        el: prepended.get(0)
+                    });
+                    eventBus.$emit('set-edit-mode', this.editMode);
+                } else {
+                    console.log('kein neues Markdown verfügbar');
+                };
+            });
+
     },
 
     mounted() {

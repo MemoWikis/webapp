@@ -74,7 +74,7 @@ Vue.component('singlecategoryfullwidth-modal-component', {
             this.singleCategoryFullWidthSettings.CategoryId = this.topicId;
             this.singleCategoryFullWidthSettings.Description = this.description;
             this.newMarkdown = Utils.ConvertJsonToMarkdown(this.singleCategoryFullWidthSettings);
-            Utils.UpdateMarkdown(this.newMarkdown, this.parentId);
+            Utils.ApplyMarkdown(this.newMarkdown, this.parentId);
             $('#singlecategoryfullwidthSettingsDialog').modal('hide');
         },
 

@@ -88,7 +88,7 @@ Vue.component('setcardminilist-modal-component', {
             if (setIdParts.length >= 1)
                 this.setCardMiniListSettings.SetListIds = setIdParts.join(',');
             this.newMarkdown = Utils.ConvertJsonToMarkdown(this.setCardMiniListSettings);
-            Utils.UpdateMarkdown(this.newMarkdown, this.parentId);
+            Utils.ApplyMarkdown(this.newMarkdown, this.parentId);
             $('#setcardminilistSettingsDialog').modal('hide');
         },
 
