@@ -17,6 +17,7 @@ Vue.component('setcardminilist-modal-component', {
             parentId: '',
             settingsHasChanged: false,
             showSetInput: false,
+            errorMessage: '',
             cardOptions: {
                 animation: 100,
                 fallbackOnBody: true,
@@ -63,6 +64,7 @@ Vue.component('setcardminilist-modal-component', {
             this.settingsHasChanged = false;
             this.newSetId = '';
             this.showSetInput = false;
+            this.errorMessage = '';
         },
 
         initializeData() {
@@ -86,12 +88,18 @@ Vue.component('setcardminilist-modal-component', {
         },
 
         applyNewMarkdown() {
-            const setIdParts = $(".setCardMiniListDialogData").map((idx, elem) => $(elem).attr("setId")).get();
-            if (setIdParts.length >= 1)
-                this.setCardMiniListSettings.SetListIds = setIdParts.join(',');
-            this.newMarkdown = Utils.ConvertJsonToMarkdown(this.setCardMiniListSettings);
-            Utils.ApplyMarkdown(this.newMarkdown, this.parentId);
-            $('#setcardminilistSettingsDialog').modal('hide');
+            if (this.sets.length > 0) {
+                const setIdParts = $(".setCardMiniListDialogData").map((idx, elem) => $(elem).attr("setId")).get();
+                if (setIdParts.length >= 1)
+                    this.setCardMiniListSettings.SetListIds = setIdParts.join(',');
+                this.newMarkdown = Utils.ConvertJsonToMarkdown(this.setCardMiniListSettings);
+                Utils.ApplyMarkdown(this.newMarkdown, this.parentId);
+                $('#setcardminilistSettingsDialog').modal('hide');
+            } else {
+                this.errorMessage = 'Sie müssen ein Set auswählen';
+                console.log('bitte Set auswählen');
+            };
+            
         },
 
         closeModal() {

@@ -37,11 +37,11 @@ Vue.component('content-module-selection-modal-component', {
 
     watch: {
         selectedModule: function(val) {
-            if (val != 'inlinetext' &&
-                val != 'spacer' &&
-                val != 'medialist' &&
-                val != 'contentlist' &&
-                val != 'educationofferlist')
+            if (val != 'InlineText' &&
+                val != 'Spacer' &&
+                val != 'MediaList' &&
+                val != 'ContentList' &&
+                val != 'EducationOfferList')
                 this.modalType = '#' + this.selectedModule.toLowerCase() + 'SettingsDialog';
             else
                 this.modalType = false;
@@ -80,6 +80,10 @@ Vue.component('content-module-selection-modal-component', {
 
             if (this.modalType)
                 $(this.modalType).data('parent', template).modal('show');
+            else if (this.selectedModule == 'InlineText')
+                Utils.ApplyMarkdown('## Hier klicken um zu bearbeiten', template.id);
+            else
+                Utils.ApplyMarkdown(template.markdown, template.id);
         },
 
         closeModal() {
