@@ -301,8 +301,16 @@
         display: flex;
 
         #BreadCrumbTrail {
-            //overflow: hidden;
-          // text-overflow: ellipsis;
+            #Path {
+                position: absolute;
+                z-index: 1;
+                top: 55px;
+                list-style-type: none;
+                background-color: white;
+                display: none;
+                padding-right: 15px;
+                padding-left: 15px;
+            }
         }
     }
 

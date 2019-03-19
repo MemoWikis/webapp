@@ -282,6 +282,16 @@
 #Breadcrumb #BreadCrumbContainer {
   display: flex;
 }
+#Breadcrumb #BreadCrumbContainer #BreadCrumbTrail #Path {
+  position: absolute;
+  z-index: 1;
+  top: 55px;
+  list-style-type: none;
+  background-color: white;
+  display: none;
+  padding-right: 15px;
+  padding-left: 15px;
+}
 #Breadcrumb div {
   font-family: 'Open Sans';
 }

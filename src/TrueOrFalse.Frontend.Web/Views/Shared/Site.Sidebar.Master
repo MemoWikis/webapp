@@ -14,7 +14,7 @@
 
     <% Model.SidebarModel.categoryNavigationModel = new CategoryNavigationModel(); %>
     <% Html.RenderPartial("Site.Partial.MasterHeader");%>   
-    <div id="Breadcrumb" >
+    <div id="Breadcrumb" class="path" >
         <% Html.RenderPartial("/Views/Categories/Detail/Partials/BreadCrumb.ascx", Model); %>
     </div>  
     <section id="MasterSection">     

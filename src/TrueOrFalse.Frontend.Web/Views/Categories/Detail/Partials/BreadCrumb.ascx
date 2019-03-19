@@ -19,7 +19,7 @@
     </a>
 
     <div id="BreadCrumbTrail" style="display:flex;">
-        <ul id="Path" style="position: absolute; z-index: 1; top: 50px; list-style-type: none; background-color: white; display: none">
+        <ul id="Path" class="path">
         </ul>
 
     <%if(!Model.TopNavMenu.IsWelcomePage){ %>  

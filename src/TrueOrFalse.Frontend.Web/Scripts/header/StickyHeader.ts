@@ -192,10 +192,6 @@ class StickyHeaderClass {
                 console.log("incorrect counter Breadcrumb");
                 break;
             }
-            if (isResize) {
-                masterMainWrapperInnerWidth =
-                    parseInt($("#MasterMainContent").css("width"));
-            }
         }
 
             if(isBreadCrumbTrailWidthToBig)
@@ -217,7 +213,9 @@ class StickyHeaderClass {
         var breadCrumbPath = $("#BreadCrumbTrail > div:eq(1)").offset().left;
 
         $("#Path").css("left", breadCrumbPath);
+        console.log(i);
     }
+    
 }
 
 

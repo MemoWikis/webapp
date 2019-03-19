@@ -35,7 +35,9 @@ class MenuMobile {
 
         $("#BreadCrumbTrail").on("mouseover",".path",  (event) => {
             $("#Path").css("display", "block");
-            console.log("Daniel");
+            $(".path").on("mouseleave", () => {
+                $("#Path").hide();
+            });
         });
 
         $("#MenuButton").click(() => {
