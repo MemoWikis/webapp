@@ -81,7 +81,7 @@ Vue.component('content-module-selection-modal-component', {
             if (this.modalType)
                 $(this.modalType).data('parent', template).modal('show');
             else if (this.selectedModule == 'InlineText')
-                Utils.ApplyMarkdown('## Hier klicken um zu bearbeiten', template.id);
+                Utils.ApplyMarkdown('', template.id);
             else
                 Utils.ApplyMarkdown(template.markdown, template.id);
         },
