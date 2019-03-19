@@ -36,8 +36,6 @@ class StickyHeaderClass {
                 this.positioningMenus($("#BreadcrumbUserDropdown"), true);
             }
         });   
- 
-        
     }
 
     public StickyHeader() {
@@ -86,9 +84,7 @@ class StickyHeaderClass {
                 this._breadcrumb.style.display = "none";
             }
         }
-
         this._breadcrumb.style.height = "55px";
-
     }
 
     private firstLoad() {
@@ -111,30 +107,26 @@ class StickyHeaderClass {
             this.toggleClass($("#HeaderUserDropdown"), $("#BreadcrumbUserDropdownImage"), "open");
 
             this._rightMainMenu.style.position = "fixed";
-            this.computeBreadcrumb(230, true);
 
+            if (top.location.pathname !== "/") 
+                this.computeBreadcrumb(230, true);
         } else {
 
             this.positioningMenus($("#RightMainMenu"), false);
             this.positioningMenus($("#userDropdown"), false);
-           
-
             this._stickyHeaderisFixed = false;
             this._breadcrumb.style.top = ($("#MasterHeader").outerHeight() + this._header.scrollTop) + "px";
             this._breadcrumb.style.position = "absolute";
             this._breadcrumb.classList.remove("ShowBreadcrumb");
             this.toggleClass($("#BreadcrumbUserDropdownImage"), $("#HeaderUserDropdown"), "open");
-            $("#BreadcrumbUserDropdown").css("margin-top", "0");
-
-
-            $('#BreadcrumbLogoSmall').hide();
-            $('#StickyHeaderContainer').hide();
             this._rightMainMenu.style.position = "absolute";
 
-            if (top.location.pathname === "/") {
+            $("#BreadcrumbUserDropdown").css("margin-top", "0");
+            $('#BreadcrumbLogoSmall').hide();
+            $('#StickyHeaderContainer').hide();
+
+            if (top.location.pathname === "/") 
                 this._breadcrumb.style.display = "none";
-            }
-            this.computeBreadcrumb(230, true);
         }
     }
 
@@ -147,8 +139,6 @@ class StickyHeaderClass {
         }
         else 
             menu.css("top", $("#Breadcrumb").outerHeight());
-           
-        
     }
 
     private toggleClass(removeClassFromElement: JQuery, addClassToElement: JQuery, toggleClass: string) {
@@ -214,8 +204,6 @@ class StickyHeaderClass {
             if (isResize)
                 masterMainWrapperInnerWidth = parseInt($("#MasterMainContent").css("width"));
 
-     
-
         if (breadCrumbTrailWidth > masterMainWrapperInnerWidth) {
             $('#BreadCrumbTrail > div').eq(0).hide();
             $('#BreadCrumbTrail > div').eq(1).children().eq(1).hide();
@@ -227,13 +215,10 @@ class StickyHeaderClass {
         }
 
         var breadCrumbPath = $("#BreadCrumbTrail > div:eq(1)").offset().left;
-       //var t =  breadCrumbTrail.find($(".fa-ellipsis-h"));
 
         $("#Path").css("left", breadCrumbPath);
-
     }
 }
-
 
 
 $(() => {
