@@ -68,7 +68,6 @@ var contentModuleComponent = Vue.component('content-module', {
         };
     },
 
-
     created() {
         if (this.contentModuleType != "inlinetext") {
             this.modalType = '#' + this.contentModuleType + 'SettingsDialog';
@@ -88,6 +87,18 @@ var contentModuleComponent = Vue.component('content-module', {
                 this.isListening = false;
             };
         });
+    },
+
+    computed: {
+        missingText: function() {
+            if (this.contentModuleType == 'inlinetext' && this.canBeEdited) {
+                let trimmedMarkdown = this.markdown.trim().replace(' ', '');
+                if (trimmedMarkdown.length > 0)
+                    return false;
+                else
+                    return true;
+            }
+        },
     },
 
     watch: {
