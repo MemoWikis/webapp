@@ -13,18 +13,14 @@
      %>
 
 <div id="BreadCrumbContainer" class="container">
+
     <a href="/" id="BreadcrumbLogoSmall" class="show-tooltip" data-placement="bottom" title="Zur Startseite" style="display:none;">
         <img src="/android-chrome-36x36.png" style="min-width: 36px;">
     </a>
+
     <div id="BreadCrumbTrail" style="display:flex;">
-<%--        <div style="height: auto;" id="BreadcrumbHome" class="show-tooltip" data-placement="bottom"  title="Zur Startseite">
-         <%if(!Model.TopNavMenu.IsWelcomePage){ %> 
-            <a href="/" class="category-icon">
-                <span class="fas fa-home"style="margin-left: 10px"></span>
-            </a>
-            <span><i class="fa fa-chevron-right"></i></span>
-         <%}%>
-         </div>--%>
+        <ul id="Path" style="position: absolute; z-index: 1; top: 50px; list-style-type: none; background-color: white; display: none">
+        </ul>
 
     <%if(!Model.TopNavMenu.IsWelcomePage){ %>  
         <%if(Model.TopNavMenu.IsCategoryBreadCrumb || Model.TopNavMenu.IsCategoryLearningBreadCrumb){ %>

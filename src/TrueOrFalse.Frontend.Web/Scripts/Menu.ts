@@ -33,6 +33,10 @@ class MenuMobile {
             $("#BreadcrumbUserDropdown").css("margin-right", this._breadcrumbUserDropdownMarginRight + "px");
         });
 
+        $("#BreadCrumbTrail").on("mouseover",".path",  (event) => {
+            $("#Path").css("display", "block");
+            console.log("Daniel");
+        });
 
         $("#MenuButton").click(() => {
             if (this._isOpen) {
