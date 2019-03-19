@@ -35,6 +35,16 @@ Vue.component('content-module-widget', {
     },
 });
 
+Vue.component('add-content-module', {
+    template: '#add-content-module-template',
+
+    data() {
+        return {
+            type: '',
+        };
+    },
+
+});
 
 var contentModuleComponent = Vue.component('content-module', {
 
@@ -119,6 +129,10 @@ var contentModuleComponent = Vue.component('content-module', {
                     $(this.modalType).data('parent', parent).modal('show');
                 };
             }
+        },
+
+        addModule() {
+            $('#ContentModuleSelectionModal').modal('show');
         },
 
         editInlineText() {

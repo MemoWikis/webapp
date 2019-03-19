@@ -17,7 +17,9 @@ new Vue({
                 handle: '.Handle',
                 animation: 100,
                 fallbackOnBody: true,
-                group: 'nested',
+                filter: '.placeholder',
+                preventOnFilter: false,
+                onMove: this.onMove,
             },
             saveSuccess: false,
             saveMessage: '',
@@ -48,9 +50,9 @@ new Vue({
                     const previewHtml = event.newHtml;
                     const moduleToReplace = event.toReplace;
                     this.changedMarkdown = true;
-                    var appended = $(previewHtml).insertAfter(moduleToReplace);
+                    var inserted = $(previewHtml).insertAfter(moduleToReplace);
                     var instance = new contentModuleComponent({
-                        el: appended.get(0)
+                        el: inserted.get(0)
                     });
                     eventBus.$emit('close-content-module-settings-modal', event.preview);
                     eventBus.$emit('set-edit-mode', this.editMode);
@@ -61,10 +63,9 @@ new Vue({
         eventBus.$on('new-content-module',
             (result) => {
                 if (result) {
-                    const previewHtml = result;
-                    var prepended = $('#MarkdownContent').prepend(previewHtml);
+                    var inserted = $(result).insertBefore('#ContentModulePlaceholder');
                     var instance = new contentModuleComponent({
-                        el: prepended.get(0)
+                        el: inserted.get(0)
                     });
                     eventBus.$emit('set-edit-mode', this.editMode);
                 } else {
@@ -91,6 +92,10 @@ new Vue({
             this.saveMessage = '';
             this.saveSuccess = false;
             this.showTopAlert = false;
+        },
+
+        onMove(event) {
+            return event.related.id !== 'ContentModulePlaceholder';;
         },
 
         async saveMarkdown(data) {

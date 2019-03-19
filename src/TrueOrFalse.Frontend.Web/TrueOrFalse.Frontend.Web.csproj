@@ -20143,6 +20143,7 @@
       <DependentUpon>Tabbing.ts</DependentUpon>
     </Content>
     <Content Include="Views\Categories\Detail\Partials\BreadCrumbCategories.ascx" />
+    <Content Include="Views\Categories\Detail\Partials\ContentModuleSelectionModal.vue.ascx" />
     <Content Include="Views\Categories\Detail\Partials\Cards\Cards.ascx" />
     <Content Include="Views\Categories\Detail\Partials\InlineText\InlineTextComponent.vue.ascx" />
     <Content Include="Views\Categories\Detail\Partials\MediaList\MediaListModal.vue.ascx" />
@@ -20218,6 +20219,7 @@
     </Content>
     <Content Include="Views\Knowledge\Dates\DateRow.ascx" />
     <TypeScriptCompile Include="Views\Categories\Detail\JsEditMode\ContentEditButtonsApp.ts" />
+    <TypeScriptCompile Include="Views\Categories\Detail\JsEditMode\ContentModuleSettings\ContentModuleSelectionComponent.ts" />
     <TypeScriptCompile Include="Views\Categories\Detail\JsEditMode\ContentModuleSettings\SingleQuestionsQuiz.ts" />
     <TypeScriptCompile Include="Views\Categories\Detail\JsEditMode\ContentModuleSettings\SetCardMiniListDialogComponent.ts" />
     <TypeScriptCompile Include="Views\Categories\Detail\JsEditMode\ContentModuleSettings\VideoWidgetDialogComponent.ts" />

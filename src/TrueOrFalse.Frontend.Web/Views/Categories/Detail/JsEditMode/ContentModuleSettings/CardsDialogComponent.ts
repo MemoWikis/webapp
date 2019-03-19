@@ -3,7 +3,7 @@
     Title: string = "";
     CardOrientation: string = "";
     SetListIds: string = "";
-}
+};
 
 Vue.component('cards-modal-component', {
 
@@ -76,6 +76,7 @@ Vue.component('cards-modal-component', {
             this.selectedCardOrientation = 'Landscape';
             this.newSetId = '';
             this.showSetInput = false;
+            this.errorMessage = '';
         },
 
         initializeData() {
@@ -85,7 +86,7 @@ Vue.component('cards-modal-component', {
                 this.title = this.cardsSettings.Title;
             if (this.cardsSettings.CardOrientation)
                 this.selectedCardOrientation = this.cardsSettings.CardOrientation;
-            if (this.cardsSettings.SetListIds.length)
+            if (this.cardsSettings.SetListIds)
                 this.sets = this.cardsSettings.SetListIds.split(',');
         },
 
@@ -103,14 +104,20 @@ Vue.component('cards-modal-component', {
         },
 
         applyNewMarkdown() {
-            const setIdParts = $(".cardsDialogData").map((idx, elem) => $(elem).attr("setId")).get();
-            if (setIdParts.length >= 1)
-                this.cardsSettings.SetListIds = setIdParts.join(',');
-            this.cardsSettings.Title = this.title;
-            this.cardsSettings.CardOrientation = this.selectedCardOrientation;
-            this.newMarkdown = Utils.ConvertJsonToMarkdown(this.cardsSettings);
-            Utils.ApplyMarkdown(this.newMarkdown, this.parentId);
-            $('#cardsSettingsDialog').modal('hide');
+            if (this.sets.length > 0) {
+                const setIdParts = $(".cardsDialogData").map((idx, elem) => $(elem).attr("setId")).get();
+                if (setIdParts.length >= 1)
+                    this.cardsSettings.SetListIds = setIdParts.join(',');
+                this.cardsSettings.Title = this.title;
+                this.cardsSettings.CardOrientation = this.selectedCardOrientation;
+                this.newMarkdown = Utils.ConvertJsonToMarkdown(this.cardsSettings);
+                Utils.ApplyMarkdown(this.newMarkdown, this.parentId);
+                $('#cardsSettingsDialog').modal('hide');
+            } else {
+                this.errorMessage = 'Sie müssen ein Set auswählen';
+                console.log('bitte Set auswählen');
+            };
+
         },
 
         closeModal() {

@@ -67,7 +67,9 @@ Vue.component('setcardminilist-modal-component', {
 
         initializeData() {
             this.setCardMiniListSettings = Utils.ConvertEncodedHtmlToJson(this.newMarkdown);
-            this.sets = this.setCardMiniListSettings.SetListIds.split(',');
+
+            if (this.setCardMiniListSettings.SetListIds)
+                this.sets = this.setCardMiniListSettings.SetListIds.split(',');
         },
 
         hideSetInput() {

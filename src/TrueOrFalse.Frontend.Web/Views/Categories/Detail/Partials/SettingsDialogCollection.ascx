@@ -36,5 +36,8 @@
     <%: Html.Partial("~/Views/Categories/Detail/Partials/SingleQuestionsQuiz/SingleQuestionsQuizModal.vue.ascx") %>
 </script>
 
+<script type="text/x-template" id="content-module-selection-dialog-template">
+    <%: Html.Partial("~/Views/Categories/Detail/Partials/ContentModuleSelectionModal.vue.ascx") %>
+</script>
 
 
