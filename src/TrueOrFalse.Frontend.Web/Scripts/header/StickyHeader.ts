@@ -18,7 +18,7 @@ class StickyHeaderClass {
         this._rightMainMenu.style.position = "absolute";
         this._breadcrumb.style.height = "55px";
         this._breadCrumbContainerElementsCopy = $("#BreadCrumbTrail > div").clone();
-        this._breadCrumbContainerCount = this._breadCrumbContainerElementsCopy.length - 1;
+        this._breadCrumbContainerCount = this._breadCrumbContainerElementsCopy.length -1;
         console.log(this._breadCrumbContainerElementsCopy);
 
        // this.StickyHeader();
@@ -111,7 +111,7 @@ class StickyHeaderClass {
             this._rightMainMenu.style.position = "fixed";
 
             if (top.location.pathname !== "/") 
-                this.computeBreadcrumb(230, true);
+                this.computeBreadcrumb(300, true);
         } else {
 
             this.positioningMenus($("#RightMainMenu"), false);
@@ -122,6 +122,9 @@ class StickyHeaderClass {
             this._breadcrumb.classList.remove("ShowBreadcrumb");
             this.toggleClass($("#BreadcrumbUserDropdownImage"), $("#HeaderUserDropdown"), "open");
             this._rightMainMenu.style.position = "absolute";
+
+            if (top.location.pathname !== "/")
+                this.computeBreadcrumb(30, true);
 
             $("#BreadcrumbUserDropdown").css("margin-top", "0");
             $('#BreadcrumbLogoSmall').hide();
@@ -173,7 +176,7 @@ class StickyHeaderClass {
 
     public computeBreadcrumb(widthStickyHeaderContainer: number, isResize: boolean = false) {
         
-        var breadCrumbTrailWidth = parseInt($("#BreadCrumbTrail").css("width")) + 230;
+        var breadCrumbTrailWidth = parseInt($("#BreadCrumbTrail").css("width")) + widthStickyHeaderContainer;
         var masterMainWrapperInnerWidth = parseInt($("#MasterMainContent").css("width"));
         var isBreadCrumbTrailWidthToBig = false;
 
