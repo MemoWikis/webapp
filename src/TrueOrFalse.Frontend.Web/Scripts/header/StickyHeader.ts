@@ -9,7 +9,9 @@ class StickyHeaderClass {
     private _breadCrumbContainerCount: number;
     private _breadCrumbContainerElementsCopy;
     private _breadCrumbCounter = 1;
-    private _isChevronHide =false;
+    private _isChevronHide = false;
+    private _isAddEllipsis = false;
+    private _isFirstLoaded = false;
 
     constructor() {
         this._breadcrumb = $('#Breadcrumb').get(0);
@@ -18,10 +20,9 @@ class StickyHeaderClass {
         this._rightMainMenu.style.position = "absolute";
         this._breadcrumb.style.height = "55px";
         this._breadCrumbContainerElementsCopy = $("#BreadCrumbTrail > div").clone();
-        this._breadCrumbContainerCount = this._breadCrumbContainerElementsCopy.length -1;
+        this._breadCrumbContainerCount = this._breadCrumbContainerElementsCopy.length;
         console.log(this._breadCrumbContainerElementsCopy);
 
-       // this.StickyHeader();
         this.firstLoad();
 
         $(window).scroll(() => {
@@ -33,9 +34,11 @@ class StickyHeaderClass {
             if (window.scrollY < this._masterHeaderOuterHeight) {
                 this.positioningMenus($("#RightMainMenu"), false);
                 this.positioningMenus($("#userDropdown"), false);
+                this.computeBreadcrumb(0, "resize");
             } else {
                 this.positioningMenus($("#RightMainMenu"), true);
                 this.positioningMenus($("#BreadcrumbUserDropdown"), true);
+                this.computeBreadcrumb(250, "resize");
             }
         });   
     }
@@ -63,6 +66,9 @@ class StickyHeaderClass {
             this.toggleClass($("#HeaderUserDropdown"), $("#BreadcrumbUserDropdownImage"), "open");
 
             this._rightMainMenu.style.position = "fixed";
+
+            if (top.location.pathname !== "/")
+                this.computeBreadcrumb(230, "scrollDown");
 
         } else if ($(window).scrollTop() < this._masterHeaderOuterHeight) {
 
@@ -111,7 +117,7 @@ class StickyHeaderClass {
             this._rightMainMenu.style.position = "fixed";
 
             if (top.location.pathname !== "/") 
-                this.computeBreadcrumb(300, true);
+                this.computeBreadcrumb(300);
         } else {
 
             this.positioningMenus($("#RightMainMenu"), false);
@@ -124,7 +130,7 @@ class StickyHeaderClass {
             this._rightMainMenu.style.position = "absolute";
 
             if (top.location.pathname !== "/")
-                this.computeBreadcrumb(30, true);
+                this.computeBreadcrumb(30);
 
             $("#BreadcrumbUserDropdown").css("margin-top", "0");
             $('#BreadcrumbLogoSmall').hide();
@@ -133,6 +139,8 @@ class StickyHeaderClass {
             if (top.location.pathname === "/") 
                 this._breadcrumb.style.display = "none";
         }
+
+        this._isFirstLoaded = true;
     }
 
 
@@ -174,7 +182,7 @@ class StickyHeaderClass {
         }
     }
 
-    public computeBreadcrumb(widthStickyHeaderContainer: number, isResize: boolean = false) {
+    public computeBreadcrumb(widthStickyHeaderContainer: number, ResizeOrScroll: string = "") {
         
         var breadCrumbTrailWidth = parseInt($("#BreadCrumbTrail").css("width")) + widthStickyHeaderContainer;
         var masterMainWrapperInnerWidth = parseInt($("#MasterMainContent").css("width"));
@@ -183,10 +191,17 @@ class StickyHeaderClass {
         if (breadCrumbTrailWidth > masterMainWrapperInnerWidth)
             isBreadCrumbTrailWidthToBig = true;
 
-        while (breadCrumbTrailWidth > masterMainWrapperInnerWidth && this._breadCrumbCounter <= this._breadCrumbContainerCount) {
+        while (breadCrumbTrailWidth > masterMainWrapperInnerWidth && this._breadCrumbCounter < this._breadCrumbContainerCount) {
             try {
+                console.log($('#BreadCrumbTrail > div').eq(this._breadCrumbCounter));
+                if (this._isFirstLoaded && ResizeOrScroll === "scrollDown") {
+                    this._isFirstLoaded = false;                                                // block second Iteration
+                    this._breadCrumbCounter++;
+                }
+
                 $('#BreadCrumbTrail > div').eq(this._breadCrumbCounter).hide();
                 $('#BreadCrumbTrail > div').eq(this._breadCrumbCounter).addClass("none");
+                console.log(this._breadCrumbCounter);
 
                 breadCrumbTrailWidth = parseInt($("#BreadCrumbTrail").css("width")) + widthStickyHeaderContainer;
                 $("#Path").append(this._breadCrumbContainerElementsCopy[this._breadCrumbCounter]);
@@ -198,10 +213,12 @@ class StickyHeaderClass {
             }
         }
 
-            if(isBreadCrumbTrailWidthToBig)
-                $('#BreadCrumbTrail > div:eq(0)').after('<div id="PathMobileBreadCrumb" class="path" style="font-size: 14px;" ><span class="fas fa-ellipsis-h" style="margin-left: 10px;"></span><i class="fa fa-chevron-right"></i></div>');
-
-            if (isResize)
+        if (isBreadCrumbTrailWidthToBig && !this._isAddEllipsis) {
+            $('#BreadCrumbTrail > div:eq(0)')
+                .after('<div id="PathMobileBreadCrumb" class="path" style="font-size: 14px;" ><span class="fas fa-ellipsis-h" style="margin-left: 10px;"></span><i class="fa fa-chevron-right"></i></div>');
+            this._isAddEllipsis = true;
+        }
+        
                 masterMainWrapperInnerWidth = parseInt($("#MasterMainContent").css("width"));
 
         if (breadCrumbTrailWidth > masterMainWrapperInnerWidth) {
@@ -218,8 +235,9 @@ class StickyHeaderClass {
         var breadCrumbPath = $("#BreadCrumbTrail > div:eq(1)").offset().left;
 
         $("#Path").css("left", breadCrumbPath);
-        console.log(this._breadCrumbCounter);
     }
+
+
     
 }
 
