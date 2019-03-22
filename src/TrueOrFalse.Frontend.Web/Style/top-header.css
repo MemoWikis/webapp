@@ -264,6 +264,7 @@
   border-left: 10px solid #adadad;
 }
 #Breadcrumb {
+  height: 55px;
   font-size: 14px;
   background-color: white;
   line-height: 21px;

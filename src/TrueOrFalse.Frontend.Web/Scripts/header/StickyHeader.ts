@@ -18,13 +18,11 @@ class StickyHeaderClass {
         this._rightMainMenu = $("#RightMainMenu").get(0);
         this._header = $("#MasterHeader").get(0);
         this._rightMainMenu.style.position = "absolute";
-        this._breadcrumb.style.height = "55px";
+       // this._breadcrumb.style.height = "55px";
         this._breadCrumbContainerElementsCopy = $("#BreadCrumbTrail > div").clone();
         this._breadCrumbContainerCount = this._breadCrumbContainerElementsCopy.length;
         console.log(this._breadCrumbContainerElementsCopy);
-
         this.firstLoad();
-
         $(window).scroll(() => {
             this.StickyHeader();
         });
@@ -32,6 +30,7 @@ class StickyHeaderClass {
         $(window).resize(() => {
             this.StickyHeader();
             if (window.scrollY < this._masterHeaderOuterHeight) {
+                this._breadcrumb.style.top = ($("#MasterHeader").outerHeight()) + "px";
                 this.positioningMenus($("#RightMainMenu"), false);
                 this.positioningMenus($("#userDropdown"), false);
                 this.computeBreadcrumb(0, "resize");
@@ -92,13 +91,12 @@ class StickyHeaderClass {
                 this._breadcrumb.style.display = "none";
             }
         }
-        this._breadcrumb.style.height = "55px";
     }
 
     private firstLoad() {
         if ($(window).scrollTop() >= this._masterHeaderOuterHeight) {
 
-            this.positioningMenus($("#BreadcrumbUserDropdown"), true);
+            
             this.positioningMenus($("#RightMainMenu"), true);
 
             this._breadcrumb.style.top = "0";
@@ -123,7 +121,7 @@ class StickyHeaderClass {
             this.positioningMenus($("#RightMainMenu"), false);
             this.positioningMenus($("#userDropdown"), false);
             this._stickyHeaderisFixed = false;
-            this._breadcrumb.style.top = ($("#MasterHeader").outerHeight() + this._header.scrollTop) + "px";
+            this._breadcrumb.style.top = ($("#MasterHeader").outerHeight()) + "px";
             this._breadcrumb.style.position = "absolute";
             this._breadcrumb.classList.remove("ShowBreadcrumb");
             this.toggleClass($("#BreadcrumbUserDropdownImage"), $("#HeaderUserDropdown"), "open");
@@ -235,8 +233,8 @@ class StickyHeaderClass {
         var breadCrumbPath = $("#BreadCrumbTrail > div:eq(1)").offset().left;
 
         $("#Path").css("left", breadCrumbPath);
+        this._breadcrumb.style.top = ($("#MasterHeader").outerHeight()) + "px";
     }
-
 
     
 }
@@ -244,5 +242,5 @@ class StickyHeaderClass {
 
 $(() => {
     var s = new StickyHeaderClass();
-    s.StickyHeader();
+   
 });
