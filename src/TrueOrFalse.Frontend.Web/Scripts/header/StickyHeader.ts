@@ -29,6 +29,7 @@ class StickyHeaderClass {
 
         $(window).resize(() => {
             this.StickyHeader();
+            this.computePositionBreadCrumb();
             if (window.scrollY < this._masterHeaderOuterHeight) {
                 this._breadcrumb.style.top = ($("#MasterHeader").outerHeight()) + "px";
                 this.positioningMenus($("#RightMainMenu"), false);
@@ -233,10 +234,14 @@ class StickyHeaderClass {
         var breadCrumbPath = $("#BreadCrumbTrail > div:eq(1)").offset().left;
 
         $("#Path").css("left", breadCrumbPath);
-        this._breadcrumb.style.top = ($("#MasterHeader").outerHeight()) + "px";
+
     }
 
-    
+
+    private computePositionBreadCrumb() {
+        if($(window).scrollTop() <= 84)
+            this._breadcrumb.style.top = ($("#MasterHeader").outerHeight()) + "px";
+    }
 }
 
 
