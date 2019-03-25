@@ -220,14 +220,7 @@ class StickyHeaderClass {
 
 
         
-        masterMainWrapperInnerWidth = parseInt($("#MasterMainContent").css("width"));
-
-        if (breadCrumbTrailWidth > masterMainWrapperInnerWidth ) {
-            $('#BreadCrumbTrail > div').eq(0).hide();
-            $('#BreadCrumbTrail > div').eq(1).children().eq(1).hide();
-            $("#Path").prepend(this._breadCrumbContainerElementsCopy[0]);
-            this._isChevronHide = true;
-        }
+        //masterMainWrapperInnerWidth = parseInt($("#MasterMainContent").css("width"));
 
         
         if (breadCrumbTrailWidth < masterMainWrapperInnerWidth) {
@@ -241,9 +234,13 @@ class StickyHeaderClass {
 
                 if (breadCrumbTrailWidth < masterMainWrapperInnerWidth) {
                     $("#BreadCrumbTrail > div").eq(this._breadCrumbCounter).fadeIn();
-                    this._breadCrumbCounter--;
+                    if (this._breadCrumbCounter !== 2)
+                        this._breadCrumbCounter--;
+                    else {
+                        $("#PathMobileBreadCrumb").remove();
+                        this._isAddEllipsis = false;
+                    }
 
-                   
                 } else {
                     breadCrumbTrailWidth -= parseInt($("#BreadCrumbTrail > div").eq(this._breadCrumbCounter)
                         .css("width"));
