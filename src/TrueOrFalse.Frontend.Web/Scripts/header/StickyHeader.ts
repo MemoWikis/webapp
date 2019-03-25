@@ -193,6 +193,7 @@ class StickyHeaderClass {
 
         while (breadCrumbTrailWidth > masterMainWrapperInnerWidth && this._breadCrumbCounter < this._breadCrumbContainerCount) {
             try {
+
                 if (isBreadCrumbTrailWidthToBigByFirstLoad && !this._isAddEllipsis) {
                     $('#BreadCrumbTrail > div:eq(0)')
                         .after('<div id="PathMobileBreadCrumb" class="path" style="font-size: 14px;" ><span class="fas fa-ellipsis-h" style="margin-left: 10px;"></span><i class="fa fa-chevron-right"></i></div>');
@@ -244,7 +245,11 @@ class StickyHeaderClass {
             $('#BreadCrumbTrail > div').eq(1).children().eq(1).hide();
 
 
-        //this.computeFirstElement(breadCrumbTrailWidth, masterMainWrapperInnerWidth, widthStickyHeaderContainer);
+        if (this._breadCrumbCounter === this._breadCrumbContainerCount - 1) {
+            this.computeFirstElement(breadCrumbTrailWidth,
+                masterMainWrapperInnerWidth,
+                widthStickyHeaderContainer);
+        }
 
 
         var breadCrumbPath = $("#BreadCrumbTrail > div:eq(1)").offset().left;
@@ -256,16 +261,13 @@ class StickyHeaderClass {
     private computeFirstElement(breadCrumbTrailWidth, masterMainWrapperInnerWidth, widthStickyHeaderContainer) {
 
          breadCrumbTrailWidth +=  this._breadCrumbFirstElementWidth;
-
+         
 
 
 
         if (breadCrumbTrailWidth > masterMainWrapperInnerWidth) {
             $('#BreadCrumbTrail > div').eq(0).hide();
             $('#BreadCrumbTrail > div').eq(0).addClass("none");
-        } else if (breadCrumbTrailWidth < masterMainWrapperInnerWidth) {
-            $('#BreadCrumbTrail > div').eq(0).fadeIn();
-            $('#BreadCrumbTrail > div').eq(0).removeClass("none");
         }
     }
 
