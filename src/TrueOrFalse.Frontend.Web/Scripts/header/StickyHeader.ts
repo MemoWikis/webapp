@@ -22,6 +22,7 @@ class StickyHeaderClass {
         this._breadCrumbContainerElementsCopy = $("#BreadCrumbTrail > div").clone();
         this._breadCrumbContainerCount = this._breadCrumbContainerElementsCopy.length;
         this._breadCrumbFirstElementWidth = parseInt($('#BreadCrumbTrail > div:eq(0)').css("width"));
+        this.firstLoad();
         console.log(this._breadCrumbContainerCount);
 
         $(window).scroll(() => {
@@ -35,11 +36,11 @@ class StickyHeaderClass {
                 this._breadcrumb.style.top = ($("#MasterHeader").outerHeight()) + "px";
                 this.positioningMenus($("#RightMainMenu"), false);
                 this.positioningMenus($("#userDropdown"), false);
-                this.computeBreadcrumb(30, "resize");
+                this.computeBreadcrumb(70, "resize");
             } else {
                 this.positioningMenus($("#RightMainMenu"), true);
                 this.positioningMenus($("#BreadcrumbUserDropdown"), true);
-               // this.computeBreadcrumb(250, "resize");
+                this.computeBreadcrumb(250, "resize");
             }
         });   
     }
@@ -193,46 +194,46 @@ class StickyHeaderClass {
         while (breadCrumbTrailWidth > masterMainWrapperInnerWidth && this._breadCrumbCounter < this._breadCrumbContainerCount-1) {
             try {
                 this._breadCrumbCounter++;
-                
-
 
                 $('#BreadCrumbTrail > div').eq(this._breadCrumbCounter).hide();
                 $('#BreadCrumbTrail > div').eq(this._breadCrumbCounter).addClass("none");
-
+                $("#Path").append(this._breadCrumbContainerElementsCopy[this._breadCrumbCounter]);
 
                 if (!this._isAddEllipsis) {
                     $('#BreadCrumbTrail > div:eq(0)')
-                        .after('<div id="PathMobileBreadCrumb" class="path" style="font-size: 14px;" ><span class="fas fa-ellipsis-h" style="margin-left: 10px;"></span><i class="fa fa-chevron-right"></i></div>');
+                        .after(
+                            '<div id="PathMobileBreadCrumb" class="path" style="font-size: 14px;" ><span class="fas fa-ellipsis-h" style="margin-left: 10px;"></span><i class="fa fa-chevron-right"></i></div>');
                     this._isAddEllipsis = true;
-                    this._breadCrumbContainerCount = $("#BreadCrumbTrail > div").length;
                     this._breadCrumbCounter++;
                     this._breadCrumbContainerCount++;
-                }
-
-                breadCrumbTrailWidth = parseInt($("#BreadCrumbTrail").css("width")) + widthStickyHeaderContainer;
-                $("#Path").append(this._breadCrumbContainerElementsCopy[this._breadCrumbCounter]);
-         
+                } else
+                    $('#BreadCrumbTrail > div:eq(1)').fadeIn();
             } catch (e) {
                 console.log("incorrect counter Breadcrumb");
                 break;
             }
+
+            breadCrumbTrailWidth = parseInt($("#BreadCrumbTrail").css("width")) + widthStickyHeaderContainer;
         }
   
         
         if (breadCrumbTrailWidth < masterMainWrapperInnerWidth) {
             console.log(this._breadCrumbCounter);
-            while (this._breadCrumbCounter >= 2) {
+            while (this._breadCrumbCounter >= 1) {
                 breadCrumbTrailWidth += parseInt($("#BreadCrumbTrail > div").eq(this._breadCrumbCounter).css("width"));
+
 
                 if (breadCrumbTrailWidth < masterMainWrapperInnerWidth) {
                     $("#BreadCrumbTrail > div").eq(this._breadCrumbCounter).fadeIn();
-                    if (this._breadCrumbCounter !== 2)
+                    if (this._breadCrumbCounter !== 1) {
                         this._breadCrumbCounter--;
-                    else {
-                        $("#PathMobileBreadCrumb").remove();
-                        this._isAddEllipsis = false;
+                        console.log(this._breadCrumbCounter);
+                    }
+
+
+                    if (this._breadCrumbCounter === 1) {
+                        $("#PathMobileBreadCrumb").hide();
                         this._breadCrumbCounter--;
-                        this._breadCrumbContainerCount--;
                     }
 
                 } else {
