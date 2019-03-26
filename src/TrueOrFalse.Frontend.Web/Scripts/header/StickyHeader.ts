@@ -8,7 +8,7 @@ class StickyHeaderClass {
     private _breadCrumbDistanceRight: string;
     private _breadCrumbContainerCount: number;
     private _breadCrumbContainerElementsCopy : JQuery;
-    private _breadCrumbCounter = 1;
+    private _breadCrumbCounter = 0;
     private _isChevronHide = false;
     private _isAddEllipsis = false;
     private _isFirstLoaded = false;
@@ -19,18 +19,18 @@ class StickyHeaderClass {
         this._rightMainMenu = $("#RightMainMenu").get(0);
         this._header = $("#MasterHeader").get(0);
         this._rightMainMenu.style.position = "absolute";
-       // this._breadcrumb.style.height = "55px";
         this._breadCrumbContainerElementsCopy = $("#BreadCrumbTrail > div").clone();
         this._breadCrumbContainerCount = this._breadCrumbContainerElementsCopy.length;
         this._breadCrumbFirstElementWidth = parseInt($('#BreadCrumbTrail > div:eq(0)').css("width"));
-        this.firstLoad();
+        console.log(this._breadCrumbContainerCount);
+
         $(window).scroll(() => {
             this.StickyHeader();
         });
 
         $(window).resize(() => {
             this.StickyHeader();
-            this.computePositionBreadCrumb();
+           // this.computePositionBreadCrumb();
             if (window.scrollY < this._masterHeaderOuterHeight) {
                 this._breadcrumb.style.top = ($("#MasterHeader").outerHeight()) + "px";
                 this.positioningMenus($("#RightMainMenu"), false);
@@ -39,7 +39,7 @@ class StickyHeaderClass {
             } else {
                 this.positioningMenus($("#RightMainMenu"), true);
                 this.positioningMenus($("#BreadcrumbUserDropdown"), true);
-                this.computeBreadcrumb(250, "resize");
+               // this.computeBreadcrumb(250, "resize");
             }
         });   
     }
@@ -186,20 +186,22 @@ class StickyHeaderClass {
 
         var breadCrumbTrailWidth = parseInt($("#BreadCrumbTrail").css("width")) + widthStickyHeaderContainer;
         var masterMainWrapperInnerWidth = parseInt($("#MasterMainContent").css("width"));
-        var isBreadCrumbTrailWidthToBigByFirstLoad = false;    // nochmal überdenken evtl nicht nötig
 
-        if (breadCrumbTrailWidth > masterMainWrapperInnerWidth)
-            isBreadCrumbTrailWidthToBigByFirstLoad = true;
+        this.computeFirstElementFadeIn(breadCrumbTrailWidth, masterMainWrapperInnerWidth);
+        breadCrumbTrailWidth = parseInt($("#BreadCrumbTrail").css("width")) + widthStickyHeaderContainer;
 
-        while (breadCrumbTrailWidth > masterMainWrapperInnerWidth && this._breadCrumbCounter < this._breadCrumbContainerCount) {
+        while (breadCrumbTrailWidth > masterMainWrapperInnerWidth && this._breadCrumbCounter < this._breadCrumbContainerCount-1) {
             try {
+                this._breadCrumbCounter++;
+                
 
-                if (isBreadCrumbTrailWidthToBigByFirstLoad && !this._isAddEllipsis) {
+                if (!this._isAddEllipsis) {
                     $('#BreadCrumbTrail > div:eq(0)')
                         .after('<div id="PathMobileBreadCrumb" class="path" style="font-size: 14px;" ><span class="fas fa-ellipsis-h" style="margin-left: 10px;"></span><i class="fa fa-chevron-right"></i></div>');
                     this._isAddEllipsis = true;
                     this._breadCrumbContainerCount = $("#BreadCrumbTrail > div").length;
                     this._breadCrumbCounter++;
+                    this._breadCrumbContainerCount++;
                 }
 
                 $('#BreadCrumbTrail > div').eq(this._breadCrumbCounter).hide();
@@ -207,10 +209,7 @@ class StickyHeaderClass {
 
                 breadCrumbTrailWidth = parseInt($("#BreadCrumbTrail").css("width")) + widthStickyHeaderContainer;
                 $("#Path").append(this._breadCrumbContainerElementsCopy[this._breadCrumbCounter]);
-
-                if(breadCrumbTrailWidth > masterMainWrapperInnerWidth)
-                    this._breadCrumbCounter++;
-                console.log(this._breadCrumbCounter);
+         
             } catch (e) {
                 console.log("incorrect counter Breadcrumb");
                 break;
@@ -219,7 +218,7 @@ class StickyHeaderClass {
   
         
         if (breadCrumbTrailWidth < masterMainWrapperInnerWidth) {
-
+            console.log(this._breadCrumbCounter);
             while (this._breadCrumbCounter >= 2) {
                 breadCrumbTrailWidth += parseInt($("#BreadCrumbTrail > div").eq(this._breadCrumbCounter).css("width"));
 
@@ -231,6 +230,7 @@ class StickyHeaderClass {
                         $("#PathMobileBreadCrumb").remove();
                         this._isAddEllipsis = false;
                         this._breadCrumbCounter--;
+                        this._breadCrumbContainerCount--;
                     }
 
                 } else {
@@ -244,30 +244,33 @@ class StickyHeaderClass {
         if (this._breadCrumbCounter === this._breadCrumbContainerCount + 1 && !this._isChevronHide)
             $('#BreadCrumbTrail > div').eq(1).children().eq(1).hide();
 
-
-        if (this._breadCrumbCounter === this._breadCrumbContainerCount - 1) {
-            this.computeFirstElement(breadCrumbTrailWidth,
-                masterMainWrapperInnerWidth,
-                widthStickyHeaderContainer);
-        }
+        this.computeFirstElementHide(breadCrumbTrailWidth,
+            masterMainWrapperInnerWidth,
+            widthStickyHeaderContainer);
 
 
         var breadCrumbPath = $("#BreadCrumbTrail > div:eq(1)").offset().left;
 
         $("#Path").css("left", breadCrumbPath);
-            console.log(this._breadCrumbCounter);
     }
 
-    private computeFirstElement(breadCrumbTrailWidth, masterMainWrapperInnerWidth, widthStickyHeaderContainer) {
+    private computeFirstElementHide(breadCrumbTrailWidth: number, masterMainWrapperInnerWidth:number, widthStickyHeaderContainer: number) {
+        if ($('#BreadCrumbTrail >div:eq(0)').hasClass("none"))
+            breadCrumbTrailWidth += this._breadCrumbFirstElementWidth; 
 
-         breadCrumbTrailWidth +=  this._breadCrumbFirstElementWidth;
-         
-
-
-
-        if (breadCrumbTrailWidth > masterMainWrapperInnerWidth) {
+        if (breadCrumbTrailWidth > masterMainWrapperInnerWidth && this._breadCrumbCounter === this._breadCrumbContainerCount - 1) {
+           
             $('#BreadCrumbTrail > div').eq(0).hide();
             $('#BreadCrumbTrail > div').eq(0).addClass("none");
+        }
+    }
+
+    private computeFirstElementFadeIn(breadCrumbTrailWidth, masterMainWrapperInnerWidth) {
+        breadCrumbTrailWidth += this._breadCrumbFirstElementWidth;
+
+        if (breadCrumbTrailWidth < masterMainWrapperInnerWidth && this._breadCrumbCounter === this._breadCrumbContainerCount - 1) {
+            $('#BreadCrumbTrail > div:eq(0)').fadeIn();
+            $('#BreadCrumbTrail > div').eq(0).removeClass("none");
         }
     }
 
