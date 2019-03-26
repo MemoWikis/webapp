@@ -195,6 +195,11 @@ class StickyHeaderClass {
                 this._breadCrumbCounter++;
                 
 
+
+                $('#BreadCrumbTrail > div').eq(this._breadCrumbCounter).hide();
+                $('#BreadCrumbTrail > div').eq(this._breadCrumbCounter).addClass("none");
+
+
                 if (!this._isAddEllipsis) {
                     $('#BreadCrumbTrail > div:eq(0)')
                         .after('<div id="PathMobileBreadCrumb" class="path" style="font-size: 14px;" ><span class="fas fa-ellipsis-h" style="margin-left: 10px;"></span><i class="fa fa-chevron-right"></i></div>');
@@ -203,9 +208,6 @@ class StickyHeaderClass {
                     this._breadCrumbCounter++;
                     this._breadCrumbContainerCount++;
                 }
-
-                $('#BreadCrumbTrail > div').eq(this._breadCrumbCounter).hide();
-                $('#BreadCrumbTrail > div').eq(this._breadCrumbCounter).addClass("none");
 
                 breadCrumbTrailWidth = parseInt($("#BreadCrumbTrail").css("width")) + widthStickyHeaderContainer;
                 $("#Path").append(this._breadCrumbContainerElementsCopy[this._breadCrumbCounter]);
