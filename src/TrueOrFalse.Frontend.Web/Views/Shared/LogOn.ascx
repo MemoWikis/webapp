@@ -21,7 +21,7 @@
         </a>
     </div>
     <div class="header-item" <%if (!userSession.IsLoggedIn)
-        {%>style="margin-top:-2px"
+        {%>style="margin-top: -2px; padding-left: 10px;"
         <%} %> id="Login">
         <%if (userSession.IsLoggedIn)
             {
