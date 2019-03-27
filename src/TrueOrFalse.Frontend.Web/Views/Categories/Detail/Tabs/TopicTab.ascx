@@ -158,7 +158,7 @@
     
     <% } %>
     
-    <div id="ContentModulePlaceholder" v-if="editMode">
+    <div id="ContentModulePlaceholder" v-if="editMode" v-cloak>
         <content-module inline-template content-module-type="AddModuleButton">
             <div class="placeholderBorder" :class="{ hover : hoverState }" @click="addModule()" @mouseenter="updateHoverState(true)" @mouseleave="updateHoverState(false)">
                 <i class="fa fa-plus-square fa-5x" :class="{ hover : hoverState }"></i>
