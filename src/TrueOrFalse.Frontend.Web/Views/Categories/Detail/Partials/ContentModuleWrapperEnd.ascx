@@ -1,6 +1,6 @@
 ﻿<%@ Control Language="C#" AutoEventWireup="true" Inherits="System.Web.Mvc.ViewUserControl<BaseContentModule>" %>
                 
-                <div class="Button Handle" v-if="hoverState">
+                <div class="ModuleHandle" v-if="hoverState">
                     <i class="fa fa-bars"></i>
                 </div>
                                 
