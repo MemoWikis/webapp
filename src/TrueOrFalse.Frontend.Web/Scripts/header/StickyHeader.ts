@@ -196,13 +196,12 @@ class StickyHeaderClass {
         
         this.computeWhenBreadCrumbTrailIsToLow(breadCrumbTrailWidth, masterMainWrapperInnerWidth);
         
-        if (this._breadCrumbCounter === this._breadCrumbContainerCount-1 && !this._isChevronHide)
-            $('#BreadCrumbTrail > div').eq(1).children().eq(1).hide();
+
 
         this.computeFirstElementHide(breadCrumbTrailWidth,
             masterMainWrapperInnerWidth,
             widthStickyHeaderContainer);
-
+        this.hideAndFadeInChevron();
 
         var breadCrumbPath = $("#BreadCrumbTrail > div:eq(1)").offset().left;
 
@@ -296,7 +295,20 @@ class StickyHeaderClass {
         if($(window).scrollTop() <= 84)
             this._breadcrumb.style.top = ($("#MasterHeader").outerHeight()) + "px";
     }
+
+    private hideAndFadeInChevron() {
+
+        if (this._breadCrumbCounter === this._breadCrumbContainerCount - 1 && !this._isChevronHide) {
+            $('#BreadCrumbTrail > div').eq(1).children().eq(1).hide();
+            this._isChevronHide = true;
+        } else if (this._breadCrumbCounter === this._breadCrumbContainerCount-2 && this._isChevronHide) {
+            $('#BreadCrumbTrail > div').eq(1).children().eq(1).fadeIn();
+            this._isChevronHide = false;
+        }
+    }
+
 }
+
 
 
 $(() => {
