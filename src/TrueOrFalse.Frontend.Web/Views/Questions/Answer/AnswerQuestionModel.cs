@@ -115,13 +115,9 @@ public class AnswerQuestionModel : BaseModel
     public bool IsInWidget;
 
     public ContentRecommendationResult ContentRecommendationResult;
+    
 
-    public AnswerQuestionModel()
-    {
-    }
-
-
-    public AnswerQuestionModel(Question question, bool? isMobileDevice = null): this()
+    public AnswerQuestionModel(Question question, bool? isMobileDevice = null)
     {
         if(this.QuestionViewGuid == Guid.Empty)
             QuestionViewGuid = Guid.NewGuid();
@@ -134,7 +130,7 @@ public class AnswerQuestionModel : BaseModel
         Populate(question);
     }
 
-    public AnswerQuestionModel(Guid questionViewGuid, LearningSession learningSession, bool? isMobileDevice = null) : this()
+    public AnswerQuestionModel(Guid questionViewGuid, LearningSession learningSession, bool? isMobileDevice = null)
     {
         this.IsMobileDevice = isMobileDevice;
         QuestionViewGuid = questionViewGuid;
@@ -161,7 +157,7 @@ public class AnswerQuestionModel : BaseModel
         Populate(LearningSessionStep.Question);
     }
 
-    public AnswerQuestionModel(int dummyQuestionId, bool testSession = false) : this()
+    public AnswerQuestionModel(int dummyQuestionId, bool testSession = false)
     {
         var dummyQuestion = Sl.QuestionRepo.GetById(dummyQuestionId);  
 
@@ -176,18 +172,7 @@ public class AnswerQuestionModel : BaseModel
 
     }
 
-
-    public static AnswerQuestionModel CreateExpiredTestSession()
-    {
-        var model = new AnswerQuestionModel()
-        {
-            IsTestSession = true,
-            ShowErrorExpiredTestSession = true
-        };
-        return model;
-    }
-
-    public AnswerQuestionModel(TestSession testSession, Guid questionViewGuid, Question question, bool? isMobileDevice = null) : this()
+    public AnswerQuestionModel(TestSession testSession, Guid questionViewGuid, Question question, bool? isMobileDevice = null)
     {
         this.IsMobileDevice = isMobileDevice;
 
@@ -207,7 +192,7 @@ public class AnswerQuestionModel : BaseModel
         Populate(question);
     }
 
-    public AnswerQuestionModel(Guid questionViewGuid, Question question, QuestionSearchSpec searchSpec, bool? isMobileDevice = null) : this()
+    public AnswerQuestionModel(Guid questionViewGuid, Question question, QuestionSearchSpec searchSpec, bool? isMobileDevice = null)
     {
         this.IsMobileDevice = isMobileDevice;
         QuestionViewGuid = questionViewGuid;
@@ -236,7 +221,7 @@ public class AnswerQuestionModel : BaseModel
         Populate(question);
     }
 
-    public AnswerQuestionModel(Guid questionViewGuid, Set set, Question question) : this()
+    public AnswerQuestionModel(Guid questionViewGuid, Set set, Question question)
     {
         QuestionViewGuid = questionViewGuid;
 
@@ -340,6 +325,9 @@ public class AnswerQuestionModel : BaseModel
 
         DescriptionForSearchEngines = GetMetaDescriptionSearchEngines();
         DescriptionForFacebook = GetMetaDescriptionsFacebook();
+
+        var authors = Sl.QuestionRepo.GetAuthorsQuestion(QuestionId);
+        SidebarModel.Fill(authors, UserId);
     }
 
     private string GetMetaDescriptionSearchEngines()

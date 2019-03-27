@@ -20,7 +20,7 @@
     breadCrumbCategoriesCount--;
     for (var i = 1; i <= breadCrumbCategoriesCount; i++)
     { %>
-        <div id="<%=i %>BreadCrumbContainer" style="display: flex; height: auto; margin-bottom: 5px;" class="show-tooltip" data-placement="bottom" title="Zur Themenseite"> 
+        <div id="<%=i %>BreadCrumbContainer" style="display: flex; height: auto; margin-bottom: 8px;" class="show-tooltip" data-placement="bottom" title="Zur Themenseite"> 
             <% if (!Model.IsAnswerQuestionOrSetBreadCrumb) {
                     if (i == breadCrumbCategoriesCount) { %> 
                      <span style="margin-left:10px;"><a  id="<%=  i%>BreadCrumb" style="color:#003264;" href="<%= Links.CategoryDetail(breadCrumbCategories[i]) %>" class=""><%= breadCrumbCategories[i].Name %></a></span>              

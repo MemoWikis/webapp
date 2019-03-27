@@ -1,24 +1,64 @@
-﻿.float-right {
-  float: right;
+﻿@media (min-width: 768px) {
+}@media (min-width: 768px) {
+}@media (max-width: 767px) {
+}@media (min-width: 768px) {
+}@media (min-width: 768px) {
+}@media (min-width: 768px) {
+}@media (max-width: 767px) {
+}@media (max-width: 767px) {
+}@media (max-width: 649px) {
+}@media (min-width: 650px) {
+}.font-size12 {
+  font-size: 12px;
 }
-.float-right .margin-left {
-  margin-left: 0.7em;
+.SetAndCategory {
+  margin-right: 10px;
 }
-.float-right .margin-right-50 {
-  margin-right: 3.125em;
+.correctness-prohability {
+  margin-left: 10px;
 }
-.float-right .margin-left-20 {
-  margin-left: 2.25em;
+.question-details {
+  color: #555555;
+  font-size: 12px;
 }
-.float-right .width-100 {
-  width: 6.25em;
+.question-details .category-set {
+  display: flex;
 }
-.float-left {
-  float: left;
+.question-details .category-set .label-category {
+  margin-right: 10px;
 }
-.margin-left-first {
-  margin-left: 1.3em;
+.question-details .category-set .label-set {
+  margin-right: 10px;
 }
-.margin-left {
-  margin-left: 0.7em;
+.question-details .category-set #Category {
+  font-size: 12px;
+}
+.question-details .category-set .fa-chevron-right {
+  margin-top: 4px;
+}
+.question-details .second-row {
+  padding-left: 0px;
+  display: flex;
+}
+@media (max-width: 1199px) {
+  .question-details .second-row {
+    padding-left: 10px;
+    padding-top: 10px;
+  }
+}
+.question-details .seen {
+  padding-right: 10px;
+  margin-left: 25px;
+}
+.question-details .learning-status {
+  margin-right: 25px;
+}
+.question-details .sparklineTotals {
+  margin-right: 10px;
+}
+.text-sponsor {
+  text-align: center;
+}
+.model-categories {
+  padding-top: 0.375em;
 }

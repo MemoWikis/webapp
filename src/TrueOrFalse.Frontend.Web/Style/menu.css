@@ -94,7 +94,6 @@
 #mainMenu .list-group-item .add-new {
   margin-top: 2px;
   float: right !important;
-  float: right;
 }
 #mainMenu .list-group-item .set-color {
   color: #FFD700;
@@ -288,10 +287,11 @@
           align-items: flex-end;
 }
 .RightMainMenu {
+  margin-top: 0;
   padding: 0px;
   position: absolute;
   background-color: white;
-  width: 232px !important;
+  width: 292px;
   max-width: unset !important;
   opacity: 1;
   z-index: 100;
@@ -303,6 +303,7 @@
   top: 60px;
   right: 4px;
   left: unset;
+  z-index: 101;
 }
 .RightMainMenu span {
   display: block !important;
@@ -348,7 +349,6 @@
 .RightMainMenu .list-group-item .add-new {
   margin-top: 2px;
   float: right !important;
-  float: right;
 }
 .RightMainMenu .list-group-item .fa-stack {
   font-size: 15px;
@@ -443,7 +443,7 @@
   margin-top: 15px;
 }
 .fa-search {
-  color: grey;
+  color: #c0c0c0;
   padding-right: 7px;
 }
 #mainMenuThemeCentered #mainMenuAboutUsersAdmin,
@@ -523,4 +523,9 @@ div.menu .tooltip-inner {
 .BackToHome {
   padding-top: 7px;
   padding-bottom: 15px;
+}
+/* UserDropdown*/
+#userDropdown {
+  margin-top: 0;
+  padding-right: 20px;
 }

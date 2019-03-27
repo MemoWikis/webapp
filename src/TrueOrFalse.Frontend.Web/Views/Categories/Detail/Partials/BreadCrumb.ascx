@@ -12,45 +12,41 @@
 
      %>
 
-<div id="BreadCrumbContainer" class="container" style="display:flex;">
+<div id="BreadCrumbContainer" class="container">
+
     <a href="/" id="BreadcrumbLogoSmall" class="show-tooltip" data-placement="bottom" title="Zur Startseite" style="display:none;">
         <img src="/android-chrome-36x36.png" style="min-width: 36px;">
     </a>
-    <div id="BreadCrumbTrail" style="display:flex; flex-wrap: wrap;">
-    <div style="height: auto;" id="BreadcrumbHome" class="show-tooltip" data-placement="bottom"  title="Zur Startseite">
-     <%if(!Model.TopNavMenu.IsWelcomePage){ %> 
-        <a href="/" class="category-icon">
-            <span style="margin-left: 10px">Home</span>
-        </a>
-        <span><i class="fa fa-chevron-right"></i></span>
-     <%}%>
-     </div>
 
-<%if(!Model.TopNavMenu.IsWelcomePage){ %>  
-    <%if(Model.TopNavMenu.IsCategoryBreadCrumb || Model.TopNavMenu.IsCategoryLearningBreadCrumb){ %>
-        <%= Html.Partial("/Views/Categories/Detail/Partials/BreadCrumbCategories.ascx", Model.TopNavMenu) %>
-    <% }else
-       {
-            if (Model.TopNavMenu.IsAnswerQuestionOrSetBreadCrumb) { %>
-             <%= Html.Partial("/Views/Categories/Detail/Partials/BreadCrumbCategories.ascx", Model.TopNavMenu) %>
-          <%}
-        
-       var i = 0;
-       foreach (var breadCrumbItem in Model.TopNavMenu.BreadCrumb) {
-            i++;%>
-        <div style="display: flex; height: auto; margin-bottom: 5px" class="show-tooltip" data-placement="bottom" <% if (Model.TopNavMenu.IsAnswerQuestionOrSetBreadCrumb){%>title="Zum Lernset" <% }else{ %> title="<%= breadCrumbItem.ToolTipText%>" <%}%> >                                                                                          
-           <%if (breadCrumbItem.Equals(Model.TopNavMenu.BreadCrumb.Last())){%>
-              <span style="display: flex; margin-left: 10px;"><a id="<%=i %>BreadCrumb" style="color:#003264;" href="<%= breadCrumbItem.Url %>"><% if (Model.TopNavMenu.IsAnswerQuestionOrSetBreadCrumb){%>Lernset: <%} %><%= breadCrumbItem.Text %></a></span>
-            <%} else {%>
-               <span style="display: inline-table; margin-left: 10px;"><a id="<%= i %>BreadCrumb" style="display:inline;"  href="<%= breadCrumbItem.Url %>"><%= breadCrumbItem.Text %></a>
-                  <i style="display: inline;" class="fa fa-chevron-right"></i>
-               </span>  
-            <%} %>
-        </div>
-    <% } %>        
-    <%}%>
-<%} %>
-</div>
+    <div id="BreadCrumbTrail" style="display:flex;">
+        <ul id="Path" class="path">
+        </ul>
+
+    <%if(!Model.TopNavMenu.IsWelcomePage){ %>  
+        <%if(Model.TopNavMenu.IsCategoryBreadCrumb || Model.TopNavMenu.IsCategoryLearningBreadCrumb){ %>
+            <%= Html.Partial("/Views/Categories/Detail/Partials/BreadCrumbCategories.ascx", Model.TopNavMenu) %>
+        <% }else
+           {
+                if (Model.TopNavMenu.IsAnswerQuestionOrSetBreadCrumb) { %>
+                 <%= Html.Partial("/Views/Categories/Detail/Partials/BreadCrumbCategories.ascx", Model.TopNavMenu) %>
+              <%}
+            
+           var i = 0;
+           foreach (var breadCrumbItem in Model.TopNavMenu.BreadCrumb) {
+                i++;%>
+            <div style="display: flex; height: auto; margin-bottom: 5px" class="show-tooltip" data-placement="bottom" <% if (Model.TopNavMenu.IsAnswerQuestionOrSetBreadCrumb){%>title="Zum Lernset" <% }else{ %> title="<%= breadCrumbItem.ToolTipText%>" <%}%> >                                                                                          
+               <%if (breadCrumbItem.Equals(Model.TopNavMenu.BreadCrumb.Last())){%>
+                  <span style="display: flex; margin-left: 10px;"><a id="<%=i %>BreadCrumb" style="color:#003264;" href="<%= breadCrumbItem.Url %>"><% if (Model.TopNavMenu.IsAnswerQuestionOrSetBreadCrumb){%>Lernset: <%} %><%= breadCrumbItem.Text %></a></span>
+                <%} else {%>
+                   <span style="display: inline-table; margin-left: 10px;"><a id="<%= i %>BreadCrumb" style="display:inline;"  href="<%= breadCrumbItem.Url %>"><%= breadCrumbItem.Text %></a>
+                      <i style="display: inline;" class="fa fa-chevron-right"></i>
+                   </span>  
+                <%} %>
+            </div>
+        <% } %>        
+        <%}%>
+    <%} %>
+    </div>
     <div id="StickyHeaderContainer">    
         <div class="input-group" id="StickyHeaderSearchBoxDiv" style="margin-right:3px">
             <input type="text" class="form-control" placeholder="Suche" id="StickyHeaderSearchBox">
@@ -64,7 +60,7 @@
            <a class="TextLinkWithIcon dropdown-toggle" id="dLabelBreadCrumb" data-toggle="dropdown" href="#">
             <img class="userImage" style="margin-top:21px; border:none; text-align:center;" src="<%= userImage%>" />
            </a>   
-            <ul id="BreadcrumbUserDropdown" class="dropdown-menu pull-right" role="menu" aria-labelledby="dLabel" style="right:0; position: absolute;">
+            <ul id="BreadcrumbUserDropdown" class="dropdown-menu pull-right" role="menu" aria-labelledby="dLabel" style="right:0; position: absolute; padding-right: 20px;">
                 <li>
                     <a style="white-space: unset; padding: 0px;" href="<%= Links.Knowledge()%>">
                             <div id="activity-popover-title">Deine Lernpunkte</div>

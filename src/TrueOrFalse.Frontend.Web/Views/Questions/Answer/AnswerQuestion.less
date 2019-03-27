@@ -1,6 +1,13 @@
 ﻿@import (reference) '../../../Style/includes/imports.less';
 .no-white-background;
+//Variables
 
+//Mixins
+.font-size12-and-padding{
+    font-size: 12px;
+    padding-top: 2px;
+    padding-left: 10px;
+}
 .navLinks {
     float: right;
     margin-bottom: 10px;
@@ -18,7 +25,20 @@
 }
 
 .AnswerQuestionHeader {
+    max-width: 75%;
     margin-bottom: 10px;
+
+    .Next {
+        padding-right: 5px;
+
+        .media-below-lg( {
+            padding-right: 0px;
+        });
+    }
+
+    .media-below-lg( {
+        max-width: 100%;
+    });
 
     .media-sm-up( {
         display: flex;
@@ -104,7 +124,6 @@
             display: none;
         }
     }
-
     );
 }
 
@@ -139,7 +158,7 @@
 
 .SessionHeaderColumnWidth(@rightColWidthPercentage) {
     .QuestionCount, .EduPartnerWrapper {
-        width: @rightColWidthPercentage * 1%;
+        width: @rightColWidthPercentage  * 1%;
     }
 
     .SessionTitle {
@@ -158,7 +177,7 @@
 );
 
 .media-md-up( {
-    .SessionHeaderColumnWidth(20%);
+    .SessionHeaderColumnWidth(19%);
 }
 
 );
@@ -264,7 +283,7 @@
     );
 
     .media-md-up( {
-        width: 10%;
+        width: 11%;
     }
 
     );
@@ -339,9 +358,24 @@
         margin: 0;
     }
 }
+/*SideBar*/
+
 
 /* Answer Section
 ------------------------------------------------------*/
+#FirstRow {
+    .col-xs-9 {
+        @media (max-width: @screen-lg-min) {
+            width: 100%
+        }
+    }
+
+    #SidebarCards {
+        @media (max-width: @screen-lg-min) {
+            display: none;
+        }
+    }
+}
 
 #AnswerBody {
     font-size: @font-size-base;
@@ -358,17 +392,7 @@
     );
 }
 
-#activityPointsDispaly {
-    font-size: 22px;
-    font-family: sans-serif;
-    line-height: normal;
-    color: RGB(185,219,79);
 
-    small {
-        font-size: 10px;
-        display: block;
-    }
-}
 
 .apply-open-sans-font() {
     font-family: 'Open Sans' !important;
@@ -623,31 +647,61 @@
 /*---------------------------------------------------------------------------
                                  FooterQuestionDetails
 -----------------------------------------------------------------------------*/
-.FooterQuestionDetails div:last-child {
-    margin-left: auto;
-    padding-right: 0px;
-}
+
 
 .FooterQuestionDetails {
-    display: flex !important;
-    flex-flow: row;
-    align-items: center;
-    padding: 1px 20px 10px;
-    font-size: small;
-    text-align: left;
+    color: @grey6x5;
+    padding-bottom: 10px;
 
-    div {
-        padding-right: 10px;
+    .col-md-2 {
+        width: 17%;
+
+        .media-below-md( {
+            width: 100%;
+        }
+
+        );
     }
 
-    #LicenseQuestion {
+    .col-md-10 {
+        width: 83%;
+        display: flex;
+        padding-top: 4px;
+
+        .media-below-md( {
+            width: 100%;
+        }
+
+        );
+    }
+
+    .TextLinkWithIcon {
+        flex-flow: row;
+
         .TextDiv {
             padding-top: 3px;
         }
     }
 
-    .TextLinkWithIcon {
-        flex-flow: row;
+    .created {
+        .font-size12-and-padding();
+    }
+
+    .processed {
+        .font-size12-and-padding();
+    }
+
+    .comment-link {
+        margin-left: auto;
+        padding-right: 0;
+
+        .fa {
+            padding-right: 0;
+        }
+
+        .fa-comment {
+            color: #979797;
+        }
     }
 }
 
@@ -669,7 +723,7 @@
     #AnswerBody {
         border: none;
         box-shadow: none;
-        padding: 0;
+       // padding: 0;
         margin-bottom: 0;
     }
 
@@ -679,7 +733,7 @@
 
     #LicenseQuestion {
         margin-top: 10px;
-        padding: 0;
+       // padding: 0;
     }
 
     #video-pager {
@@ -830,14 +884,26 @@
 /* Primary Category Card */
 
 .SingleCardFullWidth;
-
+.singleCatFullWidth{
+    margin-top: 2.25em;
+}
 /*--------------------------ActivityPoints---------------------
 
 ---------------------------------------------------------------*/
-
 #activityPointsDispaly {
     float: right;
-    
+    font-size: 22px;
+    font-family: sans-serif;
+    line-height: normal;
+    color: RGB(185,219,79);
+    .fa-info-circle{
+        font-size: 14px;
+    }
+
+    small {
+        font-size: 10px;
+        display: block;
+    }
 }
 
 
@@ -849,31 +915,36 @@
     display: flex;
     float: right;
 
-    .Button {
-        .dropdown-menu {
-            left: -7em;
-        }
-    }
-
-
-    .margin-top-11 {
-        margin-top: 0.7em;
-    }
-
-    span {
-        margin-left: 0.5em;
-    }
-
     .Pin {
-        margin-left: 0px;
+        padding-right: 5px;
     }
 
+    .edit-question {
+        margin-top: 0.7em;
+        padding-right: 8px;
+    }
+    .category{
+        margin-right: 15px;
+    }
+    .set{
+        margin-right: 15px
+    }
     .margin-top-4 {
         margin-top: 0.25em;
     }
 
-    .float-left {
-        float: left;
+    .dropdown-menu {
+        z-index: 10;
+    }
+
+    .dropdown-toggle{
+        padding-right: 0px;
+    }
+}
+
+.SingleCategoryAttention {
+    .well {
+        background-color: rgba(112, 112, 112, .08)
     }
 }
 

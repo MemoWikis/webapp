@@ -21,6 +21,11 @@
     padding-right: 0;
   }
 }
+.font-size12-and-padding {
+  font-size: 12px;
+  padding-top: 2px;
+  padding-left: 10px;
+}
 .navLinks {
   float: right;
   margin-bottom: 10px;
@@ -35,7 +40,21 @@
   display: inline-block !important;
 }
 .AnswerQuestionHeader {
+  max-width: 75%;
   margin-bottom: 10px;
+}
+.AnswerQuestionHeader .Next {
+  padding-right: 5px;
+}
+@media (max-width: 1199px) {
+  .AnswerQuestionHeader .Next {
+    padding-right: 0px;
+  }
+}
+@media (max-width: 1199px) {
+  .AnswerQuestionHeader {
+    max-width: 100%;
+  }
 }
 @media (min-width: 768px) {
   .AnswerQuestionHeader {
@@ -230,13 +249,13 @@
 @media (min-width: 992px) {
   .QuestionCount,
   .EduPartnerWrapper {
-    width: 20%;
+    width: 19%;
   }
   .SessionTitle {
     width: 100%;
   }
   .EduPartnerWrapper + .SessionTitle {
-    width: 80%;
+    width: 81%;
   }
 }
 @media (min-width: 480px) {
@@ -347,7 +366,7 @@
 }
 @media (min-width: 992px) {
   .SessionType {
-    width: 10%;
+    width: 11%;
   }
 }
 .ProgressBarContainer {
@@ -424,8 +443,19 @@
   font-size: 100%;
   margin: 0;
 }
+/*SideBar*/
 /* Answer Section
 ------------------------------------------------------*/
+@media (max-width: 1200px) {
+  #FirstRow .col-xs-9 {
+    width: 100%;
+  }
+}
+@media (max-width: 1200px) {
+  #FirstRow #SidebarCards {
+    display: none;
+  }
+}
 #AnswerBody {
   font-size: 14px;
   line-height: 1.42857143;
@@ -437,16 +467,6 @@
   .QuestionText {
     padding-bottom: 30px;
   }
-}
-#activityPointsDispaly {
-  font-size: 22px;
-  font-family: sans-serif;
-  line-height: normal;
-  color: #b9db4f;
-}
-#activityPointsDispaly small {
-  font-size: 10px;
-  display: block;
 }
 #levelPopupModal,
 #levelPopupModal .modal-title,
@@ -695,33 +715,30 @@
 /*---------------------------------------------------------------------------
                                  FooterQuestionDetails
 -----------------------------------------------------------------------------*/
-.FooterQuestionDetails div:last-child {
-  margin-left: auto;
-  padding-right: 0px;
-}
 .FooterQuestionDetails {
-  display: -webkit-box !important;
-  display: -webkit-flex !important;
-  display: -ms-flexbox !important;
-  display: flex !important;
-  -webkit-box-orient: horizontal;
-  -webkit-box-direction: normal;
-  -webkit-flex-flow: row;
-      -ms-flex-flow: row;
-          flex-flow: row;
-  -webkit-box-align: center;
-  -webkit-align-items: center;
-      -ms-flex-align: center;
-          align-items: center;
-  padding: 1px 20px 10px;
-  font-size: small;
-  text-align: left;
+  color: #555555;
+  padding-bottom: 10px;
 }
-.FooterQuestionDetails div {
-  padding-right: 10px;
+.FooterQuestionDetails .col-md-2 {
+  width: 17%;
 }
-.FooterQuestionDetails #LicenseQuestion .TextDiv {
-  padding-top: 3px;
+@media (max-width: 991px) {
+  .FooterQuestionDetails .col-md-2 {
+    width: 100%;
+  }
+}
+.FooterQuestionDetails .col-md-10 {
+  width: 83%;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  padding-top: 4px;
+}
+@media (max-width: 991px) {
+  .FooterQuestionDetails .col-md-10 {
+    width: 100%;
+  }
 }
 .FooterQuestionDetails .TextLinkWithIcon {
   -webkit-box-orient: horizontal;
@@ -729,6 +746,29 @@
   -webkit-flex-flow: row;
       -ms-flex-flow: row;
           flex-flow: row;
+}
+.FooterQuestionDetails .TextLinkWithIcon .TextDiv {
+  padding-top: 3px;
+}
+.FooterQuestionDetails .created {
+  font-size: 12px;
+  padding-top: 2px;
+  padding-left: 10px;
+}
+.FooterQuestionDetails .processed {
+  font-size: 12px;
+  padding-top: 2px;
+  padding-left: 10px;
+}
+.FooterQuestionDetails .comment-link {
+  margin-left: auto;
+  padding-right: 0;
+}
+.FooterQuestionDetails .comment-link .fa {
+  padding-right: 0;
+}
+.FooterQuestionDetails .comment-link .fa-comment {
+  color: #979797;
 }
 .commentSettledInfo {
   color: darkgray;
@@ -745,7 +785,6 @@
   border: none;
   -webkit-box-shadow: none;
           box-shadow: none;
-  padding: 0;
   margin-bottom: 0;
 }
 #MasterWidget .SessionBar {
@@ -753,7 +792,6 @@
 }
 #MasterWidget #LicenseQuestion {
   margin-top: 10px;
-  padding: 0;
 }
 #MasterWidget #video-pager {
   border: none;
@@ -1096,11 +1134,25 @@
 .singleCatFullWidth .buttons .dropdown {
   display: inline-block;
 }
+.singleCatFullWidth {
+  margin-top: 2.25em;
+}
 /*--------------------------ActivityPoints---------------------
 
 ---------------------------------------------------------------*/
 #activityPointsDispaly {
   float: right;
+  font-size: 22px;
+  font-family: sans-serif;
+  line-height: normal;
+  color: #b9db4f;
+}
+#activityPointsDispaly .fa-info-circle {
+  font-size: 14px;
+}
+#activityPointsDispaly small {
+  font-size: 10px;
+  display: block;
 }
 /*-----------------------AnswerQuestionBodyMenu--------------------
 
@@ -1112,21 +1164,28 @@
   display: flex;
   float: right;
 }
-.AnswerQuestionBodyMenu .Button .dropdown-menu {
-  left: -7em;
-}
-.AnswerQuestionBodyMenu .margin-top-11 {
-  margin-top: 0.7em;
-}
-.AnswerQuestionBodyMenu span {
-  margin-left: 0.5em;
-}
 .AnswerQuestionBodyMenu .Pin {
-  margin-left: 0px;
+  padding-right: 5px;
+}
+.AnswerQuestionBodyMenu .edit-question {
+  margin-top: 0.7em;
+  padding-right: 8px;
+}
+.AnswerQuestionBodyMenu .category {
+  margin-right: 15px;
+}
+.AnswerQuestionBodyMenu .set {
+  margin-right: 15px;
 }
 .AnswerQuestionBodyMenu .margin-top-4 {
   margin-top: 0.25em;
 }
-.AnswerQuestionBodyMenu .float-left {
-  float: left;
+.AnswerQuestionBodyMenu .dropdown-menu {
+  z-index: 10;
+}
+.AnswerQuestionBodyMenu .dropdown-toggle {
+  padding-right: 0px;
+}
+.SingleCategoryAttention .well {
+  background-color: rgba(112, 112, 112, 0.08);
 }

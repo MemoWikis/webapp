@@ -5,6 +5,7 @@
         $("#btnSaveComment").click((e) => this.SaveComment(e));
         $("#btnImprove").click((e) => this.SaveImproveComment(e));
         $("#btnShouldDelete").click((e) => this.SaveDeleteComent(e));
+        $("#saveCommentSpinner").hide();
         $(document).on("click", ".btnAnswerComment", function (e) {
             self.ShowAddAnswer(e, this);
         });        

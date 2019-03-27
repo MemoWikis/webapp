@@ -192,7 +192,7 @@ public class LomXmlParams
     public LomXmlParams(Set set)
     {
         GeneralIdentifier = "set-" + set.Id;
-        GeneralTitle = set.Text;
+        GeneralTitle = set.Name;
         GeneralDescription = set.Text;
         Categories = set.Categories;
         AggregationLevel = LomAggregationLevel.Level2Lesson.GetValue();

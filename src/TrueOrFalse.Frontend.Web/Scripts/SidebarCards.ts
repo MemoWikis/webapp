@@ -10,4 +10,78 @@
             $("#AllAutorsList").slideUp(400);
         }
     });
+    
+        new Follower();
 });
+
+
+class Follower {
+    private _follower: JQuery;
+    private _isFollow: JQuery; 
+    private _followTooltip: JQuery;
+    private _authorId: number; 
+    private _questionsCreated: string;
+    private _setsCreated: string;
+    private _authorName: string;
+
+    constructor() {
+        this._follower = $(".follower");
+        this._isFollow = $("#isFollow");
+        this._followTooltip = $("#follow-tooltip");
+
+        if (typeof this._isFollow.val() !== "undefined") {
+            this.loadCorrektClassAndTooltip();
+            this._follower.css('cursor', 'pointer');
+            this._authorName = $("#author").attr("name");
+            this._questionsCreated = $("#author").attr("data-questions-created");
+            this._setsCreated = $("#author").attr("data-sets-created");
+
+        }
+
+
+        if (IsLoggedIn.Yes) {
+            $(".follower").on("click",
+                () => {
+                    this._authorId = parseInt($("#author").val());
+                    this.toggleClasses();
+                });
+        }
+    }
+
+    private toggleClasses(): void {
+        if (this._isFollow.val().toLowerCase() === "true") {
+
+            if (this._follower.hasClass("fa-user-minus"))
+                this._follower.addClass("fa-user-plus").removeClass("fa-user-times");
+            else
+                this._follower.addClass("fa-user-plus");
+
+            $.post("/Users/UnFollow/", { "userId": this._authorId }, () => {
+                this._isFollow.val("False");
+                $("#follow-tooltip").attr("data-original-title",
+                    "Folge " + this._authorName + ", um an ihren/seinen Aktivitäten teilzuhaben.");
+
+
+            });
+        } else {
+            if (this._follower.hasClass("fa-user-plus"))
+                this._follower.addClass("fa-user-minus").removeClass("fa-user-plus");
+            else
+                this._follower.addClass("fa-user-minus");
+
+            $.post("/Users/Follow/", { "userId": this._authorId }, () => {
+                this._isFollow.val("True");
+                $("#follow-tooltip").attr("data-original-title",
+                    "Du folgst " + this._authorName + " und nimmst an ihren/seinen Aktivitäten teil.");
+            });  
+        }
+    }
+
+    private loadCorrektClassAndTooltip() {
+        if (this._isFollow.val().toLowerCase() === "true") {
+            this._follower.addClass("fa-user-minus");
+        } else
+            this._follower.addClass("fa-user-plus");
+    }
+    
+}
