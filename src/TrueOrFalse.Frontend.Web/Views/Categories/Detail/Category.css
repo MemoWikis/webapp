@@ -1463,9 +1463,13 @@ p:empty {
   -webkit-justify-content: center;
       -ms-flex-pack: center;
           justify-content: center;
+  -webkit-transition: 0.2s;
+  transition: 0.2s;
 }
 #ContentModulePlaceholder .placeholderBorder .fa-plus-square {
   color: #e3e3e3 !important;
+  -webkit-transition: 0.2s;
+  transition: 0.2s;
 }
 #ContentModulePlaceholder .placeholderBorder .fa-plus-square.hover {
   color: #45aece !important;
