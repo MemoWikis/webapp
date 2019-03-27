@@ -13,7 +13,7 @@ Vue.component('content-module-widget', {
         dataHideKnowledgeBtn: String,
     },
 
-    template: '<span :ref="widgetId"></span>',
+    template: '<div :id="widgetId"></div>',
 
     data() {
         return {

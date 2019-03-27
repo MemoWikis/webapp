@@ -9,7 +9,7 @@ Vue.directive('sortable',
         },
     });
 
-let VueAppContentModules = new Vue({
+new Vue({
     el: '#ContentModuleApp',
     data() {
         return {

@@ -8,10 +8,7 @@
         src="https://memucho.de/views/widgets/w.js" 
         data-t="setVideo" 
         data-id="<%= Model.SetId %>" 
-        data-width="100%" 
-        data-maxwidth="" 
-        data-logoon="" 
-        data-hide-knowledge-btn="">
+        data-width="100%">
     </content-module-widget>
      
 
