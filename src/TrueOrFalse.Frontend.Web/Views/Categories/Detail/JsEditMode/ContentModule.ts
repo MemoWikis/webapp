@@ -21,7 +21,7 @@ Vue.component('content-module-widget', {
     },
     
     mounted() {
-        var el = this.$refs[this.widgetId];
+        var el = '#' + this.widgetId;
 
         if (this.widgetType == 'video') {
             let script = '<\script src="' + this.src + '" data-t="' + this.dataT + '" data-id="' + this.dataId + '" data-width="' + this.dataWidth + '"></\script>';
@@ -119,7 +119,7 @@ var contentModuleComponent = Vue.component('content-module', {
 
         updateHoverState(isHover) {
             const self = this;
-            if (self.canBeEdited) {
+            if (self.canBeEdited || this.contentModuleType == 'AddModuleButton') {
                 self.hoverState = isHover;
             }
         },

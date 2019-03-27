@@ -159,11 +159,9 @@
     <% } %>
     
     <div id="ContentModulePlaceholder" v-if="editMode">
-        <content-module inline-template>
-            <div style="width: 100%; margin: 20px 0; padding:19px" @click="addModule()">
-                <div style="height: 200px; border-width:2px; border-style: dashed; border-color: #e3e3e3; border-radius: 4px; display: flex;align-items: center;justify-content: center;">
-                    <i class="fa fa-plus-square fa-5x" style="color:#e3e3e3"></i>
-                </div>
+        <content-module inline-template content-module-type="AddModuleButton">
+            <div class="placeholderBorder" :class="{ hover : hoverState }" @click="addModule()" @mouseenter="updateHoverState(true)" @mouseleave="updateHoverState(false)">
+                <i class="fa fa-plus-square fa-5x" :class="{ hover : hoverState }"></i>
             </div>
         </content-module>
     </div>

@@ -1164,7 +1164,7 @@ p:empty {
         padding: 20px;
 
 
-        &.active {
+        &.hover {
             border-color: #45aece;
             cursor: pointer;
         }
@@ -1212,6 +1212,39 @@ p:empty {
         max-height: 40px;
     }
 }
+
+#ContentModulePlaceholder {
+    width: 100%;
+    margin: 20px 0;
+    padding: 19px;
+
+    .placeholderBorder {
+        height: 200px;
+        border-width: 2px;
+        border-style: dashed;
+        border-color: #e3e3e3;
+        border-radius: 4px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        .fa-plus-square {
+            color: #e3e3e3 !important;
+
+            &.hover {
+                color: #45aece !important;
+                cursor: pointer;
+            }
+        }
+
+        &.hover {
+            border-color: #45aece;
+            cursor: pointer;
+        }
+    }
+}
+
+
 
 .sortable-ghost {
     background: #dddddd;
