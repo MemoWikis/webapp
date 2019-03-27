@@ -21585,7 +21585,6 @@
     <Content Include="Images\Screenshots\widget-blackboard_f03_edit-html.png" />
     <Content Include="Images\Screenshots\widget-blackboard_f04_done.png" />
     <Content Include="Images\Screenshots\widget-blackboard_f04_done_short.png" />
-    <Content Include="Scripts\vendor\vue.min.js" />
     <Content Include="Scripts\vendor\vuetable-2.js" />
     <Content Include="Scripts\YoutubeApi.js">
       <DependentUpon>YoutubeApi.ts</DependentUpon>
