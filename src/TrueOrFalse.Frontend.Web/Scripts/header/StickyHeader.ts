@@ -222,9 +222,9 @@ class StickyHeaderClass {
             widthStickyHeaderContainer);
         this.hideAndFadeInChevron();
 
-        var breadCrumbPath = $("#BreadCrumbTrail > div:eq(1)").offset().left;
-
-        $("#Path").css("left", breadCrumbPath);
+        if (typeof $("#BreadCrumbTrail > div:eq(1)").offset() !== "undefined") 
+            $("#Path").css("left", $("#BreadCrumbTrail > div:eq(1)").offset().left);
+        
     }
 
     private computeFirstElementHide(breadCrumbTrailWidth: number, masterMainWrapperInnerWidth:number, widthStickyHeaderContainer: number) {
@@ -243,22 +243,20 @@ class StickyHeaderClass {
         breadCrumbTrailWidth += this._breadCrumbFirstElementWidth;
 
         if (breadCrumbTrailWidth < masterMainWrapperInnerWidth &&
-            this._breadCrumbCounter === this._breadCrumbContainerCount - 1) {
+            this._breadCrumbCounter === this._breadCrumbContainerCount - 1 && $("#BreadCrumbTrail > div:eq(0)").hasClass("none")) {
             $('#BreadCrumbTrail > div:eq(0)').fadeIn();
             $('#BreadCrumbTrail > div').eq(0).removeClass("none");
             $("#Path > div:eq(0)").remove();
-        }
-        
+        }   
     }
 
     private computeWhenBreadCrumbTrailIsToLow(breadCrumbTrailWidth: number, masterMainWrapperInnerWidth: number) {
-        if (breadCrumbTrailWidth < masterMainWrapperInnerWidth && !$("#BreadCrumbTrail > div:eq(0)").hasClass("none")) {
-            console.log(this._breadCrumbCounter);
+        if (breadCrumbTrailWidth <= masterMainWrapperInnerWidth && !$("#BreadCrumbTrail > div:eq(0)").hasClass("none")) {
             while (this._breadCrumbCounter >= 1) {
                 breadCrumbTrailWidth += parseInt($("#BreadCrumbTrail > div").eq(this._breadCrumbCounter).css("width"));
 
 
-                if (breadCrumbTrailWidth < masterMainWrapperInnerWidth) {
+                if (breadCrumbTrailWidth <= masterMainWrapperInnerWidth) {
                     $("#BreadCrumbTrail > div").eq(this._breadCrumbCounter).fadeIn();
 
                     $("#Path > div").last().remove();
@@ -298,8 +296,6 @@ class StickyHeaderClass {
     }
 
 }
-
-
 
 $(() => {
     var s = new StickyHeaderClass();
