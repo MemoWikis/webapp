@@ -22,16 +22,21 @@ Vue.component('content-module-widget', {
     
     mounted() {
         var el = '#' + this.widgetId;
+        let script;
 
         if (this.widgetType == 'video') {
-            let script = '<\script src="' + this.src + '" data-t="' + this.dataT + '" data-id="' + this.dataId + '" data-width="' + this.dataWidth + '"></\script>';
-
-            postscribe(el, script, {
-                error: function (e) {
-                    console.log(e);
-                }
-            });
+            script = '<\script src="' + this.src + '" data-t="' + this.dataT + '" data-id="' + this.dataId + '" data-width="' + this.dataWidth + '"></\script>';
         };
+
+        if (this.widgetType == 'quiz') {
+            script = '<\script src="' + this.src + '" data-t="' + this.dataT + '" data-id="' + this.dataId + '" data-width="' + this.dataWidth + '" data-maxwidth="' + this.dataMaxwidth + '" data-logoon="' + this.dataLogoon + '" data-hideKnowledgeBtn="' + this.dataHideKnowledgeBtn + '"></\script>';
+        };
+
+        postscribe(el, script, {
+            error: function (e) {
+                console.log(e);
+            }
+        });
     },
 });
 
@@ -108,9 +113,13 @@ var contentModuleComponent = Vue.component('content-module', {
                 }
                 this.dataTarget = this.modalType;
                 this.markdown = this.origMarkdown;
+                if (!this.contentModuleType)
+                    this.isDeleted = true;
             } else {
                 this.markdown = '';
                 this.dataTarget = '';
+                if (!this.contentModuleType)
+                    this.isDeleted = false;
             };
         },
     },
@@ -118,9 +127,11 @@ var contentModuleComponent = Vue.component('content-module', {
     methods: {
 
         updateHoverState(isHover) {
-            const self = this;
-            if (self.canBeEdited || this.contentModuleType == 'AddModuleButton') {
-                self.hoverState = isHover;
+            if (this.contentModuleType) {
+                const self = this;
+                if (self.canBeEdited || this.contentModuleType == 'AddModuleButton' || this.contentModuleType) {
+                    self.hoverState = isHover;
+                }
             }
         },
 

@@ -20033,6 +20033,7 @@
       <DependentUpon>GameHubEvents.ts</DependentUpon>
     </Content>
     <Content Include="Scripts\npm\d3\d3.js" />
+    <Content Include="Scripts\npm\postscribe\postscribe.js" />
     <Content Include="Scripts\npm\sortablejs\Sortable.js" />
     <Content Include="Scripts\npm\tiptap-extensions\extensions.js" />
     <Content Include="Scripts\npm\tiptap\tiptap.js" />

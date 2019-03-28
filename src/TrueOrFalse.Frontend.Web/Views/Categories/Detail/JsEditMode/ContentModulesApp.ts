@@ -104,7 +104,7 @@ new Vue({
             } else {
                 this.showTopAlert = false;
             };
-            const markdownParts = $(".module").map((idx, elem) => $(elem).attr("markdown")).get();
+            const markdownParts = $(".ContentModule").map((idx, elem) => $(elem).attr("markdown")).get();
             let markdownDoc = "";
             if (markdownParts.length >= 1)
                 markdownDoc = markdownParts.reduce((list, doc) => { return list + "\r\n" + doc });
