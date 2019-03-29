@@ -3,12 +3,14 @@ var senderDomains = ['http://memucho', 'http://memucho.local', 'https://memucho.
 
 //https://github.com/closingtag/super-awesome-responsive-iframe-solution/blob/master/index.html
 function receiveMessage(event) {
-    console.log(event);
+
+    if (typeof (event.data) !== "string" || event.data.indexOf("resize") !== 0)
+        return;
 
     var message = event.data.split(':');
     var eventName = message[0];
     var iframes, len, i = 0;
-    // Domains to accept post messages from:
+
     // Fix .indexOf in IE8
     if (!Array.prototype.indexOf) {
         Array.prototype.indexOf = function (obj, start) {
@@ -19,6 +21,7 @@ function receiveMessage(event) {
         }
     }
 
+    // Domains to accept post messages from:
     if (senderDomains.indexOf(event.origin) !== -1 && eventName === 'resize') {
         iframes = document.getElementsByTagName('iframe');
         len = iframes.length;
