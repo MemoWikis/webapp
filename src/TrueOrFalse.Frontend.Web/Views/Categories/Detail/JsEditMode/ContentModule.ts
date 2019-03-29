@@ -164,11 +164,15 @@ var contentModuleComponent = Vue.component('content-module', {
         },
 
         moveUp() {
-
+            var currentId = '#' + this.id;
+            var currentDiv = $(currentId);
+            currentDiv.prev().before(currentDiv);
         },
 
         moveDown() {
-
+            var currentId = '#' + this.id;
+            var currentDiv = $(currentId);
+            currentDiv.next().after(currentDiv);
         },
     },
 });

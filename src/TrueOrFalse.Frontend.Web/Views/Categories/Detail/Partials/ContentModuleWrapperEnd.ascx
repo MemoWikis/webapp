@@ -4,7 +4,15 @@
         </div>
 
         <div class="ModuleHandle" v-if="hoverState">
-            <i class="fa fa-bars"></i>
+            <div class="IconWrapper SortButton" @click="moveUp()">
+                <i class="fas fa-chevron-up"></i>
+            </div>
+            <div class="IconWrapper Handle">
+                <i class="fa fa-grip-vertical"></i>
+            </div>
+            <div class="IconWrapper SortButton" @click="moveDown()">
+                <i class="fas fa-chevron-down"></i>
+            </div>
         </div>
                                         
         <div class="Button dropdown" v-if="hoverState">

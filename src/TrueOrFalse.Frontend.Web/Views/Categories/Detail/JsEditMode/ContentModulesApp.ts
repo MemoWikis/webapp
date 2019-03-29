@@ -14,7 +14,7 @@ new Vue({
     data() {
         return {
             options: {
-                handle: '.ModuleHandle',
+                handle: '.Handle',
                 animation: 100,
                 fallbackOnBody: true,
                 filter: '.placeholder',
