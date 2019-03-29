@@ -58,6 +58,9 @@ var contentModuleComponent = Vue.component('content-module', {
         contentModuleType: String,
     },
 
+    singleQuestionsQuizSettings: SingleQuestionsQuizSettings,
+
+
     data() {
         return {
             hoverState: false,
@@ -70,6 +73,7 @@ var contentModuleComponent = Vue.component('content-module', {
             textCanBeEdited: false,
             dataTarget: '',
             widgetId: '',
+            questions: [],
         };
     },
 
@@ -80,6 +84,11 @@ var contentModuleComponent = Vue.component('content-module', {
         this.id = this.contentModuleType + 'Module-' + (this._uid + Math.floor((Math.random() * 10000) + 1));
         if (this.contentModuleType == 'videowidget' || this.contentModuleType == 'singlequestionsquiz')
             this.widgetId = 'widget' + (this._uid + Math.floor((Math.random() * 2000) + 1));
+        if (this.contentModuleType == 'singlequestionsquiz') {
+            this.singleQuestionsQuizSettings = Utils.ConvertEncodedHtmlToJson(this.origMarkdown);
+            if (this.singleQuestionsQuizSettings.QuestionIds)
+                this.questions = this.singleQuestionsQuizSettings.QuestionIds.split(',');
+        }
     },
 
     mounted() {

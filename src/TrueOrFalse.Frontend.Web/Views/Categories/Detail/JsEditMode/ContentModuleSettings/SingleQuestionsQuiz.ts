@@ -20,7 +20,7 @@ Vue.component('singlequestionsquiz-modal-component', {
             settingsHasChanged: false,
             questions: [],
             showQuestionInput: false,
-            newQuestionsId: 0,
+            newQuestionId: 0,
             maxQuestions: 5,
             order: '',
             title: '',
@@ -81,7 +81,8 @@ Vue.component('singlequestionsquiz-modal-component', {
                 this.description = this.singleQuestionsQuizSettings.Text;
             if (this.singleQuestionsQuizSettings.Order)
                 this.order = this.singleQuestionsQuizSettings.Order;
-            this.questions = this.singleQuestionsQuizSettings.QuestionsIds.split(',');
+            if (this.singleQuestionsQuizSettings.QuestionIds)
+                this.questions = this.singleQuestionsQuizSettings.QuestionIds.split(',');
             this.maxQuestions = this.singleQuestionsQuizSettings.MaxQuestions;
         },
 
@@ -99,9 +100,9 @@ Vue.component('singlequestionsquiz-modal-component', {
         },
 
         applyNewMarkdown() {
-            const setIdParts = $(".singleQuestionsQuizDialogData").map((idx, elem) => $(elem).attr("questionId")).get();
-            if (setIdParts.length >= 1)
-                this.singleQuestionsQuizSettings.SetListIds = setIdParts.join(',');
+            const questionIdParts = $(".singleQuestionsQuizDialogData").map((idx, elem) => $(elem).attr("questionId")).get();
+            if (questionIdParts.length >= 1)
+                this.singleQuestionsQuizSettings.QuestionIds = questionIdParts.join(',');
             this.newMarkdown = Utils.ConvertJsonToMarkdown(this.singleQuestionsQuizSettings);
             Utils.ApplyMarkdown(this.newMarkdown, this.parentId);
             $('#singlequestionsquizSettingsDialog').modal('hide');

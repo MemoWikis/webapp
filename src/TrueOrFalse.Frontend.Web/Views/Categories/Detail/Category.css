@@ -1342,6 +1342,11 @@ p:empty {
   border: 1px dotted #45aece;
   cursor: default;
 }
+.contentModuleSettings .setCards.grid.editView,
+.contentModuleSettings .topicCards.grid.editView,
+.contentModuleSettings .questionCards.grid.editView {
+  cursor: pointer;
+}
 .contentModuleSettings .setCards.grid .card,
 .contentModuleSettings .topicCards.grid .card,
 .contentModuleSettings .questionCards.grid .card {
@@ -1430,14 +1435,55 @@ p:empty {
   margin-top: 7px;
   padding-top: 7px;
 }
-.ContentModule .Handle {
+.ContentModule .ModuleHandle {
   position: absolute;
   top: 50%;
   left: -20px;
+  margin-top: -30px;
   font-size: 18px;
   color: #999999;
-  max-width: 21px;
-  max-height: 40px;
+  width: 30px;
+  height: 60px;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: justify;
+  -webkit-justify-content: space-between;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  padding-right: 10px;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -webkit-flex-direction: column;
+      -ms-flex-direction: column;
+          flex-direction: column;
+}
+.ContentModule .ModuleHandle .IconWrapper {
+  width: 20px;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+}
+.ContentModule .ModuleHandle .Handle {
+  cursor: -webkit-grab;
+  cursor: grab;
+}
+.ContentModule .ModuleHandle .SortButton {
+  cursor: pointer;
+}
+.ContentModule .ModuleHandle .ButtonEllipsis {
+  font-size: 18px;
+  color: #999999;
 }
 #ContentModulePlaceholder {
   width: 100%;
