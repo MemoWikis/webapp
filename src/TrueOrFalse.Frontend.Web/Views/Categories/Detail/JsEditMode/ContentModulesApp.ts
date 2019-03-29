@@ -63,7 +63,10 @@ new Vue({
         eventBus.$on('new-content-module',
             (result) => {
                 if (result) {
-                    var inserted = $(result).insertBefore('#ContentModulePlaceholder');
+                    if (result.position == 'before') {}
+                        var inserted = $(result.newHtml).insertBefore(result.id);
+                    if (result.position == 'after')
+                        var inserted = $(result.newHtml).insertAfter(result.id);
                     var instance = new contentModuleComponent({
                         el: inserted.get(0)
                     });

@@ -52,7 +52,6 @@ Vue.component('cards-modal-component', {
     mounted: function() {
         $('#cardsSettingsDialog').on('show.bs.modal',
             event => {
-                
                 this.newMarkdown = $('#cardsSettingsDialog').data('parent').markdown;
                 this.parentId = $('#cardsSettingsDialog').data('parent').id;
                 this.initializeData();

@@ -27,6 +27,8 @@ Vue.component('content-module-selection-modal-component', {
             ],
             selectedModule: '',
             modalType: '',
+            modulePosition: '',
+            moduleId: '',
         };
     },
 
@@ -51,7 +53,8 @@ Vue.component('content-module-selection-modal-component', {
     mounted: function() {
         $('#ContentModuleSelectionModal').on('show.bs.modal',
             event => {
-
+                this.modulePosition = $('#ContentModuleSelectionModal').data('data').position;
+                this.moduleId = $('#ContentModuleSelectionModal').data('data').id;
             });
 
         $('#ContentModuleSelectionModal').on('hidden.bs.modal',
@@ -73,7 +76,7 @@ Vue.component('content-module-selection-modal-component', {
             this.contentModuleTemplate.TemplateName = this.selectedModule;
             this.templateMarkdown = Utils.ConvertJsonToMarkdown(this.contentModuleTemplate);
             let template = {
-                id: 'noParentId',
+                id: this.modulePosition + ':' + this.moduleId,
                 markdown: this.templateMarkdown,
             };
             $('#ContentModuleSelectionModal').modal('hide');

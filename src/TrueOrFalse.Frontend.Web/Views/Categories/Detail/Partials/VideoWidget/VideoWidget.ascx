@@ -3,8 +3,10 @@
 <%: Html.Partial("~/Views/Categories/Detail/Partials/ContentModuleWrapperStart.ascx") %>
 
 
-    <div v-if="canBeEdited">
-        Platzhalter für Videowidget zum Lernset: <%= Model.SetId %>
+    <div class="VideoWidgetPlaceHolder" v-if="canBeEdited">
+        <div class="videoWidgetPlaceholderBorder">
+            VideoWidget zum Lernset: <%= Model.SetId %>
+        </div>
     </div>
     <div v-else>
         <content-module-widget 

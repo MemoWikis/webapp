@@ -80,7 +80,7 @@ var contentModuleComponent = Vue.component('content-module', {
     created() {
         if (this.contentModuleType != "inlinetext") {
             this.modalType = '#' + this.contentModuleType + 'SettingsDialog';
-        }
+        };
         this.id = this.contentModuleType + 'Module-' + (this._uid + Math.floor((Math.random() * 10000) + 1));
         if (this.contentModuleType == 'videowidget' || this.contentModuleType == 'singlequestionsquiz')
             this.widgetId = 'widget' + (this._uid + Math.floor((Math.random() * 2000) + 1));
@@ -88,7 +88,9 @@ var contentModuleComponent = Vue.component('content-module', {
             this.singleQuestionsQuizSettings = Utils.ConvertEncodedHtmlToJson(this.origMarkdown);
             if (this.singleQuestionsQuizSettings.QuestionIds)
                 this.questions = this.singleQuestionsQuizSettings.QuestionIds.split(',');
-        }
+        };
+        if (this.contentModuleType == 'AddModuleButton')
+            this.id = 'ContentModulePlaceholder';
     },
 
     mounted() {
@@ -162,8 +164,12 @@ var contentModuleComponent = Vue.component('content-module', {
             }
         },
 
-        addModule() {
-            $('#ContentModuleSelectionModal').modal('show');
+        addModule(val) {
+            let data = {
+                id: this.id,
+                position: val,
+            }
+            $('#ContentModuleSelectionModal').data('data', data).modal('show');
         },
 
         editInlineText() {
@@ -175,13 +181,19 @@ var contentModuleComponent = Vue.component('content-module', {
         moveUp() {
             var currentId = '#' + this.id;
             var currentDiv = $(currentId);
-            currentDiv.prev().before(currentDiv);
+            if (currentDiv.prev().attr('class') == 'DescriptionSection')
+                return;
+            else
+                currentDiv.prev().before(currentDiv);
         },
 
         moveDown() {
             var currentId = '#' + this.id;
             var currentDiv = $(currentId);
-            currentDiv.next().after(currentDiv);
+            if (currentDiv.next().attr('id') == 'ContentModulePlaceholder')
+                return;
+            else
+                currentDiv.next().after(currentDiv);
         },
     },
 });
