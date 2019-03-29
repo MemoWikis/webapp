@@ -1,18 +1,29 @@
-﻿@media (min-width: 768px) {
-}@media (min-width: 768px) {
-}@media (max-width: 767px) {
-}@media (min-width: 768px) {
-}@media (min-width: 768px) {
-}@media (min-width: 768px) {
-}@media (max-width: 767px) {
-}@media (max-width: 767px) {
-}@media (max-width: 649px) {
-}@media (min-width: 650px) {
-}/*  [Local variables:]
+@media (min-width: 768px) {
+}
+@media (min-width: 768px) {
+}
+@media (max-width: 767px) {
+}
+@media (min-width: 768px) {
+}
+@media (min-width: 768px) {
+}
+@media (min-width: 768px) {
+}
+@media (max-width: 767px) {
+}
+@media (max-width: 767px) {
+}
+@media (max-width: 649px) {
+}
+@media (min-width: 650px) {
+}
+/*  [Local variables:]
 ----------------------------------------------------------*/
 /* MASTER HEADER  
 ----------------------------------------------------------*/
 #MasterHeader {
+  position: -webkit-sticky;
   position: sticky;
   margin: 0;
   width: 100%;
@@ -264,13 +275,14 @@
   border-left: 10px solid #adadad;
 }
 #Breadcrumb {
+  width: 100%;
+  height: 45px;
   font-size: 14px;
   background-color: white;
   line-height: 21px;
-  width: 100%;
   display: block;
   font-family: sans;
-  padding-top: 17px;
+  padding-top: 11px;
   padding-bottom: 14px !important;
   color: #000000 !important;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.16);
@@ -296,7 +308,7 @@
   font-family: 'Open Sans';
 }
 #Breadcrumb img {
-  margin-top: -10px;
+  margin-top: -8px;
 }
 #Breadcrumb i.fa-chevron-right {
   font-size: 11.2px;
