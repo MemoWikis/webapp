@@ -20,9 +20,9 @@
                 <i class="fa fa-ellipsis-v"></i>
             </a>
             <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="Dropdown" style="margin-top:-10px">
-                <li><a href="" data-allowed="logged-in"><i class="fa fa-caret-up"></i> Inhalt oben einfügen</a></li>
-                <li><a href="" data-allowed="logged-in"><i class="fa fa-caret-down"></i> Inhalt unten einfügen</a></li>
-                <li class="delete"><a href="" data-allowed="logged-in" @click.prevent="deleteModule()"><i class="fa fa-trash"></i> Löschen</a></li>
+                <li><div data-allowed="logged-in" @click.prevent="addModule()"><i class="fa fa-caret-up"></i> Inhalt oben einfügen</div></li>
+                <li><div data-allowed="logged-in" @click.prevent="addModule()"><i class="fa fa-caret-down"></i> Inhalt unten einfügen</div></li>
+                <li class="delete"><div data-allowed="logged-in" @click.prevent="deleteModule()"><i class="fa fa-trash"></i> Löschen</div></li>
             </ul>
         </div>
     </div>        
