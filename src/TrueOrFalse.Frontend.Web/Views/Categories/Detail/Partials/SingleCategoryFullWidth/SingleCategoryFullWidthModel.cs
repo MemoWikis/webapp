@@ -12,6 +12,10 @@ public class SingleCategoryFullWidthModel : BaseContentModule
     public ImageFrontendData ImageFrontendData;
     public bool IsInWishknowledge;
 
+    public SingleCategoryFullWidthModel(int categoryId) : this(new SingleCategoryFullWidthJson{CategoryId = categoryId})
+    {
+    }
+
     public SingleCategoryFullWidthModel(SingleCategoryFullWidthJson singleCategoryFullWidthJson)
     {
         Category = Sl.CategoryRepo.GetById(singleCategoryFullWidthJson.CategoryId);

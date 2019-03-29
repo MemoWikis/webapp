@@ -1,5 +1,4 @@
 ﻿using System.Web.Optimization;
-using NHibernate.Util;
 
 namespace TrueOrFalse.View
 {
@@ -13,7 +12,9 @@ namespace TrueOrFalse.View
                   "~/Style/includes/shared.css",
                   "~/Style/*.css",
                   "~/Style/jquery-ui/jquery-ui.structure.css", 
-                  "~/Style/jquery-ui/jquery-ui.theme.css"));
+                  "~/Style/jquery-ui/jquery-ui.theme.css",
+                  "~/Fonts/font-awesome-5.7.2/css/all.css",
+                  "~/Fonts/font-awesome-5.7.2/css/v4-shims.css" ));
 
             bundles.Add(new StyleBundle("~/bundles/markdownCss")
                 .Include("~/Style/markdown-editor.css"));

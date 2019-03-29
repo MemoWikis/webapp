@@ -1,32 +1,81 @@
-﻿
-.float-right {
-    float: right;
+﻿// Imports
+@import (reference) '../../../Style/includes/imports.less';
 
+//Variables
 
-    .margin-left {
-        margin-left: 0.7em;
+@font-size12: 12px;
+
+// Mixins
+
+.font-size12 {
+    font-size: @font-size12;
+}
+
+.SetAndCategory {
+    margin-right: 10px;
+}
+
+.correctness-prohability {
+    margin-left: 10px;
+}
+
+//Code
+
+.question-details {
+    color: @grey6x5;
+    font-size: 12px;
+
+    .category-set {
+        display: flex;
+
+        .label-category {
+            .SetAndCategory();
+        }
+
+        .label-set {
+            .SetAndCategory();
+        }
+
+        #Category {
+            .font-size12();
+        }
+
+        .fa-chevron-right {
+            margin-top: 4px;
+        }
     }
-    .margin-right-50 {
-        margin-right: 3.125em;
+
+    .second-row {
+        padding-left: 0px;
+        display: flex;
+
+
+        .media-below-lg( {
+            padding-left: 10px;
+            padding-top: 10px;
+        }
+
+        );
     }
 
-    .margin-left-20 {
-        margin-left: 2.25em;
+    .seen {
+        padding-right: 10px;
+        margin-left: 25px;
     }
 
-    .width-100 {
-        width: 6.25em;
+    .learning-status {
+        margin-right: 25px;
+    }
+
+    .sparklineTotals{
+        margin-right: 10px;
     }
 }
 
-
-.float-left {
-    float: left;
+.text-sponsor {
+    text-align: center;
 }
-    .margin-left-first {
-        margin-left: 1.3em;
-    }
 
-    .margin-left {
-        margin-left: 0.7em;
-    }
+.model-categories {
+    padding-top: 0.375em;
+}

@@ -101,27 +101,7 @@ public class CategoryModel : BaseContentModule
         ImageUrl_250 = imageResult.Url;
     
         var authors = _categoryRepo.GetAuthors(Id);
-
-        foreach (var author in authors)
-        {
-            SidebarModel.Authors.Add(new SidebarAuthorModel
-            {
-                ImageUrl = new UserImageSettings(author.Id).GetUrl_250px(author).Url,
-                User = author,
-                Reputation = author.Reputation,
-                ReputationPos = author.ReputationPos
-            });
-        }
-
-        if (authors.Count == 1)
-        {
-            SidebarModel.Reputation = Resolve<ReputationCalc>().Run(authors[0]);
-            SidebarModel.AmountWishCountQuestions = Resolve<GetWishQuestionCount>().Run(authors[0].Id);
-            var followerIAm = R<FollowerIAm>().Init(new List<int> { authors[0].Id}, UserId);
-            SidebarModel.DoIFollow = followerIAm.Of(authors[0].Id);
-            SidebarModel.IsCurrentUser = authors[0].Id == UserId && IsLoggedIn;
-            SidebarModel.Authors[0].ShowWishKnowledge = authors[0].ShowWishKnowledge;
-        }
+        SidebarModel.Fill(authors, UserId);
 
         FeaturedSets = category.FeaturedSets();
 
@@ -198,8 +178,15 @@ public class CategoryModel : BaseContentModule
 
     public string GetViews() => Sl.CategoryViewRepo.GetViewCount(Id).ToString();
 
-    public string GetViewsPerDay() => Sl.CategoryViewRepo
-        .GetPerDay(Id)
-        .Select(item => item.Date.ToShortDateString() + " " + item.Views)
-        .Aggregate((a, b) => a + " " + b + System.Environment.NewLine);
+    public string GetViewsPerDay()
+    {
+         var views =  Sl.CategoryViewRepo
+            .GetPerDay(Id)
+            .Select(item => item.Date.ToShortDateString() + " " + item.Views)
+            .ToList();
+
+        return !views.Any() 
+            ? "" 
+            : views.Aggregate((a, b) => a + " " + b + System.Environment.NewLine);
+    }
 }

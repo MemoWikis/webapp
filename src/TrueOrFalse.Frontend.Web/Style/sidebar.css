@@ -1,0 +1,203 @@
+﻿@media (min-width: 768px) {
+}@media (min-width: 768px) {
+}@media (max-width: 767px) {
+}@media (min-width: 768px) {
+}@media (min-width: 768px) {
+}@media (min-width: 768px) {
+}@media (max-width: 767px) {
+}@media (max-width: 767px) {
+}@media (max-width: 649px) {
+}@media (min-width: 650px) {
+}.SidebarCardMixin {
+  border: #d6d6d6 solid 0.03125em;
+  margin-bottom: 1.25em;
+}
+.SidebarCardMixin a {
+  color: #0560AB;
+}
+.AutorCardMixin .top-container {
+  display: flex;
+}
+.AutorCardMixin .column-right {
+  margin: 0 1.33em 1.75em 0;
+}
+.AutorCardMixin .column-right .card-link {
+  margin: 0 0 0.3125em 0;
+}
+.AutorCardMixin .author-reputation {
+  font-size: 0.75em;
+  color: #707070;
+}
+#SidebarCards {
+  width: 17em;
+  font-size: 1.125em;
+  /* SPONSOR----------------------------------------------------------*/
+}
+#SidebarCards .card-title {
+  font-size: 0.75em;
+  color: #707070;
+  margin-top: 1.7em;
+  margin-bottom: 0.3125em;
+}
+#SidebarCards .card-title span {
+  text-transform: uppercase;
+}
+#SidebarCards a {
+  overflow: hidden;
+  display: block;
+  text-overflow: ellipsis;
+}
+#SidebarCards .card-link {
+  align-items: center;
+  display: flex;
+}
+#SidebarCards #AutorCard {
+  border: #d6d6d6 solid 0.03125em;
+  margin-bottom: 1.25em;
+  min-height: 10.75em;
+  display: flex;
+  flex-wrap: wrap;
+}
+#SidebarCards #AutorCard .top-container {
+  display: flex;
+}
+#SidebarCards #AutorCard .column-right {
+  margin: 0 1.33em 1.75em 0;
+}
+#SidebarCards #AutorCard .column-right .card-link {
+  margin: 0 0 0.3125em 0;
+}
+#SidebarCards #AutorCard .author-reputation {
+  font-size: 0.75em;
+  color: #707070;
+}
+#SidebarCards #AutorCard a {
+  color: #0560AB;
+}
+#SidebarCards #AutorCard .ImageContainer {
+  margin: 1.25em 1.25em 0 1.25em;
+}
+#SidebarCards #AutorCard .autor-card-footer-bar {
+  margin: 0 1.33em 1.28em 1.33em;
+  display: flex;
+  justify-content: space-between;
+  color: #707070;
+  width: 100%;
+  align-items: flex-end;
+}
+#SidebarCards #AutorCard .footer-bar-text {
+  font-size: 0.625em;
+  padding: 0.0625em 0.1875em 0.0625em 0.1875em;
+}
+#SidebarCards #AutorCard .card-link .fa-user-plus {
+  font-size: 0.75em;
+  padding-left: 0.67em;
+  color: #0560AB;
+}
+#SidebarCards #AutorCard .card-link .fa-user-minus {
+  font-size: 0.75em;
+  padding-left: 0.67em;
+  color: #0560AB;
+}
+#SidebarCards #MultipleAutorCard {
+  border: #d6d6d6 solid 0.03125em;
+  margin-bottom: 1.25em;
+  padding: 0 0.67em 0 0.6em;
+}
+#SidebarCards #MultipleAutorCard a {
+  color: #0560AB;
+}
+#SidebarCards #MultipleAutorCard #AllAutorsList {
+  padding-left: 0.65em;
+}
+#SidebarCards #MultipleAutorCard .card-title {
+  padding: 0 0 0 1.25em;
+}
+#SidebarCards #MultipleAutorCard #AllAutorsContainer {
+  font-size: 0.875em;
+  height: 3.40625em;
+  display: flex;
+  padding: 1.105em 0 1.105em 0.85em;
+}
+#SidebarCards #MultipleAutorCard #AllAutorsContainer #ExtendAngle {
+  margin-left: 2.8125em;
+  transition-duration: 0.4s;
+  display: inline-block;
+}
+#SidebarCards #MultipleAutorCard .autor-container {
+  margin-top: 0.71em;
+  padding-left: 0.85em;
+  width: 100%;
+  display: flex;
+  flex-shrink: 1;
+  flex-direction: column;
+  border-bottom: #d6d6d6 solid 0.03125em;
+}
+#SidebarCards #MultipleAutorCard .autor-container .card-link {
+  padding-left: 0.67em;
+}
+#SidebarCards #MultipleAutorCard .single-autor-container {
+  display: flex;
+  align-items: center;
+  margin: 0 1.25em 1.25em 0;
+}
+#SidebarCards #MultipleAutorCard .single-autor-container .multiple-autor-card-image {
+  width: 3.75em;
+  height: 3.75em;
+  border-radius: 3.125em;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+}
+#SidebarCards #CategorySuggestionCard,
+#SidebarCards #CreateQuestionCard {
+  border: #d6d6d6 solid 0.03125em;
+  margin-bottom: 1.25em;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0 1.25em 0 1.25em;
+}
+#SidebarCards #CategorySuggestionCard a,
+#SidebarCards #CreateQuestionCard a {
+  color: #0560AB;
+}
+#SidebarCards #CategorySuggestionCard .ImageContainer,
+#SidebarCards #CreateQuestionCard .ImageContainer {
+  margin-top: 1.25em;
+}
+#SidebarCards #CategorySuggestionCard .card-link,
+#SidebarCards #CreateQuestionCard .card-link {
+  text-align: center;
+}
+#SidebarCards #EduPartnerCard {
+  border: #d6d6d6 solid 0.03125em;
+  margin-bottom: 1.25em;
+  padding: 0.9375em;
+  padding-bottom: 0.3125em;
+}
+#SidebarCards #EduPartnerCard a {
+  color: #0560AB;
+}
+#SidebarCards #EduPartnerCard .EduPartnerLSidebarWrapper {
+  font-size: 0.7875em;
+  text-align: center;
+}
+@media (max-width: 1199px) {
+  #SidebarCards #EduPartnerCard .EduPartnerLSidebarWrapper {
+    display: none;
+  }
+}
+#SidebarCards #EduPartnerCard .EduPartnerLSidebarWrapper .fa {
+  color: #CCCCCC;
+  display: flex;
+  justify-content: flex-end;
+  margin-right: 0.25em;
+}
+#SidebarCards #EduPartnerCard .EduPartnerSidebarLogo {
+  margin-bottom: 1.25em;
+}
+#SidebarCards #EduPartnerCard .EduPartnerSidebarLogo img {
+  max-width: 50%;
+  max-height: 6.25em;
+}

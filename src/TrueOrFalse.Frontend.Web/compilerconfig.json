@@ -326,5 +326,13 @@
   {
     "outputFile": "Views/Questions/Answer/AnswerQuestionDetails.css",
     "inputFile": "Views/Questions/Answer/AnswerQuestionDetails.less"
+  },
+  {
+    "outputFile": "Style/sidebar.css",
+    "inputFile": "Style/sidebar.less"
+  },
+  {
+    "outputFile": "Style/top-header.css",
+    "inputFile": "Style/top-header.less"
   }
 ]
