@@ -4,47 +4,41 @@ var senderDomains = ['http://memucho', 'http://memucho.local', 'https://memucho.
 //https://github.com/closingtag/super-awesome-responsive-iframe-solution/blob/master/index.html
 function receiveMessage(event) {
 
-    var eventSource = event.data.source;
-    var vueEvent = false;
+    if (typeof (event.data) !== "string" || event.data.indexOf("resize") !== 0)
+        return;
 
-    if (eventSource) {
-        if (eventSource.indexOf('vue') != -1)
-            vueEvent = true;
+    var message = event.data.split(':');
+    var eventName = message[0];
+    var iframes, len, i = 0;
+
+    // Fix .indexOf in IE8
+    if (!Array.prototype.indexOf) {
+        Array.prototype.indexOf = function (obj, start) {
+            for (var i = (start || 0), j = this.length; i < j; i++) {
+                if (this[i] === obj) { return i; }
+            }
+            return -1;
+        }
     }
-    
-    if (!vueEvent) {
-        var message = event.data.split(':');
-        var eventName = message[0];
-        var iframes, len, i = 0;
-        // Domains to accept post messages from:
-        // Fix .indexOf in IE8
-        if (!Array.prototype.indexOf) {
-            Array.prototype.indexOf = function (obj, start) {
-                for (var i = (start || 0), j = this.length; i < j; i++) {
-                    if (this[i] === obj) { return i; }
+
+    // Domains to accept post messages from:
+    if (senderDomains.indexOf(event.origin) !== -1 && eventName === 'resize') {
+        iframes = document.getElementsByTagName('iframe');
+        len = iframes.length;
+
+        for (; i < len; i++) {
+            if ((iframes[i].contentWindow || iframes[i].documentWindow) == event.source) {
+                iframes[i].style.height = message[1] + "px";
+
+                var maxWidth = iframes[i].getAttribute("data-maxWidth");
+                if (maxWidth && maxWidth.length > 0) {
+                    iframes[i].style.maxWidth = maxWidth;
                 }
-                return -1;
+
+                return;
             }
         }
-    
-        if (senderDomains.indexOf(event.origin) !== -1 && eventName === 'resize') {
-            iframes = document.getElementsByTagName('iframe');
-            len = iframes.length;
-    
-            for (; i < len; i++) {
-                if ((iframes[i].contentWindow || iframes[i].documentWindow) == event.source) {
-                    iframes[i].style.height = message[1] + "px";
-    
-                    var maxWidth = iframes[i].getAttribute("data-maxWidth");
-                    if (maxWidth && maxWidth.length > 0) {
-                        iframes[i].style.maxWidth = maxWidth;
-                    }
-    
-                    return;
-                }
-            }
-        }
-    } 
+    }
 }
 
 function writeIframe(iframeId, iframeSource, logoOn) {
