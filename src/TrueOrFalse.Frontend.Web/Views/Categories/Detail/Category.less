@@ -1202,14 +1202,39 @@ p:empty {
         }
     }
 
-    .Handle {
+    .ModuleHandle {
         position: absolute;
         top: 50%;
         left: -20px;
+        margin-top: -30px;
         font-size: 18px;
         color: #999999;
-        max-width: 21px;
-        max-height: 40px;
+        width: 30px;
+        height: 60px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding-right: 10px;
+        flex-direction: column;
+
+        .IconWrapper {
+            width: 20px;
+            display: flex;
+            justify-content: center;
+        }
+
+        .Handle {
+            cursor: grab;
+        }
+
+        .SortButton {
+            cursor: pointer;
+        }
+
+        .ButtonEllipsis {
+            font-size: 18px;
+            color: #999999;
+        }
     }
 }
 

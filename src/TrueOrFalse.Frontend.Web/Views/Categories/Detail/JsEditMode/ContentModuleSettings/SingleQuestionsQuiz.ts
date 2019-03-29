@@ -47,15 +47,15 @@ Vue.component('singlequestionsquiz-modal-component', {
     },
     
     mounted: function() {
-        $('#singlquestionsquizSettingsDialog').on('show.bs.modal',
+        $('#singlequestionsquizSettingsDialog').on('show.bs.modal',
             event => {
                 
-                this.newMarkdown = $('#singlquestionsquizSettingsDialog').data('parent').markdown;
-                this.parentId = $('#singlquestionsquizSettingsDialog').data('parent').id;
+                this.newMarkdown = $('#singlequestionsquizSettingsDialog').data('parent').markdown;
+                this.parentId = $('#singlequestionsquizSettingsDialog').data('parent').id;
                 this.initializeData();
             });
 
-        $('#singlquestionsquizSettingsDialog').on('hidden.bs.modal',
+        $('#singlequestionsquizSettingsDialog').on('hidden.bs.modal',
             event => {
                 if (!this.settingsHasChanged)
                     eventBus.$emit('close-content-module-settings-modal', false);
@@ -67,7 +67,7 @@ Vue.component('singlequestionsquiz-modal-component', {
         clearData() {
             this.newMarkdown = '';
             this.parentId = '';
-            this.sets = [];
+            this.questions = [];
             this.settingsHasChanged = false;
             this.newQuestionId = '';
             this.showQuestionInput = false;
@@ -104,11 +104,11 @@ Vue.component('singlequestionsquiz-modal-component', {
                 this.singleQuestionsQuizSettings.SetListIds = setIdParts.join(',');
             this.newMarkdown = Utils.ConvertJsonToMarkdown(this.singleQuestionsQuizSettings);
             Utils.ApplyMarkdown(this.newMarkdown, this.parentId);
-            $('#singlquestionsquizSettingsDialog').modal('hide');
+            $('#singlequestionsquizSettingsDialog').modal('hide');
         },
 
         closeModal() {
-            $('#singlquestionsquizSettingsDialog').modal('hide');
+            $('#singlequestionsquizSettingsDialog').modal('hide');
         },
 
         onMove(event) {

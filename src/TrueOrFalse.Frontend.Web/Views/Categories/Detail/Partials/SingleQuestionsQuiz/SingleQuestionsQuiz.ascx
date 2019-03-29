@@ -8,9 +8,24 @@
     
         <% foreach (var question in Model.Questions)
            { %>
-            <div ref:script-widget :data-id="<%= question.Id %>"></div>
+            
+            <div v-if="canBeEdited">
+                Platzhalter für Frage No: <%= question.Id %>
+            </div>
+            <div v-else>
+                <content-module-widget 
+                    :widget-id="widgetId" 
+                    widget-type="quiz" 
+                    src="http://memucho.local/views/widgets/w.js" 
+                    data-t="question" 
+                    data-id="<%= question.Id %>" 
+                    data-width="100%"
+                    data-maxwidth="100%"
+                    data-logoon="false" 
+                    data-hideKnowledgeBtn="true">
+                </content-module-widget>     
+            </div>
 
-            <script src="https://memucho.de/views/widgets/w.js" data-t="question" data-id="<%= question.Id %>" data-width="100%" data-maxwidth="100%" data-logoon="false" data-hideKnowledgeBtn="true"></script>
             <div class="SpacerDiv"></div>
         <% } %>
     </div>
