@@ -184,23 +184,22 @@ class Utils
     static ApplyMarkdown(newMarkdown: string, parentId: string) {
 
         var insertNewModule = '';
-        var newId = '';
 
         if (parentId.startsWith('before:')) {
             insertNewModule = 'before';
-            newId = parentId.replace('before:', '');
+            parentId = parentId.replace('before:', '');
         }
 
         if (parentId.startsWith('after:')) {
             insertNewModule = 'after';
-            newId = parentId.replace('after:', '');
+            parentId = parentId.replace('after:', '');
         }
 
         if (insertNewModule) {
             $.post("/Category/RenderMarkdown/",
                 { categoryId: $("#hhdCategoryId").val(), markdown: newMarkdown },
                 (result) => {
-                    eventBus.$emit('new-content-module', { newHtml: result, position: insertNewModule, id: '#' + newId } );
+                    eventBus.$emit('new-content-module', { newHtml: result, position: insertNewModule, id: '#' + parentId } );
                 }
             );
         } else {
