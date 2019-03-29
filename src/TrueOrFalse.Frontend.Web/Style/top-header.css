@@ -484,7 +484,7 @@
 }
 /*Breadcrumb*/
 #Breadcrumb {
-  z-index: 1;
+  z-index: 102;
 }
 #Breadcrumb .messages {
   padding-right: 5px;
