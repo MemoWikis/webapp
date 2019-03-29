@@ -129,7 +129,7 @@ var contentModuleComponent = Vue.component('content-module', {
         updateHoverState(isHover) {
             if (this.contentModuleType) {
                 const self = this;
-                if (self.canBeEdited || this.contentModuleType == 'AddModuleButton' || this.contentModuleType) {
+                if (self.canBeEdited || this.contentModuleType == 'AddModuleButton') {
                     self.hoverState = isHover;
                 }
             }
