@@ -40,7 +40,6 @@
 
     <%-- FOOTER--%>
     <footer id="MasterFooter">
-        <div class="row">
             <div class="container">
                 <div class="row">
                     <%// ReSharper disable Asp.NotResolved
@@ -48,7 +47,6 @@
                         // ReSharper restore Asp.NotResolved%>
                 </div>
             </div>
-        </div>
     </footer>
     
     <div id="modalLoginContainer"></div>
