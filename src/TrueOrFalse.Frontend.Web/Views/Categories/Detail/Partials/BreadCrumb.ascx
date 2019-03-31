@@ -13,9 +13,10 @@
      %>
 
 <div id="BreadCrumbContainer" class="container">
-
+   
+ 
     <a href="/" id="BreadcrumbLogoSmall" class="show-tooltip" data-placement="bottom" title="Zur Startseite" style="display:none;">
-        <img src="/android-chrome-36x36.png" style="min-width: 36px;">
+        <i class="fas fa-home"></i>
     </a>
 
     <div id="BreadCrumbTrail" style="display:flex;">

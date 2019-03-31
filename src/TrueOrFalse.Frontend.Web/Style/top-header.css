@@ -1,29 +1,18 @@
-@media (min-width: 768px) {
-}
-@media (min-width: 768px) {
-}
-@media (max-width: 767px) {
-}
-@media (min-width: 768px) {
-}
-@media (min-width: 768px) {
-}
-@media (min-width: 768px) {
-}
-@media (max-width: 767px) {
-}
-@media (max-width: 767px) {
-}
-@media (max-width: 649px) {
-}
-@media (min-width: 650px) {
-}
-/*  [Local variables:]
+﻿@media (min-width: 768px) {
+}@media (min-width: 768px) {
+}@media (max-width: 767px) {
+}@media (min-width: 768px) {
+}@media (min-width: 768px) {
+}@media (min-width: 768px) {
+}@media (max-width: 767px) {
+}@media (max-width: 767px) {
+}@media (max-width: 649px) {
+}@media (min-width: 650px) {
+}/*  [Local variables:]
 ----------------------------------------------------------*/
 /* MASTER HEADER  
 ----------------------------------------------------------*/
 #MasterHeader {
-  position: -webkit-sticky;
   position: sticky;
   margin: 0;
   width: 100%;
@@ -293,6 +282,9 @@
 }
 #Breadcrumb #BreadCrumbContainer {
   display: flex;
+}
+#Breadcrumb #BreadCrumbContainer .fa-home {
+  font-size: 15px;
 }
 #Breadcrumb #BreadCrumbContainer #BreadCrumbTrail #Path {
   position: absolute;
