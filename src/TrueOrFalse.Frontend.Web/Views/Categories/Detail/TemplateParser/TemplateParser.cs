@@ -1,54 +1,71 @@
-﻿using System;
-using System.Linq;
+﻿using Newtonsoft.Json;
+using System;
+using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using System.Web.Mvc;
-using Newtonsoft.Json;
 
 public class TemplateParser
 {
     public static string Run(string stringToParse, Category category, ControllerContext controllerContext)
     {
-        //Matches "[[something]]" (optionally with surrounding p tag) non-greedily across multiple lines and only if not nested
-        var regex = new Regex(@"(<p>)?\[\[(.*?)\]\](<\/p>)?", RegexOptions.Singleline);
-
-        return regex.Replace(stringToParse, match =>
+        try
         {
-            try
+            var templateMarkdown = "";
+            var templateJson = new TemplateJson();
+        
+            if (stringToParse.Contains("[[") && stringToParse.Contains("]]"))
             {
-                var templateJson = GetTemplateJson(
-                    match.Value
-                        .Replace("<p>[[", "")
-                        .Replace("]]</p>", "")
-                        .Replace("[[", "")
-                        .Replace("]]", "")
-                        .Replace("&quot;", @""""),
-                    category.Id);
-
-                var html = GetHtml(templateJson, category, controllerContext);
-
-                if (string.IsNullOrEmpty(html))
-                    throw new Exception("Es konnte kein Html erzeugt werden.");
-
-                return html;
-
+                var json = stringToParse
+                    .Replace("<p>", "")
+                    .Replace("</p>", "")
+                    .Replace("[[", "")
+                    .Replace("]]", "")
+                    .Replace("&quot;", @"""");
+        
+                templateMarkdown = stringToParse
+                    .Replace("<p>", "")
+                    .Replace("</p>", "");
+        
+                templateJson = GetTemplateJson(json);
+                templateJson.OriginalJson = json;
             }
-            catch (Exception e)
+            else
             {
-                Logg.r().Error($"Fehler beim Parsen der Kategorie Id={category.Id} ({e.Message} {e.StackTrace}).");
-                return GetReplacementForNonparsableTemplate(match.Value, e.Message);
-            }
+                templateJson = new TemplateJson
+                {
+                    TemplateName = "InlineText",
+                };
+                InlineText = stringToParse;
 
-        });
+                templateMarkdown = stringToParse;
+            }
+        
+            var html = GetHtml(
+                templateJson, 
+                category, 
+                controllerContext, 
+                templateMarkdown
+            );
+        
+            if (string.IsNullOrEmpty(html))
+                throw new Exception("Es konnte kein Html erzeugt werden.");
+        
+            return html;
+        
+        }
+        catch (Exception e)
+        {
+            Logg.r().Error($"Fehler beim Parsen der Kategorie Id={category.Id} ({e.Message} {e.StackTrace}).");
+            return GetReplacementForNonparsableTemplate(stringToParse, e.Message);
+        }
     }
 
-    private static TemplateJson GetTemplateJson(string template, int categoryId)
+    private static TemplateJson GetTemplateJson(string template)
     {
-        var templateJson = JsonConvert.DeserializeObject<TemplateJson>(template);
-        templateJson.ContainingCategoryId = categoryId;
-        return templateJson;
+        return JsonConvert.DeserializeObject<TemplateJson>(template);
     }
 
-    private static string GetHtml(TemplateJson templateJson, Category category, ControllerContext controllerContext)
+    private static string GetHtml(TemplateJson templateJson, Category category, ControllerContext controllerContext, string templateMarkdown)
     {
         switch (templateJson.TemplateName.ToLower())
         {
@@ -61,13 +78,15 @@ public class TemplateParser
             case "categorynetwork":
             case "contentlists":
             case "educationofferlist":
-            case "singleset":
             case "setlistcard":
             case "setcardminilist":
             case "singlecategory":
             case "singlequestionsquiz":
             case "spacer":
-                    return GetPartialHtml(templateJson, category, controllerContext);
+            case "textblock":
+            case "cards":
+            case "inlinetext":
+                return GetPartialHtml(templateJson, category, controllerContext, templateMarkdown);
             default:
             {
                 var elementHtml = GetElementHtml(templateJson);
@@ -80,64 +99,64 @@ public class TemplateParser
         }
     }
 
-    private static string GetPartialHtml(TemplateJson templateJson, Category category, ControllerContext controllerContext)
+    public static string InlineText;
+
+    private static string GetPartialHtml(
+        TemplateJson templateJson, 
+        Category category,
+        ControllerContext controllerContext, 
+        string templateMarkdown)
     {
         var partialModel = GetPartialModel(templateJson, category);
+        partialModel.Markdown = templateMarkdown;
+        partialModel.Type = templateJson.TemplateName.ToLower();
 
         return GetPartialHtml(templateJson, controllerContext, partialModel);
     }
 
-
     private static string GetPartialHtml(TemplateJson templateJson, ControllerContext controllerContext, BaseModel partialModel)
     {
         return ViewRenderer.RenderPartialView(
-            "~/Views/Categories/Detail/Partials/" + templateJson.TemplateName + ".ascx",
+            $"~/Views/Categories/Detail/Partials/{templateJson.TemplateName}/{templateJson.TemplateName}.ascx",
             partialModel,
             controllerContext);
     }
 
-    private static BaseModel GetPartialModel(TemplateJson templateJson, Category category)
+    private static BaseContentModule GetPartialModel(TemplateJson templateJson, Category category)
     {
         switch (templateJson.TemplateName.ToLower())
         {
             case "topicnavigation":
-                return new TopicNavigationModel(category, templateJson.Title, templateJson.Text, templateJson.Load, templateJson.Order);
+                return new TopicNavigationModel(category, JsonConvert.DeserializeObject<TopicNavigationJson>(templateJson.OriginalJson));
             case "medialist":
-                return new MediaListModel(category, templateJson.Title, templateJson.Text);
+                return new MediaListModel(category, JsonConvert.DeserializeObject<MediaListJson>(templateJson.OriginalJson));
             case "educationofferlist":
-                return new EducationOfferListModel(category, templateJson.Title, templateJson.Text, templateJson.Load, templateJson.Order);
+                return new EducationOfferListModel(category, JsonConvert.DeserializeObject<EducationOfferListJson>(templateJson.OriginalJson));
             case "videowidget":
-                return new VideoWidgetModel(templateJson.SetId);
+                return new VideoWidgetModel(JsonConvert.DeserializeObject<VideoWidgetJson>(templateJson.OriginalJson));
             case "settestsessionnostartscreen":
-                return new SetTestSessionNoStartScreenModel(templateJson.SetId, templateJson.Title, templateJson.Text);
+                return new SetTestSessionNoStartScreenModel(JsonConvert.DeserializeObject<SetTestSessionNoStartScreenJson>(templateJson.OriginalJson));
             case "singlesetfullwidth":
-                return new SingleSetFullWidthModel(templateJson.SetId, templateJson.Title, templateJson.Text);
+                return new SingleSetFullWidthModel(JsonConvert.DeserializeObject<SingleSetFullWidthJson>(templateJson.OriginalJson));
             case "singlecategoryfullwidth":
-                return  new SingleCategoryFullWidthModel(templateJson.CategoryId, templateJson.Title, templateJson.Description);
+                return  new SingleCategoryFullWidthModel(JsonConvert.DeserializeObject<SingleCategoryFullWidthJson>(templateJson.OriginalJson));
             case "categorynetwork":
             case "contentlists":
                 return new CategoryModel(category, loadKnowledgeSummary : false);
-            case "singleset":
-                return new SingleSetModel(Sl.R<SetRepo>().GetById(templateJson.SetId), setText: templateJson.SetText);
             case "setlistcard":
-                return new SetListCardModel(
-                    templateJson.SetList,
-                    templateJson.Title,
-                    templateJson.Description,
-                    category.Id,
-                    templateJson.TitleRowCount,
-                    templateJson.DescriptionRowCount,
-                    templateJson.SetRowCount);
+                return new SetListCardModel(category.Id, JsonConvert.DeserializeObject<SetListCardJson>(templateJson.OriginalJson));
             case "setcardminilist":
-                return new SetCardMiniListModel(templateJson.SetList);
+                return new SetCardMiniListModel(JsonConvert.DeserializeObject<SetCardMiniListJson>(templateJson.OriginalJson));
             case "singlecategory":
-                return new SingleCategoryModel(
-                    templateJson.CategoryId,
-                    templateJson.Description);
+                return new SingleCategoryModel(JsonConvert.DeserializeObject<SingleCategoryJson>(templateJson.OriginalJson));
             case "singlequestionsquiz":
-                return new SingleQuestionsQuizModel(category, templateJson.MaxQuestions, templateJson.Title, templateJson.Text, templateJson.QuestionIds, templateJson.Order);
+                return new SingleQuestionsQuizModel(category, JsonConvert.DeserializeObject<SingleQuestionsQuizJson>(templateJson.OriginalJson));
             case "spacer":
-                return new SpacerModel(templateJson.AmountSpaces, templateJson.AddBorderTop);
+                return new SpacerModel(JsonConvert.DeserializeObject<SpacerJson>(templateJson.OriginalJson));
+            case "cards":
+                return new CardsModel(JsonConvert.DeserializeObject<CardsJson>(templateJson.OriginalJson));
+            case "inlinetext":
+                return new InlineTextModel(InlineText);
             default:
                 throw new Exception("Kein Model für diese Template hinterlegt.");
         }
@@ -147,10 +166,6 @@ public class TemplateParser
     {
         switch (templateJson.TemplateName.ToLower())
         {
-            case "divstart":
-                return "<div class='" + templateJson.CssClasses + "'>";
-            case "divend":
-                return "</div>";
             case "wishknowledgeinthebox":
                 return "<div class = 'wishKnowledgeTemplate'></div>";
             default:

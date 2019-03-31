@@ -146,5 +146,34 @@ public class CategoryController : BaseController
             ControllerContext
         );
 
-   
+
+    [HttpPost]
+    [AccessOnlyAsLoggedIn]
+    public ActionResult SaveMarkdown(int categoryId, string markdown)
+    {
+        var category = Sl.CategoryRepo.GetById(categoryId);
+
+        if (category != null && markdown != null)
+        {
+            category.TopicMarkdown = markdown;
+            Sl.CategoryRepo.Update(category, User_());
+
+            return Json(true);
+        }
+        else
+        {
+            return Json(false);
+        }
+        
+    }
+
+
+    [HttpPost]
+    [AccessOnlyAsLoggedIn]
+    public ActionResult RenderMarkdown(int categoryId, string markdown)
+    {
+        var category = Sl.CategoryRepo.GetById(categoryId);
+
+        return Json(TemplateParser.Run(markdown, category, this.ControllerContext));
+    }
 }

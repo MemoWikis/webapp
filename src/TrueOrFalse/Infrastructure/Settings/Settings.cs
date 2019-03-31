@@ -115,7 +115,7 @@ public class Settings
         SolrCoresSuffix = GetValue(OverwrittenConfig.Value("solrCoresSuffix"), "SolrCoresSuffix");
         SolrPath = GetValue(OverwrittenConfig.Value("pathToSolr"), "SolrPath");
         SolrUrl = GetValue(OverwrittenConfig.Value("sorlUrl"), "SolrUrl");
-        CanonicalHost = GetValue(OverwrittenConfig.Value("CanonicalHost"), "CanonicalHost");
+        CanonicalHost = GetValue(OverwrittenConfig.Value("canonicalHost"), "CanonicalHost");
         AdvertisementTurnedOn = bool.Parse(GetValue(OverwrittenConfig.Value("advertisementTurnedOn"), "AdvertisementTurnedOn"));
         LomExportPath = GetValue(OverwrittenConfig.Value("lomExportPath"), "LomExportPath");
 

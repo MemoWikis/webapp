@@ -3,7 +3,7 @@ using System.Linq;
 using NHibernate.Cfg;
 using TrueOrFalse.Web;
 
-public class CategoryModel : BaseModel
+public class CategoryModel : BaseContentModule
 {
     public string MetaTitle;
     public string MetaDescription;
@@ -67,6 +67,7 @@ public class CategoryModel : BaseModel
     public bool IsInWishknowledge;
 
     public LearningTabModel LearningTabModel; 
+
     public CategoryModel(Category category, bool loadKnowledgeSummary = true)
     {      
         MetaTitle = category.Name;
@@ -177,8 +178,15 @@ public class CategoryModel : BaseModel
 
     public string GetViews() => Sl.CategoryViewRepo.GetViewCount(Id).ToString();
 
-    public string GetViewsPerDay() => Sl.CategoryViewRepo
-        .GetPerDay(Id)
-        .Select(item => item.Date.ToShortDateString() + " " + item.Views)
-        .Aggregate((a, b) => a + " " + b + System.Environment.NewLine);
+    public string GetViewsPerDay()
+    {
+         var views =  Sl.CategoryViewRepo
+            .GetPerDay(Id)
+            .Select(item => item.Date.ToShortDateString() + " " + item.Views)
+            .ToList();
+
+        return !views.Any() 
+            ? "" 
+            : views.Aggregate((a, b) => a + " " + b + System.Environment.NewLine);
+    }
 }

@@ -17,7 +17,7 @@ public class BaseTest
     static BaseTest()
     {
         #if DEBUG
-            NHibernateProfiler.Initialize();
+//            NHibernateProfiler.Initialize();
         #endif
     }
 
