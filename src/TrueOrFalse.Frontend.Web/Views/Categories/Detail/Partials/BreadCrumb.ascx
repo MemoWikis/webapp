@@ -13,10 +13,9 @@
      %>
 
 <div id="BreadCrumbContainer" class="container">
-   
  
     <a href="/" id="BreadcrumbLogoSmall" class="show-tooltip" data-placement="bottom" title="Zur Startseite" style="display:none;">
-        <i class="fas fa-home"></i>
+        <i class="fas fa-home"></i> 
     </a>
 
     <div id="BreadCrumbTrail" style="display:flex;">
