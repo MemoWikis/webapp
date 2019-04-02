@@ -11,9 +11,10 @@
     <asp:ContentPlaceHolder ID="Head" runat="server" />
 </head>
 <body>
+
     <% Model.SidebarModel.categoryNavigationModel = new CategoryNavigationModel(); %>
     <% Html.RenderPartial("Site.Partial.MasterHeader");%>   
-    <div id="Breadcrumb" >
+    <div id="Breadcrumb" class="path" >
         <% Html.RenderPartial("/Views/Categories/Detail/Partials/BreadCrumb.ascx", Model); %>
     </div>  
     <section id="MasterSection">     
@@ -26,7 +27,7 @@
                         <% Html.RenderPartial("SidebarCards", Model.SidebarModel); %>                                        
                     </section>
                 <%} %>
-                <section id="MasterMainColumn" <%if(Model.SidebarModel.Show()){ %> class="col-md-9" <% } else { %> class="col-md-12" <% } %> >
+                <section id="MasterMainColumn" <%if(Model.SidebarModel.Show()){ %> class="col-lg-9" <% } else { %> class="col-md-12" <% } %> >
                     <div id="IsInGameMessage">
                         <% if(Model.IsInGame){ %>
                             <% Html.RenderPartial("MessageGame", Model); %>
@@ -47,13 +48,11 @@
     <footer id="MasterFooter">
         <div class="row">
             <div class="container">
-                <div class="row">
                     <%// ReSharper disable Asp.NotResolved
                         Html.RenderPartial(UserControls.MasterFooter); 
                         // ReSharper restore Asp.NotResolved%>
                 </div>
             </div>
-        </div>
     </footer>
     <% if(Request.IsLocal){ %>
         <%--<%= MiniProfiler.RenderIncludes() %> --%>

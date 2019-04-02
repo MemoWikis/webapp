@@ -13,18 +13,14 @@
      %>
 
 <div id="BreadCrumbContainer" class="container">
+ 
     <a href="/" id="BreadcrumbLogoSmall" class="show-tooltip" data-placement="bottom" title="Zur Startseite" style="display:none;">
-        <img src="/android-chrome-36x36.png" style="min-width: 36px;">
+        <i class="fas fa-home"></i> 
     </a>
+
     <div id="BreadCrumbTrail" style="display:flex;">
-        <div style="height: auto;" id="BreadcrumbHome" class="show-tooltip" data-placement="bottom"  title="Zur Startseite">
-         <%if(!Model.TopNavMenu.IsWelcomePage){ %> 
-            <a href="/" class="category-icon">
-                <span style="margin-left: 10px">Home</span>
-            </a>
-            <span><i class="fa fa-chevron-right"></i></span>
-         <%}%>
-         </div>
+        <ul id="Path" class="path">
+        </ul>
 
     <%if(!Model.TopNavMenu.IsWelcomePage){ %>  
         <%if(Model.TopNavMenu.IsCategoryBreadCrumb || Model.TopNavMenu.IsCategoryLearningBreadCrumb){ %>
@@ -64,7 +60,7 @@
            <a class="TextLinkWithIcon dropdown-toggle" id="dLabelBreadCrumb" data-toggle="dropdown" href="#">
             <img class="userImage" style="margin-top:21px; border:none; text-align:center;" src="<%= userImage%>" />
            </a>   
-            <ul id="BreadcrumbUserDropdown" class="dropdown-menu pull-right" role="menu" aria-labelledby="dLabel" style="right:0; position: absolute;">
+            <ul id="BreadcrumbUserDropdown" class="dropdown-menu pull-right" role="menu" aria-labelledby="dLabel" style="right:0; position: absolute; padding-right: 20px;">
                 <li>
                     <a style="white-space: unset; padding: 0px;" href="<%= Links.Knowledge()%>">
                             <div id="activity-popover-title">Deine Lernpunkte</div>

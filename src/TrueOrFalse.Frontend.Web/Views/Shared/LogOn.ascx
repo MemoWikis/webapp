@@ -21,7 +21,7 @@
         </a>
     </div>
     <div class="header-item" <%if (!userSession.IsLoggedIn)
-        {%>style="margin-top:-2px"
+        {%>style="margin-top: -2px; padding-left: 10px;"
         <%} %> id="Login">
         <%if (userSession.IsLoggedIn)
             {
@@ -59,7 +59,7 @@
                             <% if (Model.SidebarModel.UnreadMessageCount != 0) { %>
                                 <svg class="badge" height="100" width="100">
                                     <g>
-                                        <circle cx="13" cy="10" r="8" fill="#FF001F"/>
+                                        <circle cx="16" cy="10" r="8" fill="#FF001F"/>
                                         <text class="level-count" x="60%" text-anchor="middle" font-size="10" y="55%" dy=".34em" fill="white"><%= Model.SidebarModel.UnreadMessageCount %></text>
                                     </g>
                                 </svg>                
@@ -91,6 +91,5 @@
     <div id="MenuButtonContainer" class="header-item" style="margin-right: 0px;">
         <a id="MenuButton" class="TextLinkWithIcon"><i class="fa fa-bars"></i>
             <span style="padding-top: 7px;" class="TextSpan">Menü</span></a>
-        <%Html.RenderPartial("/Views/Shared/MainMenuThemeCentered.ascx", Model.SidebarModel); %>
     </div>
 </div>

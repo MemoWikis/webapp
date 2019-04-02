@@ -18,10 +18,11 @@
 </head>
 
 <body>
+
     <%--HEADER--%>
     <% Model.SidebarModel.categoryNavigationModel = new CategoryNavigationModel(); %>
     <% Html.RenderPartial("Site.Partial.MasterHeader"); %>
-      <div id="Breadcrumb" <%if(Model.TopNavMenu.IsWelcomePage){%> style="display:none;" <%} %>>
+      <div id="Breadcrumb" class="path"<%if(Model.TopNavMenu.IsWelcomePage){%> style="display:none;" <%} %>>
         <% Html.RenderPartial("/Views/Categories/Detail/Partials/BreadCrumb.ascx", Model);%>
     </div>  
     <section id="MasterSection">
@@ -39,7 +40,6 @@
 
     <%-- FOOTER--%>
     <footer id="MasterFooter">
-        <div class="row">
             <div class="container">
                 <div class="row">
                     <%// ReSharper disable Asp.NotResolved
@@ -47,7 +47,6 @@
                         // ReSharper restore Asp.NotResolved%>
                 </div>
             </div>
-        </div>
     </footer>
     
     <div id="modalLoginContainer"></div>

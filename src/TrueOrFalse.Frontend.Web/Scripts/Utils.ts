@@ -157,5 +157,58 @@ class Utils
         $(".spinner").hide();
     }
 
+    static ConvertEncodedHtmlToJson(encodedHtml: string) {
+
+        var decodeEntities = (function() {
+            function decodeHtml(html) {
+                var txt = document.createElement("textarea");
+                txt.innerHTML = html;
+                return txt.value.replace('[[', '').replace(']]', '');
+            }
+
+            return decodeHtml;
+        })();
+
+        var decodedHtml = decodeEntities(encodedHtml);
+
+        return JSON.parse(decodedHtml);
+    }
+
+    static ConvertJsonToMarkdown(json: object) {
+        var jsonString = JSON.stringify(json);
+        var encodedHtml = String(jsonString).replace(/"/g, '&quot;');
+
+        return '[[' + encodedHtml + ']]';
+    }
+
+    static ApplyMarkdown(newMarkdown: string, parentId: string) {
+
+        var insertNewModule = '';
+
+        if (parentId.startsWith('before:')) {
+            insertNewModule = 'before';
+            parentId = parentId.replace('before:', '');
+        }
+
+        if (parentId.startsWith('after:')) {
+            insertNewModule = 'after';
+            parentId = parentId.replace('after:', '');
+        }
+
+        if (insertNewModule) {
+            $.post("/Category/RenderMarkdown/",
+                { categoryId: $("#hhdCategoryId").val(), markdown: newMarkdown },
+                (result) => {
+                    eventBus.$emit('new-content-module', { newHtml: result, position: insertNewModule, id: '#' + parentId } );
+                }
+            );
+        } else {
+            $.post("/Category/RenderMarkdown/", { categoryId: $("#hhdCategoryId").val(), markdown: newMarkdown },
+                (result) => {
+                    eventBus.$emit('new-markdown', { preview: true, newHtml: result, toReplace: '#' + parentId });
+                }
+            );
+        }
+    }
 }
 

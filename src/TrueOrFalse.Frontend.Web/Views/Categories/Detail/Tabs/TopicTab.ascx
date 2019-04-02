@@ -21,7 +21,7 @@
         <a href="<%= Links.CategoryDetail(Model.Category.Name, Model.Category.Id) %>">
             <%= Model.Name %>
         </a>
-        
+
         <div class="dropdown pull-right" style="margin-top: 1em">
             <a class="btn btn-primary" href="<%= Links.CategoryHistoryDetail(Model.Id, Model.CategoryChange.Id) %>">
                 <i class="fa fa-code-fork"></i> &nbsp; Änderungen anzeigen
@@ -93,14 +93,15 @@
             <%= Model.ImageFrontendData.RenderHtmlImageBasis(350, false, ImageType.Category, "ImageContainer") %>
         </div>
         <% } %>   
-    
     <div class="TextColumn">
         <% if (Model.Type != "Standard") { %>
             <div>                    
                 <% Html.RenderPartial("Reference", Model.Category); %>
             </div>
         <% } %>
-                
+        
+        
+    
         <div class="Description"><span><%= Model.Description %></span></div>
                 
         <% if (!String.IsNullOrEmpty(Model.Url)){ %>
@@ -120,39 +121,48 @@
         <% } %>
     </div>
 </div>
-<% if (string.IsNullOrEmpty(Model.CustomPageHtml)) {
 
-       if (Model.CategoriesChildren.Any(c => c.Type.GetCategoryTypeGroup() == CategoryTypeGroup.Standard))
-           Html.RenderPartial("~/Views/Categories/Detail/Partials/TopicNavigation.ascx",new TopicNavigationModel(Model.Category, "Unterthemen"));
-                
-
-       if (Model.AggregatedSetCount > 0 && Model.AggregatedSetCount <= 5){
-           foreach (var set in Model.AggregatedSets)
-           {
-               Html.RenderPartial("~/Views/Categories/Detail/Partials/SingleSetFullWidth.ascx", new SingleSetFullWidthModel(set.Id));
-           }
-       }
-       else if (Model.AggregatedSetCount == 0 && Model.AggregatedQuestionCount > 0)
-       {
-           Html.RenderPartial("~/Views/Categories/Detail/Partials/SingleQuestionsQuiz.ascx", new SingleQuestionsQuizModel(Model.Category,5));
-       }
-
-       if (Model.CategoriesChildren.Any(c => c.Type.GetCategoryTypeGroup() == CategoryTypeGroup.Education))
-           Html.RenderPartial("~/Views/Categories/Detail/Partials/EducationOfferList.ascx", new EducationOfferListModel(Model.Category));
-
-       if (Model.CategoriesChildren.Any(c => c.Type.GetCategoryTypeGroup() == CategoryTypeGroup.Media))
-           Html.RenderPartial("~/Views/Categories/Detail/Partials/MediaList.ascx", new MediaListModel(Model.Category));
-
-       Html.RenderPartial("~/Views/Categories/Detail/Partials/ContentLists.ascx", Model);
-
-       Html.RenderPartial("~/Views/Categories/Detail/Partials/RelatedContentLists.ascx", Model);
-
-       Html.RenderPartial("~/Views/Categories/Detail/Partials/CategoryNetwork.ascx", Model);
-
-   } else { %>
+<div id="MarkdownContent" class="module" v-sortable="options">
+    <% if (string.IsNullOrEmpty(Model.CustomPageHtml)) {
+    
+           if (Model.CategoriesChildren.Any(c => c.Type.GetCategoryTypeGroup() == CategoryTypeGroup.Standard))
+               Html.RenderPartial("~/Views/Categories/Detail/Partials/TopicNavigation/TopicNavigation.ascx",new TopicNavigationModel(Model.Category, "Unterthemen"));
                     
-    <div class="MarkdownContent">
+    
+           if (Model.AggregatedSetCount > 0 && Model.AggregatedSetCount <= 5){
+               foreach (var set in Model.AggregatedSets)
+               {
+                   Html.RenderPartial("~/Views/Categories/Detail/Partials/SingleSetFullWidth/SingleSetFullWidth.ascx", new SingleSetFullWidthModel(set.Id));
+               }
+           }
+           else if (Model.AggregatedSetCount == 0 && Model.AggregatedQuestionCount > 0)
+           {
+               Html.RenderPartial("~/Views/Categories/Detail/Partials/SingleQuestionsQuiz/SingleQuestionsQuiz.ascx", new SingleQuestionsQuizModel(Model.Category,5));
+           }
+    
+           if (Model.CategoriesChildren.Any(c => c.Type.GetCategoryTypeGroup() == CategoryTypeGroup.Education))
+               Html.RenderPartial("~/Views/Categories/Detail/Partials/EducationOfferList/EducationOfferList.ascx", new EducationOfferListModel(Model.Category));
+    
+           if (Model.CategoriesChildren.Any(c => c.Type.GetCategoryTypeGroup() == CategoryTypeGroup.Media))
+               Html.RenderPartial("~/Views/Categories/Detail/Partials/MediaList/MediaList.ascx", new MediaListModel(Model.Category));
+    
+           Html.RenderPartial("~/Views/Categories/Detail/Partials/ContentLists/ContentLists.ascx", Model);
+    
+           Html.RenderPartial("~/Views/Categories/Detail/Partials/RelatedContentLists.ascx", Model);
+    
+           Html.RenderPartial("~/Views/Categories/Detail/Partials/CategoryNetwork/CategoryNetwork.ascx", Model);
+    
+       } else { %>
+                        
         <%= Model.CustomPageHtml %>
+    
+    <% } %>
+    
+    <div id="ContentModulePlaceholder" v-if="editMode" v-cloak>
+        <content-module inline-template content-module-type="AddModuleButton">
+            <div class="placeholderBorder" :class="{ hover : hoverState }" @click="addModule('before')" @mouseenter="updateHoverState(true)" @mouseleave="updateHoverState(false)">
+                <i class="fa fa-plus-square fa-5x" :class="{ hover : hoverState }"></i>
+            </div>
+        </content-module>
     </div>
-
-<% } %>
+</div>

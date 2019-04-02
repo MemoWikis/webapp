@@ -18,6 +18,7 @@
     <%= Scripts.Render("~/bundles/fileUploader") %>
     <%= Styles.Render("~/bundles/CategoryEdit") %>
     <%= Scripts.Render("~/bundles/js/CategoryEdit") %>
+    <%-- <%= Scripts.Render("~/bundles/js/TipTap") %> --%>
 </asp:Content>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
@@ -81,6 +82,7 @@
                 <input type="hidden" id="isEditing" value="<%= Model.IsEditing ?  "true" : "false" %>"/>
                 <input type="hidden" id="categoryId" value="<%= Model.IsEditing ?  Model.Category.Id.ToString() : "" %>"/>
                 <input type="hidden" id="categoryType" value="<%= Model.IsEditing ? Model.Category.Type.ToString() : "" %>"/>
+                
 
                 <% if (!Model.IsEditing) { %>
                     <div id="CategoryTypeSelect" class="FormSection">

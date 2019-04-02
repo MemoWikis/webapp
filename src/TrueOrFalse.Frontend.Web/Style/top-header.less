@@ -79,7 +79,7 @@
                     }
 
                     .KnowledgeLink {
-                        color: #AED71B !important;
+                        color: #ffd700 !important;
                     }
 
                     #SmallHeaderSearchBoxDiv {
@@ -299,15 +299,32 @@
 
     #BreadCrumbContainer {
         display: flex;
+        .fa-home{
+            font-size:15px;
+
+        }
+        #BreadCrumbTrail {
+            #Path {
+                position: absolute;
+                z-index: 1;
+                top: 55px;
+                list-style-type: none;
+                background-color: white;
+                display: none;
+                padding-right: 15px;
+                padding-left: 15px;
+            }
+        }
     }
 
+    width: 100%;
+    height: 45px;
     font-size: 14px;
     background-color: white;
     line-height: 21px;
-    width: 100%;
     display: block;
     font-family: sans;
-    padding-top: 17px;
+    padding-top: 11px;
     padding-bottom: 14px !important;
     color: #000000 !important;
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.16);
@@ -321,16 +338,16 @@
     }
 
     img {
-        margin-top: -10px;
+        margin-top: -8px;
     }
 
     i.fa-chevron-right {
         padding: 0px;
         font-size: 11.2px;
         width: auto;
-        margin-left: 13px;
+        margin-left: 10px;
         color: #707070;
-        margin-right: 10px;
+        margin-right: 0;
         background-color: white;
         border-radius: 0px;
         padding: 0px;
@@ -385,6 +402,7 @@
 
         #StickyHeaderSearchBoxDiv {
             margin-top: 19px;
+            margin-left: 10px;
             width: 40px;
             -webkit-transition: width 0.3s;
         }
@@ -509,7 +527,14 @@
 
 
 #Breadcrumb {
+    z-index: 102;
+
     .messages {
         padding-right: 5px;
     }
+
+
 }
+
+
+

@@ -69,8 +69,21 @@ namespace TrueOrFalse.View
 
             bundles.Add(new ScriptBundle("~/bundles/js/Category")
                 .Include("~/Views/Knowledge/Wheel/KnowledgeWheel.js")
+                .Include("~/Scripts/npm/d3/d3.js")
                 .IncludeDirectory("~/Views/Categories/Detail/Js/", "*.js")
                 .Include("~/Views/Categories/ResultTestSession/Js/GetResultTestSession.js"));
+
+            bundles.Add(new ScriptBundle("~/bundles/js/CategorySort")
+                .Include("~/Scripts/npm/sortablejs/Sortable.js")
+                .Include("~/Scripts/npm/vue-sortable/vue-sortable.js"));
+
+            bundles.Add(new ScriptBundle("~/bundles/js/CategoryEditMode")
+                //.Include("~/Scripts/npm/tiptap/tiptap.js")
+                //.Include("~/Scripts/npm/tiptap-extensions/extensions.js")            
+                .Include("~/Scripts/npm/vue-textarea-autosize/vue-textarea-autosize.browser.js")
+                .Include("~/Scripts/npm/postscribe/postscribe.js")
+                .IncludeDirectory("~/Views/Categories/Detail/JsEditMode/ContentModuleSettings/", "*.js")
+                .IncludeDirectory("~/Views/Categories/Detail/JsEditMode/", "*.js"));
 
             bundles.Add(new StyleBundle("~/bundles/CategoryHistory")
                 .Include("~/Views/Categories/History/*.css"));
@@ -325,11 +338,12 @@ namespace TrueOrFalse.View
                 .IncludeDirectory("~/Views/Knowledge/Dates/Edit/Js/", "*.js")
                 .Include("~/Views/Knowledge/Dates/Edit/Js/Page.js"));
 
+
             //------------------------ END KNOWLEDGECENTRAL------------------------------------------------------------
 
             bundles.Add(new ScriptBundle("~/bundles/js/Vue")
                 .Include("~/Scripts/vendor/vuetable-2.js")
-                .Include("~/Scripts/vendor/vue.js"));
+                .Include("~/Scripts/npm/vue/vue.js"));
 
             bundles.Add(new StyleBundle("~/bundles/Promoter")
                 .Include("~/Views/Welcome/Promoter.css"));

@@ -316,6 +316,7 @@
     }
 
 .RightMainMenu {
+    margin-top: 0;
     span {
         display: block !important;
         font-size: 16px !important;
@@ -326,17 +327,15 @@
         max-width: none;
         padding-right: 0px;
         right: 0px !important;
-        //  position: fixed !important;
     }
 
     );
     padding: 0px;
     position: absolute;
     background-color: white;
-    width: 232px !important;
+    width: 292px;
     max-width: unset !important;
     opacity: 1;
-    z-index: 100;
     -webkit-box-shadow: 0 8px 10px @grey6x5, 5px 5px 15px @grey6x5;
     box-shadow: 0 8px 10px @grey6x5, 5px 5px 15px @grey6x5;
     float: right;
@@ -344,7 +343,8 @@
     text-align: left;
     top: 60px;
     right: 4px;
-    left: unset;
+    left: auto;
+    z-index: 103;
 
 
     a {
@@ -589,3 +589,11 @@
         padding-top: 7px;
         padding-bottom: 15px;
     }
+
+
+    /* UserDropdown*/
+
+   #userDropdown{
+       margin-top: 0;
+       padding-right: 20px;
+   }
