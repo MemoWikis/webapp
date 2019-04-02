@@ -450,7 +450,7 @@
   border-radius: 0px;
   padding-top: 0px;
   max-width: 220px;
-  top: 60px;
+  top: 44px;
 }
 #loginAndHelp .dropdown-menu span,
 #StickyHeaderContainer .dropdown-menu span {
@@ -476,7 +476,7 @@
 }
 /*Breadcrumb*/
 #Breadcrumb {
-  z-index: 102;
+  z-index: 99;
 }
 #Breadcrumb .messages {
   padding-right: 5px;
