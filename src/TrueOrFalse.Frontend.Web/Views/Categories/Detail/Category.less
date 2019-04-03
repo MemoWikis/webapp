@@ -1019,7 +1019,7 @@ p:empty {
         z-index: 99998;
         cursor: pointer;
         transform-origin: 50% 50%;
-        overflow:hidden;
+        overflow: hidden;
     }
 
     .pseudo-circle {
@@ -1037,9 +1037,11 @@ p:empty {
         opacity: 1;
         right: 50px;
         bottom: 50px;
-        position: fixed;
+        position: sticky;
         box-shadow: 0 0 6px rgba(0, 0, 0, 0.12), 0 6px 6px rgba(0, 0, 0, 0.24);
         z-index: 99999;
+        margin-left:auto;
+        margin-right:-60px;
     }
 
     .pseudo-circle.open {
@@ -1072,18 +1074,19 @@ p:empty {
         bottom: 0;
         z-index: 999995;
         height: 50px;
-        overflow:hidden;
+        overflow: hidden;
     }
 
     .toolbar {
-        position: fixed;
+        position: sticky;
         bottom: 0;
-        width: 100%;
+        width: calc(100% + 200px);
         height: 56px;
         overflow: hidden;
         padding: 20px;
         left: 0;
         right: 0;
+        margin-left:-100px;
     }
 
     .toolbar .buttons {
