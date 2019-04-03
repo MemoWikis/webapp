@@ -57,14 +57,6 @@ Vue.component('cards-modal-component', {
             else this.vertical = false;
         },
 
-        newSetId: function (val) {
-            $.get("/Api/Search/ByName?term=" + val + "&type=" + this.searchType,
-                (result) => {
-                    this.searchResults = result;
-                }
-            );
-        },
-
         newMarkdown: function() {
             this.settingsHasChanged = true;
         },
