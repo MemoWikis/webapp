@@ -18,6 +18,9 @@ var deps = {
     "vue-select": {
         "dist/vue-select.js": ""
     },
+    "vue-sticky-directive": {
+        "vue-sticky-directive.js": ""
+    },
     "postscribe": {
         "dist/postscribe.js": ""
     },

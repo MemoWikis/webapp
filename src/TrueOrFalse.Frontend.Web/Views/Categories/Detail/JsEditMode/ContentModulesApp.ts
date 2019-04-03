@@ -1,5 +1,6 @@
 ﻿declare var VueTextareaAutosize: any;
 declare var VueSelect: any;
+declare var Sticky: any;
 
 Vue.use(VueTextareaAutosize);
 Vue.component('v-select', VueSelect.VueSelect);
@@ -90,6 +91,18 @@ new Vue({
             eventBus.$emit('set-edit-mode', this.editMode);
             if (this.changedMarkdown) {
                 location.reload();
+            };
+        },
+
+        setEditMode() {
+            if (NotLoggedIn.Yes()) {
+                return;
+            } else {
+                this.editMode = !this.editMode;
+                eventBus.$emit('set-edit-mode', this.editMode);
+                //                if (!this.editMode) {
+                //                    location.reload();
+                //                };
             };
         },
 
