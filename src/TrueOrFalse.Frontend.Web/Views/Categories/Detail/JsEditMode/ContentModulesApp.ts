@@ -1,6 +1,8 @@
 ﻿declare var VueTextareaAutosize: any;
+declare var VueSelect: any;
 
 Vue.use(VueTextareaAutosize);
+Vue.component('v-select', VueSelect.VueSelect);
 
 Vue.directive('sortable',
     {

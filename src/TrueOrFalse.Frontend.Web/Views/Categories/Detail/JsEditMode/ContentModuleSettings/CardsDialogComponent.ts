@@ -6,7 +6,6 @@
 };
 
 Vue.component('cards-modal-component', {
-
     template: '#cards-settings-dialog-template',
 
     cardsSettings: CardsSettings,
@@ -17,7 +16,7 @@ Vue.component('cards-modal-component', {
             title: '',
             selectedCardOrientation: 'Landscape',
             sets: [],
-            newSetId: 0,
+            newSetId: '',
             parentId: '',
             vertical: false,
             settingsHasChanged: false,
@@ -29,6 +28,9 @@ Vue.component('cards-modal-component', {
                 preventOnFilter: false,
                 onMove: this.onMove,
             },
+            searchResults: '',
+            searchType: 'Sets',
+            options: [],
         };
     },
 
@@ -37,11 +39,34 @@ Vue.component('cards-modal-component', {
         self.cardsSettings = new CardsSettings();
     },
 
+    computed: {
+        filteredSearch() {
+//            if (!this.newSetId) {
+//                this.newSetId = ' ';
+//            };
+
+            let results = [];
+
+            if (this.searchResults)
+                results = this.searchResults.Items.filter(i => i.Type === this.searchType);
+            
+            return results;
+        },
+    },
+
     watch: {
         selectedCardOrientation: function(val) {
             if (val == 'Portrait')
                 this.vertical = true;
             else this.vertical = false;
+        },
+
+        newSetId: function (val) {
+            $.get("/Api/Search/ByName?term=" + val + "&type=" + this.searchType,
+                (result) => {
+                    this.searchResults = result;
+                }
+            );
         },
 
         newMarkdown: function() {
@@ -126,6 +151,20 @@ Vue.component('cards-modal-component', {
         onMove(event) {
             return event.related.id !== 'addCardPlaceholder';;
         },
+
+        onSearch(search, loading) {
+            loading(true);
+            this.search(loading, search, this);
+        },
+        search: _.debounce(function (loading, search, vm) {
+            $.get("/Api/Search/ByName?term=" + search + "&type=" + this.searchType,
+                (result) => {
+                    this.searchResults = result;
+                    vm.options = this.filteredSearch;
+                    loading(false);
+                }
+            );
+        }, 350),
     },
 });
 
