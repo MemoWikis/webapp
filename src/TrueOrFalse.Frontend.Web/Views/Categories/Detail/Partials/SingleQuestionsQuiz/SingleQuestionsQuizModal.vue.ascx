@@ -64,10 +64,24 @@
                         <div id="addCardPlaceholder" class="questionCards fullwidth grid placeholder">
                             <div class="addCard" v-if="showQuestionInput">
                                 <div class="form-group">
-                                    <input class="form-control" v-model="newQuestionId" placeholder="" type="number">
+                                    <v-select label="Item.Name" :filterable="false" :options="options" @search="onSearch" v-model="newQuestion">
+                                        <template slot="no-options">
+                                            Tippen um zu suchen.
+                                        </template>
+                                        <template slot="option" slot-scope="option">
+                                            <div class="d-center">
+                                                {{ option.Item.Name }}
+                                            </div>
+                                        </template>
+                                        <template slot="selected-option" slot-scope="option">
+                                            <div id="selectedSetId" class="selected d-center">
+                                                {{ option.Item.Name }}
+                                            </div>
+                                        </template>
+                                    </v-select>
                                     <div class="settingsConfirmation">
                                         <a class="clickable" @click="hideQuestionInput">abbrechen</a>
-                                        <div class="btn btn-primary" @click="addQuestion(newQuestionId)">Hinzufügen</div>
+                                        <div class="btn btn-primary" @click="addQuestion()">Hinzufügen</div>
                                     </div>
                                 </div>
                             </div>

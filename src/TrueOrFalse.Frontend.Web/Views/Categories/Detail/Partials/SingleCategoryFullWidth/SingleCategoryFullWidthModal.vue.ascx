@@ -7,7 +7,7 @@
                     <h4 class="modalHeader">SingleCategoryFullWidth bearbeiten</h4>
                     <form>
                         <div class="form-group">
-                            <label for="title">Titel</label>
+                            <label for="title" placeholder="">Titel</label>
                             <input class="form-control" v-model="title" placeholder="" />
                             <small class="form-text text-muted">Der Titel ist optional.</small>
                         </div>
@@ -19,8 +19,22 @@
                         </div>  
                         
                         <div class="form-group">
-                            <label for="topicId">Thema</label>
-                            <input class="form-control" type="number" v-model="topicId" placeholder="123" />
+                            <label for="topic">Thema</label>
+                            <v-select label="Item.Name" :filterable="false" :options="options" @search="onSearch" v-model="selected">
+                                <template slot="no-options">
+                                    Tippen um zu suchen.
+                                </template>
+                                <template slot="option" slot-scope="option">
+                                    <div class="d-center">
+                                        {{ option.Item.Name }}
+                                    </div>
+                                </template>
+                                <template slot="selected-option" slot-scope="option">
+                                    <div id="selectedSetId" class="selected d-center">
+                                        {{ option.Item.Name }}
+                                    </div>
+                                </template>
+                            </v-select>
                         </div>  
                     </form>                    
                     

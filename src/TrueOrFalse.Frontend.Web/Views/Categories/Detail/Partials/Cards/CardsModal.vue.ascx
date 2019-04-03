@@ -42,7 +42,7 @@
                             <div class="addCard" v-if="showSetInput" :class="{ portrait : vertical }">
                                 <div class="form-group">
 
-                                    <v-select label="Item.Name" :filterable="false" :options="options" @search="onSearch" v-model="newSetId">
+                                    <v-select label="Item.Name" :filterable="false" :options="options" @search="onSearch" v-model="newSet">
                                         <template slot="no-options">
                                             Tippen um zu suchen.
                                         </template>
@@ -52,7 +52,7 @@
                                             </div>
                                         </template>
                                         <template slot="selected-option" slot-scope="option">
-                                            <div id="selectedSetId" class="selected d-center" :setId="option.Item.Id">
+                                            <div id="selectedSetId" class="selected d-center">
                                                 {{ option.Item.Name }}
                                             </div>
                                         </template>
@@ -60,7 +60,7 @@
 
                                     <div class="settingsConfirmation" :class="{ portrait : vertical }">
                                         <a class="clickable" @click="hideSetInput">abbrechen</a>
-                                        <div class="btn btn-primary" @click="addCard(newSetId.Item.Id)">Hinzufügen</div>
+                                        <div class="btn btn-primary" @click="addSet()">Hinzufügen</div>
                                     </div>
                                 </div>
                             </div>

@@ -25,7 +25,7 @@ Vue.component('topicnavigation-modal-component', {
             orderTopics: [],
             prevOrder: '',
             settingsHasChanged: false,
-            newTopicId: '',
+            newTopic: '',
             showTopicInput: false,
             topicOptions: {
                 animation: 100,
@@ -34,6 +34,9 @@ Vue.component('topicnavigation-modal-component', {
                 preventOnFilter: false,
                 onMove: this.onMove,
             },
+            searchResults: '',
+            searchType: 'Categories',
+            options: [],
         }
     },
 
@@ -69,6 +72,15 @@ Vue.component('topicnavigation-modal-component', {
                 return true;
             }
         },
+
+        filteredSearch() {
+            let results = [];
+
+            if (this.searchResults)
+                results = this.searchResults.Items.filter(i => i.Type === this.searchType);
+
+            return results;
+        },
     },
 
     watch: {
@@ -95,7 +107,7 @@ Vue.component('topicnavigation-modal-component', {
             this.text = '';
             this.load = '';
             this.order = '';
-            this.newTopicId = '';
+            this.newTopic = '';
             this.showTopicInput = false;
             this.loadTopics = [];
             this.orderTopics = [];
@@ -129,13 +141,17 @@ Vue.component('topicnavigation-modal-component', {
             }
         },
 
-        addTopic(val) {
-            this.topics.push(val);
-            this.newTopicId = '';
+        addTopic() {
+            try {
+                if (this.newTopic.Item.Id) {
+                    this.topics.push(this.newTopic.Item.Id);
+                    this.newTopic = '';
+                }
+            } catch (e) { };
         },
 
         hideTopicInput() {
-            this.newTopicId = '';
+            this.newTopic = '';
             this.showTopicInput = false;
         },
 
@@ -144,15 +160,16 @@ Vue.component('topicnavigation-modal-component', {
         },
 
         applyNewMarkdown() {
-            
-            this.topicNavigationSettings.Title = this.title;
-            this.topicNavigationSettings.Text = this.text;
+            if (this.title)
+                this.topicNavigationSettings.Title = this.title;
+            if (this.text)
+                this.topicNavigationSettings.Text = this.text;
 
             const topicIdParts = $(".topicNavigationDialogData").map((idx, elem) => $(elem).attr("topicId")).get();
             if (topicIdParts.length >= 1) {
                 if (this.load != 'All')
                     this.topicNavigationSettings.Load = topicIdParts.join(',');
-                if (this.order == 'ManualSort')
+                else if (this.order == 'ManualSort')
                     this.topicNavigationSettings.Order = topicIdParts.join(',');
                 else
                     this.topicNavigationSettings.Order = this.order;
@@ -170,6 +187,20 @@ Vue.component('topicnavigation-modal-component', {
         onMove(event) {
             return event.related.id !== 'addCardPlaceholder';;
         },
+
+        onSearch(search, loading) {
+            loading(true);
+            this.search(loading, search, this);
+        },
+        search: _.debounce(function (loading, search, vm) {
+            $.get("/Api/Search/ByName?term=" + search + "&type=" + this.searchType,
+                (result) => {
+                    this.searchResults = result;
+                    vm.options = this.filteredSearch;
+                    loading(false);
+                }
+            );
+        }, 350),
     },
 });
 

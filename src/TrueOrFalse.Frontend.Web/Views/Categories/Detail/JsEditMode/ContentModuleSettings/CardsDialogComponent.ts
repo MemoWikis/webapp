@@ -16,7 +16,7 @@ Vue.component('cards-modal-component', {
             title: '',
             selectedCardOrientation: 'Landscape',
             sets: [],
-            newSetId: '',
+            newSet: '',
             parentId: '',
             vertical: false,
             settingsHasChanged: false,
@@ -86,7 +86,7 @@ Vue.component('cards-modal-component', {
             this.settingsHasChanged = false;
             this.title = '';
             this.selectedCardOrientation = 'Landscape';
-            this.newSetId = '';
+            this.newSet = '';
             this.showSetInput = false;
             this.errorMessage = '';
         },
@@ -103,15 +103,17 @@ Vue.component('cards-modal-component', {
         },
 
         hideSetInput() {
-            this.newSetId = '';
+            this.newSet = '';
             this.showSetInput = false;
         },
     
-        addCard(val) {
-            if (val) {
-                this.sets.push(val);
-                this.newSetId = '';
-            }
+        addSet() {
+            try {
+                if (this.newSet.Item.Id) {
+                    this.sets.push(this.newSet.Item.Id);
+                    this.newSet = '';
+                }
+            } catch (e) { };
         },
         removeSet(index) {
             this.sets.splice(index, 1);
@@ -122,7 +124,8 @@ Vue.component('cards-modal-component', {
                 const setIdParts = $(".cardsDialogData").map((idx, elem) => $(elem).attr("setId")).get();
                 if (setIdParts.length >= 1)
                     this.cardsSettings.SetListIds = setIdParts.join(',');
-                this.cardsSettings.Title = this.title;
+                if (this.title)
+                    this.cardsSettings.Title = this.title;
                 this.cardsSettings.CardOrientation = this.selectedCardOrientation;
                 this.newMarkdown = Utils.ConvertJsonToMarkdown(this.cardsSettings);
                 Utils.ApplyMarkdown(this.newMarkdown, this.parentId);
