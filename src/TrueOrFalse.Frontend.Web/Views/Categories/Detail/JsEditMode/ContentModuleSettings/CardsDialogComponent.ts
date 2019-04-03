@@ -41,10 +41,6 @@ Vue.component('cards-modal-component', {
 
     computed: {
         filteredSearch() {
-//            if (!this.newSetId) {
-//                this.newSetId = ' ';
-//            };
-
             let results = [];
 
             if (this.searchResults)
@@ -120,8 +116,10 @@ Vue.component('cards-modal-component', {
         },
     
         addCard(val) {
-            this.sets.push(val);
-            this.newSetId = '';
+            if (val) {
+                this.sets.push(val);
+                this.newSetId = '';
+            }
         },
         removeSet(index) {
             this.sets.splice(index, 1);
