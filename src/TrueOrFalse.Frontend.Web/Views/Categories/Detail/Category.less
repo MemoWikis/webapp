@@ -1006,7 +1006,7 @@ p:empty {
         }
     }
 
-    box-sizing: border-box;
+    box-sizing: content-box;
 
 
     .pseudo-circle, .trigger {
@@ -1019,6 +1019,7 @@ p:empty {
         z-index: 99998;
         cursor: pointer;
         transform-origin: 50% 50%;
+        overflow:hidden;
     }
 
     .pseudo-circle {
@@ -1065,38 +1066,47 @@ p:empty {
         width: 100vw;
         height: 100vh;
         background-color: #afd534;
+        position: fixed;
+        left: auto;
+        right: 0;
+        bottom: 0;
+        z-index: 999995;
+        height: 50px;
+        overflow:hidden;
     }
 
     .toolbar {
-        position: absolute;
+        position: fixed;
         bottom: 0;
         width: 100%;
-        height: 40px;
+        height: 56px;
         overflow: hidden;
         padding: 20px;
+        left: -1px;
+        right: -1px;
     }
 
     .toolbar .buttons {
-        width:100%;
+        width: 100%;
         display: inline-flex;
         justify-content: space-between;
         flex-direction: row;
-        position: absolute;
-        z-index: 999999;
-        border: 0;
-        background: transparent;
-        font-size: 16px;
-        text-transform: uppercase;
-        top: 50%;
-        color: #fff;
-        transform: translateY(-50%);
-        border-radius: 2px;
-        transition: all 0.3s;
-        outline: none;
 
-        .closeBtn .saveBtn {
+        button {
             cursor: pointer;
-            margin: 10px 20px;
+            margin-right: 20px;
+            position: absolute;
+            z-index: 999999;
+            border: 0;
+            background: transparent;
+            font-size: 16px;
+            text-transform: uppercase;
+            top: 50%;
+            color: #fff;
+            transform: translateY(-50%);
+            border-radius: 2px;
+            transition: all 0.3s;
+            outline: none;
         }
     }
 }
