@@ -64,7 +64,7 @@
     </section>  --%>  
 
     <%-- FOOTER--%>
-    <footer id="MasterFooter" style="">
+    <footer id="MasterFooter"  v-show="!editMode">
         <div id="FooterBackground"></div>
         <div class="row">
             <div class="container" style="background-color: transparent">
@@ -77,6 +77,34 @@
             </div>
         </div>
     </footer>
+
+    <script type="text/javascript">
+        new Vue({
+            el: '#GlobalLicense',
+            data() {
+                return {
+                    editMode: false
+                }
+            },
+        
+            created() {
+                eventBus.$on("set-edit-mode", state => this.editMode = state);
+            },
+        });
+    
+        new Vue({
+            el: '#MasterFooter',
+            data() {
+                return {
+                    editMode: false
+                }
+            },
+        
+            created() {
+                eventBus.$on("set-edit-mode", state => this.editMode = state);
+            },
+        });
+    </script>
 
 </body>
 </html>

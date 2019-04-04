@@ -1040,8 +1040,8 @@ p:empty {
         position: sticky;
         box-shadow: 0 0 6px rgba(0, 0, 0, 0.12), 0 6px 6px rgba(0, 0, 0, 0.24);
         z-index: 99999;
-        margin-left:auto;
-        margin-right:-60px;
+        margin-left: auto;
+        margin-right: -342px;
     }
 
     .pseudo-circle.open {
@@ -1078,15 +1078,14 @@ p:empty {
     }
 
     .toolbar {
-        position: sticky;
+        position: fixed;
         bottom: 0;
-        width: calc(100% + 200px);
+        width: 100vw;
         height: 56px;
         overflow: hidden;
         padding: 20px;
         left: 0;
         right: 0;
-        margin-left:-100px;
     }
 
     .toolbar .buttons {
@@ -1103,13 +1102,19 @@ p:empty {
             border: 0;
             background: transparent;
             font-size: 16px;
-            text-transform: uppercase;
             top: 50%;
             color: #fff;
             transform: translateY(-50%);
             border-radius: 2px;
             transition: all 0.3s;
             outline: none;
+            letter-spacing: 0.05em;
+            text-transform: upperCase;
+
+            i {
+                font-size: 20px;
+                margin-right:4px;
+            }
         }
     }
 }
