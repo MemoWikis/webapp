@@ -1,5 +1,6 @@
 ﻿<%@ Master Language="C#" Inherits="System.Web.Mvc.ViewMasterPage" %>
 <%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
+<%@ Import Namespace="System.Web.Optimization" %>
 
 <!DOCTYPE html>
 <html>
@@ -77,34 +78,7 @@
             </div>
         </div>
     </footer>
-
-    <script type="text/javascript">
-        new Vue({
-            el: '#GlobalLicense',
-            data() {
-                return {
-                    editMode: false
-                }
-            },
-        
-            created() {
-                eventBus.$on("set-edit-mode", state => this.editMode = state);
-            },
-        });
-    
-        new Vue({
-            el: '#MasterFooter',
-            data() {
-                return {
-                    editMode: false
-                }
-            },
-        
-            created() {
-                eventBus.$on("set-edit-mode", state => this.editMode = state);
-            },
-        });
-    </script>
+    <%= Scripts.Render("~/bundles/js/EditModeFooter") %>
 
 </body>
 </html>

@@ -986,26 +986,6 @@ p:empty {
 
 #TopicTabContent {
     margin-top: 60px;
-
-    #SaveMarkdownBottom {
-        margin-left: auto;
-        float: right;
-        font-size: 14px;
-
-
-        .MarkdownSaveButton {
-            float: right;
-        }
-
-        a {
-            margin-right: 10px;
-            cursor: pointer;
-
-            .CancelEdit {
-            }
-        }
-    }
-
     box-sizing: content-box;
 
 
@@ -1030,9 +1010,9 @@ p:empty {
 
     .trigger {
         text-align: center;
-        color: #fff;
         line-height: 56px;
         background-color: #afd534;
+        border: 1px solid transparent;
         transition: transform 0.15s cubic-bezier(0.4, 0.0, 1, 1), opacity 0.1s 0.1s, box-shadow 0.3s;
         opacity: 1;
         right: 50px;
@@ -1083,345 +1063,366 @@ p:empty {
         width: 100vw;
         height: 56px;
         overflow: hidden;
-        padding: 20px;
+        padding: 10px;
         left: 0;
         right: 0;
+
+        &.open {
+            box-shadow: 0 -2px 6px rgba(0, 0, 0, 0.16);
+            transition-delay: .35s;
+        }
     }
 
-    .toolbar .buttons {
+    .toolbar {
         width: 100%;
-        display: inline-flex;
+        display: flex;
         justify-content: space-between;
         flex-direction: row;
+        transition-delay: .15s;
 
-        button {
-            cursor: pointer;
-            margin-right: 20px;
-            position: absolute;
-            z-index: 999999;
-            border: 0;
-            background: transparent;
-            font-size: 16px;
-            top: 50%;
-            color: #fff;
-            transform: translateY(-50%);
-            border-radius: 2px;
-            transition: all 0.3s;
-            outline: none;
-            letter-spacing: 0.05em;
-            text-transform: upperCase;
+        &.inner {
+            position: sticky;
+            width: 100%;
+            margin-bottom: -40px;
 
-            i {
-                font-size: 20px;
-                margin-right:4px;
+            .btnRight, .btnLeft {
+                display: flex;
+                justify-content: flex-end;
+                flex-direction: row;
+                padding-top: 10px;
+
+                .button {
+                    width: 60px;
+                    margin: 0 10px;
+                    cursor: pointer;
+                    display: flex;
+                    justify-content: center;
+                    flex-direction: column;
+                    background: transparent;
+                    opacity: 0;
+                    transition: opacity 1s;
+                    transition-delay: .15s;
+
+
+                    &.expanded {
+                        opacity: 1;
+                        transition: opacity 1s;
+                        transition-delay: .15s;
+                    }
+
+                    .icon {
+                        z-index: 999999;
+                        font-size: 25px;
+                        display: flex;
+                        justify-content: center;
+                        font-size: 25px;
+                        height: 20px;
+                    }
+
+                    .btnLabel {
+                        z-index: 999999;
+                        font-size: 12px;
+                        text-align: center;
+                    }
+                }
             }
         }
     }
 }
-
-/*------------------------------------------------------
+    /*------------------------------------------------------
     Dialog and Settings
 -------------------------------------------------------*/
+    .contentModuleSettings {
+        margin: 20px;
 
-.contentModuleSettings {
-    margin: 20px;
-
-    .modalHeader {
-        margin: 0 0 20px 10px;
-    }
-
-    form {
-        margin: 10px;
-
-        .radio input[type="radio"] {
-            float: none !important;
-        }
-    }
-
-    .clickable {
-        cursor: pointer;
-    }
-
-    .addCard {
-        &.portrait {
-            width: 150px;
+        .modalHeader {
+            margin: 0 0 20px 10px;
         }
 
-        .form-group {
-            margin: 0 !important;
-        }
-    }
-
-    a {
-        font-size: 14px;
-        line-height: 1.42857143;
-        padding: 6px 8px;
-    }
-
-    .settingsConfirmation {
-        display: flex;
-        justify-content: flex-end;
-        margin-top: 4px;
-
-        &.portrait {
-            flex-flow: column-reverse;
-
-            a {
-                text-align: center;
-            }
-        }
-
-        &.modalFooter {
-            margin-top: 100px;
-            margin-right: 10px;
-        }
-    }
-
-    .setCards, .topicCards, .questionCards {
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: start;
-
-        &.grid {
-            width: 257px;
-            height: 157px;
-            display: inline-block;
-            background-color: #fff;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            padding: 10px;
+        form {
             margin: 10px;
-            cursor: move;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            flex-direction: row;
 
-            &.portrait {
-                width: 166px;
-                height: 344px;
-            }
-
-            &.fullwidth {
-                width: 100%;
-            }
-
-            &.smallCard {
-                height: 91px;
-            }
-
-            &.placeholder {
-                border: 1px dotted #45aece;
-                cursor: default;
-            }
-
-            &.editView {
-                cursor: pointer;
-            }
-
-            .card {
-                text-align: center;
-                flex-direction: column;
+            .radio input[type="radio"] {
+                float: none !important;
             }
         }
-    }
 
-    .sortable-ghost {
-        background: #dddddd;
-    }
-}
-
-/*------------------------------------------------------
-    Spinner Overwrite
--------------------------------------------------------*/
-.spinner{
-    left: calc(45% - 20px);
-}
-
-
-/*------------------------------------------------------
-    LearningTab
--------------------------------------------------------*/
-#LearningTabContent {
-    .SessionTitle {
-        display: none;
-    }
-
-    .SessionHeading {
-        .EduPartnerWrapper {
-            width: auto;
-        }
-    }
-}
-
-.NoQuestions {
-    margin-top: 40px;
-    .new-font-style;
-}
-
-//-------------------------Spinner.css overwrite----------------
-
-.spinner{
-    display: none;
-}
-
-
-/*------------------------------------------------------
-    ContentModule
--------------------------------------------------------*/
-
-.ContentModule {
-    position: relative;
-
-    .ModuleBorder {
-        border-radius: 3px;
-        border: solid transparent 1px;
-        transition: 0.2s;
-        padding: 20px;
-
-
-        &.hover {
-            border-color: #45aece;
+        .clickable {
             cursor: pointer;
         }
 
-        .VideoWidgetPlaceHolder {
-            width: 100%;
-            margin: 20px 0;
-            padding: 19px;
+        .addCard {
+            &.portrait {
+                width: 150px;
+            }
 
-            .videoWidgetPlaceholderBorder {
-                width: 100%;
-                height: 600px;
+            .form-group {
+                margin: 0 !important;
+            }
+        }
+
+        a {
+            font-size: 14px;
+            line-height: 1.42857143;
+            padding: 6px 8px;
+        }
+
+        .settingsConfirmation {
+            display: flex;
+            justify-content: flex-end;
+            margin-top: 4px;
+
+            &.portrait {
+                flex-flow: column-reverse;
+
+                a {
+                    text-align: center;
+                }
+            }
+
+            &.modalFooter {
+                margin-top: 100px;
+                margin-right: 10px;
+            }
+        }
+
+        .setCards, .topicCards, .questionCards {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: start;
+
+            &.grid {
+                width: 257px;
+                height: 157px;
                 display: inline-block;
                 background-color: #fff;
                 border: 1px solid #ccc;
                 border-radius: 4px;
                 padding: 10px;
                 margin: 10px;
+                cursor: move;
                 display: flex;
                 justify-content: center;
                 align-items: center;
                 flex-direction: row;
+
+                &.portrait {
+                    width: 166px;
+                    height: 344px;
+                }
+
+                &.fullwidth {
+                    width: 100%;
+                }
+
+                &.smallCard {
+                    height: 91px;
+                }
+
+                &.placeholder {
+                    border: 1px dotted #45aece;
+                    cursor: default;
+                }
+
+                &.editView {
+                    cursor: pointer;
+                }
+
+                .card {
+                    text-align: center;
+                    flex-direction: column;
+                }
+            }
+        }
+
+        .sortable-ghost {
+            background: #dddddd;
+        }
+    }
+    /*------------------------------------------------------
+    Spinner Overwrite
+-------------------------------------------------------*/
+    .spinner {
+        left: calc(45% - 20px);
+    }
+    /*------------------------------------------------------
+    LearningTab
+-------------------------------------------------------*/
+    #LearningTabContent {
+        .SessionTitle {
+            display: none;
+        }
+
+        .SessionHeading {
+            .EduPartnerWrapper {
+                width: auto;
             }
         }
     }
 
-    .well {
-        margin-bottom: 0px
+    .NoQuestions {
+        margin-top: 40px;
+        .new-font-style;
     }
-
-    ul.module-options {
-        margin-top: -10px;
-        cursor: pointer;
+    //-------------------------Spinner.css overwrite----------------
+    .spinner {
+        display: none;
     }
+    /*------------------------------------------------------
+    ContentModule
+-------------------------------------------------------*/
+    .ContentModule {
+        position: relative;
 
-    .module {
-        list-style-type: none;
-    }
-
-    .list-group-item {
-        border: 0px;
-    }
-
-
-
-    .Button {
-        position: absolute;
-        top: 0px;
-        right: -25px;
-
-        .ButtonEllipsis {
-            font-size: 18px;
-            color: #999999;
-        }
-
-        .delete {
-            border-top: 1px solid #ccc;
-            margin-top: 7px;
-            padding-top: 7px;
-        }
-    }
-
-    .ModuleHandle {
-        position: absolute;
-        top: 50%;
-        left: -20px;
-        margin-top: -30px;
-        font-size: 18px;
-        color: #999999;
-        width: 30px;
-        height: 60px;
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        padding-right: 10px;
-        flex-direction: column;
-
-        .IconWrapper {
-            width: 20px;
-            display: flex;
-            justify-content: center;
-        }
-
-        .Handle {
-            cursor: grab;
-        }
-
-        .SortButton {
-            cursor: pointer;
-
-            .hide {
-                opacity: 0;
-            }
-        }
-
-        .ButtonEllipsis {
-            font-size: 18px;
-            color: #999999;
-        }
-    }
-}
-
-#ContentModulePlaceholder {
-    width: 100%;
-    margin: 20px 0;
-    padding: 19px;
-
-    .placeholderBorder {
-        height: 200px;
-        border-width: 2px;
-        border-style: dashed;
-        border-color: #e3e3e3;
-        border-radius: 4px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        transition: 0.2s;
-
-        .fa-plus-square {
-            color: #e3e3e3 !important;
+        .ModuleBorder {
+            border-radius: 3px;
+            border: solid transparent 1px;
             transition: 0.2s;
+            padding: 20px;
+
 
             &.hover {
-                color: #45aece !important;
+                border-color: #45aece;
+                cursor: pointer;
+            }
+
+            .VideoWidgetPlaceHolder {
+                width: 100%;
+                margin: 20px 0;
+                padding: 19px;
+
+                .videoWidgetPlaceholderBorder {
+                    width: 100%;
+                    height: 600px;
+                    display: inline-block;
+                    background-color: #fff;
+                    border: 1px solid #ccc;
+                    border-radius: 4px;
+                    padding: 10px;
+                    margin: 10px;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    flex-direction: row;
+                }
+            }
+        }
+
+        .well {
+            margin-bottom: 0px
+        }
+
+        ul.module-options {
+            margin-top: -10px;
+            cursor: pointer;
+        }
+
+        .module {
+            list-style-type: none;
+        }
+
+        .list-group-item {
+            border: 0px;
+        }
+
+
+
+        .Button {
+            position: absolute;
+            top: 0px;
+            right: -25px;
+
+            .ButtonEllipsis {
+                font-size: 18px;
+                color: #999999;
+            }
+
+            .delete {
+                border-top: 1px solid #ccc;
+                margin-top: 7px;
+                padding-top: 7px;
+            }
+        }
+
+        .ModuleHandle {
+            position: absolute;
+            top: 50%;
+            left: -20px;
+            margin-top: -30px;
+            font-size: 18px;
+            color: #999999;
+            width: 30px;
+            height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding-right: 10px;
+            flex-direction: column;
+
+            .IconWrapper {
+                width: 20px;
+                display: flex;
+                justify-content: center;
+            }
+
+            .Handle {
+                cursor: grab;
+            }
+
+            .SortButton {
+                cursor: pointer;
+
+                .hide {
+                    opacity: 0;
+                }
+            }
+
+            .ButtonEllipsis {
+                font-size: 18px;
+                color: #999999;
+            }
+        }
+    }
+
+    #ContentModulePlaceholder {
+        width: 100%;
+        margin: 20px 0;
+        padding: 19px;
+
+        .placeholderBorder {
+            height: 200px;
+            border-width: 2px;
+            border-style: dashed;
+            border-color: #e3e3e3;
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: 0.2s;
+
+            .fa-plus-square {
+                color: #e3e3e3 !important;
+                transition: 0.2s;
+
+                &.hover {
+                    color: #45aece !important;
+                    cursor: pointer;
+                }
+            }
+
+            &.hover {
+                border-color: #45aece;
                 cursor: pointer;
             }
         }
-
-        &.hover {
-            border-color: #45aece;
-            cursor: pointer;
-        }
     }
-}
 
 
 
-.sortable-ghost {
-    background: #dddddd;
-}
+    .sortable-ghost {
+        background: #dddddd;
+    }
 
-[v-cloak] {
-    display: none;
-}
+    [v-cloak] {
+        display: none;
+    }
