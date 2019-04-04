@@ -9,7 +9,7 @@
 
     <div class="toolbar inner" v-cloak>
 
-        <div class="btnLeft" v-show="editMode">
+        <div class="btnLeft">
             <div class="button" :class="{ expanded : editMode }">
                 <div class="icon">
                     <i class="fas fa-question"></i>
@@ -20,7 +20,7 @@
             </div>
         </div>
 
-        <div class="btnRight" v-show="editMode">
+        <div class="btnRight">
             <div class="button" @click.prevent="cancelEditMode()" :class="{ expanded : editMode }">
                 <div class="icon">
                     <i class="fas fa-times"></i>
@@ -30,7 +30,7 @@
                 </div>
             </div>
 
-            <div class="button" @click.prevent="saveMarkdown('bottom')" :class="{ expanded : editMode }">
+            <div class="button" @click.prevent="saveMarkdown()" :class="{ expanded : editMode }">
                 <div class="icon">
                     <i class="fas fa-save"></i>
                 </div>

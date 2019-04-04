@@ -5,6 +5,8 @@ declare var Sticky: any;
 Vue.use(VueTextareaAutosize);
 Vue.component('v-select', VueSelect.VueSelect);
 
+var eventBus = new Vue();
+
 Vue.directive('sortable',
     {
         inserted(el, binding) {
@@ -87,6 +89,9 @@ new Vue({
 
     methods: {
         cancelEditMode() {
+            if (!this.editMode)
+                return;
+
             this.editMode = false;
             eventBus.$emit('set-edit-mode', this.editMode);
             if (this.changedMarkdown) {
@@ -116,12 +121,11 @@ new Vue({
             return event.related.id !== 'ContentModulePlaceholder';;
         },
 
-        async saveMarkdown(data) {
-            if (data == 'top') {
-                this.showTopAlert = true;
-            } else {
-                this.showTopAlert = false;
-            };
+        async saveMarkdown() {
+
+            if (!this.editMode)
+                return;
+
             const markdownParts = $(".ContentModule").map((idx, elem) => $(elem).attr("markdown")).get();
             let markdownDoc = "";
             if (markdownParts.length >= 1)

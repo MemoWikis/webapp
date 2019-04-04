@@ -1094,17 +1094,18 @@ p:empty {
                 .button {
                     width: 60px;
                     margin: 0 10px;
-                    cursor: pointer;
                     display: flex;
                     justify-content: center;
                     flex-direction: column;
                     background: transparent;
                     opacity: 0;
+                    cursor: default;
 
                     &.expanded {
                         opacity: 1;
                         transition: opacity 0.25s;
                         transition-delay: .15s;
+                        cursor: pointer;
                     }
 
                     .icon {
