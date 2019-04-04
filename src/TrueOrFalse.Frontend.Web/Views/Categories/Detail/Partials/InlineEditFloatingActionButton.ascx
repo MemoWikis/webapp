@@ -7,7 +7,7 @@
         </div>
     </div>
 
-    <div class="toolbar inner" v-cloak v-show="editMode">
+    <div class="toolbar inner" v-cloak>
 
         <div class="btnLeft" >
             <div class="button" :class="{ expanded : editMode }">

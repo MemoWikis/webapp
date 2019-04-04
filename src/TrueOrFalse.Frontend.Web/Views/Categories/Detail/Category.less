@@ -1025,8 +1025,10 @@ p:empty {
     }
 
     .pseudo-circle.open {
+        margin-right: -342px;
         transition-delay: .15s;
-        transform: scale(45);
+        transition: 0.5s;
+        transform: scale(3);
         opacity: 1;
         width: 100%;
     }
@@ -1069,7 +1071,7 @@ p:empty {
 
         &.open {
             box-shadow: 0 -2px 6px rgba(0, 0, 0, 0.16);
-            transition-delay: .35s;
+            transition-delay: .15s;
         }
     }
 
@@ -1078,7 +1080,6 @@ p:empty {
         display: flex;
         justify-content: space-between;
         flex-direction: row;
-        transition-delay: .15s;
 
         &.inner {
             position: sticky;
@@ -1100,13 +1101,10 @@ p:empty {
                     flex-direction: column;
                     background: transparent;
                     opacity: 0;
-                    transition: opacity 1s;
-                    transition-delay: .15s;
-
 
                     &.expanded {
                         opacity: 1;
-                        transition: opacity 1s;
+                        transition: opacity 0.25s;
                         transition-delay: .15s;
                     }
 
@@ -1123,7 +1121,7 @@ p:empty {
                         z-index: 999999;
                         font-size: 12px;
                         text-align: center;
-                        font-weight:600;
+                        font-weight: 600;
                     }
                 }
             }
