@@ -8,10 +8,10 @@ using TrueOrFalse.Frontend.Web.Code;
 
 public class SearchApiController : BaseController
 {
-    public JsonResult ByName(string term)
+    public JsonResult ByName(string term, string type)
     {
         var items = new List<ResultItem>();
-        var elements = SearchBoxElementsGet.Go(term);
+        var elements = SearchBoxElementsGet.Go(term, type);
 
         if (elements.Categories.Any())
         {

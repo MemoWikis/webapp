@@ -15,6 +15,12 @@ var deps = {
     "vue-textarea-autosize": {
         "dist/vue-textarea-autosize.browser.js": ""
     },
+    "vue-select": {
+        "dist/vue-select.js": ""
+    },
+    "vue-sticky-directive": {
+        "vue-sticky-directive.js": ""
+    },
     "postscribe": {
         "dist/postscribe.js": ""
     },

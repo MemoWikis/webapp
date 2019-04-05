@@ -95,14 +95,9 @@
                             <li><a href="<%= Links.CategoryHistory(Model.Id) %>"><i class="fa fa-code-fork"></i>&nbsp;Bearbeitungshistorie</a></li>
                             <li><a href="<%= Links.CreateQuestion(categoryId: Model.Id) %>" data-allowed="logged-in"><i class="fa fa-plus-circle"></i>&nbsp;Frage hinzufügen</a></li>
                             <li><a href="<%= Links.CategoryCreate(Model.Id) %>" data-allowed="logged-in"><i class="fa fa-plus-circle"></i>&nbsp;Unterthema hinzufügen</a></li>
-                            <li><a @click.prevent="setEditMode()" data-allowed="logged-in" style="cursor:pointer"><i class="fa fa-pencil"></i>&nbsp;Inline bearbeiten</a></li>
                             <li><a href="<%= Links.CategoryEdit(Url, Model.Name, Model.Id) %>" data-allowed="logged-in"><i class="fa fa-pencil"></i>&nbsp;bearbeiten (Expertenmodus)</a></li>
                         </ul>
                     </div>
-                    
-                    <a class="header-savebtn btn btn-link btn-sm ButtonEllipsis" type="button" v-if="editMode" @click.prevent="saveMarkdown()" data-allowed="logged-in"><i class="fa fa-save show-tooltip" title="Thema speichern."></i></a>
-                    <%-- <div class="Border"></div> Non Functioning Border --%>
-                    <a class="header-savebtn btn btn-link btn-sm ButtonEllipsis" type="button" v-if="editMode" @click.prevent="setEditMode()" data-allowed="logged-in"><i class="fa fa-times"></i></a>
                 </div>
                 
 

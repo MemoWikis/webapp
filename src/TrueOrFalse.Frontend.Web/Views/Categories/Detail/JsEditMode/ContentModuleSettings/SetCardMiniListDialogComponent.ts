@@ -13,7 +13,7 @@ Vue.component('setcardminilist-modal-component', {
         return {
             newMarkdown: '',
             sets: [],
-            newSetId: 0,
+            newSet: '',
             parentId: '',
             settingsHasChanged: false,
             showSetInput: false,
@@ -25,12 +25,26 @@ Vue.component('setcardminilist-modal-component', {
                 preventOnFilter: false,
                 onMove: this.onMove,
             },
+            searchResults: '',
+            searchType: 'Sets',
+            options: [],
         };
     },
 
     created() {
         var self = this;
         self.setCardMiniListSettings = new SetCardMiniListSettings();
+    },
+
+    computed: {
+        filteredSearch() {
+            let results = [];
+
+            if (this.searchResults)
+                results = this.searchResults.Items.filter(i => i.Type === this.searchType);
+
+            return results;
+        },
     },
 
     watch: {
@@ -62,7 +76,7 @@ Vue.component('setcardminilist-modal-component', {
             this.parentId = '';
             this.sets = [];
             this.settingsHasChanged = false;
-            this.newSetId = '';
+            this.newSet = '';
             this.showSetInput = false;
             this.errorMessage = '';
         },
@@ -75,13 +89,17 @@ Vue.component('setcardminilist-modal-component', {
         },
 
         hideSetInput() {
-            this.newSetId = '';
+            this.newSet = '';
             this.showSetInput = false;
         },
     
-        addSet(val) {
-            this.sets.push(val);
-            this.newSetId = '';
+        addSet() {
+            try {
+                if (this.newSet.Item.Id) {
+                    this.sets.push(this.newSet.Item.Id);
+                    this.newSet = '';
+                }
+            } catch (e) {};
         },
         removeSet(index) {
             this.sets.splice(index, 1);
@@ -109,6 +127,20 @@ Vue.component('setcardminilist-modal-component', {
         onMove(event) {
             return event.related.id !== 'addCardPlaceholder';;
         },
+
+        onSearch(search, loading) {
+            loading(true);
+            this.search(loading, search, this);
+        },
+        search: _.debounce(function (loading, search, vm) {
+            $.get("/Api/Search/ByName?term=" + search + "&type=" + this.searchType,
+                (result) => {
+                    this.searchResults = result;
+                    vm.options = this.filteredSearch;
+                    loading(false);
+                }
+            );
+        }, 350),
     },
 });
 

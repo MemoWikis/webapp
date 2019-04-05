@@ -81,6 +81,8 @@ namespace TrueOrFalse.View
                 //.Include("~/Scripts/npm/tiptap/tiptap.js")
                 //.Include("~/Scripts/npm/tiptap-extensions/extensions.js")            
                 .Include("~/Scripts/npm/vue-textarea-autosize/vue-textarea-autosize.browser.js")
+                .Include("~/Scripts/npm/vue-select/vue-select.js")
+                .Include("~/Scripts/npm/vue-sticky-directive/vue-sticky-directive.js")
                 .Include("~/Scripts/npm/postscribe/postscribe.js")
                 .IncludeDirectory("~/Views/Categories/Detail/JsEditMode/ContentModuleSettings/", "*.js")
                 .IncludeDirectory("~/Views/Categories/Detail/JsEditMode/", "*.js"));
@@ -340,6 +342,9 @@ namespace TrueOrFalse.View
 
 
             //------------------------ END KNOWLEDGECENTRAL------------------------------------------------------------
+
+            bundles.Add(new ScriptBundle("~/bundles/js/EditModeFooter")
+                .IncludeDirectory("~/Views/Categories/Detail/JsEditMode/Footer/", "*.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/js/Vue")
                 .Include("~/Scripts/vendor/vuetable-2.js")

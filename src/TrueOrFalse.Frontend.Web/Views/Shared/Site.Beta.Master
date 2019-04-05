@@ -1,5 +1,6 @@
 ﻿<%@ Master Language="C#" Inherits="System.Web.Mvc.ViewMasterPage" %>
 <%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
+<%@ Import Namespace="System.Web.Optimization" %>
 
 <!DOCTYPE html>
 <html>
@@ -64,7 +65,7 @@
     </section>  --%>  
 
     <%-- FOOTER--%>
-    <footer id="MasterFooter" style="">
+    <footer id="MasterFooter"  v-show="!editMode">
         <div id="FooterBackground"></div>
         <div class="row">
             <div class="container" style="background-color: transparent">
@@ -77,6 +78,7 @@
             </div>
         </div>
     </footer>
+    <%= Scripts.Render("~/bundles/js/EditModeFooter") %>
 
 </body>
 </html>
