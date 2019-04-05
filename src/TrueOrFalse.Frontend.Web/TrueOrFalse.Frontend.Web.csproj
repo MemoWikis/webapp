@@ -444,19 +444,12 @@
     <Content Include="Content\themes\base\minified\jquery.ui.tooltip.min.css" />
     <Content Include="Fonts\font-awesome-5.7.2\css\all.css" />
     <Content Include="gulpfile.js" />
-    <Content Include="Fonts\font-awesome-5.7.2\css\all.min.css" />
     <Content Include="Fonts\font-awesome-5.7.2\css\brands.css" />
-    <Content Include="Fonts\font-awesome-5.7.2\css\brands.min.css" />
     <Content Include="Fonts\font-awesome-5.7.2\css\fontawesome.css" />
-    <Content Include="Fonts\font-awesome-5.7.2\css\fontawesome.min.css" />
     <Content Include="Fonts\font-awesome-5.7.2\css\regular.css" />
-    <Content Include="Fonts\font-awesome-5.7.2\css\regular.min.css" />
     <Content Include="Fonts\font-awesome-5.7.2\css\solid.css" />
-    <Content Include="Fonts\font-awesome-5.7.2\css\solid.min.css" />
     <Content Include="Fonts\font-awesome-5.7.2\css\svg-with-js.css" />
-    <Content Include="Fonts\font-awesome-5.7.2\css\svg-with-js.min.css" />
     <Content Include="Fonts\font-awesome-5.7.2\css\v4-shims.css" />
-    <Content Include="Fonts\font-awesome-5.7.2\css\v4-shims.min.css" />
     <Content Include="Fonts\font-awesome-5.7.2\svgs\brands\500px.svg" />
     <Content Include="Fonts\font-awesome-5.7.2\svgs\brands\accessible-icon.svg" />
     <Content Include="Fonts\font-awesome-5.7.2\svgs\brands\accusoft.svg" />
@@ -21608,6 +21601,9 @@
     </Content>
     <Content Include="Views\About\Js\Page.js">
       <DependentUpon>Page.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Categories\Detail\Category.min.css">
+      <DependentUpon>Category.css</DependentUpon>
     </Content>
     <Content Include="Views\Categories\Detail\JsEditMode\ContentModule.js">
       <DependentUpon>ContentModule.ts</DependentUpon>
