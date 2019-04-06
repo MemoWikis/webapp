@@ -60,7 +60,6 @@ class StickyHeaderClass {
 
             this._stickyHeaderisFixed = true;
 
-            $('#BreadcrumbLogoSmall').show();
             $('#StickyHeaderContainer').css('display', 'flex');
 
 
@@ -85,7 +84,6 @@ class StickyHeaderClass {
             this.toggleClass($("#BreadcrumbUserDropdownImage"), $("#HeaderUserDropdown"), "open");
             this.computeBreadcrumb(70);
 
-            $('#BreadcrumbLogoSmall').hide();
             $('#StickyHeaderContainer').hide();
             this._rightMainMenu.style.position = "absolute";
 
@@ -107,7 +105,6 @@ class StickyHeaderClass {
 
             this._stickyHeaderisFixed = true;
 
-            $('#BreadcrumbLogoSmall').show();
             $('#StickyHeaderContainer').css('display', 'flex');
             $("#BreadcrumbUserDropdown").css("margin-top", "0");
 
@@ -130,7 +127,6 @@ class StickyHeaderClass {
             this._rightMainMenu.style.position = "absolute";
 
             $("#BreadcrumbUserDropdown").css("margin-top", "0");
-            $('#BreadcrumbLogoSmall').hide();
             $('#StickyHeaderContainer').hide();
 
             if (top.location.pathname === "/") 
