@@ -96,7 +96,6 @@ class StickyHeaderClass {
     private firstLoad() {
         if ($(window).scrollTop() >= this._masterHeaderOuterHeight) {
 
-
             this.positioningMenus($("#RightMainMenu"), true);
 
             this._breadcrumb.style.top = "0";
@@ -191,7 +190,6 @@ class StickyHeaderClass {
             $('#BreadCrumbTrail > div').eq(this._breadCrumbCounter).hide();
             $('#BreadCrumbTrail > div').eq(this._breadCrumbCounter).addClass("none");
 
-
             if (!this._isAddEllipsis) {
                 this.addEllipsis();
                 this._breadCrumbCounter++;
@@ -225,7 +223,6 @@ class StickyHeaderClass {
             $("#Path").prepend(this._breadCrumbContainerElementsCopy[0]);
             if (!this._isAddEllipsis)
                 this.addEllipsis();
-
         }
 
         if ($("#Path div").length > 0)
@@ -243,7 +240,6 @@ class StickyHeaderClass {
         }
         if ($("#Path div").length < 1) {
             $("#PathMobileBreadCrumb").hide();
-
         }
     }
 
