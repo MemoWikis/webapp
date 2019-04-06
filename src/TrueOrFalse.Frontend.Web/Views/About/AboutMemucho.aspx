@@ -371,7 +371,7 @@
 
         </div>
     </div>
-
+<%= Scripts.Render("~/bundles/js/Vue") %>
 
     <% Html.RenderPartial("~/Views/Shared/LinkToTop.ascx");  %>
 
