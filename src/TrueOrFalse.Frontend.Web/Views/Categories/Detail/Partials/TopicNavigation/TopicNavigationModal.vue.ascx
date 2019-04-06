@@ -69,10 +69,24 @@
                             <div id="addCardPlaceholder" class="topicCards smallCard grid placeholder">
                                 <div class="addCard" v-if="showTopicInput">
                                     <div class="form-group">
-                                        <input class="form-control" v-model="newTopicId" placeholder="" type="number">
+                                        <v-select label="Item.Name" :filterable="false" :options="options" @search="onSearch" v-model="newTopic">
+                                            <template slot="no-options">
+                                                Tippen um zu suchen.
+                                            </template>
+                                            <template slot="option" slot-scope="option">
+                                                <div class="d-center">
+                                                    {{ option.Item.Name }}
+                                                </div>
+                                            </template>
+                                            <template slot="selected-option" slot-scope="option">
+                                                <div id="selectedSetId" class="selected d-center">
+                                                    {{ option.Item.Name }}
+                                                </div>
+                                            </template>
+                                        </v-select>
                                         <div class="settingsConfirmation">
                                             <a class="clickable" @click="hideTopicInput">abbrechen</a>
-                                            <div class="btn btn-primary" @click="addTopic(newTopicId)">Hinzufügen</div>
+                                            <div class="btn btn-primary" @click="addTopic()">Hinzufügen</div>
                                         </div>
                                     </div>
                                 </div>

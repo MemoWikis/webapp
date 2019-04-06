@@ -51,18 +51,12 @@
     
     <div id="TopicTabContent" class="TabContent">
         <div id="ContentModuleApp">
-            <div v-if="showTopAlert"><% Html.RenderPartial("~/Views/Categories/Detail/Partials/Alert.ascx"); %></div>
             <% Html.RenderPartial("~/Views/Categories/Detail/Tabs/TopicTab.ascx", Model); %>
-            <div id="previewEdit"></div>
-            <div v-if="!showTopAlert"><% Html.RenderPartial("~/Views/Categories/Detail/Partials/Alert.ascx"); %></div>
-            <section id="SaveMarkdownBottom" v-if="editMode">
-                <div>
-                    <div class="btn btn-primary MarkdownSaveButton" @click="saveMarkdown('bottom')">Speichern</div>       
-                    <a class="CancelEdit" @click="cancelEditMode()">Editieren abbrechen</a>
-                </div>                
-            </section>
+
+            <%: Html.Partial("~/Views/Categories/Detail/Partials/InlineEditFloatingActionButton.ascx") %>
             <%: Html.Partial("~/Views/Categories/Detail/Partials/ModalComponentCollection.ascx") %>
-        </div>           
+        </div>
+
     </div>
 
     
@@ -72,5 +66,5 @@
     <div id="AnalyticsTabContent" class="TabContent"></div>
     
     <%= Scripts.Render("~/bundles/js/CategoryEditMode") %>
-
+    
 </asp:Content>

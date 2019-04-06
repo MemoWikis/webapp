@@ -444,19 +444,12 @@
     <Content Include="Content\themes\base\minified\jquery.ui.tooltip.min.css" />
     <Content Include="Fonts\font-awesome-5.7.2\css\all.css" />
     <Content Include="gulpfile.js" />
-    <Content Include="Fonts\font-awesome-5.7.2\css\all.min.css" />
     <Content Include="Fonts\font-awesome-5.7.2\css\brands.css" />
-    <Content Include="Fonts\font-awesome-5.7.2\css\brands.min.css" />
     <Content Include="Fonts\font-awesome-5.7.2\css\fontawesome.css" />
-    <Content Include="Fonts\font-awesome-5.7.2\css\fontawesome.min.css" />
     <Content Include="Fonts\font-awesome-5.7.2\css\regular.css" />
-    <Content Include="Fonts\font-awesome-5.7.2\css\regular.min.css" />
     <Content Include="Fonts\font-awesome-5.7.2\css\solid.css" />
-    <Content Include="Fonts\font-awesome-5.7.2\css\solid.min.css" />
     <Content Include="Fonts\font-awesome-5.7.2\css\svg-with-js.css" />
-    <Content Include="Fonts\font-awesome-5.7.2\css\svg-with-js.min.css" />
     <Content Include="Fonts\font-awesome-5.7.2\css\v4-shims.css" />
-    <Content Include="Fonts\font-awesome-5.7.2\css\v4-shims.min.css" />
     <Content Include="Fonts\font-awesome-5.7.2\svgs\brands\500px.svg" />
     <Content Include="Fonts\font-awesome-5.7.2\svgs\brands\accessible-icon.svg" />
     <Content Include="Fonts\font-awesome-5.7.2\svgs\brands\accusoft.svg" />
@@ -21551,6 +21544,7 @@
     <Content Include="Scripts\npm\sortablejs\Sortable.js" />
     <Content Include="Scripts\npm\tiptap-extensions\extensions.js" />
     <Content Include="Scripts\npm\tiptap\tiptap.js" />
+    <Content Include="Scripts\npm\vue-select\vue-select.js" />
     <Content Include="Scripts\npm\vue-sortable\vue-sortable.js" />
     <Content Include="Scripts\npm\vue-textarea-autosize\vue-textarea-autosize.browser.js" />
     <Content Include="Scripts\npm\vue\vue.js" />
@@ -21608,8 +21602,8 @@
     <Content Include="Views\About\Js\Page.js">
       <DependentUpon>Page.ts</DependentUpon>
     </Content>
-    <Content Include="Views\Categories\Detail\JsEditMode\ContentEditButtonsApp.js">
-      <DependentUpon>ContentEditButtonsApp.ts</DependentUpon>
+    <Content Include="Views\Categories\Detail\Category.min.css">
+      <DependentUpon>Category.css</DependentUpon>
     </Content>
     <Content Include="Views\Categories\Detail\JsEditMode\ContentModule.js">
       <DependentUpon>ContentModule.ts</DependentUpon>
@@ -21644,6 +21638,9 @@
     <Content Include="Views\Categories\Detail\JsEditMode\ContentModuleSettings\VideoWidgetDialogComponent.js">
       <DependentUpon>VideoWidgetDialogComponent.ts</DependentUpon>
     </Content>
+    <Content Include="Views\Categories\Detail\JsEditMode\Footer\EditMode.js">
+      <DependentUpon>EditMode.ts</DependentUpon>
+    </Content>
     <Content Include="Views\Categories\Detail\Js\Category.js">
       <DependentUpon>Category.ts</DependentUpon>
     </Content>
@@ -21670,6 +21667,7 @@
     <Content Include="Views\Categories\Detail\Partials\Cards\Cards.ascx" />
     <Content Include="Views\Categories\Detail\Partials\InlineText\InlineTextComponent.vue.ascx" />
     <Content Include="Views\Categories\Detail\Partials\MediaList\MediaListModal.vue.ascx" />
+    <Content Include="Views\Categories\Detail\Partials\InlineEditFloatingActionButton.ascx" />
     <Content Include="Views\Categories\Detail\Partials\ModalComponentCollection.ascx" />
     <Content Include="Views\Categories\Detail\Partials\SetCardMiniList\SetCardMiniListModal.vue.ascx" />
     <Content Include="Views\Categories\Detail\Partials\SettingsDialogCollection.ascx" />
@@ -21741,7 +21739,7 @@
       <DependentUpon>GetResultTestSession.ts</DependentUpon>
     </Content>
     <Content Include="Views\Knowledge\Dates\DateRow.ascx" />
-    <TypeScriptCompile Include="Views\Categories\Detail\JsEditMode\ContentEditButtonsApp.ts" />
+    <TypeScriptCompile Include="Views\Categories\Detail\JsEditMode\Footer\EditMode.ts" />
     <TypeScriptCompile Include="Views\Categories\Detail\JsEditMode\ContentModuleSettings\ContentModuleSelectionComponent.ts" />
     <TypeScriptCompile Include="Views\Categories\Detail\JsEditMode\ContentModuleSettings\SingleQuestionsQuiz.ts" />
     <TypeScriptCompile Include="Views\Categories\Detail\JsEditMode\ContentModuleSettings\SetCardMiniListDialogComponent.ts" />
@@ -21928,9 +21926,6 @@
       <DependentUpon>StickyHeaderSearchBox.ts</DependentUpon>
     </Content>
     <Content Include="Style\sidebar.less" />
-    <Content Include="Views\Categories\Detail\JsEditMode\ContentEditButtonsApp.js.map">
-      <DependentUpon>ContentEditButtonsApp.ts</DependentUpon>
-    </Content>
     <Content Include="Views\Categories\Detail\JsEditMode\ContentModule.js.map">
       <DependentUpon>ContentModule.ts</DependentUpon>
     </Content>
@@ -21964,6 +21959,9 @@
     </Content>
     <Content Include="Views\Categories\Detail\JsEditMode\ContentModuleSettings\ContentModuleSelectionComponent.js.map">
       <DependentUpon>ContentModuleSelectionComponent.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Categories\Detail\JsEditMode\Footer\EditMode.js.map">
+      <DependentUpon>EditMode.ts</DependentUpon>
     </Content>
     <None Include="Views\Maintenance\ContentStats.less" />
     <Compile Include="Views\Maintenance\ContentStatsModel.cs" />
@@ -24186,7 +24184,6 @@
       <DependentUpon>Page.ts</DependentUpon>
     </Content>
     <Content Include="Views\Questions\History\Detail\QuestionHistoryDetail.less" />
-    <None Include="Web.overwritten.config" />
     <None Include="Web.overwritten.config.sample" />
     <Content Include="Views\Welcome\Logout.aspx" />
     <Content Include="Views\Api\Export.aspx" />

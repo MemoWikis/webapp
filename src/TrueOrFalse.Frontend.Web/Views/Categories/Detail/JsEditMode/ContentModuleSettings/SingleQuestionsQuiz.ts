@@ -20,7 +20,7 @@ Vue.component('singlequestionsquiz-modal-component', {
             settingsHasChanged: false,
             questions: [],
             showQuestionInput: false,
-            newQuestionId: 0,
+            newQuestion: 0,
             maxQuestions: 5,
             order: '',
             title: '',
@@ -32,12 +32,26 @@ Vue.component('singlequestionsquiz-modal-component', {
                 preventOnFilter: false,
                 onMove: this.onMove,
             },
+            searchResults: '',
+            searchType: 'Questions',
+            options: [],
         };
     },
 
     created() {
         var self = this;
         self.singleQuestionsQuizSettings = new SingleQuestionsQuizSettings();
+    },
+
+    computed: {
+        filteredSearch() {
+            let results = [];
+
+            if (this.searchResults)
+                results = this.searchResults.Items.filter(i => i.Type === this.searchType);
+
+            return results;
+        },
     },
 
     watch: {
@@ -69,7 +83,7 @@ Vue.component('singlequestionsquiz-modal-component', {
             this.parentId = '';
             this.questions = [];
             this.settingsHasChanged = false;
-            this.newQuestionId = '';
+            this.newQuestion = '';
             this.showQuestionInput = false;
         },
 
@@ -87,13 +101,17 @@ Vue.component('singlequestionsquiz-modal-component', {
         },
 
         hideQuestionInput() {
-            this.newQuestionId = '';
+            this.newQuestion = '';
             this.showQuestionInput = false;
         },
     
         addQuestion(val) {
-            this.questions.push(val);
-            this.newQuestionId = '';
+            try {
+                if (this.newQuestion.Item.Id) {
+                    this.questions.push(this.newQuestion.Item.Id);
+                    this.newQuestion = '';
+                }
+            } catch (e) { };
         },
         removeQuestion(index) {
             this.questions.splice(index, 1);
@@ -103,6 +121,14 @@ Vue.component('singlequestionsquiz-modal-component', {
             const questionIdParts = $(".singleQuestionsQuizDialogData").map((idx, elem) => $(elem).attr("questionId")).get();
             if (questionIdParts.length >= 1)
                 this.singleQuestionsQuizSettings.QuestionIds = questionIdParts.join(',');
+            if (this.title)
+                this.singleQuestionsQuizSettings.Title = this.title;
+            if (this.Text)
+                this.singleQuestionsQuizSettings.Text = this.description;
+            if (this.Order)
+                this.singleQuestionsQuizSettings.Order = this.order;
+            if (this.maxQuestions)
+                this.singleQuestionsQuizSettings.MaxQuestions = this.maxQuestions;
             this.newMarkdown = Utils.ConvertJsonToMarkdown(this.singleQuestionsQuizSettings);
             Utils.ApplyMarkdown(this.newMarkdown, this.parentId);
             $('#singlequestionsquizSettingsDialog').modal('hide');

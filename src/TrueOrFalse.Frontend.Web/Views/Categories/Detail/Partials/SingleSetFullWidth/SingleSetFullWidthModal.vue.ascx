@@ -19,8 +19,22 @@
                         </div>  
                         
                         <div class="form-group">
-                            <label for="setId">Lernset</label>
-                            <input class="form-control" type="number" v-model="setId" placeholder="123" />
+                            <label for="set">Lernset</label>
+                            <v-select label="Item.Name" :filterable="false" :options="options" @search="onSearch" v-model="selected">
+                                <template slot="no-options">
+                                    Tippen um zu suchen.
+                                </template>
+                                <template slot="option" slot-scope="option">
+                                    <div class="d-center">
+                                        {{ option.Item.Name }}
+                                    </div>
+                                </template>
+                                <template slot="selected-option" slot-scope="option">
+                                    <div id="selectedSetId" class="selected d-center">
+                                        {{ option.Item.Name }}
+                                    </div>
+                                </template>
+                            </v-select>
                         </div>  
                     </form>   
                     

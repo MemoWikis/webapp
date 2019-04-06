@@ -74,6 +74,8 @@ var contentModuleComponent = Vue.component('content-module', {
             dataTarget: '',
             widgetId: '',
             questions: [],
+            baseTitle: '',
+            baseDescription: '',
         };
     },
 
@@ -194,6 +196,10 @@ var contentModuleComponent = Vue.component('content-module', {
                 return;
             else
                 currentDiv.next().after(currentDiv);
+        },
+
+        setBaseTitle(val) {
+            this.baseTitle = val;
         },
     },
 });

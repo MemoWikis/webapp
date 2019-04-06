@@ -1,6 +1,6 @@
 ﻿<%@ Control Language="C#" Inherits="System.Web.Mvc.ViewUserControl" %>
 
-<section id="GlobalLicense">
+<section id="GlobalLicense" v-show="!editMode">
     <a class="CCLogo" rel="license" href="http://creativecommons.org/licenses/by/4.0/">
         <img alt="Creative Commons Lizenzvertrag" style="border-width:0" src="https://i.creativecommons.org/l/by/4.0/88x31.png" />
     </a>

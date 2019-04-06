@@ -1,5 +1,6 @@
 ﻿<%@ Master Language="C#" Inherits="System.Web.Mvc.ViewMasterPage" %>
 <%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
+<%@ Import Namespace="System.Web.Optimization" %>
 
 <!DOCTYPE html>
 <html>
@@ -52,31 +53,20 @@
                 <asp:ContentPlaceHolder ID="MainContent" runat="server"></asp:ContentPlaceHolder>
             </div>
         </section>
-    </section>    
-
-
-<%--    <section id="MasterSection" style="/*background-color: #2c5fb2;*/">
-        <div class="container">
-            <div class="col-lg-12 text-center">
-                <asp:ContentPlaceHolder ID="MainContent" runat="server"></asp:ContentPlaceHolder>
-            </div>
-        </div>
-    </section>  --%>  
+    </section>     
 
     <%-- FOOTER--%>
-    <footer id="MasterFooter" style="">
+    <footer id="MasterFooter"  v-show="!editMode">
         <div id="FooterBackground"></div>
         <div class="row">
             <div class="container" style="background-color: transparent">
-                <div class="row">
-<%--                    <% ViewBag.BetaBackgroundLicenceUrl = "http://commons.wikimedia.org/wiki/File:Clouds_over_the_Atlantic_Ocean.jpg"; %>--%>
-                    <%// ReSharper disable Asp.NotResolved
-                        Html.RenderPartial(UserControls.MasterFooter); 
-                        // ReSharper restore Asp.NotResolved%>
-                </div>
+                <%// ReSharper disable Asp.NotResolved
+                    Html.RenderPartial(UserControls.MasterFooter); 
+                    // ReSharper restore Asp.NotResolved%>
             </div>
         </div>
     </footer>
+    <%= Scripts.Render("~/bundles/js/EditModeFooter") %>
 
 </body>
 </html>

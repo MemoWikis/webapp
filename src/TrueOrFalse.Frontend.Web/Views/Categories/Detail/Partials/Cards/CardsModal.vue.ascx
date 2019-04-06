@@ -41,10 +41,26 @@
                         <div id="addCardPlaceholder" class="setCards grid placeholder" :class="{ portrait : vertical }">
                             <div class="addCard" v-if="showSetInput" :class="{ portrait : vertical }">
                                 <div class="form-group">
-                                    <input class="form-control" v-model="newSetId" placeholder="" type="number">
+
+                                    <v-select label="Item.Name" :filterable="false" :options="options" @search="onSearch" v-model="newSet">
+                                        <template slot="no-options">
+                                            Tippen um zu suchen.
+                                        </template>
+                                        <template slot="option" slot-scope="option">
+                                            <div class="d-center">
+                                                {{ option.Item.Name }}
+                                            </div>
+                                        </template>
+                                        <template slot="selected-option" slot-scope="option">
+                                            <div id="selectedSetId" class="selected d-center">
+                                                {{ option.Item.Name }}
+                                            </div>
+                                        </template>
+                                    </v-select>
+
                                     <div class="settingsConfirmation" :class="{ portrait : vertical }">
                                         <a class="clickable" @click="hideSetInput">abbrechen</a>
-                                        <div class="btn btn-primary" @click="addCard(newSetId)">Hinzufügen</div>
+                                        <div class="btn btn-primary" @click="addSet()">Hinzufügen</div>
                                     </div>
                                 </div>
                             </div>
@@ -56,7 +72,16 @@
                         <div class="btn btn-primary" @click="applyNewMarkdown()">Konfiguration übernehmen</div>       
                     </div>   
                 </div>
-    
+                
+                
+                <%-- <input class="form-control" v-model="newSetId" placeholder="hier suchen"> --%>
+                <%-- <select v-model="newSetId" class="form-control"> --%>
+                <%--     <option v-for="item in filteredSearch" v-bind:value="item.Item.Id">{{item.Item.Name}}</option> --%>
+                <%-- </select> --%>
+                <%-- --%>
+
+                
+               
             </div>
         </div>
     </div>
