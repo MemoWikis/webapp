@@ -14,8 +14,8 @@
 
 <div id="BreadCrumbContainer" class="container">
  
-    <a href="/" id="BreadcrumbLogoSmall" class="show-tooltip" data-placement="bottom" title="Zur Startseite" style="display:none;">
-        <i class="fas fa-home"></i> 
+    <a href="/" id="BreadcrumbLogoSmall" class="show-tooltip" data-placement="bottom" title="Zur Startseite" >
+        <i class="fas fa-home"></i> <% if (!Model.TopNavMenu.IsWelcomePage){ %><i class="fa fa-chevron-right"></i><% } %>
     </a>
 
     <div id="BreadCrumbTrail" style="display:flex;">
