@@ -1,6 +1,6 @@
 
     /*!
-    * tiptap v1.12.0
+    * tiptap v1.6.0
     * (c) 2019 Scrumpy UG (limited liability)
     * @license MIT
     */
@@ -8,8 +8,8 @@
 (function (global, factory) {
   typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports, require('prosemirror-state'), require('prosemirror-view'), require('prosemirror-model'), require('prosemirror-dropcursor'), require('prosemirror-gapcursor'), require('prosemirror-keymap'), require('prosemirror-commands'), require('prosemirror-inputrules'), require('tiptap-utils'), require('vue'), require('tiptap-commands')) :
   typeof define === 'function' && define.amd ? define(['exports', 'prosemirror-state', 'prosemirror-view', 'prosemirror-model', 'prosemirror-dropcursor', 'prosemirror-gapcursor', 'prosemirror-keymap', 'prosemirror-commands', 'prosemirror-inputrules', 'tiptap-utils', 'vue', 'tiptap-commands'], factory) :
-  (global = global || self, factory(global.tiptap = {}, global.prosemirrorState, global.prosemirrorView, global.prosemirrorModel, global.prosemirrorDropcursor, global.prosemirrorGapcursor, global.prosemirrorKeymap, global.prosemirrorCommands, global.prosemirrorInputrules, global.tiptapUtils, global.Vue, global.tiptapCommands));
-}(this, function (exports, prosemirrorState, prosemirrorView, prosemirrorModel, prosemirrorDropcursor, prosemirrorGapcursor, prosemirrorKeymap, prosemirrorCommands, prosemirrorInputrules, tiptapUtils, Vue, tiptapCommands) { 'use strict';
+  factory(global.tiptap = {},global.prosemirrorState,global.prosemirrorView,global.prosemirrorModel,global.prosemirrorDropcursor,global.prosemirrorGapcursor,global.prosemirrorKeymap,global.prosemirrorCommands,global.prosemirrorInputrules,global.tiptapUtils,global.Vue,global.tiptapCommands);
+}(typeof self !== 'undefined' ? self : this, function (exports,prosemirrorState,prosemirrorView,prosemirrorModel,prosemirrorDropcursor,prosemirrorGapcursor,prosemirrorKeymap,prosemirrorCommands,prosemirrorInputrules,tiptapUtils,Vue,tiptapCommands) { 'use strict';
 
   Vue = Vue && Vue.hasOwnProperty('default') ? Vue['default'] : Vue;
 
@@ -230,7 +230,6 @@
             decorations: this.decorations,
             editable: this.editable,
             selected: false,
-            options: this.extension.options,
             updateAttrs: function updateAttrs(attrs) {
               return _this.updateAttrs(attrs);
             },
@@ -313,11 +312,10 @@
 
     }, {
       key: "stopEvent",
-      value: function stopEvent(event) {
-        var isPaste = event.type === 'paste';
+      value: function stopEvent() {
         var draggable = !!this.extension.schema.draggable;
 
-        if (draggable || isPaste) {
+        if (draggable) {
           return false;
         }
 
@@ -361,11 +359,6 @@
     _createClass(Extension, [{
       key: "inputRules",
       value: function inputRules() {
-        return [];
-      }
-    }, {
-      key: "pasteRules",
-      value: function pasteRules() {
         return [];
       }
     }, {
@@ -783,7 +776,6 @@
       _classCallCheck(this, Editor);
 
       this.defaultOptions = {
-        editorProps: {},
         editable: true,
         autoFocus: false,
         extensions: [],
@@ -799,8 +791,7 @@
         onInit: function onInit() {},
         onUpdate: function onUpdate() {},
         onFocus: function onFocus() {},
-        onBlur: function onBlur() {},
-        onPaste: function onPaste() {}
+        onBlur: function onBlur() {}
       };
       this.init(options);
     }
@@ -918,30 +909,17 @@
             Backspace: prosemirrorInputrules.undoInputRule,
             Escape: prosemirrorCommands.selectParentNode
           }), prosemirrorKeymap.keymap(prosemirrorCommands.baseKeymap), prosemirrorDropcursor.dropCursor(this.options.dropCursor), prosemirrorGapcursor.gapCursor(), new prosemirrorState.Plugin({
-            key: new prosemirrorState.PluginKey('editable'),
             props: {
               editable: function editable() {
                 return _this2.options.editable;
               }
             }
-          }), new prosemirrorState.Plugin({
-            props: {
-              attributes: {
-                tabindex: 0
-              }
-            }
-          }), new prosemirrorState.Plugin({
-            props: this.options.editorProps
           })])
         });
       }
     }, {
       key: "createDocument",
       value: function createDocument(content) {
-        if (content === null) {
-          return this.schema.nodeFromJSON(this.options.emptyDocument);
-        }
-
         if (_typeof(content) === 'object') {
           try {
             return this.schema.nodeFromJSON(content);
@@ -966,8 +944,6 @@
 
         var view = new prosemirrorView.EditorView(this.element, {
           state: this.state,
-          handlePaste: this.options.onPaste,
-          handleDrop: this.options.onPaste,
           dispatchTransaction: this.dispatchTransaction.bind(this)
         });
         view.dom.style.whiteSpace = 'pre-wrap';
@@ -1058,11 +1034,6 @@
       key: "focus",
       value: function focus() {
         this.view.focus();
-      }
-    }, {
-      key: "blur",
-      value: function blur() {
-        this.view.dom.blur();
       }
     }, {
       key: "getHTML",
