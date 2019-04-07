@@ -4,6 +4,8 @@
 
     constructor() {
         this.CategoryId = $("#hhdCategoryId").val();
+        if ($(".DescriptionSection > div:eq(1)").text() === "")
+            $(".DescriptionSection").css("display", "none");
     }
 
 }
