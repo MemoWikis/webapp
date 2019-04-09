@@ -10,6 +10,7 @@
 
                             <div class="radio" v-for="name in contentModules" :key="name.id">
                                 <label class="clickable">
+                                    <img :src="'/Images/ContentModuleSamples/' + name + '.png'"/>
                                     <input type="radio" :value="name" v-model="selectedModule">
                                     {{name}}
                                 </label>
