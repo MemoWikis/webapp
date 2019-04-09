@@ -79,7 +79,7 @@
                     }
 
                     .KnowledgeLink {
-                        color: #AED71B !important;
+                        color: #ffd700 !important;
                     }
 
                     #SmallHeaderSearchBoxDiv {
@@ -300,16 +300,24 @@
     #BreadCrumbContainer {
         display: flex;
 
+        .fa-home {
+            font-size: 15px;
+        }
+
         #BreadCrumbTrail {
             #Path {
                 position: absolute;
                 z-index: 1;
-                top: 55px;
+                top: 45.4px;
                 list-style-type: none;
                 background-color: white;
                 display: none;
                 padding-right: 15px;
                 padding-left: 15px;
+                box-shadow: 0 2px 6px rgba(0, 0, 0, 0.16);
+            }
+            .path{
+                height: 115%;
             }
         }
     }
@@ -437,13 +445,13 @@
             width: 170px !important;
         }
 
-        @media(max-width:420px) {
+        /*@media(max-width:420px) {
             width: 110px !important;
         }
 
         @media(max-width:360px) {
             width: 96px !important;
-        }
+        }*/
 
         width: 259px !important;
     }
@@ -493,7 +501,7 @@
         border-radius: 0px;
         padding-top: 0px;
         max-width: 220px;
-        top: 60px;
+        top: 44px;
 
         span {
             font-size: 12px;
@@ -524,7 +532,7 @@
 
 
 #Breadcrumb {
-    z-index: 102;
+    z-index: 99;
 
     .messages {
         padding-right: 5px;

@@ -13,9 +13,9 @@
      %>
 
 <div id="BreadCrumbContainer" class="container">
-
-    <a href="/" id="BreadcrumbLogoSmall" class="show-tooltip" data-placement="bottom" title="Zur Startseite" style="display:none;">
-        <img src="/android-chrome-36x36.png" style="min-width: 36px;">
+ 
+    <a href="/" id="BreadcrumbLogoSmall" class="show-tooltip" data-placement="bottom" title="Zur Startseite" >
+        <i class="fas fa-home"></i> <% if (!Model.TopNavMenu.IsWelcomePage){ %><i class="fa fa-chevron-right"></i><% } %>
     </a>
 
     <div id="BreadCrumbTrail" style="display:flex;">

@@ -220,10 +220,10 @@ public class ImageFrontendData
                         .Replace("\"", "'")
                         .Replace("„", "'")
                         .Replace("“", "'")
+                        .Replace("{", "")
+                        .Replace("}", "")
                         .StripHTMLTags()
                         .Truncate(120, true);
-
-
 
                 return AddLink(
                     "<img src='" + GetImageUrl(width, asSquare, true, imageTypeForDummies).Url +
@@ -234,16 +234,13 @@ public class ImageFrontendData
                     "data-append-image-link-to='" + insertLicenseLinkAfterAncestorOfClass + "' " +
                     "alt='" + altDescription + "'/>",
                     linkToItem, noFollow);
-
             }
-
             return AddLink( //if no image, then display dummy picture
                 "<img src='" + imageUrl.Url
-                + "' class='ItemImage JS-InitImage" + additionalCssClasses
-                + "' data-append-image-link-to='" + insertLicenseLinkAfterAncestorOfClass
-                + "' alt=''/>",
+                             + "' class='ItemImage JS-InitImage" + additionalCssClasses
+                             + "' data-append-image-link-to='" + insertLicenseLinkAfterAncestorOfClass
+                             + "' alt=''/>",
                 linkToItem, noFollow);
-
         }
         catch (Exception e)
         {

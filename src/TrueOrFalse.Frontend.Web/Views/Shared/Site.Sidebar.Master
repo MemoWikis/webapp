@@ -48,13 +48,11 @@
     <footer id="MasterFooter">
         <div class="row">
             <div class="container">
-                <div class="row">
                     <%// ReSharper disable Asp.NotResolved
                         Html.RenderPartial(UserControls.MasterFooter); 
                         // ReSharper restore Asp.NotResolved%>
                 </div>
             </div>
-        </div>
     </footer>
 
     <% if(Request.IsLocal){ %>

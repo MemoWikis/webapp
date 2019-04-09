@@ -50,6 +50,7 @@
 #SidebarCards .card-link {
   align-items: center;
   display: flex;
+  max-width: 252px;
 }
 #SidebarCards #AutorCard {
   border: #d6d6d6 solid 0.03125em;
