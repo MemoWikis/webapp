@@ -1,11 +1,11 @@
 ﻿<div id="InlineEditToolbar" :class="{sticky : footerIsVisible}">
-    <div class="floatingActionBtn">
+    <div class="floatingActionBtn" :class="{sticky : footerIsVisible}">
         <div class="trigger" @click.prevent="setEditMode()" data-allowed="logged-in" :class="{ open : editMode }">
             <i class="fas fa-pen"></i>  
         </div>
     </div>
 
-    <div class="toolbar" v-cloak :class="{ open : editMode }">
+    <div class="toolbar" v-cloak :class="{ open : editMode , sticky : footerIsVisible }">
         
         <div class="inner" :class="{sticky : footerIsVisible}">
             <div class="btnLeft">

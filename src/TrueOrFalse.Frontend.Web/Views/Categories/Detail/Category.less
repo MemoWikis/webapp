@@ -994,7 +994,8 @@ p:empty {
         left: 0;
 
         &.sticky {
-            position:sticky;
+            width: 100%;
+            position: sticky;
         }
 
         .pseudo-circle, .trigger {
@@ -1025,9 +1026,23 @@ p:empty {
         }
 
         .floatingActionBtn {
+            width: 100%;
             max-width: 1160px;
             display: flex;
             justify-content: flex-end;
+            position: fixed;
+            bottom: 30px;
+            right: 0;
+            left: 0;
+            margin-left: auto;
+            margin-right: auto;
+            padding-right: 15px;
+            z-index: 99999;
+
+            &.sticky {
+                position: absolute;
+                bottom: 0;
+            }
 
             .trigger {
                 text-align: center;
@@ -1041,7 +1056,7 @@ p:empty {
                 box-shadow: 0 0 6px rgba(0, 0, 0, 0.12), 0 6px 6px rgba(0, 0, 0, 0.24);
                 z-index: 99999;
                 margin-left: auto;
-                margin-right: auto;
+                margin-right: 0px;
 
                 &.open {
                     transform: translate(-50px, 40px);
@@ -1078,10 +1093,16 @@ p:empty {
             padding: 10px;
             left: 0;
             right: 0;
+            position: absolute;
 
             &.open {
                 box-shadow: 0 -2px 6px rgba(0, 0, 0, 0.16);
                 transition-delay: .15s;
+            }
+
+            &.sticky {
+                width: 100%;
+                border-radius: 8px 8px 0 0;
             }
 
             .inner {
@@ -1090,6 +1111,9 @@ p:empty {
                 display: flex;
                 justify-content: space-between;
                 flex-direction: row;
+                padding: 0 15px;
+                backface-visibility: hidden;
+
 
                 &.sticky {
                     margin: 0;
@@ -1109,6 +1133,7 @@ p:empty {
                         background: transparent;
                         opacity: 0;
                         cursor: default;
+                        backface-visibility: hidden;
 
                         &.expanded {
                             opacity: 1;
@@ -1395,7 +1420,7 @@ p:empty {
 
     #ContentModulePlaceholder {
         width: 100%;
-        margin: 20px 0;
+        margin: 20px 0 60px;
         padding: 19px;
 
         .placeholderBorder {
