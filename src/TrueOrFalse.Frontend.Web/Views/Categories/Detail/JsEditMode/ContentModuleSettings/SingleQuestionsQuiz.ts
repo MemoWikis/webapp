@@ -105,7 +105,7 @@ Vue.component('singlequestionsquiz-modal-component', {
             this.showQuestionInput = false;
         },
     
-        addQuestion(val) {
+        addQuestion() {
             try {
                 if (this.newQuestion.Item.Id) {
                     this.questions.push(this.newQuestion.Item.Id);
@@ -141,6 +141,20 @@ Vue.component('singlequestionsquiz-modal-component', {
         onMove(event) {
             return event.related.id !== 'addCardPlaceholder';;
         },
+
+        onSearch(search, loading) {
+            loading(true);
+            this.search(loading, search, this);
+        },
+        search: _.debounce(function (loading, search, vm) {
+            $.get("/Api/Search/ByName?term=" + search + "&type=" + this.searchType,
+                (result) => {
+                    this.searchResults = result;
+                    vm.options = this.filteredSearch;
+                    loading(false);
+                }
+            );
+        }, 350),
     },
 });
 

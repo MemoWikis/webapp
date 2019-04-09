@@ -14,6 +14,10 @@ Vue.component('videowidget-modal-component', {
             newMarkdown: '',
             parentId: '',
             setId: '',
+            newSet: '',
+            searchResults: '',
+            searchType: 'Sets',
+            options: [],
         };
     },
 
@@ -22,10 +26,27 @@ Vue.component('videowidget-modal-component', {
         self.videoWidgetSettings = new VideoWidgetSettings();
     },
 
+    computed: {
+        filteredSearch() {
+            let results = [];
+
+            if (this.searchResults)
+                results = this.searchResults.Items.filter(i => i.Type === this.searchType);
+
+            return results;
+        },
+    },
+
     watch: {
         newMarkdown: function() {
             this.settingsHasChanged = true;
         },
+
+        newSet: function () {
+            try {
+                this.setId = this.newSet.Item.Id;
+            } catch (e) {};
+        }
     },
     
     mounted: function() {
@@ -36,7 +57,7 @@ Vue.component('videowidget-modal-component', {
                 this.initializeData();
             });
 
-        $('#svideowidgetSettingsDialog').on('hidden.bs.modal',
+        $('#videowidgetSettingsDialog').on('hidden.bs.modal',
             event => {
                 if (!this.settingsHasChanged)
                     eventBus.$emit('close-content-module-settings-modal', false);
@@ -71,6 +92,20 @@ Vue.component('videowidget-modal-component', {
         onMove(event) {
             return event.related.id !== 'addCardPlaceholder';;
         },
+
+        onSearch(search, loading) {
+            loading(true);
+            this.search(loading, search, this);
+        },
+        search: _.debounce(function (loading, search, vm) {
+            $.get("/Api/Search/ByName?term=" + search + "&type=" + this.searchType,
+                (result) => {
+                    this.searchResults = result;
+                    vm.options = this.filteredSearch;
+                    loading(false);
+                }
+            );
+        }, 350),
     },
 });
 
