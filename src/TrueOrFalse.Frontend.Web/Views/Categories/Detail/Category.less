@@ -1305,118 +1305,123 @@ p:empty {
     /*------------------------------------------------------
     ContentModule
 -------------------------------------------------------*/
-    .ContentModule {
-        position: relative;
+.ContentModule {
+    position: relative;
 
-        .ModuleBorder {
-            border-radius: 3px;
-            border: solid transparent 1px;
-            transition: 0.2s;
-            padding: 20px;
+    .ModuleBorder {
+        border-radius: 3px;
+        border: solid transparent 1px;
+        transition: 0.2s;
+        padding: 20px;
 
 
-            &.hover {
-                border-color: #45aece;
-                cursor: pointer;
-            }
-
-            .VideoWidgetPlaceHolder {
-                width: 100%;
-                margin: 20px 0;
-                padding: 19px;
-
-                .videoWidgetPlaceholderBorder {
-                    width: 100%;
-                    height: 600px;
-                    display: inline-block;
-                    background-color: #fff;
-                    border: 1px solid #ccc;
-                    border-radius: 4px;
-                    padding: 10px;
-                    margin: 10px;
-                    display: flex;
-                    justify-content: center;
-                    align-items: center;
-                    flex-direction: row;
-                }
-            }
-        }
-
-        .well {
-            margin-bottom: 0px
-        }
-
-        ul.module-options {
-            margin-top: -10px;
+        &.hover {
+            border-color: #45aece;
             cursor: pointer;
         }
 
-        .module {
-            list-style-type: none;
-        }
+        .VideoWidgetPlaceHolder {
+            width: 100%;
+            margin: 20px 0;
+            padding: 19px;
 
-        .list-group-item {
-            border: 0px;
-        }
-
-
-
-        .Button {
-            position: absolute;
-            top: 0px;
-            right: -25px;
-
-            .ButtonEllipsis {
-                font-size: 18px;
-                color: #999999;
-            }
-
-            .delete {
-                border-top: 1px solid #ccc;
-                margin-top: 7px;
-                padding-top: 7px;
-            }
-        }
-
-        .ModuleHandle {
-            position: absolute;
-            top: 50%;
-            left: -20px;
-            margin-top: -30px;
-            font-size: 18px;
-            color: #999999;
-            width: 30px;
-            height: 60px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding-right: 10px;
-            flex-direction: column;
-
-            .IconWrapper {
-                width: 20px;
+            .videoWidgetPlaceholderBorder {
+                width: 100%;
+                height: 600px;
+                display: inline-block;
+                background-color: #fff;
+                border: 1px solid #ccc;
+                border-radius: 4px;
+                padding: 10px;
+                margin: 10px;
                 display: flex;
                 justify-content: center;
-            }
-
-            .Handle {
-                cursor: grab;
-            }
-
-            .SortButton {
-                cursor: pointer;
-
-                .hide {
-                    opacity: 0;
-                }
-            }
-
-            .ButtonEllipsis {
-                font-size: 18px;
-                color: #999999;
+                align-items: center;
+                flex-direction: row;
             }
         }
     }
+
+    .well {
+        margin-bottom: 0px
+    }
+
+    ul.module-options {
+        margin-top: -50px;
+        cursor: pointer;
+    }
+
+    .module {
+        list-style-type: none;
+    }
+
+    .list-group-item {
+        border: 0px;
+    }
+
+
+
+    .Button {
+        position: absolute;
+        top: 0px;
+        right: -30px;
+
+        &.dropdown {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .ButtonEllipsis {
+            font-size: 18px;
+            color: #999999;
+        }
+
+        .delete {
+            border-top: 1px solid #ccc;
+            margin-top: 7px;
+            padding-top: 7px;
+        }
+    }
+
+    .ModuleHandle {
+        position: absolute;
+        top: 50%;
+        left: -20px;
+        margin-top: -30px;
+        font-size: 18px;
+        color: #999999;
+        width: 30px;
+        height: 60px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding-right: 10px;
+        flex-direction: column;
+
+        .IconWrapper {
+            width: 20px;
+            display: flex;
+            justify-content: center;
+        }
+
+        .Handle {
+            cursor: grab;
+        }
+
+        .SortButton {
+            cursor: pointer;
+
+            .hide {
+                opacity: 0;
+            }
+        }
+
+        .ButtonEllipsis {
+            font-size: 18px;
+            color: #999999;
+        }
+    }
+}
 
     #ContentModulePlaceholder {
         width: 100%;
