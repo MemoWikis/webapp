@@ -1210,13 +1210,21 @@ p:empty {
   -webkit-box-sizing: content-box;
           box-sizing: content-box;
 }
-#TopicTabContent .pseudo-circle,
-#TopicTabContent .trigger {
+#TopicTabContent #InlineEditToolbar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+}
+#TopicTabContent #InlineEditToolbar.sticky {
+  position: -webkit-sticky;
+  position: sticky;
+}
+#TopicTabContent #InlineEditToolbar .pseudo-circle,
+#TopicTabContent #InlineEditToolbar .trigger {
   width: 56px;
   height: 56px;
   -webkit-border-radius: 50%;
           border-radius: 50%;
-  position: absolute;
   right: 100px;
   bottom: 10px;
   z-index: 99998;
@@ -1225,7 +1233,7 @@ p:empty {
           transform-origin: 50% 50%;
   overflow: hidden;
 }
-#TopicTabContent .pseudo-circle {
+#TopicTabContent #InlineEditToolbar .pseudo-circle {
   opacity: 0;
   overflow: hidden;
   -webkit-transition: opacity 0.1s, -webkit-transform 0.3s cubic-bezier(0, 0, 0.2, 1);
@@ -1233,7 +1241,29 @@ p:empty {
   transition: transform 0.3s cubic-bezier(0, 0, 0.2, 1), opacity 0.1s;
   transition: transform 0.3s cubic-bezier(0, 0, 0.2, 1), opacity 0.1s, -webkit-transform 0.3s cubic-bezier(0, 0, 0.2, 1);
 }
-#TopicTabContent .trigger {
+#TopicTabContent #InlineEditToolbar .pseudo-circle.open {
+  margin-right: -342px;
+  -webkit-transition-delay: 0.15s;
+          transition-delay: 0.15s;
+  -webkit-transition: 0.5s;
+  transition: 0.5s;
+  -webkit-transform: scale(10);
+          transform: scale(10);
+  opacity: 1;
+  width: 100%;
+}
+#TopicTabContent #InlineEditToolbar .floatingActionBtn {
+  max-width: 1160px;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: end;
+  -webkit-justify-content: flex-end;
+      -ms-flex-pack: end;
+          justify-content: flex-end;
+}
+#TopicTabContent #InlineEditToolbar .floatingActionBtn .trigger {
   text-align: center;
   line-height: 56px;
   background-color: #afd534;
@@ -1245,42 +1275,28 @@ p:empty {
   opacity: 1;
   right: 50px;
   bottom: 50px;
-  position: -webkit-sticky;
-  position: sticky;
   -webkit-box-shadow: 0 0 6px rgba(0, 0, 0, 0.12), 0 6px 6px rgba(0, 0, 0, 0.24);
           box-shadow: 0 0 6px rgba(0, 0, 0, 0.12), 0 6px 6px rgba(0, 0, 0, 0.24);
   z-index: 99999;
   margin-left: auto;
-  margin-right: -342px;
+  margin-right: auto;
 }
-#TopicTabContent .pseudo-circle.open {
-  margin-right: -342px;
-  -webkit-transition-delay: 0.15s;
-          transition-delay: 0.15s;
-  -webkit-transition: 0.5s;
-  transition: 0.5s;
-  -webkit-transform: scale(3);
-          transform: scale(3);
-  opacity: 1;
-  width: 100%;
-}
-#TopicTabContent .trigger.open {
+#TopicTabContent #InlineEditToolbar .floatingActionBtn .trigger.open {
   -webkit-transform: translate(-50px, 40px);
           transform: translate(-50px, 40px);
   opacity: 0;
 }
-#TopicTabContent .trigger.open i {
+#TopicTabContent #InlineEditToolbar .floatingActionBtn .trigger.open icon {
   opacity: 0;
 }
-#TopicTabContent .trigger:hover {
+#TopicTabContent #InlineEditToolbar .floatingActionBtn .trigger:hover {
   -webkit-box-shadow: 0 0 12px rgba(0, 0, 0, 0.12), 0 12px 12px rgba(0, 0, 0, 0.24);
           box-shadow: 0 0 12px rgba(0, 0, 0, 0.12), 0 12px 12px rgba(0, 0, 0, 0.24);
 }
-#TopicTabContent .dialog {
+#TopicTabContent #InlineEditToolbar .dialog {
   width: 100vw;
   height: 100vh;
   background-color: #afd534;
-  position: fixed;
   left: auto;
   right: 0;
   bottom: 0;
@@ -1288,8 +1304,7 @@ p:empty {
   height: 50px;
   overflow: hidden;
 }
-#TopicTabContent .toolbar {
-  position: fixed;
+#TopicTabContent #InlineEditToolbar .toolbar {
   bottom: 0;
   width: 100vw;
   height: 56px;
@@ -1298,14 +1313,15 @@ p:empty {
   left: 0;
   right: 0;
 }
-#TopicTabContent .toolbar.open {
+#TopicTabContent #InlineEditToolbar .toolbar.open {
   -webkit-box-shadow: 0 -2px 6px rgba(0, 0, 0, 0.16);
           box-shadow: 0 -2px 6px rgba(0, 0, 0, 0.16);
   -webkit-transition-delay: 0.15s;
           transition-delay: 0.15s;
 }
-#TopicTabContent .toolbar {
-  width: 100%;
+#TopicTabContent #InlineEditToolbar .toolbar .inner {
+  max-width: 1160px;
+  margin: 0 auto;
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -1320,12 +1336,11 @@ p:empty {
       -ms-flex-direction: row;
           flex-direction: row;
 }
-#TopicTabContent .toolbar.inner {
-  width: 1160px;
-  margin: 0 auto;
+#TopicTabContent #InlineEditToolbar .toolbar .inner.sticky {
+  margin: 0;
 }
-#TopicTabContent .toolbar.inner .btnRight,
-#TopicTabContent .toolbar.inner .btnLeft {
+#TopicTabContent #InlineEditToolbar .toolbar .inner .btnRight,
+#TopicTabContent #InlineEditToolbar .toolbar .inner .btnLeft {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -1339,10 +1354,9 @@ p:empty {
   -webkit-flex-direction: row;
       -ms-flex-direction: row;
           flex-direction: row;
-  padding-top: 10px;
 }
-#TopicTabContent .toolbar.inner .btnRight .button,
-#TopicTabContent .toolbar.inner .btnLeft .button {
+#TopicTabContent #InlineEditToolbar .toolbar .inner .btnRight .button,
+#TopicTabContent #InlineEditToolbar .toolbar .inner .btnLeft .button {
   width: 60px;
   margin: 0 10px;
   display: -webkit-box;
@@ -1362,8 +1376,8 @@ p:empty {
   opacity: 0;
   cursor: default;
 }
-#TopicTabContent .toolbar.inner .btnRight .button.expanded,
-#TopicTabContent .toolbar.inner .btnLeft .button.expanded {
+#TopicTabContent #InlineEditToolbar .toolbar .inner .btnRight .button.expanded,
+#TopicTabContent #InlineEditToolbar .toolbar .inner .btnLeft .button.expanded {
   opacity: 1;
   -webkit-transition: opacity 0.25s;
   transition: opacity 0.25s;
@@ -1371,8 +1385,8 @@ p:empty {
           transition-delay: 0.15s;
   cursor: pointer;
 }
-#TopicTabContent .toolbar.inner .btnRight .button .icon,
-#TopicTabContent .toolbar.inner .btnLeft .button .icon {
+#TopicTabContent #InlineEditToolbar .toolbar .inner .btnRight .button .icon,
+#TopicTabContent #InlineEditToolbar .toolbar .inner .btnLeft .button .icon {
   z-index: 999999;
   font-size: 28px;
   display: -webkit-box;
@@ -1386,8 +1400,8 @@ p:empty {
   font-size: 25px;
   height: 20px;
 }
-#TopicTabContent .toolbar.inner .btnRight .button .btnLabel,
-#TopicTabContent .toolbar.inner .btnLeft .button .btnLabel {
+#TopicTabContent #InlineEditToolbar .toolbar .inner .btnRight .button .btnLabel,
+#TopicTabContent #InlineEditToolbar .toolbar .inner .btnLeft .button .btnLabel {
   z-index: 999999;
   font-size: 12px;
   text-align: center;

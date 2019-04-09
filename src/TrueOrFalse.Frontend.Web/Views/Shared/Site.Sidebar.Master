@@ -45,7 +45,7 @@
         
     </section>
     <%-- FOOTER--%>
-    <footer id="MasterFooter" v-show="!editMode">
+    <footer id="MasterFooter">
         <div class="row">
             <div class="container">
                 <div class="row">
@@ -56,33 +56,7 @@
             </div>
         </div>
     </footer>
-    <script type="text/javascript">
-        new Vue({
-            el: '#GlobalLicense',
-            data() {
-                return {
-                    editMode: false
-                }
-            },
-    
-            created() {
-                eventBus.$on("set-edit-mode", state => this.editMode = state);
-            },
-        });
 
-        new Vue({
-            el: '#MasterFooter',
-            data() {
-                return {
-                    editMode: false
-                }
-            },
-    
-            created() {
-                eventBus.$on("set-edit-mode", state => this.editMode = state);
-            },
-        });
-    </script>
     <% if(Request.IsLocal){ %>
         <%--<%= MiniProfiler.RenderIncludes() %> --%>
     <% } %>

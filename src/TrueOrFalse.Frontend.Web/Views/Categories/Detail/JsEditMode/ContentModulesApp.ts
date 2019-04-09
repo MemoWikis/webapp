@@ -32,10 +32,12 @@ new Vue({
             showTopAlert: false,
             previewModule: null,
             changedMarkdown: false,
+            footerIsVisible: '',
         };
     },
 
     created() {
+
         eventBus.$on('save-markdown',
             (data) => {
                 if (data == 'top') {
@@ -81,13 +83,29 @@ new Vue({
                 };
             });
 
+        window.addEventListener('scroll', this.onScroll);
     },
 
     mounted() {
+        this.checkFooterVisibility;
         this.changedMarkdown = false;
     },
 
     methods: {
+
+        onScroll() {
+            const elFooter = document.getElementById('MasterFooter');
+            const elLicense = document.getElementById('GlobalLicense');
+
+            var rectFooter = elFooter.getBoundingClientRect();
+            var rectLicense = elLicense.getBoundingClientRect();
+            var viewHeight = Math.max(document.documentElement.clientHeight, window.innerHeight);
+            if (rectFooter.bottom < 0 || rectLicense.bottom < 0 || rectFooter.top - viewHeight >= 0 || rectLicense.top - viewHeight >= 0)
+                this.footerIsVisible = false;
+            else
+                this.footerIsVisible = true;
+        },
+
         cancelEditMode() {
             if (!this.editMode)
                 return;

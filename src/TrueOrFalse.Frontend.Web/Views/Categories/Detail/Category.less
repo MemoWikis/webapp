@@ -988,140 +988,150 @@ p:empty {
     margin-top: 60px;
     box-sizing: content-box;
 
-
-    .pseudo-circle, .trigger {
-        width: 56px;
-        height: 56px;
-        border-radius: 50%;
-        position: absolute;
-        right: 100px;
-        bottom: 10px;
-        z-index: 99998;
-        cursor: pointer;
-        transform-origin: 50% 50%;
-        overflow: hidden;
-    }
-
-    .pseudo-circle {
-        opacity: 0;
-        overflow: hidden;
-        transition: transform 0.3s cubic-bezier(0.0, 0.0, 0.2, 1), opacity 0.1s;
-    }
-
-    .trigger {
-        text-align: center;
-        line-height: 56px;
-        background-color: #afd534;
-        border: 1px solid transparent;
-        transition: transform 0.15s cubic-bezier(0.4, 0.0, 1, 1), opacity 0.1s 0.1s, box-shadow 0.3s;
-        opacity: 1;
-        right: 50px;
-        bottom: 50px;
-        position: sticky;
-        box-shadow: 0 0 6px rgba(0, 0, 0, 0.12), 0 6px 6px rgba(0, 0, 0, 0.24);
-        z-index: 99999;
-        margin-left: auto;
-        margin-right: -342px;
-    }
-
-    .pseudo-circle.open {
-        margin-right: -342px;
-        transition-delay: .15s;
-        transition: 0.5s;
-        transform: scale(10);
-        opacity: 1;
-        width: 100%;
-    }
-
-    .trigger.open {
-        transform: translate(-50px, 40px);
-        opacity: 0;
-    }
-
-    .trigger.open i {
-        opacity: 0;
-    }
-
-    .trigger:hover {
-        box-shadow: 0 0 12px rgba(0, 0, 0, 0.12), 0 12px 12px rgba(0, 0, 0, 0.24);
-    }
-
-    .dialog {
-        width: 100vw;
-        height: 100vh;
-        background-color: #afd534;
-        position: fixed;
-        left: auto;
-        right: 0;
-        bottom: 0;
-        z-index: 999995;
-        height: 50px;
-        overflow: hidden;
-    }
-
-    .toolbar {
+    #InlineEditToolbar {
         position: fixed;
         bottom: 0;
-        width: 100vw;
-        height: 56px;
-        overflow: hidden;
-        padding: 10px;
         left: 0;
-        right: 0;
 
-        &.open {
-            box-shadow: 0 -2px 6px rgba(0, 0, 0, 0.16);
-            transition-delay: .15s;
+        &.sticky {
+            position:sticky;
         }
-    }
 
-    .toolbar {
-        width: 100%;
-        display: flex;
-        justify-content: space-between;
-        flex-direction: row;
+        .pseudo-circle, .trigger {
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            right: 100px;
+            bottom: 10px;
+            z-index: 99998;
+            cursor: pointer;
+            transform-origin: 50% 50%;
+            overflow: hidden;
+        }
 
-        &.inner {
+        .pseudo-circle {
+            opacity: 0;
+            overflow: hidden;
+            transition: transform 0.3s cubic-bezier(0.0, 0.0, 0.2, 1), opacity 0.1s;
+
+            &.open {
+                margin-right: -342px;
+                transition-delay: .15s;
+                transition: 0.5s;
+                transform: scale(10);
+                opacity: 1;
+                width: 100%;
+            }
+        }
+
+        .floatingActionBtn {
             max-width: 1160px;
-            margin: 0 auto;
+            display: flex;
+            justify-content: flex-end;
 
-            .btnRight, .btnLeft {
-                display: flex;
-                justify-content: flex-end;
-                flex-direction: row;
-                padding-top: 10px;
+            .trigger {
+                text-align: center;
+                line-height: 56px;
+                background-color: #afd534;
+                border: 1px solid transparent;
+                transition: transform 0.15s cubic-bezier(0.4, 0.0, 1, 1), opacity 0.1s 0.1s, box-shadow 0.3s;
+                opacity: 1;
+                right: 50px;
+                bottom: 50px;
+                box-shadow: 0 0 6px rgba(0, 0, 0, 0.12), 0 6px 6px rgba(0, 0, 0, 0.24);
+                z-index: 99999;
+                margin-left: auto;
+                margin-right: auto;
 
-                .button {
-                    width: 60px;
-                    margin: 0 10px;
-                    display: flex;
-                    justify-content: center;
-                    flex-direction: column;
-                    background: transparent;
+                &.open {
+                    transform: translate(-50px, 40px);
                     opacity: 0;
-                    cursor: default;
 
-                    &.expanded {
-                        opacity: 1;
-                        transition: opacity 0.25s;
-                        transition-delay: .15s;
-                        cursor: pointer;
+                    icon {
+                        opacity: 0;
                     }
+                }
 
-                    .icon {
-                        z-index: 999999;
-                        font-size: 28px;
+                &:hover {
+                    box-shadow: 0 0 12px rgba(0, 0, 0, 0.12), 0 12px 12px rgba(0, 0, 0, 0.24);
+                }
+            }
+        }
+
+        .dialog {
+            width: 100vw;
+            height: 100vh;
+            background-color: #afd534;
+            left: auto;
+            right: 0;
+            bottom: 0;
+            z-index: 999995;
+            height: 50px;
+            overflow: hidden;
+        }
+
+        .toolbar {
+            bottom: 0;
+            width: 100vw;
+            height: 56px;
+            overflow: hidden;
+            padding: 10px;
+            left: 0;
+            right: 0;
+
+            &.open {
+                box-shadow: 0 -2px 6px rgba(0, 0, 0, 0.16);
+                transition-delay: .15s;
+            }
+
+            .inner {
+                max-width: 1160px;
+                margin: 0 auto;
+                display: flex;
+                justify-content: space-between;
+                flex-direction: row;
+
+                &.sticky {
+                    margin: 0;
+                }
+
+                .btnRight, .btnLeft {
+                    display: flex;
+                    justify-content: flex-end;
+                    flex-direction: row;
+
+                    .button {
+                        width: 60px;
+                        margin: 0 10px;
                         display: flex;
                         justify-content: center;
-                        font-size: 25px;
-                        height: 20px;
-                    }
+                        flex-direction: column;
+                        background: transparent;
+                        opacity: 0;
+                        cursor: default;
 
-                    .btnLabel {
-                        z-index: 999999;
-                        font-size: 12px;
-                        text-align: center;
-                        font-weight: 600;
+                        &.expanded {
+                            opacity: 1;
+                            transition: opacity 0.25s;
+                            transition-delay: .15s;
+                            cursor: pointer;
+                        }
+
+                        .icon {
+                            z-index: 999999;
+                            font-size: 28px;
+                            display: flex;
+                            justify-content: center;
+                            font-size: 25px;
+                            height: 20px;
+                        }
+
+                        .btnLabel {
+                            z-index: 999999;
+                            font-size: 12px;
+                            text-align: center;
+                            font-weight: 600;
+                        }
                     }
                 }
             }

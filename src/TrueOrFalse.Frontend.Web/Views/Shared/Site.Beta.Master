@@ -65,7 +65,7 @@
     </section>  --%>  
 
     <%-- FOOTER--%>
-    <footer id="MasterFooter"  v-show="!editMode">
+    <footer id="MasterFooter">
         <div id="FooterBackground"></div>
         <div class="row">
             <div class="container" style="background-color: transparent">
@@ -78,7 +78,6 @@
             </div>
         </div>
     </footer>
-    <%= Scripts.Render("~/bundles/js/EditModeFooter") %>
 
 </body>
 </html>
