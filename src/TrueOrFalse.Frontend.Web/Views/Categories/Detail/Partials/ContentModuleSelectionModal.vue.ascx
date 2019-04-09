@@ -7,15 +7,17 @@
                     <h4 class="modalHeader">Modul auswählen</h4>
                     <form>
                         <div class="form-group">
-
-                            <div class="radio" v-for="name in contentModules" :key="name.id">
-                                <label class="clickable">
-                                    <img :src="'/Images/ContentModuleSamples/' + name + '.png'"/>
-                                    <input type="radio" :value="name" v-model="selectedModule">
-                                    {{name}}
-                                </label>
+                            <div class="selectModuleContainer" style="display: flex; flex-direction: row; justify-content: space-between; align-content: flex-start; flex-wrap: wrap;">
+                                <div class="radio" v-for="name in contentModules" :key="name.id" style="width: 160px;">
+                                    <div class="sampleModuleContainer" style="display: flex; flex-direction: column; align-content: center; width: 100%;">
+                                        <img :src="'/Images/ContentModuleSamples/' + name + '.png'" style="max-width: 120px; max-height: 80px;">
+                                        <label class="clickable">
+                                            <input type="radio" :value="name" v-model="selectedModule">
+                                            {{name}}
+                                        </label>
+                                    </div>
+                                </div>
                             </div>
-
                         </div>
                     </form>
 
