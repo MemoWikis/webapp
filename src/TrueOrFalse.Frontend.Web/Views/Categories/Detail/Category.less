@@ -1137,7 +1137,6 @@ p:empty {
 
                         &.expanded {
                             opacity: 1;
-                            transition: opacity 0.25s;
                             transition-delay: .15s;
                             cursor: pointer;
                         }
@@ -1166,113 +1165,144 @@ p:empty {
     /*------------------------------------------------------
     Dialog and Settings
 -------------------------------------------------------*/
-    .contentModuleSettings {
-        margin: 20px;
+.contentModuleSettings {
+    margin: 20px;
 
-        .modalHeader {
-            margin: 0 0 20px 10px;
-        }
+    .modalHeader {
+        margin: 0 0 20px 10px;
+    }
 
-        form {
-            margin: 10px;
+    form {
+        margin: 10px;
 
-            .radio input[type="radio"] {
-                float: none !important;
-            }
-        }
-
-        .clickable {
-            cursor: pointer;
-        }
-
-        .addCard {
-            &.portrait {
-                width: 150px;
-            }
-
-            .form-group {
-                margin: 0 !important;
-            }
-        }
-
-        a {
-            font-size: 14px;
-            line-height: 1.42857143;
-            padding: 6px 8px;
-        }
-
-        .settingsConfirmation {
-            display: flex;
-            justify-content: flex-end;
-            margin-top: 4px;
-
-            &.portrait {
-                flex-flow: column-reverse;
-
-                a {
-                    text-align: center;
-                }
-            }
-
-            &.modalFooter {
-                margin-top: 100px;
-                margin-right: 10px;
-            }
-        }
-
-        .setCards, .topicCards, .questionCards {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: start;
-
-            &.grid {
-                width: 257px;
-                height: 157px;
-                display: inline-block;
-                background-color: #fff;
-                border: 1px solid #ccc;
-                border-radius: 4px;
-                padding: 10px;
-                margin: 10px;
-                cursor: move;
-                display: flex;
-                justify-content: center;
-                align-items: center;
-                flex-direction: row;
-
-                &.portrait {
-                    width: 166px;
-                    height: 344px;
-                }
-
-                &.fullwidth {
-                    width: 100%;
-                }
-
-                &.smallCard {
-                    height: 91px;
-                }
-
-                &.placeholder {
-                    border: 1px dotted #45aece;
-                    cursor: default;
-                }
-
-                &.editView {
-                    cursor: pointer;
-                }
-
-                .card {
-                    text-align: center;
-                    flex-direction: column;
-                }
-            }
-        }
-
-        .sortable-ghost {
-            background: #dddddd;
+        .radio input[type="radio"] {
+            float: none !important;
         }
     }
+
+    .clickable {
+        cursor: pointer;
+    }
+
+    .addCard {
+        &.portrait {
+            width: 150px;
+        }
+
+        .form-group {
+            margin: 0 !important;
+        }
+    }
+
+    a {
+        font-size: 14px;
+        line-height: 1.42857143;
+        padding: 6px 8px;
+    }
+
+    .settingsConfirmation {
+        display: flex;
+        justify-content: flex-end;
+        margin-top: 4px;
+
+        &.portrait {
+            flex-flow: column-reverse;
+
+            a {
+                text-align: center;
+            }
+        }
+
+        &.modalFooter {
+            margin-top: 100px;
+            margin-right: 10px;
+        }
+    }
+
+    .setCards, .topicCards, .questionCards {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: start;
+
+        &.grid {
+            width: 257px;
+            height: 157px;
+            display: inline-block;
+            background-color: #fff;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            padding: 10px;
+            margin: 10px;
+            cursor: move;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: row;
+
+            &.portrait {
+                width: 166px;
+                height: 344px;
+            }
+
+            &.fullwidth {
+                width: 100%;
+            }
+
+            &.smallCard {
+                height: 91px;
+            }
+
+            &.placeholder {
+                border: 1px dotted #45aece;
+                cursor: default;
+            }
+
+            &.editView {
+                cursor: pointer;
+            }
+
+            .card {
+                text-align: center;
+                flex-direction: column;
+            }
+        }
+    }
+
+    .sortable-ghost {
+        background: #dddddd;
+    }
+
+    .selectModuleContainer {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-content: flex-start;
+        flex-wrap: wrap;
+        margin-top: 30px;
+
+        .sampleContainer {
+            display: flex;
+            flex-direction: column;
+            align-content: center;
+            max-width: 160px;
+            max-height: 160px;
+            width: 100%;
+            height: 100%;
+            justify-content: center;
+            text-align: center;
+            padding: 10px;
+            cursor: pointer;
+            font-size:16px;
+
+            &.active {
+                border-radius: 3px;
+                border: solid transparent 1px;
+                transition: 0.2s;
+                border-color: #45aece;
+            }
+        }
+    }
+}
     /*------------------------------------------------------
     Spinner Overwrite
 -------------------------------------------------------*/

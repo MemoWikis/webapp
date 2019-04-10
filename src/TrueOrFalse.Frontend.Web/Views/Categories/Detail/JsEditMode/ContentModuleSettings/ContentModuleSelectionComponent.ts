@@ -11,19 +11,19 @@ Vue.component('content-module-selection-modal-component', {
         return {
             templateMarkdown: '',
             contentModules: [
-                'Cards',
-                'CategoryNetwork',
-                'ContentLists',
-                'EducationOfferList',
-                'InlineText',
-                'MediaList',
-                'SetCardMiniList',
-                'SingleCategoryFullWidth',
-                'SingleQuestionsQuiz',
-                'SingleSetFullWidth',
-                'Spacer',
-                'TopicNavigation',
-                'VideoWidget',
+                { type: 'Cards', name: 'Lernset', tooltip: 'Zeige Lernsets in Kartenform an.' },
+                { type: 'CategoryNetwork', name: 'Themennetzwerk', tooltip: 'Über- und untergeordnete Themen werden übersichtlich dargestellt.' },
+                { type: 'ContentLists', name: 'Inhaltsverzeichnis', tooltip: 'Alle Lernsets und Fragen eines Themas und der untergeordneten Themen sind in Listenform dargestellt.' },
+                { type: 'EducationOfferList', name: 'Aus- und Weiterbildungen', tooltip: 'Zeigt Aus- und Weiterbildung (Universitäten, Kurse, Professoren/Dozenten etc.) eines Themas an.' },
+                { type: 'InlineText', name: 'Freier Inhalt', tooltip: 'Freie Text Gestaltung per Markdown.' },
+                { type: 'MediaList', name: 'Medien', tooltip: 'Zeigt Medien (Bücher, Zeitungsartikel, Online-Beiträge, Videos etc.) eines Themas an.' },
+                { type: 'SetCardMiniList', name: 'Lernsetliste', tooltip: 'Zeigt eine Liste aller lernsets zu einem Thema.' },
+                { type: 'SingleCategoryFullWidth', name: 'Einzelthema', tooltip: 'Zeigt ein Thema in voller Breite an.' },
+                { type: 'SingleQuestionsQuiz', name: 'Quiz Widget', tooltip: 'Fragen eines Themas sind einzeln untereinander aufgelistet.' },
+                { type: 'SingleSetFullWidth', name: 'Einzellernset', tooltip: 'Zeigt ein Lernset in voller Breite an.' },
+                { type: 'Spacer', name: 'Abstandhalter', tooltip: 'Sorgt für mehr ßraum unter oder über einem Modul' },
+                { type: 'TopicNavigation', name: 'Themenliste', tooltip: 'Zeigt eine Liste aller Hauptthemen.' },
+                { type: 'VideoWidget', name: 'Video Widget', tooltip: 'Zeigt ein Video aus einem Lernset mit entsprechenden Fragen.' }
             ],
             selectedModule: '',
             modalType: '',
@@ -66,6 +66,10 @@ Vue.component('content-module-selection-modal-component', {
     },
 
     methods: {
+        setActive(val) {
+            this.selectedModule = val;
+        },
+
         clearData() {
             this.templateMarkdown = '';
             this.selectedModule = '';

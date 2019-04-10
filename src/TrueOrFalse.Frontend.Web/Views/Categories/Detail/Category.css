@@ -1404,8 +1404,6 @@ p:empty {
 #TopicTabContent #InlineEditToolbar .toolbar .inner .btnRight .button.expanded,
 #TopicTabContent #InlineEditToolbar .toolbar .inner .btnLeft .button.expanded {
   opacity: 1;
-  -webkit-transition: opacity 0.25s;
-  transition: opacity 0.25s;
   -webkit-transition-delay: 0.15s;
           transition-delay: 0.15s;
   cursor: pointer;
@@ -1571,6 +1569,62 @@ p:empty {
 }
 .contentModuleSettings .sortable-ghost {
   background: #dddddd;
+}
+.contentModuleSettings .selectModuleContainer {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+  -webkit-flex-direction: row;
+      -ms-flex-direction: row;
+          flex-direction: row;
+  -webkit-box-pack: justify;
+  -webkit-justify-content: space-between;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  -webkit-align-content: flex-start;
+      -ms-flex-line-pack: start;
+          align-content: flex-start;
+  -webkit-flex-wrap: wrap;
+      -ms-flex-wrap: wrap;
+          flex-wrap: wrap;
+  margin-top: 30px;
+}
+.contentModuleSettings .selectModuleContainer .sampleContainer {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -webkit-flex-direction: column;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-align-content: center;
+      -ms-flex-line-pack: center;
+          align-content: center;
+  max-width: 160px;
+  max-height: 160px;
+  width: 100%;
+  height: 100%;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  text-align: center;
+  padding: 10px;
+  cursor: pointer;
+  font-size: 16px;
+}
+.contentModuleSettings .selectModuleContainer .sampleContainer.active {
+  -webkit-border-radius: 3px;
+          border-radius: 3px;
+  border: solid transparent 1px;
+  -webkit-transition: 0.2s;
+  transition: 0.2s;
+  border-color: #45aece;
 }
 /*------------------------------------------------------
     Spinner Overwrite
