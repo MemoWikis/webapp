@@ -116,7 +116,8 @@
                     $(".ProgressBarSegment .ProgressBarLegend").hide();
                     return;
                 }
-                $("div#LicenseQuestion").remove();
+                $(".FooterQuestionDetails").remove();
+                $("#modalShareQuestion").remove();
                 $("#AnswerBody").replaceWith(result.answerBodyAsHtml);
 
                 if ($("#hddIsLearningSession").val() === "True" || this._answerBody.IsTestSession()) {
