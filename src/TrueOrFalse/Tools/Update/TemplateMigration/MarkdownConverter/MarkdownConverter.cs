@@ -7,9 +7,6 @@ namespace TemplateMigration
     {
         public static string ConvertMarkdown(string topicMarkdown)
         {
-            if (!topicMarkdown.Contains("DivStart"))
-                return topicMarkdown;
-
             var parts = SplitMarkdown(topicMarkdown);
             var currentTemplateType = PartType.None;
             string newMarkdown = "";
@@ -32,7 +29,7 @@ namespace TemplateMigration
 
                     newMarkdown += "\"SetListIds\":\"";
                 }
-                else if (part.IsTemplate && part.Contains("singleset"))
+                else if (part.IsTemplate && part.Contains("singleset") && !(part.Contains("fullwidth")))
                 {
                     var setIdValue = Regex.Match(part.ToText(), @"\d+").Value;
                     newMarkdown += (setIdValue + ",");
@@ -41,18 +38,16 @@ namespace TemplateMigration
                 {
                     if (currentTemplateType == PartType.Template)
                     {
-                        newMarkdown = newMarkdown.Remove(newMarkdown.Length - 1);
+                        newMarkdown = newMarkdown.Remove(newMarkdown.Length - 1); //removes last comma on SetListIds
                         newMarkdown += "\"}]]";
+                        currentTemplateType = PartType.None;
                     }
                     else if (currentTemplateType == PartType.Text)
                         currentTemplateType = PartType.None;
                 }
-                else
-                {
-                    newMarkdown += part.ToText();
-                }
+                else if (currentTemplateType != PartType.Template)
+                        newMarkdown += part.ToText();
             }
-
             return newMarkdown;
         }
 
@@ -63,6 +58,7 @@ namespace TemplateMigration
             string inputText = markdown;
             char lastChar = ' ';
             char preLastChar = ' ';
+            string previousPart = "";
 
             if (inputText.Trim().StartsWith("[["))
                 currentPart.Type = PartType.Template;
@@ -82,18 +78,35 @@ namespace TemplateMigration
 
                 if (character == '[' && nextChar == '[')
                 {
-                    if (currentPart.ToText().Length > 0)
+                    if (currentPart.ToText().Trim().Length > 0)
+                    {
                         parts.Add(currentPart);
+                        previousPart = currentPart.ToText();
+                        if (previousPart.EndsWith("]]"))
+                        {
+                            currentPart = new Part { Type = PartType.Text };
+                            currentPart.AddNewLine();
+                            parts.Add(currentPart);
+                            previousPart = currentPart.ToText();
+                        }
 
-                    currentPart = new Part { Type = PartType.Template };
-                } else if (preLastChar == ']' && lastChar == ']' )
+                        currentPart = new Part { Type = PartType.Template };
+                    } else if (currentPart.ToText().Trim().Length == 0 && previousPart.EndsWith("]]"))
+                    {
+                        currentPart = new Part { Type = PartType.Text };
+                        currentPart.AddNewLine();
+                        parts.Add(currentPart);
+                        previousPart = currentPart.ToText();
+
+                        currentPart = new Part { Type = PartType.Template };
+                    } else
+                        currentPart = new Part { Type = PartType.Template };
+                }
+                else if (preLastChar == ']' && lastChar == ']' && !(character == '[' && nextChar == '['))
                 {
                     parts.Add(currentPart);
-
-                    if (character == '[' && nextChar == '[')
-                        currentPart = new Part { Type = PartType.Template };
-                    else
-                        currentPart = new Part {Type = PartType.Text};
+                    previousPart = currentPart.ToText();
+                    currentPart = new Part { Type = PartType.Text };
                 }
 
                 preLastChar = lastChar;

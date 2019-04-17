@@ -38,6 +38,7 @@ public class MarkdownToHtml
         string inputText = markdown;
         char lastChar = ' ';
         char preLastChar = ' ';
+        string previousPart = "";
 
         if (inputText.Trim().StartsWith("[["))
             currentPart.Type = PartType.Template;
@@ -57,17 +58,37 @@ public class MarkdownToHtml
 
             if (character == '[' && nextChar == '[')
             {
-               if (currentPart.ToText().Length > 0)
+                if (currentPart.ToText().Trim().Length > 0)
+                {
                     parts.Add(currentPart);
+                    previousPart = currentPart.ToText();
+                    if (previousPart.EndsWith("]]"))
+                    {
+                        currentPart = new Part { Type = PartType.Text };
+                        currentPart.AddNewLine();
+                        parts.Add(currentPart);
+                        previousPart = currentPart.ToText();
+                    }
 
-                currentPart = new Part { Type = PartType.Template };
-            } else if (preLastChar == ']' && lastChar == ']')
+                    currentPart = new Part { Type = PartType.Template };
+                }
+                else if (currentPart.ToText().Trim().Length == 0 && previousPart.EndsWith("]]"))
+                {
+                    currentPart = new Part { Type = PartType.Text };
+                    currentPart.AddNewLine();
+                    parts.Add(currentPart);
+                    previousPart = currentPart.ToText();
+
+                    currentPart = new Part { Type = PartType.Template };
+                }
+                else
+                    currentPart = new Part { Type = PartType.Template };
+            }
+            else if (preLastChar == ']' && lastChar == ']' && !(character == '[' && nextChar == '['))
             {
                 parts.Add(currentPart);
-                if (character == '[' && nextChar == '[')
-                    currentPart = new Part { Type = PartType.Template };
-                else
-                    currentPart = new Part { Type = PartType.Text };
+                previousPart = currentPart.ToText();
+                currentPart = new Part { Type = PartType.Text };
             }
 
             preLastChar = lastChar;
@@ -97,5 +118,6 @@ public class Part
     public bool IsText => Type == PartType.Text;
 
     public void AddChar(char character) => _sb.Append(character);
+    public void AddNewLine() => _sb.Append("\r\n");
     public string ToText() => _sb.ToString();
 }

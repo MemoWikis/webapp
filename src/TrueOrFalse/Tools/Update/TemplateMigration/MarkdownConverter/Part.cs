@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using System;
+using System.Text;
 
 namespace TemplateMigration
 {
@@ -14,6 +15,7 @@ namespace TemplateMigration
 
         public void AddChar(char character) => _sb.Append(character);
         public string ToText() => _sb.ToString();
+        public void AddNewLine() => _sb.Append(Environment.NewLine);
 
         public bool Contains(string searchString) => ToText().ToLower().Contains(searchString);
     }

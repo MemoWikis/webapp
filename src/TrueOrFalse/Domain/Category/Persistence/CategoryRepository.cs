@@ -69,6 +69,14 @@ public class CategoryRepository : RepositoryDbBase<Category>
         EntityCache.AddOrUpdate(category);
     }
 
+    public void UpdateBeforeEntityCacheInit(Category category)
+    {
+        _searchIndexCategory.Update(category);
+        base.Update(category);
+
+        Flush();
+    }
+
     public override void Delete(Category category)
     {
         _searchIndexCategory.Delete(category);
