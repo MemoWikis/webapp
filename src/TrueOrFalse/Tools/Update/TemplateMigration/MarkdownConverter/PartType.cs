@@ -5,6 +5,5 @@
         None,
         Text,
         Template,
-        Unchanged
     };
 }

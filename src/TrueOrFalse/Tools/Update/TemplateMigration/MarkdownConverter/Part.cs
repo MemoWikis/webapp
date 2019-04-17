@@ -15,7 +15,7 @@ namespace TemplateMigration
         public void AddChar(char character) => _sb.Append(character);
         public string ToText() => _sb.ToString();
 
-        public bool Contains(string searchString) => ToString().ToLower().Contains(searchString);
+        public bool Contains(string searchString) => ToText().ToLower().Contains(searchString);
     }
 
 }
