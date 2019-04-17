@@ -39,6 +39,9 @@ public class MarkdownToHtml
         char lastChar = ' ';
         char preLastChar = ' ';
 
+        if (inputText.Trim().StartsWith("[["))
+            currentPart.Type = PartType.Template;
+
         var chars = inputText.ToCharArray();
         var charsLength = chars.Length;
         for (var i = 0; i < charsLength; i++ )
@@ -58,12 +61,13 @@ public class MarkdownToHtml
                     parts.Add(currentPart);
 
                 currentPart = new Part { Type = PartType.Template };
-            }
-
-            if (preLastChar == ']' && lastChar == ']' && character != '[' && nextChar != '[')
+            } else if (preLastChar == ']' && lastChar == ']')
             {
                 parts.Add(currentPart);
-                currentPart = new Part { Type = PartType.Text };
+                if (character == '[' && nextChar == '[')
+                    currentPart = new Part { Type = PartType.Template };
+                else
+                    currentPart = new Part { Type = PartType.Text };
             }
 
             preLastChar = lastChar;

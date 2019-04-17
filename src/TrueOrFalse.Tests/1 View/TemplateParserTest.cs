@@ -61,6 +61,14 @@ class TemplateParserTest
     }
 
     [Test]
+    public void Should_parse_markdown_multiple_Templates_and_start_with_Template()
+    {
+        var markdownWithMultiTemplates = MarkdownToHtml.SplitMarkdown("[[Template]][[Template]]");
+
+        Assert.That(markdownWithMultiTemplates.Count(p => p.IsTemplate), Is.EqualTo(2));
+    }
+
+    [Test]
     public void Should_parse_markdown_multiple_Texts()
     {
         var markdownWithMultiTexts = MarkdownToHtml.SplitMarkdown("Text[[Template]]Test");
