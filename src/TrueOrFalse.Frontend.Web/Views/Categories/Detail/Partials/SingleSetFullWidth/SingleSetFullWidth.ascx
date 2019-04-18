@@ -18,7 +18,10 @@
                                 <%= Html.Partial("AddToWishknowledge", new AddToWishknowledge(Model.IsInWishknowledge)) %>
                             </a>
                         </span>&nbsp;
-                        Lernset von <a href="<%= Links.UserDetail(Model.Creator,Model.CreatorId) %>"><%=Model.Creator %></a> mit <%: Model.QuestionCount %> Frage<%= StringUtils.PluralSuffix(Model.QuestionCount, "n") %>
+                        Lernset von 
+                        <span v-if="canBeEdited"><%=Model.Creator %></span> 
+                        <a v-else href="<%= Links.UserDetail(Model.Creator,Model.CreatorId) %>"><%=Model.Creator %></a> 
+                        mit <%: Model.QuestionCount %> Frage<%= StringUtils.PluralSuffix(Model.QuestionCount, "n") %>
                     </div>
                     <div class="KnowledgeBarWrapper">
                         <% Html.RenderPartial("~/Views/Sets/Detail/SetKnowledgeBar.ascx", new SetKnowledgeBarModel(Model.Set)); %>
@@ -32,16 +35,16 @@
                     <%= Model.Text %>
                 </div>
                 <div class="buttons">
-                    <a href="<%= Links.TestSessionStartForSet(Model.Title, Model.SetId) %>" class="btn btn-primary">
+                    <a href="<%= Links.TestSessionStartForSet(Model.Title, Model.SetId) %>" class="btn btn-primary" :class="{ disabled : canBeEdited }">
                         <i class="fa fa-lg fa-play-circle">&nbsp;</i> Wissen testen
                     </a>
                     <br />
-                    <a href="<%= Links.StartLearningSessionForSet(Model.SetId) %>" class="btn btn-link" data-allowed="logged-in" data-allowed-type="learning-session" rel="nofollow">
+                    <a href="<%= Links.StartLearningSessionForSet(Model.SetId) %>" class="btn btn-link" :class="{ disabled : canBeEdited }" data-allowed="logged-in" data-allowed-type="learning-session" rel="nofollow">
                         <i class="fa fa-lg fa-line-chart">&nbsp;</i> Gleich richtig lernen
                     </a>
                     <div class="dropdown">
                         <% var buttonId = Guid.NewGuid(); %>
-                        <a href="#" id="<%=buttonId %>" class="dropdown-toggle btn btn-link ButtonOnHover ButtonEllipsis" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                        <a href="#" id="<%=buttonId %>" class="dropdown-toggle btn btn-link ButtonOnHover ButtonEllipsis" :class="{ disabled : canBeEdited }" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
                             <i class="fa fa-ellipsis-v"></i>
                         </a>
                         <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="<%=buttonId %>">
