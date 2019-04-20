@@ -988,140 +988,174 @@ p:empty {
     margin-top: 60px;
     box-sizing: content-box;
 
-
-    .pseudo-circle, .trigger {
-        width: 56px;
-        height: 56px;
-        border-radius: 50%;
-        position: absolute;
-        right: 100px;
-        bottom: 10px;
-        z-index: 99998;
-        cursor: pointer;
-        transform-origin: 50% 50%;
-        overflow: hidden;
-    }
-
-    .pseudo-circle {
-        opacity: 0;
-        overflow: hidden;
-        transition: transform 0.3s cubic-bezier(0.0, 0.0, 0.2, 1), opacity 0.1s;
-    }
-
-    .trigger {
-        text-align: center;
-        line-height: 56px;
-        background-color: #afd534;
-        border: 1px solid transparent;
-        transition: transform 0.15s cubic-bezier(0.4, 0.0, 1, 1), opacity 0.1s 0.1s, box-shadow 0.3s;
-        opacity: 1;
-        right: 50px;
-        bottom: 50px;
-        position: sticky;
-        box-shadow: 0 0 6px rgba(0, 0, 0, 0.12), 0 6px 6px rgba(0, 0, 0, 0.24);
-        z-index: 99999;
-        margin-left: auto;
-        margin-right: -342px;
-    }
-
-    .pseudo-circle.open {
-        margin-right: -342px;
-        transition-delay: .15s;
-        transition: 0.5s;
-        transform: scale(3);
-        opacity: 1;
-        width: 100%;
-    }
-
-    .trigger.open {
-        transform: translate(-50px, 40px);
-        opacity: 0;
-    }
-
-    .trigger.open i {
-        opacity: 0;
-    }
-
-    .trigger:hover {
-        box-shadow: 0 0 12px rgba(0, 0, 0, 0.12), 0 12px 12px rgba(0, 0, 0, 0.24);
-    }
-
-    .dialog {
-        width: 100vw;
-        height: 100vh;
-        background-color: #afd534;
-        position: fixed;
-        left: auto;
-        right: 0;
-        bottom: 0;
-        z-index: 999995;
-        height: 50px;
-        overflow: hidden;
-    }
-
-    .toolbar {
+    #InlineEditToolbar {
         position: fixed;
         bottom: 0;
-        width: 100vw;
-        height: 56px;
-        overflow: hidden;
-        padding: 10px;
         left: 0;
-        right: 0;
 
-        &.open {
-            box-shadow: 0 -2px 6px rgba(0, 0, 0, 0.16);
-            transition-delay: .15s;
+        &.sticky {
+            width: 100%;
+            position: sticky;
         }
-    }
 
-    .toolbar {
-        width: 100%;
-        display: flex;
-        justify-content: space-between;
-        flex-direction: row;
+        .pseudo-circle, .trigger {
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            right: 100px;
+            bottom: 10px;
+            z-index: 99998;
+            cursor: pointer;
+            transform-origin: 50% 50%;
+            overflow: hidden;
+        }
 
-        &.inner {
-            width: 1160px;
-            margin: 0 auto;
+        .pseudo-circle {
+            opacity: 0;
+            overflow: hidden;
+            transition: transform 0.3s cubic-bezier(0.0, 0.0, 0.2, 1), opacity 0.1s;
 
-            .btnRight, .btnLeft {
-                display: flex;
-                justify-content: flex-end;
-                flex-direction: row;
-                padding-top: 10px;
+            &.open {
+                margin-right: -342px;
+                transition-delay: .15s;
+                transition: 0.5s;
+                transform: scale(10);
+                opacity: 1;
+                width: 100%;
+            }
+        }
 
-                .button {
-                    width: 60px;
-                    margin: 0 10px;
-                    display: flex;
-                    justify-content: center;
-                    flex-direction: column;
-                    background: transparent;
+        .floatingActionBtn {
+            width: 100%;
+            max-width: 1160px;
+            display: flex;
+            justify-content: flex-end;
+            position: fixed;
+            bottom: 30px;
+            right: 0;
+            left: 0;
+            margin-left: auto;
+            margin-right: auto;
+            padding-right: 15px;
+            z-index: 99999;
+
+            &.sticky {
+                position: absolute;
+                bottom: 0;
+            }
+
+            .trigger {
+                text-align: center;
+                line-height: 56px;
+                background-color: #afd534;
+                border: 1px solid transparent;
+                transition: transform 0.15s cubic-bezier(0.4, 0.0, 1, 1), opacity 0.1s 0.1s, box-shadow 0.3s;
+                opacity: 1;
+                right: 50px;
+                bottom: 50px;
+                box-shadow: 0 0 6px rgba(0, 0, 0, 0.12), 0 6px 6px rgba(0, 0, 0, 0.24);
+                z-index: 99999;
+                margin-left: auto;
+                margin-right: 0px;
+
+                &.open {
+                    transform: translate(-50px, 40px);
                     opacity: 0;
-                    cursor: default;
 
-                    &.expanded {
-                        opacity: 1;
-                        transition: opacity 0.25s;
-                        transition-delay: .15s;
-                        cursor: pointer;
+                    icon {
+                        opacity: 0;
                     }
+                }
 
-                    .icon {
-                        z-index: 999999;
-                        font-size: 28px;
+                &:hover {
+                    box-shadow: 0 0 12px rgba(0, 0, 0, 0.12), 0 12px 12px rgba(0, 0, 0, 0.24);
+                }
+            }
+        }
+
+        .dialog {
+            width: 100vw;
+            height: 100vh;
+            background-color: #afd534;
+            left: auto;
+            right: 0;
+            bottom: 0;
+            z-index: 999995;
+            height: 50px;
+            overflow: hidden;
+        }
+
+        .toolbar {
+            bottom: 0;
+            width: 100vw;
+            height: 56px;
+            overflow: hidden;
+            padding: 10px;
+            left: 0;
+            right: 0;
+            position: absolute;
+
+            &.open {
+                box-shadow: 0 -2px 6px rgba(0, 0, 0, 0.16);
+                transition-delay: .15s;
+            }
+
+            &.sticky {
+                width: 100%;
+                border-radius: 8px 8px 0 0;
+            }
+
+            .inner {
+                max-width: 1160px;
+                margin: 0 auto;
+                display: flex;
+                justify-content: space-between;
+                flex-direction: row;
+                padding: 0 15px;
+                backface-visibility: hidden;
+
+
+                &.sticky {
+                    margin: 0;
+                }
+
+                .btnRight, .btnLeft {
+                    display: flex;
+                    justify-content: flex-end;
+                    flex-direction: row;
+
+                    .button {
+                        width: 60px;
+                        margin: 0 10px;
                         display: flex;
                         justify-content: center;
-                        font-size: 25px;
-                        height: 20px;
-                    }
+                        flex-direction: column;
+                        background: transparent;
+                        opacity: 0;
+                        cursor: default;
+                        backface-visibility: hidden;
 
-                    .btnLabel {
-                        z-index: 999999;
-                        font-size: 12px;
-                        text-align: center;
-                        font-weight: 600;
+                        &.expanded {
+                            opacity: 1;
+                            transition-delay: .15s;
+                            cursor: pointer;
+                        }
+
+                        .icon {
+                            z-index: 999999;
+                            font-size: 28px;
+                            display: flex;
+                            justify-content: center;
+                            font-size: 25px;
+                            height: 20px;
+                        }
+
+                        .btnLabel {
+                            z-index: 999999;
+                            font-size: 12px;
+                            text-align: center;
+                            font-weight: 600;
+                        }
                     }
                 }
             }
@@ -1131,113 +1165,144 @@ p:empty {
     /*------------------------------------------------------
     Dialog and Settings
 -------------------------------------------------------*/
-    .contentModuleSettings {
-        margin: 20px;
+.contentModuleSettings {
+    margin: 20px;
 
-        .modalHeader {
-            margin: 0 0 20px 10px;
-        }
+    .modalHeader {
+        margin: 0 0 20px 10px;
+    }
 
-        form {
-            margin: 10px;
+    form {
+        margin: 10px;
 
-            .radio input[type="radio"] {
-                float: none !important;
-            }
-        }
-
-        .clickable {
-            cursor: pointer;
-        }
-
-        .addCard {
-            &.portrait {
-                width: 150px;
-            }
-
-            .form-group {
-                margin: 0 !important;
-            }
-        }
-
-        a {
-            font-size: 14px;
-            line-height: 1.42857143;
-            padding: 6px 8px;
-        }
-
-        .settingsConfirmation {
-            display: flex;
-            justify-content: flex-end;
-            margin-top: 4px;
-
-            &.portrait {
-                flex-flow: column-reverse;
-
-                a {
-                    text-align: center;
-                }
-            }
-
-            &.modalFooter {
-                margin-top: 100px;
-                margin-right: 10px;
-            }
-        }
-
-        .setCards, .topicCards, .questionCards {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: start;
-
-            &.grid {
-                width: 257px;
-                height: 157px;
-                display: inline-block;
-                background-color: #fff;
-                border: 1px solid #ccc;
-                border-radius: 4px;
-                padding: 10px;
-                margin: 10px;
-                cursor: move;
-                display: flex;
-                justify-content: center;
-                align-items: center;
-                flex-direction: row;
-
-                &.portrait {
-                    width: 166px;
-                    height: 344px;
-                }
-
-                &.fullwidth {
-                    width: 100%;
-                }
-
-                &.smallCard {
-                    height: 91px;
-                }
-
-                &.placeholder {
-                    border: 1px dotted #45aece;
-                    cursor: default;
-                }
-
-                &.editView {
-                    cursor: pointer;
-                }
-
-                .card {
-                    text-align: center;
-                    flex-direction: column;
-                }
-            }
-        }
-
-        .sortable-ghost {
-            background: #dddddd;
+        .radio input[type="radio"] {
+            float: none !important;
         }
     }
+
+    .clickable {
+        cursor: pointer;
+    }
+
+    .addCard {
+        &.portrait {
+            width: 150px;
+        }
+
+        .form-group {
+            margin: 0 !important;
+        }
+    }
+
+    a {
+        font-size: 14px;
+        line-height: 1.42857143;
+        padding: 6px 8px;
+    }
+
+    .settingsConfirmation {
+        display: flex;
+        justify-content: flex-end;
+        margin-top: 4px;
+
+        &.portrait {
+            flex-flow: column-reverse;
+
+            a {
+                text-align: center;
+            }
+        }
+
+        &.modalFooter {
+            margin-top: 100px;
+            margin-right: 10px;
+        }
+    }
+
+    .setCards, .topicCards, .questionCards {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: start;
+
+        &.grid {
+            width: 257px;
+            height: 157px;
+            display: inline-block;
+            background-color: #fff;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            padding: 10px;
+            margin: 10px;
+            cursor: move;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: row;
+
+            &.portrait {
+                width: 166px;
+                height: 344px;
+            }
+
+            &.fullwidth {
+                width: 100%;
+            }
+
+            &.smallCard {
+                height: 91px;
+            }
+
+            &.placeholder {
+                border: 1px dotted #45aece;
+                cursor: default;
+            }
+
+            &.editView {
+                cursor: pointer;
+            }
+
+            .card {
+                text-align: center;
+                flex-direction: column;
+            }
+        }
+    }
+
+    .sortable-ghost {
+        background: #dddddd;
+    }
+
+    .selectModuleContainer {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-content: flex-start;
+        flex-wrap: wrap;
+        margin-top: 30px;
+
+        .sampleContainer {
+            display: flex;
+            flex-direction: column;
+            align-content: center;
+            max-width: 160px;
+            max-height: 160px;
+            width: 100%;
+            height: 100%;
+            justify-content: center;
+            text-align: center;
+            padding: 10px;
+            cursor: pointer;
+            font-size:16px;
+
+            &.active {
+                border-radius: 3px;
+                border: solid transparent 1px;
+                transition: 0.2s;
+                border-color: #45aece;
+            }
+        }
+    }
+}
     /*------------------------------------------------------
     Spinner Overwrite
 -------------------------------------------------------*/
@@ -1270,122 +1335,127 @@ p:empty {
     /*------------------------------------------------------
     ContentModule
 -------------------------------------------------------*/
-    .ContentModule {
-        position: relative;
+.ContentModule {
+    position: relative;
 
-        .ModuleBorder {
-            border-radius: 3px;
-            border: solid transparent 1px;
-            transition: 0.2s;
-            padding: 20px;
+    .ModuleBorder {
+        border-radius: 3px;
+        border: solid transparent 1px;
+        transition: 0.2s;
+        padding: 20px;
 
 
-            &.hover {
-                border-color: #45aece;
-                cursor: pointer;
-            }
-
-            .VideoWidgetPlaceHolder {
-                width: 100%;
-                margin: 20px 0;
-                padding: 19px;
-
-                .videoWidgetPlaceholderBorder {
-                    width: 100%;
-                    height: 600px;
-                    display: inline-block;
-                    background-color: #fff;
-                    border: 1px solid #ccc;
-                    border-radius: 4px;
-                    padding: 10px;
-                    margin: 10px;
-                    display: flex;
-                    justify-content: center;
-                    align-items: center;
-                    flex-direction: row;
-                }
-            }
-        }
-
-        .well {
-            margin-bottom: 0px
-        }
-
-        ul.module-options {
-            margin-top: -10px;
+        &.hover {
+            border-color: #45aece;
             cursor: pointer;
         }
 
-        .module {
-            list-style-type: none;
-        }
+        .VideoWidgetPlaceHolder {
+            width: 100%;
+            margin: 20px 0;
+            padding: 19px;
 
-        .list-group-item {
-            border: 0px;
-        }
-
-
-
-        .Button {
-            position: absolute;
-            top: 0px;
-            right: -25px;
-
-            .ButtonEllipsis {
-                font-size: 18px;
-                color: #999999;
-            }
-
-            .delete {
-                border-top: 1px solid #ccc;
-                margin-top: 7px;
-                padding-top: 7px;
-            }
-        }
-
-        .ModuleHandle {
-            position: absolute;
-            top: 50%;
-            left: -20px;
-            margin-top: -30px;
-            font-size: 18px;
-            color: #999999;
-            width: 30px;
-            height: 60px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding-right: 10px;
-            flex-direction: column;
-
-            .IconWrapper {
-                width: 20px;
+            .videoWidgetPlaceholderBorder {
+                width: 100%;
+                height: 600px;
+                display: inline-block;
+                background-color: #fff;
+                border: 1px solid #ccc;
+                border-radius: 4px;
+                padding: 10px;
+                margin: 10px;
                 display: flex;
                 justify-content: center;
-            }
-
-            .Handle {
-                cursor: grab;
-            }
-
-            .SortButton {
-                cursor: pointer;
-
-                .hide {
-                    opacity: 0;
-                }
-            }
-
-            .ButtonEllipsis {
-                font-size: 18px;
-                color: #999999;
+                align-items: center;
+                flex-direction: row;
             }
         }
     }
 
+    .well {
+        margin-bottom: 0px
+    }
+
+    ul.module-options {
+        margin-top: -50px;
+        cursor: pointer;
+    }
+
+    .module {
+        list-style-type: none;
+    }
+
+    .list-group-item {
+        border: 0px;
+    }
+
+
+
+    .Button {
+        position: absolute;
+        top: 0px;
+        right: -30px;
+
+        &.dropdown {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .ButtonEllipsis {
+            font-size: 18px;
+            color: #999999;
+        }
+
+        .delete {
+            border-top: 1px solid #ccc;
+            margin-top: 7px;
+            padding-top: 7px;
+        }
+    }
+
+    .ModuleHandle {
+        position: absolute;
+        top: 50%;
+        left: -20px;
+        margin-top: -30px;
+        font-size: 18px;
+        color: #999999;
+        width: 30px;
+        height: 60px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding-right: 10px;
+        flex-direction: column;
+
+        .IconWrapper {
+            width: 20px;
+            display: flex;
+            justify-content: center;
+        }
+
+        .Handle {
+            cursor: grab;
+        }
+
+        .SortButton {
+            cursor: pointer;
+
+            .hide {
+                opacity: 0;
+            }
+        }
+
+        .ButtonEllipsis {
+            font-size: 18px;
+            color: #999999;
+        }
+    }
+}
+
     #ContentModulePlaceholder {
         width: 100%;
-        margin: 20px 0;
+        margin: 20px 0 60px;
         padding: 19px;
 
         .placeholderBorder {

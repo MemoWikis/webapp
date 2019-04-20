@@ -61,6 +61,24 @@ class TemplateParserTest
     }
 
     [Test]
+    public void Should_remove_newLines_and_whitespace_between_Templates_if_theres_nothing_else()
+    {
+        var input = "Text[[Template]]\r\n  [[Template]]";
+        var markdownWithMultiTemplates = MarkdownToHtml.SplitMarkdown(input);
+
+        Assert.That(markdownWithMultiTemplates.Count(p => p.IsTemplate), Is.EqualTo(2));
+        Assert.That(markdownWithMultiTemplates.Count(p => p.IsText), Is.EqualTo(2));
+    }
+
+    [Test]
+    public void Should_parse_markdown_multiple_Templates_and_start_with_Template()
+    {
+        var markdownWithMultiTemplates = MarkdownToHtml.SplitMarkdown("[[Template]][[Template]]");
+
+        Assert.That(markdownWithMultiTemplates.Count(p => p.IsTemplate), Is.EqualTo(2));
+    }
+
+    [Test]
     public void Should_parse_markdown_multiple_Texts()
     {
         var markdownWithMultiTexts = MarkdownToHtml.SplitMarkdown("Text[[Template]]Test");

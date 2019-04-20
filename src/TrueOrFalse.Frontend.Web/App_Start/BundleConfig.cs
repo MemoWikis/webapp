@@ -343,9 +343,6 @@ namespace TrueOrFalse.View
 
             //------------------------ END KNOWLEDGECENTRAL------------------------------------------------------------
 
-            bundles.Add(new ScriptBundle("~/bundles/js/EditModeFooter")
-                .IncludeDirectory("~/Views/Categories/Detail/JsEditMode/Footer/", "*.js"));
-
             bundles.Add(new ScriptBundle("~/bundles/js/Vue")
                 .Include("~/Scripts/vendor/vuetable-2.js")
                 .Include("~/Scripts/npm/vue/vue.js"));

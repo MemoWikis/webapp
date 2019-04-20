@@ -8990,6 +8990,19 @@
     <Content Include="Images\Categories\9_50.jpg" />
     <Content Include="Images\Categories\9_500.jpg" />
     <Content Include="Images\Categories\9_50s.jpg" />
+    <Content Include="Images\ContentModuleSamples\Cards.png" />
+    <Content Include="Images\ContentModuleSamples\CategoryNetwork.png" />
+    <Content Include="Images\ContentModuleSamples\ContentLists.png" />
+    <Content Include="Images\ContentModuleSamples\EducationOfferList.png" />
+    <Content Include="Images\ContentModuleSamples\InlineText.png" />
+    <Content Include="Images\ContentModuleSamples\MediaList.png" />
+    <Content Include="Images\ContentModuleSamples\SetCardMiniList.png" />
+    <Content Include="Images\ContentModuleSamples\SingleCategoryFullWidth.png" />
+    <Content Include="Images\ContentModuleSamples\SingleQuestionsQuiz.png" />
+    <Content Include="Images\ContentModuleSamples\SingleSetFullWidth.png" />
+    <Content Include="Images\ContentModuleSamples\Spacer.png" />
+    <Content Include="Images\ContentModuleSamples\TopicNavigation.png" />
+    <Content Include="Images\ContentModuleSamples\VideoWidget.png" />
     <Content Include="Images\DocumentationHelp\MediaList.png" />
     <Content Include="Images\DocumentationHelp\SetCardMiniList.png" />
     <Content Include="Images\DocumentationHelp\SingleCategoryFullWidth.png" />
@@ -21638,9 +21651,6 @@
     <Content Include="Views\Categories\Detail\JsEditMode\ContentModuleSettings\VideoWidgetDialogComponent.js">
       <DependentUpon>VideoWidgetDialogComponent.ts</DependentUpon>
     </Content>
-    <Content Include="Views\Categories\Detail\JsEditMode\Footer\EditMode.js">
-      <DependentUpon>EditMode.ts</DependentUpon>
-    </Content>
     <Content Include="Views\Categories\Detail\Js\Category.js">
       <DependentUpon>Category.ts</DependentUpon>
     </Content>
@@ -21739,7 +21749,6 @@
       <DependentUpon>GetResultTestSession.ts</DependentUpon>
     </Content>
     <Content Include="Views\Knowledge\Dates\DateRow.ascx" />
-    <TypeScriptCompile Include="Views\Categories\Detail\JsEditMode\Footer\EditMode.ts" />
     <TypeScriptCompile Include="Views\Categories\Detail\JsEditMode\ContentModuleSettings\ContentModuleSelectionComponent.ts" />
     <TypeScriptCompile Include="Views\Categories\Detail\JsEditMode\ContentModuleSettings\SingleQuestionsQuiz.ts" />
     <TypeScriptCompile Include="Views\Categories\Detail\JsEditMode\ContentModuleSettings\SetCardMiniListDialogComponent.ts" />
@@ -21959,9 +21968,6 @@
     </Content>
     <Content Include="Views\Categories\Detail\JsEditMode\ContentModuleSettings\ContentModuleSelectionComponent.js.map">
       <DependentUpon>ContentModuleSelectionComponent.ts</DependentUpon>
-    </Content>
-    <Content Include="Views\Categories\Detail\JsEditMode\Footer\EditMode.js.map">
-      <DependentUpon>EditMode.ts</DependentUpon>
     </Content>
     <None Include="Views\Maintenance\ContentStats.less" />
     <Compile Include="Views\Maintenance\ContentStatsModel.cs" />
