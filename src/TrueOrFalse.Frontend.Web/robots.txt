@@ -2,6 +2,7 @@
 Disallow: /Kategorien/*/*/Historie
 Disallow: /Kategorien/*/*/Historie/*
 Disallow: /Kategorien/*/*/Version/*
+Disallow: /Kategorien/*/Bearbeite/*
 
 User-agent: BLEXBot
 Disallow: /
