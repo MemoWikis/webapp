@@ -706,7 +706,7 @@ ul.AutocompleteHeader {
 ----------------------------------------------------------*/
 #MasterSidebarColumn {
   position: static;
-  margin-top: 61px;
+  margin-top: 70px;
 }
 @media (min-width: 1200px) {
   #MasterSidebarColumn {
