@@ -14,11 +14,12 @@ namespace TemplateMigration
                 if (!IsNullOrEmpty(category.TopicMarkdown) && category.TopicMarkdown.Contains("DivStart"))
                 {
                     var topicMarkdownBeforeUpdate = category.TopicMarkdown;
+                    var categoryId = category.Id;
                     category.TopicMarkdown = MarkdownConverter.ConvertMarkdown(category.TopicMarkdown);
 
                     Sl.CategoryRepo.UpdateBeforeEntityCacheInit(category);
 
-                    Logg.r().Information("{beforeMarkdown} {afterMarkdown}", topicMarkdownBeforeUpdate, category.TopicMarkdown);
+                    Logg.r().Information("{categoryId} {beforeMarkdown} {afterMarkdown}", categoryId, topicMarkdownBeforeUpdate, category.TopicMarkdown);
                 }
             }
         }
