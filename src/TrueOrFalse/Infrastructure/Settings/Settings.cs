@@ -119,6 +119,6 @@ public class Settings
         AdvertisementTurnedOn = bool.Parse(GetValue(OverwrittenConfig.Value("advertisementTurnedOn"), "AdvertisementTurnedOn"));
         LomExportPath = GetValue(OverwrittenConfig.Value("lomExportPath"), "LomExportPath");
 
-        ShowAdvertisment = Environment() != "Live";
+        ShowAdvertisment = Environment() != "Live" || Environment() != "Stage";
     }
 }
