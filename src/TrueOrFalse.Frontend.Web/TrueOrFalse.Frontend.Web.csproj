@@ -21552,15 +21552,29 @@
     <Content Include="Scripts\hubs\GameHubEvents.js">
       <DependentUpon>GameHubEvents.ts</DependentUpon>
     </Content>
-    <Content Include="Scripts\npm\d3\d3.js" />
-    <Content Include="Scripts\npm\postscribe\postscribe.js" />
-    <Content Include="Scripts\npm\sortablejs\Sortable.js" />
+    <Content Include="Scripts\npm\d3\d3.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Scripts\npm\postscribe\postscribe.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Scripts\npm\sortablejs\Sortable.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Scripts\npm\tiptap-extensions\extensions.js" />
     <Content Include="Scripts\npm\tiptap\tiptap.js" />
-    <Content Include="Scripts\npm\vue-select\vue-select.js" />
-    <Content Include="Scripts\npm\vue-sortable\vue-sortable.js" />
-    <Content Include="Scripts\npm\vue-textarea-autosize\vue-textarea-autosize.browser.js" />
-    <Content Include="Scripts\npm\vue\vue.js" />
+    <Content Include="Scripts\npm\vue-select\vue-select.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Scripts\npm\vue-sortable\vue-sortable.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Scripts\npm\vue-textarea-autosize\vue-textarea-autosize.browser.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Scripts\npm\vue\vue.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Scripts\SidebarCards.js">
       <DependentUpon>SidebarCards.ts</DependentUpon>
     </Content>
