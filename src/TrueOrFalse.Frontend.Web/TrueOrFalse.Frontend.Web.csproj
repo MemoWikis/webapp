@@ -21618,6 +21618,7 @@
     <Content Include="Views\Categories\Detail\Category.min.css">
       <DependentUpon>Category.css</DependentUpon>
     </Content>
+    <Content Include="Views\Categories\Detail\JsEditMode\ContentEditButtonsApp.js" />
     <Content Include="Views\Categories\Detail\JsEditMode\ContentModule.js">
       <DependentUpon>ContentModule.ts</DependentUpon>
     </Content>
@@ -21651,6 +21652,7 @@
     <Content Include="Views\Categories\Detail\JsEditMode\ContentModuleSettings\VideoWidgetDialogComponent.js">
       <DependentUpon>VideoWidgetDialogComponent.ts</DependentUpon>
     </Content>
+    <Content Include="Views\Categories\Detail\JsEditMode\Footer\EditMode.js" />
     <Content Include="Views\Categories\Detail\Js\Category.js">
       <DependentUpon>Category.ts</DependentUpon>
     </Content>
@@ -21969,6 +21971,8 @@
     <Content Include="Views\Categories\Detail\JsEditMode\ContentModuleSettings\ContentModuleSelectionComponent.js.map">
       <DependentUpon>ContentModuleSelectionComponent.ts</DependentUpon>
     </Content>
+    <Content Include="Views\Categories\Detail\JsEditMode\ContentEditButtonsApp.js.map" />
+    <Content Include="Views\Categories\Detail\JsEditMode\Footer\EditMode.js.map" />
     <None Include="Views\Maintenance\ContentStats.less" />
     <Compile Include="Views\Maintenance\ContentStatsModel.cs" />
     <Compile Include="Views\Maintenance\Images\MaintenanceImagesController.cs" />
