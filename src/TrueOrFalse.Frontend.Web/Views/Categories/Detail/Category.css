@@ -673,7 +673,7 @@ p:empty {
 @media (max-width: 767px) {
   #CategoryHeader h1,
   #TopicTabContent h1 {
-    font-size: 35px;
+    font-size: 6vw;
   }
 }
 #CategoryHeader h2,
