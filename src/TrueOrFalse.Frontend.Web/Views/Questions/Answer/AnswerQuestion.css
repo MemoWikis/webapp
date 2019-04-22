@@ -43,6 +43,11 @@
   max-width: 75%;
   margin-bottom: 30px;
 }
+@media (max-width: 768px) {
+  .AnswerQuestionHeader {
+    padding-top: 17px;
+  }
+}
 .AnswerQuestionHeader .Next {
   padding-right: 5px;
 }

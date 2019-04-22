@@ -701,6 +701,11 @@ ul.AutocompleteHeader {
 #MasterMainContent #MasterMainColumn {
   margin-top: 55px;
 }
+@media (max-width: 768px) {
+  #MasterMainContent #MasterMainColumn {
+    margin-top: 38px;
+  }
+}
 /*******************************************************************/
 /*  Breadcrumbs
 ----------------------------------------------------------*/

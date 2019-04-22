@@ -24,21 +24,31 @@
     }
 }
 
+
 .AnswerQuestionHeader {
     max-width: 75%;
     margin-bottom: 30px;
+
+    @media (max-width: 768px) {
+        padding-top: 17px;
+    }
+
 
     .Next {
         padding-right: 5px;
 
         .media-below-lg( {
             padding-right: 0px;
-        });
+        }
+
+        );
     }
 
     .media-below-lg( {
         max-width: 100%;
-    });
+    }
+
+    );
 
     .media-sm-up( {
         display: flex;
@@ -47,7 +57,9 @@
         .EduPartnerWrapper {
             float: right;
         }
-    });
+    }
+
+    );
 }
 
 .EduPartnerWrapper {
