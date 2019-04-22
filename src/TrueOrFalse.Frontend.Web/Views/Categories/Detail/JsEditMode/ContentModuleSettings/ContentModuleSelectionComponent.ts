@@ -11,11 +11,11 @@ Vue.component('content-module-selection-modal-component', {
         return {
             templateMarkdown: '',
             contentModules: [
+                { type: 'InlineText', name: 'Text', tooltip: 'Freie Text Gestaltung per Markdown.' },
                 { type: 'Cards', name: 'Lernset', tooltip: 'Zeige Lernsets in Kartenform an.' },
                 { type: 'CategoryNetwork', name: 'Themennetzwerk', tooltip: 'Über- und untergeordnete Themen werden übersichtlich dargestellt.' },
                 { type: 'ContentLists', name: 'Inhaltsverzeichnis', tooltip: 'Alle Lernsets und Fragen eines Themas und der untergeordneten Themen sind in Listenform dargestellt.' },
                 { type: 'EducationOfferList', name: 'Aus- und Weiterbildungen', tooltip: 'Zeigt Aus- und Weiterbildung (Universitäten, Kurse, Professoren/Dozenten etc.) eines Themas an.' },
-                { type: 'InlineText', name: 'Freier Inhalt', tooltip: 'Freie Text Gestaltung per Markdown.' },
                 { type: 'MediaList', name: 'Medien', tooltip: 'Zeigt Medien (Bücher, Zeitungsartikel, Online-Beiträge, Videos etc.) eines Themas an.' },
                 { type: 'SetCardMiniList', name: 'Lernsetliste', tooltip: 'Zeigt eine Liste aller lernsets zu einem Thema.' },
                 { type: 'SingleCategoryFullWidth', name: 'Einzelthema', tooltip: 'Zeigt ein Thema in voller Breite an.' },
@@ -68,6 +68,7 @@ Vue.component('content-module-selection-modal-component', {
     methods: {
         setActive(val) {
             this.selectedModule = val;
+            this.selectModule();
         },
 
         clearData() {

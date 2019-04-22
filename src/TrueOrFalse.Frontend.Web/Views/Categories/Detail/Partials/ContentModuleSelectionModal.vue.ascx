@@ -9,9 +9,9 @@
                         <div class="form-group">
                             <div class="selectModuleContainer">
                                 <div v-for="module in contentModules" :key="module.id" style="width: 160px; height: 160px;">
-                                    <div class="sampleContainer"  :class="{active : selectedModule === module.type }" @click="setActive(module.type)">
-                                            <img class="show-tooltip" :title="module.tooltip" :src="'/Images/ContentModuleSamples/' + module.type + '.png'" style="max-width: 120px; max-height: 80px; margin:0 auto">
-                                        <div style="text-align: center; width: 100%; line-height: 1.3;margin-top: 5px;">
+                                    <div class="sampleContainer" @click="setActive(module.type)">
+                                            <img class="show-tooltip" :title="module.tooltip" :src="'/Images/ContentModuleSamples/' + module.type + '.png'">
+                                        <div class="sampleContainerText">
                                             {{module.name}}
                                         </div>
                                     </div>
