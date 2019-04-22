@@ -132,7 +132,6 @@ Vue.component('cards-modal-component', {
                 $('#cardsSettingsDialog').modal('hide');
             } else {
                 this.errorMessage = 'Sie müssen ein Set auswählen';
-                console.log('bitte Set auswählen');
             };
 
         },
