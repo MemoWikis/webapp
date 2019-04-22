@@ -1140,6 +1140,7 @@ p:empty {
   }
   #CategoryHeader #HeadingSection {
     margin-bottom: 30px;
+    overflow: hidden;
   }
 }
 @media (max-width: 991px) {
