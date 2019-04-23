@@ -1006,13 +1006,14 @@ p:empty {
   display: flex;
 }
 #CategoryHeader .KnowledgeBarWrapper {
-  padding-top: 17px;
+  padding-top: 13px;
   padding-left: 30px;
   padding-right: 30px;
   -webkit-box-flex: 1;
   -webkit-flex-grow: 1;
       -ms-flex-positive: 1;
           flex-grow: 1;
+  vertical-align: middle;
 }
 #CategoryHeader .category-knowledge-bar .ConditionalLegend {
   display: block !important;
