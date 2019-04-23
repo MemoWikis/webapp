@@ -1051,7 +1051,7 @@ p:empty {
   vertical-align: middle;
 }
 #CategoryHeader .Buttons .Pin .Text {
-  display: inline !important;
+  display: inline;
   padding-left: 3px;
   font-size: 12px;
   color: #999999;
@@ -1059,6 +1059,11 @@ p:empty {
   vertical-align: middle;
   -webkit-transition: color 0.3s ease;
   transition: color 0.3s ease;
+}
+@media (max-width: 380px) {
+  #CategoryHeader .Buttons .Pin .Text {
+    display: none;
+  }
 }
 #CategoryHeader .Buttons .Pin:hover .Text {
   color: #B13A48;
