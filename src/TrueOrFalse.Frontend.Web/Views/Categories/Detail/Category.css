@@ -1006,13 +1006,14 @@ p:empty {
   display: flex;
 }
 #CategoryHeader .KnowledgeBarWrapper {
-  padding-top: 17px;
+  padding-top: 13px;
   padding-left: 30px;
   padding-right: 30px;
   -webkit-box-flex: 1;
   -webkit-flex-grow: 1;
       -ms-flex-positive: 1;
           flex-grow: 1;
+  vertical-align: middle;
 }
 #CategoryHeader .category-knowledge-bar .ConditionalLegend {
   display: block !important;
@@ -1036,9 +1037,6 @@ p:empty {
   padding-left: 5px;
   padding-right: 5px;
 }
-#CategoryHeader .Buttons .Pin {
-  margin-top: 2px;
-}
 #CategoryHeader .Buttons .Pin i {
   width: 23px;
   -webkit-transition: font 0.3s ease;
@@ -1050,7 +1048,7 @@ p:empty {
   vertical-align: middle;
 }
 #CategoryHeader .Buttons .Pin .Text {
-  display: inline !important;
+  display: inline;
   padding-left: 3px;
   font-size: 12px;
   color: #999999;
@@ -1058,6 +1056,11 @@ p:empty {
   vertical-align: middle;
   -webkit-transition: color 0.3s ease;
   transition: color 0.3s ease;
+}
+@media (max-width: 380px) {
+  #CategoryHeader .Buttons .Pin .Text {
+    display: none;
+  }
 }
 #CategoryHeader .Buttons .Pin:hover .Text {
   color: #B13A48;

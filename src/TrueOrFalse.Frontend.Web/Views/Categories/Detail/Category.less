@@ -785,10 +785,13 @@ p:empty {
     }
 
     .KnowledgeBarWrapper {
-        padding-top: 17px;
+        padding-top: 13px;
         padding-left: 30px;
         padding-right: 30px;
         flex-grow: 1;
+        vertical-align: middle;
+
+
     }
 
     .category-knowledge-bar {
@@ -815,8 +818,6 @@ p:empty {
         }
 
         .Pin {
-            margin-top: 2px;
-
             i {
                 width: 23px;
                 transition: font 0.3s ease;
@@ -827,13 +828,17 @@ p:empty {
             }
 
             .Text {
-                display: inline !important;
+                display: inline;
                 padding-left: 3px;
                 font-size: 12px;
                 .greyed;
                 text-transform: uppercase;
                 vertical-align: middle;
                 transition: color 0.3s ease;
+
+                @media(max-width: 380px ){
+                    display: none;
+                }
             }
 
             &:hover {
