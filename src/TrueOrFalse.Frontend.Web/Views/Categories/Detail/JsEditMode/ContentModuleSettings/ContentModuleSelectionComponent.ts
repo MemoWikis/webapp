@@ -21,7 +21,7 @@ Vue.component('content-module-selection-modal-component', {
                 { type: 'SingleCategoryFullWidth', name: 'Einzelthema', tooltip: 'Zeigt ein Thema in voller Breite an.' },
                 { type: 'SingleQuestionsQuiz', name: 'Quiz Widget', tooltip: 'Fragen eines Themas sind einzeln untereinander aufgelistet.' },
                 { type: 'SingleSetFullWidth', name: 'Einzellernset', tooltip: 'Zeigt ein Lernset in voller Breite an.' },
-                { type: 'Spacer', name: 'Abstandhalter', tooltip: 'Sorgt für mehr ßraum unter oder über einem Modul' },
+                { type: 'Spacer', name: 'Abstandhalter', tooltip: 'Sorgt für mehr Raum unter oder über einem Modul' },
                 { type: 'TopicNavigation', name: 'Themenliste', tooltip: 'Zeigt eine Liste aller Hauptthemen.' },
                 { type: 'VideoWidget', name: 'Video Widget', tooltip: 'Zeigt ein Video aus einem Lernset mit entsprechenden Fragen.' }
             ],
@@ -68,6 +68,14 @@ Vue.component('content-module-selection-modal-component', {
     methods: {
         setActive(val) {
             this.selectedModule = val;
+            if (val != 'InlineText' &&
+                val != 'Spacer' &&
+                val != 'MediaList' &&
+                val != 'ContentList' &&
+                val != 'EducationOfferList')
+                this.modalType = '#' + this.selectedModule.toLowerCase() + 'SettingsDialog';
+            else
+                this.modalType = false;
             this.selectModule();
         },
 
@@ -75,6 +83,8 @@ Vue.component('content-module-selection-modal-component', {
             this.templateMarkdown = '';
             this.selectedModule = '';
             this.modalType = '';
+            this.modulePosition = '';
+
         },
 
         selectModule() {

@@ -52,7 +52,6 @@ Vue.component('singlecategoryfullwidth-modal-component', {
             event => {
                 this.newMarkdown = $('#singlecategoryfullwidthSettingsDialog').data('parent').markdown;
                 this.parentId = $('#singlecategoryfullwidthSettingsDialog').data('parent').id;
-                console.log(event);
                 this.initializeData();
             });
 

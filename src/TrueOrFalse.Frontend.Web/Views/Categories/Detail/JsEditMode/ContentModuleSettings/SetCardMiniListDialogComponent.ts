@@ -115,7 +115,6 @@ Vue.component('setcardminilist-modal-component', {
                 $('#setcardminilistSettingsDialog').modal('hide');
             } else {
                 this.errorMessage = 'Sie müssen ein Set auswählen';
-                console.log('bitte Set auswählen');
             };
             
         },

@@ -63,8 +63,6 @@ new Vue({
                     });
                     eventBus.$emit('close-content-module-settings-modal', event.preview);
                     eventBus.$emit('set-edit-mode', this.editMode);
-                } else {
-                    console.log('kein neues Markdown verfügbar');
                 };
             });
         eventBus.$on('new-content-module',
@@ -78,8 +76,6 @@ new Vue({
                         el: inserted.get(0)
                     });
                     eventBus.$emit('set-edit-mode', this.editMode);
-                } else {
-                    console.log('kein neues Markdown verfügbar');
                 };
             });
 
