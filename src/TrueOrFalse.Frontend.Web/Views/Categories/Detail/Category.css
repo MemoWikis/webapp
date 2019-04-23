@@ -1037,9 +1037,6 @@ p:empty {
   padding-left: 5px;
   padding-right: 5px;
 }
-#CategoryHeader .Buttons .Pin {
-  margin-top: 2px;
-}
 #CategoryHeader .Buttons .Pin i {
   width: 23px;
   -webkit-transition: font 0.3s ease;
