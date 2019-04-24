@@ -20,7 +20,6 @@
                     <div class="LinkArea">
                         <h4 class="ItemTitle"><%: Model.SetName %></h4>
                         <div class="ItemText"><%: Model.SetText %></div>
-                        <%-- <a v-if="canBeEdited"></a> --%>
                         <a class="Link" href="<%= Links.SetDetail(Model.Set) %>"></a>
                     </div>
                 </div>
