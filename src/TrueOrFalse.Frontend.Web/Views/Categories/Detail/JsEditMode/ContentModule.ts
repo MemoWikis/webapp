@@ -40,17 +40,6 @@ Vue.component('content-module-widget', {
     },
 });
 
-Vue.component('add-content-module', {
-    template: '#add-content-module-template',
-
-    data() {
-        return {
-            type: '',
-        };
-    },
-
-});
-
 var contentModuleComponent = Vue.component('content-module', {
 
     props: {
@@ -126,7 +115,7 @@ var contentModuleComponent = Vue.component('content-module', {
                 }
                 this.dataTarget = this.modalType;
                 this.markdown = this.origMarkdown;
-                if (!this.contentModuleType)
+                if (!this.contentModuleType) // hides default modules on non customised pages
                     this.isDeleted = true;
             } else {
                 this.markdown = '';
