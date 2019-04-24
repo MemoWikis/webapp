@@ -11,24 +11,23 @@
                 <div class="CardContent">
                     <h6 class="ItemInfo">
                         <span class="Pin" data-set-id="<%= Model.SetId %>" style="">
-                            <a href="#" class="noTextdecoration" :class="{ disabled : canBeEdited }">
+                            <a href="#" class="noTextdecoration">
                                 <%= Html.Partial("AddToWishknowledge", new AddToWishknowledge(Model.IsInWishknowledge)) %>
                             </a>
                         </span>&nbsp;
-                        <a v-if="canBeEdited" :class="{ disabled : canBeEdited }">Lernset mit <%= Model.QCount %> Frage<%= StringUtils.PluralSuffix(Model.QCount, "n") %></a>
-                        <a v-else href="<%= Links.SetDetail(Model.Set) %>" :class="{ disabled : canBeEdited }">Lernset mit <%= Model.QCount %> Frage<%= StringUtils.PluralSuffix(Model.QCount, "n") %></a>
+                        <a href="<%= Links.SetDetail(Model.Set) %>" :class="{ disabled : canBeEdited }">Lernset mit <%= Model.QCount %> Frage<%= StringUtils.PluralSuffix(Model.QCount, "n") %></a>
                     </h6>
                     <div class="LinkArea">
                         <h4 class="ItemTitle"><%: Model.SetName %></h4>
                         <div class="ItemText"><%: Model.SetText %></div>
-                        <a v-if="canBeEdited"></a>
-                        <a v-else class="Link" href="<%= Links.SetDetail(Model.Set) %>"></a>
+                        <%-- <a v-if="canBeEdited"></a> --%>
+                        <a class="Link" href="<%= Links.SetDetail(Model.Set) %>"></a>
                     </div>
                 </div>
                 <div class="BottomBar">
                     <div class="dropdown">
                         <% var buttonId = Guid.NewGuid(); %>
-                        <a href="#'" id="<%=buttonId %>" class="dropdown-toggle  btn btn-link btn-sm ButtonOnHover ButtonEllipsis" :class="{ disabled : canBeEdited }" type="button" :data-toggle="{ 'dropdown' : !canBeEdited }" aria-haspopup="true" aria-expanded="true">
+                        <a href="#'" id="<%=buttonId %>" class="dropdown-toggle  btn btn-link btn-sm ButtonOnHover ButtonEllipsis" :class="{ disabled : canBeEdited }" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
                             <i class="fa fa-ellipsis-v"></i>
                         </a>
                         <ul class="dropdown-menu" aria-labelledby="<%=buttonId %>">

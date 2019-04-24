@@ -2,4 +2,4 @@
 
 <content-module inline-template orig-markdown="<%: Model.Markdown %>" content-module-type="<%: Model.Type %>">
     <div class="ContentModule" v-if="!isDeleted" :id="id" :markdown="markdown" v-cloak @mouseenter="updateHoverState(true)" @mouseleave="updateHoverState(false)">
-        <div class="ModuleBorder" :class="{ hover : hoverState }" @click="editModule()">
+        <div class="ModuleBorder" :class="{ hover : hoverState }" v-on="canBeEdited == false ? {click: () => editModule()} : { click: ($event) => $event.preventDefault() }">
