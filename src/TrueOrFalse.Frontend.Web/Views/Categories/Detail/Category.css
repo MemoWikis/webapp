@@ -1691,7 +1691,7 @@ p:empty {
   border: solid transparent 1px;
   -webkit-transition: 0.2s;
   transition: 0.2s;
-  padding: 20px;
+  padding: 0 20px 0 20px;
 }
 @media (max-width: 400px) {
   .ContentModule .ModuleBorder {
