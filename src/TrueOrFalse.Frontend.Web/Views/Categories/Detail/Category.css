@@ -1693,6 +1693,11 @@ p:empty {
   transition: 0.2s;
   padding: 20px;
 }
+@media (max-width: 400px) {
+  .ContentModule .ModuleBorder {
+    padding: 0;
+  }
+}
 .ContentModule .ModuleBorder.hover {
   border-color: #45aece;
   cursor: pointer;
