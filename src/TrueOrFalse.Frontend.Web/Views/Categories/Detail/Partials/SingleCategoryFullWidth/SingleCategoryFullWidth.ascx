@@ -4,7 +4,6 @@
 <%: Html.Partial("~/Views/Categories/Detail/Partials/ContentModuleWrapperStart.ascx") %>
                 
     <div class="singleCatFullWidth">            
-        <div class="well">
         <div class="row">
             <div class="col-xs-3">
                 <div class="ImageContainer">
@@ -44,7 +43,6 @@
                 </div>
             </div>
         </div>
-    </div>
     </div>
     
 <%: Html.Partial("~/Views/Categories/Detail/Partials/ContentModuleWrapperEnd.ascx") %>
