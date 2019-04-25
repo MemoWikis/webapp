@@ -43,7 +43,7 @@
         <template slot="topicCount" scope="props">
             <div class="topic-count">
                 <div v-if="props.rowData.IsCategory"><span>{{props.rowData.LearnSetsCount}} Lernsets mit {{props.rowData.QuestionsCount}} Fragen</span></div>
-                <div v-if="!props.rowData.IsCategory"><span>{{props.rowData.QuestionsCount}} Fragen</span></div>
+                <div v-else><span>{{props.rowData.QuestionsCount}} Fragen</span></div>
             </div>
         </template>
 

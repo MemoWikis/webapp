@@ -11,7 +11,10 @@
                 <div class="CardContent">
                     <h6 class="ItemInfo">
                         <span class="Pin" data-set-id="<%= Model.SetId %>" style="">
-                            <a href="#" class="noTextdecoration" :class="{ disabled : canBeEdited }">
+                            <span v-if="canBeEdited" class="noTextdecoration">
+                                <%= Html.Partial("AddToWishknowledge", new AddToWishknowledge(Model.IsInWishknowledge)) %>
+                            </span>
+                            <a v-else href="#" class="noTextdecoration">
                                 <%= Html.Partial("AddToWishknowledge", new AddToWishknowledge(Model.IsInWishknowledge)) %>
                             </a>
                         </span>&nbsp;
@@ -28,7 +31,7 @@
                 <div class="BottomBar">
                     <div class="dropdown">
                         <% var buttonId = Guid.NewGuid(); %>
-                        <a href="#'" id="<%=buttonId %>" class="dropdown-toggle  btn btn-link btn-sm ButtonOnHover ButtonEllipsis" :class="{ disabled : canBeEdited }" type="button" :data-toggle="{ 'dropdown' : !canBeEdited }" aria-haspopup="true" aria-expanded="true">
+                        <a href="#'" id="<%=buttonId %>" class="dropdown-toggle  btn btn-link btn-sm ButtonOnHover ButtonEllipsis" :class="{ disabled : canBeEdited }" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
                             <i class="fa fa-ellipsis-v"></i>
                         </a>
                         <ul class="dropdown-menu" aria-labelledby="<%=buttonId %>">
