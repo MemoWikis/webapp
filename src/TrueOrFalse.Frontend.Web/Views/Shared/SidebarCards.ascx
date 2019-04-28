@@ -52,23 +52,21 @@
             </div>
         </div>
     </div>
-    <%} if (Model.Authors.Count != 1) {%>
+    <%} if (Model.Authors.Count > 1) {%>
 
     <div id="MultipleAutorCard">
         <div class="card-title">
             <span>Beitragende</span>
         </div>
         <div class="autor-container">
-            <% 
-                foreach (var author in Model.Authors.Take(3))
-                { %>
-            <div class="single-autor-container">
-                <div class="multiple-autor-card-image">
-                    <img class="ItemImage JS-InitImage" alt="" src="<%= author.ImageUrl %>" data-append-image-link-to="ImageContainer" />
+            <% foreach (var author in Model.Authors.Take(3)) { %>
+                <div class="single-autor-container">
+                    <div class="multiple-autor-card-image">
+                        <img class="ItemImage JS-InitImage" alt="" src="<%= author.ImageUrl %>" data-append-image-link-to="ImageContainer" />
+                    </div>
+                    <a href="<%= Links.UserDetail(author.User)%>" class="card-link"><%= author.Name %></a>
                 </div>
-                <a href="<%= Links.UserDetail(author.User)%>" class="card-link"><%= author.Name %></a>
-            </div>
-            <%  } %>
+            <% } %>
         </div>
 
         <%if (Model.Authors.Count > 3)

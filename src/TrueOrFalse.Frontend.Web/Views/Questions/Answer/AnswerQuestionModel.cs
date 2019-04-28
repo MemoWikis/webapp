@@ -326,7 +326,7 @@ public class AnswerQuestionModel : BaseModel
         DescriptionForSearchEngines = GetMetaDescriptionSearchEngines();
         DescriptionForFacebook = GetMetaDescriptionsFacebook();
 
-        var authors = Sl.QuestionRepo.GetAuthorsQuestion(QuestionId);
+        var authors = Sl.QuestionRepo.GetAuthorsQuestion(QuestionId, filterUsersForSidebar:true);
         SidebarModel.Fill(authors, UserId);
     }
 

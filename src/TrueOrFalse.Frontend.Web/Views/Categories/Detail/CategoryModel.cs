@@ -100,7 +100,7 @@ public class CategoryModel : BaseContentModule
         var imageResult = new UserImageSettings(Creator.Id).GetUrl_250px(Creator);
         ImageUrl_250 = imageResult.Url;
     
-        var authors = _categoryRepo.GetAuthors(Id);
+        var authors = _categoryRepo.GetAuthors(Id, filterUsersForSidebar: true);
         SidebarModel.Fill(authors, UserId);
 
         FeaturedSets = category.FeaturedSets();

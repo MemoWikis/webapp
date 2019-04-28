@@ -73,6 +73,7 @@ public class SidebarModel : BaseResolve
     }
     
     public bool Show() => Authors.Any() || SponsorModel.IsAdFree || SuggestionCategory != null;
+
     public void Fill(IList<User> authors, int currentUserId)
     {
         foreach (var author in authors)
