@@ -118,12 +118,5 @@
     </div>
     <% } %>
     
-    <% if(Settings.ShowAdvertisment){ %>
-        <div id="EduPartnerCard">
-            <% if (Model.SponsorModel != null && !Model.SponsorModel.IsAdFree) { %>
-                <% Html.RenderPartial("SidebarSponsor", Model.SponsorModel); %>
-            <% } %>
-        </div>
-    <% } %>
      <% Html.RenderPartial("~/Views/Shared/SidebarCards/CreateQuestion.ascx"); %>
 </div>
