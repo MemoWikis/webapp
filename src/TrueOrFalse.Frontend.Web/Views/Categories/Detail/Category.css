@@ -954,6 +954,9 @@ p:empty {
 #CategoryHeader {
   margin-bottom: 20px;
 }
+#CategoryHeader ConditionalLegend {
+  display: block;
+}
 #CategoryHeader #HeadingSection {
   display: -webkit-box;
   display: -webkit-flex;
@@ -1693,7 +1696,7 @@ p:empty {
   transition: 0.2s;
   padding: 0 20px 0 20px;
 }
-@media (max-width: 400px) {
+@media (max-width: 512px) {
   .ContentModule .ModuleBorder {
     padding: 0;
   }
