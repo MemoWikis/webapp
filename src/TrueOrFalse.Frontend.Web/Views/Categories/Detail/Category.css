@@ -1155,7 +1155,7 @@ p:empty {
   }
 }
 .DescriptionSection {
-  margin-bottom: 70px;
+  margin-bottom: 50px;
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -1168,11 +1168,6 @@ p:empty {
     -webkit-flex-direction: column;
         -ms-flex-direction: column;
             flex-direction: column;
-  }
-}
-@media (max-width: 767px) {
-  .DescriptionSection {
-    margin-bottom: 50px;
   }
 }
 .DescriptionSection .ImageContainer {
