@@ -743,6 +743,10 @@ p:empty {
 #CategoryHeader {
     margin-bottom: 20px;
 
+    ConditionalLegend{
+        display: block;
+    }
+
     #HeadingSection {
         display: flex;
         align-items: center;
@@ -937,15 +941,11 @@ p:empty {
 }); 
 
 .DescriptionSection {
-    margin-bottom: 70px;
+    margin-bottom: 50px;
     display: flex;
 
     .media-below-xs( {
         flex-direction: column;
-    });
-
-     .media-below-sm( {
-        margin-bottom: 50px;
     });
 
     .ImageContainer {
@@ -1365,8 +1365,11 @@ p:empty {
         border-radius: 3px;
         border: solid transparent 1px;
         transition: 0.2s;
-        padding: 20px;
+        padding: 0 20px 0 20px;
 
+        @media(max-width: 512px){
+            padding: 0;
+        }
 
         &.hover {
             border-color: #45aece;

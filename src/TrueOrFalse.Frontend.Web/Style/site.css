@@ -704,6 +704,8 @@ ul.AutocompleteHeader {
 @media (max-width: 768px) {
   #MasterMainContent #MasterMainColumn {
     margin-top: 38px;
+    padding-left: 0;
+    padding-right: 0;
   }
 }
 /*******************************************************************/

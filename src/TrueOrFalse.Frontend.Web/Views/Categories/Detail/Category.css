@@ -954,6 +954,9 @@ p:empty {
 #CategoryHeader {
   margin-bottom: 20px;
 }
+#CategoryHeader ConditionalLegend {
+  display: block;
+}
 #CategoryHeader #HeadingSection {
   display: -webkit-box;
   display: -webkit-flex;
@@ -1152,7 +1155,7 @@ p:empty {
   }
 }
 .DescriptionSection {
-  margin-bottom: 70px;
+  margin-bottom: 50px;
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -1165,11 +1168,6 @@ p:empty {
     -webkit-flex-direction: column;
         -ms-flex-direction: column;
             flex-direction: column;
-  }
-}
-@media (max-width: 767px) {
-  .DescriptionSection {
-    margin-bottom: 50px;
   }
 }
 .DescriptionSection .ImageContainer {
@@ -1691,7 +1689,12 @@ p:empty {
   border: solid transparent 1px;
   -webkit-transition: 0.2s;
   transition: 0.2s;
-  padding: 20px;
+  padding: 0 20px 0 20px;
+}
+@media (max-width: 512px) {
+  .ContentModule .ModuleBorder {
+    padding: 0;
+  }
 }
 .ContentModule .ModuleBorder.hover {
   border-color: #45aece;
