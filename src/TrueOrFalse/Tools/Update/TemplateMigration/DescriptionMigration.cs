@@ -12,7 +12,7 @@ namespace TemplateMigration
 
             foreach (var category in allCategories)
             {
-                if (!IsNullOrEmpty(category.Description) && !IsNullOrEmpty(category.WikipediaURL) && !IsNullOrEmpty(category.Url) && !IsNullOrEmpty(category.UrlLinkText))
+                if (!IsNullOrEmpty(category.Description) || !IsNullOrEmpty(category.WikipediaURL) || !IsNullOrEmpty(category.Url) || !IsNullOrEmpty(category.UrlLinkText))
                 {
                     var topicMarkdownBeforeUpdate = category.TopicMarkdown;
                     var categoryId = category.Id;
@@ -21,7 +21,6 @@ namespace TemplateMigration
                     if (!IsNullOrEmpty(category.Description))
                     {
                         newMarkdown = newMarkdown + category.Description + System.Environment.NewLine;
-                        category.Description = "";
                     }
 
                     if (!IsNullOrEmpty(category.WikipediaURL))
