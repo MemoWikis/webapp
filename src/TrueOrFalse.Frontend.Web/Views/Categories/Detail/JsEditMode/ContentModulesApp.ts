@@ -79,23 +79,23 @@ new Vue({
                 };
             });
 
-        window.addEventListener('scroll', this.onScroll);
+        window.addEventListener('scroll', this.footerCheck);
     },
 
     mounted() {
         this.changedMarkdown = false;
+        if ((this.$el.clientHeight + 450) < window.innerHeight)
+            this.footerIsVisible = true;
     },
 
     methods: {
 
-        onScroll() {
-            const elFooter = document.getElementById('MasterFooter');
+        footerCheck() {
             const elLicense = document.getElementById('GlobalLicense');
 
-            var rectFooter = elFooter.getBoundingClientRect();
-            var rectLicense = elLicense.getBoundingClientRect();
+            var rect = elLicense.getBoundingClientRect();
             var viewHeight = Math.max(document.documentElement.clientHeight, window.innerHeight);
-            if (rectFooter.bottom < 0 || rectLicense.bottom < 0 || rectFooter.top - viewHeight >= 0 || rectLicense.top - viewHeight >= 0)
+            if (rect.top - viewHeight >= 0 || rect.bottom < 0 )
                 this.footerIsVisible = false;
             else
                 this.footerIsVisible = true;

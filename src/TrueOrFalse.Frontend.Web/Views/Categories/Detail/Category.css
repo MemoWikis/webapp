@@ -54,6 +54,7 @@ span.CategoryType {
 }
 .CategoryRelations {
   text-align: center;
+  margin-bottom: 50px;
 }
 .RelationArrow {
   font-size: 18px;
