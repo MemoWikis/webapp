@@ -33,6 +33,7 @@ new Vue({
             previewModule: null,
             changedMarkdown: false,
             footerIsVisible: '',
+            awaitInlineTextId: false,
         };
     },
 
@@ -75,7 +76,9 @@ new Vue({
                     var instance = new contentModuleComponent({
                         el: inserted.get(0)
                     });
+                    this.changedMarkdown = true;
                     eventBus.$emit('set-edit-mode', this.editMode);
+                    eventBus.$emit('set-new-content-module', this.editMode);
                 };
             });
 

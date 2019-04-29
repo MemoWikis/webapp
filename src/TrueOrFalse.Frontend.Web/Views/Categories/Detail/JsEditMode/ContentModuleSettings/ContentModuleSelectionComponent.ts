@@ -98,10 +98,14 @@ Vue.component('content-module-selection-modal-component', {
             };
             $('#ContentModuleSelectionModal').modal('hide');
 
+            eventBus.$emit('set-hover-state', false);
+
             if (this.modalType)
                 $(this.modalType).data('parent', template).modal('show');
-            else if (this.selectedModule == 'InlineText')
+            else if (this.selectedModule == 'InlineText') {
+                eventBus.$emit('unfocus-inline-text', true);
                 Utils.ApplyMarkdown('', template.id);
+            }
             else
                 Utils.ApplyMarkdown(template.markdown, template.id);
         },
