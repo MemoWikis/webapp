@@ -28,7 +28,8 @@
             <div class="author-reputation">
                 <span>Reputation:</span>
                 <br />
-                <span><%= author.Reputation %> Punkte (Rang <%= author.ReputationPos %>)</span>
+                <span><%= author.Reputation %> Punkte <br/>
+                    (Rang <%= author.ReputationPos %>)</span>
             </div>
         </div>
         <div class="autor-card-footer-bar">
