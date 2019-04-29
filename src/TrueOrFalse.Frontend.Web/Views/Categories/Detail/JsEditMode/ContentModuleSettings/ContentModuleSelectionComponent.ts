@@ -42,8 +42,9 @@ Vue.component('content-module-selection-modal-component', {
             if (val != 'InlineText' &&
                 val != 'Spacer' &&
                 val != 'MediaList' &&
-                val != 'ContentList' &&
-                val != 'EducationOfferList')
+                val != 'ContentLists' &&
+                val != 'EducationOfferList' &&
+                val != 'CategoryNetwork')
                 this.modalType = '#' + this.selectedModule.toLowerCase() + 'SettingsDialog';
             else
                 this.modalType = false;
@@ -71,8 +72,9 @@ Vue.component('content-module-selection-modal-component', {
             if (val != 'InlineText' &&
                 val != 'Spacer' &&
                 val != 'MediaList' &&
-                val != 'ContentList' &&
-                val != 'EducationOfferList')
+                val != 'ContentLists' &&
+                val != 'EducationOfferList' &&
+                val != 'CategoryNetwork')
                 this.modalType = '#' + this.selectedModule.toLowerCase() + 'SettingsDialog';
             else
                 this.modalType = false;

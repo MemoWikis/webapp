@@ -4,7 +4,7 @@
         Weitere Formatierung findest du <a href="https://www.heise.de/mac-and-i/downloads/65/1/1/6/7/1/0/3/Markdown-CheatSheet-Deutsch.pdf">hier</a>.</small></p>
 
     <div style="display: flex; justify-content: flex-end; margin-top:0.5rem">
-        <a class="CancelEdit" @click="cancelTextEdit()" style="margin-right:0.5rem">abbrechen</a>
-        <div class="btn btn-primary" @click="applyNewMarkdown()">Text ändern</div>       
+        <div class="btn btn-link" @click="cancelTextEdit()">Abbrechen</div>
+        <div class="btn btn-primary" @click="applyNewMarkdown()">Text ändern</div>
     </div>   
 </div>
