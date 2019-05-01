@@ -59,7 +59,7 @@
                 Model.TopNavMenu.BreadCrumb.Add(new TopNavMenuItem {Text = Model.TestSession.SetName, Url = Model.TestSession.SetLink});
             }
             else
-       {
+            {
                 Model.TopNavMenu.BreadCrumb.Add(new TopNavMenuItem {Text = Model.TestSession.CategoryToTest.Name, Url = Model.TestSession.CategoryToTest.Url});
                 Model.TopNavMenu.IsCategoryLearningBreadCrumb = true;
             }
@@ -73,15 +73,10 @@
                 }
                 Model.TopNavMenu.IsCategoryLearningBreadCrumb = true;
             }
-
         }
         else {
             if (Model.SetMinis.Count != 0)
                 Model.TopNavMenu.BreadCrumb.Add(new TopNavMenuItem {Text = Model.SetMinis[0].Name, Url = Model.SetMinis[0].Name});
-            else
-            {
-                Model.TopNavMenu.BreadCrumb.Add(new TopNavMenuItem {Text = Model.Question.Text, Url = Model.Question.Text});
-            }
         }
         // return bool
         Model.TopNavMenu.IsCategoryBreadCrumb = false;

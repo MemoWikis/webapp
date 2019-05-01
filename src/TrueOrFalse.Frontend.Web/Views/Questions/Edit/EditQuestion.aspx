@@ -6,13 +6,8 @@
     <% Title = Model.PageTitle; %>
     <% if (Model.IsEditing) { %>
         <link rel="canonical" href="<%= Settings.CanonicalHost %><%= Links.EditQuestion(Model.QuestionText, Model.Id) %>"/>
-        <%  Model.TopNavMenu.BreadCrumb.Add(new TopNavMenuItem {Text = "SetName"});
-            Model.TopNavMenu.IsAnswerQuestionOrSetBreadCrumb = true;
-            Model.TopNavMenu.IsCategoryBreadCrumb = false; %>
     <% } else {  %>
         <link rel="canonical" href="<%= Settings.CanonicalHost %><%= Links.CreateQuestion() %>"/>
-        <% Model.TopNavMenu.BreadCrumb.Add(new TopNavMenuItem{Text = "Fragen", Url = "/Fragen/Erstelle",  ToolTipText = "Frage erstellen"});
-           Model.TopNavMenu.IsCategoryBreadCrumb = false; %>
     <% } %>
 </asp:Content>
 
@@ -162,14 +157,6 @@
                                 <div id="wmd-preview-1" class="wmd-panel wmd-preview"></div>
                             </div>
                         </div>
-
-                        <%--
-                        <div class="form-group">
-                            <% if (!String.IsNullOrEmpty(Model.SoundUrl)){
-                                    Html.RenderPartial("AudioPlayer", Model.SoundUrl); } %>
-                            <label for="soundfile" class="control-label">Ton:</label>
-                            &nbsp;&nbsp;<input type="file" name="soundfile" id="soundfile" />
-                        </div>--%>
 
                         <% if(Model.Set != null){ %>
                             <div class="row" id="RowAssignSet">
