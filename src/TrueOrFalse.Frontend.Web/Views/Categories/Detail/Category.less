@@ -713,7 +713,7 @@ p:empty {
     }
 }
 
-.SingleCardFullWidth;
+
 
 .setTestSessionNoStartScreen {
     margin-top: 20px;
@@ -1375,6 +1375,15 @@ p:empty {
         &.hover {
             border-color: #45aece;
             cursor: pointer;
+        }
+
+        .singleCatFullWidth {
+            margin-bottom: 0px;
+            margin-top: 0;
+
+            @media(max-width: 512px) {
+                margin-bottom: 40px;
+            }
         }
 
         .VideoWidgetPlaceHolder {
