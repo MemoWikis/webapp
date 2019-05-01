@@ -83,6 +83,7 @@ new Vue({
             });
 
         window.addEventListener('scroll', this.footerCheck);
+        window.addEventListener('resize', this.footerCheck);
     },
 
     mounted() {
