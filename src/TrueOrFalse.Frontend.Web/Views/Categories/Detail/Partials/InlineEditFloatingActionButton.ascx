@@ -42,7 +42,7 @@
         </div>
         
         <div class="pseudo-circle" :class="{ open : editMode }">
-            <div class="dialog" v-show="editMode"></div>
+            <div class="dialog" :class="{ open : editMode }"></div>
         </div>
 
     </div>

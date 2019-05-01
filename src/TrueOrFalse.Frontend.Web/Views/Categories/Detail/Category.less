@@ -1089,13 +1089,18 @@ p:empty {
         .dialog {
             width: 100vw;
             height: 100vh;
-            background-color: #afd534;
+            background-color: none;
             left: auto;
             right: 0;
             bottom: 0;
             z-index: 999995;
             height: 50px;
             overflow: hidden;
+
+            &.open {
+                background-color: #afd534;
+                transition-delay: .15s;
+            }
         }
 
         .toolbar {

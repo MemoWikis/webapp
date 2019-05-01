@@ -1164,13 +1164,18 @@ p:empty {
 #TopicTabContent #InlineEditToolbar .dialog {
   width: 100vw;
   height: 100vh;
-  background-color: #afd534;
+  background-color: none;
   left: auto;
   right: 0;
   bottom: 0;
   z-index: 999995;
   height: 50px;
   overflow: hidden;
+}
+#TopicTabContent #InlineEditToolbar .dialog.open {
+  background-color: #afd534;
+  -webkit-transition-delay: 0.15s;
+          transition-delay: 0.15s;
 }
 #TopicTabContent #InlineEditToolbar .toolbar {
   bottom: 0;
