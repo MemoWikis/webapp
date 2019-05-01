@@ -10,7 +10,7 @@ public class CategoryChange : Entity, WithDateCreated
     public virtual int DataVersion { get; set; }
     public virtual string Data { get; set; }
 
-    public virtual bool ShowInSidebar { get; set; }
+    public virtual bool ShowInSidebar { get; set; } = true;
 
     public virtual User Author { get; set; }
 
