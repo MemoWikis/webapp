@@ -92,6 +92,10 @@ new Vue({
             this.footerIsVisible = true;
     },
 
+    updated() {
+        this.footerCheck();
+    },
+
     methods: {
 
         footerCheck() {
