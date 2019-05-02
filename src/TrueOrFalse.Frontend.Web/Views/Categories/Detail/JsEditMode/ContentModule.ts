@@ -41,7 +41,6 @@ Vue.component('content-module-widget', {
 });
 
 var contentModuleComponent = Vue.component('content-module', {
-
     props: {
         origMarkdown: String,
         contentModuleType: String,
@@ -65,6 +64,9 @@ var contentModuleComponent = Vue.component('content-module', {
             questions: [],
             baseTitle: '',
             baseDescription: '',
+            readyToFocus: true,
+            textAreaId: '',
+            moveOptionsToCenter: '',
         };
     },
 
@@ -82,18 +84,45 @@ var contentModuleComponent = Vue.component('content-module', {
         };
         if (this.contentModuleType == 'AddModuleButton')
             this.id = 'ContentModulePlaceholder';
+        this.textAreaId = 'TextArea-' + (this._uid + Math.floor((Math.random() * 100) + 1));
     },
 
     mounted() {
         eventBus.$on('set-edit-mode', state => this.canBeEdited = state);
-        eventBus.$on('close-content-module-settings-modal', (event) => {
-            if (this.isListening && event) {
-                this.isDeleted = true;
-                this.isListening = false;
-            } else if (this.isListening && !event) {
-                this.isListening = false;
-            };
-        });
+        eventBus.$on('close-content-module-settings-modal',
+            (event) => {
+                if (this.isListening && event) {
+                    this.isDeleted = true;
+                    this.isListening = false;
+                } else if (this.isListening && !event) {
+                    this.isListening = false;
+                };
+            });
+
+        eventBus.$on('set-hover-state',
+            (state) => {
+                if (state == false) {
+                    this.readyToFocus = false;
+                    this.hoverState = false;
+                };
+            });
+
+        eventBus.$on('unfocus-inline-text',
+            (state) => {
+                if (state == true) {
+                    this.textCanBeEdited = false;
+                };
+            });
+
+        eventBus.$on('set-new-content-module',
+            (state) => {
+                if (state == true && this.readyToFocus == true) {
+                    this.hoverState = true;
+                    if (this.contentModuleType == 'inlinetext') {
+                        this.textCanBeEdited = true;
+                    }
+                }
+            });
     },
 
     computed: {
@@ -109,7 +138,7 @@ var contentModuleComponent = Vue.component('content-module', {
     },
 
     watch: {
-        canBeEdited: function (val) {
+        canBeEdited: function(val) {
             if (val) {
                 if (this.contentModuleType != 'inlinetext') {
                 }
@@ -122,8 +151,17 @@ var contentModuleComponent = Vue.component('content-module', {
                 this.dataTarget = '';
                 if (!this.contentModuleType)
                     this.isDeleted = false;
+                this.textCanBeEdited = false;
+                this.hoverState = false;
             };
         },
+    },
+
+    updated: function() {
+        if ((this.$el.clientHeight) < 80)
+            this.moveOptionsToCenter = true;
+        else
+            this.moveOptionsToCenter = false;
     },
 
     methods: {
@@ -165,6 +203,9 @@ var contentModuleComponent = Vue.component('content-module', {
 
         editInlineText() {
             if (this.canBeEdited) {
+                eventBus.$emit('unfocus-inline-text', true);
+                eventBus.$emit('set-hover-state', false);
+
                 this.textCanBeEdited = true;
             };
         },

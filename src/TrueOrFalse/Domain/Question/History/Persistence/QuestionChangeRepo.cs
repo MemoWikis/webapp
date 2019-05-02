@@ -53,15 +53,19 @@ public class QuestionChangeRepo : RepositoryDbBase<QuestionChange>
             .List();
     }
 
-    public IList<QuestionChange> GetForQuestion(int questionId)
+    public IList<QuestionChange> GetForQuestion(int questionId, bool filterUsersForSidebar = false)
     {
         User aliasUser = null;
         Question aliasQuestion = null;
 
         var query = _session
             .QueryOver<QuestionChange>()
-            .Where(c => c.Question.Id == questionId)
-            .JoinAlias(c => c.Author, () => aliasUser)
+            .Where(c => c.Question.Id == questionId);
+
+        if (filterUsersForSidebar)
+            query.And(c => c.ShowInSidebar);
+
+        query.JoinAlias(c => c.Author, () => aliasUser)
             .JoinAlias(c => c.Question, () => aliasQuestion);
 
         return query

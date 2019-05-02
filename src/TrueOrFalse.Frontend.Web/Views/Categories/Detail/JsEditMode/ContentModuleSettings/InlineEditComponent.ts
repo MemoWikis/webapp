@@ -11,13 +11,13 @@ Vue.component('inline-text-component', {
         return {
             parentId: this.$parent.id,
             textContent: this.$parent.markdown,
+            textAreaId: this.$parent.textAreaId,
+            textCanBeEdited: this.$parent.textCanBeEdited,
         };
     },
 
-    created() {
-    },
-
     mounted: function () {
+        this.$refs[this.textAreaId].$el.focus();
     },
 
     methods: {

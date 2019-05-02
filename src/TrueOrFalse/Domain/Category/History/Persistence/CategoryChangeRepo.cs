@@ -53,14 +53,19 @@ public class CategoryChangeRepo : RepositoryDbBase<CategoryChange>
             .List();
     }
 
-    public IList<CategoryChange> GetForCategory(int categoryId)
+    public IList<CategoryChange> GetForCategory(int categoryId, bool filterUsersForSidebar = false)
     {
         User aliasUser = null;
         Category aliasCategory = null;
 
         var query = _session
             .QueryOver<CategoryChange>()
-            .Where(c => c.Category.Id == categoryId)
+            .Where(c => c.Category.Id == categoryId);
+
+        if (filterUsersForSidebar)
+            query.And(c => c.ShowInSidebar);
+
+        query
             .JoinAlias(c => c.Author, () => aliasUser)
             .JoinAlias(c => c.Category, () => aliasCategory);
 

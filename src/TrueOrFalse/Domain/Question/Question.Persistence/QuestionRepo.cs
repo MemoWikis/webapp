@@ -24,10 +24,10 @@ public class QuestionRepo : RepositoryDbBase<Question>
         base.Update(question);
     }
 
-    public IList<User> GetAuthorsQuestion(int questionId)
+    public IList<User> GetAuthorsQuestion(int questionId, bool filterUsersForSidebar = false)
     {
         var allAuthors = Sl.QuestionChangeRepo
-            .GetForQuestion(questionId)
+            .GetForQuestion(questionId, filterUsersForSidebar)
             .Select(QuestionChange => QuestionChange.Author);
 
         return allAuthors.GroupBy(a => a.Id)

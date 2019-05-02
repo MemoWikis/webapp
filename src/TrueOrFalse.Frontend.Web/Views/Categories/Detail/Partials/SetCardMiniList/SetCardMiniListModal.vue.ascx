@@ -43,7 +43,7 @@
                     </div>
 
                     <div class="settingsConfirmation modalFooter">
-                        <a class="CancelEdit clickable" @click="closeModal()">abbrechen</a>
+                        <div class="btn btn-link" @click="closeModal">Abbrechen</div>
                         <div class="btn btn-primary" @click="applyNewMarkdown()">Konfiguration übernehmen</div>       
                     </div>   
                 </div>
