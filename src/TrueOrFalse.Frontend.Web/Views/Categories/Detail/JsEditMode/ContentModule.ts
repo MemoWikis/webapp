@@ -66,6 +66,7 @@ var contentModuleComponent = Vue.component('content-module', {
             baseDescription: '',
             readyToFocus: true,
             textAreaId: '',
+            moveOptionsToCenter: '',
         };
     },
 
@@ -154,6 +155,13 @@ var contentModuleComponent = Vue.component('content-module', {
                 this.hoverState = false;
             };
         },
+    },
+
+    updated: function() {
+        if ((this.$el.clientHeight) < 80)
+            this.moveOptionsToCenter = true;
+        else
+            this.moveOptionsToCenter = false;
     },
 
     methods: {

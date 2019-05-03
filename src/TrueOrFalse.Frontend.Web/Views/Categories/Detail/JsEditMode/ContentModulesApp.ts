@@ -83,12 +83,17 @@ new Vue({
             });
 
         window.addEventListener('scroll', this.footerCheck);
+        window.addEventListener('resize', this.footerCheck);
     },
 
     mounted() {
         this.changedMarkdown = false;
         if ((this.$el.clientHeight + 450) < window.innerHeight)
             this.footerIsVisible = true;
+    },
+
+    updated() {
+        this.footerCheck();
     },
 
     methods: {

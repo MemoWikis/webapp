@@ -55,6 +55,10 @@ span.CategoryType {
 
 .ContentSubheading {
 
+    display:flex;
+    justify-content:space-between;
+    flex-wrap:wrap;
+
     &:not(:first-child){
         margin-top: 30px;
     }
@@ -1085,13 +1089,18 @@ p:empty {
         .dialog {
             width: 100vw;
             height: 100vh;
-            background-color: #afd534;
+            background-color: none;
             left: auto;
             right: 0;
             bottom: 0;
             z-index: 999995;
             height: 50px;
             overflow: hidden;
+
+            &.open {
+                background-color: #afd534;
+                transition-delay: .15s;
+            }
         }
 
         .toolbar {
@@ -1366,25 +1375,19 @@ p:empty {
         border-radius: 3px;
         border: solid transparent 1px;
         transition: 0.2s;
-        padding: 20px;
 
-        @media(max-width: 512px){
+        @media(max-width: 512px) {
             padding: 0;
         }
 
         &.hover {
             border-color: #45aece;
             cursor: pointer;
+            margin: 0 -20px;
+            padding: 0 20px;
         }
 
-        .singleCatFullWidth {
-            margin-bottom: 0px;
-            margin-top: 0;
-
-            @media(max-width: 512px) {
-                margin-bottom: 40px;
-            }
-        }
+        .SingleCardFullWidth;
 
         .VideoWidgetPlaceHolder {
             width: 100%;
@@ -1430,7 +1433,18 @@ p:empty {
     .Button {
         position: absolute;
         top: 0px;
-        right: -30px;
+        right: -50px;
+        height: 80px;
+        width: 30px;
+        align-items: center;
+        display:flex;
+        justify-content: space-between;
+        padding-right: 10px;
+        flex-direction: column;
+
+        @media(max-width: 780px) {
+            right: -30px;
+        }
 
         &.dropdown {
             display: flex;
@@ -1445,14 +1459,18 @@ p:empty {
         .delete {
             border-top: 1px solid #ccc;
             margin-top: 7px;
-            padding-top: 7px;
+        }
+
+        &.moveToCenter {
+            top: 50%;
+            margin-top:-40px;
         }
     }
 
     .ModuleHandle {
         position: absolute;
         top: 50%;
-        left: -20px;
+        left: -40px;
         margin-top: -30px;
         font-size: 18px;
         color: #999999;
@@ -1463,6 +1481,10 @@ p:empty {
         justify-content: space-between;
         padding-right: 10px;
         flex-direction: column;
+
+        @media(max-width: 780px) {
+            left: -20px;
+        }
 
         .IconWrapper {
             width: 20px;

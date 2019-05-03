@@ -6,7 +6,7 @@ public class QuestionChange : Entity, WithDateCreated
     public virtual Question Question { get; set; }
     public virtual string Data { get; set; }
 
-    public virtual bool ShowInSidebar { get; set; }
+    public virtual bool ShowInSidebar { get; set; } = true;
 
     public virtual int DataVersion { get; set; }
 
