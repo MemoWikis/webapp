@@ -21,22 +21,21 @@
     for (var i = 1; i <= breadCrumbCategoriesCount; i++)
     { %>
         <div id="<%=i %>BreadCrumbContainer" style="display: flex; height: auto; margin-bottom: 8px;" class="show-tooltip" data-placement="bottom" title="Zur Themenseite"> 
-            <% if (!Model.IsAnswerQuestionOrSetBreadCrumb) {
-                    if (i == breadCrumbCategoriesCount) { %> 
+            <% if (true) {
+                    if (i == breadCrumbCategoriesCount && !Model.IsAnswerQuestionOrSetBreadCrumb) { %> 
                      <span style="margin-left:10px;"><a  id="<%=  i%>BreadCrumb" style="color:#003264;" href="<%= Links.CategoryDetail(breadCrumbCategories[i]) %>" class=""><%= breadCrumbCategories[i].Name %></a></span>              
-                  <%} else { %>
+                  <%}
+                    else if(i != breadCrumbCategoriesCount){ %>
                      <span  style="display:inline-table; margin-left:10px;"><a id="<%=i %>BreadCrumb" href="<%= Links.CategoryDetail(breadCrumbCategories[i]) %>" class=""><%= breadCrumbCategories[i].Name %></a>
-                      <i style="display: inline;" class="fa fa-chevron-right"></i>
+                                 <i style="display: inline;" class="fa fa-chevron-right"></i>
                      </span> 
-                  <%}%>
-             <%}else{
-                      if (i == breadCrumbCategoriesCount && !Model.IsAnswerQuestionOrSetBreadCrumb) { %> 
-                          <span style="margin-left:10px;"><a  id="<%= i%>BreadCrumb" style="color:#003264;" href="<%= Links.CategoryDetail(breadCrumbCategories[i]) %>" class=""><%= breadCrumbCategories[i].Name %></a></span>              
-                    <%} else { %>
-                         <span style="display:inline-table; margin-left:10px;"><a id="<%= i %>BreadCrumb"  href="<%= Links.CategoryDetail(breadCrumbCategories[i]) %>" class=""><%= breadCrumbCategories[i].Name %></a>
-                         <i style="display: inline;" class="fa fa-chevron-right"></i>
-                        </span> 
-                   <% } %>
-             <%} %>
+                  <%}
+                    else if(i == breadCrumbCategoriesCount && Model.IsAnswerQuestionOrSetBreadCrumb)
+                    { %>
+                    <span  style="display:inline-table; margin-left:10px;"><a id="<%=i %>BreadCrumb" href="<%= Links.CategoryDetail(breadCrumbCategories[i]) %>" class=""><%= breadCrumbCategories[i].Name %></a>
+                        <i style="display: inline;" class="fa fa-chevron-right"></i>
+                    </span> 
+                 <% } %>
+             <%}%>
         </div>
     <% } %>
