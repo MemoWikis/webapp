@@ -15,7 +15,9 @@
 <div id="BreadCrumbContainer" class="container">
  
     <a href="/" id="BreadcrumbLogoSmall" class="show-tooltip" data-placement="bottom" title="Zur Startseite" >
-        <i class="fas fa-home"></i> <% if (!Model.TopNavMenu.IsWelcomePage){ %><i class="fa fa-chevron-right"></i><% } %>
+        
+        <i class="fas fa-home"></i> <% if (!Model.TopNavMenu.IsWelcomePage && Model.TopNavMenu.BreadCrumbCategories.Count > 0){ %><i class="fa fa-chevron-right"></i><% } %>
+        
     </a>
 
     <div id="BreadCrumbTrail" style="display:flex;">
@@ -23,11 +25,11 @@
         </ul>
 
     <%if(!Model.TopNavMenu.IsWelcomePage){ %>  
-        <%if(Model.TopNavMenu.IsCategoryBreadCrumb || Model.TopNavMenu.IsCategoryLearningBreadCrumb){ %>
+        <%if(false){ %>
             <%= Html.Partial("/Views/Categories/Detail/Partials/BreadCrumbCategories.ascx", Model.TopNavMenu) %>
         <% }else
            {
-                if (Model.TopNavMenu.IsAnswerQuestionOrSetBreadCrumb) { %>
+                if (true) { %>
                  <%= Html.Partial("/Views/Categories/Detail/Partials/BreadCrumbCategories.ascx", Model.TopNavMenu) %>
               <%}
 

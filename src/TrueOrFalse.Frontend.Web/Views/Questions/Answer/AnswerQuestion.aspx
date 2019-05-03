@@ -80,8 +80,8 @@
         }
         // return bool
         Model.TopNavMenu.IsCategoryBreadCrumb = false;
-        Model.TopNavMenu.IsAnswerQuestionOrSetBreadCrumb = Model.TopicMenu.PageCategories.Count != 0;
-        if (Model.TopNavMenu.IsCategoryLearningBreadCrumb) Model.TopNavMenu.IsAnswerQuestionOrSetBreadCrumb = false;
+        Model.TopNavMenu.IsAnswerQuestionOrSetBreadCrumb = Model.SetCount != 0;
+       // if (Model.TopNavMenu.IsCategoryLearningBreadCrumb) Model.TopNavMenu.IsAnswerQuestionOrSetBreadCrumb = false;
 
 
     %>
