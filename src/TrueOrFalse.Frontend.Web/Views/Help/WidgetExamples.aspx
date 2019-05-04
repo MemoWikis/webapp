@@ -8,7 +8,8 @@
     <%= Scripts.Render("~/bundles/mailto") %>
     <% Model.TopNavMenu.BreadCrumb.Add(new TopNavMenuItem{Text = "Widgets", Url = Links.HelpWidget(), ToolTipText  = "Widgets"});
        Model.TopNavMenu.BreadCrumb.Add(new TopNavMenuItem{Text = "Beispiele", Url = Links.WidgetExamples(), ToolTipText  = "Beispiele"});
-       Model.TopNavMenu.IsCategoryBreadCrumb = false; %>
+       Model.TopNavMenu.IsCategoryBreadCrumb = false;
+       Model.TopNavMenu.IsWidget = true;%>
     <%= Scripts.Render("~/bundles/js/Help") %>
 
 </asp:Content>

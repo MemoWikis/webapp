@@ -15,6 +15,7 @@ public class TopNavMenu
     public IList<Category> BreadCrumbCategories => Sl.SessionUiData.TopicMenu.CategoryPath;
     public IList<TopNavMenuItem> BreadCrumb = new List<TopNavMenuItem>();
     public virtual IList<Category> Categories { get; set; }
+    public bool IsWidget = false; 
 
     public bool IsCategoryBreadCrumb = true;
     public bool IsCategoryLearningBreadCrumb = false;

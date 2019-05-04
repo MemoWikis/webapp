@@ -6,7 +6,9 @@
     <link href="/Views/Help/Widget.css" rel="stylesheet" />
     <%= Scripts.Render("~/bundles/mailto") %>
     <% Model.TopNavMenu.BreadCrumb.Add(new TopNavMenuItem{Text = "Widgets", Url = Links.HelpWidget() , ToolTipText  = "Widgets"});
-       Model.TopNavMenu.IsCategoryBreadCrumb = false; %>
+       Model.TopNavMenu.IsCategoryBreadCrumb = false;
+       Model.TopNavMenu.IsAnswerQuestionOrSetBreadCrumb = false;
+       Model.TopNavMenu.IsWidget = true;  %>
 </asp:Content>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
