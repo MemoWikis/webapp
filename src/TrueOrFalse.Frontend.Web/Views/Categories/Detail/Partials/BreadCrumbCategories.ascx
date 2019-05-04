@@ -10,7 +10,7 @@
              {%>
                   <div style="display: flex; height: auto; margin-bottom: 5px" class="category-icon show-tooltip" data-placement="bottom" title="<%= rootCategory.Name %>">                                              
                          <span style="display: inline-table; margin-left: 10px;"><a  <%if(breadCrumbCategories.Count == 1){ %> style="color:#003264;" <%}%> href="<%= Links.CategoryDetail(rootCategory) %>"><%= rootCategory.Name %></a>                         
-                           <%if(breadCrumbCategories.Count != 1){ %> <i style="display: inline;" class="fa fa-chevron-right"></i><%} %>
+                           <%if(breadCrumbCategories.Count != 1 || Model.IsWidget){ %> <i style="display: inline;" class="fa fa-chevron-right"></i><%} %>
                          </span>                      
                   </div>
           <% }
