@@ -55,13 +55,19 @@
     
     <%  if (Model.IsTestSession)
         {
-            if (Model.TestSession.SetName != null)
+            var testSession = Model.TestSession;
+
+            if (testSession.IsSetSession)
             {
-                Model.TopNavMenu.BreadCrumb.Add(new TopNavMenuItem {Text = Model.TestSession.SetName, Url = Model.TestSession.SetLink});
+                Model.TopNavMenu.BreadCrumb.Add(new TopNavMenuItem {Text = testSession.SetName, Url = testSession.SetLink});
+            }
+            if (Model.TestSession.IsSetsSession)
+            {
+                Model.TopNavMenu.BreadCrumb.Add(new TopNavMenuItem {Text = testSession.SetListTitle, Url = testSession.SetLink});
             }
             else
             {
-                Model.TopNavMenu.BreadCrumb.Add(new TopNavMenuItem {Text = Model.TestSession.CategoryToTest.Name, Url = Model.TestSession.CategoryToTest.Url});
+                Model.TopNavMenu.BreadCrumb.Add(new TopNavMenuItem {Text = testSession.CategoryToTest.Name, Url = testSession.CategoryToTest.Url});
                 Model.TopNavMenu.IsCategoryLearningBreadCrumb = true;
             }
         }
