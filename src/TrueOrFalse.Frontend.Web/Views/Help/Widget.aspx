@@ -8,7 +8,7 @@
     <% Model.TopNavMenu.BreadCrumb.Add(new TopNavMenuItem{Text = "Widgets", Url = Links.HelpWidget() , ToolTipText  = "Widgets"});
        Model.TopNavMenu.IsCategoryBreadCrumb = false;
        Model.TopNavMenu.IsAnswerQuestionOrSetBreadCrumb = false;
-       Model.TopNavMenu.IsWidget = true;  %>
+       Model.TopNavMenu.IsWidgetOrKnowledgeCentral = true;  %>
 </asp:Content>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">

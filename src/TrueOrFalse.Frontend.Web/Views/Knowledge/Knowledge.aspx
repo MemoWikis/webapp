@@ -13,7 +13,10 @@
     <% Model.TopNavMenu.BreadCrumb.Add(new TopNavMenuItem { Text = "Nutzer", Url = Links.Users(), ToolTipText = "Nutzer" });
         Model.TopNavMenu.BreadCrumb.Add(new TopNavMenuItem { Text = "Profilseite", Url = Url.Action(Links.UserAction, Links.UserController, new { name = Model.User.Name, id = Model.User.Id }), ToolTipText = "Profilseite" });
         Model.TopNavMenu.BreadCrumb.Add(new TopNavMenuItem { Text = "Wissenszentrale", Url = Links.Knowledge(), ToolTipText = "Wissenszentrale" });
-        Model.TopNavMenu.IsCategoryBreadCrumb = false; %>
+        Model.TopNavMenu.IsCategoryBreadCrumb = false;
+        Model.TopNavMenu.IsWidgetOrKnowledgeCentral = true; 
+    %>
+
     <%= Styles.Render("~/bundles/Knowledge") %>
     <%= Scripts.Render("~/bundles/js/Knowledge") %>
     
@@ -27,7 +30,6 @@
         <input type="hidden" id="hddNoCategoryUrl" value="<%= Links.NoCategoryUrl %>" />
         <input type="hidden" id="hddUrlAddTopic" value="<%= Url.Action("Create", "EditCategory") %>" />
         <input type="hidden" id="hddUrlAddQuestion" value="<%= Links.CreateQuestion() %>" />
-
 
         <script type="text/javascript">
 

@@ -33,9 +33,9 @@
                    i++;
             %> 
                     <div style="display: flex; height: auto; margin-bottom: 5px" class="show-tooltip" data-placement="bottom"
-                         <% if (Model.TopNavMenu.IsAnswerQuestionOrSetBreadCrumb && !Model.TopNavMenu.IsWidget){%>title="Zum Lernset" <% }else{ %> title="<%= breadCrumbItem.ToolTipText%>" <%}%> >  
+                         <% if (Model.TopNavMenu.IsAnswerQuestionOrSetBreadCrumb && !Model.TopNavMenu.IsWidgetOrKnowledgeCentral){%>title="Zum Lernset" <% }else{ %> title="<%= breadCrumbItem.ToolTipText%>" <%}%> >  
 
-                       <%if (breadCrumbItem.Equals(Model.TopNavMenu.BreadCrumb.Last()) && !Model.TopNavMenu.IsWidget){%>
+                       <%if (breadCrumbItem.Equals(Model.TopNavMenu.BreadCrumb.Last()) && !Model.TopNavMenu.IsWidgetOrKnowledgeCentral){%>
                           <span style="display: flex; margin-left: 10px;"><a id="<%=i %>BreadCrumb" style="color:#003264;" href="<%= breadCrumbItem.Url %>">
                               <% if (Model.TopNavMenu.IsAnswerQuestionOrSetBreadCrumb){%>Lernset: <%} %><%= breadCrumbItem.Text %>
                           </a></span>
