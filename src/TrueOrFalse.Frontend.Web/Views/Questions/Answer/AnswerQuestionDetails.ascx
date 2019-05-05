@@ -3,7 +3,7 @@
 
 
 <div class="row question-details">
-    <div class="col-lg-6">
+    <div class="col-lg-8">
         <span class=" category-set">
             <span id="Category">
                 <% if (Model.Categories.Count > 0)
@@ -25,7 +25,7 @@
             </span>
         </span>
     </div>
-    <div class="col-lg-6 second-row">
+    <div class="col-lg-4 second-row">
     <% if (Model.HistoryAndProbability.QuestionValuation.IsInWishKnowledge())
         {
             var status = Model.HistoryAndProbability.QuestionValuation.KnowledgeStatus; %>
