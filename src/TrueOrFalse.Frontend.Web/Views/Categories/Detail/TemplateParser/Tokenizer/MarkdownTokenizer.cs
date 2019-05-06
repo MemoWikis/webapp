@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-internal static class MarkdownTokenizer
+public static class MarkdownTokenizer
 {
     public static List<Token> Run(string markdown)
     {

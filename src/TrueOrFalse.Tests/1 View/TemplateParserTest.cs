@@ -18,7 +18,7 @@ class TemplateParserTest
     [Test]
     public void Parser_should_parse_raw_text_to_html()
     {
-        var splitMarkdown = MarkdownTokenizer.SplitMarkdown("Test Anfang\r\n\r\nTest 2\r\n[[{\"TemplateName\":\"Cards\", \"CardOrientation\":\"Landscape\", \"SetListIds\":\"105,87\"}]]\r\nTest\r\n\r\n[[{\"TemplateName\":\"Cards\", \"CardOrientation\":\"Landscape\", \"SetListIds\":\"109,87\"}]]");
+        var splitMarkdown = MarkdownTokenizer.Run("Test Anfang\r\n\r\nTest 2\r\n[[{\"TemplateName\":\"Cards\", \"CardOrientation\":\"Landscape\", \"SetListIds\":\"105,87\"}]]\r\nTest\r\n\r\n[[{\"TemplateName\":\"Cards\", \"CardOrientation\":\"Landscape\", \"SetListIds\":\"109,87\"}]]");
 
         var html = MarkdownSingleTemplateToHtml.Run(splitMarkdown.First(), new Category(), new ControllerContext());
 
@@ -34,14 +34,14 @@ class TemplateParserTest
     [Test]
     public void Should_parse_markdown()
     {
-        var splitMarkdown = MarkdownTokenizer.SplitMarkdown("Test Anfang\r\n\r\nTest 2\r\n[[{\"TemplateName\":\"Cards\", \"CardOrientation\":\"Landscape\", \"SetListIds\":\"105,87\"}]]\r\nTest\r\n\r\n[[{\"TemplateName\":\"Cards\", \"CardOrientation\":\"Landscape\", \"SetListIds\":\"109,87\"}]]");
+        var splitMarkdown = MarkdownTokenizer.Run("Test Anfang\r\n\r\nTest 2\r\n[[{\"TemplateName\":\"Cards\", \"CardOrientation\":\"Landscape\", \"SetListIds\":\"105,87\"}]]\r\nTest\r\n\r\n[[{\"TemplateName\":\"Cards\", \"CardOrientation\":\"Landscape\", \"SetListIds\":\"109,87\"}]]");
 
         Assert.That(splitMarkdown.Count(p => p.IsTemplate), Is.EqualTo(2));
         Assert.That(splitMarkdown.Count(p => p.IsText), Is.EqualTo(2));
         Assert.That(splitMarkdown[0].ToText(), Is.EqualTo("Test Anfang\r\n\r\nTest 2\r\n"));
         Assert.That(splitMarkdown[0].Type, Is.EqualTo(TokenType.Text));
 
-        var markdownStartsWithText = MarkdownTokenizer.SplitMarkdown("Text[[Template]]");
+        var markdownStartsWithText = MarkdownTokenizer.Run("Text[[Template]]");
 
         Assert.That(markdownStartsWithText.Count(p => p.IsTemplate), Is.EqualTo(1));
         Assert.That(markdownStartsWithText.Count(p => p.IsText), Is.EqualTo(1));
@@ -52,7 +52,7 @@ class TemplateParserTest
     [Test]
     public void Should_parse_markdown_Template_Start()
     {
-        var markdownEndsWithText = MarkdownTokenizer.SplitMarkdown("[[{\"TemplateName\":\"Cards\", \"CardOrientation\":\"Landscape\", \"SetListIds\":\"105,87\"}]] Text");
+        var markdownEndsWithText = MarkdownTokenizer.Run("[[{\"TemplateName\":\"Cards\", \"CardOrientation\":\"Landscape\", \"SetListIds\":\"105,87\"}]] Text");
 
         Assert.That(markdownEndsWithText.Count(p => p.IsTemplate), Is.EqualTo(1));
         Assert.That(markdownEndsWithText.Count(p => p.IsText), Is.EqualTo(1));
@@ -65,7 +65,7 @@ class TemplateParserTest
     [Test]
     public void Should_parse_markdown_multiple_Templates()
     {
-        var markdownWithMultiTemplates = MarkdownTokenizer.SplitMarkdown("Text[[Template]][[Template]]");
+        var markdownWithMultiTemplates = MarkdownTokenizer.Run("Text[[Template]][[Template]]");
 
         Assert.That(markdownWithMultiTemplates.Count(p => p.IsTemplate), Is.EqualTo(2));
     }
@@ -74,7 +74,7 @@ class TemplateParserTest
     public void Should_remove_newLines_and_whitespace_between_Templates_if_theres_nothing_else()
     {
         var input = "Text[[Template]]\r\n  [[Template]]";
-        var markdownWithMultiTemplates = MarkdownTokenizer.SplitMarkdown(input);
+        var markdownWithMultiTemplates = MarkdownTokenizer.Run(input);
 
         Assert.That(markdownWithMultiTemplates.Count(p => p.IsTemplate), Is.EqualTo(2));
         Assert.That(markdownWithMultiTemplates.Count(p => p.IsText), Is.EqualTo(2));
@@ -83,7 +83,7 @@ class TemplateParserTest
     [Test]
     public void Should_parse_markdown_multiple_Templates_and_start_with_Template()
     {
-        var markdownWithMultiTemplates = MarkdownTokenizer.SplitMarkdown("[[Template]][[Template]]");
+        var markdownWithMultiTemplates = MarkdownTokenizer.Run("[[Template]][[Template]]");
 
         Assert.That(markdownWithMultiTemplates.Count(p => p.IsTemplate), Is.EqualTo(2));
     }
@@ -91,7 +91,7 @@ class TemplateParserTest
     [Test]
     public void Should_parse_markdown_multiple_Texts()
     {
-        var markdownWithMultiTexts = MarkdownTokenizer.SplitMarkdown("Text[[Template]]Test");
+        var markdownWithMultiTexts = MarkdownTokenizer.Run("Text[[Template]]Test");
 
         Assert.That(markdownWithMultiTexts.Count(p => p.IsText), Is.EqualTo(2));
 
@@ -100,7 +100,7 @@ class TemplateParserTest
     [Test]
     public void Should_parse_markdown_with_single_brackets()
     {
-        var markdownWithSingleBrackets = MarkdownTokenizer.SplitMarkdown("[Text][[Template]]");
+        var markdownWithSingleBrackets = MarkdownTokenizer.Run("[Text][[Template]]");
 
         Assert.That(markdownWithSingleBrackets.Count(p => p.IsText), Is.EqualTo(1));
         Assert.That(markdownWithSingleBrackets[0].ToText(), Is.EqualTo("[Text]"));
