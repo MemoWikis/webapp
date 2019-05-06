@@ -14,8 +14,6 @@
 <asp:Content ID="Content2" ContentPlaceHolderID="Head" runat="server">
     <link href="/Views/Questions/Questions.css" rel="stylesheet" />
     <%= Scripts.Render("~/bundles/questions") %>
-    <% Model.TopNavMenu.BreadCrumb.Add(new TopNavMenuItem{Text = "Fragen", Url = Links.Questions, ToolTipText = "Fragen"});
-       Model.TopNavMenu.IsCategoryBreadCrumb = false; %>
 </asp:Content>
 
 <asp:Content ID="Content3" ContentPlaceHolderID="SubHeader" runat="server">

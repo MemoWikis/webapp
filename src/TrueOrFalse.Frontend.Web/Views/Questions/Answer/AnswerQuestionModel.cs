@@ -115,7 +115,6 @@ public class AnswerQuestionModel : BaseModel
     public bool IsInWidget;
 
     public ContentRecommendationResult ContentRecommendationResult;
-    
 
     public AnswerQuestionModel(Question question, bool? isMobileDevice = null)
     {
