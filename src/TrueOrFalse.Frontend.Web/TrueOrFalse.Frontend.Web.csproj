@@ -335,7 +335,7 @@
     <Compile Include="Views\Categories\Detail\Partials\VideoWidget\VideoWidgetJson.cs" />
     <Compile Include="Views\Categories\Detail\Partials\WishKnowledgeInTheBoxModel.cs" />
     <Compile Include="Views\Categories\Detail\Partials\TopicNavigation\TopicNavigationModel.cs" />
-    <Compile Include="Views\Categories\Detail\MarkdownToHtml.cs" />
+    <Compile Include="Views\Categories\Detail\TemplateToHtml\MarkdownToHtml.cs" />
     <Compile Include="Views\Categories\Detail\Partials\SingleCategory\SingleCategoryModel.cs" />
     <Compile Include="Views\Categories\Detail\Partials\SetListCard\SetListCardModel.cs" />
     <Compile Include="Views\Categories\Detail\Partials\SetTestSessionNoStartScreen\SetTestSessionNoStartScreenModel.cs" />
@@ -344,6 +344,8 @@
     <Compile Include="Views\Categories\Detail\Tabs\LearningTabModel.cs" />
     <Compile Include="Views\Categories\Detail\TemplateParser\TemplateJson.cs" />
     <Compile Include="Views\Categories\Detail\TemplateParser\TemplateParser.cs" />
+    <Compile Include="Views\Categories\Detail\TemplateParser\TemplateParserForSingleTemplate.cs" />
+    <Compile Include="Views\Categories\Detail\TemplateToHtml\MarkdownSingleTemplateToHtml.cs" />
     <Compile Include="Views\Categories\Detail\Partials\SingleSet\SingleSetModel.cs" />
     <Compile Include="Views\Categories\Edit\GraphDisplay\CategoryGraphModel.cs" />
     <Compile Include="Views\Categories\History\CategoryChangesOverviewController.cs" />

@@ -174,6 +174,6 @@ public class CategoryController : BaseController
     {
         var category = Sl.CategoryRepo.GetById(categoryId);
 
-        return Json(TemplateParser.Run(markdown, category, this.ControllerContext));
+        return Json(MarkdownSingleTemplateToHtml.Run(markdown, category, this.ControllerContext));
     }
 }

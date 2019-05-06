@@ -12,13 +12,23 @@ class TemplateParserTest
     [Test]
     public void Parser_should_parse_correct()
     {
-        TemplateParser.Run("Test", new Category("test"), new ControllerContext());
+        MarkdownSingleTemplateToHtml.Run("Test", new Category("test"), new ControllerContext());
+    }
+
+    [Test]
+    public void Parser_should_parse_raw_text_to_html()
+    {
+        var splitMarkdown = MarkdownToHtml.SplitMarkdown("Test Anfang\r\n\r\nTest 2\r\n[[{\"TemplateName\":\"Cards\", \"CardOrientation\":\"Landscape\", \"SetListIds\":\"105,87\"}]]\r\nTest\r\n\r\n[[{\"TemplateName\":\"Cards\", \"CardOrientation\":\"Landscape\", \"SetListIds\":\"109,87\"}]]");
+
+        var html = MarkdownSingleTemplateToHtml.Run(splitMarkdown.First(), new Category(), new ControllerContext());
+
+        Assert.IsTrue(html.StartsWith("<content-module inline-template"));
     }
 
     [Test]
     public void Parser_should_parse_text()
     {
-//        var html = TemplateParser.Run("Test", new Category("test"), new ControllerContext());
+//        var html = MarkdownSingleTemplateToHtml.Run("Test", new Category("test"), new ControllerContext());
     }
 
     [Test]
