@@ -2,17 +2,17 @@ using System.Collections.Generic;
 
 internal static class MarkdownTokenizer
 {
-    public static List<Part> Run(string markdown)
+    public static List<Token> Run(string markdown)
     {
-        var parts = new List<Part>();
-        var currentPart = new Part();
+        var tokens = new List<Token>();
+        var currentPart = new Token();
         string inputText = markdown;
         char lastChar = ' ';
         char preLastChar = ' ';
         string previousPart = "";
 
         if (inputText.Trim().StartsWith("[["))
-            currentPart.Type = PartType.Template;
+            currentPart.Type = TokenType.Template;
 
         var chars = inputText.ToCharArray();
         var charsLength = chars.Length;
@@ -25,41 +25,41 @@ internal static class MarkdownTokenizer
             if (hasNextChar)
                 nextChar = chars[i + 1];
             if (!hasNextChar)
-                parts.Add(currentPart);
+                tokens.Add(currentPart);
 
             if (character == '[' && nextChar == '[')
             {
                 if (currentPart.ToText().Trim().Length > 0)
                 {
-                    parts.Add(currentPart);
+                    tokens.Add(currentPart);
                     previousPart = currentPart.ToText();
                     if (previousPart.EndsWith("]]"))
                     {
-                        currentPart = new Part { Type = PartType.Text };
+                        currentPart = new Token { Type = TokenType.Text };
                         currentPart.AddNewLine();
-                        parts.Add(currentPart);
+                        tokens.Add(currentPart);
                         previousPart = currentPart.ToText();
                     }
 
-                    currentPart = new Part { Type = PartType.Template };
+                    currentPart = new Token { Type = TokenType.Template };
                 }
                 else if (currentPart.ToText().Trim().Length == 0 && previousPart.EndsWith("]]"))
                 {
-                    currentPart = new Part { Type = PartType.Text };
+                    currentPart = new Token { Type = TokenType.Text };
                     currentPart.AddNewLine();
-                    parts.Add(currentPart);
+                    tokens.Add(currentPart);
                     previousPart = currentPart.ToText();
 
-                    currentPart = new Part { Type = PartType.Template };
+                    currentPart = new Token { Type = TokenType.Template };
                 }
                 else
-                    currentPart = new Part { Type = PartType.Template };
+                    currentPart = new Token { Type = TokenType.Template };
             }
             else if (preLastChar == ']' && lastChar == ']' && !(character == '[' && nextChar == '['))
             {
-                parts.Add(currentPart);
+                tokens.Add(currentPart);
                 previousPart = currentPart.ToText();
-                currentPart = new Part { Type = PartType.Text };
+                currentPart = new Token { Type = TokenType.Text };
             }
 
             preLastChar = lastChar;
@@ -69,6 +69,6 @@ internal static class MarkdownTokenizer
 
         }
 
-        return parts;
+        return tokens;
     }
 }

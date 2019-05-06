@@ -5,9 +5,9 @@ using System.Web.Mvc;
 
 public class MarkdownSingleTemplateToHtml
 {
-    public static string Run(Part part, Category category, ControllerContext controllerContext)
+    public static string Run(Token token, Category category, ControllerContext controllerContext)
     {
-        return Run(part.ToText(), category, controllerContext);
+        return Run(token.ToText(), category, controllerContext);
     }
 
     public static string Run(string stringToParse, Category category, ControllerContext controllerContext)

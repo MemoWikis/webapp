@@ -348,8 +348,8 @@
     <Compile Include="Views\Categories\Detail\TemplateToHtml\MarkdownSingleTemplateToHtml.cs" />
     <Compile Include="Views\Categories\Detail\Partials\SingleSet\SingleSetModel.cs" />
     <Compile Include="Views\Categories\Detail\TemplateParser\Tokenizer\MarkdownTokenizer.cs" />
-    <Compile Include="Views\Categories\Detail\TemplateParser\Tokenizer\Part.cs" />
-    <Compile Include="Views\Categories\Detail\TemplateParser\Tokenizer\PartType.cs" />
+    <Compile Include="Views\Categories\Detail\TemplateParser\Tokenizer\Token.cs" />
+    <Compile Include="Views\Categories\Detail\TemplateParser\Tokenizer\TokenType.cs" />
     <Compile Include="Views\Categories\Edit\GraphDisplay\CategoryGraphModel.cs" />
     <Compile Include="Views\Categories\History\CategoryChangesOverviewController.cs" />
     <Compile Include="Views\Categories\History\CategoryHistoryController.cs" />

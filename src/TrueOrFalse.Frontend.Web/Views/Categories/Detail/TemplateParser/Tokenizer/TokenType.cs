@@ -1,4 +1,4 @@
-﻿public enum PartType
+﻿public enum TokenType
 {
     Text,
     Template

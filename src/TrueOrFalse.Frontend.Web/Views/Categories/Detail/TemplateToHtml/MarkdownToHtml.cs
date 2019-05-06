@@ -16,9 +16,9 @@ public class MarkdownToHtml
 
     public static string MarkdownContentToHtml(string markdown, Category category, ControllerContext controllerContext)
     {
-        var parts = MarkdownTokenizer.Run(markdown);
+        var tokens = MarkdownTokenizer.Run(markdown);
         var result = new StringBuilder();
-        foreach (Part element in parts)
+        foreach (Token element in tokens)
         {
             var htmlResult = MarkdownSingleTemplateToHtml.Run(element, category, controllerContext);
 

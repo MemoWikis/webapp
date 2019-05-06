@@ -39,14 +39,14 @@ class TemplateParserTest
         Assert.That(splitMarkdown.Count(p => p.IsTemplate), Is.EqualTo(2));
         Assert.That(splitMarkdown.Count(p => p.IsText), Is.EqualTo(2));
         Assert.That(splitMarkdown[0].ToText(), Is.EqualTo("Test Anfang\r\n\r\nTest 2\r\n"));
-        Assert.That(splitMarkdown[0].Type, Is.EqualTo(PartType.Text));
+        Assert.That(splitMarkdown[0].Type, Is.EqualTo(TokenType.Text));
 
         var markdownStartsWithText = MarkdownTokenizer.SplitMarkdown("Text[[Template]]");
 
         Assert.That(markdownStartsWithText.Count(p => p.IsTemplate), Is.EqualTo(1));
         Assert.That(markdownStartsWithText.Count(p => p.IsText), Is.EqualTo(1));
         Assert.That(markdownStartsWithText[0].ToText(), Is.EqualTo("Text"));
-        Assert.That(markdownStartsWithText[0].Type, Is.EqualTo(PartType.Text));
+        Assert.That(markdownStartsWithText[0].Type, Is.EqualTo(TokenType.Text));
     }
 
     [Test]
@@ -58,8 +58,8 @@ class TemplateParserTest
         Assert.That(markdownEndsWithText.Count(p => p.IsText), Is.EqualTo(1));
         Assert.That(markdownEndsWithText[0].ToText(), Is.EqualTo("[[{\"TemplateName\":\"Cards\", \"CardOrientation\":\"Landscape\", \"SetListIds\":\"105,87\"}]]"));
         Assert.That(markdownEndsWithText[1].ToText(), Is.EqualTo(" Text"));
-        Assert.That(markdownEndsWithText[0].Type, Is.EqualTo(PartType.Template));
-        Assert.That(markdownEndsWithText[1].Type, Is.EqualTo(PartType.Text));
+        Assert.That(markdownEndsWithText[0].Type, Is.EqualTo(TokenType.Template));
+        Assert.That(markdownEndsWithText[1].Type, Is.EqualTo(TokenType.Text));
     }
 
     [Test]
@@ -104,6 +104,6 @@ class TemplateParserTest
 
         Assert.That(markdownWithSingleBrackets.Count(p => p.IsText), Is.EqualTo(1));
         Assert.That(markdownWithSingleBrackets[0].ToText(), Is.EqualTo("[Text]"));
-        Assert.That(markdownWithSingleBrackets[0].Type, Is.EqualTo((PartType.Text)));
+        Assert.That(markdownWithSingleBrackets[0].Type, Is.EqualTo((TokenType.Text)));
     }
 }

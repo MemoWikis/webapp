@@ -5,9 +5,9 @@ public class TemplateParser
 {
     public static IList<BaseContentModule> Run(string markdownString, Category category)
     {
-        var parts = MarkdownTokenizer.Run(markdownString);
-        return parts
-            .Select(part => TemplateParserForSingleTemplate.Run(part, category))
+        var tokens = MarkdownTokenizer.Run(markdownString);
+        return tokens
+            .Select(token => TemplateParserForSingleTemplate.Run(token, category))
             .ToList();
     }
 
