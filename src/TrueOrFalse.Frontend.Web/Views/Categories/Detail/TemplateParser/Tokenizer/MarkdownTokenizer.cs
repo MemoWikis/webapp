@@ -1,8 +1,8 @@
 using System.Collections.Generic;
 
-static internal class MarkdownTokenizer
+internal static class MarkdownTokenizer
 {
-    public static List<Part> SplitMarkdown(string markdown)
+    public static List<Part> Run(string markdown)
     {
         var parts = new List<Part>();
         var currentPart = new Part();
