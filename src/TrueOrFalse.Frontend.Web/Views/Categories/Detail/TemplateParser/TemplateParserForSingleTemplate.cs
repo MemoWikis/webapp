@@ -3,6 +3,11 @@ using Newtonsoft.Json;
 
 public class TemplateParserForSingleTemplate
 {
+    public static BaseContentModule Run(Part part, Category category)
+    {
+        return Run(part.ToText(), category);
+    }
+
     public static BaseContentModule Run(string stringToParse, Category category)
     {
         TemplateJson templateJson;
