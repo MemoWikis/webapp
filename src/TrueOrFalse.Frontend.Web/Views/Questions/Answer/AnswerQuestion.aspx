@@ -53,46 +53,51 @@
         var relevanceForAllEntries = "<%= Model.TotalRelevanceForAllEntries %>";
     </script>
     
+    <%  if (Model.IsTestSession)
+        {
+            var testSession = Model.TestSession;
 
-    <%  if (Model.IsTestSession) {
-            if (Model.TestSession.SetName != null){
-                Model.TopNavMenu.BreadCrumb.Add(new TopNavMenuItem {Text = Model.TestSession.SetName, Url = Model.TestSession.SetLink});
+            if (testSession.IsSetSession)
+            {
+                Model.TopNavMenu.BreadCrumb.Add(new TopNavMenuItem {Text = testSession.SetName, Url = testSession.SetLink});
+            }
+            if (Model.TestSession.IsSetsSession)
+            {
+                Model.TopNavMenu.BreadCrumb.Add(new TopNavMenuItem {Text = testSession.SetListTitle, Url = testSession.SetLink});
             }
             else
-       {
-                Model.TopNavMenu.BreadCrumb.Add(new TopNavMenuItem {Text = Model.TestSession.CategoryToTest.Name, Url = Model.TestSession.CategoryToTest.Url});
+            {
+                Model.TopNavMenu.BreadCrumb.Add(new TopNavMenuItem {Text = testSession.CategoryToTest.Name, Url = testSession.CategoryToTest.Url});
                 Model.TopNavMenu.IsCategoryLearningBreadCrumb = true;
             }
-        } else if(Model.IsLearningSession) {
-            if (Model.LearningSession.SetToLearn != null) {
+        }
+        else if(Model.IsLearningSession)
+        {
+            if (Model.LearningSession.SetToLearn != null)
+            {
                 Model.TopNavMenu.BreadCrumb.Add(new TopNavMenuItem {Text = Model.LearningSession.SetToLearn.Name, Url = Links.SetDetail(Url, Model.LearningSession.SetToLearn)});
             }
-            else  {
-                if (!Model.LearningSession.IsWishSession){
+            else
+            {
+                if (!Model.LearningSession.IsWishSession)
+                {
                     Model.TopNavMenu.BreadCrumb.Add(new TopNavMenuItem {Text = Model.LearningSession.CategoryToLearn.Name, Url = Links.CategoryDetail( Model.LearningSession.CategoryToLearn)});
                 }
                 Model.TopNavMenu.IsCategoryLearningBreadCrumb = true;
             }
-
         }
-        else {
+        else
+        {
             if (Model.SetMinis.Count != 0)
-                Model.TopNavMenu.BreadCrumb.Add(new TopNavMenuItem {Text = Model.SetMinis[0].Name, Url = Model.SetMinis[0].Name});
-            else
-            {
-                Model.TopNavMenu.BreadCrumb.Add(new TopNavMenuItem {Text = Model.Question.Text, Url = Model.Question.Text});
-            }
+                Model.TopNavMenu.BreadCrumb.Add(new TopNavMenuItem {Text = Model.SetMinis[0].Name, Url = Links.SetDetail(Model.SetMinis[0].Name, Model.SetMinis[0].Id) });
         }
-        // return bool
+
         Model.TopNavMenu.IsCategoryBreadCrumb = false;
-        Model.TopNavMenu.IsAnswerQuestionOrSetBreadCrumb = Model.TopicMenu.PageCategories.Count != 0;
-        if (Model.TopNavMenu.IsCategoryLearningBreadCrumb) Model.TopNavMenu.IsAnswerQuestionOrSetBreadCrumb = false;
+        Model.TopNavMenu.IsAnswerQuestionOrSetBreadCrumb = Model.SetCount != 0;
+        Model.SidebarModel.AuthorCardLinkText = Model.Creator.Name;
+        Model.SidebarModel.AuthorImageUrl = Model.ImageUrl_250;
 
-
-    %>
-      
-    <% Model.SidebarModel.AuthorCardLinkText = Model.Creator.Name;
-       Model.SidebarModel.AuthorImageUrl = Model.ImageUrl_250; %>    
+    %>    
     <link type="text/css" href="/Content/blue.monday/jplayer.blue.monday.css" rel="stylesheet" />
 </asp:Content>
 
@@ -110,31 +115,26 @@
         data-is-last-step="<%= Model.TestSessionIsLastStep %>"/>
     <input type="hidden" id="hddQuestionId" value="<%= Model.QuestionId %>"/>
 
-
-            <% if (Model.IsLearningSession) { %>
-                   <% Html.RenderPartial("~/Views/Questions/Answer/LearningSession/LearningSessionHeader.ascx", Model); %>
-            <% }else if (Model.IsTestSession) { %>
-                   <% Html.RenderPartial("~/Views/Questions/Answer/TestSession/TestSessionHeader.ascx", Model); %>
-            <% }else { %>
-                <div class="AnswerQuestionHeader">
-                    <% Html.RenderPartial("~/Views/Questions/Answer/AnswerQuestionPager.ascx", Model); %>
-                </div>
-           <% } %>
-
-        
+    <% if (Model.IsLearningSession) { %>
+           <% Html.RenderPartial("~/Views/Questions/Answer/LearningSession/LearningSessionHeader.ascx", Model); %>
+    <% }else if (Model.IsTestSession) { %>
+           <% Html.RenderPartial("~/Views/Questions/Answer/TestSession/TestSessionHeader.ascx", Model); %>
+    <% }else { %>
+        <div class="AnswerQuestionHeader">
+            <% Html.RenderPartial("~/Views/Questions/Answer/AnswerQuestionPager.ascx", Model); %>
+        </div>
+   <% } %>
 
     <div id="FirstRow"class="row">
         <div class="col-xs-9">
             
-            <% Html.RenderPartial("~/Views/Questions/Answer/AnswerBodyControl/AnswerBody.ascx",
-                   new AnswerBodyModel(Model)); %>
+        <% Html.RenderPartial("~/Views/Questions/Answer/AnswerBodyControl/AnswerBody.ascx", new AnswerBodyModel(Model)); %>
 
+        <div class="row">
+            <div class="separationBorderTop" style="min-height: 20px;"></div>
+        </div>
 
-          <div class="row">
-                <div class="separationBorderTop" style="min-height: 20px;"></div>
-                </div>
-
-         <% Html.RenderPartial("~/Views/Questions/Answer/AnswerQuestionDetails.ascx", Model); %>
+        <% Html.RenderPartial("~/Views/Questions/Answer/AnswerQuestionDetails.ascx", Model); %>
 
         </div>
         <div class="col-xs-3">

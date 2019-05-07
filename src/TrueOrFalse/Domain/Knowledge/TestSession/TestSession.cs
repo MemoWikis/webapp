@@ -83,6 +83,8 @@ public class TestSession
         UriName = "Lernsets-" + UriSanitizer.Run(setListTitle);
         SetsToTestIds = sets.Select(s => s.Id).ToList();
         SetListTitle = setListTitle;
+        SetLink = Links.SetDetail(sets.FirstOrDefault());
+
         var excludeQuestionIds = Sl.R<SessionUser>().AnsweredQuestionIds.ToList();
         var questions = GetRandomQuestions.Run(sets, Settings.TestSessionQuestionCount, excludeQuestionIds, true).ToList();
         Populate(questions);
