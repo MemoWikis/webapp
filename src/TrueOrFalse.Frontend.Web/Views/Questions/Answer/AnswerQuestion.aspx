@@ -61,7 +61,7 @@
             {
                 Model.TopNavMenu.BreadCrumb.Add(new TopNavMenuItem {Text = testSession.SetName, Url = testSession.SetLink});
             }
-            if (Model.TestSession.IsSetsSession)
+            else if (Model.TestSession.IsSetsSession)
             {
                 Model.TopNavMenu.BreadCrumb.Add(new TopNavMenuItem {Text = testSession.SetListTitle, Url = testSession.SetLink});
             }
