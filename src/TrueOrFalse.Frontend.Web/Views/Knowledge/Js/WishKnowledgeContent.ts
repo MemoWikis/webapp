@@ -57,6 +57,9 @@
         if (window.location.href.endsWith("Fragen"))
             this.LoadQuestionsTab();
 
+        if (window.location.href.endsWith("Ueberblick"))
+            this.LoadDashboard();
+
         $("#topics").click((e) => {
             e.preventDefault();
             this.LoadTopicTab();
@@ -78,8 +81,8 @@
             else if (state.endsWith("Fragen"))
                 this.LoadQuestionsTab(/*pushState*/false);
 
-            else if (state.endsWith("Wissenszentrale"))
-                this.LoadQuestionsTab(/*pushState*/false);
+            else if (state.endsWith("Ueberblick") || state.endsWith("Wissenszentrale"))
+                this.LoadDashboard(/*pushState*/false);
 
         });
     }
@@ -91,7 +94,7 @@
             titleAction: "Lernsitzung starten",
             fnPushStateAction: () => {
                 if (pushState)
-                    window.history.pushState('Themen', 'Themen', '/Wissenszentrale');
+                    window.history.pushState('Ueberblick', 'Ueberblick', '/Wissenszentrale/Ueberblick');
             }
         });
     }
@@ -104,7 +107,7 @@
             urlAction: $("#hddUrlAddTopic").val(),
             fnPushStateAction: () => {
                 if (pushState)
-                    window.history.pushState('Themen', 'Themen', '/Wissenszentrale/Themen')
+                    window.history.pushState('Themen', 'Themen', '/Wissenszentrale/Themen');
             }
         });
     }
@@ -116,8 +119,8 @@
             titleAction: "Frage erstellen", 
             urlAction: $("#hddUrlAddQuestion").val(),
             fnPushStateAction: () => {
-                if(pushState)
-                    window.history.pushState('Fragen', 'Fragen', '/Wissenszentrale/Fragen')
+                if (pushState)
+                    window.history.pushState('Fragen', 'Fragen', '/Wissenszentrale/Fragen');
             }
         });
     }
