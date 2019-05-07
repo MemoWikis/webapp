@@ -33,7 +33,7 @@
     <% } %>
 
     <style type="text/css">
-         .selectorShowSolution{/* marker class */}
+        .selectorShowSolution{/* marker class */}
                
         .sparklineTotals{ position: relative;top: 1px; }
         .sparklineTotalsUser{ position: relative;top: 1px; }
@@ -61,7 +61,7 @@
             {
                 Model.TopNavMenu.BreadCrumb.Add(new TopNavMenuItem {Text = testSession.SetName, Url = testSession.SetLink});
             }
-            if (Model.TestSession.IsSetsSession)
+            else if (testSession.IsSetsSession)
             {
                 Model.TopNavMenu.BreadCrumb.Add(new TopNavMenuItem {Text = testSession.SetListTitle, Url = testSession.SetLink});
             }

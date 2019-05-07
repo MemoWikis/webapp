@@ -725,24 +725,36 @@
   padding-bottom: 10px;
 }
 .FooterQuestionDetails .col-md-2 {
-  width: 17%;
+  width: 20%;
 }
 @media (max-width: 991px) {
   .FooterQuestionDetails .col-md-2 {
     width: 100%;
+    -webkit-box-pack: start;
+    -webkit-justify-content: flex-start;
+        -ms-flex-pack: start;
+            justify-content: flex-start;
   }
 }
 .FooterQuestionDetails .col-md-10 {
-  width: 83%;
+  width: 80%;
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
   display: flex;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+      -ms-flex-pack: center;
+          justify-content: center;
   padding-top: 4px;
 }
 @media (max-width: 991px) {
   .FooterQuestionDetails .col-md-10 {
     width: 100%;
+    -webkit-box-pack: start;
+    -webkit-justify-content: flex-start;
+        -ms-flex-pack: start;
+            justify-content: flex-start;
   }
 }
 .FooterQuestionDetails .TextLinkWithIcon {
@@ -759,6 +771,7 @@
   font-size: 12px;
   padding-top: 2px;
   padding-left: 10px;
+  padding-left: 0;
 }
 .FooterQuestionDetails .processed {
   font-size: 12px;

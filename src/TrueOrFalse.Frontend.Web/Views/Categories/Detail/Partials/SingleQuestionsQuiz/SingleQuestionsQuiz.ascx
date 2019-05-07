@@ -16,7 +16,7 @@
                 <content-module-widget 
                     :widget-id="widgetId" 
                     widget-type="quiz" 
-                    src="http://memucho.local/views/widgets/w.js" 
+                    src="<%= Settings.CanonicalHost %>/views/widgets/w.js" 
                     data-t="question" 
                     :data-id="id" 
                     data-width="100%"
