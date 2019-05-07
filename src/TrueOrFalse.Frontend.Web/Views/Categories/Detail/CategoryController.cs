@@ -155,6 +155,9 @@ public class CategoryController : BaseController
 
         if (category != null && markdown != null)
         {
+            var elements = TemplateParser.Run(markdown, category);
+            var description = Document.GetDescription(elements);
+            category.Description = description;
             category.TopicMarkdown = markdown;
             Sl.CategoryRepo.Update(category, User_());
 

@@ -101,12 +101,14 @@ new Vue({
         footerCheck() {
             const elLicense = document.getElementById('GlobalLicense');
 
-            var rect = elLicense.getBoundingClientRect();
-            var viewHeight = Math.max(document.documentElement.clientHeight, window.innerHeight);
-            if (rect.top - viewHeight >= 0 || rect.bottom < 0 )
-                this.footerIsVisible = false;
-            else
-                this.footerIsVisible = true;
+            if (elLicense) {
+                var rect = elLicense.getBoundingClientRect();
+                var viewHeight = Math.max(document.documentElement.clientHeight, window.innerHeight);
+                if (rect.top - viewHeight >= 0 || rect.bottom < 0)
+                    this.footerIsVisible = false;
+                else
+                    this.footerIsVisible = true;
+            };
         },
 
         cancelEditMode() {

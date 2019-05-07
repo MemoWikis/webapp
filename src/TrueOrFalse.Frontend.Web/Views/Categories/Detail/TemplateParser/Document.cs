@@ -23,7 +23,7 @@ public class Document
 
         string description = shortenedText;
 
-        if (shortenedText.Length > 150)
+        if (trimmedText.Length > 150)
             description = description + "...";
 
         return description;
