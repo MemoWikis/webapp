@@ -335,6 +335,7 @@
     <Compile Include="Views\Categories\Detail\Partials\VideoWidget\VideoWidgetJson.cs" />
     <Compile Include="Views\Categories\Detail\Partials\WishKnowledgeInTheBoxModel.cs" />
     <Compile Include="Views\Categories\Detail\Partials\TopicNavigation\TopicNavigationModel.cs" />
+    <Compile Include="Views\Categories\Detail\TemplateParser\Document.cs" />
     <Compile Include="Views\Categories\Detail\TemplateToHtml\MarkdownToHtml.cs" />
     <Compile Include="Views\Categories\Detail\Partials\SingleCategory\SingleCategoryModel.cs" />
     <Compile Include="Views\Categories\Detail\Partials\SetListCard\SetListCardModel.cs" />

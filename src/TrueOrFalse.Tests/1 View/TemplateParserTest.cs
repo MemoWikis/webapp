@@ -106,4 +106,19 @@ class TemplateParserTest
         Assert.That(markdownWithSingleBrackets[0].ToText(), Is.EqualTo("[Text]"));
         Assert.That(markdownWithSingleBrackets[0].Type, Is.EqualTo((TokenType.Text)));
     }
+
+    [Test]
+    public void Should_extract_description()
+    {
+        var document = TemplateParser.Run(
+            "Test Anfang\r\n\r\nTest 2\r\n[[{\"TemplateName\":\"Cards\", \"CardOrientation\":\"Landscape\", \"SetListIds\":\"105,87\"}]]\r\nTest\r\n\r\n[[{\"TemplateName\":\"Cards\", \"CardOrientation\":\"Landscape\", \"SetListIds\":\"109,87\"}]]",
+            new Category());
+
+        var firstInlineTextElement = document.Elements.Where(token => token.Type == "inlinetext").Select(token => token.Markdown).First();
+
+
+        // var description = Document.GetDescription(document);
+
+        Assert.That(document.Elements[0].Type, Is.EqualTo("inlinetext"));
+    }
 }
