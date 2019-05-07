@@ -33,7 +33,7 @@
     <% } %>
 
     <style type="text/css">
-         .selectorShowSolution{/* marker class */}
+        .selectorShowSolution{/* marker class */}
                
         .sparklineTotals{ position: relative;top: 1px; }
         .sparklineTotalsUser{ position: relative;top: 1px; }
