@@ -298,6 +298,6 @@ class StickyHeaderClass {
 }
 
 $(() => {
-    var s = new StickyHeaderClass();
-
+    if (!Utils.IsInWidget())
+        var s = new StickyHeaderClass();
 });

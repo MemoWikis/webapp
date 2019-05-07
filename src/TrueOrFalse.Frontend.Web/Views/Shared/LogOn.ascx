@@ -16,7 +16,7 @@
         </div>
     </div>
     <div class="header-item">
-        <a href="/Wissenszentrale" data-btn-login="<%= !userSession.IsLoggedIn %>" class="TextLinkWithIcon KnowledgeLink"><i style="font-size: 32px;" class="fa fa-dot-circle-o"></i>
+        <a href="<%=Links.Knowledge() %>" data-btn-login="<%= !userSession.IsLoggedIn %>" class="TextLinkWithIcon KnowledgeLink"><i style="font-size: 32px;" class="fa fa-dot-circle-o"></i>
             <span class="primary-point-text TextSpan" style="padding-top: 6px;">Wissenszentrale</span>
         </a>
     </div>
