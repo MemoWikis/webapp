@@ -666,25 +666,26 @@
     padding-bottom: 10px;
 
     .col-md-2 {
-        width: 17%;
+        width: 20%;
 
         .media-below-md( {
             width: 100%;
+            justify-content: flex-start;
         }
 
         );
     }
 
     .col-md-10 {
-        width: 83%;
+        width: 80%;
         display: flex;
+        justify-content: center;
         padding-top: 4px;
 
         .media-below-md( {
             width: 100%;
-        }
-
-        );
+            justify-content: flex-start;
+        });
     }
 
     .TextLinkWithIcon {
@@ -697,6 +698,7 @@
 
     .created {
         .font-size12-and-padding();
+        padding-left: 0;
     }
 
     .processed {
