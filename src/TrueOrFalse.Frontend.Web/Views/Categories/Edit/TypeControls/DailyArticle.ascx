@@ -87,17 +87,6 @@
         </div>
     </div>    
 </div>
-<div class="form-group">
-    <label class="columnLabel control-label" for="Description">
-        Beschreibung
-        <i class="fa fa-question-circle show-tooltip" 
-            title="<%= EditCategoryTypeModel.DescriptionInfo %>" data-placement="<%= CssJs.TooltipPlacementLabel %>">
-        </i>
-    </label>
-    <div class="columnControlsFull">
-        <textarea class="form-control" name="Description" type="text"><%= Model.Description %></textarea>
-    </div>
-</div>
 
 <div class="form-group" style="padding-top: 20px; padding-bottom: 20px;">
     <label class="columnLabel control-label" for="Url">
