@@ -88,39 +88,6 @@
         </div>
     </div>    
 </div>
-<div class="form-group">
-    <label class="columnLabel control-label" for="Description">
-        Beschreibung
-        <i class="fa fa-question-circle show-tooltip" 
-            title="<%= EditCategoryTypeModel.DescriptionInfo %>" data-placement="<%= CssJs.TooltipPlacementLabel %>">
-        </i>
-    </label>
-    <div class="columnControlsFull">
-        <textarea class="form-control" name="Description" type="text"><%= Model.Description %></textarea>
-    </div>
-</div>
-
-<div class="form-group" style="padding-top: 20px; padding-bottom: 20px;">
-    <label class="columnLabel control-label" for="Url">
-        Online-Version
-        <i class="fa fa-question-circle show-tooltip" 
-            title="Falls der Artikel zusätzlich online zugänglich ist, gib bitte hier den Link (vorzugsweise einen Perma-Link) an." data-placement="<%= CssJs.TooltipPlacementLabel %>">
-        </i>
-    </label>
-    <div class="columnControlsFull">
-        <input class="form-control" name="Url" type="text" value="<%= Model.Url %>">
-    </div>
-    <label class="columnLabel control-label" for="UrlLinkText">
-        Angezeigter Link-Text (optional)
-        <i class="fa fa-question-circle show-tooltip" 
-           title="Gib hier einen Text an, der den Link beschreibt, zum Beispiel 'Online-Version des Artikels'. Lässt du das Feld leer, wird die Link-Adresse angezeigt." data-placement="<%= CssJs.TooltipPlacementLabel %>">
-        </i>
-    </label>
-    <div class="columnControlsFull">
-        <input class="form-control" name="UrlLinkText" type="text" maxlength="50" value="<%= Model.UrlLinkText %>">
-    </div>
-</div>
-
 <% if (!Model.IsEditing)
    { %>
     <script type="text/javascript">

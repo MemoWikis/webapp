@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 public class Document
@@ -10,10 +11,20 @@ public class Document
         Elements = elements;
     }
 
-    public string GetDescription(Document elements)
+    public static string GetDescription(Document elements)
     {
-        var firstInlineTextElement = elements.Elements.Select(token => token.Type == "inlinetext").First();
-        var description = "";
+        var element = elements.Elements;
+        var textElements = element.Where(e => e.IsText).Select(e => e.Markdown.Trim()).ToList();
+        var inlineTexts = String.Join("\r\n", textElements);
+        string trimmedText = inlineTexts.Trim();
+
+        char[] array = trimmedText.Take(150).ToArray();
+        string shortenedText = new string(array);
+
+        string description = shortenedText;
+
+        if (trimmedText.Length > 150)
+            description = description + "...";
 
         return description;
     }

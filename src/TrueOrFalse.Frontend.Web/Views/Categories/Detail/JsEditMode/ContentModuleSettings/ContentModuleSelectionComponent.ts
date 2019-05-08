@@ -15,6 +15,7 @@ Vue.component('content-module-selection-modal-component', {
                 { type: 'Cards', name: 'Lernset', tooltip: 'Zeige Lernsets in Kartenform an.' },
                 { type: 'CategoryNetwork', name: 'Themennetzwerk', tooltip: 'Über- und untergeordnete Themen werden übersichtlich dargestellt.' },
                 { type: 'ContentLists', name: 'Inhaltsverzeichnis', tooltip: 'Alle Lernsets und Fragen eines Themas und der untergeordneten Themen sind in Listenform dargestellt.' },
+                { type: 'RelatedContentLists', name: 'Verwandte Inhalte', tooltip: 'Verwandte Inhalte werden in Listenform dargestellt.' },
                 { type: 'EducationOfferList', name: 'Aus- und Weiterbildungen', tooltip: 'Zeigt Aus- und Weiterbildung (Universitäten, Kurse, Professoren/Dozenten etc.) eines Themas an.' },
                 { type: 'MediaList', name: 'Medien', tooltip: 'Zeigt Medien (Bücher, Zeitungsartikel, Online-Beiträge, Videos etc.) eines Themas an.' },
                 { type: 'SetCardMiniList', name: 'Lernsetliste', tooltip: 'Zeigt eine Liste aller lernsets zu einem Thema.' },
@@ -43,6 +44,7 @@ Vue.component('content-module-selection-modal-component', {
                 val != 'Spacer' &&
                 val != 'MediaList' &&
                 val != 'ContentLists' &&
+                val != 'RelatedContentLists' &&
                 val != 'EducationOfferList' &&
                 val != 'CategoryNetwork')
                 this.modalType = '#' + this.selectedModule.toLowerCase() + 'SettingsDialog';
@@ -73,6 +75,7 @@ Vue.component('content-module-selection-modal-component', {
                 val != 'Spacer' &&
                 val != 'MediaList' &&
                 val != 'ContentLists' &&
+                val != 'RelatedContentLists' &&
                 val != 'EducationOfferList' &&
                 val != 'CategoryNetwork')
                 this.modalType = '#' + this.selectedModule.toLowerCase() + 'SettingsDialog';

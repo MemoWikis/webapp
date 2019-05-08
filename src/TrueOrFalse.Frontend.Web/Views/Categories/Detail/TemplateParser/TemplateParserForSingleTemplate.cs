@@ -71,6 +71,8 @@ public class TemplateParserForSingleTemplate
             case "categorynetwork":
             case "contentlists":
                 return new CategoryModel(category, loadKnowledgeSummary: false);
+            case "relatedcontentlists":
+                return new CategoryModel(category, loadKnowledgeSummary: false);
             case "setlistcard":
                 return new SetListCardModel(category.Id, JsonConvert.DeserializeObject<SetListCardJson>(templateJson.OriginalJson));
             case "setcardminilist":
