@@ -18,22 +18,23 @@ namespace TemplateMigration
                 if (!IsNullOrWhiteSpace(category.Description) || !IsNullOrWhiteSpace(category.WikipediaURL) || !IsNullOrWhiteSpace(category.Url))
                 {
                     string newMarkdown = "";
+                    string doubleNewLine = "\r\n\r\n";
 
                     if (!IsNullOrWhiteSpace(category.Description))
                     {
-                        newMarkdown = newMarkdown + category.Description + System.Environment.NewLine + System.Environment.NewLine;
+                        newMarkdown = newMarkdown + category.Description + doubleNewLine;
                     }
 
                     if (!IsNullOrWhiteSpace(category.WikipediaURL))
                     {
-                        newMarkdown = newMarkdown + category.WikipediaURL + System.Environment.NewLine + System.Environment.NewLine;
+                        newMarkdown = newMarkdown + category.WikipediaURL + doubleNewLine;
                         category.WikipediaURL = "";
 
                     }
 
                     if (!IsNullOrWhiteSpace(category.Url))
                     {
-                        newMarkdown = newMarkdown + "[" + category.UrlLinkText + "](" + category.Url + ")" + System.Environment.NewLine + System.Environment.NewLine;
+                        newMarkdown = newMarkdown + "[" + category.UrlLinkText + "](" + category.Url + ")" + doubleNewLine;
                         category.Url = "";
                     }
 
