@@ -111,14 +111,78 @@ class TemplateParserTest
     public void Should_extract_description()
     {
         var document = TemplateParser.Run(
-            "Test Anfang\r\n\r\nTest 2\r\n[[{\"TemplateName\":\"Cards\", \"CardOrientation\":\"Landscape\", \"SetListIds\":\"105,87\"}]]\r\nTest\r\n\r\n[[{\"TemplateName\":\"Cards\", \"CardOrientation\":\"Landscape\", \"SetListIds\":\"109,87\"}]]",
+            "Test Anfang\r\n\r\nTest 2\r\n[[{\"TemplateName\":\"Cards\", \"CardOrientation\":\"Landscape\", \"SetListIds\":\"105,87\"}]]\r\n" +
+            "Test\r\n\r\n" +
+            "[[{\"TemplateName\":\"Cards\", \"CardOrientation\":\"Landscape\", \"SetListIds\":\"109,87\"}]]",
             new Category());
 
-        var firstInlineTextElement = document.Elements.Where(token => token.Type == "inlinetext").Select(token => token.Markdown).First();
-
-
-        // var description = Document.GetDescription(document);
+        var description = Document.GetDescription(document);
 
         Assert.That(document.Elements[0].Type, Is.EqualTo("inlinetext"));
+        Assert.That(document.Elements.Count(e => e.IsText), Is.EqualTo(2));
+        Assert.That(description, Is.EqualTo("Test Anfang\r\n\r\nTest 2\r\nTest"));
+    }
+
+    [Test]
+    public void Should_extract_description_without_templates()
+    {
+        var document = TemplateParser.Run(
+            "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor",
+            new Category());
+
+        var description = Document.GetDescription(document);
+
+        Assert.That(document.Elements[0].Type, Is.EqualTo("inlinetext"));
+        Assert.That(document.Elements.Count(e => e.IsText), Is.EqualTo(1));
+        Assert.That(description, Is.EqualTo("Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor"));
+    }
+
+    [Test]
+    public void Should_extract_description_start_with_template()
+    {
+        var document = TemplateParser.Run(
+            "[[{\"TemplateName\":\"Cards\", \"CardOrientation\":\"Landscape\", \"SetListIds\":\"105,87\"}]]\r\n" +
+            "Lorem Ipsum test usw und so fooort\r\n\r\n" +
+            "[[{\"TemplateName\":\"Cards\", \"CardOrientation\":\"Landscape\", \"SetListIds\":\"109,87\"}]]",
+            new Category());
+
+        var description = Document.GetDescription(document);
+
+        Assert.That(document.Elements[0].Type, Is.EqualTo("cards"));
+        Assert.That(document.Elements.Count(e => e.IsText), Is.EqualTo(1));
+        Assert.That(description, Is.EqualTo("Lorem Ipsum test usw und so fooort"));
+    }
+
+    [Test]
+    public void Should_extract_description_with_text_over_150_char()
+    {
+        var document = TemplateParser.Run(
+            "[[{\"TemplateName\":\"Cards\", \"CardOrientation\":\"Landscape\", \"SetListIds\":\"105,87\"}]]\r\n" +
+            "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book." +
+            "[[{\"TemplateName\":\"Cards\", \"CardOrientation\":\"Landscape\", \"SetListIds\":\"109,87\"}]]",
+            new Category());
+
+        var description = Document.GetDescription(document);
+
+        Assert.That(document.Elements[0].Type, Is.EqualTo("cards"));
+        Assert.That(document.Elements.Count(e => e.IsText), Is.EqualTo(1));
+        Assert.That(description, Is.EqualTo("Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500..."));
+    }
+
+    [Test]
+    public void Should_extract_description_with_text_over_150_char_with_modules_in_between()
+    {
+        var document = TemplateParser.Run(
+            "[[{\"TemplateName\":\"Cards\", \"CardOrientation\":\"Landscape\", \"SetListIds\":\"105,87\"}]]\r\n" +
+            "Lorem Ipsum is simply dummy text of the printing and typesetting industry.\r\n\r\n" +
+            "[[{\"TemplateName\":\"Cards\", \"CardOrientation\":\"Landscape\", \"SetListIds\":\"109,87\"}]]\r\n" +
+            "Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.",
+            new Category());
+
+        var description = Document.GetDescription(document);
+
+        Assert.That(document.Elements[0].Type, Is.EqualTo("cards"));
+        Assert.That(document.Elements.Count(e => e.IsText), Is.EqualTo(2));
+        Assert.That(description, Is.EqualTo("Lorem Ipsum is simply dummy text of the printing and typesetting industry.\r\nLorem Ipsum has been the industry's standard dummy text ever since the 150..."));
     }
 }
