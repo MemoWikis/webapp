@@ -5,16 +5,16 @@ using System.Web.Mvc;
 
 public class MarkdownSingleTemplateToHtml
 {
-    public static string Run(Token token, Category category, ControllerContext controllerContext)
+    public static string Run(Token token, Category category, ControllerContext controllerContext, bool preview = false)
     {
-        return Run(token.ToText(), category, controllerContext);
+        return Run(token.ToText(), category, controllerContext, preview);
     }
 
-    public static string Run(string stringToParse, Category category, ControllerContext controllerContext)
+    public static string Run(string stringToParse, Category category, ControllerContext controllerContext, bool preview = false)
     {
         try
         {
-            if (string.IsNullOrWhiteSpace(stringToParse))
+            if (string.IsNullOrWhiteSpace(stringToParse) && !preview)
                 return "";
 
             var baseContentModule = TemplateParserForSingleTemplate.Run(stringToParse, category);
