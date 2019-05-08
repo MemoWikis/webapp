@@ -54,7 +54,6 @@ span.CategoryType {
 }
 .CategoryRelations {
   text-align: center;
-  margin-bottom: 50px;
 }
 .RelationArrow {
   font-size: 18px;
@@ -1108,6 +1107,7 @@ p:empty {
   width: 100%;
 }
 #TopicTabContent #InlineEditToolbar .floatingActionBtn {
+  pointer-events: none;
   width: 100%;
   max-width: 1160px;
   display: -webkit-box;
@@ -1132,6 +1132,7 @@ p:empty {
   bottom: 0;
 }
 #TopicTabContent #InlineEditToolbar .floatingActionBtn .trigger {
+  pointer-events: auto;
   text-align: center;
   line-height: 56px;
   background-color: #afd534;
@@ -1178,8 +1179,9 @@ p:empty {
           transition-delay: 0.15s;
 }
 #TopicTabContent #InlineEditToolbar .toolbar {
+  pointer-events: none;
   bottom: 0;
-  width: 100vw;
+  width: 0;
   height: 56px;
   overflow: hidden;
   padding: 10px;
@@ -1192,6 +1194,7 @@ p:empty {
           box-shadow: 0 -2px 6px rgba(0, 0, 0, 0.16);
   -webkit-transition-delay: 0.15s;
           transition-delay: 0.15s;
+  width: 100vw;
 }
 #TopicTabContent #InlineEditToolbar .toolbar.sticky {
   width: 100%;
@@ -1239,6 +1242,7 @@ p:empty {
 }
 #TopicTabContent #InlineEditToolbar .toolbar .inner .btnRight .button,
 #TopicTabContent #InlineEditToolbar .toolbar .inner .btnLeft .button {
+  pointer-events: auto;
   width: 60px;
   margin: 0 10px;
   display: -webkit-box;

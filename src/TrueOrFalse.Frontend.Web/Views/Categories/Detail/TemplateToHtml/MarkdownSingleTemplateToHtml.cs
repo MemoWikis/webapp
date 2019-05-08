@@ -49,6 +49,7 @@ public class MarkdownSingleTemplateToHtml
             case "singlecategoryfullwidth":
             case "categorynetwork":
             case "contentlists":
+            case "relatedcontentlists":
             case "educationofferlist":
             case "setlistcard":
             case "setcardminilist":

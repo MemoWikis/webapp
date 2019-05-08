@@ -152,7 +152,7 @@
     
            Html.RenderPartial("~/Views/Categories/Detail/Partials/ContentLists/ContentLists.ascx", Model);
     
-           Html.RenderPartial("~/Views/Categories/Detail/Partials/RelatedContentLists.ascx", Model);
+           Html.RenderPartial("~/Views/Categories/Detail/Partials/RelatedContentLists/RelatedContentLists.ascx", Model);
     
            Html.RenderPartial("~/Views/Categories/Detail/Partials/CategoryNetwork/CategoryNetwork.ascx", Model);
     
