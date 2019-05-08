@@ -125,13 +125,10 @@
             <a href="<%= Url.Action("CheckForDuplicateGameRoundAnswers", "Maintenance") %>" data-url="toSecurePost" style="">
                 <i class="fa fa-retweet"></i> Auf Antworten mit selber RundenId und UserId checken
             </a><br />
-            <a href="<%= Url.Action("MigrateDefaultTemplates", "Maintenance") %>" data-url="toSecurePost" style="">
+            <a href="<%= Url.Action("MigrateDefaultTemplates", "Maintenance") %>" data-url="toSecurePost" style="display: none;">
                 <i class="fa fa-retweet"></i> Themen ohne topicMarkdown mit Templates migrieren
             </a><br />
-            <a href="<%= Url.Action("DelelteCategoryWithId1001", "Maintenance") %>" data-url="toSecurePost" style="">
-                <i class="fa fa-retweet"></i> Thema mit ID 1001 löschen
-            </a><br />
-            <a href="<%= Url.Action("MigrateDescriptionToTemplates", "Maintenance") %>" data-url="toSecurePost" style="">
+            <a href="<%= Url.Action("MigrateDescriptionToTemplates", "Maintenance") %>" data-url="toSecurePost" style="display: none;">
                 <i class="fa fa-retweet"></i> Themenbeschreibung migrieren
             </a>
             

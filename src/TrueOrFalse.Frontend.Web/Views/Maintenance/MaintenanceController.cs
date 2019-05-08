@@ -633,15 +633,6 @@ public class MaintenanceController : BaseController
     }
 
     [HttpPost]
-    public ActionResult DelelteCategoryWithId1001()
-    {
-        var category = Sl.CategoryRepo.GetByIdEager(1001);
-        Sl.CategoryRepo.Delete(category);
-
-        return View("Maintenance", new MaintenanceModel { Message = new SuccessMessage("Thema mit ID 1001 gelöscht") });
-    }
-
-    [HttpPost]
     public ActionResult MigrateDescriptionToTemplates()
     {
         TemplateMigration.DescriptionMigration.Start();
