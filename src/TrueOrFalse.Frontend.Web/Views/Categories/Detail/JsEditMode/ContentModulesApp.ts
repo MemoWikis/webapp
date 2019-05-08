@@ -124,6 +124,7 @@ new Vue({
 
         setEditMode() {
             if (NotLoggedIn.Yes()) {
+                NotLoggedIn.ShowErrorMsg("OpenEditMode");
                 return;
             } else {
                 this.editMode = !this.editMode;
