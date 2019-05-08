@@ -21,6 +21,9 @@
   color: #555555;
   font-size: 12px;
 }
+.question-details .show-tooltip {
+  margin-right: 5px;
+}
 .question-details .category-set {
   display: flex;
 }
@@ -39,6 +42,7 @@
 .question-details .second-row {
   padding-left: 0px;
   display: flex;
+  justify-content: center;
 }
 @media (max-width: 1199px) {
   .question-details .second-row {
