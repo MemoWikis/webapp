@@ -14,6 +14,9 @@ public class MarkdownSingleTemplateToHtml
     {
         try
         {
+            if (string.IsNullOrWhiteSpace(stringToParse))
+                return "";
+
             var baseContentModule = TemplateParserForSingleTemplate.Run(stringToParse, category);
 
             var html = GetHtml(

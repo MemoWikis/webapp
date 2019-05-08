@@ -9002,6 +9002,9 @@
     <Content Include="Images\ContentModuleSamples\CategoryNetwork.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="Images\ContentModuleSamples\RelatedContentLists.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="Images\ContentModuleSamples\ContentLists.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -22521,7 +22524,7 @@
     </Content>
     <Content Include="Views\Categories\Detail\Partials\CategoryNetwork\CategoryNetwork.ascx" />
     <Content Include="Views\Categories\Detail\Partials\MainInfo.ascx" />
-    <Content Include="Views\Categories\Detail\Partials\RelatedContentLists.ascx" />
+    <Content Include="Views\Categories\Detail\Partials\RelatedContentLists\RelatedContentLists.ascx" />
     <Content Include="Views\Categories\Detail\Partials\ContentLists\ContentLists.ascx" />
     <Content Include="Views\Categories\Detail\Partials\SetListCard\SetListCard.ascx" />
     <Content Include="Views\Categories\Detail\Partials\SingleSet\SingleSet.ascx" />
