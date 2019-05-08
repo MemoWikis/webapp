@@ -25,9 +25,11 @@
         </ul>
 
     <%if(!Model.TopNavMenu.IsWelcomePage){ %>  
-    
-            <%= Html.Partial("/Views/Categories/Detail/Partials/BreadCrumbCategories.ascx", Model.TopNavMenu) %>
-              
+            <% if (Model.TopNavMenu.IsCategoryBreadCrumb || Model.TopNavMenu.IsAnswerQuestionOrSetBreadCrumb)
+               { %>
+                <%= Html.Partial("/Views/Categories/Detail/Partials/BreadCrumbCategories.ascx", Model.TopNavMenu) %>
+              <% } %>
+
             <% var i = 0;
                foreach (var breadCrumbItem in Model.TopNavMenu.BreadCrumb) {
                    i++;
