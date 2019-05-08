@@ -1073,7 +1073,6 @@
     <Compile Include="Tools\Update\Steps\UpdateToVs164.cs" />
     <Compile Include="Tools\Update\Steps\UpdateToVs194.cs" />
     <Compile Include="Tools\Update\Steps\UpdateToVs195.cs" />
-    <Compile Include="Tools\Update\Steps\UpdateToVs202.cs" />
     <Compile Include="Tools\Update\Steps\UpdateToVs201.cs" />
     <Compile Include="Tools\Update\Steps\UpdateToVs200.cs" />
     <Compile Include="Tools\Update\Steps\UpdateToVs199.cs" />
@@ -1084,6 +1083,7 @@
     <Compile Include="Tools\Update\TemplateMigration\MarkdownConverter\Part.cs" />
     <Compile Include="Tools\Update\TemplateMigration\MarkdownConverter\PartType.cs" />
     <Compile Include="Tools\Update\TemplateMigration\DescriptionMigration.cs" />
+    <Compile Include="Tools\Update\TemplateMigration\DefaultTemplateMigration.cs" />
     <Compile Include="Tools\Update\TemplateMigration\TemplateMigrator.cs" />
     <Compile Include="Tools\Update\UpdateStepExecuter.cs" />
     <Compile Include="Tools\Update\Update.cs" />

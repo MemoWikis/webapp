@@ -11,6 +11,7 @@ using TrueOrFalse.Infrastructure;
 using TrueOrFalse.Search;
 using TrueOrFalse.Utilities.ScheduledJobs;
 using TrueOrFalse.Web;
+using static System.String;
 
 [AccessOnlyAsAdmin]
 [SessionState(System.Web.SessionState.SessionStateBehavior.ReadOnly)]
@@ -582,4 +583,70 @@ public class MaintenanceController : BaseController
 
         return View("Maintenance", new MaintenanceModel { Message = new SuccessMessage("Aggregate erstellt") });
     }
+
+
+    [HttpPost]
+    public ActionResult MigrateDefaultTemplates()
+    {
+        var allCategories = Sl.CategoryRepo.GetAll();
+
+        foreach (var category in allCategories)
+        {
+            if (IsNullOrWhiteSpace(category.TopicMarkdown))
+            {
+                var topicMarkdownBeforeUpdate = category.TopicMarkdown;
+                var categoryId = category.Id;
+
+                if (R<CategoryRepository>().GetChildren(category.Id).Any(c => c.Type.GetCategoryTypeGroup() == CategoryTypeGroup.Standard))
+                    category.TopicMarkdown = "[[{\"TemplateName\":\"TopicNavigation\",\"Title\":\"Unterthemen\"}]]\r\n";
+
+                var aggregatedSets = category.GetAggregatedSetsFromMemoryCache();
+                var aggregatedSetsCount = aggregatedSets.Count;
+                var aggregatedQuestionCount = category.GetCountQuestionsAggregated();
+
+                if (aggregatedSetsCount > 0 && aggregatedSetsCount <= 5)
+                {
+                    foreach (var set in aggregatedSets)
+                        category.TopicMarkdown = category.TopicMarkdown + "[[{\"TemplateName\":\"SingleSetFullWidth\",\"SetId\":" + set.Id + "}]]" + Environment.NewLine;
+                }
+                else if (aggregatedSetsCount == 0 && aggregatedQuestionCount > 0)
+                    category.TopicMarkdown = category.TopicMarkdown + "[[{\"TemplateName\":\"SingleQuestionsQuiz\"}]]" + Environment.NewLine;
+
+                if (R<CategoryRepository>().GetChildren(category.Id).Any(c => c.Type.GetCategoryTypeGroup() == CategoryTypeGroup.Education))
+                    category.TopicMarkdown = category.TopicMarkdown + "[[{\"TemplateName\":\"EducationOfferList\"}]]" + Environment.NewLine;
+
+                if (R<CategoryRepository>().GetChildren(category.Id).Any(c => c.Type.GetCategoryTypeGroup() == CategoryTypeGroup.Media))
+                    category.TopicMarkdown = category.TopicMarkdown + "[[{\"TemplateName\":\"MediaList\"}]]"+ Environment.NewLine;
+
+                category.TopicMarkdown = category.TopicMarkdown + 
+                                         "[[{\"TemplateName\":\"ContentLists\"}]]" + Environment.NewLine +
+                                         "[[{\"TemplateName\":\"RelatedContentLists\"}]]" + Environment.NewLine +
+                                         "[[{\"TemplateName\":\"CategoryNetwork\"}]]" + Environment.NewLine;
+
+                Sl.CategoryRepo.Update(category);
+
+                Logg.r().Information("{categoryId} {beforeMarkdown} {afterMarkdown}", categoryId, topicMarkdownBeforeUpdate, category.TopicMarkdown);
+            }
+        }
+
+        return View("Maintenance", new MaintenanceModel { Message = new SuccessMessage("Default Templates wurden migriert") });
+    }
+
+    [HttpPost]
+    public ActionResult DelelteCategoryWithId1001()
+    {
+        var category = Sl.CategoryRepo.GetByIdEager(1001);
+        Sl.CategoryRepo.Delete(category);
+
+        return View("Maintenance", new MaintenanceModel { Message = new SuccessMessage("Thema mit ID 1001 gelöscht") });
+    }
+
+    [HttpPost]
+    public ActionResult MigrateDescriptionToTemplates()
+    {
+        TemplateMigration.DescriptionMigration.Start();
+
+        return View("Maintenance", new MaintenanceModel { Message = new SuccessMessage("Die Category Description wurden migriert") });
+    }
 }
+
