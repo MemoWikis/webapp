@@ -54,10 +54,6 @@
                 </div>
             </div>
     </footer>
-
-    <% if(Request.IsLocal){ %>
-        <%--<%= MiniProfiler.RenderIncludes() %> --%>
-    <% } %>
     
     <% if (!Model.IsLoggedIn) { Html.RenderPartial("Modal_LoggedIn"); } %>
     <% Html.RenderPartial("UnpinSetModal"); %>

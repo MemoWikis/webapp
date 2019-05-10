@@ -49,14 +49,14 @@ class AnswerQuestion {
             this.LearningSessionStepGuid = $('#hddIsLearningSession').attr('data-current-step-guid');
         }
 
-        if (this.IsLearningSession && $('#hddIsLearningSession').attr('data-is-last-step'))
-            this._isLastLearningStep = $('#hddIsLearningSession').attr('data-is-last-step').toLowerCase() === "true";
+        if (this.IsLearningSession && $('#hddIsLearningSession').attr('data-is-last-step').toLowerCase() === "true")
+            this._isLastLearningStep = true ;
 
         if ($('#hddIsTestSession').length === 1)
             this.IsTestSession = $('#hddIsTestSession').val().toLowerCase() === "true";
 
-        if (this.IsTestSession && $('#hddIsTestSession').attr('data-is-last-step'))
-            AnswerQuestion.IsLastTestSessionStep = $('#hddIsTestSession').attr('data-is-last-step').toLowerCase() === "true";
+        if (this.IsTestSession && $('#hddIsTestSession').attr('data-is-last-step').toLowerCase() === "true")
+            AnswerQuestion.IsLastTestSessionStep = true ;
 
         if (this.IsTestSession && $('#hddIsTestSession').attr('data-test-session-id'))
             AnswerQuestion.TestSessionId = parseInt($('#hddIsTestSession').attr('data-test-session-id'));
@@ -183,7 +183,7 @@ class AnswerQuestion {
     }
 
     IsLastQuestion(): boolean {
-        return $("#isLastQuestion").val() === "True";
+        return $("#isLastQuestion").val() === "True"; // ??? check if needed !!!
     }
     
 
