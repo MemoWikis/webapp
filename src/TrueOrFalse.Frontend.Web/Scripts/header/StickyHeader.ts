@@ -254,7 +254,6 @@ class StickyHeaderClass {
                     $("#Path > div").last().remove();
                     if (this._breadCrumbCounter !== 1) {
                         this._breadCrumbCounter--;
-                        console.log(this._breadCrumbCounter);
                     }
                     if (this._breadCrumbCounter === 1) {
                         $("#PathMobileBreadCrumb").hide();
