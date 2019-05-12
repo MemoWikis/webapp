@@ -1,4 +1,4 @@
-﻿<%@ Page Title="Wissenszentrale" Language="C#" MasterPageFile="~/Views/Shared/Site.Sidebar.Master" Inherits="ViewPage<KnowledgeModel>" %>
+﻿<%@ Page Title="Wissenszentrale" Language="C#" MasterPageFile="~/Views/Shared/Site.MenuNo.Master.Master" Inherits="ViewPage<KnowledgeModel>" %>
 
 <%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
 <%@ Import Namespace="System.Web.Optimization" %>
