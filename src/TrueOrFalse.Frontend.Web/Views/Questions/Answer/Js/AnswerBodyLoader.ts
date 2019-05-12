@@ -133,7 +133,7 @@
 
                 this.updateMenu(result.menuHtml);
                 document.title = $(".QuestionText").html();
-                $("div#answerQuestionDetails").replaceWith(result.questionDetailsAsHtml);
+                $("#QuestionDetails").replaceWith(result.questionDetailsAsHtml);
                 $("div#comments").replaceWith(result.commentsAsHtml);
 
                 new AnswerBody();
