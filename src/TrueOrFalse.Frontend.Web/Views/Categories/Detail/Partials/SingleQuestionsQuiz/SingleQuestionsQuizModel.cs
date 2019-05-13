@@ -7,6 +7,7 @@ public class SingleQuestionsQuizModel : BaseContentModule
     public string Title;
     public string Text;
     public IList<Question> Questions;
+    public bool ShowAggregatedQuestions = false;
 
     public SingleQuestionsQuizModel(Category category, int n) : this(category, new SingleQuestionsQuizJson { MaxQuestions = n })
     {
@@ -19,6 +20,7 @@ public class SingleQuestionsQuizModel : BaseContentModule
 
         if (string.IsNullOrEmpty(singleQuestionsQuizJson.QuestionIds))
         {
+            ShowAggregatedQuestions = true;
             Questions = category.GetAggregatedQuestionsFromMemoryCache().Where(q => q.IsVisibleToCurrentUser()).ToList();
         }
         else
@@ -57,7 +59,11 @@ public class SingleQuestionsQuizModel : BaseContentModule
                 break;
         }
 
-        Questions = Questions.Take(singleQuestionsQuizJson.MaxQuestions).ToList();
+        var maxQuestions = 5;
+        if (singleQuestionsQuizJson.MaxQuestions > 0)
+            maxQuestions = singleQuestionsQuizJson.MaxQuestions;
+
+        Questions = Questions.Take(maxQuestions).ToList();
     }
 
 }
