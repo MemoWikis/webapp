@@ -5,28 +5,48 @@
     <div class="singleQuestionsQuiz">
         <h3><%: Model.Title %></h3>
         <p><%: Model.Text %></p>
-    
-        <div v-for="id in questions">
-            <div class="contentModuleSettings" v-if="canBeEdited">
-                <div class="questionCards fullwidth grid editView">
-                    Frage: {{id}}
-                </div>
-            </div>
-            <div v-show="!canBeEdited">
+
+        <% if (Model.ShowAggregatedQuestions) { %>
+            <% foreach (var question in Model.Questions)
+               { %>
                 <content-module-widget 
                     :widget-id="widgetId" 
                     widget-type="quiz" 
                     src="<%= Settings.CanonicalHost %>/views/widgets/w.js" 
                     data-t="question" 
-                    :data-id="id" 
+                    data-id="<%= question.Id %>" 
                     data-width="100%"
                     data-maxwidth="100%"
                     data-logoon="false" 
                     data-hideKnowledgeBtn="true">
-                </content-module-widget>     
+                </content-module-widget> 
+                <div class="SpacerDiv"></div>
+            <% } %>
+        <% } else {%>
+            <div v-for="id in questions">
+                <div class="contentModuleSettings" v-if="canBeEdited">
+                    <div class="questionCards fullwidth grid editView">
+                        Frage: {{id}}
+                    </div>
+                </div>
+                <div v-show="!canBeEdited">
+                    <content-module-widget 
+                        :widget-id="widgetId" 
+                        widget-type="quiz" 
+                        src="<%= Settings.CanonicalHost %>/views/widgets/w.js" 
+                        data-t="question" 
+                        :data-id="id" 
+                        data-width="100%"
+                        data-maxwidth="100%"
+                        data-logoon="false" 
+                        data-hideKnowledgeBtn="true">
+                    </content-module-widget>     
+                </div>
+                <div class="SpacerDiv"></div>
             </div>
-            <div class="SpacerDiv"></div>
-        </div>
+        <%} %>
+        
+        
     </div>
 
 <%: Html.Partial("~/Views/Categories/Detail/Partials/ContentModuleWrapperEnd.ascx") %>
