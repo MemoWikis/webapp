@@ -9,17 +9,19 @@
         <% if (Model.ShowAggregatedQuestions) { %>
             <% foreach (var question in Model.Questions)
                { %>
-                <content-module-widget 
-                    :widget-id="widgetId" 
-                    widget-type="quiz" 
-                    src="<%= Settings.CanonicalHost %>/views/widgets/w.js" 
-                    data-t="question" 
-                    data-id="<%= question.Id %>" 
-                    data-width="100%"
-                    data-maxwidth="100%"
-                    data-logoon="false" 
-                    data-hideKnowledgeBtn="true">
-                </content-module-widget> 
+                <div v-show="!canBeEdited">     
+                    <content-module-widget 
+                        :widget-id="widgetId" 
+                        widget-type="quiz" 
+                        src="<%= Settings.CanonicalHost %>/views/widgets/w.js" 
+                        data-t="question" 
+                        data-id="<%= question.Id %>" 
+                        data-width="100%"
+                        data-maxwidth="100%"
+                        data-logoon="false" 
+                        data-hideKnowledgeBtn="true">
+                    </content-module-widget> 
+                </div>
                 <div class="SpacerDiv"></div>
             <% } %>
         <% } else {%>
