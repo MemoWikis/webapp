@@ -125,42 +125,6 @@
 
     </div>
     <div class="row BoxButtonBar">
-        <%--<div class="BoxButtonColumn">
-            <% var tooltipGame = "Tritt gegen andere Nutzer im Echtzeit-Quizspiel an.";
-            if (Model.QuestionCount == 0)
-                tooltipGame = "Noch keine Fragen zum Spielen in diesem Lernset vorhanden";%>
-            <div class="BoxButton show-tooltip 
-                <%= !Model.IsLoggedIn ? "LookDisabled" : ""%> 
-                <%= Model.QuestionCount == 0 ? "LookNotClickable" : ""%>"
-                data-original-title="<%= tooltipGame %>">
-                <div class="BoxButtonIcon"><i class="fa fa-gamepad"></i></div>
-                <div class="BoxButtonText">
-                    <span>Spiel starten</span>
-                </div>
-                <% if (Model.QuestionCount > 0) { %>
-                    <a href="<%= Links.GameCreateFromSet(Model.Id) %>" rel="nofollow" data-allowed="logged-in" data-allowed-type="game">
-                    </a>
-                <% } %>
-            </div>
-        </div>--%>
-        <div class="BoxButtonColumn">
-            <% var tooltipDate = "Gib an, bis wann du alle Fragen in diesem Lernset lernen musst und erhalte deinen persönlichen Lernplan.";
-            if (Model.QuestionCount == 0)
-                tooltipDate = "Noch keine Fragen zum Lernen in diesem Lernset vorhanden";%>
-            <div class="BoxButton show-tooltip 
-                <%= !Model.IsLoggedIn ? "LookDisabled" : ""%>
-                <%= Model.QuestionCount == 0 ? "LookNotClickable" : ""%>"
-                data-original-title="<%= tooltipDate%>">
-                <div class="BoxButtonIcon"><i class="fa fa-calendar"></i></div>
-                <div class="BoxButtonText">
-                    <span>Prüfungstermin anlegen</span> 
-                </div>
-                <% if (Model.QuestionCount > 0) { %>
-                    <a href="<%= Links.DateCreateForSet(Model.Id) %>" rel="nofollow" data-allowed="logged-in" data-allowed-type="date-create">
-                    </a>
-                <% } %>
-            </div>
-        </div>
         <div class="BoxButtonColumn">
         <% var tooltipTest = "Teste dein Wissen mit " + Settings.TestSessionQuestionCount + " zufällig ausgewählten Fragen und jeweils nur einem Antwortversuch.";
             if (Model.QuestionCount == 0)
