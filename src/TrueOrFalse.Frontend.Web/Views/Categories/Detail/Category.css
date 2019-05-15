@@ -1310,6 +1310,13 @@ p:empty {
 .contentModuleSettings .clickable {
   cursor: pointer;
 }
+.contentModuleSettings .addCard {
+  width: 100%;
+  margin: auto 10px;
+}
+.contentModuleSettings .addCard.btn {
+  width: 140px;
+}
 .contentModuleSettings .addCard.portrait {
   width: 150px;
 }
@@ -1433,15 +1440,38 @@ p:empty {
   background: #dddddd;
 }
 .contentModuleSettings .selectModuleContainer {
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
+  margin-top: 30px;
+}
+.contentModuleSettings .selectModuleContainer .moduleSection {
+  margin-bottom: 20px;
+  padding-bottom: 20px;
+}
+.contentModuleSettings .selectModuleContainer .moduleSection.bottomBorder {
+  border-bottom: solid 1px #d6d6d6;
+}
+.contentModuleSettings .selectModuleContainer .moduleSection .mainModules {
   -webkit-box-orient: horizontal;
   -webkit-box-direction: normal;
   -webkit-flex-direction: row;
       -ms-flex-direction: row;
           flex-direction: row;
+}
+.contentModuleSettings .selectModuleContainer .moduleSection .subModules,
+.contentModuleSettings .selectModuleContainer .moduleSection .miscModules {
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -webkit-flex-direction: column;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  margin-left: 20px;
+}
+.contentModuleSettings .selectModuleContainer .moduleSection .mainModules,
+.contentModuleSettings .selectModuleContainer .moduleSection .subModules,
+.contentModuleSettings .selectModuleContainer .moduleSection .miscModules {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
   -webkit-box-pack: justify;
   -webkit-justify-content: space-between;
       -ms-flex-pack: justify;
@@ -1452,9 +1482,24 @@ p:empty {
   -webkit-flex-wrap: wrap;
       -ms-flex-wrap: wrap;
           flex-wrap: wrap;
-  margin-top: 30px;
+  width: 100%;
 }
-.contentModuleSettings .selectModuleContainer .sampleContainer {
+.contentModuleSettings .selectModuleContainer .moduleSection .mainModules .sampleContainer,
+.contentModuleSettings .selectModuleContainer .moduleSection .subModules .sampleContainer,
+.contentModuleSettings .selectModuleContainer .moduleSection .miscModules .sampleContainer {
+  -webkit-align-content: center;
+      -ms-flex-line-pack: center;
+          align-content: center;
+  max-width: 160px;
+  text-align: center;
+  padding: 10px;
+}
+.contentModuleSettings .selectModuleContainer .moduleSection .mainModules .sampleContainer,
+.contentModuleSettings .selectModuleContainer .moduleSection .subModules .sampleContainer,
+.contentModuleSettings .selectModuleContainer .moduleSection .miscModules .sampleContainer,
+.contentModuleSettings .selectModuleContainer .moduleSection .mainModules .sampleList,
+.contentModuleSettings .selectModuleContainer .moduleSection .subModules .sampleList,
+.contentModuleSettings .selectModuleContainer .moduleSection .miscModules .sampleList {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -1464,23 +1509,20 @@ p:empty {
   -webkit-flex-direction: column;
       -ms-flex-direction: column;
           flex-direction: column;
-  -webkit-align-content: center;
-      -ms-flex-line-pack: center;
-          align-content: center;
-  max-width: 160px;
-  max-height: 160px;
   width: 100%;
-  height: 100%;
   -webkit-box-pack: center;
   -webkit-justify-content: center;
       -ms-flex-pack: center;
           justify-content: center;
-  text-align: center;
-  padding: 10px;
   cursor: pointer;
   font-size: 16px;
 }
-.contentModuleSettings .selectModuleContainer .sampleContainer.active {
+.contentModuleSettings .selectModuleContainer .moduleSection .mainModules .sampleContainer.hover,
+.contentModuleSettings .selectModuleContainer .moduleSection .subModules .sampleContainer.hover,
+.contentModuleSettings .selectModuleContainer .moduleSection .miscModules .sampleContainer.hover,
+.contentModuleSettings .selectModuleContainer .moduleSection .mainModules .sampleList.hover,
+.contentModuleSettings .selectModuleContainer .moduleSection .subModules .sampleList.hover,
+.contentModuleSettings .selectModuleContainer .moduleSection .miscModules .sampleList.hover {
   -webkit-border-radius: 3px;
           border-radius: 3px;
   border: solid transparent 1px;
@@ -1488,18 +1530,36 @@ p:empty {
   transition: 0.2s;
   border-color: #45aece;
 }
-.contentModuleSettings .selectModuleContainer .sampleContainer img.show-tooltip {
+.contentModuleSettings .selectModuleContainer .moduleSection .mainModules .sampleContainer img.show-tooltip,
+.contentModuleSettings .selectModuleContainer .moduleSection .subModules .sampleContainer img.show-tooltip,
+.contentModuleSettings .selectModuleContainer .moduleSection .miscModules .sampleContainer img.show-tooltip,
+.contentModuleSettings .selectModuleContainer .moduleSection .mainModules .sampleList img.show-tooltip,
+.contentModuleSettings .selectModuleContainer .moduleSection .subModules .sampleList img.show-tooltip,
+.contentModuleSettings .selectModuleContainer .moduleSection .miscModules .sampleList img.show-tooltip {
   max-width: 120px;
   max-height: 80px;
   margin: 0 auto;
 }
-.contentModuleSettings .selectModuleContainer .sampleContainer .sampleContainerText {
+.contentModuleSettings .selectModuleContainer .moduleSection .mainModules .sampleContainer .sampleContainerText,
+.contentModuleSettings .selectModuleContainer .moduleSection .subModules .sampleContainer .sampleContainerText,
+.contentModuleSettings .selectModuleContainer .moduleSection .miscModules .sampleContainer .sampleContainerText,
+.contentModuleSettings .selectModuleContainer .moduleSection .mainModules .sampleList .sampleContainerText,
+.contentModuleSettings .selectModuleContainer .moduleSection .subModules .sampleList .sampleContainerText,
+.contentModuleSettings .selectModuleContainer .moduleSection .miscModules .sampleList .sampleContainerText {
   text-align: center;
   width: 100%;
   line-height: 1.3;
   margin-top: 5px;
   height: 100%;
   max-height: 40px;
+}
+.contentModuleSettings .selectModuleContainer .moduleSection .mainModules .sampleContainer .sampleContainerText.noImage,
+.contentModuleSettings .selectModuleContainer .moduleSection .subModules .sampleContainer .sampleContainerText.noImage,
+.contentModuleSettings .selectModuleContainer .moduleSection .miscModules .sampleContainer .sampleContainerText.noImage,
+.contentModuleSettings .selectModuleContainer .moduleSection .mainModules .sampleList .sampleContainerText.noImage,
+.contentModuleSettings .selectModuleContainer .moduleSection .subModules .sampleList .sampleContainerText.noImage,
+.contentModuleSettings .selectModuleContainer .moduleSection .miscModules .sampleList .sampleContainerText.noImage {
+  text-align: left;
 }
 /*------------------------------------------------------
     Spinner Overwrite

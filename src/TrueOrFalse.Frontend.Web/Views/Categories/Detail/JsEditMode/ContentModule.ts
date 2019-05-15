@@ -140,8 +140,6 @@ var contentModuleComponent = Vue.component('content-module', {
     watch: {
         canBeEdited: function(val) {
             if (val) {
-                if (this.contentModuleType != 'inlinetext') {
-                }
                 this.dataTarget = this.modalType;
                 this.markdown = this.origMarkdown;
                 if (!this.contentModuleType) // hides default modules on non customised pages

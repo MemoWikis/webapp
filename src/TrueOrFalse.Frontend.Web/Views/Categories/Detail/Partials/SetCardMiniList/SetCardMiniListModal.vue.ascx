@@ -33,7 +33,7 @@
                                     </v-select>
 
                                     <div class="settingsConfirmation">
-                                        <a class="clickable" @click="hideSetInput">abbrechen</a>
+                                        <div class="btn btn-link" @click="hideSetInput">Abbrechen</div>
                                         <div class="btn btn-primary" @click="addSet()">Hinzufügen</div>
                                     </div>
                                 </div>

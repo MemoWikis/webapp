@@ -34,7 +34,7 @@
                                     <div>Set: {{id}}</div>
                                 </div>
                                 <div>
-                                    <a class="clickable" @click.prevent="removeSet(index)"><i class="fa fa-trash"></i> Set entfernen</a>
+                                    <a class="clickable" @click.prevent="removeSet(index)"><i class="fa fa-trash">&nbsp;</i> Set entfernen</a>
                                 </div>
                             </div>
                         </div>
@@ -59,7 +59,7 @@
                                     </v-select>
 
                                     <div class="settingsConfirmation" :class="{ portrait : vertical }">
-                                        <a class="clickable" @click="hideSetInput">abbrechen</a>
+                                        <div class="btn btn-link" @click="hideSetInput">Abbrechen</div>
                                         <div class="btn btn-primary" @click="addSet()">Hinzufügen</div>
                                     </div>
                                 </div>
@@ -71,17 +71,7 @@
                         <div class="btn btn-link" @click="closeModal">Abbrechen</div>
                         <div class="btn btn-primary" @click="applyNewMarkdown()">Konfiguration übernehmen</div>       
                     </div>   
-                </div>
-                
-                
-                <%-- <input class="form-control" v-model="newSetId" placeholder="hier suchen"> --%>
-                <%-- <select v-model="newSetId" class="form-control"> --%>
-                <%--     <option v-for="item in filteredSearch" v-bind:value="item.Item.Id">{{item.Item.Name}}</option> --%>
-                <%-- </select> --%>
-                <%-- --%>
-
-                
-               
+                </div>               
             </div>
         </div>
     </div>

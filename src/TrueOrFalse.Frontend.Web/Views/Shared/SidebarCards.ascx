@@ -42,7 +42,7 @@
                 <span class="fa fa-heart"></span>
                 <span class="footer-bar-text"><%= Model.AmountWishCountQuestions %></span>
             </div>
-            <div id="follow-tooltip"class="show-tooltip " <% if (!Model.IsCurrentUser)
+            <div id="follow-tooltip" data-allowed="logged-in" class="show-tooltip " <% if (!Model.IsCurrentUser)
                 {%>title="<%if (Model.DoIFollow)
                 { %>Du folgst <%= author.Name %> und nimmst an ihren/seinen Aktivitäten teil.<%}
                 else

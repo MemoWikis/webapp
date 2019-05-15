@@ -58,7 +58,7 @@
                         <div class="questionCards fullwidth grid singleQuestionsQuizDialogData" v-for="(id, index) in questions" :questionId="id" :key="index">
                             <div class="questionCards card">
                                 <div>Frage: {{id}}</div>
-                                <a class="clickable" @click.prevent="removeQuestion(index)"><i class="fa fa-trash"></i>Frage entfernen</a>
+                                <a class="clickable" @click.prevent="removeQuestion(index)"><i class="fa fa-trash">&nbsp;</i>Frage entfernen</a>
                             </div>
                         </div>
                         <div id="addCardPlaceholder" class="questionCards fullwidth grid placeholder">
@@ -80,7 +80,7 @@
                                         </template>
                                     </v-select>
                                     <div class="settingsConfirmation">
-                                        <a class="clickable" @click="hideQuestionInput">abbrechen</a>
+                                        <div class="btn btn-link" @click="hideQuestionInput">Abbrechen</div>
                                         <div class="btn btn-primary" @click="addQuestion()">Hinzufügen</div>
                                     </div>
                                 </div>

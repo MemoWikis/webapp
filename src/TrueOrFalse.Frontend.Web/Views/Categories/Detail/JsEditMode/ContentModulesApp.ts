@@ -15,6 +15,22 @@ Vue.directive('sortable',
     });
 
 new Vue({
+    el: '#CategoryTabsApp',
+    data() {
+        return {};
+    },
+
+    methods: {
+        sendGaEvent(val) {
+            if (NotLoggedIn.Yes()) 
+                Utils.SendGaEvent("NotLoggedIn", "Click", "Open" + val);
+            else 
+                Utils.SendGaEvent("UserAction", "Click", "Open" + val);
+        }
+    },
+});
+
+new Vue({
     el: '#ContentModuleApp',
     data() {
         return {
@@ -127,6 +143,7 @@ new Vue({
                 NotLoggedIn.ShowErrorMsg("OpenEditMode");
                 return;
             } else {
+                Utils.SendGaEvent("UserAction", "Click", "OpenEditMode");
                 this.editMode = !this.editMode;
                 eventBus.$emit('set-edit-mode', this.editMode);
             };
@@ -142,10 +159,15 @@ new Vue({
             return event.related.id !== 'ContentModulePlaceholder';;
         },
 
-        async saveMarkdown() {
-
+        lockModules() {
             if (!this.editMode)
                 return;
+
+            eventBus.$emit('save-text', true);
+            setTimeout(this.saveMarkdown, 200);
+        },
+
+        async saveMarkdown() {
 
             const markdownParts = $(".ContentModule").map((idx, elem) => $(elem).attr("markdown")).get();
             let markdownDoc = "";

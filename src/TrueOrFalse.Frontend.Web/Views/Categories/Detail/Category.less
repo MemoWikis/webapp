@@ -1204,6 +1204,14 @@ p:empty {
     }
 
     .addCard {
+
+        width: 100%;
+        margin: auto 10px;
+
+        &.btn {
+            width: 140px;
+        }
+
         &.portrait {
             width: 150px;
         }
@@ -1292,47 +1300,73 @@ p:empty {
     }
 
     .selectModuleContainer {
-        display: flex;
-        flex-direction: row;
-        justify-content: space-between;
-        align-content: flex-start;
-        flex-wrap: wrap;
         margin-top: 30px;
 
-        .sampleContainer {
-            display: flex;
-            flex-direction: column;
-            align-content: center;
-            max-width: 160px;
-            max-height: 160px;
-            width: 100%;
-            height: 100%;
-            justify-content: center;
-            text-align: center;
-            padding: 10px;
-            cursor: pointer;
-            font-size: 16px;
+        .moduleSection {
+            margin-bottom: 20px;
+            padding-bottom: 20px;
 
-            &.active {
-                border-radius: 3px;
-                border: solid transparent 1px;
-                transition: 0.2s;
-                border-color: #45aece;
+            &.bottomBorder {
+                border-bottom: solid 1px #d6d6d6;
             }
 
-            img.show-tooltip {
-                max-width: 120px;
-                max-height: 80px;
-                margin: 0 auto
+            .mainModules {
+                flex-direction: row;
             }
 
-            .sampleContainerText {
-                text-align: center;
+            .subModules, .miscModules {
+                flex-direction: column;
+                margin-left: 20px;
+            }
+
+            .mainModules, .subModules, .miscModules {
+                display: flex;
+                justify-content: space-between;
+                align-content: flex-start;
+                flex-wrap: wrap;
                 width: 100%;
-                line-height: 1.3;
-                margin-top: 5px;
-                height: 100%;
-                max-height: 40px;
+
+                .sampleContainer {
+                    align-content: center;
+                    max-width: 160px;
+                    text-align: center;
+                    padding: 10px;
+                }
+
+                .sampleContainer, .sampleList {
+                    display: flex;
+                    flex-direction: column;
+                    width: 100%;
+                    justify-content: center;
+                    cursor: pointer;
+                    font-size: 16px;
+
+                    &.hover {
+                        border-radius: 3px;
+                        border: solid transparent 1px;
+                        transition: 0.2s;
+                        border-color: #45aece;
+                    }
+
+                    img.show-tooltip {
+                        max-width: 120px;
+                        max-height: 80px;
+                        margin: 0 auto
+                    }
+
+                    .sampleContainerText {
+                        text-align: center;
+                        width: 100%;
+                        line-height: 1.3;
+                        margin-top: 5px;
+                        height: 100%;
+                        max-height: 40px;
+
+                        &.noImage {
+                            text-align: left;
+                        }
+                    }
+                }
             }
         }
     }

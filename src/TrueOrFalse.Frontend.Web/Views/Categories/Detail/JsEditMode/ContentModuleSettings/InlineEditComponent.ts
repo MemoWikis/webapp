@@ -1,5 +1,4 @@
-﻿
-Vue.component('inline-text-component', {
+﻿Vue.component('inline-text-component', {
     props: {
         markdown: String,
         id: String,
@@ -18,16 +17,21 @@ Vue.component('inline-text-component', {
 
     mounted: function () {
         this.$refs[this.textAreaId].$el.focus();
+        eventBus.$on('save-text',
+            (state) => {
+                if (state == true) {
+                    this.applyNewMarkdown();
+                };
+            });
     },
 
     methods: {
-        changeContent(val) {
-            this.textContent = val;
-        },
 
         applyNewMarkdown() {
-            this.$parent.isListening = true;
-            Utils.ApplyMarkdown(this.textContent, this.parentId);
+            if (this.textCanBeEdited) {
+                this.$parent.isListening = true;
+                Utils.ApplyMarkdown(this.textContent, this.parentId);
+            }
         },
 
         cancelTextEdit() {
