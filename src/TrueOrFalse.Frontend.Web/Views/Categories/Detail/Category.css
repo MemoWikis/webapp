@@ -1310,6 +1310,13 @@ p:empty {
 .contentModuleSettings .clickable {
   cursor: pointer;
 }
+.contentModuleSettings .addCard {
+  width: 100%;
+  margin: auto 10px;
+}
+.contentModuleSettings .addCard.btn {
+  width: 140px;
+}
 .contentModuleSettings .addCard.portrait {
   width: 150px;
 }

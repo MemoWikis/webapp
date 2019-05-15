@@ -142,10 +142,15 @@ new Vue({
             return event.related.id !== 'ContentModulePlaceholder';;
         },
 
-        async saveMarkdown() {
-
+        lockModules() {
             if (!this.editMode)
                 return;
+
+            eventBus.$emit('save-text', true);
+            setTimeout(this.saveMarkdown, 200);
+        },
+
+        async saveMarkdown() {
 
             const markdownParts = $(".ContentModule").map((idx, elem) => $(elem).attr("markdown")).get();
             let markdownDoc = "";

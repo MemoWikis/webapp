@@ -1,6 +1,6 @@
 ﻿<div id="InlineEditToolbar" :class="{sticky : footerIsVisible}">
     <div class="floatingActionBtn" :class="{sticky : footerIsVisible}">
-        <div class="trigger" @click.prevent="setEditMode()" data-allowed="logged-in" :class="{ open : editMode }">
+        <div class="trigger" @click.prevent="setEditMode()" :class="{ open : editMode }">
             <i class="fas fa-pen"></i>  
         </div>
     </div>
@@ -29,7 +29,7 @@
                     </div>
                 </div>
 
-                <div class="button" @click.prevent="saveMarkdown()" :class="{ expanded : editMode }">
+                <div class="button" @click.prevent="lockModules()" :class="{ expanded : editMode }">
                     <div class="icon">
                         <i class="fas fa-save"></i>
                     </div>

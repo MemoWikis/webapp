@@ -8,7 +8,7 @@
                     <form>
                         <div class="form-group">
                             <div class="selectModuleContainer">
-                                <div class="moduleSection bottomBorder">
+                                <div class="moduleSection bottomBorder" v-if="showMainModules">
                                     <p>Hauptmodule</p>
                                     <div class="mainModules" >
                                         <div v-for="module in mainModules" :key="module.id" style="width: 160px;">
@@ -22,7 +22,7 @@
                                     </div>
                                 </div>
 
-                                <div class="moduleSection bottomBorder">
+                                <div class="moduleSection bottomBorder" v-if="showSubModules">
                                     <p>Nebenmodule</p>
                                     <div class="subModules" >
                                         <div v-for="module in subModules" :key="module.id">
@@ -35,7 +35,7 @@
                                     </div>
                                 </div>
 
-                                <div class="moduleSection">
+                                <div class="moduleSection" v-if="showMiscModules">
                                     <p>
                                         Andere
                                         <a href="#miscModules" data-toggle="collapse" class="greyed noTextdecoration" style="font-weight: normal;"><i class="fa fa-caret-down">&nbsp;</i> Module ein-/ausblenden</a>

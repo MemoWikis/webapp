@@ -85,7 +85,7 @@
                                             </template>
                                         </v-select>
                                         <div class="settingsConfirmation">
-                                            <a class="clickable" @click="hideTopicInput">abbrechen</a>
+                                            <div class="btn btn-link" @click="hideTopicInput">abbrechen</div>
                                             <div class="btn btn-primary" @click="addTopic()">Hinzufügen</div>
                                         </div>
                                     </div>
