@@ -22,7 +22,8 @@ function InitLabelTooltips() {
             if ($(this).attr("data-isSpolier") === "true") {
                 $(this).attr('title', 'Das Thema entspricht der Antwort.').attr('data-placement', 'top');
             } else {
-                if ($(this).innerWidth() == (parseInt($(this).css('max-width')) - 2 * (parseInt($(this).css('border-left-width')))))
+                let boarderLeftRight = 2;
+                if ($(this).innerWidth() == (parseInt($(this).css('max-width')) - boarderLeftRight * (parseInt($(this).css('border-left-width')))))
                     $(this).attr('title', 'Zum Thema "' + $("<p>" + $(this).html() + "</p>").text() + '"').attr('data-placement', 'top'); // p-tags added for .text() to work normal when stripping of tags
                 else
                     $(this).attr('title', 'Zum Thema').attr('data-placement', 'top');
@@ -44,8 +45,6 @@ function InitLabelTooltips() {
             else
                 $(this).attr('title', 'Zum Lernset').attr('data-placement', 'top');
             $(this).tooltip();
-
-            //console.log("clientWidth: " + $(this)[0].clientWidth + " -scrollWidth: " + $(this)[0].scrollWidth + " -offsetWidth: " + $(this)[0].offsetWidth + " -innerWidth: " + $(this).innerWidth() + " -maxWidth:" + $(this).css('maxWidth'));
         }
     });
 }
