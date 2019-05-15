@@ -57,18 +57,18 @@
 
     <% if (!Model.Category.IsHistoric) { %>
         <div id="TabsBar">
-            <div class="Tabs">
+            <div id="CategoryTabsApp" class="Tabs">
                 <div id="TopicTab" class="Tab active">
                     <a href="#">
                         <%= Model.Category.Type == CategoryType.Standard ? "Thema" : "Übersicht" %>
                     </a>
                 </div>
-                <div id="LearningTab" class="Tab">
-                    <a href="#">
+                <div id="LearningTab" class="Tab" @click="sendGaEvent('LearningTab')">
+                    <a href="#" >
                         Lernen
                     </a>
                 </div>
-                <div id="AnalyticsTab" class="Tab">
+                <div id="AnalyticsTab" class="Tab" @click="sendGaEvent('AnalyticsTab')">
                     <a href="#">
                         Analytics
                     </a>
