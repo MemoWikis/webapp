@@ -11,20 +11,22 @@ Vue.component('content-module-selection-modal-component', {
         return {
             templateMarkdown: '',
             contentModules: [
-                { type: 'InlineText', name: 'Text', tooltip: 'Freie Text Gestaltung per Markdown.' },
-                { type: 'Cards', name: 'Lernset', tooltip: 'Zeige Lernsets in Kartenform an.' },
-                { type: 'CategoryNetwork', name: 'Themennetzwerk', tooltip: 'Über- und untergeordnete Themen werden übersichtlich dargestellt.' },
-                { type: 'ContentLists', name: 'Inhaltsverzeichnis', tooltip: 'Alle Lernsets und Fragen eines Themas und der untergeordneten Themen sind in Listenform dargestellt.' },
-                { type: 'RelatedContentLists', name: 'Verwandte Inhalte', tooltip: 'Verwandte Inhalte werden in Listenform dargestellt.' },
-                { type: 'EducationOfferList', name: 'Aus- und Weiterbildungen', tooltip: 'Zeigt Aus- und Weiterbildung (Universitäten, Kurse, Professoren/Dozenten etc.) eines Themas an.' },
-                { type: 'MediaList', name: 'Medien', tooltip: 'Zeigt Medien (Bücher, Zeitungsartikel, Online-Beiträge, Videos etc.) eines Themas an.' },
-                { type: 'SetCardMiniList', name: 'Lernsetliste', tooltip: 'Zeigt eine Liste aller lernsets zu einem Thema.' },
-                { type: 'SingleCategoryFullWidth', name: 'Einzelthema', tooltip: 'Zeigt ein Thema in voller Breite an.' },
-                { type: 'SingleQuestionsQuiz', name: 'Quiz Widget', tooltip: 'Fragen eines Themas sind einzeln untereinander aufgelistet.' },
-                { type: 'SingleSetFullWidth', name: 'Einzellernset', tooltip: 'Zeigt ein Lernset in voller Breite an.' },
-                { type: 'Spacer', name: 'Abstandhalter', tooltip: 'Sorgt für mehr Raum unter oder über einem Modul' },
-                { type: 'TopicNavigation', name: 'Themenliste', tooltip: 'Zeigt eine Liste aller Hauptthemen.' },
-                { type: 'VideoWidget', name: 'Video Widget', tooltip: 'Zeigt ein Video aus einem Lernset mit entsprechenden Fragen.' }
+                { type: 'InlineText', group: 'main', name: 'Text', tooltip: 'Freie Text Gestaltung per Markdown.' },
+                { type: 'SingleQuestionsQuiz', group: 'main', name: 'Quiz Widget', tooltip: 'Fragen eines Themas sind einzeln untereinander aufgelistet.' },
+                { type: 'TopicNavigation', group: 'main', name: 'Themenliste', tooltip: 'Zeigt eine Liste aller Hauptthemen.' },
+
+                { type: 'Cards', group: 'sub', name: 'Lernset', tooltip: 'Zeige Lernsets in Kartenform an.' },
+                { type: 'SetCardMiniList', group: 'sub', name: 'Lernsetliste', tooltip: 'Zeigt eine Liste aller lernsets zu einem Thema.' },
+                { type: 'SingleCategoryFullWidth', group: '', name: 'Einzelthema', tooltip: 'Zeigt ein Thema in voller Breite an.' },
+                { type: 'SingleSetFullWidth', group: 'sub', name: 'Einzellernset', tooltip: 'Zeigt ein Lernset in voller Breite an.' },
+
+                { type: 'CategoryNetwork', group: 'misc', name: 'Themennetzwerk', tooltip: 'Über- und untergeordnete Themen werden übersichtlich dargestellt.' },
+                { type: 'ContentLists', group: 'misc', name: 'Inhaltsverzeichnis', tooltip: 'Alle Lernsets und Fragen eines Themas und der untergeordneten Themen sind in Listenform dargestellt.' },
+                { type: 'RelatedContentLists', group: 'misc', name: 'Verwandte Inhalte', tooltip: 'Verwandte Inhalte werden in Listenform dargestellt.' },
+                { type: 'EducationOfferList', group: 'misc', name: 'Aus- und Weiterbildungen', tooltip: 'Zeigt Aus- und Weiterbildung (Universitäten, Kurse, Professoren/Dozenten etc.) eines Themas an.' },
+                { type: 'MediaList', group: 'misc', name: 'Medien', tooltip: 'Zeigt Medien (Bücher, Zeitungsartikel, Online-Beiträge, Videos etc.) eines Themas an.' },
+                { type: 'Spacer', group: 'misc', name: 'Abstandhalter', tooltip: 'Sorgt für mehr Raum unter oder über einem Modul' },
+                { type: 'VideoWidget', group: 'misc', name: 'Video Widget', tooltip: 'Zeigt ein Video aus einem Lernset mit entsprechenden Fragen.' }
             ],
             selectedModule: '',
             modalType: '',
@@ -36,6 +38,26 @@ Vue.component('content-module-selection-modal-component', {
     created() {
         var self = this;
         self.contentModuleTemplate = new ContentModuleTemplate();
+    },
+
+    computed: {
+        mainModules: function() {
+            return this.contentModules.filter(function(i) {
+                return i.group === 'main';
+            });
+        },
+
+        subModules: function () {
+            return this.contentModules.filter(function (i) {
+                return i.group === 'sub';
+            });
+        },
+
+        miscModules: function () {
+            return this.contentModules.filter(function (i) {
+                return i.group === 'misc';
+            });
+        },
     },
 
     watch: {
