@@ -7,7 +7,7 @@
     </div>
     <div v-else @click="editInlineText()">
             <%: Html.Raw(HttpUtility.HtmlDecode(Model.Content))  %>
-        <div v-if="missingText" style="text-align: center;color:#e3e3e3"> Hier klicken um Text zu bearbeiten</div>
+        <div v-if="missingText" class="missingTextInModule"> Hier klicken um Text zu bearbeiten</div>
     </div>
 
 <%: Html.Partial("~/Views/Categories/Detail/Partials/ContentModuleWrapperEnd.ascx") %>

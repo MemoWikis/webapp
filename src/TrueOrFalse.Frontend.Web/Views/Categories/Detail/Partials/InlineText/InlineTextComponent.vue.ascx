@@ -5,6 +5,6 @@
 
     <div style="display: flex; justify-content: flex-end; margin:0.5rem 0">
         <div class="btn btn-link" @click="cancelTextEdit()">Abbrechen</div>
-        <div class="btn btn-primary" @click="applyNewMarkdown()">Text ändern</div>
+        <div class="btn btn-primary" @click="applyNewMarkdown()">Vorschau</div>
     </div>   
 </div>

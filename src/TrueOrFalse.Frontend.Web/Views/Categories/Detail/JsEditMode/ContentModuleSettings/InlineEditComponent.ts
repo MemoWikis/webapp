@@ -12,17 +12,19 @@
             textContent: this.$parent.markdown,
             textAreaId: this.$parent.textAreaId,
             textCanBeEdited: this.$parent.textCanBeEdited,
+            textBeforeEdit: '',
         };
+    },
+
+    watch: {
+        textContent: function() {
+            this.$parent.markdown = this.textContent;
+        },
     },
 
     mounted: function () {
         this.$refs[this.textAreaId].$el.focus();
-        eventBus.$on('save-text',
-            (state) => {
-                if (state == true) {
-                    this.applyNewMarkdown();
-                };
-            });
+        this.textBeforeEdit = this.textContent;
     },
 
     methods: {
@@ -35,6 +37,8 @@
         },
 
         cancelTextEdit() {
+            this.textContent = this.textBeforeEdit;
+            this.$parent.markdown = this.textContent;
             this.$parent.textCanBeEdited = false;
             this.$parent.hoverState = false;
         }

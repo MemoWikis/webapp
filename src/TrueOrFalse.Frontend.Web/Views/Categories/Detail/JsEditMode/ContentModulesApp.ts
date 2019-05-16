@@ -22,11 +22,11 @@ new Vue({
 
     methods: {
         sendGaEvent(val) {
-            if (NotLoggedIn.Yes()) 
+            if (NotLoggedIn.Yes())
                 Utils.SendGaEvent("NotLoggedIn", "Click", "Open" + val);
-            else 
+            else
                 Utils.SendGaEvent("UserAction", "Click", "Open" + val);
-        }
+        },
     },
 });
 
@@ -159,15 +159,10 @@ new Vue({
             return event.related.id !== 'ContentModulePlaceholder';;
         },
 
-        lockModules() {
+        async saveMarkdown() {
+
             if (!this.editMode)
                 return;
-
-            eventBus.$emit('save-text', true);
-            setTimeout(this.saveMarkdown, 200);
-        },
-
-        async saveMarkdown() {
 
             const markdownParts = $(".ContentModule").map((idx, elem) => $(elem).attr("markdown")).get();
             let markdownDoc = "";
