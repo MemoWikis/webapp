@@ -1,6 +1,8 @@
-﻿declare var VueTextareaAutosize: any;
+﻿declare var Vue: any;
+declare var VueTextareaAutosize: any;
 declare var VueSelect: any;
 declare var Sticky: any;
+declare var Sortable: any;
 
 Vue.use(VueTextareaAutosize);
 Vue.component('v-select', VueSelect.VueSelect);
