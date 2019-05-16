@@ -2027,6 +2027,11 @@ p:empty {
   border-color: #45aece;
   cursor: pointer;
 }
+.setQuestionCount .Pin .fa-heart-o,
+.ItemInfo .Pin .fa-heart-o,
+.categoryQuestionCount .Pin .fa-heart-o {
+  padding-right: 10px;
+}
 .sortable-ghost {
   background: #dddddd;
 }

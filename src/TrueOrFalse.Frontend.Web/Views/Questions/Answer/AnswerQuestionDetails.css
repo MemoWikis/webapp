@@ -44,6 +44,9 @@
   display: flex;
   justify-content: center;
 }
+.question-details .second-row .fa-eye {
+  padding-right: 3px;
+}
 @media (max-width: 1199px) {
   .question-details .second-row {
     padding-left: 10px;
