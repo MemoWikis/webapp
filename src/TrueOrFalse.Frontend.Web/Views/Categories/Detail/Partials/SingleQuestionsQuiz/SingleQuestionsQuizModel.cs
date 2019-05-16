@@ -59,7 +59,7 @@ public class SingleQuestionsQuizModel : BaseContentModule
                 break;
         }
 
-        var maxQuestions = 5;
+        var maxQuestions = 2;
         if (singleQuestionsQuizJson.MaxQuestions > 0)
             maxQuestions = singleQuestionsQuizJson.MaxQuestions;
 
