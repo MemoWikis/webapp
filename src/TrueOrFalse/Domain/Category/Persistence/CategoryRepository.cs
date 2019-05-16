@@ -5,6 +5,8 @@ using System.Net;
 using NHibernate;
 using NHibernate.Criterion;
 using TrueOrFalse.Search;
+using static System.String;
+
 
 public class CategoryRepository : RepositoryDbBase<Category>
 {
@@ -39,6 +41,12 @@ public class CategoryRepository : RepositoryDbBase<Category>
     {
         foreach (var related in category.ParentCategories().Where(x => x.DateCreated == default(DateTime)))
             related.DateModified = related.DateCreated = DateTime.Now;
+
+        if (IsNullOrEmpty(category.TopicMarkdown))
+        {
+           category.TopicMarkdown = "[[{\"TemplateName\":\"ContentLists\"}]]" + Environment.NewLine +
+                                    "[[{\"TemplateName\":\"CategoryNetwork\"}]]" + Environment.NewLine;
+        }
 
         base.Create(category);
         Flush();
