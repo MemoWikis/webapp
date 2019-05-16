@@ -1619,6 +1619,21 @@ p:empty {
   margin: 0 -20px;
   padding: 0 20px;
 }
+.ContentModule .ModuleBorder .missingTextInModule {
+  text-align: center;
+  color: #e3e3e3;
+}
+.ContentModule .ModuleBorder .spacerModule {
+  margin: 0.2rem;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+}
 .ContentModule .ModuleBorder .singleSetFullWidth,
 .ContentModule .ModuleBorder .singleCatFullWidth {
   margin: 50px 0 30px;
