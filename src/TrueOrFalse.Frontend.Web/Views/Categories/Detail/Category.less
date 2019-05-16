@@ -1431,7 +1431,7 @@ p:empty {
 
         .spacerModule {
             margin: 0.2rem;
-            display:flex;
+            display: flex;
             justify-content: center;
         }
 
@@ -1476,85 +1476,110 @@ p:empty {
         border: 0px;
     }
 
-
-
-    .Button {
-        position: absolute;
-        top: 0px;
-        right: -50px;
-        height: 80px;
-        width: 30px;
-        align-items: center;
+    .ButtonWrapper {
         display: flex;
-        justify-content: space-between;
-        padding-right: 10px;
-        flex-direction: column;
+        align-content: center;
+        position: absolute;
+        top: -15px;
+        right: -55px;
+        height: 100px;
+        width: 50px;
 
         @media(max-width: 780px) {
-            right: -30px;
-        }
-
-        &.dropdown {
-            display: flex;
-            flex-direction: column;
-        }
-
-        .ButtonEllipsis {
-            font-size: 18px;
-            color: #999999;
-        }
-
-        .delete {
-            border-top: 1px solid #ccc;
-            margin-top: 7px;
+            top: 0;
+            right: -20px;
+            width: 30px;
+            height: 80px;
         }
 
         &.moveToCenter {
             top: 50%;
-            margin-top: -40px;
+            margin-top: -50px;
+
+            @media(max-width: 780px) {
+                margin-top:-40px;
+            }
+        }
+
+        .Button {
+            margin: auto;
+            height: 80px;
+            width: 30px;
+            align-items: center;
+            display: flex;
+            justify-content: space-between;
+            flex-direction: column;
+
+
+            &.dropdown {
+                display: flex;
+                flex-direction: column;
+            }
+
+            .ButtonEllipsis {
+                font-size: 18px;
+                color: #999999;
+            }
+
+            .delete {
+                border-top: 1px solid #ccc;
+                margin-top: 7px;
+            }
         }
     }
+
+
 
     .ModuleHandle {
         position: absolute;
         top: 50%;
-        left: -40px;
-        margin-top: -30px;
+        left: -50px;
+        margin-top: -50px;
         font-size: 18px;
         color: #999999;
-        width: 30px;
-        height: 60px;
+        width: 40px;
+        height: 100px;
         display: flex;
-        align-items: center;
-        justify-content: space-between;
-        padding-right: 10px;
-        flex-direction: column;
+        justify-content: center;
 
         @media(max-width: 780px) {
+            height: 70px;
+            margin-top: -35px;
+            width: 30px;
             left: -20px;
         }
 
-        .IconWrapper {
-            width: 20px;
+        .ModuleHandleInner {
+            margin: auto;
             display: flex;
-            justify-content: center;
-        }
+            align-items: center;
+            justify-content: space-between;
+            flex-direction: column;
+            width: 30px;
+            height: 60px;
 
-        .Handle {
-            cursor: grab;
-        }
-
-        .SortButton {
-            cursor: pointer;
-
-            .hide {
-                opacity: 0;
+            .IconWrapper {
+                width: 20px;
+                display: flex;
+                justify-content: center;
             }
-        }
 
-        .ButtonEllipsis {
-            font-size: 18px;
-            color: #999999;
+            .Handle {
+                cursor: grab;
+            }
+
+            .SortButton {
+                cursor: pointer;
+
+                .hide {
+                    opacity: 0;
+                }
+            }
+
+            .ButtonEllipsis {
+                font-size: 18px;
+                color: #999999;
+            }
         }
     }
 }

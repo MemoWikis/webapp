@@ -1842,10 +1842,39 @@ p:empty {
 .ContentModule .list-group-item {
   border: 0px;
 }
-.ContentModule .Button {
+.ContentModule .ButtonWrapper {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-content: center;
+      -ms-flex-line-pack: center;
+          align-content: center;
   position: absolute;
-  top: 0px;
-  right: -50px;
+  top: -15px;
+  right: -55px;
+  height: 100px;
+  width: 50px;
+}
+@media (max-width: 780px) {
+  .ContentModule .ButtonWrapper {
+    top: 0;
+    right: -20px;
+    width: 30px;
+    height: 80px;
+  }
+}
+.ContentModule .ButtonWrapper.moveToCenter {
+  top: 50%;
+  margin-top: -50px;
+}
+@media (max-width: 780px) {
+  .ContentModule .ButtonWrapper.moveToCenter {
+    margin-top: -40px;
+  }
+}
+.ContentModule .ButtonWrapper .Button {
+  margin: auto;
   height: 80px;
   width: 30px;
   -webkit-box-align: center;
@@ -1860,19 +1889,13 @@ p:empty {
   -webkit-justify-content: space-between;
       -ms-flex-pack: justify;
           justify-content: space-between;
-  padding-right: 10px;
   -webkit-box-orient: vertical;
   -webkit-box-direction: normal;
   -webkit-flex-direction: column;
       -ms-flex-direction: column;
           flex-direction: column;
 }
-@media (max-width: 780px) {
-  .ContentModule .Button {
-    right: -30px;
-  }
-}
-.ContentModule .Button.dropdown {
+.ContentModule .ButtonWrapper .Button.dropdown {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -1883,27 +1906,42 @@ p:empty {
       -ms-flex-direction: column;
           flex-direction: column;
 }
-.ContentModule .Button .ButtonEllipsis {
+.ContentModule .ButtonWrapper .Button .ButtonEllipsis {
   font-size: 18px;
   color: #999999;
 }
-.ContentModule .Button .delete {
+.ContentModule .ButtonWrapper .Button .delete {
   border-top: 1px solid #ccc;
   margin-top: 7px;
-}
-.ContentModule .Button.moveToCenter {
-  top: 50%;
-  margin-top: -40px;
 }
 .ContentModule .ModuleHandle {
   position: absolute;
   top: 50%;
-  left: -40px;
-  margin-top: -30px;
+  left: -50px;
+  margin-top: -50px;
   font-size: 18px;
   color: #999999;
-  width: 30px;
-  height: 60px;
+  width: 40px;
+  height: 100px;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+}
+@media (max-width: 780px) {
+  .ContentModule .ModuleHandle {
+    height: 70px;
+    margin-top: -35px;
+    width: 30px;
+    left: -20px;
+  }
+}
+.ContentModule .ModuleHandle .ModuleHandleInner {
+  margin: auto;
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -1916,19 +1954,15 @@ p:empty {
   -webkit-justify-content: space-between;
       -ms-flex-pack: justify;
           justify-content: space-between;
-  padding-right: 10px;
   -webkit-box-orient: vertical;
   -webkit-box-direction: normal;
   -webkit-flex-direction: column;
       -ms-flex-direction: column;
           flex-direction: column;
+  width: 30px;
+  height: 60px;
 }
-@media (max-width: 780px) {
-  .ContentModule .ModuleHandle {
-    left: -20px;
-  }
-}
-.ContentModule .ModuleHandle .IconWrapper {
+.ContentModule .ModuleHandle .ModuleHandleInner .IconWrapper {
   width: 20px;
   display: -webkit-box;
   display: -webkit-flex;
@@ -1939,17 +1973,17 @@ p:empty {
       -ms-flex-pack: center;
           justify-content: center;
 }
-.ContentModule .ModuleHandle .Handle {
+.ContentModule .ModuleHandle .ModuleHandleInner .Handle {
   cursor: -webkit-grab;
   cursor: grab;
 }
-.ContentModule .ModuleHandle .SortButton {
+.ContentModule .ModuleHandle .ModuleHandleInner .SortButton {
   cursor: pointer;
 }
-.ContentModule .ModuleHandle .SortButton .hide {
+.ContentModule .ModuleHandle .ModuleHandleInner .SortButton .hide {
   opacity: 0;
 }
-.ContentModule .ModuleHandle .ButtonEllipsis {
+.ContentModule .ModuleHandle .ModuleHandleInner .ButtonEllipsis {
   font-size: 18px;
   color: #999999;
 }
