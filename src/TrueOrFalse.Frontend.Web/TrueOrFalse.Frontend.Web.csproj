@@ -9032,6 +9032,7 @@
     <Content Include="Images\ContentModuleSamples\Spacer.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="Images\ContentModuleSamples\SVG\Spacer.svg" />
     <Content Include="Images\ContentModuleSamples\TopicNavigation.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -21696,9 +21697,6 @@
     <Content Include="Views\Categories\Detail\Js\CategoryHeader.js.map">
       <DependentUpon>CategoryHeader.ts</DependentUpon>
     </Content>
-    <Content Include="Views\Categories\Detail\JsEditMode\InlineEditorComponent.js">
-      <DependentUpon>InlineEditorComponent.ts</DependentUpon>
-    </Content>
     <Content Include="Views\Categories\Detail\Js\SquareWishKnowledge.js">
       <DependentUpon>SquareWishKnowledge.ts</DependentUpon>
     </Content>
@@ -21793,7 +21791,6 @@
     <TypeScriptCompile Include="Views\Categories\Detail\JsEditMode\ContentModuleSettings\CardsDialogComponent.ts" />
     <TypeScriptCompile Include="Views\Categories\Detail\JsEditMode\ContentModule.ts" />
     <TypeScriptCompile Include="Views\Categories\Detail\JsEditMode\ContentModulesApp.ts" />
-    <TypeScriptCompile Include="Views\Categories\Detail\JsEditMode\InlineEditorComponent.ts" />
     <TypeScriptCompile Include="Views\Knowledge\Dates\Edit\Js\EditDate.ts" />
     <Content Include="Views\Knowledge\Dates\Edit\Js\EditDate.js">
       <DependentUpon>EditDate.ts</DependentUpon>
@@ -21958,9 +21955,6 @@
       <DependentUpon>EditDate.ts</DependentUpon>
     </Content>
     <Content Include="Style\top-header.less" />
-    <Content Include="Views\Categories\Detail\JsEditMode\InlineEditorComponent.js.map">
-      <DependentUpon>InlineEditorComponent.ts</DependentUpon>
-    </Content>
     <Content Include="Scripts\header\StickyHeader.js.map">
       <DependentUpon>StickyHeader.ts</DependentUpon>
     </Content>

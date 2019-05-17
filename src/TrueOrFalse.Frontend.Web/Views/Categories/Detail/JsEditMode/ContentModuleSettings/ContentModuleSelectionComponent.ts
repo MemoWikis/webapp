@@ -16,10 +16,12 @@ Vue.component('content-module-selection-modal-component', {
                 { type: 'TopicNavigation', group: 'main', name: 'Themenliste', tooltip: 'Zeigt eine Liste aller Hauptthemen.' },
                 { type: 'Spacer', group: 'main', name: 'Abstandhalter', tooltip: 'Sorgt für mehr Raum unter oder über einem Modul' },
 
+
                 { type: 'Cards', group: 'misc', name: 'Lernset', tooltip: 'Zeige Lernsets in Kartenform an.' },
                 { type: 'SetCardMiniList', group: 'misc', name: 'Lernsetliste', tooltip: 'Zeigt eine Liste aller lernsets zu einem Thema.' },
                 { type: 'SingleCategoryFullWidth', group: 'misc', name: 'Einzelthema', tooltip: 'Zeigt ein Thema in voller Breite an.' },
                 { type: 'SingleSetFullWidth', group: 'misc', name: 'Einzellernset', tooltip: 'Zeigt ein Lernset in voller Breite an.' },
+
                 { type: 'CategoryNetwork', group: 'misc', name: 'Themennetzwerk', tooltip: 'Über- und untergeordnete Themen werden übersichtlich dargestellt.' },
                 { type: 'ContentLists', group: 'misc', name: 'Inhaltsverzeichnis', tooltip: 'Alle Lernsets und Fragen eines Themas und der untergeordneten Themen sind in Listenform dargestellt.' },
                 { type: 'RelatedContentLists', group: 'misc', name: 'Verwandte Inhalte', tooltip: 'Verwandte Inhalte werden in Listenform dargestellt.' },
@@ -136,7 +138,6 @@ Vue.component('content-module-selection-modal-component', {
             if (this.modalType)
                 $(this.modalType).data('parent', template).modal('show');
             else if (this.selectedModule == 'InlineText') {
-                eventBus.$emit('unfocus-inline-text', true);
                 Utils.ApplyMarkdown('', template.id);
             }
             else

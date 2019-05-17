@@ -29,7 +29,7 @@
                     </div>
                 </div>
 
-                <div class="button" @click.prevent="lockModules()" :class="{ expanded : editMode }">
+                <div class="button" @click.prevent="saveMarkdown()" :class="{ expanded : editMode }">
                     <div class="icon">
                         <i class="fas fa-save"></i>
                     </div>

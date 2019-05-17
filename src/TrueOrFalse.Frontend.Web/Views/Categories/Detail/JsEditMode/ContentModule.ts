@@ -107,21 +107,15 @@ var contentModuleComponent = Vue.component('content-module', {
                 };
             });
 
-        eventBus.$on('unfocus-inline-text',
-            (state) => {
-                if (state == true) {
-                    this.textCanBeEdited = false;
-                };
-            });
-
         eventBus.$on('set-new-content-module',
             (state) => {
                 if (state == true && this.readyToFocus == true) {
+                    this.isListening = false;
                     this.hoverState = true;
                     if (this.contentModuleType == 'inlinetext') {
                         this.textCanBeEdited = true;
-                    }
-                }
+                    };
+                };
             });
     },
 
@@ -133,7 +127,7 @@ var contentModuleComponent = Vue.component('content-module', {
                     return false;
                 else
                     return true;
-            }
+            };
         },
     },
 
@@ -201,7 +195,6 @@ var contentModuleComponent = Vue.component('content-module', {
 
         editInlineText() {
             if (this.canBeEdited) {
-                eventBus.$emit('unfocus-inline-text', true);
                 eventBus.$emit('set-hover-state', false);
 
                 this.textCanBeEdited = true;
