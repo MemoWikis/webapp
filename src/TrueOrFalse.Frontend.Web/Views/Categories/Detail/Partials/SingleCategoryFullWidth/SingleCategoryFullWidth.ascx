@@ -21,10 +21,15 @@
                         </span>&nbsp;
                         <%= Model.Category.Type == CategoryType.Standard ? "Thema" : Model.CategoryType %> mit <%= Model.AggregatedSetCount %> Lernset<%= StringUtils.PluralSuffix(Model.AggregatedSetCount, "s") %> und <%= Model.AggregatedQuestionCount %> Frage<%= StringUtils.PluralSuffix(Model.AggregatedQuestionCount, "n") %>
                     </div>
-                    <div class="KnowledgeBarWrapper">
-                        <% Html.RenderPartial("~/Views/Categories/Detail/CategoryKnowledgeBar.ascx", new CategoryKnowledgeBarModel(Model.Category)); %>
-                        <div class="KnowledgeBarLegend">Dein Wissensstand</div>
-                    </div>
+
+                    <% if (Model.AggregatedSetCount != 0)
+                       { %>
+                        <div class="KnowledgeBarWrapper">
+                            <% Html.RenderPartial("~/Views/Categories/Detail/CategoryKnowledgeBar.ascx", new CategoryKnowledgeBarModel(Model.Category)); %>
+                            <div class="KnowledgeBarLegend">Dein Wissensstand</div>
+                        </div>
+                    <% } %>
+
                 </div>
     
                 <div class="categoryTitle">

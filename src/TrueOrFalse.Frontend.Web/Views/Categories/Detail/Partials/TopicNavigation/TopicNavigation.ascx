@@ -12,9 +12,11 @@
             <% } %>
     
         <div class="topicNavigation row" style= <%= Model.CategoryList.Count == 1 ? " \"justify-content: start;\" " : "" %> @click.stop="">
+            <% var counter = 0; %>
             <% foreach (var category in Model.CategoryList)
                 { %>
-                    <% if(Model.GetTotalSetCount(category) > 0 || Model.GetTotalQuestionCount(category) > 0 || Model.IsInstallationAdmin)
+                
+                    <% if(Model.GetTotalSetCount(category) > 0 || Model.GetTotalQuestionCount(category) > 0 || Model.IsInstallationAdmin)   
                        { %>
                         <div class="col-xs-6 topic">
                             <div class="row">
@@ -36,14 +38,18 @@
                                         <%: Model.GetTotalSetCount(category) %> Lernset<% if(Model.GetTotalSetCount(category) != 1){ %>s&nbsp;<% } else { %>&nbsp;<% } %>
                                         <%: Model.GetTotalQuestionCount(category) %> Frage<% if(Model.GetTotalQuestionCount(category) != 1){ %>n<% } %>
                                     </div>
-                                    <div class="KnowledgeBarWrapper">
-                                        <% Html.RenderPartial("~/Views/Categories/Detail/CategoryKnowledgeBar.ascx", new CategoryKnowledgeBarModel(category)); %>
-                                        <div class="KnowledgeBarLegend">Dein Wissensstand</div>
-                                    </div>
+                                    <% if (Model.CategoryList[counter].CountQuestionsAggregated != 0)
+                                       { %>  
+                                        <div class="KnowledgeBarWrapper">
+                                            <% Html.RenderPartial("~/Views/Categories/Detail/CategoryKnowledgeBar.ascx", new CategoryKnowledgeBarModel(category)); %>
+                                            <div class="KnowledgeBarLegend">Dein Wissensstand</div>
+                                        </div>
+                                        <% } %>
                                 </div>
                             </div>
                         </div>
                     <% } %>
+                <% counter++; %>
             <% } %>
         </div>
     <% } else { %>
