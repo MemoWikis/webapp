@@ -309,6 +309,7 @@
     <Compile Include="Views\Api\User\FacebookUsersApiController.cs" />
     <Compile Include="Views\Api\User\GoogleUsersApiController.cs" />
     <Compile Include="Views\Beta\BetaController.cs" />
+    <Compile Include="Views\Categories\Detail\CategoryNewController.cs" />
     <Compile Include="Views\Categories\Detail\Partials\BaseContentModule.cs" />
     <Compile Include="Views\Categories\Detail\Partials\Cards\CardsModel.cs" />
     <Compile Include="Views\Categories\Detail\Partials\Cards\CardsJson.cs" />
@@ -24278,6 +24279,7 @@
     <Folder Include="bin\Utilities\Update\Scripts\" />
     <Folder Include="bin\Utilities\Update\SolrSchemas\" />
     <Folder Include="Content\bootstrap\" />
+    <Folder Include="Views\CategoryNew\" />
     <Folder Include="Views\Dates\" />
   </ItemGroup>
   <PropertyGroup>

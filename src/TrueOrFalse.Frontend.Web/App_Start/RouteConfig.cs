@@ -193,6 +193,7 @@ namespace TrueOrFalse
 
             routes.MapRoute("Übersicht", "Übersicht/Förderer", new { controller = "Welcome", action = "Promoter" });
 
+            routes.MapRoute("Category_DetailNew", "{text}/{id}", new { controller = "CategoryNew", action = "CategoryNew" });
             routes.MapRoute("Default", "{controller}/{action}/{id}", new { controller = "Welcome", action = "Welcome", id = UrlParameter.Optional });
             routes.MapRoute("Various", "{action}", new { controller = "VariousPublic" });
 

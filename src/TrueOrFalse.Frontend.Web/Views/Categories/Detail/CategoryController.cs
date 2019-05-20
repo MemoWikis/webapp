@@ -18,8 +18,7 @@ public class CategoryController : BaseController
         if (SeoUtils.HasUnderscores(text))
             return SeoUtils.RedirectToHyphendVersion_Category(RedirectPermanent, text, id);
 
-        var category = Resolve<CategoryRepository>().GetById(id);
-        return Category(category, version);
+        return SeoUtils.RedirectToNewCategory(RedirectPermanent, text, id);
     }
 
     private ActionResult Category(Category category, int? version)

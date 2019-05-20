@@ -431,6 +431,7 @@ namespace TrueOrFalse.Frontend.Web.Code
         public const string CategoriesWishAction = "CategoriesWish";
         public const string CategoriesController = "Categories";
         public const string CategoryController = "Category";
+        public const string CategoryNewController = "CategoryNew";
         public const string CategoryEditController = "EditCategory";
         public const string CategoryCreateAction = "Create";
         public static string CategoriesAll() => GetUrlHelper().Action(CategoriesAction, CategoriesController);
@@ -456,6 +457,9 @@ namespace TrueOrFalse.Frontend.Web.Code
 
         public static string CategoryDetail(string name, int id) =>
             GetUrlHelper().Action("Category", CategoryController, new { text = UriSanitizer.Run(name), id = id });
+
+        public static string CategoryDetailNew(string name, int id) =>
+            GetUrlHelper().Action("CategoryNew","CategoryNew" ,new { text = UriSanitizer.Run(name), id = id });
 
         public static string CategoryDetail(string name, int id, int version) => 
             GetUrlHelper().Action("Category", CategoryController, new { text = UriSanitizer.Run(name), id = id, version = version }, null);

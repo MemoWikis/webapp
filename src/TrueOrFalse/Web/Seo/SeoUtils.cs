@@ -24,5 +24,8 @@ public class SeoUtils
 
     public static ActionResult RedirectToHyphendVersion_Category(Func<string, RedirectResult> redirect, string text, int categoryId)
         => redirect(Links.CategoryDetail(text, categoryId));
+
+    public static ActionResult RedirectToNewCategory(Func<string, RedirectResult> redirect, string text, int categoryId)
+        => redirect(Links.CategoryDetailNew(text, categoryId));
 }
 

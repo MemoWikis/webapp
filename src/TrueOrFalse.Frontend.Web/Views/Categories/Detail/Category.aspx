@@ -59,7 +59,6 @@
 
     </div>
 
-    
     <div id="LearningTabContent" class="TabContent" style="display: none;">
         <% Html.RenderPartial("~/Views/Categories/Detail/Tabs/LearningTab.ascx", Model); %>
     </div>
