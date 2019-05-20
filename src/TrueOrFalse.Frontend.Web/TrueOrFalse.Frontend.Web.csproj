@@ -183,7 +183,7 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="Serilog, Version=2.0.0.0, Culture=neutral, PublicKeyToken=24c2f752a8e58a10, processorArchitecture=MSIL">
-      <HintPath>..\packages\Serilog.2.2.1\lib\net46\Serilog.dll</HintPath>
+      <HintPath>..\packages\Serilog.2.8.0\lib\net46\Serilog.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Serilog.Formatting.Compact, Version=1.0.0.0, Culture=neutral, PublicKeyToken=24c2f752a8e58a10, processorArchitecture=MSIL">
@@ -21715,6 +21715,7 @@
     <Content Include="Views\Categories\Detail\Partials\ContentModuleWrapperStart.ascx" />
     <Content Include="Views\Categories\Detail\Partials\Alert.ascx" />
     <Content Include="Views\Categories\Detail\Partials\InlineText\InlineText.ascx" />
+    <Content Include="Views\Categories\Detail\Partials\SingleCategoryFullWidth\SingleCategoryFullWidthNoVue.ascx" />
     <Content Include="Views\Categories\Detail\Partials\SingleCategoryFullWidth\SingleCategoryFullWidthModal.vue.ascx" />
     <Content Include="Views\Categories\Detail\Partials\SingleQuestionsQuiz\SingleQuestionsQuizModal.vue.ascx" />
     <Content Include="Views\Categories\Detail\Partials\SingleSetFullWidth\SingleSetFullWidthModal.vue.ascx" />
