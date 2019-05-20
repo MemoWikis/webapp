@@ -989,10 +989,32 @@
 .flashCardAnswerButtons > .btn {
   margin-left: unset;
 }
-/* Primary Category Card */
 .singleCatFullWidth {
   margin-top: 2.25em;
+  margin-bottom: 2.25em;
 }
+@media (max-width: 1200px) {
+  .singleCatFullWidth .col-xs-9 {
+    width: 100%;
+  }
+}
+.singleCatFullWidth .col-xs-9 .col-xs-2 {
+  min-width: 128px;
+}
+.singleCatFullWidth .flex {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+.singleCatFullWidth .buttons {
+  padding-top: 15px;
+}
+/* Primary Category Card */
 /*--------------------------ActivityPoints---------------------
 
 ---------------------------------------------------------------*/
