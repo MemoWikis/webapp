@@ -12,6 +12,14 @@
     <meta property="og:image" content="<%= Model.ImageFrontendData.GetImageUrl(350, false, imageTypeForDummy: ImageType.Category).Url %>" />
     
     <script type="text/javascript" src="https://www.google.com/jsapi"></script>
+    <% if (HttpContext.Current.Request.Url.ToString().ToLower().Contains
+           ("/kategorien"))
+       {
+           HttpContext.Current.Response.Status ="301 Moved Permanently";
+           HttpContext.Current.Response.AddHeader("Location",Request.Url.ToString()
+               .ToLower().Replace("/kategorien",
+                   ""));
+       } %>
 </asp:Content>
 
 <asp:Content ID="head" ContentPlaceHolderID="Head" runat="server">
@@ -23,7 +31,7 @@
     <%= Scripts.Render("~/bundles/js/DeleteQuestion") %>
     <%= Scripts.Render("~/bundles/js/AnswerQuestion") %>    
     <%= Scripts.Render("~/bundles/js/CategorySort") %>
-
+    
     <script type="text/javascript" src="https://www.google.com/jsapi"></script>
     <%  
         if (Model.CategoriesChildren.Count != 0)
