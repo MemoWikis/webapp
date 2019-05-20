@@ -1073,6 +1073,7 @@
     <Compile Include="Tools\Update\Steps\UpdateToVs164.cs" />
     <Compile Include="Tools\Update\Steps\UpdateToVs194.cs" />
     <Compile Include="Tools\Update\Steps\UpdateToVs195.cs" />
+    <Compile Include="Tools\Update\Steps\UpdateToVs202.cs" />
     <Compile Include="Tools\Update\Steps\UpdateToVs201.cs" />
     <Compile Include="Tools\Update\Steps\UpdateToVs200.cs" />
     <Compile Include="Tools\Update\Steps\UpdateToVs199.cs" />

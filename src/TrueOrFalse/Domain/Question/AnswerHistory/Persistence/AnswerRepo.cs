@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using NHibernate;
 using NHibernate.Criterion;
 using Seedworks.Lib.Persistence;
+using Serilog;
 
 public class AnswerRepo : RepositoryDb<Answer> 
 {
@@ -202,15 +204,17 @@ public class AnswerRepo : RepositoryDb<Answer>
             .ToList();
     }
 
-    public IList<Answer> GetByLearningSessionStepGuids(IList<Guid> learningSessionStepGuids)
+    public IList<Answer> GetByLearningSessionStepGuids(int learningSessionId, IList<Guid> learningSessionStepGuids)
     {
         if (!learningSessionStepGuids.Any())
             return null;
 
-        var learningSessionStepGuidsStrings = learningSessionStepGuids.ToList().ConvertAll(g => Convert.ToString(g));
         var answerInteractions = _session.QueryOver<Answer>()
-            .WhereRestrictionOn(a => a.LearningSessionStepGuidString).IsIn(learningSessionStepGuidsStrings)
+            .Where(a => a.LearningSession.Id == learningSessionId)
             .List();
+
+        answerInteractions = answerInteractions
+            .Where(a => learningSessionStepGuids.Any(l => l == a.LearningSessionStepGuid)).ToList();
 
         if (!answerInteractions.Any())
             return null;
