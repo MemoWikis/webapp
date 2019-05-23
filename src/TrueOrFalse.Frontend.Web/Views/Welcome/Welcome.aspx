@@ -93,7 +93,7 @@
 
             <div class="EduCategoryRow row">
                 <div class="xxs-stack col-xs-6 col-sm-3">
-                    <a href="/Kategorien/Schule/682" class="EduCategory">
+                    <a href="<%=Links.WelcomeLinks("Schule", 682) %>" class="EduCategory">
                         <span class="EduCategoryIcon">
                             <span class="fa-stack fa-lg">
                                 <i class="fa fa-circle fa-stack-2x"></i>
@@ -106,7 +106,7 @@
                 </div>
 
                 <div class="xxs-stack col-xs-6 col-sm-3">
-                    <a href="/Kategorien/Studium/687" class="EduCategory">
+                    <a href="<%=Links.WelcomeLinks("Studium", 687) %>" class="EduCategory">
                         <span class="EduCategoryIcon">
                             <span class="fa-stack fa-lg">
                                 <i class="fa fa-circle fa-stack-2x"></i>
@@ -118,7 +118,7 @@
                     </a>
                 </div>
                 <div class="xxs-stack col-xs-6 col-sm-3">
-                    <a href="/Kategorien/Zertifikate/689" class="EduCategory show-tooltip" title="Sportbootführerscheine, Einbürgerungstest, Pferdebasispass etc.">
+                    <a href="<%=Links.WelcomeLinks("Zertifikate", 689) %>" class="EduCategory show-tooltip" title="Sportbootführerscheine, Einbürgerungstest, Pferdebasispass etc.">
                         <span class="EduCategoryIcon">
                             <span class="fa-stack fa-lg">
                                 <i class="fa fa-circle fa-stack-2x"></i>
@@ -130,7 +130,7 @@
                     </a>
                 </div>
                 <div class="xxs-stack col-xs-6 col-sm-3">
-                    <a href="/Kategorien/Allgemeinwissen/709" class="EduCategory">
+                    <a href="<%=Links.WelcomeLinks("Allgmeinwissen", 709) %>" class="EduCategory">
                         <span class="EduCategoryIcon">
                             <span class="fa-stack fa-lg">
                                 <i class="fa fa-circle fa-stack-2x"></i>

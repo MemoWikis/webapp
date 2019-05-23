@@ -50,7 +50,7 @@ namespace TrueOrFalse.Frontend.Web.Code
         public static UrlHelper GetUrlHelper()
         {
             var res = new UrlHelper(HttpContext.Current.Request.RequestContext);
-            res.RemoveRoutes(new[] { "version" });
+            res.RemoveRoutes(new[] {"version"});
             return res;
         }
 
@@ -66,6 +66,7 @@ namespace TrueOrFalse.Frontend.Web.Code
 
         /* Welcome */
         public static string Welcome() => GetUrlHelper().Action("Welcome", WelcomeController);
+        public static string WelcomeLinks(string name, int Id)  { return "/"+ name + "/" + Id; }
 
         /* AlgoInsight */
         public const string AlgoInsightController = "AlgoInsight";
