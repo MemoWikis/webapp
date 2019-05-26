@@ -1,4 +1,9 @@
-﻿using System.Web.Mvc;
+﻿using System;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Linq;
+using System.Reflection;
+using System.Web.Mvc;
 using System.Web.Routing;
 
 namespace TrueOrFalse
@@ -193,11 +198,25 @@ namespace TrueOrFalse
 
             routes.MapRoute("Übersicht", "Übersicht/Förderer", new { controller = "Welcome", action = "Promoter" });
 
+            foreach (var typeName in GetAllControllerNames())
+            {
+                Debug.WriteLine(typeName.Replace("Controller", ""));
+                var controllerName = typeName.Replace("Controller", "");
+                routes.MapRoute(controllerName +  "Generated", controllerName + "/{action}", new { controller = controllerName });
+            }
+
             routes.MapRoute("Category_DetailNew", "{text}/{id}", new { controller = "CategoryNew", action = "CategoryNew" });
             routes.MapRoute("Default", "{controller}/{action}/{id}", new { controller = "Welcome", action = "Welcome", id = UrlParameter.Optional });
-            routes.MapRoute("Various", "{action}", new { controller = "VariousPublic" });
-
-           
+            routes.MapRoute("Various", "{action}", new {controller = "VariousPublic"});
         }
+
+        public static IEnumerable<string> GetAllControllerNames() 
+        {
+            var assembly = typeof(RouteConfig).Assembly;
+            return assembly.GetTypes()
+                .Where(t => t.FullName != null && t.FullName.EndsWith("Controller"))
+                .Select(t => t.FullName);
+        }
+
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using TrueOrFalse;
 
 public class CategoryNameAllowed
 {
@@ -27,6 +28,12 @@ public class CategoryNameAllowed
 
     private bool Yes(string categoryName, CategoryType type)
     {
+        if (RouteConfig.GetAllControllerNames()
+            .Any(controllerName => controllerName.ToLower() == categoryName.ToLower()))
+        {
+            return false;
+        }
+
         var typesToTest = new[] {CategoryType.Standard, CategoryType.Magazine, CategoryType.Daily};
         if (typesToTest.All(t => type != t))
             return true;
