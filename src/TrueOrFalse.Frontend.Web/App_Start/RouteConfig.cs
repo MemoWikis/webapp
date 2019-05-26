@@ -205,6 +205,8 @@ namespace TrueOrFalse
                 routes.MapRoute(controllerName +  "Generated", controllerName + "/{action}", new { controller = controllerName });
             }
 
+            routes.MapRoute("GetQuestionSets", "Questions/GetQuestionSets", new { controller = "Questions", action = "GetQuestionSets" });
+           // routes.MapRoute("GetQuestion", "Questions/AddToQuestionSet", new { controller = "Questions", action = "AddToQuestionSet" });
             routes.MapRoute("Category_DetailNew", "{text}/{id}", new { controller = "CategoryNew", action = "CategoryNew" });
             routes.MapRoute("Default", "{controller}/{action}/{id}", new { controller = "Welcome", action = "Welcome", id = UrlParameter.Optional });
             routes.MapRoute("Various", "{action}", new {controller = "VariousPublic"});
