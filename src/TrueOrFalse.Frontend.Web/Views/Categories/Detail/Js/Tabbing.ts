@@ -62,7 +62,7 @@
         });
 
         if (tabName == "AnalyticsTab")
-            this.loadAnalyticsTab();
+            KnowledgeGraph.loadKnowledgeGraph();
     }
 
     private InitializeLearningTab(): void{

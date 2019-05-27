@@ -1,6 +1,12 @@
 ﻿<%@ Control Language="C#" AutoEventWireup="true" 
     Inherits="System.Web.Mvc.ViewUserControl<CategoryModel>" %>
 
+<div id="KnowledgeTab"></div>
+
+<div id="KnowledgeGraph">
+    <svg id="graph-body"></svg>
+</div>
+
 <%--<div class="alert alert-info" style="max-width: 700px; margin-left: auto; margin-right: auto; margin-top: 55px; margin-bottom: 40px; padding: 15px;">
     <h3 style="margin-top: 0; font-size: 25px;">Schlaue Lernanalyse: Bald hier für dich</h3>
     <p style="font-size: 18px; margin-top: 15px;">
@@ -25,7 +31,3 @@
         </div>
     </div>
 </div>--%>
-
-<div id="AnalyticsGraph">
-    <div class="tab-body"></div>
-</div>
