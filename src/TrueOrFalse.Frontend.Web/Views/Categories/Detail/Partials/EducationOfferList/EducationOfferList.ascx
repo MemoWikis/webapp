@@ -19,7 +19,7 @@
                                 </div>
                             </div>
                             <div class="col-xs-9">
-                                <a class="topic-name" href="<%= Links.GetUrl(category) %>">
+                                <a class="topic-name" href="<%= Links.CategoryDetail(category) %>">
                                     <div class="topic-name">
                                         <%--<%= category.Type.GetCategoryTypeIconHtml() %>--%><%: category.Name %>
                                     </div>
