@@ -11,14 +11,19 @@ public class CategoryController : BaseController
 {
     private const string _viewLocation = "~/Views/Categories/Detail/Category.aspx";
 
-    [SetMainMenu(MainMenuEntry.CategoryDetail)]
-    [SetThemeMenu(true)]
-    public ActionResult Category(string text, int id, int? version)
+    public ActionResult Category(int id, int? version)
     {
-        if (SeoUtils.HasUnderscores(text))
-            return SeoUtils.RedirectToHyphendVersion_Category(RedirectPermanent, text, id);
+        var category = Resolve<CategoryRepository>().GetById(id);
+        _sessionUiData.VisitedCategories.Add(new CategoryHistoryItem(category));
 
-        return SeoUtils.RedirectToNewCategory(RedirectPermanent, text, id);
+        var categoryModel = GetModelWithContentHtml(category);
+
+        if (version != null)
+            ApplyCategoryChangeToModel(categoryModel, (int)version);
+        else
+            SaveCategoryView.Run(category, User_());
+
+        return View(_viewLocation, categoryModel);
     }
 
     private ActionResult Category(Category category, int? version)
