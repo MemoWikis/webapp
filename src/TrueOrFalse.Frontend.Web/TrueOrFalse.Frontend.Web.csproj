@@ -309,7 +309,8 @@
     <Compile Include="Views\Api\User\FacebookUsersApiController.cs" />
     <Compile Include="Views\Api\User\GoogleUsersApiController.cs" />
     <Compile Include="Views\Beta\BetaController.cs" />
-    <Compile Include="Views\Categories\Detail\CategoryNewController.cs" />
+    <Compile Include="Views\Categories\Detail\CategoryRedirectController.cs" />
+    <Compile Include="Views\Categories\Detail\CategoryController.cs" />
     <Compile Include="Views\Categories\Detail\Partials\BaseContentModule.cs" />
     <Compile Include="Views\Categories\Detail\Partials\Cards\CardsModel.cs" />
     <Compile Include="Views\Categories\Detail\Partials\Cards\CardsJson.cs" />
@@ -361,9 +362,6 @@
     <Compile Include="Views\Categories\History\Detail\CategoryHistoryDetailModel.cs" />
     <Compile Include="Views\Categories\Navigation\CategoryNetworkNavigationModel.cs" />
     <Compile Include="Views\Categories\Navigation\CategoryNavigationModel.cs" />
-    <Compile Include="Views\Knowledge\Dates\DateRowModel.cs" />
-    <Compile Include="Views\Knowledge\Dates\Edit\EditDateController.cs" />
-    <Compile Include="Views\Knowledge\Dates\Edit\EditDateModel.cs" />
     <Compile Include="Views\Games\Edit\GameModel.cs" />
     <Compile Include="Views\Games\Edit\GameController.cs" />
     <Compile Include="Views\Games\GameRowModel.cs" />
@@ -377,8 +375,6 @@
     <Compile Include="Views\Games\Play\BodyControls\PlayBaseModel.cs" />
     <Compile Include="Views\Help\FAQAccordeonItem.cs" />
     <Compile Include="Views\Help\WidgetMenuModel.cs" />
-    <Compile Include="Views\Knowledge\Dates\Modals\TrainingSettingsDatesModel.cs" />
-    <Compile Include="Views\Knowledge\Dates\Modals\TrainingSettingsModel.cs" />
     <Compile Include="Views\Knowledge\KnowledgeTopics.cs" />
     <Compile Include="Views\Knowledge\KnowledgeQuestions.cs" />
     <Compile Include="Views\Knowledge\Partials\KnowledgeCardMiniSetModel.cs" />
@@ -21781,7 +21777,6 @@
     <Content Include="Views\Categories\ResultTestSession\Js\GetResultTestSession.js">
       <DependentUpon>GetResultTestSession.ts</DependentUpon>
     </Content>
-    <Content Include="Views\Knowledge\Dates\DateRow.ascx" />
     <TypeScriptCompile Include="Views\Categories\Detail\JsEditMode\ContentModuleSettings\ContentModuleSelectionComponent.ts" />
     <TypeScriptCompile Include="Views\Categories\Detail\JsEditMode\ContentModuleSettings\SingleQuestionsQuiz.ts" />
     <TypeScriptCompile Include="Views\Categories\Detail\JsEditMode\ContentModuleSettings\SetCardMiniListDialogComponent.ts" />
@@ -21793,15 +21788,6 @@
     <TypeScriptCompile Include="Views\Categories\Detail\JsEditMode\ContentModuleSettings\CardsDialogComponent.ts" />
     <TypeScriptCompile Include="Views\Categories\Detail\JsEditMode\ContentModule.ts" />
     <TypeScriptCompile Include="Views\Categories\Detail\JsEditMode\ContentModulesApp.ts" />
-    <TypeScriptCompile Include="Views\Knowledge\Dates\Edit\Js\EditDate.ts" />
-    <Content Include="Views\Knowledge\Dates\Edit\Js\EditDate.js">
-      <DependentUpon>EditDate.ts</DependentUpon>
-    </Content>
-    <Content Include="Views\Knowledge\Dates\PreviousDates.ascx" />
-    <Content Include="Views\Knowledge\Dates\Modals\CopyDate.ascx" />
-    <Content Include="Views\Knowledge\Dates\Modals\DeleteDate.ascx" />
-    <Content Include="Views\Knowledge\Dates\Modals\TrainingSettings.ascx" />
-    <Content Include="Views\Knowledge\Dates\Modals\TrainingSettingsDates.ascx" />
     <Content Include="Views\Knowledge\Css\KnowledgeQuestions.css">
       <DependentUpon>KnowledgeQuestions.less</DependentUpon>
     </Content>
@@ -21953,9 +21939,6 @@
     <Content Include="Views\Knowledge\Js\_dashboard.js.map">
       <DependentUpon>_dashboard.ts</DependentUpon>
     </Content>
-    <Content Include="Views\Knowledge\Dates\Edit\Js\EditDate.js.map">
-      <DependentUpon>EditDate.ts</DependentUpon>
-    </Content>
     <Content Include="Style\top-header.less" />
     <Content Include="Scripts\header\StickyHeader.js.map">
       <DependentUpon>StickyHeader.ts</DependentUpon>
@@ -22048,8 +22031,6 @@
     <Compile Include="Views\Categories\Edit\CssJs.cs" />
     <Compile Include="Views\Categories\Edit\TypeControls\EditCategoryTypeModel.cs" />
     <Compile Include="Views\Categories\CategoriesSearchResultModel.cs" />
-    <Compile Include="Views\Knowledge\Dates\DatesController.cs" />
-    <Compile Include="Views\Knowledge\Dates\DatesModel.cs" />
     <Compile Include="Views\Error\ErrorController.cs" />
     <Compile Include="Views\Help\HelpController.cs" />
     <Compile Include="Views\Users\Detail\TabBadgesModel.cs" />
@@ -22628,15 +22609,6 @@
     <Content Include="Views\AlgoInsight\TabForgettingCurve.ascx" />
     <Content Include="Views\AlgoInsight\TabForecast.ascx" />
     <Content Include="Views\Beta\Video1.aspx" />
-    <Content Include="Views\Knowledge\Dates\Js\DateRowCopy.js">
-      <DependentUpon>DateRowCopy.ts</DependentUpon>
-    </Content>
-    <Content Include="Views\Knowledge\Dates\Js\TrainingSettings.js">
-      <DependentUpon>TrainingSettings.ts</DependentUpon>
-    </Content>
-    <Content Include="Views\Knowledge\Dates\Js\TrainingSettings.js.map">
-      <DependentUpon>TrainingSettings.ts</DependentUpon>
-    </Content>
     <Content Include="Views\Drafts\Widget.html" />
     <Content Include="Views\Knowledge\TrainingDate.ascx" />
     <Content Include="Views\Maintenance\AntiForgeryToken.ascx" />
@@ -22741,13 +22713,6 @@
     <TypeScriptCompile Include="Views\Categories\Edit\Js\EditAggregation.ts" />
     <TypeScriptCompile Include="Views\Categories\Edit\Js\Page.ts" />
     <TypeScriptCompile Include="Views\Maintenance\Js\CmsCategoryNetworkNavigation.ts" />
-    <TypeScriptCompile Include="Views\Knowledge\Dates\Edit\Js\Page.ts" />
-    <TypeScriptCompile Include="Views\Knowledge\Dates\Js\DateRow.ts" />
-    <TypeScriptCompile Include="Views\Knowledge\Dates\Js\DateRowCopy.ts" />
-    <TypeScriptCompile Include="Views\Knowledge\Dates\Js\Page.ts" />
-    <TypeScriptCompile Include="Views\Knowledge\Dates\Js\DateRowDelete.ts" />
-    <TypeScriptCompile Include="Views\Knowledge\Dates\Js\PreviousDates.ts" />
-    <TypeScriptCompile Include="Views\Knowledge\Dates\Js\TrainingSettings.ts" />
     <TypeScriptCompile Include="Views\Games\Edit\Js\Page.ts" />
     <TypeScriptCompile Include="Views\Games\Edit\Js\Validation.ts" />
     <TypeScriptCompile Include="Views\Games\Js\GameRow.ts" />
@@ -22857,33 +22822,6 @@
       <DependentUpon>Page.ts</DependentUpon>
     </Content>
     <Content Include="Views\Categories\CategoriesSearchResult.ascx" />
-    <Content Include="Views\Knowledge\Dates\Js\DateRow.js">
-      <DependentUpon>DateRow.ts</DependentUpon>
-    </Content>
-    <Content Include="Views\Knowledge\Dates\Js\PreviousDates.js">
-      <DependentUpon>PreviousDates.ts</DependentUpon>
-    </Content>
-    <Content Include="Views\Knowledge\Dates\Dates.css">
-      <DependentUpon>Dates.less</DependentUpon>
-    </Content>
-    <Content Include="Views\Knowledge\Dates\Edit\bootstrap-datepicker3.css" />
-    <Content Include="Views\Knowledge\Dates\Edit\clockpicker.css" />
-    <Content Include="Views\Knowledge\Dates\Edit\EditDate.ascx" />
-    <Content Include="Views\Knowledge\Dates\Edit\EditDate.css">
-      <DependentUpon>EditDate.less</DependentUpon>
-    </Content>
-    <Content Include="Views\Knowledge\Dates\Edit\Js\bootstrap-datepicker.z.de.js" />
-    <Content Include="Views\Knowledge\Dates\Edit\Js\bootstrap-datepicker.js" />
-    <Content Include="Views\Knowledge\Dates\Edit\Js\clockpicker.js" />
-    <Content Include="Views\Knowledge\Dates\Edit\Js\Page.js">
-      <DependentUpon>Page.ts</DependentUpon>
-    </Content>
-    <Content Include="Views\Knowledge\Dates\Js\DateRowDelete.js">
-      <DependentUpon>DateRowDelete.ts</DependentUpon>
-    </Content>
-    <Content Include="Views\Knowledge\Dates\Js\Page.js">
-      <DependentUpon>Page.ts</DependentUpon>
-    </Content>
     <Content Include="Views\Drafts\FontAwesome.aspx" />
     <Content Include="Views\Games\Edit\Game.aspx" />
     <Content Include="Views\Games\Edit\Game.css">
@@ -23397,7 +23335,6 @@
     <Content Include="Views\Categories\Edit\TypeControls\WebsiteVideo.ascx" />
     <Content Include="Views\Categories\Edit\TypeControls\WebsiteArticle.ascx" />
     <Content Include="Views\Categories\Modals\ModalDeleteCategory.ascx" />
-    <Content Include="Views\Knowledge\Dates\Dates.ascx" />
     <Content Include="Views\Drafts\Icons.aspx" />
     <Content Include="Views\Drafts\bootstrap.aspx" />
     <Content Include="Views\Drafts\Forms.aspx" />
@@ -23442,7 +23379,6 @@
     <Content Include="Scripts\typescript.defs\fineUploader.d.ts" />
     <Content Include="Scripts\typescript.defs\jqueryui.d.ts" />
     <Content Include="Scripts\vendor\underscore-1.4.3.js" />
-    <Compile Include="Views\Categories\Detail\CategoryController.cs" />
     <Compile Include="Views\Categories\Detail\CategoryModel.cs" />
     <Compile Include="Views\Categories\CategoriesControllerSearch.cs" />
     <Compile Include="Views\Drafts\DraftsController.cs" />
@@ -24047,29 +23983,6 @@
     <Content Include="Views\Knowledge\Knowledge.css.map">
       <DependentUpon>Knowledge.css</DependentUpon>
     </Content>
-    <Content Include="Views\Knowledge\Dates\Edit\EditDate.less" />
-    <Content Include="Views\Knowledge\Dates\Edit\EditDate.css.map">
-      <DependentUpon>EditDate.css</DependentUpon>
-    </Content>
-    <Content Include="Views\Knowledge\Dates\Dates.less" />
-    <Content Include="Views\Knowledge\Dates\Dates.css.map">
-      <DependentUpon>Dates.css</DependentUpon>
-    </Content>
-    <Content Include="Views\Knowledge\Dates\Edit\Js\Page.js.map">
-      <DependentUpon>Page.ts</DependentUpon>
-    </Content>
-    <Content Include="Views\Knowledge\Dates\Js\Page.js.map">
-      <DependentUpon>Page.ts</DependentUpon>
-    </Content>
-    <Content Include="Views\Knowledge\Dates\Js\DateRowDelete.js.map">
-      <DependentUpon>DateRowDelete.ts</DependentUpon>
-    </Content>
-    <Content Include="Views\Knowledge\Dates\Js\DateRow.js.map">
-      <DependentUpon>DateRow.ts</DependentUpon>
-    </Content>
-    <Content Include="Views\Knowledge\Dates\Js\PreviousDates.js.map">
-      <DependentUpon>PreviousDates.ts</DependentUpon>
-    </Content>
     <Content Include="Views\Users\Js\Page.js.map">
       <DependentUpon>Page.ts</DependentUpon>
     </Content>
@@ -24115,9 +24028,6 @@
     </Content>
     <Content Include="Views\Sets\Edit\Js\Validation.js.map">
       <DependentUpon>Validation.ts</DependentUpon>
-    </Content>
-    <Content Include="Views\Knowledge\Dates\Js\DateRowCopy.js.map">
-      <DependentUpon>DateRowCopy.ts</DependentUpon>
     </Content>
     <Content Include="Views\Shared\FeatureNotImplementedModal.ascx" />
     <Content Include="Views\Topics\Topic.aspx" />

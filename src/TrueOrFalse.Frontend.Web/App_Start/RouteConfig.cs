@@ -115,10 +115,10 @@ namespace TrueOrFalse
             routes.MapRoute("Categories_Search", "Kategorien/Suche/{searchTerm}", new { controller = "Categories", action = "Search", searchTerm = UrlParameter.Optional });
             routes.MapRoute("Categories_Create", "Kategorien/Erstelle/{type}", new { controller = "EditCategory", action = "Create", type = UrlParameter.Optional });
             routes.MapRoute("Categories_Delete", "Kategorien/Loesche/{id}", new { controller = "Categories", action = "Delete" });
-            routes.MapRoute("Categories_ById", "Kategorien/{id}", new { controller = "Category", action = "CategoryById" }); // route is used when creating question/questionset (AutocompleteCategories.ts) and adding categories via ajax
+            routes.MapRoute("Categories_ById", "Kategorien/{id}", new { controller = "CategoryRedirect", action = "CategoryById" }); // route is used when creating question/questionset (AutocompleteCategories.ts) and adding categories via ajax
             routes.MapRoute("Categories_Edit", "Kategorien/{text}/Bearbeite/{id}", new { controller = "EditCategory", action = "Edit" });
-            routes.MapRoute("Category_Detail_Revision", "Kategorien/{text}/{id}/version/{version}", new { controller = "Category", action = "Category" });
-            routes.MapRoute("Category_Detail", "Kategorien/{text}/{id}", new { controller = "Category", action = "Category" });
+            routes.MapRoute("Category_Detail_Revision", "Kategorien/{text}/{id}/version/{version}", new { controller = "CategoryRedirect", action = "Category" });
+            routes.MapRoute("Category_Detail", "Kategorien/{text}/{id}", new { controller = "CategoryRedirect", action = "Category" });
             routes.MapRoute("Category_History", "Kategorien/{categoryName}/{categoryId}/Historie", new { controller = "CategoryHistory", action = "List" });
             routes.MapRoute("Category_History_Detail", "Kategorien/{categoryName}/{categoryId}/Historie/{categoryChangeId}", new { controller = "CategoryHistoryDetail", action = "Detail" });
             /* API */
@@ -198,16 +198,25 @@ namespace TrueOrFalse
 
             routes.MapRoute("Übersicht", "Übersicht/Förderer", new { controller = "Welcome", action = "Promoter" });
 
+
+
             foreach (var typeName in GetAllControllerNames())
             {
-                Debug.WriteLine(typeName.Replace("Controller", ""));
-                var controllerName = typeName.Replace("Controller", "");
-                routes.MapRoute(controllerName +  "Generated", controllerName + "/{action}", new { controller = controllerName });
+                if (!typeName.Equals("CategoryController"))
+                {
+                    Debug.WriteLine(typeName.Replace("Controller", ""));
+                    var controllerName = typeName.Replace("Controller", "");
+                    routes.MapRoute(controllerName + "Generated", controllerName + "/{action}",
+                    new {controller = controllerName});
+                }
             }
 
             routes.MapRoute("GetQuestionSets", "Questions/GetQuestionSets", new { controller = "Questions", action = "GetQuestionSets" });
-           // routes.MapRoute("GetQuestion", "Questions/AddToQuestionSet", new { controller = "Questions", action = "AddToQuestionSet" });
-            routes.MapRoute("Category_DetailNew", "{text}/{id}", new { controller = "CategoryNew", action = "CategoryNew" });
+            routes.MapRoute("GetQuestion", "Questions/AddToQuestionSet", new { controller = "Questions", action = "AddToQuestionSet" });
+            routes.MapRoute("Category_Learning_Button", "{categoryName}/{categoryId}/Lernen", new { controller = "Category", action = "CategoryLearning" });
+            
+            routes.MapRoute("Category", "{text}/{id}", new { controller = "Category", action = "Category" });
+            
             routes.MapRoute("Default", "{controller}/{action}/{id}", new { controller = "Welcome", action = "Welcome", id = UrlParameter.Optional });
             routes.MapRoute("Various", "{action}", new {controller = "VariousPublic"});
         }
