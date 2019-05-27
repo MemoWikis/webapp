@@ -7,23 +7,40 @@ using TrueOrFalse.Frontend.Web.Code;
 using TrueOrFalse.Web;
 
 [SetUserMenu(UserMenuEntry.None)]
-public class CategoryNewController : BaseController
+public class CategoryRedirectController : BaseController
 {
     private const string _viewLocation = "~/Views/Categories/Detail/Category.aspx";
 
-    public ActionResult CategoryNew(int id, int? version)
+    public ActionResult Category(int id, int? version)
     {
+
+        var modelAndCategoryResult = LoadModel(id);
+   
+        if (version != null)
+            ApplyCategoryChangeToModel(modelAndCategoryResult.CategoryModel, (int)version);
+        else
+            SaveCategoryView.Run(modelAndCategoryResult.Category, User_());
+
+        return View(_viewLocation, modelAndCategoryResult.CategoryModel);
+    }
+
+    public ActionResult CategoryLearning(int id)
+    {
+        var modelAndCategoryResult = LoadModel(id);
+        modelAndCategoryResult.CategoryModel.IsLearningTab = true;
+        return View(_viewLocation, modelAndCategoryResult.CategoryModel);
+    }
+
+    private LoadModelResult LoadModel(int id)
+    {
+        var result = new LoadModelResult();
+
         var category = Resolve<CategoryRepository>().GetById(id);
         _sessionUiData.VisitedCategories.Add(new CategoryHistoryItem(category));
+        result.Category = category;
+        result.CategoryModel = GetModelWithContentHtml(category);
 
-        var categoryModel = GetModelWithContentHtml(category);
-
-        if (version != null)
-            ApplyCategoryChangeToModel(categoryModel, (int)version);
-        else
-            SaveCategoryView.Run(category, User_());
-
-        return View(_viewLocation, categoryModel);
+       return result;
     }
 
     private ActionResult Category(Category category, int? version)
@@ -183,4 +200,10 @@ public class CategoryNewController : BaseController
 
         return Json(MarkdownSingleTemplateToHtml.Run(markdown, category, this.ControllerContext, true));
     }
+}
+
+public class LoadModelResult
+{
+    public Category Category;
+    public CategoryModel CategoryModel;
 }
