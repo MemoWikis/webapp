@@ -46,6 +46,7 @@ public class KnowledgeModel : BaseModel
     public IList<UserActivity> NetworkActivities;
     public IList<string> NetworkActivitiesActionString; 
     
+    public IList<DateRowModel> DateRowModelList = new List<DateRowModel>();
 
     public KnowledgeModel(string emailKey = null)
     {
@@ -114,6 +115,19 @@ public class KnowledgeModel : BaseModel
 
         //GET NETWORK ACTIVITY
         NetworkActivities = R<UserActivityRepo>().GetByUser(User, 5);
+
+        //GET TRAINING DATES
+        var tdTrainingDates = R<TrainingDateRepo>().GetUpcomingTrainingDates(7);
+        foreach (var tdTrainingDate in tdTrainingDates)
+        {
+            TrainingDates.Add(new TrainingDateModel(tdTrainingDate));
+        }
+
+        //Add DateRowModel to List
+        foreach (var date in Dates)
+        {
+            DateRowModelList.Add(new DateRowModel(date));
+        }
     }
 
     private void FillWithSampleData()

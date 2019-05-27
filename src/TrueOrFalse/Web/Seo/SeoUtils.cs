@@ -26,6 +26,6 @@ public class SeoUtils
         => redirect(Links.CategoryDetail(text, categoryId));
 
     public static ActionResult RedirectToNewCategory(Func<string, RedirectResult> redirect, string text, int categoryId)
-        => redirect(Links.CategoryDetailRedirect(text, categoryId));
+        => redirect(Links.CategoryDetailNew(text, categoryId));
 }
 

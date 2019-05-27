@@ -264,6 +264,26 @@ namespace TrueOrFalse.Frontend.Web.Code
             return url.Action("CountUnansweredAsCorrect", AnswerQuestionController, new { id = question.Id }, null);
         }
 
+
+        /*Dates*/
+        public const string DatesController = "Dates";
+        public const string DateCreateAction = "Create";
+        public const string DateEditController = "EditDate";
+        public static string DateCreate() { return GetUrlHelper().Action(DateCreateAction, DateEditController); }
+
+        public static string Dates() => GetUrlHelper().Action("Dates", "Dates");
+        public static object DateEdit(int dateId) => GetUrlHelper().Action("Edit", DateEditController, new { dateId = dateId });
+        public static object DateCreateForSet(int setId) => GetUrlHelper().Action("Create", DateEditController, new { setId = setId });
+        public static string DateCreateForSets(List<int> setIds, string setListTitle)
+        {
+            return GetUrlHelper().Action("Create", DateEditController, new { setListTitle })
+                + "&setIds="
+                + Join("&setIds=", setIds);
+        }
+
+        public static object DateCreateForCategory(int categoryId) => GetUrlHelper().Action("Create", "EditDate", new { categoryId = categoryId });
+
+
         /*Learn*/
         public const string LearningSessionResultController = "LearningSessionResult";
 
@@ -298,8 +318,14 @@ namespace TrueOrFalse.Frontend.Web.Code
             if (learningSession.IsCategorySession)
                 return StartCategoryLearningSession(learningSession.CategoryToLearn.Id);
 
+            if (learningSession.IsDateSession)
+                return StartDateLearningSession(learningSession.DateToLearn.Id);
+
             throw new Exception("unknown type");
         }
+
+        public static string StartDateLearningSession(int dateId) =>
+            GetUrlHelper().Action("StartLearningSession", DatesController, new { dateId = dateId });
 
         public static string StartWishLearningSession() =>
             GetUrlHelper().Action("StartLearningSession", KnowledgeController );
@@ -413,7 +439,6 @@ namespace TrueOrFalse.Frontend.Web.Code
         public static string CategoriesWish() => GetUrlHelper().Action("CategoriesWish", CategoriesController);
         public static string CategoryCreate() => GetUrlHelper().Action(CategoryCreateAction, CategoryEditController);
         public static string CategoryCreate(int parentCategoryId) => GetUrlHelper().Action("Create", "EditCategory", new { parent = parentCategoryId });
-        //public static string Category(Category category) => UriSanitizer.Run(category.Name) + "/" + category.Id;
 
         public static string CategoryHistoryDetail(int categoryId, int categoryChangeId) => 
             GetUrlHelper().Action("Detail", "CategoryHistoryDetail", new { categoryId  = categoryId , categoryChangeId = categoryChangeId });
@@ -434,8 +459,8 @@ namespace TrueOrFalse.Frontend.Web.Code
         public static string CategoryDetail(string name, int id) =>
             GetUrlHelper().Action("Category", CategoryController, new { text = UriSanitizer.Run(name), id = id });
 
-        public static string CategoryDetailRedirect(string name, int id) =>
-            GetUrlHelper().Action("Category","CategoryRedirect" ,new { text = UriSanitizer.Run(name), id = id });
+        public static string CategoryDetailNew(string name, int id) =>
+            GetUrlHelper().Action("CategoryNew","CategoryNew" ,new { text = UriSanitizer.Run(name), id = id });
 
         public static string CategoryDetail(string name, int id, int version) => 
             GetUrlHelper().Action("Category", CategoryController, new { text = UriSanitizer.Run(name), id = id, version = version }, null);
