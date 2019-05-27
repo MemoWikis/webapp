@@ -1,4 +1,5 @@
 ﻿var ResponsiveBootstrapToolkit: any;
+declare var ga: any;
 
 class Utils
 {

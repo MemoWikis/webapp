@@ -1,4 +1,6 @@
-﻿class AnswerBodyLoader {
+﻿declare var ga: any;
+
+class AnswerBodyLoader {
 
     private _answerBody: AnswerBody;
     private _isInLearningTab: boolean;
