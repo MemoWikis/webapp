@@ -21,14 +21,6 @@
          function Initialize() {
              drawKnowledgeChart("chartKnowledgeP");
              drawActivityChart();
-             <% for (var i = 0; i < Model.Dates.Count; i++){ %>
- 
-                 drawKnowledgeChartDate("chartKnowledgeDate" + <%= (i+1) %>,
-                     <%= Model.DateRowModelList[i].KnowledgeSolid %>,
-                     <%= Model.DateRowModelList[i].KnowledgeNeedsConsolidation %>,
-                     <%= Model.DateRowModelList[i].KnowledgeNeedsLearning %>,
-                     <%= Model.DateRowModelList[i].KnowledgeNotLearned %>);
-            <%}%>
          }
 
 
