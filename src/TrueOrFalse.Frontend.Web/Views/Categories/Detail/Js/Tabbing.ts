@@ -60,6 +60,9 @@
                 .append(html);
  
         });
+
+        if (tabName == "AnalyticsTab")
+            this.loadAnalyticsTab();
     }
 
     private InitializeLearningTab(): void{
@@ -84,5 +87,18 @@
         $('.TabContent').fadeOut(200);
 
         $('#' + tabName + "Content").delay(200).fadeIn(200);
+    }
+
+    private loadAnalyticsTab() {
+        $('#AnalyticsGraph').html('<div style="text-align: center"><i class="fa fa-spinner fa-spin"></i></div>');
+        $.ajax({
+            url: '/Category/GetAnalyticsTabGraphDisplay?categoryId=' + $('#hhdCategoryId').val(),
+            type: 'GET',
+            success: data => {
+                $('#AnalyticsGraph')
+                    .html(data);
+            }
+        });
+
     }
 }
