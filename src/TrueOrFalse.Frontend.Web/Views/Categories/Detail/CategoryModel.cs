@@ -65,6 +65,7 @@ public class CategoryModel : BaseContentModule
     private readonly CategoryRepository _categoryRepo;
 
     public bool IsInWishknowledge;
+    public bool IsLearningTab;
 
     public LearningTabModel LearningTabModel; 
 

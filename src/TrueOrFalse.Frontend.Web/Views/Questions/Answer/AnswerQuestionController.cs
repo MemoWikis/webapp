@@ -62,25 +62,6 @@ public class AnswerQuestionController : BaseController
             return RedirectToAction("LearningSessionResult", Links.LearningSessionResultController,
                 new {learningSessionId, learningSessionName = learningSessionName});
 
-        if (learningSession.IsDateSession)
-        {
-            var trainingDateRepo = Sl.R<TrainingDateRepo>();
-            var trainingDate = trainingDateRepo.GetByLearningSessionId(learningSessionId);
-
-            if (trainingDate != null)
-            {
-                if (trainingDate.IsExpired())
-                {
-                    return RedirectToAction("StartLearningSession", Links.DatesController,
-                        new {dateId = trainingDate.TrainingPlan.Date.Id});
-                }
-
-                trainingDate.ExpiresAt =
-                    DateTime.Now.AddMinutes(TrainingDate.DateStaysOpenAfterNewBegunLearningStepInMinutes);
-                trainingDateRepo.Update(trainingDate);
-            }
-        }
-
         var questionViewGuid = Guid.NewGuid();
 
         Sl.SaveQuestionView.Run(
@@ -599,25 +580,6 @@ public class AnswerQuestionController : BaseController
 
         if (learningSession.CurrentLearningStepIdx() == -1)
             return RenderLearningSessionResult(learningSessionId);
-
-        if (learningSession.IsDateSession)
-        {
-            var trainingDateRepo = Sl.R<TrainingDateRepo>();
-            var trainingDate = trainingDateRepo.GetByLearningSessionId(learningSession.Id);
-
-            if (trainingDate != null)
-            {
-                if (trainingDate.IsExpired())
-                {
-                    var serializer = new JavaScriptSerializer();
-                    return serializer.Serialize(new { RedirectionLink = Links.StartDateLearningSession(trainingDate.TrainingPlan.Date.Id) });
-                }
-
-                trainingDate.ExpiresAt =
-                    DateTime.Now.AddMinutes(TrainingDate.DateStaysOpenAfterNewBegunLearningStepInMinutes);
-                trainingDateRepo.Update(trainingDate);
-            }
-        }
 
         var questionViewGuid = Guid.NewGuid();
 

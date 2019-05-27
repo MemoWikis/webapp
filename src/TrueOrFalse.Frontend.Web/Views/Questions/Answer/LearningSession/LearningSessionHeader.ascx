@@ -29,11 +29,6 @@
                 </a>
             </div>
         <% } %>
-        
-        <% if(Model.LearningSession.IsDateSession) { %>
-            Dein Termin 
-            <a href="<%= Links.Dates() %>"><%= Model.LearningSession.DateToLearn.GetTitle() %></a>
-        <% } %>
 
         <% if(Model.LearningSession.IsWishSession) { %>
             <a href="<%= Links.QuestionsWish() %>">Dein Wunschwissen</a>
