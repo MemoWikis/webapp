@@ -212,6 +212,7 @@ namespace TrueOrFalse
             }
 
             routes.MapRoute("GetQuestionSets", "Questions/GetQuestionSets", new { controller = "Questions", action = "GetQuestionSets" });
+            /*Api*/routes.MapRoute("EditPreview", "Category/RenderMarkdown", new { controller = "Category", action = "RenderMarkdown" });
             routes.MapRoute("GetQuestion", "Questions/AddToQuestionSet", new { controller = "Questions", action = "AddToQuestionSet" });
             routes.MapRoute("Category_Learning_Button", "{categoryName}/{categoryId}/Lernen", new { controller = "Category", action = "CategoryLearning" });
             
