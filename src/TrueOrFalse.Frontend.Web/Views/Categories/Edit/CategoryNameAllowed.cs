@@ -28,10 +28,19 @@ public class CategoryNameAllowed
 
     private bool Yes(string categoryName, CategoryType type)
     {
+        var forbiddenWords = new List<string>() { "Wissenszentrale", "Kategorien", "Fragen", "Widgets", "Ueber-memucho", "Fuer-Lehrer", "Widget-Beispiele", "Widget-Angebote-Preisliste", "Hilfe", "Impressum", "Imprint", "AGB", "Jobs", "Gemeinwohloekonomie", "Team" };
+
+
         if (RouteConfig.GetAllControllerNames()
             .Any(controllerName => controllerName.ToLower() == categoryName.ToLower()))
         {
             return false;
+        }
+
+        foreach (var f in forbiddenWords)
+        {
+            if (categoryName.ToLower().Equals(f))
+                return false;
         }
 
         var typesToTest = new[] {CategoryType.Standard, CategoryType.Magazine, CategoryType.Daily};
