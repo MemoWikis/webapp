@@ -435,7 +435,7 @@ namespace TrueOrFalse.Frontend.Web.Code
             GetUrlHelper().Action("Category", CategoryController, new { text = UriSanitizer.Run(name), id = id });
 
         public static string CategoryDetailRedirect(string name, int id) =>
-            GetUrlHelper().Action("Category","CategoryRedirect" ,new { text = UriSanitizer.Run(name), id = id });
+            GetUrlHelper().Action("Category","Category" ,new { text = UriSanitizer.Run(name), id = id });
 
         public static string CategoryDetail(string name, int id, int version) => 
             GetUrlHelper().Action("Category", CategoryController, new { text = UriSanitizer.Run(name), id = id, version = version }, null);

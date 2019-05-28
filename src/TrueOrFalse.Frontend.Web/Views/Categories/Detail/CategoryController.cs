@@ -39,7 +39,28 @@ public class CategoryController : BaseController
    
         return View(_viewLocation, categoryModel);
     }
-    
+
+
+    public ActionResult CategoryLearning(int id)
+    {
+        var modelAndCategoryResult = LoadModel(id);
+        modelAndCategoryResult.CategoryModel.IsLearningTab = true;
+        return View(_viewLocation, modelAndCategoryResult.CategoryModel);
+    }
+
+    private LoadModelResult LoadModel(int id)
+    {
+        var result = new LoadModelResult();
+
+        var category = Resolve<CategoryRepository>().GetById(id);
+        _sessionUiData.VisitedCategories.Add(new CategoryHistoryItem(category));
+        result.Category = category;
+        result.CategoryModel = GetModelWithContentHtml(category);
+
+        return result;
+    }
+
+
     private CategoryModel GetModelWithContentHtml(Category category)
     {
         return new CategoryModel(category)
@@ -183,4 +204,9 @@ public class CategoryController : BaseController
 
         return Json(MarkdownSingleTemplateToHtml.Run(markdown, category, this.ControllerContext, true));
     }
+}
+public class LoadModelResult
+{
+    public Category Category;
+    public CategoryModel CategoryModel;
 }

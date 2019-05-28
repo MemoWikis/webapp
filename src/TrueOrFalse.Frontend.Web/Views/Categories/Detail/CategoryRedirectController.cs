@@ -11,17 +11,14 @@ public class CategoryRedirectController : BaseController
 {
     private const string _viewLocation = "~/Views/Categories/Detail/Category.aspx";
 
-    public ActionResult Category(int id, int? version)
+    [SetMainMenu(MainMenuEntry.CategoryDetail)]
+    [SetThemeMenu(true)]
+    public ActionResult Category(string text, int id, int? version)
     {
+        if (SeoUtils.HasUnderscores(text))
+            return SeoUtils.RedirectToHyphendVersion_Category(RedirectPermanent, text, id);
 
-        var modelAndCategoryResult = LoadModel(id);
-   
-        if (version != null)
-            ApplyCategoryChangeToModel(modelAndCategoryResult.CategoryModel, (int)version);
-        else
-            SaveCategoryView.Run(modelAndCategoryResult.Category, User_());
-
-        return View(_viewLocation, modelAndCategoryResult.CategoryModel);
+        return SeoUtils.RedirectToNewCategory(RedirectPermanent, text, id);
     }
 
     public ActionResult CategoryLearning(int id)
@@ -202,8 +199,3 @@ public class CategoryRedirectController : BaseController
     }
 }
 
-public class LoadModelResult
-{
-    public Category Category;
-    public CategoryModel CategoryModel;
-}
