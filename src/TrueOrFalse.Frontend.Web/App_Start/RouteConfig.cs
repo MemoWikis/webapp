@@ -203,6 +203,7 @@ namespace TrueOrFalse
             routes.MapRoute("GetQuestionSets", "Questions/GetQuestionSets", new { controller = "Questions", action = "GetQuestionSets" });
             /*Api*/routes.MapRoute("EditPreview", "Category/RenderMarkdown", new { controller = "Category", action = "RenderMarkdown" });
             /*Api*/routes.MapRoute("EditSave", "Category/SaveMarkdown", new { controller = "Category", action = "SaveMarkdown" });
+            /*Api*/routes.MapRoute("Category_KnowledgeBar", "Category/KnowledgeBar", new { controller = "Category", action = "KnowledgeBar" });
             routes.MapRoute("GetQuestion", "Questions/AddToQuestionSet", new { controller = "Questions", action = "AddToQuestionSet" });
             routes.MapRoute("Category_Learning_Button", "{categoryName}/{categoryId}/Lernen", new { controller = "Category", action = "CategoryLearning" });
             routes.MapRoute("Analytics_Tab", "Category/Tab", new { controller = "Category", action = "Tab" });
