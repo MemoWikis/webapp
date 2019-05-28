@@ -73,12 +73,6 @@
                 <a class="StatsRow" style="display: block" data-allowed="logged-in" data-allowed-type="learning-session" href="<%= Links.StartLearningSessionForSet(Model.Id) %>" rel="nofollow">
                     <i class="fa fa-line-chart fa-fw">&nbsp;</i>Jetzt lernen
                 </a>
-                <%--<a class="StatsRow" style="display: block;" href="<%= Links.GameCreateFromSet(Model.Id) %>" class="show-tooltip" rel="nofollow" data-original-title="Spiel mit Fragen aus diesem Lernset starten." >
-                    <i class="fa fa-gamepad fa-fw" style="font-size: 15px;">&nbsp;</i>Spiel starten
-                </a>--%>
-                <a class="StatsRow" style="display: block;" href="<%= Links.DateCreateForSet(Model.Id) %>" class="show-tooltip" rel="nofollow" data-original-title="Termin mit diesem Lernset erstellen." >
-                    <i class="fa fa-calendar fa-fw" style="font-size: 13px;">&nbsp;</i>Termin lernen
-                </a>
             <% }
                else { %>
                 <div class="StatsRow greyed show-tooltip" data-original-title="Nicht möglich, da noch keine Fragen enthalten.">

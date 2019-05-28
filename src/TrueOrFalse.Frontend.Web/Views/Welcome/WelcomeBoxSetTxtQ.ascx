@@ -41,7 +41,6 @@
         </div>
     </div>
     <div class="BottomBar">
-            <%--<a href="<%= Links.AnswerQuestion(Model.FirstQText, Model.FirstQId, Model.SetId) %>" class="btn btn-primary btn-sm" role="button">Alle beantworten</a>--%>
             <div class="dropdown">
                 <% var buttonId = Guid.NewGuid(); %>
                 <a href="#" id="<%=buttonId %>" class="dropdown-toggle  btn btn-link btn-sm ButtonOnHover ButtonEllipsis" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
@@ -49,8 +48,6 @@
                 </a>
                 <ul class="dropdown-menu" aria-labelledby="<%=buttonId %>">
                     <li><a href="<%= Links.StartLearningSessionForSet(Model.SetId) %>" rel="nofollow" data-allowed="logged-in">Jetzt lernen</a></li>
-                    <%--<li><a href="<%= Links.GameCreateFromSet(Model.SetId) %>"> Spiel starten</a></li>--%>
-                    <li><a href="<%= Links.DateCreateForSet(Model.SetId) %>"> Termin anlegen</a></li>
                     <li><a href="<%= Model.SetDetailLink %>"> Lernset-Detailseite</a></li>
                 </ul>
             </div>

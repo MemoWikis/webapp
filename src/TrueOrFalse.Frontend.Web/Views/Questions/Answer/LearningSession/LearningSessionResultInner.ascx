@@ -10,7 +10,6 @@
 <input type="hidden" id="hddCategoryId" value="682" />
 
 <h2 style="margin-bottom: 15px; margin-top: 0px;">
-    <span class="<% if (Model.LearningSession.IsDateSession) Response.Write("ColoredUnderline Date");
                     if (Model.LearningSession.IsSetSession) Response.Write("ColoredUnderline Set");
                     if (Model.LearningSession.IsSetsSession) Response.Write("ColoredUnderline Set");
                     if (Model.LearningSession.IsWishSession) Response.Write("ColoredUnderline Knowledge");

@@ -31,8 +31,6 @@
                     </a>
                     <ul class="dropdown-menu" aria-labelledby="<%=buttonId %>">
                         <li><a href="<%= Links.StartLearningSessionForSet(Model.SetId) %>" data-allowed="logged-in" data-allowed-type="learning-session" rel="nofollow">Jetzt lernen</a></li>
-                        <%--<li><a href="<%= Links.GameCreateFromSet(Model.SetId) %>"> Spiel starten</a></li>--%>
-                        <li><a href="<%= Links.DateCreateForSet(Model.SetId) %>"> Termin anlegen</a></li>
                         <li><a href="<%= Links.SetDetail(Model.SetName, Model.SetId) %>"> Zur Themenseite</a></li>
                     </ul>
                 </div>
