@@ -13,33 +13,15 @@ public class CategoryController : BaseController
 
     public ActionResult Category(int id, int? version)
     {
-        var category = Resolve<CategoryRepository>().GetById(id);
-        _sessionUiData.VisitedCategories.Add(new CategoryHistoryItem(category));
-
-        var categoryModel = GetModelWithContentHtml(category);
+        var modelAndCategoryResult = LoadModel(id);
 
         if (version != null)
-            ApplyCategoryChangeToModel(categoryModel, (int)version);
+            ApplyCategoryChangeToModel(modelAndCategoryResult.CategoryModel, (int)version);
         else
-            SaveCategoryView.Run(category, User_());
+            SaveCategoryView.Run(modelAndCategoryResult.Category, User_());
 
-        return View(_viewLocation, categoryModel);
+        return View(_viewLocation, modelAndCategoryResult.CategoryModel);
     }
-
-    private ActionResult Category(Category category, int? version)
-    {
-        _sessionUiData.VisitedCategories.Add(new CategoryHistoryItem(category));
-
-        var categoryModel = GetModelWithContentHtml(category);
-
-        if (version != null)
-            ApplyCategoryChangeToModel(categoryModel, (int)version);
-        else
-            SaveCategoryView.Run(category, User_());
-   
-        return View(_viewLocation, categoryModel);
-    }
-
 
     public ActionResult CategoryLearning(int id)
     {
