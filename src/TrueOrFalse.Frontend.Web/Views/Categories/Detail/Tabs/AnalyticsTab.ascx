@@ -5,6 +5,7 @@
 
 <div id="KnowledgeGraph">
     <svg id="graph-body"></svg>
+    <div class="knowledgeGraphData"></div>
 </div>
 
 <%--<div class="alert alert-info" style="max-width: 700px; margin-left: auto; margin-right: auto; margin-top: 55px; margin-bottom: 40px; padding: 15px;">

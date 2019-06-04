@@ -2,13 +2,13 @@
 using System.Web.Mvc;
 using System.Web.Script.Serialization;
 
-public class AnalyticsGraphModel : BaseModel
+public class KnowledgeGraphModel : BaseModel
 {
     public Category Category;
     public JsonResult GraphData;
     public string GraphDataString;
 
-    public AnalyticsGraphModel(Category category)
+    public KnowledgeGraphModel(Category category)
     {
         Category = category;
         GraphData = GetCategoryGraph.AsJson(category);

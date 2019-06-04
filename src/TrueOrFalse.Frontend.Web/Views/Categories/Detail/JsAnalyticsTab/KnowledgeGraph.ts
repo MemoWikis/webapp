@@ -1,41 +1,27 @@
-﻿function loadCategoryGraph() {
-    $('#AnalyticsTabContent .tab-body').html('<div style="text-align: center"><i class="fa fa-spinner fa-spin"></i></div>');
-    $.ajax({
-        url: '/EditCategory/GetCategoryGraphDisplay?categoryId=' + $('#hhdCategoryId').val(),
-        type: 'GET',
-        success: data => {
-            $('#AnalyticsTabContent .tab-body')
-                .html(data);
-        }
-    });
-}
-
-declare var label: any;
+﻿declare var label: any;
 declare var graph: any;
-declare var graphJson: any;
 
 class KnowledgeGraph {
 
-    static loadKnowledgeGraph() {
+    static loadKnowledgeGraph(graphJsonString) {
 
         var width = 800;
         var height = 600;
         var color = d3.scaleOrdinal(d3.schemeCategory10);
-        console.log(graphJson);
 
-        d3.json(graphJson).then(function (graph) {
+        graph = JSON.parse(graphJsonString);
 
-            var label = {
-                'nodes': [],
-                'links': []
-            };
+        var label = {
+            'nodes': [],
+            'links': []
+        };
 
-            graph.nodes.forEach(function (d, i) {
-                label.nodes.push({ node: d });
-                label.links.push({
-                    source: i * 2,
-                    target: i * 2 + 1
-                });
+        graph.nodes.forEach(function(d, i) {
+            label.nodes.push({ node: d });
+            label.nodes.push({ node: d });
+            label.links.push({
+                source: i * 2,
+                target: i * 2 + 1
             });
         });
 
@@ -48,7 +34,7 @@ class KnowledgeGraph {
             .force("center", d3.forceCenter(width / 2, height / 2))
             .force("x", d3.forceX(width / 2).strength(1))
             .force("y", d3.forceY(height / 2).strength(1))
-            .force("link", d3.forceLink(graph.links).id(function (d) { return d.id; }).distance(50).strength(1))
+            .force("link", d3.forceLink(graph.links).distance(50).strength(1))
             .on("tick", ticked);
 
         var adjlist = [];
@@ -101,7 +87,7 @@ class KnowledgeGraph {
             .data(label.nodes)
             .enter()
             .append("text")
-            .text(function (d, i) { return i % 2 == 0 ? "" : d.node.id; })
+            .text(function (d, i) { return i % 2 == 0 ? "" : d.node.Text; })
             .style("fill", "#555")
             .style("font-family", "Arial")
             .style("font-size", 12)
@@ -190,9 +176,5 @@ class KnowledgeGraph {
             d.fx = null;
             d.fy = null;
         };
-
     }
-
-
 }
-

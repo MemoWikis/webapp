@@ -2,6 +2,6 @@
 
 public class CategoryGraph
 {
-    public List<CategoryNode> Nodes;
-    public List<CategoryLink> Links;
+    public List<CategoryNode> nodes;
+    public List<CategoryLink> links;
 }
