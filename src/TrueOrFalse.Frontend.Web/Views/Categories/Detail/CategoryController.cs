@@ -23,13 +23,6 @@ public class CategoryController : BaseController
         return View(_viewLocation, modelAndCategoryResult.CategoryModel);
     }
 
-    public ActionResult CategoryLearning(int id)
-    {
-        var modelAndCategoryResult = LoadModel(id);
-        modelAndCategoryResult.CategoryModel.IsLearningTab = true;
-        return View(_viewLocation, modelAndCategoryResult.CategoryModel);
-    }
-
     private LoadModelResult LoadModel(int id)
     {
         var result = new LoadModelResult();

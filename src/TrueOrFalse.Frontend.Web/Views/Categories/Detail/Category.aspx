@@ -44,6 +44,7 @@
     <%: Html.Partial("~/Views/Categories/Detail/Partials/SettingsDialogCollection.ascx") %>
 
     <input type="hidden" id="hhdCategoryId" value="<%= Model.Category.Id %>"/>
+    <input type="hidden" id="hhdCategoryName" value="<%= Model.Category.Name %>"/>
     <input type="hidden" id="hddUserId" value="<%= Model.UserId %>"/>
     <input type="hidden" id="hddQuestionCount" value="<%=Model.AggregatedQuestionCount %>"/>   
     <% Html.RenderPartial("~/Views/Shared/Spinner/Spinner.ascx"); %>
