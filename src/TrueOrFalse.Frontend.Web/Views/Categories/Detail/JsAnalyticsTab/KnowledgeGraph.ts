@@ -77,8 +77,8 @@ class KnowledgeGraph {
                 d.weight = link.filter(function (l) {
                     return l.source.index == d.index || l.target.index == d.index;
                 }).size();
-                var minRadius = 4;
-                return minRadius + ( 2 * (d.weight / 4));
+                var minRadius = 5;
+                return minRadius + ((Math.sqrt(d.weight) * 4) - 4 );
             })
             .attr("fill", function (d) { return color(d.group); });
 
