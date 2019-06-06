@@ -58,8 +58,12 @@
             $('#' + tabName + 'Content')
                 .empty()
                 .append(html);
- 
+            if (tabName == "AnalyticsTab") {
+                this.loadKnowledgeData();
+            }
         });
+
+
     }
 
     private InitializeLearningTab(): void{
@@ -84,5 +88,18 @@
         $('.TabContent').fadeOut(200);
 
         $('#' + tabName + "Content").delay(200).fadeIn(200);
+    }
+
+    private loadKnowledgeData() {
+        $('#KnowledgeGraph .knowledgeGraphData').html('<div style="text-align: center"><i class="fa fa-spinner fa-spin"></i></div>');
+        $.ajax({
+            url: '/Category/GetKnowledgeGraphDisplay?categoryId=' + $('#hhdCategoryId').val(),
+            type: 'GET',
+            success: data => {
+                $('#KnowledgeGraph .knowledgeGraphData')
+                    .html(data);
+            }
+        });
+
     }
 }

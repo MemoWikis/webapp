@@ -63,7 +63,8 @@
     <div id="LearningTabContent" class="TabContent" style="display: none;">
         <% Html.RenderPartial("~/Views/Categories/Detail/Tabs/LearningTab.ascx", Model); %>
     </div>
-    <div id="AnalyticsTabContent" class="TabContent"></div>
+    <div id="AnalyticsTabContent" class="TabContent">
+    </div>
     
     <%= Scripts.Render("~/bundles/js/CategoryEditMode") %>
     
