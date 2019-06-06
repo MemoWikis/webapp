@@ -1,7 +1,5 @@
 ﻿declare var label: any;
 declare var graphData: any;
-declare var graphJsonString: any;
-
 
 class KnowledgeGraph {
 
@@ -11,7 +9,6 @@ class KnowledgeGraph {
         var height = 600;
         var color = d3.scaleOrdinal(d3.schemeCategory10);
 
-        var graphString = graphJsonString;
         var graph = graphData;
 
         var label = {

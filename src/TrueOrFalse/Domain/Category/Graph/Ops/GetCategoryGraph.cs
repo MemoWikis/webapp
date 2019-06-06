@@ -2,8 +2,6 @@
 using System.Linq;
 using System.Web.Mvc;
 using GraphJsonDtos;
-using System.Net;
-
 public class GetCategoryGraph
 {
     public static JsonResult AsJson(Category category)
