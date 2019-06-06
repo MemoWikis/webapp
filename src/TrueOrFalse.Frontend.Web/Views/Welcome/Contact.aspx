@@ -40,6 +40,6 @@
     </div>
 
     <p>
-        Deinen Anfahrtsweg kannst du <a href="https://goo.gl/maps/eKVFRULcQpu" target="blank"><b>hier planen</b></a>.
+        Deinen Anfahrtsweg kannst du <a href="http://maps.google.com/maps?daddr=Kirchstraße+1+15745+Wildau" target="blank"><b>hier planen</b></a>.
     </p> 
 </asp:Content>
