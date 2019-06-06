@@ -93,10 +93,22 @@ class KnowledgeGraph {
             .data(label.nodes)
             .enter()
             .append("text")
-            .text(function (d, i) { return i % 2 == 0 ? "" : (d.node.Text).substring(0,20) + "..."; })
+            .text(function (d, i) {
+                let labelText;
+                if (d.node.Text.length > 20)
+                    labelText = (d.node.Text).substring(0, 20) + "...";
+                else
+                    labelText = d.node.Text;
+                return i % 2 == 0 ? "" : labelText;
+            })
             .style("fill", "#203256")
             .style("font-family", "Open Sans")
             .style("font-size", 18)
+            .style("paint-order", "stroke")
+            .style("stroke", "white")
+            .style("stroke-width", "4px")
+            .style("stroke-linecap", "butt")
+            .style("stroke-linejoin", "miter")
             .style("pointer-events", "none");
 
         node.on("mouseover", focus).on("mouseout", unfocus);
