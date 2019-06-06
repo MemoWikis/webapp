@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Web.Mvc;
 using GraphJsonDtos;
+using System.Net;
 
 public class GetCategoryGraph
 {
@@ -14,14 +15,15 @@ public class GetCategoryGraph
         {
             var parentIndex = graphData.nodes.FindIndex(node => node.Category == link.Parent);
             var childIndex = graphData.nodes.FindIndex(node => node.Category == link.Child);
-            links.Add(new Link { source = parentIndex, target = childIndex });
+            if (childIndex >= 0 || parentIndex >= 0)
+                links.Add(new Link { source = parentIndex, target = childIndex });
         }
 
         var nodes = graphData.nodes.Select(node => 
             new Node
             {
                 CategoryId = node.Category.Id,
-                Text = node.Category.Name
+                Text = (node.Category.Name).Replace("\"", "")
             });
 
         return new JsonResult

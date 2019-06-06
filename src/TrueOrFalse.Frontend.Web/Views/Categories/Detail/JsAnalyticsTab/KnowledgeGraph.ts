@@ -1,19 +1,22 @@
 ﻿declare var label: any;
-declare var graph: any;
+declare var graphData: any;
+declare var graphJsonString: any;
+
 
 class KnowledgeGraph {
 
-    static loadKnowledgeGraph(graphJsonString) {
+    static loadForceGraph() {
 
-        var width = 800;
+        var width = 810;
         var height = 600;
         var color = d3.scaleOrdinal(d3.schemeCategory10);
 
-        graph = JSON.parse(graphJsonString);
+        var graphString = graphJsonString;
+        var graph = graphData;
 
         var label = {
             'nodes': [],
-            'links': []
+            'links': [],
         };
 
         graph.nodes.forEach(function(d, i) {
@@ -27,14 +30,14 @@ class KnowledgeGraph {
 
         var labelLayout = d3.forceSimulation(label.nodes)
             .force("charge", d3.forceManyBody().strength(-50))
-            .force("link", d3.forceLink(label.links).distance(0).strength(2));
+            .force("link", d3.forceLink(label.links).distance(0).strength(1));
 
         var graphLayout = d3.forceSimulation(graph.nodes)
             .force("charge", d3.forceManyBody().strength(-3000))
             .force("center", d3.forceCenter(width / 2, height / 2))
             .force("x", d3.forceX(width / 2).strength(1))
             .force("y", d3.forceY(height / 2).strength(1))
-            .force("link", d3.forceLink(graph.links).distance(50).strength(1))
+            .force("link", d3.forceLink(graph.links).distance(100).strength(2))
             .on("tick", ticked);
 
         var adjlist = [];
@@ -62,7 +65,7 @@ class KnowledgeGraph {
             .data(graph.links)
             .enter()
             .append("line")
-            .attr("stroke", "#aaa")
+            .attr("stroke", "#999")
             .attr("stroke-width", "1px");
 
         var node = container.append("g").attr("class", "nodes")
@@ -70,7 +73,13 @@ class KnowledgeGraph {
             .data(graph.nodes)
             .enter()
             .append("circle")
-            .attr("r", 5)
+            .attr("r", function (d) {
+                d.weight = link.filter(function (l) {
+                    return l.source.index == d.index || l.target.index == d.index;
+                }).size();
+                var minRadius = 4;
+                return minRadius + ( 2 * (d.weight / 4));
+            })
             .attr("fill", function (d) { return color(d.group); });
 
         node.on("mouseover", focus).on("mouseout", unfocus);
@@ -87,10 +96,10 @@ class KnowledgeGraph {
             .data(label.nodes)
             .enter()
             .append("text")
-            .text(function (d, i) { return i % 2 == 0 ? "" : d.node.Text; })
-            .style("fill", "#555")
-            .style("font-family", "Arial")
-            .style("font-size", 12)
+            .text(function (d, i) { return i % 2 == 0 ? "" : (d.node.Text).substring(0,20) + "..."; })
+            .style("fill", "#203256")
+            .style("font-family", "Open Sans")
+            .style("font-size", 18)
             .style("pointer-events", "none");
 
         node.on("mouseover", focus).on("mouseout", unfocus);
@@ -176,5 +185,9 @@ class KnowledgeGraph {
             d.fx = null;
             d.fy = null;
         };
+    }
+
+    static loadTreeGraph() {
+
     }
 }

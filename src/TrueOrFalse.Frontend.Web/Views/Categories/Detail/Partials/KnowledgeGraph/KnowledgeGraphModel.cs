@@ -17,6 +17,6 @@ public class KnowledgeGraphModel : BaseModel
 
     private string EscapeChars(string objectString)
     {
-        return objectString.Replace(Environment.NewLine, String.Empty).Replace("\'", @"\'").Replace("\"", "\\\"").Replace(@"\t", " ");
+        return objectString.Replace(Environment.NewLine, String.Empty).Replace("\'", @"\'").Replace("\"", "\\\"").Replace(@"\t", " ").Replace("\\r\\n", "");
     }
 }
