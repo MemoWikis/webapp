@@ -58,7 +58,6 @@
             $('#' + tabName + 'Content')
                 .empty()
                 .append(html);
- 
         });
     }
 

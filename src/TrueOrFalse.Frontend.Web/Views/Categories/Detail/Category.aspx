@@ -50,21 +50,28 @@
     <% Html.RenderPartial("~/Views/Shared/Spinner/Spinner.ascx"); %>
     <% Html.RenderPartial("~/Views/Categories/Detail/Partials/CategoryHeader.ascx", Model);%>
     
-    <div id="TopicTabContent" class="TabContent">
-        <div id="ContentModuleApp">
-            <% Html.RenderPartial("~/Views/Categories/Detail/Tabs/TopicTab.ascx", Model); %>
-
-            <%: Html.Partial("~/Views/Categories/Detail/Partials/InlineEditFloatingActionButton.ascx") %>
-            <%: Html.Partial("~/Views/Categories/Detail/Partials/ModalComponentCollection.ascx") %>
+        <div id="TopicTabContent" class="TabContent">
+            <div id="ContentModuleApp">
+                <% if (Model.IsInTopic) { %>
+                    <% Html.RenderPartial("~/Views/Categories/Detail/Tabs/TopicTab.ascx", Model); %>
+                    <%: Html.Partial("~/Views/Categories/Detail/Partials/InlineEditFloatingActionButton.ascx") %>
+                    <%: Html.Partial("~/Views/Categories/Detail/Partials/ModalComponentCollection.ascx") %>
+                <% } %>
+            </div>
         </div>
 
+    <div id="LearningTabContent" class="TabContent">
+        <% if (Model.IsInLearningTab){ %>
+                <% Html.RenderPartial("~/Views/Categories/Detail/Tabs/LearningTab.ascx", Model); %>
+        <% } %>
     </div>
-
-    <div id="LearningTabContent" class="TabContent" style="display: none;">
-        <% Html.RenderPartial("~/Views/Categories/Detail/Tabs/LearningTab.ascx", Model); %>
-    </div>
-    <div id="AnalyticsTabContent" class="TabContent"></div>
     
+    <div id="AnalyticsTabContent" class="TabContent">
+        <% if (Model.IsInAnalyticsTab){ %>
+            <% Html.RenderPartial("~/Views/Categories/Detail/Tabs/AnalyticsTab.ascx"); %>
+        <% } %>
+    </div>
+  
     <%= Scripts.Render("~/bundles/js/CategoryEditMode") %>
     
 </asp:Content>

@@ -33,6 +33,10 @@ public class CategoryModel : BaseContentModule
     public IList<Question> TopWishQuestions;
     public IList<Question> SingleQuestions;
 
+    public bool IsInTopic = false;
+    public bool IsInLearningTab = false;
+    public bool IsInAnalyticsTab = false; 
+
 
     public User Creator;
     public string CreatorName;

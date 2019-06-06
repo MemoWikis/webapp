@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Security.Policy;
 using System.Web.Mvc;
 using TrueOrFalse.Frontend.Web.Code;
 using TrueOrFalse.Web;
@@ -20,6 +21,34 @@ public class CategoryController : BaseController
         else
             SaveCategoryView.Run(modelAndCategoryResult.Category, User_());
 
+        modelAndCategoryResult.CategoryModel.IsInTopic = true; 
+
+        return View(_viewLocation, modelAndCategoryResult.CategoryModel);
+    }
+
+    public ActionResult CategoryLearningTab(int id, int? version)
+    {
+        var modelAndCategoryResult = LoadModel(id);
+
+        if (version != null)
+            ApplyCategoryChangeToModel(modelAndCategoryResult.CategoryModel, (int)version);
+        else
+            SaveCategoryView.Run(modelAndCategoryResult.Category, User_());
+
+        modelAndCategoryResult.CategoryModel.IsInLearningTab = true; 
+        return View(_viewLocation, modelAndCategoryResult.CategoryModel);
+    }
+
+    public ActionResult CategoryAnalyticsTab(int id, int? version)
+    {
+        var modelAndCategoryResult = LoadModel(id);
+
+        if (version != null)
+            ApplyCategoryChangeToModel(modelAndCategoryResult.CategoryModel, (int)version);
+        else
+            SaveCategoryView.Run(modelAndCategoryResult.Category, User_());
+
+        modelAndCategoryResult.CategoryModel.IsInAnalyticsTab = true; 
         return View(_viewLocation, modelAndCategoryResult.CategoryModel);
     }
 
