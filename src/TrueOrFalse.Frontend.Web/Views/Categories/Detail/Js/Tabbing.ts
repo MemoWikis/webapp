@@ -4,6 +4,23 @@
 
     constructor(page: CategoryPage) {
 
+        if (window.location.pathname.indexOf("/Lernen")) {
+            var answerBody = new AnswerBody();
+
+            Utils.ShowSpinner();
+
+            if (answerBody.IsTestSession()) {
+                answerBody.Loader.loadNewTestSession();
+            }
+
+            $('#hddLearningSessionStarted').val("True");
+
+            $(() => {
+                $("#TabContent .show-tooltip").tooltip();
+            });
+        }
+
+
         this._page = page;
 
         $('#TabsBar .Tab').each((index, item) => {
