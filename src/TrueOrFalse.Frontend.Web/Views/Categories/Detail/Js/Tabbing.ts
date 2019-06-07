@@ -6,7 +6,7 @@
 
         if (window.location.pathname.indexOf("/Lernen") >= 0) {
             var answerBody = new AnswerBody();
-
+            $("#LearningTabContent").css("visibility", "visible");
             Utils.ShowSpinner();
 
             if (answerBody.IsTestSession()) {
@@ -19,6 +19,12 @@
                 $("#TabContent .show-tooltip").tooltip();
             });
         }
+
+        $(window).on('popstate',
+            (e) => {
+                var state = e.originalEvent.state;
+                console.log(state);
+            });
 
 
         this._page = page;
@@ -46,7 +52,9 @@
                 }
                 if (tabname === "LearningTab" && $('#hddLearningSessionStarted').val() === "False" && $('#hddQuestionCount').val() !== "0") {
                     var answerBody = new AnswerBody();
-
+                    if (!$("#LearningTabContent").css("visibility", "visible"))
+                        $("#LearningTabContent").css("visibility", "visible");
+                   
                     Utils.ShowSpinner();
 
                     if (answerBody.IsTestSession()) {

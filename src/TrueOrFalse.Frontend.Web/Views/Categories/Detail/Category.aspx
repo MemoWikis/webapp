@@ -60,10 +60,8 @@
             </div>
         </div>
 
-    <div id="LearningTabContent" class="TabContent">
-        <% if (Model.IsInLearningTab){ %>
-                <% Html.RenderPartial("~/Views/Categories/Detail/Tabs/LearningTab.ascx", Model); %>
-        <% } %>
+    <div id="LearningTabContent" class="TabContent" style="visibility: hidden">
+        <% Html.RenderPartial("~/Views/Categories/Detail/Tabs/LearningTab.ascx", Model); %>
     </div>
     
     <div id="AnalyticsTabContent" class="TabContent">
