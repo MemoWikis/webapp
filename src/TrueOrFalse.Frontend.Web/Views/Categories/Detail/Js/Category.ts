@@ -2,7 +2,7 @@
 
     CategoryId;
     CategoryName;
-
+    Categoryversion = null;
     constructor() {
         this.CategoryId = $("#hhdCategoryId").val();
         this.CategoryName = $("#hhdCategoryName").val();
@@ -16,18 +16,13 @@
 
         $("#LearningTab").on("click",
             () => {
-                window.history.pushState('Category', 'LearningTab', '/' + this.CategoryName + '/' + this.CategoryId + '/Lernen#');
+                window.history.pushState('Category', 'LearningTab', '/' + this.CategoryName + '/' + this.CategoryId + '/Lernen');
             });
 
         $("#AnalyticsTab").on("click",
             () => {
                 window.history.pushState('Category', 'LearningTab', '/' + this.CategoryName + '/' + this.CategoryId + '/Analytics#');
             });
-
-        window.addEventListener('popstate', function (event) {
-
-
-        }, false);
     }
 
 }

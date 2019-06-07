@@ -4,7 +4,7 @@
 
     constructor(page: CategoryPage) {
 
-        if (window.location.pathname.indexOf("/Lernen")) {
+        if (window.location.pathname.indexOf("/Lernen") >= 0) {
             var answerBody = new AnswerBody();
 
             Utils.ShowSpinner();
