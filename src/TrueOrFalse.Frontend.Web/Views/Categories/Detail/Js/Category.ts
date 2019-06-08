@@ -1,48 +1,71 @@
 ﻿class CategoryPage {
 
-    CategoryId;
-    CategoryName;
+    CategoryId: number;
+    CategoryName: string;
     Categoryversion = null;
-    Url;
+    Url: string;
+    isPushed: boolean = false;
+
+    // Problem : wenn der KLick ausgelöst wird wird nochmal gepusht, das gilt auch wenn ich den Klick simuliere
 
     constructor() {
+        var myHistory = [];
         this.CategoryId = $("#hhdCategoryId").val();
         this.CategoryName = $("#hhdCategoryName").val();
 
         $("#TopicTab").on("click",
             () => {
-                window.history.pushState('Category',
-                    'LearningTab',
-                    '/' + this.CategoryName + '/' + this.CategoryId + "#");
+                var url =
+                    '/' + this.CategoryName + '/' + this.CategoryId;
+                if (myHistory.length === 0 || myHistory[myHistory.length - 1] !== url) {
+                    window.history.pushState(myHistory,'TopicTab', url);
+                    myHistory.push(url);
+                } else if (myHistory[myHistory.length - 1] === url) {
+                    window.history.back();
+                }
             });
 
         $("#LearningTab").on("click",
             () => {
-                window.history.pushState('Category',
-                    'LearningTab',
-                    '/' + this.CategoryName + '/' + this.CategoryId + '/Lernen');
+                var url = '/' + this.CategoryName + '/' + this.CategoryId + '/Lernen';
+                if (myHistory.length === 0 || myHistory[myHistory.length - 1] !== url ) {
+                    window.history.pushState('Category',
+                        'LearningTab', url);
+                    myHistory.push(url);
+                } else if (myHistory[myHistory.length - 1] === url) {
+                    window.history.back();
+                } 
             });
 
         $("#AnalyticsTab").on("click",
-            () => {
-                window.history.pushState('Category',
-                    'LearningTab',
-                    '/' + this.CategoryName + '/' + this.CategoryId + '/Analytics#');
+            (e) => {
+                var url = '/' + this.CategoryName + '/' + this.CategoryId + '/Analytics';
+                if (myHistory.length === 0 || myHistory[myHistory.length - 1] !== url) {
+                    window.history.pushState(myHistory,
+                        'AnalyticsTab', url);
+                    myHistory.push(url);
+                }
+                else if (myHistory[myHistory.length - 1] === url) {
+                    window.history.back();
+                }
             });
 
         window.addEventListener('popstate', (e) => {
             this.Url = window.location.pathname;
-            if (this.Url.indexOf("Lernen") >= 0)
+
+            if (this.Url.indexOf("Lernen") >= 0) {
                 $("#LearningTab").click();
-            else if (this.Url.indexOf("Analytics") >= 0)
+            }
+            else if (this.Url.indexOf("Analytics") >= 0) {
                 $("#AnalyticsTab").click();
+            }
             else {
                 $("#TopicTab").click();
             }
         });
 
-
     }
+
 }
 
 $(() => {
@@ -57,9 +80,9 @@ $(() => {
     var queryParams = Utils.GetQueryString();
     //if (queryParams.openTab === "learningTab") {
     //    $("#LearningTab").click();
-        
+
     //}
-   
+
 
 
 });
