@@ -6,8 +6,6 @@
     Url: string;
     isPushed: boolean = false;
 
-    // Problem : wenn der KLick ausgelöst wird wird nochmal gepusht, das gilt auch wenn ich den Klick simuliere
-
     constructor() {
         var myHistory = [];
         this.CategoryId = $("#hhdCategoryId").val();
@@ -63,9 +61,7 @@
                 $("#TopicTab").click();
             }
         });
-
     }
-
 }
 
 $(() => {
@@ -78,11 +74,4 @@ $(() => {
     new SquareWishKnowledge(page);
 
     var queryParams = Utils.GetQueryString();
-    //if (queryParams.openTab === "learningTab") {
-    //    $("#LearningTab").click();
-
-    //}
-
-
-
 });
