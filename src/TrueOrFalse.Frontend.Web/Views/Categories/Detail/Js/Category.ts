@@ -1,66 +1,71 @@
 ﻿class CategoryPage {
 
-    CategoryId: number;
-    CategoryName: string;
-    Categoryversion = null;
-    Url: string;
-    isPushed: boolean = false;
+    public categoryId: number;
+    private _categoryName: string;
+    private _categoryVersion = null;
+    private _history;
+    private _arrayTabs;
+
+
+    //Tabs werden noch nicht richtig aktiv geschaltet wenn reloadet wird 
+    //doppelte Klicks auf ein Tab lösen ein zurückgehen aus.
 
     constructor() {
-        var myHistory = [];
-        this.CategoryId = $("#hhdCategoryId").val();
-        this.CategoryName = $("#hhdCategoryName").val();
+        this._history = [];
+        this.categoryId = $("#hhdCategoryId").val();
+        this._categoryName = $("#hhdCategoryName").val();
+        var clicksToTab = 0;
+        
+
+        this.hasAndSetTabActive();
 
         $("#TopicTab").on("click",
             () => {
-                var url =
-                    '/' + this.CategoryName + '/' + this.CategoryId;
-                if (myHistory.length === 0 || myHistory[myHistory.length - 1] !== url) {
-                    window.history.pushState(myHistory,'TopicTab', url);
-                    myHistory.push(url);
-                } else if (myHistory[myHistory.length - 1] === url) {
-                    window.history.back();
-                }
+                var url = '/' + this._categoryName + '/' + this.categoryId;
+                this.historyPush(url, "TopicTab");
+                this.hasAndSetTabActive();
             });
 
         $("#LearningTab").on("click",
             () => {
-                var url = '/' + this.CategoryName + '/' + this.CategoryId + '/Lernen';
-                if (myHistory.length === 0 || myHistory[myHistory.length - 1] !== url ) {
-                    window.history.pushState('Category',
-                        'LearningTab', url);
-                    myHistory.push(url);
-                } else if (myHistory[myHistory.length - 1] === url) {
-                    window.history.back();
-                } 
+                var url = '/' + this._categoryName + '/' + this.categoryId + '/Lernen';
+                this.historyPush(url, "LearningTab");
+                this.hasAndSetTabActive();
             });
 
         $("#AnalyticsTab").on("click",
             (e) => {
-                var url = '/' + this.CategoryName + '/' + this.CategoryId + '/Analytics';
-                if (myHistory.length === 0 || myHistory[myHistory.length - 1] !== url) {
-                    window.history.pushState(myHistory,
-                        'AnalyticsTab', url);
-                    myHistory.push(url);
-                }
-                else if (myHistory[myHistory.length - 1] === url) {
-                    window.history.back();
-                }
+                var url = '/' + this._categoryName + '/' + this.categoryId + '/Analytics';
+                this.historyPush(url, "Analyticstab");
+                this.hasAndSetTabActive();
             });
+    }
 
-        window.addEventListener('popstate', (e) => {
-            this.Url = window.location.pathname;
+    private historyPush(currentUrl: string, tabname: string) {
+        if (this._history.length === 0 || this._history[this._history.length - 1] !== currentUrl) {
+            window.history.pushState(this._history, 'AnalyticsTab', currentUrl);
+            this._history.push(currentUrl);
+        } else if (this._history[this._history.length - 1] === currentUrl) {
+            window.history.back();
+        }
+    }
 
-            if (this.Url.indexOf("Lernen") >= 0) {
-                $("#LearningTab").click();
-            }
-            else if (this.Url.indexOf("Analytics") >= 0) {
-                $("#AnalyticsTab").click();
-            }
-            else {
-                $("#TopicTab").click();
-            }
-        });
+    private hasAndSetTabActive() {
+        var url = window.location.pathname; 
+        if (url.indexOf("Lernen") >= 0 && !$("#LearningTab").hasClass("active")) {
+            $("#LearningTab").addClass("active");
+            $("#AnalyticsTab").removeClass("active");
+            $("#TopicTab").removeClass("active");
+        } else if (url.indexOf("Analytics") >= 0 && !$("#AnalyticsTab").hasClass("active")) {
+            $("#LearningTab").removeClass("active");
+            $("#AnalyticsTab").addClass("active");
+            $("#TopicTab").removeClass("active");
+        } else {
+            $("#LearningTab").removeClass("active");
+            $("#AnalyticsTab").removeClass("active");
+            $("#TopicTab").addClass("active");
+        }
+
     }
 }
 
@@ -72,6 +77,4 @@ $(() => {
     new Tabbing(page);
     new CategoryHeader(page);
     new SquareWishKnowledge(page);
-
-    var queryParams = Utils.GetQueryString();
 });
