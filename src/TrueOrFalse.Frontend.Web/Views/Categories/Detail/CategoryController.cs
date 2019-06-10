@@ -11,16 +11,11 @@ using TrueOrFalse.Web;
 public class CategoryController : BaseController
 {
     private const string _viewLocation = "~/Views/Categories/Detail/Category.aspx";
+    private const string _topicTab = "~/Views/Categories/Detail/Tabs/TopicTab.ascx";
 
     public ActionResult Category(int id, int? version)
     {
-        var modelAndCategoryResult = LoadModel(id);
-
-        if (version != null)
-            ApplyCategoryChangeToModel(modelAndCategoryResult.CategoryModel, (int)version);
-        else
-            SaveCategoryView.Run(modelAndCategoryResult.Category, User_());
-
+        var modelAndCategoryResult = LoadModel(id, version);
         modelAndCategoryResult.CategoryModel.IsInTopic = true; 
 
         return View(_viewLocation, modelAndCategoryResult.CategoryModel);
@@ -28,42 +23,42 @@ public class CategoryController : BaseController
 
     public ActionResult CategoryLearningTab(int id, int? version)
     {
-        var modelAndCategoryResult = LoadModel(id);
-
-        if (version != null)
-            ApplyCategoryChangeToModel(modelAndCategoryResult.CategoryModel, (int)version);
-        else
-            SaveCategoryView.Run(modelAndCategoryResult.Category, User_());
-
+        var modelAndCategoryResult = LoadModel(id, version);
         modelAndCategoryResult.CategoryModel.IsInLearningTab = true; 
+
         return View(_viewLocation, modelAndCategoryResult.CategoryModel);
     }
 
     public ActionResult CategoryAnalyticsTab(int id, int? version)
     {
-        var modelAndCategoryResult = LoadModel(id);
-
-        if (version != null)
-            ApplyCategoryChangeToModel(modelAndCategoryResult.CategoryModel, (int)version);
-        else
-            SaveCategoryView.Run(modelAndCategoryResult.Category, User_());
-
+        var modelAndCategoryResult = LoadModel(id, version);
         modelAndCategoryResult.CategoryModel.IsInAnalyticsTab = true; 
+
         return View(_viewLocation, modelAndCategoryResult.CategoryModel);
     }
 
-    private LoadModelResult LoadModel(int id)
+    private LoadModelResult LoadModel(int id, int? version)
     {
         var result = new LoadModelResult();
-
         var category = Resolve<CategoryRepository>().GetById(id);
+
         _sessionUiData.VisitedCategories.Add(new CategoryHistoryItem(category));
         result.Category = category;
         result.CategoryModel = GetModelWithContentHtml(category);
 
+        if (version != null)
+            ApplyCategoryChangeToModel(result.CategoryModel, (int)version);
+        else
+            SaveCategoryView.Run(result.Category, User_());
+
         return result;
     }
 
+    [HttpPost]
+    public ActionResult GetTopicTabAsync(int id , int? version)
+    {
+        return View("~/Views/Categories/Detail/Tabs/TopicTab.ascx", LoadModel(id, version).CategoryModel);
+    }
 
     private CategoryModel GetModelWithContentHtml(Category category)
     {
