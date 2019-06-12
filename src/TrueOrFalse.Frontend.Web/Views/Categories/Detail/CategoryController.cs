@@ -57,7 +57,7 @@ public class CategoryController : BaseController
     [HttpPost]
     public ActionResult GetTopicTabAsync(int id , int? version)
     {
-        return View("~/Views/Categories/Detail/Tabs/TopicTab.ascx", LoadModel(id, version).CategoryModel);
+        return View(_topicTab, LoadModel(id, version).CategoryModel);
     }
 
     private CategoryModel GetModelWithContentHtml(Category category)

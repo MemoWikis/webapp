@@ -5,7 +5,7 @@
         if (!$("#knowledgeAsABox").html())
             return;
 
-        $.post("/Category/WishKnowledgeInTheBox", { categoryId: page.CategoryId })
+        $.post("/Category/WishKnowledgeInTheBox", { categoryId: page.categoryId })
             .done((result) => {
 
                 $(".wishKnowledgeTemplate").html(result);
