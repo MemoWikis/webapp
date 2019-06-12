@@ -1,6 +1,6 @@
 ﻿class Tabbing {
 
-    private _page: CategoryPage ;
+    private _page: CategoryPage;
 
     constructor(page: CategoryPage) {
 
@@ -26,7 +26,6 @@
                 console.log(state);
             });
 
-
         this._page = page;
 
         $('#TabsBar .Tab').each((index, item) => {
@@ -38,13 +37,13 @@
 
                 e.preventDefault();
 
-                if (tab.hasClass('active'))
-                    return;
+                //if (tab.hasClass('active'))
+                //    return;
 
-                if (tab.hasClass('LoggedInOnly') && NotLoggedIn.Yes()) {
-                    NotLoggedIn.ShowErrorMsg(tabname);
-                    return;
-                }
+                //if (tab.hasClass('LoggedInOnly') && NotLoggedIn.Yes()) {
+                //    NotLoggedIn.ShowErrorMsg(tabname);
+                //    return;
+                //}
 
                 if (!this.ContentIsPresent(tabname)) {
                     Utils.ShowSpinner();
@@ -74,15 +73,16 @@
     }
 
     private RenderTabContent(tabName: string): void {
-        var url = "/Category/Tab/?tabName=" + tabName + "&categoryId=" + this._page.CategoryId;
+        var url = "/Category/Tab/?tabName=" + tabName + "&categoryId=" + this._page.categoryId;
 
         $.get(url, (html) => {
 
             Utils.HideSpinner();
 
-            $('#' + tabName + 'Content')
-                .empty()
-                .append(html);
+            if (tabName !== "TopicTab")
+                $('#' + tabName + 'Content').empty().append(html);
+            else 
+                $('#ContentModuleApp').empty().append(html);
         });
     }
 
@@ -97,7 +97,7 @@
     }
 
     private ContentIsPresent(tabName: string): boolean {
-        return !($.trim($('#' + tabName + 'Content').html())=='');
+        return false;  //!($.trim($('#' + tabName + 'Content').html())=='');
     }
 
     private ShowTab(tabName: string): void {
