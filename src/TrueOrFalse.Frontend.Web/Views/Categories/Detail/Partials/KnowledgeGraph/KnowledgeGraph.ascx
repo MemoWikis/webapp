@@ -5,7 +5,7 @@
     var graphJsonString = "<%= @Model.GraphDataString %>";
     var graphData = JSON.parse(graphJsonString);
 
-    KnowledgeGraph.loadForceGraph();
+    KnowledgeGraph.loadSimpleForceGraph();
 
     //KnowledgeGraph.loadTreeGraph("<%= @Model.GraphDataString %>");
 

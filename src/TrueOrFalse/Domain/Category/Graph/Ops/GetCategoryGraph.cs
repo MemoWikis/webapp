@@ -17,11 +17,15 @@ public class GetCategoryGraph
                 links.Add(new Link { source = parentIndex, target = childIndex });
         }
 
+        var knowledge = new List<KnowledgeLevel>();
         var nodes = graphData.nodes.Select(node => 
             new Node
             {
                 CategoryId = node.Category.Id,
-                Text = (node.Category.Name).Replace("\"", "")
+                Text = (node.Category.Name).Replace("\"", ""),
+
+
+                knowledge = KnowledgeSummaryLoader.RunFromMemoryCache(category, Sl.SessionUser.UserId)
             });
 
         return new JsonResult
