@@ -79,7 +79,7 @@
 
             Utils.HideSpinner();
 
-            if (tabName !== "TopicTab")
+            if (true)
                 $('#' + tabName + 'Content').empty().append(html);
             else 
                 $('#ContentModuleApp').empty().append(html);

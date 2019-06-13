@@ -51,13 +51,9 @@
     <% Html.RenderPartial("~/Views/Categories/Detail/Partials/CategoryHeader.ascx", Model);%>
     
         <div id="TopicTabContent" class="TabContent">
-            <div id="ContentModuleApp">
-                <% if (Model.IsInTopic) { %>
+            <% if (Model.IsInTopic) { %>
                     <% Html.RenderPartial("~/Views/Categories/Detail/Tabs/TopicTab.ascx", Model); %>
-                    <%: Html.Partial("~/Views/Categories/Detail/Partials/InlineEditFloatingActionButton.ascx") %>
-                    <%: Html.Partial("~/Views/Categories/Detail/Partials/ModalComponentCollection.ascx") %>
                 <% } %>
-            </div>
         </div>
 
     <div id="LearningTabContent" class="TabContent" style="visibility: hidden">
@@ -70,6 +66,6 @@
         <% } %>
     </div>
   
-    <%= Scripts.Render("~/bundles/js/CategoryEditMode") %>
+
     
 </asp:Content>
