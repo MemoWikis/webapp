@@ -4,6 +4,8 @@ namespace GraphJsonDtos
 {
     public class Node
     {
+        public KnowledgeSummary Knowledge;
+        
         public int CategoryId;
         public string Text;
     }
@@ -12,15 +14,5 @@ namespace GraphJsonDtos
     {
         public int source;
         public int target;
-    }
-
-    public class Knowledge
-    {
-        public int NotInWishknowledge;
-        public int NotLearned;
-        public int NeedsLearning;
-        public int NeedsConsolidation;
-        public int Solid;
-        public int Options;
     }
 }

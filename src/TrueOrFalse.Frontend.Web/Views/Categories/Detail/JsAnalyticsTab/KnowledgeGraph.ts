@@ -484,7 +484,6 @@ class KnowledgeGraph {
                 if (target) {
                     if (source !== target && !edgeExists(source, target)) {
                         edges.push({ source: source, target: target });
-                        updateInspector(selected);
                     }
                 }
             }
