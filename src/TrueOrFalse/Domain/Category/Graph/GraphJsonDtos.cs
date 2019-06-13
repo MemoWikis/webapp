@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace GraphJsonDtos
+﻿namespace GraphJsonDtos
 {
     public class Node
     {
@@ -12,15 +10,5 @@ namespace GraphJsonDtos
     {
         public int source;
         public int target;
-    }
-
-    public class Knowledge
-    {
-        public int NotInWishknowledge;
-        public int NotLearned;
-        public int NeedsLearning;
-        public int NeedsConsolidation;
-        public int Solid;
-        public int Options;
     }
 }
