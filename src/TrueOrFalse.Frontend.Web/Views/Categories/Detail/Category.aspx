@@ -21,7 +21,7 @@
     <%= Styles.Render("~/bundles/Category") %>
     <%= Scripts.Render("~/bundles/js/Category") %>
     <%= Scripts.Render("~/bundles/js/DeleteQuestion") %>
-    <%= Scripts.Render("~/bundles/js/AnswerQuestion") %>    
+    <%= Scripts.Render("~/bundles/js/AnswerQuestion") %> 
     <%= Scripts.Render("~/bundles/js/CategorySort") %>
 
     <script type="text/javascript" src="https://www.google.com/jsapi"></script>
@@ -46,18 +46,34 @@
     <input type="hidden" id="hhdCategoryId" value="<%= Model.Category.Id %>"/>
     <input type="hidden" id="hhdCategoryName" value="<%= Model.Category.Name %>"/>
     <input type="hidden" id="hddUserId" value="<%= Model.UserId %>"/>
-    <input type="hidden" id="hddQuestionCount" value="<%=Model.AggregatedQuestionCount %>"/>   
+    <input type="hidden" id="hddQuestionCount" value="<%=Model.AggregatedQuestionCount %>"/> 
+    <input type="hidden" id="hddLearningSessionStarted" value="False" />
+    <input type="hidden" id="hddSolutionTypeNum" value="1" />
+    <input type="hidden" id="hddQuestionId" value=""/>
+    <input type="hidden" id="hddIsLearningSession" value="<%= Model.IsLearningSession %>"<input type="hidden" id="hddIsLearningSession" value="<%= Model.IsLearningSession %>"
+           data-learning-session-id="-1"
+           data-current-step-guid=""
+           data-current-step-idx=""
+           data-is-last-step=""
+           data-skip-step-index="" />
+
+    <input type="hidden" id="hddIsTestSession" value="<%= Model.IsTestSession %>" 
+           data-test-session-id="-1"
+           data-current-step-idx=""
+           data-is-last-step=""/>
     <% Html.RenderPartial("~/Views/Shared/Spinner/Spinner.ascx"); %>
     <% Html.RenderPartial("~/Views/Categories/Detail/Partials/CategoryHeader.ascx", Model);%>
     
         <div id="TopicTabContent" class="TabContent">
             <% if (Model.IsInTopic) { %>
-                    <% Html.RenderPartial("~/Views/Categories/Detail/Tabs/TopicTab.ascx", Model); %>
-                <% } %>
+                <% Html.RenderPartial("~/Views/Categories/Detail/Tabs/TopicTab.ascx", Model); %>
+            <% } %>
         </div>
 
     <div id="LearningTabContent" class="TabContent" style="visibility: hidden">
-        <% Html.RenderPartial("~/Views/Categories/Detail/Tabs/LearningTab.ascx", Model); %>
+        <% if(Model.IsInLearningTab) { %> 
+            <% Html.RenderPartial("~/Views/Categories/Detail/Tabs/LearningTab.ascx", Model); %>
+        <%}%>
     </div>
     
     <div id="AnalyticsTabContent" class="TabContent">
@@ -66,6 +82,6 @@
         <% } %>
     </div>
   
-
+     
     
 </asp:Content>

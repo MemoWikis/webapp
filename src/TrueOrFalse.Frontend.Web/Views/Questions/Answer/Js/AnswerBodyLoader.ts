@@ -93,12 +93,12 @@ class AnswerBodyLoader {
     }
 
     public loadNewTestSession() {
-        var url = "/AnswerQuestion/RenderAnswerBodyForNewCategoryTestSession/?categoryId=" + $('#hddCategoryId').val();
+        var url = "/AnswerQuestion/RenderAnswerBodyForNewCategoryTestSession/?categoryId=" + $('#hhdCategoryId').val();
         this.loadNewQuestion(url);
     }
 
     public loadNewLearningSession() {
-        var url = "/AnswerQuestion/RenderAnswerBodyForNewCategoryLearningSession/?categoryId=" + $('#hddCategoryId').val();
+        var url = "/AnswerQuestion/RenderAnswerBodyForNewCategoryLearningSession/?categoryId=" + $('#hhdCategoryId').val();
         this.loadNewQuestion(url);
     }
 
