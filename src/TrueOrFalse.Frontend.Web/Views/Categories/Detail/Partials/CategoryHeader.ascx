@@ -59,7 +59,7 @@
         <div id="TabsBar">
             <div id="CategoryTabsApp" class="Tabs">
                 <div id="TopicTab" class="Tab active">
-                    <a href="#">
+                    <a href="">
                         <%= Model.Category.Type == CategoryType.Standard ? "Thema" : "Übersicht" %>
                     </a>
                 </div>
