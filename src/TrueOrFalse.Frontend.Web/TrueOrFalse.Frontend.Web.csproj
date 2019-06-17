@@ -21653,9 +21653,6 @@
     <Content Include="Views\Categories\Detail\Category.min.css">
       <DependentUpon>Category.css</DependentUpon>
     </Content>
-    <Content Include="Views\Categories\Detail\JsAnalyticsTab\KnowledgeGraph.js">
-      <DependentUpon>KnowledgeGraph.ts</DependentUpon>
-    </Content>
     <Content Include="Views\Categories\Detail\JsEditMode\ContentModule.js">
       <DependentUpon>ContentModule.ts</DependentUpon>
     </Content>
@@ -22002,9 +21999,6 @@
     </Content>
     <Content Include="Views\Categories\Detail\JsEditMode\ContentModuleSettings\ContentModuleSelectionComponent.js.map">
       <DependentUpon>ContentModuleSelectionComponent.ts</DependentUpon>
-    </Content>
-    <Content Include="Views\Categories\Detail\JsAnalyticsTab\KnowledgeGraph.js.map">
-      <DependentUpon>KnowledgeGraph.ts</DependentUpon>
     </Content>
     <None Include="Views\Maintenance\ContentStats.less" />
     <Compile Include="Views\Maintenance\ContentStatsModel.cs" />
@@ -24287,6 +24281,7 @@
     <Folder Include="bin\Utilities\Update\Scripts\" />
     <Folder Include="bin\Utilities\Update\SolrSchemas\" />
     <Folder Include="Content\bootstrap\" />
+    <Folder Include="Scripts\dwarf\" />
     <Folder Include="Views\Dates\" />
   </ItemGroup>
   <PropertyGroup>

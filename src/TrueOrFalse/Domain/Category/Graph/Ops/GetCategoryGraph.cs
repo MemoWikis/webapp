@@ -21,13 +21,12 @@ public class GetCategoryGraph
         }
 
      
-        var nodes = graphData.nodes.Select(node => 
+        var nodes = graphData.nodes.Select((node, index) => 
             new Node
             {
+                id = index,
                 CategoryId = node.Category.Id,
-                Text = (node.Category.Name).Replace("\"", ""),
-
-
+                title = (node.Category.Name).Replace("\"", ""),
                 Knowledge = KnowledgeSummaryLoader.RunFromMemoryCache(category, Sl.SessionUser.UserId),
            
             });
