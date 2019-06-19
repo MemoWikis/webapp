@@ -1,8 +1,6 @@
 ﻿declare var label: any;
 declare var graphData: any;
 
-'use strict';
-
 class KnowledgeGraph {
 
     static loadForceGraph() {
@@ -198,192 +196,76 @@ class KnowledgeGraph {
         };
     }
 
-    //static loadRectForceGraph() {
-
-    //    var width = 810,
-    //        height = 500;
-
-    //    var svg = d3.select("#graph-body")
-    //        .attr("width", width)
-    //        .attr("height", height);
-
-    //    var force = d3.forceSimulation()
-    //        .force("charge", d3.forceManyBody().strength(-700).distanceMin(100).distanceMax(1000))
-    //        .force("link", d3.forceLink().id(function(d) { return d.index }))
-    //        .force("center", d3.forceCenter(width / 2, height / 2))
-    //        .force("y", d3.forceY(height / 2).strength(0.10))
-    //        .force("x", d3.forceX(0.001));
-
-    //    var color = function (group) {
-    //        if (group == 1) {
-    //            return "#aaa";
-    //        } else if (group == 2) {
-    //            return "#fbc280";
-    //        } else {
-    //            return "#405275";
-    //        }
-    //    }
-    //    function dragstarted(d) {
-    //        if (!d3.event.active) force.alphaTarget(0.5).restart();
-    //        d.fx = d.x;
-    //        d.fy = d.y;
-    //    }
-
-    //    function dragged(d) {
-    //        d.fx = d3.event.x;
-    //        d.fy = d3.event.y;
-    //    }
-
-    //    function dragended(d) {
-    //        if (!d3.event.active) force.alphaTarget(0.5);
-    //        d.fx = null;
-    //        d.fy = null;
-    //    }
-
-    //    var graph = graphData;
-
-
-    //    force
-    //        .nodes(graph.nodes)
-    //        .force("link").links(graph.links);
-
-    //    var link = svg.selectAll(".link")
-    //        .data(graph.links)
-    //        .enter()
-    //        .append("line")
-    //        .attr("stroke", "#999")
-    //        .attr("stroke-width", "1px")
-    //        .attr("class", "link");
-
-    //    var node = svg.selectAll(".node")
-    //        .data(graph.nodes)
-    //        .enter().append("g")
-    //        .attr("class", "node")
-    //        .call(d3.drag()
-    //            .on("start", dragstarted)
-    //            .on("drag", dragged)
-    //            .on("end", dragended));
-
-    //    node.append("rect")
-    //        .attr("class", "node")
-    //        .attr("width", 40)
-    //        .attr("height", 20)
-    //        .attr("stroke", function (d) { return color(d.group); })
-    //        .attr("stroke-width", 1)
-    //        .style("fill", "#fff")
-    //        .attr('rx', 5)
-    //        .attr('ry', 5);
-
-    //    node.append("text")
-    //        .attr("dx", 1)
-    //        .attr("dy", 1)
-    //        .style("font-family", "Open Sans")
-    //        .style("font-size", "18px")
-    //        .style("fill", "#203256")
-    //        .style("paint-order", "stroke")
-
-    //        .text(function (d) {
-    //            return d.Name;
-    //        });
-
-    //    force.on("tick", function () {
-    //        link.attr("x1", function (d) {
-    //            return d.source.x;
-    //        })
-    //            .attr("y1", function (d) {
-    //                return d.source.y;
-    //            })
-    //            .attr("x2", function (d) {
-    //                return d.target.x;
-    //            })
-    //            .attr("y2", function (d) {
-    //                return d.target.y;
-    //            });
-    //        node.attr("transform", function (d) {
-    //            return "translate(" + d.x + "," + d.y + ")";
-    //        });
-    //    });
-    //}
-
     static loadDwarfGraph() {
 
         'use strict';
-        { // INIT
-            var windowWidth = 810,
-                windowHeight = 500;
+         // INIT
+        var windowWidth = 810,
+            windowHeight = 500;
 
-            var width = windowWidth,
-                height = windowHeight;
+        var width = windowWidth,
+            height = windowHeight;
 
-            var color = d3.scaleOrdinal(d3.schemeCategory10);
+        var color = d3.scaleOrdinal(d3.schemeCategory10);
 
-            var svg = d3.select('#graph-body').append('svg')
-                .attr('width', width)
-                .attr('height', height);
+        var svg = d3.select('#graph-body');
 
-            var world = svg.append('g')
-                .attr('id', 'world')
-                .attr('transform', 'translate(' + width / 2 + ',' + height / 2 + ')');
+        var world = svg.append('g')
+            .attr('width', width)
+            .attr('height', height)
+            .attr('id', 'world')
+            .attr('transform', 'translate(' + width / 2 + ',' + height / 2 + ')');
 
-            svg
-                .call(d3.zoom()
-                    .scaleExtent([1 / 8, 2])
-                    .on('zoom', zoomed))
-                .call(d3.zoom().transform, d3.zoomIdentity.translate(width / 2, height / 2))
-                .on('dblclick.zoom', null);
+        svg
+            .call(d3.zoom()
+                .scaleExtent([0.1, 4])
+                .on('zoom', zoomed))
+            .call(d3.zoom().transform, d3.zoomIdentity.translate(width / 2, height / 2))
+            .on('dblclick.zoom', null);
 
-            // from http://bl.ocks.org/rkirsling/5001347
-            // define arrow markers for graph links
-            svg.append('svg:defs').append('svg:marker')
-                .attr('id', 'end-arrow')
-                .attr('viewBox', '0 -5 15 10')
-                .attr('refX', 7.5)
-                .attr('markerWidth', 10.5)
-                .attr('markerHeight', 5)
-                .attr('orient', 'auto')
-                .append('svg:path')
-                .attr('d', 'M 0 -5 L 10 0 L 0 5')
-                .attr('style', 'fill: #000; stroke: none');
 
-            var buildings = world.selectAll('g');
-            var lines = world.selectAll('g');
 
-            var linePreview = world
-                .append('path');
+        // from http://bl.ocks.org/rkirsling/5001347
+        // define arrow markers for graph links
+        svg.append('svg:defs').append('svg:marker')
+            .attr('id', 'end-arrow')
+            .attr('viewBox', '0 -5 15 10')
+            .attr('refX', 7.5)
+            .attr('markerWidth', 10.5)
+            .attr('markerHeight', 5)
+            .attr('orient', 'auto')
+            .append('svg:path')
+            .attr('d', 'M 0 -5 L 10 0 L 0 5')
+            .attr('style', 'fill: #000; stroke: none');
 
-            var vertices = [];
-            var edges = [];
+        var buildings = world.selectAll('g');
+        var lines = world.selectAll('g');
 
-            var source = null,
-                target = null,
-                selected = null,
-                line = null; // rename this (represents an edge)
+        var linePreview = world
+            .append('path');
 
-            var dragging = true;
-            var ctrlPressed = false;
+        var vertices = [];
+        var edges = [];
 
-            window.addEventListener("resize", resize);
+        var source = null,
+            target = null,
+            line = null; // rename this (represents an edge)
 
-            svg.on('click', selectObj);
+        var dragging = true;
 
-            d3.select(window)
-                .on('keydown', windowKeydown)
-                .on('keyup', windowKeyup);
+        var simulation = d3.forceSimulation()
+            .force('x', d3.forceX(0))
+            .force('y', d3.forceY(0))
+            .force('link', d3.forceLink())
+            .force('charge', d3.forceManyBody().strength(-200))
+            .on('tick', tick);
 
-            var simulation = d3.forceSimulation()
-                .force('x', d3.forceX(0))
-                .force('y', d3.forceY(0))
-                .force('link', d3.forceLink().id(function (d) { return d.id; }))
-                .force('charge', d3.forceManyBody().strength(-200))
-                .on('tick', tick);
+        simulation.force('x').strength(0.02);
+        simulation.force('y').strength(0.03);
 
-            simulation.force('x').strength(0.02);
-            simulation.force('y').strength(0.03);
-
-            update();
-        }
+        update();
         
-        importGraph(graphData);
+        importGraph();
 
         function update() {
             lines = lines.data(edges, function (d) {
@@ -391,7 +273,6 @@ class KnowledgeGraph {
             });
             lines.exit().remove();
             var enter = lines.enter().append('g')
-                .on('click', selectObj)
                 .on('mouseover', lineHover)
                 .on('mouseout', lineUnHover);
             enter.append('path')
@@ -399,11 +280,10 @@ class KnowledgeGraph {
             lines = lines.merge(enter);
 
             buildings = buildings.data(vertices, function (d) {
-                return d.id;
+                return d.Id;
             });
             buildings.exit().remove();
             enter = buildings.enter().append('g')
-                .on('click', selectObj)
                 .on('mouseover', bldgHover)
                 .on('mouseout', bldgUnHover)
                 .call(d3.drag()
@@ -421,15 +301,18 @@ class KnowledgeGraph {
             });
             lines.classed('selected', function (d) {
                 return d.selected;
-            });
+            })
+                    .attr("stroke", "#999")
+                    .attr("stroke-width", "1px");
 
             buildings.selectAll('text')
-                .text(function (d) { return d.title; })
+                .text(function (d) { return d.Title; })
                 .attr('height', 10)
                 .attr('transform', function () {
                     var b = this.getBBox();
                     return 'translate(-' + b.width / 2 + ',' + 10 / 2 + ')';
-                });
+                })
+                .attr('style', 'cursor: default');
             buildings.selectAll('rect')
                 .each(function (d) {
                     const b = this.parentNode.querySelector('text').getBBox();
@@ -440,6 +323,7 @@ class KnowledgeGraph {
                         .attr('height', d.height)
                         .attr('transform', 'translate(-' + d.width / 2 + ',' + -10 + ')')
                         .attr('stroke', color(d.type))
+                        .style("fill", "#fff")
                         .attr('rx', 5)
                         .attr('ry', 5);
                 });
@@ -450,8 +334,8 @@ class KnowledgeGraph {
             simulation.nodes(vertices);
             simulation.force('link')
                 .links(edges)
-                .distance(100)
-                .strength(0.2);
+                .distance(150)
+                .strength(0.1);
         }
 
         function tick() {
@@ -498,97 +382,45 @@ class KnowledgeGraph {
 
             d3.select(path)
                 .attr('d', `
-      M ${x1} ${y1}
-      L ${x2a} ${y2a}
-    `);
-        }
-
-        function newVertexAtMouse() {
-            var x = d3.mouse(world.node())[0];
-            var y = d3.mouse(world.node())[1];
-            newVertex(x, y);
-        }
-
-        function newVertex(x = 0, y = 0) {
-            var lastVertexId = 0;
-
-            vertices.forEach(function (vertex) {
-                if (vertex.id > lastVertexId) {
-                    lastVertexId = vertex.id;
-                }
-            });
-
-            var vertex = { id: ++lastVertexId, title: 'New', type: '', x: x, y: y };
-
-            vertices.push(vertex);
-            selectObj(vertex);
-
-            update();
-            simulation.alpha(0.3).restart();
-            return vertex;
+                  M ${x1} ${y1}
+                  L ${x2a} ${y2a}
+                `);
         }
 
         function bldgDragStart(d) {
             source = d;
 
-            if (!ctrlPressed) {
-                dragging = true; // dragging the bldg
-            } else {
-                dragging = false; // drawing new edge
-            }
+            dragging = true; // dragging the bldg
         }
 
         function bldgDragProgress(d) {
-            var tx, ty;
-            if (dragging) {
-                source.fx = d3.event.x;
-                source.fy = d3.event.y;
-            } else {
-                if (target && target !== source) {
-                    drawPath.call(linePreview, { source, target });
-                } else {
-                    tx = d3.mouse(world.node())[0];
-                    ty = d3.mouse(world.node())[1];
-                    linePreview
-                        .style('display', 'inline')
-                        .style('marker-end', 'url(#end-arrow)')
-                        .attr('d', function (d) {
-                            return `M ${source.x} ${source.y} L ${tx} ${ty}`
-                        });
-                }
-            }
+            source.fx = d3.event.x;
+            source.fy = d3.event.y;
 
-            simulation.alpha(0.3).restart();
+                simulation.alpha(0.3).restart();
         }
 
         function bldgDragEnd(d) {
             linePreview
                 .style('display', 'none');
 
-            if (dragging) {
-                if (!d.fixed) {
-                    source.fx = null;
-                    source.fy = null;
-                }
-            } else {
-                if (target) {
-                    if (source !== target && !edgeExists(source, target)) {
-                        edges.push({ source: source, target: target });
-                    }
-                }
+            if (!d.fixed) {
+                source.fx = null;
+                source.fy = null;
             }
 
             update();
         }
 
+
         function bldgHover(d) {
             target = d;
-            d3.select(this).classed('hover', true);
+            d3.select(this).attr('stroke-width', 3);
         }
 
         function bldgUnHover(d) {
             target = null;
-            d3.select(this).classed('hover', false);
+            d3.select(this).attr('stroke-width', 1);
         }
 
         function lineHover(d) {
@@ -599,134 +431,22 @@ class KnowledgeGraph {
             line = null;
         }
 
-        function selectObj(subject) {
-            if (d3.event) {
-                d3.event.stopPropagation();
-            }
-
-            if (subject === selected) {
-                // TODO: re-implement for multi-select
-                //       do not interfere with dblclick
-                //    subject = null;
-            }
-
-            selected = subject;
-
-            edges.forEach(function (edge) {
-                edge.selected = false;
-            });
-
-            vertices.forEach(function (vertex) {
-                vertex.selected = false;
-            });
-
-            update();
-        }
-
-        function fixBldg(subject) {
-            if (subject && subject.fixed) {
-                d3.select(this).classed('fixed', false);
-                subject.fixed = false;
-                subject.fx = null;
-                subject.fy = null;
-                simulation.alpha(0.3).restart();
-            } else if (subject) {
-                d3.select(this).classed('fixed', true);
-                subject.fixed = true;
-                subject.fx = subject.x;
-                subject.fy = subject.y;
-            }
-        }
-
-        function edgeExists(source, target) {
-            for (var i = 0; i < edges.length; i++) {
-                if (source === edges[i].source && target === edges[i].target) {
-                    return true;
-                }
-            }
-        }
-
-        function exportGraph() {
-            var cleanEdges = edges.map(function (edge) {
-                var cleanEdge = Object.assign({}, edge);
-                cleanEdge.source = cleanEdge.source.id;
-                cleanEdge.target = cleanEdge.target.id;
-                return cleanEdge;
-            });
-
-            var cleanGraph = { vertices: vertices, edges: cleanEdges };
-            return JSON.stringify(cleanGraph);
-        }
-
-        function importGraph(dirtyGraph) {
+        function importGraph() {
             // TODO: check for duplicate IDs
-            var graph = dirtyGraph;
+            var graph = graphData;
 
             vertices = [];
             edges = [];
 
-            vertices = graph.s;
+            vertices = graph.nodes;
             edges = graph.links;
             update();
             simulation.alpha(1).restart();
         }
 
-        function windowKeydown(d) {
-            if (d3.event.target.type !== "text") {
-                switch (d3.event.keyCode) {
-                    case 16: // shift
-                    case 17: // ctrl
-                    case 18: // alt
-                    case 91: // cmd
-                        ctrlPressed = true;
-                        svg.attr('style', 'cursor: pointer');
-                        break;
-                    case 8:  // backspace
-                    case 80: // p
-                        world.selectAll('.selected').each(fixBldg);
-                        break;
-                    case 27: // esc
-                        selectObj(null);
-                        break;
-                    default:
-                        break;
-                }
-            }
-        }
-
-        function windowKeyup() {
-            switch (d3.event.keyCode) {
-                case 16: // shift
-                case 17: // ctrl
-                case 18: // alt
-                case 91: // cmd
-                    ctrlPressed = false;
-                    svg.attr('style', 'cursor: default');
-                    break;
-                default:
-                    break;
-            }
-        }
-
-        function resize() {
-            var windowWidth = window.innerWidth,
-                windowHeight = window.innerHeight;
-
-            width = windowWidth - 258,
-                height = windowHeight - 10;
-
-            svg
-                .attr('width', width)
-                .attr('height', height);
-
-            simulation
-                .alpha(0.3).restart();
-        }
-
         function zoomed() {
             world.attr('transform', d3.event.transform);
         }
-
 
     }
 }

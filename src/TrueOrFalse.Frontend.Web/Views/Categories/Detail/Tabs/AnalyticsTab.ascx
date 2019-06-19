@@ -4,7 +4,7 @@
 <div id="KnowledgeTab"></div>
 
 <div id="KnowledgeGraph">
-    <svg id="graph-body"></svg>
+    <svg id="graph-body" style="width: 100%;height:510px"></svg>
     <div class="knowledgeGraphData"></div>
 </div>
 

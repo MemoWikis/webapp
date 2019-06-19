@@ -6,8 +6,8 @@ namespace GraphJsonDtos
     {
         public KnowledgeSummary Knowledge;
         public int CategoryId;
-        public string title;
-        public int id;
+        public string Title;
+        public int Id;
     }
 
     public class Link

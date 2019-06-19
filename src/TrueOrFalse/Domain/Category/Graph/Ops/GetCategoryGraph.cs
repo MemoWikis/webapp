@@ -24,9 +24,9 @@ public class GetCategoryGraph
         var nodes = graphData.nodes.Select((node, index) => 
             new Node
             {
-                id = index,
+                Id = index,
                 CategoryId = node.Category.Id,
-                title = (node.Category.Name).Replace("\"", ""),
+                Title = (node.Category.Name).Replace("\"", ""),
                 Knowledge = KnowledgeSummaryLoader.RunFromMemoryCache(category, Sl.SessionUser.UserId),
            
             });
