@@ -20,12 +20,6 @@
             });
         }
 
-        $(window).on('popstate',
-            (e) => {
-                var state = e.originalEvent.state;
-                console.log(state);
-            });
-
         this._page = page;
 
         $('#TabsBar .Tab').each((index, item) => {
@@ -36,38 +30,17 @@
             tab.click((e) =>  {
 
                 e.preventDefault();
-
-                //if (tab.hasClass('active'))
-                //    return;
-
-                //if (tab.hasClass('LoggedInOnly') && NotLoggedIn.Yes()) {
-                //    NotLoggedIn.ShowErrorMsg(tabname);
-                //    return;
-                //}
+                if (tab.hasClass('LoggedInOnly') && NotLoggedIn.Yes()) {
+                    NotLoggedIn.ShowErrorMsg(tabname);
+                    return;
+                }
 
                 if (!this.ContentIsPresent(tabname)) {
                     Utils.ShowSpinner();
                     this.RenderTabContent(tabname);
                 }
-                if (tabname === "LearningTab" && $('#hddLearningSessionStarted').val() === "False" && $('#hddQuestionCount').val() !== "0") {
-                    var answerBody = new AnswerBody();
-                    if (!$("#LearningTabContent").css("visibility", "visible"))
-                        $("#LearningTabContent").css("visibility", "visible");
-                   
-                    Utils.ShowSpinner();
 
-                    if (answerBody.IsTestSession()) {
-                        answerBody.Loader.loadNewTestSession();
-                    }
-
-                    $('#hddLearningSessionStarted').val("True");
-
-                    $(() => {
-                        $("#TabContent .show-tooltip").tooltip();
-                    });
-                }
                 this.ShowTab(tabname);
-
             });
         });
     }
@@ -76,13 +49,26 @@
         var url = "/Category/Tab/?tabName=" + tabName + "&categoryId=" + this._page.categoryId;
 
         $.get(url, (html) => {
-
             Utils.HideSpinner();
+            $('#' + tabName + 'Content').empty().append(html);
 
-            if (true)
-                $('#' + tabName + 'Content').empty().append(html);
-            else 
-                $('#ContentModuleApp').empty().append(html);
+            if (tabName === "LearningTab" && $('#hddLearningSessionStarted').val() === "False" && $('#hddQuestionCount').val() !== "0") {
+                var answerBody = new AnswerBody();
+                if (!$("#LearningTabContent").css("visibility", "visible"))
+                    $("#LearningTabContent").css("visibility", "visible");
+
+                Utils.ShowSpinner();
+
+                if (answerBody.IsTestSession()) {
+                    answerBody.Loader.loadNewTestSession();
+                }
+
+                $('#hddLearningSessionStarted').val("True");
+
+                $(() => {
+                    $("#TabContent .show-tooltip").tooltip();
+                });
+            }
         });
     }
 
@@ -97,7 +83,7 @@
     }
 
     private ContentIsPresent(tabName: string): boolean {
-        return false;  //!($.trim($('#' + tabName + 'Content').html())=='');
+        return !($.trim($('#' + tabName + 'Content').html())=='');
     }
 
     private ShowTab(tabName: string): void {
