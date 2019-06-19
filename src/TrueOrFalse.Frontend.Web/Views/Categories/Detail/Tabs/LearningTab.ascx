@@ -2,16 +2,10 @@
     Inherits="System.Web.Mvc.ViewUserControl<CategoryModel>" %>
 <%@ Import Namespace="System.Web.Optimization" %>
 
-
-
-
-<input type="hidden" id="hddCategoryId" value="<%= Model.Category.Id %>" />
-
+<input  type="hidden" id="hddCategoryId" value="<%= Model.Category.Id %>" />
 <input type="hidden" id="hddIsLearningSessionOnCategoryPage" value="true" />
 
-
-<% 
-    if (Model.Category.CountQuestionsAggregated > 0)
+<% if (Model.Category.CountQuestionsAggregated > 0)
     {
         var questionId = Model.Category
             .GetAggregatedQuestionsFromMemoryCache()
