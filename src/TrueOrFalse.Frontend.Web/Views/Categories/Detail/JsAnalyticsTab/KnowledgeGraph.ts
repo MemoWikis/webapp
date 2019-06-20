@@ -20,6 +20,7 @@ class KnowledgeGraph {
             label.nodes.push({ node: d });
             label.nodes.push({ node: d });
             label.links.push({
+
                 source: i * 2,
                 target: i * 2 + 1
             });
@@ -49,6 +50,11 @@ class KnowledgeGraph {
         }
 
         var svg = d3.select("#graph-body").attr("width", width).attr("height", height);
+        svg.append("rect")
+            .attr("width", "100%")
+            .attr("height", "100%")
+            .attr("fill", "white");
+
         var container = svg.append("g");
 
         svg.call(
@@ -95,18 +101,19 @@ class KnowledgeGraph {
             .append("text")
             .text(function (d, i) {
                 let labelText;
-                if (d.node.Text.length > 20)
-                    labelText = (d.node.Text).substring(0, 20) + "...";
+                if (d.node.Title.length > 20)
+                    labelText = (d.node.Title).substring(0, 20) + "...";
                 else
-                    labelText = d.node.Text;
+                    labelText = d.node.Title;
                 return i % 2 == 0 ? "" : labelText;
             })
             .style("fill", "#203256")
             .style("font-family", "Open Sans")
             .style("font-size", 18)
+            .attr("vector-effect", "non-scaling-stroke")
             .style("paint-order", "stroke")
             .style("stroke", "white")
-            .style("stroke-width", "4px")
+            .style("stroke-width", 3)
             .style("stroke-linecap", "butt")
             .style("stroke-linejoin", "miter")
             .style("pointer-events", "none");
@@ -201,7 +208,7 @@ class KnowledgeGraph {
         'use strict';
          // INIT
         var windowWidth = 810,
-            windowHeight = 500;
+            windowHeight = 600;
 
         var width = windowWidth,
             height = windowHeight;
@@ -209,10 +216,12 @@ class KnowledgeGraph {
         var color = d3.scaleOrdinal(d3.schemeCategory10);
 
         var svg = d3.select('#graph-body');
+        svg.append("rect")
+            .attr("width", "100%")
+            .attr("height", "100%")
+            .attr("fill", "white");
 
         var world = svg.append('g')
-            .attr('width', width)
-            .attr('height', height)
             .attr('id', 'world')
             .attr('transform', 'translate(' + width / 2 + ',' + height / 2 + ')');
 
