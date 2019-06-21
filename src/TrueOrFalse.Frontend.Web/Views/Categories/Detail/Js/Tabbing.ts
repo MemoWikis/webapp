@@ -1,8 +1,8 @@
 ﻿class Tabbing {
 
-    private _page: CategoryPage;
-
-    constructor(page: CategoryPage) {
+    private _categoryId :number;
+    constructor(categoryId) {
+        this._categoryId = categoryId;
 
         if (window.location.pathname.indexOf("/Lernen") >= 0) {
             var answerBody = new AnswerBody();
@@ -20,7 +20,7 @@
             });
         }
 
-        this._page = page;
+      
 
         $('#TabsBar .Tab').each((index, item) => {
 
@@ -45,8 +45,9 @@
         });
     }
 
-    private RenderTabContent(tabName: string): void {
-        var url = "/Category/Tab/?tabName=" + tabName + "&categoryId=" + this._page.categoryId;
+    public RenderTabContent(tabName: string): void {
+        var url = "/Category/Tab/?tabName=" + tabName + "&categoryId=" + this._categoryId;
+        console.log(this._categoryId);
 
         $.get(url, (html) => {
             Utils.HideSpinner();
