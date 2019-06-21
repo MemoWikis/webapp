@@ -73,8 +73,6 @@
 
         $(window).on('popstate', (e) => {
             var state = e.originalEvent.state;
-            console.log(state, e);
-
             if (state.endsWith("Themen"))
                 this.LoadTopicTab(/*pushState*/false);
 

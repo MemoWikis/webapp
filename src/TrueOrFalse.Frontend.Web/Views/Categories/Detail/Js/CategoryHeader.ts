@@ -18,7 +18,7 @@ class CategoryHeader {
             
             if (!this._isLoaded) {
                 this._isLoaded = true;
-                this.getData(page.categoryId)
+                this.getData(page.CategoryId)
                     .done((data) => {
                         this.drawViewsByDayChart(data)
                     });
