@@ -75,9 +75,10 @@
     private renderOrDisplayTab(url: string): void {
         if (url.indexOf("Lernen") >= 0) {
 
-            if ($.trim($("#LearningTabContent").html()) === "")
+            if ($.trim($("#LearningTabContent").html()) === "") {
                 this._tab.RenderTabContent("LearningTab");
-
+                Utils.ShowSpinner();
+            }
             if (!$("#LearningTabContent").is(':visible'))
                 $("#LearningTabContent").css("display", "block");
 
@@ -86,9 +87,10 @@
 
         } else if (url.indexOf("Analytics") >= 0) {
 
-            if ($.trim($("#AnalyticsTabContent").html()) === "")
+            if ($.trim($("#AnalyticsTabContent").html()) === "") {
                 this._tab.RenderTabContent("AnalyticsTab");
-
+                Utils.ShowSpinner();
+            }
             if (!$("#AnalyticsTabContent").is(':visible'))
                 $("#AnalyticsTabContent").css("display", "block");
 
@@ -97,8 +99,10 @@
         }
 
         else {
-            if ($.trim($("#TopicTabContent").html()) === "")
+            if ($.trim($("#TopicTabContent").html()) === "") {
                 this._tab.RenderTabContent("TopicTab");
+                Utils.ShowSpinner();
+            }
 
             if (!$("#TopicTabContent").is(':visible'))
                 $("#TopicTabContent").css("display", "block");
