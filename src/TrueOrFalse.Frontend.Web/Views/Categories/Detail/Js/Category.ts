@@ -5,7 +5,7 @@
     private _categoryVersion = null;
     private _history;
     private _arrayTabs;
-
+    private Tab; 
     //doppelte Klicks auf ein Tab lösen ein zurückgehen aus.
 
     constructor() {
@@ -13,37 +13,53 @@
         this.CategoryId = $("#hhdCategoryId").val();
         this._categoryName = $("#hhdCategoryName").val();
         this.pushUrlAndSetactiveByClick(this._categoryName, this.CategoryId);
+        this.Tab = new Tabbing(this.CategoryId);
 
         window.addEventListener('popstate',
             (event) => {
                 console.log(event);
                 
                 var url = window.location.pathname;
-                console.log(url);
+
+
+
+
                 if (url.indexOf("Lernen") >= 0) {
 
+                    if ($.trim($("#LearningTabContent").html()) === "")
+                        this.Tab.RenderTabContent("LearningTab");
+                    
                     if (!$("#LearningTabContent").is(':visible'))
                         $("#LearningTabContent").css("display", "block");
 
                     $("#TopicTabContent").css("display", "none");
                     $("#AnalyticsTabContent").css("display", "none");
-                } else if (url.indexOf("Analytics") >= 0) {
+                    
+                }else if (url.indexOf("Analytics") >= 0) {
 
-                    if (!$("#AnalyticsTabContent").is(':visible'))
-                        $("#AnalyticsTabContent").css("display", "block");
+                        if ($.trim($("#AnalyticsTabContent").html()) === "")
+                            this.Tab.RenderTabContent("AnalyticsTab");
+                        
+                        if (!$("#AnalyticsTabContent").is(':visible'))
+                            $("#AnalyticsTabContent").css("display", "block");
 
-                    $("#TopicTabContent").css("display", "none");
-                    $("#LearningTabContent").css("display", "none");
+                        $("#TopicTabContent").css("display", "none");
+                        $("#LearningTabContent").css("display", "none");
+                } 
 
-                } else {
+                else {
+                        if ($.trim($("#TopicTabContent").html()) === "")
+                            this.Tab.RenderTabContent("TopicTab");
+                   
+                        if (!$("#TopicTabContent").is(':visible'))
+                            $("#TopicTabContent").css("display", "block");
 
-                    if (!$("#TopicTabContent").is(':visible'))
-                        $("#TopicTabContent").css("display", "block");
-
-                    $("#LearningTabContent").css("display", "none");
-                    $("#AnalyticsTabContent").css("display", "none");
+                        $("#LearningTabContent").css("display", "none");
+                        $("#AnalyticsTabContent").css("display", "none");
+                    
                 }
 
+  
             });
     }
 
@@ -99,12 +115,7 @@ $(() => {
 
     new Pin(PinType.Category, KnowledgeBar.ReloadCategory);
     new Pin(PinType.Set, KnowledgeBar.ReloadCategory);
-    new Tabbing(page.CategoryId);
+   // new Tabbing(page.CategoryId);
     new CategoryHeader(page);
     new SquareWishKnowledge(page);
-
-    window.onpopstate = function (event) {
-        var tabbing = new Tabbing(page.CategoryId);
-        tabbing.RenderTabContent("LearningTab");
-    };
 });
