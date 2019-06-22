@@ -3,15 +3,15 @@
     public CategoryId: number;
     private _categoryName: string;
     private _categoryVersion = null;
-    private Tab: Tabbing;
-    private IsEqualToTheLastTab: boolean;
+    private _tab: Tabbing;
+    private _lastTabName: string;
 
     constructor() {
         this.CategoryId = $("#hhdCategoryId").val();
         this._categoryName = $("#hhdCategoryName").val();
         this.pushUrlAndSetactiveByClick(this._categoryName, this.CategoryId);
         this.hasAndSetTabActive();
-        this.Tab = new Tabbing(this.CategoryId);
+        this._tab = new Tabbing(this.CategoryId);
 
         window.addEventListener('popstate',
             (event) => {
@@ -47,9 +47,12 @@
     }
 
     private historyPushAndsetActive(currentUrl: string, tabname: string) {
-        
-        window.history.pushState(tabname, 'Tab', currentUrl);
-        this.hasAndSetTabActive();
+
+        if (tabname !== this._lastTabName) {
+            window.history.pushState(tabname, 'Tab', currentUrl);
+            this.hasAndSetTabActive();
+            this._lastTabName = tabname;
+        }
     }
 
     private hasAndSetTabActive() {
@@ -73,7 +76,7 @@
         if (url.indexOf("Lernen") >= 0) {
 
             if ($.trim($("#LearningTabContent").html()) === "")
-                this.Tab.RenderTabContent("LearningTab");
+                this._tab.RenderTabContent("LearningTab");
 
             if (!$("#LearningTabContent").is(':visible'))
                 $("#LearningTabContent").css("display", "block");
@@ -84,7 +87,7 @@
         } else if (url.indexOf("Analytics") >= 0) {
 
             if ($.trim($("#AnalyticsTabContent").html()) === "")
-                this.Tab.RenderTabContent("AnalyticsTab");
+                this._tab.RenderTabContent("AnalyticsTab");
 
             if (!$("#AnalyticsTabContent").is(':visible'))
                 $("#AnalyticsTabContent").css("display", "block");
@@ -95,7 +98,7 @@
 
         else {
             if ($.trim($("#TopicTabContent").html()) === "")
-                this.Tab.RenderTabContent("TopicTab");
+                this._tab.RenderTabContent("TopicTab");
 
             if (!$("#TopicTabContent").is(':visible'))
                 $("#TopicTabContent").css("display", "block");
