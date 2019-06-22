@@ -13,16 +13,13 @@
         this.CategoryId = $("#hhdCategoryId").val();
         this._categoryName = $("#hhdCategoryName").val();
         this.pushUrlAndSetactiveByClick(this._categoryName, this.CategoryId);
+        this.hasAndSetTabActive();
         this.Tab = new Tabbing(this.CategoryId);
 
         window.addEventListener('popstate',
             (event) => {
-                console.log(event);
-                
+                this.hasAndSetTabActive();
                 var url = window.location.pathname;
-
-
-
 
                 if (url.indexOf("Lernen") >= 0) {
 
@@ -56,10 +53,8 @@
 
                         $("#LearningTabContent").css("display", "none");
                         $("#AnalyticsTabContent").css("display", "none");
-                    
                 }
 
-  
             });
     }
 
