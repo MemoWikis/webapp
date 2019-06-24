@@ -47,20 +47,7 @@
     <input type="hidden" id="hhdCategoryName" value="<%= Model.Category.Name %>"/>
     <input type="hidden" id="hddUserId" value="<%= Model.UserId %>"/>
     <input type="hidden" id="hddQuestionCount" value="<%=Model.AggregatedQuestionCount %>"/> 
-    <input type="hidden" id="hddLearningSessionStarted" value="False" />
-    <input type="hidden" id="hddSolutionTypeNum" value="1" />
-    <input type="hidden" id="hddQuestionId" value=""/>
-    <input type="hidden" id="hddIsLearningSession" value="<%= Model.IsLearningSession %>"<input type="hidden" id="hddIsLearningSession" value="<%= Model.IsLearningSession %>"
-           data-learning-session-id="-1"
-           data-current-step-guid=""
-           data-current-step-idx=""
-           data-is-last-step=""
-           data-skip-step-index="" />
 
-    <input type="hidden" id="hddIsTestSession" value="<%= Model.IsTestSession %>" 
-           data-test-session-id="-1"
-           data-current-step-idx=""
-           data-is-last-step=""/>
     <% Html.RenderPartial("~/Views/Shared/Spinner/Spinner.ascx"); %>
     <% Html.RenderPartial("~/Views/Categories/Detail/Partials/CategoryHeader.ascx", Model);%>
     
