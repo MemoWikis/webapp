@@ -15,14 +15,17 @@
             </div>
         </div>
     </div>
-    <div class="header-item">
-        <a href="<%=Links.Knowledge() %>" data-btn-login="<%= !userSession.IsLoggedIn %>" class="TextLinkWithIcon KnowledgeLink"><i style="font-size: 32px;" class="fa fa-dot-circle-o"></i>
+    <div class="header-item" <% if (Model.IsLoggedIn && Model.SidebarModel.UnreadMessageCount == 0){ %> style="margin-right: 15px;"<% } %> >
+        <a href="<%=Links.Knowledge() %>" data-btn-login="<%= !userSession.IsLoggedIn %>" class="TextLinkWithIcon KnowledgeLink">
+            <i style="font-size: 32px;" class="fa fa-dot-circle-o"></i>
             <span class="primary-point-text TextSpan" style="padding-top: 6px;">Wissenszentrale</span>
         </a>
     </div>
-    <div class="header-item" <%if (!userSession.IsLoggedIn)
-        {%>style="margin-top: -2px; padding-left: 10px;"
-        <%} %> id="Login">
+    <div class="header-item"
+         <%if (!userSession.IsLoggedIn){%>
+            style="margin-top: -2px; padding-left: 10px;" 
+         <%} %> id="Login">
+
         <%if (userSession.IsLoggedIn)
             {
                 var imageSetttings = new UserImageSettings(userSession.User.Id);
