@@ -5,7 +5,7 @@
 <input type="hidden" id="hddCategoryId" value="<%= Model.Category.Id %>" />
 <input type="hidden" id="hddIsLearningSessionOnCategoryPage" value="true" />
 <input type="hidden" id="hddLearningSessionStarted" value="False" />
-<%--<input type="hidden" id="hddSolutionTypeNum" value="1" />--%>
+<%----%>
 <input type="hidden" id="hddQuestionId" value="" />
 
 <input type="hidden" id="hddIsLearningSession" value="<%= Model.IsLearningSession %>"
@@ -43,4 +43,5 @@
 <% } %>
 
 <div id="AnswerBody">
+    <input type="hidden" id="hddSolutionTypeNum" value="1" />
 </div>
