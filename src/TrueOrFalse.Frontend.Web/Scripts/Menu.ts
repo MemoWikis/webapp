@@ -35,10 +35,12 @@ class MenuMobile {
 
         $("#BreadCrumbTrail").on("mouseover",".path",  (event) => {
             $("#Path").css("display", "block");
-            $(".path").on("mouseleave", () => {
-                $("#Path").fadeOut(200);
-            });
         });
+
+        $("#Breadcrumb, #Path").on("mouseleave", () => {
+            $("#Path").fadeOut(200);
+        });
+
 
         $("#MenuButton").click(() => {
             if (this._isOpen) {
