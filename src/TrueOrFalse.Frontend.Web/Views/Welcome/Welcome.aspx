@@ -84,7 +84,6 @@
 </asp:Content>
 
 <asp:Content ID="indexContent" ContentPlaceHolderID="MainContent" runat="server">
-
     <div id="welcomeContainer">
     <div id="findYourContent">
             <h1 id="titleFindYourContent">Finde deine Lerninhalte</h1>
