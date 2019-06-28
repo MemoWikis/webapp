@@ -578,111 +578,97 @@ h4 {
     }
     /* BLOGPOST CAROUSEL
 ------------------------------------------------------*/
-    #blogposts {
-        //.makeFullWidth;
-        margin: 85px -20px 55px;
-        //margin-bottom: 55px;
-        padding: 30px 20px 10px;
-        background-color: #eeeeee;
+#blogposts {
+    //.makeFullWidth;
+    margin: 85px -20px 55px;
+    //margin-bottom: 55px;
+    padding: 30px 20px 10px;
+    background-color: #eeeeee;
 
-        h3 {
-            margin-bottom: 75px;
-            margin-top: 10px;
-            text-align: center;
-        }
+    h3 {
+        margin-bottom: 75px;
+        margin-top: 10px;
+        text-align: center;
+    }
 
-        #carouselBlogPosts {
-        }
+    #carouselBlogPosts {
+    }
 
-        .carousel {
-            margin-left: -20px;
-            margin-right: -20px;
-            padding-bottom: 80px;
+    .carousel {
+        margin-left: -20px;
+        margin-right: -20px;
+        padding-bottom: 80px;
 
-            .carousel-inner {
+        .carousel-inner {
 
-                .item {
-                    padding: 0 60px;
-                    min-height: 300px;
+            .item {
+                padding: 0 60px;
+                min-height: 300px;
+            }
+
+            .carousel-img {
+                text-align: center;
+                padding-bottom: 30px;
+
+                img {
+                    max-height: 200px;
                 }
 
-                .carousel-img {
-                    text-align: center;
-                    padding-bottom: 30px;
-
-                    img {
-                        max-height: 200px;
-                    }
-
-                    .img-caption {
-                        color: @global-text-color-grey;
-                        font-size: smaller;
-                    }
-                }
-
-                p.authorInfo {
-                    margin-bottom: 0px;
+                .img-caption {
                     color: @global-text-color-grey;
                     font-size: smaller;
                 }
-
-                h4 {
-                    margin-top: 5px;
-                    margin-bottom: 15px;
-                }
-
-                .blogpostButtons {
-                    margin-top: 30px;
-
-                    .btn {
-                        margin-top: 20px;
-                    }
-                }
             }
 
-            .carousel-indicators {
-                li {
-                    margin: 0 5px;
-                    width: 19px;
-                    height: 19px;
-                    border: 2px solid @memo-green;
-                }
-
-                li.active {
-                    background-color: @memo-green;
-                }
+            p.authorInfo {
+                margin-bottom: 0px;
+                color: @global-text-color-grey;
+                font-size: smaller;
             }
 
-            .carousel-control {
-                width: 50px;
-                color: @memo-green;
-                margin-bottom: 80px;
+            h4 {
+                margin-top: 5px;
+                margin-bottom: 15px;
+            }
 
-                .glyphicon {
-                    font: normal normal normal 22px/1 FontAwesome;
-                    font-size: 50px;
-                    top: 110px;
+            .blogpostButtons {
+                margin-top: 30px;
 
-                    .media-below-sm( {
-                        top: 150px;
-                    }
-
-                    );
-                }
-
-                .glyphicon-chevron-left {
-
-                    &::before {
-                        content: "\f053";
-                    }
-                }
-
-                .glyphicon-chevron-right::before {
-                    content: "\f054";
+                .btn {
+                    margin-top: 20px;
                 }
             }
         }
+
+        .carousel-indicators {
+            li {
+                margin: 0 5px;
+                width: 19px;
+                height: 19px;
+                border: 2px solid @memo-green;
+            }
+
+            li.active {
+                background-color: @memo-green;
+            }
+        }
+
+        .carousel-control {
+            width: 50px;
+            color: @memo-green;
+            margin-bottom: 80px;
+            font: normal normal normal 22px/1 FontAwesome;
+
+            .fas {
+                font-size: 50px;
+                padding-top: 110px;
+            }
+            .fa-chevron-left{
+                padding-top: 121px;
+            }
+        }
     }
+}
     /* AWARDS & PARTNER
 ------------------------------------------------------*/
     #awards, #partner {

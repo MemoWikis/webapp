@@ -11,9 +11,9 @@
 
 <asp:Content ID="Content1" runat="server" ContentPlaceHolderID="Head">
     <script type="text/javascript" src="https://www.google.com/jsapi"></script>
+    <link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-glyphicons.css" rel="stylesheet">
 
     <link href="/Views/Welcome/Welcome.css" rel="stylesheet" />
-
     <script type="text/javascript">
 
         /* Source http://www.html-advisor.com/javascript/hide-email-with-javascript-jquery/ */
@@ -86,8 +86,7 @@
 <asp:Content ID="indexContent" ContentPlaceHolderID="MainContent" runat="server">
 
     <div id="welcomeContainer">
-
-        <div id="findYourContent">
+    <div id="findYourContent">
             <h1 id="titleFindYourContent">Finde deine Lerninhalte</h1>
             <h3 id="titleFindYourContentSub">und lerne interaktiv & personalisiert</h3>
 
@@ -292,11 +291,6 @@
 
             <div class="separator"></div>
             <div id="memuchoInfoFooter">
-                <%--                <% if (!Model.IsLoggedIn) { %>
-                    <div style="text-align: center; display: inline-block;">
-                        <a href="<%= Url.Action(Links.RegisterAction, Links.RegisterController) %>" class="btn btn-lg btn-primary" role="button"><i class="fa fa-chevron-circle-right">&nbsp;</i> Jetzt kostenlos registrieren</a>
-                    </div>
-                <% } %>--%>
                 <a href="<%= Links.AboutMemucho() %>" class="btn btn-lg btn-link">Erfahre mehr...</a>
             </div>
         </div>
@@ -328,9 +322,7 @@
             </div>
         </div>
 
-        <%-- <% Html.RenderPartial("Partials/TopicOfWeek", new TopicOfWeekModel(DateTime.Now)); %>--%>
-
-        <div id="ContentAvailable">
+    <div id="ContentAvailable">
             <h2>Interaktive Lerninhalte zu <%= Model.TotalCategoriesCountRound10 %>+ Themen</h2>
             <p class="ShortParagraph">
                 Bei memucho findest du interaktive Lerninhalte zu vielen Themen und kannst sie personalisiert lernen.
@@ -572,23 +564,6 @@
                         </p>
                     </div>
                 </div>
-                <%--<div class="col-sm-4">
-                <div class="logo-box">
-                    <div class="img-logo">
-                        <a href="http://www.unesco.org/new/en/communication-and-information/access-to-knowledge/open-educational-resources/" target="_blank">
-                            <img style="margin-top: -35px;" src="/Images/LogosPartners/oer_logo_EN_2_w400.png" alt="Logo Open Educational Resources"/>
-                        </a>
-                    </div>
-                    <p>
-                        Freie Bildungsmaterialien demokratisieren Bildung! Wir machen mit.
-                    </p>
-                    <p class="logo-box-link">
-                        <a href="http://www.unesco.org/new/en/communication-and-information/access-to-knowledge/open-educational-resources/" target="_blank">
-                            <span style="white-space: nowrap">Zur UNESCO-Seite <i class="fa fa-external-link"></i></span>
-                        </a>
-                    </p>
-                </div>        
-                </div>--%>
             </div>
         </div>
 

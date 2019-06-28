@@ -683,22 +683,14 @@ fieldset[disabled] .EduCategory.active {
   width: 50px;
   color: #AFD534;
   margin-bottom: 80px;
-}
-#blogposts .carousel .carousel-control .glyphicon {
   font: normal normal normal 22px/1 FontAwesome;
+}
+#blogposts .carousel .carousel-control .fas {
   font-size: 50px;
-  top: 110px;
+  padding-top: 110px;
 }
-@media (max-width: 767px) {
-  #blogposts .carousel .carousel-control .glyphicon {
-    top: 150px;
-  }
-}
-#blogposts .carousel .carousel-control .glyphicon-chevron-left::before {
-  content: "\f053";
-}
-#blogposts .carousel .carousel-control .glyphicon-chevron-right::before {
-  content: "\f054";
+#blogposts .carousel .carousel-control .fa-chevron-left {
+  padding-top: 121px;
 }
 /* AWARDS & PARTNER
 ------------------------------------------------------*/
