@@ -20,6 +20,7 @@
 }
 .AutorCardMixin .column-right {
   margin: 0 1.33em 1.75em 0;
+  max-width: 131px;
 }
 .AutorCardMixin .column-right .card-link {
   margin: 0 0 0.3125em 0;
@@ -64,6 +65,7 @@
 }
 #SidebarCards #AutorCard .column-right {
   margin: 0 1.33em 1.75em 0;
+  max-width: 131px;
 }
 #SidebarCards #AutorCard .column-right .card-link {
   margin: 0 0 0.3125em 0;
