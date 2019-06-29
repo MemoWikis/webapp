@@ -1,8 +1,7 @@
 ﻿<%@ Control Language="C#" Inherits="System.Web.Mvc.ViewUserControl<SidebarModel>" %>
 <%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
 
-<div id="SidebarCards"> 
-
+<div id="SidebarCards">
     <%if (Model.Authors.Count == 1){
             var author = Model.Authors.First();
     %>
