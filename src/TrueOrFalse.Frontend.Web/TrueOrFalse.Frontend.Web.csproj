@@ -22390,6 +22390,7 @@
     <Content Include="Views\Welcome\Contact.css">
       <DependentUpon>Contact.less</DependentUpon>
     </Content>
+    <Content Include="Views\Welcome\Partials\TeamPics.ascx" />
     <Content Include="Views\Welcome\Partials\TopicOfWeek.ascx" />
     <Content Include="Views\Welcome\Partials\WelcomeCardMiniSet.ascx" />
     <Content Include="Views\Welcome\Partials\WelcomeCardMiniCategory.ascx" />
