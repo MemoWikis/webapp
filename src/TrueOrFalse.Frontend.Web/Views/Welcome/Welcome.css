@@ -513,35 +513,6 @@ fieldset[disabled] .EduCategory.active {
   color: #003564;
   padding-bottom: 15px;
 }
-/*margin-top: 144px;
-    margin-bottom: 40px;
-    .makeFullWidth;
-    padding: 20px;
-
-   .imageTop {
-       
-        text-align: center;
-    }
-
-
-    .contentFullWidth {
-
-        li {
-            margin-left: 220px;
-        }
-
-       
-
-        p {
-            .media-sm-up( {
-                text-align: center;
-                margin-left: auto;
-                margin-right: auto;
-            }
-
-            )
-        }
-    }*/
 /* TOPIC OF THE WEEK
 ------------------------------------------------------*/
 .topicOfWeekContainer {
@@ -569,9 +540,6 @@ fieldset[disabled] .EduCategory.active {
   padding-top: 40px;
   margin-bottom: 40px;
   clear: both;
-  /*a.btn {
-            margin-top: 20px;
-        }*/
 }
 @media (min-width: 768px) {
   .topicOfWeekContainer .topicOfWeekFooter {
@@ -757,6 +725,14 @@ fieldset[disabled] .EduCategory.active {
   max-width: 400px;
   margin-left: auto;
   margin-right: auto;
+}
+.infoItemRow .infoItemColumn img {
+  max-width: 155px;
+}
+@media screen and (min-width: 480px) and (max-width: 520px) {
+  .infoItemRow .infoItemColumn img {
+    max-width: 140px;
+  }
 }
 #memuchoInfoExtended {
   margin-top: 144px;
