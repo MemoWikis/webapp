@@ -35,7 +35,7 @@ class KnowledgeGraph {
             .force("center", d3.forceCenter(width / 2, height / 2))
             .force("x", d3.forceX(width / 2).strength(1))
             .force("y", d3.forceY(height / 2).strength(1))
-            .force("link", d3.forceLink(graph.links).distance(100).strength(2))
+            .force("link", d3.forceLink(graph.links).distance(200).strength(1))
             .on("tick", ticked);
 
         var adjlist = [];
@@ -249,6 +249,8 @@ class KnowledgeGraph {
 
         var buildings = world.selectAll('g');
         var lines = world.selectAll('g');
+        var bar = world.selectAll('g');
+
 
         var linePreview = world
             .append('path');
@@ -326,7 +328,7 @@ class KnowledgeGraph {
                 .each(function (d) {
                     const b = this.parentNode.querySelector('text').getBBox();
                     d.width = b.width + 5;
-                    d.height = 20;
+                    d.height = 40;
                     d3.select(this)
                         .attr('width', d.width)
                         .attr('height', d.height)
@@ -335,6 +337,35 @@ class KnowledgeGraph {
                         .style("fill", "#fff")
                         .attr('rx', 5)
                         .attr('ry', 5);
+                    d3.select(this).selectAll("rect")
+                        .data(d)
+                        .enter()
+                        .append("rect")
+                        .attr("width", 40)
+                        .attr("height", 40)
+                        .style("fill", "red");
+                    //.attr("height", p => heightScale(p[1]) - heightScale(p[0]))
+                    //.attr("x", (p, i) => xScale(i) + 25)
+                    //.attr("y", p => yScale(p[1]))
+                    //.style("fill", colorScale(d.key));
+                });
+            bar.selectAll('rect')
+                .each(function (d) {
+                    const b = this.parentNode.querySelector('text').getBBox();
+                    d.width = b.width + 10;
+                    d.height = 20;
+                    d3.select(this)
+                        .attr('width', d.width)
+                        .attr('height', d.height)
+                        .attr('transform', 'translate(-' + d.width / 2 + ',' + -10 + ')')
+                        .attr('stroke', color(d.type))
+                        .style("fill", "#000")
+                        .attr('rx', 5)
+                        .attr('ry', 5);
+                    //.attr("height", p => heightScale(p[1]) - heightScale(p[0]))
+                    //.attr("x", (p, i) => xScale(i) + 25)
+                    //.attr("y", p => yScale(p[1]))
+                    //.style("fill", colorScale(d.key));
                 });
 
             lines.lower();
