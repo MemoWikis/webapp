@@ -43,7 +43,7 @@
                 <img src="/Images/Team/sebastian_q.jpg" />
             </div>
             <div class="infoCatchWord">
-                Sebastian Stieber
+                Sebastian
             </div>
             <div class="infoExplanationSnippet">
                 (3D-Engineer)
@@ -55,7 +55,7 @@
                 <img src="/Images/Team/justin_q.png" />
             </div>
             <div class="infoCatchWord">
-                Justin Schwab
+                Justin
             </div>
             <div class="infoExplanationSnippet">
                 (3D-Engineer)
@@ -81,7 +81,7 @@
                 <img src="/Images/Team/jun_q.jpg" />
             </div>
             <div class="infoCatchWord">
-                Thanh Tung Mai
+                Thanh Tung 
             </div>
             <div class="infoExplanationSnippet">
                 (Developer)
