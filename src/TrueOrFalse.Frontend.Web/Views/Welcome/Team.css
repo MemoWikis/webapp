@@ -43,6 +43,13 @@
     max-width: 140px;
   }
 }
+.infoItemRow .infoItemColumn .infoCatchWord {
+  font-size: 18px;
+  font-weight: bold;
+}
+.infoItemRow .infoItemColumn .infoExplanationSnippet {
+  font-size: 18px;
+}
 .TeamText {
   margin-top: 40px;
 }
