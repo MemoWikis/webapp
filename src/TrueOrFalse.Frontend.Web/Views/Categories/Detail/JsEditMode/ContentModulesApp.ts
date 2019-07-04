@@ -27,7 +27,7 @@ new Vue({
             if (NotLoggedIn.Yes())
                 Utils.SendGaEvent("NotLoggedIn", "Click", "Open" + val);
             else
-                Utils.SendGaEvent("UserAction", "Click", "Open" + val);
+                Utils.SendGaEvent("LoggedIn", "Click", "Open" + val);
         },
     },
 });
@@ -145,7 +145,7 @@ new Vue({
                 NotLoggedIn.ShowErrorMsg("OpenEditMode");
                 return;
             } else {
-                Utils.SendGaEvent("UserAction", "Click", "OpenEditMode");
+                Utils.SendGaEvent("OpenEditMode", "Click", "OpenEditMode");
                 this.editMode = !this.editMode;
                 eventBus.$emit('set-edit-mode', this.editMode);
             };
