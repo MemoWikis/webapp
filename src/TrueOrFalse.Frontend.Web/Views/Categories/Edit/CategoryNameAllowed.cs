@@ -28,27 +28,36 @@ public class CategoryNameAllowed
 
     private bool Yes(string categoryName, CategoryType type)
     {
-        var forbiddenWords = new List<string>() { "Wissenszentrale", "Kategorien", "Fragen", "Widgets", "Ueber-memucho", "Fuer-Lehrer", "Widget-Beispiele", "Widget-Angebote-Preisliste", "Hilfe", "Impressum", "Imprint", "AGB", "Jobs", "Gemeinwohloekonomie", "Team" };
-
-
-        if (RouteConfig.GetAllControllerNames()
-            .Any(controllerName => controllerName.ToLower() == categoryName.ToLower()))
-        {
+        if (!testForbiddenWords(categoryName))
             return false;
-        }
 
-        foreach (var f in forbiddenWords)
-        {
-            if (categoryName.ToLower().Equals(f))
-                return false;
-        }
-
-        var typesToTest = new[] {CategoryType.Standard, CategoryType.Magazine, CategoryType.Daily};
+        var typesToTest = new[] { CategoryType.Standard, CategoryType.Magazine, CategoryType.Daily };
         if (typesToTest.All(t => type != t))
             return true;
 
         ExistingCategories = ServiceLocator.Resolve<CategoryRepository>().GetByName(categoryName);
 
-        return ExistingCategories.All(c => c.Type != type);        
+        return ExistingCategories.All(c => c.Type != type);
+
+    }
+
+    private bool testForbiddenWords(string categoryName)
+    {
+        var categoryNameProcessed = categoryName.Trim().ToLower();
+
+        var forbiddenWords = new[]
+        {
+            "wissenszentrale", "kategorien", "fragen", "widgets", "ueber-memucho", "fuer-lehrer",
+            "widget-beispiele", "widget-angebote-preislisten",
+            "hilfe", "impressum", "imprint", "agb", "agbs", "jobs", "gemeinwohloekonomie", "team"
+        };
+
+        foreach (var fW in forbiddenWords)
+        {
+            if (fW == categoryNameProcessed)
+                return false;
+        }
+
+        return true;
     }
 }
