@@ -109,13 +109,20 @@ public class EditCategoryController : BaseController
         category.Creator = _sessionUser.User;
 
         var categoryNameAllowed = new CategoryNameAllowed();
+        
         if (categoryNameAllowed.No(category))
         {
             model.Message = new ErrorMessage(
                 string.Format("Das Thema <strong>'{0}'</strong> existiert bereits. " +
                               "<a href=\"{1}\">Klicke hier</a>, um es zu bearbeiten.",
                               categoryNameAllowed.ExistingCategories.First().Name,
-                              Links.CategoryEdit(categoryNameAllowed.ExistingCategories.First()))); //Url.Action("Edit", new { id = categoryNameAllowed.ExistingCategories.First().Id })
+                              Links.CategoryEdit(categoryNameAllowed.ExistingCategories.First())));
+
+            return View(_viewPath, model);
+
+        }else if (categoryNameAllowed.ForbiddenWords(category.Name))
+        {
+            model.Message = new ErrorMessage("Der Themen Name ist verboten, bitte wähle einen anderen Namen! ");
 
             return View(_viewPath, model);
         }

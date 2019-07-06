@@ -28,9 +28,6 @@ public class CategoryNameAllowed
 
     private bool Yes(string categoryName, CategoryType type)
     {
-        if (!testForbiddenWords(categoryName))
-            return false;
-
         var typesToTest = new[] { CategoryType.Standard, CategoryType.Magazine, CategoryType.Daily };
         if (typesToTest.All(t => type != t))
             return true;
@@ -41,7 +38,7 @@ public class CategoryNameAllowed
 
     }
 
-    private bool testForbiddenWords(string categoryName)
+    public bool ForbiddenWords(string categoryName)
     {
         var categoryNameProcessed = categoryName.Trim().ToLower();
 
@@ -55,9 +52,9 @@ public class CategoryNameAllowed
         foreach (var fW in forbiddenWords)
         {
             if (fW.Equals(categoryNameProcessed))
-                return false;
+                return true;
         }
 
-        return true;
+        return false;
     }
 }
