@@ -54,7 +54,7 @@ public class CategoryNameAllowed
 
         foreach (var fW in forbiddenWords)
         {
-            if (fW == categoryNameProcessed)
+            if (fW.Equals(categoryNameProcessed))
                 return false;
         }
 
