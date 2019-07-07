@@ -1,17 +1,42 @@
 ﻿function FillSparklineTotals() {
-    $(".sparklineTotals").each(function () {
-        $(this).sparkline([parseInt($(this).attr("data-answersTrue")), parseInt($(this).attr("data-answersFalse"))], {
-            type: 'pie',
-            sliceColors: ['#90EE90', '#FFA07A']
-        });
-    });
+    if (isAnswered(".sparklineTotalsUser"))
+        FillSparksElements(".sparklineTotalsUser");
+    else
+        FillSparksElements(".sparklineTotalsUser", "#999999", '#FFA07A', "pie", false);
 
-    $(".sparklineTotalsUser").each(function () {
-        $(this).sparkline([parseInt($(this).attr("data-answersTrue")), parseInt($(this).attr("data-answersFalse"))], {
-            type: 'pie',
-            sliceColors: ['#90EE90', '#FFA07A']
-        });
-    });    
+    if (isAnswered(".sparklineTotals"))
+        FillSparksElements(".sparklineTotals");
+    else
+        FillSparksElements(".sparklineTotals", "#999999",'#FFA07A', "pie",  false);
+}
+
+function isAnswered(elementName: string) {
+    if (parseInt($(elementName).attr("data-answersTrue")) === 0 &&
+        parseInt($(elementName).attr("data-answersFalse")) === 0)
+        return false;
+    console.log(parseInt($(elementName).attr("data-answersTrue")) +
+        "/" +
+        parseInt($(elementName).attr("data-answersFalse")));
+    return true; 
+}
+
+function FillSparksElements(elementName: string, color1 = '#90EE90', color2 = '#FFA07A', sparkType = "pie", isAnswered = true) {
+    
+    $(elementName).each(function () {
+        if (isAnswered) {
+            $(this).sparkline([parseInt($(this).attr("data-answersTrue")), parseInt($(this).attr("data-answersFalse"))],
+                {
+                    type: sparkType,
+                    sliceColors: [color1, color2]
+                });
+        } else {
+            $(this).sparkline([100, 0],
+                {
+                    type: sparkType,
+                    sliceColors: [color1, color2]
+                });
+        }
+    });
 }
 
 function InitLabelTooltips() {
