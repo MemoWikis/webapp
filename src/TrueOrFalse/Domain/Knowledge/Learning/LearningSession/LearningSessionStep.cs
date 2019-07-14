@@ -13,6 +13,9 @@ public class LearningSessionStep
     [JsonProperty]
     public int Idx;
 
+    [JsonProperty]
+    public int? LearningSessionId;
+
     private Question _question;
 
     public Question Question
@@ -59,7 +62,7 @@ public class LearningSessionStep
             if (_answers != null)
                 return _answers;
 
-            return Sl.AnswerRepo.GetByLearningSessionStepGuid(Guid);
+            return Sl.AnswerRepo.GetByLearningSessionStepGuid(Guid, LearningSessionId);
         }
         set => _answers = value;
     }
