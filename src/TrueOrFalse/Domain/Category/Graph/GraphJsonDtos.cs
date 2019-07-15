@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace GraphJsonDtos
+﻿namespace GraphJsonDtos
 {
     public class Node
     {
