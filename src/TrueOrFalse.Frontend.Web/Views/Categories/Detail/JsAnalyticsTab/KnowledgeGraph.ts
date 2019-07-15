@@ -361,7 +361,7 @@ class KnowledgeGraph {
                 });
 
             var solidKnowledgeBar = buildings
-                .append('g').attr('class', 'knosolidKnowledgeBarwledgeBar');
+                .append('g').attr('class', 'solidKnowledgeBar');
             var needsLearningKnowledgeBar = buildings
                 .append('g').attr('class', 'needsLearningKnowledgeBar');
             var needsConsolidationKnowledgeBar = buildings
@@ -383,23 +383,8 @@ class KnowledgeGraph {
                     return - d.width / 2;
                 })
                 .attr('height', 10)
-                .attr('width', (d) => 1.5 * d.Knowledge.SolidPercentage)
-                .style('fill', '#dddddd');
-
-            needsLearningKnowledgeBar.selectAll('rect')
-                .data(vertices)
-                .enter()
-                .append('rect')
-                .attr('class', 'needsLearningKnowledgeBar')
-                .attr('y', 12)
-                .attr('x', function (d) {
-                    let b = this.parentNode.parentNode.querySelector('text').getBBox();
-                    d.width = b.width + 5;
-                    return - d.width / 2;
-                })
-                .attr('height', 10)
-                .attr('width', (d) => 1.5 * d.Knowledge.NeedsLearningPercentage)
-                .style('fill', '#dddddd');
+                .attr('width', (d) => 1.93 * d.Knowledge.SolidPercentage)
+                .style('fill', '#afd534');
 
             needsConsolidationKnowledgeBar.selectAll('rect')
                 .data(vertices)
@@ -407,14 +392,27 @@ class KnowledgeGraph {
                 .append('rect')
                 .attr('class', 'needsConsolidationKnowledgeBar')
                 .attr('y', 12)
-                .attr('x', function (d) {
-                    let b = this.parentNode.parentNode.querySelector('text').getBBox();
-                    d.width = b.width + 5;
-                    return - d.width / 2;
+                .attr('x', function () {
+                    let b = this.parentNode.parentNode.querySelector('.solidKnowledgeBar').getBBox();
+                    return b.x + b.width;
                 })
                 .attr('height', 10)
-                .attr('width', (d) => 1.5 * d.Knowledge.NeedsConsolidationPercentage)
-                .style('fill', '#dddddd');
+                .attr('width', (d) => 1.93 * d.Knowledge.NeedsConsolidationPercentage)
+                .style('fill', '#fdd648');
+
+            needsLearningKnowledgeBar.selectAll('rect')
+                .data(vertices)
+                .enter()
+                .append('rect')
+                .attr('class', 'needsLearningKnowledgeBar')
+                .attr('y', 12)
+                .attr('x', function () {
+                    let b = this.parentNode.parentNode.querySelector('.needsConsolidationKnowledgeBar').getBBox();
+                    return b.x + b.width;
+                })
+                .attr('height', 10)
+                .attr('width', (d) => 1.93 * d.Knowledge.NeedsLearningPercentage)
+                .style('fill', 'lightsalmon');
 
             notLearnedKnowledgeBar.selectAll('rect')
                 .data(vertices)
@@ -422,14 +420,13 @@ class KnowledgeGraph {
                 .append('rect')
                 .attr('class', 'notLearnedKnowledgeBar')
                 .attr('y', 12)
-                .attr('x', function(d) {
-                    let b = this.parentNode.parentNode.querySelector('text').getBBox();
-                    d.width = b.width + 5;
-                    return - d.width / 2;
+                .attr('x', function () {
+                    let b = this.parentNode.parentNode.querySelector('.needsLearningKnowledgeBar').getBBox();
+                    return b.x + b.width;
                 })
                 .attr('height', 10)
-                .attr('width', (d) => 1.5 * d.Knowledge.NotLearnedPercentage)
-                .style('fill', '#dddddd');
+                .attr('width', (d) => 1.93 * d.Knowledge.NotLearnedPercentage)
+                .style('fill', 'silver');
 
             notInWishKnowledgeBar.selectAll('rect')
                 .data(vertices)
@@ -437,13 +434,12 @@ class KnowledgeGraph {
                 .append('rect')
                 .attr('class', 'notInWishKnowledgeBar')
                 .attr('y', 12)
-                .attr('x', function(d) {
-                    let b = this.parentNode.parentNode.querySelector('text').getBBox();
-                    d.width = b.width + 5;
-                    return - d.width / 2;
+                .attr('x', function () {
+                    let b = this.parentNode.parentNode.querySelector('.notLearnedKnowledgeBar').getBBox();
+                    return b.x + b.width;
                 })
                 .attr('height', 10)
-                .attr('width', (d) => 1.5 * d.Knowledge.NotInWishknowledgePercentage)
+                .attr('width', (d) => 1.93 * d.Knowledge.NotInWishknowledgePercentage)
                 .style('fill', '#dddddd');
             
 
