@@ -83,10 +83,7 @@ class KnowledgeGraph {
                 var minRadius = 5;
                 return minRadius + ((Math.sqrt(d.weight) * 4) - 4 );
             })
-            .attr("fill", function (d) { return color(d.group); })
-            .append("rect")
-            .attr("height", 5)
-            .attr("width", 20);
+            .attr("fill", function (d) { return color(d.group); });
 
         node.on("mouseover", focus).on("mouseout", unfocus);
 
@@ -121,23 +118,94 @@ class KnowledgeGraph {
             .style("stroke-linejoin", "miter")
             .style("pointer-events", "none");
 
-        labelNode
-            .append("rect")
-            .attr("width", 10)
-            .attr("height", 2)
-            .style("fill", "red");
+        var solidKnowledgeBar = labelNode
+            .append('g');
+        var needsLearningKnowledgeBar = labelNode
+            .append('g');
+        var needsConsolidationKnowledgeBar = labelNode
+            .append('g');
+        var notLearnedKnowledgeBar = labelNode
+            .append('g');
+        var notInWishKnowledgeBar = labelNode
+            .append('g');
 
-        var rects = container.append("g").attr("class", "labelNodes")
-            .selectAll("rect")
-            .data(label.nodes)
+        const knowledgeBar = {
+            'height': 10,
+            'width': 1.93,
+            'yPos': 12,
+            'data': graph.nodes
+        }
+
+        solidKnowledgeBar.selectAll('rect')
+            .data(knowledgeBar.data)
             .enter()
-            .append("rect")
-            .attr("x", 10)
-            .attr("y", 20)
-            .attr("width", 100)
-            .attr("height", 10)
-            .attr("fill", "teal")
-            .attr("opacity", 0.3);
+            .append('rect')
+            .attr('class', 'solidKnowledgeBar')
+            .attr('y', knowledgeBar.yPos)
+            .attr('x', function (d) {
+                let b = this.parentNode.querySelector('text').getBBox();
+                d.width = b.width + 5;
+                return - d.width / 2;
+            })
+            .attr('height', knowledgeBar.height)
+            .attr('width', (d) => knowledgeBar.width * d.Knowledge.SolidPercentage)
+            .style('fill', '#afd534');
+
+        needsConsolidationKnowledgeBar.selectAll('rect')
+            .data(knowledgeBar.data)
+            .enter()
+            .append('rect')
+            .attr('class', 'needsConsolidationKnowledgeBar')
+            .attr('y', knowledgeBar.yPos)
+            .attr('x', function () {
+                let b = this.parentNode.querySelector('.solidKnowledgeBar').getBBox();
+                return b.x + b.width;
+            })
+            .attr('height', knowledgeBar.height)
+            .attr('width', (d) => knowledgeBar.width * d.Knowledge.NeedsConsolidationPercentage)
+            .style('fill', '#fdd648');
+
+        needsLearningKnowledgeBar.selectAll('rect')
+            .data(knowledgeBar.data)
+            .enter()
+            .append('rect')
+            .attr('class', 'needsLearningKnowledgeBar')
+            .attr('y', knowledgeBar.yPos)
+            .attr('x', function () {
+                let b = this.parentNode.querySelector('.needsConsolidationKnowledgeBar').getBBox();
+                return b.x + b.width;
+            })
+            .attr('height', knowledgeBar.height)
+            .attr('width', (d) => knowledgeBar.width * d.Knowledge.NeedsLearningPercentage)
+            .style('fill', 'lightsalmon');
+
+        notLearnedKnowledgeBar.selectAll('rect')
+            .data(knowledgeBar.data)
+            .enter()
+            .append('rect')
+            .attr('class', 'notLearnedKnowledgeBar')
+            .attr('y', knowledgeBar.yPos)
+            .attr('x', function () {
+                let b = this.parentNode.querySelector('.needsLearningKnowledgeBar').getBBox();
+                return b.x + b.width;
+            })
+            .attr('height', knowledgeBar.height)
+            .attr('width', (d) => knowledgeBar.width * d.Knowledge.NotLearnedPercentage)
+            .style('fill', 'silver');
+
+        notInWishKnowledgeBar.selectAll('rect')
+            .data(knowledgeBar.data)
+            .enter()
+            .append('rect')
+            .attr('class', 'notInWishKnowledgeBar')
+            .attr('y', knowledgeBar.yPos)
+            .attr('x', function () {
+                let b = this.parentNode.querySelector('.notLearnedKnowledgeBar').getBBox();
+                return b.x + b.width;
+            })
+            .attr('height', knowledgeBar.height)
+            .attr('width', (d) => knowledgeBar.width * d.Knowledge.NotInWishknowledgePercentage)
+            .style('fill', '#dddddd');
 
 
         node.on("mouseover", focus).on("mouseout", unfocus);
@@ -371,81 +439,82 @@ class KnowledgeGraph {
             var notInWishKnowledgeBar = buildings
                 .append('g');
 
-            const bar = {
+            const knowledgeBar = {
                 'height' : 10,
                 'width' : 1.93,
-                'yPos' : 12
+                'yPos': 12,
+                'data' : vertices
             }
 
             solidKnowledgeBar.selectAll('rect')
-                .data(vertices)
+                .data(knowledgeBar.data)
                 .enter()
                 .append('rect')
                 .attr('class', 'solidKnowledgeBar')
-                .attr('y', bar.yPos)
+                .attr('y', knowledgeBar.yPos)
                 .attr('x', function (d) {
                     let b = this.parentNode.parentNode.querySelector('text').getBBox();
                     d.width = b.width + 5;
                     return - d.width / 2;
                 })
-                .attr('height', bar.height)
-                .attr('width', (d) => bar.width * d.Knowledge.SolidPercentage)
+                .attr('height', knowledgeBar.height)
+                .attr('width', (d) => knowledgeBar.width * d.Knowledge.SolidPercentage)
                 .style('fill', '#afd534');
 
             needsConsolidationKnowledgeBar.selectAll('rect')
-                .data(vertices)
+                .data(knowledgeBar.data)
                 .enter()
                 .append('rect')
                 .attr('class', 'needsConsolidationKnowledgeBar')
-                .attr('y', bar.yPos)
+                .attr('y', knowledgeBar.yPos)
                 .attr('x', function () {
                     let b = this.parentNode.parentNode.querySelector('.solidKnowledgeBar').getBBox();
                     return b.x + b.width;
                 })
-                .attr('height', bar.height)
-                .attr('width', (d) => bar.width * d.Knowledge.NeedsConsolidationPercentage)
+                .attr('height', knowledgeBar.height)
+                .attr('width', (d) => knowledgeBar.width * d.Knowledge.NeedsConsolidationPercentage)
                 .style('fill', '#fdd648');
 
             needsLearningKnowledgeBar.selectAll('rect')
-                .data(vertices)
+                .data(knowledgeBar.data)
                 .enter()
                 .append('rect')
                 .attr('class', 'needsLearningKnowledgeBar')
-                .attr('y', bar.yPos)
+                .attr('y', knowledgeBar.yPos)
                 .attr('x', function () {
                     let b = this.parentNode.parentNode.querySelector('.needsConsolidationKnowledgeBar').getBBox();
                     return b.x + b.width;
                 })
-                .attr('height', bar.height)
-                .attr('width', (d) => bar.width * d.Knowledge.NeedsLearningPercentage)
+                .attr('height', knowledgeBar.height)
+                .attr('width', (d) => knowledgeBar.width * d.Knowledge.NeedsLearningPercentage)
                 .style('fill', 'lightsalmon');
 
             notLearnedKnowledgeBar.selectAll('rect')
-                .data(vertices)
+                .data(knowledgeBar.data)
                 .enter()
                 .append('rect')
                 .attr('class', 'notLearnedKnowledgeBar')
-                .attr('y', bar.yPos)
+                .attr('y', knowledgeBar.yPos)
                 .attr('x', function () {
                     let b = this.parentNode.parentNode.querySelector('.needsLearningKnowledgeBar').getBBox();
                     return b.x + b.width;
                 })
-                .attr('height', bar.height)
-                .attr('width', (d) => bar.width * d.Knowledge.NotLearnedPercentage)
+                .attr('height', knowledgeBar.height)
+                .attr('width', (d) => knowledgeBar.width * d.Knowledge.NotLearnedPercentage)
                 .style('fill', 'silver');
 
             notInWishKnowledgeBar.selectAll('rect')
-                .data(vertices)
+                .data(knowledgeBar.data)
                 .enter()
                 .append('rect')
                 .attr('class', 'notInWishKnowledgeBar')
-                .attr('y', bar.yPos)
+                .attr('y', knowledgeBar.yPos)
                 .attr('x', function () {
                     let b = this.parentNode.parentNode.querySelector('.notLearnedKnowledgeBar').getBBox();
                     return b.x + b.width;
                 })
-                .attr('height', bar.height)
-                .attr('width', (d) => bar.width * d.Knowledge.NotInWishknowledgePercentage)
+                .attr('height', knowledgeBar.height)
+                .attr('width', (d) => knowledgeBar.width * d.Knowledge.NotInWishknowledgePercentage)
                 .style('fill', '#dddddd');
             
 
