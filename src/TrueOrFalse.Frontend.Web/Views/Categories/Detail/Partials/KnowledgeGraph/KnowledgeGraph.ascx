@@ -10,7 +10,7 @@
     var graphJsonString = "<%= @Model.GraphDataString %>";
     var graphData = JSON.parse(graphJsonString);
 
-    KnowledgeGraph.loadForceGraph();
+    KnowledgeGraph.loadDwarfGraph();
 
     function toggleRad() {
         $('svg').empty();
