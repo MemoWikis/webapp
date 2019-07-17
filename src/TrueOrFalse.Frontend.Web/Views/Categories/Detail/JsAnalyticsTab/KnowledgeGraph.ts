@@ -95,15 +95,6 @@ class KnowledgeGraph {
         );
 
         var labelNode = container.append("g").attr("class", "labelNodes")
-            .selectAll('rect')
-            .data(label.nodes)
-            .enter()
-            .append('rect')
-            .attr('width', 100)
-            .attr('height', 10)
-            .style('fill', 18)
-
-        var labelText = labelNode.append('g')
             .selectAll("text")
             .data(label.nodes)
             .enter()
@@ -127,14 +118,6 @@ class KnowledgeGraph {
             .style("stroke-linejoin", "miter")
             .style("pointer-events", "none");
 
-        var knowledgeBarContainer = container
-            .append('g').attr('class', 'knowledgeBar');
-
-        container.append('g').append('rect').attr('width', 20).attr('height', 5).style('fill', 'red');
-
-        var solidKnowledgeBar = knowledgeBarContainer
-            .append('g').attr('class', 'solidKnowledgeBar');
-
         const knowledgeBar = {
             'height': 10,
             'width': 1.93,
@@ -142,15 +125,26 @@ class KnowledgeGraph {
             'data': label.nodes
         }
 
-        solidKnowledgeBar.selectAll('rect')
-            .data(knowledgeBar.data)
-            .enter()
-            .append('rect')
-            .attr('y', knowledgeBar.yPos)
-            .attr('x', 10)
-            .attr('height', knowledgeBar.height)
-            .attr('width', (d) => knowledgeBar.width * d.node.Knowledge.SolidPercentage)
-            .style('fill', '#afd534');
+        function getKnowledgeBar() {
+            d3.select(labelNode.node())
+                .append('rect')
+                .attr('y', knowledgeBar.yPos)
+                .attr('x', function (d) {
+                    console.log(d);
+                    let b = this.parentNode.parentNode.querySelector('text').getBBox();
+                    d.width = b.width + 5;
+                    return - d.width / 2;
+                })
+                .attr('height', knowledgeBar.height)
+                .attr('width', (d) => knowledgeBar.width * d.node.Knowledge.SolidPercentage + 500)
+                .style('fill', '#afd534');
+        }
+
+        var knowledgeBarContainer = container
+            .append('g').attr('class', 'knowledgeBar');
+
+        var solidKnowledgeBar = knowledgeBarContainer
+            .append('g').attr('class', 'solidKnowledgeBar');
 
         node.on("mouseover", focus).on("mouseout", unfocus);
 
@@ -164,7 +158,6 @@ class KnowledgeGraph {
                 if (i % 2 == 0) {
                     d.x = d.node.x;
                     d.y = d.node.y;
-                    console.log(d);
                 } else {
                     var b = this.getBBox();
 
@@ -180,6 +173,7 @@ class KnowledgeGraph {
                 }
             });
             labelNode.call(updateNode);
+            labelNode.call(getKnowledgeBar);
         };
 
         function fixna(x) {
