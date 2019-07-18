@@ -354,17 +354,22 @@ class KnowledgeGraph {
                 .attr('style', 'cursor: default');
             buildings.selectAll('rect')
                 .each(function (d) {
-                    const b = this.parentNode.querySelector('text').getBBox();
-                    d.width = b.width + 5;
-                    d.height = 20;
-                    d3.select(this)
-                        .attr('width', d.width)
-                        .attr('height', d.height)
-                        .attr('transform', 'translate(-' + d.width / 2 + ',' + -10 + ')')
-                        .attr('stroke', color(d.type))
-                        .style("fill", "#fff")
-                        .attr('rx', 5)
-                        .attr('ry', 5);
+                    let textBox = this.parentNode.querySelector('text');
+                    if (textBox == null) {
+                        return;
+                    } else {
+                        let b = this.parentNode.querySelector('text').getBBox();
+                        d.width = b.width + 5;
+                        d.height = 20;
+                        d3.select(this)
+                            .attr('width', d.width)
+                            .attr('height', d.height)
+                            .attr('transform', 'translate(-' + d.width / 2 + ',' + -10 + ')')
+                            .attr('stroke', color(d.type))
+                            .style("fill", "#fff")
+                            .attr('rx', 5)
+                            .attr('ry', 5);
+                    }
                 });
 
             var solidKnowledgeBar = buildings
