@@ -2,8 +2,10 @@
 {
     public class Node
     {
+        public KnowledgeSummary Knowledge;
         public int CategoryId;
-        public string Text;
+        public string Title;
+        public int Id;
     }
 
     public class Link

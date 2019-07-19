@@ -2,8 +2,11 @@
 using System.Linq;
 using System.Web.Mvc;
 using GraphJsonDtos;
+using Newtonsoft.Json.Linq;
+
 public class GetCategoryGraph
 {
+
     public static JsonResult AsJson(Category category)
     {
         var graphData = Get(category);
@@ -17,13 +20,16 @@ public class GetCategoryGraph
                 links.Add(new Link { source = parentIndex, target = childIndex });
         }
 
-        var nodes = graphData.nodes.Select(node => 
+     
+        var nodes = graphData.nodes.Select((node, index) => 
             new Node
             {
+                Id = index,
                 CategoryId = node.Category.Id,
-                Text = (node.Category.Name).Replace("\"", "")
+                Title = (node.Category.Name).Replace("\"", ""),
+                Knowledge = KnowledgeSummaryLoader.RunFromMemoryCache(category, Sl.SessionUser.UserId),
+           
             });
-
         return new JsonResult
         {
             Data = new
