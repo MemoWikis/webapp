@@ -315,6 +315,7 @@
     <Compile Include="Views\Categories\Detail\Partials\Cards\CardsModel.cs" />
     <Compile Include="Views\Categories\Detail\Partials\Cards\CardsJson.cs" />
     <Compile Include="Views\Categories\Detail\Partials\EducationOfferList\EducationOfferListJson.cs" />
+    <Compile Include="Views\Categories\Detail\Partials\KnowledgeGraph\KnowledgeGraphModel.cs" />
     <Compile Include="Views\Categories\Detail\Partials\MediaList\MediaListJson.cs" />
     <Compile Include="Views\Categories\Detail\Partials\SetCardMiniList\SetCardMiniListJson.cs" />
     <Compile Include="Views\Categories\Detail\Partials\SetListCard\SetListCardJson.cs" />
@@ -19896,8 +19897,10 @@
     <Content Include="Images\Screenshots\wordpress-textmode-small.png" />
     <Content Include="Images\Team\founderTeam_20161027.jpg" />
     <Content Include="Images\Team\founderTeam_20161027_e1.jpg" />
-    <Content Include="Images\Team\team_julian20170404_P3312327_155.jpg" />
-    <Content Include="Images\Team\team_julian20170404_P3312327_600.jpg" />
+    <Content Include="Images\Team\janine_q.jpg" />
+    <Content Include="Images\Team\jun_q.jpg" />
+    <Content Include="Images\Team\justin_q.png" />
+    <Content Include="Images\Team\sebastian_q.jpg" />
     <Content Include="Images\Tmp\0016b1e8-c04e-4d76-8c79-e9fbd7185738-200-DEL-2017-34-21_07-04.jpg" />
     <Content Include="Images\Tmp\0016b1e8-c04e-4d76-8c79-e9fbd7185738-DEL-2017-34-21_07-04.png" />
     <Content Include="Images\Tmp\00266e6e-71d2-43e1-a782-94d4d3cdeb10-200-DEL-2017-01-12_08-12.jpg" />
@@ -21649,6 +21652,9 @@
     <Content Include="Views\Categories\Detail\Category.min.css">
       <DependentUpon>Category.css</DependentUpon>
     </Content>
+    <Content Include="Views\Categories\Detail\JsAnalyticsTab\KnowledgeGraph.js">
+      <DependentUpon>KnowledgeGraph.ts</DependentUpon>
+    </Content>
     <Content Include="Views\Categories\Detail\JsEditMode\ContentModule.js">
       <DependentUpon>ContentModule.ts</DependentUpon>
     </Content>
@@ -21704,6 +21710,7 @@
     <Content Include="Views\Categories\Detail\Partials\ContentModuleSelectionModal.vue.ascx" />
     <Content Include="Views\Categories\Detail\Partials\Cards\Cards.ascx" />
     <Content Include="Views\Categories\Detail\Partials\InlineText\InlineTextComponent.vue.ascx" />
+    <Content Include="Views\Categories\Detail\Partials\KnowledgeGraph\KnowledgeGraph.ascx" />
     <Content Include="Views\Categories\Detail\Partials\MediaList\MediaListModal.vue.ascx" />
     <Content Include="Views\Categories\Detail\Partials\InlineEditFloatingActionButton.ascx" />
     <Content Include="Views\Categories\Detail\Partials\ModalComponentCollection.ascx" />
@@ -21777,6 +21784,7 @@
     <Content Include="Views\Categories\ResultTestSession\Js\GetResultTestSession.js">
       <DependentUpon>GetResultTestSession.ts</DependentUpon>
     </Content>
+    <TypeScriptCompile Include="Views\Categories\Detail\JsAnalyticsTab\KnowledgeGraph.ts" />
     <TypeScriptCompile Include="Views\Categories\Detail\JsEditMode\ContentModuleSettings\ContentModuleSelectionComponent.ts" />
     <TypeScriptCompile Include="Views\Categories\Detail\JsEditMode\ContentModuleSettings\SingleQuestionsQuiz.ts" />
     <TypeScriptCompile Include="Views\Categories\Detail\JsEditMode\ContentModuleSettings\SetCardMiniListDialogComponent.ts" />
@@ -21987,6 +21995,9 @@
     <Content Include="Views\Knowledge\Wheel\KnowledgeWheel.js.map">
       <DependentUpon>KnowledgeWheel.ascx</DependentUpon>
     </Content>
+    <Content Include="Views\Categories\Detail\JsAnalyticsTab\KnowledgeGraph.js.map">
+      <DependentUpon>KnowledgeGraph.ts</DependentUpon>
+    </Content>
     <None Include="Views\Maintenance\ContentStats.less" />
     <Compile Include="Views\Maintenance\ContentStatsModel.cs" />
     <Compile Include="Views\Maintenance\Images\MaintenanceImagesController.cs" />
@@ -22095,8 +22106,6 @@
     <Content Include="Images\Screenshots\SetEmbedModal.png" />
     <Content Include="Images\Team\team_christof_20170404_P3312344_155.jpg" />
     <Content Include="Images\Team\team_christof_20170404_P3312344_600.jpg" />
-    <Content Include="Images\Team\team_lisa_sq_155.jpg" />
-    <Content Include="Images\Team\team_lisa_sq_600.jpg" />
     <Content Include="Scripts\vendor.somewhere\readme.txt" />
     <Content Include="Scripts\vendor.somewhere\simplemde.css" />
     <Content Include="Scripts\vendor.somewhere\simplemde.js" />
@@ -22369,6 +22378,7 @@
     <Content Include="Views\Welcome\Contact.css">
       <DependentUpon>Contact.less</DependentUpon>
     </Content>
+    <Content Include="Views\Welcome\Partials\TeamPics.ascx" />
     <Content Include="Views\Welcome\Partials\TopicOfWeek.ascx" />
     <Content Include="Views\Welcome\Partials\WelcomeCardMiniSet.ascx" />
     <Content Include="Views\Welcome\Partials\WelcomeCardMiniCategory.ascx" />

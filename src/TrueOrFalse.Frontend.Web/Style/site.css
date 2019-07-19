@@ -208,6 +208,11 @@ img {
     margin-top: 0px;
   }
 }
+@media (max-width: 365px) {
+  #BetaLogo {
+    display: none;
+  }
+}
 #Pictogram {
   float: left;
   height: 62px;

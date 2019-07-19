@@ -11,9 +11,9 @@
 
 <asp:Content ID="Content1" runat="server" ContentPlaceHolderID="Head">
     <script type="text/javascript" src="https://www.google.com/jsapi"></script>
+    <link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-glyphicons.css" rel="stylesheet">
 
     <link href="/Views/Welcome/Welcome.css" rel="stylesheet" />
-
     <script type="text/javascript">
 
         /* Source http://www.html-advisor.com/javascript/hide-email-with-javascript-jquery/ */
@@ -84,10 +84,8 @@
 </asp:Content>
 
 <asp:Content ID="indexContent" ContentPlaceHolderID="MainContent" runat="server">
-
     <div id="welcomeContainer">
-
-        <div id="findYourContent">
+    <div id="findYourContent">
             <h1 id="titleFindYourContent">Finde deine Lerninhalte</h1>
             <h3 id="titleFindYourContentSub">und lerne interaktiv & personalisiert</h3>
 
@@ -292,11 +290,6 @@
 
             <div class="separator"></div>
             <div id="memuchoInfoFooter">
-                <%--                <% if (!Model.IsLoggedIn) { %>
-                    <div style="text-align: center; display: inline-block;">
-                        <a href="<%= Url.Action(Links.RegisterAction, Links.RegisterController) %>" class="btn btn-lg btn-primary" role="button"><i class="fa fa-chevron-circle-right">&nbsp;</i> Jetzt kostenlos registrieren</a>
-                    </div>
-                <% } %>--%>
                 <a href="<%= Links.AboutMemucho() %>" class="btn btn-lg btn-link">Erfahre mehr...</a>
             </div>
         </div>
@@ -328,9 +321,7 @@
             </div>
         </div>
 
-        <%-- <% Html.RenderPartial("Partials/TopicOfWeek", new TopicOfWeekModel(DateTime.Now)); %>--%>
-
-        <div id="ContentAvailable">
+    <div id="ContentAvailable">
             <h2>Interaktive Lerninhalte zu <%= Model.TotalCategoriesCountRound10 %>+ Themen</h2>
             <p class="ShortParagraph">
                 Bei memucho findest du interaktive Lerninhalte zu vielen Themen und kannst sie personalisiert lernen.
@@ -572,23 +563,6 @@
                         </p>
                     </div>
                 </div>
-                <%--<div class="col-sm-4">
-                <div class="logo-box">
-                    <div class="img-logo">
-                        <a href="http://www.unesco.org/new/en/communication-and-information/access-to-knowledge/open-educational-resources/" target="_blank">
-                            <img style="margin-top: -35px;" src="/Images/LogosPartners/oer_logo_EN_2_w400.png" alt="Logo Open Educational Resources"/>
-                        </a>
-                    </div>
-                    <p>
-                        Freie Bildungsmaterialien demokratisieren Bildung! Wir machen mit.
-                    </p>
-                    <p class="logo-box-link">
-                        <a href="http://www.unesco.org/new/en/communication-and-information/access-to-knowledge/open-educational-resources/" target="_blank">
-                            <span style="white-space: nowrap">Zur UNESCO-Seite <i class="fa fa-external-link"></i></span>
-                        </a>
-                    </p>
-                </div>        
-                </div>--%>
             </div>
         </div>
 
@@ -757,110 +731,8 @@
         <% Html.RenderPartial("~/Views/Shared/LinkToTop.ascx");  %>
 
         <input id="hdd-team" type="hidden" value="<%=Links.Team() %>" />
-        <div id="team">
-            <h2>Team</h2>
-            <div class="row infoItemRow">
-                <div class="col-xs-4 infoItemColumn">
-                    <div class="TeamPic">
-                        <img src="/Images/Team/team_robert201509_155.jpg" />
-                    </div>
-                    <div class="infoCatchWord">
-                        Robert
-                    </div>
-                    <div class="infoExplanationSnippet">
-                        (Gründer)
-                    </div>
-                </div>
 
-                <div class="col-xs-4 infoItemColumn">
-                    <div class="TeamPic">
-                        <img src="/Images/Team/team_jule201509-2_155.jpg" />
-                    </div>
-                    <div class="infoCatchWord">
-                        Jule
-                    </div>
-                    <div class="infoExplanationSnippet">
-                        (Gründerin)
-                    </div>
-                </div>
-
-                <div class="col-xs-4 infoItemColumn">
-                    <div class="TeamPic">
-                        <img src="/Images/Team/team_christof_20170404_P3312344_155.jpg" />
-                    </div>
-                    <div class="infoCatchWord">
-                        Christof
-                    </div>
-                    <div class="infoExplanationSnippet">
-                        (Gründer)
-                    </div>
-                </div>
-            </div>
-            <div class="row infoItemRow">
-                <div class="col-xs-4 infoItemColumn">
-                    <div class="TeamPic">
-                        <img src="https://ucarecdn.com/6158355b-fff8-4f22-9a04-6a6fc2b6dd61/-/scale_crop/155x155/" />
-                    </div>
-                    <div class="infoCatchWord">
-                        Franziska
-                    </div>
-                    <div class="infoExplanationSnippet">
-                        (Content Managerin)
-                    </div>
-                </div>
-
-                <div class="col-xs-4 infoItemColumn">
-                    <div class="TeamPic">
-                        <img src="https://ucarecdn.com/cbf57b0d-491b-49f0-97d6-573d7d9b539f/-/scale_crop/155x155/" />
-                    </div>
-                    <div class="infoCatchWord">
-                        Justus
-                    </div>
-                    <div class="infoExplanationSnippet">
-                        (Product Manager)
-                    </div>
-                </div>
-
-                <div class="col-xs-4 infoItemColumn">
-                    <div class="TeamPic">
-                        <img src="https://ucarecdn.com/06b596a8-3787-44d7-9edc-4b9dd493acfd/-/scale_crop/155x155/" />
-                    </div>
-                    <div class="infoCatchWord">
-                        Janine
-                    </div>
-                    <div class="infoExplanationSnippet">
-                        (Designerin)
-                    </div>
-                </div>
-            </div>
-
-            <div class="row infoItemRow">
-                <div class="col-xs-4 infoItemColumn">
-                    <div class="TeamPic">
-                        <img src="https://ucarecdn.com/3b330292-fff7-4f7c-8ee8-5d8050a8d1f4/-/scale_crop/155x155/" />
-                    </div>
-                    <div class="infoCatchWord">
-                        Daniel
-                    </div>
-                    <div class="infoExplanationSnippet">
-                        (Developer)
-                    </div>
-                </div>
-
-                <div class="col-xs-4 infoItemColumn">
-                    <div class="TeamPic">
-                        <img src="https://ucarecdn.com/5174fd26-5db4-43d4-b73c-6f81e872c6dd/-/scale_crop/155x155/" />
-                    </div>
-                    <div class="infoCatchWord">
-                        Marco
-                    </div>
-                    <div class="infoExplanationSnippet">
-                        (Developer)
-                    </div>
-                </div>
-
-            </div>
-        </div>
+        <%Html.RenderPartial("Partials/TeamPics"); %>
         <div class="separator"></div>
         <a class="right" href="<%=Links.Team() %>">Erfahre mehr...</a>
         <% Html.RenderPartial("~/Views/Shared/LinkToTop.ascx");  %>

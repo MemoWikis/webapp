@@ -68,6 +68,8 @@
             <% Html.RenderPartial("~/Views/Categories/Detail/Tabs/AnalyticsTab.ascx"); %>
         <% } %>
     </div>
+    <div id="AnalyticsTabContent" class="TabContent">
+    </div>
   
      
     

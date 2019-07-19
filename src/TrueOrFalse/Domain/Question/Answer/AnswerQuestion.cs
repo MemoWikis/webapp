@@ -131,6 +131,7 @@ public class AnswerQuestion : IRegisterAsInstancePerLifetime
             var learningSession = Sl.LearningSessionRepo.GetById(learningSessionId.Value);
             var learningSessionStep = learningSession.GetStep(new Guid(learningSessionStepGuid));
             learningSessionStep.AnswerState = StepAnswerState.Answered;
+            learningSessionStep.LearningSessionId = learningSessionId; 
 
             var duplicateStep = learningSession.Steps.Where(x => x.Question == learningSessionStep.Question &&
                                                                         x.Idx > learningSessionStep.Idx).ToList();

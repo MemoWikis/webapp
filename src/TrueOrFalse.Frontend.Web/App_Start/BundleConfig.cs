@@ -70,6 +70,7 @@ namespace TrueOrFalse.View
             bundles.Add(new ScriptBundle("~/bundles/js/Category")
                 .Include("~/Views/Knowledge/Wheel/KnowledgeWheel.js")
                 .Include("~/Scripts/npm/d3/d3.js")
+                .IncludeDirectory("~/Views/Categories/Detail/JsAnalyticsTab/", "*.js")
                 .IncludeDirectory("~/Views/Categories/Detail/Js/", "*.js")
                 .Include("~/Views/Categories/ResultTestSession/Js/GetResultTestSession.js"));
 
@@ -194,10 +195,8 @@ namespace TrueOrFalse.View
                 .Include("~/Views/Questions/Answer/AnswerQuestionSolution.css")
                 .Include("~/Views/Sets/Detail/Set.css"));
                 
-
             bundles.Add(new ScriptBundle("~/bundles/js/Messages")
                 .IncludeDirectory("~/Views/Messages/Js/", "*.js"));
-
 
 
             bundles.Add(new ScriptBundle("~/bundles/js/LearningSessionResult")

@@ -70,7 +70,7 @@
                 </div>
                 <div id="AnalyticsTab" class="Tab" @click="sendGaEvent('AnalyticsTab')">
                     <a href="">
-                        Analytics
+                        Wissensnetz
                     </a>
                 </div>
             </div>

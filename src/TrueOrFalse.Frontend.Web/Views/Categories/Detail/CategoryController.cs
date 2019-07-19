@@ -194,7 +194,6 @@ public class CategoryController : BaseController
         
     }
 
-
     [HttpPost]
     [AccessOnlyAsLoggedIn]
     public ActionResult RenderMarkdown(int categoryId, string markdown)
@@ -202,6 +201,12 @@ public class CategoryController : BaseController
         var category = Sl.CategoryRepo.GetById(categoryId);
 
         return Json(MarkdownSingleTemplateToHtml.Run(markdown, category, this.ControllerContext, true));
+    }
+
+    public string GetKnowledgeGraphDisplay(int categoryId)
+    {
+        var category = Sl.CategoryRepo.GetById(categoryId);
+        return ViewRenderer.RenderPartialView("~/Views/Categories/Detail/Partials/KnowledgeGraph/KnowledgeGraph.ascx", new KnowledgeGraphModel(category), ControllerContext);
     }
 }
 public class LoadModelResult

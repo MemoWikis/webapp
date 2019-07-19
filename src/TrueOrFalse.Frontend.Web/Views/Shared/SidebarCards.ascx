@@ -1,8 +1,7 @@
 ﻿<%@ Control Language="C#" Inherits="System.Web.Mvc.ViewUserControl<SidebarModel>" %>
 <%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
 
-<div id="SidebarCards"> 
-
+<div id="SidebarCards">
     <%if (Model.Authors.Count == 1){
             var author = Model.Authors.First();
     %>
@@ -65,7 +64,9 @@
                     <div class="multiple-autor-card-image">
                         <img class="ItemImage JS-InitImage" alt="" src="<%= author.ImageUrl %>" data-append-image-link-to="ImageContainer" />
                     </div>
-                    <a href="<%= Links.UserDetail(author.User)%>" class="card-link"><%= author.Name %></a>
+                    <div id="UserNameSideBarMulti">
+                        <a href="<%= Links.UserDetail(author.User)%>" class="card-link"><span id="InnerLinkSpan"><%=author.Name %></span></a>
+                    </div>
                 </div>
             <% } %>
         </div>

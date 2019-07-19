@@ -2,7 +2,6 @@
 using System.Linq;
 using System.Web.Mvc;
 using GraphJsonDtos;
-
 public class GetCategoryGraph
 {
     public static JsonResult AsJson(Category category)
@@ -10,26 +9,27 @@ public class GetCategoryGraph
         var graphData = Get(category);
 
         var links = new List<Link>();
-        foreach (var link in graphData.Links)
+        foreach (var link in graphData.links)
         {
-            var parentIndex = graphData.Nodes.FindIndex(node => node.Category == link.Parent);
-            var childIndex = graphData.Nodes.FindIndex(node => node.Category == link.Child);
-            links.Add(new Link { source = parentIndex, target = childIndex });
+            var parentIndex = graphData.nodes.FindIndex(node => node.Category == link.Parent);
+            var childIndex = graphData.nodes.FindIndex(node => node.Category == link.Child);
+            if (childIndex >= 0 || parentIndex >= 0)
+                links.Add(new Link { source = parentIndex, target = childIndex });
         }
 
-        var nodes = graphData.Nodes.Select(node => 
+        var nodes = graphData.nodes.Select(node => 
             new Node
             {
                 CategoryId = node.Category.Id,
-                Text = node.Category.Name
+                Text = (node.Category.Name).Replace("\"", "")
             });
 
         return new JsonResult
         {
             Data = new
             {
-                Nodes = nodes,
-                Links = links
+                nodes = nodes,
+                links = links
             }
         };
     }
@@ -56,8 +56,8 @@ public class GetCategoryGraph
         
         return new CategoryGraph
         {
-            Nodes = nodes,
-            Links = links
+            nodes = nodes,
+            links = links
         };
     }
 

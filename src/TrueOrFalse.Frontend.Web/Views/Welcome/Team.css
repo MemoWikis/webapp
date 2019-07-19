@@ -1,11 +1,30 @@
-﻿.infoItemRow .infoItemColumn {
+﻿@media (min-width: 768px) {
+}@media (min-width: 768px) {
+}@media (max-width: 767px) {
+}@media (min-width: 768px) {
+}@media (min-width: 768px) {
+}@media (min-width: 768px) {
+}@media (max-width: 767px) {
+}@media (max-width: 767px) {
+}@media (max-width: 649px) {
+}@media (min-width: 650px) {
+}.infoItemRow .infoItemColumn {
   text-align: center;
   margin-top: 30px;
   margin-bottom: 30px;
 }
+@media (max-width: 479px) {
+  .infoItemRow .infoItemColumn {
+    float: none;
+    width: 100%;
+    margin-left: 0;
+    left: 0;
+    right: 0;
+  }
+}
 .infoItemRow .infoItemColumn .infoIcon {
   font-size: 45px;
-  color: blue;
+  color: #003264;
 }
 .infoItemRow .infoItemColumn .infoCatchWord {
   font-weight: bold;
@@ -15,6 +34,21 @@
   max-width: 400px;
   margin-left: auto;
   margin-right: auto;
+}
+.infoItemRow .infoItemColumn img {
+  max-width: 155px;
+}
+@media screen and (min-width: 480px) and (max-width: 520px) {
+  .infoItemRow .infoItemColumn img {
+    max-width: 140px;
+  }
+}
+.infoItemRow .infoItemColumn .infoCatchWord {
+  font-size: 18px;
+  font-weight: bold;
+}
+.infoItemRow .infoItemColumn .infoExplanationSnippet {
+  font-size: 18px;
 }
 .TeamText {
   margin-top: 40px;

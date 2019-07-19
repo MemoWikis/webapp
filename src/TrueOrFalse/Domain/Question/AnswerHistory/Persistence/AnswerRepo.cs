@@ -187,21 +187,23 @@ public class AnswerRepo : RepositoryDb<Answer>
             .Last();
     }
 
-    public IList<Answer> GetByLearningSessionStepGuid(Guid learningSessionStepGuid)
+    public IList<Answer> GetByLearningSessionStepGuid(Guid learningSessionStepGuid, int? learningSessionId = null)
     {
-        if (learningSessionStepGuid == default(Guid))
+        if (learningSessionStepGuid == default(Guid) && learningSessionId == null )
             return null;
 
         var answerInteractions = _session.QueryOver<Answer>()
+            .Where(qi => qi.LearningSession.Id == learningSessionId).List();
+
+        answerInteractions = answerInteractions
             .Where(a => a.LearningSessionStepGuidString == learningSessionStepGuid.ToString())
-            .List();
+            .OrderByDescending(a => a.Id)
+            .ToList();
 
         if (!answerInteractions.Any())
             return null;
 
-        return answerInteractions
-            .OrderByDescending(a => a.Id)
-            .ToList();
+        return answerInteractions;
     }
 
     public IList<Answer> GetByLearningSessionStepGuids(int learningSessionId, IList<Guid> learningSessionStepGuids)

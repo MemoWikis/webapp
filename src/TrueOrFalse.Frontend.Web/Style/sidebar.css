@@ -20,6 +20,7 @@
 }
 .AutorCardMixin .column-right {
   margin: 0 1.33em 1.75em 0;
+  max-width: 130px;
 }
 .AutorCardMixin .column-right .card-link {
   margin: 0 0 0.3125em 0;
@@ -64,6 +65,7 @@
 }
 #SidebarCards #AutorCard .column-right {
   margin: 0 1.33em 1.75em 0;
+  max-width: 130px;
 }
 #SidebarCards #AutorCard .column-right .card-link {
   margin: 0 0 0.3125em 0;
@@ -149,6 +151,13 @@
   overflow: hidden;
   display: flex;
   justify-content: center;
+}
+#SidebarCards #MultipleAutorCard .single-autor-container #UserNameSideBarMulti {
+  max-width: 153px;
+}
+#SidebarCards #MultipleAutorCard .single-autor-container #InnerLinkSpan {
+  text-overflow: ellipsis;
+  overflow: hidden;
 }
 #SidebarCards #CategorySuggestionCard,
 #SidebarCards #CreateQuestionCard {
