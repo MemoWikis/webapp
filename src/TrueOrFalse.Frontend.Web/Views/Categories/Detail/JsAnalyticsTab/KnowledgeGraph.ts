@@ -385,7 +385,7 @@ class KnowledgeGraph {
 
             const knowledgeBar = {
                 'height' : 10,
-                'width' : 1.93,
+                'width' : 2.5,
                 'yPos': 12,
                 'data' : vertices
             }
