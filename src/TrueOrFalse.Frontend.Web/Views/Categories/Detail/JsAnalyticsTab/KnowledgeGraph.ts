@@ -118,34 +118,6 @@ class KnowledgeGraph {
             .style("stroke-linejoin", "miter")
             .style("pointer-events", "none");
 
-        const knowledgeBar = {
-            'height': 10,
-            'width': 1.93,
-            'yPos': 12,
-            'data': label.nodes
-        }
-
-        function getKnowledgeBar() {
-            d3.select(labelNode.node())
-                .append('rect')
-                .attr('y', knowledgeBar.yPos)
-                .attr('x', function (d) {
-                    console.log(d);
-                    let b = this.parentNode.parentNode.querySelector('text').getBBox();
-                    d.width = b.width + 5;
-                    return - d.width / 2;
-                })
-                .attr('height', knowledgeBar.height)
-                .attr('width', (d) => knowledgeBar.width * d.node.Knowledge.SolidPercentage + 500)
-                .style('fill', '#afd534');
-        }
-
-        var knowledgeBarContainer = container
-            .append('g').attr('class', 'knowledgeBar');
-
-        var solidKnowledgeBar = knowledgeBarContainer
-            .append('g').attr('class', 'solidKnowledgeBar');
-
         node.on("mouseover", focus).on("mouseout", unfocus);
 
         function ticked() {
@@ -173,7 +145,6 @@ class KnowledgeGraph {
                 }
             });
             labelNode.call(updateNode);
-            labelNode.call(getKnowledgeBar);
         };
 
         function fixna(x) {
@@ -278,7 +249,6 @@ class KnowledgeGraph {
 
         var buildings = world.selectAll('g');
         var lines = world.selectAll('g');
-        var bar = world.selectAll('g');
 
         var linePreview = world
             .append('path');

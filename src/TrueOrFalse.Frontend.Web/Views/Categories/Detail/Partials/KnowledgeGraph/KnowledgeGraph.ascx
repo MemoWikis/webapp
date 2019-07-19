@@ -1,8 +1,8 @@
 ﻿<%@ Control Language="C#" Inherits="System.Web.Mvc.ViewUserControl<KnowledgeGraphModel>" %>
 
 
-<div class="btn btn-primary" onclick="toggleRect()">Ansicht 1</div>       
-<div class="btn btn-primary" onclick="toggleRad()">Ansicht 2</div>       
+<div class="btn btn-primary" onclick="toggleRad()">Ansicht 1</div>       
+<div class="btn btn-primary" onclick="toggleRect()">Ansicht 2 (experimentell)</div>       
 
 <div class="btn btn-primary" onclick="toggleFullscreen()">Vollbild</div>       
 
@@ -12,7 +12,7 @@
     var graphJsonString = "<%= @Model.GraphDataString %>";
     var graphData = JSON.parse(graphJsonString);
 
-    KnowledgeGraph.loadDwarfGraph();
+    KnowledgeGraph.loadForceGraph();
 
     function toggleRad() {
         $('svg').empty();
