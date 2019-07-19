@@ -17,6 +17,8 @@ namespace TrueOrFalse
 
             // das hier später per Konvention, siehe: http://mvccontrib.codeplex.com/SourceControl/changeset/view/351a6de404cb#src%2fMVCContrib%2fSimplyRestful%2fSimplyRestfulRouteHandler.cs
 
+          
+
             routes.MapRoute("Logout", "Ausloggen", new { controller = "Welcome", action = "Logout" });
             routes.MapRoute("CheckUserNameForAvailability", "Registrieren/IsUserNameAvailable", new { controller = "Login", action = "IsUserNameAvailable" });
             routes.MapRoute("CheckEmailForAvailability", "Registrieren/IsEmailAvailable", new { controller = "Login", action = "IsEmailAvailable" });
@@ -187,7 +189,7 @@ namespace TrueOrFalse
 
             routes.MapRoute("Übersicht", "Übersicht/Förderer", new { controller = "Welcome", action = "Promoter" });
 
-
+            
 
             foreach (var typeName in GetAllControllerNames())
             {
@@ -205,6 +207,8 @@ namespace TrueOrFalse
             /*Api*/routes.MapRoute("EditSave", "Category/SaveMarkdown", new { controller = "Category", action = "SaveMarkdown" });
             /*Api*/routes.MapRoute("Category_KnowledgeBar", "Category/KnowledgeBar", new { controller = "Category", action = "KnowledgeBar" });
             /*Api*/routes.MapRoute("AnalyticsTabApi", "Category/Tab", new { controller = "Category", action = "Tab" });
+            /*Api*/
+            routes.MapRoute("AnalyticsGetKnowledgeDisplay", "Category/GetKnowledgeGraphDisplay", new { controller = "Category", action = "GetKnowledgeGraphDisplay" });
             routes.MapRoute("GetQuestion", "Questions/AddToQuestionSet", new { controller = "Questions", action = "AddToQuestionSet" });
             routes.MapRoute("Category_Learning_Button", "{categoryName}/{Id}/Lernen", new { controller = "Category", action = "CategoryLearningTab" });
             routes.MapRoute("Analytics_Tab", "{categoryName}/{Id}/Analytics", new { controller = "Category", action = "CategoryAnalyticsTab" });
