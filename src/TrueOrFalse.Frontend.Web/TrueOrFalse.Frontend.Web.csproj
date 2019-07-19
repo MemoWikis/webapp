@@ -24282,7 +24282,6 @@
     <Folder Include="bin\Utilities\Update\Scripts\" />
     <Folder Include="bin\Utilities\Update\SolrSchemas\" />
     <Folder Include="Content\bootstrap\" />
-    <Folder Include="Scripts\dwarf\" />
     <Folder Include="Views\Dates\" />
   </ItemGroup>
   <PropertyGroup>
