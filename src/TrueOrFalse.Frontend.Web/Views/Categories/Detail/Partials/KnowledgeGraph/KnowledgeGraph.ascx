@@ -1,8 +1,10 @@
 ﻿<%@ Control Language="C#" Inherits="System.Web.Mvc.ViewUserControl<KnowledgeGraphModel>" %>
 
-<button onclick="toggleFullscreen()">open Fullscreen</button>
-<button onclick="toggleRad()">open Rad</button>
-<button onclick="toggleRect()">open Rect</button>
+
+<div class="btn btn-primary" onclick="toggleRect()">Ansicht 1</div>       
+<div class="btn btn-primary" onclick="toggleRad()">Ansicht 2</div>       
+
+<div class="btn btn-primary" onclick="toggleFullscreen()">Vollbild</div>       
 
 
 <script type="text/javascript">
