@@ -145,7 +145,6 @@ class KnowledgeGraph {
                 }
             });
             labelNode.call(updateNode);
-            labelNode.call(getKnowledgeBar);
         };
 
         function fixna(x) {
@@ -250,7 +249,6 @@ class KnowledgeGraph {
 
         var buildings = world.selectAll('g');
         var lines = world.selectAll('g');
-        var bar = world.selectAll('g');
 
         var linePreview = world
             .append('path');
