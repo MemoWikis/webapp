@@ -12,14 +12,18 @@
         this.pushUrlAndSetactiveByClick(this._categoryName, this.CategoryId);
         this.hasAndSetTabActive();
         this._tab = new Tabbing(this.CategoryId);
+        var url = window.location.pathname;
 
         window.addEventListener('popstate',
             (event) => {
-                var url = window.location.pathname;
+                
 
                 this.hasAndSetTabActive();
                 this.renderOrDisplayTab(url);
             });
+
+        if (url.indexOf("Analytics"))
+            this.renderOrDisplayTab(url);
     }
 
     private pushUrlAndSetactiveByClick(_categoryName: string, categoryId: number) {
@@ -87,7 +91,7 @@
 
         } else if (url.indexOf("Analytics") >= 0) {
 
-            if ($.trim($("#AnalyticsTabContent").html()) === "") {
+            if ($.trim($("#knowledgeGraphData").html()) === "") {
                 this._tab.RenderTabContent("AnalyticsTab");
                 Utils.ShowSpinner();
             }
