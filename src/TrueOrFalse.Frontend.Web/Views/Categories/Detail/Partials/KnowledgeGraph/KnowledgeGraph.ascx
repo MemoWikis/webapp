@@ -11,6 +11,7 @@
 
     var graphJsonString = "<%= @Model.GraphDataString %>";
     var graphData = JSON.parse(graphJsonString);
+    console.log(graphData);
 
     KnowledgeGraph.loadForceGraph();
 

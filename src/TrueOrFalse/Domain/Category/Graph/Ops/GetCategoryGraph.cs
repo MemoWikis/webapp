@@ -1,6 +1,12 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
+using System.Diagnostics.Eventing.Reader;
 using System.Linq;
+using System.Security.Cryptography.X509Certificates;
+using System.Web.Helpers;
 using System.Web.Mvc;
+using FluentNHibernate.Conventions;
+using FluentNHibernate.MappingModel.Output.Sorting;
 using GraphJsonDtos;
 using Newtonsoft.Json.Linq;
 
@@ -17,10 +23,12 @@ public class GetCategoryGraph
             var parentIndex = graphData.nodes.FindIndex(node => node.Category == link.Parent);
             var childIndex = graphData.nodes.FindIndex(node => node.Category == link.Child);
             if (childIndex >= 0 || parentIndex >= 0)
-                links.Add(new Link { source = parentIndex, target = childIndex });
+                links.Add(new Link {
+                    source = parentIndex,
+                    target = childIndex,
+                });
         }
 
-     
         var nodes = graphData.nodes.Select((node, index) => 
             new Node
             {
@@ -28,8 +36,41 @@ public class GetCategoryGraph
                 CategoryId = node.Category.Id,
                 Title = (node.Category.Name).Replace("\"", ""),
                 Knowledge = KnowledgeSummaryLoader.RunFromMemoryCache(category, Sl.SessionUser.UserId),
-           
             });
+
+        var currentLvl = 0;
+        var maxLevels = 7;
+        var allNodes = nodes;
+        var allLinks = links;
+        var rootNode = nodes.First(Node => Node.Id == 0);
+        var rootId = rootNode.CategoryId;
+        var inputId = new List<int>();
+
+        inputId.Add(0);
+
+        for (currentLvl = 0; currentLvl < maxLevels; currentLvl++)
+        {
+            foreach (var node in allNodes)
+            {
+                if (node.CategoryId != rootId)
+                {
+                    foreach (var link in allLinks)
+                    {
+                        if (node.Level == 0 && inputId.Contains(link.source) && link.target == node.Id)
+                        {
+                            node.Level = currentLvl;
+                            if (!inputId.Contains(node.Id))
+                                inputId.Add(node.Id);
+                        }
+                    }
+                }
+                else
+                {
+                    node.Level = currentLvl;
+                }
+            }
+        }
+
         return new JsonResult
         {
             Data = new
