@@ -17,27 +17,54 @@ public class GetCategoryGraph
     {
         var graphData = Get(category);
 
-        var links = new List<Link>();
-        foreach (var link in graphData.links)
-        {
-            var parentIndex = graphData.nodes.FindIndex(node => node.Category == link.Parent);
-            var childIndex = graphData.nodes.FindIndex(node => node.Category == link.Child);
-            if (childIndex >= 0 || parentIndex >= 0)
-                links.Add(new Link {
-                    source = parentIndex,
-                    target = childIndex,
-                });
-        }
+        var links = GetLinks(graphData);
+        var nodes = GetNodes(category, graphData);
 
-        var nodes = graphData.nodes.Select((node, index) => 
+        AssignNodeLevels(nodes, links);
+
+        return new JsonResult
+        {
+            Data = new
+            {
+                nodes = nodes,
+                links = links
+            }
+        };
+    }
+
+    private static List<Node> GetNodes(Category category, CategoryGraph graphData)
+    {
+        var nodes = graphData.nodes.Select((node, index) =>
             new Node
             {
                 Id = index,
                 CategoryId = node.Category.Id,
                 Title = (node.Category.Name).Replace("\"", ""),
                 Knowledge = KnowledgeSummaryLoader.RunFromMemoryCache(category, Sl.SessionUser.UserId),
-            });
+            }).ToList();
+        return nodes;
+    }
 
+    private static List<Link> GetLinks(CategoryGraph graphData)
+    {
+        var links = new List<Link>();
+        foreach (var link in graphData.links)
+        {
+            var parentIndex = graphData.nodes.FindIndex(node => node.Category == link.Parent);
+            var childIndex = graphData.nodes.FindIndex(node => node.Category == link.Child);
+            if (childIndex >= 0 || parentIndex >= 0)
+                links.Add(new Link
+                {
+                    source = parentIndex,
+                    target = childIndex,
+                });
+        }
+
+        return links;
+    }
+
+    private static void AssignNodeLevels(IEnumerable<Node> nodes, List<Link> links)
+    {
         var currentLvl = 0;
         var maxLevels = 7;
         var allNodes = nodes;
@@ -70,15 +97,6 @@ public class GetCategoryGraph
                 }
             }
         }
-
-        return new JsonResult
-        {
-            Data = new
-            {
-                nodes = nodes,
-                links = links
-            }
-        };
     }
 
     public static CategoryGraph Get(Category category)
