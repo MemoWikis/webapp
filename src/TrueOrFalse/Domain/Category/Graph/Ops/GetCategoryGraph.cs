@@ -63,37 +63,34 @@ public class GetCategoryGraph
         return links;
     }
 
-    private static void AssignNodeLevels(IEnumerable<Node> nodes, List<Link> links)
+    public static void Test_AssignNodeLevels(IList<Node> nodes, List<Link> links)
     {
-        var currentLvl = 0;
+        AssignNodeLevels(nodes, links);
+    }
+
+    private static void AssignNodeLevels(IList<Node> nodes, List<Link> links)
+    {
         var maxLevels = 7;
-        var allNodes = nodes;
-        var allLinks = links;
-        var rootNode = nodes.First(Node => Node.Id == 0);
-        var rootId = rootNode.CategoryId;
-        var inputId = new List<int>();
+        var nodesDictionary = nodes.ToDictionary(node => node.Id);
+        var rootNode = nodes.First(node => node.Id == 0);
 
-        inputId.Add(0);
+        //initialize all levels to -1
+        foreach (var node in nodes) node.Level = -1;
 
-        for (currentLvl = 0; currentLvl < maxLevels; currentLvl++)
+        rootNode.Level = 0;
+
+        for (int currentLevel = 0; currentLevel < maxLevels; currentLevel++)
         {
-            foreach (var node in allNodes)
+            foreach(var nodeCurrentLevel in nodes.Where(node => node.Level == currentLevel))
             {
-                if (node.CategoryId != rootId)
+                foreach (var link in links)
                 {
-                    foreach (var link in allLinks)
+                    if (link.source == nodeCurrentLevel.Id)
                     {
-                        if (node.Level == 0 && inputId.Contains(link.source) && link.target == node.Id)
-                        {
-                            node.Level = currentLvl;
-                            if (!inputId.Contains(node.Id))
-                                inputId.Add(node.Id);
-                        }
+                        var targetNode = nodesDictionary[link.target];
+                        if (targetNode.Level == -1)
+                            targetNode.Level = currentLevel + 1;
                     }
-                }
-                else
-                {
-                    node.Level = currentLvl;
                 }
             }
         }
