@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics.Eventing.Reader;
 using System.Linq;
@@ -93,6 +94,26 @@ public class GetCategoryGraph
                     }
                 }
             }
+        }
+    }
+
+    public static void Test_AssignLinkLevels(IList<Node> nodes, List<Link> links)
+    {
+        AssignLinkLevels(nodes, links);
+    }
+
+    private static void AssignLinkLevels(IList<Node> nodes, List<Link> links)
+    {
+        var nodesDictionary = nodes.ToDictionary(node => node.Id);
+
+        foreach (var link in links) link.level = -1;
+
+        foreach (var link in links)
+        {
+            var sourceNode = nodesDictionary[link.source];
+            var targetNode = nodesDictionary[link.target];
+            if (sourceNode.Level != -1 && targetNode.Level != -1)
+                link.level = Math.Max(sourceNode.Level, targetNode.Level);
         }
     }
 
