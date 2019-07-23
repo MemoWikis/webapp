@@ -22,6 +22,7 @@ public class GetCategoryGraph
         var nodes = GetNodes(category, graphData);
 
         AssignNodeLevels(nodes, links);
+        AssignLinkLevels(nodes, links);
 
         return new JsonResult
         {

@@ -12,6 +12,8 @@
     var graphJsonString = "<%= @Model.GraphDataString %>";
     var graphData = JSON.parse(graphJsonString);
     console.log(graphData);
+    var maxLevel = 2;
+    var showKnowledgeBar = true;
 
     KnowledgeGraph.loadForceGraph();
 
