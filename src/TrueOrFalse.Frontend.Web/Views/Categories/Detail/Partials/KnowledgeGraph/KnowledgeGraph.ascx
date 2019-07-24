@@ -15,13 +15,6 @@
     var maxNodeCount = 50;
     var showKnowledgeBar = true;
 
-    if (graphData.nodes.length > 50) {
-        console.log("unfiltered nodes:");
-        console.log(graphData.nodes);
-        console.log("unfiltered links:");
-        console.log(graphData.links);
-    }
-
     KnowledgeGraph.loadForceGraph();
 
     function toggleRad() {

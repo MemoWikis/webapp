@@ -10,8 +10,9 @@ class KnowledgeGraph {
 
     static limitNodeLevel() {
         if (maxLevel > -1) {
-            var filteredGraph = graphData.nodes.filter(function (d) { return d.Level >= 0; });
-            return graphNodes = filteredGraph.filter(function (d) { return d.Level <= maxLevel; });
+            return graphNodes = graphData.nodes
+                .filter(function (d) { return d.Level >= 0; })
+                .filter(function (d) { return d.Level <= maxLevel; });
         } else {
             return graphNodes = graphData.nodes;
         }
@@ -19,10 +20,11 @@ class KnowledgeGraph {
 
     static limitLinkLevel() {
         if (maxLevel > -1) {
-            var filteredLinks = graphData.links.filter(function (d) { return d.level >= 0; });
-            return graphLinks = filteredLinks.filter(function (d) { return d.level <= maxLevel; });
+            return graphLinks = graphData.links
+                .filter(function (d) { return d.level >= 0; })
+                .filter(function (d) { return d.level <= maxLevel; });
         } else {
-            return graphLinks;
+            return graphLinks = graphData.links;
         }
     }
 
@@ -30,17 +32,14 @@ class KnowledgeGraph {
         graphNodes = await this.limitNodeLevel();
         graphLinks = await this.limitLinkLevel();
 
-        if (maxNodeCount > -1) {
-            if (graphNodes.length > maxNodeCount) {
-                graphNodes = graphNodes.slice(0, maxNodeCount);
-                graphLinks = graphLinks
-                    .filter(function (l) { return l.source < maxNodeCount; })
-                    .filter(function (l) { return l.target < maxNodeCount; });
-                return true;
-            }
-        } else {
-            return true;
+        if (maxNodeCount > -1 && graphNodes.length > maxNodeCount) {
+            graphNodes = graphNodes.slice(0, maxNodeCount);
+            graphLinks = graphLinks
+                .filter(function(l) { return l.source < maxNodeCount; })
+                .filter(function(l) { return l.target < maxNodeCount; });
         }
+
+        return true;
     }
 
     static async loadForceGraph() {
