@@ -14,9 +14,6 @@ function isAnswered(elementName: string) {
     if (parseInt($(elementName).attr("data-answersTrue")) === 0 &&
         parseInt($(elementName).attr("data-answersFalse")) === 0)
         return false;
-    console.log(parseInt($(elementName).attr("data-answersTrue")) +
-        "/" +
-        parseInt($(elementName).attr("data-answersFalse")));
     return true; 
 }
 
