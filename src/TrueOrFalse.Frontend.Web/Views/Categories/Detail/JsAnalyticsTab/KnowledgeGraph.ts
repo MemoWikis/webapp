@@ -2,6 +2,7 @@
 declare var maxLevel: any;
 declare var maxNodeCount: any;
 declare var showKnowledgeBar: any;
+var dataIsReady = false;
 
 declare var graphNodes: any;
 declare var graphLinks: any;
@@ -37,9 +38,8 @@ class KnowledgeGraph {
             graphLinks = graphLinks
                 .filter(function(l) { return l.source < maxNodeCount; })
                 .filter(function(l) { return l.target < maxNodeCount; });
+            return dataIsReady = true;
         }
-
-        return true;
     }
 
     static async loadForceGraph() {
@@ -51,7 +51,8 @@ class KnowledgeGraph {
         var nodes = [];
         var links = [];
 
-        const dataReady = await this.limitGraphNodes();
+        if (!dataIsReady)
+            await this.limitGraphNodes();
 
         nodes = graphNodes;
         links = graphLinks;
@@ -322,8 +323,9 @@ class KnowledgeGraph {
 
         update();
 
-        const dataReady = await this.limitGraphNodes();
-        await importGraph();
+        if (!dataIsReady)
+            await this.limitGraphNodes();
+        importGraph();
 
         function update() {
             lines = lines.data(edges, function (d) {
