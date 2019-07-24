@@ -14,8 +14,8 @@ class KnowledgeGraph {
         var links = [];
 
         if (maxLevel > -1) {
-            var filteredGraph = nodes.filter(function (d) { return d.Level >= 0; });
-            var filteredLinks = links.filter(function (d) { return d.level >= 0; });
+            var filteredGraph = graphData.nodes.filter(function (d) { return d.Level >= 0; });
+            var filteredLinks = graphData.links.filter(function (d) { return d.level >= 0; });
             nodes = filteredGraph.filter(function (d) { return d.Level <= maxLevel; });
             links = filteredLinks.filter(function (d) { return d.level <= maxLevel; });
         } else {
