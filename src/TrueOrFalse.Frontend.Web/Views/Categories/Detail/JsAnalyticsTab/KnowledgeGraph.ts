@@ -1,10 +1,49 @@
 ﻿declare var graphData: any;
 declare var maxLevel: any;
+declare var maxNodeCount: any;
 declare var showKnowledgeBar: any;
+
+declare var graphNodes: any;
+declare var graphLinks: any;
 
 class KnowledgeGraph {
 
-    static loadForceGraph() {
+    static limitNodeLevel() {
+        if (maxLevel > -1) {
+            var filteredGraph = graphData.nodes.filter(function (d) { return d.Level >= 0; });
+            return graphNodes = filteredGraph.filter(function (d) { return d.Level <= maxLevel; });
+        } else {
+            return graphNodes = graphData.nodes;
+        }
+    }
+
+    static limitLinkLevel() {
+        if (maxLevel > -1) {
+            var filteredLinks = graphData.links.filter(function (d) { return d.level >= 0; });
+            return graphLinks = filteredLinks.filter(function (d) { return d.level <= maxLevel; });
+        } else {
+            return graphLinks;
+        }
+    }
+
+    static async limitGraphNodes() {
+        graphNodes = await this.limitNodeLevel();
+        graphLinks = await this.limitLinkLevel();
+
+        if (maxNodeCount > -1) {
+            if (graphNodes.length > maxNodeCount) {
+                graphNodes = graphNodes.slice(0, maxNodeCount);
+                graphLinks = graphLinks
+                    .filter(function (l) { return l.source < maxNodeCount; })
+                    .filter(function (l) { return l.target < maxNodeCount; });
+                return true;
+            }
+        } else {
+            return true;
+        }
+    }
+
+    static async loadForceGraph() {
 
         var width = 810;
         var height = 600;
@@ -13,15 +52,13 @@ class KnowledgeGraph {
         var nodes = [];
         var links = [];
 
-        if (maxLevel > -1) {
-            var filteredGraph = graphData.nodes.filter(function (d) { return d.Level >= 0; });
-            var filteredLinks = graphData.links.filter(function (d) { return d.level >= 0; });
-            nodes = filteredGraph.filter(function (d) { return d.Level <= maxLevel; });
-            links = filteredLinks.filter(function (d) { return d.level <= maxLevel; });
-        } else {
-            nodes = graphData.nodes;
-            links = graphData.links;
-        }
+        const dataReady = await this.limitGraphNodes();
+
+        nodes = graphNodes;
+        links = graphLinks;
+
+        console.log(graphNodes);
+        console.log(graphLinks);
 
         var label = {
             'nodes': [],
@@ -215,7 +252,7 @@ class KnowledgeGraph {
         };
     }
 
-    static loadDwarfGraph() {
+    static async loadDwarfGraph() {
 
         'use strict';
          // INIT
@@ -285,8 +322,9 @@ class KnowledgeGraph {
         simulation.force('y').strength(0.03);
 
         update();
-        
-        importGraph();
+
+        const dataReady = await this.limitGraphNodes();
+        await importGraph();
 
         function update() {
             lines = lines.data(edges, function (d) {
@@ -553,21 +591,9 @@ class KnowledgeGraph {
 
         function importGraph() {
             // TODO: check for duplicate IDs
-            var graph = graphData;
 
-            vertices = [];
-            edges = [];
-
-            if (maxLevel > -1) {
-                var filteredGraph = graph.nodes.filter(function(d) { return d.Level >= 0; });
-                var filteredLinks = graph.links.filter(function(d) { return d.level >= 0; });
-                vertices = filteredGraph.filter(function(d) { return d.Level <= maxLevel; });
-                edges = filteredLinks.filter(function(d) { return d.level <= maxLevel; });
-            } else {
-                vertices = graph.nodes;
-                edges = graph.links;
-            }
-
+            vertices = graphNodes;
+            edges = graphLinks;
 
             update();
             simulation.alpha(1).restart();
