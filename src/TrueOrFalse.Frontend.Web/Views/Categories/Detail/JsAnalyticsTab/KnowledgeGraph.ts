@@ -1,13 +1,28 @@
-﻿declare var graphData: any;
-declare var maxLevel: any;
-declare var maxNodeCount: any;
-declare var showKnowledgeBar: any;
+﻿declare const graphJsonString: any;
+
+var maxLevel = 3;
+var maxNodeCount = 50;
 var dataIsReady = false;
+var showKnowledgeBar = true;
+var currentGraph = "radialNodeGraph";
 
 declare var graphNodes: any;
 declare var graphLinks: any;
+declare var graphData: any;
 
 class KnowledgeGraph {
+
+    static setGraphData(level, count, knowledgeBar) {
+        graphData = JSON.parse(graphJsonString);
+        maxLevel = level;
+        maxNodeCount = count;
+        showKnowledgeBar = knowledgeBar;
+        dataIsReady = false;
+        if (currentGraph == "rectangleNodeGraph")
+            this.loadRectangleNodeGraph();
+        else
+            this.loadRadialNodeGraph();
+    }
 
     static limitNodeLevel() {
         if (maxLevel > -1) {
@@ -42,7 +57,8 @@ class KnowledgeGraph {
         }
     }
 
-    static async loadForceGraph() {
+    static async loadRadialNodeGraph() {
+        currentGraph = 'radialNodeGraph';
 
         var width = 810;
         var height = 600;
@@ -56,9 +72,6 @@ class KnowledgeGraph {
 
         nodes = graphNodes;
         links = graphLinks;
-
-        console.log(graphNodes);
-        console.log(graphLinks);
 
         var label = {
             'nodes': [],
@@ -252,7 +265,8 @@ class KnowledgeGraph {
         };
     }
 
-    static async loadDwarfGraph() {
+    static async loadRectangleNodeGraph() {
+        currentGraph = 'rectangleNodeGraph';
 
         'use strict';
          // INIT
@@ -270,8 +284,8 @@ class KnowledgeGraph {
             .attr("height", "100%")
             .attr("fill", "white");
 
-        var world = svg.append('g')
-            .attr('id', 'world')
+        var svgContainer = svg.append('g')
+            .attr('id', 'svgContainer')
             .attr('transform', 'translate(' + width / 2 + ',' + height / 2 + ')');
 
         svg
@@ -296,10 +310,10 @@ class KnowledgeGraph {
             .attr('d', 'M 0 -5 L 10 0 L 0 5')
             .attr('style', 'fill: #000; stroke: none');
 
-        var buildings = world.selectAll('g');
-        var lines = world.selectAll('g');
+        var nodes = svgContainer.selectAll('g');
+        var links = svgContainer.selectAll('g');
 
-        var linePreview = world
+        var linkPreview = svgContainer
             .append('path');
 
         var vertices = [];
@@ -307,7 +321,7 @@ class KnowledgeGraph {
 
         var source = null,
             target = null,
-            line = null; // rename this (represents an edge)
+            link = null; // rename this (represents an edge)
 
         var dragging = true;
 
@@ -328,44 +342,44 @@ class KnowledgeGraph {
         importGraph();
 
         function update() {
-            lines = lines.data(edges, function (d) {
+            links = links.data(edges, function (d) {
                 return d.index;
             });
-            lines.exit().remove();
-            var enter = lines.enter().append('g')
-                .on('mouseover', lineHover)
-                .on('mouseout', lineUnHover);
+            links.exit().remove();
+            var enter = links.enter().append('g')
+                .on('mouseover', linkHover)
+                .on('mouseout', linkUnHover);
             enter.append('path')
                 .style('marker-end', 'url(#end-arrow)');
-            lines = lines.merge(enter);
+            links = links.merge(enter);
 
-            buildings = buildings.data(vertices, function (d) {
+            nodes = nodes.data(vertices, function (d) {
                 return d.Id;
             });
-            buildings.exit().remove();
-            enter = buildings.enter().append('g')
-                .on('mouseover', bldgHover)
-                .on('mouseout', bldgUnHover)
+            nodes.exit().remove();
+            enter = nodes.enter().append('g')
+                .on('mouseover', nodeHover)
+                .on('mouseout', nodeUnHover)
                 .call(d3.drag()
-                    .on('start', bldgDragStart)
-                    .on('drag', bldgDragProgress)
-                    .on('end', bldgDragEnd)
+                    .on('start', nodeDragStart)
+                    .on('drag', nodeDragProgress)
+                    .on('end', nodeDragEnd)
                 );
             enter.append('text');
             enter.append('rect');
 
-            buildings = buildings.merge(enter);
+            nodes = nodes.merge(enter);
 
-            buildings.classed('selected', function (d) {
+            nodes.classed('selected', function (d) {
                 return d.selected;
             });
-            lines.classed('selected', function (d) {
+            links.classed('selected', function (d) {
                 return d.selected;
             })
                     .attr("stroke", "#999")
                     .attr("stroke-width", "1px");
 
-            buildings.selectAll('text')
+            nodes.selectAll('text')
                 .text(function (d) { return d.Title; })
                 .attr('height', 10)
                 .attr('transform', function () {
@@ -373,7 +387,7 @@ class KnowledgeGraph {
                     return 'translate(-' + b.width / 2 + ',' + 10 / 2 + ')';
                 })
                 .attr('style', 'cursor: default');
-            buildings.selectAll('rect')
+            nodes.selectAll('rect')
                 .each(function (d) {
                     let textBox = this.parentNode.querySelector('text');
                     if (textBox == null) {
@@ -395,15 +409,15 @@ class KnowledgeGraph {
 
             if (showKnowledgeBar) {
 
-                var solidKnowledgeBar = buildings
+                var solidKnowledgeBar = nodes
                     .append('g');
-                var needsLearningKnowledgeBar = buildings
+                var needsLearningKnowledgeBar = nodes
                     .append('g');
-                var needsConsolidationKnowledgeBar = buildings
+                var needsConsolidationKnowledgeBar = nodes
                     .append('g');
-                var notLearnedKnowledgeBar = buildings
+                var notLearnedKnowledgeBar = nodes
                     .append('g');
-                var notInWishKnowledgeBar = buildings
+                var notInWishKnowledgeBar = nodes
                     .append('g');
 
                 const knowledgeBar = {
@@ -487,7 +501,7 @@ class KnowledgeGraph {
 
             
 
-            lines.lower();
+            links.lower();
             d3.selectAll('text').raise();
 
             simulation.nodes(vertices);
@@ -498,9 +512,9 @@ class KnowledgeGraph {
         }
 
         function tick() {
-            lines.each(drawPath);
+            links.each(drawPath);
 
-            buildings.attr('transform', function (d) {
+            nodes.attr('transform', function (d) {
                 return 'translate(' + d.x + ',' + d.y + ')';
             });
         }
@@ -529,12 +543,12 @@ class KnowledgeGraph {
             let y2a;
 
             if (Math.abs(m12) > Math.abs(m2)) {
-                // if slope of line is greater than aspect ratio of box
-                // line exits out the bottom
+                // if slope of link is greater than aspect ratio of box
+                // link exits out the bottom
                 x2a = x2 + dy / Math.abs(dy) * h2 / m12;
                 y2a = y2 + dy / Math.abs(dy) * h2;
             } else {
-                // line exits out the side
+                // link exits out the side
                 x2a = x2 + dx / Math.abs(dx) * w2;
                 y2a = y2 + dx / Math.abs(dx) * w2 * m12;
             }
@@ -546,21 +560,21 @@ class KnowledgeGraph {
                 `);
         }
 
-        function bldgDragStart(d) {
+        function nodeDragStart(d) {
             source = d;
 
             dragging = true; // dragging the bldg
         }
 
-        function bldgDragProgress(d) {
+        function nodeDragProgress(d) {
             source.fx = d3.event.x;
             source.fy = d3.event.y;
 
                 simulation.alpha(0.3).restart();
         }
 
-        function bldgDragEnd(d) {
-            linePreview
+        function nodeDragEnd(d) {
+            linkPreview
                 .style('display', 'none');
 
             if (!d.fixed) {
@@ -572,22 +586,22 @@ class KnowledgeGraph {
         }
 
 
-        function bldgHover(d) {
+        function nodeHover(d) {
             target = d;
             d3.select(this).attr('stroke-width', 3);
         }
 
-        function bldgUnHover(d) {
+        function nodeUnHover(d) {
             target = null;
             d3.select(this).attr('stroke-width', 1);
         }
 
-        function lineHover(d) {
-            line = d;
+        function linkHover(d) {
+            link = d;
         }
 
-        function lineUnHover(d) {
-            line = null;
+        function linkUnHover(d) {
+            link = null;
         }
 
         function importGraph() {
@@ -601,7 +615,7 @@ class KnowledgeGraph {
         }
 
         function zoomed() {
-            world.attr('transform', d3.event.transform);
+            svgContainer.attr('transform', d3.event.transform);
         }
     }
 }
