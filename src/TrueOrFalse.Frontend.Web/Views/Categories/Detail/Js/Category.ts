@@ -5,6 +5,7 @@
     private _categoryVersion = null;
     private _tab: Tabbing;
     private _lastTabName: string;
+    private _url: string; 
 
     constructor() {
         this.CategoryId = $("#hhdCategoryId").val();
@@ -12,18 +13,18 @@
         this.pushUrlAndSetactiveByClick(this._categoryName, this.CategoryId);
         this.hasAndSetTabActive();
         this._tab = new Tabbing(this.CategoryId);
-        var url = window.location.pathname;
+        this._url = window.location.pathname;
 
         window.addEventListener('popstate',
             (event) => {
-                
+                this._url = window.location.pathname;
 
                 this.hasAndSetTabActive();
-                this.renderOrDisplayTab(url);
+                this.renderOrDisplayTab(this._url);
             });
 
-        if (url.indexOf("Analytics"))
-            this.renderOrDisplayTab(url);
+        if (this._url.indexOf("Analytics") > 0 )
+            this.renderOrDisplayTab(this._url);
     }
 
     private pushUrlAndSetactiveByClick(_categoryName: string, categoryId: number) {
@@ -91,7 +92,7 @@
 
         } else if (url.indexOf("Analytics") >= 0) {
 
-            if ($.trim($("#knowledgeGraphData").html()) === "") {
+            if ($.trim($(".knowledgeGraphData").html()) === "") {
                 this._tab.RenderTabContent("AnalyticsTab");
                 Utils.ShowSpinner();
             }

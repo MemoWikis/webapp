@@ -47,7 +47,6 @@
 
     public RenderTabContent(tabName: string): void {
         var url = "/Category/Tab/?tabName=" + tabName + "&categoryId=" + this._categoryId;
-        console.log(this._categoryId);
 
         $.get(url, (html) => {
             Utils.HideSpinner();
