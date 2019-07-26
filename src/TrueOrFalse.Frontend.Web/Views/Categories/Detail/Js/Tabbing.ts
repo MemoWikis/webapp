@@ -25,22 +25,22 @@
         $('#TabsBar .Tab').each((index, item) => {
 
             var tab = $(item);
-            var tabname = tab.attr('id');
+            var tabName = tab.attr('id');
 
             tab.click((e) =>  {
 
                 e.preventDefault();
                 if (tab.hasClass('LoggedInOnly') && NotLoggedIn.Yes()) {
-                    NotLoggedIn.ShowErrorMsg(tabname);
+                    NotLoggedIn.ShowErrorMsg(tabName);
                     return;
                 }
 
-                if (!this.ContentIsPresent(tabname)) {
+                if (!this.ContentIsPresent(tabName)) {
                     Utils.ShowSpinner();
-                    this.RenderTabContent(tabname);
+                    this.RenderTabContent(tabName);
                 }
 
-                this.ShowTab(tabname);
+                this.ShowTab(tabName);
             });
         });
     }

@@ -10,7 +10,7 @@
     constructor() {
         this.CategoryId = $("#hhdCategoryId").val();
         this._categoryName = $("#hhdCategoryName").val();
-        this.pushUrlAndSetactiveByClick(this._categoryName, this.CategoryId);
+        this.pushUrlAndSetActiveByClick(this._categoryName, this.CategoryId);
         this.hasAndSetTabActive();
         this._tab = new Tabbing(this.CategoryId);
         this._url = window.location.pathname;
@@ -23,53 +23,53 @@
                 this.renderOrDisplayTab(this._url);
             });
 
-        if (this._url.indexOf("Analytics") > 0 )
             this.renderOrDisplayTab(this._url);
     }
 
-    private pushUrlAndSetactiveByClick(_categoryName: string, categoryId: number) {
+    private pushUrlAndSetActiveByClick(_categoryName: string, categoryId: number) {
+
+        const url = '/' + this._categoryName + '/' + this.CategoryId;
+
         $("#TopicTab").on("click",
             () => {
-                var url = '/' + this._categoryName + '/' + this.CategoryId;
-                var tabname = "TopicTab";
-                this.historyPushAndsetActive(url, tabname);
+                const tabName = "TopicTab";
+                this.historyPushAndSetActive(url, tabName);
             });
 
         $("#LearningTab").on("click",
             () => {
-                var url = '/' + this._categoryName + '/' + this.CategoryId + '/Lernen';
-                var tabname = "LearningTab";
-                this.historyPushAndsetActive(url, tabname);
+                var newUrl = url + '/Lernen';
+                const tabName = "LearningTab";
+                this.historyPushAndSetActive(newUrl, tabName);
             });
 
         $("#AnalyticsTab").on("click",
-            (e) => {
-
-                var url = '/' + this._categoryName + '/' + this.CategoryId + '/Analytics';
-                var tabname = "Analyticstab";
-                this.historyPushAndsetActive(url, tabname);
+            () => {
+                var newUrl = url + '/Analytics';
+                const tabName = "AnalyticsTab";
+                this.historyPushAndSetActive(newUrl, tabName);
             });
     }
 
-    private historyPushAndsetActive(currentUrl: string, tabname: string) {
+    private historyPushAndSetActive(currentUrl: string, tabName: string) {
 
-        if (tabname !== this._lastTabName) {
-            window.history.pushState(tabname, 'Tab', currentUrl);
+        if (tabName != this._lastTabName) {
+            window.history.pushState(tabName, 'Tab', currentUrl);
             this.hasAndSetTabActive();
-            this._lastTabName = tabname;
+            this._lastTabName = tabName;
         }
     }
 
     private hasAndSetTabActive() {
-        var url = window.location.pathname; 
-        if (url.indexOf("Lernen") >= 0 && !$("#LearningTab").hasClass("active")) {
-            $("#LearningTab").addClass("active");
+        let url = window.location.pathname; 
+        if (url.indexOf("Lernen") > 0 && !$("#LearningTab").hasClass("active")) {
             $("#AnalyticsTab").removeClass("active");
             $("#TopicTab").removeClass("active");
-        } else if (url.indexOf("Analytics") >= 0 && !$("#AnalyticsTab").hasClass("active")) {
+            $("#LearningTab").addClass("active");
+        } else if (url.indexOf("Analytics") > 0 && !$("#AnalyticsTab").hasClass("active")) {
             $("#LearningTab").removeClass("active");
-            $("#AnalyticsTab").addClass("active");
             $("#TopicTab").removeClass("active");
+            $("#AnalyticsTab").addClass("active");
         } else {
             $("#LearningTab").removeClass("active");
             $("#AnalyticsTab").removeClass("active");
@@ -78,9 +78,9 @@
     }
 
     private renderOrDisplayTab(url: string): void {
-        if (url.indexOf("Lernen") >= 0) {
+        if (url.indexOf("Lernen") > 0) {
 
-            if ($.trim($("#LearningTabContent").html()) === "") {
+            if ($.trim($("#LearningTabContent").html()) == "") {
                 this._tab.RenderTabContent("LearningTab");
                 Utils.ShowSpinner();
             }
@@ -90,9 +90,9 @@
             $("#TopicTabContent").css("display", "none");
             $("#AnalyticsTabContent").css("display", "none");
 
-        } else if (url.indexOf("Analytics") >= 0) {
+        } else if (url.indexOf("Analytics") > 0) {
 
-            if ($.trim($(".knowledgeGraphData").html()) === "") {
+            if ($.trim($(".knowledgeGraphData").html()) == "") {
                 this._tab.RenderTabContent("AnalyticsTab");
                 Utils.ShowSpinner();
             }
@@ -101,10 +101,8 @@
 
             $("#TopicTabContent").css("display", "none");
             $("#LearningTabContent").css("display", "none");
-        }
-
-        else {
-            if ($.trim($("#TopicTabContent").html()) === "") {
+        } else {
+            if ($.trim($("#TopicTabContent").html()) == "") {
                 this._tab.RenderTabContent("TopicTab");
                 Utils.ShowSpinner();
             }
