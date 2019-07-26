@@ -20,7 +20,6 @@
             });
         }
 
-      
 
         $('#TabsBar .Tab').each((index, item) => {
 
@@ -52,7 +51,7 @@
             Utils.HideSpinner();
             $('#' + tabName + 'Content').empty().append(html);
 
-            if (tabName === "LearningTab" && $('#hddLearningSessionStarted').val() === "False" && $('#hddQuestionCount').val() !== "0") {
+            if (tabName == "LearningTab" && $('#hddLearningSessionStarted').val() == "False" && $('#hddQuestionCount').val() != 0) {
                 var answerBody = new AnswerBody();
                 if (!$("#LearningTabContent").css("visibility", "visible"))
                     $("#LearningTabContent").css("visibility", "visible");
@@ -69,7 +68,7 @@
                     $("#TabContent .show-tooltip").tooltip();
                 });
             }
-            if (tabName == "AnalyticsTab") {
+            else if (tabName == "AnalyticsTab") {
                 this.loadKnowledgeData();
             }
         });
