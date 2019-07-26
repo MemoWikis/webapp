@@ -72,7 +72,7 @@ public class GetCategoryGraph
 
     private static void AssignNodeLevels(IList<Node> nodes, List<Link> links)
     {
-        var maxLevels = 7;
+        var maxLevels = 10;
         var nodesDictionary = nodes.ToDictionary(node => node.Id);
         var rootNode = nodes.First(node => node.Id == 0);
 

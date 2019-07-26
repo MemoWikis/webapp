@@ -10,7 +10,23 @@ declare var graphNodes: any;
 declare var graphLinks: any;
 declare var graphData: any;
 
+declare var nodeCount: any;
+declare var graphDepth: any;
+
 class KnowledgeGraph {
+
+    static initGraphData() {
+        const _graphData = JSON.parse(graphJsonString);
+        const _nodes = _graphData.nodes;
+        nodeCount = _nodes.length;
+        if (_nodes.some(item => item.Level == -1))
+            graphDepth = -1;
+        else {
+            graphDepth = _nodes.sort(function(a, b) {
+                    return parseFloat(b['Level']) - parseFloat(a['Level']);
+                })[0]['Level'];
+        }
+    }
 
     static setGraphData(level, count, knowledgeBar) {
         graphData = JSON.parse(graphJsonString);

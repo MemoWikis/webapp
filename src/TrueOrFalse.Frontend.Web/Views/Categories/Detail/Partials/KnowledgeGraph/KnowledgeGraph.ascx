@@ -1,24 +1,33 @@
 ﻿<%@ Control Language="C#" Inherits="System.Web.Mvc.ViewUserControl<KnowledgeGraphModel>" %>
 
 
-<input type="number" id="graphMaxLevel" onchange="setGraph()" value="3">
-<input type="number" id="graphMaxNodeCount" onchange="setGraph()" value="50">
-<input type="checkbox" id="graphShowKnowledgeGraph" onclick="setGraph()">
-
-<div class="btn btn-primary" onclick="setGraph()">Aktualisieren</div>   
-
-<div class="btn btn-primary" onclick="toggleRad()">Ansicht 1</div>       
-<div class="btn btn-primary" onclick="toggleRect()">Ansicht 2 (experimentell)</div>       
-
-<div class="btn btn-primary" onclick="toggleFullscreen()">Vollbild</div>       
-
 
 <script type="text/javascript">
 
     var graphJsonString = "<%= @Model.GraphDataString %>";
-    document.getElementById("graphShowKnowledgeGraph").checked = true;
+
+    KnowledgeGraph.initGraphData();
+
+    initSettings();
 
     setGraph();
+
+    function initSettings()
+    {
+        if (graphDepth == -1)
+            document.getElementById("graphMaxLevel").max = 11;
+        else
+            document.getElementById("graphMaxLevel").max = graphDepth;
+
+        if (graphDepth < 3 && graphDepth > -1)
+            document.getElementById("graphMaxLevel").value = graphDepth;
+
+        document.getElementById("graphMaxNodeCount").max = nodeCount;
+        if (nodeCount < 50)
+            document.getElementById("graphMaxNodeCount").value = nodeCount;
+
+        document.getElementById("graphShowKnowledgeGraph").checked = true;
+    }
 
     function setGraph() {
         var maxLevel = document.getElementById("graphMaxLevel").value;
