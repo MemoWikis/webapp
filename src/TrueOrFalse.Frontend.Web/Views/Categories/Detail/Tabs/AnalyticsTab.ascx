@@ -42,20 +42,24 @@
                 </div>
 
             </div>
+            
+            <div id="nodeCountWarning" class="alert alert-warning hidden">
+                <strong>Achtung!</strong> Eine zu hohe Anzahl an Knotenpunkten kann die Performance beeinträchtigen.
+            </div>
         </div>
     </div>
     
     <div id="knowledgeGraphFullscreen" style="font-size: 18px;">
-        <div class="btn btn-link" type="button" style="padding:5px 10px">
+        <div class="fullScreen-btn btn btn-link " type="button">
             <i id="toggleFullScreenGraph" class="fas fa-expand" style="font-size:18px" onclick="toggleFullscreen()"></i>
         </div>
     </div>
 
-    <div id="knowledgeBarCheckBox" style="font-size: 12px;">
-        <span>Wissenstandsanzeige</span>
-        <label class="knowledgeGraphToggle">
+    <div id="knowledgeBarCheckBox" class="invisible">
+        <span class="knowledgeGraphBarLabel">Wissenstandsanzeige</span>
+        <label class="knowledgeGraphBarToggle">
             <input type="checkbox" id="graphShowKnowledgeGraph" onclick="setGraph()" checked>
-            <span class="toggle round"></span>
+            <span class="graphToggle round"></span>
         </label>
     </div>
 </div>

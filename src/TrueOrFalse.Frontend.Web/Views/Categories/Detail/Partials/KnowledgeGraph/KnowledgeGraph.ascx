@@ -22,10 +22,21 @@
     });
 
     function setNodeCountValue(val) {
-        if (val == 'slider')
-            document.getElementById("nodeCountValue").value = document.getElementById("graphMaxNodeCount").value;
+
+        var newNodeCount;
+
+        if (val == 'slider') {
+            newNodeCount = document.getElementById("graphMaxNodeCount").value;
+            document.getElementById("nodeCountValue").value = newNodeCount;
+        } else {
+            newNodeCount = document.getElementById("nodeCountValue").value;
+            document.getElementById("graphMaxNodeCount").value = newNodeCount;
+        }
+
+        if (newNodeCount > 100)
+            $('#nodeCountWarning').removeClass("hidden");
         else
-            document.getElementById("graphMaxNodeCount").value = document.getElementById("nodeCountValue").value;
+            $('#nodeCountWarning').addClass("hidden");
     }
 
     function setNodeLevelValue(val) {
@@ -79,13 +90,14 @@
         KnowledgeGraph.loadRadialNodeGraph();
         $('#rectNodeButton').removeClass('selected');
         $('#radNodeButton').addClass('selected');
-        $('#knowledgeBarCheckBox').style.display = "none";
+        $('#knowledgeBarCheckBox').addClass('invisible');
     }
     function toggleRect() {
         $('svg').empty();
         KnowledgeGraph.loadRectangleNodeGraph();
         $('#radNodeButton').removeClass('selected');
         $('#rectNodeButton').addClass('selected');
+        $('#knowledgeBarCheckBox').removeClass('invisible');
     }
 
     function toggleFullscreen() {
