@@ -1615,6 +1615,167 @@ p:empty {
         }
     }
 
+#KnowledgeGraphTools {
+    display: flex;
+    flex-direction: row-reverse;
+
+    #graphToolbar, #knowledgeGraphFullscreen, #knowledgeBarCheckBox {
+        padding: 0 5px;
+        color: #999999;
+        line-height: 20px;
+        vertical-align: middle;
+
+        #graphDropdownMenu {
+            padding: 3px 10px;
+
+            .selectionContainer {
+                padding: 0 10px;
+
+                img {
+                    width: 100%;
+                }
+
+                label {
+                    color: #333333;
+                }
+            }
+
+            .sliderContainer, .selectionContainer {
+                margin: 30px 0;
+
+                .sliderLabel {
+                    display: flex;
+                    justify-content: space-between;
+                    color: #333333;
+
+                    label {
+                        padding: 0 10px;
+                    }
+
+                    input {
+                        text-align: right;
+                        margin-bottom: 5px;
+                        border: none;
+                    }
+                }
+
+                #GraphSelectionContainer {
+                    display: flex;
+                    justify-content: space-between;
+                    border-bottom: solid 1px #d6d6d6;
+
+
+                    .btn {
+                        width: 120px;
+                        height: 70px;
+                        margin: 0 3px;
+                        border-radius: 0;
+                        border: none;
+
+                        &.hover {
+                            background-color: #f5f5f5;
+                        }
+
+                        &.selected {
+                            border-bottom: solid 6px transparent;
+                            border-bottom-color: #003264;
+                        }
+                    }
+                }
+            }
+        }
+
+        i {
+            font-size: 18px;
+            color: #999999;
+        }
+
+        .slider {
+            -webkit-appearance: none;
+            width: 100%;
+            height: 6px;
+            border-radius: 5px;
+            background: #003264;
+            outline: none;
+            opacity: 0.7;
+            -webkit-transition: .2s;
+            transition: opacity .2s;
+        }
+
+        .slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: #fff;
+            border-color: #D6D6D6;
+            border-width: 0.1px;
+            box-shadow: 0 2px 5px 0 rgba(0,0,0,0.5);
+            cursor: pointer;
+        }
+
+        .slider::-moz-range-thumb {
+            width: 25px;
+            height: 25px;
+            border-radius: 50%;
+            background: #4CAF50;
+            cursor: pointer;
+        }
+    }
+
+    #knowledgeBarCheckBox {
+
+        .knowledgeGraphToggle {
+            position: relative;
+            display: inline-block;
+            width: 20px;
+            height: 17px;
+
+            input {
+                opacity: 0;
+                width: 0;
+                height: 0;
+            }
+        }
+
+        .knowledgeGraphToggle .toggle {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            transition: .1s;
+            border-radius: 17px;
+        }
+
+        .toggle:before {
+            position: absolute;
+            height: 13px;
+            width: 13px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            transition: .1s;
+            border-radius: 50%;
+        }
+
+        input:checked + .toggle {
+            background-color: #2196F3;
+        }
+
+        input:focus + .toggle {
+            box-shadow: 0 0 1px #2196F3;
+        }
+
+        input:checked + .toggle:before {
+            transform: translateX(26px);
+        }
+    }
+}
+    
 
 .setQuestionCount, .ItemInfo, .categoryQuestionCount {
     .Pin {
