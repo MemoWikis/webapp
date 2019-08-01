@@ -86,6 +86,11 @@
     }
 
     function toggleRad() {
+        document.getElementById("graphMaxNodeCount").max = nodeCount;
+        document.getElementById("nodeCountValue").max = nodeCount;
+        $('#knowledgebarWarning').addClass("hidden");
+
+
         $('svg').empty();
         KnowledgeGraph.loadRadialNodeGraph();
         $('#rectNodeButton').removeClass('selected');
@@ -93,7 +98,19 @@
         $('#knowledgeBarCheckBox').addClass('invisible');
     }
     function toggleRect() {
+        if (nodeCount > 50)
+            $('#knowledgebarWarning').removeClass("hidden");
+
         $('svg').empty();
+        if (nodeCount > 50) {
+            document.getElementById("graphMaxNodeCount").max = 50;
+            document.getElementById("nodeCountValue").max = 50;
+        }
+
+        if (document.getElementById("graphMaxNodeCount").value > 50) {
+            document.getElementById("graphMaxNodeCount").value = 50;
+            document.getElementById("nodeCountValue").value = 50;
+        }
         KnowledgeGraph.loadRectangleNodeGraph();
         $('#radNodeButton').removeClass('selected');
         $('#rectNodeButton').addClass('selected');

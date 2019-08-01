@@ -11,13 +11,21 @@
 
         <div id="graphDropdownMenu" class="dropdown-menu dropdown-menu-right" aria-labelledby="graphDropdown" style="">
             <div class="selectionContainer">
-                <label>Darstellung</label>
                 <div id="GraphSelectionContainer">
-                    <div id="radNodeButton" class="btn" onclick="toggleRad()">
-                        <img src="/Images/Various/RadNodeSelect.svg">
-                    </div> 
-                    <div id="rectNodeButton" class="btn" onclick="toggleRect()">
-                        <img src="/Images/Various/RectNodeSelect.svg">
+                    <div class="btn-group">
+                        <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Ansichtsauswahl <span class="caret"></span>
+                        </button>
+                        <div class="dropdown-menu">
+                            <div id="radNodeButton" class="btn-default" onclick="toggleRad()">
+                                <img src="/Images/Various/RadNodeSelect.svg">
+                                <span>Ansicht mit variabler Knotenpunktgrösse</span>
+                            </div> 
+                            <div id="rectNodeButton" class="btn-default" onclick="toggleRect()">
+                                <img src="/Images/Various/RectNodeSelect.svg">
+                                <span>Ansicht mit Wissensstandsanzeige</span>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -46,10 +54,14 @@
             <div id="nodeCountWarning" class="alert alert-warning hidden">
                 <strong>Achtung!</strong> Eine zu hohe Anzahl an Knotenpunkten kann die Performance beeinträchtigen.
             </div>
+            
+            <div id="knowledgebarWarning" class="alert alert-warning hidden">
+                <strong>Achtung!</strong> Aufgrund deiner Auswahl wurde das Limit anzeigbarer Knotenpunkte auf 50 gesetzt.
+            </div>
         </div>
     </div>
     
-    <div id="knowledgeGraphFullscreen" style="font-size: 18px;">
+    <div id="knowledgeGraphFullscreen">
         <div class="fullScreen-btn btn btn-link " type="button">
             <i id="toggleFullScreenGraph" class="fas fa-expand" style="font-size:18px" onclick="toggleFullscreen()"></i>
         </div>

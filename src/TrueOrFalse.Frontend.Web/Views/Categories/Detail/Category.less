@@ -1625,6 +1625,10 @@ p:empty {
         line-height: 20px;
         vertical-align: middle;
 
+        .btn {
+            padding: 5px 10px;
+        }
+
         #graphDropdownMenu {
             padding: 3px 10px;
 
@@ -1642,6 +1646,7 @@ p:empty {
 
             .sliderContainer, .selectionContainer {
                 margin: 30px 0;
+                width: 300px;
 
                 .sliderLabel {
                     display: flex;
@@ -1649,7 +1654,7 @@ p:empty {
                     color: #333333;
 
                     label {
-                        padding: 0 10px;
+                        padding: 0 20px;
                     }
 
                     input {
@@ -1691,34 +1696,53 @@ p:empty {
 
                 #GraphSelectionContainer {
                     display: flex;
-                    height: 67px;
                     justify-content: space-between;
                     border-bottom: solid 1px #d6d6d6;
 
+                    .dropdown-toggle{
+                        text-align: left;
+                    }
+
+                    .btn-group {
+                        width:100%;
+                        text-align:left;
+                    }
+
+                    #radNodeButton, #rectNodeButton {
+                        display: flex;
+                        padding: 10px;
+
+                        &:hover {
+                            cursor:pointer;
+                        }
+
+                        img{
+                            max-width:80px;
+                            padding:10px 20px 10px 10px;
+                        }
+                    }
+
                     .btn {
-                        width: 120px;
-                        height: 70px;
-                        margin: 0 3px;
                         border-radius: 0;
                         border: none;
 
-                        &.hover {
-                            background-color: #f5f5f5;
+                        &.btn-default {
+                            width: 100%;
+                            background-color:transparent;
                         }
 
-                        &.selected {
-                            border-bottom: solid 6px transparent;
-                            border-bottom-color: #003264;
+                        &.hover {
+                            background-color: #f5f5f5;
                         }
                     }
                 }
             }
 
-            .alert-warning{
+            .alert-warning {
                 margin: 0 10px 10px 10px;
                 padding: 5px 10px;
 
-                &.hidden{
+                &.hidden {
                     display: none;
                 }
             }
