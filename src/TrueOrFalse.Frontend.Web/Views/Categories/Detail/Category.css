@@ -2186,6 +2186,8 @@ p:empty {
 #KnowledgeGraphTools #knowledgeGraphFullscreen #graphDropdownMenu .selectionContainer #GraphSelectionContainer .dropdown-toggle,
 #KnowledgeGraphTools #knowledgeBarCheckBox #graphDropdownMenu .selectionContainer #GraphSelectionContainer .dropdown-toggle {
   text-align: left;
+  -webkit-border-radius: 4px !important;
+          border-radius: 4px !important;
 }
 #KnowledgeGraphTools #graphToolbar #graphDropdownMenu .sliderContainer #GraphSelectionContainer .btn-group,
 #KnowledgeGraphTools #knowledgeGraphFullscreen #graphDropdownMenu .sliderContainer #GraphSelectionContainer .btn-group,
@@ -2354,6 +2356,11 @@ p:empty {
 #KnowledgeGraphTools #knowledgeBarCheckBox input:checked + .graphToggle:before {
   -webkit-transform: translateX(15px);
           transform: translateX(15px);
+}
+#KnowledgeGraphHelpText {
+  padding-left: 20px;
+  font-size: 14px;
+  color: #999999;
 }
 .setQuestionCount .Pin .fa-heart-o,
 .ItemInfo .Pin .fa-heart-o,

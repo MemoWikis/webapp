@@ -56,7 +56,7 @@
             </div>
             
             <div id="knowledgebarWarning" class="alert alert-warning hidden">
-                <strong>Achtung!</strong> Aufgrund deiner Auswahl wurde das Limit anzeigbarer Knotenpunkte auf 50 gesetzt.
+                <strong>Achtung!</strong> Bei dieser Ansichtsauswahl wurde ein Limit von 50 Knotenpunkten gesetzt.
             </div>
         </div>
     </div>
@@ -81,3 +81,18 @@
     <svg id="graph-body" style="width: 100%; height: 100%;"></svg>
     <div class="knowledgeGraphData"></div>
 </div>
+
+<div id="KnowledgeGraphHelpText">
+    Steuerung:
+    <ul>
+        <li class="graphZoom">
+            <strong>Zoom</strong>
+            <span> - Mit dem Mausrad scrollen</span>
+        </li>
+        <li class="graphMovement">
+            <strong>Wissensnetz verschieben</strong>
+            <span> - Linke Maustaste gedrückt halten</span>
+        </li>
+    </ul>
+</div>
+
