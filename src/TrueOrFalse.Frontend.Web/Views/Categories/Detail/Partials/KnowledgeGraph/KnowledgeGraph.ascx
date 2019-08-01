@@ -82,6 +82,7 @@
             showKnowledgeGraph = true;
         else showKnowledgeGraph = false;
 
+        $('svg').empty();
         KnowledgeGraph.setGraphData(maxLevel, maxNodeCount, showKnowledgeGraph);
     }
 
@@ -101,7 +102,6 @@
         if (nodeCount > 50)
             $('#knowledgebarWarning').removeClass("hidden");
 
-        $('svg').empty();
         if (nodeCount > 50) {
             document.getElementById("graphMaxNodeCount").max = 50;
             document.getElementById("nodeCountValue").max = 50;
@@ -111,7 +111,9 @@
             document.getElementById("graphMaxNodeCount").value = 50;
             document.getElementById("nodeCountValue").value = 50;
         }
+        $('svg').empty();
         KnowledgeGraph.loadRectangleNodeGraph();
+        setGraph();
         $('#radNodeButton').removeClass('selected');
         $('#rectNodeButton').addClass('selected');
         $('#knowledgeBarCheckBox').removeClass('invisible');
