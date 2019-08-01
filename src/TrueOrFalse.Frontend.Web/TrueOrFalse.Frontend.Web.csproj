@@ -21571,6 +21571,8 @@
     <Content Include="Images\Users\77_50s.jpg" />
     <Content Include="Images\Users\77_85s.jpg" />
     <Content Include="Images\Various\graphExampleTransp.png" />
+    <Content Include="Images\Various\RadNodePreview.svg" />
+    <Content Include="Images\Various\RectNodePreview.svg" />
     <Content Include="Images\Various\tabAnalyticsMockup1.png" />
     <Content Include="Images\Various\treemapChartPsychology.png" />
     <Content Include="robots.txt">

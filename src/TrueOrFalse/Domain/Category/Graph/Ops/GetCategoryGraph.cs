@@ -1,6 +1,13 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Diagnostics.Eventing.Reader;
 using System.Linq;
+using System.Security.Cryptography.X509Certificates;
+using System.Web.Helpers;
 using System.Web.Mvc;
+using FluentNHibernate.Conventions;
+using FluentNHibernate.MappingModel.Output.Sorting;
 using GraphJsonDtos;
 using Newtonsoft.Json.Linq;
 
@@ -11,25 +18,12 @@ public class GetCategoryGraph
     {
         var graphData = Get(category);
 
-        var links = new List<Link>();
-        foreach (var link in graphData.links)
-        {
-            var parentIndex = graphData.nodes.FindIndex(node => node.Category == link.Parent);
-            var childIndex = graphData.nodes.FindIndex(node => node.Category == link.Child);
-            if (childIndex >= 0 || parentIndex >= 0)
-                links.Add(new Link { source = parentIndex, target = childIndex });
-        }
+        var links = GetLinks(graphData);
+        var nodes = GetNodes(category, graphData);
 
-     
-        var nodes = graphData.nodes.Select((node, index) => 
-            new Node
-            {
-                Id = index,
-                CategoryId = node.Category.Id,
-                Title = (node.Category.Name).Replace("\"", ""),
-                Knowledge = KnowledgeSummaryLoader.RunFromMemoryCache(category, Sl.SessionUser.UserId),
-           
-            });
+        AssignNodeLevels(nodes, links);
+        AssignLinkLevels(nodes, links);
+
         return new JsonResult
         {
             Data = new
@@ -38,6 +32,90 @@ public class GetCategoryGraph
                 links = links
             }
         };
+    }
+
+    private static List<Node> GetNodes(Category category, CategoryGraph graphData)
+    {
+        var nodes = graphData.nodes.Select((node, index) =>
+            new Node
+            {
+                Id = index,
+                CategoryId = node.Category.Id,
+                Title = (node.Category.Name).Replace("\"", ""),
+                Knowledge = KnowledgeSummaryLoader.RunFromMemoryCache(category, Sl.SessionUser.UserId),
+            }).ToList();
+        return nodes;
+    }
+
+    private static List<Link> GetLinks(CategoryGraph graphData)
+    {
+        var links = new List<Link>();
+        foreach (var link in graphData.links)
+        {
+            var parentIndex = graphData.nodes.FindIndex(node => node.Category == link.Parent);
+            var childIndex = graphData.nodes.FindIndex(node => node.Category == link.Child);
+            if (childIndex >= 0 || parentIndex >= 0)
+                links.Add(new Link
+                {
+                    source = parentIndex,
+                    target = childIndex,
+                });
+        }
+
+        return links;
+    }
+
+    public static void Test_AssignNodeLevels(IList<Node> nodes, List<Link> links)
+    {
+        AssignNodeLevels(nodes, links);
+    }
+
+    private static void AssignNodeLevels(IList<Node> nodes, List<Link> links)
+    {
+        var maxLevels = 10;
+        var nodesDictionary = nodes.ToDictionary(node => node.Id);
+        var rootNode = nodes.First(node => node.Id == 0);
+
+        //initialize all levels to -1
+        foreach (var node in nodes) node.Level = -1;
+
+        rootNode.Level = 0;
+
+        for (int currentLevel = 0; currentLevel < maxLevels; currentLevel++)
+        {
+            foreach(var nodeCurrentLevel in nodes.Where(node => node.Level == currentLevel))
+            {
+                foreach (var link in links)
+                {
+                    if (link.source == nodeCurrentLevel.Id)
+                    {
+                        var targetNode = nodesDictionary[link.target];
+                        if (targetNode.Level == -1)
+                            targetNode.Level = currentLevel + 1;
+                    }
+                }
+            }
+        }
+    }
+
+    public static void Test_AssignLinkLevels(IList<Node> nodes, List<Link> links)
+    {
+        AssignLinkLevels(nodes, links);
+    }
+
+    private static void AssignLinkLevels(IList<Node> nodes, List<Link> links)
+    {
+        var nodesDictionary = nodes.ToDictionary(node => node.Id);
+
+        foreach (var link in links) link.level = -1;
+
+        foreach (var link in links)
+        {
+            var sourceNode = nodesDictionary[link.source];
+            var targetNode = nodesDictionary[link.target];
+            if (sourceNode.Level != -1 && targetNode.Level != -1)
+                link.level = Math.Max(sourceNode.Level, targetNode.Level);
+        }
     }
 
     public static CategoryGraph Get(Category category)
