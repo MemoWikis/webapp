@@ -14,16 +14,16 @@
                 <div id="GraphSelectionContainer">
                     <div class="btn-group">
                         <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            Ansichtsauswahl <span class="caret"></span>
+                            <output id="graphSelection"></output> <span class="caret"></span>
                         </button>
                         <div class="dropdown-menu">
                             <div id="radNodeButton" class="btn-default" onclick="toggleRad()">
                                 <img src="/Images/Various/RadNodeSelect.svg">
-                                <span>Ansicht mit variabler Knotenpunktgrösse</span>
+                                <span>Knoten: Anzahl Unterthemen</span>
                             </div> 
                             <div id="rectNodeButton" class="btn-default" onclick="toggleRect()">
                                 <img src="/Images/Various/RectNodeSelect.svg">
-                                <span>Ansicht mit Wissensstandsanzeige</span>
+                                <span>Knoten: Wissensstand</span>
                             </div>
                         </div>
                     </div>
@@ -32,8 +32,8 @@
 
             <div class="sliderContainer">
                 <div class="sliderLabel"> 
-                    <label for="graphMaxLevel">Ebenentiefe</label>
-                    <input id="nodeLevelValue" class="col-sm-4"  type="number" for="graphMaxLevel" min="1" max="11" value="3" onchange="setGraph()" oninput="setNodeLevelValue(slider)">
+                    <label for="graphMaxLevel">Max. Ebenentiefe</label>
+                    <input id="nodeLevelValue" class="col-sm-4"  type="number" min="1" max="11" value="3" onchange="setGraph()" oninput="setNodeLevelValue(slider)">
                 </div>
                 <div class="col-sm-12">
                     <input id="graphMaxLevel" type="range" min="1" max="11" value="3" class="slider" onchange="setGraph()" oninput="setNodeLevelValue('slider')">
@@ -42,8 +42,8 @@
             
             <div class="sliderContainer">
                 <div class="sliderLabel">
-                    <label for="graphMaxNodeCount">Knotenpunkte</label>
-                    <input id="nodeCountValue" class="col-sm-4" type="number" for="graphMaxNodeCount" min="1" max="50" value="50" onchange="setGraph()" oninput="setNodeCountValue()" >
+                    <label for="graphMaxNodeCount">Max. Knotenpunkte</label>
+                    <input id="nodeCountValue" class="col-sm-4" type="number" min="1" max="50" value="50" onchange="setGraph()" oninput="setNodeCountValue()" >
                 </div>
                 <div class="col-sm-12">
                     <input id="graphMaxNodeCount"  type="range" min="1" max="50" class="slider graphMaxNodeCount" onchange="setGraph()" oninput="setNodeCountValue('slider')">
@@ -52,11 +52,11 @@
             </div>
             
             <div id="nodeCountWarning" class="alert alert-warning hidden">
-                <strong>Achtung!</strong> Eine zu hohe Anzahl an Knotenpunkten kann die Performance beeinträchtigen.
+                <strong>Achtung!</strong> Eine hohe Anzahl an Knotenpunkten kann die Seite verlangsamen.
             </div>
             
-            <div id="knowledgebarWarning" class="alert alert-warning hidden">
-                <strong>Achtung!</strong> Bei dieser Ansichtsauswahl wurde ein Limit von 50 Knotenpunkten gesetzt.
+            <div id="knowledgeBarWarning" class="alert alert-warning hidden">
+                <strong>Achtung!</strong> Ber der Darstellung des Wissensstandes können maximal 50 Knotenpunkte angezeigt werden.
             </div>
         </div>
     </div>

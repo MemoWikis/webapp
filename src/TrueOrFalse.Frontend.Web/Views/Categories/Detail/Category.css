@@ -2054,12 +2054,14 @@ p:empty {
 #KnowledgeGraphTools #graphToolbar #graphDropdownMenu,
 #KnowledgeGraphTools #knowledgeGraphFullscreen #graphDropdownMenu,
 #KnowledgeGraphTools #knowledgeBarCheckBox #graphDropdownMenu {
-  padding: 3px 10px;
+  padding: 6px 8px;
 }
 #KnowledgeGraphTools #graphToolbar #graphDropdownMenu .selectionContainer,
 #KnowledgeGraphTools #knowledgeGraphFullscreen #graphDropdownMenu .selectionContainer,
 #KnowledgeGraphTools #knowledgeBarCheckBox #graphDropdownMenu .selectionContainer {
   padding: 0 10px;
+  margin-top: 10px;
+  margin-bottom: 10px;
 }
 #KnowledgeGraphTools #graphToolbar #graphDropdownMenu .selectionContainer img,
 #KnowledgeGraphTools #knowledgeGraphFullscreen #graphDropdownMenu .selectionContainer img,
@@ -2073,11 +2075,15 @@ p:empty {
 }
 #KnowledgeGraphTools #graphToolbar #graphDropdownMenu .sliderContainer,
 #KnowledgeGraphTools #knowledgeGraphFullscreen #graphDropdownMenu .sliderContainer,
+#KnowledgeGraphTools #knowledgeBarCheckBox #graphDropdownMenu .sliderContainer {
+  margin: 15px 0 20px 0;
+}
+#KnowledgeGraphTools #graphToolbar #graphDropdownMenu .sliderContainer,
+#KnowledgeGraphTools #knowledgeGraphFullscreen #graphDropdownMenu .sliderContainer,
 #KnowledgeGraphTools #knowledgeBarCheckBox #graphDropdownMenu .sliderContainer,
 #KnowledgeGraphTools #graphToolbar #graphDropdownMenu .selectionContainer,
 #KnowledgeGraphTools #knowledgeGraphFullscreen #graphDropdownMenu .selectionContainer,
 #KnowledgeGraphTools #knowledgeBarCheckBox #graphDropdownMenu .selectionContainer {
-  margin: 30px 0;
   width: 300px;
 }
 #KnowledgeGraphTools #graphToolbar #graphDropdownMenu .sliderContainer .sliderLabel,
@@ -2177,6 +2183,7 @@ p:empty {
   -webkit-justify-content: space-between;
       -ms-flex-pack: justify;
           justify-content: space-between;
+  padding-bottom: 10px;
   border-bottom: solid 1px #d6d6d6;
 }
 #KnowledgeGraphTools #graphToolbar #graphDropdownMenu .sliderContainer #GraphSelectionContainer .dropdown-toggle,
@@ -2197,6 +2204,37 @@ p:empty {
 #KnowledgeGraphTools #knowledgeBarCheckBox #graphDropdownMenu .selectionContainer #GraphSelectionContainer .btn-group {
   width: 100%;
   text-align: left;
+}
+#KnowledgeGraphTools #graphToolbar #graphDropdownMenu .sliderContainer #GraphSelectionContainer .btn-group button.dropdown-toggle,
+#KnowledgeGraphTools #knowledgeGraphFullscreen #graphDropdownMenu .sliderContainer #GraphSelectionContainer .btn-group button.dropdown-toggle,
+#KnowledgeGraphTools #knowledgeBarCheckBox #graphDropdownMenu .sliderContainer #GraphSelectionContainer .btn-group button.dropdown-toggle,
+#KnowledgeGraphTools #graphToolbar #graphDropdownMenu .selectionContainer #GraphSelectionContainer .btn-group button.dropdown-toggle,
+#KnowledgeGraphTools #knowledgeGraphFullscreen #graphDropdownMenu .selectionContainer #GraphSelectionContainer .btn-group button.dropdown-toggle,
+#KnowledgeGraphTools #knowledgeBarCheckBox #graphDropdownMenu .selectionContainer #GraphSelectionContainer .btn-group button.dropdown-toggle {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+  -webkit-justify-content: space-between;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+}
+#KnowledgeGraphTools #graphToolbar #graphDropdownMenu .sliderContainer #GraphSelectionContainer .btn-group button.dropdown-toggle output,
+#KnowledgeGraphTools #knowledgeGraphFullscreen #graphDropdownMenu .sliderContainer #GraphSelectionContainer .btn-group button.dropdown-toggle output,
+#KnowledgeGraphTools #knowledgeBarCheckBox #graphDropdownMenu .sliderContainer #GraphSelectionContainer .btn-group button.dropdown-toggle output,
+#KnowledgeGraphTools #graphToolbar #graphDropdownMenu .selectionContainer #GraphSelectionContainer .btn-group button.dropdown-toggle output,
+#KnowledgeGraphTools #knowledgeGraphFullscreen #graphDropdownMenu .selectionContainer #GraphSelectionContainer .btn-group button.dropdown-toggle output,
+#KnowledgeGraphTools #knowledgeBarCheckBox #graphDropdownMenu .selectionContainer #GraphSelectionContainer .btn-group button.dropdown-toggle output {
+  max-width: 270px;
+}
+#KnowledgeGraphTools #graphToolbar #graphDropdownMenu .sliderContainer #GraphSelectionContainer .btn-group button.dropdown-toggle .caret,
+#KnowledgeGraphTools #knowledgeGraphFullscreen #graphDropdownMenu .sliderContainer #GraphSelectionContainer .btn-group button.dropdown-toggle .caret,
+#KnowledgeGraphTools #knowledgeBarCheckBox #graphDropdownMenu .sliderContainer #GraphSelectionContainer .btn-group button.dropdown-toggle .caret,
+#KnowledgeGraphTools #graphToolbar #graphDropdownMenu .selectionContainer #GraphSelectionContainer .btn-group button.dropdown-toggle .caret,
+#KnowledgeGraphTools #knowledgeGraphFullscreen #graphDropdownMenu .selectionContainer #GraphSelectionContainer .btn-group button.dropdown-toggle .caret,
+#KnowledgeGraphTools #knowledgeBarCheckBox #graphDropdownMenu .selectionContainer #GraphSelectionContainer .btn-group button.dropdown-toggle .caret {
+  margin-top: 15px;
 }
 #KnowledgeGraphTools #graphToolbar #graphDropdownMenu .sliderContainer #GraphSelectionContainer #radNodeButton,
 #KnowledgeGraphTools #knowledgeGraphFullscreen #graphDropdownMenu .sliderContainer #GraphSelectionContainer #radNodeButton,
@@ -2244,6 +2282,20 @@ p:empty {
 #KnowledgeGraphTools #knowledgeBarCheckBox #graphDropdownMenu .selectionContainer #GraphSelectionContainer #rectNodeButton img {
   max-width: 80px;
   padding: 10px 20px 10px 10px;
+}
+#KnowledgeGraphTools #graphToolbar #graphDropdownMenu .sliderContainer #GraphSelectionContainer #radNodeButton span,
+#KnowledgeGraphTools #knowledgeGraphFullscreen #graphDropdownMenu .sliderContainer #GraphSelectionContainer #radNodeButton span,
+#KnowledgeGraphTools #knowledgeBarCheckBox #graphDropdownMenu .sliderContainer #GraphSelectionContainer #radNodeButton span,
+#KnowledgeGraphTools #graphToolbar #graphDropdownMenu .selectionContainer #GraphSelectionContainer #radNodeButton span,
+#KnowledgeGraphTools #knowledgeGraphFullscreen #graphDropdownMenu .selectionContainer #GraphSelectionContainer #radNodeButton span,
+#KnowledgeGraphTools #knowledgeBarCheckBox #graphDropdownMenu .selectionContainer #GraphSelectionContainer #radNodeButton span,
+#KnowledgeGraphTools #graphToolbar #graphDropdownMenu .sliderContainer #GraphSelectionContainer #rectNodeButton span,
+#KnowledgeGraphTools #knowledgeGraphFullscreen #graphDropdownMenu .sliderContainer #GraphSelectionContainer #rectNodeButton span,
+#KnowledgeGraphTools #knowledgeBarCheckBox #graphDropdownMenu .sliderContainer #GraphSelectionContainer #rectNodeButton span,
+#KnowledgeGraphTools #graphToolbar #graphDropdownMenu .selectionContainer #GraphSelectionContainer #rectNodeButton span,
+#KnowledgeGraphTools #knowledgeGraphFullscreen #graphDropdownMenu .selectionContainer #GraphSelectionContainer #rectNodeButton span,
+#KnowledgeGraphTools #knowledgeBarCheckBox #graphDropdownMenu .selectionContainer #GraphSelectionContainer #rectNodeButton span {
+  padding: 6px 0;
 }
 #KnowledgeGraphTools #graphToolbar #graphDropdownMenu .sliderContainer #GraphSelectionContainer .btn,
 #KnowledgeGraphTools #knowledgeGraphFullscreen #graphDropdownMenu .sliderContainer #GraphSelectionContainer .btn,
@@ -2298,8 +2350,9 @@ p:empty {
   padding: 0;
 }
 #KnowledgeGraphTools #knowledgeBarCheckBox {
-  padding: 10px 0;
+  padding-top: 10px;
   font-size: 14px;
+  padding-right: 0;
 }
 #KnowledgeGraphTools #knowledgeBarCheckBox.invisible {
   display: none;

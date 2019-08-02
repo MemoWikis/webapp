@@ -5,6 +5,8 @@ var maxNodeCount = 50;
 var dataIsReady = false;
 var showKnowledgeBar = true;
 var currentGraph = "radialNodeGraph";
+var levelChanged = false;
+var oldLevel;
 
 declare var graphNodes: any;
 declare var graphLinks: any;
@@ -28,19 +30,54 @@ class KnowledgeGraph {
         }
     }
 
-    static setGraphData(level, count, knowledgeBar) {
+    static async toggleRectNodeGraph() {
+        graphData = JSON.parse(graphJsonString);
+        if (nodeCount > 50) {
+            $('#graphMaxNodeCount').attr('max', 50);
+            $('#nodeCountValue').attr('max', 50);
+
+            if (parseInt($('#nodeCountValue').val()) > 50) 
+                maxNodeCount = 50;
+        }
+        else
+            maxNodeCount = nodeCount;
+
+        let maxLevel = parseInt($('#nodeLevelValue').val());
+        let count = maxNodeCount;
+        await this.setGraphData(maxLevel, count, true, false);
+
+        this.loadRectangleNodeGraph();
+        this.updateDropdown(count);
+        $('#nodeCountWarning').addClass("hidden");
+        $('#knowledgeBarWarning').removeClass("hidden");
+    }
+
+    static updateDropdown(count) {
+        $('#graphMaxNodeCount').val(count.toString());
+        $('#nodeCountValue').val(count.toString());
+    }
+
+    static setGraphData(level, count, knowledgeBar, reloadGraph = true) {
         graphData = JSON.parse(graphJsonString);
         maxLevel = level;
         maxNodeCount = count;
         showKnowledgeBar = knowledgeBar;
         dataIsReady = false;
-        if (currentGraph == "rectangleNodeGraph")
-            this.loadRectangleNodeGraph();
-        else
-            this.loadRadialNodeGraph();
+        if (reloadGraph) {
+            if (currentGraph == "rectangleNodeGraph")
+                this.loadRectangleNodeGraph();
+            else
+                this.loadRadialNodeGraph();
+        }
     }
 
     static limitNodeLevel() {
+        let newLevel = maxLevel;
+        if (oldLevel != newLevel) {
+            levelChanged = true;
+            oldLevel = newLevel;
+        } else
+            levelChanged = false;
         if (maxLevel > -1) {
             return graphNodes = graphData.nodes
                 .filter(function (d) { return d.Level >= 0; })
@@ -64,7 +101,18 @@ class KnowledgeGraph {
         graphNodes = await this.limitNodeLevel();
         graphLinks = await this.limitLinkLevel();
 
-        if (maxNodeCount > -1 && graphNodes.length > maxNodeCount) {
+        if (levelChanged && currentGraph != 'rectangleNodeGraph') {
+            nodeCount = graphNodes.length;
+            $('#graphMaxNodeCount').attr('max', nodeCount);
+            $('#nodeCountValue').attr('max', nodeCount);
+
+            let currentNodeValue = parseInt($('#nodeCountValue').val());
+            if (currentNodeValue > nodeCount) {
+                this.updateDropdown(nodeCount);
+            }
+        }
+
+            if (maxNodeCount > -1 && graphNodes.length > maxNodeCount) {
             graphNodes = graphNodes.slice(0, maxNodeCount);
             graphLinks = graphLinks
                 .filter(function(l) { return l.source < maxNodeCount; })
@@ -282,6 +330,7 @@ class KnowledgeGraph {
     }
 
     static async loadRectangleNodeGraph() {
+
         currentGraph = 'rectangleNodeGraph';
 
         'use strict';
@@ -351,11 +400,13 @@ class KnowledgeGraph {
         simulation.force('x').strength(0.02);
         simulation.force('y').strength(0.03);
 
-        update();
 
         if (!dataIsReady)
             await this.limitGraphNodes();
         importGraph();
+
+        update();
+
 
         function update() {
             links = links.data(edges, function (d) {
@@ -438,7 +489,7 @@ class KnowledgeGraph {
 
                 const knowledgeBar = {
                     'height': 10,
-                    'width': 2.5,
+                    'width': 1.5,
                     'yPos': 12,
                     'data': vertices
                 }
@@ -578,7 +629,6 @@ class KnowledgeGraph {
 
         function nodeDragStart(d) {
             source = d;
-
             dragging = true; // dragging the bldg
         }
 
@@ -597,7 +647,6 @@ class KnowledgeGraph {
                 source.fx = null;
                 source.fy = null;
             }
-
             update();
         }
 

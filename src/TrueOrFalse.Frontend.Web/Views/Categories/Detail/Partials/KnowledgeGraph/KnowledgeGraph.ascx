@@ -6,7 +6,6 @@
 
     KnowledgeGraph.initGraphData();
     initSettings();
-    setGraph();
 
     $('#graphDropdown').on('click', function(e) {
         $('#graphToolbar').toggleClass('open');
@@ -67,56 +66,45 @@
         document.getElementById("nodeCountValue").max = nodeCount;
         if (nodeCount < 50) {
             document.getElementById("graphMaxNodeCount").value = nodeCount;
-            document.getElementById("nodeCountValue").value = nodeCount;
+            document.getElementById("#nodeCountValue").value = nodeCount;
         }
 
         document.getElementById("graphShowKnowledgeGraph").checked = true;
+
+        setGraph();
+        document.getElementById("graphSelection").value = "Knoten: Anzahl Unterthemen";
     }
 
     function setGraph() {
 
-        var maxLevel = document.getElementById("graphMaxLevel").value;
-        var maxNodeCount = document.getElementById("graphMaxNodeCount").value;
-        var showKnowledgeGraph = true;
+        $('svg').empty();
+        var currentMaxLevel = document.getElementById("nodeLevelValue").value;
+        var currentMaxNodeCount = document.getElementById("nodeCountValue").value;
+
+        var showKnowledgeGraph = false;
         if (document.getElementById("graphShowKnowledgeGraph").checked)
             showKnowledgeGraph = true;
-        else showKnowledgeGraph = false;
 
-        $('svg').empty();
-        KnowledgeGraph.setGraphData(maxLevel, maxNodeCount, showKnowledgeGraph);
+        KnowledgeGraph.setGraphData(currentMaxLevel, currentMaxNodeCount, showKnowledgeGraph);
     }
 
     function toggleRad() {
         document.getElementById("graphMaxNodeCount").max = nodeCount;
         document.getElementById("nodeCountValue").max = nodeCount;
-        $('#knowledgebarWarning').addClass("hidden");
-
+        $('#knowledgeBarWarning').addClass("hidden");
 
         $('svg').empty();
         KnowledgeGraph.loadRadialNodeGraph();
-        $('#rectNodeButton').removeClass('selected');
-        $('#radNodeButton').addClass('selected');
         $('#knowledgeBarCheckBox').addClass('invisible');
+        document.getElementById("graphSelection").value = "Knoten: Anzahl Unterthemen";
+
     }
     function toggleRect() {
-        if (nodeCount > 50)
-            $('#knowledgebarWarning').removeClass("hidden");
 
-        if (nodeCount > 50) {
-            document.getElementById("graphMaxNodeCount").max = 50;
-            document.getElementById("nodeCountValue").max = 50;
-        }
-
-        if (document.getElementById("graphMaxNodeCount").value > 50) {
-            document.getElementById("graphMaxNodeCount").value = 50;
-            document.getElementById("nodeCountValue").value = 50;
-        }
-        $('svg').empty();
-        KnowledgeGraph.loadRectangleNodeGraph();
-        setGraph();
-        $('#radNodeButton').removeClass('selected');
-        $('#rectNodeButton').addClass('selected');
+        KnowledgeGraph.toggleRectNodeGraph();
         $('#knowledgeBarCheckBox').removeClass('invisible');
+        document.getElementById("graphSelection").value = "Knoten: Wissensstand";
+
     }
 
     function toggleFullscreen() {
