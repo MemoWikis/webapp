@@ -66,7 +66,7 @@
         document.getElementById("nodeCountValue").max = nodeCount;
         if (nodeCount < 50) {
             document.getElementById("graphMaxNodeCount").value = nodeCount;
-            document.getElementById("#nodeCountValue").value = nodeCount;
+            document.getElementById("nodeCountValue").value = nodeCount;
         }
 
         document.getElementById("graphShowKnowledgeGraph").checked = true;
