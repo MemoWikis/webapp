@@ -42,9 +42,15 @@ public class GetCategoryGraph
                 Id = index,
                 CategoryId = node.Category.Id,
                 Title = (node.Category.Name).Replace("\"", ""),
-                Knowledge = KnowledgeSummaryLoader.RunFromMemoryCache(category, Sl.SessionUser.UserId),
+                Knowledge = GetKnowledgeData(node.Category.Id, Sl.SessionUser.UserId),
             }).ToList();
         return nodes;
+    }
+
+    private static KnowledgeSummary GetKnowledgeData(int categoryId, int userId)
+    {
+        var category = EntityCache.GetCategory(categoryId);
+        return KnowledgeSummaryLoader.RunFromMemoryCache(category, userId);
     }
 
     private static List<Link> GetLinks(CategoryGraph graphData)

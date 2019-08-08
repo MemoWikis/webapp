@@ -54,10 +54,7 @@
             <div id="nodeCountWarning" class="alert alert-warning hidden">
                 <strong>Achtung!</strong> Eine hohe Anzahl an Knotenpunkten kann die Seite verlangsamen.
             </div>
-            
-            <div id="knowledgeBarWarning" class="alert alert-warning hidden">
-                <strong>Achtung!</strong> Ber der Darstellung des Wissensstandes können maximal 50 Knotenpunkte angezeigt werden.
-            </div>
+
         </div>
     </div>
     

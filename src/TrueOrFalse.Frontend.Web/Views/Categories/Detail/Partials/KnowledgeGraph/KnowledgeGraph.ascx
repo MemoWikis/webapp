@@ -89,22 +89,26 @@
     }
 
     function toggleRad() {
+        $('svg').empty();
+
         document.getElementById("graphMaxNodeCount").max = nodeCount;
         document.getElementById("nodeCountValue").max = nodeCount;
-        $('#knowledgeBarWarning').addClass("hidden");
 
-        $('svg').empty();
         KnowledgeGraph.loadRadialNodeGraph();
         $('#knowledgeBarCheckBox').addClass('invisible');
         document.getElementById("graphSelection").value = "Knoten: Anzahl Unterthemen";
 
     }
     function toggleRect() {
+        $('svg').empty();
 
-        KnowledgeGraph.toggleRectNodeGraph();
+        document.getElementById("graphMaxNodeCount").max = nodeCount;
+        document.getElementById("nodeCountValue").max = nodeCount;
+
+        KnowledgeGraph.loadRectangleNodeGraph();
+        setGraph();
         $('#knowledgeBarCheckBox').removeClass('invisible');
         document.getElementById("graphSelection").value = "Knoten: Wissensstand";
-
     }
 
     function toggleFullscreen() {
