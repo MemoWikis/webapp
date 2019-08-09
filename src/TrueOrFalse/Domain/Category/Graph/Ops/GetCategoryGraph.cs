@@ -60,7 +60,7 @@ public class GetCategoryGraph
         {
             var parentIndex = graphData.nodes.FindIndex(node => node.Category == link.Parent);
             var childIndex = graphData.nodes.FindIndex(node => node.Category == link.Child);
-            if (childIndex >= 0 || parentIndex >= 0)
+            if (childIndex >= 0 && parentIndex >= 0)
                 links.Add(new Link
                 {
                     source = parentIndex,
