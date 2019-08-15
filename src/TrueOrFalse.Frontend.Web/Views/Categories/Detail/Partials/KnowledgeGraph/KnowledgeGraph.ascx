@@ -76,8 +76,7 @@
     }
 
     function setGraph() {
-
-        $('svg').empty();
+        d3.select('#graph-body').selectAll('svg').remove();
         var currentMaxLevel = document.getElementById("nodeLevelValue").value;
         var currentMaxNodeCount = document.getElementById("nodeCountValue").value;
 
@@ -89,7 +88,7 @@
     }
 
     function toggleRad() {
-        $('svg').empty();
+        d3.select('#graph-body').selectAll('svg').remove();
 
         document.getElementById("graphMaxNodeCount").max = nodeCount;
         document.getElementById("nodeCountValue").max = nodeCount;
@@ -100,7 +99,7 @@
 
     }
     function toggleRect() {
-        $('svg').empty();
+        d3.select('#graph-body').selectAll('svg').remove();
 
         document.getElementById("graphMaxNodeCount").max = nodeCount;
         document.getElementById("nodeCountValue").max = nodeCount;
