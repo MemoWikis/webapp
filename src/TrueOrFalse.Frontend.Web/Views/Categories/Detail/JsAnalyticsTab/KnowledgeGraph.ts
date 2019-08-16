@@ -251,6 +251,10 @@ class KnowledgeGraph {
             labelNode.attr("visibility", function (o) {
                 return neigh(index, o.node.index) ? "" : "hidden";
             });
+            labelNode.text(function (d, i) {
+                if (neigh(index, d.node.index)) 
+                    return i % 2 == 0 ? "" : d.node.Title;
+            });
             link.style("opacity", function (o) {
                 return o.source.index == index || o.target.index == index ? 1 : 0.1;
             });
@@ -261,6 +265,14 @@ class KnowledgeGraph {
             labelNode.attr("visibility", "");
             node.style("opacity", 1);
             link.style("opacity", 1);
+            labelNode.text(function(d, i) {
+                let labelText;
+                if (d.node.Title.length > 20)
+                    labelText = (d.node.Title).substring(0, 20) + "...";
+                else
+                    labelText = d.node.Title;
+                return i % 2 == 0 ? "" : labelText;
+            });
         };
 
         function updateLink(link) {
