@@ -29,8 +29,14 @@ class KnowledgeGraph {
     }
 
     static updateDropdown(count) {
-        $('#graphMaxNodeCount').val(count.toString());
-        $('#nodeCountValue').val(count.toString());
+
+        $('#graphMaxNodeCount').attr('max', count);
+        $('#nodeCountValue').attr('max', count);
+
+        if (maxNodeCount > count) {
+            $('#graphMaxNodeCount').val(count.toString());
+            $('#nodeCountValue').val(count.toString());
+        }
     }
 
     static setGraphData(level, count, knowledgeBar) {
@@ -68,7 +74,7 @@ class KnowledgeGraph {
     static async limitGraphNodes() {
         graphNodes = await this.limitNodeLevel();
         graphLinks = await this.limitLinkLevel();
-
+        this.updateDropdown(graphNodes.length);
         if (maxNodeCount > -1 && graphNodes.length > maxNodeCount) {
             graphNodes = graphNodes.slice(0, maxNodeCount);
             graphLinks = graphLinks
@@ -204,7 +210,6 @@ class KnowledgeGraph {
         node.on("mouseover", focus).on("mouseout", unfocus);
 
         function ticked() {
-
             node.call(updateNode);
             link.call(updateLink);
 
@@ -241,7 +246,14 @@ class KnowledgeGraph {
                 return neigh(index, o.index) ? 1 : 0.1;
             });
             labelNode.attr("display", function (o) {
-                return neigh(index, o.node.index) ? "block" : "none";
+                return neigh(index, o.node.index) ? "block" : "";
+            });
+            labelNode.attr("visibility", function (o) {
+                return neigh(index, o.node.index) ? "" : "hidden";
+            });
+            labelNode.text(function (d, i) {
+                if (neigh(index, d.node.index)) 
+                    return i % 2 == 0 ? "" : d.node.Title;
             });
             link.style("opacity", function (o) {
                 return o.source.index == index || o.target.index == index ? 1 : 0.1;
@@ -250,8 +262,17 @@ class KnowledgeGraph {
 
         function unfocus() {
             labelNode.attr("display", "block");
+            labelNode.attr("visibility", "");
             node.style("opacity", 1);
             link.style("opacity", 1);
+            labelNode.text(function(d, i) {
+                let labelText;
+                if (d.node.Title.length > 20)
+                    labelText = (d.node.Title).substring(0, 20) + "...";
+                else
+                    labelText = d.node.Title;
+                return i % 2 == 0 ? "" : labelText;
+            });
         };
 
         function updateLink(link) {
@@ -354,8 +375,9 @@ class KnowledgeGraph {
         await update();
 
         nodes.selectAll('text')
-            .text(function (d) { return d.Title; })
+            .text(function(d) { return d.Title; })
             .attr('height', 10)
+            .attr('width', 10)
             .attr('transform', function () {
                 var b = this.getBBox();
                 return 'translate(-' + b.width / 2 + ',' + 10 / 2 + ')';
@@ -400,76 +422,106 @@ class KnowledgeGraph {
                 .attr('height', knowledgeBar.height)
                 .attr('width', function (d) {
                     if (d.Knowledge.SolidPercentage >= 0)
-                        return knowledgeBar.width * d.Knowledge.SolidPercentage;
+                        return (knowledgeBar.width * d.Knowledge.SolidPercentage) + 1;
                     else
                         return 0;
                 })
-                .style('fill', '#afd534');
+                .style('fill', '#afd534')
+                .style('fill-opacity', function (d) {
+                    if (d.Knowledge.SolidPercentage > 0)
+                        return 1;
+                    else
+                        return 0;
+                });
 
 
             nodes.append('rect')
                 .attr('class', 'needsConsolidationKnowledgeBar')
                 .attr('y', knowledgeBar.yPos)
-                .attr('x', function (d) {
+                .attr('x', function () {
                     let b = this.previousSibling.getBBox();
-                    return b.x + b.width;
+                    return b.x + b.width - 1;
                 })
                 .attr('height', knowledgeBar.height)
                 .attr('width', function (d) {
                     if (d.Knowledge.NeedsConsolidationPercentage >= 0)
-                        return knowledgeBar.width * d.Knowledge.NeedsConsolidationPercentage;
+                        return (knowledgeBar.width * d.Knowledge.NeedsConsolidationPercentage) + 1;
                     else
                         return 0;
                 })
-                .style('fill', '#fdd648');
+                .style('fill', '#fdd648')
+                .style('fill-opacity', function (d) {
+                    if (d.Knowledge.NeedsConsolidationPercentage > 0)
+                        return 1;
+                    else
+                        return 0;
+                });
 
             nodes.append('rect')
                 .attr('class', 'needsLearningKnowledgeBar')
                 .attr('y', knowledgeBar.yPos)
-                .attr('x', function (d) {
+                .attr('x', function () {
                     let b = this.previousSibling.getBBox();
-                    return b.x + b.width;
+                    return b.x + b.width - 1;
                 })
                 .attr('height', knowledgeBar.height)
                 .attr('width', function (d) {
-                    if (d.Knowledge.needsLearningKnowledge >= 0)
-                        return knowledgeBar.width * d.Knowledge.needsLearningKnowledge;
+                    if (d.Knowledge.NeedsLearningPercentage >= 0)
+                        return (knowledgeBar.width * d.Knowledge.NeedsLearningPercentage) + 1;
                     else
                         return 0;
                 })
-                .style('fill', 'lightsalmon');
+                .style('fill', 'lightsalmon')
+                .style('fill-opacity', function (d) {
+                    if (d.Knowledge.NeedsLearningKnowledge > 0)
+                        return 1;
+                    else
+                        return 0;
+                });
 
             nodes.append('rect')
                 .attr('class', 'NotLearnedPercentage')
                 .attr('y', knowledgeBar.yPos)
-                .attr('x', function (d) {
+                .attr('x', function () {
                     let b = this.previousSibling.getBBox();
-                    return b.x + b.width;
+                    return b.x + b.width - 1;
                 })
                 .attr('height', knowledgeBar.height)
                 .attr('width', function (d) {
                     if (d.Knowledge.NotLearnedPercentage >= 0)
-                        return knowledgeBar.width * d.Knowledge.NotLearnedPercentage;
+                        return (knowledgeBar.width * d.Knowledge.NotLearnedPercentage) + 1;
                     else
                         return 0;
                 })
-                .style('fill', 'silver');
+                .style('fill', 'silver')
+                .style('fill-opacity', function (d) {
+                    if (d.Knowledge.NotLearnedPercentage > 0)
+                        return 1;
+                    else
+                        return 0;
+                });
 
             nodes.append('rect')
                 .attr('class', 'NotInWishknowledgePercentage')
                 .attr('y', knowledgeBar.yPos)
-                .attr('x', function (d) {
+                .attr('x', function () {
                     let b = this.previousSibling.getBBox();
-                    return b.x + b.width;
+                    return b.x + b.width - 1;
                 })
                 .attr('height', knowledgeBar.height)
                 .attr('width', function (d) {
                     if (d.Knowledge.Total > 0)
-                        return knowledgeBar.width * d.Knowledge.NotInWishknowledgePercentage;
+                        return (knowledgeBar.width * d.Knowledge.NotInWishknowledgePercentage);
                     else
                         return 0;
                 })
-                .style('fill', '#dddddd');
+                .style('fill', '#dddddd')
+                .style('fill-opacity', function (d) {
+                    if (d.Knowledge.Total > 0)
+                        return 1;
+                    else
+                        return 0;
+                });
         }
 
         function update() {
@@ -521,6 +573,7 @@ class KnowledgeGraph {
         }
 
         function tick() {
+
             links.each(drawPath);
 
             nodes.attr('transform', function (d) {
@@ -583,7 +636,7 @@ class KnowledgeGraph {
 
         function nodeDragEnd(d) {
             linkPreview
-                .style('display', 'none');
+                .style('visibility', 'hidden');
 
             if (!d.fixed) {
                 source.fx = null;
