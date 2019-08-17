@@ -25,13 +25,18 @@ public class CategoryModel : BaseContentModule
 
     public IList<Set> AggregatedSets;
     public IList<Question> AggregatedQuestions;
+    public IList<Question> CategoryQuestions;
+
     public int AggregatedSetCount;
     public int AggregatedQuestionCount;
+    public int CategoryQuestionCount;
     public IList<Question> TopQuestions;
     public IList<Question> TopQuestionsWithReferences;
     public List<Question> TopQuestionsInSubCats = new List<Question>();
     public IList<Question> TopWishQuestions;
     public IList<Question> SingleQuestions;
+    public Question EasiestQuestion;
+    public Question HardestQuestion;
 
 
     public User Creator;
@@ -52,6 +57,7 @@ public class CategoryModel : BaseContentModule
     public bool IsLearningSession => IsLoggedIn;
 
     public int CountAggregatedQuestions;
+    public int CountCategoryQuestions;
     public int CountReferences;
     public int CountWishQuestions;
     public int CountSets;
@@ -120,6 +126,9 @@ public class CategoryModel : BaseContentModule
 
         AggregatedQuestions = category.GetAggregatedQuestionsFromMemoryCache();
         CountAggregatedQuestions = AggregatedQuestions.Count;
+        CategoryQuestions = category.GetAggregatedQuestionsFromMemoryCache(true, false, category.Id);
+        CountCategoryQuestions = CategoryQuestions.Count;
+
         CountReferences = ReferenceCount.Get(category.Id);
 
         if (category.Type != CategoryType.Standard)
@@ -134,7 +143,7 @@ public class CategoryModel : BaseContentModule
             TopQuestionsInSubCats = GetTopQuestionsInSubCats();
 
        
-          //  LearningTabModel = new LearningTabModel(Category);
+        //  LearningTabModel = new LearningTabModel(Category);
 
         TopWishQuestions = wishQuestions.Items;
 
@@ -145,6 +154,9 @@ public class CategoryModel : BaseContentModule
         AggregatedSetCount = AggregatedSets.Count;
 
         AggregatedQuestionCount = Category.GetCountQuestionsAggregated();
+        CategoryQuestionCount = Category.GetCountQuestionsAggregated(true, category.Id);
+        HardestQuestion = GetQuestion(true);
+        EasiestQuestion = GetQuestion(false);
     }
 
     private List<Question> GetTopQuestionsInSubCats()
@@ -160,6 +172,25 @@ public class CategoryModel : BaseContentModule
         return topQuestions
             .Distinct(ProjectionEqualityComparer<Question>.Create(x => x.Id))
             .ToList();
+    }
+
+    private Question GetQuestion(bool hardestQuestion)
+    {
+        if (CountAggregatedQuestions < 1)
+        {
+            return null;
+        }
+        var questions = AggregatedQuestions;
+        if (hardestQuestion)
+        {
+            var question = questions.OrderByDescending(q => q.CorrectnessProbability).First();
+            return question;
+        }
+        else
+        {
+            var question = questions.OrderByDescending(q => q.CorrectnessProbability).Last();
+            return question;
+        }
     }
 
     public ImageUrl GetCategoryImageUrl(Category category)

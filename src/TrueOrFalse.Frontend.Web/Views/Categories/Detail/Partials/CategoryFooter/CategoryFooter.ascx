@@ -2,7 +2,8 @@
     Inherits="System.Web.Mvc.ViewUserControl<CategoryModel>" %>
 <%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
 
-    <div class="FooterToolbar" style="display: flex;justify-content: space-between">
+<div id="CategoryFooter" style="margin-top:100px">
+    <div class="FooterToolbar" style="display: flex; justify-content: space-between;border-bottom: solid 1px #d6d6d6;">
         <div class="Wishknowledge" style="display:flex">
             <div style="display: inline-block; font-size: 16px; font-weight: normal;" class="Pin" data-category-id="<%= Model.Id %>">
                 <%= Html.Partial("AddToWishknowledgeButton", new AddToWishknowledge(Model.IsInWishknowledge, false, true)) %>
@@ -28,49 +29,41 @@
         </div>
     </div>
 
-    <div class="FooterLearningPart">
+    <div class="LearningSection" style="border-bottom: solid 1px #d6d6d6;padding:30px 0">
         
-        <h4>Lernen</h4>
+        <h1>Lernen</h1>
         
-        <% if(Model.CountReferences > 0 || Model.TopQuestionsInSubCats.Count > 0) { %>
-        <div id="Content" class="Box">
-             <% if(Model.CountReferences > 0) { %>
-                <h5 class="ContentSubheading Question">
-                    Fragen mit diesem Medium als Quellenangabe (<%=Model.CountReferences %>)
-                    <a href="#relatedCountReferences" data-toggle="collapse" class="greyed noTextdecoration" style="font-weight: normal;"><i class="fa fa-caret-down">&nbsp;</i> Inhalte ein-/ausblenden</a>
-                </h5>
-                <div id="relatedCountReferences" class="collapse">
-                    <div class="LabelList">
-                        <% var index = 0; foreach(var question in Model.TopQuestionsWithReferences){ index++;%>
-                            <div class="LabelItem LabelItem-Question">
-                                <a href="<%= Links.AnswerQuestion(question, paramElementOnPage: index, categoryFilter:Model.Name) %>" rel="nofollow"><%= question.GetShortTitle(150) %></a>
-                            </div>
-                        <% } %>
-                    </div>
-                </div>
-            <% } %>
-                
-            <% if(Model.TopQuestionsInSubCats.Count > 0){ %>
-                <h5 class="ContentSubheading Question">
-                    Fragen in untergeordneten Themen
-                    <a href="#relatedTopQuestionsList" data-toggle="collapse" class="greyed noTextdecoration" style="font-weight: normal;"><i class="fa fa-caret-down">&nbsp;</i> Inhalte ein-/ausblenden</a>
-                </h5>
-                <div id="relatedTopQuestionsList" class="collapse">
-                    <div class="LabelList">
-                        <% var index = 0; foreach(var question in Model.TopQuestionsInSubCats){ index++;%>
-                            <div class="LabelItem LabelItem-Question">
-                                <a href="<%= Links.AnswerQuestion(question) %>"><%= question.GetShortTitle(150) %></a>
-                            </div>
-                        <% } %>
-                    </div>
-                </div>
+        <div style="display: flex; justify-content: space-between; margin-top: 20px;">
+            <div class="QuestionCounter">
+                <p><%= Model.AggregatedQuestionCount %> Frage<%= StringUtils.PluralSuffix(Model.AggregatedQuestionCount, "n") %> im Wissensnetz. <span class="btn-link">Lernen / Anzeigen</span></p>
+                <p><%= Model.CategoryQuestionCount %> Frage<%= StringUtils.PluralSuffix(Model.CategoryQuestionCount, "n") %> direkt zugeordnet. <span class="btn-link">Lernen / Anzeigen</span></p>
+            </div>
+            <div class="StartLearnignSession">
+                <div class="btn btn-lg btn-primary">Lernsitzung starten</div>       
+            </div>
+        </div>
+        
+        <div style="margin-top: 30px;">
+             <% if(Model.CountAggregatedQuestions > 0) { %>
+                <p>Schwerste Frage:  <a href="<%= Links.AnswerQuestion(Model.HardestQuestion) %>" rel="nofollow"><%= Model.HardestQuestion.GetShortTitle(150) %></a></p>
+                <p>Leichteste Frage:  <a href="<%= Links.AnswerQuestion(Model.EasiestQuestion) %>" rel="nofollow"><%= Model.EasiestQuestion.GetShortTitle(150) %></a></p>
             <% } %>
         </div>
-    <% } %>
+    </div>
 
+    <div class="AnalyticsSection" style="padding:30px 0">
+
+        <div style="display: flex;">
+            <div class="analyticsImg"></div>
+            <div class="startAnalytics">
+                <h1>Wissensnetz</h1>
+
+            </div>
+
+        </div>
 
     </div>
 
+</div>
 
-    <div class="FooterAnalyticsPart"></div>
 
