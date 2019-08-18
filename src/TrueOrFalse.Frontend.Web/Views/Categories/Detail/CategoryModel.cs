@@ -71,6 +71,7 @@ public class CategoryModel : BaseContentModule
     private readonly CategoryRepository _categoryRepo;
 
     public bool IsInWishknowledge;
+    public string TotalPins;
 
     public LearningTabModel LearningTabModel; 
 
@@ -157,6 +158,8 @@ public class CategoryModel : BaseContentModule
         CategoryQuestionCount = Category.GetCountQuestionsAggregated(true, category.Id);
         HardestQuestion = GetQuestion(true);
         EasiestQuestion = GetQuestion(false);
+
+        TotalPins = category.TotalRelevancePersonalEntries.ToString();
     }
 
     private List<Question> GetTopQuestionsInSubCats()

@@ -21571,6 +21571,7 @@
     <Content Include="Images\Users\77_50s.jpg" />
     <Content Include="Images\Users\77_85s.jpg" />
     <Content Include="Images\Various\graphExampleTransp.png" />
+    <Content Include="Images\Various\knowledgeNetworkSample.png" />
     <Content Include="Images\Various\RadNodePreview.svg" />
     <Content Include="Images\Various\RadNodeSelect.svg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
