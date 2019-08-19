@@ -23,6 +23,9 @@ public class CategoryModel : BaseContentModule
     public IList<Category> CategoriesParent;
     public IList<Category> CategoriesChildren;
 
+    public int CategoriesDescendantsCount;
+    public IList<Category> AllCategoriesParents;
+
     public IList<Set> AggregatedSets;
     public IList<Question> AggregatedQuestions;
     public IList<Question> CategoryQuestions;
@@ -37,6 +40,7 @@ public class CategoryModel : BaseContentModule
     public IList<Question> SingleQuestions;
     public Question EasiestQuestion;
     public Question HardestQuestion;
+    public string ParentList;
 
 
     public User Creator;
@@ -160,6 +164,9 @@ public class CategoryModel : BaseContentModule
         EasiestQuestion = GetQuestion(false);
 
         TotalPins = category.TotalRelevancePersonalEntries.ToString();
+
+        GetCategoryRelations();
+
     }
 
     private List<Question> GetTopQuestionsInSubCats()
@@ -219,8 +226,41 @@ public class CategoryModel : BaseContentModule
             .Select(item => item.Date.ToShortDateString() + " " + item.Views)
             .ToList();
 
-        return !views.Any() 
+         return !views.Any() 
             ? "" 
             : views.Aggregate((a, b) => a + " " + b + System.Environment.NewLine);
+    }
+
+    public void GetCategoryRelations()
+    {
+        var descendants = GetCategoriesDescendants.WithAppliedRules(Category);
+        CategoriesDescendantsCount = descendants.Count;
+
+        var allParents = Sl.CategoryRepo.GetAllParents(Id);
+        AllCategoriesParents = allParents;
+
+        if (allParents.Count > 0)
+            GetCategoryParentList();
+    }
+
+    private void GetCategoryParentList()
+    {
+        string categoryList = "";
+        string parentList;
+        foreach (var category in AllCategoriesParents.Take(3))
+        {
+            categoryList = categoryList + category.Name + ", ";
+        }
+        if (AllCategoriesParents.Count > 3)
+        {
+            parentList = categoryList + "...";
+        }
+        else
+        {
+            categoryList = categoryList.Remove(categoryList.Length - 2);
+            parentList = categoryList;
+        }
+
+        ParentList = "(" + parentList + ")";
     }
 }
