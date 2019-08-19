@@ -71,11 +71,6 @@ public class GetCategoryGraph
         return links;
     }
 
-    public static void Test_AssignNodeLevels(IList<Node> nodes, List<Link> links)
-    {
-        AssignNodeLevels(nodes, links);
-    }
-
     private static void AssignNodeLevels(IList<Node> nodes, List<Link> links)
     {
         var maxLevels = 10;
@@ -102,11 +97,6 @@ public class GetCategoryGraph
                 }
             }
         }
-    }
-
-    public static void Test_AssignLinkLevels(IList<Node> nodes, List<Link> links)
-    {
-        AssignLinkLevels(nodes, links);
     }
 
     private static void AssignLinkLevels(IList<Node> nodes, List<Link> links)
