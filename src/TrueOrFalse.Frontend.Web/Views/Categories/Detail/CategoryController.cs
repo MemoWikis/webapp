@@ -13,6 +13,8 @@ public class CategoryController : BaseController
     private const string _viewLocation = "~/Views/Categories/Detail/Category.aspx";
     private const string _topicTab = "~/Views/Categories/Detail/Tabs/TopicTab.ascx";
 
+    [SetMainMenu(MainMenuEntry.CategoryDetail)]
+    [SetThemeMenu(true)]
     public ActionResult Category(int id, int? version)
     {
         var modelAndCategoryResult = LoadModel(id, version);
