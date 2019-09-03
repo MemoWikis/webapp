@@ -29,8 +29,8 @@ public class TopicOfWeekRepo
                         Allerdings sind die 72 Basisfragen in beiden Theorieprüfungen gleich. 
                         In beiden Prüfungen geht es zuerst um die Theorie und dann um die Praxis. Für die Theorieprüfung gibt es jeweils einen Pool aus 
                         300 offiziellen Fragen, die du mit memucho lernen kannst. Jetzt musst du nur noch entscheiden, ob du lieber durch die Seen und Flüsse
-                        schipperst (<a href='/Sportbootfuehrerschein-Binnen/393'>zur Themenseite SBF Binnen</a>) oder ob es gleich auf die Ost- oder Nordsee 
-                        gehen soll (<a href='/Sportbootfuehrerschein-See/395'>zur Themenseite SBF See</a>).
+                        schipperst (<a href='/Kategorien/Sportbootfuehrerschein-Binnen/393'>zur Themenseite SBF Binnen</a>) oder ob es gleich auf die Ost- oder Nordsee 
+                        gehen soll (<a href='/Kategorien/Sportbootfuehrerschein-See/395'>zur Themenseite SBF See</a>).
                     </p>",
                 QuizOfWeekSetId = 50, //SBF Binnen: Segeln
                 AdditionalCategoriesIds = new List<int> { 393, 395, 614, 633 }
@@ -51,9 +51,9 @@ public class TopicOfWeekRepo
                     </p>
                     <p>
                         Dabei hat die Psychologie tatsächlich eine Vielzahl an spannenden Forschungsfeldern und Erkenntnissen zu bieten.
-                        Wie vielfältig das Fach ist, zeigt unsere <a href='/Psychologie-Studium/264'>Themenseite zum Studienfach Psychologie</a>: 
+                        Wie vielfältig das Fach ist, zeigt unsere <a href='/Kategorien/Psychologie-Studium/264'>Themenseite zum Studienfach Psychologie</a>: 
                         Von der Lern -, Bio - oder Entwicklungspsychologie über die Arbeits-und Organisations - Psychologie bis zur Klinischen Psychologie. 
-                        Ein weiterer Schwerpunkt in dem Fach sind die <a href= '/Statistik-fuer-PsychologInnen/649'>Methoden</a>,
+                        Ein weiterer Schwerpunkt in dem Fach sind die <a href= '/Kategorien/Statistik-fuer-PsychologInnen/649'>Methoden</a>,
                         denn viele Erkenntnisse werden über quantitative Studien gewonnen.
                     </p>",
                 QuizOfWeekSetId = 141,
