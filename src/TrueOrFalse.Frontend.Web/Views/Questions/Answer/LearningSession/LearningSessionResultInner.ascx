@@ -10,10 +10,11 @@
 <input type="hidden" id="hddCategoryId" value="682" />
 
 <h2 style="margin-bottom: 15px; margin-top: 0px;">
+    <span class="<% if (Model.LearningSession.IsDateSession) Response.Write("ColoredUnderline Date");
                     if (Model.LearningSession.IsSetSession) Response.Write("ColoredUnderline Set");
                     if (Model.LearningSession.IsSetsSession) Response.Write("ColoredUnderline Set");
                     if (Model.LearningSession.IsWishSession) Response.Write("ColoredUnderline Knowledge");
-                    %>">Ergebnis</span>
+                 %>">Ergebnis</span>
 </h2>
     
 
@@ -66,14 +67,7 @@
             </div>
         </div>
         <div class="buttonRow">
-            <% if (Model.LearningSession.IsDateSession) { %>
-                <a href="/Termin/Lernen/<%=Model.LearningSession.DateToLearn.Id %>" class="btn btn-link show-tooltip" style="padding-right: 10px" title="Eine neue Lernsitzung zu diesem Termin beginnen">
-                    Weiterlernen
-                </a>
-                <a href="<%= Url.Action(Links.KnowledgeAction, Links.KnowledgeController) %>" class="btn btn-primary" style="padding-right: 10px">
-                    Zur Wissenszentrale
-                </a>
-            <% } else if (Model.LearningSession.IsSetSession) { %>
+            <% if (Model.LearningSession.IsSetSession) { %>
                 <a href="<%= Links.SetDetail(Url, Model.LearningSession.SetToLearn) %>" class="btn btn-link" style="padding-right: 10px">Zum Lernset (Übersicht)</a>
                 <a href="<%= Links.StartLearningSession(Model.LearningSession) %>" class="btn btn-primary" style="padding-right: 10px">
                     Weiterlernen
@@ -280,91 +274,6 @@
                 </div>
             </div>
 
-        <% } %>
-
-        <% if(Model.LearningSession.IsDateSession) { %>
-            <div class="boxInfo">
-                <div class="boxInfoHeader">
-                    Dein Termin
-                </div>
-                <div class="boxInfoContent">
-                    <h3><%= Model.DateToLearn.GetTitle() %></h3>
-                    <div class="tableLayout">
-                        <div class="tableCellLayout" style="min-width: 18px;"><i class="fa fa-calendar-o">&nbsp;</i></div>
-                        <div class="tableCellLayout show-tooltip" title="Dein Termin ist am <%= Model.DateToLearn.DateTime.ToString("dd.MM.yyyy 'um' HH:mm") %>">
-                            <% if(Model.DateIsInPast){
-                                    Response.Write("Vorbei seit ");
-                                }else { 
-                                    Response.Write("Noch ");
-                                }%><%= Model.DateRemainingTimeLabel.Value %> <%= Model.DateRemainingTimeLabel.Label %>
-                        </div>
-                    </div>
-                    <div class="tableLayout">
-                        <div class="tableCellLayout" style="min-width: 18px; text-align: center;">
-                            <a href="#" data-action="toggleDateSets">
-                                <i class="fa fa-caret-right dateSets">&nbsp;</i><i class="fa fa-caret-down dateSets" style="display: none;">&nbsp;</i>
-                            </a>
-                        </div>
-                        <div class="tableCellLayout">
-                            <a href="#" data-action="toggleDateSets">
-                                <%= Model.DateToLearn.CountQuestions() %> Fragen 
-                            </a>
-                                    
-                            <div class="dateSets" style="display: inline; position: relative; display: none;" >
-                                aus <%= Model.DateToLearn.Sets.Count %> Lernset<%= StringUtils.PluralSuffix(Model.DateToLearn.Sets.Count, "s") %>
-                                <%  foreach(var set in Model.DateToLearn.Sets){ %>
-                                    <a href="<%= Links.SetDetail(Url, set) %>">
-                                        <span class="label label-set"><%= set.Name %></span>
-                                    </a>
-                                <% } %>
-                            </div>
-                        </div>
-                    </div>
-                                
-                    <p style="margin-top: 10px;">
-                        Dein Wissensstand:<br/>
-                        <div id="chartKnowledgeDate<%=Model.DateToLearn.Id %>" 
-                                data-date-id="<%= Model.DateToLearn.Id %>"
-                                data-notLearned="<%= Model.KnowledgeNotLearned %>"
-                                data-needsLearning="<%= Model.KnowledgeNeedsLearning %>"
-                                data-needsConsolidation="<%= Model.KnowledgeNeedsConsolidation %>"
-                                data-solid="<%= Model.KnowledgeSolid %>">
-                        </div>
-                    </p>
-                    <p style="text-align: right; margin-top: 20px;">
-                        <a href="<%= Links.Dates() %>"><i class="fa fa-arrow-right">&nbsp;</i>Zur Terminübersicht</a>
-                    </p>
-                </div>
-            </div>
-            <div class="boxInfo">
-                <div class="boxInfoHeader">
-                    Dein Lernplan
-                </div>
-                <div class="boxInfoContent">
-                    <% if (Model.TrainingDateCount > 0) { %>
-                        <p>
-                            Vor dir liegen noch: <br/>
-                            ca. <%= Model.TrainingDateCount %> Lernsitzung<%= StringUtils.PluralSuffix(Model.DateToLearn.Sets.Count, "en") %><br />
-                            ca. <%= Model.RemainingTrainingTime%> Lernzeit
-                        </p>
-                        <p style="margin-top: 10px;">
-                            Nächste Lernsitzung: <br/><i class="fa fa-bell"></i>&nbsp;
-                            <% if(Model.TrainingPlan.HasOpenDates) {
-                                var timeSpanLabel = new TimeSpanLabel(Model.TrainingPlan.TimeToNextDate, showTimeUnit: true);
-                                if (timeSpanLabel.TimeSpanIsNegative) { %>
-                                    <a style="display: inline-block;" data-btn="startLearningSession" href="/Termin/Lernen/<%=Model.DateToLearn.Id %>">startet jetzt!</a>
-                                <% } else { %>
-                                    in <span class="TPTimeToNextTrainingDate"><%= timeSpanLabel.Full %></span> 
-                                <% } %>
-                                (<span class="TPQuestionsInNextTrainingDate"><%= Model.TrainingPlan.QuestionCountInNextDate %></span> Fragen)<br/>
-                            <% } %>
-                        </p>
-                    <% } else { %>
-                        <p>Für diesen Termin sind keine weiteren Lernsitzungen geplant.</p>
-                    <% } %>
-                </div>
-            </div>
-                
         <% } %>
     </div>
 </div>
