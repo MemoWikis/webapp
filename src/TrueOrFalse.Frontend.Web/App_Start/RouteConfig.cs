@@ -110,15 +110,15 @@ namespace TrueOrFalse
             /* API */ routes.MapRoute("Set_ImageUpload", "Set/UploadImage/{id}", new { controller = "EditSet", action = "UploadImage", id = UrlParameter.Optional });
 
             routes.MapRoute("Category_Changes_Overview", "Kategorien/Historie/{pageToShow}", new { controller = "CategoryChangesOverview", action = "List" });
-            routes.MapRoute("Categories_WishSearch", "Kategorien/Wunschwissen/Suche/{searchTerm}", new { controller = "Categories", action = "CategoriesWish", searchTerm = UrlParameter.Optional });
-            routes.MapRoute("Categories_WishSearchApi", "Kategorien/Wunschwissen/SucheApi", new { controller = "Categories", action = "SearchApiWish" });
+            routes.MapRoute("Categories_WishSearch", "Wunschwissen/Suche/{searchTerm}", new { controller = "Categories", action = "CategoriesWish", searchTerm = UrlParameter.Optional });
+            routes.MapRoute("Categories_WishSearchApi", "Wunschwissen/SucheApi", new { controller = "Categories", action = "SearchApiWish" });
             routes.MapRoute("Categories", "Kategorien", new { controller = "Categories", action = "Categories" });
-            routes.MapRoute("Categories_SearchApi", "Kategorien/SucheApi", new { controller = "Categories", action = "SearchApi" });
-            routes.MapRoute("Categories_Search", "Kategorien/Suche/{searchTerm}", new { controller = "Categories", action = "Search", searchTerm = UrlParameter.Optional });
-            routes.MapRoute("Categories_Create", "Kategorien/Erstelle/{type}", new { controller = "EditCategory", action = "Create", type = UrlParameter.Optional });
-            routes.MapRoute("Categories_Delete", "Kategorien/Loesche/{id}", new { controller = "Categories", action = "Delete" });
+            routes.MapRoute("Categories_SearchApi", "SucheApi", new { controller = "Categories", action = "SearchApi" });
+            routes.MapRoute("Categories_Search", "Suche/{searchTerm}", new { controller = "Categories", action = "Search", searchTerm = UrlParameter.Optional });
+            routes.MapRoute("Categories_Create", "Erstelle/{type}", new { controller = "EditCategory", action = "Create", type = UrlParameter.Optional });
+            routes.MapRoute("Categories_Delete", "Loesche/{id}", new { controller = "Categories", action = "Delete" });
             routes.MapRoute("Categories_ById", "Kategorien/{id}", new { controller = "CategoryRedirect", action = "CategoryById" }); // route is used when creating question/questionset (AutocompleteCategories.ts) and adding categories via ajax
-            routes.MapRoute("Categories_Edit", "Kategorien/{text}/Bearbeite/{id}", new { controller = "EditCategory", action = "Edit" });
+            routes.MapRoute("Categories_Edit", "{text}/Bearbeite/{id}", new { controller = "EditCategory", action = "Edit" });
             routes.MapRoute("Category_Detail_Revision", "Kategorien/{text}/{id}/version/{version}", new { controller = "CategoryRedirect", action = "Category" });
             routes.MapRoute("Category_Detail", "Kategorien/{text}/{id}", new { controller = "CategoryRedirect", action = "Category" });
             routes.MapRoute("Category_History", "Kategorien/{categoryName}/{categoryId}/Historie", new { controller = "CategoryHistory", action = "List" });
