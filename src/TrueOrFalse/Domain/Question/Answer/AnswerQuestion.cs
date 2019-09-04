@@ -149,14 +149,14 @@ public class AnswerQuestion : IRegisterAsInstancePerLifetime
             Sl.LearningSessionRepo.Update(learningSession);
         }
 
-        if (countLastAnswerAsCorrect || countUnansweredAsCorrect && testSessionId != null)
+        if (countLastAnswerAsCorrect)
             return Run(questionId, "", userId, (question, answerQuestionResult) =>
                 _answerLog.CountLastAnswerAsCorrect(questionViewGuid), countLastAnswerAsCorrect: true
             );
 
         if (countUnansweredAsCorrect)
             return Run(learningSessionId,learningSessionStepGuid,questionId, "", userId, (question, answerQuestionResult) =>
-                _answerLog.CountUnansweredAsCorrect(question, userId, questionViewGuid, interactionNumber, millisecondsSinceQuestionView, new Guid(learningSessionStepGuid),learningSessionId), countUnansweredAsCorrect: true
+                _answerLog.CountUnansweredAsCorrect(question, userId, questionViewGuid, interactionNumber, millisecondsSinceQuestionView,new Guid(learningSessionStepGuid),learningSessionId), countUnansweredAsCorrect: true
             );
 
         throw new Exception("neither countLastAnswerAsCorrect nor countUnansweredAsCorrect true");
