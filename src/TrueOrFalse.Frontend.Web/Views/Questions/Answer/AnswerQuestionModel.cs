@@ -250,7 +250,7 @@ public class AnswerQuestionModel : BaseModel
     private void Populate(Question question)
     {
         if (question.Visibility != QuestionVisibility.All)
-            if(question.Creator.Id != _sessionUser.User.Id)
+            if(question.Creator.Id != _sessionUser.User.Id || IsTestSession)
                 throw new Exception("Invalid access to questionId" + question.Id);
 
         var questionValuationForUser = NotNull.Run(Sl.QuestionValuationRepo.GetByFromCache(question.Id, UserId));
