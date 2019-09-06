@@ -149,7 +149,7 @@ public class AnswerQuestion : IRegisterAsInstancePerLifetime
             Sl.LearningSessionRepo.Update(learningSession);
         }
 
-        if (countLastAnswerAsCorrect)
+        if (countLastAnswerAsCorrect || countUnansweredAsCorrect && testSessionId != null)
             return Run(questionId, "", userId, (question, answerQuestionResult) =>
                 _answerLog.CountLastAnswerAsCorrect(questionViewGuid), countLastAnswerAsCorrect: true
             );
