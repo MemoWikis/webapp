@@ -198,6 +198,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="1 View\CategoryApiControllerTests.cs" />
+    <Compile Include="1 View\GetNodeLevelsTests.cs" />
     <Compile Include="1 View\MarkdownMarkdigTests.cs" />
     <Compile Include="1 View\MarkdownSharpTests.cs" />
     <Compile Include="1 View\RouteTests.cs" />

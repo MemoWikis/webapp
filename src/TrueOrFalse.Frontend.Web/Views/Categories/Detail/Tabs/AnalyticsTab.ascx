@@ -1,34 +1,95 @@
 ﻿<%@ Control Language="C#" AutoEventWireup="true" 
     Inherits="System.Web.Mvc.ViewUserControl<CategoryModel>" %>
 
-<div id="KnowledgeTab"></div>
+<div id="KnowledgeGraphTools" class="" style="display: flex;flex-direction: row-reverse">
+    
+    <div id="graphToolbar" class="graphToolbar dropdown">
 
-<div id="KnowledgeGraph">
-    <svg id="graph-body"></svg>
+        <div id="graphDropdown" class="btn btn-link" type="button" aria-haspopup="true" aria-expanded="true" style="font-size: 18px;color: #999999">
+            <i class="fa fa-ellipsis-v"></i>
+        </div>
+
+        <div id="graphDropdownMenu" class="dropdown-menu dropdown-menu-right" aria-labelledby="graphDropdown" style="">
+            <div class="selectionContainer">
+                <div id="GraphSelectionContainer">
+                    <div class="btn-group">
+                        <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <output id="graphSelection"></output> <span class="caret"></span>
+                        </button>
+                        <div class="dropdown-menu">
+                            <div id="radNodeButton" class="btn-default" onclick="toggleRad()">
+                                <img src="/Images/Various/RadNodeSelect.svg">
+                                <span>Knoten: Anzahl Unterthemen</span>
+                            </div> 
+                            <div id="rectNodeButton" class="btn-default" onclick="toggleRect()">
+                                <img src="/Images/Various/RectNodeSelect.svg">
+                                <span>Knoten: Wissensstand</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="sliderContainer">
+                <div class="sliderLabel"> 
+                    <label for="graphMaxLevel">Max. Ebenentiefe</label>
+                    <input id="nodeLevelValue" class="col-sm-4"  type="number" min="1" max="11" value="3" onchange="setGraph()" oninput="setNodeLevelValue(slider)">
+                </div>
+                <div class="col-sm-12">
+                    <input id="graphMaxLevel" type="range" min="1" max="11" value="3" class="slider" onchange="setGraph()" oninput="setNodeLevelValue('slider')">
+                </div>
+            </div>
+            
+            <div class="sliderContainer">
+                <div class="sliderLabel">
+                    <label for="graphMaxNodeCount">Max. Knotenpunkte</label>
+                    <input id="nodeCountValue" class="col-sm-4" type="number" min="1" max="50" value="50" onchange="setGraph()" oninput="setNodeCountValue()" >
+                </div>
+                <div class="col-sm-12">
+                    <input id="graphMaxNodeCount"  type="range" min="1" max="50" class="slider graphMaxNodeCount" onchange="setGraph()" oninput="setNodeCountValue('slider')">
+                </div>
+
+            </div>
+            
+            <div id="nodeCountWarning" class="alert alert-warning hidden">
+                <strong>Achtung!</strong> Eine hohe Anzahl an Knotenpunkten kann die Seite verlangsamen.
+            </div>
+
+        </div>
+    </div>
+    
+    <div id="knowledgeGraphFullscreen">
+        <div class="fullScreen-btn btn btn-link " type="button">
+            <i id="toggleFullScreenGraph" class="fas fa-expand" style="font-size:18px" onclick="toggleFullscreen()"></i>
+        </div>
+    </div>
+
+    <div id="knowledgeBarCheckBox" class="invisible">
+        <span class="knowledgeGraphBarLabel">Wissenstandsanzeige</span>
+        <label class="knowledgeGraphBarToggle">
+            <input type="checkbox" id="graphShowKnowledgeGraph" onclick="setGraph()" checked>
+            <span class="graphToggle round"></span>
+        </label>
+    </div>
+</div>
+
+
+<div id="KnowledgeGraph" style="height:600px">
+    <svg id="graph-body" style="width: 100%; height: 100%;"></svg>
     <div class="knowledgeGraphData"></div>
 </div>
 
-<%--<div class="alert alert-info" style="max-width: 700px; margin-left: auto; margin-right: auto; margin-top: 55px; margin-bottom: 40px; padding: 15px;">
-    <h3 style="margin-top: 0; font-size: 25px;">Schlaue Lernanalyse: Bald hier für dich</h3>
-    <p style="font-size: 18px; margin-top: 15px;">
-        Wir möchten, dass dir Lernen Spaß macht und du immer genau weißt, wo du stehst. 
-        Deshalb werden wir dir bald an dieser Stelle zeigen, wie dein aktueller Wissensstand ist und 
-        in welchen Teilbereichen du am dringendsten lernen solltest.
-    </p>
-    <p style="font-size: 18px; margin-top: 15px;">
-        Weitere Statistiken zu deinem Lernstand und Fortschritt werden dir helfen, 
-        deine Wunschwissen-Themen zu erschließen und dabei nie den Überblick zu verlieren. 
-        Wie viel hast du schon gelernt? Wie viel fehlt noch? Was kommt als nächstes? Wir zeigen es dir.
-    </p>
-    <div class="row" style="text-align: center; margin-top: 20px;">
-        <div class="col-sm-12">
-            <img src="/Images/Various/tabAnalyticsMockup1.png" style="/*max-width: 400px;*/"/>
-        </div>
-        <div class="col-sm-12">
-            <img src="/Images/Various/treemapChartPsychology.png" style="/*max-width: 400px;*/"/>
-        </div>
-        <div class="col-sm-12">
-            <img src="/Images/Various/graphExampleTransp.png" style="/*max-width: 400px;*/"/>
-        </div>
-    </div>
-</div>--%>
+<div id="KnowledgeGraphHelpText">
+    Steuerung:
+    <ul>
+        <li class="graphZoom">
+            <strong>Zoom</strong>
+            <span> - Mit dem Mausrad scrollen</span>
+        </li>
+        <li class="graphMovement">
+            <strong>Wissensnetz verschieben</strong>
+            <span> - Linke Maustaste gedrückt halten</span>
+        </li>
+    </ul>
+</div>
+

@@ -21568,6 +21568,14 @@
     <Content Include="Images\Users\77_50s.jpg" />
     <Content Include="Images\Users\77_85s.jpg" />
     <Content Include="Images\Various\graphExampleTransp.png" />
+    <Content Include="Images\Various\RadNodePreview.svg" />
+    <Content Include="Images\Various\RadNodeSelect.svg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\Various\RectNodePreview.svg" />
+    <Content Include="Images\Various\RectNodeSelect.svg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="Images\Various\tabAnalyticsMockup1.png" />
     <Content Include="Images\Various\treemapChartPsychology.png" />
     <Content Include="robots.txt">
@@ -21651,9 +21659,6 @@
     </Content>
     <Content Include="Views\Categories\Detail\Category.min.css">
       <DependentUpon>Category.css</DependentUpon>
-    </Content>
-    <Content Include="Views\Categories\Detail\JsAnalyticsTab\KnowledgeGraph.js">
-      <DependentUpon>KnowledgeGraph.ts</DependentUpon>
     </Content>
     <Content Include="Views\Categories\Detail\JsEditMode\ContentModule.js">
       <DependentUpon>ContentModule.ts</DependentUpon>
@@ -21994,9 +21999,6 @@
     </Content>
     <Content Include="Views\Knowledge\Wheel\KnowledgeWheel.js.map">
       <DependentUpon>KnowledgeWheel.ascx</DependentUpon>
-    </Content>
-    <Content Include="Views\Categories\Detail\JsAnalyticsTab\KnowledgeGraph.js.map">
-      <DependentUpon>KnowledgeGraph.ts</DependentUpon>
     </Content>
     <None Include="Views\Maintenance\ContentStats.less" />
     <Compile Include="Views\Maintenance\ContentStatsModel.cs" />

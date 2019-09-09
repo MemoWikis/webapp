@@ -1615,6 +1615,255 @@ p:empty {
         }
     }
 
+#KnowledgeGraphTools {
+    display: flex;
+    flex-direction: row-reverse;
+
+    #graphToolbar, #knowledgeGraphFullscreen, #knowledgeBarCheckBox {
+        padding: 0 5px;
+        color: #999999;
+        line-height: 20px;
+        vertical-align: middle;
+
+        .btn {
+            padding: 5px 10px;
+        }
+
+        #graphDropdownMenu {
+            padding: 6px 8px;
+
+            .selectionContainer {
+                padding: 0 10px;
+                margin-top: 10px;
+                margin-bottom: 10px;
+
+                img {
+                    width: 100%;
+                }
+
+                label {
+                    color: #333333;
+                }
+            }
+
+            .sliderContainer {
+                margin: 15px 0 20px 0;
+            }
+
+            .sliderContainer, .selectionContainer {
+                width: 300px;
+
+                .sliderLabel {
+                    display: flex;
+                    justify-content: space-between;
+                    color: #333333;
+
+                    label {
+                        padding: 0 20px;
+                    }
+
+                    input {
+                        text-align: right;
+                        margin-bottom: 5px;
+                        border: none;
+                    }
+                }
+
+                .slider {
+                    appearance: none;
+                    width: 100%;
+                    height: 6px;
+                    border-radius: 5px;
+                    background: #003264;
+                    outline: none;
+                    transition: opacity .2s;
+                }
+
+                .slider::-webkit-slider-thumb {
+                    appearance: none;
+                    width: 12px;
+                    height: 12px;
+                    border-radius: 50%;
+                    background: #fff;
+                    border-color: #D6D6D6;
+                    border-width: 0.1px;
+                    box-shadow: 0 2px 5px 0 rgba(0,0,0,0.5);
+                    cursor: pointer;
+                }
+
+                .slider::-moz-range-thumb {
+                    appearance: none;
+                    width: 12px;
+                    height: 12px;
+                    border-radius: 50%;
+                    background: #fff;
+                    border-color: #D6D6D6;
+                    border-width: 0.1px;
+                    box-shadow: 0 1px 2px 0 rgba(0,0,0,0.5);
+                    cursor: pointer;
+                }
+
+                #GraphSelectionContainer {
+                    display: flex;
+                    justify-content: space-between;
+                    padding-bottom: 10px;
+                    border-bottom: solid 1px #d6d6d6;
+
+                    .dropdown-toggle {
+                        text-align: left;
+                        border-radius: 4px !important;
+                    }
+
+                    .btn-group {
+                        width: 100%;
+                        text-align: left;
+
+                        button.dropdown-toggle {
+                            display: flex;
+                            justify-content: space-between;
+
+                            output {
+                                max-width: 270px;
+                            }
+
+                            .caret {
+                                margin-top: 15px;
+                            }
+                        }
+                    }
+
+                    #radNodeButton, #rectNodeButton {
+                        display: flex;
+                        padding: 10px;
+
+                        &:hover {
+                            cursor: pointer;
+                        }
+
+                        img {
+                            max-width: 80px;
+                            padding: 10px 20px 10px 10px;
+                        }
+
+                        span {
+                            padding: 6px 0;
+                        }
+                    }
+
+                    .btn {
+                        border-radius: 0;
+                        border: none;
+
+                        &.btn-default {
+                            width: 100%;
+                            background-color: transparent;
+                        }
+
+                        &.hover {
+                            background-color: #f5f5f5;
+                        }
+                    }
+                }
+            }
+
+            .alert-warning {
+                margin: 0 10px 10px 10px;
+                padding: 5px 10px;
+
+                &.hidden {
+                    display: none;
+                }
+            }
+        }
+
+        .fullScreen-btn {
+            padding: 9px 0 9px 17px;
+        }
+
+        i {
+            font-size: 18px;
+            color: #999999;
+        }
+    }
+
+
+    #knowledgeGraphFullscreen {
+        padding: 0;
+    }
+
+    #knowledgeBarCheckBox {
+
+        &.invisible {
+            display: none;
+        }
+
+        padding-top: 10px;
+        font-size: 14px;
+        padding-right: 0;
+
+        span.knowledgeGraphBarLabel {
+            margin-right: 3px;
+            position: relative;
+            bottom: 2px;
+        }
+
+        .knowledgeGraphBarToggle {
+            position: relative;
+            display: inline-block;
+            width: 30px;
+            height: 17px;
+        }
+
+        .knowledgeGraphBarToggle input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .graphToggle {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #999999;
+            transition: .1s;
+            border-radius: 60px;
+        }
+
+        .graphToggle:before {
+            position: absolute;
+            content: "";
+            height: 11px;
+            width: 11px;
+            left: 2px;
+            bottom: 3px;
+            background-color: white;
+            transition: .1s;
+            border-radius: 50%;
+        }
+
+        input:checked + .graphToggle {
+            background-color: #003264;
+        }
+
+        input:focus + .graphToggle {
+            box-shadow: 0 0 1px #003264;
+        }
+
+        input:checked + .graphToggle:before {
+            transform: translateX(15px);
+        }
+    }
+}
+
+#KnowledgeGraphHelpText {
+    padding-left:20px;
+    font-size: 14px;
+    color: #999999;
+}
+    
 
 .setQuestionCount, .ItemInfo, .categoryQuestionCount {
     .Pin {

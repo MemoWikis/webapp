@@ -56,7 +56,9 @@ class AnswerQuestion {
             this.IsTestSession = $('#hddIsTestSession').val().toLowerCase() === "true";
 
         if (this.IsTestSession && $('#hddIsTestSession').attr('data-is-last-step').toLowerCase() === "true")
-            AnswerQuestion.IsLastTestSessionStep = true ;
+            AnswerQuestion.IsLastTestSessionStep = true;
+
+        console.log($('#hddIsTestSession').attr('data-is-last-step'));
 
         if (this.IsTestSession && $('#hddIsTestSession').attr('data-test-session-id'))
             AnswerQuestion.TestSessionId = parseInt($('#hddIsTestSession').attr('data-test-session-id'));
@@ -108,24 +110,11 @@ class AnswerQuestion {
 
         $("#btnCheck, #btnCheckAgain")
             .click(
-                e => {
-                    e.preventDefault();
-                    $('#hddTimeRecords').attr('data-time-of-answer', $.now());
-                });
-
-        $("#btnCheck")
-            .click(
             e => {
-                    e.preventDefault();
+                e.preventDefault();
+                $('#hddTimeRecords').attr('data-time-of-answer', $.now());
                     self.ValidateAnswer();
-                });
-
-        $("#btnCheckAgain")
-            .click(
-                e => {
-                    e.preventDefault();
-                    self.ValidateAnswer();
-                });
+            });
 
         $("#aCountAsCorrect")
             .click(
@@ -136,7 +125,6 @@ class AnswerQuestion {
                    
                 });
 
-        
         $("#CountWrongAnswers")
             .click(e => {
                 e.preventDefault();
@@ -147,7 +135,6 @@ class AnswerQuestion {
                     divWrongAnswers.hide();
             });
         
-   
         $(".selectorShowSolution")
             .click(() => {
                 this._inputFeedback.ShowSolution();
@@ -275,7 +262,6 @@ class AnswerQuestion {
         this._inputFeedback.ShowSolution();
         if (this._isLastLearningStep) {
             $('#btnNext').html('Zum Ergebnis');
-            //$('#btnNext').unbind();
         }
 
         this._onCorrectAnswer();
@@ -286,7 +272,6 @@ class AnswerQuestion {
 
         if (this._isLastLearningStep && !result.newStepAdded) {
             $('#btnNext').html('Zum Ergebnis');
-            //$('#btnNext').unbind();
         }
 
         if (this.IsGameMode) {
@@ -302,7 +287,6 @@ class AnswerQuestion {
             this.RegisterWrongAnswer();//need only this
             this._inputFeedback.ShowError();
             
-
             if (this.IsLearningSession || this.IsTestSession) {
 
                 this._inputFeedback.ShowSolution();
@@ -318,7 +302,6 @@ class AnswerQuestion {
 
         this._onWrongAnswer();
     }
-    
 
     private RegisterWrongAnswer() {
         if (this.AtLeastOneWrongAnswer) return;
@@ -326,7 +309,6 @@ class AnswerQuestion {
         $('#aCountAsCorrect')
             .attr('data-original-title',
             'Drücke hier und deine letzte Antwort wird als richtig gewertet (bei anderer Schreibweise, Formulierung ect). Aber nicht schummeln!');
-        
     }
 
     private allWrongAnswersTried(answerText: string) {
