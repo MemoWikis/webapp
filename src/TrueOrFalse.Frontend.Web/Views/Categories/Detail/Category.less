@@ -935,6 +935,117 @@ p:empty {
     );
 }
 
+/*------------------------------------------------------
+    CategoryFooter
+-------------------------------------------------------*/
+#CategoryFooter {
+    margin-top: 100px;
+
+    .footerToolbar {
+        display: flex;
+        justify-content: space-between;
+        border-bottom: solid 1px #d6d6d6;
+
+
+        .wishknowledge {
+            display: flex;
+
+            .CircleContainer {
+                height: 44px;
+                width: 44px;
+                border-radius: 50%;
+                display: inline-block;
+                border: solid 1px silver;
+                margin-bottom: 10px;
+
+                &:hover {
+                    border-color: #b13a48;
+                    cursor: pointer;
+                    animation: heartbeatPulse 2s infinite;
+
+
+                    @keyframes heartbeatPulse {
+                        0% {
+                            box-shadow: 0 0 4px 2px rgba(177, 58, 72, 0);
+                        }
+
+                        10% {
+                            box-shadow: 0 0 2px 1px rgba(177, 58, 72, 0.8), 0 0 6px 2px rgba(177, 58, 72, 0.2);
+                        }
+
+                        20% {
+                            box-shadow: 0 0 4px 2px rgba(177, 58, 72, 0);
+                        }
+
+                        30% {
+                            box-shadow: 0 0 2px 1px rgba(177, 58, 72, 0.8), 0 0 6px 2px rgba(177, 58, 72, 0.2);
+                        }
+
+                        60% {
+                            box-shadow: 0 0 4px 2px rgba(177, 58, 72, 0.1);
+                        }
+
+                        100% {
+                            box-shadow: 0 0 4px 2px rgba(177, 58, 72, 0);
+                        }
+                    }
+
+                    .HeartInCircle {
+                        @keyframes heartbeat {
+                            0% {
+                                transform: scale( .9 );
+                            }
+
+                            10% {
+                                transform: scale( 1 );
+                            }
+
+                            20% {
+                                transform: scale( .9 );
+                            }
+
+                            30% {
+                                transform: scale( 1 );
+                            }
+
+                            60% {
+                                transform: scale( .9 );
+                            }
+
+                            100% {
+                                transform: scale( .9 );
+                            }
+                        }
+
+                        .fa-heart-o {
+                            animation: heartbeat 2s infinite;
+                        }
+                    }
+                }
+
+                .HeartInCircle {
+                    display: inline-block;
+                    font-size: 24px;
+                    font-weight: normal;
+                    padding: 7px 9px;
+                }
+            }
+
+            .PinLabel {
+                padding-left: 10px;
+                padding-top: 8px;
+            }
+        }
+
+        .footerDropdown {
+            padding-top: 8px;
+
+            i.fa-ellipsis-v {
+            }
+        }
+    }
+}
+
 .media-below-md( {
     #MasterMainWrapper {
         padding-top: 10px;

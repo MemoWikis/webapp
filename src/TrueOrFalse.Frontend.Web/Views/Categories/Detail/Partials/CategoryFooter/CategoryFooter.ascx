@@ -2,20 +2,18 @@
     Inherits="System.Web.Mvc.ViewUserControl<CategoryModel>" %>
 <%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
 
-<div id="CategoryFooter" style="margin-top:100px">
-    <div class="footerToolbar" style="display: flex; justify-content: space-between;border-bottom: solid 1px #d6d6d6;">
-        <div class="Wishknowledge" style="display:flex">
-            <div class="show-tooltip" style="height: 44px;width: 44px;border-radius: 50%;display: inline-block; border: solid 1px silver;margin-bottom:10px">
-                <div style="display: inline-block; font-size: 24px; font-weight: normal; padding:7px 9px;" class="Pin" data-category-id="<%= Model.Id %>">
+<div id="CategoryFooter">
+    <div class="footerToolbar">
+        <div class="wishknowledge">
+                <div class="Pin" data-category-id="<%= Model.Id %>">
                     <%= Html.Partial("AddToWishknowledge", new AddToWishknowledge(Model.IsInWishknowledge, false, true)) %>
                 </div>
-            </div>
 
-            <div style="padding-left: 10px;"><span><%= Model.TotalPins%> Mal im Wunschwissen</span></div>
+            <div class="PinLabel"><span><%= Model.TotalPins%> Mal im Wunschwissen</span></div>
         </div>
 
         <% var buttonId = Guid.NewGuid(); %>
-        <div class="Button dropdown">
+        <div class="Button dropdown footerDropdown">
             <a href="#" id="<%= buttonId %>" class="dropdown-toggle  btn btn-link btn-sm ButtonEllipsis" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
                 <i class="fa fa-ellipsis-v"></i>
             </a>
@@ -27,19 +25,24 @@
             </ul>
         </div>
     </div>
-
-    <div class="footerContainer-Learning row" style="border-bottom: solid 1px #d6d6d6;padding:30px 0">
+    <div class="footerContainer-Learning row" style="padding:30px 0">
         <div class="col-sm-12">
             
             <h1>Lernen</h1>
         
             <div style="display: flex; justify-content: space-between; margin-top: 20px;">
                 <div class="QuestionCounter">
-                    <p><%= Model.AggregatedQuestionCount %> Frage<%= StringUtils.PluralSuffix(Model.AggregatedQuestionCount, "n") %> im Wissensnetz. <span class="btn-link">Lernen / Anzeigen</span></p>
-                    <p><%= Model.CategoryQuestionCount %> Frage<%= StringUtils.PluralSuffix(Model.CategoryQuestionCount, "n") %> direkt zugeordnet. <span class="btn-link">Lernen / Anzeigen</span></p>
+                    <p><% string aggregatedQuestionCount = "Keine";
+                          if (Model.AggregatedQuestionCount > 0)
+                              aggregatedQuestionCount = Model.AggregatedQuestionCount.ToString();%>
+                        <%= aggregatedQuestionCount %> Frage<%= StringUtils.PluralSuffix(Model.AggregatedQuestionCount, "n") %> im Wissensnetz. <%if (Model.AggregatedQuestionCount > 0) {%><%--<span class="btn-link">Lernen / Anzeigen</span>--%><%} %></p>
+                    <p><% string questionCount = "Keine";
+                          if (Model.CategoryQuestionCount > 0)
+                              questionCount = Model.CategoryQuestionCount.ToString();%>
+                        <%= questionCount %> Frage<%= StringUtils.PluralSuffix(Model.CategoryQuestionCount, "n") %> direkt zugeordnet. <%if (Model.CategoryQuestionCount > 0) {%><%--<span class="btn-link">Lernen / Anzeigen</span>--%><%} %></p>
                 </div>
                 <div class="StartLearningSession">
-                    <div class="btn btn-lg btn-primary">Lernsitzung starten</div>       
+                    <div id="LearningFooterBtn" data-tab-id="LearningTab" class="btn btn-lg btn-primary footerBtn">Lernsitzung starten</div>       
                 </div>
             </div>
         
@@ -52,6 +55,8 @@
         </div>
 
     </div>
+    <div style="border-bottom: solid 1px #d6d6d6;"></div>
+
 
     <div class="footerContainer-Analytics row" style="padding: 30px 0;display: flex;">
 
@@ -71,7 +76,7 @@
                 <% } %>
                 
                 <div class="OpenAnalyticsTab">
-                    <div class="btn btn-lg btn-primary">Wissensnetz ansehen</div>       
+                    <div id="AnalyticsFooterBtn" data-tab-id="AnalyticsTab" class="btn btn-lg btn-primary footerBtn">Wissensnetz ansehen</div>       
                 </div>
             </div>
 
