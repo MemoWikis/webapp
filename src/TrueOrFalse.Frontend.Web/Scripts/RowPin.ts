@@ -104,6 +104,17 @@ class Pin {
             });
         });
 
+        $(".RoundHeartButton.iAdded").hover(hoverIn, hoverOut);
+
+        function hoverIn() {
+            $("i.fa-heart").addClass("hide2");
+            $("i.fa-times").removeClass("hide2");
+        }
+        function hoverOut() {
+            $("i.fa-times").addClass("hide2");
+            $("i.fa-heart").removeClass("hide2");
+        }
+
         $("#UnpinCategoryModal").off("click").on("click", "#JS-RemoveQuestionsCat", () => {
             $.when(
                 CategoryApi.UnpinQuestionsInCategory($('#JS-RemoveQuestionsCat').attr('data-category-id'), onPinChanged))

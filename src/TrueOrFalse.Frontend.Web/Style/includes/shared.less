@@ -311,6 +311,169 @@
     }
 }
 
+.RoundHeartButton {
+    height: 44px;
+    width: 44px;
+    border-radius: 50%;
+    display: inline-block;
+    border: solid 1px silver;
+    margin-bottom: 10px;
+    text-align: center;
+    vertical-align: bottom;
+
+
+    .hide2 {
+        display: none;
+    }
+
+    @keyframes easeIn {
+        0% {
+            transform: scale( 0 );
+        }
+
+        30% {
+            transform: scale( 0.3 );
+        }
+
+
+        100% {
+            transform: scale( 1 );
+        }
+    }
+
+    @keyframes easeOut {
+        0% {
+            transform: scale( 1 );
+        }
+
+        100% {
+            transform: scale( 0 );
+        }
+    }
+
+    @keyframes colorIn {
+        0% {
+            background-color: rgba(177, 58, 72, 0);
+        }
+
+        100% {
+            background-color: rgba(177, 58, 72, 100);
+        }
+    }
+
+    @keyframes colorOut {
+        0% {
+            background-color: rgba(177, 58, 72, 100);
+        }
+
+        100% {
+            background-color: rgba(177, 58, 72, 0);
+        }
+    }
+
+
+    &.iAdded {
+        border-color: #b13a48;
+        background-color: #b13a48;
+
+        &:hover {
+            background-color: white;
+            box-sizing: border-box;
+            border: 1px solid #b13a48;
+            cursor: pointer;
+        }
+
+        .HeartInCircle {
+
+            .fa-heart {
+                font-weight: 100 !important;
+                animation: easeIn 0.3s ease-in, easeOut 0.2s ease-out, colourIn 0.3s ease-in, colourOut 0.2s ease-out;
+            }
+
+            .fa-times {
+                animation: easeIn 0.3s ease-in, easeOut 0.2s ease-out;
+            }
+        }
+    }
+
+    &.iAddedNot {
+
+        &:hover {
+            box-sizing: border-box;
+            border: 1px solid #b13a48;
+            cursor: pointer;
+            animation: heartbeatPulse 2s infinite;
+
+            @keyframes heartbeatPulse {
+                0% {
+                    box-shadow: 0 0 4px 2px rgba(177, 58, 72, 0);
+                }
+
+                10% {
+                    box-shadow: 0 0 2px 1px rgba(177, 58, 72, 0.8), 0 0 6px 2px rgba(177, 58, 72, 0.2);
+                }
+
+                20% {
+                    box-shadow: 0 0 4px 2px rgba(177, 58, 72, 0);
+                }
+
+                30% {
+                    box-shadow: 0 0 2px 1px rgba(177, 58, 72, 0.8), 0 0 6px 2px rgba(177, 58, 72, 0.2);
+                }
+
+                60% {
+                    box-shadow: 0 0 4px 2px rgba(177, 58, 72, 0.1);
+                }
+
+                100% {
+                    box-shadow: 0 0 4px 2px rgba(177, 58, 72, 0);
+                }
+            }
+
+            .HeartInCircle {
+                @keyframes heartbeat {
+                    0% {
+                        transform: scale( 1 );
+                    }
+
+                    10% {
+                        transform: scale( 1.1 );
+                    }
+
+                    20% {
+                        transform: scale( 1 );
+                    }
+
+                    30% {
+                        transform: scale( 1.1 );
+                    }
+
+                    60% {
+                        transform: scale( 1 );
+                    }
+
+                    100% {
+                        transform: scale( 1 );
+                    }
+                }
+
+                .fa-heart-o {
+                    animation: heartbeat 2s infinite;
+                }
+            }
+        }
+    }
+
+
+    .HeartInCircle {
+        display: inline-block;
+        font-size: 24px;
+        font-weight: normal;
+        line-height: 44px;
+    }
+}
+
+
 /*  Boxes
 ----------------------------------------------------------*/
 

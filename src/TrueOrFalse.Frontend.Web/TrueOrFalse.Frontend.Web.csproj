@@ -22043,6 +22043,7 @@
     <Compile Include="Views\Shared\Cards\CardQuestionAuthorModel.cs" />
     <Compile Include="Views\Shared\Cards\CardSingleCategoryModel.cs" />
     <Compile Include="Views\Shared\AddToWishknowledge.cs" />
+    <Content Include="Views\Shared\AddToWishknowledgeHeartbeat.ascx" />
     <Content Include="Views\Shared\AddToWishknowledgeButtonQuestionDetail.ascx" />
     <Content Include="Views\Shared\Cards\CardTutory.ascx" />
     <Content Include="Views\Shared\Cards\CardQuestionAuthor.ascx" />
