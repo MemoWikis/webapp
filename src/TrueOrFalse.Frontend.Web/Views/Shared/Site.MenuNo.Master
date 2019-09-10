@@ -27,6 +27,7 @@
     <section id="MasterSection">
 
         <input type="hidden" id="IsLoggedIn" value="<%= Model.IsLoggedIn %>" />
+        <asp:ContentPlaceHolder ID="SubHeader" runat="server" />
         <section id="MasterMainContent" class="container">
             <div class="row">
                 <section id="MasterMainColumn">
