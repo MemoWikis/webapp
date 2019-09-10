@@ -27,14 +27,14 @@
             <% } %>
             <i class="fa fa-plus-circle show-tooltip color-category add-new" 
                 style="font-size: 14px; cursor: pointer"
-                onclick="window.location = '/Kategorien/Erstelle?parent=<%= Model.CategoryId%>'; return false; " 
+                onclick="window.location = '/Erstelle?parent=<%= Model.CategoryId%>'; return false; " 
                 data-original-title="Neues untergeordnetes Thema erstellen"></i>
         </div>
     <% } else { %>
         <div style="margin-top: 0;">keine untergeordneten Themen
             <i class="fa fa-plus-circle show-tooltip color-category add-new" 
                 style="font-size: 14px; cursor: pointer"
-                onclick="window.location = '/Kategorien/Erstelle?parent=<%= Model.CategoryId%>'; return false; " 
+                onclick="window.location = '/Erstelle?parent=<%= Model.CategoryId%>'; return false; " 
                 data-original-title="Neues untergeordnetes Thema erstellen"></i>
         </div>
     <%  } %>

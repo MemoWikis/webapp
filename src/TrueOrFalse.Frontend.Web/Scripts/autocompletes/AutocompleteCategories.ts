@@ -111,7 +111,7 @@ class AutocompleteCategories {
                     catIdx = inputSelector.substring(1);
                     self._elemInput.closest(".JS-CatInputContainer").before(
                         "<div class='added-cat SingleSelect' id='cat-" + catIdx + "' style='display: none;'>" +
-                            "<a href='/Kategorien/" + catId + "'>" + catText + "</a>" +
+                            "<a href='/" + catId + "'>" + catText + "</a>" +
                             "<input id='hdd" + catIdx + "' type='hidden' value='" + catId + "'name='" + "hdd" + catIdx + "'/> " +
                             "<a href='#' id='delete-cat-" + catIdx + "'><i class='fa fa-pencil'></i></a>" +
                         "</div> ");
@@ -125,7 +125,7 @@ class AutocompleteCategories {
                 } else {
                     self._elemInput.closest(".JS-CatInputContainer").before(
                         "<div class='added-cat' id='cat-" + catIdx + "' style='display: none;'>" +
-                            "<a href='/Kategorien/" + catId + "'>" + catText + "</a>" +
+                            "<a href='/" + catId + "'>" + catText + "</a>" +
                             "<input type='hidden' value='" + catId + "' name='cat-" + catIdx + "'/>" +
                             "<a href='#' id='delete-cat-" + catIdx + "'><img alt='' src='/Images/Buttons/cross.png' /></a>" +
                         "</div> ");
@@ -335,7 +335,7 @@ class AutocompleteCategories {
 
                 html =  "<div class='CatListItem'>" +
                             resultInfo +
-                            "<a href='/Kategorien/Erstelle/" + urlCategory + "' target='_blank' class='TextLink'>" +
+                            "<a href='/Erstelle/" + urlCategory + "' target='_blank' class='TextLink'>" +
                                 linkText +
                             "</a>" +
                         "</div>";
@@ -343,11 +343,11 @@ class AutocompleteCategories {
                 if (self._filterType == AutoCompleteFilterType.Article) {
                     html =  "<div class='CatListItem'>" +
                                 resultInfo + "in neuem Tab " +
-                                "<a href='/Kategorien/Erstelle/DailyArticle' target='_blank' class='TextLink'>" +
+                                "<a href='/Erstelle/DailyArticle' target='_blank' class='TextLink'>" +
                                     "Artikel in Zeitung" +
                                 "</a>" +
                                 " oder " +
-                                "<a href='/Kategorien/Erstelle/MagazineArticle' target='_blank' class='TextLink'>" +
+                                "<a href='/Erstelle/MagazineArticle' target='_blank' class='TextLink'>" +
                                     "Artikel in Zeitschrift" +
                                 "</a>" +
                                 " erstellen." +

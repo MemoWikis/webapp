@@ -111,7 +111,7 @@ namespace TrueOrFalse
 
             routes.MapRoute("Category_Changes_Overview", "Kategorien/Historie/{pageToShow}", new { controller = "CategoryChangesOverview", action = "List" });
             routes.MapRoute("Categories_WishSearch", "Wunschwissen/Suche/{searchTerm}", new { controller = "Categories", action = "CategoriesWish", searchTerm = UrlParameter.Optional });
-            routes.MapRoute("Categories_WishSearchApi", "Kategorien/Wunschwissen/SucheApi", new { controller = "Categories", action = "SearchApiWish" });
+            routes.MapRoute("Categories_WishSearchApi", "Wunschwissen/SucheApi", new { controller = "Categories", action = "SearchApiWish" });
             routes.MapRoute("Categories", "Kategorien", new { controller = "Categories", action = "Categories" });
             routes.MapRoute("Categories_SearchApi", "Kategorien/SucheApi", new { controller = "Categories", action = "SearchApi" });
             routes.MapRoute("Categories_Search", "Kategorien/Suche/{searchTerm}", new { controller = "Categories", action = "Search", searchTerm = UrlParameter.Optional });
