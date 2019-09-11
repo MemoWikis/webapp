@@ -45,13 +45,10 @@ public class AnswerLog : IRegisterAsInstancePerLifetime
         _answerRepo.Create(answer);
     }
 
-    public void CountLastAnswerAsCorrect(Guid questionViewGuid)
+    public void CountLastAnswerAsCorrect(Guid questionViewGuid, int questionId)
     {
-        var correctedAnswer = _answerRepo
-            .GetByQuestionViewGuid(questionViewGuid)
-            .OrderBy(a => a.InteractionNumber)
-            .LastOrDefault(a => a.AnswerredCorrectly == AnswerCorrectness.False);
-
+        var correctedAnswer = _answerRepo.GetByQuestion(questionId).Where(a => a.QuestionViewGuid == questionViewGuid).
+            LastOrDefault(a => a.AnswerredCorrectly == AnswerCorrectness.False);
         if (correctedAnswer != null && correctedAnswer.AnswerredCorrectly == AnswerCorrectness.False)
         {
             correctedAnswer.AnswerredCorrectly = AnswerCorrectness.MarkedAsTrue;
