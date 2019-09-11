@@ -151,7 +151,7 @@ public class AnswerQuestion : IRegisterAsInstancePerLifetime
 
         if (countLastAnswerAsCorrect || countUnansweredAsCorrect && testSessionId != null)
             return Run(questionId, "", userId, (question, answerQuestionResult) =>
-                _answerLog.CountLastAnswerAsCorrect(questionViewGuid), countLastAnswerAsCorrect: true
+                _answerLog.CountLastAnswerAsCorrect(questionViewGuid, questionId), countLastAnswerAsCorrect: true
             );
 
         if (countUnansweredAsCorrect)
