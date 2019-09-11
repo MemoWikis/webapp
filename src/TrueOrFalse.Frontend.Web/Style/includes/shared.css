@@ -6863,60 +6863,71 @@ fieldset[disabled] .HeartToAddButton .iAddedNot.active {
   text-align: center;
   vertical-align: bottom;
 }
+.RoundHeartButton:focus {
+  outline: 0;
+}
 .RoundHeartButton .hide2 {
   display: none;
 }
-@keyframes easeIn {
+@keyframes expandIcon {
   0% {
     transform: scale(0);
   }
-  30% {
-    transform: scale(0.3);
+  90% {
+    transform: scale(1.1);
   }
   100% {
     transform: scale(1);
   }
 }
-@keyframes easeOut {
+@keyframes shrinkIcon {
   0% {
     transform: scale(1);
   }
   100% {
     transform: scale(0);
-  }
-}
-@keyframes colorIn {
-  0% {
-    background-color: rgba(177, 58, 72, 0);
-  }
-  100% {
-    background-color: #b13a48;
-  }
-}
-@keyframes colorOut {
-  0% {
-    background-color: #b13a48;
-  }
-  100% {
-    background-color: rgba(177, 58, 72, 0);
   }
 }
 .RoundHeartButton.iAdded {
   border-color: #b13a48;
   background-color: #b13a48;
+  animation: resetBGColor 0.3s forwards;
 }
 .RoundHeartButton.iAdded:hover {
-  background-color: white;
   box-sizing: border-box;
   border: 1px solid #b13a48;
   cursor: pointer;
+  animation: changeBGColor 0.4s forwards;
+}
+@keyframes changeBGColor {
+  0% {
+    background-color: #b13a48;
+  }
+  100% {
+    background-color: transparent;
+  }
+}
+@keyframes resetBGColor {
+  0% {
+    background-color: transparent;
+  }
+  100% {
+    background-color: #b13a48;
+  }
 }
 .RoundHeartButton.iAdded .HeartInCircle .fa-heart {
   font-weight: 100 !important;
-  animation: easeIn 0.3s ease-in, easeOut 0.2s ease-out, colourIn 0.3s ease-in, colourOut 0.2s ease-out;
+  animation: expandIcon 0.2s forwards;
+}
+.RoundHeartButton.iAdded .HeartInCircle .fa-heart.onHover {
+  font-weight: 100 !important;
+  animation: shrinkIcon 0.2s forwards;
 }
 .RoundHeartButton.iAdded .HeartInCircle .fa-times {
-  animation: easeIn 0.3s ease-in, easeOut 0.2s ease-out;
+  animation: shrinkIcon 0.2s forwards;
+}
+.RoundHeartButton.iAdded .HeartInCircle .fa-times.onHover {
+  animation: expandIcon 0.2s forwards;
 }
 .RoundHeartButton.iAddedNot:hover {
   box-sizing: border-box;
@@ -6966,6 +6977,53 @@ fieldset[disabled] .HeartToAddButton .iAddedNot.active {
 }
 .RoundHeartButton.iAddedNot:hover .HeartInCircle .fa-heart-o {
   animation: heartbeat 2s infinite;
+}
+@keyframes topBubbles {
+  0% {
+    background-position: 5% 90%, 10% 90%, 10% 90%, 15% 90%, 25% 90%, 25% 90%, 40% 90%, 55% 90%, 70% 90%;
+  }
+  50% {
+    background-position: 0% 80%, 0% 20%, 10% 40%, 20% 0%, 30% 30%, 22% 50%, 50% 50%, 65% 20%, 90% 30%;
+  }
+  100% {
+    background-position: 0% 70%, 0% 10%, 10% 30%, 20% -10%, 30% 20%, 22% 40%, 50% 40%, 65% 10%, 90% 20%;
+    background-size: 0% 0%, 0% 0%, 0% 0%, 0% 0%, 0% 0%, 0% 0%;
+  }
+}
+@keyframes bottomBubbles {
+  0% {
+    background-position: 10% -10%, 30% 10%, 55% -10%, 70% -10%, 85% -10%, 70% -10%, 70% 0%;
+  }
+  50% {
+    background-position: 0% 80%, 20% 80%, 45% 60%, 60% 100%, 75% 70%, 95% 60%, 105% 0%;
+  }
+  100% {
+    background-position: 0% 90%, 20% 90%, 45% 70%, 60% 110%, 75% 80%, 95% 70%, 110% 10%;
+    background-size: 0% 0%, 0% 0%, 0% 0%, 0% 0%, 0% 0%, 0% 0%;
+  }
+}
+.RoundHeartButton.iAddSpinner .HeartInCircle:before,
+.RoundHeartButton.iAddSpinner .HeartInCircle:after {
+  position: absolute;
+  content: '';
+  display: block;
+  width: 140%;
+  height: 100%;
+  /*left: -20%;*/
+  /*z-index: -1;*/
+  background-repeat: no-repeat;
+}
+.RoundHeartButton.iAddSpinner .HeartInCircle:before {
+  /*top: -75%;*/
+  background-image: radial-gradient(circle, #b13a48 20%, transparent 20%), radial-gradient(circle, transparent 20%, #b13a48 20%, transparent 30%), radial-gradient(circle, #b13a48 20%, transparent 20%), radial-gradient(circle, #b13a48 20%, transparent 20%), radial-gradient(circle, transparent 10%, #b13a48 15%, transparent 20%), radial-gradient(circle, #b13a48 20%, transparent 20%), radial-gradient(circle, #b13a48 20%, transparent 20%), radial-gradient(circle, #b13a48 20%, transparent 20%), radial-gradient(circle, #b13a48 20%, transparent 20%);
+  background-size: 40% 40%, 80% 80%, 60% 60%, 80% 80%, 72% 72%, 40% 40%, 60% 60%, 40% 40%, 72% 72%;
+  animation: topBubbles ease-in-out 0.75s forwards;
+}
+.RoundHeartButton.iAddSpinner .HeartInCircle:after {
+  /*bottom: -75%;*/
+  background-image: radial-gradient(circle, #b13a48 20%, transparent 20%), radial-gradient(circle, #b13a48 20%, transparent 20%), radial-gradient(circle, transparent 10%, #b13a48 15%, transparent 20%), radial-gradient(circle, #b13a48 20%, transparent 20%), radial-gradient(circle, #b13a48 20%, transparent 20%), radial-gradient(circle, #b13a48 20%, transparent 20%), radial-gradient(circle, #b13a48 20%, transparent 20%);
+  background-size: 15% 15%, 20% 20%, 18% 18%, 20% 20%, 15% 15%, 10% 10%, 20% 20%;
+  animation: bottomBubbles ease-in-out 0.75s forwards;
 }
 .RoundHeartButton .HeartInCircle {
   display: inline-block;

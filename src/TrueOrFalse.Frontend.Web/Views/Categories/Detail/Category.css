@@ -1166,7 +1166,7 @@ p:empty {
 }
 #TopicTabContent #InlineEditToolbar .floatingActionBtn.sticky {
   position: absolute;
-  bottom: 0;
+  bottom: -40px;
 }
 #TopicTabContent #InlineEditToolbar .floatingActionBtn .trigger {
   pointer-events: auto;

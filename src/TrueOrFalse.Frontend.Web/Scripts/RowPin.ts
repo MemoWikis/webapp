@@ -107,12 +107,20 @@ class Pin {
         $(".RoundHeartButton.iAdded").hover(hoverIn, hoverOut);
 
         function hoverIn() {
-            $("i.fa-heart").addClass("hide2");
-            $("i.fa-times").removeClass("hide2");
+            $("i.fa-heart").addClass("onHover");
+            $("i.fa-times").addClass("onHover");
+            setTimeout(function () {
+                $("i.fa-heart").addClass("hide2");
+                $("i.fa-times").removeClass("hide2");
+            }, 300);
         }
         function hoverOut() {
-            $("i.fa-times").addClass("hide2");
-            $("i.fa-heart").removeClass("hide2");
+            $("i.fa-heart").removeClass("onHover");
+            $("i.fa-times").removeClass("onHover");
+            setTimeout(function () {
+                $("i.fa-heart").removeClass("hide2");
+                $("i.fa-times").addClass("hide2");
+            }, 300);
         }
 
         $("#UnpinCategoryModal").off("click").on("click", "#JS-RemoveQuestionsCat", () => {
