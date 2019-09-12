@@ -1031,6 +1031,9 @@ p:empty {
 #CategoryFooter .footerToolbar .footerDropdown {
   padding-top: 8px;
 }
+#CategoryFooter .footerToolbar .footerDropdown .dropdown-menu {
+  margin: -10px 0 0;
+}
 #CategoryFooter .footerToolbar .footerDropdown .fa-ellipsis-v {
   font-size: 18px;
   color: #999999;
