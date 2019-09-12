@@ -1020,7 +1020,7 @@ p:empty {
   display: -ms-flexbox;
   display: flex;
 }
-#CategoryFooter .footerToolbar .wishknowledge .PinLabel {
+#CategoryFooter .footerToolbar .wishknowledge #PinLabel {
   padding-left: 10px;
   padding-top: 4px;
   display: block;

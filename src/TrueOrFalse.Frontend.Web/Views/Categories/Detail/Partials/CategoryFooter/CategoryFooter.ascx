@@ -5,11 +5,11 @@
 <div id="CategoryFooter">
     <div class="footerToolbar">
         <div class="wishknowledge">
-                <div class="Pin" data-category-id="<%= Model.Id %>">
-                    <%= Html.Partial("AddToWishknowledgeHeartbeat", new AddToWishknowledge(Model.IsInWishknowledge, false, true)) %>
-                </div>
+            <div class="Pin" data-category-id="<%= Model.Id %>">
+                <%= Html.Partial("AddToWishknowledgeHeartbeat", new AddToWishknowledge(Model.IsInWishknowledge, false, true)) %>
+            </div>
 
-            <div class="PinLabel"><span><%= Model.TotalPins%> Mal im Wunschwissen</span></div>
+            <div id="PinLabel"><span id="CategoryFooterTotalPins"><%= Model.TotalPins%></span><span> Mal im Wunschwissen</span></div>
         </div>
 
         <% var buttonId = Guid.NewGuid(); %>
