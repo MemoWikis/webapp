@@ -997,6 +997,44 @@ p:empty {
     overflow: hidden;
   }
 }
+/*------------------------------------------------------
+    CategoryFooter
+-------------------------------------------------------*/
+#CategoryFooter {
+  margin-top: 100px;
+}
+#CategoryFooter .footerToolbar {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+  -webkit-justify-content: space-between;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  border-bottom: solid 1px #d6d6d6;
+}
+#CategoryFooter .footerToolbar .wishknowledge {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+}
+#CategoryFooter .footerToolbar .wishknowledge .PinLabel {
+  padding-left: 10px;
+  padding-top: 4px;
+  display: block;
+  height: 100%;
+  line-height: 38px;
+  color: #999999;
+}
+#CategoryFooter .footerToolbar .footerDropdown {
+  padding-top: 8px;
+}
+#CategoryFooter .footerToolbar .footerDropdown .fa-ellipsis-v {
+  font-size: 18px;
+  color: #999999;
+}
 @media (max-width: 991px) {
   #MasterMainWrapper {
     padding-top: 10px;
@@ -1128,7 +1166,7 @@ p:empty {
 }
 #TopicTabContent #InlineEditToolbar .floatingActionBtn.sticky {
   position: absolute;
-  bottom: 0;
+  bottom: -40px;
 }
 #TopicTabContent #InlineEditToolbar .floatingActionBtn .trigger {
   pointer-events: auto;

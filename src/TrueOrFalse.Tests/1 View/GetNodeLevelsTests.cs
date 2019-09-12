@@ -29,7 +29,7 @@ public class GetLevelsTests
             new Link(0, 5), //Level 2 -> Level 3
         };
 
-        GetCategoryGraph.Test_AssignNodeLevels(nodes, links);
+        //GetCategoryGraph.Test_AssignNodeLevels(nodes, links);
 
         Assert.That(nodes[0].Level, Is.EqualTo(0));
         Assert.That(nodes[1].Level, Is.EqualTo(1));
@@ -65,7 +65,7 @@ public class GetLevelsTests
             new Link(6, 7), //Level 2 -> Level 3
         };
 
-        GetCategoryGraph.Test_AssignLinkLevels(nodes, links);
+        //GetCategoryGraph.Test_AssignLinkLevels(nodes, links);
 
         Assert.That(links[0].level, Is.EqualTo(1));
         Assert.That(links[1].level, Is.EqualTo(1));

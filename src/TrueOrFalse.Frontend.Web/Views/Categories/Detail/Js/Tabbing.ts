@@ -46,6 +46,30 @@
 
             });
         });
+
+        $('#LearningFooterBtn, #AnalyticsFooterBtn').on('click', () => {
+                var currentTarget = $(event.currentTarget);
+                var tabName = currentTarget.attr('data-tab-id');
+                Utils.ShowSpinner();
+                this.RenderTabContent(tabName);
+                if (tabName === "LearningTab" && $('#hddLearningSessionStarted').val() === "False" && $('#hddQuestionCount').val() !== "0") {
+                    var answerBody = new AnswerBody();
+
+                    Utils.ShowSpinner();
+
+                    if (answerBody.IsTestSession()) {
+                        answerBody.Loader.loadNewTestSession();
+                    }
+
+                    $('#hddLearningSessionStarted').val("True");
+
+                    $(() => {
+                        $("#TabContent .show-tooltip").tooltip();
+                    });
+                }
+                this.ShowTab(tabName);
+            }
+        );
     }
 
     private RenderTabContent(tabName: string): void {
