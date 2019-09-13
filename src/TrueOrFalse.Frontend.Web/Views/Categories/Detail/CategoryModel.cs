@@ -193,12 +193,12 @@ public class CategoryModel : BaseContentModule
         var questions = AggregatedQuestions;
         if (hardestQuestion)
         {
-            var question = questions.OrderByDescending(q => q.CorrectnessProbability).First();
+            var question = questions.OrderByDescending(q => q.CorrectnessProbability).Last();
             return question;
         }
         else
         {
-            var question = questions.OrderByDescending(q => q.CorrectnessProbability).Last();
+            var question = questions.OrderByDescending(q => q.CorrectnessProbability).First();
             return question;
         }
     }
