@@ -3,6 +3,7 @@
 <%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
 
 <div id="CategoryFooter">
+
     <div class="footerToolbar">
         <div class="wishknowledge">
             <div class="Pin" data-category-id="<%= Model.Id %>">
@@ -42,7 +43,7 @@
                         <%= questionCount %> Frage<%= StringUtils.PluralSuffix(Model.CategoryQuestionCount, "n") %> direkt zugeordnet. <%if (Model.CategoryQuestionCount > 0) {%><%--<span class="btn-link">Lernen / Anzeigen</span>--%><%} %></p>
                 </div>
                 <div class="StartLearningSession">
-                    <div id="LearningFooterBtn" data-tab-id="LearningTab" class="btn btn-lg btn-primary footerBtn">Lernsitzung starten</div>       
+                    <div id="LearningFooterBtn" data-tab-id="LearningTab" class="btn btn-lg btn-primary footerBtn" @click="sendGaEvent('OpenLearningTabFromFooter')">Lernsitzung starten</div>       
                 </div>
             </div>
         
@@ -56,8 +57,6 @@
 
     </div>
     <div style="border-bottom: solid 1px #d6d6d6;"></div>
-
-
     <div class="footerContainer-Analytics row" style="padding: 30px 0;display: flex;">
 
         <div class="analyticsImageContainer col-sm-4">
@@ -76,11 +75,11 @@
                 <% } %>
                 
                 <div class="OpenAnalyticsTab">
-                    <div id="AnalyticsFooterBtn" data-tab-id="AnalyticsTab" class="btn btn-lg btn-primary footerBtn">Wissensnetz ansehen</div>       
+                    <div id="AnalyticsFooterBtn" data-tab-id="AnalyticsTab" class="btn btn-lg btn-primary footerBtn" @click="sendGaEvent('OpenAnalyticsTabFromFooter')">Wissensnetz ansehen</div>       
                 </div>
             </div>
 
         </div>
 
-    </div>
+</div>
 

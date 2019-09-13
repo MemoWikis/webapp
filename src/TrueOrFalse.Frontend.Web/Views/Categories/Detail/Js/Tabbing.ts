@@ -50,8 +50,19 @@
         $('#LearningFooterBtn, #AnalyticsFooterBtn').on('click', () => {
                 var currentTarget = $(event.currentTarget);
                 var tabName = currentTarget.attr('data-tab-id');
+
+                var gaEventLabel = 'LearningTab-footer';
+                if (tabName === "AnalyticsTab")
+                    gaEventLabel = 'AnalyticsTab-footer';
+
+                if (NotLoggedIn.Yes())
+                    Utils.SendGaEvent("NotLoggedIn", "Click", "Open" + gaEventLabel);
+                else
+                    Utils.SendGaEvent("LoggedIn", "Click", "Open" + gaEventLabel);
+
                 Utils.ShowSpinner();
                 this.RenderTabContent(tabName);
+
                 if (tabName === "LearningTab" && $('#hddLearningSessionStarted').val() === "False" && $('#hddQuestionCount').val() !== "0") {
                     var answerBody = new AnswerBody();
 
