@@ -1,6 +1,7 @@
 ﻿<%@ Control Language="C#" Inherits="System.Web.Mvc.ViewUserControl<AddToWishknowledge>" %>
 
 <a class="HeartToAddButton noTextdecoration" href="#" data-allowed-type="Pin_AnswerQuestion" rel="nofollow">
+
     <div class="iAdded <%= Model.IsWishknowledge ? "" : "hide2" %>">
         <i class="fa fa-heart show-tooltip" title="Befindet sich in deinem Wunschwissen. Klicken zum Entfernen."></i>
     </div>
@@ -13,6 +14,9 @@
             <span> Hinzufügen</span>
         <% } %>
     </div>
+
+
+
     <div class="iAddSpinner hide2">
         <i class="fa fa-spinner fa-spin" style="color:#b13a48;"></i>
     </div>

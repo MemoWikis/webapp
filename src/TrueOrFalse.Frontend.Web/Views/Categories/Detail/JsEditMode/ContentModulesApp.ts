@@ -117,10 +117,10 @@ new Vue({
     methods: {
 
         footerCheck() {
-            const elLicense = document.getElementById('GlobalLicense');
+            const elFooter = document.getElementById('CategoryFooter');
 
-            if (elLicense) {
-                var rect = elLicense.getBoundingClientRect();
+            if (elFooter) {
+                var rect = elFooter.getBoundingClientRect();
                 var viewHeight = Math.max(document.documentElement.clientHeight, window.innerHeight);
                 if (rect.top - viewHeight >= 0 || rect.bottom < 0)
                     this.footerIsVisible = false;

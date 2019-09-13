@@ -23,15 +23,24 @@ public class CategoryModel : BaseContentModule
     public IList<Category> CategoriesParent;
     public IList<Category> CategoriesChildren;
 
+    public int CategoriesDescendantsCount;
+    public IList<Category> AllCategoriesParents;
+
     public IList<Set> AggregatedSets;
     public IList<Question> AggregatedQuestions;
+    public IList<Question> CategoryQuestions;
+
     public int AggregatedSetCount;
     public int AggregatedQuestionCount;
+    public int CategoryQuestionCount;
     public IList<Question> TopQuestions;
     public IList<Question> TopQuestionsWithReferences;
     public List<Question> TopQuestionsInSubCats = new List<Question>();
     public IList<Question> TopWishQuestions;
     public IList<Question> SingleQuestions;
+    public Question EasiestQuestion;
+    public Question HardestQuestion;
+    public string ParentList;
 
 
     public User Creator;
@@ -52,6 +61,7 @@ public class CategoryModel : BaseContentModule
     public bool IsLearningSession => IsLoggedIn;
 
     public int CountAggregatedQuestions;
+    public int CountCategoryQuestions;
     public int CountReferences;
     public int CountWishQuestions;
     public int CountSets;
@@ -65,6 +75,7 @@ public class CategoryModel : BaseContentModule
     private readonly CategoryRepository _categoryRepo;
 
     public bool IsInWishknowledge;
+    public string TotalPins;
 
     public LearningTabModel LearningTabModel; 
 
@@ -120,6 +131,9 @@ public class CategoryModel : BaseContentModule
 
         AggregatedQuestions = category.GetAggregatedQuestionsFromMemoryCache();
         CountAggregatedQuestions = AggregatedQuestions.Count;
+        CategoryQuestions = category.GetAggregatedQuestionsFromMemoryCache(true, false, category.Id);
+        CountCategoryQuestions = CategoryQuestions.Count;
+
         CountReferences = ReferenceCount.Get(category.Id);
 
         if (category.Type != CategoryType.Standard)
@@ -134,7 +148,7 @@ public class CategoryModel : BaseContentModule
             TopQuestionsInSubCats = GetTopQuestionsInSubCats();
 
        
-          //  LearningTabModel = new LearningTabModel(Category);
+        //  LearningTabModel = new LearningTabModel(Category);
 
         TopWishQuestions = wishQuestions.Items;
 
@@ -145,6 +159,14 @@ public class CategoryModel : BaseContentModule
         AggregatedSetCount = AggregatedSets.Count;
 
         AggregatedQuestionCount = Category.GetCountQuestionsAggregated();
+        CategoryQuestionCount = Category.GetCountQuestionsAggregated(true, category.Id);
+        HardestQuestion = GetQuestion(true);
+        EasiestQuestion = GetQuestion(false);
+
+        TotalPins = category.TotalRelevancePersonalEntries.ToString();
+
+        GetCategoryRelations();
+
     }
 
     private List<Question> GetTopQuestionsInSubCats()
@@ -160,6 +182,25 @@ public class CategoryModel : BaseContentModule
         return topQuestions
             .Distinct(ProjectionEqualityComparer<Question>.Create(x => x.Id))
             .ToList();
+    }
+
+    private Question GetQuestion(bool hardestQuestion)
+    {
+        if (CountAggregatedQuestions < 1)
+        {
+            return null;
+        }
+        var questions = AggregatedQuestions;
+        if (hardestQuestion)
+        {
+            var question = questions.OrderByDescending(q => q.CorrectnessProbability).Last();
+            return question;
+        }
+        else
+        {
+            var question = questions.OrderByDescending(q => q.CorrectnessProbability).First();
+            return question;
+        }
     }
 
     public ImageUrl GetCategoryImageUrl(Category category)
@@ -185,8 +226,41 @@ public class CategoryModel : BaseContentModule
             .Select(item => item.Date.ToShortDateString() + " " + item.Views)
             .ToList();
 
-        return !views.Any() 
+         return !views.Any() 
             ? "" 
             : views.Aggregate((a, b) => a + " " + b + System.Environment.NewLine);
+    }
+
+    public void GetCategoryRelations()
+    {
+        var descendants = GetCategoriesDescendants.WithAppliedRules(Category);
+        CategoriesDescendantsCount = descendants.Count;
+
+        var allParents = Sl.CategoryRepo.GetAllParents(Id);
+        AllCategoriesParents = allParents;
+
+        if (allParents.Count > 0)
+            GetCategoryParentList();
+    }
+
+    private void GetCategoryParentList()
+    {
+        string categoryList = "";
+        string parentList;
+        foreach (var category in AllCategoriesParents.Take(3))
+        {
+            categoryList = categoryList + category.Name + ", ";
+        }
+        if (AllCategoriesParents.Count > 3)
+        {
+            parentList = categoryList + "...";
+        }
+        else
+        {
+            categoryList = categoryList.Remove(categoryList.Length - 2);
+            parentList = categoryList;
+        }
+
+        ParentList = "(" + parentList + ")";
     }
 }
