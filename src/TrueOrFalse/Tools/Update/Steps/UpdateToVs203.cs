@@ -8,7 +8,8 @@ namespace TrueOrFalse.Updates
         {
             Sl.Resolve<ISession>()
                 .CreateSQLQuery(
-                    @"CREATE INDEX `IX_QuestionViewGuid` ON `answer`(`QuestionViewGuid`) USING BTREE;"
+            @"ALTER TABLE `answer`
+	                    ADD INDEX `IX_QuestionViewGuid` (`QuestionViewGuid`);"
                 ).ExecuteUpdate();
 
             
