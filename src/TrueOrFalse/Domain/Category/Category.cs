@@ -83,8 +83,11 @@ public class Category : DomainEntity, ICreator
         CountQuestionsAggregated = GetCountQuestionsAggregated();
     }
 
-    public virtual int GetCountQuestionsAggregated()
+    public virtual int GetCountQuestionsAggregated(bool inCategoryOnly = false, int categoryId = 0)
     {
+        if (inCategoryOnly)
+            return GetAggregatedQuestionsFromMemoryCache(true, false, categoryId).Count;
+
         return GetAggregatedQuestionsFromMemoryCache().Count;
         // should be: return GetAggregatedQuestionsFromMemoryCache().Count(q => q.IsVisibleToCurrentUser());
     }
@@ -94,16 +97,28 @@ public class Category : DomainEntity, ICreator
         return GetAggregatedSetsFromMemoryCache().Count;
     }
 
-    public virtual IList<Question> GetAggregatedQuestionsFromMemoryCache(bool onlyVisible = true)
+    public virtual IList<Question> GetAggregatedQuestionsFromMemoryCache(bool onlyVisible = true, bool fullList = true, int categoryId = 0)
     {
         var questionRepo = Sl.QuestionRepo;
+        IList<Question> questions;
 
-        var questions = AggregatedCategories()
-            .SelectMany(c =>
-                questionRepo.GetForCategoryFromMemoryCache(c.Id)
-                    .Union(EntityCache.GetQuestionsInSetsForCategory(c.Id)))
-            .Distinct()
-            .ToList();
+        if (fullList)
+        {
+            questions = AggregatedCategories()
+                .SelectMany(c =>
+                    questionRepo.GetForCategoryFromMemoryCache(c.Id)
+                        .Union(EntityCache.GetQuestionsInSetsForCategory(c.Id)))
+                .Distinct()
+                .ToList();
+        }
+        else
+        {
+            questions = questionRepo.GetForCategoryFromMemoryCache(categoryId)
+                .Union(EntityCache.GetQuestionsInSetsForCategory(categoryId))
+                .Distinct()
+                .ToList();
+        }
+
 
         if (onlyVisible)
         {

@@ -311,6 +311,181 @@
     }
 }
 
+.RoundHeartButton {
+    height: 44px;
+    width: 44px;
+    border-radius: 50%;
+    display: inline-block;
+    border: solid 1px silver;
+    margin-bottom: 10px;
+    text-align: center;
+    vertical-align: bottom;
+
+    &:focus {
+        outline: 0;
+    }
+
+    .hide2 {
+        display: none;
+    }
+
+    @keyframes expandIcon {
+        0% {
+            transform: scale( 0 );
+        }
+
+        90% {
+            transform: scale( 1.1 );
+        }
+
+        100% {
+            transform: scale( 1 );
+        }
+    }
+
+    @keyframes shrinkIcon {
+        0% {
+            transform: scale( 1 );
+        }
+
+        100% {
+            transform: scale( 0 );
+        }
+    }
+
+
+    &.iAdded {
+        border-color: #b13a48;
+        background-color: #b13a48;
+        animation: resetBGColor 0.3s forwards;
+
+        &:hover {
+            @keyframes changeBGColor {
+                0% {
+                    background-color: #b13a48;
+                }
+
+                100% {
+                    background-color: transparent;
+                }
+            }
+
+            @keyframes resetBGColor {
+                0% {
+                    background-color: transparent;
+                }
+
+                100% {
+                    background-color: #b13a48;
+                }
+            }
+
+            box-sizing: border-box;
+            border: 1px solid #b13a48;
+            cursor: pointer;
+            animation: changeBGColor 0.4s forwards;
+        }
+
+        .HeartInCircle {
+
+            .fa-heart {
+                font-weight: 100 !important;
+                animation: expandIcon 0.2s forwards;
+
+                &.onHover {
+                    font-weight: 100 !important;
+                    animation: shrinkIcon 0.2s forwards;
+                }
+            }
+
+            .fa-times {
+                animation: shrinkIcon 0.2s forwards;
+
+                &.onHover {
+                    animation: expandIcon 0.2s forwards;
+                }
+            }
+        }
+    }
+
+    &.iAddedNot {
+
+        &:hover {
+            box-sizing: border-box;
+            border: 1px solid #b13a48;
+            cursor: pointer;
+            animation: heartbeatPulse 2s infinite;
+
+            @keyframes heartbeatPulse {
+                0% {
+                    box-shadow: 0 0 4px 2px rgba(177, 58, 72, 0);
+                }
+
+                10% {
+                    box-shadow: 0 0 2px 1px rgba(177, 58, 72, 0.8), 0 0 6px 2px rgba(177, 58, 72, 0.2);
+                }
+
+                20% {
+                    box-shadow: 0 0 4px 2px rgba(177, 58, 72, 0);
+                }
+
+                30% {
+                    box-shadow: 0 0 2px 1px rgba(177, 58, 72, 0.8), 0 0 6px 2px rgba(177, 58, 72, 0.2);
+                }
+
+                60% {
+                    box-shadow: 0 0 4px 2px rgba(177, 58, 72, 0.1);
+                }
+
+                100% {
+                    box-shadow: 0 0 4px 2px rgba(177, 58, 72, 0);
+                }
+            }
+
+            .HeartInCircle {
+
+                @keyframes heartbeat {
+                    0% {
+                        transform: scale( 1 );
+                    }
+
+                    10% {
+                        transform: scale( 1.1 );
+                    }
+
+                    20% {
+                        transform: scale( 1 );
+                    }
+
+                    30% {
+                        transform: scale( 1.1 );
+                    }
+
+                    60% {
+                        transform: scale( 1 );
+                    }
+
+                    100% {
+                        transform: scale( 1 );
+                    }
+                }
+
+                .fa-heart-o {
+                    animation: heartbeat 2s infinite;
+                }
+            }
+        }
+    }
+
+    .HeartInCircle {
+        display: inline-block;
+        font-size: 24px;
+        font-weight: normal;
+        line-height: 44px;
+    }
+}
+
+
 /*  Boxes
 ----------------------------------------------------------*/
 

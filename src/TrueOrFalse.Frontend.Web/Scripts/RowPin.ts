@@ -74,6 +74,10 @@ class Pin {
                     Utils.SetElementValue(".tabWishKnowledgeCount", (parseInt($(".tabWishKnowledgeCount").html()) + 1).toString());
 
                     self.SetSidebarValue(self.GetSidebarValue(elemPin) + 1, elemPin);
+
+                    if ($(this).hasClass("RoundHeartButton"))
+                        self.SetFooterTotalPins(1);
+
                 }, 400);
 
             } else /* unpin */ {
@@ -91,6 +95,10 @@ class Pin {
                     Utils.SetElementValue(".tabWishKnowledgeCount", (parseInt($(".tabWishKnowledgeCount").html()) - 1).toString());
                         
                     self.SetSidebarValue(self.GetSidebarValue(elemPin) - 1, elemPin);
+
+                    if ($(this).hasClass("RoundHeartButton"))
+                        self.SetFooterTotalPins(-1);
+
                 }, 400);
             }
         });
@@ -103,6 +111,25 @@ class Pin {
                 Utils.SetMenuPins();
             });
         });
+
+        $(".RoundHeartButton.iAdded").hover(hoverIn, hoverOut);
+
+        function hoverIn() {
+            $("i.fa-heart").addClass("onHover");
+            $("i.fa-times").addClass("onHover");
+            setTimeout(function () {
+                $("i.fa-heart").addClass("hide2");
+                $("i.fa-times").removeClass("hide2");
+            }, 300);
+        }
+        function hoverOut() {
+            $("i.fa-heart").removeClass("onHover");
+            $("i.fa-times").removeClass("onHover");
+            setTimeout(function () {
+                $("i.fa-heart").removeClass("hide2");
+                $("i.fa-times").addClass("hide2");
+            }, 300);
+        }
 
         $("#UnpinCategoryModal").off("click").on("click", "#JS-RemoveQuestionsCat", () => {
             $.when(
@@ -128,6 +155,13 @@ class Pin {
             return parseInt(/[0-9]*/.exec(parent.find("#totalPins").html())[0]);
         else
             return parseInt(/[0-9]*/.exec(parent.parents(".rowBase").find(".totalPins").html())[0]);
+    }
+
+    SetFooterTotalPins(n: number) {
+        var totalPins = $('#CategoryFooterTotalPins').text();
+        var newTotalPins = parseInt(totalPins, 10) + n;
+
+        $('#CategoryFooterTotalPins').text(newTotalPins);
     }
 
     Pin(id: number, onPinChanged: () => void = null) {

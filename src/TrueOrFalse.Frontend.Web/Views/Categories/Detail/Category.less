@@ -935,6 +935,46 @@ p:empty {
     );
 }
 
+/*------------------------------------------------------
+    CategoryFooter
+-------------------------------------------------------*/
+#CategoryFooter {
+    margin-top: 100px;
+
+    .footerToolbar {
+        display: flex;
+        justify-content: space-between;
+        border-bottom: solid 1px #d6d6d6;
+
+
+        .wishknowledge {
+            display: flex;
+
+            #PinLabel {
+                padding-left: 10px;
+                padding-top: 4px;
+                display: block;
+                height: 100%;
+                line-height: 38px;                                  
+                color: #999999;
+            }
+        }
+
+        .footerDropdown {
+            padding-top: 8px;
+
+            .dropdown-menu {
+                margin: -10px 0 0;
+            }
+
+            .fa-ellipsis-v {
+                font-size: 18px;
+                color: #999999;
+            }
+        }
+    }
+}
+
 .media-below-md( {
     #MasterMainWrapper {
         padding-top: 10px;
@@ -1051,7 +1091,7 @@ p:empty {
 
             &.sticky {
                 position: absolute;
-                bottom: 0;
+                bottom: -40px;
             }
 
             .trigger {

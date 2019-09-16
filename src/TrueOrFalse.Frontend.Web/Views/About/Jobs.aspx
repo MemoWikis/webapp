@@ -20,15 +20,15 @@
 <div class="row">
     <div class="col-xs-12 col-md-8">
         <p>
-            Bei memucho gibt es aktuell folgende Job-Angebote:    
+            Bei memucho gibt es aktuell keine Job-Angebote
         </p>
-        <ul>
+ <%--       <ul>
             <li><a href="#contentmanager">Contentmanager (m/w)</a></li>
          
-        </ul>
+        </ul>--%>
     </div>
 </div>
-        	  ⦁	 Stellenbeginn: Ab sofort. Umfang: 30h/Woche. Arbeitsort: Schönes Büro in Wildau, nähe Bahnhof und Uni. Die Stelle wird gefördert durch das Programm Gründung innovativ der ILB mit Geldern aus dem Europäischen Fond für regionale Entwicklung (EFRE). Kontakt: Robert Mischke<span class="mailme"> robert at memucho dot de</span>
+<%--        	  ⦁	 Stellenbeginn: Ab sofort. Umfang: 30h/Woche. Arbeitsort: Schönes Büro in Wildau, nähe Bahnhof und Uni. Die Stelle wird gefördert durch das Programm Gründung innovativ der ILB mit Geldern aus dem Europäischen Fond für regionale Entwicklung (EFRE). Kontakt: Robert Mischke<span class="mailme"> robert at memucho dot de</span>
 <div class="row">
     <div class="col-xs-12 col-md-8" style="margin-top: 20px;" id="contentmanager">
         <div class="well">
@@ -118,6 +118,6 @@
     <div class="col-xs-12">
         <a href="#top" class="greyed"><i class="fa fa-caret-up">&nbsp;</i>Nach oben</a>
     </div>
-</div>
+</div>--%>
 
 </asp:Content>
