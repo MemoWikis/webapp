@@ -113,7 +113,7 @@
         <% } %>
     </div>
     
-    <h4 style="margin-top: 20px;">Update concentration level</h4>
+    <%--<h4 style="margin-top: 20px;">Update concentration level</h4>
     <div class="form-horizontal">
         
         <div class="row">
@@ -121,7 +121,7 @@
             </div>
         </div>
         
-        <div class="form-group">
+        <div class="form-group">                                                                                    // no Action in Controller !!!!!!!!!!!!!!!!!!
             <div class="col-sm-2" style="text-align: right">Connected:</div>
             <div class="col-xs-2" id="connectedUsers"></div>
         </div>
@@ -145,6 +145,29 @@
             <div class="form-group" style="">
                 <div class="col-sm-offset-2 col-sm-9">
                     <input type="submit" value="Senden" class="btn btn-primary"  id="btnSendBrainWaveValue"  />
+                </div>
+            </div>
+
+        <% } %>
+    </div>--%>
+    
+    <h4 style="margin-top: 20px;">Delete User</h4>
+    <div class="form-horizontal">
+
+        <% using (Html.BeginForm("UserDelete", "Maintenance")){%>
+        
+            <%= Html.AntiForgeryToken() %>
+
+            <div class="form-group">
+                <label class="col-sm-2 control-label">UserId</label>
+                <div class="col-xs-2">
+                    <%= Html.TextBoxFor(m => m.UserId, new {@class="form-control"} ) %>  
+                </div>
+            </div>
+
+            <div class="form-group" style="">
+                <div class="col-sm-offset-2 col-sm-9">
+                    <input type="submit" value="User löschen" class="btn btn-primary" />
                 </div>
             </div>
 
