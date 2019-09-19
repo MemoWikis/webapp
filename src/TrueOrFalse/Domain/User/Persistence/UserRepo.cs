@@ -87,9 +87,13 @@ public class UserRepo : RepositoryDbBase<User>
     }
 
     public void DeleteFromAllTables(int userId)
-    {
+    {   // Delete
         Session.CreateSQLQuery("DELETE FROM persistentlogin WHERE UserId = :userId").SetParameter("userId", userId).ExecuteUpdate();
         Session.CreateSQLQuery("DELETE FROM membership WHERE User_Id = :userId").SetParameter("userId", userId).ExecuteUpdate();
+        Session.CreateSQLQuery("DELETE FROM appaccess WHERE User_Id = :userId").SetParameter("userId", userId).ExecuteUpdate();
+
+        //Update
+        Session.CreateSQLQuery("UPDATE questionchange SET Author_Id = null WHERE Author_Id = :userId").SetParameter("userId", userId).ExecuteUpdate();
 
     }
 
