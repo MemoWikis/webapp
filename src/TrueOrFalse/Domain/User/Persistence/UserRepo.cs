@@ -86,6 +86,12 @@ public class UserRepo : RepositoryDbBase<User>
         base.Delete(id);
     }
 
+    public void DeleteFromAllTables(int userId)
+    {
+        Session.CreateSQLQuery("DELETE FROM persistentlogin WHERE UserId = :userId").SetParameter("userId", userId).ExecuteUpdate();
+
+    }
+
     public User GetMemuchoUser() => GetById(Settings.MemuchoUserId);
 
     public IList<User> GetByIds(List<int> userIds) => GetByIds(userIds.ToArray());
