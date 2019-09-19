@@ -716,8 +716,8 @@ public class MaintenanceController : BaseController
         var searchTerm = toolsModel.UserId;
         Sl.UserRepo.DeleteFromAllTables(toolsModel.UserId);
 
-        return View("Maintenance",
-            new MaintenanceModel {Message = new SuccessMessage("Der User wurde gelöscht")});
+        return View("Tools",
+            new ToolsModel {Message = new SuccessMessage("Der User wurde gelöscht")});
     }
 }
 
