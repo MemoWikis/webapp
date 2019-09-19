@@ -89,6 +89,7 @@ public class UserRepo : RepositoryDbBase<User>
     public void DeleteFromAllTables(int userId)
     {
         Session.CreateSQLQuery("DELETE FROM persistentlogin WHERE UserId = :userId").SetParameter("userId", userId).ExecuteUpdate();
+        Session.CreateSQLQuery("DELETE FROM membership WHERE User_Id = :userId").SetParameter("userId", userId).ExecuteUpdate();
 
     }
 
