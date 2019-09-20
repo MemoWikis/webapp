@@ -88,23 +88,25 @@ public class UserRepo : RepositoryDbBase<User>
 
     public void DeleteFromAllTables(int userId)
     {   // Delete
-        Session.CreateSQLQuery("DELETE FROM persistentlogin WHERE UserId = :userId").SetParameter("userId", userId).ExecuteUpdate();
-        Session.CreateSQLQuery("DELETE FROM membership WHERE User_Id = :userId").SetParameter("userId", userId).ExecuteUpdate();
-        Session.CreateSQLQuery("DELETE FROM appaccess WHERE User_Id = :userId").SetParameter("userId", userId).ExecuteUpdate();
-        ////////Session.CreateSQLQuery("UPDATE questionchange SET Author_Id = null WHERE Author_Id = :userId").SetParameter("userId", userId).ExecuteUpdate(); this with joins
-        //////// Session.CreateSQLQuery("DELETE FROM categoryview WHERE User_Id = :userId").SetParameter("userId", userId).ExecuteUpdate();
-        Session.CreateSQLQuery("DELETE FROM activitypoints WHERE User_Id = :userId").SetParameter("userId", userId).ExecuteUpdate();
-        Session.CreateSQLQuery("DELETE FROM setValuation WHERE UserId = :userId").SetParameter("userId", userId).ExecuteUpdate();
-        Session.CreateSQLQuery("DELETE FROM setView WHERE User_Id = :userId").SetParameter("userId", userId).ExecuteUpdate();
-        Session.CreateSQLQuery("DELETE FROM messageemail WHERE User_Id = :userId").SetParameter("userId", userId).ExecuteUpdate();
-        Session.CreateSQLQuery("DELETE FROM questionvaluation WHERE UserId = :userId").SetParameter("userId", userId).ExecuteUpdate();
-        Session.CreateSQLQuery("DELETE FROM categoryvaluation WHERE UserId = :userId").SetParameter("userId", userId).ExecuteUpdate();
-        Session.CreateSQLQuery("DELETE FROM answer WHERE UserId = :userId").SetParameter("userId", userId).ExecuteUpdate();
-        Session.CreateSQLQuery("DELETE FROM imagemetadata WHERE UserId = :userId").SetParameter("userId", userId).ExecuteUpdate();
-        Session.CreateSQLQuery("DELETE FROM comment WHERE Creator_id = :userId").SetParameter("userId", userId).ExecuteUpdate();
-        Session.CreateSQLQuery("DELETE FROM badge WHERE User_Id = :userId").SetParameter("userId", userId).ExecuteUpdate();
-        Session.CreateSQLQuery("DELETE FROM questionview WHERE UserId = :userId").SetParameter("userId", userId).ExecuteUpdate();
-        Session.CreateSQLQuery("DELETE FROM answer WHERE UserId = :userId").SetParameter("userId", userId).ExecuteUpdate();
+        //Session.CreateSQLQuery("DELETE FROM persistentlogin WHERE UserId = :userId").SetParameter("userId", userId).ExecuteUpdate();
+        //Session.CreateSQLQuery("DELETE FROM membership WHERE User_Id = :userId").SetParameter("userId", userId).ExecuteUpdate();
+        //Session.CreateSQLQuery("DELETE FROM appaccess WHERE User_Id = :userId").SetParameter("userId", userId).ExecuteUpdate();
+
+        //Session.CreateSQLQuery("DELETE FROM activitypoints WHERE User_Id = :userId").SetParameter("userId", userId).ExecuteUpdate();
+        //Session.CreateSQLQuery("DELETE FROM setValuation WHERE UserId = :userId").SetParameter("userId", userId).ExecuteUpdate();
+        //Session.CreateSQLQuery("DELETE FROM setView WHERE User_Id = :userId").SetParameter("userId", userId).ExecuteUpdate();
+        //Session.CreateSQLQuery("DELETE FROM messageemail WHERE User_Id = :userId").SetParameter("userId", userId).ExecuteUpdate();
+        //Session.CreateSQLQuery("DELETE FROM questionvaluation WHERE UserId = :userId").SetParameter("userId", userId).ExecuteUpdate();
+        //Session.CreateSQLQuery("DELETE FROM categoryvaluation WHERE UserId = :userId").SetParameter("userId", userId).ExecuteUpdate();
+        //Session.CreateSQLQuery("DELETE FROM answer WHERE UserId = :userId").SetParameter("userId", userId).ExecuteUpdate();
+        //Session.CreateSQLQuery("DELETE FROM imagemetadata WHERE UserId = :userId").SetParameter("userId", userId).ExecuteUpdate();
+        //Session.CreateSQLQuery("DELETE FROM comment WHERE Creator_id = :userId").SetParameter("userId", userId).ExecuteUpdate();
+        //Session.CreateSQLQuery("DELETE FROM badge WHERE User_Id = :userId").SetParameter("userId", userId).ExecuteUpdate();
+        //Session.CreateSQLQuery("DELETE FROM questionview WHERE UserId = :userId").SetParameter("userId", userId).ExecuteUpdate();
+        //Session.CreateSQLQuery("DELETE FROM answer WHERE UserId = :userId").SetParameter("userId", userId).ExecuteUpdate();
+        Session.CreateSQLQuery("delete q.*, g.*, p.* From questionview q join game_round g ON q.Round_id = g.Id join game_player p ON q.Player_Id = p.Id Where q.UserId = :userid; ").SetParameter("userid", userId ).ExecuteUpdate();
+        //questionview and linked Tables
+
 
 
 
