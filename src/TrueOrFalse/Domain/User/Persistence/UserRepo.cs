@@ -112,10 +112,14 @@ public class UserRepo : RepositoryDbBase<User>
         //    .SetParameter("userid", userId ).ExecuteUpdate();
 
         Session.CreateSQLQuery("UPDATE categoryChange c " +
-                               "JOIN questionView q ON q.id = c.author_id Set c.author_id = null " +
-                               "WHERE q.id =  :userid;")
+                               "JOIN user u ON u.id = c.author_id Set c.author_id = null " +
+                               "WHERE u.id =  :userid;")
             .SetParameter("userid", userId).ExecuteUpdate();
 
+
+        //Session.CreateSQLQuery(
+        //        "DELETE uf.* From  user u LEFT JOIN user_to_follower uf ON u.id = uf.user_id Where u.id = :userid")
+        //    .SetParameter("userid", userId).ExecuteUpdate();
 
 
 
