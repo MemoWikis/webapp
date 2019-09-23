@@ -104,13 +104,17 @@ public class UserRepo : RepositoryDbBase<User>
         //Session.CreateSQLQuery("DELETE FROM badge WHERE User_Id = :userId").SetParameter("userId", userId).ExecuteUpdate();
         //Session.CreateSQLQuery("DELETE FROM questionview WHERE UserId = :userId").SetParameter("userId", userId).ExecuteUpdate();
         //Session.CreateSQLQuery("DELETE FROM answer WHERE UserId = :userId").SetParameter("userId", userId).ExecuteUpdate();
-        Session.CreateSQLQuery("delete q.*, g.*, p.*, w.* From questionview q " +
-                               "left join game_round g ON q.Round_id = g.Id " +
-                               "left join game_player p ON q.Player_Id = p.Id " +
-                               "left join widgetView w ON q.WidgetView_id = w.Id " +
-                               "Where q.UserId = :userid; ")
-            .SetParameter("userid", userId ).ExecuteUpdate();
-        //questionview and linked Tables
+        //Session.CreateSQLQuery("delete q.*, g.*, p.*, w.* From questionview q " +
+        //                       "left join game_round g ON q.Round_id = g.Id " +
+        //                       "left join game_player p ON q.Player_Id = p.Id " +
+        //                       "left join widgetView w ON q.WidgetView_id = w.Id " +
+        //                       "Where q.UserId = :userid; ")
+        //    .SetParameter("userid", userId ).ExecuteUpdate();
+
+        Session.CreateSQLQuery("UPDATE categoryChange c " +
+                               "JOIN questionView q ON q.id = c.author_id Set c.author_id = null " +
+                               "WHERE q.id =  :userid;")
+            .SetParameter("userid", userId).ExecuteUpdate();
 
 
 
