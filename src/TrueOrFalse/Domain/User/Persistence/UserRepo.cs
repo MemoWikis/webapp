@@ -120,6 +120,7 @@ public class UserRepo : RepositoryDbBase<User>
         //        "DELETE uf.* From  user u LEFT JOIN user_to_follower uf ON u.id = uf.user_id Where u.id = :userid")
         //    .SetParameter("userid", userId).ExecuteUpdate();
         //Session.CreateSQLQuery("Update questionSet Set creator_id  = null Where creator_Id = :userid").SetParameter("userid", userId).ExecuteUpdate();
+        Session.CreateSQLQuery("Delete From question where creator_id = :userid and (visibility = 1 Or visibility = 2)").SetParameter("userid", userId).ExecuteUpdate();
 
 
     }
