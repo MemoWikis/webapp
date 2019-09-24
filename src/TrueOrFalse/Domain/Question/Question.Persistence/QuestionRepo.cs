@@ -162,6 +162,13 @@ public class QuestionRepo : RepositoryDbBase<Question>
             .List<Question>();
     }
 
+    public IList<Question> GetByVisibility(int userId)
+    {
+        var query = _session.QueryOver<Question>().Where(q =>
+            (q.Visibility == QuestionVisibility.Owner || q.Visibility == QuestionVisibility.OwnerAndFriends) && q.Creator.Id == userId);
+        return query.List<Question>();
+    }
+
     public IList<Question> GetForReference(int categoryId, int currentUser, int resultCount = -1)
     {
         var query = _session.QueryOver<Question>()
