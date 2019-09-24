@@ -99,12 +99,12 @@ public class UserRepo : RepositoryDbBase<User>
         //Session.CreateSQLQuery("DELETE FROM questionvaluation WHERE UserId = :userId").SetParameter("userId", userId).ExecuteUpdate();
         //Session.CreateSQLQuery("DELETE FROM categoryvaluation WHERE UserId = :userId").SetParameter("userId", userId).ExecuteUpdate();
         //Session.CreateSQLQuery("DELETE FROM answer WHERE UserId = :userId").SetParameter("userId", userId).ExecuteUpdate();
-        //Session.CreateSQLQuery("DELETE FROM imagemetadata WHERE UserId = :userId").SetParameter("userId", userId).ExecuteUpdate();
-        //Session.CreateSQLQuery("DELETE FROM comment WHERE Creator_id = :userId").SetParameter("userId", userId).ExecuteUpdate();
+        //Session.CreateSQLQuery("Update imagemetadata Set userid  = null Where userid =  :userId").SetParameter("userId", userId).ExecuteUpdate();
+        //Session.CreateSQLQuery("Update comment Set Creator_id  = null Where Creator_id = :userId").SetParameter("userId", userId).ExecuteUpdate();
         //Session.CreateSQLQuery("DELETE FROM badge WHERE User_Id = :userId").SetParameter("userId", userId).ExecuteUpdate();
-        //Session.CreateSQLQuery("DELETE FROM questionview WHERE UserId = :userId").SetParameter("userId", userId).ExecuteUpdate();
+        //Session.CreateSQLQuery("Update questionview  Set UserId = null Where UserId = :userId").SetParameter("userId", userId).ExecuteUpdate();
         //Session.CreateSQLQuery("DELETE FROM answer WHERE UserId = :userId").SetParameter("userId", userId).ExecuteUpdate();
-        //Session.CreateSQLQuery("delete q.*, g.*, p.*, w.* From questionview q " +
+        //Session.CreateSQLQuery("delete, g.*, p.*, w.* From questionview q " +
         //                       "left join game_round g ON q.Round_id = g.Id " +
         //                       "left join game_player p ON q.Player_Id = p.Id " +
         //                       "left join widgetView w ON q.WidgetView_id = w.Id " +
@@ -114,13 +114,12 @@ public class UserRepo : RepositoryDbBase<User>
         //                       "JOIN user u ON u.id = c.author_id Set c.author_id = null " +
         //                       "WHERE u.id =  :userid;")
         //    .SetParameter("userid", userId).ExecuteUpdate();
-        Session.CreateSQLQuery("Update questionchange qc set qc.Author_id = null Where Author_id = :userid")
-            .SetParameter("userid", userId).ExecuteUpdate();
+        //Session.CreateSQLQuery("Update questionchange qc set qc.Author_id = null Where Author_id = :userid")
+        //    .SetParameter("userid", userId).ExecuteUpdate();
         //Session.CreateSQLQuery(
         //        "DELETE uf.* From  user u LEFT JOIN user_to_follower uf ON u.id = uf.user_id Where u.id = :userid")
         //    .SetParameter("userid", userId).ExecuteUpdate();
-        //Session.CreateSQLQuery("DELETE a.* FROM appaccess a WHERE User_id = :userid").SetParameter("userid", userId)
-        //    .ExecuteUpdate();
+        //Session.CreateSQLQuery("Update questionSet Set creator_id  = null Where creator_Id = :userid").SetParameter("userid", userId).ExecuteUpdate();
 
 
     }
