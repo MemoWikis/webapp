@@ -110,19 +110,17 @@ public class UserRepo : RepositoryDbBase<User>
         //                       "left join widgetView w ON q.WidgetView_id = w.Id " +
         //                       "Where q.UserId = :userid; ")
         //    .SetParameter("userid", userId ).ExecuteUpdate();
-
         //Session.CreateSQLQuery("UPDATE categoryChange c " +
         //                       "JOIN user u ON u.id = c.author_id Set c.author_id = null " +
         //                       "WHERE u.id =  :userid;")
         //    .SetParameter("userid", userId).ExecuteUpdate();
-
-
+        Session.CreateSQLQuery("Update questionchange qc set qc.Author_id = null Where Author_id = :userid")
+            .SetParameter("userid", userId).ExecuteUpdate();
         //Session.CreateSQLQuery(
         //        "DELETE uf.* From  user u LEFT JOIN user_to_follower uf ON u.id = uf.user_id Where u.id = :userid")
         //    .SetParameter("userid", userId).ExecuteUpdate();
-
-        Session.CreateSQLQuery("DELETE a.* FROM appaccess a WHERE User_id = :userid").SetParameter("userid", userId)
-            .ExecuteUpdate();
+        //Session.CreateSQLQuery("DELETE a.* FROM appaccess a WHERE User_id = :userid").SetParameter("userid", userId)
+        //    .ExecuteUpdate();
 
 
     }
