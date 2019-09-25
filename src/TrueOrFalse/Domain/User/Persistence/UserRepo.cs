@@ -93,8 +93,8 @@ public class UserRepo : RepositoryDbBase<User>
         //Session.CreateSQLQuery("DELETE FROM appaccess WHERE User_Id = :userId").SetParameter("userId", userId).ExecuteUpdate();
 
         //Session.CreateSQLQuery("DELETE FROM activitypoints WHERE User_Id = :userId").SetParameter("userId", userId).ExecuteUpdate();
-        Session.CreateSQLQuery("Update setValuation SET Userid = null WHERE UserId = :userId").SetParameter("userId", userId).ExecuteUpdate();
-        //Session.CreateSQLQuery("DELETE FROM setView WHERE User_Id = :userId").SetParameter("userId", userId).ExecuteUpdate();
+        //Session.CreateSQLQuery("Update setValuation SET Userid = null WHERE UserId = :userId").SetParameter("userId", userId).ExecuteUpdate();
+        Session.CreateSQLQuery("Update setView Set User_id = null WHERE User_Id = :userId").SetParameter("userId", userId).ExecuteUpdate();
         //Session.CreateSQLQuery("DELETE FROM messageemail WHERE User_Id = :userId").SetParameter("userId", userId).ExecuteUpdate();
         //Session.CreateSQLQuery("DELETE FROM questionvaluation WHERE UserId = :userId").SetParameter("userId", userId).ExecuteUpdate();
         //Session.CreateSQLQuery("DELETE FROM categoryvaluation WHERE UserId = :userId").SetParameter("userId", userId).ExecuteUpdate();
