@@ -122,16 +122,15 @@ public class UserRepo : RepositoryDbBase<User>
         //    .SetParameter("userid", userId).ExecuteUpdate();
         //Session.CreateSQLQuery("Update questionSet Set creator_id  = null Where creator_Id = :userid").SetParameter("userid", userId).ExecuteUpdate();
         //Session.CreateSQLQuery("Delete From question where creator_id = :userid and (visibility = 1 Or visibility = 2)").SetParameter("userid", userId).ExecuteUpdate();
+        Session.CreateSQLQuery(
+                "Delete qui.* FROM questionInSet qui LEFT JOIN question q ON q.id = qui.Question_id WHERE q.creator_id = :userid AND (q.visibility = 1 Or q.visibility = 2);")
+            .SetParameter("userid", userId).ExecuteUpdate();
+
+
         //Session.CreateSQLQuery("Update question  Set Creator_Id = null Where Creator_Id = :userId AND Visibility = 0;").SetParameter("userId", userId).ExecuteUpdate();
         //Session.CreateSQLQuery("Delete u.*, g.* From useractivity u Inner Join  game g ON g.Id = u.Game_id Where u.UserCauser_id =  :userId;" ).SetParameter("userId", userId).ExecuteUpdate();
 
-        // Delete QuestionInSet  
-        var privateQuestion = Sl.QuestionRepo.GetByVisibility(userId);
-        foreach (var question in privateQuestion)
-        {
-            Sl.QuestionInSetRepo.DeleteForQuestion(question.Id);
-        }
-       
+
 
 
     }
