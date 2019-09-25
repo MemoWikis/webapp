@@ -93,7 +93,7 @@ public class UserRepo : RepositoryDbBase<User>
         //Session.CreateSQLQuery("DELETE FROM appaccess WHERE User_Id = :userId").SetParameter("userId", userId).ExecuteUpdate();
 
         //Session.CreateSQLQuery("DELETE FROM activitypoints WHERE User_Id = :userId").SetParameter("userId", userId).ExecuteUpdate();
-        //Session.CreateSQLQuery("DELETE FROM setValuation WHERE UserId = :userId").SetParameter("userId", userId).ExecuteUpdate();
+        Session.CreateSQLQuery("Update setValuation SET Userid = null WHERE UserId = :userId").SetParameter("userId", userId).ExecuteUpdate();
         //Session.CreateSQLQuery("DELETE FROM setView WHERE User_Id = :userId").SetParameter("userId", userId).ExecuteUpdate();
         //Session.CreateSQLQuery("DELETE FROM messageemail WHERE User_Id = :userId").SetParameter("userId", userId).ExecuteUpdate();
         //Session.CreateSQLQuery("DELETE FROM questionvaluation WHERE UserId = :userId").SetParameter("userId", userId).ExecuteUpdate();
@@ -121,17 +121,13 @@ public class UserRepo : RepositoryDbBase<User>
         //        "DELETE uf.* From  user u LEFT JOIN user_to_follower uf ON u.id = uf.user_id Where u.id = :userid")
         //    .SetParameter("userid", userId).ExecuteUpdate();
         //Session.CreateSQLQuery("Update questionSet Set creator_id  = null Where creator_Id = :userid").SetParameter("userid", userId).ExecuteUpdate();
+        //Session.CreateSQLQuery(
+        //        "Delete qui.* FROM questionInSet qui LEFT JOIN question q ON q.id = qui.Question_id WHERE q.creator_id = :userid AND (q.visibility = 1 Or q.visibility = 2);")
+        //    .SetParameter("userid", userId).ExecuteUpdate();
         //Session.CreateSQLQuery("Delete From question where creator_id = :userid and (visibility = 1 Or visibility = 2)").SetParameter("userid", userId).ExecuteUpdate();
-        Session.CreateSQLQuery(
-                "Delete qui.* FROM questionInSet qui LEFT JOIN question q ON q.id = qui.Question_id WHERE q.creator_id = :userid AND (q.visibility = 1 Or q.visibility = 2);")
-            .SetParameter("userid", userId).ExecuteUpdate();
+        //Session.CreateSQLQuery("Update question  Set Creator_Id = null Where Creator_Id = :userId").SetParameter("userId", userId).ExecuteUpdate();                 // visibility not necessary because everything has already been deleted
 
-
-        //Session.CreateSQLQuery("Update question  Set Creator_Id = null Where Creator_Id = :userId AND Visibility = 0;").SetParameter("userId", userId).ExecuteUpdate();
         //Session.CreateSQLQuery("Delete u.*, g.* From useractivity u Inner Join  game g ON g.Id = u.Game_id Where u.UserCauser_id =  :userId;" ).SetParameter("userId", userId).ExecuteUpdate();
-
-
-
 
     }
 
