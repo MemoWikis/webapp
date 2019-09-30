@@ -19,7 +19,7 @@ public class KnowledgeTopics : BaseController
             .ToList();
 
         Categories = isAuthor
-            ? EntityCache.GetCategories(categoriesIds).Where(v => v.Creator.Id == UserId).ToList()
+            ? EntityCache.GetCategories(categoriesIds).Where(v => v.Creator != null && v.Creator.Id == UserId).ToList()
             : EntityCache.GetCategories(categoriesIds).ToList();
 
         var setIds = UserValuationCache.GetSetValuations(UserId)
@@ -27,7 +27,7 @@ public class KnowledgeTopics : BaseController
             .Select(i => i.SetId)
             .ToList();
 
-        Sets = isAuthor ? EntityCache.GetSetsByIds(setIds).Where(v => v.Creator.Id == UserId).ToList()
+        Sets = isAuthor ? EntityCache.GetSetsByIds(setIds).Where(v => v.Creator != null && v.Creator.Id == UserId).ToList()
             : EntityCache.GetSetsByIds(setIds);
     }
 
