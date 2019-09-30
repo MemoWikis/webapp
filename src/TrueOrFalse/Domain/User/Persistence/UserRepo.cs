@@ -93,11 +93,16 @@ public class UserRepo : RepositoryDbBase<User>
         //Session.CreateSQLQuery("DELETE FROM appaccess WHERE User_Id = :userId").SetParameter("userId", userId).ExecuteUpdate();
 
         //Session.CreateSQLQuery("DELETE FROM activitypoints WHERE User_Id = :userId").SetParameter("userId", userId).ExecuteUpdate();
-        //Session.CreateSQLQuery("Update setValuation SET Userid = null WHERE UserId = :userId").SetParameter("userId", userId).ExecuteUpdate();
-        Session.CreateSQLQuery("Update setView Set User_id = null WHERE User_Id = :userId").SetParameter("userId", userId).ExecuteUpdate();
+        //Session.CreateSQLQuery("Update setView Set User_id = null WHERE User_Id = :userId").SetParameter("userId", userId).ExecuteUpdate();
         //Session.CreateSQLQuery("DELETE FROM messageemail WHERE User_Id = :userId").SetParameter("userId", userId).ExecuteUpdate();
-        //Session.CreateSQLQuery("DELETE FROM questionvaluation WHERE UserId = :userId").SetParameter("userId", userId).ExecuteUpdate();
-        //Session.CreateSQLQuery("DELETE FROM categoryvaluation WHERE UserId = :userId").SetParameter("userId", userId).ExecuteUpdate();
+       // Session.CreateSQLQuery("Update questionValuation SET Userid = null WHERE UserId = :userId").SetParameter("userId", userId).ExecuteUpdate();
+        //Session.CreateSQLQuery("Update categoryValuation SET Userid = null WHERE UserId = :userId").SetParameter("userId", userId).ExecuteUpdate();
+       // Session.CreateSQLQuery("UPDATE learningSession SET User_Id = null WHERE User_id = :userId").SetParameter("userId", userId).ExecuteUpdate();
+       // Session.CreateSQLQuery("UPDATE date SET User_Id = null WHERE User_id = :userId").SetParameter("userId", userId).ExecuteUpdate();
+        //Session.CreateSQLQuery("UPDATE category SET Creator_Id = null WHERE Creator_id = :userId").SetParameter("userId", userId).ExecuteUpdate();
+        Session.CreateSQLQuery("UPDATE categoryview SET User_Id = null WHERE User_id = :userId").SetParameter("userId", userId).ExecuteUpdate();
+        //Session.CreateSQLQuery("Update setValuation SET Userid = null WHERE UserId = :userId").SetParameter("userId", userId).ExecuteUpdate();
+
         //Session.CreateSQLQuery("DELETE FROM answer WHERE UserId = :userId").SetParameter("userId", userId).ExecuteUpdate();
         //Session.CreateSQLQuery("Update imagemetadata Set userid  = null Where userid =  :userId").SetParameter("userId", userId).ExecuteUpdate();
         //Session.CreateSQLQuery("Update comment Set Creator_id  = null Where Creator_id = :userId").SetParameter("userId", userId).ExecuteUpdate();
