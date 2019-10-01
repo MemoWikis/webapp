@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web.UI.WebControls.Expressions;
 using Antlr.Runtime.Misc;
+using Seedworks.Lib.Persistence;
 using TrueOrFalse.Frontend.Web.Code;
 
 
@@ -43,16 +44,21 @@ public class KnowledgeQuestions : BaseModel
         var i = 0;
         foreach (var question in unsortedListQuestions)
         {
-            var userImageSettings = new UserImageSettings(question.Creator.Id);
+
+            var userTinyModel = new UserTinyModel(question.Creator);
+           var userImageSettings = new UserImageSettings(userTinyModel.Id);
+         
+
+
             var questions = new Questions();
             var categories = question.Categories;
 
             questions.Title = question.Text;
 
-            questions.AuthorName = question.Creator.Name;
-            questions.AuthorImageUrl = userImageSettings.GetUrl_128px_square(question.Creator);
+            questions.AuthorName = userTinyModel.Name;
+            questions.AuthorImageUrl =  userImageSettings.GetUrl_128px_square(userTinyModel);
             questions.LinkToQuestion = Links.GetUrl(question);
-            questions.AuthorId = question.Creator.Id;
+            questions.AuthorId = userTinyModel.Id;
             questions.LinkToCategory = categories.IsEmpty() ? " " : Links.GetUrl(categories[0]);
             questions.Category = categories.IsEmpty() ? "keine Kategorie" : categories[0].Name;
             questions.CategoryImageData = categories.IsEmpty() ? null : new ImageFrontendData(question.Categories[0].Id, ImageType.Category).GetImageUrl(128); ;
