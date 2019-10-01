@@ -22050,6 +22050,7 @@
     <Content Include="Views\Shared\Modals\ForTheTimeToDeleteModal.ascx" />
     <Compile Include="Views\Shared\SharedController.cs" />
     <Compile Include="Views\Shared\SponsorModel.cs" />
+    <Compile Include="Views\Shared\UserTinyModel.cs" />
     <Compile Include="Views\Topics\TopicModel.cs" />
     <Compile Include="Views\Topics\TopicsController.cs" />
     <Compile Include="Views\Users\Account\WidgetStats\Partials\WidgetStatsDetailViewsModel.cs" />
