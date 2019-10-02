@@ -104,5 +104,6 @@
 <%: Html.Partial("~/Views/Categories/Detail/Partials/InlineEditFloatingActionButton.ascx") %>
 <%: Html.Partial("~/Views/Categories/Detail/Partials/ModalComponentCollection.ascx") %>
 </div>
+<%: Html.Partial("~/Views/Categories/Detail/Partials/CategoryFooter/CategoryFooter.ascx") %>
 <%= Scripts.Render("~/bundles/js/CategoryEditMode") %>
 
