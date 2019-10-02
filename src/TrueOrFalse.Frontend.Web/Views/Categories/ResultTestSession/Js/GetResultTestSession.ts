@@ -20,9 +20,7 @@
                     $("#AnswerBody").html(data);
                     $("#QuestionCountCompletSideBar").remove();
                     new TestSessionResult();
-
                 }
-
             });
         });
     }

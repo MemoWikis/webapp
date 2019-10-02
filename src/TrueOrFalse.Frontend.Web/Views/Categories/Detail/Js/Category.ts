@@ -31,20 +31,23 @@
         const url = '/' + this._categoryName + '/' + this.CategoryId;
 
         $("#TopicTab").on("click",
-            () => {
+            (e) => {
+                e.preventDefault();
                 const tabName = "TopicTab";
                 this.historyPushAndSetActive(url, tabName);
             });
 
         $("#LearningTab").on("click",
-            () => {
+            (e) => {
+                e.preventDefault();
                 var newUrl = url + '/Lernen';
                 const tabName = "LearningTab";
                 this.historyPushAndSetActive(newUrl, tabName);
             });
 
         $("#AnalyticsTab").on("click",
-            () => {
+            (e) => {
+                e.preventDefault();
                 var newUrl = url + '/Analytics';
                 const tabName = "AnalyticsTab";
                 this.historyPushAndSetActive(newUrl, tabName);

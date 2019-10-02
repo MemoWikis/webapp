@@ -105,4 +105,4 @@
 <%: Html.Partial("~/Views/Categories/Detail/Partials/ModalComponentCollection.ascx") %>
 </div>
 <%= Scripts.Render("~/bundles/js/CategoryEditMode") %>
-<%= Scripts.Render("~/bundles/js/Category") %>
+
