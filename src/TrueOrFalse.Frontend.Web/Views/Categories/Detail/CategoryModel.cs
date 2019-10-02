@@ -42,6 +42,10 @@ public class CategoryModel : BaseContentModule
     public Question HardestQuestion;
     public string ParentList;
 
+    public bool IsInTopic = false;
+    public bool IsInLearningTab = false;
+    public bool IsInAnalyticsTab = false; 
+
 
     public User Creator;
     public string CreatorName;
@@ -75,6 +79,7 @@ public class CategoryModel : BaseContentModule
     private readonly CategoryRepository _categoryRepo;
 
     public bool IsInWishknowledge;
+    public bool IsLearningTab;
     public string TotalPins;
 
     public LearningTabModel LearningTabModel; 

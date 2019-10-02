@@ -1,4 +1,9 @@
-﻿using System.Web.Mvc;
+﻿using System;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Linq;
+using System.Reflection;
+using System.Web.Mvc;
 using System.Web.Routing;
 
 namespace TrueOrFalse
@@ -11,6 +16,8 @@ namespace TrueOrFalse
             routes.IgnoreRoute("{*favicon}", new { favicon = @"(.*/)?favicon.ico(/.*)?" });
 
             // das hier später per Konvention, siehe: http://mvccontrib.codeplex.com/SourceControl/changeset/view/351a6de404cb#src%2fMVCContrib%2fSimplyRestful%2fSimplyRestfulRouteHandler.cs
+
+          
 
             routes.MapRoute("Logout", "Ausloggen", new { controller = "Welcome", action = "Logout" });
             routes.MapRoute("CheckUserNameForAvailability", "Registrieren/IsUserNameAvailable", new { controller = "Login", action = "IsUserNameAvailable" });
@@ -102,30 +109,27 @@ namespace TrueOrFalse
             /* API */ routes.MapRoute("Set_ChangeIndicies", "Set/UpdateQuestionsOrder", new { controller = "EditSet", action = "UpdateQuestionsOrder" });
             /* API */ routes.MapRoute("Set_ImageUpload", "Set/UploadImage/{id}", new { controller = "EditSet", action = "UploadImage", id = UrlParameter.Optional });
 
-            routes.MapRoute("Category_Changes_Overview", "Kategorien/Historie/{pageToShow}", new { controller = "CategoryChangesOverview", action = "List" });
-            routes.MapRoute("Categories_WishSearch", "Kategorien/Wunschwissen/Suche/{searchTerm}", new { controller = "Categories", action = "CategoriesWish", searchTerm = UrlParameter.Optional });
-            routes.MapRoute("Categories_WishSearchApi", "Kategorien/Wunschwissen/SucheApi", new { controller = "Categories", action = "SearchApiWish" });
+            routes.MapRoute("Category_Changes_Overview", "Historie/{pageToShow}", new { controller = "CategoryChangesOverview", action = "List" });
+            routes.MapRoute("Categories_WishSearch", "Wunschwissen/Suche/{searchTerm}", new { controller = "Categories", action = "CategoriesWish", searchTerm = UrlParameter.Optional });
+            routes.MapRoute("Categories_WishSearchApi", "Wunschwissen/SucheApi", new { controller = "Categories", action = "SearchApiWish" });
             routes.MapRoute("Categories", "Kategorien", new { controller = "Categories", action = "Categories" });
-            routes.MapRoute("Categories_SearchApi", "Kategorien/SucheApi", new { controller = "Categories", action = "SearchApi" });
+            routes.MapRoute("Categories_SearchApi", "SucheApi", new { controller = "Categories", action = "SearchApi" });
             routes.MapRoute("Categories_Search", "Kategorien/Suche/{searchTerm}", new { controller = "Categories", action = "Search", searchTerm = UrlParameter.Optional });
-            routes.MapRoute("Categories_Create", "Kategorien/Erstelle/{type}", new { controller = "EditCategory", action = "Create", type = UrlParameter.Optional });
-            routes.MapRoute("Categories_Delete", "Kategorien/Loesche/{id}", new { controller = "Categories", action = "Delete" });
-            routes.MapRoute("Categories_ById", "Kategorien/{id}", new { controller = "Category", action = "CategoryById" }); // route is used when creating question/questionset (AutocompleteCategories.ts) and adding categories via ajax
-            routes.MapRoute("Categories_Edit", "Kategorien/{text}/Bearbeite/{id}", new { controller = "EditCategory", action = "Edit" });
-            routes.MapRoute("Category_Detail_Revision", "Kategorien/{text}/{id}/version/{version}", new { controller = "Category", action = "Category" });
-            routes.MapRoute("Category_Detail", "Kategorien/{text}/{id}", new { controller = "Category", action = "Category" });
-            routes.MapRoute("Category_History", "Kategorien/{categoryName}/{categoryId}/Historie", new { controller = "CategoryHistory", action = "List" });
-            routes.MapRoute("Category_History_Detail", "Kategorien/{categoryName}/{categoryId}/Historie/{categoryChangeId}", new { controller = "CategoryHistoryDetail", action = "Detail" });
-            /* API */
-            routes.MapRoute("Categories_AddSubCategoryRow", "Categories/AddSubCategoryRow", new { controller = "EditCategory", action = "AddSubCategoryRow" });
+            routes.MapRoute("Categories_Create", "Erstelle/{type}", new { controller = "EditCategory", action = "Create", type = UrlParameter.Optional });
+            routes.MapRoute("Categories_Delete", "Loesche/{id}", new { controller = "Categories", action = "Delete" });
+            routes.MapRoute("Categories_ById", "Kategorien/{id}", new { controller = "CategoryRedirect", action = "CategoryById" }); // route is used when creating question/questionset (AutocompleteCategories.ts) and adding categories via ajax
+            routes.MapRoute("Categories_Edit", "{text}/Bearbeite/{id}", new { controller = "EditCategory", action = "Edit" });
+            routes.MapRoute("Category_Detail_Revision", "{text}/{id}/version/{version}", new { controller = "CategoryRedirect", action = "Category" });
+            routes.MapRoute("Category_Detail", "Kategorien/{text}/{id}", new { controller = "CategoryRedirect", action = "Category" });
+            routes.MapRoute("Category_History", "{categoryName}/{categoryId}/Historie", new { controller = "CategoryHistory", action = "List" });
+            routes.MapRoute("Category_History_Detail", "{categoryName}/{categoryId}/Historie/{categoryChangeId}", new { controller = "CategoryHistoryDetail", action = "Detail" });
+            /* API */ routes.MapRoute("Categories_AddSubCategoryRow", "Categories/AddSubCategoryRow", new { controller = "EditCategory", action = "AddSubCategoryRow" });
             /* API */ routes.MapRoute("Categories_EditSubCategoryItems", "Categories/EditSubCategoryItems/{id}", new { controller = "EditSubCategoryItems", action = "Edit" });
             /* API */ routes.MapRoute("Categories_AddSubCategoryItemRow", "Categories/EditSubCategoryItems/{id}/Add", new { controller = "EditSubCategoryItems", action = "AddSubCategoryItemRow" });
-
-            routes.MapRoute("Category_StartTestSession", "Kategorie/Testen/{categoryName}/{categoryId}", new { controller = "Category", action = "StartTestSession" });
+            /* API */ routes.MapRoute("Category_StartTestSession", "Kategorie/Testen/{categoryName}/{categoryId}", new { controller = "Category", action = "StartTestSession" });
 
       
             routes.MapRoute("Knowledge_Learn", "Lernen/Wunschwissen", new { controller = "Knowledge", action = "StartLearningSession" });
-           // routes.MapRoute("Knowledge", "Wissenszentrale/{action}", new { controller = "Knowledge", action = "Knowledge" });
             routes.MapRoute("KnowledgeUeberblick", "Wissenszentrale/Ueberblick", new { controller = "Knowledge", action = "Knowledge" });
             routes.MapRoute("KnowledgeTopics", "Wissenszentrale/Themen", new { controller = "Knowledge", action = "Knowledge" });
             routes.MapRoute("KnowledgeFragen", "Wissenszentrale/Fragen", new { controller = "Knowledge", action = "Knowledge" });
@@ -136,16 +140,6 @@ namespace TrueOrFalse
             routes.MapRoute("Maintenance", "Maintenance/{action}", new { controller = "Maintenance", action = "Maintenance" });
             routes.MapRoute("MaintenanceImages", "MaintenanceImages/{action}", new { controller = "MaintenanceImages", action = "Images" });
             routes.MapRoute("Messages", "Nachrichten/{action}", new { controller = "Messages", action = "Messages" });
-
-            routes.MapRoute("Dates_StartLearningSession", "Termin/Lernen/{dateId}", new { controller = "Dates", action = "StartLearningSession" });
-           // routes.MapRoute("Dates", "Termine/{action}", new { controller = "Dates", action = "Dates" });
-            routes.MapRoute("DatesCreate", "Termin/Erstellen", new { controller = "EditDate", action = "Create" });
-            routes.MapRoute("DatesEdit", "Termin/Bearbeiten/{dateId}", new { controller = "EditDate", action = "Edit" });
-            routes.MapRoute("DatesDetails", "Termin/Details/{0}", new { controller = "Date", action = "Edit" });
-
-            routes.MapRoute("Games", "Spielen/{action}", new { controller = "Games", action = "Games" });
-            routes.MapRoute("GamesCreate", "Spiel/Erstellen", new { controller = "Game", action = "Create" });
-            routes.MapRoute("GamesPlay", "Spiel/{gameId}", new { controller = "Play", action = "Play" });
 
             routes.MapRoute("AboutMemucho", "Ueber-memucho", new { controller = "About", action = "AboutMemucho" });
             routes.MapRoute("ForTeachers", "Fuer-Lehrer", new { controller = "About", action = "ForTeachers" });
@@ -193,10 +187,43 @@ namespace TrueOrFalse
 
             routes.MapRoute("Übersicht", "Übersicht/Förderer", new { controller = "Welcome", action = "Promoter" });
 
-            routes.MapRoute("Default", "{controller}/{action}/{id}", new { controller = "Welcome", action = "Welcome", id = UrlParameter.Optional });
-            routes.MapRoute("Various", "{action}", new { controller = "VariousPublic" });
+            
 
-           
+            foreach (var typeName in GetAllControllerNames())
+            {
+                if (!typeName.Equals("CategoryController"))
+                {
+                    Debug.WriteLine(typeName.Replace("Controller", ""));
+                    var controllerName = typeName.Replace("Controller", "");
+                    routes.MapRoute(controllerName + "Generated", controllerName + "/{action}",
+                    new {controller = controllerName});
+                }
+            }
+
+            routes.MapRoute("GetQuestionSets", "Questions/GetQuestionSets", new { controller = "Questions", action = "GetQuestionSets" });
+            /*Api*/routes.MapRoute("EditPreview", "Category/RenderMarkdown", new { controller = "Category", action = "RenderMarkdown" });
+            /*Api*/routes.MapRoute("EditSave", "Category/SaveMarkdown", new { controller = "Category", action = "SaveMarkdown" });
+            /*Api*/routes.MapRoute("Category_KnowledgeBar", "Category/KnowledgeBar", new { controller = "Category", action = "KnowledgeBar" });
+            /*Api*/routes.MapRoute("AnalyticsTabApi", "Category/Tab", new { controller = "Category", action = "Tab" });
+            /*Api*/
+            routes.MapRoute("AnalyticsGetKnowledgeDisplay", "Category/GetKnowledgeGraphDisplay", new { controller = "Category", action = "GetKnowledgeGraphDisplay" });
+            routes.MapRoute("GetQuestion", "Questions/AddToQuestionSet", new { controller = "Questions", action = "AddToQuestionSet" });
+            routes.MapRoute("Category_Learning_Button", "{categoryName}/{Id}/Lernen", new { controller = "Category", action = "CategoryLearningTab" });
+            routes.MapRoute("Analytics_Tab", "{categoryName}/{Id}/Analytics", new { controller = "Category", action = "CategoryAnalyticsTab" });
+            
+            routes.MapRoute("Category", "{text}/{id}", new { controller = "Category", action = "Category" });
+            
+            routes.MapRoute("Default", "{controller}/{action}/{id}", new { controller = "Welcome", action = "Welcome", id = UrlParameter.Optional });
+            routes.MapRoute("Various", "{action}", new {controller = "VariousPublic"});
         }
+
+        public static IEnumerable<string> GetAllControllerNames() 
+        {
+            var assembly = typeof(RouteConfig).Assembly;
+            return assembly.GetTypes()
+                .Where(t => t.FullName != null && t.FullName.EndsWith("Controller"))
+                .Select(t => t.FullName);
+        }
+
     }
 }

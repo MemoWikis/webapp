@@ -37,7 +37,7 @@
         $(".link-to-topic").on("click",
             function (e) {
                 e.preventDefault();
-                window.location.replace("/Kategorien/Schule/" + $(this).attr("data-category") + "?openTab=learningTab");
+                window.location.replace("/Schule/" + $(this).attr("data-category") + "?openTab=learningTab");
             });
 
         $(".link-to-learnset").on("click",
@@ -73,8 +73,6 @@
 
         $(window).on('popstate', (e) => {
             var state = e.originalEvent.state;
-            console.log(state, e);
-
             if (state.endsWith("Themen"))
                 this.LoadTopicTab(/*pushState*/false);
 

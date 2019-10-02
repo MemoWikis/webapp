@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using TrueOrFalse;
 
 public class CategoryNameAllowed
 {
@@ -27,12 +28,33 @@ public class CategoryNameAllowed
 
     private bool Yes(string categoryName, CategoryType type)
     {
-        var typesToTest = new[] {CategoryType.Standard, CategoryType.Magazine, CategoryType.Daily};
+        var typesToTest = new[] { CategoryType.Standard, CategoryType.Magazine, CategoryType.Daily };
         if (typesToTest.All(t => type != t))
             return true;
 
         ExistingCategories = ServiceLocator.Resolve<CategoryRepository>().GetByName(categoryName);
 
-        return ExistingCategories.All(c => c.Type != type);        
+        return ExistingCategories.All(c => c.Type != type);
+
+    }
+
+    public bool ForbiddenWords(string categoryName)
+    {
+        var categoryNameProcessed = categoryName.Trim().ToLower();
+
+        var forbiddenWords = new[]
+        {
+            "wissenszentrale", "kategorien", "fragen", "widgets", "ueber-memucho", "fuer-lehrer",
+            "widget-beispiele", "widget-angebote-preislisten",
+            "hilfe", "impressum", "imprint", "agb", "agbs", "jobs", "gemeinwohloekonomie", "team"
+        };
+
+        foreach (var fW in forbiddenWords)
+        {
+            if (fW.Equals(categoryNameProcessed))
+                return true;
+        }
+
+        return false;
     }
 }

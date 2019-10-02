@@ -5,7 +5,7 @@
 <% var defaultCategories = Model.RootCategoriesList;
    for (int i = 0; i < defaultCategories.Count; i++)
    { %>
-       <a class="list-group-item cat primary-point" id="default-category-<%= defaultCategories[i].Id %>" href="<%= Links.CategoryDetail(defaultCategories[i].Name, defaultCategories[i].Id) %>">
+       <a class="list-group-item cat primary-point" id="default-category-<%= defaultCategories[i].Id %>" href="<%= Links.WelcomeLinks(defaultCategories[i].Name, defaultCategories[i].Id) %>">
            <% switch (i)
               {
                   case 0:

@@ -59,7 +59,6 @@ class AnswerBody {
 }
 
 $(() => {
-    if ($('#LearningTabContent').length == 0) {
+    if ($('#LearningTabContent').length == 0) 
         new AnswerBody();
-    }
 });

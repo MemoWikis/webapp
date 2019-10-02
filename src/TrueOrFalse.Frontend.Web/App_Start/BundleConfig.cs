@@ -79,8 +79,6 @@ namespace TrueOrFalse.View
                 .Include("~/Scripts/npm/vue-sortable/vue-sortable.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/js/CategoryEditMode")
-                //.Include("~/Scripts/npm/tiptap/tiptap.js")
-                //.Include("~/Scripts/npm/tiptap-extensions/extensions.js")            
                 .Include("~/Scripts/npm/vue-textarea-autosize/vue-textarea-autosize.browser.js")
                 .Include("~/Scripts/npm/vue-select/vue-select.js")
                 .Include("~/Scripts/npm/vue-sticky-directive/vue-sticky-directive.js")
@@ -304,12 +302,7 @@ namespace TrueOrFalse.View
                 .Include("~/Views/Knowledge/Js/Page.js")
                 .Include("~/Views/Knowledge/Js/WishKnowledgeContent.js"));
 
-            bundles.Add(new ScriptBundle("~/bundles/js/KnowledgeDates")
-                .Include("~/Views/Knowledge/Dates/Js/*.js")
-                .Include("~/Views/Knowledge/Js/KnowledgeDates.js"));
-
             bundles.Add(new ScriptBundle("~/bundles/js/_dashboard")
-                .Include("~/Views/Knowledge/Dates/Js/*.js")
                 .Include("~/Views/Knowledge/Js/_dashboard.js")); 
 
             bundles.Add(new StyleBundle("~/bundles/_dashboard")
@@ -323,22 +316,6 @@ namespace TrueOrFalse.View
 
             bundles.Add(new StyleBundle("~/bundles/KnowledgeQuestions")
                 .Include("~/Views/Knowledge/Css/KnowledgeQuestions.css"));
-
-            //Dates
-            bundles.Add(new StyleBundle("~/bundles/Dates")
-                .Include("~/Views/Knowledge/Dates/Dates.css"));
-
-            bundles.Add(new ScriptBundle("~/bundles/js/Dates")
-                .Include("~/Views/Knowledge/Dates/Js/*.js"));
-
-            bundles.Add(new StyleBundle("~/bundles/EditDate")
-                .Include("~/Views/Knowledge/Dates/Edit/*.css"));
-
-            bundles.Add(new ScriptBundle("~/bundles/js/EditDate")
-                .Include("~/Scripts/autocompletes/AutocompleteSets.js")
-                .IncludeDirectory("~/Views/Knowledge/Dates/Edit/Js/", "*.js")
-                .Include("~/Views/Knowledge/Dates/Edit/Js/Page.js"));
-
 
             //------------------------ END KNOWLEDGECENTRAL------------------------------------------------------------
 

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Security.Policy;
 using System.Web.Mvc;
 using TrueOrFalse.Frontend.Web.Code;
 using TrueOrFalse.Web;
@@ -10,32 +11,57 @@ using TrueOrFalse.Web;
 public class CategoryController : BaseController
 {
     private const string _viewLocation = "~/Views/Categories/Detail/Category.aspx";
+    private const string _topicTab = "~/Views/Categories/Detail/Tabs/TopicTab.ascx";
 
     [SetMainMenu(MainMenuEntry.CategoryDetail)]
     [SetThemeMenu(true)]
-    public ActionResult Category(string text, int id, int? version)
+    public ActionResult Category(int id, int? version)
     {
-        if (SeoUtils.HasUnderscores(text))
-            return SeoUtils.RedirectToHyphendVersion_Category(RedirectPermanent, text, id);
+        var modelAndCategoryResult = LoadModel(id, version);
+        modelAndCategoryResult.CategoryModel.IsInTopic = true; 
 
-        var category = Resolve<CategoryRepository>().GetById(id);
-        return Category(category, version);
+        return View(_viewLocation, modelAndCategoryResult.CategoryModel);
     }
 
-    private ActionResult Category(Category category, int? version)
+    public ActionResult CategoryLearningTab(int id, int? version)
     {
-        _sessionUiData.VisitedCategories.Add(new CategoryHistoryItem(category));
+        var modelAndCategoryResult = LoadModel(id, version);
+        modelAndCategoryResult.CategoryModel.IsInLearningTab = true; 
 
-        var categoryModel = GetModelWithContentHtml(category);
+        return View(_viewLocation, modelAndCategoryResult.CategoryModel);
+    }
+
+    public ActionResult CategoryAnalyticsTab(int id, int? version)
+    {
+        var modelAndCategoryResult = LoadModel(id, version);
+        modelAndCategoryResult.CategoryModel.IsInAnalyticsTab = true; 
+
+        return View(_viewLocation, modelAndCategoryResult.CategoryModel);
+    }
+
+    private LoadModelResult LoadModel(int id, int? version)
+    {
+        var result = new LoadModelResult();
+        var category = Resolve<CategoryRepository>().GetById(id);
+
+        _sessionUiData.VisitedCategories.Add(new CategoryHistoryItem(category));
+        result.Category = category;
+        result.CategoryModel = GetModelWithContentHtml(category);
 
         if (version != null)
-            ApplyCategoryChangeToModel(categoryModel, (int)version);
+            ApplyCategoryChangeToModel(result.CategoryModel, (int)version);
         else
-            SaveCategoryView.Run(category, User_());
-   
-        return View(_viewLocation, categoryModel);
+            SaveCategoryView.Run(result.Category, User_());
+
+        return result;
     }
-    
+
+    [HttpPost]
+    public ActionResult GetTopicTabAsync(int id , int? version)
+    {
+        return View(_topicTab, LoadModel(id, version).CategoryModel);
+    }
+
     private CategoryModel GetModelWithContentHtml(Category category)
     {
         return new CategoryModel(category)
@@ -184,4 +210,9 @@ public class CategoryController : BaseController
         var category = Sl.CategoryRepo.GetById(categoryId);
         return ViewRenderer.RenderPartialView("~/Views/Categories/Detail/Partials/KnowledgeGraph/KnowledgeGraph.ascx", new KnowledgeGraphModel(category), ControllerContext);
     }
+}
+public class LoadModelResult
+{
+    public Category Category;
+    public CategoryModel CategoryModel;
 }
