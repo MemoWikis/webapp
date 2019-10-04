@@ -19,7 +19,7 @@ public class AnswerQuestionModel : BaseModel
 
     public int QuestionId;
     public Question Question;
-    public User Creator;
+    public UserTinyModel Creator;
     public string CreatorId { get; private set; }
     public string CreatorName { get; private set; }
 
@@ -249,8 +249,10 @@ public class AnswerQuestionModel : BaseModel
 
     private void Populate(Question question)
     {
+        Creator = new UserTinyModel(question.Creator);
+
         if (question.Visibility != QuestionVisibility.All)
-            if(question.Creator.Id != _sessionUser.User.Id || IsTestSession)
+            if(Creator.Id != _sessionUser.User.Id || IsTestSession)
                 throw new Exception("Invalid access to questionId" + question.Id);
 
         var questionValuationForUser = NotNull.Run(Sl.QuestionValuationRepo.GetByFromCache(question.Id, UserId));
@@ -268,13 +270,13 @@ public class AnswerQuestionModel : BaseModel
             .ToList();
         CommentsSettledCount = comments.Count(c => c.IsSettled);
 
-        Creator = question.Creator;
-        CreatorId = question.Creator.Id.ToString();
-        CreatorName = question.Creator.Name;
+       
+        CreatorId = Creator.Id.ToString();
+        CreatorName = Creator.Name;
         CreationDate = question.DateCreated.ToString("dd.MM.yyyy HH:mm:ss");
         CreationDateNiceText = DateTimeUtils.TimeElapsedAsText(question.DateCreated);
 
-        IsOwner = _sessionUser.IsLoggedInUserOrAdmin(question.Creator.Id);
+        IsOwner = _sessionUser.IsLoggedInUserOrAdmin(Creator.Id);
 
         var imageResult = new UserImageSettings(Creator.Id).GetUrl_250px(Creator);
         ImageUrl_250 = imageResult.Url;
