@@ -21661,6 +21661,9 @@
     <Content Include="Views\Categories\Detail\Category.min.css">
       <DependentUpon>Category.css</DependentUpon>
     </Content>
+    <Content Include="Views\Categories\Detail\JsAnalyticsTab\KnowledgeGraph.js">
+      <DependentUpon>KnowledgeGraph.ts</DependentUpon>
+    </Content>
     <Content Include="Views\Categories\Detail\JsEditMode\ContentModule.js">
       <DependentUpon>ContentModule.ts</DependentUpon>
     </Content>
@@ -22001,6 +22004,9 @@
     </Content>
     <Content Include="Views\Knowledge\Wheel\KnowledgeWheel.js.map">
       <DependentUpon>KnowledgeWheel.ascx</DependentUpon>
+    </Content>
+    <Content Include="Views\Categories\Detail\JsAnalyticsTab\KnowledgeGraph.js.map">
+      <DependentUpon>KnowledgeGraph.ts</DependentUpon>
     </Content>
     <None Include="Views\Maintenance\ContentStats.less" />
     <Compile Include="Views\Maintenance\ContentStatsModel.cs" />

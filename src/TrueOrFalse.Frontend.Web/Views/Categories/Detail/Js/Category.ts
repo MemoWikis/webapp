@@ -30,14 +30,14 @@
 
         const url = '/' + this._categoryName + '/' + this.CategoryId;
 
-        $("#TopicTab").on("click",
+        $("#TopicTab,#AnalyticsFooterBtn").on("click",
             (e) => {
                 e.preventDefault();
                 const tabName = "TopicTab";
                 this.historyPushAndSetActive(url, tabName);
             });
 
-        $("#LearningTab").on("click",
+        $("#LearningTab,#LearningFooterBtn").on("click",
             (e) => {
                 e.preventDefault();
                 var newUrl = url + '/Lernen';
