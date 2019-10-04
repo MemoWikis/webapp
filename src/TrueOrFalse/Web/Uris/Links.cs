@@ -80,7 +80,7 @@ namespace TrueOrFalse.Frontend.Web.Code
         public static string UserSettings() => GetUrlHelper().Action(UserSettingsAction, UserSettingsController);
 
         public static string UserLoginAs(UrlHelper url, int userId) => url.Action("LoginAs", "Users", new {userId = userId});
-        public static string UserDetail(User user) => UserDetail(user.Name, user.Id);
+        public static string UserDetail(IUserTinyModel user) => UserDetail(user.Name, user.Id);
 
         public static string UserDetail(string userName, int userId)
         {
