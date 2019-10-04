@@ -36,7 +36,7 @@
                     <%= Html.Partial("AddToWishknowledgeButtonQuestionDetail", new AddToWishknowledge(Model.IsInWishknowledge, isShortVersion: true)) %>
                 </span>
             <% } %>
-            <% if (Model.IsCreator || Model.IsInstallationAdmin)
+            <% if (Model.IsLoggedIn && Model.IsCreator || Model.IsInstallationAdmin)
                { %>
             <span class="edit-question">
                 <a href="<%= Links.EditQuestion(Url, Model.QuestionText, Model.QuestionId) %>" class="TextLinkWithIcon"><i class="fa fa-pencil"></i></a>
