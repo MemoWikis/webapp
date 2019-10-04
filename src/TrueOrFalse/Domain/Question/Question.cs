@@ -135,8 +135,11 @@ public class Question : DomainEntity, ICreator
 
     public virtual bool IsPrivate() => Visibility != QuestionVisibility.All;
 
-    public virtual bool IsVisibleToCurrentUser () 
-        => Visibility == QuestionVisibility.All || Sl.SessionUser.IsLoggedInUser(Creator.Id);
+    public virtual bool IsVisibleToCurrentUser()
+    {
+        var creator = new UserTinyModel(Creator);
+        return Visibility == QuestionVisibility.All || Sl.SessionUser.IsLoggedInUser(creator.Id);
+    }
 
     public virtual void UpdateReferences(IList<Reference> references)
     {

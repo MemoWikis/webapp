@@ -43,7 +43,7 @@ public class CategoryModel : BaseContentModule
     public string ParentList;
 
 
-    public User Creator;
+    public UserTinyModel Creator;
     public string CreatorName;
     public string CreationDate;
     public string ImageUrl_250;
@@ -77,10 +77,11 @@ public class CategoryModel : BaseContentModule
     public bool IsInWishknowledge;
     public string TotalPins;
 
-    public LearningTabModel LearningTabModel; 
+    public LearningTabModel LearningTabModel;
+    public UserTinyModel UserTinyModel;
 
     public CategoryModel(Category category, bool loadKnowledgeSummary = true)
-    {      
+    {
         MetaTitle = category.Name;
         MetaDescription = SeoUtils.ReplaceDoubleQuotes(category.Description).Truncate(250, true);
 
@@ -105,8 +106,8 @@ public class CategoryModel : BaseContentModule
        
         Type = category.Type.GetShortName();
 
-        Creator = category.Creator;
-        CreatorName = category.Creator.Name;
+        Creator = new UserTinyModel(category.Creator);
+        CreatorName = Creator.Name;
 
         var imageResult = new UserImageSettings(Creator.Id).GetUrl_250px(Creator);
         ImageUrl_250 = imageResult.Url;
@@ -116,7 +117,7 @@ public class CategoryModel : BaseContentModule
 
         FeaturedSets = category.FeaturedSets();
 
-        IsOwnerOrAdmin = _sessionUser.IsLoggedInUserOrAdmin(category.Creator.Id);
+        IsOwnerOrAdmin = _sessionUser.IsLoggedInUserOrAdmin(Creator.Id);
 
         CategoriesParent = category.ParentCategories();
         CategoriesChildren = _categoryRepo.GetChildren(category.Id);
