@@ -15,7 +15,7 @@
                     <div class="navLinks">
                         <a href="/Kategorien" style="font-size: 12px;"><i class="fa fa-list"></i>&nbsp;zur Übersicht</a>
                         
-                            <a href="/Kategorien/Bearbeite/115" style="font-size: 12px;"><i class="fa fa-pencil"></i>&nbsp;bearbeiten</a> 
+                            <a href="/Bearbeite/115" style="font-size: 12px;"><i class="fa fa-pencil"></i>&nbsp;bearbeiten</a> 
                         
                         <a href="/Fragen/Erstelle?categoryId=115" style="font-size: 12px;"><i class="fa fa-plus-circle"></i>&nbsp;Frage hinzufügen</a>
                     </div>
@@ -49,9 +49,9 @@
                     <h4 style="margin-top: 0;">Elternthemen</h4>
                     <div>
                         
-                            <a href="/Kategorien/TestZeitung/71/1"><span class="label label-category">TestZeitung</span></a>
+                            <a href="/TestZeitung/71/1"><span class="label label-category">TestZeitung</span></a>
                         
-                            <a href="/Kategorien/TestZeitung_vom_01072014/114/1"><span class="label label-category">TestZeitung vom 01.07.2014</span></a>
+                            <a href="/TestZeitung_vom_01072014/114/1"><span class="label label-category">TestZeitung vom 01.07.2014</span></a>
                         
                     </div>
                 

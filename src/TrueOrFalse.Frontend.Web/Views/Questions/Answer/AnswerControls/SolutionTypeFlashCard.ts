@@ -12,6 +12,7 @@ class SolutionTypeFlashCard
         this.AnswerQuestion = new AnswerQuestion(this);
         //special code for FlashCard
         $("#flashCardContent, #btnFlipCard").click(e => {
+            e.preventDefault();
             if (!this.cardFlippedOnce) {
                 this.cardFlippedOnce = true;
                 $('#btnFlipCard').hide();

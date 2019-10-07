@@ -1,4 +1,6 @@
-﻿class AnswerBodyLoader {
+﻿declare var ga: any;
+
+class AnswerBodyLoader {
 
     private _answerBody: AnswerBody;
     private _isInLearningTab: boolean;
@@ -10,7 +12,7 @@
         if (Utils.IsInWidget())
             return;
 
-        $().ready(() => {
+        $(() => {
             this._isInLearningTab = $('#LearningTab').length > 0;
 
             if (window.location.pathname.split("/")[4] === "im-Fragesatz") {
@@ -91,12 +93,12 @@
     }
 
     public loadNewTestSession() {
-        var url = "/AnswerQuestion/RenderAnswerBodyForNewCategoryTestSession/?categoryId=" + $('#hddCategoryId').val();
+        var url = "/AnswerQuestion/RenderAnswerBodyForNewCategoryTestSession/?categoryId=" + $('#hhdCategoryId').val();
         this.loadNewQuestion(url);
     }
 
     public loadNewLearningSession() {
-        var url = "/AnswerQuestion/RenderAnswerBodyForNewCategoryLearningSession/?categoryId=" + $('#hddCategoryId').val();
+        var url = "/AnswerQuestion/RenderAnswerBodyForNewCategoryLearningSession/?categoryId=" + $('#hhdCategoryId').val();
         this.loadNewQuestion(url);
     }
 

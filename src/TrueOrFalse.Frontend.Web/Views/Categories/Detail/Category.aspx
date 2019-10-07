@@ -19,9 +19,9 @@
     <%= Scripts.Render("~/bundles/js/Vue") %>
     <%= Styles.Render("~/bundles/AnswerQuestion") %>
     <%= Styles.Render("~/bundles/Category") %>
-    <%= Scripts.Render("~/bundles/js/Category") %>
+   
     <%= Scripts.Render("~/bundles/js/DeleteQuestion") %>
-    <%= Scripts.Render("~/bundles/js/AnswerQuestion") %>    
+    <%= Scripts.Render("~/bundles/js/AnswerQuestion") %> 
     <%= Scripts.Render("~/bundles/js/CategorySort") %>
 
     <script type="text/javascript" src="https://www.google.com/jsapi"></script>
@@ -44,28 +44,31 @@
     <%: Html.Partial("~/Views/Categories/Detail/Partials/SettingsDialogCollection.ascx") %>
 
     <input type="hidden" id="hhdCategoryId" value="<%= Model.Category.Id %>"/>
+    <input type="hidden" id="hhdCategoryName" value="<%= Model.Category.Name %>"/>
     <input type="hidden" id="hddUserId" value="<%= Model.UserId %>"/>
-    <input type="hidden" id="hddQuestionCount" value="<%=Model.AggregatedQuestionCount %>"/>   
+    <input type="hidden" id="hddQuestionCount" value="<%=Model.AggregatedQuestionCount %>"/> 
+
     <% Html.RenderPartial("~/Views/Shared/Spinner/Spinner.ascx"); %>
     <% Html.RenderPartial("~/Views/Categories/Detail/Partials/CategoryHeader.ascx", Model);%>
     
-    <div id="TopicTabContent" class="TabContent">
-        <div id="ContentModuleApp">
-            <% Html.RenderPartial("~/Views/Categories/Detail/Tabs/TopicTab.ascx", Model); %>
+        <div id="TopicTabContent" class="TabContent">
+            <% if (Model.IsInTopic) { %>
+                <% Html.RenderPartial("~/Views/Categories/Detail/Tabs/TopicTab.ascx", Model); %>
+                
+            <% } %>
 
-            <%: Html.Partial("~/Views/Categories/Detail/Partials/InlineEditFloatingActionButton.ascx") %>
-            <%: Html.Partial("~/Views/Categories/Detail/Partials/ModalComponentCollection.ascx") %>
         </div>
-        <%: Html.Partial("~/Views/Categories/Detail/Partials/CategoryFooter/CategoryFooter.ascx") %>
-    </div>
 
-    
-    <div id="LearningTabContent" class="TabContent" style="display: none;">
-        <% Html.RenderPartial("~/Views/Categories/Detail/Tabs/LearningTab.ascx", Model); %>
+    <div id="LearningTabContent" class="TabContent" style="visibility: hidden">
+        <% if(Model.IsInLearningTab) { %> 
+            <% Html.RenderPartial("~/Views/Categories/Detail/Tabs/LearningTab.ascx", Model); %>
+        <%}%>
     </div>
+    
     <div id="AnalyticsTabContent" class="TabContent">
+        <% if (Model.IsInAnalyticsTab){ %>
+            <% Html.RenderPartial("~/Views/Categories/Detail/Tabs/AnalyticsTab.ascx"); %>
+        <% } %>
     </div>
-    
-    <%= Scripts.Render("~/bundles/js/CategoryEditMode") %>
-    
+    <%= Scripts.Render("~/bundles/js/Category") %>
 </asp:Content>

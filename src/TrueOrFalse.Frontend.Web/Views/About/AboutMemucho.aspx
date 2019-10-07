@@ -322,7 +322,7 @@
             <div class="col-sm-4">
                 <div class="logo-box">
                     <div class="img-logo">
-                        <a href="/Kategorien/Learning-Level-Up/722">
+                        <a href="/Learning-Level-Up/722">
                             <img style="margin-top: 24px;" src="/Images/LogosPartners/Logo_LearningLevelUp.png" alt="Learning Level Up und memucho kooperieren!" />
                         </a>
                     </div>
@@ -330,7 +330,7 @@
                         Learning Level Up bietet Animationen, Grafiken und Videos zum Lernen. Wir freuen uns über die Kooperation!
                     </p>
                     <p class="logo-box-link">
-                        <a href="/Kategorien/Learning-Level-Up/722">Zur Themenseite</a> 
+                        <a href="/Learning-Level-Up/722">Zur Themenseite</a> 
                     </p>
                 </div>        
             </div>

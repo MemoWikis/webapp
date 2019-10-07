@@ -54,12 +54,12 @@ public class CategoriesModel : BaseModel
         if (ActiveTabAll)
         {
             Pager.Action = Links.CategoriesAction;
-            SearchUrl = "/Kategorien/Suche";
+            SearchUrl = "/Suche";
         }
         else if (ActiveTabWish)
         {
             Pager.Action = Links.CategoriesWishAction;
-            SearchUrl = "/Kategorien/Wunschwissen/Suche";
+            SearchUrl = "/Wunschwissen/Suche";
         }
 
         Suggestion = searchSpec.GetSuggestion();
