@@ -59,12 +59,12 @@ public class ReputationUpdate : IRegisterAsInstancePerLifetime
         foreach (var result in results)
         {
             i++;
-            result.User.ReputationPos = i;
-            result.User.Reputation = result.TotalReputation;
-            result.User.WishCountQuestions = Sl.Resolve<GetWishQuestionCount>().Run(result.User.Id);
-            result.User.WishCountSets = Sl.Resolve<GetWishSetCount>().Run(result.User.Id);
+            result.User.User.ReputationPos = i;
+            result.User.User.Reputation = result.TotalReputation;
+            result.User.User.WishCountQuestions = Sl.Resolve<GetWishQuestionCount>().Run(result.User.Id);
+            result.User.User.WishCountSets = Sl.Resolve<GetWishSetCount>().Run(result.User.Id);
 
-            _userRepo.Update(result.User);
+            _userRepo.Update(result.User.User);
         }
     }
 
