@@ -237,11 +237,11 @@ public class CategoryRepository : RepositoryDbBase<Category>
         return parents;
     }
 
-    public IList<User> GetAuthors(int categoryId, bool filterUsersForSidebar = false)
+    public IList<UserTinyModel> GetAuthors(int categoryId, bool filterUsersForSidebar = false)
     {
         var allAuthors = Sl.CategoryChangeRepo
             .GetForCategory(categoryId, filterUsersForSidebar)
-            .Select(categoryChange => categoryChange.Author);
+            .Select(categoryChange => new UserTinyModel(categoryChange.Author));
 
         return allAuthors.GroupBy(a => a.Id)
             .Select(groupedAuthor => groupedAuthor.First())

@@ -74,7 +74,7 @@ public class SidebarModel : BaseResolve
     
     public bool Show() => Authors.Any() || SponsorModel.IsAdFree || SuggestionCategory != null;
 
-    public void Fill(IList<User> authors, int currentUserId)
+    public void Fill(IList<UserTinyModel> authors, int currentUserId)
     {
         foreach (var author in authors)
         {
@@ -89,12 +89,23 @@ public class SidebarModel : BaseResolve
 
         if (authors.Count == 1)
         {
-            Reputation = Resolve<ReputationCalc>().Run(authors[0]);
-            AmountWishCountQuestions = Resolve<GetWishQuestionCount>().Run(authors[0].Id);
-            var followerIAm = R<FollowerIAm>().Init(new List<int> { authors[0].Id }, currentUserId);
-            DoIFollow = followerIAm.Of(authors[0].Id);
-            IsCurrentUser = authors[0].Id == currentUserId && IsLoggedIn;
-            Authors[0].ShowWishKnowledge = authors[0].ShowWishKnowledge;
+            if (!authors[0].IsKnown)
+            {
+                Reputation = Resolve<ReputationCalc>().Run(authors[0].User);
+                AmountWishCountQuestions = Resolve<GetWishQuestionCount>().Run(authors[0].Id);
+                var followerIAm = R<FollowerIAm>().Init(new List<int> { authors[0].Id }, currentUserId);
+                DoIFollow = followerIAm.Of(authors[0].Id);
+                IsCurrentUser = authors[0].Id == currentUserId && IsLoggedIn;
+                Authors[0].ShowWishKnowledge = authors[0].ShowWishKnowledge;
+            }
+            else
+            {
+                Reputation = new ReputationCalcResult { User = authors[0] };
+                Authors[0].ShowWishKnowledge = false;
+                AmountWishCountQuestions = 0;
+                DoIFollow = false;
+                IsCurrentUser = false;
+            }
         }
     }
 }
@@ -103,7 +114,7 @@ public class SidebarAuthorModel
 {
     public string Name => User.Name;
     public string ImageUrl;
-    public User User;
+    public UserTinyModel User;
     public bool ShowWishKnowledge;
     public int Reputation;
     public int ReputationPos;

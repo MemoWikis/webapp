@@ -22,7 +22,7 @@ public class ReputationCalc : IRegisterAsInstancePerLifetime
     public ReputationCalcResult Run(User user)
     {
         var result = new ReputationCalcResult();
-        result.User = user;
+        result.User = new UserTinyModel(user);
 
         /*Calculate Reputation for Questions and Sets created */
 

@@ -1,33 +1,37 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using Seedworks.Lib.Persistence;
-
-
-public interface IUserTinyModel
+﻿public interface IUserTinyModel
 {
-    string Name { get; set; }
-    int Id { get; set; }
-    string EmailAddress { get; set; }
-    bool IsFacebookUser { get; }
-    bool IsGoogleUser { get; }
-    string FacebookId { get; set; }
-
-    string GoogleId { get; set; }
+    int Id { get; set;}
+    string Name { get; }
+    string EmailAddress { get;}
+    bool IsFacebookUser { get;}
+    bool IsGoogleUser { get;}           
+    string FacebookId { get; }
+    int Reputation { get; }
+    string GoogleId { get;}
+    bool ShowWishKnowledge { get; }
 }
 
 public class UserTinyModel : IUserTinyModel
 {
-    public string Name { get; set; }
     public int Id { get; set; }
-    public string EmailAddress { get; set; }
-    public bool IsFacebookUser { get; set; }
+    public string Name { get;  }
+    public string EmailAddress { get; }
+    public bool IsFacebookUser { get;  }
     public bool IsGoogleUser { get; }
-    public string FacebookId { get; set; }
-    public string GoogleId { get; set; }
+    public string FacebookId { get;  }
+    public string GoogleId { get;  }
+    public int Reputation { get; }
+    public int ReputationPos { get; }
+    public bool ShowWishKnowledge { get; }
 
     private readonly User _user;
+
+    public User User => _user;
+
+    public bool IsMemuchoUser { get; }
+
+    public bool IsKnown => !IsUnknown;
+    public bool IsUnknown { get; }
 
     public UserTinyModel(User user)
     {
@@ -36,6 +40,7 @@ public class UserTinyModel : IUserTinyModel
         if (_user == null)
         {
             Name = "Unbekannt";
+            IsUnknown = true;
         }
         else
         {
@@ -49,5 +54,8 @@ public class UserTinyModel : IUserTinyModel
         Id = _user == null ? -1 : _user.Id;
         FacebookId = _user == null ? "null" : _user.FacebookId;
         GoogleId = _user == null ? "null" : _user.GoogleId;
+        IsMemuchoUser = _user != null && _user.IsMemuchoUser;
+        Reputation = _user != null ? user.Reputation :  0;
+        ReputationPos = _user != null ? user.ReputationPos : -1;
     }
 }

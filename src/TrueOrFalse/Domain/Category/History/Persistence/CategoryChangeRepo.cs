@@ -66,8 +66,8 @@ public class CategoryChangeRepo : RepositoryDbBase<CategoryChange>
             query.And(c => c.ShowInSidebar);
 
         query
-            .JoinAlias(c => c.Author, () => aliasUser)
-            .JoinAlias(c => c.Category, () => aliasCategory);
+            .Left.JoinAlias(c => c.Author, () => aliasUser)
+            .Left.JoinAlias(c => c.Category, () => aliasCategory);
 
         return query
             .List();
