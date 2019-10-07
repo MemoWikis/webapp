@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 
-public class SidebarModel : BaseResolve
+public class SidebarModel : UserCardBaseModel
 {
     public int WishKnowledgeCount;
     public bool IsInstallationAdmin;
@@ -16,7 +16,7 @@ public class SidebarModel : BaseResolve
 
     public CategoryNavigationModel categoryNavigationModel;
 
-    public IList<SidebarAuthorModel> Authors = new List<SidebarAuthorModel>();
+    public IList<AuthorViewModel> Authors = new List<AuthorViewModel>();
 
     public ReputationCalcResult Reputation;
     public int AmountWishCountQuestions;
@@ -76,46 +76,8 @@ public class SidebarModel : BaseResolve
 
     public void Fill(IList<UserTinyModel> authors, int currentUserId)
     {
-        foreach (var author in authors)
-        {
-            Authors.Add(new SidebarAuthorModel
-            {
-                ImageUrl = new UserImageSettings(author.Id).GetUrl_250px(author).Url,
-                User = author,
-                Reputation = author.Reputation,
-                ReputationPos = author.ReputationPos
-            });
-        }
+        Authors = AuthorViewModel.Convert(authors);
 
-        if (authors.Count == 1)
-        {
-            if (!authors[0].IsKnown)
-            {
-                Reputation = Resolve<ReputationCalc>().Run(authors[0].User);
-                AmountWishCountQuestions = Resolve<GetWishQuestionCount>().Run(authors[0].Id);
-                var followerIAm = R<FollowerIAm>().Init(new List<int> { authors[0].Id }, currentUserId);
-                DoIFollow = followerIAm.Of(authors[0].Id);
-                IsCurrentUser = authors[0].Id == currentUserId && IsLoggedIn;
-                Authors[0].ShowWishKnowledge = authors[0].ShowWishKnowledge;
-            }
-            else
-            {
-                Reputation = new ReputationCalcResult { User = authors[0] };
-                Authors[0].ShowWishKnowledge = false;
-                AmountWishCountQuestions = 0;
-                DoIFollow = false;
-                IsCurrentUser = false;
-            }
-        }
+        FillUserCardBaseModel(authors, currentUserId);
     }
-}
-
-public class SidebarAuthorModel
-{
-    public string Name => User.Name;
-    public string ImageUrl;
-    public UserTinyModel User;
-    public bool ShowWishKnowledge;
-    public int Reputation;
-    public int ReputationPos;
 }

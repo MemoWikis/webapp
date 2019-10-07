@@ -329,7 +329,6 @@ public class AnswerQuestionModel : BaseModel
 
         var authors = Sl.QuestionRepo
             .GetAuthorsQuestion(QuestionId, filterUsersForSidebar:true)
-            .Select(usr => new UserTinyModel(usr))
             .ToList();
         SidebarModel.Fill(authors, UserId);
     }

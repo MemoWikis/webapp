@@ -24,11 +24,11 @@ public class QuestionRepo : RepositoryDbBase<Question>
         base.Update(question);
     }
 
-    public IList<User> GetAuthorsQuestion(int questionId, bool filterUsersForSidebar = false)
+    public IList<UserTinyModel> GetAuthorsQuestion(int questionId, bool filterUsersForSidebar = false)
     {
         var allAuthors = Sl.QuestionChangeRepo
             .GetForQuestion(questionId, filterUsersForSidebar)
-            .Select(QuestionChange => QuestionChange.Author);
+            .Select(QuestionChange => new UserTinyModel(QuestionChange.Author));
 
         return allAuthors.GroupBy(a => a.Id)
             .Select(groupedAuthor => groupedAuthor.First())

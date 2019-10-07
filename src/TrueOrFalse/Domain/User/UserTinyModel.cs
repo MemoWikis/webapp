@@ -22,7 +22,7 @@ public class UserTinyModel : IUserTinyModel
     public string GoogleId { get;  }
     public int Reputation { get; }
     public int ReputationPos { get; }
-    public bool ShowWishKnowledge { get; }
+    public bool ShowWishKnowledge { get; set; }
 
     private readonly User _user;
 
