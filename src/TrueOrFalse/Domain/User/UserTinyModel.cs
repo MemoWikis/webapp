@@ -23,6 +23,7 @@ public class UserTinyModel : IUserTinyModel
     public int Reputation { get; }
     public int ReputationPos { get; }
     public bool ShowWishKnowledge { get; set; }
+    public bool IsMember { get; }
 
     private readonly User _user;
 
@@ -55,7 +56,8 @@ public class UserTinyModel : IUserTinyModel
         FacebookId = _user == null ? "null" : _user.FacebookId;
         GoogleId = _user == null ? "null" : _user.GoogleId;
         IsMemuchoUser = _user != null && _user.IsMemuchoUser;
-        Reputation = _user != null ? user.Reputation :  0;
-        ReputationPos = _user != null ? user.ReputationPos : 0;
+        Reputation = _user != null ? _user.Reputation :  0;
+        ReputationPos = _user != null ? _user.ReputationPos : 0;
+        IsMember = _user != null && _user.IsMember();
     }
 }

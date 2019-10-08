@@ -16,7 +16,7 @@ public class QuestionRowModel : BaseModel
     public string QuestionShort { get; private set; }
     public string CreatorName { get; private set; }
     public int IndexInResulSet { get; private set; }
-
+    private readonly UserTinyModel Creator;
     public string CreatorUrlName { get; private set; }
     public int CreatorId { get; private set; }
 
@@ -49,19 +49,20 @@ public class QuestionRowModel : BaseModel
         int indexInResultSet, 
         SearchTabType searchTab) 
     {
+        Creator = new UserTinyModel(question.Creator);
         ImageFrontendData = GetQuestionImageFrontendData.Run(question);
 
         Question = question;
         QuestionId = question.Id;
         QuestionText = question.Text;
         QuestionShort = question.GetShortTitle();
-        CreatorName = question.Creator.Name;
+        CreatorName = Creator.Name;
 
-        CreatorUrlName = UriSegmentFriendlyUser.Run(question.Creator.Name);
-        CreatorId = question.Creator.Id;
+        CreatorUrlName = UriSegmentFriendlyUser.Run(Creator.Name);
+        CreatorId = Creator.Id;
 
         AnswerQuestionLink = urlHelper => Links.AnswerQuestion(question, indexInResultSet, searchTab.ToString());
-        UserLink = urlHelper => Links.UserDetail(question.Creator.Name, question.Creator.Id);
+        UserLink = urlHelper => Links.UserDetail(Creator.Name, Creator.Id);
         
         IndexInResulSet = indexInResultSet;
 

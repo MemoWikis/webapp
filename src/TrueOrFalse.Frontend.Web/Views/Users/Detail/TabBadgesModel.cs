@@ -2,7 +2,7 @@
 
 public class TabBadgesModel : BaseModel
 {
-    public User User;
+    public UserTinyModel User;
 
     public IList<BadgeTypeGroup> BadgeTypeGroups;
     public IList<BadgeType> BadgeTypes;
