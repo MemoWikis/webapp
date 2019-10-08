@@ -27,13 +27,13 @@ public class ReputationCalc : IRegisterAsInstancePerLifetime
         /*Calculate Reputation for Questions and Sets created */
 
         var createdQuestions = _session.QueryOver<Question>()
-            .Where(q => q.Creator.Id == user.Id)
+            .Where(q => q.Creator.Id == result.User.Id)
             .And(q => q.Visibility == QuestionVisibility.All)
             .List<Question>();
         result.ForQuestionsCreated = createdQuestions.Count * PointsPerQuestionCreated;
 
         var createdSets = _session.QueryOver<Set>()
-            .Where(s => s.Creator.Id == user.Id)
+            .Where(s => s.Creator.Id == result.User.Id)
             .RowCount();
         result.ForSetsCreated = createdSets*PointsPerSetCreated;
 
@@ -59,8 +59,8 @@ public class ReputationCalc : IRegisterAsInstancePerLifetime
 
         /* Calculate Reputation for other things */
 
-        result.ForPublicWishknowledge = user.ShowWishKnowledge ? PointsForPublicWishknowledge : 0;
-        result.ForUsersFollowingMe = _session.R<TotalFollowers>().Run(user.Id) * PointsPerUserFollowingMe;
+        result.ForPublicWishknowledge = result.User.ShowWishKnowledge ? PointsForPublicWishknowledge : 0;
+        result.ForUsersFollowingMe = _session.R<TotalFollowers>().Run(result.User.Id) * PointsPerUserFollowingMe;
 
         return result;
     }
@@ -88,13 +88,14 @@ public class ReputationCalc : IRegisterAsInstancePerLifetime
         //    .RowCount();
 
         //this is the alternative by writing sql-code (it is working)
+        var tinyUser = new UserTinyModel(user);
         var query =
             $@"SELECT count(*)
                 FROM setvaluation sv
                 LEFT JOIN questionset s
                 ON sv.SetId = s.Id
-                WHERE s.Creator_id = {user.Id}
-                AND sv.UserId <> {user.Id}
+                WHERE s.Creator_id = {tinyUser.Id}
+                AND sv.UserId <> {tinyUser.Id}
                 AND sv.RelevancePersonal <> -1";
 
         var countSetsInOtherWishknowledge = Convert.ToInt32(_session.CreateSQLQuery(query).UniqueResult());
