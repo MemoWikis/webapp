@@ -9,12 +9,14 @@ public class UserCardBaseModel:BaseResolve
     private SessionUser _sessionUser => Resolve<SessionUser>();
     public bool IsLoggedIn => _sessionUser.IsLoggedIn;
     public User User => _sessionUser.User;
+    public UserTinyModel Author; 
     
 
     public void FillUserCardBaseModel(IList<UserTinyModel> authors, int currentUserId)
     {
         if (authors.Count == 1)
         {
+            Author = authors[0];
             if (!authors[0].IsKnown)
             {
                 Reputation = Resolve<ReputationCalc>().Run(authors[0].User);

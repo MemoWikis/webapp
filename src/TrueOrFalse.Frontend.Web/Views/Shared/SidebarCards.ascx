@@ -22,7 +22,10 @@
                 <a href="<%= Links.UserDetail(author.User) %>">
                     <%= author.Name %> 
                 </a>
-                <i id="followIcon"class="fas follower"></i>
+                <% if (Model.Author.IsKnown)
+                   { %>
+                    <i id="followIcon"class="fas follower"></i>
+                    <% } %>
             </div>
             <div class="author-reputation">
                 <span>Reputation:</span>
