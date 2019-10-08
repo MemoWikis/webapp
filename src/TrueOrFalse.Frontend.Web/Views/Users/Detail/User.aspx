@@ -51,16 +51,16 @@
                     <h4 style="margin-top: 0px;">Reputation</h4>
                     <div>- <%= Model.Reputation.ForQuestionsCreated %> für erstellte Fragen</div>
                     <div>- <%= Model.Reputation.ForSetsCreated %> für erstellte Lernsets</div>
-                    <div>- <%= Model.Reputation.ForQuestionsInOtherWishknowledge %> für eigene Fragen im Wunschwissen anderer </div>
-                    <div>- <%= Model.Reputation.ForSetsInOtherWishknowledge %> für eigene Lernsets im Wunschwissen anderer</div>
-                    <div>- <%= Model.Reputation.ForDatesCreatedVisible %> für erstellte Termine (sichtbar im Netzwerk)</div>
-                    <div>- <%= Model.Reputation.ForDatesCopied %> für eigene Termine, die von anderen übernommen wurden</div>
-                    <div>- <%= Model.Reputation.ForPublicWishknowledge %> für die Veröffentlichung des eigenen Wunschwissens</div>
+                    <div>- <%= Model.User.Id != -1 ? Model.Reputation.ForQuestionsInOtherWishknowledge : 0 %> für eigene Fragen im Wunschwissen anderer </div>
+                    <div>- <%= Model.User.Id != -1 ? Model.Reputation.ForSetsInOtherWishknowledge: 0 %> für eigene Lernsets im Wunschwissen anderer</div>
+                    <div>- <%= Model.User.Id != -1 ? Model.Reputation.ForDatesCreatedVisible : 0 %> für erstellte Termine (sichtbar im Netzwerk)</div>
+                    <div>- <%= Model.User.Id != -1 ? Model.Reputation.ForDatesCopied : 0 %> für eigene Termine, die von anderen übernommen wurden</div>
+                    <div>- <%= Model.User.Id != -1 ? Model.Reputation.ForPublicWishknowledge : 0 %> für die Veröffentlichung des eigenen Wunschwissens</div>
                     <div>- <%= Model.Reputation.ForUsersFollowingMe %> für folgende Nutzer</div>
                 </div>
                 <div class="column" >
                     <h4 style="margin-top: 0px;">Erstellte Inhalte</h4>
-                    <div><a href="<%= Links.QuestionWithCreatorFilter(Url, Model.User) %>"><%= Model.AmountCreatedQuestions %> öffentliche Fragen erstellt</a></div>
+                    <div><a href="<%= Links.QuestionWithCreatorFilter(Url, Model.User.User) %>"><%= Model.AmountCreatedQuestions %> öffentliche Fragen erstellt</a></div>
                     <div><%= Model.AmountCreatedSets %> Lernsets erstellt</div>
                     <div><%= Model.AmountCreatedCategories %>  Themen erstellt</div>
                 </div>
@@ -122,7 +122,7 @@
                         </div>
                     
                         <div class="btn-group  <%= Model.IsActiveTabBadges  ? "active" : "" %>">
-                            <a  href="<%= Links.UserDetailBadges(Model.User) %>" type="button" class="btn btn-default">
+                            <a  href="<%= Links.UserDetailBadges(Model.User.User) %>" type="button" class="btn btn-default">
                                 Badges
                             </a>
                         </div>
@@ -141,7 +141,7 @@
                             </a>
                         </li>
                         <li class="<%= Html.IfTrue(Model.IsActiveTabBadges, "active") %>">
-                            <a href="<%= Links.UserDetailBadges(Model.User) %>">
+                            <a href="<%= Links.UserDetailBadges(Model.User.User) %>">
                                 Badges (0 von <%= BadgeTypes.All().Count %>)
                             </a>
                         </li>
