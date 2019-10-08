@@ -21,6 +21,6 @@ public class CardQuestionAuthorModel : UserCardBaseModel
 
         Authors = AuthorViewModel.Convert(authors);
 
-        FillUserCardBaseModel(authors, UserId);
+        FillUserCardBaseModel(authors, User.Id);
     }
 }
