@@ -6,30 +6,17 @@ public class SidebarModel : UserCardBaseModel
     public int WishKnowledgeCount;
     public bool IsInstallationAdmin;
     public MainMenu MainMenu;
-
-    protected SessionUser _sessionUser => Resolve<SessionUser>();
-    public bool IsLoggedIn => _sessionUser.IsLoggedIn;
-
     public int UnreadMessageCount = 0;
-
     public bool IsWelcomePage;
-
     public CategoryNavigationModel categoryNavigationModel;
-
     public IList<AuthorViewModel> Authors = new List<AuthorViewModel>();
-
-    public ReputationCalcResult Reputation;
-    public int AmountWishCountQuestions;
-    public bool DoIFollow;
-    public bool IsCurrentUser;
     public string AuthorCardLinkText;
     public string AuthorImageUrl;
-
     public string CategorySuggestionImageUrl;
     public string CategorySuggestionUrl;
     public Category SuggestionCategory;
-
     private SponsorModel _sponsorModel;
+
     public SponsorModel SponsorModel
     {
         get
