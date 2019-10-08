@@ -78,7 +78,7 @@
         <div class="col-lg-2 col-xs-3 xxs-stack">
             <img style="width:100%; border-radius:5px;" src="<%=Model.ImageUrl_250 %>" /><br/>
             <div style="text-align: center; margin-top: 10px;" data-userid="<%=Model.UserIdProfile %>">
-                <% if(!Model.IsCurrentUser){ %>
+                <% if(!Model.IsCurrentUser && Model.IsMember){ %>
                     <button class="btn btn-default btn-sm" type="button" data-type="btn-follow"
                         style="<%= Html.CssHide(Model.DoIFollow) %> ">
                         <i class="fa fa-user-plus"></i>
