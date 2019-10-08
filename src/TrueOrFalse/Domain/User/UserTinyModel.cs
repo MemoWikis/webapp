@@ -56,6 +56,6 @@ public class UserTinyModel : IUserTinyModel
         GoogleId = _user == null ? "null" : _user.GoogleId;
         IsMemuchoUser = _user != null && _user.IsMemuchoUser;
         Reputation = _user != null ? user.Reputation :  0;
-        ReputationPos = _user != null ? user.ReputationPos : -1;
+        ReputationPos = _user != null ? user.ReputationPos : 0;
     }
 }
