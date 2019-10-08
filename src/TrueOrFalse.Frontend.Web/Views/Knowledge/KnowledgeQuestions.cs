@@ -7,7 +7,6 @@ using Antlr.Runtime.Misc;
 using Seedworks.Lib.Persistence;
 using TrueOrFalse.Frontend.Web.Code;
 
-
 public class KnowledgeQuestions : BaseModel
 {
     public List<QuestionValuation> TotalWishKnowledgeValuationsWithAuthor;
@@ -44,12 +43,9 @@ public class KnowledgeQuestions : BaseModel
         var i = 0;
         foreach (var question in unsortedListQuestions)
         {
-
             var userTinyModel = new UserTinyModel(question.Creator);
-           var userImageSettings = new UserImageSettings(userTinyModel.Id);
+            var userImageSettings = new UserImageSettings(userTinyModel.Id);
          
-
-
             var questions = new Questions();
             var categories = question.Categories;
 
@@ -96,7 +92,6 @@ public class KnowledgeQuestions : BaseModel
             }
 
             questionsList.Add(questions);
-
             i++;
         }
 
@@ -105,7 +100,6 @@ public class KnowledgeQuestions : BaseModel
 
     public List<QuestionValuation> GetSortList(List<QuestionValuation> unSortList, string sortCondition)
     {
-
         var sortList = new List<QuestionValuation>();
         if (sortCondition.Equals("knowWas|asc,author|asc,category|asc"))
         {
@@ -123,36 +117,21 @@ public class KnowledgeQuestions : BaseModel
                     sortList = unSortList.OrderByDescending(v => (int)v.KnowledgeStatus).ToList();
                     break;
                 case "author|asc":
-                    sortList = unSortList.OrderBy(v => v.Question.Creator.Id).ToList();
+                    sortList = unSortList.OrderBy(v => v.Question.Creator != null ? v.Question.Creator.Id : -1  ).ToList();
                     break;
                 case "author|desc":
-                    sortList = unSortList.OrderByDescending(v => v.Question.Creator.Id).ToList();
+                    sortList = unSortList.OrderByDescending(v => v.Question.Creator != null ? v.Question.Creator.Id : -1).ToList();
                     break;
                 case "category|asc":
                     sortList = unSortList
-                        .OrderBy(qv =>
-                        {
-                            if (qv.Question.Categories.IsEmpty())
-                                return ""; //should be first;
-
-                            return qv.Question.Categories[0].Name;
-                        }).ToList();
+                        .OrderBy(qv => qv.Question.Categories.IsEmpty() ? "" : qv.Question.Categories[0].Name).ToList();
                     break;
                 case "category|desc":
                     sortList = unSortList
-                        .OrderByDescending(qv =>
-                        {
-                            if (qv.Question.Categories.IsEmpty())
-                                return ""; //should be last;
-
-                            return qv.Question.Categories[0].Name;
-                        }).ToList();
-
+                        .OrderByDescending(qv => qv.Question.Categories.IsEmpty() ? "" : qv.Question.Categories[0].Name).ToList();
                     break;
             }
-
         }
-
         return sortList;
     }
 
