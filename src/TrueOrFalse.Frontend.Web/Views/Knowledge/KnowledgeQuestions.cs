@@ -19,7 +19,7 @@ public class KnowledgeQuestions : BaseModel
     {
         TotalWishKnowledgeValuationsWithAuthor = isAuthor
             ? UserValuationCache.CreateItemFromDatabase(UserId).QuestionValuations.Values
-                .Where(v => v.Question.Creator.Id == UserId && v.IsInWishKnowledge())
+                .Where(v => v.Question.Creator != null && v.Question.Creator.Id == UserId && v.IsInWishKnowledge())
                 .Distinct()
                 .ToList()
             : UserValuationCache.CreateItemFromDatabase(UserId).QuestionValuations.Values
