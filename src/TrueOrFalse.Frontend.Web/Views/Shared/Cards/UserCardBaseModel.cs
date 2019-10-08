@@ -1,11 +1,15 @@
 ﻿using System.Collections.Generic;
 
-public class UserCardBaseModel : BaseModel
+public class UserCardBaseModel:BaseResolve
 {
     public ReputationCalcResult Reputation;
     public bool DoIFollow;
     public int AmountWishCountQuestions;
     public bool IsCurrentUser;
+    private SessionUser _sessionUser => Resolve<SessionUser>();
+    public bool IsLoggedIn => _sessionUser.IsLoggedIn;
+    public User User => _sessionUser.User;
+    
 
     public void FillUserCardBaseModel(IList<UserTinyModel> authors, int currentUserId)
     {
