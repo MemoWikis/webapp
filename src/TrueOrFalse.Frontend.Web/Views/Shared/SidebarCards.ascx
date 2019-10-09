@@ -6,7 +6,7 @@
             var author = Model.Authors.First();
     %>
         <input id="isFollow" type="hidden" value="<%=Model.DoIFollow %>"/>
-        <input id="author" type="hidden" value="<%= author.User.Id%>" name="<%= author.User.Name %>" data-question-created="<%=Model.Reputation.ForQuestionsCreated %>" data-sets-created="<%= author.User.Name %>" data-question-created="<%=Model.Reputation.ForSetsCreated %>" />
+        <input id="author" type="hidden" value="<%= author.User.Id%>" name="<%= author.User.Name %>" data-sets-created="<%= Model.Reputation.ForSetsCreated %>" data-question-created="<%=Model.Reputation.ForQuestionsCreated %>" />
 
     <div id="AutorCard">
         <div class="column-left">
@@ -24,7 +24,7 @@
                 </a>
                 <% if (Model.Author.IsKnown)
                    { %>
-                    <i id="followIcon"class="fas follower"></i>
+                    <i id="followIcon" class="fas follower"></i>
                     <% } %>
             </div>
             <div class="author-reputation">

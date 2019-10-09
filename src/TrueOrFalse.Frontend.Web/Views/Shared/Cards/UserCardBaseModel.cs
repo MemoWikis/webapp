@@ -17,17 +17,13 @@ public class UserCardBaseModel:BaseResolve
         if (authors.Count == 1)
         {
             Author = authors[0];
-            if (!authors[0].IsKnown)
+            Reputation = Resolve<ReputationCalc>().Run(authors[0].User);
+            if (authors[0].IsKnown)
             {
-                Reputation = Resolve<ReputationCalc>().Run(authors[0].User);
                 AmountWishCountQuestions = Resolve<GetWishQuestionCount>().Run(authors[0].Id);
-                var followerIAm = R<FollowerIAm>().Init(new List<int> {authors[0].Id}, currentUserId);
+                var followerIAm = R<FollowerIAm>().Init(new List<int> { authors[0].Id }, currentUserId);
                 DoIFollow = followerIAm.Of(authors[0].Id);
                 IsCurrentUser = authors[0].Id == currentUserId && IsLoggedIn;
-            }
-            else
-            {
-                Reputation = new ReputationCalcResult {User = authors[0]};
             }
         }
     }
