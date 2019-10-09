@@ -11,7 +11,6 @@ public class CategoryModel : BaseContentModule
     public int Id;
     public string Name;
     public string Description;
-    public string Type;
 
     public KnowledgeSummary KnowledgeSummary;
 
@@ -19,17 +18,13 @@ public class CategoryModel : BaseContentModule
     public CategoryChange CategoryChange;//Is set in controller because controller context is needed
     public bool NextRevExists;   //Is set in controller because controller context is needed
     public IList<Set> FeaturedSets;
-
     public IList<Category> CategoriesParent;
     public IList<Category> CategoriesChildren;
-
     public int CategoriesDescendantsCount;
     public IList<Category> AllCategoriesParents;
-
     public IList<Set> AggregatedSets;
     public IList<Question> AggregatedQuestions;
     public IList<Question> CategoryQuestions;
-
     public int AggregatedSetCount;
     public int AggregatedQuestionCount;
     public int CategoryQuestionCount;
@@ -41,47 +36,33 @@ public class CategoryModel : BaseContentModule
     public Question EasiestQuestion;
     public Question HardestQuestion;
     public string ParentList;
-
     public bool IsInTopic = false;
     public bool IsInLearningTab = false;
     public bool IsInAnalyticsTab = false; 
-
-
     public UserTinyModel Creator;
     public string CreatorName;
     public string CreationDate;
     public string ImageUrl_250;
-    
     public Category Category;
-
     public ImageFrontendData ImageFrontendData;
-
     public string WikipediaURL;
     public string Url;
-    public string UrlLinkText;
-
     public bool IsOwnerOrAdmin;
     public bool IsTestSession => !IsLoggedIn;
     public bool IsLearningSession => IsLoggedIn;
-
     public int CountAggregatedQuestions;
     public int CountCategoryQuestions;
     public int CountReferences;
     public int CountWishQuestions;
     public int CountSets;
-
     public const int MaxCountQuestionsToDisplay = 20;
-
     public int CorrectnesProbability;
     public int AnswersTotal;
-
     private readonly QuestionRepo _questionRepo;
     private readonly CategoryRepository _categoryRepo;
-
     public bool IsInWishknowledge;
     public bool IsLearningTab;
     public string TotalPins;
-
     public LearningTabModel LearningTabModel;
     public UserTinyModel UserTinyModel;
 
@@ -100,7 +81,6 @@ public class CategoryModel : BaseContentModule
 
         WikipediaURL = category.WikipediaURL;
         Url = category.Url;
-        UrlLinkText = category.UrlLinkText;
         Category = category;
 
         Id = category.Id;
@@ -153,11 +133,8 @@ public class CategoryModel : BaseContentModule
         if (category.Type == CategoryType.Standard)
             TopQuestionsInSubCats = GetTopQuestionsInSubCats();
 
-       
-        //  LearningTabModel = new LearningTabModel(Category);
 
         TopWishQuestions = wishQuestions.Items;
-
 
         SingleQuestions = GetQuestionsForCategory.QuestionsNotIncludedInSet(Id);
 
