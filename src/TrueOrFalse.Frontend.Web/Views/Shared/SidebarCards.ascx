@@ -107,11 +107,9 @@
             { %>
         <div class="category-suggestion-footer">
             <div class="set-question-count">
-                <%: Model.SuggestionCategory.GetAggregatedSetsFromMemoryCache().Count  %> Lernset
-                <% if (Model.SuggestionCategory.GetAggregatedSetsFromMemoryCache().Count != 1)                                                                                                     { %>s mit&nbsp;<% }
+                <%: Model.SuggestionCategory.GetAggregatedSetsFromMemoryCache().Count  %> Lernset<% if (Model.SuggestionCategory.GetAggregatedSetsFromMemoryCache().Count != 1){%>s mit&nbsp;<% }
                     else{ %> mit&nbsp;<% } %>
-                <%: Model.SuggestionCategory.GetAggregatedQuestionsFromMemoryCache().Count %> Frage
-                <% if (Model.SuggestionCategory.GetAggregatedQuestionsFromMemoryCache().Count != 1){ %>n<% } %>
+                <%: Model.SuggestionCategory.GetAggregatedQuestionsFromMemoryCache().Count %> Frage<% if (Model.SuggestionCategory.GetAggregatedQuestionsFromMemoryCache().Count != 1){%>n<% } %>
             </div>
             <div class="KnowledgeBarWrapper">
                 <% Html.RenderPartial("~/Views/Categories/Detail/CategoryKnowledgeBar.ascx", new CategoryKnowledgeBarModel(Model.SuggestionCategory)); %>
