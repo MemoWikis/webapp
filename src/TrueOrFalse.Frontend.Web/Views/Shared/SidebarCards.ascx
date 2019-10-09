@@ -22,7 +22,7 @@
                 <a href="<%= Links.UserDetail(author.User) %>">
                     <%= author.Name %> 
                 </a>
-                <% if (Model.Author.IsKnown)
+                <% if (Model.Author.IsKnown && !Model.IsCurrentUser)
                    { %>
                     <i id="followIcon" class="fas follower"></i>
                     <% } %>
@@ -44,15 +44,15 @@
                 <span class="fa fa-heart"></span>
                 <span class="footer-bar-text"><%= Model.AmountWishCountQuestions %></span>
             </div>
-            <div id="follow-tooltip" data-allowed="logged-in" class="show-tooltip " <% if (!Model.IsCurrentUser)
-                {%>title="<%if (Model.DoIFollow)
-                { %>Du folgst <%= author.Name %> und nimmst an ihren/seinen Aktivitäten teil.<%}
-                else
-                { %>Folge <%= author.Name %>, um an ihren/seinen Aktivitäten teilzuhaben.<%} %>"
-                <%} %>>
+            <% if (Model.Author.IsKnown && !Model.IsCurrentUser)
+               { %>
+            <div id="follow-tooltip" data-allowed="logged-in" class="show-tooltip "
+                 title="<% if (Model.DoIFollow){ %>Du folgst <%= author.Name %> und nimmst an ihren/seinen Aktivitäten teil.
+                        <% }else{ %> Folge <%= author.Name %>, um an ihren/seinen Aktivitäten teilzuhaben.<% } %>">
                  <div id="follower" class="fas follower"></div>  
                  <span class="footer-bar-text"><%= Model.Reputation.ForUsersFollowingMe %></span>
             </div>
+                <% } %>
         </div>
     </div>
     <%} if (Model.Authors.Count > 1) {%>
