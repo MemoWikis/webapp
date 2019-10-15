@@ -158,18 +158,26 @@
         
             <%= Html.AntiForgeryToken() %>
 
-            <div class="form-group">
-                <label class="col-sm-2 control-label">UserId</label>
-                <div class="col-xs-2">
+            <div class="form-group col-md-6">
+                <label class="col-sm-4 control-label">UserId</label>
+                <div class="col-xs-4">
                     <%= Html.TextBoxFor(m => m.UserId, new {@class="form-control"} ) %>  
                 </div>
-            </div>
-
-            <div class="form-group" style="">
-                <div class="col-sm-offset-2 col-sm-9">
+                <div class="col-sm-offset-4 col-sm-12" style="margin-top: 15px; ">
                     <input type="submit" value="User löschen" class="btn btn-primary" />
                 </div>
             </div>
+            <div class="col-md-6" style="margin-bottom: 50px;" >
+                1.Vor dem Löschen prüfen oder der Nutzer relevante Inhalte erstellt hat.<br/>
+                <br/>
+                2. Hat der Nutzer relevante Inhalte erstellt, muss er eine Email bekommen<br/>
+                in der er darüber informiert wird das seine Inhalte unter Lizenz CC BY 2.0 DE<br/>
+                anonymisiert weiterverwendet werden.<br/>
+                <br/>
+                3. memucho muss nach dem Löschen neu gestartet werden da es sonst Probleme mit dem EntityCache gibt.
+            </div>
+
+
 
         <% } %>
     </div>
