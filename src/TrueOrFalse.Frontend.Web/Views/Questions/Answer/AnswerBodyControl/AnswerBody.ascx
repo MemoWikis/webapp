@@ -36,18 +36,20 @@
                     <%= Html.Partial("AddToWishknowledgeButtonQuestionDetail", new AddToWishknowledge(Model.IsInWishknowledge, isShortVersion: true)) %>
                 </span>
             <% } %>
-            <% if (Model.IsCreator || Model.IsInstallationAdmin)
-               { %>
-            <span class="edit-question">
-                <a href="<%= Links.EditQuestion(Url, Model.QuestionText, Model.QuestionId) %>" class="TextLinkWithIcon"><i class="fa fa-pencil"></i></a>
-            </span>
-            <% }  %>
+
              <div class="Button dropdown">
                 <span class="margin-top-4">
                     <a href="#" class="dropdown-toggle btn btn-link btn-sm ButtonEllipsis" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" style="font-size: 14px;">
                         <i class="fa fa-ellipsis-v"></i>
                     </a>
                     <ul class="dropdown-menu dropdown-menu-right">
+                        <% if (Model.IsLearningSession || Model.IsTestSession) { %>
+                            <li><a target="_blank"href="<%= Links.GetUrl(Model.Question) %>">Frageseite anzeigen </a></li>
+                        <% } %>
+                        <% if (Model.IsCreator || Model.IsInstallationAdmin)
+                           { %>
+                            <li><a href="<%= Links.EditQuestion(Url, Model.QuestionText, Model.QuestionId) %>" class="TextLinkWithIcon">Frage bearbeiten</a></li>
+                        <% }  %>
                         <li><a target="_blank"href="<%= Model.ShareFacebook %>">Frage teilen </a></li>     
                         <li><a style="white-space: nowrap" href="#" data-action="embed-question">Frage einbetten</a></li>
                         <% if (Model.IsCreator || Model.IsInstallationAdmin)
@@ -294,5 +296,6 @@
         </div>
     <% } %>
 </div>
+
 
 <% Html.RenderPartial("~/Views/Questions/Answer/ShareQuestionModal.ascx", new ShareQuestionModalModel(Model.QuestionId)); %>
