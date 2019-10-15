@@ -32,14 +32,15 @@ public class SetRowModel
     {
         Id = set.Id;
         Name = set.Name;
-        CreatorId = set.Creator.Id;
+        var creator = new UserTinyModel(set.Creator);
+        CreatorId = creator.Id;
 
         DescriptionShort = !String.IsNullOrEmpty(set.Text) ? (set.Text.Wrap(150)) : "";
 
         HasVideo = set.HasVideo;
         QuestionCount = set.QuestionsInSet.Count;
-        CreatorName = set.Creator.Name;
-        IsOwner = currentUserid == set.Creator.Id;
+        CreatorName = creator.Name;
+        IsOwner = currentUserid == CreatorId;
 
         var imageMetaData = ServiceLocator.Resolve<ImageMetaDataRepo>().GetBy(set.Id, ImageType.QuestionSet);
         ImageFrontendData = new ImageFrontendData(imageMetaData);
@@ -50,7 +51,7 @@ public class SetRowModel
         TotalPins = set.TotalRelevancePersonalEntries.ToString();
 
         DetailLink = urlHelper => Links.SetDetail(urlHelper, set);
-        UserLink = urlHelper => Links.UserDetail(set.Creator.Name, set.Creator.Id);
+        UserLink = urlHelper => Links.UserDetail(CreatorName, CreatorId);
 
         Categories = set.Categories;
     }

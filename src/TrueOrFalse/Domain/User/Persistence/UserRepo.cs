@@ -4,6 +4,7 @@ using System.Linq;
 using NHibernate;
 using TrueOrFalse.Search;
 using NHibernate.Linq;
+using Serilog;
 
 public class UserRepo : RepositoryDbBase<User>
 {
@@ -87,7 +88,7 @@ public class UserRepo : RepositoryDbBase<User>
     }
 
     public void DeleteFromAllTables(int userId)
-    {   
+    {
         Session.CreateSQLQuery("DELETE FROM persistentlogin WHERE UserId = :userId").SetParameter("userId", userId).ExecuteUpdate();
         Session.CreateSQLQuery("DELETE FROM membership WHERE User_Id = :userId").SetParameter("userId", userId).ExecuteUpdate();
         Session.CreateSQLQuery("DELETE FROM appaccess WHERE User_Id = :userId").SetParameter("userId", userId).ExecuteUpdate();
@@ -143,7 +144,6 @@ public class UserRepo : RepositoryDbBase<User>
             .SetParameter("userId", userId).ExecuteUpdate();
 
         Session.CreateSQLQuery("Delete From user Where id =  :userId;").SetParameter("userId", userId).ExecuteUpdate();
-
     }
 
     public User GetMemuchoUser() => GetById(Settings.MemuchoUserId);
