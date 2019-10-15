@@ -10,7 +10,7 @@
     constructor() {
         this.CategoryId = $("#hhdCategoryId").val();
         this._categoryName = $("#hhdCategoryName").val();
-        this.pushUrlAndSetActiveByClick(this._categoryName, this.CategoryId);
+        this.pushUrlAndSetActiveByClick(this._categoryName);
         this.hasAndSetTabActive();
         this._tab = new Tabbing(this.CategoryId);
         this._url = window.location.pathname;
@@ -26,7 +26,7 @@
             this.renderOrDisplayTab(this._url);
     }
 
-    private pushUrlAndSetActiveByClick(_categoryName: string, categoryId: number) {
+    private pushUrlAndSetActiveByClick(_categoryName: string) {
 
         const url = '/' + this._categoryName + '/' + this.CategoryId;
 
