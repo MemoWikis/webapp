@@ -1,35 +1,22 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 
-public class SidebarModel : BaseResolve
+public class SidebarModel : UserCardBaseModel
 {
     public int WishKnowledgeCount;
     public bool IsInstallationAdmin;
     public MainMenu MainMenu;
-
-    protected SessionUser _sessionUser => Resolve<SessionUser>();
-    public bool IsLoggedIn => _sessionUser.IsLoggedIn;
-
     public int UnreadMessageCount = 0;
-
     public bool IsWelcomePage;
-
     public CategoryNavigationModel categoryNavigationModel;
-
-    public IList<SidebarAuthorModel> Authors = new List<SidebarAuthorModel>();
-
-    public ReputationCalcResult Reputation;
-    public int AmountWishCountQuestions;
-    public bool DoIFollow;
-    public bool IsCurrentUser;
+    public IList<AuthorViewModel> Authors = new List<AuthorViewModel>();
     public string AuthorCardLinkText;
     public string AuthorImageUrl;
-
     public string CategorySuggestionImageUrl;
     public string CategorySuggestionUrl;
     public Category SuggestionCategory;
-
     private SponsorModel _sponsorModel;
+
     public SponsorModel SponsorModel
     {
         get
@@ -74,37 +61,10 @@ public class SidebarModel : BaseResolve
     
     public bool Show() => Authors.Any() || SponsorModel.IsAdFree || SuggestionCategory != null;
 
-    public void Fill(IList<User> authors, int currentUserId)
+    public void Fill(IList<UserTinyModel> authors, int currentUserId)
     {
-        foreach (var author in authors)
-        {
-            Authors.Add(new SidebarAuthorModel
-            {
-                ImageUrl = new UserImageSettings(author.Id).GetUrl_250px(author).Url,
-                User = author,
-                Reputation = author.Reputation,
-                ReputationPos = author.ReputationPos
-            });
-        }
+        Authors = AuthorViewModel.Convert(authors);
 
-        if (authors.Count == 1)
-        {
-            Reputation = Resolve<ReputationCalc>().Run(authors[0]);
-            AmountWishCountQuestions = Resolve<GetWishQuestionCount>().Run(authors[0].Id);
-            var followerIAm = R<FollowerIAm>().Init(new List<int> { authors[0].Id }, currentUserId);
-            DoIFollow = followerIAm.Of(authors[0].Id);
-            IsCurrentUser = authors[0].Id == currentUserId && IsLoggedIn;
-            Authors[0].ShowWishKnowledge = authors[0].ShowWishKnowledge;
-        }
+        FillUserCardBaseModel(authors, currentUserId);
     }
-}
-
-public class SidebarAuthorModel
-{
-    public string Name => User.Name;
-    public string ImageUrl;
-    public User User;
-    public bool ShowWishKnowledge;
-    public int Reputation;
-    public int ReputationPos;
 }

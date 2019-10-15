@@ -6,7 +6,7 @@
             var author = Model.Authors.First();
     %>
         <input id="isFollow" type="hidden" value="<%=Model.DoIFollow %>"/>
-        <input id="author" type="hidden" value="<%= author.User.Id%>" name="<%= author.User.Name %>" data-question-created="<%=Model.Reputation.ForQuestionsCreated %>" data-sets-created="<%= author.User.Name %>" data-question-created="<%=Model.Reputation.ForSetsCreated %>" />
+        <input id="author" type="hidden" value="<%= author.User.Id%>" name="<%= author.User.Name %>" data-sets-created="<%= Model.Reputation.ForSetsCreated %>" data-question-created="<%=Model.Reputation.ForQuestionsCreated %>" />
 
     <div id="AutorCard">
         <div class="column-left">
@@ -22,7 +22,10 @@
                 <a href="<%= Links.UserDetail(author.User) %>">
                     <%= author.Name %> 
                 </a>
-                <i id="followIcon"class="fas follower"></i>
+                <% if (Model.Author.IsKnown && !Model.IsCurrentUser)
+                   { %>
+                    <i id="followIcon" class="fas follower"></i>
+                    <% } %>
             </div>
             <div class="author-reputation">
                 <span>Reputation:</span>
@@ -41,15 +44,15 @@
                 <span class="fa fa-heart"></span>
                 <span class="footer-bar-text"><%= Model.AmountWishCountQuestions %></span>
             </div>
-            <div id="follow-tooltip" data-allowed="logged-in" class="show-tooltip " <% if (!Model.IsCurrentUser)
-                {%>title="<%if (Model.DoIFollow)
-                { %>Du folgst <%= author.Name %> und nimmst an ihren/seinen Aktivitäten teil.<%}
-                else
-                { %>Folge <%= author.Name %>, um an ihren/seinen Aktivitäten teilzuhaben.<%} %>"
-                <%} %>>
+            <% if (Model.Author.IsKnown && !Model.IsCurrentUser)
+               { %>
+            <div id="follow-tooltip" data-allowed="logged-in" class="show-tooltip "
+                 title="<% if (Model.DoIFollow){ %>Du folgst <%= author.Name %> und nimmst an ihren/seinen Aktivitäten teil.
+                        <% }else{ %> Folge <%= author.Name %>, um an ihren/seinen Aktivitäten teilzuhaben.<% } %>">
                  <div id="follower" class="fas follower"></div>  
                  <span class="footer-bar-text"><%= Model.Reputation.ForUsersFollowingMe %></span>
             </div>
+                <% } %>
         </div>
     </div>
     <%} if (Model.Authors.Count > 1) {%>
@@ -104,11 +107,9 @@
             { %>
         <div class="category-suggestion-footer">
             <div class="set-question-count">
-                <%: Model.SuggestionCategory.GetAggregatedSetsFromMemoryCache().Count  %> Lernset
-                <% if (Model.SuggestionCategory.GetAggregatedSetsFromMemoryCache().Count != 1)                                                                                                     { %>s mit&nbsp;<% }
+                <%: Model.SuggestionCategory.GetAggregatedSetsFromMemoryCache().Count  %> Lernset<% if (Model.SuggestionCategory.GetAggregatedSetsFromMemoryCache().Count != 1){%>s mit&nbsp;<% }
                     else{ %> mit&nbsp;<% } %>
-                <%: Model.SuggestionCategory.GetAggregatedQuestionsFromMemoryCache().Count %> Frage
-                <% if (Model.SuggestionCategory.GetAggregatedQuestionsFromMemoryCache().Count != 1){ %>n<% } %>
+                <%: Model.SuggestionCategory.GetAggregatedQuestionsFromMemoryCache().Count %> Frage<% if (Model.SuggestionCategory.GetAggregatedQuestionsFromMemoryCache().Count != 1){%>n<% } %>
             </div>
             <div class="KnowledgeBarWrapper">
                 <% Html.RenderPartial("~/Views/Categories/Detail/CategoryKnowledgeBar.ascx", new CategoryKnowledgeBarModel(Model.SuggestionCategory)); %>

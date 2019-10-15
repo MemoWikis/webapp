@@ -19,7 +19,8 @@ using static System.String;
 public class MaintenanceController : BaseController
 {
     [SetMainMenu(MainMenuEntry.Maintenance)]
-    public ActionResult Maintenance(){
+    public ActionResult Maintenance()
+    {
         return View(new MaintenanceModel());
     }
 
@@ -33,10 +34,12 @@ public class MaintenanceController : BaseController
     public ActionResult CMS()
     {
         var settings = Sl.R<DbSettingsRepo>().Get();
-        return View(new CMSModel {SuggestedGames = settings.SuggestedGames, SuggestedSetsIdString = settings.SuggestedSetsIdString}.Init());
+        return View(new CMSModel
+            {SuggestedGames = settings.SuggestedGames, SuggestedSetsIdString = settings.SuggestedSetsIdString}.Init());
     }
 
-    [ValidateAntiForgeryToken][HttpPost]
+    [ValidateAntiForgeryToken]
+    [HttpPost]
     public ActionResult CMS(CMSModel cmsModel)
     {
         cmsModel.ConsolidateGames();
@@ -59,12 +62,15 @@ public class MaintenanceController : BaseController
     [HttpPost]
     public string CmsRenderLooseCategories()
     {
-        var looseCategories = GetAllCategoriesUnconnectedToRootCategories.Run().OrderByDescending(c => c.CountQuestionsAggregated);
-        var result = looseCategories.Count() + " categories found (ordered by aggregated question count descending):<br/>";
+        var looseCategories = GetAllCategoriesUnconnectedToRootCategories.Run()
+            .OrderByDescending(c => c.CountQuestionsAggregated);
+        var result = looseCategories.Count() +
+                     " categories found (ordered by aggregated question count descending):<br/>";
         foreach (var category in looseCategories)
         {
             result += ViewRenderer.RenderPartialView("~/Views/Shared/CategoryLabel.ascx", category, ControllerContext);
         }
+
         return result;
     }
 
@@ -79,18 +85,22 @@ public class MaintenanceController : BaseController
         {
             result += ViewRenderer.RenderPartialView("~/Views/Shared/CategoryLabel.ascx", category, ControllerContext);
         }
+
         return result;
     }
 
     [HttpPost]
     public string CmsRenderCategoriesInSeveralRootCategories()
     {
-        var doubleRootedCategories = GetAllCategoriesInSeveralRootCategories.Run().OrderByDescending(c => c.CountQuestionsAggregated);
-        var result = doubleRootedCategories.Count() + " categories found (ordered by aggregated question count descending):<br/>";
+        var doubleRootedCategories = GetAllCategoriesInSeveralRootCategories.Run()
+            .OrderByDescending(c => c.CountQuestionsAggregated);
+        var result = doubleRootedCategories.Count() +
+                     " categories found (ordered by aggregated question count descending):<br/>";
         foreach (var category in doubleRootedCategories)
         {
             result += ViewRenderer.RenderPartialView("~/Views/Shared/CategoryLabel.ascx", category, ControllerContext);
         }
+
         return result;
     }
 
@@ -101,8 +111,11 @@ public class MaintenanceController : BaseController
         var result = sets.Count() + " sets were found:<br/>";
         foreach (var set in sets)
         {
-            result += "<a href=\"" + Links.SetDetail(Url, set) + "\"><span class=\"label label-set\" style=\"max-width: 200px; margin-top: 5px; margin-right: 10px;\">" + set.Id + "-" + set.Name + "</span></a> \n";
+            result += "<a href=\"" + Links.SetDetail(Url, set) +
+                      "\"><span class=\"label label-set\" style=\"max-width: 200px; margin-top: 5px; margin-right: 10px;\">" +
+                      set.Id + "-" + set.Name + "</span></a> \n";
         }
+
         return result;
     }
 
@@ -113,8 +126,11 @@ public class MaintenanceController : BaseController
         var result = sets.Count() + " sets were found:<br/>";
         foreach (var set in sets)
         {
-            result += "<a href=\"" + Links.SetDetail(Url, set) + "\"><span class=\"label label-set\" style=\"max-width: 200px; margin-top: 5px; margin-right: 10px;\">" + set.Id + "-" + set.Name + "</span></a> \n";
+            result += "<a href=\"" + Links.SetDetail(Url, set) +
+                      "\"><span class=\"label label-set\" style=\"max-width: 200px; margin-top: 5px; margin-right: 10px;\">" +
+                      set.Id + "-" + set.Name + "</span></a> \n";
         }
+
         return result;
     }
 
@@ -142,7 +158,8 @@ public class MaintenanceController : BaseController
         return View(new StatisticsModel());
     }
 
-    [ValidateAntiForgeryToken][HttpPost]
+    [ValidateAntiForgeryToken]
+    [HttpPost]
     public ActionResult RecalculateAllKnowledgeItems()
     {
         R<AddValuationEntries_ForQuestionsInSetsAndDates>().RunForAllUsers();
@@ -152,85 +169,107 @@ public class MaintenanceController : BaseController
         ProbabilityUpdate_Category.Run();
         ProbabilityUpdate_User.Run();
 
-        return View("Maintenance", new MaintenanceModel{
+        return View("Maintenance", new MaintenanceModel
+        {
             Message = new SuccessMessage("Antwortwahrscheinlichkeiten wurden neu berechnet.")
         });
     }
 
-    [ValidateAntiForgeryToken][HttpPost]
+    [ValidateAntiForgeryToken]
+    [HttpPost]
     public ActionResult CalcAggregatedValuesQuestions()
     {
         Resolve<UpdateQuestionAnswerCounts>().Run();
-        return View("Maintenance", new MaintenanceModel{Message = new SuccessMessage("Aggregierte Werte wurden aktualisiert.")});
+        return View("Maintenance",
+            new MaintenanceModel {Message = new SuccessMessage("Aggregierte Werte wurden aktualisiert.")});
     }
 
-    [ValidateAntiForgeryToken][HttpPost]
+    [ValidateAntiForgeryToken]
+    [HttpPost]
     public ActionResult CalcAggregatedValuesSets()
     {
         Resolve<UpdateSetDataForQuestion>().Run();
-        return View("Maintenance", new MaintenanceModel { Message = new SuccessMessage("Aggregierte Werte wurden aktualisiert.") });
+        return View("Maintenance",
+            new MaintenanceModel {Message = new SuccessMessage("Aggregierte Werte wurden aktualisiert.")});
     }
 
-    [ValidateAntiForgeryToken][HttpPost]
+    [ValidateAntiForgeryToken]
+    [HttpPost]
     public ActionResult DeleteValuationsForRemovedSets()
     {
         Resolve<DeleteValuationsForNonExisitingSets>().Run();
-        return View("Maintenance", new MaintenanceModel { Message = new SuccessMessage("Valuations for deleted sets are removed.") });
+        return View("Maintenance",
+            new MaintenanceModel {Message = new SuccessMessage("Valuations for deleted sets are removed.")});
     }
 
-    [ValidateAntiForgeryToken][HttpPost]
+    [ValidateAntiForgeryToken]
+    [HttpPost]
     public ActionResult UpdateFieldQuestionCountForCategories()
     {
         Resolve<UpdateQuestionCountForCategory>().All();
-        return View("Maintenance", new MaintenanceModel { Message = new SuccessMessage("Feld: AnzahlFragen für Themen wurde aktualisiert.") });
+        return View("Maintenance",
+            new MaintenanceModel {Message = new SuccessMessage("Feld: AnzahlFragen für Themen wurde aktualisiert.")});
     }
 
-    [ValidateAntiForgeryToken][HttpPost]
+    [ValidateAntiForgeryToken]
+    [HttpPost]
     public ActionResult UpdateUserReputationAndRankings()
     {
         Resolve<ReputationUpdate>().RunForAll();
-        return View("Maintenance", new MaintenanceModel { Message = new SuccessMessage("Reputation and Rankings wurden aktualisiert.") });
+        return View("Maintenance",
+            new MaintenanceModel {Message = new SuccessMessage("Reputation and Rankings wurden aktualisiert.")});
     }
 
-    [ValidateAntiForgeryToken][HttpPost]
+    [ValidateAntiForgeryToken]
+    [HttpPost]
     public ActionResult UpdateUserWishCount()
     {
         Resolve<UpdateWishcount>().Run();
-        return View("Maintenance", new MaintenanceModel { Message = new SuccessMessage("Wunschwissen-Antwortwahrscheinlichkeit wurde aktualisiert.") });
+        return View("Maintenance",
+            new MaintenanceModel
+                {Message = new SuccessMessage("Wunschwissen-Antwortwahrscheinlichkeit wurde aktualisiert.")});
     }
 
-    [ValidateAntiForgeryToken][HttpPost]
+    [ValidateAntiForgeryToken]
+    [HttpPost]
     public ActionResult ReIndexAllQuestions()
     {
         Resolve<ReIndexAllQuestions>().Run();
-        return View("Maintenance", new MaintenanceModel { Message = new SuccessMessage("Fragen wurden neu indiziert.") });
+        return View("Maintenance", new MaintenanceModel {Message = new SuccessMessage("Fragen wurden neu indiziert.")});
     }
 
-    [ValidateAntiForgeryToken][HttpPost]
+    [ValidateAntiForgeryToken]
+    [HttpPost]
     public ActionResult ReIndexAllSets()
     {
         Resolve<ReIndexAllSets>().Run();
-        return View("Maintenance", new MaintenanceModel { Message = new SuccessMessage("Lernsets wurden neu indiziert.") });
+        return View("Maintenance",
+            new MaintenanceModel {Message = new SuccessMessage("Lernsets wurden neu indiziert.")});
     }
 
-    [ValidateAntiForgeryToken][HttpPost]
+    [ValidateAntiForgeryToken]
+    [HttpPost]
     public ActionResult ReIndexAllCategories()
     {
         Resolve<ReIndexAllCategories>().Run();
-        return View("Maintenance", new MaintenanceModel { Message = new SuccessMessage("Themen wurden neu indiziert.") });
+        return View("Maintenance", new MaintenanceModel {Message = new SuccessMessage("Themen wurden neu indiziert.")});
     }
 
-    [ValidateAntiForgeryToken][HttpPost]
-    public ActionResult ReIndexAllUsers(){
+    [ValidateAntiForgeryToken]
+    [HttpPost]
+    public ActionResult ReIndexAllUsers()
+    {
         Resolve<ReIndexAllUsers>().Run();
-        return View("Maintenance", new MaintenanceModel { Message = new SuccessMessage("Nutzer wurden neu indiziert.") });
+        return View("Maintenance", new MaintenanceModel {Message = new SuccessMessage("Nutzer wurden neu indiziert.")});
     }
 
-    [ValidateAntiForgeryToken][HttpPost][SetMainMenu(MainMenuEntry.Maintenance)]
+    [ValidateAntiForgeryToken]
+    [HttpPost]
+    [SetMainMenu(MainMenuEntry.Maintenance)]
     public ActionResult SendMessage(MessagesModel model)
     {
         CustomMsg.Send(
-            model.TestMsgReceiverId, 
+            model.TestMsgReceiverId,
             model.TestMsgSubject,
             model.TestMsgBody);
 
@@ -238,12 +277,15 @@ public class MaintenanceController : BaseController
         return View("Messages", model);
     }
 
-    [ValidateAntiForgeryToken][HttpPost][SetMainMenu(MainMenuEntry.Maintenance)]
+    [ValidateAntiForgeryToken]
+    [HttpPost]
+    [SetMainMenu(MainMenuEntry.Maintenance)]
     public ActionResult SendKnowledgeReportMessage(MessagesModel model)
     {
         KnowledgeReportMsg.SendHtmlMail(_sessionUser.User);
 
-        model.Message = new SuccessMessage("KnowledgeReport was sent to user <em>" + _sessionUser.User.Name + "</em> with email address <em>" + _sessionUser.User.EmailAddress + "</em>.");
+        model.Message = new SuccessMessage("KnowledgeReport was sent to user <em>" + _sessionUser.User.Name +
+                                           "</em> with email address <em>" + _sessionUser.User.EmailAddress + "</em>.");
         return View("Messages", model);
     }
 
@@ -253,17 +295,20 @@ public class MaintenanceController : BaseController
         return View(new ToolsModel());
     }
 
-    [ValidateAntiForgeryToken][HttpPost]
+    [ValidateAntiForgeryToken]
+    [HttpPost]
     public ActionResult Throw500()
     {
         throw new Exception("Some random exception");
     }
 
-    [ValidateAntiForgeryToken][HttpPost]
+    [ValidateAntiForgeryToken]
+    [HttpPost]
     public ActionResult CleanUpWorkInProgressQuestions()
     {
         JobScheduler.StartImmediately_CleanUpWorkInProgressQuestions();
-        return View("Tools", new ToolsModel { Message = new SuccessMessage("Job: 'Cleanup work in progress' wird ausgeführt.") });
+        return View("Tools",
+            new ToolsModel {Message = new SuccessMessage("Job: 'Cleanup work in progress' wird ausgeführt.")});
     }
 
     [ValidateAntiForgeryToken]
@@ -271,7 +316,8 @@ public class MaintenanceController : BaseController
     public ActionResult TrainingReminderCheck()
     {
         JobScheduler.StartImmediately_TrainingReminderCheck();
-        return View("Tools", new ToolsModel { Message = new SuccessMessage("Job: 'Training Reminder Check' wird ausgeführt.") });
+        return View("Tools",
+            new ToolsModel {Message = new SuccessMessage("Job: 'Training Reminder Check' wird ausgeführt.")});
     }
 
     [ValidateAntiForgeryToken]
@@ -280,7 +326,8 @@ public class MaintenanceController : BaseController
     {
         JobScheduler.StartImmediately_TrainingPlanUpdateCheck();
         Logg.r().Information("TrainingPlanUpdateCheck manually started");
-        return View("Tools", new ToolsModel { Message = new SuccessMessage("Job: 'Training Plan Update Check' wird ausgeführt.") });
+        return View("Tools",
+            new ToolsModel {Message = new SuccessMessage("Job: 'Training Plan Update Check' wird ausgeführt.")});
     }
 
     [ValidateAntiForgeryToken]
@@ -293,7 +340,7 @@ public class MaintenanceController : BaseController
         for (var i = 0; i < 100; i++)
             JobScheduler.StartImmediately<TestJob2>();
 
-        return View("Tools", new ToolsModel { Message = new SuccessMessage("Started 100 test jobs.") });
+        return View("Tools", new ToolsModel {Message = new SuccessMessage("Started 100 test jobs.")});
 
     }
 
@@ -303,8 +350,8 @@ public class MaintenanceController : BaseController
     {
         var categoryToAssign = Sl.R<CategoryRepository>().GetById(toolsModel.CategoryToAddId);
 
-        var setIds = toolsModel.SetsToAddCategoryToIds.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries)
-                .Select(x => Convert.ToInt32(x)).ToList();
+        var setIds = toolsModel.SetsToAddCategoryToIds.Split(new[] {','}, StringSplitOptions.RemoveEmptyEntries)
+            .Select(x => Convert.ToInt32(x)).ToList();
 
         var sets = Sl.Resolve<SetRepo>().GetByIds(setIds);
 
@@ -330,11 +377,13 @@ public class MaintenanceController : BaseController
             questionRepo.Update(question);
         }
 
-        toolsModel.Message = new SuccessMessage($"Das Thema \"{categoryToAssign.Name}\" (Id {categoryToAssign.Id}) wurde den Fragen in den Lernsets {setsString} zugewiesen");
+        toolsModel.Message =
+            new SuccessMessage(
+                $"Das Thema \"{categoryToAssign.Name}\" (Id {categoryToAssign.Id}) wurde den Fragen in den Lernsets {setsString} zugewiesen");
 
         //ModelState.Clear(); 
 
-        return View("Tools", toolsModel );
+        return View("Tools", toolsModel);
     }
 
     [ValidateAntiForgeryToken]
@@ -343,7 +392,7 @@ public class MaintenanceController : BaseController
     {
         var categoryToRemove = Sl.R<CategoryRepository>().GetById(toolsModel.CategoryToRemoveId);
 
-        var setIds = toolsModel.SetsToRemoveCategoryFromIds.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries)
+        var setIds = toolsModel.SetsToRemoveCategoryFromIds.Split(new[] {','}, StringSplitOptions.RemoveEmptyEntries)
             .Select(x => Convert.ToInt32(x)).ToList();
 
         var sets = Sl.Resolve<SetRepo>().GetByIds(setIds);
@@ -370,7 +419,9 @@ public class MaintenanceController : BaseController
             questionRepo.Update(question);
         }
 
-        toolsModel.Message = new SuccessMessage($"Das Thema \"{categoryToRemove.Name}\" (Id {categoryToRemove.Id}) wurde von den Fragen in den Lernsets {setsString} entfernt");
+        toolsModel.Message =
+            new SuccessMessage(
+                $"Das Thema \"{categoryToRemove.Name}\" (Id {categoryToRemove.Id}) wurde von den Fragen in den Lernsets {setsString} entfernt");
 
         return View("Tools", toolsModel);
     }
@@ -401,29 +452,32 @@ public class MaintenanceController : BaseController
 
             IList<Answer> answersForQuestionView;
 
-            if (questionView.Round != null) {
+            if (questionView.Round != null)
+            {
 
                 answersForQuestionView = allAnswers.Where(a => a.Round == questionView.Round
-                         && a.UserId == questionView.UserId)
+                                                               && a.UserId == questionView.UserId)
                     .ToList();
-            } else {
+            }
+            else
+            {
 
                 var nextViewIndex = allQuestionViews.FindIndex(x =>
                     x.DateCreated > questionView.DateCreated
                     && x.UserId == questionView.UserId);
 
-                var upperTimeBound = 
-                    nextViewIndex != -1 && 
+                var upperTimeBound =
+                    nextViewIndex != -1 &&
                     allQuestionViews[nextViewIndex].DateCreated < questionView.DateCreated.Add(maxTimeForView)
                         ? allQuestionViews[nextViewIndex].DateCreated
                         : questionView.DateCreated.Add(maxTimeForView);
 
                 answersForQuestionView = allAnswers
                     .Where(a =>
-                           a.QuestionViewGuidString == null
-                           && a.DateCreated >= questionView.DateCreated && a.DateCreated < upperTimeBound
-                           && a.UserId == questionView.UserId
-                           && a.Question.Id == questionView.QuestionId)
+                        a.QuestionViewGuidString == null
+                        && a.DateCreated >= questionView.DateCreated && a.DateCreated < upperTimeBound
+                        && a.UserId == questionView.UserId
+                        && a.Question.Id == questionView.QuestionId)
 
                     .ToList();
             }
@@ -440,27 +494,31 @@ public class MaintenanceController : BaseController
             }
         }
 
-        return View("Maintenance", new MaintenanceModel { Message = new SuccessMessage("Wurde migriert") });
+        return View("Maintenance", new MaintenanceModel {Message = new SuccessMessage("Wurde migriert")});
     }
 
     public void AddInteractionNumber(IList<Answer> answersForQuestionView)
     {
         var orderedAnswers = answersForQuestionView
             .OrderBy(a =>
+            {
+                switch (a.AnswerredCorrectly)
                 {
-                    switch (a.AnswerredCorrectly)
-                    {
-                        case AnswerCorrectness.False:
-                            return 0;
-                        case AnswerCorrectness.True:
-                            return 1;
-                        case AnswerCorrectness.IsView:
-                            return 3;
-                        case AnswerCorrectness.MarkedAsTrue:
-                            return a.AnswerText == "" ? 4 : 2;//MarkedAsTrue can be after IsView if newly created or before if existing answer is changed
-                    }
-                    return 3;
-                })
+                    case AnswerCorrectness.False:
+                        return 0;
+                    case AnswerCorrectness.True:
+                        return 1;
+                    case AnswerCorrectness.IsView:
+                        return 3;
+                    case AnswerCorrectness.MarkedAsTrue:
+                        return
+                            a.AnswerText == ""
+                                ? 4
+                                : 2; //MarkedAsTrue can be after IsView if newly created or before if existing answer is changed
+                }
+
+                return 3;
+            })
             .ThenBy(a => a.DateCreated);
 
         var interactionNumber = 1;
@@ -473,18 +531,18 @@ public class MaintenanceController : BaseController
     }
 
     [HttpPost]
-    public ActionResult CheckForDuplicateInteractionNumbers ()
+    public ActionResult CheckForDuplicateInteractionNumbers()
     {
         var duplicates = Sl.R<AnswerRepo>().GetAll()
             .Where(a => a.QuestionViewGuid != Guid.Empty)
-            .GroupBy(a => new { a.QuestionViewGuid, a.InteractionNumber })
+            .GroupBy(a => new {a.QuestionViewGuid, a.InteractionNumber})
             .Where(g => g.Skip(1).Any())
             .SelectMany(g => g)
             .ToList();
 
         var message = duplicates.Any() ? "Es gibt Dubletten." : "Es gibt keine Dubletten.";
 
-        return View("Maintenance", new MaintenanceModel { Message = new SuccessMessage(message) });
+        return View("Maintenance", new MaintenanceModel {Message = new SuccessMessage(message)});
     }
 
     [HttpPost]
@@ -492,16 +550,16 @@ public class MaintenanceController : BaseController
     {
         var duplicates = Sl.R<AnswerRepo>().GetAll()
             .Where(a => a.LearningSessionStepGuid != Guid.Empty)
-            .GroupBy(a => new { a.LearningSessionStepGuid })
+            .GroupBy(a => new {a.LearningSessionStepGuid})
             .Where(g => g.Skip(1).Any())
             .SelectMany(g => g)
             .ToList();
 
-        var message = duplicates.Any() 
+        var message = duplicates.Any()
             ? $"Dubletten: {duplicates.Select(a => a.Id.ToString()).Aggregate((a, b) => a + " " + b)}"
             : "Es gibt keine Dubletten.";
 
-        return View("Maintenance", new MaintenanceModel { Message = new SuccessMessage(message) });
+        return View("Maintenance", new MaintenanceModel {Message = new SuccessMessage(message)});
     }
 
     [HttpPost]
@@ -530,7 +588,7 @@ public class MaintenanceController : BaseController
                 answerRepo.Update(a);
             });
 
-        return View("Maintenance", new MaintenanceModel { Message = new SuccessMessage("Cleared") });
+        return View("Maintenance", new MaintenanceModel {Message = new SuccessMessage("Cleared")});
     }
 
     [HttpPost]
@@ -538,17 +596,17 @@ public class MaintenanceController : BaseController
     {
         var duplicates = Sl.R<AnswerRepo>().GetAll()
             .Where(a => a.Round != null)
-            .GroupBy(a => new { a.Round, a.UserId })
-            .Where(g => g.Count(a => a.AnswerredCorrectly== AnswerCorrectness.IsView) > 1
+            .GroupBy(a => new {a.Round, a.UserId})
+            .Where(g => g.Count(a => a.AnswerredCorrectly == AnswerCorrectness.IsView) > 1
                         || g.Count(a => a.AnsweredCorrectly()) > 1)
             .SelectMany(g => g)
             .ToList();
 
-        var message = duplicates.Any() ?
-                          $"Dubletten: {duplicates.Select(a => a.Id.ToString()).Aggregate((a, b) => a + " " + b)}"
-                          : "Es gibt keine Dubletten.";
+        var message = duplicates.Any()
+            ? $"Dubletten: {duplicates.Select(a => a.Id.ToString()).Aggregate((a, b) => a + " " + b)}"
+            : "Es gibt keine Dubletten.";
 
-        return View("Maintenance", new MaintenanceModel { Message = new SuccessMessage(message) });
+        return View("Maintenance", new MaintenanceModel {Message = new SuccessMessage(message)});
     }
 
     [ValidateAntiForgeryToken]
@@ -581,7 +639,7 @@ public class MaintenanceController : BaseController
             ModifyRelationsForCategory.UpdateRelationsOfTypeIncludesContentOf(category);
         }
 
-        return View("Maintenance", new MaintenanceModel { Message = new SuccessMessage("Aggregate erstellt") });
+        return View("Maintenance", new MaintenanceModel {Message = new SuccessMessage("Aggregate erstellt")});
     }
 
 
@@ -597,7 +655,8 @@ public class MaintenanceController : BaseController
                 var topicMarkdownBeforeUpdate = category.TopicMarkdown;
                 var categoryId = category.Id;
 
-                if (R<CategoryRepository>().GetChildren(category.Id).Any(c => c.Type.GetCategoryTypeGroup() == CategoryTypeGroup.Standard))
+                if (R<CategoryRepository>().GetChildren(category.Id)
+                    .Any(c => c.Type.GetCategoryTypeGroup() == CategoryTypeGroup.Standard))
                     category.TopicMarkdown = "[[{\"TemplateName\":\"TopicNavigation\",\"Title\":\"Unterthemen\"}]]\r\n";
 
                 var aggregatedSets = category.GetAggregatedSetsFromMemoryCache();
@@ -607,29 +666,38 @@ public class MaintenanceController : BaseController
                 if (aggregatedSetsCount > 0 && aggregatedSetsCount <= 5)
                 {
                     foreach (var set in aggregatedSets)
-                        category.TopicMarkdown = category.TopicMarkdown + "[[{\"TemplateName\":\"SingleSetFullWidth\",\"SetId\":" + set.Id + "}]]" + Environment.NewLine;
+                        category.TopicMarkdown = category.TopicMarkdown +
+                                                 "[[{\"TemplateName\":\"SingleSetFullWidth\",\"SetId\":" + set.Id +
+                                                 "}]]" + Environment.NewLine;
                 }
                 else if (aggregatedSetsCount == 0 && aggregatedQuestionCount > 0)
-                    category.TopicMarkdown = category.TopicMarkdown + "[[{\"TemplateName\":\"SingleQuestionsQuiz\"}]]" + Environment.NewLine;
+                    category.TopicMarkdown = category.TopicMarkdown + "[[{\"TemplateName\":\"SingleQuestionsQuiz\"}]]" +
+                                             Environment.NewLine;
 
-                if (R<CategoryRepository>().GetChildren(category.Id).Any(c => c.Type.GetCategoryTypeGroup() == CategoryTypeGroup.Education))
-                    category.TopicMarkdown = category.TopicMarkdown + "[[{\"TemplateName\":\"EducationOfferList\"}]]" + Environment.NewLine;
+                if (R<CategoryRepository>().GetChildren(category.Id)
+                    .Any(c => c.Type.GetCategoryTypeGroup() == CategoryTypeGroup.Education))
+                    category.TopicMarkdown = category.TopicMarkdown + "[[{\"TemplateName\":\"EducationOfferList\"}]]" +
+                                             Environment.NewLine;
 
-                if (R<CategoryRepository>().GetChildren(category.Id).Any(c => c.Type.GetCategoryTypeGroup() == CategoryTypeGroup.Media))
-                    category.TopicMarkdown = category.TopicMarkdown + "[[{\"TemplateName\":\"MediaList\"}]]"+ Environment.NewLine;
+                if (R<CategoryRepository>().GetChildren(category.Id)
+                    .Any(c => c.Type.GetCategoryTypeGroup() == CategoryTypeGroup.Media))
+                    category.TopicMarkdown = category.TopicMarkdown + "[[{\"TemplateName\":\"MediaList\"}]]" +
+                                             Environment.NewLine;
 
-                category.TopicMarkdown = category.TopicMarkdown + 
+                category.TopicMarkdown = category.TopicMarkdown +
                                          "[[{\"TemplateName\":\"ContentLists\"}]]" + Environment.NewLine +
                                          "[[{\"TemplateName\":\"RelatedContentLists\"}]]" + Environment.NewLine +
                                          "[[{\"TemplateName\":\"CategoryNetwork\"}]]" + Environment.NewLine;
 
                 Sl.CategoryRepo.Update(category);
 
-                Logg.r().Information("{categoryId} {beforeMarkdown} {afterMarkdown}", categoryId, topicMarkdownBeforeUpdate, category.TopicMarkdown);
+                Logg.r().Information("{categoryId} {beforeMarkdown} {afterMarkdown}", categoryId,
+                    topicMarkdownBeforeUpdate, category.TopicMarkdown);
             }
         }
 
-        return View("Maintenance", new MaintenanceModel { Message = new SuccessMessage("Default Templates wurden migriert") });
+        return View("Maintenance",
+            new MaintenanceModel {Message = new SuccessMessage("Default Templates wurden migriert")});
     }
 
     [HttpPost]
@@ -637,7 +705,19 @@ public class MaintenanceController : BaseController
     {
         TemplateMigration.DescriptionMigration.Start();
 
-        return View("Maintenance", new MaintenanceModel { Message = new SuccessMessage("Die Category Description wurden migriert") });
+        return View("Maintenance",
+            new MaintenanceModel {Message = new SuccessMessage("Die Category Description wurden migriert")});
+    }
+
+
+    [HttpPost]
+    public ActionResult UserDelete(ToolsModel toolsModel)
+    {
+        var searchTerm = toolsModel.UserId;
+        Sl.UserRepo.DeleteFromAllTables(toolsModel.UserId);
+
+        return View("Tools",
+            new ToolsModel {Message = new SuccessMessage("Der User wurde gelöscht")});
     }
 }
 

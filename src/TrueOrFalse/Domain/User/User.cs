@@ -5,13 +5,17 @@ using System.Linq;
 using Seedworks.Lib.Persistence;
 using static System.String;
 
+
 [Serializable]
 [DebuggerDisplay("Id={Id} Name={Name}")]
-public class User : DomainEntity
+public class User : DomainEntity, IUserTinyModel
 {
+    private bool _isFacebookUser;
+    private bool _isGoogleUser;
     public virtual string PasswordHashedAndSalted { get; set; }
     public virtual string Salt { get; set; }
     public virtual string EmailAddress { get; set; }
+
     public virtual string Name { get; set; }
     public virtual bool IsEmailConfirmed { get; set;  }
     public virtual bool IsInstallationAdmin { get; set; }
@@ -25,6 +29,8 @@ public class User : DomainEntity
     public virtual UserSettingNotificationInterval KnowledgeReportInterval { get; set; }
     public virtual IList<Membership> MembershipPeriods { get; set; }
     public virtual string WidgetHostsSpaceSeparated { get; set; }
+    public virtual bool IsFacebookUser => !IsNullOrEmpty(FacebookId);
+    public virtual bool IsGoogleUser => !IsNullOrEmpty(GoogleId);
 
     public virtual IList<string> WidgetHosts()
     {
@@ -89,10 +95,6 @@ public class User : DomainEntity
     }
 
     public virtual Membership CurrentMembership() => MembershipPeriods.FirstOrDefault(x => x.IsActive());
-
-    public virtual bool IsFacebookUser() => !IsNullOrEmpty(FacebookId);
-
-    public virtual bool IsGoogleUser() => !IsNullOrEmpty(GoogleId);
 }
 
 public class FacebookUserCreateParameter

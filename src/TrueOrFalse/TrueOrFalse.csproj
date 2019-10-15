@@ -262,6 +262,7 @@
     <Compile Include="Domain\Question\History\Persistence\QuestionChangeMap.cs" />
     <Compile Include="Domain\Question\History\Persistence\QuestionChangeRepo.cs" />
     <Compile Include="Domain\SaveType.cs" />
+    <Compile Include="Domain\User\UserTinyModel.cs" />
     <Compile Include="Tools\Analytics\Widget\WidgetDetailViewsPerMonthAndTypeResult.cs" />
     <Compile Include="Tools\Analytics\Widget\WidgetViewsPerMonthAndKeyResult.cs" />
     <Compile Include="Tools\Export\LomExporter.cs" />
@@ -446,8 +447,6 @@
     <Compile Include="Infrastructure\Seedworks\Lib.Persistence\Persistence\BaseTypes\Entity.cs" />
     <Compile Include="Infrastructure\Seedworks\Lib.Persistence\Persistence\Interfaces\IDataService.cs" />
     <Compile Include="Infrastructure\Seedworks\Lib.Persistence\Persistence\Interfaces\IPersistable.cs" />
-    <Compile Include="Infrastructure\Seedworks\Lib.Persistence\Persistence\Interfaces\IUser.cs" />
-    <Compile Include="Infrastructure\Seedworks\Lib.Persistence\Persistence\Interfaces\WithCreatedBy.cs" />
     <Compile Include="Infrastructure\Seedworks\Lib.Persistence\Persistence\Interfaces\WithDateCreated.cs" />
     <Compile Include="Infrastructure\Seedworks\Lib.Persistence\Persistence\Interfaces\WithDateModified.cs" />
     <Compile Include="Infrastructure\Seedworks\Lib.Persistence\Persistence\Interfaces\WithVersion.cs" />
@@ -1073,6 +1072,7 @@
     <Compile Include="Tools\Update\Steps\UpdateToVs164.cs" />
     <Compile Include="Tools\Update\Steps\UpdateToVs194.cs" />
     <Compile Include="Tools\Update\Steps\UpdateToVs195.cs" />
+    <Compile Include="Tools\Update\Steps\UpdateToVs204.cs" />
     <Compile Include="Tools\Update\Steps\UpdateToVs203.cs" />
     <Compile Include="Tools\Update\Steps\UpdateToVs202.cs" />
     <Compile Include="Tools\Update\Steps\UpdateToVs201.cs" />

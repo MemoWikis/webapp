@@ -3,7 +3,7 @@ using System.Linq;
 
 public class TabKnowledgeModel : BaseModel
 {
-    public User User;
+    public UserTinyModel User;
     public bool IsCurrentUser;
 
     public IList<Set> WishSets;

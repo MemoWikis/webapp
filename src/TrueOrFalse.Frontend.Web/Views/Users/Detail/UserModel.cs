@@ -25,39 +25,39 @@ public class UserModel : BaseModel
     public bool IsActiveTabKnowledge;
     public bool IsActiveTabBadges;
 
-    public User User;
+    public UserTinyModel User;
     public int UserIdProfile;
     public bool DoIFollow;
 
     public UserModel(User user, bool isActiveTabKnowledge = false, bool isActiveTabBadges = false)
     {
+        User = new UserTinyModel(user);
         IsActiveTabKnowledge = isActiveTabKnowledge;
         IsActiveTabBadges = isActiveTabBadges;
 
-        User = user;
-        Name = user.Name;
+        Name = User.Name;
 
-        IsMember = user.IsMember();
-        IsCurrentUser = user.Id == UserId && IsLoggedIn;
+        IsMember = User.IsMember;
+        IsCurrentUser = User.Id == UserId && IsLoggedIn;
 
-        AmountCreatedQuestions = Resolve<UserSummary>().AmountCreatedQuestions(user.Id, false);
-        AmountCreatedSets = Resolve<UserSummary>().AmountCreatedSets(user.Id);
-        AmountCreatedCategories = Resolve<UserSummary>().AmountCreatedCategories(user.Id);
+        AmountCreatedQuestions = Resolve<UserSummary>().AmountCreatedQuestions(User.Id, false);
+        AmountCreatedSets = Resolve<UserSummary>().AmountCreatedSets(User.Id);
+        AmountCreatedCategories = Resolve<UserSummary>().AmountCreatedCategories(User.Id);
 
-        AmountWishCountQuestions = Resolve<GetWishQuestionCount>().Run(user.Id);
-        AmountWishCountSets = Resolve<GetWishSetCount>().Run(user.Id);
+        AmountWishCountQuestions = Resolve<GetWishQuestionCount>().Run(User.Id);
+        AmountWishCountSets = Resolve<GetWishSetCount>().Run(User.Id);
 
-        var imageResult = new UserImageSettings(user.Id).GetUrl_250px(user);
+        var imageResult = new UserImageSettings(User.Id).GetUrl_250px(User);
         ImageUrl_250 = imageResult.Url;
         ImageIsCustom = imageResult.HasUploadedImage;
 
         var reputation = Resolve<ReputationCalc>().Run(user);
-        ReputationRank = user.ReputationPos;
+        ReputationRank = User.ReputationPos;
         ReputationTotal = reputation.TotalReputation;
         Reputation = reputation;
 
-        UserIdProfile = user.Id;
+        UserIdProfile = User.Id;
         var followerIAm = R<FollowerIAm>().Init(new List<int> { UserIdProfile }, UserId);
-        DoIFollow = followerIAm.Of(user.Id);
+        DoIFollow = followerIAm.Of(User.Id);
     }
 }

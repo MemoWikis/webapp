@@ -88,7 +88,7 @@ namespace TrueOrFalse.Frontend.Web.Code
         public static string UserSettings() => GetUrlHelper().Action(UserSettingsAction, UserSettingsController);
 
         public static string UserLoginAs(UrlHelper url, int userId) => url.Action("LoginAs", "Users", new {userId = userId});
-        public static string UserDetail(User user) => UserDetail(user.Name, user.Id);
+        public static string UserDetail(IUserTinyModel user) => UserDetail(user.Name, user.Id);
 
         public static string UserDetail(string userName, int userId)
         {
@@ -98,8 +98,9 @@ namespace TrueOrFalse.Frontend.Web.Code
 
         public static string UserDetailBadges(User user)
         {
+            var userTiny = new UserTinyModel(user);
             return GetUrlHelper().Action("Badges", UserController,
-                new { name = UriSegmentFriendlyUser.Run(user.Name), id = user.Id }, null);
+                new { name = UriSegmentFriendlyUser.Run(userTiny.Name), id = userTiny.Id }, null);
         }
 
         public static string Register() => GetUrlHelper().Action(RegisterAction, RegisterController);
@@ -141,7 +142,13 @@ namespace TrueOrFalse.Frontend.Web.Code
 
         public static string QuestionWish_WithCategoryFilter(Category category) => "/Fragen/Wunschwissen/Suche/Kategorie/" + UriSanitizer.Run(category.Name) + "/" + category.Id;
 
-        public static string QuestionWithCreatorFilter(UrlHelper url, User user) => "/Fragen/Suche/" + "Ersteller__" + user.Name + "__";
+        public static string QuestionWithCreatorFilter(UrlHelper url, User user) => user != null
+            ? "/Fragen/Suche/" + "Ersteller__" + user.Name + "__"
+            : "/Fragen/Suche/" + "Ersteller__unbekannt__";
+
+
+
+
 
         public static string QuestionSearch(string searchTerm) => "/Fragen/Suche/" + searchTerm;
         public static string CategoriesSearch(string searchTerm) => "/Suche/" + searchTerm;

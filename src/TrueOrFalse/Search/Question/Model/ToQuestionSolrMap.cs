@@ -14,10 +14,12 @@ namespace TrueOrFalse.Search
                     .Where(r => r.Category != null)
                     .Select(r => r.Category));
 
+            var creator = new UserTinyModel(question.Creator);
+
             var result = new QuestionSolrMap
                 {
                     Id = question.Id,
-                    CreatorId = question.Creator.Id,
+                    CreatorId = creator.Id,
                     ValuatorIds = valuations.Where(v => v.RelevancePersonal != -1).Select(x => x.User.Id).ToList(),
                     Valuation = valuations.Count(v => v.RelevancePersonal != -1),
                     IsPrivate = question.Visibility != QuestionVisibility.All,

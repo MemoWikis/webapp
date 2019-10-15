@@ -134,6 +134,7 @@
                 .Add(UpdateToVs201.Run)
                 .Add(UpdateToVs202.Run)
                 .Add(UpdateToVs203.Run)
+                .Add(UpdateToVs204.Run)
 
                 .Run();
         }

@@ -11,7 +11,7 @@ public class CommentModel : BaseModel
     public string ImageUrl;
     public string Text;
 
-    public User Creator;
+    public UserTinyModel Creator;
 
     public bool ShouldBeImproved;
     public bool ShouldBeDeleted;
@@ -26,12 +26,13 @@ public class CommentModel : BaseModel
 
     public CommentModel(Comment comment, bool showSettled = false)
     {
+        
         Id = comment.Id;
-        Creator = comment.Creator;
-        CreatorName = comment.Creator.Name;
+        Creator = new UserTinyModel(comment.Creator);
+        CreatorName = Creator.Name;
         CreationDate = comment.DateCreated.ToString("U");
         CreationDateNiceText = DateTimeUtils.TimeElapsedAsText(comment.DateCreated);
-        ImageUrl = new UserImageSettings(comment.Creator.Id).GetUrl_128px_square(comment.Creator).Url;
+        ImageUrl = new UserImageSettings(Creator.Id).GetUrl_128px_square(Creator).Url;
         Text = comment.Text;
 
         ShouldBeImproved = comment.ShouldImprove;
