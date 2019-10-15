@@ -48,6 +48,13 @@
                         <i class="fa fa-ellipsis-v"></i>
                     </a>
                     <ul class="dropdown-menu dropdown-menu-right">
+                        <% if (Model.IsLearningSession || Model.IsTestSession) { %>
+                            <li><a target="_blank"href="<%= Links.GetUrl(Model.Question) %>">Frageseite anzeigen </a></li>
+                        <% } %>
+                        <% if (Model.IsCreator || Model.IsInstallationAdmin)
+                           { %>
+                            <li><a href="<%= Links.EditQuestion(Url, Model.QuestionText, Model.QuestionId) %>" class="TextLinkWithIcon">Frage bearbeiten</a></li>
+                        <% }  %>
                         <li><a target="_blank"href="<%= Model.ShareFacebook %>">Frage teilen </a></li>     
                         <li><a style="white-space: nowrap" href="#" data-action="embed-question">Frage einbetten</a></li>
                         <% if (Model.IsCreator || Model.IsInstallationAdmin)
@@ -294,5 +301,6 @@
         </div>
     <% } %>
 </div>
+
 
 <% Html.RenderPartial("~/Views/Questions/Answer/ShareQuestionModal.ascx", new ShareQuestionModalModel(Model.QuestionId)); %>

@@ -54,6 +54,13 @@ namespace TrueOrFalse.Frontend.Web.Code
             return res;
         }
 
+        /* Category Footer*/
+
+        public static string LearningSessionFooter(int categoryId, string categoryName) =>
+            "/" + categoryName + "/" + categoryId + "/Lernen";
+        public static string AnalyticsFooter(int categoryId, string categoryName) =>
+            "/" + categoryName + "/" + categoryId + "/Wissensnetz";
+
         /* About */
         public const string AboutController = "About";
 

@@ -10,7 +10,7 @@
     constructor() {
         this.CategoryId = $("#hhdCategoryId").val();
         this._categoryName = $("#hhdCategoryName").val();
-        this.pushUrlAndSetActiveByClick(this._categoryName, this.CategoryId);
+        this.pushUrlAndSetActiveByClick(this._categoryName);
         this.hasAndSetTabActive();
         this._tab = new Tabbing(this.CategoryId);
         this._url = window.location.pathname;
@@ -26,7 +26,7 @@
             this.renderOrDisplayTab(this._url);
     }
 
-    private pushUrlAndSetActiveByClick(_categoryName: string, categoryId: number) {
+    private pushUrlAndSetActiveByClick(_categoryName: string) {
 
         const url = '/' + this._categoryName + '/' + this.CategoryId;
 
@@ -48,7 +48,7 @@
         $("#AnalyticsTab").on("click",
             (e) => {
                 e.preventDefault();
-                var newUrl = url + '/Analytics';
+                var newUrl = url + '/Wissensnetz';
                 const tabName = "AnalyticsTab";
                 this.historyPushAndSetActive(newUrl, tabName);
             });
@@ -69,7 +69,7 @@
             $("#AnalyticsTab").removeClass("active");
             $("#TopicTab").removeClass("active");
             $("#LearningTab").addClass("active");
-        } else if (url.indexOf("Analytics") > 0 && !$("#AnalyticsTab").hasClass("active")) {
+        } else if (url.indexOf("Wissensnetz") > 0 && !$("#AnalyticsTab").hasClass("active")) {
             $("#LearningTab").removeClass("active");
             $("#TopicTab").removeClass("active");
             $("#AnalyticsTab").addClass("active");
@@ -93,7 +93,7 @@
             $("#TopicTabContent").css("display", "none");
             $("#AnalyticsTabContent").css("display", "none");
 
-        } else if (url.indexOf("Analytics") > 0) {
+        } else if (url.indexOf("Wissensnetz") > 0) {
 
             if ($.trim($(".knowledgeGraphData").html()) == "") {
                 this._tab.RenderTabContent("AnalyticsTab");
