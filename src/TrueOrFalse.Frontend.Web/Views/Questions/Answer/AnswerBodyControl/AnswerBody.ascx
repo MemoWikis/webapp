@@ -51,7 +51,7 @@
                         <% if (Model.IsLearningSession || Model.IsTestSession) { %>
                             <li><a target="_blank"href="<%= Links.GetUrl(Model.Question) %>">Frageseite anzeigen </a></li>
                         <% } %>
-                        <% if (Model.IsCreator || Model.IsInstallationAdmin)
+                        <% if ( Model.IsLoggedIn && Model.IsCreator || Model.IsInstallationAdmin)
                            { %>
                             <li><a href="<%= Links.EditQuestion(Url, Model.QuestionText, Model.QuestionId) %>" class="TextLinkWithIcon">Frage bearbeiten</a></li>
                         <% }  %>
