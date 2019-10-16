@@ -1,5 +1,6 @@
 ﻿<%@ Control Language="C#" Inherits="System.Web.Mvc.ViewUserControl<Category>" %>
 <%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
+<%@ Import Namespace="TrueOrFalse" %>
 
 <% var iconHTML = "";
     switch (Model.Type)
@@ -35,4 +36,23 @@
     if (Model.Type.GetCategoryTypeGroup() == CategoryTypeGroup.Education)
         iconHTML = "<i class=\"fa fa-university\">&nbsp;</i>";
 %>
-<a href="<%= Links.CategoryDetail(Model) %>"><span class="label label-category"><%= iconHTML %><%= Model.Name %></span></a>
+<%  string lineHeight = "";
+    var imageMetaData = Sl.ImageMetaDataRepo.GetBy(Model.Id, ImageType.Category);
+    var ImageFrontendData = new ImageFrontendData(imageMetaData);
+    var imgUrl = ImageFrontendData.GetImageUrl(30, true, false, ImageType.Category).Url;
+    bool hideImg = imgUrl.Contains("no-category-picture");
+    if (hideImg)
+        lineHeight = "line-height: 32px;";
+   %>
+<div class="category-chip-container" style="padding: 4px 8px 4px 0; font-size: 13px;">
+    <a href="<%= Links.CategoryDetail(Model) %>">
+        <div class="category-chip" style="max-width: 180px; height: 32px;display: inline-block; border-radius: 16px; background: #EFEFEF; padding: 0 12px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; <%=lineHeight%>">
+            <% if (hideImg)
+               { %>
+                <img src="<%= imgUrl %>" style="margin-left: -12px; border-radius: 50%; height: 30px">
+            <% } %>
+            <span style="padding:2px 4px 0 4px"><%= iconHTML %><%= Model.Name %></span>
+            <span class="remove-category-chip"></span>
+        </div>
+    </a>
+</div>
