@@ -10,18 +10,6 @@
                         { %>
                             <span>Thema:&nbsp;</span> <% Html.RenderPartial("CategoriesOfQuestion", Model.Question); %>
                     <%  } %>
-
-                    <% if (Model.SetMinis.Count > 0)
-                        { %>
-                        <% foreach (var setMini in Model.SetMinis)
-                            { %>
-                                <a class="set" href="<%= Links.SetDetail(Url, setMini) %>"><span class="label label-set"><%: setMini.Name %></span></a>
-                        <%  } %>
-                        <% if (Model.SetCount > 5)
-                            { %>
-                                <a class="margin-left" href="#" popover-all-sets-for="<%= Model.QuestionId %>">+  <%= Model.SetCount - 5 %> weitere </a>
-                        <%  } %>
-                    <% } %>
                 </span>
             </span>
         </div>

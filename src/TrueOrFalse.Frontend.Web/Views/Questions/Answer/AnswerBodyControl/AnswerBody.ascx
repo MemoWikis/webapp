@@ -298,4 +298,12 @@
 </div>
 
 
+<% if (!Model.IsInWidget)
+   { %>
+    <div class="row">
+        <div class="separationBorderTop" style="min-height: 20px;"></div>
+    </div>
+    <div id="QuestionDetails"></div>
+<% } %>
+
 <% Html.RenderPartial("~/Views/Questions/Answer/ShareQuestionModal.ascx", new ShareQuestionModalModel(Model.QuestionId)); %>

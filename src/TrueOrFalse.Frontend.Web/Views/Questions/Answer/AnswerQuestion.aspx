@@ -130,12 +130,6 @@
             
         <% Html.RenderPartial("~/Views/Questions/Answer/AnswerBodyControl/AnswerBody.ascx", new AnswerBodyModel(Model)); %>
 
-        <div class="row">
-            <div class="separationBorderTop" style="min-height: 20px;"></div>
-        </div>
-        
-            <% Html.RenderPartial("~/Views/Questions/Answer/AnswerQuestionDetails.ascx", Model); %>
-       
         </div>
         <div class="col-xs-3">
             <% Html.RenderPartial("~/Views/Shared/SidebarCards.ascx", Model.SidebarModel); %>
