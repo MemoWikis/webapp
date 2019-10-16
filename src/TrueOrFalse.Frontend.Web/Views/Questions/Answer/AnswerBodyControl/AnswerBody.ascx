@@ -298,7 +298,7 @@
 </div>
 
 
-<% if (!Model.IsInWidget)
+<% if (!Model.IsInWidget && (Model.IsLearningSession || Model.IsTestSession))
    { %>
     <div class="row">
         <div class="separationBorderTop" style="min-height: 20px;"></div>
