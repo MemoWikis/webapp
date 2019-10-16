@@ -41,14 +41,14 @@
     var imgUrl = ImageFrontendData.GetImageUrl(30, true, false, ImageType.Category).Url;
     bool hideImg = imgUrl.Contains("no-category-picture");
 %>
-<div class="category-chip-container" style="padding: 4px 8px 4px 0; font-size: 13px;">
+<div class="category-chip-container" style="padding: 4px 8px 4px 0; font-size: 13px; ">
     <a href="<%= Links.CategoryDetail(Model) %>">
-        <div class="category-chip" style="max-width: 180px; height: 32px;display: inline-block; border-radius: 16px; background: #EFEFEF; padding: 0 12px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; line-height: 32px;">
-            <% if (hideImg)
+        <div class="category-chip" style=" color: #555555;max-width: 190px; height: 32px;display: inline-block; border-radius: 16px; background: #EFEFEF; padding: 0 12px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; line-height: 32px;">
+            <% if (!hideImg)
                { %>
                 <img src="<%= imgUrl %>" style="margin: -3px  0 0 -9px; border-radius: 50%; height: 26px">
             <% } %>
-            <span style="padding:2px 4px 0 4px"><%= iconHTML %><%= Model.Name %></span>
+            <span style="padding: 2px 4px 0 4px;"><%= iconHTML %><%= Model.Name %></span>
             <span class="remove-category-chip"></span>
         </div>
     </a>
