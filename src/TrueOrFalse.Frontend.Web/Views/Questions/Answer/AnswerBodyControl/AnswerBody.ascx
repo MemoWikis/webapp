@@ -44,7 +44,7 @@
                     </a>
                     <ul class="dropdown-menu dropdown-menu-right">
                         <% if (Model.IsLearningSession || Model.IsTestSession) { %>
-                            <li><a target="_blank"href="<%= Links.GetUrl(Model.Question) %>">Frageseite anzeigen </a></li>
+                            <li><a href="<%= Links.GetUrl(Model.Question) %>">Frageseite anzeigen </a></li>
                         <% } %>
                         <% if (Model.IsCreator || Model.IsInstallationAdmin)
                            { %>
