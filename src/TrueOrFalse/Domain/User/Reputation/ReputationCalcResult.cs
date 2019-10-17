@@ -1,6 +1,6 @@
 ﻿public class ReputationCalcResult
 {
-    public User User;
+    public UserTinyModel User;
 
     public int ForQuestionsCreated;
     public int ForQuestionsInOtherWishknowledge;
@@ -15,19 +15,13 @@
 
     public int ForPublicWishknowledge;
 
-    public int TotalReputation
-    {
-        get
-        {
-            return
-                ForQuestionsCreated +
-                ForQuestionsInOtherWishknowledge +
-                ForSetsCreated +
-                ForSetsInOtherWishknowledge +
-                ForDatesCreatedVisible + 
-                ForDatesCopied +
-                ForUsersFollowingMe + 
-                ForPublicWishknowledge;
-        }
-    }
+    public int TotalReputation =>
+        ForQuestionsCreated +
+        ForQuestionsInOtherWishknowledge +
+        ForSetsCreated +
+        ForSetsInOtherWishknowledge +
+        ForDatesCreatedVisible + 
+        ForDatesCopied +
+        ForUsersFollowingMe + 
+        ForPublicWishknowledge;
 }

@@ -22,7 +22,7 @@ public class SetModel : BaseModel
     public IList<SetQuestionRowModel> QuestionsInSet;
     public int QuestionCount;
 
-    public User Creator;
+    public UserTinyModel Creator;
     public string CreatorName;
     public string CreationDate;
     public string CreationDateNiceText;
@@ -56,6 +56,7 @@ public class SetModel : BaseModel
 
     public SetModel(Set set)
     {
+        Creator = new UserTinyModel(set.Creator);
         MetaTitle = set.Name;
         MetaDescription = SeoUtils.ReplaceDoubleQuotes(set.Text).Truncate(250, true);
 
@@ -72,11 +73,11 @@ public class SetModel : BaseModel
         ImageMetaDataCache.WarmupRequestCache(set);
 
         //var foo = R<ISession>().SessionFactory.Statistics.QueryExecutionCount;
+       
 
-        IsOwner = _sessionUser.IsLoggedInUser(set.Creator.Id);
+        IsOwner = _sessionUser.IsLoggedInUser(Creator.Id);
 
-        Creator = set.Creator;
-        CreatorName = set.Creator.Name;
+        CreatorName = Creator.Name;
         CreationDate = set.DateCreated.ToString("dd.MM.yyyy HH:mm:ss");
         CreationDateNiceText = DateTimeUtils.TimeElapsedAsText(set.DateCreated);
 

@@ -21,4 +21,5 @@ public class ToolsModel : BaseModel
     public string SetsToRemoveCategoryFromIds { get; set; }
 
     public int CategoryToRemoveId { get; set; }
+    public int UserId { get; set; }
 }

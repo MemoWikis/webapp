@@ -12,7 +12,8 @@ public class UserHistoryItem : HistoryItemBase
 
     public UserHistoryItem(User user)
     {
-        Id = user.Id;
-        Name = user.Name;
+        var userTiny = new UserTinyModel(user);
+        Id = userTiny.Id;
+        Name = userTiny.Name;
     }
 }

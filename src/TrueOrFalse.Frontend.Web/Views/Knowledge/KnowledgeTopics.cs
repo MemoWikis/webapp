@@ -4,9 +4,7 @@ using System.Linq;
 using System.Web.Mvc;
 using TrueOrFalse.Frontend.Web.Code;
 
-
-
-public class KnowledgeTopics : BaseController
+public class KnowledgeTopics : BaseModel
 {
     readonly IList<Category> Categories;
     readonly IList<Set> Sets;
@@ -19,7 +17,7 @@ public class KnowledgeTopics : BaseController
             .ToList();
 
         Categories = isAuthor
-            ? EntityCache.GetCategories(categoriesIds).Where(v => v.Creator.Id == UserId).ToList()
+            ? EntityCache.GetCategories(categoriesIds).Where(v => v.Creator != null && v.Creator.Id == UserId).ToList()
             : EntityCache.GetCategories(categoriesIds).ToList();
 
         var setIds = UserValuationCache.GetSetValuations(UserId)
@@ -27,13 +25,13 @@ public class KnowledgeTopics : BaseController
             .Select(i => i.SetId)
             .ToList();
 
-        Sets = isAuthor ? EntityCache.GetSetsByIds(setIds).Where(v => v.Creator.Id == UserId).ToList()
+        Sets = isAuthor ? EntityCache.GetSetsByIds(setIds).Where(v => v.Creator != null && v.Creator.Id == UserId).ToList()
             : EntityCache.GetSetsByIds(setIds);
     }
 
-    public List<CategoryAndSetWishKnowledge> filteredCategoryWishKnowledge(ControllerContext controllerContext)
+    public List<CategoryAndSetWishKnowledge> FilteredCategoryWishKnowledge(ControllerContext controllerContext)
     {
-        return GetObjectCategoryAndSetWishKnowledges(Categories, Sets, controllerContext);
+        return GetCategoryAndSetWishKnowledgeItems(Categories, Sets, controllerContext);
     }
 
     public IList<CategoryAndSetWishKnowledge> SortList(List<CategoryAndSetWishKnowledge> unSortList, string sortCondition)
@@ -59,7 +57,7 @@ public class KnowledgeTopics : BaseController
         return sortList;
     }
 
-    private List<CategoryAndSetWishKnowledge> GetObjectCategoryAndSetWishKnowledges(IList<Category> CategorieWishes, IList<Set> setWishes, ControllerContext controllerContext)
+    private List<CategoryAndSetWishKnowledge> GetCategoryAndSetWishKnowledgeItems(IList<Category> CategorieWishes, IList<Set> setWishes, ControllerContext controllerContext)
     {
         List<CategoryAndSetWishKnowledge> filteredCategoryAndSetWishKnowledges = new List<CategoryAndSetWishKnowledge>();
         var countList = CategorieWishes.Count + setWishes.Count;
@@ -84,11 +82,9 @@ public class KnowledgeTopics : BaseController
             categoryAndSetWishKnowledge.ShareFacebookLink = facebookLink;
             categoryAndSetWishKnowledge.HasVideo = false;
             categoryAndSetWishKnowledge.KnowledgeWishAVGPercantage = CountDesiredKnowledge(categoryWish);
-            categoryAndSetWishKnowledge.AuthorId = categoryWish.Creator.Id;
             categoryAndSetWishKnowledge.LinkToSetOrCategory = Links.GetUrl(categoryWish);
             categoryAndSetWishKnowledge.ListCount = countList;
             
-
             filteredCategoryAndSetWishKnowledges.Add(categoryAndSetWishKnowledge);
         }
 
@@ -112,7 +108,6 @@ public class KnowledgeTopics : BaseController
                 ShareFacebookLink = facebookLink,
                 HasVideo = setWish.HasVideo,
                 KnowledgeWishAVGPercantage = CountDesiredKnowledge(setWish),
-                AuthorId = setWish.Creator.Id,
                 LinkToSetOrCategory = Links.GetUrl(setWish),
                 ListCount = countList
             };
@@ -140,7 +135,6 @@ public class KnowledgeTopics : BaseController
         public string ShareFacebookLink { get; set; }
         public bool HasVideo { get; set; }
         public int KnowledgeWishAVGPercantage { get; set; }
-        public int AuthorId { get; set; }
         public string LinkToSetOrCategory { get; set; }
         public int ListCount { get; set; }
     }

@@ -113,7 +113,7 @@
         <% } %>
     </div>
     
-    <h4 style="margin-top: 20px;">Update concentration level</h4>
+    <%--<h4 style="margin-top: 20px;">Update concentration level</h4>
     <div class="form-horizontal">
         
         <div class="row">
@@ -121,7 +121,7 @@
             </div>
         </div>
         
-        <div class="form-group">
+        <div class="form-group">                                                                                    // no Action in Controller !!!!!!!!!!!!!!!!!!
             <div class="col-sm-2" style="text-align: right">Connected:</div>
             <div class="col-xs-2" id="connectedUsers"></div>
         </div>
@@ -147,6 +147,37 @@
                     <input type="submit" value="Senden" class="btn btn-primary"  id="btnSendBrainWaveValue"  />
                 </div>
             </div>
+
+        <% } %>
+    </div>--%>
+    
+    <h4 style="margin-top: 20px;">Delete User</h4>
+    <div class="form-horizontal">
+
+        <% using (Html.BeginForm("UserDelete", "Maintenance")){%>
+        
+            <%= Html.AntiForgeryToken() %>
+
+            <div class="form-group col-md-6">
+                <label class="col-sm-4 control-label">UserId</label>
+                <div class="col-xs-4">
+                    <%= Html.TextBoxFor(m => m.UserId, new {@class="form-control"} ) %>  
+                </div>
+                <div class="col-sm-offset-4 col-sm-12" style="margin-top: 15px; ">
+                    <input type="submit" value="User löschen" class="btn btn-primary" />
+                </div>
+            </div>
+            <div class="col-md-6" style="margin-bottom: 50px;" >
+                1.Vor dem Löschen prüfen oder der Nutzer relevante Inhalte erstellt hat.<br/>
+                <br/>
+                2. Hat der Nutzer relevante Inhalte erstellt, muss er eine Email bekommen<br/>
+                in der er darüber informiert wird das seine Inhalte unter Lizenz CC BY 2.0 DE<br/>
+                anonymisiert weiterverwendet werden.<br/>
+                <br/>
+                3. memucho muss nach dem Löschen neu gestartet werden da es sonst Probleme mit dem EntityCache gibt.
+            </div>
+
+
 
         <% } %>
     </div>

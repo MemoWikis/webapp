@@ -43,7 +43,9 @@
                         <%= questionCount %> Frage<%= StringUtils.PluralSuffix(Model.CategoryQuestionCount, "n") %> direkt zugeordnet. <%if (Model.CategoryQuestionCount > 0) {%><%--<span class="btn-link">Lernen / Anzeigen</span>--%><%} %></p>
                 </div>
                 <div class="StartLearningSession">
-                    <div id="LearningFooterBtn" data-tab-id="LearningTab" class="btn btn-lg btn-primary footerBtn" @click="sendGaEvent('OpenLearningTabFromFooter')">Lernsitzung starten</div>       
+                    <a href="<%=Links.LearningSessionFooter(Model.Id, Model.Category.Name) %>">
+                        <div id="LearningFooterBtn" data-tab-id="LearningTab" class="btn btn-lg btn-primary footerBtn" @click="sendGaEvent('OpenLearningTabFromFooter')">Lernsitzung starten</div> 
+                    </a>
                 </div>
             </div>
         
@@ -75,7 +77,9 @@
                 <% } %>
                 
                 <div class="OpenAnalyticsTab">
-                    <div id="AnalyticsFooterBtn" data-tab-id="AnalyticsTab" class="btn btn-lg btn-primary footerBtn" @click="sendGaEvent('OpenAnalyticsTabFromFooter')">Wissensnetz ansehen</div>       
+                    <a href="<%= Links.AnalyticsFooter(Model.Id, Model.Category.Name) %>">
+                        <div id="AnalyticsFooterBtn" data-tab-id="AnalyticsTab" class="btn btn-lg btn-primary footerBtn" @click="sendGaEvent('OpenAnalyticsTabFromFooter')">Wissensnetz ansehen</div>   
+                    </a>
                 </div>
             </div>
 

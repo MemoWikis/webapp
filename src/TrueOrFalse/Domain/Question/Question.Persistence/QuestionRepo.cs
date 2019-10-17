@@ -24,11 +24,11 @@ public class QuestionRepo : RepositoryDbBase<Question>
         base.Update(question);
     }
 
-    public IList<User> GetAuthorsQuestion(int questionId, bool filterUsersForSidebar = false)
+    public IList<UserTinyModel> GetAuthorsQuestion(int questionId, bool filterUsersForSidebar = false)
     {
         var allAuthors = Sl.QuestionChangeRepo
             .GetForQuestion(questionId, filterUsersForSidebar)
-            .Select(QuestionChange => QuestionChange.Author);
+            .Select(QuestionChange => new UserTinyModel(QuestionChange.Author));
 
         return allAuthors.GroupBy(a => a.Id)
             .Select(groupedAuthor => groupedAuthor.First())
@@ -160,6 +160,13 @@ public class QuestionRepo : RepositoryDbBase<Question>
             .JoinQueryOver<Category>(q => q.Categories)
             .Where(c => c.Id == categoryId)
             .List<Question>();
+    }
+
+    public IList<Question> GetByVisibility(int userId)
+    {
+        var query = _session.QueryOver<Question>().Where(q =>
+            (q.Visibility == QuestionVisibility.Owner || q.Visibility == QuestionVisibility.OwnerAndFriends) && q.Creator.Id == userId);
+        return query.List<Question>();
     }
 
     public IList<Question> GetForReference(int categoryId, int currentUser, int resultCount = -1)

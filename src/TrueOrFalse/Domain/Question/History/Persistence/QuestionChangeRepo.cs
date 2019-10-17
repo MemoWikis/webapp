@@ -65,11 +65,10 @@ public class QuestionChangeRepo : RepositoryDbBase<QuestionChange>
         if (filterUsersForSidebar)
             query.And(c => c.ShowInSidebar);
 
-        query.JoinAlias(c => c.Author, () => aliasUser)
-            .JoinAlias(c => c.Question, () => aliasQuestion);
+        query.Left.JoinAlias(c => c.Author, () => aliasUser)
+            .Left.JoinAlias(c => c.Question, () => aliasQuestion);
 
-        return query
-            .List();
+        return query.List();
     }
 
     public QuestionChange GetByIdEager(int questionChangeId)

@@ -11,7 +11,6 @@ public class CategoryModel : BaseContentModule
     public int Id;
     public string Name;
     public string Description;
-    public string Type;
 
     public KnowledgeSummary KnowledgeSummary;
 
@@ -19,17 +18,13 @@ public class CategoryModel : BaseContentModule
     public CategoryChange CategoryChange;//Is set in controller because controller context is needed
     public bool NextRevExists;   //Is set in controller because controller context is needed
     public IList<Set> FeaturedSets;
-
     public IList<Category> CategoriesParent;
     public IList<Category> CategoriesChildren;
-
     public int CategoriesDescendantsCount;
     public IList<Category> AllCategoriesParents;
-
     public IList<Set> AggregatedSets;
     public IList<Question> AggregatedQuestions;
     public IList<Question> CategoryQuestions;
-
     public int AggregatedSetCount;
     public int AggregatedQuestionCount;
     public int CategoryQuestionCount;
@@ -41,51 +36,38 @@ public class CategoryModel : BaseContentModule
     public Question EasiestQuestion;
     public Question HardestQuestion;
     public string ParentList;
-
     public bool IsInTopic = false;
     public bool IsInLearningTab = false;
     public bool IsInAnalyticsTab = false; 
-
-
-    public User Creator;
+    public UserTinyModel Creator;
     public string CreatorName;
     public string CreationDate;
     public string ImageUrl_250;
-    
     public Category Category;
-
     public ImageFrontendData ImageFrontendData;
-
     public string WikipediaURL;
     public string Url;
-    public string UrlLinkText;
-
     public bool IsOwnerOrAdmin;
     public bool IsTestSession => !IsLoggedIn;
     public bool IsLearningSession => IsLoggedIn;
-
     public int CountAggregatedQuestions;
     public int CountCategoryQuestions;
     public int CountReferences;
     public int CountWishQuestions;
     public int CountSets;
-
     public const int MaxCountQuestionsToDisplay = 20;
-
     public int CorrectnesProbability;
     public int AnswersTotal;
-
     private readonly QuestionRepo _questionRepo;
     private readonly CategoryRepository _categoryRepo;
-
     public bool IsInWishknowledge;
     public bool IsLearningTab;
     public string TotalPins;
-
-    public LearningTabModel LearningTabModel; 
+    public LearningTabModel LearningTabModel;
+    public UserTinyModel UserTinyModel;
 
     public CategoryModel(Category category, bool loadKnowledgeSummary = true)
-    {      
+    {
         MetaTitle = category.Name;
         MetaDescription = SeoUtils.ReplaceDoubleQuotes(category.Description).Truncate(250, true);
 
@@ -99,7 +81,6 @@ public class CategoryModel : BaseContentModule
 
         WikipediaURL = category.WikipediaURL;
         Url = category.Url;
-        UrlLinkText = category.UrlLinkText;
         Category = category;
 
         Id = category.Id;
@@ -110,8 +91,8 @@ public class CategoryModel : BaseContentModule
        
         Type = category.Type.GetShortName();
 
-        Creator = category.Creator;
-        CreatorName = category.Creator.Name;
+        Creator = new UserTinyModel(category.Creator);
+        CreatorName = Creator.Name;
 
         var imageResult = new UserImageSettings(Creator.Id).GetUrl_250px(Creator);
         ImageUrl_250 = imageResult.Url;
@@ -121,7 +102,7 @@ public class CategoryModel : BaseContentModule
 
         FeaturedSets = category.FeaturedSets();
 
-        IsOwnerOrAdmin = _sessionUser.IsLoggedInUserOrAdmin(category.Creator.Id);
+        IsOwnerOrAdmin = _sessionUser.IsLoggedInUserOrAdmin(Creator.Id);
 
         CategoriesParent = category.ParentCategories();
         CategoriesChildren = _categoryRepo.GetChildren(category.Id);
@@ -152,11 +133,8 @@ public class CategoryModel : BaseContentModule
         if (category.Type == CategoryType.Standard)
             TopQuestionsInSubCats = GetTopQuestionsInSubCats();
 
-       
-        //  LearningTabModel = new LearningTabModel(Category);
 
         TopWishQuestions = wishQuestions.Items;
-
 
         SingleQuestions = GetQuestionsForCategory.QuestionsNotIncludedInSet(Id);
 

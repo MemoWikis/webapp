@@ -4,8 +4,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web.UI.WebControls.Expressions;
 using Antlr.Runtime.Misc;
+using Seedworks.Lib.Persistence;
 using TrueOrFalse.Frontend.Web.Code;
-
 
 public class KnowledgeQuestions : BaseModel
 {
@@ -19,7 +19,7 @@ public class KnowledgeQuestions : BaseModel
     {
         TotalWishKnowledgeValuationsWithAuthor = isAuthor
             ? UserValuationCache.CreateItemFromDatabase(UserId).QuestionValuations.Values
-                .Where(v => v.Question.Creator.Id == UserId && v.IsInWishKnowledge())
+                .Where(v => v.Question.Creator != null && v.Question.Creator.Id == UserId && v.IsInWishKnowledge())
                 .Distinct()
                 .ToList()
             : UserValuationCache.CreateItemFromDatabase(UserId).QuestionValuations.Values
@@ -43,16 +43,18 @@ public class KnowledgeQuestions : BaseModel
         var i = 0;
         foreach (var question in unsortedListQuestions)
         {
-            var userImageSettings = new UserImageSettings(question.Creator.Id);
+            var userTinyModel = new UserTinyModel(question.Creator);
+            var userImageSettings = new UserImageSettings(userTinyModel.Id);
+         
             var questions = new Questions();
             var categories = question.Categories;
 
             questions.Title = question.Text;
 
-            questions.AuthorName = question.Creator.Name;
-            questions.AuthorImageUrl = userImageSettings.GetUrl_128px_square(question.Creator);
+            questions.AuthorName = userTinyModel.Name;
+            questions.AuthorImageUrl =  userImageSettings.GetUrl_128px_square(userTinyModel);
             questions.LinkToQuestion = Links.GetUrl(question);
-            questions.AuthorId = question.Creator.Id;
+            questions.AuthorId = userTinyModel.Id;
             questions.LinkToCategory = categories.IsEmpty() ? " " : Links.GetUrl(categories[0]);
             questions.Category = categories.IsEmpty() ? "keine Kategorie" : categories[0].Name;
             questions.CategoryImageData = categories.IsEmpty() ? null : new ImageFrontendData(question.Categories[0].Id, ImageType.Category).GetImageUrl(128); ;
@@ -90,7 +92,6 @@ public class KnowledgeQuestions : BaseModel
             }
 
             questionsList.Add(questions);
-
             i++;
         }
 
@@ -99,7 +100,6 @@ public class KnowledgeQuestions : BaseModel
 
     public List<QuestionValuation> GetSortList(List<QuestionValuation> unSortList, string sortCondition)
     {
-
         var sortList = new List<QuestionValuation>();
         if (sortCondition.Equals("knowWas|asc,author|asc,category|asc"))
         {
@@ -117,36 +117,21 @@ public class KnowledgeQuestions : BaseModel
                     sortList = unSortList.OrderByDescending(v => (int)v.KnowledgeStatus).ToList();
                     break;
                 case "author|asc":
-                    sortList = unSortList.OrderBy(v => v.Question.Creator.Id).ToList();
+                    sortList = unSortList.OrderBy(v => v.Question.Creator != null ? v.Question.Creator.Id : -1  ).ToList();
                     break;
                 case "author|desc":
-                    sortList = unSortList.OrderByDescending(v => v.Question.Creator.Id).ToList();
+                    sortList = unSortList.OrderByDescending(v => v.Question.Creator != null ? v.Question.Creator.Id : -1).ToList();
                     break;
                 case "category|asc":
                     sortList = unSortList
-                        .OrderBy(qv =>
-                        {
-                            if (qv.Question.Categories.IsEmpty())
-                                return ""; //should be first;
-
-                            return qv.Question.Categories[0].Name;
-                        }).ToList();
+                        .OrderBy(qv => qv.Question.Categories.IsEmpty() ? "" : qv.Question.Categories[0].Name).ToList();
                     break;
                 case "category|desc":
                     sortList = unSortList
-                        .OrderByDescending(qv =>
-                        {
-                            if (qv.Question.Categories.IsEmpty())
-                                return ""; //should be last;
-
-                            return qv.Question.Categories[0].Name;
-                        }).ToList();
-
+                        .OrderByDescending(qv => qv.Question.Categories.IsEmpty() ? "" : qv.Question.Categories[0].Name).ToList();
                     break;
             }
-
         }
-
         return sortList;
     }
 
