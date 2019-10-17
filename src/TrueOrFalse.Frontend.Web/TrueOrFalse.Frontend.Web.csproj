@@ -22042,6 +22042,9 @@
     <Content Include="Views\Shared\AddToWishknowledgeHeartbeat.ascx" />
     <Content Include="Views\Shared\AddToWishknowledgeButtonQuestionDetail.ascx" />
     <Content Include="Views\Shared\Cards\CardTutory.ascx" />
+    <Content Include="Views\Shared\CategoryLabel.css">
+      <DependentUpon>CategoryLabel.less</DependentUpon>
+    </Content>
     <Content Include="Views\Shared\Modals\ForTheTimeToDeleteModal.ascx" />
     <Compile Include="Views\Shared\Cards\UserCardBaseModel.cs" />
     <Compile Include="Views\Shared\SharedController.cs" />
@@ -24156,6 +24159,7 @@
       <DependentUpon>Page.ts</DependentUpon>
     </Content>
     <Content Include="Views\Questions\History\Detail\QuestionHistoryDetail.less" />
+    <Content Include="Views\Shared\CategoryLabel.less" />
     <None Include="Web.overwritten.config.sample" />
     <Content Include="Views\Welcome\Logout.aspx" />
     <Content Include="Views\Api\Export.aspx" />

@@ -66,6 +66,8 @@ namespace TrueOrFalse.View
                 .Include("~/Views/Shared/Spinner/Spinner.css")
                 .Include("~/Views/Categories/Detail/Category.css"));
 
+            bundles.Add(new StyleBundle("~/bundles/CategoryLabel")
+                .Include("~/Views/Shared/CategoryLabel.css"));
 
             bundles.Add(new ScriptBundle("~/bundles/js/Category")
                 .Include("~/Views/Knowledge/Wheel/KnowledgeWheel.js")
