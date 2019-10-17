@@ -113,6 +113,7 @@ public class AnswerQuestionModel : BaseModel
     public bool DisableCommentLink;
     public bool DisableAddKnowledgeButton;
     public bool IsInWidget;
+    public bool IsInLearningTab;
 
     public ContentRecommendationResult ContentRecommendationResult;
 
