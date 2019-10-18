@@ -554,7 +554,7 @@ public class AnswerQuestionController : BaseController
     public string RenderAnswerBodyForNewCategoryLearningSession(int categoryId, bool isInLearningTab = false)
     {
         var learningSession = CreateLearningSession.ForCategory(categoryId);
-        return RenderAnswerBodyByLearningSession(learningSession.Id, -1, isInLearningTab);
+        return RenderAnswerBodyByLearningSession(learningSession.Id, isInLearningTab: isInLearningTab);
     }
 
     public string RenderAnswerBodyForNewCategoryTestSession(int categoryId, bool isInLearningTab = false)
@@ -563,7 +563,7 @@ public class AnswerQuestionController : BaseController
         var sessionuser = new SessionUser();
         sessionuser.AddTestSession(testSession);
      
-        return RenderAnswerBodyByTestSession(testSession.Id, includeTestSessionHeader:true, isInLearningTab);
+        return RenderAnswerBodyByTestSession(testSession.Id, includeTestSessionHeader:true, isInLearningTab: isInLearningTab);
     }
 
     
@@ -605,7 +605,7 @@ public class AnswerQuestionController : BaseController
 
         var sessionData = new SessionData(currentSessionHeader, currentStepIdx, isLastStep, skipStepIdx, currentStepGuid, learningSession.Id);
 
-        return GetQuestionPageData(model, currentUrl, sessionData, isSession: true, -1, false, isInLearningTab);
+        return GetQuestionPageData(model, currentUrl, sessionData, isSession: true, isInLearningTab:isInLearningTab);
     }
 
     public string RenderAnswerBodyByTestSession(int testSessionId, bool includeTestSessionHeader = false, bool isInLearningTab = false)
@@ -629,7 +629,7 @@ public class AnswerQuestionController : BaseController
 
         var sessionData = new SessionData(currentSessionHeader, currentStepIdx, isLastStep);
 
-        return GetQuestionPageData(model, currentUrl, sessionData, isSession: true, testSesssionId: testSessionId, includeTestSessionHeader: includeTestSessionHeader, isInLearningTab);
+        return GetQuestionPageData(model, currentUrl, sessionData, isSession: true, testSesssionId: testSessionId, includeTestSessionHeader: includeTestSessionHeader, isInLearningTab: isInLearningTab);
     }
 
     private string GetQuestionPageData(
