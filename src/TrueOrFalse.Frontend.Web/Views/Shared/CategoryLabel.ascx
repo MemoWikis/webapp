@@ -1,5 +1,8 @@
 ﻿<%@ Control Language="C#" Inherits="System.Web.Mvc.ViewUserControl<Category>" %>
 <%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
+<%@ Import Namespace="System.Web.Optimization" %>
+
+<%= Styles.Render("~/bundles/CategoryLabel") %>
 
 <% var iconHTML = "";
     switch (Model.Type)
@@ -35,4 +38,20 @@
     if (Model.Type.GetCategoryTypeGroup() == CategoryTypeGroup.Education)
         iconHTML = "<i class=\"fa fa-university\">&nbsp;</i>";
 %>
-<a href="<%= Links.CategoryDetail(Model) %>"><span class="label label-category"><%= iconHTML %><%= Model.Name %></span></a>
+<%  var imageMetaData = Sl.ImageMetaDataRepo.GetBy(Model.Id, ImageType.Category);
+    var ImageFrontendData = new ImageFrontendData(imageMetaData);
+    var imgUrl = ImageFrontendData.GetImageUrl(30, true, false, ImageType.Category).Url;
+    bool showImg = !imgUrl.Contains("no-category-picture");
+%>
+<div class="category-chip-container">
+    <a href="<%= Links.CategoryDetail(Model) %>">
+        <div class="category-chip show-tooltip" title="<%= Model.Name %>">
+            <% if (showImg)
+               { %>
+                <img src="<%= imgUrl %>">
+            <% } %>
+            <span><%= iconHTML %><%= Model.Name %></span>
+            <span class="remove-category-chip"></span>
+        </div>
+    </a>
+</div>

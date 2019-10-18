@@ -42,16 +42,61 @@
 .question-details .second-row {
   padding-left: 0px;
   display: flex;
-  justify-content: center;
 }
 .question-details .second-row .fa-eye {
   padding-right: 3px;
 }
-@media (max-width: 1199px) {
-  .question-details .second-row {
-    padding-left: 10px;
-    padding-top: 10px;
-  }
+.question-details .second-row .media-below-lg {
+  padding-left: 10px;
+  padding-top: 10px;
+}
+.question-details .second-row #QuestionDetailsStatistic {
+  padding-left: 10px;
+  padding-right: 10px;
+}
+.question-details .second-row #QuestionDetailsStatistic .question-details-row {
+  min-height: 24px;
+  display: flex;
+  line-height: 18px;
+  padding: 4px 0;
+}
+.question-details .second-row #QuestionDetailsStatistic .question-details-row span,
+.question-details .second-row #QuestionDetailsStatistic .question-details-row .question-details-label-double {
+  padding-top: 2px;
+  max-width: 300px;
+}
+.question-details .second-row #QuestionDetailsStatistic .question-details-row .question-details-label-double {
+  padding-top: 4px;
+}
+.question-details .second-row #QuestionDetailsStatistic .question-details-row .question-details-label-double span {
+  padding-top: 0;
+}
+.question-details .second-row #QuestionDetailsStatistic .question-details-row .detail-icon-container {
+  min-width: 56px;
+  width: 56px;
+  display: flex;
+  justify-content: center;
+  text-align: center;
+  font-weight: bold;
+  font-size: 18px;
+}
+.question-details .second-row #QuestionDetailsStatistic .question-details-row .detail-icon-container .show-tooltip {
+  margin: unset;
+}
+.question-details .second-row #QuestionDetailsStatistic .question-details-row .detail-icon-container div {
+  margin: auto;
+}
+.question-details .second-row #QuestionDetailsStatistic .question-details-row .detail-icon-container div span {
+  top: 2px;
+}
+.question-details .second-row #QuestionDetailsStatistic .question-details-row .detail-icon-container.pie-chart {
+  font-size: 13px;
+}
+.question-details .second-row #QuestionDetailsStatistic .question-details-row .detail-icon-container i {
+  padding: unset;
+}
+.question-details .second-row #QuestionDetailsStatistic .question-details-row .detail-icon-container i.fa-heart {
+  color: #B13A48;
 }
 .question-details .seen {
   padding-right: 10px;
@@ -60,12 +105,20 @@
 .question-details .learning-status {
   margin-right: 25px;
 }
-.question-details .sparklineTotals {
-  margin-right: 10px;
-}
 .text-sponsor {
   text-align: center;
 }
 .model-categories {
   padding-top: 0.375em;
+}
+#ChipHeader,
+#StatsHeader {
+  padding-top: 5px;
+  padding-bottom: 5px;
+  font-size: 14px;
+}
+@media (min-width: 1200px) {
+  #StatsHeader {
+    display: none;
+  }
 }

@@ -1,0 +1,33 @@
+﻿
+@background-colour: #efefef;
+
+.category-chip-container {
+    padding: 4px 8px 4px 0;
+    font-size: 13px;
+
+    .category-chip {
+        max-width: 180px;
+        height: 32px;
+        display: inline-block;
+        border-radius: 16px;
+        background: @background-colour;
+        padding: 0 12px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        line-height: 32px;
+        color: #555555;
+        transition: background 0.8s;
+
+
+        img {
+            margin: -3px 0 0 -9px;
+            border-radius: 50%;
+            height: 26px
+        }
+
+        &:hover {
+            background: darken(@background-colour, 5%);
+        }
+    }
+}
