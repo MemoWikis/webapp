@@ -58,12 +58,45 @@
             padding-right: 3px;
         }
 
-        .media-below-lg( {
+        .media-below-lg {
             padding-left: 10px;
             padding-top: 10px;
         }
 
-        );
+        #QuestionDetailsStatistic {
+
+            .question-details-row {
+                height: 24px;
+                display: flex;
+                line-height: 22px;
+
+                .detail-icon-container {
+                    width: 50px;
+                    display: flex;
+                    justify-content: center;
+                    text-align: center;
+                    font-weight: bold;
+                    font-size: 18px;
+                    
+                    span {
+                        margin:auto;
+                    }
+
+
+                    &.pie-chart {
+                        font-size: 14px;
+                    }
+
+                    i {
+                        padding: unset;
+
+                        &.fa-heart {
+                            color: #B13A48;
+                        }
+                    }
+                }
+            }
+        }
     }
 
     .seen {
@@ -73,10 +106,6 @@
 
     .learning-status {
         margin-right: 25px;
-    }
-
-    .sparklineTotals {
-        margin-right: 10px;
     }
 }
 

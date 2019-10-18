@@ -22,7 +22,7 @@ public static class KnowledgeStatusExt
             case KnowledgeStatus.NotLearned: return "#C0C0C0";
             case KnowledgeStatus.NeedsLearning: return "#FFA07A";
             case KnowledgeStatus.NeedsConsolidation: return "#FDD648";
-            case KnowledgeStatus.Solid: return "#90EE90";
+            case KnowledgeStatus.Solid: return "#AFD534";
             default: Logg.r().Information("unknown Konwledge Status/ KonwledgeStatus.cs row 26 ");
                 break;
         }

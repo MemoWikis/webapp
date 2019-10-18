@@ -14,30 +14,71 @@
             </span>
         </div>
         <div class="col-lg-6 second-row">
-        <% if (Model.HistoryAndProbability.QuestionValuation.IsInWishKnowledge())
-            {
-                var status = Model.HistoryAndProbability.QuestionValuation.KnowledgeStatus; %>
-                <span class="learning-status">
-                    <span style="background-color: <%= status.GetColor() %>; font-size: 12px; padding: 2px 4px; -ms-border-radius: 5px; border-radius: 5px; width: 100%;">
-                        <%= status.GetText() %>
-                    </span>
-                </span>
-            <% } %>
-            <span class="show-tooltip" title="Insgesamt <%=Model.HistoryAndProbability.AnswerHistory.TimesAnsweredTotal%>x beantwortet"><%=Model.HistoryAndProbability.AnswerHistory.TimesAnsweredTotal%>x </span>
-            <span class="sparklineTotals" data-answerstrue="<%= Model.HistoryAndProbability.AnswerHistory.TimesAnsweredCorrect %>" data-answersfalse="<%= Model.HistoryAndProbability.AnswerHistory.TimesAnsweredWrongTotal %>"></span>
+            <div id="QuestionDetailsStatistic">
+                <div class="personal-answer-probability question-details-row" style="display:flex">
+                    <div class="detail-icon-container">
+                        <% Html.RenderPartial("~/Views/Shared/CorrectnessProbability.ascx", Model.HistoryAndProbability.CorrectnessProbability); %>             
+                    </div>
+                    <span> Wahrscheinlichkeit, dass du diese Frage richtig beantwortest.</span>
+                </div>
 
-            <span class="show-tooltip" title="Von dir <%=Model.HistoryAndProbability.AnswerHistory.TimesAnsweredUser%>x beantwortet">ich: <%= Model.HistoryAndProbability.AnswerHistory.TimesAnsweredUser%>x </span>
-            <span class="sparklineTotalsUser" data-answerstrue="<%= Model.HistoryAndProbability.AnswerHistory.TimesAnsweredUserTrue  %>" data-answersfalse="<%= Model.HistoryAndProbability.AnswerHistory.TimesAnsweredUserWrong %>"></span>
-            <span class="correctness-prohability">
-                <% Html.RenderPartial("~/Views/Shared/CorrectnessProbability.ascx", Model.HistoryAndProbability.CorrectnessProbability); %>             
-            </span>
-            <span class="show-tooltip seen" title="Die Frage wurde <%= Model.TotalViews %>x mal gesehen.">
-                <span><i class="fa fa-eye greyed"></i><%= Model.TotalViews %>x </span>
-            </span>
-            <span class="show-tooltip margin-left" title="Die Frage wurde <%= Model.TotalRelevancePersonalEntries %>x zum Wunschwissen hinzugefügt.">
-                <i class="fa fa-heart greyed"></i>
-                <span id="sideWishKnowledgeCount"><%= Model.TotalRelevancePersonalEntries %>x</span>
-            </span>
+                <div class="allAnswerCount question-details-row" style="display:flex">
+                    <div class="detail-icon-container pie-chart">
+                        <span class="sparklineTotals" data-answerstrue="<%= Model.HistoryAndProbability.AnswerHistory.TimesAnsweredCorrect %>" data-answersfalse="<%= Model.HistoryAndProbability.AnswerHistory.TimesAnsweredWrongTotal %>"></span>
+                    </div>
+                    <% if (Model.HistoryAndProbability.AnswerHistory.TimesAnsweredTotal > 0)
+                       { %>
+                        <span>Insgesamt <%=Model.HistoryAndProbability.AnswerHistory.TimesAnsweredTotal%>x beantwortet, davon <%= Model.HistoryAndProbability.AnswerHistory.TimesAnsweredCorrect %> richtig.</span>
+                    <% }
+                       else
+                       { %>
+                        <span>Diese Frage wurde noch nie beantwortet.</span>
+                    <% } %>
+                </div>
+                
+                <div class="personalAnswerCount question-details-row" style="display:flex">
+                    <div class="detail-icon-container pie-chart">
+                        <span class="sparklineTotalsUser" data-answerstrue="<%= Model.HistoryAndProbability.AnswerHistory.TimesAnsweredUserTrue %>" data-answersfalse="<%= Model.HistoryAndProbability.AnswerHistory.TimesAnsweredUserWrong %>"></span>
+                    </div>
+                    <% if (Model.HistoryAndProbability.AnswerHistory.TimesAnsweredUser > 0)
+                       { %>
+                        <span>Von dir <%=Model.HistoryAndProbability.AnswerHistory.TimesAnsweredUser%>x beantwortet, davon <%= Model.HistoryAndProbability.AnswerHistory.TimesAnsweredUserTrue %> richtig</span>
+                    <% }
+                       else
+                       { %>
+                        <span>Du hast diese Frage noch nie beantwortet.</span>
+                    <% } %>
+                </div>
+                
+                <div class="viewCount question-details-row" style="display:flex">
+                    <div class="detail-icon-container">
+                        <i class="fa fa-eye greyed"></i>
+                    </div>
+                    <span>Diese Frage wurde <%= Model.TotalViews %>x gesehen</span>
+                </div>
+                
+                <div class="inWishKnowledgeCount question-details-row" style="display:flex">
+                    <div class="detail-icon-container">
+                        <i class="fa fa-heart"></i>
+                    </div>
+                    <span><%= Model.TotalRelevancePersonalEntries %>x im Wunschwissen</span>
+                </div>
+
+
+                <% if (Model.HistoryAndProbability.QuestionValuation.IsInWishKnowledge()) {
+                    var status = Model.HistoryAndProbability.QuestionValuation.KnowledgeStatus; %>
+                    
+                    <div class="question-details-row" style="display:flex">
+                        <div class="detail-icon-container"style="color: <%= status.GetColor() %>">
+                            <i class="fas fa-check-circle"></i>
+                        </div>
+                        <span>Dein Wissensstand: <%= status.GetText() %></span>
+                    </div>
+
+                <% } %>
+
+            </div>
+
         </div>
     </div>
 </div>
