@@ -30,7 +30,7 @@
 
         const url = '/' + this._categoryName + '/' + this.CategoryId;
 
-        $("#TopicTab,#AnalyticsFooterBtn").on("click",
+        $("#TopicTab").on("click",
             (e) => {
                 e.preventDefault();
                 const tabName = "TopicTab";
@@ -45,7 +45,7 @@
                 this.historyPushAndSetActive(newUrl, tabName);
             });
 
-        $("#AnalyticsTab").on("click",
+        $("#AnalyticsTab,#AnalyticsFooterBtn").on("click",
             (e) => {
                 e.preventDefault();
                 var newUrl = url + '/Wissensnetz';

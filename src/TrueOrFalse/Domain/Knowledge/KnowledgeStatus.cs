@@ -24,9 +24,8 @@ public static class KnowledgeStatusExt
             case KnowledgeStatus.NeedsConsolidation: return "#FDD648";
             case KnowledgeStatus.Solid: return "#AFD534";
             default: Logg.r().Information("unknown Konwledge Status/ KonwledgeStatus.cs row 26 ");
-                break;
+                return "#C0C0C0";
         }
-        throw new Exception("unknown status");
     }
 
     public static string GetText(this KnowledgeStatus status)

@@ -126,8 +126,8 @@ namespace TrueOrFalse
         public JsonResult DeleteDetails(int questionId)
         {
             var question = _questionRepo.GetById(questionId);
-
-            var canBeDeleted = QuestionDelete.CanBeDeleted(question.Creator.Id, questionId);
+            var userTiny = new UserTinyModel(question.Creator);
+            var canBeDeleted = QuestionDelete.CanBeDeleted(userTiny.Id, questionId);
 
             return new JsonResult{
                 Data = new{

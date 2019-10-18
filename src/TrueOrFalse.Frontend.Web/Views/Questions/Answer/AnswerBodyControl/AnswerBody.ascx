@@ -54,7 +54,7 @@
                         <% if (Model.IsCreator || Model.IsInstallationAdmin)
                            { %>
                             <li id="DeleteQuestion">
-                                <a class="TextLinkWithIcon" data-toggle="modal" data-questionid="808" href="#modalDeleteQuestion">
+                                <a class="TextLinkWithIcon" data-toggle="modal" data-questionid="<%=Model.QuestionId %>" href="#modalDeleteQuestion">
                                   <span>Frage löschen</span>
                                 </a>
                             </li>
