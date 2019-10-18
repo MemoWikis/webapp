@@ -1,9 +1,12 @@
 ﻿using System.Linq;
+using TrueOrFalse;
 
 public class ReputationUpdate : IRegisterAsInstancePerLifetime
 {
     private readonly ReputationCalc _reputationCalc;
     private readonly UserRepo _userRepo;
+    private UserTinyModel userTinyModel;
+
 
     public ReputationUpdate(
         ReputationCalc reputationCalc,
@@ -11,16 +14,27 @@ public class ReputationUpdate : IRegisterAsInstancePerLifetime
     {
         _reputationCalc = reputationCalc;
         _userRepo = userRepo;
+
+
     }
 
-    public static void ForQuestion(int questionId) => 
-        ScheduleUpdate(Sl.QuestionRepo.GetById(questionId).Creator.Id);
+    public static void ForQuestion(int questionId)
+    {
+        var userTiny = new UserTinyModel(Sl.QuestionRepo.GetById(questionId).Creator);
+        ScheduleUpdate(userTiny.Id);
+    }
 
-    public static void ForSet(int setId) => 
-        ScheduleUpdate(Sl.SetRepo.GetById(setId).Creator.Id);
+    public static void ForSet(int setId)
+    {
+        var userTiny = new UserTinyModel(Sl.SetRepo.GetById(setId).Creator);
+        ScheduleUpdate(userTiny.Id);
+    }
 
-    public static void ForCategory(int categoryId) => 
-        ScheduleUpdate(Sl.CategoryRepo.GetById(categoryId).Creator.Id);
+    public static void ForCategory(int categoryId)
+    {
+        var userTiny = new UserTinyModel(Sl.CategoryRepo.GetById(categoryId).Creator);
+        ScheduleUpdate(userTiny.Id);
+    }
 
     public static void ForUser(User user) => 
         ScheduleUpdate(user.Id);

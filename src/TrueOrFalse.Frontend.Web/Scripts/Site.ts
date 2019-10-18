@@ -185,7 +185,6 @@ class Site {
             redirect();
         }
     }
-
     static RedirectToDashboard() { location.href = "/Wissenszentrale/Ueberblick"; }
     static RedirectToRegistrationSuccess() { location.href = "/Register/RegisterSuccess"; }
     static RedirectToRegistration() { location.href = "/Registrieren"; }
