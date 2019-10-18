@@ -108,6 +108,11 @@ class AnswerBodyLoader {
     }
 
     public loadNewQuestion(url: string) {
+        this._isInLearningTab = $('#LearningTab').length > 0;
+
+        if (this._isInLearningTab)
+            this.isInLearningTabString = "&isInLearningTab=" + this._isInLearningTab;
+
         $.ajax({
             url: url + this.isInLearningTabString,
             type: 'POST',
@@ -125,8 +130,6 @@ class AnswerBodyLoader {
                 }
                 $(".FooterQuestionDetails").remove();
                 $("#modalShareQuestion").remove();
-                if (this._isInLearningTab)
-                    $("#QuestionDetails").remove();
                 $("#AnswerBody").replaceWith(result.answerBodyAsHtml);
 
                 if ($("#hddIsLearningSession").val() === "True" || this._answerBody.IsTestSession()) {
