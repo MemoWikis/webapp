@@ -19,13 +19,13 @@ public static class KnowledgeStatusExt
     {
         switch (status)
         {
-            case KnowledgeStatus.NotLearned: return "#C0C0C0"; 
+            case KnowledgeStatus.NotLearned: return "#C0C0C0";
             case KnowledgeStatus.NeedsLearning: return "#FFA07A";
             case KnowledgeStatus.NeedsConsolidation: return "#FDD648";
             case KnowledgeStatus.Solid: return "#90EE90";
+            default: Logg.r().Information("unknown Konwledge Status/ KonwledgeStatus.cs row 26 ");
+                return "#C0C0C0";
         }
-
-        throw new Exception("unknown status");
     }
 
     public static string GetText(this KnowledgeStatus status)
