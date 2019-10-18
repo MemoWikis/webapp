@@ -130,6 +130,8 @@ class AnswerBodyLoader {
                 }
                 $(".FooterQuestionDetails").remove();
                 $("#modalShareQuestion").remove();
+                if (this._isInLearningTab)
+                    $("#QuestionDetails").remove();
                 $("#AnswerBody").replaceWith(result.answerBodyAsHtml);
 
                 if ($("#hddIsLearningSession").val() === "True" || this._answerBody.IsTestSession()) {
