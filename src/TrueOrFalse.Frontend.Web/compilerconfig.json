@@ -334,5 +334,9 @@
   {
     "outputFile": "Style/top-header.css",
     "inputFile": "Style/top-header.less"
+  },
+  {
+    "outputFile": "Views/Shared/CategoryLabel.css",
+    "inputFile": "Views/Shared/CategoryLabel.less"
   }
 ]

@@ -10,6 +10,7 @@ namespace TrueOrFalse
         public int CPAll; 
         public int CPDerivation;
         public string CPDerivationSign;
+        public string CPPColor;
 
         public CorrectnessProbabilityModel(Question question, QuestionValuation questionValuationForUser)
         {
@@ -27,6 +28,15 @@ namespace TrueOrFalse
                 CPDerivationSign = "&plusmn;";
             else
                 CPDerivationSign = (CPPersonal < CPAll) ? "-" : "+";
+
+            if (CPPersonal >= 80)
+                CPPColor = "#AFD534";
+            else if (CPPersonal < 80 && CPPersonal >= 50)
+                CPPColor = "#FDD648";
+            else if (CPPersonal < 50 && CPPersonal >= 0)
+                CPPColor = "#FFA07A";
+            else
+                CPPColor = "#949494";
         }
 
     }

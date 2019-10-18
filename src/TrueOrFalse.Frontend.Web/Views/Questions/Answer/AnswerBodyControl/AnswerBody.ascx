@@ -36,22 +36,16 @@
                     <%= Html.Partial("AddToWishknowledgeButtonQuestionDetail", new AddToWishknowledge(Model.IsInWishknowledge, isShortVersion: true)) %>
                 </span>
             <% } %>
-            <% if (Model.IsLoggedIn && Model.IsCreator || Model.IsInstallationAdmin)
-               { %>
-            <span class="edit-question">
-                <a href="<%= Links.EditQuestion(Url, Model.QuestionText, Model.QuestionId) %>" class="TextLinkWithIcon"><i class="fa fa-pencil"></i></a>
-            </span>
-            <% }  %>
-             <div class="Button dropdown">
+            <div class="Button dropdown">
                 <span class="margin-top-4">
                     <a href="#" class="dropdown-toggle btn btn-link btn-sm ButtonEllipsis" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" style="font-size: 14px;">
                         <i class="fa fa-ellipsis-v"></i>
                     </a>
                     <ul class="dropdown-menu dropdown-menu-right">
-                        <% if (Model.IsLearningSession || Model.IsTestSession) { %>
-                            <li><a target="_blank"href="<%= Links.GetUrl(Model.Question) %>">Frageseite anzeigen </a></li>
+                        <% if (Model.IsInLearningTab) { %>
+                            <li><a href="<%= Links.GetUrl(Model.Question) %>">Frageseite anzeigen </a></li>
                         <% } %>
-                        <% if ( Model.IsLoggedIn && Model.IsCreator || Model.IsInstallationAdmin)
+                        <% if (Model.IsLoggedIn && (Model.IsCreator || Model.IsInstallationAdmin) && !Model.IsInWidget)
                            { %>
                             <li><a href="<%= Links.EditQuestion(Url, Model.QuestionText, Model.QuestionId) %>" class="TextLinkWithIcon">Frage bearbeiten</a></li>
                         <% }  %>
@@ -302,5 +296,13 @@
     <% } %>
 </div>
 
+
+<% if (Model.IsInLearningTab)
+   { %>
+    <div class="row">
+        <div class="separationBorderTop" style="min-height: 20px;"></div>
+    </div>
+    <div id="QuestionDetails"></div>
+<% } %>
 
 <% Html.RenderPartial("~/Views/Questions/Answer/ShareQuestionModal.ascx", new ShareQuestionModalModel(Model.QuestionId)); %>

@@ -2,12 +2,12 @@
     if (isAnswered(".sparklineTotalsUser"))
         FillSparksElements(".sparklineTotalsUser");
     else
-        FillSparksElements(".sparklineTotalsUser", "#999999", '#FFA07A', "pie", false);
+        FillSparksElements(".sparklineTotalsUser", "#949494", '#FFA07A', "pie", false);
 
     if (isAnswered(".sparklineTotals"))
         FillSparksElements(".sparklineTotals");
     else
-        FillSparksElements(".sparklineTotals", "#999999",'#FFA07A', "pie",  false);
+        FillSparksElements(".sparklineTotals", "#949494",'#FFA07A', "pie",  false);
 }
 
 function isAnswered(elementName: string) {
@@ -18,7 +18,7 @@ function isAnswered(elementName: string) {
     return true; 
 }
 
-function FillSparksElements(elementName: string, color1 = '#90EE90', color2 = '#FFA07A', sparkType = "pie", isAnswered = true) {
+function FillSparksElements(elementName: string, color1 = '#AFD534', color2 = '#FFA07A', sparkType = "pie", isAnswered = true) {
     
     $(elementName).each(function () {
         if (isAnswered) {

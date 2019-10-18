@@ -46,6 +46,7 @@ public class AnswerBodyModel : BaseModel
     public bool IsLastLearningStep = false;
     public bool IsTestSession;
     public int TestSessionProgessAfterAnswering;
+    public bool IsInLearningTab;
 
     public bool ShowCommentLink => 
         CommentCount != -1 && 
@@ -90,7 +91,7 @@ public class AnswerBodyModel : BaseModel
         Init(question);
     }
 
-    public AnswerBodyModel(AnswerQuestionModel answerQuestionModel)
+    public AnswerBodyModel(AnswerQuestionModel answerQuestionModel, bool isInLearningTab = false)
     {
         QuestionViewGuid = answerQuestionModel.QuestionViewGuid;
 
@@ -103,6 +104,7 @@ public class AnswerBodyModel : BaseModel
         IsLearningSession = answerQuestionModel.IsLearningSession;
         LearningSession = answerQuestionModel.LearningSession;
         IsTestSession = answerQuestionModel.IsTestSession;
+        IsInLearningTab = isInLearningTab;
         TestSessionProgessAfterAnswering = answerQuestionModel.TestSessionProgessAfterAnswering;
 
         NextUrl = answerQuestionModel.NextUrl;
