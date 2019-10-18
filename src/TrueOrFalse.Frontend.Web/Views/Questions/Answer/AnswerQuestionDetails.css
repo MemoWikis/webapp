@@ -117,3 +117,8 @@
   padding-bottom: 5px;
   font-size: 14px;
 }
+@media (min-width: 1200px) {
+  #StatsHeader {
+    display: none;
+  }
+}
