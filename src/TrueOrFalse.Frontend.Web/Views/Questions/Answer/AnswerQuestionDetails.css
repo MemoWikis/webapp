@@ -56,19 +56,37 @@
   display: flex;
   line-height: 22px;
 }
+.question-details .second-row #QuestionDetailsStatistic .question-details-row span,
+.question-details .second-row #QuestionDetailsStatistic .question-details-row .question-details-label-double {
+  padding-top: 2px;
+  max-width: 350px;
+}
+.question-details .second-row #QuestionDetailsStatistic .question-details-row .question-details-label-double {
+  line-height: 20px;
+  padding-top: 4px;
+}
+.question-details .second-row #QuestionDetailsStatistic .question-details-row .question-details-label-double span {
+  padding-top: 0;
+}
 .question-details .second-row #QuestionDetailsStatistic .question-details-row .detail-icon-container {
-  width: 50px;
+  width: 56px;
   display: flex;
   justify-content: center;
   text-align: center;
   font-weight: bold;
   font-size: 18px;
 }
-.question-details .second-row #QuestionDetailsStatistic .question-details-row .detail-icon-container span {
+.question-details .second-row #QuestionDetailsStatistic .question-details-row .detail-icon-container .show-tooltip {
+  margin: unset;
+}
+.question-details .second-row #QuestionDetailsStatistic .question-details-row .detail-icon-container div {
   margin: auto;
 }
+.question-details .second-row #QuestionDetailsStatistic .question-details-row .detail-icon-container div span {
+  top: 2px;
+}
 .question-details .second-row #QuestionDetailsStatistic .question-details-row .detail-icon-container.pie-chart {
-  font-size: 14px;
+  font-size: 13px;
 }
 .question-details .second-row #QuestionDetailsStatistic .question-details-row .detail-icon-container i {
   padding: unset;
@@ -88,4 +106,8 @@
 }
 .model-categories {
   padding-top: 0.375em;
+}
+#ChipHeader {
+  font-size: 14px;
+  height: 30px;
 }

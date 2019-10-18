@@ -70,21 +70,43 @@
                 display: flex;
                 line-height: 22px;
 
+                span, .question-details-label-double {
+                    padding-top: 2px;
+                    max-width: 350px;
+                }
+
+                .question-details-label-double {
+                    line-height: 20px;
+                    padding-top: 4px;
+
+                    span {
+                        padding-top: 0;
+                    }
+                }
+
                 .detail-icon-container {
-                    width: 50px;
+                    width: 56px;
                     display: flex;
                     justify-content: center;
                     text-align: center;
                     font-weight: bold;
                     font-size: 18px;
-                    
-                    span {
-                        margin:auto;
+
+                    .show-tooltip {
+                        margin: unset;
+                    }
+
+                    div {
+                        margin: auto;
+
+                        span {
+                            top: 2px;
+                        }
                     }
 
 
                     &.pie-chart {
-                        font-size: 14px;
+                        font-size: 13px;
                     }
 
                     i {
@@ -115,4 +137,9 @@
 
 .model-categories {
     padding-top: 0.375em;
+}
+
+#ChipHeader{
+    font-size: 14px;
+    height: 30px;
 }
