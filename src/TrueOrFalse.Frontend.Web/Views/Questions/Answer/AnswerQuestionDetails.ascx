@@ -2,6 +2,9 @@
 <%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
 
 <div id="QuestionDetails">
+    <div class="row">
+        <div class="separationBorderTop" style="min-height: 20px;"></div>
+    </div>
     <div class="row question-details">
         <div class="col-lg-6">
             <span class=" category-set">
