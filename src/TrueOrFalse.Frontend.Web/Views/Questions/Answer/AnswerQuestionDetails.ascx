@@ -22,8 +22,13 @@
                         <% Html.RenderPartial("~/Views/Shared/CorrectnessProbability.ascx", Model.HistoryAndProbability.CorrectnessProbability); %>             
                     </div>
                     <div class="question-details-label-double">
-                        <% var status = Model.HistoryAndProbability.QuestionValuation.KnowledgeStatus; %>
-                        <span> Wahrscheinlichkeit, dass du diese Frage richtig beantwortest. Dein Wissensstand: <%= status.GetText() %></span>
+                        <span> Wahrscheinlichkeit, dass du diese Frage richtig beantwortest. 
+                            <% if (Model.IsInWishknowledge){
+                                   var status = Model.HistoryAndProbability.QuestionValuation.KnowledgeStatus;%>
+                                Dein Wissensstand: <%= status.GetText() %> 
+                            <% } %>
+
+                        </span>
                     </div>
 
                 </div>
