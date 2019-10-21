@@ -44,4 +44,5 @@
 
 <div id="AnswerBody">
     <input type="hidden" id="hddSolutionTypeNum" value="1" />
+    <div id="QuestionDetails"></div>
 </div>

@@ -299,9 +299,6 @@
 
 <% if (Model.IsInLearningTab)
    { %>
-    <div class="row">
-        <div class="separationBorderTop" style="min-height: 20px;"></div>
-    </div>
     <div id="QuestionDetails"></div>
 <% } %>
 

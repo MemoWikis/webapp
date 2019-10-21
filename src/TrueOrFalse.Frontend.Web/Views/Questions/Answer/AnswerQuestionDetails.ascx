@@ -2,6 +2,9 @@
 <%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
 
 <div id="QuestionDetails">
+    <div class="row">
+        <div class="separationBorderTop" style="min-height: 20px;"></div>
+    </div>
     <div class="row question-details">
         <div class="col-lg-6">
             <span class=" category-set">
@@ -16,14 +19,19 @@
         </div>
         <div class="col-lg-6 second-row">
             <div id="QuestionDetailsStatistic">
-                <div class="personal-answer-probability question-details-row" style="display: flex; height: 44px;">
+                <div id="StatsHeader">Statistik:</div> 
+                <div class="personal-answer-probability question-details-row" style="display: flex;">
                     <div class="detail-icon-container" style="padding-top: 2px;">
                         <% Html.RenderPartial("~/Views/Shared/CorrectnessProbability.ascx", Model.HistoryAndProbability.CorrectnessProbability); %>             
                     </div>
                     <div class="question-details-label-double">
-                        <% var status = Model.HistoryAndProbability.QuestionValuation.KnowledgeStatus; %>
-                        <span> Wahrscheinlichkeit, dass du diese Frage richtig beantwortest. <br/>
-                            Dein Wissensstand: <%= status.GetText() %></span>
+                        <span> Wahrscheinlichkeit, dass du diese Frage richtig beantwortest. 
+                            <% if (Model.IsInWishknowledge){
+                                   var status = Model.HistoryAndProbability.QuestionValuation.KnowledgeStatus;%>
+                                Dein Wissensstand: <%= status.GetText() %> 
+                            <% } %>
+
+                        </span>
                     </div>
 
                 </div>

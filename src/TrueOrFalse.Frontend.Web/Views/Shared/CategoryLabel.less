@@ -31,3 +31,38 @@
         }
     }
 }
+
+.category-main-chip {
+    .category-chip-container {
+        font-size: 20px;
+
+        .category-chip {
+            max-width: 400px;
+            height: 42px;
+            display: inline-block;
+            border-radius: 21px;
+            background: @background-colour;
+            padding: 0 21px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            line-height: 42px;
+
+            img {
+                margin: -3px 0 0 -18px;
+                border-radius: 50%;
+                height: 36px
+            }
+
+            &:hover {
+                background: darken(@background-colour, 5%);
+            }
+        }
+    }
+}
+
+.related-categories {
+    display:flex;
+    flex-wrap:wrap;
+    justify-content:center;
+}

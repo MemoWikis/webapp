@@ -42,7 +42,6 @@
 .question-details .second-row {
   padding-left: 0px;
   display: flex;
-  justify-content: center;
 }
 .question-details .second-row .fa-eye {
   padding-right: 3px;
@@ -51,24 +50,29 @@
   padding-left: 10px;
   padding-top: 10px;
 }
+.question-details .second-row #QuestionDetailsStatistic {
+  padding-left: 10px;
+  padding-right: 10px;
+}
 .question-details .second-row #QuestionDetailsStatistic .question-details-row {
-  height: 24px;
+  min-height: 24px;
   display: flex;
-  line-height: 22px;
+  line-height: 18px;
+  padding: 4px 0;
 }
 .question-details .second-row #QuestionDetailsStatistic .question-details-row span,
 .question-details .second-row #QuestionDetailsStatistic .question-details-row .question-details-label-double {
   padding-top: 2px;
-  max-width: 350px;
+  max-width: 300px;
 }
 .question-details .second-row #QuestionDetailsStatistic .question-details-row .question-details-label-double {
-  line-height: 20px;
   padding-top: 4px;
 }
 .question-details .second-row #QuestionDetailsStatistic .question-details-row .question-details-label-double span {
   padding-top: 0;
 }
 .question-details .second-row #QuestionDetailsStatistic .question-details-row .detail-icon-container {
+  min-width: 56px;
   width: 56px;
   display: flex;
   justify-content: center;
@@ -107,7 +111,14 @@
 .model-categories {
   padding-top: 0.375em;
 }
-#ChipHeader {
+#ChipHeader,
+#StatsHeader {
+  padding-top: 5px;
+  padding-bottom: 5px;
   font-size: 14px;
-  height: 30px;
+}
+@media (min-width: 1200px) {
+  #StatsHeader {
+    display: none;
+  }
 }

@@ -4,7 +4,7 @@ class AnswerBodyLoader {
 
     private _answerBody: AnswerBody;
     private _isInLearningTab: boolean;
-    public _isInLearningTabString: string = "";
+    public isInLearningTabString: string = "";
 
     constructor(answerBody: AnswerBody) {
 
@@ -17,7 +17,7 @@ class AnswerBodyLoader {
             this._isInLearningTab = $('#LearningTab').length > 0;
 
             if (this._isInLearningTab)
-                this._isInLearningTabString = "&isInLearningTab=" + this._isInLearningTab;
+                this.isInLearningTabString = "&isInLearningTab=" + this._isInLearningTab;
 
             if (window.location.pathname.split("/")[4] === "im-Fragesatz") {
                 $("#NextQuestionLink, #btnNext").click((e) => {
@@ -58,7 +58,7 @@ class AnswerBodyLoader {
                         learningSessionId +
                         "&skipStepIdx=" +
                         skipStepIdx + 
-                        this._isInLearningTabString;
+                        this.isInLearningTabString;
                     this.loadNewQuestion(url);
                 });
 
@@ -108,8 +108,13 @@ class AnswerBodyLoader {
     }
 
     public loadNewQuestion(url: string) {
+        this._isInLearningTab = $('#LearningTab').length > 0;
+
+        if (this._isInLearningTab)
+            this.isInLearningTabString = "&isInLearningTab=" + this._isInLearningTab;
+
         $.ajax({
-            url: url + this._isInLearningTabString,
+            url: url + this.isInLearningTabString,
             type: 'POST',
             headers: { "cache-control": "no-cache" },
             success: result => {
@@ -125,6 +130,8 @@ class AnswerBodyLoader {
                 }
                 $(".FooterQuestionDetails").remove();
                 $("#modalShareQuestion").remove();
+                if (this._isInLearningTab)
+                    $("#QuestionDetails").remove();
                 $("#AnswerBody").replaceWith(result.answerBodyAsHtml);
 
                 if ($("#hddIsLearningSession").val() === "True" || this._answerBody.IsTestSession()) {

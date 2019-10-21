@@ -36,9 +36,10 @@ public static class KnowledgeStatusExt
             case KnowledgeStatus.NeedsLearning: return "Zu lernen";
             case KnowledgeStatus.NeedsConsolidation: return "Zu festigen";
             case KnowledgeStatus.Solid: return "Sicher gewusst";
+            default:
+                Logg.r().Information("unknown Knowledge Status/ KnowledgeStatus.cs row 26 ");
+                return "Nicht gelernt";
         }
-
-        throw new Exception("unknown status");
     }
 
     public static int GetProbability(this KnowledgeStatus status, int questionId)
@@ -52,9 +53,12 @@ public static class KnowledgeStatusExt
             case KnowledgeStatus.NeedsLearning: return 50;
             case KnowledgeStatus.NeedsConsolidation: return 80;
             case KnowledgeStatus.Solid: return 99;
+            default:
+                Logg.r().Information("unknown Knowledge Status/ KnowledgeStatus.cs row 26 ");
+                return 30;
         }
 
-        throw new Exception("unknown status");
+
     }
 
 }
