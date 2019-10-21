@@ -157,8 +157,11 @@ namespace TrueOrFalse.Frontend.Web.Code
 
         public static string FaceBookShareQuestion(Question question)
         {
+            var questionShortTitle = question.GetShortTitle(61).Replace("?", "");
+            
+
             var t =  "https://www.facebook.com/sharer/sharer.php?kid_directed_site=0&sdk=joey&u=https%3A%2F%2Fmemucho.de/Fragen/" +
-                question.GetShortTitle(61) + "/" + question.Id + "%2F&amp;src=sdkpreparse";
+                questionShortTitle + "/" + question.Id + "%2F&amp;src=sdkpreparse";
 
             return t.Replace("...", "");
         }
