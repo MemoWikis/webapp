@@ -15,7 +15,7 @@
     
     <div class="CategoryRelations Box">
         <% if (Model.CategoriesParent.Count > 0) { %>
-            <div>
+            <div class="related-categories">
                 <% foreach (var category in Model.CategoriesParent)
                     { %>
                     <% Html.RenderPartial("CategoryLabel", category); %>
@@ -27,16 +27,20 @@
         <%  } %>
     
         <div class="RelationArrow"><i class="fa fa-arrow-down"></i></div>
-        <div class="MainCategory"><span class="label label-category"><%= Model.Name %></span></div>
+        <div class="MainCategory">
+            <div class="category-main-chip">
+                <% Html.RenderPartial("CategoryLabel", Model.Category); %>
+            </div>
+        </div>
         <div class="RelationArrow"><i class="fa fa-arrow-down"></i></div>
     
         <% if(Model.CategoriesChildren.Count > 0){ %>
-            <div>
+            <div class="related-categories">
                 <% foreach(var category in Model.CategoriesChildren){ %>
                     <% Html.RenderPartial("CategoryLabel", category); %>
                 <% } %>
                 <i class="fa fa-plus-circle show-tooltip color-category add-new" 
-                    style="font-size: 14px; cursor: pointer"
+                    style="font-size: 13px; cursor: pointer; line-height: 32px; padding-top: 4px; color: #555555;"
                     onclick="window.location = '/Erstelle?parent=<%= Model.Category.Id%>'; return false; " 
                     data-original-title="Neues untergeordnetes Thema erstellen"></i>
             </div>

@@ -24,3 +24,31 @@
 .category-chip-container .category-chip:hover {
   background: #e2e2e2;
 }
+.category-main-chip .category-chip-container {
+  font-size: 20px;
+}
+.category-main-chip .category-chip-container .category-chip {
+  max-width: 400px;
+  height: 42px;
+  display: inline-block;
+  border-radius: 21px;
+  background: #efefef;
+  padding: 0 21px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  line-height: 42px;
+}
+.category-main-chip .category-chip-container .category-chip img {
+  margin: -3px 0 0 -18px;
+  border-radius: 50%;
+  height: 36px;
+}
+.category-main-chip .category-chip-container .category-chip:hover {
+  background: #e2e2e2;
+}
+.related-categories {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
