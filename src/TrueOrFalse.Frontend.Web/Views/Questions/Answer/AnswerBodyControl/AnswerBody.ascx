@@ -25,7 +25,7 @@
     <input type="hidden" id="disableAddKnowledgeButton"  value="<%= Model.DisableAddKnowledgeButton %>"/>
     
     <input type="hidden" id="hddTimeRecords" />
-
+    <input type="hidden" id="hddQuestionId" value="<%=Model.QuestionId %>" />
     <div class="AnswerQuestionBodyMenu">
 
         <% if (!Model.IsInWidget)

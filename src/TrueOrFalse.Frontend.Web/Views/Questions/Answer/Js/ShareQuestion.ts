@@ -18,7 +18,7 @@
 
         var self = this;
 
-        $.post("/AnswerQuestion/ShareQuestionModal?questionId=" + this._questionId, (modal) => {
+        $.post("/AnswerQuestion/ShareQuestionModal?questionId=" + self._questionId, (modal) => {
             $("#modalShareQuestion").hide();
             $("#modalContainer").append(modal);
 
