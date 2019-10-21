@@ -1649,6 +1649,9 @@ p:empty {
   -webkit-transition: 0.2s;
   transition: 0.2s;
 }
+.ContentModule .ModuleBorder p {
+  margin: 20px 0 42px;
+}
 @media (max-width: 512px) {
   .ContentModule .ModuleBorder {
     padding: 0;
