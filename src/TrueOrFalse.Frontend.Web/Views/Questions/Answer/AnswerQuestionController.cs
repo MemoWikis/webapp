@@ -757,7 +757,7 @@ public class AnswerQuestionController : BaseController
         _sessionUiData.VisitedQuestions = new QuestionHistory();
         return new EmptyResult();
     }
-
+    [HttpPost]
     public string ShareQuestionModal(int questionId) =>
         ViewRenderer.RenderPartialView("~/Views/Questions/Answer/ShareQuestionModal.ascx", new ShareQuestionModalModel(questionId), ControllerContext);
 }

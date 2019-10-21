@@ -37,7 +37,7 @@ public static class KnowledgeStatusExt
             case KnowledgeStatus.NeedsConsolidation: return "Zu festigen";
             case KnowledgeStatus.Solid: return "Sicher gewusst";
             default:
-                Logg.r().Information("unknown Knowledge Status/ KnowledgeStatus.cs row 26 ");
+                Logg.r().Information("unknown Knowledge Status/ KnowledgeStatus.cs row 40 ");
                 return "Nicht gelernt";
         }
     }
@@ -54,7 +54,7 @@ public static class KnowledgeStatusExt
             case KnowledgeStatus.NeedsConsolidation: return 80;
             case KnowledgeStatus.Solid: return 99;
             default:
-                Logg.r().Information("unknown Knowledge Status/ KnowledgeStatus.cs row 26 ");
+                Logg.r().Information("unknown Knowledge Status/ KnowledgeStatus.cs row 57 ");
                 return 30;
         }
 

@@ -6,7 +6,7 @@
 <input type="hidden" id="hddIsLearningSessionOnCategoryPage" value="true" />
 <input type="hidden" id="hddLearningSessionStarted" value="False" />
 <%----%>
-<input type="hidden" id="hddQuestionId" value="" />
+
 
 <input type="hidden" id="hddIsLearningSession" value="<%= Model.IsLearningSession %>"
     data-learning-session-id="-1"
