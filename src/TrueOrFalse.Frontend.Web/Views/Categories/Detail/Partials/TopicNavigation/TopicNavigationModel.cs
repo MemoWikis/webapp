@@ -83,7 +83,8 @@ public class TopicNavigationModel : BaseContentModule
     public ImageFrontendData GetCategoryImage(Category category)
     {
         var imageMetaData = Sl.ImageMetaDataRepo.GetBy(category.Id, ImageType.Category);
-        return new ImageFrontendData(imageMetaData);
+        var test = new ImageFrontendData(imageMetaData);
+        return test;
     }
 
     private List<Category> ConvertToCategoryList(List<int> categoryIdList)
