@@ -599,7 +599,7 @@ p:empty {
     color: @global-text-color;
 
     h1, h2, h3, h4, h5 {
-        font-family: Open Sans !important;
+       //font-family: Open Sans;
         line-height: 1.2;
     }
 
@@ -1451,8 +1451,9 @@ p:empty {
         border: solid transparent 1px;
         transition: 0.2s;
 
-        p{
-            margin:20px 0 42px;
+        h1, h2, h3, h4, h5 {
+            margin-top: 30px;
+            margin-bottom: 20px;
         }
 
         @media(max-width: 512px) {
@@ -1539,7 +1540,7 @@ p:empty {
             margin-top: -50px;
 
             @media(max-width: 780px) {
-                margin-top:-40px;
+                margin-top: -40px;
             }
         }
 
