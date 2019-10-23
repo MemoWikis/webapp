@@ -554,9 +554,8 @@ public class AnswerQuestionController : BaseController
     }
 
     [HttpPost]
-    public string RenderNewAnswerBodySessionForCategory(string learningSessionConfigDataJson)
+    public string RenderNewAnswerBodySessionForCategory(LearningSessionConfigData learningSessionConfigData)
     {
-        LearningSessionConfigData learningSessionConfigData = JsonConvert.DeserializeObject<LearningSessionConfigData>(learningSessionConfigDataJson);
         string answerBody = "";
         string modus = learningSessionConfigData.Modus;
         int categoryId = learningSessionConfigData.CategoryId;
