@@ -18,10 +18,10 @@ public class CreateLearningSession
 
         if (questions.Count == 0)
             throw new Exception("Cannot start LearningSession with 0 questions.");
-        //if (questionFilterString.Length > 0)
-        //{
+        if (questionFilterString.Length > 0)
+        {
             var newQuestions = FilterQuestions(questions, questionFilterString);
-        //}
+        }
 
         var user = Sl.R<SessionUser>().User;
 

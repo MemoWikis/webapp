@@ -114,7 +114,8 @@ class AnswerBodyLoader {
             minProbability: 0,
             maxProbability: 100,
             maxQuestionCount: null,
-
+            questionInWishknowledge: false,
+            questionOrder: 0,
         }
     }
 
