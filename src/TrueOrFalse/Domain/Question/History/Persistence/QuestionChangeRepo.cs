@@ -26,7 +26,6 @@ public class QuestionChangeRepo : RepositoryDbBase<QuestionChange>
 
     public void AddCreateEntry(Question question, User author = null) => AddUpdateOrCreateEntry(question, QuestionChangeType.Create, author, imageWasChanged:true);
     public void AddUpdateEntry(Question question, User author = null, bool imageWasChanged = false) => AddUpdateOrCreateEntry(question, QuestionChangeType.Update, author, imageWasChanged);
-
     private void AddUpdateOrCreateEntry(Question question, QuestionChangeType questionChangeType, User author, bool imageWasChanged)
     {
         if (author == null)
@@ -43,6 +42,36 @@ public class QuestionChangeRepo : RepositoryDbBase<QuestionChange>
         questionChange.SetData(question, imageWasChanged);
 
         base.Create(questionChange);
+    }
+
+    public void CreateQuestionChange(Question question)
+    {
+        var questionChange = new QuestionChange
+        {
+            Question = question,
+            Type = QuestionChangeType.Create,
+            Author = question.Creator,
+            DataVersion = 1
+        };
+
+        questionChange.SetData(question,true);
+
+        base.Create(questionChange);
+    }
+    public void AddUpdateOrCreateEntryWithoutSession(Question question,int changeQuestionId)
+    {
+        if (question.Creator != null)
+            Session
+                .CreateSQLQuery(
+                    "Update questionChange Set Author_Id = :userId, DateCreated = :dateCreated Where Id =  :questionId")
+                .SetParameter("userId", question.Creator.Id).SetParameter("questionId", changeQuestionId)
+                .SetParameter("dateCreated", question.DateCreated).ExecuteUpdate();
+        else
+            Session
+                .CreateSQLQuery(
+                    "Update questionChange Set Author_Id = null, DateCreated = :dateCreated Where Id =  :questionId")
+                .SetParameter("questionId", changeQuestionId).SetParameter("dateCreated", question.DateCreated)
+                .ExecuteUpdate();
     }
 
     public IList<QuestionChange> GetAllEager()
