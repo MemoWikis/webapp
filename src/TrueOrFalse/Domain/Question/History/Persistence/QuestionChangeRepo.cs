@@ -58,7 +58,7 @@ public class QuestionChangeRepo : RepositoryDbBase<QuestionChange>
 
         base.Create(questionChange);
     }
-    public void AddUpdateOrCreateEntryWithoutSession(Question question,int changeQuestionId)
+    public void UpdateWithoutSession(Question question,int changeQuestionId)
     {
         if (question.Creator != null)
             Session
