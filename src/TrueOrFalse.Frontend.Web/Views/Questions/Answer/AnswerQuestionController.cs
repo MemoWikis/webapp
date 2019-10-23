@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
 using System.Web.Script.Serialization;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using TrueOrFalse;
 using TrueOrFalse.Frontend.Web.Code;
 using TrueOrFalse.Search;
@@ -551,13 +553,31 @@ public class AnswerQuestionController : BaseController
         return GetQuestionPageData(model, currenUrl, new SessionData());
     }
 
-    public string RenderAnswerBodyForNewCategoryLearningSession(int categoryId, bool isInLearningTab = false, string questionFilter = "")
+    [HttpPost]
+    public string RenderNewAnswerBodySessionForCategory(string learningSessionConfigDataJson)
+    {
+        LearningSessionConfigData learningSessionConfigData = JsonConvert.DeserializeObject<LearningSessionConfigData>(learningSessionConfigDataJson);
+        string answerBody = "";
+        string modus = learningSessionConfigData.Modus;
+        int categoryId = learningSessionConfigData.CategoryId;
+        bool isInLearningTab = learningSessionConfigData.IsInLearningTab;
+        QuestionFilterJson questionFilter = learningSessionConfigData.QuestionFilter;
+
+        if (modus == "Test")
+            answerBody = RenderAnswerBodyForNewCategoryTestSession(categoryId, isInLearningTab);
+        else if (modus == "Learning")
+            answerBody = RenderAnswerBodyForNewCategoryLearningSession(categoryId, isInLearningTab, questionFilter);
+
+        return answerBody; 
+    }
+
+    public string RenderAnswerBodyForNewCategoryLearningSession(int categoryId, bool isInLearningTab = false, QuestionFilterJson questionFilter = null)
     {
         var learningSession = CreateLearningSession.ForCategory(categoryId, questionFilter);
         return RenderAnswerBodyByLearningSession(learningSession.Id, isInLearningTab: isInLearningTab);
     }
 
-    public string RenderAnswerBodyForNewCategoryTestSession(int categoryId, bool isInLearningTab = false)
+    public string RenderAnswerBodyForNewCategoryTestSession(int categoryId, bool isInLearningTab)
     {   var category =  Sl.CategoryRepo.GetByIdEager(categoryId);
         var testSession = new TestSession(category);
         var sessionuser = new SessionUser();

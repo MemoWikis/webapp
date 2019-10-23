@@ -4,8 +4,7 @@ class AnswerBodyLoader {
 
     private _answerBody: AnswerBody;
     private _isInLearningTab: boolean;
-    private _isInLearningTabString: string = "";
-    private _questionFilter: string = "";
+    private _sessionConfigData: SessionConfigDataJson;
 
     constructor(answerBody: AnswerBody) {
 
@@ -15,10 +14,10 @@ class AnswerBodyLoader {
             return;
 
         $(() => {
-            this._isInLearningTab = $('#LearningTab').length > 0;
 
-            if (this._isInLearningTab)
-                this._isInLearningTabString = "&isInLearningTab=" + this._isInLearningTab;
+            this._isInLearningTab = $('#LearningTab').length > 0;
+            this.setCustomSessionData();
+
 
             if (window.location.pathname.split("/")[4] === "im-Fragesatz") {
                 $("#NextQuestionLink, #btnNext").click((e) => {
@@ -58,8 +57,7 @@ class AnswerBodyLoader {
                     var url = "/AnswerQuestion/RenderAnswerBodyByLearningSession/?learningSessionId=" +
                         learningSessionId +
                         "&skipStepIdx=" +
-                        skipStepIdx + 
-                        this._isInLearningTabString;
+                        skipStepIdx;
                     this.loadNewQuestion(url);
                 });
 
@@ -108,25 +106,53 @@ class AnswerBodyLoader {
         this.loadNewQuestion(url);
     }
 
-    public loadCustomLearningSession() {
+    public loadNewSession() {
+        var url = "/AnswerQuestion/RenderNewAnswerBodySessionForCategory";
+        this.loadNewQuestion(url);
+    }
+
+    public setCustomSessionData() {
+
+        //var questionFilter = {
+        //    minProbability: $("#minProbability").val(),
+        //    maxProbability: $("#maxProbability").val(),
+        //    maxQuestionCount: $("#maxQuestionCount").val(),
+        //    questionInWishknowledge: $("#questionInWuWi").val(),
+        //    questionOrder: $("#questionOrder").val(),
+        //}
+
+        //this._sessionConfigData = {
+        //    categoryId: $('#hhdCategoryId').val(),
+        //    modus: $('#sessionModus').val(),
+        //    isInLearningTab: this._isInLearningTab,
+        //    questionFilter: questionFilter,
+        //}
+
         var questionFilter = {
-            modus: "learning",
             minProbability: 0,
             maxProbability: 100,
-            maxQuestionCount: null,
+            maxQuestionCount: 2,
             questionInWishknowledge: false,
             questionOrder: 0,
         }
+
+        this._sessionConfigData = {
+            categoryId: $('#hhdCategoryId').val(),
+            modus: "Learning",
+            isInLearningTab: this._isInLearningTab,
+            questionFilter: questionFilter,
+        }
+
+        this.loadNewSession();
     }
 
     public loadNewQuestion(url: string) {
         this._isInLearningTab = $('#LearningTab').length > 0;
 
-        if (this._isInLearningTab)
-            this._isInLearningTabString = "&isInLearningTab=" + this._isInLearningTab;
-
         $.ajax({
-            url: url + this._isInLearningTabString,
+            url: url,
+            contentType: 'json',
+            data: JSON.stringify(this._sessionConfigData),
             type: 'POST',
             headers: { "cache-control": "no-cache" },
             success: result => {
