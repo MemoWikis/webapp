@@ -551,9 +551,9 @@ public class AnswerQuestionController : BaseController
         return GetQuestionPageData(model, currenUrl, new SessionData());
     }
 
-    public string RenderAnswerBodyForNewCategoryLearningSession(int categoryId, bool isInLearningTab = false)
+    public string RenderAnswerBodyForNewCategoryLearningSession(int categoryId, bool isInLearningTab = false, string questionFilter = "")
     {
-        var learningSession = CreateLearningSession.ForCategory(categoryId);
+        var learningSession = CreateLearningSession.ForCategory(categoryId, questionFilter);
         return RenderAnswerBodyByLearningSession(learningSession.Id, isInLearningTab: isInLearningTab);
     }
 

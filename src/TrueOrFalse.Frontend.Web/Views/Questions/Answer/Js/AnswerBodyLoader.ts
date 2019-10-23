@@ -4,7 +4,8 @@ class AnswerBodyLoader {
 
     private _answerBody: AnswerBody;
     private _isInLearningTab: boolean;
-    public isInLearningTabString: string = "";
+    private _isInLearningTabString: string = "";
+    private _questionFilter: string = "";
 
     constructor(answerBody: AnswerBody) {
 
@@ -17,7 +18,7 @@ class AnswerBodyLoader {
             this._isInLearningTab = $('#LearningTab').length > 0;
 
             if (this._isInLearningTab)
-                this.isInLearningTabString = "&isInLearningTab=" + this._isInLearningTab;
+                this._isInLearningTabString = "&isInLearningTab=" + this._isInLearningTab;
 
             if (window.location.pathname.split("/")[4] === "im-Fragesatz") {
                 $("#NextQuestionLink, #btnNext").click((e) => {
@@ -58,7 +59,7 @@ class AnswerBodyLoader {
                         learningSessionId +
                         "&skipStepIdx=" +
                         skipStepIdx + 
-                        this.isInLearningTabString;
+                        this._isInLearningTabString;
                     this.loadNewQuestion(url);
                 });
 
@@ -107,14 +108,24 @@ class AnswerBodyLoader {
         this.loadNewQuestion(url);
     }
 
+    public loadCustomLearningSession() {
+        var questionFilter = {
+            modus: "learning",
+            minProbability: 0,
+            maxProbability: 100,
+            maxQuestionCount: null,
+
+        }
+    }
+
     public loadNewQuestion(url: string) {
         this._isInLearningTab = $('#LearningTab').length > 0;
 
         if (this._isInLearningTab)
-            this.isInLearningTabString = "&isInLearningTab=" + this._isInLearningTab;
+            this._isInLearningTabString = "&isInLearningTab=" + this._isInLearningTab;
 
         $.ajax({
-            url: url + this.isInLearningTabString,
+            url: url + this._isInLearningTabString,
             type: 'POST',
             headers: { "cache-control": "no-cache" },
             success: result => {
