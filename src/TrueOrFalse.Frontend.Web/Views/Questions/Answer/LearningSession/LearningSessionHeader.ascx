@@ -37,7 +37,7 @@
 </div>
 
 <div class="SessionBar">
-    <div class="QuestionCount" style="float: right;">Abfrage <span id="CurrentStepNumber"><%= Model.CurrentLearningStepIdx + 1 %></span> von <span id="StepCount"><%= Model.LearningSession.Steps.Count %></span></div>
+    <div class="QuestionCount" style="float: right;">Frage <span id="CurrentStepNumber"><%= Model.CurrentLearningStepIdx + 1 %></span> von <span id="StepCount"><%= Model.LearningSession.Steps.Count %></span></div>
     <div class="SessionType">
         <span class="show-tooltip"
         data-original-title="<%= @"<div style='text-align: left;'>In diesem Modus

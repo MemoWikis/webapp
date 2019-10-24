@@ -18,7 +18,7 @@
                     <a href="<%=Links.Promoter() %>">
                         <img class="partnerImage" id="exist" src="/Images/LogosPartners/Logo-EXIST-eps.png" width="130px" height="77px" style="margin-top: 23px;" /><br/>
                     </a>
-                    Gefördert 10/2016 - 09/2017
+                    <span style="font-size: 10px;">Gefördert 10/2016 - 09/2017</span>
                     
                 </div>
                 <div class=" col-xs-2">
