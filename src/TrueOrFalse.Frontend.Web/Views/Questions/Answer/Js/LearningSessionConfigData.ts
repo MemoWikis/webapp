@@ -1,4 +1,4 @@
-﻿class SessionConfigDataJson {
+﻿class LearningSessionConfigDataJson {
     categoryId: number;
     mode: string;
     isInLearningTab: boolean;

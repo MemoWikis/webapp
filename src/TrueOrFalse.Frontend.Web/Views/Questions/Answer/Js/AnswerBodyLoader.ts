@@ -4,7 +4,8 @@ class AnswerBodyLoader {
 
     private _answerBody: AnswerBody;
     private _isInLearningTab: boolean;
-    private _sessionConfigData: SessionConfigDataJson;
+    private _learningSessionConfigDataJson: LearningSessionConfigDataJson;
+    private _getCustomSession: boolean = false;
 
     constructor(answerBody: AnswerBody) {
 
@@ -97,17 +98,18 @@ class AnswerBodyLoader {
     }
 
     public loadNewTestSession() {
-        var url = "/AnswerQuestion/RenderAnswerBodyForNewCategoryTestSession/?categoryId=" + $('#hhdCategoryId').val();
+        var url = "/AnswerQuestion/RenderAnswerBodyForNewCategoryTestSession/?categoryId=" + $('#hhdCategoryId').val() + "&isInLearningTab=" + this._isInLearningTab;
         this.loadNewQuestion(url);
     }
 
     public loadNewLearningSession() {
-        var url = "/AnswerQuestion/RenderAnswerBodyForNewCategoryLearningSession/?categoryId=" + $('#hhdCategoryId').val();
+        var url = "/AnswerQuestion/RenderAnswerBodyForNewCategoryLearningSession/?categoryId=" + $('#hhdCategoryId').val() + "&isInLearningTab=" + this._isInLearningTab;
         this.loadNewQuestion(url);
     }
 
     public loadNewSession() {
         var url = "/AnswerQuestion/RenderNewAnswerBodySessionForCategory";
+        this._getCustomSession = true;
         this.loadNewQuestion(url);
     }
 
@@ -136,7 +138,7 @@ class AnswerBodyLoader {
             questionOrder: 0,
         }
 
-        this._sessionConfigData = {
+        this._learningSessionConfigDataJson = {
             categoryId: $('#hhdCategoryId').val(),
             mode: "Learning",
             isInLearningTab: this._isInLearningTab,
@@ -151,8 +153,8 @@ class AnswerBodyLoader {
 
         $.ajax({
             url: url,
-            contentType: 'json',
-            data: JSON.stringify(this._sessionConfigData),
+            contentType: this._getCustomSession ? 'json' : 'string',
+            data: this._getCustomSession ? JSON.stringify(this._learningSessionConfigDataJson) : "",
             type: 'POST',
             headers: { "cache-control": "no-cache" },
             success: result => {
@@ -199,6 +201,8 @@ class AnswerBodyLoader {
                 InitClickLog("div#comments");
                 PreventDropdonwnsFromBeingHorizontallyOffscreen("div#AnswerBody");
                 Utils.HideSpinner();
+                if (this._getCustomSession)
+                    this._getCustomSession = false;
             }
         });
     }

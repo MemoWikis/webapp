@@ -576,7 +576,7 @@ public class AnswerQuestionController : BaseController
         return RenderAnswerBodyByLearningSession(learningSession.Id, isInLearningTab: isInLearningTab);
     }
 
-    public string RenderAnswerBodyForNewCategoryTestSession(int categoryId, bool isInLearningTab)
+    public string RenderAnswerBodyForNewCategoryTestSession(int categoryId, bool isInLearningTab = false)
     {   var category =  Sl.CategoryRepo.GetByIdEager(categoryId);
         var testSession = new TestSession(category);
         var sessionuser = new SessionUser();
