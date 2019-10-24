@@ -2,8 +2,8 @@
     
     constructor() {
         
-       
-         
+        $("#QuestionDetails").remove();
+
         if ($("#LearningTab").hasClass("active")) {
             $(".SessionBar").hide();
             $(".SessionHeading").hide();
