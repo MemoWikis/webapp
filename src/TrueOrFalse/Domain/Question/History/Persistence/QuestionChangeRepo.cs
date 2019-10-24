@@ -1,12 +1,6 @@
 ﻿using System.Collections.Generic;
 using NHibernate;
 
-
-public class QuestionChangeParameters
-{
-
-}
-
 public class QuestionChangeRepo : RepositoryDbBase<QuestionChange>
 {
     public QuestionChangeRepo(ISession session) : base(session){}
@@ -44,7 +38,7 @@ public class QuestionChangeRepo : RepositoryDbBase<QuestionChange>
         base.Create(questionChange);
     }
 
-    public void CreateQuestionChange(Question question)
+    public void Create(Question question)
     {
         var questionChange = new QuestionChange
         {
@@ -54,24 +48,9 @@ public class QuestionChangeRepo : RepositoryDbBase<QuestionChange>
             DataVersion = 1
         };
 
-        questionChange.SetData(question,true);
+        questionChange.SetData(question, true);
 
         base.Create(questionChange);
-    }
-    public void UpdateWithoutSession(Question question,int changeQuestionId)
-    {
-        if (question.Creator != null)
-            Session
-                .CreateSQLQuery(
-                    "Update questionChange Set Author_Id = :userId, DateCreated = :dateCreated Where Id =  :questionId")
-                .SetParameter("userId", question.Creator.Id).SetParameter("questionId", changeQuestionId)
-                .SetParameter("dateCreated", question.DateCreated).ExecuteUpdate();
-        else
-            Session
-                .CreateSQLQuery(
-                    "Update questionChange Set Author_Id = null, DateCreated = :dateCreated Where Id =  :questionId")
-                .SetParameter("questionId", changeQuestionId).SetParameter("dateCreated", question.DateCreated)
-                .ExecuteUpdate();
     }
 
     public IList<QuestionChange> GetAllEager()
