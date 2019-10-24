@@ -557,14 +557,14 @@ public class AnswerQuestionController : BaseController
     public string RenderNewAnswerBodySessionForCategory(LearningSessionConfigData learningSessionConfigData)
     {
         string answerBody = "";
-        string modus = learningSessionConfigData.Modus;
+        string mode = learningSessionConfigData.Mode;
         int categoryId = learningSessionConfigData.CategoryId;
         bool isInLearningTab = learningSessionConfigData.IsInLearningTab;
         QuestionFilterJson questionFilter = learningSessionConfigData.QuestionFilter;
 
-        if (modus == "Test")
+        if (mode == "Test")
             answerBody = RenderAnswerBodyForNewCategoryTestSession(categoryId, isInLearningTab);
-        else if (modus == "Learning")
+        else if (mode == "Learning")
             answerBody = RenderAnswerBodyForNewCategoryLearningSession(categoryId, isInLearningTab, questionFilter);
 
         return answerBody; 

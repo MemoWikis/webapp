@@ -123,7 +123,7 @@ class AnswerBodyLoader {
 
         //this._sessionConfigData = {
         //    categoryId: $('#hhdCategoryId').val(),
-        //    modus: $('#sessionModus').val(),
+        //    mode: $('#sessionMode').val(),
         //    isInLearningTab: this._isInLearningTab,
         //    questionFilter: questionFilter,
         //}
@@ -138,7 +138,7 @@ class AnswerBodyLoader {
 
         this._sessionConfigData = {
             categoryId: $('#hhdCategoryId').val(),
-            modus: "Learning",
+            mode: "Learning",
             isInLearningTab: this._isInLearningTab,
             questionFilter: questionFilter,
         }

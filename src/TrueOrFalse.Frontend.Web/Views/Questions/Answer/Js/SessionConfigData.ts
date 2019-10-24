@@ -1,6 +1,6 @@
 ﻿class SessionConfigDataJson {
     categoryId: number;
-    modus: string;
+    mode: string;
     isInLearningTab: boolean;
     questionFilter: QuestionFilterJson;
 }
