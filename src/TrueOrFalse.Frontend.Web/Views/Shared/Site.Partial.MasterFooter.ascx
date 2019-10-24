@@ -10,13 +10,21 @@
             <div class="row">
                 <div class=" col-xs-2 "></div>
                 <div class=" col-xs-2">
-                    <img class="partnerImage" src="/Images/LogosPartners/Logo-EXIST-eps.png" width="125" height="77" style="margin-top: 23px;" />
+                    <a href="<%=Links.Promoter() %>">
+                        <img class="partnerImage" id="efre" src="/Images/LogosPartners/efre.png" />
+                    </a>
                 </div>
                 <div class=" col-xs-2">
-                    <img class="partnerImage" src="/Images/LogosPartners/profund-innovation-logo-t.png" width="160" height="68" style="margin-top: 30px;" />
+                    <a href="<%=Links.Promoter() %>">
+                        <img class="partnerImage" id="exist" src="/Images/LogosPartners/Logo-EXIST-eps.png" width="130px" height="77px" style="margin-top: 23px;" /><br/>
+                    </a>
+                    Gefördert 10/2016 - 09/2017
+                    
                 </div>
                 <div class=" col-xs-2">
-                    <img class="partnerImage" id="efre" src="/Images/LogosPartners/efre.png" />
+                    <a href="<%=Links.Promoter() %>">
+                        <img class="partnerImage" src="/Images/LogosPartners/profund-innovation-logo-t.png" width="160" height="68" style="margin-top: 30px;" />
+                    </a>
                 </div>
                 <div class=" col-xs-2" id="infoLink">
                     <a href="<%=Links.Promoter() %>">mehr Info</a>
