@@ -97,6 +97,10 @@
                 <div class="Divider" style="margin-top: 10px; margin-bottom: 5px;"></div>
                 <div class="BottomBar">
                     <div style="float: left; padding-top: 7px;">
+                        <div class="fb-share-button" style="display: inline-block;" data-href="<%= Settings.CanonicalHost + Links.SetDetail(Model.Name, Model.Id) %>" data-layout="button" data-size="small" data-mobile-iframe="true">
+                            <a class="fb-xfbml-parse-ignore" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fdevelopers.facebook.com%2Fdocs%2Fplugins%2F&amp;src=sdkpreparse">Teilen</a>
+                        </div> 
+                                    
                         <div class="editLinks">
                             <a class="embedSetLink" data-action="embed-set" href="#"><i class="fa fa-code" aria-hidden="true">&nbsp;</i>Einbetten</a>
                                         <a data-toggle="modal" href="#modalCopySet" data-url="toSecurePost"><i class="fa fa-files-o"></i> Lernset kopieren</a>
