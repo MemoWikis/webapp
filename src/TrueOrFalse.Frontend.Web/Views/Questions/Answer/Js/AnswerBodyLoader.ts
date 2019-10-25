@@ -4,7 +4,7 @@ class AnswerBodyLoader {
 
     private _answerBody: AnswerBody;
     private _isInLearningTab: boolean;
-    private _learningSessionConfigDataJson: LearningSessionConfigDataJson;
+    private _sessionConfigDataJson: SessionConfigDataJson;
     private _getCustomSession: boolean = false;
 
     constructor(answerBody: AnswerBody) {
@@ -15,10 +15,6 @@ class AnswerBodyLoader {
             return;
 
         $(() => {
-
-            this._isInLearningTab = $('#LearningTab').length > 0;
-            this.setCustomSessionData();
-
 
             if (window.location.pathname.split("/")[4] === "im-Fragesatz") {
                 $("#NextQuestionLink, #btnNext").click((e) => {
@@ -95,16 +91,19 @@ class AnswerBodyLoader {
                 };
             }
         });
+
+        $("#CreateCustomSession").click((e) => {
+            e.preventDefault();
+            this.setCustomSessionData("Learning");
+        });
     }
 
     public loadNewTestSession() {
-        var url = "/AnswerQuestion/RenderAnswerBodyForNewCategoryTestSession/?categoryId=" + $('#hhdCategoryId').val() + "&isInLearningTab=" + this._isInLearningTab;
-        this.loadNewQuestion(url);
+        this.setCustomSessionData("Test");
     }
 
     public loadNewLearningSession() {
-        var url = "/AnswerQuestion/RenderAnswerBodyForNewCategoryLearningSession/?categoryId=" + $('#hhdCategoryId').val() + "&isInLearningTab=" + this._isInLearningTab;
-        this.loadNewQuestion(url);
+        this.setCustomSessionData("Learning");
     }
 
     public loadNewSession() {
@@ -113,7 +112,9 @@ class AnswerBodyLoader {
         this.loadNewQuestion(url);
     }
 
-    public setCustomSessionData() {
+    public setCustomSessionData(mode) {
+
+        this._isInLearningTab = $('#LearningTab').length > 0;
 
         //var questionFilter = {
         //    minProbability: $("#minProbability").val(),
@@ -138,9 +139,9 @@ class AnswerBodyLoader {
             questionOrder: 0,
         }
 
-        this._learningSessionConfigDataJson = {
+        this._sessionConfigDataJson = {
             categoryId: $('#hhdCategoryId').val(),
-            mode: "Learning",
+            mode: mode,
             isInLearningTab: this._isInLearningTab,
             questionFilter: questionFilter,
         }
@@ -153,8 +154,8 @@ class AnswerBodyLoader {
 
         $.ajax({
             url: url,
-            contentType: this._getCustomSession ? 'json' : 'string',
-            data: this._getCustomSession ? JSON.stringify(this._learningSessionConfigDataJson) : "",
+            contentType: "application/json; charset=utf-8",
+            data: JSON.stringify(this._sessionConfigDataJson),
             type: 'POST',
             headers: { "cache-control": "no-cache" },
             success: result => {

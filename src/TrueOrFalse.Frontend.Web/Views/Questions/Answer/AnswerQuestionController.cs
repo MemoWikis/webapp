@@ -554,13 +554,14 @@ public class AnswerQuestionController : BaseController
     }
 
     [HttpPost]
-    public string RenderNewAnswerBodySessionForCategory(LearningSessionConfigData learningSessionConfigData)
+    public string RenderNewAnswerBodySessionForCategory(SessionConfigData sessionConfigData)
     {
-        string answerBody = "";
-        string mode = learningSessionConfigData.Mode;
-        int categoryId = learningSessionConfigData.CategoryId;
-        bool isInLearningTab = learningSessionConfigData.IsInLearningTab;
-        QuestionFilterJson questionFilter = learningSessionConfigData.QuestionFilter;
+        var answerBody = "";
+        var mode = sessionConfigData.Mode;
+        var categoryId = sessionConfigData.CategoryId;
+        var isInLearningTab = sessionConfigData.IsInLearningTab;
+        var questionFilter = sessionConfigData.QuestionFilter;
+        var sessionUser = _sessionUser.UserId;
 
         if (mode == "Test")
             answerBody = RenderAnswerBodyForNewCategoryTestSession(categoryId, isInLearningTab);

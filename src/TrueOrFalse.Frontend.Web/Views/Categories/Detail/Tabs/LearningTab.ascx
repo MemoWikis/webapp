@@ -46,3 +46,5 @@
     <input type="hidden" id="hddSolutionTypeNum" value="1" />
     <div id="QuestionDetails"></div>
 </div>
+
+<button id="CreateCustomSession">create new Session here</button>
