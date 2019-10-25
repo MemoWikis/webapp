@@ -12,8 +12,6 @@ public class AnswerBodyModel : BaseModel
     public string CreationDateNiceText;
     public SetMini PrimarySetMini;
 
-    public string ShareFacebook;
-
     public int QuestionId;
 
     public UserTinyModel Creator;
