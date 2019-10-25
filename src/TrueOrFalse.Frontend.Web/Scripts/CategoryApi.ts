@@ -5,7 +5,6 @@
             if (onPinChanged != null)
                 onPinChanged();
         });
-        Utils.SendGaEvent("WuWi", "Pin", "Category");
     }
 
     public static Unpin(categoryId, onPinChanged: () => void = null) {
@@ -13,7 +12,6 @@
             if (onPinChanged != null)
                 onPinChanged();
         });
-        Utils.SendGaEvent("WuWi", "Unpin", "Category");
     }
 
     public static UnpinQuestionsInCategory(categoryId, onPinChanged: () => void = null) {
@@ -21,7 +19,6 @@
             if (onPinChanged != null)
                 onPinChanged();
         });
-        Utils.SendGaEvent("WuWi", "Unpin", "AllQuestionsInCategory");
     }
 
     static NavigatoTo(categoryName) {
