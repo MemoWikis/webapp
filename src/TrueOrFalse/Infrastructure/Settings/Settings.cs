@@ -14,9 +14,9 @@ public class Settings
     public static string SolrUrl;
     public static string SolrPath;
     public static string SolrCoresSuffix;
-    public static bool GoogleKeyIsSet = false;
+   // public static bool GoogleKeyIsSet = false;
 
-    public static string GoogleAnalyticsKey;
+   // public static string GoogleAnalyticsKey;
     public static string GoogleApiKey;
 
     public static bool AdvertisementTurnedOn;
@@ -108,8 +108,8 @@ public class Settings
 
     static Settings()
     {
-        GoogleAnalyticsKey = Get<string>("GoogleAnalyticsKey");
-        GoogleKeyIsSet = !IsNullOrEmpty(GoogleAnalyticsKey);
+        //GoogleAnalyticsKey = Get<string>("GoogleAnalyticsKey");
+        //GoogleKeyIsSet = !IsNullOrEmpty(GoogleAnalyticsKey);
         GoogleApiKey = GetValue(OverwrittenConfig.Value("googleApiKey"), "GoogleAnalyticsKey");
 
         SolrCoresSuffix = GetValue(OverwrittenConfig.Value("solrCoresSuffix"), "SolrCoresSuffix");
