@@ -73,9 +73,7 @@
                 (Designerin)
             </div>
         </div>
-    </div>
 
-    <div class="row infoItemRow">
         <div class="col-xs-4 infoItemColumn">
             <div class="TeamPic">
                 <img src="/Images/Team/jun_q.jpg" />
