@@ -1,5 +1,4 @@
-﻿declare var ga: any;
-
+﻿
 class AnswerBodyLoader {
 
     private _answerBody: AnswerBody;
@@ -122,7 +121,7 @@ class AnswerBodyLoader {
                 if (!this._isInLearningTab) {
                     this.updateUrl(result.url);
                 }
-                this.sendGoogleAnalyticsPageView(result.offlineDevelopment);
+                //this.sendGoogleAnalyticsPageView(result.offlineDevelopment);
                 if (result.LearningSessionResult) {
                     this.showLearningSessionResult(result);
                     $(".ProgressBarSegment .ProgressBarLegend").hide();
@@ -220,10 +219,10 @@ class AnswerBodyLoader {
             $("#mainMenuThemeNavigation").replaceWith($(newMenuHtml));
     }
 
-    private sendGoogleAnalyticsPageView(offlineDevelopment: boolean) {
-        if (!offlineDevelopment)
-            if (typeof ga !== 'undefined')
-                ga('send', 'pageview');    
+    //private sendGoogleAnalyticsPageView(offlineDevelopment: boolean) {
+    //    if (!offlineDevelopment)
+    //        if (typeof ga !== 'undefined')
+    //            ga('send', 'pageview');    
             
-    }
+    //}
 }

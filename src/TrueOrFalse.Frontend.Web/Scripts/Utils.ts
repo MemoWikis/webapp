@@ -1,5 +1,4 @@
 ﻿var ResponsiveBootstrapToolkit: any;
-declare var ga: any;
 
 class Utils
 {
@@ -108,14 +107,6 @@ class Utils
 
     static IsInWidget() {
         return $("#IsWidget").length > 0;
-    }
-
-    static SendGaEvent(category: string, action: string, label: string) {
-        try {
-            ga('send', 'event', category, action, label);    
-        }catch(e){
-            //locally: do nothing
-        }
     }
 
     //http://stackoverflow.com/questions/979975/how-to-get-the-value-from-the-get-parameters

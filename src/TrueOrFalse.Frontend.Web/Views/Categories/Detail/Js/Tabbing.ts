@@ -51,11 +51,6 @@
                 if (tabName === "AnalyticsTab")
                     gaEventLabel = 'AnalyticsTab-footer';
 
-                if (NotLoggedIn.Yes())
-                    Utils.SendGaEvent("NotLoggedIn", "Click", "Open" + gaEventLabel);
-                else
-                    Utils.SendGaEvent("LoggedIn", "Click", "Open" + gaEventLabel);
-
                 Utils.ShowSpinner();
                 this.RenderTabContent(tabName);
 

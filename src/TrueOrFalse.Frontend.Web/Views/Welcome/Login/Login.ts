@@ -1,5 +1,6 @@
 ﻿class Login {
 
+    private static IsClicked = false;
     constructor() {
         $("[data-btn-login=true], [data-btn-login=True] ").click(
             (e) => {
@@ -10,13 +11,11 @@
 
     static OpenModal(e: JQueryEventObject = null, afterLoad: () => void = null) {
 
-       
-
         Site.CloseAllModals();
 
         var self = this;
 
-        if(e != null)
+        if (e != null)
             e.preventDefault();
 
         $.post("/Login/LoginModal", (modal) => {
@@ -34,6 +33,7 @@
 
             self.InitializeForm();
             self.InitializeFacebook();
+            self.InitializeGoogleLogin();
         });
     }
 
@@ -48,10 +48,26 @@
     private static InitializeFacebook() {
 
         $("#btn-login-with-facebook-modal").click(() => {
-            FacebookMemuchoUser.LoginOrRegister(/*stayOnPage*/true, /*dissalowRegistration*/ false);            
+            FacebookMemuchoUser.LoginOrRegister(/*stayOnPage*/true, /*dissalowRegistration*/ false);
         });
+    }
 
-        Google.AttachClickHandler('btn-login-with-google-modal');
+    private static InitializeGoogleLogin() {
+        $("#btn-login-with-google-modal").on("click", () => {
+            new Google();
+                setTimeout(() => {
+                        Google.AttachClickHandler('btn-login-with-google-modal');
+                    },
+                    500);
+
+            if (!this.IsClicked) {
+                setTimeout(() => {
+                        this.IsClicked = true;
+                        $("#btn-login-with-google-modal")[0].click();
+                    },
+                    1000);
+            }
+        });
     }
 
     private static InitializeForm() {
@@ -81,7 +97,7 @@
         var data = {
             EmailAddress: $("#EmailAddress").val(),
             Password: $("#Password").val(),
-            PersistentLogin : $("#PersistentLogin").val()
+            PersistentLogin: $("#PersistentLogin").val()
         }
 
         $.post("/Login/Login", data, (result) => {
@@ -97,9 +113,9 @@
             else
                 Site.ReloadPage_butNotTo_Logout();
         });
-    } 
+    }
 
-    private static ShowErrorMsg(message : string) {
+    private static ShowErrorMsg(message: string) {
         $("#rowLoginMessage").show();
         $("#rowLoginMessage div").text(message);
     }
