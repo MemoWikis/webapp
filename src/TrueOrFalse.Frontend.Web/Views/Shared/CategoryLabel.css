@@ -52,3 +52,6 @@
   flex-wrap: wrap;
   justify-content: center;
 }
+.SessionTitle .category-chip {
+  max-width: 300px;
+}

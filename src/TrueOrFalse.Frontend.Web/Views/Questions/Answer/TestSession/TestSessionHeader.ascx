@@ -26,14 +26,11 @@
             <% } %>
 
             <% if(Model.TestSession.IsCategorySession) { %>
-                <div class="CollectionType">
+                <div class="CollectionType TypeCategory">
                     Thema 
                 </div>
-                <div class="LabelWrapper">
-                    <a class="LabelLink" href="<%= Links.CategoryDetail(Model.TestSession.CategoryToTest.Name, Model.TestSession.CategoryToTest.Id) %>">
-                        <span class="label label-category"><%: Model.TestSession.CategoryToTest.Name %></span>
-                    </a>
-                </div>
+                
+                <% Html.RenderPartial("CategoryLabel", Model.TestSession.CategoryToTest); %>
             <% } %>
         </div>
     </div>

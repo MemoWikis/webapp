@@ -81,7 +81,10 @@
             {
                 if (!Model.LearningSession.IsWishSession)
                 {
-                    Model.TopNavMenu.BreadCrumb.Add(new TopNavMenuItem {Text = Model.LearningSession.CategoryToLearn.Name, Url = Links.CategoryDetail( Model.LearningSession.CategoryToLearn)});
+                    if (Model.LearningSession.CategoryToLearn != null)
+                    {
+                        Model.TopNavMenu.BreadCrumb.Add(new TopNavMenuItem {Text = Model.LearningSession.CategoryToLearn.Name, Url = Links.CategoryDetail( Model.LearningSession.CategoryToLearn)});
+                    }
                 }
                 Model.TopNavMenu.IsCategoryLearningBreadCrumb = true;
             }
