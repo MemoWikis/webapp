@@ -26,21 +26,18 @@
             <% } %>
 
             <% if(Model.TestSession.IsCategorySession) { %>
-                <div class="CollectionType">
+                <div class="CollectionType TypeCategory">
                     Thema 
                 </div>
-                <div class="LabelWrapper">
-                    <a class="LabelLink" href="<%= Links.CategoryDetail(Model.TestSession.CategoryToTest.Name, Model.TestSession.CategoryToTest.Id) %>">
-                        <span class="label label-category"><%: Model.TestSession.CategoryToTest.Name %></span>
-                    </a>
-                </div>
+                
+                <% Html.RenderPartial("CategoryLabel", Model.TestSession.CategoryToTest); %>
             <% } %>
         </div>
     </div>
 <% } %>
 
 <div  id="QuestionCountCompletSideBar"class="SessionBar">
-    <div class="QuestionCount" style="float: right;">Abfrage <%= Model.TestSessionCurrentStep %> von <%= Model.TestSessionNumberOfSteps %></div>
+    <div class="QuestionCount" style="float: right;">Frage <%= Model.TestSessionCurrentStep %> von <%= Model.TestSessionNumberOfSteps %></div>
     <div class="SessionType">
         <% if (Model.IsInWidget) { %>
             <span>

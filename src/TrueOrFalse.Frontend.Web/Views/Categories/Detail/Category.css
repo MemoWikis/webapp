@@ -671,7 +671,6 @@ p:empty {
 #TopicTabContent h4,
 #CategoryHeader h5,
 #TopicTabContent h5 {
-  font-family: Open Sans !important;
   line-height: 1.2;
 }
 #CategoryHeader h1,
@@ -1648,6 +1647,14 @@ p:empty {
   border: solid transparent 1px;
   -webkit-transition: 0.2s;
   transition: 0.2s;
+}
+.ContentModule .ModuleBorder h1,
+.ContentModule .ModuleBorder h2,
+.ContentModule .ModuleBorder h3,
+.ContentModule .ModuleBorder h4,
+.ContentModule .ModuleBorder h5 {
+  margin-top: 30px;
+  margin-bottom: 20px;
 }
 @media (max-width: 512px) {
   .ContentModule .ModuleBorder {

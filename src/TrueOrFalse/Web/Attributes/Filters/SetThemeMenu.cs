@@ -32,7 +32,13 @@ namespace System.Web.Mvc
                 var activeCategories = new List<Category>();
 
                 if (_isCategoryPage)
-                    activeCategories.Add(Sl.CategoryRepo.GetByIdEager(Convert.ToInt32(httpContextData["id"])));
+                {
+                    var categoryId = (string)httpContextData["id"];
+
+                    if (int.TryParse(categoryId, out var categoryIdNumber))
+                        activeCategories.Add(Sl.CategoryRepo.GetByIdEager(categoryIdNumber));
+                }
+                    
 
                 if (_isQuestionSetPage)
                 {

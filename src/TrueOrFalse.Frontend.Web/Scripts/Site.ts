@@ -107,8 +107,6 @@ function InitClickLog(limitingSlector: string = null){
             var label = "";
             if (data.length > 2)
                 label = <string>datas[2];
-
-            Utils.SendGaEvent(category, action, label);
         });
 }
 

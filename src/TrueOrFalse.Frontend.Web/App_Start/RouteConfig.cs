@@ -114,7 +114,7 @@ namespace TrueOrFalse
             routes.MapRoute("Categories_WishSearchApi", "Wunschwissen/SucheApi", new { controller = "Categories", action = "SearchApiWish" });
             routes.MapRoute("Categories", "Kategorien", new { controller = "Categories", action = "Categories" });
             routes.MapRoute("Categories_SearchApi", "SucheApi", new { controller = "Categories", action = "SearchApi" });
-            routes.MapRoute("Categories_Search", "Kategorien/Suche/{searchTerm}", new { controller = "Categories", action = "Search", searchTerm = UrlParameter.Optional });
+            routes.MapRoute("Categories_Search", "Suche/{searchTerm}", new { controller = "Categories", action = "Search", searchTerm = UrlParameter.Optional });
             routes.MapRoute("Categories_Create", "Erstelle/{type}", new { controller = "EditCategory", action = "Create", type = UrlParameter.Optional });
             routes.MapRoute("Categories_Delete", "Loesche/{id}", new { controller = "Categories", action = "Delete" });
             routes.MapRoute("Categories_ById", "Kategorien/{id}", new { controller = "CategoryRedirect", action = "CategoryById" }); // route is used when creating question/questionset (AutocompleteCategories.ts) and adding categories via ajax
@@ -127,8 +127,9 @@ namespace TrueOrFalse
             /* API */ routes.MapRoute("Categories_EditSubCategoryItems", "Categories/EditSubCategoryItems/{id}", new { controller = "EditSubCategoryItems", action = "Edit" });
             /* API */ routes.MapRoute("Categories_AddSubCategoryItemRow", "Categories/EditSubCategoryItems/{id}/Add", new { controller = "EditSubCategoryItems", action = "AddSubCategoryItemRow" });
             /* API */ routes.MapRoute("Category_StartTestSession", "Kategorie/Testen/{categoryName}/{categoryId}", new { controller = "Category", action = "StartTestSession" });
+            /* API */ routes.MapRoute("Category_StartLearningSession", "Category/StartLearningSession", new { controller = "Category", action = "StartLearningSession" });
+            /* API */ routes.MapRoute("Category_StartLearningSessionForSets", "Category/StartLearningSessionForSets", new { controller = "Category", action = "StartLearningSessionForSets" });
 
-      
             routes.MapRoute("Knowledge_Learn", "Lernen/Wunschwissen", new { controller = "Knowledge", action = "StartLearningSession" });
             routes.MapRoute("KnowledgeUeberblick", "Wissenszentrale/Ueberblick", new { controller = "Knowledge", action = "Knowledge" });
             routes.MapRoute("KnowledgeTopics", "Wissenszentrale/Themen", new { controller = "Knowledge", action = "Knowledge" });

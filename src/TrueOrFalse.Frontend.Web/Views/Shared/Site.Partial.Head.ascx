@@ -87,49 +87,22 @@
 
     var developOffline = "True" === "<%= Settings.DevelopOffline().ToString() %>";
 </script>
-
-<% if(!Settings.DevelopOffline()){ %>
-
-    <%--GoogleAnalytics Tracking Code--%>
-    <%  var isAdmin = (Model is BaseModel && ((BaseModel)Model).IsInstallationAdmin);
-        if (!isAdmin && Settings.GoogleKeyIsSet){ %>
-    <script>
-        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-                m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-
-        ga('create', '<%= Settings.GoogleAnalyticsKey %>', 'auto');
-        ga('require', 'linkid');
-        ga('set', 'dimension2', '<%= Sl.R<SessionUser>().IsLoggedIn %>');
-        <% if (Sl.R<SessionUser>().IsLoggedIn)
-              {
-                  Response.Write("ga('set', 'userId', '" + Sl.R<SessionUser>().UserId + "');");
-              }
-        %>
-        ga('send', 'pageview');
-
-    </script>
-
-    <% } // develop offline %>
-<% } %>
-
 <%if(!Settings.DevelopOffline()) { %>
-<script>
-    window.fbAsyncInit = function() {
-        FB.init({
-            appId      : '1789061994647406',
-            xfbml      : true,
-            version    : 'v2.8'
-        });
-    };
+    <script>
+        window.fbAsyncInit = function() {
+            FB.init({
+                appId      : '1789061994647406',
+                xfbml      : true,
+                version    : 'v2.8'
+            });
+        };
 
-    (function(d, s, id){
-        var js, fjs = d.getElementsByTagName(s)[0];
-        if (d.getElementById(id)) {return;}
-        js = d.createElement(s); js.id = id;
-        js.src = "//connect.facebook.net/de_DE/sdk.js";
-        fjs.parentNode.insertBefore(js, fjs);
-    }(document, 'script', 'facebook-jssdk'));
-</script>
+        (function(d, s, id){
+            var js, fjs = d.getElementsByTagName(s)[0];
+            if (d.getElementById(id)) {return;}
+            js = d.createElement(s); js.id = id;
+            js.src = "//connect.facebook.net/de_DE/sdk.js";
+            fjs.parentNode.insertBefore(js, fjs);
+        }(document, 'script', 'facebook-jssdk'));
+    </script>
 <% } %>

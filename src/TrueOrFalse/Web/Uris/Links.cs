@@ -155,15 +155,6 @@ namespace TrueOrFalse.Frontend.Web.Code
         public static string SetsSearch(string searchTerm) => "/Fragesaetze/Suche/" + searchTerm;
         public static string UsersSearch(string searchTerm) => "/Nutzer/Suche/" + searchTerm;
 
-        public static string FaceBookShareQuestion(Question question)
-        {
-            var t =  "https://www.facebook.com/sharer/sharer.php?kid_directed_site=0&sdk=joey&u=https%3A%2F%2Fmemucho.de/Fragen/" +
-                question.GetShortTitle(61) + "/" + question.Id + "%2F&amp;src=sdkpreparse";
-
-            return t.Replace("...", "");
-        }
-
-
         public static string QuestionHistory(int questionId) =>
             GetUrlHelper().Action("List", "QuestionHistory", new { questionId = questionId });
 

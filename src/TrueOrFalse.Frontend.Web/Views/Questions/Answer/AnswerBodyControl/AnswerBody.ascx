@@ -25,7 +25,7 @@
     <input type="hidden" id="disableAddKnowledgeButton"  value="<%= Model.DisableAddKnowledgeButton %>"/>
     
     <input type="hidden" id="hddTimeRecords" />
-
+    <input type="hidden" id="hddQuestionId" value="<%=Model.QuestionId %>" />
     <div class="AnswerQuestionBodyMenu">
 
         <% if (!Model.IsInWidget)
@@ -49,7 +49,6 @@
                            { %>
                             <li><a href="<%= Links.EditQuestion(Url, Model.QuestionText, Model.QuestionId) %>" class="TextLinkWithIcon">Frage bearbeiten</a></li>
                         <% }  %>
-                        <li><a target="_blank"href="<%= Model.ShareFacebook %>">Frage teilen </a></li>     
                         <li><a style="white-space: nowrap" href="#" data-action="embed-question">Frage einbetten</a></li>
                         <% if (Model.IsCreator || Model.IsInstallationAdmin)
                            { %>

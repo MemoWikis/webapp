@@ -20,16 +20,7 @@ new Vue({
     el: '#CategoryTabsApp',
     data() {
         return {};
-    },
-
-    methods: {
-        sendGaEvent(val) {
-            if (NotLoggedIn.Yes())
-                Utils.SendGaEvent("NotLoggedIn", "Click", "Open" + val);
-            else
-                Utils.SendGaEvent("LoggedIn", "Click", "Open" + val);
-        },
-    },
+    }
 });
 
 new Vue({
@@ -145,7 +136,6 @@ new Vue({
                 NotLoggedIn.ShowErrorMsg("OpenEditMode");
                 return;
             } else {
-                Utils.SendGaEvent("LoggedIn", "Click", "OpenEditMode");
                 this.editMode = !this.editMode;
                 eventBus.$emit('set-edit-mode', this.editMode);
             };

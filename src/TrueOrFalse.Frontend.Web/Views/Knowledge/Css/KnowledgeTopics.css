@@ -285,3 +285,6 @@
     padding: 6px;
   }
 }
+#DropdownTopic {
+  display: contents;
+}

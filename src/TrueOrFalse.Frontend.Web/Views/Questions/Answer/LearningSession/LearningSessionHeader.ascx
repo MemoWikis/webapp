@@ -22,12 +22,8 @@
         <% } %>
 
         <% if(Model.LearningSession.IsCategorySession) { %>
-            <div class="CollectionType">Thema</div>
-            <div class="LabelWrapper">
-                <a class="LabelLink" href="<%= Links.CategoryDetail(Model.LearningSession.CategoryToLearn.Name, Model.LearningSession.CategoryToLearn.Id) %>">
-                    <span class="label label-category"><%: Model.LearningSession.CategoryToLearn.Name %></span>
-                </a>
-            </div>
+            <div class="CollectionType TypeCategory">Thema</div>
+            <% Html.RenderPartial("CategoryLabel", Model.LearningSession.CategoryToLearn); %>
         <% } %>
 
         <% if(Model.LearningSession.IsWishSession) { %>
@@ -37,7 +33,7 @@
 </div>
 
 <div class="SessionBar">
-    <div class="QuestionCount" style="float: right;">Abfrage <span id="CurrentStepNumber"><%= Model.CurrentLearningStepIdx + 1 %></span> von <span id="StepCount"><%= Model.LearningSession.Steps.Count %></span></div>
+    <div class="QuestionCount" style="float: right;">Frage <span id="CurrentStepNumber"><%= Model.CurrentLearningStepIdx + 1 %></span> von <span id="StepCount"><%= Model.LearningSession.Steps.Count %></span></div>
     <div class="SessionType">
         <span class="show-tooltip"
         data-original-title="<%= @"<div style='text-align: left;'>In diesem Modus

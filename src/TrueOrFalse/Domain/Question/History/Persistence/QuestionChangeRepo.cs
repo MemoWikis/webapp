@@ -1,12 +1,6 @@
 ﻿using System.Collections.Generic;
 using NHibernate;
 
-
-public class QuestionChangeParameters
-{
-
-}
-
 public class QuestionChangeRepo : RepositoryDbBase<QuestionChange>
 {
     public QuestionChangeRepo(ISession session) : base(session){}
@@ -26,7 +20,6 @@ public class QuestionChangeRepo : RepositoryDbBase<QuestionChange>
 
     public void AddCreateEntry(Question question, User author = null) => AddUpdateOrCreateEntry(question, QuestionChangeType.Create, author, imageWasChanged:true);
     public void AddUpdateEntry(Question question, User author = null, bool imageWasChanged = false) => AddUpdateOrCreateEntry(question, QuestionChangeType.Update, author, imageWasChanged);
-
     private void AddUpdateOrCreateEntry(Question question, QuestionChangeType questionChangeType, User author, bool imageWasChanged)
     {
         if (author == null)
@@ -41,6 +34,21 @@ public class QuestionChangeRepo : RepositoryDbBase<QuestionChange>
         };
 
         questionChange.SetData(question, imageWasChanged);
+
+        base.Create(questionChange);
+    }
+
+    public void Create(Question question)
+    {
+        var questionChange = new QuestionChange
+        {
+            Question = question,
+            Type = QuestionChangeType.Create,
+            Author = question.Creator,
+            DataVersion = 1
+        };
+
+        questionChange.SetData(question, true);
 
         base.Create(questionChange);
     }

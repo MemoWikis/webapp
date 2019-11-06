@@ -5,7 +5,6 @@
             if (onPinChanged != null)
                 onPinChanged();
         });
-        Utils.SendGaEvent("WuWi", "Pin", "Question");
     }
 
     public static Unpin(questionId, onPinChanged: () => void = null) {
@@ -13,7 +12,5 @@
             if (onPinChanged != null)
                 onPinChanged();    
         });
-        
-        Utils.SendGaEvent("WuWi", "Unpin", "Question");
     }
 } 

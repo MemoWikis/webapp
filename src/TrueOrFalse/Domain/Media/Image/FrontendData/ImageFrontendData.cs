@@ -218,8 +218,8 @@ public class ImageFrontendData
                     ? ""
                     : WebUtility.HtmlEncode(this.Description)
                         .Replace("\"", "'")
-                        .Replace("„", "'")
-                        .Replace("“", "'")
+                        .Replace("„", "")
+                        .Replace("“", "")
                         .Replace("{", "")
                         .Replace("}", "")
                         .StripHTMLTags()

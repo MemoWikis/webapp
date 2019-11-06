@@ -422,6 +422,9 @@
   float: left;
   padding-right: 10px;
 }
+.CollectionType.TypeCategory {
+  line-height: 44px;
+}
 .LabelWrapper {
   max-width: 70%;
   float: left;

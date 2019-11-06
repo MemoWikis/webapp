@@ -63,12 +63,12 @@
                         <%= Model.Category.Type == CategoryType.Standard ? "Thema" : "Übersicht" %>
                     </a>
                 </div>
-                <div id="LearningTab" class="Tab" @click="sendGaEvent('LearningTab')">
+                <div id="LearningTab" class="Tab">
                     <a href="" >
                         Lernen
                     </a>
                 </div>
-                <div id="AnalyticsTab" class="Tab" @click="sendGaEvent('AnalyticsTab')">
+                <div id="AnalyticsTab" class="Tab">
                     <a href="">
                         Wissensnetz
                     </a>
