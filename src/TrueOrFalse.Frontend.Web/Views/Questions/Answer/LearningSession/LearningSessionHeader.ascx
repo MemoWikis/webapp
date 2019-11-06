@@ -24,12 +24,6 @@
         <% if(Model.LearningSession.IsCategorySession) { %>
             <div class="CollectionType TypeCategory">Thema</div>
             <% Html.RenderPartial("CategoryLabel", Model.LearningSession.CategoryToLearn); %>
-
-<%--            <div class="LabelWrapper">
-                <a class="LabelLink" href="<%= Links.CategoryDetail(Model.LearningSession.CategoryToLearn.Name, Model.LearningSession.CategoryToLearn.Id) %>">
-                    <span class="label label-category"><%: Model.LearningSession.CategoryToLearn.Name %></span>
-                </a>
-            </div>--%>
         <% } %>
 
         <% if(Model.LearningSession.IsWishSession) { %>

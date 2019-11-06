@@ -31,12 +31,6 @@
                 </div>
                 
                 <% Html.RenderPartial("CategoryLabel", Model.TestSession.CategoryToTest); %>
-
-<%--                <div class="LabelWrapper">
-                    <a class="LabelLink" href="<%= Links.CategoryDetail(Model.TestSession.CategoryToTest.Name, Model.TestSession.CategoryToTest.Id) %>">
-                        <span class="label label-category"><%: Model.TestSession.CategoryToTest.Name %></span>
-                    </a>
-                </div>--%>
             <% } %>
         </div>
     </div>
