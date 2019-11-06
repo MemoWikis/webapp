@@ -563,8 +563,10 @@ public class AnswerQuestionController : BaseController
         var questionFilter = sessionConfigData.QuestionFilter;
         var sessionUser = _sessionUser.UserId;
 
+        var filterQuestions = questionFilter != null;
+
         if (mode == "Test")
-            answerBody = RenderAnswerBodyForNewCategoryTestSession(categoryId, isInLearningTab);
+            answerBody = RenderAnswerBodyForNewCategoryTestSession(categoryId, isInLearningTab, filterQuestions, questionFilter);
         else if (mode == "Learning")
             answerBody = RenderAnswerBodyForNewCategoryLearningSession(categoryId, isInLearningTab, questionFilter);
 
@@ -577,10 +579,12 @@ public class AnswerQuestionController : BaseController
         return RenderAnswerBodyByLearningSession(learningSession.Id, isInLearningTab: isInLearningTab);
     }
 
-    public string RenderAnswerBodyForNewCategoryTestSession(int categoryId, bool isInLearningTab = false)
+    public string RenderAnswerBodyForNewCategoryTestSession(int categoryId, bool isInLearningTab = false, bool filterQuestions = false, QuestionFilterJson questionFilter = null)
     {   var category =  Sl.CategoryRepo.GetByIdEager(categoryId);
-        var testSession = new TestSession(category);
+
         var sessionuser = new SessionUser();
+        var testSession = filterQuestions ? new TestSession(category, questionFilter) : new TestSession(category);
+
         sessionuser.AddTestSession(testSession);
      
         return RenderAnswerBodyByTestSession(testSession.Id, includeTestSessionHeader:true, isInLearningTab: isInLearningTab);

@@ -94,25 +94,19 @@ class AnswerBodyLoader {
 
         $("#CreateCustomSession").click((e) => {
             e.preventDefault();
-            this.setCustomSessionData("Learning");
+            this.loadNewSession("Learning");
         });
     }
 
     public loadNewTestSession() {
-        this.setCustomSessionData("Test");
+        this.loadNewSession("Test");
     }
 
     public loadNewLearningSession() {
-        this.setCustomSessionData("Learning");
+        this.loadNewSession("Learning");
     }
 
-    public loadNewSession() {
-        var url = "/AnswerQuestion/RenderNewAnswerBodySessionForCategory";
-        this._getCustomSession = true;
-        this.loadNewQuestion(url);
-    }
-
-    public setCustomSessionData(mode) {
+    public loadNewSession(mode) {
 
         this._isInLearningTab = $('#LearningTab').length > 0;
 
@@ -141,12 +135,14 @@ class AnswerBodyLoader {
 
         this._sessionConfigDataJson = {
             categoryId: $('#hhdCategoryId').val(),
-            mode: mode,
+            mode: "Test",
             isInLearningTab: this._isInLearningTab,
-            questionFilter: questionFilter,
+            questionFilter: NotLoggedIn ? null : questionFilter,
         }
 
-        this.loadNewSession();
+        var url = "/AnswerQuestion/RenderNewAnswerBodySessionForCategory";
+        this._getCustomSession = true;
+        this.loadNewQuestion(url);
     }
 
     public loadNewQuestion(url: string) {
