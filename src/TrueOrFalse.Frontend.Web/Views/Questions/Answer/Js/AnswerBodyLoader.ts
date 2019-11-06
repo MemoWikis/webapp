@@ -135,7 +135,7 @@ class AnswerBodyLoader {
 
         this._sessionConfigDataJson = {
             categoryId: $('#hhdCategoryId').val(),
-            mode: "Test",
+            mode: mode,
             isInLearningTab: this._isInLearningTab,
             questionFilter: NotLoggedIn ? null : questionFilter,
         }
