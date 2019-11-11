@@ -786,19 +786,8 @@ public class AnswerQuestionController : BaseController
         ViewRenderer.RenderPartialView("~/Views/Questions/Answer/ShareQuestionModal.ascx", new ShareQuestionModalModel(questionId), ControllerContext);
 
     [HttpPost]
-    public JsonResult GetQuestionList(int categoryId)
+    public int GetQuestionCount(int categoryId, int minProbability, int maxProbability)
     {
-        var category = Sl.CategoryRepo.GetByIdEager(categoryId);
-        var questions = category.GetAggregatedQuestionsFromMemoryCache();
-
-        if (IsLoggedIn)
-        {
-            var questionFilter = new QuestionFilterJson();
-            var user = Sl.R<SessionUser>().User;
-
-            questions = CreateLearningSession.FilterQuestions(questions, questionFilter, user);
-        }
-
-        return Json(questions);
+        return CreateLearningSession.QuestionsInLearningSessionCount(categoryId, minProbability, maxProbability, IsLoggedIn);
     }
 }

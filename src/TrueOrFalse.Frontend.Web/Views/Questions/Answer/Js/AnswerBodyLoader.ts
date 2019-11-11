@@ -91,11 +91,6 @@ class AnswerBodyLoader {
                 };
             }
         });
-
-        $("#CreateCustomSession").click((e) => {
-            e.preventDefault();
-            this.loadNewSession("Learning");
-        });
     }
 
     public loadNewTestSession() {
@@ -134,6 +129,8 @@ class AnswerBodyLoader {
                 if (!this._isInLearningTab) {
                     this.updateUrl(result.url);
                 }
+                if (this._getCustomSession)
+                    $("#TestSessionHeader").remove();
                 //this.sendGoogleAnalyticsPageView(result.offlineDevelopment);
                 if (result.LearningSessionResult) {
                     this.showLearningSessionResult(result);
@@ -233,12 +230,4 @@ class AnswerBodyLoader {
         if(newMenuHtml)
             $("#mainMenuThemeNavigation").replaceWith($(newMenuHtml));
     }
-
-    //private sendGoogleAnalyticsPageView(offlineDevelopment: boolean) {
-    //    if (!offlineDevelopment)
-    //        if (typeof ga !== 'undefined')
-    //            ga('send', 'pageview');    
-            
-    //}
-
 }

@@ -1,7 +1,9 @@
-﻿
+﻿<%@ Import Namespace="System.Web.Optimization" %>
+
+
 <div id="SessionConfigApp">
     
-    <div id="SessionConfigBtn" type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+    <div id="SessionConfigBtn" type="button" class="btn btn-primary" data-toggle="modal" data-target="#SessionConfigModal">
         create new Session
     </div>
     
@@ -9,7 +11,7 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header" id="SessionConfigHeader">
-                    <h4 class="modal-title" >{{Title}} konfigurieren</h4>
+                    <h4 class="modal-title" >{{title}} konfigurieren</h4>
                 </div>
 
                 <div class="modal-body">
@@ -31,9 +33,12 @@
 
                     
                     <label>Antwortwahrscheinlichkeit</label>
-                    <input id="minProbability" type="number" min="1" max="100"/>
-                    <input id="maxProbability" type="number" min="1" max="100"/>
+                    <input v-model="questionFilter.minProbability" id="minProbability" type="number" min="1" max="100"/>
+                    <input v-model="questionFilter.maxProbability" type="number" min="1" max="100"/>
     
+                    <vue-slider v-model="probabilityRange" :onchange="loadQuestionCount()"></vue-slider>
+                    <vue-slider v-model="questionFilter.maxQuestionCount"></vue-slider>
+
                     <div class="sliderContainer">
                         <div class="sliderLabel">
                             <label for="sessionConfigQuestionCount">Max. Knotenpunkte</label>
@@ -53,3 +58,7 @@
         </div>
     </div>
 </div>
+
+<%= Scripts.Render("~/bundles/js/SessionConfig") %>
+<%= Styles.Render("~/bundles/SessionConfig") %>
+

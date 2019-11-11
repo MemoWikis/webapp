@@ -72,7 +72,7 @@ public class CreateLearningSession
         else if (questionFilter.GetQuestionOrderBy() == "AscendingProbability")
             newQuestionsList.OrderBy(q => q.CorrectnessProbability);
 
-        var questionCount = questionFilter.HasMaxQuestionCount() ? questions.Count : questionFilter.MaxQuestionCount;
+        var questionCount = questionFilter.HasMaxQuestionCount() ? questionFilter.MaxQuestionCount : newQuestionsList.Count;
 
         var filteredQuestions = newQuestionsList
             .Where(
@@ -81,5 +81,24 @@ public class CreateLearningSession
             .Take(questionCount)
             .ToList();
         return filteredQuestions;
+    }
+
+    public static int QuestionsInLearningSessionCount(int categoryId, int minProbability, int maxProbability, bool isLoggedIn)
+    {
+        var category = Sl.CategoryRepo.GetByIdEager(categoryId);
+        var questions = category.GetAggregatedQuestionsFromMemoryCache();
+
+        var questionFilter = new QuestionFilterJson();
+        questionFilter.MinProbability = minProbability;
+        questionFilter.MaxProbability = maxProbability;
+
+        if (isLoggedIn)
+        {
+            var user = Sl.R<SessionUser>().User;
+            questions = FilterQuestions(questions, questionFilter, user);
+            return questions.Count;
+        }
+
+        return questions.Where(q => q.CorrectnessProbability > questionFilter.MinProbability && q.CorrectnessProbability < questionFilter.MaxProbability).ToList().Count;
     }
 }

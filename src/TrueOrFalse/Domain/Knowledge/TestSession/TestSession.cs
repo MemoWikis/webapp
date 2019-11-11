@@ -123,8 +123,14 @@ public class TestSession
         CategoryQuestionCount = GetQuestionsForCategory.AllIncludingQuestionsInSet(CategoryToTestId).Count;
         var excludeQuestionIds = Sl.R<SessionUser>().AnsweredQuestionIds.ToList();
         var questions = GetRandomQuestions.Run(category, questionFilter.MaxQuestionCount, excludeQuestionIds, true);
-        var user = Sl.R<SessionUser>().User;
-        var filteredQuestions = CreateLearningSession.FilterQuestions(questions, questionFilter, user).ToList();
+
+        var questionCount = questionFilter.HasMaxQuestionCount() ? questionFilter.MaxQuestionCount : questions.Count;
+        var filteredQuestions = questions
+            .Where(
+                q => q.CorrectnessProbability > questionFilter.MinProbability &&
+                     q.CorrectnessProbability < questionFilter.MaxProbability)
+            .Take(questionCount)
+            .ToList();
 
         Populate(filteredQuestions);
     }
