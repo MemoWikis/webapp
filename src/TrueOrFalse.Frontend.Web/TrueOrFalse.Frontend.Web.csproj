@@ -21845,6 +21845,7 @@
     <Content Include="Views\Maintenance\Js\ContentStats.js">
       <DependentUpon>ContentStats.ts</DependentUpon>
     </Content>
+    <Content Include="Views\Questions\Answer\SessionConfig.ascx" />
     <Content Include="Views\Questions\Answer\AnswerQuestionDetails.css">
       <DependentUpon>AnswerQuestionDetails.less</DependentUpon>
     </Content>
@@ -22364,6 +22365,7 @@
     <TypeScriptCompile Include="Views\Maintenance\Js\CMS.ts" />
     <TypeScriptCompile Include="Views\Messages\Js\Page.ts" />
     <TypeScriptCompile Include="Views\Messages\Js\ShowAllMessages.ts" />
+    <TypeScriptCompile Include="Views\Questions\Answer\Js\SessionConfig.ts" />
     <TypeScriptCompile Include="Views\Questions\Answer\Js\SessionConfigData.ts" />
     <TypeScriptCompile Include="Views\Questions\Answer\Js\QuestionFilter.ts" />
     <TypeScriptCompile Include="Views\Questions\Answer\LearningSession\Js\LearningSessionResult.ts" />

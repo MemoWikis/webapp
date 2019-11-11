@@ -3,7 +3,7 @@ public class QuestionFilterJson
 {
     public int MinProbability { get; set; } = 0;
     public int MaxProbability { get; set; } = 100;
-    public int MaxQuestionCount { get; set; }
+    public int MaxQuestionCount { get; set; } = 0;
     public bool QuestionsInWishknowledge { get; set; } = false;
     public int QuestionOrder { get; set; }
 
@@ -15,5 +15,13 @@ public class QuestionFilterJson
             return "DescendingProbability";
         else
             return "AscendingProbability";
+    }
+
+    public bool HasMaxQuestionCount()
+    {
+        if (MaxQuestionCount > 0)
+            return true;
+        else
+            return false;
     }
 }

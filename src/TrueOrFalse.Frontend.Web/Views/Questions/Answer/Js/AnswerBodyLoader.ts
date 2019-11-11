@@ -9,6 +9,7 @@ class AnswerBodyLoader {
     constructor(answerBody: AnswerBody) {
 
         this._answerBody = answerBody;
+        this._isInLearningTab = $('#LearningTab').length > 0;
 
         if (Utils.IsInWidget())
             return;
@@ -105,38 +106,13 @@ class AnswerBodyLoader {
         this.loadNewSession("Learning");
     }
 
-    public loadNewSession(mode) {
-
-        this._isInLearningTab = $('#LearningTab').length > 0;
-
-        //var questionFilter = {
-        //    minProbability: $("#minProbability").val(),
-        //    maxProbability: $("#maxProbability").val(),
-        //    maxQuestionCount: $("#maxQuestionCount").val(),
-        //    questionInWishknowledge: $("#questionInWuWi").val(),
-        //    questionOrder: $("#questionOrder").val(),
-        //}
-
-        //this._sessionConfigData = {
-        //    categoryId: $('#hhdCategoryId').val(),
-        //    mode: $('#sessionMode').val(),
-        //    isInLearningTab: this._isInLearningTab,
-        //    questionFilter: questionFilter,
-        //}
-
-        var questionFilter = {
-            minProbability: 0,
-            maxProbability: 100,
-            maxQuestionCount: 2,
-            questionInWishknowledge: false,
-            questionOrder: 0,
-        }
+    public loadNewSession(mode, questionFilter = null) {
 
         this._sessionConfigDataJson = {
             categoryId: $('#hhdCategoryId').val(),
             mode: mode,
             isInLearningTab: this._isInLearningTab,
-            questionFilter: NotLoggedIn ? null : questionFilter,
+            questionFilter: questionFilter,
         }
 
         var url = "/AnswerQuestion/RenderNewAnswerBodySessionForCategory";
@@ -264,4 +240,5 @@ class AnswerBodyLoader {
     //            ga('send', 'pageview');    
             
     //}
+
 }

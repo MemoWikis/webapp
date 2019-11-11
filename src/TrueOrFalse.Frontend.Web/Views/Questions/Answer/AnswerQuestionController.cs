@@ -784,4 +784,21 @@ public class AnswerQuestionController : BaseController
     [HttpPost]
     public string ShareQuestionModal(int questionId) =>
         ViewRenderer.RenderPartialView("~/Views/Questions/Answer/ShareQuestionModal.ascx", new ShareQuestionModalModel(questionId), ControllerContext);
+
+    [HttpPost]
+    public JsonResult GetQuestionList(int categoryId)
+    {
+        var category = Sl.CategoryRepo.GetByIdEager(categoryId);
+        var questions = category.GetAggregatedQuestionsFromMemoryCache();
+
+        if (IsLoggedIn)
+        {
+            var questionFilter = new QuestionFilterJson();
+            var user = Sl.R<SessionUser>().User;
+
+            questions = CreateLearningSession.FilterQuestions(questions, questionFilter, user);
+        }
+
+        return Json(questions);
+    }
 }

@@ -26,6 +26,7 @@
     <%= Styles.Render("~/bundles/AnswerQuestion") %>
     <%= Scripts.Render("~/bundles/js/AnswerQuestion") %>
     <%= Scripts.Render("~/bundles/js/DeleteQuestion") %>
+
     
     <% if(Model.IsLearningSession) { %>
         <%= Scripts.Render("~/bundles/js/LearningSessionResult") %>

@@ -23,16 +23,17 @@ public class CreateLearningSession
 
         var user = Sl.R<SessionUser>().User;
 
-        if (questions != null)
-        {
+        if (questionFilterJson != null)
             questions = FilterQuestions(questions, questionFilterJson, user);
-        }
 
+        var stepsCount = 10;
+        if (questionFilterJson != null && questionFilterJson.MaxQuestionCount > 0)
+            stepsCount = questionFilterJson.MaxQuestionCount;
 
         var learningSession = new LearningSession
         {
             CategoryToLearn = category,
-            Steps = GetLearningSessionSteps.Run(questions),
+            Steps = GetLearningSessionSteps.Run(questions, stepsCount),
             User = user
         };
 
@@ -44,18 +45,22 @@ public class CreateLearningSession
     public static IList<Question> FilterQuestions(IList<Question> questions, QuestionFilterJson questionFilter, User user)
     {
         var questionValuation = UserValuationCache.GetItem(user.Id).QuestionValuations;
-        Dictionary<int, int> probabilityDictionary = new Dictionary<int, int>();
         var newQuestionsList = new List<Question>();
 
         foreach (Question q in questions)
         {
             var elemToRemove = false;
+            var isInWishknowledge = false;
             if (questionValuation.ContainsKey(q.Id))
             {
                 q.CorrectnessProbability = questionValuation[q.Id].CorrectnessProbability;
+                isInWishknowledge = questionValuation[q.Id].IsInWishKnowledge();
                 elemToRemove = true;
             }
-            newQuestionsList.Add(q);
+
+            if ((questionFilter.QuestionsInWishknowledge && isInWishknowledge) || !questionFilter.QuestionsInWishknowledge)
+                newQuestionsList.Add(q);
+
             if (elemToRemove)
             {
                 questionValuation.TryRemove(q.Id, out _);
@@ -67,11 +72,13 @@ public class CreateLearningSession
         else if (questionFilter.GetQuestionOrderBy() == "AscendingProbability")
             newQuestionsList.OrderBy(q => q.CorrectnessProbability);
 
+        var questionCount = questionFilter.HasMaxQuestionCount() ? questions.Count : questionFilter.MaxQuestionCount;
+
         var filteredQuestions = newQuestionsList
             .Where(
             q => q.CorrectnessProbability > questionFilter.MinProbability &&
                  q.CorrectnessProbability < questionFilter.MaxProbability)
-            .Take(questionFilter.MaxQuestionCount)
+            .Take(questionCount)
             .ToList();
         return filteredQuestions;
     }

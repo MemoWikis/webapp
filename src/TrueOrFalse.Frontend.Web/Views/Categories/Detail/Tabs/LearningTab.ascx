@@ -47,4 +47,4 @@
     <div id="QuestionDetails"></div>
 </div>
 
-<button id="CreateCustomSession">create new Session here</button>
+<% Html.RenderPartial("~/Views/Questions/Answer/SessionConfig.ascx"); %>
