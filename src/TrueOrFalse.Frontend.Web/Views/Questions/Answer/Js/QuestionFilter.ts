@@ -2,6 +2,6 @@
     minProbability: number;
     maxProbability: number;
     maxQuestionCount: number;
-    questionInWishknowledge: boolean;
+    questionsInWishknowledge: boolean;
     questionOrder: number;
 }

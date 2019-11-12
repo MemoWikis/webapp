@@ -18,11 +18,11 @@
 
                     <div v-if="isLoggedIn">
                         <label class="radio">
-                            <input type="radio" name="r" value="false" v-model="questionInWishknowledge" checked>
+                            <input type="radio" name="r" value="False" v-model="questionsInWishknowledge" checked>
                             <span>Alle Fragen</span>
                         </label>
                         <label class="radio">
-                            <input type="radio" name="r" value="true" v-model="questionInWishknowledge">
+                            <input type="radio" name="r" value="True" v-model="questionsInWishknowledge">
                             <span>Fragen im Wunschwissen</span>
                         </label>
                     </div>
@@ -41,7 +41,7 @@
                         <div class="sliderContainer">
                             <div class="leftLabel">0</div>
                             <div class="vueSlider">                            
-                                <vue-slider :max="maxSelectableQuestionCount" v-model="questionFilter.maxQuestionCount"></vue-slider>
+                                <vue-slider :max="maxSelectableQuestionCount" v-model="selectedQuestionCount"></vue-slider>
                             </div>
                             <div class="rightLabel">{{maxSelectableQuestionCount}}</div>
                         </div>

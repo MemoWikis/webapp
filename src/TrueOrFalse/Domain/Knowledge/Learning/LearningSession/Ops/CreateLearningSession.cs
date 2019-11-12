@@ -83,14 +83,10 @@ public class CreateLearningSession
         return filteredQuestions;
     }
 
-    public static int QuestionsInLearningSessionCount(int categoryId, int minProbability, int maxProbability, bool isLoggedIn)
+    public static int QuestionsInLearningSessionCount(int categoryId, QuestionFilterJson questionFilter, bool isLoggedIn)
     {
         var category = Sl.CategoryRepo.GetByIdEager(categoryId);
         var questions = category.GetAggregatedQuestionsFromMemoryCache();
-
-        var questionFilter = new QuestionFilterJson();
-        questionFilter.MinProbability = minProbability;
-        questionFilter.MaxProbability = maxProbability;
 
         if (isLoggedIn)
         {

@@ -786,8 +786,8 @@ public class AnswerQuestionController : BaseController
         ViewRenderer.RenderPartialView("~/Views/Questions/Answer/ShareQuestionModal.ascx", new ShareQuestionModalModel(questionId), ControllerContext);
 
     [HttpPost]
-    public int GetQuestionCount(int categoryId, int minProbability, int maxProbability)
+    public int GetQuestionCount(int categoryId, QuestionFilterJson questionFilter)
     {
-        return CreateLearningSession.QuestionsInLearningSessionCount(categoryId, minProbability, maxProbability, IsLoggedIn);
+        return CreateLearningSession.QuestionsInLearningSessionCount(categoryId, questionFilter, IsLoggedIn);
     }
 }

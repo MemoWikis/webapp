@@ -17,12 +17,13 @@ new Vue({
                 minProbability: 0,
                 maxProbability: 100,
                 maxQuestionCount: 50,
-                questionInWishknowledge: false,
+                questionsInWishknowledge: false,
                 questionOrder: 0,
             },
             isLoggedIn: true,
             maxSelectableQuestionCount: 50,
-            questionInWishknowledge: false,
+            selectedQuestionCount: 10,
+            questionsInWishknowledge: "False",
         };
     },
 
@@ -43,9 +44,16 @@ new Vue({
             this.loadQuestionCount();
         },
 
-        questionInWishknowledge: function(val) {
-            this.questionFilter.questionInWishknowledge = val;
+        questionsInWishknowledge: function (val) {
+            if (val == "True")
+                this.questionFilter.questionsInWishknowledge = true;
+            else
+                this.questionFilter.questionsInWishknowledge = false;
             this.loadQuestionCount();
+        },
+
+        selectedQuestionCount: function(val) {
+            this.questionFilter.maxQuestionCount = parseInt(val); 
         }
     },
 
@@ -53,15 +61,17 @@ new Vue({
         loadQuestionCount() {
             $.ajax({
                 url: "/AnswerQuestion/GetQuestionCount/",
-                data: { categoryId: $('#hhdCategoryId').val(), minProbability: this.questionFilter.minProbability, maxProbability: this.questionFilter.maxProbability },
+                data: { categoryId: $('#hhdCategoryId').val(), questionFilter: this.questionFilter },
                 type: "POST",
                 success: result => {
                     if (result > 50) {
                         this.maxSelectableQuestionCount = 50;
-                        this.questionFilter.maxQuestionCount = 50;
+                        if (this.selectedQuestionCount > 50)
+                            this.selectedQuestionCount = 50;
                     } else {
-                        this.questionFilter.maxQuestionCount = result;
                         this.maxSelectableQuestionCount = result;
+                        if (this.selectedQuestionCount > result)
+                            this.selectedQuestionCount = result;
                     }
                 }
             });
