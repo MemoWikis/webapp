@@ -21857,6 +21857,9 @@
       <DependentUpon>AnswerBodyLoader.ts</DependentUpon>
     </Content>
     <Content Include="Views\Questions\Answer\LearningSession\LearningSessionResultInner.ascx" />
+    <Content Include="Views\Questions\Answer\SessionConfig.css">
+      <DependentUpon>SessionConfig.less</DependentUpon>
+    </Content>
     <Content Include="Views\Questions\Answer\TestSession\TestSessionResult.ascx" />
     <Content Include="Views\Questions\History\Detail\Js\Page.js">
       <DependentUpon>Page.ts</DependentUpon>
@@ -24165,6 +24168,7 @@
     </Content>
     <Content Include="Views\Questions\History\Detail\QuestionHistoryDetail.less" />
     <Content Include="Views\Shared\CategoryLabel.less" />
+    <Content Include="Views\Questions\Answer\SessionConfig.less" />
     <None Include="Web.overwritten.config.sample" />
     <Content Include="Views\Welcome\Logout.aspx" />
     <Content Include="Views\Api\Export.aspx" />

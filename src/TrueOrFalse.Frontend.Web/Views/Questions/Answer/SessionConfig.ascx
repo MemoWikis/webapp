@@ -17,42 +17,43 @@
                 <div class="modal-body">
 
                     <div v-if="isLoggedIn">
-                        <div class="form-check">
-                            <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios1" value="0" checked>
-                            <label class="form-check-label" for="exampleRadios1">
-                                Alle Fragen
-                            </label>
-                        </div>
-                        <div class="form-check">
-                            <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios2" value="1">
-                            <label class="form-check-label" for="exampleRadios2">
-                                Fragen im Wunschwissen
-                            </label>
-                        </div>
+                        <label class="radio">
+                            <input type="radio" name="r" value="false" v-model="questionInWishknowledge" checked>
+                            <span>Alle Fragen</span>
+                        </label>
+                        <label class="radio">
+                            <input type="radio" name="r" value="true" v-model="questionInWishknowledge">
+                            <span>Fragen im Wunschwissen</span>
+                        </label>
                     </div>
+                    <div class="sliders">
 
+                        <label>Antwortwahrscheinlichkeit</label>
+                        <div class="sliderContainer">
+                            <div class="leftLabel">leicht</div>
+                            <div class="vueSlider">                            
+                                <vue-slider direction="rtl" :lazy="true" v-model="probabilityRange"></vue-slider>
+                            </div>
+                            <div class="rightLabel">schwierig</div>
+                        </div>
                     
-                    <label>Antwortwahrscheinlichkeit</label>
-                    <input v-model="questionFilter.minProbability" id="minProbability" type="number" min="1" max="100"/>
-                    <input v-model="questionFilter.maxProbability" type="number" min="1" max="100"/>
-    
-                    <vue-slider v-model="probabilityRange" :onchange="loadQuestionCount()"></vue-slider>
-                    <vue-slider v-model="questionFilter.maxQuestionCount"></vue-slider>
+                        <label>Maximale Anzahl an Fragen</label>
+                        <div class="sliderContainer">
+                            <div class="leftLabel">0</div>
+                            <div class="vueSlider">                            
+                                <vue-slider :max="maxSelectableQuestionCount" v-model="questionFilter.maxQuestionCount"></vue-slider>
+                            </div>
+                            <div class="rightLabel">{{maxSelectableQuestionCount}}</div>
+                        </div>
 
-                    <div class="sliderContainer">
-                        <div class="sliderLabel">
-                            <label for="sessionConfigQuestionCount">Max. Knotenpunkte</label>
-                            <input id="maxQuestionCount" class="col-sm-4" type="number" min="1" max="50" value="50">
-                        </div>
-                        <div class="col-sm-12">
-                            <input id="maxQuestionCountSlider" type="range" min="1" max="50" class="slider sessionConfigQuestionCount">
-                        </div>
                     </div>
-    
+                    
+
+
                 </div>
                 <div class="modal-footer">
                     <div type="button" class="btn btn-link" data-dismiss="modal">Abbrechen</div>
-                    <div type="button" class="btn btn-primary" @click="loadNewSession()"><i class="fas fa-play"></i> Starten</div>
+                    <div type="button" class="btn btn-primary" @click="loadNewSession()" data-dismiss="modal"><i class="fas fa-play"></i> Starten</div>
                 </div>
             </div>
         </div>
@@ -60,5 +61,5 @@
 </div>
 
 <%= Scripts.Render("~/bundles/js/SessionConfig") %>
-<%= Styles.Render("~/bundles/SessionConfig") %>
+<%--<%= Styles.Render("~/bundles/SessionConfig") %>--%>
 

@@ -10,9 +10,7 @@ new Vue({
     data() {
         return {
             mode: 'Learning',
-            maxQuestionCount: 50,
             title: 'Lernsitzung',
-            questionCountInCategory: 0,
             answerBody: new AnswerBody(),
             probabilityRange: [0, 100],
             questionFilter: {
@@ -23,11 +21,13 @@ new Vue({
                 questionOrder: 0,
             },
             isLoggedIn: true,
+            maxSelectableQuestionCount: 50,
+            questionInWishknowledge: false,
         };
     },
 
     mounted() {
-        if (NotLoggedIn) {
+        if (NotLoggedIn.Yes()) {
             this.mode = 'Test';
             this.title = 'Testsitzung';
             this.isLoggedIn = false;
@@ -38,9 +38,15 @@ new Vue({
 
     watch: {
         probabilityRange: function() {
-            this.questionFilter.minProbability = Math.min(this.probabilityRange);
-            this.questionFilter.maxProbability = Math.max(this.probabilityRange);
+            this.questionFilter.minProbability = this.probabilityRange[0];
+            this.questionFilter.maxProbability = this.probabilityRange[1];
+            this.loadQuestionCount();
         },
+
+        questionInWishknowledge: function(val) {
+            this.questionFilter.questionInWishknowledge = val;
+            this.loadQuestionCount();
+        }
     },
 
     methods: {
@@ -50,10 +56,13 @@ new Vue({
                 data: { categoryId: $('#hhdCategoryId').val(), minProbability: this.questionFilter.minProbability, maxProbability: this.questionFilter.maxProbability },
                 type: "POST",
                 success: result => {
-                    if (result > 50)
-                        this.questionCountInCategory = 50;
-                    else
-                        this.questionCountInCategory = result;
+                    if (result > 50) {
+                        this.maxSelectableQuestionCount = 50;
+                        this.questionFilter.maxQuestionCount = 50;
+                    } else {
+                        this.questionFilter.maxQuestionCount = result;
+                        this.maxSelectableQuestionCount = result;
+                    }
                 }
             });
         },
