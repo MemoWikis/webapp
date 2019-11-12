@@ -38,18 +38,16 @@
 <%if(!Settings.DevelopOffline()) { %>
     <script src="https://apis.google.com/js/api:client.js"></script>
 <% } %>
+
 <!-- Matomo -->
 <script type="text/javascript">
     var _paq = window._paq || [];
     /* tracker methods like "setCustomDimension" should be called before "trackPageView" */
-    _paq.push(["setDocumentTitle", document.domain + "/" + document.title]);
-    _paq.push(["setCookieDomain", "*.memucho.de"]);
-    _paq.push(["setDomains", ["*.memucho.de"]]);
     _paq.push(["disableCookies"]);
     _paq.push(['trackPageView']);
     _paq.push(['enableLinkTracking']);
     (function () {
-        var u = "//matomo.memucho.de:8081/";
+        var u = "//matomo.memucho.de/";
         _paq.push(['setTrackerUrl', u + 'matomo.php']);
         _paq.push(['setSiteId', '2']);
         var d = document, g = d.createElement('script'), s = d.getElementsByTagName('script')[0];
@@ -57,7 +55,6 @@
     })();
 </script>
 <!-- End Matomo Code -->
-
 
 <script>
     var _rollbarConfig = {
