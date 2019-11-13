@@ -114,6 +114,7 @@ namespace TrueOrFalse.Frontend.Web.Code
         /* Images*/
         public const string NoCategoryUrl = "/Images/no-category-picture-350.png";
         public const string NoQuestionUrl = "/Images/no-question-128.png";
+        public static string GoogleMapsPreviewPath(string imageName) => "/Images/GoogleMapsPreview/" + imageName;
 
         /*Question*/
         public const string Questions = "Questions";
