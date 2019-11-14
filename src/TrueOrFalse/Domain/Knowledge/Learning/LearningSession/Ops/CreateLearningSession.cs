@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -14,6 +15,8 @@ public class CreateLearningSession
 {
     public static LearningSession ForCategory(int categoryId, QuestionFilterJson questionFilterJson = null)
     {
+        Stopwatch timer = new Stopwatch();
+        timer.Start();
         var category = Sl.CategoryRepo.GetByIdEager(categoryId);
 
         var questions = category.GetAggregatedQuestionsFromMemoryCache();
@@ -39,11 +42,16 @@ public class CreateLearningSession
 
         Sl.LearningSessionRepo.Create(learningSession);
 
+        timer.Stop();
+        Logg.r().Information("Create LearningSession CategoryId {categoryId} with question count of {questionsCount}, Time elapsed: {stopwatchElapsed}",categoryId, questions.Count, timer.Elapsed);
         return learningSession;
     }
 
     public static IList<Question> FilterQuestions(IList<Question> questions, QuestionFilterJson questionFilter, User user)
     {
+        Stopwatch timer = new Stopwatch();
+        timer.Start();
+
         var questionValuation = UserValuationCache.GetItem(user.Id).QuestionValuations;
         var newQuestionsList = new List<Question>();
 
@@ -81,7 +89,9 @@ public class CreateLearningSession
             filteredQuestions.OrderBy(q => q.CorrectnessProbability);
 
         filteredQuestions.Take(questionCount).ToList();
-
+        
+        timer.Stop();
+        Logg.r().Information("Filtering {questionCount} questions, Time elapsed {stopwatchElapsed}", questions.Count, timer.Elapsed);
         return filteredQuestions;
     }
 
