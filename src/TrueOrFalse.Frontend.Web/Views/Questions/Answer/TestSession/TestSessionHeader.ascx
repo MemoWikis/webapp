@@ -2,7 +2,7 @@
 <%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
 
 
-<div id="TestSessionHeader">
+<div id="TestSessionHeader" data-div-type="testSessionHeader">
     <link href="/Views/Questions/Answer/LearningSession/LearningSessionResult.css" rel="stylesheet" />
     <% if(!Model.IsInWidget) { %>
         <div class="SessionHeading">

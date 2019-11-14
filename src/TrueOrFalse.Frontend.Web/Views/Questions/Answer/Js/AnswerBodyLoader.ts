@@ -117,9 +117,6 @@ class AnswerBodyLoader {
 
     public loadNewQuestion(url: string) {
         this._isInLearningTab = $('#LearningTab').length > 0;
-        if ($(".qdCounter").length > 1)
-            $(".qdCounter").last().remove();
-
         $.ajax({
             url: url,
             contentType: "application/json; charset=utf-8",
@@ -127,12 +124,13 @@ class AnswerBodyLoader {
             type: 'POST',
             headers: { "cache-control": "no-cache" },
             success: result => {
+                if (this._getCustomSession)
+                    $("#TestSessionHeader").remove();
+
                 result = JSON.parse(result);
                 if (!this._isInLearningTab) {
                     this.updateUrl(result.url);
                 }
-                if (this._getCustomSession)
-                    $("#TestSessionHeader").remove();
                 //this.sendGoogleAnalyticsPageView(result.offlineDevelopment);
                 if (result.LearningSessionResult) {
                     this.showLearningSessionResult(result);
@@ -176,6 +174,10 @@ class AnswerBodyLoader {
                 Utils.HideSpinner();
                 if (this._getCustomSession)
                     this._getCustomSession = false;
+                if ($("div[data-div-type='questionDetails']").length > 1)
+                    $("div[data-div-type='questionDetails']").last().remove();
+                if ($("div[data-div-type='testSessionHeader']").length > 1)
+                    $("div[data-div-type='testSessionHeader']").slice(1).remove();
             }
         });
     }

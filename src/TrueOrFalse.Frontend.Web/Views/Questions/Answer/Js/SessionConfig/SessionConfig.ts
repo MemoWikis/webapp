@@ -38,10 +38,6 @@ new Vue({
         this.loadQuestionCount();
     },
 
-    computed: {
-        if ()
-    },
-
     watch: {
         probabilityRange: function() {
             this.questionFilter.minProbability = this.probabilityRange[0];
@@ -87,14 +83,14 @@ new Vue({
             this.questionFilter = {
                 minProbability: 0,
                 maxProbability: 100,
-                maxQuestionCount: 10,
+                maxQuestionCount: this.isLoggedIn ? 10 : 5,
                 questionsInWishknowledge: false,
                 questionOrder: 0,
             };
         },
 
-        loadNewSession(val) {
-            this.resetQuestionFilter();
+        async loadNewSession(val) {
+            await this.resetQuestionFilter();
 
             if (val == "random")
                 this.questionFilter.questionOrder = 0;
@@ -102,7 +98,6 @@ new Vue({
                 this.questionFilter.questionOrder = 1;
             if (val == "lowProbability")
                 this.questionFilter.questionOrder = 2;
-
 
             this.loadCustomSession();
         },

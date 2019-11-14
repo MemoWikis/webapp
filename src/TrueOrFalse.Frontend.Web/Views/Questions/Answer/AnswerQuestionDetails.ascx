@@ -1,7 +1,7 @@
 ﻿<%@ Control Language="C#" Inherits="System.Web.Mvc.ViewUserControl<AnswerQuestionModel>" %>
 <%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
 
-<div id="QuestionDetails" class="qdCounter">
+<div id="QuestionDetails" data-div-type="questionDetails">
     <div class="row">
         <div class="separationBorderTop" style="min-height: 20px;"></div>
     </div>
