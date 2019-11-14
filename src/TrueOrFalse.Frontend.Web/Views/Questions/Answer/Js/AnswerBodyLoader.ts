@@ -101,7 +101,7 @@ class AnswerBodyLoader {
         this.loadNewSession("Learning");
     }
 
-    public loadNewSession(mode, questionFilter = null) {
+    public loadNewSession(mode, questionFilter = null, loadedFromVue = false) {
 
         this._sessionConfigDataJson = {
             categoryId: $('#hhdCategoryId').val(),
@@ -112,17 +112,19 @@ class AnswerBodyLoader {
 
         var url = "/AnswerQuestion/RenderNewAnswerBodySessionForCategory";
         this._getCustomSession = true;
-        this.loadNewQuestion(url);
+        this.loadNewQuestion(url, loadedFromVue);
     }
 
-    public loadNewQuestion(url: string) {
+    public loadNewQuestion(url: string, loadedFromVue: boolean = false) {
         this._isInLearningTab = $('#LearningTab').length > 0;
         if (this._getCustomSession)
             $("#TestSessionHeader").remove();
-        if (this._isInLearningTab && this._getCustomSession) {
-            $("#AnswerBody").empty();
-            $("#QuestionDetails").empty();
-            $(".FooterQuestionDetails").empty();
+        if (this._isInLearningTab && this._getCustomSession && loadedFromVue) {
+            $("#AnswerBody").fadeOut();
+            $("#QuestionDetails").fadeOut();
+            $(".FooterQuestionDetails").fadeOut();
+            $(".SessionSessionHeading").fadeOut();
+            $(".SessionBar").fadeOut();
             Utils.ShowSpinner();
             $('html, body').animate({ scrollTop: 0 }, 'fast');
         }
@@ -133,7 +135,6 @@ class AnswerBodyLoader {
             type: 'POST',
             headers: { "cache-control": "no-cache" },
             success: result => {
-
                 result = JSON.parse(result);
                 if (!this._isInLearningTab) {
                     this.updateUrl(result.url);
@@ -184,6 +185,13 @@ class AnswerBodyLoader {
                     $("div[data-div-type='questionDetails']").last().remove();
                 if ($("div[data-div-type='testSessionHeader']").length > 1)
                     $("div[data-div-type='testSessionHeader']").slice(1).remove();
+                if (loadedFromVue) {
+                    $(".SessionSessionHeading").fadeIn();
+                    $(".SessionBar").fadeIn();
+                    $("#AnswerBody").fadeIn();
+                    $("#QuestionDetails").fadeIn();
+                    $(".FooterQuestionDetails").fadeIn();
+                }
             }
         });
     }

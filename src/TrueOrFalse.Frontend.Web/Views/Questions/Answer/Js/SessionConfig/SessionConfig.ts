@@ -114,9 +114,11 @@ new Vue({
             if (this.maxQuestionCountIsZero)
                 return;
 
-            this.answerBody.Loader.loadNewSession(this.mode, this.questionFilter);
+            this.answerBody.Loader.loadNewSession(this.mode, this.questionFilter, true);
             this.questionFilter.questionOrder = 0;
             $('#SessionConfigModal').modal('hide');
+            $("#spanPercentageDone").html(0 + "%");
+            $("#progressPercentageDone").width(0 + "%");
         }
     }
 });
