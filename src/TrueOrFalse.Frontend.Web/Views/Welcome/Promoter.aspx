@@ -33,7 +33,8 @@
             <div class="col-xs-12">
                 <p>
                     memucho wird seit Juni 2018 im Rahmen des Programms „Gründung innovativ“ des Europäischen Fonds für regionale Entwicklung (EFRE) von der Investitionsbank
-                    des Landes Brandenburg gefördert. Der EFRE wird zur Schaffung nachhaltiger und selbsttragender Wirtschaftsstrukturen genutzt.<br/>
+                    des Landes Brandenburg gefördert. Der EFRE wird zur Schaffung nachhaltiger und selbsttragender Wirtschaftsstrukturen genutzt.<br/><br/>Über den EFRE werden bei memucho
+                    zwei Stellen gefördert, um die Weiterentwicklung des innovativen Lernassistenten und Wissensmanagers memucho zu unterstützen.<br/>
                     <a href="http://www.efre.brandenburg.de" target="_blank">www.efre.brandenburg.de</a>
                 </p>
             </div>

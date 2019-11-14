@@ -10,11 +10,10 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="Head" runat="server">
     <link href="/Views/Welcome/Contact.css" rel="stylesheet" />
     <%= Scripts.Render("~/bundles/mailto") %>
-    
+
     <% Model.TopNavMenu.BreadCrumb.Add(new TopNavMenuItem{Text = "Kontakt", Url = Links.Contact, ToolTipText = "Kontakt"});
        Model.TopNavMenu.IsCategoryBreadCrumb = false; %>
 </asp:Content>
-
 
 <asp:Content ID="indexContent" ContentPlaceHolderID="MainContent" runat="server">
 
@@ -36,10 +35,9 @@
     </p>
 
     <div id="approachSketch">
-        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2439.0201433548277!2d13.626368615799853!3d52.31563697977604!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47a83ee5f00ac0d5%3A0x994dedc548320f21!2sKirchstra%C3%9Fe+1%2C+15745+Wildau!5e0!3m2!1sde!2sde!4v1523209238243" width="100%" height="450" frameborder="0" style="border:0" allowfullscreen></iframe>
+        <img src="<%= Links.GoogleMapsPreviewPath("Wildau.png") %>" alt="Wildau Peview" />
     </div>
-
     <p>
-        Deinen Anfahrtsweg kannst du <a href="http://maps.google.com/maps?daddr=Kirchstraße+1+15745+Wildau" target="blank"><b>hier planen</b></a>.
-    </p> 
+        Deinen Anfahrtsweg kannst du <a href="http://maps.google.com/maps?daddr=Kirchstraße+1+15745+Wildau" target="blank"><b>hier</b></a> mit GoogleMaps planen.
+    </p>
 </asp:Content>
