@@ -155,6 +155,29 @@
             border: #d6d6d6 solid 0.03125em;
             cursor: pointer;
 
+            :hover {
+                .sessionSelectionButtonIcon {
+
+                    &.highProbability {
+                        color: #AFD534;
+                    }
+
+                    &.lowProbability {
+                        color: #FFA07A;
+                    }
+
+                    &.randomQuestions {
+                        color: #D6D6D6;
+                    }
+
+                    &.customQuestions {
+                        color: #428BCA;
+                    }
+
+                    transition: color 0.5s ease-in;
+                }
+            }
+
             .sessionSelectionContent {
                 height: 119px;
                 width: 100%;
@@ -162,6 +185,7 @@
                 padding: 15px 10px 0 10px;
 
                 .sessionSelectionButtonIcon {
+                    transition: color 0.2s;
                     font-size: 40px;
                 }
 

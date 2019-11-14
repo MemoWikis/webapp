@@ -119,6 +119,26 @@
   border: #d6d6d6 solid 0.03125em;
   cursor: pointer;
 }
+#SessionConfigApp #sessionSelectionContainer .sessionSelectionButton :hover .sessionSelectionButtonIcon,
+#SessionConfigApp #sessionSelectionContainer #CustomSessionConfigBtn :hover .sessionSelectionButtonIcon {
+  transition: color 0.5s ease-in;
+}
+#SessionConfigApp #sessionSelectionContainer .sessionSelectionButton :hover .sessionSelectionButtonIcon.highProbability,
+#SessionConfigApp #sessionSelectionContainer #CustomSessionConfigBtn :hover .sessionSelectionButtonIcon.highProbability {
+  color: #AFD534;
+}
+#SessionConfigApp #sessionSelectionContainer .sessionSelectionButton :hover .sessionSelectionButtonIcon.lowProbability,
+#SessionConfigApp #sessionSelectionContainer #CustomSessionConfigBtn :hover .sessionSelectionButtonIcon.lowProbability {
+  color: #FFA07A;
+}
+#SessionConfigApp #sessionSelectionContainer .sessionSelectionButton :hover .sessionSelectionButtonIcon.randomQuestions,
+#SessionConfigApp #sessionSelectionContainer #CustomSessionConfigBtn :hover .sessionSelectionButtonIcon.randomQuestions {
+  color: #D6D6D6;
+}
+#SessionConfigApp #sessionSelectionContainer .sessionSelectionButton :hover .sessionSelectionButtonIcon.customQuestions,
+#SessionConfigApp #sessionSelectionContainer #CustomSessionConfigBtn :hover .sessionSelectionButtonIcon.customQuestions {
+  color: #428BCA;
+}
 #SessionConfigApp #sessionSelectionContainer .sessionSelectionButton .sessionSelectionContent,
 #SessionConfigApp #sessionSelectionContainer #CustomSessionConfigBtn .sessionSelectionContent {
   height: 119px;
@@ -128,6 +148,7 @@
 }
 #SessionConfigApp #sessionSelectionContainer .sessionSelectionButton .sessionSelectionContent .sessionSelectionButtonIcon,
 #SessionConfigApp #sessionSelectionContainer #CustomSessionConfigBtn .sessionSelectionContent .sessionSelectionButtonIcon {
+  transition: color 0.2s;
   font-size: 40px;
 }
 #SessionConfigApp #sessionSelectionContainer .sessionSelectionButton .sessionSelectionContent .sessionSelectionText,

@@ -7,7 +7,7 @@
 
         <div class="sessionSelectionButton" @click="loadNewSession('lowProbability')">
             <div class="sessionSelectionContent">
-                <div class="sessionSelectionButtonIcon"><i class="far fa-smile"></i></div>
+                <div class="sessionSelectionButtonIcon highProbability"><i class="far fa-smile"></i></div>
                 <div class="sessionSelectionText">Fragen mit hoher Antwortwahrscheinlichkeit</div>
             </div>
             <div class="sessionSelectionBottomBorder highProbability"></div>
@@ -15,7 +15,7 @@
         
         <div class="sessionSelectionButton" @click="loadNewSession('highProbability')">
             <div class="sessionSelectionContent">
-                <div class="sessionSelectionButtonIcon"><i class="fas fa-fire"></i></div>
+                <div class="sessionSelectionButtonIcon lowProbability"><i class="fas fa-fire"></i></div>
                 <div class="sessionSelectionText">Fragen mit geringer Antwortwahrscheinlichkeit</div>
             </div>
             <div class="sessionSelectionBottomBorder lowProbability"></div>
@@ -23,7 +23,7 @@
         
         <div class="sessionSelectionButton" @click="loadNewSession('randomQuestions')">
             <div class="sessionSelectionContent">
-                <div class="sessionSelectionButtonIcon"><i class="fas fa-dice"></i></div>
+                <div class="sessionSelectionButtonIcon randomQuestions"><i class="fas fa-dice"></i></div>
                 <div class="sessionSelectionText">Zufällige Fragen</div>
             </div>
             <div class="sessionSelectionBottomBorder randomQuestions"></div>
@@ -32,7 +32,7 @@
         <div id="CustomSessionConfigBtnContainer" >
             <div id="CustomSessionConfigBtn" data-toggle="modal" data-target="#SessionConfigModal">
                 <div class="sessionSelectionContent">
-                    <div class="sessionSelectionButtonIcon"><i class="fas fa-tools"></i></div>
+                    <div class="sessionSelectionButtonIcon customQuestions"><i class="fas fa-tools"></i></div>
                     <div class="sessionSelectionText">Benutzerdefiniertes Lernen</div>
                 </div>
                 <div class="sessionSelectionBottomBorder customQuestions"></div>
