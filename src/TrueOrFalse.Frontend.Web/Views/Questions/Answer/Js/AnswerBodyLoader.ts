@@ -125,6 +125,8 @@ class AnswerBodyLoader {
             $(".FooterQuestionDetails").fadeOut();
             $(".SessionSessionHeading").fadeOut();
             $(".SessionBar").fadeOut();
+            $("#spanPercentageDone").html(0 + "%");
+            $("#progressPercentageDone").width(0 + "%");
             Utils.ShowSpinner();
             $('html, body').animate({ scrollTop: 0 }, 'fast');
         }
