@@ -93,11 +93,11 @@
 #SessionConfigApp .sliders .sliderContainer .leftLabel,
 #SessionConfigApp .sliders .sliderContainer .rightLabel {
   color: #949494;
+  min-width: 42px;
 }
 #SessionConfigApp .sliders .sliderContainer .leftLabel {
   padding-right: 16px;
   text-align: right;
-  width: 42px;
 }
 #SessionConfigApp .sliders .sliderContainer .rightLabel {
   padding-left: 16px;
