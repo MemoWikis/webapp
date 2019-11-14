@@ -298,7 +298,7 @@
 
 <% if (Model.IsInLearningTab)
    { %>
-    <div id="QuestionDetails"></div>
+    <div id="QuestionDetails" class="qdCounter"></div>
 <% } %>
 
 <% Html.RenderPartial("~/Views/Questions/Answer/ShareQuestionModal.ascx", new ShareQuestionModalModel(Model.QuestionId)); %>

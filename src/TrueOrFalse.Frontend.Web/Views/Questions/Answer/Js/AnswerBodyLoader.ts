@@ -5,7 +5,6 @@ class AnswerBodyLoader {
     private _isInLearningTab: boolean;
     private _sessionConfigDataJson: SessionConfigDataJson;
     private _getCustomSession: boolean = false;
-    private _firstLoad: boolean = true;
 
     constructor(answerBody: AnswerBody) {
 
@@ -118,6 +117,8 @@ class AnswerBodyLoader {
 
     public loadNewQuestion(url: string) {
         this._isInLearningTab = $('#LearningTab').length > 0;
+        if ($(".qdCounter").length > 1)
+            $(".qdCounter").last().remove();
 
         $.ajax({
             url: url,
@@ -127,10 +128,6 @@ class AnswerBodyLoader {
             headers: { "cache-control": "no-cache" },
             success: result => {
                 result = JSON.parse(result);
-                if (this._isInLearningTab && this._firstLoad) {
-                    $("#QuestionDetails").remove();
-                    this._firstLoad = false;
-                }
                 if (!this._isInLearningTab) {
                     this.updateUrl(result.url);
                 }
@@ -142,6 +139,10 @@ class AnswerBodyLoader {
                     $(".ProgressBarSegment .ProgressBarLegend").hide();
                     return;
                 }
+                if (this._isInLearningTab) {
+                    $("#QuestionDetails").empty();
+                }
+
                 $(".FooterQuestionDetails").remove();
                 $("#modalShareQuestion").remove();
                 $("#AnswerBody").replaceWith(result.answerBodyAsHtml);
