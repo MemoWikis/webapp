@@ -185,6 +185,11 @@
   top: -100px;
   left: 185px;
 }
+@media (max-width: 1200px) {
+  #SessionConfigApp #sessionSelectionContainer #CustomSessionConfigBtnContainer .sessionConfigReminder {
+    display: none;
+  }
+}
 .vue-slider-dot-handle {
   cursor: pointer;
   width: 100%;
