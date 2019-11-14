@@ -50,6 +50,20 @@ class GetRandomQuestions
                     q => q.CorrectnessProbability > questionFilter.MinProbability &&
                          q.CorrectnessProbability < questionFilter.MaxProbability)
                 .ToList();
+
+            if (questionFilter.GetQuestionOrderBy() == "HighProbability")
+                questions = questions.OrderByDescending(f => f.CorrectnessProbability).ToList();
+            else if (questionFilter.GetQuestionOrderBy() == "LowProbability")
+                questions = questions.OrderBy(f => f.CorrectnessProbability).ToList();
+
+            if (questionFilter.GetQuestionOrderBy() != "NoOrder")
+            {
+                var questionCount = questions.Count;
+                if (questionFilter.HasMaxQuestionCount())
+                    questionCount = questionFilter.MaxQuestionCount + (questions.Count / 4);
+
+                questions = questions.Take(questionCount).ToList();
+            }
         }
 
         return Run(questions, amount, excludeQuestionIds, ignoreExclusionIfNotEnoughQuestions);

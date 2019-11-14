@@ -11,9 +11,9 @@ public class QuestionFilterJson
     {
         var orderText = "NoOrder";
         if (QuestionOrder == 1)
-            orderText = "DescendingProbability";
-        else if (QuestionOrder == 1)
-            orderText = "AscendingProbability";
+            orderText = "HighProbability";
+        else if (QuestionOrder == 2)
+            orderText = "LowProbability";
 
         return orderText;
     }
