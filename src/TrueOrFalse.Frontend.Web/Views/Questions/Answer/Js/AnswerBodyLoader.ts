@@ -117,6 +117,15 @@ class AnswerBodyLoader {
 
     public loadNewQuestion(url: string) {
         this._isInLearningTab = $('#LearningTab').length > 0;
+        if (this._getCustomSession)
+            $("#TestSessionHeader").remove();
+        if (this._isInLearningTab && this._getCustomSession) {
+            $("#AnswerBody").empty();
+            $("#QuestionDetails").empty();
+            $(".FooterQuestionDetails").empty();
+            Utils.ShowSpinner();
+            $('html, body').animate({ scrollTop: 0 }, 'fast');
+        }
         $.ajax({
             url: url,
             contentType: "application/json; charset=utf-8",
@@ -124,8 +133,6 @@ class AnswerBodyLoader {
             type: 'POST',
             headers: { "cache-control": "no-cache" },
             success: result => {
-                if (this._getCustomSession)
-                    $("#TestSessionHeader").remove();
 
                 result = JSON.parse(result);
                 if (!this._isInLearningTab) {
@@ -137,13 +144,12 @@ class AnswerBodyLoader {
                     $(".ProgressBarSegment .ProgressBarLegend").hide();
                     return;
                 }
-                if (this._isInLearningTab) {
-                    $("#QuestionDetails").empty();
-                }
-
                 $(".FooterQuestionDetails").remove();
                 $("#modalShareQuestion").remove();
                 $("#AnswerBody").replaceWith(result.answerBodyAsHtml);
+                if (this._isInLearningTab && !this._getCustomSession) {
+                    $("#QuestionDetails").empty();
+                }
 
                 if ($("#hddIsLearningSession").val() === "True" || this._answerBody.IsTestSession()) {
                     this.updateSessionHeader(result.sessionData);
