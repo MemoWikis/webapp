@@ -16,7 +16,7 @@ new Vue({
             questionFilter: {
                 minProbability: 0,
                 maxProbability: 100,
-                maxQuestionCount: 50,
+                maxQuestionCount: 10,
                 questionsInWishknowledge: false,
                 questionOrder: 0,
             },
@@ -24,6 +24,7 @@ new Vue({
             maxSelectableQuestionCount: 50,
             selectedQuestionCount: 10,
             questionsInWishknowledge: "False",
+            percentages: '{value}%',
         };
     },
 
@@ -35,6 +36,10 @@ new Vue({
         }
 
         this.loadQuestionCount();
+    },
+
+    computed: {
+        if ()
     },
 
     watch: {
@@ -64,6 +69,7 @@ new Vue({
                 data: { categoryId: $('#hhdCategoryId').val(), questionFilter: this.questionFilter },
                 type: "POST",
                 success: result => {
+                    result = parseInt(result);
                     if (result > 50) {
                         this.maxSelectableQuestionCount = 50;
                         if (this.selectedQuestionCount > 50)
@@ -77,9 +83,37 @@ new Vue({
             });
         },
 
-        loadNewSession() {
+        resetQuestionFilter() {
+            this.questionFilter = {
+                minProbability: 0,
+                maxProbability: 100,
+                maxQuestionCount: 10,
+                questionsInWishknowledge: false,
+                questionOrder: 0,
+            };
+        },
+
+        loadNewSession(val) {
+            this.resetQuestionFilter();
+
+            if (val == "random")
+                this.questionFilter.questionOrder = 0;
+            if (val == "highProbability")
+                this.questionFilter.questionOrder = 1;
+            if (val == "lowProbability")
+                this.questionFilter.questionOrder = 2;
+
+
+            this.loadCustomSession();
+        },
+
+        loadCustomSession() {
+            if (this.questionFilter.maxQuestionCount == 0)
+                return;
 
             this.answerBody.Loader.loadNewSession(this.mode, this.questionFilter);
+            this.questionFilter.questionOrder = 0;
+            $('#SessionConfigModal').modal('hide');
         }
     }
 });

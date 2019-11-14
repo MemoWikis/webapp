@@ -9,19 +9,20 @@ public class QuestionFilterJson
 
     public string GetQuestionOrderBy()
     {
-        if (QuestionOrder == 0)
-            return "NoOrder";
+        var orderText = "NoOrder";
+        if (QuestionOrder == 1)
+            orderText = "DescendingProbability";
         else if (QuestionOrder == 1)
-            return "DescendingProbability";
-        else
-            return "AscendingProbability";
+            orderText = "AscendingProbability";
+
+        return orderText;
     }
 
     public bool HasMaxQuestionCount()
     {
         if (MaxQuestionCount > 0)
             return true;
-        else
-            return false;
+
+        return false;
     }
 }

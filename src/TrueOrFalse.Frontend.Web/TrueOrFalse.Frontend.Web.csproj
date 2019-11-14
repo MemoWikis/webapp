@@ -21577,6 +21577,7 @@
     <Content Include="Images\Various\RectNodeSelect.svg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="Images\Various\SessionConfigReminder.svg" />
     <Content Include="Images\Various\tabAnalyticsMockup1.png" />
     <Content Include="Images\Various\treemapChartPsychology.png" />
     <Content Include="robots.txt">

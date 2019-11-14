@@ -67,19 +67,21 @@ public class CreateLearningSession
             }
         }
 
-        if (questionFilter.GetQuestionOrderBy() == "DescendingProbability")
-            newQuestionsList.OrderByDescending(q => q.CorrectnessProbability);
-        else if (questionFilter.GetQuestionOrderBy() == "AscendingProbability")
-            newQuestionsList.OrderBy(q => q.CorrectnessProbability);
-
         var questionCount = questionFilter.HasMaxQuestionCount() ? questionFilter.MaxQuestionCount : newQuestionsList.Count;
 
         var filteredQuestions = newQuestionsList
             .Where(
             q => q.CorrectnessProbability > questionFilter.MinProbability &&
                  q.CorrectnessProbability < questionFilter.MaxProbability)
-            .Take(questionCount)
             .ToList();
+
+        if (questionFilter.GetQuestionOrderBy() == "DescendingProbability")
+            filteredQuestions.OrderByDescending(q => q.CorrectnessProbability);
+        else if (questionFilter.GetQuestionOrderBy() == "AscendingProbability")
+            filteredQuestions.OrderBy(q => q.CorrectnessProbability);
+
+        filteredQuestions.Take(questionCount).ToList();
+
         return filteredQuestions;
     }
 

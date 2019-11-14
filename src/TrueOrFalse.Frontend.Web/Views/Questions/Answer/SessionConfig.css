@@ -1,4 +1,23 @@
-﻿#SessionConfigApp .radio {
+﻿#SessionConfigApp .modal-header {
+  border-bottom: none;
+}
+#SessionConfigApp .modal-header h4 {
+  padding-left: 20px;
+  padding-top: 20px;
+  font-size: 24px;
+}
+#SessionConfigApp .sliderLabel,
+#SessionConfigApp .radioLabel {
+  font-size: 18px;
+  color: #434343;
+}
+#SessionConfigApp .modal-footer {
+  border-top: none;
+}
+#SessionConfigApp label.sliderLabel {
+  padding-top: 20px;
+}
+#SessionConfigApp .radio {
   margin: 16px 0;
   display: block;
   cursor: pointer;
@@ -56,7 +75,7 @@
   transform: scale(0.61);
 }
 #SessionConfigApp .sliders {
-  padding: 0 0 0 45px;
+  padding: 0 45px;
 }
 #SessionConfigApp .sliders .sliderContainer {
   display: flex;
@@ -65,10 +84,11 @@
 #SessionConfigApp .sliders .sliderContainer .vueSlider,
 #SessionConfigApp .sliders .sliderContainer .leftLabel,
 #SessionConfigApp .sliders .sliderContainer .rightLabel {
-  padding-top: 20px;
+  padding-top: 10px;
+  padding-bottom: 10px;
 }
 #SessionConfigApp .sliders .sliderContainer .vueSlider {
-  width: 200px;
+  width: 300px;
 }
 #SessionConfigApp .sliders .sliderContainer .leftLabel,
 #SessionConfigApp .sliders .sliderContainer .rightLabel {
@@ -77,10 +97,72 @@
 #SessionConfigApp .sliders .sliderContainer .leftLabel {
   padding-right: 16px;
   text-align: right;
-  width: 26px;
+  width: 42px;
 }
 #SessionConfigApp .sliders .sliderContainer .rightLabel {
   padding-left: 16px;
+}
+#SessionConfigApp .alert {
+  margin-top: 20px;
+}
+#SessionConfigApp #sessionSelectionContainer {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  padding-top: 50px;
+}
+#SessionConfigApp #sessionSelectionContainer .sessionSelectionButton,
+#SessionConfigApp #sessionSelectionContainer #CustomSessionConfigBtn {
+  margin-top: 10px;
+  width: 183px;
+  height: 132px;
+  border: #d6d6d6 solid 0.03125em;
+  cursor: pointer;
+}
+#SessionConfigApp #sessionSelectionContainer .sessionSelectionButton .sessionSelectionContent,
+#SessionConfigApp #sessionSelectionContainer #CustomSessionConfigBtn .sessionSelectionContent {
+  height: 119px;
+  width: 100%;
+  text-align: center;
+  padding: 15px 10px 0 10px;
+}
+#SessionConfigApp #sessionSelectionContainer .sessionSelectionButton .sessionSelectionContent .sessionSelectionButtonIcon,
+#SessionConfigApp #sessionSelectionContainer #CustomSessionConfigBtn .sessionSelectionContent .sessionSelectionButtonIcon {
+  font-size: 40px;
+}
+#SessionConfigApp #sessionSelectionContainer .sessionSelectionButton .sessionSelectionContent .sessionSelectionText,
+#SessionConfigApp #sessionSelectionContainer #CustomSessionConfigBtn .sessionSelectionContent .sessionSelectionText {
+  padding-top: 2px;
+  font-size: 13px;
+}
+#SessionConfigApp #sessionSelectionContainer .sessionSelectionButton .sessionSelectionBottomBorder,
+#SessionConfigApp #sessionSelectionContainer #CustomSessionConfigBtn .sessionSelectionBottomBorder {
+  height: 13px;
+  width: 100%;
+}
+#SessionConfigApp #sessionSelectionContainer .sessionSelectionButton .sessionSelectionBottomBorder.highProbability,
+#SessionConfigApp #sessionSelectionContainer #CustomSessionConfigBtn .sessionSelectionBottomBorder.highProbability {
+  background-color: #AFD534;
+}
+#SessionConfigApp #sessionSelectionContainer .sessionSelectionButton .sessionSelectionBottomBorder.lowProbability,
+#SessionConfigApp #sessionSelectionContainer #CustomSessionConfigBtn .sessionSelectionBottomBorder.lowProbability {
+  background-color: #FFA07A;
+}
+#SessionConfigApp #sessionSelectionContainer .sessionSelectionButton .sessionSelectionBottomBorder.randomQuestions,
+#SessionConfigApp #sessionSelectionContainer #CustomSessionConfigBtn .sessionSelectionBottomBorder.randomQuestions {
+  background-color: #D6D6D6;
+}
+#SessionConfigApp #sessionSelectionContainer .sessionSelectionButton .sessionSelectionBottomBorder.customQuestions,
+#SessionConfigApp #sessionSelectionContainer #CustomSessionConfigBtn .sessionSelectionBottomBorder.customQuestions {
+  background-color: #428BCA;
+}
+#SessionConfigApp #sessionSelectionContainer #CustomSessionConfigBtnContainer {
+  height: 132px;
+}
+#SessionConfigApp #sessionSelectionContainer #CustomSessionConfigBtnContainer .sessionConfigReminder {
+  position: relative;
+  top: -100px;
+  left: 185px;
 }
 .vue-slider-dot-handle {
   cursor: pointer;
@@ -247,4 +329,120 @@
   z-index: 1;
   background: #428BCA;
   border-radius: 15px;
+}
+/* component style */
+.vue-slider-disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+/* mark style */
+.vue-slider-mark {
+  z-index: 4;
+}
+.vue-slider-mark:first-child .vue-slider-mark-step,
+.vue-slider-mark:last-child .vue-slider-mark-step {
+  display: none;
+}
+.vue-slider-mark-step {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  background-color: rgba(0, 0, 0, 0.16);
+}
+.vue-slider-mark-label {
+  font-size: 14px;
+  white-space: nowrap;
+}
+/* dot style */
+.vue-slider-dot-handle {
+  cursor: pointer;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  background-color: #fff;
+  box-sizing: border-box;
+  box-shadow: 0.5px 0.5px 2px 1px rgba(0, 0, 0, 0.32);
+}
+.vue-slider-dot-handle-focus {
+  box-shadow: 0px 0px 1px 2px rgba(52, 152, 219, 0.36);
+}
+.vue-slider-dot-handle-disabled {
+  cursor: not-allowed;
+  background-color: #ccc;
+}
+.vue-slider-dot-tooltip-inner {
+  font-size: 14px;
+  white-space: nowrap;
+  padding: 2px 5px;
+  min-width: 20px;
+  text-align: center;
+  color: #fff;
+  border-radius: 5px;
+  border-color: #428BCA;
+  background-color: #428BCA;
+  box-sizing: content-box;
+}
+.vue-slider-dot-tooltip-inner::after {
+  content: "";
+  position: absolute;
+  top: 100%;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px;
+  border-top-color: inherit;
+  left: 50%;
+  transform: translate(-50%);
+  height: 0;
+  width: 0;
+}
+.vue-slider-dot-tooltip-inner-top::after {
+  top: 100%;
+  left: 50%;
+  transform: translate(-50%, 0);
+  height: 0;
+  width: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px;
+  border-top-color: inherit;
+}
+.vue-slider-dot-tooltip-inner-bottom::after {
+  bottom: 100%;
+  left: 50%;
+  transform: translate(-50%, 0);
+  height: 0;
+  width: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px;
+  border-bottom-color: inherit;
+}
+.vue-slider-dot-tooltip-inner-left::after {
+  left: 100%;
+  top: 50%;
+  transform: translate(0, -50%);
+  height: 0;
+  width: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px;
+  border-left-color: inherit;
+}
+.vue-slider-dot-tooltip-inner-right::after {
+  right: 100%;
+  top: 50%;
+  transform: translate(0, -50%);
+  height: 0;
+  width: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px;
+  border-right-color: inherit;
+}
+.vue-slider-dot-tooltip-wrapper {
+  opacity: 0;
+  transition: all 0.3s;
+}
+.vue-slider-dot-tooltip-wrapper-show {
+  opacity: 1;
 }

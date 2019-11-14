@@ -5,6 +5,7 @@ class AnswerBodyLoader {
     private _isInLearningTab: boolean;
     private _sessionConfigDataJson: SessionConfigDataJson;
     private _getCustomSession: boolean = false;
+    private _firstLoad: boolean = true;
 
     constructor(answerBody: AnswerBody) {
 
@@ -126,6 +127,10 @@ class AnswerBodyLoader {
             headers: { "cache-control": "no-cache" },
             success: result => {
                 result = JSON.parse(result);
+                if (this._isInLearningTab && this._firstLoad) {
+                    $("#QuestionDetails").remove();
+                    this._firstLoad = false;
+                }
                 if (!this._isInLearningTab) {
                     this.updateUrl(result.url);
                 }
@@ -139,8 +144,6 @@ class AnswerBodyLoader {
                 }
                 $(".FooterQuestionDetails").remove();
                 $("#modalShareQuestion").remove();
-                if (this._isInLearningTab)
-                    $("#QuestionDetails").remove();
                 $("#AnswerBody").replaceWith(result.answerBodyAsHtml);
 
                 if ($("#hddIsLearningSession").val() === "True" || this._answerBody.IsTestSession()) {
