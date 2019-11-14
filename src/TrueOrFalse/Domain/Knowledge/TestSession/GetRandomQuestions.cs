@@ -36,13 +36,22 @@ class GetRandomQuestions
         return Run(sets.SelectMany(s => s.Questions()).ToList(), amount, excludeQuestionIds, ignoreExclusionIfNotEnoughQuestions);
     }
 
-    public static IList<Question> Run(Category category, int amount, List<int> excludeQuestionIds = null, bool ignoreExclusionIfNotEnoughQuestions = true)
+    public static IList<Question> Run(Category category, int amount, List<int> excludeQuestionIds = null, bool ignoreExclusionIfNotEnoughQuestions = true, QuestionFilterJson questionFilter = null)
     {
         var featuredSets = category.FeaturedSets();
         var questions = featuredSets.Count > 0 
             ? featuredSets.SelectMany(s => s.Questions()).Distinct().ToList()
-            : Sl.R<QuestionRepo>().GetForCategoryAggregated(category.Id, Sl.R<SessionUser>().UserId);
+            : Sl.R<QuestionRepo>().GetForCategoryAggregated(category.Id, Sl.R<SessionUser>().UserId).ToList();
 
-        return Run(questions.ToList(), amount, excludeQuestionIds, ignoreExclusionIfNotEnoughQuestions);
+        if (questionFilter != null)
+        {
+            questions = questions
+                .Where(
+                    q => q.CorrectnessProbability > questionFilter.MinProbability &&
+                         q.CorrectnessProbability < questionFilter.MaxProbability)
+                .ToList();
+        }
+
+        return Run(questions, amount, excludeQuestionIds, ignoreExclusionIfNotEnoughQuestions);
     }
 }
