@@ -103,5 +103,3 @@
 </div>
 
 <%= Scripts.Render("~/bundles/js/SessionConfig") %>
-<%--<%= Styles.Render("~/bundles/SessionConfig") %>--%>
-
