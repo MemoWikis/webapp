@@ -29,6 +29,9 @@ var deps = {
     },
     "sortablejs": {
         "Sortable.js": ""
+    },
+    "vue-slider-component" : {
+        "dist/vue-slider-component.umd.js": "",
     }
 };
 

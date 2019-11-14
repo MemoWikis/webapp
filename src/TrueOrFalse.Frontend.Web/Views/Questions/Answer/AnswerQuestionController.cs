@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
 using System.Web.Script.Serialization;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using TrueOrFalse;
 using TrueOrFalse.Frontend.Web.Code;
 using TrueOrFalse.Search;
@@ -551,16 +553,38 @@ public class AnswerQuestionController : BaseController
         return GetQuestionPageData(model, currenUrl, new SessionData());
     }
 
-    public string RenderAnswerBodyForNewCategoryLearningSession(int categoryId, bool isInLearningTab = false)
+    [HttpPost]
+    public string RenderNewAnswerBodySessionForCategory(SessionConfigData sessionConfigData)
     {
-        var learningSession = CreateLearningSession.ForCategory(categoryId);
+        var answerBody = "";
+        var mode = sessionConfigData.Mode;
+        var categoryId = sessionConfigData.CategoryId;
+        var isInLearningTab = sessionConfigData.IsInLearningTab;
+        var questionFilter = sessionConfigData.QuestionFilter;
+        var sessionUser = _sessionUser.UserId;
+
+        var filterQuestions = questionFilter != null;
+
+        if (mode == "Test")
+            answerBody = RenderAnswerBodyForNewCategoryTestSession(categoryId, isInLearningTab, filterQuestions, questionFilter);
+        else if (mode == "Learning")
+            answerBody = RenderAnswerBodyForNewCategoryLearningSession(categoryId, isInLearningTab, questionFilter);
+
+        return answerBody; 
+    }
+
+    public string RenderAnswerBodyForNewCategoryLearningSession(int categoryId, bool isInLearningTab = false, QuestionFilterJson questionFilter = null)
+    {
+        var learningSession = CreateLearningSession.ForCategory(categoryId, questionFilter);
         return RenderAnswerBodyByLearningSession(learningSession.Id, isInLearningTab: isInLearningTab);
     }
 
-    public string RenderAnswerBodyForNewCategoryTestSession(int categoryId, bool isInLearningTab = false)
+    public string RenderAnswerBodyForNewCategoryTestSession(int categoryId, bool isInLearningTab = false, bool filterQuestions = false, QuestionFilterJson questionFilter = null)
     {   var category =  Sl.CategoryRepo.GetByIdEager(categoryId);
-        var testSession = new TestSession(category);
+
         var sessionuser = new SessionUser();
+        var testSession = filterQuestions ? new TestSession(category, questionFilter) : new TestSession(category);
+
         sessionuser.AddTestSession(testSession);
      
         return RenderAnswerBodyByTestSession(testSession.Id, includeTestSessionHeader:true, isInLearningTab: isInLearningTab);
@@ -760,4 +784,10 @@ public class AnswerQuestionController : BaseController
     [HttpPost]
     public string ShareQuestionModal(int questionId) =>
         ViewRenderer.RenderPartialView("~/Views/Questions/Answer/ShareQuestionModal.ascx", new ShareQuestionModalModel(questionId), ControllerContext);
+
+    [HttpPost]
+    public int GetQuestionCount(int categoryId, QuestionFilterJson questionFilter)
+    {
+        return CreateLearningSession.QuestionsInLearningSessionCount(categoryId, questionFilter, IsLoggedIn);
+    }
 }

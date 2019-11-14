@@ -250,6 +250,8 @@
     <Compile Include="Domain\Knowledge\Count\GetWishTopicCount.cs" />
     <Compile Include="Domain\Category\Views\ViewsPerDay.cs" />
     <Compile Include="Domain\Knowledge\Learning\LearningSession\Ops\CreateLearningSession.cs" />
+    <Compile Include="Domain\Knowledge\Learning\LearningSession\SessionConfigData.cs" />
+    <Compile Include="Domain\Knowledge\Learning\LearningSession\QuestionFilter.cs" />
     <Compile Include="Domain\QuestionSet\Ops\CopySet.cs" />
     <Compile Include="Domain\QuestionSet\Ops\GetAllOvercategorizedSets.cs" />
     <Compile Include="Domain\QuestionSet\Ops\GetAllSetsWithDifferentlyCategorizedQuestions.cs" />

@@ -338,5 +338,9 @@
   {
     "outputFile": "Views/Shared/CategoryLabel.css",
     "inputFile": "Views/Shared/CategoryLabel.less"
+  },
+  {
+    "outputFile": "Views/Questions/Answer/SessionConfig.css",
+    "inputFile": "Views/Questions/Answer/SessionConfig.less"
   }
 ]

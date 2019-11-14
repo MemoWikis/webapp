@@ -162,6 +162,10 @@ namespace TrueOrFalse.View
                 .Include("~/Views/Questions/Answer/LearningSession/Js/LearningSessionResult.js")
                 .Include("~/Views/Questions/Answer/LearningSession/Js/LearningSessionResultCharts.js"));
 
+            bundles.Add(new ScriptBundle("~/bundles/js/SessionConfig")
+                .Include("~/Scripts/npm/vue-slider-component/vue-slider-component.umd.js")
+                .IncludeDirectory("~/Views/Questions/Answer/Js/SessionConfig/", "*.js"));
+
             bundles.Add(new StyleBundle("~/bundles/AnswerQuestion")
                 .Include("~/Views/Questions/Answer/*.css"));
 

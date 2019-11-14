@@ -58,8 +58,6 @@ class AnswerQuestion {
         if (this.IsTestSession && $('#hddIsTestSession').attr('data-is-last-step').toLowerCase() === "true")
             AnswerQuestion.IsLastTestSessionStep = true;
 
-        console.log($('#hddIsTestSession').attr('data-is-last-step'));
-
         if (this.IsTestSession && $('#hddIsTestSession').attr('data-test-session-id'))
             AnswerQuestion.TestSessionId = parseInt($('#hddIsTestSession').attr('data-test-session-id'));
 

@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="136.117" height="93.054" viewBox="0 0 136.117 93.054">
+  <defs>
+    <style>
+      .cls-1, .cls-3 {
+        fill: none;
+      }
+
+      .cls-2 {
+        clip-path: url(#clip-path);
+      }
+
+      .cls-3 {
+        stroke: #428bca;
+      }
+
+      .cls-4 {
+        fill: #428bca;
+        font-size: 16px;
+        font-family: InkFree, Ink Free;
+      }
+    </style>
+    <clipPath id="clip-path">
+      <rect class="cls-1" width="136.117" height="93.054"/>
+    </clipPath>
+  </defs>
+  <g id="arrow" class="cls-2">
+    <path id="Path_4316" data-name="Path 4316" class="cls-3" d="M49.336,13.146C37.54-9.9,0,.122,0,.122" transform="translate(15.636 13.47) rotate(9)"/>
+    <path id="Path_4317" data-name="Path 4317" class="cls-3" d="M10.9-3.477A16.687,16.687,0,0,1,5.846,4.1a17.727,17.727,0,0,1-4.73,2.538A5.292,5.292,0,0,1,0,6.9" transform="translate(11.135 6.789) rotate(13)"/>
+    <path id="Path_4318" data-name="Path 4318" class="cls-3" d="M13.226,6.9A24.456,24.456,0,0,0,0,0" transform="translate(11.121 14.341) rotate(-7)"/>
+    <text id="personalisiere_dein_Lernen_" data-name="personalisiere dein Lernen!" class="cls-4" transform="translate(0.552 40.996) rotate(-8)"><tspan x="0.529" y="15">personalisiere dein </tspan><tspan x="36.937" y="35">Lernen!</tspan></text>
+  </g>
+</svg>

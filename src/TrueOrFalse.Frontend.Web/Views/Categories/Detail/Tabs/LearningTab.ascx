@@ -44,5 +44,7 @@
 
 <div id="AnswerBody">
     <input type="hidden" id="hddSolutionTypeNum" value="1" />
-    <div id="QuestionDetails"></div>
+    <div id="QuestionDetails" data-div-type="questionDetails"></div>
 </div>
+
+<% Html.RenderPartial("~/Views/Questions/Answer/SessionConfig.ascx"); %>

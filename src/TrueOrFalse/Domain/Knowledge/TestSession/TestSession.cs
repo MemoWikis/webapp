@@ -57,7 +57,8 @@ public class TestSession
     }
 
     public TestSession()
-    {        
+    {
+
     }
 
     public TestSession(Set set, int testSessionCount = -1)
@@ -111,6 +112,27 @@ public class TestSession
         var excludeQuestionIds = Sl.R<SessionUser>().AnsweredQuestionIds.ToList();
         var questions = GetRandomQuestions.Run(category, Settings.TestSessionQuestionCount, excludeQuestionIds, true).ToList();
         Populate(questions);
+    }
+
+
+    public TestSession(Category category, QuestionFilterJson questionFilter)
+    {
+        UriName = "Thema-" + UriSanitizer.Run(category.Name);
+        CategoryToTest = category;
+        CategoryToTestId = category.Id;
+        CategoryQuestionCount = GetQuestionsForCategory.AllIncludingQuestionsInSet(CategoryToTestId).Count;
+        var excludeQuestionIds = Sl.R<SessionUser>().AnsweredQuestionIds.ToList();
+        var questions = GetRandomQuestions.Run(category, questionFilter.MaxQuestionCount, excludeQuestionIds, true);
+
+        var questionCount = questionFilter.HasMaxQuestionCount() ? questionFilter.MaxQuestionCount : questions.Count;
+        var filteredQuestions = questions
+            .Where(
+                q => q.CorrectnessProbability > questionFilter.MinProbability &&
+                     q.CorrectnessProbability < questionFilter.MaxProbability)
+            .Take(questionCount)
+            .ToList();
+
+        Populate(filteredQuestions);
     }
 
     private void Populate(List<Question> questions)
