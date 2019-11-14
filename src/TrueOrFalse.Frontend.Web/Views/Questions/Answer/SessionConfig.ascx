@@ -86,7 +86,7 @@
                             <div class="rightLabel">{{maxSelectableQuestionCount}}</div>
                         </div>
                         <div v-else class="alert alert-warning" role="alert">Leider sind keine Fragen mit diesen Einstellungen verfügbar. Bitte ändere die Antwortwahrscheinlichkeit oder wähle "Alle Fragen" aus.</div>
-                        <div class="alert alert-warning" v-if="selectedQuestionCount == 0 && maxSelectableQuestionCount > 0">Du musst mindestens 1 Frage auswählen.</div>
+                        <div class="alert alert-warning" v-if="maxQuestionCountIsZero || (selectedQuestionCount == 0 && maxSelectableQuestionCount > 0)">Du musst mindestens 1 Frage auswählen.</div>
 
                     </div>
                     
@@ -95,7 +95,7 @@
                 </div>
                 <div class="modal-footer">
                     <div type="button" class="btn btn-link" data-dismiss="modal">Abbrechen</div>
-                    <div type="button" class="btn btn-primary" @click="loadCustomSession()"><i class="fas fa-play"></i> Starten</div>
+                    <div type="button" class="btn btn-primary" :class="{ 'disabled' : maxQuestionCountIsZero }" @click="loadCustomSession()"><i class="fas fa-play"></i> Starten</div>
                 </div>
             </div>
         </div>

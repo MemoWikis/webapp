@@ -25,6 +25,7 @@ new Vue({
             selectedQuestionCount: 10,
             questionsInWishknowledge: "False",
             percentages: '{value}%',
+            maxQuestionCountIsZero: false,
         };
     },
 
@@ -45,7 +46,7 @@ new Vue({
             this.loadQuestionCount();
         },
 
-        questionsInWishknowledge: function (val) {
+        questionsInWishknowledge: function(val) {
             if (val == "True")
                 this.questionFilter.questionsInWishknowledge = true;
             else
@@ -54,8 +55,15 @@ new Vue({
         },
 
         selectedQuestionCount: function(val) {
-            this.questionFilter.maxQuestionCount = parseInt(val); 
-        }
+            this.questionFilter.maxQuestionCount = parseInt(val);
+        },
+
+        'questionFilter.maxQuestionCount': function(val) {
+            if (val == 0)
+                this.maxQuestionCountIsZero = true;
+            else
+                this.maxQuestionCountIsZero = false;
+        },
     },
 
     methods: {
@@ -103,7 +111,7 @@ new Vue({
         },
 
         loadCustomSession() {
-            if (this.questionFilter.maxQuestionCount == 0)
+            if (this.maxQuestionCountIsZero)
                 return;
 
             this.answerBody.Loader.loadNewSession(this.mode, this.questionFilter);
