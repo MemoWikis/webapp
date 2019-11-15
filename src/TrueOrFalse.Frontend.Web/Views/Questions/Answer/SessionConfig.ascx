@@ -5,7 +5,7 @@
     
     <div id="sessionSelectionContainer">
 
-        <div class="sessionSelectionButton" @click="loadNewSession('lowProbability')">
+        <div class="sessionSelectionButton" @click="loadNewSession('highProbability')">
             <div class="sessionSelectionContent">
                 <div class="sessionSelectionButtonIcon highProbability"><i class="far fa-smile"></i></div>
                 <div class="sessionSelectionText">Fragen mit hoher Antwortwahrscheinlichkeit</div>
@@ -13,7 +13,7 @@
             <div class="sessionSelectionBottomBorder highProbability"></div>
         </div>
         
-        <div class="sessionSelectionButton" @click="loadNewSession('highProbability')">
+        <div class="sessionSelectionButton" @click="loadNewSession('lowProbability')">
             <div class="sessionSelectionContent">
                 <div class="sessionSelectionButtonIcon lowProbability"><i class="fas fa-fire"></i></div>
                 <div class="sessionSelectionText">Fragen mit geringer Antwortwahrscheinlichkeit</div>

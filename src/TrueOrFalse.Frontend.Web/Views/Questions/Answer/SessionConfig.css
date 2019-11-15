@@ -93,11 +93,11 @@
 #SessionConfigApp .sliders .sliderContainer .leftLabel,
 #SessionConfigApp .sliders .sliderContainer .rightLabel {
   color: #949494;
+  min-width: 42px;
 }
 #SessionConfigApp .sliders .sliderContainer .leftLabel {
   padding-right: 16px;
   text-align: right;
-  width: 42px;
 }
 #SessionConfigApp .sliders .sliderContainer .rightLabel {
   padding-left: 16px;
@@ -184,6 +184,11 @@
   position: relative;
   top: -100px;
   left: 185px;
+}
+@media (max-width: 1200px) {
+  #SessionConfigApp #sessionSelectionContainer #CustomSessionConfigBtnContainer .sessionConfigReminder {
+    display: none;
+  }
 }
 .vue-slider-dot-handle {
   cursor: pointer;

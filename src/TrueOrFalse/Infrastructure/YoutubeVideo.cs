@@ -36,7 +36,7 @@ public class YoutubeVideo
 
 
     public static string GetIframe(string key) => 
-        $@"<iframe width='100%' class='video' id='player' src='https://www.youtube.com/embed/{key}?enablejsapi=1&rel=0&origin={HttpContext.Current.Request.Url.Scheme}://{HttpContext.Current.Request.Url.Host}'>
+        $@"<iframe width='100%' class='video' id='player' src='https://www.youtube-nocookie.com/embed/{key}?enablejsapi=1&rel=0&origin={HttpContext.Current.Request.Url.Scheme}://{HttpContext.Current.Request.Url.Host}'>
             </iframe> ";
 
     public static string GetPreviewImage(string youtubeKey)

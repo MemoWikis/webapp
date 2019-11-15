@@ -75,20 +75,22 @@ public class CreateLearningSession
             }
         }
 
-        var questionCount = questionFilter.HasMaxQuestionCount() ? questionFilter.MaxQuestionCount : newQuestionsList.Count;
-
         var filteredQuestions = newQuestionsList
             .Where(
-            q => q.CorrectnessProbability > questionFilter.MinProbability &&
-                 q.CorrectnessProbability < questionFilter.MaxProbability)
+            q => q.CorrectnessProbability >= questionFilter.MinProbability &&
+                 q.CorrectnessProbability <= questionFilter.MaxProbability)
             .ToList();
 
-        if (questionFilter.GetQuestionOrderBy() == "DescendingProbability")
-            filteredQuestions.OrderByDescending(q => q.CorrectnessProbability);
-        else if (questionFilter.GetQuestionOrderBy() == "AscendingProbability")
-            filteredQuestions.OrderBy(q => q.CorrectnessProbability);
+        var questionCount = newQuestionsList.Count;
+        if (questionFilter.HasMaxQuestionCount())
+            questionCount = questionFilter.MaxQuestionCount + (newQuestionsList.Count / 4);
 
-        filteredQuestions.Take(questionCount).ToList();
+        if (questionFilter.GetQuestionOrderBy() == "HighProbability")
+            filteredQuestions = filteredQuestions.OrderByDescending(f => f.CorrectnessProbability).ToList();
+        else if (questionFilter.GetQuestionOrderBy() == "LowProbability")
+            filteredQuestions = filteredQuestions.OrderBy(f => f.CorrectnessProbability).ToList();
+
+        filteredQuestions = filteredQuestions.Take(questionCount).ToList();
         
         timer.Stop();
         Logg.r().Information("Filtering {questionCount} questions, Time elapsed {stopwatchElapsed}", questions.Count, timer.Elapsed);

@@ -19,9 +19,7 @@ class SetVideoPlayer
     VideoStops: StopVideoAt[] = [];                
     VideoIsPlaying = false;                          
     VideoCheckIntervalPaused = false;                
-
     IsVideoPausingEnabled = true;                    
-
     Player : YT.Player;
 
     constructor() {                                               
@@ -47,7 +45,6 @@ class SetVideoPlayer
     public OnPlayerReady() {                                       
         $(document).ready(() => {
             this.Player = player;
-      
         });
     }
 
@@ -161,8 +158,5 @@ class VideoPausingButtons {
     }
 
 }
-
-
-
 
 var setVideoPlayer = new SetVideoPlayer();
