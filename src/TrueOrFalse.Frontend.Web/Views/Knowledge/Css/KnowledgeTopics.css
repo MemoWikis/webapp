@@ -288,3 +288,7 @@
 #DropdownTopic {
   display: contents;
 }
+#DropdownTopic .dropdown-menu {
+  top: auto;
+  right: 9px;
+}
