@@ -16,7 +16,7 @@
         <div class="sessionSelectionButton" @click="loadNewSession('lowProbability')">
             <div class="sessionSelectionContent">
                 <div class="sessionSelectionButtonIcon lowProbability"><i class="fas fa-fire"></i></div>
-                <div class="sessionSelectionText">Fragen mit geringer Antwortwahrscheinlichkeit</div>
+                <div class="sessionSelectionText">Fragen mit geringer Antwortwahrscheinlichkeit </div>
             </div>
             <div class="sessionSelectionBottomBorder lowProbability"></div>
         </div>
@@ -56,27 +56,27 @@
 
                 <div class="modal-body">
                     
-                    <div v-if="isLoggedIn">
-                        <label class="radio">
-                            <input type="radio" name="r1" value="Test" v-model="questionFilter.mode">
-                            <span class="radioLabel">Testen</span>
-                        </label>
-                        <label class="radio">
-                            <input type="radio" name="r1" value="Learning" v-model="questionFilter.mode">
-                            <span class="radioLabel">Lernen</span>
-                        </label>
-                    </div>
-
-                    <div v-if="isLoggedIn">
-                        <label class="radio">
-                            <input type="radio" name="r2" value="False" v-model="questionsInWishknowledge" checked>
-                            <span class="radioLabel">Alle Fragen</span>
-                        </label>
-                        <label class="radio">
-                            <input type="radio" name="r2" value="True" v-model="questionsInWishknowledge">
-                            <span class="radioLabel">Fragen im Wunschwissen</span>
-                        </label>
-                    </div>
+                    <div class="modal-section-label">Modus</div>
+                    <label class="radio">
+                        <input type="radio" name="r1" value="Test" v-model="questionFilter.mode">
+                        <span class="radioLabel">Testen <span class="labelInfo">- keine Antworthilfe, keine Wiederholungen, zufällige Fragen</span></span>
+                    </label>
+                    <label class="radio">
+                        <input type="radio" name="r1" value="Learning" v-model="questionFilter.mode">
+                        <span class="radioLabel">Lernen <span class="labelInfo">- Fragen mit geringer Antwortwahrscheinlichkeit werden zuerst geübt, Falsch gelöste Fragen werden wiederholt</span></span>
+                    </label>
+                    
+                    <div class="modal-divider"></div>
+                    
+                    <div class="modal-section-label">Fragen</div>
+                    <label class="radio">
+                        <input type="radio" name="r2" value="False" v-model="questionsInWishknowledge" checked>
+                        <span class="radioLabel">Alle Fragen</span>
+                    </label>
+                    <label class="radio">
+                        <input type="radio" name="r2" value="True" v-model="questionsInWishknowledge">
+                        <span class="radioLabel">Fragen im Wunschwissen</span>
+                    </label>
                     <div class="sliders">
 
                         <label class="sliderLabel">Antwortwahrscheinlichkeit</label>

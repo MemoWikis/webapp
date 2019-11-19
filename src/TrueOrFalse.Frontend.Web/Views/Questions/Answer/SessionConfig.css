@@ -6,6 +6,15 @@
   padding-top: 20px;
   font-size: 24px;
 }
+#SessionConfigApp .modal-body .modal-section-label {
+  padding-left: 20px;
+  font-size: 20px;
+}
+#SessionConfigApp .modal-body .modal-divider {
+  border-bottom: 1px grey solid;
+  opacity: 0.4;
+  margin: 35px 20px;
+}
 #SessionConfigApp .sliderLabel,
 #SessionConfigApp .radioLabel {
   font-size: 18px;
@@ -21,6 +30,14 @@
   margin: 16px 0;
   display: block;
   cursor: pointer;
+}
+#SessionConfigApp .radio span.labelInfo {
+  width: 80%;
+  float: right;
+  font-size: 14px;
+  color: #C0C0C0;
+  font-style: italic;
+  padding-right: 35px;
 }
 #SessionConfigApp .radio input {
   display: none;
