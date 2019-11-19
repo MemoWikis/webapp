@@ -55,14 +55,25 @@
                 </div>
 
                 <div class="modal-body">
+                    
+                    <div v-if="isLoggedIn">
+                        <label class="radio">
+                            <input type="radio" name="r1" value="Test" v-model="questionFilter.mode">
+                            <span class="radioLabel">Testen</span>
+                        </label>
+                        <label class="radio">
+                            <input type="radio" name="r1" value="Learning" v-model="questionFilter.mode">
+                            <span class="radioLabel">Lernen</span>
+                        </label>
+                    </div>
 
                     <div v-if="isLoggedIn">
                         <label class="radio">
-                            <input type="radio" name="r" value="False" v-model="questionsInWishknowledge" checked>
+                            <input type="radio" name="r2" value="False" v-model="questionsInWishknowledge" checked>
                             <span class="radioLabel">Alle Fragen</span>
                         </label>
                         <label class="radio">
-                            <input type="radio" name="r" value="True" v-model="questionsInWishknowledge">
+                            <input type="radio" name="r2" value="True" v-model="questionsInWishknowledge">
                             <span class="radioLabel">Fragen im Wunschwissen</span>
                         </label>
                     </div>

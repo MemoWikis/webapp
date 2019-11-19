@@ -6,6 +6,7 @@ public class QuestionFilterJson
     public int MaxQuestionCount { get; set; } = 0;
     public bool QuestionsInWishknowledge { get; set; } = false;
     public int QuestionOrder { get; set; }
+    public string Mode { get; set; } = "Learning";
 
     public string GetQuestionOrderBy()
     {
@@ -23,6 +24,13 @@ public class QuestionFilterJson
         if (MaxQuestionCount > 0)
             return true;
 
+        return false;
+    }
+
+    public bool IsTestMode()
+    {
+        if (Mode == "Test")
+            return true;
         return false;
     }
 }

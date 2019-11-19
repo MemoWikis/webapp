@@ -90,6 +90,9 @@ public class CreateLearningSession
         else if (questionFilter.GetQuestionOrderBy() == "LowProbability")
             filteredQuestions = filteredQuestions.OrderBy(f => f.CorrectnessProbability).ToList();
 
+        if (questionFilter.IsTestMode())
+            filteredQuestions = filteredQuestions.Shuffle().ToList();
+        
         filteredQuestions = filteredQuestions.Take(questionCount).ToList();
         
         timer.Stop();

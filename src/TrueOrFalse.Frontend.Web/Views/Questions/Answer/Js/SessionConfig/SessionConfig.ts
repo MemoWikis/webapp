@@ -9,7 +9,6 @@ new Vue({
 
     data() {
         return {
-            mode: 'Learning',
             title: 'Lernsitzung',
             answerBody: new AnswerBody(),
             probabilityRange: [0, 100],
@@ -19,6 +18,7 @@ new Vue({
                 maxQuestionCount: 10,
                 questionsInWishknowledge: false,
                 questionOrder: 0,
+                mode: "Learning",
             },
             isLoggedIn: true,
             maxSelectableQuestionCount: 50,
@@ -26,12 +26,12 @@ new Vue({
             questionsInWishknowledge: "False",
             percentages: '{value}%',
             maxQuestionCountIsZero: false,
+            isTestMode: false,
         };
     },
 
     mounted() {
         if (NotLoggedIn.Yes()) {
-            this.mode = 'Test';
             this.title = 'Testsitzung';
             this.isLoggedIn = false;
         }
@@ -47,10 +47,7 @@ new Vue({
         },
 
         questionsInWishknowledge: function(val) {
-            if (val == "True")
-                this.questionFilter.questionsInWishknowledge = true;
-            else
-                this.questionFilter.questionsInWishknowledge = false;
+            this.questionFilter.questionsInWishknowledge = val === "True";
             this.loadQuestionCount();
         },
 
@@ -59,10 +56,7 @@ new Vue({
         },
 
         'questionFilter.maxQuestionCount': function(val) {
-            if (val == 0)
-                this.maxQuestionCountIsZero = true;
-            else
-                this.maxQuestionCountIsZero = false;
+            this.maxQuestionCountIsZero = val === 0;
         },
     },
 
@@ -94,6 +88,7 @@ new Vue({
                 maxQuestionCount: this.isLoggedIn ? 10 : 5,
                 questionsInWishknowledge: false,
                 questionOrder: 0,
+                mode: "Learning",
             };
         },
 
@@ -114,8 +109,7 @@ new Vue({
             if (this.maxQuestionCountIsZero)
                 return;
 
-            this.answerBody.Loader.loadNewSession(this.mode, this.questionFilter, true);
-            this.questionFilter.questionOrder = 0;
+            this.answerBody.Loader.loadNewSession(this.questionFilter, true);
             $('#SessionConfigModal').modal('hide');
 
         }

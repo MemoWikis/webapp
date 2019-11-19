@@ -51,10 +51,13 @@ class AnswerBodyLoader {
                     e.preventDefault();
                     var learningSessionId = $("#hddIsLearningSession").attr("data-learning-session-id");
                     var skipStepIdx = $("#hddIsLearningSession").attr("data-skip-step-index");
+                    var isInTestMode = $("#isInTestMode").val() == "True";
                     var url = "/AnswerQuestion/RenderAnswerBodyByLearningSession/?learningSessionId=" +
                         learningSessionId +
                         "&skipStepIdx=" +
-                        skipStepIdx;
+                        skipStepIdx +
+                        "&isInTestMode=" +
+                        isInTestMode;
                     this.loadNewQuestion(url);
                 });
 
@@ -94,18 +97,17 @@ class AnswerBodyLoader {
     }
 
     public loadNewTestSession() {
-        this.loadNewSession("Test");
+        this.loadNewSession();
     }
 
     public loadNewLearningSession() {
-        this.loadNewSession("Learning");
+        this.loadNewSession();
     }
 
-    public loadNewSession(mode, questionFilter = null, loadedFromVue = false) {
+    public loadNewSession(questionFilter = null, loadedFromVue = false) {
 
         this._sessionConfigDataJson = {
             categoryId: $('#hhdCategoryId').val(),
-            mode: mode,
             isInLearningTab: this._isInLearningTab,
             questionFilter: questionFilter,
         }
@@ -187,6 +189,30 @@ class AnswerBodyLoader {
                     $("div[data-div-type='questionDetails']").last().remove();
                 if ($("div[data-div-type='testSessionHeader']").length > 1)
                     $("div[data-div-type='testSessionHeader']").slice(1).remove();
+
+                var node = $(".SessionType > span.show-tooltip");
+                var testToolTip = " <div style= 'text-align: left;'> In diesem Modus" +
+                    "<ul>" +
+                    "<li>werden die Fragen zufällig ausgewählt </li>" +
+                    "<li>hast du jeweils nur einen Antwortversuch </li>" +
+                    "</ul>" +
+                    "</div>";
+                var learningToolTip = "<div style= 'text-align: left;'> In diesem Modus" +
+                    "<ul>" +
+                    "<li>wiederholst du personalisiert die Fragen, die du am dringendsten lernen solltest </li>" +
+                    "<li>kannst du dir die Lösung anzeigen lassen </li>" +
+                    "<li>werden dir Fragen, die du nicht richtig beantworten konntest, nochmal vorgelegt </li>" +
+                    "</ul>" +
+                    "</div>";
+                if (result.isInTestMode) {
+                    node[0].firstChild.nodeValue = "Testen";
+                    node[0].setAttribute("data-original-title", testToolTip);
+                }
+                else {
+                    node[0].firstChild.nodeValue = "Lernen";
+                    node[0].setAttribute("data-original-title", learningToolTip);
+                }
+
                 if (loadedFromVue) {
                     $(".SessionSessionHeading").fadeIn();
                     $(".SessionBar").fadeIn();

@@ -234,6 +234,9 @@ public class LearningSession : DomainEntity, IRegisterAsInstancePerLifetime
 
     public virtual void FillAllAnswers()
     {
+        var skipAll = !this.Steps.Any(s => s.AnswerState != StepAnswerState.Skipped);
+        if (skipAll)
+            return;
         var stepGuids = this.Steps.Where(s => s.AnswerState != StepAnswerState.NotViewedOrAborted).Select(x => x.Guid).ToList();
         var answers = Sl.AnswerRepo.GetByLearningSessionStepGuids(this.Id, stepGuids);
         this.Steps.ForEach(s => s.Answers = answers.Where(a => a.LearningSessionStepGuid == s.Guid).ToList());
