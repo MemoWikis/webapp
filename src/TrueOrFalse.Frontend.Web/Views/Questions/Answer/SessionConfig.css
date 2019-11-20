@@ -6,6 +6,47 @@
   padding-top: 20px;
   font-size: 24px;
 }
+#SessionConfigApp .modal-body .fade-enter {
+  opacity: 0;
+}
+#SessionConfigApp .modal-body .fade-enter-active {
+  transition: opacity 0.3s ease-in;
+}
+#SessionConfigApp .modal-body .fade-leave {
+  opacity: 0.5;
+}
+#SessionConfigApp .modal-body .fade-leave-active {
+  transition: opacity 1s;
+}
+#SessionConfigApp .modal-body .fade-leave-to {
+  opacity: 0;
+}
+#SessionConfigApp .modal-body .restricted-options {
+  position: absolute;
+  top: 45px;
+  padding: 30px;
+  width: 568px;
+  left: calc(50% - 284px);
+  z-index: 2;
+  border-radius: 4px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+}
+#SessionConfigApp .modal-body .restricted-options .info-content {
+  font-size: 20px;
+  padding: 20px;
+  text-align: center;
+  max-width: 360px;
+  width: 100%;
+  cursor: default;
+}
+#SessionConfigApp .modal-body .restricted-options .restricted-options-buttons {
+  display: flex;
+  align-content: center;
+  justify-content: center;
+}
 #SessionConfigApp .modal-body .modal-section-label {
   padding-left: 20px;
   font-size: 20px;
@@ -13,31 +54,83 @@
 #SessionConfigApp .modal-body .modal-divider {
   border-bottom: 1px grey solid;
   opacity: 0.4;
-  margin: 35px 20px;
+  margin: 20px;
 }
 #SessionConfigApp .sliderLabel,
 #SessionConfigApp .radioLabel {
   font-size: 18px;
   color: #434343;
+  word-wrap: break-word;
 }
 #SessionConfigApp .modal-footer {
   border-top: none;
 }
 #SessionConfigApp label.sliderLabel {
   padding-top: 20px;
+  width: 100%;
+}
+#SessionConfigApp .disabled-radios .blur {
+  width: 100%;
+  height: 70%;
+  position: absolute;
+  backdrop-filter: blur(2px);
+  z-index: 1;
+  background: rgba(255, 255, 255, 0.67);
+}
+#SessionConfigApp .disabled-radios .radio input + span:before {
+  border: solid 0.5px #c0c0c0;
+  transform: none;
+}
+#SessionConfigApp .disabled-radios .radio input + span:after {
+  background: none;
+}
+#SessionConfigApp .disabled-radios .radio input:checked + span:before {
+  border: solid 0.5px #c0c0c0;
+  transform: none;
+}
+#SessionConfigApp .disabled-radios .radio input:checked + span:after {
+  background: #c0c0c0;
+}
+#SessionConfigApp .disabled-radios .radio:hover {
+  cursor: default;
+}
+#SessionConfigApp .disabled-radios .radio:hover input + span:before {
+  transform: none;
+}
+#SessionConfigApp .disabled-radios .radio:hover input + span:after {
+  transform: none;
+}
+#SessionConfigApp .disabled-radios .radio:hover input:checked + span:after {
+  transform: scale(0.61);
 }
 #SessionConfigApp .radio {
   margin: 16px 0;
-  display: block;
+  display: flex;
   cursor: pointer;
 }
-#SessionConfigApp .radio span.labelInfo {
+#SessionConfigApp .radio .radioLabelContainer {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  width: 100%;
+}
+#SessionConfigApp .radio .radioLabelContainer .radioLabel {
+  line-height: 17px;
+  width: 20%;
+  padding-left: 8px;
+  min-width: 100px;
+}
+#SessionConfigApp .radio .radioLabelContainer .radioLabel.fullSize {
+  width: 100%;
+}
+#SessionConfigApp .radio .radioLabelContainer .labelInfo {
   width: 80%;
   float: right;
   font-size: 14px;
   color: #C0C0C0;
   font-style: italic;
   padding-right: 35px;
+  min-width: 200px;
 }
 #SessionConfigApp .radio input {
   display: none;

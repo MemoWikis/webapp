@@ -21,7 +21,7 @@
 <div class="row">
     <div class="col-sm-9 xxs-stack" id="ResultMainColumn">
         <div class="stackedBarChartContainer"             
-             <% if (Model.NumberCorrectPercentage > 0){ %>
+             <% if (!Model.ShowSummaryText){ %>
              style="margin-bottom: 0;"
              <% } %>>
             <% if (Model.NumberCorrectPercentage>0) {%>

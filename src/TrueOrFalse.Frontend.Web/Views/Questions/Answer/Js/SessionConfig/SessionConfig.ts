@@ -9,7 +9,7 @@ new Vue({
 
     data() {
         return {
-            title: 'Lernsitzung',
+            title: 'Lernen',
             answerBody: new AnswerBody(),
             probabilityRange: [0, 100],
             questionFilter: {
@@ -27,16 +27,36 @@ new Vue({
             percentages: '{value}%',
             maxQuestionCountIsZero: false,
             isTestMode: false,
+            isHoveringOptions: false,
+            radioHeight: 0,
+            radioWidth: 0,
+            openLogin: false,
         };
     },
 
     mounted() {
+        var self = this;
+
         if (NotLoggedIn.Yes()) {
-            this.title = 'Testsitzung';
+            this.title = 'Test';
             this.isLoggedIn = false;
-        }
+            this.questionFilter.mode = 'Test';
+        };
 
         this.loadQuestionCount();
+
+        this.$nextTick(function() {
+            window.addEventListener('resize', this.matchSize);
+            self.matchSize();
+        });
+
+        $('#SessionConfigModal').on('shown.bs.modal', function () {
+            self.matchSize();
+        });
+        $('#SessionConfigModal').on('hidden.bs.modal', function () {
+            if (self.openLogin)
+                Login.OpenModal();
+        });
     },
 
     watch: {
@@ -112,6 +132,21 @@ new Vue({
             this.answerBody.Loader.loadNewSession(this.questionFilter, true);
             $('#SessionConfigModal').modal('hide');
 
+        },
+
+        matchSize() {
+            this.radioHeight = this.$refs.radioSection.clientHeight;
+            this.radioWidth = this.$refs.radioSection.clientWidth;
+        },
+
+        openModal() {
+            $('#SessionConfigModal').modal('show');
+            this.openLogin = false;
+        },
+
+        goToLogin() {
+            this.openLogin = true;
+            $('#SessionConfigModal').modal('hide');
         }
     }
 });
