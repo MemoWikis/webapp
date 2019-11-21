@@ -35,7 +35,7 @@
 <div class="SessionBar">
     <div class="QuestionCount" style="float: right;">Frage <span id="CurrentStepNumber"><%= Model.CurrentLearningStepIdx + 1 %></span> von <span id="StepCount"><%= Model.LearningSession.Steps.Count %></span></div>
     <div class="SessionType">
-        <span class="show-tooltip"
+        <span id="SessionTitleSpan" class="show-tooltip"
         data-original-title="<%= @"<div style='text-align: left;'>In diesem Modus
                 <ul>
                     <li>wiederholst du personalisiert die Fragen, die du am dringendsten lernen solltest</li>

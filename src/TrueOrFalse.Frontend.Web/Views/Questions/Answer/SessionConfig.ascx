@@ -1,4 +1,5 @@
 ﻿<%@ Import Namespace="System.Web.Optimization" %>
+<%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
 
 
 <div id="SessionConfigApp">
@@ -16,7 +17,7 @@
         <div class="sessionSelectionButton" @click="loadNewSession('lowProbability')">
             <div class="sessionSelectionContent">
                 <div class="sessionSelectionButtonIcon lowProbability"><i class="fas fa-fire"></i></div>
-                <div class="sessionSelectionText">Fragen mit geringer Antwortwahrscheinlichkeit</div>
+                <div class="sessionSelectionText">Fragen mit geringer Antwortwahrscheinlichkeit </div>
             </div>
             <div class="sessionSelectionBottomBorder lowProbability"></div>
         </div>
@@ -29,8 +30,8 @@
             <div class="sessionSelectionBottomBorder randomQuestions"></div>
         </div>
         
-        <div id="CustomSessionConfigBtnContainer" >
-            <div id="CustomSessionConfigBtn" data-toggle="modal" data-target="#SessionConfigModal">
+        <div id="CustomSessionConfigBtnContainer">
+            <div id="CustomSessionConfigBtn" @click="openModal()">
                 <div class="sessionSelectionContent">
                     <div class="sessionSelectionButtonIcon customQuestions"><i class="fas fa-tools"></i></div>
                     <div class="sessionSelectionText">Benutzerdefiniertes Lernen</div>
@@ -51,21 +52,65 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header" id="SessionConfigHeader">
-                    <h4 class="modal-title" >{{title}} konfigurieren</h4>
+                    <h4 class="modal-title" >{{title}} personalisieren</h4>
                 </div>
 
                 <div class="modal-body">
+                    
+                    <transition name="fade">
+                        <div class="restricted-options" v-show="!isLoggedIn && isHoveringOptions" @mouseover="isHoveringOptions = true" transition="fade">
+                            <div class="info-content" style="">Diese Optionen sind nur für eingeloggte Nutzer verfügbar.</div>
+                            <div class="restricted-options-buttons">                            
+                                <div type="button" class="btn btn-link" @click="goToLogin()">Ich bin schon Nutzer!</div>
+                                <a type="button" class="btn btn-primary" href="<%= Url.Action(Links.RegisterAction, Links.RegisterController) %>">Jetzt Registrieren!</a>
+                            </div>
 
-                    <div v-if="isLoggedIn">
+                        </div>
+                    </transition>
+
+                    <div ref="radioSection" class="radios" :class="{'disabled-radios' : !isLoggedIn}" @mouseover="isHoveringOptions = true" @mouseleave="isHoveringOptions = false">
+
+                        <transition name="fade">
+                            <div v-show="!isLoggedIn && isHoveringOptions" class="blur" :style="{maxWidth: radioWidth + 'px', maxHeight: radioHeight + 'px'}"></div>
+                        </transition>
+
+                        <div class="modal-section-label">Modus</div>
                         <label class="radio">
-                            <input type="radio" name="r" value="False" v-model="questionsInWishknowledge" checked>
-                            <span class="radioLabel">Alle Fragen</span>
+                            <input type="radio" name="r1" value="Test" v-model="questionFilter.mode" :disabled="!isLoggedIn">
+                            <span></span>
+                            <div class="radioLabelContainer">                            
+                                <div class="radioLabel">Testen</div>
+                                <div class="labelInfo">- keine Antworthilfe, keine Wiederholungen, zufällige Fragen</div>
+                            </div>
                         </label>
                         <label class="radio">
-                            <input type="radio" name="r" value="True" v-model="questionsInWishknowledge">
-                            <span class="radioLabel">Fragen im Wunschwissen</span>
+                            <input type="radio" name="r1" value="Learning" v-model="questionFilter.mode" :disabled="!isLoggedIn">
+                            <span></span>
+                            <div class="radioLabelContainer">                            
+                                <div class="radioLabel">Lernen</div>
+                                <div class="labelInfo">- Fragen mit geringer Antwortwahrscheinlichkeit werden zuerst geübt, Falsch gelöste Fragen werden wiederholt</div>
+                            </div>
+                        </label>
+                    
+                        <div class="modal-divider"></div>
+                    
+                        <div class="modal-section-label">Fragen</div>
+                        <label class="radio">
+                            <input type="radio" name="r2" value="False" v-model="questionsInWishknowledge" :disabled="!isLoggedIn">
+                            <span></span>
+                            <div class="radioLabelContainer">                            
+                                <div class="radioLabel fullSize">Alle Fragen</div>
+                            </div>
+                        </label>
+                        <label class="radio">
+                            <input type="radio" name="r2" value="True" v-model="questionsInWishknowledge" :disabled="!isLoggedIn">
+                            <span></span>
+                            <div class="radioLabelContainer">                            
+                                <div class="radioLabel fullSize">Fragen im Wunschwissen</div>
+                            </div>
                         </label>
                     </div>
+
                     <div class="sliders">
 
                         <label class="sliderLabel">Antwortwahrscheinlichkeit</label>

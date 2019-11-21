@@ -20,7 +20,10 @@
 
 <div class="row">
     <div class="col-sm-9 xxs-stack" id="ResultMainColumn">
-        <div class="stackedBarChartContainer">
+        <div class="stackedBarChartContainer"             
+             <% if (!Model.ShowSummaryText){ %>
+             style="margin-bottom: 0;"
+             <% } %>>
             <% if (Model.NumberCorrectPercentage>0) {%>
                 <div class="stackedBarChart chartCorrectAnswer" style="width: <%=Model.NumberCorrectPercentage %>%;">
                     <%=Model.NumberCorrectPercentage %>% 
@@ -42,7 +45,8 @@
                 </div>
             <% } %>                
         </div>
-
+        
+        <% if (Model.ShowSummaryText) {%>
         <div class="SummaryText" style="clear: left;">
             <p style="margin-bottom: 20px;">In dieser Lernsitzung hast du <%= Model.NumberUniqueQuestions %> Fragen gelernt und dabei</p>
             <div class="row">
@@ -66,6 +70,23 @@
                 </div>
             </div>
         </div>
+        <% } else {
+               var tooltip = string.Format("Der Durchschnitt aller Nutzer beantwortete {0}% richtig", Model.PercentageAverageRightAnswers); %>
+        <div id="divIndicatorAverageWrapper" style="width: 100%">
+            <div id="divIndicatorAverage" style="margin-left: <%= Model.PercentageAverageRightAnswers %>%">
+                <i class="fa fa-caret-up fa-4x show-tooltip" style="margin-left: -16px;" title="<%= tooltip %>"></i>
+            </div>
+            <div id="divIndicatorAverageText">
+                <p class="show-tooltip" title="<%= tooltip %>">
+                    Nutzerdurchschnitt (<span id="avgPercentageCorrect"><%= Model.PercentageAverageRightAnswers %></span>% richtig)
+                </p>
+            </div>
+        </div>
+        
+        <% }%> 
+
+
+        
         <div class="buttonRow">
             <% if (Model.LearningSession.IsSetSession) { %>
                 <a href="<%= Links.SetDetail(Url, Model.LearningSession.SetToLearn) %>" class="btn btn-link" style="padding-right: 10px">Zum Lernset (Übersicht)</a>

@@ -9,8 +9,7 @@ new Vue({
 
     data() {
         return {
-            mode: 'Learning',
-            title: 'Lernsitzung',
+            title: 'Lernen',
             answerBody: new AnswerBody(),
             probabilityRange: [0, 100],
             questionFilter: {
@@ -19,6 +18,7 @@ new Vue({
                 maxQuestionCount: 10,
                 questionsInWishknowledge: false,
                 questionOrder: 0,
+                mode: "Learning",
             },
             isLoggedIn: true,
             maxSelectableQuestionCount: 50,
@@ -26,17 +26,37 @@ new Vue({
             questionsInWishknowledge: "False",
             percentages: '{value}%',
             maxQuestionCountIsZero: false,
+            isTestMode: false,
+            isHoveringOptions: false,
+            radioHeight: 0,
+            radioWidth: 0,
+            openLogin: false,
         };
     },
 
     mounted() {
+        var self = this;
+
         if (NotLoggedIn.Yes()) {
-            this.mode = 'Test';
-            this.title = 'Testsitzung';
+            this.title = 'Test';
             this.isLoggedIn = false;
-        }
+            this.questionFilter.mode = 'Test';
+        };
 
         this.loadQuestionCount();
+
+        this.$nextTick(function() {
+            window.addEventListener('resize', this.matchSize);
+            self.matchSize();
+        });
+
+        $('#SessionConfigModal').on('shown.bs.modal', function () {
+            self.matchSize();
+        });
+        $('#SessionConfigModal').on('hidden.bs.modal', function () {
+            if (self.openLogin)
+                Login.OpenModal();
+        });
     },
 
     watch: {
@@ -47,10 +67,7 @@ new Vue({
         },
 
         questionsInWishknowledge: function(val) {
-            if (val == "True")
-                this.questionFilter.questionsInWishknowledge = true;
-            else
-                this.questionFilter.questionsInWishknowledge = false;
+            this.questionFilter.questionsInWishknowledge = val === "True";
             this.loadQuestionCount();
         },
 
@@ -59,10 +76,7 @@ new Vue({
         },
 
         'questionFilter.maxQuestionCount': function(val) {
-            if (val == 0)
-                this.maxQuestionCountIsZero = true;
-            else
-                this.maxQuestionCountIsZero = false;
+            this.maxQuestionCountIsZero = val === 0;
         },
     },
 
@@ -94,6 +108,7 @@ new Vue({
                 maxQuestionCount: this.isLoggedIn ? 10 : 5,
                 questionsInWishknowledge: false,
                 questionOrder: 0,
+                mode: "Learning",
             };
         },
 
@@ -114,10 +129,24 @@ new Vue({
             if (this.maxQuestionCountIsZero)
                 return;
 
-            this.answerBody.Loader.loadNewSession(this.mode, this.questionFilter, true);
-            this.questionFilter.questionOrder = 0;
+            this.answerBody.Loader.loadNewSession(this.questionFilter, true);
             $('#SessionConfigModal').modal('hide');
 
+        },
+
+        matchSize() {
+            this.radioHeight = this.$refs.radioSection.clientHeight;
+            this.radioWidth = this.$refs.radioSection.clientWidth;
+        },
+
+        openModal() {
+            $('#SessionConfigModal').modal('show');
+            this.openLogin = false;
+        },
+
+        goToLogin() {
+            this.openLogin = true;
+            $('#SessionConfigModal').modal('hide');
         }
     }
 });

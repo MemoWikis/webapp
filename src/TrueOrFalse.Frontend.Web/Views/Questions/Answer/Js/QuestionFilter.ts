@@ -4,4 +4,5 @@
     maxQuestionCount: number;
     questionsInWishknowledge: boolean;
     questionOrder: number;
+    mode: string;
 }

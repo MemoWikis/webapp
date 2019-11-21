@@ -26,6 +26,7 @@
     
     <input type="hidden" id="hddTimeRecords" />
     <input type="hidden" id="hddQuestionId" value="<%=Model.QuestionId %>" />
+    <input type="hidden" id="isInTestMode" value="<%=Model.IsInTestMode %>"/>
     <div class="AnswerQuestionBodyMenu">
 
         <% if (!Model.IsInWidget)
@@ -164,7 +165,7 @@
                                             </div>
                                             <div>
                                     <% } %><!-- ??????----->
-                                    <% if (Model.IsLearningSession && Model.NextUrl != null) { %>
+                                    <% if (Model.IsLearningSession && Model.NextUrl != null && !Model.IsInTestMode) { %>
                                         <a id="aSkipStep" href="<%= Model.NextUrl(Url) %>" class="SecAction btn btn-link"><i class="fa fa-step-forward">&nbsp;</i>Frage überspringen</a>
                                     <% } %>
                                 </div>

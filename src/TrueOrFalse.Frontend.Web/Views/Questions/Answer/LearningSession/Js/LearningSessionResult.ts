@@ -39,11 +39,10 @@
             $("#QuestionCountCompletSideBar").fadeIn(); 
             var answerBody = new AnswerBody();
             answerBody.Loader.loadNewLearningSession();
-            $(".SessionHeading").fadeIn();
-            $(".SessionBar").fadeIn();
             $("#progressPercentageDone").width("0%");
             $("#spanPercentageDone").text("0%");
             $(".ProgressBarSegment .ProgressBarLegend").show();
+            Utils.ShowSpinner();
         });
 
         new LearningSessionResultCharts();

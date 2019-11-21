@@ -35,11 +35,18 @@ public class LearningSessionResultModel : BaseModel
 
     public int WishCountQuestions;
     public int WishCountSets;
+    public bool ShowSummaryText;
+    public int PercentageAverageRightAnswers;
 
-    public LearningSessionResultModel(LearningSession learningSession)
+
+    public LearningSessionResultModel(LearningSession learningSession, bool isInTestMode = false)
     {
+        ShowSummaryText = !isInTestMode;
         LearningSession = learningSession;
         NumberSteps = LearningSession.Steps.Count();
+        var numberQuestions = LearningSession.Steps.Count(s => s.AnswerState != StepAnswerState.Uncompleted);
+        PercentageAverageRightAnswers = (int)Math.Round(LearningSession.Steps.Sum(s => s.Question.CorrectnessProbability) / (float)numberQuestions);
+
 
         if (learningSession.IsDateSession)
         {
