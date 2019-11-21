@@ -37,7 +37,8 @@
             $(".ProgressBarSegment .ProgressBarLeft").width("0%");
             var answerBody = new AnswerBody();
             answerBody.Loader.loadNewTestSession();
-            });
+            Utils.ShowSpinner();
+        });
         }
     }
 

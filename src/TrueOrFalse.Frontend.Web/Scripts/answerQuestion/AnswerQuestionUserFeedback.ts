@@ -140,13 +140,15 @@
             if (this._answerQuestion.IsLearningSession && this._answerQuestion.AnswersSoFar.length === 0) {
                 //if is learningSession and user asked to show solution before answering, then queue this question to be answered again
                 var self = this;
+                var isInTestMode = $("#isInTestMode").val() == "True";
                 this._answerQuestion.ShowedSolutionOnly = true;
                 $.ajax({
                     type: 'POST',
                     url: AnswerQuestion.ajaxUrl_LearningSessionAmendAfterShowSolution,
                     data: {
                         learningSessionId: this._answerQuestion.LearningSessionId,
-                        stepGuid: this._answerQuestion.LearningSessionStepGuid
+                        stepGuid: this._answerQuestion.LearningSessionStepGuid,
+                        isInTestMode: isInTestMode,
                     },
                     cache: false,
                     success(result) {

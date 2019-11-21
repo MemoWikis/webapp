@@ -175,10 +175,9 @@ public class LearningSession : DomainEntity, IRegisterAsInstancePerLifetime
         }
     }
 
-    public virtual void UpdateAfterWrongAnswerOrShowSolution(LearningSessionStep affectedStep)
+    public virtual void UpdateAfterWrongAnswerOrShowSolution(LearningSessionStep affectedStep, bool isInTestMode = false)
     {
-        if(LimitForThisQuestionHasBeenReached(affectedStep) 
-            || LimitForNumberOfRepetitionsHasBeenReached())
+        if(LimitForThisQuestionHasBeenReached(affectedStep) || LimitForNumberOfRepetitionsHasBeenReached() || isInTestMode)
             return;
 
         var newStepForRepetition = new LearningSessionStep

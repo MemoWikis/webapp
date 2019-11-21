@@ -301,15 +301,15 @@ public class AnswerQuestionController : BaseController
     }
 
     [HttpPost]
-    public JsonResult AmendAfterShowSolution(int learningSessionId, Guid stepGuid)
+    public JsonResult AmendAfterShowSolution(int learningSessionId, Guid stepGuid, bool isInTestMode = false)
     {
         var learningSessionStep = LearningSession.GetStep(learningSessionId, stepGuid);
         var learningSession = Sl.R<LearningSessionRepo>().GetById(learningSessionId);
 
         learningSessionStep.AnswerState = StepAnswerState.ShowedSolutionOnly;
 
-        bool newStepAdded = !(learningSession.LimitForThisQuestionHasBeenReached(learningSessionStep) || learningSession.LimitForNumberOfRepetitionsHasBeenReached());
-        learningSession.UpdateAfterWrongAnswerOrShowSolution(learningSessionStep);
+        bool newStepAdded = !(learningSession.LimitForThisQuestionHasBeenReached(learningSessionStep) || learningSession.LimitForNumberOfRepetitionsHasBeenReached() || isInTestMode);
+        learningSession.UpdateAfterWrongAnswerOrShowSolution(learningSessionStep, isInTestMode);
 
         return new JsonResult
         {

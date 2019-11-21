@@ -100,11 +100,11 @@ class AnswerBodyLoader {
         this.loadNewSession();
     }
 
-    public loadNewLearningSession() {
-        this.loadNewSession();
+    public loadNewLearningSession(continueWithNewSession = false) {
+        this.loadNewSession(continueWithNewSession);
     }
 
-    public loadNewSession(questionFilter = null, loadedFromVue = false) {
+    public loadNewSession(questionFilter = null, loadedFromVue = false, continueWithNewSession = false) {
 
         this._sessionConfigDataJson = {
             categoryId: $('#hhdCategoryId').val(),
@@ -114,10 +114,10 @@ class AnswerBodyLoader {
 
         var url = "/AnswerQuestion/RenderNewAnswerBodySessionForCategory";
         this._getCustomSession = true;
-        this.loadNewQuestion(url, loadedFromVue);
+        this.loadNewQuestion(url, loadedFromVue, continueWithNewSession);
     }
 
-    public loadNewQuestion(url: string, loadedFromVue: boolean = false) {
+    public loadNewQuestion(url: string, loadedFromVue: boolean = false, continueWithNewSession: boolean = false) {
         this._isInLearningTab = $('#LearningTab').length > 0;
         if (this._getCustomSession)
             $("#TestSessionHeader").remove();
@@ -214,7 +214,10 @@ class AnswerBodyLoader {
                         node[0].setAttribute("data-original-title", learningToolTip);
                     }
                 }
-
+                if (continueWithNewSession) {
+                    $(".SessionSessionHeading").fadeIn();
+                    $(".SessionBar").fadeIn();
+                }
                 if (loadedFromVue) {
                     $(".SessionSessionHeading").fadeIn();
                     $(".SessionBar").fadeIn();
