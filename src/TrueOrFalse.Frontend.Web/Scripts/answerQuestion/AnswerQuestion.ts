@@ -213,7 +213,7 @@ class AnswerQuestion {
                 success(result) {
                     var answerResult = result;
                     self.IncrementInteractionNumber();
-
+                    self.updateQuestionDetails();
                     self.UpdateProgressBar(-1, answerResult);
 
                     if (self.IsTestSession) {
@@ -300,6 +300,17 @@ class AnswerQuestion {
         }
 
         this._onWrongAnswer();
+    }
+
+    private updateQuestionDetails() {
+        $.ajax({
+            url: "/AnswerQuestion/RenderUpdatedQuestionDetails",
+            type: "Post",
+            data: AnswerQuestion.GetQuestionId(),
+            success(result) {
+                $("#QuestionDetails").replaceWith(result.questionDetailsAsHtml);
+            },
+        });
     }
 
     private RegisterWrongAnswer() {

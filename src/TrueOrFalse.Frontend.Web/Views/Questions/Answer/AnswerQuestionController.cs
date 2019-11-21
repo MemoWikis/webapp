@@ -6,6 +6,7 @@ using System.Web.Mvc;
 using System.Web.Script.Serialization;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using NHibernate.Mapping;
 using TrueOrFalse;
 using TrueOrFalse.Frontend.Web.Code;
 using TrueOrFalse.Search;
@@ -657,6 +658,18 @@ public class AnswerQuestionController : BaseController
         var sessionData = new SessionData(currentSessionHeader, currentStepIdx, isLastStep);
 
         return GetQuestionPageData(model, currentUrl, sessionData, isSession: true, testSesssionId: testSessionId, includeTestSessionHeader: includeTestSessionHeader, isInLearningTab: isInLearningTab);
+    }
+
+    public string RenderUpdatedQuestionDetails(int questionId)
+    {
+        var serializer = new JavaScriptSerializer();
+        var question = Sl.QuestionRepo.GetById(questionId);
+        var model = new AnswerQuestionModel(question);
+
+        return serializer.Serialize(new
+        {
+            questionDetailsAsHtml = ViewRenderer.RenderPartialView("~/Views/Questions/Answer/AnswerQuestionDetails.ascx", model, ControllerContext),
+        });
     }
 
     private string GetQuestionPageData(
