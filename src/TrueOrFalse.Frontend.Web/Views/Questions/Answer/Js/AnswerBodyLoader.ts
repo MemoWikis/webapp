@@ -101,7 +101,7 @@ class AnswerBodyLoader {
     }
 
     public loadNewLearningSession(continueWithNewSession = false) {
-        this.loadNewSession(continueWithNewSession);
+        this.loadNewSession(null, false, continueWithNewSession);
     }
 
     public loadNewSession(questionFilter = null, loadedFromVue = false, continueWithNewSession = false) {

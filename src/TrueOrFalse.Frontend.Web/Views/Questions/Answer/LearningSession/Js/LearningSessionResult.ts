@@ -38,7 +38,7 @@
             $(".EduPartnerWrapper").remove();
             $("#QuestionCountCompletSideBar").fadeIn(); 
             var answerBody = new AnswerBody();
-            answerBody.Loader.loadNewLearningSession();
+            answerBody.Loader.loadNewLearningSession(true);
             $("#progressPercentageDone").width("0%");
             $("#spanPercentageDone").text("0%");
             $(".ProgressBarSegment .ProgressBarLegend").show();
