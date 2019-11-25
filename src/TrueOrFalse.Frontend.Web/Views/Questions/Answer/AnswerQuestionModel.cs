@@ -256,7 +256,7 @@ public class AnswerQuestionModel : BaseModel
             if(Creator.Id != _sessionUser.User.Id || IsTestSession)
                 throw new Exception("Invalid access to questionId" + question.Id);
 
-        var questionValuationForUser = NotNull.Run(Sl.QuestionValuationRepo.GetByFromCache(question.Id, UserId));
+        var questionValuationForUser = NotNull.Run(Sl.QuestionValuationRepo.GetBy(question.Id, UserId));
         var valuationForUser = Resolve<TotalsPersUserLoader>().Run(UserId, question.Id);
 
         if(IsLoggedIn)

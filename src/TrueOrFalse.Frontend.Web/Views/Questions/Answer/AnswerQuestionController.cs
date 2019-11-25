@@ -662,14 +662,10 @@ public class AnswerQuestionController : BaseController
 
     public string RenderUpdatedQuestionDetails(int questionId)
     {
-        var serializer = new JavaScriptSerializer();
         var question = Sl.QuestionRepo.GetById(questionId);
         var model = new AnswerQuestionModel(question);
 
-        return serializer.Serialize(new
-        {
-            questionDetailsAsHtml = ViewRenderer.RenderPartialView("~/Views/Questions/Answer/AnswerQuestionDetails.ascx", model, ControllerContext),
-        });
+        return ViewRenderer.RenderPartialView("~/Views/Questions/Answer/AnswerQuestionDetails.ascx", model, ControllerContext);
     }
 
     private string GetQuestionPageData(

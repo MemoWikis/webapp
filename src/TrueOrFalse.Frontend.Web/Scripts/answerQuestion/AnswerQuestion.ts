@@ -213,7 +213,6 @@ class AnswerQuestion {
                 success(result) {
                     var answerResult = result;
                     self.IncrementInteractionNumber();
-                    self.updateQuestionDetails();
                     self.UpdateProgressBar(-1, answerResult);
 
                     if (self.IsTestSession) {
@@ -244,6 +243,8 @@ class AnswerQuestion {
                         function(data) {
                             $("#answerHistory").html(data);
                         });
+                    self.updateQuestionDetails();
+
                 }
             });
             return false;
@@ -304,11 +305,13 @@ class AnswerQuestion {
 
     private updateQuestionDetails() {
         $.ajax({
-            url: "/AnswerQuestion/RenderUpdatedQuestionDetails",
-            type: "Post",
-            data: AnswerQuestion.GetQuestionId(),
+            url: '/AnswerQuestion/RenderUpdatedQuestionDetails',
+            type: 'Post',
+            data: { questionId: AnswerQuestion.GetQuestionId()},
             success(result) {
-                $("#QuestionDetails").replaceWith(result.questionDetailsAsHtml);
+                $('#QuestionDetails').replaceWith(result);
+                FillSparklineTotals();
+                $('.show-tooltip').tooltip();
             },
         });
     }
