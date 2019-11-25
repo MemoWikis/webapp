@@ -30,4 +30,7 @@ sudo mv /usr/local/bin/docker-compose /usr/bin/docker-compose
 
 sudo chmod +x /usr/bin/docker-compose
 
+adduser --disabled-login matomo
+adduser matomo docker
+
 reboot
