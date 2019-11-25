@@ -52,7 +52,7 @@ public class CreateLearningSession
         Stopwatch timer = new Stopwatch();
         timer.Start();
 
-        var questionValuation = UserValuationCache.GetItem(user.Id).QuestionValuations;
+        var questionValuation = UserValuationCache.CreateItemFromDatabase(user.Id).QuestionValuations;
         var newQuestionsList = new List<Question>();
 
         foreach (Question q in questions)
@@ -70,9 +70,7 @@ public class CreateLearningSession
                 newQuestionsList.Add(q);
 
             if (elemToRemove)
-            {
                 questionValuation.TryRemove(q.Id, out _);
-            }
         }
 
         var filteredQuestions = newQuestionsList
@@ -90,6 +88,9 @@ public class CreateLearningSession
         else if (questionFilter.GetQuestionOrderBy() == "LowProbability")
             filteredQuestions = filteredQuestions.OrderBy(f => f.CorrectnessProbability).ToList();
 
+        if (questionFilter.IsTestMode())
+            filteredQuestions = filteredQuestions.Shuffle().ToList();
+        
         filteredQuestions = filteredQuestions.Take(questionCount).ToList();
         
         timer.Stop();

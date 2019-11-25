@@ -205,8 +205,9 @@ class AnswerQuestion {
                 {
                     questionViewGuid: $('#hddQuestionViewGuid').val(),
                     interactionNumber: $('#hddInteractionNumber').val(),
-                    millisecondsSinceQuestionView: AnswerQuestion
-                        .TimeSinceLoad($('#hddTimeRecords').attr('data-time-of-answer'))
+                    millisecondsSinceQuestionView: AnswerQuestion.TimeSinceLoad($('#hddTimeRecords').attr('data-time-of-answer')),
+                    inTestMode: true
+
                 }),
                 cache: false,
                 success(result) {
@@ -223,7 +224,7 @@ class AnswerQuestion {
                                 testSessionId: AnswerQuestion.TestSessionId,
                                 questionId: AnswerQuestion.GetQuestionId(),
                                 questionViewGuid: $('#hddQuestionViewGuid').val(),
-                                answeredQuestion: true
+                                answeredQuestion: true,
                             },
                             cache: false
                         });

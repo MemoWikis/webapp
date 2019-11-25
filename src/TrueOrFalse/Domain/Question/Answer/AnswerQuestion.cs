@@ -47,6 +47,7 @@ public class AnswerQuestion : IRegisterAsInstancePerLifetime
        int millisecondsSinceQuestionView,
        int learningSessionId,
        Guid stepGuid,
+       bool inTestMode = false,
         /*for testing*/ DateTime dateCreated = default(DateTime))
     {
         var learningSessionRepo = Sl.R<LearningSessionRepo>();
@@ -71,7 +72,7 @@ public class AnswerQuestion : IRegisterAsInstancePerLifetime
             learningSessionStep.AnswerState = StepAnswerState.Answered;
             learningSessionRepo.Update(learningSession);
 
-            if (!answerQuestionResult.IsCorrect)
+            if (!answerQuestionResult.IsCorrect && !inTestMode)
             {
                 learningSession.UpdateAfterWrongAnswerOrShowSolution(learningSessionStep);
                 answerQuestionResult.NewStepAdded = learningSession.Steps.Count > numberOfStepsBeforeAnswer;

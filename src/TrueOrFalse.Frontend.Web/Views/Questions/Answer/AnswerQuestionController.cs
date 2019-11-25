@@ -274,13 +274,14 @@ public class AnswerQuestionController : BaseController
         int interactionNumber,
         Guid stepGuid,
         string answer,
-        int millisecondsSinceQuestionView
+        int millisecondsSinceQuestionView,
+        bool inTestMode = false
     )
     {
         //var timeOfAnswer = DateTimeOffset.FromUnixTimeMilliseconds(long.Parse(timeOfAnswerString));
 
         var result = _answerQuestion.Run(id, answer, UserId, questionViewGuid, interactionNumber,
-            millisecondsSinceQuestionView, learningSessionId, stepGuid);
+            millisecondsSinceQuestionView, learningSessionId, stepGuid, inTestMode);
         var question = _questionRepo.GetById(id);
         var solution = GetQuestionSolution.Run(question);
 
@@ -300,15 +301,15 @@ public class AnswerQuestionController : BaseController
     }
 
     [HttpPost]
-    public JsonResult AmendAfterShowSolution(int learningSessionId, Guid stepGuid)
+    public JsonResult AmendAfterShowSolution(int learningSessionId, Guid stepGuid, bool isInTestMode = false)
     {
         var learningSessionStep = LearningSession.GetStep(learningSessionId, stepGuid);
         var learningSession = Sl.R<LearningSessionRepo>().GetById(learningSessionId);
 
         learningSessionStep.AnswerState = StepAnswerState.ShowedSolutionOnly;
 
-        bool newStepAdded = !(learningSession.LimitForThisQuestionHasBeenReached(learningSessionStep) || learningSession.LimitForNumberOfRepetitionsHasBeenReached());
-        learningSession.UpdateAfterWrongAnswerOrShowSolution(learningSessionStep);
+        bool newStepAdded = !(learningSession.LimitForThisQuestionHasBeenReached(learningSessionStep) || learningSession.LimitForNumberOfRepetitionsHasBeenReached() || isInTestMode);
+        learningSession.UpdateAfterWrongAnswerOrShowSolution(learningSessionStep, isInTestMode);
 
         return new JsonResult
         {
@@ -557,18 +558,17 @@ public class AnswerQuestionController : BaseController
     public string RenderNewAnswerBodySessionForCategory(SessionConfigData sessionConfigData)
     {
         var answerBody = "";
-        var mode = sessionConfigData.Mode;
         var categoryId = sessionConfigData.CategoryId;
         var isInLearningTab = sessionConfigData.IsInLearningTab;
         var questionFilter = sessionConfigData.QuestionFilter;
-        var sessionUser = _sessionUser.UserId;
+        var sessionUser = _sessionUser;
 
         var filterQuestions = questionFilter != null;
 
-        if (mode == "Test")
-            answerBody = RenderAnswerBodyForNewCategoryTestSession(categoryId, isInLearningTab, filterQuestions, questionFilter);
-        else if (mode == "Learning")
+        if (sessionUser.IsLoggedIn)
             answerBody = RenderAnswerBodyForNewCategoryLearningSession(categoryId, isInLearningTab, questionFilter);
+        else
+            answerBody = RenderAnswerBodyForNewCategoryTestSession(categoryId, isInLearningTab, filterQuestions, questionFilter);
 
         return answerBody; 
     }
@@ -576,7 +576,10 @@ public class AnswerQuestionController : BaseController
     public string RenderAnswerBodyForNewCategoryLearningSession(int categoryId, bool isInLearningTab = false, QuestionFilterJson questionFilter = null)
     {
         var learningSession = CreateLearningSession.ForCategory(categoryId, questionFilter);
-        return RenderAnswerBodyByLearningSession(learningSession.Id, isInLearningTab: isInLearningTab);
+        var isInTestMode = false;
+        if (questionFilter != null)
+            isInTestMode = questionFilter.IsTestMode();
+        return RenderAnswerBodyByLearningSession(learningSession.Id, isInLearningTab: isInLearningTab, isInTestMode:isInTestMode);
     }
 
     public string RenderAnswerBodyForNewCategoryTestSession(int categoryId, bool isInLearningTab = false, bool filterQuestions = false, QuestionFilterJson questionFilter = null)
@@ -591,7 +594,7 @@ public class AnswerQuestionController : BaseController
     }
 
     
-    public string RenderAnswerBodyByLearningSession(int learningSessionId, int skipStepIdx = -1, bool isInLearningTab = false)
+    public string RenderAnswerBodyByLearningSession(int learningSessionId, int skipStepIdx = -1, bool isInLearningTab = false, bool isInTestMode = false)
     {
         var learningSession = Sl.LearningSessionRepo.GetById(learningSessionId);
 
@@ -603,7 +606,7 @@ public class AnswerQuestionController : BaseController
         var currentLearningStepIdx = learningSession.CurrentLearningStepIdx();
 
         if (learningSession.CurrentLearningStepIdx() == -1)
-            return RenderLearningSessionResult(learningSessionId);
+            return RenderLearningSessionResult(learningSessionId, isInTestMode);
 
         var questionViewGuid = Guid.NewGuid();
 
@@ -629,7 +632,7 @@ public class AnswerQuestionController : BaseController
 
         var sessionData = new SessionData(currentSessionHeader, currentStepIdx, isLastStep, skipStepIdx, currentStepGuid, learningSession.Id);
 
-        return GetQuestionPageData(model, currentUrl, sessionData, isSession: true, isInLearningTab:isInLearningTab);
+        return GetQuestionPageData(model, currentUrl, sessionData, isSession: true, isInLearningTab:isInLearningTab, isInTestMode:isInTestMode);
     }
 
     public string RenderAnswerBodyByTestSession(int testSessionId, bool includeTestSessionHeader = false, bool isInLearningTab = false)
@@ -663,7 +666,8 @@ public class AnswerQuestionController : BaseController
         bool isSession = false,
         int testSesssionId = -1,
         bool includeTestSessionHeader = false,
-        bool isInLearningTab = false)
+        bool isInLearningTab = false,
+        bool isInTestMode = false)
     {
         string nextPageLink = "", previousPageLink = "";
 
@@ -686,7 +690,7 @@ public class AnswerQuestionController : BaseController
 
         var answerBody = ViewRenderer.RenderPartialView(
             "~/Views/Questions/Answer/AnswerBodyControl/AnswerBody.ascx",
-            new AnswerBodyModel(model, isInLearningTab),
+            new AnswerBodyModel(model, isInLearningTab, isInTestMode),
             ControllerContext);
 
         var serializer = new JavaScriptSerializer();
@@ -718,7 +722,8 @@ public class AnswerQuestionController : BaseController
             questionDetailsAsHtml = ViewRenderer.RenderPartialView("~/Views/Questions/Answer/AnswerQuestionDetails.ascx", model, ControllerContext),
             commentsAsHtml = ViewRenderer.RenderPartialView("~/Views/Questions/Answer/Comments/CommentsSection.ascx", model, ControllerContext),
             offlineDevelopment = Settings.DevelopOffline(),
-            menuHtml
+            menuHtml,
+            isInTestMode = isInTestMode
         });
     }
 
@@ -743,7 +748,7 @@ public class AnswerQuestionController : BaseController
     }
 
     [SetThemeMenu(isLearningSessionPage: true)]
-    public string RenderLearningSessionResult(int learningSessionId)
+    public string RenderLearningSessionResult(int learningSessionId, bool isInTestMode = false)
     {
         var learningSession = Sl.Resolve<LearningSessionRepo>().GetById(learningSessionId);
 
@@ -769,7 +774,7 @@ public class AnswerQuestionController : BaseController
                 LearningSessionResult =
                 ViewRenderer.RenderPartialView(
                     "~/Views/Questions/Answer/LearningSession/LearningSessionResultInner.ascx",
-                    new LearningSessionResultModel(learningSession), ControllerContext),
+                    new LearningSessionResultModel(learningSession, isInTestMode: isInTestMode), ControllerContext),
                 url = currentUrl,
                 offlineDevelopment = Settings.DevelopOffline()
             }

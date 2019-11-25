@@ -45,6 +45,7 @@ public class AnswerBodyModel : BaseModel
     public bool IsTestSession;
     public int TestSessionProgessAfterAnswering;
     public bool IsInLearningTab;
+    public bool IsInTestMode = false;
 
     public bool ShowCommentLink => 
         CommentCount != -1 && 
@@ -89,7 +90,7 @@ public class AnswerBodyModel : BaseModel
         Init(question);
     }
 
-    public AnswerBodyModel(AnswerQuestionModel answerQuestionModel, bool isInLearningTab = false)
+    public AnswerBodyModel(AnswerQuestionModel answerQuestionModel, bool isInLearningTab = false, bool isInTestMode = false)
     {
         QuestionViewGuid = answerQuestionModel.QuestionViewGuid;
 
@@ -130,6 +131,8 @@ public class AnswerBodyModel : BaseModel
 
         DisableCommentLink = answerQuestionModel.DisableCommentLink;
         DisableAddKnowledgeButton = answerQuestionModel.DisableAddKnowledgeButton;
+
+        IsInTestMode = isInTestMode;
 
         Init(answerQuestionModel.Question);
     }
