@@ -1,11 +1,21 @@
 ﻿<%@ Control Language="C#" Inherits="System.Web.Mvc.ViewUserControl<Question>" %>
+<%@ Import Namespace="System.Web.Optimization" %>
 <%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
 
 <div style="display: flex; flex-wrap: wrap;">
     <% foreach(var category in Model.Categories){ %>
 
         <% if(category.IsSpoiler(Model)){ %>
-            <a href="#" onclick="location.href='<%= Links.CategoryDetail(category)%>'"><span data-isSpolier="true" class="label label-category">Spoiler</span></a>
+            <%= Styles.Render("~/bundles/CategoryLabel") %>
+
+            <div class="category-chip-container">
+                <a href="#" onclick="location.href='<%= Links.CategoryDetail(category)%>'">
+                    <div class="category-chip show-tooltip" title="Das Thema entspricht der Antwort.">
+                        <span>Spoiler</span>
+                        <span class="remove-category-chip"></span>
+                    </div>
+                </a>
+            </div>
         <% }else{ %>
             <% Html.RenderPartial("CategoryLabel", category); %>
         <%} %>
