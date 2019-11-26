@@ -31,7 +31,8 @@ namespace TrueOrFalse.Utilities.ScheduledJobs
             Sl.R<RunningJobRepo>().TruncateTable();
             
             Schedule_CleanupWorkInProgressQuestions();
-            Schedule_GameLoop();
+            //Current not in use
+            //Schedule_GameLoop();
             Schedule_RecalcKnowledgeStati();
             Schedule_RecalcKnowledgeSummariesForCategory();
             Schedule_RecalcReputation();
