@@ -87,7 +87,7 @@
                             <i class="fa fa-heart"></i>
                         </div>
                     </div>
-                    <span><strong><%= Model.TotalRelevancePersonalEntries %></strong>x im Wunschwissen</span>
+                    <span><strong><span data-question-details-id="<%=Model.QuestionId %>"><%= Model.TotalRelevancePersonalEntries %></span></strong>x im Wunschwissen</span>
                 </div>
 
             </div>

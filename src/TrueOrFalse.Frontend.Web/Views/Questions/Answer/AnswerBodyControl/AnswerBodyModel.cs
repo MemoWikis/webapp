@@ -73,7 +73,7 @@ public class AnswerBodyModel : BaseModel
         
         R<SaveQuestionView>().Run(QuestionViewGuid, question, _sessionUser.User.Id, player, round);
         
-        var questionValuationForUser = NotNull.Run(Resolve<QuestionValuationRepo>().GetBy(question.Id, UserId));
+        var questionValuationForUser = NotNull.Run(Resolve<QuestionValuationRepo>().GetByFromCache(question.Id, UserId));
         IsInWishknowledge = questionValuationForUser.IsInWishKnowledge();
 
         if (player != null) 

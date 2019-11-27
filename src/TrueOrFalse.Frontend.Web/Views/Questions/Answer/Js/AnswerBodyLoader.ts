@@ -56,6 +56,8 @@ class AnswerBodyLoader {
                         learningSessionId +
                         "&skipStepIdx=" +
                         skipStepIdx +
+                        "&isInLearningTab" +
+                        this._isInLearningTab +
                         "&isInTestMode=" +
                         isInTestMode;
                     this.loadNewQuestion(url);
@@ -66,7 +68,10 @@ class AnswerBodyLoader {
                 $("#btnNext").click((e) => {
                     e.preventDefault();
                     var testSessionId = $("#hddIsTestSession").attr("data-test-session-id");
-                    var url = "/AnswerQuestion/RenderAnswerBodyByTestSession/?testSessionId=" + testSessionId;
+                    var url = "/AnswerQuestion/RenderAnswerBodyByTestSession/?testSessionId=" +
+                        testSessionId +
+                        "&isInLearningTab" +
+                        this._isInLearningTab;
                     this.loadNewQuestion(url);
                 });
 
