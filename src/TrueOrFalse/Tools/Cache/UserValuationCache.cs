@@ -59,17 +59,11 @@ public class UserValuationCache
 
     public static void AddOrUpdate(QuestionValuation questionValuation)
     {
-        
         var cacheItem = GetItem(questionValuation.User.Id);
 
         lock ("7187a2c9-a3a2-42ca-8202-f9cb8cb54137")
         {
             cacheItem.QuestionValuations.AddOrUpdate(questionValuation.Question.Id, questionValuation, (k, v) => questionValuation);
-        }
-
-        if (questionValuation.IsInWishKnowledge() != cacheItem.QuestionValuations[questionValuation.Question.Id].IsInWishKnowledge())
-        {
-            var x = cacheItem.QuestionValuations[questionValuation.Question.Id];
         }
     }
 

@@ -216,15 +216,23 @@
   margin-top: 20px;
 }
 #SessionConfigApp #sessionSelectionContainer {
-  display: flex;
-  justify-content: space-between;
-  flex-wrap: wrap;
   padding-top: 50px;
+  margin: 0 -10px;
+}
+#SessionConfigApp #sessionSelectionContainer .col-md-3,
+#SessionConfigApp #sessionSelectionContainer .col-sm-6 {
+  min-width: 203px;
+}
+@media (max-width: 443px) {
+  #SessionConfigApp #sessionSelectionContainer .col-md-3,
+  #SessionConfigApp #sessionSelectionContainer .col-sm-6 {
+    width: 100% !important;
+  }
 }
 #SessionConfigApp #sessionSelectionContainer .sessionSelectionButton,
 #SessionConfigApp #sessionSelectionContainer #CustomSessionConfigBtn {
   margin-top: 10px;
-  width: 183px;
+  min-width: 183px;
   height: 132px;
   border: #d6d6d6 solid 0.03125em;
   cursor: pointer;
