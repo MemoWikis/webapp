@@ -257,23 +257,32 @@ class Pin {
         }
 
         function updateHeartIcon(el) {
-            if (modifier == 1) {
-                el.find('.iAddedNot').addClass('hide2');
-                el.find('.iAddSpinner').removeClass('hide2');
 
-                window.setTimeout(() => {
-                    el.find('.iAddSpinner').addClass('hide2');
-                    el.find('.iAdded').removeClass('hide2');
-                }, 400);
+            if (modifier == 1) {
+                if (el.find('.iAdded').hasClass('hide2')) {
+
+                    el.find('.iAddedNot').addClass('hide2');
+                    el.find('.iAddSpinner').removeClass('hide2');
+
+                    window.setTimeout(() => {
+                        el.find('.iAddSpinner').addClass('hide2');
+                        el.find('.iAdded').removeClass('hide2');
+                    }, 400);
+                }
             }
             else if (modifier == -1) {
-                el.find('.iAdded').addClass('hide2');
-                el.find('.iAddSpinner').removeClass('hide2');
 
-                window.setTimeout(() => {
-                    el.find('.iAddSpinner').addClass('hide2');
-                    el.find('.iAddedNot').removeClass('hide2');
-                }, 400);
+                if (el.find('.iAddedNot').hasClass('hide2')) {
+
+                    el.find('.iAdded').addClass('hide2');
+                    el.find('.iAddSpinner').removeClass('hide2');
+
+                    window.setTimeout(() => {
+                        el.find('.iAddSpinner').addClass('hide2');
+                        el.find('.iAddedNot').removeClass('hide2');
+                    }, 400);
+                }
+
             }
         }
     }
