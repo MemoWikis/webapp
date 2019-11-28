@@ -97,7 +97,7 @@
         }
 
         Model.TopNavMenu.IsCategoryBreadCrumb = false;
-        Model.TopNavMenu.IsAnswerQuestionOrSetBreadCrumb = Model.SetCount != 0;
+        Model.TopNavMenu.QuestionBreadCrumb = true;
         Model.SidebarModel.AuthorCardLinkText = Model.Creator.Name;
         Model.SidebarModel.AuthorImageUrl = Model.ImageUrl_250;
 

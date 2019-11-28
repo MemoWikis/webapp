@@ -25,7 +25,7 @@
         </ul>
 
     <%if(!Model.TopNavMenu.IsWelcomePage){ %>  
-            <% if (Model.TopNavMenu.IsCategoryBreadCrumb || Model.TopNavMenu.IsAnswerQuestionOrSetBreadCrumb)
+            <% if (Model.TopNavMenu.IsCategoryBreadCrumb || Model.TopNavMenu.SetBreadCrumb || Model.TopNavMenu.QuestionBreadCrumb)  
                { %>
                 <%= Html.Partial("/Views/Categories/Detail/Partials/BreadCrumbCategories.ascx", Model.TopNavMenu) %>
               <% } %>
@@ -35,23 +35,22 @@
                    i++;
             %> 
                     <div style="display: flex; height: auto; margin-bottom: 5px" class="show-tooltip" data-placement="bottom"
-                         <% if (Model.TopNavMenu.IsAnswerQuestionOrSetBreadCrumb && !Model.TopNavMenu.IsWidgetOrKnowledgeCentral){%>title="Zum Lernset" <% }else{ %> title="<%= breadCrumbItem.ToolTipText%>" <%}%> >  
+                         <% if (Model.TopNavMenu.SetBreadCrumb && !Model.TopNavMenu.IsWidgetOrKnowledgeCentral){%>title="Zum Lernset" <% }else{ %> title="<%= breadCrumbItem.ToolTipText%>" <%}%> >  
 
                        <%if (breadCrumbItem.Equals(Model.TopNavMenu.BreadCrumb.Last()) && !Model.TopNavMenu.IsWidgetOrKnowledgeCentral){%>
                           <span style="display: flex; margin-left: 10px;"><a id="<%=i %>BreadCrumb" style="color:#003264;" href="<%= breadCrumbItem.Url %>">
-                              <% if (Model.TopNavMenu.IsAnswerQuestionOrSetBreadCrumb){%>Lernset: <%} %><%= breadCrumbItem.Text %>
+                              <% if (Model.TopNavMenu.SetBreadCrumb){%>Lernset: <%} %><%= breadCrumbItem.Text %>
                           </a></span>
                         <%} else {%>
                            <span style="display: inline-table; margin-left: 10px;"><a id="<%= i %>BreadCrumb" style="display:inline;"  href="<%= breadCrumbItem.Url %>"><%= breadCrumbItem.Text %></a>
                            <%if (!breadCrumbItem.Equals(Model.TopNavMenu.BreadCrumb.Last()))
                              { %>
                                  <i style="display: inline;" class="fa fa-chevron-right"></i>
-                          <% } %>
-                                 </span>  
-                                 <%} %>
+                           <% } %>
+                           </span>  
+                        <%} %>
                     </div>
             <% } %>        
-        
     <%} %>
     </div>
     <div id="StickyHeaderContainer">    
