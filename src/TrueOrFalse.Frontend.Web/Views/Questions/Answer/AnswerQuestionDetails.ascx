@@ -84,7 +84,9 @@
                 <div class="inWishKnowledgeCount question-details-row" style="display:flex">
                     <div class="detail-icon-container">
                         <div>
-                            <i class="fa fa-heart"></i>
+                            <span class="Pin" data-question-id="<%= Model.QuestionId %>">
+                                <%= Html.Partial("AddToWishknowledgeButtonQuestionDetail", new AddToWishknowledge(Model.IsInWishknowledge, isShortVersion: true)) %>
+                            </span>
                         </div>
                     </div>
                     <span><strong><span data-question-details-id="<%=Model.QuestionId %>"><%= Model.TotalRelevancePersonalEntries %></span></strong>x im Wunschwissen</span>

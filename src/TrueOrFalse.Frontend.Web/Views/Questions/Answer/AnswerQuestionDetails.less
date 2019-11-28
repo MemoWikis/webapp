@@ -86,7 +86,7 @@
                 }
 
                 .detail-icon-container {
-                    min-width:56px;
+                    min-width: 56px;
                     width: 56px;
                     display: flex;
                     justify-content: center;
@@ -103,6 +103,22 @@
 
                         span {
                             top: 2px;
+
+                            &.Pin {
+                                .iAdded, .iAddedNot, .iAddSpinner {
+                                    font-size: 18px;
+                                    padding: 0;
+                                    line-height: 18px;
+                                    height: unset;
+                                    border: 0;
+
+                                    i {
+                                        font-size: 18px;
+                                        height: unset;
+                                        line-height: unset;
+                                    }
+                                }
+                            }
                         }
                     }
 
