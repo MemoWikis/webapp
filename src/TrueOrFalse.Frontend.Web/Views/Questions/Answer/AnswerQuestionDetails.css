@@ -105,14 +105,6 @@
   height: unset;
   line-height: unset;
 }
-.question-details .second-row #QuestionDetailsStatistic .question-details-row .detail-icon-container div span.Pin .iAdded .tooltip,
-.question-details .second-row #QuestionDetailsStatistic .question-details-row .detail-icon-container div span.Pin .iAddedNot .tooltip,
-.question-details .second-row #QuestionDetailsStatistic .question-details-row .detail-icon-container div span.Pin .iAddSpinner .tooltip {
-  left: -150px !important;
-}
-.question-details .second-row #QuestionDetailsStatistic .question-details-row .detail-icon-container div span.Pin .tooltip {
-  left: -88px !important;
-}
 .question-details .second-row #QuestionDetailsStatistic .question-details-row .detail-icon-container.pie-chart {
   font-size: 13px;
 }
