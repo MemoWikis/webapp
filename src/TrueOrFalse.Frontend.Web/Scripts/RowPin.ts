@@ -10,6 +10,7 @@ class Pin {
 
     _changeInProgress: boolean;
     _pinRowType: PinType;
+    _isInLearningTab: boolean;
 
     OnPinChanged: () => void;
 
@@ -18,6 +19,7 @@ class Pin {
         var self = this; 
         this._pinRowType = pinRowType;
         this.OnPinChanged = onPinChanged;
+        this._isInLearningTab = $('#LearningTab').length > 0;
 
         var allPins;
         if (self.IsQuestionRow())
@@ -56,7 +58,7 @@ class Pin {
 
             if ($(this).hasClass("iAddedNot")) /* pin */ {
 
-                self.Pin(id, onPinChanged);
+                self.Pin(id, onPinChanged, elemPin);
                 elemPin.find(".iAddedNot, .iAddSpinner").toggleClass("hide2");
 
                 window.setTimeout(() => {
@@ -82,7 +84,7 @@ class Pin {
 
             } else /* unpin */ {
 
-                self.UnPin(id, onPinChanged);
+                self.UnPin(id, onPinChanged, elemPin);
                 elemPin.find(".iAdded, .iAddSpinner").toggleClass("hide2");
 
                 window.setTimeout(() => {
@@ -136,6 +138,8 @@ class Pin {
                 CategoryApi.UnpinQuestionsInCategory($('#JS-RemoveQuestionsCat').attr('data-category-id'), onPinChanged))
             .then(() => {
                 Utils.SetMenuPins();
+                if (this._isInLearningTab)
+                    this.UpdateWishknowledgeCount(-1, true);
             });
         });
     }
@@ -164,19 +168,23 @@ class Pin {
         $('#CategoryFooterTotalPins').text(newTotalPins);
     }
 
-    Pin(id: number, onPinChanged: () => void = null) {
+    Pin(id: number, onPinChanged: () => void = null, elemPin = null) {
         if (this.IsQuestionRow()) {
             QuestionsApi.Pin(id, onPinChanged);
+            this.UpdateWishknowledgeCount(1 , false, id, elemPin);
         } else if (this.IsSetRow() || this.IsSetDetail()) {
             SetsApi.Pin(id, onPinChanged);
         } else if (this.IsCategoryRow() || this.IsCategoryDetail()) {
             CategoryApi.Pin(id, onPinChanged);
+            if (this._isInLearningTab)
+                this.UpdateWishknowledgeCount(1, true);
         }
     }
 
-    UnPin(id: number, onPinChanged: () => void = null) {
+    UnPin(id: number, onPinChanged: () => void = null, elemPin = null) {
         if (this.IsQuestionRow()) {
             QuestionsApi.Unpin(id, onPinChanged);
+            this.UpdateWishknowledgeCount(-1, false, id, elemPin);
         } else if (this.IsSetRow() || this.IsSetDetail()) {
 
             SetsApi.Unpin(id);
@@ -211,5 +219,71 @@ class Pin {
 
     IsCategoryDetail(): boolean {
         return this._pinRowType == PinType.CategoryDetail;
+    }
+
+    async UpdateWishknowledgeCount(modifier, withCategory = false, questionId = null, elemPin = null) {
+
+        var answerQuestionBodyMenu = $('.AnswerQuestionBodyMenu span[data-question-id]');
+
+        if (withCategory) {
+            await updateAnswerBody();
+        }
+
+        if (questionId == null)
+            return;
+
+        var questionDetails = $("#QuestionDetailsStatistic span.Pin[data-question-id='" + questionId + "']");
+
+        updateQuestionDetails();
+
+        function updateAnswerBody() {
+            if (answerQuestionBodyMenu != undefined) {
+                questionId = parseInt((answerQuestionBodyMenu).data('question-id'));
+            }
+        }
+
+        function updateQuestionDetails() {
+            if (withCategory) {
+                updateHeartIcon(answerQuestionBodyMenu);
+                updateHeartIcon(questionDetails);
+            } else if (elemPin.parents('.AnswerQuestionBodyMenu').length > 0) {
+                updateHeartIcon(questionDetails);
+            } else if (elemPin.parents('#QuestionDetailsStatistic').length > 0) {
+                updateHeartIcon(answerQuestionBodyMenu);
+            }
+
+            var oldCount = parseInt($("span[data-question-details-id='" + questionId + "']").text());
+            $("span[data-question-details-id='" + questionId + "']").text(oldCount + modifier);
+        }
+
+        function updateHeartIcon(el) {
+
+            if (modifier == 1) {
+                if (el.find('.iAdded').hasClass('hide2')) {
+
+                    el.find('.iAddedNot').addClass('hide2');
+                    el.find('.iAddSpinner').removeClass('hide2');
+
+                    window.setTimeout(() => {
+                        el.find('.iAddSpinner').addClass('hide2');
+                        el.find('.iAdded').removeClass('hide2');
+                    }, 400);
+                }
+            }
+            else if (modifier == -1) {
+
+                if (el.find('.iAddedNot').hasClass('hide2')) {
+
+                    el.find('.iAdded').addClass('hide2');
+                    el.find('.iAddSpinner').removeClass('hide2');
+
+                    window.setTimeout(() => {
+                        el.find('.iAddSpinner').addClass('hide2');
+                        el.find('.iAddedNot').removeClass('hide2');
+                    }, 400);
+                }
+
+            }
+        }
     }
 }

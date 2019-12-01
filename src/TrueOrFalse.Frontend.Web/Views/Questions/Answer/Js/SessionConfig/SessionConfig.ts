@@ -140,6 +140,7 @@ new Vue({
         },
 
         openModal() {
+            this.loadQuestionCount();
             $('#SessionConfigModal').modal('show');
             this.openLogin = false;
         },

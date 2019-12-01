@@ -52,22 +52,26 @@
                     <% } %>
                 </div>
                 
-                <div class="personalAnswerCount question-details-row" style="display:flex">
-                    <div class="detail-icon-container pie-chart">
-                        <div>
-                            <span class="sparklineTotalsUser" data-answerstrue="<%= Model.HistoryAndProbability.AnswerHistory.TimesAnsweredUserTrue %>" data-answersfalse="<%= Model.HistoryAndProbability.AnswerHistory.TimesAnsweredUserWrong %>"></span>
-                        </div>
-                    </div>
-                    <% if (Model.HistoryAndProbability.AnswerHistory.TimesAnsweredUser > 0)
-                       { %>
-                        <span>Von dir <strong><%=Model.HistoryAndProbability.AnswerHistory.TimesAnsweredUser%></strong>x beantwortet, davon <strong><%= Model.HistoryAndProbability.AnswerHistory.TimesAnsweredUserTrue %></strong> richtig.</span>
-                    <% }
-                       else
-                       { %>
-                        <span>Du hast diese Frage noch nie beantwortet.</span>
-                    <% } %>
-                </div>
+                <%if (Model.IsLoggedIn) {%>
                 
+                    <div class="personalAnswerCount question-details-row" style="display:flex">
+                        <div class="detail-icon-container pie-chart">
+                            <div>
+                                <span class="sparklineTotalsUser" data-answerstrue="<%= Model.HistoryAndProbability.AnswerHistory.TimesAnsweredUserTrue %>" data-answersfalse="<%= Model.HistoryAndProbability.AnswerHistory.TimesAnsweredUserWrong %>"></span>
+                            </div>
+                        </div>
+                        <% if (Model.HistoryAndProbability.AnswerHistory.TimesAnsweredUser > 0)
+                           { %>
+                            <span>Von dir <strong><%=Model.HistoryAndProbability.AnswerHistory.TimesAnsweredUser%></strong>x beantwortet, davon <strong><%= Model.HistoryAndProbability.AnswerHistory.TimesAnsweredUserTrue %></strong> richtig.</span>
+                        <% }
+                           else
+                           { %>
+                            <span>Du hast diese Frage noch nie beantwortet.</span>
+                        <% } %>
+                    </div>
+                
+                <%} %>
+
                 <div class="viewCount question-details-row" style="display:flex">
                     <div class="detail-icon-container">
                         <div>
@@ -80,10 +84,12 @@
                 <div class="inWishKnowledgeCount question-details-row" style="display:flex">
                     <div class="detail-icon-container">
                         <div>
-                            <i class="fa fa-heart"></i>
+                            <span class="Pin" data-question-id="<%= Model.QuestionId %>">
+                                <%= Html.Partial("AddToWishknowledgeButtonQuestionDetail", new AddToWishknowledge(Model.IsInWishknowledge, isShortVersion: true)) %>
+                            </span>
                         </div>
                     </div>
-                    <span><strong><%= Model.TotalRelevancePersonalEntries %></strong>x im Wunschwissen</span>
+                    <span><strong><span data-question-details-id="<%=Model.QuestionId %>"><%= Model.TotalRelevancePersonalEntries %></span></strong>x im Wunschwissen</span>
                 </div>
 
             </div>

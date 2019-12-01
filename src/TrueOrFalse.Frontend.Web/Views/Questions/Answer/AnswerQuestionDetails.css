@@ -89,6 +89,22 @@
 .question-details .second-row #QuestionDetailsStatistic .question-details-row .detail-icon-container div span {
   top: 2px;
 }
+.question-details .second-row #QuestionDetailsStatistic .question-details-row .detail-icon-container div span.Pin .iAdded,
+.question-details .second-row #QuestionDetailsStatistic .question-details-row .detail-icon-container div span.Pin .iAddedNot,
+.question-details .second-row #QuestionDetailsStatistic .question-details-row .detail-icon-container div span.Pin .iAddSpinner {
+  font-size: 18px;
+  padding: 0;
+  line-height: 18px;
+  height: unset;
+  border: 0;
+}
+.question-details .second-row #QuestionDetailsStatistic .question-details-row .detail-icon-container div span.Pin .iAdded i,
+.question-details .second-row #QuestionDetailsStatistic .question-details-row .detail-icon-container div span.Pin .iAddedNot i,
+.question-details .second-row #QuestionDetailsStatistic .question-details-row .detail-icon-container div span.Pin .iAddSpinner i {
+  font-size: 18px;
+  height: unset;
+  line-height: unset;
+}
 .question-details .second-row #QuestionDetailsStatistic .question-details-row .detail-icon-container.pie-chart {
   font-size: 13px;
 }

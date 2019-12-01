@@ -52,25 +52,20 @@ public class CreateLearningSession
         Stopwatch timer = new Stopwatch();
         timer.Start();
 
-        var questionValuation = UserValuationCache.CreateItemFromDatabase(user.Id).QuestionValuations;
+        var questionValuation = UserValuationCache.GetItem(user.Id).QuestionValuations;
         var newQuestionsList = new List<Question>();
 
         foreach (Question q in questions)
         {
-            var elemToRemove = false;
             var isInWishknowledge = false;
             if (questionValuation.ContainsKey(q.Id))
             {
                 q.CorrectnessProbability = questionValuation[q.Id].CorrectnessProbability;
                 isInWishknowledge = questionValuation[q.Id].IsInWishKnowledge();
-                elemToRemove = true;
             }
 
             if ((questionFilter.QuestionsInWishknowledge && isInWishknowledge) || !questionFilter.QuestionsInWishknowledge)
                 newQuestionsList.Add(q);
-
-            if (elemToRemove)
-                questionValuation.TryRemove(q.Id, out _);
         }
 
         var filteredQuestions = newQuestionsList
