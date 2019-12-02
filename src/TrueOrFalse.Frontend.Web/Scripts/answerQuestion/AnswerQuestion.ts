@@ -382,6 +382,7 @@ class AnswerQuestion {
                 if (self._isLastLearningStep) {
                     $('#btnNext').html('Zum Ergebnis');
                 }
+                self.updateQuestionDetails();
             }
         });
     }
