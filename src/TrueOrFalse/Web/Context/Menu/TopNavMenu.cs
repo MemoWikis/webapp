@@ -19,7 +19,8 @@ public class TopNavMenu
 
     public bool IsCategoryBreadCrumb = true;
     public bool IsCategoryLearningBreadCrumb = false;
-    public bool IsAnswerQuestionOrSetBreadCrumb = false;
+    public bool SetBreadCrumb = false;
+    public bool QuestionBreadCrumb = false;
 
     public bool IsWelcomePage;
 
