@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Security.Policy;
 using System.Web.Mvc;
+using System.Web.UI;
 using TrueOrFalse.Frontend.Web.Code;
 using TrueOrFalse.Web;
 
@@ -209,6 +210,12 @@ public class CategoryController : BaseController
     {
         var category = Sl.CategoryRepo.GetById(categoryId);
         return ViewRenderer.RenderPartialView("~/Views/Categories/Detail/Partials/KnowledgeGraph/KnowledgeGraph.ascx", new KnowledgeGraphModel(category), ControllerContext);
+    }
+
+    public string RenderNewKnowledgeSummaryBar(int categoryId)
+    {
+        var category = Sl.CategoryRepo.GetById(categoryId);
+        return ViewRenderer.RenderPartialView("~/Views/Categories/Detail/CategoryKnowledgeBar.ascx", new CategoryKnowledgeBarModel(category), ControllerContext);
     }
 }
 public class LoadModelResult

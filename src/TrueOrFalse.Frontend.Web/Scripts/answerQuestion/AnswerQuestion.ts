@@ -244,7 +244,7 @@ class AnswerQuestion {
                             $("#answerHistory").html(data);
                         });
                     self.updateQuestionDetails();
-
+                    KnowledgeSummaryBar.updateKnowledgeSummaryBar();
                 }
             });
             return false;
@@ -383,6 +383,7 @@ class AnswerQuestion {
                     $('#btnNext').html('Zum Ergebnis');
                 }
                 self.updateQuestionDetails();
+                KnowledgeSummaryBar.updateKnowledgeSummaryBar();
             }
         });
     }

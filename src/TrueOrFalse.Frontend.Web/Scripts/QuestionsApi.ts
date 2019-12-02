@@ -4,6 +4,7 @@
         $.post("/Api/Questions/Pin/", { questionId: questionId }, () => {
             if (onPinChanged != null)
                 onPinChanged();
+            KnowledgeSummaryBar.updateKnowledgeSummaryBar();
         });
     }
 
@@ -11,6 +12,7 @@
         $.post("/Api/Questions/Unpin/", { questionId: questionId }, () => {
             if (onPinChanged != null)
                 onPinChanged();    
+            KnowledgeSummaryBar.updateKnowledgeSummaryBar();
         });
     }
 } 

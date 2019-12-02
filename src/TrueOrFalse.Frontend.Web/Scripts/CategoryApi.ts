@@ -4,6 +4,7 @@
         $.post("/Api/Category/Pin/", { categoryId: categoryId }, () => {
             if (onPinChanged != null)
                 onPinChanged();
+            KnowledgeSummaryBar.updateKnowledgeSummaryBar();
         });
     }
 
@@ -11,6 +12,7 @@
         $.post("/Api/Category/Unpin/", { categoryId: categoryId }, () => {
             if (onPinChanged != null)
                 onPinChanged();
+            KnowledgeSummaryBar.updateKnowledgeSummaryBar();
         });
     }
 
@@ -18,6 +20,7 @@
         $.post("/Api/Category/UnpinQuestionsInCategory/", { categoryId: categoryId }, () => {
             if (onPinChanged != null)
                 onPinChanged();
+            KnowledgeSummaryBar.updateKnowledgeSummaryBar();
         });
     }
 
