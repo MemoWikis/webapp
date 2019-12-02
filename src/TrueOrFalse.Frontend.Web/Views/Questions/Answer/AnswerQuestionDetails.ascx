@@ -6,7 +6,7 @@
         <div class="separationBorderTop" style="min-height: 20px;"></div>
     </div>
     <div class="row question-details">
-        <div class="col-lg-6">
+        <div class="col-lg-6 col-sm-6">
             <span class=" category-set">
                 <span id="Category">
                     <% if (Model.Categories.Count > 0)
@@ -17,7 +17,7 @@
                 </span>
             </span>
         </div>
-        <div class="col-lg-6 second-row">
+        <div class="col-lg-6 col-sm-6 second-row">
             <div id="QuestionDetailsStatistic">
                 <div id="StatsHeader">Statistik:</div> 
                 <div class="personal-answer-probability question-details-row" style="display: flex;">
