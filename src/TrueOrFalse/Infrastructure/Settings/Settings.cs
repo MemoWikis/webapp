@@ -72,9 +72,7 @@ public class Settings
 
     public static string InvoiceFolder() => OverwrittenConfig.ValueString("invoiceFolderPath");
     public static string WkHtmlToPdfFolder() => OverwrittenConfig.ValueString("wkHtmlToPdfFolder");
-
-    public static bool DebugUserNHProfiler() => OverwrittenConfig.ValueBool("debugUserNHProfiler");
-    public static bool DebugMiniProfiler() => OverwrittenConfig.ValueBool("debugMiniProfiler");
+    public static bool DebugEnableMiniProfiler() => OverwrittenConfig.ValueBool("debugEnableMiniProfiler");
 
     public static bool DisableAllJobs() => OverwrittenConfig.ValueBool("disableAllJobs");
 
@@ -121,4 +119,5 @@ public class Settings
 
         ShowAdvertisment = Environment() != "Live" || Environment() != "Stage";
     }
+
 }
