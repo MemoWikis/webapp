@@ -45,6 +45,8 @@ namespace TrueOrFalse.Frontend.Web
                 EntityCache.Init();
             }
 
+
+
             Logg.r().Information("=== Application Start ===============================");
         }
 
@@ -59,14 +61,16 @@ namespace TrueOrFalse.Frontend.Web
             Thread.CurrentThread.CurrentCulture = new CultureInfo("de-DE");
             Thread.CurrentThread.CurrentUICulture = new CultureInfo("de-DE");
 #if DEBUG
-
+            if (Settings.DebugEnableMiniProfiler())
+                MiniProfiler.Start();
 #endif
         }
 
         protected void Application_EndRequest()
         {
 #if DEBUG
-
+            if (Settings.DebugEnableMiniProfiler())
+                MiniProfiler.Stop();
 #endif
         }
 
