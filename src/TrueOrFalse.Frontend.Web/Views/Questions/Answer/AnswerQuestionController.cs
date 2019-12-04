@@ -1,6 +1,7 @@
 ﻿using StackExchange.Profiling;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Web.Mvc;
 using System.Web.Script.Serialization;
@@ -645,6 +646,7 @@ public class AnswerQuestionController : BaseController
         var questionViewGuid = Guid.NewGuid();
 
         Sl.SaveQuestionView.Run(questionViewGuid, question, sessionUser.User);
+
         var model = new AnswerQuestionModel(testSession, questionViewGuid, question);
 
         ControllerContext.RouteData.Values.Add("testSessionId", testSessionId);
@@ -657,7 +659,7 @@ public class AnswerQuestionController : BaseController
 
         var sessionData = new SessionData(currentSessionHeader, currentStepIdx, isLastStep);
 
-        return GetQuestionPageData(model, currentUrl, sessionData, isSession: true, testSesssionId: testSessionId, includeTestSessionHeader: includeTestSessionHeader, isInLearningTab: isInLearningTab);
+        return GetQuestionPageData(model, currentUrl, sessionData, isSession: true, testSessionId: testSessionId, includeTestSessionHeader: includeTestSessionHeader, isInLearningTab: isInLearningTab);
     }
 
     public string RenderUpdatedQuestionDetails(int questionId)
@@ -673,7 +675,7 @@ public class AnswerQuestionController : BaseController
         string currentUrl, 
         SessionData sessionData, 
         bool isSession = false,
-        int testSesssionId = -1,
+        int testSessionId = -1,
         bool includeTestSessionHeader = false,
         bool isInLearningTab = false,
         bool isInTestMode = false)
@@ -703,8 +705,7 @@ public class AnswerQuestionController : BaseController
             ControllerContext);
 
         var serializer = new JavaScriptSerializer();
-
-        return serializer.Serialize(new
+        var serializedPageData = serializer.Serialize(new
         {
             answerBodyAsHtml = testSessionHeader + answerBody,
             navBarData = new
@@ -725,7 +726,7 @@ public class AnswerQuestionController : BaseController
                 currentStepGuid = sessionData.CurrentStepGuid,
                 currentSessionHeader = sessionData.CurrentSessionHeader,
                 learningSessionId = sessionData.LearningSessionId,
-                testSessionId = testSesssionId
+                testSessionId = testSessionId
             } : null,
             url = currentUrl,
             questionDetailsAsHtml = ViewRenderer.RenderPartialView("~/Views/Questions/Answer/AnswerQuestionDetails.ascx", model, ControllerContext),
@@ -734,6 +735,8 @@ public class AnswerQuestionController : BaseController
             menuHtml,
             isInTestMode = isInTestMode
         });
+
+        return serializedPageData;
     }
 
     private class SessionData

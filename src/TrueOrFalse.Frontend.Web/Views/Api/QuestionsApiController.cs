@@ -4,18 +4,20 @@ using System.Web.Mvc;
 public class QuestionsApiController : BaseController
 {
     [HttpPost]
-    public void Pin(string questionId)
+    public bool Pin(string questionId)
     {
         if (_sessionUser.User == null)
-            return;
+            return false;
         QuestionInKnowledge.Pin(Convert.ToInt32(questionId), _sessionUser.User);
+        return true;
     }
 
     [HttpPost]
-    public void Unpin(string questionId)
+    public bool Unpin(string questionId)
     {
         if (_sessionUser.User == null)
-            return;
+            return false;
         QuestionInKnowledge.Unpin(Convert.ToInt32(questionId), _sessionUser.User);
+        return true;
     }
 }
