@@ -1,26 +1,29 @@
 ﻿class CategoryApi {
 
     public static Pin(categoryId, onPinChanged: () => void = null) {
-        $.post("/Api/Category/Pin/", { categoryId: categoryId }, () => {
+        $.post("/Api/Category/Pin/", { categoryId: categoryId }, (pinned) => {
             if (onPinChanged != null)
                 onPinChanged();
-            KnowledgeSummaryBar.updateKnowledgeSummaryBar();
+            if (pinned)
+                KnowledgeSummaryBar.updateKnowledgeSummaryBar();
         });
     }
 
     public static Unpin(categoryId, onPinChanged: () => void = null) {
-        $.post("/Api/Category/Unpin/", { categoryId: categoryId }, () => {
+        $.post("/Api/Category/Unpin/", { categoryId: categoryId }, (unpinned) => {
             if (onPinChanged != null)
                 onPinChanged();
-            KnowledgeSummaryBar.updateKnowledgeSummaryBar();
+            if (unpinned)
+                KnowledgeSummaryBar.updateKnowledgeSummaryBar();
         });
     }
 
     public static UnpinQuestionsInCategory(categoryId, onPinChanged: () => void = null) {
-        $.post("/Api/Category/UnpinQuestionsInCategory/", { categoryId: categoryId }, () => {
+        $.post("/Api/Category/UnpinQuestionsInCategory/", { categoryId: categoryId }, (unpinned) => {
             if (onPinChanged != null)
                 onPinChanged();
-            KnowledgeSummaryBar.updateKnowledgeSummaryBar();
+            if (unpinned)
+                KnowledgeSummaryBar.updateKnowledgeSummaryBar();
         });
     }
 
