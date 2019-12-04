@@ -93,10 +93,10 @@ public class KnowledgeController : BaseController
         var categoryAndSetDataWishKnowledge = new KnowledgeTopics(isAuthor);
         var unsort = categoryAndSetDataWishKnowledge.FilteredCategoryWishKnowledge(ControllerContext);
         var sortList = categoryAndSetDataWishKnowledge.SortList(unsort, sort).ToList();
-        var data = GetSiteForPagination(sortList, page, per_page);
+        var data = GetPageForPagination(sortList, page, per_page);
 
         var total = sortList.Count;
-        var last_page = getLastPage(sortList.Count, per_page);
+        var last_page = GetLastPage(sortList.Count, per_page);
 
         return Json(new { total, per_page, current_page = page, last_page, data }, JsonRequestBehavior.AllowGet);
     }
@@ -106,10 +106,14 @@ public class KnowledgeController : BaseController
     {
         var knowledgeQuestions = new KnowledgeQuestions(isAuthor, page, per_page,sort);
 
-        return Json(new { total = knowledgeQuestions.CountWishQuestions, per_page, current_page = page, last_page =  knowledgeQuestions.LastPage, data=knowledgeQuestions.TotalWishKnowledgeQuestions }, JsonRequestBehavior.AllowGet);
+        return Json(new {
+            total = knowledgeQuestions.CountWishQuestions, per_page,
+            current_page = page, last_page =  knowledgeQuestions.LastPage,
+            data =knowledgeQuestions.TotalWishKnowledgeQuestions
+        }, JsonRequestBehavior.AllowGet);
     }
 
-    public static int getLastPage(int listCount, int perPage)
+    public static int GetLastPage(int listCount, int perPage)
     {
         var pages = listCount / perPage;
         var rest = listCount % perPage;
@@ -125,7 +129,7 @@ public class KnowledgeController : BaseController
         return lastPage;
     }
 
-    public static IList<T> GetSiteForPagination<T>(IList<T> sortList, int page, int per_page)
+    public static IList<T> GetPageForPagination<T>(IList<T> sortList, int page, int per_page)
     {
         return sortList.Skip((page - 1) * per_page).Take(per_page).ToList();
     }

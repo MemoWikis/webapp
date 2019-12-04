@@ -30,9 +30,9 @@ public class KnowledgeQuestions : BaseModel
         TotalWishKnowledgeValuationsWithAuthor = GetSortList(TotalWishKnowledgeValuationsWithAuthor, sort);
 
         CountWishQuestions = TotalWishKnowledgeValuationsWithAuthor.Count;
-        TotalWishKnowledgeValuationsPerPage = KnowledgeController.GetSiteForPagination(TotalWishKnowledgeValuationsWithAuthor, page, per_page).ToList();
+        TotalWishKnowledgeValuationsPerPage = KnowledgeController.GetPageForPagination(TotalWishKnowledgeValuationsWithAuthor, page, per_page).ToList();
         TotalWishKnowledgeQuestions = ObjectFactory();
-        LastPage = KnowledgeController.getLastPage(CountWishQuestions, per_page);
+        LastPage = KnowledgeController.GetLastPage(CountWishQuestions, per_page);
     }
 
     private List<Questions> ObjectFactory()
