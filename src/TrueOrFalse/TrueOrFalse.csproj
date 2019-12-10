@@ -1074,6 +1074,7 @@
     <Compile Include="Tools\Update\Steps\UpdateToVs164.cs" />
     <Compile Include="Tools\Update\Steps\UpdateToVs194.cs" />
     <Compile Include="Tools\Update\Steps\UpdateToVs195.cs" />
+    <Compile Include="Tools\Update\Steps\UpdateToVs206.cs" />
     <Compile Include="Tools\Update\Steps\UpdateToVs205.cs" />
     <Compile Include="Tools\Update\Steps\UpdateToVs204.cs" />
     <Compile Include="Tools\Update\Steps\UpdateToVs203.cs" />
