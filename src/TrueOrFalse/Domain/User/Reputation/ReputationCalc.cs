@@ -40,7 +40,7 @@ public class ReputationCalc : IRegisterAsInstancePerLifetime
         /*Calculate Reputation for Questions, Sets, Categories in other user's wish knowledge */
 
         var countQuestionsInOtherWishknowledge = Sl.UserRepo.GetByIds(user.Id);
-        result.ForQuestionsInOtherWishknowledge = countQuestionsInOtherWishknowledge[0]. * PointsPerQuestionInOtherWishknowledge;
+        result.ForQuestionsInOtherWishknowledge = countQuestionsInOtherWishknowledge[0].TotalInOthersWishknowledge * PointsPerQuestionInOtherWishknowledge;
 
         var countSetsInOtherWishknowledge = GetCountOfSetsInOtherPeoplesWishknowledge(user);
         result.ForSetsInOtherWishknowledge = countSetsInOtherWishknowledge * PointsPerSetInOtherWishknowledge;
@@ -64,6 +64,7 @@ public class ReputationCalc : IRegisterAsInstancePerLifetime
 
         return result;
     }
+
     private int GetCountOfSetsInOtherPeoplesWishknowledge(User user)
     {
         var tinyUser = new UserTinyModel(user);
