@@ -6,14 +6,26 @@ using TrueOrFalse;
 
 public static class QuestionInKnowledge
 {
-    public static void Pin(int questionId, User user) 
-        => UpdateRelevancePersonal(questionId, user);
+    public static void Pin(int questionId, User user)
+    {
+        ChangeTotalInOthersWishknowledge( true, user, questionId);
+        UpdateRelevancePersonal(questionId, user);
+    }
 
     public static void Pin(IEnumerable<Question> questions, User user, SaveType saveType = SaveType.CacheAndDatabase)
-        => UpdateRelevancePersonal(questions.ToList(), user, 50, saveType);
+    {
+        var questionsList = questions.ToList();
 
-    public static void Unpin(int questionId, User user, SaveType saveType = SaveType.CacheAndDatabase) 
-        => UpdateRelevancePersonal(questionId, user, -1, saveType);
+        questionsList.ForEach(q => ChangeTotalInOthersWishknowledge(true, user, q.Id)); 
+
+        UpdateRelevancePersonal(questionsList, user, 50, saveType);
+    }
+
+    public static void Unpin(int questionId, User user, SaveType saveType = SaveType.CacheAndDatabase)
+    {
+        ChangeTotalInOthersWishknowledge( false, user, questionId);
+        UpdateRelevancePersonal(questionId, user, -1, saveType);
+    }
 
     public static void Create(QuestionValuation questionValuation)
     {
@@ -30,6 +42,26 @@ public static class QuestionInKnowledge
         var session = Sl.Resolve<ISession>();
         session.CreateSQLQuery(sb.ToString()).ExecuteUpdate();
         session.Flush();
+    }
+
+    private static void ChangeTotalInOthersWishknowledge( bool isIncrement, User user, int questionId)
+    {
+        var question = EntityCache.GetQuestionById(questionId);
+        if (question.Creator.Id != -1 && question.Creator.Id != user.Id)
+        {
+            if (isIncrement)
+                Sl.Resolve<ISession>()
+                    .CreateSQLQuery(
+                        "Update user Set TotalInOthersWishknowledge = TotalInOthersWishknowledge + 1 where id = " +
+                        question.Creator.Id + ";")
+                    .ExecuteUpdate();
+            else
+                Sl.Resolve<ISession>()
+                    .CreateSQLQuery(
+                        "Update user Set TotalInOthersWishknowledge = TotalInOthersWishknowledge - 1 where id = " +
+                        question.Creator.Id + ";")
+                    .ExecuteUpdate();
+        }
     }
 
     private static void UpdateRelevancePersonal(IList<Question> questions, User user, int relevance = 50, SaveType saveType = SaveType.CacheAndDatabase)

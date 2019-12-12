@@ -60,6 +60,7 @@ public class UserRepo : RepositoryDbBase<User>
     public override void Update(User user)
     {
         this.Update(user, false);
+        UserCache.AddOrUpdate(user);
     }
 
     public void Update(User user, bool runSolrUpdateAsync = false)
@@ -67,6 +68,7 @@ public class UserRepo : RepositoryDbBase<User>
         Logg.r().Information("user update {Id} {Email} {Stacktrace}", user.Id, user.EmailAddress, new StackTrace());
         _searchIndexUser.Update(user, runSolrUpdateAsync);
         base.Update(user);
+        UserCache.AddOrUpdate(user);
     }
 
     public override void Create(User user)
@@ -74,6 +76,7 @@ public class UserRepo : RepositoryDbBase<User>
         Logg.r().Information("user create {Id} {Email} {Stacktrace}", user.Id, user.EmailAddress, new StackTrace());
         base.Create(user);
         _searchIndexUser.Update(user);
+        UserCache.AddOrUpdate(user);
     }
 
     public override void Delete(int id)
@@ -85,6 +88,7 @@ public class UserRepo : RepositoryDbBase<User>
 
         _searchIndexUser.Delete(user);
         base.Delete(id);
+        UserCache.Remove(user);
     }
 
     public void DeleteFromAllTables(int userId)
@@ -195,5 +199,6 @@ public class UserRepo : RepositoryDbBase<User>
         user.ActivityPoints = totalPointCount;
         user.ActivityLevel = userLevel;
         Update(user);
+        UserCache.AddOrUpdate(user);
     }
 }

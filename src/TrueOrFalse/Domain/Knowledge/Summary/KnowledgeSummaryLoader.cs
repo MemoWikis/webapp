@@ -56,7 +56,7 @@ public class KnowledgeSummaryLoader
 
         aggregatedQuestions = aggregatedQuestions.Distinct().ToList();
 
-        var userValuations = UserValuationCache.GetItem(userId).QuestionValuations;
+        var userValuations = UserCache.GetItem(userId).QuestionValuations;
 
         var aggregatedQuestionValuations = new List<QuestionValuation>();
 

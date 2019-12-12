@@ -76,7 +76,7 @@ public class CategoryModel : BaseContentModule
 
         if(loadKnowledgeSummary)
             KnowledgeSummary = KnowledgeSummaryLoader.RunFromMemoryCache(category.Id, UserId);
-
+        var test = EntityCache.GetAllCategories();
         IsInWishknowledge = Sl.CategoryValuationRepo.IsInWishKnowledge(category.Id, UserId);
 
         WikipediaURL = category.WikipediaURL;

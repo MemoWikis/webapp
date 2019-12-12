@@ -95,7 +95,7 @@ public class KnowledgeModel : BaseModel
 
 
         //GET WISH KNOWLEDGE INFO
-        var categoryValuationIds = UserValuationCache.GetCategoryValuations(UserId)
+        var categoryValuationIds = UserCache.GetCategoryValuations(UserId)
             .Where(v => v.IsInWishKnowledge())
             .Select(v => v.CategoryId)
             .ToList();

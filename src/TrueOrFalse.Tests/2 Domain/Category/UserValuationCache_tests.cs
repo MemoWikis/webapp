@@ -39,13 +39,13 @@ namespace TrueOrFalse.Tests
 
             var cache = HttpRuntime.Cache;
 
-            var cacheItem = UserValuationCache.GetItem(user.Id);
+            var cacheItem = UserCache.GetItem(user.Id);
 
             Assert.That(cacheItem.CategoryValuations.Count, Is.EqualTo(3));
 
             cacheItem.CategoryValuations.TryRemove(cacheItem.CategoryValuations.Keys.First(), out var catValout);
 
-            var cacheItem2 = UserValuationCache.GetItem(user.Id);
+            var cacheItem2 = UserCache.GetItem(user.Id);
 
             //var cacheItem2 = Cache.Get<UserValuationCacheItem>(UserValuationCache.GetCacheKey(user.Id));
 
