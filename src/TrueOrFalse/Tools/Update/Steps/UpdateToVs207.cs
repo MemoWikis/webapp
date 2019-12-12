@@ -15,7 +15,7 @@ namespace TrueOrFalse.Updates
 
             session
                 .CreateSQLQuery(
-                    @"ALTER TABLE `memucho`.`user` ADD COLUMN `TotalInOthersWishknowledge` INT NULL AFTER `DateModified`;"
+                    @"ALTER TABLE `user` ADD COLUMN `TotalInOthersWishknowledge` INT NULL AFTER `DateModified`;"
                 ).ExecuteUpdate();
 
             session

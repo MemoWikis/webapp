@@ -122,29 +122,32 @@ public class CategoryApiController : BaseController
     }
 
     [HttpPost]
-    public void Pin(string categoryId)
+    public bool Pin(string categoryId)
     {
         if (_sessionUser.User == null)
-            return;
+            return false;
 
         CategoryInKnowledge.Pin(Convert.ToInt32(categoryId), _sessionUser.User);
+        return true;
     }
 
     [HttpPost]
-    public void Unpin(string categoryId)
+    public bool Unpin(string categoryId)
     {
         if (_sessionUser.User == null)
-            return;
-        
+            return false;
+
         CategoryInKnowledge.Unpin(Convert.ToInt32(categoryId), _sessionUser.User);
+        return true;
     }
 
-    public void UnpinQuestionsInCategory(string categoryId)
+    public bool UnpinQuestionsInCategory(string categoryId)
     {
         if (_sessionUser.User == null)
-            return;
+            return false;
 
         CategoryInKnowledge.UnpinQuestionsInCategory(Convert.ToInt32(categoryId), _sessionUser.User);
+        return true;
     }
 }
 

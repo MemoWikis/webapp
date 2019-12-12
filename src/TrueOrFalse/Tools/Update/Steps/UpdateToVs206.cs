@@ -12,7 +12,7 @@ namespace TrueOrFalse.Updates
         {
             Sl.Resolve<ISession>()
                 .CreateSQLQuery(
-                    @"CREATE INDEX `CategoryRelationType`  ON `memucho`.`relatedcategoriestorelatedcategories` (CategoryRelationType) COMMENT '' ALGORITHM DEFAULT LOCK DEFAULT;"
+                    @"CREATE INDEX `CategoryRelationType`  ON `relatedcategoriestorelatedcategories` (CategoryRelationType) COMMENT '' ALGORITHM DEFAULT LOCK DEFAULT;"
                 ).ExecuteUpdate();
         }
     }

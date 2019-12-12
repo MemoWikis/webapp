@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using System.Web;
 using NHibernate;
 using TrueOrFalse.Search;
@@ -59,7 +60,7 @@ public class SaveQuestionView : IRegisterAsInstancePerLifetime
         _session.CreateSQLQuery("UPDATE Question SET TotalViews = " + _questionViewRepo.GetViewCount(question.Id) + " WHERE Id = " + question.Id).
             ExecuteUpdate();
 
-        _searchIndexQuestion.Update(question);
+        AsyncExe.Run(() => { _searchIndexQuestion.Update(question); }, true);
     }
 
     public void LogOverallTime(Guid guid, int millisencondsSinceQuestionView)

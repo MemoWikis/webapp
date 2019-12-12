@@ -43,8 +43,10 @@ class AnswerBodyLoader {
 
             } else if ($("#hddIsLearningSession").val() === "True") {
 
-                if ($("#hddIsLearningSession").attr("data-learning-session-id") == "-1")
+                if ($("#hddIsLearningSession").attr("data-learning-session-id") == "-1") {
+                    $("#hddIsLearningSession").attr("data-learning-session-id", "-2");
                     this.loadNewLearningSession();
+                }
 
                 $("#btnNext, #aSkipStep").click((e) => {
                     
