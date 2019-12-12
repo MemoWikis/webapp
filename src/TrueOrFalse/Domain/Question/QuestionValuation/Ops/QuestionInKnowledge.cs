@@ -8,22 +8,16 @@ public static class QuestionInKnowledge
 {
     public static void Pin(int questionId, User user)
     {
-        ChangeTotalInOthersWishknowledge( true, user, questionId);
         UpdateRelevancePersonal(questionId, user);
     }
 
     public static void Pin(IEnumerable<Question> questions, User user, SaveType saveType = SaveType.CacheAndDatabase)
     {
-        var questionsList = questions.ToList();
-
-        questionsList.ForEach(q => ChangeTotalInOthersWishknowledge(true, user, q.Id)); 
-
-        UpdateRelevancePersonal(questionsList, user, 50, saveType);
+        UpdateRelevancePersonal(questions.ToList(), user, 50, saveType);
     }
 
     public static void Unpin(int questionId, User user, SaveType saveType = SaveType.CacheAndDatabase)
     {
-        ChangeTotalInOthersWishknowledge( false, user, questionId);
         UpdateRelevancePersonal(questionId, user, -1, saveType);
     }
 
@@ -71,6 +65,7 @@ public static class QuestionInKnowledge
         foreach (var question in questions)
         {
             CreateOrUpdateValuation(question, questionValuations.ByQuestionId(question.Id), user, relevance, saveType);
+            ChangeTotalInOthersWishknowledge(false, user, question.Id);
 
             if (saveType == SaveType.DatabaseOnly || saveType == SaveType.CacheAndDatabase)
                 Sl.Session.CreateSQLQuery(GenerateRelevancePersonal(question.Id)).ExecuteUpdate();
@@ -89,6 +84,7 @@ public static class QuestionInKnowledge
 
     private static void UpdateRelevancePersonal(int questionId, User user, int relevance = 50, SaveType saveType = SaveType.CacheAndDatabase)
     {
+        ChangeTotalInOthersWishknowledge(false, user, questionId);
         CreateOrUpdateValuation(questionId, user, relevance, saveType);
 
         if(saveType == SaveType.CacheOnly || saveType == SaveType.CacheAndDatabase)
