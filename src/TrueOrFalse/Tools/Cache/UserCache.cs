@@ -30,9 +30,12 @@ public class UserCache
 
     public static UserCacheItem CreateItemFromDatabase(int userId)
     {
+        var user = Sl.UserRepo.GetById(userId);
+
         var cacheItem = new UserCacheItem
         {
             UserId = userId,
+            User = user,
             CategoryValuations = new ConcurrentDictionary<int, CategoryValuation>(
                 Sl.CategoryValuationRepo.GetByUser(userId, onlyActiveKnowledge: false)
                 .Select(v => new KeyValuePair<int, CategoryValuation>(v.CategoryId, v))),
@@ -87,6 +90,12 @@ public class UserCache
         }
     }
 
+    public static void AddOrUpdate(User user)
+    {
+        var cacheItem = GetItem(user.Id);
+        cacheItem.User = user;
+    }
+
     /// <summary> Used for question delete </summary>
     public static void RemoveAllForQuestion(int questionId)
     {
@@ -114,6 +123,17 @@ public class UserCache
         {
             var cacheItem = GetItem(userId);
             cacheItem.SetValuations.TryRemove(setId, out var setValOut);
+        }
+    }
+
+    public static void Remove(User user)
+    {
+        var cacheKey = GetCacheKey(user.Id);
+        var cacheItem = Cache.Get<UserCacheItem>(cacheKey);
+
+        if (cacheItem != null)
+        {
+            Cache.Remove(cacheKey);
         }
     }
 }
