@@ -52,7 +52,7 @@ public class CreateLearningSession
         Stopwatch timer = new Stopwatch();
         timer.Start();
 
-        var questionValuation = UserValuationCache.GetItem(user.Id).QuestionValuations;
+        var questionValuation = UserCache.GetItem(user.Id).QuestionValuations;
         var newQuestionsList = new List<Question>();
 
         foreach (Question q in questions)

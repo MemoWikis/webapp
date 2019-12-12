@@ -24,7 +24,7 @@ public class CategoryValuationRepo : RepositoryDb<CategoryValuation>
 
     public IList<CategoryValuation> GetByUserFromCache(int userId, bool onlyActiveKnowledge = true)
     {
-        var cacheItem = UserValuationCache.GetItem(userId);
+        var cacheItem = UserCache.GetItem(userId);
         return cacheItem.CategoryValuations.Values.ToList();
     }
 
@@ -84,7 +84,7 @@ public class CategoryValuationRepo : RepositoryDb<CategoryValuation>
         base.Create(valuations);
         foreach (var categoryValuation in valuations)
         {
-            UserValuationCache.AddOrUpdate(categoryValuation);
+            UserCache.AddOrUpdate(categoryValuation);
         }
         var categories = Sl.CategoryRepo.GetByIds(valuations.GetCategoryIds().ToArray());
         Sl.SearchIndexCategory.Update(categories);
@@ -94,7 +94,7 @@ public class CategoryValuationRepo : RepositoryDb<CategoryValuation>
     {
         KnowledgeSummaryUpdate.Run(categoryValuation, persist: false);
         base.Create(categoryValuation);
-        UserValuationCache.AddOrUpdate(categoryValuation);
+        UserCache.AddOrUpdate(categoryValuation);
         Sl.SearchIndexCategory.Update(Sl.CategoryRepo.GetById(categoryValuation.CategoryId));
     }
 
@@ -102,7 +102,7 @@ public class CategoryValuationRepo : RepositoryDb<CategoryValuation>
     {
         KnowledgeSummaryUpdate.Run(categoryValuation, persist: false);
         base.CreateOrUpdate(categoryValuation);
-        UserValuationCache.AddOrUpdate(categoryValuation);
+        UserCache.AddOrUpdate(categoryValuation);
         Sl.SearchIndexCategory.Update(Sl.CategoryRepo.GetById(categoryValuation.CategoryId));
     }
 
@@ -111,7 +111,7 @@ public class CategoryValuationRepo : RepositoryDb<CategoryValuation>
         categoryValuation.UpdateKnowledgeSummary();
 
         base.Update(categoryValuation);
-        UserValuationCache.AddOrUpdate(categoryValuation);
+        UserCache.AddOrUpdate(categoryValuation);
         Sl.SearchIndexCategory.Update(Sl.CategoryRepo.GetById(categoryValuation.CategoryId));
     }
 

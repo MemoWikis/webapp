@@ -120,7 +120,7 @@ public class QuestionRepo : RepositoryDbBase<Question>
         _searchIndexQuestion.Delete(question);
         base.Delete(question);
         EntityCache.Remove(question);
-        UserValuationCache.RemoveAllForQuestion(question.Id);
+        UserCache.RemoveAllForQuestion(question.Id);
     }
 
     public IList<Question> GetForCategoryAggregated(int categoryId, int currentUser, int resultCount = -1)

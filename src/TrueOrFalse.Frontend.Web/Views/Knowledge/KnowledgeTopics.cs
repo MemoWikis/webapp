@@ -11,7 +11,7 @@ public class KnowledgeTopics : BaseModel
 
     public KnowledgeTopics(bool isAuthor)
     {
-        var categoriesIds = UserValuationCache.GetCategoryValuations(UserId)
+        var categoriesIds = UserCache.GetCategoryValuations(UserId)
             .Where(v => v.IsInWishKnowledge())
             .Select(i => i.CategoryId)
             .ToList();
@@ -20,7 +20,7 @@ public class KnowledgeTopics : BaseModel
             ? EntityCache.GetCategories(categoriesIds).Where(v => v.Creator != null && v.Creator.Id == UserId).ToList()
             : EntityCache.GetCategories(categoriesIds).ToList();
 
-        var setIds = UserValuationCache.GetSetValuations(UserId)
+        var setIds = UserCache.GetSetValuations(UserId)
             .Where(v => v.IsInWishKnowledge())
             .Select(i => i.SetId)
             .ToList();

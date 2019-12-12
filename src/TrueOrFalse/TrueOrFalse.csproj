@@ -852,8 +852,8 @@
     <Compile Include="Tools\Analytics\Widget\Persistence\WidgetViewMap.cs" />
     <Compile Include="Tools\Analytics\Widget\Persistence\WidgetViewRepo.cs" />
     <Compile Include="Tools\Analytics\Widget\WidgetView.cs" />
-    <Compile Include="Tools\Cache\UserValuationCache.cs" />
-    <Compile Include="Tools\Cache\UserValuationCacheItem.cs" />
+    <Compile Include="Tools\Cache\UserCache.cs" />
+    <Compile Include="Tools\Cache\UserCacheItem.cs" />
     <Compile Include="Tools\Import\Importer.cs" />
     <Compile Include="Tools\Import\ImporterResult.cs" />
     <Compile Include="Domain\Question\AnswerHistory\Answer.cs" />
