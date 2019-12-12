@@ -7,8 +7,6 @@ using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
 using Autofac.Integration.Mvc;
-using HibernatingRhinos.Profiler.Appender.NHibernate;
-using RollbarSharp;
 using StackExchange.Profiling;
 using TrueOrFalse.Infrastructure;
 using TrueOrFalse.Updates;
@@ -35,11 +33,6 @@ namespace TrueOrFalse.Frontend.Web
             ViewEngines.Engines.Add(new JavaScriptViewEngine());
             ViewEngines.Engines.Add(new PartialSubDirectoriesViewEngine());
 
-#if DEBUG
-            //if (Settings.DebugUserNHProfiler())
-            //    NHibernateProfiler.Initialize();
-#endif            
-
             if (!Settings.DisableAllJobs())
                 JobScheduler.Start();
 
@@ -51,6 +44,8 @@ namespace TrueOrFalse.Frontend.Web
             {
                 EntityCache.Init();
             }
+
+
 
             Logg.r().Information("=== Application Start ===============================");
         }
@@ -66,7 +61,7 @@ namespace TrueOrFalse.Frontend.Web
             Thread.CurrentThread.CurrentCulture = new CultureInfo("de-DE");
             Thread.CurrentThread.CurrentUICulture = new CultureInfo("de-DE");
 #if DEBUG
-            if (Settings.DebugUserNHProfiler())
+            if (Settings.DebugEnableMiniProfiler())
                 MiniProfiler.Start();
 #endif
         }
@@ -74,7 +69,7 @@ namespace TrueOrFalse.Frontend.Web
         protected void Application_EndRequest()
         {
 #if DEBUG
-            if (Settings.DebugMiniProfiler())
+            if (Settings.DebugEnableMiniProfiler())
                 MiniProfiler.Stop();
 #endif
         }
