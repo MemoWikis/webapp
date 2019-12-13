@@ -39,7 +39,7 @@
             <% } %>
             <div class="Button dropdown">
                 <span class="margin-top-4">
-                    <a href="#" class="dropdown-toggle btn btn-link btn-sm ButtonEllipsis" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" style="font-size: 14px;">
+                    <a href="#" class="dropdown-toggle btn btn-link btn-sm ButtonEllipsis" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
                         <i class="fa fa-ellipsis-v"></i>
                     </a>
                     <ul class="dropdown-menu dropdown-menu-right">
@@ -246,7 +246,7 @@
                 </div>
         </div>
     </div>
-        <% if (!Model.IsInWidget  && Model.SolutionType != SolutionType.FlashCard.ToString())
+        <% if (!Model.IsInWidget  && Model.SolutionType != SolutionType.FlashCard.ToString() && !Model.IsLoggedIn)
            { %>
             <div id="activityPointsDispaly">
                 <small>Dein Punktestand</small>
