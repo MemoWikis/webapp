@@ -134,7 +134,6 @@
   display: flex;
   flex-shrink: 1;
   flex-direction: column;
-  border-bottom: #d6d6d6 solid 0.03125em;
 }
 #SidebarCards #MultipleAutorCard .autor-container .card-link {
   padding-left: 0.67em;
@@ -158,6 +157,17 @@
 #SidebarCards #MultipleAutorCard .single-autor-container #InnerLinkSpan {
   text-overflow: ellipsis;
   overflow: hidden;
+}
+#SidebarCards #ActivityPointsCard {
+  border: #d6d6d6 solid 0.03125em;
+  margin-bottom: 1.25em;
+  padding: 0 0.67em 0 0.6em;
+}
+#SidebarCards #ActivityPointsCard .card-title {
+  padding: 0 0 1.25em 1.25em;
+}
+#SidebarCards #ActivityPointsCard #ActivityPointsContainer {
+  padding-bottom: 1.25em;
 }
 #SidebarCards #CategorySuggestionCard,
 #SidebarCards #CreateQuestionCard {
