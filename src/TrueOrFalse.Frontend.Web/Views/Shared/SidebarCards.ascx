@@ -49,8 +49,7 @@
             <div id="follow-tooltip" data-allowed="logged-in" class="show-tooltip "
                  title="<% if (Model.DoIFollow){ %>Du folgst <%= author.Name %> und nimmst an ihren/seinen Aktivitäten teil.
                         <% }else{ %> Folge <%= author.Name %>, um an ihren/seinen Aktivitäten teilzuhaben.<% } %>">
-                 <div id="follower" class="fas follower"></div>  
-                 <span class="footer-bar-text"><%= Model.Reputation%></span>
+                 <div id="follower" class="fas follower"></div>
             </div>
                 <% } %>
         </div>
