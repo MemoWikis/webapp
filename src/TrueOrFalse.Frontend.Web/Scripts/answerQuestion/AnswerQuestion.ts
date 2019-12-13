@@ -138,6 +138,8 @@ class AnswerQuestion {
                 this._inputFeedback.ShowSolution();
                 ActivityPoints.addPointsFromShowSolutionAnswer();
                 this.ClickToContinue(); 
+                if ($('#ActivityPointsContainer'))
+                    self.GetActivityPointsForSidebar();
                 return false;
             });
 
@@ -392,6 +394,8 @@ class AnswerQuestion {
                 }
                 self.updateQuestionDetails();
                 KnowledgeSummaryBar.updateKnowledgeSummaryBar();
+                if ($('#ActivityPointsContainer'))
+                    self.GetActivityPointsForSidebar();
             }
         });
     }
