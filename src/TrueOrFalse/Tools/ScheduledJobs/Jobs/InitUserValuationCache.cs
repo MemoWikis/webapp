@@ -17,7 +17,7 @@ namespace TrueOrFalse.Utilities.ScheduledJobs
 
                 var dataMap = context.JobDetail.JobDataMap;
 
-                UserValuationCache.GetItem(dataMap.GetInt("userId"));
+                UserCache.GetItem(dataMap.GetInt("userId"));
 
             }, "InitUserValuationCache");
         }

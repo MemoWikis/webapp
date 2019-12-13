@@ -90,7 +90,7 @@ public class CategoryRepository : RepositoryDbBase<Category>
         _searchIndexCategory.Delete(category);
         base.Delete(category);
         EntityCache.Remove(category);
-        UserValuationCache.RemoveAllForCategory(category.Id); 
+        UserCache.RemoveAllForCategory(category.Id); 
     }
 
     public IList<Category> GetByName(string categoryName)

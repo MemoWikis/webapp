@@ -17,7 +17,7 @@ public class CategoryInKnowledge
             new CategoryUserPair { CategoryId = categoryId, UserId = user.Id });
 
         var questions = Sl.CategoryRepo.GetById(categoryId).GetAggregatedQuestionsFromMemoryCache();
-        var questionValuations = UserValuationCache.GetItem(user.Id).QuestionValuations;
+        var questionValuations = UserCache.GetItem(user.Id).QuestionValuations;
         var userCategoryAnswers = Sl.R<AnswerRepo>().GetByQuestion(questions.GetIds().ToList(), user.Id);
         foreach (var question in questions)
         {
@@ -56,7 +56,7 @@ public class CategoryInKnowledge
         var questionsToUnpin = questionsInCategory.Where(question => questionInOtherPinnedEntitites.All(id => id != question.Id)).ToList();
 
 
-        var questionValuations = UserValuationCache.GetItem(user.Id).QuestionValuations;
+        var questionValuations = UserCache.GetItem(user.Id).QuestionValuations;
         foreach (var question in questionsToUnpin)
         {
             var questionValuation = questionValuations.FirstOrDefault(v => v.Value.Question.Id == question.Id).Value;
@@ -102,7 +102,7 @@ public class CategoryInKnowledge
         if (questionIds.IsEmpty())
             return new List<int>();
 
-        var valuatedCategories = UserValuationCache.GetCategoryValuations(user.Id).Where(v => v.IsInWishKnowledge());
+        var valuatedCategories = UserCache.GetCategoryValuations(user.Id).Where(v => v.IsInWishKnowledge());
 
         if (exeptCategoryId != -1)
             valuatedCategories = valuatedCategories.Where(v => v.CategoryId != exeptCategoryId);
