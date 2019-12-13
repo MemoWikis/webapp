@@ -6,7 +6,6 @@ public class AuthorViewModel
     public string Name => User.Name;
     public string ImageUrl;
     public UserTinyModel User;
-    public bool ShowWishKnowledge;
     public int Reputation;
     public int ReputationPos;
 
