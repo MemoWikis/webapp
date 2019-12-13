@@ -1027,6 +1027,8 @@
   font-family: sans-serif;
   line-height: normal;
   color: #b9db4f;
+  text-align: right;
+  padding-top: 10px;
 }
 #activityPointsDispaly .fa-info-circle {
   font-size: 14px;

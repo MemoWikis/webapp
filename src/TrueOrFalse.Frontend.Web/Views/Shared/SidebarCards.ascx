@@ -88,7 +88,17 @@
         <% } %>
     </div>
     <%} %>
-
+    
+    <%if (Model.IsLoggedIn) {%>
+        <div id="ActivityPointsCard">
+            <div class="card-title">
+                <span>Deine Lernpunkte</span>
+            </div>
+            <div id="ActivityPointsContainer">
+                <% Html.RenderPartial("/Views/Shared/ActivityPopupContent.ascx"); %>
+            </div>
+        </div>
+    <%}%>
 
     <%if (Model.SuggestionCategory != null){ %>
     <div id="CategorySuggestionCard">
@@ -118,6 +128,6 @@
         <%} %>
     </div>
     <% } %>
-    
+
      <% Html.RenderPartial("~/Views/Shared/SidebarCards/CreateQuestion.ascx"); %>
 </div>

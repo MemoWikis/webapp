@@ -89,7 +89,7 @@
                 <% if (Model.HasSound) { Html.RenderPartial("AudioPlayer", Model.SoundUrl); } %>
 
                 <div class="row">
-                    <div id="AnswerInputSection" class="">
+                    <div id="AnswerInputSection">
                         <input type="hidden" id="hddSolutionMetaDataJson" value="<%: Model.SolutionMetaDataJson %>" />
                         <input type="hidden" id="hddSolutionTypeNum" value="<%: Model.SolutionTypeInt %>" />
                         <%
@@ -135,7 +135,7 @@
                                 </div>
                             <% } %>
                         </div>
-                        <div id="ButtonsAndSolutionCol">
+                    <div id="ButtonsAndSolutionCol">
                             <div id="ButtonsAndSolution" class="Clearfix">
                                 <div id="Buttons">
                                     <% if (Model.SolutionType == SolutionType.FlashCard.ToString()) { %>
@@ -147,16 +147,6 @@
                                         <div id="buttons-first-try" class="ButtonGroup">
                                         <a href="#" id="btnCheck" class="btn btn-primary" rel="nofollow" style="padding-right: 10px">Antworten</a>
                                         <a href="#" class="selectorShowSolution SecAction btn btn-link"><i class="fa fa-lightbulb-o">&nbsp;</i>Lösung anzeigen</a>
-                                        <% if (!Model.IsInWidget)
-                                           { %>
-                                            <span id="activityPointsDispaly">
-                                                <small>Punkte</small>
-                                                <span id="activityPoints"><%= Model.TotalActivityPoints %></span>
-                                                <span style="display: inline-block; white-space: nowrap;" class="show-tooltip" data-placement="bottom" title="Du bekommst Lernpunkte für das Beantworten von Fragen">
-                                                    <i class="fa fa-info-circle"></i>
-                                                </span>
-                                            </span>
-                                        <% } %>
                                     <% } else { %>
                                         <div id="buttons-answer" class="ButtonGroup flashCardAnswerButtons" style="display: none">
                                             <a href="#" id="btnRightAnswer" class="btn btn-warning" rel="nofollow">Wusste ich!</a>
@@ -191,7 +181,7 @@
                                     { %>
                                 <div id="buttons-answer-again" class="ButtonGroup" style="display: none">
                                     <a href="#" id="btnCheckAgain" class="btn btn-warning" rel="nofollow">Nochmal Antworten</a>
-                                    <a href="#" class="selectorShowSolution SecAction btn btn-link">Lösung anzeigen</a>
+                                    <a href="#" class="selectorShowSolution SecAction btn btn-link"><i class="fa fa-lightbulb-o">&nbsp;</i>Lösung anzeigen</a>
                                     
                                 </div>
                                 <% } %>
@@ -221,7 +211,7 @@
 
                                     <div id="divWrongAnswer" class="Detail" style="display: none; background-color: white;">
                                         <span id="spnWrongAnswer" style="color: #B13A48"><b>Falsch beantwortet </b></span>
-                                        <a href="#" id="CountWrongAnswers" style="float: right; margin-right: -5px;">(zwei Versuche)</a><br />
+                                        <a href="#" id="CountWrongAnswers" style="float: right;">(zwei Versuche)</a><br />
 
                                         <div style="margin-top: 5px;" id="answerFeedbackTry">Du könntest es wenigstens probieren!</div>
 
@@ -253,9 +243,19 @@
                         </div>
                     </div>
                 </div>
-            </div>
+                </div>
         </div>
     </div>
+        <% if (!Model.IsInWidget  && Model.SolutionType != SolutionType.FlashCard.ToString())
+           { %>
+            <div id="activityPointsDispaly">
+                <small>Dein Punktestand</small>
+                <span id="activityPoints"><%= Model.TotalActivityPoints %></span>
+                <span style="display: inline-block; white-space: nowrap;" class="show-tooltip" data-placement="bottom" title="Du bekommst Lernpunkte für das Beantworten von Fragen">
+                    <i class="fa fa-info-circle"></i>
+                </span>
+            </div>
+        <% } %>
 </div>
 
 <div class="FooterQuestionDetails row" style=" <%if(Model.IsInWidget){%> padding-bottom: 0; <%}

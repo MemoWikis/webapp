@@ -111,7 +111,7 @@ class AnswerQuestion {
             e => {
                 e.preventDefault();
                 $('#hddTimeRecords').attr('data-time-of-answer', $.now());
-                    self.ValidateAnswer();
+                self.ValidateAnswer();
             });
 
         $("#aCountAsCorrect")
@@ -198,6 +198,7 @@ class AnswerQuestion {
                     $('#buttons-answer').hide();
                   this.ClickToContinue();
             }
+            $('div#answerFeedbackTry, a#CountWrongAnswers').hide();
             $.ajax({
                 type: 'POST',
                 url: AnswerQuestion.ajaxUrl_SendAnswer,
@@ -211,6 +212,7 @@ class AnswerQuestion {
                 }),
                 cache: false,
                 success(result) {
+                    $('div#answerFeedbackTry, a#CountWrongAnswers').show();
                     var answerResult = result;
                     self.IncrementInteractionNumber();
                     self.UpdateProgressBar(-1, answerResult);
@@ -234,8 +236,12 @@ class AnswerQuestion {
                     if (result.correct) {
                         self.HandleCorrectAnswer();
                         self.ClickToContinue();
-                    } else
+                    } else {
+                        $('div#answerFeedbackTry, a#CountWrongAnswers').show();
                         self.HandleWrongAnswer(result, answerText);
+
+
+                    }
 
                     $("#answerHistory").empty();
                     $.post("/AnswerQuestion/PartialAnswerHistory",
@@ -245,6 +251,8 @@ class AnswerQuestion {
                         });
                     self.updateQuestionDetails();
                     KnowledgeSummaryBar.updateKnowledgeSummaryBar();
+                    if ($('#ActivityPointsContainer'))
+                        self.GetActivityPointsForSidebar();
                 }
             });
             return false;
@@ -497,5 +505,16 @@ class AnswerQuestion {
 
     GetCurrentStep() : number {
         return parseInt($("#StepCount").html());
+    }
+
+    private GetActivityPointsForSidebar() {
+        $.ajax({
+            url: "/Shared/RenderActivityPopupContent",
+            type: 'GET',
+            async: false,
+            success: function (htmlResult) {
+                $('#ActivityPointsContainer').html(htmlResult);
+            }
+        });
     }
 }
