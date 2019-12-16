@@ -25,6 +25,10 @@ Vue.Component('question-list-component', {
                 type: Array,
                 required: false,
             },
+            extendedQuestions: {
+                type: Array,
+                required: false,
+            },
         };
     },
 
@@ -70,24 +74,28 @@ Vue.Component('question-list-component', {
             });
         },
 
-        expandQuestion(index) {
-            var questionToExpand = this.questions[index];
-            var questionId = questionToExpand.Id;
-            this.loadQuestionBody(questionToExpand);
-            this.loadQuestionDetails(questionId);
+        async expandQuestion(questionId) {
+            if (this.extendedQuestions[questionId] == undefined) {
+                await this.loadQuestionBody(questionId);
+                this.loadQuestionDetails(questionId);
+            }
         },
 
-        loadQuestionBody(questionToExpand) {
+        loadQuestionBody(questionId) {
             $.ajax({
                 url: "",
-                data: { questionId: questionToExpand.Id },
+                data: { questionId: questionId },
                 type: "POST",
                 success: data => {
-                    questionToExpand.Answer = data.Answer;
-                    questionToExpand.ExtendedAnswer = data.ExtendedAnswer;
-                    questionToExpand.Categories = data.CategoryList;
-                    questionToExpand.Author = data.AuthorList;
-                    questionToExpand.Sources = data.SourceList;
+                    this.extendedQuestions.push({
+                        questionId: {
+                            answer: data.Answer,
+                            extendedAnswer: data.ExtendedAnswer,
+                            categories: data.CategoryList,
+                            author: data.Author,
+                            sources: data.SourceList,
+                        }
+                    });
                 }
             });
         },

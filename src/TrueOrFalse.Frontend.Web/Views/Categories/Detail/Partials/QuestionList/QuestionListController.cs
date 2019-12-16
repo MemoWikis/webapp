@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
@@ -9,25 +10,62 @@ public class QuestionListController : BaseController
 {
     public int CategoryId;
     public int AllQuestionCount;
+    public List<Question> AllQuestions;
+    public ConcurrentDictionary<int, QuestionValuation> UserQuestionValuation { get; set; }
 
-    public QuestionListController(int categoryId, int allQuestionCount)
+
+    public QuestionListController(int categoryId)
     {
         CategoryId = categoryId;
-        AllQuestionCount = allQuestionCount;
+        AllQuestions = EntityCache.GetQuestionsForCategory(CategoryId).ToList();
+        AllQuestionCount = AllQuestions.Count();
+        if (IsLoggedIn)
+        {
+            var user = Sl.R<SessionUser>().User;
+            UserQuestionValuation = UserCache.GetItem(user.Id).QuestionValuations;
+        }
     }
 
     [HttpPost]
-    public int GetPageCount(int categoryId, int itemCountPerPage)
+    public int GetPageCount(int itemCountPerPage)
     {
-        return 0;
+        var pageCount = AllQuestionCount / itemCountPerPage;
+        return pageCount;
     }
 
     [HttpPost]
-    public JsonResult LoadQuestions(int categoryId, int pageNumber, string sortCondition, string filterCondition)
+    public JsonResult LoadQuestions(int itemCount, int pageNumber, string sortCondition, string filterCondition)
     {
-        var questions = EntityCache.GetQuestionsForCategory(categoryId);
-        var questionsList = new List<KnowledgeQuestions.Questions>();
+        var questions = AllQuestions.ToList();
+        if (IsLoggedIn)
+        {
+        }
+        var questionsList = new List<QuestionListJson.Question>();
 
+        var skimmedQuestions = questions.Skip(itemCount * (pageNumber - 1)).Take(itemCount).ToList();
+
+        foreach (Question q in skimmedQuestions)
+        {
+            var questionObj = new QuestionListJson.Question();
+            var userTinyModel = new UserTinyModel(q.Creator);
+            questionObj.Title = q.Text;
+            questionObj.LinkToQuestion = Links.GetUrl(q);
+            questionObj.ImageData = new ImageFrontendData(Sl.ImageMetaDataRepo.GetBy(q.Id, ImageType.Question)).GetImageUrl(30);
+            if (IsLoggedIn)
+            {
+                if (UserQuestionValuation.ContainsKey(q.Id))
+                {
+                    questionObj.CorrectnessProbability = UserQuestionValuation[q.Id].CorrectnessProbability;
+                    questionObj.IsInWishknowledge = UserQuestionValuation[q.Id].IsInWishKnowledge();
+                } 
+            }
+            else
+                questionObj.CorrectnessProbability = q.CorrectnessProbability;
+
+            questionObj.Author.Name = userTinyModel.Name;
+            questionObj.Author.ImageData = new UserImageSettings(userTinyModel.Id).GetUrl_128px_square(userTinyModel);
+            questionObj.Author.Id = userTinyModel.Id;
+        }
 
         return Json(new QuestionListJson()
         {
@@ -38,14 +76,15 @@ public class QuestionListController : BaseController
     [HttpPost]
     public JsonResult LoadQuestionBody(int questionId)
     {
-        var question = new QuestionListJson.Question();
+        var question = EntityCache.GetQuestionById(questionId);
+        var userTinyModel = new UserTinyModel(question.Creator);
+
 
         return Json(new
         {
-            answer = question.Answer,
+            answer = question.Solution,
             extendedAnswer = question.ExtendedAnswer,
-            categories = question.CategoryList, 
-            author = question.AuthorList,
+            categories = question.Categories, 
             sources = question.SourceList,
         });
     }
