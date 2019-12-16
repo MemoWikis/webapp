@@ -14,6 +14,8 @@ public class UserMap : ClassMap<User>
         Map(x => x.AllowsSupportiveLogin);
         Map(x => x.ShowWishKnowledge);
         Map(x => x.KnowledgeReportInterval);
+        Map(x => x.TotalInOthersWishknowledge);
+       
 
         Map(x => x.CorrectnessProbability);
         Map(x => x.CorrectnessProbabilityAnswerCount);

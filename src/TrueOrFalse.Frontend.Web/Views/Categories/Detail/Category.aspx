@@ -54,9 +54,7 @@
         <div id="TopicTabContent" class="TabContent">
             <% if (Model.IsInTopic) { %>
                 <% Html.RenderPartial("~/Views/Categories/Detail/Tabs/TopicTab.ascx", Model); %>
-                
             <% } %>
-
         </div>
 
     <div id="LearningTabContent" class="TabContent" style="visibility: hidden">

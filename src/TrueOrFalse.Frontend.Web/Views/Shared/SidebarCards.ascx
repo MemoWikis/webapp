@@ -6,7 +6,7 @@
             var author = Model.Authors.First();
     %>
         <input id="isFollow" type="hidden" value="<%=Model.DoIFollow %>"/>
-        <input id="author" type="hidden" value="<%= author.User.Id%>" name="<%= author.User.Name %>" data-sets-created="<%= Model.Reputation.ForSetsCreated %>" data-question-created="<%=Model.Reputation.ForQuestionsCreated %>" />
+        <input id="author" type="hidden" value="<%= author.User.Id%>" name="<%= author.User.Name %>" />
 
     <div id="AutorCard">
         <div class="column-left">
@@ -35,11 +35,11 @@
             </div>
         </div>
         <div class="autor-card-footer-bar">
-            <div class="show-tooltip" title='<%=Model.Reputation.User.Name%> hat <%= Model.Reputation.ForQuestionsCreated%> Fragen / <%=Model.Reputation.ForSetsCreated %> Lernsets erstellt.'>
+            <div class="show-tooltip" title='<%=Model.Author.Name %> hat <%= Model.Reputation%> ReputationsPunkte.'>
                 <i class="fa fa fa-question-circle"></i>
-                <span class="footer-bar-text"><%=Model.Reputation.ForQuestionsCreated %></span>
+                <span class="footer-bar-text"><%=Model.Reputation %></span>
             </div>
-            <div class="show-tooltip" title="<% if(Model.Reputation.User.ShowWishKnowledge) {%> <%=author.Name %> hat sein/ihr Wunschwissen veröffentlicht und <%=Model.AmountWishCountQuestions %> Fragen gesammelt <% }
+            <div class="show-tooltip" title="<% if(Model.Author.ShowWishKnowledge) {%> <%=author.Name %> hat sein/ihr Wunschwissen veröffentlicht und <%=Model.AmountWishCountQuestions %> Fragen gesammelt <% }
                                                 else {%>  <%=author.Name %> hat sein Wunschwissen leider nicht veröffentlicht. <%}%> " >
                 <span class="fa fa-heart"></span>
                 <span class="footer-bar-text"><%= Model.AmountWishCountQuestions %></span>
@@ -49,8 +49,7 @@
             <div id="follow-tooltip" data-allowed="logged-in" class="show-tooltip "
                  title="<% if (Model.DoIFollow){ %>Du folgst <%= author.Name %> und nimmst an ihren/seinen Aktivitäten teil.
                         <% }else{ %> Folge <%= author.Name %>, um an ihren/seinen Aktivitäten teilzuhaben.<% } %>">
-                 <div id="follower" class="fas follower"></div>  
-                 <span class="footer-bar-text"><%= Model.Reputation.ForUsersFollowingMe %></span>
+                 <div id="follower" class="fas follower"></div>
             </div>
                 <% } %>
         </div>
@@ -88,7 +87,17 @@
         <% } %>
     </div>
     <%} %>
-
+    
+    <%if (Model.IsLoggedIn) {%>
+        <div id="ActivityPointsCard">
+            <div class="card-title">
+                <span>Deine Lernpunkte</span>
+            </div>
+            <div id="ActivityPointsContainer">
+                <% Html.RenderPartial("/Views/Shared/ActivityPopupContent.ascx"); %>
+            </div>
+        </div>
+    <%}%>
 
     <%if (Model.SuggestionCategory != null){ %>
     <div id="CategorySuggestionCard">
@@ -118,6 +127,6 @@
         <%} %>
     </div>
     <% } %>
-    
+
      <% Html.RenderPartial("~/Views/Shared/SidebarCards/CreateQuestion.ascx"); %>
 </div>

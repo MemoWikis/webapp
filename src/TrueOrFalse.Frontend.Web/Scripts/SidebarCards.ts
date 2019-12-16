@@ -17,27 +17,20 @@
 
 class Follower {
     private _follower: JQuery;
-    private _isFollow: JQuery; 
-    private _followTooltip: JQuery;
-    private _authorId: number; 
-    private _questionsCreated: string;
-    private _setsCreated: string;
+    private _isFollow: JQuery;
+    private _authorId: number;
     private _authorName: string;
 
     constructor() {
         this._follower = $(".follower");
         this._isFollow = $("#isFollow");
-        this._followTooltip = $("#follow-tooltip");
+
 
         if (typeof this._isFollow.val() !== "undefined") {
             this.loadCorrektClassAndTooltip();
             this._follower.css('cursor', 'pointer');
             this._authorName = $("#author").attr("name");
-            this._questionsCreated = $("#author").attr("data-questions-created");
-            this._setsCreated = $("#author").attr("data-sets-created");
-
         }
-
 
         if (IsLoggedIn.Yes) {
             $(".follower").on("click",

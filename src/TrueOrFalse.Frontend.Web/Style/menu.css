@@ -526,5 +526,5 @@ div.menu .tooltip-inner {
 /* UserDropdown*/
 #userDropdown {
   margin-top: 0;
-  padding-right: 20px;
+  width: 202px;
 }

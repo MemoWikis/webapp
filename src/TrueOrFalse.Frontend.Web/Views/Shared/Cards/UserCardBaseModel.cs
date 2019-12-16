@@ -2,22 +2,25 @@
 
 public class UserCardBaseModel:BaseResolve
 {
-    public ReputationCalcResult Reputation;
+    public int Reputation;
     public bool DoIFollow;
     public int AmountWishCountQuestions;
     public bool IsCurrentUser;
     private SessionUser _sessionUser => Resolve<SessionUser>();
     public bool IsLoggedIn => _sessionUser.IsLoggedIn;
     public User User => _sessionUser.User;
-    public UserTinyModel Author; 
-    
+    public UserTinyModel Author;
+
 
     public void FillUserCardBaseModel(IList<UserTinyModel> authors, int currentUserId)
     {
         if (authors.Count == 1)
         {
             Author = authors[0];
-            Reputation = Resolve<ReputationCalc>().Run(authors[0].User);
+            var userCashUser = UserCache.GetItem(Author.Id).User;
+            Author.ShowWishKnowledge = userCashUser.ShowWishKnowledge;
+            Reputation = userCashUser.Reputation;
+
             if (authors[0].IsKnown)
             {
                 AmountWishCountQuestions = Resolve<GetWishQuestionCount>().Run(authors[0].Id);

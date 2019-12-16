@@ -18,11 +18,11 @@ public class KnowledgeQuestions : BaseModel
     public KnowledgeQuestions(bool isAuthor, int page, int per_page, string sort)
     {
         TotalWishKnowledgeValuationsWithAuthor = isAuthor
-            ? UserValuationCache.CreateItemFromDatabase(UserId).QuestionValuations.Values
+            ? UserCache.CreateItemFromDatabase(UserId).QuestionValuations.Values
                 .Where(v => v.Question.Creator != null && v.Question.Creator.Id == UserId && v.IsInWishKnowledge())
                 .Distinct()
                 .ToList()
-            : UserValuationCache.CreateItemFromDatabase(UserId).QuestionValuations.Values
+            : UserCache.CreateItemFromDatabase(UserId).QuestionValuations.Values
                 .Where(v => v.IsInWishKnowledge())
                 .Distinct()
                 .ToList();
