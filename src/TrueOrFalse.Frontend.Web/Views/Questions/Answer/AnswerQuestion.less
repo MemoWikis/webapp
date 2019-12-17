@@ -932,6 +932,12 @@
     text-align: right;
     padding-top: 10px;
 
+    &.hideOnBigScreen {
+        @media(min-width: 1200px){
+            display:none;
+        }
+    }
+
     .fa-info-circle {
         font-size: 14px;
     }
