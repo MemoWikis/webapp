@@ -16,6 +16,7 @@ public class SidebarModel : UserCardBaseModel
     public string CategorySuggestionUrl;
     public Category SuggestionCategory;
     private SponsorModel _sponsorModel;
+    public int FollowerCount;
 
     public SponsorModel SponsorModel
     {

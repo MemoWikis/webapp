@@ -32,6 +32,7 @@ public class User : DomainEntity, IUserTinyModel
     public virtual bool IsFacebookUser => !IsNullOrEmpty(FacebookId);
     public virtual bool IsGoogleUser => !IsNullOrEmpty(GoogleId);
     public virtual int TotalInOthersWishknowledge { get; set; }
+    public virtual int FollowerCount { get; set; }
 
     public virtual IList<string> WidgetHosts()
     {
