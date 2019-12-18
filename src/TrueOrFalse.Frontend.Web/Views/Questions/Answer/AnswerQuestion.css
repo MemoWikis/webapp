@@ -1030,6 +1030,11 @@
   text-align: right;
   padding-top: 10px;
 }
+@media (min-width: 1200px) {
+  #activityPointsDispaly.hideOnBigScreen {
+    display: none;
+  }
+}
 #activityPointsDispaly .fa-info-circle {
   font-size: 14px;
 }
