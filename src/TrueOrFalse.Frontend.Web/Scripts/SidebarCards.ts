@@ -42,24 +42,24 @@ class Follower {
     }
 
     private toggleClasses(): void {
-
-
         if (this._isFollow.val().toLowerCase() === "true") {
             this.InDecrementDisplayFollower(false); 
+
+            this._isFollow.val("False");
+            $("#follow-tooltip").attr("data-original-title",
+                "Folge " + this._authorName + ", um an ihren/seinen Aktivitäten teilzuhaben.");
 
             if (this._follower.hasClass("fa-user-minus"))
                 this._follower.addClass("fa-user-plus").removeClass("fa-user-times");
             else
                 this._follower.addClass("fa-user-plus");
 
-            $.post("/Users/UnFollow/", { "userId": this._authorId }, () => {
-                this._isFollow.val("False");
-                $("#follow-tooltip").attr("data-original-title",
-                    "Folge " + this._authorName + ", um an ihren/seinen Aktivitäten teilzuhaben.");
-
-
-            });
+            $.post("/Users/UnFollow/", { "userId": this._authorId }, () => {});
         } else {
+            this._isFollow.val("True");
+            $("#follow-tooltip").attr("data-original-title",
+                "Du folgst " + this._authorName + " und nimmst an ihren/seinen Aktivitäten teil.");
+
               this.InDecrementDisplayFollower(true);
            
             if (this._follower.hasClass("fa-user-plus"))
@@ -67,11 +67,7 @@ class Follower {
             else
                 this._follower.addClass("fa-user-minus");
 
-            $.post("/Users/Follow/", { "userId": this._authorId }, () => {
-                this._isFollow.val("True");
-                $("#follow-tooltip").attr("data-original-title",
-                    "Du folgst " + this._authorName + " und nimmst an ihren/seinen Aktivitäten teil.");
-            });  
+            $.post("/Users/Follow/", { "userId": this._authorId }, () => {});  
         }
     }
 

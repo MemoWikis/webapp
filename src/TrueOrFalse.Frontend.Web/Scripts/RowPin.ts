@@ -77,7 +77,7 @@ class Pin {
 
                     self.SetSidebarValue(self.GetSidebarValue(elemPin) + 1, elemPin);
 
-                    if ($(this).hasClass("RoundHeartButton"))
+                    if ($('.RoundHeartButton'))
                         self.SetFooterTotalPins(1);
 
                 }, 400);
@@ -98,7 +98,7 @@ class Pin {
                         
                     self.SetSidebarValue(self.GetSidebarValue(elemPin) - 1, elemPin);
 
-                    if ($(this).hasClass("RoundHeartButton"))
+                    if ($('.RoundHeartButton'))
                         self.SetFooterTotalPins(-1);
 
                 }, 400);

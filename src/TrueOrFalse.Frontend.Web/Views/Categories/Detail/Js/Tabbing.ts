@@ -1,5 +1,6 @@
 ﻿class Tabbing {
 
+    private _reloadPins: boolean = false;
     private _categoryId :number;
     constructor(categoryId) {
         this._categoryId = categoryId;
@@ -101,6 +102,11 @@
             else if (tabName == "AnalyticsTab") {
                 this.loadKnowledgeData();
             }
+
+            if (tabName == "TopicTab" && this._reloadPins ) {
+                new Pin(PinType.Category, KnowledgeBar.ReloadCategory);
+                this._reloadPins = false;
+            }
         });
 
 
@@ -109,11 +115,10 @@
     private InitializeLearningTab(): void{
         var answerBody = new AnswerBody();
 
-        if (answerBody.IsTestSession()) {
-        answerBody.Loader.loadNewTestSession();
-    }
+        if (answerBody.IsTestSession())
+            answerBody.Loader.loadNewTestSession();
 
-    $('#hddLearningSessionStarted').val("True");
+        $('#hddLearningSessionStarted').val("True");
     }
 
     private ContentIsPresent(tabName: string): boolean {

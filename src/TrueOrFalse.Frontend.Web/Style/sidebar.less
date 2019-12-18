@@ -148,7 +148,6 @@
             display: flex;
             flex-shrink: 1;
             flex-direction: column;
-            border-bottom: @border;
 
             .card-link {
                 padding-left: 0.67em;
@@ -178,6 +177,20 @@
                 overflow: hidden;
             }
         }
+    }
+
+    #ActivityPointsCard {
+        .card-title {
+            padding: 0 0 1.25em 1.25em;
+        }
+
+        #ActivityPointsContainer {
+            padding-bottom: 1.25em;
+        }
+
+        border: #d6d6d6 solid 0.03125em;
+        margin-bottom: 1.25em;
+        padding: 0 0.67em 0 0.6em;
     }
 
     #CategorySuggestionCard, #CreateQuestionCard {

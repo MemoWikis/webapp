@@ -1027,6 +1027,13 @@
   font-family: sans-serif;
   line-height: normal;
   color: #b9db4f;
+  text-align: right;
+  padding-top: 10px;
+}
+@media (min-width: 1200px) {
+  #activityPointsDispaly.hideOnBigScreen {
+    display: none;
+  }
 }
 #activityPointsDispaly .fa-info-circle {
   font-size: 14px;
@@ -1066,6 +1073,9 @@
 }
 .AnswerQuestionBodyMenu .dropdown-toggle {
   padding-right: 0px;
+  font-size: 18px;
+  color: #999999;
+  margin-top: -2px;
 }
 .SingleCategoryAttention .well {
   background-color: rgba(112, 112, 112, 0.08);
