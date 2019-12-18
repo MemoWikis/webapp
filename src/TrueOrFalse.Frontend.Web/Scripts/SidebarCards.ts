@@ -42,7 +42,12 @@ class Follower {
     }
 
     private toggleClasses(): void {
+
+
         if (this._isFollow.val().toLowerCase() === "true") {
+
+            var followercount = parseInt($("#FollowerCount").text()) - 1;
+            $("#FollowerCount").text(followercount.toString()); 
 
             if (this._follower.hasClass("fa-user-minus"))
                 this._follower.addClass("fa-user-plus").removeClass("fa-user-times");
@@ -57,6 +62,9 @@ class Follower {
 
             });
         } else {
+            var followercount = parseInt($("#FollowerCount").text()) + 1 ;
+            $("#FollowerCount").text(followercount.toString()); 
+
             if (this._follower.hasClass("fa-user-plus"))
                 this._follower.addClass("fa-user-minus").removeClass("fa-user-plus");
             else

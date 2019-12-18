@@ -1,6 +1,7 @@
 ﻿<%@ Control Language="C#" Inherits="System.Web.Mvc.ViewUserControl<SidebarModel>" %>
 <%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
 
+
 <div id="SidebarCards">
     <%if (Model.Authors.Count == 1){
             var author = Model.Authors.First();
@@ -49,7 +50,7 @@
             <div id="follow-tooltip" data-allowed="logged-in" class="show-tooltip "
                  title="<% if (Model.DoIFollow){ %>Du folgst <%= author.Name %> und nimmst an ihren/seinen Aktivitäten teil.
                         <% }else{ %> Folge <%= author.Name %>, um an ihren/seinen Aktivitäten teilzuhaben.<% } %>">
-                 <div id="follower" class="fas follower"><span class="footer-bar-text"><%= Model.Authors.First().User.FollowerCount %></span></div>
+                 <div id="follower" class="fas follower"><span class="footer-bar-text" id="FollowerCount"><%= Model.Authors.First().User.FollowerCount %></span></div>
             </div>
                 <% } %>
         </div>

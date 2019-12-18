@@ -93,9 +93,10 @@ public class UsersController : BaseController
     {
         var userRepo = R<UserRepo>();
         var userToFollow = userRepo.GetById(userId);
-        userToFollow.AddFollower(User_());
-
         userRepo.Update(userToFollow);
+        userToFollow.AddFollower(User_());
+        userRepo.UpdateUserFollowerCount(userId);
+        UserCache.AddOrUpdate(userToFollow);
     }
 
     [HttpPost][AccessOnlyAsLoggedIn]
@@ -104,8 +105,9 @@ public class UsersController : BaseController
         var userRepo = R<UserRepo>();
         var userToUnfollow = userRepo.GetById(userId);
         var followerInfoToRemove = userToUnfollow.Followers.First(x => x.Follower.Id == UserId);
-        
-        R<UserRepo>().RemoveFollowerInfo(followerInfoToRemove);
+        userRepo.RemoveFollowerInfo(followerInfoToRemove);
         R<UserActivityRepo>().DeleteForUser(UserId, userId);
+        userRepo.UpdateUserFollowerCount(userId);
+        UserCache.AddOrUpdate(userToUnfollow);
     }
 }

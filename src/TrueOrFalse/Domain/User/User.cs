@@ -63,7 +63,7 @@ public class User : DomainEntity, IUserTinyModel
     public virtual void AddFollower(User follower)
     {
         Followers.Add(new FollowerInfo {Follower = follower, User = this, DateCreated = DateTime.Now, DateModified = DateTime.Now});
-        Sl.R<UserRepo>().Flush();
+        Sl.UserRepo.Flush();
         UserActivityAdd.FollowedUser(follower, this);
         UserActivityUpdate.NewFollower(follower, this);
         ReputationUpdate.ForUser(this);

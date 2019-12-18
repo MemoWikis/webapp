@@ -55,6 +55,8 @@ public class Sl
     public static WidgetViewRepo WidgetViewRepo => R<WidgetViewRepo>();
 
     public static UserActivityRepo UserActivityRepo => R<UserActivityRepo>();
+    
+    public static JobQueueRepo JobQueueRepo => R<JobQueueRepo>();
 
     public static int CurrentUserId => R<SessionUser>().UserId;
 }
