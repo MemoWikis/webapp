@@ -9,6 +9,7 @@
     int Reputation { get; }
     string GoogleId { get;}
     bool ShowWishKnowledge { get; }
+    int FollowerCount { get; }
 }
 
 public class UserTinyModel : IUserTinyModel
@@ -33,6 +34,7 @@ public class UserTinyModel : IUserTinyModel
 
     public bool IsKnown => !IsUnknown;
     public bool IsUnknown { get; }
+    public int FollowerCount { get;  }
 
     public UserTinyModel(User user)
     {
@@ -59,5 +61,6 @@ public class UserTinyModel : IUserTinyModel
         Reputation = _user != null ? _user.Reputation :  0;
         ReputationPos = _user != null ? _user.ReputationPos : 0;
         IsMember = _user != null && _user.IsMember();
+        FollowerCount = _user != null ? _user.FollowerCount : 0;
     }
 }

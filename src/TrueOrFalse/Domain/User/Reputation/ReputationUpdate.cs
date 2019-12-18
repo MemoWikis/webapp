@@ -40,7 +40,7 @@ public class ReputationUpdate : IRegisterAsInstancePerLifetime
         ScheduleUpdate(user.Id);
 
     private static void ScheduleUpdate(int userId) => 
-        Sl.R<JobQueueRepo>().Add(JobQueueType.UpdateReputationForUser, userId.ToString());
+        Sl.JobQueueRepo.Add(JobQueueType.UpdateReputationForUser, userId.ToString());
 
     public void Run(User userToUpdate)
     {

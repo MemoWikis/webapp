@@ -15,6 +15,8 @@ public class UserMap : ClassMap<User>
         Map(x => x.ShowWishKnowledge);
         Map(x => x.KnowledgeReportInterval);
         Map(x => x.TotalInOthersWishknowledge);
+        Map(x => x.FollowerCount);
+        
        
 
         Map(x => x.CorrectnessProbability);

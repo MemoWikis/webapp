@@ -43,6 +43,7 @@ class Follower {
 
     private toggleClasses(): void {
         if (this._isFollow.val().toLowerCase() === "true") {
+            this.InDecrementDisplayFollower(false); 
 
             this._isFollow.val("False");
             $("#follow-tooltip").attr("data-original-title",
@@ -59,6 +60,8 @@ class Follower {
             $("#follow-tooltip").attr("data-original-title",
                 "Du folgst " + this._authorName + " und nimmst an ihren/seinen Aktivitäten teil.");
 
+              this.InDecrementDisplayFollower(true);
+           
             if (this._follower.hasClass("fa-user-plus"))
                 this._follower.addClass("fa-user-minus").removeClass("fa-user-plus");
             else
@@ -73,6 +76,12 @@ class Follower {
             this._follower.addClass("fa-user-minus");
         } else
             this._follower.addClass("fa-user-plus");
+    }
+
+    private InDecrementDisplayFollower(increment:boolean ):void {
+        var counter: number = increment ? + 1 : - 1; 
+        var followercount = parseInt($("#FollowerCount").text()) + counter;
+        $("#FollowerCount").text(followercount.toString()); 
     }
     
 }

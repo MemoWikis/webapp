@@ -32,6 +32,7 @@ public class User : DomainEntity, IUserTinyModel
     public virtual bool IsFacebookUser => !IsNullOrEmpty(FacebookId);
     public virtual bool IsGoogleUser => !IsNullOrEmpty(GoogleId);
     public virtual int TotalInOthersWishknowledge { get; set; }
+    public virtual int FollowerCount { get; set; }
 
     public virtual IList<string> WidgetHosts()
     {
@@ -62,7 +63,7 @@ public class User : DomainEntity, IUserTinyModel
     public virtual void AddFollower(User follower)
     {
         Followers.Add(new FollowerInfo {Follower = follower, User = this, DateCreated = DateTime.Now, DateModified = DateTime.Now});
-        Sl.R<UserRepo>().Flush();
+        Sl.UserRepo.Flush();
         UserActivityAdd.FollowedUser(follower, this);
         UserActivityUpdate.NewFollower(follower, this);
         ReputationUpdate.ForUser(this);

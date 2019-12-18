@@ -1094,6 +1094,7 @@
     <Compile Include="Tools\Update\TemplateMigration\TemplateMigrator.cs" />
     <Compile Include="Tools\Update\UpdateStepExecuter.cs" />
     <Compile Include="Tools\Update\Update.cs" />
+    <Compile Include="Tools\Update\Steps\UpdateToVs208.cs" />
     <Compile Include="Web\Attributes\Filters\AccessOnlyAsQuestionOwnerAttribute.cs" />
     <Compile Include="Web\Attributes\Filters\AccessOnlyLocalAttribute.cs" />
     <Compile Include="Web\Attributes\Filters\SetUserMenuAttribute.cs" />
