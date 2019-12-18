@@ -45,9 +45,7 @@ class Follower {
 
 
         if (this._isFollow.val().toLowerCase() === "true") {
-
-            var followercount = parseInt($("#FollowerCount").text()) - 1;
-            $("#FollowerCount").text(followercount.toString()); 
+            this.InDecrementDisplayFollower(false); 
 
             if (this._follower.hasClass("fa-user-minus"))
                 this._follower.addClass("fa-user-plus").removeClass("fa-user-times");
@@ -62,9 +60,8 @@ class Follower {
 
             });
         } else {
-            var followercount = parseInt($("#FollowerCount").text()) + 1 ;
-            $("#FollowerCount").text(followercount.toString()); 
-
+              this.InDecrementDisplayFollower(true);
+           
             if (this._follower.hasClass("fa-user-plus"))
                 this._follower.addClass("fa-user-minus").removeClass("fa-user-plus");
             else
@@ -83,6 +80,12 @@ class Follower {
             this._follower.addClass("fa-user-minus");
         } else
             this._follower.addClass("fa-user-plus");
+    }
+
+    private InDecrementDisplayFollower(increment:boolean ):void {
+        var counter: number = increment ? + 1 : - 1; 
+        var followercount = parseInt($("#FollowerCount").text()) + counter;
+        $("#FollowerCount").text(followercount.toString()); 
     }
     
 }
