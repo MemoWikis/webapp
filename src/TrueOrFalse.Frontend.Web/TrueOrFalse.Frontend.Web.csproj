@@ -320,6 +320,7 @@
     <Compile Include="Views\Categories\Detail\Partials\EducationOfferList\EducationOfferListJson.cs" />
     <Compile Include="Views\Categories\Detail\Partials\KnowledgeGraph\KnowledgeGraphModel.cs" />
     <Compile Include="Views\Categories\Detail\Partials\MediaList\MediaListJson.cs" />
+    <Compile Include="Views\Categories\Detail\Partials\QuestionList\QuestionListModel.cs" />
     <Compile Include="Views\Categories\Detail\Partials\SetCardMiniList\SetCardMiniListJson.cs" />
     <Compile Include="Views\Categories\Detail\Partials\SetListCard\SetListCardJson.cs" />
     <Compile Include="Views\Categories\Detail\Partials\SetTestSessionNoStartScreen\SetTestSessionNoStartScreenJson.cs" />

@@ -25,7 +25,7 @@ Vue.Component('question-list-component', {
                 type: Array,
                 required: false,
             },
-            extendedQuestions: {
+            expandedQuestions: {
                 type: Array,
                 required: false,
             },
@@ -75,7 +75,7 @@ Vue.Component('question-list-component', {
         },
 
         async expandQuestion(questionId) {
-            if (this.extendedQuestions[questionId] == undefined) {
+            if (this.expandedQuestions[questionId] == undefined) {
                 await this.loadQuestionBody(questionId);
                 this.loadQuestionDetails(questionId);
             }
@@ -87,13 +87,14 @@ Vue.Component('question-list-component', {
                 data: { questionId: questionId },
                 type: "POST",
                 success: data => {
-                    this.extendedQuestions.push({
+                    this.expandedQuestions.push({
                         questionId: {
                             answer: data.Answer,
-                            extendedAnswer: data.ExtendedAnswer,
-                            categories: data.CategoryList,
-                            author: data.Author,
-                            sources: data.SourceList,
+                            extendedAnswer: data.extendedAnswer,
+                            categories: data.categories,
+                            references: data.references,
+                            author: data.author,
+                            authorImage: data.authorImage,
                         }
                     });
                 }

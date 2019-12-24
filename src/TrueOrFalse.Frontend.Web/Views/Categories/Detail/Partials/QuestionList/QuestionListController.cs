@@ -11,7 +11,7 @@ public class QuestionListController : BaseController
     public int CategoryId;
     public int AllQuestionCount;
     public List<Question> AllQuestions;
-    public ConcurrentDictionary<int, QuestionValuation> UserQuestionValuation { get; set; }
+    public ConcurrentDictionary<int, QuestionValuation> UserQuestionValuations { get; set; }
 
 
     public QuestionListController(int categoryId)
@@ -22,7 +22,7 @@ public class QuestionListController : BaseController
         if (IsLoggedIn)
         {
             var user = Sl.R<SessionUser>().User;
-            UserQuestionValuation = UserCache.GetItem(user.Id).QuestionValuations;
+            UserQuestionValuations = UserCache.GetItem(user.Id).QuestionValuations;
         }
     }
 
@@ -42,32 +42,8 @@ public class QuestionListController : BaseController
         }
         var questionsList = new List<QuestionListJson.Question>();
 
-        var skimmedQuestions = questions.Skip(itemCount * (pageNumber - 1)).Take(itemCount).ToList();
 
-        foreach (Question q in skimmedQuestions)
-        {
-            var questionObj = new QuestionListJson.Question();
-            var userTinyModel = new UserTinyModel(q.Creator);
-            questionObj.Title = q.Text;
-            questionObj.LinkToQuestion = Links.GetUrl(q);
-            questionObj.ImageData = new ImageFrontendData(Sl.ImageMetaDataRepo.GetBy(q.Id, ImageType.Question)).GetImageUrl(30);
-            if (IsLoggedIn)
-            {
-                if (UserQuestionValuation.ContainsKey(q.Id))
-                {
-                    questionObj.CorrectnessProbability = UserQuestionValuation[q.Id].CorrectnessProbability;
-                    questionObj.IsInWishknowledge = UserQuestionValuation[q.Id].IsInWishKnowledge();
-                } 
-            }
-            else
-                questionObj.CorrectnessProbability = q.CorrectnessProbability;
-
-            questionObj.Author.Name = userTinyModel.Name;
-            questionObj.Author.ImageData = new UserImageSettings(userTinyModel.Id).GetUrl_128px_square(userTinyModel);
-            questionObj.Author.Id = userTinyModel.Id;
-        }
-
-        return Json(new QuestionListJson()
+        return Json(new QuestionListJson.QuestionList()
         {
             
         });
@@ -77,15 +53,17 @@ public class QuestionListController : BaseController
     public JsonResult LoadQuestionBody(int questionId)
     {
         var question = EntityCache.GetQuestionById(questionId);
-        var userTinyModel = new UserTinyModel(question.Creator);
-
+        var author = new UserTinyModel(question.Creator);
+        var authorImage = new UserImageSettings(author.Id).GetUrl_128px_square(author);
 
         return Json(new
         {
             answer = question.Solution,
-            extendedAnswer = question.ExtendedAnswer,
+            extendedAnswer = question.Description,
             categories = question.Categories, 
-            sources = question.SourceList,
+            references = question.References,
+            author = author,
+            authorImage = authorImage,
         });
     }
 }
