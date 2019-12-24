@@ -939,6 +939,7 @@
     <Compile Include="Tools\ScheduledJobs\JobQueue\JobQueueType.cs" />
     <Compile Include="Tools\ScheduledJobs\JobScheduler.cs" />
     <Compile Include="Tools\ScheduledJobs\Jobs\EditCategoryInWishKnowledge.cs" />
+    <Compile Include="Tools\ScheduledJobs\Jobs\RecalcTotalWishInOthersPeople.cs" />
     <Compile Include="Tools\ScheduledJobs\Jobs\RefreshEntityCache.cs" />
     <Compile Include="Tools\ScheduledJobs\Jobs\LomExportJob.cs" />
     <Compile Include="Tools\ScheduledJobs\Jobs\RecalcKnowledgeSummariesForCategory.cs" />

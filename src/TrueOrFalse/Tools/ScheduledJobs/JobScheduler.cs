@@ -98,6 +98,17 @@ namespace TrueOrFalse.Utilities.ScheduledJobs
                             .EndingDailyAfterCount(1)).Build());
         }
 
+        private static void Schedule_RecalcTotalWishInOthersPeople()
+        {
+            //once a day, recalculate reputation for all users
+            _scheduler.ScheduleJob(JobBuilder.Create<RecalcTotalWishInOthersPeople>().Build(),
+                TriggerBuilder.Create()
+                    .WithDailyTimeIntervalSchedule(x =>
+                        x.StartingDailyAt(new TimeOfDay(4, 00))
+                            .OnEveryDay()
+                            .EndingDailyAfterCount(1)).Build());
+        }
+
         private static void Schedule_TrainingPlanUpdateCheck()
         {
             _scheduler.ScheduleJob(JobBuilder.Create<TrainingPlanUpdateCheck>().Build(),
