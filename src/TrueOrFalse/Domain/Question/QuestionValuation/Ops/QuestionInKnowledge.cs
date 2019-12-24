@@ -38,16 +38,18 @@ public static class QuestionInKnowledge
         session.Flush();
     }
 
-    private static void ChangeTotalInOthersWishknowledge( bool isIncrement, User user, int questionId)
+    private static void ChangeTotalInOthersWishknowledge( bool isIncrement, User user, Question question)
     {
-        var question = EntityCache.GetQuestionById(questionId);
-        if (question.Creator.Id != -1 && question.Creator.Id != user.Id)
-        {
+        var i = question.Creator.Id;
+        if (question.Creator == null || question.Creator.Id == user.Id) 
+            return; 
             if (isIncrement)
+        var sign = isIncrement ? "+" : "-" ;
+        
                 Sl.Resolve<ISession>()
                     .CreateSQLQuery(
-                        "Update user Set TotalInOthersWishknowledge = TotalInOthersWishknowledge + 1 where id = " +
-                        question.Creator.Id + ";")
+                @"Update user Set TotalInOthersWishknowledge = TotalInOthersWishknowledge " + sign + " 1 where id = " +
+                question.Creator.Id + ";")
                     .ExecuteUpdate();
             else
                 Sl.Resolve<ISession>()
@@ -65,7 +67,7 @@ public static class QuestionInKnowledge
         foreach (var question in questions)
         {
             CreateOrUpdateValuation(question, questionValuations.ByQuestionId(question.Id), user, relevance, saveType);
-            ChangeTotalInOthersWishknowledge(false, user, question.Id);
+            ChangeTotalInOthersWishknowledge(relevance==50, user, question);
 
             if (saveType == SaveType.DatabaseOnly || saveType == SaveType.CacheAndDatabase)
                 Sl.Session.CreateSQLQuery(GenerateRelevancePersonal(question.Id)).ExecuteUpdate();
@@ -84,7 +86,8 @@ public static class QuestionInKnowledge
 
     private static void UpdateRelevancePersonal(int questionId, User user, int relevance = 50, SaveType saveType = SaveType.CacheAndDatabase)
     {
-        ChangeTotalInOthersWishknowledge(false, user, questionId);
+        var question = EntityCache.GetQuestionById(questionId);
+        ChangeTotalInOthersWishknowledge(relevance == 50, user, question);
         CreateOrUpdateValuation(questionId, user, relevance, saveType);
 
         if(saveType == SaveType.CacheOnly || saveType == SaveType.CacheAndDatabase)
