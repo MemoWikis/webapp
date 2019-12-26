@@ -58,14 +58,14 @@ namespace TrueOrFalse.Utilities.ScheduledJobs
             }
 
             return counter +
-                   "Zahlen unterscheiden sich bei der User Tabelle mit der Spalte TotalInOthersWishknowledge, von dem Join über die entsprechenden Tabellen und dauerte ";
+                   " Zahlen unterscheiden sich bei der User Tabelle mit der Spalte TotalInOthersWishknowledge, von dem Join über die entsprechenden Tabellen und dauerte ";
         }
 
         private void SendMail(string to, string name, string report)
         {
             SendEmail.Run(new MailMessage("daniel.majunke@googlemail.com", to,
                 "Report TotalWishKnowledge in other people",
-                $"Hallo {name}, hier die gewünschten Zahlen {report}"));
+                $"Hallo {name}, hier die gewünschten Zahlen: {report}"));
         }
     }
 }
