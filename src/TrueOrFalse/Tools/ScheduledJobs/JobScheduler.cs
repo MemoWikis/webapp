@@ -42,6 +42,8 @@ namespace TrueOrFalse.Utilities.ScheduledJobs
             Schedule_EditCategoryInWishKnowledge();
             Schedule_KnowledgeReportCheck();
             Schedule_LOM_Export();
+            Schedule_RecalcTotalWishInOthersPeople();
+
         }
 
         private static void Schedule_CleanupWorkInProgressQuestions()
