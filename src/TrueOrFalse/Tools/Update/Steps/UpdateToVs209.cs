@@ -12,7 +12,7 @@ namespace TrueOrFalse.Updates
 
             session
                 .CreateSQLQuery(
-                    @"ALTER TABLE `memucho`.`questionvaluation` ADD INDEX `userId` (`UserId` ASC) VISIBLE;"
+                    @"ALTER TABLE `questionvaluation` ADD INDEX `userId` (`UserId` ASC) VISIBLE;"
                 ).ExecuteUpdate();
 
         }
