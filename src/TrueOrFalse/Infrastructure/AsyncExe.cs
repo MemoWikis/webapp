@@ -31,8 +31,19 @@ public static class AsyncExe
             }
 
             if (ContextUtil.IsWebContext)
-                HostingEnvironment.QueueBackgroundWorkItem(ct => { actionExec(); });
-            else
+                HostingEnvironment.QueueBackgroundWorkItem(ct =>
+                {
+                    try
+                    {
+                        actionExec();
+                    }
+                    catch(Exception e)
+                    {
+                        Logg.r().Error(e, "Error in AsyncRunner in HostingEnvironment.QueueBackgroundWorkItem");
+                    }
+                    
+                });
+            else //for unit tests
                 Task.Factory.StartNew(() => { actionExec(); });
         }
         catch (Exception e)
