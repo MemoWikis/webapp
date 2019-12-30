@@ -19,9 +19,6 @@ namespace Seedworks.Web.State
             }
         }
 
-        public static bool IsWebContext
-        {
-            get { return HttpContext.Current != null; }
-        }
+        public static bool IsWebContext => HttpContext.Current != null;
     }
 }

@@ -52,8 +52,11 @@ namespace TrueOrFalse.Search
             }
             else
             {
-                var solrQuestion = ToQuestionSolrMap.Run(question, _questionValuationRepo.GetActiveInWishknowledgeFromCache(question.Id));
-                AsyncExe.Run(() => _solrOperations.Add(solrQuestion, new AddParameters {CommitWithin = 5000}));
+                AsyncExe.Run(() =>
+                {
+                    var solrQuestion = ToQuestionSolrMap.Run(question, Sl.QuestionValuationRepo.GetActiveInWishknowledgeFromCache(question.Id));
+                    _solrOperations.Add(solrQuestion, new AddParameters {CommitWithin = 5000});
+                });
             }
         }
 
