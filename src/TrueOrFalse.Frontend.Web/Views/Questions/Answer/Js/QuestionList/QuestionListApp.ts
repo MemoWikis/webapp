@@ -4,7 +4,7 @@ new Vue({
     el: '#QuestionListApp',
 });
 
-Vue.Component('question-list-component', {
+Vue.component('question-list-component', {
     props: ['categoryId', 'allQuestionCount'],
     data() {
         return {
@@ -64,7 +64,7 @@ Vue.Component('question-list-component', {
     },
 });
 
-Vue.Component('question-component',
+Vue.component('question-component',
     {
         props: ['questionId', 'questionTitle', 'questionImage', 'knowledgeStatus','isInWishknowledge'],
         data() {
