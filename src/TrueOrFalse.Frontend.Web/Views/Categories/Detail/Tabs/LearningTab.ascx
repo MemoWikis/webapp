@@ -48,3 +48,6 @@
 </div>
 
 <% Html.RenderPartial("~/Views/Questions/Answer/SessionConfig.ascx"); %>
+
+<% Html.RenderPartial("~/Views/Categories/Detail/Partials/QuestionList/QuestionList.ascx", new QuestionListModel(Model.Category.Id)); %>
+

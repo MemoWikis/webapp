@@ -1,4 +1,5 @@
 ﻿<%@ Control Language="C#" AutoEventWireup="true" Inherits="System.Web.Mvc.ViewUserControl<QuestionListModel>" %>
+<%@ Import Namespace="System.Web.Optimization" %>
 
 <div id="QuestionListApp">
     <question-list-component category-id="<%= Model.CategoryId %>" all-question-count="<%= Model.AllQuestionCount %>">
@@ -18,46 +19,54 @@
                 <i class="fas fa-ellipsis-h"></i>
             </div>
         </div>
-
+        
+        
+        <%foreach (var question in ) %>
         <div v-for="q in questions">
-            <div @click="expandQuestion(q.Id)">
-                <div class="knowledgeStatus" :class="status"></div>
 
-                <div class="questionContainer" v-show="showFullQuestion">
-                    <div class="questionHeader">
-                        <div class="questionImg"></div>
-                        <div class="questionTitle">{{q.title}}</div>
-                        <div class="questionHeaderIcons">
-                            <i class="fas fa-heart"></i>
-                            <i class="fas fa-chevron-down"></i>
+            <question-component :question-id="q.id" :question-title="q.title" :question-image="q.img" :knowledge-status="" :is-in-wishknowldge="">
+
+                <div @click="expandQuestion()">
+                    <div class="knowledgeStatus" :class="status"></div>
+
+                    <div class="questionContainer" v-show="showFullQuestion">
+                        <div class="questionHeader">
+                            <div class="questionImg"></div>
+                            <div class="questionTitle">{{title}}</div>
+                            <div class="questionHeaderIcons">
+                                <i class="fas fa-heart"></i>
+                                <i class="fas fa-chevron-down"></i>
+                            </div>
                         </div>
-                    </div>
-                    <div class="questionBody">
-                        <div class="answer">{{expandedQuestions[q.Id].answer}}</div>
-                        <div class="extendedAnswer">{{expandedQuestions[q.Id].extendedAnswer}}</div>
-                        <div class="notes">
-                            <div class="relatedCategories"><a v-for="c in extendedQuestion[q.Id].categories" :href="c.url">{{c.name}}</a></div>
-                            <div class="author"><a :href="extendedQuestion[question.Id].author.url">{{expandedQuestions[q.Id].author.name}}</a></div>
-                            <div class="sources"><a v-for="r in extendedQuestion[q.Id].references" :href="r.url">{{r.name}}</a></div>
+                        <div class="questionBody">
+                            <div class="answer">{{answer}}</div>
+                            <div class="extendedAnswer">{{extendedAnswer}}</div>
+                            <div class="notes">
+                                <div class="relatedCategories"><a v-for="c in categories" :href="c.url">{{c.name}}</a></div>
+                                <div class="author"><a :href="author.url">{{author.name}}</a></div>
+                                <div class="sources"><a v-for="r in references" :href="r.url">{{r.name}}</a></div>
+                            </div>
+                            <div class="questionDetails" :data-question-id="question.Id"></div>
+                            <div class="questionFooterIcons">
+                                <span>{{commentCount}}</span>
+                                <i class="far fa-comment"></i>
+                                <i class="fas fa-ellipsis-h"></i>
+                            </div>
                         </div>
-                        <div class="questionDetails" :data-question-id="question.Id"></div>
-                        <div class="questionFooterIcons">
-                            <span>{{expandedQuestions[q.Id].commentCount}}</span>
-                            <i class="far fa-comment"></i>
-                            <i class="fas fa-ellipsis-h"></i>
+                        <div class="questionFooter">
+                            <div class="questionFooterLabel">Zur Themenseite</div>
+                            <div class="questionFooterLabel"><a :href="q.LinkToQuestion">Lernen</a></div>
                         </div>
-                    </div>
-                    <div class="questionFooter">
-                        <div class="questionFooterLabel">Zur Themenseite</div>
-                        <div class="questionFooterLabel"><a :href="q.LinkToQuestion">Lernen</a></div>
                     </div>
                 </div>
-            </div>
+
+            </question-component>
         </div>
 
     </question-list-component>
 </div>
 
 
+<%= Scripts.Render("~/bundles/js/QuestionList") %>
 
   

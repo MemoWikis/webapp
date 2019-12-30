@@ -15,6 +15,8 @@ public class QuestionListModel : BaseModel
     public ConcurrentDictionary<int, QuestionValuation> UserQuestionValuation { get; set; }
     public int CurrentPage;
     public int ItemCount;
+    public List<QuestionListJson.Question> QuestionsOnCurrentPage;
+
 
     public QuestionListModel(int categoryId)
     {
@@ -49,6 +51,7 @@ public class QuestionListModel : BaseModel
             else
                 question.CorrectnessProbability = q.CorrectnessProbability;
 
+            QuestionsOnCurrentPage.Add(question);
         }
     }
 }

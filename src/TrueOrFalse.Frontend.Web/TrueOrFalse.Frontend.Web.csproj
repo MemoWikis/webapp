@@ -22365,7 +22365,7 @@
     <TypeScriptCompile Include="Scripts\YoutubeApi.ts" />
     <TypeScriptCompile Include="Scripts\NumbersCountUp.ts" />
     <TypeScriptCompile Include="Views\About\Js\Page.ts" />
-    <TypeScriptCompile Include="Views\Categories\Detail\JsLearningTab\QuestionListApp.ts" />
+    <TypeScriptCompile Include="Views\Questions\Answer\Js\QuestionList\QuestionListApp.ts" />
     <TypeScriptCompile Include="Views\Categories\Detail\Js\Category.ts" />
     <TypeScriptCompile Include="Views\Categories\Detail\Js\CategoryHeader.ts" />
     <TypeScriptCompile Include="Views\Categories\Detail\Js\SquareWishKnowledge.ts" />
@@ -24239,6 +24239,7 @@
     <Folder Include="bin\Utilities\Update\Scripts\" />
     <Folder Include="bin\Utilities\Update\SolrSchemas\" />
     <Folder Include="Content\bootstrap\" />
+    <Folder Include="Views\Categories\Detail\JsLearningTab\" />
     <Folder Include="Views\CategoryNew\" />
     <Folder Include="Views\Dates\" />
   </ItemGroup>
