@@ -15,25 +15,28 @@ public class QuestionListModel : BaseModel
     public ConcurrentDictionary<int, QuestionValuation> UserQuestionValuation { get; set; }
     public int CurrentPage;
     public int ItemCount;
-    public List<QuestionListJson.Question> QuestionsOnCurrentPage;
 
 
     public QuestionListModel(int categoryId)
     {
         CategoryId = categoryId;
-        AllQuestions = EntityCache.GetQuestionsForCategory(CategoryId).ToList();
+        AllQuestions = GetAllQuestions(categoryId);
         AllQuestionCount = AllQuestions.Count();
-        if (IsLoggedIn)
-        {
-            var user = Sl.R<SessionUser>().User;
-            UserQuestionValuation = UserCache.GetItem(user.Id).QuestionValuations;
-        }
     }
 
-    private void PopulateQuestionsOnPage()
+    public static List<Question> GetAllQuestions(int categoryId)
     {
-        var questionsOfCurrentPage = AllQuestions.Skip(ItemCount * (CurrentPage - 1)).Take(ItemCount).ToList();
+        return EntityCache.GetQuestionsForCategory(categoryId).ToList();
+    }
 
+    public static List<QuestionListJson.Question> PopulateQuestionsOnPage(int categoryId, int currentPage, int itemCount, bool isLoggedIn)
+    {
+        var allQuestions = GetAllQuestions(categoryId);
+
+        var questionsOfCurrentPage = allQuestions.Skip(itemCount * (currentPage - 1)).Take(itemCount).ToList();
+        var newQuestionList = new List<QuestionListJson.Question>();
+
+        
         foreach (Question q in questionsOfCurrentPage)
         {
             var question = new QuestionListJson.Question();
@@ -41,7 +44,7 @@ public class QuestionListModel : BaseModel
             question.LinkToQuestion = Links.GetUrl(q);
             question.ImageData = new ImageFrontendData(Sl.ImageMetaDataRepo.GetBy(q.Id, ImageType.Question)).GetImageUrl(30);
 
-            if (IsLoggedIn)
+            if (isLoggedIn)
             {
                 var user = Sl.R<SessionUser>().User;
                 var userQuestionValuation = UserCache.GetItem(user.Id).QuestionValuations[q.Id];
@@ -51,7 +54,9 @@ public class QuestionListModel : BaseModel
             else
                 question.CorrectnessProbability = q.CorrectnessProbability;
 
-            QuestionsOnCurrentPage.Add(question);
+            newQuestionList.Add(question);
         }
+
+        return newQuestionList;
     }
 }

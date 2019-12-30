@@ -6,12 +6,12 @@
 
         <div class="questionListHeader">
             <div class="questionListTitle">
-                <span>{{questions.length}}</span>
+<%--                <span>{{questions.length}}</span>--%>
                 <span v-if="allQuestionCount > itemCountPerPage">
                     von {{allQuestionCount}}
                 </span>
                 <span>
-                    Frage{{plural}} im Thema
+                    Frage im Thema
                 </span>
             </div>
 
@@ -19,12 +19,10 @@
                 <i class="fas fa-ellipsis-h"></i>
             </div>
         </div>
-        
-        
-        <%foreach (var question in ) %>
+
         <div v-for="q in questions">
 
-            <question-component :question-id="q.id" :question-title="q.title" :question-image="q.img" :knowledge-status="" :is-in-wishknowldge="">
+            <question-component :question-id="q.Id" :question-title="q.Title" :question-image="q.ImageData" :knowledge-status="q.CorrectnessProbability" :is-in-wishknowldge="q.IsInWishknowledge" :url="q.LinkToQuestion">
 
                 <div @click="expandQuestion()">
                     <div class="knowledgeStatus" :class="status"></div>

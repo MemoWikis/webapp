@@ -4,6 +4,9 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
+using Microsoft.Ajax.Utilities;
+using Newtonsoft.Json;
+using RabbitMQ.Client.Framing.Impl;
 using TrueOrFalse.Frontend.Web.Code;
 
 public class QuestionListController : BaseController
@@ -34,19 +37,10 @@ public class QuestionListController : BaseController
     }
 
     [HttpPost]
-    public JsonResult LoadQuestions(int itemCount, int pageNumber, string sortCondition, string filterCondition)
+    public JsonResult LoadQuestions(int categoryId, int itemCount, int pageNumber, string sortCondition, string filterCondition)
     {
-        var questions = AllQuestions.ToList();
-        if (IsLoggedIn)
-        {
-        }
-        var questionsList = new List<QuestionListJson.Question>();
-
-
-        return Json(new QuestionListJson.QuestionList()
-        {
-            
-        });
+        var newQuestionList = QuestionListModel.PopulateQuestionsOnPage(categoryId, pageNumber, itemCount, IsLoggedIn);
+        return Json(newQuestionList);
     }
 
     [HttpPost]

@@ -5,39 +5,26 @@ new Vue({
 });
 
 Vue.Component('question-list-component', {
-    props: {
-        categoryId: Number,
-        allQuestionCount: Number,
-    },
+    props: ['categoryId', 'allQuestionCount'],
     data() {
         return {
             pages: {
                 type: Number,
                 required: false,
             },
-            currentPage: {
-                type: Number,
-                required: false,
-            },
+            currentPage: 1,
             itemCountPerPage: 25,
             allQuestionCount: 0,
-            questions: {
-                type: Array,
-                required: false,
-            },
-            expandedQuestions: {
-                type: Array,
-                required: false,
-            },
+            questions: [],
         };
     },
 
     created() {
         this.categoryId = $("#hhdCategoryId").val();
+        this.initQuestionList();
     },
 
     mounted() {
-        this.initQuestionList();
     },
 
     methods: {
@@ -48,7 +35,7 @@ Vue.Component('question-list-component', {
 
         getPageCount() {
             $.ajax({
-                url: "",
+                url: "/QuestionList/GetPageCount/",
                 data: {
                     categoryId: this.categoryId,
                     itemCountPerPage: this.itemCountPerPage,
@@ -62,9 +49,10 @@ Vue.Component('question-list-component', {
 
         loadQuestions(selectedPage) {
             $.ajax({
-                url: "",
+                url: "/QuestionList/LoadQuestions/",
                 data: {
                     categoryId: this.categoryId,
+                    pageNumber: this.itemCountPerPage,
                     selectedPage: selectedPage,
                 },
                 type: "POST",
@@ -78,13 +66,7 @@ Vue.Component('question-list-component', {
 
 Vue.Component('question-component',
     {
-        props: {
-            questionId: Number,
-            questionTitle: String,
-            questionImage: String,
-            knowledgeStatus: Number,
-            isInWishknowledge: Boolean,
-        },
+        props: ['questionId', 'questionTitle', 'questionImage', 'knowledgeStatus','isInWishknowledge'],
         data() {
             return {
                 answer: "",
