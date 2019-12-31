@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using System.Web.Script.Serialization;
 using Autofac;
 using Quartz;
@@ -13,7 +12,7 @@ namespace TrueOrFalse.Utilities.ScheduledJobs
     {
         public const int IntervalInSeconds = 2;
 
-        public Task Execute(IJobExecutionContext context)
+        public void Execute(IJobExecutionContext context)
         {
             JobExecute.Run(scope =>
             {
@@ -36,8 +35,6 @@ namespace TrueOrFalse.Utilities.ScheduledJobs
                     }
                 }
             }, "EditCategoryInWishKnowledge");
-
-            return Task.CompletedTask;
         }
 
         private static void AddCategoryToWishKnowledge(JobQueue job, ILifetimeScope scope)

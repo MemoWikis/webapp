@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Threading.Tasks;
 using Autofac;
 using NHibernate;
 using Quartz;
@@ -8,7 +7,7 @@ namespace TrueOrFalse.Utilities.ScheduledJobs
 {
     public class CleanUpWorkInProgressQuestions : IJob
     {
-        public Task Execute(IJobExecutionContext context)
+        public void Execute(IJobExecutionContext context)
         {
             JobExecute.Run(scope =>
             {
@@ -23,9 +22,6 @@ namespace TrueOrFalse.Utilities.ScheduledJobs
 
                 Logg.r().Information("CleanUpWorkInProgressQuestions: {amountOfDeletedQuestions}", questions.Count);
             }, "CleanUpWorkInProgressQuestions");
-
-            return Task.CompletedTask;
         }
-
     }
 }

@@ -1,5 +1,4 @@
-﻿using System.Threading.Tasks;
-using NHibernate;
+﻿using NHibernate;
 using Quartz;
 
 namespace TrueOrFalse.Utilities.ScheduledJobs
@@ -8,7 +7,7 @@ namespace TrueOrFalse.Utilities.ScheduledJobs
     {
         public const int IntervalInMinutes = 3;
 
-        public Task Execute(IJobExecutionContext context)
+        public void Execute(IJobExecutionContext context)
         {
             JobExecute.Run(scope => 
             {
@@ -25,8 +24,6 @@ namespace TrueOrFalse.Utilities.ScheduledJobs
                     session.Flush();
                 }
             }, "TrainingReminderCheck");
-
-            return Task.CompletedTask;
         }
     }
 }

@@ -1,11 +1,15 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading;
 using Quartz;
+using RollbarSharp;
 
 namespace TrueOrFalse.Utilities.ScheduledJobs
 {
     public class InitUserValuationCache : IJob
     {
-        public Task Execute(IJobExecutionContext context)
+        public void Execute(IJobExecutionContext context)
         {
             JobExecute.Run(scope =>
             {
@@ -16,8 +20,6 @@ namespace TrueOrFalse.Utilities.ScheduledJobs
                 UserCache.GetItem(dataMap.GetInt("userId"));
 
             }, "InitUserValuationCache");
-
-            return Task.CompletedTask;
         }
 
     }

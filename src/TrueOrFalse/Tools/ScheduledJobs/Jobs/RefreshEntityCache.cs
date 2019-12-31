@@ -1,18 +1,20 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Diagnostics;
+using System.Linq;
+using Autofac;
+using NHibernate.Util;
 using Quartz;
 
 namespace TrueOrFalse.Utilities.ScheduledJobs
 {
     public class RefreshEntityCache : IJob
     {
-        public Task Execute(IJobExecutionContext context)
+        public void Execute(IJobExecutionContext context)
         {
             JobExecute.Run(scope => 
             {
                 EntityCache.Init(" (in JobScheduler) ");
             }, "RefreshEntityCache");
-
-            return Task.CompletedTask;
         }
 
     }

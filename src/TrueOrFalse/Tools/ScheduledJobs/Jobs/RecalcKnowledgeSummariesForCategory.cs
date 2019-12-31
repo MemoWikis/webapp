@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using Autofac;
 using Quartz;
 using RollbarSharp;
@@ -12,7 +11,7 @@ namespace TrueOrFalse.Utilities.ScheduledJobs
     {
         public const int IntervalInSeconds = 5;
 
-        public Task Execute(IJobExecutionContext context)
+        public void Execute(IJobExecutionContext context)
         {
             JobExecute.Run(scope => 
             {
@@ -41,8 +40,6 @@ namespace TrueOrFalse.Utilities.ScheduledJobs
                     successfullJobIds.Clear();
                 }
             }, "RecalcKnowledgeSummaryForCategory");
-
-            return Task.CompletedTask;
         }
     }
 }

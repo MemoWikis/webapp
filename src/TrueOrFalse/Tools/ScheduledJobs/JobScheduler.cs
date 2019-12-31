@@ -1,5 +1,4 @@
-﻿using System.Threading.Tasks;
-using Quartz;
+﻿using Quartz;
 using Quartz.Impl;
 using TrueOrFalse.Infrastructure;
 
@@ -7,19 +6,15 @@ namespace TrueOrFalse.Utilities.ScheduledJobs
 {
     public static class JobScheduler
     {
-        static IScheduler _scheduler;
+        static readonly IScheduler _scheduler;
 
         static JobScheduler()
         {
-            Task.Run(async () =>
-            {
-                var container = AutofacWebInitializer.Run();
+            var container = AutofacWebInitializer.Run();
 
-                _scheduler = await StdSchedulerFactory.GetDefaultScheduler();
-                _scheduler.JobFactory = new AutofacJobFactory(container);
-                await _scheduler.Start();
-            }).Wait();
-
+            _scheduler = StdSchedulerFactory.GetDefaultScheduler();
+            _scheduler.JobFactory = new AutofacJobFactory(container);
+            _scheduler.Start();
         }
 
         public static void EmptyMethodToCallConstructor()

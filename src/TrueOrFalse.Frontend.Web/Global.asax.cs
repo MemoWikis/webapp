@@ -62,7 +62,7 @@ namespace TrueOrFalse.Frontend.Web
             Thread.CurrentThread.CurrentUICulture = new CultureInfo("de-DE");
 #if DEBUG
             if (Settings.DebugEnableMiniProfiler())
-                MiniProfiler.StartNew();
+                MiniProfiler.Start();
 #endif
         }
 
@@ -70,7 +70,7 @@ namespace TrueOrFalse.Frontend.Web
         {
 #if DEBUG
             if (Settings.DebugEnableMiniProfiler())
-                MiniProfiler.Current.Stop();
+                MiniProfiler.Stop();
 #endif
         }
 

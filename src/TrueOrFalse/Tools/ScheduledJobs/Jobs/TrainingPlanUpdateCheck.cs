@@ -1,5 +1,5 @@
 ﻿using System.Linq;
-using System.Threading.Tasks;
+using System.Threading;
 using NHibernate;
 using Quartz;
 
@@ -10,7 +10,7 @@ namespace TrueOrFalse.Utilities.ScheduledJobs
     {
         public const int IntervalInMinutes = 30;
 
-        public Task Execute(IJobExecutionContext context)
+        public void Execute(IJobExecutionContext context)
         {
             JobExecute.Run(scope =>
             {
@@ -37,8 +37,6 @@ namespace TrueOrFalse.Utilities.ScheduledJobs
                 }
 
             }, "TrainingPlanUpdateCheck");
-
-            return Task.CompletedTask;
         }
     }
 }

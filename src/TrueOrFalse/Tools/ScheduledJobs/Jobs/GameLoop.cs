@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Linq;
-using System.Threading.Tasks;
 using Autofac;
 using Quartz;
 
@@ -11,7 +10,7 @@ namespace TrueOrFalse.Utilities.ScheduledJobs
     {
         private GameHubConnection _gameHubConnection;
 
-        public Task Execute(IJobExecutionContext context)
+        public void Execute(IJobExecutionContext context)
         {
             JobExecute.Run(scope => 
             {
@@ -27,8 +26,6 @@ namespace TrueOrFalse.Utilities.ScheduledJobs
                     Logg.r().Information("GameLoop iteration: {TimeElapsed} {Now}", watch.Elapsed, DateTime.Now);
                 }
             }, "GameLoop", writeLog:false);
-
-            return Task.CompletedTask;
         }
 
         private void ProcessOverdueGames(GameRepo gameRepo, ILifetimeScope scope)

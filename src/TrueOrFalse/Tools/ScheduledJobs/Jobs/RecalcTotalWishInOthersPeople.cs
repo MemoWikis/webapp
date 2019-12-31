@@ -1,14 +1,15 @@
 ﻿using System;
 using System.Net.Mail;
-using System.Threading.Tasks;
+using System.Windows.Forms;
 using NHibernate;
 using Quartz;
+using Serilog;
 
 namespace TrueOrFalse.Utilities.ScheduledJobs
 {
     public class RecalcTotalWishInOthersPeople : IJob
     {
-        public Task Execute(IJobExecutionContext context)
+        public void Execute(IJobExecutionContext context)
         {
             JobExecute.Run(scope =>
             {
@@ -33,7 +34,6 @@ namespace TrueOrFalse.Utilities.ScheduledJobs
 
             }, "RecalcTotalWishInOthersPeople");
 
-            return Task.CompletedTask;
         }
 
         private string GetReport()
