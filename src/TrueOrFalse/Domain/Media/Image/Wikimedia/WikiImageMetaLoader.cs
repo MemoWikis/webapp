@@ -27,7 +27,7 @@ namespace TrueOrFalse
                 "&iiextmetadatalanguage=de" +
                 "&iiurlwidth=" + imgWidth +
                 "&titles=File:" + HttpUtility.UrlEncode(fileName);
-
+            System.Net.ServicePointManager.SecurityProtocol = System.Net.SecurityProtocolType.Tls11 | System.Net.SecurityProtocolType.Tls12;
             var webRequest = (HttpWebRequest)HttpWebRequest.Create(new Uri(url));
             webRequest.UserAgent = "TrueOrFalseBot/1.0 (http://www.memucho.de/)";
 
