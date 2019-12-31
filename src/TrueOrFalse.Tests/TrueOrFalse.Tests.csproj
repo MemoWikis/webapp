@@ -82,9 +82,6 @@
     <Reference Include="dotMemory.Unit, Version=103.0.0.0, Culture=neutral, PublicKeyToken=1010a0d8d6380325, processorArchitecture=MSIL">
       <HintPath>..\packages\JetBrains.dotMemoryUnit.2.3.20160517.113140\lib\dotMemory.Unit.dll</HintPath>
     </Reference>
-    <Reference Include="EasyNetQ, Version=0.49.1.388, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\EasyNetQ.0.49.1.388\lib\net40\EasyNetQ.dll</HintPath>
-    </Reference>
     <Reference Include="EasyNetQ.Management.Client, Version=0.47.12.38, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\EasyNetQ.Management.Client.0.47.12.38\lib\net40\EasyNetQ.Management.Client.dll</HintPath>
     </Reference>
@@ -273,7 +270,6 @@
     <Compile Include="2 Domain\User\Membership_persistence.cs" />
     <Compile Include="2 Domain\User\User_persistence.cs" />
     <Compile Include="3 Infrastructure\Autofac_should_export_all_registered_services.cs" />
-    <Compile Include="3 Infrastructure\Bus\BusTests.cs" />
     <Compile Include="3 Infrastructure\DbSettings.cs" />
     <Compile Include="3 Infrastructure\DoesTableExistTests.cs" />
     <Compile Include="3 Infrastructure\Percents_from_ints.cs" />
