@@ -1,9 +1,4 @@
-﻿using TrueOrFalse;
-using RabbitMQ.Client.Impl;
-using Seedworks.Lib.Persistence;
-using TrueOrFalse.Search;
-using ISession = NHibernate.ISession;
-
+﻿using ISession = NHibernate.ISession;
 
 namespace TrueOrFalse.Updates
 {

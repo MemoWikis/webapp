@@ -1,17 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Linq;
 using System.Threading.Tasks;
 using Quartz;
-using RollbarSharp;
 
 namespace TrueOrFalse.Utilities.ScheduledJobs
 {
     public class KnowledgeReportCheck : IJob
     {
-
-        public void Execute(IJobExecutionContext context)
+        public Task Execute(IJobExecutionContext context)
         {
             JobExecute.Run(scope =>
             {
@@ -26,6 +21,8 @@ namespace TrueOrFalse.Utilities.ScheduledJobs
                 }
 
             }, "KnowledgeReportCheck");
+
+            return Task.CompletedTask;
         }
 
     }

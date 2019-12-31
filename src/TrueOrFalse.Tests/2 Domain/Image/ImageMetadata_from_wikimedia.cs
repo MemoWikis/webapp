@@ -45,7 +45,7 @@ public class ImageMetadata_from_wikimedia : BaseTest
         var result1 = Resolve<WikiImageMetaLoader>().Run("SVG_logo.svg");
         Assert.That(result1.ImageNotFound, Is.False);
         Assert.That(result1.ImageTitle, Is.EqualTo("File:SVG logo.svg"));
-        Assert.That(result1.ImageUrl, Is.StringEnding("png"));
+        Assert.That(result1.ImageUrl.EndsWith("png"), Is.True);
 
         var result2 = Resolve<WikiImageMetaLoader>().Run("Bundesministerium_f%C3%BCr_Wirtschaft_und_Energie_Logo.svg");
         Assert.That(result2.ImageNotFound, Is.False);

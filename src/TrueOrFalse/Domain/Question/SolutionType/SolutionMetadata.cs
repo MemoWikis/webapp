@@ -26,11 +26,11 @@ public class SolutionMetadata
         if (json == null)
             return;
 
-        var tmp = JsonConvert.DeserializeObjectAsync<SolutionMetadata>(json);
+        var tmp = JsonConvert.DeserializeObject<SolutionMetadata>(json);
 
-        IsDate = tmp.Result.IsDate;
-        IsNumber = tmp.Result.IsNumber;
-        IsText = tmp.Result.IsText;
+        IsDate = tmp.IsDate;
+        IsNumber = tmp.IsNumber;
+        IsText = tmp.IsText;
     }
 
     public SolutionMetadataDate GetForDate(){

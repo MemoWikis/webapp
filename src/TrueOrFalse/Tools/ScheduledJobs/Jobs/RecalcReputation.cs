@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using Quartz;
 using RollbarSharp;
 
@@ -10,7 +11,7 @@ namespace TrueOrFalse.Utilities.ScheduledJobs
     {
         public const int IntervalInSeconds = 2;
 
-        public void Execute(IJobExecutionContext context)
+        public Task Execute(IJobExecutionContext context)
         {
             JobExecute.Run(scope =>
             {
@@ -40,6 +41,8 @@ namespace TrueOrFalse.Utilities.ScheduledJobs
                 }
 
             }, "RecalcReputation");
+
+            return Task.CompletedTask;
         }
 
     }

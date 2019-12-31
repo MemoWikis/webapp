@@ -1,11 +1,12 @@
-﻿using Autofac;
+﻿using System.Threading.Tasks;
+using Autofac;
 using Quartz;
 
 namespace TrueOrFalse.Utilities.ScheduledJobs
 {
     public class RecalcKnowledgeStati : IJob
     {
-        public void Execute(IJobExecutionContext context)
+        public Task Execute(IJobExecutionContext context)
         {
             JobExecute.Run(scope => 
             {
@@ -15,6 +16,8 @@ namespace TrueOrFalse.Utilities.ScheduledJobs
                     KnowledgeSummaryUpdate.RunForUser(user.Id);
                 }
             }, "RecalcKnowledgeStati");
+
+            return Task.CompletedTask;
         }
     }
 }
