@@ -141,10 +141,6 @@
                 <div class="BoxButtonText">
                     <span>Prüfungstermin anlegen</span> 
                 </div>
-                <% if (Model.CountSets > 0)
-                   { %>
-                    <a href="<%= Links.DateCreateForCategory(Model.Id) %>" rel="nofollow" data-allowed="logged-in" data-allowed-type="date-create"></a>
-                <% } %>
             </div>
         </div>
         <div class="BoxButtonColumn">
