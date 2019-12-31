@@ -22044,7 +22044,7 @@
     <Compile Include="Views\Questions\History\QuestionChangesOverviewModel.cs" />
     <Compile Include="Views\Questions\History\QuestionHistoryController.cs" />
     <Compile Include="Views\Questions\History\QuestionHistoryModel.cs" />
-    <Compile Include="Views\Categories\Detail\Partials\QuestionList\QuestionListController.cs" />
+    <Compile Include="Views\Questions\QuestionListController.cs" />
     <Compile Include="Views\Sets\Detail\SetKnowledgeBarModel.cs" />
     <Compile Include="Views\Sets\Detail\Modals\ShareSetModalModel.cs" />
     <Compile Include="Views\Sets\Detail\Video\SetVideoController.cs" />
@@ -22365,6 +22365,7 @@
     <TypeScriptCompile Include="Scripts\YoutubeApi.ts" />
     <TypeScriptCompile Include="Scripts\NumbersCountUp.ts" />
     <TypeScriptCompile Include="Views\About\Js\Page.ts" />
+    <TypeScriptCompile Include="Views\Questions\Answer\Js\QuestionList\QuestionListComponents.ts" />
     <TypeScriptCompile Include="Views\Questions\Answer\Js\QuestionList\QuestionListApp.ts" />
     <TypeScriptCompile Include="Views\Categories\Detail\Js\Category.ts" />
     <TypeScriptCompile Include="Views\Categories\Detail\Js\CategoryHeader.ts" />

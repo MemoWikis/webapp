@@ -166,8 +166,11 @@ namespace TrueOrFalse.View
                 .Include("~/Scripts/npm/vue-slider-component/vue-slider-component.umd.js")
                 .IncludeDirectory("~/Views/Questions/Answer/Js/SessionConfig/", "*.js"));
 
-            bundles.Add(new ScriptBundle("~/bundles/js/QuestionList")
-                .IncludeDirectory("~/Views/Questions/Answer/Js/QuestionList/", "*.js"));
+            bundles.Add(new ScriptBundle("~/bundles/js/QuestionListApp")
+                .Include("~/Views/Questions/Answer/Js/QuestionList/QuestionListApp.js"));
+
+            bundles.Add(new ScriptBundle("~/bundles/js/QuestionListComponents")
+                .Include("~/Views/Questions/Answer/Js/QuestionList/QuestionListComponents.js"));
 
             bundles.Add(new StyleBundle("~/bundles/AnswerQuestion")
                 .Include("~/Views/Questions/Answer/*.css"));

@@ -1,13 +1,15 @@
 ﻿<%@ Control Language="C#" AutoEventWireup="true" Inherits="System.Web.Mvc.ViewUserControl<QuestionListModel>" %>
 <%@ Import Namespace="System.Web.Optimization" %>
 
+
+
 <div id="QuestionListApp">
     <question-list-component category-id="<%= Model.CategoryId %>" all-question-count="<%= Model.AllQuestionCount %>">
 
         <div class="questionListHeader">
             <div class="questionListTitle">
 <%--                <span>{{questions.length}}</span>--%>
-                <span v-if="allQuestionCount > itemCountPerPage">
+                <span v-if="allQuestionCountIsBiggerThanItemCount">
                     von {{allQuestionCount}}
                 </span>
                 <span>
@@ -65,6 +67,7 @@
 </div>
 
 
-<%= Scripts.Render("~/bundles/js/QuestionList") %>
+<%= Scripts.Render("~/bundles/js/QuestionListComponents") %>
 
-  
+<%= Scripts.Render("~/bundles/js/QuestionListApp") %>
+
