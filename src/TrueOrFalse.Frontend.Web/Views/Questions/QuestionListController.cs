@@ -16,7 +16,6 @@ public class QuestionListController : BaseController
     public List<Question> AllQuestions;
     public ConcurrentDictionary<int, QuestionValuation> UserQuestionValuations { get; set; }
 
-
     public QuestionListController(int categoryId)
     {
         CategoryId = categoryId;
@@ -30,14 +29,7 @@ public class QuestionListController : BaseController
     }
 
     [HttpPost]
-    public int GetPageCount(int itemCountPerPage)
-    {
-        var pageCount = AllQuestionCount / itemCountPerPage;
-        return pageCount;
-    }
-
-    [HttpPost]
-    public JsonResult LoadQuestions(int categoryId, int itemCount, int pageNumber, string sortCondition, string filterCondition)
+    public JsonResult LoadQuestions(int categoryId, int itemCount, int pageNumber, string sortCondition = null, string filterCondition = null)
     {
         var newQuestionList = QuestionListModel.PopulateQuestionsOnPage(categoryId, pageNumber, itemCount, IsLoggedIn);
         return Json(newQuestionList);

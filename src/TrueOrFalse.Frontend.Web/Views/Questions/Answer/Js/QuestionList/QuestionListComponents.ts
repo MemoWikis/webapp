@@ -58,60 +58,48 @@ Vue.component('question-component',
     });
 
 Vue.component('question-list-component', {
-    props: ['categoryId', 'allQuestionCount'],
+    props: ['categoryId', 'allQuestionCount' ,'questionsOnFirstPage'],
     data() {
         return {
-            pages: {
-                type: Number,
-                required: false,
-            },
+            pages: 0,
             currentPage: 1,
             itemCountPerPage: 25,
             questions: [],
             allQuestionCountIsBiggerThanItemCount: false,
+            hasQuestions: false,
+            showFirstPage: true,
         };
     },
 
     created() {
-        this.categoryId = $("#hhdCategoryId").val();
-        this.initQuestionList();
+
     },
 
     mounted() {
+        this.categoryId = $("#hhdCategoryId").val();
+        this.initQuestionList();
+        this.pages = Math.ceil(this.allQuestionCount / this.itemCountPerPage);
+        console.log(this.questionsOnFirstPage);
     },
 
     watch: {
         itemCountPerPage: function (val) {
-            if (this.allQuestionCount > val)
-                this.allQuestionCountIsBiggerThanItemCount = true;
-            else
-                this.allQuestionCountIsBiggerThanItemCount = false;
+            this.pages = Math.ceil(this.allQuestionCount / val);
+        },
+        questions: function() {
+            if (this.questions.length > 0)
+                this.hasQuestions = true;
         }
     },
 
     methods: {
         initQuestionList() {
-            this.getPageCount();
             this.loadQuestions(1);
-        },
-
-        getPageCount() {
-            $.ajax({
-                url: "/Questions/QuestionList/GetPageCount/",
-                data: {
-                    categoryId: this.categoryId,
-                    itemCountPerPage: this.itemCountPerPage,
-                },
-                type: "POST",
-                success: count => {
-                    this.pages = count;
-                }
-            });
         },
 
         loadQuestions(selectedPage) {
             $.ajax({
-                url: "/Questions/QuestionList/LoadQuestions/",
+                url: "/QuestionList/LoadQuestions/",
                 data: {
                     categoryId: this.categoryId,
                     pageNumber: this.itemCountPerPage,

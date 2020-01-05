@@ -1,12 +1,16 @@
 ﻿<%@ Control Language="C#" AutoEventWireup="true" Inherits="System.Web.Mvc.ViewUserControl<QuestionListModel>" %>
 <%@ Import Namespace="System.Web.Optimization" %>
 
+<%= Scripts.Render("~/bundles/js/QuestionListComponents") %>
 
 
 <div id="QuestionListApp">
-    <question-list-component category-id="<%= Model.CategoryId %>" all-question-count="<%= Model.AllQuestionCount %>">
-
-        <div class="questionListHeader">
+    
+    <div>
+        <question-list-component inline-template category-id="<%= Model.CategoryId %>" all-question-count="<%= Model.AllQuestionCount %>" questionsOnFirstPage="<%= Model.QuestionsOnFirstPage %>">
+            
+            <div>
+                        <div class="questionListHeader">
             <div class="questionListTitle">
 <%--                <span>{{questions.length}}</span>--%>
                 <span v-if="allQuestionCountIsBiggerThanItemCount">
@@ -18,14 +22,12 @@
             </div>
 
             <div>
-                <i class="fas fa-ellipsis-h"></i>
+                <i class="fas fa-ellipsis-v"></i>
             </div>
         </div>
 
-        <div v-for="q in questions">
-
-            <question-component :question-id="q.Id" :question-title="q.Title" :question-image="q.ImageData" :knowledge-status="q.CorrectnessProbability" :is-in-wishknowldge="q.IsInWishknowledge" :url="q.LinkToQuestion">
-
+            <question-component inline-template v-for="q in questionsOnFirstPage" :question-id="q.Id" :question-title="q.Title" :question-image="q.ImageData" :knowledge-status="q.CorrectnessProbability" :is-in-wishknowldge="q.IsInWishknowledge" :url="q.LinkToQuestion">
+                
                 <div @click="expandQuestion()">
                     <div class="knowledgeStatus" :class="status"></div>
 
@@ -50,7 +52,7 @@
                             <div class="questionFooterIcons">
                                 <span>{{commentCount}}</span>
                                 <i class="far fa-comment"></i>
-                                <i class="fas fa-ellipsis-h"></i>
+                                <i class="fas fa-ellipsis-v"></i>
                             </div>
                         </div>
                         <div class="questionFooter">
@@ -61,13 +63,16 @@
                 </div>
 
             </question-component>
-        </div>
+            </div>
 
-    </question-list-component>
+
+
+        </question-list-component>
+    </div>
+
 </div>
 
 
-<%= Scripts.Render("~/bundles/js/QuestionListComponents") %>
-
 <%= Scripts.Render("~/bundles/js/QuestionListApp") %>
+
 

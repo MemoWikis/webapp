@@ -4,17 +4,20 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
+using System.Web.Script.Serialization;
+using Microsoft.Ajax.Utilities;
 using TrueOrFalse.Frontend.Web.Code;
 
 public class QuestionListModel : BaseModel
 {
     public int CategoryId;
     public int AllQuestionCount;
-    public List<Question> AllQuestions;
+    public IList<Question> AllQuestions;
     public List<QuestionValuation> QuestionsOnPage;
     public ConcurrentDictionary<int, QuestionValuation> UserQuestionValuation { get; set; }
     public int CurrentPage;
     public int ItemCount;
+    public string QuestionsOnFirstPage;
 
 
     public QuestionListModel(int categoryId)
@@ -22,11 +25,15 @@ public class QuestionListModel : BaseModel
         CategoryId = categoryId;
         AllQuestions = GetAllQuestions(categoryId);
         AllQuestionCount = AllQuestions.Count();
+        var json = new JavaScriptSerializer();
+        var questionsOnFirstPage = PopulateQuestionsOnPage(CategoryId, 25, 1, IsLoggedIn);
+
+        QuestionsOnFirstPage = json.Serialize(questionsOnFirstPage);
     }
 
-    public static List<Question> GetAllQuestions(int categoryId)
+    public static IList<Question> GetAllQuestions(int categoryId)
     {
-        return EntityCache.GetQuestionsForCategory(categoryId).ToList();
+        return EntityCache.GetQuestionsForCategory(categoryId);
     }
 
     public static List<QuestionListJson.Question> PopulateQuestionsOnPage(int categoryId, int currentPage, int itemCount, bool isLoggedIn)

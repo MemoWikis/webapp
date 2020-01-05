@@ -206,13 +206,15 @@ namespace TrueOrFalse
             /*Api*/routes.MapRoute("EditSave", "Category/SaveMarkdown", new { controller = "Category", action = "SaveMarkdown" });
             /*Api*/routes.MapRoute("Category_KnowledgeBar", "Category/KnowledgeBar", new { controller = "Category", action = "KnowledgeBar" });
             /*Api*/routes.MapRoute("AnalyticsTabApi", "Category/Tab", new { controller = "Category", action = "Tab" });
-            /*Api*/
+
             routes.MapRoute("AnalyticsGetKnowledgeDisplay", "Category/GetKnowledgeGraphDisplay", new { controller = "Category", action = "GetKnowledgeGraphDisplay" });
             routes.MapRoute("RenderNewKnowledgeSummaryBar", "Category/RenderNewKnowledgeSummaryBar", new { controller = "Category", action = "RenderNewKnowledgeSummaryBar" });
             routes.MapRoute("GetQuestion", "Questions/AddToQuestionSet", new { controller = "Questions", action = "AddToQuestionSet" });
             routes.MapRoute("Category_Learning_Button", "{categoryName}/{Id}/Lernen", new { controller = "Category", action = "CategoryLearningTab" });
             routes.MapRoute("Analytics_Tab", "{categoryName}/{Id}/Wissensnetz", new { controller = "Category", action = "CategoryAnalyticsTab" });
-            
+
+            routes.MapRoute("ApiQuestionList", "QuestionList/{action}", new { controller = "QuestionList" });
+
             routes.MapRoute("Category", "{text}/{id}", new { controller = "Category", action = "Category" });
             
             routes.MapRoute("Default", "{controller}/{action}/{id}", new { controller = "Welcome", action = "Welcome", id = UrlParameter.Optional });
