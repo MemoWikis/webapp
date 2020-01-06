@@ -16,7 +16,7 @@
             <% foreach (var category in Model.CategoryList)
                 { %>
                 
-                    <% if(Model.GetTotalSetCount(category) > 0 || Model.GetTotalQuestionCount(category) > 0 || Model.IsInstallationAdmin)   
+                    <% if(Model.GetTotalTopicCount(category) > 0 || Model.GetTotalQuestionCount(category) > 0 || Model.IsInstallationAdmin)   
                        { %>
                         <div class="col-xs-6 topic">
                             <div class="row">
@@ -28,14 +28,19 @@
                                 <div class="col-xs-9">
                                     <a class="topic-name" href="<%= Links.CategoryDetail(category) %>">
                                         <div class="topic-name">
-                                            <% if (Model.GetTotalSetCount(category) < 1 && Model.GetTotalQuestionCount(category) < 1 && Model.IsInstallationAdmin) { %>
+                                            <% if (Model.GetTotalTopicCount(category) < 1 && Model.GetTotalQuestionCount(category) < 1 && Model.IsInstallationAdmin) { %>
                                                 <i class="fa fa-user-secret show-tooltip" data-original-title="Thema ist leer und wird daher nur Admins angezeigt"></i>
                                             <% } %>
                                             <%= category.Type.GetCategoryTypeIconHtml() %><%: category.Name %>
                                         </div>
                                     </a>
                                     <div class="set-question-count">
-                                        <%: Model.GetTotalSetCount(category) %> Lernset<% if(Model.GetTotalSetCount(category) != 1){ %>s&nbsp;<% } else { %>&nbsp;<% } %>
+                                        <% if (Model.GetTotalTopicCount(category) == 1)
+                                           { %>1 Unterthema <% } %>
+                                        <% if(Model.GetTotalTopicCount(category) != 1 && Model.GetTotalTopicCount(category) > 0)
+                                           { %>
+                                              <%= Model.GetTotalTopicCount(category)  %> Unterthemen <% } 
+                                           else { %>&nbsp;<% } %>
                                         <%: Model.GetTotalQuestionCount(category) %> Frage<% if(Model.GetTotalQuestionCount(category) != 1){ %>n<% } %>
                                     </div>
                                     <% if (Model.CategoryList[counter].CountQuestionsAggregated != 0)

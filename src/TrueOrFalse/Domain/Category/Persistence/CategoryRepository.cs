@@ -156,7 +156,6 @@ public class CategoryRepository : RepositoryDbBase<Category>
         return GetByIds(categoryIds.ToArray());
     }
 
-
     public IList<Category> GetChildren(
         CategoryType parentType,
         CategoryType childrenType,
