@@ -3,7 +3,7 @@
 
 Vue.component('question-component',
     {
-        props: ['questionId', 'questionTitle', 'questionImage', 'knowledgeStatus','isInWishknowledge'],
+        props: ['questionId', 'questionTitle', 'questionImage', 'knowledgeStatus','isInWishknowledge','url'],
         data() {
             return {
                 answer: "",
@@ -13,56 +13,62 @@ Vue.component('question-component',
                 author: [],
                 authorImage: "",
                 allDataLoaded: false,
+                status: "",
+                showFullQuestion: false,
+                commentCount: 0,
             }
         },
 
-        async expandQuestion() {
-            if (this.allDataLoaded == false) {
-                await this.loadQuestionBody(this.questionId);
-                this.loadQuestionDetails(this.questionId);
-            }
-        },
-
-        loadQuestionBody(questionId) {
-            $.ajax({
-                url: "",
-                data: { questionId: questionId },
-                type: "POST",
-                success: data => {
-                    this.answer = data.Answer;
-                    this.extendedAnswer = data.extendedAnswer;
-                    this.categories = data.categories;
-                    this.references = data.references;
-                    this.author = data.author;
-                    this.authorImage = data.authorImage;
-                },
-            });
-        },
-
-        loadQuestionDetails() {
-            $.ajax({
-                url: '/AnswerQuestion/RenderUpdatedQuestionDetails',
-                data: { questionId: this.questionId },
-                type: "POST",
-                success: data => {
-                    $(".questionDetails[data-question-id='" + this.questionId + "']").html(data);
-                    FillSparklineTotals();
-                    $('.show-tooltip').tooltip();
+        methods: {
+            expandQuestion() {
+                this.showFullQuestion = !this.showFullQuestion;
+                if (this.allDataLoaded == false) {
+                    this.loadQuestionBody();
+                    this.loadQuestionDetails(this.questionId);
                 }
-            });
-        },
+            },
 
-        loadQuestionComments() {
+            loadQuestionBody() {
+                $.ajax({
+                    url: "/QuestionList/LoadQuestionBody/",
+                    data: { questionId: this.questionId },
+                    type: "POST",
+                    success: data => {
+                        console.log(data);
+                        this.answer = data.answer;
+                        this.extendedAnswer = data.extendedAnswer;
+                        this.categories = data.categories;
+                        this.references = data.references;
+                        this.author = data.author;
+                        this.authorImage = data.authorImage;
+                        this.allDataLoaded = true;
+                    },
+                });
+            },
 
-        },
+            loadQuestionDetails() {
+                $.ajax({
+                    url: '/AnswerQuestion/RenderUpdatedQuestionDetails',
+                    data: { questionId: this.questionId },
+                    type: "POST",
+                    success: data => {
+                        $(".questionDetails[data-question-id='" + this.questionId + "']").html(data);
+                        FillSparklineTotals();
+                        $('.show-tooltip').tooltip();
+                    }
+                });
+            },
+
+            loadQuestionComments() {
+
+            },
+        }
+
     });
 
 Vue.component('question-list-component', {
-    props:
-    {
-        categoryId: Number,
-        allQuestionCount: Number,
-    },
+    props: ['categoryId','allQuestionCount'],
+
     data() {
         return {
             pages: 0,
@@ -106,8 +112,8 @@ Vue.component('question-list-component', {
                 url: "/QuestionList/LoadQuestions/",
                 data: {
                     categoryId: this.categoryId,
-                    pageNumber: this.itemCountPerPage,
-                    selectedPage: selectedPage,
+                    itemCount: this.itemCountPerPage,
+                    pageNumber: selectedPage,
                 },
                 type: "POST",
                 success: questions => {

@@ -213,8 +213,6 @@ namespace TrueOrFalse
             routes.MapRoute("Category_Learning_Button", "{categoryName}/{Id}/Lernen", new { controller = "Category", action = "CategoryLearningTab" });
             routes.MapRoute("Analytics_Tab", "{categoryName}/{Id}/Wissensnetz", new { controller = "Category", action = "CategoryAnalyticsTab" });
 
-            routes.MapRoute("ApiQuestionList", "QuestionList/{action}", new { controller = "QuestionList" });
-
             routes.MapRoute("Category", "{text}/{id}", new { controller = "Category", action = "Category" });
             
             routes.MapRoute("Default", "{controller}/{action}/{id}", new { controller = "Welcome", action = "Welcome", id = UrlParameter.Optional });

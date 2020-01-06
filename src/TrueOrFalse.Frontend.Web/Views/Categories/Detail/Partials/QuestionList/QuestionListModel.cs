@@ -22,15 +22,13 @@ public class QuestionListModel : BaseModel
     public QuestionListModel(int categoryId)
     {
         CategoryId = categoryId;
-        AllQuestions = GetAllQuestions(categoryId);
-        AllQuestionCount = AllQuestions.Count();
-        var json = new JavaScriptSerializer();
-        var questionsOnFirstPage = PopulateQuestionsOnPage(CategoryId, 25, 1, IsLoggedIn);
     }
 
     public static IList<Question> GetAllQuestions(int categoryId)
     {
-        return EntityCache.GetQuestionsForCategory(categoryId);
+        var category = Sl.CategoryRepo.GetByIdEager(categoryId);
+        return category.GetAggregatedQuestionsFromMemoryCache();
+        //return EntityCache.GetQuestionsForCategory(categoryId);
     }
 
     public static List<QuestionListJson.Question> PopulateQuestionsOnPage(int categoryId, int currentPage, int itemCount, bool isLoggedIn)
@@ -44,6 +42,7 @@ public class QuestionListModel : BaseModel
         foreach (Question q in questionsOfCurrentPage)
         {
             var question = new QuestionListJson.Question();
+            question.Id = q.Id;
             question.Title = q.Text;
             question.LinkToQuestion = Links.GetUrl(q);
             question.ImageData = new ImageFrontendData(Sl.ImageMetaDataRepo.GetBy(q.Id, ImageType.Question)).GetImageUrl(30);
