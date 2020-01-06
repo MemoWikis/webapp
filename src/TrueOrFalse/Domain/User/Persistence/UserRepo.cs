@@ -55,6 +55,9 @@ public class UserRepo : RepositoryDbBase<User>
             .ExecuteUpdate();
         _session.Flush();
         ReputationUpdate.ForUser(followerInfo.User);
+
+
+        UserCache.AddOrUpdate(followerInfo.User);
     }
 
     public override void Update(User user)
@@ -200,5 +203,18 @@ public class UserRepo : RepositoryDbBase<User>
         user.ActivityLevel = userLevel;
         Update(user);
         UserCache.AddOrUpdate(user);
+    }
+
+    public void UpdateUserFollowerCount(int userid)
+    {
+        var session = Sl.Resolve<ISession>();
+        session
+            .CreateSQLQuery(
+                @"UPDATE user u SET FollowerCount = (
+                        SELECT count(*) FROM  user_to_follower uf
+                        WHERE uf.User_id =u.id)
+                Where u.id ="+ userid +";"
+            ).ExecuteUpdate();
+        
     }
 }
