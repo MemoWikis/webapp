@@ -58,7 +58,11 @@ Vue.component('question-component',
     });
 
 Vue.component('question-list-component', {
-    props: ['categoryId', 'allQuestionCount' ,'questionsOnFirstPage'],
+    props:
+    {
+        categoryId: Number,
+        allQuestionCount: Number,
+    },
     data() {
         return {
             pages: 0,
