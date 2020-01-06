@@ -17,7 +17,6 @@ public class QuestionListModel : BaseModel
     public ConcurrentDictionary<int, QuestionValuation> UserQuestionValuation { get; set; }
     public int CurrentPage;
     public int ItemCount;
-    public string QuestionsOnFirstPage;
 
 
     public QuestionListModel(int categoryId)
@@ -27,8 +26,6 @@ public class QuestionListModel : BaseModel
         AllQuestionCount = AllQuestions.Count();
         var json = new JavaScriptSerializer();
         var questionsOnFirstPage = PopulateQuestionsOnPage(CategoryId, 25, 1, IsLoggedIn);
-
-        QuestionsOnFirstPage = json.Serialize(questionsOnFirstPage);
     }
 
     public static IList<Question> GetAllQuestions(int categoryId)

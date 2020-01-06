@@ -7,12 +7,12 @@
 <div id="QuestionListApp">
     
     <div>
-        <question-list-component inline-template category-id="<%= Model.CategoryId %>" all-question-count="<%= Model.AllQuestionCount %>" questionsOnFirstPage="<%= Model.QuestionsOnFirstPage %>">
+        <question-list-component inline-template category-id="<%= Model.CategoryId %>" all-question-count="<%= Model.AllQuestionCount %>">
             
             <div>
                         <div class="questionListHeader">
             <div class="questionListTitle">
-<%--                <span>{{questions.length}}</span>--%>
+                <span>{{questions.length}}</span>
                 <span v-if="allQuestionCountIsBiggerThanItemCount">
                     von {{allQuestionCount}}
                 </span>
