@@ -12,9 +12,6 @@ public class QuestionListModel : BaseModel
 {
     public int CategoryId;
     public int AllQuestionCount;
-    public IList<Question> AllQuestions;
-    public List<QuestionValuation> QuestionsOnPage;
-    public ConcurrentDictionary<int, QuestionValuation> UserQuestionValuation { get; set; }
     public int CurrentPage;
     public int ItemCount;
 
@@ -22,13 +19,14 @@ public class QuestionListModel : BaseModel
     public QuestionListModel(int categoryId)
     {
         CategoryId = categoryId;
+        var questionList = GetAllQuestions(categoryId);
+        AllQuestionCount = questionList.Count();
     }
 
     public static IList<Question> GetAllQuestions(int categoryId)
     {
         var category = Sl.CategoryRepo.GetByIdEager(categoryId);
         return category.GetAggregatedQuestionsFromMemoryCache();
-        //return EntityCache.GetQuestionsForCategory(categoryId);
     }
 
     public static List<QuestionListJson.Question> PopulateQuestionsOnPage(int categoryId, int currentPage, int itemCount, bool isLoggedIn)

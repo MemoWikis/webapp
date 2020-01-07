@@ -13,7 +13,7 @@
                 <div class="questionListHeader">
                     <div class="questionListTitle">
                         <span>{{questions.length}}</span>
-                        <span v-if="allQuestionCountIsBiggerThanItemCount">
+                        <span v-if="questions.length < allQuestionCount">
                             von {{allQuestionCount}}
                         </span>
                         <span>
@@ -70,6 +70,7 @@
 
 
         </question-list-component>
+        <div v-for="(p, key) in pages">{{p.index}}</div>
     </div>
 
 </div>

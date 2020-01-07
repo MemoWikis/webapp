@@ -75,7 +75,6 @@ Vue.component('question-list-component', {
             currentPage: 1,
             itemCountPerPage: 25,
             questions: [],
-            allQuestionCountIsBiggerThanItemCount: false,
             hasQuestions: false,
             showFirstPage: true,
         };

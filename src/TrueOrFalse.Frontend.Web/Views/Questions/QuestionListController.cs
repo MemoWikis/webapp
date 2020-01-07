@@ -8,6 +8,7 @@ using Microsoft.Ajax.Utilities;
 using Newtonsoft.Json;
 using RabbitMQ.Client.Framing.Impl;
 using TrueOrFalse.Frontend.Web.Code;
+using TrueOrFalse.Web;
 
 public class QuestionListController : BaseController
 {
@@ -25,14 +26,27 @@ public class QuestionListController : BaseController
         var author = new UserTinyModel(question.Creator);
         var authorImage = new UserImageSettings(author.Id).GetUrl_128px_square(author);
 
+        var solution = GetQuestionSolution.Run(question);
         var json = Json(new
         {
-            answer = question.Solution,
+            answer = solution.CorrectAnswer(),
             extendedAnswer = question.Description,
-            categories = question.Categories, 
-            references = question.References,
-            author = author,
-            authorImage = authorImage,
+            categories = question.Categories.Select(c => new
+            {
+                name = c.Name,
+                categoryType = c.Type,
+                url = c.Url,
+            }),
+            references = question.References.Select(r => new
+            {
+                referenceType = r.ReferenceType.GetName(),
+                additionalInfo = r.AdditionalInfo ?? "",
+                referenceText = r.ReferenceText ?? ""
+            }),
+            author = author.Name,
+            authorId = author.Id,
+            authorImage = authorImage.Url,
+            questionViews = question.TotalViews,
         });
 
         return json;
