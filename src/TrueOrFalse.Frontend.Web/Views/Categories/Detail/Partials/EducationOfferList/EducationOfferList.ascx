@@ -20,14 +20,15 @@
                             </div>
                             <div class="col-xs-9">
                                 <a class="topic-name" href="<%= Links.CategoryDetail(category) %>">
-                                    <div class="topic-name">
-                                        <%--<%= category.Type.GetCategoryTypeIconHtml() %>--%><%: category.Name %>
+                                    <div class="topic-name"><%: category.Name %>
                                     </div>
                                 </a>
                                 <div class="set-question-count">
                                     <%= category.Type.GetName() %> mit <br/>
-                                    <%: Model.GetTotalSetCount(category) %> Lernset<% if(Model.GetTotalSetCount(category) != 1){ %>s&nbsp;<% } else { %>&nbsp;<% } %> und 
-                                    <%: Model.GetTotalQuestionCount(category) %> Frage<% if(Model.GetTotalQuestionCount(category) != 1){ %>n<% } %>
+                                    <% if (Model.GetTotalTopicCount(category) == 0)
+                                       { %> 1 Unterthema und <% }
+                                       if (Model.GetTotalTopicCount(category) > 1)
+                                       { %><%= Model.GetTotalTopicCount(category) %> Unterthemen und<% } %><%= Model.GetTotalQuestionCount(category) %> Frage<%= StringUtils.PluralSuffix(Model.GetTotalQuestionCount(category), "n") %>
                                 </div>
                                 <div class="KnowledgeBarWrapper">
                                     <% Html.RenderPartial("~/Views/Categories/Detail/CategoryKnowledgeBar.ascx", new CategoryKnowledgeBarModel(category)); %>

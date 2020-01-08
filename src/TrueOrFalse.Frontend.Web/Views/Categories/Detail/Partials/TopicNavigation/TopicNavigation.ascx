@@ -36,10 +36,10 @@
                                     </a>
                                     <div class="set-question-count">
                                         <% if (Model.GetTotalTopicCount(category) == 1)
-                                           { %>1 Unterthema <% } %>
+                                           { %>1 Unterthema und <% } %>
                                         <% if(Model.GetTotalTopicCount(category) != 1 && Model.GetTotalTopicCount(category) > 0)
                                            { %>
-                                              <%= Model.GetTotalTopicCount(category)  %> Unterthemen <% } 
+                                              <%= Model.GetTotalTopicCount(category)  %> Unterthemen und <% } 
                                            else { %>&nbsp;<% } %>
                                         <%: Model.GetTotalQuestionCount(category) %> Frage<% if(Model.GetTotalQuestionCount(category) != 1){ %>n<% } %>
                                     </div>

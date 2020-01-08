@@ -19,10 +19,11 @@
                                 <%= Html.Partial("AddToWishknowledge", new AddToWishknowledge(Model.IsInWishknowledge)) %>
                             </a>
                         </span>&nbsp;
-                        <%= Model.Category.Type == CategoryType.Standard ? "Thema" : Model.CategoryType %> mit <% if (Model.AggregatedTopicCount == 1)
-                                                                                                                  { %> 1 Unterthema <% }
-                                                                                                                  if (Model.AggregatedTopicCount > 1)
-                                                                                                                  { %><%= Model.AggregatedTopicCount %> Unterthemen<% } %> und <%= Model.AggregatedQuestionCount %> Frage<%= StringUtils.PluralSuffix(Model.AggregatedQuestionCount, "n") %>
+                        <%= Model.Category.Type == CategoryType.Standard ? "Thema" : Model.CategoryType %> mit 
+                        <% if (Model.AggregatedTopicCount == 1){ %> 1 Unterthema und<% }
+                           if (Model.AggregatedTopicCount > 1)
+                           { %><%= Model.AggregatedTopicCount %> Unterthemen und<% } %>
+                        <%= Model.AggregatedQuestionCount %> Frage<%= StringUtils.PluralSuffix(Model.AggregatedQuestionCount, "n") %>
                     </div>
 
                     <% if (Model.AggregatedTopicCount != 0)
