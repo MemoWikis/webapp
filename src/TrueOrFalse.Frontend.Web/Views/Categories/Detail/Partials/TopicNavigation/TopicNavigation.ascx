@@ -34,14 +34,12 @@
                                             <%= category.Type.GetCategoryTypeIconHtml() %><%: category.Name %>
                                         </div>
                                     </a>
-                                    <div class="set-question-count">
-                                        <% if (Model.GetTotalTopicCount(category) == 1)
-                                           { %>1 Unterthema und <% } %>
+                                    <div class="set-question-count"> Thema mit<% if (Model.GetTotalTopicCount(category) == 1)
+                                           { %> einem Unterthema und <% } %>
                                         <% if(Model.GetTotalTopicCount(category) != 1 && Model.GetTotalTopicCount(category) > 0)
-                                           { %>
-                                              <%= Model.GetTotalTopicCount(category)  %> Unterthemen und <% } 
+                                           { %>&nbsp;<%= Model.GetTotalTopicCount(category)  %> Unterthemen und <% } 
                                            else { %>&nbsp;<% } %>
-                                        <%: Model.GetTotalQuestionCount(category) %> Frage<% if(Model.GetTotalQuestionCount(category) != 1){ %>n<% } %>
+                                        <%=Model.GetTotalQuestionCount(category) %> Frage<% if(Model.GetTotalQuestionCount(category) != 1){ %>n<% } %>
                                     </div>
                                     <% if (Model.CategoryList[counter].CountQuestionsAggregated != 0)
                                        { %>  
