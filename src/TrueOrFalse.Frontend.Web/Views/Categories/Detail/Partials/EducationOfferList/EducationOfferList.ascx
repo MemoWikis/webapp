@@ -26,7 +26,7 @@
                                 <div class="set-question-count">
                                     <%= category.Type.GetName() %> mit
                                     <% if (Model.GetTotalTopicCount(category) == 1)
-                                       { %> einem Unterthema<% }
+                                       { %> einem Unterthema <% }
                                        if (Model.GetTotalTopicCount(category) > 1)
                                        { %><%= Model.GetTotalTopicCount(category) %> Unterthemen<% } %><%= Model.GetTotalQuestionCount(category) %> Frage<%= StringUtils.PluralSuffix(Model.GetTotalQuestionCount(category), "n") %>
                                 </div>
