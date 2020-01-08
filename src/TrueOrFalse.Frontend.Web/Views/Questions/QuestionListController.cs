@@ -25,8 +25,9 @@ public class QuestionListController : BaseController
         var question = EntityCache.GetQuestionById(questionId);
         var author = new UserTinyModel(question.Creator);
         var authorImage = new UserImageSettings(author.Id).GetUrl_128px_square(author);
-
+        var valuationForUser = Resolve<TotalsPersUserLoader>().Run(_sessionUser.UserId, questionId);
         var solution = GetQuestionSolution.Run(question);
+
         var json = Json(new
         {
             answer = solution.CorrectAnswer(),
@@ -46,7 +47,14 @@ public class QuestionListController : BaseController
             author = author.Name,
             authorId = author.Id,
             authorImage = authorImage.Url,
-            questionViews = question.TotalViews,
+            questionDetails = new {
+                extendedQuestion = question.TextExtended,
+                views = question.TotalViews,
+                totalAnswers = question.TotalAnswers(),
+                totalCorrectAnswers = question.TotalTrueAnswers,
+                personalAnswers = valuationForUser.Total(),
+                personalCorrectAnswer = valuationForUser.TotalTrue
+            },
         });
 
         return json;

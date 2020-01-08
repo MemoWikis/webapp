@@ -36,7 +36,6 @@ public class QuestionListModel : BaseModel
         var questionsOfCurrentPage = allQuestions.Skip(itemCount * (currentPage - 1)).Take(itemCount).ToList();
         var newQuestionList = new List<QuestionListJson.Question>();
 
-        
         foreach (Question q in questionsOfCurrentPage)
         {
             var question = new QuestionListJson.Question();
@@ -45,19 +44,24 @@ public class QuestionListModel : BaseModel
             question.LinkToQuestion = Links.GetUrl(q);
             question.ImageData = new ImageFrontendData(Sl.ImageMetaDataRepo.GetBy(q.Id, ImageType.Question)).GetImageUrl(30);
 
+            question.CorrectnessProbability = q.CorrectnessProbability;
+
             if (isLoggedIn)
             {
                 var user = Sl.R<SessionUser>().User;
-                var userQuestionValuation = UserCache.GetItem(user.Id).QuestionValuations[q.Id];
-                question.CorrectnessProbability = userQuestionValuation.CorrectnessProbability;
-                question.IsInWishknowledge = userQuestionValuation.IsInWishKnowledge();
+                var userQuestionValuation = UserCache.GetItem(user.Id).QuestionValuations;
+                if (userQuestionValuation.ContainsKey(q.Id))
+                {
+                    question.CorrectnessProbability = userQuestionValuation[q.Id].CorrectnessProbability;
+                    question.IsInWishknowledge = userQuestionValuation[q.Id].IsInWishKnowledge();
+                }
             }
-            else
-                question.CorrectnessProbability = q.CorrectnessProbability;
 
             newQuestionList.Add(question);
         }
 
         return newQuestionList;
     }
+
+
 }

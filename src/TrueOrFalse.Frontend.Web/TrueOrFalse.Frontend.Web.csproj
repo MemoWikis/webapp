@@ -22023,6 +22023,7 @@
     <Content Include="Scripts\KnowledgeSummaryBar.js.map">
       <DependentUpon>KnowledgeSummaryBar.ts</DependentUpon>
     </Content>
+    <Content Include="Views\Categories\Detail\Partials\QuestionList\QuestionList.less" />
     <None Include="Views\Maintenance\ContentStats.less" />
     <Compile Include="Views\Maintenance\ContentStatsModel.cs" />
     <Compile Include="Views\Maintenance\Images\MaintenanceImagesController.cs" />

@@ -3,20 +3,35 @@
 
 Vue.component('question-component',
     {
-        props: ['questionId', 'questionTitle', 'questionImage', 'knowledgeStatus','isInWishknowledge','url'],
+        props: ['questionId', 'questionTitle', 'questionImage', 'knowledgeState','isInWishknowledge','url'],
         data() {
             return {
                 answer: "",
                 extendedAnswer: "",
                 categories: [],
                 references: [],
-                author: [],
+                author: "",
+                authorId: "",
                 authorImage: "",
                 allDataLoaded: false,
-                status: "",
+                state: "",
+                correctnessProbability: "",
                 showFullQuestion: false,
                 commentCount: 0,
+                questionDetails: {
+                    extendedQuestion: "",
+                    views: 0,
+                    totalAnswers: 0,
+                    totalCorrectAnswers: 0,
+                    personalAnswers: 0,
+                    personalCorrectAnswer: 0,
+                },
+                isLoggedIn: IsLoggedIn.Yes,
             }
+        },
+
+        mounted() {
+            this.correctnessProbability = this.knowledgeState + "%";
         },
 
         methods: {
@@ -24,7 +39,6 @@ Vue.component('question-component',
                 this.showFullQuestion = !this.showFullQuestion;
                 if (this.allDataLoaded == false) {
                     this.loadQuestionBody();
-                    this.loadQuestionDetails(this.questionId);
                 }
             },
 
@@ -34,7 +48,6 @@ Vue.component('question-component',
                     data: { questionId: this.questionId },
                     type: "POST",
                     success: data => {
-                        console.log(data);
                         this.answer = data.answer;
                         this.extendedAnswer = data.extendedAnswer;
                         this.categories = data.categories;
@@ -42,21 +55,20 @@ Vue.component('question-component',
                         this.author = data.author;
                         this.authorImage = data.authorImage;
                         this.allDataLoaded = true;
+                        this.questionDetails = {
+                            extendedQuestion: data.questionDetails.extendedQuestion,
+                            views: data.questionDetails.views,
+                            totalAnswers: data.questionDetails.totalAnswers,
+                            totalCorrectAnswers: data.questionDetails.totalCorrectAnswers,
+                            personalAnswers: data.questionDetails.personalAnswers,
+                            personalCorrectAnswer: data.questionDetails.personalCorrectAnswer,
+                        }
                     },
                 });
             },
 
-            loadQuestionDetails() {
-                $.ajax({
-                    url: '/AnswerQuestion/RenderUpdatedQuestionDetails',
-                    data: { questionId: this.questionId },
-                    type: "POST",
-                    success: data => {
-                        $(".questionDetails[data-question-id='" + this.questionId + "']").html(data);
-                        FillSparklineTotals();
-                        $('.show-tooltip').tooltip();
-                    }
-                });
+            setKnowledgeState() {
+
             },
 
             loadQuestionComments() {
@@ -72,7 +84,7 @@ Vue.component('question-list-component', {
     data() {
         return {
             pages: 0,
-            currentPage: 1,
+            selectedPage: 1,
             itemCountPerPage: 25,
             questions: [],
             hasQuestions: false,
@@ -98,6 +110,9 @@ Vue.component('question-list-component', {
         questions: function() {
             if (this.questions.length > 0)
                 this.hasQuestions = true;
+        },
+        selectedPage: function(val) {
+            this.loadQuestions(val);
         }
     },
 
