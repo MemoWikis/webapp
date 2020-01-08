@@ -89,6 +89,7 @@ Vue.component('question-list-component', {
             questions: [],
             hasQuestions: false,
             showFirstPage: true,
+            pageArray: [],
         };
     },
 
@@ -100,7 +101,6 @@ Vue.component('question-list-component', {
         this.categoryId = $("#hhdCategoryId").val();
         this.initQuestionList();
         this.pages = Math.ceil(this.allQuestionCount / this.itemCountPerPage);
-        console.log(this.questionsOnFirstPage);
     },
 
     watch: {
@@ -113,6 +113,15 @@ Vue.component('question-list-component', {
         },
         selectedPage: function(val) {
             this.loadQuestions(val);
+        },
+        pages: function (val) {
+            let newArray = [];
+            let currentNumber = 1;
+            for (let i = 0; currentNumber < val + 1; i++) {
+                newArray.push(currentNumber);
+                currentNumber = currentNumber + 1;
+            }
+            this.pageArray = newArray;
         }
     },
 

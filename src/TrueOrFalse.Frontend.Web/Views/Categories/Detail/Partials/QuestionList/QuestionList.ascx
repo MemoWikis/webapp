@@ -82,12 +82,13 @@
                 </div>
 
             </question-component>
+            <span v-for="(p, key) in pageArray" @Click="loadQuestions(p)"> [{{p}}] </span>
+
             </div>
 
 
 
         </question-list-component>
-        <div v-for="(p, key) in pages">{{p.index}}</div>
     </div>
 
 </div>
