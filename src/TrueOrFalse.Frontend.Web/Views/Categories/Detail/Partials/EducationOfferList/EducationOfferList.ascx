@@ -24,11 +24,11 @@
                                     </div>
                                 </a>
                                 <div class="set-question-count">
-                                    <%= category.Type.GetName() %> mit <br/>
+                                    <%= category.Type.GetName() %> mit
                                     <% if (Model.GetTotalTopicCount(category) == 1)
-                                       { %> einem Unterthema und <% }
+                                       { %> einem Unterthema<% }
                                        if (Model.GetTotalTopicCount(category) > 1)
-                                       { %><%= Model.GetTotalTopicCount(category) %> Unterthemen und<% } %>&nbsp;<%= Model.GetTotalQuestionCount(category) %> Frage<%= StringUtils.PluralSuffix(Model.GetTotalQuestionCount(category), "n") %>
+                                       { %><%= Model.GetTotalTopicCount(category) %> Unterthemen<% } %><%= Model.GetTotalQuestionCount(category) %> Frage<%= StringUtils.PluralSuffix(Model.GetTotalQuestionCount(category), "n") %>
                                 </div>
                                 <div class="KnowledgeBarWrapper">
                                     <% Html.RenderPartial("~/Views/Categories/Detail/CategoryKnowledgeBar.ascx", new CategoryKnowledgeBarModel(category)); %>
