@@ -2,12 +2,13 @@
 using System.IO;
 using System.Reflection;
 using System.Web;
+using System.Web.Configuration;
 using System.Xml.Linq;
 using Seedworks.Web.State;
 
 public static class OverwrittenConfig
 {
-    public static bool UseWebConfig { get { return Settings.UseWebConfig; } }
+    
 
     public static string ValueString(string itemName)
     {
@@ -23,13 +24,9 @@ public static class OverwrittenConfig
 
     public static OverwrittenConfigValueResult Value(string itemName)
     {
-        string filePath;
-        if (ContextUtil.IsWebContext)
-            filePath = HttpContext.Current.Server.MapPath(@"~/Web.overwritten.config");
-        else if(UseWebConfig)
-            filePath = Path.Combine(new DirectoryInfo(AssemblyDirectory).Parent.FullName, "Web.overwritten.config");
-        else
-            filePath = Path.Combine(new DirectoryInfo(AssemblyDirectory).Parent.Parent.FullName, "App.overwritten.config");
+        string filePath = ContextUtil.GetFilePath(
+            ContextUtil.IsWebContext || ContextUtil.UseWebConfig ? "Web.overwritten.config" : "App.overwritten.config"
+        );
 
         if (!File.Exists(filePath))
             return new OverwrittenConfigValueResult(false, null);
@@ -42,16 +39,5 @@ public static class OverwrittenConfig
         var value = xDoc.Root.Element(itemName).Value;
 
         return new OverwrittenConfigValueResult(true, value);
-    }
-
-    static private string AssemblyDirectory
-    {
-        get
-        {
-            string codeBase = Assembly.GetExecutingAssembly().CodeBase;
-            UriBuilder uri = new UriBuilder(codeBase);
-            string path = Uri.UnescapeDataString(uri.Path);
-            return Path.GetDirectoryName(path);
-        }
     }
 }

@@ -21,7 +21,7 @@ public class SolutionMetadataDate : SolutionMetadata
 
     protected override void InitFromJson(string json)
     {
-        var tmp = JsonConvert.DeserializeObjectAsync<SolutionMetadataDate>(json);
-        Precision = tmp.Result.Precision;
+        var tmp = JsonConvert.DeserializeObject<SolutionMetadataDate>(json);
+        Precision = tmp.Precision;
     }
 }
