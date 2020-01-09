@@ -11,6 +11,9 @@ public class SingleCategoryFullWidthModel : BaseContentModule
     public int AggregatedTopicCount;
     public ImageFrontendData ImageFrontendData;
     public bool IsInWishknowledge;
+    public SingleCategoryFullWidthModel(int categoryId) : this(new SingleCategoryFullWidthJson { CategoryId = categoryId })
+    {
+    }
 
     public SingleCategoryFullWidthModel(SingleCategoryFullWidthJson singleCategoryFullWidthJson)
     {
