@@ -30,7 +30,7 @@ namespace TrueOrFalse
             Configuration nhConfigurationCache;
 
             var assembly = Assembly.GetAssembly(typeof (Question));  
-            if(assembly == null && !ContextUtil.IsWebContext)
+            if(HttpContext.Current == null)
                 assembly = Assembly.LoadFile(
                     Path.Combine(AppDomain.CurrentDomain.BaseDirectory, assembly.GetName().Name + ".dll"));
 

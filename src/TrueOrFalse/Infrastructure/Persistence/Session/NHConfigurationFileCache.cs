@@ -3,9 +3,7 @@ using System.IO;
 using System.Reflection;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Web;
-using System.Web.Configuration;
 using NHibernate.Cfg;
-using Seedworks.Web.State;
 
 //see: http://stackoverflow.com/questions/10766662/optimizing-nhibernate-session-factory-startup-time-of-webapp-really-slow
 public class NHConfigurationFileCache
@@ -16,7 +14,9 @@ public class NHConfigurationFileCache
     public NHConfigurationFileCache(Assembly definitionsAssembly)
     {
         _definitionsAssembly = definitionsAssembly;
-        _cacheFile = ContextUtil.GetFilePath("bin/nh.cfg");
+        _cacheFile = "nh.cfg";
+        if (HttpContext.Current != null) //for the web apps
+            _cacheFile = HttpContext.Current.Server.MapPath(string.Format("~/bin/{0}", _cacheFile));
     }
 
     public void DeleteCacheFile()

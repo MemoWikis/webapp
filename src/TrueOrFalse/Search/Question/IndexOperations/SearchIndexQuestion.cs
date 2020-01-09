@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using SolrNet;
-using SolrNet.Commands;
 
 namespace TrueOrFalse.Search
 {
@@ -38,7 +37,7 @@ namespace TrueOrFalse.Search
             }
         }
 
-        public void Update(Question question, bool softCommit = true)
+        public void Update(Question question, bool softCommit = true, bool runSolrUpdateAsync = false)
         {
             if (question == null)
                 return;
@@ -53,25 +52,9 @@ namespace TrueOrFalse.Search
             }
             else
             {
-                AsyncExe.Run(() =>
-                {
-                    var solrQuestion = ToQuestionSolrMap.Run(question, Sl.QuestionValuationRepo.GetActiveInWishknowledgeFromCache(question.Id));
-                    _solrOperations.Add(solrQuestion, new AddParameters {CommitWithin = 5000});
-                });
+                var solrQuestion = ToQuestionSolrMap.Run(question, _questionValuationRepo.GetActiveInWishknowledgeFromCache(question.Id));
+                AsyncExe.Run(() => _solrOperations.Add(solrQuestion, new AddParameters {CommitWithin = 5000}));
             }
-        }
-
-        public void UpdateQuestionView(int questionId, int totalViews, int? creatorId)
-        {
-            _solrOperations.AtomicUpdate(
-                questionId.ToString(), 
-                new[]
-                {
-                    new AtomicUpdateSpec("Views", AtomicUpdateType.Set, totalViews),
-                    new AtomicUpdateSpec("CreatorId", AtomicUpdateType.Set, creatorId ?? -1)
-                }
-            );
-            _solrOperations.Commit();
         }
 
         public void Delete(Question question)

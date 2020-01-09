@@ -1,18 +1,23 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using SolrNet.Impl;
+using SolrNet.Impl.ResponseParsers;
 
 namespace TrueOrFalse.Search
 {
     [Serializable]
     public class SpellCheckResult
     {
+        public string Collation;
         public int Count;
         public List<SpellCheckResultItem> Items = new List<SpellCheckResultItem>();
 
         public SpellCheckResult(SpellCheckResults spellChecking, string searchTerm)
         {
+            Collation = spellChecking.Collation;
             Count = spellChecking.Count;
             foreach (var spellCheck in spellChecking)
                 Items.Add(new SpellCheckResultItem(spellCheck, searchTerm));

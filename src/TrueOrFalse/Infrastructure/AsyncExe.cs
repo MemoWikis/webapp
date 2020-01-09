@@ -16,7 +16,6 @@ public static class AsyncExe
             {
                 actionExec = () =>
                 {
-                    Settings.UseWebConfig = true;
                     var container = AutofacWebInitializer.Run();
                     ServiceLocator.Init(container);
 

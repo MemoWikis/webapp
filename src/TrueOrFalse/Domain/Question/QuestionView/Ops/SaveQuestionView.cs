@@ -57,11 +57,10 @@ public class SaveQuestionView : IRegisterAsInstancePerLifetime
             WidgetView = widgetView
         });
 
-        var viewCount = _questionViewRepo.GetViewCount(question.Id);
         _session.CreateSQLQuery("UPDATE Question SET TotalViews = " + _questionViewRepo.GetViewCount(question.Id) + " WHERE Id = " + question.Id).
             ExecuteUpdate();
 
-        AsyncExe.Run(() => { _searchIndexQuestion.UpdateQuestionView(question.Id, viewCount, question.Creator?.Id); });
+        AsyncExe.Run(() => { _searchIndexQuestion.Update(question); }, true);
     }
 
     public void LogOverallTime(Guid guid, int millisencondsSinceQuestionView)

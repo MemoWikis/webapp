@@ -15,8 +15,8 @@ public class SolutionMetadataText : SolutionMetadata
 
     protected override void InitFromJson(string json)
     {
-        var tmp = JsonConvert.DeserializeObject<SolutionMetadataText>(json);
-        IsCaseSensitive = tmp.IsCaseSensitive;
-        IsExactInput = tmp.IsExactInput;
+        var tmp = JsonConvert.DeserializeObjectAsync<SolutionMetadataText>(json);
+        IsCaseSensitive = tmp.Result.IsCaseSensitive;
+        IsExactInput = tmp.Result.IsExactInput;
     }
 }
