@@ -15,6 +15,7 @@ namespace QuestionListJson
         public string LinkToQuestion { get; set; }
         public ImageUrl ImageData { get; set; }
         public bool IsInWishknowledge { get; set; }
+        public bool HasPersonalAnswer { get; set; }
     }
 }
 

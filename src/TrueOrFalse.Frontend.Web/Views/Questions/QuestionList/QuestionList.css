@@ -1,45 +1,133 @@
-﻿.singleQuestionRow {
+﻿#QuestionListApp {
+  margin: 0 -10px;
+}
+#QuestionListApp .singleQuestionRow {
   height: 47px;
   width: 100%;
   font-family: "Open Sans";
   font-size: 14px;
-  border-top: 0.1px solid silver;
-  border-bottom: 0.1px solid silver;
+  border: 0.05px solid #DDDDDD;
   display: flex;
   flex-direction: row;
   flex-wrap: nowrap;
-}
-.singleQuestionRow.open {
-  height: unset;
-  margin: 10px 0;
   transition: all 0.2s ease-out;
+  color: #949494;
 }
-.singleQuestionRow .knowledgeStatus {
+#QuestionListApp .singleQuestionRow.open {
+  height: unset;
+  margin: 20px 0;
+  transition: all 0.2s ease-out;
+  box-shadow: 0px 1px 6px 0px #C4C4C4;
+}
+#QuestionListApp .singleQuestionRow .knowledgeStatus {
   width: 7px;
   min-width: 7px;
 }
-.singleQuestionRow .questionImg {
-  width: 40px;
-  height: 40px;
-  margin: 8px;
-}
-.singleQuestionRow .questionContainer {
+#QuestionListApp .singleQuestionRow .questionSectionFlex {
   width: 100%;
 }
-.singleQuestionRow .questionHeaderIcons {
+#QuestionListApp .singleQuestionRow .questionSectionFlex .questionSection {
+  display: flex;
+  flex-wrap: nowrap;
+  width: 100%;
+}
+#QuestionListApp .singleQuestionRow .questionSectionFlex .questionSection .questionImg {
+  min-width: 75px;
+  height: 100%;
+  padding: 8px;
+}
+#QuestionListApp .singleQuestionRow .questionSectionFlex .questionSection .questionContainer {
+  width: 100%;
+}
+#QuestionListApp .singleQuestionRow .questionSectionFlex .questionSection .questionContainer .questionBodyTop {
+  display: flex;
+}
+#QuestionListApp .singleQuestionRow .questionSectionFlex .questionSection .questionContainer .questionBodyTop .questionContainerTopSection {
+  flex: 1 1 100%;
+  min-width: 0;
+}
+#QuestionListApp .singleQuestionRow .questionSectionFlex .questionSection .questionContainer .questionBodyTop .questionContainerTopSection .questionHeader {
+  display: flex;
+  flex-wrap: nowrap;
+  justify-content: space-between;
+}
+#QuestionListApp .singleQuestionRow .questionSectionFlex .questionSection .questionContainer .questionBodyTop .questionContainerTopSection .questionHeader .questionTitle {
+  padding: 8px;
+  font-size: 16px;
+  line-height: 31px;
+  min-width: 0;
+}
+#QuestionListApp .singleQuestionRow .questionSectionFlex .questionSection .questionContainer .questionBodyTop .questionContainerTopSection .questionHeader .questionTitle.trimTitle {
+  display: inline-block;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+#QuestionListApp .singleQuestionRow .questionSectionFlex .questionSection .questionContainer .questionBodyTop .questionContainerTopSection .questionHeaderIcons {
+  flex: 0 0 auto;
   font-size: 24px;
-  float: right;
   min-width: 77px;
   display: flex;
   flex-wrap: nowrap;
-  color: #949494;
+  color: #DDDDDD;
 }
-.singleQuestionRow .questionHeaderIcons .iconContainer {
+#QuestionListApp .singleQuestionRow .questionSectionFlex .questionSection .questionContainer .questionBodyTop .questionContainerTopSection .questionHeaderIcons .iconContainer {
   padding: 8px;
+  min-width: 40px;
 }
-.singleQuestionRow .questionHeaderIcons .iconContainer .rotateIcon {
+#QuestionListApp .singleQuestionRow .questionSectionFlex .questionSection .questionContainer .questionBodyTop .questionContainerTopSection .questionHeaderIcons .iconContainer .rotateIcon {
   transition: all 0.2s ease-out;
 }
-.singleQuestionRow .questionHeaderIcons .iconContainer .rotateIcon.open {
-  transform: rotateX(180deg);
+#QuestionListApp .singleQuestionRow .questionSectionFlex .questionSection .questionContainer .questionBodyTop .questionContainerTopSection .questionHeaderIcons .iconContainer .rotateIcon.open {
+  transform: rotate(180deg);
+}
+#QuestionListApp .singleQuestionRow .questionSectionFlex .questionSection .questionContainer .questionBodyTop .extendedQuestionContainer {
+  padding: 8px 80px 8px 8px;
+}
+#QuestionListApp .singleQuestionRow .questionSectionFlex .questionSection .questionContainer .questionBodyTop .extendedQuestionContainer .extendedAnswer {
+  padding-top: 16px;
+}
+#QuestionListApp .singleQuestionRow .questionSectionFlex .questionSection .questionContainer .questionBodyTop .extendedQuestionContainer .notes {
+  padding-top: 40px;
+  padding-bottom: 30px;
+  font-size: 12px;
+}
+#QuestionListApp .singleQuestionRow .questionSectionFlex .questionSection .questionContainer .questionBodyTop .extendedQuestionContainer .notes .relatedCategories {
+  padding-bottom: 15px;
+}
+#QuestionListApp .singleQuestionRow .questionSectionFlex .questionSection .questionContainer .questionBodyBottom .questionDetails {
+  font-size: 12px;
+}
+#QuestionListApp .singleQuestionRow .questionSectionFlex .questionSection .questionContainer .questionBodyBottom .questionDetails .questionDetailRow {
+  display: flex;
+  flex-wrap: nowrap;
+}
+#QuestionListApp .singleQuestionRow .questionSectionFlex .questionSection .questionContainer .questionBodyBottom .questionDetails .questionDetailRow .questionDetailIcon {
+  width: 75px;
+  padding: 8px;
+  text-align: center;
+}
+#QuestionListApp .singleQuestionRow .questionSectionFlex .questionSection .questionContainer .questionBodyBottom .questionDetails .questionDetailRow .questionDetailLabel {
+  padding-left: 8px;
+}
+#QuestionListApp .singleQuestionRow .questionSectionFlex .questionSection .questionContainer .questionBodyBottom .questionFooterIcons {
+  color: #DDDDDD;
+  float: right;
+  font-size: 20px;
+  text-align: center;
+}
+#QuestionListApp .singleQuestionRow .questionSectionFlex .questionSection .questionContainer .questionBodyBottom .questionFooterIcons i {
+  width: 40px;
+  padding: 8px;
+}
+#QuestionListApp .singleQuestionRow .questionFooter {
+  height: 52px;
+  border-top: 0.5px solid #DDDDDD;
+  display: flex;
+  flex-direction: row-reverse;
+  font-size: 20px;
+}
+#QuestionListApp .singleQuestionRow .questionFooter .questionFooterLabel {
+  padding: 16px;
+  line-height: 20px;
 }

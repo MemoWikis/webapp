@@ -36,7 +36,7 @@ public class QuestionListController : BaseController
             {
                 name = c.Name,
                 categoryType = c.Type,
-                url = c.Url,
+                linkToCategory = Links.CategoryDetail(c),
             }),
             references = question.References.Select(r => new
             {
@@ -53,7 +53,8 @@ public class QuestionListController : BaseController
                 totalAnswers = question.TotalAnswers(),
                 totalCorrectAnswers = question.TotalTrueAnswers,
                 personalAnswers = valuationForUser.Total(),
-                personalCorrectAnswer = valuationForUser.TotalTrue
+                personalCorrectAnswer = valuationForUser.TotalTrue,
+                inWishknowledgeCount = question.TotalRelevancePersonalEntries
             },
         });
 

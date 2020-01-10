@@ -3,7 +3,7 @@
 
 Vue.component('question-component',
     {
-        props: ['questionId', 'questionTitle', 'questionImage', 'knowledgeState', 'isInWishknowledge', 'url'],
+        props: ['questionId', 'questionTitle', 'questionImage', 'knowledgeState', 'isInWishknowledge', 'url', 'hasPersonalAnswer'],
         data() {
             return {
                 answer: "",
@@ -25,6 +25,7 @@ Vue.component('question-component',
                     totalCorrectAnswers: 0,
                     personalAnswers: 0,
                     personalCorrectAnswer: 0,
+                    inWishKnowledgeCount: 0,
                 },
                 isLoggedIn: IsLoggedIn.Yes,
             }
@@ -32,23 +33,33 @@ Vue.component('question-component',
 
         mounted() {
             this.correctnessProbability = this.knowledgeState + "%";
+            this.setKnowledgebarColor(this.knowledgeState);
         },
 
         watch: {
-            correctnessProbability(val) {
-                if (this.isInWishknowledge) {
-                    if (val >= 80)
-                        this.backgroundColor = { backgroundColor: "#AFD534" };
-                    else if (val < 80 && val >= 50)
-                        this.backgroundColor = { backgroundColor: "#AFD534" };
-                    else if (val < 50 && val >= 0)
-                        this.backgroundColor = { backgroundColor: "#FFA07A" };
-                } else
-                    this.backgroundColor = { backgroundColor: "#949494" };
-            }
+           knowledgeState(val) {
+                this.setKnowledgebarColor(val);
+            },
         },
 
         methods: {
+            setKnowledgebarColor(val) {
+                if (this.isInWishknowledge) {
+                    if (this.hasPersonalAnswer) {
+                        if (val >= 80)
+                            this.backgroundColor = { backgroundColor: "#AFD534" };
+                        else if (val < 80 && val >= 50)
+                            this.backgroundColor = { backgroundColor: "#AFD534" };
+                        else if (val < 50 && val >= 0)
+                            this.backgroundColor = { backgroundColor: "#FFA07A" };
+                    }
+                    else {
+                        this.backgroundColor = { backgroundColor: "#949494" };
+                    }
+                } else
+                    this.backgroundColor = { backgroundColor: "#D6D6D6" };
+            },
+
             expandQuestion() {
                 this.showFullQuestion = !this.showFullQuestion;
                 if (this.allDataLoaded == false) {
@@ -71,7 +82,10 @@ Vue.component('question-component',
                             this.answer = data.answer;
                             this.extendedAnswer = data.extendedAnswer;
                         }
-                        this.categories = data.categories;
+                        if (data.categories) {
+                            this.categories = data.categories;
+                            this.linkToFirstCategory = data.categories[0].linkToCategory;
+                        }
                         this.references = data.references;
                         this.author = data.author;
                         this.authorImage = data.authorImage;
@@ -83,6 +97,7 @@ Vue.component('question-component',
                             totalCorrectAnswers: data.questionDetails.totalCorrectAnswers,
                             personalAnswers: data.questionDetails.personalAnswers,
                             personalCorrectAnswer: data.questionDetails.personalCorrectAnswer,
+                            inWishknowledgeCount: data.inWishknowledgeCount,
                         }
                     },
                 });

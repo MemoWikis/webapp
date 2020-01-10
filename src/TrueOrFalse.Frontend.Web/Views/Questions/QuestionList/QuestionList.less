@@ -1,54 +1,169 @@
 ﻿
-.singleQuestionRow {
-    height: 47px;
-    width: 100%;
-    font-family: "Open Sans";
-    font-size: 14px;
-    border-top: 0.1px solid silver;
-    border-bottom: 0.1px solid silver;
-    display: flex;
-    flex-direction: row;
-    flex-wrap: nowrap;
+#QuestionListApp {
+    margin: 0 -10px;
 
-    &.open {
-        height: unset;
-        margin: 10px 0;
-        transition: all .2s ease-out;
-    }
-
-    .knowledgeStatus {
-        width: 7px;
-        min-width: 7px;
-    }
-
-    .questionImg {
-        width: 40px;
-        height: 40px;
-        margin: 8px;
-    }
-
-
-    .questionContainer {
+    .singleQuestionRow {
+        height: 47px;
         width: 100%;
-    }
-
-    .questionHeaderIcons {
-        font-size: 24px;
-        float: right;
-        min-width: 77px;
+        font-family: "Open Sans";
+        font-size: 14px;
+        border: 0.05px solid #DDDDDD;
         display: flex;
+        flex-direction: row;
         flex-wrap: nowrap;
+        transition: all .2s ease-out;
         color: #949494;
 
-        .iconContainer {
-            padding: 8px;
+        &.open {
+            height: unset;
+            margin: 20px 0;
+            transition: all .2s ease-out;
+            box-shadow: 0px 1px 6px 0px #C4C4C4;
+        }
 
-            .rotateIcon {
-                transition: all .2s ease-out;
+        .knowledgeStatus {
+            width: 7px;
+            min-width: 7px;
+        }
 
-                &.open {
-                    transform: rotateX(180deg);
+        .questionSectionFlex {
+            width: 100%;
+
+            .questionSection {
+                display: flex;
+                flex-wrap: nowrap;
+                width: 100%;
+
+                .questionImg {
+                    min-width: 75px;
+                    height: 100%;
+                    padding: 8px;
                 }
+
+                .questionContainer {
+                    width: 100%;
+
+                    .questionBodyTop {
+                        display: flex;
+
+                        .questionContainerTopSection {
+                            flex: 1 1 100%;
+                            min-width: 0;
+
+                            .questionHeader {
+                                display: flex;
+                                flex-wrap: nowrap;
+                                justify-content: space-between;
+
+                                .questionTitle {
+                                    padding: 8px;
+                                    font-size: 16px;
+                                    line-height: 31px;
+                                    min-width: 0;
+
+                                    &.trimTitle {
+                                        display: inline-block;
+                                        white-space: nowrap;
+                                        overflow: hidden;
+                                        text-overflow: ellipsis;
+                                    }
+                                }
+                            }
+
+                            .questionHeaderIcons {
+                                flex: 0 0 auto;
+                                font-size: 24px;
+                                min-width: 77px;
+                                display: flex;
+                                flex-wrap: nowrap;
+                                color: #DDDDDD;
+
+                                .iconContainer {
+                                    padding: 8px;
+                                    min-width: 40px;
+
+                                    .rotateIcon {
+                                        transition: all .2s ease-out;
+
+                                        &.open {
+                                            transform: rotate(180deg);
+                                        }
+                                    }
+                                }
+                            }
+                        }
+
+                        .extendedQuestionContainer {
+                            padding: 8px 80px 8px 8px;
+
+                            .extendedAnswer {
+                                padding-top: 16px;
+                            }
+
+                            .notes {
+                                padding-top: 40px;
+                                padding-bottom: 30px;
+                                font-size: 12px;
+
+                                .relatedCategories {
+                                    padding-bottom: 15px;
+                                }
+
+                                .author {
+                                }
+
+                                .sources {
+                                }
+                            }
+                        }
+                    }
+
+                    .questionBodyBottom {
+                        .questionDetails {
+                            font-size: 12px;
+
+                            .questionDetailRow {
+                                display: flex;
+                                flex-wrap: nowrap;
+
+                                .questionDetailIcon {
+                                    width: 75px;
+                                    padding: 8px;
+                                    text-align: center;
+                                }
+
+                                .questionDetailLabel {
+                                    padding-left: 8px;
+                                }
+                            }
+                        }
+
+                        .questionFooterIcons {
+                            color: #DDDDDD;
+                            float: right;
+                            font-size: 20px;
+                            text-align: center;
+
+                            i {
+                                width: 40px;
+                                padding: 8px;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        .questionFooter {
+            height: 52px;
+            border-top: 0.5px solid #DDDDDD;
+            display: flex;
+            flex-direction: row-reverse;
+            font-size: 20px;
+
+            .questionFooterLabel {
+                padding: 16px;
+                line-height: 20px;
             }
         }
     }
