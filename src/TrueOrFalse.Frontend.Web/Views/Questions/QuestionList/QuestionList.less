@@ -1,0 +1,55 @@
+﻿
+.singleQuestionRow {
+    height: 47px;
+    width: 100%;
+    font-family: "Open Sans";
+    font-size: 14px;
+    border-top: 0.1px solid silver;
+    border-bottom: 0.1px solid silver;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+
+    &.open {
+        height: unset;
+        margin: 10px 0;
+        transition: all .2s ease-out;
+    }
+
+    .knowledgeStatus {
+        width: 7px;
+        min-width: 7px;
+    }
+
+    .questionImg {
+        width: 40px;
+        height: 40px;
+        margin: 8px;
+    }
+
+
+    .questionContainer {
+        width: 100%;
+    }
+
+    .questionHeaderIcons {
+        font-size: 24px;
+        float: right;
+        min-width: 77px;
+        display: flex;
+        flex-wrap: nowrap;
+        color: #949494;
+
+        .iconContainer {
+            padding: 8px;
+
+            .rotateIcon {
+                transition: all .2s ease-out;
+
+                &.open {
+                    transform: rotateX(180deg);
+                }
+            }
+        }
+    }
+}

@@ -310,13 +310,13 @@
     <Compile Include="Views\Categories\Detail\CategoryRedirectController.cs" />
     <Compile Include="Views\Categories\Detail\CategoryController.cs" />
     <Compile Include="Views\Categories\Detail\Partials\BaseContentModule.cs" />
-    <Compile Include="Views\Categories\Detail\Partials\QuestionList\QuestionJson.cs" />
+    <Compile Include="Views\Questions\QuestionList\QuestionJson.cs" />
     <Compile Include="Views\Categories\Detail\Partials\Cards\CardsModel.cs" />
     <Compile Include="Views\Categories\Detail\Partials\Cards\CardsJson.cs" />
     <Compile Include="Views\Categories\Detail\Partials\EducationOfferList\EducationOfferListJson.cs" />
     <Compile Include="Views\Categories\Detail\Partials\KnowledgeGraph\KnowledgeGraphModel.cs" />
     <Compile Include="Views\Categories\Detail\Partials\MediaList\MediaListJson.cs" />
-    <Compile Include="Views\Categories\Detail\Partials\QuestionList\QuestionListModel.cs" />
+    <Compile Include="Views\Questions\QuestionList\QuestionListModel.cs" />
     <Compile Include="Views\Categories\Detail\Partials\SetCardMiniList\SetCardMiniListJson.cs" />
     <Compile Include="Views\Categories\Detail\Partials\SetListCard\SetListCardJson.cs" />
     <Compile Include="Views\Categories\Detail\Partials\SetTestSessionNoStartScreen\SetTestSessionNoStartScreenJson.cs" />
@@ -21722,7 +21722,7 @@
       <DependentUpon>Tabbing.ts</DependentUpon>
     </Content>
     <Content Include="Views\Categories\Detail\Partials\BreadCrumbCategories.ascx" />
-    <Content Include="Views\Categories\Detail\Partials\QuestionList\QuestionList.ascx" />
+    <Content Include="Views\Questions\QuestionList\QuestionList.ascx" />
     <Content Include="Views\Categories\Detail\Partials\CategoryFooter\CategoryFooter.ascx" />
     <Content Include="Views\Categories\Detail\Partials\ContentModuleSelectionModal.vue.ascx" />
     <Content Include="Views\Categories\Detail\Partials\Cards\Cards.ascx" />
@@ -21880,6 +21880,9 @@
     <Content Include="Views\Questions\History\CategoryHistory.min.css">
       <DependentUpon>CategoryHistory.css</DependentUpon>
     </Content>
+    <Content Include="Views\Questions\QuestionList\QuestionList.css">
+      <DependentUpon>QuestionList.less</DependentUpon>
+    </Content>
     <Content Include="Views\Sets\Detail\Modals\CopySetModal.ascx" />
     <Content Include="Views\Error\Error.css">
       <DependentUpon>Error.less</DependentUpon>
@@ -22023,7 +22026,7 @@
     <Content Include="Scripts\KnowledgeSummaryBar.js.map">
       <DependentUpon>KnowledgeSummaryBar.ts</DependentUpon>
     </Content>
-    <Content Include="Views\Categories\Detail\Partials\QuestionList\QuestionList.less" />
+    <Content Include="Views\Questions\QuestionList\QuestionList.less" />
     <None Include="Views\Maintenance\ContentStats.less" />
     <Compile Include="Views\Maintenance\ContentStatsModel.cs" />
     <Compile Include="Views\Maintenance\Images\MaintenanceImagesController.cs" />
@@ -22047,7 +22050,7 @@
     <Compile Include="Views\Questions\History\QuestionChangesOverviewModel.cs" />
     <Compile Include="Views\Questions\History\QuestionHistoryController.cs" />
     <Compile Include="Views\Questions\History\QuestionHistoryModel.cs" />
-    <Compile Include="Views\Questions\QuestionListController.cs" />
+    <Compile Include="Views\Questions\QuestionList\QuestionListController.cs" />
     <Compile Include="Views\Sets\Detail\SetKnowledgeBarModel.cs" />
     <Compile Include="Views\Sets\Detail\Modals\ShareSetModalModel.cs" />
     <Compile Include="Views\Sets\Detail\Video\SetVideoController.cs" />
@@ -22368,8 +22371,8 @@
     <TypeScriptCompile Include="Scripts\YoutubeApi.ts" />
     <TypeScriptCompile Include="Scripts\NumbersCountUp.ts" />
     <TypeScriptCompile Include="Views\About\Js\Page.ts" />
-    <TypeScriptCompile Include="Views\Questions\Answer\Js\QuestionList\QuestionListComponents.ts" />
-    <TypeScriptCompile Include="Views\Questions\Answer\Js\QuestionList\QuestionListApp.ts" />
+    <TypeScriptCompile Include="Views\Questions\Js\QuestionList\QuestionListComponents.ts" />
+    <TypeScriptCompile Include="Views\Questions\Js\QuestionList\QuestionListApp.ts" />
     <TypeScriptCompile Include="Views\Categories\Detail\Js\Category.ts" />
     <TypeScriptCompile Include="Views\Categories\Detail\Js\CategoryHeader.ts" />
     <TypeScriptCompile Include="Views\Categories\Detail\Js\SquareWishKnowledge.ts" />

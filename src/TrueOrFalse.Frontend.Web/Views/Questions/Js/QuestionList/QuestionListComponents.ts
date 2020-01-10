@@ -3,7 +3,7 @@
 
 Vue.component('question-component',
     {
-        props: ['questionId', 'questionTitle', 'questionImage', 'knowledgeState','isInWishknowledge','url'],
+        props: ['questionId', 'questionTitle', 'questionImage', 'knowledgeState', 'isInWishknowledge', 'url'],
         data() {
             return {
                 answer: "",
@@ -14,7 +14,7 @@ Vue.component('question-component',
                 authorId: "",
                 authorImage: "",
                 allDataLoaded: false,
-                state: "",
+                backgroundColor: { backgroundColor: '' },
                 correctnessProbability: "",
                 showFullQuestion: false,
                 commentCount: 0,
@@ -34,6 +34,20 @@ Vue.component('question-component',
             this.correctnessProbability = this.knowledgeState + "%";
         },
 
+        watch: {
+            correctnessProbability(val) {
+                if (this.isInWishknowledge) {
+                    if (val >= 80)
+                        this.backgroundColor = { backgroundColor: "#AFD534" };
+                    else if (val < 80 && val >= 50)
+                        this.backgroundColor = { backgroundColor: "#AFD534" };
+                    else if (val < 50 && val >= 0)
+                        this.backgroundColor = { backgroundColor: "#FFA07A" };
+                } else
+                    this.backgroundColor = { backgroundColor: "#949494" };
+            }
+        },
+
         methods: {
             expandQuestion() {
                 this.showFullQuestion = !this.showFullQuestion;
@@ -48,8 +62,15 @@ Vue.component('question-component',
                     data: { questionId: this.questionId },
                     type: "POST",
                     success: data => {
-                        this.answer = data.answer;
-                        this.extendedAnswer = data.extendedAnswer;
+                        if (data.answer == null || data.answer.length <= 0) {
+                            if (data.extendedAnswer && data.extendedAnswer > 0)
+                                this.answer = data.extendedAnswer;
+                            else
+                                this.answer = "Fehler: Keine Antwort!";
+                        } else {
+                            this.answer = data.answer;
+                            this.extendedAnswer = data.extendedAnswer;
+                        }
                         this.categories = data.categories;
                         this.references = data.references;
                         this.author = data.author;
@@ -90,6 +111,7 @@ Vue.component('question-list-component', {
             hasQuestions: false,
             showFirstPage: true,
             pageArray: [],
+            questionText: "Fragen",
         };
     },
 
@@ -110,6 +132,8 @@ Vue.component('question-list-component', {
         questions: function() {
             if (this.questions.length > 0)
                 this.hasQuestions = true;
+            if (this.questions.length == 1)
+                this.questionText = "Frage";
         },
         selectedPage: function(val) {
             this.loadQuestions(val);

@@ -1,5 +1,6 @@
 ﻿<%@ Control Language="C#" AutoEventWireup="true" Inherits="System.Web.Mvc.ViewUserControl<QuestionListModel>" %>
 <%@ Import Namespace="System.Web.Optimization" %>
+<%= Styles.Render("~/bundles/QuestionList") %>
 
 <%= Scripts.Render("~/bundles/js/QuestionListComponents") %>
 
@@ -17,33 +18,31 @@
                             von {{allQuestionCount}}
                         </span>
                         <span>
-                            Frage im Thema
+                            {{questionText}} im Thema
                         </span>
                     </div>
 
-                    <div>
+                    <div class="">
                         <i class="fas fa-ellipsis-v"></i>
                     </div>
                 </div>
 
             <question-component inline-template v-for="q in questions" :question-id="q.Id" :question-title="q.Title" :question-image="q.ImageData" :knowledge-state="q.CorrectnessProbability" :is-in-wishknowldge="q.IsInWishknowledge" :url="q.LinkToQuestion">
                 
-                <div class="singleQuestionRow" @click="expandQuestion()">
-                    <div class="knowledgeStatus" :class="state"></div>
+                <div class="singleQuestionRow" @click="expandQuestion()" :class="{ open: showFullQuestion }">
+                    <div class="knowledgeStatus" :style="backgroundColor"></div>
+                    <div class="questionImg">
+                        <img src="questionImage.Url"></img>
+                    </div>
                     <div class="questionContainer">
                         <div class="questionHeader">
-                            <div class="questionImg">
-                                <img src="questionImage.Url"></img>
-                            </div>
                             <div class="questionTitle">{{questionTitle}}</div>
-                            <div class="questionHeaderIcons">
-                                <i class="fas fa-heart"></i>
-                                <i class="fas fa-chevron-down"></i>
-                            </div>
                         </div>
                         <div class="extendedQuestionContainer" v-show="showFullQuestion">
                             <div class="questionBody">
-                                <div class="extendedQuestion"></div>
+                                <div class="extendedQuestion">
+                                    <component :is="questionDetails.extendedQuestion && {template:questionDetails.extendedQuestion}"></component>
+                                </div>
 
                                 <div class="answer">
                                     <strong>Antwort:</strong><br/>
@@ -60,11 +59,11 @@
                                 </div>
                                 <div class="questionDetails">
                                     <div class="questionCorrectnessProbability">
-                                        <span>{{correctnessProbability}} Wahrscheinlichkeit, dass du diese Frage richtig beantwortest</span>
+                                        <span>{{correctnessProbability}} Wahrscheinlichkeit, dass du diese Frage richtig beantwortest.</span>
                                     </div>
-                                    <div class="questionTotalAnswers">{{questionDetails.totalAnswers}}</div>
-                                    <div class="questionPersonalAnswers" v-if="isLoggedIn">{{questionDetails.personalAnswers}}</div>
-                                    <div class="questionViews">{{questionDetails.views}} <span></span></div>
+                                    <div class="questionTotalAnswers">Insgesamt {{questionDetails.totalAnswers}}x beantwortet.</div>
+                                    <div class="questionPersonalAnswers" v-if="isLoggedIn">Von dir {{questionDetails.personalAnswers}}x beantwortet.</div>
+                                    <div class="questionViews">{{questionDetails.views}}x angesehen.</div>
                                 </div>
                                 <div class="questionFooterIcons">
                                     <span>{{commentCount}}</span>
@@ -78,6 +77,14 @@
                             </div>
                         </div>
 
+                    </div>
+                    <div class="questionHeaderIcons">
+                        <div class="iconContainer">                        
+                            <i class="far fa-heart"></i>
+                        </div>
+                        <div class="iconContainer">
+                            <i class="fas fa-angle-down rotateIcon" :class="{ open : showFullQuestion }"></i>
+                        </div>
                     </div>
                 </div>
 
@@ -95,5 +102,6 @@
 
 
 <%= Scripts.Render("~/bundles/js/QuestionListApp") %>
+
 
 

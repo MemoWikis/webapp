@@ -48,7 +48,7 @@ public class QuestionListController : BaseController
             authorId = author.Id,
             authorImage = authorImage.Url,
             questionDetails = new {
-                extendedQuestion = question.TextExtended,
+                extendedQuestion = MarkdownInit.Run().Transform(question.TextExtended),
                 views = question.TotalViews,
                 totalAnswers = question.TotalAnswers(),
                 totalCorrectAnswers = question.TotalTrueAnswers,
