@@ -32,8 +32,8 @@
 <header id="MasterHeader">
     <div id="MasterHeaderContainer"class="container">
         <div class="row" style="background-color:#003264">
-            <div class="col-md-12" style="padding-right: 10px;">
-                <div class="row HeaderMainRow" style="background-color:#003264">
+           
+                <div class=" HeaderMainRow" style="background-color:#003264">
                     <div class="col-xs-6 col-Logo">
                         <a id="LogoLink" href="/">
                             <div id="Pictogram">
@@ -63,7 +63,7 @@
                         </div>
                     </div>                    
                 </div>
-            </div>
+           
         </div>
     </div>
 </header>
