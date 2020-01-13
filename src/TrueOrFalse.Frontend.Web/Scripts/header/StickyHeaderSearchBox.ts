@@ -20,27 +20,25 @@ function SearchButtonClick() {
     }
 
     function OpenStickyHeaderSearchBox() {
-            searchBox.classList.add("SearchBoxDivMaxWidth");
-            inputBox.style.padding = '6px 12px';
-            searchButton.style.border = '#979797 1px solid';
-            searchButton.style.background = '#ebebeb';
-            inputBox.style.border = '1px #979797 solid';
-            document.getElementById('KnowledgeImage').style.display = "none";
-            document.getElementById('BreadcrumbUserDropdownImage').style.display = "none";          
-            isStickyHeaderSearchBoxOpen = true;
-
-           
-    } 
+        searchBox.classList.add("SearchBoxDivMaxWidth");
+        inputBox.style.padding = '6px 12px';
+        searchButton.style.border = '#979797 1px solid';
+        searchButton.style.background = '#ebebeb';
+        inputBox.style.border = '1px #979797 solid';
+        document.getElementById('KnowledgeImage').style.display = "none";
+        document.getElementById('BreadcrumbUserDropdownImage').style.display = "none";
+        isStickyHeaderSearchBoxOpen = true;
+    }
 
     function CloseStickyHeaderSearchBox() {
-            searchBox.classList.remove("SearchBoxDivMaxWidth");
-            inputBox.style.padding = '0px';
-            searchButton.style.border = "none";
-            searchButton.style.background = "none";
-            inputBox.style.border = "none";
-            document.getElementById('KnowledgeImage').style.display = 'block';
-            document.getElementById('BreadcrumbUserDropdownImage').style.display = 'block';
-            isStickyHeaderSearchBoxOpen = false;
+        searchBox.classList.remove("SearchBoxDivMaxWidth");
+        inputBox.style.padding = '0px';
+        searchButton.style.border = "none";
+        searchButton.style.background = "none";
+        inputBox.style.border = "none";
+        document.getElementById('KnowledgeImage').style.display = 'block';
+        document.getElementById('BreadcrumbUserDropdownImage').style.display = 'block';
+        isStickyHeaderSearchBoxOpen = false;
     }
 
     function OpenSmallHeaderSearchBox() {
@@ -51,16 +49,32 @@ function SearchButtonClick() {
         smallHeaderInputBox.style.border = '1px #979797 solid';
         smallHeaderInputBox.style.display = 'block';
         isSmallHeaderSearchBoxOpen = true;
+        if ($(window).width() < 440 && !$("#SmallHeaderSearchBox").hasClass("SearchBoxDivMaxWidth")) {
+            $(".col-Logo").hide();
+            if ($(window).width() < 360 && $(".userImage").is(":visible"))
+                $("#Login").hide();
+        }
     }
 
     function CloseSmallHeaderSearchBox() {
-            smallHeaderSearchBox.classList.remove("SearchBoxDivMaxWidth");
-            smallHeaderInputBox.style.padding = '0px';
-            isSmallHeaderSearchBoxOpen = false;
-            smallHeaderInputBox.style.borderColor = '#003264';
-            smallHeaderInputBox.style.backgroundColor = 'transparent';       
+        smallHeaderSearchBox.classList.remove("SearchBoxDivMaxWidth");
+        smallHeaderInputBox.style.padding = '0px';
+        isSmallHeaderSearchBoxOpen = false;
+        smallHeaderInputBox.style.borderColor = '#003264';
+        smallHeaderInputBox.style.backgroundColor = 'transparent';
+
+        (async () => {
+            await delay(100);
+            $(".col-Logo").fadeIn();
+            $("#Login").fadeIn();
+        })();
+
     }
 
+
+    function delay(ms: number) {
+        return new Promise(resolve => setTimeout(resolve, ms));
+    }
 
     $(document).mouseup((e) => {
         if ($("#SmallHeaderSearchBox, #SmallHeaderSearchBoxDiv").has(e.target).length === 0 &&
