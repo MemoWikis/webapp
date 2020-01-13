@@ -60,4 +60,10 @@ public class QuestionListController : BaseController
 
         return json;
     }
+
+    [HttpPost]
+    public string RenderWishknowledgePinButton(bool isInWishknowledge)
+    {
+        return ViewRenderer.RenderPartialView("~/Views/Shared/AddToWishknowledgeButtonQuestionDetail.ascx", new AddToWishknowledge(isInWishknowledge, true), ControllerContext);
+    }
 }

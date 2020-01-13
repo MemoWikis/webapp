@@ -13,7 +13,7 @@ namespace QuestionListJson
         public string Title { get; set; }
         public int CorrectnessProbability { get; set; }
         public string LinkToQuestion { get; set; }
-        public ImageUrl ImageData { get; set; }
+        public string ImageData { get; set; }
         public bool IsInWishknowledge { get; set; }
         public bool HasPersonalAnswer { get; set; }
     }

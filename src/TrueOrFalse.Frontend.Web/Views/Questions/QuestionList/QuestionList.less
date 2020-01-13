@@ -1,9 +1,24 @@
 ﻿
 #QuestionListApp {
-    margin: 0 -10px;
+    margin: 40px -10px 0px;
+
+    .questionListHeader {
+        display: flex;
+        justify-content: space-between;
+
+        .questionListTitle {
+            font-size: 24px;
+            padding: 8px;
+        }
+
+        .questionListFilter {
+            font-size: 18px;
+            padding: 8px;
+        }
+    }
 
     .singleQuestionRow {
-        height: 47px;
+        height: 57px;
         width: 100%;
         font-family: "Open Sans";
         font-size: 14px;
@@ -38,6 +53,12 @@
                     min-width: 75px;
                     height: 100%;
                     padding: 8px;
+
+                    img {
+                        width: 40px;
+                        height: 40px;
+                        border-radius: 50%;
+                    }
                 }
 
                 .questionContainer {
@@ -45,6 +66,7 @@
 
                     .questionBodyTop {
                         display: flex;
+                        max-width: 100%;
 
                         .questionContainerTopSection {
                             flex: 1 1 100%;
@@ -54,11 +76,15 @@
                                 display: flex;
                                 flex-wrap: nowrap;
                                 justify-content: space-between;
+                                min-width: 0;
+
+                                &:hover {
+                                    cursor: pointer;
+                                }
 
                                 .questionTitle {
-                                    padding: 8px;
+                                    padding: 16px 8px;
                                     font-size: 16px;
-                                    line-height: 31px;
                                     min-width: 0;
 
                                     &.trimTitle {
@@ -81,9 +107,22 @@
                                 .iconContainer {
                                     padding: 8px;
                                     min-width: 40px;
+                                    height: 57px;
+                                    width: 40px;
+                                    max-width: 40px;
+                                    text-align: center;
+
+                                    .Pin {
+                                        line-height: 49px;
+
+                                        .iAdded, .iAddedNot, iAddSpinner {
+                                            padding: 0;
+                                        }
+                                    }
 
                                     .rotateIcon {
                                         transition: all .2s ease-out;
+                                        line-height: 41px;
 
                                         &.open {
                                             transform: rotate(180deg);
@@ -125,15 +164,49 @@
                             .questionDetailRow {
                                 display: flex;
                                 flex-wrap: nowrap;
+                                padding: 4px 0;
+                                height: 28px;
+
+                                &.questionCorrectnessProbability {
+                                    height: 32px;
+                                }
 
                                 .questionDetailIcon {
                                     width: 75px;
-                                    padding: 8px;
+                                    padding: 0 0 0 32px;
                                     text-align: center;
+                                    font-size: 18px;
+
+                                    &.probability {
+                                        font-weight: bold;
+                                    }
+
+                                    canvas {
+                                        height: 16px !important;
+                                        width: 16px !important;
+                                    }
+
+                                    .Pin {
+
+                                        .iAdded, .iAddedNot, iAddSpinner {
+                                            padding: 0;
+                                            height: unset;
+                                            line-height: unset;
+
+                                            i {
+                                                font-size: 18px !important;
+                                            }
+                                        }
+                                    }
                                 }
 
                                 .questionDetailLabel {
                                     padding-left: 8px;
+                                    line-height: 28px;
+
+                                    br {
+                                        line-height: unset;
+                                    }
                                 }
                             }
                         }
