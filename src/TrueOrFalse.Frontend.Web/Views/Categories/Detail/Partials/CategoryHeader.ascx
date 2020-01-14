@@ -61,17 +61,17 @@
     <% if (!Model.Category.IsHistoric) { %>
         <div id="TabsBar">
             <div id="CategoryTabsApp" class="Tabs">
-                <div id="TopicTab" class="Tab">
+                <div id="TopicTab" class="Tab" data-url="<%=Links.CategoryDetail(Model.Name, Model.Id) %>" >
                     <a href="">
                         <%= Model.Category.Type == CategoryType.Standard ? "Thema" : "Übersicht" %>
                     </a>
                 </div>
-                <div id="LearningTab" class="Tab">
+                <div id="LearningTab" class="Tab" data-url="<%=Links.CategoryDetailLearningTab(Model.Name, Model.Id) %>">
                     <a href="" >
                         Lernen
                     </a>
                 </div>
-                <div id="AnalyticsTab" class="Tab">
+                <div id="AnalyticsTab" class="Tab" data-url="<%=Links.CategoryDetailAnalyticsTab(Model.Name, Model.Id) %>" >
                     <a href="">
                         Wissensnetz
                     </a>

@@ -5,7 +5,7 @@
     private _categoryVersion = null;
     private _tab: Tabbing;
     private _lastTabName: string;
-    private _url: string; 
+    private _url: string;
 
     constructor() {
         this.CategoryId = $("#hhdCategoryId").val();
@@ -23,36 +23,30 @@
                 this.renderOrDisplayTab(this._url);
             });
 
-            this.renderOrDisplayTab(this._url);
+        this.renderOrDisplayTab(this._url);
     }
 
     private pushUrlAndSetActiveByClick(_categoryName: string) {
 
-        const url = '/' + this._categoryName + '/' + this.CategoryId;
+            $("#TopicTab").on("click",
+                (e) => {
+                    e.preventDefault();
+                    this.historyPushAndSetActive($("#TopicTab").attr("data-url"), "TopicTab");
+                });
 
-        $("#TopicTab").on("click",
-            (e) => {
-                e.preventDefault();
-                const tabName = "TopicTab";
-                this.historyPushAndSetActive(url, tabName);
-            });
+            $("#LearningTab,#LearningFooterBtn").on("click",
+                (e) => {
+                    e.preventDefault();
+                    this.historyPushAndSetActive($("#LearningTab").attr("data-url"), "LearningTab");
+                });
 
-        $("#LearningTab,#LearningFooterBtn").on("click",
-            (e) => {
-                e.preventDefault();
-                var newUrl = url + '/Lernen';
-                const tabName = "LearningTab";
-                this.historyPushAndSetActive(newUrl, tabName);
-            });
-
-        $("#AnalyticsTab,#AnalyticsFooterBtn").on("click",
-            (e) => {
-                e.preventDefault();
-                var newUrl = url + '/Wissensnetz';
-                const tabName = "AnalyticsTab";
-                this.historyPushAndSetActive(newUrl, tabName);
-            });
+            $("#AnalyticsTab,#AnalyticsFooterBtn").on("click",
+                (e) => {
+                    e.preventDefault();
+                    this.historyPushAndSetActive($("#AnalyticsTab").attr("data-url"), "AnalyticsTab");
+                });
     }
+
 
     private historyPushAndSetActive(currentUrl: string, tabName: string) {
 
@@ -64,7 +58,7 @@
     }
 
     private hasAndSetTabActive() {
-        let url = window.location.pathname; 
+        let url = window.location.pathname;
         if (url.indexOf("Lernen") > 0 && !$("#LearningTab").hasClass("active")) {
             $("#AnalyticsTab").removeClass("active");
             $("#TopicTab").removeClass("active");
