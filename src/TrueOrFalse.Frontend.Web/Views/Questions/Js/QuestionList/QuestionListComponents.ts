@@ -15,6 +15,11 @@ Vue.component('question-list-component', {
             showFirstPage: true,
             pageArray: [],
             questionText: "Fragen",
+            hideLeftPageSelector: false,
+            hideRightPageSelector: false,
+            leftSelectorArray: [],
+            rightSelectorArray: [],
+            centerArray: [],
         };
     },
 
@@ -25,7 +30,6 @@ Vue.component('question-list-component', {
     mounted() {
         this.categoryId = $("#hhdCategoryId").val();
         this.initQuestionList();
-        this.pages = Math.ceil(this.allQuestionCount / this.itemCountPerPage);
     },
 
     watch: {
@@ -54,10 +58,12 @@ Vue.component('question-list-component', {
 
     methods: {
         initQuestionList() {
+            this.pages = Math.ceil(this.allQuestionCount / this.itemCountPerPage);
             this.loadQuestions(1);
         },
 
         loadQuestions(selectedPage) {
+
             $.ajax({
                 url: "/QuestionList/LoadQuestions/",
                 data: {
@@ -68,8 +74,67 @@ Vue.component('question-list-component', {
                 type: "POST",
                 success: questions => {
                     this.questions = questions;
-                }
+                    this.selectedPage = selectedPage;
+                },
             });
+            this.$nextTick(function () {
+                this.setPaginationRanges(selectedPage);
+            });
+        },
+
+
+        setPaginationRanges(selectedPage) {
+            if ((selectedPage - 2) <= 2) {
+                this.hideLeftPageSelector = true;
+            };
+            if ((selectedPage + 2) >= this.pageArray.length) {
+                this.hideRightPageSelector = true;
+            };
+
+            let leftArray = [];
+            let centerArray = [];
+            let rightArray = [];
+
+            if (this.pageArray.length >= 6) {
+                if (selectedPage == 1) {
+                    centerArray = _.range(selectedPage + 1, selectedPage + 3);
+                    rightArray = _.range(selectedPage + 4, this.pageArray.length - 1);
+                }
+                else if (selectedPage == 2) {
+                    centerArray = _.range(selectedPage, selectedPage + 2);
+                    rightArray = _.range(selectedPage + 3, this.pageArray.length - 1);
+                }
+                else if (selectedPage >= 3 && selectedPage <= this.pageArray.length - 2) {
+                    centerArray = _.range(selectedPage - 1, selectedPage + 2);
+                    leftArray = _.range(2, selectedPage - 2);
+                    rightArray = _.range(selectedPage + 2, this.pageArray.length - 1);
+                }
+                else if (selectedPage == this.pageArray.length - 1) {
+                    centerArray = _.range(selectedPage - 1, selectedPage + 1);
+                    leftArray = _.range(2, selectedPage - 2);
+                }
+                else if (selectedPage == this.pageArray.length) {
+                    centerArray = _.range(selectedPage - 2, selectedPage);
+                    leftArray = _.range(2, selectedPage - 2);
+                }
+
+                this.leftSelectorArray = leftArray;
+                this.centerArray = centerArray;
+                this.rightSelectorArray = rightArray;    
+
+            } else {
+                this.centerArray = this.pageArray;
+            };
+        },
+
+        loadPreviousQuestions() {
+            if (this.selectedPage != 1)
+                this.loadQuestions(this.selectedPage - 1);
+        },
+
+        loadNextQuestions() {
+            if (this.selectedPage != this.pageArray.length)
+                this.loadQuestions(this.selectedPage + 1);
         },
     },
 });
@@ -213,6 +278,3 @@ Vue.component('question-component',
         }
 
     });
-
-Vue.component('vue-ads-pagination', VueAdsPagination);
-
