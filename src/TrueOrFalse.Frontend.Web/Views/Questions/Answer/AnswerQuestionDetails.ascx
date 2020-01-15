@@ -2,21 +2,26 @@
 <%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
 
 <div id="QuestionDetails" data-div-type="questionDetails">
-    <div class="row">
-        <div class="separationBorderTop" style="min-height: 20px;"></div>
-    </div>
+    <%if (Model.ShowCategoryList) {%>
+        <div class="row">
+            <div class="separationBorderTop" style="min-height: 20px;"></div>
+        </div>
+    <%} %>
     <div class="row question-details">
-        <div class="col-lg-6 col-sm-6">
-            <span class=" category-set">
-                <span id="Category">
-                    <% if (Model.Categories.Count > 0)
-                        { %>
+        <%if (Model.ShowCategoryList) {%>
+            <div class="col-lg-6 col-sm-6">
+                <span class=" category-set">
+                    <span id="Category">
+                        <% if (Model.Categories.Count > 0)
+                           { %>
                             <div id="ChipHeader"><%= Model.Categories.Count > 1 ? "Zu diesen Themen zugeordnet":"Zu diesem Thema zugeordnet" %>:</div> 
                             <% Html.RenderPartial("CategoriesOfQuestion", Model.Question); %>
-                    <%  } %>
+                        <%  } %>
+                    </span>
                 </span>
-            </span>
-        </div>
+            </div>
+
+        <%} %>
         <div class="col-lg-6 col-sm-6 second-row">
             <div id="QuestionDetailsStatistic">
                 <div id="StatsHeader">Statistik:</div> 

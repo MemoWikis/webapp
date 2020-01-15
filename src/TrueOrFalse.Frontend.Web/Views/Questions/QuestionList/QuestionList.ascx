@@ -5,14 +5,12 @@
 <%= Scripts.Render("~/bundles/js/QuestionListComponents") %>
 
 
-<div id="QuestionListApp">
-    
-    <div>
-        <question-list-component inline-template category-id="<%= Model.CategoryId %>" all-question-count="<%= Model.AllQuestionCount %>">
+<div id="QuestionListApp" class="row">
+    <question-list-component inline-template category-id="<%= Model.CategoryId %>" all-question-count="<%= Model.AllQuestionCount %>">
             
-            <div>
-                <div class="questionListHeader">
-                    <div class="questionListTitle">
+            <div class="col-xs-12">
+                <div class="questionListHeader row">
+                    <div class="questionListTitle col-xs-11">
                         <span>{{questions.length}}</span>
                         <span v-if="questions.length < allQuestionCount">
                             von {{allQuestionCount}}
@@ -22,162 +20,170 @@
                         </span>
                     </div>
 
-                    <div class="questionListFilter">
+                    <div class="questionListFilter col-xs-1 float-right">
                         <i class="fas fa-ellipsis-v"></i>
                     </div>
                 </div>
 
                 <question-component inline-template v-for="q in questions" :question-id="q.Id" :question-title="q.Title" :question-image="q.ImageData" :knowledge-state="q.CorrectnessProbability" :is-in-wishknowledge="q.IsInWishknowledge" :url="q.LinkToQuestion" :has-personal-answer="q.HasPersonalAnswer">
                     
-                    <div class="singleQuestionRow" :class="{ open: showFullQuestion }">
-                        <div class="knowledgeStatus" :style="backgroundColor"></div>
-                        <div class="questionSectionFlex">
-                            <div class="questionSection">
-
-                                <div class="questionContainer">
+                    <div class="singleQuestionRow row" :class="[{ open: showFullQuestion }, backgroundColor]">
+                        <div class="questionSectionFlex col-auto">
+                            <div class="questionContainer">
                                     
-                                    <div class="questionBodyTop">
+                                <div class="questionBodyTop row">
                                         
-                                        <div class="questionImg">
+                                        <div class="questionImg col-xs-1" @click="expandQuestion()">
                                             <img :src="questionImage"></img>
                                         </div>
                                         
-                                        <div class="questionContainerTopSection" >
-                                            <div class="questionHeader" @click="expandQuestion()">
-                                                <div class="questionTitle" ref="questionTitle" :id="questionTitleId" :class="{ trimTitle : !showFullQuestion }">{{questionTitle}}</div>
-                                                <div class="questionHeaderIcons">
-                                                    <div class="iconContainer">
-                                                        <span :id="pinId" class="Pin" :data-question-id="questionId">
-                                                        </span>
-<%--                                                        <i class="far fa-heart"></i>--%>
-                                                    </div>
-                                                    <div class="iconContainer">
+                                        <div class="questionContainerTopSection col-xs-11" >
+                                            <div class="questionHeader row">
+                                                <div class="questionTitle col-xs-10" ref="questionTitle" :id="questionTitleId" :class="{ trimTitle : !showFullQuestion }" @click.self="expandQuestion()">{{questionTitle}}</div>
+                                                <div class="questionHeaderIcons col-xs-2 row"  @click.self="expandQuestion()">
+                                                    <div class="iconContainer col-xs-6 float-right" @click="expandQuestion()">
                                                         <i class="fas fa-angle-down rotateIcon" :class="{ open : showFullQuestion }"></i>
                                                     </div>
+                                                    <div class="iconContainer col-xs-6">
+                                                        <span :id="pinId" class="Pin" :data-question-id="questionId">
+                                                        </span>
+                                                    </div>
                                                 </div>
                                             </div>
-                                        <div class="extendedQuestionContainer" v-show="showFullQuestion">
-                                            <div class="questionBody">
-                                                <div class="extendedQuestion">
-                                                    <component :is="questionDetails.extendedQuestion && {template:questionDetails.extendedQuestion}"></component>
-                                                </div>
+                                            <div class="extendedQuestionContainer" v-show="showFullQuestion">
+                                                <div class="questionBody">
+                                                    <div class="extendedQuestion">
+                                                        <component :is="extendedQuestion && {template:extendedQuestion}"></component>
+                                                    </div>
 
-                                                <div class="answer">
-                                                    <strong>Antwort:</strong><br/>
-                                                    {{answer}}
-                                                </div>
-                                                <div class="extendedAnswer" v-if="extendedAnswer != null && extendedAnswer.length > 0">
-                                                    <strong>Ergänzungen zur Antwort:</strong><br/>
-                                                    {{extendedAnswer}}
-                                                </div>
-                                                <div class="notes">
-                                                    <div class="relatedCategories">Thema: <a v-for="c in categories" :href="c.url">{{c.name}}, </a></div>
-                                                    <div class="author">Erstellt von: <a :href="author.url">{{author}}</a></div>
-                                                    <div class="sources" v-if="references">Quelle: <a v-for="r in references" :href="r.referenceText">{{r.referenceText}}</a></div>
+                                                    <div class="answer">
+                                                        <strong>Antwort:</strong><br/>
+                                                        {{answer}}
+                                                    </div>
+                                                    <div class="extendedAnswer" v-if="extendedAnswer != null && extendedAnswer.length > 0">
+                                                        <strong>Ergänzungen zur Antwort:</strong><br/>
+                                                        {{extendedAnswer}}
+                                                    </div>
+                                                    <div class="notes">
+                                                        <div class="relatedCategories">Thema: <a v-for="c in categories" :href="c.url">{{c.name}}, </a></div>
+                                                        <div class="author">Erstellt von: <a :href="author.url">{{author}}</a></div>
+                                                        <div class="sources" v-if="references">Quelle: <a v-for="r in references" :href="r.referenceText">{{r.referenceText}}</a></div>
+                                                    </div>
                                                 </div>
                                             </div>
-                                        </div>
                                         </div>
 
                                     </div>
-                                    <div class="questionBodyBottom" v-show="showFullQuestion">
-                                        <div class="questionDetails">
-
-                                            <div class="questionCorrectnessProbability questionDetailRow">
-                                                <div class="questionDetailIcon probability">
-                                                    {{correctnessProbability}}
+                                <div class="questionBodyBottom" v-show="showFullQuestion">
+                                        <div :id="questionDetailsId" class="questionDetails" >
+                                        </div>
+                                        <div class="row">
+                                            <div class="questionFooterIcons col-xs-3 row pull-right">
+                                                <div class="footerIcon col-xs-6 pull-right ellipsis dropup" @click="showQuestionMenu = true">
+                                                    <i class="fas fa-ellipsis-v" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true"></i>
+                                                    <ul class="dropdown-menu dropdown-menu-right" v-show="showQuestionMenu">
+                                                        <li>
+                                                            <a :href="url">Frageseite anzeigen</a>
+                                                        </li>
+                                                        <li v-if="isCreator">
+                                                            <a>Frage bearbeiten</a>
+                                                        </li>
+                                                        <li>
+                                                            <a>Frage einbetten</a>
+                                                        </li>
+                                                        <li>
+                                                            <a>Frage löschen</a>
+                                                        </li>
+                                                        <li>
+                                                            <a>Versionen anzeigen</a>
+                                                        </li>
+                                                    </ul>
                                                 </div>
-                                                <div class="questionDetailLabel">
-                                                    Wahrscheinlichkeit, dass du diese Frage richtig beantwortest. (Basis: Alle memucho-Nutzer).
-                                                </div>
-                                            </div>
-
-                                            <div class="questionTotalAnswers questionDetailRow">
-                                                <div class="questionDetailIcon">
-                                                    <span class="sparklineTotals" :data-answerstrue="questionDetails.totalCorrectAnswers" :data-answersfalse="questionDetails.totalWrongAnswers"></span>
-                                                </div>
-                                                <div class="questionDetailLabel">
-                                                    Insgesamt <b>{{questionDetails.totalAnswers}}</b>x beantwortet, davon <b>{{questionDetails.totalCorrectAnswers}}</b>x richtig
-                                                </div>
-                                            </div>
-
-                                            <div class="questionPersonalAnswers questionDetailRow" v-if="isLoggedIn">
-                                                <div class="questionDetailIcon">
-                                                    <span class="sparklineTotalsUser" :data-answerstrue="questionDetails.personalCorrectAnswers" :data-answersfalse="questionDetails.personalWrongAnswers"></span>
-                                                </div>
-                                                <div class="questionDetailLabel">
-                                                    Von dir <b>{{questionDetails.personalAnswers}}</b>x beantwortet.
-                                                </div>
-                                            </div>
-
-                                            <div class="questionViews questionDetailRow">
-                                                <div class="questionDetailIcon">
-                                                    <i class="fa fa-eye greyed"></i>
-                                                </div>
-                                                <div class="questionDetailLabel">
-                                                    Diese Frage wurde <b>{{questionDetails.views}}</b>x angesehen.
+                                                <div class="footerIcon col-xs-6 pull-right fullWidth">
+                                                    <span>{{commentCount}}</span>
+                                                    <i class="far fa-comment"></i>
                                                 </div>
                                             </div>
-
-                                            <div class="questionInWishknowledgeCount questionDetailRow">
-                                                <div class="questionDetailIcon">
-                                                    <span :id="innerPinId" class="Pin" :data-question-id="questionId">
-                                                    </span>
-                                                </div>
-                                                <div class="questionDetailLabel">
-                                                    <b>{{questionDetails.inWishknowledgeCount}}x</b> im Wunschwissen.
-                                                </div>
-                                            </div>
-
                                         </div>
 
-                                        <div class="questionFooterIcons">
-                                            <span>{{commentCount}}</span>
-                                            <i class="far fa-comment"></i>
-                                            <i class="fas fa-ellipsis-v"></i>
-                                        </div>
                                     </div>
 
-                                </div>
-                            </div>
-                            
-                            <div class="questionFooter" v-show="showFullQuestion">
-                                <div class="questionFooterLabel btn-link"><a :href="url">Lernen</a></div>
-                                <div class="questionFooterLabel btn-link"><a :href="linkToFirstCategory">Zur Themenseite</a></div>
                             </div>
                         </div>
 
                     </div>
 
                 </question-component>
-                <ul class="pagination">
-                    <li class="page-item" :class="{ disabled : selectedPage == 1 }">
-                        <span class="page-link" @click="loadPreviousQuestions()">Previous</span>
-                    </li>
-                    <li class="page-item" @click="loadQuestions(1)" :class="{ active : selectedPage == 1 }">
-                        <span class="page-link">1</span>
-                    </li>
-                    <li class="page-item" v-show="leftSelectorArray.length > 0">
-                        <span class="page-link">...</span>
-                    </li>
-                    <li class="page-item" v-for="(p, key) in centerArray" @click="loadQuestions(p)" :class="{ active : selectedPage == p }">
-                        <span class="page-link">{{p}}</span>
-                    </li>
-                    <li class="page-item" v-show="rightSelectorArray.length > 0">
-                        <span class="page-link">...</span>
-                    </li>
-                    <li class="page-item" @click="loadQuestions(pageArray.length)" :class="{ active : selectedPage == pageArray.length }">
-                        <span class="page-link">{{pageArray.length}}</span>
-                    </li>
-                    <li class="page-item" :class="{ disabled : selectedPage == pageArray.length }">
-                        <span class="page-link" @click="loadNextQuestions()">Next</span>
-                    </li>
-                </ul>
+                <div id="QuestionListPagination">
+                    <ul class="pagination col-xs-12 row justify-content-xs-center" v-if="pageArray.length <= 8">
+                        <li class="page-item" :class="{ disabled : selectedPage == 1 }">
+                            <span class="page-link" @click="loadPreviousQuestions()">Vorherige</span>
+                        </li>
+                        <li class="page-item" v-for="(p, key) in pageArray" @click="loadQuestions(p)" :class="{ selected : selectedPage == p }">
+                            <span class="page-link">{{p}}</span>
+                        </li>
+                        <li class="page-item" :class="{ disabled : selectedPage == pageArray.length }">
+                            <span class="page-link" @click="loadNextQuestions()">Nächste</span>
+                        </li>
+                    </ul>
+
+                    <ul class="pagination col-xs-12 row justify-content-xs-center" v-else>
+                        <li class="page-item col-auto" :class="{ disabled : selectedPage == 1 }">
+                            <span class="page-link" @click="loadPreviousQuestions()">Vorherige</span>
+                        </li>
+                        <li class="page-item col-auto" @click="loadQuestions(1)" :class="{ selected : selectedPage == 1 }">
+                            <span class="page-link">1</span>
+                        </li>
+                        <li class="page-item col-auto" v-show="selectedPage == 5">
+                            <span class="page-link">2</span>
+                        </li>
+                        <li class="page-item col-auto" v-show="showLeftPageSelector" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                            <span class="page-link" v-on:click.this="{showLeftSelectionDropUp = !showLeftSelectionDropUp}">
+                                <div class="dropup" v-on:click.this="{showLeftSelectionDropUp = !showLeftSelectionDropUp}">
+                                    <div class="dropdown-toggle" type="button" id="DropUpMenuLeft" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-on:click="{showLeftSelectionDropUp = !showLeftSelectionDropUp}">
+                                        ...
+                                    </div>
+                                    <ul id="DropUpMenuLeftList" class="pagination dropdown-menu" aria-labelledby="DropUpMenuLeft" v-show="showLeftSelectionDropUp">
+                                        <li class="page-item" v-for="p in leftSelectorArray" @click="loadQuestions(p)">
+                                            <span class="page-link">{{p}}</span>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </span>
+                        </li>
+                        <li class="page-item col-auto" v-for="(p, key) in centerArray" @click="loadQuestions(p)" :class="{ selected : selectedPage == p }">
+                            <span class="page-link">{{p}}</span>
+                        </li>
+
+                        <li class="page-item col-auto" v-show="showRightPageSelector" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                            <span class="page-link" v-on:click.this="{showRightSelectionDropUp = !showRightSelectionDropUp}">
+                                <div class="dropup" v-on:click.this="{showRightSelectionDropUp = !showRightSelectionDropUp}">
+                                    <div class="dropdown-toggle" type="button" id="DropUpMenuRight" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-on:click="{showRightSelectionDropUp = !showRightSelectionDropUp}">
+                                        ...
+                                    </div>
+                                    <ul id="DropUpMenuRightList" class="pagination dropdown-menu" aria-labelledby="DropUpMenuLeft" v-show="showRightSelectionDropUp">
+                                        <li class="page-item" v-for="p in rightSelectorArray" @click="loadQuestions(p)">
+                                            <span class="page-link">{{p}}</span>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </span>
+                        </li>
+                        <li class="page-item col-auto" v-show="selectedPage == pageArray.length - 4">
+                            <span class="page-link">{{pageArray.length - 1}}</span>
+                        </li>
+                        <li class="page-item col-auto" @click="loadQuestions(pageArray.length)" :class="{ selected : selectedPage == pageArray.length }">
+                            <span class="page-link">{{pageArray.length}}</span>
+                        </li>
+                        <li class="page-item col-auto" :class="{ disabled : selectedPage == pageArray.length }">
+                            <span class="page-link" @click="loadNextQuestions()">Nächste</span>
+                        </li>
+                    </ul>
+                </div>
+                
             </div>
 
         </question-list-component>
-    </div>
-
 </div>
 
 

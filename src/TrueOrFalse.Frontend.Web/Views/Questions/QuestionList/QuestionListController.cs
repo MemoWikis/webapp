@@ -47,15 +47,13 @@ public class QuestionListController : BaseController
             author = author.Name,
             authorId = author.Id,
             authorImage = authorImage.Url,
-            questionDetails = new {
-                extendedQuestion = MarkdownInit.Run().Transform(question.TextExtended),
-                views = question.TotalViews,
-                totalAnswers = question.TotalAnswers(),
-                totalCorrectAnswers = question.TotalTrueAnswers,
-                personalAnswers = valuationForUser.Total(),
-                personalCorrectAnswer = valuationForUser.TotalTrue,
-                inWishknowledgeCount = question.TotalRelevancePersonalEntries
-            },
+            extendedQuestion = MarkdownInit.Run().Transform(question.TextExtended),
+            commentCount = Resolve<CommentRepository>().GetForDisplay(question.Id)
+                .Where(c => !c.IsSettled)
+                .Select(c => new CommentModel(c))
+                .ToList()
+                .Count(),
+            isCreator = author.Id == _sessionUser.UserId,
         });
 
         return json;

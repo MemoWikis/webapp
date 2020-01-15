@@ -32,7 +32,6 @@ public class QuestionListModel : BaseModel
     public static List<QuestionListJson.Question> PopulateQuestionsOnPage(int categoryId, int currentPage, int itemCount, bool isLoggedIn)
     {
         var allQuestions = GetAllQuestions(categoryId);
-
         var questionsOfCurrentPage = allQuestions.Skip(itemCount * (currentPage - 1)).Take(itemCount).ToList();
         var newQuestionList = new List<QuestionListJson.Question>();
 

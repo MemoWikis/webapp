@@ -15,11 +15,13 @@ Vue.component('question-list-component', {
             showFirstPage: true,
             pageArray: [],
             questionText: "Fragen",
-            hideLeftPageSelector: false,
-            hideRightPageSelector: false,
+            showLeftPageSelector: false,
+            showRightPageSelector: false,
             leftSelectorArray: [],
             rightSelectorArray: [],
             centerArray: [],
+            showLeftSelectionDropUp: false,
+            showRightSelectionDropUp: false,
         };
     },
 
@@ -53,6 +55,20 @@ Vue.component('question-list-component', {
                 currentNumber = currentNumber + 1;
             }
             this.pageArray = newArray;
+        },
+        leftSelectorArray: function() {
+            if (this.leftSelectorArray.length >= 2) {
+                this.showLeftPageSelector = true;
+            }
+            else
+                this.showLeftPageSelector = false;
+        },
+        rightSelectorArray: function () {
+            if (this.rightSelectorArray.length >= 2) {
+                this.showRightPageSelector = true;
+            }
+            else
+                this.showRightPageSelector = false;
         }
     },
 
@@ -77,6 +93,9 @@ Vue.component('question-list-component', {
                     this.selectedPage = selectedPage;
                 },
             });
+            this.showLeftSelection = false;
+            this.showRightSelectionDropUp = false;
+
             this.$nextTick(function () {
                 this.setPaginationRanges(selectedPage);
             });
@@ -95,31 +114,16 @@ Vue.component('question-list-component', {
             let centerArray = [];
             let rightArray = [];
 
-            if (this.pageArray.length >= 6) {
-                if (selectedPage == 1) {
-                    centerArray = _.range(selectedPage + 1, selectedPage + 3);
-                    rightArray = _.range(selectedPage + 4, this.pageArray.length - 1);
-                }
-                else if (selectedPage == 2) {
-                    centerArray = _.range(selectedPage, selectedPage + 2);
-                    rightArray = _.range(selectedPage + 3, this.pageArray.length - 1);
-                }
-                else if (selectedPage >= 3 && selectedPage <= this.pageArray.length - 2) {
-                    centerArray = _.range(selectedPage - 1, selectedPage + 2);
-                    leftArray = _.range(2, selectedPage - 2);
-                    rightArray = _.range(selectedPage + 2, this.pageArray.length - 1);
-                }
-                else if (selectedPage == this.pageArray.length - 1) {
-                    centerArray = _.range(selectedPage - 1, selectedPage + 1);
-                    leftArray = _.range(2, selectedPage - 2);
-                }
-                else if (selectedPage == this.pageArray.length) {
-                    centerArray = _.range(selectedPage - 2, selectedPage);
-                    leftArray = _.range(2, selectedPage - 2);
-                }
+            if (this.pageArray.length >= 8) {
 
-                this.leftSelectorArray = leftArray;
+                centerArray = _.range(selectedPage - 2, selectedPage + 3);
+                centerArray = centerArray.filter(e => e >= 2 && e <= this.pageArray.length - 1);
+
+                leftArray = _.range(2, centerArray[0]);
+                rightArray = _.range(centerArray[centerArray.length - 1] + 1, this.pageArray.length);
+
                 this.centerArray = centerArray;
+                this.leftSelectorArray = leftArray;
                 this.rightSelectorArray = rightArray;    
 
             } else {
@@ -152,26 +156,18 @@ Vue.component('question-component',
                 authorId: "",
                 authorImage: "",
                 allDataLoaded: false,
-                backgroundColor: { backgroundColor: '' },
+                backgroundColor: "",
                 correctnessProbability: "",
                 showFullQuestion: false,
                 commentCount: 0,
-                questionDetails: {
-                    extendedQuestion: "",
-                    views: 0,
-                    totalAnswers: 0,
-                    totalCorrectAnswers: 0,
-                    totalWrongAnswers: 0,
-                    personalAnswers: 0,
-                    personalCorrectAnswers: 0,
-                    inWishknowledgeCount: 0,
-                },
+                extendedQuestion: "",
                 isLoggedIn: IsLoggedIn.Yes,
                 pinId: "QuestionListPin-" + this.questionId,
-                innerPinId: "InnerQuestionListPin-" + this.questionId,
-                linkToFirstCategory: "",
                 questionTitleId: "#QuestionTitle-" + this.questionId,
-            }
+                questionDetailsId: "QuestionDetails-" + this.questionId,
+                showQuestionMenu: false,
+                isCreator: false,
+            }   
         },
 
         mounted() {
@@ -191,23 +187,25 @@ Vue.component('question-component',
                 if (this.isInWishknowledge) {
                     if (this.hasPersonalAnswer) {
                         if (val >= 80)
-                            this.backgroundColor = { backgroundColor: "#AFD534" };
+                            this.backgroundColor = "solid";
                         else if (val < 80 && val >= 50)
-                            this.backgroundColor = { backgroundColor: "#AFD534" };
+                            this.backgroundColor = "shouldConsolidate";
                         else if (val < 50 && val >= 0)
-                            this.backgroundColor = { backgroundColor: "#FFA07A" };
+                            this.backgroundColor = "shouldLearn";
                     }
                     else {
-                        this.backgroundColor = { backgroundColor: "#949494" };
+                        this.backgroundColor = "inWishknowledge";
                     }
                 } else
-                    this.backgroundColor = { backgroundColor: "#D6D6D6" };
+                    this.backgroundColor = "";
+
             },
 
             expandQuestion() {
                 this.showFullQuestion = !this.showFullQuestion;
                 if (this.allDataLoaded == false) {
                     this.loadQuestionBody();
+                    this.loadQuestionDetails();
                 };
             },
 
@@ -234,20 +232,9 @@ Vue.component('question-component',
                         this.author = data.author;
                         this.authorImage = data.authorImage;
                         this.allDataLoaded = true;
-                        this.questionDetails = {
-                            extendedQuestion: data.questionDetails.extendedQuestion,
-                            views: data.questionDetails.views,
-                            totalAnswers: data.questionDetails.totalAnswers,
-                            totalCorrectAnswers: data.questionDetails.totalCorrectAnswers,
-                            totalWrongAnswers: data.questionDetails.totalAnswers - data.questionDetails.totalCorrectAnswers,
-                            personalAnswers: data.questionDetails.personalAnswers,
-                            personalCorrectAnswers: data.questionDetails.personalCorrectAnswer,
-                            personalWrongAnswers: data.questionDetails.personalAnswers - data.questionDetails.personalCorrectAnswer,
-                            inWishknowledgeCount: data.questionDetails.inWishknowledgeCount,
-                        };
-                        this.$nextTick(function() {
-                            FillSparklineTotals();
-                        });
+                        this.extendedQuestion = data.extendedQuestion;
+                        this.commentCount = data.commentCount;
+                        this.isCreator = data.isCreator && this.isLoggedIn;
                     },
                 });
             },
@@ -260,9 +247,27 @@ Vue.component('question-component',
 
             },
 
+            loadQuestionDetails() {
+                var questionDetailsId = "#" + this.questionDetailsId;
+                $.ajax({
+                    url: "/AnswerQuestion/RenderUpdatedQuestionDetails",
+                    data: {
+                        questionId: this.questionId,
+                        showCategoryList: false,
+                    },
+                    type: "POST",
+                    success: partialView => {
+                        $(questionDetailsId).html(partialView);
+                        this.$nextTick(function () {
+                            FillSparklineTotals();
+                            $('.show-tooltip').tooltip();
+                        });
+                    }
+                });
+            },
+
             getWishknowledgePinButton() {
                 var pinId = "#" + this.pinId;
-                var innerPinId = "#" + this.innerPinId;
                 $.ajax({
                     url: "/QuestionList/RenderWishknowledgePinButton/",
                     data: {
@@ -271,7 +276,6 @@ Vue.component('question-component',
                     type: "POST",
                     success: partialView => {
                         $(pinId).html(partialView);
-                        $(innerPinId).html(partialView);
                     }
                 });
             },
