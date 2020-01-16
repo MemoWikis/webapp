@@ -60,10 +60,20 @@
   height: 100%;
   padding: 8px 0 8px 32px;
 }
+@media (max-width: 380px) {
+  #QuestionListApp .singleQuestionRow .questionSectionFlex .questionImg {
+    min-width: unset;
+  }
+}
 #QuestionListApp .singleQuestionRow .questionSectionFlex .questionImg img {
   width: 40px;
   height: 40px;
   border-radius: 50%;
+}
+@media (max-width: 380px) {
+  #QuestionListApp .singleQuestionRow .questionSectionFlex .questionImg img {
+    display: none;
+  }
 }
 #QuestionListApp .singleQuestionRow .questionSectionFlex .questionContainer {
   width: 100%;
@@ -131,6 +141,11 @@
 }
 #QuestionListApp .singleQuestionRow .questionSectionFlex .questionContainer .questionBodyTop .extendedQuestionContainer {
   padding: 8px 80px 8px 4px;
+}
+@media (max-width: 550px) {
+  #QuestionListApp .singleQuestionRow .questionSectionFlex .questionContainer .questionBodyTop .extendedQuestionContainer {
+    padding: 8px 8px 8px 4px;
+  }
 }
 #QuestionListApp .singleQuestionRow .questionSectionFlex .questionContainer .questionBodyTop .extendedQuestionContainer .extendedAnswer {
   padding-top: 16px;

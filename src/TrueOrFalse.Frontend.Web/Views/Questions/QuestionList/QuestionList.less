@@ -72,7 +72,15 @@
                 height: 100%;
                 padding: 8px 0 8px 32px;
 
+                @media (max-width: 380px) {
+                    min-width: unset;
+                }
+
                 img {
+                    @media (max-width: 380px) {
+                        display: none;
+                    }
+
                     width: 40px;
                     height: 40px;
                     border-radius: 50%;
@@ -155,6 +163,10 @@
                     .extendedQuestionContainer {
                         padding: 8px 80px 8px 4px;
 
+                        @media (max-width: 550px) {
+                            padding: 8px 8px 8px 4px;
+                        }
+
                         .extendedAnswer {
                             padding-top: 16px;
                         }
@@ -203,7 +215,7 @@
                             width: 40px;
                             padding: 8px;
 
-                            a.commentIcon{
+                            a.commentIcon {
                                 color: #DDDDDD;
                                 text-decoration: none;
                             }

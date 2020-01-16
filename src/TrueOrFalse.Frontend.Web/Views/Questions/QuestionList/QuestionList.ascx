@@ -87,7 +87,7 @@
                                         <div :id="questionDetailsId" class="questionDetails" >
                                         </div>
                                         <div class="row">
-                                            <div class="questionFooterIcons col-xs-3 row pull-right">
+                                            <div class="questionFooterIcons col-xs-12 row pull-right">
                                                 <div class="footerIcon col-xs-6 pull-right ellipsis dropup" @click="showQuestionMenu = true">
                                                     <i class="fas fa-ellipsis-v" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true"></i>
                                                     <ul class="dropdown-menu dropdown-menu-right" v-show="showQuestionMenu">
