@@ -14,7 +14,7 @@
                     <span id="Category">
                         <% if (Model.Categories.Count > 0)
                            { %>
-                            <div id="ChipHeader"><%= Model.Categories.Count > 1 ? "Zu diesen Themen zugeordnet":"Zu diesem Thema zugeordnet" %>:</div> 
+                            <div id="ChipHeader"><%= Model.Categories.Count > 1 ? "Diese Frage ist folgenden Themen zugeordnet:":"Diese Frage ist folgendem Thema zugeordnet:" %>:</div> 
                             <% Html.RenderPartial("CategoriesOfQuestion", Model.Question); %>
                         <%  } %>
                     </span>
