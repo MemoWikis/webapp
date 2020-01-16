@@ -227,12 +227,24 @@ class Pin {
 
         if (withCategory) {
             await updateAnswerBody();
+            var hasQuestionList = $('#QuestionListApp');
+            if (hasQuestionList) {
+                $('.questionListPinContainer span[data-question-id]').each(function () {
+                    var el = $(this);
+                    updateHeartIcon(el);
+                });
+                $('.questionDetailsStatistic span[data-question-id]').each(function () {
+                    var el = $(this);
+                    updateHeartIcon(el);
+                });
+            }
+
         }
 
         if (questionId == null)
             return;
 
-        var questionDetails = $("#QuestionDetailsStatistic span.Pin[data-question-id='" + questionId + "']");
+        var questionDetails = $(".questionDetailsStatistic span.Pin[data-question-id='" + questionId + "']");
 
         updateQuestionDetails();
 
@@ -245,11 +257,22 @@ class Pin {
         function updateQuestionDetails() {
             if (withCategory) {
                 updateHeartIcon(answerQuestionBodyMenu);
-                updateHeartIcon(questionDetails);
+                questionDetails.each(function () {
+                    var el = $(this);
+                    updateHeartIcon(el);
+                });
             } else if (elemPin.parents('.AnswerQuestionBodyMenu').length > 0) {
-                updateHeartIcon(questionDetails);
-            } else if (elemPin.parents('#QuestionDetailsStatistic').length > 0) {
+                questionDetails.each(function () {
+                    var el = $(this);
+                    updateHeartIcon(el);
+                });
+            } else if (elemPin.parents('.questionDetailsStatistic').length > 0) {
                 updateHeartIcon(answerQuestionBodyMenu);
+            } else {
+                questionDetails.each(function () {
+                    var el = $(this);
+                    updateHeartIcon(el);
+                });
             }
 
             var oldCount = parseInt($("span[data-question-details-id='" + questionId + "']").text());

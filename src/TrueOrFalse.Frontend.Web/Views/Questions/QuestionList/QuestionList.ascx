@@ -4,8 +4,8 @@
 
 <%= Scripts.Render("~/bundles/js/QuestionListComponents") %>
 
-
 <div id="QuestionListApp" class="row">
+    
     <question-list-component inline-template category-id="<%= Model.CategoryId %>" all-question-count="<%= Model.AllQuestionCount %>" is-admin="<%= Model.IsInstallationAdmin %>">
             
             <div class="col-xs-12">
@@ -20,12 +20,21 @@
                         </span>
                     </div>
 
-                    <div class="questionListFilter col-xs-1 float-right">
-                        <i class="fas fa-ellipsis-v"></i>
+                    <div class="questionListFilter col-xs-1 pull-right">
+                        <%--<i class="fas fa-ellipsis-v"></i>--%>
                     </div>
                 </div>
 
-                <question-component inline-template v-for="q in questions" :question-id="q.Id" :question-title="q.Title" :question-image="q.ImageData" :knowledge-state="q.CorrectnessProbability" :is-in-wishknowledge="q.IsInWishknowledge" :url="q.LinkToQuestion" :has-personal-answer="q.HasPersonalAnswer" :is-admin="isAdmin">
+                <question-component inline-template v-for="q in questions" 
+                                    :question-id="q.Id" 
+                                    :question-title="q.Title" 
+                                    :question-image="q.ImageData" 
+                                    :knowledge-state="q.CorrectnessProbability" 
+                                    :is-in-wishknowledge="q.IsInWishknowledge" 
+                                    :url="q.LinkToQuestion" 
+                                    :has-personal-answer="q.HasPersonalAnswer" 
+                                    :is-admin="isAdmin" 
+                                    :selected-page="selectedPage">
                     
                     <div class="singleQuestionRow row" :class="[{ open: showFullQuestion }, backgroundColor]">
                         <div class="questionSectionFlex col-auto">
@@ -44,7 +53,7 @@
                                                     <div class="iconContainer col-xs-6 float-right" @click="expandQuestion()">
                                                         <i class="fas fa-angle-down rotateIcon" :class="{ open : showFullQuestion }"></i>
                                                     </div>
-                                                    <div class="iconContainer col-xs-6">
+                                                    <div class="questionListPinContainer iconContainer col-xs-6">
                                                         <span :id="pinId" class="Pin" :data-question-id="questionId">
                                                         </span>
                                                     </div>
@@ -101,9 +110,11 @@
                                                         </li>
                                                     </ul>
                                                 </div>
-                                                <div class="footerIcon col-xs-6 pull-right fullWidth">
-                                                    <span>{{commentCount}}</span>
-                                                    <i class="far fa-comment"></i>
+                                                <div class="footerIcon col-xs-6 pull-right fullWidth" >
+                                                    <a class="commentIcon" :href="linkToComments">
+                                                        <span>{{commentCount}}</span>
+                                                        <i class="far fa-comment"></i>
+                                                    </a>
                                                 </div>
                                             </div>
                                         </div>

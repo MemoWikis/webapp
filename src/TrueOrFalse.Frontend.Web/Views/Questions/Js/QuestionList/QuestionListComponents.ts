@@ -3,8 +3,10 @@ declare var VueAdsPagination: any;
 
 
 Vue.component('question-list-component', {
-    props: ['categoryId','allQuestionCount', 'isAdmin'],
-
+    props: [
+        'categoryId',
+        'allQuestionCount',
+        'isAdmin'],
     data() {
         return {
             pages: 0,
@@ -26,7 +28,8 @@ Vue.component('question-list-component', {
     },
 
     created() {
-
+        eventBus.$on('reload-knowledge-state', () => this.loadQuestions(this.selectedPage));
+        eventBus.$on('reload-knowledge-state-per-question', (data) => this.changeQuestionKnowledgeState(data.questionId, data.isInWishknowledge));
     },
 
     mounted() {
@@ -141,12 +144,30 @@ Vue.component('question-list-component', {
             if (this.selectedPage != this.pageArray.length)
                 this.loadQuestions(this.selectedPage + 1);
         },
+
+        changeQuestionKnowledgeState(questionId, isInWishknowledge) {
+            for (var q in this.questions) {
+                if (this.questions[q].Id == questionId) {
+                    this.questions[q].IsInWishknowledge = isInWishknowledge;
+                    break;
+                }
+            }
+        },
     },
 });
 
 Vue.component('question-component',
     {
-        props: ['questionId', 'questionTitle', 'questionImage', 'knowledgeState', 'isInWishknowledge', 'url', 'hasPersonalAnswer', 'isAdmin'],
+        props: [
+            'questionId',
+            'questionTitle',
+            'questionImage',
+            'knowledgeState',
+            'isInWishknowledge',
+            'url',
+            'hasPersonalAnswer',
+            'isAdmin',
+            'selectedPage'],
         data() {
             return {
                 answer: "",
@@ -170,6 +191,7 @@ Vue.component('question-component',
                 isCreator: false,
                 editUrl: "",
                 historyUrl: "",
+                linkToComments: this.url + "#QuestionComments",
             }   
         },
 
@@ -182,6 +204,12 @@ Vue.component('question-component',
         watch: {
             knowledgeState(val) {
                 this.setKnowledgebarColor(val);
+            },
+            selectedPage() {
+                this.showFullQuestion = false;
+            },
+            isInWishknowledge() {
+                this.setKnowledgebarColor(this.knowledgeState);
             },
         },
 
@@ -299,5 +327,4 @@ Vue.component('question-component',
                 });
             },
         }
-
     });

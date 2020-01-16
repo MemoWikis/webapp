@@ -143,6 +143,9 @@
 #QuestionListApp .singleQuestionRow .questionSectionFlex .questionContainer .questionBodyTop .extendedQuestionContainer .notes .relatedCategories {
   padding-bottom: 16px;
 }
+#QuestionListApp .singleQuestionRow .questionSectionFlex .questionContainer .questionBodyTop .extendedQuestionContainer .notes .sources {
+  overflow-wrap: break-word;
+}
 #QuestionListApp .singleQuestionRow .questionSectionFlex .questionContainer .questionBodyBottom .questionDetails {
   font-size: 12px;
   padding-left: 24px;
@@ -164,6 +167,10 @@
   text-align: center;
   width: 40px;
   padding: 8px;
+}
+#QuestionListApp .singleQuestionRow .questionSectionFlex .questionContainer .questionBodyBottom .questionFooterIcons .footerIcon a.commentIcon {
+  color: #DDDDDD;
+  text-decoration: none;
 }
 #QuestionListApp .singleQuestionRow .questionSectionFlex .questionContainer .questionBodyBottom .questionFooterIcons .footerIcon.fullWidth {
   width: unset;
