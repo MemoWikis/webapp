@@ -4,8 +4,15 @@
         $.post("/Api/Questions/Pin/", { questionId: questionId }, (pinned) => {
             if (onPinChanged != null)
                 onPinChanged();
-            if (pinned)
+            if (pinned) {
+                var data = {
+                    questionId: questionId,
+                    isInWishknowledge: true,
+                }
+                eventBus.$emit('reload-knowledge-state-per-question', data);
                 KnowledgeSummaryBar.updateKnowledgeSummaryBar();
+
+            }
         });
     }
 
@@ -13,8 +20,15 @@
         $.post("/Api/Questions/Unpin/", { questionId: questionId }, (unpinned) => {
             if (onPinChanged != null)
                 onPinChanged();    
-            if (unpinned)
+            if (unpinned) {
+                var data = {
+                    questionId: questionId,
+                    isInWishknowledge: false,
+                }
+                eventBus.$emit('reload-knowledge-state-per-question', data);
                 KnowledgeSummaryBar.updateKnowledgeSummaryBar();
+
+            }
         });
     }
 } 
