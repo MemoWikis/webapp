@@ -67,11 +67,12 @@
 
                                                     <div class="answer">
                                                         <strong>Antwort:</strong><br/>
-                                                        {{answer}}
+                                                         <component :is="answer && {template:answer}"></component>
+
                                                     </div>
                                                     <div class="extendedAnswer" v-if="extendedAnswer != null && extendedAnswer.length > 0">
                                                         <strong>Ergänzungen zur Antwort:</strong><br/>
-                                                        {{extendedAnswer}}
+                                                        <component :is="extendedAnswer && {template:extendedAnswer}"></component>
                                                     </div>
                                                     <div class="notes">
                                                         <div class="relatedCategories">Thema: <a v-for="c in categories" :href="c.url">{{c.name}}, </a></div>

@@ -248,12 +248,13 @@ Vue.component('question-component',
                     success: data => {
                         if (data.answer == null || data.answer.length <= 0) {
                             if (data.extendedAnswer && data.extendedAnswer > 0)
-                                this.answer = data.extendedAnswer;
+                                this.answer = "<div>" + data.extendedAnswer + "</div>";
                             else
-                                this.answer = "Fehler: Keine Antwort!";
+                                this.answer = "<div> Fehler: Keine Antwort! </div>";
                         } else {
-                            this.answer = data.answer;
-                            this.extendedAnswer = data.extendedAnswer;
+                            this.answer = "<div>" + data.answer + "</div>";;
+                            if (data.extendedAnswer != null)
+                                this.extendedAnswer = "<div>" + data.extendedAnswer + "</div>";;
                         };
                         if (data.categories) {
                             this.categories = data.categories;
