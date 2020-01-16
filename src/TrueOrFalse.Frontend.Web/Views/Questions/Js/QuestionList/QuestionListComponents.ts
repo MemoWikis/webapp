@@ -225,6 +225,9 @@ Vue.component('question-component',
                     this.topicTitle = "Themen";
                 else
                     this.topicTitle = "Thema";
+            },
+            questionId() {
+                this.allDataLoaded = false;
             }
         },
 
