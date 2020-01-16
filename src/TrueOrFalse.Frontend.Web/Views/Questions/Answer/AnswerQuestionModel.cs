@@ -114,10 +114,11 @@ public class AnswerQuestionModel : BaseModel
     public bool DisableAddKnowledgeButton;
     public bool IsInWidget;
     public bool IsInLearningTab;
+    public bool ShowCategoryList = true;
 
     public ContentRecommendationResult ContentRecommendationResult;
 
-    public AnswerQuestionModel(Question question, bool? isMobileDevice = null)
+    public AnswerQuestionModel(Question question, bool? isMobileDevice = null, bool showCategoryList = true)
     {
         if(this.QuestionViewGuid == Guid.Empty)
             QuestionViewGuid = Guid.NewGuid();
@@ -126,6 +127,7 @@ public class AnswerQuestionModel : BaseModel
         HasNextPage = HasPreviousPage = false;
         SourceIsTabAll = true;
         ContentRecommendationResult = ContentRecommendation.GetForQuestion(question, 6);
+        ShowCategoryList = showCategoryList;
 
         Populate(question);
     }

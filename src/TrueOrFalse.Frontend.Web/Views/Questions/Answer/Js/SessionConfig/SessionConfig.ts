@@ -84,7 +84,10 @@ new Vue({
         loadQuestionCount() {
             $.ajax({
                 url: "/AnswerQuestion/GetQuestionCount/",
-                data: { categoryId: $('#hhdCategoryId').val(), questionFilter: this.questionFilter },
+                data: {
+                    categoryId: $('#hhdCategoryId').val(),
+                    questionFilter: this.questionFilter
+                },
                 type: "POST",
                 success: result => {
                     result = parseInt(result);

@@ -4,8 +4,12 @@
 } 
 
 class QuestionRowDelete {
-    
+
+    private _isInLearningTab: boolean;
+
     constructor(sourcePage: QuestionRowDeleteSourcePage) {
+
+        this._isInLearningTab = $('#LearningTab').length > 0;
 
         var questionIdToDelete;
         $(() => {
@@ -71,10 +75,14 @@ class QuestionRowDelete {
                 cache: false,
                 success: function (e) {
                     $('#modalDeleteQuestion').modal('hide');
-                    if (sourcePage == QuestionRowDeleteSourcePage.QuestionRow)
+                    if (this._isInLearningTab)
                         window.location.reload();
-                    if (sourcePage == QuestionRowDeleteSourcePage.QuestionDetail)
-                        window.location.href = "/Fragen/Meine";
+                    else {
+                        if (sourcePage == QuestionRowDeleteSourcePage.QuestionRow)
+                            window.location.reload();
+                        if (sourcePage == QuestionRowDeleteSourcePage.QuestionDetail)
+                            window.location.href = "/Fragen/Meine";
+                    }
                 },
                 error: function (e) {
                     $("#confirmQuestionDelete").hide();

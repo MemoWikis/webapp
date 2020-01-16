@@ -171,7 +171,7 @@
                 </div>
             <% } %>
 
-        <div class="row" style="margin-top: 30px; color: darkgray; font-weight: bold;">
+        <div id="QuestionComments" class="row" style="margin-top: 30px; color: darkgray; font-weight: bold;">
 
             <div class="col-xs-4">
                 <h4 style="padding:0; margin:0;">Kommentare<a name="comments"></a></h4>    
