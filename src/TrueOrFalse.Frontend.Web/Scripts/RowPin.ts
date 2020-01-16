@@ -245,6 +245,7 @@ class Pin {
             return;
 
         var questionDetails = $(".questionDetailsStatistic span.Pin[data-question-id='" + questionId + "']");
+        var questionInList = $(".questionListPinContainer span.Pin[data-question-id='" + questionId + "']");
 
         updateQuestionDetails();
 
@@ -261,14 +262,27 @@ class Pin {
                     var el = $(this);
                     updateHeartIcon(el);
                 });
+                questionInList.each(function () {
+                    var el = $(this);
+                    updateHeartIcon(el);
+                });
             } else if (elemPin.parents('.AnswerQuestionBodyMenu').length > 0) {
                 questionDetails.each(function () {
                     var el = $(this);
                     updateHeartIcon(el);
                 });
+                questionInList.each(function () {
+                    var el = $(this);
+                    updateHeartIcon(el);
+                });
             } else if (elemPin.parents('.questionDetailsStatistic').length > 0) {
                 updateHeartIcon(answerQuestionBodyMenu);
-            } else {
+                questionInList.each(function () {
+                    var el = $(this);
+                    updateHeartIcon(el);
+                });
+            } else if (elemPin.parent('.questionListPinContainer').length > 0) {
+                updateHeartIcon(answerQuestionBodyMenu);
                 questionDetails.each(function () {
                     var el = $(this);
                     updateHeartIcon(el);
