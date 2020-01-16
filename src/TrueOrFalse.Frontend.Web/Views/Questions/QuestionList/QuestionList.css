@@ -155,6 +155,9 @@
   padding-bottom: 24px;
   font-size: 12px;
 }
+#QuestionListApp .singleQuestionRow .questionSectionFlex .questionContainer .questionBodyTop .extendedQuestionContainer .notes a {
+  cursor: pointer;
+}
 #QuestionListApp .singleQuestionRow .questionSectionFlex .questionContainer .questionBodyTop .extendedQuestionContainer .notes .relatedCategories {
   padding-bottom: 16px;
 }

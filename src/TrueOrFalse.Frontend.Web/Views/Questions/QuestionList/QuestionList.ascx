@@ -75,9 +75,9 @@
                                                         <component :is="extendedAnswer && {template:extendedAnswer}"></component>
                                                     </div>
                                                     <div class="notes">
-                                                        <div class="relatedCategories">Thema: <a v-for="c in categories" :href="c.url">{{c.name}}, </a></div>
-                                                        <div class="author">Erstellt von: <a :href="author.url">{{author}}</a></div>
-                                                        <div class="sources" v-if="references.length > 0">Quelle: <a v-for="r in references" :href="r.referenceText">{{r.referenceText}}</a></div>
+                                                        <div class="relatedCategories">{{topicTitle}}: <a v-for="c in categories" :href="c.url">{{c.name}}, </a></div>
+                                                        <div class="author">Erstellt von: <a :href="authorUrl">{{author}}</a></div>
+                                                        <div class="sources" v-if="references.length > 0 && references[0].referenceText.length > 0">Quelle: <a v-for="r in references" :href="r.referenceText">{{r.referenceText}}</a></div>
                                                     </div>
                                                 </div>
                                             </div>

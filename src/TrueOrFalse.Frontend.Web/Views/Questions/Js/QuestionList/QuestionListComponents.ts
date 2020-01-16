@@ -192,6 +192,8 @@ Vue.component('question-component',
                 editUrl: "",
                 historyUrl: "",
                 linkToComments: this.url + "#QuestionComments",
+                topicTitle: "Thema",
+                authorUrl: "",
             }   
         },
 
@@ -211,6 +213,12 @@ Vue.component('question-component',
             isInWishknowledge() {
                 this.setKnowledgebarColor(this.knowledgeState);
             },
+            categories() {
+                if (this.categories.length >= 2)
+                    this.topicTitle = "Themen";
+                else
+                    this.topicTitle = "Thema";
+            }
         },
 
         methods: {
@@ -269,6 +277,7 @@ Vue.component('question-component',
                         this.isCreator = data.isCreator && this.isLoggedIn;
                         this.editUrl = data.editUrl;
                         this.historyUrl = data.historyUrl;
+                        this.authorUrl = data.authorUrl;
                     },
                 });
             },

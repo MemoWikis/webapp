@@ -47,6 +47,7 @@ public class QuestionListController : BaseController
             author = author.Name,
             authorId = author.Id,
             authorImage = authorImage.Url,
+            authorUrl = Links.UserDetail(author),
             extendedQuestion = MarkdownInit.Run().Transform(question.TextExtended),
             commentCount = Resolve<CommentRepository>().GetForDisplay(question.Id)
                 .Where(c => !c.IsSettled)
