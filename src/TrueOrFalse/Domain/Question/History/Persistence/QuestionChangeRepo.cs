@@ -18,7 +18,7 @@ public class QuestionChangeRepo : RepositoryDbBase<QuestionChange>
         base.Create(QuestionChange);
     }
 
-    public void AddCreateEntry(Question question, User author = null) => AddUpdateOrCreateEntry(question, QuestionChangeType.Create, author, imageWasChanged:true);
+    public void AddCreateEntry(Question question) => AddUpdateOrCreateEntry(question, QuestionChangeType.Create, question.Creator, imageWasChanged:true);
     public void AddUpdateEntry(Question question, User author = null, bool imageWasChanged = false) => AddUpdateOrCreateEntry(question, QuestionChangeType.Update, author, imageWasChanged);
     private void AddUpdateOrCreateEntry(Question question, QuestionChangeType questionChangeType, User author, bool imageWasChanged)
     {
