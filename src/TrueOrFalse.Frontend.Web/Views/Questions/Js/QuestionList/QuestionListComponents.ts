@@ -3,7 +3,7 @@ declare var VueAdsPagination: any;
 
 
 Vue.component('question-list-component', {
-    props: ['categoryId','allQuestionCount'],
+    props: ['categoryId','allQuestionCount', 'isAdmin'],
 
     data() {
         return {
@@ -93,11 +93,12 @@ Vue.component('question-list-component', {
                     this.selectedPage = selectedPage;
                 },
             });
-            this.showLeftSelection = false;
+            this.showLeftSelectionDropUp = false;
             this.showRightSelectionDropUp = false;
 
             this.$nextTick(function () {
                 this.setPaginationRanges(selectedPage);
+                new Pin(PinType.Question);
             });
         },
 
@@ -145,7 +146,7 @@ Vue.component('question-list-component', {
 
 Vue.component('question-component',
     {
-        props: ['questionId', 'questionTitle', 'questionImage', 'knowledgeState', 'isInWishknowledge', 'url', 'hasPersonalAnswer'],
+        props: ['questionId', 'questionTitle', 'questionImage', 'knowledgeState', 'isInWishknowledge', 'url', 'hasPersonalAnswer', 'isAdmin'],
         data() {
             return {
                 answer: "",
@@ -167,6 +168,8 @@ Vue.component('question-component',
                 questionDetailsId: "QuestionDetails-" + this.questionId,
                 showQuestionMenu: false,
                 isCreator: false,
+                editUrl: "",
+                historyUrl: "",
             }   
         },
 
@@ -235,6 +238,8 @@ Vue.component('question-component',
                         this.extendedQuestion = data.extendedQuestion;
                         this.commentCount = data.commentCount;
                         this.isCreator = data.isCreator && this.isLoggedIn;
+                        this.editUrl = data.editUrl;
+                        this.historyUrl = data.historyUrl;
                     },
                 });
             },
@@ -261,6 +266,7 @@ Vue.component('question-component',
                         this.$nextTick(function () {
                             FillSparklineTotals();
                             $('.show-tooltip').tooltip();
+                            new Pin(PinType.Question);
                         });
                     }
                 });
@@ -276,6 +282,19 @@ Vue.component('question-component',
                     type: "POST",
                     success: partialView => {
                         $(pinId).html(partialView);
+                    }
+                });
+            },
+
+            getEditUrl() {
+                $.ajax({
+                    url: "/QuestionList/GetEditUrl/",
+                    data: {
+                        isInWishknowledge: this.isInWishknowledge,
+                    },
+                    type: "POST",
+                    success: url => {
+                        this.editUrl = url;
                     }
                 });
             },

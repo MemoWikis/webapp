@@ -6,7 +6,7 @@
 
 
 <div id="QuestionListApp" class="row">
-    <question-list-component inline-template category-id="<%= Model.CategoryId %>" all-question-count="<%= Model.AllQuestionCount %>">
+    <question-list-component inline-template category-id="<%= Model.CategoryId %>" all-question-count="<%= Model.AllQuestionCount %>" is-admin="<%= Model.IsInstallationAdmin %>">
             
             <div class="col-xs-12">
                 <div class="questionListHeader row">
@@ -25,7 +25,7 @@
                     </div>
                 </div>
 
-                <question-component inline-template v-for="q in questions" :question-id="q.Id" :question-title="q.Title" :question-image="q.ImageData" :knowledge-state="q.CorrectnessProbability" :is-in-wishknowledge="q.IsInWishknowledge" :url="q.LinkToQuestion" :has-personal-answer="q.HasPersonalAnswer">
+                <question-component inline-template v-for="q in questions" :question-id="q.Id" :question-title="q.Title" :question-image="q.ImageData" :knowledge-state="q.CorrectnessProbability" :is-in-wishknowledge="q.IsInWishknowledge" :url="q.LinkToQuestion" :has-personal-answer="q.HasPersonalAnswer" :is-admin="isAdmin">
                     
                     <div class="singleQuestionRow row" :class="[{ open: showFullQuestion }, backgroundColor]">
                         <div class="questionSectionFlex col-auto">
@@ -67,7 +67,7 @@
                                                     <div class="notes">
                                                         <div class="relatedCategories">Thema: <a v-for="c in categories" :href="c.url">{{c.name}}, </a></div>
                                                         <div class="author">Erstellt von: <a :href="author.url">{{author}}</a></div>
-                                                        <div class="sources" v-if="references">Quelle: <a v-for="r in references" :href="r.referenceText">{{r.referenceText}}</a></div>
+                                                        <div class="sources" v-if="references.length > 0">Quelle: <a v-for="r in references" :href="r.referenceText">{{r.referenceText}}</a></div>
                                                     </div>
                                                 </div>
                                             </div>
@@ -85,17 +85,19 @@
                                                         <li>
                                                             <a :href="url">Frageseite anzeigen</a>
                                                         </li>
-                                                        <li v-if="isCreator">
-                                                            <a>Frage bearbeiten</a>
+                                                        <li v-if="isCreator || isAdmin">
+                                                            <a :href="editUrl" >Frage bearbeiten</a>
                                                         </li>
                                                         <li>
-                                                            <a>Frage einbetten</a>
+                                                            <a href="#" data-action="embed-question">Frage einbetten</a>
+                                                        </li>
+                                                        <li id="DeleteQuestion" v-if="isCreator || isAdmin">
+                                                            <a class="TextLinkWithIcon" data-toggle="modal" :data-questionid="questionId" href="#modalDeleteQuestion">
+                                                                Frage löschen
+                                                            </a>
                                                         </li>
                                                         <li>
-                                                            <a>Frage löschen</a>
-                                                        </li>
-                                                        <li>
-                                                            <a>Versionen anzeigen</a>
+                                                            <a :href="historyUrl">Versionen anzeigen</a>
                                                         </li>
                                                     </ul>
                                                 </div>

@@ -54,6 +54,8 @@ public class QuestionListController : BaseController
                 .ToList()
                 .Count(),
             isCreator = author.Id == _sessionUser.UserId,
+            editUrl = Links.EditQuestion(Url, question.Text, question.Id),
+            historyUrl = Links.QuestionHistory(question.Id)
         });
 
         return json;

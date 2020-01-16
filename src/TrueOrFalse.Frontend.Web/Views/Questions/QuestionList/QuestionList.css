@@ -193,6 +193,7 @@
   line-height: 20px;
 }
 #QuestionListApp #QuestionListPagination {
+  padding-top: 32px;
   cursor: pointer;
   font-size: 12px;
   color: #949494;
