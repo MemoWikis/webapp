@@ -11,8 +11,6 @@ public class EducationOfferListModel : BaseContentModule
 
     public List<Category> CategoryList;
 
-    public bool HasUsedOrderListWithLoadList;
-
     public EducationOfferListModel(Category category) : this(category, new EducationOfferListJson())
     {
     }
@@ -20,6 +18,7 @@ public class EducationOfferListModel : BaseContentModule
     public EducationOfferListModel(Category category, EducationOfferListJson educationOfferListJson)
     {
         Category = category;
+       
 
         var isLoadList = false;
         switch (educationOfferListJson.Load)
@@ -64,14 +63,16 @@ public class EducationOfferListModel : BaseContentModule
         Text = educationOfferListJson.Text;
     }
 
+
+
     public int GetTotalQuestionCount(Category category)
     {
         return category.GetAggregatedQuestionsFromMemoryCache().Count;
     }
 
-    public int GetTotalSetCount(Category category)
+    public int GetTotalTopicCount(Category category)
     {
-        return category.GetAggregatedSetsFromMemoryCache().Count;
+        return new TopicNavigationModel().GetTotalTopicCount(category);
     }
 
     public ImageFrontendData GetCategoryImage(Category category)

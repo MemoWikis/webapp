@@ -19,10 +19,13 @@
                                 <%= Html.Partial("AddToWishknowledge", new AddToWishknowledge(Model.IsInWishknowledge)) %>
                             </a>
                         </span>&nbsp;
-                        <%= Model.Category.Type == CategoryType.Standard ? "Thema" : Model.CategoryType %> mit <%= Model.AggregatedSetCount %> Lernset<%= StringUtils.PluralSuffix(Model.AggregatedSetCount, "s") %> und <%= Model.AggregatedQuestionCount %> Frage<%= StringUtils.PluralSuffix(Model.AggregatedQuestionCount, "n") %>
+                        <%= Model.Category.Type == CategoryType.Standard ? "Thema" : Model.CategoryType %> mit 
+                        <% if (Model.AggregatedTopicCount == 1){ %> einem Unterthema und<% }
+                           if (Model.AggregatedTopicCount > 1)
+                           { %><%= Model.AggregatedTopicCount %> Unterthemen und<% } %>&nbsp;<%= Model.AggregatedQuestionCount %> Frage<%= StringUtils.PluralSuffix(Model.AggregatedQuestionCount, "n") %>
                     </div>
 
-                    <% if (Model.AggregatedSetCount != 0)
+                    <% if (Model.AggregatedTopicCount != 0)
                        { %>
                         <div class="KnowledgeBarWrapper">
                             <% Html.RenderPartial("~/Views/Categories/Detail/CategoryKnowledgeBar.ascx", new CategoryKnowledgeBarModel(Model.Category)); %>

@@ -25,7 +25,7 @@ public class CategoryModel : BaseContentModule
     public IList<Set> AggregatedSets;
     public IList<Question> AggregatedQuestions;
     public IList<Question> CategoryQuestions;
-    public int AggregatedSetCount;
+    public int AggregatedTopicCount;
     public int AggregatedQuestionCount;
     public int CategoryQuestionCount;
     public IList<Question> TopQuestions;
@@ -139,7 +139,7 @@ public class CategoryModel : BaseContentModule
         SingleQuestions = GetQuestionsForCategory.QuestionsNotIncludedInSet(Id);
 
         AggregatedSets = category.GetAggregatedSetsFromMemoryCache();
-        AggregatedSetCount = AggregatedSets.Count;
+        AggregatedTopicCount = new TopicNavigationModel().GetTotalTopicCount(category);
 
         AggregatedQuestionCount = Category.GetCountQuestionsAggregated();
         CategoryQuestionCount = Category.GetCountQuestionsAggregated(true, category.Id);

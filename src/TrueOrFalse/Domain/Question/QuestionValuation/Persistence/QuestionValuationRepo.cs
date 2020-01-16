@@ -89,7 +89,7 @@ public class QuestionValuationRepo : RepositoryDb<QuestionValuation>
     {
         var result =  _session
             .Query<QuestionValuation>()
-            .Where(qv => qv.User.Id == userId &&  qv.RelevancePersonal > -1)
+            .Where(qv => qv.User.Id == userId)
             .Fetch(qv => qv.Question)
             .ThenFetchMany(q => q.Categories)
             .ToList();

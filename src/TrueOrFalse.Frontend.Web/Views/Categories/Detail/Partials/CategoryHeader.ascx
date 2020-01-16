@@ -39,7 +39,10 @@
             <h1 style="margin-bottom: 0"><%= Model.Name %></h1>
             <div>
                 <div class="greyed">
-                    <%= Model.Category.Type == CategoryType.Standard ? "Thema" : Model.Type %> mit <%= Model.AggregatedSetCount %> Lernset<%= StringUtils.PluralSuffix(Model.AggregatedSetCount, "s") %> und <%= Model.AggregatedQuestionCount %> Frage<%= StringUtils.PluralSuffix(Model.AggregatedQuestionCount, "n") %>
+                    <%= Model.Category.Type == CategoryType.Standard ? "Thema" : Model.Type %> mit <% if (Model.AggregatedTopicCount == 1)
+                                                                                                      { %> 1 Unterthema und <% }
+                                                                                                      if (Model.AggregatedTopicCount > 1)
+                                                                                                      { %> <%= Model.AggregatedTopicCount %> Unterthemen und <% } %><%= Model.AggregatedQuestionCount %> Frage<%= StringUtils.PluralSuffix(Model.AggregatedQuestionCount, "n") %>
                     <% if (Model.IsInstallationAdmin) { %>
                         <a href="#" id="jsAdminStatistics">
                             <span style="margin-left: 10px; font-size: smaller;" class="show-tooltip" data-placement="right" data-original-title="Nur von admin sichtbar">
@@ -58,17 +61,17 @@
     <% if (!Model.Category.IsHistoric) { %>
         <div id="TabsBar">
             <div id="CategoryTabsApp" class="Tabs">
-                <div id="TopicTab" class="Tab">
+                <div id="TopicTab" class="Tab" data-url="<%=Links.CategoryDetail(Model.Name, Model.Id) %>" >
                     <a href="">
                         <%= Model.Category.Type == CategoryType.Standard ? "Thema" : "Übersicht" %>
                     </a>
                 </div>
-                <div id="LearningTab" class="Tab">
+                <div id="LearningTab" class="Tab" data-url="<%=Links.CategoryDetailLearningTab(Model.Name, Model.Id) %>">
                     <a href="" >
                         Lernen
                     </a>
                 </div>
-                <div id="AnalyticsTab" class="Tab">
+                <div id="AnalyticsTab" class="Tab" data-url="<%=Links.CategoryDetailAnalyticsTab(Model.Name, Model.Id) %>" >
                     <a href="">
                         Wissensnetz
                     </a>

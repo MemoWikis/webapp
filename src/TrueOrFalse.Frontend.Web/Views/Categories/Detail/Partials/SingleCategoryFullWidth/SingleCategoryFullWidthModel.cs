@@ -8,11 +8,10 @@ public class SingleCategoryFullWidthModel : BaseContentModule
     public string Name;
     public string Description;
     public int AggregatedQuestionCount;
-    public int AggregatedSetCount;
+    public int AggregatedTopicCount;
     public ImageFrontendData ImageFrontendData;
     public bool IsInWishknowledge;
-
-    public SingleCategoryFullWidthModel(int categoryId) : this(new SingleCategoryFullWidthJson{CategoryId = categoryId})
+    public SingleCategoryFullWidthModel(int categoryId) : this(new SingleCategoryFullWidthJson { CategoryId = categoryId })
     {
     }
 
@@ -25,7 +24,7 @@ public class SingleCategoryFullWidthModel : BaseContentModule
         Name = singleCategoryFullWidthJson.Name ?? Category.Name;
         Description = singleCategoryFullWidthJson.Description ?? Category.Description;
         AggregatedQuestionCount = Category.CountQuestionsAggregated;
-        AggregatedSetCount = Category.GetAggregatedSetsFromMemoryCache().Count;
+        AggregatedTopicCount = new TopicNavigationModel().GetTotalTopicCount(Category) ;
         CategoryType = Category.Type.GetShortName();
         
 

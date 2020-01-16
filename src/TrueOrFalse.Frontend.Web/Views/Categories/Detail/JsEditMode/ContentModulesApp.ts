@@ -17,13 +17,6 @@ Vue.directive('sortable',
     });
 
 new Vue({
-    el: '#CategoryTabsApp',
-    data() {
-        return {};
-    }
-});
-
-new Vue({
     el: '#ContentModuleApp',
     data() {
         return {

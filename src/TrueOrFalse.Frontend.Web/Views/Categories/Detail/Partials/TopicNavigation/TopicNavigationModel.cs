@@ -1,10 +1,10 @@
 ﻿using System;
-using System.Collections;
+using System.Activities.Expressions;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
-using Microsoft.Ajax.Utilities;
-using NHibernate.Criterion;
+using Newtonsoft.Json.Linq;
+using TemplateMigration;
+
 
 public class TopicNavigationModel : BaseContentModule
 {
@@ -15,8 +15,7 @@ public class TopicNavigationModel : BaseContentModule
 
     public List<Category> CategoryList;
 
-
-    public TopicNavigationModel(Category category, string name) : this(category, new TopicNavigationJson { Title = name })
+    public TopicNavigationModel()
     {
     }
 
@@ -75,10 +74,7 @@ public class TopicNavigationModel : BaseContentModule
         return category.GetAggregatedQuestionsFromMemoryCache().Count;
     }
 
-    public int GetTotalSetCount(Category category)
-    {
-        return category.GetAggregatedSetsFromMemoryCache().Count;
-    }
+
 
     public ImageFrontendData GetCategoryImage(Category category)
     {
@@ -113,6 +109,13 @@ public class TopicNavigationModel : BaseContentModule
     {  
         return list.ElementAt(counter);
     }
+
+    public int GetTotalTopicCount(Category category)
+    {
+        return Sl.CategoryRepo.GetChildren(category.Id).Count(c => c.Type == CategoryType.Standard && c.GetAggregatedQuestionIdsFromMemoryCache().Count > 0);
+      
+    }
+
 }
 
 
