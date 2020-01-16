@@ -12,7 +12,7 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <a href="#" class="SecAction" data-dismiss="modal">Nein, die Fragen sollen im Wunschwissen bleiben.</a>
+                <a href="#" id="DismissUnpinModal" class="SecAction" data-dismiss="modal">Nein, die Fragen sollen im Wunschwissen bleiben.</a>
                 <a href="#" id="JS-RemoveQuestionsCat" class="btn btn-primary" data-set-id="" data-dismiss="modal" style="width: 80px; max-width: 100%;">Ok</a>
             </div>
         </div>

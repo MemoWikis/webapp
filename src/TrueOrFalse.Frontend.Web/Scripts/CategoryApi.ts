@@ -27,6 +27,7 @@
             if (unpinned) {
                 eventBus.$emit('reload-knowledge-state');
                 KnowledgeSummaryBar.updateKnowledgeSummaryBar();
+                $('#UnpinCategoryModal').modal('hide');
             }
         });
     }
