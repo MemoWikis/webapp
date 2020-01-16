@@ -67,16 +67,17 @@
 
                                                     <div class="answer">
                                                         <strong>Antwort:</strong><br/>
-                                                        {{answer}}
+                                                         <component :is="answer && {template:answer}"></component>
+
                                                     </div>
                                                     <div class="extendedAnswer" v-if="extendedAnswer != null && extendedAnswer.length > 0">
                                                         <strong>Ergänzungen zur Antwort:</strong><br/>
-                                                        {{extendedAnswer}}
+                                                        <component :is="extendedAnswer && {template:extendedAnswer}"></component>
                                                     </div>
                                                     <div class="notes">
-                                                        <div class="relatedCategories">Thema: <a v-for="c in categories" :href="c.url">{{c.name}}, </a></div>
-                                                        <div class="author">Erstellt von: <a :href="author.url">{{author}}</a></div>
-                                                        <div class="sources" v-if="references.length > 0">Quelle: <a v-for="r in references" :href="r.referenceText">{{r.referenceText}}</a></div>
+                                                        <div class="relatedCategories">{{topicTitle}}: <a v-for="c in categories" :href="c.url">{{c.name}}, </a></div>
+                                                        <div class="author">Erstellt von: <a :href="authorUrl">{{author}}</a></div>
+                                                        <div class="sources" v-if="references.length > 0 && references[0].referenceText.length > 0">Quelle: <a v-for="r in references" :href="r.referenceText">{{r.referenceText}}</a></div>
                                                     </div>
                                                 </div>
                                             </div>

@@ -192,6 +192,9 @@ Vue.component('question-component',
                 editUrl: "",
                 historyUrl: "",
                 linkToComments: this.url + "#QuestionComments",
+                topicTitle: "Thema",
+                authorUrl: "",
+                questionDetails: "",
             }   
         },
 
@@ -199,6 +202,12 @@ Vue.component('question-component',
             this.correctnessProbability = this.knowledgeState + "%";
             this.setKnowledgebarColor(this.knowledgeState);
             this.getWishknowledgePinButton();
+
+            eventBus.$on('reload-question-details', () => {
+                if (this.showFullQuestion)
+                    this.setQuestionDetails();
+            });
+
         },
 
         watch: {
@@ -211,6 +220,12 @@ Vue.component('question-component',
             isInWishknowledge() {
                 this.setKnowledgebarColor(this.knowledgeState);
             },
+            categories() {
+                if (this.categories.length >= 2)
+                    this.topicTitle = "Themen";
+                else
+                    this.topicTitle = "Thema";
+            }
         },
 
         methods: {
@@ -248,12 +263,13 @@ Vue.component('question-component',
                     success: data => {
                         if (data.answer == null || data.answer.length <= 0) {
                             if (data.extendedAnswer && data.extendedAnswer > 0)
-                                this.answer = data.extendedAnswer;
+                                this.answer = "<div>" + data.extendedAnswer + "</div>";
                             else
-                                this.answer = "Fehler: Keine Antwort!";
+                                this.answer = "<div> Fehler: Keine Antwort! </div>";
                         } else {
-                            this.answer = data.answer;
-                            this.extendedAnswer = data.extendedAnswer;
+                            this.answer = "<div>" + data.answer + "</div>";;
+                            if (data.extendedAnswer != null)
+                                this.extendedAnswer = "<div>" + data.extendedAnswer + "</div>";;
                         };
                         if (data.categories) {
                             this.categories = data.categories;
@@ -268,6 +284,7 @@ Vue.component('question-component',
                         this.isCreator = data.isCreator && this.isLoggedIn;
                         this.editUrl = data.editUrl;
                         this.historyUrl = data.historyUrl;
+                        this.authorUrl = data.authorUrl;
                     },
                 });
             },
@@ -281,7 +298,6 @@ Vue.component('question-component',
             },
 
             loadQuestionDetails() {
-                var questionDetailsId = "#" + this.questionDetailsId;
                 $.ajax({
                     url: "/AnswerQuestion/RenderUpdatedQuestionDetails",
                     data: {
@@ -290,13 +306,19 @@ Vue.component('question-component',
                     },
                     type: "POST",
                     success: partialView => {
-                        $(questionDetailsId).html(partialView);
-                        this.$nextTick(function () {
-                            FillSparklineTotals();
-                            $('.show-tooltip').tooltip();
-                            new Pin(PinType.Question);
-                        });
+                        this.questionDetails = partialView;
+                        this.setQuestionDetails();
                     }
+                });
+            },
+
+            setQuestionDetails() {
+                var questionDetailsId = "#" + this.questionDetailsId;
+                $(questionDetailsId).html(this.questionDetails);
+                this.$nextTick(function () {
+                    FillSparklineTotals();
+                    $('.show-tooltip').tooltip();
+                    new Pin(PinType.Question);
                 });
             },
 
