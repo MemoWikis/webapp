@@ -280,13 +280,18 @@ class Pin {
                     updateHeartIcon(el);
                 });
             } else if (elemPin.parents('.questionDetailsStatistic').length > 0) {
-                updateHeartIcon(answerQuestionBodyMenu);
+                var answerQuestionBodyWithSameQuestionId = $(".AnswerQuestionBodyMenu span[data-question-id='" + questionId + "']");
+                if (answerQuestionBodyWithSameQuestionId)
+                    updateHeartIcon(answerQuestionBodyWithSameQuestionId);
                 questionInList.each(function () {
                     var el = $(this);
                     updateHeartIcon(el);
                 });
             } else if (elemPin.parent('.questionListPinContainer').length > 0) {
-                updateHeartIcon(answerQuestionBodyMenu);
+                var answerQuestionBodyWithSameQuestionId = $(".AnswerQuestionBodyMenu span[data-question-id='" + questionId + "']");
+                if (answerQuestionBodyWithSameQuestionId)
+                    updateHeartIcon(answerQuestionBodyWithSameQuestionId);
+
                 questionDetails.each(function () {
                     var el = $(this);
                     updateHeartIcon(el);

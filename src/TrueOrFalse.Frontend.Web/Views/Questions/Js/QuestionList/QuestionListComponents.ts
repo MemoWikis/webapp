@@ -194,6 +194,7 @@ Vue.component('question-component',
                 linkToComments: this.url + "#QuestionComments",
                 topicTitle: "Thema",
                 authorUrl: "",
+                questionDetails: "",
             }   
         },
 
@@ -201,6 +202,12 @@ Vue.component('question-component',
             this.correctnessProbability = this.knowledgeState + "%";
             this.setKnowledgebarColor(this.knowledgeState);
             this.getWishknowledgePinButton();
+
+            eventBus.$on('reload-question-details', () => {
+                if (this.showFullQuestion)
+                    this.setQuestionDetails();
+            });
+
         },
 
         watch: {
@@ -291,7 +298,6 @@ Vue.component('question-component',
             },
 
             loadQuestionDetails() {
-                var questionDetailsId = "#" + this.questionDetailsId;
                 $.ajax({
                     url: "/AnswerQuestion/RenderUpdatedQuestionDetails",
                     data: {
@@ -300,13 +306,19 @@ Vue.component('question-component',
                     },
                     type: "POST",
                     success: partialView => {
-                        $(questionDetailsId).html(partialView);
-                        this.$nextTick(function () {
-                            FillSparklineTotals();
-                            $('.show-tooltip').tooltip();
-                            new Pin(PinType.Question);
-                        });
+                        this.questionDetails = partialView;
+                        this.setQuestionDetails();
                     }
+                });
+            },
+
+            setQuestionDetails() {
+                var questionDetailsId = "#" + this.questionDetailsId;
+                $(questionDetailsId).html(this.questionDetails);
+                this.$nextTick(function () {
+                    FillSparklineTotals();
+                    $('.show-tooltip').tooltip();
+                    new Pin(PinType.Question);
                 });
             },
 
