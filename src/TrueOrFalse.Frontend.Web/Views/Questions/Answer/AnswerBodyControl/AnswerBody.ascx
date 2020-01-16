@@ -66,7 +66,6 @@
             
          <% } %>
     </div>
-
     
     <% if (Model.SolutionType != SolutionType.FlashCard.ToString()) { %>
     <h1 class="QuestionText" style="font-size: 22px; font-family: Open Sans, Arial, sans-serif; line-height: 31px; margin: 0;">
@@ -165,11 +164,6 @@
                                         <a href="<%= Model.NextUrl(Url) %>" id="btnNext" class="btn btn-primary" rel="nofollow">Nächste Frage</a>
                                     <% }else if(Model.NextUrl == null && Model.IsForVideo){ %> 
                                         <button id="continue"  class="btn btn-primary clickToContinue" style="display: none">Weiter</button>
-                                    <% }else if (Model.PrimarySetMini != null && !Model.IsInWidget && !Model.IsForVideo && !Model.IsInGame) { %>
-                                        <a href="<%= Links.TestSessionStartForSet(Model.PrimarySetMini.Name, Model.PrimarySetMini.Id) %>" id="btnStartTestSession" class="btn btn-primary show-tooltip" rel="nofollow" data-original-title="Teste dein Wissen mit <%= Settings.TestSessionQuestionCount  %> zufällig ausgewählten Fragen aus dem Lernset '<%= Model.PrimarySetMini.Name %>'">
-                                            <i class="fa fa-play-circle"></i>&nbsp;&nbsp;<b>Weitermachen</b><br/>
-                                            <small>Wissen testen: <%= Model.PrimarySetMini.Name.TruncateAtWordWithEllipsisText(30,"...") %></small>
-                                        </a>
                                     <% } %>
 
                                     <% if (Model.SolutionType != SolutionType.FlashCard.ToString()) { %>
@@ -185,10 +179,7 @@
                                     
                                 </div>
                                 <% } %>
-                                          
-                                            
-
-                                <div style="clear: both"></div>
+                            <div style="clear: both"></div>
                             </div>
                                 <div id="AnswerFeedbackAndSolutionDetails">
                                 <% if (Model.SolutionType != SolutionType.FlashCard.ToString())
@@ -240,10 +231,17 @@
                                     </div>
                                 </div>
                             </div>
+                            <div id="btnGoToTestSession" style="display: none"> 
+                                <% if (Model.PrimarySetMini != null && !Model.IsInWidget && !Model.IsForVideo && !Model.IsInGame && Model.IsLastQuestion) { %>
+                                    <a href="<%= Links.TestSessionStartForSet(Model.PrimarySetMini.Name, Model.PrimarySetMini.Id) %>" id="btnStartTestSession" class="btn btn-primary show-tooltip" rel="nofollow" data-original-title="Teste dein Wissen mit <%= Settings.TestSessionQuestionCount  %> zufällig ausgewählten Fragen aus dem Lernset '<%= Model.PrimarySetMini.Name %>'">
+                                        <b>Weitermachen</b>
+                                    </a>
+                                <% } %>
+                            </div>
                         </div>
                     </div>
                 </div>
-                </div>
+            </div>
         </div>
     </div>
         <% if (!Model.IsInWidget  && Model.SolutionType != SolutionType.FlashCard.ToString())
