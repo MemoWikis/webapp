@@ -2,6 +2,7 @@
 <%@ Import Namespace="System.Web.Optimization" %>
 <%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
 <%@ Import Namespace="TrueOrFalse" %>
+<%@ Import Namespace="FluentNHibernate.Conventions.Inspections" %>
 
 <asp:Content ID="ContentHeadSEO" ContentPlaceHolderID="HeadSEO" runat="server">
     
@@ -143,7 +144,7 @@
     </div>
     <div class=" row">
         <div class="col-xs-12 singleCategory" >
-            <% if (!Model.IsLoggedIn && !Model.IsTestSession && !Model.IsLearningSession && Model.SetMinis.Any()) { %>
+            <% if (!Model.IsLoggedIn && !Model.IsTestSession && !Model.IsLearningSession) { %>
                 <div class="SingleCategoryAttention">         
                     <% Html.RenderPartial("~/Views/Categories/Detail/Partials/SingleCategoryFullWidth/SingleCategoryFullWidthNoVue.ascx", new SingleCategoryFullWidthModel(Model.PrimaryCategory.Id)); %>
                 </div>
