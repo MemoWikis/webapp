@@ -108,12 +108,11 @@ public class AnswerQuestionModel : BaseModel
     public int TestSessionCurrentStepPercentage;
     public bool TestSessionIsLastStep = false;
     public int TestSessionProgessAfterAnswering;
-    public bool ShowErrorExpiredTestSession;
 
     public bool DisableCommentLink;
     public bool DisableAddKnowledgeButton;
     public bool IsInWidget;
-    public bool IsInLearningTab;
+    public bool IsQuestionDetailSiteFromGoogle; 
 
     public ContentRecommendationResult ContentRecommendationResult;
 
@@ -233,8 +232,6 @@ public class AnswerQuestionModel : BaseModel
         HasPreviousPage = pageCurrent > 1;
         HasNextPage = pageCurrent < pagesTotal;
 
-        //NextUrl = url => url.Action("Next", Links.AnswerQuestionController, new { setId = set.Id, questionId = question.Id });
-        //PreviousUrl = url => url.Action("Previous", Links.AnswerQuestionController, new { setId = set.Id, questionId = question.Id });
         if (HasNextPage)
             NextUrl = url => Links.AnswerQuestion(url, set.QuestionsInSet.GetNextTo(question.Id).Question, set);
 
