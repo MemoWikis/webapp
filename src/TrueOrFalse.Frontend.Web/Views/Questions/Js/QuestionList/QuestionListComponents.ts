@@ -219,6 +219,13 @@ Vue.component('question-component',
             },
             isInWishknowledge() {
                 this.setKnowledgebarColor(this.knowledgeState);
+                if (this.isInWishknowledge) {
+                    $("#" + this.pinId + " .iAddedNot").addClass("hide2");
+                    $("#" + this.pinId + " .iAdded").removeClass("hide2");
+                } else {
+                    $("#" + this.pinId + " .iAdded").addClass("hide2");
+                    $("#" + this.pinId + " .iAddedNot").removeClass("hide2");
+                }
             },
             categories() {
                 if (this.categories.length >= 2)
@@ -228,6 +235,9 @@ Vue.component('question-component',
             },
             questionId() {
                 this.allDataLoaded = false;
+                this.pinId = "QuestionListPin-" + this.questionId;
+                this.questionTitleId = "#QuestionTitle-" + this.questionId;
+                this.questionDetailsId = "QuestionDetails-" + this.questionId;
             }
         },
 
