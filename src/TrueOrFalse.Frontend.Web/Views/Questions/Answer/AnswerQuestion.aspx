@@ -151,16 +151,11 @@
             <% } %>
         </div>
     </div>
-
     <div class="row">
         <div class ="col-xs-12">
             <% if (Model.ContentRecommendationResult != null) { %>
                 <h4 style="margin-top: 30px;">Das könnte dich auch interessieren:</h4>
                 <div class="row CardsLandscapeNarrow" id="contentRecommendation">
-                    <% foreach (var set in Model.ContentRecommendationResult.Sets)
-                       {
-                            Html.RenderPartial("~/Views/Welcome/WelcomeBoxSingleSet.ascx", WelcomeBoxSingleSetModel.GetWelcomeBoxSetSingleModel(set.Id));
-                       } %>
                     <% foreach (var category in Model.ContentRecommendationResult.Categories)
                        {
                             Html.RenderPartial("Cards/CardSingleCategory", CardSingleCategoryModel.GetCardSingleCategoryModel(category.Id));
