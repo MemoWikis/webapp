@@ -286,7 +286,7 @@ public class AnswerQuestionModel : BaseModel
 
         QuestionId = question.Id;
         QuestionText = question.Text;
-        QuestionTextMarkdown = MarkdownInit.Run().Transform(question.TextExtended);
+        QuestionTextMarkdown = MarkdownToHtml.RepairImgTag(MarkdownInit.Run().Transform(question.TextExtended));
         Visibility = question.Visibility;
         SolutionType = question.SolutionType.ToString();
         SolutionModel = GetQuestionSolution.Run(question);

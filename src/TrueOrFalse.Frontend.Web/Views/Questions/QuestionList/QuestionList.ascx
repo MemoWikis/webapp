@@ -63,7 +63,7 @@
                                                 <div class="questionBody">
                                                     <div class="RenderedMarkdown extendedQuestion">
                                                         <component :is="extendedQuestion && {template:extendedQuestion}"></component>
-                                                        <div :id="extendedQuestionId"></div>
+                                                        <%--<div :id="extendedQuestionId"></div>--%>
                                                     </div>
 
                                                     <div class="answer">

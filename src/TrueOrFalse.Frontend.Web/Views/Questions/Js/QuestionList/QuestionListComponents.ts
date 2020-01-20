@@ -201,7 +201,6 @@ Vue.component('question-component',
                 authorUrl: "",
                 questionDetails: "",
                 pageHasChanged: false,
-                extendedQuestionId: "ExtendedQuestion-" + this.questionId,
             }   
         },
 
@@ -245,7 +244,6 @@ Vue.component('question-component',
                 this.pinId = "QuestionListPin-" + this.questionId;
                 this.questionTitleId = "#QuestionTitle-" + this.questionId;
                 this.questionDetailsId = "QuestionDetails-" + this.questionId;
-                this.extendedQuestionId = "ExtendedQuestion-" + this.questionId;
             }
         },
 
@@ -299,8 +297,7 @@ Vue.component('question-component',
                         this.references = data.references;
                         this.author = data.author;
                         this.authorImage = data.authorImage;
-                        //this.extendedQuestion = data.extendedQuestion;
-                        $("#" + this.extendedQuestionId).html(data.extendedQuestion);
+                        this.extendedQuestion = data.extendedQuestion;
                         this.commentCount = data.commentCount;
                         this.isCreator = data.isCreator && this.isLoggedIn;
                         this.editUrl = data.editUrl;

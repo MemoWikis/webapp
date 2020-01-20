@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Web.Mvc;
 
 public class MarkdownToHtml
@@ -26,5 +27,20 @@ public class MarkdownToHtml
         }
 
         return result.ToString();
+    }
+
+    public static string RepairImgTag(string markdownResult)
+    {
+        var brokenImgTag = "<p><img src=\"(.*)\"</p>";
+        var regexMatch = Regex.Match(markdownResult, brokenImgTag);
+
+        var repairedString = regexMatch.ToString().Replace("\"</p>", "\"></p>");
+        var htmlResult = "";
+        if (regexMatch.Length > 0)
+            htmlResult = markdownResult.Replace(regexMatch.ToString(), repairedString);
+        else
+            htmlResult = markdownResult;
+
+        return htmlResult;
     }
 }
