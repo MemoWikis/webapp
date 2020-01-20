@@ -61,8 +61,9 @@
                                             </div>
                                             <div class="extendedQuestionContainer" v-show="showFullQuestion">
                                                 <div class="questionBody">
-                                                    <div class="extendedQuestion">
+                                                    <div class="RenderedMarkdown extendedQuestion">
                                                         <component :is="extendedQuestion && {template:extendedQuestion}"></component>
+                                                        <%--<div :id="extendedQuestionId"></div>--%>
                                                     </div>
 
                                                     <div class="answer">
@@ -95,13 +96,13 @@
                                                         <li>
                                                             <a :href="url">Frageseite anzeigen</a>
                                                         </li>
-                                                        <li v-if="isCreator || isAdmin">
+                                                        <li v-if="isCreator || isAdmin == 'True' ">
                                                             <a :href="editUrl" >Frage bearbeiten</a>
                                                         </li>
                                                         <li>
                                                             <a href="#" data-action="embed-question">Frage einbetten</a>
                                                         </li>
-                                                        <li id="DeleteQuestion" v-if="isCreator || isAdmin">
+                                                        <li id="DeleteQuestion" v-if="isCreator || isAdmin == 'True' ">
                                                             <a class="TextLinkWithIcon" data-toggle="modal" :data-questionid="questionId" href="#modalDeleteQuestion">
                                                                 Frage löschen
                                                             </a>
@@ -130,19 +131,19 @@
                 </question-component>
                 <div id="QuestionListPagination">
                     <ul class="pagination col-xs-12 row justify-content-xs-center" v-if="pageArray.length <= 8">
-                        <li class="page-item" :class="{ disabled : selectedPage == 1 }">
+                        <li class="page-item page-btn" :class="{ disabled : selectedPage == 1 }">
                             <span class="page-link" @click="loadPreviousQuestions()">Vorherige</span>
                         </li>
                         <li class="page-item" v-for="(p, key) in pageArray" @click="loadQuestions(p)" :class="{ selected : selectedPage == p }">
                             <span class="page-link">{{p}}</span>
                         </li>
-                        <li class="page-item" :class="{ disabled : selectedPage == pageArray.length }">
+                        <li class="page-item page-btn" :class="{ disabled : selectedPage == pageArray.length }">
                             <span class="page-link" @click="loadNextQuestions()">Nächste</span>
                         </li>
                     </ul>
 
                     <ul class="pagination col-xs-12 row justify-content-xs-center" v-else>
-                        <li class="page-item col-auto" :class="{ disabled : selectedPage == 1 }">
+                        <li class="page-item col-auto page-btn" :class="{ disabled : selectedPage == 1 }">
                             <span class="page-link" @click="loadPreviousQuestions()">Vorherige</span>
                         </li>
                         <li class="page-item col-auto" @click="loadQuestions(1)" :class="{ selected : selectedPage == 1 }">
@@ -189,7 +190,7 @@
                         <li class="page-item col-auto" @click="loadQuestions(pageArray.length)" :class="{ selected : selectedPage == pageArray.length }">
                             <span class="page-link">{{pageArray.length}}</span>
                         </li>
-                        <li class="page-item col-auto" :class="{ disabled : selectedPage == pageArray.length }">
+                        <li class="page-item col-auto page-btn" :class="{ disabled : selectedPage == pageArray.length }">
                             <span class="page-link" @click="loadNextQuestions()">Nächste</span>
                         </li>
                     </ul>

@@ -24,6 +24,7 @@ Vue.component('question-list-component', {
             centerArray: [],
             showLeftSelectionDropUp: false,
             showRightSelectionDropUp: false,
+            pageIsLoading: false,
         };
     },
 
@@ -82,7 +83,9 @@ Vue.component('question-list-component', {
         },
 
         loadQuestions(selectedPage) {
-
+            if (this.pageIsLoading)
+                return;
+            this.pageIsLoading = true;
             $.ajax({
                 url: "/QuestionList/LoadQuestions/",
                 data: {
@@ -94,15 +97,17 @@ Vue.component('question-list-component', {
                 success: questions => {
                     this.questions = questions;
                     this.selectedPage = selectedPage;
+                    this.showLeftSelectionDropUp = false;
+                    this.showRightSelectionDropUp = false;
+
+                    this.$nextTick(function () {
+                        this.setPaginationRanges(selectedPage);
+                        new Pin(PinType.Question);
+                    });
+                    this.pageIsLoading = false;
                 },
             });
-            this.showLeftSelectionDropUp = false;
-            this.showRightSelectionDropUp = false;
 
-            this.$nextTick(function () {
-                this.setPaginationRanges(selectedPage);
-                new Pin(PinType.Question);
-            });
         },
 
 
@@ -195,6 +200,7 @@ Vue.component('question-component',
                 topicTitle: "Thema",
                 authorUrl: "",
                 questionDetails: "",
+                pageHasChanged: false,
             }   
         },
 
@@ -216,16 +222,16 @@ Vue.component('question-component',
             },
             selectedPage() {
                 this.showFullQuestion = false;
+                    if (this.isInWishknowledge) {
+                        $("#" + this.pinId + " .iAddedNot").addClass("hide2");
+                        $("#" + this.pinId + " .iAdded").removeClass("hide2");
+                    } else {
+                        $("#" + this.pinId + " .iAdded").addClass("hide2");
+                        $("#" + this.pinId + " .iAddedNot").removeClass("hide2");
+                    }
             },
             isInWishknowledge() {
                 this.setKnowledgebarColor(this.knowledgeState);
-                if (this.isInWishknowledge) {
-                    $("#" + this.pinId + " .iAddedNot").addClass("hide2");
-                    $("#" + this.pinId + " .iAdded").removeClass("hide2");
-                } else {
-                    $("#" + this.pinId + " .iAdded").addClass("hide2");
-                    $("#" + this.pinId + " .iAddedNot").removeClass("hide2");
-                }
             },
             categories() {
                 if (this.categories.length >= 2)
@@ -291,13 +297,17 @@ Vue.component('question-component',
                         this.references = data.references;
                         this.author = data.author;
                         this.authorImage = data.authorImage;
-                        this.allDataLoaded = true;
                         this.extendedQuestion = data.extendedQuestion;
                         this.commentCount = data.commentCount;
                         this.isCreator = data.isCreator && this.isLoggedIn;
                         this.editUrl = data.editUrl;
                         this.historyUrl = data.historyUrl;
                         this.authorUrl = data.authorUrl;
+                        this.$nextTick(function () {
+                            Images.Init();
+                        });
+                        this.allDataLoaded = true;
+
                     },
                 });
             },

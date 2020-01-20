@@ -352,13 +352,15 @@ public class AnswerQuestionController : BaseController
 
         EscapeReferencesText(question.References);
 
+        var correctAnswerDesc = MarkdownToHtml.RepairImgTag(MarkdownInit.Run().Transform(question.Description));
+
         return new JsonResult
         {
             Data = new
             {
                 correctAnswerAsHTML = solution.GetCorrectAnswerAsHtml(),
                 correctAnswer = solution.CorrectAnswer(),
-                correctAnswerDesc = MarkdownInit.Run().Transform(question.Description),
+                correctAnswerDesc = correctAnswerDesc,
                 correctAnswerReferences = question.References.Select(r => new
                 {
                     referenceId = r.Id,

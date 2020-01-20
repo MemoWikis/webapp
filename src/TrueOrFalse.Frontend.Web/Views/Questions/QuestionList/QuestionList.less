@@ -173,11 +173,11 @@
 
                         .notes {
                             padding-top: 16px;
-                            padding-bottom: 24px;
+                            padding-bottom: 8px;
                             font-size: 12px;
 
-                            a{
-                                cursor:pointer;
+                            a {
+                                cursor: pointer;
                             }
 
                             .relatedCategories {
@@ -274,6 +274,25 @@
             display: flex;
             justify-content: center;
             flex-wrap: wrap;
+
+            .page-item {
+                width: 34px;
+
+                &.page-btn {
+                    width: unset;
+                }
+
+                &.disabled {
+                    .page-link {
+                        color: #D6D6D6;
+                    }
+                }
+
+                .page-link {
+                    width: 100%;
+                    text-align: center;
+                }
+            }
 
             .selected {
                 border-bottom: 3px solid #003264;

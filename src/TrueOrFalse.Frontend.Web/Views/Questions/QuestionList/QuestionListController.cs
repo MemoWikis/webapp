@@ -3,7 +3,9 @@ using System.Collections;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Web.Mvc;
+using MarkdownSharp;
 using Microsoft.Ajax.Utilities;
 using Newtonsoft.Json;
 using RabbitMQ.Client.Framing.Impl;
@@ -28,10 +30,16 @@ public class QuestionListController : BaseController
         var valuationForUser = Resolve<TotalsPersUserLoader>().Run(_sessionUser.UserId, questionId);
         var solution = GetQuestionSolution.Run(question);
 
+        var extendedQuestion = MarkdownToHtml.RepairImgTag(MarkdownInit.Run().Transform(question.TextExtended));
+        var newExtendedQuestion = MarkdownToHtml.RepairImgTag(extendedQuestion);
+
+        var extendedAnswer = MarkdownToHtml.RepairImgTag(MarkdownInit.Run().Transform(question.Description));
+        var newExtendedAnswer = MarkdownToHtml.RepairImgTag(extendedAnswer);
+
         var json = Json(new
         {
             answer = solution.CorrectAnswer(),
-            extendedAnswer = question.Description,
+            extendedAnswer = newExtendedAnswer,
             categories = question.Categories.Select(c => new
             {
                 name = c.Name,
@@ -48,7 +56,7 @@ public class QuestionListController : BaseController
             authorId = author.Id,
             authorImage = authorImage.Url,
             authorUrl = Links.UserDetail(author),
-            extendedQuestion = MarkdownInit.Run().Transform(question.TextExtended),
+            extendedQuestion = newExtendedQuestion,
             commentCount = Resolve<CommentRepository>().GetForDisplay(question.Id)
                 .Where(c => !c.IsSettled)
                 .Select(c => new CommentModel(c))

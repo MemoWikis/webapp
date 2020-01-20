@@ -41,7 +41,7 @@ public class QuestionListModel : BaseModel
             question.Id = q.Id;
             question.Title = q.Text;
             question.LinkToQuestion = Links.GetUrl(q);
-            question.ImageData = new ImageFrontendData(Sl.ImageMetaDataRepo.GetBy(q.Id, ImageType.Question)).GetImageUrl(30).Url;
+            question.ImageData = new ImageFrontendData(Sl.ImageMetaDataRepo.GetBy(q.Id, ImageType.Question)).GetImageUrl(40, true).Url;
 
             question.CorrectnessProbability = q.CorrectnessProbability;
 
