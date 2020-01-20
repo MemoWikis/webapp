@@ -33,10 +33,13 @@ public class QuestionListController : BaseController
         var extendedQuestion = MarkdownToHtml.RepairImgTag(MarkdownInit.Run().Transform(question.TextExtended));
         var newExtendedQuestion = MarkdownToHtml.RepairImgTag(extendedQuestion);
 
+        var extendedAnswer = MarkdownToHtml.RepairImgTag(MarkdownInit.Run().Transform(question.Description));
+        var newExtendedAnswer = MarkdownToHtml.RepairImgTag(extendedAnswer);
+
         var json = Json(new
         {
             answer = solution.CorrectAnswer(),
-            extendedAnswer = new Markdown().Transform(question.Description),
+            extendedAnswer = newExtendedAnswer,
             categories = question.Categories.Select(c => new
             {
                 name = c.Name,
