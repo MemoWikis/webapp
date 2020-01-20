@@ -48,9 +48,7 @@ public class AnswerQuestionModel : BaseModel
     public string SoundUrl;
     public int TotalViews;
 
-    public int TimesAnsweredUser;
-    public int TimesAnsweredUserTrue;
-    public int TimesAnsweredUserWrong;
+    public IList<Category> AllCategoriesParents;
 
     public bool IsOwner;
 
@@ -112,7 +110,6 @@ public class AnswerQuestionModel : BaseModel
     public bool DisableCommentLink;
     public bool DisableAddKnowledgeButton;
     public bool IsInWidget;
-    public bool IsQuestionDetailSiteFromGoogle; 
 
     public ContentRecommendationResult ContentRecommendationResult;
 
@@ -320,11 +317,8 @@ public class AnswerQuestionModel : BaseModel
         if (!IsTestSession && !IsLearningSession)
         {
             PrimaryCategory = GetPrimaryCategory.GetForQuestion(question);
-        }
-
-        if (!IsTestSession && !IsLearningSession)
-        {
-           ContentRecommendationResult.Categories =  ContentRecommendationResult.Categories.Where(c => c.Id != PrimaryCategory.Id).ToList();
+            ContentRecommendationResult.Categories = ContentRecommendationResult.Categories.Where(c => c.Id != PrimaryCategory.Id).ToList();
+            AllCategoriesParents = Sl.CategoryRepo.GetAllParents(PrimaryCategory.Id);
         }
 
         DescriptionForSearchEngines = GetMetaDescriptionSearchEngines();

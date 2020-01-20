@@ -152,30 +152,34 @@
         </div>
     </div>
     <div class="row">
-        <div class ="col-xs-9">
             <% if (Model.ContentRecommendationResult != null) { %>
+        <div class="col-xs-12 singleCategory" > 
                 <h4 style="margin-top: 30px;">Das könnte dich auch interessieren:</h4>
-                <% if (Model.ContentRecommendationResult.Categories.Count == 0)
+                <% if (Model.ContentRecommendationResult.Categories.Count == 1)
                    {%>
-                    <% Html.RenderPartial("~/Views/Categories/Detail/Partials/SingleCategoryFullWidth/SingleCategoryFullWidthNoVue.ascx", new SingleCategoryFullWidthModel(Model.ContentRecommendationResult.Categories.First().Id)); %>
-                <%}else if (Model.ContentRecommendationResult.Categories.Count == 1){ %>
+                    <div class="Card SingleCategoryAttention"> 
+                        <% Html.RenderPartial("~/Views/Categories/Detail/Partials/SingleCategoryFullWidth/SingleCategoryFullWidthNoVue.ascx", new SingleCategoryFullWidthModel(Model.ContentRecommendationResult.Categories.First().Id)); %>
+                    </div>
+                <%}
+                   else if (Model.ContentRecommendationResult.Categories.Count == 2){ %>
+        <div class ="col-xs-9">
                     <div class="row CardsLandscape" id="contentRecommendation">
-                        <% foreach (var category in Model.ContentRecommendationResult.Categories)
-                           {
-                               Html.RenderPartial("~/Views/Categories/Detail/Partials/SingleCategory/SingleCategoryWithoutJson.ascx",new SingleCategoryModel(category.Id));
-                           } %>
+                        <% foreach (var category in Model.ContentRecommendationResult.Categories){
+                            Html.RenderPartial("~/Views/Categories/Detail/Partials/SingleCategory/SingleCategoryWithoutJson.ascx",new SingleCategoryModel(category.Id));
+                        } %>
+                    </div>
+                 <% }
+                  else { %>
+       <div class ="col-xs-9">
+                    <div class="row CardsPortrait" id="contentRecommendation">
+                        <% foreach (var category in Model.ContentRecommendationResult.Categories){
+                            Html.RenderPartial("~/Views/Categories/Detail/Partials/SingleCategory/SingleCategoryWithoutJson.ascx",new SingleCategoryModel(category.Id));
+                        } %>
                     </div>
                  <% } %>
-                <div class="row CardsPortrait" id="contentRecommendation">
-                    <% foreach (var category in Model.ContentRecommendationResult.Categories)
-                       {
-                           Html.RenderPartial("~/Views/Categories/Detail/Partials/SingleCategory/SingleCategoryWithoutJson.ascx",new SingleCategoryModel(category.Id));
-                       } %>
-                </div>
             <% } %>
 
         <div class="row" style="margin-top: 30px; color: darkgray; font-weight: bold;">
-
             <div class="col-xs-4">
                 <h4 style="padding:0; margin:0;">Kommentare<a name="comments"></a></h4>    
             </div>
@@ -352,4 +356,5 @@
     
 <% if (Model.IsOwner) Html.RenderPartial("~/Views/Questions/Modals/ModalDeleteQuestion.ascx"); %>
 </div>
+               
 </asp:Content>
