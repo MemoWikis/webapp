@@ -4,6 +4,7 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
+using MarkdownSharp;
 using Microsoft.Ajax.Utilities;
 using Newtonsoft.Json;
 using RabbitMQ.Client.Framing.Impl;
@@ -31,7 +32,7 @@ public class QuestionListController : BaseController
         var json = Json(new
         {
             answer = solution.CorrectAnswer(),
-            extendedAnswer = question.Description,
+            extendedAnswer = new Markdown().Transform(question.Description),
             categories = question.Categories.Select(c => new
             {
                 name = c.Name,

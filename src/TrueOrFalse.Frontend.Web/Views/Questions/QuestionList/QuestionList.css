@@ -152,7 +152,7 @@
 }
 #QuestionListApp .singleQuestionRow .questionSectionFlex .questionContainer .questionBodyTop .extendedQuestionContainer .notes {
   padding-top: 16px;
-  padding-bottom: 24px;
+  padding-bottom: 8px;
   font-size: 12px;
 }
 #QuestionListApp .singleQuestionRow .questionSectionFlex .questionContainer .questionBodyTop .extendedQuestionContainer .notes a {
@@ -227,6 +227,19 @@
   display: flex;
   justify-content: center;
   flex-wrap: wrap;
+}
+#QuestionListApp #QuestionListPagination .pagination .page-item {
+  width: 34px;
+}
+#QuestionListApp #QuestionListPagination .pagination .page-item.page-btn {
+  width: unset;
+}
+#QuestionListApp #QuestionListPagination .pagination .page-item.disabled .page-link {
+  color: #D6D6D6;
+}
+#QuestionListApp #QuestionListPagination .pagination .page-item .page-link {
+  width: 100%;
+  text-align: center;
 }
 #QuestionListApp #QuestionListPagination .pagination .selected {
   border-bottom: 3px solid #003264;

@@ -33,5 +33,17 @@ namespace TrueOrFalse.Tests
             string actual = new Markdown(new MarkdownOptions()) {AutoHyperlink = true}.Transform(input);
             Assert.AreEqual(expected, actual);
         }
+
+        [Test]
+        public void Should_transform_img_to_html()
+        {
+            var input = "![enter image description here][1]\r\n\r\n\r\n[1]: /Images/Questions/test.jpg";
+            var expected = "<p><img src=\"/Images/Questions/test.jpg\" alt=\"enter image description here\"></p>\n";
+
+            var actual = new Markdown(new MarkdownOptions()) { AutoHyperlink = true }.Transform(input);
+            var actual2 = new Markdown().Transform(input);
+            Assert.AreEqual(expected, actual);
+            Assert.AreEqual(expected, actual2);
+        }
     }
 }
