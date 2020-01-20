@@ -22049,11 +22049,13 @@
     <Compile Include="Views\Sets\Detail\Video\SetVideoController.cs" />
     <Compile Include="Views\Sets\Detail\Video\SetVideoModel.cs" />
     <Compile Include="Views\Sets\Edit\QuestionInSetModel.cs" />
+    <Compile Include="Views\Shared\AnalyticsFooterModel.cs" />
     <Compile Include="Views\Shared\AuthorViewModel.cs" />
     <Compile Include="Views\Shared\Cards\CardSingleCategoryModel.cs" />
     <Compile Include="Views\Shared\AddToWishknowledge.cs" />
     <Content Include="Views\Shared\AddToWishknowledgeHeartbeat.ascx" />
     <Content Include="Views\Shared\AddToWishknowledgeButtonQuestionDetail.ascx" />
+    <Content Include="Views\Shared\AnalyticsFooter.ascx" />
     <Content Include="Views\Shared\Cards\CardTutory.ascx" />
     <Content Include="Views\Shared\CategoryLabel.css">
       <DependentUpon>CategoryLabel.less</DependentUpon>

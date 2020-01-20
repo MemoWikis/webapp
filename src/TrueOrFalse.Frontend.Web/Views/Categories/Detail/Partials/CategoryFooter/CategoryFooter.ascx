@@ -56,30 +56,6 @@
         </div>
 
     </div>
-    <div style="border-bottom: solid 1px #d6d6d6;"></div>
-    <div class="footerContainer-Analytics row" style="padding: 30px 0;display: flex;">
-
-        <div class="analyticsImageContainer col-sm-4">
-            <img src="/Images/Various/knowledgeNetworkSample.png">
-        </div>
-
-        <div class="analyticsTextContainer col-sm-8">
-
-                <h1>Wissensnetz</h1>
-
-                <% if (Model.AllCategoriesParents.Count > 0){ %>
-                    <p>Übergeordnete Themen: <%= Model.AllCategoriesParents.Count %><span> <%= Model.ParentList %></span></p>
-                <% } %>
-                <% if (Model.CategoriesDescendantsCount > 0){ %>
-                    <p>Untergeordnete Themen: <%= Model.CategoriesDescendantsCount %></p>
-                <% } %>
-                
-                <div class="OpenAnalyticsTab">
-                        <a href="<%= Links.AnalyticsFooter(Model.Id, Model.Category.Name) %>" id="AnalyticsFooterBtn" data-tab-id="AnalyticsTab" class="btn btn-lg btn-primary footerBtn">Wissensnetz ansehen</a>   
-                </div>
-            </div>
-
-        </div>
-
+    <%Html.RenderPartial("~/Views/Shared/AnalyticsFooter.ascx", Model.AnalyticsFooterModel); %>
 </div>
 

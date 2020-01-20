@@ -4,7 +4,7 @@
 <div class="singleCatFullWidth">
     <div class="row">
         <div class="col-xs-9">
-            <div class="row flex">
+            <div class="row flex ">
                 <div class="col-xs-2">
                     <div class="ImageContainer">
                         <%= Model.ImageFrontendData.RenderHtmlImageBasis(128, true, ImageType.Category) %>
