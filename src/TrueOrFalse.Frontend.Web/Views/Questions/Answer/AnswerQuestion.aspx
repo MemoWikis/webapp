@@ -145,7 +145,7 @@
     <div class=" row">
         <div class="col-xs-12 singleCategory" >
             <% if (!Model.IsTestSession && !Model.IsLearningSession) { %>
-                <div class="SingleCategoryAttention">         
+                <div class="Card SingleCategoryAttention">         
                     <% Html.RenderPartial("~/Views/Categories/Detail/Partials/SingleCategoryFullWidth/SingleCategoryFullWidthNoVue.ascx", new SingleCategoryFullWidthModel(Model.PrimaryCategory.Id)); %>
                 </div>
             <% } %>
@@ -155,10 +155,17 @@
         <div class ="col-xs-9">
             <% if (Model.ContentRecommendationResult != null) { %>
                 <h4 style="margin-top: 30px;">Das könnte dich auch interessieren:</h4>
-                <% if (Model.ContentRecommendationResult.Categories.Count == 1)
+                <% if (Model.ContentRecommendationResult.Categories.Count == 0)
                    {%>
-                       
-                <%}%>
+                    <% Html.RenderPartial("~/Views/Categories/Detail/Partials/SingleCategoryFullWidth/SingleCategoryFullWidthNoVue.ascx", new SingleCategoryFullWidthModel(Model.ContentRecommendationResult.Categories.First().Id)); %>
+                <%}else if (Model.ContentRecommendationResult.Categories.Count == 1){ %>
+                    <div class="row CardsLandscape" id="contentRecommendation">
+                        <% foreach (var category in Model.ContentRecommendationResult.Categories)
+                           {
+                               Html.RenderPartial("~/Views/Categories/Detail/Partials/SingleCategory/SingleCategoryWithoutJson.ascx",new SingleCategoryModel(category.Id));
+                           } %>
+                    </div>
+                 <% } %>
                 <div class="row CardsPortrait" id="contentRecommendation">
                     <% foreach (var category in Model.ContentRecommendationResult.Categories)
                        {

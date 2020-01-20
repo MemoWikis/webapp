@@ -3,7 +3,7 @@
 <%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
                 
     <div class="CardColumn">
-        <div class="Card SingleItem Set">
+        <div class="Card SingleItem Category ">
             <div class="ImageContainer">
                 <%= Model.ImageFrontendData.RenderHtmlImageBasis(300, true, ImageType.QuestionSet, linkToItem: Links.CategoryDetail(Model.CategoryName,Model.CategoryId), noFollow: true) %>
             </div>
@@ -15,11 +15,10 @@
                                 <%= Html.Partial("AddToWishknowledge", new AddToWishknowledge(Model.IsInWishknowledge)) %>
                             </a>
                         </span>&nbsp;
-                        
-                        <a href="<%= Links.CategoryDetail(Model.Category) %>" :class="{ disabled : canBeEdited }">Lernset mit <%= Model.QCount %> Frage<%= StringUtils.PluralSuffix(Model.QCount, "n") %></a>
+                        <a href="<%= Links.CategoryDetail(Model.Category) %>">Thema mit <%= Model.QCount %> Frage<%= StringUtils.PluralSuffix(Model.QCount, "n") %></a>
                     </h6>
                     <div class="LinkArea">
-                        <h4 class="ItemTitle"><%: Model.CategoryName %></h4>
+                        <h4><%: Model.CategoryName %></h4>
                         <div class="ItemText"><%: Model.CategoryText %></div>
                         <a class="Link" href="<%= Links.CategoryDetail(Model.Category) %>"></a>
                     </div>

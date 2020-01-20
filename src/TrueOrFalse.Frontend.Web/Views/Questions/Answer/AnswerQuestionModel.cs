@@ -322,6 +322,11 @@ public class AnswerQuestionModel : BaseModel
             PrimaryCategory = GetPrimaryCategory.GetForQuestion(question);
         }
 
+        if (!IsTestSession && !IsLearningSession)
+        {
+           ContentRecommendationResult.Categories =  ContentRecommendationResult.Categories.Where(c => c.Id != PrimaryCategory.Id).ToList();
+        }
+
         DescriptionForSearchEngines = GetMetaDescriptionSearchEngines();
         DescriptionForFacebook = GetMetaDescriptionsFacebook();
 
