@@ -317,7 +317,7 @@ public class AnswerQuestionModel : BaseModel
         SetCount = question.SetsAmount;
 
         //Find best suited primary category for question
-        if (!IsLoggedIn && !IsTestSession && !IsLearningSession)
+        if (!IsTestSession && !IsLearningSession)
         {
             PrimaryCategory = GetPrimaryCategory.GetForQuestion(question);
         }

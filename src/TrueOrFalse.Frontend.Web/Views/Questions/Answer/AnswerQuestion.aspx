@@ -144,7 +144,7 @@
     </div>
     <div class=" row">
         <div class="col-xs-12 singleCategory" >
-            <% if (!Model.IsLoggedIn && !Model.IsTestSession && !Model.IsLearningSession) { %>
+            <% if (!Model.IsTestSession && !Model.IsLearningSession) { %>
                 <div class="SingleCategoryAttention">         
                     <% Html.RenderPartial("~/Views/Categories/Detail/Partials/SingleCategoryFullWidth/SingleCategoryFullWidthNoVue.ascx", new SingleCategoryFullWidthModel(Model.PrimaryCategory.Id)); %>
                 </div>
@@ -152,17 +152,17 @@
         </div>
     </div>
     <div class="row">
-        <div class ="col-xs-12">
+        <div class ="col-xs-9">
             <% if (Model.ContentRecommendationResult != null) { %>
                 <h4 style="margin-top: 30px;">Das könnte dich auch interessieren:</h4>
-                <div class="row CardsLandscapeNarrow" id="contentRecommendation">
+                <% if (Model.ContentRecommendationResult.Categories.Count == 1)
+                   {%>
+                       
+                <%}%>
+                <div class="row CardsPortrait" id="contentRecommendation">
                     <% foreach (var category in Model.ContentRecommendationResult.Categories)
                        {
-                            Html.RenderPartial("Cards/CardSingleCategory", CardSingleCategoryModel.GetCardSingleCategoryModel(category.Id));
-                       } %>
-                    <% foreach (var set in Model.ContentRecommendationResult.PopularSets)
-                       { 
-                            Html.RenderPartial("~/Views/Welcome/WelcomeBoxSingleSet.ascx", WelcomeBoxSingleSetModel.GetWelcomeBoxSetSingleModel(set.Id));
+                           Html.RenderPartial("~/Views/Categories/Detail/Partials/SingleCategory/SingleCategoryWithoutJson.ascx",new SingleCategoryModel(category.Id));
                        } %>
                 </div>
             <% } %>

@@ -21735,6 +21735,7 @@
     <Content Include="Views\Categories\Detail\Partials\InlineText\InlineText.ascx" />
     <Content Include="Views\Categories\Detail\Partials\SingleCategoryFullWidth\SingleCategoryFullWidthNoVue.ascx" />
     <Content Include="Views\Categories\Detail\Partials\SingleCategoryFullWidth\SingleCategoryFullWidthModal.vue.ascx" />
+    <Content Include="Views\Categories\Detail\Partials\SingleCategory\SingleCategoryWIthoutJson.ascx" />
     <Content Include="Views\Categories\Detail\Partials\SingleQuestionsQuiz\SingleQuestionsQuizModal.vue.ascx" />
     <Content Include="Views\Categories\Detail\Partials\SingleSetFullWidth\SingleSetFullWidthModal.vue.ascx" />
     <Content Include="Views\Categories\Detail\Partials\MediaList\MediaListReferenceTitle.ascx" />
