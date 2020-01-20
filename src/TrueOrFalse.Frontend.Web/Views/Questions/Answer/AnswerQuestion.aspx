@@ -353,7 +353,7 @@
             </div>
         </div>
     </div>
-    
+    <%Html.RenderPartial("~/Views/Shared/AnalyticsFooter.ascx", Model.AnalyticsFooterModel); %>
 <% if (Model.IsOwner) Html.RenderPartial("~/Views/Questions/Modals/ModalDeleteQuestion.ascx"); %>
 </div>
                

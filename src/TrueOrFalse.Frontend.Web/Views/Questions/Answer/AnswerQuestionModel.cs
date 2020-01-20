@@ -112,6 +112,7 @@ public class AnswerQuestionModel : BaseModel
     public bool IsInWidget;
 
     public ContentRecommendationResult ContentRecommendationResult;
+    public AnalyticsFooterModel AnalyticsFooterModel; 
 
     public AnswerQuestionModel(Question question, bool? isMobileDevice = null)
     {
@@ -312,7 +313,9 @@ public class AnswerQuestionModel : BaseModel
         Categories = question.Categories;
         SetMinis = question.SetTop5Minis;
         SetCount = question.SetsAmount;
-
+        PrimaryCategory = GetPrimaryCategory.GetForQuestion(question);
+        AnalyticsFooterModel = new AnalyticsFooterModel(PrimaryCategory);
+        
         //Find best suited primary category for question
         if (!IsTestSession && !IsLearningSession)
         {
