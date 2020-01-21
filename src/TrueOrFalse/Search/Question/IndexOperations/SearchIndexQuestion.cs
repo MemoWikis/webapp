@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using SolrNet;
 using SolrNet.Commands;
 
@@ -55,8 +56,16 @@ namespace TrueOrFalse.Search
             {
                 AsyncExe.Run(() =>
                 {
-                    var solrQuestion = ToQuestionSolrMap.Run(question, Sl.QuestionValuationRepo.GetActiveInWishknowledgeFromCache(question.Id));
-                    _solrOperations.Add(solrQuestion, new AddParameters {CommitWithin = 5000});
+                    try
+                    {
+                        var solrQuestion = ToQuestionSolrMap.Run(question,
+                            Sl.QuestionValuationRepo.GetActiveInWishknowledgeFromCache(question.Id));
+                        _solrOperations.Add(solrQuestion, new AddParameters {CommitWithin = 10000});
+                    }
+                    catch(Exception e)
+                    {
+                        Logg.r().Error(e, "Error in AsyncRunner");
+                    }
                 });
             }
         }
