@@ -2,7 +2,6 @@
 <%@ Import Namespace="System.Web.Optimization" %>
 <%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
 <%@ Import Namespace="TrueOrFalse" %>
-<%@ Import Namespace="FluentNHibernate.Conventions.Inspections" %>
 
 <asp:Content ID="ContentHeadSEO" ContentPlaceHolderID="HeadSEO" runat="server">
     
@@ -153,8 +152,12 @@
     </div>--%>
     <div class="row">
         <div class="col-xs-9" >
-    <h4 style="margin-top: 30px;">Die Frage ist folgenden Themen zugeordnet:</h4>
-           <% Html.RenderPartial("~/Views/Questions/Answer/CategoryCards.ascx", Model); %>
+            <h4 style="margin-top: 30px;">Die Frage ist folgenden Themen zugeordnet:</h4>
+            <% Html.RenderPartial("~/Views/Questions/Answer/CategoryCards.ascx", new CategoryCardModel(Model.ContentRecommendationResult.Categories, Model.AllCategoriesParents,Model.PrimaryCategory.Id)); %>
+            
+            <h4 style="margin-top: 30px;">Das könnte Dich auch interessieren:</h4>
+            <% Html.RenderPartial("~/Views/Questions/Answer/CategoryCards.ascx", new CategoryCardModel(Model.ContentRecommendationResult.Categories, Model.AllCategoriesParents,Model.PrimaryCategory.Id, true)); %>
+
         <div class="row" style="margin-top: 30px; color: darkgray; font-weight: bold;">
             <div class="col-xs-4">
                 <h4 style="padding:0; margin:0;">Kommentare<a name="comments"></a></h4>    
@@ -329,7 +332,9 @@
             </div>
         </div>
     </div>
-    <%Html.RenderPartial("~/Views/Shared/AnalyticsFooter.ascx", Model.AnalyticsFooterModel); %>
+    <div class="row">
+        <%Html.RenderPartial("~/Views/Shared/AnalyticsFooter.ascx", Model.AnalyticsFooterModel); %>
+    </div>
 <% if (Model.IsOwner) Html.RenderPartial("~/Views/Questions/Modals/ModalDeleteQuestion.ascx"); %>
 </div>
                

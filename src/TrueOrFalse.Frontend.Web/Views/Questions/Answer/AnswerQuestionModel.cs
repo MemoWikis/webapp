@@ -313,13 +313,12 @@ public class AnswerQuestionModel : BaseModel
         Categories = question.Categories;
         SetMinis = question.SetTop5Minis;
         SetCount = question.SetsAmount;
-        PrimaryCategory = GetPrimaryCategory.GetForQuestion(question);
-        AnalyticsFooterModel = new AnalyticsFooterModel(PrimaryCategory);
-        
+
         //Find best suited primary category for question
         if (!IsTestSession && !IsLearningSession)
         {
             PrimaryCategory = GetPrimaryCategory.GetForQuestion(question);
+            AnalyticsFooterModel = new AnalyticsFooterModel(PrimaryCategory);
             AllCategoriesParents = Sl.CategoryRepo.GetAllParents(PrimaryCategory.Id);
         }
 
