@@ -24179,6 +24179,7 @@
     <Content Include="Views\Questions\History\Detail\QuestionHistoryDetail.less" />
     <Content Include="Views\Shared\CategoryLabel.less" />
     <Content Include="Views\Questions\Answer\SessionConfig.less" />
+    <Content Include="Views\Questions\Answer\CategoryCards.ascx" />
     <None Include="Web.overwritten.config.sample" />
     <Content Include="Views\Welcome\Logout.aspx" />
     <Content Include="Views\Api\Export.aspx" />
