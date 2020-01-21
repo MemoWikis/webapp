@@ -30,16 +30,10 @@ public class QuestionListController : BaseController
         var valuationForUser = Resolve<TotalsPersUserLoader>().Run(_sessionUser.UserId, questionId);
         var solution = GetQuestionSolution.Run(question);
 
-        var extendedQuestion = MarkdownToHtml.RepairImgTag(MarkdownInit.Run().Transform(question.TextExtended));
-        var newExtendedQuestion = MarkdownToHtml.RepairImgTag(extendedQuestion);
-
-        var extendedAnswer = MarkdownToHtml.RepairImgTag(MarkdownInit.Run().Transform(question.Description));
-        var newExtendedAnswer = MarkdownToHtml.RepairImgTag(extendedAnswer);
-
         var json = Json(new
         {
             answer = solution.CorrectAnswer(),
-            extendedAnswer = newExtendedAnswer,
+            extendedAnswer = question.Description != null ? MarkdownMarkdig.ToHtml(question.Description) : null,
             categories = question.Categories.Select(c => new
             {
                 name = c.Name,
@@ -56,7 +50,7 @@ public class QuestionListController : BaseController
             authorId = author.Id,
             authorImage = authorImage.Url,
             authorUrl = Links.UserDetail(author),
-            extendedQuestion = newExtendedQuestion,
+            extendedQuestion = question.TextExtended != null ? MarkdownMarkdig.ToHtml(question.TextExtended) : null,
             commentCount = Resolve<CommentRepository>().GetForDisplay(question.Id)
                 .Where(c => !c.IsSettled)
                 .Select(c => new CommentModel(c))
