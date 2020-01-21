@@ -12,7 +12,7 @@
                     <h6 class="ItemInfo">
                         <span class="Pin" data-set-id="<%= Model.CategoryId %>" style="">
                             <a href="#" class="noTextdecoration">
-                                <%= Html.Partial("AddToWishknowledge", new AddToWishknowledge(Model.IsInWishknowledge)) %>
+                                <%= Html.Partial("AddToWishknowledge", new AddToWishknowledge(Model.IsInWishknowledge, false, false, false)) %>
                             </a>
                         </span>&nbsp;
                         <a href="<%= Links.CategoryDetail(Model.Category) %>">Thema mit <%= Model.QCount %> Frage<%= StringUtils.PluralSuffix(Model.QCount, "n") %></a>

@@ -152,7 +152,8 @@
         </div>
     </div>--%>
     <div class="row">
-        <div class="col-xs-9 singleCategory" > 
+        <div class="col-xs-9" >
+    <h4 style="margin-top: 30px;">Die Frage ist folgenden Themen zugeordnet:</h4>
            <% Html.RenderPartial("~/Views/Questions/Answer/CategoryCards.ascx", Model); %>
         <div class="row" style="margin-top: 30px; color: darkgray; font-weight: bold;">
             <div class="col-xs-4">

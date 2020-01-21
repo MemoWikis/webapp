@@ -1,7 +1,6 @@
 ﻿<%@ Control Language="C#" Inherits="System.Web.Mvc.ViewUserControl<AnswerQuestionModel>" %>
     " %>
     <% if (Model.ContentRecommendationResult != null) { %>
-    <h4 style="margin-top: 30px;">Das könnte dich auch interessieren:</h4>
         <% if (Model.ContentRecommendationResult.Categories.Count == 1)
         {%>
         <div class="Card SingleCategoryAttention">
