@@ -286,7 +286,7 @@ public class AnswerQuestionModel : BaseModel
 
         QuestionId = question.Id;
         QuestionText = question.Text;
-        QuestionTextMarkdown = question.TextExtended != null ? MarkdownMarkdig.ToHtml(question.TextExtended) : null;
+        QuestionTextMarkdown = question.TextExtended != null ? MarkdownMarkdig.ToHtml(question.TextExtended) : "";
         Visibility = question.Visibility;
         SolutionType = question.SolutionType.ToString();
         SolutionModel = GetQuestionSolution.Run(question);

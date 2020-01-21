@@ -30,10 +30,12 @@ public class QuestionListController : BaseController
         var valuationForUser = Resolve<TotalsPersUserLoader>().Run(_sessionUser.UserId, questionId);
         var solution = GetQuestionSolution.Run(question);
 
+        var testCategory = question.Categories;
+
         var json = Json(new
         {
             answer = solution.CorrectAnswer(),
-            extendedAnswer = question.Description != null ? MarkdownMarkdig.ToHtml(question.Description) : null,
+            extendedAnswer = question.Description != null ? MarkdownMarkdig.ToHtml(question.Description) : "",
             categories = question.Categories.Select(c => new
             {
                 name = c.Name,
@@ -50,7 +52,7 @@ public class QuestionListController : BaseController
             authorId = author.Id,
             authorImage = authorImage.Url,
             authorUrl = Links.UserDetail(author),
-            extendedQuestion = question.TextExtended != null ? MarkdownMarkdig.ToHtml(question.TextExtended) : null,
+            extendedQuestion = question.TextExtended != null ? MarkdownMarkdig.ToHtml(question.TextExtended) : "",
             commentCount = Resolve<CommentRepository>().GetForDisplay(question.Id)
                 .Where(c => !c.IsSettled)
                 .Select(c => new CommentModel(c))
@@ -68,5 +70,14 @@ public class QuestionListController : BaseController
     public string RenderWishknowledgePinButton(bool isInWishknowledge)
     {
         return ViewRenderer.RenderPartialView("~/Views/Shared/AddToWishknowledgeButtonQuestionDetail.ascx", new AddToWishknowledge(isInWishknowledge, true), ControllerContext);
+    }
+
+    [HttpPost]
+    public int GetUpdatedCorrectnessProbability(int questionId)
+    {
+        var question = Sl.QuestionRepo.GetById(questionId);
+        var model = new AnswerQuestionModel(question);
+
+        return model.HistoryAndProbability.CorrectnessProbability.CPPersonal;
     }
 }

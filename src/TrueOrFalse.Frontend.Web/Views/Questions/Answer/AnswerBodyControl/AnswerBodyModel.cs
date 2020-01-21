@@ -162,7 +162,7 @@ public class AnswerBodyModel : BaseModel
             AjaxUrl_LearningSessionAmendAfterShowSolution = Links.LearningSessionAmendAfterShowSolution;
 
         QuestionText = question.Text;
-        QuestionTextMarkdown = question.TextExtended != null ? MarkdownMarkdig.ToHtml(question.TextExtended) : null;
+        QuestionTextMarkdown = question.TextExtended != null ? MarkdownMarkdig.ToHtml(question.TextExtended) : "";
 
         if (question.SolutionType == TrueOrFalse.SolutionType.FlashCard)
         {

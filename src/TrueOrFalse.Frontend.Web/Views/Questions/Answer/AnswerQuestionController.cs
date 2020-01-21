@@ -358,7 +358,7 @@ public class AnswerQuestionController : BaseController
             {
                 correctAnswerAsHTML = solution.GetCorrectAnswerAsHtml(),
                 correctAnswer = solution.CorrectAnswer(),
-                correctAnswerDesc = question.Description != null ? MarkdownMarkdig.ToHtml(question.Description) : null,
+                correctAnswerDesc = question.Description != null ? MarkdownMarkdig.ToHtml(question.Description) : "",
                 correctAnswerReferences = question.References.Select(r => new
                 {
                     referenceId = r.Id,
