@@ -252,6 +252,7 @@ class AnswerQuestion {
                             $("#answerHistory").html(data);
                         });
                     self.updateQuestionDetails();
+                    eventBus.$emit('reload-correctnessprobability-for-question', AnswerQuestion.GetQuestionId());
                     KnowledgeSummaryBar.updateKnowledgeSummaryBar();
                     if ($('#ActivityPointsContainer'))
                         self.GetActivityPointsForSidebar();
@@ -393,6 +394,7 @@ class AnswerQuestion {
                     $('#btnNext').html('Zum Ergebnis');
                 }
                 self.updateQuestionDetails();
+                eventBus.$emit('reload-correctnessprobability-for-question', AnswerQuestion.GetQuestionId());
                 KnowledgeSummaryBar.updateKnowledgeSummaryBar();
                 if ($('#ActivityPointsContainer'))
                     self.GetActivityPointsForSidebar();
