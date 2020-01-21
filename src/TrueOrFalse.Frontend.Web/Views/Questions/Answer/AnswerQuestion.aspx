@@ -142,7 +142,7 @@
             <% Html.RenderPartial("~/Views/Shared/SidebarCards.ascx", Model.SidebarModel); %>
         </div>
     </div>
-    <div class=" row">
+<%--    <div class=" row">
         <div class="col-xs-12 singleCategory" >
             <% if (!Model.IsTestSession && !Model.IsLearningSession) { %>
                 <div class="Card SingleCategoryAttention">         
@@ -150,10 +150,10 @@
                 </div>
             <% } %>
         </div>
-    </div>
+    </div>--%>
     <div class="row">
+        <div class="col-xs-9 singleCategory" > 
             <% if (Model.ContentRecommendationResult != null) { %>
-        <div class="col-xs-12 singleCategory" > 
                 <h4 style="margin-top: 30px;">Das könnte dich auch interessieren:</h4>
                 <% if (Model.ContentRecommendationResult.Categories.Count == 1)
                    {%>
@@ -162,7 +162,6 @@
                     </div>
                 <%}
                    else if (Model.ContentRecommendationResult.Categories.Count == 2){ %>
-        <div class ="col-xs-9">
                     <div class="row CardsLandscape" id="contentRecommendation">
                         <% foreach (var category in Model.ContentRecommendationResult.Categories){
                             Html.RenderPartial("~/Views/Categories/Detail/Partials/SingleCategory/SingleCategoryWithoutJson.ascx",new SingleCategoryModel(category.Id));
@@ -170,7 +169,6 @@
                     </div>
                  <% }
                   else { %>
-       <div class ="col-xs-9">
                     <div class="row CardsPortrait" id="contentRecommendation">
                         <% foreach (var category in Model.ContentRecommendationResult.Categories){
                             Html.RenderPartial("~/Views/Categories/Detail/Partials/SingleCategory/SingleCategoryWithoutJson.ascx",new SingleCategoryModel(category.Id));

@@ -320,7 +320,6 @@ public class AnswerQuestionModel : BaseModel
         if (!IsTestSession && !IsLearningSession)
         {
             PrimaryCategory = GetPrimaryCategory.GetForQuestion(question);
-            ContentRecommendationResult.Categories = ContentRecommendationResult.Categories.Where(c => c.Id != PrimaryCategory.Id).ToList();
             AllCategoriesParents = Sl.CategoryRepo.GetAllParents(PrimaryCategory.Id);
         }
 
