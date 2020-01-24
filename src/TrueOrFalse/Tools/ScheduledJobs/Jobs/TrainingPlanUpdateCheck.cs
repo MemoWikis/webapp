@@ -20,11 +20,6 @@ namespace TrueOrFalse.Utilities.ScheduledJobs
                     .AllWithNewMissedDates()
                     .Union(trainingPlanRepo.AllWithExpiredUncompletedDates());
 
-                //if (trainingPlans.Count == 0)
-                //{
-                //    Thread.Sleep(60000);
-                //}
-
                 foreach (var trainingPlan in trainingPlans)
                 {
                     var session = scope.R<ISession>();
