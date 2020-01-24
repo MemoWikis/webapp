@@ -56,11 +56,15 @@ namespace TrueOrFalse.Search
             {
                 AsyncExe.Run(() =>
                 {
-                    try
+                        try
                     {
-                        var solrQuestion = ToQuestionSolrMap.Run(question,
-                            Sl.QuestionValuationRepo.GetActiveInWishknowledgeFromCache(question.Id));
-                        _solrOperations.Add(solrQuestion, new AddParameters {CommitWithin = 10000});
+                        JobExecute.Run((scope) =>
+                        {
+                            var solrQuestion = ToQuestionSolrMap.Run(question,
+                                Sl.QuestionValuationRepo.GetActiveInWishknowledgeFromCache(question.Id));
+                            _solrOperations.Add(solrQuestion, new AddParameters { CommitWithin = 5000 });
+
+                        }, "UpdateQuestionSolrJob");
                     }
                     catch(Exception e)
                     {
