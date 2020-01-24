@@ -103,8 +103,9 @@ public class KnowledgeController : BaseController
     }
 
     [HttpGet]
-    public JsonResult GetQuestionsWish(int page, int itemCountPerPage, string sort = "", bool isAuthor = false)
+    public JsonResult GetQuestionsWish(int page, int per_page, string sort = "", bool isAuthor = false)
     {
+        var itemCountPerPage = per_page;
         var knowledgeQuestions = new KnowledgeQuestions(isAuthor, page, itemCountPerPage, sort);
 
         return Json(new {
