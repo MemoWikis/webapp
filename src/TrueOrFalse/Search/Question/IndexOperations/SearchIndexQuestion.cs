@@ -56,20 +56,13 @@ namespace TrueOrFalse.Search
             {
                 AsyncExe.Run(() =>
                 {
-                        try
+                    JobExecute.Run((scope) =>
                     {
-                        JobExecute.Run((scope) =>
-                        {
-                            var solrQuestion = ToQuestionSolrMap.Run(question,
-                                Sl.QuestionValuationRepo.GetActiveInWishknowledgeFromCache(question.Id));
-                            _solrOperations.Add(solrQuestion, new AddParameters { CommitWithin = 5000 });
+                        var solrQuestion = ToQuestionSolrMap.Run(question,
+                            Sl.QuestionValuationRepo.GetActiveInWishknowledgeFromCache(question.Id));
+                        _solrOperations.Add(solrQuestion, new AddParameters { CommitWithin = 5000 });
 
-                        }, "UpdateQuestionSolrJob");
-                    }
-                    catch(Exception e)
-                    {
-                        Logg.r().Error(e, "Error in AsyncRunner");
-                    }
+                    }, "UpdateQuestionSolrJob", writeLog: false);
                 });
             }
         }
