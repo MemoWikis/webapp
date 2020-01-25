@@ -88,22 +88,24 @@ public class KnowledgeController : BaseController
     }
 
     [HttpGet]
-    public JsonResult GetCatsAndSetsWish(int page, int itemCountPerPage, string sort = "", bool isAuthor = false)
+    public JsonResult GetCatsAndSetsWish(int page, int per_page, string sort = "", bool isAuthor = false)
     {
+        var itemCountPerPage = per_page; 
         var categoryAndSetDataWishKnowledge = new KnowledgeTopics(isAuthor);
         var unsortedItems = categoryAndSetDataWishKnowledge.FilteredCategoryWishKnowledge(ControllerContext);
         var sortedItems = categoryAndSetDataWishKnowledge.SortList(unsortedItems, sort).ToList();
         var data = GetPageForPagination(sortedItems, page, itemCountPerPage);
 
         var itemCount = sortedItems.Count;
-        var lastPage = GetLastPage(sortedItems.Count, itemCountPerPage);
+        var last_page = GetLastPage(sortedItems.Count, itemCountPerPage);
 
-        return Json(new { total = itemCount, per_page = itemCountPerPage, current_page = page, lastPage, data }, JsonRequestBehavior.AllowGet);
+        return Json(new { total = itemCount, per_page = itemCountPerPage, current_page = page, last_page, data }, JsonRequestBehavior.AllowGet);
     }
 
     [HttpGet]
-    public JsonResult GetQuestionsWish(int page, int itemCountPerPage, string sort = "", bool isAuthor = false)
+    public JsonResult GetQuestionsWish(int page, int per_page, string sort = "", bool isAuthor = false)
     {
+        var itemCountPerPage = per_page;
         var knowledgeQuestions = new KnowledgeQuestions(isAuthor, page, itemCountPerPage, sort);
 
         return Json(new {
