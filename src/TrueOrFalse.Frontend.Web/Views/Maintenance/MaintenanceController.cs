@@ -719,5 +719,11 @@ public class MaintenanceController : BaseController
         return View("Tools",
             new ToolsModel {Message = new SuccessMessage("Der User wurde gelöscht")});
     }
+
+    [HttpPost]
+    public void MigrateSetsToCategories()
+    {
+
+    }
 }
 
