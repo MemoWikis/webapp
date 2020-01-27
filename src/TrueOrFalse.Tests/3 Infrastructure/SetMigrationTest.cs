@@ -27,43 +27,43 @@ class SetMigrationTest : BaseTest
         Resolve<SetValuationRepo>().Create(new List<SetValuation> { setValuation1, setValuation2 });
         var setValuationFromDB = R<SetValuationRepo>().GetAll();
 
+        var questionRepo = Resolve<QuestionRepo>();
+        var questionsFromDB = questionRepo.GetAll();
+
 
         foreach (var set in setFromDB)
         {
-            var questionList = string.Join(", ", set.QuestionsInSet.Select(q => q.Id));
 
             var category = new Category()
             {
-                Name = "Lernset:" + set.Name,
+                Name = set.Name,
                 Type = CategoryType.Standard,
                 Creator = set.Creator,
                 DateCreated = set.DateCreated,
-                TopicMarkdown = "[[{\"TemplateName\":\"QuestionNavigation\",\"Load\":\"" + questionList + "\"}]]",
             };
 
             categoryRepo.Create(category);
+            var newId = category.Id;
+
             foreach (var relatedCategory in set.Categories)
                 ModifyRelationsForCategory.AddParentCategory(category, relatedCategory);
 
             var setValuationList = setValuationFromDB.Where(sV => sV.SetId == set.Id).ToList();
 
+            foreach (var question in set.QuestionsInSet)
+                question.Question.Categories.Add(category);
 
             foreach (var setValuation in setValuationList)
                 CreateOrUpdateCategoryValuation.Run(category.Id, setValuation.UserId, setValuation.RelevancePersonal);
-
         }
 
+        var questionsFromDB2 = questionRepo.GetAll();
         var categoriesFromDb = categoryRepo.GetAll();
 
         var categoryFromDb = categoryRepo.GetAll().First();
         var categoryValuationFromDB = R<CategoryValuationRepo>().GetAll();
 
         RecycleContainer();
-
-        categoryRepo = Resolve<CategoryRepository>();
-        categoryFromDb = categoryRepo.GetAll().First();
-        var categoryFromDb2 = categoryRepo.GetById(categoryFromDb.Id);
-
     }
 }
 
