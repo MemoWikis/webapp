@@ -17,7 +17,7 @@
         <a href="#" data-action="open-details"><i class="fa fa-chevron-right"></i></a>
         <a href="#" data-action="close-details" class="hide2"><i class="fa fa-chevron-down"></i></a>
         <%= Model.Text %>
-        <%= MarkdownInit.Run().Transform(Model.TextExtended) %>
+        <%= MarkdownMarkdig.ToHtml(Model.TextExtended) %>
         <div>
             Richtige Antwort: <b><%= Model.CorrectAnswer %></b>
         </div>

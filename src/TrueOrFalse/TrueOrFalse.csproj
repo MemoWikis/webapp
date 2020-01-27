@@ -97,9 +97,6 @@
     <Reference Include="Markdig, Version=0.10.4.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Markdig.0.10.4\lib\net40\Markdig.dll</HintPath>
     </Reference>
-    <Reference Include="MarkdownSharp, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\MarkdownSharp.2.0.5\lib\net40\MarkdownSharp.dll</HintPath>
-    </Reference>
     <Reference Include="Microsoft.AspNet.SignalR.Client, Version=2.2.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.AspNet.SignalR.Client.2.2.0\lib\net45\Microsoft.AspNet.SignalR.Client.dll</HintPath>
     </Reference>
@@ -1159,7 +1156,6 @@
     <Compile Include="Web\ViewEngine\JavascriptViewEngine\JavascriptView.cs" />
     <Compile Include="Web\ViewEngine\JavascriptViewEngine\JavascriptViewEngine.cs" />
     <Compile Include="Web\ViewEngine\PartialSubDirectoriesViewEngine.cs" />
-    <Compile Include="Web\Markdown\MarkdownInit.cs" />
     <Compile Include="Web\Uris\Links.cs" />
     <Compile Include="Web\Uris\MenuModelCategoryItem.cs" />
     <Compile Include="Web\Uris\UriSanitizer.cs" />
