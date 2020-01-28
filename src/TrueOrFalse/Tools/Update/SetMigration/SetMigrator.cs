@@ -3,34 +3,45 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace TrueOrFalse.Tools.Update.SetMigration
+namespace SetMigration
 {
     public class SetMigrator
     {
         public static void Start()
         {
+            Logg.r().Information("Migration Start");
+
             var allSets = Sl.SetRepo.GetAll();
             var categoryRepo = Sl.CategoryRepo;
+            var allCategories = Sl.CategoryRepo.GetAll();
 
             foreach (var set in allSets)
             {
+                var name = set.Name;
+                if (allCategories.Any(c => c.Name == set.Name))
+                    name = set.Name + " (ehemalig Lernset)";
+
                 var category = new Category()
                 {
-                    Name = set.Name,
+                    Name = name,
                     Type = CategoryType.Standard,
                     Creator = set.Creator,
                     DateCreated = set.DateCreated,
+                    FormerSetId = set.Id,
                 };
 
                 categoryRepo.Create(category);
 
-                AddParentCategories(category, set.Categories, set.QuestionsInSet);
+                Logg.r().Information("Migrating {setId} to {categoryId}", set.Id, category.Id);
+
+                AddParentCategoriesForQuestions(category, set.Categories, set.QuestionsInSet);
                 MigrateSetValuation(category, set.Id);
                 MigrateSetViews(category, set.Id);
+
             }
         }
 
-        private static void AddParentCategories(Category category, IList<Category> categories, ISet<QuestionInSet> questionInSet)
+        private static void AddParentCategoriesForQuestions(Category category, IList<Category> categories, ISet<QuestionInSet> questionInSet)
         {
             foreach (var relatedCategory in categories)
                 ModifyRelationsForCategory.AddParentCategory(category, relatedCategory);

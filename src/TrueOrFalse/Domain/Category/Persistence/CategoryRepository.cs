@@ -50,7 +50,8 @@ public class CategoryRepository : RepositoryDbBase<Category>
 
         base.Create(category);
         Flush();
-        UserActivityAdd.CreatedCategory(category);
+        if (category.Creator != null)
+            UserActivityAdd.CreatedCategory(category);
         _searchIndexCategory.Update(category);
         EntityCache.AddOrUpdate(category);
 

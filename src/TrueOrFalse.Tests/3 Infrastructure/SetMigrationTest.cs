@@ -40,6 +40,7 @@ class SetMigrationTest : BaseTest
                 Type = CategoryType.Standard,
                 Creator = set.Creator,
                 DateCreated = set.DateCreated,
+                FormerSetId = set.Id,
             };
 
             categoryRepo.Create(category);

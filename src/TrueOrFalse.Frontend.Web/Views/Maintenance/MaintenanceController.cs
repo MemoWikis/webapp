@@ -721,9 +721,12 @@ public class MaintenanceController : BaseController
     }
 
     [HttpPost]
-    public void MigrateSetsToCategories()
+    public ActionResult MigrateSetsToCategories()
     {
+        SetMigration.SetMigrator.Start();
 
+        return View("Maintenance",
+            new MaintenanceModel { Message = new SuccessMessage("Lernsets wurden migriert") });
     }
 }
 

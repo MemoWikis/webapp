@@ -226,6 +226,18 @@ namespace Seedworks.Lib.Persistence
             return result;
         }
 
+        public virtual TDomainObject GetBySetId(int id)
+        {
+            var result = _session.CreateCriteria(typeof(TDomainObject))
+                .Add(Restrictions.Eq("FormerSetId", id))
+                .UniqueResult<TDomainObject>();
+
+            if (AfterItemRetrieved != null)
+                AfterItemRetrieved(this, new TDomainObjectArgs(result));
+
+            return result;
+        }
+
         public virtual IList<TDomainObject> GetByIds(params int[] ids)
         {
             var list = new List<TDomainObject>();

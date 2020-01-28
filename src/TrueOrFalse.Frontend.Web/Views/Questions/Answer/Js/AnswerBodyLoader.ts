@@ -216,7 +216,7 @@ class AnswerBodyLoader {
                         node[0].firstChild.nodeValue = "Testen";
                         node[0].setAttribute("data-original-title", testToolTip);
                     }
-                    else {
+                    else if (result.sessionData.currentStepIdx != 0 && result.sessionData.isLastStep) {
                         node[0].firstChild.nodeValue = "Lernen";
                         node[0].setAttribute("data-original-title", learningToolTip);
                     }
