@@ -9,7 +9,7 @@
                     questionId: questionId,
                     isInWishknowledge: true,
                 }
-                eventBus.$emit('reload-knowledge-state-per-question', data);
+                eventBus.$emit('reload-wishknowledge-state-per-question', data);
                 KnowledgeSummaryBar.updateKnowledgeSummaryBar();
 
             }
@@ -25,7 +25,7 @@
                     questionId: questionId,
                     isInWishknowledge: false,
                 }
-                eventBus.$emit('reload-knowledge-state-per-question', data);
+                eventBus.$emit('reload-wishknowledge-state-per-question', data);
                 KnowledgeSummaryBar.updateKnowledgeSummaryBar();
 
             }

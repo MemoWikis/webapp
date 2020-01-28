@@ -22,6 +22,6 @@ public class QuestionSolutionFlashCard : QuestionSolution
 
     public override string GetCorrectAnswerAsHtml()
     {
-        return MarkdownInit.Run().Transform(Text);
+        return MarkdownMarkdig.ToHtml(Text);
     }
 }

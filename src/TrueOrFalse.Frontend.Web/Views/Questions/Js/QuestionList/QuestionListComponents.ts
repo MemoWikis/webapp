@@ -30,7 +30,8 @@ Vue.component('question-list-component', {
 
     created() {
         eventBus.$on('reload-knowledge-state', () => this.loadQuestions(this.selectedPage));
-        eventBus.$on('reload-knowledge-state-per-question', (data) => this.changeQuestionKnowledgeState(data.questionId, data.isInWishknowledge));
+        eventBus.$on('reload-wishknowledge-state-per-question', (data) => this.changeQuestionWishknowledgeState(data.questionId, data.isInWishknowledge));
+        eventBus.$on('reload-correctnessprobability-for-question', (id) => this.getUpdatedCorrectnessProbability(id));
     },
 
     mounted() {
@@ -150,7 +151,7 @@ Vue.component('question-list-component', {
                 this.loadQuestions(this.selectedPage + 1);
         },
 
-        changeQuestionKnowledgeState(questionId, isInWishknowledge) {
+        changeQuestionWishknowledgeState(questionId, isInWishknowledge) {
             for (var q in this.questions) {
                 if (this.questions[q].Id == questionId) {
                     this.questions[q].IsInWishknowledge = isInWishknowledge;
@@ -158,169 +159,187 @@ Vue.component('question-list-component', {
                 }
             }
         },
+
+        getUpdatedCorrectnessProbability(id) {
+            $.ajax({
+                url: "/QuestionList/GetUpdatedCorrectnessProbability/",
+                data: { questionId: id },
+                type: "Post",
+                success: correctnessProbability => {
+                    for (var q in this.questions) {
+                        if (this.questions[q].Id == id) {
+                            this.questions[q].CorrectnessProbability = correctnessProbability;
+                            break;
+                        }
+                    }
+                }
+            });
+        },
     },
 });
 
-Vue.component('question-component',
-    {
-        props: [
-            'questionId',
-            'questionTitle',
-            'questionImage',
-            'knowledgeState',
-            'isInWishknowledge',
-            'url',
-            'hasPersonalAnswer',
-            'isAdmin',
-            'selectedPage'],
-        data() {
-            return {
-                answer: "",
-                extendedAnswer: "",
-                categories: [],
-                references: [],
-                author: "",
-                authorId: "",
-                authorImage: "",
-                allDataLoaded: false,
-                backgroundColor: "",
-                correctnessProbability: "",
-                showFullQuestion: false,
-                commentCount: 0,
-                extendedQuestion: "",
-                isLoggedIn: IsLoggedIn.Yes,
-                pinId: "QuestionListPin-" + this.questionId,
-                questionTitleId: "#QuestionTitle-" + this.questionId,
-                questionDetailsId: "QuestionDetails-" + this.questionId,
-                showQuestionMenu: false,
-                isCreator: false,
-                editUrl: "",
-                historyUrl: "",
-                linkToComments: this.url + "#QuestionComments",
-                topicTitle: "Thema",
-                authorUrl: "",
-                questionDetails: "",
-                pageHasChanged: false,
-            }   
-        },
-
-        mounted() {
+Vue.component('question-component', {
+    props: [
+        'questionId',
+        'questionTitle',
+        'questionImage',
+        'knowledgeState',
+        'isInWishknowledge',
+        'url',
+        'hasPersonalAnswer',
+        'isAdmin',
+        'selectedPage'],
+    data() {
+        return {
+            answer: "",
+            extendedAnswer: "",
+            categories: [],
+            references: [],
+            author: "",
+            authorId: "",
+            authorImage: "",
+            allDataLoaded: false,
+            backgroundColor: "",
+            correctnessProbability: "",
+            showFullQuestion: false,
+            commentCount: 0,
+            extendedQuestion: "",
+            isLoggedIn: IsLoggedIn.Yes,
+            pinId: "QuestionListPin-" + this.questionId,
+            questionTitleId: "#QuestionTitle-" + this.questionId,
+            questionDetailsId: "QuestionDetails-" + this.questionId,
+            showQuestionMenu: false,
+            isCreator: false,
+            editUrl: "",
+            historyUrl: "",
+            linkToComments: this.url + "#QuestionComments",
+            topicTitle: "Thema",
+            authorUrl: "",
+            questionDetails: "",
+            pageHasChanged: false,
+        }   
+    },
+    
+    mounted() {
+        this.correctnessProbability = this.knowledgeState + "%";
+        this.setKnowledgebarColor(this.knowledgeState);
+        this.getWishknowledgePinButton();
+    
+        eventBus.$on('reload-question-details', () => {
+            if (this.showFullQuestion)
+                this.setQuestionDetails();
+        });
+    
+    },
+    
+    watch: {
+        knowledgeState(val) {
+            this.setKnowledgebarColor(val);
+            this.loadQuestionDetails();
             this.correctnessProbability = this.knowledgeState + "%";
-            this.setKnowledgebarColor(this.knowledgeState);
-            this.getWishknowledgePinButton();
-
-            eventBus.$on('reload-question-details', () => {
-                if (this.showFullQuestion)
-                    this.setQuestionDetails();
-            });
-
         },
-
-        watch: {
-            knowledgeState(val) {
-                this.setKnowledgebarColor(val);
-            },
-            selectedPage() {
-                this.showFullQuestion = false;
-                    if (this.isInWishknowledge) {
-                        $("#" + this.pinId + " .iAddedNot").addClass("hide2");
-                        $("#" + this.pinId + " .iAdded").removeClass("hide2");
-                    } else {
-                        $("#" + this.pinId + " .iAdded").addClass("hide2");
-                        $("#" + this.pinId + " .iAddedNot").removeClass("hide2");
-                    }
-            },
-            isInWishknowledge() {
-                this.setKnowledgebarColor(this.knowledgeState);
-            },
-            categories() {
-                if (this.categories.length >= 2)
-                    this.topicTitle = "Themen";
-                else
-                    this.topicTitle = "Thema";
-            },
-            questionId() {
-                this.allDataLoaded = false;
-                this.pinId = "QuestionListPin-" + this.questionId;
-                this.questionTitleId = "#QuestionTitle-" + this.questionId;
-                this.questionDetailsId = "QuestionDetails-" + this.questionId;
-            }
-        },
-
-        methods: {
-            setKnowledgebarColor(val) {
+        selectedPage() {
+            this.showFullQuestion = false;
                 if (this.isInWishknowledge) {
-                    if (this.hasPersonalAnswer) {
-                        if (val >= 80)
-                            this.backgroundColor = "solid";
-                        else if (val < 80 && val >= 50)
-                            this.backgroundColor = "shouldConsolidate";
-                        else if (val < 50 && val >= 0)
-                            this.backgroundColor = "shouldLearn";
-                    }
-                    else {
-                        this.backgroundColor = "inWishknowledge";
-                    }
-                } else
-                    this.backgroundColor = "";
-
-            },
-
-            expandQuestion() {
-                this.showFullQuestion = !this.showFullQuestion;
-                if (this.allDataLoaded == false) {
-                    this.loadQuestionBody();
-                    this.loadQuestionDetails();
-                };
-            },
-
-            loadQuestionBody() {
-                $.ajax({
-                    url: "/QuestionList/LoadQuestionBody/",
-                    data: { questionId: this.questionId },
-                    type: "POST",
-                    success: data => {
-                        if (data.answer == null || data.answer.length <= 0) {
-                            if (data.extendedAnswer && data.extendedAnswer > 0)
-                                this.answer = "<div>" + data.extendedAnswer + "</div>";
-                            else
-                                this.answer = "<div> Fehler: Keine Antwort! </div>";
-                        } else {
-                            this.answer = "<div>" + data.answer + "</div>";;
-                            if (data.extendedAnswer != null)
-                                this.extendedAnswer = "<div>" + data.extendedAnswer + "</div>";;
-                        };
-                        if (data.categories) {
-                            this.categories = data.categories;
-                            this.linkToFirstCategory = data.categories[0].linkToCategory;
-                        };
-                        this.references = data.references;
-                        this.author = data.author;
-                        this.authorImage = data.authorImage;
-                        this.extendedQuestion = data.extendedQuestion;
-                        this.commentCount = data.commentCount;
-                        this.isCreator = data.isCreator && this.isLoggedIn;
-                        this.editUrl = data.editUrl;
-                        this.historyUrl = data.historyUrl;
-                        this.authorUrl = data.authorUrl;
-                        this.$nextTick(function () {
-                            Images.Init();
-                        });
-                        this.allDataLoaded = true;
-
-                    },
-                });
-            },
-
-            setKnowledgeState() {
-
-            },
-
-            loadQuestionComments() {
-
-            },
-
-            loadQuestionDetails() {
+                    $("#" + this.pinId + " .iAddedNot").addClass("hide2");
+                    $("#" + this.pinId + " .iAdded").removeClass("hide2");
+                } else {
+                    $("#" + this.pinId + " .iAdded").addClass("hide2");
+                    $("#" + this.pinId + " .iAddedNot").removeClass("hide2");
+                }
+        },
+        isInWishknowledge() {
+            this.setKnowledgebarColor(this.knowledgeState);
+        },
+        categories() {
+            if (this.categories.length >= 2)
+                this.topicTitle = "Themen";
+            else
+                this.topicTitle = "Thema";
+        },
+        questionId() {
+            this.allDataLoaded = false;
+            this.pinId = "QuestionListPin-" + this.questionId;
+            this.questionTitleId = "#QuestionTitle-" + this.questionId;
+            this.questionDetailsId = "QuestionDetails-" + this.questionId;
+        }
+    },
+    
+    methods: {
+        setKnowledgebarColor(val) {
+            if (this.isInWishknowledge) {
+                if (this.hasPersonalAnswer) {
+                    if (val >= 80)
+                        this.backgroundColor = "solid";
+                    else if (val < 80 && val >= 50)
+                        this.backgroundColor = "shouldConsolidate";
+                    else if (val < 50 && val >= 0)
+                        this.backgroundColor = "shouldLearn";
+                }
+                else {
+                    this.backgroundColor = "inWishknowledge";
+                }
+            } else
+                this.backgroundColor = "";
+    
+        },
+    
+        expandQuestion() {
+            this.showFullQuestion = !this.showFullQuestion;
+            if (this.allDataLoaded == false) {
+                this.loadQuestionBody();
+                this.loadQuestionDetails();
+            };
+        },
+    
+        loadQuestionBody() {
+            $.ajax({
+                url: "/QuestionList/LoadQuestionBody/",
+                data: { questionId: this.questionId },
+                type: "POST",
+                success: data => {
+                    if (data.answer == null || data.answer.length <= 0) {
+                        if (data.extendedAnswer && data.extendedAnswer > 0)
+                            this.answer = "<div>" + data.extendedAnswer + "</div>";
+                        else
+                            this.answer = "<div> Fehler: Keine Antwort! </div>";
+                    } else {
+                        this.answer = "<div>" + data.answer + "</div>";;
+                        if (data.extendedAnswer != null)
+                            this.extendedAnswer = "<div>" + data.extendedAnswer + "</div>";;
+                    };
+                    if (data.categories) {
+                        this.categories = data.categories;
+                        this.linkToFirstCategory = data.categories[0].linkToCategory;
+                    };
+                    this.references = data.references;
+                    this.author = data.author;
+                    this.authorImage = data.authorImage;
+                    this.extendedQuestion = data.extendedQuestion;
+                    this.commentCount = data.commentCount;
+                    this.isCreator = data.isCreator && this.isLoggedIn;
+                    this.editUrl = data.editUrl;
+                    this.historyUrl = data.historyUrl;
+                    this.authorUrl = data.authorUrl;
+                    this.$nextTick(function () {
+                        Images.Init();
+                    });
+                    this.allDataLoaded = true;
+    
+                },
+            });
+        },
+    
+        setKnowledgeState() {
+    
+        },
+    
+        loadQuestionComments() {
+    
+        },
+    
+        loadQuestionDetails() {
+            if (this.showFullQuestion)
                 $.ajax({
                     url: "/AnswerQuestion/RenderUpdatedQuestionDetails",
                     data: {
@@ -333,43 +352,43 @@ Vue.component('question-component',
                         this.setQuestionDetails();
                     }
                 });
-            },
-
-            setQuestionDetails() {
-                var questionDetailsId = "#" + this.questionDetailsId;
-                $(questionDetailsId).html(this.questionDetails);
-                this.$nextTick(function () {
-                    FillSparklineTotals();
-                    $('.show-tooltip').tooltip();
-                    new Pin(PinType.Question);
-                });
-            },
-
-            getWishknowledgePinButton() {
-                var pinId = "#" + this.pinId;
-                $.ajax({
-                    url: "/QuestionList/RenderWishknowledgePinButton/",
-                    data: {
-                        isInWishknowledge: this.isInWishknowledge,
-                    },
-                    type: "POST",
-                    success: partialView => {
-                        $(pinId).html(partialView);
-                    }
-                });
-            },
-
-            getEditUrl() {
-                $.ajax({
-                    url: "/QuestionList/GetEditUrl/",
-                    data: {
-                        isInWishknowledge: this.isInWishknowledge,
-                    },
-                    type: "POST",
-                    success: url => {
-                        this.editUrl = url;
-                    }
-                });
-            },
-        }
-    });
+        },
+    
+        setQuestionDetails() {
+            var questionDetailsId = "#" + this.questionDetailsId;
+            $(questionDetailsId).html(this.questionDetails);
+            this.$nextTick(function () {
+                FillSparklineTotals();
+                $('.show-tooltip').tooltip();
+                new Pin(PinType.Question);
+            });
+        },
+    
+        getWishknowledgePinButton() {
+            var pinId = "#" + this.pinId;
+            $.ajax({
+                url: "/QuestionList/RenderWishknowledgePinButton/",
+                data: {
+                    isInWishknowledge: this.isInWishknowledge,
+                },
+                type: "POST",
+                success: partialView => {
+                    $(pinId).html(partialView);
+                }
+            });
+        },
+    
+        getEditUrl() {
+            $.ajax({
+                url: "/QuestionList/GetEditUrl/",
+                data: {
+                    isInWishknowledge: this.isInWishknowledge,
+                },
+                type: "POST",
+                success: url => {
+                    this.editUrl = url;
+                }
+            });
+        },
+    },
+});
