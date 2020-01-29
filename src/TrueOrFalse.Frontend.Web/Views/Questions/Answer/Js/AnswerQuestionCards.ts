@@ -3,11 +3,15 @@
         var children = $("#ParentsChildrenTopics #contentRecommendation").children();
         this.hideChildren(children);
 
-        children.length > 5 ? $("#MoreParentsAndChildrens").removeClass("hide").css("cursor","pointer") : $("#MoreParentsAndChildrens").addClass("hide");
+        if (children.length > 5) {
+            $("#MoreParentsAndChildrens").removeClass("hide").css("cursor", "pointer");
+            $("#MoreParentsAndChildrens").children().eq(0).text("Alle Themen anzeigen (" + children.length + ")");
+        }
 
         $("#MoreParentsAndChildrens").on("click", () => {
             if ($("#ParentsChildrenTopics #contentRecommendation").children().eq(6).hasClass("hide"))
                 $("#ParentsChildrenTopics #contentRecommendation").children().removeClass("hide");
+
             else
                 this.hideChildren(children);
         });
