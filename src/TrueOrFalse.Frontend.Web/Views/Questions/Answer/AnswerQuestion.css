@@ -1018,8 +1018,14 @@
   padding-top: 15px;
 }
 /* Primary Category Card */
-#MoreParentsAndChildrens {
+#Topics #MoreParentsAndChildrens {
   margin-bottom: 15px;
+  text-align: center;
+  font-weight: 900;
+}
+#Topics .marginTop50Bottom30 {
+  margin-top: 50px;
+  margin-bottom: 30px;
 }
 /*--------------------------ActivityPoints---------------------
 
