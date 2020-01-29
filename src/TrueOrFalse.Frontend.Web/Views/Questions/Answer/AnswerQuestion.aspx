@@ -156,10 +156,13 @@
             <% Html.RenderPartial("~/Views/Questions/Answer/CategoryCards.ascx", new CategoryCardModel(Model.ContentRecommendationResult.Categories, Model.AllCategoriesParents,Model.PrimaryCategory.Id)); %>
             
             <h4 style="margin-top: 30px;">Das könnte Dich auch interessieren:</h4>
-            <% Html.RenderPartial("~/Views/Questions/Answer/CategoryCards.ascx", new CategoryCardModel(Model.ContentRecommendationResult.Categories, Model.AllCategoriesParents,Model.PrimaryCategory.Id, true)); %>
+            <div id="ParentsChildrenTopics">
+                <% Html.RenderPartial("~/Views/Questions/Answer/CategoryCards.ascx", new CategoryCardModel(Model.ContentRecommendationResult.Categories, Model.AllCategoriesParents,Model.PrimaryCategory.Id, true)); %>
+            </div>
+            <div id="MoreParentsAndChildrens"><a>mehr</a></div>
+
+                <%Html.RenderPartial("~/Views/Shared/AnalyticsFooter.ascx", Model.AnalyticsFooterModel); %>
             
-            
-            <%Html.RenderPartial("~/Views/Shared/AnalyticsFooter.ascx", Model.AnalyticsFooterModel); %>
           
 
         <div class="row" style="margin-top: 30px; color: darkgray; font-weight: bold;">

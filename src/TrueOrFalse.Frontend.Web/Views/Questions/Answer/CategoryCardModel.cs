@@ -8,13 +8,13 @@ public class CategoryCardModel
 {
     public IList<Category> Category;
     public IList<Category> QuestionInCategory;
-    public bool NeeParentsOrChildrens; 
+    public bool NeedParentsOrChildrens; 
 
     public CategoryCardModel(IList<Category> questionInCategory, IList<Category> parentCategorys, int primaryCategoryId, bool needParentsOrChildrens = false)
     {
         
         QuestionInCategory = questionInCategory;
-        NeeParentsOrChildrens = needParentsOrChildrens; 
+        NeedParentsOrChildrens = needParentsOrChildrens; 
 
         if (needParentsOrChildrens)
         {
