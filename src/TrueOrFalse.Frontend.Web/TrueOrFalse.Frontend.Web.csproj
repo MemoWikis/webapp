@@ -21851,6 +21851,12 @@
     <Content Include="Views\Maintenance\Js\ContentStats.js">
       <DependentUpon>ContentStats.ts</DependentUpon>
     </Content>
+    <Content Include="Views\Questions\Answer\Js\AnswerQuestionCards.js">
+      <DependentUpon>AnswerQuestionCards.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Questions\Answer\Js\QuestionFilter.js">
+      <DependentUpon>QuestionFilter.ts</DependentUpon>
+    </Content>
     <Content Include="Views\Questions\Answer\SessionConfig.ascx" />
     <Content Include="Views\Questions\Answer\AnswerQuestionDetails.css">
       <DependentUpon>AnswerQuestionDetails.less</DependentUpon>
@@ -22380,6 +22386,7 @@
     <TypeScriptCompile Include="Views\Maintenance\Js\CMS.ts" />
     <TypeScriptCompile Include="Views\Messages\Js\Page.ts" />
     <TypeScriptCompile Include="Views\Messages\Js\ShowAllMessages.ts" />
+    <TypeScriptCompile Include="Views\Questions\Answer\Js\AnswerQuestionCards.ts" />
     <TypeScriptCompile Include="Views\Questions\Answer\Js\SessionConfig\SessionConfig.ts" />
     <TypeScriptCompile Include="Views\Questions\Answer\Js\SessionConfig\SessionConfigData.ts" />
     <TypeScriptCompile Include="Views\Questions\Answer\Js\QuestionFilter.ts" />
@@ -24181,6 +24188,12 @@
     <Content Include="Views\Shared\CategoryLabel.less" />
     <Content Include="Views\Questions\Answer\SessionConfig.less" />
     <Content Include="Views\Questions\Answer\CategoryCards.ascx" />
+    <Content Include="Views\Questions\Answer\Js\AnswerQuestionCards.js.map">
+      <DependentUpon>AnswerQuestionCards.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Questions\Answer\Js\QuestionFilter.js.map">
+      <DependentUpon>QuestionFilter.ts</DependentUpon>
+    </Content>
     <None Include="Web.overwritten.config.sample" />
     <Content Include="Views\Welcome\Logout.aspx" />
     <Content Include="Views\Api\Export.aspx" />
