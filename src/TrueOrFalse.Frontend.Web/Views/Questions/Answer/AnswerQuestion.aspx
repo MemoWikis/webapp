@@ -141,25 +141,19 @@
             <% Html.RenderPartial("~/Views/Shared/SidebarCards.ascx", Model.SidebarModel); %>
         </div>
     </div>
-<%--    <div class=" row">
-        <div class="col-xs-12 singleCategory" >
-            <% if (!Model.IsTestSession && !Model.IsLearningSession) { %>
-                <div class="Card SingleCategoryAttention">         
-                    <% Html.RenderPartial("~/Views/Categories/Detail/Partials/SingleCategoryFullWidth/SingleCategoryFullWidthNoVue.ascx", new SingleCategoryFullWidthModel(Model.PrimaryCategory.Id)); %>
-                </div>
-            <% } %>
-        </div>
-    </div>--%>
-    <div class="row">
+<div id="Topics"class="row">
         <div class="col-xs-9" >
-            <h4 style="margin-top: 30px;">Die Frage ist folgenden Themen zugeordnet:</h4>
+            <h4 class="marginTop50Bottom30">Die Frage ist folgenden Themen zugeordnet:</h4>
             <% Html.RenderPartial("~/Views/Questions/Answer/CategoryCards.ascx", new CategoryCardModel(Model.ContentRecommendationResult.Categories, Model.AllCategoriesParents,Model.PrimaryCategory.Id)); %>
             
-            <h4 style="margin-top: 30px;">Das könnte Dich auch interessieren:</h4>
+            <h4 class="marginTop50Bottom30">Das könnte Dich auch interessieren:</h4>
             <div id="ParentsChildrenTopics">
                 <% Html.RenderPartial("~/Views/Questions/Answer/CategoryCards.ascx", new CategoryCardModel(Model.ContentRecommendationResult.Categories, Model.AllCategoriesParents,Model.PrimaryCategory.Id, true)); %>
             </div>
-            <div id="MoreParentsAndChildrens"><a>mehr</a></div>
+            <div id="MoreParentsAndChildrens"><a></a><br/>
+                <span class="fa fa-angle-down"></span>
+
+            </div>
 
                 <%Html.RenderPartial("~/Views/Shared/AnalyticsFooter.ascx", Model.AnalyticsFooterModel); %>
             
