@@ -157,6 +157,10 @@
             
             <h4 style="margin-top: 30px;">Das könnte Dich auch interessieren:</h4>
             <% Html.RenderPartial("~/Views/Questions/Answer/CategoryCards.ascx", new CategoryCardModel(Model.ContentRecommendationResult.Categories, Model.AllCategoriesParents,Model.PrimaryCategory.Id, true)); %>
+            
+            
+            <%Html.RenderPartial("~/Views/Shared/AnalyticsFooter.ascx", Model.AnalyticsFooterModel); %>
+          
 
         <div class="row" style="margin-top: 30px; color: darkgray; font-weight: bold;">
             <div class="col-xs-4">
@@ -332,9 +336,7 @@
             </div>
         </div>
     </div>
-    <div class="row">
-        <%Html.RenderPartial("~/Views/Shared/AnalyticsFooter.ascx", Model.AnalyticsFooterModel); %>
-    </div>
+
 <% if (Model.IsOwner) Html.RenderPartial("~/Views/Questions/Modals/ModalDeleteQuestion.ascx"); %>
 </div>
                
