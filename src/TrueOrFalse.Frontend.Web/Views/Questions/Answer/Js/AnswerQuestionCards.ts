@@ -3,7 +3,7 @@
         var children = $("#ParentsChildrenTopics #contentRecommendation").children();
         this.hideChildren(children);
 
-        children.length > 5 ? $("#MoreParentsAndChildrens").removeClass("hide") : $("#MoreParentsAndChildrens").addClass("hide");
+        children.length > 5 ? $("#MoreParentsAndChildrens").removeClass("hide").css("cursor","pointer") : $("#MoreParentsAndChildrens").addClass("hide");
 
         $("#MoreParentsAndChildrens").on("click", () => {
             if ($("#ParentsChildrenTopics #contentRecommendation").children().eq(6).hasClass("hide"))
