@@ -1019,9 +1019,10 @@
 }
 /* Primary Category Card */
 #Topics #MoreParentsAndChildrens {
-  margin-bottom: 15px;
+  margin-top: 30px;
+  margin-bottom: 30px;
   text-align: center;
-  font-weight: 900;
+  font-weight: 500;
 }
 #Topics .SingleCategoryAttention {
   padding-left: 10px;
