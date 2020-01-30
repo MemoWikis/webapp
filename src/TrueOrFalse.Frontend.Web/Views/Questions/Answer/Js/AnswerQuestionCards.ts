@@ -2,6 +2,7 @@
     constructor() {
         var children = $("#ParentsChildrenTopics #contentRecommendation").children();
         this.hideChildren(children);
+        $("#MoreParentsAndChildrens").addClass("hide");
 
         if (children.length > 5) {
             $("#MoreParentsAndChildrens").removeClass("hide").css("cursor", "pointer");
