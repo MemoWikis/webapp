@@ -4,8 +4,10 @@
         $.post("/Api/Category/Pin/", { categoryId: categoryId }, (pinned) => {
             if (onPinChanged != null)
                 onPinChanged();
-            if (pinned)
+            if (pinned) {
+                eventBus.$emit('reload-knowledge-state');
                 KnowledgeSummaryBar.updateKnowledgeSummaryBar();
+            }
         });
     }
 
@@ -22,8 +24,11 @@
         $.post("/Api/Category/UnpinQuestionsInCategory/", { categoryId: categoryId }, (unpinned) => {
             if (onPinChanged != null)
                 onPinChanged();
-            if (unpinned)
+            if (unpinned) {
+                eventBus.$emit('reload-knowledge-state');
                 KnowledgeSummaryBar.updateKnowledgeSummaryBar();
+                $('#UnpinCategoryModal').modal('hide');
+            }
         });
     }
 

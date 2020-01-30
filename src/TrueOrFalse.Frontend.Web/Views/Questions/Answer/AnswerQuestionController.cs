@@ -358,7 +358,7 @@ public class AnswerQuestionController : BaseController
             {
                 correctAnswerAsHTML = solution.GetCorrectAnswerAsHtml(),
                 correctAnswer = solution.CorrectAnswer(),
-                correctAnswerDesc = MarkdownInit.Run().Transform(question.Description),
+                correctAnswerDesc = question.Description != null ? MarkdownMarkdig.ToHtml(question.Description) : "",
                 correctAnswerReferences = question.References.Select(r => new
                 {
                     referenceId = r.Id,
@@ -662,10 +662,10 @@ public class AnswerQuestionController : BaseController
         return GetQuestionPageData(model, currentUrl, sessionData, isSession: true, testSessionId: testSessionId, includeTestSessionHeader: includeTestSessionHeader, isInLearningTab: isInLearningTab);
     }
 
-    public string RenderUpdatedQuestionDetails(int questionId)
+    public string RenderUpdatedQuestionDetails(int questionId, bool showCategoryList = true)
     {
         var question = Sl.QuestionRepo.GetById(questionId);
-        var model = new AnswerQuestionModel(question);
+        var model = new AnswerQuestionModel(question, showCategoryList:showCategoryList);
 
         return ViewRenderer.RenderPartialView("~/Views/Questions/Answer/AnswerQuestionDetails.ascx", model, ControllerContext);
     }

@@ -92,7 +92,7 @@ namespace TrueOrFalse
         public static void TruncateAllTables()
         {
             const string sqlString =
-                @"SELECT Concat('TRUNCATE TABLE ',table_schema,'.',TABLE_NAME, ';') 
+                @"SELECT Concat('TRUNCATE TABLE ', TABLE_NAME, ';') 
                   FROM INFORMATION_SCHEMA.TABLES where  table_schema in (DATABASE())";
 
             using (var session = _configuration.BuildSessionFactory().OpenSession())

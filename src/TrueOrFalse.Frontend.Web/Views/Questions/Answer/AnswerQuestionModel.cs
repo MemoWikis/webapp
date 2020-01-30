@@ -110,11 +110,12 @@ public class AnswerQuestionModel : BaseModel
     public bool DisableCommentLink;
     public bool DisableAddKnowledgeButton;
     public bool IsInWidget;
+    public bool ShowCategoryList = true;
 
     public ContentRecommendationResult ContentRecommendationResult;
     public AnalyticsFooterModel AnalyticsFooterModel; 
 
-    public AnswerQuestionModel(Question question, bool? isMobileDevice = null)
+    public AnswerQuestionModel(Question question, bool? isMobileDevice = null, bool showCategoryList = true)
     {
         if(this.QuestionViewGuid == Guid.Empty)
             QuestionViewGuid = Guid.NewGuid();
@@ -123,6 +124,7 @@ public class AnswerQuestionModel : BaseModel
         HasNextPage = HasPreviousPage = false;
         SourceIsTabAll = true;
         ContentRecommendationResult = ContentRecommendation.GetForQuestion(question, 6);
+        ShowCategoryList = showCategoryList;
 
         Populate(question);
     }
@@ -279,7 +281,7 @@ public class AnswerQuestionModel : BaseModel
 
         QuestionId = question.Id;
         QuestionText = question.Text;
-        QuestionTextMarkdown = MarkdownInit.Run().Transform(question.TextExtended);
+        QuestionTextMarkdown = question.TextExtended != null ? MarkdownMarkdig.ToHtml(question.TextExtended) : "";
         Visibility = question.Visibility;
         SolutionType = question.SolutionType.ToString();
         SolutionModel = GetQuestionSolution.Run(question);

@@ -73,15 +73,14 @@
 
         $(window).on('popstate', (e) => {
             var state = e.originalEvent.state;
-            if (state.endsWith("Themen"))
-                this.LoadTopicTab(/*pushState*/false);
-
-            else if (state.endsWith("Fragen"))
-                this.LoadQuestionsTab(/*pushState*/false);
-
-            else if (state.endsWith("Ueberblick") || state.endsWith("Wissenszentrale"))
-                this.LoadDashboard(/*pushState*/false);
-
+            if (state != null) {
+                if (state.endsWith("Themen"))
+                    this.LoadTopicTab(/*pushState*/false);
+                else if (state.endsWith("Fragen"))
+                    this.LoadQuestionsTab(/*pushState*/false);
+                else if (state.endsWith("Ueberblick") || state.endsWith("Wissenszentrale"))
+                    this.LoadDashboard(/*pushState*/false);
+            }
         });
     }
 

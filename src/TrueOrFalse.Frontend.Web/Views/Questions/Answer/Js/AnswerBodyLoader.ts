@@ -232,6 +232,7 @@ class AnswerBodyLoader {
                     $("#QuestionDetails").fadeIn();
                     $(".FooterQuestionDetails").fadeIn();
                 }
+                eventBus.$emit('reload-question-details');
             }
         });
     }

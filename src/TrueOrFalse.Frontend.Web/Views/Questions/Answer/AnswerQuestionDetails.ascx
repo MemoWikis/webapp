@@ -2,12 +2,17 @@
 <%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
 
 <div id="QuestionDetails" data-div-type="questionDetails">
-    <div class="row">
-        <div class="separationBorderTop" style="min-height: 20px;"></div>
-    </div>
+    <%if (Model.ShowCategoryList) {%>
+        <div class="row">
+            <div class="separationBorderTop" style="min-height: 20px;"></div>
+        </div>
+    <%} %>
     <div class="row question-details">
+        <%if (Model.ShowCategoryList) {%>
+
+        <%} %>
         <div class="col-lg-6 col-sm-6 second-row">
-            <div id="QuestionDetailsStatistic">
+            <div class="questionDetailsStatistic">
                 <div id="StatsHeader">Statistik:</div> 
                 <div class="personal-answer-probability question-details-row" style="display: flex;">
                     <div class="detail-icon-container" style="padding-top: 2px;">
