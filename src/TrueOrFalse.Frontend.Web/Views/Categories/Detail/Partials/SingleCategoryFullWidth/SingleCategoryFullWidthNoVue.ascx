@@ -15,7 +15,7 @@
                         <div class="categoryQuestionCount">
                             <span class="Pin" data-category-id="<%= Model.CategoryId %>" style="">
                                 <a href="#" class="noTextdecoration">
-                                    <%= Html.Partial("AddToWishknowledge", new AddToWishknowledge(Model.IsInWishknowledge)) %>
+                                    <%= Html.Partial("AddToWishknowledge", new AddToWishknowledge(Model.IsInWishknowledge, false,false,false)) %>
                                 </a>
                             </span>&nbsp;
                     <%= Model.Category.Type == CategoryType.Standard ? "Thema" : Model.CategoryType %> mit  
@@ -26,10 +26,10 @@
 
 <% if (Model.AggregatedTopicCount != 0)
 { %>
-                        <div class="KnowledgeBarWrapper">
+<%--                        <div class="KnowledgeBarWrapper">
                             <% Html.RenderPartial("~/Views/Categories/Detail/CategoryKnowledgeBar.ascx", new CategoryKnowledgeBarModel(Model.Category)); %>
                             <div class="KnowledgeBarLegend">Dein Wissensstand</div>
-                        </div>
+                        </div>--%>
                         <% } %>
                     </div>
 
