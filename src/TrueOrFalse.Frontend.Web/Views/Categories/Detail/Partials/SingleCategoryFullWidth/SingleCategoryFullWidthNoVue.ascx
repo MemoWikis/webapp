@@ -3,7 +3,6 @@
 
 <div class="singleCatFullWidth">
     <div class="row">
-        <div class="col-xs-9">
             <div class="row flex ">
                 <div class="col-xs-2">
                     <div class="ImageContainer">
@@ -53,6 +52,5 @@
                     </div>
                 </div>
             </div>
-        </div>
     </div>
 </div>

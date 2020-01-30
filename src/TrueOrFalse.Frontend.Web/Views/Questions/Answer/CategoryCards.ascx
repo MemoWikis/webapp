@@ -3,8 +3,10 @@
         <% if (Model.QuestionIsInCategorys.Count == 1)
         {%>
         <div class="Card SingleCategoryAttention">
+            
             <% Html.RenderPartial("~/Views/Categories/Detail/Partials/SingleCategoryFullWidth/SingleCategoryFullWidthNoVue.ascx", new SingleCategoryFullWidthModel(Model.QuestionIsInCategorys.First().Id)); %>
-        </div>
+            </div>
+      
         <%}
         else if (Model.QuestionIsInCategorys.Count == 2 || Model.NeedParentsOrChildrens){ %>
         <div class="row CardsLandscape" id="contentRecommendation">

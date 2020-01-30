@@ -142,10 +142,12 @@
         </div>
     </div>
 <div id="Topics"class="row">
-        <div class="col-xs-9" >
-            <% if (!Model.IsLearningSession && !Model.IsTestSession)
+       <div class="col-xs-12">
+            <% if (!Model.IsLearningSession && !Model.IsTestSession && Model.ContentRecommendationResult.Categories.Count != 0)
                { %>
-                <h4 class="marginTop50Bottom30">Die Frage ist folgenden Themen zugeordnet:</h4>
+                <h4 class="marginTop50Bottom30"><%if(Model.ContentRecommendationResult.Categories.Count != 1)
+                                                  { %>Die Frage ist folgenden Themen zugeordnet <% }
+                                                    else{ %> Die Frage ist folgendem Thema zugeordnet<% } %>:</h4>
                 <% Html.RenderPartial("~/Views/Questions/Answer/CategoryCards.ascx", new CategoryCardModel(Model.ContentRecommendationResult.Categories, Model.AllCategoriesParents, Model.PrimaryCategory.Id)); %>
                 
                 <h4 class="marginTop50Bottom30">Das könnte Dich auch interessieren:</h4>
@@ -207,7 +209,7 @@
                 </div>                     
             </div>
         <% } %>
-        </div>
+        
     
         <%--MODAL IMPROVE--%>
         <div id="modalQuestionFlagImprove" class="modal fade">
@@ -336,6 +338,7 @@
             </div>
         </div>
     </div>
+</div>
 
 <% if (Model.IsOwner) Html.RenderPartial("~/Views/Questions/Modals/ModalDeleteQuestion.ascx"); %>
 </div>
