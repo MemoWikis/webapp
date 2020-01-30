@@ -46,6 +46,10 @@
                         <a href="<%= Links.CategoryDetail(Model.Category) %>" class="btn btn-primary">
                             <i class="fa fa-lg fa-search-plus">&nbsp;</i> Zur Themenseite
                         </a>
+                        
+                        <a href="<%= Links.TestSessionStartForCategory(Model.Name, Model.CategoryId) %>" class="btn btn-link btn-sm ButtonOnHover" role="button" rel="nofollow">
+                            <i class="fa fa-play-circle AnswerResultIcon">&nbsp;&nbsp;</i>WISSEN TESTEN
+                        </a>
                     </div>
                 </div>
             </div>

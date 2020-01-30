@@ -31,7 +31,6 @@
                         </a>
                         <ul class="dropdown-menu" aria-labelledby="<%=buttonId %>">
                             <li><a href="<%= Links.StartLearningSessionForSet(Model.CategoryId) %>" data-allowed="logged-in" data-allowed-type="learning-session" rel="nofollow">Jetzt lernen</a></li>
-                            <li><a href="<%= Links.SetDetail(Model.CategoryName, Model.CategoryId) %>"> Kategorie Detailseite</a></li>
                         </ul>
                     </div>
                     <a href="<%= Links.TestSessionStartForSet(Model.CategoryName, Model.CategoryId) %>" class="btn btn-link btn-sm ButtonOnHover" role="button" rel="nofollow">
