@@ -143,19 +143,22 @@
     </div>
 <div id="Topics"class="row">
         <div class="col-xs-9" >
-            <h4 class="marginTop50Bottom30">Die Frage ist folgenden Themen zugeordnet:</h4>
-            <% Html.RenderPartial("~/Views/Questions/Answer/CategoryCards.ascx", new CategoryCardModel(Model.ContentRecommendationResult.Categories, Model.AllCategoriesParents,Model.PrimaryCategory.Id)); %>
-            
-            <h4 class="marginTop50Bottom30">Das könnte Dich auch interessieren:</h4>
-            <div id="ParentsChildrenTopics">
-                <% Html.RenderPartial("~/Views/Questions/Answer/CategoryCards.ascx", new CategoryCardModel(Model.ContentRecommendationResult.Categories, Model.AllCategoriesParents,Model.PrimaryCategory.Id, true)); %>
-            </div>
-            <div id="MoreParentsAndChildrens"><a></a><br/>
-                <span class="fa fa-angle-down"></span>
+            <% if (!Model.IsLearningSession && !Model.IsTestSession)
+               { %>
+                <h4 class="marginTop50Bottom30">Die Frage ist folgenden Themen zugeordnet:</h4>
+                <% Html.RenderPartial("~/Views/Questions/Answer/CategoryCards.ascx", new CategoryCardModel(Model.ContentRecommendationResult.Categories, Model.AllCategoriesParents, Model.PrimaryCategory.Id)); %>
+                
+                <h4 class="marginTop50Bottom30">Das könnte Dich auch interessieren:</h4>
+                <div id="ParentsChildrenTopics">
+                    <% Html.RenderPartial("~/Views/Questions/Answer/CategoryCards.ascx", new CategoryCardModel(Model.ContentRecommendationResult.Categories, Model.AllCategoriesParents, Model.PrimaryCategory.Id, true)); %>
+                </div>
+                <div id="MoreParentsAndChildrens"><a></a><br/>
+                    <span class="fa fa-angle-down"></span>
 
-            </div>
+                </div>
 
-                <%Html.RenderPartial("~/Views/Shared/AnalyticsFooter.ascx", Model.AnalyticsFooterModel); %>
+                <% Html.RenderPartial("~/Views/Shared/AnalyticsFooter.ascx", Model.AnalyticsFooterModel); %>
+            <% } %>
             
           
 
