@@ -1031,6 +1031,20 @@
   margin-top: 50px;
   margin-bottom: 30px;
 }
+@media screen and (max-width: 767px) {
+  #Topics .singleCatFullWidth {
+    text-align: center;
+    margin-top: 10px;
+  }
+  #Topics .singleCatFullWidth .row {
+    display: block;
+  }
+}
+@media screen and (max-width: 768px) {
+  #Topics .singleCatFullWidth .col-sm-2 {
+    margin-bottom: 10px;
+  }
+}
 /*--------------------------ActivityPoints---------------------
 
 ---------------------------------------------------------------*/
