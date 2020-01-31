@@ -8,9 +8,20 @@
         </div>
     <%} %>
     <div class="row question-details">
-        <%if (Model.ShowCategoryList) {%>
-
-        <%} %>
+        <% if (Model.IsLearningSession || Model.IsTestSession)
+           { %>
+            <div class="col-lg-6 col-sm-6">
+                <span class=" category-set">
+                    <span id="Category">
+                        <% if (Model.Categories.Count > 0)
+                           { %>
+                            <div id="ChipHeader"><%= Model.Categories.Count > 1 ? "Die Frage ist folgenden Themen zugeordnet" : "Die Frage ist folgendem Thema zugeordnet" %>:</div> 
+                            <% Html.RenderPartial("CategoriesOfQuestion", Model.Question); %>
+                        <% } %>
+                    </span>
+                </span>
+            </div>
+        <% } %>
         <div class="col-lg-6 col-sm-6 second-row">
             <div class="questionDetailsStatistic">
                 <div id="StatsHeader">Statistik:</div> 

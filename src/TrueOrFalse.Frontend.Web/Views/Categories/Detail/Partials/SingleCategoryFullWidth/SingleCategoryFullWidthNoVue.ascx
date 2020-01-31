@@ -19,8 +19,8 @@
                     <%= Model.Category.Type == CategoryType.Standard ? "Thema" : Model.CategoryType %> mit  
                         <%  if (Model.AggregatedTopicCount == 1)
                             { %> einem Unterthema und<% }
-                                                                                                     if (Model.AggregatedTopicCount > 1)
-                                                                                                     { %><%= Model.AggregatedTopicCount %> Unterthemen und<% } %>&nbsp;<%= Model.AggregatedQuestionCount %> Frage<%= StringUtils.PluralSuffix(Model.AggregatedQuestionCount, "n") %>
+                            if (Model.AggregatedTopicCount > 1)
+                            { %><%= Model.AggregatedTopicCount %> Unterthemen und<% } %>&nbsp;<%= Model.AggregatedQuestionCount %> Frage<%= StringUtils.PluralSuffix(Model.AggregatedQuestionCount, "n") %>
                 </div>
 
                 <% if (Model.AggregatedTopicCount != 0)
@@ -46,7 +46,7 @@
                     <i class="fa fa-lg fa-search-plus">&nbsp;</i> Zur Themenseite
                 </a>
 
-                <a href="<%= Links.TestSessionStartForCategory(Model.Name, Model.CategoryId) %>" class="btn btn-link btn-sm ButtonOnHover" role="button" rel="nofollow">
+                <a href="<%= Links.CategoryDetailLearningTab(Model.Name, Model.CategoryId) %>" class="btn btn-link btn-sm ButtonOnHover" role="button" rel="nofollow">
                     <i class="fa fa-play-circle AnswerResultIcon">&nbsp;&nbsp;</i>WISSEN TESTEN
                 </a>
             </div>
