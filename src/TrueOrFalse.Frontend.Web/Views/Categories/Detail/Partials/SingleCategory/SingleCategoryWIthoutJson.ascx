@@ -30,10 +30,10 @@
                             <i class="fa fa-ellipsis-v"></i>
                         </a>
                         <ul class="dropdown-menu" aria-labelledby="<%=buttonId %>">
-                            <li><a href="<%= Links.StartCategoryLearningSession(Model.CategoryId) %>" data-allowed="logged-in" data-allowed-type="learning-session" rel="nofollow">Jetzt lernen</a></li>
+                            <li><a href="<%= Links.CategoryDetailLearningTab(Model.CategoryName, Model.CategoryId) %>" data-allowed="logged-in" data-allowed-type="learning-session" rel="nofollow">Jetzt lernen</a></li>
                         </ul>
                     </div>
-                    <a href="<%= Links.TestSessionStartForCategory(Model.CategoryName, Model.CategoryId) %>" class="btn btn-link btn-sm ButtonOnHover" role="button" rel="nofollow">
+                    <a href="<%= Links.CategoryDetailLearningTab(Model.CategoryName, Model.CategoryId) %>" class="btn btn-link btn-sm ButtonOnHover" role="button" rel="nofollow">
                         <i class="fa fa-play-circle AnswerResultIcon">&nbsp;&nbsp;</i>WISSEN TESTEN
                     </a>
                 </div>
