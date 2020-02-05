@@ -52,20 +52,16 @@ namespace TrueOrFalse.Search
 
             if (!softCommit || JobExecute.CodeIsRunningInsideAJob)
             {
-                _solrOperations.Add(ToQuestionSolrMap.Run(question, _questionValuationRepo.GetActiveInWishknowledgeFromCache(question.Id)));
+                var questionSolrMap = ToQuestionSolrMap.Run(question, _questionValuationRepo.GetActiveInWishknowledgeFromCache(question.Id));
+                _solrOperations.Add(questionSolrMap, new AddParameters { CommitWithin = 5000 });
                 _solrOperations.Commit();    
             }
             else
             {
-                Logg.r().Information("SearchIndexQuestion {ThreadId} before Async", Thread.CurrentThread.ManagedThreadId);
                 AsyncExe.Run(() =>
                 {
-                    Logg.r().Information("SearchIndexQuestion {ThreadId} inside Async", Thread.CurrentThread.ManagedThreadId);
-
                     JobExecute.Run((scope) =>
                     {
-                        Logg.r().Information("SearchIndexQuestion {ThreadId} inside Job", Thread.CurrentThread.ManagedThreadId);
-
                         var solrQuestion = ToQuestionSolrMap.Run(question,
                             Sl.QuestionValuationRepo.GetActiveInWishknowledgeFromCache(question.Id));
                         _solrOperations.Add(solrQuestion, new AddParameters { CommitWithin = 5000 });
