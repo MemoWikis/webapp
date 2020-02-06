@@ -22,8 +22,6 @@ public class RunningJobRepo : RepositoryDb<RunningJob>
             if (jobCount == 1)
                 return true;
 
-            Logg.r().Error("Unexpected job count {JobCount} {Jobname}", jobCount, jobName);
-
             return true;
         }
         catch (Exception e)
