@@ -24,6 +24,15 @@ public class QuestionRepo : RepositoryDbBase<Question>
         base.Update(question);
     }
 
+    public new void UpdateFieldsOnlyForMigration(Question question)
+    {
+        base.Update(question);
+        Flush();
+        EntityCache.AddOrUpdate(question);
+        Sl.QuestionChangeRepo.AddUpdateEntry(question);
+        Sl.R<UpdateQuestionCountForCategory>().Run(question.Categories);
+    }
+
     public IList<UserTinyModel> GetAuthorsQuestion(int questionId, bool filterUsersForSidebar = false)
     {
         var allAuthors = Sl.QuestionChangeRepo

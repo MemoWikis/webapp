@@ -1,14 +1,21 @@
-﻿
-
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
+using Quartz;
+using TrueOrFalse.Utilities.ScheduledJobs;
+using TrueOrFalse.Search;
 
 namespace SetMigration
 {
     public class SetMigrator
     {
+
+        private readonly SearchIndexQuestion _searchIndexQuestion;
+
         public static void Start()
         {
+            Stopwatch migrationTimer = new Stopwatch();
+            migrationTimer.Start();
             Logg.r().Information("Migration Start");
 
             var allSets = Sl.SetRepo.GetAll();
@@ -17,9 +24,15 @@ namespace SetMigration
 
             foreach (var set in allSets)
             {
+                Stopwatch timer = new Stopwatch();
+                timer.Start();
                 var name = set.Name;
+                var duplicateName = false;
                 if (allCategories.Any(c => c.Name == set.Name))
-                    name = set.Name + " (ehemalig Lernset)";
+                {
+                    name = set.Name + " (ehem. Lernset)";
+                    duplicateName = true;
+                }
 
                 var category = new Category()
                 {
@@ -28,26 +41,57 @@ namespace SetMigration
                     Creator = set.Creator,
                     DateCreated = set.DateCreated,
                     FormerSetId = set.Id,
+                    CountQuestionsAggregated = set.QuestionsPublicCount(),
                 };
 
                 categoryRepo.Create(category);
-
-                Logg.r().Information("Migrating {setId} to {categoryId}", set.Id, category.Id);
-
-                AddParentCategoriesForQuestions(category, set.Categories, set.QuestionsInSet);
+                AddParentCategories(category, set.Categories, set.QuestionsInSet);
                 MigrateSetValuation(category, set.Id);
                 MigrateSetViews(category, set.Id);
+                categoryRepo.Update(category);
 
+                timer.Stop();
+                Logg.r().Information("Migrating Set: {setId} to Category: {categoryId}, elapsed Time: {time} | CategoryName renamed = {duplicatedName}", set.Id, category.Id, timer.Elapsed, duplicateName);
             }
+
+            JobBuilder.Create<RefreshEntityCache>();
+            JobBuilder.Create<RecalcKnowledgeSummariesForCategory>();
+
+            migrationTimer.Stop();
+            Logg.r().Information("Migration ended, elapsed Time: {time}", migrationTimer.Elapsed);
         }
 
-        private static void AddParentCategoriesForQuestions(Category category, IList<Category> categories, ISet<QuestionInSet> questionInSet)
+        private static void AddParentCategories(Category category, IList<Category> categories, ISet<QuestionInSet> questionsInSet)
         {
-            foreach (var relatedCategory in categories)
-                ModifyRelationsForCategory.AddParentCategory(category, relatedCategory);
 
-            foreach (var question in questionInSet)
-                question.Question.Categories.Add(category);
+            foreach (var questionInSet in questionsInSet)
+            {
+                var question = questionInSet.Question;
+                var oldCategories = question.Categories;
+                var newCategories = oldCategories.Where(c => !categories.Any()).ToList();
+                newCategories.Add(category);
+                question.Categories = newCategories;
+
+                Sl.QuestionRepo.UpdateFieldsOnlyForMigration(question);
+
+                foreach (var c in oldCategories)
+                {
+                    c.UpdateCountQuestionsAggregated();
+                    Sl.CategoryRepo.Update(c);
+                    KnowledgeSummaryUpdate.ScheduleForCategory(c.Id);
+                    EntityCache.AddOrUpdate(c);
+                }
+
+                EntityCache.AddOrUpdate(question);
+            }
+
+
+            foreach (var relatedCategory in categories)
+            {
+                ModifyRelationsForCategory.AddParentCategory(category, relatedCategory);
+                EntityCache.AddOrUpdate(relatedCategory);
+            }
+            //Sl.Resolve<UpdateQuestionCountForCategory>().Run(category);
         }
 
         private static void MigrateSetValuation(Category category, int setId)
