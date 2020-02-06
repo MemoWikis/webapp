@@ -113,7 +113,8 @@ public class AnswerQuestionModel : BaseModel
     public bool ShowCategoryList = true;
 
     public ContentRecommendationResult ContentRecommendationResult;
-    public AnalyticsFooterModel AnalyticsFooterModel; 
+    public AnalyticsFooterModel AnalyticsFooterModel;
+    public bool QuestionHasParentCategories = false;
 
     public AnswerQuestionModel(Question question, bool? isMobileDevice = null, bool showCategoryList = true)
     {
@@ -316,8 +317,10 @@ public class AnswerQuestionModel : BaseModel
         SetMinis = question.SetTop5Minis;
         SetCount = question.SetsAmount;
 
+
+        QuestionHasParentCategories = question.Categories.Any();
         //Find best suited primary category for question
-        if (!IsTestSession && !IsLearningSession)
+        if (!IsTestSession && !IsLearningSession && QuestionHasParentCategories)
         {
             PrimaryCategory = GetPrimaryCategory.GetForQuestion(question);
             AnalyticsFooterModel = new AnalyticsFooterModel(PrimaryCategory);

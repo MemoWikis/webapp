@@ -158,7 +158,10 @@
 
                 </div>
 
-                <% Html.RenderPartial("~/Views/Shared/AnalyticsFooter.ascx", Model.AnalyticsFooterModel); %>
+                <% if (Model.QuestionHasParentCategories)
+                   {
+                       Html.RenderPartial("~/Views/Shared/AnalyticsFooter.ascx", Model.AnalyticsFooterModel);
+                   } %>
             <% } %>
             
           
