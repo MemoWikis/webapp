@@ -1,5 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading;
+using Quartz;
+using Serilog;
 using SolrNet;
 using SolrNet.Commands;
 
@@ -47,9 +50,10 @@ namespace TrueOrFalse.Search
             if (question.IsWorkInProgress)
                 return;
 
-            if (!softCommit)
+            if (!softCommit || JobExecute.CodeIsRunningInsideAJob)
             {
-                _solrOperations.Add(ToQuestionSolrMap.Run(question, _questionValuationRepo.GetActiveInWishknowledgeFromCache(question.Id)));
+                var questionSolrMap = ToQuestionSolrMap.Run(question, _questionValuationRepo.GetActiveInWishknowledgeFromCache(question.Id));
+                _solrOperations.Add(questionSolrMap, new AddParameters { CommitWithin = 5000 });
                 _solrOperations.Commit();    
             }
             else

@@ -10,11 +10,13 @@
     <meta property="og:url" content="<%= Settings.CanonicalHost + Links.CategoryDetail(Model.Name, Model.Id) %>" />
     <meta property="og:type" content="article" />
     <meta property="og:image" content="<%= Model.ImageFrontendData.GetImageUrl(350, false, imageTypeForDummy: ImageType.Category).Url %>" />
-    
+
     <script type="text/javascript" src="https://www.google.com/jsapi"></script>
 </asp:Content>
 
 <asp:Content ID="head" ContentPlaceHolderID="Head" runat="server">
+<%--    <% Model.TopNavMenu.BreadCrumb.Add(new TopNavMenuItem{Text = Model.Category.Name, Url = Links.CategoriesAll(), ToolTipText = "Themen"});
+       Model.TopNavMenu.IsCategoryBreadCrumb = true; %>--%>
     <link href="/Views/Questions/Answer/LearningSession/LearningSessionResult.css" rel="stylesheet" />
     <%= Scripts.Render("~/bundles/js/Vue") %>
     <%= Styles.Render("~/bundles/AnswerQuestion") %>

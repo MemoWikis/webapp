@@ -7018,6 +7018,7 @@ fieldset[disabled] .HeartToAddButton .iAddedNot.active {
 }
 .Card.Category .ImageContainer {
   border-bottom-color: #45aece !important;
+  border-bottom-style: hidden !important;
   border-right-color: #45aece !important;
 }
 .Card .ItemInfo {

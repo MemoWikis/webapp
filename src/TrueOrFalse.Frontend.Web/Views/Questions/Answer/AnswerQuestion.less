@@ -920,7 +920,42 @@
     }
 }
     /* Primary Category Card */
-    /*--------------------------ActivityPoints---------------------
+#Topics {
+
+    #MoreParentsAndChildrens {
+        margin-top: 30px;
+        margin-bottom: 30px;
+        text-align: center;
+        font-weight: 500;
+    }
+
+    .SingleCategoryAttention {
+        padding-left: 10px;
+    }
+
+    .marginTop50Bottom30 {
+        margin-top: 50px;
+        margin-bottom: 30px;
+    }
+
+    .singleCatFullWidth {
+        @media screen and (max-width: 767px) {
+            text-align: center;
+            margin-top: 10px;
+            .row{
+                display: block;
+            }
+            
+        }
+
+        .col-sm-2 {
+            @media screen and (max-width: 768px) {
+                margin-bottom: 10px;
+            }
+        }
+    }
+}
+/*--------------------------ActivityPoints---------------------
 
 ---------------------------------------------------------------*/
 #activityPointsDispaly {
@@ -933,8 +968,8 @@
     padding-top: 10px;
 
     &.hideOnBigScreen {
-        @media(min-width: 1200px){
-            display:none;
+        @media(min-width: 1200px) {
+            display: none;
         }
     }
 

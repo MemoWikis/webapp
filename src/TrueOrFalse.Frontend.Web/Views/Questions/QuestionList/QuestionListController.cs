@@ -27,14 +27,11 @@ public class QuestionListController : BaseController
         var question = EntityCache.GetQuestionById(questionId);
         var author = new UserTinyModel(question.Creator);
         var authorImage = new UserImageSettings(author.Id).GetUrl_128px_square(author);
-        var valuationForUser = Resolve<TotalsPersUserLoader>().Run(_sessionUser.UserId, questionId);
         var solution = GetQuestionSolution.Run(question);
-
-        var testCategory = question.Categories;
 
         var json = Json(new
         {
-            answer = solution.CorrectAnswer(),
+            answer = solution.GetCorrectAnswerAsHtml(),
             extendedAnswer = question.Description != null ? MarkdownMarkdig.ToHtml(question.Description) : "",
             categories = question.Categories.Select(c => new
             {

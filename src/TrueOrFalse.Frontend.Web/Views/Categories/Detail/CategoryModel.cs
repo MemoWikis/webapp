@@ -3,7 +3,7 @@ using System.Linq;
 using NHibernate.Cfg;
 using TrueOrFalse.Web;
 
-public class CategoryModel : BaseContentModule
+public class CategoryModel : BaseContentModule 
 {
     public string MetaTitle;
     public string MetaDescription;
@@ -20,8 +20,6 @@ public class CategoryModel : BaseContentModule
     public IList<Set> FeaturedSets;
     public IList<Category> CategoriesParent;
     public IList<Category> CategoriesChildren;
-    public int CategoriesDescendantsCount;
-    public IList<Category> AllCategoriesParents;
     public IList<Set> AggregatedSets;
     public IList<Question> AggregatedQuestions;
     public IList<Question> CategoryQuestions;
@@ -35,7 +33,6 @@ public class CategoryModel : BaseContentModule
     public IList<Question> SingleQuestions;
     public Question EasiestQuestion;
     public Question HardestQuestion;
-    public string ParentList;
     public bool IsInTopic = false;
     public bool IsInLearningTab = false;
     public bool IsInAnalyticsTab = false; 
@@ -65,9 +62,14 @@ public class CategoryModel : BaseContentModule
     public string TotalPins;
     public LearningTabModel LearningTabModel;
     public UserTinyModel UserTinyModel;
+    public AnalyticsFooterModel AnalyticsFooterModel; 
+    public CategoryModel()
+    {
 
+    }
     public CategoryModel(Category category, bool loadKnowledgeSummary = true)
     {
+        AnalyticsFooterModel = new AnalyticsFooterModel(category);
         MetaTitle = category.Name;
         MetaDescription = SeoUtils.ReplaceDoubleQuotes(category.Description).Truncate(250, true);
 
@@ -147,9 +149,6 @@ public class CategoryModel : BaseContentModule
         EasiestQuestion = GetQuestion(false);
 
         TotalPins = category.TotalRelevancePersonalEntries.ToString();
-
-        GetCategoryRelations();
-
     }
 
     private List<Question> GetTopQuestionsInSubCats()
@@ -214,36 +213,5 @@ public class CategoryModel : BaseContentModule
             : views.Aggregate((a, b) => a + " " + b + System.Environment.NewLine);
     }
 
-    public void GetCategoryRelations()
-    {
-        var descendants = GetCategoriesDescendants.WithAppliedRules(Category);
-        CategoriesDescendantsCount = descendants.Count;
 
-        var allParents = Sl.CategoryRepo.GetAllParents(Id);
-        AllCategoriesParents = allParents;
-
-        if (allParents.Count > 0)
-            GetCategoryParentList();
-    }
-
-    private void GetCategoryParentList()
-    {
-        string categoryList = "";
-        string parentList;
-        foreach (var category in AllCategoriesParents.Take(3))
-        {
-            categoryList = categoryList + category.Name + ", ";
-        }
-        if (AllCategoriesParents.Count > 3)
-        {
-            parentList = categoryList + "...";
-        }
-        else
-        {
-            categoryList = categoryList.Remove(categoryList.Length - 2);
-            parentList = categoryList;
-        }
-
-        ParentList = "(" + parentList + ")";
-    }
 }

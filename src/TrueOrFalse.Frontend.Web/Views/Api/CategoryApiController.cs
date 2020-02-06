@@ -140,7 +140,7 @@ public class CategoryApiController : BaseController
         CategoryInKnowledge.Unpin(Convert.ToInt32(categoryId), _sessionUser.User);
         return true;
     }
-
+    [HttpPost]
     public bool UnpinQuestionsInCategory(string categoryId)
     {
         if (_sessionUser.User == null)

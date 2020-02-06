@@ -141,38 +141,29 @@
             <% Html.RenderPartial("~/Views/Shared/SidebarCards.ascx", Model.SidebarModel); %>
         </div>
     </div>
-    <div class=" row">
-        <div class="col-xs-12 singleCategory" >
-            <% if (!Model.IsLoggedIn && !Model.IsTestSession && !Model.IsLearningSession && Model.SetMinis.Any()) { %>
-                <div class="SingleCategoryAttention">         
-                    <% Html.RenderPartial("~/Views/Categories/Detail/Partials/SingleCategoryFullWidth/SingleCategoryFullWidthNoVue.ascx", new SingleCategoryFullWidthModel(Model.PrimaryCategory.Id)); %>
+<div id="Topics"class="row">
+       <div class="col-xs-12">
+            <% if (!Model.IsLearningSession && !Model.IsTestSession && Model.ContentRecommendationResult.Categories.Count != 0)
+               { %>
+                <h4 class="marginTop50Bottom30"><%=Model.ContentRecommendationResult.Categories.Count != 1 ? "Die Frage ist folgenden Themen zugeordnet" :  "Die Frage ist folgendem Thema zugeordnet" %>:</h4>
+                                                   
+                <% Html.RenderPartial("~/Views/Questions/Answer/CategoryCards.ascx", new CategoryCardModel(Model.ContentRecommendationResult.Categories, Model.AllCategoriesParents, Model.PrimaryCategory.Id)); %>
+                
+                <h4 class="marginTop50Bottom30">Das könnte Dich auch interessieren:</h4>
+                <div id="ParentsChildrenTopics">
+                    <% Html.RenderPartial("~/Views/Questions/Answer/CategoryCards.ascx", new CategoryCardModel(Model.ContentRecommendationResult.Categories, Model.AllCategoriesParents, Model.PrimaryCategory.Id, true)); %>
                 </div>
-            <% } %>
-        </div>
-    </div>
+                <div id="MoreParentsAndChildrens"><a></a><br/>
+                    <span class="fa fa-angle-down"></span>
 
-    <div class="row">
-        <div class ="col-xs-12">
-            <% if (Model.ContentRecommendationResult != null) { %>
-                <h4 style="margin-top: 30px;">Das könnte dich auch interessieren:</h4>
-                <div class="row CardsLandscapeNarrow" id="contentRecommendation">
-                    <% foreach (var set in Model.ContentRecommendationResult.Sets)
-                       {
-                            Html.RenderPartial("~/Views/Welcome/WelcomeBoxSingleSet.ascx", WelcomeBoxSingleSetModel.GetWelcomeBoxSetSingleModel(set.Id));
-                       } %>
-                    <% foreach (var category in Model.ContentRecommendationResult.Categories)
-                       {
-                            Html.RenderPartial("Cards/CardSingleCategory", CardSingleCategoryModel.GetCardSingleCategoryModel(category.Id));
-                       } %>
-                    <% foreach (var set in Model.ContentRecommendationResult.PopularSets)
-                       { 
-                            Html.RenderPartial("~/Views/Welcome/WelcomeBoxSingleSet.ascx", WelcomeBoxSingleSetModel.GetWelcomeBoxSetSingleModel(set.Id));
-                       } %>
                 </div>
+
+                <% Html.RenderPartial("~/Views/Shared/AnalyticsFooter.ascx", Model.AnalyticsFooterModel); %>
             <% } %>
+            
+          
 
-        <div id="QuestionComments" class="row" style="margin-top: 30px; color: darkgray; font-weight: bold;">
-
+        <div class="row" style="margin-top: 30px; color: darkgray; font-weight: bold;">
             <div class="col-xs-4">
                 <h4 style="padding:0; margin:0;">Kommentare<a name="comments"></a></h4>    
             </div>
@@ -217,7 +208,7 @@
                 </div>                     
             </div>
         <% } %>
-        </div>
+        
     
         <%--MODAL IMPROVE--%>
         <div id="modalQuestionFlagImprove" class="modal fade">
@@ -346,7 +337,9 @@
             </div>
         </div>
     </div>
-    
+</div>
+
 <% if (Model.IsOwner) Html.RenderPartial("~/Views/Questions/Modals/ModalDeleteQuestion.ascx"); %>
 </div>
+               
 </asp:Content>

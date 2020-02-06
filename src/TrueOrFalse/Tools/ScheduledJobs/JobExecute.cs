@@ -55,9 +55,10 @@ public class JobExecute
                     {
                         CLoseJob(jobName, scope);
                     }
-                    }
-                    finally
+                }
+                finally
                 {
+                    CodeIsRunningInsideAJob = false;
                     ServiceLocator.RemoveScopeForCurrentThread();
                 }
             }

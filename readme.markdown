@@ -21,4 +21,4 @@ The sources, corresponding builds and artifacts of the application TrueOrFalse (
 
 ### 2:) Commercial use
 
-For commercial use is a license required. Please contact the memucho team (for instance try: https://memucho.de/kontakt) for further information.
+For commercial use a license is required. Please contact the memucho team (https://memucho.de/kontakt) for further information.

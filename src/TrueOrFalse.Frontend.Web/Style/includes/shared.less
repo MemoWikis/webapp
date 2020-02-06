@@ -505,32 +505,33 @@
 /*  Cards
 ----------------------------------------------------------*/
 .Card {
-
     .Box;
     padding: 0;
 
     &.Set {
-        .ItemTitle{
+        .ItemTitle {
             border-bottom-color: @color-set !important;
         }
-        .ImageContainer{
+
+        .ImageContainer {
             border-bottom-color: @color-set !important;
             border-right-color: @color-set !important;
         }
     }
 
     &.Category {
-        .ItemTitle{
+        .ItemTitle {
             border-bottom-color: @color-category !important;
         }
-        .ImageContainer{
+
+        .ImageContainer {
             border-bottom-color: @color-category !important;
+            border-bottom-style: hidden !important;
             border-right-color: @color-category !important;
         }
     }
 
     .ItemInfo {
-
         font-size: @font-size-small;
 
         .Pin {

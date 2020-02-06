@@ -99,35 +99,5 @@
             </div>
         </div>
     <%}%>
-
-    <%if (Model.SuggestionCategory != null){ %>
-    <div id="CategorySuggestionCard">
-        <div class="ImageContainer">
-            <div class="card-image-large" style="background: url(<%= Model.CategorySuggestionImageUrl%>) center;"></div>
-        </div>
-        <div class="card-title">
-            <span>Themen-Vorschlag</span>
-        </div>
-        <div class="card-link" style="margin-bottom: 25px;">
-            <a class="show-tooltip" title="Zur Themenseite  <%= Model.SuggestionCategory.Name %>" href="<%= Model.CategorySuggestionUrl %>">
-                <%= Model.SuggestionCategory.Name %> 
-            </a>
-        </div>
-        <%if (Model.SuggestionCategory.GetAggregatedSetsFromMemoryCache().Count != 0)
-            { %>
-        <div class="category-suggestion-footer">
-            <div class="set-question-count">
-                <%: Model.SuggestionCategory.GetAggregatedSetsFromMemoryCache().Count  %> Lernset<% if (Model.SuggestionCategory.GetAggregatedSetsFromMemoryCache().Count != 1){%>s mit&nbsp;<% }
-                    else{ %> mit&nbsp;<% } %>
-                <%: Model.SuggestionCategory.GetAggregatedQuestionsFromMemoryCache().Count %> Frage<% if (Model.SuggestionCategory.GetAggregatedQuestionsFromMemoryCache().Count != 1){%>n<% } %>
-            </div>
-            <div class="KnowledgeBarWrapper">
-                <% Html.RenderPartial("~/Views/Categories/Detail/CategoryKnowledgeBar.ascx", new CategoryKnowledgeBarModel(Model.SuggestionCategory)); %>
-            </div>
-        </div>
-        <%} %>
-    </div>
-    <% } %>
-
-     <% Html.RenderPartial("~/Views/Shared/SidebarCards/CreateQuestion.ascx"); %>
+    <% Html.RenderPartial("~/Views/Shared/SidebarCards/CreateQuestion.ascx"); %>
 </div>
