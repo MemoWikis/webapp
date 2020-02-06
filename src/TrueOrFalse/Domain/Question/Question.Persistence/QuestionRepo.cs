@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using NHibernate;
 using NHibernate.Criterion;
@@ -27,9 +28,7 @@ public class QuestionRepo : RepositoryDbBase<Question>
     public new void UpdateFieldsOnlyForMigration(Question question)
     {
         base.Update(question);
-        Flush();
         EntityCache.AddOrUpdate(question);
-        Sl.QuestionChangeRepo.AddUpdateEntry(question);
         Sl.R<UpdateQuestionCountForCategory>().Run(question.Categories);
     }
 
