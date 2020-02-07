@@ -97,7 +97,7 @@ namespace TrueOrFalse
             routes.MapRoute("Set_Create", "Fragesaetze/Erstelle/", new { controller = "EditSet", action = "Create" });
             routes.MapRoute("Sets_Edit", "Fragesaetze/{text}/Bearbeite/{id}", new { controller = "EditSet", action = "Edit" });
             routes.MapRoute("Set_Detail_Id", "Fragesaetze/ById/{id}", new { controller = "Set", action = "QuestionSetById" }); //route is used when creating games/dates and adding sets via ajax (AutocompleteSets.ts)
-            routes.MapRoute("Set_Detail", "Fragesaetze/{text}/{id}", new { controller = "Category", action = "CategoryBySetId" });
+            routes.MapRoute("Set_Detail", "Fragesaetze/{text}/{id}", new { controller = "Set", action = "QuestionSet" });
             routes.MapRoute("Sets", "Fragesaetze/{action}", new { controller = "Sets", action = "Sets" });
             /* API */ routes.MapRoute("Sets_DeleteDetails", "Sets/DeleteDetails/{setId}", new { controller = "Sets", action = "DeleteDetails" });
             /* API */ routes.MapRoute("Sets_Delete", "Sets/Delete/{setId}", new { controller = "Sets", action = "Delete" });

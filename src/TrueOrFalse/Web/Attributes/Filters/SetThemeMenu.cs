@@ -42,8 +42,10 @@ namespace System.Web.Mvc
 
                 if (_isQuestionSetPage)
                 {
-                    var currentSet = Sl.SetRepo.GetById(Convert.ToInt32(httpContextData["id"]));
-                    activeCategories.AddRange(currentSet.Categories);
+                    var categoryId = (string)httpContextData["id"];
+
+                    if (int.TryParse(categoryId, out var categoryIdNumber))
+                        activeCategories.Add(Sl.CategoryRepo.GetBySetIdEager(categoryIdNumber));
                 }
 
                 if (_isQuestionPage)
