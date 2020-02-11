@@ -94,7 +94,6 @@ namespace TrueOrFalse
             routes.MapRoute("Sets_WishSearchApi", "Fragesaetze/Wunschwissen/SucheApi", new { controller = "Sets", action = "SetsWishSearchApi" });
             routes.MapRoute("Sets_Search", "Fragesaetze/Suche/{searchTerm}", new { controller = "Sets", action = "SetsSearch", searchTerm = UrlParameter.Optional });
             routes.MapRoute("Sets_SearchApi", "FrageSaetze/SucheApi", new { controller = "Sets", action = "SetsSearchApi" });            
-            routes.MapRoute("Set_Create", "Fragesaetze/Erstelle/", new { controller = "EditSet", action = "Create" });
             routes.MapRoute("Sets_Edit", "Fragesaetze/{text}/Bearbeite/{id}", new { controller = "EditSet", action = "Edit" });
             routes.MapRoute("Set_Detail_Id", "Fragesaetze/ById/{id}", new { controller = "Set", action = "QuestionSetById" }); //route is used when creating games/dates and adding sets via ajax (AutocompleteSets.ts)
             routes.MapRoute("Set_Detail", "Fragesaetze/{text}/{id}", new { controller = "Set", action = "QuestionSet" });

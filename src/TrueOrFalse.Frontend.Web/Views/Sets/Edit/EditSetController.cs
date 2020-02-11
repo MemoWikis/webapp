@@ -13,15 +13,6 @@ public class EditSetController : BaseController
 {
     private const string _viewLocation = "~/Views/Sets/Edit/EditSet.aspx";
 
-    [SetMainMenu(MainMenuEntry.QuestionSet)]
-    [SetThemeMenu]
-    public ActionResult Create()
-    {
-        var model = new EditSetModel();
-        model.SetToCreateModel();
-        return View(_viewLocation, model);
-    }
-
     [HttpPost]
     [SetMainMenu(MainMenuEntry.QuestionSet)]
     [SetThemeMenu]

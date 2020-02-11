@@ -48,15 +48,6 @@
                         <i class="fa fa-caret-right"></i> <%=categoryHistoryItem.Name%>
                     </a>
                 <% } %>
-
-            
-                <a id="mainMenuBtnSets" class="list-group-item set <%= Model.Active(MainMenuEntry.QuestionSet) %>" href="<%= Links.SetsAll() %>">
-                    <i class="fa fa-caret-right"></i> Lernsets
-                
-                    <i class="fa fa-plus-circle show-tooltip show-on-hover hide2 set-color add-new" 
-                        onclick="window.location = '<%= Url.Action("Create", "EditSet") %>'; return false; "
-                        title="Neues Lernset erstellen"></i>
-                </a>    
                 <%
                     var visitedS = new SessionUiData().VisitedSets;
                     index = 0; 
