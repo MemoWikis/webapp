@@ -14,28 +14,6 @@
     <% } %>
     
     <div id="Content" class="Box">
-        <h5 class="ContentSubheading Set">
-            <%= Model.CountSets %> Lernset<%= StringUtils.PluralSuffix(Model.CountSets,"s") %> zu diesem Thema
-            <a href="#aggregatedSetsList" data-toggle="collapse" class="greyed noTextdecoration" style="font-weight: normal;"><i class="fa fa-caret-down">&nbsp;</i> Lernsets ein-/ausblenden</a>
-        </h5>
-        <% if (Model.CountSets > 0) { %>    
-            <div id="aggregatedSetsList" class="LabelList collapse in">
-            <% foreach (var set in Model.AggregatedSets)
-               { %>
-                <div class="LabelItem LabelItem-Set">
-                    <a href="<%= Links.SetDetail(Url, set) %>"><%= set.Name %></a>
-                    <span style="font-size: 90%;">
-                        (<%= set.QuestionsInSet.Count %> Frage<%= StringUtils.PluralSuffix(set.QuestionsInSet.Count, "n") %>)
-                    </span>                 
-                </div>
-            <% } %>
-            </div>
-            
-        <% }
-        else { %>
-            Bisher gibt es keine Lernsets in diesem Thema.
-        <% } %>
-    
         <h5 class="ContentSubheading Question">
             <%= Model.CountAggregatedQuestions %> Frage<%= StringUtils.PluralSuffix(Model.CountAggregatedQuestions,"n") %> zu diesem Thema
             <a href="#aggregatedTopQuestionsList" data-toggle="collapse" class="greyed noTextdecoration" style="font-weight: normal;"><i class="fa fa-caret-down">&nbsp;</i> Fragen ein-/ausblenden</a>

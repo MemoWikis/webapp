@@ -971,6 +971,7 @@
     <Compile Include="Tools\ScheduledJobs\RunningsJobs\RunningJobRepo.cs" />
     <Compile Include="Tools\Update\Scripts\SolrCoreReload.cs" />
     <Compile Include="Tools\Update\Scripts\PathTo.cs" />
+    <Compile Include="Tools\Update\SetMigration\SetMigrator.cs" />
     <Compile Include="Tools\Update\Steps\UpdateToVs193.cs" />
     <Compile Include="Tools\Update\Steps\UpdateToVs192.cs" />
     <Compile Include="Tools\Update\Steps\UpdateToVs191.cs" />
@@ -1098,6 +1099,7 @@
     <Compile Include="Tools\Update\Steps\UpdateToVs198.cs" />
     <Compile Include="Tools\Update\Steps\UpdateToVs197.cs" />
     <Compile Include="Tools\Update\Steps\UpdateToVs196.cs" />
+    <Compile Include="Tools\Update\Steps\UpdateToVs210.cs" />
     <Compile Include="Tools\Update\Steps\UpdateToVs209.cs" />
     <Compile Include="Tools\Update\TemplateMigration\MarkdownConverter\MarkdownConverter.cs" />
     <Compile Include="Tools\Update\TemplateMigration\MarkdownConverter\Part.cs" />

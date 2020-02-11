@@ -12,11 +12,8 @@ public class SetController : BaseController
     [SetThemeMenu(isQuestionSetPage: true)]
     public ActionResult QuestionSet(string text, int id)
     {
-        if (SeoUtils.HasUnderscores(text))
-            return SeoUtils.RedirectToHyphendVersion_Set(RedirectPermanent, text, id);
-
-        var set = Resolve<SetRepo>().GetByIdEager(id);
-        return QuestionSet(set);
+        var categoryController = new CategoryController();
+        return categoryController.CategoryBySetId(id, null);
     }
 
     public void QuestionSetById(int id)

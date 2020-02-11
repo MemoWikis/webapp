@@ -719,5 +719,14 @@ public class MaintenanceController : BaseController
         return View("Tools",
             new ToolsModel {Message = new SuccessMessage("Der User wurde gelöscht")});
     }
+
+    [HttpPost]
+    public ActionResult MigrateSetsToCategories()
+    {
+        SetMigration.SetMigrator.Start();
+
+        return View("Maintenance",
+            new MaintenanceModel { Message = new SuccessMessage("Lernsets wurden migriert") });
+    }
 }
 

@@ -44,7 +44,7 @@ public class QuestionListController : BaseController
                 referenceType = r.ReferenceType.GetName(),
                 additionalInfo = r.AdditionalInfo ?? "",
                 referenceText = r.ReferenceText ?? ""
-            }),
+            }).AsEnumerable().Distinct().ToList(),
             author = author.Name,
             authorId = author.Id,
             authorImage = authorImage.Url,

@@ -24,6 +24,14 @@ public class CategoryController : BaseController
         return View(_viewLocation, modelAndCategoryResult.CategoryModel);
     }
 
+    public ActionResult CategoryBySetId(int id, int? version)
+    {
+        var modelAndCategoryResult = LoadModel(id, version, true);
+        modelAndCategoryResult.CategoryModel.IsInTopic = true;
+
+        return View(_viewLocation, modelAndCategoryResult.CategoryModel);
+    }
+
     public ActionResult CategoryLearningTab(int id, int? version)
     {
         var modelAndCategoryResult = LoadModel(id, version);
@@ -40,10 +48,10 @@ public class CategoryController : BaseController
         return View(_viewLocation, modelAndCategoryResult.CategoryModel);
     }
 
-    private LoadModelResult LoadModel(int id, int? version)
+    private LoadModelResult LoadModel(int id, int? version, bool bySetId = false)
     {
         var result = new LoadModelResult();
-        var category = Resolve<CategoryRepository>().GetById(id);
+        var category = bySetId ? Resolve<CategoryRepository>().GetBySetId(id) : Resolve<CategoryRepository>().GetById(id);
 
         _sessionUiData.VisitedCategories.Add(new CategoryHistoryItem(category));
         result.Category = category;
