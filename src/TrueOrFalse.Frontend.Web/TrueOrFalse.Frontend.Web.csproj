@@ -21738,6 +21738,7 @@
     <Content Include="Views\Categories\Detail\Partials\InlineText\InlineText.ascx" />
     <Content Include="Views\Categories\Detail\Partials\SingleCategoryFullWidth\SingleCategoryFullWidthNoVue.ascx" />
     <Content Include="Views\Categories\Detail\Partials\SingleCategoryFullWidth\SingleCategoryFullWidthModal.vue.ascx" />
+    <Content Include="Views\Categories\Detail\Partials\SingleCategory\SingleCategoryWIthoutJson.ascx" />
     <Content Include="Views\Categories\Detail\Partials\SingleQuestionsQuiz\SingleQuestionsQuizModal.vue.ascx" />
     <Content Include="Views\Categories\Detail\Partials\SingleSetFullWidth\SingleSetFullWidthModal.vue.ascx" />
     <Content Include="Views\Categories\Detail\Partials\MediaList\MediaListReferenceTitle.ascx" />
@@ -21852,6 +21853,12 @@
     </Content>
     <Content Include="Views\Maintenance\Js\ContentStats.js">
       <DependentUpon>ContentStats.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Questions\Answer\Js\AnswerQuestionCards.js">
+      <DependentUpon>AnswerQuestionCards.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Questions\Answer\Js\QuestionFilter.js">
+      <DependentUpon>QuestionFilter.ts</DependentUpon>
     </Content>
     <Content Include="Views\Questions\Answer\SessionConfig.ascx" />
     <Content Include="Views\Questions\Answer\AnswerQuestionDetails.css">
@@ -22037,6 +22044,7 @@
     <Compile Include="Views\Games\GamesController.cs" />
     <Compile Include="Views\Games\GamesModel.cs" />
     <Compile Include="Views\Questions\Answer\AnswerBodyControl\AnswerBodyModel.cs" />
+    <Compile Include="Views\Questions\Answer\CategoryCardModel.cs" />
     <Compile Include="Views\Questions\Answer\LearningSession\LearningSessionModel.cs" />
     <Compile Include="Views\Questions\Answer\LearningSession\LearningSessionResultController.cs" />
     <Compile Include="Views\Questions\Answer\ShareQuestionModalModel.cs" />
@@ -22056,11 +22064,13 @@
     <Compile Include="Views\Sets\Detail\Video\SetVideoController.cs" />
     <Compile Include="Views\Sets\Detail\Video\SetVideoModel.cs" />
     <Compile Include="Views\Sets\Edit\QuestionInSetModel.cs" />
+    <Compile Include="Views\Shared\AnalyticsFooterModel.cs" />
     <Compile Include="Views\Shared\AuthorViewModel.cs" />
     <Compile Include="Views\Shared\Cards\CardSingleCategoryModel.cs" />
     <Compile Include="Views\Shared\AddToWishknowledge.cs" />
     <Content Include="Views\Shared\AddToWishknowledgeHeartbeat.ascx" />
     <Content Include="Views\Shared\AddToWishknowledgeButtonQuestionDetail.ascx" />
+    <Content Include="Views\Shared\AnalyticsFooter.ascx" />
     <Content Include="Views\Shared\Cards\CardTutory.ascx" />
     <Content Include="Views\Shared\CategoryLabel.css">
       <DependentUpon>CategoryLabel.less</DependentUpon>
@@ -22386,6 +22396,7 @@
     <TypeScriptCompile Include="Views\Maintenance\Js\CMS.ts" />
     <TypeScriptCompile Include="Views\Messages\Js\Page.ts" />
     <TypeScriptCompile Include="Views\Messages\Js\ShowAllMessages.ts" />
+    <TypeScriptCompile Include="Views\Questions\Answer\Js\AnswerQuestionCards.ts" />
     <TypeScriptCompile Include="Views\Questions\Answer\Js\SessionConfig\SessionConfig.ts" />
     <TypeScriptCompile Include="Views\Questions\Answer\Js\SessionConfig\SessionConfigData.ts" />
     <TypeScriptCompile Include="Views\Questions\Answer\Js\QuestionFilter.ts" />
@@ -24186,6 +24197,13 @@
     <Content Include="Views\Questions\History\Detail\QuestionHistoryDetail.less" />
     <Content Include="Views\Shared\CategoryLabel.less" />
     <Content Include="Views\Questions\Answer\SessionConfig.less" />
+    <Content Include="Views\Questions\Answer\CategoryCards.ascx" />
+    <Content Include="Views\Questions\Answer\Js\AnswerQuestionCards.js.map">
+      <DependentUpon>AnswerQuestionCards.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Questions\Answer\Js\QuestionFilter.js.map">
+      <DependentUpon>QuestionFilter.ts</DependentUpon>
+    </Content>
     <None Include="Web.overwritten.config.sample" />
     <Content Include="Views\Welcome\Logout.aspx" />
     <Content Include="Views\Api\Export.aspx" />
@@ -24212,7 +24230,6 @@
     <Content Include="Views\Users\Users.aspx" />
     <Content Include="Views\VariousPublic\Imprint.aspx" />
     <Content Include="Views\Questions\Answer\AnswerQuestion.aspx" />
-    <Content Include="Views\Shared\Sidebar.ascx" />
     <Content Include="Views\VariousPublic\NotDoneYet.aspx" />
     <Content Include="Views\Shared\TopUsers.ascx" />
     <Content Include="Views\About\WelfareCompany.aspx" />

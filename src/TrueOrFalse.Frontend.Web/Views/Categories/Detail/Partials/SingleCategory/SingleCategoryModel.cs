@@ -10,6 +10,9 @@ public class SingleCategoryModel : BaseContentModule
     public string CategoryName;
     public string CategoryText;
     public int QCount; //Number of questions
+    public bool IsInWishknowledge;
+    public Category Category; 
+
 
     public ImageFrontendData ImageFrontendData;
 
@@ -27,8 +30,18 @@ public class SingleCategoryModel : BaseContentModule
         QCount = category.CountQuestionsAggregated;
     }
 
-    public static CardSingleCategoryModel GetCardSingleCategoryModel(int categoryId, string categoryText = null)
+    public SingleCategoryModel(int categoryId)
     {
-        return new CardSingleCategoryModel(categoryId, categoryText);
+        Category = Resolve<CategoryRepository>().GetById(categoryId) ?? new Category();
+
+        var imageMetaData = Sl.ImageMetaDataRepo.GetBy(Category.Id, ImageType.Category);
+        ImageFrontendData = new ImageFrontendData(imageMetaData);
+
+        CategoryId = Category.Id;
+        CategoryName = Category.Name;
+        CategoryText = Category.Description ?? Category.Description;
+        IsInWishknowledge = R<SetValuationRepo>().GetBy(categoryId, _sessionUser.UserId)?.IsInWishKnowledge() ?? false;
+
+        QCount = Category.CountQuestionsAggregated;
     }
 }

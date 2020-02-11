@@ -48,9 +48,7 @@ public class AnswerQuestionModel : BaseModel
     public string SoundUrl;
     public int TotalViews;
 
-    public int TimesAnsweredUser;
-    public int TimesAnsweredUserTrue;
-    public int TimesAnsweredUserWrong;
+    public IList<Category> AllCategoriesParents;
 
     public bool IsOwner;
 
@@ -108,15 +106,15 @@ public class AnswerQuestionModel : BaseModel
     public int TestSessionCurrentStepPercentage;
     public bool TestSessionIsLastStep = false;
     public int TestSessionProgessAfterAnswering;
-    public bool ShowErrorExpiredTestSession;
 
     public bool DisableCommentLink;
     public bool DisableAddKnowledgeButton;
     public bool IsInWidget;
-    public bool IsInLearningTab;
     public bool ShowCategoryList = true;
 
     public ContentRecommendationResult ContentRecommendationResult;
+    public AnalyticsFooterModel AnalyticsFooterModel;
+    public bool QuestionHasParentCategories = false;
 
     public AnswerQuestionModel(Question question, bool? isMobileDevice = null, bool showCategoryList = true)
     {
@@ -235,8 +233,6 @@ public class AnswerQuestionModel : BaseModel
         HasPreviousPage = pageCurrent > 1;
         HasNextPage = pageCurrent < pagesTotal;
 
-        //NextUrl = url => url.Action("Next", Links.AnswerQuestionController, new { setId = set.Id, questionId = question.Id });
-        //PreviousUrl = url => url.Action("Previous", Links.AnswerQuestionController, new { setId = set.Id, questionId = question.Id });
         if (HasNextPage)
             NextUrl = url => Links.AnswerQuestion(url, set.QuestionsInSet.GetNextTo(question.Id).Question, set);
 
@@ -321,10 +317,14 @@ public class AnswerQuestionModel : BaseModel
         SetMinis = question.SetTop5Minis;
         SetCount = question.SetsAmount;
 
+
+        QuestionHasParentCategories = question.Categories.Any();
         //Find best suited primary category for question
-        if (!IsLoggedIn && !IsTestSession && !IsLearningSession)
+        if (!IsTestSession && !IsLearningSession && QuestionHasParentCategories)
         {
             PrimaryCategory = GetPrimaryCategory.GetForQuestion(question);
+            AnalyticsFooterModel = new AnalyticsFooterModel(PrimaryCategory);
+            AllCategoriesParents = Sl.CategoryRepo.GetAllParents(PrimaryCategory.Id);
         }
 
         DescriptionForSearchEngines = GetMetaDescriptionSearchEngines();

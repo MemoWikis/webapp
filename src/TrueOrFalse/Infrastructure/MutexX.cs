@@ -12,20 +12,19 @@ using System.Threading;
 public class MutexX : IDisposable
 {
     public bool hasHandle = false;
-    Mutex mutex;
-
+    Mutex _mutex;
     private void InitMutex(string nameSuffix)
     {
         string appGuid = ((GuidAttribute)Assembly
             .GetExecutingAssembly()
             .GetCustomAttributes(typeof(GuidAttribute), false).GetValue(0)).Value.ToString();
         string mutexId = $"Global\\{{{appGuid}-{nameSuffix}}}";
-        mutex = new Mutex(false, mutexId);
+        _mutex = new Mutex(false, mutexId);
 
         var allowEveryoneRule = new MutexAccessRule(new SecurityIdentifier(WellKnownSidType.WorldSid, null), MutexRights.FullControl, AccessControlType.Allow);
         var securitySettings = new MutexSecurity();
         securitySettings.AddAccessRule(allowEveryoneRule);
-        mutex.SetAccessControl(securitySettings);
+        _mutex.SetAccessControl(securitySettings);
     }
 
     public MutexX(int timeOut, string nameSuffix)
@@ -37,9 +36,9 @@ public class MutexX : IDisposable
         try
         {
             if (timeOut < 0)
-                hasHandle = mutex.WaitOne(Timeout.Infinite, false);
+                hasHandle = _mutex.WaitOne(Timeout.Infinite, false);
             else
-                hasHandle = mutex.WaitOne(timeOut, false);
+                hasHandle = _mutex.WaitOne(timeOut, false);
 
             if (hasHandle == false)
                 throw new TimeoutException("Timeout waiting for exclusive access on MutexX");
@@ -52,11 +51,11 @@ public class MutexX : IDisposable
 
     public void Dispose()
     {
-        if (mutex != null)
+        if (_mutex != null)
         {
             if (hasHandle)
-                mutex.ReleaseMutex();
-            mutex.Dispose();
+                _mutex.ReleaseMutex();
+            _mutex.Dispose();
         }
     }
 }

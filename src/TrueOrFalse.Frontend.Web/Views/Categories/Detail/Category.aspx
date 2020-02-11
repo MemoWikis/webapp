@@ -15,8 +15,8 @@
 </asp:Content>
 
 <asp:Content ID="head" ContentPlaceHolderID="Head" runat="server">
-    <% Model.TopNavMenu.BreadCrumb.Add(new TopNavMenuItem{Text = Model.Category.Name, Url = Links.CategoriesAll(), ToolTipText = "Themen"});
-       Model.TopNavMenu.IsCategoryBreadCrumb = false; %>
+<%--    <% Model.TopNavMenu.BreadCrumb.Add(new TopNavMenuItem{Text = Model.Category.Name, Url = Links.CategoriesAll(), ToolTipText = "Themen"});
+       Model.TopNavMenu.IsCategoryBreadCrumb = true; %>--%>
     <link href="/Views/Questions/Answer/LearningSession/LearningSessionResult.css" rel="stylesheet" />
     <%= Scripts.Render("~/bundles/js/Vue") %>
     <%= Styles.Render("~/bundles/AnswerQuestion") %>

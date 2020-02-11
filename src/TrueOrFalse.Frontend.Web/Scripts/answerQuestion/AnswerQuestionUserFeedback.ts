@@ -69,6 +69,7 @@
 
         $("#divAnsweredCorrect").show();
         $("#buttons-next-question").show();
+        $("#btnGoToTestSession").show();
         this.AnimateCorrectAnswer();
         $("#divWrongAnswer").hide();
 
@@ -349,6 +350,7 @@
     private ShowNextQuestionLink() {
 
         $("#buttons-next-question").show();
+        $("#btnGoToTestSession").show();
 
         if (!this._answerQuestion.AnsweredCorrectly &&
             !this._answerQuestion.IsGameMode) {

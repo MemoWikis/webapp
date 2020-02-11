@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Data;
 using System.Diagnostics;
 using System.Threading;
 using Autofac;
@@ -53,11 +54,12 @@ public class JobExecute
                     }
                     finally
                     {
-                        CLoseJob(jobName, scope);
+                        CloseJob(jobName, scope);
                     }
-                    }
-                    finally
+                }
+                finally
                 {
+                    CodeIsRunningInsideAJob = false;
                     ServiceLocator.RemoveScopeForCurrentThread();
                 }
             }
@@ -76,21 +78,23 @@ public class JobExecute
         using (new MutexX(5000, "IsRunning"))
         {
             using (var session = scope.R<ISessionFactory>().OpenSession())
+            using (var transaction = session.BeginTransaction(IsolationLevel.Serializable))
             {
+                transaction.Begin();
                 var runningJobRepo = new RunningJobRepo(session);
                 if (runningJobRepo.IsJobRunning(jobName))
                 {
                     Logg.r().Information("Job is already running: {jobName}", jobName);
                     return true;
                 }
-
                 runningJobRepo.Add(jobName);
+                transaction.Commit();
             }
             return false;
         }
     }
 
-    private static void CLoseJob(string jobName, ILifetimeScope scope)
+    private static void CloseJob(string jobName, ILifetimeScope scope)
     {
         using (var session = scope.R<ISessionFactory>().OpenSession())
         {
