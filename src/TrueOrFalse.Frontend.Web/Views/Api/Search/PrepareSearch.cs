@@ -11,7 +11,6 @@ public class SearchBoxElementsGet
 
         var pageSize = 5;
         var categoriesResult = result.CategoriesResult = Sl.SearchCategories.Run(term, new Pager { PageSize = pageSize });
-        var setsResult = Sl.SearchSets.Run(term, new Pager { PageSize = pageSize });
 
 //        if (type == "Categories")
 //            result.CategoriesResult = categoriesResult;
@@ -24,7 +23,6 @@ public class SearchBoxElementsGet
 //        }
 
         result.CategoriesResult = categoriesResult;
-        result.SetsResult = setsResult;
         result.UsersResult = Sl.SearchUsers.Run(term, new Pager { PageSize = pageSize }, SearchUsersOrderBy.None);
 
         var searchSpec = Sl.SessionUiData.SearchSpecQuestionSearchBox;
@@ -54,10 +52,6 @@ public class SearchBoxElements
     public IList<Category> Categories => _categories ?? (_categories = CategoriesResult.GetCategories());
     public int CategoriesResultCount => CategoriesResult.Count;
 
-    public SearchSetsResult SetsResult;
-    private IList<Set> _sets;
-    public IList<Set> Sets => _sets ?? (_sets = SetsResult.GetSets());
-    public int SetsResultCount => SetsResult.Count;
 
     public SearchQuestionsResult QuestionsResult;
     private IList<Question> _questions;
@@ -69,7 +63,7 @@ public class SearchBoxElements
     public IList<User> Users => _users ?? (_users = UsersResult.GetUsers());
     public int UsersResultCount => UsersResult.Count;
 
-    public int TotalElements => Categories.Count + Sets.Count + Questions.Count + Users.Count;
+    public int TotalElements => Categories.Count + Questions.Count + Users.Count;
 
     public void Ensure_max_element_count_of_12()
     {
@@ -84,9 +78,6 @@ public class SearchBoxElements
             _questions = Questions.Take(three).ToList();
 
         if (TotalElements >= maxElements)
-            _sets = Sets.Take(three).ToList();
-
-        if (TotalElements >= maxElements)
             _categories = Categories.Take(three).ToList();
 
         //second round
@@ -95,9 +86,6 @@ public class SearchBoxElements
 
         if (TotalElements >= maxElements)
             _questions = Questions.Take(two).ToList();
-
-        if (TotalElements >= maxElements)
-            _sets = Sets.Take(two).ToList();
     }
 
     public void Ensure_max_elements_per_type_count_of_9(string type)
@@ -110,9 +98,6 @@ public class SearchBoxElements
         {
             if (TotalElements >= maxElements)
                 _categories = Categories.Take(9).ToList();
-        } else if (type == "Sets") {
-            if (TotalElements >= maxElements)
-                _sets = Sets.Take(nine).ToList();
         } else if (type == "Questions") {
             if (TotalElements >= maxElements)
                 _questions = Questions.Take(nine).ToList();

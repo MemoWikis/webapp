@@ -141,23 +141,6 @@ public class Category : DomainEntity, ICreator
         return EntityCache.GetSetsForCategories(AggregatedCategories());
     }
 
-    public virtual IList<Set> FeaturedSets()
-    {
-        if (string.IsNullOrEmpty(FeaturedSetsIdsString))
-            return new List<Set>();
-
-        var setIds = FeaturedSetsIdsString
-            .Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries)
-            .Select(x => Convert.ToInt32(x));
-
-        var setRepo = Sl.R<SetRepo>();
-
-        return setIds
-            .Select(setId => setRepo.GetById(setId))
-            .Where(set => set != null)
-            .ToList();
-    }
-
     public virtual int CountQuestions { get; set; }
     public virtual int CountSets { get; set; }
 

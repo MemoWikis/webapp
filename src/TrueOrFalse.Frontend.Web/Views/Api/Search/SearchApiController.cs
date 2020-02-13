@@ -19,12 +19,6 @@ public class SearchApiController : BaseController
             AddCategoryItems(items, elements);
         }
 
-        if (elements.Sets.Any())
-        {
-            AddHeader(items, ResultItemType.SetsHeader, elements.SetsResultCount, term);
-            AddSetItems(items, elements);
-        }
-
         if (elements.Questions.Any())
         {
             AddHeader(items, ResultItemType.QuestionsHeader, elements.QuestionsResultCount, term);
@@ -53,9 +47,6 @@ public class SearchApiController : BaseController
             case ResultItemType.CategoriesHeader:
                 searchUrl = Links.CategoriesSearch(term);
                 break;
-            case ResultItemType.SetsHeader:
-                searchUrl = Links.SetsSearch(term);
-                break;
             case ResultItemType.UsersHeader:
                 searchUrl = Links.UsersSearch(term);
                 break;
@@ -83,27 +74,6 @@ public class SearchApiController : BaseController
                     IconHtml = category.Type.GetCategoryTypeIconHtml(),
                     ImageUrl = new CategoryImageSettings(category.Id).GetUrl_50px(asSquare:true).Url,
                     ItemUrl = Links.CategoryDetail(category.Name, category.Id)
-                }
-            })
-        );
-    }
-
-    private static void AddSetItems(List<ResultItem> items, SearchBoxElements elements)
-    {
-        var videoIconHtml =
-            "<i class=\"fa fa-lg fa-youtube-play show-tooltip greyed\" data-original-title=\"Lernset mit Video und den dazu passenden Fragen\">&nbsp;</i>";
-        items.AddRange(
-            elements.Sets.Select(set => new ResultItem
-            {
-                ResultCount = elements.SetsResult.Count,
-                Type = ResultItemType.Sets.ToString(),
-                Item = new ResultItemJson
-                {
-                    Id = set.Id,
-                    Name = set.Name,
-                    IconHtml = set.HasVideo ? videoIconHtml : "",
-                    ImageUrl = new SetImageSettings(set.Id).GetUrl_50px_square().Url,
-                    ItemUrl = Links.SetDetail(set)
                 }
             })
         );

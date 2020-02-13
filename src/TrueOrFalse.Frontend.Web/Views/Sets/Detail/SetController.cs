@@ -8,12 +8,11 @@ public class SetController : BaseController
 {
     private const string _viewLocation = "~/Views/Sets/Detail/Set.aspx";
 
-    [SetMainMenu(MainMenuEntry.None)]
-    [SetThemeMenu(isQuestionSetPage: true)]
-    public ActionResult QuestionSet(string text, int id)
+    [SetMainMenu(MainMenuEntry.CategoryDetail)]
+    [SetThemeMenu(true)]
+    public void QuestionSet(string text, int id)
     {
-        var categoryController = new CategoryController();
-        return categoryController.CategoryBySetId(id, null);
+        Response.Redirect(Links.CategoryDetail(Resolve<CategoryRepository>().GetBySetId(id)));
     }
 
     public void QuestionSetById(int id)
@@ -21,12 +20,9 @@ public class SetController : BaseController
         Response.Redirect(Links.SetDetail(Resolve<SetRepo>().GetById(id)));
     }
 
-    private ActionResult QuestionSet(Set set)
+    private void QuestionSet(Set set)
     {
-        SaveSetView.Run(set, User_());
-
-        _sessionUiData.VisitedSets.Add(new QuestionSetHistoryItem(set));
-        return View(_viewLocation, new SetModel(set));
+        Response.Redirect(Links.CategoryDetail(Resolve<CategoryRepository>().GetBySetId(set.Id)));
     }
 
     public JsonResult GetRows(int id)

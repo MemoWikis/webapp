@@ -148,8 +148,6 @@
                 <h4 class="marginTop50Bottom30"><%=Model.ContentRecommendationResult.Categories.Count != 1 ? "Die Frage ist folgenden Themen zugeordnet" :  "Die Frage ist folgendem Thema zugeordnet" %>:</h4>
                                                    
                 <% Html.RenderPartial("~/Views/Questions/Answer/CategoryCards.ascx", new CategoryCardModel(Model.ContentRecommendationResult.Categories, Model.AllCategoriesParents, Model.PrimaryCategory.Id)); %>
-                
-                <h4 class="marginTop50Bottom30">Das könnte Dich auch interessieren:</h4>
                 <div id="ParentsChildrenTopics">
                     <% Html.RenderPartial("~/Views/Questions/Answer/CategoryCards.ascx", new CategoryCardModel(Model.ContentRecommendationResult.Categories, Model.AllCategoriesParents, Model.PrimaryCategory.Id, true)); %>
                 </div>

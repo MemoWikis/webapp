@@ -60,12 +60,6 @@ public class CategoryRepository : RepositoryDbBase<Category>
         foreach (var related in category.ParentCategories().Where(x => x.DateCreated == default(DateTime)))
             related.DateModified = related.DateCreated = DateTime.Now;
 
-        if (IsNullOrEmpty(category.TopicMarkdown))
-        {
-           category.TopicMarkdown = "[[{\"TemplateName\":\"ContentLists\"}]]" + Environment.NewLine +
-                                    "[[{\"TemplateName\":\"CategoryNetwork\"}]]" + Environment.NewLine;
-        }
-
         base.Create(category);
         Flush();
         if (category.Creator != null)
