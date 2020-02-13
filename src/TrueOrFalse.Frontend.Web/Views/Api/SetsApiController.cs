@@ -57,25 +57,25 @@ public class SetsApiController : BaseController
         SetInKnowledge.UnpinQuestionsInSet(Convert.ToInt32(setId), _sessionUser.User);
     }
 
-    public JsonResult ByName(string term)
-    {
-        var setIds = R<SearchSets>().Run(term, new Pager{PageSize = 5}, searchOnlyWithStartingWith: true).SetIds;
-        var sets = R<SetRepo>().GetByIds(setIds);
+    //public JsonResult ByName(string term)
+    //{
+    //    var setIds = R<SearchSets>().Run(term, new Pager{PageSize = 5}, searchOnlyWithStartingWith: true).SetIds;
+    //    var sets = R<SetRepo>().GetByIds(setIds);
 
-        var items = sets.Select(set =>
-                new SetJsonResult 
-                {
-                    Id = set.Id,
-                    Name = set.Name,
-                    NumberOfQuestions = set.QuestionsInSet.Count,
-                    ImageUrl = new SetImageSettings(set.Id).GetUrl_50px_square().Url,
-                }
-            ).ToList();
+    //    var items = sets.Select(set =>
+    //            new SetJsonResult 
+    //            {
+    //                Id = set.Id,
+    //                Name = set.Name,
+    //                NumberOfQuestions = set.QuestionsInSet.Count,
+    //                ImageUrl = new SetImageSettings(set.Id).GetUrl_50px_square().Url,
+    //            }
+    //        ).ToList();
 
-        return Json(new{
-            Items = items
-        }, JsonRequestBehavior.AllowGet);
-    }
+    //    return Json(new{
+    //        Items = items
+    //    }, JsonRequestBehavior.AllowGet);
+    //}
 }
 
 public class SetJsonResult

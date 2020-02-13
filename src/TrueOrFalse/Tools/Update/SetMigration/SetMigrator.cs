@@ -24,10 +24,6 @@ namespace SetMigration
 
             foreach (var set in allSets)
             {
-
-                if (set.Id < 600)
-                    continue;
-
                 Stopwatch timer = new Stopwatch();
                 timer.Start();
                 Logg.r().Information("Migrating Set: {setId} - Start", set.Id);
@@ -55,7 +51,6 @@ namespace SetMigration
                 MigrateSetViews(category, set.Id);
                 categoryRepo.Update(category);
                 categories.Add(category);
-
                 timer.Stop();
                 Logg.r().Information("Migrating Set: {setId} to Category: {categoryId}, elapsed Time: {time} | CategoryName renamed = {duplicatedName}", set.Id, category.Id, timer.Elapsed, duplicateName);
             }

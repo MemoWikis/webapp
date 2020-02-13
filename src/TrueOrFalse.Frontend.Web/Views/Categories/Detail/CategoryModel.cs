@@ -17,10 +17,8 @@ public class CategoryModel : BaseContentModule
     public string CustomPageHtml;//Is set in controller because controller context is needed
     public CategoryChange CategoryChange;//Is set in controller because controller context is needed
     public bool NextRevExists;   //Is set in controller because controller context is needed
-    public IList<Set> FeaturedSets;
     public IList<Category> CategoriesParent;
     public IList<Category> CategoriesChildren;
-    public IList<Set> AggregatedSets;
     public IList<Question> AggregatedQuestions;
     public IList<Question> CategoryQuestions;
     public int AggregatedTopicCount;
@@ -102,8 +100,6 @@ public class CategoryModel : BaseContentModule
         var authors = _categoryRepo.GetAuthors(Id, filterUsersForSidebar: true);
         SidebarModel.Fill(authors, UserId);
 
-        FeaturedSets = category.FeaturedSets();
-
         IsOwnerOrAdmin = _sessionUser.IsLoggedInUserOrAdmin(Creator.Id);
 
         CategoriesParent = category.ParentCategories();
@@ -140,7 +136,6 @@ public class CategoryModel : BaseContentModule
 
         SingleQuestions = GetQuestionsForCategory.QuestionsNotIncludedInSet(Id);
 
-        AggregatedSets = category.GetAggregatedSetsFromMemoryCache();
         AggregatedTopicCount = new TopicNavigationModel().GetTotalTopicCount(category);
 
         AggregatedQuestionCount = Category.GetCountQuestionsAggregated();
