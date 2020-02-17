@@ -11,7 +11,7 @@ namespace SetMigration
     public class SetMigrator
     {
         private static readonly IList<SetView> allSetViews = Sl.SetViewRepo.GetAll();
-        public static void Start()
+        public static void Start(int minSetId, int maxSetId)
         {
             Stopwatch migrationTimer = new Stopwatch();
             migrationTimer.Start();
@@ -24,6 +24,9 @@ namespace SetMigration
 
             foreach (var set in allSets)
             {
+                if (set.Id < minSetId || set.Id > maxSetId)
+                    continue;
+
                 Stopwatch timer = new Stopwatch();
                 timer.Start();
                 Logg.r().Information("Migrating Set: {setId} - Start", set.Id);
@@ -66,32 +69,47 @@ namespace SetMigration
 
         private static void AddParentCategories(Category category, IList<Category> categories, ISet<QuestionInSet> questionsInSet)
         {
-
+            var categoriesToUpdate = new List<Category>();
+            var categoriesToUpdateDictionary = new Dictionary<int, string>();
             foreach (var questionInSet in questionsInSet)
             {
                 var question = questionInSet.Question;
-                var oldCategories = question.Categories;
-                var newCategories = oldCategories.Where(c => !categories.Any()).ToList();
-                newCategories.Add(category);
-                question.Categories = newCategories;
+                var questionCategories = question.Categories;
 
-                Sl.QuestionRepo.UpdateFieldsOnlyForMigration(question);
-
-                foreach (var c in oldCategories)
+                foreach (var c in questionCategories)
                 {
-                    c.UpdateCountQuestionsAggregated();
-                    Sl.CategoryRepo.Update(c);
-                    EntityCache.AddOrUpdate(c);
+                    if (categoriesToUpdateDictionary.ContainsKey(c.Id))
+                        continue;
+                    categoriesToUpdateDictionary.Add(c.Id, null);
+                    categoriesToUpdate.Add(c);
                 }
-
+                questionCategories.Add(category);
+                categoriesToUpdate.Add(category);
+                Sl.QuestionRepo.UpdateFieldsOnlyForMigration(question);
                 EntityCache.AddOrUpdate(question);
             }
+
+            UpdateCountQuestionsAggregatedForSetMigration(categoriesToUpdate);
 
             foreach (var relatedCategory in categories)
             {
                 ModifyRelationsForCategory.AddParentCategory(category, relatedCategory);
                 EntityCache.AddOrUpdate(relatedCategory);
             }
+        }
+
+        private static void UpdateCountQuestionsAggregatedForSetMigration(List<Category> categoriesToUpdate)
+        {
+            foreach (var c in categoriesToUpdate)
+            {
+                c.UpdateCountQuestionsAggregated();
+                Sl.CategoryRepo.UpdateWithoutFlush(c);
+            }
+
+            Sl.CategoryRepo.Flush();
+            Sl.R<UpdateQuestionCountForCategory>().Run(categoriesToUpdate);
+            foreach (var c in categoriesToUpdate)
+                EntityCache.AddOrUpdate(c);
         }
 
         private static void MigrateSetValuation(Category category, int setId)

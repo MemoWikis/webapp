@@ -721,12 +721,30 @@ public class MaintenanceController : BaseController
     }
 
     [HttpPost]
-    public ActionResult MigrateSetsToCategories()
+    public ActionResult MigrateSetsToCategories1To250()
     {
-        SetMigration.SetMigrator.Start();
+        SetMigration.SetMigrator.Start(1, 250);
 
         return View("Maintenance",
-            new MaintenanceModel { Message = new SuccessMessage("Lernsets wurden migriert") });
+            new MaintenanceModel { Message = new SuccessMessage("Lernsets 1-250 wurden migriert") });
+    }
+
+    [HttpPost]
+    public ActionResult MigrateSetsToCategories251To500()
+    {
+        SetMigration.SetMigrator.Start(251, 500);
+
+        return View("Maintenance",
+            new MaintenanceModel { Message = new SuccessMessage("Lernsets 251-500 wurden migriert") });
+    }
+
+    [HttpPost]
+    public ActionResult MigrateSetsToCategories501To750()
+    {
+        SetMigration.SetMigrator.Start(501, 750);
+
+        return View("Maintenance",
+            new MaintenanceModel { Message = new SuccessMessage("Lernsets 501-750 wurden migriert") });
     }
 }
 

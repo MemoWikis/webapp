@@ -90,6 +90,12 @@ public class CategoryRepository : RepositoryDbBase<Category>
         EntityCache.AddOrUpdate(category);
     }
 
+    public void UpdateWithoutFlush(Category category)
+    {
+        _searchIndexCategory.Update(category);
+        base.Update(category);
+    }
+
     public void UpdateBeforeEntityCacheInit(Category category)
     {
         _searchIndexCategory.Update(category);
