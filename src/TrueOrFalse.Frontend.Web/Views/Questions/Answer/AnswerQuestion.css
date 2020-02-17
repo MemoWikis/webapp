@@ -1107,3 +1107,8 @@
 .SingleCategoryAttention .well {
   background-color: rgba(112, 112, 112, 0.08);
 }
+@media (max-width: 767px) {
+  .row.hasFlashCard {
+    margin-top: 37px;
+  }
+}
