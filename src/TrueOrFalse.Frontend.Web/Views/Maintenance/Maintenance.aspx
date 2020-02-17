@@ -131,7 +131,7 @@
             <a href="<%= Url.Action("MigrateDescriptionToTemplates", "Maintenance") %>" data-url="toSecurePost" style="display: none;">
                 <i class="fa fa-retweet"></i> Themenbeschreibung migrieren
             </a>
-            <a href="<%= Url.Action("MigrateSetsToCategories", "Maintenance") %>" data-url="toSecurePost" style="">
+            <a href="<%= Url.Action("", "Maintenance") %>" data-url="toSecurePost" style="display: none;">
                 <i class="fa fa-retweet"></i> Lernsets migrieren
             </a>
             
