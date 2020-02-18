@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using NHibernate;
 using NHibernate.Criterion;
@@ -22,6 +23,13 @@ public class QuestionRepo : RepositoryDbBase<Question>
     public void UpdateFieldsOnly(Question question)
     {
         base.Update(question);
+    }
+
+    public new void UpdateFieldsOnlyForMigration(Question question)
+    {
+        base.Update(question);
+        EntityCache.AddOrUpdate(question);
+        Sl.R<UpdateQuestionCountForCategory>().Run(question.Categories);
     }
 
     public IList<UserTinyModel> GetAuthorsQuestion(int questionId, bool filterUsersForSidebar = false)

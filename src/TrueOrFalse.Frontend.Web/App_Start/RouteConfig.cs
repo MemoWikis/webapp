@@ -90,11 +90,10 @@ namespace TrueOrFalse
             routes.MapRoute("Sets_MineSearchApi", "Fragesaetze/Meine/SucheApi", new { controller = "Sets", action = "SetsMineSearchApi" });
             routes.MapRoute("Sets_Mine", "Fragesaetze/Meine", new { controller = "Sets", action = "SetsMine" });
             routes.MapRoute("Sets_Wish", "Fragesaetze/Wunschwissen", new { controller = "Sets", action = "SetsWish" }); //}, new[] { "TrueOrFalse" }); ?
-            routes.MapRoute("Sets_WishSearch", "Fragesaetze/Wunschwissen/Suche/{searchTerm}", new { controller = "Sets", action = "SetsWishSearch", searchTerm = UrlParameter.Optional });
-            routes.MapRoute("Sets_WishSearchApi", "Fragesaetze/Wunschwissen/SucheApi", new { controller = "Sets", action = "SetsWishSearchApi" });
-            routes.MapRoute("Sets_Search", "Fragesaetze/Suche/{searchTerm}", new { controller = "Sets", action = "SetsSearch", searchTerm = UrlParameter.Optional });
-            routes.MapRoute("Sets_SearchApi", "FrageSaetze/SucheApi", new { controller = "Sets", action = "SetsSearchApi" });            
-            routes.MapRoute("Set_Create", "Fragesaetze/Erstelle/", new { controller = "EditSet", action = "Create" });
+            routes.MapRoute("Sets_WishSearch", "Fragesaetze/Wunschwissen/Suche/{searchTerm}", new { controller = "Categories", action = "CategoriesWish", searchTerm = UrlParameter.Optional });
+            routes.MapRoute("Sets_WishSearchApi", "Fragesaetze/Wunschwissen/SucheApi", new { controller = "Categories", action = "SearchApiWish" });
+            routes.MapRoute("Sets_Search", "Fragesaetze/Suche/{searchTerm}", new { controller = "Categories", action = "Search", searchTerm = UrlParameter.Optional });
+            routes.MapRoute("Sets_SearchApi", "FrageSaetze/SucheApi", new { controller = "Categories", action = "SearchApi" });            
             routes.MapRoute("Sets_Edit", "Fragesaetze/{text}/Bearbeite/{id}", new { controller = "EditSet", action = "Edit" });
             routes.MapRoute("Set_Detail_Id", "Fragesaetze/ById/{id}", new { controller = "Set", action = "QuestionSetById" }); //route is used when creating games/dates and adding sets via ajax (AutocompleteSets.ts)
             routes.MapRoute("Set_Detail", "Fragesaetze/{text}/{id}", new { controller = "Set", action = "QuestionSet" });
@@ -111,7 +110,7 @@ namespace TrueOrFalse
 
             routes.MapRoute("Category_Changes_Overview", "Historie/{pageToShow}", new { controller = "CategoryChangesOverview", action = "List" });
             routes.MapRoute("Categories_WishSearch", "Wunschwissen/Suche/{searchTerm}", new { controller = "Categories", action = "CategoriesWish", searchTerm = UrlParameter.Optional });
-            routes.MapRoute("Categories_WishSearchApi", "Wunschwissen/SucheApi", new { controller = "Categories", action = "SearchApiWish" });
+            routes.MapRoute("Categories_WishSearchApi", "Wunschwissen/SucheApi", new { controller = "Categories", action = "" });
             routes.MapRoute("Categories", "Kategorien", new { controller = "Categories", action = "Categories" });
             routes.MapRoute("Categories_SearchApi", "SucheApi", new { controller = "Categories", action = "SearchApi" });
             routes.MapRoute("Categories_Search", "Suche/{searchTerm}", new { controller = "Categories", action = "Search", searchTerm = UrlParameter.Optional });

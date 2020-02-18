@@ -8,7 +8,7 @@
         </div>
     <%} %>
     <div class="row question-details">
-        <% if (Model.IsLearningSession || Model.IsTestSession)
+        <% if (Model.ShowCategoryList)
            { %>
             <div class="col-lg-6 col-sm-6">
                 <span class=" category-set">

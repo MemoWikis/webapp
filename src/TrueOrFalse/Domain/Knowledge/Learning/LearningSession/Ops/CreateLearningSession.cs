@@ -1,15 +1,7 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Microsoft.AspNet.SignalR;
-using Newtonsoft.Json;
-using NHibernate;
-using NHibernate.Mapping;
-using SolrNet.Impl.FacetQuerySerializers;
 
 public class CreateLearningSession
 {

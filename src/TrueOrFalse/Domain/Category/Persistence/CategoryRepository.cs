@@ -35,6 +35,24 @@ public class CategoryRepository : RepositoryDbBase<Category>
             .ToList();
     }
 
+    public Category GetBySetIdEager(int categoryId) => GetByIdsEager(new[] { categoryId }).FirstOrDefault();
+
+    public IList<Category> GetBySetIdsEager(IEnumerable<int> categoryIds = null)
+    {
+        var query = _session.QueryOver<Category>();
+
+        if (categoryIds != null)
+            query = query.Where(Restrictions.In("FormerSetId", categoryIds.ToArray()));
+
+        return query
+            .Left.JoinQueryOver<CategoryRelation>(s => s.CategoryRelations)
+            .Left.JoinQueryOver(x => x.RelatedCategory)
+            .List()
+            .GroupBy(c => c.Id)
+            .Select(c => c.First())
+            .ToList();
+    }
+
     public IList<Category> GetAllEager() => GetByIdsEager();
 
     public override void Create(Category category)
@@ -42,15 +60,10 @@ public class CategoryRepository : RepositoryDbBase<Category>
         foreach (var related in category.ParentCategories().Where(x => x.DateCreated == default(DateTime)))
             related.DateModified = related.DateCreated = DateTime.Now;
 
-        if (IsNullOrEmpty(category.TopicMarkdown))
-        {
-           category.TopicMarkdown = "[[{\"TemplateName\":\"ContentLists\"}]]" + Environment.NewLine +
-                                    "[[{\"TemplateName\":\"CategoryNetwork\"}]]" + Environment.NewLine;
-        }
-
         base.Create(category);
         Flush();
-        UserActivityAdd.CreatedCategory(category);
+        if (category.Creator != null)
+            UserActivityAdd.CreatedCategory(category);
         _searchIndexCategory.Update(category);
         EntityCache.AddOrUpdate(category);
 
@@ -75,6 +88,12 @@ public class CategoryRepository : RepositoryDbBase<Category>
 
         Sl.R<UpdateQuestionCountForCategory>().Run(new List<Category>{category});
         EntityCache.AddOrUpdate(category);
+    }
+
+    public void UpdateWithoutFlush(Category category)
+    {
+        _searchIndexCategory.Update(category);
+        base.Update(category);
     }
 
     public void UpdateBeforeEntityCacheInit(Category category)

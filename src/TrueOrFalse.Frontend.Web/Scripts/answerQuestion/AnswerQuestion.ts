@@ -155,6 +155,7 @@ class AnswerQuestion {
             this.UpdateProgressBar(this.GetCurrentStep());
         });
 
+        this.FlashCardCheck();
     }
 
     public OnCorrectAnswer(func: () => void) {
@@ -172,9 +173,7 @@ class AnswerQuestion {
     IsLastQuestion(): boolean {
         return $("#isLastQuestion").val() === "True"; // ??? check if needed !!!
     }
-    
 
-    
     public ValidateAnswer() {
         var answerText
             = this._getAnswerText();
@@ -522,5 +521,14 @@ class AnswerQuestion {
                 $('#ActivityPointsContainer').html(htmlResult);
             }
         });
+    }
+
+    private FlashCardCheck() {
+        var answerSection = $('#AnswerAndSolution .row');
+        var hasFlashCard = answerSection.has('#AnswerInputSection #flashCardContent');
+        if (hasFlashCard)
+            answerSection.addClass('hasFlashCard');
+        else
+            answerSection.removeClass('hasFlashCard');
     }
 }

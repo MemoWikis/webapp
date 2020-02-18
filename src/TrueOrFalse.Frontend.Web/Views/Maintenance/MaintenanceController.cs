@@ -719,5 +719,32 @@ public class MaintenanceController : BaseController
         return View("Tools",
             new ToolsModel {Message = new SuccessMessage("Der User wurde gelöscht")});
     }
+
+    [HttpPost]
+    public ActionResult MigrateSetsToCategories1To250()
+    {
+        SetMigration.SetMigrator.Start(1, 250);
+
+        return View("Maintenance",
+            new MaintenanceModel { Message = new SuccessMessage("Lernsets 1-250 wurden migriert") });
+    }
+
+    [HttpPost]
+    public ActionResult MigrateSetsToCategories251To500()
+    {
+        SetMigration.SetMigrator.Start(251, 500);
+
+        return View("Maintenance",
+            new MaintenanceModel { Message = new SuccessMessage("Lernsets 251-500 wurden migriert") });
+    }
+
+    [HttpPost]
+    public ActionResult MigrateSetsToCategories501To750()
+    {
+        SetMigration.SetMigrator.Start(501, 750);
+
+        return View("Maintenance",
+            new MaintenanceModel { Message = new SuccessMessage("Lernsets 501-750 wurden migriert") });
+    }
 }
 
