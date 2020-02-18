@@ -11,7 +11,7 @@ namespace SetMigration
     public class SetMigrator
     {
         private static readonly IList<SetView> allSetViews = Sl.SetViewRepo.GetAll();
-        public static void Start(int minSetId, int maxSetId)
+        public static void Start()
         {
             Stopwatch migrationTimer = new Stopwatch();
             migrationTimer.Start();
@@ -24,9 +24,6 @@ namespace SetMigration
 
             foreach (var set in allSets)
             {
-                if (set.Id < minSetId || set.Id > maxSetId)
-                    continue;
-
                 Stopwatch timer = new Stopwatch();
                 timer.Start();
                 Logg.r().Information("Migrating Set: {setId} - Start", set.Id);

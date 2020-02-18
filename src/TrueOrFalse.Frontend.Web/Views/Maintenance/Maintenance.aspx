@@ -132,18 +132,10 @@
                 <i class="fa fa-retweet"></i> Themenbeschreibung migrieren
             </a>
 
-            <a href="<%= Url.Action("MigrateSetsToCategories1To250", "Maintenance") %>" data-url="toSecurePost" style="">
-                <i class="fa fa-retweet"></i> Lernsets 1-250 migrieren
+            <a href="<%= Url.Action("MigrateSetsToCategories", "Maintenance") %>" data-url="toSecurePost" style="">
+                <i class="fa fa-retweet"></i> Lernsets migrieren
             </a><br />
-            
-            <a href="<%= Url.Action("MigrateSetsToCategories251To500", "Maintenance") %>" data-url="toSecurePost" style="">
-                <i class="fa fa-retweet"></i> Lernsets 251-500 migrieren
-            </a><br />
-            
-            <a href="<%= Url.Action("MigrateSetsToCategories501To750", "Maintenance") %>" data-url="toSecurePost" style="">
-                <i class="fa fa-retweet"></i> Lernsets 501-750 migrieren
-            </a>
-            
+
         </div>        
         
     </div>
