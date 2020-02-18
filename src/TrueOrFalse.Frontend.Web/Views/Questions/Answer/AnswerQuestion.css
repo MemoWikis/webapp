@@ -1018,6 +1018,11 @@
   padding-top: 15px;
 }
 /* Primary Category Card */
+@media screen and (max-width: 1200px) {
+  #Topics .col-xs-9 {
+    width: 100%;
+  }
+}
 #Topics #MoreParentsAndChildrens {
   margin-top: 30px;
   margin-bottom: 30px;

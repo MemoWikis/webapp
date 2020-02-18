@@ -142,7 +142,7 @@
         </div>
     </div>
 <div id="Topics"class="row">
-       <div class="col-xs-12">
+       <div class="col-xs-9">
             <% if (!Model.IsLearningSession && !Model.IsTestSession && Model.ContentRecommendationResult.Categories.Count != 0)
                { %>
                 <h4 class="marginTop50Bottom30">Empfehlungen:</h4>
