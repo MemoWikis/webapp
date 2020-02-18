@@ -43,7 +43,7 @@
                         <i class="fa fa-ellipsis-v"></i>
                     </a>
                     <ul class="dropdown-menu dropdown-menu-right">
-                        <% if (Model.IsInLearningTab) { %>
+                        <% if (Model.IsInLearningTab || Model.IsTestSession || Model.IsLearningSession) { %>
                             <li><a href="<%= Links.GetUrl(Model.Question) %>">Frageseite anzeigen </a></li>
                         <% } %>
                         <% if (Model.IsLoggedIn && (Model.IsCreator || Model.IsInstallationAdmin) && !Model.IsInWidget)
