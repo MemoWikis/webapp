@@ -10,7 +10,6 @@ public class AnswerBodyModel : BaseModel
     public Guid QuestionViewGuid;
     public string CreationDate;
     public string CreationDateNiceText;
-    public SetMini PrimarySetMini;
 
     public int QuestionId;
 
@@ -143,7 +142,6 @@ public class AnswerBodyModel : BaseModel
 
     private void Init(Question question)
     {
-        PrimarySetMini = question.SetTop5Minis.FirstOrDefault();
         QuestionId = question.Id;
         Creator =  new UserTinyModel(question.Creator);
         IsCreator = Creator.Id == UserId;
