@@ -232,8 +232,8 @@
                                 </div>
                             </div>
                             <div id="btnGoToTestSession" style="display: none"> 
-                                <% if (Model.PrimarySetMini != null && !Model.IsInWidget && !Model.IsForVideo && !Model.IsInGame && Model.IsLastQuestion) { %>
-                                    <a href="<%= Links.TestSessionStartForSet(Model.PrimarySetMini.Name, Model.PrimarySetMini.Id) %>" id="btnStartTestSession" class="btn btn-primary show-tooltip" rel="nofollow" data-original-title="Teste dein Wissen mit <%= Settings.TestSessionQuestionCount  %> zufällig ausgewählten Fragen aus dem Lernset '<%= Model.PrimarySetMini.Name %>'">
+                                <% if (Model.HasCategories && !Model.IsInWidget && !Model.IsForVideo && !Model.IsInGame && Model.IsLastQuestion) { %>
+                                    <a href="<%= Links.TestSessionStartForCategory(Model.PrimaryCategoryName, Model.PrimaryCategoryId) %>" id="btnStartTestSession" class="btn btn-primary show-tooltip" rel="nofollow" data-original-title="Teste dein Wissen mit <%= Settings.TestSessionQuestionCount  %> zufällig ausgewählten Fragen aus dem Thema '<%= Model.PrimaryCategoryName  %>'">
                                         <b>Weitermachen</b>
                                     </a>
                                 <% } %>

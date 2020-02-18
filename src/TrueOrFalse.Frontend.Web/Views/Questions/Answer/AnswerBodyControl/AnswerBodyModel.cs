@@ -47,6 +47,10 @@ public class AnswerBodyModel : BaseModel
     public bool IsInLearningTab;
     public bool IsInTestMode = false;
 
+    public bool HasCategories;
+    public string PrimaryCategoryName;
+    public int PrimaryCategoryId;
+
     public bool ShowCommentLink => 
         CommentCount != -1 && 
         !IsLearningSession && !IsTestSession && !DisableCommentLink;
@@ -143,7 +147,14 @@ public class AnswerBodyModel : BaseModel
         QuestionId = question.Id;
         Creator =  new UserTinyModel(question.Creator);
         IsCreator = Creator.Id == UserId;
-        
+        HasCategories = question.Categories.Any();
+
+        if (HasCategories)
+        {
+            PrimaryCategoryId = question.Categories.FirstOrDefault().Id;
+            PrimaryCategoryName = question.Categories.FirstOrDefault().Name;
+        }
+
         CreationDate = question.DateCreated.ToString("dd.MM.yyyy HH:mm:ss");
         CreationDateNiceText = DateTimeUtils.TimeElapsedAsText(question.DateCreated);
         QuestionLastEditedOn = DateTimeUtils.TimeElapsedAsText(question.DateModified);
