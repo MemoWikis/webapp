@@ -38,7 +38,7 @@ public class QuestionListController : BaseController
                 name = c.Name,
                 categoryType = c.Type,
                 linkToCategory = Links.CategoryDetail(c),
-            }),
+            }).AsEnumerable().Distinct().ToList(),
             references = question.References.Select(r => new
             {
                 referenceType = r.ReferenceType.GetName(),
