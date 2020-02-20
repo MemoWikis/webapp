@@ -97,10 +97,10 @@ namespace SetMigration
 
         private static void UpdateCountQuestionsAggregatedForSetMigration(List<Category> categoriesToUpdate)
         {
-            foreach (var c in categoriesToUpdate)
+            foreach (var category in categoriesToUpdate)
             {
-                c.UpdateCountQuestionsAggregated();
-                Sl.CategoryRepo.UpdateWithoutFlush(c);
+                category.UpdateCountQuestionsAggregated();
+                Sl.CategoryRepo.UpdateWithoutFlush(category, updateSolr: false);
             }
 
             Sl.CategoryRepo.Flush();
@@ -118,7 +118,7 @@ namespace SetMigration
         }
 
         private static void MigrateSetViews(Category category, int setId)
-        {
+        { 
             var categoryViewRepo = Sl.CategoryViewRepo;
             var setViews = allSetViews.Where(sV => sV.Id == setId).ToList();
 
