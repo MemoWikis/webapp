@@ -726,7 +726,7 @@ public class MaintenanceController : BaseController
         SetMigration.SetMigrator.Start();
 
         return View("Maintenance",
-            new MaintenanceModel { Message = new SuccessMessage("Lernsets 1-250 wurden migriert") });
+            new MaintenanceModel { Message = new SuccessMessage("Lernsets wurden migriert") });
     }
 }
 
