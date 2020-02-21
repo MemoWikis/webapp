@@ -15,7 +15,7 @@ namespace SetMigration
         {
             Stopwatch migrationTimer = new Stopwatch();
             migrationTimer.Start();
-            Logg.r().Information("Migration Start");
+            Logg.r().Information("SetMigration: Start");
 
             var allSets = Sl.SetRepo.GetAll();
             var categoryRepo = Sl.CategoryRepo;
@@ -26,7 +26,7 @@ namespace SetMigration
             {
                 Stopwatch timer = new Stopwatch();
                 timer.Start();
-                Logg.r().Information("Migrating Set: {setId} - Start", set.Id);
+                Logg.r().Information("SetMigration: Migrating Set: {setId} - Start", set.Id);
                 var name = set.Name;
                 var duplicateName = false;
                 if (allCategories.Any(c => c.Name == set.Name))
@@ -49,10 +49,10 @@ namespace SetMigration
                 AddParentCategories(category, set.Categories, set.QuestionsInSet);
                 MigrateSetValuation(category, set.Id);
                 MigrateSetViews(category, set.Id);
-                categoryRepo.Update(category);
+                categoryRepo.UpdateWithoutFlush(category);
                 categories.Add(category);
                 timer.Stop();
-                Logg.r().Information("Migrating Set: {setId} to Category: {categoryId}, elapsed Time: {time} | CategoryName renamed = {duplicatedName}", set.Id, category.Id, timer.Elapsed, duplicateName);
+                Logg.r().Information("SetMigration: Migrating Set: {setId} to Category: {categoryId}, elapsed Time: {time} | CategoryName renamed = {duplicatedName}", set.Id, category.Id, timer.Elapsed, duplicateName);
             }
 
             Sl.Resolve<UpdateQuestionCountForCategory>().Run(categories);
@@ -61,7 +61,7 @@ namespace SetMigration
             JobBuilder.Create<RecalcKnowledgeSummariesForCategory>();
 
             migrationTimer.Stop();
-            Logg.r().Information("Migration ended, elapsed Time: {time}", migrationTimer.Elapsed);
+            Logg.r().Information("SetMigration: Migration ended, elapsed Time: {time}", migrationTimer.Elapsed);
         }
 
         private static void AddParentCategories(Category category, IList<Category> categories, ISet<QuestionInSet> questionsInSet)
@@ -100,13 +100,8 @@ namespace SetMigration
             foreach (var category in categoriesToUpdate)
             {
                 category.UpdateCountQuestionsAggregated();
-                Sl.CategoryRepo.UpdateWithoutFlush(category, updateSolr: false);
+                Sl.CategoryRepo.UpdateWithoutFlush(category);
             }
-
-            Sl.CategoryRepo.Flush();
-            Sl.R<UpdateQuestionCountForCategory>().Run(categoriesToUpdate);
-            foreach (var c in categoriesToUpdate)
-                EntityCache.AddOrUpdate(c);
         }
 
         private static void MigrateSetValuation(Category category, int setId)

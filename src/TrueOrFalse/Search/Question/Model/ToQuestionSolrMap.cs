@@ -20,7 +20,7 @@ namespace TrueOrFalse.Search
                 {
                     Id = question.Id,
                     CreatorId = creator.Id,
-                    ValuatorIds = valuations.Where(v => v.RelevancePersonal != -1).Select(x => x.User.Id).ToList(),
+                    ValuatorIds = valuations.Where(v => v.RelevancePersonal != -1 && v.User != null).Select(x => x.User.Id).ToList(),
                     Valuation = valuations.Count(v => v.RelevancePersonal != -1),
                     IsPrivate = question.Visibility != QuestionVisibility.All,
                     Text = question.Text,
