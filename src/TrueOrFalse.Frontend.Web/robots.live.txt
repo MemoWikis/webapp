@@ -1,0 +1,8 @@
+﻿User-agent: *
+Disallow: /*/*/Historie
+Disallow: /*/*/Historie/*
+Disallow: /*/*/Version/*
+Disallow: /*/Bearbeite/*
+
+User-agent: BLEXBot
+Disallow: /
