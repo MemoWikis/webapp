@@ -40,17 +40,18 @@
 
     <div id="mainDiv">
         <p class="titleP">
-            <%= Model.SetName %>
+            Der Support für unsere Widgets läuft aus. 
         </p>
         <p class="description">
-            <%= Model.SetText %>
+            Der Support für unsere Widgets endet am 23.2.2020. Die eingebundenen Widgets können nach diesem Datum nicht mehr aufgerufen werden.
+            <b>Alle Inhalte wurden gesichert und migriert</b>, natürlich bleiben auch alle Fragen erhalten.
+            <br/>
+            Wir Danken Ihnen für Ihr Interesse an diesem Feature und die mit uns verbrachte Zeit.<br/>
+            <br/>
+            Du hast Fragen? Sprich uns einfach an, wir freuen uns über deine Nachricht: 
+            <a href="mailto:christof@memucho.de?Subject=Widgets" target="_top">christof@memucho.de</a>
         </p>
-        <p class="buttonP">
-            <a href="<%= Model.StartSessionUrl %>" class="btn btn-lg btn-primary">
-                <i class="fa fa-play-circle">&nbsp;&nbsp;</i>Teste Dein Wissen
-            </a>
-        </p>
-        
+
     </div>
 
 </asp:Content>

@@ -44,30 +44,12 @@ public class SetController : BaseController
     [RedirectToErrorPage_IfNotLoggedIn]
     public ActionResult StartLearningSession(int setId)
     {
-        var set = Resolve<SetRepo>().GetById(setId);
-        if (set.Questions().Count == 0)
-            throw new Exception("Cannot start LearningSession from set with no questions.");
-
-        var learningSession = new LearningSession
-        {
-            SetToLearn = set,
-            Steps = GetLearningSessionSteps.Run(set),
-            User = _sessionUser.User
-        };
-
-        R<LearningSessionRepo>().Create(learningSession);
-
-        return Redirect(Links.LearningSession(learningSession));
+        return Redirect(Links.CategoryDetailLearningTab(Resolve<CategoryRepository>().GetBySetId(setId)));
     }
 
     public ActionResult StartTestSession(int setId)
     {
-        var set = Sl.SetRepo.GetByIdEager(setId);
-        var testSession = new TestSession(set);
-
-        Sl.SessionUser.AddTestSession(testSession);
-
-        return Redirect(Links.TestSession(testSession.UriName, testSession.Id));
+        return Redirect(Links.CategoryDetailLearningTab(Resolve<CategoryRepository>().GetBySetId(setId)));
     }
 
     public ActionResult StartTestSessionForSets(List<int> setIds, string setListTitle)
