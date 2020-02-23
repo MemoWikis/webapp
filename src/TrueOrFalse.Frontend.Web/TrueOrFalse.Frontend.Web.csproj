@@ -21581,7 +21581,10 @@
     <Content Include="Images\Various\SessionConfigReminder.svg" />
     <Content Include="Images\Various\tabAnalyticsMockup1.png" />
     <Content Include="Images\Various\treemapChartPsychology.png" />
-    <Content Include="robots.txt">
+    <Content Include="robots.not-live.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="robots.live.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Scripts\header\ActivityPointsPopup.js">
