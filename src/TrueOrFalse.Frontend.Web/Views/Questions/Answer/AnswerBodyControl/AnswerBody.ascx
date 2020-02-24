@@ -233,7 +233,7 @@
                             </div>
                             <div id="btnGoToTestSession" style="display: none"> 
                                 <% if (Model.HasCategories && !Model.IsInWidget && !Model.IsForVideo && !Model.IsInGame && Model.IsLastQuestion) { %>
-                                    <a href="<%= Links.TestSessionStartForCategory(Model.PrimaryCategoryName, Model.PrimaryCategoryId) %>" id="btnStartTestSession" class="btn btn-primary show-tooltip" rel="nofollow" data-original-title="Teste dein Wissen mit <%= Settings.TestSessionQuestionCount  %> zufällig ausgewählten Fragen aus dem Thema '<%= Model.PrimaryCategoryName  %>'">
+                                    <a href="<%= Links.CategoryDetailLearningTab(Model.PrimaryCategoryName, Model.PrimaryCategoryId) %>" id="btnStartTestSession" class="btn btn-primary show-tooltip" rel="nofollow" data-original-title="Teste dein Wissen mit <%= Model.IsLoggedIn ? "10" : "5" %>  zufällig ausgewählten Fragen aus dem Thema '<%= Model.PrimaryCategoryName  %>'">
                                         <b>Weitermachen</b>
                                     </a>
                                 <% } %>
