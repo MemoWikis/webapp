@@ -439,15 +439,15 @@ namespace TrueOrFalse.Frontend.Web.Code
         public static string CategoryDetail(string name, int id) =>
             GetUrlHelper().Action("Category", CategoryController, new { text = UriSanitizer.Run(name), id = id });
 
-        public static string CategoryDetailLearningTab(string name, int id) =>
-            CategoryDetail(name, id) + "/Lernen";
-        public static string CategoryDetailAnalyticsTab(string name, int id) =>
-            CategoryDetail(name, id) + "/Wissensnetz";
-
-        public static string CategoryDetailLearningTab(Category category) =>
-            CategoryDetail(category) + "/Lernen";
         public static string CategoryDetailAnalyticsTab(Category category) =>
             CategoryDetail(category) + "/Wissensnetz";
+        public static string CategoryDetailAnalyticsTab(string name, int id) =>
+            CategoryDetail(name, id) + "/Wissensnetz";
+        public static string CategoryDetailLearningTab(string name, int id) =>
+            CategoryDetail(name, id) + "/Lernen";
+        public static string CategoryDetailLearningTab(Category category) =>
+            CategoryDetail(category) + "/Lernen";
+        
 
         public static string CategoryDetailRedirect(string name, int id) =>
             GetUrlHelper().Action("Category","Category" ,new { text = UriSanitizer.Run(name), id = id });
