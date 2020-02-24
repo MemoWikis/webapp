@@ -6,7 +6,7 @@
             <% Html.RenderPartial("~/Views/Categories/Detail/Partials/SingleCategoryFullWidth/SingleCategoryFullWidthNoVue.ascx", new SingleCategoryFullWidthModel(Model.QuestionIsInCategorys.First().Id)); %>
             </div>
         <%}
-        else if (Model.QuestionIsInCategorys.Count == 2 || Model.NeedParentsOrChildrens){ %>
+        else if (Model.QuestionIsInCategorys.Count == 2 ){ %>
         <div class="row CardsLandscape" id="contentRecommendation">
             <% foreach (var category in Model.QuestionIsInCategorys){
             Html.RenderPartial("~/Views/Categories/Detail/Partials/SingleCategory/SingleCategoryWithoutJson.ascx",new SingleCategoryModel(category.Id));
