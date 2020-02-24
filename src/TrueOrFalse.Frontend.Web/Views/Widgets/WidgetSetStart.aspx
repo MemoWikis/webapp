@@ -9,7 +9,7 @@
             height: auto;
         }
         #mainDiv {
-            padding: 45px 19px 55px 19px;
+            padding: 15px 2px 55px 2px;
             text-align: center;
             color: #203256;
         }
@@ -40,17 +40,14 @@
 
     <div id="mainDiv">
         <p class="titleP">
-            <%= Model.SetName %>
+            Der Support für unsere Widgets endet
         </p>
         <p class="description">
-            <%= Model.SetText %>
+            Leider werden wir demnächst unser Widget-Feature abschalten. Dafür konzentrieren wir uns mit voller Kraft auf die Kernfunktionen von memucho als Wissensmanager und Lerntool für offene Bildungsinhalte! <br/>
+            <br/>
+            <b>Alle Fragen bleiben erhalten</b> und es ist möglich, diese <b>Inhalte zu sichern und zu migrieren</b>. Du hast Fragen? <a href="mailto:christof@memucho.de?Subject=Widgets" target="_top">Schreibe uns</a>, wir helfen Dir gerne.
         </p>
-        <p class="buttonP">
-            <a href="<%= Model.StartSessionUrl %>" class="btn btn-lg btn-primary">
-                <i class="fa fa-play-circle">&nbsp;&nbsp;</i>Teste Dein Wissen
-            </a>
-        </p>
-        
+
     </div>
 
 </asp:Content>

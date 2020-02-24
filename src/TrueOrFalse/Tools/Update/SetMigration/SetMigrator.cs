@@ -24,6 +24,9 @@ namespace SetMigration
 
             foreach (var set in allSets)
             {
+                if (set.Id < 484)
+                    continue;
+
                 Stopwatch timer = new Stopwatch();
                 timer.Start();
                 Logg.r().Information("SetMigration: Migrating Set: {setId} - Start", set.Id);

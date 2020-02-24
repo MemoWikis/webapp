@@ -9059,6 +9059,7 @@
     <Content Include="Images\Logo\beta-logo.png" />
     <Content Include="Images\Logo\LogoMediumGrey.png" />
     <Content Include="Images\Logo\LogoWordmark_w300.png" />
+    <Content Include="Images\Logo\Logo_Green_Text.svg" />
     <Content Include="Images\Memo.png" />
     <Content Include="Images\memo_liegend_bearbeitet4.png" />
     <Content Include="Images\memo_mit_laptop_ohne_koerper.png" />
@@ -21581,7 +21582,10 @@
     <Content Include="Images\Various\SessionConfigReminder.svg" />
     <Content Include="Images\Various\tabAnalyticsMockup1.png" />
     <Content Include="Images\Various\treemapChartPsychology.png" />
-    <Content Include="robots.txt">
+    <Content Include="robots.not-live.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="robots.live.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Scripts\header\ActivityPointsPopup.js">
