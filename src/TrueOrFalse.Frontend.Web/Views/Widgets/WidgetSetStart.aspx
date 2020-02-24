@@ -45,7 +45,7 @@
         <p class="description">
             Leider werden wir demnächst unser Widget-Feature abschalten. Dafür konzentrieren wir uns mit voller Kraft auf die Kernfunktionen von memucho als Wissensmanager und Lerntool für offene Bildungsinhalte! <br/>
             <br/>
-            <b>Alle Fragen bleiben erhalten</b> und es ist möglich, diese <b>Inhalte zu sichern und zu migrieren</b>. Du hast Fragen? <a href="mailto:christof@memucho.de?Subject=Widgets" target="_top">Schreibe uns</a>, wir helfen dir gerne.
+            <b>Alle Fragen bleiben erhalten</b> und es ist möglich, diese <b>Inhalte zu sichern und zu migrieren</b>. Du hast Fragen? <a href="mailto:christof@memucho.de?Subject=Widgets" target="_top">Schreibe uns</a>, wir helfen Dir gerne.
         </p>
 
     </div>
