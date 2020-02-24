@@ -9059,6 +9059,7 @@
     <Content Include="Images\Logo\beta-logo.png" />
     <Content Include="Images\Logo\LogoMediumGrey.png" />
     <Content Include="Images\Logo\LogoWordmark_w300.png" />
+    <Content Include="Images\Logo\Logo_Green_Text.svg" />
     <Content Include="Images\Memo.png" />
     <Content Include="Images\memo_liegend_bearbeitet4.png" />
     <Content Include="Images\memo_mit_laptop_ohne_koerper.png" />

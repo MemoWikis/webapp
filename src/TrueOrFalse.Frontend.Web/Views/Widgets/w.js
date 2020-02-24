@@ -60,8 +60,7 @@ function writeIframe(iframeId, iframeSource, logoOn) {
         ? ""
         : '<div style="font-family: \'Open Sans\', Arial, sans-serif; font-size: 12px; position: relative; width: 100%; visibility: hidden;" id="memuchoLogo' + iframeId + '"> ' +
             '<a href="https://memucho.de" target="_blank"' + 'onmouseover = "this.style.filter = \'grayscale(0)\'" onmouseout  = "this.style.filter = \'grayscale(1)\'">' +
-                '<span style="font-weight: bold;"> memucho </span>' +
-                '<img src="https://memucho.de/Images/Logo/LogoSmall.png"/ style="width: 23px; height: auto; vertical-align: middle; padding-bottom: 4px; border: none; box-shadow: none;">' +
+                '<img src="https://memucho.de/Images/Logo/Logo_Green_Text.svg"/ style="width:150px; height: auto; vertical-align: middle; border: none; box-shadow: none;">' +
             '</a>' +
         '</div>';
 
@@ -74,8 +73,9 @@ function writeIframe(iframeId, iframeSource, logoOn) {
                     'font-size: 12px !important; ' +
                     'text-decoration: none !important; ' +
                     'color: rgb(175, 213, 52) !important; ' +
-                    'position: absolute; top: -40px; ' +
-                    'right: 15px; width: 150px !important; ' +
+                    'position: absolute; top: -45px; ' +
+                    'left: calc(50% - 75px); ' +
+                    'width: 150px !important; ' +
                     'text-align: right; filter: grayscale(1);' +
                 '}' +
             '</style > ' +
