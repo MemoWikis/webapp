@@ -145,9 +145,10 @@
        <div class="col-xs-9">
             <% if (!Model.IsLearningSession && !Model.IsTestSession && Model.ContentRecommendationResult.Categories.Count != 0)
                { %>
-                <h4 class="marginTop50Bottom30">Empfehlungen:</h4>
-                                                   
+                <h4 class="marginTop50Bottom30">Themen zum Weiterlernen:</h4>
                 <% Html.RenderPartial("~/Views/Questions/Answer/CategoryCards.ascx", new CategoryCardModel(Model.ContentRecommendationResult.Categories, Model.AllCategoriesParents, Model.PrimaryCategory.Id)); %>
+               
+               doooof
                 <div id="ParentsChildrenTopics">
                     <% Html.RenderPartial("~/Views/Questions/Answer/CategoryCards.ascx", new CategoryCardModel(Model.ContentRecommendationResult.Categories, Model.AllCategoriesParents, Model.PrimaryCategory.Id, true)); %>
                 </div>
