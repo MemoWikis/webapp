@@ -59,6 +59,9 @@
             <a href="<%= Url.Action("MigrateSetsToCategories", "Maintenance") %>" data-url="toSecurePost" style="">
                 <i class="fa fa-retweet"></i> Lernsets migrieren
             </a><br />
+            <a href="<%= Url.Action("MigrateSetTextAndCleanup", "Maintenance") %>" data-url="toSecurePost" style="">
+                <i class="fa fa-retweet"></i> Lernset Text Migration und lernsets löschen
+            </a><br />
         </div>
     </div>
 

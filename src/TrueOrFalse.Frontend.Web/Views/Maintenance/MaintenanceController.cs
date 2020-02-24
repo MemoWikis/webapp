@@ -728,5 +728,14 @@ public class MaintenanceController : BaseController
         return View("Maintenance",
             new MaintenanceModel { Message = new SuccessMessage("Lernsets wurden migriert") });
     }
+
+    [HttpPost]
+    public ActionResult MigrateSetTextAndCleanup()
+    {
+        SetMigration.SetMigrator.UpdateSetMigration();
+
+        return View("Maintenance",
+            new MaintenanceModel { Message = new SuccessMessage("Lernsets Text wurden migriert und Kopien wurden gelöscht") });
+    }
 }
 

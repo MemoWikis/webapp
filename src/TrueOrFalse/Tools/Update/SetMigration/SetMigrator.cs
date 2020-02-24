@@ -1,23 +1,21 @@
 ﻿using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using System.Web.Razor.Generator;
 using Quartz;
 using TrueOrFalse.Utilities.ScheduledJobs;
-using TrueOrFalse.Search;
 
 namespace SetMigration
 {
     public class SetMigrator
     {
         private static readonly IList<SetView> allSetViews = Sl.SetViewRepo.GetAll();
+        private static readonly IList<Set> allSets = Sl.SetRepo.GetAll();
         public static void Start()
         {
             Stopwatch migrationTimer = new Stopwatch();
             migrationTimer.Start();
             Logg.r().Information("SetMigration: Start");
 
-            var allSets = Sl.SetRepo.GetAll();
             var categoryRepo = Sl.CategoryRepo;
             var allCategories = Sl.CategoryRepo.GetAll();
             var categories = new List<Category>();
@@ -133,6 +131,80 @@ namespace SetMigration
 
                 categoryViewRepo.Create(newCategoryView);
             }
+        }
+
+        public static void UpdateSetMigration()
+        {
+            Stopwatch migrationTimer = new Stopwatch();
+            migrationTimer.Start();
+            Logg.r().Information("SetMigrationUpdate: Start");
+
+            foreach (var set in allSets)
+            {
+                if (!System.String.IsNullOrEmpty(set.Text) && set.CopiedFrom == null)
+                    MigrateSetText(set);
+
+                if (set.CopiedFrom != null)
+                    MigrateSetCopies(set);
+            }
+
+            migrationTimer.Stop();
+            Logg.r().Information("SetMigrationUpdate: Migration ended, elapsed Time: {time}", migrationTimer.Elapsed);
+        }
+
+        private static void MigrateSetText(Set set)
+        {
+            var category = Sl.CategoryRepo.GetBySetId(set.Id);
+            category.TopicMarkdown = set.Text;
+            category.Url = set.VideoUrl;
+            Sl.CategoryRepo.UpdateWithoutFlush(category);
+            Logg.r().Information("SetMigrationUpdate: Set Text from set {s.Id} migrated to category {c.Id}", set.Id, category.Id);
+        }
+
+        private static void MigrateSetCopies(Set set)
+        {
+            var questionDifferenceInBaseSet = set.CopiedFrom.QuestionsInSet.Except(set.QuestionsInSet).ToList();
+            var questionDifferenceInCopiedSet = set.QuestionsInSet.Except(set.CopiedFrom.QuestionsInSet).ToList();
+
+            var categoryDifferenceInBaseSet = set.CopiedFrom.Categories.Except(set.Categories).ToList();
+            var categoryDifferenceInCopiedSet = set.Categories.Except(set.CopiedFrom.Categories).ToList();
+
+            if (!questionDifferenceInBaseSet.Any() && !questionDifferenceInCopiedSet.Any() && 
+                !categoryDifferenceInBaseSet.Any() && !categoryDifferenceInCopiedSet.Any() &&
+                set.Text == set.CopiedFrom.Text &&
+                set.VideoUrl == set.CopiedFrom.VideoUrl)
+            {
+                UpdateSetValuations(set);
+                DeleteSetCopy(set);
+            }
+            else
+                MigrateSetText(set);
+        }
+
+        private static void UpdateSetValuations(Set set)
+        {
+            var baseSetValuations = Sl.SetValuationRepo.GetBy(set.CopiedFrom.Id);
+            var copiedSetValuations = Sl.SetValuationRepo.GetBy(set.Id);
+            foreach (var copiedSetValuation in copiedSetValuations)
+            {
+                var baseSetValuation = baseSetValuations.FirstOrDefault(sV => sV.UserId == copiedSetValuation.UserId && sV.SetId == set.CopiedFrom.Id);
+
+                if (baseSetValuation.RelevancePersonal == copiedSetValuation.RelevancePersonal)
+                    continue;
+                if (baseSetValuation.DateModified < copiedSetValuation.DateModified)
+                {
+                    var baseCategory = Sl.CategoryRepo.GetBySetId(set.CopiedFrom.Id);
+                    CreateOrUpdateCategoryValuation.Run(baseCategory.Id, copiedSetValuation.UserId, copiedSetValuation.RelevancePersonal);
+                }
+            }
+            Logg.r().Information("SetMigrationUpdate: SetValuation for set {id} migrated and updated", set.Id);
+        }
+
+        private static void DeleteSetCopy(Set set)
+        {
+            var categoryToDelete = Sl.CategoryRepo.GetBySetIdEager(set.Id);
+            Sl.CategoryRepo.Delete(categoryToDelete);
+            Logg.r().Information("SetMigrationUpdate: set {id} deleted", set.Id);
         }
     }
 }

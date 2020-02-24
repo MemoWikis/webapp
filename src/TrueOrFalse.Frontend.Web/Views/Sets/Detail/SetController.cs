@@ -12,7 +12,13 @@ public class SetController : BaseController
     [SetThemeMenu(true)]
     public void QuestionSet(string text, int id)
     {
-        Response.Redirect(Links.CategoryDetail(Resolve<CategoryRepository>().GetBySetId(id)));
+        var category = Resolve<CategoryRepository>().GetBySetId(id);
+        if (category == null)
+        {
+            var baseSetId = Sl.SetRepo.GetById(id).CopiedFrom.Id;
+            category = Resolve<CategoryRepository>().GetBySetId(baseSetId);
+        }
+        Response.Redirect(Links.CategoryDetail(category));
     }
 
     public void QuestionSetById(int id)
