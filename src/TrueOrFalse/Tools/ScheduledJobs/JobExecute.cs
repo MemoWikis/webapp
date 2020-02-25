@@ -35,20 +35,20 @@ public class JobExecute
 
                         if (writeLog)
                             Logg.r()
-                            	.Information("JOB START: {Job}, AppDomain(Hash): {AppDomain}, Thread: {ThreadId}",
+                            	.Information("JOB START: {Job}, AppDomain(Hash): {AppDomain}, Thread: {ThreadId}, {Environment}",
                                 jobName,
                                 appDomainName.GetHashCode().ToString("x"),
-                                threadId);
+                                threadId, Settings.Environment());
                                
                         action(scope);
 
                         if (writeLog)
                             Logg.r()
-                                .Information("JOB END: {Job}, AppDomain(Hash): {AppDomain}, Thread: {ThreadId} {timeNeeded}", 
+                                .Information("JOB END: {Job}, AppDomain(Hash): {AppDomain}, Thread: {ThreadId}, {timeNeeded}, {Environment}", 
                                     jobName,
                                     appDomainName.GetHashCode().ToString("x"),
                                     threadId,
-                                    stopwatch.Elapsed);
+                                    stopwatch.Elapsed, Settings.Environment());
 
                         stopwatch.Stop();
                     }
@@ -66,7 +66,7 @@ public class JobExecute
         }
         catch (Exception e)
         {
-            Logg.r().Error(e, "Job error on " + jobName);
+            Logg.r().Error(e, "Job error on {JobName}, {Environment}" , jobName, Settings.Environment());
 
             if (!String.IsNullOrEmpty(Settings.RollbarAccessToken))
                 new RollbarClient().SendException(e);
@@ -84,7 +84,7 @@ public class JobExecute
                 var runningJobRepo = new RunningJobRepo(session);
                 if (runningJobRepo.IsJobRunning(jobName))
                 {
-                    Logg.r().Information("Job is already running: {jobName}", jobName);
+                    Logg.r().Information("Job is already running: {jobName}, {Environment}", jobName, Settings.Environment());
                     return true;
                 }
                 runningJobRepo.Add(jobName);
