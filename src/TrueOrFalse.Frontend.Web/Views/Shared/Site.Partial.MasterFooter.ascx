@@ -41,7 +41,6 @@
         <a href="<%=Links.Team() %>">Team</a><br />
         <a href="<%=Links.AboutMemucho() %>">Über memucho</a><br />
         <a href="<%=Links.ForTeachers() %>">memucho für Lehrer/Dozenten</a><br />
-        <a href="<%= Links.WidgetExamples() %>">Widgets: Beispiele & Übersicht</a><br />
             &nbsp;<br />
         <a href="http://blog.memucho.de">memucho-Blog</a><br />
         <a href="<%=Links.WelfareCompany() %>">Gemeinwohlökonomie</a><br />
@@ -78,7 +77,6 @@
     <div class="FooterCol xxs-stack col-xs-6 col-md-2">
         <b>Hilfe</b><br />
         <a href="<%=Links.HelpFAQ() %>">FAQ</a><br />
-        <a href="<%= Links.HelpWidget() %>">Hilfe zu Widgets</a><br />
         Christof: <span style="white-space: nowrap;">+49-1577-6825707</span>
     </div>
 

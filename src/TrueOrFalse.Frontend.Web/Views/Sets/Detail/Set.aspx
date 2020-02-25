@@ -98,8 +98,7 @@
                 <div class="BottomBar">
                     <div style="float: left; padding-top: 7px;">
                         <div class="editLinks">
-                            <a class="embedSetLink" data-action="embed-set" href="#"><i class="fa fa-code" aria-hidden="true">&nbsp;</i>Einbetten</a>
-                                        <a data-toggle="modal" href="#modalCopySet" data-url="toSecurePost"><i class="fa fa-files-o"></i> Lernset kopieren</a>
+                                <a data-toggle="modal" href="#modalCopySet" data-url="toSecurePost"><i class="fa fa-files-o"></i> Lernset kopieren</a>
                             <% if(Model.IsOwner || Model.IsInstallationAdmin){ %>
                                 <a href="<%= Links.QuestionSetEdit(Url, Model.Name, Model.Id) %>"><i class="fa fa-pencil">&nbsp;</i>Bearbeiten</a> 
                                 <a href="<%= Links.CreateQuestion(setId: Model.Id) %>"><i class="fa fa-plus-circle">&nbsp;</i>Frage hinzufügen</a> 

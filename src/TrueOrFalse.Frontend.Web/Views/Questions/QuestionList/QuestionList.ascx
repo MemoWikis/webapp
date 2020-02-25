@@ -99,9 +99,6 @@
                                                         <li v-if="isCreator || isAdmin == 'True' ">
                                                             <a :href="editUrl" >Frage bearbeiten</a>
                                                         </li>
-                                                        <li>
-                                                            <a href="#" data-action="embed-question">Frage einbetten</a>
-                                                        </li>
                                                         <li id="DeleteQuestion" v-if="isCreator || isAdmin == 'True' ">
                                                             <a class="TextLinkWithIcon" data-toggle="modal" :data-questionid="questionId" href="#modalDeleteQuestion">
                                                                 Frage löschen

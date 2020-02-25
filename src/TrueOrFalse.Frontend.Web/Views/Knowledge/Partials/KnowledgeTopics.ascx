@@ -42,15 +42,14 @@
         <!-- Topic Count-->      
         <template slot="topicCount" scope="props">
             <div class="topic-count">
-                <div v-if="props.rowData.IsCategory"><span>{{props.rowData.LearnSetsCount}} Lernsets mit {{props.rowData.QuestionsCount}} Fragen</span></div>
-                <div v-else><span>{{props.rowData.QuestionsCount}} Fragen</span></div>
+                <div><span>{{props.rowData.QuestionsCount}} Fragen</span></div>
             </div>
         </template>
 
         <!-- Dropdownmenu -->
         <template slot="dropDown" scope="props">
         <div class="Button">
-            <a v-bind:href="props.rowData.LinkStartLearningSession" class="btn btn-link" data-allowed="logged-in" data-allowed-type="learning-session" rel="nofollow">
+            <a v-bind:href="props.rowData.LinkToSetOrCategory + '/Lernen'" class="btn btn-link" data-allowed="logged-in" data-allowed-type="learning-session" rel="nofollow">
                 <i class="fa fa-lg fa-line-chart"></i>&nbsp;lernen
             </a>
         </div>
