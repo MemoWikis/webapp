@@ -15,12 +15,7 @@ Vue.component('content-module-selection-modal-component', {
                 { type: 'TopicNavigation', group: 'main', name: 'Themenliste', tooltip: 'Zeigt eine Liste aller Hauptthemen.' },
                 { type: 'Spacer', group: 'main', name: 'Abstandhalter', tooltip: 'Sorgt für mehr Raum unter oder über einem Modul' },
 
-                { type: 'SingleCategoryFullWidth', group: 'misc', name: 'Einzelthema', tooltip: 'Zeigt ein Thema in voller Breite an.' },
-
                 { type: 'CategoryNetwork', group: 'misc', name: 'Themennetzwerk', tooltip: 'Über- und untergeordnete Themen werden übersichtlich dargestellt.' },
-                { type: 'RelatedContentLists', group: 'misc', name: 'Verwandte Inhalte', tooltip: 'Verwandte Inhalte werden in Listenform dargestellt.' },
-                { type: 'EducationOfferList', group: 'misc', name: 'Aus- und Weiterbildungen', tooltip: 'Zeigt Aus- und Weiterbildung (Universitäten, Kurse, Professoren/Dozenten etc.) eines Themas an.' },
-                { type: 'MediaList', group: 'misc', name: 'Medien', tooltip: 'Zeigt Medien (Bücher, Zeitungsartikel, Online-Beiträge, Videos etc.) eines Themas an.' },
             ],
             selectedModule: '',
             modalType: '',
