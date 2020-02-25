@@ -14,7 +14,7 @@ new Vue({
         fields: [
             {
                 name: "__slot:imageAndTitle",
-                title: "Thema/Lernset",
+                title: "Thema",
                 sortField: 'name',
                 dataClass: 'td-topic'
             },
@@ -97,7 +97,7 @@ new Vue({
         },
         onLoaded() {
             $('.show-tooltip').tooltip();
-            $("#h2TpopicAndLearnset").text("Du hast " + this.hasNullTopicsORSets($(".hddCountDates").val()) + " Themen und Lernsets in deinem Wunschwissen");
+            $("#h2TpopicAndLearnset").text("Du hast " + this.hasNullTopicsORSets($(".hddCountDates").val()) + " Themen in deinem Wunschwissen");
             $(".spinner").hide();
         },
         switchOnlySelfCreatedChanged: function () {

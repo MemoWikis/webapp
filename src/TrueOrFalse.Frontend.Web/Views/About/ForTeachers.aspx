@@ -46,24 +46,6 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-xs-12 col-sm-6">
-                        <div class="row overviewBlock">
-                            <div class="col-xs-2 overviewIcon">
-                                <i class="fa fa-desktop" style="color: #afd534">&nbsp;</i>
-                            </div>
-                            <div class="col-xs-10">
-                                <p class="overviewHeader">Integration in Kurswebseite</p>
-                                <p class="overviewSubtext">
-                                    Einzelne Fragen oder die Lernfunktion für ganze Lernsets direkt in die Kursseite, das Schul-LMS oder deinen Blog integrieren.
-                                </p>
-                            </div>
-                            <div class="col-xs-12">
-                                <p class="overviewMore">
-                                    <a href="#WidgetMore" class="btn btn-primary">Mehr erfahren</a>
-                                </p>
-                            </div>
-                        </div>
-                    </div>
                 </div>
 
                 <div class="row">

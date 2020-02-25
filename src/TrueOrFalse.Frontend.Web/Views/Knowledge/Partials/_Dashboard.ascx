@@ -161,7 +161,7 @@
     </div>
     <div class="col-xs-4">
         <h3> Dein Wunschwissen</h3>
-        <div><i class="bold"><%=Model.TopicCount %></i> Themen <i class="bold"><%=Model.User.WishCountSets %></i> Lernsets <i class="bold"><%=Model.User.WishCountQuestions %></i> Fragen</div> 
+        <div><i class="bold"><%=Model.TopicCount %></i> Themen <i class="bold"><%=Model.User.WishCountQuestions %></i> Fragen</div> 
     </div>
 </div>
 
@@ -174,7 +174,6 @@
         </p>
         <p>
             <b class="reputation-number"><%= Model.TopicCreatedCount %></b><span> erstellte Themen</span><br/>
-            <b class="reputation-number"><%= Model.SetsCreatedCount %></b><span> erstellte Lernsets</span><br/>
             <b class="reputation-number"><%= Model.QuestionsCreatedCount %></b><span> erstellte Fragen</span> <br/>
             <h3 id="rang">Rang <%=Model.ReputationRank %></h3>
             <b>(<%= Model.ReputationTotal %> Reputations Punkte)</b>
