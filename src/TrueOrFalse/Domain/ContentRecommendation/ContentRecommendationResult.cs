@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 
-
 public class ContentRecommendationResult
 {
     public IList<Set> Sets = new List<Set>(); //Sets that match the content

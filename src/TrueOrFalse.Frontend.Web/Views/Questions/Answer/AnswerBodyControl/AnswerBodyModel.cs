@@ -47,8 +47,7 @@ public class AnswerBodyModel : BaseModel
     public bool IsInTestMode = false;
 
     public bool HasCategories;
-    public string PrimaryCategoryName;
-    public int PrimaryCategoryId;
+    public Category PrimaryCategory;
 
     public bool ShowCommentLink => 
         CommentCount != -1 && 
@@ -149,8 +148,7 @@ public class AnswerBodyModel : BaseModel
 
         if (HasCategories)
         {
-            PrimaryCategoryId = question.Categories.FirstOrDefault().Id;
-            PrimaryCategoryName = question.Categories.FirstOrDefault().Name;
+            PrimaryCategory = question.Categories.LastOrDefault();
         }
 
         CreationDate = question.DateCreated.ToString("dd.MM.yyyy HH:mm:ss");
