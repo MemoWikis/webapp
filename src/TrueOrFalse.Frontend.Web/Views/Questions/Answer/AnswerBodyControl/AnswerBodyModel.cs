@@ -148,7 +148,7 @@ public class AnswerBodyModel : BaseModel
 
         if (HasCategories)
         {
-            PrimaryCategory = TopNavMenu.BreadCrumbCategories.LastOrDefault();
+            PrimaryCategory = question.Categories.LastOrDefault();
         }
 
         CreationDate = question.DateCreated.ToString("dd.MM.yyyy HH:mm:ss");
