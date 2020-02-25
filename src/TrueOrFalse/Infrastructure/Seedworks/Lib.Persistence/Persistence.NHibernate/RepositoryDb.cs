@@ -183,12 +183,20 @@ namespace Seedworks.Lib.Persistence
 				OnItemDeleted(this, new RepositoryDbEventArgs(domainObject));
 		}
 
+        public virtual void DeleteWithoutFlush(TDomainObject domainObject)
+        {
+            _session.Delete(domainObject);
+
+            if (OnItemDeleted != null)
+                OnItemDeleted(this, new RepositoryDbEventArgs(domainObject));
+        }
+
         public virtual void Delete(int id)
         {
             Delete(GetById(id));
         }
 
-        private void ClearAllItemCache()
+        public void ClearAllItemCache()
         {
             _allItemsCached = null;
         }

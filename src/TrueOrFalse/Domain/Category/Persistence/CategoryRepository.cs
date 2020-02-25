@@ -113,6 +113,14 @@ public class CategoryRepository : RepositoryDbBase<Category>
         UserCache.RemoveAllForCategory(category.Id); 
     }
 
+    public override void DeleteWithoutFlush(Category category)
+    {
+        _searchIndexCategory.Delete(category);
+        base.DeleteWithoutFlush(category);
+        EntityCache.Remove(category);
+        UserCache.RemoveAllForCategory(category.Id);
+    }
+
     public IList<Category> GetByName(string categoryName)
     {
         categoryName = categoryName ?? "";

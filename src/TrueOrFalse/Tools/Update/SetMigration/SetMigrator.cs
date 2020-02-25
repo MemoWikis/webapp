@@ -2,6 +2,7 @@
 using System.Diagnostics;
 using System.Linq;
 using Quartz;
+using Seedworks.Lib.Persistence;
 using TrueOrFalse.Utilities.ScheduledJobs;
 
 namespace SetMigration
@@ -148,6 +149,9 @@ namespace SetMigration
                     MigrateSetCopies(set);
             }
 
+            Sl.CategoryRepo.ClearAllItemCache();
+            Sl.CategoryRepo.Flush();
+
             migrationTimer.Stop();
             Logg.r().Information("SetMigrationUpdate: Migration ended, elapsed Time: {time}", migrationTimer.Elapsed);
         }
@@ -158,11 +162,12 @@ namespace SetMigration
             category.TopicMarkdown = set.Text;
             category.Url = set.VideoUrl;
             Sl.CategoryRepo.UpdateWithoutFlush(category);
-            Logg.r().Information("SetMigrationUpdate: Set Text from set {s.Id} migrated to category {c.Id}", set.Id, category.Id);
+            Logg.r().Information("SetMigrationUpdate: Set Text from set {sId} migrated to category {cId}", set.Id, category.Id);
         }
 
         private static void MigrateSetCopies(Set set)
         {
+            Logg.r().Information("SetMigrationUpdate: Migrating SetCopy {copiedId}", set.Id);
             var questionDifferenceInBaseSet = set.CopiedFrom.QuestionsInSet.Except(set.QuestionsInSet).ToList();
             var questionDifferenceInCopiedSet = set.QuestionsInSet.Except(set.CopiedFrom.QuestionsInSet).ToList();
 
@@ -202,9 +207,9 @@ namespace SetMigration
 
         private static void DeleteSetCopy(Set set)
         {
-            var categoryToDelete = Sl.CategoryRepo.GetBySetIdEager(set.Id);
-            Sl.CategoryRepo.Delete(categoryToDelete);
-            Logg.r().Information("SetMigrationUpdate: set {id} deleted", set.Id);
+            var categoryToDelete = Sl.CategoryRepo.GetBySetId(set.Id);
+            Sl.CategoryRepo.DeleteWithoutFlush(categoryToDelete);
+            Logg.r().Information("SetMigrationUpdate: category {cId} deleted, set {sId} gets redirected", categoryToDelete.Id, set.Id);
         }
     }
 }
