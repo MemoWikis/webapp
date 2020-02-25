@@ -66,38 +66,6 @@
             </div>
         </div>
 
-        <div class="panel panel-default">
-            <% currentFaqItem = new FAQAccordeonItem("WhatIsWidget"); %>
-            <div class="panel-heading" role="tab" id="<%= currentFaqItem.ItemHtmlIdHeading %>">
-                <h4 class="panel-title">
-                    <a data-toggle="collapse" data-parent="#FaqAccordion" href="#<%= currentFaqItem.ItemHtmlIdText %>" aria-expanded="true" aria-controls="<%= currentFaqItem.ItemHtmlIdText %>">
-                        Wie kann ich die Lerninhalte und die Quizzes in meine Webseite einfügen? Was sind die "Widgets"?
-                    </a>
-                </h4>
-            </div>
-            <div id="<%= currentFaqItem.ItemHtmlIdText %>" class="panel-collapse collapse" role="tabpanel" aria-labelledby="<%= currentFaqItem.ItemHtmlIdHeading %>">
-                <div class="panel-body">
-                    <p>
-                        Du kannst die Lerninhalte von memucho - also einzelne Fragen oder ganze Lernsets - ganz leicht in deine Webseite einbinden. 
-                        Das funktioniert für alle Arten von Webseiten, egal ob selbstgemacht, mit Wordpress oder in einem Learning-Management-System wie moodle.
-                        Bei jeder Frage und jedem Lernset findest du einen Link "Einbetten". Dort erhältst du eine Zeile HTML-Code, die du bei deiner Seite einfügst.
-                        Fertig! Das klappt auch mit Video-Fragesätzen!
-                    </p>
-                    <p>
-                        Wir haben für dich <a href="<%= Links.HelpWidget() %>">hier eine Schritt-für-Schritt-Anleitung</a> zusammengestellt, 
-                        auch speziell für <a href="<%= Links.HelpWidgetWordpress() %>">Wordpress</a>, <a href="<%= Links.HelpWidgetMoodle() %>">moodle</a> 
-                        und <a href="<%= Links.HelpWidgetBlackboard() %>">Blackboard</a>. 
-                    </p>
-                    <p>
-                        Wenn du erstmal sehen möchtest, wie die Einbettung von Fragen oder Lernsets per Widget aussieht, 
-                        dann ist unsere <a href="<%= Links.WidgetExamples() %>">Widget-Übersicht</a> das richtige für dich.
-                    </p>
-                    <p>
-                        <a href="<%= Links.WidgetExamples() %>" class="btn btn-primary">Zur Widget-Übersicht</a>
-                    </p>
-                </div>
-            </div>
-        </div>
 
         <div class="panel panel-default">
             <% currentFaqItem = new FAQAccordeonItem("WhatIsBeta"); %>

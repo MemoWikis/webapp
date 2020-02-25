@@ -183,39 +183,6 @@
             </div>
         </div>
     </div>
-    
-
-    <div class="row">
-        <div class="col-xs-12">
-            <div class="well">
-
-                <h2 style="margin-bottom: 15px;" class="PageHeader" id="WidgetMore">
-                    <span class="ColoredUnderline GeneralMemucho"><i class="fa fa-desktop" style="color: #afd534">&nbsp;&nbsp;</i>Integration in Kurs- oder Schulwebseite (per Widget)</span>
-                </h2>
-                <p class="subheader">
-                    Lernfunktion direkt in die Kursseite, das Schul-LMS oder deinen Blog integrieren
-                </p>
-                
-                <p>
-                    Du möchtest, dass deine Schüler oder Studenten direkt auf der Kursseite lernen? Du möchtest Fragen oder Lernsets und 
-                    das dazugehörige Video auf deinem eigenen Blog oder der Schulwebseite zeigen?
-                    Mit den memucho-Widgets ist das problemlos möglich. Du brauchst keine Programmier-Kenntnisse und in der Regel auch keine besonderen Rechte.
-                    Das funktioniert bei eigenen Seiten und bei verschiedenen Plattformen wie Wordpress, Moodle, Blackboard usw.
-                </p>
-                <p>
-                    Wenn du ein memucho-Widget einbindest, erscheint der Quiz (Lernset-Widget), das Video mit den Lernfragen (Video-Widget) oder die einzelne Lernfrage (Frage-Widget)
-                    direkt dort, wo du es einbindest. 
-                    Du musst nur eine Zeile Code von memucho per Copy'n'Paste bei dir einfügen, so wie du zum Beispiel auch youtube-Videos einbetten kannst. 
-                    Dann können deine Schüler direkt auf der Kurs- oder Projektwebseite ihr Wissen testen und die Inhalte lernen.
-                </p>
-                <p>
-                    Du willst genauer wissen, wie du memucho-Widgets einbettest? 
-                    <a href="<%= Links.HelpWidget() %>">Hier zeigen wir dir eine Anleitung</a>, wie du die Widgets einbetten kannst.
-                </p>
-
-            </div>
-        </div>
-    </div>
 
     
     <div class="row">
