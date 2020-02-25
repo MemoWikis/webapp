@@ -11,6 +11,7 @@ public class Logg
     {
         if (_logger == null) {     
             _logger = new LoggerConfiguration()
+                .Enrich.WithProperty("Environment", Settings.Environment())
                 .WriteTo.Seq("http://localhost:5341")
                 .CreateLogger();
         }

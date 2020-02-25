@@ -35,20 +35,20 @@ public class JobExecute
 
                         if (writeLog)
                             Logg.r()
-                            	.Information("JOB START: {Job}, AppDomain(Hash): {AppDomain}, Thread: {ThreadId}, {Environment}",
+                            	.Information("JOB START: {Job}, AppDomain(Hash): {AppDomain}, Thread: {ThreadId}",
                                 jobName,
                                 appDomainName.GetHashCode().ToString("x"),
-                                threadId, Settings.Environment());
+                                threadId);
                                
                         action(scope);
 
                         if (writeLog)
                             Logg.r()
-                                .Information("JOB END: {Job}, AppDomain(Hash): {AppDomain}, Thread: {ThreadId}, {timeNeeded}, {Environment}", 
+                                .Information("JOB END: {Job}, AppDomain(Hash): {AppDomain}, Thread: {ThreadId}, {timeNeeded}", 
                                     jobName,
                                     appDomainName.GetHashCode().ToString("x"),
                                     threadId,
-                                    stopwatch.Elapsed, Settings.Environment());
+                                    stopwatch.Elapsed);
 
                         stopwatch.Stop();
                     }
@@ -66,7 +66,7 @@ public class JobExecute
         }
         catch (Exception e)
         {
-            Logg.r().Error(e, "Job error on {JobName}, {Environment}" , jobName, Settings.Environment());
+            Logg.r().Error(e, "Job error on {JobName}" , jobName);
 
             if (!String.IsNullOrEmpty(Settings.RollbarAccessToken))
                 new RollbarClient().SendException(e);
