@@ -179,30 +179,35 @@ namespace SetMigration
                 set.Text == set.CopiedFrom.Text &&
                 set.VideoUrl == set.CopiedFrom.VideoUrl)
             {
-                UpdateSetValuations(set);
+                UpdateCategoryValuations(set);
                 DeleteSetCopy(set);
             }
             else
                 MigrateSetText(set);
         }
 
-        private static void UpdateSetValuations(Set set)
+        private static void UpdateCategoryValuations(Set set)
         {
-            var baseSetValuations = Sl.SetValuationRepo.GetBy(set.CopiedFrom.Id);
-            var copiedSetValuations = Sl.SetValuationRepo.GetBy(set.Id);
-            foreach (var copiedSetValuation in copiedSetValuations)
-            {
-                var baseSetValuation = baseSetValuations.FirstOrDefault(sV => sV.UserId == copiedSetValuation.UserId && sV.SetId == set.CopiedFrom.Id);
+            var baseCategory = Sl.CategoryRepo.GetBySetId(set.CopiedFrom.Id);
+            var baseCategoryValuations = Sl.CategoryValuationRepo.GetBy(set.CopiedFrom.Id);
 
-                if (baseSetValuation.RelevancePersonal == copiedSetValuation.RelevancePersonal)
-                    continue;
-                if (baseSetValuation.DateModified < copiedSetValuation.DateModified)
+            var copiedCategory = Sl.CategoryRepo.GetBySetId(set.Id);
+            var copiedCategoryValuations = Sl.CategoryValuationRepo.GetBy(copiedCategory.Id);
+
+            foreach (var copiedCategoryValuation in copiedCategoryValuations)
+            {
+                var baseCategoryValuation = baseCategoryValuations.FirstOrDefault(v => v.UserId == copiedCategoryValuation.UserId && v.CategoryId == baseCategory.Id);
+                if (baseCategoryValuation != null)
+                    if (copiedCategoryValuation.RelevancePersonal == baseCategoryValuation.RelevancePersonal)
+                        continue;
+                if (baseCategoryValuation == null || baseCategoryValuation.DateModified < copiedCategoryValuation.DateModified)
                 {
-                    var baseCategory = Sl.CategoryRepo.GetBySetId(set.CopiedFrom.Id);
-                    CreateOrUpdateCategoryValuation.Run(baseCategory.Id, copiedSetValuation.UserId, copiedSetValuation.RelevancePersonal);
+                    CreateOrUpdateCategoryValuation.Run(baseCategory.Id, copiedCategoryValuation.UserId, copiedCategoryValuation.RelevancePersonal);
                 }
             }
-            Logg.r().Information("SetMigrationUpdate: SetValuation for set {id} migrated and updated", set.Id);
+
+            Logg.r().Information("SetMigrationUpdate: Updated BaseCategory {baseCategoryId} with {copiedCategoryId} ", baseCategory.Id,  copiedCategory.Id);
+
         }
 
         private static void DeleteSetCopy(Set set)

@@ -735,7 +735,7 @@ public class MaintenanceController : BaseController
         SetMigration.SetMigrator.UpdateSetMigration();
 
         return View("Maintenance",
-            new MaintenanceModel { Message = new SuccessMessage("Lernsets Text wurden migriert und Kopien wurden gelöscht") });
+            new MaintenanceModel { Message = new SuccessMessage("Lernsets Text wurden migriert und Kopien wurden migriert und gelöscht") });
     }
 }
 
