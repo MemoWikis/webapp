@@ -737,6 +737,14 @@
 #ParentsChildrenTopics .CardMiniColumn {
   display: grid;
 }
+@media (max-width: 480px) {
+  #ParentsChildrenTopics .CardMiniColumn {
+    width: 50% !important;
+  }
+}
+#ParentsChildrenTopics .CardMiniColumn .SingleItem {
+  overflow-x: hidden;
+}
 #ParentsChildrenTopics .CardMiniColumn .SingleItem .CardContent {
   height: auto;
 }
@@ -1038,6 +1046,9 @@
   padding-top: 15px;
 }
 /* Primary Category Card */
+#Topics h4 {
+  font-size: 25px;
+}
 @media screen and (max-width: 1200px) {
   #Topics .col-xs-9 {
     width: 100%;

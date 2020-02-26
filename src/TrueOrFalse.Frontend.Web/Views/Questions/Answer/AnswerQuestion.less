@@ -671,380 +671,393 @@
     .CardMiniColumn {
         display: grid;
 
-        .SingleItem {
-           .CardContent{
-               height: auto;
-           }
+       
+            @media (max-width: 480px) {
+                width: 50% !important;
+            }
+        
+
+            .SingleItem {
+                overflow-x: hidden;
+
+                .CardContent {
+                    height: auto;
+                }
+            }
         }
     }
-}
-
-/*---------------------------------------------------------------------------
+    /*---------------------------------------------------------------------------
                                  FooterQuestionDetails
 -----------------------------------------------------------------------------*/
+    .FooterQuestionDetails {
+        color: @grey6x5;
+        padding-bottom: 10px;
 
+        .col-md-2 {
+            width: 20%;
 
-.FooterQuestionDetails {
-    color: @grey6x5;
-    padding-bottom: 10px;
+            .media-below-md( {
+                width: 100%;
+                justify-content: flex-start;
+            }
 
-    .col-md-2 {
-        width: 20%;
-
-        .media-below-md( {
-            width: 100%;
-            justify-content: flex-start;
+            );
         }
 
-        );
-    }
+        .col-md-10 {
+            width: 80%;
+            display: flex;
+            justify-content: center;
+            padding-top: 4px;
 
-    .col-md-10 {
-        width: 80%;
-        display: flex;
-        justify-content: center;
-        padding-top: 4px;
+            .media-below-md( {
+                width: 100%;
+                justify-content: flex-start;
+            }
 
-        .media-below-md( {
-            width: 100%;
-            justify-content: flex-start;
-        });
-    }
+            );
+        }
 
-    .TextLinkWithIcon {
-        flex-flow: row;
+        .TextLinkWithIcon {
+            flex-flow: row;
 
-        .TextDiv {
-            padding-top: 3px;
+            .TextDiv {
+                padding-top: 3px;
+            }
+        }
+
+        .created {
+            .font-size12-and-padding();
+            padding-left: 0;
+        }
+
+        .processed {
+            .font-size12-and-padding();
+        }
+
+        .comment-link {
+            margin-left: auto;
+            padding-right: 0;
+
+            .fa {
+                padding-right: 0;
+            }
+
+            .fa-comment {
+                color: #979797;
+            }
         }
     }
 
-    .created {
-        .font-size12-and-padding();
-        padding-left: 0;
+    .commentSettledInfo {
+        color: darkgray;
     }
 
-    .processed {
-        .font-size12-and-padding();
+    .MarkdownImage {
+        img {
+            max-height: 500px;
+
+            .media-below-sm( {
+                max-height: 250px;
+            }
+
+            );
+        }
     }
 
-    .comment-link {
-        margin-left: auto;
-        padding-right: 0;
+    #MasterWidget {
+        #AnswerBody {
+            border: none;
+            box-shadow: none;
+            // padding: 0;
+            margin-bottom: 0;
+        }
 
-        .fa {
+        .SessionBar {
+            margin-bottom: 15px;
+        }
+
+        #LicenseQuestion {
+            margin-top: 10px;
+            // padding: 0;
+        }
+
+        #video-pager {
+            border: none;
+            padding-left: 0;
             padding-right: 0;
         }
-
-        .fa-comment {
-            color: #979797;
-        }
     }
-}
-
-.commentSettledInfo {
-    color: darkgray;
-}
-
-.MarkdownImage {
-    img {
-        max-height: 500px;
-
-        .media-below-sm( {
-            max-height: 250px;
-        } );
-    }
-}
-
-#MasterWidget {
-    #AnswerBody {
-        border: none;
-        box-shadow: none;
-       // padding: 0;
-        margin-bottom: 0;
+    //MatchList
+    .matchlist-leftelementwrapper {
+        text-align: center;
     }
 
-    .SessionBar {
-        margin-bottom: 15px;
-    }
-
-    #LicenseQuestion {
-        margin-top: 10px;
-       // padding: 0;
-    }
-
-    #video-pager {
-        border: none;
-        padding-left: 0;
-        padding-right: 0;
-    }
-}
-//MatchList
-.matchlist-leftelementwrapper {
-    text-align: center;
-}
-
-.matchlist-pairrow {
-    margin-bottom: 10px;
-    margin-top: 2px;
-    display: flex;
-    align-content: center;
-    align-items: center;
-}
-
-.matchlist-droppable {
-    border: 1px dashed;
-    border-radius: 5px;
-    height: 33px;
-}
-
-.matchlist-divider {
-    border-bottom: 1px solid;
-    margin: 20px 25% 0 25%;
-}
-
-.matchlist-hovered {
-    background-color: gainsboro;
-}
-
-#matchlist-rightelements {
-    margin-top: 20px;
-    padding: 0 13px 0 10px;
-    display: flex;
-    align-items: flex-start;
-    align-content: space-around;
-    flex-flow: row wrap;
-    justify-content: space-between;
-}
-
-.matchlist-rightelement {
-    display: inline-block;
-    word-wrap: break-word;
-    border: 1px solid;
-    padding: 2px 0 3px 0;
-    border-radius: 3px;
-    margin: 10px 0 0 0;
-    cursor: move;
-    background-color: white;
-    text-align: center;
-    white-space: pre-wrap;
-}
-
-.matchlist-droppable-dropped {
-    height: initial;
-    padding: 2px;
-    display: inline-block;
-    width: 100%;
-}
-
-.matchlist-rightelement-dropped {
-    position: static !important;
-    margin: unset;
-    width: 100%;
-}
-
-//matchlist-mobile
-.matchlist-mobilepairrow {
-    margin-bottom: 20px;
-}
-
-.matchlist-elementlabel {
-    text-align: left;
-    margin-bottom: 5px;
-    font-size: 16px;
-}
-//FlashCard
-#flashCardContent {
-    min-height: 250px;
-    cursor: pointer;
-
-    @media (max-width: 768px) {
-        margin-bottom: 25px;
-    }
-
-    > div, #flashCard-frontContent > p {
-        min-height: inherit;
+    .matchlist-pairrow {
+        margin-bottom: 10px;
+        margin-top: 2px;
         display: flex;
-        flex-direction: column;
-        align-items: center;
         align-content: center;
-        justify-content: center;
+        align-items: center;
     }
 
-    #flashCard-back > p {
+    .matchlist-droppable {
+        border: 1px dashed;
+        border-radius: 5px;
+        height: 33px;
+    }
+
+    .matchlist-divider {
+        border-bottom: 1px solid;
+        margin: 20px 25% 0 25%;
+    }
+
+    .matchlist-hovered {
+        background-color: gainsboro;
+    }
+
+    #matchlist-rightelements {
+        margin-top: 20px;
+        padding: 0 13px 0 10px;
+        display: flex;
+        align-items: flex-start;
+        align-content: space-around;
+        flex-flow: row wrap;
+        justify-content: space-between;
+    }
+
+    .matchlist-rightelement {
+        display: inline-block;
+        word-wrap: break-word;
+        border: 1px solid;
+        padding: 2px 0 3px 0;
+        border-radius: 3px;
+        margin: 10px 0 0 0;
+        cursor: move;
+        background-color: white;
+        text-align: center;
+        white-space: pre-wrap;
+    }
+
+    .matchlist-droppable-dropped {
+        height: initial;
+        padding: 2px;
+        display: inline-block;
         width: 100%;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        align-content: center;
-        justify-content: center;
+    }
+
+    .matchlist-rightelement-dropped {
+        position: static !important;
+        margin: unset;
+        width: 100%;
+    }
+    //matchlist-mobile
+    .matchlist-mobilepairrow {
+        margin-bottom: 20px;
+    }
+
+    .matchlist-elementlabel {
+        text-align: left;
+        margin-bottom: 5px;
+        font-size: 16px;
+    }
+    //FlashCard
+    #flashCardContent {
+        min-height: 250px;
+        cursor: pointer;
+
+        @media (max-width: 768px) {
+            margin-bottom: 25px;
+        }
+
+        > div, #flashCard-frontContent > p {
+            min-height: inherit;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            align-content: center;
+            justify-content: center;
+        }
+
+        #flashCard-back > p {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            align-content: center;
+            justify-content: center;
+
+            img {
+                max-width: 60%;
+            }
+        }
+
+        > div {
+            background-color: white;
+            border: 1px solid darken(@border-grey, 5);
+            box-shadow: 10px 10px 5px -5px rgba(0,0,0,0.20);
+        }
 
         img {
+            padding-bottom: 20px;
+        }
+
+        .flipClickHint {
+            position: absolute;
+            bottom: 1rem;
+            right: 1rem;
+
+            span {
+                color: silver;
+            }
+        }
+
+        #flashCard-frontContent, #flashCard-back {
+            padding: 15px 15px 40px 15px;
+        }
+
+        #flashCard-frontContent img {
             max-width: 60%;
         }
     }
 
-    > div {
-        background-color: white;
-        border: 1px solid darken(@border-grey, 5);
-        box-shadow: 10px 10px 5px -5px rgba(0,0,0,0.20);
-    }
-
-    img {
-        padding-bottom: 20px;
-    }
-
-    .flipClickHint {
-        position: absolute;
-        bottom: 1rem;
-        right: 1rem;
-
-        span {
-            color: silver;
-        }
-    }
-
-    #flashCard-frontContent, #flashCard-back {
-        padding: 15px 15px 40px 15px;
-    }
-
-    #flashCard-frontContent img {
-        max-width: 60%;
-    }
-}
-
-.flashCardAnswerButtons > .btn {
-    margin-left: unset;
-}
-
-.singleCatFullWidth {
-    margin-top: 2.25em;
-    margin-bottom:2.25em;
-
-    .col-xs-9 {
-        @media(max-width: 1200px) {
-            width: 100%;
-        }
-        .col-xs-2{
-            min-width: 128px;
-        }
-    }
-
-    .flex {
-        display: flex;
-        align-items: center;
-    }
-    .buttons{
-        padding-top: 15px;
-    }
-}
-    /* Primary Category Card */
-#Topics {
-    @media screen and (max-width: 1200px) {
-        .col-xs-9{
-            width: 100%;
-        }
-    }
-
-    #MoreParentsAndChildrens {
-        margin-top: 30px;
-        margin-bottom: 30px;
-        text-align: center;
-        font-weight: 500;
-    }
-
-    .SingleCategoryAttention {
-        padding-left: 10px;
-    }
-
-    .marginTop50Bottom30 {
-        margin-top: 50px;
-        margin-bottom: 30px;
+    .flashCardAnswerButtons > .btn {
+        margin-left: unset;
     }
 
     .singleCatFullWidth {
-        @media screen and (max-width: 767px) {
-            text-align: center;
-            margin-top: 10px;
+        margin-top: 2.25em;
+        margin-bottom: 2.25em;
 
-            .row {
-                display: block;
+        .col-xs-9 {
+            @media(max-width: 1200px) {
+                width: 100%;
+            }
+
+            .col-xs-2 {
+                min-width: 128px;
             }
         }
 
-        .col-sm-2 {
-            @media screen and (max-width: 768px) {
-                margin-bottom: 10px;
+        .flex {
+            display: flex;
+            align-items: center;
+        }
+
+        .buttons {
+            padding-top: 15px;
+        }
+    }
+    /* Primary Category Card */
+    #Topics {
+        h4{
+            font-size: 25px;
+        }
+        @media screen and (max-width: 1200px) {
+            .col-xs-9 {
+                width: 100%;
+            }
+        }
+
+        #MoreParentsAndChildrens {
+            margin-top: 30px;
+            margin-bottom: 30px;
+            text-align: center;
+            font-weight: 500;
+        }
+
+        .SingleCategoryAttention {
+            padding-left: 10px;
+        }
+
+        .marginTop50Bottom30 {
+            margin-top: 50px;
+            margin-bottom: 30px;
+        }
+
+        .singleCatFullWidth {
+            @media screen and (max-width: 767px) {
+                text-align: center;
+                margin-top: 10px;
+
+                .row {
+                    display: block;
+                }
+            }
+
+            .col-sm-2 {
+                @media screen and (max-width: 768px) {
+                    margin-bottom: 10px;
+                }
             }
         }
     }
-}
-/*--------------------------ActivityPoints---------------------
+    /*--------------------------ActivityPoints---------------------
 
 ---------------------------------------------------------------*/
-#activityPointsDispaly {
-    float: right;
-    font-size: 22px;
-    font-family: sans-serif;
-    line-height: normal;
-    color: RGB(185,219,79);
-    text-align: right;
-    padding-top: 10px;
+    #activityPointsDispaly {
+        float: right;
+        font-size: 22px;
+        font-family: sans-serif;
+        line-height: normal;
+        color: RGB(185,219,79);
+        text-align: right;
+        padding-top: 10px;
 
-    &.hideOnBigScreen {
-        @media(min-width: 1200px) {
-            display: none;
+        &.hideOnBigScreen {
+            @media(min-width: 1200px) {
+                display: none;
+            }
+        }
+
+        .fa-info-circle {
+            font-size: 14px;
+        }
+
+        small {
+            font-size: 10px;
+            display: block;
         }
     }
-
-    .fa-info-circle {
-        font-size: 14px;
-    }
-
-    small {
-        font-size: 10px;
-        display: block;
-    }
-}
     /*-----------------------AnswerQuestionBodyMenu--------------------
 
 ---------------------------------------------------------------*/
-.AnswerQuestionBodyMenu {
-    display: flex;
-    float: right;
+    .AnswerQuestionBodyMenu {
+        display: flex;
+        float: right;
 
-    .Pin {
-        padding-right: 5px;
-    }
+        .Pin {
+            padding-right: 5px;
+        }
 
-    .edit-question {
-        margin-top: 0.7em;
-        padding-right: 8px;
-    }
+        .edit-question {
+            margin-top: 0.7em;
+            padding-right: 8px;
+        }
 
-    .category {
-        margin-right: 15px;
-    }
+        .category {
+            margin-right: 15px;
+        }
 
-    .set {
-        margin-right: 15px
-    }
+        .set {
+            margin-right: 15px
+        }
 
-    .margin-top-4 {
-        margin-top: 0.25em;
-    }
+        .margin-top-4 {
+            margin-top: 0.25em;
+        }
 
-    .dropdown-menu {
-        z-index: 10;
-    }
+        .dropdown-menu {
+            z-index: 10;
+        }
 
-    .dropdown-toggle {
-        padding-right: 0px;
-        font-size: 18px;
-        color: #999999;
-        margin-top:-2px;
+        .dropdown-toggle {
+            padding-right: 0px;
+            font-size: 18px;
+            color: #999999;
+            margin-top: -2px;
+        }
     }
-}
 
     .SingleCategoryAttention {
         .well {
@@ -1052,7 +1065,7 @@
         }
     }
 
-   
+
 
     @media(max-width:767px) {
         .row {

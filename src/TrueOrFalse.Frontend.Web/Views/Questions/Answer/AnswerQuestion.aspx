@@ -142,7 +142,7 @@
        <div class="col-xs-9">
             <% if (!Model.IsLearningSession && !Model.IsTestSession && Model.ContentRecommendationResult.Categories.Count != 0)
                { %>
-                <%--<h4 class="marginTop50Bottom30">Themen zum Weiterlernen:</h4>--%>
+                <h4 class="marginTop50Bottom30">Themen zum Weiterlernen:</h4>
                 <div id="ParentsChildrenTopics">
                     <% foreach (var categoryId in Model.AllCategorysWithChildrenAndParents)
                        { %>
