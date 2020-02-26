@@ -138,25 +138,35 @@
             <% Html.RenderPartial("~/Views/Shared/SidebarCards.ascx", Model.SidebarModel); %>
         </div>
     </div>
-<div id="Topics"class="row">
+    <div id="Topics"class="row ">
        <div class="col-xs-9">
             <% if (!Model.IsLearningSession && !Model.IsTestSession && Model.ContentRecommendationResult.Categories.Count != 0)
                { %>
-                <h4 class="marginTop50Bottom30">Themen zum Weiterlernen:</h4>
+                <%--<h4 class="marginTop50Bottom30">Themen zum Weiterlernen:</h4>--%>
                 <div id="ParentsChildrenTopics">
-                    <% Html.RenderPartial("~/Views/Questions/Answer/CategoryCards.ascx", new CategoryCardModel(Model.Question.Categories, Model.AllCategoriesParents, Model.PrimaryCategory.Id)); %>
+                    <% foreach (var categoryId in Model.AllCategorysWithChildrenAndParents)
+                       { %>
+                        <div class="CardMiniColumn col-xs-4 col-sm-3 col-lg-3" style="">
+                            <% Html.RenderPartial("~/Views/Welcome/Partials/WelcomeCardMiniCategory.ascx", new WelcomeCardMiniCategoryModel(categoryId.Id)); %>
+                        </div>
+                    <% } %>
                 </div>
-
+        
                 <div id="MoreParentsAndChildrens"><a></a><br/>
                     <span class="fa fa-angle-down"></span>
                 </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-9">
 
+           <div class= "col-sm-12">
                 <% if (Model.QuestionHasParentCategories)
                    {
                        Html.RenderPartial("~/Views/Shared/AnalyticsFooter.ascx", Model.AnalyticsFooterModel);
                    } %>
             <% } %>
-
+           </div>
         <div class="row" style="margin-top: 30px; color: darkgray; font-weight: bold;">
             <div class="col-xs-4">
                 <h4 style="padding:0; margin:0;">Kommentare<a name="comments"></a></h4>    

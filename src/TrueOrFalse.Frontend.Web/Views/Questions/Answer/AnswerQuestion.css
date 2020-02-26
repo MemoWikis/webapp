@@ -721,6 +721,26 @@
   margin-bottom: 15px;
 }
 /*---------------------------------------------------------------------------
+    Cards
+-----------------------------------------------------------------------------*/
+#ParentsChildrenTopics {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+  -webkit-flex-flow: row wrap;
+      -ms-flex-flow: row wrap;
+          flex-flow: row wrap;
+}
+#ParentsChildrenTopics .CardMiniColumn {
+  display: grid;
+}
+#ParentsChildrenTopics .CardMiniColumn .SingleItem .CardContent {
+  height: auto;
+}
+/*---------------------------------------------------------------------------
                                  FooterQuestionDetails
 -----------------------------------------------------------------------------*/
 .FooterQuestionDetails {
