@@ -276,7 +276,7 @@
        { %>
         <div class="col-md-10">
         <div class="created"> Erstellt von: <a href="<%= Links.UserDetail(Model.Creator) %>"><%= Model.Creator.Name %></a> vor <%= Model.CreationDateNiceText %></div>
-        <div class="processed"> Diese Frage wurde zuletzt bearbeitet von:  <a href="<%= Links.UserDetail(Model.Creator) %>"><%= Model.Creator.Name %></a> vor  <%= Model.QuestionLastEditedOn %> </div>
+        <div class="processed"> Diese Frage wurde zuletzt bearbeitet von:  <a href="<%= Links.UserDetail(Model.Creator) %>"><%= Model.QuestionChangeAuthor.Name %></a> vor  <%= Model.QuestionLastEditedOn %> </div>
             <% if (Model.ShowCommentLink)
                { %>
                 <div class="comment-link">

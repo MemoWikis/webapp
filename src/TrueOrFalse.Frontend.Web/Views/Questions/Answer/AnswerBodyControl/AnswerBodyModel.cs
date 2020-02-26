@@ -14,6 +14,7 @@ public class AnswerBodyModel : BaseModel
     public int QuestionId;
 
     public UserTinyModel Creator;
+    public UserTinyModel QuestionChangeAuthor; 
     public bool IsCreator;
     public bool IsInWishknowledge;
     public KnowledgeStatus KnowledgeStatus;
@@ -145,6 +146,8 @@ public class AnswerBodyModel : BaseModel
         Creator =  new UserTinyModel(question.Creator);
         IsCreator = Creator.Id == UserId;
         HasCategories = question.Categories.Any();
+        var questionChangeList = Sl.QuestionChangeRepo.GetForQuestion(QuestionId);
+        QuestionChangeAuthor = questionChangeList.Count == 0 ? Creator : new UserTinyModel(questionChangeList.OrderBy(q => q.Id).LastOrDefault().Author);
 
         if (HasCategories)
         {
