@@ -100,7 +100,7 @@
             <h3>Wissen teilen und gemeinsam lernen</h3>
             <p>
                 Nutze die vorhandenen Lerninhalte und teile dein eigenes Wissen. 
-                Du kannst selbst eigene Fragen und Lernsets erstellen. Denn Wissen wird mehr, wenn man es teilt!
+                Du kannst selbst eigene Fragen und Themen erstellen. Denn Wissen wird mehr, wenn man es teilt!
             </p>
             <p>
                 Je mehr andere Nutzer mit deinen Fragen lernen, desto mehr Reputationspunkte erhältst du und wirst als Experte sichtbar.

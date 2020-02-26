@@ -236,17 +236,6 @@
                                         style="width: 100%; max-width: 100%;"><%= Model.TopicMarkdown %></textarea>
                                 </div>
                             </div>
-                            <div class="form-group">
-                                <label class="columnLabel control-label" for="FeaturedSetIdsString">
-                                    Offiziell präsentierte Lernsets (wird aktuell nicht verwendet)
-                                    <i class="fa fa-question-circle show-tooltip" 
-                                        title="Bitte Ids der Lernsets in der Form '1,2,3' angeben. Bitte darauf achten, dass diese Lernsets tatsächlich mit dem Thema versehen sind." 
-                                        data-placement="<%= CssJs.TooltipPlacementLabel %>" data-trigger="hover click"></i>
-                                </label>
-                                <div class="columnControlsFull">
-                                    <input class="form-control" disabled name="FeaturedSetIdsString" type="text" value="<%= Model.FeaturedSetIdsString %>">
-                                </div>
-                            </div>
                         </div>                
                     </div>
                 </div>

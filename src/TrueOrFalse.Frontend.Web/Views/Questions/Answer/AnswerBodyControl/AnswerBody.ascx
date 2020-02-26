@@ -50,7 +50,6 @@
                            { %>
                             <li><a href="<%= Links.EditQuestion(Url, Model.QuestionText, Model.QuestionId) %>" class="TextLinkWithIcon">Frage bearbeiten</a></li>
                         <% }  %>
-                        <li><a style="white-space: nowrap" href="#" data-action="embed-question">Frage einbetten</a></li>
                         <% if (Model.IsCreator || Model.IsInstallationAdmin)
                            { %>
                             <li id="DeleteQuestion">

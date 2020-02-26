@@ -8,8 +8,8 @@
     
     <% if (Model.Category.IsHistoric) { %>
         <div class="alert alert-info" role="alert">
-            Aus technischen Gründen können <b>keine Archivdaten für <i>Lernsets</i> und <i>Fragen</i></b> angezeigt 
-            werden. Es werden die aktuellen Lernsets und Fragen dargestellt.
+            Aus technischen Gründen können <b>keine Archivdaten für <i>Fragen</i></b> angezeigt werden. 
+            Es werden die aktuellen Fragen dargestellt.
         </div>
     <% } %>
     

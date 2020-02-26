@@ -34,7 +34,7 @@ var tourWelcome = new Tour({
             backdrop: true,
             backdropPadding: 10,
             title: "Inhalte suchen oder neu erstellen",
-            content: "Hier findest du alle Inhalte zum Lernen. Wenn du etwas nicht findest, kannst du die passenden Fragen und Lernsets einfach selbst erstellen. Lernsets beinhalten mehrere zusammengehörige Fragen."
+            content: "Hier findest du alle Inhalte zum Lernen. Wenn du etwas nicht findest, kannst du die passenden Fragen einfach selbst erstellen."
         },
         {
             element: "#mainMenuBtnDates",
