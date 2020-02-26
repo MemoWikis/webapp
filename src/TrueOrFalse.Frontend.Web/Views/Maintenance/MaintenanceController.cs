@@ -5,6 +5,7 @@ using System.Web.Mvc;
 using NHibernate;
 using NHibernate.Linq;
 using NHibernate.Util;
+using SetMigration;
 using TrueOrFalse;
 using TrueOrFalse.Frontend.Web.Code;
 using TrueOrFalse.Infrastructure;
@@ -732,7 +733,8 @@ public class MaintenanceController : BaseController
     [HttpPost]
     public ActionResult MigrateSetTextAndCleanup()
     {
-        SetMigration.SetMigrator.UpdateSetMigration();
+        var setMigrator = new SetMigrator();
+        setMigrator.UpdateSetMigration();
 
         return View("Maintenance",
             new MaintenanceModel { Message = new SuccessMessage("Lernsets Text wurden migriert und Kopien wurden migriert und gelöscht") });

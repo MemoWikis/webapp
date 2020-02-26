@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Web.Mvc;
+using NHibernate.Util;
 using TrueOrFalse.Frontend.Web.Code;
 
 public class SetController : BaseController
@@ -12,23 +14,25 @@ public class SetController : BaseController
     [SetThemeMenu(true)]
     public void QuestionSet(string text, int id)
     {
-        var category = Resolve<CategoryRepository>().GetBySetId(id);
-        if (category == null)
+        var category = Sl.CategoryRepo.GetBySetId(id);
+        var categoryChanges = Sl.CategoryChangeRepo.GetForCategory(category.Id);
+        var isDeleted = categoryChanges.Any(c => c.Category == category && c.Type == CategoryChangeType.Delete);
+        if (isDeleted)
         {
             var baseSetId = Sl.SetRepo.GetById(id).CopiedFrom.Id;
-            category = Resolve<CategoryRepository>().GetBySetId(baseSetId);
+            category = Sl.CategoryRepo.GetBySetId(baseSetId);
         }
-        Response.Redirect(Links.CategoryDetail(category));
+        Response.Redirect(Links.CategoryDetailLearningTab(category));
     }
 
     public void QuestionSetById(int id)
     {
-        Response.Redirect(Links.SetDetail(Resolve<SetRepo>().GetById(id)));
+        Response.Redirect(Links.SetDetail(Sl.SetRepo.GetById(id)));
     }
 
     private void QuestionSet(Set set)
     {
-        Response.Redirect(Links.CategoryDetail(Resolve<CategoryRepository>().GetBySetId(set.Id)));
+        Response.Redirect(Links.CategoryDetail(Sl.CategoryRepo.GetBySetId(set.Id)));
     }
 
     public JsonResult GetRows(int id)
@@ -50,12 +54,12 @@ public class SetController : BaseController
     [RedirectToErrorPage_IfNotLoggedIn]
     public ActionResult StartLearningSession(int setId)
     {
-        return Redirect(Links.CategoryDetailLearningTab(Resolve<CategoryRepository>().GetBySetId(setId)));
+        return Redirect(Links.CategoryDetailLearningTab(Sl.CategoryRepo.GetBySetId(setId)));
     }
 
     public ActionResult StartTestSession(int setId)
     {
-        return Redirect(Links.CategoryDetailLearningTab(Resolve<CategoryRepository>().GetBySetId(setId)));
+        return Redirect(Links.CategoryDetailLearningTab(Sl.CategoryRepo.GetBySetId(setId)));
     }
 
     public ActionResult StartTestSessionForSets(List<int> setIds, string setListTitle)
