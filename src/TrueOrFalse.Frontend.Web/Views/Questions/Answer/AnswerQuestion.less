@@ -671,17 +671,21 @@
     .CardMiniColumn {
         display: grid;
 
-       
-            @media (max-width: 480px) {
-                width: 50% !important;
-            }
-        
 
-            .SingleItem {
-                overflow-x: hidden;
+        @media (max-width: 480px) {
+            width: 50% !important;
+        }
 
-                .CardContent {
-                    height: auto;
+
+        .SingleItem {
+            overflow-x: hidden;
+
+            .CardContent {
+                height: auto;
+
+                    .ItemTitle {
+                        font-weight: 700;
+                    }
                 }
             }
         }
@@ -950,9 +954,10 @@
     }
     /* Primary Category Card */
     #Topics {
-        h4{
+        h4 {
             font-size: 25px;
         }
+
         @media screen and (max-width: 1200px) {
             .col-xs-9 {
                 width: 100%;

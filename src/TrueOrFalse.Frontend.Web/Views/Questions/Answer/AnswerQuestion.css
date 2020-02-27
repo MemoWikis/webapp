@@ -748,6 +748,9 @@
 #ParentsChildrenTopics .CardMiniColumn .SingleItem .CardContent {
   height: auto;
 }
+#ParentsChildrenTopics .CardMiniColumn .SingleItem .CardContent .ItemTitle {
+  font-weight: 700;
+}
 /*---------------------------------------------------------------------------
                                  FooterQuestionDetails
 -----------------------------------------------------------------------------*/
