@@ -13,10 +13,6 @@ namespace SetMigration
         private static readonly IList<SetView> _allSetViews = Sl.SetViewRepo.GetAll();
         private static readonly IList<Set> _allSets = Sl.SetRepo.GetAll();
         private static IList<int> _categoryIdsMarkedForDeletion = new List<int>();
-        private readonly CategoryRepository _categoryRepo;
-
-        private readonly ISession _session;
-        private readonly SearchIndexCategory _searchIndexCategory;
 
         public static void Start()
         {
@@ -140,6 +136,7 @@ namespace SetMigration
 
         public void UpdateSetMigration()
         {
+
             Stopwatch migrationTimer = new Stopwatch();
             migrationTimer.Start();
             Logg.r().Information("SetMigrationUpdate: Start");
@@ -153,9 +150,10 @@ namespace SetMigration
                     MigrateSetCopies(set);
             }
 
-            JobBuilder.Create<RefreshEntityCache>();
-
-            DeleteCategories();
+            DeleteCategories(_categoryIdsMarkedForDeletion);
+            _categoryIdsMarkedForDeletion.Clear();
+            var session = Sl.Resolve<ISession>();
+            session.Clear();
             Sl.CategoryRepo.Flush();
             Sl.CategoryRepo.ClearAllItemCache();
 
@@ -219,16 +217,16 @@ namespace SetMigration
             Logg.r().Information("SetMigrationUpdate: Updated BaseCategory {baseCategoryId} with {copiedCategoryId} ", baseCategory.Id,  copiedCategory.Id);
         }
 
-        private void DeleteCategories()
+        private void DeleteCategories(IList<int> categoryIdsMarkedForDeletion)
         {
             var isInstallationAdmin = Sl.R<SessionUser>().IsInstallationAdmin;
             var forSetMigration = isInstallationAdmin;
 
-            foreach (var id in _categoryIdsMarkedForDeletion)
+            foreach (var id in categoryIdsMarkedForDeletion)
             {
-                var category = _categoryRepo.GetById(id);
+                var category = Sl.CategoryRepo.GetById(id);
                 Sl.Resolve<CategoryDeleter>().Run(category, forSetMigration);
-                Logg.r().Information("SetMigrationUpdate: category {cId} deleted", category.Id);
+                Logg.r().Information("SetMigrationUpdate: category {cId} deleted", id);
             }
         }
     }
