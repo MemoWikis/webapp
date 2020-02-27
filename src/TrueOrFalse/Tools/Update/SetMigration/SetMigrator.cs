@@ -1,16 +1,19 @@
 ﻿using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using NHibernate;
 using Quartz;
-using Seedworks.Lib.Persistence;
+using TrueOrFalse.Search;
 using TrueOrFalse.Utilities.ScheduledJobs;
 
 namespace SetMigration
 {
     public class SetMigrator
     {
-        private static readonly IList<SetView> allSetViews = Sl.SetViewRepo.GetAll();
-        private static readonly IList<Set> allSets = Sl.SetRepo.GetAll();
+        private static readonly IList<SetView> _allSetViews = Sl.SetViewRepo.GetAll();
+        private static readonly IList<Set> _allSets = Sl.SetRepo.GetAll();
+        private static IList<int> _categoryIdsMarkedForDeletion = new List<int>();
+
         public static void Start()
         {
             Stopwatch migrationTimer = new Stopwatch();
@@ -21,11 +24,8 @@ namespace SetMigration
             var allCategories = Sl.CategoryRepo.GetAll();
             var categories = new List<Category>();
 
-            foreach (var set in allSets)
+            foreach (var set in _allSets)
             {
-                if (set.Id < 484)
-                    continue;
-
                 Stopwatch timer = new Stopwatch();
                 timer.Start();
                 Logg.r().Information("SetMigration: Migrating Set: {setId} - Start", set.Id);
@@ -117,7 +117,7 @@ namespace SetMigration
         private static void MigrateSetViews(Category category, int setId)
         { 
             var categoryViewRepo = Sl.CategoryViewRepo;
-            var setViews = allSetViews.Where(sV => sV.Id == setId).ToList();
+            var setViews = _allSetViews.Where(sV => sV.Id == setId).ToList();
 
             foreach (var setView in setViews)
             {
@@ -134,13 +134,14 @@ namespace SetMigration
             }
         }
 
-        public static void UpdateSetMigration()
+        public void UpdateSetMigration()
         {
+
             Stopwatch migrationTimer = new Stopwatch();
             migrationTimer.Start();
             Logg.r().Information("SetMigrationUpdate: Start");
 
-            foreach (var set in allSets)
+            foreach (var set in _allSets)
             {
                 if (!System.String.IsNullOrEmpty(set.Text) && set.CopiedFrom == null)
                     MigrateSetText(set);
@@ -149,14 +150,18 @@ namespace SetMigration
                     MigrateSetCopies(set);
             }
 
-            Sl.CategoryRepo.ClearAllItemCache();
+            DeleteCategories(_categoryIdsMarkedForDeletion);
+            _categoryIdsMarkedForDeletion.Clear();
+            var session = Sl.Resolve<ISession>();
+            session.Clear();
             Sl.CategoryRepo.Flush();
+            Sl.CategoryRepo.ClearAllItemCache();
 
             migrationTimer.Stop();
             Logg.r().Information("SetMigrationUpdate: Migration ended, elapsed Time: {time}", migrationTimer.Elapsed);
         }
 
-        private static void MigrateSetText(Set set)
+        private void MigrateSetText(Set set)
         {
             var category = Sl.CategoryRepo.GetBySetId(set.Id);
             category.TopicMarkdown = set.Text;
@@ -165,29 +170,32 @@ namespace SetMigration
             Logg.r().Information("SetMigrationUpdate: Set Text from set {sId} migrated to category {cId}", set.Id, category.Id);
         }
 
-        private static void MigrateSetCopies(Set set)
+        private void MigrateSetCopies(Set set)
         {
             Logg.r().Information("SetMigrationUpdate: Migrating SetCopy {copiedId}", set.Id);
-            var questionDifferenceInBaseSet = set.CopiedFrom.QuestionsInSet.Except(set.QuestionsInSet).ToList();
-            var questionDifferenceInCopiedSet = set.QuestionsInSet.Except(set.CopiedFrom.QuestionsInSet).ToList();
 
-            var categoryDifferenceInBaseSet = set.CopiedFrom.Categories.Except(set.Categories).ToList();
-            var categoryDifferenceInCopiedSet = set.Categories.Except(set.CopiedFrom.Categories).ToList();
+            var copiedQuestionList = set.QuestionsInSet.Select(q => q.Question);
+            var baseQuestionList = set.CopiedFrom.QuestionsInSet.Select(q => q.Question);
+            var questionDifferenceInBaseSet = baseQuestionList.Except(copiedQuestionList);
+            var questionDifferenceInCopiedSet = copiedQuestionList.Except(baseQuestionList);
 
-            if (!questionDifferenceInBaseSet.Any() && !questionDifferenceInCopiedSet.Any() && 
-                !categoryDifferenceInBaseSet.Any() && !categoryDifferenceInCopiedSet.Any() &&
+            if (!questionDifferenceInBaseSet.Any() && !questionDifferenceInCopiedSet.Any() &&
                 set.Text == set.CopiedFrom.Text &&
                 set.VideoUrl == set.CopiedFrom.VideoUrl)
             {
                 UpdateCategoryValuations(set);
-                DeleteSetCopy(set);
+                var categoryToDelete = Sl.CategoryRepo.GetBySetId(set.Id);
+                _categoryIdsMarkedForDeletion.Add(categoryToDelete.Id);
+                Logg.r().Information("SetMigrationUpdate: copied category marked for deletion and set {setId} gets redirected.", set.Id);
             }
             else
                 MigrateSetText(set);
         }
 
-        private static void UpdateCategoryValuations(Set set)
+        private void UpdateCategoryValuations(Set set)
         {
+            Logg.r().Information("SetMigrationUpdate: Start CategoryValuationUpdate");
+
             var baseCategory = Sl.CategoryRepo.GetBySetId(set.CopiedFrom.Id);
             var baseCategoryValuations = Sl.CategoryValuationRepo.GetBy(set.CopiedFrom.Id);
 
@@ -207,14 +215,19 @@ namespace SetMigration
             }
 
             Logg.r().Information("SetMigrationUpdate: Updated BaseCategory {baseCategoryId} with {copiedCategoryId} ", baseCategory.Id,  copiedCategory.Id);
-
         }
 
-        private static void DeleteSetCopy(Set set)
+        private void DeleteCategories(IList<int> categoryIdsMarkedForDeletion)
         {
-            var categoryToDelete = Sl.CategoryRepo.GetBySetId(set.Id);
-            Sl.CategoryRepo.DeleteWithoutFlush(categoryToDelete);
-            Logg.r().Information("SetMigrationUpdate: category {cId} deleted, set {sId} gets redirected", categoryToDelete.Id, set.Id);
+            var isInstallationAdmin = Sl.R<SessionUser>().IsInstallationAdmin;
+            var forSetMigration = isInstallationAdmin;
+
+            foreach (var id in categoryIdsMarkedForDeletion)
+            {
+                var category = Sl.CategoryRepo.GetById(id);
+                Sl.Resolve<CategoryDeleter>().Run(category, forSetMigration);
+                Logg.r().Information("SetMigrationUpdate: category {cId} deleted", id);
+            }
         }
     }
 }
