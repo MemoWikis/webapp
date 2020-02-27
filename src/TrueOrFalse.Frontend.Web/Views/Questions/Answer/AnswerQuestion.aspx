@@ -144,17 +144,29 @@
                { %>
                 <h4 class="marginTop50Bottom30">Themen zum Weiterlernen:</h4>
                 <div id="ParentsChildrenTopics">
-                    <% foreach (var categoryId in Model.AllCategorysWithChildrenAndParents)
-                       { %>
+                    <% if(Model.AllCategorysWithChildrenAndParents.Count <= 3) { 
+                           for (var i = 0; i < Model.AllCategorysWithChildrenAndParents.Count; i++)
+                           {
+                               var category = Model.AllCategorysWithChildrenAndParents[i].Id;
+                    %>
                         <div class="CardMiniColumn col-xs-4 col-sm-3 col-lg-3" style="">
-                            <% Html.RenderPartial("~/Views/Welcome/Partials/WelcomeCardMiniCategory.ascx", new WelcomeCardMiniCategoryModel(categoryId.Id)); %>
+                            <% Html.RenderPartial("~/Views/Welcome/Partials/WelcomeCardMiniCategory.ascx", new WelcomeCardMiniCategoryModel(category)); %>
                         </div>
-                    <% } %>
-                </div>
-        
-                <div id="MoreParentsAndChildrens"><a></a><br/>
-                    <span class="fa fa-angle-down"></span>
-                </div>
+                    <% }
+                    }
+                    else
+                    {                  
+                        for (var i = 0; i < 4; i++)
+                        {
+                            var category = Model.AllCategorysWithChildrenAndParents[i].Id; %>
+
+                            <div class="CardMiniColumn col-xs-4 col-sm-3 col-lg-3" style="">
+                            <% Html.RenderPartial("~/Views/Welcome/Partials/WelcomeCardMiniCategory.ascx", new WelcomeCardMiniCategoryModel(category)); %>
+                            </div>
+                     <% }
+
+                    }%>
+            </div>
         </div>
     </div>
     <div class="row">
