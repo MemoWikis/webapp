@@ -8,6 +8,11 @@
     padding-top: 2px;
     padding-left: 10px;
 }
+
+.CardsContentMargin {
+    margin-left: 8px;
+    margin-right: 8px;
+}
 .navLinks {
     float: right;
     margin-bottom: 10px;
@@ -680,16 +685,25 @@
         .SingleItem {
             overflow-x: hidden;
 
+            .LicenseInfo {
+                .CardsContentMargin;
+            }
+
             .CardContent {
                 height: auto;
+                .CardsContentMargin;
 
-                    .ItemTitle {
-                        font-weight: 700;
-                    }
+                h4{
+                    margin-top: 10px;
+                }
+
+                .ItemTitle {
+                    font-weight: 700;
                 }
             }
         }
     }
+}
     /*---------------------------------------------------------------------------
                                  FooterQuestionDetails
 -----------------------------------------------------------------------------*/
