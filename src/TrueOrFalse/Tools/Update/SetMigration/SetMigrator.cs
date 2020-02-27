@@ -12,7 +12,8 @@ namespace SetMigration
     {
         private static readonly IList<SetView> _allSetViews = Sl.SetViewRepo.GetAll();
         private static readonly IList<Set> _allSets = Sl.SetRepo.GetAll();
-        private static IList<Category> _categoriesMarkedForDeletion = new List<Category>();
+        private static IList<int> _categoryIdsMarkedForDeletion = new List<int>();
+        private readonly CategoryRepository _categoryRepo;
 
         private readonly ISession _session;
         private readonly SearchIndexCategory _searchIndexCategory;
@@ -29,9 +30,6 @@ namespace SetMigration
 
             foreach (var set in _allSets)
             {
-                if (set.Id < 484)
-                    continue;
-
                 Stopwatch timer = new Stopwatch();
                 timer.Start();
                 Logg.r().Information("SetMigration: Migrating Set: {setId} - Start", set.Id);
@@ -189,7 +187,7 @@ namespace SetMigration
             {
                 UpdateCategoryValuations(set);
                 var categoryToDelete = Sl.CategoryRepo.GetBySetId(set.Id);
-                _categoriesMarkedForDeletion.Add(categoryToDelete);
+                _categoryIdsMarkedForDeletion.Add(categoryToDelete.Id);
                 Logg.r().Information("SetMigrationUpdate: copied category marked for deletion and set {setId} gets redirected.", set.Id);
             }
             else
@@ -226,8 +224,9 @@ namespace SetMigration
             var isInstallationAdmin = Sl.R<SessionUser>().IsInstallationAdmin;
             var forSetMigration = isInstallationAdmin;
 
-            foreach (var category in _categoriesMarkedForDeletion)
+            foreach (var id in _categoryIdsMarkedForDeletion)
             {
+                var category = _categoryRepo.GetById(id);
                 Sl.Resolve<CategoryDeleter>().Run(category, forSetMigration);
                 Logg.r().Information("SetMigrationUpdate: category {cId} deleted", category.Id);
             }

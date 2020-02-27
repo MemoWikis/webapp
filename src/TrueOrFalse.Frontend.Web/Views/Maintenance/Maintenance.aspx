@@ -56,7 +56,7 @@
                 cleanup set valuations & update SetInfo for all questions
             </a>
             
-            <a href="<%= Url.Action("MigrateSetsToCategories", "Maintenance") %>" data-url="toSecurePost" style="">
+            <a href="<%= Url.Action("MigrateSetsToCategories", "Maintenance") %>" data-url="toSecurePost" style="display: none;">
                 <i class="fa fa-retweet"></i> Lernsets migrieren
             </a><br />
             <a href="<%= Url.Action("MigrateSetTextAndCleanup", "Maintenance") %>" data-url="toSecurePost" style="">
