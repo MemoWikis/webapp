@@ -14,6 +14,7 @@ public class AnswerBodyModel : BaseModel
     public int QuestionId;
 
     public UserTinyModel Creator;
+    public UserTinyModel QuestionChangeAuthor; 
     public bool IsCreator;
     public bool IsInWishknowledge;
     public KnowledgeStatus KnowledgeStatus;
@@ -47,8 +48,7 @@ public class AnswerBodyModel : BaseModel
     public bool IsInTestMode = false;
 
     public bool HasCategories;
-    public string PrimaryCategoryName;
-    public int PrimaryCategoryId;
+    public Category PrimaryCategory;
 
     public bool ShowCommentLink => 
         CommentCount != -1 && 
@@ -146,11 +146,12 @@ public class AnswerBodyModel : BaseModel
         Creator =  new UserTinyModel(question.Creator);
         IsCreator = Creator.Id == UserId;
         HasCategories = question.Categories.Any();
+        var questionChangeList = Sl.QuestionChangeRepo.GetForQuestion(QuestionId);
+        QuestionChangeAuthor = questionChangeList.Count == 0 ? Creator : new UserTinyModel(questionChangeList.OrderBy(q => q.Id).LastOrDefault().Author);
 
         if (HasCategories)
         {
-            PrimaryCategoryId = question.Categories.FirstOrDefault().Id;
-            PrimaryCategoryName = question.Categories.FirstOrDefault().Name;
+            PrimaryCategory = question.Categories.LastOrDefault();
         }
 
         CreationDate = question.DateCreated.ToString("dd.MM.yyyy HH:mm:ss");

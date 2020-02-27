@@ -136,6 +136,13 @@
                     <div id="ButtonsAndSolutionCol">
                             <div id="ButtonsAndSolution" class="Clearfix">
                                 <div id="Buttons">
+                                    <div id="btnGoToTestSession" style="display: none"> 
+                                        <% if (Model.HasCategories && !Model.IsInWidget && !Model.IsForVideo && !Model.IsInGame && Model.IsLastQuestion) { %>
+                                            <a href="<%= Links.CategoryDetailLearningTab(Model.PrimaryCategory) %>" id="btnStartTestSession" class="btn btn-primary show-tooltip" rel="nofollow" data-original-title='<%= Model.IsLoggedIn ? "Lerne alle Fragen im Thema " : "Lerne 5 zufällig ausgewählte Fragen aus dem Thema " %><%= Model.PrimaryCategory.Name  %>'>
+                                                <b>Weiterlernen</b>
+                                            </a>
+                                        <% } %>
+                                    </div>
                                     <% if (Model.SolutionType == SolutionType.FlashCard.ToString()) { %>
                                         <a href="#" id="btnFlipCard" class="btn btn-warning" rel="nofollow">Umdrehen</a>
                                     <% } %>
@@ -230,13 +237,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div id="btnGoToTestSession" style="display: none"> 
-                                <% if (Model.HasCategories && !Model.IsInWidget && !Model.IsForVideo && !Model.IsInGame && Model.IsLastQuestion) { %>
-                                    <a href="<%= Links.CategoryDetailLearningTab(Model.PrimaryCategoryName, Model.PrimaryCategoryId) %>" id="btnStartTestSession" class="btn btn-primary show-tooltip" rel="nofollow" data-original-title="Teste dein Wissen mit <%= Model.IsLoggedIn ? "10" : "5" %>  zufällig ausgewählten Fragen aus dem Thema '<%= Model.PrimaryCategoryName  %>'">
-                                        <b>Weitermachen</b>
-                                    </a>
-                                <% } %>
-                            </div>
+
                         </div>
                     </div>
                 </div>
@@ -275,7 +276,7 @@
        { %>
         <div class="col-md-10">
         <div class="created"> Erstellt von: <a href="<%= Links.UserDetail(Model.Creator) %>"><%= Model.Creator.Name %></a> vor <%= Model.CreationDateNiceText %></div>
-        <div class="processed"> Diese Frage wurde zuletzt bearbeitet von:  <a href="<%= Links.UserDetail(Model.Creator) %>"><%= Model.Creator.Name %></a> vor  <%= Model.QuestionLastEditedOn %> </div>
+        <div class="processed"> Diese Frage wurde zuletzt bearbeitet von:  <a href="<%= Links.UserDetail(Model.Creator) %>"><%= Model.QuestionChangeAuthor.Name %></a> vor  <%= Model.QuestionLastEditedOn %> </div>
             <% if (Model.ShowCommentLink)
                { %>
                 <div class="comment-link">

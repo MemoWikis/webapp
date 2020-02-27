@@ -29,12 +29,6 @@ namespace TrueOrFalse
             routes.MapRoute("Register", "Registrieren", new { controller = "Register", action = "Register" });
             routes.MapRoute("Login", "Login/{action}", new { controller = "Login" });
 
-            //routes.MapRoute("Widget", "Hilfe/Widget", new { controller = "Help", action = "Widget" });
-            //routes.MapRoute("WidgetInWordpress", "Hilfe/memucho-Quiz-in-Wordpress-einbetten", new { controller = "Help", action = "WidgetInWordpress" });
-            //routes.MapRoute("WidgetInMoodle", "Hilfe/memucho-Quiz-in-Moodle-einbetten", new { controller = "Help", action = "WidgetInMoodle" });
-            //routes.MapRoute("WidgetInBlackboard", "Hilfe/memucho-Quiz-in-Blackboard-einbetten", new { controller = "Help", action = "WidgetInBlackboard" });
-            //routes.MapRoute("WidgetPricing", "Widget-Angebote-Preisliste", new { controller = "Help", action = "WidgetPricing" });
-            //routes.MapRoute("WidgetExamples", "Widget-Beispiele", new { controller = "Help", action = "WidgetExamples" });
             routes.MapRoute("Help", "Hilfe/{action}", new { controller = "Help", action = "FAQ" });
 
             routes.MapRoute("UsersSearchApi", "Nutzer/SucheApi", new { controller = "Users", action = "SearchApi", searchTerm = UrlParameter.Optional });

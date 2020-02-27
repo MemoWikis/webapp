@@ -49,6 +49,7 @@ public class AnswerQuestionModel : BaseModel
     public int TotalViews;
 
     public IList<Category> AllCategoriesParents;
+    public IList<Category> AllCategorysWithChildrenAndParents; 
 
     public bool IsOwner;
 
@@ -325,6 +326,9 @@ public class AnswerQuestionModel : BaseModel
             PrimaryCategory = GetPrimaryCategory.GetForQuestion(question);
             AnalyticsFooterModel = new AnalyticsFooterModel(PrimaryCategory);
             AllCategoriesParents = Sl.CategoryRepo.GetAllParents(PrimaryCategory.Id);
+            var allCategoryChildrens = Sl.CategoryRepo.GetChildren(PrimaryCategory.Id);
+            AllCategorysWithChildrenAndParents =
+                question.Categories.Concat(allCategoryChildrens).Concat(AllCategoriesParents).ToList(); 
         }
 
         DescriptionForSearchEngines = GetMetaDescriptionSearchEngines();

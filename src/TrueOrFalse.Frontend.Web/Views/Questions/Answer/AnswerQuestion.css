@@ -26,6 +26,10 @@
   padding-top: 2px;
   padding-left: 10px;
 }
+.CardsContentMargin {
+  margin-left: 8px;
+  margin-right: 8px;
+}
 .navLinks {
   float: right;
   margin-bottom: 10px;
@@ -721,6 +725,47 @@
   margin-bottom: 15px;
 }
 /*---------------------------------------------------------------------------
+    Cards
+-----------------------------------------------------------------------------*/
+#ParentsChildrenTopics {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+  -webkit-flex-flow: row wrap;
+      -ms-flex-flow: row wrap;
+          flex-flow: row wrap;
+}
+#ParentsChildrenTopics .CardMiniColumn {
+  display: grid;
+}
+@media (max-width: 480px) {
+  #ParentsChildrenTopics .CardMiniColumn {
+    width: 50% !important;
+  }
+}
+#ParentsChildrenTopics .CardMiniColumn .SingleItem {
+  overflow-x: hidden;
+}
+#ParentsChildrenTopics .CardMiniColumn .SingleItem .LicenseInfo {
+  margin-left: 8px;
+  margin-right: 8px;
+}
+#ParentsChildrenTopics .CardMiniColumn .SingleItem .CardContent {
+  height: auto;
+  margin-left: 8px;
+  margin-right: 8px;
+}
+#ParentsChildrenTopics .CardMiniColumn .SingleItem .CardContent h4 {
+  margin-top: 10px;
+}
+#ParentsChildrenTopics .CardMiniColumn .SingleItem .CardContent .ItemTitle {
+  font-weight: 700;
+  color: #333333;
+}
+/*---------------------------------------------------------------------------
                                  FooterQuestionDetails
 -----------------------------------------------------------------------------*/
 .FooterQuestionDetails {
@@ -1018,6 +1063,9 @@
   padding-top: 15px;
 }
 /* Primary Category Card */
+#Topics h4 {
+  font-size: 25px;
+}
 @media screen and (max-width: 1200px) {
   #Topics .col-xs-9 {
     width: 100%;

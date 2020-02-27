@@ -27,7 +27,6 @@
     <%= Scripts.Render("~/bundles/js/AnswerQuestion") %>
     <%= Scripts.Render("~/bundles/js/DeleteQuestion") %>
 
-    
     <% if(Model.IsLearningSession) { %>
         <%= Scripts.Render("~/bundles/js/LearningSessionResult") %>
         <script type="text/javascript" src="https://www.google.com/jsapi"></script>
@@ -35,10 +34,8 @@
 
     <style type="text/css">
         .selectorShowSolution{/* marker class */}
-               
         .sparklineTotals{ position: relative;top: 1px; }
         .sparklineTotalsUser{ position: relative;top: 1px; }
-
         .valRow .valColumn2 .imgDelete{position: relative; left: 10px;top: -3px;  }
         .valRow .valColumn2 .valMine{margin-top: -2px; padding-top: 0;padding-left: 5px; float: left; }
     </style>
@@ -141,29 +138,47 @@
             <% Html.RenderPartial("~/Views/Shared/SidebarCards.ascx", Model.SidebarModel); %>
         </div>
     </div>
-<div id="Topics"class="row">
+    <div id="Topics"class="row ">
        <div class="col-xs-9">
             <% if (!Model.IsLearningSession && !Model.IsTestSession && Model.ContentRecommendationResult.Categories.Count != 0)
                { %>
-                <h4 class="marginTop50Bottom30">Empfehlungen:</h4>
-                                                   
-                <% Html.RenderPartial("~/Views/Questions/Answer/CategoryCards.ascx", new CategoryCardModel(Model.ContentRecommendationResult.Categories, Model.AllCategoriesParents, Model.PrimaryCategory.Id)); %>
+                <h4 class="marginTop50Bottom30">Themen zum Weiterlernen:</h4>
                 <div id="ParentsChildrenTopics">
-                    <% Html.RenderPartial("~/Views/Questions/Answer/CategoryCards.ascx", new CategoryCardModel(Model.ContentRecommendationResult.Categories, Model.AllCategoriesParents, Model.PrimaryCategory.Id, true)); %>
-                </div>
-                <div id="MoreParentsAndChildrens"><a></a><br/>
-                    <span class="fa fa-angle-down"></span>
+                    <% if(Model.AllCategorysWithChildrenAndParents.Count <= 3) { 
+                           for (var i = 0; i < Model.AllCategorysWithChildrenAndParents.Count; i++)
+                           {
+                               var category = Model.AllCategorysWithChildrenAndParents[i].Id;
+                    %>
+                        <div class="CardMiniColumn col-xs-4 col-sm-3 col-lg-3" style="">
+                            <% Html.RenderPartial("~/Views/Welcome/Partials/WelcomeCardMiniCategory.ascx", new WelcomeCardMiniCategoryModel(category)); %>
+                        </div>
+                    <% }
+                    }
+                    else
+                    {                  
+                        for (var i = 0; i < 4; i++)
+                        {
+                            var category = Model.AllCategorysWithChildrenAndParents[i].Id; %>
 
-                </div>
+                            <div class="CardMiniColumn col-xs-4 col-sm-3 col-lg-3" style="">
+                            <% Html.RenderPartial("~/Views/Welcome/Partials/WelcomeCardMiniCategory.ascx", new WelcomeCardMiniCategoryModel(category)); %>
+                            </div>
+                     <% }
 
+                    }%>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-9">
+
+           <div class= "col-sm-12">
                 <% if (Model.QuestionHasParentCategories)
                    {
                        Html.RenderPartial("~/Views/Shared/AnalyticsFooter.ascx", Model.AnalyticsFooterModel);
                    } %>
             <% } %>
-            
-          
-
+           </div>
         <div class="row" style="margin-top: 30px; color: darkgray; font-weight: bold;">
             <div class="col-xs-4">
                 <h4 style="padding:0; margin:0;">Kommentare<a name="comments"></a></h4>    
@@ -209,8 +224,7 @@
                 </div>                     
             </div>
         <% } %>
-        
-    
+
         <%--MODAL IMPROVE--%>
         <div id="modalQuestionFlagImprove" class="modal fade">
             <div class="modal-dialog">
