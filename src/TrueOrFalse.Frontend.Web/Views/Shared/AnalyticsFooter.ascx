@@ -2,8 +2,10 @@
 Inherits="System.Web.Mvc.ViewUserControl<AnalyticsFooterModel>" %>
 <%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
 
-<div class="footerContainer-Analytics row" style="padding-top: 50px; padding-bottom: 80px; display: flex;">
-
+<% if(!Model.IsQuestionssite) {%>
+    <div style="border-bottom: solid 1px #d6d6d6;"></div>
+<%} %>
+<div class="footerContainer-Analytics row" <%=!Model.IsQuestionssite ? "style='padding: 30px 0; display: flex;'" : "style='padding-top: 50px; padding-bottom: 80px; display: flex;'" %> > 
     <div class="analyticsImageContainer col-sm-4">
         <img src="/Images/Various/knowledgeNetworkSample.png">
     </div>

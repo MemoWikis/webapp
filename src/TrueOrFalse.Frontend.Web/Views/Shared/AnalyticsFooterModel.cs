@@ -10,14 +10,16 @@ public class AnalyticsFooterModel
    public int CategoriesDescendantsCount;
    public string ParentList;
    public int CategoryId;
-   public Category Category; 
+   public Category Category;
+   public bool IsQuestionssite; 
 
-   public AnalyticsFooterModel(Category category)
+   public AnalyticsFooterModel(Category category, bool isQuestionsSite = false)
    {
        Category = category;
        CategoryId = category.Id;
        GetCategoryRelations();
-    }
+       IsQuestionssite = isQuestionsSite;
+   }
 
 
    public void GetCategoryRelations()
