@@ -12,14 +12,17 @@ using TrueOrFalse.Infrastructure;
 using TrueOrFalse.Updates;
 using TrueOrFalse.Utilities.ScheduledJobs;
 using TrueOrFalse.View;
+using TrueOrFalse.Tools;
 using TrueOrFalse.Web.JavascriptView;
 
 namespace TrueOrFalse.Frontend.Web
 {
     public class Global : HttpApplication
     {        
+       
         protected void Application_Start()
         {
+            Ignore.GetCrawlerList();
             InitializeAutofac();
             
             Sl.Resolve<Update>().Run();
