@@ -34,7 +34,10 @@
         <i class="fa fa-gavel"></i>
         Exception werfen
     </a><br/>
-    
+    <a href="<%= Url.Action("ReloadListFromIgnoreCrawlers", "Maintenance") %>" data-url="toSecurePost">
+        <i class="fa fa-gavel"></i>
+        List von den igniorierten Crawlers neu laden
+    </a><br/>
     <a href="<%= Url.Action("CleanUpWorkInProgressQuestions", "Maintenance") %>" data-url="toSecurePost">
         <i class="fa fa-gavel"></i>
         Clean up work in progress questions

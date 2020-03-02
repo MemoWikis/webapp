@@ -10,7 +10,7 @@ public class PathTo
 
     public static string Log_Ignore()
     {
-        return HttpContext.Current.Server.MapPath("Log.ignore");
+       return AppDomain.CurrentDomain.BaseDirectory + "Log.ignore";
     }
 
     public static string SolrSchema(string fileName)

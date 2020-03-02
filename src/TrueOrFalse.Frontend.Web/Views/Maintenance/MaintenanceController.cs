@@ -10,6 +10,7 @@ using TrueOrFalse;
 using TrueOrFalse.Frontend.Web.Code;
 using TrueOrFalse.Infrastructure;
 using TrueOrFalse.Search;
+using TrueOrFalse.Tools;
 using TrueOrFalse.Utilities.ScheduledJobs;
 using TrueOrFalse.Web;
 using static System.String;
@@ -738,6 +739,15 @@ public class MaintenanceController : BaseController
 
         return View("Maintenance",
             new MaintenanceModel { Message = new SuccessMessage("Lernsets Text wurden migriert und Kopien wurden migriert und gelöscht") });
+    }
+
+    [ValidateAntiForgeryToken]
+    [HttpPost]
+    public ActionResult ReloadListFromIgnoreCrawlers()
+    {
+       IgnoreLog.LoadNewList();
+        return View("Tools",
+            new ToolsModel { Message = new SuccessMessage("Die Liste wird neu geladen.") });
     }
 }
 
