@@ -865,7 +865,7 @@
     <Compile Include="Tools\Analytics\Widget\WidgetView.cs" />
     <Compile Include="Tools\Cache\UserCache.cs" />
     <Compile Include="Tools\Cache\UserCacheItem.cs" />
-    <Compile Include="Tools\Ignore.cs" />
+    <Compile Include="Web\IgnoreLog.cs" />
     <Compile Include="Tools\Import\Importer.cs" />
     <Compile Include="Tools\Import\ImporterResult.cs" />
     <Compile Include="Domain\Question\AnswerHistory\Answer.cs" />
