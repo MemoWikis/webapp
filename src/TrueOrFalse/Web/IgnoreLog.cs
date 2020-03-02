@@ -13,7 +13,7 @@ namespace TrueOrFalse.Tools
     {
         public static IEnumerable<string> GetCrawlers()
         {
-
+            
             IEnumerable<string> crawlerNames = new List<string>();
             if(!File.Exists(PathTo.Log_Ignore()))
                 Logg.r().Warning($"Ignore.log is not available- {PathTo.Log_Ignore()}");
