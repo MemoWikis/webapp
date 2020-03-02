@@ -2,6 +2,7 @@
 using System.Web;
 using RollbarSharp;
 using Serilog;
+using TrueOrFalse.Tools;
 
 public class Logg
 {
@@ -30,10 +31,12 @@ public class Logg
             }
 
             var request = HttpContext.Current.Request;
+            var header = request.Headers.ToString();
 
+            if (!IgnoreLog.ContainsBotInHeader(header))
             Logg.r().Error(exception, "PageError {Url} {Headers}",
                 request.RawUrl,
-                request.Headers.ToString());
+                header);
 
             if (!request.IsLocal)
                 new RollbarClient().SendException(exception);

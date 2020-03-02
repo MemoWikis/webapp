@@ -36,6 +36,15 @@ namespace TrueOrFalse.Tools
             return crawlerNames;
         }
 
+        public static bool ContainsBotInHeader(string header)
+        {
+            foreach (var crawlerName in GetCrawlers())
+            {
+                if (header.Contains(crawlerName))
+                    return true;
+            }
+            return false; 
+        }
         public static void LoadNewList()
         {
             lock ("3fb23623-caed-48fc-6e86-c595b4c0820c")
