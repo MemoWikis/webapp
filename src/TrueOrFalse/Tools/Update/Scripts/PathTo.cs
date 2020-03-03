@@ -8,6 +8,11 @@ public class PathTo
         return "Utilities/Update/Scripts/" + fileName;
     }
 
+    public static string Log_Ignore()
+    {
+       return AppDomain.CurrentDomain.BaseDirectory + "Log.ignore";
+    }
+
     public static string SolrSchema(string fileName)
     {
         return GetPath("Infrastructure/SolrSchemas/" + fileName);

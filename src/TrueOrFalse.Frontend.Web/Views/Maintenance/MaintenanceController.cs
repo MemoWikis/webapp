@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Web;
 using System.Web.Mvc;
 using NHibernate;
 using NHibernate.Linq;
@@ -10,6 +11,7 @@ using TrueOrFalse;
 using TrueOrFalse.Frontend.Web.Code;
 using TrueOrFalse.Infrastructure;
 using TrueOrFalse.Search;
+using TrueOrFalse.Tools;
 using TrueOrFalse.Utilities.ScheduledJobs;
 using TrueOrFalse.Web;
 using static System.String;
@@ -36,7 +38,7 @@ public class MaintenanceController : BaseController
     {
         var settings = Sl.R<DbSettingsRepo>().Get();
         return View(new CMSModel
-            {SuggestedGames = settings.SuggestedGames, SuggestedSetsIdString = settings.SuggestedSetsIdString}.Init());
+        { SuggestedGames = settings.SuggestedGames, SuggestedSetsIdString = settings.SuggestedSetsIdString }.Init());
     }
 
     [ValidateAntiForgeryToken]
@@ -182,7 +184,7 @@ public class MaintenanceController : BaseController
     {
         Resolve<UpdateQuestionAnswerCounts>().Run();
         return View("Maintenance",
-            new MaintenanceModel {Message = new SuccessMessage("Aggregierte Werte wurden aktualisiert.")});
+            new MaintenanceModel { Message = new SuccessMessage("Aggregierte Werte wurden aktualisiert.") });
     }
 
     [ValidateAntiForgeryToken]
@@ -191,7 +193,7 @@ public class MaintenanceController : BaseController
     {
         Resolve<UpdateSetDataForQuestion>().Run();
         return View("Maintenance",
-            new MaintenanceModel {Message = new SuccessMessage("Aggregierte Werte wurden aktualisiert.")});
+            new MaintenanceModel { Message = new SuccessMessage("Aggregierte Werte wurden aktualisiert.") });
     }
 
     [ValidateAntiForgeryToken]
@@ -200,7 +202,7 @@ public class MaintenanceController : BaseController
     {
         Resolve<DeleteValuationsForNonExisitingSets>().Run();
         return View("Maintenance",
-            new MaintenanceModel {Message = new SuccessMessage("Valuations for deleted sets are removed.")});
+            new MaintenanceModel { Message = new SuccessMessage("Valuations for deleted sets are removed.") });
     }
 
     [ValidateAntiForgeryToken]
@@ -209,7 +211,7 @@ public class MaintenanceController : BaseController
     {
         Resolve<UpdateQuestionCountForCategory>().All();
         return View("Maintenance",
-            new MaintenanceModel {Message = new SuccessMessage("Feld: AnzahlFragen für Themen wurde aktualisiert.")});
+            new MaintenanceModel { Message = new SuccessMessage("Feld: AnzahlFragen für Themen wurde aktualisiert.") });
     }
 
     [ValidateAntiForgeryToken]
@@ -218,7 +220,7 @@ public class MaintenanceController : BaseController
     {
         Resolve<ReputationUpdate>().RunForAll();
         return View("Maintenance",
-            new MaintenanceModel {Message = new SuccessMessage("Reputation and Rankings wurden aktualisiert.")});
+            new MaintenanceModel { Message = new SuccessMessage("Reputation and Rankings wurden aktualisiert.") });
     }
 
     [ValidateAntiForgeryToken]
@@ -228,7 +230,7 @@ public class MaintenanceController : BaseController
         Resolve<UpdateWishcount>().Run();
         return View("Maintenance",
             new MaintenanceModel
-                {Message = new SuccessMessage("Wunschwissen-Antwortwahrscheinlichkeit wurde aktualisiert.")});
+            { Message = new SuccessMessage("Wunschwissen-Antwortwahrscheinlichkeit wurde aktualisiert.") });
     }
 
     [ValidateAntiForgeryToken]
@@ -236,7 +238,7 @@ public class MaintenanceController : BaseController
     public ActionResult ReIndexAllQuestions()
     {
         Resolve<ReIndexAllQuestions>().Run();
-        return View("Maintenance", new MaintenanceModel {Message = new SuccessMessage("Fragen wurden neu indiziert.")});
+        return View("Maintenance", new MaintenanceModel { Message = new SuccessMessage("Fragen wurden neu indiziert.") });
     }
 
     [ValidateAntiForgeryToken]
@@ -245,7 +247,7 @@ public class MaintenanceController : BaseController
     {
         Resolve<ReIndexAllSets>().Run();
         return View("Maintenance",
-            new MaintenanceModel {Message = new SuccessMessage("Lernsets wurden neu indiziert.")});
+            new MaintenanceModel { Message = new SuccessMessage("Lernsets wurden neu indiziert.") });
     }
 
     [ValidateAntiForgeryToken]
@@ -253,7 +255,7 @@ public class MaintenanceController : BaseController
     public ActionResult ReIndexAllCategories()
     {
         Resolve<ReIndexAllCategories>().Run();
-        return View("Maintenance", new MaintenanceModel {Message = new SuccessMessage("Themen wurden neu indiziert.")});
+        return View("Maintenance", new MaintenanceModel { Message = new SuccessMessage("Themen wurden neu indiziert.") });
     }
 
     [ValidateAntiForgeryToken]
@@ -261,7 +263,7 @@ public class MaintenanceController : BaseController
     public ActionResult ReIndexAllUsers()
     {
         Resolve<ReIndexAllUsers>().Run();
-        return View("Maintenance", new MaintenanceModel {Message = new SuccessMessage("Nutzer wurden neu indiziert.")});
+        return View("Maintenance", new MaintenanceModel { Message = new SuccessMessage("Nutzer wurden neu indiziert.") });
     }
 
     [ValidateAntiForgeryToken]
@@ -309,7 +311,7 @@ public class MaintenanceController : BaseController
     {
         JobScheduler.StartImmediately_CleanUpWorkInProgressQuestions();
         return View("Tools",
-            new ToolsModel {Message = new SuccessMessage("Job: 'Cleanup work in progress' wird ausgeführt.")});
+            new ToolsModel { Message = new SuccessMessage("Job: 'Cleanup work in progress' wird ausgeführt.") });
     }
 
     [ValidateAntiForgeryToken]
@@ -318,7 +320,7 @@ public class MaintenanceController : BaseController
     {
         //JobScheduler.StartImmediately_TrainingReminderCheck();
         return View("Tools",
-            new ToolsModel {Message = new SuccessMessage("Job: 'Training Reminder Check' wird ausgeführt.")});
+            new ToolsModel { Message = new SuccessMessage("Job: 'Training Reminder Check' wird ausgeführt.") });
     }
 
     [ValidateAntiForgeryToken]
@@ -328,7 +330,7 @@ public class MaintenanceController : BaseController
         //JobScheduler.StartImmediately_TrainingPlanUpdateCheck();
         Logg.r().Information("TrainingPlanUpdateCheck manually started");
         return View("Tools",
-            new ToolsModel {Message = new SuccessMessage("Job: 'Training Plan Update Check' wird ausgeführt.")});
+            new ToolsModel { Message = new SuccessMessage("Job: 'Training Plan Update Check' wird ausgeführt.") });
     }
 
     [ValidateAntiForgeryToken]
@@ -341,7 +343,7 @@ public class MaintenanceController : BaseController
         for (var i = 0; i < 100; i++)
             JobScheduler.StartImmediately<TestJob2>();
 
-        return View("Tools", new ToolsModel {Message = new SuccessMessage("Started 100 test jobs.")});
+        return View("Tools", new ToolsModel { Message = new SuccessMessage("Started 100 test jobs.") });
 
     }
 
@@ -351,7 +353,7 @@ public class MaintenanceController : BaseController
     {
         var categoryToAssign = Sl.R<CategoryRepository>().GetById(toolsModel.CategoryToAddId);
 
-        var setIds = toolsModel.SetsToAddCategoryToIds.Split(new[] {','}, StringSplitOptions.RemoveEmptyEntries)
+        var setIds = toolsModel.SetsToAddCategoryToIds.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries)
             .Select(x => Convert.ToInt32(x)).ToList();
 
         var sets = Sl.Resolve<SetRepo>().GetByIds(setIds);
@@ -393,7 +395,7 @@ public class MaintenanceController : BaseController
     {
         var categoryToRemove = Sl.R<CategoryRepository>().GetById(toolsModel.CategoryToRemoveId);
 
-        var setIds = toolsModel.SetsToRemoveCategoryFromIds.Split(new[] {','}, StringSplitOptions.RemoveEmptyEntries)
+        var setIds = toolsModel.SetsToRemoveCategoryFromIds.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries)
             .Select(x => Convert.ToInt32(x)).ToList();
 
         var sets = Sl.Resolve<SetRepo>().GetByIds(setIds);
@@ -495,7 +497,7 @@ public class MaintenanceController : BaseController
             }
         }
 
-        return View("Maintenance", new MaintenanceModel {Message = new SuccessMessage("Wurde migriert")});
+        return View("Maintenance", new MaintenanceModel { Message = new SuccessMessage("Wurde migriert") });
     }
 
     public void AddInteractionNumber(IList<Answer> answersForQuestionView)
@@ -536,14 +538,14 @@ public class MaintenanceController : BaseController
     {
         var duplicates = Sl.R<AnswerRepo>().GetAll()
             .Where(a => a.QuestionViewGuid != Guid.Empty)
-            .GroupBy(a => new {a.QuestionViewGuid, a.InteractionNumber})
+            .GroupBy(a => new { a.QuestionViewGuid, a.InteractionNumber })
             .Where(g => g.Skip(1).Any())
             .SelectMany(g => g)
             .ToList();
 
         var message = duplicates.Any() ? "Es gibt Dubletten." : "Es gibt keine Dubletten.";
 
-        return View("Maintenance", new MaintenanceModel {Message = new SuccessMessage(message)});
+        return View("Maintenance", new MaintenanceModel { Message = new SuccessMessage(message) });
     }
 
     [HttpPost]
@@ -551,7 +553,7 @@ public class MaintenanceController : BaseController
     {
         var duplicates = Sl.R<AnswerRepo>().GetAll()
             .Where(a => a.LearningSessionStepGuid != Guid.Empty)
-            .GroupBy(a => new {a.LearningSessionStepGuid})
+            .GroupBy(a => new { a.LearningSessionStepGuid })
             .Where(g => g.Skip(1).Any())
             .SelectMany(g => g)
             .ToList();
@@ -560,7 +562,7 @@ public class MaintenanceController : BaseController
             ? $"Dubletten: {duplicates.Select(a => a.Id.ToString()).Aggregate((a, b) => a + " " + b)}"
             : "Es gibt keine Dubletten.";
 
-        return View("Maintenance", new MaintenanceModel {Message = new SuccessMessage(message)});
+        return View("Maintenance", new MaintenanceModel { Message = new SuccessMessage(message) });
     }
 
     [HttpPost]
@@ -589,7 +591,7 @@ public class MaintenanceController : BaseController
                 answerRepo.Update(a);
             });
 
-        return View("Maintenance", new MaintenanceModel {Message = new SuccessMessage("Cleared")});
+        return View("Maintenance", new MaintenanceModel { Message = new SuccessMessage("Cleared") });
     }
 
     [HttpPost]
@@ -597,7 +599,7 @@ public class MaintenanceController : BaseController
     {
         var duplicates = Sl.R<AnswerRepo>().GetAll()
             .Where(a => a.Round != null)
-            .GroupBy(a => new {a.Round, a.UserId})
+            .GroupBy(a => new { a.Round, a.UserId })
             .Where(g => g.Count(a => a.AnswerredCorrectly == AnswerCorrectness.IsView) > 1
                         || g.Count(a => a.AnsweredCorrectly()) > 1)
             .SelectMany(g => g)
@@ -607,7 +609,7 @@ public class MaintenanceController : BaseController
             ? $"Dubletten: {duplicates.Select(a => a.Id.ToString()).Aggregate((a, b) => a + " " + b)}"
             : "Es gibt keine Dubletten.";
 
-        return View("Maintenance", new MaintenanceModel {Message = new SuccessMessage(message)});
+        return View("Maintenance", new MaintenanceModel { Message = new SuccessMessage(message) });
     }
 
     [ValidateAntiForgeryToken]
@@ -640,7 +642,7 @@ public class MaintenanceController : BaseController
             ModifyRelationsForCategory.UpdateRelationsOfTypeIncludesContentOf(category);
         }
 
-        return View("Maintenance", new MaintenanceModel {Message = new SuccessMessage("Aggregate erstellt")});
+        return View("Maintenance", new MaintenanceModel { Message = new SuccessMessage("Aggregate erstellt") });
     }
 
 
@@ -698,7 +700,7 @@ public class MaintenanceController : BaseController
         }
 
         return View("Maintenance",
-            new MaintenanceModel {Message = new SuccessMessage("Default Templates wurden migriert")});
+            new MaintenanceModel { Message = new SuccessMessage("Default Templates wurden migriert") });
     }
 
     [HttpPost]
@@ -707,7 +709,7 @@ public class MaintenanceController : BaseController
         TemplateMigration.DescriptionMigration.Start();
 
         return View("Maintenance",
-            new MaintenanceModel {Message = new SuccessMessage("Die Category Description wurden migriert")});
+            new MaintenanceModel { Message = new SuccessMessage("Die Category Description wurden migriert") });
     }
 
 
@@ -718,7 +720,7 @@ public class MaintenanceController : BaseController
         Sl.UserRepo.DeleteFromAllTables(toolsModel.UserId);
 
         return View("Tools",
-            new ToolsModel {Message = new SuccessMessage("Der User wurde gelöscht")});
+            new ToolsModel { Message = new SuccessMessage("Der User wurde gelöscht") });
     }
 
     [HttpPost]
@@ -738,6 +740,21 @@ public class MaintenanceController : BaseController
 
         return View("Maintenance",
             new MaintenanceModel { Message = new SuccessMessage("Lernsets Text wurden migriert und Kopien wurden migriert und gelöscht") });
+    }
+
+    [ValidateAntiForgeryToken]
+    [HttpPost]
+    public ActionResult ReloadListFromIgnoreCrawlers()
+    {
+        if (HelperTools.IsLocal())
+        {
+            IgnoreLog.LoadNewList();
+            return View("Tools",
+                new ToolsModel { Message = new SuccessMessage("Die Liste wird neu geladen.") });
+        }
+
+        return View("Tools",
+            new ToolsModel { Message = new ErrorMessage("Sie sind nicht berechtigt die Liste neu zu laden.") });
     }
 }
 

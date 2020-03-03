@@ -309,6 +309,7 @@
     <Compile Include="6 Tools\Export\LOM_Export_Tests.cs" />
     <Compile Include="7 Web\Crawler_tests.cs" />
     <Compile Include="7 Web\UriSanitizer_Tests.cs" />
+    <Compile Include="7 Web\ÎgnoreCrawler_Test.cs" />
     <Compile Include="a Test MetaData\Features\Features.cs" />
     <Compile Include="a Test MetaData\Personas\Persona.cs" />
     <Compile Include="a Test MetaData\Personas\Persona.LoggedInUser.cs" />

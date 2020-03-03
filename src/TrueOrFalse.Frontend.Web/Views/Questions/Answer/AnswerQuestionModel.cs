@@ -324,7 +324,7 @@ public class AnswerQuestionModel : BaseModel
         if (!IsTestSession && !IsLearningSession && QuestionHasParentCategories)
         {
             PrimaryCategory = GetPrimaryCategory.GetForQuestion(question);
-            AnalyticsFooterModel = new AnalyticsFooterModel(PrimaryCategory);
+            AnalyticsFooterModel = new AnalyticsFooterModel(PrimaryCategory, true);
             AllCategoriesParents = Sl.CategoryRepo.GetAllParents(PrimaryCategory.Id);
             var allCategoryChildrens = Sl.CategoryRepo.GetChildren(PrimaryCategory.Id);
             AllCategorysWithChildrenAndParents =
