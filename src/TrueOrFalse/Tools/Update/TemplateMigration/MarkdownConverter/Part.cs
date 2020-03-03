@@ -17,7 +17,10 @@ namespace TemplateMigration
         public string ToText() => _sb.ToString();
         public void AddNewLine() => _sb.Append(Environment.NewLine);
 
-        public bool Contains(string searchString) => ToText().ToLower().Contains(searchString);
+        public bool Contains(string searchString) => ToText().ToLower().Trim().Contains(searchString);
+
+        public bool IsTopicNavigation => Contains("templatename") && Contains("topicnavigation");
+        public bool IsCategoryNetwork => Contains("templatename") && Contains("categorynetwork");
     }
 
 }

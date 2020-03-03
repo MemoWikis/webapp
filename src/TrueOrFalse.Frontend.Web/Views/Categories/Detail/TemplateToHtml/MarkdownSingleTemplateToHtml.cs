@@ -45,22 +45,8 @@ public class MarkdownSingleTemplateToHtml
         switch (templateJson.TemplateName.ToLower())
         {
             case "topicnavigation":
-            case "medialist":
-            case "videowidget":
-            case "settestsessionnostartscreen":
-            case "singlesetfullwidth":
-            case "singlecategoryfullwidth":
             case "categorynetwork":
-            case "contentlists":
-            case "relatedcontentlists":
-            case "educationofferlist":
-            case "setlistcard":
-            case "setcardminilist":
-            case "singlecategory":
-            case "singlequestionsquiz":
-            case "spacer":
             case "textblock":
-            case "cards":
             case "inlinetext":
                 return GetPartialHtml(contentModule, category, controllerContext);
             default:

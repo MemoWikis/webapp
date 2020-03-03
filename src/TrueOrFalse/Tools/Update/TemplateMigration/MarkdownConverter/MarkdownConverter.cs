@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using System.Text.RegularExpressions;
 
 namespace TemplateMigration
@@ -117,6 +118,83 @@ namespace TemplateMigration
             }
 
             return parts;
+        }
+
+        public static string ConvertTemplates(string topicMarkdown)
+        {
+            var parts = SplitMarkdown(topicMarkdown);
+            string newMarkdown = "";
+
+            foreach (var part in parts)
+            {
+                if (!part.Contains("[["))
+                    part.Type = PartType.Text;
+
+                if (part.IsTopicNavigation || part.IsText || part.IsCategoryNetwork)
+                {
+                    var markDown = part.ToText();
+                    if (part.IsTopicNavigation || part.IsTopicNavigation)
+                        markDown = part.ToText().Replace("&quot;", "\"");
+                    newMarkdown += markDown;
+                }
+                else if (part.Contains("\"cards\"") || part.Contains("\"singlesetfullwidth\"") || part.Contains("\"setCardMiniList\"") || part.Contains("\"singlecategoryfullwidth\""))
+                {
+                    var baseString = part.ToText();
+                    var searchTerm = "";
+                    var isCategory = false;
+                    if (part.Contains("\"cards\""))
+                        searchTerm = "SetIds\":(.*)";
+                    else if (part.Contains("\"singlesetfullwidth\""))
+                        searchTerm = "SetId\":(.*)";
+                    else if (part.Contains("\"setCardMiniList\""))
+                        searchTerm = "SetListIds\":(.*)";
+                    else if (part.Contains("\"singlecategoryfullwidth\""))
+                    {
+                        searchTerm = "CategoryId\":(.*)";
+                        isCategory = true;
+                    }
+
+                    var rxAfterId = new Regex(searchTerm);
+                    var stringAfterId = rxAfterId.Match(baseString).Groups[1].ToString();
+
+                    var rxBeforeFirstQuotation = new Regex(@"^[^""]+");
+                    var stringBeforeQuotation = rxBeforeFirstQuotation.Match(stringAfterId).ToString();
+
+                    var rxNumbers = new Regex(@"\D+");
+                    var numbersStringArray = rxNumbers.Split(stringBeforeQuotation);
+
+                    var ids = new List<int>();
+
+                    foreach (var idString in numbersStringArray)
+                    {
+                        if (!string.IsNullOrEmpty(idString))
+                        {
+                            var id = int.Parse(idString);
+                            if (isCategory)
+                                ids.Add(id);
+                            else
+                            {
+                                var category = Sl.CategoryRepo.GetBySetId(id);
+                                var categoryChanges = Sl.CategoryChangeRepo.GetForCategory(category.Id);
+                                var isDeleted = categoryChanges.Any(c => c.Category == category && c.Type == CategoryChangeType.Delete);
+                                if (isDeleted)
+                                {
+                                    var baseSetId = Sl.SetRepo.GetById(id).CopiedFrom.Id;
+                                    category = Sl.CategoryRepo.GetBySetId(baseSetId);
+                                }
+
+                                ids.Add(category.Id);
+                            }
+
+                        }
+                    }
+
+                    if (ids != null)
+                        newMarkdown += "[[{\"TemplateName\":\"TopicNavigation\", \"Load\":" + string.Join(", ", ids) + "}]]";
+                }
+            }
+
+            return newMarkdown.TrimStart().TrimEnd();
         }
     }
 
