@@ -34,13 +34,14 @@ namespace TemplateMigration
                 {
                     if (!category.TopicMarkdown.Contains("[["))
                         continue;
+
                     var topicMarkdownBeforeUpdate = category.TopicMarkdown;
                     var categoryId = category.Id;
                     category.TopicMarkdown = MarkdownConverter.ConvertTemplates(category.TopicMarkdown);
 
                     Sl.CategoryRepo.UpdateBeforeEntityCacheInit(category);
 
-                    Logg.r().Information("{categoryId} : {beforeMarkdown} -- {afterMarkdown}", categoryId, topicMarkdownBeforeUpdate, category.TopicMarkdown);
+                    Logg.r().Information("ContentModuleMigration: {categoryId} : {beforeMarkdown} -- {afterMarkdown}", categoryId, topicMarkdownBeforeUpdate, category.TopicMarkdown);
                 }
             }
         }

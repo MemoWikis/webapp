@@ -13,9 +13,7 @@ Vue.component('content-module-selection-modal-component', {
             contentModules: [
                 { type: 'InlineText', group: 'main', name: 'Text', tooltip: 'Freie Text Gestaltung per Markdown.' },
                 { type: 'TopicNavigation', group: 'main', name: 'Themenliste', tooltip: 'Zeigt eine Liste aller Hauptthemen.' },
-                { type: 'Spacer', group: 'main', name: 'Abstandhalter', tooltip: 'Sorgt für mehr Raum unter oder über einem Modul' },
-
-                { type: 'CategoryNetwork', group: 'misc', name: 'Themennetzwerk', tooltip: 'Über- und untergeordnete Themen werden übersichtlich dargestellt.' },
+                { type: 'CategoryNetwork', group: 'main', name: 'Themennetzwerk', tooltip: 'Über- und untergeordnete Themen werden übersichtlich dargestellt.' },
             ],
             selectedModule: '',
             modalType: '',
