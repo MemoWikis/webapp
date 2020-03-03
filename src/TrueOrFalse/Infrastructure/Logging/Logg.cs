@@ -34,7 +34,7 @@ public class Logg
             var request = HttpContext.Current.Request;
             var header = request.Headers.ToString();
 
-            if (!IgnoreLog.ContainsCrawlerInHeader(request.RawUrl))
+            if (!IgnoreLog.ContainsCrawlerInHeader(header))
             {
                 Logg.r().Error(exception, "PageError {Url} {Headers}",
                     request.RawUrl,
