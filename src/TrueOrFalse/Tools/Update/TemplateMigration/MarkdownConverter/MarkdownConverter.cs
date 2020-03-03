@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using System.Text.RegularExpressions;
 
 namespace TemplateMigration
@@ -117,6 +118,75 @@ namespace TemplateMigration
             }
 
             return parts;
+        }
+
+        public static string ConvertTemplates(string topicMarkdown)
+        {
+            var parts = SplitMarkdown(topicMarkdown);
+            string newMarkdown = "";
+
+            foreach (var part in parts)
+            {
+                if (!part.Contains("[["))
+                    part.Type = PartType.Text;
+
+                if (part.IsTopicNavigation || part.IsText || part.IsCategoryNetwork)
+                {
+                    newMarkdown += part.ToText();
+                }
+                else if (part.Contains("\"cards\"") || part.Contains("\"singlesetfullwidth\"") || part.Contains("\"setCardMiniList\""))
+                {
+                    var baseString = part.ToText();
+                    var searchTerm = "";
+                    if (part.Contains("\"cards\""))
+                        searchTerm = "SetIds\":(.*)";
+                    else if (part.Contains("\"singlesetfullwidth\""))
+                        searchTerm = "SetId\":(.*)";
+                    else if (part.Contains("\"setCardMiniList\""))
+                        searchTerm = "SetListIds\":(.*)";
+
+                    var rxAfterSetId = new Regex(searchTerm);
+                    var stringAfterSetId = rxAfterSetId.Match(baseString).ToString();
+
+                    var rxBeforeFirstQuotation = new Regex(@"^[^""]+");
+                    var stringBeforeQuotation = rxBeforeFirstQuotation.Match(stringAfterSetId).ToString();
+
+                    var rxNumbers = new Regex(@"\D+");
+                    var numbersStringArray = rxNumbers.Split(stringBeforeQuotation);
+
+                    var newNumbers = new List<int>();
+
+                    foreach (var setIdString in numbersStringArray)
+                    {
+                        if (!string.IsNullOrEmpty(setIdString))
+                        {
+                            var setId = int.Parse(setIdString);
+                            var category = Sl.CategoryRepo.GetBySetId(setId);
+                            var categoryChanges = Sl.CategoryChangeRepo.GetForCategory(category.Id);
+                            var isDeleted = categoryChanges.Any(c => c.Category == category && c.Type == CategoryChangeType.Delete);
+                            if (isDeleted)
+                            {
+                                var baseSetId = Sl.SetRepo.GetById(setId).CopiedFrom.Id;
+                                category = Sl.CategoryRepo.GetBySetId(baseSetId);
+                            }
+
+                            newNumbers.Add(category.Id);
+                        }
+                    }
+
+
+                    newMarkdown += "[[{\"TemplateName\":\"TopicNavigation\", \"Load\":" + string.Join(", ", newNumbers) + "}]]";
+                }
+                else if (part.Contains("\"singlecategoryfullwidth\""))
+                {
+                    var rx = new Regex(@"(\d +)(?!.*\d)");
+                    var categoryId = rx.Match(part.ToText());
+
+                    newMarkdown += "[[{\"TemplateName\":\"TopicNavigation\", \"Load\":" + categoryId + "}]]";
+                }
+            }
+
+            return newMarkdown.TrimStart().TrimEnd();
         }
     }
 

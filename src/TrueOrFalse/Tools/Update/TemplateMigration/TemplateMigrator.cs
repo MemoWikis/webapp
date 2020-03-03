@@ -23,5 +23,26 @@ namespace TemplateMigration
                 }
             }
         }
+
+        public static void MigrateContentModules()
+        {
+            var allCategories = Sl.CategoryRepo.GetAll();
+
+            foreach (var category in allCategories)
+            {
+                if (!IsNullOrEmpty(category.TopicMarkdown))
+                {
+                    if (!category.TopicMarkdown.Contains("[["))
+                        continue;
+                    var topicMarkdownBeforeUpdate = category.TopicMarkdown;
+                    var categoryId = category.Id;
+                    category.TopicMarkdown = MarkdownConverter.ConvertTemplates(category.TopicMarkdown);
+
+                    Sl.CategoryRepo.UpdateBeforeEntityCacheInit(category);
+
+                    Logg.r().Information("{categoryId} : {beforeMarkdown} -- {afterMarkdown}", categoryId, topicMarkdownBeforeUpdate, category.TopicMarkdown);
+                }
+            }
+        }
     }
 }
