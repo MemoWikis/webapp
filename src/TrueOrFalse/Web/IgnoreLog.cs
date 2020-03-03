@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Web;
 using static System.String;
 
 namespace TrueOrFalse.Tools
@@ -33,7 +34,7 @@ namespace TrueOrFalse.Tools
                 {
                     var parts = line.Split(':');
                     if (parts.Length == 2)
-                        return parts[1].ToLower();
+                        return parts[1].ToLower().Trim();
                     return "";
                 })
                 .Where(crawlerName => !IsNullOrEmpty(crawlerName));
@@ -42,11 +43,11 @@ namespace TrueOrFalse.Tools
         public static bool ContainsCrawlerInHeader(string header)
         {
             if (IsNullOrEmpty(header))
-                return false; 
+                return false;
 
             foreach (var crawlerName in GetCrawlers())
             {
-                if (header.ToLower().Contains(crawlerName))
+                if (header.ToLower().IndexOf(crawlerName.Trim()) != -1)
                     return true;
             }
             return false;

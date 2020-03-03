@@ -34,16 +34,20 @@ public class Logg
             var request = HttpContext.Current.Request;
             var header = request.Headers.ToString();
 
-            if (!IgnoreLog.ContainsCrawlerInHeader(header))
+            if (!IgnoreLog.ContainsCrawlerInHeader(request.RawUrl))
+            {
                 Logg.r().Error(exception, "PageError {Url} {Headers}",
                     request.RawUrl,
                     header);
 
-            if (!request.IsLocal)
-                new RollbarClient().SendException(exception);
+                if (!request.IsLocal)
+                    new RollbarClient().SendException(exception);
+            }
         }
         catch
         {
+
         }
+
     }
 }
