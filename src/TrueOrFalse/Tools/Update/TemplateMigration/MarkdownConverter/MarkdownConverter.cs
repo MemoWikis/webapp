@@ -137,25 +137,64 @@ namespace TemplateMigration
                         markDown = part.ToText().Replace("&quot;", "\"");
                     newMarkdown += markDown;
                 }
-                else if (part.Contains("\"cards\"") || part.Contains("\"singlesetfullwidth\"") || part.Contains("\"setCardMiniList\"") || part.Contains("\"singlecategoryfullwidth\""))
+                else if (part.Contains("\"cards\"") || 
+                         part.Contains("\"singlesetfullwidth\"") || 
+                         part.Contains("\"setCardMiniList\"") || 
+                         part.Contains("\"singlecategoryfullwidth\"") || 
+                         part.Contains("\"setlistcard\""))
                 {
                     var baseString = part.ToText();
                     var searchTerm = "";
                     var isCategory = false;
                     if (part.Contains("\"cards\""))
-                        searchTerm = "SetIds\":(.*)";
+                        searchTerm = "(?i)SetIds\":(.*)";
                     else if (part.Contains("\"singlesetfullwidth\""))
-                        searchTerm = "SetId\":(.*)";
-                    else if (part.Contains("\"setCardMiniList\""))
-                        searchTerm = "SetListIds\":(.*)";
+                        searchTerm = "(?i)SetId\":(.*)";
+                    else if (part.Contains("\"setcardminilist\"") || part.Contains("\"setlistcard\""))
+                        searchTerm = "(?i)SetListIds\":(.*)";
                     else if (part.Contains("\"singlecategoryfullwidth\""))
                     {
-                        searchTerm = "CategoryId\":(.*)";
+                        searchTerm = "(?i)CategoryId\":(.*)";
                         isCategory = true;
+                    }
+
+                    var replaceFirstQuotation = new Regex("\"");
+
+                    var title = "";
+                    if (part.Contains("\"title\":"))
+                    {
+                        var titleSearchTerm = "(?i)title\":(.*)";
+                        var rxTitle = new Regex(titleSearchTerm);
+                        var titleString = rxTitle.Match(baseString).Groups[1].ToString();
+                        var titleText = replaceFirstQuotation.Replace(titleString, "", 1);
+                        if (titleText.Trim().EndsWith("\",\""))
+                            titleText = titleText.Remove(titleText.Length - 1, 1);
+                        else if (!titleText.Trim().EndsWith("\","))
+                            titleText += "\",";
+                        title =  "\"Title\":\"" + titleText;
+                    }
+
+                    var description = "";
+                    if (part.Contains("\"description\":") || part.Contains("\"text\":"))
+                    {
+                        var descriptionSearchTerm = "(?i)description\":(.*)";
+                        if (part.Contains("\"text\":"))
+                            descriptionSearchTerm = "(?i)text\":(.*)";
+
+                        var rxDescription = new Regex(descriptionSearchTerm);
+                        var titleString = rxDescription.Match(baseString).Groups[1].ToString();
+                        var descriptionText = replaceFirstQuotation.Replace(titleString, "", 1);
+                        if (descriptionText.Trim().EndsWith("\",\""))
+                            descriptionText = descriptionText.Remove(descriptionText.Length -1, 1);
+                        else if (!descriptionText.Trim().EndsWith("\","))
+                            descriptionText += "\",";
+                        description = "\"Text\":\"" + descriptionText;
                     }
 
                     var rxAfterId = new Regex(searchTerm);
                     var stringAfterId = rxAfterId.Match(baseString).Groups[1].ToString();
+                    if (stringAfterId.Trim().StartsWith("\""))
+                        stringAfterId = replaceFirstQuotation.Replace(stringAfterId, "",1);
 
                     var rxBeforeFirstQuotation = new Regex(@"^[^""]+");
                     var stringBeforeQuotation = rxBeforeFirstQuotation.Match(stringAfterId).ToString();
@@ -185,12 +224,13 @@ namespace TemplateMigration
 
                                 ids.Add(category.Id);
                             }
-
                         }
                     }
 
+                    var loadString = "\"Load\":\"" + string.Join(", ", ids) + "\"";
+
                     if (ids != null)
-                        newMarkdown += "[[{\"TemplateName\":\"TopicNavigation\", \"Load\":" + string.Join(", ", ids) + "}]]";
+                        newMarkdown += "[[{\"TemplateName\":\"TopicNavigation\", "+ title + description + loadString + "}]]";
                 }
             }
 
