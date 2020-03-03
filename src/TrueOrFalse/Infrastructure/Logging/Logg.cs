@@ -10,7 +10,8 @@ public class Logg
 
     public static ILogger r()
     {
-        if (_logger == null) {     
+        if (_logger == null)
+        {
             _logger = new LoggerConfiguration()
                 .Enrich.WithProperty("Environment", Settings.Environment())
                 .WriteTo.Seq("http://localhost:5341")
@@ -33,10 +34,10 @@ public class Logg
             var request = HttpContext.Current.Request;
             var header = request.Headers.ToString();
 
-            if (!IgnoreLog.ContainsBotInHeader(header))
-            Logg.r().Error(exception, "PageError {Url} {Headers}",
-                request.RawUrl,
-                header);
+            if (!IgnoreLog.ContainsCrawlerInHeader(header))
+                Logg.r().Error(exception, "PageError {Url} {Headers}",
+                    request.RawUrl,
+                    header);
 
             if (!request.IsLocal)
                 new RollbarClient().SendException(exception);
