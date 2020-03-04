@@ -56,35 +56,7 @@ public class TemplateParserForSingleTemplate
         {
             case "topicnavigation":
                 return new TopicNavigationModel(category, JsonConvert.DeserializeObject<TopicNavigationJson>(templateJson.OriginalJson));
-            case "medialist":
-                return new MediaListModel(category, JsonConvert.DeserializeObject<MediaListJson>(templateJson.OriginalJson));
-            case "educationofferlist":
-                return new EducationOfferListModel(category, JsonConvert.DeserializeObject<EducationOfferListJson>(templateJson.OriginalJson));
-            case "videowidget":
-                return new VideoWidgetModel(JsonConvert.DeserializeObject<VideoWidgetJson>(templateJson.OriginalJson));
-            case "settestsessionnostartscreen":
-                return new SetTestSessionNoStartScreenModel(JsonConvert.DeserializeObject<SetTestSessionNoStartScreenJson>(templateJson.OriginalJson));
-            case "singlesetfullwidth":
-                return new SingleSetFullWidthModel(JsonConvert.DeserializeObject<SingleSetFullWidthJson>(templateJson.OriginalJson));
-            case "singlecategoryfullwidth":
-                return new SingleCategoryFullWidthModel(JsonConvert.DeserializeObject<SingleCategoryFullWidthJson>(templateJson.OriginalJson));
             case "categorynetwork":
-            case "contentlists":
-                return new CategoryModel(category, loadKnowledgeSummary: false);
-            case "relatedcontentlists":
-                return new CategoryModel(category, loadKnowledgeSummary: false);
-            case "setlistcard":
-                return new SetListCardModel(category.Id, JsonConvert.DeserializeObject<SetListCardJson>(templateJson.OriginalJson));
-            case "setcardminilist":
-                return new SetCardMiniListModel(JsonConvert.DeserializeObject<SetCardMiniListJson>(templateJson.OriginalJson));
-            case "singlecategory":
-                return new SingleCategoryModel(JsonConvert.DeserializeObject<SingleCategoryJson>(templateJson.OriginalJson));
-            case "singlequestionsquiz":
-                return new SingleQuestionsQuizModel(category, JsonConvert.DeserializeObject<SingleQuestionsQuizJson>(templateJson.OriginalJson));
-            case "spacer":
-                return new SpacerModel(JsonConvert.DeserializeObject<SpacerJson>(templateJson.OriginalJson));
-            case "cards":
-                return new CardsModel(JsonConvert.DeserializeObject<CardsJson>(templateJson.OriginalJson));
             case "inlinetext":
                 return new InlineTextModel(templateJson.InlineText);
             default:
