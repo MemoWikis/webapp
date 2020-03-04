@@ -1,6 +1,8 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
+using Newtonsoft.Json;
 
 namespace TemplateMigration
 {
@@ -127,115 +129,105 @@ namespace TemplateMigration
 
             foreach (var part in parts)
             {
-                if (!part.Contains("[["))
-                    part.Type = PartType.Text;
+                if (!part.Contains("[[") && !part.Contains("]]"))
+                    newMarkdown += part.ToText();
 
-                if (part.IsTopicNavigation || part.IsText || part.IsCategoryNetwork)
+                else
                 {
-                    var markDown = part.ToText();
-                    if (part.IsTopicNavigation || part.IsTopicNavigation)
-                        markDown = part.ToText().Replace("&quot;", "\"");
-                    newMarkdown += markDown;
-                }
-                else if (part.Contains("\"cards\"") || 
-                         part.Contains("\"singlesetfullwidth\"") || 
-                         part.Contains("\"setCardMiniList\"") || 
-                         part.Contains("\"singlecategoryfullwidth\"") || 
-                         part.Contains("\"setlistcard\""))
-                {
-                    var baseString = part.ToText();
-                    var searchTerm = "";
-                    var isCategory = false;
-                    if (part.Contains("\"cards\""))
-                        searchTerm = "(?i)SetIds\":(.*)";
-                    else if (part.Contains("\"singlesetfullwidth\""))
-                        searchTerm = "(?i)SetId\":(.*)";
-                    else if (part.Contains("\"setcardminilist\"") || part.Contains("\"setlistcard\""))
-                        searchTerm = "(?i)SetListIds\":(.*)";
-                    else if (part.Contains("\"singlecategoryfullwidth\""))
+                    if (part.Contains("[[") && part.Contains("]]"))
                     {
-                        searchTerm = "(?i)CategoryId\":(.*)";
-                        isCategory = true;
-                    }
+                        var jsonString = part.ToText()
+                            .Replace("<p>", "")
+                            .Replace("</p>", "")
+                            .Replace("[[", "")
+                            .Replace("]]", "")
+                            .Replace("&quot;", @"""");
 
-                    var replaceFirstQuotation = new Regex("\"");
+                        var json = JsonConvert.DeserializeObject<TemplateJson>(jsonString);
 
-                    var title = "";
-                    if (part.Contains("\"title\":"))
-                    {
-                        var titleSearchTerm = "(?i)title\":(.*)";
-                        var rxTitle = new Regex(titleSearchTerm);
-                        var titleString = rxTitle.Match(baseString).Groups[1].ToString();
-                        var titleText = replaceFirstQuotation.Replace(titleString, "", 1);
-                        if (titleText.Trim().EndsWith("\",\""))
-                            titleText = titleText.Remove(titleText.Length - 1, 1);
-                        else if (!titleText.Trim().EndsWith("\","))
-                            titleText += "\",";
-                        title =  "\"Title\":\"" + titleText;
-                    }
-
-                    var description = "";
-                    if (part.Contains("\"description\":") || part.Contains("\"text\":"))
-                    {
-                        var descriptionSearchTerm = "(?i)description\":(.*)";
-                        if (part.Contains("\"text\":"))
-                            descriptionSearchTerm = "(?i)text\":(.*)";
-
-                        var rxDescription = new Regex(descriptionSearchTerm);
-                        var titleString = rxDescription.Match(baseString).Groups[1].ToString();
-                        var descriptionText = replaceFirstQuotation.Replace(titleString, "", 1);
-                        if (descriptionText.Trim().EndsWith("\",\""))
-                            descriptionText = descriptionText.Remove(descriptionText.Length -1, 1);
-                        else if (!descriptionText.Trim().EndsWith("\","))
-                            descriptionText += "\",";
-                        description = "\"Text\":\"" + descriptionText;
-                    }
-
-                    var rxAfterId = new Regex(searchTerm);
-                    var stringAfterId = rxAfterId.Match(baseString).Groups[1].ToString();
-                    if (stringAfterId.Trim().StartsWith("\""))
-                        stringAfterId = replaceFirstQuotation.Replace(stringAfterId, "",1);
-
-                    var rxBeforeFirstQuotation = new Regex(@"^[^""]+");
-                    var stringBeforeQuotation = rxBeforeFirstQuotation.Match(stringAfterId).ToString();
-
-                    var rxNumbers = new Regex(@"\D+");
-                    var numbersStringArray = rxNumbers.Split(stringBeforeQuotation);
-
-                    var ids = new List<int>();
-
-                    foreach (var idString in numbersStringArray)
-                    {
-                        if (!string.IsNullOrEmpty(idString))
+                        if (json.TemplateName.ToLower() == "topicnavigation" || json.TemplateName.ToLower() == "categorynetwork")
                         {
-                            var id = int.Parse(idString);
-                            if (isCategory)
-                                ids.Add(id);
-                            else
-                            {
-                                var category = Sl.CategoryRepo.GetBySetId(id);
-                                var categoryChanges = Sl.CategoryChangeRepo.GetForCategory(category.Id);
-                                var isDeleted = categoryChanges.Any(c => c.Category == category && c.Type == CategoryChangeType.Delete);
-                                if (isDeleted)
-                                {
-                                    var baseSetId = Sl.SetRepo.GetById(id).CopiedFrom.Id;
-                                    category = Sl.CategoryRepo.GetBySetId(baseSetId);
-                                }
+                            newMarkdown += part.ToText();
+                            continue;
+                        }
 
-                                ids.Add(category.Id);
+                        var title = "";
+                        var text = "";
+
+                        if (!string.IsNullOrEmpty(json.Title))
+                            title = "\"Title\":\"" + json.Title + "\",";
+
+                        if (!string.IsNullOrEmpty(json.Description))
+                            text = "\"Text\":\"" + json.Description + "\",";
+                        else if (!string.IsNullOrEmpty(json.Text))
+                            text = "\"Text\":\"" + json.Text + "\",";
+
+                        var load = "\"Load\":\"";
+                        var rxNumbers = new Regex(@"\D+");
+
+                        if (json.TemplateName.ToLower() == "singlecategoryfullwidth")
+                        {
+                            var numbersStringArray = rxNumbers.Split(json.CategoryId);
+                            var parsedId = int.Parse(numbersStringArray[0]);
+                            load += parsedId + "\"";
+                            newMarkdown += "[[{\"TemplateName\":\"TopicNavigation\", " + title + text + load + "}]]";
+                        } else if (json.TemplateName.ToLower() == "cards" ||
+                            json.TemplateName.ToLower() == "singlesetfullwidth" ||
+                            json.TemplateName.ToLower() == "setcardminilist" ||
+                            json.TemplateName.ToLower() == "setlistcard")
+                        {
+                            var ids = new List<int>();
+                            var idsString = "";
+                            if (!string.IsNullOrEmpty(json.SetId))
+                                idsString = json.SetId;
+                            else if (!string.IsNullOrEmpty(json.SetIds))
+                                idsString = json.SetIds;
+                            else if (!string.IsNullOrEmpty(json.SetListIds))
+                                idsString = json.SetListIds;
+
+                            var numbersStringArray = rxNumbers.Split(idsString);
+                            foreach (var idString in numbersStringArray)
+                            {
+                                if (!string.IsNullOrEmpty(idString)) {
+                                    var id = int.Parse(idString);
+                                    var category = Sl.CategoryRepo.GetBySetId(id);
+                                    if (category == null)
+                                        continue;
+
+                                    var categoryChanges = Sl.CategoryChangeRepo.GetForCategory(category.Id);
+                                    var isDeleted = categoryChanges.Any(c => c.Category == category && c.Type == CategoryChangeType.Delete);
+                                    if (isDeleted)
+                                    {
+                                        var baseSetId = Sl.SetRepo.GetById(id).CopiedFrom.Id;
+                                        category = Sl.CategoryRepo.GetBySetId(baseSetId);
+                                    }
+
+                                    ids.Add(category.Id);
+                                }
                             }
+
+                            load += string.Join(", ", ids) + "\"";
+                            if (ids.Count >= 1)
+                                newMarkdown += "[[{\"TemplateName\":\"TopicNavigation\", " + title + text + load + "}]]";
                         }
                     }
-
-                    var loadString = "\"Load\":\"" + string.Join(", ", ids) + "\"";
-
-                    if (ids != null)
-                        newMarkdown += "[[{\"TemplateName\":\"TopicNavigation\", "+ title + description + loadString + "}]]";
                 }
             }
 
             return newMarkdown.TrimStart().TrimEnd();
         }
+    }
+
+    public class TemplateJson
+    {
+        public string TemplateName;
+        public string Title;
+        public string Text;
+        public string Description;
+        public string CategoryId;
+        public string SetId;
+        public string SetIds;
+        public string SetListIds;
     }
 
 }
