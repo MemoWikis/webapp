@@ -52,15 +52,27 @@ public class ImageStore : IRegisterAsInstancePerLifetime
         RunWikimedia(imageWikiFileName, typeId, imageType, userId, imageSettings);
     }
 
-    public void RunUploaded<T>(TmpImage tmpImage, int typeId, int userId, string licenseGiverName) where T : IImageSettings
+    public void RunUploaded<T>(TmpImage tmpImage, int typeId, int userId, string licenseGiverName, string relocateUrl = null) where T : IImageSettings
     {
         var imageSettings = Activator.CreateInstance<T>();
         imageSettings.Init(typeId);
         imageSettings.DeleteFiles(); //old files..
 
-        using (var stream = tmpImage.GetStream()){
-            SaveImageToFile.Run(stream, imageSettings);
+        if (string.IsNullOrEmpty(relocateUrl))
+        {
+            using (var stream = tmpImage.GetStream())
+            {
+                SaveImageToFile.Run(stream, imageSettings);
+            }
         }
+        else
+        {
+            using (var stream = tmpImage.RelocateImage(relocateUrl))
+            {
+                SaveImageToFile.Run(stream, imageSettings);
+            }
+        }
+
 
         _imgMetaRepo.StoreUploaded(typeId, userId, imageSettings.ImageType, licenseGiverName);
     }

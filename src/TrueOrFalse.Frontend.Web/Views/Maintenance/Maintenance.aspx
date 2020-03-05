@@ -61,6 +61,10 @@
             <a href="<%= Url.Action("MigrateSetTextAndCleanup", "Maintenance") %>" data-url="toSecurePost" style="">
                 <i class="fa fa-retweet"></i> Lernset Text Migration und redundante Themenkopien (Lernsetkopien) migrieren und löschen
             </a><br />
+            
+            <a href="<%= Url.Action("MigrateSetImages", "Maintenance") %>" data-url="toSecurePost" style="">
+                <i class="fa fa-retweet"></i> Lernsetbilder migrieren.
+            </a><br />
         </div>
     </div>
 

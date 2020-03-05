@@ -742,6 +742,17 @@ public class MaintenanceController : BaseController
             new MaintenanceModel { Message = new SuccessMessage("Lernsets Text wurden migriert und Kopien wurden migriert und gelöscht") });
     }
 
+
+    [HttpPost]
+    public ActionResult MigrateSetImages()
+    {
+        var setMigrator = new SetMigrator();
+        setMigrator.MigratePictures();
+
+        return View("Maintenance",
+            new MaintenanceModel { Message = new SuccessMessage("Bilder wurden migriert") });
+    }
+
     [ValidateAntiForgeryToken]
     [HttpPost]
     public ActionResult ReloadListFromIgnoreCrawlers()

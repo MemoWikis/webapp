@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using NHibernate;
 using Quartz;
@@ -227,6 +228,41 @@ namespace SetMigration
                 var category = Sl.CategoryRepo.GetById(id);
                 Sl.Resolve<CategoryDeleter>().Run(category, forSetMigration);
                 Logg.r().Information("SetMigrationUpdate: category {cId} deleted", id);
+            }
+        }
+
+        public void MigratePictures()
+        {
+            foreach (var set in _allSets)
+            {
+                Logg.r().Information("SetImageMigration: set {id} start", set.Id);
+
+                var category = Sl.CategoryRepo.GetBySetId(set.Id);
+                var categoryChanges = Sl.CategoryChangeRepo.GetForCategory(category.Id);
+                var isDeleted = categoryChanges.Any(c => c.Category == category && c.Type == CategoryChangeType.Delete);
+                if (isDeleted)
+                    continue;
+
+                var setImageMetaData = Sl.ImageMetaDataRepo.GetBy(set.Id, ImageType.QuestionSet);
+                if (setImageMetaData == null)
+                    continue;
+
+                IImageSettings imageSettings;
+
+                if (setImageMetaData.Source == ImageSource.WikiMedia)
+                    Sl.ImageStore.RunWikimedia<CategoryImageSettings>(setImageMetaData.SourceUrl, category.Id, ImageType.Category, setImageMetaData.UserId);
+                else if (setImageMetaData.Source == ImageSource.User)
+                {
+                    imageSettings = new SetImageSettings(set.Id);
+                    var imgUrl = imageSettings.ServerPathAndId() + "_" + 500 + ".jpg";
+                    if (File.Exists(imgUrl))
+                    {
+                        var tmpImg = new TmpImage(500);
+                        Sl.ImageStore.RunUploaded<CategoryImageSettings>(tmpImg, category.Id, setImageMetaData.UserId, setImageMetaData.AuthorParsed, imgUrl);
+                    }
+                }
+
+                Logg.r().Information("SetImageMigration: set {id} end", set.Id);
             }
         }
     }

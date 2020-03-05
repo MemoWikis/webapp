@@ -41,5 +41,9 @@ public class TmpImage
         return File.OpenRead(HttpContext.Current.Server.MapPath(Path));
     }
 
+    public Stream RelocateImage(string imgUrl)
+    {
+        return File.OpenRead(imgUrl);
+    }
 }
 

@@ -59,6 +59,8 @@ public class Sl
     public static JobQueueRepo JobQueueRepo => R<JobQueueRepo>();
 
     public static int CurrentUserId => R<SessionUser>().UserId;
+
+    public static ImageStore ImageStore => R<ImageStore>();
 }
 
 public static class SlExt
