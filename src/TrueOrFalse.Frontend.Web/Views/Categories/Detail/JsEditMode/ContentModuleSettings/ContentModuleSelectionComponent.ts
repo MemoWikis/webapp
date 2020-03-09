@@ -59,11 +59,6 @@ Vue.component('content-module-selection-modal-component', {
     watch: {
         selectedModule: function(val) {
             if (val != 'InlineText' &&
-                val != 'Spacer' &&
-                val != 'MediaList' &&
-                val != 'ContentLists' &&
-                val != 'RelatedContentLists' &&
-                val != 'EducationOfferList' &&
                 val != 'CategoryNetwork')
                 this.modalType = '#' + this.selectedModule.toLowerCase() + 'SettingsDialog';
             else
@@ -90,11 +85,6 @@ Vue.component('content-module-selection-modal-component', {
         setActive(val) {
             this.selectedModule = val;
             if (val != 'InlineText' &&
-                val != 'Spacer' &&
-                val != 'MediaList' &&
-                val != 'ContentLists' &&
-                val != 'RelatedContentLists' &&
-                val != 'EducationOfferList' &&
                 val != 'CategoryNetwork')
                 this.modalType = '#' + this.selectedModule.toLowerCase() + 'SettingsDialog';
             else

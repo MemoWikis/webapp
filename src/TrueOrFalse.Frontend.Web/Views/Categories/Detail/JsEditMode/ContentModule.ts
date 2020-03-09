@@ -1,53 +1,10 @@
 ﻿declare var postscribe: any;
 
-Vue.component('content-module-widget', {
-    props: {
-        widgetType: String,
-        widgetId: String,
-        src: String,
-        dataT: String,
-        dataId: String,
-        dataWidth: String,
-        dataMaxwidth: String,
-        dataLogoon: String,
-        dataHideKnowledgeBtn: String,
-    },
-
-    template: '<div :id="widgetId"></div>',
-
-    data() {
-        return {
-        };
-    },
-    
-    mounted() {
-        var el = '#' + this.widgetId;
-        let script;
-
-        if (this.widgetType == 'video') {
-            script = '<\script src="' + this.src + '" data-t="' + this.dataT + '" data-id="' + this.dataId + '" data-width="' + this.dataWidth + '"></\script>';
-        };
-
-        if (this.widgetType == 'quiz') {
-            script = '<\script src="' + this.src + '" data-t="' + this.dataT + '" data-id="' + this.dataId + '" data-width="' + this.dataWidth + '" data-maxwidth="' + this.dataMaxwidth + '" data-logoon="' + this.dataLogoon + '" data-hideKnowledgeBtn="' + this.dataHideKnowledgeBtn + '"></\script>';
-        };
-
-        postscribe(el, script, {
-            error: function (e) {
-                console.log(e);
-            }
-        });
-    },
-});
-
 var contentModuleComponent = Vue.component('content-module', {
     props: {
         origMarkdown: String,
         contentModuleType: String,
     },
-
-    singleQuestionsQuizSettings: SingleQuestionsQuizSettings,
-
 
     data() {
         return {
