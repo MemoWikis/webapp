@@ -24,18 +24,17 @@ class AnswerBody {
 
         $('#hddTimeRecords').attr('data-time-on-load', $.now());
 
-        $(window).unload(function () {
-            AnswerQuestion.LogTimeForQuestionView();
-        });
-
+            $(window).unload(function () {
+                if (($("#isLastQuestion").val() != "true" && $("#hddIsLearningSession").val().toLowerCase() == "true") || $("#hddIsLearningSession").val().toLowerCase() == "false")
+                    AnswerQuestion.LogTimeForQuestionView();
+            });
+        
         new QuestionRowDelete(QuestionRowDeleteSourcePage.QuestionDetail);
         new ShareQuestion(questionId);
 
         $('[data-toggle=popover]').popover({ html: true }).click(e => { e.preventDefault(); });
 
         if (!Utils.IsInWidget()) {
-
-         //   this.ScrollToAnswerQuestionHeaderIfOutsideView();
 
             //set focus to first possible answer element
             if (document.getElementsByName("answer").length > 0)
