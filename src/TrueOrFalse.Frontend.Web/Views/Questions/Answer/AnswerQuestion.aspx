@@ -142,10 +142,10 @@
     </div>
     <div id="Topics"class="row ">
         <div style="display: none" id="GreaterThen767">
-        <% Html.RenderPartial("~/Views/Questions/Answer/TopicToConinueLearning.ascx", new TopicToContinueLearningModel(Model, Model.AllCategorysWithChildrenAndParents)); %>
+        <% Html.RenderPartial("~/Views/Questions/Answer/TopicToConinueLearning.ascx", new TopicToContinueLearningModel(Model, Model.ChildrenAndParents)); %>
         </div>
         <div style="display: none" id="SlowerThen768">
-            <% Html.RenderPartial("~/Views/Questions/Answer/TopicToConinueLearning.ascx", new TopicToContinueLearningModel(Model, Model.ChildrenAndParents)); %>
+            <% Html.RenderPartial("~/Views/Questions/Answer/TopicToConinueLearning.ascx", new TopicToContinueLearningModel(Model, Model.AllCategorysWithChildrenAndParents)); %>
         </div>
     </div>
     <div class="row">

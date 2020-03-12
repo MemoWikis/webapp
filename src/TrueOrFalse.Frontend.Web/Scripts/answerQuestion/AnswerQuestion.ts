@@ -269,29 +269,33 @@ class AnswerQuestion {
             if (window.innerWidth < 768) {
                 $(".row  .question-details").children().first().hide(); //byLoad from the Page
                 $("#SlowerThen768").css("display", "block");
+            } else {
+                $("#GreaterThen767").css("display", "block");
             }
-                else
-                {
-                    $("#GreaterThen767").css("display", "block");  
-                }
-            
-                
 
 
-        var ishidden = false;
-        var isFadeIn = false; 
-            $(window).on("resize", () => {
-                if (window.innerWidth < 768 && $(".row  .question-details").children().first().css("display") != "none" && !ishidden) {
-                    $(".row  .question-details").children().first().hide();
-                    ishidden = true;
-                    isFadeIn = false;
-                } else if (window.innerWidth > 767 && $(".row  .question-details").children().first().css("display") == "none" && !isFadeIn) {
-                    $(".row  .question-details").children().first().fadeIn(500);
-                    ishidden = false; 
-                    isFadeIn = true;
-                }
-                    
-            });
+            var ishidden = false;
+            var isFadeIn = false;
+            $(window).on("resize",
+                () => {
+                    if (window.innerWidth < 768 &&
+                        $(".row  .question-details").children().first().css("display") != "none" && !ishidden) {
+                        $(".row  .question-details").children().first().hide();
+                        $("#SlowerThen768").css("display", "block");
+                        $("#GreaterThen767").css("display", "none");
+                        ishidden = true;
+                        isFadeIn = false;
+                    } else if (window.innerWidth > 767 && $(".row  .question-details").children().first().css("display") == "none" && !isFadeIn) {
+                        $(".row  .question-details").children().first().fadeIn(500);
+                        $("#SlowerThen768").css("display", "none");
+                        $("#GreaterThen767").css("display", "block");
+                        ishidden = false;
+                        isFadeIn = true;
+                    }
+
+                });
+        } else {
+            $("#SlowerThen768").css("display", "block");
         }
     }
 
