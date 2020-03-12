@@ -24,10 +24,10 @@ class AnswerBody {
 
         $('#hddTimeRecords').attr('data-time-on-load', $.now());
 
-            $(window).unload(function () {
-                if (($("#isLastQuestion").val() != "true" && $("#hddIsLearningSession").val().toLowerCase() == "true") || $("#hddIsLearningSession").val().toLowerCase() == "false")
-                    AnswerQuestion.LogTimeForQuestionView();
-            });
+        $(window).on("unload", function () {
+            if (typeof $("#hddIsResultSite").val() == "undefined")
+                AnswerQuestion.LogTimeForQuestionView();
+        });
         
         new QuestionRowDelete(QuestionRowDeleteSourcePage.QuestionDetail);
         new ShareQuestion(questionId);
@@ -35,12 +35,11 @@ class AnswerBody {
         $('[data-toggle=popover]').popover({ html: true }).click(e => { e.preventDefault(); });
 
         if (!Utils.IsInWidget()) {
-
             //set focus to first possible answer element
             if (document.getElementsByName("answer").length > 0)
                 $("[name=answer]")[0].focus();
 
-            $("#txtAnswer:visible").focus();
+            $("#txtAnswer:visible").focus();  
 
             $("#row-1:visible").focus();
         }

@@ -280,7 +280,6 @@ public class AnswerQuestionController : BaseController
         bool inTestMode = false
     )
     {
-        //var timeOfAnswer = DateTimeOffset.FromUnixTimeMilliseconds(long.Parse(timeOfAnswerString));
 
         var result = _answerQuestion.Run(id, answer, UserId, questionViewGuid, interactionNumber,
             millisecondsSinceQuestionView, learningSessionId, stepGuid, inTestMode);
