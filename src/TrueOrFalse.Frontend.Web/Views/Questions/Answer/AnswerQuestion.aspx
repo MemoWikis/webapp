@@ -115,12 +115,14 @@
         data-current-step-idx="<%= Model.IsTestSession ? Model.TestSessionCurrentStep : -1 %>"
         data-is-last-step="<%= Model.TestSessionIsLastStep %>"/>
     <input type="hidden" id="hddQuestionId" value="<%= Model.QuestionId %>"/>
+    <input type="hidden" id="hddIsLandingPage" value="<%=Model.PageCurrent == null ? "2" : Model.PageCurrent %>"/>  <%-- value "1" is Questionsite , value 2 is LandingPage, Test or Learningsession is this input not available--%> 
 
     <% if (Model.IsLearningSession) { %>
            <% Html.RenderPartial("~/Views/Questions/Answer/LearningSession/LearningSessionHeader.ascx", Model); %>
     <% }else if (Model.IsTestSession) { %>
            <% Html.RenderPartial("~/Views/Questions/Answer/TestSession/TestSessionHeader.ascx", Model); %>
     <% }else { %>
+      <%-- value "1" is Questionsite , value 2 is LandingPage, Test or Learningsession is this input not available--%> 
         <div class="AnswerQuestionHeader">
             <% Html.RenderPartial("~/Views/Questions/Answer/AnswerQuestionPager.ascx", Model); %>
         </div>

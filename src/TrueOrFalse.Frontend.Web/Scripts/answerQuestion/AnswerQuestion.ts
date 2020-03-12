@@ -18,6 +18,7 @@ class AnswerQuestion {
     static ajaxUrl_TestSessionRegisterAnsweredQuestion: string;
     static ajaxUrl_LearningSessionAmendAfterShowSolution: string;
     static TestSessionProgressAfterAnswering: number;
+    private IsLandingPage: boolean = false; 
 
     static IsLastTestSessionStep = false;
     static TestSessionId: number;
@@ -38,9 +39,10 @@ class AnswerQuestion {
     public ShowedSolutionOnly = false;
 
     constructor(answerEntry: IAnswerEntry) {
-
+        this.IsLandingPage = $("#hddIsLandingPage").val() == "2";
         this.SolutionType = answerEntry.SolutionType;
         this.IsGameMode = answerEntry.IsGameMode;
+
         if ($('#hddIsLearningSession').length === 1)
             this.IsLearningSession = $('#hddIsLearningSession').val().toLowerCase() === "true";
 
@@ -156,6 +158,7 @@ class AnswerQuestion {
         });
 
         this.FlashCardCheck();
+        this.HideChipsOnLandingPage();
     }
 
     public OnCorrectAnswer(func: () => void) {
@@ -258,6 +261,28 @@ class AnswerQuestion {
                 }
             });
             return false;
+        }
+    }
+    private HideChipsOnLandingPage() {
+        if (this.IsLandingPage) {
+
+            if (window.innerWidth < 768)
+                $(".row  .question-details").children().first().hide(); //byLoad from the Page
+
+        var ishidden = false;
+        var isFadeIn = false; 
+            $(window).on("resize", () => {
+                if (window.innerWidth < 768 && $(".row  .question-details").children().first().css("display") != "none" && !ishidden) {
+                    $(".row  .question-details").children().first().hide();
+                    ishidden = true;
+                    isFadeIn = false;
+                } else if (window.innerWidth > 767 && $(".row  .question-details").children().first().css("display") == "none" && !isFadeIn) {
+                    $(".row  .question-details").children().first().fadeIn(500);
+                    ishidden = false; 
+                    isFadeIn = true;
+                }
+                    
+            });
         }
     }
 
