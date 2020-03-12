@@ -158,7 +158,7 @@ class AnswerQuestion {
         });
 
         this.FlashCardCheck();
-        this.HideChipsOnLandingPage();
+        this.HideChipsOnLandingPageAndDisplayCards();
     }
 
     public OnCorrectAnswer(func: () => void) {
@@ -263,11 +263,20 @@ class AnswerQuestion {
             return false;
         }
     }
-    private HideChipsOnLandingPage() {
+    private HideChipsOnLandingPageAndDisplayCards() {
         if (this.IsLandingPage) {
 
-            if (window.innerWidth < 768)
+            if (window.innerWidth < 768) {
                 $(".row  .question-details").children().first().hide(); //byLoad from the Page
+                $("#SlowerThen768").css("display", "block");
+            }
+                else
+                {
+                    $("#GreaterThen767").css("display", "block");  
+                }
+            
+                
+
 
         var ishidden = false;
         var isFadeIn = false; 

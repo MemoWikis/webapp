@@ -141,45 +141,22 @@
         </div>
     </div>
     <div id="Topics"class="row ">
-       <div class="col-xs-9">
-            <% if (!Model.IsLearningSession && !Model.IsTestSession && Model.ContentRecommendationResult.Categories.Count != 0)
-               { %>
-                <h4 class="marginTop50Bottom30">Themen zum Weiterlernen:</h4>
-                <div id="ParentsChildrenTopics">
-                    <% if(Model.AllCategorysWithChildrenAndParents.Count <= 3) { 
-                           for (var i = 0; i < Model.AllCategorysWithChildrenAndParents.Count; i++)
-                           {
-                               var category = Model.AllCategorysWithChildrenAndParents[i].Id;
-                    %>
-                        <div class="CardMiniColumn col-xs-4 col-sm-3 col-lg-3" style="">
-                            <% Html.RenderPartial("~/Views/Welcome/Partials/WelcomeCardMiniCategory.ascx", new WelcomeCardMiniCategoryModel(category)); %>
-                        </div>
-                    <% }
-                    }
-                    else
-                    {                  
-                        for (var i = 0; i < 4; i++)
-                        {
-                            var category = Model.AllCategorysWithChildrenAndParents[i].Id; %>
-
-                            <div class="CardMiniColumn col-xs-4 col-sm-3 col-lg-3" style="">
-                            <% Html.RenderPartial("~/Views/Welcome/Partials/WelcomeCardMiniCategory.ascx", new WelcomeCardMiniCategoryModel(category)); %>
-                            </div>
-                     <% }
-
-                    }%>
-            </div>
+        <div style="display: none" id="GreaterThen767">
+        <% Html.RenderPartial("~/Views/Questions/Answer/TopicToConinueLearning.ascx", new TopicToContinueLearningModel(Model, Model.AllCategorysWithChildrenAndParents)); %>
+        </div>
+        <div style="display: none" id="SlowerThen768">
+            <% Html.RenderPartial("~/Views/Questions/Answer/TopicToConinueLearning.ascx", new TopicToContinueLearningModel(Model, Model.ChildrenAndParents)); %>
         </div>
     </div>
     <div class="row">
         <div class="col-xs-9">
 
            <div class= "col-sm-12">
-                <% if (Model.QuestionHasParentCategories)
+                <% if (Model.QuestionHasParentCategories &&!Model.IsLearningSession && !Model.IsTestSession && Model.ContentRecommendationResult.Categories.Count != 0)
                    {
                        Html.RenderPartial("~/Views/Shared/AnalyticsFooter.ascx", Model.AnalyticsFooterModel);
                    } %>
-            <% } %>
+            
            </div>
         <div class="row" style="margin-top: 30px; color: darkgray; font-weight: bold;">
             <div class="col-xs-4">
