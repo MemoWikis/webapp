@@ -295,7 +295,7 @@ class AnswerQuestion {
 
                 });
         } else {
-            $("#SlowerThen768").css("display", "block");
+            $("#GreaterThen767").css("display", "block");
         }
     }
 
