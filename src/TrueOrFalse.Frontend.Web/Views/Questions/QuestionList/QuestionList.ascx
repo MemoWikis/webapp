@@ -1,9 +1,13 @@
 ﻿<%@ Control Language="C#" AutoEventWireup="true" Inherits="System.Web.Mvc.ViewUserControl<QuestionListModel>" %>
 <%@ Import Namespace="System.Web.Optimization" %>
 <%= Styles.Render("~/bundles/QuestionList") %>
+
+<%= Scripts.Render("~/bundles/js/d3") %>
+
 <script type="text/x-template" id="question-details-component">
     <%: Html.Partial("~/Views/Questions/Answer/AnswerQuestionDetailsComponent.vue.ascx") %>
 </script>
+
 <%= Scripts.Render("~/bundles/js/QuestionListComponents") %>
 
 <div id="QuestionListApp" class="row">

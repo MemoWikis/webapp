@@ -23,6 +23,9 @@ Vue.component('question-details-component', {
     },
 
     watch: {
+        personalProbability: function () {
+            this.reDrawSemiPie();
+        },
     },
 
     mounted: function () {
@@ -30,7 +33,48 @@ Vue.component('question-details-component', {
     },
 
     methods: {
+        reDrawSemiPie() {
+            var semiPieRef = this.$refs.semiPie;
+            var semiPie = d3.select(semiPieRef);
 
+            var personalKnowledgeState = this.personalProbability / 100;
+            var avgKnowledgeState = this.averageProbability / 100;
+
+
+            var arcBase = d3.arc()
+                .innerRadius(50)
+                .outerRadius(55)
+                .startAngle(-0.5 * this.pi)
+                .endAngle(0.5 * this.pi);
+
+            var arcKnowledgeState = d3.arc()
+                .innerRadius(45)
+                .outerRadius(60)
+                .startAngle(-0.5 * this.pi)
+                .endAngle((-0.5 + personalKnowledgeState) * this.pi);
+
+            var arcAvg = d3.arc()
+                .innerRadius(42)
+                .outerRadius(62)
+                .startAngle((-0.5 + avgKnowledgeState) * this.pi - 0.01)
+                .endAngle((-0.5 + avgKnowledgeState) * this.pi + 0.01);
+
+            semiPie.attr("width", "400").attr("height", "400")
+                .append("path")
+                .attr("d", arcBase)
+                .attr("fill", "grey")
+                .attr("transform", "translate(200,200)");
+
+            semiPie.enter.append("path")
+                .attr("d", arcKnowledgeState)
+                .attr("fill", "red")
+                .attr("transform", "translate(200,200)");
+
+            semiPie.enter.append("path")
+                .attr("d", arcAvg)
+                .attr("fill", "black")
+                .attr("transform", "translate(200,200)");
+        },
         drawSemiPie() {
 
             var semiPieRef = this.$refs.semiPie;
@@ -41,19 +85,19 @@ Vue.component('question-details-component', {
 
             var endAngle = 0.5 * this.pi;
 
-            var arcBase = d3.svg.arc()
+            var arcBase = d3.arc()
                 .innerRadius(50)
                 .outerRadius(55)
                 .startAngle(-endAngle)
                 .endAngle(endAngle);
 
-            var arcKnowledgeState = d3.svg.arc()
+            var arcKnowledgeState = d3.arc()
                 .innerRadius(45)
                 .outerRadius(60)
                 .startAngle(endAngle)
                 .endAngle(endAngle + personalKnowledgeState);
 
-            var arcAvg = d3.svg.arc()
+            var arcAvg = d3.arc()
                 .innerRadius(42)
                 .outerRadius(62)
                 .startAngle(avgKnowledgeState * (this.pi / 180) - .5)

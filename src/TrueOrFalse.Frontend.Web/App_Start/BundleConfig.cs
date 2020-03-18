@@ -76,6 +76,9 @@ namespace TrueOrFalse.View
                 .IncludeDirectory("~/Views/Categories/Detail/Js/", "*.js")
                 .Include("~/Views/Categories/ResultTestSession/Js/GetResultTestSession.js"));
 
+            bundles.Add(new ScriptBundle("~/bundles/js/d3")
+                .Include("~/Scripts/npm/d3/d3.js"));
+
             bundles.Add(new ScriptBundle("~/bundles/js/CategorySort")
                 .Include("~/Scripts/npm/sortablejs/Sortable.js")
                 .Include("~/Scripts/npm/vue-sortable/vue-sortable.js"));
