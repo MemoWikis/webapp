@@ -1,7 +1,9 @@
 ﻿<%@ Control Language="C#" AutoEventWireup="true" Inherits="System.Web.Mvc.ViewUserControl<QuestionListModel>" %>
 <%@ Import Namespace="System.Web.Optimization" %>
 <%= Styles.Render("~/bundles/QuestionList") %>
-
+<script type="text/x-template" id="question-details-component">
+    <%: Html.Partial("~/Views/Questions/Answer/AnswerQuestionDetailsComponent.vue.ascx") %>
+</script>
 <%= Scripts.Render("~/bundles/js/QuestionListComponents") %>
 
 <div id="QuestionListApp" class="row">
@@ -88,6 +90,7 @@
                                 <div class="questionBodyBottom" v-show="showFullQuestion">
                                         <div :id="questionDetailsId" class="questionDetails" >
                                         </div>
+                                        <question-details-component/>
                                         <div class="row">
                                             <div class="questionFooterIcons col-xs-12 row pull-right">
                                                 <div class="footerIcon col-xs-6 pull-right ellipsis dropup" @click="showQuestionMenu = true">

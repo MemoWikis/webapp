@@ -112,13 +112,6 @@
                             </div>
                             <% } %>
                         </div>
-                    
-                <%--    <div class="row">
-                        <div class="col col-md-10"></div>
-                        <div class="col col-md-2">
-                            <button class="nextLearningTestSession btn btn-primary buttonRow" href="#">Weiterlernen</button>
-                        </div>
-                    </div>--%>
                     <% if (!Model.IsInWidget)
                        { %>
                     <div class="buttonRow">

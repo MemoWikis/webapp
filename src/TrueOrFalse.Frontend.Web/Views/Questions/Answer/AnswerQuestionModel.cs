@@ -370,7 +370,7 @@ public class AnswerQuestionModel : BaseModel
             result += Question.Description;
         }
 
-        return result.Truncate(300, addEllipsis: true).Trim();
+        return result.Truncate(300, addEllipsis: true).Trim().Replace("\"", "'");
     }
 
     private string GetMetaDescriptionsFacebook()

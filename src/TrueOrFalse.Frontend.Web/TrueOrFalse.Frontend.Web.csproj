@@ -21686,7 +21686,7 @@
       <DependentUpon>Tabbing.ts</DependentUpon>
     </Content>
     <Content Include="Views\Categories\Detail\Partials\BreadCrumbCategories.ascx" />
-    <Content Include="Views\Questions\Answer\AnswerQuiestionDetailsComponent.ascx" />
+    <Content Include="Views\Questions\Answer\AnswerQuestionDetailsComponent.vue.ascx" />
     <Content Include="Views\Questions\Answer\Js\InlineEditComponent.js">
       <DependentUpon>InlineEditComponent.ts</DependentUpon>
     </Content>
@@ -22303,6 +22303,7 @@
     <TypeScriptCompile Include="Scripts\YoutubeApi.ts" />
     <TypeScriptCompile Include="Scripts\NumbersCountUp.ts" />
     <TypeScriptCompile Include="Views\About\Js\Page.ts" />
+    <TypeScriptCompile Include="Views\Questions\Answer\Js\AnswerQuestionDetailsComponent.ts" />
     <TypeScriptCompile Include="Views\Questions\Answer\Js\InlineEditComponent.ts" />
     <TypeScriptCompile Include="Views\Questions\Js\QuestionList\QuestionListComponents.ts" />
     <TypeScriptCompile Include="Views\Questions\Js\QuestionList\QuestionListApp.ts" />
