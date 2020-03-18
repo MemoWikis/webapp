@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web.Script.Serialization;
 using Autofac;
+using Serilog;
 using Quartz;
+using Renci.SshNet;
 using RollbarSharp;
 
 namespace TrueOrFalse.Utilities.ScheduledJobs
@@ -39,9 +41,10 @@ namespace TrueOrFalse.Utilities.ScheduledJobs
 
         private static void AddCategoryToWishKnowledge(JobQueue job, ILifetimeScope scope)
         {
+            var categoryUserPair = new CategoryUserPair();
             try
             {
-                var categoryUserPair = GetCategoryUserPair(job);
+                categoryUserPair = GetCategoryUserPair(job);
                 CategoryInKnowledge.PinCategoryInDatabase(categoryUserPair.CategoryId, categoryUserPair.UserId);
 
                 scope.R<JobQueueRepo>().Delete(job.Id);
@@ -49,16 +52,17 @@ namespace TrueOrFalse.Utilities.ScheduledJobs
             }
             catch (Exception e)
             {
-                Logg.r().Error(e, "Error in job EditCategoryInWishKnowledge.");
+                Logg.r().Error(e, "Error in job EditCategoryInWishKnowledge. {Method} {CategoryId}", "AddCategoryToWishKnowledge" ,categoryUserPair.CategoryId);
                 new RollbarClient().SendException(e);
             }
         }
 
         private static void RemoveQuestionsInCategoryFromWishKnowledge(JobQueue job, ILifetimeScope scope)
         {
+            var categoryUserPair = new CategoryUserPair();
             try
-            {
-                var categoryUserPair = GetCategoryUserPair(job);
+            { 
+                categoryUserPair = GetCategoryUserPair(job);
                 CategoryInKnowledge.UnpinQuestionsInCategoryInDatabase(categoryUserPair.CategoryId, categoryUserPair.UserId);
 
                 scope.R<JobQueueRepo>().Delete(job.Id);
@@ -66,7 +70,8 @@ namespace TrueOrFalse.Utilities.ScheduledJobs
             }
             catch (Exception e)
             {
-                Logg.r().Error(e, "Error in job EditCategoryInWishKnowledge.");
+
+                Logg.r().Error(e, "Error in job RemoveQuestionsInCategoryFromWishKnowledge. {Method} {CategoryId}", "AddCategoryToWishKnowledge", categoryUserPair.CategoryId);
                 new RollbarClient().SendException(e);
             }
         }
