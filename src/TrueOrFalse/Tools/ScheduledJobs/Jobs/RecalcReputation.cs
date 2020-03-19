@@ -34,6 +34,10 @@ namespace TrueOrFalse.Utilities.ScheduledJobs
                                 new RollbarClient().SendException(e);
                             }
                         }
+                        else
+                        {
+                            successfullJobIds.AddRange(userJobs.Select(j => j.Id).ToList<int>());
+                        }
                     }
                 }
 
