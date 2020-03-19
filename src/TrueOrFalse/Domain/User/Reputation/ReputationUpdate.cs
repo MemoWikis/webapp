@@ -46,6 +46,7 @@ public class ReputationUpdate : IRegisterAsInstancePerLifetime
 
     public void Run(User userToUpdate)
     {
+        Logg.r().Error("Userid {userToUpdate.Id}");
         var oldReputation = userToUpdate.Reputation;
         var newReputation  = userToUpdate.Reputation = _reputationCalc.Run(userToUpdate).TotalReputation;
 
