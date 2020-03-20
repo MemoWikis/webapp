@@ -55,7 +55,7 @@ public class CategoryController : BaseController
 
         _sessionUiData.VisitedCategories.Add(new CategoryHistoryItem(category));
         result.Category = category;
-        result.CategoryModel = GetModelWithContentHtml(category);
+        result.CategoryModel = GetModelWithContentHtml(category, version);
 
         if (version != null)
             ApplyCategoryChangeToModel(result.CategoryModel, (int)version);
@@ -71,11 +71,11 @@ public class CategoryController : BaseController
         return View(_topicTab, LoadModel(id, version).CategoryModel);
     }
 
-    private CategoryModel GetModelWithContentHtml(Category category)
+    private CategoryModel GetModelWithContentHtml(Category category, int? version = null)
     {
         return new CategoryModel(category)
         {
-            CustomPageHtml = MarkdownToHtml.Run(category.TopicMarkdown, category, ControllerContext)
+            CustomPageHtml = MarkdownToHtml.Run(category.TopicMarkdown, category, ControllerContext, version)
         };
     }
     
