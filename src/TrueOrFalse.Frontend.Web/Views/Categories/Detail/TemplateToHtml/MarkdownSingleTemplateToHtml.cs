@@ -33,9 +33,9 @@ public class MarkdownSingleTemplateToHtml
         }
         catch (Exception e)
         {
-            if (version != null)
+            if (version == null)
             {
-                Logg.r().Error(e, $"Fehler beim Parsen der Kategorie Id={category.Id} ({e.Message}).");
+                Logg.r().Error(e, $"Fehler beim Parsen der Kategorie Id={category.Id}.");
                 return GetReplacementForNonparsableTemplate(stringToParse, e.Message);
             }
 
