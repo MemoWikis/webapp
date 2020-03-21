@@ -34,13 +34,10 @@ public class MarkdownSingleTemplateToHtml
         catch (Exception e)
         {
             if (version == null)
-            {
                 Logg.r().Error(e, $"Fehler beim Parsen der Kategorie Id={category.Id}.");
-                return GetReplacementForNonparsableTemplate(stringToParse, e.Message);
-            }
 
-            return ""; 
-        }
+            return GetReplacementForNonparsableTemplate(stringToParse, e.Message);
+        }   
     }
 
     private static string GetHtml(BaseContentModule contentModule, Category category, ControllerContext controllerContext)
