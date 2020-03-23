@@ -670,6 +670,28 @@ public class AnswerQuestionController : BaseController
         return ViewRenderer.RenderPartialView("~/Views/Questions/Answer/AnswerQuestionDetails.ascx", model, ControllerContext);
     }
 
+    public JsonResult GetQuestionDetails(int questionId)
+    {
+        var question = Sl.QuestionRepo.GetById(questionId);
+        var answerQuestionModel = new AnswerQuestionModel(question);
+
+        var correctnessProbability = answerQuestionModel.HistoryAndProbability.CorrectnessProbability;
+        var history = answerQuestionModel.HistoryAndProbability.AnswerHistory;
+
+        var json = Json(new
+        {
+            personalProbability = correctnessProbability.CPPersonal,
+            personalColor = correctnessProbability.CPPColor,
+            avgProbability = correctnessProbability.CPAll,
+            personalAnswerCount = history.TimesAnsweredUser,
+            personalAnsweredCorrectly = history.TimesAnsweredUserTrue,
+            avgAnswerCount = history.TimesAnsweredTotal,
+            avgAnsweredCorrectly = history.TimesAnsweredCorrect,
+        });
+
+        return json;
+    }
+
     private string GetQuestionPageData(
         AnswerQuestionModel model, 
         string currentUrl, 
