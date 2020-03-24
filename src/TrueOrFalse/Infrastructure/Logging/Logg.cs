@@ -13,7 +13,7 @@ public class Logg
     {
         _logger = new LoggerConfiguration()
                 .Enrich.WithProperty("Environment", Settings.Environment())
-                .Enrich.WithProperty("isCrawler", isCrawler)
+                .Enrich.WithProperty("IsCrawler", isCrawler)
                 .WriteTo.Seq("http://localhost:5341")
                 .CreateLogger();
 
