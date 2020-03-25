@@ -11,8 +11,11 @@
                     </div>
                 </div>
                 <div id="probabilityText">
-                    <div v-if="isLoggedIn"></div>
-                    <div v-else></div>
+                    <div v-if="isLoggedIn"><strong>{{personalProbability}}%</strong> beträgt die Wahrscheinlichkeit, dass du die Frage richtig beantwortest. Durchschnitt aller memucho-Nutzer: <strong>{{avgProbability}}%</strong>
+                    </div>
+                    <div v-else>
+                        <strong>{{personalProbability}}%</strong> beträgt die Wahrscheinlichkeit, dass du die Frage richtig beantwortest. Melde dich an, damit wir deine individuelle Wahrscheinlichkeit berechnen können.
+                    </div>
                 </div>
                 <div id="probabilityState" :class=""></div>
             </div>
@@ -20,7 +23,7 @@
         </div>
     
         <div id="categoryList" v-if="showCategoryList"></div>
-        <button @click="updateArc()">updateArc</button>
+        <button @click="calculateLabelWidth()">calc Pos</button>
     </div>
 
 </div>

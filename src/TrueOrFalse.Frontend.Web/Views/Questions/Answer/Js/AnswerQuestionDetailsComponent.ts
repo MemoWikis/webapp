@@ -41,12 +41,15 @@ Vue.component('question-details-component', {
             arc: d3.arc(),
             testData: "",
             arcLoaded: false,
+            percentageLabelWidth: 0,
         };
     },
 
     watch: {
         personalProbability: function () {
             this.setPersonalArcData();
+            if (this.arcLoaded)
+                this.updateArc();
         },
 
         avgProbability: function () {
@@ -162,18 +165,107 @@ Vue.component('question-details-component', {
             self.svg.selectAll("path").data(data).enter()
                 .append("path")
                 .style("fill", function (d) { return d.fill })
-                .attr("class", function (d) { return d.class})
+                .attr("class", function (d) { return d.class })
                 .attr("d", arc);
+
+            this.drawProbabilityLabel();
 
             this.arcLoaded = true;
         },
 
+        drawProbabilityLabel() {
+            var self = this;
+            var labelWidth = this.calculateLabelWidth();
+
+            self.svg.append("svg:text")
+                .attr("dy", ".1em")
+                .attr("dx", -(labelWidth / 2) + "px")
+                .attr("text-anchor", "left")
+                .attr("style", "font-family:Lato")
+                .attr("font-size", "30")
+                .attr("font-weight", "bold")
+                .attr("fill", self.personalColor)
+                .attr("class", "personalProbabilityLabel")
+                .text(self.personalProbability);
+
+            self.svg.append("svg:text")
+                .attr("dy", "-.35em")
+                .attr("dx", (labelWidth / 2) - self.percentageLabelWidth - 1 + "px")
+                .attr("style", "font-family:Lato")
+                .attr("text-anchor", "left")
+                .attr("font-size", "18")
+                .attr("font-weight", "medium")
+                .attr("class", "percentageLabel")
+                .attr("fill", self.personalColor)
+                .text("%");
+        },
+
+        calculateLabelWidth() {
+            var self = this;
+
+            var probabilityLabelWidth = 0;
+
+            var probabilityAsText = [self.personalProbability];
+
+            self.svg.append('g')
+                .selectAll('.dummyProbability')
+                .data(probabilityAsText)
+                .enter()
+                .append("text")
+                .attr("font-family", "font-family:Lato")
+                .attr("font-weight", "bold")
+                .attr("font-size", "30px")
+                .text(function (d) { return d })
+                .each(function () {
+                    var thisWidth = this.getComputedTextLength();
+                    probabilityLabelWidth = thisWidth;
+                    this.remove();
+                });
+
+            self.svg.append('g')
+                .selectAll('.dummyPercentage')
+                .data("%")
+                .enter()
+                .append("text")
+                .attr("font-family", "font-family:Lato")
+                .attr("font-weight", "medium")
+                .attr("font-size", "18px")
+                .text(function (d) { return d })
+                .each(function () {
+                    var thisWidth = this.getComputedTextLength();
+                    self.percentageLabelWidth = thisWidth;
+                    this.remove();
+                });
+
+            return probabilityLabelWidth + self.percentageLabelWidth + 1;
+        },
+
         updateArc() {
             var self = this;
+            var labelWidth = this.calculateLabelWidth();
+
+            self.svg.selectAll(".personalProbabilityLabel")
+                .transition()
+                .duration(600)
+                .attr("dx", -(labelWidth / 2) + "px")
+                .style("fill", self.personalColor)
+                .tween("text", function () {
+                    var selection = d3.select(this);
+                    var start = d3.select(this).text();
+                    var end = self.personalProbability;
+                    var interpolator = d3.interpolateNumber(start, end);
+
+                    return function (t) { selection.text(Math.round(interpolator(t))); };
+                });
+
+            self.svg.selectAll(".percentageLabel").transition()
+                .duration(600)
+                .attr("dx", (labelWidth / 2) - self.percentageLabelWidth + "px")
+                .style("fill", self.personalColor);
 
             self.svg.selectAll(".personalArc").transition()
                 .duration(1000)
-                .style("fill", function () { return self.personalColor })
+                .style("fill", self.personalColor )
                 .attrTween("d", function (d) { return self.arcTween(d, self.personalArcData.startAngle, self.personalArcData.endAngle, self.personalArcData.innerRadius, self.personalArcData.outerRadius) });
 
             self.svg.selectAll(".avgArc").transition()
