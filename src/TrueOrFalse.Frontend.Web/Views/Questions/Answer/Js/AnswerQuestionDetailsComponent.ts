@@ -10,9 +10,9 @@ Vue.component('question-details-component', {
 
     data() {
         return {
-            personalProbability: 67,
+            personalProbability: 0,
             personalColor: "",
-            avgProbability: 90,
+            avgProbability: 0,
             personalAnswerCount: 0,
             personalAnsweredCorrectly: 0,
             avgAnswerCount: 0,
@@ -42,6 +42,11 @@ Vue.component('question-details-component', {
             testData: "",
             arcLoaded: false,
             percentageLabelWidth: 0,
+            avgAngle: 0,
+            dxAvgLabel: 0,
+            dyAvgLabel: 0,
+            avgLabelAnchor: "middle",
+            avgProbabilityLabelWidth: 0,
         };
     },
 
@@ -52,8 +57,11 @@ Vue.component('question-details-component', {
                 this.updateArc();
         },
 
-        avgProbability: function () {
+        avgProbability: async function () {
             this.setAvgArcData();
+            if (this.arcLoaded) {
+                await this.updateArc();
+            }
         },
 
         isOpen: function(val) {
@@ -117,6 +125,37 @@ Vue.component('question-details-component', {
             return true;
         },
 
+        setAvgLabelPos() {
+            var self = this;
+            self.avgAngle = (-0.55 + this.avgProbability / 100 * 1.1) * Math.PI;
+
+            var probabilityData = [self.avgProbability];
+
+            self.svg.append('g')
+                .selectAll('.dummyAvgProbability')
+                .data(probabilityData)
+                .enter()
+                .append("text")
+                .attr("font-family", "font-family:Lato")
+                .attr("font-weight", "regular")
+                .attr("font-size", "12")
+                .text(function (d) { return "∅ " + d + "%" })
+                .each(function () {
+                    var thisWidth = this.getComputedTextLength();
+                    self.avgProbabilityLabelWidth = thisWidth;
+                    this.remove();
+                });
+
+            self.dxAvgLabel = (self.avgProbabilityLabelWidth) * ((-50 + self.avgProbability) / 100) * 0.75;
+            var el = (self.avgProbability - 50) / 10;
+            self.dyAvgLabel = (((0.20 * Math.pow(el, 2) - 5) * 1.2) + 3) * 2.5;
+
+            if (self.avgProbability > 50)
+                self.avgLabelAnchor = "start";
+            else if (self.avgProbability < 50)
+                self.avgLabelAnchor = "end";
+        },
+
         getStats() {
             $.ajax({
                 url: "/AnswerQuestion/GetQuestionDetails/",
@@ -143,7 +182,7 @@ Vue.component('question-details-component', {
 
         drawArc() {
 
-            var width = 200;
+            var width = 400;
             var height = 200;
             var self = this;
 
@@ -169,8 +208,35 @@ Vue.component('question-details-component', {
                 .attr("d", arc);
 
             this.drawProbabilityLabel();
+            this.setAvgLabel();
 
             this.arcLoaded = true;
+        },
+
+        setAvgLabel() {
+            var self = this;
+
+            this.setAvgLabelPos();
+
+            var pos = d3.arc()
+                .innerRadius(55)
+                .outerRadius(55)
+                .startAngle(self.avgAngle)
+                .endAngle(self.avgAngle);
+
+            self.svg.append("svg:text")
+                .attr("transform", function (d) {
+                    return "translate(" + pos.centroid(d) + ")";
+                })
+                .attr("dx", self.dxAvgLabel)
+                .attr("dy", self.dyAvgLabel)
+                .attr("text-anchor", self.avgLabelAnchor)
+                .attr("style", "font-family:Lato")
+                .attr("font-size", "12")
+                .attr("font-weight", "regular")
+                .attr("fill", "#555555")
+                .attr("class", "avgProbabilityLabel")
+                .text("∅ "+ self.avgProbability + "%");
         },
 
         drawProbabilityLabel() {
@@ -256,6 +322,19 @@ Vue.component('question-details-component', {
                     var interpolator = d3.interpolateNumber(start, end);
 
                     return function (t) { selection.text(Math.round(interpolator(t))); };
+                });
+
+            self.svg.selectAll(".avgProbabilityLabel")
+                .transition()
+                .duration(600)
+                .tween("text", function () {
+                    var selection = d3.select(this);
+                    var text = d3.select(this).text();
+                    var numbers = text.match(/(\d+)/);
+                    var end = self.avgProbability;
+                    var interpolator = d3.interpolateNumber(numbers[0], end);
+
+                    return function (t) { selection.text("∅ " + Math.round(interpolator(t)) + "%"); };
                 });
 
             self.svg.selectAll(".percentageLabel").transition()
