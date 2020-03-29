@@ -17,6 +17,7 @@ public class CategoryChangeMap : ClassMap<CategoryChange>
         References(x => x.Author);
 
         Map(x => x.DateCreated);
+        Map(x => x.Category_Id);
     }
 }
 

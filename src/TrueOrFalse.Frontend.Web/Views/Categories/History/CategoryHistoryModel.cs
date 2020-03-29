@@ -37,24 +37,29 @@ public class CategoryChangeDayModel
     public CategoryChangeDayModel(DateTime date, IList<CategoryChange> changes)
     {
         Date = date.ToString("dd.MM.yyyy");
-        Items = changes.Select(cc => new CategoryChangeDetailModel
+
+        Items = changes.Select(cc =>
         {
-            Author = cc.Author,
-            AuthorName = cc.Author.Name,
-            AuthorImageUrl = new UserImageSettings(cc.Author.Id).GetUrl_85px_square(cc.Author).Url,
-            ElapsedTime = TimeElapsedAsText.Run(cc.DateCreated),
-            DateTime = cc.DateCreated.ToString("dd.MM.yyyy HH:mm"),
-            Time = cc.DateCreated.ToString("HH:mm"),
-            CategoryChangeId = cc.Id,
-            CategoryId = cc.Category.Id,
-            CategoryName = cc.Category.Name
+            var categoryDelete = cc.Type == CategoryChangeType.Delete;
+            return new CategoryChangeDetailModel
+            {
+                Author = categoryDelete ? new User() : cc.Author,
+                AuthorName = categoryDelete ? "gelöscht" : cc.Author.Name,
+                AuthorImageUrl = categoryDelete ? "" : new UserImageSettings(cc.Author.Id).GetUrl_85px_square(cc.Author).Url,
+                ElapsedTime = TimeElapsedAsText.Run(cc.DateCreated),
+                DateTime = cc.DateCreated.ToString("dd.MM.yyyy HH:mm"),
+                Time = cc.DateCreated.ToString("HH:mm"),
+                CategoryChangeId = categoryDelete ? cc.Category_Id : cc.Id,
+                CategoryId = categoryDelete ? cc.Category_Id : cc.Category.Id,
+                CategoryName = categoryDelete ? "gelöscht" : cc.Category.Name 
+            };
         }).ToList();
     }
 }
 
 public class CategoryChangeDetailModel
 {
-    public User Author;
+    public User Author ;
     public string AuthorName;
     public string AuthorImageUrl;
     public string ElapsedTime;

@@ -18,6 +18,8 @@ public class CategoryChange : Entity, WithDateCreated
 
     public virtual DateTime DateCreated { get; set; }
 
+    public virtual int Category_Id { get; set; }
+
     public virtual void SetData(Category category, bool imageWasUpdated)
     {
         switch (DataVersion)
