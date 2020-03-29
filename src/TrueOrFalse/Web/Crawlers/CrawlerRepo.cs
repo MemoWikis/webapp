@@ -14,7 +14,7 @@ public class CrawlerRepo
         if (_crawlers != null)
             return _crawlers;
 
-        lock ("{A95EC747-38AB-45BA-9212-E52B9F47193C")
+        lock ("A95EC747-38AB-45BA-9212-E52B9F47193C")
             InitCrawlers();
 
         return _crawlers;
@@ -22,7 +22,12 @@ public class CrawlerRepo
 
     private static void InitCrawlers()
     {
-        _crawlers = JsonConvert.DeserializeObject<IList<Crawler>>(File.ReadAllText(PathTo.Crawlers()));
-        _crawlers.ForEach(crawler => crawler.Pattern = crawler.Pattern.ToLower());
+        var crawlers = JsonConvert.DeserializeObject<IList<Crawler>>(File.ReadAllText(PathTo.Crawlers()));
+        
+        if (crawlers != null) 
+            foreach (var crawler in crawlers) 
+                crawler.Pattern = crawler.Pattern.ToLower();
+
+        _crawlers = crawlers;
     }
 }
