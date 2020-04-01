@@ -759,7 +759,6 @@ public class AnswerQuestionController : BaseController
                 testSessionId = testSessionId
             } : null,
             url = currentUrl,
-            questionDetailsAsHtml = ViewRenderer.RenderPartialView("~/Views/Questions/Answer/AnswerQuestionDetails.ascx", model, ControllerContext),
             commentsAsHtml = ViewRenderer.RenderPartialView("~/Views/Questions/Answer/Comments/CommentsSection.ascx", model, ControllerContext),
             offlineDevelopment = Settings.DevelopOffline(),
             menuHtml,

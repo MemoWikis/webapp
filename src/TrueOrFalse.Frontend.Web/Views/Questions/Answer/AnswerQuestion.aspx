@@ -22,7 +22,7 @@
 </asp:Content>
 
 <asp:Content ID="head" ContentPlaceHolderID="Head" runat="server">
-    
+
     <%= Styles.Render("~/bundles/AnswerQuestion") %>
     <%= Scripts.Render("~/bundles/js/AnswerQuestion") %>
     <%= Scripts.Render("~/bundles/js/DeleteQuestion") %>
@@ -116,7 +116,8 @@
         data-is-last-step="<%= Model.TestSessionIsLastStep %>"/>
     <input type="hidden" id="hddQuestionId" value="<%= Model.QuestionId %>"/>
 
-    <% if (Model.IsLearningSession) { %>
+
+<% if (Model.IsLearningSession) { %>
            <% Html.RenderPartial("~/Views/Questions/Answer/LearningSession/LearningSessionHeader.ascx", Model); %>
     <% }else if (Model.IsTestSession) { %>
            <% Html.RenderPartial("~/Views/Questions/Answer/TestSession/TestSessionHeader.ascx", Model); %>
@@ -130,12 +131,6 @@
         <div class="col-xs-9">
             
         <% Html.RenderPartial("~/Views/Questions/Answer/AnswerBodyControl/AnswerBody.ascx", new AnswerBodyModel(Model)); %>
-
-        <% Html.RenderPartial("~/Views/Questions/Answer/AnswerQuestionDetails.ascx", Model); %>
-            
-            <div id="QuestionDetailsApp">
-                <question-details-component :question-id="questionId" :is-open="showFullQuestion"/>
-            </div>
 
         </div>
         <div class="col-xs-3">

@@ -314,16 +314,8 @@ class AnswerQuestion {
     }
 
     private updateQuestionDetails() {
-        $.ajax({
-            url: '/AnswerQuestion/RenderUpdatedQuestionDetails',
-            type: 'Post',
-            data: { questionId: AnswerQuestion.GetQuestionId()},
-            success(result) {
-                $('#QuestionDetails').replaceWith(result);
-                FillSparklineTotals();
-                $('.show-tooltip').tooltip();
-            },
-        });
+        var questionId = AnswerQuestion.GetQuestionId();
+        eventBus.$emit('set-question-id', questionId);
     }
 
     private RegisterWrongAnswer() {

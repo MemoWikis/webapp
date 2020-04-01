@@ -1,5 +1,4 @@
-﻿<%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
-
+﻿
 <div>
     <div class="separationBorderTop" style="min-height: 20px;"></div>
 
@@ -52,6 +51,4 @@
     </div>
     
     <div class="separationBorderTop" style="min-height: 20px;"></div>
-
-
 </div>

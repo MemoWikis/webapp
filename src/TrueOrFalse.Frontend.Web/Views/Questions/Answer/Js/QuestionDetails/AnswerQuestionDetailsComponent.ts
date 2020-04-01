@@ -1,14 +1,13 @@
 ﻿declare var d3: any;
+declare var Vue: any;
 
 Vue.component('question-details-component', {
 
-    props: {
-        questionId: Number,
-    },
     template: '#question-details-component',
 
     data() {
         return {
+            questionId: 0,
             personalProbability: 0,
             personalProbabilityText: "Nicht im Wunschwissen",
             personalColor: "#DDDDDD",
@@ -72,10 +71,18 @@ Vue.component('question-details-component', {
     },
 
     created() {
+        eventBus.$on('set-question-id', (id) => this.questionId = id);
         eventBus.$on('update-question-details', () => this.loadData());
     },
 
     watch: {
+        questionId: function(id) {
+            if (id > 0) {
+                this.loadCategoryList();
+                this.loadData();
+            }
+        },
+
         personalProbability: function (val) {
             this.setPersonalArcData();
             if (this.arcLoaded)
@@ -114,20 +121,12 @@ Vue.component('question-details-component', {
                 await this.updateArc();
             }
         },
-
-        isOpen: function(val) {
-            if (val) {
-                this.loadData();
-            }
-
-        },
     },
 
     computed: {
     },
 
     mounted: function () {
-        this.loadCategoryList();
     },
 
     methods: {
