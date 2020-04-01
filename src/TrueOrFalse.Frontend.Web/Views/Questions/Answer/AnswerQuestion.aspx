@@ -132,6 +132,10 @@
         <% Html.RenderPartial("~/Views/Questions/Answer/AnswerBodyControl/AnswerBody.ascx", new AnswerBodyModel(Model)); %>
 
         <% Html.RenderPartial("~/Views/Questions/Answer/AnswerQuestionDetails.ascx", Model); %>
+            
+            <div id="QuestionDetailsApp">
+                <question-details-component :question-id="questionId" :is-open="showFullQuestion"/>
+            </div>
 
         </div>
         <div class="col-xs-3">

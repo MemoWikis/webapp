@@ -94,7 +94,6 @@
                                 <div class="questionBodyBottom" v-show="showFullQuestion">
                                         <div :id="questionDetailsId" class="questionDetails" >
                                         </div>
-                                        <question-details-component :question-id="questionId" :is-open="showFullQuestion"/>
                                         <div class="row">
                                             <div class="questionFooterIcons col-xs-12 row pull-right">
                                                 <div class="footerIcon col-xs-6 pull-right ellipsis dropup" @click="showQuestionMenu = true">

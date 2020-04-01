@@ -4,7 +4,6 @@ Vue.component('question-details-component', {
 
     props: {
         questionId: Number,
-        isOpen: Boolean,
     },
     template: '#question-details-component',
 
@@ -21,7 +20,6 @@ Vue.component('question-details-component', {
             isLoggedIn: IsLoggedIn.Yes,
             isInWishknowledge: false,
             showTopBorder: false,
-            showCategoryList: false,
             arcSvg: {},
             personalCounterSvg: {},
             overallCounterSvg: {},
@@ -73,6 +71,10 @@ Vue.component('question-details-component', {
         };
     },
 
+    created() {
+        eventBus.$on('update-question-details', () => this.loadData());
+    },
+
     watch: {
         personalProbability: function (val) {
             this.setPersonalArcData();
@@ -115,7 +117,7 @@ Vue.component('question-details-component', {
 
         isOpen: function(val) {
             if (val) {
-                this.getStats();
+                this.loadData();
             }
 
         },
@@ -141,7 +143,7 @@ Vue.component('question-details-component', {
             });
         },
 
-        getStats() {
+        loadData() {
             $.ajax({
                 url: "/AnswerQuestion/GetQuestionDetails/",
                 data: { questionId: this.questionId },
@@ -224,7 +226,7 @@ Vue.component('question-details-component', {
         drawArc() {
 
             var width = 200;
-            var height = 140;
+            var height = 130;
             var self = this;
 
             var semiPieRef = self.$refs.semiPie;
@@ -232,7 +234,7 @@ Vue.component('question-details-component', {
             self.arcSvg = d3.select(semiPieRef).append("svg")
                 .attr("width", width)
                 .attr("height", height)
-                .append("g").attr("transform", "translate(" + width / 2 + "," + height / 1.5 + ")");
+                .append("g").attr("transform", "translate(" + width / 2 + "," + (height - 50) + ")");
 
             var arc = d3.arc();
 
@@ -371,9 +373,6 @@ Vue.component('question-details-component', {
             var textWidth = 0;
             self.arcSvg
                 .append("svg:text")
-                .style("visibility", function () {
-                    return self.showPersonalArc ? "visible" : "hidden";
-                })
                 .attr("dy", "33.5")
                 .attr("style", "font-family:Open Sans")
                 .attr("text-anchor", "middle")
@@ -390,11 +389,14 @@ Vue.component('question-details-component', {
             self.arcSvg.selectAll(".personalProbabilityChip")
                 .attr("x", - textWidth / 2 - 11)
                 .attr("width", textWidth + 22);
+
+            self.arcSvg.selectAll(".personalProbabilityChip,.personalProbabilityText")
+                .style("visibility", () => (self.isLoggedIn && self.overallAnswerCount > 0) ? "visible" : "hidden");
+
         },
 
         calculateLabelWidth() {
             var self = this;
-
             var probabilityLabelWidth = 0;
 
             var probabilityAsText = [self.personalProbability];
@@ -504,8 +506,17 @@ Vue.component('question-details-component', {
                 .attr("d", arc);
 
             self.personalCounterSvg.selectAll(".personalWrongAnswerCounter,.personalCorrectAnswerCounter")
-                .style("visibility", function () {
-                    return self.personalAnswerCount > 0 ? "visible" : "hidden";
+                .style("visibility", () => self.personalAnswerCount > 0 ? "visible" : "hidden");
+
+            self.personalCounterSvg
+                .append('svg:foreignObject')
+                .attr('height', '16px')
+                .attr('width', '14px')
+                .attr('x', -7)
+                .attr('y', -8)
+                .html(function () {
+                    var fontColor = self.personalAnswerCount > 0 ? "#999999" : "#DDDDDD";
+                    return "<i class='fas fa-user' style='font-size:16px; color:" + fontColor + "'> </i>";
                 });
 
             var overallCounterData = [
@@ -530,8 +541,17 @@ Vue.component('question-details-component', {
                 .attr("d", arc);
 
             self.overallCounterSvg.selectAll(".overallCounter")
-                .style("visibility", function () {
-                    return self.overallAnswerCount > 0 ? "visible" : "hidden";
+                .style("visibility", () => self.overallAnswerCount > 0 ? "visible" : "hidden");
+
+            self.overallCounterSvg
+                .append('svg:foreignObject')
+                .attr('height', '16px')
+                .attr('width', '20px')
+                .attr('x', -10)
+                .attr('y', -8)
+                .html(function () {
+                    var fontColor = self.overallAnswerCount > 0 ? "#999999" : "#DDDDDD";
+                    return "<i class='fas fa-users' style='font-size:16px; color:" + fontColor + "'> </i>";
                 });
         },
 
@@ -621,6 +641,10 @@ Vue.component('question-details-component', {
                         self.avgArcData.outerRadius);
                 });
 
+            self.arcSvg.selectAll(".personalProbabilityChip,.personalProbabilityText")
+                .style("visibility", () => (self.isLoggedIn && self.overallAnswerCount > 0) ? "visible" : "hidden");
+
+
             self.personalCounterSvg.selectAll(".personalWrongAnswerCounter,.personalCorrectAnswerCounter")
                 .style("visibility", function () {
                     return self.personalAnswerCount > 0 ? "visible" : "hidden";
@@ -677,6 +701,15 @@ Vue.component('question-details-component', {
                         25);
                 });
 
+            self.personalCounterSvg.selectAll("text")
+                .transition()
+                .duration(800)
+                .style("fill", () => self.personalAnswerCount > 0 ? "#999999" : "#DDDDDD");
+
+            self.overallCounterSvg.selectAll("text")
+                .transition()
+                .duration(800)
+                .style("fill", () => self.overallAnswerCount > 0 ? "#999999" : "#DDDDDD");
         },
 
         arcTween(d, newStartAngle, newEndAngle, newInnerRadius, newOuterRadius) {
