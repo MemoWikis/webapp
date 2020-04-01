@@ -685,11 +685,19 @@ public class AnswerQuestionController : BaseController
             avgProbability = correctnessProbability.CPAll,
             personalAnswerCount = history.TimesAnsweredUser,
             personalAnsweredCorrectly = history.TimesAnsweredUserTrue,
-            avgAnswerCount = history.TimesAnsweredTotal,
-            avgAnsweredCorrectly = history.TimesAnsweredCorrect,
+            overallAnswerCount = history.TimesAnsweredTotal,
+            overallAnsweredCorrectly = history.TimesAnsweredCorrect,
+            isInWishknowledge = answerQuestionModel.IsInWishknowledge,
         });
 
         return json;
+    }
+
+    public string RenderCategoryList(int questionId)
+    {
+        var question = Sl.QuestionRepo.GetById(questionId);
+
+        return ViewRenderer.RenderPartialView("~/Views/Shared/CategoriesOfQuestion.ascx", question, ControllerContext);
     }
 
     private string GetQuestionPageData(
