@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using Newtonsoft.Json;
 using TrueOrFalse;
 using TrueOrFalse.Frontend.Web.Code;
 
@@ -41,17 +42,21 @@ public class CategoryChangeDayModel
         Items = changes.Select(cc =>
         {
             var categoryDelete = cc.Type == CategoryChangeType.Delete;
+            var data = JsonConvert.DeserializeObject<Data>(cc.Data); 
+
             return new CategoryChangeDetailModel
             {
-                Author = categoryDelete ? new User() : cc.Author,
-                AuthorName = categoryDelete ? "gelöscht" : cc.Author.Name,
-                AuthorImageUrl = categoryDelete ? "" : new UserImageSettings(cc.Author.Id).GetUrl_85px_square(cc.Author).Url,
+                Author = cc.Author,
+                AuthorName = cc.Author.Name,
+                AuthorImageUrl = new UserImageSettings(cc.Author.Id).GetUrl_85px_square(cc.Author).Url,
                 ElapsedTime = TimeElapsedAsText.Run(cc.DateCreated),
                 DateTime = cc.DateCreated.ToString("dd.MM.yyyy HH:mm"),
                 Time = cc.DateCreated.ToString("HH:mm"),
-                CategoryChangeId = categoryDelete ? cc.Category_Id : cc.Id,
-                CategoryId = categoryDelete ? cc.Category_Id : cc.Category.Id,
-                CategoryName = categoryDelete ? "gelöscht" : cc.Category.Name 
+                CategoryChangeId = cc.Id,
+                CategoryId = cc.Category_Id,
+                CategoryName = categoryDelete ? data.Name : cc.Category.Name,
+               
+
             };
         }).ToList();
     }
@@ -68,4 +73,10 @@ public class CategoryChangeDetailModel
     public int CategoryChangeId;
     public int CategoryId;
     public string CategoryName;
+}
+
+public class Data
+{
+    public string Name;
+    public string Description; 
 }

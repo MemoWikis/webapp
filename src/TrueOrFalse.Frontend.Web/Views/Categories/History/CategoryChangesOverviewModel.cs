@@ -18,6 +18,18 @@ public class CategoryChangesOverviewModel : BaseModel
 
             ";
         var revisions = Sl.R<ISession>().CreateSQLQuery(query).AddEntity(typeof(CategoryChange)).List<CategoryChange>();
+
+        var i = 0; 
+        foreach (var revison in revisions)
+        {
+            if (revison.Data == null)
+            {
+                var data = Sl.CategoryChangeRepo.GetForCategory(revison.Category_Id);
+                revisions[i].Data = data[data.Count - 2].Data;
+            }
+
+            i++;
+        }
         
         Days = revisions
             .GroupBy(change => change.DateCreated.Date)
