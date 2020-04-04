@@ -13,10 +13,16 @@ public class CategoryHistoryModel : BaseModel
     public string CategoryUrl;
     public IList<CategoryChangeDayModel> Days;
 
-    public CategoryHistoryModel(Category category, IList<CategoryChange> categoryChanges)
+    public CategoryHistoryModel(Category category, IList<CategoryChange> categoryChanges, int categoryId )
     {
-        CategoryName = category.Name;
-        CategoryId = category.Id;
+        Data data = new Data(); ;
+        if (category == null)
+        {
+            data = JsonConvert.DeserializeObject<Data>(categoryChanges[categoryChanges.Count - 2].Data);
+        }
+
+        CategoryName = category == null ?  data.Name :  category.Name;
+        CategoryId = categoryId;
         CategoryUrl = Links.CategoryDetail(CategoryName, CategoryId);
 
         Days = categoryChanges
@@ -38,12 +44,12 @@ public class CategoryChangeDayModel
     public CategoryChangeDayModel(DateTime date, IList<CategoryChange> changes)
     {
         Date = date.ToString("dd.MM.yyyy");
-
         Items = changes.Select(cc =>
         {
             var categoryDelete = cc.Type == CategoryChangeType.Delete;
             var data = JsonConvert.DeserializeObject<Data>(cc.Data);
             var typ = "";
+            var cat = changes[0].Category;
 
             switch (cc.Type)
             {
@@ -71,7 +77,7 @@ public class CategoryChangeDayModel
                 Time = cc.DateCreated.ToString("HH:mm"),
                 CategoryChangeId = cc.Id,
                 CategoryId = cc.Category_Id,
-                CategoryName = categoryDelete ? data.Name : cc.Category.Name,
+                CategoryName = data.Name,
                 Typ = typ
             };
         }).ToList();

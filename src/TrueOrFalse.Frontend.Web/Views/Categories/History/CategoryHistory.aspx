@@ -13,7 +13,7 @@
 
 <asp:Content ID="Content3" ContentPlaceHolderID="MainContent" runat="server">
     
-    <div class="row">
+    <div class="row" id="HeaderCategoryHistory">
         <div class="col-12">
             <h1><i class="fa fa-list-ul"></i>&nbsp; Bearbeitungshistorie '<%= Model.CategoryName %>'</h1>
         </div>

@@ -56,9 +56,6 @@
                     <div class="btn btn-sm is-deleted">
                         <i class="fa fa-code-fork"></i>&nbsp; Änderungen anzeigen
                     </div>
-                    <a class="btn btn-primary editing-history" href="<%= Links.CategoryHistory(item.CategoryId) %>">
-                        <i class="fa fa-list-ul"></i> &nbsp; Bearbeitungshistorie
-                    </a>
             <% }
                 else
                 { %>
@@ -69,10 +66,10 @@
                     <a class="btn btn-sm btn-default btn-primary" href="<%= Links.CategoryHistoryDetail(item.CategoryId, item.CategoryChangeId) %>">
                         <i class="fa fa-code-fork"></i>&nbsp; Änderungen anzeigen
                     </a>
-                    <a class="btn btn-default editing-history btn-primary" href="<%= Links.CategoryHistory(item.CategoryId) %>">
-                        <i class="fa fa-list-ul"></i> &nbsp; Bearbeitungshistorie
-                    </a>
             <% } %>
+            <a class="btn btn-default editing-history btn-primary" href="<%= Links.CategoryHistory(item.CategoryId) %>">
+                <i class="fa fa-list-ul"></i> &nbsp; Bearbeitungshistorie
+            </a>
         </div>
     </div>
 
