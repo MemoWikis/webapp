@@ -1,6 +1,18 @@
-.change-detail-model {
+﻿.change-detail-model {
   border: 1px solid silver;
   margin-top: 20px;
   margin-left: 0px;
   padding: 10px;
+}
+@media screen and (max-width: 600px) {
+  .change-detail-model .col-xs-4 {
+    width: 100%;
+    margin-bottom: 10px;
+  }
+}
+.change-detail-model .is-deleted {
+  background-color: #ccc;
+}
+.change-detail-model .btn {
+  margin-left: 0;
 }

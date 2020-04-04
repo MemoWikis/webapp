@@ -346,5 +346,9 @@
   {
     "outputFile": "Views/Questions/QuestionList/QuestionList.css",
     "inputFile": "Views/Questions/QuestionList/QuestionList.less"
+  },
+  {
+    "outputFile": "Views/Categories/History/CategoryHistory.css",
+    "inputFile": "Views/Categories/History/CategoryHistory.less"
   }
 ]

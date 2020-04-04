@@ -42,7 +42,24 @@ public class CategoryChangeDayModel
         Items = changes.Select(cc =>
         {
             var categoryDelete = cc.Type == CategoryChangeType.Delete;
-            var data = JsonConvert.DeserializeObject<Data>(cc.Data); 
+            var data = JsonConvert.DeserializeObject<Data>(cc.Data);
+            var typ = "";
+
+            switch (cc.Type)
+            {
+                case CategoryChangeType.Create: 
+                    typ = "Erstellt";
+                    break;
+                case CategoryChangeType.Update: 
+                    typ = "Update";
+                    break;
+                case CategoryChangeType.Delete: 
+                    typ = "Gelöscht";
+                    break;
+                default: 
+                    Logg.r().Error("CategoryHistoryModel CategoryChangeType is invalid");
+                    break;
+            }
 
             return new CategoryChangeDetailModel
             {
@@ -55,8 +72,7 @@ public class CategoryChangeDayModel
                 CategoryChangeId = cc.Id,
                 CategoryId = cc.Category_Id,
                 CategoryName = categoryDelete ? data.Name : cc.Category.Name,
-               
-
+                Typ = typ
             };
         }).ToList();
     }
@@ -73,6 +89,7 @@ public class CategoryChangeDetailModel
     public int CategoryChangeId;
     public int CategoryId;
     public string CategoryName;
+    public string Typ; 
 }
 
 public class Data
