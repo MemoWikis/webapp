@@ -5,8 +5,9 @@ using System.Linq;
 using System.Security.Policy;
 using System.Web.Mvc;
 using System.Web.UI;
+using Newtonsoft.Json;
 using TrueOrFalse.Frontend.Web.Code;
-using TrueOrFalse.Web;
+
 
 [SetUserMenu(UserMenuEntry.None)]
 public class CategoryController : BaseController
@@ -52,14 +53,26 @@ public class CategoryController : BaseController
     {
         var result = new LoadModelResult();
         var category = bySetId ? Resolve<CategoryRepository>().GetBySetId(id) : Resolve<CategoryRepository>().GetById(id);
+        var isCategoryNull = category == null;
+        var categoryChangeData = new TrueOrFalse.Data();
+        
 
-        _sessionUiData.VisitedCategories.Add(new CategoryHistoryItem(category));
+        if (isCategoryNull)
+        {
+            var categoryChange = Sl.CategoryChangeRepo.GetForCategory(id);
+
+            categoryChangeData = JsonConvert.DeserializeObject<TrueOrFalse.Data> (categoryChange[categoryChange.Count - 2].Data);
+            categoryChangeData.IsCategoryNull = true;
+            category = new Category();
+            category.Id = categoryChangeData.Id;
+            category.Name = categoryChangeData.Name;
+        }
+
+        _sessionUiData.VisitedCategories.Add(new CategoryHistoryItem(category, HistoryItemType.Any, categoryChangeData));
         result.Category = category;
-        result.CategoryModel = GetModelWithContentHtml(category, version);
+        result.CategoryModel = GetModelWithContentHtml(category, version, categoryChangeData.IsCategoryNull);
 
-        if (version != null)
-            ApplyCategoryChangeToModel(result.CategoryModel, (int)version);
-        else
+        if (version == null)
             SaveCategoryView.Run(result.Category, User_());
 
         return result;
@@ -71,27 +84,14 @@ public class CategoryController : BaseController
         return View(_topicTab, LoadModel(id, version).CategoryModel);
     }
 
-    private CategoryModel GetModelWithContentHtml(Category category, int? version = null)
+    private CategoryModel GetModelWithContentHtml(Category category, int? version = null, bool isCategoryNull = false)
     {
-        return new CategoryModel(category)
+        return new CategoryModel(category, true, isCategoryNull)
         {
             CustomPageHtml = MarkdownToHtml.Run(category.TopicMarkdown, category, ControllerContext, version)
         };
     }
     
-    private void ApplyCategoryChangeToModel(CategoryModel categoryModel, int version)
-    {
-        var categoryChange = Sl.CategoryChangeRepo.GetByIdEager(version);
-        Sl.Session.Evict(categoryChange);
-        var historicCategory = categoryChange.ToHistoricCategory();
-        categoryModel.Name = historicCategory.Name;
-        categoryModel.CategoryChange = categoryChange;
-        categoryModel.CustomPageHtml = MarkdownToHtml.Run(historicCategory.TopicMarkdown, historicCategory, ControllerContext, version);
-        categoryModel.Description = MarkdownToHtml.Run(historicCategory.Description, historicCategory, ControllerContext);
-        categoryModel.WikipediaURL = historicCategory.WikipediaURL;
-        categoryModel.NextRevExists = Sl.CategoryChangeRepo.GetNextRevision(categoryChange) != null;
-    }
-
     public void CategoryById(int id)
     {
         Response.Redirect(Links.CategoryDetail(Resolve<CategoryRepository>().GetById(id)));

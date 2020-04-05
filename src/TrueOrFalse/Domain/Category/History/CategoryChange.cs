@@ -54,7 +54,7 @@ public class CategoryChange : Entity, WithDateCreated
 
     public virtual Category ToHistoricCategory()
     {
-        return GetCategoryChangeData().ToCategory(Category.Id);
+        return GetCategoryChangeData().ToCategory(Category_Id);
     }
 }
 
