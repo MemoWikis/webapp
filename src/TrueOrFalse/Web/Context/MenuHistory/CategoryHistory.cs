@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using Newtonsoft.Json;
 using TrueOrFalse;
 
 
@@ -31,6 +29,5 @@ namespace TrueOrFalse
         public int Id;
         public string Name;
         public bool IsCategoryNull;
-
     }
 }

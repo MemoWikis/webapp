@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using NHibernate.Cfg;
 using TrueOrFalse.Web;
 
 public class CategoryModel : BaseContentModule 

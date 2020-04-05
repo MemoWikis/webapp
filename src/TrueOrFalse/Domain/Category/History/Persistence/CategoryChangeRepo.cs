@@ -1,8 +1,5 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using Newtonsoft.Json;
-using NHibernate;
-using NHibernate.Criterion;
+﻿using NHibernate;
+using System.Collections.Generic;
 
 
 public class CategoryChangeParameters

@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using Newtonsoft.Json;
-using NHibernate;
-using Seedworks.Lib.Persistence;
+﻿using Seedworks.Lib.Persistence;
+using System;
 
 public class CategoryChange : Entity, WithDateCreated
 {
