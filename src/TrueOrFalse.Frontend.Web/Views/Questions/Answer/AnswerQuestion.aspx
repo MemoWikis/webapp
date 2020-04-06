@@ -26,6 +26,12 @@
     <%= Styles.Render("~/bundles/AnswerQuestion") %>
     <%= Scripts.Render("~/bundles/js/AnswerQuestion") %>
     <%= Scripts.Render("~/bundles/js/DeleteQuestion") %>
+    <%= Scripts.Render("~/bundles/js/Vue")%>
+    <%= Scripts.Render("~/bundles/js/d3") %>
+    <script type="text/x-template" id="question-details-component">
+        <%: Html.Partial("~/Views/Questions/Answer/AnswerQuestionDetailsComponent.vue.ascx") %>
+    </script>
+    <%= Scripts.Render("~/bundles/js/QuestionDetailsComponent") %>
 
     <% if(Model.IsLearningSession) { %>
         <%= Scripts.Render("~/bundles/js/LearningSessionResult") %>

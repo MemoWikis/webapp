@@ -2,12 +2,11 @@
 declare var Vue: any;
 
 Vue.component('question-details-component', {
-
+    props: ['questionId'],
     template: '#question-details-component',
 
     data() {
         return {
-            questionId: 0,
             personalProbability: 0,
             personalProbabilityText: "Nicht im Wunschwissen",
             personalColor: "#DDDDDD",
@@ -71,19 +70,32 @@ Vue.component('question-details-component', {
     },
 
     created() {
-        eventBus.$on('set-question-id', (id) => this.questionId = id);
-        eventBus.$on('update-question-details', () => this.loadData());
+        var self = this;
+
+        eventBus.$on('set-question-id', (id) => {
+            id = parseInt(id);
+            if (id > 0) {
+                self.questionId = id;
+                self.loadData();
+            }
+        });
+        eventBus.$on('reload-question-details', () => {
+                self.questionId = parseInt($("#questionId").val());
+                if (self.questionId > 0)
+                    self.loadData();
+            });
     },
 
     watch: {
-        questionId: function(id) {
+        questionId: function (id) {
+            console.log(id);
             if (id > 0) {
                 this.loadCategoryList();
                 this.loadData();
             }
         },
 
-        personalProbability: function (val) {
+        personalProbability: function(val) {
             this.setPersonalArcData();
             if (this.arcLoaded)
                 this.updateArc();
@@ -103,17 +115,17 @@ Vue.component('question-details-component', {
             this.updateArc();
         },
 
-        overallAnswerCount: function () {
+        overallAnswerCount: function() {
             this.overallStartAngle = 100 - (100 / this.overallAnswerCount * this.overallAnsweredCorrectly);
         },
 
-        overAllAnsweredCorrectly: async function () {
+        overAllAnsweredCorrectly: async function() {
             this.overallStartAngle = 100 - (100 / this.personalAnswerCount * this.personalAnsweredCorrectly);
             await this.setOverallCounterData();
             this.updateArc();
         },
 
-        avgProbability: async function () {
+        avgProbability: async function() {
             await this.setAvgArcData();
             await this.setAvgArcData();
             if (this.arcLoaded) {
@@ -124,9 +136,12 @@ Vue.component('question-details-component', {
     },
 
     computed: {
+
     },
 
     mounted: function () {
+        this.questionId = parseInt($("#questionId").val());
+
     },
 
     methods: {
@@ -137,7 +152,7 @@ Vue.component('question-details-component', {
                 data: { questionId: this.questionId },
                 type: "Post",
                 success: categoryListView => {
-                    this.categoryList = "'" + categoryListView + "'";
+                    this.categoryList = categoryListView;
                 }
             });
         },
@@ -367,7 +382,7 @@ Vue.component('question-details-component', {
                 .style("visibility", function () {
                     return self.isLoggedIn ? "visible" : "hidden";
                 })
-                .attr("transform", "translate(" + 0 + "," + 0 + ")");
+                .attr("transform", "translate(0,0)");
 
             var textWidth = 0;
             self.arcSvg
@@ -379,7 +394,7 @@ Vue.component('question-details-component', {
                 .attr("font-weight", "medium")
                 .attr("class", "personalProbabilityText")
                 .style("fill", () => self.personalColor == "#999999" ? "white" : "#555555")
-                .attr("transform", "translate(" + 0 + "," + 0 + ")")
+                .attr("transform", "translate(0,0)")
                 .text(self.personalProbabilityText)
                 .each(function () {
                     textWidth = this.getComputedTextLength();
@@ -640,13 +655,37 @@ Vue.component('question-details-component', {
                         self.avgArcData.outerRadius);
                 });
 
+            var probabilityTextWidth;
+            self.arcSvg.selectAll(".personalProbabilityText")
+                .text(self.personalProbabilityText)
+                .each(function () {
+                    probabilityTextWidth = this.getComputedTextLength();
+                })
+                .transition()
+                .duration(800)
+                .style("fill", () => self.personalColor == "#999999" ? "white" : "#555555");
+
+
+            self.arcSvg.selectAll(".personalProbabilityChip")
+                .transition()
+                .duration(800)
+                .style("fill", self.personalColor)
+                .attr("x", - probabilityTextWidth / 2 - 11)
+                .attr("width", probabilityTextWidth + 22);
+
             self.arcSvg.selectAll(".personalProbabilityChip,.personalProbabilityText")
                 .style("visibility", () => (self.isLoggedIn && self.overallAnswerCount > 0) ? "visible" : "hidden");
+
 
 
             self.personalCounterSvg.selectAll(".personalWrongAnswerCounter,.personalCorrectAnswerCounter")
                 .style("visibility", function () {
                     return self.personalAnswerCount > 0 ? "visible" : "hidden";
+                });
+
+            self.personalCounterSvg.selectAll("i")
+                .style("color", function () {
+                    return self.personalAnswerCount > 0 ? "#999999" : "#DDDDDD";
                 });
 
 

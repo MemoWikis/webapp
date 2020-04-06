@@ -1,15 +1,8 @@
 ﻿<%@ Import Namespace="System.Web.Optimization" %>
-
-<%= Scripts.Render("~/bundles/js/d3") %>
-<script type="text/x-template" id="question-details-component">
-    <%: Html.Partial("~/Views/Questions/Answer/AnswerQuestionDetailsComponent.vue.ascx") %>
-</script>
-
-<%= Scripts.Render("~/bundles/js/QuestionDetailsComponent") %>
-
+<%@ Control Language="C#"  Inherits="System.Web.Mvc.ViewUserControl<AnswerBodyModel>" %>
 
 <div id="QuestionDetailsApp">
-    <question-details-component/>
+    <question-details-component question-id="<%= Model.QuestionId %>"/>
 </div>
 
 <%= Scripts.Render("~/bundles/js/QuestionDetailsApp") %>

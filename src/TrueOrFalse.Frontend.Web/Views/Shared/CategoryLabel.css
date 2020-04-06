@@ -3,7 +3,7 @@
   font-size: 13px;
 }
 .category-chip-container .category-chip {
-  max-width: 180px;
+  max-width: 100%;
   height: 32px;
   display: inline-block;
   border-radius: 16px;
@@ -28,7 +28,7 @@
   font-size: 20px;
 }
 .category-main-chip .category-chip-container .category-chip {
-  max-width: 400px;
+  max-width: 100%;
   height: 42px;
   display: inline-block;
   border-radius: 21px;

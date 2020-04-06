@@ -81,6 +81,12 @@
                                                         <div class="sources" v-if="references.length > 0 && references[0].referenceText.length > 0">Quelle: <a v-for="r in references" :href="r.referenceText">{{r.referenceText}}</a></div>
                                                     </div>
                                                 </div>
+                                                
+                                                <div id="QuestionDetailsSection" style="display: flex;">
+                                                    <div>personalProbability</div>
+                                                    <div></div>
+                                                    <div></div>
+                                                </div>
                                             </div>
                                         </div>
 

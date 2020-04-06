@@ -254,7 +254,12 @@
                 </span>
             </div>
         <% } %>
+        
+        <% Html.RenderPartial("~/Views/Questions/Answer/AnswerQuestionDetails.ascx", Model); %>
+
 </div>
+
+
 
 <div class="FooterQuestionDetails row" style=" <%if(Model.IsInWidget){%> padding-bottom: 0; <%}
                                          else{ %> padding-top: 80px;<% } %> " >
@@ -295,9 +300,5 @@
 </div>
 
 
-<% if (Model.IsInLearningTab)
-   { %>
-    <div id="QuestionDetails" data-div-type="questionDetails"></div>
-<% } %>
 
 <% Html.RenderPartial("~/Views/Questions/Answer/ShareQuestionModal.ascx", new ShareQuestionModalModel(Model.QuestionId)); %>
