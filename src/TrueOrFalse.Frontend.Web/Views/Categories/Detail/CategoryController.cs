@@ -61,16 +61,16 @@ public class CategoryController : BaseController
             //version = categoryChange[categoryChange.Count - 2].Id;
 
             categoryChangeData = JsonConvert.DeserializeObject<TrueOrFalse.Data>(categoryChange[categoryChange.Count - 2].Data);
-            categoryChangeData.IsCategoryNull = true;
+
 
             category = new Category();
             category.Id = categoryChange[0].Category_Id;
             category.Name = categoryChangeData.Name;
         }
 
-        _sessionUiData.VisitedCategories.Add(new CategoryHistoryItem(category, HistoryItemType.Any, categoryChangeData));
+        _sessionUiData.VisitedCategories.Add(new CategoryHistoryItem(category, HistoryItemType.Any, categoryChangeData, isCategoryNull));
         result.Category = category;
-        result.CategoryModel = GetModelWithContentHtml(category, version, categoryChangeData.IsCategoryNull);
+        result.CategoryModel = GetModelWithContentHtml(category, version, isCategoryNull);
 
         if (version != null)
 

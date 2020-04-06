@@ -14,10 +14,10 @@ public class CategoryHistoryItem : HistoryItemBase
     public string Name { get; private set; }
     public HistoryItemType Type { get; set; }
 
-    public CategoryHistoryItem(Category category, HistoryItemType type = HistoryItemType.Any, Data data = null)
+    public CategoryHistoryItem(Category category, HistoryItemType type = HistoryItemType.Any, Data data = null, bool isCategoryNull = false)
     {
-        Id = data.IsCategoryNull ? data.Id : category.Id;
-        Name = data.IsCategoryNull ? data.Name :  category.Name;
+        Id = isCategoryNull ? data.Id : category.Id;
+        Name = isCategoryNull ? data.Name :  category.Name;
         Type = type;
     }
 }
@@ -28,6 +28,6 @@ namespace TrueOrFalse
     {
         public int Id;
         public string Name;
-        public bool IsCategoryNull;
+       
     }
 }
