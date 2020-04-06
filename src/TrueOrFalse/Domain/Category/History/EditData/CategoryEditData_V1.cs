@@ -31,6 +31,8 @@ public class CategoryEditData_V1 : CategoryEditData
 
         Sl.Session.Evict(category);
 
+        category = category == null ? new Category() : category;
+
         category.IsHistoric = true;
         category.Name = this.Name;
         category.Description = this.Description;
