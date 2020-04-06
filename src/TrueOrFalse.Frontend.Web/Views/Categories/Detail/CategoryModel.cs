@@ -59,13 +59,16 @@ public class CategoryModel : BaseContentModule
     public string TotalPins;
     public LearningTabModel LearningTabModel;
     public UserTinyModel UserTinyModel;
-    public AnalyticsFooterModel AnalyticsFooterModel; 
+    public AnalyticsFooterModel AnalyticsFooterModel;
+    public bool CategoryIsDeleted; 
     public CategoryModel()
     {
 
     }
     public CategoryModel(Category category, bool loadKnowledgeSummary = true, bool isCategoryNull = false)
     {
+        CategoryIsDeleted = isCategoryNull; 
+
         AnalyticsFooterModel = new AnalyticsFooterModel(category, false, isCategoryNull);
         MetaTitle = category.Name;
         MetaDescription = SeoUtils.ReplaceDoubleQuotes(category.Description).Truncate(250, true);

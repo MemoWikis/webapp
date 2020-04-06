@@ -28,10 +28,10 @@ public class CategoryEditData_V1 : CategoryEditData
     public override Category ToCategory(int categoryId)
     {
         var category = Sl.CategoryRepo.GetById(categoryId);
-
+        
         Sl.Session.Evict(category);
-
-        category = category == null ? new Category() : category;
+        var categoryIsNull = category == null;
+        category = categoryIsNull ? new Category() : category;
 
         category.IsHistoric = true;
         category.Name = this.Name;

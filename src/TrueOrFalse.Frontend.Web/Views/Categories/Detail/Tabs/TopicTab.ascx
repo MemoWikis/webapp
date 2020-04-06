@@ -5,13 +5,17 @@
 
 
 <div id="ContentModuleApp">
-    <% if (Model.Category.IsHistoric) { %>
+    <% if (Model.Category.IsHistoric)
+       { %>
         <div class="alert alert-info" role="alert">
             <b>Revision vom <%= Model.CategoryChange.DateCreated %></b>
             <br/>
-            <% if (Model.NextRevExists) { %>
+            <% if (Model.NextRevExists)
+               { %>
                 Diese Seite zeigt einen <b>früheren Stand</b> des Themas.
-            <% } else {%>
+            <% }
+               else
+               { %>
                 Dies ist die <b>aktuelle Revision</b> des Themas.
             <% } %>
             
@@ -39,12 +43,16 @@
                 </a>
                 <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="<%= buttonSetId %>">
                     <li>
-                        <% if (new SessionUser().IsLoggedIn) {
-                               if (Model.NextRevExists) { %>
+                        <% if (new SessionUser().IsLoggedIn)
+                           {
+                               if (Model.NextRevExists)
+                               { %>
                                 <a id="restoreButton" data-allowed="logged-in" onclick="$('#alertConfirmRestore').show();">
                                     <i class="fa fa-undo"></i> &nbsp; Wiederherstellen
                                 </a>
-                            <% } else { %>
+                            <% }
+                               else
+                               { %>
                                 <a id="editButton" data-allowed="logged-in" href="<%= Links.CategoryEdit(Model.Category) %>">
                                     <i class="fa fa-edit"></i> &nbsp; Thema bearbeiten
                                 </a>
@@ -65,7 +73,8 @@
     
         </div>
             
-        <% if (new SessionUser().IsLoggedIn && Model.NextRevExists) { %>
+        <% if (new SessionUser().IsLoggedIn && Model.NextRevExists)
+           { %>
             <div id="alertConfirmRestore" class="row" style="display: none">
                 <br/>
                 <div class="alert alert-warning" role="alert">
@@ -101,9 +110,15 @@
             </content-module>
         </div>
     </div>
-<%: Html.Partial("~/Views/Categories/Detail/Partials/InlineEditFloatingActionButton.ascx") %>
-<%: Html.Partial("~/Views/Categories/Detail/Partials/ModalComponentCollection.ascx") %>
+    <% if (!Model.CategoryIsDeleted) {%>
+        <%: Html.Partial("~/Views/Categories/Detail/Partials/InlineEditFloatingActionButton.ascx") %>
+        <%: Html.Partial("~/Views/Categories/Detail/Partials/ModalComponentCollection.ascx") %>
+    <% } %>
+    
 </div>
+<% if (!Model.CategoryIsDeleted)
+   { %>
 <%: Html.Partial("~/Views/Categories/Detail/Partials/CategoryFooter/CategoryFooter.ascx") %>
+    <% } %>
 <%= Scripts.Render("~/bundles/js/CategoryEditMode") %>
 
