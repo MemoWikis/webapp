@@ -75,7 +75,7 @@ public class CategoryChangeDayModel
                 DateTime = cc.DateCreated.ToString("dd.MM.yyyy HH:mm"),
                 Time = cc.DateCreated.ToString("HH:mm"),
                 CategoryChangeId = cc.Id,
-                CategoryId = cc.Category_Id,
+                CategoryId = cc.Category.Id,
                 CategoryName = data.Name,
                 Typ = typ
             };

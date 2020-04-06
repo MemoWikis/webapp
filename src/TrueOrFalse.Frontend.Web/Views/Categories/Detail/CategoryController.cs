@@ -64,7 +64,7 @@ public class CategoryController : BaseController
 
 
             category = new Category();
-            category.Id = categoryChange[0].Category_Id;
+            category.Id = id;
             category.Name = categoryChangeData.Name;
         }
 

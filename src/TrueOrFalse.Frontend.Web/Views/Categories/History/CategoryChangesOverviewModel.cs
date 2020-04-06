@@ -24,7 +24,7 @@ public class CategoryChangesOverviewModel : BaseModel
         {
             if (revison.Data == null)
             {
-                var data = Sl.CategoryChangeRepo.GetForCategory(revison.Category_Id);
+                var data = Sl.CategoryChangeRepo.GetForCategory(revison.Category.Id);
                 revisions[i].Data = data[data.Count - 2].Data;
             }
 
