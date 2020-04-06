@@ -17,7 +17,7 @@ public class CategoryController : BaseController
     public ActionResult Category(int id, int? version)
     {
         var modelAndCategoryResult = LoadModel(id, version);
-        modelAndCategoryResult.CategoryModel.IsInTopic = true; 
+        modelAndCategoryResult.CategoryModel.IsInTopic = true;
 
         return View(_viewLocation, modelAndCategoryResult.CategoryModel);
     }
@@ -33,7 +33,7 @@ public class CategoryController : BaseController
     public ActionResult CategoryLearningTab(int id, int? version)
     {
         var modelAndCategoryResult = LoadModel(id, version);
-        modelAndCategoryResult.CategoryModel.IsInLearningTab = true; 
+        modelAndCategoryResult.CategoryModel.IsInLearningTab = true;
 
         return View(_viewLocation, modelAndCategoryResult.CategoryModel);
     }
@@ -41,7 +41,7 @@ public class CategoryController : BaseController
     public ActionResult CategoryAnalyticsTab(int id, int? version)
     {
         var modelAndCategoryResult = LoadModel(id, version);
-        modelAndCategoryResult.CategoryModel.IsInAnalyticsTab = true; 
+        modelAndCategoryResult.CategoryModel.IsInAnalyticsTab = true;
 
         return View(_viewLocation, modelAndCategoryResult.CategoryModel);
     }
@@ -51,17 +51,20 @@ public class CategoryController : BaseController
         var result = new LoadModelResult();
         var category = bySetId ? Resolve<CategoryRepository>().GetBySetId(id) : Resolve<CategoryRepository>().GetById(id);
         var isCategoryNull = category == null;
+
         var categoryChangeData = new TrueOrFalse.Data();
-        
+        var categoryChange = new List<CategoryChange>();
 
         if (isCategoryNull)
         {
-            var categoryChange = Sl.CategoryChangeRepo.GetForCategory(id);
+            categoryChange = Sl.CategoryChangeRepo.GetForCategory(id).ToList();
+            //version = categoryChange[categoryChange.Count - 2].Id;
 
-            categoryChangeData = JsonConvert.DeserializeObject<TrueOrFalse.Data> (categoryChange[categoryChange.Count - 2].Data);
+            categoryChangeData = JsonConvert.DeserializeObject<TrueOrFalse.Data>(categoryChange[categoryChange.Count - 2].Data);
             categoryChangeData.IsCategoryNull = true;
+
             category = new Category();
-            category.Id = categoryChangeData.Id;
+            category.Id = categoryChange[0].Category_Id;
             category.Name = categoryChangeData.Name;
         }
 
@@ -69,16 +72,33 @@ public class CategoryController : BaseController
         result.Category = category;
         result.CategoryModel = GetModelWithContentHtml(category, version, categoryChangeData.IsCategoryNull);
 
-        if (version == null)
+        if (version != null)
+
+            ApplyCategoryChangeToModel(result.CategoryModel, (int)version);
+        else
             SaveCategoryView.Run(result.Category, User_());
 
         return result;
     }
 
     [HttpPost]
-    public ActionResult GetTopicTabAsync(int id , int? version)
+    public ActionResult GetTopicTabAsync(int id, int? version)
     {
         return View(_topicTab, LoadModel(id, version).CategoryModel);
+    }
+
+    private void ApplyCategoryChangeToModel(CategoryModel categoryModel, int version)
+    {
+        var categoryChange = Sl.CategoryChangeRepo.GetByIdEager(version);
+        
+        Sl.Session.Evict(categoryChange);
+        var historicCategory = categoryChange.ToHistoricCategory();
+        categoryModel.Name = historicCategory.Name;
+        categoryModel.CategoryChange = categoryChange;
+        categoryModel.CustomPageHtml = MarkdownToHtml.Run(historicCategory.TopicMarkdown, historicCategory, ControllerContext, version);
+        categoryModel.Description = MarkdownToHtml.Run(historicCategory.Description, historicCategory, ControllerContext);
+        categoryModel.WikipediaURL = historicCategory.WikipediaURL;
+        categoryModel.NextRevExists = Sl.CategoryChangeRepo.GetNextRevision(categoryChange) != null;
     }
 
     private CategoryModel GetModelWithContentHtml(Category category, int? version = null, bool isCategoryNull = false)
@@ -88,7 +108,7 @@ public class CategoryController : BaseController
             CustomPageHtml = MarkdownToHtml.Run(category.TopicMarkdown, category, ControllerContext, version)
         };
     }
-    
+
     public void CategoryById(int id)
     {
         Response.Redirect(Links.CategoryDetail(Resolve<CategoryRepository>().GetById(id)));
@@ -156,23 +176,28 @@ public class CategoryController : BaseController
 
     public string Tab(string tabName, int categoryId)
     {
+       
+        var category = Sl.CategoryRepo.GetById(categoryId);
+        var isCategoryNull = category == null;
+       category = isCategoryNull ? new Category() : category; 
+        
         return ViewRenderer.RenderPartialView(
             "/Views/Categories/Detail/Tabs/" + tabName + ".ascx",
-            GetModelWithContentHtml(Sl.CategoryRepo.GetById(categoryId)),
+            GetModelWithContentHtml(category, null, isCategoryNull),
             ControllerContext
         );
     }
 
-    public string KnowledgeBar(int categoryId) => 
+    public string KnowledgeBar(int categoryId) =>
         ViewRenderer.RenderPartialView(
             "/Views/Categories/Detail/CategoryKnowledgeBar.ascx",
-            new CategoryKnowledgeBarModel(Sl.CategoryRepo.GetById(categoryId)), 
+            new CategoryKnowledgeBarModel(Sl.CategoryRepo.GetById(categoryId)),
             ControllerContext
         );
 
-  
+
     public string WishKnowledgeInTheBox(int categoryId) =>
-        ViewRenderer.RenderPartialView( 
+        ViewRenderer.RenderPartialView(
             "/Views/Categories/Detail/Partials/WishKnowledgeInTheBox.ascx",
             new WishKnowledgeInTheBoxModel(Sl.CategoryRepo.GetById(categoryId)),
             ControllerContext
@@ -199,7 +224,7 @@ public class CategoryController : BaseController
         {
             return Json(false);
         }
-        
+
     }
 
     [HttpPost]
@@ -214,6 +239,8 @@ public class CategoryController : BaseController
     public string GetKnowledgeGraphDisplay(int categoryId)
     {
         var category = Sl.CategoryRepo.GetById(categoryId);
+        category = category == null ? new Category() : category;
+        
         return ViewRenderer.RenderPartialView("~/Views/Categories/Detail/Partials/KnowledgeGraph/KnowledgeGraph.ascx", new KnowledgeGraphModel(category), ControllerContext);
     }
 

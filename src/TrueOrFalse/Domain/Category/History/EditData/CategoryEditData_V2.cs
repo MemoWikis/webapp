@@ -36,9 +36,9 @@ public class CategoryEditData_V2 : CategoryEditData
     public override Category ToCategory(int categoryId)
     {
         var category = Sl.CategoryRepo.GetById(categoryId);
-
         Sl.Session.Evict(category);
 
+        category = category == null ? new Category() : category;
         category.IsHistoric = true;
         category.Name = this.Name;
         category.Description = this.Description;
