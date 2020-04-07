@@ -58,7 +58,7 @@ public class CategoryController : BaseController
         if (isCategoryNull)
         {
             categoryChange = Sl.CategoryChangeRepo.GetForCategory(id).ToList();
-            //version = categoryChange[categoryChange.Count - 2].Id;
+            
 
             categoryChangeData = JsonConvert.DeserializeObject<TrueOrFalse.Data>(categoryChange[categoryChange.Count - 2].Data);
 

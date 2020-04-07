@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using NHibernate;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -39,16 +40,16 @@ public class CategoryChangeDayModel
 {
     public string Date;
     public IList<CategoryChangeDetailModel> Items;
+    
 
     public CategoryChangeDayModel(DateTime date, IList<CategoryChange> changes)
     {
         Date = date.ToString("dd.MM.yyyy");
+        var categoryId = -1; 
         Items = changes.Select(cc =>
         {
-            var categoryDelete = cc.Type == CategoryChangeType.Delete;
             var data = JsonConvert.DeserializeObject<Data>(cc.Data);
             var typ = "";
-            var cat = changes[0].Category;
 
             switch (cc.Type)
             {
@@ -66,6 +67,12 @@ public class CategoryChangeDayModel
                     break;
             }
 
+            if (cc.Category == null)
+            {
+               categoryId =  Sl.Resolve<ISession>().CreateSQLQuery("Select Category_id FROM categorychange where id = " + changes.First().Id).UniqueResult<int>();
+              
+            }
+
             return new CategoryChangeDetailModel
             {
                 Author = cc.Author,
@@ -75,7 +82,7 @@ public class CategoryChangeDayModel
                 DateTime = cc.DateCreated.ToString("dd.MM.yyyy HH:mm"),
                 Time = cc.DateCreated.ToString("HH:mm"),
                 CategoryChangeId = cc.Id,
-                CategoryId = cc.Category.Id,
+                CategoryId = cc.Category==null ? categoryId : cc.Category.Id,
                 CategoryName = data.Name,
                 Typ = typ
             };
