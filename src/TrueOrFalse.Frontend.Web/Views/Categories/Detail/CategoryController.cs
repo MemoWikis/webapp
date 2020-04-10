@@ -50,6 +50,7 @@ public class CategoryController : BaseController
     {
         var result = new LoadModelResult();
         var category = bySetId ? Resolve<CategoryRepository>().GetBySetId(id) : Resolve<CategoryRepository>().GetById(id);
+
         var isCategoryNull = category == null;
 
         var categoryChangeData = new TrueOrFalse.Data();
@@ -57,12 +58,6 @@ public class CategoryController : BaseController
 
         if (isCategoryNull)
         {
-            categoryChange = Sl.CategoryChangeRepo.GetForCategory(id).ToList();
-            
-
-            categoryChangeData = JsonConvert.DeserializeObject<TrueOrFalse.Data>(categoryChange[categoryChange.Count - 2].Data);
-
-
             category = new Category();
             category.Id = id;
             category.Name = categoryChangeData.Name;
@@ -73,8 +68,7 @@ public class CategoryController : BaseController
         result.CategoryModel = GetModelWithContentHtml(category, version, isCategoryNull);
 
         if (version != null)
-
-            ApplyCategoryChangeToModel(result.CategoryModel, (int)version);
+            ApplyCategoryChangeToModel(result.CategoryModel, (int)version, id);
         else
             SaveCategoryView.Run(result.Category, User_());
 
@@ -87,12 +81,16 @@ public class CategoryController : BaseController
         return View(_topicTab, LoadModel(id, version).CategoryModel);
     }
 
-    private void ApplyCategoryChangeToModel(CategoryModel categoryModel, int version)
+    private void ApplyCategoryChangeToModel(CategoryModel categoryModel, int version, int id=-1)
     {
         var categoryChange = Sl.CategoryChangeRepo.GetByIdEager(version);
         
         Sl.Session.Evict(categoryChange);
+        categoryChange.Category = categoryChange.Type == CategoryChangeType.Delete ? new Category() : categoryChange.Category;
+        categoryChange.Category.Id = id;
+
         var historicCategory = categoryChange.ToHistoricCategory();
+
         categoryModel.Name = historicCategory.Name;
         categoryModel.CategoryChange = categoryChange;
         categoryModel.CustomPageHtml = MarkdownToHtml.Run(historicCategory.TopicMarkdown, historicCategory, ControllerContext, version);

@@ -18,7 +18,7 @@ public class CategoryHistoryModel : BaseModel
         Data data = new Data(); ;
         if (category == null)
         {
-            data = JsonConvert.DeserializeObject<Data>(categoryChanges[categoryChanges.Count - 2].Data);
+            data = JsonConvert.DeserializeObject<Data>(categoryChanges.First().Data); 
         }
 
         CategoryName = category == null ?  data.Name :  category.Name;
@@ -48,7 +48,8 @@ public class CategoryChangeDayModel
         var categoryId = -1; 
         Items = changes.Select(cc =>
         {
-            var data = JsonConvert.DeserializeObject<Data>(cc.Data);
+
+            var data = JsonConvert.DeserializeObject<Data>(cc.Data = cc.Data == null ? "" : cc.Data);
             var typ = "";
 
             switch (cc.Type)
@@ -67,23 +68,18 @@ public class CategoryChangeDayModel
                     break;
             }
 
-            if (cc.Category == null)
-            {
-               categoryId =  Sl.Resolve<ISession>().CreateSQLQuery("Select Category_id FROM categorychange where id = " + changes.First().Id).UniqueResult<int>();
-              
-            }
-
+            var t = cc.Type == CategoryChangeType.Delete;
             return new CategoryChangeDetailModel
             {
-                Author = cc.Author,
-                AuthorName = cc.Author.Name,
-                AuthorImageUrl = new UserImageSettings(cc.Author.Id).GetUrl_85px_square(cc.Author).Url,
+                Author = new UserTinyModel(cc.Author),
+                AuthorName = new UserTinyModel(cc.Author).Name,
+                AuthorImageUrl = new UserImageSettings(new UserTinyModel( cc.Author).Id).GetUrl_85px_square( new UserTinyModel(cc.Author)).Url,
                 ElapsedTime = TimeElapsedAsText.Run(cc.DateCreated),
                 DateTime = cc.DateCreated.ToString("dd.MM.yyyy HH:mm"),
                 Time = cc.DateCreated.ToString("HH:mm"),
                 CategoryChangeId = cc.Id,
-                CategoryId = cc.Category==null ? categoryId : cc.Category.Id,
-                CategoryName = data.Name,
+                CategoryId = cc.Category.Id,
+                CategoryName = cc.Type == CategoryChangeType.Delete ? "gelöscht" : data.Name,
                 Typ = typ
             };
         }).ToList();
@@ -92,7 +88,7 @@ public class CategoryChangeDayModel
 
 public class CategoryChangeDetailModel
 {
-    public User Author ;
+    public UserTinyModel Author ;
     public string AuthorName;
     public string AuthorImageUrl;
     public string ElapsedTime;

@@ -12,24 +12,9 @@ public class CategoryChangesOverviewModel : BaseModel
         PageToShow = pageToShow;
         const int revisionsToShow = 100;
         var revisionsToSkip = (PageToShow - 1) * revisionsToShow;
-        var query = $@"
-            
-            SELECT * FROM CategoryChange cc ORDER BY cc.DateCreated DESC LIMIT {revisionsToSkip},{revisionsToShow}
-
-            ";
+        var query = $@"SELECT * FROM CategoryChange cc ORDER BY cc.DateCreated DESC LIMIT {revisionsToSkip},{revisionsToShow}";
         var revisions = Sl.R<ISession>().CreateSQLQuery(query).AddEntity(typeof(CategoryChange)).List<CategoryChange>();
 
-        var i = 0; 
-        foreach (var revison in revisions)
-        {
-            if (revison.Data == null)
-            {
-                var data = Sl.CategoryChangeRepo.GetForCategory(revison.Category.Id);
-                revisions[i].Data = data[data.Count - 2].Data;
-            }
-
-            i++;
-        }
         
         Days = revisions
             .GroupBy(change => change.DateCreated.Date)
