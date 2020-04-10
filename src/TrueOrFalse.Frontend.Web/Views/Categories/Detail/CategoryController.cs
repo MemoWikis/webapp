@@ -83,10 +83,12 @@ public class CategoryController : BaseController
 
     private void ApplyCategoryChangeToModel(CategoryModel categoryModel, int version, int id=-1)
     {
+        var Isdeleted = Sl.CategoryChangeRepo.GetForCategory(id).LastOrDefault().Type == CategoryChangeType.Delete;
+
         var categoryChange = Sl.CategoryChangeRepo.GetByIdEager(version);
-        
         Sl.Session.Evict(categoryChange);
-        categoryChange.Category = categoryChange.Type == CategoryChangeType.Delete ? new Category() : categoryChange.Category;
+
+        categoryChange.Category = Isdeleted ? new Category() : categoryChange.Category;
         categoryChange.Category.Id = id;
 
         var historicCategory = categoryChange.ToHistoricCategory();

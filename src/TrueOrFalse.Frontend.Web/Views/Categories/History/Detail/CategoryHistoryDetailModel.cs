@@ -36,6 +36,11 @@ public class CategoryHistoryDetailModel : BaseModel
     
     public CategoryHistoryDetailModel(CategoryChange currentRevision, CategoryChange previousRevision, CategoryChange nextRevision)
     {
+        var cDeleted = currentRevision.Type == CategoryChangeType.Delete; 
+        
+
+
+
         PrevRevExists = previousRevision != null;
         NextRevExists = nextRevision != null;
 
