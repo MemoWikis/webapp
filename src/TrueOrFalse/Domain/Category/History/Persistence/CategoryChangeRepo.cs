@@ -110,4 +110,9 @@ public class CategoryChangeRepo : RepositoryDbBase<CategoryChange>
         var previousRevision = Sl.R<ISession>().CreateSQLQuery(query).AddEntity(typeof(CategoryChange)).UniqueResult<CategoryChange>();
         return previousRevision;
     }
+
+    public virtual int GetCategoryId(int version)
+    {
+        return Sl.Resolve<ISession>().CreateSQLQuery("Select Category_id FROM categorychange where id = " + version).UniqueResult<int>();
+    }
 }
