@@ -1,5 +1,6 @@
 ﻿using Seedworks.Lib.Persistence;
 using System;
+using System.Runtime.DesignerServices;
 
 public class CategoryChange : Entity, WithDateCreated
 {
@@ -40,16 +41,16 @@ public class CategoryChange : Entity, WithDateCreated
                 return CategoryEditData_V1.CreateFromJson(Data);
                 
             case 2:
-                return CategoryEditData_V2.CreateFromJson(Data);
+                return CategoryEditData_V2.CreateFromJson(Data); 
                 
             default:
                 throw new ArgumentOutOfRangeException($"Invalid data version number {DataVersion} for category change id {Id}");
         }
     }
 
-    public virtual Category ToHistoricCategory()
+    public virtual Category ToHistoricCategory(bool haveVersionData = true)
     {
-        return GetCategoryChangeData() == null ? new Category() : GetCategoryChangeData().ToCategory(Category.Id);
+        return haveVersionData ? GetCategoryChangeData().ToCategory(Category.Id) : new Category();
     }
 }
 
