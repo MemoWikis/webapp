@@ -54,7 +54,7 @@ public class CategoryController : BaseController
         var isCategoryNull = category == null;
 
         var categoryChangeData = new TrueOrFalse.Data();
-        var categoryChange = new List<CategoryChange>();
+       // var categoryChange = new List<CategoryChange>();
 
         if (isCategoryNull)
         {
