@@ -1,13 +1,16 @@
-﻿using System.Web.Mvc;
+﻿using System.Linq;
+using System.Web.Mvc;
 using NHibernate;
 
 public class CategoryHistoryDetailController : Controller
 {
-    public ActionResult Detail(int categoryChangeId)
+    public ActionResult Detail(int categoryChangeId, int categoryId)
     {
-        var currentRevision = Sl.CategoryChangeRepo.GetByIdEager(categoryChangeId);
-        var previousRevision = Sl.CategoryChangeRepo.GetPreviousRevision(currentRevision);
-        var nextRevision = Sl.CategoryChangeRepo.GetNextRevision(currentRevision);
+
+        var ListWithAllVersions = Sl.CategoryChangeRepo.GetForCategory(categoryId).OrderBy(c => c.Id);
+        var currentRevision = ListWithAllVersions.Where(c => c.Id == categoryChangeId).FirstOrDefault();
+        var previousRevision = ListWithAllVersions.Where(c => c.Id < categoryChangeId ).FirstOrDefault();
+        var nextRevision = ListWithAllVersions.Where(c => c.Id > categoryChangeId).FirstOrDefault();
 
         return View("~/Views/Categories/History/Detail/CategoryHistoryDetail.aspx", 
             new CategoryHistoryDetailModel(currentRevision, previousRevision, nextRevision));
