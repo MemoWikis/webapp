@@ -9,7 +9,7 @@ public class CategoryHistoryDetailController : Controller
 
         var ListWithAllVersions = Sl.CategoryChangeRepo.GetForCategory(categoryId).OrderBy(c => c.Id);
         var currentRevision = ListWithAllVersions.Where(c => c.Id == categoryChangeId).FirstOrDefault();
-        var previousRevision = ListWithAllVersions.Where(c => c.Id < categoryChangeId ).FirstOrDefault();
+        var previousRevision = ListWithAllVersions.Where(c => c.Id < categoryChangeId ).LastOrDefault();
         var nextRevision = ListWithAllVersions.Where(c => c.Id > categoryChangeId).FirstOrDefault();
 
         return View("~/Views/Categories/History/Detail/CategoryHistoryDetail.aspx", 
