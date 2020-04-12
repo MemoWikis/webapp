@@ -4,14 +4,12 @@ using TrueOrFalse.Search;
 public class CategoryDeleter : IRegisterAsInstancePerLifetime
 {
     private readonly ISession _session;
-    private readonly SearchIndexCategory _searchIndexCategory;
 
     public CategoryDeleter(
         ISession session,
         SearchIndexCategory searchIndexCategory)
     {
         _session = session;
-        _searchIndexCategory = searchIndexCategory;
     }
 
     public void Run(Category category, bool forSetMigration = false)
