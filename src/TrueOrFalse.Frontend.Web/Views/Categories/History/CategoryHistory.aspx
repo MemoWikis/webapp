@@ -41,7 +41,7 @@
                         <i class="fa fa-desktop"></i> Revision anzeigen
                     </a>&nbsp;
                     
-                    <a class="btn btn-sm btn-default btn-primary" href="<%= Links.CategoryHistoryDetail(Model.CategoryId, item.CategoryChangeId) %>">
+                    <a id="DisplayChanges"class="btn btn-sm btn-default btn-primary" href="<%= Links.CategoryHistoryDetail(Model.CategoryId, item.CategoryChangeId) %>">
                         <i class="fa fa-code-fork"></i> Änderungen anzeigen
                     </a>
                     <a class="btn btn-sm btn-default allThemesHistory" href="<%= Links.CategoryChangesOverview(1) %>">
