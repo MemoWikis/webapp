@@ -4,8 +4,12 @@
   margin-left: 0px;
   padding: 10px;
 }
-@media screen and (max-width: 600px) {
-  .change-detail-model .col-xs-4 {
+.change-detail-model .allThemesHistory {
+  margin-top: 10px;
+}
+@media screen and (max-width: 550px) {
+  .change-detail-model .col-xs-3,
+  .change-detail-model .col-xs-6 {
     width: 100%;
     margin-bottom: 10px;
   }
