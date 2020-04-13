@@ -43,30 +43,13 @@
             um <%= item.Time %>
             <div><%=item.Typ %></div>
         </div>
-
         <div class="col-xs-4 ">
-            
-
-            <% if (item.Typ.Equals("Gelöscht"))
-                { %>
-                    <div class="btn btn-sm is-deleted">
-                        <i class="fa fa-desktop"></i>&nbsp; Revision anzeigen
-                    </div>&nbsp;
-                    
-                    <div class="btn btn-sm is-deleted">
-                        <i class="fa fa-code-fork"></i>&nbsp; Änderungen anzeigen
-                    </div>
-            <% }
-                else
-                { %>
-                    <a class="btn btn-sm btn-default btn-primary" href="<%= Links.CategoryDetail(item.CategoryName, item.CategoryId, item.CategoryChangeId) %>">
-                        <i class="fa fa-desktop"></i>&nbsp; Revision anzeigen
-                    </a>&nbsp;
-                    
-                    <a class="btn btn-sm btn-default btn-primary" href="<%= Links.CategoryHistoryDetail(item.CategoryId, item.CategoryChangeId) %>">
-                        <i class="fa fa-code-fork"></i>&nbsp; Änderungen anzeigen
-                    </a>
-            <% } %>
+            <a class="btn btn-sm btn-default btn-primary" href="<%= Links.CategoryDetail(item.CategoryName, item.CategoryId, item.CategoryChangeId) %>">
+                <i class="fa fa-desktop"></i>&nbsp; Revision anzeigen
+            </a>&nbsp;
+            <a class="btn btn-sm btn-default btn-primary" href="<%= Links.CategoryHistoryDetail(item.CategoryId, item.CategoryChangeId) %>">
+                <i class="fa fa-code-fork"></i>&nbsp; Änderungen anzeigen
+            </a>
             <a class="btn btn-default editing-history btn-primary" href="<%= Links.CategoryHistory(item.CategoryId) %>">
                 <i class="fa fa-list-ul"></i> &nbsp; Bearbeitungshistorie
             </a>
