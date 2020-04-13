@@ -16,6 +16,7 @@ public class CategoryHistoryModel : BaseModel
     public CategoryHistoryModel(Category category, IList<CategoryChange> categoryChanges, int categoryId )
     {
         Data data = new Data(); ;
+
         if (category == null)
         {
             data = JsonConvert.DeserializeObject<Data>(categoryChanges.First().Data); 
@@ -40,17 +41,21 @@ public class CategoryChangeDayModel
 {
     public string Date;
     public IList<CategoryChangeDetailModel> Items;
-    
+    private string _catName; 
 
     public CategoryChangeDayModel(DateTime date, IList<CategoryChange> changes)
     {
         Date = date.ToString("dd.MM.yyyy");
-        var categoryId = -1; 
         Items = changes.Select(cc =>
         {
-
-            var data = JsonConvert.DeserializeObject<Data>(cc.Data = cc.Data == null ? "" : cc.Data);
             var typ = "";
+            var categoryId = cc.Category == null ? Sl.CategoryChangeRepo.GetCategoryId(cc.Id): -1;
+            if (cc.Category == null)
+            {
+                var allVersions = Sl.CategoryChangeRepo.GetForCategory(categoryId); 
+                var prevVersionData =allVersions[allVersions.Count - 2].GetCategoryChangeData();
+                _catName = prevVersionData.Name;
+            }
 
             switch (cc.Type)
             {
@@ -68,9 +73,9 @@ public class CategoryChangeDayModel
                     break;
             }
 
-            var t = cc.Type == CategoryChangeType.Delete;
             return new CategoryChangeDetailModel
             {
+
                 Author = new UserTinyModel(cc.Author),
                 AuthorName = new UserTinyModel(cc.Author).Name,
                 AuthorImageUrl = new UserImageSettings(new UserTinyModel( cc.Author).Id).GetUrl_85px_square( new UserTinyModel(cc.Author)).Url,
@@ -78,8 +83,8 @@ public class CategoryChangeDayModel
                 DateTime = cc.DateCreated.ToString("dd.MM.yyyy HH:mm"),
                 Time = cc.DateCreated.ToString("HH:mm"),
                 CategoryChangeId = cc.Id,
-                CategoryId = cc.Category.Id,
-                CategoryName = cc.Type == CategoryChangeType.Delete ? "gelöscht" : data.Name,
+                CategoryId = cc.Category == null ? categoryId :  cc.Category.Id,
+                CategoryName = cc.Category == null ? _catName : cc.Category.Name,
                 Typ = typ
             };
         }).ToList();

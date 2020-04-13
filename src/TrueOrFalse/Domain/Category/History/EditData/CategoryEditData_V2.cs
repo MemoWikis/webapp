@@ -30,6 +30,7 @@ public class CategoryEditData_V2 : CategoryEditData
 
     public static CategoryEditData_V2 CreateFromJson(string json)
     {
+        json = json == null ? "" : json;
         return JsonConvert.DeserializeObject<CategoryEditData_V2>(json);
     }
 
