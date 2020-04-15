@@ -18,7 +18,8 @@ public class CategoryChangeRepo : RepositoryDbBase<CategoryChange>
             Category = category,
             Author = Sl.SessionUser.User,
             Type = CategoryChangeType.Delete,
-            DataVersion = 2
+            DataVersion = 2,
+            Data = ""
         };
 
         base.Create(categoryChange);
