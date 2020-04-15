@@ -41,9 +41,6 @@ public class CategoryHistoryDetailModel : BaseModel
 
         PrevRevExists = previousRevision != null;
         NextRevExists = nextRevision != null;
-        
-
-
 
         var previouisRevisionData = !PrevRevExists ? null :  previousRevision.GetCategoryChangeData();
         var currentRevisionData = currentRevision.GetCategoryChangeData();
