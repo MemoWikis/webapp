@@ -67,7 +67,7 @@ public class CategoryModel : BaseContentModule
     }
     public CategoryModel(Category category, bool loadKnowledgeSummary = true, bool isCategoryNull = false)
     {
-        CategoryIsDeleted = isCategoryNull; 
+        CategoryIsDeleted = isCategoryNull;
 
         AnalyticsFooterModel = new AnalyticsFooterModel(category, false, isCategoryNull);
         MetaTitle = category.Name;
@@ -84,6 +84,8 @@ public class CategoryModel : BaseContentModule
         WikipediaURL = category.WikipediaURL;
         Url = category.Url;
         Category = category;
+        if (CategoryIsDeleted)
+            Category.IsHistoric = true;
 
         Id = category.Id;
         Name = category.Name;

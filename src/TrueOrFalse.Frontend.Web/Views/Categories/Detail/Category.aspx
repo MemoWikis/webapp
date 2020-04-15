@@ -15,8 +15,6 @@
 </asp:Content>
 
 <asp:Content ID="head" ContentPlaceHolderID="Head" runat="server">
-<%--    <% Model.TopNavMenu.BreadCrumb.Add(new TopNavMenuItem{Text = Model.Category.Name, Url = Links.CategoriesAll(), ToolTipText = "Themen"});
-       Model.TopNavMenu.IsCategoryBreadCrumb = true; %>--%>
     <link href="/Views/Questions/Answer/LearningSession/LearningSessionResult.css" rel="stylesheet" />
     <%= Scripts.Render("~/bundles/js/Vue") %>
     <%= Styles.Render("~/bundles/AnswerQuestion") %>
@@ -71,10 +69,5 @@
                 <% Html.RenderPartial("~/Views/Categories/Detail/Tabs/AnalyticsTab.ascx"); %>
             <% } %>
         </div>
-    <% if (Model.CategoryIsDeleted)
-       {
-           Html.RenderPartial("~/Views/Shared/Delete.ascx");
-       }
-    %>
     <%= Scripts.Render("~/bundles/js/Category") %>
 </asp:Content>
