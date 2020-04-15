@@ -37,17 +37,31 @@ public class CategoryHistoryDetailModel : BaseModel
     
     public CategoryHistoryDetailModel(CategoryChange currentRevision, CategoryChange previousRevision, CategoryChange nextRevision, bool isCategoryDeleted)
     {
-        var currentVersionIsDeleted = currentRevision.Type == CategoryChangeType.Delete; 
+        var currentVersionTypeDelete = currentRevision.Type == CategoryChangeType.Delete; 
 
         PrevRevExists = previousRevision != null;
         NextRevExists = nextRevision != null;
+        
 
-        var previouisRevisionData =  previousRevision.GetCategoryChangeData();
+
+
+        var previouisRevisionData = !PrevRevExists ? null :  previousRevision.GetCategoryChangeData();
         var currentRevisionData = currentRevision.GetCategoryChangeData();
-        currentRevisionData = currentVersionIsDeleted ? new CategoryEditData_V2() : currentRevisionData;
+        currentRevisionData = currentVersionTypeDelete ? new CategoryEditData_V2() : currentRevisionData;
 
         CategoryId = currentRevision.Category == null ? Sl.CategoryChangeRepo.GetCategoryId(currentRevision.Id):  currentRevision.Category.Id;
-        CategoryName = isCategoryDeleted ? previouisRevisionData.Name :  currentRevision.Category.Name;
+
+        if (currentVersionTypeDelete)                       // is currentVersion deleted then is too category deleted
+            CategoryName = previouisRevisionData.Name;
+        else if(isCategoryDeleted)                        // is category deleted  then currentversion type delete is not necessarily
+        {
+            CategoryName = currentRevisionData.Name;   
+        }
+        else
+        {
+            CategoryName = currentRevision.Category.Name;
+        }
+
         Author = new UserTinyModel(currentRevision.Author);
         AuthorName = new UserTinyModel(currentRevision.Author).Name;
         AuthorImageUrl = new UserImageSettings(new UserTinyModel(currentRevision.Author).Id).GetUrl_85px_square(new UserTinyModel(currentRevision.Author)).Url;
@@ -56,10 +70,10 @@ public class CategoryHistoryDetailModel : BaseModel
        
         CurrentId = currentRevision.Id;
         CurrentDateCreated = currentRevision.DateCreated;
-        CurrentName = currentVersionIsDeleted ? previouisRevisionData.Name :  currentRevisionData.Name;
+        CurrentName = currentVersionTypeDelete ? previouisRevisionData.Name :  currentRevisionData.Name;
         CurrentMarkdown = currentRevisionData.TopicMardkown?.Replace("\\r\\n", "\r\n");
         CurrentDescription = currentRevisionData.Description?.Replace("\\r\\n", "\r\n");
-        CurrentWikipediaUrl = currentVersionIsDeleted ? ""  : currentRevisionData.WikipediaURL;
+        CurrentWikipediaUrl = currentVersionTypeDelete ? ""  : currentRevisionData.WikipediaURL;
 
         if (currentRevision.DataVersion == 2)
         {
