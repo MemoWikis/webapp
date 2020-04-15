@@ -64,7 +64,8 @@ namespace TrueOrFalse.View
 
             bundles.Add(new StyleBundle("~/bundles/Category")
                 .Include("~/Views/Shared/Spinner/Spinner.css")
-                .Include("~/Views/Categories/Detail/Category.css"));
+                .Include("~/Views/Categories/Detail/Category.css")
+                .Include("~/Views/Shared/Delete.css"));
 
             bundles.Add(new StyleBundle("~/bundles/CategoryLabel")
                 .Include("~/Views/Shared/CategoryLabel.css"));

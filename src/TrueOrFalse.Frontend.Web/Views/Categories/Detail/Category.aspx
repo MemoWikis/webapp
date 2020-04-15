@@ -71,5 +71,10 @@
                 <% Html.RenderPartial("~/Views/Categories/Detail/Tabs/AnalyticsTab.ascx"); %>
             <% } %>
         </div>
+    <% if (Model.CategoryIsDeleted)
+       {
+           Html.RenderPartial("~/Views/Shared/Delete.ascx");
+       }
+    %>
     <%= Scripts.Render("~/bundles/js/Category") %>
 </asp:Content>

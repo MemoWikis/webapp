@@ -41,7 +41,7 @@
                 <img src="<%= item.AuthorImageUrl %>" height="20" /></a>
             <b><a href="<%= Links.UserDetail(item.Author) %>"><%= item.AuthorName %></a></b>
             um <%= item.Time %>
-            <div><%=item.Typ %></div>
+            <div id="Typ"><%=item.Typ %></div>
         </div>
         <div class="col-xs-4">
             <a class="btn btn-sm btn-default btn-primary" href="<%= Links.CategoryDetail(item.CategoryName, item.CategoryId, item.CategoryChangeId) %>">

@@ -350,5 +350,9 @@
   {
     "outputFile": "Views/Categories/History/CategoryHistory.css",
     "inputFile": "Views/Categories/History/CategoryHistory.less"
+  },
+  {
+    "outputFile": "Views/Shared/Delete.css",
+    "inputFile": "Views/Shared/Delete.less"
   }
 ]

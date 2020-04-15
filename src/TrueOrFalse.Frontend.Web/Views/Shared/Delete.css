@@ -1,0 +1,13 @@
+﻿#outerBoarder {
+  border: 20px solid #990000;
+  transform: rotate(45deg);
+  margin-bottom: 130px;
+}
+#outerBoarder #InnerBoarder {
+  margin: 10px;
+  border: 7px solid #990000;
+}
+#outerBoarder #InnerBoarder h1 {
+  font-size: 200px;
+  color: #990000;
+}
