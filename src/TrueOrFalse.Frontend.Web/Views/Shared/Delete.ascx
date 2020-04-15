@@ -1,6 +1,3 @@
-﻿
-<div id ="outerBoarder">
-    <div id="InnerBoarder">
-        <h1>Deleted</h1>
+﻿    <div id="TopicIsDeleted" class="alert alert-danger" role="alert">
+        Das Thema ist gelöscht. 
     </div>
-</div>
