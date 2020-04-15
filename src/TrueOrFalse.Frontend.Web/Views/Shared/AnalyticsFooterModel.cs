@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Security.Cryptography.X509Certificates;
-using System.Web;
 public class AnalyticsFooterModel 
 {
 
@@ -13,20 +10,20 @@ public class AnalyticsFooterModel
    public Category Category;
    public bool IsQuestionssite; 
 
-   public AnalyticsFooterModel(Category category, bool isQuestionsSite = false)
+   public AnalyticsFooterModel(Category category, bool isQuestionsSite = false, bool isCategoryNull = false)
    {
        Category = category;
-       CategoryId = category.Id;
-       GetCategoryRelations();
+       CategoryId = category.Id; 
+       GetCategoryRelations(isCategoryNull);
        IsQuestionssite = isQuestionsSite;
    }
 
 
-   public void GetCategoryRelations()
+   public void GetCategoryRelations(bool isCategoryChangeData)
    {
-       var descendants = GetCategoriesDescendants.WithAppliedRules(Category);
+       var descendants = isCategoryChangeData? new List<Category>() : GetCategoriesDescendants.WithAppliedRules(Category);
        CategoriesDescendantsCount = descendants.Count;
-       AllCategoriesParents = Sl.CategoryRepo.GetAllParents(CategoryId);
+       AllCategoriesParents = isCategoryChangeData ? new List<Category>() : Sl.CategoryRepo.GetAllParents(CategoryId);
 
        if (AllCategoriesParents.Count > 0)
            ParentList = GetCategoryParentList();

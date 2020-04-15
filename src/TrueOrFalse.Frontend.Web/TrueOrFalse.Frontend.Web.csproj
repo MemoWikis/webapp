@@ -22073,6 +22073,10 @@
     <Content Include="Views\Shared\CategoryLabel.css">
       <DependentUpon>CategoryLabel.less</DependentUpon>
     </Content>
+    <Content Include="Views\Shared\Delete.ascx" />
+    <Content Include="Views\Shared\Delete.css">
+      <DependentUpon>Delete.less</DependentUpon>
+    </Content>
     <Content Include="Views\Shared\Modals\ForTheTimeToDeleteModal.ascx" />
     <Compile Include="Views\Shared\Cards\UserCardBaseModel.cs" />
     <Compile Include="Views\Shared\SharedController.cs" />
@@ -24191,6 +24195,7 @@
     <Content Include="Views\Questions\Answer\Js\QuestionFilter.js.map">
       <DependentUpon>QuestionFilter.ts</DependentUpon>
     </Content>
+    <Content Include="Views\Shared\Delete.less" />
     <None Include="Web.overwritten.config.sample" />
     <Content Include="Views\Welcome\Logout.aspx" />
     <Content Include="Views\Api\Export.aspx" />

@@ -44,7 +44,6 @@ public class EditCategoryController : BaseController
         _sessionUiData.VisitedCategories.Add(new CategoryHistoryItem(category, HistoryItemType.Edit));
         
         var model = new EditCategoryModel(category){IsEditing = true};
-        //model.DescendantCategories = Sl.R<CategoryRepository>().GetDescendants(category.Type, category.Type, category.Id).ToList();
 
         if (TempData["createCategoryMsg"] != null)
             model.Message = (SuccessMessage)TempData["createCategoryMsg"];

@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using NHibernate.Cfg;
 using TrueOrFalse.Web;
 
 public class CategoryModel : BaseContentModule 
@@ -60,14 +59,17 @@ public class CategoryModel : BaseContentModule
     public string TotalPins;
     public LearningTabModel LearningTabModel;
     public UserTinyModel UserTinyModel;
-    public AnalyticsFooterModel AnalyticsFooterModel; 
+    public AnalyticsFooterModel AnalyticsFooterModel;
+    public bool CategoryIsDeleted; 
     public CategoryModel()
     {
 
     }
-    public CategoryModel(Category category, bool loadKnowledgeSummary = true)
+    public CategoryModel(Category category, bool loadKnowledgeSummary = true, bool isCategoryNull = false)
     {
-        AnalyticsFooterModel = new AnalyticsFooterModel(category);
+        CategoryIsDeleted = isCategoryNull;
+
+        AnalyticsFooterModel = new AnalyticsFooterModel(category, false, isCategoryNull);
         MetaTitle = category.Name;
         MetaDescription = SeoUtils.ReplaceDoubleQuotes(category.Description).Truncate(250, true);
 
@@ -75,13 +77,15 @@ public class CategoryModel : BaseContentModule
         _categoryRepo = R<CategoryRepository>();
 
         if(loadKnowledgeSummary)
-            KnowledgeSummary = KnowledgeSummaryLoader.RunFromMemoryCache(category.Id, UserId);
-        var test = EntityCache.GetAllCategories();
+            KnowledgeSummary = isCategoryNull ? null :  KnowledgeSummaryLoader.RunFromMemoryCache(category.Id, UserId);
+
         IsInWishknowledge = Sl.CategoryValuationRepo.IsInWishKnowledge(category.Id, UserId);
 
         WikipediaURL = category.WikipediaURL;
         Url = category.Url;
         Category = category;
+        if (CategoryIsDeleted)
+            Category.IsHistoric = true;
 
         Id = category.Id;
         Name = category.Name;

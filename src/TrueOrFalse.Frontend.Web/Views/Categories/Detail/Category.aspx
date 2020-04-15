@@ -15,8 +15,6 @@
 </asp:Content>
 
 <asp:Content ID="head" ContentPlaceHolderID="Head" runat="server">
-<%--    <% Model.TopNavMenu.BreadCrumb.Add(new TopNavMenuItem{Text = Model.Category.Name, Url = Links.CategoriesAll(), ToolTipText = "Themen"});
-       Model.TopNavMenu.IsCategoryBreadCrumb = true; %>--%>
     <link href="/Views/Questions/Answer/LearningSession/LearningSessionResult.css" rel="stylesheet" />
     <%= Scripts.Render("~/bundles/js/Vue") %>
     <%= Styles.Render("~/bundles/AnswerQuestion") %>
@@ -58,17 +56,18 @@
                 <% Html.RenderPartial("~/Views/Categories/Detail/Tabs/TopicTab.ascx", Model); %>
             <% } %>
         </div>
-
     <div id="LearningTabContent" class="TabContent" style="visibility: hidden">
-        <% if(Model.IsInLearningTab) { %> 
-            <% Html.RenderPartial("~/Views/Categories/Detail/Tabs/LearningTab.ascx", Model); %>
-        <%}%>
-    </div>
-    
-    <div id="AnalyticsTabContent" class="TabContent">
-        <% if (Model.IsInAnalyticsTab){ %>
-            <% Html.RenderPartial("~/Views/Categories/Detail/Tabs/AnalyticsTab.ascx"); %>
-        <% } %>
-    </div>
+            <% if (Model.IsInLearningTab)
+               { %> 
+                <% Html.RenderPartial("~/Views/Categories/Detail/Tabs/LearningTab.ascx", Model); %>
+            <% } %>
+        </div>
+        
+        <div id="AnalyticsTabContent" class="TabContent">
+            <% if (Model.IsInAnalyticsTab)
+               { %>
+                <% Html.RenderPartial("~/Views/Categories/Detail/Tabs/AnalyticsTab.ascx"); %>
+            <% } %>
+        </div>
     <%= Scripts.Render("~/bundles/js/Category") %>
 </asp:Content>
