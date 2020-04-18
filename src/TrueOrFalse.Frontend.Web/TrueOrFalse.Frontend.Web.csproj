@@ -21765,6 +21765,9 @@
       <DependentUpon>Tabbing.ts</DependentUpon>
     </Content>
     <Content Include="Views\Categories\Detail\Partials\BreadCrumbCategories.ascx" />
+    <Content Include="Views\Categories\History\CategoryHistory.css">
+      <DependentUpon>CategoryHistory.less</DependentUpon>
+    </Content>
     <Content Include="Views\Questions\Answer\TopicToConinueLearning.ascx" />
     <Content Include="Views\Questions\QuestionList\QuestionList.ascx" />
     <Content Include="Views\Categories\Detail\Partials\CategoryFooter\CategoryFooter.ascx" />
@@ -21814,12 +21817,6 @@
     <Content Include="Views\Categories\Edit\TypeControls\EducationProvider.ascx" />
     <Content Include="Views\Categories\History\CategoryChangesOverview.aspx" />
     <Content Include="Views\Categories\History\CategoryHistory.aspx" />
-    <Content Include="Views\Categories\History\CategoryHistory.css">
-      <DependentUpon>CategoryHistory.less</DependentUpon>
-    </Content>
-    <Content Include="Views\Categories\History\CategoryHistory.min.css">
-      <DependentUpon>CategoryHistory.css</DependentUpon>
-    </Content>
     <Content Include="Views\Categories\History\Detail\CategoryHistoryDetail.aspx" />
     <Content Include="Views\Categories\History\Detail\Js\Page.js">
       <DependentUpon>Page.ts</DependentUpon>
