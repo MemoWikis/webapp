@@ -50,7 +50,6 @@ public class SidebarModel : UserCardBaseModel
         }
 
         var a = Authors.Any().ToString();
-        Logg.r().Warning("Authors.Any" + a + "/ " + "Sponsors.IsAddFree" +  SponsorModel.IsAdFree +"/" + "SuggestionCatgegory" + (SuggestionCategory !=null ).ToString());
     }
 
     public string Active(MainMenuEntry mainMenuEntry)
