@@ -169,3 +169,46 @@
     }
 }
 
+#QuestionDetailsApp {
+    .separationBorderTop {
+        min-height: 20px;
+    }
+
+    #questionDetailsContainer {
+        .section-label {
+            text-transform: uppercase;
+            font-family: 'Open Sans';
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        #questionStatistics {
+            #probabilityContainer {
+                #semiPieSection {
+                    @media (max-width:767px) {
+                        display: flex;
+                    }
+
+                    #semiPieChart {
+                        .semiPieSvgContainer {
+                            display: flex;
+                            justify-content: center;
+
+                            @media(max-width:767px) {
+                                justify-content: normal;
+                            }
+                        }
+                    }
+
+                    .probabilityText {
+                        display: flex;
+                        justify-content: center;
+                        padding-bottom: 30px;
+                    }
+                }
+            }
+        }
+    }
+}
+
+

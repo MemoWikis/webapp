@@ -1,6 +1,7 @@
 ﻿.category-chip-container {
   padding: 4px 8px 4px 0;
   font-size: 13px;
+  max-width: 100%;
 }
 .category-chip-container .category-chip {
   max-width: 100%;
@@ -24,8 +25,12 @@
 .category-chip-container .category-chip:hover {
   background: #e2e2e2;
 }
+.category-main-chip {
+  max-width: 100%;
+}
 .category-main-chip .category-chip-container {
   font-size: 20px;
+  max-width: 100%;
 }
 .category-main-chip .category-chip-container .category-chip {
   max-width: 100%;

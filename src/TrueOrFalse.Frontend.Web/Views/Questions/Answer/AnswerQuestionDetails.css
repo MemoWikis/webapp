@@ -138,3 +138,31 @@
     display: none;
   }
 }
+#QuestionDetailsApp .separationBorderTop {
+  min-height: 20px;
+}
+#QuestionDetailsApp #questionDetailsContainer .section-label {
+  text-transform: uppercase;
+  font-family: 'Open Sans';
+  font-size: 12px;
+  font-weight: 600;
+}
+@media (max-width: 767px) {
+  #QuestionDetailsApp #questionDetailsContainer #questionStatistics #probabilityContainer #semiPieSection {
+    display: flex;
+  }
+}
+#QuestionDetailsApp #questionDetailsContainer #questionStatistics #probabilityContainer #semiPieSection #semiPieChart .semiPieSvgContainer {
+  display: flex;
+  justify-content: center;
+}
+@media (max-width: 767px) {
+  #QuestionDetailsApp #questionDetailsContainer #questionStatistics #probabilityContainer #semiPieSection #semiPieChart .semiPieSvgContainer {
+    justify-content: normal;
+  }
+}
+#QuestionDetailsApp #questionDetailsContainer #questionStatistics #probabilityContainer #semiPieSection .probabilityText {
+  display: flex;
+  justify-content: center;
+  padding-bottom: 30px;
+}
