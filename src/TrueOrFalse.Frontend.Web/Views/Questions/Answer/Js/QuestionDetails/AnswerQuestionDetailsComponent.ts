@@ -13,8 +13,14 @@ Vue.component('question-details-component', {
             avgProbability: 0,
             personalAnswerCount: 0,
             personalAnsweredCorrectly: 0,
+            answerCount: "",
+            correctAnswers: "",
+            wrongAnswers: "",
             overallAnswerCount: 0,
             overallAnsweredCorrectly: 0,
+            allAnswerCount: "",
+            allCorrectAnswers: "",
+            allWrongAnswers: "",
             isLoggedIn: IsLoggedIn.Yes,
             isInWishknowledge: false,
             showTopBorder: false,
@@ -88,7 +94,6 @@ Vue.component('question-details-component', {
 
     watch: {
         questionId: function (id) {
-            console.log(id);
             if (id > 0) {
                 this.loadCategoryList();
                 this.loadData();
@@ -107,22 +112,33 @@ Vue.component('question-details-component', {
             this.personalStartAngle = 100 - (100 / this.personalAnswerCount * this.personalAnsweredCorrectly);
             await this.setPersonalCounterData();
             this.updateArc();
+
+            this.answerCount = this.abbreviateNumber(val);
+            this.wrongAnswers = this.abbreviateNumber(val - this.personalAnsweredCorrectly);
         },
 
-        personalAnsweredCorrectly: async function() {
+        personalAnsweredCorrectly: async function(val) {
             this.personalStartAngle = 100 - (100 / this.personalAnswerCount * this.personalAnsweredCorrectly);
             await this.setPersonalCounterData();
             this.updateArc();
+            this.correctAnswers = this.abbreviateNumber(val);
         },
 
-        overallAnswerCount: function() {
+        overallAnswerCount: function(val) {
             this.overallStartAngle = 100 - (100 / this.overallAnswerCount * this.overallAnsweredCorrectly);
+
+            this.allAnswerCount = this.abbreviateNumber(val);
+            var n = val - this.overallAnsweredCorrectly;
+            this.allWrongAnswers = this.abbreviateNumber(n);
         },
 
-        overAllAnsweredCorrectly: async function() {
-            this.overallStartAngle = 100 - (100 / this.personalAnswerCount * this.personalAnsweredCorrectly);
-            await this.setOverallCounterData();
-            this.updateArc();
+        overallAnsweredCorrectly: async function (val) {
+            this.allCorrectAnswers = this.abbreviateNumber(val);
+
+            //this.overallStartAngle = 100 - (100 / this.personalAnswerCount * this.personalAnsweredCorrectly);
+            //await this.setOverallCounterData();
+            //this.updateArc();
+
         },
 
         avgProbability: async function() {
@@ -136,35 +152,23 @@ Vue.component('question-details-component', {
     },
 
     computed: {
-        abbreviateNumber() {
-            var value = this.overallAnswerCount;
-            var newValue = value;
-            if (value >= 1000000) {
-                var suffixes = ["", "", " Mio.", " Mia.", " Bio."];
-                var suffixNum = Math.floor(("" + value).length / 3);
-                var shortValue;
-                for (var precision = 3; precision >= 1; precision--) {
-                    shortValue = parseFloat((suffixNum != 0 ? (value / Math.pow(1000, suffixNum)) : value).toPrecision(precision));
-                    var dotLessShortValue = (shortValue + '').replace(/[^a-zA-Z 0-9]+/g, '');
-                    if (dotLessShortValue.length <= 3) {
-                        break;
-                    }
-                }
-                if (shortValue % 1 != 0)
-                    shortValue = shortValue.toFixed(1);
-                var n = new Number(shortValue).toLocaleString("de-DE");
-                newValue = n + suffixes[suffixNum];
-
-                return newValue;
-            } else 
-                return new Number(newValue).toLocaleString("de-DE");
-        },
     },
 
     mounted: function () {
     },
 
     methods: {
+
+        abbreviateNumber(val) {
+            var newVal;
+            if (val < 1000000) {
+                return val.toLocaleString("de-DE");
+            }
+            else if (val >= 1000000 && val < 1000000000) {
+                newVal = val / 1000000;
+                return newVal.toFixed(2).toLocaleString("de-DE") + " Mio.";
+            }
+        },
 
         loadCategoryList() {
             $.ajax({

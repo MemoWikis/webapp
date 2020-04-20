@@ -141,7 +141,7 @@
 #QuestionDetailsApp .separationBorderTop {
   min-height: 20px;
 }
-#QuestionDetailsApp #questionDetailsContainer .section-label {
+#QuestionDetailsApp #questionDetailsContainer .sectionLabel {
   text-transform: uppercase;
   font-family: 'Open Sans';
   font-size: 12px;
@@ -161,8 +161,11 @@
     justify-content: normal;
   }
 }
-#QuestionDetailsApp #questionDetailsContainer #questionStatistics #probabilityContainer #semiPieSection .probabilityText {
+#QuestionDetailsApp #questionDetailsContainer #questionStatistics #probabilityContainer #semiPieSection #probabilityText {
   display: flex;
   justify-content: center;
-  padding-bottom: 30px;
+  padding-bottom: 20px;
+  text-align: center;
+  font-size: 12px;
+  max-width: 300px;
 }
