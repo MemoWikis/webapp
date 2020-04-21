@@ -21768,7 +21768,13 @@
     <Content Include="Views\Categories\History\CategoryHistory.css">
       <DependentUpon>CategoryHistory.less</DependentUpon>
     </Content>
+    <Content Include="Views\Categories\History\Detail\CategoryHistoryDetail.css">
+      <DependentUpon>CategoryHistoryDetail.less</DependentUpon>
+    </Content>
     <Content Include="Views\Questions\Answer\TopicToConinueLearning.ascx" />
+    <Content Include="Views\Questions\History\QuestionHistory.css">
+      <DependentUpon>QuestionHistory.less</DependentUpon>
+    </Content>
     <Content Include="Views\Questions\QuestionList\QuestionList.ascx" />
     <Content Include="Views\Categories\Detail\Partials\CategoryFooter\CategoryFooter.ascx" />
     <Content Include="Views\Categories\Detail\Partials\ContentModuleSelectionModal.vue.ascx" />
@@ -21897,12 +21903,6 @@
     <Content Include="Views\Questions\History\Detail\QuestionHistoryDetail.aspx" />
     <Content Include="Views\Questions\History\QuestionChangesOverview.aspx" />
     <Content Include="Views\Questions\History\QuestionHistory.aspx" />
-    <Content Include="Views\Questions\History\CategoryHistory.css">
-      <DependentUpon>QuestionHistory.less</DependentUpon>
-    </Content>
-    <Content Include="Views\Questions\History\CategoryHistory.min.css">
-      <DependentUpon>CategoryHistory.css</DependentUpon>
-    </Content>
     <Content Include="Views\Questions\QuestionList\QuestionList.css">
       <DependentUpon>QuestionList.less</DependentUpon>
     </Content>
