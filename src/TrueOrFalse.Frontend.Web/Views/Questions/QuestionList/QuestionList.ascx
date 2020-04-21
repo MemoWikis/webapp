@@ -83,7 +83,7 @@
                                                 </div>
                                                 
                                                 <div id="QuestionDetailsSection" style="display: flex;">
-                                                    <div>personalProbability</div>
+                                                    <div class="">{{correctnessProbability}} {{correctnessProbabilityLabel}}</div>
                                                     <div></div>
                                                     <div></div>
                                                 </div>

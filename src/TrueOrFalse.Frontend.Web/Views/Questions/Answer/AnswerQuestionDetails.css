@@ -141,15 +141,49 @@
 #QuestionDetailsApp .separationBorderTop {
   min-height: 20px;
 }
+@media (max-width: 767px) {
+  #QuestionDetailsApp #questionDetailsContainer {
+    display: flex;
+    flex-wrap: wrap;
+    flex-flow: column-reverse;
+  }
+}
 #QuestionDetailsApp #questionDetailsContainer .sectionLabel {
   text-transform: uppercase;
   font-family: 'Open Sans';
   font-size: 12px;
   font-weight: 600;
 }
+#QuestionDetailsApp #questionDetailsContainer #questionStatistics .categoryList {
+  padding-bottom: 20px;
+}
+#QuestionDetailsApp #questionDetailsContainer #questionStatistics #counterContainer .counterBody {
+  display: flex;
+  flex-wrap: wrap;
+}
+@media (max-width: 767px) {
+  #QuestionDetailsApp #questionDetailsContainer #questionStatistics #counterContainer .counterBody {
+    padding-bottom: 20px;
+  }
+}
+#QuestionDetailsApp #questionDetailsContainer #questionStatistics #counterContainer .counterBody .counterHalf {
+  display: flex;
+  justify-content: center;
+  padding-top: 30px;
+}
+@media (min-width: 595px) {
+  #QuestionDetailsApp #questionDetailsContainer #questionStatistics {
+    display: flex;
+    justify-content: space-around;
+  }
+}
+#QuestionDetailsApp #questionDetailsContainer #questionStatistics #probabilityContainer {
+  min-width: 220px;
+}
 @media (max-width: 767px) {
   #QuestionDetailsApp #questionDetailsContainer #questionStatistics #probabilityContainer #semiPieSection {
     display: flex;
+    padding-bottom: 20px;
   }
 }
 #QuestionDetailsApp #questionDetailsContainer #questionStatistics #probabilityContainer #semiPieSection #semiPieChart .semiPieSvgContainer {
@@ -161,6 +195,28 @@
     justify-content: normal;
   }
 }
+@media (min-width: 350px) and (max-width: 767px) {
+  #QuestionDetailsApp #questionDetailsContainer #questionStatistics #probabilityContainer #semiPieSection #semiPieChart .semiPieSvgContainer svg {
+    width: 196px;
+  }
+  #QuestionDetailsApp #questionDetailsContainer #questionStatistics #probabilityContainer #semiPieSection #semiPieChart .semiPieSvgContainer svg g {
+    transform: translate(86px, 80px);
+  }
+}
+@media (max-width: 349px) {
+  #QuestionDetailsApp #questionDetailsContainer #questionStatistics #probabilityContainer #semiPieSection #semiPieChart .semiPieSvgContainer svg {
+    width: 100px;
+  }
+  #QuestionDetailsApp #questionDetailsContainer #questionStatistics #probabilityContainer #semiPieSection #semiPieChart .semiPieSvgContainer svg g {
+    transform: translate(50px, 50px);
+  }
+  #QuestionDetailsApp #questionDetailsContainer #questionStatistics #probabilityContainer #semiPieSection #semiPieChart .semiPieSvgContainer svg g path.baseArc,
+  #QuestionDetailsApp #questionDetailsContainer #questionStatistics #probabilityContainer #semiPieSection #semiPieChart .semiPieSvgContainer svg g path.personalArc,
+  #QuestionDetailsApp #questionDetailsContainer #questionStatistics #probabilityContainer #semiPieSection #semiPieChart .semiPieSvgContainer svg g path.avgArc,
+  #QuestionDetailsApp #questionDetailsContainer #questionStatistics #probabilityContainer #semiPieSection #semiPieChart .semiPieSvgContainer svg g text.avgProbabilityLabel {
+    visibility: hidden;
+  }
+}
 #QuestionDetailsApp #questionDetailsContainer #questionStatistics #probabilityContainer #semiPieSection #probabilityText {
   display: flex;
   justify-content: center;
@@ -168,4 +224,10 @@
   text-align: center;
   font-size: 12px;
   max-width: 300px;
+}
+@media (max-width: 767px) {
+  #QuestionDetailsApp #questionDetailsContainer #questionStatistics #probabilityContainer #semiPieSection #probabilityText {
+    padding-top: 25px;
+    text-align: left;
+  }
 }

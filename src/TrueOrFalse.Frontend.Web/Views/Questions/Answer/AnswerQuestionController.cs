@@ -688,6 +688,12 @@ public class AnswerQuestionController : BaseController
             overallAnswerCount = history.TimesAnsweredTotal,
             overallAnsweredCorrectly = history.TimesAnsweredCorrect,
             isInWishknowledge = answerQuestionModel.IsInWishknowledge,
+            categories = question.Categories.Select(c => new
+            {
+                name = c.Name,
+                categoryType = c.Type,
+                linkToCategory = Links.CategoryDetail(c),
+            }).AsEnumerable().Distinct().ToList(),
         });
 
         return json;

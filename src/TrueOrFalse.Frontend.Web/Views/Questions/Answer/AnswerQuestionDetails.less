@@ -175,6 +175,12 @@
     }
 
     #questionDetailsContainer {
+        @media(max-width:767px) {
+            display: flex;
+            flex-wrap: wrap;
+            flex-flow: column-reverse;
+        }
+
         .sectionLabel {
             text-transform: uppercase;
             font-family: 'Open Sans';
@@ -183,10 +189,40 @@
         }
 
         #questionStatistics {
+
+            .categoryList {
+                padding-bottom: 20px;
+            }
+
+            #counterContainer {
+                .counterBody {
+                    display: flex;
+                    flex-wrap: wrap;
+
+                    @media(max-width:767px) {
+                        padding-bottom: 20px;
+                    }
+
+                    .counterHalf {
+                        display: flex;
+                        justify-content: center;
+                        padding-top: 30px;
+                    }
+                }
+            }
+
+            @media(min-width:595px) {
+                display: flex;
+                justify-content: space-around;
+            }
+
             #probabilityContainer {
+                min-width:220px;
+
                 #semiPieSection {
                     @media (max-width:767px) {
                         display: flex;
+                        padding-bottom: 20px;
                     }
 
                     #semiPieChart {
@@ -197,6 +233,32 @@
                             @media(max-width:767px) {
                                 justify-content: normal;
                             }
+
+                            @media(min-width:350px) and (max-width:767px) {
+
+                                svg {
+                                    width: 196px;
+
+                                    g {
+                                        transform: translate(86px,80px);
+                                    }
+                                }
+                            }
+
+                            @media(max-width:349px) {
+
+                                svg {
+                                    width: 100px;
+
+                                    g {
+                                        transform: translate(50px,50px);
+
+                                        path.baseArc, path.personalArc, path.avgArc, text.avgProbabilityLabel {
+                                            visibility: hidden;
+                                        }
+                                    }
+                                }
+                            }
                         }
                     }
 
@@ -206,7 +268,12 @@
                         padding-bottom: 20px;
                         text-align: center;
                         font-size: 12px;
-                        max-width: 300px
+                        max-width: 300px;
+
+                        @media(max-width:767px) {
+                            padding-top: 25px;
+                            text-align: left;
+                        }
                     }
                 }
             }

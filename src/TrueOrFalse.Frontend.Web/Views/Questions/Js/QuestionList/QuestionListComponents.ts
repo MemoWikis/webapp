@@ -201,6 +201,7 @@ Vue.component('question-component', {
             allDataLoaded: false,
             backgroundColor: "",
             correctnessProbability: "",
+            correctnessProbabilityLabel: "",
             showFullQuestion: false,
             commentCount: 0,
             extendedQuestion: "",
@@ -269,8 +270,10 @@ Vue.component('question-component', {
         setKnowledgebarColor(val) {
             if (this.isInWishknowledge) {
                 if (this.hasPersonalAnswer) {
-                    if (val >= 80)
+                    if (val >= 80) {
                         this.backgroundColor = "solid";
+                        this.correctnessProbabilityLabel = "Sicher gewusst";
+                    }
                     else if (val < 80 && val >= 50)
                         this.backgroundColor = "shouldConsolidate";
                     else if (val < 50 && val >= 0)

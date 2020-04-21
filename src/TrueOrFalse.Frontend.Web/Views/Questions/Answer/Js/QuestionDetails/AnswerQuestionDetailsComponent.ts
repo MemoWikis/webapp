@@ -34,6 +34,7 @@ Vue.component('question-details-component', {
                 innerRadius: 45,
                 outerRadius: 50,
                 fill: "#DDDDDD",
+                class: "baseArc",
             },
 
             personalArcData: {},
@@ -72,6 +73,8 @@ Vue.component('question-details-component', {
 
             overallWrongAnswerCountData: {},
             overallCorrectAnswerCountData: {},
+
+            categories: [],
         };
     },
 
@@ -134,10 +137,12 @@ Vue.component('question-details-component', {
 
         overallAnsweredCorrectly: async function (val) {
             this.allCorrectAnswers = this.abbreviateNumber(val);
+            this.overallStartAngle = 100 - (100 / this.overallAnswerCount * this.overallAnsweredCorrectly);
+            await this.setOverallCounterData();
 
-            //this.overallStartAngle = 100 - (100 / this.personalAnswerCount * this.personalAnsweredCorrectly);
-            //await this.setOverallCounterData();
-            //this.updateArc();
+            if (this.arcLoaded)
+                this.updateArc();
+
 
         },
 
@@ -195,6 +200,7 @@ Vue.component('question-details-component', {
                     this.overallAnswerCount = data.overallAnswerCount;
                     this.overallAnsweredCorrectly = data.overallAnsweredCorrectly;
                     this.personalColor = data.personalColor;
+                    this.categories = data.categories;
                     await this.setPersonalProbability();
                     await this.setPersonalArcData();
                     await this.setAvgArcData();
