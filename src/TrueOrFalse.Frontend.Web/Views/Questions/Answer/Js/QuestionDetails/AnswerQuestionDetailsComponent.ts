@@ -13,14 +13,16 @@ Vue.component('question-details-component', {
             avgProbability: 0,
             personalAnswerCount: 0,
             personalAnsweredCorrectly: 0,
-            answerCount: "",
-            correctAnswers: "",
-            wrongAnswers: "",
+            personalAnsweredWrongly: 0,
+            answerCount: "0",
+            correctAnswers: "0",
+            wrongAnswers: "0",
             overallAnswerCount: 0,
             overallAnsweredCorrectly: 0,
-            allAnswerCount: "",
-            allCorrectAnswers: "",
-            allWrongAnswers: "",
+            overallAnsweredWrongly: 0,
+            allAnswerCount: "0",
+            allCorrectAnswers: "0",
+            allWrongAnswers: "0",
             isLoggedIn: IsLoggedIn.Yes,
             isInWishknowledge: false,
             showTopBorder: false,
@@ -115,9 +117,7 @@ Vue.component('question-details-component', {
             this.personalStartAngle = 100 - (100 / this.personalAnswerCount * this.personalAnsweredCorrectly);
             await this.setPersonalCounterData();
             this.updateArc();
-
             this.answerCount = this.abbreviateNumber(val);
-            this.wrongAnswers = this.abbreviateNumber(val - this.personalAnsweredCorrectly);
         },
 
         personalAnsweredCorrectly: async function(val) {
@@ -127,12 +127,17 @@ Vue.component('question-details-component', {
             this.correctAnswers = this.abbreviateNumber(val);
         },
 
+        personalAnsweredWrongly: async function (val) {
+            this.personalStartAngle = 100 - (100 / this.personalAnswerCount * this.personalAnsweredCorrectly);
+            await this.setPersonalCounterData();
+            this.updateArc();
+            this.wrongAnswers = this.abbreviateNumber(val);
+        },
+
         overallAnswerCount: function(val) {
             this.overallStartAngle = 100 - (100 / this.overallAnswerCount * this.overallAnsweredCorrectly);
 
             this.allAnswerCount = this.abbreviateNumber(val);
-            var n = val - this.overallAnsweredCorrectly;
-            this.allWrongAnswers = this.abbreviateNumber(n);
         },
 
         overallAnsweredCorrectly: async function (val) {
@@ -142,8 +147,15 @@ Vue.component('question-details-component', {
 
             if (this.arcLoaded)
                 this.updateArc();
+        },
 
+        overallAnsweredWrongly: async function (val) {
+            this.allWrongAnswers = this.abbreviateNumber(val);
+            this.overallStartAngle = 100 - (100 / this.overallAnswerCount * this.overallAnsweredCorrectly);
+            await this.setOverallCounterData();
 
+            if (this.arcLoaded)
+                this.updateArc();
         },
 
         avgProbability: async function() {
@@ -197,8 +209,10 @@ Vue.component('question-details-component', {
                     this.avgProbability = data.avgProbability;
                     this.personalAnswerCount = data.personalAnswerCount;
                     this.personalAnsweredCorrectly = data.personalAnsweredCorrectly;
+                    this.personalAnsweredWrongly = data.personalAnsweredWrongly;
                     this.overallAnswerCount = data.overallAnswerCount;
                     this.overallAnsweredCorrectly = data.overallAnsweredCorrectly;
+                    this.overallAnsweredWrongly = data.overallAnsweredWrongly;
                     this.personalColor = data.personalColor;
                     this.categories = data.categories;
                     await this.setPersonalProbability();

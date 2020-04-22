@@ -685,8 +685,10 @@ public class AnswerQuestionController : BaseController
             avgProbability = correctnessProbability.CPAll,
             personalAnswerCount = history.TimesAnsweredUser,
             personalAnsweredCorrectly = history.TimesAnsweredUserTrue,
+            personalAnsweredWrongly = history.TimesAnsweredUserWrong,
             overallAnswerCount = history.TimesAnsweredTotal,
             overallAnsweredCorrectly = history.TimesAnsweredCorrect,
+            overallAnsweredWrongly = history.TimesAnsweredWrongTotal,
             isInWishknowledge = answerQuestionModel.IsInWishknowledge,
             categories = question.Categories.Select(c => new
             {
