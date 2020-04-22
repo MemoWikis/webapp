@@ -717,13 +717,23 @@ Vue.component('question-details-component', {
                     probabilityTextWidth = this.getComputedTextLength();
                 })
                 .transition()
-                .duration(800)
+                .duration(200)
+                .style("visibility", "hidden")
                 .style("fill", () => self.personalColor == "#999999" ? "white" : "#555555");
 
+            self.arcSvg.selectAll(".personalProbabilityText")
+                .text(self.personalProbabilityText)
+                .each(function() {
+                    probabilityTextWidth = this.getComputedTextLength();
+                })
+                .transition()
+                .delay(200)
+                .duration(200)
+                .style("visibility", "visible");
 
             self.arcSvg.selectAll(".personalProbabilityChip")
                 .transition()
-                .duration(800)
+                .duration(400)
                 .style("fill", self.personalColor)
                 .attr("x", - probabilityTextWidth / 2 - 11)
                 .attr("width", probabilityTextWidth + 22);
