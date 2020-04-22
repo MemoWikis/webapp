@@ -159,6 +159,7 @@
 }
 #QuestionDetailsApp #questionDetailsContainer #categoryList .categoryListChips {
   max-height: 308px;
+  overflow: hidden;
 }
 @media (max-width: 479px) {
   #QuestionDetailsApp #questionDetailsContainer #categoryList .categoryListChips {

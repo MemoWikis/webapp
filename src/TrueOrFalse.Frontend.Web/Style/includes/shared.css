@@ -6788,7 +6788,7 @@ fieldset[disabled] .HeartToAddButton .iAddSpinner {
   color: #fff;
   background-color: #d9534f;
   border-color: #d43f3a;
-  background-color: #B13A48;
+  background-color: #FF001F;
 }
 .HeartToAddButton .iAddedNot:hover,
 .HeartToAddButton .iAddedNot:focus,
@@ -6850,7 +6850,7 @@ fieldset[disabled] .HeartToAddButton .iAddedNot.active {
   box-shadow: none;
 }
 .HeartToAddButton .iAdded i {
-  color: #B13A48;
+  color: #FF001F;
   font-size: 22px;
 }
 .RoundHeartButton {
@@ -6889,8 +6889,8 @@ fieldset[disabled] .HeartToAddButton .iAddedNot.active {
   }
 }
 .RoundHeartButton.iAdded {
-  border-color: #b13a48;
-  background-color: #b13a48;
+  border-color: #FF001F;
+  background-color: #FF001F;
   animation: resetBGColor 0.3s forwards;
 }
 .RoundHeartButton.iAdded:hover {

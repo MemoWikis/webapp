@@ -257,8 +257,7 @@
 .HeartToAddButton {
 
     .iAdded, .iAddedNot, .iAddSpinner {
-    .btn;
-
+        .btn;
         height: 34px;
 
         &, & i {
@@ -277,19 +276,19 @@
 
     .iAddedNot {
         .btn-danger;
+        background-color: #FF001F;
 
-        background-color: @dark-red;
-
-        i {color: white;}
+        i {
+            color: white;
+        }
 
         span {
             padding-left: 2px;
             position: relative;
             bottom: 3px;
-
         }
 
-        span.plus{
+        span.plus {
             font-weight: bold;
             font-size: 18px;
             margin-right: 2px;
@@ -299,13 +298,15 @@
             left: 1px;
         }
     }
+
     .iAdded {
 
         &, &:focus, &:active, &:hover {
             box-shadow: none;
         }
+
         i {
-            color: @dark-red;
+            color: #FF001F;
             font-size: 22px;
         }
     }
@@ -355,8 +356,8 @@
 
 
     &.iAdded {
-        border-color: #b13a48;
-        background-color: #b13a48;
+        border-color: #FF001F;
+        background-color: #FF001F;
         animation: resetBGColor 0.3s forwards;
 
         &:hover {
