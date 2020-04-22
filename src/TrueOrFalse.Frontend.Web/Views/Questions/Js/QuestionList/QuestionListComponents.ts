@@ -201,6 +201,7 @@ Vue.component('question-component', {
             allDataLoaded: false,
             backgroundColor: "",
             correctnessProbability: "",
+            correctnessProbabilityLabel: "",
             showFullQuestion: false,
             commentCount: 0,
             extendedQuestion: "",
@@ -217,12 +218,15 @@ Vue.component('question-component', {
             authorUrl: "",
             questionDetails: "",
             pageHasChanged: false,
+            answerCount: "0",
+            correctAnswers: "0",
+            wrongAnswers: "0",
         }   
     },
     
     mounted() {
         this.correctnessProbability = this.knowledgeState + "%";
-        this.setKnowledgebarColor(this.knowledgeState);
+        this.setKnowledgebarData(this.knowledgeState);
         this.getWishknowledgePinButton();
     
         eventBus.$on('reload-question-details', () => {
@@ -234,7 +238,7 @@ Vue.component('question-component', {
     
     watch: {
         knowledgeState(val) {
-            this.setKnowledgebarColor(val);
+            this.setKnowledgebarData(val);
             this.loadQuestionDetails();
             this.correctnessProbability = this.knowledgeState + "%";
         },
@@ -249,7 +253,7 @@ Vue.component('question-component', {
                 }
         },
         isInWishknowledge() {
-            this.setKnowledgebarColor(this.knowledgeState);
+            this.setKnowledgebarData(this.knowledgeState);
         },
         categories() {
             if (this.categories.length >= 2)
@@ -266,21 +270,38 @@ Vue.component('question-component', {
     },
     
     methods: {
-        setKnowledgebarColor(val) {
+        abbreviateNumber(val) {
+            var newVal;
+            if (val < 1000000) {
+                return val.toLocaleString("de-DE");
+            }
+            else if (val >= 1000000 && val < 1000000000) {
+                newVal = val / 1000000;
+                return newVal.toFixed(2).toLocaleString("de-DE") + " Mio.";
+            }
+        },
+
+        setKnowledgebarData(val) {
             if (this.isInWishknowledge) {
                 if (this.hasPersonalAnswer) {
-                    if (val >= 80)
+                    if (val >= 80) {
                         this.backgroundColor = "solid";
-                    else if (val < 80 && val >= 50)
+                        this.correctnessProbabilityLabel = "Sicheres Wissen";
+                    } else if (val < 80 && val >= 50) {
                         this.backgroundColor = "shouldConsolidate";
-                    else if (val < 50 && val >= 0)
+                        this.correctnessProbabilityLabel = "Zu festigen";
+                    } else if (val < 50 && val >= 0) {
                         this.backgroundColor = "shouldLearn";
-                }
-                else {
+                        this.correctnessProbabilityLabel = "Zu lernen";
+                    }
+                } else {
                     this.backgroundColor = "inWishknowledge";
+                    this.correctnessProbabilityLabel = "Nicht gelernt";
                 }
-            } else
+            } else {
                 this.backgroundColor = "";
+                this.correctnessProbabilityLabel = "Nicht im Wunschwissen";
+            }
     
         },
     
@@ -325,7 +346,9 @@ Vue.component('question-component', {
                         Images.Init();
                     });
                     this.allDataLoaded = true;
-    
+                    this.answerCount = this.abbreviateNumber(data.answerCount);
+                    this.correctAnswers = this.abbreviateNumber(data.correctAnswerCount);
+                    this.wrongAnswers = this.abbreviateNumber(data.wrongAnswerCount);
                 },
             });
         },

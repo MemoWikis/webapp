@@ -18,6 +18,6 @@
 
 
     <div class="iAddSpinner hide2">
-        <i class="fa fa-spinner fa-spin" style="color:#b13a48;"></i>
+        <i class="fa fa-spinner fa-spin" style="color:#FF001F;"></i>
     </div>
 </a>

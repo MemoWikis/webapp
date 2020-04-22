@@ -77,6 +77,9 @@ namespace TrueOrFalse.View
                 .IncludeDirectory("~/Views/Categories/Detail/Js/", "*.js")
                 .Include("~/Views/Categories/ResultTestSession/Js/GetResultTestSession.js"));
 
+            bundles.Add(new ScriptBundle("~/bundles/js/d3")
+                .Include("~/Scripts/npm/d3/d3.js"));
+
             bundles.Add(new ScriptBundle("~/bundles/js/CategorySort")
                 .Include("~/Scripts/npm/sortablejs/Sortable.js")
                 .Include("~/Scripts/npm/vue-sortable/vue-sortable.js"));
@@ -166,6 +169,12 @@ namespace TrueOrFalse.View
             bundles.Add(new StyleBundle("~/bundles/AnswerQuestion")
                 .Include("~/Views/Questions/Answer/*.css"));
 
+            bundles.Add(new ScriptBundle("~/bundles/js/QuestionDetailsApp")
+                .Include("~/Views/Questions/Answer/Js/QuestionDetails/AnswerQuestionDetailsApp.js"));
+
+            bundles.Add(new ScriptBundle("~/bundles/js/QuestionDetailsComponent")
+                .Include("~/Views/Questions/Answer/Js/QuestionDetails/AnswerQuestionDetailsComponent.js"));
+
             bundles.Add(new ScriptBundle("~/bundles/js/SessionConfig")
                 .Include("~/Scripts/npm/vue-slider-component/vue-slider-component.umd.js")
                 .IncludeDirectory("~/Views/Questions/Answer/Js/SessionConfig/", "*.js"));
@@ -175,6 +184,7 @@ namespace TrueOrFalse.View
 
             bundles.Add(new ScriptBundle("~/bundles/js/QuestionListComponents")
                 .Include("~/Views/Questions/Js/QuestionList/QuestionListComponents.js"));
+
 
             bundles.Add(new StyleBundle("~/bundles/QuestionList")
                 .Include("~/Views/Questions/QuestionList/QuestionList.css"));

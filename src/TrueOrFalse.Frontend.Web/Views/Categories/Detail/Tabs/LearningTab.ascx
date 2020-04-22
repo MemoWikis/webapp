@@ -20,6 +20,12 @@
     data-current-step-idx=""
     data-is-last-step="" />
 
+<%= Scripts.Render("~/bundles/js/d3") %>
+<script type="text/x-template" id="question-details-component">
+    <%: Html.Partial("~/Views/Questions/Answer/AnswerQuestionDetailsComponent.vue.ascx") %>
+</script>
+<%= Scripts.Render("~/bundles/js/QuestionDetailsComponent") %>
+
 <% if (Model.Category.CountQuestionsAggregated > 0)
     {
         var questionId = Model.Category

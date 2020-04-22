@@ -176,7 +176,6 @@ class AnswerBodyLoader {
 
                 this.updateMenu(result.menuHtml);
                 document.title = $(".QuestionText").html();
-                $("#QuestionDetails").replaceWith(result.questionDetailsAsHtml);
                 $("div#comments").replaceWith(result.commentsAsHtml);
 
                 new AnswerBody();

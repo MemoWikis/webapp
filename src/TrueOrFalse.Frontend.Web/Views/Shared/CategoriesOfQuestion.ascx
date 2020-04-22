@@ -2,11 +2,12 @@
 <%@ Import Namespace="System.Web.Optimization" %>
 <%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
 
+<%= Styles.Render("~/bundles/CategoryLabel") %>
 <div style="display: flex; flex-wrap: wrap;">
+
     <% foreach(var category in Model.Categories){ %>
 
         <% if(category.IsSpoiler(Model)){ %>
-            <%= Styles.Render("~/bundles/CategoryLabel") %>
 
             <div class="category-chip-container">
                 <a href="#" onclick="location.href='<%= Links.CategoryDetail(category)%>'">
