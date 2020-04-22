@@ -94,6 +94,14 @@ Vue.component('question-details-component', {
                 self.questionId = parseInt($("#questionId").val());
                 if (self.questionId > 0)
                     self.loadData();
+        });
+
+        eventBus.$on('reload-wishknowledge-state-per-question',
+            (data) => {
+                if (this.questionId == data.questionId && this.arcLoaded) {
+                    this.isInWishknowledge = data.isInWishknowledge;
+                    this.loadData();
+                }
             });
     },
 
@@ -116,21 +124,24 @@ Vue.component('question-details-component', {
                 this.showPersonalArc = true;
             this.personalStartAngle = 100 - (100 / this.personalAnswerCount * this.personalAnsweredCorrectly);
             await this.setPersonalCounterData();
-            this.updateArc();
+            if (this.arcLoaded)
+                this.updateArc();
             this.answerCount = this.abbreviateNumber(val);
         },
 
         personalAnsweredCorrectly: async function(val) {
             this.personalStartAngle = 100 - (100 / this.personalAnswerCount * this.personalAnsweredCorrectly);
             await this.setPersonalCounterData();
-            this.updateArc();
+            if (this.arcLoaded)
+                this.updateArc();
             this.correctAnswers = this.abbreviateNumber(val);
         },
 
         personalAnsweredWrongly: async function (val) {
             this.personalStartAngle = 100 - (100 / this.personalAnswerCount * this.personalAnsweredCorrectly);
             await this.setPersonalCounterData();
-            this.updateArc();
+            if (this.arcLoaded)
+                this.updateArc();
             this.wrongAnswers = this.abbreviateNumber(val);
         },
 
