@@ -5,6 +5,7 @@
 <input type="hidden" id="hddSolutionTypeNum" value="1" />
 <input type="hidden" id="isSetSession" value="<%=Model.TestSession.IsSetSession %>"/>
 <input type="hidden" id="isCategorySession" value="<%=Model.TestSession.IsCategorySession %>"/>
+<input type="hidden" id="hddIsResultSite" value="true"/>
 <div class="stackedBarChartContainer" style="margin-bottom: 0;">
     <% if (Model.NumberCorrectPercentage > 0)
         { %>
@@ -115,9 +116,7 @@
                     <% if (!Model.IsInWidget)
                        { %>
                     <div class="buttonRow">
-                        <a href="<%= Url.Action(Links.KnowledgeAction, Links.KnowledgeController) %>" class="btn btn-link" style="padding-right: 10px">
-                            Zur Wissenszentrale
-                        </a>
+                        <a href="<%= Links.CategoryDetail(Model.TestSession.CategoryToTest.Name, Model.TestSession.CategoryToTest.Id) %>" class="btn btn-link " style="padding-right: 10px">Zum Thema</a>
                         <a href="<%= Model.LinkForRepeatTest %>" class="btn btn-primary show-tooltip  nextLearningTestSession" style="padding-right: 10px"
                            title="Neue Fragen <% if (Model.TestSession.IsSetSession) Response.Write("aus demselben Lernset");
                                                  else if (Model.TestSession.IsSetsSession) Response.Write("aus denselben Lernsets");

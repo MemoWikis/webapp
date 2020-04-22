@@ -13,7 +13,7 @@ public class CategoryHistoryDetailModel : BaseModel
     public bool PrevRevExists;
     public bool NextRevExists;
 
-    public User Author;
+    public UserTinyModel Author;
     public string AuthorName;
     public string AuthorImageUrl;
     public bool ImageWasUpdated;
@@ -33,31 +33,49 @@ public class CategoryHistoryDetailModel : BaseModel
     public string PrevDescription;
     public string PrevWikipediaUrl;
     public string PrevRelations;
+
     
-    public CategoryHistoryDetailModel(CategoryChange currentRevision, CategoryChange previousRevision, CategoryChange nextRevision)
+    public CategoryHistoryDetailModel(CategoryChange currentRevision, CategoryChange previousRevision, CategoryChange nextRevision, bool isCategoryDeleted)
     {
+        var currentVersionTypeDelete = currentRevision.Type == CategoryChangeType.Delete; 
+
         PrevRevExists = previousRevision != null;
         NextRevExists = nextRevision != null;
 
-        CategoryId = currentRevision.Category.Id;
-        CategoryName = currentRevision.Category.Name;
-        Author = currentRevision.Author;
-        AuthorName = currentRevision.Author.Name;
-        AuthorImageUrl = new UserImageSettings(currentRevision.Author.Id).GetUrl_85px_square(currentRevision.Author).Url;
-        CategoryUrl = Links.CategoryDetail(CategoryName, CategoryId);
-
+        var previouisRevisionData = !PrevRevExists ? null :  previousRevision.GetCategoryChangeData();
         var currentRevisionData = currentRevision.GetCategoryChangeData();
+        currentRevisionData = currentVersionTypeDelete ? new CategoryEditData_V2() : currentRevisionData;
+
+        CategoryId = currentRevision.Category == null ? Sl.CategoryChangeRepo.GetCategoryId(currentRevision.Id):  currentRevision.Category.Id;
+
+        if (currentVersionTypeDelete)                       // is currentVersion deleted then is too category deleted
+            CategoryName = previouisRevisionData.Name;
+        else if(isCategoryDeleted)                        // is category deleted  then currentversion type delete is not necessarily
+        {
+            CategoryName = currentRevisionData.Name;   
+        }
+        else
+        {
+            CategoryName = currentRevision.Category.Name;
+        }
+
+        Author = new UserTinyModel(currentRevision.Author);
+        AuthorName = new UserTinyModel(currentRevision.Author).Name;
+        AuthorImageUrl = new UserImageSettings(new UserTinyModel(currentRevision.Author).Id).GetUrl_85px_square(new UserTinyModel(currentRevision.Author)).Url;
+        CategoryUrl = isCategoryDeleted ? "" : Links.CategoryDetail(CategoryName, CategoryId);
+
+       
         CurrentId = currentRevision.Id;
         CurrentDateCreated = currentRevision.DateCreated;
-        CurrentName = currentRevisionData.Name;
+        CurrentName = currentVersionTypeDelete ? previouisRevisionData.Name :  currentRevisionData.Name;
         CurrentMarkdown = currentRevisionData.TopicMardkown?.Replace("\\r\\n", "\r\n");
         CurrentDescription = currentRevisionData.Description?.Replace("\\r\\n", "\r\n");
-        CurrentWikipediaUrl = currentRevisionData.WikipediaURL;
+        CurrentWikipediaUrl = currentVersionTypeDelete ? ""  : currentRevisionData.WikipediaURL;
 
         if (currentRevision.DataVersion == 2)
         {
             ImageWasUpdated = ((CategoryEditData_V2)currentRevisionData).ImageWasUpdated;
-            var imageMetaData = Sl.ImageMetaDataRepo.GetBy(currentRevision.Category.Id, ImageType.Category);
+            var imageMetaData = Sl.ImageMetaDataRepo.GetBy(CategoryId, ImageType.Category);
             ImageFrontendData = new ImageFrontendData(imageMetaData);
         }
 
@@ -103,7 +121,7 @@ public class CategoryHistoryDetailModel : BaseModel
     private string SortedListOfRelations(IList<CategoryRelation_EditData_V2> relations)
     {
         string res = "";
-        if (relations.IsNotEmpty())
+        if (relations != null && relations.IsNotEmpty())
         {
             var parents = relations.Where(r => r.RelationType == CategoryRelationType.IsChildCategoryOf);
             res += "Übergeordnete Themen\n";

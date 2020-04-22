@@ -22,7 +22,7 @@ namespace TrueOrFalse.Frontend.Web
        
         protected void Application_Start()
         {
-            IgnoreLog.GetCrawlers();
+            IgnoreLog.Initialize();
             InitializeAutofac();
             
             Sl.Resolve<Update>().Run();

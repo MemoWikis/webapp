@@ -71,7 +71,7 @@ public static class QuestionInKnowledge
         if (saveType != SaveType.DatabaseOnly)
             SetUserWishCountQuestions(user);
 
-        var creatorGroups = questions.Select(q => q.Creator).GroupBy(c => c.Id);
+        var creatorGroups = questions.Select(q => new UserTinyModel(q.Creator)).GroupBy(c => c.Id);
         foreach (var creator in creatorGroups)
             ReputationUpdate.ForUser(creator.First());
     }

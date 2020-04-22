@@ -13,31 +13,36 @@ namespace TrueOrFalse.Tools
 
         public static IEnumerable<string> GetCrawlers()
         {
+            if (_crawlers == null) 
+                Initialize();
+
+            return _crawlers;
+        }
+
+        public static void Initialize()
+        {
             lock ("3fb23623-caed-48fc-6e86-c595b4c0820c")
             {
-                if (_crawlers != null)
-                    return _crawlers;
-            }
-
-            if (!File.Exists(PathTo.Log_Ignore()))
-            {
-                Logg.r().Warning($"Ignore.log is not available- {PathTo.Log_Ignore()}");
-                return new List<string>();
-            }
-
-            var lines = File.ReadAllLines(PathTo.Log_Ignore());
-
-            return _crawlers = lines
-                .Select(line => line.Trim())
-                .Where(line => line.Length > 0)
-                .Select(line =>
+                if (!File.Exists(PathTo.Log_Ignore()))
                 {
-                    var parts = line.Split(':');
-                    if (parts.Length == 2)
-                        return parts[1].ToLower().Trim();
-                    return "";
-                })
-                .Where(crawlerName => !IsNullOrEmpty(crawlerName));
+                    Logg.r().Warning($"Ignore.log is not available- {PathTo.Log_Ignore()}");
+                    _crawlers = new List<string>();
+                }
+
+                var lines = File.ReadAllLines(PathTo.Log_Ignore());
+
+                _crawlers = lines
+                    .Select(line => line.Trim())
+                    .Where(line => line.Length > 0)
+                    .Select(line =>
+                    {
+                        var parts = line.Split(':');
+                        if (parts.Length == 2)
+                            return parts[1].ToLower().Trim();
+                        return "";
+                    })
+                    .Where(crawlerName => !IsNullOrEmpty(crawlerName));
+            }
         }
 
         public static bool ContainsCrawlerInHeader(string header)
@@ -55,7 +60,7 @@ namespace TrueOrFalse.Tools
         public static void LoadNewList()
         {
             _crawlers = null;
-            GetCrawlers();
+            Initialize();
         }
     }
 }

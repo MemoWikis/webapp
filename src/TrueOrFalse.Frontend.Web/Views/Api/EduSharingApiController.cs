@@ -26,9 +26,9 @@ public class EduSharingApiController : BaseController
     }
 
 
-    public JsonResult Search(string term, int pageSize = 5)
+    public JsonResult Search(string term, int pageSize = 5, int page = 1)
     {
-        var result = Sl.SearchCategories.Run(term, new Pager { PageSize = pageSize });
+        var result = Sl.SearchCategories.Run(term, new Pager { PageSize = pageSize, IgnorePageCount = true, CurrentPage = page});
 
         return Json(new
         {
@@ -42,7 +42,7 @@ public class EduSharingApiController : BaseController
                     ImageUrl = Settings.CanonicalHost + new CategoryImageSettings(category.Id).GetUrl_350px_square().Url,
                     ItemUrl = Settings.CanonicalHost + Links.CategoryDetail(category.Name, category.Id),
                     Licence = "CC_BY",
-                    Author = category.Creator.Name
+                    Author = new UserTinyModel(category.Creator).Name
                 })
         }, JsonRequestBehavior.AllowGet);
     }
@@ -94,10 +94,9 @@ public class EduSharingApiController : BaseController
     public JsonResult Statistics()
     {
         var totalPublicQuestionCount = Sl.R<QuestionRepo>().TotalPublicQuestionCount();
-        var totalSetCount = Sl.R<SetRepo>().TotalSetCount();
         var totalTopicCount = Sl.R<CategoryRepository>().TotalCategoryCount();
 
-        var total = totalPublicQuestionCount + totalSetCount + totalTopicCount;
+        var total = totalPublicQuestionCount + totalTopicCount;
 
         var subGroups = new object[]
         {
@@ -110,12 +109,6 @@ public class EduSharingApiController : BaseController
                         key = "questions",
                         displayName = "Fragen",
                         count = totalPublicQuestionCount
-                    },
-                    new
-                    {
-                        key = "sets",
-                        displayName = "Lernsets",
-                        count = totalSetCount
                     },
                     new
                     {

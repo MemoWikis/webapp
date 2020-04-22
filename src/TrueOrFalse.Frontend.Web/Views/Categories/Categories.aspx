@@ -118,15 +118,6 @@
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group">
-<%--                                <% if(!String.IsNullOrEmpty(Model.Suggestion)){ %> 
-                                        <div style="padding-bottom: 10px; font-size: large">
-                                            Oder suchst du: 
-                                            <a href="<%= "/Kategorien/Suche/" + Model.Suggestion %>">
-                                                <%= Model.Suggestion %>
-                                            </a> ?
-                                        </div>
-                                    <% } %>--%>
-
                                     <div class="input-group">
                                         <%: Html.TextBoxFor(model => model.SearchTerm, 
                                                 new {@class="form-control", placeholder="Beginne zu tippen, um Themen zu finden", id="txtSearch", formurl = Model.SearchUrl}) %>

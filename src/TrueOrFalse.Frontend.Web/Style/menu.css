@@ -344,6 +344,7 @@
 }
 .RightMainMenu .list-group-item:hover {
   background-color: #f5f5f5 !important;
+  color: black !important;
 }
 .RightMainMenu .list-group-item .add-new {
   margin-top: 2px;

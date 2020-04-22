@@ -8,6 +8,7 @@
 
 <input type="hidden" id="hddSolutionTypeNum" value="1" />
 <input type="hidden" id="hddCategoryId" value="682" />
+<input type="hidden" id="hddIsResultSite" value="true"/>
 
 <h2 style="margin-bottom: 15px; margin-top: 0px;">
     <span class="<% if (Model.LearningSession.IsDateSession) Response.Write("ColoredUnderline Date");

@@ -5,12 +5,12 @@ using System.Web.Mvc;
 
 public class MarkdownSingleTemplateToHtml
 {
-    public static string Run(Token token, Category category, ControllerContext controllerContext, bool preview = false)
+    public static string Run(Token token, Category category, ControllerContext controllerContext, bool preview = false, int? version = null)
     {
-        return Run(token.ToText(), category, controllerContext, preview);
+        return Run(token.ToText(), category, controllerContext, preview, version);
     }
 
-    public static string Run(string stringToParse, Category category, ControllerContext controllerContext, bool preview = false)
+    public static string Run(string stringToParse, Category category, ControllerContext controllerContext, bool preview = false, int? version = null)
     {
         try
         {
@@ -33,9 +33,11 @@ public class MarkdownSingleTemplateToHtml
         }
         catch (Exception e)
         {
-            Logg.r().Error($"Fehler beim Parsen der Kategorie Id={category.Id} ({e.Message} {e.StackTrace}).");
+            if (version == null)
+                Logg.r().Error(e, $"Fehler beim Parsen der Kategorie Id={category.Id}.");
+
             return GetReplacementForNonparsableTemplate(stringToParse, e.Message);
-        }
+        }   
     }
 
     private static string GetHtml(BaseContentModule contentModule, Category category, ControllerContext controllerContext)

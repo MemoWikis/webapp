@@ -240,6 +240,9 @@ public class CategoryRepository : RepositoryDbBase<Category>
     public IList<Category> GetAllParents(int categoryId)
     {
         var category = GetById(categoryId);
+
+        category = category == null ? new Category() : category;
+
         var currentGeneration = category.ParentCategories();
         var previousGeneration = new List<Category>();
         var parents = new List<Category>();

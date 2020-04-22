@@ -1,8 +1,5 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using Newtonsoft.Json;
-using NHibernate;
-using NHibernate.Criterion;
+﻿using NHibernate;
+using System.Collections.Generic;
 
 
 public class CategoryChangeParameters
@@ -21,7 +18,8 @@ public class CategoryChangeRepo : RepositoryDbBase<CategoryChange>
             Category = category,
             Author = Sl.SessionUser.User,
             Type = CategoryChangeType.Delete,
-            DataVersion = 2
+            DataVersion = 2,
+            Data = ""
         };
 
         base.Create(categoryChange);
@@ -112,5 +110,10 @@ public class CategoryChangeRepo : RepositoryDbBase<CategoryChange>
             ";
         var previousRevision = Sl.R<ISession>().CreateSQLQuery(query).AddEntity(typeof(CategoryChange)).UniqueResult<CategoryChange>();
         return previousRevision;
+    }
+
+    public virtual int GetCategoryId(int version)
+    {
+        return Sl.Resolve<ISession>().CreateSQLQuery("Select Category_id FROM categorychange where id = " + version).UniqueResult<int>();
     }
 }

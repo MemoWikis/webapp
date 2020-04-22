@@ -7,16 +7,15 @@ using TrueOrFalse.Tools;
 public class Logg
 {
     private static ILogger _logger;
+    //private static bool isCrawler; 
 
-    public static ILogger r()
+    public static ILogger r(bool isCrawler = false)
     {
-        if (_logger == null)
-        {
-            _logger = new LoggerConfiguration()
+        _logger = new LoggerConfiguration()
                 .Enrich.WithProperty("Environment", Settings.Environment())
+                .Enrich.WithProperty("IsCrawler", isCrawler)
                 .WriteTo.Seq("http://localhost:5341")
                 .CreateLogger();
-        }
 
         return _logger;
     }
@@ -33,10 +32,11 @@ public class Logg
 
             var request = HttpContext.Current.Request;
             var header = request.Headers.ToString();
+            var _isCrawler = IsCrawlerRequest.Yes(UserAgent.Get()); 
 
             if (!IgnoreLog.ContainsCrawlerInHeader(header))
             {
-                Logg.r().Error(exception, "PageError {Url} {Headers}",
+                Logg.r(_isCrawler).Error(exception, "PageError {Url} {Headers}",
                     request.RawUrl,
                     header);
 

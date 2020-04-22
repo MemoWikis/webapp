@@ -346,5 +346,21 @@
   {
     "outputFile": "Views/Questions/QuestionList/QuestionList.css",
     "inputFile": "Views/Questions/QuestionList/QuestionList.less"
+  },
+  {
+    "outputFile": "Views/Categories/History/CategoryHistory.css",
+    "inputFile": "Views/Categories/History/CategoryHistory.less"
+  },
+  {
+    "outputFile": "Views/Shared/Delete.css",
+    "inputFile": "Views/Shared/Delete.less"
+  },
+  {
+    "outputFile": "Views/Questions/History/QuestionHistory.css",
+    "inputFile": "Views/Questions/History/QuestionHistory.less"
+  },
+  {
+    "outputFile": "Views/Categories/History/Detail/CategoryHistoryDetail.css",
+    "inputFile": "Views/Categories/History/Detail/CategoryHistoryDetail.less"
   }
 ]

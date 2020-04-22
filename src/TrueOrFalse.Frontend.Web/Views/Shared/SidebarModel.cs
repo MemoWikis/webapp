@@ -48,6 +48,8 @@ public class SidebarModel : UserCardBaseModel
             WishKnowledgeCount = Resolve<GetWishQuestionCountCached>().Run(userSession.User.Id);
             UnreadMessageCount = Resolve<GetUnreadMessageCount>().Run(userSession.User.Id);
         }
+
+        var a = Authors.Any().ToString();
     }
 
     public string Active(MainMenuEntry mainMenuEntry)
@@ -58,10 +60,10 @@ public class SidebarModel : UserCardBaseModel
     public bool IsActive(MainMenuEntry mainMenuEntry)
     {
         return !string.IsNullOrEmpty(MainMenu.Active(mainMenuEntry));
+        
     }
     
     public bool Show() => Authors.Any() || SponsorModel.IsAdFree || SuggestionCategory != null;
-
     public void Fill(IList<UserTinyModel> authors, int currentUserId)
     {
         Authors = AuthorViewModel.Convert(authors);

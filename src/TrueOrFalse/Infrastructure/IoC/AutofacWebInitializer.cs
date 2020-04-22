@@ -13,8 +13,7 @@ namespace TrueOrFalse.Infrastructure
     public static class AutofacWebInitializer
     {
         public static IContainer Run(
-            bool registerForAspNet = false, 
-            bool registerForSignalR = false,
+            bool registerForAspNet = false,
             Assembly assembly = null)
         {
             var builder = new ContainerBuilder();
@@ -23,11 +22,6 @@ namespace TrueOrFalse.Infrastructure
             {
                 builder.RegisterControllers(assembly);
                 builder.RegisterModelBinders(assembly);
-            }
-
-            if (registerForSignalR)
-            {
-                builder.RegisterHubs(assembly);
             }
 
             builder.RegisterModule<AutofacCoreModule>();

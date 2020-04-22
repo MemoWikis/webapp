@@ -1,6 +1,71 @@
-.change-detail-model {
+﻿.change-detail-model {
   border: 1px solid silver;
   margin-top: 20px;
   margin-left: 0px;
   padding: 10px;
+}
+.change-detail-model .allThemesHistory {
+  margin-top: 10px;
+}
+.change-detail-model .editing-history {
+  margin-top: 10px;
+}
+@media screen and (max-width: 1199px) {
+  .change-detail-model .c-changes-overview {
+    margin-top: 10px;
+  }
+}
+@media screen and (max-width: 650px) {
+  .change-detail-model .col-xs-4 {
+    width: 100%;
+    margin-bottom: 10px;
+  }
+  .change-detail-model .c-changes-overview,
+  .change-detail-model .editing-history {
+    margin-top: 0px;
+  }
+}
+@media screen and (max-width: 603px) {
+  .change-detail-model .editing-history {
+    margin-top: 10px;
+  }
+}
+@media screen and (max-width: 733px) {
+  .change-detail-model #DisplayChanges {
+    margin-top: 10px;
+  }
+}
+@media screen and (max-width: 550px) {
+  .change-detail-model .col-xs-3,
+  .change-detail-model .col-xs-6 {
+    width: 100%;
+    margin-bottom: 10px;
+  }
+  .change-detail-model #DisplayChanges {
+    margin-top: 0px;
+  }
+}
+@media screen and (max-width: 406px) {
+  .change-detail-model .c-changes-overview {
+    margin-top: 10px;
+  }
+}
+@media screen and (max-width: 401px) {
+  .change-detail-model #DisplayChanges {
+    margin-top: 10px;
+  }
+}
+.change-detail-model .is-deleted {
+  background-color: #ccc;
+}
+.change-detail-model .btn {
+  margin-left: 5px;
+}
+.change-detail-model #Typ {
+  color: #2C5FB2;
+  font-weight: 900;
+  padding-top: 10px;
+}
+#HeaderCategoryHistory {
+  margin-top: -30px;
 }

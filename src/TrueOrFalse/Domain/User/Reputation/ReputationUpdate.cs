@@ -39,6 +39,8 @@ public class ReputationUpdate : IRegisterAsInstancePerLifetime
     public static void ForUser(User user) => 
         ScheduleUpdate(user.Id);
 
+    public static void ForUser(UserTinyModel user) =>
+        ScheduleUpdate(user.Id);
     private static void ScheduleUpdate(int userId) => 
         Sl.JobQueueRepo.Add(JobQueueType.UpdateReputationForUser, userId.ToString());
 
