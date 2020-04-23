@@ -22,6 +22,8 @@ namespace Seedworks.Lib.Persistence
 
         public bool QueryAll { get; set; }
 
+        public bool IgnorePageCount { get; set; }
+
         //////////////////////////////
         // Result Related
         //////////////////////////////
@@ -69,15 +71,18 @@ namespace Seedworks.Lib.Persistence
                 if (_isInSingleItemMode)
                     throw new InvalidOperationException("CurrentPage is invalid when in NavigationPagerMode.");
 
-                if (_currentPage < 1 || PageCount == 0)
-                    return 1;
+                if (!IgnorePageCount)
+                {
+                    if (_currentPage < 1 || PageCount == 0)
+                        return 1;
 
-                if (_currentPage > PageCount)
-                    return PageCount;
+                    if (_currentPage > PageCount)
+                        return PageCount;
+                }
 
                 return _currentPage;
             }
-            set { _currentPage = value; }
+            set => _currentPage = value;
         }
 
         public int FirstResult
@@ -127,18 +132,12 @@ namespace Seedworks.Lib.Persistence
         /// <summary>
         /// Lower Bound of the Current Page
         /// </summary>
-        public int LowerBound
-        {
-            get { return GetLowerBoundOfPage(CurrentPage); }
-        }
+        public int LowerBound => GetLowerBoundOfPage(CurrentPage);
 
         /// <summary>
         /// Upper Bound of the Current Page
         /// </summary>
-        public int UpperBound
-        {
-            get { return GetUpperBoundOfPage(CurrentPage); }
-        }
+        public int UpperBound => GetUpperBoundOfPage(CurrentPage);
 
         public int NextLowerBound
         {

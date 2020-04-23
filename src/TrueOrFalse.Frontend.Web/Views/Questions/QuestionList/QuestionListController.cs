@@ -28,6 +28,9 @@ public class QuestionListController : BaseController
         var author = new UserTinyModel(question.Creator);
         var authorImage = new UserImageSettings(author.Id).GetUrl_128px_square(author);
         var solution = GetQuestionSolution.Run(question);
+        var answerQuestionModel = new AnswerQuestionModel(question);
+        var history = answerQuestionModel.HistoryAndProbability.AnswerHistory;
+
 
         var json = Json(new
         {
@@ -57,7 +60,10 @@ public class QuestionListController : BaseController
                 .Count(),
             isCreator = author.Id == _sessionUser.UserId,
             editUrl = Links.EditQuestion(Url, question.Text, question.Id),
-            historyUrl = Links.QuestionHistory(question.Id)
+            historyUrl = Links.QuestionHistory(question.Id),
+            answerCount = history.TimesAnsweredUser,
+            correctAnswerCount = history.TimesAnsweredUser,
+            wrongAnswerCount = history.TimesAnsweredUserWrong,
         });
 
         return json;

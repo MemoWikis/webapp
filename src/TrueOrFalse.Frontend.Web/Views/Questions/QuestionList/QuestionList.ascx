@@ -81,6 +81,12 @@
                                                         <div class="sources" v-if="references.length > 0 && references[0].referenceText.length > 0">Quelle: <a v-for="r in references" :href="r.referenceText">{{r.referenceText}}</a></div>
                                                     </div>
                                                 </div>
+                                                
+                                                <div class="questionDetailsSection" style="display: flex;">
+                                                    <div class="probabilitySection"><span class="percentageLabel" :class="backgroundColor">{{correctnessProbability}}</span> <span class="chip" :class="backgroundColor">{{correctnessProbabilityLabel}}</span></div>
+                                                    <div></div>
+                                                    <div>{{answerCount}} mal beantwortet | {{correctAnswers}} richtig / {{wrongAnswers}} falsch</div>
+                                                </div>
                                             </div>
                                         </div>
 

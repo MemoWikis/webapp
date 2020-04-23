@@ -299,9 +299,6 @@
     <Compile Include="Code\BaseResolve.cs" />
     <Compile Include="Code\BaseUtil.cs" />
     <Compile Include="Code\HtmlExtensions.cs" />
-    <Compile Include="Code\Hubs\BaseHub.cs" />
-    <Compile Include="Code\Hubs\BrainWavesHub.cs" />
-    <Compile Include="Code\Hubs\GameHub.cs" />
     <Compile Include="Code\Resources\UserControls.cs" />
     <Compile Include="Code\SignalRUser.cs" />
     <Compile Include="Views\About\AboutController.cs" />
@@ -363,17 +360,6 @@
     <Compile Include="Views\Categories\History\Detail\CategoryHistoryDetailModel.cs" />
     <Compile Include="Views\Categories\Navigation\CategoryNetworkNavigationModel.cs" />
     <Compile Include="Views\Categories\Navigation\CategoryNavigationModel.cs" />
-    <Compile Include="Views\Games\Edit\GameModel.cs" />
-    <Compile Include="Views\Games\Edit\GameController.cs" />
-    <Compile Include="Views\Games\GameRowModel.cs" />
-    <Compile Include="Views\Games\Play\BodyControls\GameNeverStartedModel.cs" />
-    <Compile Include="Views\Games\Play\PlayModel.cs" />
-    <Compile Include="Views\Games\Play\BodyControls\GameCompletedModel.cs" />
-    <Compile Include="Views\Games\Play\BodyControls\GameInProgressPlayerModel.cs" />
-    <Compile Include="Views\Games\Play\BodyControls\GameInProgressWatchModel.cs" />
-    <Compile Include="Views\Games\Play\BodyControls\GameReadyModel.cs" />
-    <Compile Include="Views\Games\Play\PlayController.cs" />
-    <Compile Include="Views\Games\Play\BodyControls\PlayBaseModel.cs" />
     <Compile Include="Views\Help\FAQAccordeonItem.cs" />
     <Compile Include="Views\Help\WidgetMenuModel.cs" />
     <Compile Include="Views\Knowledge\KnowledgeTopics.cs" />
@@ -21603,9 +21589,6 @@
     <Content Include="Scripts\header\StickyHeaderSearchBox.js">
       <DependentUpon>StickyHeaderSearchBox.ts</DependentUpon>
     </Content>
-    <Content Include="Scripts\hubs\GameHubEvents.js">
-      <DependentUpon>GameHubEvents.ts</DependentUpon>
-    </Content>
     <Content Include="Content\fonts\glyphicons-halflings-regular.woff" />
     <Content Include="Content\fonts\glyphicons-halflings-regular.ttf" />
     <Content Include="Content\fonts\glyphicons-halflings-regular.eot" />
@@ -21657,8 +21640,6 @@
     <Content Include="Scripts\jquery-2.0.3.min.js" />
     <Content Include="Scripts\jquery-ui-1.10.3.js" />
     <Content Include="Scripts\jquery-ui-1.10.3.min.js" />
-    <Content Include="Scripts\jquery.signalR-2.2.1.js" />
-    <Content Include="Scripts\jquery.signalR-2.2.1.min.js" />
     <Content Include="Scripts\KnowledgeSummaryBar.js">
       <DependentUpon>KnowledgeSummaryBar.ts</DependentUpon>
     </Content>
@@ -21765,6 +21746,10 @@
       <DependentUpon>Tabbing.ts</DependentUpon>
     </Content>
     <Content Include="Views\Categories\Detail\Partials\BreadCrumbCategories.ascx" />
+    <Content Include="Views\Questions\Answer\AnswerQuestionDetailsComponent.vue.ascx" />
+    <Content Include="Views\Questions\Answer\Js\InlineEditComponent.js">
+      <DependentUpon>InlineEditComponent.ts</DependentUpon>
+    </Content>
     <Content Include="Views\Categories\History\CategoryHistory.css">
       <DependentUpon>CategoryHistory.less</DependentUpon>
     </Content>
@@ -21968,12 +21953,6 @@
     <Content Include="Scripts\header\SearchBox.js.map">
       <DependentUpon>SearchBox.ts</DependentUpon>
     </Content>
-    <Content Include="Scripts\hubs\GameHub.js.map">
-      <DependentUpon>GameHub.ts</DependentUpon>
-    </Content>
-    <Content Include="Scripts\hubs\GameHubEvents.js.map">
-      <DependentUpon>GameHubEvents.ts</DependentUpon>
-    </Content>
     <Content Include="Views\Categories\ResultTestSession\Js\GetResultTestSession.js.map">
       <DependentUpon>GetResultTestSession.ts</DependentUpon>
     </Content>
@@ -22025,7 +22004,6 @@
       <DependentUpon>KnowledgeSummaryBar.ts</DependentUpon>
     </Content>
     <Content Include="Views\Questions\QuestionList\QuestionList.less" />
-    <Content Include="Scripts\jquery-2.0.3.min.map" />
     <None Include="Views\Maintenance\ContentStats.less" />
     <Compile Include="Views\Maintenance\ContentStatsModel.cs" />
     <Compile Include="Views\Maintenance\Images\MaintenanceImagesController.cs" />
@@ -22033,8 +22011,6 @@
     <Compile Include="Views\Maintenance\ContentCreatedReportModel.cs" />
     <Compile Include="Views\Maintenance\CMSModel.cs" />
     <Compile Include="Views\Maintenance\ToolsModel.cs" />
-    <Compile Include="Views\Games\GamesController.cs" />
-    <Compile Include="Views\Games\GamesModel.cs" />
     <Compile Include="Views\Questions\Answer\AnswerBodyControl\AnswerBodyModel.cs" />
     <Compile Include="Views\Questions\Answer\LearningSession\LearningSessionModel.cs" />
     <Compile Include="Views\Questions\Answer\LearningSession\LearningSessionResultController.cs" />
@@ -22374,6 +22350,9 @@
     <TypeScriptCompile Include="Scripts\YoutubeApi.ts" />
     <TypeScriptCompile Include="Scripts\NumbersCountUp.ts" />
     <TypeScriptCompile Include="Views\About\Js\Page.ts" />
+    <TypeScriptCompile Include="Views\Questions\Answer\Js\QuestionDetails\AnswerQuestionDetailsApp.ts" />
+    <TypeScriptCompile Include="Views\Questions\Answer\Js\QuestionDetails\AnswerQuestionDetailsComponent.ts" />
+    <TypeScriptCompile Include="Views\Questions\Answer\Js\InlineEditComponent.ts" />
     <TypeScriptCompile Include="Views\Questions\Js\QuestionList\QuestionListComponents.ts" />
     <TypeScriptCompile Include="Views\Questions\Js\QuestionList\QuestionListApp.ts" />
     <TypeScriptCompile Include="Views\Categories\Detail\Js\Category.ts" />
@@ -22746,10 +22725,7 @@
     <TypeScriptCompile Include="Scripts\socialLogins\Facebook.ts" />
     <TypeScriptCompile Include="Scripts\guidedTour\tourWelcome.ts" />
     <TypeScriptCompile Include="Scripts\CategoryApi.ts" />
-    <TypeScriptCompile Include="Scripts\hubs\GameHub.ts" />
-    <TypeScriptCompile Include="Scripts\hubs\GameHubEvents.ts" />
     <TypeScriptCompile Include="Scripts\NotLoggedIn.ts" />
-    <TypeScriptCompile Include="Scripts\SiteMessages.ts" />
     <TypeScriptCompile Include="Scripts\socialLogins\FacebookMemuchoUser.ts" />
     <TypeScriptCompile Include="Scripts\socialLogins\Google.ts" />
     <TypeScriptCompile Include="Scripts\socialLogins\GoogleMemuchoUser.ts" />
@@ -22767,13 +22743,6 @@
     <TypeScriptCompile Include="Views\Categories\Edit\Js\EditAggregation.ts" />
     <TypeScriptCompile Include="Views\Categories\Edit\Js\Page.ts" />
     <TypeScriptCompile Include="Views\Maintenance\Js\CmsCategoryNetworkNavigation.ts" />
-    <TypeScriptCompile Include="Views\Games\Edit\Js\Page.ts" />
-    <TypeScriptCompile Include="Views\Games\Edit\Js\Validation.ts" />
-    <TypeScriptCompile Include="Views\Games\Js\GameRow.ts" />
-    <TypeScriptCompile Include="Views\Games\Js\Games.ts" />
-    <TypeScriptCompile Include="Views\Games\Play\Js\GameInProgressPlayer.ts" />
-    <TypeScriptCompile Include="Views\Games\Play\Js\Play.ts" />
-    <TypeScriptCompile Include="Views\Games\Play\Js\GameReady.ts" />
     <TypeScriptCompile Include="Views\Help\Js\WidgetPricing.ts" />
     <TypeScriptCompile Include="Views\Knowledge\Wheel\KnowledgeWheel.ts" />
     <TypeScriptCompile Include="Views\Maintenance\Js\ContentStats.ts" />
@@ -22834,14 +22803,8 @@
     <Content Include="Scripts\FormValidation.js">
       <DependentUpon>FormValidation.ts</DependentUpon>
     </Content>
-    <Content Include="Scripts\hubs\GameHub.js">
-      <DependentUpon>GameHub.ts</DependentUpon>
-    </Content>
     <Content Include="Scripts\NotLoggedIn.js">
       <DependentUpon>NotLoggedIn.ts</DependentUpon>
-    </Content>
-    <Content Include="Scripts\SiteMessages.js">
-      <DependentUpon>SiteMessages.ts</DependentUpon>
     </Content>
     <Content Include="Scripts\vendor\jquery.countdown.js" />
     <Content Include="Scripts\vendor\jquery.signalR-2.2.0.js" />
@@ -22877,44 +22840,6 @@
     </Content>
     <Content Include="Views\Categories\CategoriesSearchResult.ascx" />
     <Content Include="Views\Drafts\FontAwesome.aspx" />
-    <Content Include="Views\Games\Edit\Game.aspx" />
-    <Content Include="Views\Games\Edit\Game.css">
-      <DependentUpon>Game.less</DependentUpon>
-    </Content>
-    <Content Include="Views\Games\Edit\Js\Page.js">
-      <DependentUpon>Page.ts</DependentUpon>
-    </Content>
-    <Content Include="Views\Games\Edit\Js\Validation.js">
-      <DependentUpon>Validation.ts</DependentUpon>
-    </Content>
-    <Content Include="Views\Games\GameRow.ascx" />
-    <Content Include="Views\Games\Games.css">
-      <DependentUpon>Games.less</DependentUpon>
-    </Content>
-    <Content Include="Views\Games\Js\GameRow.js">
-      <DependentUpon>GameRow.ts</DependentUpon>
-    </Content>
-    <Content Include="Views\Games\Js\Games.js">
-      <DependentUpon>Games.ts</DependentUpon>
-    </Content>
-    <Content Include="Views\Games\Play\BodyControls\GameCompleted.ascx" />
-    <Content Include="Views\Games\Play\BodyControls\GameInProgressWatch.ascx" />
-    <Content Include="Views\Games\Play\BodyControls\GameInProgressPlayer.ascx" />
-    <Content Include="Views\Games\Play\BodyControls\GameNeverStarted.ascx" />
-    <Content Include="Views\Games\Play\BodyControls\GameReady.ascx" />
-    <Content Include="Views\Games\Play\Js\GameInProgressPlayer.js">
-      <DependentUpon>GameInProgressPlayer.ts</DependentUpon>
-    </Content>
-    <Content Include="Views\Games\Play\Js\GameReady.js">
-      <DependentUpon>GameReady.ts</DependentUpon>
-    </Content>
-    <Content Include="Views\Games\Play\Play.css">
-      <DependentUpon>Play.less</DependentUpon>
-    </Content>
-    <Content Include="Views\Games\Play\Js\Play.js">
-      <DependentUpon>Play.ts</DependentUpon>
-    </Content>
-    <Content Include="Views\Games\Play\Play.aspx" />
     <Content Include="Views\Knowledge\Knowledge.css">
       <DependentUpon>Knowledge.less</DependentUpon>
     </Content>
@@ -22935,7 +22860,6 @@
       <DependentUpon>SetDelete.ts</DependentUpon>
     </Content>
     <Content Include="Views\Shared\CategoriesOfQuestion.ascx" />
-    <Content Include="Views\Shared\MessageGame.ascx" />
     <Content Include="Views\Shared\NotLoggedIn\Modal_LoggedIn.ascx" />
     <Content Include="Views\Users\Account\Js\Membership.js">
       <DependentUpon>Membership.ts</DependentUpon>
@@ -22943,7 +22867,6 @@
     <Content Include="Views\Maintenance\ToolsBrainWaveHub.js">
       <DependentUpon>ToolsBrainWaveHub.ts</DependentUpon>
     </Content>
-    <Content Include="Views\Games\Games.aspx" />
     <Content Include="Scripts\answerQuestion\BrainWavesHub.js">
       <DependentUpon>BrainWavesHub.ts</DependentUpon>
     </Content>
@@ -23267,9 +23190,6 @@
     </Content>
     <Content Include="Scripts\Validations.js.map">
       <DependentUpon>Validations.ts</DependentUpon>
-    </Content>
-    <Content Include="Scripts\SiteMessages.js.map">
-      <DependentUpon>SiteMessages.ts</DependentUpon>
     </Content>
     <Content Include="Scripts\answerQuestion\AnswerQuestionUserFeedback.js.map">
       <DependentUpon>AnswerQuestionUserFeedback.ts</DependentUpon>
@@ -23989,36 +23909,6 @@
     <Content Include="Views\Maintenance\ToolsBrainWaveHub.js.map">
       <DependentUpon>ToolsBrainWaveHub.ts</DependentUpon>
     </Content>
-    <Content Include="Views\Games\Edit\Game.less" />
-    <Content Include="Views\Games\Edit\Game.css.map">
-      <DependentUpon>Game.css</DependentUpon>
-    </Content>
-    <Content Include="Views\Games\Edit\Js\Validation.js.map">
-      <DependentUpon>Validation.ts</DependentUpon>
-    </Content>
-    <Content Include="Views\Games\Games.less" />
-    <Content Include="Views\Games\Games.css.map">
-      <DependentUpon>Games.css</DependentUpon>
-    </Content>
-    <Content Include="Views\Games\Play\Play.less" />
-    <Content Include="Views\Games\Play\Play.css.map">
-      <DependentUpon>Play.css</DependentUpon>
-    </Content>
-    <Content Include="Views\Games\Js\Games.js.map">
-      <DependentUpon>Games.ts</DependentUpon>
-    </Content>
-    <Content Include="Views\Games\Js\GameRow.js.map">
-      <DependentUpon>GameRow.ts</DependentUpon>
-    </Content>
-    <Content Include="Views\Games\Play\Js\Play.js.map">
-      <DependentUpon>Play.ts</DependentUpon>
-    </Content>
-    <Content Include="Views\Games\Play\Js\GameInProgressPlayer.js.map">
-      <DependentUpon>GameInProgressPlayer.ts</DependentUpon>
-    </Content>
-    <Content Include="Views\Games\Play\Js\GameReady.js.map">
-      <DependentUpon>GameReady.ts</DependentUpon>
-    </Content>
     <Content Include="Views\Questions\Answer\AnswerControls\SolutionTypeNumeric.js.map">
       <DependentUpon>SolutionTypeNumeric.ts</DependentUpon>
     </Content>
@@ -24045,9 +23935,6 @@
     </Content>
     <Content Include="Views\Users\Js\UserRowFollow.js.map">
       <DependentUpon>UserRowFollow.ts</DependentUpon>
-    </Content>
-    <Content Include="Views\Games\Edit\Js\Page.js.map">
-      <DependentUpon>Page.ts</DependentUpon>
     </Content>
     <Content Include="Views\Sets\Js\SetDelete.js.map">
       <DependentUpon>SetDelete.ts</DependentUpon>
@@ -24187,6 +24074,9 @@
     <Content Include="Views\Questions\Answer\SessionConfig.less" />
     <Content Include="Views\Questions\Answer\Js\QuestionFilter.js.map">
       <DependentUpon>QuestionFilter.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Questions\Answer\Js\InlineEditComponent.js.map">
+      <DependentUpon>InlineEditComponent.ts</DependentUpon>
     </Content>
     <Content Include="Views\Shared\Delete.less" />
     <None Include="Web.overwritten.config.sample" />

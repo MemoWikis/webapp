@@ -386,18 +386,9 @@
     <Compile Include="Domain\Date\Persistence\DateMap.cs" />
     <Compile Include="Domain\Date\Persistence\DateRepo.cs" />
     <Compile Include="Domain\Game\Game.cs" />
-    <Compile Include="Domain\Game\Ops\GameCreate.cs" />
-    <Compile Include="Domain\Game\Ops\GameStatusChange.cs" />
-    <Compile Include="Domain\Game\Ops\PlayerListExtensions.cs" />
-    <Compile Include="Domain\Game\Persistence\RoundRepo.cs" />
-    <Compile Include="Domain\Game\Persistence\PlayerRepo.cs" />
     <Compile Include="Domain\Game\Round.cs" />
-    <Compile Include="Domain\Game\Ops\GameHubConnection.cs" />
     <Compile Include="Domain\Game\GameStatus.cs" />
-    <Compile Include="Domain\Game\Ops\AddRoundsToGame.cs" />
-    <Compile Include="Domain\Game\Ops\IsCurrentlyIn.cs" />
     <Compile Include="Domain\Game\Persistence\GameMap.cs" />
-    <Compile Include="Domain\Game\Persistence\GameRepo.cs" />
     <Compile Include="Domain\Game\Persistence\RoundMap.cs" />
     <Compile Include="Domain\Game\Persistence\PlayerMap.cs" />
     <Compile Include="Domain\Game\Player.cs" />
@@ -1003,7 +994,6 @@
     <Compile Include="Tools\ScheduledJobs\Jobs\RecalcKnowledgeSummariesForCategory.cs" />
     <Compile Include="Tools\ScheduledJobs\Jobs\RecalcKnowledgeStati.cs" />
     <Compile Include="Tools\ScheduledJobs\Jobs\CleanUpWorkInProgressQuestions.cs" />
-    <Compile Include="Tools\ScheduledJobs\Jobs\GameLoop.cs" />
     <Compile Include="Infrastructure\Time\TimeElapsedAsText.cs" />
     <Compile Include="Tools\ScheduledJobs\Jobs\InitUserValuationCache.cs" />
     <Compile Include="Tools\ScheduledJobs\Jobs\RecalcReputation.cs" />

@@ -54,14 +54,6 @@ namespace TrueOrFalse.Utilities.ScheduledJobs
                     .RepeatForever()).Build());
         }
 
-        private static void Schedule_GameLoop()
-        {
-            _scheduler.ScheduleJob(JobBuilder.Create<GameLoop>().Build(),
-                TriggerBuilder.Create()
-                    .WithSimpleSchedule(x => x.WithIntervalInSeconds(1)
-                    .RepeatForever()).Build());
-        }
-
         private static void Schedule_RecalcKnowledgeStati()
         {
             _scheduler.ScheduleJob(JobBuilder.Create<RecalcKnowledgeStati>().Build(),

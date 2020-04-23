@@ -66,7 +66,7 @@ public class UserRepo : RepositoryDbBase<User>
         UserCache.AddOrUpdate(user);
     }
 
-    public void Update(User user, bool runSolrUpdateAsync = false)
+    public void Update(User user, bool runSolrUpdateAsync = true)
     {
         Logg.r().Information("user update {Id} {Email} {Stacktrace}", user.Id, user.EmailAddress, new StackTrace());
         _searchIndexUser.Update(user, runSolrUpdateAsync);

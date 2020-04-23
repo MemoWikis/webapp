@@ -15,17 +15,11 @@ interface JQuery {
     watch(p1: any);
     typeWatch(p1: any);
 
-    countdown(finalDate: Date, callback: (event?: any) => void);
     countdown(finalDate: string, callback: () => void);
     countdown(action: string);
 
     _renderItem(p1: any);
     _resizeMenu(p1: any);
-}
-
-interface SignalR {
-    brainWavesHub: any;
-    gameHub: any;
 }
 
 interface String {

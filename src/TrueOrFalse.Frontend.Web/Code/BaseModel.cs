@@ -29,10 +29,6 @@
 
     public UserMenu UserMenu;
     
-    public bool IsInGame;
-
-    public bool IsCreatorOfGame;
-
     public SidebarModel SidebarModel = new SidebarModel();
 
     public TopicMenu TopicMenu;
@@ -43,19 +39,6 @@
 
     public BaseModel()
     {
-        if (IsLoggedIn)
-        {
-            var isInGame = R<IsCurrentlyIn>().Game(UserId);
-            if (isInGame.Yes)
-            {
-                UpcomingGame = isInGame.Game;
-                IsInGame = true;
-                IsCreatorOfGame = isInGame.IsCreator;
-            }
-            else
-                UpcomingGame = new Game();
-        }
-
         var sessionUiData = Resolve<SessionUiData>();
         UserMenu = sessionUiData.UserMenu;
 

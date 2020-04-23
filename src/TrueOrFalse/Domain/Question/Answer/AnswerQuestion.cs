@@ -19,12 +19,8 @@ public class AnswerQuestion : IRegisterAsInstancePerLifetime
         int userId,
         Guid questionViewGuid,
         int interactionNumber,
-        int millisecondsSinceQuestionView,
-        int playerId,
-        int roundId)
+        int millisecondsSinceQuestionView)
     {
-        var player = Sl.R<PlayerRepo>().GetById(playerId);
-        var round = Sl.R<RoundRepo>().GetById(roundId);
 
         return Run(questionId, answer, userId, (question, answerQuestionResult) => {
             _answerLog.Run(question, 
@@ -32,9 +28,7 @@ public class AnswerQuestion : IRegisterAsInstancePerLifetime
                 userId, 
                 questionViewGuid, 
                 interactionNumber,
-                millisecondsSinceQuestionView,
-                player,
-                round);
+                millisecondsSinceQuestionView);
         });
     }
 

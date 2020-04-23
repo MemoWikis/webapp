@@ -1,7 +1,6 @@
 ﻿using System.Reflection;
 using Autofac;
 using Autofac.Integration.Mvc;
-using Autofac.Integration.SignalR;
 using AutofacContrib.SolrNet;
 using AutofacContrib.SolrNet.Config;
 using SolrNet;
@@ -13,8 +12,7 @@ namespace TrueOrFalse.Infrastructure
     public static class AutofacWebInitializer
     {
         public static IContainer Run(
-            bool registerForAspNet = false, 
-            bool registerForSignalR = false,
+            bool registerForAspNet = false,
             Assembly assembly = null)
         {
             var builder = new ContainerBuilder();
@@ -23,11 +21,6 @@ namespace TrueOrFalse.Infrastructure
             {
                 builder.RegisterControllers(assembly);
                 builder.RegisterModelBinders(assembly);
-            }
-
-            if (registerForSignalR)
-            {
-                builder.RegisterHubs(assembly);
             }
 
             builder.RegisterModule<AutofacCoreModule>();

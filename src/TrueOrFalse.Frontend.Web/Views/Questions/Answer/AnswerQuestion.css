@@ -1102,13 +1102,12 @@
 
 ---------------------------------------------------------------*/
 #activityPointsDispaly {
-  float: right;
   font-size: 22px;
   font-family: sans-serif;
   line-height: normal;
   color: #b9db4f;
   text-align: right;
-  padding-top: 10px;
+  padding: 10px 0;
 }
 @media (min-width: 1200px) {
   #activityPointsDispaly.hideOnBigScreen {
