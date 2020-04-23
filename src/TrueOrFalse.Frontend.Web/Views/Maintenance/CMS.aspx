@@ -93,33 +93,5 @@
             <div id="showSetsWithDifferentlyCategorizedQuestionsResult" style="margin-left: 25px; padding: 0 10px 10px;"></div>
         </div>
     </div>
-    
-    <div>
-        <h2 style="margin-top: 50px;">Lernsets für Empfehlungen und Spiele</h2>
-        <% using (Html.BeginForm("CMS", "Maintenance")){%>
-        
-            <%= Html.AntiForgeryToken() %>
-            <div class="form-group">
-                <label class="control-label"><span style="font-weight: bold">Vorgeschlagene Lernsets</span> (Set-Ids kommasepariert)</label>
-                <i class="fa fa-info-circle show-tooltip" title="Diese Lernsets werden bei den Inhalteempfehlungen zusätzlich zu allen Lernsets von memucho berücksichtigt.">&nbsp;</i>
-                <%= Html.TextBoxFor(m => m.SuggestedSetsIdString, new {@class="form-control"} ) %>
-                <% foreach(var set in Model.SuggestedSets) { %>
-                    <a href="<%= Links.SetDetail(Url, set) %>"><span class="label label-set"><%: set.Id %>-<%: set.Name %></span></a>
-                <% } %>
-            </div>
-        
-            <div class="form-group">
-                <label class="control-label"><span style="font-weight: bold">Vorgeschlagene Spiele</span> (Set-Ids kommasepariert)</label>
-                <%= Html.TextBoxFor(m => m.SuggestedGames, new {@class="form-control"} ) %>
-                <% foreach(var set in Model.SuggestedGameSets) { %>
-                    <a href="<%= Links.SetDetail(Url, set) %>"><span class="label label-set"><%: set.Id %>-<%: set.Name %></span></a>
-                <% } %>
-            </div>
-        
-            <input type="submit" value="Speichern" class="btn btn-primary" name="btnSave" />
-
-        <% } %>
-    </div>
-
 
 </asp:Content>

@@ -33,10 +33,7 @@ public class Write_activity_new_follower : BaseTest
             .Persist();
         //User3 creates one category
         ContextCategory.New().Add("Cat 1", creator: user3).Persist();
-        //User4 creates one set
-        var contextSets = ContextSet.New().AddSet("QSet 1", creator: user4).Persist();
-        //User5 creates one date
-        ContextDate.New().Add(contextSets.All, user5).Persist();
+        
         //User6 follows User7
         user7.AddFollower(user6);
 

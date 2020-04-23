@@ -162,32 +162,7 @@ public class BadgeAwardCheckParams
         return query;
     }
 
-    public int GamesWithMoreThan10Players()
-    {
-        var query = GamesPlayerCountQuery()
-            + " WHERE playerCount >= 10";
-
-        return R<ISession>()
-            .CreateSQLQuery(String.Format(query, CurrentUser.Id))
-            .UniqueResult<int>();
-    }
-
-    public int GamesWithExact2Players()
-    {
-        var query = GamesPlayerCountQuery()
-            + " WHERE playerCount = 2";
-
-        return R<ISession>()
-            .CreateSQLQuery(String.Format(query, CurrentUser.Id))
-            .UniqueResult<int>();
-    }
-
-    public int GamesWon()
-    {
-        var games = R<GameRepo>().AllCompletedByUser(CurrentUser.Id);
-        return games.Count(g => g.GetWinner().User.Id == CurrentUser.Id);
-    }
-
+    
     public int DatesCreated()
     {
         return R<ISession>().QueryOver<Date>()

@@ -7,7 +7,6 @@
     <%--<title><%= Page.Title %></title>--%>
     <asp:ContentPlaceHolder ID="HeadSEO" runat="server" />
     <% Html.RenderPartial("Site.Partial.Head", Model); %>
-    <script src='<%: ResolveClientUrl("~/signalr/hubs") %>'></script>
     <asp:ContentPlaceHolder ID="Head" runat="server" />
 </head>
 <body>
@@ -28,12 +27,6 @@
                     </section>
                 <%} %>
                 <section id="MasterMainColumn" <%if(Model.SidebarModel.Show()){ %> class="col-lg-9" <% } else { %> class="col-md-12" <% } %> >
-                    <div id="IsInGameMessage">
-                        <% if(Model.IsInGame){ %>
-                            <% Html.RenderPartial("MessageGame", Model); %>
-                        <% } %>
-                    </div>
-                   
                     <%-- MAIN CONTENT--%>
                     <section id="MasterMainWrapper">
                         <asp:ContentPlaceHolder ID="MainContent" runat="server"  />
