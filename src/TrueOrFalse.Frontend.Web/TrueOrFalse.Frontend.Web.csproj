@@ -21753,6 +21753,15 @@
     <Content Include="Views\Categories\History\CategoryHistory.css">
       <DependentUpon>CategoryHistory.less</DependentUpon>
     </Content>
+    <Content Include="Views\Questions\Answer\Js\QuestionDetails\AnswerQuestionDetailsApp.js">
+      <DependentUpon>AnswerQuestionDetailsApp.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Questions\Answer\Js\QuestionDetails\AnswerQuestionDetailsComponent.js">
+      <DependentUpon>AnswerQuestionDetailsComponent.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Questions\Answer\Js\ShareQuestion.js">
+      <DependentUpon>ShareQuestion.ts</DependentUpon>
+    </Content>
     <Content Include="Views\Questions\Answer\TopicToConinueLearning.ascx" />
     <Content Include="Views\Questions\History\QuestionHistory.css">
       <DependentUpon>QuestionHistory.less</DependentUpon>
@@ -22562,9 +22571,6 @@
     </Content>
     <Content Include="Views\Questions\Answer\AnswerControls\SolutionTypeMultipleChoice_SingleSolution.js.map">
       <DependentUpon>SolutionTypeMultipleChoice_SingleSolution.ts</DependentUpon>
-    </Content>
-    <Content Include="Views\Questions\Answer\Js\ShareQuestion.js">
-      <DependentUpon>ShareQuestion.ts</DependentUpon>
     </Content>
     <Content Include="Views\Questions\Answer\ShareQuestionModal.ascx" />
     <Content Include="Views\Questions\Answer\TestSession\Js\Page.js">
@@ -23988,9 +23994,6 @@
     <Content Include="Views\Welcome\Login\Login.js.map">
       <DependentUpon>Login.ts</DependentUpon>
     </Content>
-    <Content Include="Views\Questions\Answer\Js\ShareQuestion.js.map">
-      <DependentUpon>ShareQuestion.ts</DependentUpon>
-    </Content>
     <Content Include="Views\Sets\Detail\Js\SetVideoPlayer.js.map">
       <DependentUpon>SetVideoPlayer.ts</DependentUpon>
     </Content>
@@ -24065,6 +24068,15 @@
       <DependentUpon>InlineEditComponent.ts</DependentUpon>
     </Content>
     <Content Include="Views\Shared\Delete.less" />
+    <Content Include="Views\Questions\Answer\Js\QuestionDetails\AnswerQuestionDetailsApp.js.map">
+      <DependentUpon>AnswerQuestionDetailsApp.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Questions\Answer\Js\QuestionDetails\AnswerQuestionDetailsComponent.js.map">
+      <DependentUpon>AnswerQuestionDetailsComponent.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Questions\Answer\Js\ShareQuestion.js.map">
+      <DependentUpon>ShareQuestion.ts</DependentUpon>
+    </Content>
     <None Include="Web.overwritten.config.sample" />
     <Content Include="Views\Welcome\Logout.aspx" />
     <Content Include="Views\Api\Export.aspx" />
