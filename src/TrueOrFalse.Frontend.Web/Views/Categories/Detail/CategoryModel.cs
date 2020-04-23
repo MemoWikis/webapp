@@ -57,8 +57,6 @@ public class CategoryModel : BaseContentModule
     public bool IsInWishknowledge;
     public bool IsLearningTab;
     public string TotalPins;
-    public LearningTabModel LearningTabModel;
-    public UserTinyModel UserTinyModel;
     public AnalyticsFooterModel AnalyticsFooterModel;
     public bool CategoryIsDeleted; 
     public CategoryModel()

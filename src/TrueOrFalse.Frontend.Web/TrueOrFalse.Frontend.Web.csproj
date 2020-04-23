@@ -343,7 +343,6 @@
     <Compile Include="Views\Categories\Detail\TemplateToHtml\MarkdownToHtml.cs" />
     <Compile Include="Views\Categories\Detail\Partials\SetTestSessionNoStartScreen\SetTestSessionNoStartScreenModel.cs" />
     <Compile Include="Views\Categories\Detail\CategoryKnowledgeBarModel.cs" />
-    <Compile Include="Views\Categories\Detail\Tabs\LearningTabModel.cs" />
     <Compile Include="Views\Categories\Detail\TemplateParser\TemplateJson.cs" />
     <Compile Include="Views\Categories\Detail\TemplateParser\TemplateParser.cs" />
     <Compile Include="Views\Categories\Detail\TemplateParser\TemplateParserForSingleTemplate.cs" />
