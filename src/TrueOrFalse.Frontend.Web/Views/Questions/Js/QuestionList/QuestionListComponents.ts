@@ -1,7 +1,6 @@
 ﻿declare var Vue: any;
 declare var VueAdsPagination: any;
 
-
 Vue.component('question-list-component', {
     props: [
         'categoryId',
@@ -239,8 +238,8 @@ Vue.component('question-component', {
     watch: {
         knowledgeState(val) {
             this.setKnowledgebarData(val);
-            this.loadQuestionDetails();
             this.correctnessProbability = this.knowledgeState + "%";
+            this.loadQuestionBody();
         },
         selectedPage() {
             this.showFullQuestion = false;
@@ -309,7 +308,6 @@ Vue.component('question-component', {
             this.showFullQuestion = !this.showFullQuestion;
             if (this.allDataLoaded == false) {
                 this.loadQuestionBody();
-                this.loadQuestionDetails();
             };
         },
     
@@ -360,33 +358,7 @@ Vue.component('question-component', {
         loadQuestionComments() {
     
         },
-    
-        loadQuestionDetails() {
-            if (this.showFullQuestion)
-                $.ajax({
-                    url: "/AnswerQuestion/RenderUpdatedQuestionDetails",
-                    data: {
-                        questionId: this.questionId,
-                        showCategoryList: false,
-                    },
-                    type: "POST",
-                    success: partialView => {
-                        this.questionDetails = partialView;
-                        this.setQuestionDetails();
-                    }
-                });
-        },
-    
-        setQuestionDetails() {
-            var questionDetailsId = "#" + this.questionDetailsId;
-            $(questionDetailsId).html(this.questionDetails);
-            this.$nextTick(function () {
-                FillSparklineTotals();
-                $('.show-tooltip').tooltip();
-                new Pin(PinType.Question);
-            });
-        },
-    
+
         getWishknowledgePinButton() {
             var pinId = "#" + this.pinId;
             $.ajax({

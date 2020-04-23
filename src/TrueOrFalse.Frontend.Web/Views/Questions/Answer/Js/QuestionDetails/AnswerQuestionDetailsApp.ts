@@ -1,6 +1,8 @@
 ﻿declare var Vue: any;
 
-var eventBus = new Vue();
+declare var eventBus: any;
+if (eventBus == null)
+    var eventBus = new Vue();
 
 new Vue({
     el: '#QuestionDetailsApp',

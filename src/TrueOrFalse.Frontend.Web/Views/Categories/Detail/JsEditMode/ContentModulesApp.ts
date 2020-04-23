@@ -7,7 +7,9 @@ declare var Sortable: any;
 Vue.use(VueTextareaAutosize);
 Vue.component('v-select', VueSelect.VueSelect);
 
-var eventBus = new Vue();
+declare var eventBus: any;
+if (eventBus == null)
+    var eventBus = new Vue();
 
 Vue.directive('sortable',
     {
