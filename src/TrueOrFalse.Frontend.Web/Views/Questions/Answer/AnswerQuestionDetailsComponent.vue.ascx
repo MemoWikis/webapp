@@ -17,7 +17,7 @@
                 <div class="sectionLabel">Antwortwahrscheinlichkeit</div>
                 <div id="semiPieSection">
                     <div id="semiPieChart">
-                        <div class="semiPieSvgContainer" ref="semiPie">
+                        <div class="semiPieSvgContainer" ref="semiPie" :class="{'isInWishknowledge' : isInWishknowledge}">
                         </div>
                     </div>
                     <div id="probabilityText">
@@ -42,8 +42,11 @@
                             <strong>{{answerCount}}</strong> mal beantwortet <br/>
                             <strong>{{correctAnswers}}</strong> richtig / <strong>{{wrongAnswers}}</strong> falsch
                         </div>
-                        <div v-else class="counterLabel">
+                        <div v-else-if="!isLoggedIn" class="counterLabel">
                             Du hast diese Frage noch nie beantwortet.
+                        </div>
+                        <div v-else>
+                            Du bist nicht angemeldet. Wir haben keine Daten. Anmelden
                         </div>
                     </div>
                     <div class="counterHalf">
