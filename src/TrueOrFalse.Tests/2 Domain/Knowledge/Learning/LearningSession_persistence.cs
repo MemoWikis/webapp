@@ -31,19 +31,5 @@ public class LearningSession_persistence : BaseTest
             .Persist().All;
 
         var date = ContextDate.New().Add(sets).Persist().All[0];
-
-        //var learningSession = new LearningSession{
-        //    User = user,
-        //    DateToLearn = date,
-        //    Steps = GetLearningSessionSteps.Run(date)
-        //};
-
-        //R<LearningSessionRepo>().Create(learningSession);
-        //RecycleContainer();
-
-        //var learningSessionFromDb = R<LearningSessionRepo>().GetById(learningSession.Id);
-        //Assert.That(learningSessionFromDb.Steps.Count, Is.EqualTo(10));
-        //Assert.That(learningSessionFromDb.DateToLearn, Is.Not.Null);
-        //Assert.That(learningSessionFromDb.SetToLearn, Is.Null);
     }
 }
