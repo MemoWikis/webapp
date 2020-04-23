@@ -20,4 +20,16 @@ public class LearningSession_persistence : BaseTest
         var learningSessionFromDb = R<LearningSessionRepo>().GetById(learningSession.Id);
         Assert.That(learningSessionFromDb.Steps.Count, Is.EqualTo(5));
     }
+
+    [Test]
+    public void Should_persist_for_date()
+    {
+        var user = ContextUser.GetUser();
+        var sets = ContextSet.New()
+            .AddSet("Set1", numberOfQuestions: 5)
+            .AddSet("Set2", numberOfQuestions: 5)
+            .Persist().All;
+
+        var date = ContextDate.New().Add(sets).Persist().All[0];
+    }
 }
