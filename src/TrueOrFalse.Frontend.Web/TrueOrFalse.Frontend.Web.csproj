@@ -22746,8 +22746,6 @@
     <TypeScriptCompile Include="Views\Help\Js\WidgetPricing.ts" />
     <TypeScriptCompile Include="Views\Knowledge\Wheel\KnowledgeWheel.ts" />
     <TypeScriptCompile Include="Views\Maintenance\Js\ContentStats.ts" />
-    <TypeScriptCompile Include="Views\Maintenance\ToolsBrainWaveHub.ts" />
-    <TypeScriptCompile Include="Scripts\answerQuestion\BrainWavesHub.ts" />
     <TypeScriptCompile Include="Scripts\typescript.defs\signalr.d.ts" />
     <TypeScriptCompile Include="Scripts\Validations.ts" />
     <TypeScriptCompile Include="Scripts\FormValidation.ts" />
@@ -22863,12 +22861,6 @@
     <Content Include="Views\Shared\NotLoggedIn\Modal_LoggedIn.ascx" />
     <Content Include="Views\Users\Account\Js\Membership.js">
       <DependentUpon>Membership.ts</DependentUpon>
-    </Content>
-    <Content Include="Views\Maintenance\ToolsBrainWaveHub.js">
-      <DependentUpon>ToolsBrainWaveHub.ts</DependentUpon>
-    </Content>
-    <Content Include="Scripts\answerQuestion\BrainWavesHub.js">
-      <DependentUpon>BrainWavesHub.ts</DependentUpon>
     </Content>
     <Content Include="Views\Questions\Answer\AnswerBodyControl\AnswerBody.ascx" />
     <Content Include="Views\Questions\Answer\AnswerControls\SolutionTypeNumeric.js">
@@ -23902,12 +23894,6 @@
     </Content>
     <Content Include="Views\Beta\Js\BetaRequest.js.map">
       <DependentUpon>BetaRequest.ts</DependentUpon>
-    </Content>
-    <Content Include="Scripts\answerQuestion\BrainWavesHub.js.map">
-      <DependentUpon>BrainWavesHub.ts</DependentUpon>
-    </Content>
-    <Content Include="Views\Maintenance\ToolsBrainWaveHub.js.map">
-      <DependentUpon>ToolsBrainWaveHub.ts</DependentUpon>
     </Content>
     <Content Include="Views\Questions\Answer\AnswerControls\SolutionTypeNumeric.js.map">
       <DependentUpon>SolutionTypeNumeric.ts</DependentUpon>

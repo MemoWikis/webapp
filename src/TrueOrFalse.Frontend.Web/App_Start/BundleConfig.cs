@@ -271,9 +271,6 @@ namespace TrueOrFalse.View
             bundles.Add(new StyleBundle("~/bundles/MaintenanceImages")
                 .Include("~/Views/Maintenance/Images/*.css"));
 
-            bundles.Add(new ScriptBundle("~/bundles/MaintenanceTools")
-                .Include("~/Views/Maintenance/ToolsBrainWaveHub.js"));
-
             bundles.Add(new ScriptBundle("~/bundles/js/MaintenanceCMS")
                 .Include("~/Views/Maintenance/Js/CMS.js")
                 .Include("~/Views/Maintenance/Js/CmsCategoryNetworkNavigation.js"));

@@ -37,16 +37,13 @@ public class MaintenanceController : BaseController
     public ActionResult CMS()
     {
         var settings = Sl.R<DbSettingsRepo>().Get();
-        return View(new CMSModel
-        { SuggestedGames = settings.SuggestedGames, SuggestedSetsIdString = settings.SuggestedSetsIdString }.Init());
+        return View(new CMSModel().Init());
     }
 
     [ValidateAntiForgeryToken]
     [HttpPost]
     public ActionResult CMS(CMSModel cmsModel)
     {
-        cmsModel.ConsolidateGames();
-        cmsModel.ConsolidateSuggestedSets();
         cmsModel.Message = new SuccessMessage("CMS Werte gespeichert");
 
         ModelState.Clear();
