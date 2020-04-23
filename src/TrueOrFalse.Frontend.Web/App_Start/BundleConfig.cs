@@ -26,7 +26,6 @@ namespace TrueOrFalse.View
                 .IncludeDirectory("~/Scripts/", "*.js")
                 .IncludeDirectory("~/Scripts/vendor", "*.js")
                 .IncludeDirectory("~/Scripts/header", "*.js")
-                .IncludeDirectory("~/Scripts/hubs", "*.js")
                 .IncludeDirectory("~/Scripts/socialLogins", "*.js")
                 .IncludeDirectory("~/Views/Images", "*.js")
                 .IncludeDirectory("~/Views/Welcome/Login", "*.js"));
@@ -231,31 +230,6 @@ namespace TrueOrFalse.View
 
             bundles.Add(new ScriptBundle("~/bundles/js/TestSessionResult")
                 .IncludeDirectory("~/Views/Questions/Answer/TestSession/Js/", "*.js"));
-
-            //Games
-            bundles.Add(new ScriptBundle("~/bundles/js/Games")
-                .IncludeDirectory("~/Views/Games/Js/", "*.js"));
-
-            bundles.Add(new StyleBundle("~/bundles/Games")
-                .Include("~/Views/Games/*.css"));
-
-            bundles.Add(new ScriptBundle("~/bundles/js/Game")
-                .IncludeDirectory("~/Views/Games/Edit/Js/", "*.js")
-                .Include("~/Scripts/autocompletes/AutocompleteSets.js"));
-
-            bundles.Add(new StyleBundle("~/bundles/Game")
-                .Include("~/Views/Games/Edit/*.css"));
-
-            bundles.Add(new ScriptBundle("~/bundles/js/GamePlay")
-                .IncludeDirectory("~/Views/Questions/Answer/AnswerControls/", "*.js")
-                .IncludeDirectory("~/Scripts/answerQuestion/", "*.js")
-                .IncludeDirectory("~/Views/Games/Play/Js/", "*.js")
-                .IncludeDirectory("~/Views/Questions/ActivityPoints", "*.js"));
-
-            bundles.Add(new StyleBundle("~/bundles/GamePlay")
-                .Include("~/Views/Games/Play/*.css")
-                .Include("~/Views/Questions/Answer/AnswerQuestion.css")
-                .Include("~/Views/Questions/Answer/AnswerQuestionSolution.css"));
 
             bundles.Add(new ScriptBundle("~/bundles/js/AwesomeIframe")
                 .Include("~/Views/Widgets/AwesomeIframe.js"));
