@@ -3,7 +3,7 @@
     <div class="separationBorderTop" style="min-height: 20px;"></div>
 
     <div id="questionDetailsContainer" class="row">
-        <div id="categoryList" class="col-sm-5" >
+        <div id="categoryList" class="col-sm-5" :class="{ isLandingPage:'isLandingPage'}">
             <div class="sectionLabel">Verwandte Themen</div>
             <div class="categoryListChips" v-html="categoryList">
             </div>

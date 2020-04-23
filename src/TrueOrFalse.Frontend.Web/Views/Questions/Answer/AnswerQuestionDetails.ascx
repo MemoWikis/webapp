@@ -3,7 +3,7 @@
 <%@ Control Language="C#"  Inherits="System.Web.Mvc.ViewUserControl<AnswerBodyModel>" %>
 
 <div id="QuestionDetailsApp">
-    <question-details-component model-question-id="<%= Model.QuestionId %>"/>
+    <question-details-component model-question-id="<%= Model.QuestionId %>" is-in-learning-tab="<%= Model.IsInLearningTab %>"/>
 </div>
 <div id="QuestionDetailsFooter">
     <div class="questionDetailsFooterPartialLeft">

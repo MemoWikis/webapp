@@ -192,6 +192,12 @@
         #categoryList {
             padding-bottom: 10px;
 
+            &.isLandingPage {
+                @media(max-width:767px) {
+                    display:none;
+                }
+            }
+
             .categoryListChips {
                 @media(max-width:479px) {
                     display: none;
@@ -232,6 +238,11 @@
                         justify-content: center;
                         padding-top: 30px;
 
+                        @media(max-width:595px) {
+                            padding-top: 20px;
+                            padding-left: 20px;
+                        }
+
                         .counterLabel {
                             max-width: 160px;
                             width: 100%;
@@ -257,6 +268,10 @@
                 #semiPieSection {
                     @media (max-width:767px) {
                         display: flex;
+                    }
+
+                    @media (max-width:595px) {
+                        padding-bottom: 10px;
                     }
 
                     #semiPieChart {

@@ -2,7 +2,7 @@
 declare var Vue: any;
 
 Vue.component('question-details-component', {
-    props: ['modelQuestionId'],
+    props: ['modelQuestionId','isInLearningTab'],
     template: '#question-details-component',
 
     data() {
@@ -78,6 +78,7 @@ Vue.component('question-details-component', {
             overallCorrectAnswerCountData: {},
 
             categories: [],
+            isLandingPage: !this.isInLearningTab,
         };
     },
 

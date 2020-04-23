@@ -157,6 +157,11 @@
 #QuestionDetailsApp #questionDetailsContainer #categoryList {
   padding-bottom: 10px;
 }
+@media (max-width: 767px) {
+  #QuestionDetailsApp #questionDetailsContainer #categoryList.isLandingPage {
+    display: none;
+  }
+}
 #QuestionDetailsApp #questionDetailsContainer #categoryList .categoryListChips {
   max-height: 308px;
   overflow: hidden;
@@ -193,6 +198,12 @@
   justify-content: center;
   padding-top: 30px;
 }
+@media (max-width: 595px) {
+  #QuestionDetailsApp #questionDetailsContainer #questionStatistics #counterContainer .counterBody .counterHalf {
+    padding-top: 20px;
+    padding-left: 20px;
+  }
+}
 #QuestionDetailsApp #questionDetailsContainer #questionStatistics #counterContainer .counterBody .counterHalf .counterLabel {
   max-width: 160px;
   width: 100%;
@@ -216,6 +227,11 @@
 @media (max-width: 767px) {
   #QuestionDetailsApp #questionDetailsContainer #questionStatistics #probabilityContainer #semiPieSection {
     display: flex;
+  }
+}
+@media (max-width: 595px) {
+  #QuestionDetailsApp #questionDetailsContainer #questionStatistics #probabilityContainer #semiPieSection {
+    padding-bottom: 10px;
   }
 }
 #QuestionDetailsApp #questionDetailsContainer #questionStatistics #probabilityContainer #semiPieSection #semiPieChart .semiPieSvgContainer {
