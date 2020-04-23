@@ -5,5 +5,5 @@ if (eventBus == null)
     var eventBus = new Vue();
 
 new Vue({
-    el: '#QuestionListApp',
+    el: '#QuestionDetailsApp',
 });

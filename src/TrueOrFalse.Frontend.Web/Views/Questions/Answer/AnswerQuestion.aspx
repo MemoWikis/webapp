@@ -22,10 +22,16 @@
 </asp:Content>
 
 <asp:Content ID="head" ContentPlaceHolderID="Head" runat="server">
-    
+
     <%= Styles.Render("~/bundles/AnswerQuestion") %>
     <%= Scripts.Render("~/bundles/js/AnswerQuestion") %>
     <%= Scripts.Render("~/bundles/js/DeleteQuestion") %>
+    <%= Scripts.Render("~/bundles/js/Vue")%>
+    <%= Scripts.Render("~/bundles/js/d3") %>
+    <script type="text/x-template" id="question-details-component">
+        <%: Html.Partial("~/Views/Questions/Answer/AnswerQuestionDetailsComponent.vue.ascx") %>
+    </script>
+    <%= Scripts.Render("~/bundles/js/QuestionDetailsComponent") %>
 
     <% if(Model.IsLearningSession) { %>
         <%= Scripts.Render("~/bundles/js/LearningSessionResult") %>
@@ -117,7 +123,8 @@
     <input type="hidden" id="hddQuestionId" value="<%= Model.QuestionId %>"/>
     <input type="hidden" id="hddIsLandingPage" value="<%=Model.PageCurrent == null ? "2" : Model.PageCurrent %>"/>  <%-- value "1" is Questionsite , value 2 is LandingPage, Test or Learningsession is this input not available--%> 
 
-    <% if (Model.IsLearningSession) { %>
+
+<% if (Model.IsLearningSession) { %>
            <% Html.RenderPartial("~/Views/Questions/Answer/LearningSession/LearningSessionHeader.ascx", Model); %>
     <% }else if (Model.IsTestSession) { %>
            <% Html.RenderPartial("~/Views/Questions/Answer/TestSession/TestSessionHeader.ascx", Model); %>
@@ -132,8 +139,6 @@
         <div class="col-xs-9">
             
         <% Html.RenderPartial("~/Views/Questions/Answer/AnswerBodyControl/AnswerBody.ascx", new AnswerBodyModel(Model)); %>
-
-        <% Html.RenderPartial("~/Views/Questions/Answer/AnswerQuestionDetails.ascx", Model); %>
 
         </div>
         <div class="col-xs-3">

@@ -19,7 +19,6 @@
     <%= Scripts.Render("~/bundles/js/Vue") %>
     <%= Styles.Render("~/bundles/AnswerQuestion") %>
     <%= Styles.Render("~/bundles/Category") %>
-   
     <%= Scripts.Render("~/bundles/js/DeleteQuestion") %>
     <%= Scripts.Render("~/bundles/js/AnswerQuestion") %> 
     <%= Scripts.Render("~/bundles/js/CategorySort") %>

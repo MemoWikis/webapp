@@ -169,3 +169,179 @@
     }
 }
 
+#QuestionDetailsApp {
+    .separationBorderTop {
+        min-height: 20px;
+    }
+
+    #questionDetailsContainer {
+        @media(max-width:767px) {
+            display: flex;
+            flex-wrap: wrap;
+            flex-flow: column-reverse;
+        }
+
+        .sectionLabel {
+            text-transform: uppercase;
+            font-family: 'Open Sans';
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+
+        #categoryList {
+            padding-bottom: 10px;
+
+            .categoryListChips {
+                @media(max-width:479px) {
+                    display: none;
+                }
+
+                max-height: 308px;
+                overflow: hidden
+            }
+
+            .categoryListLinks {
+                padding: 10px 0;
+                font-size: 12px;
+
+                a {
+                    line-height: 20px;
+                    padding-right: 5px;
+                }
+
+                @media(min-width:480px) {
+                    display: none;
+                }
+            }
+        }
+
+        #questionStatistics {
+
+            #counterContainer {
+                .counterBody {
+                    display: flex;
+                    flex-wrap: wrap;
+
+                    @media(max-width:767px) {
+                        padding-bottom: 20px;
+                    }
+
+                    .counterHalf {
+                        display: flex;
+                        justify-content: center;
+                        padding-top: 30px;
+
+                        .counterLabel {
+                            max-width: 160px;
+                            width: 100%;
+                            padding: 0 0 0 20px;
+
+                            @media (max-width:595px) {
+                                max-width: 180px;
+                                padding: 0 20px;
+                            }
+                        }
+                    }
+                }
+            }
+
+            @media(min-width:596px) {
+                display: flex;
+                justify-content: space-around;
+            }
+
+            #probabilityContainer {
+                min-width: 220px;
+
+                #semiPieSection {
+                    @media (max-width:767px) {
+                        display: flex;
+                    }
+
+                    #semiPieChart {
+                        .semiPieSvgContainer {
+                            display: flex;
+                            justify-content: center;
+
+                            @media(max-width:767px) {
+                                justify-content: normal;
+                            }
+
+                            @media(min-width:350px) and (max-width:767px) {
+
+                                svg {
+                                    width: 196px;
+
+                                    g {
+                                        transform: translate(86px,80px);
+                                    }
+                                }
+                            }
+
+                            @media(max-width:349px) {
+
+                                svg {
+                                    width: 100px;
+
+                                    g {
+                                        transform: translate(50px,50px);
+
+                                        path.baseArc, path.personalArc, path.avgArc, text.avgProbabilityLabel {
+                                            display: none;
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+
+                    #probabilityText {
+                        display: flex;
+                        justify-content: center;
+                        padding-bottom: 20px;
+                        text-align: center;
+                        font-size: 12px;
+                        max-width: 300px;
+
+                        @media(max-width:767px) {
+                            padding-top: 25px;
+                            text-align: left;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+#QuestionDetailsFooter {
+    display: flex;
+    justify-content: space-between;
+    font-size: 12px !important;
+
+    .questionDetailsFooterPartialLeft {
+        width: 60%;
+        display: flex;
+
+        #LicenseQuestion {
+            padding-right: 10px;
+
+            a.TextLinkWithIcon {
+                flex-direction: unset !important;
+
+                img {
+                    margin: 0 !important;
+                }
+            }
+        }
+    }
+
+    .questionDetailsFooterPartialRight {
+        width: 40%;
+        display: flex;
+        justify-content: flex-end;
+    }
+}
+
+

@@ -669,6 +669,44 @@ public class AnswerQuestionController : BaseController
         return ViewRenderer.RenderPartialView("~/Views/Questions/Answer/AnswerQuestionDetails.ascx", model, ControllerContext);
     }
 
+    public JsonResult GetQuestionDetails(int questionId)
+    {
+        var question = Sl.QuestionRepo.GetById(questionId);
+        var answerQuestionModel = new AnswerQuestionModel(question);
+
+        var correctnessProbability = answerQuestionModel.HistoryAndProbability.CorrectnessProbability;
+        var history = answerQuestionModel.HistoryAndProbability.AnswerHistory;
+
+        var json = Json(new
+        {
+            personalProbability = correctnessProbability.CPPersonal,
+            personalColor = correctnessProbability.CPPColor,
+            avgProbability = correctnessProbability.CPAll,
+            personalAnswerCount = history.TimesAnsweredUser,
+            personalAnsweredCorrectly = history.TimesAnsweredUserTrue,
+            personalAnsweredWrongly = history.TimesAnsweredUserWrong,
+            overallAnswerCount = history.TimesAnsweredTotal,
+            overallAnsweredCorrectly = history.TimesAnsweredCorrect,
+            overallAnsweredWrongly = history.TimesAnsweredWrongTotal,
+            isInWishknowledge = answerQuestionModel.IsInWishknowledge,
+            categories = question.Categories.Select(c => new
+            {
+                name = c.Name,
+                categoryType = c.Type,
+                linkToCategory = Links.CategoryDetail(c),
+            }).AsEnumerable().Distinct().ToList(),
+        });
+
+        return json;
+    }
+
+    public string RenderCategoryList(int questionId)
+    {
+        var question = Sl.QuestionRepo.GetById(questionId);
+
+        return ViewRenderer.RenderPartialView("~/Views/Shared/CategoriesOfQuestion.ascx", question, ControllerContext);
+    }
+
     private string GetQuestionPageData(
         AnswerQuestionModel model, 
         string currentUrl, 
@@ -728,7 +766,6 @@ public class AnswerQuestionController : BaseController
                 testSessionId = testSessionId
             } : null,
             url = currentUrl,
-            questionDetailsAsHtml = ViewRenderer.RenderPartialView("~/Views/Questions/Answer/AnswerQuestionDetails.ascx", model, ControllerContext),
             commentsAsHtml = ViewRenderer.RenderPartialView("~/Views/Questions/Answer/Comments/CommentsSection.ascx", model, ControllerContext),
             offlineDevelopment = Settings.DevelopOffline(),
             menuHtml,

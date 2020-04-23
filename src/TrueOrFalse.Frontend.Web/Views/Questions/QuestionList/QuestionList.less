@@ -191,6 +191,71 @@
                                 overflow-wrap: break-word;
                             }
                         }
+
+                        .questionDetailsSection {
+                            display: flex;
+                            font-size: 12px;
+                            padding-top: 20px;
+
+                            .probabilitySection {
+                                padding-right: 10px;
+
+                                span {
+                                    &.percentageLabel {
+                                        font-weight: bold;
+                                        color: #D6D6D6;
+
+                                        &.solid {
+                                            color: #AFD534;
+                                        }
+
+                                        &.shouldConsolidate {
+                                            color: #FDD648;
+                                        }
+
+                                        &.shouldLearn {
+                                            color: #FFA07A;
+                                        }
+
+                                        &.inWishknowledge {
+                                            color: #949494;
+                                        }
+                                    }
+
+
+                                    &.chip {
+                                        padding: 1px 10px;
+                                        border-radius: 20px;
+                                        background: #D6D6D6;
+
+                                        &.solid {
+                                            background: #AFD534;
+                                        }
+
+                                        &.shouldConsolidate {
+                                            background: #FDD648;
+                                        }
+
+                                        &.shouldLearn {
+                                            background: #FFA07A;
+                                        }
+
+                                        &.inWishknowledge {
+                                            background: #949494;
+                                            color: white;
+                                        }
+                                    }
+                                }
+
+                                &.open {
+                                    height: unset;
+                                    margin-top: 20px;
+                                    margin-bottom: 20px;
+                                    transition: all .2s ease-out;
+                                    box-shadow: 0px 1px 6px 0px #C4C4C4;
+                                }
+                            }
+                        }
                     }
                 }
 
@@ -291,6 +356,7 @@
                 .page-link {
                     width: 100%;
                     text-align: center;
+                    padding: 6px 4px !important;
                 }
             }
 

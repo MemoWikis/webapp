@@ -21746,6 +21746,10 @@
       <DependentUpon>Tabbing.ts</DependentUpon>
     </Content>
     <Content Include="Views\Categories\Detail\Partials\BreadCrumbCategories.ascx" />
+    <Content Include="Views\Questions\Answer\AnswerQuestionDetailsComponent.vue.ascx" />
+    <Content Include="Views\Questions\Answer\Js\InlineEditComponent.js">
+      <DependentUpon>InlineEditComponent.ts</DependentUpon>
+    </Content>
     <Content Include="Views\Categories\History\CategoryHistory.css">
       <DependentUpon>CategoryHistory.less</DependentUpon>
     </Content>
@@ -22346,6 +22350,9 @@
     <TypeScriptCompile Include="Scripts\YoutubeApi.ts" />
     <TypeScriptCompile Include="Scripts\NumbersCountUp.ts" />
     <TypeScriptCompile Include="Views\About\Js\Page.ts" />
+    <TypeScriptCompile Include="Views\Questions\Answer\Js\QuestionDetails\AnswerQuestionDetailsApp.ts" />
+    <TypeScriptCompile Include="Views\Questions\Answer\Js\QuestionDetails\AnswerQuestionDetailsComponent.ts" />
+    <TypeScriptCompile Include="Views\Questions\Answer\Js\InlineEditComponent.ts" />
     <TypeScriptCompile Include="Views\Questions\Js\QuestionList\QuestionListComponents.ts" />
     <TypeScriptCompile Include="Views\Questions\Js\QuestionList\QuestionListApp.ts" />
     <TypeScriptCompile Include="Views\Categories\Detail\Js\Category.ts" />
@@ -24067,6 +24074,9 @@
     <Content Include="Views\Questions\Answer\SessionConfig.less" />
     <Content Include="Views\Questions\Answer\Js\QuestionFilter.js.map">
       <DependentUpon>QuestionFilter.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Questions\Answer\Js\InlineEditComponent.js.map">
+      <DependentUpon>InlineEditComponent.ts</DependentUpon>
     </Content>
     <Content Include="Views\Shared\Delete.less" />
     <None Include="Web.overwritten.config.sample" />
