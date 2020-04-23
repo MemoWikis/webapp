@@ -164,61 +164,62 @@
 #QuestionListApp .singleQuestionRow .questionSectionFlex .questionContainer .questionBodyTop .extendedQuestionContainer .notes .sources {
   overflow-wrap: break-word;
 }
-#QuestionListApp .singleQuestionRow .questionSectionFlex .questionContainer .questionBodyTop .extendedQuestionContainer .questionDetailsSection {
-  display: flex;
-  font-size: 12px;
-  padding-top: 20px;
-}
-#QuestionListApp .singleQuestionRow .questionSectionFlex .questionContainer .questionBodyTop .extendedQuestionContainer .questionDetailsSection .probabilitySection {
-  padding-right: 10px;
-}
-#QuestionListApp .singleQuestionRow .questionSectionFlex .questionContainer .questionBodyTop .extendedQuestionContainer .questionDetailsSection .probabilitySection span.percentageLabel {
-  font-weight: bold;
-  color: #D6D6D6;
-}
-#QuestionListApp .singleQuestionRow .questionSectionFlex .questionContainer .questionBodyTop .extendedQuestionContainer .questionDetailsSection .probabilitySection span.percentageLabel.solid {
-  color: #AFD534;
-}
-#QuestionListApp .singleQuestionRow .questionSectionFlex .questionContainer .questionBodyTop .extendedQuestionContainer .questionDetailsSection .probabilitySection span.percentageLabel.shouldConsolidate {
-  color: #FDD648;
-}
-#QuestionListApp .singleQuestionRow .questionSectionFlex .questionContainer .questionBodyTop .extendedQuestionContainer .questionDetailsSection .probabilitySection span.percentageLabel.shouldLearn {
-  color: #FFA07A;
-}
-#QuestionListApp .singleQuestionRow .questionSectionFlex .questionContainer .questionBodyTop .extendedQuestionContainer .questionDetailsSection .probabilitySection span.percentageLabel.inWishknowledge {
-  color: #949494;
-}
-#QuestionListApp .singleQuestionRow .questionSectionFlex .questionContainer .questionBodyTop .extendedQuestionContainer .questionDetailsSection .probabilitySection span.chip {
-  padding: 1px 10px;
-  border-radius: 20px;
-  background: #D6D6D6;
-}
-#QuestionListApp .singleQuestionRow .questionSectionFlex .questionContainer .questionBodyTop .extendedQuestionContainer .questionDetailsSection .probabilitySection span.chip.solid {
-  background: #AFD534;
-}
-#QuestionListApp .singleQuestionRow .questionSectionFlex .questionContainer .questionBodyTop .extendedQuestionContainer .questionDetailsSection .probabilitySection span.chip.shouldConsolidate {
-  background: #FDD648;
-}
-#QuestionListApp .singleQuestionRow .questionSectionFlex .questionContainer .questionBodyTop .extendedQuestionContainer .questionDetailsSection .probabilitySection span.chip.shouldLearn {
-  background: #FFA07A;
-}
-#QuestionListApp .singleQuestionRow .questionSectionFlex .questionContainer .questionBodyTop .extendedQuestionContainer .questionDetailsSection .probabilitySection span.chip.inWishknowledge {
-  background: #949494;
-  color: white;
-}
-#QuestionListApp .singleQuestionRow .questionSectionFlex .questionContainer .questionBodyTop .extendedQuestionContainer .questionDetailsSection .probabilitySection.open {
-  height: unset;
-  margin-top: 20px;
-  margin-bottom: 20px;
-  transition: all 0.2s ease-out;
-  box-shadow: 0px 1px 6px 0px #C4C4C4;
-}
 #QuestionListApp .singleQuestionRow .questionSectionFlex .questionContainer .questionBodyBottom .questionDetails {
   font-size: 12px;
   padding-left: 24px;
 }
 #QuestionListApp .singleQuestionRow .questionSectionFlex .questionContainer .questionBodyBottom .questionDetails #StatsHeader {
   display: none;
+}
+#QuestionListApp .singleQuestionRow .questionSectionFlex .questionContainer .questionBodyBottom .questionStats {
+  display: flex;
+  font-size: 12px;
+  padding: 16px 12px;
+}
+#QuestionListApp .singleQuestionRow .questionSectionFlex .questionContainer .questionBodyBottom .questionStats .probabilitySection {
+  padding-right: 10px;
+}
+#QuestionListApp .singleQuestionRow .questionSectionFlex .questionContainer .questionBodyBottom .questionStats .probabilitySection span.percentageLabel {
+  font-weight: bold;
+  color: #D6D6D6;
+}
+#QuestionListApp .singleQuestionRow .questionSectionFlex .questionContainer .questionBodyBottom .questionStats .probabilitySection span.percentageLabel.solid {
+  color: #AFD534;
+}
+#QuestionListApp .singleQuestionRow .questionSectionFlex .questionContainer .questionBodyBottom .questionStats .probabilitySection span.percentageLabel.shouldConsolidate {
+  color: #FDD648;
+}
+#QuestionListApp .singleQuestionRow .questionSectionFlex .questionContainer .questionBodyBottom .questionStats .probabilitySection span.percentageLabel.shouldLearn {
+  color: #FFA07A;
+}
+#QuestionListApp .singleQuestionRow .questionSectionFlex .questionContainer .questionBodyBottom .questionStats .probabilitySection span.percentageLabel.inWishknowledge {
+  color: #949494;
+}
+#QuestionListApp .singleQuestionRow .questionSectionFlex .questionContainer .questionBodyBottom .questionStats .probabilitySection span.chip {
+  padding: 1px 10px;
+  border-radius: 20px;
+  background: #D6D6D6;
+  color: #555555;
+}
+#QuestionListApp .singleQuestionRow .questionSectionFlex .questionContainer .questionBodyBottom .questionStats .probabilitySection span.chip.solid {
+  background: #AFD534;
+}
+#QuestionListApp .singleQuestionRow .questionSectionFlex .questionContainer .questionBodyBottom .questionStats .probabilitySection span.chip.shouldConsolidate {
+  background: #FDD648;
+}
+#QuestionListApp .singleQuestionRow .questionSectionFlex .questionContainer .questionBodyBottom .questionStats .probabilitySection span.chip.shouldLearn {
+  background: #FFA07A;
+}
+#QuestionListApp .singleQuestionRow .questionSectionFlex .questionContainer .questionBodyBottom .questionStats .probabilitySection span.chip.inWishknowledge {
+  background: #949494;
+  color: white;
+}
+#QuestionListApp .singleQuestionRow .questionSectionFlex .questionContainer .questionBodyBottom .questionStats .probabilitySection.open {
+  height: unset;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  transition: all 0.2s ease-out;
+  box-shadow: 0px 1px 6px 0px #C4C4C4;
 }
 #QuestionListApp .singleQuestionRow .questionSectionFlex .questionContainer .questionBodyBottom .questionFooterIcons {
   color: #DDDDDD;

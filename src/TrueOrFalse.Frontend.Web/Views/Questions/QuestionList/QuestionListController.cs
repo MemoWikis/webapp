@@ -62,7 +62,7 @@ public class QuestionListController : BaseController
             editUrl = Links.EditQuestion(Url, question.Text, question.Id),
             historyUrl = Links.QuestionHistory(question.Id),
             answerCount = history.TimesAnsweredUser,
-            correctAnswerCount = history.TimesAnsweredUser,
+            correctAnswerCount = history.TimesAnsweredUserTrue,
             wrongAnswerCount = history.TimesAnsweredUserWrong,
         });
 
