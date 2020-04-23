@@ -1,7 +1,6 @@
 ﻿declare var Vue: any;
 declare var VueAdsPagination: any;
 
-
 Vue.component('question-list-component', {
     props: [
         'categoryId',
