@@ -1,4 +1,6 @@
 ﻿
+<%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
+
 <div style="min-height:240px">
     <div class="separationBorderTop" style="min-height: 20px;"></div>
 
@@ -42,11 +44,11 @@
                             <strong>{{answerCount}}</strong> mal beantwortet <br/>
                             <strong>{{correctAnswers}}</strong> richtig / <strong>{{wrongAnswers}}</strong> falsch
                         </div>
-                        <div v-else-if="!isLoggedIn" class="counterLabel">
+                        <div v-else-if="isLoggedIn" class="counterLabel">
                             Du hast diese Frage noch nie beantwortet.
                         </div>
-                        <div v-else>
-                            Du bist nicht angemeldet. Wir haben keine Daten. Anmelden
+                        <div v-else class="counterLabel">
+                            Du bist nicht angemeldet. Wir haben keine Daten. <a href="#" data-btn-login="true">Anmelden</a>
                         </div>
                     </div>
                     <div class="counterHalf">
