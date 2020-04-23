@@ -25,8 +25,6 @@ public class Game : DomainEntity
     public virtual bool IsNeverStarted => Status == GameStatus.NeverStarted;
     public virtual bool IsReady => Status == GameStatus.Ready;
 
-    public virtual Player Creator => Players.Creator();
-
     public virtual bool WithSystemAvgPlayer { get; set; }
 
     public virtual bool AddPlayer(User user, bool isCreator = false)

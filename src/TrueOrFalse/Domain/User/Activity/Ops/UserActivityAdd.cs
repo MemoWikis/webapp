@@ -49,22 +49,6 @@ public class UserActivityAdd
         }
     }
 
-    public static void CreatedGame(Game game)
-    {
-        var userCreator = Sl.R<UserRepo>().GetById(game.Creator.User.Id); //need to reload user, because no session here, so lazy-load would prevent visibility of followers
-        foreach (var follower in userCreator.Followers)
-        {
-            Sl.R<UserActivityRepo>().Create(new UserActivity
-            {
-                UserConcerned = follower.Follower,
-                At = DateTime.Now,
-                Type = UserActivityType.CreatedGame,
-                Game = game,
-                UserCauser = userCreator
-            });
-        }
-    }
-
     public static void CreatedDate(Date date)
     {
         var userCreator = Sl.R<UserRepo>().GetById(date.User.Id); //need to reload user, because no session here, so lazy-load would prevent visibility of followers

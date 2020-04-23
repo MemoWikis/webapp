@@ -439,55 +439,6 @@ public class BadgeTypes
                 AwardCheck = BadgeAwardCheck.GetLevel(fp => fp.DatesCreated())
             },
 
-            //Play
-            new BadgeType
-            {
-                Key = "Teamplayer",
-                Name = "Teamsportler",
-                Description = "{badgePoints} Spiele mit mind. 10 Mitspielern erstellt und abgeschlossen",
-                Group =  BadgeTypeGroups.GetByKey(BadgeTypeGroupKeys.Play),
-                Levels = new List<BadgeLevel>
-                {
-                    BadgeLevel.GetBronze(1),
-                    BadgeLevel.GetSilver(10),
-                    BadgeLevel.GetGold(100)
-                },
-                BadgeCheckOn = new []{ BadgeCheckOn.OncePerDay },
-                AwardCheck = BadgeAwardCheck.GetLevel(fp => fp.GamesWithMoreThan10Players())
-            },
-
-            new BadgeType
-            {
-                Key = "DuelPlayer",
-                Name = "Zweikämpfer",
-                Description = "{badgePoints} Spiele zu zweit gespielt und abgeschlossen",
-                Group =  BadgeTypeGroups.GetByKey(BadgeTypeGroupKeys.Play),
-                Levels = new List<BadgeLevel>
-                {
-                    BadgeLevel.GetBronze(1),
-                    BadgeLevel.GetSilver(50),
-                    BadgeLevel.GetGold(300)
-                },
-                BadgeCheckOn = new []{ BadgeCheckOn.OncePerDay },
-                AwardCheck = BadgeAwardCheck.GetLevel(fp => fp.GamesWithExact2Players())
-            },
-
-            new BadgeType
-            {
-                Key = "WinnerType",
-                Name = "GewinnerTyp",
-                Description = "{badgePoints} Spiele gewonnen",
-                Group =  BadgeTypeGroups.GetByKey(BadgeTypeGroupKeys.Play),
-                Levels = new List<BadgeLevel>
-                {
-                    BadgeLevel.GetBronze(1),
-                    BadgeLevel.GetSilver(50),
-                    BadgeLevel.GetGold(300)
-                },
-                BadgeCheckOn = new []{ BadgeCheckOn.OncePerDay },
-                AwardCheck = BadgeAwardCheck.GetLevel(fp => fp.GamesWon())
-            },
-
             //Community/Comments
             new BadgeType
             {

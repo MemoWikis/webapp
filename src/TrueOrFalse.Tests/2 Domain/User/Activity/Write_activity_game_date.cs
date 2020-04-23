@@ -31,25 +31,6 @@ public class Write_activity_game_date : BaseTest
         R<UserRepo>().Update(user4);
         R<UserRepo>().Update(user3);
 
-
-        //Test doesn't work for Create Game, because ContextGame.New().Add so far does not accept User/UserId as parameter to set Creator, 
-        //which is necessary to test UserActivity
-
-        ////User4 creates one game
-        //ContextGame.New().Add().Persist(); //change Add to accept User/UserID as creator;
-
-        //User2 creates two dates
-        var contextSets = ContextSet.New().AddSet("QSet 1").AddSet("QSet 2").Persist();
-        ContextDate.New()
-            .Add(new[] { contextSets.All[0], contextSets.All[1] }, creator: user2)
-            .Add(new[] { contextSets.All[1] }, creator: user2)
-            .Persist();
-
-        ////User3 should see activity: User4 created Game
-        //var activitiesUser3 = R<UserActivityRepo>().GetByUser(user3);
-        //Assert.That(activitiesUser3.Count, Is.EqualTo(1));
-        //Assert.That(activitiesUser3[0].Type, Is.EqualTo(UserActivityType.CreatedGame));
-
         //User1 should see activity: User2 created two dates //and User 4 created Game
         var activitiesUser1 = R<UserActivityRepo>().GetByUser(user1);
         Assert.That(activitiesUser1.Count, Is.EqualTo(2)); //EqualTo(3) if Create-Game works

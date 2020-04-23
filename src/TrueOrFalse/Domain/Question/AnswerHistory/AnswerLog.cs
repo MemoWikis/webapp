@@ -97,9 +97,6 @@ public class AnswerLog : IRegisterAsInstancePerLifetime
             LearningSessionStepGuid = LearningSessionStepGuid
         };
 
-        if (roundId != null)
-            answer.Round = Sl.R<RoundRepo>().GetById((int) roundId);
-
         _answerRepo.Create(answer);
     }
 }
