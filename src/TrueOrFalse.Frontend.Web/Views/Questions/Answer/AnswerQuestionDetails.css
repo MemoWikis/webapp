@@ -157,6 +157,11 @@
 #QuestionDetailsApp #questionDetailsContainer #categoryList {
   padding-bottom: 10px;
 }
+@media (max-width: 767px) {
+  #QuestionDetailsApp #questionDetailsContainer #categoryList.isLandingPage {
+    display: none;
+  }
+}
 #QuestionDetailsApp #questionDetailsContainer #categoryList .categoryListChips {
   max-height: 308px;
   overflow: hidden;
@@ -193,6 +198,12 @@
   justify-content: center;
   padding-top: 30px;
 }
+@media (max-width: 595px) {
+  #QuestionDetailsApp #questionDetailsContainer #questionStatistics #counterContainer .counterBody .counterHalf {
+    padding-top: 20px;
+    padding-left: 20px;
+  }
+}
 #QuestionDetailsApp #questionDetailsContainer #questionStatistics #counterContainer .counterBody .counterHalf .counterLabel {
   max-width: 160px;
   width: 100%;
@@ -218,6 +229,11 @@
     display: flex;
   }
 }
+@media (max-width: 595px) {
+  #QuestionDetailsApp #questionDetailsContainer #questionStatistics #probabilityContainer #semiPieSection {
+    padding-bottom: 10px;
+  }
+}
 #QuestionDetailsApp #questionDetailsContainer #questionStatistics #probabilityContainer #semiPieSection #semiPieChart .semiPieSvgContainer {
   display: flex;
   justify-content: center;
@@ -237,16 +253,26 @@
 }
 @media (max-width: 349px) {
   #QuestionDetailsApp #questionDetailsContainer #questionStatistics #probabilityContainer #semiPieSection #semiPieChart .semiPieSvgContainer svg {
-    width: 100px;
+    width: 140px;
+    transition: 0.2s;
   }
   #QuestionDetailsApp #questionDetailsContainer #questionStatistics #probabilityContainer #semiPieSection #semiPieChart .semiPieSvgContainer svg g {
-    transform: translate(50px, 50px);
+    transform: translate(66px, 50px);
+    transition: 0.2s;
   }
   #QuestionDetailsApp #questionDetailsContainer #questionStatistics #probabilityContainer #semiPieSection #semiPieChart .semiPieSvgContainer svg g path.baseArc,
   #QuestionDetailsApp #questionDetailsContainer #questionStatistics #probabilityContainer #semiPieSection #semiPieChart .semiPieSvgContainer svg g path.personalArc,
   #QuestionDetailsApp #questionDetailsContainer #questionStatistics #probabilityContainer #semiPieSection #semiPieChart .semiPieSvgContainer svg g path.avgArc,
   #QuestionDetailsApp #questionDetailsContainer #questionStatistics #probabilityContainer #semiPieSection #semiPieChart .semiPieSvgContainer svg g text.avgProbabilityLabel {
     display: none;
+  }
+  #QuestionDetailsApp #questionDetailsContainer #questionStatistics #probabilityContainer #semiPieSection #semiPieChart .semiPieSvgContainer.isInWishknowledge svg {
+    width: 100px;
+    transition: 0.8s ease-in;
+  }
+  #QuestionDetailsApp #questionDetailsContainer #questionStatistics #probabilityContainer #semiPieSection #semiPieChart .semiPieSvgContainer.isInWishknowledge svg g {
+    transform: translate(50px, 50px);
+    transition: 0.8s ease-in;
   }
 }
 #QuestionDetailsApp #questionDetailsContainer #questionStatistics #probabilityContainer #semiPieSection #probabilityText {
@@ -267,10 +293,12 @@
   display: flex;
   justify-content: space-between;
   font-size: 12px !important;
+  color: #999999;
 }
 #QuestionDetailsFooter .questionDetailsFooterPartialLeft {
   width: 60%;
   display: flex;
+  flex-wrap: wrap;
 }
 #QuestionDetailsFooter .questionDetailsFooterPartialLeft #LicenseQuestion {
   padding-right: 10px;
@@ -279,10 +307,31 @@
   flex-direction: unset !important;
 }
 #QuestionDetailsFooter .questionDetailsFooterPartialLeft #LicenseQuestion a.TextLinkWithIcon img {
-  margin: 0 !important;
+  margin: 0 8px 0 0 !important;
 }
 #QuestionDetailsFooter .questionDetailsFooterPartialRight {
   width: 40%;
   display: flex;
   justify-content: flex-end;
+}
+#QuestionDetailsFooter .questionDetailsFooterPartialRight .wishknowledgeCount,
+#QuestionDetailsFooter .questionDetailsFooterPartialRight .viewCount,
+#QuestionDetailsFooter .questionDetailsFooterPartialRight .commentCount {
+  padding: 0 8px;
+}
+#QuestionDetailsFooter .questionDetailsFooterPartialRight .wishknowledgeCount i,
+#QuestionDetailsFooter .questionDetailsFooterPartialRight .viewCount i,
+#QuestionDetailsFooter .questionDetailsFooterPartialRight .commentCount i {
+  padding-right: 4px;
+}
+#QuestionDetailsFooter .questionDetailsFooterPartialRight .wishknowledgeCount a,
+#QuestionDetailsFooter .questionDetailsFooterPartialRight .viewCount a,
+#QuestionDetailsFooter .questionDetailsFooterPartialRight .commentCount a {
+  color: #999999;
+}
+#QuestionDetailsFooter .questionDetailsFooterPartialRight .wishknowledgeCount a:hover,
+#QuestionDetailsFooter .questionDetailsFooterPartialRight .viewCount a:hover,
+#QuestionDetailsFooter .questionDetailsFooterPartialRight .commentCount a:hover {
+  text-decoration: none;
+  color: #003264;
 }

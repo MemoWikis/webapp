@@ -256,34 +256,5 @@
         <% } %>
         
         <% Html.RenderPartial("~/Views/Questions/Answer/AnswerQuestionDetails.ascx", Model); %>
-        <div id="QuestionDetailsFooter">
-            <div class="questionDetailsFooterPartialLeft">
-
-                <div id="LicenseQuestion">
-                    <% if (Model.LicenseQuestion.IsDefault()) { %>
-                        <a class="TextLinkWithIcon" rel="license" href="http://creativecommons.org/licenses/by/4.0/" data-toggle="popover" data-trigger="focus" title="Infos zur Lizenz <%= LicenseQuestionRepo.GetDefaultLicense().NameShort %>" data-placement="auto top"
-                           data-content="Autor: <a href='<%= Links.UserDetail(Model.Creator) %>' <%= Model.IsInWidget ? "target='_blank'" : "" %>><%= Model.Creator.Name %></a><%= Model.IsInWidget ? " (Nutzer auf <a href='/' target='_blank'>memucho.de</a>)" : " " %><br/><%= LicenseQuestionRepo.GetDefaultLicense().DisplayTextFull %>">
-                            <div> <img src="/Images/Licenses/cc-by 88x31.png" width="60" style="margin-top: 4px; opacity: 0.6; padding-bottom: 2px;" />&nbsp;</div>
-                            <div  class="TextDiv"> <span class="TextSpan"><%= LicenseQuestionRepo.GetDefaultLicense().NameShort %></span></div>
-                        </a><%--target blank to open outside the iframe of widget--%>
-
-                    <% } else { %>
-                        <a class="TextLinkWithIcon" href="#" data-toggle="popover" data-trigger="focus" title="Infos zur Lizenz" data-placement="auto top" data-content="<%= Model.LicenseQuestion.DisplayTextFull %>">
-                            <div class="TextDiv"><span class="TextSpan"><%= Model.LicenseQuestion.DisplayTextShort %></span>&nbsp;&nbsp;<i class="fa fa-info-circle">&nbsp;</i></div>
-                        </a>
-                    <% } %>
-                </div>
-                
-                <div class="created"> Erstellt von: <a href="<%= Links.UserDetail(Model.Creator) %>"><%= Model.Creator.Name %></a> vor <%= Model.CreationDateNiceText %></div>
-
-
-            </div>
-            
-            <div class="questionDetailsFooterPartialRight">
-
-            </div>
-
-
-        </div>
 
 </div>

@@ -1,9 +1,11 @@
 ﻿
+<%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
+
 <div style="min-height:240px">
     <div class="separationBorderTop" style="min-height: 20px;"></div>
 
     <div id="questionDetailsContainer" class="row">
-        <div id="categoryList" class="col-sm-5" >
+        <div id="categoryList" class="col-sm-5" :class="{ isLandingPage:'isLandingPage'}">
             <div class="sectionLabel">Verwandte Themen</div>
             <div class="categoryListChips" v-html="categoryList">
             </div>
@@ -17,7 +19,7 @@
                 <div class="sectionLabel">Antwortwahrscheinlichkeit</div>
                 <div id="semiPieSection">
                     <div id="semiPieChart">
-                        <div class="semiPieSvgContainer" ref="semiPie">
+                        <div class="semiPieSvgContainer" ref="semiPie" :class="{'isInWishknowledge' : isInWishknowledge}">
                         </div>
                     </div>
                     <div id="probabilityText">
@@ -42,8 +44,11 @@
                             <strong>{{answerCount}}</strong> mal beantwortet <br/>
                             <strong>{{correctAnswers}}</strong> richtig / <strong>{{wrongAnswers}}</strong> falsch
                         </div>
-                        <div v-else class="counterLabel">
+                        <div v-else-if="isLoggedIn" class="counterLabel">
                             Du hast diese Frage noch nie beantwortet.
+                        </div>
+                        <div v-else class="counterLabel">
+                            Du bist nicht angemeldet. Wir haben keine Daten. <a href="#" data-btn-login="true">Anmelden</a>
                         </div>
                     </div>
                     <div class="counterHalf">

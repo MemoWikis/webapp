@@ -2,11 +2,12 @@
 declare var Vue: any;
 
 Vue.component('question-details-component', {
-    props: ['questionId'],
+    props: ['modelQuestionId','isInLearningTab'],
     template: '#question-details-component',
 
     data() {
         return {
+            questionId: this.modelQuestionId,
             personalProbability: 0,
             personalProbabilityText: "Nicht im Wunschwissen",
             personalColor: "#DDDDDD",
@@ -77,6 +78,7 @@ Vue.component('question-details-component', {
             overallCorrectAnswerCountData: {},
 
             categories: [],
+            isLandingPage: !this.isInLearningTab,
         };
     },
 
@@ -98,9 +100,23 @@ Vue.component('question-details-component', {
 
         eventBus.$on('reload-wishknowledge-state-per-question',
             (data) => {
-                if (this.questionId == data.questionId && this.arcLoaded) {
+                if (this.questionId == data.questionId) {
                     this.isInWishknowledge = data.isInWishknowledge;
                     this.loadData();
+
+                    var wishknowledgeCounter = $('span#WishknowledgeCounter-' + this.questionId);
+                    var wishknowledgeCountString = wishknowledgeCounter.text();
+                    var isInWishknowledge = wishknowledgeCounter.attr('data-relevance').toLowerCase() == "true";
+
+                    if (isInWishknowledge && this.isInWishknowledge == false) {
+                        var n = parseInt(wishknowledgeCountString, 10) - 1;
+                        wishknowledgeCounter.text(n);
+                    } else if (isInWishknowledge == false && this.isInWishknowledge) {
+                        var n = parseInt(wishknowledgeCountString, 10) + 1;
+                        wishknowledgeCounter.text(n);
+                    }
+
+                    wishknowledgeCounter.attr('data-relevance', this.isInWishknowledge);
                 }
             });
     },
@@ -717,19 +733,10 @@ Vue.component('question-details-component', {
                     probabilityTextWidth = this.getComputedTextLength();
                 })
                 .transition()
-                .duration(200)
-                .style("visibility", "hidden")
-                .style("fill", () => self.personalColor == "#999999" ? "white" : "#555555");
-
-            self.arcSvg.selectAll(".personalProbabilityText")
-                .text(self.personalProbabilityText)
-                .each(function() {
-                    probabilityTextWidth = this.getComputedTextLength();
-                })
-                .transition()
                 .delay(200)
                 .duration(200)
-                .style("visibility", "visible");
+                .style("fill", () => self.personalColor == "#999999" ? "white" : "#555555");
+
 
             self.arcSvg.selectAll(".personalProbabilityChip")
                 .transition()
