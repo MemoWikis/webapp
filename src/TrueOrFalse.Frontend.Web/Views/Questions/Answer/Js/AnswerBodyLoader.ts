@@ -157,7 +157,6 @@ class AnswerBodyLoader {
                     return;
                 }
                 $(".FooterQuestionDetails").remove();
-                $("#modalShareQuestion").remove();
                 $("#AnswerBody").replaceWith(result.answerBodyAsHtml);
                 if (this._isInLearningTab && !this._getCustomSession) {
                     $("#QuestionDetails").empty();

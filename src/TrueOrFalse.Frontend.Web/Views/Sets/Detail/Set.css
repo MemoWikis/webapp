@@ -273,11 +273,6 @@ div.video-header h4 {
 }
 /*      MODALS
 ----------------------------- */
-#modalShareSet input,
-#modalShareSet select {
-  display: inline-block;
-  width: auto;
-}
 .question-row .Pin .fa-heart-o {
   padding-right: 10px;
 }

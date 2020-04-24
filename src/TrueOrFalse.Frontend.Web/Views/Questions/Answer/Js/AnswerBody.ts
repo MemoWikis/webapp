@@ -30,7 +30,6 @@ class AnswerBody {
         });
         
         new QuestionRowDelete(QuestionRowDeleteSourcePage.QuestionDetail);
-        new ShareQuestion(questionId);
 
         $('[data-toggle=popover]').popover({ html: true }).click(e => { e.preventDefault(); });
 

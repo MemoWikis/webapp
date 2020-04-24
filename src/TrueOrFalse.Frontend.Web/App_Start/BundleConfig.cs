@@ -154,8 +154,6 @@ namespace TrueOrFalse.View
                 Include("~/Views/Users/Js/UserRow.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/js/AnswerQuestion")
-                .Include("~/Scripts/widgets/ShareDialog.js")
-                .Include("~/Views/Questions/Answer/ShareQuestion.js")
                 .IncludeDirectory("~/Scripts/answerQuestion/", "*.js")
                 .IncludeDirectory("~/Views/Questions/Answer/AnswerControls/", "*.js")
                 .IncludeDirectory("~/Views/Questions/Answer/Js/", "*.js")
@@ -210,7 +208,6 @@ namespace TrueOrFalse.View
 
             bundles.Add(new ScriptBundle("~/bundles/js/Set")
                 .Include("~/Views/Knowledge/Wheel/KnowledgeWheel.js")
-                .Include("~/Scripts/widgets/ShareDialog.js")
                 .IncludeDirectory("~/Views/Sets/Detail/Js", "*.js")
                 .IncludeDirectory("~/Views/Questions/Answer/AnswerControls/", "*.js")
                 .IncludeDirectory("~/Scripts/answerQuestion/", "*.js")
