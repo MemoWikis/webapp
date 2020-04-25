@@ -9,7 +9,7 @@ public class CreateLearningSession
     {
         Stopwatch timer = new Stopwatch();
         timer.Start();
-        var category = Sl.CategoryRepo.GetByIdEager(categoryId);
+        var category = EntityCache.GetCategory(categoryId);
 
         var questions = category.GetAggregatedQuestionsFromMemoryCache();
 
