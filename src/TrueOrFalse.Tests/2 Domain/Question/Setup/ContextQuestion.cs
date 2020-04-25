@@ -20,6 +20,7 @@ namespace TrueOrFalse.Tests
         public User Learner{get{ return _learner ??_contextUser.All[1];}}
 
         private bool _persistQuestionsImmediately;
+        private Random Rand = new Random();
 
         public static ContextQuestion New(bool persistImmediately = false)
         {
@@ -70,11 +71,13 @@ namespace TrueOrFalse.Tests
             var question = new Question();
             if (withId)
                 question.Id = id; 
+
             question.Text = questionText;
             question.Solution = solutionText;
             question.SolutionType = SolutionType.Text;
             question.SolutionMetadataJson = new SolutionMetadataText{IsCaseSensitive = true, IsExactInput = false}.Json;
             question.Creator = creator ?? _contextUser.All.First();
+            question.CorrectnessProbability = Rand.Next(1, 101); 
 
             if (categories != null)
                 question.Categories = categories;
