@@ -51,10 +51,10 @@ namespace TrueOrFalse.Tests
             return this;
         }
 
-        public ContextQuestion AddQuestions(int amount, User creator = null)
+        public ContextQuestion AddQuestions(int amount, User creator = null, bool withId = false)
         {
             for (var i = 0; i < amount; i++)
-                AddQuestion(questionText: "Question" + i, solutionText: "Solution" + i, creator: creator);
+                AddQuestion(questionText: "Question" + i, solutionText: "Solution" + i, i , withId,  creator: creator);
 
             return this;
         }
@@ -62,10 +62,14 @@ namespace TrueOrFalse.Tests
         public ContextQuestion AddQuestion(
             string questionText = "defaultText", 
             string solutionText = "defaultSolution", 
+            int id = 0,
+            bool withId= false,
             User creator = null, 
             IList<Category> categories = null)
         {
             var question = new Question();
+            if (withId)
+                question.Id = id; 
             question.Text = questionText;
             question.Solution = solutionText;
             question.SolutionType = SolutionType.Text;
@@ -93,6 +97,7 @@ namespace TrueOrFalse.Tests
             AllAnswers.Add(answerRepo.GetLastCreated());
 
             return this;
+            
         }
 
         public ContextQuestion AddAnswers(int countCorrect, int countWrong, DateTime dateCreated = default(DateTime))
@@ -158,6 +163,22 @@ namespace TrueOrFalse.Tests
             _questionRepo.Flush();
 
             return this;
+        }
+
+        public static List<Question> GetAllQuestionFromMemoryCache()
+        {
+            var c = new List<int>();
+            c.Add(0); 
+            var questionList = New().AddQuestions(5000, null,true).All;
+            var categoryList = new List<int>() {0};
+
+            foreach (var  question in questionList)
+            {
+                EntityCache.AddOrUpdate(question, categoryList);
+            }
+
+            return EntityCache.GetAllQuestions().ToList();
+
         }
     }
 }
