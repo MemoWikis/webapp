@@ -18,7 +18,7 @@ namespace TrueOrFalse.Tests
         private ContextCategory()
         {
             _categoryRepository = Sl.R<CategoryRepository>();
-            _contextUser.Add("Context Category" ).Persist();
+           // _contextUser.Add("Context Category" ).Persist();
         }
 
         public ContextCategory Add(int amount)
@@ -29,7 +29,7 @@ namespace TrueOrFalse.Tests
             return this;
         }
 
-        public ContextCategory Add(string categoryName, CategoryType categoryType = CategoryType.Standard, User creator = null)
+        public ContextCategory Add(string categoryName, CategoryType categoryType = CategoryType.Standard, User creator = null, bool withId = false)
         {
             Category category;
             if (_categoryRepository.Exists(categoryName))
@@ -38,17 +38,34 @@ namespace TrueOrFalse.Tests
             }
             else
             {
-                category = new Category
-                {
-                    Name = categoryName,
-                    Creator = creator ?? _contextUser.All.First(),
-                    Type = categoryType
-                };
+                category = new Category();
+                if (withId)
+                    category.Id = 0;
+                
+                    category.Name = categoryName;
+                    category.Creator = creator;
+                    category.Type = categoryType;
+
+               if(!withId) 
                 _categoryRepository.Create(category);
             }
 
             All.Add(category);
             return this;
+        }
+
+        public void AddToEntityCache(string categoryName, CategoryType categoryType = CategoryType.Standard, User creator = null, bool withId = false)
+        {
+            var category = new Category();
+
+            if (withId)
+                category.Id = 0;
+
+            category.Name = categoryName;
+            category.Creator = creator;
+            category.Type = categoryType;
+
+            EntityCache.AddOrUpdate(category);
         }
 
         public ContextCategory QuestionCount(int questionCount)
