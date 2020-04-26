@@ -79,8 +79,7 @@ namespace TrueOrFalse.Tests
             question.SolutionMetadataJson = new SolutionMetadataText{IsCaseSensitive = true, IsExactInput = false}.Json;
             question.Creator = creator ?? _contextUser.All.First();
             question.CorrectnessProbability = Rand.Next(1, 101); 
-            question.Categories = new List<Category> { ContextCategory.New().Add("blabla",CategoryType.Standard,null,true).All[0]
-            };
+            question.Categories = new List<Category> { ContextCategory.New(false).AddToEntityCache("blabla", CategoryType.Standard,null,true).All.FirstOrDefault() };
 
             if (categories != null)
                 question.Categories = categories;
@@ -175,8 +174,7 @@ namespace TrueOrFalse.Tests
         {
             var questions = New().AddQuestions(5000, null,true).All;
 
-            ContextCategory.New().AddToEntityCache("blabla", CategoryType.Standard,null,true);
-
+            ContextCategory.New(false).AddToEntityCache("blabla", CategoryType.Standard,null,true);
 
             var categoryIds = new List<int>{0};
             foreach (var  question in questions) 
