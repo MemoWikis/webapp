@@ -22,4 +22,9 @@ public class LearningSessionNew
 
         return result;
     }
+
+    public static List<Question> GetDifficultQuestions(List<Question> questions)
+    {
+        return questions.Where(q => q.CorrectnessProbability >= 50).ToList();
+    }
 }
