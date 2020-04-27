@@ -30,9 +30,5 @@
         <div class="viewCount"><i class="fas fa-eye"></i><span><%= Model.Question.TotalViews %></span></div>
         <div class="commentCount"><a href="<%= Links.GetUrl(Model.Question) + "#QuestionComments"%>"><i class="fas fa-comment"></i><span><%= Model.CommentCount %></span></a></div>
     </div>
-
-
 </div>
-
 <%= Scripts.Render("~/bundles/js/QuestionDetailsApp") %>
-

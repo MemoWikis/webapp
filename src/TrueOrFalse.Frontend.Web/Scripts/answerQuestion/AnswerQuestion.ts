@@ -75,9 +75,6 @@ class AnswerQuestion {
         AnswerQuestion.TestSessionProgressAfterAnswering = $("#TestSessionProgessAfterAnswering").val();
 
         this._inputFeedback = new AnswerQuestionUserFeedback(this);
-        var questionId = AnswerQuestion.GetQuestionId();
-        if (questionId > 0)
-            eventBus.$emit('set-question-id', questionId);
 
         var self = this;
         this.ClickToContinue = function () {

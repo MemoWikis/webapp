@@ -85,20 +85,18 @@ Vue.component('question-details-component', {
     created() {
         var self = this;
 
-        eventBus.$on('set-question-id', (id) => {
+        eventBus.$once('set-question-id', (id) => {
             id = parseInt(id);
             if (id > 0) {
-                self.questionId = id;
+                if (self.questionId != id) {
+                    self.questionId = id;
+                    self.loadCategoryList();
+                }
                 self.loadData();
             }
         });
-        eventBus.$on('reload-question-details', () => {
-                self.questionId = parseInt($("#questionId").val());
-                if (self.questionId > 0)
-                    self.loadData();
-        });
 
-        eventBus.$on('reload-wishknowledge-state-per-question',
+        eventBus.$once('reload-wishknowledge-state-per-question',
             (data) => {
                 if (this.questionId == data.questionId) {
                     this.isInWishknowledge = data.isInWishknowledge;
@@ -122,12 +120,6 @@ Vue.component('question-details-component', {
     },
 
     watch: {
-        questionId: function (id) {
-            if (id > 0) {
-                this.loadCategoryList();
-                this.loadData();
-            }
-        },
 
         personalProbability: function(val) {
             this.setPersonalArcData();
@@ -139,25 +131,18 @@ Vue.component('question-details-component', {
             if (val > 0)
                 this.showPersonalArc = true;
             this.personalStartAngle = 100 - (100 / this.personalAnswerCount * this.personalAnsweredCorrectly);
-            await this.setPersonalCounterData();
-            if (this.arcLoaded)
-                this.updateArc();
             this.answerCount = this.abbreviateNumber(val);
         },
 
         personalAnsweredCorrectly: async function(val) {
             this.personalStartAngle = 100 - (100 / this.personalAnswerCount * this.personalAnsweredCorrectly);
             await this.setPersonalCounterData();
-            if (this.arcLoaded)
-                this.updateArc();
             this.correctAnswers = this.abbreviateNumber(val);
         },
 
         personalAnsweredWrongly: async function (val) {
             this.personalStartAngle = 100 - (100 / this.personalAnswerCount * this.personalAnsweredCorrectly);
             await this.setPersonalCounterData();
-            if (this.arcLoaded)
-                this.updateArc();
             this.wrongAnswers = this.abbreviateNumber(val);
         },
 
@@ -171,27 +156,16 @@ Vue.component('question-details-component', {
             this.allCorrectAnswers = this.abbreviateNumber(val);
             this.overallStartAngle = 100 - (100 / this.overallAnswerCount * this.overallAnsweredCorrectly);
             await this.setOverallCounterData();
-
-            if (this.arcLoaded)
-                this.updateArc();
         },
 
         overallAnsweredWrongly: async function (val) {
             this.allWrongAnswers = this.abbreviateNumber(val);
             this.overallStartAngle = 100 - (100 / this.overallAnswerCount * this.overallAnsweredCorrectly);
             await this.setOverallCounterData();
-
-            if (this.arcLoaded)
-                this.updateArc();
         },
 
         avgProbability: async function() {
             await this.setAvgArcData();
-            await this.setAvgArcData();
-            if (this.arcLoaded) {
-                await this.setAvgLabelPos();
-                await this.updateArc();
-            }
         },
     },
 
@@ -423,7 +397,7 @@ Vue.component('question-details-component', {
 
             self.arcSvg.append("svg:text")
                 .attr("dy", ".1em")
-                .attr("dx", -(labelWidth / 2) + "px")
+                .attr("dx", -(labelWidth / 2) - 5 + "px")
                 .attr("text-anchor", "left")
                 .attr("style", "font-family:Lato")
                 .attr("font-size", "30")
@@ -434,7 +408,7 @@ Vue.component('question-details-component', {
 
             self.arcSvg.append("svg:text")
                 .attr("dy", "-.35em")
-                .attr("dx", (labelWidth / 2) - self.percentageLabelWidth - 1 + "px")
+                .attr("dx", (labelWidth / 2) - self.percentageLabelWidth - 5 + "px")
                 .attr("style", "font-family:Lato")
                 .attr("text-anchor", "left")
                 .attr("font-size", "18")
@@ -511,7 +485,7 @@ Vue.component('question-details-component', {
                 .attr("font-size", "18px")
                 .text(function (d) { return d })
                 .each(function () {
-                    var thisWidth = this.getComputedTextLength();
+                    var thisWidth = 0;
                     self.percentageLabelWidth = thisWidth;
                     this.remove();
                 });
@@ -625,8 +599,11 @@ Vue.component('question-details-component', {
                 .attr("class", function (d) { return d.class })
                 .attr("d", arc);
 
-            self.overallCounterSvg.selectAll(".overallCounter")
-                .style("visibility", () => self.overallAnswerCount > 0 ? "visible" : "hidden");
+            self.overallCounterSvg.selectAll(".overallWrongAnswerCounter,.overallCorrectAnswerCounter")
+                .style("visibility", () => self.personalAnswerCount > 0 ? "visible" : "hidden");
+
+            //self.overallCounterSvg.selectAll(".overallCounter")
+            //    .style("visibility", () => self.overallAnswerCount > 0 ? "visible" : "hidden");
 
             self.overallCounterSvg
                 .append('svg:foreignObject')
@@ -647,7 +624,7 @@ Vue.component('question-details-component', {
             self.arcSvg.selectAll(".personalProbabilityLabel")
                 .transition()
                 .duration(800)
-                .attr("dx", -(labelWidth / 2) + "px")
+                .attr("dx", -(labelWidth / 2) - 5 + "px")
                 .style("fill", () => self.showPersonalArc ? self.personalColor : "#DDDDDD")
                 .tween("text",
                     function () {
@@ -697,7 +674,7 @@ Vue.component('question-details-component', {
 
             self.arcSvg.selectAll(".percentageLabel").transition()
                 .duration(800)
-                .attr("dx", (labelWidth / 2) - self.percentageLabelWidth + "px")
+                .attr("dx", (labelWidth / 2) - self.percentageLabelWidth - 5 + "px")
                 .style("fill", () => self.showPersonalArc ? self.personalColor : "#DDDDDD");
 
             self.arcSvg.selectAll(".personalArc")

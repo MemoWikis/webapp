@@ -230,7 +230,9 @@ class AnswerBodyLoader {
                     $("#QuestionDetails").fadeIn();
                     $(".FooterQuestionDetails").fadeIn();
                 }
-                eventBus.$emit('reload-question-details');
+                var questionId = AnswerQuestion.GetQuestionId();
+                if (questionId > 0)
+                    eventBus.$emit('set-question-id', questionId);
             }
         });
     }
