@@ -174,8 +174,10 @@ Vue.component('question-details-component', {
     },
 
     mounted: function () {
-        if (!this.arcLoaded)
+        if (!this.arcLoaded) {
+            this.loadCategoryList();
             this.loadData();
+        }
     },
 
     methods: {
