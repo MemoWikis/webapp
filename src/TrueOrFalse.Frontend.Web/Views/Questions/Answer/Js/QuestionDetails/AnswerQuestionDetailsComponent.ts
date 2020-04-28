@@ -2,12 +2,12 @@
 declare var Vue: any;
 
 Vue.component('question-details-component', {
-    props: ['modelQuestionId','isInLearningTab'],
+    props: ['modelQuestionId', 'isInLearningTab'],
     template: '#question-details-component',
 
     data() {
         return {
-            questionId: this.modelQuestionId,
+            questionId: parseInt(this.modelQuestionId),
             personalProbability: 0,
             personalProbabilityText: "Nicht im Wunschwissen",
             personalColor: "#DDDDDD",
@@ -85,18 +85,19 @@ Vue.component('question-details-component', {
     created() {
         var self = this;
 
-        eventBus.$once('set-question-id', (id) => {
-            id = parseInt(id);
-            if (id > 0) {
-                if (self.questionId != id) {
-                    self.questionId = id;
+        eventBus.$on('set-question-id',
+            (id) => {
+                id = parseInt(id);
+                if (id > 0) {
+                    if (self.questionId != id) {
+                        self.questionId = id;
+                    }
                     self.loadCategoryList();
+                    self.loadData();
                 }
-                self.loadData();
-            }
-        });
+            });
 
-        eventBus.$once('reload-wishknowledge-state-per-question',
+        eventBus.$on('reload-wishknowledge-state-per-question',
             (data) => {
                 if (this.questionId == data.questionId) {
                     this.isInWishknowledge = data.isInWishknowledge;
@@ -173,6 +174,8 @@ Vue.component('question-details-component', {
     },
 
     mounted: function () {
+        if (!this.arcLoaded)
+            this.loadData();
     },
 
     methods: {
@@ -599,8 +602,13 @@ Vue.component('question-details-component', {
                 .attr("class", function (d) { return d.class })
                 .attr("d", arc);
 
-            self.overallCounterSvg.selectAll(".overallWrongAnswerCounter,.overallCorrectAnswerCounter")
-                .style("visibility", () => self.personalAnswerCount > 0 ? "visible" : "hidden");
+            self.overallCounterSvg.selectAll(".overallWrongAnswerCounter, .overallCorrectAnswerCounter")
+                .style("visibility", () => self.overallAnswerCount > 0 ? "visible" : "hidden");
+
+            self.overallCounterSvg.selectAll("i")
+                .style("color", function () {
+                    return self.overallAnswerCount > 0 ? "#999999" : "#DDDDDD";
+                });
 
             self.overallCounterSvg
                 .append('svg:foreignObject')
@@ -722,7 +730,12 @@ Vue.component('question-details-component', {
             self.arcSvg.selectAll(".personalProbabilityChip,.personalProbabilityText")
                 .style("visibility", () => (self.isLoggedIn && self.overallAnswerCount > 0) ? "visible" : "hidden");
 
+            self.updateCounters();
+        },
 
+
+        updateCounters() {
+            var self = this;
 
             self.personalCounterSvg.selectAll(".personalWrongAnswerCounter,.personalCorrectAnswerCounter")
                 .style("visibility", function () {
@@ -733,7 +746,6 @@ Vue.component('question-details-component', {
                 .style("color", function () {
                     return self.personalAnswerCount > 0 ? "#999999" : "#DDDDDD";
                 });
-
 
             self.personalCounterSvg.selectAll(".personalWrongAnswerCounter")
                 .transition()
@@ -758,9 +770,14 @@ Vue.component('question-details-component', {
                 });
 
 
-            self.overallCounterSvg.selectAll(".overallWrongAnswerCounter,.overallCorrectAnswerCounter")
+            self.overallCounterSvg.selectAll(".overallWrongAnswerCounter, .overallCorrectAnswerCounter")
                 .style("visibility", function () {
                     return self.overallAnswerCount > 0 ? "visible" : "hidden";
+                });
+
+            self.overallCounterSvg.selectAll("i")
+                .style("color", function () {
+                    return self.overallAnswerCount > 0 ? "#999999" : "#DDDDDD";
                 });
 
             self.overallCounterSvg.selectAll(".overallWrongAnswerCounter")

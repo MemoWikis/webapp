@@ -74,5 +74,4 @@
 </div>
 
 <%= Styles.Render("~/bundles/KnowledgeTopics") %>
-<%= Scripts.Render("~/bundles/js/Vue") %>
 <%= Scripts.Render("/Views/Knowledge/Js/KnowledgeTopics.js") %>

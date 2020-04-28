@@ -78,6 +78,5 @@
         {
             Response.Redirect(Links.Welcome(), true);
         }%>
-    <%= Scripts.Render("~/bundles/js/Vue") %>
 </asp:Content>
 

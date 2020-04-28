@@ -28,7 +28,9 @@ namespace TrueOrFalse.View
                 .IncludeDirectory("~/Scripts/header", "*.js")
                 .IncludeDirectory("~/Scripts/socialLogins", "*.js")
                 .IncludeDirectory("~/Views/Images", "*.js")
-                .IncludeDirectory("~/Views/Welcome/Login", "*.js"));
+                .IncludeDirectory("~/Views/Welcome/Login", "*.js")
+                .Include("~/Scripts/vendor/vuetable-2.js")
+                .Include("~/Scripts/npm/vue/vue.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/fileUploader")
                 .Include("~/Scripts/vendor.file-uploader/header.js")
