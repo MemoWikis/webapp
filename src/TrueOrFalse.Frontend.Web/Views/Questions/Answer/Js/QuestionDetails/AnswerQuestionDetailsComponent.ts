@@ -602,9 +602,6 @@ Vue.component('question-details-component', {
             self.overallCounterSvg.selectAll(".overallWrongAnswerCounter,.overallCorrectAnswerCounter")
                 .style("visibility", () => self.personalAnswerCount > 0 ? "visible" : "hidden");
 
-            //self.overallCounterSvg.selectAll(".overallCounter")
-            //    .style("visibility", () => self.overallAnswerCount > 0 ? "visible" : "hidden");
-
             self.overallCounterSvg
                 .append('svg:foreignObject')
                 .attr('height', '16px')
