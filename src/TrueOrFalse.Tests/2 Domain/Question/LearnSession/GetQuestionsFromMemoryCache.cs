@@ -22,10 +22,11 @@ namespace TrueOrFalse.Tests
             Assert.That(Get_an_amount_of_random_questions(0).Count, Is.EqualTo(0));
             Assert.That(Get_an_amount_of_random_questions(6000).Count, Is.EqualTo(0));
         }
+
         private List<Question> Get_an_amount_of_random_questions(int amountQuestions)
         {
             var allQuestions = ContextQuestion.GetAllQuestionFromMemoryCache();
-            return LearningSessionNew.GetRandom(amountQuestions, allQuestions);
+            return LearningSessionNew.GetRandom(amountQuestions, allQuestions, true);
         }
 
         [Test]
@@ -35,6 +36,15 @@ namespace TrueOrFalse.Tests
             var diffcultQuestions = LearningSessionNew.GetDifficultQuestions(allQuestions);
             
             Assert.That(getCountFromFilteredQuestions(diffcultQuestions, "larger"), Is.EqualTo(0));
+        }
+
+        [Test]
+        public void Get_questions_with_high_probabalitiy_of_being_amswered()
+        {
+            var allQuestions = GetAllQuestionsFromCategory();
+            var diffcultQuestions = LearningSessionNew.GetSimpleQuestions(allQuestions);
+
+            Assert.That(getCountFromFilteredQuestions(diffcultQuestions, "smaller"), Is.EqualTo(0));
         }
 
         private List<Question> GetAllQuestionsFromCategory()
@@ -55,6 +65,5 @@ namespace TrueOrFalse.Tests
                         ("Unknown Value");
             }
         }
-
     }
 }
