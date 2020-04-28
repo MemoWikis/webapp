@@ -34,8 +34,17 @@
                                             <%= category.Type.GetCategoryTypeIconHtml() %><%: category.Name %>
                                         </div>
                                     </a>
-                                    <div class="set-question-count"><% if (Model.GetTotalTopicCount(category) == 1)
-                                           { %>einem Unterthema <% } %>
+                                    <div class="set-question-count">
+                                        <span>
+                                            <span class="Button Pin" data-category-id="<%= category.Id %>">
+                                                <a href="#" class="noTextdecoration" style="font-size: 22px; height: 10px;">
+                                                    <%= Html.Partial("AddToWishknowledge", new AddToWishknowledge(category.IsInWishknowledge(), displayAdd:false)) %>
+                                                </a>
+                                            </span>
+                                        </span>
+                                        
+                                        <% if (Model.GetTotalTopicCount(category) == 1)
+                                           { %>1 Unterthema <% } %>
                                         <% if(Model.GetTotalTopicCount(category) > 1 && Model.GetTotalTopicCount(category) > 0)
                                            { %><%= Model.GetTotalTopicCount(category)  %> Unterthemen <% } 
                                            else { %><% } %><%=Model.GetTotalQuestionCount(category) %> Frage<% if(Model.GetTotalQuestionCount(category) != 1){ %>n<% } %>
