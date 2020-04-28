@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 
 namespace TrueOrFalse.Tests
@@ -173,15 +174,13 @@ namespace TrueOrFalse.Tests
         public static List<Question> GetAllQuestionFromMemoryCache()
         {
             var questions = New().AddQuestions(5000, null,true).All;
-
+            
             ContextCategory.New(false).AddToEntityCache("blabla", CategoryType.Standard,null,true);
 
             var categoryIds = new List<int>{0};
             foreach (var  question in questions) 
                 EntityCache.AddOrUpdate(question, categoryIds);
-
             return EntityCache.GetQuestionsForCategory(0).ToList();
-
         }
     }
 }

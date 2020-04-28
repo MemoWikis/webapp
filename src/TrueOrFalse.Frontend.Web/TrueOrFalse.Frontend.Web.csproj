@@ -21758,6 +21758,12 @@
     <Content Include="Views\Questions\Answer\Js\QuestionDetails\AnswerQuestionDetailsComponent.js">
       <DependentUpon>AnswerQuestionDetailsComponent.ts</DependentUpon>
     </Content>
+    <Content Include="Views\Questions\Answer\Js\SessionConfig\SessionConfig.js">
+      <DependentUpon>SessionConfig.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Questions\Answer\Js\SessionConfig\SessionConfigData.js">
+      <DependentUpon>SessionConfigData.ts</DependentUpon>
+    </Content>
     <Content Include="Views\Questions\Answer\Js\ShareQuestion.js">
       <DependentUpon>ShareQuestion.ts</DependentUpon>
     </Content>
@@ -24075,6 +24081,12 @@
     </Content>
     <Content Include="Views\Questions\Answer\Js\ShareQuestion.js.map">
       <DependentUpon>ShareQuestion.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Questions\Answer\Js\SessionConfig\SessionConfigData.js.map">
+      <DependentUpon>SessionConfigData.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Questions\Answer\Js\SessionConfig\SessionConfig.js.map">
+      <DependentUpon>SessionConfig.ts</DependentUpon>
     </Content>
     <None Include="Web.overwritten.config.sample" />
     <Content Include="Views\Welcome\Logout.aspx" />
