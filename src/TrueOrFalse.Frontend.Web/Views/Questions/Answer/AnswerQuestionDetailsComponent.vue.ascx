@@ -48,7 +48,7 @@
                             Du hast diese Frage noch nie beantwortet.
                         </div>
                         <div v-else class="counterLabel">
-                            Du bist nicht angemeldet. Wir haben keine Daten. <a href="#" data-btn-login="true">Anmelden</a>
+                            Du bist nicht angemeldet. Wir haben keine Daten. <a role="button" @click="openLogin()">Anmelden</a>
                         </div>
                     </div>
                     <div class="counterHalf">

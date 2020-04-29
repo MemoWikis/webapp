@@ -215,6 +215,9 @@
     padding: 0 20px;
   }
 }
+#QuestionDetailsApp #questionDetailsContainer #questionStatistics #counterContainer .counterBody .counterHalf .counterLabel a:hover {
+  cursor: pointer;
+}
 @media (min-width: 596px) {
   #QuestionDetailsApp #questionDetailsContainer #questionStatistics {
     display: flex;
