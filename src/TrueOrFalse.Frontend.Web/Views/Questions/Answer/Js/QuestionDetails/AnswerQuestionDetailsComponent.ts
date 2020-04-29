@@ -234,9 +234,9 @@ Vue.component('question-details-component', {
                         this.drawCounterArcs();
                     } else {
                         this.updateArc();
-                        if (this.questionIdHasChanged) {
+                        if (this.questionIdHasChanged)
                             this.drawCounterArcs();
-                        } else
+                        else
                             this.updateCounters();
                     }
                     this.questionIdHasChanged = false;
