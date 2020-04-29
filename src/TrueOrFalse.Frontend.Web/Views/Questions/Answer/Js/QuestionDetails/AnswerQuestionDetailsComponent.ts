@@ -80,6 +80,7 @@ Vue.component('question-details-component', {
             categories: [],
             isLandingPage: !this.isInLearningTab,
             questionIdHasChanged: false,
+            categoryListHasLoaded: false,
         };
     },
 
@@ -94,6 +95,7 @@ Vue.component('question-details-component', {
                         self.questionIdHasChanged = true;
                         self.questionId = id;
                         self.$refs.personalCounter = null;
+                        self.categoryListHasLoaded = false;
                     }
                     self.loadCategoryList();
                     self.loadData();
@@ -125,51 +127,36 @@ Vue.component('question-details-component', {
 
     watch: {
 
-        personalProbability: function(val) {
-            this.setPersonalArcData();
-            if (this.arcLoaded)
-                this.updateArc();
-        },
-
-        personalAnswerCount: async function(val) {
+        personalAnswerCount: function(val) {
             if (val > 0)
                 this.showPersonalArc = true;
             this.personalStartAngle = 100 - (100 / this.personalAnswerCount * this.personalAnsweredCorrectly);
             this.answerCount = this.abbreviateNumber(val);
         },
 
-        personalAnsweredCorrectly: async function(val) {
+        personalAnsweredCorrectly: function(val) {
             this.personalStartAngle = 100 - (100 / this.personalAnswerCount * this.personalAnsweredCorrectly);
-            await this.setPersonalCounterData();
             this.correctAnswers = this.abbreviateNumber(val);
         },
 
-        personalAnsweredWrongly: async function (val) {
+        personalAnsweredWrongly: function (val) {
             this.personalStartAngle = 100 - (100 / this.personalAnswerCount * this.personalAnsweredCorrectly);
-            await this.setPersonalCounterData();
             this.wrongAnswers = this.abbreviateNumber(val);
         },
 
         overallAnswerCount: function(val) {
             this.overallStartAngle = 100 - (100 / this.overallAnswerCount * this.overallAnsweredCorrectly);
-
             this.allAnswerCount = this.abbreviateNumber(val);
         },
 
-        overallAnsweredCorrectly: async function (val) {
+        overallAnsweredCorrectly: function (val) {
             this.allCorrectAnswers = this.abbreviateNumber(val);
             this.overallStartAngle = 100 - (100 / this.overallAnswerCount * this.overallAnsweredCorrectly);
-            await this.setOverallCounterData();
         },
 
-        overallAnsweredWrongly: async function (val) {
+        overallAnsweredWrongly: function (val) {
             this.allWrongAnswers = this.abbreviateNumber(val);
             this.overallStartAngle = 100 - (100 / this.overallAnswerCount * this.overallAnsweredCorrectly);
-            await this.setOverallCounterData();
-        },
-
-        avgProbability: async function() {
-            await this.setAvgArcData();
         },
     },
 
@@ -197,12 +184,15 @@ Vue.component('question-details-component', {
         },
 
         loadCategoryList() {
+            if (this.categoryListHasLoaded)
+                return;
             $.ajax({
                 url: "/AnswerQuestion/RenderCategoryList/",
                 data: { questionId: this.questionId },
                 type: "Post",
                 success: categoryListView => {
                     this.categoryList = categoryListView;
+                    this.categoryListHasLoaded = true;
                 }
             });
         },
