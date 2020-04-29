@@ -79,6 +79,7 @@ Vue.component('question-details-component', {
 
             categories: [],
             isLandingPage: !this.isInLearningTab,
+            questionIdHasChanged: false,
         };
     },
 
@@ -90,7 +91,9 @@ Vue.component('question-details-component', {
                 id = parseInt(id);
                 if (id > 0) {
                     if (self.questionId != id) {
+                        self.questionIdHasChanged = true;
                         self.questionId = id;
+                        self.$refs.personalCounter = null;
                     }
                     self.loadCategoryList();
                     self.loadData();
@@ -229,9 +232,14 @@ Vue.component('question-details-component', {
                     if (!this.arcLoaded) {
                         this.drawArc();
                         this.drawCounterArcs();
-                    }
-                    else
+                    } else {
                         this.updateArc();
+                        if (this.questionIdHasChanged) {
+                            this.drawCounterArcs();
+                        } else
+                            this.updateCounters();
+                    }
+                    this.questionIdHasChanged = false;
                 }
             });
         },
@@ -555,7 +563,6 @@ Vue.component('question-details-component', {
             ];
 
             var personalCounter = self.$refs.personalCounter;
-
             self.personalCounterSvg = d3.select(personalCounter).append("svg")
                 .attr("width", 50)
                 .attr("height", 50)
@@ -731,8 +738,6 @@ Vue.component('question-details-component', {
 
             self.arcSvg.selectAll(".personalProbabilityChip,.personalProbabilityText")
                 .style("visibility", () => (self.isLoggedIn && self.overallAnswerCount > 0) ? "visible" : "hidden");
-
-            self.updateCounters();
         },
 
 
@@ -771,6 +776,11 @@ Vue.component('question-details-component', {
                         25);
                 });
 
+            self.personalCounterSvg.selectAll("text")
+                .transition()
+                .duration(800)
+                .style("fill", () => self.personalAnswerCount > 0 ? "#999999" : "#DDDDDD");
+
 
             self.overallCounterSvg.selectAll(".overallWrongAnswerCounter, .overallCorrectAnswerCounter")
                 .style("visibility", function () {
@@ -803,11 +813,6 @@ Vue.component('question-details-component', {
                         20,
                         25);
                 });
-
-            self.personalCounterSvg.selectAll("text")
-                .transition()
-                .duration(800)
-                .style("fill", () => self.personalAnswerCount > 0 ? "#999999" : "#DDDDDD");
 
             self.overallCounterSvg.selectAll("text")
                 .transition()
