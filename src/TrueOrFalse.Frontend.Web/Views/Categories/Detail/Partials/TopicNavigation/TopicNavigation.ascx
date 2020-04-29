@@ -37,7 +37,7 @@
                                     <div class="set-question-count">
                                         <span>
                                             <span class="Button Pin" data-category-id="<%= category.Id %>">
-                                                <a href="#" class="noTextdecoration" style="font-size: 22px; height: 10px;">
+                                                <a href="#" class="noTextdecoration" style="font-size: 18px; height: 10px;padding-right:4px">
                                                     <%= Html.Partial("AddToWishknowledge", new AddToWishknowledge(category.IsInWishknowledge(), displayAdd:false)) %>
                                                 </a>
                                             </span>
