@@ -5,7 +5,7 @@ public class LearningSessionNewCreator
 {
     public static LearningSessionNew ForAnonymous(LearningSessionConfig config)
     {
-        var questions = EntityCache.GetQuestionsForCategory(config.CategoryId).ToList();
+        var questions = GetCategoryQuestionsFromEntityCache(config.CategoryId);
         questions = GetRandomLimited(questions, config.MaxQuestions);
 
         return new LearningSessionNew
@@ -15,9 +15,10 @@ public class LearningSessionNewCreator
         };
     }
 
-    public static LearningSessionNew ForLoggedInUser()
+    public static LearningSessionNew ForLoggedInUser(LearningSessionConfig config)
     {
-        //Difficult questions first
+        var questions = DiffculitiFirst(GetCategoryQuestionsFromEntityCache(config.CategoryId));
+
         //Repeat wrong answers
         return new LearningSessionNew();
     }
@@ -38,12 +39,23 @@ public class LearningSessionNewCreator
         return questions;
     }
 
-    private List<Question> GetQuestionsFromCategory(int userId, int categoryId)
+    private List<Question> GetWuwiQuestionsFromCategory(int userId, int categoryId)
     {
         return UserCache
             .GetQuestionValuations(userId)
             .Where(qv => qv.Question.Categories.Any(c => c.Id == categoryId))
             .Select(qv => qv.Question)
             .ToList();
+    }
+
+    private static List<Question> GetCategoryQuestionsFromEntityCache(int categoryId)
+    {
+        return EntityCache.GetQuestionsForCategory(categoryId).ToList();
+    }
+
+    private static IList<Question> DiffculitiFirst( List<Question> questions)
+    {
+        return questions.OrderByDescending(q => q.CorrectnessProbability).ToList();
+
     }
 }
