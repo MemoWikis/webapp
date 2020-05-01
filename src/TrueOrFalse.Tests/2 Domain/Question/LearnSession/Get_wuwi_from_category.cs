@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Concurrent;
-using System.Collections.Generic;
+﻿using System.Collections.Concurrent;
 using System.Linq;
 using NUnit.Framework;
 
@@ -23,30 +21,9 @@ namespace TrueOrFalse.Tests
             Sl.UserRepo.Create(users.FirstOrDefault());
             UserCache.AddOrUpdate(users.FirstOrDefault());
 
-            PutQuestionValuationsIntoUserCache(questions, users);
+           ContextQuestion.PutQuestionValuationsIntoUserCache(questions, users);
 
             var c = UserCache.GetAllCacheItems();
-
-        }
-
-        private static void PutQuestionValuationsIntoUserCache(List<Question> questions, List<User> users)
-        {
-            var rand = new Random();
-            for (int i = 0; i < questions.Count; i++)
-            {
-                var questionValuation = new QuestionValuation();
-
-                questionValuation.Id = i;
-                questionValuation.Question = questions[i];
-
-                if (i == 0)
-                    questionValuation.RelevancePersonal = -1;
-                else
-                    questionValuation.RelevancePersonal = rand.Next(-1, 2);
-
-                questionValuation.User = users.FirstOrDefault();
-                UserCache.AddOrUpdate(questionValuation);
-            }
         }
     }
 }
