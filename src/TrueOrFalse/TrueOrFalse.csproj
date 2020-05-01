@@ -307,7 +307,10 @@
     <Compile Include="Domain\Category\Type\Impl\CategoryTypeEducationProvider.cs" />
     <Compile Include="Domain\Knowledge\Count\GetWishTopicCount.cs" />
     <Compile Include="Domain\Category\Views\ViewsPerDay.cs" />
+    <Compile Include="Domain\Knowledge\Learning\LearningSessionNew\LearningSessionConfig.cs" />
     <Compile Include="Domain\Knowledge\Learning\LearningSessionNew\LearningSessionNew.cs" />
+    <Compile Include="Domain\Knowledge\Learning\LearningSessionNew\Ops\LearningSessionNewCreator.cs" />
+    <Compile Include="Domain\Knowledge\Learning\LearningSessionNew\LearningSessionStepNew.cs" />
     <Compile Include="Domain\Knowledge\Learning\LearningSession\Ops\CreateLearningSession.cs" />
     <Compile Include="Domain\Knowledge\Learning\LearningSession\SessionConfigData.cs" />
     <Compile Include="Domain\Knowledge\Learning\LearningSession\QuestionFilter.cs" />

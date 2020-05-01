@@ -27,6 +27,8 @@ public class ContextUser
         return this;
     }
 
+    public ContextUser Add() => Add(new User { Id = 0, Name = "Daniel" });
+
     public ContextUser Add(User user)
     {
         All.Add(user);
@@ -37,7 +39,6 @@ public class ContextUser
     {
         foreach (var usr in All)
             _userRepo.Create(usr);
-
         return this;
     }
 }

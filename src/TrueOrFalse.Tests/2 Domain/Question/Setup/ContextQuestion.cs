@@ -80,7 +80,7 @@ namespace TrueOrFalse.Tests
             question.SolutionMetadataJson = new SolutionMetadataText{IsCaseSensitive = true, IsExactInput = false}.Json;
             question.Creator = creator ?? _contextUser.All.First();
             question.CorrectnessProbability = Rand.Next(1, 101); 
-            question.Categories = new List<Category> { ContextCategory.New(false).AddToEntityCache("blabla", CategoryType.Standard,null,true).All.FirstOrDefault() };
+            question.Categories = ContextCategory.New(false).AddToEntityCache("blabla", CategoryType.Standard,null,true).All;
 
             if (categories != null)
                 question.Categories = categories;
@@ -171,16 +171,15 @@ namespace TrueOrFalse.Tests
             return this;
         }
 
-        public static List<Question> GetAllQuestionFromMemoryCache()
+        public static void PutQuestionsIntoMemoryCache(int amount = 5000)
         {
-            var questions = New().AddQuestions(5000, null,true).All;
+            var questions = New().AddQuestions(amount, null,true).All;
             
             ContextCategory.New(false).AddToEntityCache("blabla", CategoryType.Standard,null,true);
 
             var categoryIds = new List<int>{0};
             foreach (var  question in questions) 
                 EntityCache.AddOrUpdate(question, categoryIds);
-            return EntityCache.GetQuestionsForCategory(0).ToList();
         }
     }
 }

@@ -2,9 +2,19 @@ using System.Collections.Concurrent;
 
 public class UserCacheItem
 {
-    public int UserId;
-    public User User;
-    
+    public int UserId { get; private set; }
+
+    private User _user;
+    public User User
+    {
+        get => _user;
+        set
+        {
+            _user = value;
+            UserId = value.Id;
+        }
+    }
+
     public ConcurrentDictionary<int, CategoryValuation> CategoryValuations;
     public ConcurrentDictionary<int, QuestionValuation> QuestionValuations;
     public ConcurrentDictionary<int, SetValuation> SetValuations;
