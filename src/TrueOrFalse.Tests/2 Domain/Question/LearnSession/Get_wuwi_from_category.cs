@@ -22,8 +22,6 @@ namespace TrueOrFalse.Tests
             UserCache.AddOrUpdate(users.FirstOrDefault());
 
            ContextQuestion.PutQuestionValuationsIntoUserCache(questions, users);
-
-            var c = UserCache.GetAllCacheItems();
         }
     }
 }

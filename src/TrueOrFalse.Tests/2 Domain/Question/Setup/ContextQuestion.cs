@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -182,7 +183,24 @@ namespace TrueOrFalse.Tests
                 EntityCache.AddOrUpdate(question, categoryIds);
         }
 
-        public static void PutQuestionValuationsIntoUserCache(List<Question> questions, List<User> users)
+        public void SetWuwi()
+        {
+            var contextUser = ContextUser.New();
+            var users = contextUser.Add().All;
+            var userCacheItem = new UserCacheItem();
+            userCacheItem.User = users.FirstOrDefault();
+            userCacheItem.CategoryValuations = new ConcurrentDictionary<int, CategoryValuation>();
+            userCacheItem.SetValuations = new ConcurrentDictionary<int, SetValuation>();
+            userCacheItem.QuestionValuations = new ConcurrentDictionary<int, QuestionValuation>();
+
+            var questions = ContextQuestion.New().AddQuestions(20, users.FirstOrDefault(), true).All;
+            Sl.UserRepo.Create(users.FirstOrDefault());
+            UserCache.AddOrUpdate(users.FirstOrDefault());
+
+           PutQuestionValuationsIntoUserCache(questions, users);
+        }
+
+        private static void PutQuestionValuationsIntoUserCache(List<Question> questions, List<User> users)
         {
             var rand = new Random();
             for (int i = 0; i < questions.Count; i++)
