@@ -20,7 +20,11 @@ public class LearningSessionNewCreator
         var questions = DiffculitiFirst(GetCategoryQuestionsFromEntityCache(config.CategoryId));
 
         //Repeat wrong answers
-        return new LearningSessionNew();
+        return new LearningSessionNew
+        {
+            Config = config,
+            Steps = questions.Select(q => new LearningSessionStepNew(q)).ToList() 
+        };
     }
 
     private static List<Question> GetRandomLimited(List<Question> questions, int amountQuestions)
