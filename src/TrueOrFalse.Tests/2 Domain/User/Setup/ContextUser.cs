@@ -27,7 +27,13 @@ public class ContextUser
         return this;
     }
 
-    public ContextUser Add() => Add(new User { Id = 0, Name = "Daniel" });
+    public ContextUser Add()
+    {
+        All.Add(new User {
+            Id = 0, 
+            Name = "Daniel" });
+        return this;
+    }
 
     public ContextUser Add(User user)
     {

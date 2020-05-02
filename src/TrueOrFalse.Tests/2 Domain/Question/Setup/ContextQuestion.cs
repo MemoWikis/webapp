@@ -58,8 +58,6 @@ namespace TrueOrFalse.Tests
         {
             for (var i = 0; i < amount; i++)
                 AddQuestion(questionText: "Question" + i, solutionText: "Solution" + i, i , withId,  creator: creator);
-
-
             return this;
         }
 
@@ -104,7 +102,6 @@ namespace TrueOrFalse.Tests
             AllAnswers.Add(answerRepo.GetLastCreated());
 
             return this;
-            
         }
 
         public ContextQuestion AddAnswers(int countCorrect, int countWrong, DateTime dateCreated = default(DateTime))
@@ -183,21 +180,22 @@ namespace TrueOrFalse.Tests
                 EntityCache.AddOrUpdate(question, categoryIds);
         }
 
-        public void SetWuwi()
+        public static void SetWuwi(int amountQuestion)
         {
             var contextUser = ContextUser.New();
             var users = contextUser.Add().All;
+
             var userCacheItem = new UserCacheItem();
             userCacheItem.User = users.FirstOrDefault();
             userCacheItem.CategoryValuations = new ConcurrentDictionary<int, CategoryValuation>();
             userCacheItem.SetValuations = new ConcurrentDictionary<int, SetValuation>();
             userCacheItem.QuestionValuations = new ConcurrentDictionary<int, QuestionValuation>();
 
-            var questions = ContextQuestion.New().AddQuestions(20, users.FirstOrDefault(), true).All;
-            Sl.UserRepo.Create(users.FirstOrDefault());
+            var questions = ContextQuestion.New().AddQuestions(amountQuestion, users.FirstOrDefault(), true).All;
+            users.ForEach(u => Sl.UserRepo.Create(u));
             UserCache.AddOrUpdate(users.FirstOrDefault());
 
-           PutQuestionValuationsIntoUserCache(questions, users);
+            PutQuestionValuationsIntoUserCache(questions, users);
         }
 
         private static void PutQuestionValuationsIntoUserCache(List<Question> questions, List<User> users)

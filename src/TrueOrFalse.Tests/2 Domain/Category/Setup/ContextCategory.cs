@@ -62,7 +62,7 @@ namespace TrueOrFalse.Tests
                 category.Id = 0;
 
             category.Name = categoryName;
-            category.Creator = creator;
+            category.Creator = creator == null ? _contextUser.All.FirstOrDefault() : creator ;
             category.Type = categoryType;
 
             EntityCache.AddOrUpdate(category);
