@@ -21,6 +21,5 @@ namespace TrueOrFalse.Utilities.ScheduledJobs
 
             }, "InitUserValuationCache");
         }
-
     }
 }

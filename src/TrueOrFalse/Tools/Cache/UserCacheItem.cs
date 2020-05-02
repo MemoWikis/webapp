@@ -7,11 +7,12 @@ public class UserCacheItem
     private User _user;
     public User User
     {
-        get => _user;
+        get { return _user; }
         set
         {
             _user = value;
-            UserId = value.Id;
+            if(value != null)
+                UserId = value.Id;
         }
     }
 
