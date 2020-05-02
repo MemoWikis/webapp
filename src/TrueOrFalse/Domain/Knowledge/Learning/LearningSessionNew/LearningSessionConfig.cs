@@ -7,10 +7,9 @@ using System.Threading.Tasks;
 public class LearningSessionConfig
 {
     public int CategoryId;
-
-    public int MaxQuestions;
-
-    public bool IsRandom;
-    public bool OnlyWuwi;
     public bool DifficultFirst;
+    public bool IsRandom;
+    public int MaxQuestions;
+    public bool OnlyWuwi;
+    public int UserId; 
 }

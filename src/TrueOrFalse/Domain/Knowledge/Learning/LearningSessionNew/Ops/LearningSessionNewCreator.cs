@@ -16,8 +16,18 @@ public class LearningSessionNewCreator
     }
 
     public static LearningSessionNew ForLoggedInUser(LearningSessionConfig config)
-    {
-        var questions = DiffculitiFirst(GetCategoryQuestionsFromEntityCache(config.CategoryId));
+    {  
+        var questions = new List<Question>();
+        if (config.OnlyWuwi)
+        {
+            questions = DiffculitiFirst(GetWuwiQuestionsFromCategory(config.UserId, config.CategoryId)).ToList();
+        }
+        else
+        {
+            questions = DiffculitiFirst(GetCategoryQuestionsFromEntityCache(config.CategoryId)).ToList();
+        }
+
+         
 
         //Repeat wrong answers
         return new LearningSessionNew
@@ -43,11 +53,12 @@ public class LearningSessionNewCreator
         return questions;
     }
 
-    private List<Question> GetWuwiQuestionsFromCategory(int userId, int categoryId)
+    private static List<Question> GetWuwiQuestionsFromCategory(int userId, int categoryId)
     {
+        var l = UserCache.GetQuestionValuations(userId);
         return UserCache
             .GetQuestionValuations(userId)
-            .Where(qv => qv.Question.Categories.Any(c => c.Id == categoryId))
+            .Where(qv =>  qv.IsInWishKnowledge() && qv.Question.Categories.Any(c => c.Id == categoryId))
             .Select(qv => qv.Question)
             .ToList();
     }
