@@ -2,26 +2,27 @@
 using System.Linq;
 using NUnit.Framework;
 
-namespace TrueOrFalse.Tests 
+namespace TrueOrFalse.Tests
 {
     class Get_wuwi_from_category : BaseTest
     {
         [Test]
-        public void SetWuwi()
+        public void GetWuwiSession()
         {
-            var contextUser = ContextUser.New();
-            var users = contextUser.Add().All;
-            var userCacheItem = new UserCacheItem();
-            userCacheItem.User = users.FirstOrDefault();
-            userCacheItem.CategoryValuations = new ConcurrentDictionary<int, CategoryValuation>();
-            userCacheItem.SetValuations = new ConcurrentDictionary<int, SetValuation>();
-            userCacheItem.QuestionValuations = new ConcurrentDictionary<int, QuestionValuation>();
+            ContextQuestion.SetWuwi(20);
+            var categoryId = 0;
+            var usercashItem = UserCache.GetAllCacheItems().Last();
+            
+            var wuwis = usercashItem.QuestionValuations
+                .Select(qv => qv.Value)
+                .Where(qv=> qv.IsInWishKnowledge() && qv.Question.Categories.Any(c=> c.Id == categoryId) )
+                .ToList();
 
-            var questions = ContextQuestion.New().AddQuestions(20, users.FirstOrDefault(), true).All;
-            Sl.UserRepo.Create(users.FirstOrDefault());
-            UserCache.AddOrUpdate(users.FirstOrDefault());
+            var wuwisFromLearningSession = LearningSessionNewCreator.ForLoggedInUser(new LearningSessionConfig
+                {OnlyWuwi = true, CategoryId = categoryId, UserId = usercashItem.UserId});
 
-           ContextQuestion.PutQuestionValuationsIntoUserCache(questions, users);
+            Assert.That(wuwisFromLearningSession.Steps.Count, Is.EqualTo(wuwis.Count));
         }
     }
 }
+
