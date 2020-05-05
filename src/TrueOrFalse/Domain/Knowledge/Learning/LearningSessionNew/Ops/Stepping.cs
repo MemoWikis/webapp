@@ -1,24 +1,31 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
-namespace TrueOrFalse.Domain.Knowledge.Learning.LearningSessionNew.Ops
-{
-    class Stepping
+public class Stepping
     {
-        private List<LearningSessionStepNew> LearningSessionSteps;
+        public List<LearningSessionStepNew> LearningSessionSteps;
 
       public Stepping( List<LearningSessionStepNew> learningSessionSteps)
         {
             LearningSessionSteps = learningSessionSteps;
         }
       
-        private  void SetAnswerLearningSessionStepAnswerNew(int questionId,bool isAnswerCorrect)
+        public  void SetAnswerLearningSessionStepAnswerNew(int questionId,bool isAnswerCorrect, bool isAnswered, bool isSkip)
         {
-            LearningSessionSteps.ForEach(lss => { if (lss.Question.Id == questionId) lss.Answered = isAnswerCorrect; }); 
-        }
+            for(var i = 0; i < LearningSessionSteps.Count; i++)
+            {
+                if (LearningSessionSteps[i].Question.Id == questionId)
+                {
+                    LearningSessionSteps[i].IsAnswerCorrect = isAnswerCorrect;
+                    LearningSessionSteps[i].IsAnswered = isAnswered;
+                    LearningSessionSteps[i].IsSkip = isSkip;
 
+                    if (isAnswered && !isAnswerCorrect || isSkip)
+                    {
+                        LearningSessionSteps.Add( new LearningSessionStepNew(LearningSessionSteps[i].Question) {IsAnswered = false, IsAnswerCorrect = false, IsSkip = false});
+                        break;
+                    }
+                }
+            }; 
+        }
     }
-}
+
