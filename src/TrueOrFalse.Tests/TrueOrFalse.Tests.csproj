@@ -207,7 +207,7 @@
     <Compile Include="1 View\RouteTests.cs" />
     <Compile Include="2 Domain\Question\LearnSession\Get_questions_from_memory_cache.cs" />
     <Compile Include="2 Domain\Question\LearnSession\Get_wuwi_from_category.cs" />
-    <Compile Include="2 Domain\Question\LearnSession\Sort_diffculitiy_first.cs" />
+    <Compile Include="2 Domain\Question\LearnSession\Sort_by_probability.cs" />
     <Compile Include="3 Infrastructure\SetMigrationTest.cs" />
     <Compile Include="3 Infrastructure\TemplateMigrationTest.cs" />
     <Compile Include="1 View\TemplateParserTest.cs" />

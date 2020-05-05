@@ -16,10 +16,10 @@ namespace TrueOrFalse.Tests
         public List<Question> All = new List<Question>();
         public List<Answer> AllAnswers = new List<Answer>();
 
-        public User Creator { get { return _contextUser.All[0]; }}
+        public User Creator { get { return _contextUser.All[0]; } }
 
         private User _learner;
-        public User Learner{get{ return _learner ??_contextUser.All[1];}}
+        public User Learner { get { return _learner ?? _contextUser.All[1]; } }
 
         private bool _persistQuestionsImmediately;
         private Random Rand = new Random();
@@ -39,7 +39,7 @@ namespace TrueOrFalse.Tests
             return New().AddQuestion().Persist().All[0];
         }
 
-        public ContextQuestion SetLearner(User learner){ _learner = learner; return this; }
+        public ContextQuestion SetLearner(User learner) { _learner = learner; return this; }
 
         private ContextQuestion()
         {
@@ -57,29 +57,30 @@ namespace TrueOrFalse.Tests
         public ContextQuestion AddQuestions(int amount, User creator = null, bool withId = false)
         {
             for (var i = 0; i < amount; i++)
-                AddQuestion(questionText: "Question" + i, solutionText: "Solution" + i, i , withId,  creator: creator);
+                AddQuestion(questionText: "Question" + i, solutionText: "Solution" + i, i, withId, creator: creator);
             return this;
         }
 
         public ContextQuestion AddQuestion(
-            string questionText = "defaultText", 
-            string solutionText = "defaultSolution", 
+            string questionText = "defaultText",
+            string solutionText = "defaultSolution",
             int id = 0,
-            bool withId= false,
-            User creator = null, 
-            IList<Category> categories = null)
+            bool withId = false,
+            User creator = null,
+            IList<Category> categories = null,
+            int correctnessProbability = 0)
         {
             var question = new Question();
             if (withId)
-                question.Id = id; 
+                question.Id = id;
 
             question.Text = questionText;
             question.Solution = solutionText;
             question.SolutionType = SolutionType.Text;
-            question.SolutionMetadataJson = new SolutionMetadataText{IsCaseSensitive = true, IsExactInput = false}.Json;
+            question.SolutionMetadataJson = new SolutionMetadataText { IsCaseSensitive = true, IsExactInput = false }.Json;
             question.Creator = creator ?? _contextUser.All.First();
-            question.CorrectnessProbability = Rand.Next(1, 101); 
-            question.Categories = ContextCategory.New(false).AddToEntityCache("blabla", CategoryType.Standard,null,true).All;
+            question.CorrectnessProbability = correctnessProbability == 0 ? Rand.Next(1, 101) : correctnessProbability;
+            question.Categories = ContextCategory.New(false).AddToEntityCache("blabla", CategoryType.Standard, null, true).All;
 
             if (categories != null)
                 question.Categories = categories;
@@ -123,7 +124,7 @@ namespace TrueOrFalse.Tests
         public ContextQuestion AddToWishknowledge(User user)
         {
             var lastQuestion = All.Last();
-            
+
             QuestionInKnowledge.Pin(lastQuestion.Id, user);
 
             return this;
@@ -148,7 +149,7 @@ namespace TrueOrFalse.Tests
             return this;
         }
 
-        public ContextQuestion TotalQualityEntries(int totalQualityEntries){ All.Last().TotalQualityEntries = totalQualityEntries; return this;}
+        public ContextQuestion TotalQualityEntries(int totalQualityEntries) { All.Last().TotalQualityEntries = totalQualityEntries; return this; }
         public ContextQuestion TotalQualityAvg(int totalQualityAvg) { All.Last().TotalQualityAvg = totalQualityAvg; return this; }
         public ContextQuestion TotalValuationAvg(int totalValuationAvg) { All.Last().TotalRelevancePersonalAvg = totalValuationAvg; return this; }
 
@@ -169,16 +170,30 @@ namespace TrueOrFalse.Tests
             return this;
         }
 
+        public static void PutQuestionIntoMemoryCache(int answerProbability, int id)
+        {
+            var questions = New().AddQuestion("", "", id, true, null, null, answerProbability).All;
+            ContextCategory.New(false).AddToEntityCache("Category name", CategoryType.Standard, null, true);
+            var categoryIds = new List<int> { 0 };
+
+            EntityCache.AddOrUpdate(questions[0], categoryIds);
+
+            //put into memory cache
+        }
+
         public static void PutQuestionsIntoMemoryCache(int amount = 5000)
         {
-            var questions = New().AddQuestions(amount, null,true).All;
-            
-            ContextCategory.New(false).AddToEntityCache("blabla", CategoryType.Standard,null,true);
+            var questions = New().AddQuestions(amount, null, true).All;
 
-            var categoryIds = new List<int>{0};
-            foreach (var  question in questions) 
+            ContextCategory.New(false).AddToEntityCache("Category name", CategoryType.Standard, null, true);
+
+            var categoryIds = new List<int> { 0 };
+
+            foreach (var question in questions)
                 EntityCache.AddOrUpdate(question, categoryIds);
         }
+
+
 
         public static void SetWuwi(int amountQuestion)
         {
