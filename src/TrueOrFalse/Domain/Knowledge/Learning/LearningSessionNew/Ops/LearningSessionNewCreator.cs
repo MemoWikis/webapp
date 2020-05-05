@@ -1,5 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Net;
+using System.Web;
+using Seedworks.Web.State;
 
 public class LearningSessionNewCreator
 {
@@ -17,19 +20,12 @@ public class LearningSessionNewCreator
 
     public static LearningSessionNew ForLoggedInUser(LearningSessionConfig config)
     {  
-        var questions = new List<Question>();
+        List<Question> questions;
         if (config.OnlyWuwi)
-        {
-            questions = DiffculitiFirst(GetWuwiQuestionsFromCategory(config.UserId, config.CategoryId)).ToList();
-        }
+            questions = OrderByProbability(GetWuwiQuestionsFromCategory(config.UserId, config.CategoryId)).ToList();
         else
-        {
-            questions = DiffculitiFirst(GetCategoryQuestionsFromEntityCache(config.CategoryId)).ToList();
-        }
+            questions = OrderByProbability(GetCategoryQuestionsFromEntityCache(config.CategoryId)).ToList();
 
-         
-
-        //Repeat wrong answers
         return new LearningSessionNew
         {
             Config = config,
@@ -68,9 +64,8 @@ public class LearningSessionNewCreator
         return EntityCache.GetQuestionsForCategory(categoryId).ToList();
     }
 
-    private static IList<Question> DiffculitiFirst( List<Question> questions)
+    private static IList<Question> OrderByProbability( List<Question> questions)
     {
         return questions.OrderByDescending(q => q.CorrectnessProbability).ToList();
-
     }
 }
