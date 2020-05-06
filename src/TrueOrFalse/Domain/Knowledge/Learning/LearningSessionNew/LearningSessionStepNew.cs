@@ -4,9 +4,6 @@ using NHibernate.Mapping;
 public class LearningSessionStepNew
 {
     public readonly Question Question;
-    public bool IsAnswered; 
-    public bool IsAnswerCorrect;
-    public bool IsSkip;
-
+    public AnswerStateNew AnswerState = AnswerStateNew.Unanswered;
     public LearningSessionStepNew(Question question) => Question = question;
 }
