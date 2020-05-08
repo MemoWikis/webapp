@@ -24,7 +24,6 @@ public class LearningSessionNew
         IsLoggedIn =  UserId != -1;
         
         HaveListNextStep(currentStep, learningSessionSteps.Count);
-        var answer = (int) StepAnswerState.Answered; 
     }
 
     public void SetCorrectAnswer(int currentIndex)
@@ -41,7 +40,6 @@ public class LearningSessionNew
     {
         CurrentIndex = currentIndex;
         var currentStep = Steps[currentIndex];
-
 
         if (IsLoggedIn)
         {

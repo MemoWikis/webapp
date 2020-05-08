@@ -23,7 +23,7 @@ namespace TrueOrFalse.Tests
             Assert.That(Get_steps(maxQuestions).Count, Is.EqualTo(5000));
         }
 
-        private IList<LearningSessionStepNew> Get_steps(int amountQuestions)
+        public IList<LearningSessionStepNew> Get_steps(int amountQuestions)
         {
             ContextQuestion.PutQuestionsIntoMemoryCache();
             var learningSession = LearningSessionNewCreator.ForAnonymous(
