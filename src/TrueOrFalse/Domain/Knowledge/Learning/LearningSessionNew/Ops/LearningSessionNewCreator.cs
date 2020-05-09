@@ -11,7 +11,7 @@ public class LearningSessionNewCreator
         var questions = GetCategoryQuestionsFromEntityCache(config.CategoryId);
         questions = GetRandomLimited(questions, config.MaxQuestions);
 
-        return new LearningSessionNew(questions.Select(q => new LearningSessionStepNew(q)).ToList(), config, 0);
+        return new LearningSessionNew(questions.Select(q => new LearningSessionStepNew(q)).ToList(), config);
     }
 
     public static LearningSessionNew ForLoggedInUser(LearningSessionConfig config)
@@ -22,7 +22,7 @@ public class LearningSessionNewCreator
         else
             questions = OrderByProbability(GetCategoryQuestionsFromEntityCache(config.CategoryId)).ToList();
 
-        return new LearningSessionNew(questions.Select(q => new LearningSessionStepNew(q)).ToList(), config, 0);
+        return new LearningSessionNew(questions.Select(q => new LearningSessionStepNew(q)).ToList(), config);
     }
 
     private static List<Question> GetRandomLimited(List<Question> questions, int amountQuestions)
