@@ -205,6 +205,7 @@
     <Compile Include="1 View\MarkdownMarkdigTests.cs" />
     <Compile Include="1 View\MarkdownSharpTests.cs" />
     <Compile Include="1 View\RouteTests.cs" />
+    <Compile Include="2 Domain\Question\Setup\ContextLearningSession.cs" />
     <Compile Include="2 Domain\Question\LearnSession\Get_questions_from_memory_cache.cs" />
     <Compile Include="2 Domain\Question\LearnSession\Get_wuwi_from_category.cs" />
     <Compile Include="2 Domain\Question\LearnSession\Sort_by_probability.cs" />
