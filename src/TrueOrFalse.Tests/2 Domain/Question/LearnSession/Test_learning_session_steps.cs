@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using BDDish.Model;
 using NUnit.Framework;
+using Seedworks.Web.State;
 
 namespace TrueOrFalse.Tests
 {
@@ -14,49 +16,41 @@ namespace TrueOrFalse.Tests
         private readonly int NotLoggedIn = -1;
 
         [Test]
-        public void Should_by_skip_or_false_answer_addet()
+        public void Test_answer_should_correct_added_or_not_added()
         {
-            Assert.That(Get_learning_session(LoggedIn,"falseAnswered").Steps.Count, Is.EqualTo(21)); 
-            Assert.That(Get_learning_session(LoggedIn,"skipAnswered").Steps.Count, Is.EqualTo(20));  
+            var learningSession = GetLearningSession(LoggedIn, 5);
+
+            learningSession.SetAnswer(new Answer{AnswerredCorrectly = AnswerCorrectness.True});
+            Assert.That(learningSession.Steps.Count, Is.EqualTo(5));
+
+            learningSession.NextStep(); 
+            Assert.That(learningSession.CurrentIndex, Is.EqualTo(1));
+
+            learningSession.SetAnswer(new Answer{AnswerredCorrectly = AnswerCorrectness.False});
+            Assert.That(learningSession.Steps.Count, Is.EqualTo(6));
+            Assert.That(learningSession.Steps.Last().AnswerState, Is.EqualTo(AnswerStateNew.Unanswered));
+
+            learningSession.NextStep();
+            Assert.That(learningSession.CurrentIndex, Is.EqualTo(2));
+
+            learningSession.SkipStep();
+            Assert.That(learningSession.Steps.Count, Is.EqualTo(7));
+            Assert.That(learningSession.Steps.Last().AnswerState, Is.EqualTo(AnswerStateNew.Unanswered));
         }
 
-        [Test]
-        public void Should_by_skip_or_false_not_addet()
-        {
-            Assert.That(Get_learning_session(NotLoggedIn, "falseAnswered").Steps.Count, Is.EqualTo(20)); //not LoggedIn
-            Assert.That(Get_learning_session(NotLoggedIn, "skipAnswered").Steps.Count, Is.EqualTo(20)); //not LoggedIn
-        }
 
-        [Test]
-        public void should_by_correct_answer_not_addet()
+        private LearningSessionNew GetLearningSession(int userId, int amountQuestions = 20)
         {
-            Assert.That(Get_learning_session(LoggedIn, "correctAnswered").Steps.Count, Is.EqualTo(20)); //LoggedIn
-            Assert.That(Get_learning_session(NotLoggedIn, "correctAnswered").Steps.Count, Is.EqualTo(20)); //not LoggedIn
-        }
-
-        private  LearningSessionNew Get_learning_session(int userId, string answerState, int amountQuestions = 20)
-        {
-            ContextQuestion.PutQuestionsIntoMemoryCache(amountQuestions);
-            var steps = new Get_questions_from_memory_cache().Get_steps(20);
-            
-            var learningSession = new LearningSessionNew(steps.ToList(), new LearningSessionConfig{UserId = userId}, 0);
-
-            switch (answerState)
-            {
-                case "falseAnswered" :
-                    learningSession.SetFalseAnswer(0);
-                    break;
-                case "correctAnswered":
-                    learningSession.SetCorrectAnswer(0);
-                    break;
-                case "skipAnswered": 
-                    learningSession.SetSkipAnswer(0);
-                    break;
-                default:
-                    throw new Exception("unknown answerstate"); 
-            }
+            var learningSession = GetLearningSessionWithoutAnswerState(userId, amountQuestions);
 
             return learningSession; 
+        }
+
+        private LearningSessionNew GetLearningSessionWithoutAnswerState(int userId, int amountQuestions)
+        {
+            ContextQuestion.PutQuestionsIntoMemoryCache(amountQuestions);
+            var steps = ContextLearningSession.GetSteps(amountQuestions);
+            return new LearningSessionNew(steps.ToList(), new LearningSessionConfig { UserId = userId });
         }
     }
 }

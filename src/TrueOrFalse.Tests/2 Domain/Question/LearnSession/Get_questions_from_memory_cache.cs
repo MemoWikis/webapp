@@ -18,22 +18,9 @@ namespace TrueOrFalse.Tests
         public void Get_anonymous_learning_session()
         {
             var maxQuestions = 0; 
-            Assert.That(Get_steps(4000).Count, Is.EqualTo(4000));
-            Assert.That(Get_steps(6000).Count, Is.EqualTo(5000));
-            Assert.That(Get_steps(maxQuestions).Count, Is.EqualTo(5000));
-        }
-
-        public IList<LearningSessionStepNew> Get_steps(int amountQuestions)
-        {
-            ContextQuestion.PutQuestionsIntoMemoryCache();
-            var learningSession = LearningSessionNewCreator.ForAnonymous(
-                new LearningSessionConfig
-                {
-                    CategoryId = 0, 
-                    MaxQuestions = amountQuestions
-                });
-
-            return learningSession.Steps;
+            Assert.That(ContextLearningSession.GetSteps(4000).Count, Is.EqualTo(4000));
+            Assert.That(ContextLearningSession.GetSteps(6000).Count, Is.EqualTo(5000));
+            Assert.That(ContextLearningSession.GetSteps(maxQuestions).Count, Is.EqualTo(5000));
         }
     }
 }
