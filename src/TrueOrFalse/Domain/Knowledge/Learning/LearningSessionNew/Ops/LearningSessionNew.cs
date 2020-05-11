@@ -8,10 +8,12 @@ public class LearningSessionNew
     public int Pager;
 
     public int CurrentIndex { get; private set; }
+    public bool IsLastStep { get; private set; }
     public LearningSessionStepNew CurrentStep => Steps[CurrentIndex];
 
     public int UserId;
     public bool IsLoggedIn; 
+
 
 
     public LearningSessionNew(List<LearningSessionStepNew> learningSessionSteps, LearningSessionConfig config)
@@ -32,9 +34,15 @@ public class LearningSessionNew
 
     public void NextStep()
     {
-        CurrentIndex++; 
-        //var question = Steps[CurrentIndex].Question;
-        //return new AnswerBody(question);
+        IsLastStep = TestIsLastStep();
+
+        if (!IsLastStep)
+            CurrentIndex++;
+
+        //if(IsLastStep)
+        //RenderNextQuestion
+        //else
+        //Render ResultSite
     }
 
     public void SkipStep()
@@ -43,13 +51,21 @@ public class LearningSessionNew
 
         if (Config.ReAddStepsToEnd())
             ReAddCurrentStepToEnd();
+ 
+        IsLastStep = TestIsLastStep();
 
-        CurrentIndex++;
+        if(!IsLastStep)
+            CurrentIndex++;
     }
 
     private void ReAddCurrentStepToEnd()
     {
         var step = new LearningSessionStepNew(CurrentStep.Question);
         Steps.Add(step);
+    }
+
+    private bool TestIsLastStep()
+    {
+        return CurrentIndex == Steps.Count - 1;
     }
 }
