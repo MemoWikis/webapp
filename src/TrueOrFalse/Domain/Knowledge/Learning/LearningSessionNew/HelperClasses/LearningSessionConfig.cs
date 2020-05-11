@@ -1,13 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-public class LearningSessionConfig
+﻿public class LearningSessionConfig
 {
     public int CategoryId;
     public int MaxQuestions;
     public bool OnlyWuwi;
-    public int UserId; 
+    public int UserId;
+
+    /// <summary>
+    /// User is not logge in
+    /// </summary>
+    public bool IsAnonymous()=> UserId == -1;
+
+    public bool ReAddStepsToEnd() => !IsAnonymous();
 }

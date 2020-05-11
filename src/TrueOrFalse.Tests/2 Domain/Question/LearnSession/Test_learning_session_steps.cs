@@ -1,12 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Text;
-using System.Threading.Tasks;
-using BDDish.Model;
+﻿using System.Linq;
 using NUnit.Framework;
-using Seedworks.Web.State;
 
 namespace TrueOrFalse.Tests
 {
@@ -16,17 +9,17 @@ namespace TrueOrFalse.Tests
         private readonly int NotLoggedIn = -1;
 
         [Test]
-        public void Test_answer_should_correct_added_or_not_added()
+        public void Test_answer_should_correct_added_or_not_added_for_logged_in_user()
         {
-            var learningSession = GetLearningSession(LoggedIn, 5);
+            var learningSession = ContextLearningSession.GetLearningSessionWithoutAnswerState(LoggedIn, 5);
 
-            learningSession.SetAnswer(new Answer{AnswerredCorrectly = AnswerCorrectness.True});
+            learningSession.AddAnswer(new Answer{AnswerredCorrectly = AnswerCorrectness.True});
             Assert.That(learningSession.Steps.Count, Is.EqualTo(5));
 
             learningSession.NextStep(); 
             Assert.That(learningSession.CurrentIndex, Is.EqualTo(1));
 
-            learningSession.SetAnswer(new Answer{AnswerredCorrectly = AnswerCorrectness.False});
+            learningSession.AddAnswer(new Answer{AnswerredCorrectly = AnswerCorrectness.False});
             Assert.That(learningSession.Steps.Count, Is.EqualTo(6));
             Assert.That(learningSession.Steps.Last().AnswerState, Is.EqualTo(AnswerStateNew.Unanswered));
 
@@ -38,19 +31,22 @@ namespace TrueOrFalse.Tests
             Assert.That(learningSession.Steps.Last().AnswerState, Is.EqualTo(AnswerStateNew.Unanswered));
         }
 
-
-        private LearningSessionNew GetLearningSession(int userId, int amountQuestions = 20)
+        [Test]
+        public void Test_answer_should_correct_added_or_not_added_for_not_logged_in_user()
         {
-            var learningSession = GetLearningSessionWithoutAnswerState(userId, amountQuestions);
+            var learningSession = ContextLearningSession.GetLearningSessionWithoutAnswerState(NotLoggedIn, 5);
 
-            return learningSession; 
-        }
+            learningSession.AddAnswer(new Answer { AnswerredCorrectly = AnswerCorrectness.True });
+            Assert.That(learningSession.Steps.Count, Is.EqualTo(5));
 
-        private LearningSessionNew GetLearningSessionWithoutAnswerState(int userId, int amountQuestions)
-        {
-            ContextQuestion.PutQuestionsIntoMemoryCache(amountQuestions);
-            var steps = ContextLearningSession.GetSteps(amountQuestions);
-            return new LearningSessionNew(steps.ToList(), new LearningSessionConfig { UserId = userId });
+            learningSession.NextStep();
+            Assert.That(learningSession.CurrentIndex, Is.EqualTo(1));
+
+            learningSession.AddAnswer(new Answer { AnswerredCorrectly = AnswerCorrectness.False });
+            Assert.That(learningSession.Steps.Count, Is.EqualTo(5));
+
+            learningSession.NextStep();
+            Assert.That(learningSession.CurrentIndex, Is.EqualTo(2));
         }
     }
 }

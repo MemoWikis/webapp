@@ -26,9 +26,7 @@ internal static class ContextLearningSession
     public static LearningSessionNew GetLearningSessionWithoutAnswerState(int userId, int amountQuestions)
     {
         ContextQuestion.PutQuestionsIntoMemoryCache(amountQuestions);
-        //var steps = Get Steps(amountQuestions);
-        //return new LearningSessionNew(steps.ToList(), new LearningSessionConfig { UserId = userId });
-
-        return null;
+        var steps = GetSteps(amountQuestions);
+        return new LearningSessionNew(steps.ToList(), new LearningSessionConfig { UserId = userId });
     }
 }

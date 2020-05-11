@@ -7,7 +7,6 @@ public class LearningSessionNew
     public LearningSessionConfig Config;
     public int Pager;
 
-
     public int CurrentIndex { get; private set; }
     public LearningSessionStepNew CurrentStep => Steps[CurrentIndex];
 
@@ -20,13 +19,14 @@ public class LearningSessionNew
         Steps = learningSessionSteps;
         UserId = config.UserId; 
         IsLoggedIn =  UserId != -1;
+        Config = config; 
     }
 
     public void AddAnswer(Answer answer)
     {
         CurrentStep.AnswerState = answer.AnsweredCorrectly() ? AnswerStateNew.Correct : AnswerStateNew.False;
         
-        if(Config.ReAddStepsToEnd() && answer.AnsweredCorrectly())
+        if(Config.ReAddStepsToEnd() && !answer.AnsweredCorrectly())
             ReAddCurrentStepToEnd();
     }
 
