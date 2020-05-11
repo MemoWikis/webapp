@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using TrueOrFalse.Tests;
 
 internal static class ContextLearningSession
@@ -20,5 +21,14 @@ internal static class ContextLearningSession
                 MaxQuestions = amountQuestions
             });
         return learningSession;
+    }
+
+    public static LearningSessionNew GetLearningSessionWithoutAnswerState(int userId, int amountQuestions)
+    {
+        ContextQuestion.PutQuestionsIntoMemoryCache(amountQuestions);
+        //var steps = Get Steps(amountQuestions);
+        //return new LearningSessionNew(steps.ToList(), new LearningSessionConfig { UserId = userId });
+
+        return null;
     }
 }
