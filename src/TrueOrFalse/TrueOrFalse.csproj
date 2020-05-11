@@ -309,7 +309,7 @@
     <Compile Include="Domain\Category\Views\ViewsPerDay.cs" />
     <Compile Include="Domain\Knowledge\Learning\LearningSessionNew\HelperClasses\AnswerStateNew.cs" />
     <Compile Include="Domain\Knowledge\Learning\LearningSessionNew\HelperClasses\LearningSessionConfig.cs" />
-    <Compile Include="Domain\Knowledge\Learning\LearningSessionNew\LearningSessionNew.cs" />
+    <Compile Include="Domain\Knowledge\Learning\LearningSessionNew\Ops\LearningSessionNew.cs" />
     <Compile Include="Domain\Knowledge\Learning\LearningSessionNew\LearningSessionNewController.cs" />
     <Compile Include="Domain\Knowledge\Learning\LearningSessionNew\Ops\LearningSessionNewCreator.cs" />
     <Compile Include="Domain\Knowledge\Learning\LearningSessionNew\HelperClasses\LearningSessionStepNew.cs" />
