@@ -149,7 +149,11 @@ public class CategoryController : BaseController
     [RedirectToErrorPage_IfNotLoggedIn]
     public ActionResult StartLearningSession(int categoryId)
     {
-        var learningSession = CreateLearningSession.ForCategory(categoryId);
+        var config = new LearningSessionConfig
+        {
+            CategoryId = categoryId
+        };
+        var learningSession = LearningSessionNewCreator.ForAnonymous(config);
 
         return Redirect(Links.LearningSession(learningSession));
     }
@@ -162,23 +166,14 @@ public class CategoryController : BaseController
 
         if (questions.Count == 0)
             throw new Exception("Cannot start LearningSession with 0 questions.");
-
-        var learningSession = new LearningSession
-        {
-            SetsToLearnIdsString = string.Join(",", sets.Select(x => x.Id.ToString())),
-            SetListTitle = setListTitle,
-            Steps = GetLearningSessionSteps.Run(questions),
-            User = _sessionUser.User
-        };
-
-        R<LearningSessionRepo>().Create(learningSession);
+        var config =  new LearningSessionConfig();
+        var learningSession = LearningSessionNewCreator.ForAnonymous(config);
 
         return Redirect(Links.LearningSession(learningSession));
     }
 
     public string Tab(string tabName, int categoryId)
     {
-       
         var category = Sl.CategoryRepo.GetById(categoryId);
         var isCategoryNull = category == null;
        category = isCategoryNull ? new Category() : category; 
@@ -197,14 +192,12 @@ public class CategoryController : BaseController
             ControllerContext
         );
 
-
     public string WishKnowledgeInTheBox(int categoryId) =>
         ViewRenderer.RenderPartialView(
             "/Views/Categories/Detail/Partials/WishKnowledgeInTheBox.ascx",
             new WishKnowledgeInTheBoxModel(Sl.CategoryRepo.GetById(categoryId)),
             ControllerContext
         );
-
 
     [HttpPost]
     [AccessOnlyAsLoggedIn]
