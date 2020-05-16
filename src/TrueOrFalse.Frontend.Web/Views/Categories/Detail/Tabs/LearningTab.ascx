@@ -36,7 +36,7 @@
 
         var dummyQuestion = EntityCache.GetQuestionById(questionId);
 
-        Html.RenderPartial("~/Views/Questions/Answer/LearningSession/LearningSessionHeader.ascx", new AnswerQuestionModel(dummyQuestion));
+        Html.RenderPartial("~/Views/Questions/Answer/LearningSession/LearningSessionHeader.ascx", new AnswerQuestionModel(dummyQuestion, null, true, Model));
     }
     else
     { %>
