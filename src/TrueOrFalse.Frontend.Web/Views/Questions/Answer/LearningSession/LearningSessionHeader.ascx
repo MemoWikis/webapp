@@ -7,7 +7,7 @@
     
     <% Html.RenderPartial("~/Views/Questions/Answer/Sponsor.ascx", Model); %>
 
-    <div class="SessionTitle">
+<%--    <div class="SessionTitle">
 
         
             <div class="CollectionType TypeCategory">Thema</div>
@@ -18,11 +18,11 @@
         <% if(Model.LearningSession.Config.OnlyWuwi) { %>
             <a href="<%= Links.QuestionsWish() %>">Dein Wunschwissen</a>
         <% } %>
-    </div>
+    </div>--%>
 </div>
 
 <div class="SessionBar">
-    <div class="QuestionCount" style="float: right;">Frage <span id="CurrentStepNumber"><%= Model.CurrentLearningStepIdx + 1 %></span> von <span id="StepCount"><%= Model.LearningSession.Steps.Count %></span></div>
+    <%--<div class="QuestionCount" style="float: right;">Frage <span id="CurrentStepNumber"><%= Model.CurrentLearningStepIdx + 1 %></span> von <span id="StepCount"><%= Model.LearningSession.Steps.Count %></span></div>--%>
     <div class="SessionType">
         <span id="SessionTitleSpan" class="show-tooltip"
         data-original-title="<%= @"<div style='text-align: left;'>In diesem Modus
