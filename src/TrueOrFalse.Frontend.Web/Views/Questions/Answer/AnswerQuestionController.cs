@@ -250,26 +250,6 @@ public class AnswerQuestionController : BaseController
     }
 
     [HttpPost]
-    public JsonResult SendAnswer(int id, string answer, Guid questionViewGuid, int interactionNumber, int millisecondsSinceQuestionView)
-    {
-        var result = _answerQuestion.Run(id, answer, UserId, questionViewGuid, interactionNumber,
-            millisecondsSinceQuestionView);
-        var question = _questionRepo.GetById(id);
-        var solution = GetQuestionSolution.Run(question);
-        return new JsonResult
-        {
-            Data = new
-            {
-                correct = result.IsCorrect,
-                correctAnswer = result.CorrectAnswer,
-                choices = solution.GetType() == typeof(QuestionSolutionMultipleChoice_SingleSolution)
-                    ? ((QuestionSolutionMultipleChoice_SingleSolution) solution).Choices
-                    : null
-            }
-        };
-    }
-
-    [HttpPost]
     public JsonResult SendAnswerLearningSession(
         int id,
         int learningSessionId,
