@@ -11,6 +11,7 @@ public class AnswerQuestionModel : BaseModel
 {
     public Func<UrlHelper, string> PreviousUrl;
     public Func<UrlHelper, string> NextUrl;
+    public CategoryModel CategoryModel; 
 
     public Guid QuestionViewGuid;
 
@@ -118,12 +119,12 @@ public class AnswerQuestionModel : BaseModel
     public AnalyticsFooterModel AnalyticsFooterModel;
     public bool QuestionHasParentCategories = false;
 
-    public AnswerQuestionModel(Question question, bool? isMobileDevice = null, bool showCategoryList = true)
+    public AnswerQuestionModel(Question question, bool? isMobileDevice = null, bool showCategoryList = true, CategoryModel categoryModel= null)
     {
         if(this.QuestionViewGuid == Guid.Empty)
             QuestionViewGuid = Guid.NewGuid();
-
-        this.IsMobileDevice = isMobileDevice;
+        CategoryModel = categoryModel;
+        IsMobileDevice = isMobileDevice;
         HasNextPage = HasPreviousPage = false;
         SourceIsTabAll = true;
         ContentRecommendationResult = ContentRecommendation.GetForQuestion(question, 6);
@@ -194,6 +195,8 @@ public class AnswerQuestionModel : BaseModel
         Populate(question);
     }
 
+
+    //we have no widgets, this can deleted
     public AnswerQuestionModel(Guid questionViewGuid, Question question, QuestionSearchSpec searchSpec, bool? isMobileDevice = null)
     {
         this.IsMobileDevice = isMobileDevice;
