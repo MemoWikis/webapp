@@ -70,29 +70,6 @@ public class AnswerBodyModel : BaseModel
 
     public int TotalActivityPoints;
 
-    public AnswerBodyModel(Question question, Game game, Player player, Round round)
-    {
-        QuestionViewGuid = Guid.NewGuid();
-        
-        R<SaveQuestionView>().Run(QuestionViewGuid, question, _sessionUser.User.Id, player, round);
-        
-        var questionValuationForUser = NotNull.Run(Resolve<QuestionValuationRepo>().GetByFromCache(question.Id, UserId));
-        IsInWishknowledge = questionValuationForUser.IsInWishKnowledge();
-
-        if (player != null) 
-        {
-            AjaxUrl_SendAnswer = url => Links.SendAnswer(url, question, game, player, round);
-            AjaxUrl_GetSolution = url => Links.GetSolution(url, question, round);
-        }
-        else
-        {
-            AjaxUrl_SendAnswer = url => Links.SendAnswer(url, question);
-            AjaxUrl_GetSolution = url => Links.GetSolution(url, question);
-        }
-
-        Init(question);
-    }
-
     public AnswerBodyModel(AnswerQuestionModel answerQuestionModel, bool isInLearningTab = false, bool isInTestMode = false)
     {
         QuestionViewGuid = answerQuestionModel.QuestionViewGuid;
