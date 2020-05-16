@@ -34,11 +34,11 @@
             .Select(q => q.Id)
             .FirstOrDefault();
 
-        var dummyQuestion = Sl.QuestionRepo.GetById(questionId); // why not take Question from Cache directly?
+        var dummyQuestion = EntityCache.GetQuestionById(questionId); // why not take Question from Cache directly?
 
         if (Model.IsLoggedIn)
         {
-            Html.RenderPartial("~/Views/Questions/Answer/LearningSession/LearningSessionHeader.ascx", new AnswerQuestionModel(dummyQuestion.Id));
+            Html.RenderPartial("~/Views/Questions/Answer/LearningSession/LearningSessionHeader.ascx", new AnswerQuestionModel(dummyQuestion));
         }
     }
     else
