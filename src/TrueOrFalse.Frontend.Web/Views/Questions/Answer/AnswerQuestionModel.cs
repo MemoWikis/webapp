@@ -94,8 +94,8 @@ public class AnswerQuestionModel : BaseModel
     public int CommentsSettledCount = 0;
 
     public bool IsLearningSession => LearningSession != null;
-    public LearningSession LearningSession;
-    public LearningSessionStep LearningSessionStep;
+    public LearningSessionNew  LearningSession;
+    public LearningSessionStepNew LearningSessionStep;
     public int CurrentLearningStepIdx;
     public int CurrentLearningStepPercentage;
     public bool IsLastLearningStep = false;
@@ -132,17 +132,16 @@ public class AnswerQuestionModel : BaseModel
         Populate(question);
     }
 
-    public AnswerQuestionModel(Guid questionViewGuid, LearningSession learningSession, bool? isMobileDevice = null)
+    public AnswerQuestionModel(LearningSessionNew learningSession, bool? isMobileDevice = null)
     {
         this.IsMobileDevice = isMobileDevice;
-        QuestionViewGuid = questionViewGuid;
 
         LearningSession = learningSession;
 
-        CurrentLearningStepIdx = LearningSession.CurrentLearningStepIdx();
+        CurrentLearningStepIdx = LearningSession.CurrentIndex;
 
         LearningSessionStep = LearningSession.Steps[CurrentLearningStepIdx];
-        LearningSessionStep.Question = Sl.QuestionRepo.GetById(LearningSessionStep.Question.Id);//Prevents nhibernate lazy load exception
+//LearningSessionStep.Question = Sl.QuestionRepo.GetById(LearningSessionStep.Question.Id);//Prevents nhibernate lazy load exception
 
         IsLastLearningStep = CurrentLearningStepIdx + 1 == LearningSession.Steps.Count();
 
@@ -150,29 +149,30 @@ public class AnswerQuestionModel : BaseModel
             ? 0
             : (int)Math.Round(CurrentLearningStepIdx/(float)LearningSession.Steps.Count()*100);
 
-        NextUrl = url => url.Action("Learn", Links.AnswerQuestionController,
-            new {
-                learningSessionId = learningSession.Id,
-                learningSessionName = learningSession.UrlName
-            });
+        //NextUrl = url => url.Action("Learn", Links.AnswerQuestionController,
+        //    new
+        //    {
+        //        learningSessionId = learningSession.Id,
+        //        learningSessionName = learningSession.UrlName
+        //    });
 
         Populate(LearningSessionStep.Question);
     }
 
-    public AnswerQuestionModel(int dummyQuestionId, bool testSession = false)
-    {
-        var dummyQuestion = Sl.QuestionRepo.GetById(dummyQuestionId);  
+    //public AnswerQuestionModel(int dummyQuestionId, bool testSession = false)
+    //{
+    //    var dummyQuestion = Sl.QuestionRepo.GetById(dummyQuestionId);
 
-        LearningSession = new LearningSession{Steps = new List<LearningSessionStep>()};      
+    //    //LearningSession = new LearningSessionNew{Steps = new List<LearningSessionStep>()};      
 
-        for (var i = 0; i < LearningSession.DefaultNumberOfSteps; i++)           
-        {
-            LearningSession.Steps.Add(new LearningSessionStep{Idx = i, Question = dummyQuestion});      
-        }
+    //    for (var i = 0; i < LearningSession.DefaultNumberOfSteps; i++)
+    //    {
+    //        LearningSession.Steps.Add(new LearningSessionStep { Idx = i, Question = dummyQuestion });
+    //    }
 
-        Populate(dummyQuestion);
+    //    Populate(dummyQuestion);
 
-    }
+    //}
 
     public AnswerQuestionModel(TestSession testSession, Guid questionViewGuid, Question question, bool? isMobileDevice = null)
     {
