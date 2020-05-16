@@ -1,6 +1,7 @@
-﻿using System.Collections.Generic;
-using FluentNHibernate.Utils;
+﻿using System;
+using System.Collections.Generic;
 
+[Serializable]
 public class LearningSessionNew
 {
     public IList<LearningSessionStepNew> Steps;
@@ -10,8 +11,9 @@ public class LearningSessionNew
     public int CurrentIndex { get; private set; }
     public bool IsLastStep { get; private set; }
     public LearningSessionStepNew CurrentStep => Steps[CurrentIndex];
+    public string UrlName = ""; 
 
-    public int UserId;
+    public User User;
     public bool IsLoggedIn; 
 
 
@@ -19,8 +21,9 @@ public class LearningSessionNew
     public LearningSessionNew(List<LearningSessionStepNew> learningSessionSteps, LearningSessionConfig config)
     {
         Steps = learningSessionSteps;
-        UserId = config.UserId; 
-        IsLoggedIn =  UserId != -1;
+        var userCashItem = UserCache.GetItem(config.UserId);
+        User = userCashItem.User;  
+        IsLoggedIn =  config.UserId != -1;
         Config = config; 
     }
 
