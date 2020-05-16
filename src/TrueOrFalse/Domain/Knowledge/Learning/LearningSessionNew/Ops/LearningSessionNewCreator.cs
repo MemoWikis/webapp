@@ -18,9 +18,9 @@ public class LearningSessionNewCreator
     {  
         List<Question> questions;
         if (config.OnlyWuwi)
-            questions = OrderByProbability(GetWuwiQuestionsFromCategory(config.UserId, config.CategoryId)).ToList();
+            questions = OrderByProbability(GetRandomLimited(GetWuwiQuestionsFromCategory(config.UserId, config.CategoryId), config.MaxQuestions)).ToList();
         else
-            questions = OrderByProbability(GetCategoryQuestionsFromEntityCache(config.CategoryId)).ToList();
+            questions = OrderByProbability(GetRandomLimited(GetCategoryQuestionsFromEntityCache(config.CategoryId), config.MaxQuestions)).ToList();
 
         return new LearningSessionNew(questions.Select(q => new LearningSessionStepNew(q)).ToList(), config);
     }
