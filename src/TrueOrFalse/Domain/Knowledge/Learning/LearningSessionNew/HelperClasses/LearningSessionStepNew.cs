@@ -1,6 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using NHibernate.Mapping;
-
+[Serializable]
 public class LearningSessionStepNew
 {
     public readonly Question Question;
