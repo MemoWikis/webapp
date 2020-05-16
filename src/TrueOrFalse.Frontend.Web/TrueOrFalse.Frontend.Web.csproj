@@ -22026,7 +22026,6 @@
     <Compile Include="Views\Maintenance\CMSModel.cs" />
     <Compile Include="Views\Maintenance\ToolsModel.cs" />
     <Compile Include="Views\Questions\Answer\AnswerBodyControl\AnswerBodyModel.cs" />
-    <Compile Include="Views\Questions\Answer\LearningSession\LearningSessionModel.cs" />
     <Compile Include="Views\Questions\Answer\LearningSession\LearningSessionResultController.cs" />
     <Compile Include="Views\Questions\Answer\ShareQuestionModalModel.cs" />
     <Compile Include="Views\Questions\Answer\TestSession\TestSessionResultController.cs" />
