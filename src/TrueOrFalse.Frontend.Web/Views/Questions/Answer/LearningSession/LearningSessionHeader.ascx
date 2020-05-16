@@ -8,25 +8,14 @@
     <% Html.RenderPartial("~/Views/Questions/Answer/Sponsor.ascx", Model); %>
 
     <div class="SessionTitle">
-        <% if(Model.LearningSession.IsSetSession) { %>
-            <div class="CollectionType">Lernset</div>
-            <div class="LabelWrapper">
-                <a class="LabelLink" href="<%= Links.SetDetail(Url, Model.LearningSession.SetToLearn) %>">
-                    <span class="label label-set"><%: Model.LearningSession.SetToLearn.Name %></span>
-                </a>
-            </div>
-        <% } %>
 
-        <% if(Model.LearningSession.IsSetsSession) { %>   
-            <%= Model.LearningSession.SetListTitle %> (<span style="white-space: nowrap"><%= Model.LearningSession.SetsToLearn().Count %> Lernsets</span>)
-        <% } %>
-
-        <% if(Model.LearningSession.IsCategorySession) { %>
+        
             <div class="CollectionType TypeCategory">Thema</div>
-            <% Html.RenderPartial("CategoryLabel", Model.LearningSession.CategoryToLearn); %>
-        <% } %>
+            <%
+                var category = EntityCache.GetCategory(Model.LearningSession.Config.CategoryId); 
+                Html.RenderPartial("CategoryLabel", category); %>
 
-        <% if(Model.LearningSession.IsWishSession) { %>
+        <% if(Model.LearningSession.Config.OnlyWuwi) { %>
             <a href="<%= Links.QuestionsWish() %>">Dein Wunschwissen</a>
         <% } %>
     </div>
