@@ -230,29 +230,6 @@ namespace TrueOrFalse.Frontend.Web.Code
             return url.Action("Edit", EditQuestionController, new { text = UriSanitizer.Run(questionText), id = questionId });
         }
 
-        public static string SendAnswer(UrlHelper url, Question question){
-            return url.Action("SendAnswer", AnswerQuestionController, new { id = question.Id }, null);
-        }
-
-        public static string SendAnswer(UrlHelper url, Question question, 
-            Game game, Player player, Round round)
-        {
-            return url.Action("SendAnswerGame", "Play", 
-                new{
-                    questionId = question.Id, 
-                    gameId = game.Id,
-                    userId = player.Id,
-                    roundId = round.Id
-                }, null);
-        }
-
-        public static string SendAnswer(UrlHelper url, Question question,
-            LearningSession learningSession, LearningSessionStep learningSessionStep)
-        {
-            return url.Action("SendAnswerLearningSession", AnswerQuestionController,
-                new { id = question.Id, learningSessionId = learningSession.Id, stepGuid = learningSessionStep.Guid }, null);
-        }
-
         public static string GetSolution(UrlHelper url, Question question){
             return url.Action("GetSolution", AnswerQuestionController, new { id = question.Id }, null);
         }
@@ -272,14 +249,15 @@ namespace TrueOrFalse.Frontend.Web.Code
         /*Learn*/
         public const string LearningSessionResultController = "LearningSessionResult";
 
-        public static string LearningSession(LearningSession learningSession)
+        public static string LearningSession(LearningSessionNew learningSession)
         {
-            return GetUrlHelper().Action("Learn", AnswerQuestionController,
-                new
-                {
-                    learningSessionId = learningSession.Id,
-                    learningSessionName = learningSession.UrlName,
-                });
+            //return GetUrlHelper().Action("Learn", AnswerQuestionController,
+            //    new
+            //    {
+            //        learningSessionId = 1,
+            //        learningSessionName = learningSession.UrlName,
+            //    });
+            return "#";
         }
 
         public static string LearningSessionResult(LearningSession learningSession)

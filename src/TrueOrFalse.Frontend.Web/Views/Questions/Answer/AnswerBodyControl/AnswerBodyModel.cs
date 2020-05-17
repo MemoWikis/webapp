@@ -61,7 +61,6 @@ public class AnswerBodyModel : BaseModel
 
     public Func<UrlHelper, string> NextUrl;
     
-    public Func<UrlHelper, string> AjaxUrl_SendAnswer { get; private set; }
     public Func<UrlHelper, string> AjaxUrl_GetSolution { get; private set; }
     public Func<UrlHelper, string> AjaxUrl_CountLastAnswerAsCorrect { get; private set; }
     public Func<UrlHelper, string> AjaxUrl_CountUnansweredAsCorrect { get; private set; }
@@ -89,22 +88,6 @@ public class AnswerBodyModel : BaseModel
         NextUrl = answerQuestionModel.NextUrl;
 
         IsLastQuestion = !IsLearningSession && !answerQuestionModel.HasNextPage;
-
-        if (answerQuestionModel.IsLearningSession)
-        {
-            AjaxUrl_SendAnswer = url => Links.SendAnswer(
-                url, 
-                answerQuestionModel.Question,
-                answerQuestionModel.LearningSession,
-                answerQuestionModel.LearningSessionStep);
-
-            IsLastLearningStep = answerQuestionModel.IsLastLearningStep;
-        }
-        else
-        {
-            AjaxUrl_SendAnswer = url => Links.SendAnswer(url, answerQuestionModel.Question);
-        }
-
         AjaxUrl_GetSolution = url => Links.GetSolution(url, answerQuestionModel.Question);
 
         CommentCount = answerQuestionModel.Comments.GetTotalCount();

@@ -66,7 +66,6 @@ class AnswerQuestion {
         this._getAnswerText = () => { return answerEntry.GetAnswerText(); }
         this._getAnswerData = () => { return answerEntry.GetAnswerData(); }
 
-        AnswerQuestion.ajaxUrl_SendAnswer = $("#ajaxUrl_SendAnswer").val();
         AnswerQuestion.ajaxUrl_GetSolution = $("#ajaxUrl_GetSolution").val();
         AnswerQuestion.ajaxUrl_CountLastAnswerAsCorrect = $("#ajaxUrl_CountLastAnswerAsCorrect").val();
         AnswerQuestion.ajaxUrl_CountUnansweredAsCorrect = $("#ajaxUrl_CountUnansweredAsCorrect").val();
