@@ -47,22 +47,14 @@ class AnswerBodyLoader {
                     $("#hddIsLearningSession").attr("data-learning-session-id", "-2");
                     this.loadNewLearningSession();
                 }
-
-                $("#btnNext, #aSkipStep").click((e) => {
-                    
+                var self = this; 
+                $("#btnNext, #aSkipStep").click(function(e) {
                     e.preventDefault();
-                    var learningSessionId = $("#hddIsLearningSession").attr("data-learning-session-id");
-                    var skipStepIdx = $("#hddIsLearningSession").attr("data-skip-step-index");
-                    var isInTestMode = $("#isInTestMode").val() == "True";
-                    var url = "/AnswerQuestion/RenderAnswerBodyByLearningSession/?learningSessionId=" +
-                        learningSessionId +
-                        "&skipStepIdx=" +
-                        skipStepIdx +
-                        "&isInLearningTab" +
-                        this._isInLearningTab +
-                        "&isInTestMode=" +
-                        isInTestMode;
-                    this.loadNewQuestion(url);
+
+                    var skipstepIdx = this.id === "btnNext" ? -1 : 1; 
+                    var url = "/AnswerQuestion/RenderAnswerBodyByLearningSession/?skipStepIdx=" + skipstepIdx;
+
+                    self.loadNewQuestion(url);
                 });
 
             } else if (this._answerBody.IsTestSession()) {
