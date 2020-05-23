@@ -150,12 +150,7 @@ public class AnswerQuestionModel : BaseModel
             ? 0
             : (int)Math.Round(CurrentLearningStepIdx/(float)LearningSession.Steps.Count()*100);
 
-        //NextUrl = url => url.Action("Learn", Links.AnswerQuestionController,
-        //    new
-        //    {
-        //        learningSessionId = learningSession.Id,
-        //        learningSessionName = learningSession.UrlName
-        //    });
+        NextUrl = url => url.Action("Learn", Links.AnswerQuestionController, new{ skipStepIdx = learningSession.CurrentIndex +1 });
 
         Populate(LearningSessionStep.Question);
     }
@@ -175,6 +170,7 @@ public class AnswerQuestionModel : BaseModel
 
     //}
 
+    //we have no TestSession this can deleted
     public AnswerQuestionModel(TestSession testSession, Guid questionViewGuid, Question question, bool? isMobileDevice = null)
     {
         this.IsMobileDevice = isMobileDevice;

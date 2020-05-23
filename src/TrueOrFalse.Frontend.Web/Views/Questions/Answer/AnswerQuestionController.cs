@@ -250,18 +250,17 @@ public class AnswerQuestionController : BaseController
     [HttpPost]
     public JsonResult SendAnswerLearningSession(
         int id,
-        int learningSessionId,
-        Guid questionViewGuid,
-        int interactionNumber,
-        Guid stepGuid,
-        string answer,
-        int millisecondsSinceQuestionView,
+        int learningSessionId = 0,
+        Guid questionViewGuid = new Guid(),
+        int interactionNumber=0 ,
+        // Guid stepGuid = new Guid(),
+        string answer = "",
+        int millisecondsSinceQuestionView = 0,
         bool inTestMode = false
     )
     {
-
         var result = _answerQuestion.Run(id, answer, UserId, questionViewGuid, interactionNumber,
-            millisecondsSinceQuestionView, learningSessionId, stepGuid, inTestMode);
+            millisecondsSinceQuestionView, learningSessionId, new Guid(), inTestMode);
         var question = _questionRepo.GetById(id);
         var solution = GetQuestionSolution.Run(question);
 
@@ -562,11 +561,11 @@ public class AnswerQuestionController : BaseController
     public string RenderAnswerBodyByLearningSession(int skipStepIdx = -1, bool isInLearningTab = false, bool isInTestMode = false)
     {
         var learningSession = Sl.SessionUser.LearningSession;
-//        var learningSessionName = "test";
 
         if (skipStepIdx != -1)
             learningSession.SkipStep();
-        
+        else
+            learningSession.NextStep();
         
         Sl.SessionUser.LearningSession = learningSession;
 
@@ -575,7 +574,7 @@ public class AnswerQuestionController : BaseController
 
         var questionViewGuid = Guid.NewGuid();
 
-        var question = Sl.QuestionRepo.GetById(learningSession.Steps[learningSession.CurrentIndex].Question.Id);
+        var question = learningSession.Steps[learningSession.CurrentIndex].Question;
 
         var sessionUserId = _sessionUser == null ? -1 : _sessionUser.UserId;
 

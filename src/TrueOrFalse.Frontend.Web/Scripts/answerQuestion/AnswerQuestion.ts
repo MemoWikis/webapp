@@ -180,42 +180,45 @@ class AnswerQuestion {
     }
 
     public ValidateAnswer() {
-        var answerText
-            = this._getAnswerText();
+        var answerText = this._getAnswerText();
         var self = this;
 
-        if (answerText.trim().length === 0 && this.SolutionType !== SolutionType.MultipleChoice && this.SolutionType !== SolutionType.MatchList && this.SolutionType !== SolutionType.FlashCard) {
+        if (answerText.trim().length === 0 &&
+            this.SolutionType !== SolutionType.MultipleChoice &&
+            this.SolutionType !== SolutionType.MatchList &&
+            this.SolutionType !== SolutionType.FlashCard) {
             $('#spnWrongAnswer').hide();
             self._inputFeedback
                 .ShowError("Du könntest es ja wenigstens probieren ... (Wird nicht als Antwortversuch gewertet.)",
                     true);
             return false;
         } else {
-                self.AmountOfTries++;
-                self.AnswersSoFar.push(answerText);
+            self.AmountOfTries++;
+            self.AnswersSoFar.push(answerText);
 
-                if (this.SolutionType !== SolutionType.FlashCard) {   
-                    $('#spnWrongAnswer').show();
+            if (this.SolutionType !== SolutionType.FlashCard) {
+                $('#spnWrongAnswer').show();
                 $("#buttons-first-try").hide();
                 $("#buttons-answer-again").hide();
-               // $('#continue').hide();
+                // $('#continue').hide();
                 $("#answerHistory").html("<i class='fa fa-spinner fa-spin' style=''></i>");
             } else {
-                    $('#buttons-answer').hide();
-                  this.ClickToContinue();
+                $('#buttons-answer').hide();
+                this.ClickToContinue();
             }
+            console.log(self._getAnswerData()); 
             $('div#answerFeedbackTry, a#CountWrongAnswers').hide();
             $.ajax({
                 type: 'POST',
-                url: AnswerQuestion.ajaxUrl_SendAnswer,
+                url: "/AnswerQuestion/SendAnswerLearningSession",
                 data: $.extend(self._getAnswerData(),
-                {
-                    questionViewGuid: $('#hddQuestionViewGuid').val(),
-                    interactionNumber: $('#hddInteractionNumber').val(),
-                    millisecondsSinceQuestionView: AnswerQuestion.TimeSinceLoad($('#hddTimeRecords').attr('data-time-of-answer')),
-                    inTestMode: true
-
-                }),
+                    {
+                        id: $("#hddQuestionId").val(),
+                        questionViewGuid: $('#hddQuestionViewGuid').val(),
+                        interactionNumber: $('#hddInteractionNumber').val(),
+                        millisecondsSinceQuestionView: AnswerQuestion.TimeSinceLoad($('#hddTimeRecords').attr('data-time-of-answer')),
+                        inTestMode: true
+                    }),
                 cache: false,
                 success(result) {
                     $('div#answerFeedbackTry, a#CountWrongAnswers').show();
@@ -245,8 +248,6 @@ class AnswerQuestion {
                     } else {
                         $('div#answerFeedbackTry, a#CountWrongAnswers').show();
                         self.HandleWrongAnswer(result, answerText);
-
-
                     }
 
                     $("#answerHistory").empty();
@@ -265,6 +266,7 @@ class AnswerQuestion {
             return false;
         }
     }
+
     private HideChipsOnLandingPageAndDisplayCards() {
         if (this.IsLandingPage) {
 

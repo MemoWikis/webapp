@@ -27,12 +27,16 @@ public class LearningSessionNew
         Config = config; 
     }
 
-    public void AddAnswer(Answer answer)
+    public bool AddAnswer(AnswerQuestionResult answer)
     {
-        CurrentStep.AnswerState = answer.AnsweredCorrectly() ? AnswerStateNew.Correct : AnswerStateNew.False;
-        
-        if(Config.ReAddStepsToEnd() && !answer.AnsweredCorrectly())
+        CurrentStep.AnswerState = answer.IsCorrect ? AnswerStateNew.Correct : AnswerStateNew.False;
+        if (Config.ReAddStepsToEnd() && !answer.IsCorrect)
+        {
             ReAddCurrentStepToEnd();
+            return true;
+        }
+
+        return false;
     }
 
     public void NextStep()

@@ -44,11 +44,7 @@ public class AnswerQuestion : IRegisterAsInstancePerLifetime
        bool inTestMode = false,
         /*for testing*/ DateTime dateCreated = default(DateTime))
     {
-        var learningSessionRepo = Sl.R<LearningSessionRepo>();
-        var learningSession = learningSessionRepo.GetById(learningSessionId);
-        var learningSessionStep = LearningSession.GetStep(learningSessionId, stepGuid);
-
-        var numberOfStepsBeforeAnswer = learningSession.Steps.Count;
+        var learningSession = Sl.SessionUser.LearningSession;
 
         var result = Run(questionId, answer, userId, (question, answerQuestionResult) =>
         {
@@ -59,22 +55,11 @@ public class AnswerQuestion : IRegisterAsInstancePerLifetime
                 questionViewGuid,
                 interactionNumber,
                 millisecondsSinceQuestionView,
-                learningSession: learningSession, 
-                learningSessionStepGuid: learningSessionStep.Guid, 
                 dateCreated: dateCreated);
 
-            learningSessionStep.AnswerState = StepAnswerState.Answered;
-            learningSessionRepo.Update(learningSession);
-
-            if (!answerQuestionResult.IsCorrect && !inTestMode)
-            {
-                learningSession.UpdateAfterWrongAnswerOrShowSolution(learningSessionStep);
-                answerQuestionResult.NewStepAdded = learningSession.Steps.Count > numberOfStepsBeforeAnswer;
-            }
-
-            answerQuestionResult.NumberSteps = learningSession.Steps.Count;
+                answerQuestionResult.NewStepAdded =  learningSession.AddAnswer(answerQuestionResult);
+                answerQuestionResult.NumberSteps = learningSession.Steps.Count; 
         });
-
         return result;
     }
 
@@ -154,7 +139,7 @@ public class AnswerQuestion : IRegisterAsInstancePerLifetime
                 _answerLog.CountUnansweredAsCorrect(question, userId, questionViewGuid, interactionNumber, millisecondsSinceQuestionView,new Guid(learningSessionStepGuid),learningSessionId), countUnansweredAsCorrect: true
             );
 
-        throw new Exception("neither countLastAnswerAsCorrect nor countUnansweredAsCorrect true");
+        throw new Exception("neither countLastAnswerAsCorrect or countUnansweredAsCorrect true");
     }
 
     public AnswerQuestionResult Run(

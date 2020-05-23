@@ -53,7 +53,6 @@ class AnswerBodyLoader {
 
                     var skipstepIdx = this.id === "btnNext" ? -1 : 1; 
                     var url = "/AnswerQuestion/RenderAnswerBodyByLearningSession/?skipStepIdx=" + skipstepIdx;
-
                     self.loadNewQuestion(url);
                 });
 
