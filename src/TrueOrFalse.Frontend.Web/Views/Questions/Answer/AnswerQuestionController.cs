@@ -694,10 +694,6 @@ public class AnswerQuestionController : BaseController
             menuHtml = ViewRenderer.RenderPartialView("~/Views/Categories/Navigation/CategoryNavigation.ascx", new CategoryNavigationModel(), ControllerContext);
         }
 
-        var testSessionHeader = "";
-        if (includeTestSessionHeader)
-            testSessionHeader = ViewRenderer.RenderPartialView("~/Views/Questions/Answer/TestSession/TestSessionHeader.ascx", model, ControllerContext);
-
         var answerBody = ViewRenderer.RenderPartialView(
             "~/Views/Questions/Answer/AnswerBodyControl/AnswerBody.ascx",
             new AnswerBodyModel(model, isInLearningTab, isInTestMode),
@@ -706,7 +702,7 @@ public class AnswerQuestionController : BaseController
         var serializer = new JavaScriptSerializer();
         var serializedPageData = serializer.Serialize(new
         {
-            answerBodyAsHtml = testSessionHeader + answerBody,
+            answerBodyAsHtml = answerBody,
             navBarData = new
             {
                 nextUrl = nextPageLink,
