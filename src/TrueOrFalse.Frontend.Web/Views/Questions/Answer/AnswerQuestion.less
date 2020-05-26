@@ -232,8 +232,8 @@
 .SessionBar {
     font-size: @font-size-base;
     line-height: @line-height-base;
-    border: solid 2px @memo-green;
-    background-color: @memo-green;
+   // border: solid 2px @memo-green;
+    background-color: #dddddd;
     margin-bottom: 20px;
     .clearfix;
 
@@ -254,8 +254,10 @@
     height: 30px;
 }
 
-.SessionType, .QuestionCount {
-    background-color: @memo-green;
+.QuestionCount {
+    background-color: #dddddd;
+    float: left;
+
 
     .media-below-xs( {
         padding-left: 15px;
@@ -279,36 +281,17 @@
     padding-top: 5px;
 }
 
-.SessionType {
-    float: left;
-
-    span {
-        text-transform: uppercase;
-        font-weight: bold;
-    }
-
-    .media-xs-up( {
-        width: 20%;
-    }
-
-    );
-
-    .media-sm-up( {
-        width: 15%;
-    }
-
-    );
-
-    .media-md-up( {
-        width: 11%;
-    }
-
-    );
-}
-
 .ProgressBarContainer {
     display: table;
+    position: relative;
 
+    #spanPercentageDone{
+        position: absolute;
+        right: 5px;
+        margin-top: 5px;
+        z-index: 2;
+    }
+   
     .media-below-xs( {
         width: 100%;
     }
@@ -316,19 +299,19 @@
     );
 
     .media-xs-up( {
-        width: 50%;
+        width: 70%;
     }
 
     );
 
     .media-sm-up( {
-        width: 55%;
+        width: 70%;
     }
 
     );
 
     .media-md-up( {
-        width: 70%;
+        width: 81%;
     }
 
     );
@@ -356,7 +339,7 @@
 }
 
 .ProgressBarLeft {
-    background-color: lighten(@memo-green, 30);
+    background-color: #dddddd;
 }
 
 .CollectionType {
@@ -794,9 +777,9 @@
             margin-bottom: 0;
         }
 
-        .SessionBar {
+        /*.SessionBar {
             margin-bottom: 15px;
-        }
+        }*/
 
         #LicenseQuestion {
             margin-top: 10px;

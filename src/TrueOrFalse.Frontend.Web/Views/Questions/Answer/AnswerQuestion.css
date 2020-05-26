@@ -293,8 +293,7 @@
 .SessionBar {
   font-size: 14px;
   line-height: 1.42857143;
-  border: solid 2px #AFD534;
-  background-color: #AFD534;
+  background-color: #dddddd;
   margin-bottom: 20px;
 }
 .SessionBar:before,
@@ -332,54 +331,35 @@
 .ProgressBarSegment {
   height: 30px;
 }
-.SessionType,
 .QuestionCount {
-  background-color: #AFD534;
+  background-color: #dddddd;
+  float: left;
   padding-top: 5px;
 }
 @media (max-width: 479px) {
-  .SessionType,
   .QuestionCount {
     padding-left: 15px;
     padding-right: 15px;
   }
 }
 @media (min-width: 480px) {
-  .SessionType,
   .QuestionCount,
-  .SessionType span,
   .QuestionCount span {
     text-align: center;
   }
 }
-.SessionType > span,
 .QuestionCount > span {
   width: 100%;
 }
-.SessionType {
-  float: left;
-}
-.SessionType span {
-  text-transform: uppercase;
-  font-weight: bold;
-}
-@media (min-width: 480px) {
-  .SessionType {
-    width: 20%;
-  }
-}
-@media (min-width: 768px) {
-  .SessionType {
-    width: 15%;
-  }
-}
-@media (min-width: 992px) {
-  .SessionType {
-    width: 11%;
-  }
-}
 .ProgressBarContainer {
   display: table;
+  position: relative;
+}
+.ProgressBarContainer #spanPercentageDone {
+  position: absolute;
+  right: 5px;
+  margin-top: 5px;
+  z-index: 2;
 }
 @media (max-width: 479px) {
   .ProgressBarContainer {
@@ -388,17 +368,17 @@
 }
 @media (min-width: 480px) {
   .ProgressBarContainer {
-    width: 50%;
+    width: 70%;
   }
 }
 @media (min-width: 768px) {
   .ProgressBarContainer {
-    width: 55%;
+    width: 70%;
   }
 }
 @media (min-width: 992px) {
   .ProgressBarContainer {
-    width: 70%;
+    width: 81%;
   }
 }
 .ProgressBarSegment {
@@ -420,7 +400,7 @@
   overflow: visible;
 }
 .ProgressBarLeft {
-  background-color: #e1efb3;
+  background-color: #dddddd;
 }
 .CollectionType {
   float: left;
@@ -847,14 +827,16 @@
     max-height: 250px;
   }
 }
+#MasterWidget {
+  /*.SessionBar {
+            margin-bottom: 15px;
+        }*/
+}
 #MasterWidget #AnswerBody {
   border: none;
   -webkit-box-shadow: none;
           box-shadow: none;
   margin-bottom: 0;
-}
-#MasterWidget .SessionBar {
-  margin-bottom: 15px;
 }
 #MasterWidget #LicenseQuestion {
   margin-top: 10px;

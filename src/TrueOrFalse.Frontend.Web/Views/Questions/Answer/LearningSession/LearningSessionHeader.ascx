@@ -19,28 +19,11 @@
 </div>
 
 <div class="SessionBar">
-    <div class="QuestionCount" style="float: right;">Frage <span id="CurrentStepNumber"><%= Model.CurrentLearningStepIdx + 1 %></span> von <span id="StepCount"><%= Model.CategoryModel.AggregatedQuestionCount %></span></div>
-    <div class="SessionType">
-        <span id="SessionTitleSpan" class="show-tooltip"
-        data-original-title="<%= @"<div style='text-align: left;'>In diesem Modus
-                <ul>
-                    <li>wiederholst du personalisiert die Fragen, die du am dringendsten lernen solltest</li>
-                    <li>kannst du dir die Lösung anzeigen lassen</li>
-                    <li>werden dir Fragen, die du nicht richtig beantworten konntest, nochmal vorgelegt</li>
-                </ul>
-            </div>"%>" data-html="true" style="float: left;">
-            Lernen
-            <span class="fa-stack fa-1x" style="font-size: 10px; top: -1px;">
-                <i class="fa fa-circle fa-stack-2x" style="color: #e1efb3;"></i>
-                <i class="fa fa-info fa-stack-1x" style=""></i>
-            </span>
-        </span>
-    </div>
+    <div class="QuestionCount">Frage <span id="CurrentStepNumber"><%= Model.CurrentLearningStepIdx + 1 %></span> von <span id="StepCount"><%= Model.CategoryModel.AggregatedQuestionCount %></span></div>
     <div class="ProgressBarContainer">
+        <span id="spanPercentageDone"><%= Model.CurrentLearningStepPercentage %>%</span>
         <div id="progressPercentageDone" class="ProgressBarSegment ProgressBarDone" style="width: <%= Model.CurrentLearningStepPercentage== 0 ? "0" : Model.CurrentLearningStepPercentage + "%" %>;">
-            <div class="ProgressBarSegment ProgressBarLegend">
-                <span id="spanPercentageDone"><%= Model.CurrentLearningStepPercentage %>%</span>
-            </div>
+            <div class="ProgressBarSegment ProgressBarLegend"></div>
         </div>
         <% if (Model.CurrentLearningStepPercentage < 100) {%>
             <div class="ProgressBarSegment ProgressBarLeft" style="width: 100%;"></div>
