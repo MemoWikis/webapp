@@ -155,8 +155,10 @@ class AnswerBodyLoader {
                     $("#QuestionDetails").empty();
                 }
 
-                if ($("#hddIsLearningSession").val() !== "True" || !this._answerBody.IsTestSession()) 
-                    this.updateNavigationBar(result.navBarData);
+                this.updateSessionHeader(result.sessionData);
+
+                //if ($("#hddIsLearningSession").val() !== "True" || !this._answerBody.IsTestSession()) 
+                //    this.updateNavigationBar(result.navBarData);
 
                 this.updateMenu(result.menuHtml);
                 document.title = $(".QuestionText").html();
@@ -234,5 +236,19 @@ class AnswerBodyLoader {
     private updateMenu(newMenuHtml: string) {
         if(newMenuHtml)
             $("#mainMenuThemeNavigation").replaceWith($(newMenuHtml));
+    }
+
+    private updateSessionHeader(sessionStepData) {
+        if ($("#hddIsTestSession").val() === "True") {
+            $("#hddIsTestSession").attr("data-current-step-idx", sessionStepData.currentStepIdx);
+            $("#hddIsTestSession").attr("data-is-last-step", sessionStepData.isLastStep);
+            $(".SessionBar .QuestionCount").html(sessionStepData.currentSessionHeader);
+        }
+        else if ($("#hddIsLearningSession").val() === "True") {
+            $("#hddIsLearningSession").attr("data-current-step-idx", sessionStepData.currentStepIdx);
+            $("#hddIsLearningSession").attr("data-skip-step-index", sessionStepData.skipStepIdx);
+            $("#hddIsLearningSession").attr("data-is-last-step", sessionStepData.isLastStep);
+            $(".SessionBar .QuestionCount").html(sessionStepData.currentSessionHeader);
+        }
     }
 }
