@@ -157,9 +157,6 @@ class AnswerBodyLoader {
 
                 this.updateSessionHeader(result.sessionData);
 
-                //if ($("#hddIsLearningSession").val() !== "True" || !this._answerBody.IsTestSession()) 
-                //    this.updateNavigationBar(result.navBarData);
-
                 this.updateMenu(result.menuHtml);
                 document.title = $(".QuestionText").html();
                 $("div#comments").replaceWith(result.commentsAsHtml);
@@ -196,30 +193,6 @@ class AnswerBodyLoader {
                 eventBus.$emit('reload-question-details');
             }
         });
-    }
-
-    private updateNavigationBar(navBarData: any) {
-        $("#AnswerQuestionPager .Current").replaceWith($(navBarData.currentHtml).find(".Current"));
-
-        if (navBarData.nextUrl) {
-            if($("#NextQuestionLink").length === 0)
-                $("#AnswerQuestionPager .Next").append($(navBarData.currentHtml).find("#NextQuestionLink"));
-            else
-                $("#NextQuestionLink").attr("href", navBarData.nextUrl);
-        } else {
-            $("#NextQuestionLink").remove();
-        }
-
-        if (navBarData.previousUrl) {
-            if ($("#PreviousQuestionLink").length === 0)
-                $("#AnswerQuestionPager .Previous").append($(navBarData.currentHtml).find("#PreviousQuestionLink"));
-            else
-                $("#PreviousQuestionLink").attr("href", navBarData.previousUrl);
-        } else {
-            $("#PreviousQuestionLink").remove();
-        }
-
-        $("#NextQuestionLink, #PreviousQuestionLink").unbind();
     }
 
     private showLearningSessionResult(result) {

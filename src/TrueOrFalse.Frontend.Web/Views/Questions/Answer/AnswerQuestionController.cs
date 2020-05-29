@@ -50,7 +50,6 @@ public class AnswerQuestionController : BaseController
     public ActionResult Learn( int skipStepIdx = -1)
     {
         var learningSession = Sl.SessionUser.LearningSession;
-        var currentStep = learningSession.CurrentStep;
 
         if (learningSession.User != _sessionUser.User)
             throw new Exception("not logged in or not possessing user");
@@ -106,9 +105,7 @@ public class AnswerQuestionController : BaseController
         var sessionCount = sessionUser.TestSessions.Count(s => s.Id == testSessionId);
 
         if (sessionCount == 0)
-        {
-            //Logg.r().Error("SessionCount 0");
-            //return View(_viewLocation, AnswerQuestionModel.CreateExpiredTestSession());
+        { 
             throw new Exception("SessionCount is 0. Shoult be 1");
         }
 
@@ -466,7 +463,6 @@ public class AnswerQuestionController : BaseController
         );
     }
 
-    //AnswerBodyLoader: AnswerBody + NavBar + PageUrl
     public string RenderAnswerBodyByNextQuestion(string pager)
     {
         var activeSearchSpec = Resolve<QuestionSearchSpecSession>().ByKey(pager);
@@ -541,7 +537,9 @@ public class AnswerQuestionController : BaseController
         user.LearningSession = learningSession;
         Sl.SessionUser.LearningSession = learningSession;
 
-        return RenderAnswerBodyByLearningSession(-1, isInLearningTab: config.IsInLearningTab, isInTestMode: config.IsInTestmode);
+        var firstStep = 0; 
+
+        return RenderAnswerBodyByLearningSession(firstStep, isInLearningTab: config.IsInLearningTab, isInTestMode: config.IsInTestmode);
     }
 
 
@@ -562,15 +560,16 @@ public class AnswerQuestionController : BaseController
     {
         var learningSession = Sl.SessionUser.LearningSession;
 
-        if (skipStepIdx != -1)
+
+        if (skipStepIdx != -1 && skipStepIdx != 0)
             learningSession.SkipStep();
-        else
+        else if(skipStepIdx != 0)
             learningSession.NextStep();
         
         Sl.SessionUser.LearningSession = learningSession;
 
-        if (learningSession.CurrentIndex == -1)
-            return RenderLearningSessionResult();
+        if (learningSession.IsLastStep)
+            return RenderLearningSessionResult(learningSession);
 
         var questionViewGuid = Guid.NewGuid();
 
@@ -588,7 +587,7 @@ public class AnswerQuestionController : BaseController
        // ControllerContext.RouteData.Values.Add("learningSessionId", 1);
        // ControllerContext.RouteData.Values.Add("learningSessionName", learningSessionName);
 
-        string currentSessionHeader = "Frage <span id = \"CurrentStepNumber\">" + (model.CurrentLearningStepIdx) + "</span> von <span id=\"StepCount\">" + model.LearningSession.Steps.Count + "</span>";
+        string currentSessionHeader = "Frage <span id = \"CurrentStepNumber\">" + (model.CurrentLearningStepIdx + 1 ) + "</span> von <span id=\"StepCount\">" + model.LearningSession.Steps.Count + "</span>";
         int currentStepIdx = learningSession.CurrentIndex;
         bool isLastStep = model.IsLastLearningStep;
         string currentUrl = Links.LearningSession(learningSession);
@@ -752,8 +751,6 @@ public class AnswerQuestionController : BaseController
     [SetThemeMenu(isLearningSessionPage: true)]
     public string RenderLearningSessionResult(LearningSessionNew learningSession = null, bool isInTestMode = false)
     {
-
-
         //if (learningSession.User != _sessionUser.User)
         //    throw new Exception("not logged in or not possessing user");
 
