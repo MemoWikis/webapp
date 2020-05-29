@@ -156,7 +156,7 @@ class AnswerQuestion {
             });
 
         $("#aSkipStep").click(e => {
-            this.UpdateProgressBar(this.GetCurrentStep());
+            this.UpdateProgressBar(this.GetCurrentSteps());
         });
 
         this.FlashCardCheck();
@@ -421,7 +421,7 @@ class AnswerQuestion {
                         $("#answerHistory").html(data);
                     });
 
-                self.UpdateProgressBar(self.GetCurrentStep() - 1);
+                self.UpdateProgressBar(self.GetCurrentSteps() - 1);
 
                 if (self._isLastLearningStep) {
                     $('#btnNext').html('Zum Ergebnis');
@@ -508,7 +508,7 @@ class AnswerQuestion {
             raiseTo = +AnswerQuestion.TestSessionProgressAfterAnswering;
         } else if (this.IsLearningSession) {
             raiseTo = Math.round(numberStepsDone / numberStepsUpdated * 100);
-            stepNumberChanged = this.GetCurrentStep() != numberStepsUpdated;
+            stepNumberChanged = this.GetCurrentSteps() != numberStepsUpdated;
             if (stepNumberChanged) {
                 $("#StepCount").fadeOut(100);
             }
@@ -542,7 +542,7 @@ class AnswerQuestion {
         }
     }
 
-    GetCurrentStep() : number {
+    GetCurrentSteps() : number {
         return parseInt($("#StepCount").html());
     }
 

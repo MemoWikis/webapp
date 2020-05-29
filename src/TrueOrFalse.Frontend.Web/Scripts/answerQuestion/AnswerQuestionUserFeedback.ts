@@ -133,7 +133,7 @@
                     cache: false
                 });
 
-                this._answerQuestion.UpdateProgressBar(this._answerQuestion.GetCurrentStep());
+                this._answerQuestion.UpdateProgressBar(this._answerQuestion.GetCurrentSteps());
 
                 AnswerQuestionUserFeedback.IfLastTestQuestionChangeBtnNextToResult();
             }
