@@ -156,7 +156,8 @@ class AnswerQuestion {
             });
 
         $("#aSkipStep").click(e => {
-            this.UpdateProgressBar(this.GetCurrentSteps());
+            var isReAddet = true; 
+            this.UpdateProgressBar(this.GetCurrentSteps(), null, isReAddet);
         });
 
         this.FlashCardCheck();
@@ -496,7 +497,7 @@ class AnswerQuestion {
         });
     }
 
-    UpdateProgressBar(numberSteps: number = -1, answerResult: any = null) {
+    UpdateProgressBar(numberSteps: number = -1, answerResult: any = null, IsReaddet = false) {
 
         var raiseTo: number;
         var percentage: number = parseInt($("#spanPercentageDone").html());
@@ -507,7 +508,7 @@ class AnswerQuestion {
         if (this.IsTestSession) {
             raiseTo = +AnswerQuestion.TestSessionProgressAfterAnswering;
         } else if (this.IsLearningSession) {
-            raiseTo = Math.round(numberStepsDone / numberStepsUpdated * 100);
+            raiseTo = IsReaddet ? Math.round(numberStepsDone / (numberStepsUpdated + 1) * 100) : Math.round(numberStepsDone / (numberStepsUpdated) * 100);
             stepNumberChanged = this.GetCurrentSteps() != numberStepsUpdated;
             if (stepNumberChanged) {
                 $("#StepCount").fadeOut(100);
