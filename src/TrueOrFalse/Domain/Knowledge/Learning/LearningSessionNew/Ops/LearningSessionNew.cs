@@ -14,8 +14,7 @@ public class LearningSessionNew
     public string UrlName = ""; 
 
     public User User;
-    public bool IsLoggedIn; 
-
+    public bool IsLoggedIn;
 
 
     public LearningSessionNew(List<LearningSessionStepNew> learningSessionSteps, LearningSessionConfig config)
@@ -45,11 +44,6 @@ public class LearningSessionNew
 
         if (!IsLastStep)
             CurrentIndex++;
-
-        //if(IsLastStep)
-        //RenderNextQuestion
-        //else
-        //Render ResultSite
     }
 
     public void SkipStep()
