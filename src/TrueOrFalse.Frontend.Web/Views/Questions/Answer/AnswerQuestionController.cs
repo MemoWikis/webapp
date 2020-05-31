@@ -250,12 +250,12 @@ public class AnswerQuestionController : BaseController
         int learningSessionId = 0,
         Guid questionViewGuid = new Guid(),
         int interactionNumber=0 ,
-        // Guid stepGuid = new Guid(),
         string answer = "",
         int millisecondsSinceQuestionView = 0,
         bool inTestMode = false
     )
     {
+        questionViewGuid = Sl.SessionUser.LearningSession.CurrentStep.QuestionViewGuid;
         var result = _answerQuestion.Run(id, answer, UserId, questionViewGuid, interactionNumber,
             millisecondsSinceQuestionView, learningSessionId, new Guid(), inTestMode);
         var question = _questionRepo.GetById(id);
@@ -304,22 +304,8 @@ public class AnswerQuestionController : BaseController
         var question = _questionRepo.GetById(id);
         var solution = GetQuestionSolution.Run(question);
 
-        if (IsLoggedIn)
-            if (roundId == null)
-                if (LearningSessionStepGuidString != "" && LearningSessionId != -1)
-                {
-                    var LearningSessionStepGuid = new Guid(LearningSessionStepGuidString);
-                    R<AnswerLog>()
-                        .LogAnswerView(question, this.UserId, questionViewGuid, interactionNumber,
-                            millisecondsSinceQuestionView, null, LearningSessionId, LearningSessionStepGuid);
-                }
-                else
-                {
-                    R<AnswerLog>()
-                        .LogAnswerView(question, this.UserId, questionViewGuid, interactionNumber,
-                            millisecondsSinceQuestionView);
-                }
-            else
+        var isSingleQuestion = false;
+            if (IsLoggedIn && isSingleQuestion) 
                 R<AnswerLog>()
                     .LogAnswerView(question, this.UserId, questionViewGuid, interactionNumber,
                         millisecondsSinceQuestionView, roundId);
@@ -403,8 +389,8 @@ public class AnswerQuestionController : BaseController
         if (learningSessionId != null)
         {
             var learningSession = Sl.Resolve<SessionUser>().LearningSession;
-            ControllerContext.RouteData.Values.Add("learningSessionId", learningSessionId);
-            ControllerContext.RouteData.Values.Add("learningSessionName", learningSession.UrlName);
+            //ControllerContext.RouteData.Values.Add("learningSessionId", learningSessionId);
+            //ControllerContext.RouteData.Values.Add("learningSessionName", learningSession.UrlName);
             var learningSessionQuestionViewGuid = Guid.NewGuid();
 
             answerQuestionModel = new AnswerQuestionModel(learningSession, isMobileDevice);
@@ -571,8 +557,9 @@ public class AnswerQuestionController : BaseController
         if (learningSession.IsLastStep)
             return RenderLearningSessionResult(learningSession);
 
-        var questionViewGuid = Guid.NewGuid();
+        var questionViewGuid = learningSession.CurrentStep.QuestionViewGuid; 
 
+        learningSession.Steps[learningSession.CurrentIndex].QuestionViewGuid = questionViewGuid;
         var question = learningSession.Steps[learningSession.CurrentIndex].Question;
 
         var sessionUserId = _sessionUser == null ? -1 : _sessionUser.UserId;
