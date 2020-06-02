@@ -11,8 +11,7 @@ public class AnswerQuestionModel : BaseModel
 {
     public Func<UrlHelper, string> PreviousUrl;
     public Func<UrlHelper, string> NextUrl;
-    public CategoryModel CategoryModel; 
-
+    public CategoryModel CategoryModel;
     public Guid QuestionViewGuid;
 
     public string DescriptionForSearchEngines;
@@ -121,8 +120,6 @@ public class AnswerQuestionModel : BaseModel
 
     public AnswerQuestionModel(Question question, bool? isMobileDevice = null, bool showCategoryList = true, CategoryModel categoryModel= null)
     {
-        if(this.QuestionViewGuid == Guid.Empty)
-            QuestionViewGuid = Guid.NewGuid();
         CategoryModel = categoryModel;
         IsMobileDevice = isMobileDevice;
         HasNextPage = HasPreviousPage = false;
@@ -142,7 +139,6 @@ public class AnswerQuestionModel : BaseModel
         CurrentLearningStepIdx = LearningSession.CurrentIndex;
 
         LearningSessionStep = LearningSession.Steps[CurrentLearningStepIdx];
-//LearningSessionStep.Question = Sl.QuestionRepo.GetById(LearningSessionStep.Question.Id);//Prevents nhibernate lazy load exception
 
         IsLastLearningStep = CurrentLearningStepIdx + 1 == LearningSession.Steps.Count();
 
@@ -154,43 +150,6 @@ public class AnswerQuestionModel : BaseModel
 
         Populate(LearningSessionStep.Question);
     }
-
-    //public AnswerQuestionModel(int dummyQuestionId, bool testSession = false)
-    //{
-    //    var dummyQuestion = Sl.QuestionRepo.GetById(dummyQuestionId);
-
-    //    //LearningSession = new LearningSessionNew{Steps = new List<LearningSessionStep>()};      
-
-    //    for (var i = 0; i < LearningSession.DefaultNumberOfSteps; i++)
-    //    {
-    //        LearningSession.Steps.Add(new LearningSessionStep { Idx = i, Question = dummyQuestion });
-    //    }
-
-    //    Populate(dummyQuestion);
-
-    //}
-
-    //we have no TestSession this can deleted
-    public AnswerQuestionModel(TestSession testSession, Guid questionViewGuid, Question question, bool? isMobileDevice = null)
-    {
-        this.IsMobileDevice = isMobileDevice;
-
-        QuestionViewGuid = questionViewGuid;
-        TestSession = testSession;
-        IsTestSession = true;
-        TestSessionId = testSession.Id;
-        TestSessionCurrentStep = testSession.CurrentStepIndex;
-        TestSessionNumberOfSteps = testSession.NumberOfSteps;
-        TestSessionIsLastStep = testSession.CurrentStepIndex == testSession.NumberOfSteps;
-        TestSessionCurrentStepPercentage = TestSessionCurrentStep == 0
-            ? 0
-            : (int) Math.Round((TestSessionCurrentStep-1)/(float) TestSessionNumberOfSteps*100);
-        TestSessionProgessAfterAnswering = (int)Math.Round((TestSessionCurrentStep) / (float)TestSessionNumberOfSteps * 100);
-        NextUrl = url => url.Action("Test", Links.AnswerQuestionController);
-        HasNextPage = true;
-        Populate(question);
-    }
-
 
     //we have no widgets, this can deleted
     public AnswerQuestionModel(Guid questionViewGuid, Question question, QuestionSearchSpec searchSpec, bool? isMobileDevice = null)
