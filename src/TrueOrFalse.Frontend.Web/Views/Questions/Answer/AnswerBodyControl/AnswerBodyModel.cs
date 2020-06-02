@@ -71,7 +71,7 @@ public class AnswerBodyModel : BaseModel
 
     public AnswerBodyModel(AnswerQuestionModel answerQuestionModel, bool isInLearningTab = false, bool isInTestMode = false)
     {
-        QuestionViewGuid = answerQuestionModel.QuestionViewGuid;
+        QuestionViewGuid = Guid.NewGuid();
 
         IsInWishknowledge = answerQuestionModel.IsInWishknowledge;
 
