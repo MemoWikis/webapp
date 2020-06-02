@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO.Pipes;
 using System.Linq;
 using TrueOrFalse;
 
@@ -100,33 +101,15 @@ public class AnswerQuestion : IRegisterAsInstancePerLifetime
         if(countLastAnswerAsCorrect && countUnansweredAsCorrect)
             throw new Exception("either countLastAnswerAsCorrect OR countUnansweredAsCorrect should be set to true, not both");
 
-        if (testSessionId.HasValue && (countLastAnswerAsCorrect || countUnansweredAsCorrect))
-        {
-            var currentStep = Sl.SessionUser.GetPreviousTestSessionStep(testSessionId.Value);
-            currentStep.AnswerState = TestSessionStepAnswerState.AnsweredCorrect;
-        }
-
         if (learningSessionId.HasValue && (countLastAnswerAsCorrect || countUnansweredAsCorrect))
         {
-            var learningSession = Sl.LearningSessionRepo.GetById(learningSessionId.Value);
-            var learningSessionStep = learningSession.GetStep(new Guid(learningSessionStepGuid));
-            learningSessionStep.AnswerState = StepAnswerState.Answered;
-            learningSessionStep.LearningSessionId = learningSessionId; 
+            var learningSession = Sl.SessionUser.LearningSession;
+            var learningSessionStep = learningSession.CurrentStep;
 
-            var duplicateStep = learningSession.Steps.Where(x => x.Question == learningSessionStep.Question &&
-                                                                        x.Idx > learningSessionStep.Idx).ToList();
-            if (duplicateStep.Count > 1)
-                throw new Exception(
-                    "There shouldn't be more than one extra unanswered step of the same question in learning session");
+           var answer =   Sl.AnswerRepo.GetByQuestionViewGuid(learningSessionStep.QuestionViewGuid).OrderByDescending(a => a.Id).First();
+           answer.AnswerredCorrectly = AnswerCorrectness.MarkedAsTrue; 
 
-            if (duplicateStep.Count > 0)
-            {
-                learningSession.Steps.Remove(duplicateStep.First());
-                learningSession.ReindexSteps();
-            }
-
-            Sl.AnswerRepo.Update(learningSessionStep.AnswerWithInput);
-            Sl.LearningSessionRepo.Update(learningSession);
+           // Sl.AnswerRepo.Update(learningSessionStep.AnswerWithInput);
         }
 
         if (countLastAnswerAsCorrect || countUnansweredAsCorrect && testSessionId != null)
