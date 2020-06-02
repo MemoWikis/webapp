@@ -1,14 +1,9 @@
 ﻿using StackExchange.Profiling;
 using System;
-using System.Activities.Expressions;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using System.Web.Mvc;
 using System.Web.Script.Serialization;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
-using NHibernate.Mapping;
 using TrueOrFalse;
 using TrueOrFalse.Frontend.Web.Code;
 using TrueOrFalse.Search;
@@ -75,22 +70,6 @@ public class AnswerQuestionController : BaseController
 
         return View(_viewLocation,
             new AnswerQuestionModel(Sl.Resolve<SessionUser>().LearningSession));
-    }
-
-    [SetThemeMenu(isTestSessionPage: true)]
-    public ActionResult Test(int testSessionId)
-    {
-        return TestActionShared(
-            testSessionId,
-            testSession => RedirectToAction(
-                Links.TestSessionResultAction,
-                Links.TestSessionResultController,
-                new {name = testSession.UriName, testSessionId = testSessionId}
-            ),
-            (testSession, questionViewGuid, question) => View(
-                _viewLocation,
-                new AnswerQuestionModel(testSession, questionViewGuid, question))
-        );
     }
 
     public static ActionResult TestActionShared(
@@ -249,7 +228,7 @@ public class AnswerQuestionController : BaseController
         int id,
         int learningSessionId = 0,
         Guid questionViewGuid = new Guid(),
-        int interactionNumber=0 ,
+        int interactionNumber = 0 ,
         string answer = "",
         int millisecondsSinceQuestionView = 0,
         bool inTestMode = false
@@ -389,9 +368,6 @@ public class AnswerQuestionController : BaseController
         if (learningSessionId != null)
         {
             var learningSession = Sl.Resolve<SessionUser>().LearningSession;
-            //ControllerContext.RouteData.Values.Add("learningSessionId", learningSessionId);
-            //ControllerContext.RouteData.Values.Add("learningSessionName", learningSession.UrlName);
-            var learningSessionQuestionViewGuid = Guid.NewGuid();
 
             answerQuestionModel = new AnswerQuestionModel(learningSession, isMobileDevice);
             if (hideAddToKnowledge.HasValue)
@@ -403,28 +379,6 @@ public class AnswerQuestionController : BaseController
                 ControllerContext
             );
         }
-        if (testSessionId != null)
-        {
-            var sessionUser = Sl.SessionUser;
-            var testSession = sessionUser.TestSessions.Find(s => s.Id == testSessionId);
-            var testSessionQuestion = Sl.QuestionRepo.GetById(testSession.Steps.ElementAt(testSession.CurrentStepIndex - 1).QuestionId);
-            var testSessionQuestionViewGuid = Guid.NewGuid();
-            var testSessionName = testSession.UriName;
-
-            ControllerContext.RouteData.Values.Add("testSessionId", testSessionId);
-            ControllerContext.RouteData.Values.Add("name", testSessionName);
-
-            answerQuestionModel = new AnswerQuestionModel(testSession, testSessionQuestionViewGuid, testSessionQuestion, isMobileDevice);
-            if (hideAddToKnowledge.HasValue)
-                answerQuestionModel.DisableAddKnowledgeButton = hideAddToKnowledge.Value;
-
-            return ViewRenderer.RenderPartialView(
-                "~/Views/Questions/Answer/AnswerBodyControl/AnswerBody.ascx",
-                new AnswerBodyModel(answerQuestionModel),
-                ControllerContext
-            );
-        }
-
         var question = Sl.QuestionRepo.GetById(questionId);
         if (isVideo)
         {
@@ -528,20 +482,6 @@ public class AnswerQuestionController : BaseController
         return RenderAnswerBodyByLearningSession(firstStep, isInLearningTab: config.IsInLearningTab, isInTestMode: config.IsInTestmode);
     }
 
-
-
-    //public string RenderAnswerBodyForNewCategoryTestSession(int categoryId, bool isInLearningTab = false, bool filterQuestions = false, QuestionFilterJson questionFilter = null)
-    //{   var category =  Sl.CategoryRepo.GetByIdEager(categoryId);
-
-    //    var sessionuser = new SessionUser();
-    //    var testSession = filterQuestions ? new TestSession(category, questionFilter) : new TestSession(category);
-
-    //    sessionuser.AddTestSession(testSession);
-     
-    //    return RenderAnswerBodyByTestSession(testSession.Id, includeTestSessionHeader:true, isInLearningTab: isInLearningTab);
-    //}
-
-    
     public string RenderAnswerBodyByLearningSession(int skipStepIdx = -1, bool isInLearningTab = false, bool isInTestMode = false)
     {
         var learningSession = Sl.SessionUser.LearningSession;
@@ -583,31 +523,6 @@ public class AnswerQuestionController : BaseController
 
         return GetQuestionPageData(model, currentUrl, sessionData, isSession: true, isInLearningTab:isInLearningTab, isInTestMode:isInTestMode);
     }
-
-    //public string RenderAnswerBodyByTestSession(int testSessionId, bool includeTestSessionHeader = false, bool isInLearningTab = false)
-    //{
-    //    var sessionUser = Sl.SessionUser;
-    //    var testSession = sessionUser.TestSessions.Find(s => s.Id == testSessionId);
-
-    //    var question = Sl.R<QuestionRepo>().GetById(testSession.Steps.ElementAt(testSession.CurrentStepIndex - 1).QuestionId);
-    //    var questionViewGuid = Guid.NewGuid();
-
-    //    Sl.SaveQuestionView.Run(questionViewGuid, question, sessionUser.User);
-
-    //    var model = new AnswerQuestionModel(testSession, questionViewGuid, question);
-
-    //    ControllerContext.RouteData.Values.Add("testSessionId", testSessionId);
-    //    ControllerContext.RouteData.Values.Add("name", testSession.UriName);
-
-    //    string currentSessionHeader = "Frage " + model.TestSessionCurrentStep + " von " + model.TestSessionNumberOfSteps;
-    //    int currentStepIdx = model.TestSessionCurrentStep;
-    //    bool isLastStep = model.TestSessionIsLastStep;
-    //    string currentUrl = Links.TestSession(testSession.UriName, testSessionId);
-
-    //    var sessionData = new SessionData(currentSessionHeader, currentStepIdx, isLastStep);
-
-    //    return GetQuestionPageData(model, currentUrl, sessionData, isSession: true, testSessionId: testSessionId, includeTestSessionHeader: includeTestSessionHeader, isInLearningTab: isInLearningTab);
-    //}
 
     public string RenderUpdatedQuestionDetails(int questionId, bool showCategoryList = true)
     {
