@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 [Serializable]
 public class LearningSessionNew
@@ -59,6 +60,13 @@ public class LearningSessionNew
             CurrentIndex++;
     }
 
+    public void MarkedAsTrue()
+    {
+        var answer = Sl.AnswerRepo.GetByQuestionViewGuid(CurrentStep.QuestionViewGuid).OrderBy(q => q.Id).Last();
+        answer.AnswerredCorrectly = AnswerCorrectness.MarkedAsTrue; 
+        Steps.RemoveAt(Steps.Count -1);
+    }
+
     private void ReAddCurrentStepToEnd(Guid questionViewGuid, int interaktionsNumber )
     {
         var step = new LearningSessionStepNew(CurrentStep.Question);
@@ -74,4 +82,6 @@ public class LearningSessionNew
     {
         return CurrentIndex == Steps.Count - 1;
     }
+
+
 }
