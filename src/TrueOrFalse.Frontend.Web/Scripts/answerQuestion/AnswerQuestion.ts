@@ -203,6 +203,7 @@ class AnswerQuestion {
                   this.ClickToContinue();
             }
             $('div#answerFeedbackTry, a#CountWrongAnswers').hide();
+            var isTestMode = $("input[name='r1']:checked").val() == "Test";
             $.ajax({
                 type: 'POST',
                 url: AnswerQuestion.ajaxUrl_SendAnswer,
@@ -211,7 +212,7 @@ class AnswerQuestion {
                     questionViewGuid: $('#hddQuestionViewGuid').val(),
                     interactionNumber: $('#hddInteractionNumber').val(),
                     millisecondsSinceQuestionView: AnswerQuestion.TimeSinceLoad($('#hddTimeRecords').attr('data-time-of-answer')),
-                    inTestMode: true
+                    inTestMode: isTestMode
 
                 }),
                 cache: false,
