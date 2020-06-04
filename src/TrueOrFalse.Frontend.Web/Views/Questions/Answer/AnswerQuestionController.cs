@@ -257,15 +257,16 @@ public class AnswerQuestionController : BaseController
     }
 
     [HttpPost]
-    public JsonResult AmendAfterShowSolution(int learningSessionId, Guid stepGuid, bool isInTestMode = false)
+    public JsonResult AmendAfterShowSolution( bool isInTestMode = false)
     {
-        var learningSessionStep = LearningSession.GetStep(learningSessionId, stepGuid);
-        var learningSession = Sl.R<LearningSessionRepo>().GetById(learningSessionId);
+        
+        var learningSession = Sl.SessionUser.LearningSession;
+        var learningSessionStep = learningSession.CurrentStep;
 
-        learningSessionStep.AnswerState = StepAnswerState.ShowedSolutionOnly;
+        learningSessionStep.AnswerState = AnswerStateNew.ShowedSolutionOnly;
 
         bool newStepAdded = !(learningSession.LimitForThisQuestionHasBeenReached(learningSessionStep) || learningSession.LimitForNumberOfRepetitionsHasBeenReached() || isInTestMode);
-        learningSession.UpdateAfterWrongAnswerOrShowSolution(learningSessionStep, isInTestMode);
+        learningSession.ShowSolution();
 
         return new JsonResult
         {

@@ -60,12 +60,22 @@ public class LearningSessionNew
             CurrentIndex++;
     }
 
+    public void ShowSolution()
+    {
+        if (LimitForThisQuestionHasBeenReached(CurrentStep) || LimitForNumberOfRepetitionsHasBeenReached() || Config.IsInTestmode)
+            return;
+        ReAddCurrentStepToEnd();
+
+    }
+
     private void ReAddCurrentStepToEnd()
     {
+        if (LimitForThisQuestionHasBeenReached(CurrentStep) || LimitForNumberOfRepetitionsHasBeenReached() || Config.IsInTestmode)
+            return; 
+
         var step = new LearningSessionStepNew(CurrentStep.Question);
 
         if(CurrentStep.AnswerState != AnswerStateNew.Skipped)
-
             Steps.Add(step);
     }
 
@@ -75,4 +85,13 @@ public class LearningSessionNew
     }
 
 
+    public virtual bool LimitForThisQuestionHasBeenReached(LearningSessionStepNew step)
+    {
+        return Steps.Count(s => s.Question == step.Question) >= 3;
+    }
+
+    public virtual bool LimitForNumberOfRepetitionsHasBeenReached()
+    {
+        return Steps.Count >= Steps.Select(s => s.Question).Distinct().Count() * 2;
+    }
 }
