@@ -106,7 +106,7 @@ public class AnswerQuestion : IRegisterAsInstancePerLifetime
             var learningSession = Sl.SessionUser.LearningSession;
             var learningSessionStep = learningSession.CurrentStep;
 
-           var answer =   Sl.AnswerRepo.GetByQuestionViewGuid(learningSessionStep.QuestionViewGuid).OrderByDescending(a => a.Id).First();
+           var answer =   Sl.AnswerRepo.GetByQuestionViewGuid(questionViewGuid).OrderByDescending(a => a.Id).First();
            answer.AnswerredCorrectly = AnswerCorrectness.MarkedAsTrue; 
 
            // Sl.AnswerRepo.Update(learningSessionStep.AnswerWithInput);

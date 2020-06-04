@@ -32,7 +32,7 @@ public class LearningSessionNew
         CurrentStep.AnswerState = answer.IsCorrect ? AnswerStateNew.Correct : AnswerStateNew.False;
         if (Config.ReAddStepsToEnd() && !answer.IsCorrect)
         {
-            ReAddCurrentStepToEnd(CurrentStep.QuestionViewGuid, CurrentStep.InteraktionsNumber);
+            ReAddCurrentStepToEnd();
             return true;
         }
 
@@ -52,7 +52,7 @@ public class LearningSessionNew
         CurrentStep.AnswerState = AnswerStateNew.Skipped;
 
         if (Config.ReAddStepsToEnd())
-            ReAddCurrentStepToEnd(CurrentStep.QuestionViewGuid, CurrentStep.InteraktionsNumber);
+            ReAddCurrentStepToEnd();
  
         IsLastStep = TestIsLastStep();
 
@@ -60,22 +60,13 @@ public class LearningSessionNew
             CurrentIndex++;
     }
 
-    public void MarkedAsTrue()
-    {
-        var answer = Sl.AnswerRepo.GetByQuestionViewGuid(CurrentStep.QuestionViewGuid).OrderBy(q => q.Id).Last();
-        answer.AnswerredCorrectly = AnswerCorrectness.MarkedAsTrue; 
-        Steps.RemoveAt(Steps.Count -1);
-    }
-
-    private void ReAddCurrentStepToEnd(Guid questionViewGuid, int interaktionsNumber )
+    private void ReAddCurrentStepToEnd()
     {
         var step = new LearningSessionStepNew(CurrentStep.Question);
-        step.QuestionViewGuid = questionViewGuid;
 
         if(CurrentStep.AnswerState != AnswerStateNew.Skipped)
-            step.InteraktionsNumber = ++interaktionsNumber; 
 
-        Steps.Add(step);
+            Steps.Add(step);
     }
 
     private bool TestIsLastStep()

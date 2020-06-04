@@ -41,6 +41,7 @@ public class AnswerQuestionController : BaseController
         return AnswerQuestion(text, id, elementOnPage, pager, category);
     }
 
+
     [SetThemeMenu(isLearningSessionPage: true)]
     public ActionResult Learn( int skipStepIdx = -1)
     {
@@ -234,7 +235,7 @@ public class AnswerQuestionController : BaseController
         bool inTestMode = false
     )
     {
-        questionViewGuid = Sl.SessionUser.LearningSession.CurrentStep.QuestionViewGuid;
+        questionViewGuid = questionViewGuid;
         var result = _answerQuestion.Run(id, answer, UserId, questionViewGuid, interactionNumber,
             millisecondsSinceQuestionView, learningSessionId, new Guid(), inTestMode);
         var question = _questionRepo.GetById(id);
@@ -497,9 +498,7 @@ public class AnswerQuestionController : BaseController
         if (learningSession.IsLastStep)
             return RenderLearningSessionResult(learningSession);
 
-        var questionViewGuid = learningSession.CurrentStep.QuestionViewGuid; 
-
-        learningSession.Steps[learningSession.CurrentIndex].QuestionViewGuid = questionViewGuid;
+        var questionViewGuid = Guid.NewGuid();
         var question = learningSession.Steps[learningSession.CurrentIndex].Question;
 
         var sessionUserId = _sessionUser == null ? -1 : _sessionUser.UserId;
@@ -510,9 +509,6 @@ public class AnswerQuestionController : BaseController
             sessionUserId);
 
         var model = new AnswerQuestionModel( learningSession, false);
-
-       // ControllerContext.RouteData.Values.Add("learningSessionId", 1);
-       // ControllerContext.RouteData.Values.Add("learningSessionName", learningSessionName);
 
         string currentSessionHeader = "Frage <span id = \"CurrentStepNumber\">" + (model.CurrentLearningStepIdx + 1 ) + "</span> von <span id=\"StepCount\">" + model.LearningSession.Steps.Count + "</span>";
         int currentStepIdx = learningSession.CurrentIndex;
