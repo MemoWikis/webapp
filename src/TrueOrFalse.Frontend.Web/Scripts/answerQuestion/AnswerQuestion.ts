@@ -449,15 +449,6 @@ class AnswerQuestion {
 
     static AjaxGetSolution(onSuccessAction) {
 
-        var self = this;
-
-        var LearningSessionStepGuid = "";
-        var LearningSessionId = -1;
-        if ($("#hddIsLearningSession").val() === "True") {
-            LearningSessionStepGuid = $("#hddIsLearningSession").attr("data-current-step-guid");
-            LearningSessionId = parseInt($("#hddIsLearningSession").attr("data-learning-session-id"));
-        }
-
         $.ajax({
             type: 'POST',
             url: AnswerQuestion.ajaxUrl_GetSolution,
@@ -465,8 +456,6 @@ class AnswerQuestion {
                 questionViewGuid: $('#hddQuestionViewGuid').val(),
                 interactionNumber: $('#hddInteractionNumber').val(),
                 millisecondsSinceQuestionView: AnswerQuestion.TimeSinceLoad($.now()),
-                LearningSessionId: LearningSessionId,
-                LearningSessionStepGuidString: LearningSessionStepGuid
             },
             cache: false,
             success: result => {

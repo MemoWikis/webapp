@@ -59,7 +59,7 @@ public class AnswerLog : IRegisterAsInstancePerLifetime
         }
     }
 
-    public void CountUnansweredAsCorrect(Question question, int userId, Guid questionViewGuid, int interactionNumber, int millisecondsSinceQuestionView, Guid learningSessionStepGuid, int? learningSessionId=-1)
+    public void CountUnansweredAsCorrect(Question question, int userId, Guid questionViewGuid, int interactionNumber, int millisecondsSinceQuestionView)
     {
         var answer = new Answer
         {
@@ -71,10 +71,6 @@ public class AnswerLog : IRegisterAsInstancePerLifetime
             AnswerText = "",
             AnswerredCorrectly = AnswerCorrectness.MarkedAsTrue,
             DateCreated = DateTime.Now,
-            LearningSessionStepGuid = learningSessionStepGuid,
-            LearningSession = learningSessionId !=-1 ? Sl.R<LearningSessionRepo>().GetById((int)learningSessionId) : null
-
-
         };
 
         _answerRepo.Create(answer);

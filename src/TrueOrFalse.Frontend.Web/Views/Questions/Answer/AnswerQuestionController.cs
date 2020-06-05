@@ -279,17 +279,12 @@ public class AnswerQuestionController : BaseController
     }
 
     [HttpPost]
-    public JsonResult GetSolution(int id, string answer, Guid questionViewGuid, int interactionNumber, int? roundId,
-        int millisecondsSinceQuestionView = -1, int LearningSessionId = -1, string LearningSessionStepGuidString = "")
+    public JsonResult GetSolution(int id, Guid questionViewGuid, int interactionNumber, int millisecondsSinceQuestionView = -1)
     {
         var question = _questionRepo.GetById(id);
         var solution = GetQuestionSolution.Run(question);
 
-        var isSingleQuestion = false;
-            if (IsLoggedIn && isSingleQuestion) 
-                R<AnswerLog>()
-                    .LogAnswerView(question, this.UserId, questionViewGuid, interactionNumber,
-                        millisecondsSinceQuestionView, roundId);
+        R<AnswerLog>().LogAnswerView(question, this.UserId, questionViewGuid, interactionNumber, millisecondsSinceQuestionView);
 
         EscapeReferencesText(question.References);
 
