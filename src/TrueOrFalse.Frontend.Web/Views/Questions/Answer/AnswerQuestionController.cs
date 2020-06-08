@@ -235,7 +235,6 @@ public class AnswerQuestionController : BaseController
         bool inTestMode = false
     )
     {
-        questionViewGuid = questionViewGuid;
         var result = _answerQuestion.Run(id, answer, UserId, questionViewGuid, interactionNumber,
             millisecondsSinceQuestionView, learningSessionId, new Guid(), inTestMode);
         var question = _questionRepo.GetById(id);
