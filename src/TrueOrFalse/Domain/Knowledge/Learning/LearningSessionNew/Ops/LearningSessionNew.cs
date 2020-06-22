@@ -70,7 +70,7 @@ public class LearningSessionNew
 
     private void ReAddCurrentStepToEnd()
     {
-        if (LimitForThisQuestionHasBeenReached(CurrentStep) || LimitForNumberOfRepetitionsHasBeenReached() || Config.IsInTestmode)
+        if (LimitForThisQuestionHasBeenReached(CurrentStep) || LimitForNumberOfRepetitionsHasBeenReached() || Config.IsInTestmode || Config.IsAnonymous())
             return; 
 
         var step = new LearningSessionStepNew(CurrentStep.Question);

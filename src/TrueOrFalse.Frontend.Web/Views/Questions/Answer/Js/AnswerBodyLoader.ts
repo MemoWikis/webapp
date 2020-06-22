@@ -15,6 +15,7 @@ class AnswerBodyLoader {
             return;
 
         $(() => {
+            var isTestSession = $("#hddIsTestSession").val() === "True";
 
             if (window.location.pathname.split("/")[4] === "im-Fragesatz") {
                 $("#NextQuestionLink, #btnNext").click((e) => {
@@ -41,9 +42,9 @@ class AnswerBodyLoader {
                     this.loadNewQuestion(primaryDataUrl);
                 });
 
-            } else if ($("#hddIsLearningSession").val() === "True") {
+            } else if ($("#hddIsLearningSession").val() === "True" || isTestSession) {
 
-                if ($("#hddIsLearningSession").attr("data-learning-session-id") == "-1") {
+                if ($("#hddIsLearningSession").attr("data-learning-session-id") == "-1" && !isTestSession) {
                     $("#hddIsLearningSession").attr("data-learning-session-id", "-2");
                     this.loadNewLearningSession();
                 }
@@ -56,19 +57,7 @@ class AnswerBodyLoader {
                     self.loadNewQuestion(url);
                 });
 
-            } else if (this._answerBody.IsTestSession()) {
-
-                $("#btnNext").click((e) => {
-                    e.preventDefault();
-                    var testSessionId = $("#hddIsTestSession").attr("data-test-session-id");
-                    var url = "/AnswerQuestion/RenderAnswerBodyByTestSession/?testSessionId=" +
-                        testSessionId +
-                        "&isInLearningTab" +
-                        this._isInLearningTab;
-                    this.loadNewQuestion(url);
-                });
-
-            } else {
+            }else {
                 $("#NextQuestionLink, #btnNext").click((e) => {
                     e.preventDefault();
                     var pager = $("#NextQuestionLink").attr("href").split("?")[1].split("=")[1];
@@ -108,6 +97,7 @@ class AnswerBodyLoader {
             categoryId: $('#hhdCategoryId').val(),
             isInLearningTab: this._isInLearningTab,
             questionFilter: questionFilter,
+            userId: $("#hddUserId").val(),
         }
 
         var url = "/AnswerQuestion/RenderNewAnswerBodySessionForCategory";

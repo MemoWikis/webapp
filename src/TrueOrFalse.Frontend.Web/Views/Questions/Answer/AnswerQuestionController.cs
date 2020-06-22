@@ -468,7 +468,8 @@ public class AnswerQuestionController : BaseController
     [HttpPost]
     public string RenderNewAnswerBodySessionForCategory(LearningSessionConfig config)
     {
-        var learningSession = LearningSessionNewCreator.ForLoggedInUser(config);
+        var learningSession = UserId != -1 ? LearningSessionNewCreator.ForLoggedInUser(config) : LearningSessionNewCreator.ForAnonymous(config);
+        
         var user = new SessionUser();
         user.LearningSession = learningSession;
         Sl.SessionUser.LearningSession = learningSession;
