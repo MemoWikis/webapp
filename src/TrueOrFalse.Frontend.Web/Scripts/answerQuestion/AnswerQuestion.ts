@@ -391,12 +391,8 @@ class AnswerQuestion {
             this.IncrementInteractionNumber();
         }
 
-        var url = this.AtLeastOneWrongAnswer
-            ? AnswerQuestion.ajaxUrl_CountLastAnswerAsCorrect
-            : AnswerQuestion.ajaxUrl_CountUnansweredAsCorrect;
-        var successMessage = this.AtLeastOneWrongAnswer
-            ? "Deine letzte Antwort wurde als richtig gewertet."
-            : "Die Frage wurde als richtig beantwortet gewertet.";
+        var url = this.AtLeastOneWrongAnswer ? AnswerQuestion.ajaxUrl_CountLastAnswerAsCorrect : AnswerQuestion.ajaxUrl_CountUnansweredAsCorrect;
+        var successMessage = this.AtLeastOneWrongAnswer ? "Deine letzte Antwort wurde als richtig gewertet." : "Die Frage wurde als richtig beantwortet gewertet.";
 
         $.ajax({
             type: 'POST',
