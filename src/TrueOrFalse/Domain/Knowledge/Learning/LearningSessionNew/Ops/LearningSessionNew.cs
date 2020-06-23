@@ -24,7 +24,8 @@ public class LearningSessionNew
         var userCashItem = UserCache.GetItem(config.UserId);
         User = userCashItem.User;  
         IsLoggedIn =  config.UserId != -1;
-        Config = config; 
+        Config = config;
+        Config.Category = EntityCache.GetCategory(Config.CategoryId);
     }
 
     public bool AddAnswer(AnswerQuestionResult answer)
@@ -93,5 +94,19 @@ public class LearningSessionNew
     public virtual bool LimitForNumberOfRepetitionsHasBeenReached()
     {
         return Steps.Count >= Steps.Select(s => s.Question).Distinct().Count() * 2;
+    }
+
+    public int TotalPossibleQuestions
+    {
+        get
+        {
+            if (!Config.IsWishSession)
+                return EntityCache.GetCategory(Config.CategoryId).CountQuestions;
+
+            if (Config.IsWishSession)
+                return User.WishCountQuestions;
+
+            throw new Exception("unknown session type");
+        }
     }
 }

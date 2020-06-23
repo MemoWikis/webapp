@@ -15,7 +15,6 @@ class AnswerBodyLoader {
             return;
 
         $(() => {
-            var isTestSession = $("#hddIsTestSession").val() === "True";
 
             if (window.location.pathname.split("/")[4] === "im-Fragesatz") {
                 $("#NextQuestionLink, #btnNext").click((e) => {
@@ -42,9 +41,9 @@ class AnswerBodyLoader {
                     this.loadNewQuestion(primaryDataUrl);
                 });
 
-            } else if ($("#hddIsLearningSession").val() === "True" || isTestSession) {
+            } else if ($("#hddIsLearningSession").val() === "True") {
 
-                if ($("#hddIsLearningSession").attr("data-learning-session-id") == "-1" && !isTestSession) {
+                if ($("#hddIsLearningSession").attr("data-learning-session-id") == "-1") {
                     $("#hddIsLearningSession").attr("data-learning-session-id", "-2");
                     this.loadNewLearningSession();
                 }

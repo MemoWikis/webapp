@@ -1,6 +1,4 @@
-class SolutionTypeMultipleChoice
-    extends AnswerEntryBase
-    implements IAnswerEntry
+class SolutionTypeMultipleChoice extends AnswerEntryBase implements IAnswerEntry
 {
     public SolutionType = SolutionType.MultipleChoice;
 

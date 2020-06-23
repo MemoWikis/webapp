@@ -235,6 +235,7 @@ public class AnswerQuestionController : BaseController
         bool inTestMode = false
     )
     {
+        Sl.SessionUser.LearningSession.CurrentStep.Answer = answer; 
         var result = _answerQuestion.Run(id, answer, UserId, questionViewGuid, interactionNumber,
             millisecondsSinceQuestionView, learningSessionId, new Guid(), inTestMode);
         var question = _questionRepo.GetById(id);
@@ -479,6 +480,7 @@ public class AnswerQuestionController : BaseController
         return RenderAnswerBodyByLearningSession(firstStep, isInLearningTab: config.IsInLearningTab, isInTestMode: config.IsInTestmode);
     }
 
+    [HttpPost]
     public string RenderAnswerBodyByLearningSession(int skipStepIdx = -1, bool isInLearningTab = false, bool isInTestMode = false)
     {
         var learningSession = Sl.SessionUser.LearningSession;
@@ -645,28 +647,18 @@ public class AnswerQuestionController : BaseController
     [SetThemeMenu(isLearningSessionPage: true)]
     public string RenderLearningSessionResult(LearningSessionNew learningSession = null, bool isInTestMode = false)
     {
-        //if (learningSession.User != _sessionUser.User)
-        //    throw new Exception("not logged in or not possessing user");
-
-        //if (!learningSession.IsLastStep)
-        //{
-        //    learningSession.CompleteSession();
-        //}
-
-        //var currentUrl = Links.LearningSessionResult(learningSession);
-
-        //var serializer = new JavaScriptSerializer();
-        //return serializer.Serialize(
-        //    new
-        //    {
-        //        LearningSessionResult =
-        //        ViewRenderer.RenderPartialView(
-        //            "~/Views/Questions/Answer/LearningSession/LearningSessionResultInner.ascx",
-        //            new LearningSessionResultModel(learningSession, isInTestMode: isInTestMode), ControllerContext),
-        //        url = currentUrl,
-        //        offlineDevelopment = Settings.DevelopOffline()
-        //    }
-        //);
+        var serializer = new JavaScriptSerializer();
+        return serializer.Serialize(
+            new
+            {
+                LearningSessionResult =
+                ViewRenderer.RenderPartialView(
+                    "~/Views/Questions/Answer/LearningSession/LearningSessionResultInner.ascx",
+                    new LearningSessionResultModel(learningSession, isInTestMode: isInTestMode), ControllerContext),
+                url = "",
+                offlineDevelopment = Settings.DevelopOffline()
+            }
+        );
         return "";
     }
 

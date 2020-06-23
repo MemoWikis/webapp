@@ -4,11 +4,14 @@
 public class LearningSessionConfig
 {
     public int CategoryId { get; set; }
-    public int MaxQuestions = 10; 
+    public Category Category { get; set; }
+
+    public int MaxQuestions = 2; 
     public bool OnlyWuwi { get; set; }
     public int UserId { get; set; }
     public bool IsInTestmode { get; set; }
     public bool IsInLearningTab { get; set; } = false;
+    public bool IsWishSession { get; set; }
 
     /// <summary>
     /// User is not logged in

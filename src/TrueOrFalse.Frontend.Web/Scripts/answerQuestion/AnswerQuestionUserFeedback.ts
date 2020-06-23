@@ -17,15 +17,15 @@
         this._answerQuestion = answerQuestion;
     }
 
-    public ShowErrorGame() {
-        $("#divWrongAnswerPlay").show();
-        $("#buttons-first-try").hide();
-        $("#buttons-answer-again").hide();
+    //public ShowErrorGame() {
+    //    $("#divWrongAnswerPlay").show();
+    //    $("#buttons-first-try").hide();
+    //    $("#buttons-answer-again").hide();
 
-        $("#divWrongEnteredAnswer").html(this._answerQuestion.AnswersSoFar[0]);
+    //    $("#divWrongEnteredAnswer").html(this._answerQuestion.AnswersSoFar[0]);
 
-        this.AnimateWrongAnswer();
-    }
+    //    this.AnimateWrongAnswer();
+    //}
 
     public ShowError(text = "", forceShow: boolean = false) {
 
@@ -118,26 +118,6 @@
 
         AnswerQuestion.AjaxGetSolution(result => {
 
-            if (this._answerQuestion.IsTestSession && this._answerQuestion.AnswersSoFar.length === 0) {
-                //if solution is shown after answering the question in a TestSession, then this does not need to be registered
-                //otherwise, solutionview needs to be registered in the current TestSessionStep
-                $.ajax({
-                    type: 'POST',
-                    url: AnswerQuestion.ajaxUrl_TestSessionRegisterAnsweredQuestion,
-                    data: {
-                        testSessionId: AnswerQuestion.TestSessionId,
-                        questionId: AnswerQuestion.GetQuestionId(),
-                        questionViewGuid: $('#hddQuestionViewGuid').val(),
-                        answeredQuestion: false
-                    },
-                    cache: false
-                });
-
-                this._answerQuestion.UpdateProgressBar(this._answerQuestion.GetCurrentSteps());
-
-                AnswerQuestionUserFeedback.IfLastTestQuestionChangeBtnNextToResult();
-            }
-
             if (this._answerQuestion.IsLearningSession && this._answerQuestion.AnswersSoFar.length === 0) {
                 //if is learningSession and user asked to show solution before answering, then queue this question to be answered again
                 var self = this;
@@ -147,7 +127,6 @@
                     type: 'POST',
                     url: AnswerQuestion.ajaxUrl_LearningSessionAmendAfterShowSolution,
                     data: {
-                        learningSessionId: this._answerQuestion.LearningSessionId,
                         stepGuid: this._answerQuestion.LearningSessionStepGuid,
                         isInTestMode: isInTestMode,
                     },
@@ -231,17 +210,6 @@
             }
 
         });
-    }
-
-    static IfLastTestQuestionChangeBtnNextToResult() {
-        if (AnswerQuestion.IsLastTestSessionStep) {
-            $('#btnNext').html('Zum Ergebnis');
-            $("#btnNext").unbind();
-            $('#hddIsTestSession').attr('data-is-last-step', 'false ');
-            AnswerQuestion.IsLastTestSessionStep = false;
-            new GetResultTestSession();
-           
-        }
     }
 
     private HighlightMultipleChoiceSolution(correctAnswers: string) {

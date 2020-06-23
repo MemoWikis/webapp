@@ -260,26 +260,14 @@ namespace TrueOrFalse.Frontend.Web.Code
             return "#";
         }
 
-        public static string LearningSessionResult(LearningSession learningSession)
+        public static string StartLearningSession(LearningSessionNew learningSession)
         {
-            return GetUrlHelper().Action("LearningSessionResult", LearningSessionResultController,
-                new
-                {
-                    learningSessionId = learningSession.Id,
-                    learningSessionName = learningSession.UrlName
-                });
-        }
-
-        public static string StartLearningSession(LearningSession learningSession)
-        {
-            if (learningSession.IsSetSession)
-                return StartLearningSessionForSet(learningSession.SetToLearn.Id);
-
-            if (learningSession.IsSetsSession)
-                return StartLearningSessionForSets(learningSession.SetsToLearn().Select(s => s.Id).ToList(), learningSession.SetListTitle);
-
-            if (learningSession.IsCategorySession)
-                return StartCategoryLearningSession(learningSession.CategoryToLearn.Id);
+            if(!learningSession.Config.IsWishSession)
+                return StartCategoryLearningSession(learningSession.Config.CategoryId);
+            else
+            {
+                return StartWishLearningSession();
+            }
 
             throw new Exception("unknown type");
         }

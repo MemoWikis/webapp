@@ -119,7 +119,8 @@ public class LearningSession : DomainEntity, IRegisterAsInstancePerLifetime
 
     public virtual void CompleteSession()
     {
-        if(IsCompleted) return;
+        if(IsCompleted) 
+            return;
 
         Steps.Where(s => s.AnswerState == StepAnswerState.Uncompleted)
             .Each(s => s.AnswerState = StepAnswerState.NotViewedOrAborted);

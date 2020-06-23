@@ -5,7 +5,7 @@ using System.Web;
 
 public class LearningSessionResultModel : BaseModel
 {
-    public LearningSession LearningSession;
+    public LearningSessionNew LearningSession;
     public int NumberSteps;
     public int NumberUniqueQuestions = 0;
     public int NumberCorrectAnswers; //answered correctly at first try
@@ -17,7 +17,7 @@ public class LearningSessionResultModel : BaseModel
     public int NumberWrongAnswersPercentage;
     public int NumberNotAnsweredPercentage;
 
-    public IEnumerable<IGrouping<int, LearningSessionStep>> AnsweredStepsGrouped;
+    public IEnumerable<IGrouping<int, LearningSessionStepNew>> AnsweredStepsGrouped;
 
     public Date DateToLearn;
     public bool DateIsInPast;
@@ -39,67 +39,43 @@ public class LearningSessionResultModel : BaseModel
     public int PercentageAverageRightAnswers;
 
 
-    public LearningSessionResultModel(LearningSession learningSession, bool isInTestMode = false)
+    public LearningSessionResultModel(LearningSessionNew learningSession, bool isInTestMode = false)
     {
         ShowSummaryText = !isInTestMode;
         LearningSession = learningSession;
         NumberSteps = LearningSession.Steps.Count();
-        var numberQuestions = LearningSession.Steps.Count(s => s.AnswerState != StepAnswerState.Uncompleted);
+        var numberQuestions = LearningSession.Steps.Count(s => s.AnswerState == AnswerStateNew.Unanswered || s.AnswerState == AnswerStateNew.Skipped);
         PercentageAverageRightAnswers = (int)Math.Round(LearningSession.Steps.Sum(s => s.Question.CorrectnessProbability) / (float)numberQuestions);
-
-
-        if (learningSession.IsDateSession)
-        {
-            DateToLearn = learningSession.DateToLearn;
-            var remaining = DateToLearn.Remaining();
-            DateIsInPast = remaining.TotalSeconds < 0;
-            DateRemainingTimeLabel = new TimeSpanLabel(remaining, DateIsInPast);
-            TrainingPlan = DateToLearn.TrainingPlan ?? new TrainingPlan();
-            TrainingDateCount = TrainingPlan.OpenDates.Count;
-            RemainingTrainingTime = new TimeSpanLabel(TrainingPlan.TimeRemaining).Full;
-            var summary = KnowledgeSummaryLoader.Run(UserId, DateToLearn.AllQuestions().GetIds(), onlyValuated: false);
-            KnowledgeNotLearned = summary.NotLearned;
-            KnowledgeNeedsLearning = summary.NeedsLearning;
-            KnowledgeNeedsConsolidation = summary.NeedsConsolidation;
-            KnowledgeSolid = summary.Solid;
-        }
-        else if (learningSession.IsWishSession)
+        
+        if (learningSession.Config.IsWishSession)
         {
             WishCountQuestions = learningSession.User.WishCountQuestions;
             WishCountSets = learningSession.User.WishCountSets;
-            SetsToLearn = learningSession.SetsToLearn();
         }
-        else if (learningSession.IsWishSession)
-        {
-            WishCountQuestions = learningSession.User.WishCountQuestions;
-            WishCountSets = learningSession.User.WishCountSets;
-        } else if (learningSession.IsSetsSession)
-        {
-            SetsToLearn = learningSession.SetsToLearn();
-        }
+       
 
         if (NumberSteps > 0)
         {
-            AnsweredStepsGrouped = LearningSession.Steps.Where(s => s.AnswerState != StepAnswerState.NotViewedOrAborted).GroupBy(d => d.QuestionId);
+            AnsweredStepsGrouped = LearningSession.Steps.GroupBy(d => d.Question.Id);
 
-            LearningSession.FillAllAnswers();
+          
 
             NumberUniqueQuestions = AnsweredStepsGrouped.Count();
 
             NumberCorrectAnswers = AnsweredStepsGrouped.Count(
-                g => g.First().AnswerState == StepAnswerState.Answered 
-                && g.First().AnsweredCorrectly);
+                g => g.First().AnswerState != AnswerStateNew.Unanswered
+                && g.First().AnswerState == AnswerStateNew.Correct);
 
             NumberCorrectAfterRepetitionAnswers = AnsweredStepsGrouped.Count(
-                g => g.Last().AnswerState == StepAnswerState.Answered 
-                && g.Count() > 1 && g.Last().AnsweredCorrectly);
+                g => g.Last().AnswerState != AnswerStateNew.Unanswered 
+                && g.Count() > 1 && g.Last().AnswerState == AnswerStateNew.Correct);
 
-            NumberNotAnswered = AnsweredStepsGrouped.Count(g => g.All(a => a.AnswerState != StepAnswerState.Answered));
+            NumberNotAnswered = AnsweredStepsGrouped.Count(g => g.All(a => a.AnswerState == AnswerStateNew.Unanswered));
 
             NumberWrongAnswers = NumberUniqueQuestions - NumberNotAnswered - NumberCorrectAnswers - NumberCorrectAfterRepetitionAnswers;
             
             if (NumberWrongAnswers < 0)
-                Logg.r().Error("Answered questions (wrong+skipped+...) don't add up at LearningSessionResult for LearningSession id=" + learningSession.Id);
+                Logg.r().Error("Answered questions (wrong+skipped+...) don't add up at LearningSessionResult for LearningSession");
 
             PercentageShares.FromAbsoluteShares(
                 new List<ValueWithResultAction>

@@ -20,16 +20,11 @@ class AnswerQuestion {
     static TestSessionProgressAfterAnswering: number;
     private IsLandingPage: boolean = false; 
 
-    static IsLastTestSessionStep = false;
-    static TestSessionId: number;
-
-    public LearningSessionId: number;
     public LearningSessionStepGuid: string;
 
     public SolutionType: SolutionType;
     public IsGameMode: boolean;
     public IsLearningSession = false;
-    public IsTestSession = false;
 
     public AnsweredCorrectly = false;
     public AnswersSoFar = [];
@@ -47,21 +42,11 @@ class AnswerQuestion {
             this.IsLearningSession = $('#hddIsLearningSession').val().toLowerCase() === "true";
 
         if (this.IsLearningSession) {
-            this.LearningSessionId = +$('#hddIsLearningSession').attr('data-learning-session-id');
             this.LearningSessionStepGuid = $('#hddIsLearningSession').attr('data-current-step-guid');
         }
 
         if (this.IsLearningSession && $('#hddIsLearningSession').attr('data-is-last-step').toLowerCase() === "true")
             this._isLastLearningStep = true ;
-
-        if ($('#hddIsTestSession').length === 1)
-            this.IsTestSession = $('#hddIsTestSession').val().toLowerCase() === "true";
-
-        if (this.IsTestSession && $('#hddIsTestSession').attr('data-is-last-step').toLowerCase() === "true")
-            AnswerQuestion.IsLastTestSessionStep = true;
-
-        if (this.IsTestSession && $('#hddIsTestSession').attr('data-test-session-id'))
-            AnswerQuestion.TestSessionId = parseInt($('#hddIsTestSession').attr('data-test-session-id'));
 
         this._getAnswerText = () => { return answerEntry.GetAnswerText(); }
         this._getAnswerData = () => { return answerEntry.GetAnswerData(); }
@@ -227,22 +212,6 @@ class AnswerQuestion {
                     self.IncrementInteractionNumber();
                     self.UpdateProgressBar(-1, answerResult);
 
-                    if (self.IsTestSession) {
-                        $.ajax({
-                            type: 'POST',
-                            url: AnswerQuestion.ajaxUrl_TestSessionRegisterAnsweredQuestion,
-                            data: {
-                                testSessionId: AnswerQuestion.TestSessionId,
-                                questionId: AnswerQuestion.GetQuestionId(),
-                                questionViewGuid: $('#hddQuestionViewGuid').val(),
-                                answeredQuestion: true,
-                            },
-                            cache: false
-                        });
-
-                        AnswerQuestionUserFeedback.IfLastTestQuestionChangeBtnNextToResult();
-                    }
-
                     if (result.correct) {
                         self.HandleCorrectAnswer();
                         self.ClickToContinue();
@@ -329,7 +298,6 @@ class AnswerQuestion {
 
         if (this.IsGameMode) {
             if (this.SolutionType !== SolutionType.FlashCard) {
-                this._inputFeedback.ShowErrorGame();
                 this._inputFeedback.ShowSolution();
             }
         } else {
@@ -340,7 +308,7 @@ class AnswerQuestion {
             this.RegisterWrongAnswer();//need only this
             this._inputFeedback.ShowError();
             
-            if (this.IsLearningSession || this.IsTestSession) {
+            if (this.IsLearningSession) {
 
                 this._inputFeedback.ShowSolution();
                 $('#CountWrongAnswers, #divWrongAnswers').hide();
@@ -401,8 +369,6 @@ class AnswerQuestion {
                 questionViewGuid: $('#hddQuestionViewGuid').val(),
                 interactionNumber: interactionNumber,
                 millisecondsSinceQuestionView: AnswerQuestion.TimeSinceLoad($.now()),
-                testSessionId: AnswerQuestion.TestSessionId,
-                learningSessionId: self.LearningSessionId,
                 learningSessionStepGuid: self.LearningSessionStepGuid
             },
             cache: false,
@@ -490,9 +456,7 @@ class AnswerQuestion {
         var numberStepsDone: number = parseInt($('#CurrentStepNumber').html());
         var numberStepsUpdated = numberSteps !== -1 ? numberSteps : answerResult.numberSteps;
 
-        if (this.IsTestSession) {
-            raiseTo = +AnswerQuestion.TestSessionProgressAfterAnswering;
-        } else if (this.IsLearningSession) {
+        if (this.IsLearningSession) {
             raiseTo = IsReaddet ? Math.round(numberStepsDone / (numberStepsUpdated + 1) * 100) : Math.round(numberStepsDone / (numberStepsUpdated) * 100);
             stepNumberChanged = this.GetCurrentSteps() != numberStepsUpdated;
             if (stepNumberChanged) {
