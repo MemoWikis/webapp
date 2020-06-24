@@ -97,15 +97,16 @@ public class AnswerQuestion : IRegisterAsInstancePerLifetime
         bool countUnansweredAsCorrect = false,
         /*for testing*/ DateTime dateCreated = default(DateTime))
     {
-        
         if(countLastAnswerAsCorrect && countUnansweredAsCorrect)
             throw new Exception("either countLastAnswerAsCorrect OR countUnansweredAsCorrect should be set to true, not both");
 
-        if (learningSessionId.HasValue && (countLastAnswerAsCorrect || countUnansweredAsCorrect))
+        if (countLastAnswerAsCorrect || countUnansweredAsCorrect)
         {
             var learningSession = Sl.SessionUser.LearningSession;
             var learningSessionStep = learningSession.CurrentStep;
             learningSessionStep.AnswerState = AnswerStateNew.Correct;
+            var learningSessionSteps = learningSession.Steps; 
+            learningSessionSteps.RemoveAt(learningSessionSteps.Count - 1);
 
            var answer =   Sl.AnswerRepo.GetByQuestionViewGuid(questionViewGuid).OrderByDescending(a => a.Id).First();
            answer.AnswerredCorrectly = AnswerCorrectness.MarkedAsTrue; 

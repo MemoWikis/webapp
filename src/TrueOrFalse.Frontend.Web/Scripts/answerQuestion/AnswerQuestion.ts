@@ -398,17 +398,6 @@ class AnswerQuestion {
         });
     }
 
-    private IsAnswerPossible() {
-
-        if ($("#buttons-first-try").is(":visible"))
-            return true;
-
-        if ($("#buttons-answer-again").is(":visible"))
-            return true;
-
-        return false;
-    }
-
     static AjaxGetSolution(onSuccessAction) {
 
         $.ajax({
@@ -448,16 +437,15 @@ class AnswerQuestion {
         });
     }
 
-    UpdateProgressBar(numberSteps: number = -1, answerResult: any = null, IsReaddet = false) {
+    UpdateProgressBar(numberSteps: number = -1, answerResult: any = null, isReaddet = false) {
 
         var raiseTo: number;
         var percentage: number = parseInt($("#spanPercentageDone").html());
         var stepNumberChanged: boolean;
         var numberStepsDone: number = parseInt($('#CurrentStepNumber').html());
         var numberStepsUpdated = numberSteps !== -1 ? numberSteps : answerResult.numberSteps;
-
         if (this.IsLearningSession) {
-            raiseTo = IsReaddet ? Math.round(numberStepsDone / (numberStepsUpdated + 1) * 100) : Math.round(numberStepsDone / (numberStepsUpdated) * 100);
+            raiseTo = isReaddet ? Math.round(numberStepsDone / (numberStepsUpdated + 1) * 100) : Math.round(numberStepsDone / (numberStepsUpdated) * 100);
             stepNumberChanged = this.GetCurrentSteps() != numberStepsUpdated;
             if (stepNumberChanged) {
                 $("#StepCount").fadeOut(100);

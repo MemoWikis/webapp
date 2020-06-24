@@ -96,7 +96,7 @@ class AnswerBodyLoader {
             categoryId: $('#hhdCategoryId').val(),
             isInLearningTab: this._isInLearningTab,
             questionFilter: questionFilter,
-            userId: $("#hddUserId").val(),
+            userId: $("#hddUserId").val()
         }
 
         var url = "/AnswerQuestion/RenderNewAnswerBodySessionForCategory";
