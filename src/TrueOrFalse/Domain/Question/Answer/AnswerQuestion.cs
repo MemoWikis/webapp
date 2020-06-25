@@ -103,21 +103,13 @@ public class AnswerQuestion : IRegisterAsInstancePerLifetime
         if (countLastAnswerAsCorrect || countUnansweredAsCorrect)
         {
             var learningSession = Sl.SessionUser.LearningSession;
-            var learningSessionStep = learningSession.CurrentStep;
-            learningSessionStep.AnswerState = AnswerStateNew.Correct;
-            var learningSessionSteps = learningSession.Steps; 
-            learningSessionSteps.RemoveAt(learningSessionSteps.Count - 1);
+            learningSession.CountAsCorrect();
 
-           var answer =   Sl.AnswerRepo.GetByQuestionViewGuid(questionViewGuid).OrderByDescending(a => a.Id).First();
-           answer.AnswerredCorrectly = AnswerCorrectness.MarkedAsTrue; 
+            var answer =   Sl.AnswerRepo.GetByQuestionViewGuid(questionViewGuid).OrderByDescending(a => a.Id).First();
+            answer.AnswerredCorrectly = AnswerCorrectness.MarkedAsTrue; 
 
-           // Sl.AnswerRepo.Update(learningSessionStep.AnswerWithInput);
+            // Sl.AnswerRepo.Update(learningSessionStep.AnswerWithInput);
         }
-
-        if (countLastAnswerAsCorrect || countUnansweredAsCorrect && testSessionId != null)
-            return Run(questionId, "", userId, (question, answerQuestionResult) =>
-                _answerLog.CountLastAnswerAsCorrect(questionViewGuid), countLastAnswerAsCorrect: true
-            );
 
         if (countUnansweredAsCorrect)
             return Run(learningSessionId,learningSessionStepGuid,questionId, "", userId, (question, answerQuestionResult) =>

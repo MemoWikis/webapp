@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using SolrNet.Commands.Cores;
 
 [Serializable]
 public class LearningSessionNew
@@ -109,4 +110,17 @@ public class LearningSessionNew
             throw new Exception("unknown session type");
         }
     }
+
+    public void CountAsCorrect()
+    {
+        CurrentStep.AnswerState = AnswerStateNew.Correct; 
+        DeleteLastStep();
+    }
+    public void DeleteLastStep()
+    {
+        if (!Config.IsAnonymous())
+            Steps.RemoveAt(Steps.Count - 1);
+    }
+
+
 }
