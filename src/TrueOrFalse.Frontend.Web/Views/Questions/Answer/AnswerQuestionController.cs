@@ -477,7 +477,7 @@ public class AnswerQuestionController : BaseController
 
         var firstStep = 0; 
 
-        return RenderAnswerBodyByLearningSession(firstStep, isInLearningTab: config.IsInLearningTab, isInTestMode: config.IsInTestmode);
+        return RenderAnswerBodyByLearningSession(firstStep, isInLearningTab: config.IsInLearningTab, isInTestMode: config.IsInTestMode);
     }
 
     [HttpPost]

@@ -8,8 +8,8 @@ public class LearningSessionConfig
 
     public int MaxQuestions = 2; 
     public bool OnlyWuwi { get; set; }
-    public int UserId { get; set; }
-    public bool IsInTestmode { get; set; }
+    public int UserId = -1;
+    public bool IsInTestMode { get; set; }
     public bool IsInLearningTab { get; set; } = false;
     public bool IsWishSession { get; set; }
 
@@ -17,5 +17,5 @@ public class LearningSessionConfig
     /// User is not logged in
     /// </summary>
     public bool IsAnonymous() => UserId == -1;
-    public bool ReAddStepsToEnd() => !IsAnonymous();
+    public bool ReAddStepsToEnd() => !IsAnonymous() && !IsInTestMode;
 }

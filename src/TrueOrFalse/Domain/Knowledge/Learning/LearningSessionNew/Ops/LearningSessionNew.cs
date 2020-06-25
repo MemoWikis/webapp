@@ -64,7 +64,7 @@ public class LearningSessionNew
 
     public void ShowSolution()
     {
-        if (LimitForThisQuestionHasBeenReached(CurrentStep) || LimitForNumberOfRepetitionsHasBeenReached() || Config.IsInTestmode)
+        if (LimitForThisQuestionHasBeenReached(CurrentStep) || LimitForNumberOfRepetitionsHasBeenReached() || Config.IsInTestMode)
             return;
         ReAddCurrentStepToEnd();
 
@@ -72,13 +72,11 @@ public class LearningSessionNew
 
     private void ReAddCurrentStepToEnd()
     {
-        if (LimitForThisQuestionHasBeenReached(CurrentStep) || LimitForNumberOfRepetitionsHasBeenReached() || Config.IsInTestmode || Config.IsAnonymous())
+        if (LimitForThisQuestionHasBeenReached(CurrentStep) || LimitForNumberOfRepetitionsHasBeenReached() || Config.IsInTestMode || Config.IsAnonymous())
             return; 
 
         var step = new LearningSessionStepNew(CurrentStep.Question);
-
-        if(CurrentStep.AnswerState != AnswerStateNew.Skipped)
-            Steps.Add(step);
+        Steps.Add(step);
     }
 
     private bool TestIsLastStep()
@@ -118,7 +116,7 @@ public class LearningSessionNew
     }
     public void DeleteLastStep()
     {
-        if (!Config.IsAnonymous())
+        if (!Config.IsAnonymous() && !Config.IsInTestMode)
             Steps.RemoveAt(Steps.Count - 1);
     }
 

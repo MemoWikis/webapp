@@ -13,7 +13,7 @@ namespace TrueOrFalse.Tests
 
             var learningSession = LearningSessionNewCreator.ForLoggedInUser(new LearningSessionConfig {CategoryId = 0});
             
-            //Todo: Get user probability
+            //Todo: GetLearningSessionForAnonymusUser user probability
             Assert.That(learningSession.Steps[0].Question.CorrectnessProbability, Is.EqualTo(50)) ;
             Assert.That(learningSession.Steps[1].Question.CorrectnessProbability, Is.EqualTo(20));
             Assert.That(learningSession.Steps[2].Question.CorrectnessProbability, Is.EqualTo(10));
