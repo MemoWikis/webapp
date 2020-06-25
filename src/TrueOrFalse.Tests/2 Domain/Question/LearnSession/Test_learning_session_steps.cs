@@ -13,13 +13,13 @@ namespace TrueOrFalse.Tests
         {
             var learningSession = ContextLearningSession.GetLearningSessionWithoutAnswerState(LoggedIn, 5);
 
-            learningSession.AddAnswer(new Answer{AnswerredCorrectly = AnswerCorrectness.True});
+            learningSession.AddAnswer(new AnswerQuestionResult{IsCorrect = true});
             Assert.That(learningSession.Steps.Count, Is.EqualTo(5));
 
             learningSession.NextStep(); 
             Assert.That(learningSession.CurrentIndex, Is.EqualTo(1));
 
-            learningSession.AddAnswer(new Answer{AnswerredCorrectly = AnswerCorrectness.False});
+            learningSession.AddAnswer(new AnswerQuestionResult{IsCorrect =  false});
             Assert.That(learningSession.Steps.Count, Is.EqualTo(6));
             Assert.That(learningSession.Steps.Last().AnswerState, Is.EqualTo(AnswerStateNew.Unanswered));
 
@@ -36,13 +36,13 @@ namespace TrueOrFalse.Tests
         {
             var learningSession = ContextLearningSession.GetLearningSessionWithoutAnswerState(NotLoggedIn, 5);
 
-            learningSession.AddAnswer(new Answer { AnswerredCorrectly = AnswerCorrectness.True });
+            learningSession.AddAnswer(new AnswerQuestionResult {IsCorrect = true });
             Assert.That(learningSession.Steps.Count, Is.EqualTo(5));
 
             learningSession.NextStep();
             Assert.That(learningSession.CurrentIndex, Is.EqualTo(1));
 
-            learningSession.AddAnswer(new Answer { AnswerredCorrectly = AnswerCorrectness.False });
+            learningSession.AddAnswer(new AnswerQuestionResult { IsCorrect = false });
             Assert.That(learningSession.Steps.Count, Is.EqualTo(5));
 
             learningSession.NextStep();
@@ -52,32 +52,22 @@ namespace TrueOrFalse.Tests
         public void Test_is_last_step()
         {
             var learningSession = ContextLearningSession.GetLearningSessionWithoutAnswerState(NotLoggedIn, 1);
-            learningSession.AddAnswer(new Answer { AnswerredCorrectly = AnswerCorrectness.True });
-            learningSession.NextStep();
-            Assert.That(learningSession.IsLastStep, Is.EqualTo(true));
-            
-            learningSession = ContextLearningSession.GetLearningSessionWithoutAnswerState(NotLoggedIn, 1);
-            learningSession.AddAnswer(new Answer { AnswerredCorrectly = AnswerCorrectness.False });
+            learningSession.AddAnswer(new AnswerQuestionResult { IsCorrect = true });
             learningSession.NextStep();
             Assert.That(learningSession.IsLastStep, Is.EqualTo(true));
 
             learningSession = ContextLearningSession.GetLearningSessionWithoutAnswerState(NotLoggedIn, 1);
-            learningSession.AddAnswer(new Answer { AnswerredCorrectly = AnswerCorrectness.IsView });
-            learningSession.SkipStep();
+            learningSession.AddAnswer(new AnswerQuestionResult { IsCorrect = false });
+            learningSession.NextStep();
             Assert.That(learningSession.IsLastStep, Is.EqualTo(true));
 
             learningSession = ContextLearningSession.GetLearningSessionWithoutAnswerState(LoggedIn, 1);
-            learningSession.AddAnswer(new Answer { AnswerredCorrectly = AnswerCorrectness.IsView });
-            learningSession.SkipStep();
-            Assert.That(learningSession.IsLastStep, Is.EqualTo(false));
-
-            learningSession = ContextLearningSession.GetLearningSessionWithoutAnswerState(LoggedIn, 1);
-            learningSession.AddAnswer(new Answer { AnswerredCorrectly = AnswerCorrectness.False });
+            learningSession.AddAnswer(new AnswerQuestionResult { IsCorrect = false });
             learningSession.NextStep();
             Assert.That(learningSession.IsLastStep, Is.EqualTo(false));
 
             learningSession = ContextLearningSession.GetLearningSessionWithoutAnswerState(LoggedIn, 1);
-            learningSession.AddAnswer(new Answer { AnswerredCorrectly = AnswerCorrectness.True });
+            learningSession.AddAnswer(new AnswerQuestionResult { IsCorrect = true });
             learningSession.NextStep();
             Assert.That(learningSession.IsLastStep, Is.EqualTo(true));
 
