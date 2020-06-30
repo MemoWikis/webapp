@@ -142,7 +142,7 @@ class AnswerQuestion {
 
         $("#aSkipStep").click(e => {
             var isReAddet = true; 
-            this.UpdateProgressBar(this.GetCurrentSteps(), null, isReAddet);
+            this.UpdateProgressBar(this.GetCurrentSteps());
         });
 
         this.FlashCardCheck();

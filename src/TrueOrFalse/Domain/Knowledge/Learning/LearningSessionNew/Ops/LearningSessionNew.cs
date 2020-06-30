@@ -45,9 +45,7 @@ public class LearningSessionNew
 
     public void SkipStep()
     {
-        CurrentStep.AnswerState = AnswerStateNew.Skipped; 
-        ReAddCurrentStepToEnd();
-
+        CurrentStep.AnswerState = AnswerStateNew.Skipped;
         IsLastStep = TestIsLastStep();
 
         if (!IsLastStep)
