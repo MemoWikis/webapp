@@ -70,7 +70,7 @@ public class LearningSessionResultModel : BaseModel
                 g => g.Last().AnswerState != AnswerStateNew.Unanswered 
                 && g.Count() > 1 && g.Last().AnswerState == AnswerStateNew.Correct);
 
-            NumberNotAnswered = AnsweredStepsGrouped.Count(g => g.All(a => a.AnswerState == AnswerStateNew.Unanswered));
+            NumberNotAnswered = AnsweredStepsGrouped.Count(g => g.All(a => a.AnswerState == AnswerStateNew.Unanswered || a.AnswerState == AnswerStateNew.Skipped));
 
             NumberWrongAnswers = NumberUniqueQuestions - NumberNotAnswered - NumberCorrectAnswers - NumberCorrectAfterRepetitionAnswers;
             

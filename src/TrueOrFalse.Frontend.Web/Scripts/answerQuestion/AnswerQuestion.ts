@@ -141,7 +141,6 @@ class AnswerQuestion {
             });
 
         $("#aSkipStep").click(e => {
-            var isReAddet = true; 
             this.UpdateProgressBar(this.GetCurrentSteps());
         });
 

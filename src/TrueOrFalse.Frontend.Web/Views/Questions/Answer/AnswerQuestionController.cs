@@ -638,7 +638,7 @@ public class AnswerQuestionController : BaseController
     }
     
     [SetThemeMenu(isLearningSessionPage: true)]
-    public string RenderLearningSessionResult(LearningSessionNew learningSession = null, bool isInTestMode = false)
+    public string RenderLearningSessionResult(LearningSessionNew learningSession, bool isInTestMode = false)
     {
         var serializer = new JavaScriptSerializer();
         return serializer.Serialize(

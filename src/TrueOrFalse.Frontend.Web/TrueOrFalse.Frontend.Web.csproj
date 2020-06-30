@@ -21835,7 +21835,6 @@
     <Content Include="Views\Categories\ResultTestSession\Js\GetResultTestSession.js">
       <DependentUpon>GetResultTestSession.ts</DependentUpon>
     </Content>
-    <TypeScriptCompile Include="Scripts\answerQuestion\UpdateProgressBar.ts" />
     <TypeScriptCompile Include="Scripts\KnowledgeSummaryBar.ts" />
     <TypeScriptCompile Include="Views\Categories\Detail\JsAnalyticsTab\KnowledgeGraph.ts" />
     <TypeScriptCompile Include="Views\Categories\Detail\JsEditMode\ContentModuleSettings\ContentModuleSelectionComponent.ts" />
