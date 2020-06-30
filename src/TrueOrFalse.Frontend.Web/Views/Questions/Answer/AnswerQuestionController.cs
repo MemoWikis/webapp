@@ -1,9 +1,12 @@
 ﻿using StackExchange.Profiling;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Text;
 using System.Web.Mvc;
 using System.Web.Script.Serialization;
+using Newtonsoft.Json;
 using TrueOrFalse;
 using TrueOrFalse.Frontend.Web.Code;
 using TrueOrFalse.Search;
@@ -450,22 +453,6 @@ public class AnswerQuestionController : BaseController
         return GetQuestionPageData(model, currentUrl, new SessionData());
     }
 
-    public string RenderAnswerBodyBySet(int questionId, int setId)
-    {
-        var set = Resolve<SetRepo>().GetById(setId);
-        var question = _questionRepo.GetById(questionId);
-        _sessionUiData
-            .VisitedQuestions
-            .Add(new QuestionHistoryItem(set, question));
-
-        var questionViewGuid = Guid.NewGuid();
-        Sl.SaveQuestionView.Run(questionViewGuid, question, _sessionUser.User);
-        var model = new AnswerQuestionModel(questionViewGuid, set, question);
-
-        var currenUrl = Links.AnswerQuestion(question, set);
-        return GetQuestionPageData(model, currenUrl, new SessionData());
-    }
-
     [HttpPost]
     public string RenderNewAnswerBodySessionForCategory(LearningSessionConfig config)
     {
@@ -488,9 +475,9 @@ public class AnswerQuestionController : BaseController
 
         if (skipStepIdx != -1 && skipStepIdx != 0)
             learningSession.SkipStep();
-        else if(skipStepIdx != 0)
+        else if (skipStepIdx != 0)
             learningSession.NextStep();
-        
+
         Sl.SessionUser.LearningSession = learningSession;
 
         if (learningSession.IsLastStep)
@@ -506,16 +493,20 @@ public class AnswerQuestionController : BaseController
             question,
             sessionUserId);
 
-        var model = new AnswerQuestionModel( learningSession, false);
+        var model = new AnswerQuestionModel(learningSession, false);
 
-        string currentSessionHeader = "Frage <span id = \"CurrentStepNumber\">" + (model.CurrentLearningStepIdx + 1 ) + "</span> von <span id=\"StepCount\">" + model.LearningSession.Steps.Count + "</span>";
+        string currentSessionHeader = "Frage <span id = \"CurrentStepNumber\">" + (model.CurrentLearningStepIdx + 1) +
+                                      "</span> von <span id=\"StepCount\">" + model.LearningSession.Steps.Count +
+                                      "</span>";
         int currentStepIdx = learningSession.CurrentIndex;
         bool isLastStep = model.IsLastLearningStep;
         string currentUrl = Links.LearningSession(learningSession);
 
         var sessionData = new SessionData(currentSessionHeader, currentStepIdx, isLastStep, skipStepIdx);
 
-        return GetQuestionPageData(model, currentUrl, sessionData, isSession: true, isInLearningTab:isInLearningTab, isInTestMode:isInTestMode);
+        return GetQuestionPageData(model, currentUrl, sessionData, isSession: true,
+            isInLearningTab: isInLearningTab, isInTestMode: isInTestMode);
+
     }
 
     public string RenderUpdatedQuestionDetails(int questionId, bool showCategoryList = true)
@@ -593,7 +584,7 @@ public class AnswerQuestionController : BaseController
             "~/Views/Questions/Answer/AnswerBodyControl/AnswerBody.ascx",
             new AnswerBodyModel(model, isInLearningTab, isInTestMode),
             ControllerContext);
-
+        var learningSession = Sl.SessionUser.LearningSession; 
         var serializer = new JavaScriptSerializer();
         var serializedPageData = serializer.Serialize(new
         {
@@ -610,12 +601,14 @@ public class AnswerQuestionController : BaseController
             },
             sessionData = isSession ? new
             {
-                currentStepIdx = Sl.SessionUser.LearningSession.CurrentIndex,
+                currentStepIdx = learningSession.CurrentIndex,
                 skipStepIdx = sessionData.SkipStepIdx,
                 isLastStep = sessionData.IsLastStep,
                 currentStepGuid = sessionData.CurrentStepGuid,
                 currentSessionHeader = sessionData.CurrentSessionHeader,
-                learningSessionId = sessionData.LearningSessionId
+                learningSessionId = sessionData.LearningSessionId,
+                isLearningSession = !learningSession.Config.IsWishSession,
+                stepCount = learningSession.Steps.Count 
             } : null,
             url = currentUrl,
             commentsAsHtml = ViewRenderer.RenderPartialView("~/Views/Questions/Answer/Comments/CommentsSection.ascx", model, ControllerContext),
@@ -659,7 +652,6 @@ public class AnswerQuestionController : BaseController
                 offlineDevelopment = Settings.DevelopOffline()
             }
         );
-        return "";
     }
 
     public EmptyResult ClearHistory()

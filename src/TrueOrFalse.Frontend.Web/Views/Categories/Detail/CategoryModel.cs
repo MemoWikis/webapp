@@ -42,8 +42,8 @@ public class CategoryModel : BaseContentModule
     public string WikipediaURL;
     public string Url;
     public bool IsOwnerOrAdmin;
-    public bool IsTestSession => !IsLoggedIn;
-    public bool IsLearningSession => IsLoggedIn;
+    public bool IsTestSession = false;
+    public bool IsLearningSession = true;
     public int CountAggregatedQuestions;
     public int CountCategoryQuestions;
     public int CountReferences;
