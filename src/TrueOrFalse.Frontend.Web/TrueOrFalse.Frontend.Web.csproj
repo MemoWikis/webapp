@@ -24,7 +24,7 @@
     <UseIISExpress>false</UseIISExpress>
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
     <RestorePackages>true</RestorePackages>
-    <TypeScriptToolsVersion>2.5</TypeScriptToolsVersion>
+    <TypeScriptToolsVersion>Latest</TypeScriptToolsVersion>
     <IISExpressSSLPort />
     <IISExpressAnonymousAuthentication />
     <IISExpressWindowsAuthentication />
@@ -21576,6 +21576,9 @@
     <Content Include="robots.live.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="Scripts\answerQuestion\AnswerEntry.js">
+      <DependentUpon>AnswerEntry.ts</DependentUpon>
+    </Content>
     <Content Include="Scripts\header\ActivityPointsPopup.js">
       <DependentUpon>ActivityPointsPopup.ts</DependentUpon>
     </Content>
@@ -21634,6 +21637,9 @@
     <None Include="job_scheduling_data_2_0.xsd">
       <SubType>Designer</SubType>
     </None>
+    <Content Include="Scripts\answerQuestion\AnswerEntry.js.map">
+      <DependentUpon>AnswerEntry.ts</DependentUpon>
+    </Content>
     <None Include="Scripts\jquery-2.0.3-vsdoc.js" />
     <Content Include="Scripts\jquery-2.0.3.js" />
     <Content Include="Scripts\jquery-2.0.3.min.js" />
@@ -21829,6 +21835,7 @@
     <Content Include="Views\Categories\ResultTestSession\Js\GetResultTestSession.js">
       <DependentUpon>GetResultTestSession.ts</DependentUpon>
     </Content>
+    <TypeScriptCompile Include="Scripts\answerQuestion\UpdateProgressBar.ts" />
     <TypeScriptCompile Include="Scripts\KnowledgeSummaryBar.ts" />
     <TypeScriptCompile Include="Views\Categories\Detail\JsAnalyticsTab\KnowledgeGraph.ts" />
     <TypeScriptCompile Include="Views\Categories\Detail\JsEditMode\ContentModuleSettings\ContentModuleSelectionComponent.ts" />
@@ -22789,9 +22796,6 @@
     <Content Include="Images\wiki-32.png" />
     <Content Include="img\dimension.png" />
     <Content Include="img\wmd-buttons.png" />
-    <Content Include="Scripts\answerQuestion\AnswerEntry.js">
-      <DependentUpon>AnswerEntry.ts</DependentUpon>
-    </Content>
     <Content Include="Scripts\answerQuestion\AnswerQuestionUserFeedback.js">
       <DependentUpon>AnswerQuestionUserFeedback.ts</DependentUpon>
     </Content>
@@ -23216,9 +23220,6 @@
     <Content Include="Fonts\OpenSans\PRmiXeptR36kaC0GEAetxi9-WlPSxbfiI49GsXo3q0g.ttf" />
     <Content Include="Fonts\OpenSans\PRmiXeptR36kaC0GEAetxne1Pd76Vl7zRpE7NLJQ7XU.ttf" />
     <Content Include="Fonts\OpenSans\PRmiXeptR36kaC0GEAetxpZ7xm-Bj30Bj2KNdXDzSZg.ttf" />
-    <Content Include="Scripts\answerQuestion\AnswerEntry.js.map">
-      <DependentUpon>AnswerEntry.ts</DependentUpon>
-    </Content>
     <Content Include="bin\Domain\Message\HtmlMessage\KnowledgeReportMsg.cshtml" />
     <Content Include="bin\Domain\Message\HtmlMessage\KnowledgeReportMsgStylesInlined.cshtml" />
     <Content Include="bin\Domain\Message\HtmlMessage\TrainingReminderForDateMsg.cshtml" />
