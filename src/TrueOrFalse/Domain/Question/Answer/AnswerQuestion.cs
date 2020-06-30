@@ -103,7 +103,7 @@ public class AnswerQuestion : IRegisterAsInstancePerLifetime
         if (countLastAnswerAsCorrect || countUnansweredAsCorrect)
         {
             var learningSession = Sl.SessionUser.LearningSession;
-            learningSession.CountAsCorrect();
+            learningSession.SetCurrentStepAsCorrect();
 
             var answer =   Sl.AnswerRepo.GetByQuestionViewGuid(questionViewGuid).OrderByDescending(a => a.Id).First();
             answer.AnswerredCorrectly = AnswerCorrectness.MarkedAsTrue; 

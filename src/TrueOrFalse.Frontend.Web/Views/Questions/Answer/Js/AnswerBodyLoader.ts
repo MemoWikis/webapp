@@ -1,15 +1,16 @@
 ﻿
 class AnswerBodyLoader {
 
-    private _answerBody: AnswerBody;
     private _isInLearningTab: boolean;
     private _sessionConfigDataJson: SessionConfigDataJson;
     private _getCustomSession: boolean = false;
+    private _isSkipStep: boolean = false;
+
 
     constructor(answerBody: AnswerBody) {
-
-        this._answerBody = answerBody;
         this._isInLearningTab = $('#LearningTab').length > 0;
+
+
 
         if (Utils.IsInWidget())
             return;
@@ -47,11 +48,13 @@ class AnswerBodyLoader {
                     $("#hddIsLearningSession").attr("data-learning-session-id", "-2");
                     this.loadNewLearningSession();
                 }
+
                 var self = this; 
                 $("#btnNext, #aSkipStep").click(function(e) {
                     e.preventDefault();
-
-                    var skipstepIdx = this.id === "btnNext" ? -1 : 1; 
+                    var skipstepIdx = this.id === "btnNext" ? -1 : 1;
+                    self._isSkipStep = skipstepIdx !== -1;
+                    
                     var url = "/AnswerQuestion/RenderAnswerBodyByLearningSession/?skipStepIdx=" + skipstepIdx;
                     self.loadNewQuestion(url);
                 });
@@ -201,12 +204,7 @@ class AnswerBodyLoader {
     }
 
     private updateSessionHeader(sessionStepData) {
-        if ($("#hddIsTestSession").val() === "True") {
-            $("#hddIsTestSession").attr("data-current-step-idx", sessionStepData.currentStepIdx);
-            $("#hddIsTestSession").attr("data-is-last-step", sessionStepData.isLastStep);
-            $(".SessionBar .QuestionCount").html(sessionStepData.currentSessionHeader);
-        }
-        else if ($("#hddIsLearningSession").val() === "True") {
+        if ($("#hddIsLearningSession").val() === "True") {
             $("#hddIsLearningSession").attr("data-current-step-idx", sessionStepData.currentStepIdx);
             $("#hddIsLearningSession").attr("data-skip-step-index", sessionStepData.skipStepIdx);
             $("#hddIsLearningSession").attr("data-is-last-step", sessionStepData.isLastStep);

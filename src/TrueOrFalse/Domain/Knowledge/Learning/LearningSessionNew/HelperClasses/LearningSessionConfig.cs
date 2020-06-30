@@ -17,5 +17,4 @@ public class LearningSessionConfig
     /// User is not logged in
     /// </summary>
     public bool IsAnonymous() => UserId == -1;
-    public bool ReAddStepsToEnd() => !IsAnonymous() && !IsInTestMode;
 }

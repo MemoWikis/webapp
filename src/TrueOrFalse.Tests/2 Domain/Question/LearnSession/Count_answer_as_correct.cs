@@ -14,12 +14,12 @@ namespace TrueOrFalse.Tests._2_Domain.Question.LearnSession
         public void SetAnswerAsCorrect()
         {
             var learningSession = ContextLearningSession.GetLearningSessionForAnonymusUser(5);
-            learningSession.CountAsCorrect();
+            learningSession.SetCurrentStepAsCorrect();
             Assert.That(learningSession.CurrentStep.AnswerState, Is.EqualTo(AnswerStateNew.Correct));
             Assert.That(learningSession.Steps.Count, Is.EqualTo(5));
 
             learningSession = ContextLearningSession.GetLearningSessionWithUser(1, 5);
-            learningSession.CountAsCorrect();
+            learningSession.SetCurrentStepAsCorrect();
             Assert.That(learningSession.Steps.Count, Is.EqualTo(4));
 
             learningSession = ContextLearningSession.GetLearningSession(
@@ -29,7 +29,7 @@ namespace TrueOrFalse.Tests._2_Domain.Question.LearnSession
                     IsInTestMode = true,
                     MaxQuestions = 5
                 });
-            learningSession.CountAsCorrect();
+            learningSession.SetCurrentStepAsCorrect();
             Assert.That(learningSession.Steps.Count, Is.EqualTo(5));
 
             learningSession = ContextLearningSession.GetLearningSession(
@@ -41,7 +41,7 @@ namespace TrueOrFalse.Tests._2_Domain.Question.LearnSession
                     MaxQuestions = 5
 
                 });
-            learningSession.CountAsCorrect();
+            learningSession.SetCurrentStepAsCorrect();
             Assert.That(learningSession.Steps.Count, Is.EqualTo(5));
 
             learningSession = ContextLearningSession.GetLearningSession(
@@ -53,7 +53,7 @@ namespace TrueOrFalse.Tests._2_Domain.Question.LearnSession
                     MaxQuestions = 5
 
                 });
-            learningSession.CountAsCorrect();
+            learningSession.SetCurrentStepAsCorrect();
             Assert.That(learningSession.Steps.Count, Is.EqualTo(4));
         }
     }

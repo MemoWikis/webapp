@@ -45,10 +45,8 @@ public class LearningSessionNew
 
     public void SkipStep()
     {
-        CurrentStep.AnswerState = AnswerStateNew.Skipped;
-
-        if (Config.ReAddStepsToEnd())
-            ReAddCurrentStepToEnd();
+        CurrentStep.AnswerState = AnswerStateNew.Skipped; 
+        ReAddCurrentStepToEnd();
 
         IsLastStep = TestIsLastStep();
 
@@ -59,13 +57,15 @@ public class LearningSessionNew
     public void ShowSolution()
     {
         ReAddCurrentStepToEnd();
-
     }
 
     private bool ReAddCurrentStepToEnd()
     {
-        if (LimitForThisQuestionHasBeenReached(CurrentStep) || LimitForNumberOfRepetitionsHasBeenReached() || Config.IsInTestMode || Config.IsAnonymous() || CurrentStep.AnswerState == AnswerStateNew.Correct)
+        if (LimitForThisQuestionHasBeenReached(CurrentStep) || LimitForNumberOfRepetitionsHasBeenReached() ||
+            Config.IsInTestMode || Config.IsAnonymous() || CurrentStep.AnswerState == AnswerStateNew.Correct)
+        {
             return false;
+        }
 
         var step = new LearningSessionStepNew(CurrentStep.Question);
         Steps.Add(step);
@@ -102,7 +102,7 @@ public class LearningSessionNew
         }
     }
 
-    public void CountAsCorrect()
+    public void SetCurrentStepAsCorrect()
     {
         CurrentStep.AnswerState = AnswerStateNew.Correct;
         DeleteLastStep();
