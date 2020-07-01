@@ -26,8 +26,9 @@ namespace TrueOrFalse.Tests
             Assert.That(learningSession.CurrentIndex, Is.EqualTo(2));
 
             learningSession.SkipStep();
-            Assert.That(learningSession.Steps.Count, Is.EqualTo(7));
-            Assert.That(learningSession.Steps.Last().AnswerState, Is.EqualTo(AnswerStateNew.Unanswered));
+            var currentStep = learningSession.CurrentIndex - 1; 
+            Assert.That(learningSession.Steps.Count, Is.EqualTo(6));
+            Assert.That(learningSession.Steps[currentStep].AnswerState, Is.EqualTo(AnswerStateNew.Skipped));
         }
 
         [Test]
