@@ -17,7 +17,7 @@ public class LearningSessionNewCreator
     public static LearningSessionNew ForLoggedInUser(LearningSessionConfig config)
     {  
         List<Question> questions;
-        if (config.OnlyWuwi)
+        if (config.IsWishSession)
             questions = OrderByProbability(GetRandomLimited(GetWuwiQuestionsFromCategory(config.UserId, config.CategoryId), config.MaxQuestions)).ToList();
         else
             questions = OrderByProbability(GetRandomLimited(GetCategoryQuestionsFromEntityCache(config.CategoryId), config.MaxQuestions)).ToList();

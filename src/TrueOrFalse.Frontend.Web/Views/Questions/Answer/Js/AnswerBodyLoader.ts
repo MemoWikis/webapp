@@ -95,16 +95,25 @@ class AnswerBodyLoader {
 
     public loadNewSession(questionFilter = null, loadedFromVue = false, continueWithNewSession = false) {
 
-        this._sessionConfigDataJson = {
-            categoryId: $('#hhdCategoryId').val(),
-            isInLearningTab: this._isInLearningTab,
-            questionFilter: questionFilter,
-            userId: $("#hddUserId").val()
-        }
+        
+            this._sessionConfigDataJson = {
+                categoryId: $('#hhdCategoryId').val(),
+                isInLearningTab: this._isInLearningTab,
+                questionFilter: questionFilter,
+                userId: $("#hddUserId").val(),
+                maxQuestions: questionFilter != null ? questionFilter.maxQuestionCount : 10,
+                minProbability: questionFilter != null ? questionFilter.minProbability : 0,
+                maxProbability: questionFilter != null ? questionFilter.maxProbability : 100,
+                isWishSession: questionFilter != null ? questionFilter.questionsInWishknowledge : false,
+                questionOrder : questionFilter != null ? questionFilter.questionOrder : 0,
+                mode: questionFilter != null ? questionFilter.mode : "Learning"
+            }
+        
 
         var url = "/AnswerQuestion/RenderNewAnswerBodySessionForCategory";
         this._getCustomSession = true;
         this.loadNewQuestion(url, loadedFromVue, continueWithNewSession);
+        console.log(this._sessionConfigDataJson);
     }
 
     public loadNewQuestion(url: string, loadedFromVue: boolean = false, continueWithNewSession: boolean = false) {
@@ -122,6 +131,7 @@ class AnswerBodyLoader {
             Utils.ShowSpinner();
             $('html, body').animate({ scrollTop: 0 }, 'fast');
         }
+        console.log(this._sessionConfigDataJson);
         $.ajax({
             url: url,
             contentType: "application/json; charset=utf-8",

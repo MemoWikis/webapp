@@ -2,5 +2,11 @@
     categoryId: number;
     isInLearningTab: boolean;
     questionFilter: QuestionFilterJson;
-    userId: string; 
+    userId: string;
+    maxQuestions: number;
+    minProbability: number;
+    maxProbability: number;
+    isWishSession: boolean;
+    questionOrder: number;
+    mode: string;
 }
