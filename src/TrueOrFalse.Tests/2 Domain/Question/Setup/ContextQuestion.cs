@@ -195,7 +195,7 @@ namespace TrueOrFalse.Tests
 
 
 
-        public static void SetWuwi(int amountQuestion)
+        public static List<UserCacheItem> SetWuwi(int amountQuestion)
         {
             var contextUser = ContextUser.New();
             var users = contextUser.Add().All;
@@ -211,6 +211,8 @@ namespace TrueOrFalse.Tests
             UserCache.AddOrUpdate(users.FirstOrDefault());
 
             PutQuestionValuationsIntoUserCache(questions, users);
+
+            return UserCache.GetAllCacheItems();
         }
 
         private static void PutQuestionValuationsIntoUserCache(List<Question> questions, List<User> users)
