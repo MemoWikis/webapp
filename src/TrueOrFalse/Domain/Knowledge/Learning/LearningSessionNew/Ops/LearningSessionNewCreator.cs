@@ -9,7 +9,7 @@ public class LearningSessionNewCreator
     public static LearningSessionNew ForAnonymous(LearningSessionConfig config)
     {
         var questions = GetCategoryQuestionsFromEntityCache(config.CategoryId);
-        questions = GetRandomLimited(questions, config.MaxQuestions);
+        questions = GetRandomLimited(questions, config);
 
         return new LearningSessionNew(questions.Select(q => new LearningSessionStepNew(q)).ToList(), config);
     }
@@ -18,28 +18,33 @@ public class LearningSessionNewCreator
     {  
         List<Question> questions;
         if (config.IsWishSession)
-            questions = OrderByProbability(GetRandomLimited(GetWuwiQuestionsFromCategory(config.UserId, config.CategoryId), config.MaxQuestions)).ToList();
+            questions = OrderByProbability(GetRandomLimited(GetWuwiQuestionsFromCategory(config.UserId, config.CategoryId), config)).ToList();
         else
-            questions = OrderByProbability(GetRandomLimited(GetCategoryQuestionsFromEntityCache(config.CategoryId), config.MaxQuestions)).ToList();
+            questions = OrderByProbability(GetRandomLimited(GetCategoryQuestionsFromEntityCache(config.CategoryId), config)).ToList();
 
         return new LearningSessionNew(questions.Select(q => new LearningSessionStepNew(q)).ToList(), config);
     }
 
-    private static List<Question> GetRandomLimited(List<Question> questions, int amountQuestions)
-    {
+    private static List<Question> GetRandomLimited(List<Question> questions, LearningSessionConfig config)
+    { 
+        if(config.MinProbability != 0 && config.MaxProbability != 100)
+            questions = GetQuestionsFromMinToMaxProbability(config.MinProbability, config.MaxProbability, questions);
+
         questions.Shuffle();
 
-        if (amountQuestions == 0)
+        if (config.MaxQuestions == 0)
             return questions;
 
-        if (amountQuestions > questions.Count)
+        if (config.MaxQuestions > questions.Count)
             return questions;
 
-        var amountQuestionsToDelete = questions.Count - amountQuestions;
+        var amountQuestionsToDelete = questions.Count - config.MaxQuestions;
         questions.RemoveRange(0, amountQuestionsToDelete);
         
         return questions;
     }
+
+
 
     private static List<Question> GetWuwiQuestionsFromCategory(int userId, int categoryId)
     {
@@ -59,5 +64,12 @@ public class LearningSessionNewCreator
     private static IList<Question> OrderByProbability( List<Question> questions)
     {
         return questions.OrderByDescending(q => q.CorrectnessProbability).ToList();
+    }
+
+    private static List<Question> GetQuestionsFromMinToMaxProbability(int minProbability, int maxProbability, List<Question> questions)
+    {
+        var result = questions.Where(q =>
+            q.CorrectnessProbability >= minProbability && q.CorrectnessProbability <= maxProbability);
+        return result.ToList(); 
     }
 }

@@ -110,6 +110,4 @@ public class LearningSessionNew
         if (!Config.IsAnonymous() && !Config.IsInTestMode)
             Steps.RemoveAt(Steps.Count - 1);
     }
-
-
 }

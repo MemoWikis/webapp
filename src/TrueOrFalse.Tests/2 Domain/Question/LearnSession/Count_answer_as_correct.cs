@@ -64,7 +64,6 @@ namespace TrueOrFalse.Tests._2_Domain.Question.LearnSession
                     IsInTestMode = false,
                     IsWishSession = true,
                     MaxQuestions = 5,
-                    MaxProbability = 100,
                     CategoryId = 0
                 });
             learningSession.SetCurrentStepAsCorrect();

@@ -95,7 +95,7 @@ namespace TrueOrFalse.Tests
 
         public ContextQuestion AddAnswer(string answer)
         {
-            var result = Sl.Resolve<AnswerQuestion>().Run(All.Last().Id, answer, Learner.Id, Guid.NewGuid(), 1, -1);
+            Sl.Resolve<AnswerQuestion>().Run(All.Last().Id, answer, Learner.Id, Guid.NewGuid(), 1, -1);
 
             var answerRepo = Sl.R<AnswerRepo>();
             answerRepo.Flush();
