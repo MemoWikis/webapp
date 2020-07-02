@@ -8,5 +8,4 @@
     maxProbability: number;
     isWishSession: boolean;
     questionOrder: number;
-    mode: string;
 }
