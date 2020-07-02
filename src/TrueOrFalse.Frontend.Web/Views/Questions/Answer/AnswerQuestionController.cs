@@ -457,11 +457,9 @@ public class AnswerQuestionController : BaseController
     public string RenderNewAnswerBodySessionForCategory(LearningSessionConfig config)
     {
         var learningSession = UserId != -1 ? LearningSessionNewCreator.ForLoggedInUser(config) : LearningSessionNewCreator.ForAnonymous(config);
-        
         var user = new SessionUser();
         user.LearningSession = learningSession;
         Sl.SessionUser.LearningSession = learningSession;
-
         var firstStep = 0; 
 
         return RenderAnswerBodyByLearningSession(firstStep, isInLearningTab: config.IsInLearningTab, isInTestMode: config.IsInTestMode);
