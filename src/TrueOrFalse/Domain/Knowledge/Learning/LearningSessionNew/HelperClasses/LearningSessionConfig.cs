@@ -13,7 +13,6 @@ public class LearningSessionConfig
     public int MinProbability { get; set; }
     public int MaxProbability { get; set; }
     public int QuestionOrder { get; set; }
-    public string Mode { get; set; }
 
     /// <summary>
     /// User is not logged in
