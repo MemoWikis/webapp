@@ -181,7 +181,7 @@ namespace TrueOrFalse.Tests
             //put into memory cache
         }
 
-        public static void PutQuestionsIntoMemoryCache(int amount = 5000)
+        public static void PutQuestionsIntoMemoryCache(int amount = 20)
         {
             var questions = New().AddQuestions(amount, null, true).All;
 
