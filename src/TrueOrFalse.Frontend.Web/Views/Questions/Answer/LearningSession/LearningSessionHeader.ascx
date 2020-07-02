@@ -12,7 +12,7 @@
             <% var category = EntityCache.GetCategory(Model.CategoryModel.Id); 
                 Html.RenderPartial("CategoryLabel", category); %>
 
-        <% if(Model.LearningSession != null && Model.LearningSession.Config.OnlyWuwi) { %>
+        <% if(Model.LearningSession != null && Model.LearningSession.Config.IsWishSession) { %>
             <a href="<%= Links.QuestionsWish() %>">Dein Wunschwissen</a>
         <% } %>
     </div>
