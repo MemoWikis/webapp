@@ -1,8 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using System.Net;
-using System.Web;
-using Seedworks.Web.State;
+
 
 public class LearningSessionNewCreator
 {
@@ -27,7 +25,7 @@ public class LearningSessionNewCreator
 
     private static List<Question> GetRandomLimited(List<Question> questions, LearningSessionConfig config)
     { 
-        if(config.MinProbability != 0 && config.MaxProbability != 100)
+        if(config.MinProbability != 0 || config.MaxProbability != 100)
             questions = GetQuestionsFromMinToMaxProbability(config.MinProbability, config.MaxProbability, questions);
 
         questions.Shuffle();
