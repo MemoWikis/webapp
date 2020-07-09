@@ -330,6 +330,8 @@ namespace TrueOrFalse.View
             bundles.Add(new StyleBundle("~/bundles/Team")
                 .Include("~/Views/Welcome/Team.css"));
 
+            bundles.Add(new StyleBundle("~/bundles/switch")
+                .Include("~/Views/Shared/Switch/Switch.css"));
 #if RELEASE
             BundleTable.EnableOptimizations = true;
 #endif

@@ -362,5 +362,9 @@
   {
     "outputFile": "Views/Categories/History/Detail/CategoryHistoryDetail.css",
     "inputFile": "Views/Categories/History/Detail/CategoryHistoryDetail.less"
+  },
+  {
+    "outputFile": "Views/Shared/Switch/Switch.css",
+    "inputFile": "Views/Shared/Switch/Switch.less"
   }
 ]

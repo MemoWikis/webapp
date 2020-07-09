@@ -22408,6 +22408,10 @@
     <Content Include="Views\Shared\Spinner\Spinner.css">
       <DependentUpon>Spinner.less</DependentUpon>
     </Content>
+    <Content Include="Views\Shared\Switch\Switch.ascx" />
+    <Content Include="Views\Shared\Switch\Switch.css">
+      <DependentUpon>Switch.less</DependentUpon>
+    </Content>
     <Content Include="Views\Users\Account\WidgetStats\Partials\WidgetStatsDetailViews.ascx" />
     <Content Include="Views\Users\Account\WidgetStats\Partials\WidgetStatsForHost.ascx" />
     <Content Include="Views\Users\Account\WidgetStats\WidgetStats.aspx" />
@@ -24087,6 +24091,8 @@
     <Content Include="Views\Questions\Answer\Js\SessionConfig\SessionConfig.js.map">
       <DependentUpon>SessionConfig.ts</DependentUpon>
     </Content>
+    <Content Include="Views\Shared\Switch\Switch.less" />
+  
     <None Include="Web.overwritten.config.sample" />
     <Content Include="Views\Welcome\Logout.aspx" />
     <Content Include="Views\Api\Export.aspx" />

@@ -1,20 +1,61 @@
 ﻿@radioSize: 17px;
 @borderColor: #949494;
 @activeSelection: #428BCA;
+@fontColor: #003264;
+
+.labelFont {
+    font-size: 10px;
+    color: #555555;
+}
+
+.paddingLeft20 {
+    padding-left: 20px;
+}
+
+
 
 #SessionConfigApp {
-
+    #SessionConfigHeader{
+        height: 88px;
+        padding:0;
+    } 
     .modal-header {
+        background-color: #AFD534;
         border-bottom: none;
 
         h4 {
             padding-left: 20px;
-            padding-top: 20px;
             font-size: 24px;
+            font-weight: bold;
+            color: @fontColor;
+        }
+
+        h5 {
+            padding-left: 20px;
+            padding-top: 18px;
+            margin-top: 0;
+            margin-bottom: 0;
+            font-size: 14px;
+            color: @fontColor;
         }
     }
 
     .modal-body {
+        padding-bottom: 0px;
+        .test-mode {
+            margin-top: 16px;
+        }
+
+        .must-logged-in {
+            .paddingLeft20;
+        }
+
+        .test-mode-info {
+            color: #999999;
+            font-size: 12px;
+            margin-top: 16px;
+            max-width: 485px;
+        }
 
         .fade-enter {
             opacity: 0;
@@ -66,26 +107,115 @@
         }
 
         .modal-section-label {
-            padding-left: 20px;
             font-size: 20px;
+            color: @fontColor;
+            padding-top: 40px;
         }
 
         .modal-divider {
             border-bottom: 1px grey solid;
             opacity: 0.4;
-            margin: 20px;
+            margin: 37px 20px 30px 20px;
+        }
+
+        #QuestionsHeader {
+            font-size: 14px;
+            color: #003264;
+            margin-bottom: 20px;
+        }
+
+        .modal-more-options {
+            .paddingLeft20;
+        }
+
+        .more-options {
+            color: #AFD534;
+            font-size: 14px;
+            margin-top: 50px;
+
+
+            .angle {
+                margin-top: 1px;
+            }
+        }
+
+        .themes-info {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: rgba(197, 240, 58, .41);
+            height: 30px;
+            margin-top: 50px;
+            margin-right: -15px;
+            margin-left: -15px;
+
+            @media (max-width: 500px) {
+                height: 60px;
+            }
+
+            p {
+                font-size: 14px;
+                color: #003264;
+                margin: 0;
+
+                @media (max-width: 500px) {
+                    margin-left: 35px;
+                    margin-right: 35px;
+                }
+            }
+        }
+
+        #SafeLearnOptions {
+            margin-top: 55px;
+            display: flex;
+            justify-content: center;
+            align-items: center; 
+            flex-flow: column;
+
+            @media (max-width: 420px) {
+                padding-left: 20px;
+            }
+
+            .safe-settings {
+                max-width: 344px;
+            }
+
+            label {
+                font-size: 12px;
+                color: rgba(85, 85, 85, 1);
+
+                @media (min-width: 576px) {
+                }
+            }
+
+            .info-options {
+                color: #999999;
+                margin-top: 13px;
+                max-width: 344px;
+                font-size: 12px;
+            }
         }
     }
 
-    .sliderLabel, .radioLabel {
-        font-size: 18px;
-        color: #434343;
+    .sliderLabel, .checkbox-label {
+        font-size: 14px;
+        color: #555555;
         word-wrap: break-word;
+    }
+
+    input[type="checkbox"] {
+        margin-right: 7px;
     }
 
     .modal-footer {
         border-top: none;
+        display: flex; 
+        flex-wrap: wrap; 
+        justify-content: center; 
+        margin-top: 5px;
     }
+
+
 
     label.sliderLabel {
         padding-top: 20px;
@@ -268,7 +398,8 @@
 
 
     .sliders {
-        padding: 0 45px;
+        margin-top: 50px;
+        padding-left: 20px;
 
         .sliderContainer {
             display: flex;
@@ -280,12 +411,12 @@
             }
 
             .vueSlider {
-                width: 300px;
+                width: 255px;
             }
 
             .leftLabel, .rightLabel {
                 color: @borderColor;
-                min-width: 42px;
+                .labelFont;
             }
 
             .leftLabel {
@@ -309,7 +440,8 @@
 
         .col-md-3, .col-sm-6 {
             min-width: 203px;
-            @media (max-width: 443px){
+
+            @media (max-width: 443px) {
                 width: 100% !important;
             }
         }
@@ -400,330 +532,328 @@
 }
 
 
-.vue-slider-dot-handle {
-    cursor: pointer;
-    width: 100%;
-    height: 100%;
-    border-radius: 50%;
-    background-color: #fff;
-    -webkit-box-sizing: border-box;
-    box-sizing: border-box;
-    -webkit-box-shadow: 0.5px 0.5px 2px 1px rgba(0,0,0,.32);
-    box-shadow: 0.5px 0.5px 2px 1px rgba(0,0,0,.32);
-}
+    .vue-slider-dot-handle {
+        cursor: pointer;
+        width: 100%;
+        height: 100%;
+        border-radius: 50%;
+        background-color: #fff;
+        -webkit-box-sizing: border-box;
+        box-sizing: border-box;
+        -webkit-box-shadow: 0.5px 0.5px 2px 1px rgba(0,0,0,.32);
+        box-shadow: 0.5px 0.5px 2px 1px rgba(0,0,0,.32);
+    }
 
-.vue-slider-dot {
-    position: absolute;
-    will-change: transform;
-    -webkit-transition: all 0s;
-    transition: all 0s;
-    z-index: 5
-}
-
-.vue-slider-dot-tooltip {
-    position: absolute;
-    visibility: hidden
-}
-
-.vue-slider-dot-tooltip-show {
-    visibility: visible
-}
-
-.vue-slider-dot-tooltip-top {
-    top: -10px;
-    left: 50%;
-    -webkit-transform: translate(-50%, -100%);
-    transform: translate(-50%, -100%)
-}
-
-.vue-slider-dot-tooltip-bottom {
-    bottom: -10px;
-    left: 50%;
-    -webkit-transform: translate(-50%, 100%);
-    transform: translate(-50%, 100%)
-}
-
-.vue-slider-dot-tooltip-left {
-    left: -10px;
-    top: 50%;
-    -webkit-transform: translate(-100%, -50%);
-    transform: translate(-100%, -50%)
-}
-
-.vue-slider-dot-tooltip-right {
-    right: -10px;
-    top: 50%;
-    -webkit-transform: translate(100%, -50%);
-    transform: translate(100%, -50%)
-}
-
-.vue-slider-marks {
-    position: relative;
-    width: 100%;
-    height: 100%
-}
-
-.vue-slider-mark {
-    position: absolute;
-    z-index: 1
-}
-
-.vue-slider-ltr .vue-slider-mark,
-.vue-slider-rtl .vue-slider-mark {
-    width: 0;
-    height: 100%;
-    top: 50%
-}
-
-.vue-slider-ltr .vue-slider-mark-step,
-.vue-slider-rtl .vue-slider-mark-step {
-    top: 0
-}
-
-.vue-slider-ltr .vue-slider-mark-label,
-.vue-slider-rtl .vue-slider-mark-label {
-    top: 100%;
-    margin-top: 10px
-}
-
-.vue-slider-ltr .vue-slider-mark {
-    -webkit-transform: translate(-50%, -50%);
-    transform: translate(-50%, -50%)
-}
-
-.vue-slider-ltr .vue-slider-mark-step {
-    left: 0
-}
-
-.vue-slider-ltr .vue-slider-mark-label {
-    left: 50%;
-    -webkit-transform: translateX(-50%);
-    transform: translateX(-50%)
-}
-
-.vue-slider-rtl .vue-slider-mark {
-    -webkit-transform: translate(50%, -50%);
-    transform: translate(50%, -50%)
-}
-
-.vue-slider-rtl .vue-slider-mark-step {
-    right: 0
-}
-
-.vue-slider-rtl .vue-slider-mark-label {
-    right: 50%;
-    -webkit-transform: translateX(50%);
-    transform: translateX(50%)
-}
-
-.vue-slider-btt .vue-slider-mark,
-.vue-slider-ttb .vue-slider-mark {
-    width: 100%;
-    height: 0;
-    left: 50%
-}
-
-.vue-slider-btt .vue-slider-mark-step,
-.vue-slider-ttb .vue-slider-mark-step {
-    left: 0
-}
-
-.vue-slider-btt .vue-slider-mark-label,
-.vue-slider-ttb .vue-slider-mark-label {
-    left: 100%;
-    margin-left: 10px
-}
-
-.vue-slider-btt .vue-slider-mark {
-    -webkit-transform: translate(-50%, 50%);
-    transform: translate(-50%, 50%)
-}
-
-.vue-slider-btt .vue-slider-mark-step {
-    top: 0
-}
-
-.vue-slider-btt .vue-slider-mark-label {
-    top: 50%;
-    -webkit-transform: translateY(-50%);
-    transform: translateY(-50%)
-}
-
-.vue-slider-ttb .vue-slider-mark {
-    -webkit-transform: translate(-50%, -50%);
-    transform: translate(-50%, -50%)
-}
-
-.vue-slider-ttb .vue-slider-mark-step {
-    bottom: 0
-}
-
-.vue-slider-ttb .vue-slider-mark-label {
-    bottom: 50%;
-    -webkit-transform: translateY(50%);
-    transform: translateY(50%)
-}
-
-.vue-slider-mark-label,
-.vue-slider-mark-step {
-    position: absolute
-}
-
-.vue-slider {
-    position: relative;
-    -webkit-box-sizing: content-box;
-    box-sizing: content-box;
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
-    display: block;
-    -webkit-tap-highlight-color: rgba(0, 0, 0, 0)
-}
-
-.vue-slider-rail {
-    position: relative;
-    width: 100%;
-    height: 100%;
-    -webkit-transition-property: width, height, left, right, top, bottom;
-    transition-property: width, height, left, right, top, bottom;
-    background-color: silver;
-    border-radius: 15px;
-}
-
-.vue-slider-process {
-    position: absolute;
-    z-index: 1;
-    background: @activeSelection;
-    border-radius: 15px;
-}
-
-/* component style */
-.vue-slider-disabled {
-    opacity: 0.5;
-    cursor: not-allowed;
-}
-
-/* mark style */
-.vue-slider-mark {
-    z-index: 4;
-}
-
-.vue-slider-mark:first-child .vue-slider-mark-step, .vue-slider-mark:last-child .vue-slider-mark-step {
-    display: none;
-}
-
-.vue-slider-mark-step {
-    width: 100%;
-    height: 100%;
-    border-radius: 50%;
-    background-color: rgba(0, 0, 0, 0.16);
-}
-
-.vue-slider-mark-label {
-    font-size: 14px;
-    white-space: nowrap;
-}
-/* dot style */
-.vue-slider-dot-handle {
-    cursor: pointer;
-    width: 100%;
-    height: 100%;
-    border-radius: 50%;
-    background-color: #fff;
-    box-sizing: border-box;
-    box-shadow: 0.5px 0.5px 2px 1px rgba(0, 0, 0, 0.32);
-}
-
-.vue-slider-dot-handle-focus {
-    box-shadow: 0px 0px 1px 2px rgba(52, 152, 219, 0.36);
-}
-
-.vue-slider-dot-handle-disabled {
-    cursor: not-allowed;
-    background-color: #ccc;
-}
-
-.vue-slider-dot-tooltip-inner {
-    font-size: 14px;
-    white-space: nowrap;
-    padding: 2px 5px;
-    min-width: 20px;
-    text-align: center;
-    color: #fff;
-    border-radius: 5px;
-    border-color: @activeSelection;
-    background-color: @activeSelection;
-    box-sizing: content-box;
-
-    &::after {
-        content: "";
+    .vue-slider-dot {
         position: absolute;
+        will-change: transform;
+        -webkit-transition: all 0s;
+        transition: all 0s;
+        z-index: 5
+    }
+
+    .vue-slider-dot-tooltip {
+        position: absolute;
+        visibility: hidden
+    }
+
+    .vue-slider-dot-tooltip-show {
+        visibility: visible
+    }
+
+    .vue-slider-dot-tooltip-top {
+        top: -10px;
+        left: 50%;
+        -webkit-transform: translate(-50%, -100%);
+        transform: translate(-50%, -100%)
+    }
+
+    .vue-slider-dot-tooltip-bottom {
+        bottom: -10px;
+        left: 50%;
+        -webkit-transform: translate(-50%, 100%);
+        transform: translate(-50%, 100%)
+    }
+
+    .vue-slider-dot-tooltip-left {
+        left: -10px;
+        top: 50%;
+        -webkit-transform: translate(-100%, -50%);
+        transform: translate(-100%, -50%)
+    }
+
+    .vue-slider-dot-tooltip-right {
+        right: -10px;
+        top: 50%;
+        -webkit-transform: translate(100%, -50%);
+        transform: translate(100%, -50%)
+    }
+
+    .vue-slider-marks {
+        position: relative;
+        width: 100%;
+        height: 100%
+    }
+
+    .vue-slider-mark {
+        position: absolute;
+        z-index: 1
+    }
+
+    .vue-slider-ltr .vue-slider-mark,
+    .vue-slider-rtl .vue-slider-mark {
+        width: 0;
+        height: 100%;
+        top: 50%
+    }
+
+    .vue-slider-ltr .vue-slider-mark-step,
+    .vue-slider-rtl .vue-slider-mark-step {
+        top: 0
+    }
+
+    .vue-slider-ltr .vue-slider-mark-label,
+    .vue-slider-rtl .vue-slider-mark-label {
         top: 100%;
+        margin-top: 10px
+    }
+
+    .vue-slider-ltr .vue-slider-mark {
+        -webkit-transform: translate(-50%, -50%);
+        transform: translate(-50%, -50%)
+    }
+
+    .vue-slider-ltr .vue-slider-mark-step {
+        left: 0
+    }
+
+    .vue-slider-ltr .vue-slider-mark-label {
+        left: 50%;
+        -webkit-transform: translateX(-50%);
+        transform: translateX(-50%)
+    }
+
+    .vue-slider-rtl .vue-slider-mark {
+        -webkit-transform: translate(50%, -50%);
+        transform: translate(50%, -50%)
+    }
+
+    .vue-slider-rtl .vue-slider-mark-step {
+        right: 0
+    }
+
+    .vue-slider-rtl .vue-slider-mark-label {
+        right: 50%;
+        -webkit-transform: translateX(50%);
+        transform: translateX(50%)
+    }
+
+    .vue-slider-btt .vue-slider-mark,
+    .vue-slider-ttb .vue-slider-mark {
+        width: 100%;
+        height: 0;
+        left: 50%
+    }
+
+    .vue-slider-btt .vue-slider-mark-step,
+    .vue-slider-ttb .vue-slider-mark-step {
+        left: 0
+    }
+
+    .vue-slider-btt .vue-slider-mark-label,
+    .vue-slider-ttb .vue-slider-mark-label {
+        left: 100%;
+        margin-left: 10px
+    }
+
+    .vue-slider-btt .vue-slider-mark {
+        -webkit-transform: translate(-50%, 50%);
+        transform: translate(-50%, 50%)
+    }
+
+    .vue-slider-btt .vue-slider-mark-step {
+        top: 0
+    }
+
+    .vue-slider-btt .vue-slider-mark-label {
+        top: 50%;
+        -webkit-transform: translateY(-50%);
+        transform: translateY(-50%)
+    }
+
+    .vue-slider-ttb .vue-slider-mark {
+        -webkit-transform: translate(-50%, -50%);
+        transform: translate(-50%, -50%)
+    }
+
+    .vue-slider-ttb .vue-slider-mark-step {
+        bottom: 0
+    }
+
+    .vue-slider-ttb .vue-slider-mark-label {
+        bottom: 50%;
+        -webkit-transform: translateY(50%);
+        transform: translateY(50%)
+    }
+
+    .vue-slider-mark-label,
+    .vue-slider-mark-step {
+        position: absolute
+    }
+
+    .vue-slider {
+        position: relative;
+        -webkit-box-sizing: content-box;
+        box-sizing: content-box;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+        display: block;
+        -webkit-tap-highlight-color: rgba(0, 0, 0, 0)
+    }
+
+    .vue-slider-rail {
+        position: relative;
+        width: 100%;
+        height: 100%;
+        -webkit-transition-property: width, height, left, right, top, bottom;
+        transition-property: width, height, left, right, top, bottom;
+        background-color: silver;
+        border-radius: 15px;
+    }
+
+    .vue-slider-process {
+        position: absolute;
+        z-index: 1;
+        background: @activeSelection;
+        border-radius: 15px;
+    }
+    /* component style */
+    .vue-slider-disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+    }
+    /* mark style */
+    .vue-slider-mark {
+        z-index: 4;
+    }
+
+    .vue-slider-mark:first-child .vue-slider-mark-step, .vue-slider-mark:last-child .vue-slider-mark-step {
+        display: none;
+    }
+
+    .vue-slider-mark-step {
+        width: 100%;
+        height: 100%;
+        border-radius: 50%;
+        background-color: rgba(0, 0, 0, 0.16);
+    }
+
+    .vue-slider-mark-label {
+        font-size: 14px;
+        white-space: nowrap;
+    }
+    /* dot style */
+    .vue-slider-dot-handle {
+        cursor: pointer;
+        width: 100%;
+        height: 100%;
+        border-radius: 50%;
+        background-color: #fff;
+        box-sizing: border-box;
+        box-shadow: 0.5px 0.5px 2px 1px rgba(0, 0, 0, 0.32);
+    }
+
+    .vue-slider-dot-handle-focus {
+        box-shadow: 0px 0px 1px 2px rgba(52, 152, 219, 0.36);
+    }
+
+    .vue-slider-dot-handle-disabled {
+        cursor: not-allowed;
+        background-color: #ccc;
+    }
+
+    .vue-slider-dot-tooltip-inner {
+        font-size: 14px;
+        white-space: nowrap;
+        padding: 2px 5px;
+        min-width: 20px;
+        text-align: center;
+        color: #fff;
+        border-radius: 5px;
+        border-color: @activeSelection;
+        background-color: @activeSelection;
+        box-sizing: content-box;
+
+        &::after {
+            content: "";
+            position: absolute;
+            top: 100%;
+            border-color: transparent;
+            border-style: solid;
+            border-width: 5px;
+            border-top-color: inherit;
+            left: 50%;
+            transform: translate(-50%);
+            height: 0;
+            width: 0;
+        }
+    }
+
+    .vue-slider-dot-tooltip-inner-top::after {
+        top: 100%;
+        left: 50%;
+        transform: translate(-50%, 0);
+        height: 0;
+        width: 0;
         border-color: transparent;
         border-style: solid;
         border-width: 5px;
         border-top-color: inherit;
+    }
+
+    .vue-slider-dot-tooltip-inner-bottom::after {
+        bottom: 100%;
         left: 50%;
-        transform: translate(-50%);
+        transform: translate(-50%, 0);
         height: 0;
         width: 0;
+        border-color: transparent;
+        border-style: solid;
+        border-width: 5px;
+        border-bottom-color: inherit;
     }
-}
 
-.vue-slider-dot-tooltip-inner-top::after {
-    top: 100%;
-    left: 50%;
-    transform: translate(-50%, 0);
-    height: 0;
-    width: 0;
-    border-color: transparent;
-    border-style: solid;
-    border-width: 5px;
-    border-top-color: inherit;
-}
+    .vue-slider-dot-tooltip-inner-left::after {
+        left: 100%;
+        top: 50%;
+        transform: translate(0, -50%);
+        height: 0;
+        width: 0;
+        border-color: transparent;
+        border-style: solid;
+        border-width: 5px;
+        border-left-color: inherit;
+    }
 
-.vue-slider-dot-tooltip-inner-bottom::after {
-    bottom: 100%;
-    left: 50%;
-    transform: translate(-50%, 0);
-    height: 0;
-    width: 0;
-    border-color: transparent;
-    border-style: solid;
-    border-width: 5px;
-    border-bottom-color: inherit;
-}
+    .vue-slider-dot-tooltip-inner-right::after {
+        right: 100%;
+        top: 50%;
+        transform: translate(0, -50%);
+        height: 0;
+        width: 0;
+        border-color: transparent;
+        border-style: solid;
+        border-width: 5px;
+        border-right-color: inherit;
+    }
 
-.vue-slider-dot-tooltip-inner-left::after {
-    left: 100%;
-    top: 50%;
-    transform: translate(0, -50%);
-    height: 0;
-    width: 0;
-    border-color: transparent;
-    border-style: solid;
-    border-width: 5px;
-    border-left-color: inherit;
-}
+    .vue-slider-dot-tooltip-wrapper {
+        opacity: 0;
+        transition: all 0.3s;
+    }
 
-.vue-slider-dot-tooltip-inner-right::after {
-    right: 100%;
-    top: 50%;
-    transform: translate(0, -50%);
-    height: 0;
-    width: 0;
-    border-color: transparent;
-    border-style: solid;
-    border-width: 5px;
-    border-right-color: inherit;
-}
-
-.vue-slider-dot-tooltip-wrapper {
-    opacity: 0;
-    transition: all 0.3s;
-}
-
-.vue-slider-dot-tooltip-wrapper-show {
-    opacity: 1;
-}
+    .vue-slider-dot-tooltip-wrapper-show {
+        opacity: 1;
+    }
