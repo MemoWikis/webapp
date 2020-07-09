@@ -66,9 +66,9 @@
                     </transition>
 
                     <div ref="radioSection" class="must-logged-in" :class="{'disabled-radios' : !isLoggedIn}" @mouseover="isHoveringOptions = true" @mouseleave="isHoveringOptions = false">
-                        <%--         <transition name="fade">
+                        <transition name="fade">
                             <div v-show="!isLoggedIn && isHoveringOptions" class="blur" :style="{maxWidth: radioWidth + 'px', maxHeight: radioHeight + 'px'}"></div>
-                        </transition>--%>
+                        </transition>
                         <div class="modal-section-label">Prüfungsmodus</div>
 <%--                        <label class="radio">
                             <input type="radio" name="r1" value="Test" v-model="questionFilter.mode" :disabled="!isLoggedIn">
@@ -118,7 +118,7 @@
                                         Alle Fragen
                                     </label> <br />
                                     <label class="checkbox-label">
-                                        <input id="QuestionInWishknowledge" type="checkbox" v-model="questionInWishknowledge" :disabled="!isLoggedIn" value="False"/>
+                                        <input id="QuestionInWishknowledge" type="checkbox" v-model="questionsInWishknowledge" :disabled="!isLoggedIn" value="False"/>
                                         In meinem Wunschwissen
                                     </label>
                                 </div>

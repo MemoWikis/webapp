@@ -19,6 +19,9 @@ new Vue({
                 questionsInWishknowledge: false,
                 questionOrder: 0,
                 mode: "Learning",
+                userIsAuthor: false,
+                allQuestions: false,
+                isNotQuestionInWishKnowledge: false
             },
             isLoggedIn: true,
             maxSelectableQuestionCount: 50,
@@ -31,6 +34,9 @@ new Vue({
             radioHeight: 0,
             radioWidth: 0,
             openLogin: false,
+            userIsAuthor: false,
+            allQuestions: false,
+            isNotQuestionInWishKnowledge: false
         };
     },
 
@@ -60,20 +66,36 @@ new Vue({
     },
 
     watch: {
+
         probabilityRange: function() {
             this.questionFilter.minProbability = this.probabilityRange[0];
             this.questionFilter.maxProbability = this.probabilityRange[1];
             this.loadQuestionCount();
         },
 
+        selectedQuestionCount: function (val) {
+            this.questionFilter.maxQuestionCount = parseInt(val);
+        },
+
         questionsInWishknowledge: function(val) {
             this.questionFilter.questionsInWishknowledge = val === "True";
             this.loadQuestionCount();
         },
-
-        selectedQuestionCount: function(val) {
-            this.questionFilter.maxQuestionCount = parseInt(val);
+        userIsAuthor: function (val) {
+            this.questionFilter.userIsAuthor = val === "True";
+            this.loadQuestionCount();
         },
+        allQuestions: function (val) {
+            this.questionFilter.allQuestions = val === "True";
+            this.loadQuestionCount();
+        },
+
+        isNotQuestionInWishKnowledge: function (val) {
+            this.questionFilter.allQuestions = val === "True";
+            this.loadQuestionCount();
+        },
+
+     
 
         'questionFilter.maxQuestionCount': function(val) {
             this.maxQuestionCountIsZero = val === 0;
