@@ -86,8 +86,6 @@ var vue = new Vue({
                 this.isNotQuestionInWishKnowledge = false;
                 this.allQuestions = false;
                 this.loadQuestionCount();
-                
-
             }
         },
         userIsAuthor: function (val) {
