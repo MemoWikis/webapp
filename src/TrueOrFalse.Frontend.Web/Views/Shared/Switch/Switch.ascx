@@ -4,7 +4,7 @@
 
 
 <div class="center">
-    <input type="checkbox" id="cbx" style="display:none" />
+    <input type="checkbox" id="cbx" style="display:none" v-model="isTestMode" />
     <label for="cbx" class="toggle">
         <span></span>
     </label>

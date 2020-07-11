@@ -37,6 +37,7 @@ var vue = new Vue({
             userIsAuthor: false,
             allQuestions: false,
             isNotQuestionInWishKnowledge: false
+            
         };
     },
 
@@ -76,7 +77,9 @@ var vue = new Vue({
         selectedQuestionCount: function (val) {
             this.questionFilter.maxQuestionCount = parseInt(val);
         },
-
+        isTestMode: function(val) {
+            var t = val;
+        },
         questionsInWishknowledge: function (val) {
             this.questionFilter.questionsInWishknowledge = val;
             if (val) {
