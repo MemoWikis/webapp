@@ -53,7 +53,6 @@
                     <h5>LERNOPTIONEN</h5>
                     <h4 class="modal-title" >{{title}} personalisieren</h4>
                 </div>
-
                 <div class="modal-body">
                     <transition name="fade">
                         <div class="restricted-options" v-show="!isLoggedIn && isHoveringOptions" @mouseover="isHoveringOptions = true" transition="fade">
@@ -64,78 +63,41 @@
                             </div>
                         </div>
                     </transition>
-
                     <div ref="radioSection" class="must-logged-in" :class="{'disabled-radios' : !isLoggedIn}" @mouseover="isHoveringOptions = true" @mouseleave="isHoveringOptions = false">
-                        <transition name="fade">
-                            <div v-show="!isLoggedIn && isHoveringOptions" class="blur" :style="{maxWidth: radioWidth + 'px', maxHeight: radioHeight + 'px'}"></div>
-                        </transition>
-                        <div class="modal-section-label">Prüfungsmodus</div>
-<%--                        <label class="radio">
-                            <input type="radio" name="r1" value="Test" v-model="questionFilter.mode" :disabled="!isLoggedIn">
-                            <span></span>
-                            <div class="radioLabelContainer">                            
-                                <div class="radioLabel">Testen</div>
-                                <div class="labelInfo">- keine Antworthilfe, keine Wiederholungen, zufällige Fragen</div>
+                            <transition name="fade">
+                                <div v-show="!isLoggedIn && isHoveringOptions" class="blur" :style="{maxWidth: radioWidth + 'px', maxHeight: radioHeight + 'px'}"></div>
+                            </transition>
+                            <div class="modal-section-label">Prüfungsmodus</div>
+                            <div class="test-mode">
+                            <%= Html.Partial("~/Views/Shared/Switch/Switch.ascx") %>
                             </div>
-                        </label>--%>
-                        <div class="test-mode">
-                        <%= Html.Partial("~/Views/Shared/Switch/Switch.ascx") %>
-                        </div>
-                        <div class="test-mode-info">
-                            Du willst es Wissen? Im Prüfungsmodus kannst Du Dein Wissen realistisch testen: zufällige Fragen ohne Antworthilfe und Wiederholungen. Viel Erfolg!
-                        </div>
-                        <div class="modal-divider"></div>
-                        <h5 id="QuestionsHeader">Fragen</h5>
-                        <%--         <label class="radio">
-                            <input type="radio" name="r1" value="Learning" v-model="questionFilter.mode" :disabled="!isLoggedIn">
-                            <span></span>
-                            <div class="radioLabelContainer">                            
-                                <div class="radioLabel">Lernen</div>
-                                <div class="labelInfo">- Fragen mit geringer Antwortwahrscheinlichkeit werden zuerst geübt, Falsch gelöste Fragen werden wiederholt</div>
+                            <div class="test-mode-info">
+                                Du willst es Wissen? Im Prüfungsmodus kannst Du Dein Wissen realistisch testen: zufällige Fragen ohne Antworthilfe und Wiederholungen. Viel Erfolg!
                             </div>
-                        </label>--%>
-                        <%--<div class="modal-divider"></div>
-                        <div class="modal-section-label">Fragen</div>
-                           <label class="radio">
-                            <input type="radio" name="r2" value="False" v-model="questionsInWishknowledge" :disabled="!isLoggedIn">
-                            <span></span>
-                            <div class="radioLabelContainer">                            
-                                <div class="radioLabel fullSize">Alle Fragen</div>
-                            </div>
-                        </label>
-                        <label class="radio">
-                            <input type="radio" name="r2" value="True" v-model="questionsInWishknowledge" :disabled="!isLoggedIn">
-                            <span></span>
-                            <div class="radioLabelContainer">                            
-                                <div class="radioLabel fullSize">Fragen im Wunschwissen</div>
-                            </div>
-                        </label>--%>
+                            <div class="modal-divider"></div>
                         <div id="CheckboxesLearnOptions" class="row">
-                            
-                                <div class="col-sm-6">
-                                    <label class="checkbox-label">
-                                        <input id="AllQuestions" type="checkbox" v-model="allQuestions" :disabled="!isLoggedIn" value="False"/>
-                                        Alle Fragen
-                                    </label> <br />
-                                    <label class="checkbox-label">
-                                        <input id="QuestionInWishknowledge" type="checkbox" v-model="questionsInWishknowledge" :disabled="!isLoggedIn" value="False"/>
-                                        In meinem Wunschwissen
-                                    </label>
-                                </div>
-                                <div class="col-sm-6">
-                                    <label class="checkbox-label">
-                                        <input id="UserIsAuthor" type="checkbox" v-model="userIsAuthor" :disabled="!isLoggedIn" value="False"/>
-                                        Von mir erstellt
-                                    </label> <br />
-                                    <label class="checkbox-label">
-                                        <input id="IsNotQuestionInWishKnowledge" type="checkbox" v-model="isNotQuestionInWishKnowledge" :disabled="!isLoggedIn" value="False"/>
-                                        Nicht in meinem Wunschwissen
-                                    </label>
-                                </div>
+                            <div class="col-sm-6">
+                                <label class="checkbox-label">
+                                    <input id="AllQuestions" type="checkbox" v-model="allQuestions" :disabled="!isLoggedIn" value="False"/>
+                                    Alle Fragen
+                                </label> <br />
+                                <label class="checkbox-label">
+                                    <input id="QuestionInWishknowledge" type="checkbox" v-model="questionsInWishknowledge" :disabled="!isLoggedIn" value="False"/>
+                                    In meinem Wunschwissen
+                                </label>
                             </div>
-                       
+                            <div class="col-sm-6">
+                                <label class="checkbox-label">
+                                    <input id="UserIsAuthor" type="checkbox" v-model="userIsAuthor" :disabled="!isLoggedIn" value="False"/>
+                                    Von mir erstellt
+                                </label> <br />
+                                <label class="checkbox-label">
+                                    <input id="IsNotQuestionInWishKnowledge" type="checkbox" v-model="isNotQuestionInWishKnowledge" :disabled="!isLoggedIn" value="False"/>
+                                    Nicht in meinem Wunschwissen
+                                </label>
+                            </div>
+                        </div>
                     </div>
-
                     <div class="sliders row">
                         <div class="col-sm-6">
                             <label class="sliderLabel">Deine Antwortwahrscheinlichkeit</label>

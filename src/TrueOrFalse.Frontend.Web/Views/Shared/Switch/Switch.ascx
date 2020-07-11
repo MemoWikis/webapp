@@ -2,7 +2,6 @@
 <%@ Import Namespace="System.Web.Optimization" %>
 <%= Styles.Render("~/bundles/switch") %>
 
-
 <div class="center">
     <input type="checkbox" id="cbx" style="display:none" v-model="isTestMode" />
     <label for="cbx" class="toggle">

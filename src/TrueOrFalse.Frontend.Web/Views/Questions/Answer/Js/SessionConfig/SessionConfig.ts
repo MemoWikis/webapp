@@ -117,8 +117,6 @@ var vue = new Vue({
            
         },
 
-     
-
         'questionFilter.maxQuestionCount': function(val) {
             this.maxQuestionCountIsZero = val === 0;
         },
