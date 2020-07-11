@@ -1,7 +1,7 @@
 ﻿declare var Vue: any;
 declare var VueSlider: any;
 
-new Vue({
+var vue = new Vue({
     el: '#SessionConfigApp',
     components: {
         VueSlider: window['vue-slider-component']
@@ -77,22 +77,41 @@ new Vue({
             this.questionFilter.maxQuestionCount = parseInt(val);
         },
 
-        questionsInWishknowledge: function(val) {
-            this.questionFilter.questionsInWishknowledge = val === "True";
-            this.loadQuestionCount();
+        questionsInWishknowledge: function (val) {
+            this.questionFilter.questionsInWishknowledge = val;
+            if (val) {
+                this.isNotQuestionInWishKnowledge = false;
+                this.allQuestions = false;
+                this.loadQuestionCount();
+                
+
+            }
         },
         userIsAuthor: function (val) {
-            this.questionFilter.userIsAuthor = val === "True";
-            this.loadQuestionCount();
+            this.questionFilter.userIsAuthor = val;
+            if (val) {
+                this.allQuestions = false;
+                this.loadQuestionCount();
+            }
         },
         allQuestions: function (val) {
-            this.questionFilter.allQuestions = val === "True";
-            this.loadQuestionCount();
+            this.questionFilter.allQuestions = val;
+            if (val) {
+                this.questionsInWishknowledge = false;
+                this.userIsAuthor = false;
+                this.isNotQuestionInWishKnowledge = false;
+                this.loadQuestionCount();
+            }
         },
 
         isNotQuestionInWishKnowledge: function (val) {
-            this.questionFilter.allQuestions = val === "True";
-            this.loadQuestionCount();
+            this.questionFilter.isNotQuestionInWishKnowledge = val;
+            if (val) {
+                this.questionsInWishknowledge = false;
+                this.allQuestions = false;
+                this.loadQuestionCount();
+            }
+           
         },
 
      
