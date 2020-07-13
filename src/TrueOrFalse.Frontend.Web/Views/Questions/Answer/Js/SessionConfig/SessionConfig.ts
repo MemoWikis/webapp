@@ -18,10 +18,10 @@ var vue = new Vue({
                 maxQuestionCount: 10,
                 questionsInWishknowledge: false,
                 questionOrder: 0,
-                mode: "Learning",
                 userIsAuthor: false,
                 allQuestions: false,
-                isNotQuestionInWishKnowledge: false
+                isNotQuestionInWishKnowledge: false,
+                isTestMode: false
             },
             isLoggedIn: true,
             maxSelectableQuestionCount: 50,
@@ -47,7 +47,6 @@ var vue = new Vue({
         if (NotLoggedIn.Yes()) {
             this.title = 'Test';
             this.isLoggedIn = false;
-            this.questionFilter.mode = 'Test';
         };
 
         this.loadQuestionCount();
@@ -78,7 +77,8 @@ var vue = new Vue({
             this.questionFilter.maxQuestionCount = parseInt(val);
         },
         isTestMode: function(val) {
-            var t = val;
+            this.isTestMode = val;
+            this.questionFilter.isTestMode = val
         },
         questionsInWishknowledge: function (val) {
             this.questionFilter.questionsInWishknowledge = val;
@@ -149,9 +149,11 @@ var vue = new Vue({
                 minProbability: 0,
                 maxProbability: 100,
                 maxQuestionCount: this.isLoggedIn ? 10 : 5,
-                questionsInWishknowledge: false,
                 questionOrder: 0,
-                mode: "Learning",
+                questionsInWishknowledge: false,
+                isNotQuestionInWishKnowledge: false,
+                userIsAuthor: false,
+                allQuestions: false
             };
         },
 

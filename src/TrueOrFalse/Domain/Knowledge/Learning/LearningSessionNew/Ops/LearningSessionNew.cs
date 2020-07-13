@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using SolrNet.Commands.Cores;
 
 [Serializable]
 public class LearningSessionNew

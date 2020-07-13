@@ -15,8 +15,17 @@ public class LearningSessionNewCreator
     public static LearningSessionNew ForLoggedInUser(LearningSessionConfig config)
     {  
         List<Question> questions;
-        if (config.IsWishSession)
+
+        if (config.IsNotInWishKnowledge && config.UserIsAuthor)
+            questions = OrderByProbability(GetRandomLimited(GetNotWuwiFromCategoryAndIsAuthor(config.UserId, config.CategoryId), config)).ToList();
+        else if(config.IsNotInWishKnowledge && config.UserIsAuthor)
+            questions = OrderByProbability(GetRandomLimited(GetNotWuwiFromCategory(config.UserId, config.CategoryId), config)).ToList();
+        else if(config.IsWishSession && config.UserIsAuthor)
+            questions = OrderByProbability(GetRandomLimited(GetWuwiQuestionsFromCategoryAndUserIsAuthor(config.UserId, config.CategoryId), config)).ToList();
+        else if (config.IsWishSession)
             questions = OrderByProbability(GetRandomLimited(GetWuwiQuestionsFromCategory(config.UserId, config.CategoryId), config)).ToList();
+        else if(config.UserIsAuthor)
+            questions = OrderByProbability(GetRandomLimited(UserIsAuthorFromCategory(config.UserId, config.CategoryId), config)).ToList();
         else
             questions = OrderByProbability(GetRandomLimited(GetCategoryQuestionsFromEntityCache(config.CategoryId), config)).ToList();
 
@@ -50,6 +59,43 @@ public class LearningSessionNewCreator
         return UserCache
             .GetQuestionValuations(userId)
             .Where(qv =>  qv.IsInWishKnowledge() && qv.Question.Categories.Any(c => c.Id == categoryId))
+            .Select(qv => qv.Question)
+            .ToList();
+    }
+    private static List<Question> GetWuwiQuestionsFromCategoryAndUserIsAuthor(int userId, int categoryId)
+    {
+        var l = UserCache.GetQuestionValuations(userId);
+        return UserCache
+            .GetQuestionValuations(userId)
+            .Where(qv => qv.IsInWishKnowledge() && qv.Question.Categories.Any(c => c.Id == categoryId) && qv.Question.Creator.Id == userId)
+            .Select(qv => qv.Question)
+            .ToList();
+    }
+
+
+    private static List<Question> GetNotWuwiFromCategoryAndIsAuthor(int userId, int categoryId)
+    {
+        return  UserCache
+            .GetQuestionValuations(userId)
+            .Where(qv => !qv.IsInWishKnowledge() && qv.Question.Categories.Any(c => c.Id == categoryId) && qv.Question.Creator.Id == userId)
+            .Select(qv => qv.Question)
+            .ToList();
+    }
+
+    private static List<Question> GetNotWuwiFromCategory(int categoryId, int userId)
+    {
+        return UserCache
+            .GetQuestionValuations(userId)
+            .Where(qv => !qv.IsInWishKnowledge() && qv.Question.Categories.Any(c => c.Id == categoryId))
+            .Select(qv => qv.Question)
+            .ToList();
+    }
+
+    private static List<Question> UserIsAuthorFromCategory(int userId, int categoryId)
+    {
+        return UserCache
+            .GetQuestionValuations(userId)
+            .Where(qv => qv.Question.Categories.Any(c => c.Id == categoryId) && qv.Question.Creator.Id == userId)
             .Select(qv => qv.Question)
             .ToList();
     }
