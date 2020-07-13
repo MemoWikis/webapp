@@ -462,11 +462,11 @@ public class AnswerQuestionController : BaseController
         Sl.SessionUser.LearningSession = learningSession;
         var firstStep = 0; 
 
-        return RenderAnswerBodyByLearningSession(firstStep, isInLearningTab: config.IsInLearningTab, isInTestMode: config.IsInTestMode);
+        return RenderAnswerBodyByLearningSession(firstStep, config);
     }
 
     [HttpPost]
-    public string RenderAnswerBodyByLearningSession(int skipStepIdx = -1, bool isInLearningTab = false, bool isInTestMode = false)
+    public string RenderAnswerBodyByLearningSession(int skipStepIdx = -1, LearningSessionConfig config = null )
     {
         var learningSession = Sl.SessionUser.LearningSession;
 
@@ -503,7 +503,7 @@ public class AnswerQuestionController : BaseController
         var sessionData = new SessionData(currentSessionHeader, currentStepIdx, isLastStep, skipStepIdx);
 
         return GetQuestionPageData(model, currentUrl, sessionData, isSession: true,
-            isInLearningTab: isInLearningTab, isInTestMode: isInTestMode);
+            isInLearningTab: config.IsInLearningTab, isInTestMode: config.IsInTestMode);
 
     }
 
