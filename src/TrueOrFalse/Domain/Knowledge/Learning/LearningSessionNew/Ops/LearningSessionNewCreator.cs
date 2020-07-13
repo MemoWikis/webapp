@@ -12,17 +12,33 @@ public class LearningSessionNewCreator
         return new LearningSessionNew(questions.Select(q => new LearningSessionStepNew(q)).ToList(), config);
     }
 
+    public static int GetQuestionCount(LearningSessionConfig config)
+    {
+        if (config.IsNotQuestionInWishKnowledge && config.UserIsAuthor)
+           return GetNotWuwiFromCategoryAndIsAuthor(config.UserId, config.CategoryId).Count;
+        if (config.IsNotQuestionInWishKnowledge && config.UserIsAuthor)
+            return GetNotWuwiFromCategory(config.UserId, config.CategoryId).Count;
+        if (config.QuestionsInWishknowledge && config.UserIsAuthor)
+            return GetWuwiQuestionsFromCategoryAndUserIsAuthor(config.UserId, config.CategoryId).Count;
+        if (config.QuestionsInWishknowledge)
+            return GetWuwiQuestionsFromCategory(config.UserId, config.CategoryId).Count;
+        if (config.UserIsAuthor)
+           return UserIsAuthorFromCategory(config.UserId, config.CategoryId).Count;
+        
+        return GetCategoryQuestionsFromEntityCache(config.CategoryId).Count;
+    }
+
     public static LearningSessionNew ForLoggedInUser(LearningSessionConfig config)
     {  
         List<Question> questions;
 
-        if (config.IsNotInWishKnowledge && config.UserIsAuthor)
+        if (config.IsNotQuestionInWishKnowledge && config.UserIsAuthor)
             questions = OrderByProbability(GetRandomLimited(GetNotWuwiFromCategoryAndIsAuthor(config.UserId, config.CategoryId), config)).ToList();
-        else if(config.IsNotInWishKnowledge && config.UserIsAuthor)
+        else if(config.IsNotQuestionInWishKnowledge && config.UserIsAuthor)
             questions = OrderByProbability(GetRandomLimited(GetNotWuwiFromCategory(config.UserId, config.CategoryId), config)).ToList();
-        else if(config.IsWishSession && config.UserIsAuthor)
+        else if(config.QuestionsInWishknowledge && config.UserIsAuthor)
             questions = OrderByProbability(GetRandomLimited(GetWuwiQuestionsFromCategoryAndUserIsAuthor(config.UserId, config.CategoryId), config)).ToList();
-        else if (config.IsWishSession)
+        else if (config.QuestionsInWishknowledge)
             questions = OrderByProbability(GetRandomLimited(GetWuwiQuestionsFromCategory(config.UserId, config.CategoryId), config)).ToList();
         else if(config.UserIsAuthor)
             questions = OrderByProbability(GetRandomLimited(UserIsAuthorFromCategory(config.UserId, config.CategoryId), config)).ToList();
