@@ -21,8 +21,9 @@ var vue = new Vue({
                 userIsAuthor: false,
                 allQuestions: false,
                 isNotQuestionInWishKnowledge: false,
-                isTestMode: false
-            },
+                isTestMode: false,
+                categoryId: $('#hhdCategoryId').val()
+    },
             isLoggedIn: true,
             maxSelectableQuestionCount: 50,
             selectedQuestionCount: 10,
@@ -82,37 +83,35 @@ var vue = new Vue({
         },
         questionsInWishknowledge: function (val) {
             this.questionFilter.questionsInWishknowledge = val;
+            this.loadQuestionCount();
             if (val) {
                 this.isNotQuestionInWishKnowledge = false;
                 this.allQuestions = false;
-                this.loadQuestionCount();
             }
         },
         userIsAuthor: function (val) {
             this.questionFilter.userIsAuthor = val;
+            this.loadQuestionCount();
             if (val) {
                 this.allQuestions = false;
-                this.loadQuestionCount();
             }
         },
         allQuestions: function (val) {
             this.questionFilter.allQuestions = val;
+            this.loadQuestionCount();
             if (val) {
                 this.questionsInWishknowledge = false;
                 this.userIsAuthor = false;
                 this.isNotQuestionInWishKnowledge = false;
-                this.loadQuestionCount();
             }
         },
-
         isNotQuestionInWishKnowledge: function (val) {
             this.questionFilter.isNotQuestionInWishKnowledge = val;
+            this.loadQuestionCount();
             if (val) {
                 this.questionsInWishknowledge = false;
                 this.allQuestions = false;
-                this.loadQuestionCount();
             }
-           
         },
 
         'questionFilter.maxQuestionCount': function(val) {
@@ -125,12 +124,12 @@ var vue = new Vue({
             $.ajax({
                 url: "/AnswerQuestion/GetQuestionCount/",
                 data: {
-                    categoryId: $('#hhdCategoryId').val(),
-                    questionFilter: this.questionFilter
+                    config: this.questionFilter
                 },
                 type: "POST",
                 success: result => {
                     result = parseInt(result);
+                    console.log(result);
                     if (result > 50) {
                         this.maxSelectableQuestionCount = 50;
                         if (this.selectedQuestionCount > 50)
