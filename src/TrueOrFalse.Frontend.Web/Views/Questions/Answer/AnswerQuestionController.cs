@@ -605,7 +605,7 @@ public class AnswerQuestionController : BaseController
                 currentStepGuid = sessionData.CurrentStepGuid,
                 currentSessionHeader = sessionData.CurrentSessionHeader,
                 learningSessionId = sessionData.LearningSessionId,
-                isLearningSession = !learningSession.Config.IsWishSession,
+                isLearningSession = !learningSession.Config.QuestionsInWishknowledge,
                 stepCount = learningSession.Steps.Count 
             } : null,
             url = currentUrl,
@@ -662,8 +662,8 @@ public class AnswerQuestionController : BaseController
         ViewRenderer.RenderPartialView("~/Views/Questions/Answer/ShareQuestionModal.ascx", new ShareQuestionModalModel(questionId), ControllerContext);
 
     [HttpPost]
-    public int GetQuestionCount(int categoryId, QuestionFilterJson questionFilter)
+    public int GetQuestionCount(LearningSessionConfig config)
     {
-        return CreateLearningSession.QuestionsInLearningSessionCount(categoryId, questionFilter, IsLoggedIn);
+        return LearningSessionNewCreator.GetQuestionCount(config);
     }
 }

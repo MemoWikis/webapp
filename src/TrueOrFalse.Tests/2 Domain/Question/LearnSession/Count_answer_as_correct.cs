@@ -45,7 +45,7 @@ namespace TrueOrFalse.Tests._2_Domain.Question.LearnSession
                 {
                     UserId = lastUserCashItem.UserId,
                     IsInTestMode = true,
-                    IsWishSession = true,
+                    QuestionsInWishknowledge = true,
                     MaxQuestions = 5
 
                 });
@@ -62,7 +62,7 @@ namespace TrueOrFalse.Tests._2_Domain.Question.LearnSession
                 {
                     UserId = lastUserCashItem.UserId,
                     IsInTestMode = false,
-                    IsWishSession = true,
+                    QuestionsInWishknowledge = true,
                     MaxQuestions = 5,
                     CategoryId = 0
                 });

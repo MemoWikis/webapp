@@ -115,7 +115,6 @@ class AnswerBodyLoader {
         var url = "/AnswerQuestion/RenderNewAnswerBodySessionForCategory";
         this._getCustomSession = true;
         this.loadNewQuestion(url, loadedFromVue, continueWithNewSession);
-        console.log(this._sessionConfigDataJson);
     }
 
     public loadNewQuestion(url: string, loadedFromVue: boolean = false, continueWithNewSession: boolean = false) {
@@ -133,7 +132,6 @@ class AnswerBodyLoader {
             Utils.ShowSpinner();
             $('html, body').animate({ scrollTop: 0 }, 'fast');
         }
-        console.log(this._sessionConfigDataJson);
         $.ajax({
             url: url,
             contentType: "application/json; charset=utf-8",

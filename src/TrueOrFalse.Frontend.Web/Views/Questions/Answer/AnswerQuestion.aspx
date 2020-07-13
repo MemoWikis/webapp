@@ -83,7 +83,7 @@
             }
             else
             {
-                if (!Model.LearningSession.IsWishSession)
+                if (!Model.LearningSession.Config.QuestionsInWishknowledge)
                 {
                     if (Model.LearningSession.CategoryToLearn != null)
                     {

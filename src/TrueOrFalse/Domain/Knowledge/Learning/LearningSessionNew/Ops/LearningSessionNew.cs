@@ -89,10 +89,10 @@ public class LearningSessionNew
     {
         get
         {
-            if (!Config.IsWishSession)
+            if (!Config.QuestionsInWishknowledge)
                 return EntityCache.GetCategory(Config.CategoryId).CountQuestions;
 
-            if (Config.IsWishSession)
+            if (Config.QuestionsInWishknowledge)
                 return User.WishCountQuestions;
 
             throw new Exception("unknown session type");
