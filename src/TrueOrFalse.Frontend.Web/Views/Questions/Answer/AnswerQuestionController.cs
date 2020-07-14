@@ -462,14 +462,13 @@ public class AnswerQuestionController : BaseController
         Sl.SessionUser.LearningSession = learningSession;
         var firstStep = 0; 
 
-        return RenderAnswerBodyByLearningSession(firstStep, config);
+        return RenderAnswerBodyByLearningSession(firstStep);
     }
 
     [HttpPost]
-    public string RenderAnswerBodyByLearningSession(int skipStepIdx = -1, LearningSessionConfig config = null )
+    public string RenderAnswerBodyByLearningSession(int skipStepIdx = -1)
     {
         var learningSession = Sl.SessionUser.LearningSession;
-
 
         if (skipStepIdx != -1 && skipStepIdx != 0)
             learningSession.SkipStep();
@@ -501,10 +500,9 @@ public class AnswerQuestionController : BaseController
         string currentUrl = Links.LearningSession(learningSession);
 
         var sessionData = new SessionData(currentSessionHeader, currentStepIdx, isLastStep, skipStepIdx);
-
+        var config = learningSession.Config;
         return GetQuestionPageData(model, currentUrl, sessionData, isSession: true,
             isInLearningTab: config.IsInLearningTab, isInTestMode: config.IsInTestMode);
-
     }
 
     public string RenderUpdatedQuestionDetails(int questionId, bool showCategoryList = true)
