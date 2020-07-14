@@ -56,7 +56,7 @@
         var relevanceForAllAvg = "<%= Model.TotalRelevanceForAllAvg %>";
         var relevanceForAllEntries = "<%= Model.TotalRelevanceForAllEntries %>";
     </script>
-    
+<%--    
     <%  if (Model.IsTestSession)
         {
             var testSession = Model.TestSession;
@@ -74,25 +74,19 @@
                 Model.TopNavMenu.BreadCrumb.Add(new TopNavMenuItem {Text = testSession.CategoryToTest.Name, Url = testSession.CategoryToTest.Url});
                 Model.TopNavMenu.IsCategoryLearningBreadCrumb = true;
             }
-        }
-        else if(Model.IsLearningSession)
-        {
-            if (Model.LearningSession.SetToLearn != null)
+        }--%>
+    <%
+         if(Model.IsLearningSession)
+    {
+            if (!Model.LearningSession.Config.QuestionsInWishknowledge)
             {
-                Model.TopNavMenu.BreadCrumb.Add(new TopNavMenuItem {Text = Model.LearningSession.SetToLearn.Name, Url = Links.SetDetail(Url, Model.LearningSession.SetToLearn)});
-            }
-            else
-            {
-                if (!Model.LearningSession.Config.QuestionsInWishknowledge)
+                if (Model.LearningSession.Config.Category != null)
                 {
-                    if (Model.LearningSession.CategoryToLearn != null)
-                    {
-                        Model.TopNavMenu.BreadCrumb.Add(new TopNavMenuItem {Text = Model.LearningSession.CategoryToLearn.Name, Url = Links.CategoryDetail( Model.LearningSession.CategoryToLearn)});
-                    }
+                    Model.TopNavMenu.BreadCrumb.Add(new TopNavMenuItem {Text = Model.LearningSession.Config.Category.Name, Url = Links.CategoryDetail( Model.LearningSession.Config.Category)});
                 }
-                Model.TopNavMenu.IsCategoryLearningBreadCrumb = true;
             }
-        }
+            Model.TopNavMenu.IsCategoryLearningBreadCrumb = true;
+            }
         else
         {
             if (Model.SetMinis.Count != 0)
@@ -110,12 +104,11 @@
 
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">  
 <div class="container">
-    <input type="hidden" id="hddIsLearningSession" value="<%= Model.IsLearningSession %>" 
-        data-learning-session-id="<%= Model.IsLearningSession ? Model.LearningSession.Id : -1 %>"
-        data-current-step-guid="<%= Model.IsLearningSession ? Model.LearningSessionStep.Guid.ToString() : "" %>"
-        data-current-step-idx="<%= Model.IsLearningSession ? Model.LearningSessionStep.Idx : -1 %>"
+    <input type="hidden" id="hddIsLearningSession" value="<%= Model.IsLearningSession %>"
+        data-current-step-idx="<%= Model.IsLearningSession ? Model.CurrentLearningStepIdx : -1 %>"
         data-is-last-step="<%= Model.IsLastLearningStep %>"
         data-skip-step-index = "-1" />
+
     <input type="hidden" id="hddIsTestSession" value="<%= Model.IsTestSession %>" 
         data-test-session-id="<%= Model.IsTestSession ? Model.TestSessionId : -1 %>"
         data-current-step-idx="<%= Model.IsTestSession ? Model.TestSessionCurrentStep : -1 %>"
