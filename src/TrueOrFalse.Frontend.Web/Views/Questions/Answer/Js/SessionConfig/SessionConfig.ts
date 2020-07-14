@@ -21,7 +21,7 @@ var vue = new Vue({
                 userIsAuthor: false,
                 allQuestions: false,
                 isNotQuestionInWishKnowledge: false,
-                isTestMode: false,
+                isInTestMode: false,
                 categoryId: $('#hhdCategoryId').val()
     },
             isLoggedIn: true,
@@ -77,8 +77,8 @@ var vue = new Vue({
             this.questionFilter.maxQuestionCount = parseInt(val);
         },
         isTestMode: function(val) {
-            this.isTestMode = val;
-            this.questionFilter.isTestMode = val
+            this.isInTestMode = val;
+            this.questionFilter.isInTestMode = val
         },
         questionsInWishknowledge: function (val) {
             this.questionFilter.questionsInWishknowledge = val;

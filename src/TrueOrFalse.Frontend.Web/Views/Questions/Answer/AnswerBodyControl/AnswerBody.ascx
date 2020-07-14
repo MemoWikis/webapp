@@ -150,8 +150,10 @@
                                     <% if (Model.SolutionType != SolutionType.FlashCard.ToString()){ %>
                                         <div id="buttons-first-try" class="ButtonGroup">
                                         <a href="#" id="btnCheck" class="btn btn-primary" rel="nofollow" style="padding-right: 10px">Antworten</a>
-                                        <a href="#" class="selectorShowSolution SecAction btn btn-link"><i class="fa fa-lightbulb-o">&nbsp;</i>Lösung anzeigen</a>
-                                    <% } else { %>
+                                        <% if (!Model.IsInTestMode){ %>
+                                            <a href="#" class="selectorShowSolution SecAction btn btn-link"><i class="fa fa-lightbulb-o">&nbsp;</i>Lösung anzeigen</a>
+                                        <% }%>        
+                                    <% } else if(!Model.IsInTestMode) { %>
                                         <div id="buttons-answer" class="ButtonGroup flashCardAnswerButtons" style="display: none">
                                             <a href="#" id="btnRightAnswer" class="btn btn-warning" rel="nofollow">Wusste ich!</a>
                                             <a href="#" id="btnWrongAnswer" class="btn btn-warning" rel="nofollow">Wusste ich nicht!</a>
@@ -171,7 +173,7 @@
                                         <button id="continue"  class="btn btn-primary clickToContinue" style="display: none">Weiter</button>
                                     <% } %>
 
-                                    <% if (Model.SolutionType != SolutionType.FlashCard.ToString()) { %>
+                                    <% if (Model.SolutionType != SolutionType.FlashCard.ToString() && !Model.IsInTestMode) { %>
                                         <a href="#" id="aCountAsCorrect" class="SecAction btn btn-link show-tooltip" title="Drücke hier und die Frage wird als richtig beantwortet gewertet" rel="nofollow" style="display: none;">Hab ich gewusst!</a>
                                     <% } %>
                                 </div>

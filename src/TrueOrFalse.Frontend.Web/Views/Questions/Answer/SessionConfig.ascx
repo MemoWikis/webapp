@@ -142,7 +142,7 @@
                                 </label>
                             </div>
                             <div class="info-options col-sm-12">
-                                Ein Neustart deiner Lernsitzung setzt deinen Lernfortschritt und deine Lernpunkte zurück. Die Antwortwahrscheinlichkeit der bisher beantworteten Fragen bleibt erhalten.
+                                Ein Neustart deiner Lernsitzung setzt deinen Lernfortschritt zurück. Die Antwortwahrscheinlichkeit der bisher beantworteten Fragen bleibt erhalten.
                             </div>
                         </div>
                     </div>

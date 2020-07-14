@@ -8,7 +8,7 @@
     maxProbability: number;
     isWishSession: boolean;
     questionOrder: number;
-    isTestMode: boolean; 
+    isInTestMode: boolean; 
     isNotInWishKnowledge: boolean; 
     allQuestions: boolean; 
     userIsAuthor: boolean;

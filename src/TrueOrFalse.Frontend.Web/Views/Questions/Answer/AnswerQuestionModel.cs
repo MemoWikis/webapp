@@ -141,8 +141,6 @@ public class AnswerQuestionModel : BaseModel
 
         IsLastLearningStep = CurrentLearningStepIdx + 1 == LearningSession.Steps.Count();
 
-      //  CurrentLearningStepPercentage = CurrentLearningStepIdx == 0 ? 0 : (int)Math.Round(CurrentLearningStepIdx/(float)LearningSession.Steps.Count()*100);
-
         NextUrl = url => url.Action("Learn", Links.AnswerQuestionController, new{ skipStepIdx = learningSession.CurrentIndex +1 });
 
         Populate(LearningSessionStep.Question);
