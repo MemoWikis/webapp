@@ -28,7 +28,7 @@ public class QuestionValuation : IPersistable, WithDateCreated
     public QuestionValuation()
     {
         Quality = -1;
-        RelevancePersonal = - 1;
+        RelevancePersonal = -1;
         RelevanceForAll = -1;
     }
 }

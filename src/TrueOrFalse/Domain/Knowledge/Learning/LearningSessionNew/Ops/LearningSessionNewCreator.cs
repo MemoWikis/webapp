@@ -67,8 +67,6 @@ public class LearningSessionNewCreator
         return questions;
     }
 
-
-
     private static List<Question> GetWuwiQuestionsFromCategory(int userId, int categoryId)
     {
         var l = UserCache.GetQuestionValuations(userId);
@@ -83,7 +81,7 @@ public class LearningSessionNewCreator
         var l = UserCache.GetQuestionValuations(userId);
         return UserCache
             .GetQuestionValuations(userId)
-            .Where(qv => qv.IsInWishKnowledge() && qv.Question.Categories.Any(c => c.Id == categoryId) && qv.Question.Creator.Id == userId)
+            .Where(qv => qv.RelevancePersonal > 1 && qv.Question.Categories.Any(c => c.Id == categoryId) && qv.Question.Creator.Id == userId)
             .Select(qv => qv.Question)
             .ToList();
     }
@@ -93,7 +91,7 @@ public class LearningSessionNewCreator
     {
         return  UserCache
             .GetQuestionValuations(userId)
-            .Where(qv => !qv.IsInWishKnowledge() && qv.Question.Categories.Any(c => c.Id == categoryId) && qv.Question.Creator.Id == userId)
+            .Where(qv => qv.RelevancePersonal == -1 && qv.Question.Categories.Any(c => c.Id == categoryId) && qv.Question.Creator.Id == userId)
             .Select(qv => qv.Question)
             .ToList();
     }
@@ -102,7 +100,7 @@ public class LearningSessionNewCreator
     {
         return UserCache
             .GetQuestionValuations(userId)
-            .Where(qv => !qv.IsInWishKnowledge() && qv.Question.Categories.Any(c => c.Id == categoryId))
+            .Where(qv => qv.RelevancePersonal > 1 && qv.Question.Categories.Any(c => c.Id == categoryId))
             .Select(qv => qv.Question)
             .ToList();
     }
