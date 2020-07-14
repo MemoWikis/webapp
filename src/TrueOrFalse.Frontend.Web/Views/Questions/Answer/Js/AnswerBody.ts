@@ -3,10 +3,6 @@ class AnswerBody {
 
     public Loader : AnswerBodyLoader;
 
-    IsTestSession() {
-        return $("#hddIsTestSession").val() === "True";
-    }
-
     constructor() {
         var questionId = $("#hddQuestionId").val();
 

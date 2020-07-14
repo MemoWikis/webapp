@@ -10,17 +10,12 @@
             $("#LearningTabContent").css("visibility", "visible");
             Utils.ShowSpinner();
 
-            if (answerBody.IsTestSession()) {
-                answerBody.Loader.loadNewTestSession();
-            }
-
             $('#hddLearningSessionStarted').val("True");
 
             $(() => {
                 $("#TabContent .show-tooltip").tooltip();
             });
         }
-
 
         $('#TabsBar .Tab').each((index, item) => {
 
@@ -60,10 +55,6 @@
 
                     Utils.ShowSpinner();
 
-                    if (answerBody.IsTestSession()) {
-                        answerBody.Loader.loadNewTestSession();
-                    }
-
                     $('#hddLearningSessionStarted').val("True");
 
                     $(() => {
@@ -89,10 +80,6 @@
 
                 Utils.ShowSpinner();
 
-                if (answerBody.IsTestSession()) {
-                    answerBody.Loader.loadNewTestSession();
-                }
-
                 $('#hddLearningSessionStarted').val("True");
 
                 $(() => {
@@ -110,15 +97,6 @@
         });
 
 
-    }
-
-    private InitializeLearningTab(): void{
-        var answerBody = new AnswerBody();
-
-        if (answerBody.IsTestSession())
-            answerBody.Loader.loadNewTestSession();
-
-        $('#hddLearningSessionStarted').val("True");
     }
 
     private ContentIsPresent(tabName: string): boolean {

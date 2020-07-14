@@ -38,7 +38,6 @@ var vue = new Vue({
             userIsAuthor: false,
             allQuestions: false,
             isNotQuestionInWishKnowledge: false
-            
         };
     },
 
