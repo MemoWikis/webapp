@@ -907,6 +907,7 @@
     <Compile Include="Tools\Cache\UserCache.cs" />
     <Compile Include="Tools\Cache\UserCacheItem.cs" />
     <Compile Include="Tools\HelperTools.cs" />
+    <Compile Include="Tools\Update\Steps\UpdateToVs212.cs" />
     <Compile Include="Web\IgnoreLog.cs" />
     <Compile Include="Tools\Import\Importer.cs" />
     <Compile Include="Tools\Import\ImporterResult.cs" />
