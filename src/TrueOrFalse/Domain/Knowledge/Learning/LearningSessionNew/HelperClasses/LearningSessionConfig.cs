@@ -16,6 +16,7 @@ public class LearningSessionConfig
     public bool UserIsAuthor { get; set; }
     public bool AllQuestions { get; set; }
     public bool IsNotQuestionInWishKnowledge { get; set; }
+    public bool SafeLearningSessionOptions { get; set; }
 
 
     /// <summary>

@@ -12,4 +12,5 @@
     isNotInWishKnowledge: boolean; 
     allQuestions: boolean; 
     userIsAuthor: boolean;
+    safeLearningSessionOptions: boolean; 
  }

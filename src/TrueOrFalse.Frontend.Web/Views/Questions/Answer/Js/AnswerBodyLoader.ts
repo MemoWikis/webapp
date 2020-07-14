@@ -108,7 +108,8 @@ class AnswerBodyLoader {
                 isInTestMode: questionFilter != null ? questionFilter.isInTestMode : false,
                 isNotInWishKnowledge: questionFilter != null ? questionFilter.isNotQuestionInWishKnowledge : false,
                 allQuestions: questionFilter != null ? questionFilter.allQuestions : false,
-                userIsAuthor: questionFilter != null ? questionFilter.userIsAuthor : false
+                userIsAuthor: questionFilter != null ? questionFilter.userIsAuthor : false,
+                safeLearningSessionOptions: questionFilter != null ? questionFilter.safeLearningSessionOptions : false
             }
         
 

@@ -22,8 +22,8 @@ var vue = new Vue({
                 allQuestions: false,
                 isNotQuestionInWishKnowledge: false,
                 isInTestMode: false,
-                categoryId: $('#hhdCategoryId').val(),
-                safeLearningSessionOptions: false
+                safeLearningSessionOptions: false,
+                categoryId: $('#hhdCategoryId').val()
     },
             isLoggedIn: true,
             maxSelectableQuestionCount: 50,
@@ -68,7 +68,6 @@ var vue = new Vue({
     },
 
     watch: {
-
         probabilityRange: function() {
             this.questionFilter.minProbability = this.probabilityRange[0];
             this.questionFilter.maxProbability = this.probabilityRange[1];
@@ -80,7 +79,7 @@ var vue = new Vue({
         },
         isTestMode: function(val) {
             this.isInTestMode = val;
-            this.questionFilter.isInTestMode = val
+            this.questionFilter.isInTestMode = val;
         },
         questionsInWishknowledge: function (val) {
             this.questionFilter.questionsInWishknowledge = val;
@@ -114,13 +113,12 @@ var vue = new Vue({
                 this.allQuestions = false;
             }
         },
+        safeLearningSessionOptions: function (val) {
+            this.questionFilter.safeLearningSessionOptions = val;
+        },
         'questionFilter.maxQuestionCount': function(val) {
             this.maxQuestionCountIsZero = val === 0;
-        },
-        safeLearningSessionOptions: function(val) {
-            this.questionFilter.safeLearningSessionOptions = val;
         }
-
     },
 
     methods: {

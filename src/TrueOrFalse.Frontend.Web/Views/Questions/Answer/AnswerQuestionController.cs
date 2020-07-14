@@ -457,6 +457,23 @@ public class AnswerQuestionController : BaseController
     public string RenderNewAnswerBodySessionForCategory(LearningSessionConfig config)
     {
         var learningSession = UserId != -1 ? LearningSessionNewCreator.ForLoggedInUser(config) : LearningSessionNewCreator.ForAnonymous(config);
+
+        if (config.SafeLearningSessionOptions)
+        {
+            var updateUser = Sl.UserRepo.GetById(UserId);
+            var learningSessionOptionsHelper = new SafeLearningSessionOptionsHelper
+            {
+                UserIsAuthor = config.UserIsAuthor,
+                AllQuestions = config.AllQuestions,
+                IsInTestmode = config.IsInTestMode,
+                QuestionsInWishknowledge = config.QuestionsInWishknowledge,
+                IsNotQuestionInWishKnowledge = config.IsNotQuestionInWishKnowledge
+            };
+
+            updateUser.LearningSessionOptions = JsonConvert.SerializeObject(learningSessionOptionsHelper);
+            Sl.UserRepo.Update(updateUser);
+        }
+            
         var user = new SessionUser();
         user.LearningSession = learningSession;
         Sl.SessionUser.LearningSession = learningSession;
@@ -610,7 +627,7 @@ public class AnswerQuestionController : BaseController
             commentsAsHtml = ViewRenderer.RenderPartialView("~/Views/Questions/Answer/Comments/CommentsSection.ascx", model, ControllerContext),
             offlineDevelopment = Settings.DevelopOffline(),
             menuHtml,
-            isInTestMode = isInTestMode
+            isInTestMode
         });
 
         return serializedPageData;
@@ -664,4 +681,14 @@ public class AnswerQuestionController : BaseController
     {
         return LearningSessionNewCreator.GetQuestionCount(config);
     }
+}
+
+public class SafeLearningSessionOptionsHelper
+{
+   public bool IsInTestmode { get; set; }
+   public bool AllQuestions { get; set; }
+   public bool UserIsAuthor { get; set; }
+   public bool IsNotQuestionInWishKnowledge { get; set; }
+   public bool QuestionsInWishknowledge { get; set; }
+
 }
