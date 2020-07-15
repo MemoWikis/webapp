@@ -5,7 +5,7 @@ public class LearningSessionConfig
 {
     public int CategoryId { get; set; }
     public Category Category { get; set; }
-    public int MaxQuestions { get; set; }
+    public int MaxQuestionCount { get; set; }
     public int UserId { get; set; }
     public bool IsInTestMode { get; set; }
     public bool IsInLearningTab { get; set; } 

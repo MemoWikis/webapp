@@ -19,7 +19,7 @@ internal static class ContextLearningSession
             new LearningSessionConfig
             {
                 CategoryId = 0,
-                MaxQuestions = amountQuestions,
+                MaxQuestionCount = amountQuestions,
                 UserId = -1
             });
         return learningSession;

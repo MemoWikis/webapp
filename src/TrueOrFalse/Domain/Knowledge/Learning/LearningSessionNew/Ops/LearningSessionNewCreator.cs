@@ -18,7 +18,7 @@ public class LearningSessionNewCreator
 
         if (config.IsNotQuestionInWishKnowledge && config.UserIsAuthor)
             questions = OrderByProbability(GetRandomLimited(GetNotWuwiFromCategoryAndIsAuthor(config.UserId, config.CategoryId), config)).ToList();
-        else if(config.IsNotQuestionInWishKnowledge && config.UserIsAuthor)
+        else if(config.IsNotQuestionInWishKnowledge)
             questions = OrderByProbability(GetRandomLimited(GetNotWuwiFromCategory(config.UserId, config.CategoryId), config)).ToList();
         else if(config.QuestionsInWishknowledge && config.UserIsAuthor)
             questions = OrderByProbability(GetRandomLimited(GetWuwiQuestionsFromCategoryAndUserIsAuthor(config.UserId, config.CategoryId), config)).ToList();
@@ -36,7 +36,7 @@ public class LearningSessionNewCreator
     {
         if (config.IsNotQuestionInWishKnowledge && config.UserIsAuthor)
             return GetNotWuwiFromCategoryAndIsAuthor(config.UserId, config.CategoryId).Count;
-        if (config.IsNotQuestionInWishKnowledge && config.UserIsAuthor)
+        if (config.IsNotQuestionInWishKnowledge)
             return GetNotWuwiFromCategory(config.UserId, config.CategoryId).Count;
         if (config.QuestionsInWishknowledge && config.UserIsAuthor)
             return GetWuwiQuestionsFromCategoryAndUserIsAuthor(config.UserId, config.CategoryId).Count;
@@ -55,13 +55,13 @@ public class LearningSessionNewCreator
 
         questions.Shuffle();
 
-        if (config.MaxQuestions == 0)
+        if (config.MaxQuestionCount == 0)
             return questions;
 
-        if (config.MaxQuestions > questions.Count)
+        if (config.MaxQuestionCount > questions.Count)
             return questions;
 
-        var amountQuestionsToDelete = questions.Count - config.MaxQuestions;
+        var amountQuestionsToDelete = questions.Count - config.MaxQuestionCount;
         questions.RemoveRange(0, amountQuestionsToDelete);
         
         return questions;
@@ -72,7 +72,7 @@ public class LearningSessionNewCreator
         var l = UserCache.GetQuestionValuations(userId);
         return UserCache
             .GetQuestionValuations(userId)
-            .Where(qv =>  qv.IsInWishKnowledge() && qv.Question.Categories.Any(c => c.Id == categoryId))
+            .Where(qv =>  qv.RelevancePersonal > -1 && qv.Question.Categories.Any(c => c.Id == categoryId))
             .Select(qv => qv.Question)
             .ToList();
     }

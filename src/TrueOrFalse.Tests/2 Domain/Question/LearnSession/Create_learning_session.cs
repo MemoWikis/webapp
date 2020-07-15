@@ -13,7 +13,7 @@ namespace TrueOrFalse.Tests._2_Domain.Question.LearnSession
                 new LearningSessionConfig
                 {
                     UserId = 0,
-                    MaxQuestions = 5,
+                    MaxQuestionCount = 5,
                     MaxProbability = 50,
                     MinProbability = 10
                 });
