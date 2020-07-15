@@ -3,7 +3,7 @@
     isInLearningTab: boolean;
     questionFilter: QuestionFilterJson;
     userId: string;
-    maxQuestions: number;
+    maxQuestionCount: number;
     minProbability: number;
     maxProbability: number;
     questionsInWishknowledge: boolean;

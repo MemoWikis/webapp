@@ -100,7 +100,7 @@ class AnswerBodyLoader {
                 isInLearningTab: this._isInLearningTab,
                 questionFilter: questionFilter,
                 userId: $("#hddUserId").val(),
-                maxQuestions: questionFilter != null ? questionFilter.maxQuestionCount : 10,
+                maxQuestionCount: questionFilter != null ? questionFilter.maxQuestionCount : 10,
                 minProbability: questionFilter != null ? questionFilter.minProbability : 0,
                 maxProbability: questionFilter != null ? questionFilter.maxProbability : 100,
                 questionsInWishknowledge: questionFilter != null ? questionFilter.questionsInWishknowledge : false,
@@ -111,7 +111,6 @@ class AnswerBodyLoader {
                 userIsAuthor: questionFilter != null ? questionFilter.userIsAuthor : false,
                 safeLearningSessionOptions: questionFilter != null ? questionFilter.safeLearningSessionOptions : false
             }
-        
 
         var url = "/AnswerQuestion/RenderNewAnswerBodySessionForCategory";
         this._getCustomSession = true;

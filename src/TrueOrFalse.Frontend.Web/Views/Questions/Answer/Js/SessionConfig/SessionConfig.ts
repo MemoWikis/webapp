@@ -199,8 +199,8 @@ var vue = new Vue({
             this.questionFilter.safeLearningSessionOptions = this.safeLearningSessionOptions; 
             this.questionFilter.isInTestMode = this.isInTestMode;
             this.questionFilter.maxQuestionCount = this.selectedQuestionCount;
-            this.questionFilter.maxProbability = this.maxProbability == undefined ? 100 : this.maxProbability;
-            this.questionFilter.minProbability = this.minProbability == undefined ? 0 : this.minProbability;
+            this.questionFilter.maxProbability = this.probabilityRange[1] === 100  ? 100 : this.probabilityRange[1];
+            this.questionFilter.minProbability = this.probabilityRange[0] === 0 ? 0 : this.probabilityRange[0];
             console.log(this.questionFilter.maxQuestionCount);
         }
     }
