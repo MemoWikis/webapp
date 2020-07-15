@@ -6,7 +6,7 @@
     maxQuestions: number;
     minProbability: number;
     maxProbability: number;
-    isWishSession: boolean;
+    questionsInWishknowledge: boolean;
     questionOrder: number;
     isInTestMode: boolean; 
     isNotInWishKnowledge: boolean; 

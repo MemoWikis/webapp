@@ -28,7 +28,7 @@ var vue = new Vue({
             isLoggedIn: true,
             maxSelectableQuestionCount: 50,
             selectedQuestionCount: 10,
-            questionsInWishknowledge: "False",
+            questionsInWishknowledge: false,
             percentages: '{value}%',
             maxQuestionCountIsZero: false,
             isTestMode: false,
@@ -50,8 +50,6 @@ var vue = new Vue({
             this.title = 'Test';
             this.isLoggedIn = false;
         };
-
-        this.loadQuestionCount();
 
         this.$nextTick(function() {
             window.addEventListener('resize', this.matchSize);
@@ -77,41 +75,37 @@ var vue = new Vue({
         selectedQuestionCount: function (val) {
             this.questionFilter.maxQuestionCount = parseInt(val);
         },
-        isTestMode: function(val) {
-            this.isInTestMode = val;
-            this.questionFilter.isInTestMode = val;
-        },
         questionsInWishknowledge: function (val) {
-            this.questionFilter.questionsInWishknowledge = val;
-            this.loadQuestionCount();
+            
             if (val) {
                 this.isNotQuestionInWishKnowledge = false;
                 this.allQuestions = false;
             }
+            this.loadQuestionCount();
         },
         userIsAuthor: function (val) {
-            this.questionFilter.userIsAuthor = val;
-            this.loadQuestionCount();
+           
             if (val) {
                 this.allQuestions = false;
             }
+            this.loadQuestionCount();
         },
         allQuestions: function (val) {
-            this.questionFilter.allQuestions = val;
-            this.loadQuestionCount();
+            
             if (val) {
                 this.questionsInWishknowledge = false;
                 this.userIsAuthor = false;
                 this.isNotQuestionInWishKnowledge = false;
             }
+            this.loadQuestionCount();
         },
         isNotQuestionInWishKnowledge: function (val) {
-            this.questionFilter.isNotQuestionInWishKnowledge = val;
-            this.loadQuestionCount();
+            
             if (val) {
                 this.questionsInWishknowledge = false;
                 this.allQuestions = false;
             }
+            this.loadQuestionCount();
         },
         safeLearningSessionOptions: function (val) {
             this.questionFilter.safeLearningSessionOptions = val;
@@ -123,6 +117,8 @@ var vue = new Vue({
 
     methods: {
         loadQuestionCount() {
+            this.safeQuestionFilter();
+
             $.ajax({
                 url: "/AnswerQuestion/GetQuestionCount/",
                 data: {
@@ -131,7 +127,6 @@ var vue = new Vue({
                 type: "POST",
                 success: result => {
                     result = parseInt(result);
-                    console.log(result);
                     if (result > 50) {
                         this.maxSelectableQuestionCount = 50;
                         if (this.selectedQuestionCount > 50)
@@ -175,9 +170,10 @@ var vue = new Vue({
             if (this.maxQuestionCountIsZero)
                 return;
 
+            this.safeQuestionFilter();
             this.answerBody.Loader.loadNewSession(this.questionFilter, true);
             $('#SessionConfigModal').modal('hide');
-
+            this.questionFilter.safeLearningSessionOptions= this.safeLearningSessionOptions = false;
         },
 
         matchSize() {
@@ -194,6 +190,18 @@ var vue = new Vue({
         goToLogin() {
             this.openLogin = true;
             $('#SessionConfigModal').modal('hide');
+        }, 
+        safeQuestionFilter() {
+            this.questionFilter.allQuestions = this.allQuestions;
+            this.questionFilter.isNotQuestionInWishKnowledge = this.isNotQuestionInWishKnowledge;
+            this.questionFilter.questionsInWishknowledge = this.questionsInWishknowledge;
+            this.questionFilter.userIsAuthor = this.userIsAuthor;
+            this.questionFilter.safeLearningSessionOptions = this.safeLearningSessionOptions; 
+            this.questionFilter.isInTestMode = this.isInTestMode;
+            this.questionFilter.maxQuestionCount = this.selectedQuestionCount;
+            this.questionFilter.maxProbability = this.maxProbability == undefined ? 100 : this.maxProbability;
+            this.questionFilter.minProbability = this.minProbability == undefined ? 0 : this.minProbability;
+            console.log(this.questionFilter.maxQuestionCount);
         }
     }
 });
