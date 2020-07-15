@@ -103,7 +103,7 @@ class AnswerBodyLoader {
                 maxQuestions: questionFilter != null ? questionFilter.maxQuestionCount : 10,
                 minProbability: questionFilter != null ? questionFilter.minProbability : 0,
                 maxProbability: questionFilter != null ? questionFilter.maxProbability : 100,
-                isWishSession: questionFilter != null ? questionFilter.questionsInWishknowledge : false,
+                questionsInWishknowledge: questionFilter != null ? questionFilter.questionsInWishknowledge : false,
                 questionOrder: questionFilter != null ? questionFilter.questionOrder : 0,
                 isInTestMode: questionFilter != null ? questionFilter.isInTestMode : false,
                 isNotInWishKnowledge: questionFilter != null ? questionFilter.isNotQuestionInWishKnowledge : false,
