@@ -24,7 +24,7 @@ var vue = new Vue({
                 isInTestMode: false,
                 safeLearningSessionOptions: false,
                 categoryId: $('#hhdCategoryId').val()
-    },
+            },
             isLoggedIn: true,
             maxSelectableQuestionCount: 50,
             selectedQuestionCount: 10,
@@ -39,7 +39,8 @@ var vue = new Vue({
             userIsAuthor: false,
             allQuestions: false,
             isNotQuestionInWishKnowledge: false,
-            safeLearningSessionOptions: false, 
+            safeLearningSessionOptions: false,
+            displayNone: true
         };
     },
 

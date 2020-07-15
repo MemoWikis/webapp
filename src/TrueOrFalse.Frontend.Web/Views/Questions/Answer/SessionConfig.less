@@ -15,10 +15,11 @@
 
 
 #SessionConfigApp {
-    #SessionConfigHeader{
+    #SessionConfigHeader {
         height: 88px;
-        padding:0;
-    } 
+        padding: 0;
+    }
+
     .modal-header {
         background-color: #AFD534;
         border-bottom: none;
@@ -42,6 +43,7 @@
 
     .modal-body {
         padding-bottom: 0px;
+
         .test-mode {
             margin-top: 16px;
         }
@@ -169,7 +171,7 @@
             margin-top: 55px;
             display: flex;
             justify-content: center;
-            align-items: center; 
+            align-items: center;
             flex-flow: column;
 
             @media (max-width: 420px) {
@@ -195,6 +197,10 @@
                 font-size: 12px;
             }
         }
+
+        .displayNone{
+            display: none;
+        }
     }
 
     .sliderLabel, .checkbox-label {
@@ -209,9 +215,9 @@
 
     .modal-footer {
         border-top: none;
-        display: flex; 
-        flex-wrap: wrap; 
-        justify-content: center; 
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
         margin-top: 5px;
     }
 

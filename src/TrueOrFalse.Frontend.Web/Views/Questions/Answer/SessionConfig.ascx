@@ -122,7 +122,7 @@
                             <div class="alert alert-warning" v-if="(selectedQuestionCount == 0) && maxSelectableQuestionCount > 0">Du musst mindestens 1 Frage auswählen.</div>
                         </div>
                     </div>
-                    <div class="row modal-more-options">
+                    <div class="row modal-more-options" @click="displayNone = !displayNone">
                         <div class="more-options class= col-sm-12">
                             <span>Mehr Optionen</span>
                             <span class="angle">
@@ -130,10 +130,10 @@
                             </span>
                         </div>
                     </div>
-                    <div class="themes-info">
+                    <div class="themes-info" v-bind:class="{displayNone: displayNone}">
                         <p> Du lernst <b>113 Fragen</b> aus dem Thema Allgmeinwissen(4.112)</p>
                     </div>
-                    <div class="row">
+                    <div class="row" v-bind:class="{displayNone: displayNone}">
                         <div id="SafeLearnOptions">
                             <div class="col-sm-12 safe-settings">
                                 <label>

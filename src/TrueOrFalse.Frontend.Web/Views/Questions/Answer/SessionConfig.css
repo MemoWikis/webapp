@@ -160,6 +160,9 @@
   max-width: 344px;
   font-size: 12px;
 }
+#SessionConfigApp .modal-body .displayNone {
+  display: none;
+}
 #SessionConfigApp .sliderLabel,
 #SessionConfigApp .checkbox-label {
   font-size: 14px;
