@@ -679,6 +679,7 @@ public class AnswerQuestionController : BaseController
     [HttpPost]
     public int GetQuestionCount(LearningSessionConfig config)
     {
+        config.UserId = Sl.SessionUser.UserId;
         return LearningSessionNewCreator.GetQuestionCount(config);
     }
 }
