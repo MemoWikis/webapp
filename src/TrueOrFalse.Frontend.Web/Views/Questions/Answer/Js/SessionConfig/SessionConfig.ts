@@ -201,7 +201,6 @@ var vue = new Vue({
             this.questionFilter.maxQuestionCount = this.selectedQuestionCount;
             this.questionFilter.maxProbability = this.probabilityRange[1] === 100  ? 100 : this.probabilityRange[1];
             this.questionFilter.minProbability = this.probabilityRange[0] === 0 ? 0 : this.probabilityRange[0];
-            console.log(this.questionFilter.maxQuestionCount);
         }
     }
 });
