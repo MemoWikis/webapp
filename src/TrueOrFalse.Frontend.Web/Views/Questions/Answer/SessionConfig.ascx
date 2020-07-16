@@ -137,7 +137,7 @@
                         <div id="SafeLearnOptions">
                             <div class="col-sm-12 safe-settings">
                                 <label>
-                                    <input type="checkbox" id="safeOptions" v-model="safeLearningSessionOptions"/>
+                                    <input type="checkbox" id="safeOptions" v-model="safeLearningSessionOptions" :disabled="!isLoggedIn"/>
                                     Diese Einstellungen für zukünftiges Lernen speichern.
                                 </label>
                             </div>
