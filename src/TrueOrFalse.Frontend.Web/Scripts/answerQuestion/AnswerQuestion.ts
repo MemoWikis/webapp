@@ -191,7 +191,6 @@ class AnswerQuestion {
                 $('#buttons-answer').hide();
                 this.ClickToContinue();
             }
-            console.log(self._getAnswerData()); 
             $('div#answerFeedbackTry, a#CountWrongAnswers').hide();
             $.ajax({
                 type: 'POST',

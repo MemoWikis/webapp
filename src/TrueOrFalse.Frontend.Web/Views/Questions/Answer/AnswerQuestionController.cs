@@ -238,7 +238,9 @@ public class AnswerQuestionController : BaseController
         bool inTestMode = false
     )
     {
-        Sl.SessionUser.LearningSession.CurrentStep.Answer = answer; 
+        if(learningSessionId != 0)
+            Sl.SessionUser.LearningSession.CurrentStep.Answer = answer; 
+
         var result = _answerQuestion.Run(id, answer, UserId, questionViewGuid, interactionNumber,
             millisecondsSinceQuestionView, learningSessionId, new Guid(), inTestMode);
         var question = _questionRepo.GetById(id);

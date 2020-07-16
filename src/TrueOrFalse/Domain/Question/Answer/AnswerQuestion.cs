@@ -57,9 +57,11 @@ public class AnswerQuestion : IRegisterAsInstancePerLifetime
                 interactionNumber,
                 millisecondsSinceQuestionView,
                 dateCreated: dateCreated);
-
-                answerQuestionResult.NewStepAdded =  learningSession.AddAnswer(answerQuestionResult);
-                answerQuestionResult.NumberSteps = learningSession.Steps.Count; 
+            if (learningSession != null)
+            {
+                answerQuestionResult.NewStepAdded = learningSession.AddAnswer(answerQuestionResult);
+                answerQuestionResult.NumberSteps = learningSession.Steps.Count;
+            }
         });
         return result;
     }
