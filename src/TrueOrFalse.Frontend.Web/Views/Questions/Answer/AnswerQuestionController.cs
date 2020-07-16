@@ -31,6 +31,7 @@ public class AnswerQuestionController : BaseController
     [SetThemeMenu(isQuestionPage: true)]
     public ActionResult Answer(string text, int? id, int? elementOnPage, string pager, int? setId, int? questionId, string category)
     {
+        
         if (id.HasValue && SeoUtils.HasUnderscores(text))
             return SeoUtils.RedirectToHyphendVersion(RedirectPermanent, id.Value);
 

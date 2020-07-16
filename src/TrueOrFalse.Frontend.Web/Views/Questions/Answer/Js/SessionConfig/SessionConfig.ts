@@ -54,7 +54,7 @@ var vue = new Vue({
 
         this.$nextTick(function() {
             window.addEventListener('resize', this.matchSize);
-            self.matchSize();
+            this.matchSize();
         });
 
         $('#SessionConfigModal').on('shown.bs.modal', function () {
