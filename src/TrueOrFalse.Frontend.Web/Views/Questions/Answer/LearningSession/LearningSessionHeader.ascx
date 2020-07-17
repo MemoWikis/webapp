@@ -19,7 +19,7 @@
 </div>
 
 <div class="SessionBar">
-    <div class="QuestionCount">Frage <span id="CurrentStepNumber"><%= Model.CurrentLearningStepIdx + 1 %></span> von <span id="StepCount"><%= Model.CategoryModel.AggregatedQuestionCount %></span></div>
+    <div class="QuestionCount">Frage <span id="CurrentStepNumber"><%= Model.CurrentLearningStepIdx + 1 %></span> von <span id="StepCount">10</span></div>
     <div class="ProgressBarContainer">
         <span id="spanPercentageDone"> 0% </span>
         <div id="progressPercentageDone" class="ProgressBarSegment ProgressBarDone" style="width: 0;">
