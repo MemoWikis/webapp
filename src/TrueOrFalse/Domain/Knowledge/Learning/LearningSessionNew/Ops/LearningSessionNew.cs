@@ -21,9 +21,9 @@ public class LearningSessionNew
     public LearningSessionNew(List<LearningSessionStepNew> learningSessionSteps, LearningSessionConfig config)
     {
         Steps = learningSessionSteps;
-        var userCashItem = UserCache.GetItem(config.UserId);
+        var userCashItem = UserCache.GetItem(config.CurrentUserId);
         User = userCashItem.User;
-        IsLoggedIn = config.UserId != -1;
+        IsLoggedIn = config.CurrentUserId != -1;
         Config = config;
         Config.Category = EntityCache.GetCategory(Config.CategoryId);
     }
@@ -89,10 +89,10 @@ public class LearningSessionNew
     {
         get
         {
-            if (!Config.QuestionsInWishknowledge)
+            if (!Config.InWishknowledge)
                 return EntityCache.GetCategory(Config.CategoryId).CountQuestions;
 
-            if (Config.QuestionsInWishknowledge)
+            if (Config.InWishknowledge)
                 return User.WishCountQuestions;
 
             throw new Exception("unknown session type");

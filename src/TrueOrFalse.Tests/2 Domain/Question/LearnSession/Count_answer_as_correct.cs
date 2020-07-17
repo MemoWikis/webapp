@@ -26,7 +26,7 @@ namespace TrueOrFalse.Tests._2_Domain.Question.LearnSession
             learningSession = ContextLearningSession.GetLearningSession(
                 new LearningSessionConfig
                 {
-                    UserId = 0,
+                    CurrentUserId = 0,
                     IsInTestMode = true,
                     MaxQuestionCount = 5
                 });
@@ -43,9 +43,9 @@ namespace TrueOrFalse.Tests._2_Domain.Question.LearnSession
             var learningSession = ContextLearningSession.GetLearningSession(
                 new LearningSessionConfig
                 {
-                    UserId = lastUserCashItem.UserId,
+                    CurrentUserId = lastUserCashItem.UserId,
                     IsInTestMode = true,
-                    QuestionsInWishknowledge = true,
+                    InWishknowledge = true,
                     MaxQuestionCount = 5
 
                 });
@@ -60,9 +60,9 @@ namespace TrueOrFalse.Tests._2_Domain.Question.LearnSession
             var learningSession = ContextLearningSession.GetLearningSession(
                 new LearningSessionConfig
                 {
-                    UserId = lastUserCashItem.UserId,
+                    CurrentUserId = lastUserCashItem.UserId,
                     IsInTestMode = false,
-                    QuestionsInWishknowledge = true,
+                    InWishknowledge = true,
                     MaxQuestionCount = 5,
                     CategoryId = 0
                 });

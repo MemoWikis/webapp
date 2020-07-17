@@ -466,10 +466,10 @@ public class AnswerQuestionController : BaseController
             var updateUser = Sl.UserRepo.GetById(UserId);
             var learningSessionOptionsHelper = new SafeLearningSessionOptionsHelper
             {
-                UserIsAuthor = config.UserIsAuthor,
+                UserIsAuthor = config.CreatedByCurrentUser,
                 AllQuestions = config.AllQuestions,
                 IsInTestmode = config.IsInTestMode,
-                QuestionsInWishknowledge = config.QuestionsInWishknowledge,
+                QuestionsInWishknowledge = config.InWishknowledge,
                 IsNotQuestionInWishKnowledge = config.IsNotQuestionInWishKnowledge,
                 MaxProbability = config.MaxProbability,
                 MinProbability = config.MinProbability,
@@ -483,8 +483,8 @@ public class AnswerQuestionController : BaseController
         var user = new SessionUser();
         user.LearningSession = learningSession;
         Sl.SessionUser.LearningSession = learningSession;
-        var firstStep = 0; 
 
+        var firstStep = 0; 
         return RenderAnswerBodyByLearningSession(firstStep);
     }
 
@@ -626,7 +626,7 @@ public class AnswerQuestionController : BaseController
                 currentStepGuid = sessionData.CurrentStepGuid,
                 currentSessionHeader = sessionData.CurrentSessionHeader,
                 learningSessionId = sessionData.LearningSessionId,
-                isLearningSession = !learningSession.Config.QuestionsInWishknowledge,
+                isLearningSession = !learningSession.Config.InWishknowledge,
                 stepCount = learningSession.Steps.Count 
             } : null,
             url = currentUrl,
@@ -685,7 +685,7 @@ public class AnswerQuestionController : BaseController
     [HttpPost]
     public int GetQuestionCount(LearningSessionConfig config)
     {
-        config.UserId = Sl.SessionUser.UserId;
+        config.CurrentUserId = Sl.SessionUser.UserId;
         return LearningSessionNewCreator.GetQuestionCount(config);
     }
 }

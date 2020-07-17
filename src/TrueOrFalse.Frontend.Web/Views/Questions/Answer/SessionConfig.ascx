@@ -82,13 +82,13 @@
                                     Alle Fragen
                                 </label> <br />
                                 <label class="checkbox-label">
-                                    <input id="QuestionInWishknowledge" type="checkbox" v-model="questionsInWishknowledge" :disabled="!isLoggedIn" value="False"/>
+                                    <input id="QuestionInWishknowledge" type="checkbox" v-model="inWishknowledge" :disabled="!isLoggedIn" value="False"/>
                                     In meinem Wunschwissen
                                 </label>
                             </div>
                             <div class="col-sm-6">
                                 <label class="checkbox-label">
-                                    <input id="UserIsAuthor" type="checkbox" v-model="userIsAuthor" :disabled="!isLoggedIn" value="False"/>
+                                    <input id="UserIsAuthor" type="checkbox" v-model="createdByCurrentUser" :disabled="!isLoggedIn" value="False"/>
                                     Von mir erstellt
                                 </label> <br />
                                 <label class="checkbox-label">

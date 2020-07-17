@@ -19,7 +19,7 @@ namespace TrueOrFalse.Tests
                 .ToList();
 
             var wuwisFromLearningSession = LearningSessionNewCreator.ForLoggedInUser(new LearningSessionConfig
-                {QuestionsInWishknowledge = true, CategoryId = categoryId, UserId = usercashItem.UserId});
+                {InWishknowledge = true, CategoryId = categoryId, CurrentUserId = usercashItem.UserId});
 
             Assert.That(wuwisFromLearningSession.Steps.Count, Is.EqualTo(wuwis.Count));
         }

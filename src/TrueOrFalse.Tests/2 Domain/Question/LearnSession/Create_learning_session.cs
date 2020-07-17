@@ -12,7 +12,7 @@ namespace TrueOrFalse.Tests._2_Domain.Question.LearnSession
             var learningSession = ContextLearningSession.GetLearningSession(
                 new LearningSessionConfig
                 {
-                    UserId = 0,
+                    CurrentUserId = 0,
                     MaxQuestionCount = 5,
                     MaxProbability = 50,
                     MinProbability = 10

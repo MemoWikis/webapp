@@ -99,16 +99,16 @@ class AnswerBodyLoader {
                 categoryId: $('#hhdCategoryId').val(),
                 isInLearningTab: this._isInLearningTab,
                 questionFilter: questionFilter,
-                userId: $("#hddUserId").val(),
+                currentUserId: $("#hddUserId").val(),
                 maxQuestionCount: questionFilter != null ? questionFilter.maxQuestionCount : 10,
                 minProbability: questionFilter != null ? questionFilter.minProbability : 0,
                 maxProbability: questionFilter != null ? questionFilter.maxProbability : 100,
-                questionsInWishknowledge: questionFilter != null ? questionFilter.questionsInWishknowledge : false,
-                questionOrder: questionFilter != null ? questionFilter.questionOrder : 0,
+                inWishknowledge: questionFilter != null ? questionFilter.inWishknowledge : false,
+                questionOrder: questionFilter != null ? questionFilter.questionOrder : -1,
                 isInTestMode: questionFilter != null ? questionFilter.isInTestMode : false,
                 isNotInWishKnowledge: questionFilter != null ? questionFilter.isNotQuestionInWishKnowledge : false,
                 allQuestions: questionFilter != null ? questionFilter.allQuestions : false,
-                userIsAuthor: questionFilter != null ? questionFilter.userIsAuthor : false,
+                createdByCurrentUser: questionFilter != null ? questionFilter.createdByCurrentUser : false,
                 safeLearningSessionOptions: questionFilter != null ? questionFilter.safeLearningSessionOptions : false
             }
 

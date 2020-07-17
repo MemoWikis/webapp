@@ -20,7 +20,7 @@ internal static class ContextLearningSession
             {
                 CategoryId = 0,
                 MaxQuestionCount = amountQuestions,
-                UserId = -1
+                CurrentUserId = -1
             });
         return learningSession;
     }
@@ -28,14 +28,14 @@ internal static class ContextLearningSession
     public static LearningSessionNew GetLearningSessionWithUser(int userId, int amountQuestions)
     {
         ContextQuestion.PutQuestionsIntoMemoryCache(amountQuestions);
-        return new LearningSessionNew(GetSteps(amountQuestions), new LearningSessionConfig { UserId = userId });
+        return new LearningSessionNew(GetSteps(amountQuestions), new LearningSessionConfig { CurrentUserId = userId });
     }
 
     public static LearningSessionNew GetLearningSession(LearningSessionConfig config )
     {
 
         ContextQuestion.PutQuestionsIntoMemoryCache();
-        if (config.UserId == -1)
+        if (config.CurrentUserId == -1)
         {
             return LearningSessionNewCreator.ForAnonymous(config);
         }

@@ -262,7 +262,7 @@ namespace TrueOrFalse.Frontend.Web.Code
 
         public static string StartLearningSession(LearningSessionNew learningSession)
         {
-            if(!learningSession.Config.QuestionsInWishknowledge)
+            if(!learningSession.Config.InWishknowledge)
                 return StartCategoryLearningSession(learningSession.Config.CategoryId);
             else
             {

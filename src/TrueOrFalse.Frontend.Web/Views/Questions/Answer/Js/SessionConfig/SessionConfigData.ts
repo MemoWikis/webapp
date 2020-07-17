@@ -2,15 +2,15 @@
     categoryId: number;
     isInLearningTab: boolean;
     questionFilter: QuestionFilterJson;
-    userId: string;
+    currentUserId: string;
     maxQuestionCount: number;
     minProbability: number;
     maxProbability: number;
-    questionsInWishknowledge: boolean;
+    inWishknowledge: boolean;
     questionOrder: number;
     isInTestMode: boolean; 
     isNotInWishKnowledge: boolean; 
     allQuestions: boolean; 
-    userIsAuthor: boolean;
+    createdByCurrentUser: boolean;
     safeLearningSessionOptions: boolean; 
  }

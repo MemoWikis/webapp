@@ -16,9 +16,9 @@ var vue = new Vue({
                 minProbability: 0,
                 maxProbability: 100,
                 maxQuestionCount: 10,
-                questionsInWishknowledge: false,
-                questionOrder: 0,
-                userIsAuthor: false,
+                inWishknowledge: false,
+                questionOrder: -1,
+                createdByCurrentUser: false,
                 allQuestions: false,
                 isNotQuestionInWishKnowledge: false,
                 isInTestMode: false,
@@ -28,7 +28,7 @@ var vue = new Vue({
             isLoggedIn: true,
             maxSelectableQuestionCount: 50,
             selectedQuestionCount: 10,
-            questionsInWishknowledge: false,
+            inWishknowledge: false,
             percentages: '{value}%',
             maxQuestionCountIsZero: false,
             isTestMode: false,
@@ -36,7 +36,7 @@ var vue = new Vue({
             radioHeight: 0,
             radioWidth: 0,
             openLogin: false,
-            userIsAuthor: false,
+            createdByCurrentUser: false,
             allQuestions: false,
             isNotQuestionInWishKnowledge: false,
             safeLearningSessionOptions: false,
@@ -84,7 +84,7 @@ var vue = new Vue({
             }
             this.loadQuestionCount();
         },
-        userIsAuthor: function (val) {
+        createdByCurrentUser: function (val) {
            
             if (val) {
                 this.allQuestions = false;
@@ -94,8 +94,8 @@ var vue = new Vue({
         allQuestions: function (val) {
             
             if (val) {
-                this.questionsInWishknowledge = false;
-                this.userIsAuthor = false;
+                this.inWishknowledge = false;
+                this.createdByCurrentUser = false;
                 this.isNotQuestionInWishKnowledge = false;
             }
             this.loadQuestionCount();
@@ -103,7 +103,7 @@ var vue = new Vue({
         isNotQuestionInWishKnowledge: function (val) {
             
             if (val) {
-                this.questionsInWishknowledge = false;
+                this.inWishknowledge = false;
                 this.allQuestions = false;
             }
             this.loadQuestionCount();
@@ -195,8 +195,8 @@ var vue = new Vue({
         safeQuestionFilter() {
             this.questionFilter.allQuestions = this.allQuestions;
             this.questionFilter.isNotQuestionInWishKnowledge = this.isNotQuestionInWishKnowledge;
-            this.questionFilter.questionsInWishknowledge = this.questionsInWishknowledge;
-            this.questionFilter.userIsAuthor = this.userIsAuthor;
+            this.questionFilter.inWishknowledge = this.inWishknowledge;
+            this.questionFilter.createdByCurrentUser = this.createdByCurrentUser;
             this.questionFilter.safeLearningSessionOptions = this.safeLearningSessionOptions; 
             this.questionFilter.isInTestMode = this.isInTestMode;
             this.questionFilter.maxQuestionCount = this.selectedQuestionCount;
