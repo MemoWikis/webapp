@@ -2,11 +2,12 @@
 declare var Vue: any;
 
 Vue.component('question-details-component', {
-    props: ['questionId'],
+    props: ['baseQuestionId'],
     template: '#question-details-component',
 
     data() {
         return {
+            questionId: this.baseQuestionId,
             personalProbability: 0,
             personalProbabilityText: "Nicht im Wunschwissen",
             personalColor: "#DDDDDD",
