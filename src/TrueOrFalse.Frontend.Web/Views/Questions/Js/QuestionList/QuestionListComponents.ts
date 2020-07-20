@@ -4,18 +4,18 @@ declare var VueAdsPagination: any;
 Vue.component('sort-list',{
     data() {
         return {
-            activeInstrument: 'Piano',
-            instruments: [
-                'Piano',
-                'Acoustic Guitar',
-                'Drums',
-                'Trumpet'
+            activeSortOrder: 'Alphabetisch',
+            sortOrdersForQuestionsList: [
+                'Antwortwahrscheinlichkeit',
+                'Wunschwissen',
+                'Zufällig',
+                'Alphabetisch'
             ],
         }
     },
     methods: {
-        changeInstrument(instrument) {
-            this.activeInstrument = instrument;
+        changeSortOrder(sortOrder) {
+            this.activeSortOrder = sortOrder;
         },
     }
 });
