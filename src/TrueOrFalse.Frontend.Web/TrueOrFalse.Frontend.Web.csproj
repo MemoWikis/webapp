@@ -22408,7 +22408,6 @@
     <Content Include="Views\Shared\Spinner\Spinner.css">
       <DependentUpon>Spinner.less</DependentUpon>
     </Content>
-    <Content Include="Views\Shared\Switch\Switch.ascx" />
     <Content Include="Views\Shared\Switch\Switch.css">
       <DependentUpon>Switch.less</DependentUpon>
     </Content>
@@ -24092,7 +24091,6 @@
       <DependentUpon>SessionConfig.ts</DependentUpon>
     </Content>
     <Content Include="Views\Shared\Switch\Switch.less" />
-  
     <None Include="Web.overwritten.config.sample" />
     <Content Include="Views\Welcome\Logout.aspx" />
     <Content Include="Views\Api\Export.aspx" />
