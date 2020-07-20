@@ -1,5 +1,6 @@
 ﻿<%@ Import Namespace="System.Web.Optimization" %>
 <%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
+<%= Styles.Render("~/bundles/switch") %>
 
 <div id="SessionConfigApp">
     <div id="sessionSelectionContainer">
@@ -69,7 +70,12 @@
                             </transition>
                             <div class="modal-section-label">Prüfungsmodus</div>
                             <div class="test-mode">
-                            <%= Html.Partial("~/Views/Shared/Switch/Switch.ascx") %>
+                                <div class="center">
+                                    <input type="checkbox" id="cbx" style="display:none" v-model="isTestMode" />
+                                    <label for="cbx" class="toggle">
+                                        <span></span>
+                                    </label>
+                                </div>
                             </div>
                             <div class="test-mode-info">
                                 Du willst es Wissen? Im Prüfungsmodus kannst Du Dein Wissen realistisch testen: zufällige Fragen ohne Antworthilfe und Wiederholungen. Viel Erfolg!
@@ -130,6 +136,29 @@
                             </span>
                         </div>
                     </div>
+                    <div id="QuestionSortSessionConfig">
+                        <div class="center">
+                            <input type="checkbox" id="randomQuestions" style="display:none" v-model="randomQuestions" />
+                            <label for="randomQuestions" class="toggle">
+                                <span></span>
+                            </label>
+                        </div>
+                        Zufällige Fragen
+                        <div class="center">
+                            <input type="checkbox" id="answerHelp" style="display:none" v-model="answerHelp" />
+                            <label for="answerHelp" class="toggle">
+                                <span></span>
+                            </label>
+                        </div>
+                        Antworthilfe
+                        <div class="center">
+                            <input type="checkbox" id="repititions" style="display:none" v-model="repititions" />
+                            <label for="repititions" class="toggle">
+                                <span></span>
+                            </label>
+                        </div>
+                        Wiederholungen
+                    </div>
                     <div class="themes-info" v-bind:class="{displayNone: displayNone}">
                         <p> Du lernst <b>113 Fragen</b> aus dem Thema Allgmeinwissen(4.112)</p>
                     </div>
@@ -157,3 +186,4 @@
 </div>
 
 <%= Scripts.Render("~/bundles/js/SessionConfig") %>
+
