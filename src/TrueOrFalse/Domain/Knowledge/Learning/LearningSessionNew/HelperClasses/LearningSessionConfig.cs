@@ -20,8 +20,9 @@ public class LearningSessionConfig
     public bool AllQuestions { get; set; }
     public bool IsNotQuestionInWishKnowledge { get; set; }
     public bool SafeLearningSessionOptions { get; set; }
-
-
+    public bool AnswerHelp { get; set; }
+    public bool Repititions { get; set; }
+    public bool RandomQuestions { get; set; }
     /// <summary>
     /// User is not logged in
     /// </summary>

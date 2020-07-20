@@ -9,12 +9,6 @@ class AnswerBodyLoader {
 
     constructor(answerBody: AnswerBody) {
         this._isInLearningTab = $('#LearningTab').length > 0;
-
-
-
-        if (Utils.IsInWidget())
-            return;
-
         $(() => {
 
             if (window.location.pathname.split("/")[4] === "im-Fragesatz") {
@@ -98,7 +92,6 @@ class AnswerBodyLoader {
             this._sessionConfigDataJson = {
                 categoryId: $('#hhdCategoryId').val(),
                 isInLearningTab: this._isInLearningTab,
-                questionFilter: questionFilter,
                 currentUserId: $("#hddUserId").val(),
                 maxQuestionCount: questionFilter != null ? questionFilter.maxQuestionCount : 10,
                 minProbability: questionFilter != null ? questionFilter.minProbability : 0,
@@ -109,7 +102,10 @@ class AnswerBodyLoader {
                 isNotInWishKnowledge: questionFilter != null ? questionFilter.isNotQuestionInWishKnowledge : false,
                 allQuestions: questionFilter != null ? questionFilter.allQuestions : false,
                 createdByCurrentUser: questionFilter != null ? questionFilter.createdByCurrentUser : false,
-                safeLearningSessionOptions: questionFilter != null ? questionFilter.safeLearningSessionOptions : false
+                safeLearningSessionOptions: questionFilter != null ? questionFilter.safeLearningSessionOptions : false,
+                answerHelp: questionFilter != null ? questionFilter.answerHelp : true,
+                repititions: questionFilter != null ? questionFilter.repititions : true,
+                randomQuestions: questionFilter != null ? questionFilter.randomQuestions : false
             }
 
         var url = "/AnswerQuestion/RenderNewAnswerBodySessionForCategory";

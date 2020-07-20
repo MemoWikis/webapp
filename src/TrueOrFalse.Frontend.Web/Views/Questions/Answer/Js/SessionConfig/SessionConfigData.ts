@@ -1,7 +1,6 @@
 ﻿class SessionConfigDataJson {
     categoryId: number;
     isInLearningTab: boolean;
-    questionFilter: QuestionFilterJson;
     currentUserId: string;
     maxQuestionCount: number;
     minProbability: number;
@@ -13,4 +12,7 @@
     allQuestions: boolean; 
     createdByCurrentUser: boolean;
     safeLearningSessionOptions: boolean; 
+    answerHelp: true;
+    repititions: true;
+    randomQuestions: false;
  }

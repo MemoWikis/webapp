@@ -17,14 +17,16 @@ var vue = new Vue({
                 maxProbability: 100,
                 maxQuestionCount: 10,
                 inWishknowledge: false,
-                questionOrder: -1,
                 createdByCurrentUser: false,
                 allQuestions: false,
                 isNotQuestionInWishKnowledge: false,
                 isInTestMode: false,
                 safeLearningSessionOptions: false,
-                categoryId: $('#hhdCategoryId').val()
-            },
+                categoryId: $('#hhdCategoryId').val(),
+                answerHelp: true,
+                repititions: true,
+                randomQuestions: false
+    },
             isLoggedIn: true,
             maxSelectableQuestionCount: 50,
             selectedQuestionCount: 10,
@@ -40,7 +42,10 @@ var vue = new Vue({
             allQuestions: false,
             isNotQuestionInWishKnowledge: false,
             safeLearningSessionOptions: false,
-            displayNone: true
+            displayNone: true,
+            randomQuestions: false,
+            answerHelp: true,
+            repititions: true
         };
     },
 
@@ -72,7 +77,6 @@ var vue = new Vue({
             this.questionFilter.maxProbability = this.probabilityRange[1];
             this.loadQuestionCount();
         },
-
         selectedQuestionCount: function (val) {
             this.questionFilter.maxQuestionCount = parseInt(val);
         },
@@ -85,7 +89,6 @@ var vue = new Vue({
             this.loadQuestionCount();
         },
         createdByCurrentUser: function (val) {
-           
             if (val) {
                 this.allQuestions = false;
             }
@@ -110,6 +113,15 @@ var vue = new Vue({
         },
         safeLearningSessionOptions: function (val) {
             this.questionFilter.safeLearningSessionOptions = val;
+        },
+        randomQuestions: function() {
+            this.questionFilter.randomQuestions = this.randomQuestions;
+        },
+        answerHelp: function () {
+            this.questionFilter.answerHelp = this.answerHelp;
+        },
+        repititions: function () {
+            this.questionFilter.repititions = this.repititions;
         },
         'questionFilter.maxQuestionCount': function(val) {
             this.maxQuestionCountIsZero = val === 0;
@@ -153,20 +165,6 @@ var vue = new Vue({
                 allQuestions: false
             };
         },
-
-        async loadNewSession(val) {
-            await this.resetQuestionFilter();
-
-            if (val == "random")
-                this.questionFilter.questionOrder = 0;
-            if (val == "highProbability")
-                this.questionFilter.questionOrder = 1;
-            if (val == "lowProbability")
-                this.questionFilter.questionOrder = 2;
-
-            this.loadCustomSession();
-        },
-
         loadCustomSession() {
             if (this.maxQuestionCountIsZero)
                 return;
