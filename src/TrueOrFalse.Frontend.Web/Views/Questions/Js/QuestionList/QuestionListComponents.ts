@@ -1,6 +1,25 @@
 ﻿declare var Vue: any;
 declare var VueAdsPagination: any;
 
+Vue.component('sort-list',{
+    data() {
+        return {
+            activeInstrument: 'Piano',
+            instruments: [
+                'Piano',
+                'Acoustic Guitar',
+                'Drums',
+                'Trumpet'
+            ],
+        }
+    },
+    methods: {
+        changeInstrument(instrument) {
+            this.activeInstrument = instrument;
+        },
+    }
+});
+
 Vue.component('question-list-component', {
     props: [
         'categoryId',

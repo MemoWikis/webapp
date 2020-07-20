@@ -5,7 +5,21 @@
 <%= Scripts.Render("~/bundles/js/QuestionListComponents") %>
 
 <div id="QuestionListApp" class="row">
-    
+    <sort-list inline-template>
+        <div>
+            <div class="dropdown">
+                <button class="btn btn-default dropdown-toggle" type="button" id="sortQuestionList" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                    Dropdown
+                    <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu" aria-labelledby="sortQuestionList">
+                    <li v-for="item in instruments" @click='changeInstrument(item)'><a>{{item}}</a></li>
+                </ul>
+            </div>
+
+            <p>Currently selected instrument: <span>{{activeInstrument}}</span></p>
+        </div>
+    </sort-list>
     <question-list-component inline-template category-id="<%= Model.CategoryId %>" all-question-count="<%= Model.AllQuestionCount %>" is-admin="<%= Model.IsInstallationAdmin %>">
             
             <div class="col-xs-12">
