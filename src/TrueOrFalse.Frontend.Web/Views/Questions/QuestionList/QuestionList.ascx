@@ -24,13 +24,12 @@
                 <i class="fa fa-ellipsis-v"></i>
             </a>
             <ul class="dropdown-menu dropdown-menu-right">
-                <li><a href="#" data-allowed="logged-in"><i class="fa fa-plus-circle"></i>&nbsp;Frage hinzufügen</a></li>
-                <li><a href="#" data-allowed="logged-in"><i class="fa fa-angle-double-down"></i>&nbsp;Alle Fragen erweitern</a></li>
+                <li><a href="<%= Links.CreateQuestion(Model.CategoryId) %>" data-allowed="logged-in"><i class="fa fa-plus-circle"></i>&nbsp;Frage hinzufügen</a></li>
+                <li><a href="#" data-allowed="logged-in" @click="toggleQuestionsList()"><i class="fa fa-angle-double-down"></i>&nbsp;Alle Fragen erweitern</a></li>
                 <li><a href="#" data-allowed="logged-in"><i class="fa fa-play"></i>&nbsp;Fragen jetzt lernen </a></li>
             </ul>
         </div>
     </div>
-    
 <question-list-component inline-template category-id="<%= Model.CategoryId %>" all-question-count="<%= Model.AllQuestionCount %>" is-admin="<%= Model.IsInstallationAdmin %>">
         <div class="col-xs-12">
             <div class="questionListHeader row">
