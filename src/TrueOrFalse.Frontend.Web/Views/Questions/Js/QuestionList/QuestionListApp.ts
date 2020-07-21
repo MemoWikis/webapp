@@ -7,11 +7,16 @@ if (eventBus == null)
 var v = new Vue({
     el: '#QuestionListApp',
     data: {
-        isQuestionListToShow: false
+        isQuestionListToShow: false,
+        answerBody: new AnswerBody()
     },
     methods: {
         toggleQuestionsList: function() {
             this.isQuestionListToShow = !this.isQuestionListToShow;
-        }
+        },
+        loadCustomSession() {
+            this.answerBody.Loader.loadNewSession(null, true);
+        },
+
     }
 });
