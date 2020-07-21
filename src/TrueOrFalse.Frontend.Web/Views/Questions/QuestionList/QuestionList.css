@@ -1,6 +1,9 @@
 ﻿#QuestionListApp {
   margin-top: 40px;
 }
+#QuestionListApp .drop-down-question-sort {
+  display: flex;
+}
 #QuestionListApp .questionListHeader .questionListTitle {
   font-size: 24px;
   padding: 8px;

@@ -8,19 +8,30 @@
 <div id="QuestionListApp" class="row">
     <div class="col-xs-12 drop-down-question-sort">
         <div>Du lernst <b>alle</b> Fragen aus diesem Thema (4.888)</div>
+        <sort-list inline-template>
+                <div class="dropdown">
+                    <button class="btn btn-default dropdown-toggle" type="button" id="sortQuestionList" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                        {{activeSortOrder}}
+                        <span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu" aria-labelledby="sortQuestionList">
+                        <li v-for="item in sortOrdersForQuestionsList" @click='changeSortOrder(item)'><a>{{item}}</a></li>
+                    </ul>
+                </div>
+        </sort-list>
+        <div class="Button dropdown">
+            <a href="#" class="dropdown-toggle  btn btn-link btn-sm ButtonEllipsis" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                <i class="fa fa-ellipsis-v"></i>
+            </a>
+            <ul class="dropdown-menu dropdown-menu-right">
+                <li><a href="#" data-allowed="logged-in"><i class="fa fa-plus-circle"></i>&nbsp;Frage hinzufügen</a></li>
+                <li><a href="#" data-allowed="logged-in"><i class="fa fa-angle-double-down"></i>&nbsp;Alle Fragen erweitern</a></li>
+                <li><a href="#" data-allowed="logged-in"><i class="fa fa-play"></i>&nbsp;Fragen jetzt lernen </a></li>
+            </ul>
+        </div>
     </div>
-    <sort-list inline-template>
-            <div class="dropdown">
-                <button class="btn btn-default dropdown-toggle" type="button" id="sortQuestionList" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                    {{activeSortOrder}}
-                    <span class="caret"></span>
-                </button>
-                <ul class="dropdown-menu" aria-labelledby="sortQuestionList">
-                    <li v-for="item in sortOrdersForQuestionsList" @click='changeSortOrder(item)'><a>{{item}}</a></li>
-                </ul>
-            </div>
-    </sort-list>
-    <question-list-component inline-template category-id="<%= Model.CategoryId %>" all-question-count="<%= Model.AllQuestionCount %>" is-admin="<%= Model.IsInstallationAdmin %>">
+    
+<question-list-component inline-template category-id="<%= Model.CategoryId %>" all-question-count="<%= Model.AllQuestionCount %>" is-admin="<%= Model.IsInstallationAdmin %>">
         <div class="col-xs-12">
             <div class="questionListHeader row">
                 <div class="questionListTitle col-xs-11">
