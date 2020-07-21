@@ -4,6 +4,9 @@
 #QuestionListApp .drop-down-question-sort {
   display: flex;
 }
+#QuestionListApp .notShow {
+  display: none!important;
+}
 #QuestionListApp .questionListHeader .questionListTitle {
   font-size: 24px;
   padding: 8px;

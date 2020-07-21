@@ -25,12 +25,12 @@
             </a>
             <ul class="dropdown-menu dropdown-menu-right">
                 <li><a href="<%= Links.CreateQuestion(Model.CategoryId) %>" data-allowed="logged-in"><i class="fa fa-plus-circle"></i>&nbsp;Frage hinzufügen</a></li>
-                <li><a href="#" data-allowed="logged-in" @click="toggleQuestionsList()"><i class="fa fa-angle-double-down"></i>&nbsp;Alle Fragen erweitern</a></li>
+                <li><a href="#" @click="toggleQuestionsList()"><i class="fa fa-angle-double-down"></i>&nbsp;Alle Fragen erweitern</a></li>
                 <li><a href="#" data-allowed="logged-in"><i class="fa fa-play"></i>&nbsp;Fragen jetzt lernen </a></li>
             </ul>
         </div>
     </div>
-<question-list-component inline-template category-id="<%= Model.CategoryId %>" all-question-count="<%= Model.AllQuestionCount %>" is-admin="<%= Model.IsInstallationAdmin %>">
+    <question-list-component inline-template category-id="<%= Model.CategoryId %>" all-question-count="<%= Model.AllQuestionCount %>" is-admin="<%= Model.IsInstallationAdmin %>"  :is-question-list-to-show="isQuestionListToShow">
         <div class="col-xs-12">
             <div class="questionListHeader row">
                 <div class="questionListTitle col-xs-11">
@@ -42,10 +42,6 @@
                         {{questionText}} im Thema
                     </span>
                 </div>
-
-                <div class="questionListFilter col-xs-1 pull-right">
-                    <%--<i class="fas fa-ellipsis-v"></i>--%>
-                </div>
             </div>
             <question-component inline-template v-for="q in questions" 
                                 :question-id="q.Id" 
@@ -55,64 +51,60 @@
                                 :is-in-wishknowledge="q.IsInWishknowledge" 
                                 :url="q.LinkToQuestion" 
                                 :has-personal-answer="q.HasPersonalAnswer" 
-                                :is-admin="isAdmin" 
-                                :selected-page="selectedPage">
+                                :is-admin="isAdmin"
+                                :is-question-list-to-show ="isQuestionListToShow">
                 
-                <div class="singleQuestionRow row" :class="[{ open: showFullQuestion }, backgroundColor]">
+                <div class="singleQuestionRow row" :class="[{ open: showFullQuestion,  notShow: !isQuestionListToShow}, backgroundColor]">
                     <div class="questionSectionFlex col-auto">
                         <div class="questionContainer">
-                                
                             <div class="questionBodyTop row">
-                                    
-                                    <div class="questionImg col-xs-1" @click="expandQuestion()">
-                                        <img :src="questionImage"></img>
-                                    </div>
-                                    
-                                    <div class="questionContainerTopSection col-xs-11" >
-                                        <div class="questionHeader row">
-                                            <div class="questionTitle col-xs-10" ref="questionTitle" :id="questionTitleId" :class="{ trimTitle : !showFullQuestion }" @click.self="expandQuestion()">{{questionTitle}}</div>
-                                            <div class="questionHeaderIcons col-xs-2 row"  @click.self="expandQuestion()">
-                                                <div class="iconContainer col-xs-6 float-right" @click="expandQuestion()">
-                                                    <i class="fas fa-angle-down rotateIcon" :class="{ open : showFullQuestion }"></i>
-                                                </div>
-                                                <div class="questionListPinContainer iconContainer col-xs-6">
-                                                    <span :id="pinId" class="Pin" :data-question-id="questionId">
-                                                    </span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="extendedQuestionContainer" v-show="showFullQuestion">
-                                            <div class="questionBody">
-                                                <div class="RenderedMarkdown extendedQuestion">
-                                                    <component :is="extendedQuestion && {template:extendedQuestion}"></component>
-                                                    <%--<div :id="extendedQuestionId"></div>--%>
-                                                </div>
-
-                                                <div class="answer">
-                                                    <strong>Antwort:</strong><br/>
-                                                     <component :is="answer && {template:answer}"></component>
-
-                                                </div>
-                                                <div class="extendedAnswer" v-if="extendedAnswer != null && extendedAnswer.length > 0">
-                                                    <strong>Ergänzungen zur Antwort:</strong><br/>
-                                                    <component :is="extendedAnswer && {template:extendedAnswer}"></component>
-                                                </div>
-                                                <div class="notes">
-                                                    <div class="relatedCategories">{{topicTitle}}: <a v-for="(c, i) in categories" :href="c.linkToCategory">{{c.name}}{{i != categories.length - 1 ? ', ' : ''}}</a></div>
-                                                    <div class="author">Erstellt von: <a :href="authorUrl">{{author}}</a></div>
-                                                    <div class="sources" v-if="references.length > 0 && references[0].referenceText.length > 0">Quelle: <a v-for="r in references" :href="r.referenceText">{{r.referenceText}}</a></div>
-                                                </div>
-                                            </div>
-                                            
-                                            <div class="questionDetailsSection" style="display: flex;">
-                                                <div class="probabilitySection"><span class="percentageLabel" :class="backgroundColor">{{correctnessProbability}}</span> <span class="chip" :class="backgroundColor">{{correctnessProbabilityLabel}}</span></div>
-                                                <div></div>
-                                                <div>{{answerCount}} mal beantwortet | {{correctAnswers}} richtig / {{wrongAnswers}} falsch</div>
-                                            </div>
-                                        </div>
-                                    </div>
-
+                                <div class="questionImg col-xs-1" @click="expandQuestion()">
+                                    <img :src="questionImage"></img>
                                 </div>
+                                <div class="questionContainerTopSection col-xs-11" >
+                                    <div class="questionHeader row">
+                                        <div class="questionTitle col-xs-10" ref="questionTitle" :id="questionTitleId" :class="{ trimTitle : !showFullQuestion }" @click.self="expandQuestion()">{{questionTitle}}</div>
+                                        <div class="questionHeaderIcons col-xs-2 row"  @click.self="expandQuestion()">
+                                            <div class="iconContainer col-xs-6 float-right" @click="expandQuestion()">
+                                                <i class="fas fa-angle-down rotateIcon" :class="{ open : showFullQuestion }"></i>
+                                            </div>
+                                            <div class="questionListPinContainer iconContainer col-xs-6">
+                                                <span :id="pinId" class="Pin" :data-question-id="questionId">
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="extendedQuestionContainer" v-show="showFullQuestion">
+                                        <div class="questionBody">
+                                            <div class="RenderedMarkdown extendedQuestion">
+                                                <component :is="extendedQuestion && {template:extendedQuestion}"></component>
+                                                <%--<div :id="extendedQuestionId"></div>--%>
+                                            </div>
+
+                                            <div class="answer">
+                                                <strong>Antwort:</strong><br/>
+                                                 <component :is="answer && {template:answer}"></component>
+
+                                            </div>
+                                            <div class="extendedAnswer" v-if="extendedAnswer != null && extendedAnswer.length > 0">
+                                                <strong>Ergänzungen zur Antwort:</strong><br/>
+                                                <component :is="extendedAnswer && {template:extendedAnswer}"></component>
+                                            </div>
+                                            <div class="notes">
+                                                <div class="relatedCategories">{{topicTitle}}: <a v-for="(c, i) in categories" :href="c.linkToCategory">{{c.name}}{{i != categories.length - 1 ? ', ' : ''}}</a></div>
+                                                <div class="author">Erstellt von: <a :href="authorUrl">{{author}}</a></div>
+                                                <div class="sources" v-if="references.length > 0 && references[0].referenceText.length > 0">Quelle: <a v-for="r in references" :href="r.referenceText">{{r.referenceText}}</a></div>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="questionDetailsSection" style="display: flex;">
+                                            <div class="probabilitySection"><span class="percentageLabel" :class="backgroundColor">{{correctnessProbability}}</span> <span class="chip" :class="backgroundColor">{{correctnessProbabilityLabel}}</span></div>
+                                            <div></div>
+                                            <div>{{answerCount}} mal beantwortet | {{correctAnswers}} richtig / {{wrongAnswers}} falsch</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                             <div class="questionBodyBottom" v-show="showFullQuestion">
                                 <div :id="questionDetailsId" class="questionDetails" ></div>
                                 <div class="row">

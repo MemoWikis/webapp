@@ -24,7 +24,8 @@ Vue.component('question-list-component', {
     props: [
         'categoryId',
         'allQuestionCount',
-        'isAdmin'],
+        'isAdmin',
+        'isQuestionListToShow'],
     data() {
         return {
             pages: 0,
@@ -206,7 +207,8 @@ Vue.component('question-component', {
         'url',
         'hasPersonalAnswer',
         'isAdmin',
-        'selectedPage'],
+        'selectedPage',
+        'isQuestionListToShow'],
     data() {
         return {
             answer: "",
@@ -239,7 +241,8 @@ Vue.component('question-component', {
             answerCount: "0",
             correctAnswers: "0",
             wrongAnswers: "0",
-        }   
+          
+    }   
     },
     
     mounted() {
