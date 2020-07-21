@@ -1,12 +1,15 @@
 ﻿<%@ Control Language="C#" AutoEventWireup="true" Inherits="System.Web.Mvc.ViewUserControl<QuestionListModel>" %>
 <%@ Import Namespace="System.Web.Optimization" %>
+<%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
 <%= Styles.Render("~/bundles/QuestionList") %>
 
 <%= Scripts.Render("~/bundles/js/QuestionListComponents") %>
 
 <div id="QuestionListApp" class="row">
+    <div class="col-xs-12 drop-down-question-sort">
+        <div>Du lernst <b>alle</b> Fragen aus diesem Thema (4.888)</div>
+    </div>
     <sort-list inline-template>
-        <div>
             <div class="dropdown">
                 <button class="btn btn-default dropdown-toggle" type="button" id="sortQuestionList" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
                     {{activeSortOrder}}
@@ -16,7 +19,6 @@
                     <li v-for="item in sortOrdersForQuestionsList" @click='changeSortOrder(item)'><a>{{item}}</a></li>
                 </ul>
             </div>
-        </div>
     </sort-list>
     <question-list-component inline-template category-id="<%= Model.CategoryId %>" all-question-count="<%= Model.AllQuestionCount %>" is-admin="<%= Model.IsInstallationAdmin %>">
         <div class="col-xs-12">
