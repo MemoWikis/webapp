@@ -5,21 +5,21 @@
 .paddingLeft20 {
   padding-left: 20px;
 }
-#SessionConfigApp #SessionConfigHeader {
+#SessionConfigModal #SessionConfigHeader {
   height: 88px;
   padding: 0;
 }
-#SessionConfigApp .modal-header {
+#SessionConfigModal .modal-header {
   background-color: #AFD534;
   border-bottom: none;
 }
-#SessionConfigApp .modal-header h4 {
+#SessionConfigModal .modal-header h4 {
   padding-left: 20px;
   font-size: 24px;
   font-weight: bold;
   color: #003264;
 }
-#SessionConfigApp .modal-header h5 {
+#SessionConfigModal .modal-header h5 {
   padding-left: 20px;
   padding-top: 18px;
   margin-top: 0;
@@ -27,37 +27,37 @@
   font-size: 14px;
   color: #003264;
 }
-#SessionConfigApp .modal-body {
+#SessionConfigModal .modal-body {
   padding-bottom: 0px;
 }
-#SessionConfigApp .modal-body .test-mode {
+#SessionConfigModal .modal-body .test-mode {
   margin-top: 16px;
 }
-#SessionConfigApp .modal-body .must-logged-in {
+#SessionConfigModal .modal-body .must-logged-in {
   padding-left: 20px;
 }
-#SessionConfigApp .modal-body .test-mode-info {
+#SessionConfigModal .modal-body .test-mode-info {
   color: #999999;
   font-size: 12px;
   margin-top: 16px;
   max-width: 485px;
 }
-#SessionConfigApp .modal-body .fade-enter {
+#SessionConfigModal .modal-body .fade-enter {
   opacity: 0;
 }
-#SessionConfigApp .modal-body .fade-enter-active {
+#SessionConfigModal .modal-body .fade-enter-active {
   transition: opacity 0.3s ease-in;
 }
-#SessionConfigApp .modal-body .fade-leave {
+#SessionConfigModal .modal-body .fade-leave {
   opacity: 0.5;
 }
-#SessionConfigApp .modal-body .fade-leave-active {
+#SessionConfigModal .modal-body .fade-leave-active {
   transition: opacity 1s;
 }
-#SessionConfigApp .modal-body .fade-leave-to {
+#SessionConfigModal .modal-body .fade-leave-to {
   opacity: 0;
 }
-#SessionConfigApp .modal-body .restricted-options {
+#SessionConfigModal .modal-body .restricted-options {
   position: absolute;
   top: 45px;
   padding: 30px;
@@ -70,7 +70,7 @@
   justify-content: space-between;
   align-items: center;
 }
-#SessionConfigApp .modal-body .restricted-options .info-content {
+#SessionConfigModal .modal-body .restricted-options .info-content {
   font-size: 20px;
   padding: 20px;
   text-align: center;
@@ -78,38 +78,38 @@
   width: 100%;
   cursor: default;
 }
-#SessionConfigApp .modal-body .restricted-options .restricted-options-buttons {
+#SessionConfigModal .modal-body .restricted-options .restricted-options-buttons {
   display: flex;
   align-content: center;
   justify-content: center;
 }
-#SessionConfigApp .modal-body .modal-section-label {
+#SessionConfigModal .modal-body .modal-section-label {
   font-size: 20px;
   color: #003264;
   padding-top: 40px;
 }
-#SessionConfigApp .modal-body .modal-divider {
+#SessionConfigModal .modal-body .modal-divider {
   border-bottom: 1px grey solid;
   opacity: 0.4;
   margin: 37px 20px 30px 20px;
 }
-#SessionConfigApp .modal-body #QuestionsHeader {
+#SessionConfigModal .modal-body #QuestionsHeader {
   font-size: 14px;
   color: #003264;
   margin-bottom: 20px;
 }
-#SessionConfigApp .modal-body .modal-more-options {
+#SessionConfigModal .modal-body .modal-more-options {
   padding-left: 20px;
 }
-#SessionConfigApp .modal-body .more-options {
+#SessionConfigModal .modal-body .more-options {
   color: #AFD534;
   font-size: 14px;
   margin-top: 50px;
 }
-#SessionConfigApp .modal-body .more-options .angle {
+#SessionConfigModal .modal-body .more-options .angle {
   margin-top: 1px;
 }
-#SessionConfigApp .modal-body .themes-info {
+#SessionConfigModal .modal-body .themes-info {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -120,22 +120,22 @@
   margin-left: -15px;
 }
 @media (max-width: 500px) {
-  #SessionConfigApp .modal-body .themes-info {
+  #SessionConfigModal .modal-body .themes-info {
     height: 60px;
   }
 }
-#SessionConfigApp .modal-body .themes-info p {
+#SessionConfigModal .modal-body .themes-info p {
   font-size: 14px;
   color: #003264;
   margin: 0;
 }
 @media (max-width: 500px) {
-  #SessionConfigApp .modal-body .themes-info p {
+  #SessionConfigModal .modal-body .themes-info p {
     margin-left: 35px;
     margin-right: 35px;
   }
 }
-#SessionConfigApp .modal-body #SafeLearnOptions {
+#SessionConfigModal .modal-body #SafeLearnOptions {
   margin-top: 55px;
   display: flex;
   justify-content: center;
@@ -143,47 +143,47 @@
   flex-flow: column;
 }
 @media (max-width: 420px) {
-  #SessionConfigApp .modal-body #SafeLearnOptions {
+  #SessionConfigModal .modal-body #SafeLearnOptions {
     padding-left: 20px;
   }
 }
-#SessionConfigApp .modal-body #SafeLearnOptions .safe-settings {
+#SessionConfigModal .modal-body #SafeLearnOptions .safe-settings {
   max-width: 344px;
 }
-#SessionConfigApp .modal-body #SafeLearnOptions label {
+#SessionConfigModal .modal-body #SafeLearnOptions label {
   font-size: 12px;
   color: #555555;
 }
-#SessionConfigApp .modal-body #SafeLearnOptions .info-options {
+#SessionConfigModal .modal-body #SafeLearnOptions .info-options {
   color: #999999;
   margin-top: 13px;
   max-width: 344px;
   font-size: 12px;
 }
-#SessionConfigApp .modal-body .displayNone {
+#SessionConfigModal .modal-body .displayNone {
   display: none;
 }
-#SessionConfigApp .sliderLabel,
-#SessionConfigApp .checkbox-label {
+#SessionConfigModal .sliderLabel,
+#SessionConfigModal .checkbox-label {
   font-size: 14px;
   color: #555555;
   word-wrap: break-word;
 }
-#SessionConfigApp input[type="checkbox"] {
+#SessionConfigModal input[type="checkbox"] {
   margin-right: 7px;
 }
-#SessionConfigApp .modal-footer {
+#SessionConfigModal .modal-footer {
   border-top: none;
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
   margin-top: 5px;
 }
-#SessionConfigApp label.sliderLabel {
+#SessionConfigModal label.sliderLabel {
   padding-top: 20px;
   width: 100%;
 }
-#SessionConfigApp .disabled-radios .blur {
+#SessionConfigModal .disabled-radios .blur {
   width: 100%;
   height: 70%;
   position: absolute;
@@ -191,53 +191,53 @@
   z-index: 1;
   background: rgba(255, 255, 255, 0.67);
 }
-#SessionConfigApp .disabled-radios .radio input + span:before {
+#SessionConfigModal .disabled-radios .radio input + span:before {
   border: solid 0.5px #c0c0c0;
   transform: none;
 }
-#SessionConfigApp .disabled-radios .radio input + span:after {
+#SessionConfigModal .disabled-radios .radio input + span:after {
   background: none;
 }
-#SessionConfigApp .disabled-radios .radio input:checked + span:before {
+#SessionConfigModal .disabled-radios .radio input:checked + span:before {
   border: solid 0.5px #c0c0c0;
   transform: none;
 }
-#SessionConfigApp .disabled-radios .radio input:checked + span:after {
+#SessionConfigModal .disabled-radios .radio input:checked + span:after {
   background: #c0c0c0;
 }
-#SessionConfigApp .disabled-radios .radio:hover {
+#SessionConfigModal .disabled-radios .radio:hover {
   cursor: default;
 }
-#SessionConfigApp .disabled-radios .radio:hover input + span:before {
+#SessionConfigModal .disabled-radios .radio:hover input + span:before {
   transform: none;
 }
-#SessionConfigApp .disabled-radios .radio:hover input + span:after {
+#SessionConfigModal .disabled-radios .radio:hover input + span:after {
   transform: none;
 }
-#SessionConfigApp .disabled-radios .radio:hover input:checked + span:after {
+#SessionConfigModal .disabled-radios .radio:hover input:checked + span:after {
   transform: scale(0.61);
 }
-#SessionConfigApp .radio {
+#SessionConfigModal .radio {
   margin: 16px 0;
   display: flex;
   cursor: pointer;
 }
-#SessionConfigApp .radio .radioLabelContainer {
+#SessionConfigModal .radio .radioLabelContainer {
   display: flex;
   justify-content: space-between;
   flex-wrap: wrap;
   width: 100%;
 }
-#SessionConfigApp .radio .radioLabelContainer .radioLabel {
+#SessionConfigModal .radio .radioLabelContainer .radioLabel {
   line-height: 17px;
   width: 20%;
   padding-left: 8px;
   min-width: 100px;
 }
-#SessionConfigApp .radio .radioLabelContainer .radioLabel.fullSize {
+#SessionConfigModal .radio .radioLabelContainer .radioLabel.fullSize {
   width: 100%;
 }
-#SessionConfigApp .radio .radioLabelContainer .labelInfo {
+#SessionConfigModal .radio .radioLabelContainer .labelInfo {
   width: 80%;
   float: right;
   font-size: 14px;
@@ -246,21 +246,21 @@
   padding-right: 35px;
   min-width: 200px;
 }
-#SessionConfigApp .radio input {
+#SessionConfigModal .radio input {
   display: none;
 }
-#SessionConfigApp .radio input + span {
+#SessionConfigModal .radio input + span {
   line-height: 17px;
   height: 17px;
   padding-left: 17px;
   display: block;
   position: relative;
 }
-#SessionConfigApp .radio input + span:not(:empty) {
+#SessionConfigModal .radio input + span:not(:empty) {
   padding-left: 25px;
 }
-#SessionConfigApp .radio input + span:before,
-#SessionConfigApp .radio input + span:after {
+#SessionConfigModal .radio input + span:before,
+#SessionConfigModal .radio input + span:after {
   content: '';
   width: 17px;
   height: 17px;
@@ -270,65 +270,65 @@
   top: 0;
   position: absolute;
 }
-#SessionConfigApp .radio input + span:before {
+#SessionConfigModal .radio input + span:before {
   border: solid 0.5px #949494;
   transition: background 0.2s ease, transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 2);
 }
-#SessionConfigApp .radio input + span:after {
+#SessionConfigModal .radio input + span:after {
   background: #fff;
   transform: scale(0.78);
   transition: transform 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.4);
 }
-#SessionConfigApp .radio input:checked + span:before {
+#SessionConfigModal .radio input:checked + span:before {
   transform: scale(1.04);
   background: white;
   border: solid 0.5px #949494;
 }
-#SessionConfigApp .radio input:checked + span:after {
+#SessionConfigModal .radio input:checked + span:after {
   transform: scale(0.61);
   transition: transform 0.3s ease;
   background: #428BCA;
 }
-#SessionConfigApp .radio:hover input + span:before {
+#SessionConfigModal .radio:hover input + span:before {
   transform: scale(0.92);
 }
-#SessionConfigApp .radio:hover input + span:after {
+#SessionConfigModal .radio:hover input + span:after {
   transform: scale(0.74);
 }
-#SessionConfigApp .radio:hover input:checked + span:after {
+#SessionConfigModal .radio:hover input:checked + span:after {
   transform: scale(0.61);
 }
-#SessionConfigApp .sliders {
+#SessionConfigModal .sliders {
   margin-top: 50px;
   padding-left: 20px;
 }
-#SessionConfigApp .sliders .sliderContainer {
+#SessionConfigModal .sliders .sliderContainer {
   display: flex;
   font-size: 10px;
 }
-#SessionConfigApp .sliders .sliderContainer .vueSlider,
-#SessionConfigApp .sliders .sliderContainer .leftLabel,
-#SessionConfigApp .sliders .sliderContainer .rightLabel {
+#SessionConfigModal .sliders .sliderContainer .vueSlider,
+#SessionConfigModal .sliders .sliderContainer .leftLabel,
+#SessionConfigModal .sliders .sliderContainer .rightLabel {
   padding-top: 10px;
   padding-bottom: 10px;
 }
-#SessionConfigApp .sliders .sliderContainer .vueSlider {
+#SessionConfigModal .sliders .sliderContainer .vueSlider {
   width: 255px;
 }
-#SessionConfigApp .sliders .sliderContainer .leftLabel,
-#SessionConfigApp .sliders .sliderContainer .rightLabel {
+#SessionConfigModal .sliders .sliderContainer .leftLabel,
+#SessionConfigModal .sliders .sliderContainer .rightLabel {
   color: #949494;
   font-size: 10px;
   color: #555555;
 }
-#SessionConfigApp .sliders .sliderContainer .leftLabel {
+#SessionConfigModal .sliders .sliderContainer .leftLabel {
   padding-right: 16px;
   text-align: right;
 }
-#SessionConfigApp .sliders .sliderContainer .rightLabel {
+#SessionConfigModal .sliders .sliderContainer .rightLabel {
   padding-left: 16px;
 }
-#SessionConfigApp .alert {
+#SessionConfigModal .alert {
   margin-top: 20px;
 }
 .vue-slider-dot-handle {
