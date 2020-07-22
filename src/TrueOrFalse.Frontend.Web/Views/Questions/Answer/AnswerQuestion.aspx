@@ -56,29 +56,10 @@
         var relevanceForAllAvg = "<%= Model.TotalRelevanceForAllAvg %>";
         var relevanceForAllEntries = "<%= Model.TotalRelevanceForAllEntries %>";
     </script>
-<%--    
-    <%  if (Model.IsTestSession)
-        {
-            var testSession = Model.TestSession;
-
-            if (testSession.IsSetSession)
-            {
-                Model.TopNavMenu.BreadCrumb.Add(new TopNavMenuItem {Text = testSession.SetName, Url = testSession.SetLink});
-            }
-            else if (testSession.IsSetsSession)
-            {
-                Model.TopNavMenu.BreadCrumb.Add(new TopNavMenuItem {Text = testSession.SetListTitle, Url = testSession.SetLink});
-            }
-            else
-            {
-                Model.TopNavMenu.BreadCrumb.Add(new TopNavMenuItem {Text = testSession.CategoryToTest.Name, Url = testSession.CategoryToTest.Url});
-                Model.TopNavMenu.IsCategoryLearningBreadCrumb = true;
-            }
-        }--%>
     <%
          if(Model.IsLearningSession)
     {
-            if (!Model.LearningSession.Config.QuestionsInWishknowledge)
+            if (!Model.LearningSession.Config.InWishknowledge)
             {
                 if (Model.LearningSession.Config.Category != null)
                 {
