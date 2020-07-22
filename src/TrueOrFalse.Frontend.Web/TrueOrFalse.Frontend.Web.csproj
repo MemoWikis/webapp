@@ -21764,9 +21764,6 @@
     <Content Include="Views\Questions\Answer\Js\QuestionDetails\AnswerQuestionDetailsComponent.js">
       <DependentUpon>AnswerQuestionDetailsComponent.ts</DependentUpon>
     </Content>
-    <Content Include="Views\Questions\Answer\Js\SessionConfig\SessionConfig.js">
-      <DependentUpon>SessionConfig.ts</DependentUpon>
-    </Content>
     <Content Include="Views\Questions\Answer\Js\SessionConfig\SessionConfigData.js">
       <DependentUpon>SessionConfigData.ts</DependentUpon>
     </Content>
@@ -21884,7 +21881,6 @@
     <Content Include="Views\Questions\Answer\Js\QuestionFilter.js">
       <DependentUpon>QuestionFilter.ts</DependentUpon>
     </Content>
-    <Content Include="Views\Questions\Answer\SessionConfig.ascx" />
     <Content Include="Views\Questions\Answer\AnswerQuestionDetails.css">
       <DependentUpon>AnswerQuestionDetails.less</DependentUpon>
     </Content>
@@ -22387,7 +22383,6 @@
     <TypeScriptCompile Include="Views\Maintenance\Js\CMS.ts" />
     <TypeScriptCompile Include="Views\Messages\Js\Page.ts" />
     <TypeScriptCompile Include="Views\Messages\Js\ShowAllMessages.ts" />
-    <TypeScriptCompile Include="Views\Questions\Answer\Js\SessionConfig\SessionConfig.ts" />
     <TypeScriptCompile Include="Views\Questions\Answer\Js\SessionConfig\SessionConfigData.ts" />
     <TypeScriptCompile Include="Views\Questions\Answer\Js\QuestionFilter.ts" />
     <TypeScriptCompile Include="Views\Questions\Answer\LearningSession\Js\LearningSessionResult.ts" />
@@ -24086,9 +24081,6 @@
     </Content>
     <Content Include="Views\Questions\Answer\Js\SessionConfig\SessionConfigData.js.map">
       <DependentUpon>SessionConfigData.ts</DependentUpon>
-    </Content>
-    <Content Include="Views\Questions\Answer\Js\SessionConfig\SessionConfig.js.map">
-      <DependentUpon>SessionConfig.ts</DependentUpon>
     </Content>
     <Content Include="Views\Shared\Switch\Switch.less" />
     <None Include="Web.overwritten.config.sample" />

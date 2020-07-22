@@ -50,8 +50,6 @@
     <div id="QuestionDetails" data-div-type="questionDetails"></div>
 </div>
 
-<% Html.RenderPartial("~/Views/Questions/Answer/SessionConfig.ascx"); %>
-
 <% Html.RenderPartial("~/Views/Questions/QuestionList/QuestionList.ascx", new QuestionListModel(Model.Category.Id)); %>
 
 <%= Scripts.Render("~/bundles/js/DeleteQuestion") %>
