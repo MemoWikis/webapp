@@ -11,13 +11,21 @@ using Newtonsoft.Json;
 using RabbitMQ.Client.Framing.Impl;
 using TrueOrFalse.Frontend.Web.Code;
 using TrueOrFalse.Web;
-
+public enum QuestionSort
+{
+    Probability,
+    Knowledge,
+    Random,
+    Alphabetical
+}
 public class QuestionListController : BaseController
 {
+ 
     [HttpPost]
-    public JsonResult LoadQuestions(int categoryId, int itemCount, int pageNumber)
+    public JsonResult LoadQuestions(int categoryId, int itemCount, int pageNumber, int questionsSort)
     {
-        var newQuestionList = QuestionListModel.PopulateQuestionsOnPage(categoryId, pageNumber, itemCount, IsLoggedIn);
+        
+        var newQuestionList = QuestionListModel.PopulateQuestionsOnPage(categoryId, pageNumber, itemCount, IsLoggedIn, questionsSort);
         return Json(newQuestionList);
     }
 

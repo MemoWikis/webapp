@@ -208,6 +208,7 @@ Vue.component('sort-list',{
     data() {
         return {
             activeSortOrder: 'Alphabetisch',
+            questionOrder: "",
             sortOrdersForQuestionsList: [
                 'Antwortwahrscheinlichkeit',
                 'Wunschwissen',
@@ -219,6 +220,7 @@ Vue.component('sort-list',{
     methods: {
         changeSortOrder(sortOrder) {
             this.activeSortOrder = sortOrder;
+            this.$emit("send-question-order", sortOrder );
         },
     }
 });
@@ -231,7 +233,8 @@ Vue.component('question-list-component', {
         'categoryId',
         'allQuestionCount',
         'isAdmin',
-        'isQuestionListToShow'],
+        'isQuestionListToShow',
+        'questionOrder'],
     data() {
         return {
             pages: 0,
@@ -261,12 +264,29 @@ Vue.component('question-list-component', {
 
     mounted() {
         this.categoryId = $("#hhdCategoryId").val();
-        this.initQuestionList();
+        this.initQuestionList(-1);
     },
 
     watch: {
         itemCountPerPage: function (val) {
             this.pages = Math.ceil(this.allQuestionCount / val);
+        },
+        questionOrder: function(val) {
+            switch (val) {
+                case "Antwortwahrscheinlichkeit":
+                    this.initQuestionList(0);
+                    break;
+                case "Wunschwissen":
+                    this.initQuestionList(1);
+                    break;
+                case "Zufällig":
+                    this.initQuestionList(2);
+                    break;
+                case "Alphabetisch":
+                    this.initQuestionList(3);
+                    break;
+                default:
+            }
         },
         questions: function() {
             if (this.questions.length > 0)
@@ -303,14 +323,12 @@ Vue.component('question-list-component', {
     },
 
     methods: {
-        initQuestionList() {
+        initQuestionList(questionsSort: number) {
             this.pages = Math.ceil(this.allQuestionCount / this.itemCountPerPage);
-            this.loadQuestions(1);
+            this.loadQuestions(this.selectedPage ,questionsSort);
         },
 
-        loadQuestions(selectedPage) {
-            if (this.pageIsLoading)
-                return;
+        loadQuestions(selectedPage, questionsSort = -1) {
             this.pageIsLoading = true;
             $.ajax({
                 url: "/QuestionList/LoadQuestions/",
@@ -318,6 +336,7 @@ Vue.component('question-list-component', {
                     categoryId: this.categoryId,
                     itemCount: this.itemCountPerPage,
                     pageNumber: selectedPage,
+                    questionsSort: questionsSort
                 },
                 type: "POST",
                 success: questions => {

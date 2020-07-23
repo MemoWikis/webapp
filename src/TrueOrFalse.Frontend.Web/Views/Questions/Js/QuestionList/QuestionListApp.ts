@@ -1,6 +1,6 @@
 ﻿declare var Vue: any;
-
 declare var eventBus: any;
+
 if (eventBus == null)
     var eventBus = new Vue();
 
@@ -8,7 +8,9 @@ var v = new Vue({
     el: '#QuestionListApp',
     data: {
         isQuestionListToShow: false,
-        answerBody: new AnswerBody()
+        answerBody: new AnswerBody(),
+        questionOrder: ""
+        
     },
     methods: {
         toggleQuestionsList: function() {
@@ -17,6 +19,10 @@ var v = new Vue({
         loadCustomSession() {
             this.answerBody.Loader.loadNewSession(null, true);
         },
+        sendQuestionOrder(val) {
+            this.questionOrder = val;
+        },
+
 
     }
 });
