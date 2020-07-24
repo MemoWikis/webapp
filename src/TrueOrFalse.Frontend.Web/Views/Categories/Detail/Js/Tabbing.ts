@@ -1,7 +1,8 @@
 ﻿class Tabbing {
 
     private _reloadPins: boolean = false;
-    private _categoryId :number;
+    private _categoryId: number;
+
     constructor(categoryId) {
         this._categoryId = categoryId;
 
@@ -68,7 +69,6 @@
 
     public RenderTabContent(tabName: string): void {
         var url = "/Category/Tab/?tabName=" + tabName + "&categoryId=" + this._categoryId;
-
         $.get(url, (html) => {
             Utils.HideSpinner();
             $('#' + tabName + 'Content').empty().append(html);
@@ -95,8 +95,6 @@
                 this._reloadPins = false;
             }
         });
-
-
     }
 
     private ContentIsPresent(tabName: string): boolean {
