@@ -96,7 +96,6 @@ public class AnswerBodyModel : BaseModel
         DisableAddKnowledgeButton = answerQuestionModel.DisableAddKnowledgeButton;
 
         IsInTestMode = isInTestMode;
-
         Init(answerQuestionModel.Question);
     }
 

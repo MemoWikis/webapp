@@ -7,7 +7,6 @@
         this._categoryId = categoryId;
 
         if (window.location.pathname.indexOf("/Lernen") >= 0) {
-            var answerBody = new AnswerBody();
             $("#LearningTabContent").css("visibility", "visible");
             Utils.ShowSpinner();
 
@@ -52,8 +51,6 @@
                 this.RenderTabContent(tabName);
 
                 if (tabName === "LearningTab" && $('#hddLearningSessionStarted').val() === "False" && $('#hddQuestionCount').val() !== "0") {
-                    var answerBody = new AnswerBody();
-
                     Utils.ShowSpinner();
 
                     $('#hddLearningSessionStarted').val("True");
@@ -74,7 +71,6 @@
             $('#' + tabName + 'Content').empty().append(html);
 
             if (tabName == "LearningTab" && $('#hddLearningSessionStarted').val() == "False" && $('#hddQuestionCount').val() != 0) {
-                var answerBody = new AnswerBody();
                 if (!$("#LearningTabContent").css("visibility", "visible"))
                     $("#LearningTabContent").css("visibility", "visible");
 
