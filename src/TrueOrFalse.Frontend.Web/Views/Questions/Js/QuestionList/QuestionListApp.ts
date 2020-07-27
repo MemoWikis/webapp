@@ -9,20 +9,14 @@ var v = new Vue({
     data: {
         isQuestionListToShow: false,
         answerBody: new AnswerBody(),
-        questionOrder: ""
-        
+        questionsCount: 10
     },
     methods: {
         toggleQuestionsList: function() {
             this.isQuestionListToShow = !this.isQuestionListToShow;
         },
-        loadCustomSession() {
-            this.answerBody.Loader.loadNewSession(null, true);
-        },
-        sendQuestionOrder(val) {
-            this.questionOrder = val;
-        },
-
-
+        updateQuestionsCount: function(val) {
+            this.questionsCount = val;
+        }
     }
 });

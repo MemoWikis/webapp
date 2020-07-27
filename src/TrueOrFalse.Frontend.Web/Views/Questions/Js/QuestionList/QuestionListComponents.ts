@@ -158,7 +158,6 @@ Vue.component('session-config-component', {
                 minProbability: 0,
                 maxProbability: 100,
                 maxQuestionCount: this.isLoggedIn ? 10 : 5,
-                questionOrder: 0,
                 questionsInWishknowledge: false,
                 isNotQuestionInWishKnowledge: false,
                 userIsAuthor: false,
@@ -204,26 +203,6 @@ Vue.component('session-config-component', {
     }
 });
 
-Vue.component('sort-list',{
-    data() {
-        return {
-            activeSortOrder: 'Alphabetisch',
-            questionOrder: "",
-            sortOrdersForQuestionsList: [
-                'Antwortwahrscheinlichkeit',
-                'Wunschwissen',
-                'Zufällig',
-                'Alphabetisch'
-            ],
-        }
-    },
-    methods: {
-        changeSortOrder(sortOrder) {
-            this.activeSortOrder = sortOrder;
-            this.$emit("send-question-order", sortOrder );
-        },
-    }
-});
 
 Vue.component('question-list-component', {
     components: {
@@ -233,8 +212,7 @@ Vue.component('question-list-component', {
         'categoryId',
         'allQuestionCount',
         'isAdmin',
-        'isQuestionListToShow',
-        'questionOrder'],
+        'isQuestionListToShow'],
     data() {
         return {
             pages: 0,
@@ -270,23 +248,6 @@ Vue.component('question-list-component', {
     watch: {
         itemCountPerPage: function (val) {
             this.pages = Math.ceil(this.allQuestionCount / val);
-        },
-        questionOrder: function(val) {
-            switch (val) {
-                case "Antwortwahrscheinlichkeit":
-                    this.initQuestionList(0);
-                    break;
-                case "Wunschwissen":
-                    this.initQuestionList(1);
-                    break;
-                case "Zufällig":
-                    this.initQuestionList(2);
-                    break;
-                case "Alphabetisch":
-                    this.initQuestionList(3);
-                    break;
-                default:
-            }
         },
         questions: function() {
             if (this.questions.length > 0)

@@ -9,20 +9,7 @@
 <div id="QuestionListApp" class="row">
 <div class="col-xs-12 drop-down-question-sort">
         <div>Du lernst <b>alle</b> Fragen aus diesem Thema (4.888)</div>
-        <sort-list inline-template
-                   @send-question-order="sendQuestionOrder" >
-                <div class="dropdown">
-                    <button class="btn btn-default dropdown-toggle" type="button" id="sortQuestionList" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                        {{activeSortOrder}}
-                        <span class="caret"></span>
-                    </button>
-                    <ul class="dropdown-menu" aria-labelledby="sortQuestionList">
-                        <li v-for="item in sortOrdersForQuestionsList" @click='changeSortOrder(item)'><a>{{item}}</a></li>
-                    </ul>
-                </div>
-        </sort-list>
-        
-        <session-config-component inline-template>
+    <session-config-component inline-template>
             <div>
         <div id="CustomSessionConfigBtn" @click="openModal()"><i class="fa fa-cog" aria-hidden="true"></i></div>
         <div class="modal fade" id="SessionConfigModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -179,13 +166,10 @@
         category-id="<%= Model.CategoryId %>" 
         all-question-count="<%= Model.AllQuestionCount %>" 
         is-admin="<%= Model.IsInstallationAdmin %>"  
-        :is-question-list-to-show="isQuestionListToShow"
-        :question-order="questionOrder">
+        :is-question-list-to-show="isQuestionListToShow">
 
         <div class="col-xs-12">
             <div class="questionListHeader row">
-                <p>{{questionOrder}}</p>
-
                 <div class="questionListTitle col-xs-11">
                     <span>{{questions.length}}</span>
                     <span v-if="questions.length < allQuestionCount">
