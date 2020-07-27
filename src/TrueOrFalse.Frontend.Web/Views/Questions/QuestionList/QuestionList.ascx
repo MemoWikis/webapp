@@ -164,7 +164,7 @@
     <question-list-component 
         inline-template 
         category-id="<%= Model.CategoryId %>" 
-        all-question-count="<%= Model.AllQuestionCount %>" 
+        :all-question-count="questionsCount" 
         is-admin="<%= Model.IsInstallationAdmin %>"  
         :is-question-list-to-show="isQuestionListToShow">
 

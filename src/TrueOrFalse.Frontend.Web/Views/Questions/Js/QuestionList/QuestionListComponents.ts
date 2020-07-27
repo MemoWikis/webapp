@@ -243,12 +243,15 @@ Vue.component('question-list-component', {
 
     mounted() {
         this.categoryId = $("#hhdCategoryId").val();
-        this.initQuestionList(-1);
+        this.initQuestionList();
     },
 
     watch: {
         itemCountPerPage: function (val) {
             this.pages = Math.ceil(this.allQuestionCount / val);
+        },
+        allQuestionCount: function () {
+            this.initQuestionList();
         },
         questions: function() {
             if (this.questions.length > 0)
@@ -285,9 +288,9 @@ Vue.component('question-list-component', {
     },
 
     methods: {
-        initQuestionList(questionsSort: number) {
+        initQuestionList() {
             this.pages = Math.ceil(this.allQuestionCount / this.itemCountPerPage);
-            this.loadQuestions(this.selectedPage ,questionsSort);
+            this.loadQuestions(this.selectedPage);
         },
 
         loadQuestions(selectedPage) {
