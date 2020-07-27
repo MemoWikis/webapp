@@ -17,7 +17,7 @@ public class QuestionListModel : BaseModel
         AllQuestionCount = Sl.SessionUser.LearningSession.Steps.Count;
     }
 
-    public static List<QuestionListJson.Question> PopulateQuestionsOnPage(int categoryId, int currentPage, int itemCount, bool isLoggedIn,int questionsSort = 2)
+    public static List<QuestionListJson.Question> PopulateQuestionsOnPage(int currentPage, int itemCount, bool isLoggedIn)
     {
         var allQuestions = Sl.SessionUser.LearningSession.Steps.Select(q => q.Question);
         var user = isLoggedIn ? Sl.R<SessionUser>().User : null;
