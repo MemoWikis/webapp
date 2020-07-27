@@ -27,7 +27,7 @@ public class QuestionListModel : BaseModel
  
     public static List<QuestionListJson.Question> PopulateQuestionsOnPage(int categoryId, int currentPage, int itemCount, bool isLoggedIn,int questionsSort = 2)
     {
-        var allQuestions = GetAllQuestions(categoryId);
+        var allQuestions = Sl.SessionUser.LearningSession.Steps.Select(q => q.Question);
         var user = isLoggedIn ? Sl.R<SessionUser>().User : null;
 
         ConcurrentDictionary<int, QuestionValuation> userQuestionValuation = new ConcurrentDictionary<int, QuestionValuation>(); 
