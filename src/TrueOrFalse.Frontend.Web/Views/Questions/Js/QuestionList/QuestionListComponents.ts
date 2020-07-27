@@ -172,6 +172,7 @@ Vue.component('session-config-component', {
             this.answerBody.Loader.loadNewSession(this.questionFilter, true);
             $('#SessionConfigModal').modal('hide');
             this.questionFilter.safeLearningSessionOptions = this.safeLearningSessionOptions = false;
+            this.$emit('update', this.questionFilter.maxQuestionCount);
         },
 
         matchSize() {

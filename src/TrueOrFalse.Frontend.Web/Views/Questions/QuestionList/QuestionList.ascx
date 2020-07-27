@@ -9,7 +9,7 @@
 <div id="QuestionListApp" class="row">
 <div class="col-xs-12 drop-down-question-sort">
         <div>Du lernst <b>alle</b> Fragen aus diesem Thema (4.888)</div>
-    <session-config-component inline-template>
+    <session-config-component inline-template @update="updateQuestionsCount">
             <div>
         <div id="CustomSessionConfigBtn" @click="openModal()"><i class="fa fa-cog" aria-hidden="true"></i></div>
         <div class="modal fade" id="SessionConfigModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">

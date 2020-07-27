@@ -24,7 +24,6 @@ public class QuestionListController : BaseController
     [HttpPost]
     public JsonResult LoadQuestions( int itemCount, int pageNumber)
     {
-        
         var newQuestionList = QuestionListModel.PopulateQuestionsOnPage( pageNumber, itemCount, IsLoggedIn);
         return Json(newQuestionList);
     }
