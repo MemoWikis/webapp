@@ -299,10 +299,10 @@ Vue.component('question-list-component', {
         },
         pages: function (val) {
             let newArray = [];
-            let currentNumber = 1;
-            for (let i = 0; currentNumber < val + 1; i++) {
-                newArray.push(currentNumber);
-                currentNumber = currentNumber + 1;
+            let startNumber = 1;
+            for (let i = 0; startNumber < val + 1; i++) {
+                newArray.push(startNumber);
+                startNumber = startNumber + 1;
             }
             this.pageArray = newArray;
         },
@@ -328,15 +328,13 @@ Vue.component('question-list-component', {
             this.loadQuestions(this.selectedPage ,questionsSort);
         },
 
-        loadQuestions(selectedPage, questionsSort = -1) {
+        loadQuestions(selectedPage) {
             this.pageIsLoading = true;
             $.ajax({
                 url: "/QuestionList/LoadQuestions/",
                 data: {
-                    categoryId: this.categoryId,
                     itemCount: this.itemCountPerPage,
                     pageNumber: selectedPage,
-                    questionsSort: questionsSort
                 },
                 type: "POST",
                 success: questions => {
