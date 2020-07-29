@@ -6,7 +6,6 @@ using TrueOrFalse.Frontend.Web.Code;
 public class QuestionListModel : BaseModel
 {
     public int CategoryId;
-    public int AllQuestionCount;
     public int CurrentPage;
     public int ItemCount;
 
@@ -14,7 +13,6 @@ public class QuestionListModel : BaseModel
     public QuestionListModel(int categoryId)
     {
         CategoryId = categoryId;
-        AllQuestionCount = Sl.SessionUser.LearningSession.Steps.Count;
     }
 
     public static List<QuestionListJson.Question> PopulateQuestionsOnPage(int currentPage, int itemCount, bool isLoggedIn)
