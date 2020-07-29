@@ -149,7 +149,7 @@
             </div>
         </div>
     </div>
-        </session-config-component>
+    </session-config-component>
         <div class="Button dropdown">
             <a href="#" class="dropdown-toggle  btn btn-link btn-sm ButtonEllipsis" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
                 <i class="fa fa-ellipsis-v"></i>
@@ -166,11 +166,12 @@
         category-id="<%= Model.CategoryId %>" 
         :all-question-count="questionsCount" 
         is-admin="<%= Model.IsInstallationAdmin %>"  
-        :is-question-list-to-show="isQuestionListToShow">
+        :is-question-list-to-show="isQuestionListToShow"
+        :active-question ="activeQuestion">
 
         <div class="col-xs-12">
             <question-component inline-template 
-                                v-for="q in questions" 
+                                v-for="(q, index) in questions"
                                 :question-id="q.Id" 
                                 :question-title="q.Title" 
                                 :question-image="q.ImageData" 
@@ -179,7 +180,8 @@
                                 :url="q.LinkToQuestion" 
                                 :has-personal-answer="q.HasPersonalAnswer" 
                                 :is-admin="isAdmin"
-                                :is-question-list-to-show ="isQuestionListToShow">
+                                :is-question-list-to-show ="isQuestionListToShow"
+                                :class="{ 'activeQ': index === activeQuestion }">
                 
                 <div class="singleQuestionRow row" :class="[{ open: showFullQuestion}, backgroundColor]">
                     <div class="questionSectionFlex col-auto">

@@ -203,7 +203,8 @@ Vue.component('question-list-component', {
         'categoryId',
         'allQuestionCount',
         'isAdmin',
-        'isQuestionListToShow'],
+        'isQuestionListToShow',
+        'activeQuestion'],
     data() {
         return {
             pages: 0,
@@ -221,7 +222,7 @@ Vue.component('question-list-component', {
             centerArray: [],
             showLeftSelectionDropUp: false,
             showRightSelectionDropUp: false,
-            pageIsLoading: false,
+            pageIsLoading: false
         };
     },
     created() {
