@@ -8,7 +8,7 @@
 
 <div id="QuestionListApp" class="row">
 <div class="col-xs-12 drop-down-question-sort">
-        <div>Du lernst <b>alle</b> Fragen aus diesem Thema (4.888)</div>
+        <div>Du lernst {{questionsCount}} Fragen aus diesem Thema (<%=Model.AllQuestionsInCategory %>)</div>
     <session-config-component inline-template @update="updateQuestionsCount">
             <div>
         <div id="CustomSessionConfigBtn" @click="openModal()"><i class="fa fa-cog" aria-hidden="true"></i></div>
@@ -169,17 +169,6 @@
         :is-question-list-to-show="isQuestionListToShow">
 
         <div class="col-xs-12">
-            <div class="questionListHeader row">
-                <div class="questionListTitle col-xs-11">
-                    <span>{{questions.length}}</span>
-                    <span v-if="questions.length < allQuestionCount">
-                        von {{allQuestionCount}}
-                    </span>
-                    <span>
-                        {{questionText}} im Thema
-                    </span>
-                </div>
-            </div>
             <question-component inline-template 
                                 v-for="q in questions" 
                                 :question-id="q.Id" 

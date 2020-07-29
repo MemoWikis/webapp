@@ -6,13 +6,15 @@ using TrueOrFalse.Frontend.Web.Code;
 public class QuestionListModel : BaseModel
 {
     public int CategoryId;
-    public int CurrentPage;
     public int ItemCount;
+    public int AllQuestionsInCategory; 
 
 
     public QuestionListModel(int categoryId)
     {
         CategoryId = categoryId;
+        AllQuestionsInCategory = Sl.CategoryRepo.CountAggregatedQuestions(categoryId); //32 ms Duration
+
     }
 
     public static List<QuestionListJson.Question> PopulateQuestionsOnPage(int currentPage, int itemCount, bool isLoggedIn)
