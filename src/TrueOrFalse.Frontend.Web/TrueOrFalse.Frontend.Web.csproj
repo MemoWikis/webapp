@@ -21774,6 +21774,12 @@
     <Content Include="Views\Questions\History\QuestionHistory.css">
       <DependentUpon>QuestionHistory.less</DependentUpon>
     </Content>
+    <Content Include="Views\Questions\Js\QuestionList\QuestionListApp.js">
+      <DependentUpon>QuestionListApp.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Questions\Js\QuestionList\QuestionListComponents.js">
+      <DependentUpon>QuestionListComponents.ts</DependentUpon>
+    </Content>
     <Content Include="Views\Questions\QuestionList\QuestionList.ascx" />
     <Content Include="Views\Categories\Detail\Partials\CategoryFooter\CategoryFooter.ascx" />
     <Content Include="Views\Categories\Detail\Partials\ContentModuleSelectionModal.vue.ascx" />
@@ -24083,6 +24089,12 @@
       <DependentUpon>SessionConfigData.ts</DependentUpon>
     </Content>
     <Content Include="Views\Shared\Switch\Switch.less" />
+    <Content Include="Views\Questions\Js\QuestionList\QuestionListApp.js.map">
+      <DependentUpon>QuestionListApp.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Questions\Js\QuestionList\QuestionListComponents.js.map">
+      <DependentUpon>QuestionListComponents.ts</DependentUpon>
+    </Content>
     <None Include="Web.overwritten.config.sample" />
     <Content Include="Views\Welcome\Logout.aspx" />
     <Content Include="Views\Api\Export.aspx" />
