@@ -92,26 +92,6 @@ public class QuestionListController : BaseController
 
         return model.HistoryAndProbability.CorrectnessProbability.CPPersonal;
     }
-
-    [HttpPost]
-    public string GetLearningSession()
-    {
-        try
-        {
-            var l = new LearningSessionForVue();
-            var learningSession = Sl.SessionUser.LearningSession;
-            l.CurrentIndex = learningSession.CurrentIndex;
-            return new JavaScriptSerializer().Serialize(l);
-           
-        }
-        catch(Exception e)
-        {
-            Logg.r().Error(e.ToString());
-
-            return "";
-        }
-        
-    }
 }
 
 public class LearningSessionForVue

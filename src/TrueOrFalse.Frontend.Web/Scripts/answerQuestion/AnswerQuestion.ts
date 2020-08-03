@@ -134,10 +134,15 @@ class AnswerQuestion {
 
         $("#btnNext, #aSkipStep")
             .click((e) => {
-                if (this.IsLearningSession && this.AmountOfTries === 0 && !this.AnswerCountedAsCorrect && !this.ShowedSolutionOnly)
+                if (this.IsLearningSession && this.AmountOfTries === 0 && !this.AnswerCountedAsCorrect && !this.ShowedSolutionOnly) {
                     $("#hddIsLearningSession").attr("data-skip-step-index", $('#hddIsLearningSession').attr('data-current-step-idx'));
-                else
+                    questionListApp.currentStep = parseInt($('#hddIsLearningSession').attr('data-current-step-idx')) + 1;
+                    console.log(questionListApp.currentStep); 
+                } else {
                     $("#hddIsLearningSession").attr("data-skip-step-index", -1);
+                    questionListApp.currentStep = parseInt($('#hddIsLearningSession').attr('data-current-step-idx')) + 1;
+                    console.log(questionListApp.currentStep); 
+                }
             });
 
         $("#aSkipStep").click(e => {
