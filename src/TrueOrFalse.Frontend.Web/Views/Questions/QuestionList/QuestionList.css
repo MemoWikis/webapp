@@ -16,6 +16,9 @@
   padding: 8px 24px;
   text-align: right;
 }
+#QuestionListApp .activeQ {
+  background: silver !important;
+}
 #QuestionListApp .singleQuestionRow {
   background: linear-gradient(to right, #D6D6D6 0px, #D6D6D6 8px, #ffffffff 9px, #ffffffff 100%);
   height: 57px;

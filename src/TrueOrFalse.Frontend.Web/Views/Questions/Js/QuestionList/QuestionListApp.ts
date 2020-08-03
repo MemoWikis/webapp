@@ -10,9 +10,8 @@ var questionListApp = new Vue({
         isQuestionListToShow: false,
         answerBody: new AnswerBody(),
         questionsCount: 30,
-        activeQuestion: 3,
-        learningSessionData: "",
-        currentStep: 0
+        activeQuestion: 0,
+        learningSessionData: ""
     },
     methods: {
         toggleQuestionsList: function() {
