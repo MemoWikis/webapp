@@ -167,7 +167,8 @@
         :all-question-count="questionsCount" 
         is-admin="<%= Model.IsInstallationAdmin %>"  
         :is-question-list-to-show="isQuestionListToShow"
-        :active-question ="activeQuestion">
+        :active-question ="activeQuestion"
+        :selected-page-from-parent ="selectedPageFromParent">
 
         <div class="col-xs-12">
             <question-component inline-template 
