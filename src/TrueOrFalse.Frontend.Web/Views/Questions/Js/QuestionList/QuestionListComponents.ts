@@ -418,11 +418,6 @@ Vue.component('question-component', {
         this.correctnessProbability = this.knowledgeState + "%";
         this.setKnowledgebarData(this.knowledgeState);
         this.getWishknowledgePinButton();
-    
-        eventBus.$on('reload-question-details', () => {
-            if (this.showFullQuestion)
-                this.setQuestionDetails();
-        });
     },
     watch: {
         isQuestionListToShow() {

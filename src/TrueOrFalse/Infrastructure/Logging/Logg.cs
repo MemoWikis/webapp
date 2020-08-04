@@ -6,19 +6,28 @@ using TrueOrFalse.Tools;
 
 public class Logg
 {
-    private static ILogger _logger;
-    //private static bool isCrawler; 
+    private static readonly ILogger _logger;
+    private static readonly ILogger _loggerIsCrawler;
 
-    public static ILogger r(bool isCrawler = false)
+    private const string _seqUrl = "http://localhost:5341";
+
+    static Logg()
     {
         _logger = new LoggerConfiguration()
-                .Enrich.WithProperty("Environment", Settings.Environment())
-                .Enrich.WithProperty("IsCrawler", isCrawler)
-                .WriteTo.Seq("http://localhost:5341")
-                .CreateLogger();
+            .Enrich.WithProperty("Environment", Settings.Environment())
+            .Enrich.WithProperty("IsCrawler", false)
+            .WriteTo.Seq(_seqUrl)
+            .CreateLogger();
 
-        return _logger;
+        _loggerIsCrawler = new LoggerConfiguration()
+            .Enrich.WithProperty("Environment", Settings.Environment())
+            .Enrich.WithProperty("IsCrawler", true)
+            .WriteTo.Seq(_seqUrl)
+            .CreateLogger();
+
     }
+
+    public static ILogger r(bool isCrawler = false) => isCrawler ? _loggerIsCrawler : _logger;
 
     public static void Error(Exception exception)
     {
@@ -29,14 +38,13 @@ public class Logg
                 Logg.r().Error(exception, "Error");
                 return;
             }
-
+            
             var request = HttpContext.Current.Request;
             var header = request.Headers.ToString();
-            var _isCrawler = IsCrawlerRequest.Yes(UserAgent.Get()); 
-
+            
             if (!IgnoreLog.ContainsCrawlerInHeader(header))
             {
-                Logg.r(_isCrawler).Error(exception, "PageError {Url} {Headers}",
+                Logg.r(IsCrawlerRequest.Yes(UserAgent.Get())).Error(exception, "PageError {Url} {Headers}",
                     request.RawUrl,
                     header);
 

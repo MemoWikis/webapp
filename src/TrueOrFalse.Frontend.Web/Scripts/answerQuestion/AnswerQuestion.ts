@@ -59,9 +59,6 @@ class AnswerQuestion {
         AnswerQuestion.TestSessionProgressAfterAnswering = $("#TestSessionProgessAfterAnswering").val();
 
         this._inputFeedback = new AnswerQuestionUserFeedback(this);
-        var questionId = AnswerQuestion.GetQuestionId();
-        if (questionId > 0)
-            eventBus.$emit('set-question-id', questionId);
 
         var self = this;
         this.ClickToContinue = function () {
@@ -195,6 +192,7 @@ class AnswerQuestion {
                 this.ClickToContinue();
             }
             $('div#answerFeedbackTry, a#CountWrongAnswers').hide();
+            var isTestMode = $("input[name='r1']:checked").val() == "Test";
             $.ajax({
                 type: 'POST',
                 url: "/AnswerQuestion/SendAnswerLearningSession",
@@ -204,7 +202,7 @@ class AnswerQuestion {
                         questionViewGuid: $('#hddQuestionViewGuid').val(),
                         interactionNumber: $('#hddInteractionNumber').val(),
                         millisecondsSinceQuestionView: AnswerQuestion.TimeSinceLoad($('#hddTimeRecords').attr('data-time-of-answer')),
-                        inTestMode: true
+                    inTestMode: isTestMode
                     }),
                 cache: false,
                 success(result) {

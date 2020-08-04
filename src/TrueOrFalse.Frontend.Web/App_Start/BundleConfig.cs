@@ -28,7 +28,9 @@ namespace TrueOrFalse.View
                 .IncludeDirectory("~/Scripts/header", "*.js")
                 .IncludeDirectory("~/Scripts/socialLogins", "*.js")
                 .IncludeDirectory("~/Views/Images", "*.js")
-                .IncludeDirectory("~/Views/Welcome/Login", "*.js"));
+                .IncludeDirectory("~/Views/Welcome/Login", "*.js")
+                .Include("~/Scripts/vendor/vuetable-2.js")
+                .Include("~/Scripts/npm/vue/vue.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/fileUploader")
                 .Include("~/Scripts/vendor.file-uploader/header.js")
@@ -154,8 +156,6 @@ namespace TrueOrFalse.View
                 Include("~/Views/Users/Js/UserRow.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/js/AnswerQuestion")
-                .Include("~/Scripts/widgets/ShareDialog.js")
-                .Include("~/Views/Questions/Answer/ShareQuestion.js")
                 .IncludeDirectory("~/Scripts/answerQuestion/", "*.js")
                 .IncludeDirectory("~/Views/Questions/Answer/AnswerControls/", "*.js")
                 .IncludeDirectory("~/Views/Questions/Answer/Js/", "*.js")
@@ -211,7 +211,6 @@ namespace TrueOrFalse.View
 
             bundles.Add(new ScriptBundle("~/bundles/js/Set")
                 .Include("~/Views/Knowledge/Wheel/KnowledgeWheel.js")
-                .Include("~/Scripts/widgets/ShareDialog.js")
                 .IncludeDirectory("~/Views/Sets/Detail/Js", "*.js")
                 .IncludeDirectory("~/Views/Questions/Answer/AnswerControls/", "*.js")
                 .IncludeDirectory("~/Scripts/answerQuestion/", "*.js")

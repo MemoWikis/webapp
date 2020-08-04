@@ -225,19 +225,12 @@
                                                 <div class="sources" v-if="references.length > 0 && references[0].referenceText.length > 0">Quelle: <a v-for="r in references" :href="r.referenceText">{{r.referenceText}}</a></div>
                                             </div>
                                         </div>
-                                        
-                                        <div class="questionDetailsSection" style="display: flex;">
-                                            <div class="probabilitySection"><span class="percentageLabel" :class="backgroundColor">{{correctnessProbability}}</span> <span class="chip" :class="backgroundColor">{{correctnessProbabilityLabel}}</span></div>
-                                            <div></div>
-                                            <div>{{answerCount}} mal beantwortet | {{correctAnswers}} richtig / {{wrongAnswers}} falsch</div>
-                                        </div>
                                     </div>
                                 </div>
                             </div>
                             <div class="questionBodyBottom" v-show="showFullQuestion">
-                                <div :id="questionDetailsId" class="questionDetails" ></div>
-                                <div class="row">
-                                    <div class="questionFooterIcons col-xs-12 row pull-right">
+                                    <div class="row">
+                                            <div class="questionFooterIcons col-xs-3 row pull-right">
                                         <div class="footerIcon col-xs-6 pull-right ellipsis dropup" @click="showQuestionMenu = true">
                                             <i class="fas fa-ellipsis-v" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true"></i>
                                             <ul class="dropdown-menu dropdown-menu-right" v-show="showQuestionMenu">
@@ -263,6 +256,11 @@
                                                 <i class="far fa-comment"></i>
                                             </a>
                                         </div>
+                                            </div>
+                                            <div class="questionStats col-xs-8 pull-right" style="display: flex;">
+                                                <div class="probabilitySection"><span class="percentageLabel" :class="backgroundColor">{{correctnessProbability}}</span> <span class="chip" :class="backgroundColor">{{correctnessProbabilityLabel}}</span></div>
+                                                <div></div>
+                                                <div>{{answerCount}} mal beantwortet | {{correctAnswers}} richtig / {{wrongAnswers}} falsch</div>
                                     </div>
                                 </div>
                             </div>

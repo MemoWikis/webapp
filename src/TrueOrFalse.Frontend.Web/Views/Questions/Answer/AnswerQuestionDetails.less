@@ -192,6 +192,12 @@
         #categoryList {
             padding-bottom: 10px;
 
+            &.isLandingPage {
+                @media(max-width:767px) {
+                    display:none;
+                }
+            }
+
             .categoryListChips {
                 @media(max-width:479px) {
                     display: none;
@@ -232,6 +238,11 @@
                         justify-content: center;
                         padding-top: 30px;
 
+                        @media(max-width:595px) {
+                            padding-top: 20px;
+                            padding-left: 20px;
+                        }
+
                         .counterLabel {
                             max-width: 160px;
                             width: 100%;
@@ -240,6 +251,10 @@
                             @media (max-width:595px) {
                                 max-width: 180px;
                                 padding: 0 20px;
+                            }
+
+                            a:hover {
+                                cursor:pointer;
                             }
                         }
                     }
@@ -257,6 +272,10 @@
                 #semiPieSection {
                     @media (max-width:767px) {
                         display: flex;
+                    }
+
+                    @media (max-width:595px) {
+                        padding-bottom: 10px;
                     }
 
                     #semiPieChart {
@@ -282,13 +301,28 @@
                             @media(max-width:349px) {
 
                                 svg {
-                                    width: 100px;
+                                    width: 140px;
+                                    transition: 0.2s;
 
                                     g {
-                                        transform: translate(50px,50px);
+                                        transform: translate(66px,50px);
+                                        transition: 0.2s;
 
                                         path.baseArc, path.personalArc, path.avgArc, text.avgProbabilityLabel {
                                             display: none;
+                                        }
+                                    }
+                                }
+
+                                &.isInWishknowledge {
+
+                                    svg {
+                                        width: 100px;
+                                        transition: 0.8s ease-in;
+
+                                        g {
+                                            transform: translate(50px,50px);
+                                            transition: 0.8s ease-in;
                                         }
                                     }
                                 }
@@ -319,10 +353,12 @@
     display: flex;
     justify-content: space-between;
     font-size: 12px !important;
+    color: #999999;
 
     .questionDetailsFooterPartialLeft {
         width: 60%;
         display: flex;
+        flex-wrap: wrap;
 
         #LicenseQuestion {
             padding-right: 10px;
@@ -331,7 +367,7 @@
                 flex-direction: unset !important;
 
                 img {
-                    margin: 0 !important;
+                    margin: 0 8px 0 0 !important;
                 }
             }
         }
@@ -341,6 +377,23 @@
         width: 40%;
         display: flex;
         justify-content: flex-end;
+
+        .wishknowledgeCount, .viewCount, .commentCount {
+            padding: 0 8px;
+
+            i {
+                padding-right: 4px;
+            }
+
+            a {
+                color: #999999;
+
+                &:hover {
+                    text-decoration: none;
+                    color: #003264;
+                }
+            }
+        }
     }
 }
 

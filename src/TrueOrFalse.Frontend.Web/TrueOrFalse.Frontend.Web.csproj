@@ -21767,9 +21767,6 @@
     <Content Include="Views\Questions\Answer\Js\SessionConfig\SessionConfigData.js">
       <DependentUpon>SessionConfigData.ts</DependentUpon>
     </Content>
-    <Content Include="Views\Questions\Answer\Js\ShareQuestion.js">
-      <DependentUpon>ShareQuestion.ts</DependentUpon>
-    </Content>
     <Content Include="Views\Questions\Answer\TopicToConinueLearning.ascx" />
     <Content Include="Views\Questions\History\QuestionHistory.css">
       <DependentUpon>QuestionHistory.less</DependentUpon>
@@ -22035,7 +22032,6 @@
     <Compile Include="Views\Maintenance\ToolsModel.cs" />
     <Compile Include="Views\Questions\Answer\AnswerBodyControl\AnswerBodyModel.cs" />
     <Compile Include="Views\Questions\Answer\LearningSession\LearningSessionResultController.cs" />
-    <Compile Include="Views\Questions\Answer\ShareQuestionModalModel.cs" />
     <Compile Include="Views\Questions\Answer\TestSession\TestSessionResultController.cs" />
     <Compile Include="Views\Questions\Answer\LearningSession\LearningSessionResultModel.cs" />
     <Compile Include="Views\Questions\Answer\TestSession\TestSessionResultModel.cs" />
@@ -22048,7 +22044,6 @@
     <Compile Include="Views\Questions\History\QuestionHistoryModel.cs" />
     <Compile Include="Views\Questions\QuestionList\QuestionListController.cs" />
     <Compile Include="Views\Sets\Detail\SetKnowledgeBarModel.cs" />
-    <Compile Include="Views\Sets\Detail\Modals\ShareSetModalModel.cs" />
     <Compile Include="Views\Sets\Detail\Video\SetVideoController.cs" />
     <Compile Include="Views\Sets\Detail\Video\SetVideoModel.cs" />
     <Compile Include="Views\Sets\Edit\QuestionInSetModel.cs" />
@@ -22150,9 +22145,6 @@
     <Content Include="Scripts\various\mailto.js" />
     <Content Include="Scripts\vendor\jquery.ui.touch-punch.js" />
     <Content Include="Scripts\vendor\modernizr-custom.js" />
-    <Content Include="Scripts\widgets\ShareDialog.js">
-      <DependentUpon>ShareDialog.ts</DependentUpon>
-    </Content>
     <Content Include="Views\Categories\Detail\Partials\SetTestSessionNoStartScreen\SetTestSessionNoStartScreen.ascx" />
     <Content Include="Views\Categories\Modals\EditAggregationModal.ascx" />
     <Content Include="Views\Help\Js\WidgetPricing.js">
@@ -22361,10 +22353,6 @@
       <DependentUpon>SolutionTypeFlashCard.ts</DependentUpon>
     </Content>
     <Content Include="Views\Sets\Detail\SetKnowledgeBar.ascx" />
-    <Content Include="Views\Sets\Detail\Js\ShareSet.js">
-      <DependentUpon>ShareSet.ts</DependentUpon>
-    </Content>
-    <Content Include="Views\Sets\Detail\Modals\ShareSetModal.ascx" />
     <Content Include="Views\Sets\Edit\Js\AddQuestions.js" />
     <TypeScriptCompile Include="Scripts\header\StickyHeaderSearchBox.ts" />
     <TypeScriptCompile Include="Scripts\SidebarCards.ts" />
@@ -22586,7 +22574,6 @@
     <Content Include="Views\Questions\Answer\AnswerControls\SolutionTypeMultipleChoice_SingleSolution.js.map">
       <DependentUpon>SolutionTypeMultipleChoice_SingleSolution.ts</DependentUpon>
     </Content>
-    <Content Include="Views\Questions\Answer\ShareQuestionModal.ascx" />
     <Content Include="Views\Questions\Answer\TestSession\Js\Page.js">
       <DependentUpon>Page.ts</DependentUpon>
     </Content>
@@ -22757,7 +22744,6 @@
     <TypeScriptCompile Include="Scripts\typescript.defs\google.youtube.d.ts" />
     <TypeScriptCompile Include="Scripts\typescript.defs\modernizr.d.ts" />
     <TypeScriptCompile Include="Scripts\typescript.defs\simplemde.d.ts" />
-    <TypeScriptCompile Include="Scripts\widgets\ShareDialog.ts" />
     <TypeScriptCompile Include="Views\AlgoInsight\TabForgettingCurve_.ts" />
     <TypeScriptCompile Include="Views\Beta\Js\Page.ts" />
     <TypeScriptCompile Include="Views\Categories\Edit\Js\EditAggregation.ts" />
@@ -23267,9 +23253,6 @@
     <Content Include="Scripts\Pollyfills.js.map">
       <DependentUpon>Pollyfills.ts</DependentUpon>
     </Content>
-    <Content Include="Scripts\widgets\ShareDialog.js.map">
-      <DependentUpon>ShareDialog.ts</DependentUpon>
-    </Content>
     <None Include="Style\z_mixins_2.3.2.less" />
     <None Include="Style\site.less" />
     <Content Include="Style\menu.css">
@@ -23459,14 +23442,12 @@
     <TypeScriptCompile Include="Views\Questions\Answer\AnswerControls\SolutionTypeMultipleChoice.ts" />
     <TypeScriptCompile Include="Views\Questions\Answer\AnswerControls\SolutionTypeNumeric.ts" />
     <TypeScriptCompile Include="Views\Questions\Answer\Js\AnswerBodyLoader.ts" />
-    <TypeScriptCompile Include="Views\Questions\Answer\Js\ShareQuestion.ts" />
     <TypeScriptCompile Include="Views\Questions\Answer\LearningSession\Js\LearningSessionResultCharts.ts" />
     <TypeScriptCompile Include="Views\Questions\Answer\LearningSession\Js\Page.ts" />
     <TypeScriptCompile Include="Views\Questions\Answer\TestSession\Js\Page.ts" />
     <TypeScriptCompile Include="Views\Questions\Answer\TestSession\Js\TestSessionResult.ts" />
     <TypeScriptCompile Include="Views\Questions\Edit\EditSolutionControls\SolutionTypeFlashCard.ts" />
     <TypeScriptCompile Include="Views\Questions\Edit\Js\MarkdownDescription.ts" />
-    <TypeScriptCompile Include="Views\Sets\Detail\Js\ShareSet.ts" />
     <TypeScriptCompile Include="Views\Sets\Detail\Js\SetVideo.ts" />
     <TypeScriptCompile Include="Views\Sets\Detail\Js\SetVideoPlayer.ts" />
     <TypeScriptCompile Include="Views\Sets\Edit\Js\EditSet.ts" />
@@ -24025,9 +24006,6 @@
     </Content>
     <Content Include="Views\Widgets\app.config" />
     <Content Include="Views\Help\Widget.less" />
-    <Content Include="Views\Sets\Detail\Js\ShareSet.js.map">
-      <DependentUpon>ShareSet.ts</DependentUpon>
-    </Content>
     <Content Include="Views\Questions\Answer\AnswerControls\SolutionTypeMultipleChoice - Copy.js.map">
       <DependentUpon>SolutionTypeFlashCard.ascx</DependentUpon>
     </Content>
@@ -24082,8 +24060,6 @@
     <Content Include="Views\Questions\Answer\Js\QuestionDetails\AnswerQuestionDetailsComponent.js.map">
       <DependentUpon>AnswerQuestionDetailsComponent.ts</DependentUpon>
     </Content>
-    <Content Include="Views\Questions\Answer\Js\ShareQuestion.js.map">
-      <DependentUpon>ShareQuestion.ts</DependentUpon>
     </Content>
     <Content Include="Views\Questions\Answer\Js\SessionConfig\SessionConfigData.js.map">
       <DependentUpon>SessionConfigData.ts</DependentUpon>
@@ -24094,7 +24070,6 @@
     </Content>
     <Content Include="Views\Questions\Js\QuestionList\QuestionListComponents.js.map">
       <DependentUpon>QuestionListComponents.ts</DependentUpon>
-    </Content>
     <None Include="Web.overwritten.config.sample" />
     <Content Include="Views\Welcome\Logout.aspx" />
     <Content Include="Views\Api\Export.aspx" />

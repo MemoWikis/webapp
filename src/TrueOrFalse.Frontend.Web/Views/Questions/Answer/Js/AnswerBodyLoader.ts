@@ -135,6 +135,7 @@ class AnswerBodyLoader {
             type: 'POST',
             headers: { "cache-control": "no-cache" },
             success: result => {
+                eventBus.$emit('suicide');
                 result = JSON.parse(result);
 
                 if (!this._isInLearningTab) {
@@ -147,7 +148,6 @@ class AnswerBodyLoader {
                     return;
                 }
                 $(".FooterQuestionDetails").remove();
-                $("#modalShareQuestion").remove();
                 $("#AnswerBody").replaceWith(result.answerBodyAsHtml);
                 if (this._isInLearningTab && !this._getCustomSession) {
                     $("#QuestionDetails").empty();
@@ -188,7 +188,6 @@ class AnswerBodyLoader {
                     $("#QuestionDetails").fadeIn();
                     $(".FooterQuestionDetails").fadeIn();
                 }
-                eventBus.$emit('reload-question-details');
             }
         });
     }

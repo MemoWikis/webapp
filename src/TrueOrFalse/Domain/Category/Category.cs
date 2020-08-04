@@ -158,6 +158,11 @@ public class Category : DomainEntity, ICreator
     public virtual int TotalRelevancePersonalEntries { get; set; }
     public virtual bool IsHistoric { get; set; }
 
+    public virtual bool IsInWishknowledge()
+    {
+        return Sl.CategoryValuationRepo.IsInWishKnowledge(Id, Sl.CurrentUserId);
+    }
+
     public Category(){
         CategoryRelations = new List<CategoryRelation>();
         Type = CategoryType.Standard;

@@ -2,12 +2,11 @@
 declare var Vue: any;
 
 Vue.component('question-details-component', {
-    props: ['baseQuestionId'],
+    props: ['questionId'],
     template: '#question-details-component',
 
     data() {
         return {
-            questionId: this.baseQuestionId,
             personalProbability: 0,
             personalProbabilityText: "Nicht im Wunschwissen",
             personalColor: "#DDDDDD",
@@ -78,105 +77,88 @@ Vue.component('question-details-component', {
             overallCorrectAnswerCountData: {},
 
             categories: [],
+            isLandingPage: !this.isInLearningTab,
+            questionIdHasChanged: false,
+            categoryListHasLoaded: false,
         };
     },
 
     created() {
         var self = this;
-
-        eventBus.$on('set-question-id', (id) => {
-            id = parseInt(id);
-            if (id > 0) {
-                self.questionId = id;
-                self.loadData();
-            }
+        eventBus.$on('suicide', () => {
+            eventBus.$off();
+            this.$destroy();
         });
-        eventBus.$on('reload-question-details', () => {
-                self.questionId = parseInt($("#questionId").val());
-                if (self.questionId > 0)
+        eventBus.$on('set-question-id',
+            (id) => {
+                id = parseInt(id);
+                if (id > 0) {
+                    if (self.questionId != id) {
+                        self.questionIdHasChanged = true;
+                        self.questionId = id;
+                        self.$refs.personalCounter = null;
+                        self.categoryListHasLoaded = false;
+                    }
+                    self.loadCategoryList();
                     self.loadData();
-        });
+                }
+            });
 
         eventBus.$on('reload-wishknowledge-state-per-question',
             (data) => {
-                if (this.questionId == data.questionId && this.arcLoaded) {
+                if (this.questionId == data.questionId) {
                     this.isInWishknowledge = data.isInWishknowledge;
                     this.loadData();
+
+                    var wishknowledgeCounter = $('span#WishknowledgeCounter-' + this.questionId);
+                    var wishknowledgeCountString = wishknowledgeCounter.text();
+                    var isInWishknowledge = wishknowledgeCounter.attr('data-relevance').toLowerCase() == "true";
+
+                    if (isInWishknowledge && this.isInWishknowledge == false) {
+                        var n = parseInt(wishknowledgeCountString, 10) - 1;
+                        wishknowledgeCounter.text(n);
+                    } else if (isInWishknowledge == false && this.isInWishknowledge) {
+                        var n = parseInt(wishknowledgeCountString, 10) + 1;
+                        wishknowledgeCounter.text(n);
+                    }
+
+                    wishknowledgeCounter.attr('data-relevance', this.isInWishknowledge);
                 }
             });
     },
 
     watch: {
-        questionId: function (id) {
-            if (id > 0) {
-                this.loadCategoryList();
-                this.loadData();
-            }
-        },
 
-        personalProbability: function(val) {
-            this.setPersonalArcData();
-            if (this.arcLoaded)
-                this.updateArc();
-        },
-
-        personalAnswerCount: async function(val) {
+        personalAnswerCount: function(val) {
             if (val > 0)
                 this.showPersonalArc = true;
             this.personalStartAngle = 100 - (100 / this.personalAnswerCount * this.personalAnsweredCorrectly);
-            await this.setPersonalCounterData();
-            if (this.arcLoaded)
-                this.updateArc();
             this.answerCount = this.abbreviateNumber(val);
         },
 
-        personalAnsweredCorrectly: async function(val) {
+        personalAnsweredCorrectly: function(val) {
             this.personalStartAngle = 100 - (100 / this.personalAnswerCount * this.personalAnsweredCorrectly);
-            await this.setPersonalCounterData();
-            if (this.arcLoaded)
-                this.updateArc();
             this.correctAnswers = this.abbreviateNumber(val);
         },
 
-        personalAnsweredWrongly: async function (val) {
+        personalAnsweredWrongly: function (val) {
             this.personalStartAngle = 100 - (100 / this.personalAnswerCount * this.personalAnsweredCorrectly);
-            await this.setPersonalCounterData();
-            if (this.arcLoaded)
-                this.updateArc();
             this.wrongAnswers = this.abbreviateNumber(val);
         },
 
         overallAnswerCount: function(val) {
             this.overallStartAngle = 100 - (100 / this.overallAnswerCount * this.overallAnsweredCorrectly);
-
             this.allAnswerCount = this.abbreviateNumber(val);
         },
 
-        overallAnsweredCorrectly: async function (val) {
+        overallAnsweredCorrectly: function (val) {
             this.allCorrectAnswers = this.abbreviateNumber(val);
             this.overallStartAngle = 100 - (100 / this.overallAnswerCount * this.overallAnsweredCorrectly);
-            await this.setOverallCounterData();
-
-            if (this.arcLoaded)
-                this.updateArc();
         },
 
-        overallAnsweredWrongly: async function (val) {
+        overallAnsweredWrongly: function (val) {
             this.allWrongAnswers = this.abbreviateNumber(val);
             this.overallStartAngle = 100 - (100 / this.overallAnswerCount * this.overallAnsweredCorrectly);
-            await this.setOverallCounterData();
-
-            if (this.arcLoaded)
-                this.updateArc();
-        },
-
-        avgProbability: async function() {
-            await this.setAvgArcData();
-            await this.setAvgArcData();
-            if (this.arcLoaded) {
-                await this.setAvgLabelPos();
-                await this.updateArc();
-            }
         },
     },
 
@@ -184,6 +166,10 @@ Vue.component('question-details-component', {
     },
 
     mounted: function () {
+        if (!this.arcLoaded) {
+            this.loadCategoryList();
+            this.loadData();
+        }
     },
 
     methods: {
@@ -200,12 +186,15 @@ Vue.component('question-details-component', {
         },
 
         loadCategoryList() {
+            if (this.categoryListHasLoaded)
+                return;
             $.ajax({
                 url: "/AnswerQuestion/RenderCategoryList/",
                 data: { questionId: this.questionId },
                 type: "Post",
                 success: categoryListView => {
                     this.categoryList = categoryListView;
+                    this.categoryListHasLoaded = true;
                 }
             });
         },
@@ -235,9 +224,14 @@ Vue.component('question-details-component', {
                     if (!this.arcLoaded) {
                         this.drawArc();
                         this.drawCounterArcs();
-                    }
-                    else
+                    } else {
                         this.updateArc();
+                        if (this.questionIdHasChanged)
+                            this.drawCounterArcs();
+                        else
+                            this.updateCounters();
+                    }
+                    this.questionIdHasChanged = false;
                 }
             });
         },
@@ -408,7 +402,7 @@ Vue.component('question-details-component', {
 
             self.arcSvg.append("svg:text")
                 .attr("dy", ".1em")
-                .attr("dx", -(labelWidth / 2) + "px")
+                .attr("dx", -(labelWidth / 2) - 5 + "px")
                 .attr("text-anchor", "left")
                 .attr("style", "font-family:Lato")
                 .attr("font-size", "30")
@@ -419,7 +413,7 @@ Vue.component('question-details-component', {
 
             self.arcSvg.append("svg:text")
                 .attr("dy", "-.35em")
-                .attr("dx", (labelWidth / 2) - self.percentageLabelWidth - 1 + "px")
+                .attr("dx", (labelWidth / 2) - self.percentageLabelWidth - 5 + "px")
                 .attr("style", "font-family:Lato")
                 .attr("text-anchor", "left")
                 .attr("font-size", "18")
@@ -496,7 +490,7 @@ Vue.component('question-details-component', {
                 .attr("font-size", "18px")
                 .text(function (d) { return d })
                 .each(function () {
-                    var thisWidth = this.getComputedTextLength();
+                    var thisWidth = 0;
                     self.percentageLabelWidth = thisWidth;
                     this.remove();
                 });
@@ -561,7 +555,6 @@ Vue.component('question-details-component', {
             ];
 
             var personalCounter = self.$refs.personalCounter;
-
             self.personalCounterSvg = d3.select(personalCounter).append("svg")
                 .attr("width", 50)
                 .attr("height", 50)
@@ -610,8 +603,13 @@ Vue.component('question-details-component', {
                 .attr("class", function (d) { return d.class })
                 .attr("d", arc);
 
-            self.overallCounterSvg.selectAll(".overallCounter")
+            self.overallCounterSvg.selectAll(".overallWrongAnswerCounter, .overallCorrectAnswerCounter")
                 .style("visibility", () => self.overallAnswerCount > 0 ? "visible" : "hidden");
+
+            self.overallCounterSvg.selectAll("i")
+                .style("color", function () {
+                    return self.overallAnswerCount > 0 ? "#999999" : "#DDDDDD";
+                });
 
             self.overallCounterSvg
                 .append('svg:foreignObject')
@@ -632,7 +630,7 @@ Vue.component('question-details-component', {
             self.arcSvg.selectAll(".personalProbabilityLabel")
                 .transition()
                 .duration(800)
-                .attr("dx", -(labelWidth / 2) + "px")
+                .attr("dx", -(labelWidth / 2) - 5 + "px")
                 .style("fill", () => self.showPersonalArc ? self.personalColor : "#DDDDDD")
                 .tween("text",
                     function () {
@@ -682,7 +680,7 @@ Vue.component('question-details-component', {
 
             self.arcSvg.selectAll(".percentageLabel").transition()
                 .duration(800)
-                .attr("dx", (labelWidth / 2) - self.percentageLabelWidth + "px")
+                .attr("dx", (labelWidth / 2) - self.percentageLabelWidth - 5 + "px")
                 .style("fill", () => self.showPersonalArc ? self.personalColor : "#DDDDDD");
 
             self.arcSvg.selectAll(".personalArc")
@@ -718,19 +716,10 @@ Vue.component('question-details-component', {
                     probabilityTextWidth = this.getComputedTextLength();
                 })
                 .transition()
-                .duration(200)
-                .style("visibility", "hidden")
-                .style("fill", () => self.personalColor == "#999999" ? "white" : "#555555");
-
-            self.arcSvg.selectAll(".personalProbabilityText")
-                .text(self.personalProbabilityText)
-                .each(function() {
-                    probabilityTextWidth = this.getComputedTextLength();
-                })
-                .transition()
                 .delay(200)
                 .duration(200)
-                .style("visibility", "visible");
+                .style("fill", () => self.personalColor == "#999999" ? "white" : "#555555");
+
 
             self.arcSvg.selectAll(".personalProbabilityChip")
                 .transition()
@@ -741,8 +730,11 @@ Vue.component('question-details-component', {
 
             self.arcSvg.selectAll(".personalProbabilityChip,.personalProbabilityText")
                 .style("visibility", () => (self.isLoggedIn && self.overallAnswerCount > 0) ? "visible" : "hidden");
+        },
 
 
+        updateCounters() {
+            var self = this;
 
             self.personalCounterSvg.selectAll(".personalWrongAnswerCounter,.personalCorrectAnswerCounter")
                 .style("visibility", function () {
@@ -753,7 +745,6 @@ Vue.component('question-details-component', {
                 .style("color", function () {
                     return self.personalAnswerCount > 0 ? "#999999" : "#DDDDDD";
                 });
-
 
             self.personalCounterSvg.selectAll(".personalWrongAnswerCounter")
                 .transition()
@@ -777,10 +768,20 @@ Vue.component('question-details-component', {
                         25);
                 });
 
+            self.personalCounterSvg.selectAll("text")
+                .transition()
+                .duration(800)
+                .style("fill", () => self.personalAnswerCount > 0 ? "#999999" : "#DDDDDD");
 
-            self.overallCounterSvg.selectAll(".overallWrongAnswerCounter,.overallCorrectAnswerCounter")
+
+            self.overallCounterSvg.selectAll(".overallWrongAnswerCounter, .overallCorrectAnswerCounter")
                 .style("visibility", function () {
                     return self.overallAnswerCount > 0 ? "visible" : "hidden";
+                });
+
+            self.overallCounterSvg.selectAll("i")
+                .style("color", function () {
+                    return self.overallAnswerCount > 0 ? "#999999" : "#DDDDDD";
                 });
 
             self.overallCounterSvg.selectAll(".overallWrongAnswerCounter")
@@ -805,11 +806,6 @@ Vue.component('question-details-component', {
                         25);
                 });
 
-            self.personalCounterSvg.selectAll("text")
-                .transition()
-                .duration(800)
-                .style("fill", () => self.personalAnswerCount > 0 ? "#999999" : "#DDDDDD");
-
             self.overallCounterSvg.selectAll("text")
                 .transition()
                 .duration(800)
@@ -831,5 +827,9 @@ Vue.component('question-details-component', {
                 return arc(d);
             }
         },
+
+        openLogin() {
+            Login.OpenModal();
+        }
     },
 });

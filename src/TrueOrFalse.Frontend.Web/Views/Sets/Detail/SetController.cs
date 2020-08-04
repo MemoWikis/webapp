@@ -72,10 +72,6 @@ public class SetController : BaseController
         return Redirect(Links.TestSession(testSession.UriName, testSession.Id));
     }
 
-    public string ShareSetModal(int setId) =>
-        ViewRenderer.RenderPartialView("~/Views/Sets/Detail/Modals/ShareSetModal.ascx", new ShareSetModalModel(setId),
-            ControllerContext);
-
     [HttpPost]
     public JsonResult Copy(int sourceSetId)
     {
