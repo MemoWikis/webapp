@@ -146,6 +146,7 @@ class AnswerBodyLoader {
             type: 'POST',
             headers: { "cache-control": "no-cache" },
             success: result => {
+                eventBus.$emit('suicide');
                 result = JSON.parse(result);
                 if (!this._isInLearningTab) {
                     this.updateUrl(result.url);
