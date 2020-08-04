@@ -355,6 +355,7 @@ public class AnswerQuestionController : BaseController
         );
     }
 
+
     //For MatchList Questions
     public string RenderAnswerBody(
         int questionId, 
@@ -489,16 +490,20 @@ public class AnswerQuestionController : BaseController
     }
 
     [HttpPost]
-    public string RenderAnswerBodyByLearningSession(int skipStepIdx = -1)
+    public string RenderAnswerBodyByLearningSession(int skipStepIdx = -1, int questionId = -1)
     {
         var learningSession = Sl.SessionUser.LearningSession;
-
-        if (skipStepIdx != -1 && skipStepIdx != 0)
-            learningSession.SkipStep();
-        else if (skipStepIdx != 0)
-            learningSession.NextStep();
-
-        Sl.SessionUser.LearningSession = learningSession;
+        if (questionId != -1)
+        {
+            learningSession.loadSpecificQuestion(questionId);
+        }
+        else
+        {
+            if (skipStepIdx != -1 && skipStepIdx != 0)
+                learningSession.SkipStep();
+            else if (skipStepIdx != 0)
+                learningSession.NextStep();
+        }
 
         if (learningSession.IsLastStep)
             return RenderLearningSessionResult(learningSession);

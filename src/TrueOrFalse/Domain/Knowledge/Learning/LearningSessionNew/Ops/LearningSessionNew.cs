@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using FluentNHibernate.Conventions.Inspections;
 
 [Serializable]
 public class LearningSessionNew
@@ -49,6 +50,11 @@ public class LearningSessionNew
 
         if (!IsLastStep)
             CurrentIndex++;
+    }
+
+    public void loadSpecificQuestion(int questionId)
+    {
+        CurrentIndex = Steps.IndexOf(step => step.Question.Id == questionId);
     }
 
     public void ShowSolution()
