@@ -195,11 +195,15 @@
                                     <div class="questionHeader row">
                                         <div class="questionTitle col-xs-10" ref="questionTitle" :id="questionTitleId" :class="{ trimTitle : !showFullQuestion }" @click.self="expandQuestion()">{{questionTitle}}</div>
                                         <div class="questionHeaderIcons col-xs-2 row"  @click.self="expandQuestion()">
-                                            <div class="iconContainer col-xs-6 float-right" @click="expandQuestion()">
+                                            <div class="iconContainer col-xs-4 float-right" @click="expandQuestion()">
                                                 <i class="fas fa-angle-down rotateIcon" :class="{ open : showFullQuestion }"></i>
                                             </div>
-                                            <div class="questionListPinContainer iconContainer col-xs-6">
+                                            <div class="questionListPinContainer iconContainer col-xs-4">
                                                 <span :id="pinId" class="Pin" :data-question-id="questionId">
+                                                </span>
+                                            </div>
+                                            <div class="go-to-question iconContainer col-xs-4">
+                                                <span :id="goToQuestionId" class="fas fa-play" :data-question-id="questionId">
                                                 </span>
                                             </div>
                                         </div>

@@ -412,6 +412,7 @@ Vue.component('question-component', {
             answerCount: "0",
             correctAnswers: "0",
             wrongAnswers: "0",
+            goToQuestionId: "goToQuestionId-" + this.questionId,
     }   
         },
     mounted() {
@@ -452,6 +453,7 @@ Vue.component('question-component', {
             this.pinId = "QuestionListPin-" + this.questionId;
             this.questionTitleId = "#QuestionTitle-" + this.questionId;
             this.questionDetailsId = "QuestionDetails-" + this.questionId;
+            this.goToQuestionId = "goToQuestionId-" + this.questionId;
         }
     },
     methods: {
