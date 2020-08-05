@@ -370,7 +370,7 @@ Vue.component('question-list-component', {
     },
 });
 
-Vue.component('question-component', {
+let v = Vue.component('question-component', {
     props: [
         'questionId',
         'questionTitle',
@@ -381,7 +381,8 @@ Vue.component('question-component', {
         'hasPersonalAnswer',
         'isAdmin',
         'selectedPage',
-        'isQuestionListToShow'],
+        'isQuestionListToShow',
+        'questionIndex'],
     data() {
         return {
             answer: "",
@@ -414,7 +415,7 @@ Vue.component('question-component', {
             answerCount: "0",
             correctAnswers: "0",
             wrongAnswers: "0",
-            goToQuestionId: "goToQuestionId-" + this.questionId,
+            isQuestionActive: false
     }   
         },
     mounted() {
@@ -455,7 +456,6 @@ Vue.component('question-component', {
             this.pinId = "QuestionListPin-" + this.questionId;
             this.questionTitleId = "#QuestionTitle-" + this.questionId;
             this.questionDetailsId = "QuestionDetails-" + this.questionId;
-            this.goToQuestionId = "goToQuestionId-" + this.questionId;
         }
     },
     methods: {
@@ -562,9 +562,11 @@ Vue.component('question-component', {
                 }
             });
         },
-        loadSpecificQuestion() {
+        loadSpecificQuestion: function() {
             var aB = new AnswerBody();
             aB.Loader.loadNewQuestion("/AnswerQuestion/RenderAnswerBodyByLearningSession/?skipStepIdx=-5&questionId=" + this.questionId);
+            this.$root.changeActiveQuestion(this.questionIndex);
+
         }
     },
 });

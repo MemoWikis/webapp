@@ -168,10 +168,9 @@
         is-admin="<%= Model.IsInstallationAdmin %>"  
         :is-question-list-to-show="isQuestionListToShow"
         :active-question ="activeQuestion"
-        :selected-page-from-parent ="selectedPageFromParent">
-
+    >
         <div class="col-xs-12">
-            <question-component inline-template 
+            <question-component inline-template
                                 v-for="(q, index) in questions"
                                 :question-id="q.Id" 
                                 :question-title="q.Title" 
@@ -182,7 +181,9 @@
                                 :has-personal-answer="q.HasPersonalAnswer" 
                                 :is-admin="isAdmin"
                                 :is-question-list-to-show ="isQuestionListToShow"
-                                :class="{ 'activeQ': index === activeQuestion }">
+                                :class="{ 'activeQ': index === activeQuestion }"
+                                :question-index="index"
+                                >
                 
                 <div class="singleQuestionRow row" :class="[{ open: showFullQuestion}, backgroundColor]">
                     <div class="questionSectionFlex col-auto">
@@ -203,7 +204,7 @@
                                                 </span>
                                             </div>
                                             <div class="go-to-question iconContainer col-xs-4">
-                                                <span :id="goToQuestionId" class="fas fa-play" :data-question-id="questionId" @click="loadSpecificQuestion()">
+                                                <span class="fas fa-play" :data-question-id="questionId" @click="loadSpecificQuestion()">
                                                 </span>
                                             </div>
                                         </div>

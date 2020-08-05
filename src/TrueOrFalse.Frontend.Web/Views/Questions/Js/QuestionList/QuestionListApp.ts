@@ -21,6 +21,9 @@ var questionListApp = new Vue({
         updateQuestionsCount: function(val) {
             this.questionsCount = val;
         },
+        changeActiveQuestion: function (index) {
+            this.activeQuestion = index;
+        }
     },
     watch: {
         activeQuestion: function (val) {
@@ -30,7 +33,6 @@ var questionListApp = new Vue({
                 this.activeQuestion = 0 + (val % (questionsPerPage - 1)); // question 25 is page 2 question 0  then 0 -24 = 25 questions
                 this.selectedPageFromParent = selectedPage + 1;      //question 25 is page 2 
             }
-
-        }
+        },
     }
 });

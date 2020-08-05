@@ -6,7 +6,7 @@ class AnswerBody {
     constructor(questionId = -1) {
         var answerEntry = new AnswerEntry();
         answerEntry.Init();
-        this.Loader = new AnswerBodyLoader(this, questionId);
+        this.Loader = new AnswerBodyLoader(this);
         eventBus.$emit('load-questions-list');
 
         new Pin(PinType.Question);
