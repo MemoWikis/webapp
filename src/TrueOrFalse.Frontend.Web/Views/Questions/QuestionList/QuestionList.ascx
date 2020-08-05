@@ -203,7 +203,7 @@
                                                 </span>
                                             </div>
                                             <div class="go-to-question iconContainer col-xs-4">
-                                                <span :id="goToQuestionId" class="fas fa-play" :data-question-id="questionId">
+                                                <span :id="goToQuestionId" class="fas fa-play" :data-question-id="questionId" @click="loadSpecificQuestion()">
                                                 </span>
                                             </div>
                                         </div>
