@@ -3,13 +3,11 @@ class AnswerBody {
 
     public Loader : AnswerBodyLoader;
 
-    constructor() {
-        var questionId = $("#hddQuestionId").val();
-
+    constructor(questionId = -1) {
         var answerEntry = new AnswerEntry();
         answerEntry.Init();
-
-        this.Loader = new AnswerBodyLoader(this);
+        this.Loader = new AnswerBodyLoader(this, questionId);
+        eventBus.$emit('load-questions-list');
 
         new Pin(PinType.Question);
         new Pin(PinType.Set); //only needed if Set-Cards are presented as content

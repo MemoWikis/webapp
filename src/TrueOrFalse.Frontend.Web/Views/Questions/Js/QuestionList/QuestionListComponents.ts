@@ -230,10 +230,12 @@ Vue.component('question-list-component', {
         eventBus.$on('reload-knowledge-state', () => this.loadQuestions(this.selectedPage));
         eventBus.$on('reload-wishknowledge-state-per-question', (data) => this.changeQuestionWishknowledgeState(data.questionId, data.isInWishknowledge));
         eventBus.$on('reload-correctnessprobability-for-question', (id) => this.getUpdatedCorrectnessProbability(id));
+        eventBus.$on('load-questions-list', () => this.initQuestionList(this.selectedPage));
+        
     },
     mounted() {
         this.categoryId = $("#hhdCategoryId").val();
-        this.initQuestionList();
+      
     },
     watch: {
         itemCountPerPage: function (val) {
@@ -560,5 +562,9 @@ Vue.component('question-component', {
                 }
             });
         },
+        loadSpecificQuestion() {
+            var aB = new AnswerBody();
+            aB.Loader.loadNewQuestion("/AnswerQuestion/RenderAnswerBodyByLearningSession/?skipStepIdx=-5&questionId=" + this.questionId);
+        }
     },
 });
