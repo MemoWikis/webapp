@@ -117,6 +117,7 @@ class AnswerBodyLoader {
         this._isInLearningTab = $('#LearningTab').length > 0;
         if (this._getCustomSession)
             $("#TestSessionHeader").remove();
+
         if (this._isInLearningTab && this._getCustomSession && loadedFromVue) {
             $("#AnswerBody").fadeOut();
             $("#QuestionDetails").fadeOut();

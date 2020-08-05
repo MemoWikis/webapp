@@ -1,25 +1,7 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Concurrent;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text.RegularExpressions;
+﻿using System.Linq;
 using System.Web.Mvc;
-using System.Web.Script.Serialization;
-using FluentNHibernate.Utils;
-using MarkdownSharp;
-using Microsoft.Ajax.Utilities;
-using Newtonsoft.Json;
-using RabbitMQ.Client.Framing.Impl;
 using TrueOrFalse.Frontend.Web.Code;
 using TrueOrFalse.Web;
-public enum QuestionSort
-{
-    Probability,
-    Knowledge,
-    Random,
-    Alphabetical
-}
 public class QuestionListController : BaseController
 {
  
@@ -92,10 +74,4 @@ public class QuestionListController : BaseController
 
         return model.HistoryAndProbability.CorrectnessProbability.CPPersonal;
     }
-}
-
-public class LearningSessionForVue
-{
-    public int CurrentIndex;
- 
 }
