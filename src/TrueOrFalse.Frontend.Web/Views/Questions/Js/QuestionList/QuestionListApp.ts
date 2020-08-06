@@ -25,6 +25,9 @@ var questionListApp = new Vue({
             this.activeQuestion = index;
         }
     },
+    created: function() {
+        eventBus.$on("change-active-question", (index) => { this.changeActiveQuestion(index) });
+    },
     watch: {
         activeQuestion: function (val) {
             let questionsPerPage = 25;

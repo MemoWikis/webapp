@@ -382,7 +382,9 @@ let v = Vue.component('question-component', {
         'isAdmin',
         'selectedPage',
         'isQuestionListToShow',
-        'questionIndex'],
+        'questionIndex',
+        'allQuestionsCount'
+    ],
     data() {
         return {
             answer: "",
@@ -416,7 +418,7 @@ let v = Vue.component('question-component', {
             correctAnswers: "0",
             wrongAnswers: "0",
             isQuestionActive: false
-    }   
+        }   
         },
     mounted() {
         this.correctnessProbability = this.knowledgeState + "%";
@@ -565,8 +567,8 @@ let v = Vue.component('question-component', {
         loadSpecificQuestion: function() {
             var aB = new AnswerBody();
             aB.Loader.loadNewQuestion("/AnswerQuestion/RenderAnswerBodyByLearningSession/?skipStepIdx=-5&questionId=" + this.questionId);
-            this.$root.changeActiveQuestion(this.questionIndex);
-
+            eventBus.$emit('change-active-question', this.questionIndex);
+            eventBus.$emit('update-progress-bar', this.allQuestionsCount, this.questionIndex);
         }
     },
 });

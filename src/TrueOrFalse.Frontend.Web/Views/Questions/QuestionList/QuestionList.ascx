@@ -167,8 +167,7 @@
         :all-question-count="questionsCount" 
         is-admin="<%= Model.IsInstallationAdmin %>"  
         :is-question-list-to-show="isQuestionListToShow"
-        :active-question ="activeQuestion"
-    >
+        :active-question ="activeQuestion">
         <div class="col-xs-12">
             <question-component inline-template
                                 v-for="(q, index) in questions"
@@ -183,7 +182,7 @@
                                 :is-question-list-to-show ="isQuestionListToShow"
                                 :class="{ 'activeQ': index === activeQuestion }"
                                 :question-index="index"
-                                >
+                                :all-questions-count="allQuestionCount">
                 
                 <div class="singleQuestionRow row" :class="[{ open: showFullQuestion}, backgroundColor]">
                     <div class="questionSectionFlex col-auto">

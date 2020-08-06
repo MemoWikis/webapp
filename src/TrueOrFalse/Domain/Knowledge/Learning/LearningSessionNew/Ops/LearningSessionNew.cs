@@ -52,9 +52,20 @@ public class LearningSessionNew
             CurrentIndex++;
     }
 
-    public void loadSpecificQuestion(int questionId)
+    public void LoadSpecificQuestion(int questionId)
     {
-        CurrentIndex = Steps.IndexOf(step => step.Question.Id == questionId);
+        var futureIndex = Steps.IndexOf(step => step.Question.Id == questionId);
+
+
+        if (futureIndex > CurrentIndex)
+        {
+            for (int i = CurrentIndex; i < futureIndex; i++)
+            {
+                Steps[i].AnswerState = AnswerStateNew.Skipped;
+            }
+        }
+
+        CurrentIndex = futureIndex; 
     }
 
     public void ShowSolution()

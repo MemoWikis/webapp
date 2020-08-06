@@ -38,6 +38,7 @@ class AnswerQuestion {
         this.SolutionType = answerEntry.SolutionType;
         this.IsGameMode = answerEntry.IsGameMode;
 
+
         if ($('#hddIsLearningSession').length === 1)
             this.IsLearningSession = $('#hddIsLearningSession').val().toLowerCase() === "true";
 
@@ -146,6 +147,9 @@ class AnswerQuestion {
 
         this.FlashCardCheck();
         this.HideChipsOnLandingPageAndDisplayCards();
+        eventBus.$on('update-progress-bar', (numberOfSteps, index) => {
+            this.UpdateProgressBar(numberOfSteps, null, false, index);
+        });
     }
 
     public OnCorrectAnswer(func: () => void) {
@@ -436,12 +440,12 @@ class AnswerQuestion {
         });
     }
 
-    UpdateProgressBar(numberSteps: number = -1, answerResult: any = null, isReaddet = false) {
+    UpdateProgressBar(numberSteps: number = -1, answerResult: any = null, isReaddet = false, numberStepsDone = -1) {
 
         var raiseTo: number;
         var percentage: number = parseInt($("#spanPercentageDone").html());
         var stepNumberChanged: boolean;
-        var numberStepsDone: number = parseInt($('#CurrentStepNumber').html());
+        numberStepsDone = numberSteps == -1 ? parseInt($('#CurrentStepNumber').html()) : numberStepsDone;
         var numberStepsUpdated = numberSteps !== -1 ? numberSteps : answerResult.numberSteps;
         if (this.IsLearningSession) {
             raiseTo = isReaddet ? Math.round(numberStepsDone / (numberStepsUpdated + 1) * 100) : Math.round(numberStepsDone / (numberStepsUpdated) * 100);
@@ -450,6 +454,12 @@ class AnswerQuestion {
                 $("#StepCount").fadeOut(100);
             }
         } else {return;}
+            raiseTo = isReaddet
+                ? Math.round(numberStepsDone / (numberStepsUpdated + 1) * 100)
+                : Math.round(numberStepsDone / (numberStepsUpdated) * 100);
+        } else {
+            return;
+        }
 
         $("#spanPercentageDone").fadeOut(100);
         var intervalId = window.setInterval(ChangePercentage, 10);

@@ -495,7 +495,7 @@ public class AnswerQuestionController : BaseController
         var learningSession = Sl.SessionUser.LearningSession;
         if (questionId != -1)
         {
-            learningSession.loadSpecificQuestion(questionId);
+            learningSession.LoadSpecificQuestion(questionId);
         }
         else
         {
