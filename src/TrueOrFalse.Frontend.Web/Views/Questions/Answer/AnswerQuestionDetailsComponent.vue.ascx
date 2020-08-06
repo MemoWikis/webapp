@@ -1,10 +1,10 @@
 ﻿
 <%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
 
-<div style="min-height:240px">
+<div>
     <div class="separationBorderTop" style="min-height: 20px;"></div>
 
-    <div id="questionDetailsContainer" class="row">
+    <div id="questionDetailsContainer" class="row" style="min-height:265px">
         <div id="categoryList" class="col-sm-5" :class="{ isLandingPage:'isLandingPage'}">
             <div class="sectionLabel">Verwandte Themen</div>
             <div class="categoryListChips" v-html="categoryList">
@@ -17,7 +17,7 @@
             <div id="probabilityContainer" class="col-sm-6" ref="probabilityContainer">
                 <div class="sectionLabel">Antwortwahrscheinlichkeit</div>
                 <div id="semiPieSection">
-                    <div id="semiPieChart">
+                    <div id="semiPieChart" style="min-height:130px">
                         <div class="semiPieSvgContainer" ref="semiPie" :class="{'isInWishknowledge' : isInWishknowledge}">
                         </div>
                     </div>
@@ -37,7 +37,7 @@
                 
                 <div class="counterBody">
                     <div class="counterHalf">
-                        <div ref="personalCounter"></div>
+                        <div ref="personalCounter" style="min-width:50px"></div>
                         <div v-if="personalAnswerCount > 0" class="counterLabel">
                             Von Dir: <br/>
                             <strong>{{answerCount}}</strong> mal beantwortet <br/>
@@ -51,7 +51,7 @@
                         </div>
                     </div>
                     <div class="counterHalf">
-                        <div ref="overallCounter"></div>
+                        <div ref="overallCounter" style="min-width:50px"></div>
                         <div v-if="overallAnswerCount > 0" class="counterLabel">
                             Von allen Nutzern: <br/>
                             <strong>{{allAnswerCount}}</strong> mal beantwortet <br/>

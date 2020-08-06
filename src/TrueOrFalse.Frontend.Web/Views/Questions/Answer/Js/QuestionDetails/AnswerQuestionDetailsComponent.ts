@@ -83,12 +83,12 @@ Vue.component('question-details-component', {
         };
     },
 
+    beforeCreate() {
+        eventBus.$off('set-question-id');
+    },
+
     created() {
         var self = this;
-        eventBus.$on('suicide', () => {
-            eventBus.$off();
-            this.$destroy();
-        });
         eventBus.$on('set-question-id',
             (id) => {
                 id = parseInt(id);
