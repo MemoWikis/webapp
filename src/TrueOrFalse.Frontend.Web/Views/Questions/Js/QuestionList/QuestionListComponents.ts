@@ -74,6 +74,9 @@ Vue.component('session-config-component', {
             this.questionFilter.maxProbability = this.probabilityRange[1];
             this.loadQuestionCount();
         },
+        isTestMode: function(val) {
+            this.questionFilter.isInTestMode = val;
+        },
         selectedQuestionCount: function (val) {
             this.questionFilter.maxQuestionCount = parseInt(val);
         },
@@ -187,7 +190,7 @@ Vue.component('session-config-component', {
             this.questionFilter.inWishknowledge = this.inWishknowledge;
             this.questionFilter.createdByCurrentUser = this.createdByCurrentUser;
             this.questionFilter.safeLearningSessionOptions = this.safeLearningSessionOptions;
-            this.questionFilter.isInTestMode = this.isInTestMode;
+            this.questionFilter.isInTestMode = this.isTestMode;
             this.questionFilter.maxQuestionCount = this.selectedQuestionCount;
             this.questionFilter.maxProbability = this.probabilityRange[1] === 100 ? 100 : this.probabilityRange[1];
             this.questionFilter.minProbability = this.probabilityRange[0] === 0 ? 0 : this.probabilityRange[0];
