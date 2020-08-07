@@ -116,8 +116,7 @@
         $('#Buttons').css('visibility', 'hidden');
         window.setTimeout(() => { $("#SolutionDetailsSpinner").show(); }, 500);
 
-        AnswerQuestion.AjaxGetSolution(result => {
-
+        AnswerQuestion.AjaxGetSolution((result) => {
             if (this._answerQuestion.IsLearningSession && this._answerQuestion.AnswersSoFar.length === 0) {
                 //if is learningSession and user asked to show solution before answering, then queue this question to be answered again
                 var self = this;
@@ -135,7 +134,7 @@
                         if (self._answerQuestion._isLastLearningStep && !result.newStepAdded) {
                             $('#btnNext').html('Zum Ergebnis');
                         }
-                        self._answerQuestion.UpdateProgressBar(result.numberSteps);
+                        self._answerQuestion.UpdateProgressBar(result.numberSteps, null, result.currentStep);
                     }
                 });
             }

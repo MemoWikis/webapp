@@ -5,7 +5,7 @@ class AnswerQuestion {
     private _getAnswerText: () => string;
     private _getAnswerData: () => {};
 
-    private _onCorrectAnswer: () => void = () => {};
+    private _onCorrectAnswer: () => void = () => { };
     private _onWrongAnswer: () => void = () => { };
 
     private _inputFeedback: AnswerQuestionUserFeedback;
@@ -18,7 +18,7 @@ class AnswerQuestion {
     static ajaxUrl_TestSessionRegisterAnsweredQuestion: string;
     static ajaxUrl_LearningSessionAmendAfterShowSolution: string;
     static TestSessionProgressAfterAnswering: number;
-    private IsLandingPage: boolean = false; 
+    private IsLandingPage: boolean = false;
 
     public LearningSessionStepGuid: string;
 
@@ -33,7 +33,7 @@ class AnswerQuestion {
     public AnswerCountedAsCorrect = false;
     public ShowedSolutionOnly = false;
 
-    constructor(answerEntry: IAnswerEntry) {
+    constructor(answerEntry: IAnswerEntry = null) {
         this.IsLandingPage = $("#hddIsLandingPage").val() == "2";
         this.SolutionType = answerEntry.SolutionType;
         this.IsGameMode = answerEntry.IsGameMode;
@@ -47,7 +47,7 @@ class AnswerQuestion {
         }
 
         if (this.IsLearningSession && $('#hddIsLearningSession').attr('data-is-last-step').toLowerCase() === "true")
-            this._isLastLearningStep = true ;
+            this._isLastLearningStep = true;
 
         this._getAnswerText = () => { return answerEntry.GetAnswerText(); }
         this._getAnswerData = () => { return answerEntry.GetAnswerData(); }
@@ -73,7 +73,7 @@ class AnswerQuestion {
                 });
         };
 
-        $('body').keydown(function(e) {                                                       // simulate Click wenn sichbar und wenn Enter gedrückt wird
+        $('body').keydown(function (e) {                                                       // simulate Click wenn sichbar und wenn Enter gedrückt wird
             var target = $(e.target);
             if (e.keyCode == 13 && (target.parents("#AnswerBody").length)) {
                 $("#btnCheck:visible").click();
@@ -95,11 +95,11 @@ class AnswerQuestion {
 
         $("#btnCheck, #btnCheckAgain")
             .click(
-            e => {
-                e.preventDefault();
-                $('#hddTimeRecords').attr('data-time-of-answer', $.now());
-                self.ValidateAnswer();
-            });
+                e => {
+                    e.preventDefault();
+                    $('#hddTimeRecords').attr('data-time-of-answer', $.now());
+                    self.ValidateAnswer();
+                });
 
         $("#aCountAsCorrect")
             .click(
@@ -107,7 +107,7 @@ class AnswerQuestion {
                     e.preventDefault();
                     self.countAnswerAsCorrect();
                     ActivityPoints.addPointsFromCountAsCorrect();
-                   
+
                 });
 
         $("#CountWrongAnswers")
@@ -119,12 +119,12 @@ class AnswerQuestion {
                 else
                     divWrongAnswers.hide();
             });
-        
+
         $(".selectorShowSolution")
             .click(() => {
                 this._inputFeedback.ShowSolution();
                 ActivityPoints.addPointsFromShowSolutionAnswer();
-                this.ClickToContinue(); 
+                this.ClickToContinue();
                 if ($('#ActivityPointsContainer'))
                     self.GetActivityPointsForSidebar();
                 return false;
@@ -135,7 +135,8 @@ class AnswerQuestion {
                 if (this.IsLearningSession && this.AmountOfTries === 0 && !this.AnswerCountedAsCorrect && !this.ShowedSolutionOnly) {
                     $("#hddIsLearningSession").attr("data-skip-step-index", $('#hddIsLearningSession').attr('data-current-step-idx'));
                     questionListApp.activeQuestion = parseInt($('#hddIsLearningSession').attr('data-current-step-idx')) + 1;
-                    console.log(questionListApp.currentStep);                } else {
+                    console.log(questionListApp.currentStep);
+                } else {
                     $("#hddIsLearningSession").attr("data-skip-step-index", -1);
                     questionListApp.activeQuestion = parseInt($('#hddIsLearningSession').attr('data-current-step-idx')) + 1;
                 }
@@ -148,7 +149,7 @@ class AnswerQuestion {
         this.FlashCardCheck();
         this.HideChipsOnLandingPageAndDisplayCards();
         eventBus.$on('update-progress-bar', (numberOfSteps, index) => {
-            this.UpdateProgressBar(numberOfSteps, null, false, index);
+            this.UpdateProgressBar(numberOfSteps, null, index);
         });
     }
 
@@ -206,7 +207,7 @@ class AnswerQuestion {
                         questionViewGuid: $('#hddQuestionViewGuid').val(),
                         interactionNumber: $('#hddInteractionNumber').val(),
                         millisecondsSinceQuestionView: AnswerQuestion.TimeSinceLoad($('#hddTimeRecords').attr('data-time-of-answer')),
-                    inTestMode: isTestMode
+                        inTestMode: isTestMode
                     }),
                 cache: false,
                 success(result) {
@@ -226,7 +227,7 @@ class AnswerQuestion {
                     $("#answerHistory").empty();
                     $.post("/AnswerQuestion/PartialAnswerHistory",
                         { questionId: AnswerQuestion.GetQuestionId() },
-                        function(data) {
+                        function (data) {
                             $("#answerHistory").html(data);
                         });
                     self.updateQuestionDetails();
@@ -310,7 +311,7 @@ class AnswerQuestion {
             this._inputFeedback.UpdateAnswersSoFar();
             this.RegisterWrongAnswer();//need only this
             this._inputFeedback.ShowError();
-            
+
             if (this.IsLearningSession) {
 
                 this._inputFeedback.ShowSolution();
@@ -337,7 +338,7 @@ class AnswerQuestion {
         this.AtLeastOneWrongAnswer = true;
         $('#aCountAsCorrect')
             .attr('data-original-title',
-            'Drücke hier und deine letzte Antwort wird als richtig gewertet (bei anderer Schreibweise, Formulierung ect). Aber nicht schummeln!');
+                'Drücke hier und deine letzte Antwort wird als richtig gewertet (bei anderer Schreibweise, Formulierung ect). Aber nicht schummeln!');
     }
 
     private allWrongAnswersTried(answerText: string) {
@@ -375,7 +376,7 @@ class AnswerQuestion {
                 learningSessionStepGuid: self.LearningSessionStepGuid
             },
             cache: false,
-            success: function(result) {
+            success: function (result) {
                 self.AnswerCountedAsCorrect = true;
                 $(Utils.UIMessageHtml(successMessage, "success")).insertAfter('#Buttons');
                 self._inputFeedback.AnimateCorrectAnswer();
@@ -383,11 +384,11 @@ class AnswerQuestion {
                 $("#answerHistory").empty();
                 $.post("/AnswerQuestion/PartialAnswerHistory",
                     { questionId: AnswerQuestion.GetQuestionId() },
-                    function(data) {
+                    function (data) {
                         $("#answerHistory").html(data);
                     });
 
-                self.UpdateProgressBar(self.GetCurrentSteps() - 1);
+                self.UpdateProgressBar(self.GetCurrentSteps());
 
                 if (self._isLastLearningStep) {
                     $('#btnNext').html('Zum Ergebnis');
@@ -402,7 +403,6 @@ class AnswerQuestion {
     }
 
     static AjaxGetSolution(onSuccessAction) {
-
         $.ajax({
             type: 'POST',
             url: AnswerQuestion.ajaxUrl_GetSolution,
@@ -420,7 +420,7 @@ class AnswerQuestion {
 
     private IncrementInteractionNumber() {
         $('#hddInteractionNumber')
-            .val(function(i, oldval) {
+            .val(function (i, oldval) {
                 return (parseInt(oldval, 10) + 1).toString();
             });
     }
@@ -440,56 +440,47 @@ class AnswerQuestion {
         });
     }
 
-    UpdateProgressBar(numberSteps: number = -1, answerResult: any = null, isReaddet = false, numberStepsDone = -1) {
-
-        var raiseTo: number;
-        var percentage: number = parseInt($("#spanPercentageDone").html());
-        var stepNumberChanged: boolean;
-        numberStepsDone = numberSteps == -1 ? parseInt($('#CurrentStepNumber').html()) : numberStepsDone;
-        var numberStepsUpdated = numberSteps !== -1 ? numberSteps : answerResult.numberSteps;
+    UpdateProgressBar(numberSteps: number = -1, answerResult: any = null, numberStepsDone = -1) {
         if (this.IsLearningSession) {
-            raiseTo = isReaddet ? Math.round(numberStepsDone / (numberStepsUpdated + 1) * 100) : Math.round(numberStepsDone / (numberStepsUpdated) * 100);
+            var raiseTo: number;
+            var percentage: number = parseInt($("#spanPercentageDone").html());
+            var stepNumberChanged: boolean;
+            numberStepsDone = numberStepsDone == -1 ? parseInt($('#CurrentStepNumber').html()) : numberStepsDone;
+            var numberStepsUpdated = numberSteps !== -1 ? numberSteps : answerResult.numberSteps;
+
+            raiseTo = Math.round(numberStepsDone / (numberStepsUpdated) * 100);
             stepNumberChanged = this.GetCurrentSteps() != numberStepsUpdated;
             if (stepNumberChanged) {
                 $("#StepCount").fadeOut(100);
             }
-        } else {return;}
-            raiseTo = isReaddet
-                ? Math.round(numberStepsDone / (numberStepsUpdated + 1) * 100)
-                : Math.round(numberStepsDone / (numberStepsUpdated) * 100);
-        } else {
-            return;
-        }
+            $("#spanPercentageDone").fadeOut(100);
 
-        $("#spanPercentageDone").fadeOut(100);
-        var intervalId = window.setInterval(ChangePercentage, 10);
+            var intervalId = window.setInterval(() => {
 
-        function ChangePercentage() {
-            
-            if (percentage === raiseTo) {
+                if (percentage === raiseTo) {
+                    window.clearInterval(intervalId);
 
-                window.clearInterval(intervalId);
+                    $("#spanPercentageDone").html(raiseTo + "%");
+                    $("#spanPercentageDone").fadeIn();
+                    if (stepNumberChanged) {
+                        $("#StepCount").html(numberStepsUpdated);
+                        $("#StepCount").fadeIn();
+                    }
 
-                $("#spanPercentageDone").html(raiseTo + "%");
-                $("#spanPercentageDone").fadeIn();
-                if (stepNumberChanged) {
-                    $("#StepCount").html(numberStepsUpdated);
-                    $("#StepCount").fadeIn();
+                } else {
+
+                    if (percentage < raiseTo)
+                        percentage++;
+                    else
+                        percentage--;
+
+                    $("#progressPercentageDone").width(percentage + "%");
                 }
-
-            } else {
-
-                if(percentage < raiseTo)
-                    percentage++;
-                else 
-                    percentage--;
-                    
-                $("#progressPercentageDone").width(percentage + "%");
-            }
+            }, 10);
         }
     }
 
-    GetCurrentSteps() : number {
+    GetCurrentSteps(): number {
         return parseInt($("#StepCount").html());
     }
 

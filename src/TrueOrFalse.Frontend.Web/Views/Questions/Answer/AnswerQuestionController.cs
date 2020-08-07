@@ -279,7 +279,8 @@ public class AnswerQuestionController : BaseController
             Data = new
             {
                 numberSteps = learningSession.Steps.Count,
-                newStepAdded
+                newStepAdded,
+                currentStep = learningSession.CurrentIndex
             }
         };
     }
