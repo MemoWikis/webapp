@@ -388,7 +388,7 @@ class AnswerQuestion {
                         $("#answerHistory").html(data);
                     });
 
-                self.UpdateProgressBar(self.GetCurrentSteps());
+                self.UpdateProgressBar(self.GetCurrentSteps() -1 );
 
                 if (self._isLastLearningStep) {
                     $('#btnNext').html('Zum Ergebnis');
@@ -440,7 +440,7 @@ class AnswerQuestion {
         });
     }
 
-    UpdateProgressBar(numberSteps: number = -1, answerResult: any = null, numberStepsDone = -1) {
+    UpdateProgressBar(numberSteps: number = -1, answerResult: any = null, numberStepsDone = -1, isCountAnswerAsCorrect = false) {
         if (this.IsLearningSession) {
             var raiseTo: number;
             var percentage: number = parseInt($("#spanPercentageDone").html());
@@ -448,7 +448,7 @@ class AnswerQuestion {
             numberStepsDone = numberStepsDone == -1 ? parseInt($('#CurrentStepNumber').html()) : numberStepsDone;
             var numberStepsUpdated = numberSteps !== -1 ? numberSteps : answerResult.numberSteps;
 
-            raiseTo = Math.round(numberStepsDone / (numberStepsUpdated) * 100);
+            raiseTo = Math.round(numberStepsDone / numberStepsUpdated * 100);
             stepNumberChanged = this.GetCurrentSteps() != numberStepsUpdated;
             if (stepNumberChanged) {
                 $("#StepCount").fadeOut(100);

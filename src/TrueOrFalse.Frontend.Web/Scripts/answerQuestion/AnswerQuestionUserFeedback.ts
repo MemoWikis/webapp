@@ -95,10 +95,10 @@
                 $("#divWrongAnswers").show();
             }
         }
-        this.RenderSolutionDetails();
+        this.RenderSolutionDetails(true);
     }
 
-    RenderSolutionDetails() {
+    RenderSolutionDetails(IsShowSolution = false) {
         $('#AnswerInputSection').find('.radio').addClass('disabled').find('input').attr('disabled', 'true');
         $('#AnswerInputSection').find('.checkbox').addClass('disabled').find('input').attr('disabled', 'true');
         if (this._answerQuestion.SolutionType === SolutionType.MatchList) {
@@ -134,6 +134,7 @@
                         if (self._answerQuestion._isLastLearningStep && !result.newStepAdded) {
                             $('#btnNext').html('Zum Ergebnis');
                         }
+                        result.currentStep = IsShowSolution ? result.currentStep + 1 : result.currentStep;   //the quest has not yet been attached 
                         self._answerQuestion.UpdateProgressBar(result.numberSteps, null, result.currentStep);
                     }
                 });
