@@ -12,7 +12,7 @@
 
 <h2 style="margin-bottom: 15px; margin-top: 0px;">
     <span class="<%
-                    if (Model.LearningSession.Config.QuestionsInWishknowledge) Response.Write("ColoredUnderline Knowledge");
+                    if (Model.LearningSession.Config.InWishknowledge) Response.Write("ColoredUnderline Knowledge");
                  %>">Ergebnis</span>
 </h2>
     
@@ -87,12 +87,12 @@
 
         
         <div class="buttonRow">
-            <% if (!Model.LearningSession.Config.QuestionsInWishknowledge) { %>
+            <% if (!Model.LearningSession.Config.InWishknowledge) { %>
                 <a href="<%= Links.CategoryDetail(Model.LearningSession.Config.Category.Name, Model.LearningSession.Config.CategoryId) %>" class="btn btn-link " style="padding-right: 10px">Zum Thema</a>
                 <a href="<%= Links.StartLearningSession(Model.LearningSession) %>" class="btn btn-primary nextLearningTestSession" style="padding-right: 10px">
                     Weiterlernen
                 </a>   
-            <% } else if (Model.LearningSession.Config.QuestionsInWishknowledge) { %>
+            <% } else if (Model.LearningSession.Config.InWishknowledge) { %>
                 <a href="<%= Links.Knowledge() %>" class="btn btn-link" style="padding-right: 10px">Zur Wissenszentrale</a>
                 <a href="<%= Links.StartWishLearningSession() %>" class="btn btn-primary" style="padding-right: 10px">
                     Neue Lernsitzung
@@ -209,7 +209,7 @@
 
     <div id="ResultSideColumn" class="col-sm-3 xxs-stack">
 
-        <% if(Model.LearningSession.Config.QuestionsInWishknowledge) { %>
+        <% if(Model.LearningSession.Config.InWishknowledge) { %>
             <div class="boxInfo">
                 <div class="boxInfoHeader">
                     Wunschwissen
@@ -226,7 +226,7 @@
             </div>
         <% } %>
             
-        <% if(!Model.LearningSession.Config.QuestionsInWishknowledge) { %>
+        <% if(!Model.LearningSession.Config.InWishknowledge) { %>
             <div class="boxInfo">
                 <div class="boxInfoHeader">
                     Thema
