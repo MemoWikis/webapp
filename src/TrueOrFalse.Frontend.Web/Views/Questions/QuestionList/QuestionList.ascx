@@ -167,7 +167,8 @@
         :all-question-count="questionsCount" 
         is-admin="<%= Model.IsInstallationAdmin %>"  
         :is-question-list-to-show="isQuestionListToShow"
-        :active-question ="activeQuestion">
+        :active-question ="activeQuestion"
+        :selected-page-from-parent="selectedPageFromParent">
         <div class="col-xs-12">
             <question-component inline-template
                                 v-for="(q, index) in questions"
@@ -182,7 +183,8 @@
                                 :is-question-list-to-show ="isQuestionListToShow"
                                 :class="{ 'activeQ': index === activeQuestion }"
                                 :question-index="index"
-                                :all-questions-count="allQuestionCount">
+                                :all-questions-count="allQuestionCount"
+                                :active-question ="activeQuestion">
                 
                 <div class="singleQuestionRow row" :class="[{ open: showFullQuestion}, backgroundColor]">
                     <div class="questionSectionFlex col-auto">
@@ -198,9 +200,8 @@
                                             <div class="iconContainer col-xs-4 float-right" @click="expandQuestion()">
                                                 <i class="fas fa-angle-down rotateIcon" :class="{ open : showFullQuestion }"></i>
                                             </div>
-                                            <div class="questionListPinContainer iconContainer col-xs-4">
-                                                <span :id="pinId" class="Pin" :data-question-id="questionId">
-                                                </span>
+                                            <div class="">
+                                                <span :id="pinId" class="Pin" :data-question-id="questionId"></span>
                                             </div>
                                             <div class="go-to-question iconContainer col-xs-4">
                                                 <span class="fas fa-play" :data-question-id="questionId" @click="loadSpecificQuestion()">

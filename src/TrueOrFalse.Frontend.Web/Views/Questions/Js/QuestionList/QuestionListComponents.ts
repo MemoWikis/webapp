@@ -386,7 +386,8 @@ let v = Vue.component('question-component', {
         'selectedPage',
         'isQuestionListToShow',
         'questionIndex',
-        'allQuestionsCount'
+        'allQuestionsCount',
+        'activeQuestion'
     ],
     data() {
         return {
@@ -420,7 +421,6 @@ let v = Vue.component('question-component', {
             answerCount: "0",
             correctAnswers: "0",
             wrongAnswers: "0",
-            isQuestionActive: false
         }   
         },
     mounted() {
@@ -461,6 +461,12 @@ let v = Vue.component('question-component', {
             this.pinId = "QuestionListPin-" + this.questionId;
             this.questionTitleId = "#QuestionTitle-" + this.questionId;
             this.questionDetailsId = "QuestionDetails-" + this.questionId;
+        },
+        activeQuestion(val) {
+            if (val == this.questionIndex)
+                $("#" + this.pinId + " .iAddedNot").addClass("activeQ");
+            else
+                $("#" + this.pinId + " .iAddedNot").removeClass("activeQ");
         }
     },
     methods: {
@@ -547,7 +553,7 @@ let v = Vue.component('question-component', {
             $.ajax({
                 url: "/QuestionList/RenderWishknowledgePinButton/",
                 data: {
-                    isInWishknowledge: this.isInWishknowledge,
+                    isInWishknowledge: this.isInWishknowledge
                 },
                 type: "POST",
                 success: partialView => {
