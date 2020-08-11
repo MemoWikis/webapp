@@ -427,6 +427,7 @@ let v = Vue.component('question-component', {
         this.correctnessProbability = this.knowledgeState + "%";
         this.setKnowledgebarData(this.knowledgeState);
         this.getWishknowledgePinButton();
+        $("#BorderQuestionList").height($(".drop-down-question-sort").height() + $("#QuestionListApp").height());
     },
     watch: {
         isQuestionListToShow() {
