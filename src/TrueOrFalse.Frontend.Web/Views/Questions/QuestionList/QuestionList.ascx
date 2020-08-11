@@ -181,7 +181,7 @@
                                     :has-personal-answer="q.HasPersonalAnswer" 
                                     :is-admin="isAdmin"
                                     :is-question-list-to-show ="isQuestionListToShow"
-                                    :class="{ 'activeQ': index === activeQuestion }"
+                                    
                                     :question-index="index"
                                     :all-questions-count="allQuestionCount"
                                     :active-question ="activeQuestion">
@@ -204,7 +204,7 @@
                                                     <span :id="pinId" class="Pin" :data-question-id="questionId"></span>
                                                 </div>
                                                 <div class="go-to-question iconContainer col-xs-4">
-                                                    <span class="fas fa-play" :data-question-id="questionId" @click="loadSpecificQuestion()">
+                                                    <span class="fas fa-play" :class="{ 'activeQ': questionIndex === activeQuestion }" :data-question-id="questionId" @click="loadSpecificQuestion()">
                                                     </span>
                                                 </div>
                                             </div>

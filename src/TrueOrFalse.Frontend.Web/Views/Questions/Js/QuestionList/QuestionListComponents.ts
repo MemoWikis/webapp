@@ -463,12 +463,6 @@ let v = Vue.component('question-component', {
             this.questionTitleId = "#QuestionTitle-" + this.questionId;
             this.questionDetailsId = "QuestionDetails-" + this.questionId;
         },
-        activeQuestion(val) {
-            if (val == this.questionIndex)
-                $("#" + this.pinId + " .iAddedNot").addClass("activeQ");
-            else
-                $("#" + this.pinId + " .iAddedNot").removeClass("activeQ");
-        }
     },
     methods: {
         abbreviateNumber(val) {

@@ -5,7 +5,7 @@
   display: flex;
 }
 #QuestionListApp .notShow {
-  display: none!important;
+  display: none !important;
 }
 #QuestionListApp .questionListHeader .questionListTitle {
   font-size: 24px;
@@ -16,8 +16,8 @@
   padding: 8px 24px;
   text-align: right;
 }
-#QuestionListApp .activeQ {
-  background: silver !important;
+#QuestionListApp .activeQ::before {
+  color: #555555;
 }
 #QuestionListApp .singleQuestionRow {
   background: linear-gradient(to right, #D6D6D6 0px, #D6D6D6 8px, #ffffffff 9px, #ffffffff 100%);

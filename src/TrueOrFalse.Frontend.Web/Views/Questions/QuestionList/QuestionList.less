@@ -1,12 +1,13 @@
 ﻿
 #QuestionListApp {
     margin-top: 103px;
-    .drop-down-question-sort{
-        display: flex;
-    } 
 
-    .notShow{
-        display: none!important;
+    .drop-down-question-sort {
+        display: flex;
+    }
+
+    .notShow {
+        display: none !important;
     }
 
     .questionListHeader {
@@ -22,9 +23,12 @@
         }
     }
 
-    .activeQ{
-        background: silver !important;
+    .activeQ {
+        &::before {
+            color: #555555; 
+        }
     }
+
     .singleQuestionRow {
         background: linear-gradient(to right, #D6D6D6 0px, #D6D6D6 8px, #ffffffff 9px, #ffffffff 100%);
         height: 57px;
