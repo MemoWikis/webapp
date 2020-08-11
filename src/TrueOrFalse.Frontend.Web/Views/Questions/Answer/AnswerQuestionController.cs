@@ -19,7 +19,6 @@ public class AnswerQuestionController : BaseController
     private readonly AnswerQuestion _answerQuestion;
 
     private const string _viewLocation = "~/Views/Questions/Answer/AnswerQuestion.aspx";
-    private const string _viewLocationError = "~/Views/Questions/Answer/AnswerQuestionError.aspx";
 
     public AnswerQuestionController(QuestionRepo questionRepo, AnswerQuestion answerQuestion)
     {
@@ -239,8 +238,7 @@ public class AnswerQuestionController : BaseController
         bool inTestMode = false
     )
     {
-        if(learningSessionId != 0)
-            Sl.SessionUser.LearningSession.CurrentStep.Answer = answer; 
+        Sl.SessionUser.LearningSession.CurrentStep.Answer = answer; 
 
         var result = _answerQuestion.Run(id, answer, UserId, questionViewGuid, interactionNumber,
             millisecondsSinceQuestionView, learningSessionId, new Guid(), inTestMode);
@@ -481,9 +479,7 @@ public class AnswerQuestionController : BaseController
             updateUser.LearningSessionOptions = JsonConvert.SerializeObject(learningSessionOptionsHelper);
             Sl.UserRepo.Update(updateUser);
         }
-            
-        var user = new SessionUser();
-        user.LearningSession = learningSession;
+
         Sl.SessionUser.LearningSession = learningSession;
 
         var firstStep = 0; 
