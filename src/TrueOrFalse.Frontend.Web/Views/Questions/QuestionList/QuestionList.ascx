@@ -11,7 +11,7 @@
         <div>Du lernst {{questionsCount}} Fragen aus diesem Thema (<%=Model.AllQuestionsInCategory %>)</div>
     <session-config-component inline-template @update="updateQuestionsCount">
             <div>
-        <div id="CustomSessionConfigBtn" @click="openModal()"><i class="fa fa-cog" aria-hidden="true"></i></div>
+        <div id="CustomSessionConfigBtn" @click="openModal()"><button class="btn btn-primary"><i class="fa fa-cog" aria-hidden="true"></i> Lernoptionen</button></div>
         <div class="modal fade" id="SessionConfigModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
