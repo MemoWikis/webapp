@@ -108,6 +108,22 @@
   font-size: 16px;
   min-width: 0;
 }
+@media (max-width: 640px) {
+  #QuestionListApp .singleQuestionRow .questionSectionFlex .questionContainer .questionBodyTop .questionContainerTopSection .questionHeader .col-xs-3 {
+    width: 33%;
+  }
+  #QuestionListApp .singleQuestionRow .questionSectionFlex .questionContainer .questionBodyTop .questionContainerTopSection .questionHeader .col-xs-9 {
+    width: 66%;
+  }
+}
+@media (max-width: 420px) {
+  #QuestionListApp .singleQuestionRow .questionSectionFlex .questionContainer .questionBodyTop .questionContainerTopSection .questionHeader .col-xs-3 {
+    width: 50%;
+  }
+  #QuestionListApp .singleQuestionRow .questionSectionFlex .questionContainer .questionBodyTop .questionContainerTopSection .questionHeader .col-xs-9 {
+    width: 50%;
+  }
+}
 #QuestionListApp .singleQuestionRow .questionSectionFlex .questionContainer .questionBodyTop .questionContainerTopSection .questionHeaderIcons {
   flex: 0 0 auto;
   font-size: 18px;
@@ -119,7 +135,11 @@
   padding: 0;
 }
 #QuestionListApp .singleQuestionRow .questionSectionFlex .questionContainer .questionBodyTop .questionContainerTopSection .questionHeaderIcons .Pin {
-  margin-top: 12px;
+  margin-top: 18px;
+}
+#QuestionListApp .singleQuestionRow .questionSectionFlex .questionContainer .questionBodyTop .questionContainerTopSection .questionHeaderIcons .Pin .iAdded,
+#QuestionListApp .singleQuestionRow .questionSectionFlex .questionContainer .questionBodyTop .questionContainerTopSection .questionHeaderIcons .Pin .iAddedNot {
+  padding: 0;
 }
 #QuestionListApp .singleQuestionRow .questionSectionFlex .questionContainer .questionBodyTop .questionContainerTopSection .questionHeaderIcons .Pin .fa-heart,
 #QuestionListApp .singleQuestionRow .questionSectionFlex .questionContainer .questionBodyTop .questionContainerTopSection .questionHeaderIcons .Pin .fa-spinner {
@@ -142,6 +162,12 @@
 }
 #QuestionListApp .singleQuestionRow .questionSectionFlex .questionContainer .questionBodyTop .questionContainerTopSection .questionHeaderIcons .iconContainer .rotateIcon.open {
   transform: rotate(180deg);
+}
+@media (max-width: 767px) {
+  #QuestionListApp .singleQuestionRow .questionSectionFlex .questionContainer .questionBodyTop .questionContainerTopSection .questionHeaderIcons .iconContainer {
+    padding-right: 2px;
+    padding-left: 2px;
+  }
 }
 #QuestionListApp .singleQuestionRow .questionSectionFlex .questionContainer .questionBodyTop .extendedQuestionContainer {
   padding: 8px 80px 8px 4px;

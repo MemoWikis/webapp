@@ -126,6 +126,28 @@
                                 font-size: 16px;
                                 min-width: 0;
                             }
+
+
+                            @media (max-width: 640px) {
+                                .col-xs-3 {
+                                    width: 33%;
+                                }
+
+                                .col-xs-9 {
+                                    width: 66%;
+                                }
+                            }
+
+
+                            @media (max-width: 420px) {
+                                .col-xs-3 {
+                                    width: 50%;
+                                }
+
+                                .col-xs-9 {
+                                    width: 50%;
+                                }
+                            }
                         }
 
                         .questionHeaderIcons {
@@ -139,7 +161,11 @@
                             padding: 0;
 
                             .Pin {
-                                margin-top: 12px;
+                                margin-top: 18px;
+
+                                .iAdded, .iAddedNot {
+                                    padding: 0;
+                                }
 
                                 .fa-heart, .fa-spinner {
                                     font-size: 18px;
@@ -154,7 +180,7 @@
                                 max-width: 40px;
                                 text-align: center;
 
-                                .fa-play{
+                                .fa-play {
                                     margin-top: 10px;
                                 }
 
@@ -165,6 +191,13 @@
                                     &.open {
                                         transform: rotate(180deg);
                                     }
+                                }
+                            }
+
+                            @media (max-width: 767px) {
+                                .iconContainer {
+                                    padding-right: 2px;
+                                    padding-left: 2px;
                                 }
                             }
                         }

@@ -186,23 +186,23 @@
                                     :active-question ="activeQuestion">
                     
                     <div class="singleQuestionRow" :class="[{ open: showFullQuestion}, backgroundColor]">
-                        <div class="questionSectionFlex col-auto">
+                        <div class="questionSectionFlex">
                             <div class="questionContainer">
-                                <div class="questionBodyTop row">
+                                <div class="questionBodyTop">
                                     <div class="questionImg col-xs-1" @click="expandQuestion()">
                                         <img :src="questionImage"></img>
                                     </div>
                                     <div class="questionContainerTopSection col-xs-11" >
                                         <div class="questionHeader row">
-                                            <div class="questionTitle col-xs-10" ref="questionTitle" :id="questionTitleId" @click.self="expandQuestion()">{{questionTitle}}</div>
-                                            <div class="questionHeaderIcons col-xs-2 row"  @click.self="expandQuestion()">
-                                                <div class="iconContainer col-xs-4 float-right" @click="expandQuestion()">
+                                            <div class="questionTitle col-xs-9" ref="questionTitle" :id="questionTitleId" @click.self="expandQuestion()">{{questionTitle}}</div>
+                                            <div class="questionHeaderIcons col-xs-3"  @click.self="expandQuestion()">
+                                                <div class="iconContainer float-right" @click="expandQuestion()">
                                                     <i class="fas fa-angle-down rotateIcon" :class="{ open : showFullQuestion }"></i>
                                                 </div>
                                                 <div class="">
                                                     <div :id="pinId" class="Pin" :data-question-id="questionId"></div>
                                                 </div>
-                                                <div class="go-to-question iconContainer col-xs-4">
+                                                <div class="go-to-question iconContainer">
                                                     <span class="fas fa-play" :class="{ 'activeQ': questionIndex === activeQuestion }" :data-question-id="questionId" @click="loadSpecificQuestion()">
                                                     </span>
                                                 </div>
