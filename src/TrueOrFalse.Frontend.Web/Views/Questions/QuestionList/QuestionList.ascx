@@ -215,7 +215,7 @@
                                                 </div>
 
                                                 <div class="answer">
-                                                    <strong>Antwort:</strong><br/>
+                                                    <strong>Richtige Antwort:</strong><br/>
                                                      <component :is="answer && {template:answer}"></component>
 
                                                 </div>
