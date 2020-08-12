@@ -117,13 +117,20 @@
 }
 #QuestionListApp .singleQuestionRow .questionSectionFlex .questionContainer .questionBodyTop .questionContainerTopSection .questionHeaderIcons {
   flex: 0 0 auto;
-  font-size: 24px;
+  font-size: 18px;
   min-width: 77px;
   display: flex;
   flex-wrap: nowrap;
   color: #DDDDDD;
   flex-direction: row-reverse;
   padding: 0;
+}
+#QuestionListApp .singleQuestionRow .questionSectionFlex .questionContainer .questionBodyTop .questionContainerTopSection .questionHeaderIcons .Pin {
+  margin-top: 12px;
+}
+#QuestionListApp .singleQuestionRow .questionSectionFlex .questionContainer .questionBodyTop .questionContainerTopSection .questionHeaderIcons .Pin .fa-heart,
+#QuestionListApp .singleQuestionRow .questionSectionFlex .questionContainer .questionBodyTop .questionContainerTopSection .questionHeaderIcons .Pin .fa-spinner {
+  font-size: 18px;
 }
 #QuestionListApp .singleQuestionRow .questionSectionFlex .questionContainer .questionBodyTop .questionContainerTopSection .questionHeaderIcons .iconContainer {
   padding: 8px;
@@ -133,13 +140,8 @@
   max-width: 40px;
   text-align: center;
 }
-#QuestionListApp .singleQuestionRow .questionSectionFlex .questionContainer .questionBodyTop .questionContainerTopSection .questionHeaderIcons .iconContainer .Pin {
-  line-height: 49px;
-}
-#QuestionListApp .singleQuestionRow .questionSectionFlex .questionContainer .questionBodyTop .questionContainerTopSection .questionHeaderIcons .iconContainer .Pin .iAdded,
-#QuestionListApp .singleQuestionRow .questionSectionFlex .questionContainer .questionBodyTop .questionContainerTopSection .questionHeaderIcons .iconContainer .Pin .iAddedNot,
-#QuestionListApp .singleQuestionRow .questionSectionFlex .questionContainer .questionBodyTop .questionContainerTopSection .questionHeaderIcons .iconContainer .Pin .iAddSpinner {
-  padding: 0 !important;
+#QuestionListApp .singleQuestionRow .questionSectionFlex .questionContainer .questionBodyTop .questionContainerTopSection .questionHeaderIcons .iconContainer .fa-play {
+  margin-top: 10px;
 }
 #QuestionListApp .singleQuestionRow .questionSectionFlex .questionContainer .questionBodyTop .questionContainerTopSection .questionHeaderIcons .iconContainer .rotateIcon {
   transition: all 0.2s ease-out;

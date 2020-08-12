@@ -200,7 +200,7 @@
                                                     <i class="fas fa-angle-down rotateIcon" :class="{ open : showFullQuestion }"></i>
                                                 </div>
                                                 <div class="">
-                                                    <span :id="pinId" class="Pin" :data-question-id="questionId"></span>
+                                                    <div :id="pinId" class="Pin" :data-question-id="questionId"></div>
                                                 </div>
                                                 <div class="go-to-question iconContainer col-xs-4">
                                                     <span class="fas fa-play" :class="{ 'activeQ': questionIndex === activeQuestion }" :data-question-id="questionId" @click="loadSpecificQuestion()">

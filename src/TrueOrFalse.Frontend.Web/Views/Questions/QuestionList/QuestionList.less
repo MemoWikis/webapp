@@ -25,7 +25,7 @@
 
     .activeQ {
         &::before {
-            color: #555555; 
+            color: #555555;
         }
     }
 
@@ -138,13 +138,21 @@
 
                         .questionHeaderIcons {
                             flex: 0 0 auto;
-                            font-size: 24px;
+                            font-size: 18px;
                             min-width: 77px;
                             display: flex;
                             flex-wrap: nowrap;
                             color: #DDDDDD;
                             flex-direction: row-reverse;
                             padding: 0;
+
+                            .Pin {
+                                margin-top: 12px;
+
+                                .fa-heart, .fa-spinner {
+                                    font-size: 18px;
+                                }
+                            }
 
                             .iconContainer {
                                 padding: 8px;
@@ -154,12 +162,8 @@
                                 max-width: 40px;
                                 text-align: center;
 
-                                .Pin {
-                                    line-height: 49px;
-
-                                    .iAdded, .iAddedNot, .iAddSpinner {
-                                        padding: 0 !important;
-                                    }
+                                .fa-play{
+                                    margin-top: 10px;
                                 }
 
                                 .rotateIcon {
@@ -248,7 +252,6 @@
                                     }
                                 }
 
-
                                 &.chip {
                                     padding: 1px 10px;
                                     border-radius: 20px;
@@ -283,7 +286,6 @@
                             }
                         }
                     }
-
 
                     .questionFooterIcons {
                         color: #DDDDDD;
