@@ -181,7 +181,6 @@
                                     :has-personal-answer="q.HasPersonalAnswer" 
                                     :is-admin="isAdmin"
                                     :is-question-list-to-show ="isQuestionListToShow"
-                                    
                                     :question-index="index"
                                     :all-questions-count="allQuestionCount"
                                     :active-question ="activeQuestion">

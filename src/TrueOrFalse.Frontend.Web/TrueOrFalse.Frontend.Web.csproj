@@ -9051,6 +9051,7 @@
     <Content Include="Images\Memo.png" />
     <Content Include="Images\memo_liegend_bearbeitet4.png" />
     <Content Include="Images\memo_mit_laptop_ohne_koerper.png" />
+    <Content Include="Images\no-question-128.png" />
     <Content Include="Images\OerAward.png" />
     <Content Include="Images\QuestionSets\100_1000.jpg" />
     <Content Include="Images\QuestionSets\100_1024.jpg" />
@@ -22774,7 +22775,6 @@
     <Content Include="Images\Licenses\publicdomain.png" />
     <Content Include="Images\no-category-picture-206.png" />
     <Content Include="Images\no-category-picture-350.png" />
-    <Content Include="Images\no-question-128.png" />
     <Content Include="Images\no-set-128.png" />
     <Content Include="Images\no-set-206.png" />
     <Content Include="Images\no-set-50.png" />
@@ -24070,7 +24070,7 @@
     <Content Include="Views\Questions\Js\QuestionList\QuestionListComponents.js.map">
       <DependentUpon>QuestionListComponents.ts</DependentUpon>
     </Content>
-	<None Include="Web.overwritten.config.sample" />
+    <None Include="Web.overwritten.config.sample" />
     <Content Include="Views\Welcome\Logout.aspx" />
     <Content Include="Views\Api\Export.aspx" />
     <Content Include="Views\Categories\Categories.aspx" />
