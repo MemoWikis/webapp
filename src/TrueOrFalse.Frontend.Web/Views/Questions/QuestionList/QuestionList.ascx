@@ -194,7 +194,7 @@
                                     </div>
                                     <div class="questionContainerTopSection col-xs-11" >
                                         <div class="questionHeader row">
-                                            <div class="questionTitle col-xs-10" ref="questionTitle" :id="questionTitleId" :class="{ trimTitle : !showFullQuestion }" @click.self="expandQuestion()">{{questionTitle}}</div>
+                                            <div class="questionTitle col-xs-10" ref="questionTitle" :id="questionTitleId" @click.self="expandQuestion()">{{questionTitle}}</div>
                                             <div class="questionHeaderIcons col-xs-2 row"  @click.self="expandQuestion()">
                                                 <div class="iconContainer col-xs-4 float-right" @click="expandQuestion()">
                                                     <i class="fas fa-angle-down rotateIcon" :class="{ open : showFullQuestion }"></i>
