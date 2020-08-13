@@ -85,6 +85,9 @@ namespace TrueOrFalse.View
                 .Include("~/Scripts/npm/sortablejs/Sortable.js")
                 .Include("~/Scripts/npm/vue-sortable/vue-sortable.js"));
 
+            //bundles.Add(new ScriptBundle("~/bundles/js/tiptap")
+            //    .IncludeDirectory("~/Scripts/npm/tiptap/", "*.js", true));
+
             bundles.Add(new ScriptBundle("~/bundles/js/CategoryEditMode")
                 .Include("~/Scripts/npm/vue-textarea-autosize/vue-textarea-autosize.browser.js")
                 .Include("~/Scripts/npm/vue-select/vue-select.js")

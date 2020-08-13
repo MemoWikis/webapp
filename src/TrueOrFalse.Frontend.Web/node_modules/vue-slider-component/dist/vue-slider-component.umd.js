@@ -2,7 +2,7 @@
 	if(typeof exports === 'object' && typeof module === 'object')
 		module.exports = factory(require("vue"));
 	else if(typeof define === 'function' && define.amd)
-		define([], factory);
+		define(["vue"], factory);
 	else if(typeof exports === 'object')
 		exports["vue-slider-component"] = factory(require("vue"));
 	else
@@ -96,86 +96,118 @@ return /******/ (function(modules) { // webpackBootstrap
 /************************************************************************/
 /******/ ({
 
-/***/ "2350":
-/***/ (function(module, exports) {
+/***/ "091b":
+/***/ (function(module, exports, __webpack_require__) {
+
+// Imports
+var ___CSS_LOADER_API_IMPORT___ = __webpack_require__("24fb");
+exports = ___CSS_LOADER_API_IMPORT___(false);
+// Module
+exports.push([module.i, ".vue-slider-dot{position:absolute;-webkit-transition:all 0s;transition:all 0s;z-index:5}.vue-slider-dot:focus{outline:none}.vue-slider-dot-tooltip{position:absolute;visibility:hidden}.vue-slider-dot-hover:hover .vue-slider-dot-tooltip,.vue-slider-dot-tooltip-show{visibility:visible}.vue-slider-dot-tooltip-top{top:-10px;left:50%;-webkit-transform:translate(-50%,-100%);transform:translate(-50%,-100%)}.vue-slider-dot-tooltip-bottom{bottom:-10px;left:50%;-webkit-transform:translate(-50%,100%);transform:translate(-50%,100%)}.vue-slider-dot-tooltip-left{left:-10px;top:50%;-webkit-transform:translate(-100%,-50%);transform:translate(-100%,-50%)}.vue-slider-dot-tooltip-right{right:-10px;top:50%;-webkit-transform:translate(100%,-50%);transform:translate(100%,-50%)}", ""]);
+// Exports
+module.exports = exports;
+
+
+/***/ }),
+
+/***/ "24fb":
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
 
 /*
-	MIT License http://www.opensource.org/licenses/mit-license.php
-	Author Tobias Koppers @sokra
+  MIT License http://www.opensource.org/licenses/mit-license.php
+  Author Tobias Koppers @sokra
 */
 // css base code, injected by the css-loader
-module.exports = function(useSourceMap) {
-	var list = [];
+// eslint-disable-next-line func-names
+module.exports = function (useSourceMap) {
+  var list = []; // return the list of modules as css string
 
-	// return the list of modules as css string
-	list.toString = function toString() {
-		return this.map(function (item) {
-			var content = cssWithMappingToString(item, useSourceMap);
-			if(item[2]) {
-				return "@media " + item[2] + "{" + content + "}";
-			} else {
-				return content;
-			}
-		}).join("");
-	};
+  list.toString = function toString() {
+    return this.map(function (item) {
+      var content = cssWithMappingToString(item, useSourceMap);
 
-	// import a list of modules into the list
-	list.i = function(modules, mediaQuery) {
-		if(typeof modules === "string")
-			modules = [[null, modules, ""]];
-		var alreadyImportedModules = {};
-		for(var i = 0; i < this.length; i++) {
-			var id = this[i][0];
-			if(typeof id === "number")
-				alreadyImportedModules[id] = true;
-		}
-		for(i = 0; i < modules.length; i++) {
-			var item = modules[i];
-			// skip already imported module
-			// this implementation is not 100% perfect for weird media query combinations
-			//  when a module is imported multiple times with different media queries.
-			//  I hope this will never occur (Hey this way we have smaller bundles)
-			if(typeof item[0] !== "number" || !alreadyImportedModules[item[0]]) {
-				if(mediaQuery && !item[2]) {
-					item[2] = mediaQuery;
-				} else if(mediaQuery) {
-					item[2] = "(" + item[2] + ") and (" + mediaQuery + ")";
-				}
-				list.push(item);
-			}
-		}
-	};
-	return list;
+      if (item[2]) {
+        return "@media ".concat(item[2], " {").concat(content, "}");
+      }
+
+      return content;
+    }).join('');
+  }; // import a list of modules into the list
+  // eslint-disable-next-line func-names
+
+
+  list.i = function (modules, mediaQuery, dedupe) {
+    if (typeof modules === 'string') {
+      // eslint-disable-next-line no-param-reassign
+      modules = [[null, modules, '']];
+    }
+
+    var alreadyImportedModules = {};
+
+    if (dedupe) {
+      for (var i = 0; i < this.length; i++) {
+        // eslint-disable-next-line prefer-destructuring
+        var id = this[i][0];
+
+        if (id != null) {
+          alreadyImportedModules[id] = true;
+        }
+      }
+    }
+
+    for (var _i = 0; _i < modules.length; _i++) {
+      var item = [].concat(modules[_i]);
+
+      if (dedupe && alreadyImportedModules[item[0]]) {
+        // eslint-disable-next-line no-continue
+        continue;
+      }
+
+      if (mediaQuery) {
+        if (!item[2]) {
+          item[2] = mediaQuery;
+        } else {
+          item[2] = "".concat(mediaQuery, " and ").concat(item[2]);
+        }
+      }
+
+      list.push(item);
+    }
+  };
+
+  return list;
 };
 
 function cssWithMappingToString(item, useSourceMap) {
-	var content = item[1] || '';
-	var cssMapping = item[3];
-	if (!cssMapping) {
-		return content;
-	}
+  var content = item[1] || ''; // eslint-disable-next-line prefer-destructuring
 
-	if (useSourceMap && typeof btoa === 'function') {
-		var sourceMapping = toComment(cssMapping);
-		var sourceURLs = cssMapping.sources.map(function (source) {
-			return '/*# sourceURL=' + cssMapping.sourceRoot + source + ' */'
-		});
+  var cssMapping = item[3];
 
-		return [content].concat(sourceURLs).concat([sourceMapping]).join('\n');
-	}
+  if (!cssMapping) {
+    return content;
+  }
 
-	return [content].join('\n');
-}
+  if (useSourceMap && typeof btoa === 'function') {
+    var sourceMapping = toComment(cssMapping);
+    var sourceURLs = cssMapping.sources.map(function (source) {
+      return "/*# sourceURL=".concat(cssMapping.sourceRoot || '').concat(source, " */");
+    });
+    return [content].concat(sourceURLs).concat([sourceMapping]).join('\n');
+  }
 
-// Adapted from convert-source-map (MIT)
+  return [content].join('\n');
+} // Adapted from convert-source-map (MIT)
+
+
 function toComment(sourceMap) {
-	// eslint-disable-next-line no-undef
-	var base64 = btoa(unescape(encodeURIComponent(JSON.stringify(sourceMap))));
-	var data = 'sourceMappingURL=data:application/json;charset=utf-8;base64,' + base64;
-
-	return '/*# ' + data + ' */';
+  // eslint-disable-next-line no-undef
+  var base64 = btoa(unescape(encodeURIComponent(JSON.stringify(sourceMap))));
+  var data = "sourceMappingURL=data:application/json;charset=utf-8;base64,".concat(base64);
+  return "/*# ".concat(data, " */");
 }
-
 
 /***/ }),
 
@@ -192,7 +224,11 @@ function _extends(){return _extends=Object.assign||function(a){for(var b,c=1;c<a
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
+// ESM COMPAT FLAG
 __webpack_require__.r(__webpack_exports__);
+
+// EXPORTS
+__webpack_require__.d(__webpack_exports__, "default", function() { return /* binding */ addStylesClient; });
 
 // CONCATENATED MODULE: ./node_modules/vue-style-loader/lib/listToStyles.js
 /**
@@ -224,7 +260,6 @@ function listToStyles (parentId, list) {
 }
 
 // CONCATENATED MODULE: ./node_modules/vue-style-loader/lib/addStylesClient.js
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return addStylesClient; });
 /*
   MIT License http://www.opensource.org/licenses/mit-license.php
   Author Tobias Koppers @sokra
@@ -457,12 +492,12 @@ function applyToTag (styleElement, obj) {
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__("df80");
+var content = __webpack_require__("7a57");
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
 var add = __webpack_require__("499e").default
-var update = add("3e7284f8", content, true, {"sourceMap":false,"shadowMode":false});
+var update = add("b2af7572", content, true, {"sourceMap":false,"shadowMode":false});
 
 /***/ }),
 
@@ -472,12 +507,12 @@ var update = add("3e7284f8", content, true, {"sourceMap":false,"shadowMode":fals
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__("ae61");
+var content = __webpack_require__("091b");
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
 var add = __webpack_require__("499e").default
-var update = add("57c2b2f0", content, true, {"sourceMap":false,"shadowMode":false});
+var update = add("2f6bee1a", content, true, {"sourceMap":false,"shadowMode":false});
 
 /***/ }),
 
@@ -487,12 +522,12 @@ var update = add("57c2b2f0", content, true, {"sourceMap":false,"shadowMode":fals
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__("d5ac");
+var content = __webpack_require__("eef2");
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
 var add = __webpack_require__("499e").default
-var update = add("f3ffc7f8", content, true, {"sourceMap":false,"shadowMode":false});
+var update = add("1209fd47", content, true, {"sourceMap":false,"shadowMode":false});
 
 /***/ }),
 
@@ -767,6 +802,98 @@ exports.mixins = mixins;
 
 /***/ }),
 
+/***/ "7a57":
+/***/ (function(module, exports, __webpack_require__) {
+
+// Imports
+var ___CSS_LOADER_API_IMPORT___ = __webpack_require__("24fb");
+exports = ___CSS_LOADER_API_IMPORT___(false);
+// Module
+exports.push([module.i, ".vue-slider{position:relative;-webkit-box-sizing:content-box;box-sizing:content-box;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none;display:block;-webkit-tap-highlight-color:rgba(0,0,0,0)}.vue-slider-rail{position:relative;width:100%;height:100%;-webkit-transition-property:width,height,left,right,top,bottom;transition-property:width,height,left,right,top,bottom}.vue-slider-process{position:absolute;z-index:1}", ""]);
+// Exports
+module.exports = exports;
+
+
+/***/ }),
+
+/***/ "8875":
+/***/ (function(module, exports, __webpack_require__) {
+
+var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;// addapted from the document.currentScript polyfill by Adam Miller
+// MIT license
+// source: https://github.com/amiller-gh/currentScript-polyfill
+
+// added support for Firefox https://bugzilla.mozilla.org/show_bug.cgi?id=1620505
+
+(function (root, factory) {
+  if (true) {
+    !(__WEBPACK_AMD_DEFINE_ARRAY__ = [], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory),
+				__WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ?
+				(__WEBPACK_AMD_DEFINE_FACTORY__.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__)) : __WEBPACK_AMD_DEFINE_FACTORY__),
+				__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
+  } else {}
+}(typeof self !== 'undefined' ? self : this, function () {
+  function getCurrentScript () {
+    if (document.currentScript) {
+      return document.currentScript
+    }
+  
+    // IE 8-10 support script readyState
+    // IE 11+ & Firefox support stack trace
+    try {
+      throw new Error();
+    }
+    catch (err) {
+      // Find the second match for the "at" string to get file src url from stack.
+      var ieStackRegExp = /.*at [^(]*\((.*):(.+):(.+)\)$/ig,
+        ffStackRegExp = /@([^@]*):(\d+):(\d+)\s*$/ig,
+        stackDetails = ieStackRegExp.exec(err.stack) || ffStackRegExp.exec(err.stack),
+        scriptLocation = (stackDetails && stackDetails[1]) || false,
+        line = (stackDetails && stackDetails[2]) || false,
+        currentLocation = document.location.href.replace(document.location.hash, ''),
+        pageSource,
+        inlineScriptSourceRegExp,
+        inlineScriptSource,
+        scripts = document.getElementsByTagName('script'); // Live NodeList collection
+  
+      if (scriptLocation === currentLocation) {
+        pageSource = document.documentElement.outerHTML;
+        inlineScriptSourceRegExp = new RegExp('(?:[^\\n]+?\\n){0,' + (line - 2) + '}[^<]*<script>([\\d\\D]*?)<\\/script>[\\d\\D]*', 'i');
+        inlineScriptSource = pageSource.replace(inlineScriptSourceRegExp, '$1').trim();
+      }
+  
+      for (var i = 0; i < scripts.length; i++) {
+        // If ready state is interactive, return the script tag
+        if (scripts[i].readyState === 'interactive') {
+          return scripts[i];
+        }
+  
+        // If src matches, return the script tag
+        if (scripts[i].src === scriptLocation) {
+          return scripts[i];
+        }
+  
+        // If inline source matches, return the script tag
+        if (
+          scriptLocation === currentLocation &&
+          scripts[i].innerHTML &&
+          scripts[i].innerHTML.trim() === inlineScriptSource
+        ) {
+          return scripts[i];
+        }
+      }
+  
+      // If no match, return null
+      return null;
+    }
+  };
+
+  return getCurrentScript
+}));
+
+
+/***/ }),
+
 /***/ "8bbf":
 /***/ (function(module, exports) {
 
@@ -774,47 +901,16 @@ module.exports = __WEBPACK_EXTERNAL_MODULE__8bbf__;
 
 /***/ }),
 
-/***/ "ae61":
+/***/ "eef2":
 /***/ (function(module, exports, __webpack_require__) {
 
-exports = module.exports = __webpack_require__("2350")(false);
-// imports
-
-
-// module
-exports.push([module.i, ".vue-slider-dot{position:absolute;will-change:transform;-webkit-transition:all 0s;transition:all 0s;z-index:5}.vue-slider-dot-tooltip{position:absolute;visibility:hidden}.vue-slider-dot-tooltip-show{visibility:visible}.vue-slider-dot-tooltip-top{top:-10px;left:50%;-webkit-transform:translate(-50%,-100%);transform:translate(-50%,-100%)}.vue-slider-dot-tooltip-bottom{bottom:-10px;left:50%;-webkit-transform:translate(-50%,100%);transform:translate(-50%,100%)}.vue-slider-dot-tooltip-left{left:-10px;top:50%;-webkit-transform:translate(-100%,-50%);transform:translate(-100%,-50%)}.vue-slider-dot-tooltip-right{right:-10px;top:50%;-webkit-transform:translate(100%,-50%);transform:translate(100%,-50%)}", ""]);
-
-// exports
-
-
-/***/ }),
-
-/***/ "d5ac":
-/***/ (function(module, exports, __webpack_require__) {
-
-exports = module.exports = __webpack_require__("2350")(false);
-// imports
-
-
-// module
+// Imports
+var ___CSS_LOADER_API_IMPORT___ = __webpack_require__("24fb");
+exports = ___CSS_LOADER_API_IMPORT___(false);
+// Module
 exports.push([module.i, ".vue-slider-marks{position:relative;width:100%;height:100%}.vue-slider-mark{position:absolute;z-index:1}.vue-slider-ltr .vue-slider-mark,.vue-slider-rtl .vue-slider-mark{width:0;height:100%;top:50%}.vue-slider-ltr .vue-slider-mark-step,.vue-slider-rtl .vue-slider-mark-step{top:0}.vue-slider-ltr .vue-slider-mark-label,.vue-slider-rtl .vue-slider-mark-label{top:100%;margin-top:10px}.vue-slider-ltr .vue-slider-mark{-webkit-transform:translate(-50%,-50%);transform:translate(-50%,-50%)}.vue-slider-ltr .vue-slider-mark-step{left:0}.vue-slider-ltr .vue-slider-mark-label{left:50%;-webkit-transform:translateX(-50%);transform:translateX(-50%)}.vue-slider-rtl .vue-slider-mark{-webkit-transform:translate(50%,-50%);transform:translate(50%,-50%)}.vue-slider-rtl .vue-slider-mark-step{right:0}.vue-slider-rtl .vue-slider-mark-label{right:50%;-webkit-transform:translateX(50%);transform:translateX(50%)}.vue-slider-btt .vue-slider-mark,.vue-slider-ttb .vue-slider-mark{width:100%;height:0;left:50%}.vue-slider-btt .vue-slider-mark-step,.vue-slider-ttb .vue-slider-mark-step{left:0}.vue-slider-btt .vue-slider-mark-label,.vue-slider-ttb .vue-slider-mark-label{left:100%;margin-left:10px}.vue-slider-btt .vue-slider-mark{-webkit-transform:translate(-50%,50%);transform:translate(-50%,50%)}.vue-slider-btt .vue-slider-mark-step{top:0}.vue-slider-btt .vue-slider-mark-label{top:50%;-webkit-transform:translateY(-50%);transform:translateY(-50%)}.vue-slider-ttb .vue-slider-mark{-webkit-transform:translate(-50%,-50%);transform:translate(-50%,-50%)}.vue-slider-ttb .vue-slider-mark-step{bottom:0}.vue-slider-ttb .vue-slider-mark-label{bottom:50%;-webkit-transform:translateY(50%);transform:translateY(50%)}.vue-slider-mark-label,.vue-slider-mark-step{position:absolute}", ""]);
-
-// exports
-
-
-/***/ }),
-
-/***/ "df80":
-/***/ (function(module, exports, __webpack_require__) {
-
-exports = module.exports = __webpack_require__("2350")(false);
-// imports
-
-
-// module
-exports.push([module.i, ".vue-slider{position:relative;-webkit-box-sizing:content-box;box-sizing:content-box;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none;display:block;-webkit-tap-highlight-color:rgba(0,0,0,0)}.vue-slider-rail{position:relative;width:100%;height:100%;-webkit-transition-property:width,height,left,right,top,bottom;transition-property:width,height,left,right,top,bottom}.vue-slider-process{position:absolute;z-index:1}", ""]);
-
-// exports
+// Exports
+module.exports = exports;
 
 
 /***/ }),
@@ -823,15 +919,32 @@ exports.push([module.i, ".vue-slider{position:relative;-webkit-box-sizing:conten
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
+// ESM COMPAT FLAG
 __webpack_require__.r(__webpack_exports__);
+
+// EXPORTS
+__webpack_require__.d(__webpack_exports__, "ERROR_TYPE", function() { return /* reexport */ ERROR_TYPE; });
+__webpack_require__.d(__webpack_exports__, "VueSliderMark", function() { return /* reexport */ vue_slider_mark; });
+__webpack_require__.d(__webpack_exports__, "VueSliderDot", function() { return /* reexport */ vue_slider_dot; });
 
 // CONCATENATED MODULE: ./node_modules/@vue/cli-service/lib/commands/build/setPublicPath.js
 // This file is imported into lib/wc client bundles.
 
 if (typeof window !== 'undefined') {
-  var setPublicPath_i
-  if ((setPublicPath_i = window.document.currentScript) && (setPublicPath_i = setPublicPath_i.src.match(/(.+\/)[^/]+\.js(\?.*)?$/))) {
-    __webpack_require__.p = setPublicPath_i[1] // eslint-disable-line
+  var currentScript = window.document.currentScript
+  if (true) {
+    var getCurrentScript = __webpack_require__("8875")
+    currentScript = getCurrentScript()
+
+    // for backward compatibility, because previously we directly included the polyfill
+    if (!('currentScript' in document)) {
+      Object.defineProperty(document, 'currentScript', { get: getCurrentScript })
+    }
+  }
+
+  var src = currentScript && currentScript.src.match(/(.+\/)[^/]+\.js(\?.*)?$/)
+  if (src) {
+    __webpack_require__.p = src[1] // eslint-disable-line
   }
 }
 
@@ -1030,9 +1143,9 @@ function __importDefault(mod) {
     return (mod && mod.__esModule) ? mod : { default: mod };
 }
 
-// EXTERNAL MODULE: external {"commonjs":"vue","commonjs2":"vue","root":"Vue"}
-var external_commonjs_vue_commonjs2_vue_root_Vue_ = __webpack_require__("8bbf");
-var external_commonjs_vue_commonjs2_vue_root_Vue_default = /*#__PURE__*/__webpack_require__.n(external_commonjs_vue_commonjs2_vue_root_Vue_);
+// EXTERNAL MODULE: external {"commonjs":"vue","commonjs2":"vue","root":"Vue","amd":"vue"}
+var external_commonjs_vue_commonjs2_vue_root_Vue_amd_vue_ = __webpack_require__("8bbf");
+var external_commonjs_vue_commonjs2_vue_root_Vue_amd_vue_default = /*#__PURE__*/__webpack_require__.n(external_commonjs_vue_commonjs2_vue_root_Vue_amd_vue_);
 
 // EXTERNAL MODULE: ./node_modules/vue-class-component/dist/vue-class-component.common.js
 var vue_class_component_common = __webpack_require__("65d9");
@@ -1170,7 +1283,7 @@ function isPromise(obj) {
 var dot = __webpack_require__("4ed8");
 
 // CONCATENATED MODULE: ./lib/vue-slider-dot.tsx
-function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -1178,163 +1291,178 @@ function _defineProperties(target, props) { for (var i = 0; i < props.length; i+
 
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
 
-function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
-
-function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
-
-function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
-
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
 
+function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
 
 
 
 
-var VueSliderDot =
-/*#__PURE__*/
-function (_Vue) {
-  _inherits(VueSliderDot, _Vue);
 
-  function VueSliderDot() {
-    _classCallCheck(this, VueSliderDot);
+var vue_slider_dot_VueSliderDot =
+/** @class */
+function () {
+  var VueSliderDot = /*#__PURE__*/function (_Vue) {
+    _inherits(VueSliderDot, _Vue);
 
-    return _possibleConstructorReturn(this, _getPrototypeOf(VueSliderDot).apply(this, arguments));
-  }
+    var _super = _createSuper(VueSliderDot);
 
-  _createClass(VueSliderDot, [{
-    key: "dragStart",
-    value: function dragStart(e) {
-      if (this.disabled) {
-        return false;
-      }
+    function VueSliderDot() {
+      _classCallCheck(this, VueSliderDot);
 
-      this.$emit('drag-start');
+      return _super.apply(this, arguments);
     }
-  }, {
-    key: "render",
-    value: function render() {
-      var h = arguments[0];
-      return h("div", {
-        "ref": "dot",
-        "class": this.dotClasses,
-        "on": {
-          "mousedown": this.dragStart,
-          "touchstart": this.dragStart
+
+    _createClass(VueSliderDot, [{
+      key: "dragStart",
+      value: function dragStart(e) {
+        if (this.disabled) {
+          return false;
         }
-      }, [this.$slots.dot || h("div", {
-        "class": this.handleClasses,
-        "style": this.dotStyle
-      }), this.tooltip !== 'none' ? h("div", {
-        "class": this.tooltipClasses
-      }, [this.$slots.tooltip || h("div", {
-        "class": this.tooltipInnerClasses,
-        "style": this.tooltipStyle
-      }, [h("span", {
-        "class": 'vue-slider-dot-tooltip-text'
-      }, [this.tooltipValue])])]) : null]);
-    }
-  }, {
-    key: "dotClasses",
-    get: function get() {
-      return ['vue-slider-dot', {
-        'vue-slider-dot-disabled': this.disabled,
-        'vue-slider-dot-focus': this.focus
-      }];
-    }
-  }, {
-    key: "handleClasses",
-    get: function get() {
-      return ['vue-slider-dot-handle', {
-        'vue-slider-dot-handle-disabled': this.disabled,
-        'vue-slider-dot-handle-focus': this.focus
-      }];
-    }
-  }, {
-    key: "tooltipClasses",
-    get: function get() {
-      return ['vue-slider-dot-tooltip', ["vue-slider-dot-tooltip-".concat(this.tooltipPlacement)], {
-        'vue-slider-dot-tooltip-show': this.showTooltip
-      }];
-    }
-  }, {
-    key: "tooltipInnerClasses",
-    get: function get() {
-      return ['vue-slider-dot-tooltip-inner', ["vue-slider-dot-tooltip-inner-".concat(this.tooltipPlacement)], {
-        'vue-slider-dot-tooltip-inner-disabled': this.disabled,
-        'vue-slider-dot-tooltip-inner-focus': this.focus
-      }];
-    }
-  }, {
-    key: "showTooltip",
-    get: function get() {
-      switch (this.tooltip) {
-        case 'always':
-          return true;
 
-        case 'none':
-          return false;
-
-        case 'focus':
-          return !!this.focus;
-
-        default:
-          return false;
+        this.$emit('drag-start');
       }
-    }
-  }, {
-    key: "tooltipValue",
-    get: function get() {
-      if (this.tooltipFormatter) {
-        return typeof this.tooltipFormatter === 'string' ? this.tooltipFormatter.replace(/\{value\}/, String(this.value)) : this.tooltipFormatter(this.value);
-      } else {
-        return this.value;
+    }, {
+      key: "render",
+      value: function render() {
+        var h = arguments[0];
+        return h("div", {
+          "ref": "dot",
+          "class": this.dotClasses,
+          "attrs": {
+            "aria-valuetext": this.tooltipValue
+          },
+          "on": {
+            "mousedown": this.dragStart,
+            "touchstart": this.dragStart
+          }
+        }, [this.$slots.dot || h("div", {
+          "class": this.handleClasses,
+          "style": this.dotStyle
+        }), this.tooltip !== 'none' ? h("div", {
+          "class": this.tooltipClasses
+        }, [this.$slots.tooltip || h("div", {
+          "class": this.tooltipInnerClasses,
+          "style": this.tooltipStyle
+        }, [h("span", {
+          "class": 'vue-slider-dot-tooltip-text'
+        }, [this.tooltipValue])])]) : null]);
       }
-    }
-  }]);
+    }, {
+      key: "dotClasses",
+      get: function get() {
+        return ['vue-slider-dot', {
+          'vue-slider-dot-hover': this.tooltip === 'hover' || this.tooltip === 'active',
+          'vue-slider-dot-disabled': this.disabled,
+          'vue-slider-dot-focus': this.focus
+        }];
+      }
+    }, {
+      key: "handleClasses",
+      get: function get() {
+        return ['vue-slider-dot-handle', {
+          'vue-slider-dot-handle-disabled': this.disabled,
+          'vue-slider-dot-handle-focus': this.focus
+        }];
+      }
+    }, {
+      key: "tooltipClasses",
+      get: function get() {
+        return ['vue-slider-dot-tooltip', ["vue-slider-dot-tooltip-".concat(this.tooltipPlacement)], {
+          'vue-slider-dot-tooltip-show': this.showTooltip
+        }];
+      }
+    }, {
+      key: "tooltipInnerClasses",
+      get: function get() {
+        return ['vue-slider-dot-tooltip-inner', ["vue-slider-dot-tooltip-inner-".concat(this.tooltipPlacement)], {
+          'vue-slider-dot-tooltip-inner-disabled': this.disabled,
+          'vue-slider-dot-tooltip-inner-focus': this.focus
+        }];
+      }
+    }, {
+      key: "showTooltip",
+      get: function get() {
+        switch (this.tooltip) {
+          case 'always':
+            return true;
 
+          case 'none':
+            return false;
+
+          case 'focus':
+          case 'active':
+            return !!this.focus;
+
+          default:
+            return false;
+        }
+      }
+    }, {
+      key: "tooltipValue",
+      get: function get() {
+        if (this.tooltipFormatter) {
+          return typeof this.tooltipFormatter === 'string' ? this.tooltipFormatter.replace(/\{value\}/, String(this.value)) : this.tooltipFormatter(this.value);
+        } else {
+          return this.value;
+        }
+      }
+    }]);
+
+    return VueSliderDot;
+  }(external_commonjs_vue_commonjs2_vue_root_Vue_amd_vue_default.a);
+
+  __decorate([Prop({
+    default: 0
+  })], VueSliderDot.prototype, "value", void 0);
+
+  __decorate([Prop()], VueSliderDot.prototype, "tooltip", void 0);
+
+  __decorate([Prop()], VueSliderDot.prototype, "dotStyle", void 0);
+
+  __decorate([Prop()], VueSliderDot.prototype, "tooltipStyle", void 0);
+
+  __decorate([Prop({
+    type: String,
+    validator: function validator(val) {
+      return ['top', 'right', 'bottom', 'left'].indexOf(val) > -1;
+    },
+    required: true
+  })], VueSliderDot.prototype, "tooltipPlacement", void 0);
+
+  __decorate([Prop({
+    type: [String, Function]
+  })], VueSliderDot.prototype, "tooltipFormatter", void 0);
+
+  __decorate([Prop({
+    type: Boolean,
+    default: false
+  })], VueSliderDot.prototype, "focus", void 0);
+
+  __decorate([Prop({
+    default: false
+  })], VueSliderDot.prototype, "disabled", void 0);
+
+  VueSliderDot = __decorate([vue_class_component_common_default.a], VueSliderDot);
   return VueSliderDot;
-}(external_commonjs_vue_commonjs2_vue_root_Vue_default.a);
+}();
 
-__decorate([Prop({
-  default: 0
-})], VueSliderDot.prototype, "value", void 0);
-
-__decorate([Prop()], VueSliderDot.prototype, "tooltip", void 0);
-
-__decorate([Prop()], VueSliderDot.prototype, "dotStyle", void 0);
-
-__decorate([Prop()], VueSliderDot.prototype, "tooltipStyle", void 0);
-
-__decorate([Prop({
-  type: String,
-  validator: function validator(val) {
-    return ['top', 'right', 'bottom', 'left'].indexOf(val) > -1;
-  },
-  required: true
-})], VueSliderDot.prototype, "tooltipPlacement", void 0);
-
-__decorate([Prop({
-  type: [String, Function]
-})], VueSliderDot.prototype, "tooltipFormatter", void 0);
-
-__decorate([Prop({
-  type: Boolean,
-  default: false
-})], VueSliderDot.prototype, "focus", void 0);
-
-__decorate([Prop({
-  default: false
-})], VueSliderDot.prototype, "disabled", void 0);
-
-VueSliderDot = __decorate([vue_class_component_common_default.a], VueSliderDot);
-/* harmony default export */ var vue_slider_dot = (VueSliderDot);
+/* harmony default export */ var vue_slider_dot = (vue_slider_dot_VueSliderDot);
 // EXTERNAL MODULE: ./lib/styles/mark.scss
 var mark = __webpack_require__("556c");
 
 // CONCATENATED MODULE: ./lib/vue-slider-mark.tsx
-function vue_slider_mark_typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { vue_slider_mark_typeof = function _typeof(obj) { return typeof obj; }; } else { vue_slider_mark_typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return vue_slider_mark_typeof(obj); }
+function vue_slider_mark_typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { vue_slider_mark_typeof = function _typeof(obj) { return typeof obj; }; } else { vue_slider_mark_typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return vue_slider_mark_typeof(obj); }
 
 function vue_slider_mark_classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -1342,97 +1470,107 @@ function vue_slider_mark_defineProperties(target, props) { for (var i = 0; i < p
 
 function vue_slider_mark_createClass(Constructor, protoProps, staticProps) { if (protoProps) vue_slider_mark_defineProperties(Constructor.prototype, protoProps); if (staticProps) vue_slider_mark_defineProperties(Constructor, staticProps); return Constructor; }
 
-function vue_slider_mark_possibleConstructorReturn(self, call) { if (call && (vue_slider_mark_typeof(call) === "object" || typeof call === "function")) { return call; } return vue_slider_mark_assertThisInitialized(self); }
-
-function vue_slider_mark_assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
-
-function vue_slider_mark_getPrototypeOf(o) { vue_slider_mark_getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return vue_slider_mark_getPrototypeOf(o); }
-
 function vue_slider_mark_inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) vue_slider_mark_setPrototypeOf(subClass, superClass); }
 
 function vue_slider_mark_setPrototypeOf(o, p) { vue_slider_mark_setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return vue_slider_mark_setPrototypeOf(o, p); }
 
+function vue_slider_mark_createSuper(Derived) { var hasNativeReflectConstruct = vue_slider_mark_isNativeReflectConstruct(); return function _createSuperInternal() { var Super = vue_slider_mark_getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = vue_slider_mark_getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return vue_slider_mark_possibleConstructorReturn(this, result); }; }
+
+function vue_slider_mark_possibleConstructorReturn(self, call) { if (call && (vue_slider_mark_typeof(call) === "object" || typeof call === "function")) { return call; } return vue_slider_mark_assertThisInitialized(self); }
+
+function vue_slider_mark_assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function vue_slider_mark_isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
+
+function vue_slider_mark_getPrototypeOf(o) { vue_slider_mark_getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return vue_slider_mark_getPrototypeOf(o); }
 
 
 
 
-var VueSlideMark =
-/*#__PURE__*/
-function (_Vue) {
-  vue_slider_mark_inherits(VueSlideMark, _Vue);
 
-  function VueSlideMark() {
-    vue_slider_mark_classCallCheck(this, VueSlideMark);
+var vue_slider_mark_VueSlideMark =
+/** @class */
+function () {
+  var VueSlideMark = /*#__PURE__*/function (_Vue) {
+    vue_slider_mark_inherits(VueSlideMark, _Vue);
 
-    return vue_slider_mark_possibleConstructorReturn(this, vue_slider_mark_getPrototypeOf(VueSlideMark).apply(this, arguments));
-  }
+    var _super = vue_slider_mark_createSuper(VueSlideMark);
 
-  vue_slider_mark_createClass(VueSlideMark, [{
-    key: "labelClickHandle",
-    value: function labelClickHandle(e) {
-      e.stopPropagation();
-      this.$emit('pressLabel', this.mark.pos);
+    function VueSlideMark() {
+      vue_slider_mark_classCallCheck(this, VueSlideMark);
+
+      return _super.apply(this, arguments);
     }
-  }, {
-    key: "render",
-    value: function render() {
-      var h = arguments[0];
-      var mark = this.mark;
-      return h("div", {
-        "class": this.marksClasses
-      }, [this.$slots.step || h("div", {
-        "class": this.stepClasses,
-        "style": [this.stepStyle, mark.style, mark.active ? this.stepActiveStyle : null, mark.active ? mark.activeStyle : null]
-      }), !this.hideLabel ? this.$slots.label || h("div", {
-        "class": this.labelClasses,
-        "style": [this.labelStyle, mark.labelStyle, mark.active ? this.labelActiveStyle : null, mark.active ? mark.labelActiveStyle : null],
-        "on": {
-          "click": this.labelClickHandle
-        }
-      }, [mark.label]) : null]);
-    }
-  }, {
-    key: "marksClasses",
-    get: function get() {
-      return ['vue-slider-mark', {
-        'vue-slider-mark-active': this.mark.active
-      }];
-    }
-  }, {
-    key: "stepClasses",
-    get: function get() {
-      return ['vue-slider-mark-step', {
-        'vue-slider-mark-step-active': this.mark.active
-      }];
-    }
-  }, {
-    key: "labelClasses",
-    get: function get() {
-      return ['vue-slider-mark-label', {
-        'vue-slider-mark-label-active': this.mark.active
-      }];
-    }
-  }]);
 
+    vue_slider_mark_createClass(VueSlideMark, [{
+      key: "labelClickHandle",
+      value: function labelClickHandle(e) {
+        e.stopPropagation();
+        this.$emit('pressLabel', this.mark.pos);
+      }
+    }, {
+      key: "render",
+      value: function render() {
+        var h = arguments[0];
+        var mark = this.mark;
+        return h("div", {
+          "class": this.marksClasses
+        }, [this.$slots.step || h("div", {
+          "class": this.stepClasses,
+          "style": [this.stepStyle, mark.style, mark.active ? this.stepActiveStyle : null, mark.active ? mark.activeStyle : null]
+        }), !this.hideLabel ? this.$slots.label || h("div", {
+          "class": this.labelClasses,
+          "style": [this.labelStyle, mark.labelStyle, mark.active ? this.labelActiveStyle : null, mark.active ? mark.labelActiveStyle : null],
+          "on": {
+            "click": this.labelClickHandle
+          }
+        }, [mark.label]) : null]);
+      }
+    }, {
+      key: "marksClasses",
+      get: function get() {
+        return ['vue-slider-mark', {
+          'vue-slider-mark-active': this.mark.active
+        }];
+      }
+    }, {
+      key: "stepClasses",
+      get: function get() {
+        return ['vue-slider-mark-step', {
+          'vue-slider-mark-step-active': this.mark.active
+        }];
+      }
+    }, {
+      key: "labelClasses",
+      get: function get() {
+        return ['vue-slider-mark-label', {
+          'vue-slider-mark-label-active': this.mark.active
+        }];
+      }
+    }]);
+
+    return VueSlideMark;
+  }(external_commonjs_vue_commonjs2_vue_root_Vue_amd_vue_default.a);
+
+  __decorate([Prop({
+    required: true
+  })], VueSlideMark.prototype, "mark", void 0);
+
+  __decorate([Prop(Boolean)], VueSlideMark.prototype, "hideLabel", void 0);
+
+  __decorate([Prop()], VueSlideMark.prototype, "stepStyle", void 0);
+
+  __decorate([Prop()], VueSlideMark.prototype, "stepActiveStyle", void 0);
+
+  __decorate([Prop()], VueSlideMark.prototype, "labelStyle", void 0);
+
+  __decorate([Prop()], VueSlideMark.prototype, "labelActiveStyle", void 0);
+
+  VueSlideMark = __decorate([vue_class_component_common_default.a], VueSlideMark);
   return VueSlideMark;
-}(external_commonjs_vue_commonjs2_vue_root_Vue_default.a);
+}();
 
-__decorate([Prop({
-  required: true
-})], VueSlideMark.prototype, "mark", void 0);
-
-__decorate([Prop(Boolean)], VueSlideMark.prototype, "hideLabel", void 0);
-
-__decorate([Prop()], VueSlideMark.prototype, "stepStyle", void 0);
-
-__decorate([Prop()], VueSlideMark.prototype, "stepActiveStyle", void 0);
-
-__decorate([Prop()], VueSlideMark.prototype, "labelStyle", void 0);
-
-__decorate([Prop()], VueSlideMark.prototype, "labelActiveStyle", void 0);
-
-VueSlideMark = __decorate([vue_class_component_common_default.a], VueSlideMark);
-/* harmony default export */ var vue_slider_mark = (VueSlideMark);
+/* harmony default export */ var vue_slider_mark = (vue_slider_mark_VueSlideMark);
 // CONCATENATED MODULE: ./lib/utils/index.ts
 var getSize = function getSize(value) {
   return typeof value === 'number' ? "".concat(value, "px") : value;
@@ -1546,9 +1684,7 @@ function decimal_createClass(Constructor, protoProps, staticProps) { if (protoPr
  * @export
  * @class Decimal
  */
-var Decimal =
-/*#__PURE__*/
-function () {
+var Decimal = /*#__PURE__*/function () {
   function Decimal(num) {
     decimal_classCallCheck(this, Decimal);
 
@@ -1624,7 +1760,8 @@ function () {
   }, {
     key: "getDecimalLen",
     value: function getDecimalLen(num) {
-      return ("".concat(num).split('.')[1] || '').length;
+      var strArr = "".concat(num).split('e');
+      return ("".concat(strArr[0]).split('.')[1] || '').length - (strArr[1] ? +strArr[1] : 0);
     }
   }, {
     key: "getExponent",
@@ -1646,23 +1783,29 @@ function () {
 // CONCATENATED MODULE: ./lib/utils/control.ts
 var _ERROR_MSG;
 
-function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; var ownKeys = Object.keys(source); if (typeof Object.getOwnPropertySymbols === 'function') { ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) { return Object.getOwnPropertyDescriptor(source, sym).enumerable; })); } ownKeys.forEach(function (key) { _defineProperty(target, key, source[key]); }); } return target; }
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
 
-function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _nonIterableRest(); }
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
 
-function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance"); }
+function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
 
-function _iterableToArrayLimit(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _iterableToArrayLimit(arr, i) { if (typeof Symbol === "undefined" || !(Symbol.iterator in Object(arr))) return; var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
 
 function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
-function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _nonIterableSpread(); }
+function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
 
-function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance"); }
+function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
 
-function _iterableToArray(iter) { if (Symbol.iterator in Object(iter) || Object.prototype.toString.call(iter) === "[object Arguments]") return Array.from(iter); }
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
 
-function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = new Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } }
+function _iterableToArray(iter) { if (typeof Symbol !== "undefined" && Symbol.iterator in Object(iter)) return Array.from(iter); }
+
+function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) return _arrayLikeToArray(arr); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
 
 function control_classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -1683,7 +1826,7 @@ var ERROR_TYPE;
   ERROR_TYPE[ERROR_TYPE["ORDER"] = 5] = "ORDER";
 })(ERROR_TYPE || (ERROR_TYPE = {}));
 
-var ERROR_MSG = (_ERROR_MSG = {}, _defineProperty(_ERROR_MSG, ERROR_TYPE.VALUE, 'The type of the "value" is illegal'), _defineProperty(_ERROR_MSG, ERROR_TYPE.INTERVAL, 'The prop "interval" is invalid, "(max - min)" cannot be divisible by "interval"'), _defineProperty(_ERROR_MSG, ERROR_TYPE.MIN, 'The "value" cannot be less than the minimum.'), _defineProperty(_ERROR_MSG, ERROR_TYPE.MAX, 'The "value" cannot be greater than the maximum.'), _defineProperty(_ERROR_MSG, ERROR_TYPE.ORDER, 'When "order" is false, the parameters "minRange", "maxRange", "fixed", "enabled" are invalid.'), _ERROR_MSG);
+var ERROR_MSG = (_ERROR_MSG = {}, _defineProperty(_ERROR_MSG, ERROR_TYPE.VALUE, 'The type of the "value" is illegal'), _defineProperty(_ERROR_MSG, ERROR_TYPE.INTERVAL, 'The prop "interval" is invalid, "(max - min)" must be divisible by "interval"'), _defineProperty(_ERROR_MSG, ERROR_TYPE.MIN, 'The "value" must be greater than or equal to the "min".'), _defineProperty(_ERROR_MSG, ERROR_TYPE.MAX, 'The "value" must be less than or equal to the "max".'), _defineProperty(_ERROR_MSG, ERROR_TYPE.ORDER, 'When "order" is false, the parameters "minRange", "maxRange", "fixed", "enabled" are invalid.'), _ERROR_MSG);
 /**
  * Slider logic control center
  *
@@ -1691,9 +1834,7 @@ var ERROR_MSG = (_ERROR_MSG = {}, _defineProperty(_ERROR_MSG, ERROR_TYPE.VALUE, 
  * @class Control
  */
 
-var control_Control =
-/*#__PURE__*/
-function () {
+var control_Control = /*#__PURE__*/function () {
   function Control(options) {
     control_classCallCheck(this, Control);
 
@@ -1701,6 +1842,7 @@ function () {
 
     this.dotsValue = []; // The value of each slider
 
+    this.cacheRangeDir = {};
     this.data = options.data;
     this.max = options.max;
     this.min = options.min;
@@ -2098,6 +2240,16 @@ function () {
         return values;
       }
     }
+    /**
+     * Calculate the distance of the range
+     * @param range number
+     */
+
+  }, {
+    key: "getRangeDir",
+    value: function getRangeDir(range) {
+      return range ? new Decimal(range).divide(new Decimal(this.data ? this.data.length - 1 : this.max).minus(this.data ? 0 : this.min).toNumber()).multiply(100).toNumber() : 100;
+    }
   }, {
     key: "emitError",
     value: function emitError(type) {
@@ -2227,13 +2379,18 @@ function () {
   }, {
     key: "minRangeDir",
     get: function get() {
-      return this.minRange ? this.minRange * this.gap : 0;
+      if (this.cacheRangeDir[this.minRange]) {
+        return this.cacheRangeDir[this.minRange];
+      }
+
+      return this.cacheRangeDir[this.minRange] = this.getRangeDir(this.minRange);
     } // Maximum distance between the two sliders
 
   }, {
     key: "maxRangeDir",
     get: function get() {
-      return this.maxRange ? this.maxRange * this.gap : 100;
+      if (this.cacheRangeDir[this.maxRange]) return this.cacheRangeDir[this.maxRange];
+      return this.cacheRangeDir[this.maxRange] = this.getRangeDir(this.maxRange);
     }
   }, {
     key: "valuePosRange",
@@ -2269,9 +2426,7 @@ function state_defineProperties(target, props) { for (var i = 0; i < props.lengt
 
 function state_createClass(Constructor, protoProps, staticProps) { if (protoProps) state_defineProperties(Constructor.prototype, protoProps); if (staticProps) state_defineProperties(Constructor, staticProps); return Constructor; }
 
-var State =
-/*#__PURE__*/
-function () {
+var State = /*#__PURE__*/function () {
   function State(map) {
     state_classCallCheck(this, State);
 
@@ -2315,27 +2470,33 @@ var slider = __webpack_require__("4abb");
 // CONCATENATED MODULE: ./lib/vue-slider.tsx
 
 
-function vue_slider_typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { vue_slider_typeof = function _typeof(obj) { return typeof obj; }; } else { vue_slider_typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return vue_slider_typeof(obj); }
+function vue_slider_slicedToArray(arr, i) { return vue_slider_arrayWithHoles(arr) || vue_slider_iterableToArrayLimit(arr, i) || vue_slider_unsupportedIterableToArray(arr, i) || vue_slider_nonIterableRest(); }
 
-function vue_slider_objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; var ownKeys = Object.keys(source); if (typeof Object.getOwnPropertySymbols === 'function') { ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) { return Object.getOwnPropertyDescriptor(source, sym).enumerable; })); } ownKeys.forEach(function (key) { vue_slider_defineProperty(target, key, source[key]); }); } return target; }
+function vue_slider_nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
 
-function vue_slider_slicedToArray(arr, i) { return vue_slider_arrayWithHoles(arr) || vue_slider_iterableToArrayLimit(arr, i) || vue_slider_nonIterableRest(); }
-
-function vue_slider_nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance"); }
-
-function vue_slider_iterableToArrayLimit(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
+function vue_slider_iterableToArrayLimit(arr, i) { if (typeof Symbol === "undefined" || !(Symbol.iterator in Object(arr))) return; var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
 
 function vue_slider_arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
+function vue_slider_ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+function vue_slider_objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { vue_slider_ownKeys(Object(source), true).forEach(function (key) { vue_slider_defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { vue_slider_ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
 function vue_slider_defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
-function vue_slider_toConsumableArray(arr) { return vue_slider_arrayWithoutHoles(arr) || vue_slider_iterableToArray(arr) || vue_slider_nonIterableSpread(); }
+function vue_slider_toConsumableArray(arr) { return vue_slider_arrayWithoutHoles(arr) || vue_slider_iterableToArray(arr) || vue_slider_unsupportedIterableToArray(arr) || vue_slider_nonIterableSpread(); }
 
-function vue_slider_nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance"); }
+function vue_slider_nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
 
-function vue_slider_iterableToArray(iter) { if (Symbol.iterator in Object(iter) || Object.prototype.toString.call(iter) === "[object Arguments]") return Array.from(iter); }
+function vue_slider_unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return vue_slider_arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return vue_slider_arrayLikeToArray(o, minLen); }
 
-function vue_slider_arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = new Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } }
+function vue_slider_iterableToArray(iter) { if (typeof Symbol !== "undefined" && Symbol.iterator in Object(iter)) return Array.from(iter); }
+
+function vue_slider_arrayWithoutHoles(arr) { if (Array.isArray(arr)) return vue_slider_arrayLikeToArray(arr); }
+
+function vue_slider_arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
+function vue_slider_typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { vue_slider_typeof = function _typeof(obj) { return typeof obj; }; } else { vue_slider_typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return vue_slider_typeof(obj); }
 
 function vue_slider_classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -2343,15 +2504,19 @@ function vue_slider_defineProperties(target, props) { for (var i = 0; i < props.
 
 function vue_slider_createClass(Constructor, protoProps, staticProps) { if (protoProps) vue_slider_defineProperties(Constructor.prototype, protoProps); if (staticProps) vue_slider_defineProperties(Constructor, staticProps); return Constructor; }
 
+function vue_slider_inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) vue_slider_setPrototypeOf(subClass, superClass); }
+
+function vue_slider_setPrototypeOf(o, p) { vue_slider_setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return vue_slider_setPrototypeOf(o, p); }
+
+function vue_slider_createSuper(Derived) { var hasNativeReflectConstruct = vue_slider_isNativeReflectConstruct(); return function _createSuperInternal() { var Super = vue_slider_getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = vue_slider_getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return vue_slider_possibleConstructorReturn(this, result); }; }
+
 function vue_slider_possibleConstructorReturn(self, call) { if (call && (vue_slider_typeof(call) === "object" || typeof call === "function")) { return call; } return vue_slider_assertThisInitialized(self); }
 
 function vue_slider_assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
 
+function vue_slider_isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
+
 function vue_slider_getPrototypeOf(o) { vue_slider_getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return vue_slider_getPrototypeOf(o); }
-
-function vue_slider_inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) vue_slider_setPrototypeOf(subClass, superClass); }
-
-function vue_slider_setPrototypeOf(o, p) { vue_slider_setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return vue_slider_setPrototypeOf(o, p); }
 
 
 
@@ -2370,822 +2535,960 @@ var SliderState = {
 var DEFAULT_SLIDER_SIZE = 4;
 
 var vue_slider_VueSlider =
-/*#__PURE__*/
-function (_Vue) {
-  vue_slider_inherits(VueSlider, _Vue);
+/** @class */
+function () {
+  var VueSlider = /*#__PURE__*/function (_Vue) {
+    vue_slider_inherits(VueSlider, _Vue);
 
-  function VueSlider() {
-    var _this;
+    var _super = vue_slider_createSuper(VueSlider);
 
-    vue_slider_classCallCheck(this, VueSlider);
+    function VueSlider() {
+      var _this;
 
-    _this = vue_slider_possibleConstructorReturn(this, vue_slider_getPrototypeOf(VueSlider).apply(this, arguments));
-    _this.states = new State(SliderState); // The width of the component is divided into one hundred, the width of each one.
+      vue_slider_classCallCheck(this, VueSlider);
 
-    _this.scale = 1; // Currently dragged slider index
+      _this = _super.apply(this, arguments);
+      _this.states = new State(SliderState); // The width of the component is divided into one hundred, the width of each one.
 
-    _this.focusDotIndex = 0;
-    return _this;
-  }
+      _this.scale = 1; // Currently dragged slider index
 
-  vue_slider_createClass(VueSlider, [{
-    key: "onValueChanged",
-    value: function onValueChanged() {
-      if (!this.states.has(SliderState.Drag) && this.isNotSync) {
-        this.control.setValue(this.value);
+      _this.focusDotIndex = 0;
+      return _this;
+    }
+
+    vue_slider_createClass(VueSlider, [{
+      key: "isObjectData",
+      value: function isObjectData(data) {
+        return !!data && Object.prototype.toString.call(data) === '[object Object]';
       }
-    }
-  }, {
-    key: "created",
-    value: function created() {
-      this.initControl();
-    }
-  }, {
-    key: "mounted",
-    value: function mounted() {
-      this.bindEvent();
-    }
-  }, {
-    key: "beforeDestroy",
-    value: function beforeDestroy() {
-      this.unbindEvent();
-    }
-  }, {
-    key: "bindEvent",
-    value: function bindEvent() {
-      document.addEventListener('touchmove', this.dragMove, {
-        passive: false
-      });
-      document.addEventListener('touchend', this.dragEnd, {
-        passive: false
-      });
-      document.addEventListener('mousedown', this.blurHandle);
-      document.addEventListener('mousemove', this.dragMove);
-      document.addEventListener('mouseup', this.dragEnd);
-      document.addEventListener('mouseleave', this.dragEnd);
-      document.addEventListener('keydown', this.keydownHandle);
-    }
-  }, {
-    key: "unbindEvent",
-    value: function unbindEvent() {
-      document.removeEventListener('touchmove', this.dragMove);
-      document.removeEventListener('touchend', this.dragEnd);
-      document.removeEventListener('mousedown', this.blurHandle);
-      document.removeEventListener('mousemove', this.dragMove);
-      document.removeEventListener('mouseup', this.dragEnd);
-      document.removeEventListener('mouseleave', this.dragEnd);
-      document.removeEventListener('keydown', this.keydownHandle);
-    }
-  }, {
-    key: "setScale",
-    value: function setScale() {
-      this.scale = new Decimal(Math.floor(this.isHorizontal ? this.$el.offsetWidth : this.$el.offsetHeight)).divide(100).toNumber();
-    }
-  }, {
-    key: "initControl",
-    value: function initControl() {
-      var _this2 = this;
-
-      this.control = new control_Control({
-        value: this.value,
-        data: this.data,
-        enableCross: this.enableCross,
-        fixed: this.fixed,
-        max: this.max,
-        min: this.min,
-        interval: this.interval,
-        minRange: this.minRange,
-        maxRange: this.maxRange,
-        order: this.order,
-        marks: this.marks,
-        included: this.included,
-        process: this.process,
-        adsorb: this.adsorb,
-        dotOptions: this.dotOptions,
-        onError: this.emitError
-      });
-      ['data', 'enableCross', 'fixed', 'max', 'min', 'interval', 'minRange', 'maxRange', 'order', 'marks', 'process', 'adsorb', 'included', 'dotOptions'].forEach(function (name) {
-        _this2.$watch(name, function (val) {
-          if (name === 'data' && Array.isArray(_this2.control.data) && Array.isArray(val) && _this2.control.data.length === val.length && val.every(function (item, index) {
-            return item === _this2.control.data[index];
-          })) {
-            return false;
-          }
-
-          ;
-          _this2.control[name] = val;
-
-          if (['data', 'max', 'min', 'interval'].indexOf(name) > -1) {
-            _this2.control.syncDotsPos();
-          }
+    }, {
+      key: "isObjectArrayData",
+      value: function isObjectArrayData(data) {
+        return !!data && Array.isArray(data) && data.length > 0 && vue_slider_typeof(data[0]) === 'object';
+      }
+    }, {
+      key: "onValueChanged",
+      value: function onValueChanged() {
+        if (this.control && !this.states.has(SliderState.Drag) && this.isNotSync) {
+          this.control.setValue(this.value);
+        }
+      }
+    }, {
+      key: "created",
+      value: function created() {
+        this.initControl();
+      }
+    }, {
+      key: "mounted",
+      value: function mounted() {
+        this.bindEvent();
+      }
+    }, {
+      key: "beforeDestroy",
+      value: function beforeDestroy() {
+        this.unbindEvent();
+      }
+    }, {
+      key: "bindEvent",
+      value: function bindEvent() {
+        document.addEventListener('touchmove', this.dragMove, {
+          passive: false
         });
-      });
-    }
-  }, {
-    key: "syncValueByPos",
-    value: function syncValueByPos() {
-      var values = this.control.dotsValue;
-
-      if (this.isDiff(values, Array.isArray(this.value) ? this.value : [this.value])) {
-        this.$emit('change', values.length === 1 ? values[0] : vue_slider_toConsumableArray(values));
+        document.addEventListener('touchend', this.dragEnd, {
+          passive: false
+        });
+        document.addEventListener('mousedown', this.blurHandle);
+        document.addEventListener('mousemove', this.dragMove);
+        document.addEventListener('mouseup', this.dragEnd);
+        document.addEventListener('mouseleave', this.dragEnd);
+        document.addEventListener('keydown', this.keydownHandle);
       }
-    } // Slider value and component internal value are inconsistent
-
-  }, {
-    key: "isDiff",
-    value: function isDiff(value1, value2) {
-      return value1.length !== value2.length || value1.some(function (val, index) {
-        return val !== value2[index];
-      });
-    }
-  }, {
-    key: "emitError",
-    value: function emitError(type, message) {
-      if (!this.silent) {
-        console.error("[VueSlider error]: ".concat(message));
+    }, {
+      key: "unbindEvent",
+      value: function unbindEvent() {
+        document.removeEventListener('touchmove', this.dragMove);
+        document.removeEventListener('touchend', this.dragEnd);
+        document.removeEventListener('mousedown', this.blurHandle);
+        document.removeEventListener('mousemove', this.dragMove);
+        document.removeEventListener('mouseup', this.dragEnd);
+        document.removeEventListener('mouseleave', this.dragEnd);
+        document.removeEventListener('keydown', this.keydownHandle);
       }
+    }, {
+      key: "setScale",
+      value: function setScale() {
+        this.scale = new Decimal(Math.floor(this.isHorizontal ? this.$el.offsetWidth : this.$el.offsetHeight)).divide(100).toNumber();
+      }
+    }, {
+      key: "initControl",
+      value: function initControl() {
+        var _this2 = this;
 
-      this.$emit('error', type, message);
-    }
-    /**
-     * Get the drag range of the slider
-     *
-     * @private
-     * @param {number} index slider index
-     * @returns {[number, number]} range [start, end]
-     * @memberof VueSlider
-     */
+        this.control = new control_Control({
+          value: this.value,
+          data: this.sliderData,
+          enableCross: this.enableCross,
+          fixed: this.fixed,
+          max: this.max,
+          min: this.min,
+          interval: this.interval,
+          minRange: this.minRange,
+          maxRange: this.maxRange,
+          order: this.order,
+          marks: this.sliderMarks,
+          included: this.included,
+          process: this.process,
+          adsorb: this.adsorb,
+          dotOptions: this.dotOptions,
+          onError: this.emitError
+        });
+        ['data', 'enableCross', 'fixed', 'max', 'min', 'interval', 'minRange', 'maxRange', 'order', 'marks', 'process', 'adsorb', 'included', 'dotOptions'].forEach(function (name) {
+          _this2.$watch(name, function (val) {
+            if (name === 'data' && Array.isArray(_this2.control.data) && Array.isArray(val) && _this2.control.data.length === val.length && val.every(function (item, index) {
+              return item === _this2.control.data[index];
+            })) {
+              return false;
+            }
 
-  }, {
-    key: "dragStartOnProcess",
-    value: function dragStartOnProcess(e) {
-      if (this.dragOnClick) {
-        this.setScale();
-        var pos = this.getPosByEvent(e);
-        var index = this.control.getRecentDot(pos);
+            switch (name) {
+              case 'data':
+              case 'dataLabel':
+              case 'dataValue':
+                _this2.control.data = _this2.sliderData;
+                break;
 
-        if (this.dots[index].disabled) {
-          return;
+              case 'mark':
+                _this2.control.marks = _this2.sliderMarks;
+                break;
+
+              default:
+                ;
+                _this2.control[name] = val;
+            }
+
+            if (['data', 'max', 'min', 'interval'].indexOf(name) > -1) {
+              _this2.control.syncDotsPos();
+            }
+          });
+        });
+      }
+    }, {
+      key: "syncValueByPos",
+      value: function syncValueByPos() {
+        var values = this.control.dotsValue;
+
+        if (this.isDiff(values, Array.isArray(this.value) ? this.value : [this.value])) {
+          this.$emit('change', values.length === 1 ? values[0] : vue_slider_toConsumableArray(values), this.focusDotIndex);
+        }
+      } // Slider value and component internal value are inconsistent
+
+    }, {
+      key: "isDiff",
+      value: function isDiff(value1, value2) {
+        return value1.length !== value2.length || value1.some(function (val, index) {
+          return val !== value2[index];
+        });
+      }
+    }, {
+      key: "emitError",
+      value: function emitError(type, message) {
+        if (!this.silent) {
+          console.error("[VueSlider error]: ".concat(message));
         }
 
-        this.dragStart(index);
+        this.$emit('error', type, message);
+      }
+      /**
+       * Get the drag range of the slider
+       *
+       * @private
+       * @param {number} index slider index
+       * @returns {[number, number]} range [start, end]
+       * @memberof VueSlider
+       */
+
+    }, {
+      key: "dragStartOnProcess",
+      value: function dragStartOnProcess(e) {
+        if (this.dragOnClick) {
+          this.setScale();
+          var pos = this.getPosByEvent(e);
+          var index = this.control.getRecentDot(pos);
+
+          if (this.dots[index].disabled) {
+            return;
+          }
+
+          this.dragStart(index);
+          this.control.setDotPos(pos, this.focusDotIndex);
+
+          if (!this.lazy) {
+            this.syncValueByPos();
+          }
+        }
+      }
+    }, {
+      key: "dragStart",
+      value: function dragStart(index) {
+        this.focusDotIndex = index;
+        this.setScale();
+        this.states.add(SliderState.Drag);
+        this.states.add(SliderState.Focus);
+        this.$emit('drag-start', this.focusDotIndex);
+      }
+    }, {
+      key: "dragMove",
+      value: function dragMove(e) {
+        if (!this.states.has(SliderState.Drag)) {
+          return false;
+        }
+
+        e.preventDefault();
+        var pos = this.getPosByEvent(e);
+        this.isCrossDot(pos);
         this.control.setDotPos(pos, this.focusDotIndex);
 
         if (!this.lazy) {
           this.syncValueByPos();
         }
-      }
-    }
-  }, {
-    key: "dragStart",
-    value: function dragStart(index) {
-      this.focusDotIndex = index;
-      this.setScale();
-      this.states.add(SliderState.Drag);
-      this.states.add(SliderState.Focus);
-      this.$emit('drag-start');
-    }
-  }, {
-    key: "dragMove",
-    value: function dragMove(e) {
-      if (!this.states.has(SliderState.Drag)) {
-        return false;
-      }
 
-      e.preventDefault();
-      var pos = this.getPosByEvent(e);
-      this.isCrossDot(pos);
-      this.control.setDotPos(pos, this.focusDotIndex);
+        var value = this.control.dotsValue;
+        this.$emit('dragging', value.length === 1 ? value[0] : vue_slider_toConsumableArray(value), this.focusDotIndex);
+      } // If the component is sorted, then when the slider crosses, toggle the currently selected slider index
 
-      if (!this.lazy) {
-        this.syncValueByPos();
-      }
+    }, {
+      key: "isCrossDot",
+      value: function isCrossDot(pos) {
+        if (this.canSort) {
+          var curIndex = this.focusDotIndex;
+          var curPos = pos;
 
-      var value = this.control.dotsValue;
-      this.$emit('dragging', value.length === 1 ? value[0] : vue_slider_toConsumableArray(value));
-    } // If the component is sorted, then when the slider crosses, toggle the currently selected slider index
-
-  }, {
-    key: "isCrossDot",
-    value: function isCrossDot(pos) {
-      if (this.canSort) {
-        var curIndex = this.focusDotIndex;
-        var curPos = pos;
-
-        if (curPos > this.dragRange[1]) {
-          curPos = this.dragRange[1];
-          this.focusDotIndex++;
-        } else if (curPos < this.dragRange[0]) {
-          curPos = this.dragRange[0];
-          this.focusDotIndex--;
-        }
-
-        if (curIndex !== this.focusDotIndex) {
-          this.control.setDotPos(curPos, curIndex);
-        }
-      }
-    }
-  }, {
-    key: "dragEnd",
-    value: function dragEnd() {
-      var _this3 = this;
-
-      if (!this.states.has(SliderState.Drag)) {
-        return false;
-      }
-
-      setTimeout(function () {
-        if (_this3.included && _this3.isNotSync) {
-          _this3.control.setValue(_this3.value);
-        } else {
-          // Sync slider position
-          _this3.control.syncDotsPos();
-        }
-
-        if (_this3.lazy) {
-          _this3.syncValueByPos();
-        }
-
-        _this3.states.delete(SliderState.Drag); // If useKeyboard is true, keep focus status after dragging
-
-
-        if (!_this3.useKeyboard) {
-          _this3.states.delete(SliderState.Focus);
-        }
-
-        _this3.$emit('drag-end');
-      });
-    }
-  }, {
-    key: "blurHandle",
-    value: function blurHandle(e) {
-      if (!this.states.has(SliderState.Focus) || !this.$refs.container || this.$refs.container.contains(e.target)) {
-        return false;
-      }
-
-      this.states.delete(SliderState.Focus);
-    }
-  }, {
-    key: "clickHandle",
-    value: function clickHandle(e) {
-      if (!this.clickable || this.disabled) {
-        return false;
-      }
-
-      if (this.states.has(SliderState.Drag)) {
-        return;
-      }
-
-      this.setScale();
-      var pos = this.getPosByEvent(e);
-      this.setValueByPos(pos);
-    }
-  }, {
-    key: "focus",
-    value: function focus() {
-      var index = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 0;
-      this.states.add(SliderState.Focus);
-      this.focusDotIndex = index;
-    }
-  }, {
-    key: "blur",
-    value: function blur() {
-      this.states.delete(SliderState.Focus);
-    }
-  }, {
-    key: "getValue",
-    value: function getValue() {
-      var values = this.control.dotsValue;
-      return values.length === 1 ? values[0] : values;
-    }
-  }, {
-    key: "getIndex",
-    value: function getIndex() {
-      var indexes = this.control.dotsIndex;
-      return indexes.length === 1 ? indexes[0] : indexes;
-    }
-  }, {
-    key: "setValue",
-    value: function setValue(value) {
-      this.control.setValue(Array.isArray(value) ? vue_slider_toConsumableArray(value) : [value]);
-      this.syncValueByPos();
-    }
-  }, {
-    key: "setIndex",
-    value: function setIndex(index) {
-      var _this4 = this;
-
-      var value = Array.isArray(index) ? index.map(function (n) {
-        return _this4.control.getValueByIndex(n);
-      }) : this.control.getValueByIndex(index);
-      this.setValue(value);
-    }
-  }, {
-    key: "setValueByPos",
-    value: function setValueByPos(pos) {
-      var _this5 = this;
-
-      var index = this.control.getRecentDot(pos);
-
-      if (this.disabled || this.dots[index].disabled) {
-        return false;
-      }
-
-      this.focusDotIndex = index;
-      this.control.setDotPos(pos, index);
-      this.syncValueByPos();
-
-      if (this.useKeyboard) {
-        this.states.add(SliderState.Focus);
-      }
-
-      setTimeout(function () {
-        if (_this5.included && _this5.isNotSync) {
-          _this5.control.setValue(_this5.value);
-        } else {
-          _this5.control.syncDotsPos();
-        }
-      });
-    }
-  }, {
-    key: "keydownHandle",
-    value: function keydownHandle(e) {
-      var _this6 = this;
-
-      if (!this.useKeyboard || !this.states.has(SliderState.Focus)) {
-        return false;
-      }
-
-      var isInclude = this.included && this.marks;
-      var handleFunc = getKeyboardHandleFunc(e, {
-        direction: this.direction,
-        max: isInclude ? this.control.markList.length - 1 : this.control.total,
-        min: 0,
-        hook: this.keydownHook
-      });
-
-      if (handleFunc) {
-        e.preventDefault();
-        var newIndex = -1;
-        var pos = 0;
-
-        if (isInclude) {
-          this.control.markList.some(function (mark, index) {
-            if (mark.value === _this6.control.dotsValue[_this6.focusDotIndex]) {
-              newIndex = handleFunc(index);
-              return true;
-            }
-
-            return false;
-          });
-
-          if (newIndex < 0) {
-            newIndex = 0;
-          } else if (newIndex > this.control.markList.length - 1) {
-            newIndex = this.control.markList.length - 1;
+          if (curPos > this.dragRange[1]) {
+            curPos = this.dragRange[1];
+            this.focusDotIndex++;
+          } else if (curPos < this.dragRange[0]) {
+            curPos = this.dragRange[0];
+            this.focusDotIndex--;
           }
 
-          pos = this.control.markList[newIndex].pos;
-        } else {
-          newIndex = handleFunc(this.control.getIndexByValue(this.control.dotsValue[this.focusDotIndex]));
-          pos = this.control.parseValue(this.control.getValueByIndex(newIndex));
-        }
+          if (curIndex !== this.focusDotIndex) {
+            var dotVm = this.$refs["dot-".concat(this.focusDotIndex)];
 
-        this.isCrossDot(pos);
-        this.control.setDotPos(pos, this.focusDotIndex);
-        this.syncValueByPos();
-      }
-    }
-  }, {
-    key: "getPosByEvent",
-    value: function getPosByEvent(e) {
-      return getPos(e, this.$el, this.isReverse)[this.isHorizontal ? 'x' : 'y'] / this.scale;
-    }
-  }, {
-    key: "renderSlot",
-    value: function renderSlot(name, data, defaultSlot, isDefault) {
-      var h = this.$createElement;
-      var scopedSlot = this.$scopedSlots[name];
-      return scopedSlot ? isDefault ? scopedSlot(data) : h("template", {
-        "slot": name
-      }, [scopedSlot(data)]) : defaultSlot;
-    }
-  }, {
-    key: "render",
-    value: function render() {
-      var _this7 = this;
-
-      var h = arguments[0];
-      return h("div", helper_default()([{
-        "ref": "container",
-        "class": this.containerClasses,
-        "style": this.containerStyles,
-        "on": {
-          "click": this.clickHandle,
-          "touchstart": this.dragStartOnProcess,
-          "mousedown": this.dragStartOnProcess
-        }
-      }, this.$attrs]), [h("div", {
-        "class": "vue-slider-rail",
-        "style": this.railStyle
-      }, [this.processArray.map(function (item, index) {
-        return _this7.renderSlot('process', item, h("div", {
-          "class": "vue-slider-process",
-          "key": "process-".concat(index),
-          "style": item.style
-        }), true);
-      }), this.marks ? h("div", {
-        "class": "vue-slider-marks"
-      }, [this.control.markList.map(function (mark, index) {
-        var _style;
-
-        return _this7.renderSlot('mark', mark, h("vue-slider-mark", {
-          "key": "mark-".concat(index),
-          "attrs": {
-            "mark": mark,
-            "hideLabel": _this7.hideLabel,
-            "stepStyle": _this7.stepStyle,
-            "stepActiveStyle": _this7.stepActiveStyle,
-            "labelStyle": _this7.labelStyle,
-            "labelActiveStyle": _this7.labelActiveStyle
-          },
-          "style": (_style = {}, vue_slider_defineProperty(_style, _this7.isHorizontal ? 'height' : 'width', '100%'), vue_slider_defineProperty(_style, _this7.isHorizontal ? 'width' : 'height', _this7.tailSize), vue_slider_defineProperty(_style, _this7.mainDirection, "".concat(mark.pos, "%")), _style),
-          "on": {
-            "pressLabel": function pressLabel(pos) {
-              return _this7.setValueByPos(pos);
+            if (dotVm && dotVm.$el) {
+              dotVm.$el.focus();
             }
+
+            this.control.setDotPos(curPos, curIndex);
           }
-        }, [_this7.renderSlot('step', mark, null), _this7.renderSlot('label', mark, null)]), true);
-      })]) : null, this.dots.map(function (dot, index) {
-        var _ref;
+        }
+      }
+    }, {
+      key: "dragEnd",
+      value: function dragEnd(e) {
+        var _this3 = this;
 
-        return h("vue-slider-dot", {
-          "ref": "dot-".concat(index),
-          "key": "dot-".concat(index),
-          "attrs": {
-            "value": dot.value,
-            "disabled": dot.disabled,
-            "focus": dot.focus,
-            "dot-style": [dot.style, dot.disabled ? dot.disabledStyle : null, dot.focus ? dot.focusStyle : null],
-            "tooltip": dot.tooltip || _this7.tooltip,
-            "tooltip-style": [_this7.tooltipStyle, dot.tooltipStyle, dot.disabled ? dot.tooltipDisabledStyle : null, dot.focus ? dot.tooltipFocusStyle : null],
-            "tooltip-formatter": Array.isArray(_this7.tooltipFormatter) ? _this7.tooltipFormatter[index] : _this7.tooltipFormatter,
-            "tooltip-placement": _this7.tooltipDirections[index]
-          },
-          "style": [_this7.dotBaseStyle, (_ref = {}, vue_slider_defineProperty(_ref, _this7.mainDirection, "".concat(dot.pos, "%")), vue_slider_defineProperty(_ref, "transition", "".concat(_this7.mainDirection, " ").concat(_this7.animateTime, "s")), _ref)],
-          "on": {
-            "drag-start": function dragStart() {
-              return _this7.dragStart(index);
-            }
-          }
-        }, [_this7.renderSlot('dot', dot, null), _this7.renderSlot('tooltip', dot, null)]);
-      }), this.renderSlot('default', null, null, true)])]);
-    }
-  }, {
-    key: "tailSize",
-    get: function get() {
-      return getSize((this.isHorizontal ? this.height : this.width) || DEFAULT_SLIDER_SIZE);
-    }
-  }, {
-    key: "containerClasses",
-    get: function get() {
-      return ['vue-slider', ["vue-slider-".concat(this.direction)], {
-        'vue-slider-disabled': this.disabled
-      }];
-    }
-  }, {
-    key: "containerStyles",
-    get: function get() {
-      var _ref2 = Array.isArray(this.dotSize) ? this.dotSize : [this.dotSize, this.dotSize],
-          _ref3 = vue_slider_slicedToArray(_ref2, 2),
-          dotWidth = _ref3[0],
-          dotHeight = _ref3[1];
-
-      var containerWidth = this.width ? getSize(this.width) : this.isHorizontal ? 'auto' : getSize(DEFAULT_SLIDER_SIZE);
-      var containerHeight = this.height ? getSize(this.height) : this.isHorizontal ? getSize(DEFAULT_SLIDER_SIZE) : 'auto';
-      return {
-        padding: this.contained ? "".concat(dotHeight / 2, "px ").concat(dotWidth / 2, "px") : this.isHorizontal ? "".concat(dotHeight / 2, "px 0") : "0 ".concat(dotWidth / 2, "px"),
-        width: containerWidth,
-        height: containerHeight
-      };
-    }
-  }, {
-    key: "processArray",
-    get: function get() {
-      var _this8 = this;
-
-      return this.control.processArray.map(function (_ref4, index) {
-        var _objectSpread2;
-
-        var _ref5 = vue_slider_slicedToArray(_ref4, 3),
-            start = _ref5[0],
-            end = _ref5[1],
-            style = _ref5[2];
-
-        if (start > end) {
-          /* tslint:disable:semicolon */
-          ;
-          var _ref6 = [end, start];
-          start = _ref6[0];
-          end = _ref6[1];
+        if (!this.states.has(SliderState.Drag)) {
+          return false;
         }
 
-        var sizeStyleKey = _this8.isHorizontal ? 'width' : 'height';
-        return {
-          start: start,
-          end: end,
-          index: index,
-          style: vue_slider_objectSpread((_objectSpread2 = {}, vue_slider_defineProperty(_objectSpread2, _this8.isHorizontal ? 'height' : 'width', '100%'), vue_slider_defineProperty(_objectSpread2, _this8.isHorizontal ? 'top' : 'left', 0), vue_slider_defineProperty(_objectSpread2, _this8.mainDirection, "".concat(start, "%")), vue_slider_defineProperty(_objectSpread2, sizeStyleKey, "".concat(end - start, "%")), vue_slider_defineProperty(_objectSpread2, "transitionProperty", "".concat(sizeStyleKey, ",").concat(_this8.mainDirection)), vue_slider_defineProperty(_objectSpread2, "transitionDuration", "".concat(_this8.animateTime, "s")), _objectSpread2), _this8.processStyle, style)
-        };
-      });
-    }
-  }, {
-    key: "dotBaseStyle",
-    get: function get() {
-      var _ref7 = Array.isArray(this.dotSize) ? this.dotSize : [this.dotSize, this.dotSize],
-          _ref8 = vue_slider_slicedToArray(_ref7, 2),
-          dotWidth = _ref8[0],
-          dotHeight = _ref8[1];
+        setTimeout(function () {
+          if (_this3.lazy) {
+            _this3.syncValueByPos();
+          }
 
-      var dotPos;
+          if (_this3.included && _this3.isNotSync) {
+            _this3.control.setValue(_this3.value);
+          } else {
+            // Sync slider position
+            _this3.control.syncDotsPos();
+          }
 
-      if (this.isHorizontal) {
-        dotPos = vue_slider_defineProperty({
-          transform: "translate(".concat(this.isReverse ? '50%' : '-50%', ", -50%)"),
-          WebkitTransform: "translate(".concat(this.isReverse ? '50%' : '-50%', ", -50%)"),
-          top: '50%'
-        }, this.direction === 'ltr' ? 'left' : 'right', '0');
-      } else {
-        dotPos = vue_slider_defineProperty({
-          transform: "translate(-50%, ".concat(this.isReverse ? '50%' : '-50%', ")"),
-          WebkitTransform: "translate(-50%, ".concat(this.isReverse ? '50%' : '-50%', ")"),
-          left: '50%'
-        }, this.direction === 'btt' ? 'bottom' : 'top', '0');
-      }
+          _this3.states.delete(SliderState.Drag); // If useKeyboard is true, keep focus status after dragging
 
-      return vue_slider_objectSpread({
-        width: "".concat(dotWidth, "px"),
-        height: "".concat(dotHeight, "px")
-      }, dotPos);
-    }
-  }, {
-    key: "mainDirection",
-    get: function get() {
-      switch (this.direction) {
-        case 'ltr':
-          return 'left';
 
-        case 'rtl':
-          return 'right';
+          if (!_this3.useKeyboard || 'targetTouches' in e) {
+            _this3.states.delete(SliderState.Focus);
+          }
 
-        case 'btt':
-          return 'bottom';
-
-        case 'ttb':
-          return 'top';
-      }
-    }
-  }, {
-    key: "isHorizontal",
-    get: function get() {
-      return this.direction === 'ltr' || this.direction === 'rtl';
-    }
-  }, {
-    key: "isReverse",
-    get: function get() {
-      return this.direction === 'rtl' || this.direction === 'btt';
-    }
-  }, {
-    key: "tooltipDirections",
-    get: function get() {
-      var dir = this.tooltipPlacement || (this.isHorizontal ? 'top' : 'left');
-
-      if (Array.isArray(dir)) {
-        return dir;
-      } else {
-        return this.dots.map(function () {
-          return dir;
+          _this3.$emit('drag-end', _this3.focusDotIndex);
         });
       }
-    }
-  }, {
-    key: "dots",
-    get: function get() {
-      var _this9 = this;
+    }, {
+      key: "blurHandle",
+      value: function blurHandle(e) {
+        if (!this.states.has(SliderState.Focus) || !this.$refs.container || this.$refs.container.contains(e.target)) {
+          return false;
+        }
 
-      return this.control.dotsPos.map(function (pos, index) {
+        this.states.delete(SliderState.Focus);
+      }
+    }, {
+      key: "clickHandle",
+      value: function clickHandle(e) {
+        if (!this.clickable || this.disabled) {
+          return false;
+        }
+
+        if (this.states.has(SliderState.Drag)) {
+          return;
+        }
+
+        this.setScale();
+        var pos = this.getPosByEvent(e);
+        this.setValueByPos(pos);
+      }
+    }, {
+      key: "focus",
+      value: function focus(dot) {
+        var index = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 0;
+        if (dot.disabled) return;
+        this.states.add(SliderState.Focus);
+        this.focusDotIndex = index;
+      }
+    }, {
+      key: "blur",
+      value: function blur() {
+        this.states.delete(SliderState.Focus);
+      }
+    }, {
+      key: "getValue",
+      value: function getValue() {
+        var values = this.control.dotsValue;
+        return values.length === 1 ? values[0] : values;
+      }
+    }, {
+      key: "getIndex",
+      value: function getIndex() {
+        var indexes = this.control.dotsIndex;
+        return indexes.length === 1 ? indexes[0] : indexes;
+      }
+    }, {
+      key: "setValue",
+      value: function setValue(value) {
+        this.control.setValue(Array.isArray(value) ? vue_slider_toConsumableArray(value) : [value]);
+        this.syncValueByPos();
+      }
+    }, {
+      key: "setIndex",
+      value: function setIndex(index) {
+        var _this4 = this;
+
+        var value = Array.isArray(index) ? index.map(function (n) {
+          return _this4.control.getValueByIndex(n);
+        }) : this.control.getValueByIndex(index);
+        this.setValue(value);
+      }
+    }, {
+      key: "setValueByPos",
+      value: function setValueByPos(pos) {
+        var _this5 = this;
+
+        var index = this.control.getRecentDot(pos);
+
+        if (this.disabled || this.dots[index].disabled) {
+          return false;
+        }
+
+        this.focusDotIndex = index;
+        this.control.setDotPos(pos, index);
+        this.syncValueByPos();
+
+        if (this.useKeyboard) {
+          this.states.add(SliderState.Focus);
+        }
+
+        setTimeout(function () {
+          if (_this5.included && _this5.isNotSync) {
+            _this5.control.setValue(_this5.value);
+          } else {
+            _this5.control.syncDotsPos();
+          }
+        });
+      }
+    }, {
+      key: "keydownHandle",
+      value: function keydownHandle(e) {
+        var _this6 = this;
+
+        if (!this.useKeyboard || !this.states.has(SliderState.Focus)) {
+          return false;
+        }
+
+        var isInclude = this.included && this.marks;
+        var handleFunc = getKeyboardHandleFunc(e, {
+          direction: this.direction,
+          max: isInclude ? this.control.markList.length - 1 : this.control.total,
+          min: 0,
+          hook: this.keydownHook
+        });
+
+        if (handleFunc) {
+          e.preventDefault();
+          var newIndex = -1;
+          var pos = 0;
+
+          if (isInclude) {
+            this.control.markList.some(function (mark, index) {
+              if (mark.value === _this6.control.dotsValue[_this6.focusDotIndex]) {
+                newIndex = handleFunc(index);
+                return true;
+              }
+
+              return false;
+            });
+
+            if (newIndex < 0) {
+              newIndex = 0;
+            } else if (newIndex > this.control.markList.length - 1) {
+              newIndex = this.control.markList.length - 1;
+            }
+
+            pos = this.control.markList[newIndex].pos;
+          } else {
+            newIndex = handleFunc(this.control.getIndexByValue(this.control.dotsValue[this.focusDotIndex]));
+            pos = this.control.parseValue(this.control.getValueByIndex(newIndex));
+          }
+
+          this.isCrossDot(pos);
+          this.control.setDotPos(pos, this.focusDotIndex);
+          this.syncValueByPos();
+        }
+      }
+    }, {
+      key: "getPosByEvent",
+      value: function getPosByEvent(e) {
+        return getPos(e, this.$el, this.isReverse)[this.isHorizontal ? 'x' : 'y'] / this.scale;
+      }
+    }, {
+      key: "renderSlot",
+      value: function renderSlot(name, data, defaultSlot, isDefault) {
+        var h = this.$createElement;
+        var scopedSlot = this.$scopedSlots[name];
+        return scopedSlot ? isDefault ? scopedSlot(data) : h("template", {
+          "slot": name
+        }, [scopedSlot(data)]) : defaultSlot;
+      }
+    }, {
+      key: "render",
+      value: function render() {
+        var _this7 = this;
+
+        var h = arguments[0];
+        return h("div", helper_default()([{
+          "ref": "container",
+          "class": this.containerClasses,
+          "style": this.containerStyles,
+          "on": {
+            "click": this.clickHandle,
+            "touchstart": this.dragStartOnProcess,
+            "mousedown": this.dragStartOnProcess
+          }
+        }, this.$attrs]), [h("div", {
+          "class": "vue-slider-rail",
+          "style": this.railStyle
+        }, [this.processArray.map(function (item, index) {
+          return _this7.renderSlot('process', item, h("div", {
+            "class": "vue-slider-process",
+            "key": "process-".concat(index),
+            "style": item.style
+          }), true);
+        }), this.sliderMarks ? h("div", {
+          "class": "vue-slider-marks"
+        }, [this.control.markList.map(function (mark, index) {
+          var _style;
+
+          return _this7.renderSlot('mark', mark, h("vue-slider-mark", {
+            "key": "mark-".concat(index),
+            "attrs": {
+              "mark": mark,
+              "hideLabel": _this7.hideLabel,
+              "stepStyle": _this7.stepStyle,
+              "stepActiveStyle": _this7.stepActiveStyle,
+              "labelStyle": _this7.labelStyle,
+              "labelActiveStyle": _this7.labelActiveStyle
+            },
+            "style": (_style = {}, vue_slider_defineProperty(_style, _this7.isHorizontal ? 'height' : 'width', '100%'), vue_slider_defineProperty(_style, _this7.isHorizontal ? 'width' : 'height', _this7.tailSize), vue_slider_defineProperty(_style, _this7.mainDirection, "".concat(mark.pos, "%")), _style),
+            "on": {
+              "pressLabel": function pressLabel(pos) {
+                return _this7.clickable && _this7.setValueByPos(pos);
+              }
+            }
+          }, [_this7.renderSlot('step', mark, null), _this7.renderSlot('label', mark, null)]), true);
+        })]) : null, this.dots.map(function (dot, index) {
+          var _ref;
+
+          return h("vue-slider-dot", {
+            "ref": "dot-".concat(index),
+            "key": "dot-".concat(index),
+            "attrs": vue_slider_objectSpread({
+              "value": dot.value,
+              "disabled": dot.disabled,
+              "focus": dot.focus,
+              "dot-style": [dot.style, dot.disabled ? dot.disabledStyle : null, dot.focus ? dot.focusStyle : null],
+              "tooltip": dot.tooltip || _this7.tooltip,
+              "tooltip-style": [_this7.tooltipStyle, dot.tooltipStyle, dot.disabled ? dot.tooltipDisabledStyle : null, dot.focus ? dot.tooltipFocusStyle : null],
+              "tooltip-formatter": Array.isArray(_this7.sliderTooltipFormatter) ? _this7.sliderTooltipFormatter[index] : _this7.sliderTooltipFormatter,
+              "tooltip-placement": _this7.tooltipDirections[index],
+              "role": "slider",
+              "aria-valuenow": dot.value,
+              "aria-valuemin": _this7.min,
+              "aria-valuemax": _this7.max,
+              "aria-orientation": _this7.isHorizontal ? 'horizontal' : 'vertical',
+              "tabindex": "0"
+            }, _this7.dotAttrs),
+            "style": [_this7.dotBaseStyle, (_ref = {}, vue_slider_defineProperty(_ref, _this7.mainDirection, "".concat(dot.pos, "%")), vue_slider_defineProperty(_ref, "transition", "".concat(_this7.mainDirection, " ").concat(_this7.animateTime, "s")), _ref)],
+            "on": {
+              "drag-start": function dragStart() {
+                return _this7.dragStart(index);
+              }
+            },
+            "nativeOn": {
+              "focus": function focus() {
+                return _this7.focus(dot, index);
+              },
+              "blur": function blur() {
+                return _this7.blur();
+              }
+            }
+          }, [_this7.renderSlot('dot', dot, null), _this7.renderSlot('tooltip', dot, null)]);
+        }), this.renderSlot('default', {
+          value: this.getValue()
+        }, null, true)])]);
+      }
+    }, {
+      key: "tailSize",
+      get: function get() {
+        return getSize((this.isHorizontal ? this.height : this.width) || DEFAULT_SLIDER_SIZE);
+      }
+    }, {
+      key: "containerClasses",
+      get: function get() {
+        return ['vue-slider', ["vue-slider-".concat(this.direction)], {
+          'vue-slider-disabled': this.disabled
+        }];
+      }
+    }, {
+      key: "containerStyles",
+      get: function get() {
+        var _ref2 = Array.isArray(this.dotSize) ? this.dotSize : [this.dotSize, this.dotSize],
+            _ref3 = vue_slider_slicedToArray(_ref2, 2),
+            dotWidth = _ref3[0],
+            dotHeight = _ref3[1];
+
+        var containerWidth = this.width ? getSize(this.width) : this.isHorizontal ? 'auto' : getSize(DEFAULT_SLIDER_SIZE);
+        var containerHeight = this.height ? getSize(this.height) : this.isHorizontal ? getSize(DEFAULT_SLIDER_SIZE) : 'auto';
+        return {
+          padding: this.contained ? "".concat(dotHeight / 2, "px ").concat(dotWidth / 2, "px") : this.isHorizontal ? "".concat(dotHeight / 2, "px 0") : "0 ".concat(dotWidth / 2, "px"),
+          width: containerWidth,
+          height: containerHeight
+        };
+      }
+    }, {
+      key: "processArray",
+      get: function get() {
+        var _this8 = this;
+
+        return this.control.processArray.map(function (_ref4, index) {
+          var _objectSpread2;
+
+          var _ref5 = vue_slider_slicedToArray(_ref4, 3),
+              start = _ref5[0],
+              end = _ref5[1],
+              style = _ref5[2];
+
+          if (start > end) {
+            /* tslint:disable:semicolon */
+            ;
+            var _ref6 = [end, start];
+            start = _ref6[0];
+            end = _ref6[1];
+          }
+
+          var sizeStyleKey = _this8.isHorizontal ? 'width' : 'height';
+          return {
+            start: start,
+            end: end,
+            index: index,
+            style: vue_slider_objectSpread(vue_slider_objectSpread((_objectSpread2 = {}, vue_slider_defineProperty(_objectSpread2, _this8.isHorizontal ? 'height' : 'width', '100%'), vue_slider_defineProperty(_objectSpread2, _this8.isHorizontal ? 'top' : 'left', 0), vue_slider_defineProperty(_objectSpread2, _this8.mainDirection, "".concat(start, "%")), vue_slider_defineProperty(_objectSpread2, sizeStyleKey, "".concat(end - start, "%")), vue_slider_defineProperty(_objectSpread2, "transitionProperty", "".concat(sizeStyleKey, ",").concat(_this8.mainDirection)), vue_slider_defineProperty(_objectSpread2, "transitionDuration", "".concat(_this8.animateTime, "s")), _objectSpread2), _this8.processStyle), style)
+          };
+        });
+      }
+    }, {
+      key: "dotBaseStyle",
+      get: function get() {
+        var _ref7 = Array.isArray(this.dotSize) ? this.dotSize : [this.dotSize, this.dotSize],
+            _ref8 = vue_slider_slicedToArray(_ref7, 2),
+            dotWidth = _ref8[0],
+            dotHeight = _ref8[1];
+
+        var dotPos;
+
+        if (this.isHorizontal) {
+          dotPos = vue_slider_defineProperty({
+            transform: "translate(".concat(this.isReverse ? '50%' : '-50%', ", -50%)"),
+            WebkitTransform: "translate(".concat(this.isReverse ? '50%' : '-50%', ", -50%)"),
+            top: '50%'
+          }, this.direction === 'ltr' ? 'left' : 'right', '0');
+        } else {
+          dotPos = vue_slider_defineProperty({
+            transform: "translate(-50%, ".concat(this.isReverse ? '50%' : '-50%', ")"),
+            WebkitTransform: "translate(-50%, ".concat(this.isReverse ? '50%' : '-50%', ")"),
+            left: '50%'
+          }, this.direction === 'btt' ? 'bottom' : 'top', '0');
+        }
+
         return vue_slider_objectSpread({
-          pos: pos,
-          index: index,
-          value: _this9.control.dotsValue[index],
-          focus: _this9.states.has(SliderState.Focus) && _this9.focusDotIndex === index,
-          disabled: _this9.disabled,
-          style: _this9.dotStyle
-        }, (Array.isArray(_this9.dotOptions) ? _this9.dotOptions[index] : _this9.dotOptions) || {});
+          width: "".concat(dotWidth, "px"),
+          height: "".concat(dotHeight, "px")
+        }, dotPos);
+      }
+    }, {
+      key: "mainDirection",
+      get: function get() {
+        switch (this.direction) {
+          case 'ltr':
+            return 'left';
+
+          case 'rtl':
+            return 'right';
+
+          case 'btt':
+            return 'bottom';
+
+          case 'ttb':
+            return 'top';
+        }
+      }
+    }, {
+      key: "isHorizontal",
+      get: function get() {
+        return this.direction === 'ltr' || this.direction === 'rtl';
+      }
+    }, {
+      key: "isReverse",
+      get: function get() {
+        return this.direction === 'rtl' || this.direction === 'btt';
+      }
+    }, {
+      key: "tooltipDirections",
+      get: function get() {
+        var dir = this.tooltipPlacement || (this.isHorizontal ? 'top' : 'left');
+
+        if (Array.isArray(dir)) {
+          return dir;
+        } else {
+          return this.dots.map(function () {
+            return dir;
+          });
+        }
+      }
+    }, {
+      key: "dots",
+      get: function get() {
+        var _this9 = this;
+
+        return this.control.dotsPos.map(function (pos, index) {
+          return vue_slider_objectSpread({
+            pos: pos,
+            index: index,
+            value: _this9.control.dotsValue[index],
+            focus: _this9.states.has(SliderState.Focus) && _this9.focusDotIndex === index,
+            disabled: _this9.disabled,
+            style: _this9.dotStyle
+          }, (Array.isArray(_this9.dotOptions) ? _this9.dotOptions[index] : _this9.dotOptions) || {});
+        });
+      }
+    }, {
+      key: "animateTime",
+      get: function get() {
+        if (this.states.has(SliderState.Drag)) {
+          return 0;
+        }
+
+        return this.duration;
+      }
+    }, {
+      key: "canSort",
+      get: function get() {
+        return this.order && !this.minRange && !this.maxRange && !this.fixed && this.enableCross;
+      }
+    }, {
+      key: "sliderData",
+      get: function get() {
+        var _this10 = this;
+
+        if (this.isObjectArrayData(this.data)) {
+          return this.data.map(function (obj) {
+            return obj[_this10.dataValue];
+          });
+        } else if (this.isObjectData(this.data)) {
+          return Object.keys(this.data);
+        } else {
+          return this.data;
+        }
+      }
+    }, {
+      key: "sliderMarks",
+      get: function get() {
+        var _this11 = this;
+
+        if (this.marks) {
+          return this.marks;
+        } else if (this.isObjectArrayData(this.data)) {
+          return function (val) {
+            var mark = {
+              label: val
+            };
+
+            _this11.data.some(function (obj) {
+              if (obj[_this11.dataValue] === val) {
+                mark.label = obj[_this11.dataLabel];
+                return true;
+              }
+
+              return false;
+            });
+
+            return mark;
+          };
+        } else if (this.isObjectData(this.data)) {
+          return this.data;
+        }
+      }
+    }, {
+      key: "sliderTooltipFormatter",
+      get: function get() {
+        var _this12 = this;
+
+        if (this.tooltipFormatter) {
+          return this.tooltipFormatter;
+        } else if (this.isObjectArrayData(this.data)) {
+          return function (val) {
+            var tooltipText = '' + val;
+
+            _this12.data.some(function (obj) {
+              if (obj[_this12.dataValue] === val) {
+                tooltipText = obj[_this12.dataLabel];
+                return true;
+              }
+
+              return false;
+            });
+
+            return tooltipText;
+          };
+        } else if (this.isObjectData(this.data)) {
+          var data = this.data;
+          return function (val) {
+            return data[val];
+          };
+        }
+      }
+    }, {
+      key: "isNotSync",
+      get: function get() {
+        var values = this.control.dotsValue;
+        return Array.isArray(this.value) ? this.value.length !== values.length || this.value.some(function (val, index) {
+          return val !== values[index];
+        }) : this.value !== values[0];
+      }
+    }, {
+      key: "dragRange",
+      get: function get() {
+        var prevDot = this.dots[this.focusDotIndex - 1];
+        var nextDot = this.dots[this.focusDotIndex + 1];
+        return [prevDot ? prevDot.pos : -Infinity, nextDot ? nextDot.pos : Infinity];
+      }
+    }]);
+
+    return VueSlider;
+  }(external_commonjs_vue_commonjs2_vue_root_Vue_amd_vue_default.a);
+
+  __decorate([Model('change', {
+    default: 0
+  })], VueSlider.prototype, "value", void 0);
+
+  __decorate([Prop({
+    type: Boolean,
+    default: false
+  })], VueSlider.prototype, "silent", void 0);
+
+  __decorate([Prop({
+    default: 'ltr',
+    validator: function validator(dir) {
+      return ['ltr', 'rtl', 'ttb', 'btt'].indexOf(dir) > -1;
+    }
+  })], VueSlider.prototype, "direction", void 0);
+
+  __decorate([Prop({
+    type: [Number, String]
+  })], VueSlider.prototype, "width", void 0);
+
+  __decorate([Prop({
+    type: [Number, String]
+  })], VueSlider.prototype, "height", void 0);
+
+  __decorate([Prop({
+    default: 14
+  })], VueSlider.prototype, "dotSize", void 0);
+
+  __decorate([Prop({
+    default: false
+  })], VueSlider.prototype, "contained", void 0);
+
+  __decorate([Prop({
+    type: Number,
+    default: 0
+  })], VueSlider.prototype, "min", void 0);
+
+  __decorate([Prop({
+    type: Number,
+    default: 100
+  })], VueSlider.prototype, "max", void 0);
+
+  __decorate([Prop({
+    type: Number,
+    default: 1
+  })], VueSlider.prototype, "interval", void 0);
+
+  __decorate([Prop({
+    type: Boolean,
+    default: false
+  })], VueSlider.prototype, "disabled", void 0);
+
+  __decorate([Prop({
+    type: Boolean,
+    default: true
+  })], VueSlider.prototype, "clickable", void 0);
+
+  __decorate([Prop({
+    type: Boolean,
+    default: false
+  })], VueSlider.prototype, "dragOnClick", void 0);
+
+  __decorate([Prop({
+    type: Number,
+    default: 0.5
+  })], VueSlider.prototype, "duration", void 0);
+
+  __decorate([Prop({
+    type: [Object, Array]
+  })], VueSlider.prototype, "data", void 0);
+
+  __decorate([Prop({
+    type: String,
+    default: 'value'
+  })], VueSlider.prototype, "dataValue", void 0);
+
+  __decorate([Prop({
+    type: String,
+    default: 'label'
+  })], VueSlider.prototype, "dataLabel", void 0);
+
+  __decorate([Prop({
+    type: Boolean,
+    default: false
+  })], VueSlider.prototype, "lazy", void 0);
+
+  __decorate([Prop({
+    type: String,
+    validator: function validator(val) {
+      return ['none', 'always', 'focus', 'hover', 'active'].indexOf(val) > -1;
+    },
+    default: 'active'
+  })], VueSlider.prototype, "tooltip", void 0);
+
+  __decorate([Prop({
+    type: [String, Array],
+    validator: function validator(data) {
+      return (Array.isArray(data) ? data : [data]).every(function (val) {
+        return ['top', 'right', 'bottom', 'left'].indexOf(val) > -1;
       });
     }
-  }, {
-    key: "animateTime",
-    get: function get() {
-      if (this.states.has(SliderState.Drag)) {
-        return 0;
-      }
+  })], VueSlider.prototype, "tooltipPlacement", void 0);
 
-      return this.duration;
-    }
-  }, {
-    key: "canSort",
-    get: function get() {
-      return this.order && !this.minRange && !this.maxRange && !this.fixed && this.enableCross;
-    }
-  }, {
-    key: "isNotSync",
-    get: function get() {
-      var values = this.control.dotsValue;
-      return Array.isArray(this.value) ? this.value.length !== values.length || this.value.some(function (val, index) {
-        return val !== values[index];
-      }) : this.value !== values[0];
-    }
-  }, {
-    key: "dragRange",
-    get: function get() {
-      var prevDot = this.dots[this.focusDotIndex - 1];
-      var nextDot = this.dots[this.focusDotIndex + 1];
-      return [prevDot ? prevDot.pos : -Infinity, nextDot ? nextDot.pos : Infinity];
-    }
-  }]);
+  __decorate([Prop({
+    type: [String, Array, Function]
+  })], VueSlider.prototype, "tooltipFormatter", void 0);
 
+  __decorate([Prop({
+    type: Boolean,
+    default: true
+  })], VueSlider.prototype, "useKeyboard", void 0);
+
+  __decorate([Prop(Function)], VueSlider.prototype, "keydownHook", void 0);
+
+  __decorate([Prop({
+    type: Boolean,
+    default: true
+  })], VueSlider.prototype, "enableCross", void 0);
+
+  __decorate([Prop({
+    type: Boolean,
+    default: false
+  })], VueSlider.prototype, "fixed", void 0);
+
+  __decorate([Prop({
+    type: Boolean,
+    default: true
+  })], VueSlider.prototype, "order", void 0);
+
+  __decorate([Prop(Number)], VueSlider.prototype, "minRange", void 0);
+
+  __decorate([Prop(Number)], VueSlider.prototype, "maxRange", void 0);
+
+  __decorate([Prop({
+    type: [Boolean, Object, Array, Function],
+    default: false
+  })], VueSlider.prototype, "marks", void 0);
+
+  __decorate([Prop({
+    type: [Boolean, Function],
+    default: true
+  })], VueSlider.prototype, "process", void 0);
+
+  __decorate([Prop(Boolean)], VueSlider.prototype, "included", void 0);
+
+  __decorate([Prop(Boolean)], VueSlider.prototype, "adsorb", void 0);
+
+  __decorate([Prop(Boolean)], VueSlider.prototype, "hideLabel", void 0);
+
+  __decorate([Prop()], VueSlider.prototype, "dotOptions", void 0);
+
+  __decorate([Prop()], VueSlider.prototype, "dotAttrs", void 0);
+
+  __decorate([Prop()], VueSlider.prototype, "railStyle", void 0);
+
+  __decorate([Prop()], VueSlider.prototype, "processStyle", void 0);
+
+  __decorate([Prop()], VueSlider.prototype, "dotStyle", void 0);
+
+  __decorate([Prop()], VueSlider.prototype, "tooltipStyle", void 0);
+
+  __decorate([Prop()], VueSlider.prototype, "stepStyle", void 0);
+
+  __decorate([Prop()], VueSlider.prototype, "stepActiveStyle", void 0);
+
+  __decorate([Prop()], VueSlider.prototype, "labelStyle", void 0);
+
+  __decorate([Prop()], VueSlider.prototype, "labelActiveStyle", void 0);
+
+  __decorate([Watch('value')], VueSlider.prototype, "onValueChanged", null);
+
+  VueSlider = __decorate([vue_class_component_common_default()({
+    data: function data() {
+      return {
+        control: null
+      };
+    },
+    components: {
+      VueSliderDot: vue_slider_dot,
+      VueSliderMark: vue_slider_mark
+    }
+  })], VueSlider);
   return VueSlider;
-}(external_commonjs_vue_commonjs2_vue_root_Vue_default.a);
+}();
 
-__decorate([Model('change', {
-  default: 0
-})], vue_slider_VueSlider.prototype, "value", void 0);
-
-__decorate([Prop({
-  type: Boolean,
-  default: false
-})], vue_slider_VueSlider.prototype, "silent", void 0);
-
-__decorate([Prop({
-  default: 'ltr',
-  validator: function validator(dir) {
-    return ['ltr', 'rtl', 'ttb', 'btt'].indexOf(dir) > -1;
-  }
-})], vue_slider_VueSlider.prototype, "direction", void 0);
-
-__decorate([Prop({
-  type: [Number, String]
-})], vue_slider_VueSlider.prototype, "width", void 0);
-
-__decorate([Prop({
-  type: [Number, String]
-})], vue_slider_VueSlider.prototype, "height", void 0);
-
-__decorate([Prop({
-  default: 14
-})], vue_slider_VueSlider.prototype, "dotSize", void 0);
-
-__decorate([Prop({
-  default: false
-})], vue_slider_VueSlider.prototype, "contained", void 0);
-
-__decorate([Prop({
-  type: Number,
-  default: 0
-})], vue_slider_VueSlider.prototype, "min", void 0);
-
-__decorate([Prop({
-  type: Number,
-  default: 100
-})], vue_slider_VueSlider.prototype, "max", void 0);
-
-__decorate([Prop({
-  type: Number,
-  default: 1
-})], vue_slider_VueSlider.prototype, "interval", void 0);
-
-__decorate([Prop({
-  type: Boolean,
-  default: false
-})], vue_slider_VueSlider.prototype, "disabled", void 0);
-
-__decorate([Prop({
-  type: Boolean,
-  default: true
-})], vue_slider_VueSlider.prototype, "clickable", void 0);
-
-__decorate([Prop({
-  type: Boolean,
-  default: false
-})], vue_slider_VueSlider.prototype, "dragOnClick", void 0);
-
-__decorate([Prop({
-  type: Number,
-  default: 0.5
-})], vue_slider_VueSlider.prototype, "duration", void 0);
-
-__decorate([Prop(Array)], vue_slider_VueSlider.prototype, "data", void 0);
-
-__decorate([Prop({
-  type: Boolean,
-  default: false
-})], vue_slider_VueSlider.prototype, "lazy", void 0);
-
-__decorate([Prop({
-  type: String,
-  validator: function validator(val) {
-    return ['none', 'always', 'focus'].indexOf(val) > -1;
-  },
-  default: 'focus'
-})], vue_slider_VueSlider.prototype, "tooltip", void 0);
-
-__decorate([Prop({
-  type: [String, Array],
-  validator: function validator(data) {
-    return (Array.isArray(data) ? data : [data]).every(function (val) {
-      return ['top', 'right', 'bottom', 'left'].indexOf(val) > -1;
-    });
-  }
-})], vue_slider_VueSlider.prototype, "tooltipPlacement", void 0);
-
-__decorate([Prop({
-  type: [String, Array, Function]
-})], vue_slider_VueSlider.prototype, "tooltipFormatter", void 0);
-
-__decorate([Prop({
-  type: Boolean,
-  default: false
-})], vue_slider_VueSlider.prototype, "useKeyboard", void 0);
-
-__decorate([Prop(Function)], vue_slider_VueSlider.prototype, "keydownHook", void 0);
-
-__decorate([Prop({
-  type: Boolean,
-  default: true
-})], vue_slider_VueSlider.prototype, "enableCross", void 0);
-
-__decorate([Prop({
-  type: Boolean,
-  default: false
-})], vue_slider_VueSlider.prototype, "fixed", void 0);
-
-__decorate([Prop({
-  type: Boolean,
-  default: true
-})], vue_slider_VueSlider.prototype, "order", void 0);
-
-__decorate([Prop(Number)], vue_slider_VueSlider.prototype, "minRange", void 0);
-
-__decorate([Prop(Number)], vue_slider_VueSlider.prototype, "maxRange", void 0);
-
-__decorate([Prop({
-  type: [Boolean, Object, Array, Function],
-  default: false
-})], vue_slider_VueSlider.prototype, "marks", void 0);
-
-__decorate([Prop({
-  type: [Boolean, Function],
-  default: true
-})], vue_slider_VueSlider.prototype, "process", void 0);
-
-__decorate([Prop(Boolean)], vue_slider_VueSlider.prototype, "included", void 0);
-
-__decorate([Prop(Boolean)], vue_slider_VueSlider.prototype, "adsorb", void 0);
-
-__decorate([Prop(Boolean)], vue_slider_VueSlider.prototype, "hideLabel", void 0);
-
-__decorate([Prop()], vue_slider_VueSlider.prototype, "dotOptions", void 0);
-
-__decorate([Prop()], vue_slider_VueSlider.prototype, "railStyle", void 0);
-
-__decorate([Prop()], vue_slider_VueSlider.prototype, "processStyle", void 0);
-
-__decorate([Prop()], vue_slider_VueSlider.prototype, "dotStyle", void 0);
-
-__decorate([Prop()], vue_slider_VueSlider.prototype, "tooltipStyle", void 0);
-
-__decorate([Prop()], vue_slider_VueSlider.prototype, "stepStyle", void 0);
-
-__decorate([Prop()], vue_slider_VueSlider.prototype, "stepActiveStyle", void 0);
-
-__decorate([Prop()], vue_slider_VueSlider.prototype, "labelStyle", void 0);
-
-__decorate([Prop()], vue_slider_VueSlider.prototype, "labelActiveStyle", void 0);
-
-__decorate([Watch('value')], vue_slider_VueSlider.prototype, "onValueChanged", null);
-
-vue_slider_VueSlider = __decorate([vue_class_component_common_default()({
-  data: function data() {
-    return {
-      control: null
-    };
-  },
-  components: {
-    VueSliderDot: vue_slider_dot,
-    VueSliderMark: vue_slider_mark
-  }
-})], vue_slider_VueSlider);
 /* harmony default export */ var vue_slider = (vue_slider_VueSlider);
 // CONCATENATED MODULE: ./lib/index.ts
 /* tslint:disable:import-spacing */
@@ -3198,9 +3501,6 @@ vue_slider.VueSliderDot = vue_slider_dot;
 /* harmony default export */ var lib = (vue_slider);
 
 // CONCATENATED MODULE: ./node_modules/@vue/cli-service/lib/commands/build/entry-lib.js
-/* concated harmony reexport ERROR_TYPE */__webpack_require__.d(__webpack_exports__, "ERROR_TYPE", function() { return ERROR_TYPE; });
-/* concated harmony reexport VueSliderMark */__webpack_require__.d(__webpack_exports__, "VueSliderMark", function() { return vue_slider_mark; });
-/* concated harmony reexport VueSliderDot */__webpack_require__.d(__webpack_exports__, "VueSliderDot", function() { return vue_slider_dot; });
 
 
 /* harmony default export */ var entry_lib = __webpack_exports__["default"] = (lib);

@@ -4,7 +4,7 @@
 <%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
 
 
-<div id="ContentModuleApp">
+<%--<div id="ContentModuleApp">
     <% if (Model.Category.IsHistoric)
        { %>
         <div class="alert alert-info" role="alert">
@@ -119,7 +119,16 @@
         <%: Html.Partial("~/Views/Categories/Detail/Partials/ModalComponentCollection.ascx") %>
     <% } %>
     
+</div>--%>
+
+<div id="EditorApp">
+    <editor-content :editor="editor" />
 </div>
+
+<script src="https://cdn.jsdelivr.net/gh/zakariamouhid/tiptap-build@0.1.0/dist/index.js"
+        integrity="sha256-DuAR8Gzov5LiF020anF+DEENoi2eUFzA8LWBiDJbkQE=" crossorigin="anonymous"></script>
+
+
 <% if (!Model.CategoryIsDeleted)
    { %>
 <%: Html.Partial("~/Views/Categories/Detail/Partials/CategoryFooter/CategoryFooter.ascx") %>
