@@ -213,65 +213,56 @@
                                                 <div class="RenderedMarkdown extendedQuestion">
                                                     <component :is="extendedQuestion && {template:extendedQuestion}"></component>
                                                 </div>
-
                                                 <div class="answer">
-                                                    <strong>Richtige Antwort:</strong><br/>
-                                                     <component :is="answer && {template:answer}"></component>
-
+                                                    Richtige Antwort: <component :is="answer && {template:answer}"></component>
                                                 </div>
                                                 <div class="extendedAnswer" v-if="extendedAnswer != null && extendedAnswer.length > 0">
                                                     <strong>Ergänzungen zur Antwort:</strong><br/>
                                                     <component :is="extendedAnswer && {template:extendedAnswer}"></component>
-                                                </div>
-                                                <div class="notes">
-                                                    <div class="relatedCategories">{{topicTitle}}: <a v-for="(c, i) in categories" :href="c.linkToCategory">{{c.name}}{{i != categories.length - 1 ? ', ' : ''}}</a></div>
-                                                    <div class="author">Erstellt von: <a :href="authorUrl">{{author}}</a></div>
-                                                    <div class="sources" v-if="references.length > 0 && references[0].referenceText.length > 0">Quelle: <a v-for="r in references" :href="r.referenceText">{{r.referenceText}}</a></div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="questionBodyBottom" v-show="showFullQuestion">
-                                        <div class="row">
-                                                <div class="questionFooterIcons col-xs-3 row pull-right">
-                                            <div class="footerIcon col-xs-6 pull-right ellipsis dropup" @click="showQuestionMenu = true">
-                                                <i class="fas fa-ellipsis-v" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true"></i>
-                                                <ul class="dropdown-menu dropdown-menu-right" v-show="showQuestionMenu">
-                                                    <li>
-                                                        <a :href="url">Frageseite anzeigen</a>
-                                                    </li>
-                                                    <li v-if="isCreator || isAdmin == 'True' ">
-                                                        <a :href="editUrl" >Frage bearbeiten</a>
-                                                    </li>
-                                                    <li id="DeleteQuestion" v-if="isCreator || isAdmin == 'True' ">
-                                                        <a class="TextLinkWithIcon" data-toggle="modal" :data-questionid="questionId" href="#modalDeleteQuestion">
-                                                            Frage löschen
-                                                        </a>
-                                                    </li>
-                                                    <li>
-                                                        <a :href="historyUrl">Versionen anzeigen</a>
-                                                    </li>
-                                                </ul>
-                                            </div>
-                                            <div class="footerIcon col-xs-6 pull-right fullWidth" >
-                                                <a class="commentIcon" :href="linkToComments">
-                                                    <span>{{commentCount}}</span>
-                                                    <i class="far fa-comment"></i>
-                                                </a>
-                                            </div>
-                                                </div>
-                                                <div class="questionStats col-xs-8 pull-right" style="display: flex;">
-                                                    <div class="probabilitySection"><span class="percentageLabel" :class="backgroundColor">{{correctnessProbability}}</span> <span class="chip" :class="backgroundColor">{{correctnessProbabilityLabel}}</span></div>
-                                                    <div></div>
-                                                    <div>{{answerCount}} mal beantwortet | {{correctAnswers}} richtig / {{wrongAnswers}} falsch</div>
+                                    <div class="questionStats">
+                                        <div class="probabilitySection">
+                                            <span class="percentageLabel" :class="backgroundColor">{{correctnessProbability}}</span> 
+                                            <span class="chip" :class="backgroundColor">{{correctnessProbabilityLabel}}</span>
+                                        </div>
+                                        <div>{{answerCount}} mal beantwortet | {{correctAnswers}} richtig / {{wrongAnswers}} falsch</div>
+                                    </div>
+                                    <div class="questionFooterIcons">
+                                        <div>
+                                            <a class="commentIcon" :href="linkToComments">
+                                                <i class="fa fa-comment"><span> {{commentCount}}</span></i>
+                                                
+                                            </a>
+                                        </div>
+                                        <div class=" ellipsis dropup" @click="showQuestionMenu = true">
+                                            <i class="fas fa-ellipsis-v" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true"></i>
+                                            <ul class="dropdown-menu dropdown-menu-right" v-show="showQuestionMenu">
+                                                <li>
+                                                    <a :href="url">Frageseite anzeigen</a>
+                                                </li>
+                                                <li v-if="isCreator || isAdmin == 'True' ">
+                                                    <a :href="editUrl" >Frage bearbeiten</a>
+                                                </li>
+                                                <li id="DeleteQuestion" v-if="isCreator || isAdmin == 'True' ">
+                                                    <a class="TextLinkWithIcon" data-toggle="modal" :data-questionid="questionId" href="#modalDeleteQuestion">
+                                                        Frage löschen
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a :href="historyUrl">Versionen anzeigen</a>
+                                                </li>
+                                            </ul>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-
                 </question-component>
                 <div id="QuestionListPagination">
                     <ul class="pagination col-xs-12 row justify-content-xs-center" v-if="pageArray.length <= 8">

@@ -235,6 +235,12 @@
                 }
 
                 .questionBodyBottom {
+                    display: flex;
+                    justify-content: space-between;
+                    padding-right: 10px;
+                    padding-left: 72px;
+                    align-items: center; 
+
                     .questionDetails {
                         font-size: 12px;
                         padding-left: 24px;
@@ -246,7 +252,7 @@
 
                     .questionStats {
                         display: flex;
-                        font-size: 12px;
+                        font-size: 11px;
                         padding: 16px 12px;
 
                         .probabilitySection {
@@ -279,6 +285,7 @@
                                     border-radius: 20px;
                                     background: #D6D6D6;
                                     color: #555555;
+                                    white-space: nowrap;
 
                                     &.solid {
                                         background: #AFD534;
@@ -310,45 +317,36 @@
                     }
 
                     .questionFooterIcons {
-                        color: #DDDDDD;
+                        color: #999999;
                         font-size: 20px;
                         text-align: center;
                         max-height: 57px;
                         margin: 0;
+                        display: flex;
+                        flex-direction: row;
+                        flex-wrap: nowrap;
+                        align-items: center;
 
-                        .footerIcon {
-                            cursor: pointer;
-                            display: flex;
-                            flex-wrap: nowrap;
-                            text-align: center;
-                            width: 40px;
+                        a.commentIcon {
+                            text-decoration: none;
+                            color: #999999;
+                            font-size: 14px;
+                        }
+
+                        .ellipsis {
+                            padding: 8px 0px 8px 15px;
+                        }
+
+                        .dropdown-menu {
+                            text-align: left;
+                        }
+
+                        i {
                             padding: 8px;
+                        }
 
-                            a.commentIcon {
-                                color: #DDDDDD;
-                                text-decoration: none;
-                            }
-
-                            &.fullWidth {
-                                width: unset;
-                            }
-
-                            &.ellipsis {
-                                padding: 8px 16px 8px 0px;
-                            }
-
-                            .dropdown-menu {
-                                text-align: left;
-                            }
-
-                            i {
-                                max-width: 40px;
-                                padding: 8px;
-                            }
-
-                            span {
-                                line-height: 36px;
-                            }
+                        span {
+                            line-height: 36px;
                         }
                     }
                 }

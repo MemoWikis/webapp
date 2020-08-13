@@ -1614,7 +1614,7 @@ p:empty {
 #LearningTabContent #BorderQuestionList {
   display: block;
   width: 133%;
-  background-color: aqua;
+  background-color: #EFEFEF;
   position: absolute;
   margin-top: 73px;
   margin-left: -42px;

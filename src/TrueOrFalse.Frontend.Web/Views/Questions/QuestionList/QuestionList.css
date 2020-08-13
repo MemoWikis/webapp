@@ -190,6 +190,13 @@
 #QuestionListApp .singleQuestionRow .questionSectionFlex .questionContainer .questionBodyTop .extendedQuestionContainer .notes .sources {
   overflow-wrap: break-word;
 }
+#QuestionListApp .singleQuestionRow .questionSectionFlex .questionContainer .questionBodyBottom {
+  display: flex;
+  justify-content: space-between;
+  padding-right: 10px;
+  padding-left: 72px;
+  align-items: center;
+}
 #QuestionListApp .singleQuestionRow .questionSectionFlex .questionContainer .questionBodyBottom .questionDetails {
   font-size: 12px;
   padding-left: 24px;
@@ -199,7 +206,7 @@
 }
 #QuestionListApp .singleQuestionRow .questionSectionFlex .questionContainer .questionBodyBottom .questionStats {
   display: flex;
-  font-size: 12px;
+  font-size: 11px;
   padding: 16px 12px;
 }
 #QuestionListApp .singleQuestionRow .questionSectionFlex .questionContainer .questionBodyBottom .questionStats .probabilitySection {
@@ -226,6 +233,7 @@
   border-radius: 20px;
   background: #D6D6D6;
   color: #555555;
+  white-space: nowrap;
 }
 #QuestionListApp .singleQuestionRow .questionSectionFlex .questionContainer .questionBodyBottom .questionStats .probabilitySection span.chip.solid {
   background: #AFD534;
@@ -248,38 +256,31 @@
   box-shadow: 0px 1px 6px 0px #C4C4C4;
 }
 #QuestionListApp .singleQuestionRow .questionSectionFlex .questionContainer .questionBodyBottom .questionFooterIcons {
-  color: #DDDDDD;
+  color: #999999;
   font-size: 20px;
   text-align: center;
   max-height: 57px;
   margin: 0;
-}
-#QuestionListApp .singleQuestionRow .questionSectionFlex .questionContainer .questionBodyBottom .questionFooterIcons .footerIcon {
-  cursor: pointer;
   display: flex;
+  flex-direction: row;
   flex-wrap: nowrap;
-  text-align: center;
-  width: 40px;
-  padding: 8px;
+  align-items: center;
 }
-#QuestionListApp .singleQuestionRow .questionSectionFlex .questionContainer .questionBodyBottom .questionFooterIcons .footerIcon a.commentIcon {
-  color: #DDDDDD;
+#QuestionListApp .singleQuestionRow .questionSectionFlex .questionContainer .questionBodyBottom .questionFooterIcons a.commentIcon {
   text-decoration: none;
+  color: #999999;
+  font-size: 14px;
 }
-#QuestionListApp .singleQuestionRow .questionSectionFlex .questionContainer .questionBodyBottom .questionFooterIcons .footerIcon.fullWidth {
-  width: unset;
+#QuestionListApp .singleQuestionRow .questionSectionFlex .questionContainer .questionBodyBottom .questionFooterIcons .ellipsis {
+  padding: 8px 0px 8px 15px;
 }
-#QuestionListApp .singleQuestionRow .questionSectionFlex .questionContainer .questionBodyBottom .questionFooterIcons .footerIcon.ellipsis {
-  padding: 8px 16px 8px 0px;
-}
-#QuestionListApp .singleQuestionRow .questionSectionFlex .questionContainer .questionBodyBottom .questionFooterIcons .footerIcon .dropdown-menu {
+#QuestionListApp .singleQuestionRow .questionSectionFlex .questionContainer .questionBodyBottom .questionFooterIcons .dropdown-menu {
   text-align: left;
 }
-#QuestionListApp .singleQuestionRow .questionSectionFlex .questionContainer .questionBodyBottom .questionFooterIcons .footerIcon i {
-  max-width: 40px;
+#QuestionListApp .singleQuestionRow .questionSectionFlex .questionContainer .questionBodyBottom .questionFooterIcons i {
   padding: 8px;
 }
-#QuestionListApp .singleQuestionRow .questionSectionFlex .questionContainer .questionBodyBottom .questionFooterIcons .footerIcon span {
+#QuestionListApp .singleQuestionRow .questionSectionFlex .questionContainer .questionBodyBottom .questionFooterIcons span {
   line-height: 36px;
 }
 #QuestionListApp .singleQuestionRow .questionFooter {
