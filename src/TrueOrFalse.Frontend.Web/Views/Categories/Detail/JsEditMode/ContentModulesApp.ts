@@ -178,12 +178,14 @@ if (eventBus == null)
 
 declare var tiptapBuild: any;
 
-let {
+var {
     tiptap,
     tiptapUtils,
     tiptapCommands,
     tiptapExtensions
 } = tiptapBuild;
+
+Vue.component('editor-content', tiptap.EditorContent);
 new Vue({
     el: "#EditorApp",
     data: {
@@ -191,5 +193,8 @@ new Vue({
         tiptapUtils: Object.keys(tiptapUtils),
         tiptapCommands: Object.keys(tiptapCommands),
         tiptapExtensions: Object.keys(tiptapExtensions),
+        editor: new tiptap.Editor({
+            content: '<p>This is just a boring paragraph</p>',
+        }),
     }
 });

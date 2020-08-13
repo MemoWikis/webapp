@@ -124,9 +124,7 @@
 <div id="EditorApp">
     <editor-content :editor="editor" />
 </div>
-
-<script src="https://cdn.jsdelivr.net/gh/zakariamouhid/tiptap-build@0.1.0/dist/index.js"
-        integrity="sha256-DuAR8Gzov5LiF020anF+DEENoi2eUFzA8LWBiDJbkQE=" crossorigin="anonymous"></script>
+<%= Scripts.Render("~/bundles/js/tiptap") %>
 
 
 <% if (!Model.CategoryIsDeleted)

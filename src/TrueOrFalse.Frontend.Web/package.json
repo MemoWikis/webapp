@@ -1,8 +1,9 @@
 {
   "main": "Scripts/npm_builder/tiptap-build/dist/index.js",
+  "name": "tiptap-build",
   "jsdelivr": "Scripts/npm_builder/tiptap-build/dist/index.js",
   "scripts": {
-    "build:tiptap": "parcel build Scripts/npm_builder/tiptap-build/index.js -d Scripts/npm_builder/tiptap-build/dist/index.js --no-source-maps --no-cache --experimental-scope-hoisting"
+    "build:tiptap": "parcel build Scripts/npm_builder/tiptap-build/index.js -d Scripts/npm/tiptap-build --no-source-maps --no-cache --experimental-scope-hoisting -o tiptap-build.js"
   },
   "dependencies": {
     "@material/fab": "^1.1.1",
