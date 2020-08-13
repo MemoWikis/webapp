@@ -208,9 +208,22 @@
   display: flex;
   font-size: 11px;
   padding: 16px 12px;
+  flex-wrap: wrap;
+}
+#QuestionListApp .singleQuestionRow .questionSectionFlex .questionContainer .questionBodyBottom .questionStats .answerCountFooter {
+  width: 270px;
+  display: none;
+}
+@media (min-width: 700px) {
+  #QuestionListApp .singleQuestionRow .questionSectionFlex .questionContainer .questionBodyBottom .questionStats .answerCountFooter {
+    display: block;
+  }
 }
 #QuestionListApp .singleQuestionRow .questionSectionFlex .questionContainer .questionBodyBottom .questionStats .probabilitySection {
   padding-right: 10px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
 }
 #QuestionListApp .singleQuestionRow .questionSectionFlex .questionContainer .questionBodyBottom .questionStats .probabilitySection span.percentageLabel {
   font-weight: bold;
@@ -257,31 +270,26 @@
 }
 #QuestionListApp .singleQuestionRow .questionSectionFlex .questionContainer .questionBodyBottom .questionFooterIcons {
   color: #999999;
-  font-size: 20px;
-  text-align: center;
-  max-height: 57px;
+  font-size: 11px;
   margin: 0;
   display: flex;
-  flex-direction: row;
-  flex-wrap: nowrap;
   align-items: center;
+  height: 18px;
 }
 #QuestionListApp .singleQuestionRow .questionSectionFlex .questionContainer .questionBodyBottom .questionFooterIcons a.commentIcon {
   text-decoration: none;
   color: #999999;
   font-size: 14px;
 }
-#QuestionListApp .singleQuestionRow .questionSectionFlex .questionContainer .questionBodyBottom .questionFooterIcons .ellipsis {
-  padding: 8px 0px 8px 15px;
-}
 #QuestionListApp .singleQuestionRow .questionSectionFlex .questionContainer .questionBodyBottom .questionFooterIcons .dropdown-menu {
   text-align: left;
 }
-#QuestionListApp .singleQuestionRow .questionSectionFlex .questionContainer .questionBodyBottom .questionFooterIcons i {
-  padding: 8px;
-}
 #QuestionListApp .singleQuestionRow .questionSectionFlex .questionContainer .questionBodyBottom .questionFooterIcons span {
   line-height: 36px;
+}
+#QuestionListApp .singleQuestionRow .questionSectionFlex .questionContainer .questionBodyBottom .questionFooterIcons .ellipsis {
+  padding-left: 10px;
+  padding-right: 16px;
 }
 #QuestionListApp .singleQuestionRow .questionFooter {
   height: 52px;

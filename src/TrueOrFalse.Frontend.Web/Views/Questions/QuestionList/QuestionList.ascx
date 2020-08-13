@@ -230,13 +230,12 @@
                                             <span class="percentageLabel" :class="backgroundColor">{{correctnessProbability}}</span> 
                                             <span class="chip" :class="backgroundColor">{{correctnessProbabilityLabel}}</span>
                                         </div>
-
+                                        <div class="answerCountFooter">{{answerCount}}&nbsp;mal&nbsp;beantwortet&nbsp;|&nbsp;{{correctAnswers}}&nbsp;richtig&nbsp;/&nbsp;{{wrongAnswers}}&nbsp;falsch</div>
                                     </div>
                                     <div class="questionFooterIcons">
-                                        <div>{{answerCount}} mal beantwortet | {{correctAnswers}} richtig / {{wrongAnswers}} falsch</div>
                                         <div>
                                             <a class="commentIcon" :href="linkToComments">
-                                                <i class="fa fa-comment"><span> {{commentCount}}</span></i>
+                                                <i class="fa fa-comment"><span>&nbsp;{{commentCount}}</span></i>
                                             </a>
                                         </div>
                                         <div class=" ellipsis dropup" @click="showQuestionMenu = true">
