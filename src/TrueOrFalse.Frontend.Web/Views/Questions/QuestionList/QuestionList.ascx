@@ -8,9 +8,10 @@
 <div id="BorderQuestionList" style=""> </div>
     <div id="QuestionListApp" class="row">
     <div class="col-xs-12 drop-down-question-sort">
-            <div>Du lernst {{questionsCount}} Fragen aus diesem Thema (<%=Model.AllQuestionsInCategory %>)</div>
+        <div>Du lernst {{questionsCount}} Fragen aus diesem Thema (<%=Model.AllQuestionsInCategory %>)</div>
+        <div id="ButtonAndDropdown">
         <session-config-component inline-template @update="updateQuestionsCount">
-                <div>
+        <div class="rootElement">
             <div id="CustomSessionConfigBtn" @click="openModal()"><button class="btn btn-primary"><i class="fa fa-cog" aria-hidden="true"></i> Lernoptionen</button></div>
             <div class="modal fade" id="SessionConfigModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                 <div class="modal-dialog" role="document">
@@ -161,6 +162,7 @@
                 </ul>
             </div>
         </div>
+        </div>
         <question-list-component 
             inline-template 
             category-id="<%= Model.CategoryId %>" 
@@ -227,7 +229,7 @@
                                 <div class="questionBodyBottom" v-show="showFullQuestion">
                                     <div class="questionStats">
                                         <div class="probabilitySection">
-                                            <span class="percentageLabel" :class="backgroundColor">{{correctnessProbability}}</span> 
+                                            <span class="percentageLabel" :class="backgroundColor">{{correctnessProbability}}&nbsp;</span> 
                                             <span class="chip" :class="backgroundColor">{{correctnessProbabilityLabel}}</span>
                                         </div>
                                         <div class="answerCountFooter">{{answerCount}}&nbsp;mal&nbsp;beantwortet&nbsp;|&nbsp;{{correctAnswers}}&nbsp;richtig&nbsp;/&nbsp;{{wrongAnswers}}&nbsp;falsch</div>

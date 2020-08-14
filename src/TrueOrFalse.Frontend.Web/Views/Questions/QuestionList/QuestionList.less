@@ -4,6 +4,20 @@
 
     .drop-down-question-sort {
         display: flex;
+        flex-wrap: wrap;
+        padding-bottom: 10px;
+        font-size: 24px;
+        justify-content: space-between;
+
+        @media(max-width: 767px){
+            justify-content: center;
+        }
+
+
+        #ButtonAndDropdown{
+            display: flex;
+
+        }
     }
 
     .notShow {
@@ -335,7 +349,6 @@
                         margin: 0;
                         display: flex;
                         align-items: center;
-                        height: 18px;
 
                         a.commentIcon {
                             text-decoration: none;
@@ -352,8 +365,7 @@
                         }
 
                         .ellipsis {
-                            padding-left: 10px;
-                            padding-right: 16px;
+                            padding-left: 16px;
                         }
                     }
                 }

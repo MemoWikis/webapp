@@ -3,6 +3,18 @@
 }
 #QuestionListApp .drop-down-question-sort {
   display: flex;
+  flex-wrap: wrap;
+  padding-bottom: 10px;
+  font-size: 24px;
+  justify-content: space-between;
+}
+@media (max-width: 767px) {
+  #QuestionListApp .drop-down-question-sort {
+    justify-content: center;
+  }
+}
+#QuestionListApp .drop-down-question-sort #ButtonAndDropdown {
+  display: flex;
 }
 #QuestionListApp .notShow {
   display: none !important;
@@ -274,7 +286,6 @@
   margin: 0;
   display: flex;
   align-items: center;
-  height: 18px;
 }
 #QuestionListApp .singleQuestionRow .questionSectionFlex .questionContainer .questionBodyBottom .questionFooterIcons a.commentIcon {
   text-decoration: none;
@@ -288,8 +299,7 @@
   line-height: 36px;
 }
 #QuestionListApp .singleQuestionRow .questionSectionFlex .questionContainer .questionBodyBottom .questionFooterIcons .ellipsis {
-  padding-left: 10px;
-  padding-right: 16px;
+  padding-left: 16px;
 }
 #QuestionListApp .singleQuestionRow .questionFooter {
   height: 52px;
