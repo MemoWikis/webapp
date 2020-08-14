@@ -232,9 +232,9 @@
 .SessionBar {
     font-size: @font-size-base;
     line-height: @line-height-base;
-   // border: solid 2px @memo-green;
     background-color: #dddddd;
     margin-bottom: 20px;
+    display: flex;
     .clearfix;
 
     .media-below-sm ( {
@@ -257,28 +257,21 @@
 .QuestionCount {
     background-color: #dddddd;
     float: left;
-
-
-    .media-below-xs( {
-        padding-left: 15px;
-        padding-right: 15px;
-    }
-
-    );
-
-    &, & span {
-        .media-xs-up( {
-            text-align: center;
-        }
-
-        );
-    }
-
-    > span {
-        width: 100%;
-    }
-
+    display: flex;
     padding-top: 5px;
+    padding-left: 15px;
+    padding-right: 15px;
+
+    @pixel3: 3px;
+
+    #CurrentStepNumber {
+        padding-right: @pixel3;
+        padding-left: @pixel3;
+    }
+
+    #StepCount {
+        padding-left: @pixel3;
+    }
 }
 
 .ProgressBarContainer {

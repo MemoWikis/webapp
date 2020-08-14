@@ -295,6 +295,10 @@
   line-height: 1.42857143;
   background-color: #dddddd;
   margin-bottom: 20px;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
 }
 .SessionBar:before,
 .SessionBar:after {
@@ -334,22 +338,20 @@
 .QuestionCount {
   background-color: #dddddd;
   float: left;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
   padding-top: 5px;
+  padding-left: 15px;
+  padding-right: 15px;
 }
-@media (max-width: 479px) {
-  .QuestionCount {
-    padding-left: 15px;
-    padding-right: 15px;
-  }
+.QuestionCount #CurrentStepNumber {
+  padding-right: 3px;
+  padding-left: 3px;
 }
-@media (min-width: 480px) {
-  .QuestionCount,
-  .QuestionCount span {
-    text-align: center;
-  }
-}
-.QuestionCount > span {
-  width: 100%;
+.QuestionCount #StepCount {
+  padding-left: 3px;
 }
 .ProgressBarContainer {
   display: table;
