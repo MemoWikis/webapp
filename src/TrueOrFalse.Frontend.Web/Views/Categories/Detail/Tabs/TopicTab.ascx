@@ -124,7 +124,7 @@
 <div id="EditorApp">
     <editor-content :editor="editor" />
 </div>
-<%= Scripts.Render("~/bundles/js/tiptap") %>
+<%= Scripts.Render("~/Scripts/npm/tiptap-build/tiptap-build.js") %> 
 
 
 <% if (!Model.CategoryIsDeleted)
