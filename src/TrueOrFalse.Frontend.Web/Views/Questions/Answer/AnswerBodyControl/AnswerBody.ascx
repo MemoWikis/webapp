@@ -66,7 +66,7 @@
     </div>
     
     <% if (Model.SolutionType != SolutionType.FlashCard.ToString()) { %>
-    <h1 class="QuestionText" style="font-size: 22px; font-family: Open Sans, Arial, sans-serif; line-height: 31px; margin: 0;">
+    <h1 class="QuestionText">
         <%= Model.QuestionText %>
     </h1>
     <% } %>
@@ -149,7 +149,7 @@
 
                                     <% if (Model.SolutionType != SolutionType.FlashCard.ToString()){ %>
                                         <div id="buttons-first-try" class="ButtonGroup">
-                                        <a href="#" id="btnCheck" class="btn btn-primary" rel="nofollow" style="padding-right: 10px">Antworten</a>
+                                        <a href="#" id="btnCheck" class="btn btn-primary" rel="nofollow">Antworten</a>
                                         <% if (!Model.IsInTestMode){ %>
                                             <a href="#" class="selectorShowSolution SecAction btn btn-link"><i class="fa fa-lightbulb-o">&nbsp;</i>Lösung anzeigen</a>
                                         <% }%>        

@@ -233,12 +233,12 @@
     font-size: @font-size-base;
     line-height: @line-height-base;
     background-color: #dddddd;
-    margin-bottom: 20px;
+    margin-bottom: 50px;
     display: flex;
     .clearfix;
 
     .media-below-sm ( {
-        margin-bottom: 0;
+        margin-bottom: 40px;
 
         & + #AnswerBody, & + .row #AnswerBody {
             border-top: none;
@@ -379,8 +379,19 @@
     line-height: @line-height-base;
 }
 
+#btnCheck, #btnNext{
+    background: #0065CA;
+    padding-right: 10px;
+}
+
+
 .QuestionText {
     padding-bottom: 20px;
+    color: #003264;
+    font-size: 25px;
+    font-family:Regular Open Sans, Arial, sans-serif;
+    line-height: 31px;
+    margin: 0;
 
     .media-sm-up ( {
         padding-bottom: 30px;
@@ -769,10 +780,6 @@
             // padding: 0;
             margin-bottom: 0;
         }
-
-        /*.SessionBar {
-            margin-bottom: 15px;
-        }*/
 
         #LicenseQuestion {
             margin-top: 10px;

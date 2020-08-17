@@ -294,7 +294,7 @@
   font-size: 14px;
   line-height: 1.42857143;
   background-color: #dddddd;
-  margin-bottom: 20px;
+  margin-bottom: 50px;
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -318,7 +318,7 @@
 }
 @media (max-width: 767px) {
   .SessionBar {
-    margin-bottom: 0;
+    margin-bottom: 40px;
   }
   .SessionBar + #AnswerBody,
   .SessionBar + .row #AnswerBody {
@@ -454,8 +454,18 @@
   font-size: 14px;
   line-height: 1.42857143;
 }
+#btnCheck,
+#btnNext {
+  background: #0065CA;
+  padding-right: 10px;
+}
 .QuestionText {
   padding-bottom: 20px;
+  color: #003264;
+  font-size: 25px;
+  font-family: Regular Open Sans, Arial, sans-serif;
+  line-height: 31px;
+  margin: 0;
 }
 @media (min-width: 768px) {
   .QuestionText {
@@ -828,11 +838,6 @@
   .MarkdownImage img {
     max-height: 250px;
   }
-}
-#MasterWidget {
-  /*.SessionBar {
-            margin-bottom: 15px;
-        }*/
 }
 #MasterWidget #AnswerBody {
   border: none;
