@@ -3,8 +3,9 @@
 <%@ Import Namespace="System.Web.Optimization" %>
 <%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
 
+<%= Scripts.Render("~/Scripts/npm/tiptap-build/tiptap-build.js") %> 
 
-<%--<div id="ContentModuleApp">
+<div id="ContentModuleApp">
     <% if (Model.Category.IsHistoric)
        { %>
         <div class="alert alert-info" role="alert">
@@ -119,12 +120,13 @@
         <%: Html.Partial("~/Views/Categories/Detail/Partials/ModalComponentCollection.ascx") %>
     <% } %>
     
-</div>--%>
-
-<div id="EditorApp">
-    <editor-content :editor="editor" />
 </div>
-<%= Scripts.Render("~/Scripts/npm/tiptap-build/tiptap-build.js") %> 
+
+<%--<div id="EditorApp">
+    <editor-content :editor="editor" />
+</div>--%>
+<%--<%= Scripts.Render("~/bundles/js/tiptap") %> --%>
+
 
 
 <% if (!Model.CategoryIsDeleted)
