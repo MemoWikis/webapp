@@ -1,6 +1,14 @@
-﻿
+﻿@import (reference) '../../../Style/includes/imports.less';
+
 #QuestionListApp {
     margin-top: 103px;
+
+    .questionListComponent {
+        @media(max-width: @screen-xxs-max) {
+            padding-left: 0;
+            padding-right: 0;
+        }
+    }
 
     .drop-down-question-sort {
         display: flex;
@@ -9,14 +17,12 @@
         font-size: 24px;
         justify-content: space-between;
 
-        @media(max-width: 767px){
+        @media(max-width: 767px) {
             justify-content: center;
         }
 
-
-        #ButtonAndDropdown{
+        #ButtonAndDropdown {
             display: flex;
-
         }
     }
 
@@ -99,14 +105,8 @@
                 height: 100%;
                 padding: 8px 0 8px 32px;
 
-                img {
-                    @media (max-width: 380px) {
-                        display: none;
-                    }
-
-                    width: 40px;
-                    height: 40px;
-                    border-radius: 50%;
+                @media(max-width: @screen-xxs-max) {
+                    display: none;
                 }
             }
 
@@ -138,7 +138,6 @@
                                 font-weight: 600;
                             }
 
-
                             @media (max-width: 640px) {
                                 .col-xs-3 {
                                     width: 33%;
@@ -149,8 +148,7 @@
                                 }
                             }
 
-
-                            @media (max-width: 420px) {
+                            @media (max-width: @screen-sm-min) {
                                 .col-xs-3 {
                                     width: 50%;
                                 }
@@ -212,6 +210,10 @@
                                 }
                             }
                         }
+
+                        @media(max-width: @screen-xxs-max) {
+                            padding-left: 20px;
+                        }
                     }
 
                     .extendedQuestionContainer {
@@ -267,23 +269,25 @@
                     .questionStats {
                         display: flex;
                         font-size: 11px;
-                        padding: 16px 12px;
-                        flex-wrap: wrap;
+                        padding-left: 12px;
+                        padding-right: 12px;
+
 
                         .answerCountFooter {
-                            width: 270px;
-                            display: none;
+                            width: 260px;
+                            padding-bottom: 16px;
 
-                            @media(min-width: 700px) {
-                                display: block;
+
+                            @media(max-width: @screen-xxs-max) {
+                                padding-right: 0px;
                             }
                         }
 
                         .probabilitySection {
                             padding-right: 10px;
                             display: flex;
-                            flex-wrap: wrap;
                             justify-content: center;
+                            padding-bottom: 16px;
 
                             span {
                                 &.percentageLabel {
@@ -341,6 +345,10 @@
                                 box-shadow: 0px 1px 6px 0px #C4C4C4;
                             }
                         }
+
+                        @media(max-width: @screen-sm-min) {
+                            flex-wrap: wrap;
+                        }
                     }
 
                     .questionFooterIcons {
@@ -349,6 +357,7 @@
                         margin: 0;
                         display: flex;
                         align-items: center;
+                        margin-top: -21px;
 
                         a.commentIcon {
                             text-decoration: none;
@@ -367,6 +376,12 @@
                         .ellipsis {
                             padding-left: 16px;
                         }
+                    }
+
+                    @media (max-width: @screen-xxs-max) {
+                        flex-wrap: wrap;
+                        padding-left: 10px;
+                        justify-content: flex-end;
                     }
                 }
             }
@@ -433,5 +448,10 @@
         span {
             border: none;
         }
+    }
+
+    @media(max-width: @screen-xxs-max) {
+        margin-right: -20px;
+        margin-left: -20px;
     }
 }

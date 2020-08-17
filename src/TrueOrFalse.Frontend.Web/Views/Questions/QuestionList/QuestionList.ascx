@@ -171,7 +171,7 @@
             :is-question-list-to-show="isQuestionListToShow"
             :active-question ="activeQuestion"
             :selected-page-from-parent="selectedPageFromParent">
-            <div class="col-xs-12">
+            <div class="col-xs-12 questionListComponent">
                 <question-component inline-template
                                     v-for="(q, index) in questions"
                                     :question-id="q.Id" 
@@ -227,7 +227,7 @@
                                     </div>
                                 </div>
                                 <div class="questionBodyBottom" v-show="showFullQuestion">
-                                    <div class="questionStats">
+                                    <div class="questionStats questionStatsInQuestionList">
                                         <div class="probabilitySection">
                                             <span class="percentageLabel" :class="backgroundColor">{{correctnessProbability}}&nbsp;</span> 
                                             <span class="chip" :class="backgroundColor">{{correctnessProbabilityLabel}}</span>

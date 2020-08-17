@@ -1,5 +1,21 @@
-﻿#QuestionListApp {
+﻿@media (min-width: 768px) {
+}@media (min-width: 768px) {
+}@media (max-width: 767px) {
+}@media (min-width: 768px) {
+}@media (min-width: 768px) {
+}@media (min-width: 768px) {
+}@media (max-width: 767px) {
+}@media (max-width: 767px) {
+}@media (max-width: 649px) {
+}@media (min-width: 650px) {
+}#QuestionListApp {
   margin-top: 103px;
+}
+@media (max-width: 479px) {
+  #QuestionListApp .questionListComponent {
+    padding-left: 0;
+    padding-right: 0;
+  }
 }
 #QuestionListApp .drop-down-question-sort {
   display: flex;
@@ -80,13 +96,8 @@
   height: 100%;
   padding: 8px 0 8px 32px;
 }
-#QuestionListApp .singleQuestionRow .questionSectionFlex .questionImg img {
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-}
-@media (max-width: 380px) {
-  #QuestionListApp .singleQuestionRow .questionSectionFlex .questionImg img {
+@media (max-width: 479px) {
+  #QuestionListApp .singleQuestionRow .questionSectionFlex .questionImg {
     display: none;
   }
 }
@@ -124,7 +135,7 @@
     width: 66%;
   }
 }
-@media (max-width: 420px) {
+@media (max-width: 768px) {
   #QuestionListApp .singleQuestionRow .questionSectionFlex .questionContainer .questionBodyTop .questionContainerTopSection .questionHeader .col-xs-3 {
     width: 50%;
   }
@@ -177,6 +188,11 @@
     padding-left: 2px;
   }
 }
+@media (max-width: 479px) {
+  #QuestionListApp .singleQuestionRow .questionSectionFlex .questionContainer .questionBodyTop .questionContainerTopSection {
+    padding-left: 20px;
+  }
+}
 #QuestionListApp .singleQuestionRow .questionSectionFlex .questionContainer .questionBodyTop .extendedQuestionContainer {
   padding: 0 0 8px 0;
 }
@@ -219,23 +235,23 @@
 #QuestionListApp .singleQuestionRow .questionSectionFlex .questionContainer .questionBodyBottom .questionStats {
   display: flex;
   font-size: 11px;
-  padding: 16px 12px;
-  flex-wrap: wrap;
+  padding-left: 12px;
+  padding-right: 12px;
 }
 #QuestionListApp .singleQuestionRow .questionSectionFlex .questionContainer .questionBodyBottom .questionStats .answerCountFooter {
-  width: 270px;
-  display: none;
+  width: 260px;
+  padding-bottom: 16px;
 }
-@media (min-width: 700px) {
+@media (max-width: 479px) {
   #QuestionListApp .singleQuestionRow .questionSectionFlex .questionContainer .questionBodyBottom .questionStats .answerCountFooter {
-    display: block;
+    padding-right: 0px;
   }
 }
 #QuestionListApp .singleQuestionRow .questionSectionFlex .questionContainer .questionBodyBottom .questionStats .probabilitySection {
   padding-right: 10px;
   display: flex;
-  flex-wrap: wrap;
   justify-content: center;
+  padding-bottom: 16px;
 }
 #QuestionListApp .singleQuestionRow .questionSectionFlex .questionContainer .questionBodyBottom .questionStats .probabilitySection span.percentageLabel {
   font-weight: bold;
@@ -280,12 +296,18 @@
   transition: all 0.2s ease-out;
   box-shadow: 0px 1px 6px 0px #C4C4C4;
 }
+@media (max-width: 768px) {
+  #QuestionListApp .singleQuestionRow .questionSectionFlex .questionContainer .questionBodyBottom .questionStats {
+    flex-wrap: wrap;
+  }
+}
 #QuestionListApp .singleQuestionRow .questionSectionFlex .questionContainer .questionBodyBottom .questionFooterIcons {
   color: #999999;
   font-size: 11px;
   margin: 0;
   display: flex;
   align-items: center;
+  margin-top: -21px;
 }
 #QuestionListApp .singleQuestionRow .questionSectionFlex .questionContainer .questionBodyBottom .questionFooterIcons a.commentIcon {
   text-decoration: none;
@@ -300,6 +322,13 @@
 }
 #QuestionListApp .singleQuestionRow .questionSectionFlex .questionContainer .questionBodyBottom .questionFooterIcons .ellipsis {
   padding-left: 16px;
+}
+@media (max-width: 479px) {
+  #QuestionListApp .singleQuestionRow .questionSectionFlex .questionContainer .questionBodyBottom {
+    flex-wrap: wrap;
+    padding-left: 10px;
+    justify-content: flex-end;
+  }
 }
 #QuestionListApp .singleQuestionRow .questionFooter {
   height: 52px;
@@ -348,4 +377,10 @@
 }
 #QuestionListApp #QuestionListPagination span {
   border: none;
+}
+@media (max-width: 479px) {
+  #QuestionListApp {
+    margin-right: -20px;
+    margin-left: -20px;
+  }
 }
