@@ -10,7 +10,7 @@
     <div class="col-xs-12 drop-down-question-sort">
         <div>Du lernst {{questionsCount}} Fragen aus diesem Thema (<%=Model.AllQuestionsInCategory %>)</div>
         <div id="ButtonAndDropdown">
-        <session-config-component inline-template @update="updateQuestionsCount">
+        <session-config-component inline-template @update="updateQuestionsCount" :questions-count="questionsCount">
         <div class="rootElement">
             <div id="CustomSessionConfigBtn" @click="openModal()"><button class="btn btn-primary"><i class="fa fa-cog" aria-hidden="true"></i> Lernoptionen</button></div>
             <div class="modal fade" id="SessionConfigModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -104,30 +104,31 @@
                                 </div>
                             </div>
                             <div id="QuestionSortSessionConfig" v-bind:class="{displayNone: displayNone}">
-                                <div class="center">
+                                <div class="randomQuestions">
                                     <input type="checkbox" id="randomQuestions" style="display:none" v-model="randomQuestions" />
                                     <label for="randomQuestions" class="toggle">
                                         <span></span>
                                     </label>
+                                    <span>&nbsp;Zufällige Fragen</span> 
                                 </div>
-                                Zufällige Fragen
-                                <div class="center">
+                                
+                                <div class="answerHelp">
                                     <input type="checkbox" id="answerHelp" style="display:none" v-model="answerHelp" />
                                     <label for="answerHelp" class="toggle">
                                         <span></span>
                                     </label>
+                                    <span>&nbsp;Antworthilfe</span>
                                 </div>
-                                Antworthilfe
-                                <div class="center">
+                                <div class="repititions">
                                     <input type="checkbox" id="repititions" style="display:none" v-model="repititions" />
                                     <label for="repititions" class="toggle">
                                         <span></span>
                                     </label>
+                                    <span>&nbsp;Wiederholungen<i> falsch gelöste Fragen werden wiederholt</i></span>
                                 </div>
-                                Wiederholungen
                             </div>
                             <div class="themes-info">
-                                <p> Du lernst <b>113 Fragen</b> aus dem Thema Allgmeinwissen{{allQuestionCount}}</p>
+                                <p> Du lernst <b>{{maxSelectableQuestionCount}}</b> aus dem Thema Allgmeinwissen<%=Model.AllQuestionsInCategory %></p>
                             </div>
                             <div class="row">
                                 <div id="SafeLearnOptions">

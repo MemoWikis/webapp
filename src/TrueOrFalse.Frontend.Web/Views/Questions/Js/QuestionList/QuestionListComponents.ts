@@ -6,6 +6,7 @@ Vue.component('session-config-component', {
     components: {
         VueSlider: window['vue-slider-component']
     },
+    props:['questionsCount'],
     data() {
         return {
             answerBody: new AnswerBody(),
@@ -136,15 +137,8 @@ Vue.component('session-config-component', {
                 type: "POST",
                 success: result => {
                     result = parseInt(result);
-                    if (result > 50) {
-                        this.maxSelectableQuestionCount = 50;
-                        if (this.selectedQuestionCount > 50)
-                            this.selectedQuestionCount = 50;
-                    } else {
-                        this.maxSelectableQuestionCount = result;
-                        if (this.selectedQuestionCount > result)
-                            this.selectedQuestionCount = result;
-                    }
+                    this.maxSelectableQuestionCount = result;
+
                 }
             });
         },

@@ -5,6 +5,22 @@
 .paddingLeft20 {
   padding-left: 20px;
 }
+#QuestionSortSessionConfig .randomQuestions,
+#QuestionSortSessionConfig .answerHelp,
+#QuestionSortSessionConfig .repititions {
+  display: flex;
+  font-size: 14px;
+}
+#QuestionSortSessionConfig .randomQuestions span,
+#QuestionSortSessionConfig .answerHelp span,
+#QuestionSortSessionConfig .repititions span {
+  padding-left: 10px;
+}
+#QuestionSortSessionConfig .repititions i {
+  font-size: 12px;
+  font-family: 'Open Sans';
+  padding-left: 10px;
+}
 .rootElement .notLoggedInModal {
   display: flex;
   flex-direction: column;
