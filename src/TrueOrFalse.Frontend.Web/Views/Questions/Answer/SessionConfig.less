@@ -13,12 +13,38 @@
 }
 
 
+.rootElement {
+    .notLoggedInModal {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        background-color: #EBCCCC;
 
+        .notLoggedInHeader {
+            font-family: Helvetica Neue;
+            font-size: 18px;
+            padding: 30px 66px;
+        }
+
+        .notLoggedInButton {
+            padding-bottom: 10px;
+
+            a {
+                color: #FFFFFF;
+            }
+        }
+
+        .login {
+            font-size: 12px;
+            padding-bottom: 20px;
+        }
+    }
+}
 #SessionConfigModal {
     #SessionConfigHeader {
-        height: 88px;
-        padding: 0;
+        padding-bottom: 20px;
     }
+
 
     .modal-header {
         background-color: #AFD534;
@@ -232,11 +258,11 @@
 
         .blur {
             width: 100%;
-            height: 70%;
             position: absolute;
             backdrop-filter: blur(2px);
             z-index: 1;
             background: rgba(255, 255, 255, 0.67);
+            margin-left: -35px;
         }
 
         .radio {

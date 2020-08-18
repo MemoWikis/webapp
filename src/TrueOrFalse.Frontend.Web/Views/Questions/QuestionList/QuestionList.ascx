@@ -16,6 +16,11 @@
             <div class="modal fade" id="SessionConfigModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                 <div class="modal-dialog" role="document">
                     <div class="modal-content">
+                        <div class="notLoggedInModal" v-show="!isLoggedIn">
+                            <span class="notLoggedInHeader">Die Lernoptionen sind nur für eingeloggte Nutzer verfügbar.</span>
+                            <span class="notLoggedInButton"><button class="btn btn-primary"> <%: Html.ActionLink("Kostenlos registrieren", Links.RegisterAction, Links.RegisterController) %></button></span>
+                            <span class="login">Ich bin schon Nutzer!&nbsp;<a href="#" data-btn-login="true">Anmelden!</a></span>
+                        </div>
                         <div class="modal-header" id="SessionConfigHeader">
                             <h5>LERNOPTIONEN</h5>
                             <h4 class="modal-title">Personalisiere dein Lernen </h4>
@@ -23,16 +28,11 @@
                         <div class="modal-body">
                             <transition name="fade">
                                 <div class="restricted-options" v-show="!isLoggedIn && isHoveringOptions" @mouseover="isHoveringOptions = true" transition="fade">
-                                    <div class="info-content" style="">Diese Optionen sind nur für eingeloggte Nutzer verfügbar.</div>
-                                    <div class="restricted-options-buttons">                            
-                                        <div type="button" class="btn btn-link" @click="goToLogin()">Ich bin schon Nutzer!</div>
-                                        <a type="button" class="btn btn-primary" href="<%= Url.Action(Links.RegisterAction, Links.RegisterController) %>">Jetzt Registrieren!</a>
-                                    </div>
                                 </div>
                             </transition>
                             <div ref="radioSection" class="must-logged-in" :class="{'disabled-radios' : !isLoggedIn}" @mouseover="isHoveringOptions = true" @mouseleave="isHoveringOptions = false">
                                     <transition name="fade">
-                                        <div v-show="!isLoggedIn && isHoveringOptions" class="blur" :style="{maxWidth: radioWidth + 'px', maxHeight: radioHeight + 'px'}"></div>
+                                        <div v-show="!isLoggedIn && isHoveringOptions" class="blur" :style="{height: radioHeight + 'px'}"></div>
                                     </transition>
                                     <div class="modal-section-label">Prüfungsmodus</div>
                                     <div class="test-mode">
@@ -151,188 +151,189 @@
             </div>
         </div>
         </session-config-component>
-            <div class="Button dropdown">
-                <a href="#" class="dropdown-toggle  btn btn-link btn-sm ButtonEllipsis" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                    <i class="fa fa-ellipsis-v"></i>
-                </a>
-                <ul class="dropdown-menu dropdown-menu-right">
-                    <li><a href="<%= Links.CreateQuestion(Model.CategoryId) %>" data-allowed="logged-in"><i class="fa fa-plus-circle"></i>&nbsp;Frage hinzufügen</a></li>
-                    <li><a href="#" @click="toggleQuestionsList()"><i class="fa fa-angle-double-down"></i>&nbsp;Alle Fragen erweitern</a></li>
-                    <li><a href="#" data-allowed="logged-in" @click="loadCustomSession()"><i class="fa fa-play"></i>&nbsp;Fragen jetzt lernen </a></li>
-                </ul>
-            </div>
+
+        <div class="Button dropdown">
+            <a href="#" class="dropdown-toggle  btn btn-link btn-sm ButtonEllipsis" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                <i class="fa fa-ellipsis-v"></i>
+            </a>
+            <ul class="dropdown-menu dropdown-menu-right">
+                <li><a href="<%= Links.CreateQuestion(Model.CategoryId) %>" data-allowed="logged-in"><i class="fa fa-plus-circle"></i>&nbsp;Frage hinzufügen</a></li>
+                <li><a href="#" @click="toggleQuestionsList()"><i class="fa fa-angle-double-down"></i>&nbsp;Alle Fragen erweitern</a></li>
+                <li><a href="#" data-allowed="logged-in" @click="loadCustomSession()"><i class="fa fa-play"></i>&nbsp;Fragen jetzt lernen </a></li>
+            </ul>
         </div>
-        </div>
-        <question-list-component 
-            inline-template 
-            category-id="<%= Model.CategoryId %>" 
-            :all-question-count="questionsCount" 
-            is-admin="<%= Model.IsInstallationAdmin %>"  
-            :is-question-list-to-show="isQuestionListToShow"
-            :active-question ="activeQuestion"
-            :selected-page-from-parent="selectedPageFromParent">
-            <div class="col-xs-12 questionListComponent">
-                <question-component inline-template
-                                    v-for="(q, index) in questions"
-                                    :question-id="q.Id" 
-                                    :question-title="q.Title" 
-                                    :question-image="q.ImageData" 
-                                    :knowledge-state="q.CorrectnessProbability" 
-                                    :is-in-wishknowledge="q.IsInWishknowledge" 
-                                    :url="q.LinkToQuestion" 
-                                    :has-personal-answer="q.HasPersonalAnswer" 
-                                    :is-admin="isAdmin"
-                                    :is-question-list-to-show ="isQuestionListToShow"
-                                    :question-index="index"
-                                    :all-questions-count="allQuestionCount"
-                                    :active-question ="activeQuestion">
-                    
-                    <div class="singleQuestionRow" :class="[{ open: showFullQuestion}, backgroundColor]">
-                        <div class="questionSectionFlex">
-                            <div class="questionContainer">
-                                <div class="questionBodyTop">
-                                    <div class="questionImg col-xs-1" @click="expandQuestion()">
-                                        <img :src="questionImage"></img>
-                                    </div>
-                                    <div class="questionContainerTopSection col-xs-11" >
-                                        <div class="questionHeader row">
-                                            <div class="questionTitle col-xs-9" ref="questionTitle" :id="questionTitleId" @click.self="expandQuestion()">{{questionTitle}}</div>
-                                            <div class="questionHeaderIcons col-xs-3"  @click.self="expandQuestion()">
-                                                <div class="iconContainer float-right" @click="expandQuestion()">
-                                                    <i class="fas fa-angle-down rotateIcon" :class="{ open : showFullQuestion }"></i>
-                                                </div>
-                                                <div class="">
-                                                    <div :id="pinId" class="Pin" :data-question-id="questionId"></div>
-                                                </div>
-                                                <div class="go-to-question iconContainer">
-                                                    <span class="fas fa-play" :class="{ 'activeQ': questionIndex === activeQuestion }" :data-question-id="questionId" @click="loadSpecificQuestion()">
-                                                    </span>
-                                                </div>
+    </div>
+</div>
+    <question-list-component 
+        inline-template 
+        category-id="<%= Model.CategoryId %>" 
+        :all-question-count="questionsCount" 
+        is-admin="<%= Model.IsInstallationAdmin %>"  
+        :is-question-list-to-show="isQuestionListToShow"
+        :active-question ="activeQuestion"
+        :selected-page-from-parent="selectedPageFromParent">
+        <div class="col-xs-12 questionListComponent">
+            <question-component inline-template
+                                v-for="(q, index) in questions"
+                                :question-id="q.Id" 
+                                :question-title="q.Title" 
+                                :question-image="q.ImageData" 
+                                :knowledge-state="q.CorrectnessProbability" 
+                                :is-in-wishknowledge="q.IsInWishknowledge" 
+                                :url="q.LinkToQuestion" 
+                                :has-personal-answer="q.HasPersonalAnswer" 
+                                :is-admin="isAdmin"
+                                :is-question-list-to-show ="isQuestionListToShow"
+                                :question-index="index"
+                                :all-questions-count="allQuestionCount"
+                                :active-question ="activeQuestion">
+                
+                <div class="singleQuestionRow" :class="[{ open: showFullQuestion}, backgroundColor]">
+                    <div class="questionSectionFlex">
+                        <div class="questionContainer">
+                            <div class="questionBodyTop">
+                                <div class="questionImg col-xs-1" @click="expandQuestion()">
+                                    <img :src="questionImage"></img>
+                                </div>
+                                <div class="questionContainerTopSection col-xs-11" >
+                                    <div class="questionHeader row">
+                                        <div class="questionTitle col-xs-9" ref="questionTitle" :id="questionTitleId" @click.self="expandQuestion()">{{questionTitle}}</div>
+                                        <div class="questionHeaderIcons col-xs-3"  @click.self="expandQuestion()">
+                                            <div class="iconContainer float-right" @click="expandQuestion()">
+                                                <i class="fas fa-angle-down rotateIcon" :class="{ open : showFullQuestion }"></i>
+                                            </div>
+                                            <div class="">
+                                                <div :id="pinId" class="Pin" :data-question-id="questionId"></div>
+                                            </div>
+                                            <div class="go-to-question iconContainer">
+                                                <span class="fas fa-play" :class="{ 'activeQ': questionIndex === activeQuestion }" :data-question-id="questionId" @click="loadSpecificQuestion()">
+                                                </span>
                                             </div>
                                         </div>
-                                        <div class="extendedQuestionContainer" v-show="showFullQuestion">
-                                            <div class="questionBody">
-                                                <div class="RenderedMarkdown extendedQuestion">
-                                                    <component :is="extendedQuestion && {template:extendedQuestion}"></component>
-                                                </div>
-                                                <div class="answer">
-                                                    Richtige Antwort: <component :is="answer && {template:answer}"></component>
-                                                </div>
-                                                <div class="extendedAnswer" v-if="extendedAnswer != null && extendedAnswer.length > 0">
-                                                    <strong>Ergänzungen zur Antwort:</strong><br/>
-                                                    <component :is="extendedAnswer && {template:extendedAnswer}"></component>
-                                                </div>
+                                    </div>
+                                    <div class="extendedQuestionContainer" v-show="showFullQuestion">
+                                        <div class="questionBody">
+                                            <div class="RenderedMarkdown extendedQuestion">
+                                                <component :is="extendedQuestion && {template:extendedQuestion}"></component>
+                                            </div>
+                                            <div class="answer">
+                                                Richtige Antwort: <component :is="answer && {template:answer}"></component>
+                                            </div>
+                                            <div class="extendedAnswer" v-if="extendedAnswer != null && extendedAnswer.length > 0">
+                                                <strong>Ergänzungen zur Antwort:</strong><br/>
+                                                <component :is="extendedAnswer && {template:extendedAnswer}"></component>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="questionBodyBottom" v-show="showFullQuestion">
-                                    <div class="questionStats questionStatsInQuestionList">
-                                        <div class="probabilitySection">
-                                            <span class="percentageLabel" :class="backgroundColor">{{correctnessProbability}}&nbsp;</span> 
-                                            <span class="chip" :class="backgroundColor">{{correctnessProbabilityLabel}}</span>
-                                        </div>
-                                        <div class="answerCountFooter">{{answerCount}}&nbsp;mal&nbsp;beantwortet&nbsp;|&nbsp;{{correctAnswers}}&nbsp;richtig&nbsp;/&nbsp;{{wrongAnswers}}&nbsp;falsch</div>
+                            </div>
+                            <div class="questionBodyBottom" v-show="showFullQuestion">
+                                <div class="questionStats questionStatsInQuestionList">
+                                    <div class="probabilitySection">
+                                        <span class="percentageLabel" :class="backgroundColor">{{correctnessProbability}}&nbsp;</span> 
+                                        <span class="chip" :class="backgroundColor">{{correctnessProbabilityLabel}}</span>
                                     </div>
-                                    <div class="questionFooterIcons">
-                                        <div>
-                                            <a class="commentIcon" :href="linkToComments">
-                                                <i class="fa fa-comment"><span>&nbsp;{{commentCount}}</span></i>
-                                            </a>
-                                        </div>
-                                        <div class=" ellipsis dropup" @click="showQuestionMenu = true">
-                                            <i class="fas fa-ellipsis-v" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true"></i>
-                                            <ul class="dropdown-menu dropdown-menu-right" v-show="showQuestionMenu">
-                                                <li>
-                                                    <a :href="url">Frageseite anzeigen</a>
-                                                </li>
-                                                <li v-if="isCreator || isAdmin == 'True' ">
-                                                    <a :href="editUrl" >Frage bearbeiten</a>
-                                                </li>
-                                                <li id="DeleteQuestion" v-if="isCreator || isAdmin == 'True' ">
-                                                    <a class="TextLinkWithIcon" data-toggle="modal" :data-questionid="questionId" href="#modalDeleteQuestion">
-                                                        Frage löschen
-                                                    </a>
-                                                </li>
-                                                <li>
-                                                    <a :href="historyUrl">Versionen anzeigen</a>
-                                                </li>
-                                            </ul>
-                                        </div>
+                                    <div class="answerCountFooter">{{answerCount}}&nbsp;mal&nbsp;beantwortet&nbsp;|&nbsp;{{correctAnswers}}&nbsp;richtig&nbsp;/&nbsp;{{wrongAnswers}}&nbsp;falsch</div>
+                                </div>
+                                <div class="questionFooterIcons">
+                                    <div>
+                                        <a class="commentIcon" :href="linkToComments">
+                                            <i class="fa fa-comment"><span>&nbsp;{{commentCount}}</span></i>
+                                        </a>
+                                    </div>
+                                    <div class=" ellipsis dropup" @click="showQuestionMenu = true">
+                                        <i class="fas fa-ellipsis-v" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true"></i>
+                                        <ul class="dropdown-menu dropdown-menu-right" v-show="showQuestionMenu">
+                                            <li>
+                                                <a :href="url">Frageseite anzeigen</a>
+                                            </li>
+                                            <li v-if="isCreator || isAdmin == 'True' ">
+                                                <a :href="editUrl" >Frage bearbeiten</a>
+                                            </li>
+                                            <li id="DeleteQuestion" v-if="isCreator || isAdmin == 'True' ">
+                                                <a class="TextLinkWithIcon" data-toggle="modal" :data-questionid="questionId" href="#modalDeleteQuestion">
+                                                    Frage löschen
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a :href="historyUrl">Versionen anzeigen</a>
+                                            </li>
+                                        </ul>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </question-component>
-                <div id="QuestionListPagination">
-                    <ul class="pagination col-xs-12 row justify-content-xs-center" v-if="pageArray.length <= 8">
-                        <li class="page-item page-btn" :class="{ disabled : selectedPage == 1 }">
-                            <span class="page-link" @click="loadPreviousQuestions()">Vorherige</span>
-                        </li>
-                        <li class="page-item" v-for="(p, key) in pageArray" @click="loadQuestions(p)" :class="{ selected : selectedPage == p }">
-                            <span class="page-link">{{p}}</span>
-                        </li>
-                        <li class="page-item page-btn" :class="{ disabled : selectedPage == pageArray.length }">
-                            <span class="page-link" @click="loadNextQuestions()">Nächste</span>
-                        </li>
-                    </ul>
-
-                    <ul class="pagination col-xs-12 row justify-content-xs-center" v-else>
-                        <li class="page-item col-auto page-btn" :class="{ disabled : selectedPage == 1 }">
-                            <span class="page-link" @click="loadPreviousQuestions()">Vorherige</span>
-                        </li>
-                        <li class="page-item col-auto" @click="loadQuestions(1)" :class="{ selected : selectedPage == 1 }">
-                            <span class="page-link">1</span>
-                        </li>
-                        <li class="page-item col-auto" v-show="selectedPage == 5">
-                            <span class="page-link">2</span>
-                        </li>
-                        <li class="page-item col-auto" v-show="showLeftPageSelector" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                            <span class="page-link" v-on:click.this="{showLeftSelectionDropUp = !showLeftSelectionDropUp}">
-                                <div class="dropup" v-on:click.this="{showLeftSelectionDropUp = !showLeftSelectionDropUp}">
-                                    <div class="dropdown-toggle" type="button" id="DropUpMenuLeft" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-on:click="{showLeftSelectionDropUp = !showLeftSelectionDropUp}">
-                                        ...
-                                    </div>
-                                    <ul id="DropUpMenuLeftList" class="pagination dropdown-menu" aria-labelledby="DropUpMenuLeft" v-show="showLeftSelectionDropUp">
-                                        <li class="page-item" v-for="p in leftSelectorArray" @click="loadQuestions(p)">
-                                            <span class="page-link">{{p}}</span>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </span>
-                        </li>
-                        <li class="page-item col-auto" v-for="(p, key) in centerArray" @click="loadQuestions(p)" :class="{ selected : selectedPage == p }">
-                            <span class="page-link">{{p}}</span>
-                        </li>
-
-                        <li class="page-item col-auto" v-show="showRightPageSelector" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                            <span class="page-link" v-on:click.this="{showRightSelectionDropUp = !showRightSelectionDropUp}">
-                                <div class="dropup" v-on:click.this="{showRightSelectionDropUp = !showRightSelectionDropUp}">
-                                    <div class="dropdown-toggle" type="button" id="DropUpMenuRight" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-on:click="{showRightSelectionDropUp = !showRightSelectionDropUp}">
-                                        ...
-                                    </div>
-                                    <ul id="DropUpMenuRightList" class="pagination dropdown-menu" aria-labelledby="DropUpMenuLeft" v-show="showRightSelectionDropUp">
-                                        <li class="page-item" v-for="p in rightSelectorArray" @click="loadQuestions(p)">
-                                            <span class="page-link">{{p}}</span>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </span>
-                        </li>
-                        <li class="page-item col-auto" v-show="selectedPage == pageArray.length - 4">
-                            <span class="page-link">{{pageArray.length - 1}}</span>
-                        </li>
-                        <li class="page-item col-auto" @click="loadQuestions(pageArray.length)" :class="{ selected : selectedPage == pageArray.length }">
-                            <span class="page-link">{{pageArray.length}}</span>
-                        </li>
-                        <li class="page-item col-auto page-btn" :class="{ disabled : selectedPage == pageArray.length }">
-                            <span class="page-link" @click="loadNextQuestions()">Nächste</span>
-                        </li>
-                    </ul>
                 </div>
+            </question-component>
+            <div id="QuestionListPagination">
+                <ul class="pagination col-xs-12 row justify-content-xs-center" v-if="pageArray.length <= 8">
+                    <li class="page-item page-btn" :class="{ disabled : selectedPage == 1 }">
+                        <span class="page-link" @click="loadPreviousQuestions()">Vorherige</span>
+                    </li>
+                    <li class="page-item" v-for="(p, key) in pageArray" @click="loadQuestions(p)" :class="{ selected : selectedPage == p }">
+                        <span class="page-link">{{p}}</span>
+                    </li>
+                    <li class="page-item page-btn" :class="{ disabled : selectedPage == pageArray.length }">
+                        <span class="page-link" @click="loadNextQuestions()">Nächste</span>
+                    </li>
+                </ul>
+
+                <ul class="pagination col-xs-12 row justify-content-xs-center" v-else>
+                    <li class="page-item col-auto page-btn" :class="{ disabled : selectedPage == 1 }">
+                        <span class="page-link" @click="loadPreviousQuestions()">Vorherige</span>
+                    </li>
+                    <li class="page-item col-auto" @click="loadQuestions(1)" :class="{ selected : selectedPage == 1 }">
+                        <span class="page-link">1</span>
+                    </li>
+                    <li class="page-item col-auto" v-show="selectedPage == 5">
+                        <span class="page-link">2</span>
+                    </li>
+                    <li class="page-item col-auto" v-show="showLeftPageSelector" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                        <span class="page-link" v-on:click.this="{showLeftSelectionDropUp = !showLeftSelectionDropUp}">
+                            <div class="dropup" v-on:click.this="{showLeftSelectionDropUp = !showLeftSelectionDropUp}">
+                                <div class="dropdown-toggle" type="button" id="DropUpMenuLeft" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-on:click="{showLeftSelectionDropUp = !showLeftSelectionDropUp}">
+                                    ...
+                                </div>
+                                <ul id="DropUpMenuLeftList" class="pagination dropdown-menu" aria-labelledby="DropUpMenuLeft" v-show="showLeftSelectionDropUp">
+                                    <li class="page-item" v-for="p in leftSelectorArray" @click="loadQuestions(p)">
+                                        <span class="page-link">{{p}}</span>
+                                    </li>
+                                </ul>
+                            </div>
+                        </span>
+                    </li>
+                    <li class="page-item col-auto" v-for="(p, key) in centerArray" @click="loadQuestions(p)" :class="{ selected : selectedPage == p }">
+                        <span class="page-link">{{p}}</span>
+                    </li>
+
+                    <li class="page-item col-auto" v-show="showRightPageSelector" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                        <span class="page-link" v-on:click.this="{showRightSelectionDropUp = !showRightSelectionDropUp}">
+                            <div class="dropup" v-on:click.this="{showRightSelectionDropUp = !showRightSelectionDropUp}">
+                                <div class="dropdown-toggle" type="button" id="DropUpMenuRight" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-on:click="{showRightSelectionDropUp = !showRightSelectionDropUp}">
+                                    ...
+                                </div>
+                                <ul id="DropUpMenuRightList" class="pagination dropdown-menu" aria-labelledby="DropUpMenuLeft" v-show="showRightSelectionDropUp">
+                                    <li class="page-item" v-for="p in rightSelectorArray" @click="loadQuestions(p)">
+                                        <span class="page-link">{{p}}</span>
+                                    </li>
+                                </ul>
+                            </div>
+                        </span>
+                    </li>
+                    <li class="page-item col-auto" v-show="selectedPage == pageArray.length - 4">
+                        <span class="page-link">{{pageArray.length - 1}}</span>
+                    </li>
+                    <li class="page-item col-auto" @click="loadQuestions(pageArray.length)" :class="{ selected : selectedPage == pageArray.length }">
+                        <span class="page-link">{{pageArray.length}}</span>
+                    </li>
+                    <li class="page-item col-auto page-btn" :class="{ disabled : selectedPage == pageArray.length }">
+                        <span class="page-link" @click="loadNextQuestions()">Nächste</span>
+                    </li>
+                </ul>
             </div>
-        </question-list-component>
+        </div>
+    </question-list-component>
     </div>
 <%= Scripts.Render("~/bundles/js/QuestionListApp") %>
 

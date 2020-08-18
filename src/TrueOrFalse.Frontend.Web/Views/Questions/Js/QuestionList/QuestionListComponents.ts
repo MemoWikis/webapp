@@ -34,7 +34,6 @@ Vue.component('session-config-component', {
             isTestMode: false,
             isHoveringOptions: false,
             radioHeight: 0,
-            radioWidth: 0,
             openLogin: false,
             createdByCurrentUser: false,
             allQuestions: false,
@@ -172,7 +171,6 @@ Vue.component('session-config-component', {
         },
         matchSize() {
             this.radioHeight = this.$refs.radioSection.clientHeight;
-            this.radioWidth = this.$refs.radioSection.clientWidth;
         },
         openModal() {
             this.loadQuestionCount();
