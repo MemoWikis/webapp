@@ -18,7 +18,7 @@
                     <div class="modal-content">
                         <div class="modal-header" id="SessionConfigHeader">
                             <h5>LERNOPTIONEN</h5>
-                            <h4 class="modal-title" >{{title}} personalisieren</h4>
+                            <h4 class="modal-title">Personalisiere dein Lernen </h4>
                         </div>
                         <div class="modal-body">
                             <transition name="fade">

@@ -8,7 +8,6 @@ Vue.component('session-config-component', {
     },
     data() {
         return {
-            title: 'Lernen',
             answerBody: new AnswerBody(),
             probabilityRange: [0, 100],
             questionFilter: {
