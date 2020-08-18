@@ -34,7 +34,7 @@
                                     <transition name="fade">
                                         <div v-show="!isLoggedIn && isHoveringOptions" class="blur" :style="{height: radioHeight + 'px'}"></div>
                                     </transition>
-                                    <div class="modal-section-label">Prüfungsmodus</div>
+                                    <div class="modal-section-label">Prüfungsmodus&nbsp;<i class="fa fa-info-circle" aria-hidden="true"></i></div>
                                     <div class="test-mode">
                                         <div class="center">
                                             <input type="checkbox" id="cbx" style="display:none" v-model="isTestMode" />
@@ -96,13 +96,14 @@
                             </div>
                             <div class="row modal-more-options" @click="displayNone = !displayNone">
                                 <div class="more-options class= col-sm-12">
-                                    <span>Mehr Optionen</span>
+                                    <span v-if="displayNone" >Mehr Optionen</span>
+                                    <span v-if="!displayNone">Weniger Optionen</span>
                                     <span class="angle">
                                         <i class="fas fa-angle-down"></i>
                                     </span>
                                 </div>
                             </div>
-                            <div id="QuestionSortSessionConfig">
+                            <div id="QuestionSortSessionConfig" v-bind:class="{displayNone: displayNone}">
                                 <div class="center">
                                     <input type="checkbox" id="randomQuestions" style="display:none" v-model="randomQuestions" />
                                     <label for="randomQuestions" class="toggle">
@@ -125,10 +126,10 @@
                                 </div>
                                 Wiederholungen
                             </div>
-                            <div class="themes-info" v-bind:class="{displayNone: displayNone}">
-                                <p> Du lernst <b>113 Fragen</b> aus dem Thema Allgmeinwissen(4.112)</p>
+                            <div class="themes-info">
+                                <p> Du lernst <b>113 Fragen</b> aus dem Thema Allgmeinwissen{{allQuestionCount}}</p>
                             </div>
-                            <div class="row" v-bind:class="{displayNone: displayNone}">
+                            <div class="row">
                                 <div id="SafeLearnOptions">
                                     <div class="col-sm-12 safe-settings">
                                         <label>
