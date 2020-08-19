@@ -173,22 +173,9 @@ public class EntityCache
         return questions;
     }
 
-    public static IList<Question> GetAllQuestions()
-    {
-        var questionList = new List<Question>();
+    public static IList<Question> GetAllQuestions() => Questions.Values.ToList();
+ 
 
-        var questions = Questions;
-        var counter = 0; 
-        foreach (var question in questions)
-        {
-            if (questions.TryGetValue(counter, out var questionToAdd))
-            {
-                questionList.Add(questionToAdd);
-                counter ++;
-            }
-        }
-        return  questionList; 
-    }
     public static Question GetQuestionById(int questionId)
     {
         if (Questions.TryGetValue(questionId, out var question))
