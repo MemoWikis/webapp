@@ -152,6 +152,8 @@ class AnswerBodyLoader {
                 if (this._isInLearningTab && !this._getCustomSession) {
                     $("#QuestionDetails").empty();
                 }
+                if($("#hddIsLearningSession").val() !== "True")
+                    this.updateNavigationBar(result.navBarData);
 
                 this.updateSessionHeader(result.sessionData);
 
@@ -215,5 +217,29 @@ class AnswerBodyLoader {
             $("#hddIsLearningSession").attr("data-is-last-step", sessionStepData.isLastStep);
             $(".SessionBar .QuestionCount").html(sessionStepData.currentSessionHeader);
         }
+    }
+
+    private updateNavigationBar(navBarData: any) {
+        $("#AnswerQuestionPager .Current").replaceWith($(navBarData.currentHtml).find(".Current"));
+
+        if (navBarData.nextUrl) {
+            if ($("#NextQuestionLink").length === 0)
+                $("#AnswerQuestionPager .Next").append($(navBarData.currentHtml).find("#NextQuestionLink"));
+            else
+                $("#NextQuestionLink").attr("href", navBarData.nextUrl);
+        } else {
+            $("#NextQuestionLink").remove();
+        }
+
+        if (navBarData.previousUrl) {
+            if ($("#PreviousQuestionLink").length === 0)
+                $("#AnswerQuestionPager .Previous").append($(navBarData.currentHtml).find("#PreviousQuestionLink"));
+            else
+                $("#PreviousQuestionLink").attr("href", navBarData.previousUrl);
+        } else {
+            $("#PreviousQuestionLink").remove();
+        }
+
+        $("#NextQuestionLink, #PreviousQuestionLink").unbind();
     }
 }
