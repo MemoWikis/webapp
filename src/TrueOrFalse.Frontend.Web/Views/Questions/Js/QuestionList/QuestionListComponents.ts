@@ -6,7 +6,7 @@ Vue.component('session-config-component', {
     components: {
         VueSlider: window['vue-slider-component']
     },
-    props: ['questionsCount'],
+    props: ['questionsCount', 'allQuestionsCount'],
     data() {
         return {
             answerBody: new AnswerBody(),
@@ -14,7 +14,7 @@ Vue.component('session-config-component', {
             questionFilter: {
                 minProbability: 0,
                 maxProbability: 100,
-                maxQuestionCount: 10,
+                maxQuestionCount: 0,
                 inWishknowledge: false,
                 createdByCurrentUser: false,
                 allQuestions: false,
@@ -84,7 +84,7 @@ Vue.component('session-config-component', {
         selectedQuestionCount: function (val) {
             this.questionFilter.maxQuestionCount = parseInt(val);
         },
-        questionsInWishknowledge: function (val) {
+        inWishknowledge: function (val) {
 
             if (val) {
                 this.isNotQuestionInWishKnowledge = false;

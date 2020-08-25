@@ -1,7 +1,6 @@
 ﻿declare var Vue: any;
 declare var eventBus: any;
 
-
 if (eventBus == null)
     var eventBus = new Vue();
 
@@ -58,3 +57,4 @@ var questionListApp = new Vue({
         },
     }
 });
+
