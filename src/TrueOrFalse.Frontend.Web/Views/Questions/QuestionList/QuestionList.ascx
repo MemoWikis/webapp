@@ -10,7 +10,7 @@
     <div class="col-xs-12 drop-down-question-sort">
         <div>Du lernst {{questionsCount}} Fragen aus diesem Thema ({{allQuestionsCount}})</div>
         <div id="ButtonAndDropdown">
-        <session-config-component inline-template @update="updateQuestionsCount" :questions-count="questionsCount">
+        <session-config-component inline-template @update="updateQuestionsCount" :questions-count="questionsCount" :all-questions-count="allQuestionsCount">
         <div class="rootElement">
             <div id="CustomSessionConfigBtn" @click="openModal()"><button class="btn btn-primary"><i class="fa fa-cog" aria-hidden="true"></i> Lernoptionen</button></div>
             <div class="modal fade" id="SessionConfigModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -128,7 +128,7 @@
                                 </div>
                             </div>
                             <div class="themes-info">
-                                <p> Du lernst <b>{{maxSelectableQuestionCount}}</b> aus dem Thema Allgmeinwissen<%=Model.AllQuestionsInCategory %></p>
+                                <p> Du lernst <b>{{maxSelectableQuestionCount}}</b> aus dem Thema Allgmeinwissen {{allQuestionsCount}}</p>
                             </div>
                             <div class="row">
                                 <div id="SafeLearnOptions">
