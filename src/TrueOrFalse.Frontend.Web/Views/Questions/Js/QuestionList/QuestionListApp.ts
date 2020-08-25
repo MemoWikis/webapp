@@ -1,6 +1,7 @@
 ﻿declare var Vue: any;
 declare var eventBus: any;
 
+
 if (eventBus == null)
     var eventBus = new Vue();
 
@@ -9,10 +10,11 @@ var questionListApp = new Vue({
     data: {
         isQuestionListToShow: false,
         answerBody: new AnswerBody(),
-        questionsCount: 10,
-        activeQuestion: 0,
+        questionsCount: 10,       
+        activeQuestion: 0,      // which question is active
         learningSessionData: "",
-        selectedPageFromParent: 1
+        selectedPageFromParent: 1,
+        allQuestionsCount: 0
     },
     methods: {
         toggleQuestionsList: function() {
@@ -23,10 +25,27 @@ var questionListApp = new Vue({
         },
         changeActiveQuestion: function (index) {
             this.activeQuestion = index;
+        }, 
+        getAllQuestionsCountFromCategory() {
+            $.ajax({
+                url: "/AnswerQuestion/GetQuestionCount/",
+                data: {
+                    config: null,
+                    categoryId: $("#hhdCategoryId").val()
+        },
+                type: "POST",
+                success: result => {
+                    result = parseInt(result);
+                    this.questionsCount = result;
+                    this.allQuestionsCount = result;
+
+                }
+            });
         }
     },
     created: function() {
         eventBus.$on("change-active-question", (index) => { this.changeActiveQuestion(index) });
+        this.questionsCount = this.getAllQuestionsCountFromCategory() ; 
     },
     watch: {
         activeQuestion: function (val) {

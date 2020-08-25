@@ -8,7 +8,7 @@
 <div id="BorderQuestionList" style=""> </div>
     <div id="QuestionListApp" class="row">
     <div class="col-xs-12 drop-down-question-sort">
-        <div>Du lernst {{questionsCount}} Fragen aus diesem Thema (<%=Model.AllQuestionsInCategory %>)</div>
+        <div>Du lernst {{questionsCount}} Fragen aus diesem Thema ({{allQuestionsCount}})</div>
         <div id="ButtonAndDropdown">
         <session-config-component inline-template @update="updateQuestionsCount" :questions-count="questionsCount">
         <div class="rootElement">

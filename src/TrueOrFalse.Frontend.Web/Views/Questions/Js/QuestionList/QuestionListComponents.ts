@@ -6,7 +6,7 @@ Vue.component('session-config-component', {
     components: {
         VueSlider: window['vue-slider-component']
     },
-    props:['questionsCount'],
+    props: ['questionsCount'],
     data() {
         return {
             answerBody: new AnswerBody(),
@@ -46,6 +46,9 @@ Vue.component('session-config-component', {
             repititions: true
         };
     },
+    created() {
+        this.loadQuestionCount();
+    },
     mounted() {
         var self = this;
 
@@ -54,18 +57,20 @@ Vue.component('session-config-component', {
             this.isLoggedIn = false;
         };
 
-        this.$nextTick(function () {
+        this.$nextTick(function() {
             window.addEventListener('resize', this.matchSize);
             this.matchSize();
         });
 
-        $('#SessionConfigModal').on('shown.bs.modal', function () {
-            self.matchSize();
-        });
-        $('#SessionConfigModal').on('hidden.bs.modal', function () {
-            if (self.openLogin)
-                Login.OpenModal();
-        });
+        $('#SessionConfigModal').on('shown.bs.modal',
+            function() {
+                self.matchSize();
+            });
+        $('#SessionConfigModal').on('hidden.bs.modal',
+            function() {
+                if (self.openLogin)
+                    Login.OpenModal();
+            });
     },
     watch: {
         probabilityRange: function () {
@@ -138,7 +143,6 @@ Vue.component('session-config-component', {
                 success: result => {
                     result = parseInt(result);
                     this.maxSelectableQuestionCount = result;
-
                 }
             });
         },

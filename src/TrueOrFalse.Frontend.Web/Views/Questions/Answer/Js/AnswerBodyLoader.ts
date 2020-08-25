@@ -10,7 +10,6 @@ class AnswerBodyLoader {
     constructor(answerBody: AnswerBody) {
         this._isInLearningTab = $('#LearningTab').length > 0;
         $(() => {
-
             if (window.location.pathname.split("/")[4] === "im-Fragesatz") {
                 $("#NextQuestionLink, #btnNext").click((e) => {
                     e.preventDefault();
@@ -93,7 +92,7 @@ class AnswerBodyLoader {
                 categoryId: $('#hhdCategoryId').val(),
                 isInLearningTab: this._isInLearningTab,
                 currentUserId: $("#hddUserId").val(),
-                maxQuestionCount: questionFilter != null ? questionFilter.maxQuestionCount : 10,
+                maxQuestionCount: questionFilter != null ? questionFilter.maxQuestionCount : -1,
                 minProbability: questionFilter != null ? questionFilter.minProbability : 0,
                 maxProbability: questionFilter != null ? questionFilter.maxProbability : 100,
                 inWishknowledge: questionFilter != null ? questionFilter.inWishknowledge : false,

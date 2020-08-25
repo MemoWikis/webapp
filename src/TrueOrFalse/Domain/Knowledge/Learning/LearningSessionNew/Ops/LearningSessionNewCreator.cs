@@ -65,7 +65,7 @@ public class LearningSessionNewCreator
         if (config.MaxQuestionCount == 0)
             return questions;
 
-        if (config.MaxQuestionCount > questions.Count)
+        if (config.MaxQuestionCount > questions.Count || config.MaxQuestionCount == -1)
             return questions;
 
         var amountQuestionsToDelete = questions.Count - config.MaxQuestionCount;
@@ -121,7 +121,7 @@ public class LearningSessionNewCreator
 
     private static List<Question> GetCategoryQuestionsFromEntityCache(int categoryId)
     {
-        return EntityCache.GetQuestionsForCategory(categoryId).ToList();
+        return EntityCache.GetCategory(categoryId).GetAggregatedQuestionsFromMemoryCache().ToList();
     }
 
     private static IList<Question> OrderByProbability( List<Question> questions)
