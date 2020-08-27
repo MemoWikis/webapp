@@ -22023,6 +22023,7 @@
     <Content Include="Views\Shared\Delete.css">
       <DependentUpon>Delete.less</DependentUpon>
     </Content>
+    <Content Include="Views\Shared\PinComponentVue\PinComponent.vue.ascx" />
     <Content Include="Views\Shared\Modals\ForTheTimeToDeleteModal.ascx" />
     <Compile Include="Views\Shared\Cards\UserCardBaseModel.cs" />
     <Compile Include="Views\Shared\SharedController.cs" />
@@ -22349,6 +22350,9 @@
     </Content>
     <Content Include="Views\Shared\CategoryLabel.ascx" />
     <Content Include="Views\Shared\MainMenuThemeCentered.ascx" />
+    <Content Include="Views\Shared\PinComponentVue\PinComponent.vue.js">
+      <DependentUpon>PinComponent.vue.ts</DependentUpon>
+    </Content>
     <Content Include="Views\Shared\SidebarCards.ascx" />
     <Content Include="Views\Sets\Edit\QuestionInSet.ascx" />
     <Content Include="Views\Shared\LinkToTop.ascx" />
@@ -23413,6 +23417,7 @@
     <TypeScriptCompile Include="Views\Sets\Edit\Js\EditSet.ts" />
     <TypeScriptCompile Include="Views\Sets\Edit\Js\Validation.ts" />
     <TypeScriptCompile Include="Views\Sets\Js\SetDelete.ts" />
+    <TypeScriptCompile Include="Views\Shared\PinComponentVue\PinComponent.vue.ts" />
     <TypeScriptCompile Include="Views\Shared\Spinner\Js\Spinner.ts" />
     <TypeScriptCompile Include="Views\Users\Account\Js\Membership.ts" />
     <TypeScriptCompile Include="Views\Users\Account\WidgetStats\Js\WidgetStats.ts" />
@@ -24029,6 +24034,9 @@
     </Content>
     <Content Include="Views\Questions\Js\QuestionList\QuestionListComponents.js.map">
       <DependentUpon>QuestionListComponents.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Shared\PinComponentVue\PinComponent.vue.js.map">
+      <DependentUpon>PinComponent.vue.ts</DependentUpon>
     </Content>
     <None Include="Web.overwritten.config.sample" />
     <Content Include="Views\Welcome\Logout.aspx" />

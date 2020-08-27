@@ -1,4 +1,5 @@
 ﻿using System.Web.Optimization;
+using FluentNHibernate.Conventions.Inspections;
 
 namespace TrueOrFalse.View
 {
@@ -183,7 +184,8 @@ namespace TrueOrFalse.View
 
             bundles.Add(new ScriptBundle("~/bundles/js/QuestionListComponents")
                 .Include("~/Scripts/npm/vue-slider-component/vue-slider-component.umd.js")
-                .Include("~/Views/Questions/Js/QuestionList/QuestionListComponents.js"));
+                .Include("~/Views/Questions/Js/QuestionList/QuestionListComponents.js")
+                .Include("~/Views/Shared/PinComponentVue/PinComponent.vue.js"));
 
 
             bundles.Add(new StyleBundle("~/bundles/QuestionList")

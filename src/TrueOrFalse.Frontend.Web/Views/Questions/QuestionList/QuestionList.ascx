@@ -1,7 +1,9 @@
 ﻿<%@ Control Language="C#" AutoEventWireup="true" Inherits="System.Web.Mvc.ViewUserControl<QuestionListModel>" %>
 <%@ Import Namespace="System.Web.Optimization" %>
 <%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
-
+<script type="text/x-template" id="pin-wuwi-template">
+    <%: Html.Partial("~/Views/Shared/PinComponentVue/PinComponent.vue.ascx") %>
+</script>
 <%= Styles.Render("~/bundles/QuestionList") %>
 <%= Styles.Render("~/bundles/switch") %>
 <%= Scripts.Render("~/bundles/js/QuestionListComponents") %>
@@ -176,6 +178,7 @@
         :selected-page-from-parent="selectedPageFromParent">
         <div class="col-xs-12 questionListComponent">
             <question-component inline-template
+                                v-on:pin-unpin ="changePin()"
                                 v-for="(q, index) in questions"
                                 :question-id="q.Id" 
                                 :question-title="q.Title" 
@@ -204,13 +207,12 @@
                                             <div class="iconContainer float-right" @click="expandQuestion()">
                                                 <i class="fas fa-angle-down rotateIcon" :class="{ open : showFullQuestion }"></i>
                                             </div>
-                                            <div class="">
-                                                <div :id="pinId" class="Pin" :data-question-id="questionId"></div>
-                                            </div>
                                             <div class="go-to-question iconContainer">
                                                 <span class="fas fa-play" :class="{ 'activeQ': questionIndex === activeQuestion }" :data-question-id="questionId" @click="loadSpecificQuestion()">
                                                 </span>
                                             </div>
+                                            <pin-wuwi-component :is-in-wishknowledge="isInWishknowledge" :question-id="questionId" />
+
                                         </div>
                                     </div>
                                     <div class="extendedQuestionContainer" v-show="showFullQuestion">
@@ -338,6 +340,7 @@
     </question-list-component>
     </div>
 <%= Scripts.Render("~/bundles/js/QuestionListApp") %>
+
 
 
 

@@ -76,6 +76,11 @@ public class LearningSessionNewCreator
 
     private static List<Question> WuwiQuestionsFromCategory(int userId, int categoryId)
     {
+        var ca = UserCache
+            .GetQuestionValuations(userId)
+            .Where(qv => qv.RelevancePersonal > -1 && qv.Question.Id == 6862); 
+
+
         return UserCache
             .GetQuestionValuations(userId)
             .Where(qv =>  qv.RelevancePersonal > -1 && qv.Question.Categories.Any(c => c.Id == categoryId))
@@ -96,7 +101,7 @@ public class LearningSessionNewCreator
     {
         return  UserCache
             .GetQuestionValuations(userId)
-            .Where(qv => qv.RelevancePersonal == -1 && qv.Question.Categories.Any(c => c.Id == categoryId) && qv.Question.Creator.Id == userId)
+            .Where(qv => qv.IsInWishKnowledge() && qv.Question.Categories.Any(c => c.Id == categoryId) && qv.Question.Creator.Id == userId)
             .Select(qv => qv.Question)
             .ToList();
     }
