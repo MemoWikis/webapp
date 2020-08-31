@@ -9,6 +9,4 @@
             <i class="fa fa-heart-o" style="color:#FF001F"></i>
             <span v-if="showAddTxt" class="Text">Hinzufügen</span>
         </span>
-        <span>{{isInWishknowledge}}</span>
-
     </div>

@@ -153,16 +153,16 @@
   flex-direction: row-reverse;
   padding: 0;
 }
-#QuestionListApp .singleQuestionRow .questionSectionFlex .questionContainer .questionBodyTop .questionContainerTopSection .questionHeaderIcons .Pin {
-  margin-top: 18px;
-}
-#QuestionListApp .singleQuestionRow .questionSectionFlex .questionContainer .questionBodyTop .questionContainerTopSection .questionHeaderIcons .Pin .iAdded,
-#QuestionListApp .singleQuestionRow .questionSectionFlex .questionContainer .questionBodyTop .questionContainerTopSection .questionHeaderIcons .Pin .iAddedNot {
+#QuestionListApp .singleQuestionRow .questionSectionFlex .questionContainer .questionBodyTop .questionContainerTopSection .questionHeaderIcons .iAdded,
+#QuestionListApp .singleQuestionRow .questionSectionFlex .questionContainer .questionBodyTop .questionContainerTopSection .questionHeaderIcons .iAddedNot {
   padding: 0;
 }
-#QuestionListApp .singleQuestionRow .questionSectionFlex .questionContainer .questionBodyTop .questionContainerTopSection .questionHeaderIcons .Pin .fa-heart,
-#QuestionListApp .singleQuestionRow .questionSectionFlex .questionContainer .questionBodyTop .questionContainerTopSection .questionHeaderIcons .Pin .fa-spinner {
+#QuestionListApp .singleQuestionRow .questionSectionFlex .questionContainer .questionBodyTop .questionContainerTopSection .questionHeaderIcons .fa-heart,
+#QuestionListApp .singleQuestionRow .questionSectionFlex .questionContainer .questionBodyTop .questionContainerTopSection .questionHeaderIcons .fa-spinner,
+#QuestionListApp .singleQuestionRow .questionSectionFlex .questionContainer .questionBodyTop .questionContainerTopSection .questionHeaderIcons .fa-heart-o {
   font-size: 18px;
+  padding-top: 18px;
+  padding-right: 10px;
 }
 #QuestionListApp .singleQuestionRow .questionSectionFlex .questionContainer .questionBodyTop .questionContainerTopSection .questionHeaderIcons .iconContainer {
   padding: 8px;
