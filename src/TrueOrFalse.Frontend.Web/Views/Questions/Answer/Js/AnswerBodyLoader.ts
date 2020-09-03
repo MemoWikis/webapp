@@ -49,8 +49,8 @@ class AnswerBodyLoader {
                     self._isSkipStep = skipstepIdx !== -1;
 
                     var url = "/AnswerQuestion/RenderAnswerBodyByLearningSession/" +
-                        "?skipStepIdx=" +
-                        skipstepIdx;
+                        "?skipStepIdx=" + skipstepIdx;
+                    AnswerQuestion.LogTimeForQuestionView();
                     self.loadNewQuestion(url);
                 });
 
