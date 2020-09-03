@@ -160,6 +160,7 @@ Vue.component('session-config-component', {
         loadCustomSession() {
             if (this.maxQuestionCountIsZero)
                 return;
+            AnswerQuestion.LogTimeForQuestionView();
 
             this.safeQuestionFilter();
             this.answerBody.Loader.loadNewSession(this.questionFilter, true);
