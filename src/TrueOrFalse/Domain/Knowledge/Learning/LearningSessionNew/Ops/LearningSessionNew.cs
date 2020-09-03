@@ -17,6 +17,7 @@ public class LearningSessionNew
 
     public User User;
     public bool IsLoggedIn;
+    public Guid QuestionViewGuid;
 
 
     public LearningSessionNew(List<LearningSessionStepNew> learningSessionSteps, LearningSessionConfig config)

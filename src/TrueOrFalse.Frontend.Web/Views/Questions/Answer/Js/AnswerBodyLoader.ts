@@ -47,8 +47,10 @@ class AnswerBodyLoader {
                     e.preventDefault();
                     var skipstepIdx = this.id === "btnNext" ? -1 : 1;
                     self._isSkipStep = skipstepIdx !== -1;
-                    
-                    var url = "/AnswerQuestion/RenderAnswerBodyByLearningSession/?skipStepIdx=" + skipstepIdx;
+
+                    var url = "/AnswerQuestion/RenderAnswerBodyByLearningSession/" +
+                        "?skipStepIdx=" +
+                        skipstepIdx;
                     self.loadNewQuestion(url);
                 });
 
