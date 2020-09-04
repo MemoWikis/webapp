@@ -85,17 +85,7 @@
 
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">  
 <div class="container">
-    <input type="hidden" id="hddIsLearningSession" value="<%= Model.IsLearningSession %>"
-        data-current-step-idx="<%= Model.IsLearningSession ? Model.CurrentLearningStepIdx : -1 %>"
-        data-is-last-step="<%= Model.IsLastLearningStep %>"
-        data-skip-step-index = "-1" />
-
-    <input type="hidden" id="hddIsTestSession" value="<%= Model.IsTestSession %>" 
-        data-test-session-id="<%= Model.IsTestSession ? Model.TestSessionId : -1 %>"
-        data-current-step-idx="<%= Model.IsTestSession ? Model.TestSessionCurrentStep : -1 %>"
-        data-is-last-step="<%= Model.TestSessionIsLastStep %>"/>
-    <input type="hidden" id="hddQuestionId" value="<%= Model.QuestionId %>"/>
-    <input type="hidden" id="hddIsLandingPage" value="<%=Model.PageCurrent == null ? "2" : Model.PageCurrent %>"/>  <%-- value "1" is Questionsite , value 2 is LandingPage, Test or Learningsession is this input not available--%> 
+<input type="hidden" id="hddIsLandingPage" value="<%=Model.PageCurrent == null ? "2" : Model.PageCurrent %>"/>  <%-- value "1" is Questionsite , value 2 is LandingPage, Test or Learningsession is this input not available--%> 
 
 
 <% if (Model.IsLearningSession) { %>

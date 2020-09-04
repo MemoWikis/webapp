@@ -116,9 +116,6 @@ public class AnswerQuestionController : BaseController
 
             _sessionUiData.VisitedQuestions.Add(new QuestionHistoryItem(question2, HistoryItemType.Any));
 
-            var questionViewGuid2 = Guid.NewGuid();
-            Sl.SaveQuestionView.Run(questionViewGuid2, question2, _sessionUser.User);
-
             return View(_viewLocation, new AnswerQuestionModel(question2));
         }
 

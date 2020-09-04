@@ -132,6 +132,33 @@ class AnswerQuestion {
 
         $("#btnNext, #aSkipStep")
             .click((e) => {
+<<<<<<< HEAD
+                e.preventDefault();
+
+                if (this.IsLearningSession) {
+                    if (this.IsLearningSession &&
+                        this.AmountOfTries === 0 &&
+                        !this.AnswerCountedAsCorrect &&
+                        !this.ShowedSolutionOnly) {
+                        $("#hddIsLearningSession").attr("data-skip-step-index",
+                            $('#hddIsLearningSession').attr('data-current-step-idx'));
+                        questionListApp.activeQuestion =
+                            parseInt($('#hddIsLearningSession').attr('data-current-step-idx')) + 1;
+                        console.log(questionListApp.currentStep);
+                    } else {
+                        $("#hddIsLearningSession").attr("data-skip-step-index", -1);
+                        questionListApp.activeQuestion =
+                            parseInt($('#hddIsLearningSession').attr('data-current-step-idx')) + 1;
+                    }
+=======
+                if (this.IsLearningSession && this.AmountOfTries === 0 && !this.AnswerCountedAsCorrect && !this.ShowedSolutionOnly) {
+                    $("#hddIsLearningSession").attr("data-skip-step-index", $('#hddIsLearningSession').attr('data-current-step-idx'));
+                    questionListApp.activeQuestion = parseInt($('#hddIsLearningSession').attr('data-current-step-idx')) + 1;
+                    console.log(questionListApp.currentStep);
+                } else {
+                    $("#hddIsLearningSession").attr("data-skip-step-index", -1);
+                    questionListApp.activeQuestion = parseInt($('#hddIsLearningSession').attr('data-current-step-idx')) + 1;
+>>>>>>> parent of b0447477a... remove old code from set and old LearninSession
                 }
             });
 
@@ -183,6 +210,7 @@ class AnswerQuestion {
                 $('#spnWrongAnswer').show();
                 $("#buttons-first-try").hide();
                 $("#buttons-answer-again").hide();
+                // $('#continue').hide();
                 $("#answerHistory").html("<i class='fa fa-spinner fa-spin' style=''></i>");
             } else {
                 $('#buttons-answer').hide();

@@ -566,7 +566,10 @@ let v = Vue.component('question-component', {
         },
         loadSpecificQuestion: function() {
             var aB = new AnswerBody();
-            aB.Loader.loadNewQuestion("/AnswerQuestion/RenderAnswerBodyByLearningSession/?skipStepIdx=-5&questionId=" + this.questionId);
+            aB.Loader.loadNewQuestion("/AnswerQuestion/RenderAnswerBodyByLearningSession/" +
+                "?skipStepIdx=-5" +
+                "&questionId=" + this.questionId);
+
             eventBus.$emit('change-active-question', this.questionIndex);
             eventBus.$emit('update-progress-bar', this.allQuestionsCount, this.questionIndex);
         }

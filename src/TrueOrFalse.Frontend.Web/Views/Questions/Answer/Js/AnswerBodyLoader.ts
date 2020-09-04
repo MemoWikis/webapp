@@ -10,32 +10,7 @@ class AnswerBodyLoader {
     constructor(answerBody: AnswerBody) {
         this._isInLearningTab = $('#LearningTab').length > 0;
         $(() => {
-            if (window.location.pathname.split("/")[4] === "im-Fragesatz") {
-                $("#NextQuestionLink, #btnNext").click((e) => {
-                    e.preventDefault();
-                    var NextQuestionLinkArgs = $("#NextQuestionLink").attr("href").split("/");
-                    var setId = NextQuestionLinkArgs[5];
-                    var questionId = NextQuestionLinkArgs[3];
-                    var primaryDataUrl = "/AnswerQuestion/RenderAnswerBodyBySet/?questionId=" +
-                        questionId +
-                        "&setId=" +
-                        setId;
-                    this.loadNewQuestion(primaryDataUrl);
-                });
-
-                $("#PreviousQuestionLink").click((e) => {
-                    e.preventDefault();
-                    var NextQuestionLinkArgs = $("#PreviousQuestionLink").attr("href").split("/");
-                    var setId = NextQuestionLinkArgs[5];
-                    var questionId = NextQuestionLinkArgs[3];
-                    var primaryDataUrl = "/AnswerQuestion/RenderAnswerBodyBySet/?questionId=" +
-                        questionId +
-                        "&setId=" +
-                        setId;
-                    this.loadNewQuestion(primaryDataUrl);
-                });
-
-            } else if ($("#hddIsLearningSession").val() === "True") {
+             if ($("#hddIsLearningSession").val() === "True") {
 
                 if ($("#hddIsLearningSession").attr("data-learning-session-id") == "-1") {
                     $("#hddIsLearningSession").attr("data-learning-session-id", "-2");
@@ -59,6 +34,7 @@ class AnswerBodyLoader {
                     e.preventDefault();
                     var pager = $("#NextQuestionLink").attr("href").split("?")[1].split("=")[1];
                     var primaryDataUrl = "/AnswerQuestion/RenderAnswerBodyByNextQuestion/?pager=" + pager;
+                    AnswerQuestion.LogTimeForQuestionView();
                     this.loadNewQuestion(primaryDataUrl);
                 });
 
@@ -66,6 +42,7 @@ class AnswerBodyLoader {
                     e.preventDefault();
                     var pager = $("#PreviousQuestionLink").attr("href").split("?")[1].split("=")[1];
                     var primaryDataUrl = "/AnswerQuestion/RenderAnswerBodyByPreviousQuestion/?pager=" + pager;
+                    AnswerQuestion.LogTimeForQuestionView();
                     this.loadNewQuestion(primaryDataUrl);
                 });
             }
@@ -154,11 +131,11 @@ class AnswerBodyLoader {
                 if (this._isInLearningTab && !this._getCustomSession) {
                     $("#QuestionDetails").empty();
                 }
-                if($("#hddIsLearningSession").val() !== "True")
+
+                if ($("#hddIsLearningSession").val() !== "True") {
                     this.updateNavigationBar(result.navBarData);
-
-                this.updateSessionHeader(result.sessionData);
-
+                    this.updateSessionHeader(result.sessionData);
+                }
                 this.updateMenu(result.menuHtml);
                 document.title = $(".QuestionText").html();
                 $("div#comments").replaceWith(result.commentsAsHtml);
