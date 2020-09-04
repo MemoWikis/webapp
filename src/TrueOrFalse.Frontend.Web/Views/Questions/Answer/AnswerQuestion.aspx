@@ -84,7 +84,7 @@
 </asp:Content>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">  
-<div class="container">
+<div class="container">                             
 <input type="hidden" id="hddIsLandingPage" value="<%=Model.PageCurrent == null ? "2" : Model.PageCurrent %>"/>  <%-- value "1" is Questionsite , value 2 is LandingPage, Test or Learningsession is this input not available--%> 
 
 
