@@ -132,10 +132,11 @@ class AnswerBodyLoader {
                     $("#QuestionDetails").empty();
                 }
 
-                if ($("#hddIsLearningSession").val() !== "True") {
+                if ($("#hddIsLearningSession").val() !== "True") 
                     this.updateNavigationBar(result.navBarData);
+                else
                     this.updateSessionHeader(result.sessionData);
-                }
+              
                 this.updateMenu(result.menuHtml);
                 document.title = $(".QuestionText").html();
                 $("div#comments").replaceWith(result.commentsAsHtml);
