@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 
 
@@ -76,16 +77,14 @@ public class LearningSessionNewCreator
 
     private static List<Question> WuwiQuestionsFromCategory(int userId, int categoryId)
     {
-        var ca = UserCache
-            .GetQuestionValuations(userId)
-            .Where(qv => qv.RelevancePersonal > -1 && qv.Question.Id == 6862); 
-
-
-        return UserCache
-            .GetQuestionValuations(userId)
-            .Where(qv =>  qv.RelevancePersonal > -1 && qv.Question.Categories.Any(c => c.Id == categoryId))
-            .Select(qv => qv.Question)
-            .ToList();
+        Stopwatch watch = new Stopwatch();
+        watch.Start();
+        var questionsFromEntityCache = EntityCache.GetCategory(categoryId).GetAggregatedQuestionsFromMemoryCache(false, true).ToList();
+        var questionIdsFromValuation = UserCache.GetQuestionValuations(userId).Where(qv => qv.IsInWishKnowledge()).Select(qv => qv.Question.Id).ToList();
+        var wuwiFromCategory =
+            questionsFromEntityCache.Where(qvId => questionIdsFromValuation.Any(qId => qId == qvId.Id)).Distinct().ToList();
+        watch.Stop();
+          return wuwiFromCategory;
     }
     private static List<Question> WuwiQuestionsFromCategoryAndUserIsAuthor(int userId, int categoryId)
     {
@@ -126,7 +125,7 @@ public class LearningSessionNewCreator
 
     private static List<Question> GetCategoryQuestionsFromEntityCache(int categoryId)
     {
-        return EntityCache.GetCategory(categoryId).GetAggregatedQuestionsFromMemoryCache().ToList();
+        return EntityCache.GetCategory(categoryId).GetAggregatedQuestionsFromMemoryCache(false, true).ToList();
     }
 
     private static IList<Question> OrderByProbability( List<Question> questions)
