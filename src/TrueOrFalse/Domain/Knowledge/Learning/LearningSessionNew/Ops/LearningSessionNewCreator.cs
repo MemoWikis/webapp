@@ -77,22 +77,12 @@ public class LearningSessionNewCreator
 
     private static List<Question> WuwiQuestionsFromCategory(int userId, int categoryId)
     {
-        List<int> questionIds = new List<int>();
-   
-        var questionsIdsFromEntityCache = EntityCache.GetCategory(categoryId)
-            .GetAggregatedQuestionsFromMemoryCache(false, true).ToDictionary(q => q.Id);
 
-        var questionIdsFromValuation = UserCache.GetQuestionValuations(userId).Where(qv => qv.IsInWishKnowledge())
+        
+        var wuwiFromValuation = UserCache.GetQuestionValuations(userId).Where(qv => qv.IsInWishKnowledge())
             .Select(qv => qv.Question.Id).ToDictionary(q => q);
 
-        foreach (var q in questionsIdsFromEntityCache)
-        {
-            if (questionIdsFromValuation.ContainsKey(q.Key))
-            {
-                questionIds.Add(q.Key);
-            }
-        }
-        return EntityCache.GetQuestionsByIds(questionIds).Distinct().ToList();
+        return CompareDictionaryWithQuestionsFromMemoryCache(wuwiFromValuation, categoryId);
     }
 
     private static List<Question> WuwiQuestionsFromCategoryAndUserIsAuthor(int userId, int categoryId)
@@ -140,6 +130,23 @@ public class LearningSessionNewCreator
     private static IList<Question> OrderByProbability( List<Question> questions)
     {
         return questions.OrderByDescending(q => q.CorrectnessProbability).ToList();
+    }
+
+    private static List<Question> CompareDictionaryWithQuestionsFromMemoryCache(Dictionary<int, int> dic1, int categoryId)
+    {
+        List<Question> questions = new List<Question>();
+        var questionsFromEntityCache = EntityCache.GetCategory(categoryId)
+            .GetAggregatedQuestionsFromMemoryCache(false, true).ToDictionary(q => q.Id);
+
+        foreach (var q in questionsFromEntityCache)
+        {
+            if (dic1.ContainsKey(q.Key))
+            {
+                questions.Add(q.Value);
+            }
+        }
+
+        return questions;
     }
 
     private static List<Question> GetQuestionsFromMinToMaxProbability(int minProbability, int maxProbability, List<Question> questions)
