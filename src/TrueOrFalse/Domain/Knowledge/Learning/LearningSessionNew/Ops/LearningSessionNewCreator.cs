@@ -77,45 +77,31 @@ public class LearningSessionNewCreator
 
     private static List<Question> WuwiQuestionsFromCategory(int userId, int categoryId)
     {
-        var wuwiFromValuation = UserCache.GetQuestionValuations(userId).Where(qv => qv.IsInWishKnowledge())
-            .Select(qv => qv.Question.Id).ToDictionary(q => q);
-
-        return CompareDictionaryWithQuestionsFromMemoryCache(wuwiFromValuation, categoryId);
+        return CompareDictionaryWithQuestionsFromMemoryCache(GetIdsFromQuestionValuation(userId), categoryId);
     }
 
     private static List<Question> WuwiQuestionsFromCategoryAndUserIsAuthor(int userId, int categoryId)
     {
-        var wuwiFromValuationAndIsAuthor = UserCache.GetQuestionValuations(userId).Where(qv => qv.IsInWishKnowledge() && qv.Question.Creator.Id == userId)
-            .Select(qv => qv.Question.Id).ToDictionary(q => q);
-
-        return CompareDictionaryWithQuestionsFromMemoryCache(wuwiFromValuationAndIsAuthor, categoryId);
+        return CompareDictionaryWithQuestionsFromMemoryCache(GetIdsFromQuestionValuation(userId), categoryId)
+            .Where(q => q.Creator.Id == userId).ToList();
     }
 
 
     private static List<Question> NotWuwiFromCategoryAndIsAuthor(int userId, int categoryId)
     {
-        var notWuwiFromValuationAndIsAuthor = UserCache.GetQuestionValuations(userId)
-            .Where(qv => !qv.IsInWishKnowledge() && qv.Question.Creator.Id == userId)
-            .Select(qv => qv.Question.Id).ToDictionary(q => q);
-
-        return CompareDictionaryWithQuestionsFromMemoryCache(notWuwiFromValuationAndIsAuthor, categoryId);
+        return CompareDictionaryWithQuestionsFromMemoryCache(GetIdsFromQuestionValuation(userId), categoryId, true)
+            .Where(q => q.Creator.Id == userId).ToList();
     }
 
     private static List<Question> NotWuwiFromCategory(int userId, int categoryId)
     {
-        var wuwiFromValuation = UserCache.GetQuestionValuations(userId).Where(qv => qv.IsInWishKnowledge())
-            .Select(qv => qv.Question.Id).ToDictionary(q => q);
-
-        return CompareDictionaryWithQuestionsFromMemoryCache(wuwiFromValuation, categoryId, true);
+        return CompareDictionaryWithQuestionsFromMemoryCache(GetIdsFromQuestionValuation (userId), categoryId, true);
     }
 
     private static List<Question> UserIsQuestionAuthor(int userId, int categoryId)
     {
-        return UserCache
-            .GetQuestionValuations(userId)
-            .Where(qv => qv.Question.Categories.Any(c => c.Id == categoryId) && qv.Question.Creator.Id == userId)
-            .Select(qv => qv.Question)
-            .ToList();
+        return EntityCache.GetCategory(categoryId)
+            .GetAggregatedQuestionsFromMemoryCache(false, true).Where(q => q.Creator.Id == userId).ToList();
     }
 
     private static List<Question> GetCategoryQuestionsFromEntityCache(int categoryId)
@@ -152,6 +138,12 @@ public class LearningSessionNewCreator
         }
         
         return questions;
+    }
+
+    private static Dictionary<int, int> GetIdsFromQuestionValuation(int userId)
+    {
+       return UserCache.GetQuestionValuations(userId).Where(qv => qv.IsInWishKnowledge())
+            .Select(qv => qv.Question.Id).ToDictionary(q => q);
     }
 
     private static List<Question> GetQuestionsFromMinToMaxProbability(int minProbability, int maxProbability, List<Question> questions)
