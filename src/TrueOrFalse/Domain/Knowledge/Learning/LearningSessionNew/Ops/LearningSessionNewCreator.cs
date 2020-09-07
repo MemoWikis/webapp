@@ -77,15 +77,24 @@ public class LearningSessionNewCreator
 
     private static List<Question> WuwiQuestionsFromCategory(int userId, int categoryId)
     {
-        Stopwatch watch = new Stopwatch();
-        watch.Start();
-        var questionsFromEntityCache = EntityCache.GetCategory(categoryId).GetAggregatedQuestionsFromMemoryCache(false, true).ToList();
-        var questionIdsFromValuation = UserCache.GetQuestionValuations(userId).Where(qv => qv.IsInWishKnowledge()).Select(qv => qv.Question.Id).ToList();
-        var wuwiFromCategory =
-            questionsFromEntityCache.Where(qvId => questionIdsFromValuation.Any(qId => qId == qvId.Id)).Distinct().ToList();
-        watch.Stop();
-          return wuwiFromCategory;
+        List<int> questionIds = new List<int>();
+   
+        var questionsIdsFromEntityCache = EntityCache.GetCategory(categoryId)
+            .GetAggregatedQuestionsFromMemoryCache(false, true).ToDictionary(q => q.Id);
+
+        var questionIdsFromValuation = UserCache.GetQuestionValuations(userId).Where(qv => qv.IsInWishKnowledge())
+            .Select(qv => qv.Question.Id).ToDictionary(q => q);
+
+        foreach (var q in questionsIdsFromEntityCache)
+        {
+            if (questionIdsFromValuation.ContainsKey(q.Key))
+            {
+                questionIds.Add(q.Key);
+            }
+        }
+        return EntityCache.GetQuestionsByIds(questionIds).Distinct().ToList();
     }
+
     private static List<Question> WuwiQuestionsFromCategoryAndUserIsAuthor(int userId, int categoryId)
     {
         return UserCache
