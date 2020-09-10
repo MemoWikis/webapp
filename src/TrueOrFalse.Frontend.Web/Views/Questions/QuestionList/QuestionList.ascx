@@ -190,7 +190,9 @@
                                 :is-question-list-to-show ="isQuestionListToShow"
                                 :question-index="index"
                                 :all-questions-count="allQuestionCount"
-                                :active-question ="activeQuestion">
+                                :active-question ="activeQuestion"
+                                :selected-page ="selectedPage"
+                                :selected-page-from-active-question="selectedPageFromActiveQuestion">
                 
                 <div class="singleQuestionRow" :class="[{ open: showFullQuestion}, backgroundColor]">
                     <div class="questionSectionFlex">
@@ -207,7 +209,7 @@
                                                 <i class="fas fa-angle-down rotateIcon" :class="{ open : showFullQuestion }"></i>
                                             </div>
                                             <div class="go-to-question iconContainer">
-                                                <span class="fas fa-play" :class="{ 'activeQ': questionIndex === activeQuestion }" :data-question-id="questionId" @click="loadSpecificQuestion()">
+                                                <span class="fas fa-play" :class="{ 'activeQ': questionIndex === activeQuestion && selectedPageFromActiveQuestion === selectedPage }" :data-question-id="questionId" @click="loadSpecificQuestion()">
                                                 </span>
                                             </div>
                                             <pin-wuwi-component :is-in-wishknowledge="isInWishknowledge" :question-id="questionId" />

@@ -44,6 +44,7 @@ var questionListApp = new Vue({
     },
     created: function() {
         eventBus.$on("change-active-question", (index) => { this.changeActiveQuestion(index) });
+        eventBus.$on("change-active-page", (index) => { this.selectedPageFromActiveQuestion = index });
         this.questionsCount = this.getAllQuestionsCountFromCategory() ; 
     },
     watch: {
