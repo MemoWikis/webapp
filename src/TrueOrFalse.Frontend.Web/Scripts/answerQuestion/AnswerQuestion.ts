@@ -214,9 +214,11 @@ class AnswerQuestion {
                         id: $("#hddQuestionId").val(),
                         questionViewGuid: $('#hddQuestionViewGuid').val(),
                         interactionNumber: $('#hddInteractionNumber').val(),
-                        millisecondsSinceQuestionView: AnswerQuestion.TimeSinceLoad($('#hddTimeRecords').attr('data-time-of-answer')),
-                        inTestMode: isTestMode
-                    }),
+                        millisecondsSinceQuestionView: AnswerQuestion.TimeSinceLoad($('#hddTimeRecords')
+                            .attr('data-time-of-answer')),
+                        inTestMode: isTestMode,
+                        isLearningSession: $("#hddIsLearningSession").val()
+        }),
                 cache: false,
                 success(result) {
                     $('div#answerFeedbackTry, a#CountWrongAnswers').show();

@@ -207,10 +207,12 @@ public class AnswerQuestionController : BaseController
         int interactionNumber = 0 ,
         string answer = "",
         int millisecondsSinceQuestionView = 0,
-        bool inTestMode = false
+        bool inTestMode = false,
+        bool isLearningSession =false
     )
     {
-        Sl.SessionUser.LearningSession.CurrentStep.Answer = answer; 
+        if(isLearningSession)
+            Sl.SessionUser.LearningSession.CurrentStep.Answer = answer; 
 
         var result = _answerQuestion.Run(id, answer, UserId, questionViewGuid, interactionNumber,
             millisecondsSinceQuestionView, learningSessionId, new Guid(), inTestMode);
@@ -256,7 +258,7 @@ public class AnswerQuestionController : BaseController
     }
 
     [HttpPost]
-    public JsonResult GetSolution(int id)
+    public JsonResult GetSolution(int id, Guid questionViewGuid, int interactionNumber, int millisecondsSinceQuestionView = -1)
     {
         var question = _questionRepo.GetById(id);
         var solution = GetQuestionSolution.Run(question);
