@@ -143,7 +143,6 @@ class AnswerQuestion {
                             $('#hddIsLearningSession').attr('data-current-step-idx'));
                         questionListApp.activeQuestion =
                             parseInt($('#hddIsLearningSession').attr('data-current-step-idx')) + 1;
-                        console.log(questionListApp.currentStep);
                     } else {
                         $("#hddIsLearningSession").attr("data-skip-step-index", -1);
                         questionListApp.activeQuestion =
