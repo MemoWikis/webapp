@@ -2,14 +2,17 @@
 
 #QuestionListApp {
     margin-top: 103px;
+    background-color: #EFEFEF;
+    padding: 30px 20px 33px 20px;
 
-    .questionListComponent {
-        @media(max-width: @screen-xxs-max) {
-            padding-left: 0;
-            padding-right: 0;
-        }
+    @media(max-width: @screen-xxs-max) {
+        padding-left: 0;
+        padding-right: 0;
     }
 
+    .ButtonEllipsis{
+        padding-right: 0;
+    }
     .drop-down-question-sort {
         display: flex;
         flex-wrap: wrap;
@@ -175,10 +178,10 @@
 
                             .fa-heart, .fa-spinner, .fa-heart-o {
                                 font-size: 18px;
-                                padding-top: 18px; 
+                                padding-top: 18px;
                                 padding-right: 10px;
                             }
-                            
+
 
                             .iconContainer {
                                 padding: 8px;

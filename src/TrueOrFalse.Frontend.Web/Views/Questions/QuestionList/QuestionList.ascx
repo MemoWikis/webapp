@@ -7,8 +7,7 @@
 <%= Styles.Render("~/bundles/QuestionList") %>
 <%= Styles.Render("~/bundles/switch") %>
 <%= Scripts.Render("~/bundles/js/QuestionListComponents") %>
-<div id="BorderQuestionList" style=""> </div>
-    <div id="QuestionListApp" class="row">
+<div id="QuestionListApp" class="row">
     <div class="col-xs-12 drop-down-question-sort">
         <div>Du lernst {{questionsCount}} Fragen aus diesem Thema ({{allQuestionsCount}})</div>
         <div id="ButtonAndDropdown">
