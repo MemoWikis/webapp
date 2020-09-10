@@ -204,7 +204,7 @@ Vue.component('question-list-component', {
         'isAdmin',
         'isQuestionListToShow',
         'activeQuestion',
-        'selectedPageFromParent'],
+        'selectedPageFromActiveQuestion'],
     data() {
         return {
             pages: 0,
@@ -240,7 +240,7 @@ Vue.component('question-list-component', {
         itemCountPerPage: function (val) {
             this.pages = Math.ceil(this.allQuestionCount / val);
         },
-        selectedPageFromParent: function(val) {
+        selectedPageFromActiveQuestion: function(val) {
             this.selectedPage = val;
         },
         allQuestionCount: function () {

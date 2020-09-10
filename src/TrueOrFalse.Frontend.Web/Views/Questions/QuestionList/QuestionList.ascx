@@ -174,7 +174,7 @@
         is-admin="<%= Model.IsInstallationAdmin %>"  
         :is-question-list-to-show="isQuestionListToShow"
         :active-question ="activeQuestion"
-        :selected-page-from-parent="selectedPageFromParent">
+        :selected-page-from-active-question="selectedPageFromActiveQuestion">
         <div class="col-xs-12 questionListComponent">
             <question-component inline-template
                                 v-on:pin-unpin ="changePin()"

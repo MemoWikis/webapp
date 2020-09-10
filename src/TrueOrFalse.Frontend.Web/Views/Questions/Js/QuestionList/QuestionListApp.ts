@@ -12,7 +12,7 @@ var questionListApp = new Vue({
         questionsCount: 10,       
         activeQuestion: 0,      // which question is active
         learningSessionData: "",
-        selectedPageFromParent: 1,
+        selectedPageFromActiveQuestion: 1,
         allQuestionsCount: 0
     },
     methods: {
@@ -52,7 +52,7 @@ var questionListApp = new Vue({
             let selectedPage = Math.floor(val / (questionsPerPage)); 
             if (val > questionsPerPage) {
                 this.activeQuestion = 0 + (val % (questionsPerPage + 1 ));
-                this.selectedPageFromParent = selectedPage + 1;      //question 25 is page 2 
+                this.selectedPageFromActiveQuestion = selectedPage + 1;      //question 25 is page 2 
             }
         },
     }
