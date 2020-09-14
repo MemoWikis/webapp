@@ -37,7 +37,7 @@ Vue.component('session-config-component', {
             radioHeight: 0,
             openLogin: false,
             createdByCurrentUser: false,
-            allQuestions: false,
+            allQuestions: true,
             isNotQuestionInWishKnowledge: false,
             safeLearningSessionOptions: false,
             displayNone: true,
