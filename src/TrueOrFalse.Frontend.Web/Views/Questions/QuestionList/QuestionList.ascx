@@ -103,29 +103,29 @@
                                         <i class="fas fa-angle-down"></i>
                                     </span>
                                 </div>
-                            </div>
-                            <div id="QuestionSortSessionConfig" v-bind:class="{displayNone: displayNone}">
-                                <div class="randomQuestions">
-                                    <input type="checkbox" id="randomQuestions" style="display:none" v-model="randomQuestions" />
-                                    <label for="randomQuestions" class="toggle">
-                                        <span></span>
-                                    </label>
-                                    <span>&nbsp;Zufällige Fragen</span> 
-                                </div>
-                                
-                                <div class="answerHelp">
-                                    <input type="checkbox" id="answerHelp" style="display:none" v-model="answerHelp" />
-                                    <label for="answerHelp" class="toggle">
-                                        <span></span>
-                                    </label>
-                                    <span>&nbsp;Antworthilfe</span>
-                                </div>
-                                <div class="repititions">
-                                    <input type="checkbox" id="repititions" style="display:none" v-model="repititions" />
-                                    <label for="repititions" class="toggle">
-                                        <span></span>
-                                    </label>
-                                    <span>&nbsp;Wiederholungen<i> falsch gelöste Fragen werden wiederholt</i></span>
+                                <div id="QuestionSortSessionConfig" v-bind:class="{displayNone: displayNone}" class=" col-sm-12">
+                                    <div class="randomQuestions">
+                                        <input type="checkbox" id="randomQuestions" style="display:none" v-model="randomQuestions" />
+                                        <label for="randomQuestions" class="toggle">
+                                            <span></span>
+                                        </label>
+                                        <span>&nbsp;Zufällige Fragen</span> 
+                                    </div>
+                                    
+                                    <div class="answerHelp">
+                                        <input type="checkbox" id="answerHelp" style="display:none" v-model="answerHelp" />
+                                        <label for="answerHelp" class="toggle">
+                                            <span></span>
+                                        </label>
+                                        <span>&nbsp;Antworthilfe</span>
+                                    </div>
+                                    <div class="repititions">
+                                        <input type="checkbox" id="repititions" style="display:none" v-model="repititions" />
+                                        <label for="repititions" class="toggle">
+                                            <span></span>
+                                        </label>
+                                        <span>&nbsp;Wiederholungen<i> falsch gelöste Fragen werden wiederholt</i></span>
+                                    </div>
                                 </div>
                             </div>
                             <div class="themes-info">
