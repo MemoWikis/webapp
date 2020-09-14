@@ -10,9 +10,10 @@
         padding-right: 0;
     }
 
-    .ButtonEllipsis{
+    .ButtonEllipsis {
         padding-right: 0;
     }
+
     .drop-down-question-sort {
         display: flex;
         flex-wrap: wrap;
@@ -20,12 +21,27 @@
         font-size: 24px;
         justify-content: space-between;
 
-        @media(max-width: 767px) {
-            justify-content: center;
+        .header {
+            padding-bottom: 10px;
         }
 
         #ButtonAndDropdown {
             display: flex;
+            @media(max-width: 768px) {
+                padding-left: 10px;
+            }
+        }
+
+        @media(max-width: 991px) {
+            justify-content: center;
+        }
+
+        @media(max-width: 768px) {
+            font-size: 3vw;
+        }
+
+        @media(max-width: 479px) {
+            font-size: 4vw;
         }
     }
 

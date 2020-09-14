@@ -29,13 +29,31 @@
   font-size: 24px;
   justify-content: space-between;
 }
-@media (max-width: 767px) {
+#QuestionListApp .drop-down-question-sort .header {
+  padding-bottom: 10px;
+}
+#QuestionListApp .drop-down-question-sort #ButtonAndDropdown {
+  display: flex;
+}
+@media (max-width: 768px) {
+  #QuestionListApp .drop-down-question-sort #ButtonAndDropdown {
+    padding-left: 10px;
+  }
+}
+@media (max-width: 991px) {
   #QuestionListApp .drop-down-question-sort {
     justify-content: center;
   }
 }
-#QuestionListApp .drop-down-question-sort #ButtonAndDropdown {
-  display: flex;
+@media (max-width: 768px) {
+  #QuestionListApp .drop-down-question-sort {
+    font-size: 3vw;
+  }
+}
+@media (max-width: 479px) {
+  #QuestionListApp .drop-down-question-sort {
+    font-size: 4vw;
+  }
 }
 #QuestionListApp .notShow {
   display: none !important;
