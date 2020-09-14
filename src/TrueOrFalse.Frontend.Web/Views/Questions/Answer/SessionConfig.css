@@ -143,6 +143,7 @@
   font-size: 14px;
   margin-top: 50px;
   padding-bottom: 20px;
+  cursor: pointer;
 }
 #SessionConfigModal .modal-body .more-options .angle {
   margin-top: 1px;
