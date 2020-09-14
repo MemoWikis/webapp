@@ -341,6 +341,15 @@
   margin-top: 50px;
   padding-left: 20px;
 }
+#SessionConfigModal .sliders .noQuestions {
+  margin-top: 74px;
+}
+@media (min-width: 768px) {
+  #SessionConfigModal .sliders .noQuestions {
+    margin-left: -109%;
+    width: 203%;
+  }
+}
 #SessionConfigModal .sliders .sliderContainer {
   display: flex;
   font-size: 10px;

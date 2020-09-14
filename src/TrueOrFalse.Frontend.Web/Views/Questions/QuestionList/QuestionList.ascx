@@ -91,8 +91,9 @@
                                         </div>
                                         <div class="rightLabel">{{maxSelectableQuestionCount}}</div>
                                     </div>
-                                    <div v-else class="alert alert-warning" role="alert">Leider sind keine Fragen mit diesen Einstellungen verfügbar. Bitte ändere die Antwortwahrscheinlichkeit oder wähle "Alle Fragen" aus.</div>
+                                    <div v-else class="alert alert-warning noQuestions" role="alert">Leider sind keine Fragen mit diesen Einstellungen verfügbar. Bitte ändere die Antwortwahrscheinlichkeit oder wähle "Alle Fragen" aus.</div>
                                     <div class="alert alert-warning" v-if="(selectedQuestionCount == 0) && maxSelectableQuestionCount > 0">Du musst mindestens 1 Frage auswählen.</div>
+                                    
                                 </div>
                             </div>
                             <div class="row modal-more-options" @click="displayNone = !displayNone">
