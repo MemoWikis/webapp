@@ -106,7 +106,7 @@ public class LearningSessionNewCreator
 
     private static List<Question> GetCategoryQuestionsFromEntityCache(int categoryId)
     {
-        return EntityCache.GetCategory(categoryId).GetAggregatedQuestionsFromMemoryCache(false, true).ToList();
+        return EntityCache.GetCategory(categoryId).GetAggregatedQuestionsFromMemoryCache().ToList();
     }
 
     private static IList<Question> OrderByProbability( List<Question> questions)
