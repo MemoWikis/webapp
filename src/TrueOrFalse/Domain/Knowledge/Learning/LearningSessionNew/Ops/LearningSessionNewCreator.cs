@@ -101,7 +101,7 @@ public class LearningSessionNewCreator
     private static List<Question> UserIsQuestionAuthor(int userId, int categoryId)
     {
         return EntityCache.GetCategory(categoryId)
-            .GetAggregatedQuestionsFromMemoryCache(false, true).Where(q => q.Creator.Id == userId).ToList();
+            .GetAggregatedQuestionsFromMemoryCache().Where(q => q.Creator.Id == userId).ToList();
     }
 
     private static List<Question> GetCategoryQuestionsFromEntityCache(int categoryId)
@@ -118,7 +118,7 @@ public class LearningSessionNewCreator
     {
         List<Question> questions = new List<Question>();
         var questionsFromEntityCache = EntityCache.GetCategory(categoryId)
-            .GetAggregatedQuestionsFromMemoryCache(false, true).ToDictionary(q => q.Id);
+            .GetAggregatedQuestionsFromMemoryCache().ToDictionary(q => q.Id);
 
         if (!isNotWuwi)
         {
