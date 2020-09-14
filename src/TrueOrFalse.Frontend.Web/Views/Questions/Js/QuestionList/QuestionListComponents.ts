@@ -43,7 +43,8 @@ Vue.component('session-config-component', {
             displayNone: true,
             randomQuestions: false,
             answerHelp: true,
-            repititions: true
+            repititions: true,
+            categoryName: $("#hhdCategoryName").val()
         };
     },
     created() {

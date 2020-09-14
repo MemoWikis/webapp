@@ -129,7 +129,7 @@
                                 </div>
                             </div>
                             <div class="themes-info">
-                                <p> Du lernst <b>{{maxSelectableQuestionCount}}</b> aus dem Thema Allgmeinwissen {{allQuestionsCount}}</p>
+                                <p> Du lernst <b>{{maxSelectableQuestionCount}}</b> Fragen aus dem Thema {{categoryName}} ({{allQuestionsCount}})</p>
                             </div>
                             <div class="row">
                                 <div id="SafeLearnOptions">
