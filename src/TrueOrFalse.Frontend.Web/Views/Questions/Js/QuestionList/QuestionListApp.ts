@@ -48,11 +48,11 @@ var questionListApp = new Vue({
         this.questionsCount = this.getAllQuestionsCountFromCategory() ; 
     },
     watch: {
-        activeQuestion: function (val) {
+        activeQuestion: function (indexQuestion) {
             let questionsPerPage = 25 - 1; // question 25 is page 2 question 0  then 0 -24 = 25 questions
-            let selectedPage = Math.floor(val / (questionsPerPage)); 
-            if (val > questionsPerPage) {
-                this.activeQuestion = 0 + (val % (questionsPerPage + 1 ));
+            let selectedPage = Math.floor(indexQuestion / (questionsPerPage)); 
+            if (indexQuestion > questionsPerPage) {
+                this.activeQuestion = 0 + (indexQuestion % (questionsPerPage + 1 ));
                 this.selectedPageFromActiveQuestion = selectedPage + 1;      //question 25 is page 2 
             }
         },
