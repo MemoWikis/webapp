@@ -131,19 +131,19 @@
                             <div class="themes-info">
                                 <p> Du lernst <b>{{maxSelectableQuestionCount}}</b> Fragen aus dem Thema {{categoryName}} ({{allQuestionsCount}})</p>
                             </div>
-                            <div class="row">
+              <%--              <div class="row">
                                 <div id="SafeLearnOptions">
                                     <div class="col-sm-12 safe-settings">
                                         <label>
                                             <input type="checkbox" id="safeOptions" v-model="safeLearningSessionOptions" :disabled="!isLoggedIn"/>
-                                            Diese Einstellungen für zukünftiges Lernen speichern.
+                                            Diese Einstellungen für zukünftiges Lernen speichern.(Dieses Feature ist vorbereitet und funktioniert noch nicht)
                                         </label>
                                     </div>
                                     <div class="info-options col-sm-12">
                                         Ein Neustart deiner Lernsitzung setzt deinen Lernfortschritt zurück. Die Antwortwahrscheinlichkeit der bisher beantworteten Fragen bleibt erhalten.
                                     </div>
                                 </div>
-                            </div>
+                            </div>--%>
                         </div>
                         <div class="modal-footer">
                             <div type="button" class="btn btn-link" data-dismiss="modal">Abbrechen</div>
