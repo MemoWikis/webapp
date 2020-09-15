@@ -42,18 +42,19 @@ public class LearningSessionNewCreator
 
     public static int GetQuestionCount(LearningSessionConfig config)
     {
+        config.MaxQuestionCount = 0;
         if (config.IsNotQuestionInWishKnowledge && config.CreatedByCurrentUser)
-            return NotWuwiFromCategoryAndIsAuthor(config.CurrentUserId, config.CategoryId).Count;
+            return RandomLimited(NotWuwiFromCategoryAndIsAuthor(config.CurrentUserId, config.CategoryId),config).Count;
         if (config.IsNotQuestionInWishKnowledge)
-            return NotWuwiFromCategory(config.CurrentUserId, config.CategoryId).Count;
+            return RandomLimited(NotWuwiFromCategory(config.CurrentUserId, config.CategoryId),config).Count;
         if (config.InWishknowledge && config.CreatedByCurrentUser)
-            return WuwiQuestionsFromCategoryAndUserIsAuthor(config.CurrentUserId, config.CategoryId).Count;
+            return RandomLimited(WuwiQuestionsFromCategoryAndUserIsAuthor(config.CurrentUserId, config.CategoryId),config).Count;
         if (config.InWishknowledge)
-            return WuwiQuestionsFromCategory(config.CurrentUserId, config.CategoryId).Count;
+            return RandomLimited(WuwiQuestionsFromCategory(config.CurrentUserId, config.CategoryId),config).Count;
         if (config.CreatedByCurrentUser)
-            return UserIsQuestionAuthor(config.CurrentUserId, config.CategoryId).Count;
-
-        return GetCategoryQuestionsFromEntityCache(config.CategoryId).Count;
+            return RandomLimited(UserIsQuestionAuthor(config.CurrentUserId, config.CategoryId),config).Count;
+         
+        return RandomLimited(GetCategoryQuestionsFromEntityCache(config.CategoryId), config).Count; ;
     }
 
     private static List<Question> RandomLimited(List<Question> questions, LearningSessionConfig config)

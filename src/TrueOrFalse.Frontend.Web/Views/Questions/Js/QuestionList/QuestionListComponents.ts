@@ -27,8 +27,8 @@ Vue.component('session-config-component', {
                 randomQuestions: false
             },
             isLoggedIn: true,
-            maxSelectableQuestionCount: 50,
-            selectedQuestionCount: 10,
+            maxSelectableQuestionCount: 0,
+            selectedQuestionCount: 0,
             inWishknowledge: false,
             percentages: '{value}%',
             maxQuestionCountIsZero: false,
@@ -47,12 +47,9 @@ Vue.component('session-config-component', {
             categoryName: $("#hhdCategoryName").val()
         };
     },
-    created() {
-        this.loadQuestionCount();
-    },
     mounted() {
         var self = this;
-
+        this.loadQuestionCount();
         if (NotLoggedIn.Yes()) {
             this.title = 'Test';
             this.isLoggedIn = false;
@@ -144,6 +141,7 @@ Vue.component('session-config-component', {
                 success: result => {
                     result = parseInt(result);
                     this.maxSelectableQuestionCount = result;
+                    this.selectedQuestionCount = result;
                 }
             });
         },

@@ -87,7 +87,7 @@
                                     <div v-if="maxSelectableQuestionCount > 0" class="sliderContainer">
                                         <div class="leftLabel">0</div>
                                         <div class="vueSlider">                            
-                                            <vue-slider :max="maxSelectableQuestionCount" v-model="selectedQuestionCount"></vue-slider>
+                                            <vue-slider v-model="selectedQuestionCount" :max="maxSelectableQuestionCount" ></vue-slider>
                                         </div>
                                         <div class="rightLabel">{{maxSelectableQuestionCount}}</div>
                                     </div>
