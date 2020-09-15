@@ -32,6 +32,7 @@
                 (e) => {
                     e.preventDefault();
                     this.historyPushAndSetActive($("#TopicTab").attr("data-url"), "TopicTab");
+                    new Pin(3);
                 });
 
             $("#LearningTab,#LearningFooterBtn").on("click",
