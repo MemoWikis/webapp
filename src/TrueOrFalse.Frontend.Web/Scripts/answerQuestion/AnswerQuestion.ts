@@ -122,7 +122,7 @@ class AnswerQuestion {
 
         $(".selectorShowSolution")
             .click(() => {
-                this._inputFeedback.ShowSolution();
+                this._inputFeedback.ShowSolution(true);
                 ActivityPoints.addPointsFromShowSolutionAnswer();
                 this.ClickToContinue();
                 if ($('#ActivityPointsContainer'))
@@ -412,7 +412,7 @@ class AnswerQuestion {
         });
     }
 
-    static AjaxGetSolution(onSuccessAction) {
+  static AjaxGetSolution(onSuccessAction, isNotAnswered = false) {
         $.ajax({
             type: 'POST',
             url: AnswerQuestion.ajaxUrl_GetSolution,
@@ -420,6 +420,7 @@ class AnswerQuestion {
                 questionViewGuid: $('#hddQuestionViewGuid').val(),
                 interactionNumber: $('#hddInteractionNumber').val(),
                 millisecondsSinceQuestionView: AnswerQuestion.TimeSinceLoad($.now()),
+                isNotAnswered: isNotAnswered
             },
             cache: false,
             success: result => {

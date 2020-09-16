@@ -17,16 +17,6 @@
         this._answerQuestion = answerQuestion;
     }
 
-    //public ShowErrorGame() {
-    //    $("#divWrongAnswerPlay").show();
-    //    $("#buttons-first-try").hide();
-    //    $("#buttons-answer-again").hide();
-
-    //    $("#divWrongEnteredAnswer").html(this._answerQuestion.AnswersSoFar[0]);
-
-    //    this.AnimateWrongAnswer();
-    //}
-
     public ShowError(text = "", forceShow: boolean = false) {
 
         if (text === "") {
@@ -77,7 +67,7 @@
         $("#wellDoneMsg").html("" + self._successMsgs[Utils.Random(0, self._successMsgs.length - 1)]).show();
     }
 
-    ShowSolution() {
+    ShowSolution(isNotAnswered = false) {
 
         this.ShowNextQuestionLink();
         if (this._answerQuestion.SolutionType !== SolutionType.MatchList &&
@@ -95,10 +85,10 @@
                 $("#divWrongAnswers").show();
             }
         }
-        this.RenderSolutionDetails(true);
+        this.RenderSolutionDetails(isNotAnswered);
     }
 
-    RenderSolutionDetails(IsShowSolution = false) {
+   RenderSolutionDetails(isNotAnswered: boolean) {
         $('#AnswerInputSection').find('.radio').addClass('disabled').find('input').attr('disabled', 'true');
         $('#AnswerInputSection').find('.checkbox').addClass('disabled').find('input').attr('disabled', 'true');
         if (this._answerQuestion.SolutionType === SolutionType.MatchList) {
@@ -134,7 +124,7 @@
                         if (self._answerQuestion._isLastLearningStep && !result.newStepAdded) {
                             $('#btnNext').html('Zum Ergebnis');
                         }
-                        result.currentStep = IsShowSolution ? result.currentStep + 1 : result.currentStep;   //the quest has not yet been attached 
+                        result.currentStep = isNotAnswered ? result.currentStep + 1 : result.currentStep;   //the quest has not yet been attached 
                         self._answerQuestion.UpdateProgressBar(result.numberSteps, null, result.currentStep);
                     }
                 });
@@ -209,7 +199,7 @@
                 this.ShowAnswerDetails();
             }
 
-        });
+        }, isNotAnswered);
     }
 
     private HighlightMultipleChoiceSolution(correctAnswers: string) {

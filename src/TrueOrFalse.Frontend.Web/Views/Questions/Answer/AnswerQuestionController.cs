@@ -258,10 +258,12 @@ public class AnswerQuestionController : BaseController
     }
 
     [HttpPost]
-    public JsonResult GetSolution(int id, Guid questionViewGuid, int interactionNumber, int millisecondsSinceQuestionView = -1)
+    public JsonResult GetSolution(int id, Guid questionViewGuid, int interactionNumber, int millisecondsSinceQuestionView = -1, bool isNotAnswered = false)
     {
         var question = _questionRepo.GetById(id);
         var solution = GetQuestionSolution.Run(question);
+        if(isNotAnswered)
+            R<AnswerLog>().LogAnswerView(question, this.UserId, questionViewGuid, interactionNumber, millisecondsSinceQuestionView);
 
         EscapeReferencesText(question.References);
 
