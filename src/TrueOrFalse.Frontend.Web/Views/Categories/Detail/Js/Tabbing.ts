@@ -86,7 +86,7 @@
                 this.loadKnowledgeData();
             }
 
-            if (tabName == "TopicTab" && this._reloadPins ) {
+            if (tabName == "TopicTab" ) {
                 new Pin(PinType.Category, KnowledgeBar.ReloadCategory);
                 this._reloadPins = false;
             }

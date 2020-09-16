@@ -174,6 +174,7 @@ Vue.component('session-config-component', {
             this.loadQuestionCount();
             $('#SessionConfigModal').modal('show');
             this.openLogin = false;
+            $(".data-btn-login").click();
         },
         goToLogin() {
             this.openLogin = true;
