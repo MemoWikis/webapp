@@ -664,6 +664,7 @@ public class AnswerQuestionController : BaseController
         {
             var c = new LearningSessionConfig();
             c.CategoryId = categoryId;
+            c.MaxProbability = 100;
             return LearningSessionNewCreator.GetQuestionCount(c);
         }
         config.CurrentUserId = Sl.SessionUser.UserId;
