@@ -13,7 +13,7 @@ Vue.component('session-config-component', {
             probabilityRange: [0, 100],
             questionFilter: {
                 minProbability: 0,
-                maxProbability: 100,
+                maxProbability: 99.9,
                 maxQuestionCount: 0,
                 inWishknowledge: false,
                 createdByCurrentUser: false,

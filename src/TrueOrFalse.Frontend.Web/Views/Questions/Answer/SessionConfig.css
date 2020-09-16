@@ -28,8 +28,8 @@
   background-color: #EBCCCC;
 }
 .rootElement .notLoggedInModal .notLoggedInHeader {
-  font-family: Helvetica Neue;
-  font-size: 18px;
+  font-family: 'Open Sans';
+  font-size: 16px;
   padding: 30px 66px;
 }
 .rootElement .notLoggedInModal .notLoggedInButton {
