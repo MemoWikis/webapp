@@ -230,29 +230,10 @@ namespace TrueOrFalse.View
             bundles.Add(new ScriptBundle("~/bundles/js/LearningSessionResult")
                 .IncludeDirectory("~/Views/Questions/Answer/LearningSession/Js/", "*.js"));
 
-            bundles.Add(new ScriptBundle("~/bundles/js/TestSessionResult")
-                .IncludeDirectory("~/Views/Questions/Answer/TestSession/Js/", "*.js"));
-
-            bundles.Add(new ScriptBundle("~/bundles/js/AwesomeIframe")
-                .Include("~/Views/Widgets/AwesomeIframe.js"));
-
             bundles.Add(new ScriptBundle("~/bundles/js/WidgetQuestion")
                 .IncludeDirectory("~/Views/Questions/Answer/AnswerControls/", "*.js")
                 .IncludeDirectory("~/Scripts/answerQuestion/", "*.js")
                 .Include("~/Views/Widgets/WidgetQuestion.js")
-                .Include("~/Views/Widgets/AwesomeIframe.js"));
-
-            bundles.Add(new ScriptBundle("~/bundles/js/WidgetSet")
-                .IncludeDirectory("~/Views/Questions/Answer/AnswerControls/", "*.js")
-                .IncludeDirectory("~/Scripts/answerQuestion/", "*.js")
-                .Include("~/Views/Widgets/AwesomeIframe.js"));
-
-            bundles.Add(new ScriptBundle("~/bundles/js/WidgetSetVideo")
-                .IncludeDirectory("~/Views/Questions/Answer/AnswerControls/", "*.js")
-                .IncludeDirectory("~/Scripts/answerQuestion/", "*.js")
-                .IncludeDirectory("~/Views/Questions/ActivityPoints", "*.js")
-                .Include("~/Views/Sets/Detail/Js/SetVideo.js")
-                .Include("~/Views/Widgets/WidgetSetVideo.js")
                 .Include("~/Views/Widgets/AwesomeIframe.js"));
 
             //Markdown
