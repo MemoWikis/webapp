@@ -28,7 +28,7 @@ public class QuestionListModel : BaseModel
 
         var questionsOfCurrentPage = allQuestions.Skip(itemCountPerPage * (currentPage - 1)).Take(itemCountPerPage).ToList();
         var newQuestionList = new List<QuestionListJson.Question>();
-
+        var learningSessionStepCount = allQuestions.Count(); 
         foreach (Question q in questionsOfCurrentPage)
         {
             var question = new QuestionListJson.Question();
@@ -36,6 +36,7 @@ public class QuestionListModel : BaseModel
             question.Title = q.Text;
             question.LinkToQuestion = Links.GetUrl(q);
             question.ImageData = new ImageFrontendData(Sl.ImageMetaDataRepo.GetBy(q.Id, ImageType.Question)).GetImageUrl(40, true).Url;
+            question.LearningSessionStepCount = learningSessionStepCount; 
 
             question.CorrectnessProbability = q.CorrectnessProbability;
 

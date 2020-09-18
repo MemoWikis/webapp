@@ -16,6 +16,7 @@ namespace QuestionListJson
         public string ImageData { get; set; }
         public bool IsInWishknowledge { get; set; }
         public bool HasPersonalAnswer { get; set; }
+        public int LearningSessionStepCount { get; set; }
     }
 }
 

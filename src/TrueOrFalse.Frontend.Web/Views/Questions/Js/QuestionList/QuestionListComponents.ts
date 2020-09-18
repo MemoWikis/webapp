@@ -6,7 +6,7 @@ Vue.component('session-config-component', {
     components: {
         VueSlider: window['vue-slider-component']
     },
-    props: ['questionsCount','allQuestionsCount'],
+    props: ['questionsCount','allQuestionsCountFromCategory'],
     data() {
         return {
             answerBody: new AnswerBody(),
@@ -221,19 +221,19 @@ Vue.component('question-list-component', {
             centerArray: [],
             showLeftSelectionDropUp: false,
             showRightSelectionDropUp: false,
-            pageIsLoading: false
+            pageIsLoading: false,
         };
     },
     created() {
         eventBus.$on('reload-knowledge-state', () => this.loadQuestions(this.selectedPage));
         eventBus.$on('reload-wishknowledge-state-per-question', (data) => this.changeQuestionWishknowledgeState(data.questionId, data.isInWishknowledge));
         eventBus.$on('reload-correctnessprobability-for-question', (id) => this.getUpdatedCorrectnessProbability(id));
-        
+        eventBus.$on('load-questions-list', () => this.initQuestionList());
         
     },
     mounted() {
         this.categoryId = $("#hhdCategoryId").val();
-        eventBus.$on('load-questions-list', () => this.initQuestionList());
+        
     },
     watch: {
         itemCountPerPage: function (val) {
@@ -294,8 +294,8 @@ Vue.component('question-list-component', {
                     this.selectedPage = selectedPage;
                     this.showLeftSelectionDropUp = false;
                     this.showRightSelectionDropUp = false;
-                    this.pages = Math.ceil(this.questions.length / this.itemCountPerPage);
-
+                    this.pages = Math.ceil(questions[0].LearningSessionStepCount / this.itemCountPerPage);
+                   this.test = questions[0].LearningSessionStepCount
                     this.$nextTick(function () {
                         this.setPaginationRanges(selectedPage);
                         new Pin(PinType.Question);
