@@ -17,7 +17,7 @@ public class QuestionListModel : BaseModel
 
     }
 
-    public static List<QuestionListJson.Question> PopulateQuestionsOnPage(int currentPage, int itemCount, bool isLoggedIn)
+    public static List<QuestionListJson.Question> PopulateQuestionsOnPage(int currentPage, int itemCountPerPage, bool isLoggedIn)
     {
         var allQuestions = Sl.SessionUser.LearningSession.Steps.Select(q => q.Question);
         var user = isLoggedIn ? Sl.R<SessionUser>().User : null;
@@ -26,7 +26,7 @@ public class QuestionListModel : BaseModel
         if(user != null)
              userQuestionValuation = UserCache.GetItem(user.Id).QuestionValuations;
 
-        var questionsOfCurrentPage = allQuestions.Skip(itemCount * (currentPage - 1)).Take(itemCount).ToList();
+        var questionsOfCurrentPage = allQuestions.Skip(itemCountPerPage * (currentPage - 1)).Take(itemCountPerPage).ToList();
         var newQuestionList = new List<QuestionListJson.Question>();
 
         foreach (Question q in questionsOfCurrentPage)

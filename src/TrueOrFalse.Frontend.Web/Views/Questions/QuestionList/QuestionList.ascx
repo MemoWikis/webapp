@@ -190,10 +190,10 @@
                                 :is-admin="isAdmin"
                                 :is-question-list-to-show ="isQuestionListToShow"
                                 :question-index="index"
-                                :all-questions-count="allQuestionCount"
                                 :active-question ="activeQuestion"
                                 :selected-page ="selectedPage"
-                                :selected-page-from-active-question="selectedPageFromActiveQuestion">
+                                :selected-page-from-active-question="selectedPageFromActiveQuestion"
+                                :length-of-questions-array="questions.length">
                 
                 <div class="singleQuestionRow" :class="[{ open: showFullQuestion}, backgroundColor]">
                     <div class="questionSectionFlex">

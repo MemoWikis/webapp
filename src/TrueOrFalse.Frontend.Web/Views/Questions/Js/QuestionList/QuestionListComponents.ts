@@ -6,7 +6,7 @@ Vue.component('session-config-component', {
     components: {
         VueSlider: window['vue-slider-component']
     },
-    props: ['questionsCount', 'allQuestionsCount'],
+    props: ['questionsCount','allQuestionsCount'],
     data() {
         return {
             answerBody: new AnswerBody(),
@@ -200,7 +200,6 @@ Vue.component('question-list-component', {
     },
     props: [
         'categoryId',
-        'allQuestionCount',
         'isAdmin',
         'isQuestionListToShow',
         'activeQuestion',
@@ -229,12 +228,11 @@ Vue.component('question-list-component', {
         eventBus.$on('reload-knowledge-state', () => this.loadQuestions(this.selectedPage));
         eventBus.$on('reload-wishknowledge-state-per-question', (data) => this.changeQuestionWishknowledgeState(data.questionId, data.isInWishknowledge));
         eventBus.$on('reload-correctnessprobability-for-question', (id) => this.getUpdatedCorrectnessProbability(id));
-        eventBus.$on('load-questions-list', () => this.initQuestionList(this.selectedPage));
+        eventBus.$on('load-questions-list', () => this.initQuestionList());
         
     },
     mounted() {
         this.categoryId = $("#hhdCategoryId").val();
-      
     },
     watch: {
         itemCountPerPage: function (val) {
@@ -242,9 +240,6 @@ Vue.component('question-list-component', {
         },
         selectedPageFromActiveQuestion: function(val) {
             this.selectedPage = val;
-        },
-        allQuestionCount: function () {
-            this.initQuestionList();
         },
         questions: function() {
             if (this.questions.length > 0)
@@ -289,7 +284,7 @@ Vue.component('question-list-component', {
             $.ajax({
                 url: "/QuestionList/LoadQuestions/",
                 data: {
-                    itemCount: this.itemCountPerPage,
+                    itemCountPerPage: this.itemCountPerPage,
                     pageNumber: selectedPage,
                 },
                 type: "POST",
@@ -382,9 +377,9 @@ let v = Vue.component('question-component', {
         'selectedPage',
         'isQuestionListToShow',
         'questionIndex',
-        'allQuestionsCount',
         'activeQuestion',
-        'selectedPageFromActiveQuestion'
+        'selectedPageFromActiveQuestion',
+        'lengthOfQuestionsArray'
     ],
     data() {
         return {
@@ -572,7 +567,7 @@ let v = Vue.component('question-component', {
                 "&questionId=" + this.questionId);
             eventBus.$emit('change-active-page', this.selectedPage);
             eventBus.$emit('change-active-question', this.questionIndex);
-            eventBus.$emit('update-progress-bar', this.allQuestionsCount, this.questionIndex);
+            eventBus.$emit('update-progress-bar', this.lengthOfQuestionsArray, this.questionIndex);
         }
     },
 });
