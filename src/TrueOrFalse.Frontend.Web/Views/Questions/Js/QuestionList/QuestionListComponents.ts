@@ -228,11 +228,12 @@ Vue.component('question-list-component', {
         eventBus.$on('reload-knowledge-state', () => this.loadQuestions(this.selectedPage));
         eventBus.$on('reload-wishknowledge-state-per-question', (data) => this.changeQuestionWishknowledgeState(data.questionId, data.isInWishknowledge));
         eventBus.$on('reload-correctnessprobability-for-question', (id) => this.getUpdatedCorrectnessProbability(id));
-        eventBus.$on('load-questions-list', () => this.initQuestionList());
+        
         
     },
     mounted() {
         this.categoryId = $("#hhdCategoryId").val();
+        eventBus.$on('load-questions-list', () => this.initQuestionList());
     },
     watch: {
         itemCountPerPage: function (val) {
@@ -252,6 +253,7 @@ Vue.component('question-list-component', {
         },
         pages: function (val) {
             let newArray = [];
+
             let startNumber = 1;
             for (let i = 0; startNumber < val + 1; i++) {
                 newArray.push(startNumber);
@@ -276,7 +278,6 @@ Vue.component('question-list-component', {
     },
     methods: {
         initQuestionList() {
-            this.pages = Math.ceil(this.allQuestionCount / this.itemCountPerPage);
             this.loadQuestions(this.selectedPage);
         },
         loadQuestions(selectedPage) {
@@ -293,6 +294,7 @@ Vue.component('question-list-component', {
                     this.selectedPage = selectedPage;
                     this.showLeftSelectionDropUp = false;
                     this.showRightSelectionDropUp = false;
+                    this.pages = Math.ceil(this.questions.length / this.itemCountPerPage);
 
                     this.$nextTick(function () {
                         this.setPaginationRanges(selectedPage);

@@ -9,7 +9,7 @@
 <%= Scripts.Render("~/bundles/js/QuestionListComponents") %>
 <div id="QuestionListApp" class="row">
     <div class="col-xs-12 drop-down-question-sort">
-        <div class="header">Du lernst {{questionsCount}} Fragen aus diesem Thema ({{allQuestionsCount}})</div>
+        <div class="header">Du lernst {{selectedQuestionCount}} Fragen aus diesem Thema ({{allQuestionsCount}})</div>
         <div id="ButtonAndDropdown">
         <session-config-component inline-template @update="updateQuestionsCount" :questions-count="questionsCount" :all-questions-count="allQuestionsCount">
         <div class="rootElement">
@@ -130,7 +130,7 @@
                                 </div>
                             </div>
                             <div class="themes-info">
-                                <p> Du lernst <b>{{maxSelectableQuestionCount}}</b> Fragen aus dem Thema {{categoryName}} ({{allQuestionsCount}})</p>
+                                <p> Du lernst <b>{{selectedQuestionCount}}</b> Fragen aus dem Thema {{categoryName}} ({{allQuestionsCount}})</p>
                             </div>
               <%--              <div class="row">
                                 <div id="SafeLearnOptions">
