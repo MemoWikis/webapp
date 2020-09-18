@@ -567,9 +567,12 @@ let v = Vue.component('question-component', {
             aB.Loader.loadNewQuestion("/AnswerQuestion/RenderAnswerBodyByLearningSession/" +
                 "?skipStepIdx=-5" +
                 "&questionId=" + this.questionId);
+
             eventBus.$emit('change-active-page', this.selectedPage);
             eventBus.$emit('change-active-question', this.questionIndex);
-            eventBus.$emit('update-progress-bar', this.lengthOfQuestionsArray, this.questionIndex);
+
+            let index = (this.selectedPage - 1) * 25 + this.questionIndex; 
+            eventBus.$emit('update-progress-bar', this.lengthOfQuestionsArray, index);
         }
     },
 });

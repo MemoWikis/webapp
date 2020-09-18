@@ -193,7 +193,7 @@
                                 :active-question ="activeQuestion"
                                 :selected-page ="selectedPage"
                                 :selected-page-from-active-question="selectedPageFromActiveQuestion"
-                                :length-of-questions-array="questions.length">
+                                :length-of-questions-array="questions[0].LearningSessionStepCount">
                 
                 <div class="singleQuestionRow" :class="[{ open: showFullQuestion}, backgroundColor]">
                     <div class="questionSectionFlex">
