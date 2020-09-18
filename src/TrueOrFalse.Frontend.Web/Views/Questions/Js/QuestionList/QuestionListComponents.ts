@@ -294,7 +294,10 @@ Vue.component('question-list-component', {
                     this.selectedPage = selectedPage;
                     this.showLeftSelectionDropUp = false;
                     this.showRightSelectionDropUp = false;
-                    this.pages = Math.ceil(questions[0].LearningSessionStepCount / this.itemCountPerPage);
+                    if (typeof questions[0] != "undefined")
+                        this.pages = Math.ceil(questions[0].LearningSessionStepCount / this.itemCountPerPage);
+                    else
+                        this.pages = 1;
                    this.test = questions[0].LearningSessionStepCount
                     this.$nextTick(function () {
                         this.setPaginationRanges(selectedPage);
@@ -563,15 +566,16 @@ let v = Vue.component('question-component', {
             });
         },
         loadSpecificQuestion: function() {
-            var aB = new AnswerBody();
-            aB.Loader.loadNewQuestion("/AnswerQuestion/RenderAnswerBodyByLearningSession/" +
+            var answerBody = new AnswerBody();
+            let index = (this.selectedPage - 1) * 25 + this.questionIndex;
+            answerBody.Loader.loadNewQuestion("/AnswerQuestion/RenderAnswerBodyByLearningSession/" +
                 "?skipStepIdx=-5" +
-                "&questionId=" + this.questionId);
+                "&index=" + index);
 
             eventBus.$emit('change-active-page', this.selectedPage);
             eventBus.$emit('change-active-question', this.questionIndex);
 
-            let index = (this.selectedPage - 1) * 25 + this.questionIndex; 
+            ; 
             eventBus.$emit('update-progress-bar', this.lengthOfQuestionsArray, index);
         }
     },

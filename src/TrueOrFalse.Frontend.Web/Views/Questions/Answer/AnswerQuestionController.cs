@@ -461,13 +461,13 @@ public class AnswerQuestionController : BaseController
     }
 
     [HttpPost]
-    public string RenderAnswerBodyByLearningSession(int skipStepIdx = -1, int questionId = -1)
+    public string RenderAnswerBodyByLearningSession(int skipStepIdx = -1, int index = -1)
     {
         var learningSession = Sl.SessionUser.LearningSession;
 
-        if (questionId != -1)
+        if (index != -1)
         {
-            learningSession.LoadSpecificQuestion(questionId);
+            learningSession.LoadSpecificQuestion(index);
         }
         else
         {
