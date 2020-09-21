@@ -28,8 +28,8 @@
   background-color: #EBCCCC;
 }
 .rootElement .notLoggedInModal .notLoggedInHeader {
-  font-family: Helvetica Neue;
-  font-size: 18px;
+  font-family: 'Open Sans';
+  font-size: 16px;
   padding: 30px 66px;
 }
 .rootElement .notLoggedInModal .notLoggedInButton {
@@ -143,6 +143,7 @@
   font-size: 14px;
   margin-top: 50px;
   padding-bottom: 20px;
+  cursor: pointer;
 }
 #SessionConfigModal .modal-body .more-options .angle {
   margin-top: 1px;
@@ -339,6 +340,15 @@
 #SessionConfigModal .sliders {
   margin-top: 50px;
   padding-left: 20px;
+}
+#SessionConfigModal .sliders .noQuestions {
+  margin-top: 74px;
+}
+@media (min-width: 768px) {
+  #SessionConfigModal .sliders .noQuestions {
+    margin-left: -109%;
+    width: 203%;
+  }
 }
 #SessionConfigModal .sliders .sliderContainer {
   display: flex;

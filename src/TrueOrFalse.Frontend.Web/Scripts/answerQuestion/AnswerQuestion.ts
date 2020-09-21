@@ -122,7 +122,7 @@ class AnswerQuestion {
 
         $(".selectorShowSolution")
             .click(() => {
-                this._inputFeedback.ShowSolution();
+                this._inputFeedback.ShowSolution(true);
                 ActivityPoints.addPointsFromShowSolutionAnswer();
                 this.ClickToContinue();
                 if ($('#ActivityPointsContainer'))
@@ -132,13 +132,22 @@ class AnswerQuestion {
 
         $("#btnNext, #aSkipStep")
             .click((e) => {
-                if (this.IsLearningSession && this.AmountOfTries === 0 && !this.AnswerCountedAsCorrect && !this.ShowedSolutionOnly) {
-                    $("#hddIsLearningSession").attr("data-skip-step-index", $('#hddIsLearningSession').attr('data-current-step-idx'));
-                    questionListApp.activeQuestion = parseInt($('#hddIsLearningSession').attr('data-current-step-idx')) + 1;
-                    console.log(questionListApp.currentStep);
-                } else {
-                    $("#hddIsLearningSession").attr("data-skip-step-index", -1);
-                    questionListApp.activeQuestion = parseInt($('#hddIsLearningSession').attr('data-current-step-idx')) + 1;
+                e.preventDefault();
+
+                if (this.IsLearningSession) {
+                    if (this.IsLearningSession &&
+                        this.AmountOfTries === 0 &&
+                        !this.AnswerCountedAsCorrect &&
+                        !this.ShowedSolutionOnly) {
+                        $("#hddIsLearningSession").attr("data-skip-step-index",
+                            $('#hddIsLearningSession').attr('data-current-step-idx'));
+                        questionListApp.activeQuestion =
+                            parseInt($('#hddIsLearningSession').attr('data-current-step-idx')) + 1;
+                    } else {
+                        $("#hddIsLearningSession").attr("data-skip-step-index", -1);
+                        questionListApp.activeQuestion =
+                            parseInt($('#hddIsLearningSession').attr('data-current-step-idx')) + 1;
+                    }
                 }
             });
 
@@ -190,7 +199,6 @@ class AnswerQuestion {
                 $('#spnWrongAnswer').show();
                 $("#buttons-first-try").hide();
                 $("#buttons-answer-again").hide();
-                // $('#continue').hide();
                 $("#answerHistory").html("<i class='fa fa-spinner fa-spin' style=''></i>");
             } else {
                 $('#buttons-answer').hide();
@@ -206,9 +214,11 @@ class AnswerQuestion {
                         id: $("#hddQuestionId").val(),
                         questionViewGuid: $('#hddQuestionViewGuid').val(),
                         interactionNumber: $('#hddInteractionNumber').val(),
-                        millisecondsSinceQuestionView: AnswerQuestion.TimeSinceLoad($('#hddTimeRecords').attr('data-time-of-answer')),
-                        inTestMode: isTestMode
-                    }),
+                        millisecondsSinceQuestionView: AnswerQuestion.TimeSinceLoad($('#hddTimeRecords')
+                            .attr('data-time-of-answer')),
+                        inTestMode: isTestMode,
+                        isLearningSession: $("#hddIsLearningSession").val()
+        }),
                 cache: false,
                 success(result) {
                     $('div#answerFeedbackTry, a#CountWrongAnswers').show();
@@ -402,7 +412,7 @@ class AnswerQuestion {
         });
     }
 
-    static AjaxGetSolution(onSuccessAction) {
+  static AjaxGetSolution(onSuccessAction, isNotAnswered = false) {
         $.ajax({
             type: 'POST',
             url: AnswerQuestion.ajaxUrl_GetSolution,
@@ -410,6 +420,7 @@ class AnswerQuestion {
                 questionViewGuid: $('#hddQuestionViewGuid').val(),
                 interactionNumber: $('#hddInteractionNumber').val(),
                 millisecondsSinceQuestionView: AnswerQuestion.TimeSinceLoad($.now()),
+                isNotAnswered: isNotAnswered
             },
             cache: false,
             success: result => {

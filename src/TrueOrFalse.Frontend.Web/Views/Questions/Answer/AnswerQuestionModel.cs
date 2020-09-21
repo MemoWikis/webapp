@@ -142,6 +142,7 @@ public class AnswerQuestionModel : BaseModel
         IsLastLearningStep = CurrentLearningStepIdx + 1 == LearningSession.Steps.Count();
 
         NextUrl = url => url.Action("Learn", Links.AnswerQuestionController, new{ skipStepIdx = learningSession.CurrentIndex +1 });
+        QuestionViewGuid = learningSession.QuestionViewGuid;
 
         Populate(LearningSessionStep.Question);
     }
@@ -171,31 +172,6 @@ public class AnswerQuestionModel : BaseModel
             if (SourceCategory != null)
                 SourceIsCategory = true;
         }
-
-        ContentRecommendationResult = ContentRecommendation.GetForQuestion(question, 6);
-        Populate(question);
-    }
-
-    public AnswerQuestionModel(Guid questionViewGuid, Set set, Question question)
-    {
-        QuestionViewGuid = questionViewGuid;
-
-        int pageCurrent = set.QuestionsInSet.GetIndex(question.Id) + 1;
-        int pagesTotal = set.QuestionsInSet.Count;
-        PageCurrent = pageCurrent.ToString();
-        PagesTotal = pagesTotal.ToString();
-
-        HasPreviousPage = pageCurrent > 1;
-        HasNextPage = pageCurrent < pagesTotal;
-
-        if (HasNextPage)
-            NextUrl = url => Links.AnswerQuestion(url, set.QuestionsInSet.GetNextTo(question.Id).Question, set);
-
-        if (HasPreviousPage)
-            PreviousUrl = url => Links.AnswerQuestion(url, set.QuestionsInSet.GetPreviousTo(question.Id).Question, set);
-
-        SourceIsSet = true;
-        Set = set;
 
         ContentRecommendationResult = ContentRecommendation.GetForQuestion(question, 6);
         Populate(question);

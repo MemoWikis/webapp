@@ -6,15 +6,15 @@ Vue.component('session-config-component', {
     components: {
         VueSlider: window['vue-slider-component']
     },
-    props:['questionsCount'],
+    props: ['questionsCount','allQuestionsCountFromCategory'],
     data() {
         return {
             answerBody: new AnswerBody(),
             probabilityRange: [0, 100],
             questionFilter: {
                 minProbability: 0,
-                maxProbability: 100,
-                maxQuestionCount: 10,
+                maxProbability: 99.9,
+                maxQuestionCount: 0,
                 inWishknowledge: false,
                 createdByCurrentUser: false,
                 allQuestions: false,
@@ -27,8 +27,8 @@ Vue.component('session-config-component', {
                 randomQuestions: false
             },
             isLoggedIn: true,
-            maxSelectableQuestionCount: 50,
-            selectedQuestionCount: 10,
+            maxSelectableQuestionCount: 0,
+            selectedQuestionCount: 0,
             inWishknowledge: false,
             percentages: '{value}%',
             maxQuestionCountIsZero: false,
@@ -37,35 +37,38 @@ Vue.component('session-config-component', {
             radioHeight: 0,
             openLogin: false,
             createdByCurrentUser: false,
-            allQuestions: false,
+            allQuestions: true,
             isNotQuestionInWishKnowledge: false,
             safeLearningSessionOptions: false,
             displayNone: true,
             randomQuestions: false,
             answerHelp: true,
-            repititions: true
+            repititions: true,
+            categoryName: $("#hhdCategoryName").val()
         };
     },
     mounted() {
         var self = this;
-
+        this.loadQuestionCount();
         if (NotLoggedIn.Yes()) {
             this.title = 'Test';
             this.isLoggedIn = false;
         };
 
-        this.$nextTick(function () {
+        this.$nextTick(function() {
             window.addEventListener('resize', this.matchSize);
             this.matchSize();
         });
 
-        $('#SessionConfigModal').on('shown.bs.modal', function () {
-            self.matchSize();
-        });
-        $('#SessionConfigModal').on('hidden.bs.modal', function () {
-            if (self.openLogin)
-                Login.OpenModal();
-        });
+        $('#SessionConfigModal').on('shown.bs.modal',
+            function() {
+                self.matchSize();
+            });
+        $('#SessionConfigModal').on('hidden.bs.modal',
+            function() {
+                if (self.openLogin)
+                    Login.OpenModal();
+            });
     },
     watch: {
         probabilityRange: function () {
@@ -79,7 +82,7 @@ Vue.component('session-config-component', {
         selectedQuestionCount: function (val) {
             this.questionFilter.maxQuestionCount = parseInt(val);
         },
-        questionsInWishknowledge: function (val) {
+        inWishknowledge: function (val) {
 
             if (val) {
                 this.isNotQuestionInWishKnowledge = false;
@@ -138,7 +141,7 @@ Vue.component('session-config-component', {
                 success: result => {
                     result = parseInt(result);
                     this.maxSelectableQuestionCount = result;
-
+                    this.selectedQuestionCount = result;
                 }
             });
         },
@@ -156,6 +159,7 @@ Vue.component('session-config-component', {
         loadCustomSession() {
             if (this.maxQuestionCountIsZero)
                 return;
+            AnswerQuestion.LogTimeForQuestionView();
 
             this.safeQuestionFilter();
             this.answerBody.Loader.loadNewSession(this.questionFilter, true);
@@ -170,6 +174,7 @@ Vue.component('session-config-component', {
             this.loadQuestionCount();
             $('#SessionConfigModal').modal('show');
             this.openLogin = false;
+            $(".data-btn-login").click();
         },
         goToLogin() {
             this.openLogin = true;
@@ -195,11 +200,10 @@ Vue.component('question-list-component', {
     },
     props: [
         'categoryId',
-        'allQuestionCount',
         'isAdmin',
         'isQuestionListToShow',
         'activeQuestion',
-        'selectedPageFromParent'],
+        'selectedPageFromActiveQuestion'],
     data() {
         return {
             pages: 0,
@@ -217,29 +221,26 @@ Vue.component('question-list-component', {
             centerArray: [],
             showLeftSelectionDropUp: false,
             showRightSelectionDropUp: false,
-            pageIsLoading: false
+            pageIsLoading: false,
         };
     },
     created() {
         eventBus.$on('reload-knowledge-state', () => this.loadQuestions(this.selectedPage));
         eventBus.$on('reload-wishknowledge-state-per-question', (data) => this.changeQuestionWishknowledgeState(data.questionId, data.isInWishknowledge));
         eventBus.$on('reload-correctnessprobability-for-question', (id) => this.getUpdatedCorrectnessProbability(id));
-        eventBus.$on('load-questions-list', () => this.initQuestionList(this.selectedPage));
+        eventBus.$on('load-questions-list', () => this.initQuestionList());
         
     },
     mounted() {
         this.categoryId = $("#hhdCategoryId").val();
-      
+        
     },
     watch: {
         itemCountPerPage: function (val) {
             this.pages = Math.ceil(this.allQuestionCount / val);
         },
-        selectedPageFromParent: function(val) {
+        selectedPageFromActiveQuestion: function(val) {
             this.selectedPage = val;
-        },
-        allQuestionCount: function () {
-            this.initQuestionList();
         },
         questions: function() {
             if (this.questions.length > 0)
@@ -252,6 +253,7 @@ Vue.component('question-list-component', {
         },
         pages: function (val) {
             let newArray = [];
+
             let startNumber = 1;
             for (let i = 0; startNumber < val + 1; i++) {
                 newArray.push(startNumber);
@@ -276,7 +278,6 @@ Vue.component('question-list-component', {
     },
     methods: {
         initQuestionList() {
-            this.pages = Math.ceil(this.allQuestionCount / this.itemCountPerPage);
             this.loadQuestions(this.selectedPage);
         },
         loadQuestions(selectedPage) {
@@ -284,7 +285,7 @@ Vue.component('question-list-component', {
             $.ajax({
                 url: "/QuestionList/LoadQuestions/",
                 data: {
-                    itemCount: this.itemCountPerPage,
+                    itemCountPerPage: this.itemCountPerPage,
                     pageNumber: selectedPage,
                 },
                 type: "POST",
@@ -293,7 +294,11 @@ Vue.component('question-list-component', {
                     this.selectedPage = selectedPage;
                     this.showLeftSelectionDropUp = false;
                     this.showRightSelectionDropUp = false;
-
+                    if (typeof questions[0] != "undefined")
+                        this.pages = Math.ceil(questions[0].LearningSessionStepCount / this.itemCountPerPage);
+                    else
+                        this.pages = 1;
+                   this.test = questions[0].LearningSessionStepCount
                     this.$nextTick(function () {
                         this.setPaginationRanges(selectedPage);
                         new Pin(PinType.Question);
@@ -377,8 +382,9 @@ let v = Vue.component('question-component', {
         'selectedPage',
         'isQuestionListToShow',
         'questionIndex',
-        'allQuestionsCount',
-        'activeQuestion'
+        'activeQuestion',
+        'selectedPageFromActiveQuestion',
+        'lengthOfQuestionsArray'
     ],
     data() {
         return {
@@ -560,10 +566,17 @@ let v = Vue.component('question-component', {
             });
         },
         loadSpecificQuestion: function() {
-            var aB = new AnswerBody();
-            aB.Loader.loadNewQuestion("/AnswerQuestion/RenderAnswerBodyByLearningSession/?skipStepIdx=-5&questionId=" + this.questionId);
+            var answerBody = new AnswerBody();
+            let index = (this.selectedPage - 1) * 25 + this.questionIndex;
+            answerBody.Loader.loadNewQuestion("/AnswerQuestion/RenderAnswerBodyByLearningSession/" +
+                "?skipStepIdx=-5" +
+                "&index=" + index);
+
+            eventBus.$emit('change-active-page', this.selectedPage);
             eventBus.$emit('change-active-question', this.questionIndex);
-            eventBus.$emit('update-progress-bar', this.allQuestionsCount, this.questionIndex);
+
+            ; 
+            eventBus.$emit('update-progress-bar', this.lengthOfQuestionsArray, index);
         }
     },
 });

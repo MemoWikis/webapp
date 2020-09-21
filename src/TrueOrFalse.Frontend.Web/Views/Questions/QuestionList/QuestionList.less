@@ -2,27 +2,46 @@
 
 #QuestionListApp {
     margin-top: 103px;
+    background-color: #EFEFEF;
+    padding: 30px 20px 33px 20px;
 
-    .questionListComponent {
-        @media(max-width: @screen-xxs-max) {
-            padding-left: 0;
-            padding-right: 0;
-        }
+    @media(max-width: @screen-xxs-max) {
+        padding-left: 0;
+        padding-right: 0;
+    }
+
+    .ButtonEllipsis {
+        padding-right: 0;
     }
 
     .drop-down-question-sort {
         display: flex;
         flex-wrap: wrap;
         padding-bottom: 10px;
-        font-size: 24px;
+        font-size: 18px;
         justify-content: space-between;
 
-        @media(max-width: 767px) {
-            justify-content: center;
+        .header {
+            padding-bottom: 10px;
         }
 
         #ButtonAndDropdown {
             display: flex;
+            @media(max-width: 768px) {
+                padding-left: 10px;
+            }
+        }
+
+        @media(max-width: 991px) {
+            justify-content: center;
+        }
+
+        @media(max-width: 768px) {
+            font-size: 3vw;
+        }
+
+        @media(max-width: 479px) {
+            font-size: 4vw;
         }
     }
 
@@ -169,17 +188,16 @@
                             flex-direction: row-reverse;
                             padding: 0;
 
-                            .Pin {
-                                margin-top: 18px;
-
-                                .iAdded, .iAddedNot {
-                                    padding: 0;
-                                }
-
-                                .fa-heart, .fa-spinner {
-                                    font-size: 18px;
-                                }
+                            .iAdded, .iAddedNot {
+                                padding: 0;
                             }
+
+                            .fa-heart, .fa-spinner, .fa-heart-o {
+                                font-size: 18px;
+                                padding-top: 18px;
+                                padding-right: 10px;
+                            }
+
 
                             .iconContainer {
                                 padding: 8px;

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 
 
@@ -41,18 +42,19 @@ public class LearningSessionNewCreator
 
     public static int GetQuestionCount(LearningSessionConfig config)
     {
+        config.MaxQuestionCount = 0;
         if (config.IsNotQuestionInWishKnowledge && config.CreatedByCurrentUser)
-            return NotWuwiFromCategoryAndIsAuthor(config.CurrentUserId, config.CategoryId).Count;
+            return RandomLimited(NotWuwiFromCategoryAndIsAuthor(config.CurrentUserId, config.CategoryId),config).Count;
         if (config.IsNotQuestionInWishKnowledge)
-            return NotWuwiFromCategory(config.CurrentUserId, config.CategoryId).Count;
+            return RandomLimited(NotWuwiFromCategory(config.CurrentUserId, config.CategoryId),config).Count;
         if (config.InWishknowledge && config.CreatedByCurrentUser)
-            return WuwiQuestionsFromCategoryAndUserIsAuthor(config.CurrentUserId, config.CategoryId).Count;
+            return RandomLimited(WuwiQuestionsFromCategoryAndUserIsAuthor(config.CurrentUserId, config.CategoryId),config).Count;
         if (config.InWishknowledge)
-            return WuwiQuestionsFromCategory(config.CurrentUserId, config.CategoryId).Count;
+            return RandomLimited(WuwiQuestionsFromCategory(config.CurrentUserId, config.CategoryId),config).Count;
         if (config.CreatedByCurrentUser)
-            return UserIsQuestionAuthor(config.CurrentUserId, config.CategoryId).Count;
-
-        return GetCategoryQuestionsFromEntityCache(config.CategoryId).Count;
+            return RandomLimited(UserIsQuestionAuthor(config.CurrentUserId, config.CategoryId),config).Count;
+         
+        return RandomLimited(GetCategoryQuestionsFromEntityCache(config.CategoryId), config).Count; ;
     }
 
     private static List<Question> RandomLimited(List<Question> questions, LearningSessionConfig config)
@@ -65,7 +67,7 @@ public class LearningSessionNewCreator
         if (config.MaxQuestionCount == 0)
             return questions;
 
-        if (config.MaxQuestionCount > questions.Count)
+        if (config.MaxQuestionCount > questions.Count || config.MaxQuestionCount == -1)
             return questions;
 
         var amountQuestionsToDelete = questions.Count - config.MaxQuestionCount;
@@ -76,57 +78,73 @@ public class LearningSessionNewCreator
 
     private static List<Question> WuwiQuestionsFromCategory(int userId, int categoryId)
     {
-        return UserCache
-            .GetQuestionValuations(userId)
-            .Where(qv =>  qv.RelevancePersonal > -1 && qv.Question.Categories.Any(c => c.Id == categoryId))
-            .Select(qv => qv.Question)
-            .ToList();
+        return CompareDictionaryWithQuestionsFromMemoryCache(GetIdsFromQuestionValuation(userId), categoryId);
     }
+
     private static List<Question> WuwiQuestionsFromCategoryAndUserIsAuthor(int userId, int categoryId)
     {
-        return UserCache
-            .GetQuestionValuations(userId)
-            .Where(qv => qv.RelevancePersonal > 1 && qv.Question.Categories.Any(c => c.Id == categoryId) && qv.Question.Creator.Id == userId)
-            .Select(qv => qv.Question)
-            .ToList();
+        return CompareDictionaryWithQuestionsFromMemoryCache(GetIdsFromQuestionValuation(userId), categoryId)
+            .Where(q => q.Creator.Id == userId).ToList();
     }
 
 
     private static List<Question> NotWuwiFromCategoryAndIsAuthor(int userId, int categoryId)
     {
-        return  UserCache
-            .GetQuestionValuations(userId)
-            .Where(qv => qv.RelevancePersonal == -1 && qv.Question.Categories.Any(c => c.Id == categoryId) && qv.Question.Creator.Id == userId)
-            .Select(qv => qv.Question)
-            .ToList();
+        return CompareDictionaryWithQuestionsFromMemoryCache(GetIdsFromQuestionValuation(userId), categoryId, true)
+            .Where(q => q.Creator.Id == userId).ToList();
     }
 
-    private static List<Question> NotWuwiFromCategory(int categoryId, int userId)
+    private static List<Question> NotWuwiFromCategory(int userId, int categoryId)
     {
-        return UserCache
-            .GetQuestionValuations(userId)
-            .Where(qv => qv.RelevancePersonal > 1 && qv.Question.Categories.Any(c => c.Id == categoryId))
-            .Select(qv => qv.Question)
-            .ToList();
+        return CompareDictionaryWithQuestionsFromMemoryCache(GetIdsFromQuestionValuation (userId), categoryId, true);
     }
 
     private static List<Question> UserIsQuestionAuthor(int userId, int categoryId)
     {
-        return UserCache
-            .GetQuestionValuations(userId)
-            .Where(qv => qv.Question.Categories.Any(c => c.Id == categoryId) && qv.Question.Creator.Id == userId)
-            .Select(qv => qv.Question)
-            .ToList();
+        return EntityCache.GetCategory(categoryId)
+            .GetAggregatedQuestionsFromMemoryCache().Where(q => q.Creator.Id == userId).ToList();
     }
 
     private static List<Question> GetCategoryQuestionsFromEntityCache(int categoryId)
     {
-        return EntityCache.GetQuestionsForCategory(categoryId).ToList();
+        return EntityCache.GetCategory(categoryId).GetAggregatedQuestionsFromMemoryCache().ToList();
     }
 
     private static IList<Question> OrderByProbability( List<Question> questions)
     {
         return questions.OrderByDescending(q => q.CorrectnessProbability).ToList();
+    }
+
+    private static List<Question> CompareDictionaryWithQuestionsFromMemoryCache(Dictionary<int, int> dic1, int categoryId, bool isNotWuwi = false)
+    {
+        List<Question> questions = new List<Question>();
+        var questionsFromEntityCache = EntityCache.GetCategory(categoryId)
+            .GetAggregatedQuestionsFromMemoryCache().ToDictionary(q => q.Id);
+
+        if (!isNotWuwi)
+        {
+            foreach (var q in questionsFromEntityCache)
+            {
+                if (dic1.ContainsKey(q.Key))
+                    questions.Add(q.Value);
+            }
+        }
+        else
+        {
+            foreach (var qId in dic1)
+            {
+                questionsFromEntityCache.Remove(qId.Key);
+                questions = questionsFromEntityCache.Values.ToList(); 
+            }
+        }
+        
+        return questions;
+    }
+
+    private static Dictionary<int, int> GetIdsFromQuestionValuation(int userId)
+    {
+       return UserCache.GetQuestionValuations(userId).Where(qv => qv.IsInWishKnowledge())
+            .Select(qv => qv.Question.Id).ToDictionary(q => q);
     }
 
     private static List<Question> GetQuestionsFromMinToMaxProbability(int minProbability, int maxProbability, List<Question> questions)

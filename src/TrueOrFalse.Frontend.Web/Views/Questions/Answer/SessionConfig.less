@@ -38,8 +38,8 @@
         background-color: #EBCCCC;
 
         .notLoggedInHeader {
-            font-family: Helvetica Neue;
-            font-size: 18px;
+            font-family: 'Open Sans';
+            font-size: 16px;
             padding: 30px 66px;
         }
 
@@ -179,6 +179,7 @@
             font-size: 14px;
             margin-top: 50px;
             padding-bottom: 20px;
+            cursor: pointer;
 
 
             .angle {
@@ -451,6 +452,14 @@
     .sliders {
         margin-top: 50px;
         padding-left: 20px;
+
+        .noQuestions{
+            margin-top: 74px;
+            @media(min-width: 768px){
+                margin-left: -109%; 
+                width: 203%;
+            }
+        }
 
         .sliderContainer {
             display: flex;

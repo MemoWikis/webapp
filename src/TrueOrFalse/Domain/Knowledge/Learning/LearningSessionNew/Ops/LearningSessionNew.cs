@@ -17,6 +17,7 @@ public class LearningSessionNew
 
     public User User;
     public bool IsLoggedIn;
+    public Guid QuestionViewGuid;
 
 
     public LearningSessionNew(List<LearningSessionStepNew> learningSessionSteps, LearningSessionConfig config)
@@ -52,20 +53,17 @@ public class LearningSessionNew
             CurrentIndex++;
     }
 
-    public void LoadSpecificQuestion(int questionId)
+    public void LoadSpecificQuestion(int index)
     {
-        var futureIndex = Steps.IndexOf(step => step.Question.Id == questionId);
-
-
-        if (futureIndex > CurrentIndex)
+        if (index > CurrentIndex)
         {
-            for (int i = CurrentIndex; i < futureIndex; i++)
+            for (int i = CurrentIndex; i < index; i++)
             {
                 Steps[i].AnswerState = AnswerStateNew.Skipped;
             }
         }
 
-        CurrentIndex = futureIndex; 
+        CurrentIndex = index; 
     }
 
     public void ShowSolution()

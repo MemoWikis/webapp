@@ -1,16 +1,17 @@
 ﻿<%@ Control Language="C#" AutoEventWireup="true" Inherits="System.Web.Mvc.ViewUserControl<QuestionListModel>" %>
 <%@ Import Namespace="System.Web.Optimization" %>
 <%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
-
+<script type="text/x-template" id="pin-wuwi-template">
+    <%: Html.Partial("~/Views/Shared/PinComponentVue/PinComponent.vue.ascx") %>
+</script>
 <%= Styles.Render("~/bundles/QuestionList") %>
 <%= Styles.Render("~/bundles/switch") %>
 <%= Scripts.Render("~/bundles/js/QuestionListComponents") %>
-<div id="BorderQuestionList" style=""> </div>
-    <div id="QuestionListApp" class="row">
+<div id="QuestionListApp" class="row">
     <div class="col-xs-12 drop-down-question-sort">
-        <div>Du lernst {{questionsCount}} Fragen aus diesem Thema (<%=Model.AllQuestionsInCategory %>)</div>
+        <div class="header">Du lernst  Fragen aus diesem Thema ({{allQuestionsCountFromCategory}})</div>
         <div id="ButtonAndDropdown">
-        <session-config-component inline-template @update="updateQuestionsCount" :questions-count="questionsCount">
+        <session-config-component inline-template @update="updateQuestionsCount" :questions-count="questionsCount" :all-questions-count-from-category="allQuestionsCountFromCategory">
         <div class="rootElement">
             <div id="CustomSessionConfigBtn" @click="openModal()"><button class="btn btn-primary"><i class="fa fa-cog" aria-hidden="true"></i> Lernoptionen</button></div>
             <div class="modal fade" id="SessionConfigModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -86,12 +87,13 @@
                                     <div v-if="maxSelectableQuestionCount > 0" class="sliderContainer">
                                         <div class="leftLabel">0</div>
                                         <div class="vueSlider">                            
-                                            <vue-slider :max="maxSelectableQuestionCount" v-model="selectedQuestionCount"></vue-slider>
+                                            <vue-slider v-model="selectedQuestionCount" :max="maxSelectableQuestionCount" ></vue-slider>
                                         </div>
                                         <div class="rightLabel">{{maxSelectableQuestionCount}}</div>
                                     </div>
-                                    <div v-else class="alert alert-warning" role="alert">Leider sind keine Fragen mit diesen Einstellungen verfügbar. Bitte ändere die Antwortwahrscheinlichkeit oder wähle "Alle Fragen" aus.</div>
+                                    <div v-else class="alert alert-warning noQuestions" role="alert">Leider sind keine Fragen mit diesen Einstellungen verfügbar. Bitte ändere die Antwortwahrscheinlichkeit oder wähle "Alle Fragen" aus.</div>
                                     <div class="alert alert-warning" v-if="(selectedQuestionCount == 0) && maxSelectableQuestionCount > 0">Du musst mindestens 1 Frage auswählen.</div>
+                                    
                                 </div>
                             </div>
                             <div class="row modal-more-options" @click="displayNone = !displayNone">
@@ -102,47 +104,47 @@
                                         <i class="fas fa-angle-down"></i>
                                     </span>
                                 </div>
-                            </div>
-                            <div id="QuestionSortSessionConfig" v-bind:class="{displayNone: displayNone}">
-                                <div class="randomQuestions">
-                                    <input type="checkbox" id="randomQuestions" style="display:none" v-model="randomQuestions" />
-                                    <label for="randomQuestions" class="toggle">
-                                        <span></span>
-                                    </label>
-                                    <span>&nbsp;Zufällige Fragen</span> 
-                                </div>
-                                
-                                <div class="answerHelp">
-                                    <input type="checkbox" id="answerHelp" style="display:none" v-model="answerHelp" />
-                                    <label for="answerHelp" class="toggle">
-                                        <span></span>
-                                    </label>
-                                    <span>&nbsp;Antworthilfe</span>
-                                </div>
-                                <div class="repititions">
-                                    <input type="checkbox" id="repititions" style="display:none" v-model="repititions" />
-                                    <label for="repititions" class="toggle">
-                                        <span></span>
-                                    </label>
-                                    <span>&nbsp;Wiederholungen<i> falsch gelöste Fragen werden wiederholt</i></span>
+                                <div id="QuestionSortSessionConfig" v-bind:class="{displayNone: displayNone}" class=" col-sm-12">
+                                    <div class="randomQuestions">
+                                        <input type="checkbox" id="randomQuestions" style="display:none" v-model="randomQuestions" />
+                                        <label for="randomQuestions" class="toggle">
+                                            <span></span>
+                                        </label>
+                                        <span>&nbsp;Zufällige Fragen</span> 
+                                    </div>
+                                    
+                                    <div class="answerHelp">
+                                        <input type="checkbox" id="answerHelp" style="display:none" v-model="answerHelp" />
+                                        <label for="answerHelp" class="toggle">
+                                            <span></span>
+                                        </label>
+                                        <span>&nbsp;Antworthilfe</span>
+                                    </div>
+                                    <div class="repititions">
+                                        <input type="checkbox" id="repititions" style="display:none" v-model="repititions" />
+                                        <label for="repititions" class="toggle">
+                                            <span></span>
+                                        </label>
+                                        <span>&nbsp;Wiederholungen<i> falsch gelöste Fragen werden wiederholt</i></span>
+                                    </div>
                                 </div>
                             </div>
                             <div class="themes-info">
-                                <p> Du lernst <b>{{maxSelectableQuestionCount}}</b> aus dem Thema Allgmeinwissen<%=Model.AllQuestionsInCategory %></p>
+                                <p> Du lernst <b>{{selectedQuestionCount}}</b> Fragen aus dem Thema {{categoryName}} ({{allQuestionsCountFromCategory}})</p>
                             </div>
-                            <div class="row">
+              <%--              <div class="row">
                                 <div id="SafeLearnOptions">
                                     <div class="col-sm-12 safe-settings">
                                         <label>
                                             <input type="checkbox" id="safeOptions" v-model="safeLearningSessionOptions" :disabled="!isLoggedIn"/>
-                                            Diese Einstellungen für zukünftiges Lernen speichern.
+                                            Diese Einstellungen für zukünftiges Lernen speichern.(Dieses Feature ist vorbereitet und funktioniert noch nicht)
                                         </label>
                                     </div>
                                     <div class="info-options col-sm-12">
                                         Ein Neustart deiner Lernsitzung setzt deinen Lernfortschritt zurück. Die Antwortwahrscheinlichkeit der bisher beantworteten Fragen bleibt erhalten.
                                     </div>
                                 </div>
-                            </div>
+                            </div>--%>
                         </div>
                         <div class="modal-footer">
                             <div type="button" class="btn btn-link" data-dismiss="modal">Abbrechen</div>
@@ -173,9 +175,10 @@
         is-admin="<%= Model.IsInstallationAdmin %>"  
         :is-question-list-to-show="isQuestionListToShow"
         :active-question ="activeQuestion"
-        :selected-page-from-parent="selectedPageFromParent">
+        :selected-page-from-active-question="selectedPageFromActiveQuestion">
         <div class="col-xs-12 questionListComponent">
             <question-component inline-template
+                                v-on:pin-unpin ="changePin()"
                                 v-for="(q, index) in questions"
                                 :question-id="q.Id" 
                                 :question-title="q.Title" 
@@ -187,8 +190,10 @@
                                 :is-admin="isAdmin"
                                 :is-question-list-to-show ="isQuestionListToShow"
                                 :question-index="index"
-                                :all-questions-count="allQuestionCount"
-                                :active-question ="activeQuestion">
+                                :active-question ="activeQuestion"
+                                :selected-page ="selectedPage"
+                                :selected-page-from-active-question="selectedPageFromActiveQuestion"
+                                :length-of-questions-array="questions[0].LearningSessionStepCount">
                 
                 <div class="singleQuestionRow" :class="[{ open: showFullQuestion}, backgroundColor]">
                     <div class="questionSectionFlex">
@@ -204,13 +209,12 @@
                                             <div class="iconContainer float-right" @click="expandQuestion()">
                                                 <i class="fas fa-angle-down rotateIcon" :class="{ open : showFullQuestion }"></i>
                                             </div>
-                                            <div class="">
-                                                <div :id="pinId" class="Pin" :data-question-id="questionId"></div>
-                                            </div>
                                             <div class="go-to-question iconContainer">
-                                                <span class="fas fa-play" :class="{ 'activeQ': questionIndex === activeQuestion }" :data-question-id="questionId" @click="loadSpecificQuestion()">
+                                                <span class="fas fa-play" :class="{ 'activeQ': questionIndex === activeQuestion && selectedPageFromActiveQuestion === selectedPage }" :data-question-id="questionId" @click="loadSpecificQuestion()">
                                                 </span>
                                             </div>
+                                            <pin-wuwi-component :is-in-wishknowledge="isInWishknowledge" :question-id="questionId" />
+
                                         </div>
                                     </div>
                                     <div class="extendedQuestionContainer" v-show="showFullQuestion">
@@ -338,6 +342,7 @@
     </question-list-component>
     </div>
 <%= Scripts.Render("~/bundles/js/QuestionListApp") %>
+
 
 
 
