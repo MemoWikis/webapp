@@ -13,7 +13,7 @@ var questionListApp = new Vue({
         activeQuestion: 0,      // which question is active
         learningSessionData: "",
         selectedPageFromActiveQuestion: 1,
-        allQuestionsCountFromCategory: 0
+        allQuestionsCountFromCategory:  0
     },
     methods: {
         toggleQuestionsList: function() {
