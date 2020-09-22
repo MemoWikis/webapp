@@ -107,9 +107,9 @@
             <p class="greyed fontSizeSmall">
                 <a href="#" data-action="showAllDetails">Alle Details einblenden</a> | <a href="#" data-action="hideAllDetails">Alle Details ausblenden</a> | <a href="#" data-action="showDetailsExceptRightAnswer">Details zu allen nicht korrekten Fragen einblenden</a>
             </p>
-            <% foreach (var uniqueQuestion in Model.AnsweredStepsGrouped)
+            <% foreach (var learningSessionStepNew in Model.AnsweredStepsGrouped)
                 {
-                    if ((uniqueQuestion.First().AnswerState != AnswerStateNew.Unanswered) && uniqueQuestion.First().AnswerState == AnswerStateNew.Correct)
+                    if ((learningSessionStepNew.First().AnswerState != AnswerStateNew.Unanswered) && learningSessionStepNew.First().AnswerState == AnswerStateNew.Correct)
                     { %> 
                         <div class="row">
                             <div class="col-xs-12">
@@ -117,10 +117,10 @@
                                     <a href="#" data-action="showAnswerDetails">
                                     <i class="fa fa-check-circle AnswerResultIcon show-tooltip" title="Beim 1. Versuch richtig beantwortet">
                                         &nbsp;&nbsp;
-                                    </i><%= uniqueQuestion.First().Question.GetShortTitle(150) %> 
+                                    </i><%= learningSessionStepNew.First().Question.GetShortTitle(150) %> 
                                     (Details)</a><br/>
                     <% }
-                    else if ((uniqueQuestion.Count() > 1) && (uniqueQuestion.Last().AnswerState != AnswerStateNew.Unanswered) && uniqueQuestion.Last().AnswerState == AnswerStateNew.Correct)
+                    else if ((learningSessionStepNew.Count() > 1) && (learningSessionStepNew.Last().AnswerState != AnswerStateNew.Unanswered) && learningSessionStepNew.Last().AnswerState == AnswerStateNew.Correct)
                     { %> 
                         <div class="row">
                             <div class="col-xs-12">
@@ -128,11 +128,11 @@
                                 <div class="QuestionLearned AnsweredRightAfterRepetition">
                                     <i class="fa fa-check-circle AnswerResultIcon show-tooltip" title="Beim 2. oder 3. Versuch richtig beantwortet">
                                         &nbsp;&nbsp;
-                                    </i><%= uniqueQuestion.First().Question.GetShortTitle(150) %> 
+                                    </i><%= learningSessionStepNew.First().Question.GetShortTitle(150) %> 
                                     (Details)</a><br/>
 
                     <% }
-                    else if (uniqueQuestion.All(a => a.AnswerState == AnswerStateNew.Unanswered))
+                    else if (learningSessionStepNew.All(a => a.AnswerState == AnswerStateNew.Unanswered))
                     { %> 
                         <div class="row">
                             <div class="col-xs-12">
@@ -140,11 +140,11 @@
                                     <a href="#" data-action="showAnswerDetails">
                                     <i class="fa fa-circle AnswerResultIcon show-tooltip" title="Nicht beantwortet">
                                         &nbsp;&nbsp;
-                                    </i><%= uniqueQuestion.First().Question.GetShortTitle(150) %> 
+                                    </i><%= learningSessionStepNew.First().Question.GetShortTitle(150) %> 
                                     (Details)</a><br/>
                     <% }
-                    else if (((uniqueQuestion.Last().AnswerState != AnswerStateNew.Unanswered) && (uniqueQuestion.Last().AnswerState == AnswerStateNew.Correct)) ||
-                                ((uniqueQuestion.Last().AnswerState == AnswerStateNew.Unanswered) && (uniqueQuestion.Count() > 1)))
+                    else if (((learningSessionStepNew.Last().AnswerState != AnswerStateNew.Unanswered) && (learningSessionStepNew.Last().AnswerState == AnswerStateNew.Correct)) ||
+                                ((learningSessionStepNew.Last().AnswerState == AnswerStateNew.Unanswered) && (learningSessionStepNew.Count() > 1)))
                     { %>
                         <div class="row">
                             <div class="col-xs-12">
@@ -152,7 +152,7 @@
                                     <a href="#" data-action="showAnswerDetails">
                                     <i class="fa fa-minus-circle AnswerResultIcon show-tooltip" title="Falsch beantwortet">
                                         &nbsp;&nbsp;
-                                    </i><%= uniqueQuestion.First().Question.GetShortTitle(150) %> 
+                                    </i><%= learningSessionStepNew.First().Question.GetShortTitle(150) %> 
                                     (Details)</a><br/>
                     <% }
                     else { // fall-back-option, prevents layout bugs (missing opened divs) in case some answer-case isn't dealt with above  %>
@@ -162,22 +162,22 @@
                                     <a href="#" data-action="showAnswerDetails">
                                         <i class="fa fa-question-circle AnswerResultIcon show-tooltip" title="Status unbekannt (Fehler)">
                                             &nbsp;&nbsp;
-                                        </i><%= uniqueQuestion.First().Question.GetShortTitle(150) %> 
+                                        </i><%= learningSessionStepNew.First().Question.GetShortTitle(150) %> 
                                         (Details)</a><br/>
                              
                     <% }%>
-                                    <div class="answerDetails" data-questionId=<%= uniqueQuestion.First().Question.Id %>>
+                                    <div class="answerDetails" data-questionId=<%= learningSessionStepNew.First().Question.Id %>>
                                         <div class="row">
                                             <div class="col-xs-3 col-sm-2 answerDetailImage">
                                                 <div class="ImageContainer ShortLicenseLinkText">
-                                                <%= GetQuestionImageFrontendData.Run(uniqueQuestion.First().Question).RenderHtmlImageBasis(128, true, ImageType.Question, linkToItem: Links.AnswerQuestion(uniqueQuestion.First().Question)) %> 
+                                                <%= GetQuestionImageFrontendData.Run(learningSessionStepNew.First().Question).RenderHtmlImageBasis(128, true, ImageType.Question, linkToItem: Links.AnswerQuestion(learningSessionStepNew.First().Question)) %> 
                                                 </div>
                                             </div>
                                             <div class="col-xs-9 col-sm-10">
-                                                <p class="rightAnswer">Richtige Antwort: <%= GetQuestionSolution.Run(uniqueQuestion.First().Question).GetCorrectAnswerAsHtml() %><br/></p>
+                                                <p class="rightAnswer">Richtige Antwort: <%= GetQuestionSolution.Run(learningSessionStepNew.First().Question).GetCorrectAnswerAsHtml() %><br/></p>
 
                                                 <% int counter = 1;
-                                                foreach (var step in uniqueQuestion)
+                                                foreach (var step in learningSessionStepNew)
                                                 {
                                                     if (step.AnswerState == AnswerStateNew.Skipped)
                                                     {
@@ -193,7 +193,7 @@
                                                     }
                                                     counter++;
                                                 } %>
-                                                <p class="answerLinkToQ"><a href="<%= Links.AnswerQuestion(uniqueQuestion.First().Question) %>"><i class="fa fa-arrow-right">&nbsp;</i>Diese Frage einzeln lernen</a></p>
+                                                <p class="answerLinkToQ"><a href="<%= Links.AnswerQuestion(learningSessionStepNew.First().Question) %>"><i class="fa fa-arrow-right">&nbsp;</i>Diese Frage einzeln lernen</a></p>
                                                     
                                             </div>
                                                 
@@ -202,8 +202,16 @@
                                 </div>
                             </div>
                         </div>
-                <% } %>
+                <% if (Model.CounterSteps >= 300)
+                       break;
+
+                   Model.CounterSteps++; 
+                } %>
         </div>
+        <% if (Model.CounterSteps >= 300)
+           { %>
+                <div>Es werden nicht mehr als 300 Fragen in der Auswertung angezeigt</div>
+           <% } %>
     </div>
 
 

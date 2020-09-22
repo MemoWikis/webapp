@@ -6,6 +6,7 @@
 
         if ($("#LearningTab").hasClass("active")) {
             $(".SessionBar").hide();
+            $("#QuestionListApp").hide();
             $(".SessionHeading").hide();
         }
 

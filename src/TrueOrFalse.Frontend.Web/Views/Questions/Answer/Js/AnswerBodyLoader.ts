@@ -162,6 +162,7 @@ class AnswerBodyLoader {
                 if (continueWithNewSession) {
                     $(".SessionSessionHeading").fadeIn();
                     $(".SessionBar").fadeIn();
+                    $("#QuestionListApp").fadeIn();
                 }
                 if (loadedFromVue) {
                     $(".SessionSessionHeading").fadeIn();

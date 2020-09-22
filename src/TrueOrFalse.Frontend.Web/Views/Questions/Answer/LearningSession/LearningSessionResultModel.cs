@@ -7,7 +7,7 @@ public class LearningSessionResultModel : BaseModel
 {
     public LearningSessionNew LearningSession;
     public int NumberSteps;
-    public int NumberUniqueQuestions = 0;
+    public int NumberUniqueQuestions;
     public int NumberCorrectAnswers; //answered correctly at first try
     public int NumberCorrectAfterRepetitionAnswers; 
     public int NumberWrongAnswers;
@@ -18,26 +18,17 @@ public class LearningSessionResultModel : BaseModel
     public int NumberNotAnsweredPercentage;
 
     public IEnumerable<IGrouping<int, LearningSessionStepNew>> AnsweredStepsGrouped;
+    public List<LearningSessionStepNew> AnsweredStepsGroupedForDetailedAnswerAnalysis;
 
     public Date DateToLearn;
-    public bool DateIsInPast;
-    public TimeSpanLabel DateRemainingTimeLabel;
     public TrainingPlan TrainingPlan;
     public int TrainingDateCount;
-    public string RemainingTrainingTime;
-
-    public IList<Set> SetsToLearn { get; set; }
-
-    public int KnowledgeNotLearned;
-    public int KnowledgeNeedsLearning;
-    public int KnowledgeNeedsConsolidation;
-    public int KnowledgeSolid;
 
     public int WishCountQuestions;
     public int WishCountSets;
     public bool ShowSummaryText;
     public int PercentageAverageRightAnswers;
-
+    public int CounterSteps { get; set; }
 
     public LearningSessionResultModel(LearningSessionNew learningSession, bool isInTestMode = false)
     {
@@ -52,13 +43,11 @@ public class LearningSessionResultModel : BaseModel
             WishCountQuestions = learningSession.User.WishCountQuestions;
             WishCountSets = learningSession.User.WishCountSets;
         }
-       
 
         if (NumberSteps > 0)
         {
             AnsweredStepsGrouped = LearningSession.Steps.GroupBy(d => d.Question.Id);
-
-          
+           
 
             NumberUniqueQuestions = AnsweredStepsGrouped.Count();
 

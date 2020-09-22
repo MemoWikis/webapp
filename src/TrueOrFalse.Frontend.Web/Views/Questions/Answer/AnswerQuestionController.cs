@@ -583,6 +583,7 @@ public class AnswerQuestionController : BaseController
             ControllerContext);
         var learningSession = Sl.SessionUser.LearningSession; 
         var serializer = new JavaScriptSerializer();
+        
         var serializedPageData = serializer.Serialize(new
         {
             answerBodyAsHtml = answerBody,
@@ -637,7 +638,7 @@ public class AnswerQuestionController : BaseController
     [SetThemeMenu(isLearningSessionPage: true)]
     public string RenderLearningSessionResult(LearningSessionNew learningSession, bool isInTestMode = false)
     {
-        var serializer = new JavaScriptSerializer();
+        var serializer = new JavaScriptSerializer { MaxJsonLength = Int32.MaxValue, RecursionLimit = 100 };
         return serializer.Serialize(
             new
             {
