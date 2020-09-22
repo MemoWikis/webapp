@@ -291,11 +291,9 @@ namespace TrueOrFalse.Frontend.Web.Code
 
         /* Testing / TestSession*/
         public const string TestSessionController = "TestSession";
-        public const string TestSessionResultController = "TestSessionResult";
-        public const string TestSessionResultAction = "TestSessionResult";
 
-        public static string TestSession(string uriName, int testSessionId) => 
-            GetUrlHelper().Action("Test", AnswerQuestionController, new { name = uriName, testSessionId = testSessionId });
+        public static string TestSession(string categoryName, int categoryId) =>
+            CategoryDetailLearningTab(categoryName, categoryId);
 
         public static string TestSessionStartForSet(string setName, int setId) => 
             GetUrlHelper().Action("StartTestSession", SetController, new { setName = UriSanitizer.Run(setName), setId = setId });

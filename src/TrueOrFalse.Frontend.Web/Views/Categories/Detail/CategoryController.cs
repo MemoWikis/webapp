@@ -127,12 +127,9 @@ public class CategoryController : BaseController
 
     public ActionResult StartTestSession(int categoryId)
     {
-        var category = Sl.CategoryRepo.GetByIdEager(categoryId);
-        var testSession = new TestSession(category);
+        var categoryName = EntityCache.GetCategory(categoryId).Name; 
 
-        Sl.SessionUser.AddTestSession(testSession);
-
-        return Redirect(Links.TestSession(testSession.UriName, testSession.Id));
+        return Redirect(Links.TestSession(categoryName, categoryId));
     }
 
     public ActionResult StartTestSessionForSetsInCategory(List<int> setIds, string setListTitle, int categoryId)
