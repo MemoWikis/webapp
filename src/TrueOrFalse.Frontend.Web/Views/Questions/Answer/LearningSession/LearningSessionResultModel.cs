@@ -18,9 +18,6 @@ public class LearningSessionResultModel : BaseModel
     public int NumberNotAnsweredPercentage;
 
     public IEnumerable<IGrouping<int, LearningSessionStepNew>> AnsweredStepsGrouped;
-    public List<LearningSessionStepNew> AnsweredStepsGroupedForDetailedAnswerAnalysis;
-
-    public Date DateToLearn;
     public TrainingPlan TrainingPlan;
     public int TrainingDateCount;
 

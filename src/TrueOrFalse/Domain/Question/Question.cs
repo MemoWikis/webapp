@@ -177,7 +177,7 @@ public class Question : DomainEntity, ICreator
             case SolutionType.MatchList:
                 
                 //Quick Fix: Prevent null reference exeption
-                if (answerText == "")
+                if (answerText == "" || answerText == null)
                     return "";
 
                 var answerObject = QuestionSolutionMatchList.DeserializeMatchListAnswer(answerText);
