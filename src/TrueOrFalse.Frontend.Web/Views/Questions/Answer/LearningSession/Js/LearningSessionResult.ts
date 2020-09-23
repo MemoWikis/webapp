@@ -36,6 +36,7 @@
 
         $(".nextLearningTestSession").click((e) => {
             e.preventDefault();
+            eventBus.$emit('update-selected-page', 1);
             $(".EduPartnerWrapper").remove();
             $("#QuestionCountCompletSideBar").fadeIn(); 
             var answerBody = new AnswerBody();

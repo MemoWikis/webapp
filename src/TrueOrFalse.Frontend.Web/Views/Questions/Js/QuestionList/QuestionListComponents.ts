@@ -159,13 +159,14 @@ Vue.component('session-config-component', {
         loadCustomSession() {
             if (this.maxQuestionCountIsZero)
                 return;
+            eventBus.$emit('update-selected-page', 1);
             AnswerQuestion.LogTimeForQuestionView();
 
             this.safeQuestionFilter();
             this.answerBody.Loader.loadNewSession(this.questionFilter, true);
             $('#SessionConfigModal').modal('hide');
             this.questionFilter.safeLearningSessionOptions = this.safeLearningSessionOptions = false;
-            this.$emit('update', this.questionFilter.maxQuestionCount);
+            
         },
         matchSize() {
             this.radioHeight = this.$refs.radioSection.clientHeight;
@@ -229,7 +230,8 @@ Vue.component('question-list-component', {
         eventBus.$on('reload-wishknowledge-state-per-question', (data) => this.changeQuestionWishknowledgeState(data.questionId, data.isInWishknowledge));
         eventBus.$on('reload-correctnessprobability-for-question', (id) => this.getUpdatedCorrectnessProbability(id));
         eventBus.$on('load-questions-list', () => this.initQuestionList());
-        
+        eventBus.$on('update-selected-page', (selectedPage) => {this.selectedPage = selectedPage});
+
     },
     mounted() {
         this.categoryId = $("#hhdCategoryId").val();
@@ -298,7 +300,6 @@ Vue.component('question-list-component', {
                         this.pages = Math.ceil(questions[0].LearningSessionStepCount / this.itemCountPerPage);
                     else
                         this.pages = 1;
-                   this.test = questions[0].LearningSessionStepCount
                     this.$nextTick(function () {
                         this.setPaginationRanges(selectedPage);
                         new Pin(PinType.Question);

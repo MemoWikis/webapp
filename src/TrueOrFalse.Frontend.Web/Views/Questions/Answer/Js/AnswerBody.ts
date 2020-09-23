@@ -7,7 +7,6 @@ class AnswerBody {
         var answerEntry = new AnswerEntry();
         answerEntry.Init();
         this.Loader = new AnswerBodyLoader(this);
-        eventBus.$emit('load-questions-list');
 
         new Pin(PinType.Question);
         new Pin(PinType.Set); //only needed if Set-Cards are presented as content
@@ -18,11 +17,12 @@ class AnswerBody {
 
         $('#hddTimeRecords').attr('data-time-on-load', $.now());
 
-        $(window).on("unload", function () {
-            if (typeof $("#hddIsResultSite").val() == "undefined")
-                AnswerQuestion.LogTimeForQuestionView();
-        });
-        
+        $(window).on("unload",
+            ()=> {
+                if (typeof $("#hddIsResultSite").val() == "undefined")
+                    AnswerQuestion.LogTimeForQuestionView();
+            });
+
         new QuestionRowDelete(QuestionRowDeleteSourcePage.QuestionDetail);
 
         $('[data-toggle=popover]').popover({ html: true }).click(e => { e.preventDefault(); });
@@ -32,10 +32,11 @@ class AnswerBody {
             if (document.getElementsByName("answer").length > 0)
                 $("[name=answer]")[0].focus();
 
-            $("#txtAnswer:visible").focus();  
+            $("#txtAnswer:visible").focus();
 
             $("#row-1:visible").focus();
         }
+        eventBus.$emit('load-questions-list');
     }
 
     ScrollToAnswerQuestionHeaderIfOutsideView() {

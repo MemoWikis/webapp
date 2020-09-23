@@ -1,8 +1,5 @@
 ﻿class QuestionsApi
 {
-    constructor() {
-        eventBus.$on()
-    }
     public static Pin(questionId, onPinChanged: () => void = null) {
         $.post("/Api/Questions/Pin/", { questionId: questionId }, (pinned) => {
             if (onPinChanged != null)
