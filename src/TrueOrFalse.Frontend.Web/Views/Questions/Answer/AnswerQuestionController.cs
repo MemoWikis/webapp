@@ -645,7 +645,7 @@ public class AnswerQuestionController : BaseController
                 LearningSessionResult =
                 ViewRenderer.RenderPartialView(
                     "~/Views/Questions/Answer/LearningSession/LearningSessionResultInner.ascx",
-                    new LearningSessionResultModel(learningSession, isInTestMode: isInTestMode), ControllerContext),
+                    new LearningSessionResultModel(learningSession, isInTestMode), ControllerContext),
                 url = "",
                 offlineDevelopment = Settings.DevelopOffline()
             }
