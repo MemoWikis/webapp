@@ -288,10 +288,16 @@ public class AnswerQuestionModel : BaseModel
             if (result.Length < 50)
             {
                 result += "Alternativen: ";
+
+                if (((QuestionSolutionMultipleChoice_SingleSolution) SolutionModel).Choices.Count < 2)
+                    result += "";
+                else
                 result += ((QuestionSolutionMultipleChoice_SingleSolution)SolutionModel)
                     .Choices
                     .Skip(1)
                     .Aggregate((a, b) => a + ", " + b) + "?  ";
+
+                var test = result; 
             }
 
         }
