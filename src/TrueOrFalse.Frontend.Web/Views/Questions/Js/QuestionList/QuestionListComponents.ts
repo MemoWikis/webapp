@@ -1,4 +1,4 @@
-﻿declare var Vue: any;
+﻿ declare var Vue: any;
 declare var VueAdsPagination: any;
 declare var VueSlider: any;
 
@@ -78,6 +78,11 @@ Vue.component('session-config-component', {
         },
         isTestMode: function(val) {
             this.questionFilter.isInTestMode = val;
+            if (val == true) {
+                this.answerHelp = false;
+                this.repititions = false; 
+            }
+            
         },
         selectedQuestionCount: function (val) {
             this.questionFilter.maxQuestionCount = parseInt(val);
@@ -118,11 +123,15 @@ Vue.component('session-config-component', {
         randomQuestions: function () {
             this.questionFilter.randomQuestions = this.randomQuestions;
         },
-        answerHelp: function () {
+        answerHelp: function (val) {
             this.questionFilter.answerHelp = this.answerHelp;
+            if (this.answerHelp == true)
+                this.isTestMode = false;
         },
         repititions: function () {
             this.questionFilter.repititions = this.repititions;
+            if (this.repititions == true)
+                this.isTestMode = false;
         },
         'questionFilter.maxQuestionCount': function (val) {
             this.maxQuestionCountIsZero = val === 0;
