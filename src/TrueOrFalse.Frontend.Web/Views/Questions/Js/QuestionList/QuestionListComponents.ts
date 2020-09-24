@@ -125,13 +125,18 @@ Vue.component('session-config-component', {
         },
         answerHelp: function (val) {
             this.questionFilter.answerHelp = this.answerHelp;
-            if (this.answerHelp == true)
+            if (this.answerHelp == true) {
                 this.isTestMode = false;
+                this.questionFilter.isInTestMode = false; 
+            }
+                
         },
         repititions: function () {
             this.questionFilter.repititions = this.repititions;
-            if (this.repititions == true)
+            if (this.repititions == true) {
                 this.isTestMode = false;
+                this.questionFilter.isInTestMode = false;
+            }
         },
         'questionFilter.maxQuestionCount': function (val) {
             this.maxQuestionCountIsZero = val === 0;

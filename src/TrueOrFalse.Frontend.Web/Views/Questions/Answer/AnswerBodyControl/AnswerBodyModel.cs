@@ -10,6 +10,7 @@ public class AnswerBodyModel : BaseModel
     public Guid QuestionViewGuid;
     public string CreationDate;
     public string CreationDateNiceText;
+    public bool AnswerHelp; 
 
     public int QuestionId;
 
@@ -74,7 +75,7 @@ public class AnswerBodyModel : BaseModel
         QuestionViewGuid = answerQuestionModel.QuestionViewGuid;
 
         IsInWishknowledge = answerQuestionModel.IsInWishknowledge;
-
+        AnswerHelp = answerQuestionModel.AnswerHelp;
 
         IsMobileRequest = answerQuestionModel.IsMobileDevice;
 

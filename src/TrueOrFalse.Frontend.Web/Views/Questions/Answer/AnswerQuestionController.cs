@@ -447,7 +447,10 @@ public class AnswerQuestionController : BaseController
                 IsNotQuestionInWishKnowledge = config.IsNotQuestionInWishKnowledge,
                 MaxProbability = config.MaxProbability,
                 MinProbability = config.MinProbability,
-                MaxQuestionCount = config.MaxQuestionCount
+                MaxQuestionCount = config.MaxQuestionCount,
+                Repititions = config.Repititions,
+                AnswerHelp = config.AnswerHelp
+
             };
 
             updateUser.LearningSessionOptions = JsonConvert.SerializeObject(learningSessionOptionsHelper);
@@ -683,5 +686,7 @@ public class SafeLearningSessionOptionsHelper
    public int MinProbability { get; set; }
    public int MaxProbability { get; set; }
    public int MaxQuestionCount { get; set; }
+   public bool Repititions { get; set;}
+   public bool AnswerHelp { get; set;  }
 
 }

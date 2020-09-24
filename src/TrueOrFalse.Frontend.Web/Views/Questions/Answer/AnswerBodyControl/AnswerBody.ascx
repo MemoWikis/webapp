@@ -195,18 +195,18 @@
                                     <div class="" id="divAnsweredCorrect" style="display: none; margin-top: 5px;">
                                         <b style="color: green;">Richtig!</b> <span id="wellDoneMsg"></span>
                                     </div>
-
+                                    <% if (Model.AnswerHelp){ %>
                                     <div id="Solution" class="Detail" style="display: none;">
                                         <div class="Label">Richtige Antwort:</div>
                                         <div class="Content"></div>
                                     </div>
+                                    <% } %>
                                     <div id="divWrongAnswerPlay" class="Detail" style="display: none; background-color: white;">
                                         <span style="color: #B13A48"><b>Deine Antwort war falsch</b></span>
                                         <div>Deine Eingabe:</div>
                                         <div style="margin-top: 7px;" id="divWrongEnteredAnswer">
                                         </div>
                                     </div>
-
                                     <div id="divWrongAnswer" class="Detail" style="display: none; background-color: white;">
                                         <span id="spnWrongAnswer" style="color: #B13A48"><b>Falsch beantwortet </b></span>
                                         <a href="#" id="CountWrongAnswers" style="float: right;">(zwei Versuche)</a><br />
@@ -221,22 +221,23 @@
                                     </div>
                                 </div>
                                 <% } %>
-
-                                <div id="SolutionDetailsSpinner" style="display: none;">
-                                    <i class="fa fa-spinner fa-spin" style="color: #b13a48;"></i>
-                                </div>
-                                <div id="SolutionDetails" style="display: none; background-color: white;">
-
-
-                                    <div id="Description" class="Detail" style="display: none;">
-                                        <div class="Label">Ergänzungen zur Antwort:</div>
-                                        <div class="Content"></div>
+                                <% if (Model.AnswerHelp){ %>
+                                    <div id="SolutionDetailsSpinner" style="display: none;">
+                                        <i class="fa fa-spinner fa-spin" style="color: #b13a48;"></i>
                                     </div>
-                                    <div id="References" class="Detail" style="display: none;">
-                                        <div class="Label">Quellen:</div>
-                                        <div class="Content"></div>
+                                    <div id="SolutionDetails" style="display: none; background-color: white;">
+
+
+                                        <div id="Description" class="Detail" style="display: none;">
+                                            <div class="Label">Ergänzungen zur Antwort:</div>
+                                            <div class="Content"></div>
+                                        </div>
+                                        <div id="References" class="Detail" style="display: none;">
+                                            <div class="Label">Quellen:</div>
+                                            <div class="Content"></div>
+                                        </div>
                                     </div>
-                                </div>
+                                <% } %>
                             </div>
 
                         </div>

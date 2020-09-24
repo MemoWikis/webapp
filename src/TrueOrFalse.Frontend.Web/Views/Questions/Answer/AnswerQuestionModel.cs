@@ -13,6 +13,7 @@ public class AnswerQuestionModel : BaseModel
     public Func<UrlHelper, string> NextUrl;
     public CategoryModel CategoryModel;
     public Guid QuestionViewGuid;
+    public bool AnswerHelp; 
 
     public string DescriptionForSearchEngines;
     public string DescriptionForFacebook;
@@ -51,24 +52,15 @@ public class AnswerQuestionModel : BaseModel
     public IList<Category> AllCategoriesParents;
     public IList<Category> AllCategorysWithChildrenAndParents { get; set; }
     public IList<Category> ChildrenAndParents; 
-
     public bool IsOwner;
-
     public string ImageUrlAddComment;
-
     public bool HasImage => !IsNullOrEmpty(ImageUrl_500px);
-    public bool HasSound => !IsNullOrEmpty(SoundUrl);
-
     public string CreationDateNiceText { get; private set; }
     public string CreationDate { get; private set; }
-
     public string AverageAnswerTime { get; private set; }
-
     public string QuestionText { get; private set; }
     public string QuestionTextMarkdown { get; private set; }
-
     public QuestionVisibility Visibility { get; private set; }
-
     public bool HasPreviousPage;
     public bool HasNextPage;
 
@@ -101,11 +93,7 @@ public class AnswerQuestionModel : BaseModel
 
     public TestSession TestSession;
     public bool IsTestSession;
-    public int TestSessionId;
-    public int TestSessionCurrentStep;
-    public int TestSessionNumberOfSteps;
-    public int TestSessionCurrentStepPercentage;
-    public bool TestSessionIsLastStep = false;
+
     public int TestSessionProgessAfterAnswering;
 
     public bool DisableCommentLink;
@@ -143,6 +131,7 @@ public class AnswerQuestionModel : BaseModel
 
         NextUrl = url => url.Action("Learn", Links.AnswerQuestionController, new{ skipStepIdx = learningSession.CurrentIndex +1 });
         QuestionViewGuid = learningSession.QuestionViewGuid;
+        AnswerHelp = learningSession.Config.AnswerHelp; 
 
         Populate(LearningSessionStep.Question);
     }

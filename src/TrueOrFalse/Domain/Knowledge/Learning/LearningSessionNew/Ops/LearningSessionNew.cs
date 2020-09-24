@@ -74,7 +74,7 @@ public class LearningSessionNew
     private bool ReAddCurrentStepToEnd()
     {
         if (LimitForThisQuestionHasBeenReached(CurrentStep) || LimitForNumberOfRepetitionsHasBeenReached() ||
-            Config.IsInTestMode || Config.IsAnonymous() || CurrentStep.AnswerState == AnswerStateNew.Correct)
+            Config.IsInTestMode || Config.IsAnonymous() || CurrentStep.AnswerState == AnswerStateNew.Correct || !Config.Repititions)
         {
             return false;
         }
