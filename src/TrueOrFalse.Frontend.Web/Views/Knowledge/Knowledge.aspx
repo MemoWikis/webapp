@@ -45,22 +45,11 @@
         <div class="row">
             <div class="col-xs-12">
                 <div id="CategoryHeader">
-                    <div id="ManagementMobile">
-                        <div class="Buttons">
-                            <div class="Button"><a class="LinkIsDirectedToPartialView" href="<%= Links.StartWishLearningSession() %>">Lernsitzung starten</a></div>
-                        </div>
-                    </div>
                     <div id="TabsBar">
                         <div class="Tabs">
                             <div class="Tab active"><a href="#" id="dashboard">Überblick</a></div>
                             <div class="Tab"><a href="#" id="topics">Themen</a></div>
                             <div class="Tab"><a href="#" id="questions">Fragen</a></div>
-                        </div>
-                        <div class="Border"></div>
-                        <div id="Management">
-                            <div class="Buttons">
-                                <div class="Button"><a class="LinkIsDirectedToPartialView" href="<%= Links.StartWishLearningSession() %>">Lernsitzung starten</a></div>
-                            </div>
                         </div>
                     </div>
                 </div>
