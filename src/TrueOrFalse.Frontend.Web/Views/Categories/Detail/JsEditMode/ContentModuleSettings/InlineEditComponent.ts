@@ -4,6 +4,8 @@
     tiptapCommands,
     tiptapExtensions
 } = tiptapBuild;
+
+Vue.component('editor-menu-bar', tiptap.EditorMenuBar);
 Vue.component('editor-content', tiptap.EditorContent);
 
 Vue.component('text-component',
@@ -16,11 +18,14 @@ Vue.component('text-component',
                 tiptapCommands: Object.keys(tiptapCommands),
                 tiptapExtensions: Object.keys(tiptapExtensions),
                 editor: new tiptap.Editor({
-                    //content: this.content,
+                    content: this.content,
                 }),
+                htmlContent: "",
             }
+        },
+        mounted() {
         }
-    }),
+    });
 
 //Vue.component('inline-text-component', {
 //    props: {

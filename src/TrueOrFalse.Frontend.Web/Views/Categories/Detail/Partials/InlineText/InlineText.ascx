@@ -2,8 +2,29 @@
 
 <%: Html.Partial("~/Views/Categories/Detail/Partials/ContentModuleWrapperStart.ascx") %>
 
-<text-component content="">
-    <editor-content :editor="editor" content="<%: HttpUtility.HtmlDecode(Model.Content)  %>"/>
+<text-component content="<%: HttpUtility.HtmlDecode(Model.Content)  %>" inline-template>
+    <div>
+     <editor-menu-bar :editor="editor" v-slot="{ commands }">
+      <div class="menubar">
+          <button
+          class="menubar__button"
+          @click="commands.undo"
+        >
+          Undo
+        </button>
+
+        <button
+          class="menubar__button"
+          @click="commands.redo"
+        >
+          Redo
+        </button>
+
+      </div>
+    </editor-menu-bar>
+    <editor-content :editor="editor" />
+    </div>
+
 </text-component>
      
 

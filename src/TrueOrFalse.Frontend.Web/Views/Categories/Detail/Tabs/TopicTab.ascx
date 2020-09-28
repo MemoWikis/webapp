@@ -115,6 +115,11 @@
             </content-module>
         </div>
     </div>
+<%--    
+    <div id="EditorApp">
+        <editor-content :editor="editor" />
+    </div>--%>
+
     <% if (!Model.CategoryIsDeleted) {%>
         <%: Html.Partial("~/Views/Categories/Detail/Partials/InlineEditFloatingActionButton.ascx") %>
         <%: Html.Partial("~/Views/Categories/Detail/Partials/ModalComponentCollection.ascx") %>
@@ -122,9 +127,7 @@
     
 </div>
 
-<%--<div id="EditorApp">
-    <editor-content :editor="editor" />
-</div>--%>
+
 <%--<%= Scripts.Render("~/bundles/js/tiptap") %> --%>
 
 

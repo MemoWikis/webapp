@@ -9,6 +9,6 @@ public class InlineTextModel : BaseContentModule
     public InlineTextModel(string htmlContent)
     {
         Raw = htmlContent;
-        Content = MarkdownMarkdig.ToHtml(htmlContent);
+        Content = MarkdownMarkdig.ToHtml(htmlContent).Replace("\n", "<br>");
     }
 }
