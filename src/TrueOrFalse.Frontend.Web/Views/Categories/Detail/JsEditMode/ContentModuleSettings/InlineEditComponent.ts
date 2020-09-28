@@ -13,20 +13,34 @@ Vue.component('text-component',
         props: ['content'],
         data() {
             return {
-                tiptap: Object.keys(tiptap),
-                tiptapUtils: Object.keys(tiptapUtils),
-                tiptapCommands: Object.keys(tiptapCommands),
-                tiptapExtensions: Object.keys(tiptapExtensions),
+                //tiptap: Object.keys(tiptap),
+                //tiptapUtils: Object.keys(tiptapUtils),
+                //tiptapCommands: Object.keys(tiptapCommands),
+                //tiptapExtensions: Object.keys(tiptapExtensions),
+                editMode: false,
                 editor: new tiptap.Editor({
+                    editable: this.editMode,
                     extensions: [
-                        new tiptapExtensions.History()],
+                        new tiptapExtensions.History()
+                    ],
                     content: this.content,
                 }),
                 htmlContent: "",
             }
         },
         mounted() {
-        }
+            eventBus.$on("set-edit-mode",
+                (state) => {
+                    this.editMode = state;
+                });
+        },
+        watch: {
+            editMode() {
+                this.editor.setOptions({
+                    editable: this.editMode,
+                });
+            },
+        },
     });
 
 //Vue.component('inline-text-component', {
