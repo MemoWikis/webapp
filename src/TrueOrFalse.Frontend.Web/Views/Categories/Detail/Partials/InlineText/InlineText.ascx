@@ -7,14 +7,12 @@
      <editor-menu-bar :editor="editor" v-slot="{ commands }">
       <div class="menubar">
           <button
-          class="menubar__button"
           @click="commands.undo"
         >
           Undo
         </button>
 
         <button
-          class="menubar__button"
           @click="commands.redo"
         >
           Redo

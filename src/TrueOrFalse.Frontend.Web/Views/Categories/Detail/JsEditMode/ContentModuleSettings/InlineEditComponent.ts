@@ -18,6 +18,8 @@ Vue.component('text-component',
                 tiptapCommands: Object.keys(tiptapCommands),
                 tiptapExtensions: Object.keys(tiptapExtensions),
                 editor: new tiptap.Editor({
+                    extensions: [
+                        new tiptapExtensions.History()],
                     content: this.content,
                 }),
                 htmlContent: "",
