@@ -20,7 +20,9 @@
 
       </div>
     </editor-menu-bar>
-    <editor-content :editor="editor" />
+    <editor-content :editor="editor">
+        <%: Html.Raw(Model.Content)  %>
+    </editor-content>
     </div>
 
 </text-component>

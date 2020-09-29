@@ -17,6 +17,8 @@ Vue.component('text-component',
                 //tiptapUtils: Object.keys(tiptapUtils),
                 //tiptapCommands: Object.keys(tiptapCommands),
                 //tiptapExtensions: Object.keys(tiptapExtensions),
+                json: null,
+                html: null,
                 editMode: false,
                 editor: new tiptap.Editor({
                     editable: this.editMode,
@@ -24,6 +26,10 @@ Vue.component('text-component',
                         new tiptapExtensions.History()
                     ],
                     content: this.content,
+                    onUpdate: ({ getJSON, getHTML }) => {
+                        this.json = getJSON();
+                        this.html = getHTML();
+                    },
                 }),
                 htmlContent: "",
             }
