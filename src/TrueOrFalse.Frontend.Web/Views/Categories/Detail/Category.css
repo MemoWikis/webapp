@@ -2479,3 +2479,29 @@ p:empty {
 [v-cloak] {
   display: none;
 }
+.editor {
+  position: relative;
+}
+.editor__floating-menu {
+  position: absolute;
+  z-index: 1;
+  margin-top: -0.25rem;
+  visibility: hidden;
+  opacity: 0;
+  -webkit-transition: opacity 0.2s, visibility 0.2s;
+  transition: opacity 0.2s, visibility 0.2s;
+}
+.editor__floating-menu.is-active {
+  opacity: 1;
+  visibility: visible;
+}
+.menubar.is-hidden {
+  visibility: hidden;
+  opacity: 0;
+}
+.menubar.is-focused {
+  visibility: visible;
+  opacity: 1;
+  -webkit-transition: visibility 0.2s, opacity 0.2s;
+  transition: visibility 0.2s, opacity 0.2s;
+}

@@ -5,8 +5,65 @@
     tiptapExtensions
 } = tiptapBuild;
 
+
+//class Iframe extends tiptap.Node {
+
+//    get name() {
+//        return 'iframe'
+//    }
+
+//    get schema() {
+//        return {
+//            attrs: {
+//                src: {
+//                    default: null,
+//                },
+//            },
+//            group: 'block',
+//            selectable: false,
+//            parseDOM: [{
+//                tag: 'iframe',
+//                getAttrs: dom => ({
+//                    src: dom.getAttribute('src'),
+//                }),
+//            }],
+//            toDOM: node => ['iframe', {
+//                src: node.attrs.src,
+//                frameborder: 0,
+//                allowfullscreen: 'true',
+//            }],
+//        }
+//    }
+
+//    get view() {
+//        return {
+//            props: ['node', 'updateAttrs', 'view'],
+//            computed: {
+//                src: {
+//                    get() {
+//                        return this.node.attrs.src
+//                    },
+//                    set(src) {
+//                        this.updateAttrs({
+//                            src,
+//                        })
+//                    },
+//                },
+//            },
+//            template: `
+//        <div class="iframe">
+//          <iframe class="iframe__embed" :src="src"></iframe>
+//          <input class="iframe__input" @paste.stop type="text" v-model="src" v-if="view.editable" />
+//        </div>
+//      `,
+//        }
+//    }
+
+//}
+
 Vue.component('editor-menu-bar', tiptap.EditorMenuBar);
 Vue.component('editor-content', tiptap.EditorContent);
+Vue.component('editor-floating-menu', tiptap.EditorFloatingMenu);
 
 Vue.component('text-component',
     {
@@ -14,7 +71,7 @@ Vue.component('text-component',
         data() {
             return {
                 //tiptap: Object.keys(tiptap),
-                //tiptapUtils: Object.keys(tiptapUtils),
+                //tiptapUtils: Object.keys(tiptapUtils)No
                 //tiptapCommands: Object.keys(tiptapCommands),
                 //tiptapExtensions: Object.keys(tiptapExtensions),
                 json: null,
@@ -23,6 +80,22 @@ Vue.component('text-component',
                 editor: new tiptap.Editor({
                     editable: this.editMode,
                     extensions: [
+                        new tiptapExtensions.Blockquote(),
+                        new tiptapExtensions.BulletList(),
+                        new tiptapExtensions.CodeBlock(),
+                        new tiptapExtensions.HardBreak(),
+                        new tiptapExtensions.Heading({ levels: [2, 3] }),
+                        new tiptapExtensions.HorizontalRule(),
+                        new tiptapExtensions.ListItem(),
+                        new tiptapExtensions.OrderedList(),
+                        new tiptapExtensions.TodoItem(),
+                        new tiptapExtensions.TodoList(),
+                        new tiptapExtensions.Link(),
+                        new tiptapExtensions.Bold(),
+                        new tiptapExtensions.Code(),
+                        new tiptapExtensions.Italic(),
+                        new tiptapExtensions.Strike(),
+                        new tiptapExtensions.Underline(),
                         new tiptapExtensions.History()
                     ],
                     content: this.content,
