@@ -9,8 +9,7 @@ public class LearningSessionNewCreator
 {
     public static LearningSessionNew ForAnonymous(LearningSessionConfig config)
     {
-        var questions = GetCategoryQuestionsFromEntityCache(config.CategoryId);
-        questions = RandomLimited(questions, config);
+        var questions = RandomLimited(GetCategoryQuestionsFromEntityCache(config.CategoryId), config);
 
         return new LearningSessionNew(questions.Select(q => new LearningSessionStepNew(q)).ToList(), config);
     }
