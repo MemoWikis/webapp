@@ -2505,3 +2505,6 @@ p:empty {
   -webkit-transition: visibility 0.2s, opacity 0.2s;
   transition: visibility 0.2s, opacity 0.2s;
 }
+.ProseMirror-focused :focus {
+  outline: none !important;
+}

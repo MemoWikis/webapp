@@ -17,7 +17,12 @@ if (eventBus == null)
 Vue.directive('sortable',
     {
         inserted(el, binding) {
-            new Sortable(el, binding.value || {});
+            new Sortable(el, binding.value, 
+                {
+                    onUpdate: function() {
+                        eventBus.$emit('sortable-update');
+                    }
+                });
         },
     });
 
@@ -33,6 +38,7 @@ new Vue({
                 filter: '.placeholder',
                 preventOnFilter: false,
                 onMove: this.onMove,
+                onUpdate: this.updateModuleOrder
             },
             saveSuccess: false,
             saveMessage: '',
@@ -42,12 +48,18 @@ new Vue({
             changedMarkdown: false,
             footerIsVisible: '',
             awaitInlineTextId: false,
-
+            moduleOrder: [],
+            modules: [],
+            sortedModules: [],
         };
     },
 
     created() {
-
+        eventBus.$on('get-module',
+            (module) => {
+                this.modules.push(module);
+                this.updateModuleOrder();
+            });
         eventBus.$on('save-markdown',
             (data) => {
                 if (data == 'top') {
@@ -107,6 +119,10 @@ new Vue({
 
     methods: {
 
+        updateModuleOrder() {
+            this.moduleOrder = $(".inlinetext, .topicnavigation").map((idx, elem) => $(elem).attr("uid")).get();
+        },
+
         footerCheck() {
             const elFooter = document.getElementById('CategoryFooter');
 
@@ -121,6 +137,9 @@ new Vue({
         },
 
         cancelEditMode() {
+
+            this.sortModules()
+
             if (!this.editMode)
                 return;
 
@@ -132,6 +151,8 @@ new Vue({
         },
 
         setEditMode() {
+            this.modules = [];
+
             if (NotLoggedIn.Yes()) {
                 NotLoggedIn.ShowErrorMsg("OpenEditMode");
                 return;
@@ -139,6 +160,20 @@ new Vue({
                 this.editMode = !this.editMode;
                 eventBus.$emit('set-edit-mode', this.editMode);
             };
+        },
+
+        sortModules() {
+            var sorting = this.moduleOrder;
+            var self = this;
+            self.sortedModules = self.modules.map(function (item) {
+                var n = sorting.indexOf(item[1]);
+                sorting[n] = '';
+                return [n, item]
+            }).sort().map(function (j) { return j[1] });
+
+            this.modules = [];
+
+
         },
 
         removeAlert() {
@@ -156,7 +191,7 @@ new Vue({
             if (!this.editMode)
                 return;
 
-            const markdownParts = $(".ContentModule").map((idx, elem) => $(elem).attr("markdown")).get();
+            const markdownParts = $(".inlinetext, .topicnavigation").map((idx, elem) => $(elem).attr("markdown")).get();
             let markdownDoc = "";
             if (markdownParts.length >= 1)
                 markdownDoc = markdownParts.reduce((list, doc) => { return list + "\r\n" + doc });

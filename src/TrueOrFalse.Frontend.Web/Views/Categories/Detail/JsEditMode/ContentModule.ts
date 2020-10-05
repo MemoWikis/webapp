@@ -24,6 +24,8 @@ var contentModuleComponent = Vue.component('content-module', {
             readyToFocus: true,
             textAreaId: '',
             moveOptionsToCenter: '',
+            content: null,
+            uid: null,
         };
     },
 
@@ -31,21 +33,27 @@ var contentModuleComponent = Vue.component('content-module', {
         if (this.contentModuleType != "inlinetext") {
             this.modalType = '#' + this.contentModuleType + 'SettingsDialog';
         };
-        this.id = this.contentModuleType + 'Module-' + (this._uid + Math.floor((Math.random() * 10000) + 1));
-        if (this.contentModuleType == 'videowidget' || this.contentModuleType == 'singlequestionsquiz')
-            this.widgetId = 'widget' + (this._uid + Math.floor((Math.random() * 2000) + 1));
-        if (this.contentModuleType == 'singlequestionsquiz') {
-            this.singleQuestionsQuizSettings = Utils.ConvertEncodedHtmlToJson(this.origMarkdown);
-            if (this.singleQuestionsQuizSettings.QuestionIds)
-                this.questions = this.singleQuestionsQuizSettings.QuestionIds.split(',');
-        };
+        this.uid = this._uid + Math.floor((Math.random() * 10000) + 1);
+        this.id = this.contentModuleType + 'Module-' + (this.uid);
+        this.id = this.contentModuleType + 'Module-' + (this.uid);
         if (this.contentModuleType == 'AddModuleButton')
             this.id = 'ContentModulePlaceholder';
         this.textAreaId = 'TextArea-' + (this._uid + Math.floor((Math.random() * 100) + 1));
     },
 
     mounted() {
-        eventBus.$on('set-edit-mode', state => this.canBeEdited = state);
+        eventBus.$on('set-edit-mode', (state) => {
+            this.canBeEdited = state;
+            if (this.contentModuleType == "topicnavigation" || this.contentModuleType == "inlinetext") {
+                let modules = {
+                    "id": this.uid,
+                    "type": this.contentModuleType,
+                    "content": this.content
+                }
+                let module = [this.uid, this.contentModuleType, this.content];
+                eventBus.$emit('get-module', module);
+            }
+        });
         eventBus.$on('close-content-module-settings-modal',
             (event) => {
                 if (this.isListening && event) {

@@ -4,10 +4,11 @@
 
 <text-component content="<%: HttpUtility.HtmlDecode(Model.Content)  %>" inline-template>
     <div>
-    <editor-menu-bar :editor="editor" v-slot="{ commands, isActive, focused }">
+    <editor-menu-bar :editor="editor" v-slot="{ commands, isActive, focused }" v-show="editMode">
       <div
         class="menubar is-hidden"
         :class="{ 'is-focused': focused }"
+          v-if="focused"
       >
 
         <button
@@ -130,11 +131,12 @@
       </div>
     </editor-menu-bar>
         
-        <editor-floating-menu :editor="editor" v-slot="{ commands, isActive, menu }">
+        <editor-floating-menu :editor="editor" v-slot="{ commands, isActive, menu, focused }">
             <div
                 class="editor__floating-menu"
                 :class="{ 'is-active': menu.isActive }"
                 :style="`top: ${menu.top}px`"
+                v-if="focused"
             >
 
                 <button
