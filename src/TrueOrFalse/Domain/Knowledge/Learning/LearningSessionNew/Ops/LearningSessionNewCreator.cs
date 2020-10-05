@@ -1,6 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Diagnostics;
+using System.Diagnostics.Eventing.Reader;
 using System.Linq;
+using NHibernate.Cfg.Loquacious;
 
 
 public class LearningSessionNewCreator
@@ -15,29 +17,29 @@ public class LearningSessionNewCreator
 
     public static LearningSessionNew ForLoggedInUser(LearningSessionConfig config)
     {  
-        List<Question> questions;
+        List<Question> questions = new List<Question>();
 
-        if (config.IsNotQuestionInWishKnowledge && config.CreatedByCurrentUser)
-                questions = OrderByProbability(
-                        RandomLimited(NotWuwiFromCategoryAndIsAuthor(config.CurrentUserId, config.CategoryId), config))
-                    .ToList();
-            else if (config.IsNotQuestionInWishKnowledge)
-                questions = OrderByProbability(
-                    RandomLimited(NotWuwiFromCategory(config.CurrentUserId, config.CategoryId), config)).ToList();
-            else if (config.InWishknowledge && config.CreatedByCurrentUser)
-                questions = OrderByProbability(RandomLimited(
-                    WuwiQuestionsFromCategoryAndUserIsAuthor(config.CurrentUserId, config.CategoryId), config)).ToList();
-            else if (config.InWishknowledge)
-                questions = OrderByProbability(
-                    RandomLimited(WuwiQuestionsFromCategory(config.CurrentUserId, config.CategoryId), config)).ToList();
-            else if (config.CreatedByCurrentUser)
-                questions = OrderByProbability(
-                    RandomLimited(UserIsQuestionAuthor(config.CurrentUserId, config.CategoryId), config)).ToList();
-            else
-                questions = OrderByProbability(RandomLimited(GetCategoryQuestionsFromEntityCache(config.CategoryId),
-                    config)).ToList();
+        if (config.AllQuestions)
+            questions = OrderByProbability(RandomLimited(GetCategoryQuestionsFromEntityCache(config.CategoryId),
+                config)).ToList();
+        else if(config.IsNotQuestionInWishKnowledge && config.CreatedByCurrentUser)
+            questions = OrderByProbability(
+                    RandomLimited(NotWuwiFromCategoryAndIsAuthor(config.CurrentUserId, config.CategoryId), config))
+                .ToList();
+        else if (config.IsNotQuestionInWishKnowledge)
+            questions = OrderByProbability(
+                RandomLimited(NotWuwiFromCategory(config.CurrentUserId, config.CategoryId), config)).ToList();
+        else if (config.InWishknowledge && config.CreatedByCurrentUser)
+            questions = OrderByProbability(RandomLimited(
+                WuwiQuestionsFromCategoryAndUserIsAuthor(config.CurrentUserId, config.CategoryId), config)).ToList();
+        else if (config.InWishknowledge)
+            questions = OrderByProbability(
+                RandomLimited(WuwiQuestionsFromCategory(config.CurrentUserId, config.CategoryId), config)).ToList();
+        else if (config.CreatedByCurrentUser)
+            questions = OrderByProbability(
+                RandomLimited(UserIsQuestionAuthor(config.CurrentUserId, config.CategoryId), config)).ToList();
 
-            return new LearningSessionNew(questions.Select(q => new LearningSessionStepNew(q)).ToList(), config);
+        return new LearningSessionNew(questions.Select(q => new LearningSessionStepNew(q)).ToList(), config);
     }
 
     public static int GetQuestionCount(LearningSessionConfig config)
