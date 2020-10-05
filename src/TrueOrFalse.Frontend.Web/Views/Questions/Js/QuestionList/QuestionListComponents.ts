@@ -88,33 +88,29 @@ Vue.component('session-config-component', {
             this.questionFilter.maxQuestionCount = parseInt(val);
         },
         inWishknowledge: function (val) {
-
-            if (val) {
-                this.isNotQuestionInWishKnowledge = false;
-                this.allQuestions = false;
-            }
             this.loadQuestionCount();
         },
         createdByCurrentUser: function (val) {
-            if (val) {
-                this.allQuestions = false;
-            }
+            
             this.loadQuestionCount();
         },
         allQuestions: function (val) {
 
             if (val) {
-                this.inWishknowledge = false;
-                this.createdByCurrentUser = false;
-                this.isNotQuestionInWishKnowledge = false;
+                if (val == true) {
+                    this.inWishknowledge = true;
+                    this.createdByCurrentUser = true;
+                    this.isNotQuestionInWishKnowledge = true;
+                } else {
+                    this.inWishknowledge = false;
+                    this.createdByCurrentUser = false;
+                    this.isNotQuestionInWishKnowledge = false;
+                }
+
             }
             this.loadQuestionCount();
         },
         isNotQuestionInWishKnowledge: function (val) {
-            if (val) {
-                this.inWishknowledge = false;
-                this.allQuestions = false;
-            }
             this.loadQuestionCount();
         },
         safeLearningSessionOptions: function (val) {
