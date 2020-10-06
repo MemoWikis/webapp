@@ -1,8 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Diagnostics.Eventing.Reader;
 using System.Linq;
 using NHibernate.Cfg.Loquacious;
+using Org.BouncyCastle.Crypto;
 
 
 public class LearningSessionNewCreator
@@ -18,9 +20,11 @@ public class LearningSessionNewCreator
     {  
         List<Question> questions = new List<Question>();
 
-        if (config.AllQuestions)
+        if (config.AllQuestions || config.InWishknowledge && config.CreatedByCurrentUser && config.IsNotQuestionInWishKnowledge)
             questions = OrderByProbability(RandomLimited(GetCategoryQuestionsFromEntityCache(config.CategoryId),
                 config)).ToList();
+        else if (config.IsNotQuestionInWishKnowledge && config.InWishknowledge && !config.CreatedByCurrentUser) 
+            questions = RandomLimited(IsInWuWiFromCategoryAndIsNotInWuwi(config.CurrentUserId, config.CategoryId), config);
         else if(config.IsNotQuestionInWishKnowledge && config.CreatedByCurrentUser)
             questions = OrderByProbability(
                     RandomLimited(NotWuwiFromCategoryAndIsAuthor(config.CurrentUserId, config.CategoryId), config))
@@ -44,6 +48,10 @@ public class LearningSessionNewCreator
     public static int GetQuestionCount(LearningSessionConfig config)
     {
         config.MaxQuestionCount = 0;
+        if(config.AllQuestions || config.InWishknowledge && config.CreatedByCurrentUser && config.IsNotQuestionInWishKnowledge)
+            return RandomLimited(GetCategoryQuestionsFromEntityCache(config.CategoryId), config).Count;
+        if (config.IsNotQuestionInWishKnowledge && config.InWishknowledge && !config.CreatedByCurrentUser)
+            return RandomLimited(IsInWuWiFromCategoryAndIsNotInWuwi(config.CurrentUserId, config.CategoryId),config).Count; 
         if (config.IsNotQuestionInWishKnowledge && config.CreatedByCurrentUser)
             return RandomLimited(NotWuwiFromCategoryAndIsAuthor(config.CurrentUserId, config.CategoryId),config).Count;
         if (config.IsNotQuestionInWishKnowledge)
@@ -54,8 +62,10 @@ public class LearningSessionNewCreator
             return RandomLimited(WuwiQuestionsFromCategory(config.CurrentUserId, config.CategoryId),config).Count;
         if (config.CreatedByCurrentUser)
             return RandomLimited(UserIsQuestionAuthor(config.CurrentUserId, config.CategoryId),config).Count;
-         
-        return RandomLimited(GetCategoryQuestionsFromEntityCache(config.CategoryId), config).Count; ;
+
+        return 0; 
+
+
     }
 
     private static List<Question> RandomLimited(List<Question> questions, LearningSessionConfig config)
@@ -93,6 +103,12 @@ public class LearningSessionNewCreator
     {
         return CompareDictionaryWithQuestionsFromMemoryCache(GetIdsFromQuestionValuation(userId), categoryId, true)
             .Where(q => q.Creator.Id == userId).ToList();
+    }
+
+    private static List<Question> IsInWuWiFromCategoryAndIsNotInWuwi(int userId, int categoryId)
+    {
+          
+        return GetCategoryQuestionsFromEntityCache(categoryId).Where(q => q.Creator.Id != userId).ToList();
     }
 
     private static List<Question> NotWuwiFromCategory(int userId, int categoryId)

@@ -77,7 +77,7 @@ class AnswerBodyLoader {
                 inWishknowledge: questionFilter != null ? questionFilter.inWishknowledge : true,
                 questionOrder: questionFilter != null ? questionFilter.questionOrder : -1,
                 isInTestMode: questionFilter != null ? questionFilter.isInTestMode : false,
-                isNotInWishKnowledge: questionFilter != null ? questionFilter.isNotQuestionInWishKnowledge : true,
+                isNotQuestionInWishKnowledge: questionFilter != null ? questionFilter.isNotQuestionInWishKnowledge : true,
                 allQuestions: questionFilter != null ? questionFilter.allQuestions : true,
                 createdByCurrentUser: questionFilter != null ? questionFilter.createdByCurrentUser : true,
                 safeLearningSessionOptions: questionFilter != null ? questionFilter.safeLearningSessionOptions : false,

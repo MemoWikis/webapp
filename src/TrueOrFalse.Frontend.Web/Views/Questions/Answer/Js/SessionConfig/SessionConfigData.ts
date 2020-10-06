@@ -8,7 +8,7 @@
     inWishknowledge: boolean;
     questionOrder: number;
     isInTestMode: boolean; 
-    isNotInWishKnowledge: boolean; 
+    isNotQuestionInWishKnowledge: boolean; 
     allQuestions: boolean; 
     createdByCurrentUser: boolean;
     safeLearningSessionOptions: boolean; 
