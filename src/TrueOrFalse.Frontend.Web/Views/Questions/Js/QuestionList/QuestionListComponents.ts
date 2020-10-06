@@ -46,6 +46,8 @@ Vue.component('session-config-component', {
             repititions: true,
             categoryName: $("#hhdCategoryName").val()
         };
+    },created() {
+        eventBus.$on('openLearnOptions', ()=>{this.openModal()}); 
     },
     mounted() {
         var self = this;

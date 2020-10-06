@@ -9,6 +9,7 @@
         if (window.location.pathname.indexOf("/Lernen") >= 0) {
             $("#LearningTabContent").css("visibility", "visible");
             Utils.ShowSpinner();
+            $("#LearnOptionsHeader").removeClass("disable");
 
             $('#hddLearningSessionStarted').val("True");
 
@@ -17,12 +18,21 @@
             });
         }
 
+        $("#LearnOptionsHeader").on("click", () => {
+            if (window.location.pathname.indexOf("/Lernen") >= 0) 
+                eventBus.$emit('openLearnOptions');
+        }); 
+
         $('#TabsBar .Tab').each((index, item) => {
 
             var tab = $(item);
             var tabName = tab.attr('id');
 
-            tab.click((e) =>  {
+            tab.click((e) => {
+                if (window.location.pathname.indexOf("/Lernen") >= 0)
+                    $("#LearnOptionsHeader").removeClass("disable");
+                else
+                    $("#LearnOptionsHeader").addClass("disable");
 
                 e.preventDefault();
                 if (tab.hasClass('LoggedInOnly') && NotLoggedIn.Yes()) {

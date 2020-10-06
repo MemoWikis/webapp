@@ -1,24 +1,14 @@
 ﻿@media (min-width: 768px) {
-}
-@media (min-width: 768px) {
-}
-@media (max-width: 767px) {
-}
-@media (min-width: 768px) {
-}
-@media (min-width: 768px) {
-}
-@media (min-width: 768px) {
-}
-@media (max-width: 767px) {
-}
-@media (max-width: 767px) {
-}
-@media (max-width: 649px) {
-}
-@media (min-width: 650px) {
-}
-#CategoryHeader {
+}@media (min-width: 768px) {
+}@media (max-width: 767px) {
+}@media (min-width: 768px) {
+}@media (min-width: 768px) {
+}@media (min-width: 768px) {
+}@media (max-width: 767px) {
+}@media (max-width: 767px) {
+}@media (max-width: 649px) {
+}@media (min-width: 650px) {
+}#CategoryHeader {
   font-size: 18px;
 }
 #CategoryHeader #TabsBar {
@@ -80,6 +70,16 @@
 #CategoryHeader .Tabs .Tab.active a:active,
 #CategoryHeader .Tabs .Tab.active a:focus {
   outline: none;
+}
+#CategoryHeader #LearningTabWithOptions {
+  display: flex;
+  align-items: center;
+}
+#CategoryHeader #LearningTabWithOptions .disable::before {
+  color: #999999;
+}
+#CategoryHeader #LearningTabWithOptions #LearningTab a {
+  padding-right: 5px;
 }
 #CategoryHeader #ManagementMobile {
   display: none;

@@ -66,10 +66,13 @@
                         <%= Model.Category.Type == CategoryType.Standard ? "Thema" : "Übersicht" %>
                     </a>
                 </div>
-                <div id="LearningTab" class="Tab" data-url="<%=Links.CategoryDetailLearningTab(Model.Name, Model.Id) %>">
-                    <a href="" >
-                        Lernen
-                    </a>
+                <div id="LearningTabWithOptions">
+                    <div id="LearningTab" class="Tab" data-url="<%=Links.CategoryDetailLearningTab(Model.Name, Model.Id) %>">
+                        <a href="" >
+                            Lernen
+                        </a>
+                    </div>
+                    <div id="LearnOptionsHeader" class="fa fa-cog disable" aria-hidden="true"></div>
                 </div>
                 <div id="AnalyticsTab" class="Tab" data-url="<%=Links.CategoryDetailAnalyticsTab(Model.Name, Model.Id) %>" >
                     <a href="">
