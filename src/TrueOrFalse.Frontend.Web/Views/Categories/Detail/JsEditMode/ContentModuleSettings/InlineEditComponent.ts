@@ -44,15 +44,11 @@ Vue.component('text-component',
                         this.json = getJSON();
                         this.html = getHTML();
                     },
-                    onDrop(view, event, slice, moved) {
-                        console.log('drop');
-                        return;
-                    },
                 }),
             }
         },
         created() {
-            this.htmlContent = this.content
+            this.htmlContent = this.content;
         },
         mounted() {
             eventBus.$on("set-edit-mode",

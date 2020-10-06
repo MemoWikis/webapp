@@ -32,6 +32,7 @@ var contentModuleComponent = Vue.component('content-module', {
     created() {
         if (this.contentModuleType != "inlinetext") {
             this.modalType = '#' + this.contentModuleType + 'SettingsDialog';
+            this.content = this.origMarkdown;
         };
         this.uid = this._uid + Math.floor((Math.random() * 10000) + 1);
         this.id = this.contentModuleType + 'Module-' + (this.uid);
@@ -45,12 +46,7 @@ var contentModuleComponent = Vue.component('content-module', {
         eventBus.$on('set-edit-mode', (state) => {
             this.canBeEdited = state;
             if (this.contentModuleType == "topicnavigation" || this.contentModuleType == "inlinetext") {
-                let modules = {
-                    "id": this.uid,
-                    "type": this.contentModuleType,
-                    "content": this.content
-                }
-                let module = [this.uid, this.contentModuleType, this.content];
+                let module = [this.uid, this.content];
                 eventBus.$emit('get-module', module);
             }
         });

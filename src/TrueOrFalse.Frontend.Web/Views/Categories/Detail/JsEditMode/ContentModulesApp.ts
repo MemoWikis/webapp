@@ -138,7 +138,8 @@ new Vue({
 
         cancelEditMode() {
 
-            this.sortModules()
+            this.sortModules();
+            this.modules = [];
 
             if (!this.editMode)
                 return;
@@ -152,6 +153,7 @@ new Vue({
 
         setEditMode() {
             this.modules = [];
+            this.sortModules();
 
             if (NotLoggedIn.Yes()) {
                 NotLoggedIn.ShowErrorMsg("OpenEditMode");
@@ -163,17 +165,29 @@ new Vue({
         },
 
         sortModules() {
+            var items = this.modules;
             var sorting = this.moduleOrder;
-            var self = this;
-            self.sortedModules = self.modules.map(function (item) {
-                var n = sorting.indexOf(item[1]);
-                sorting[n] = '';
-                return [n, item]
-            }).sort().map(function (j) { return j[1] });
+            var result = [];
 
-            this.modules = [];
+            console.log(items);
+            console.log(sorting);
 
 
+            sorting.forEach(function(key) {
+                var found = false;
+                items = items.filter(function(item) {
+                    if (!found && item[0] == key) {
+                        result.push(item);
+                        found = true;
+                        return false;
+                    } else
+                        return true;
+                });
+            });
+
+            console.log(result);
+
+            this.sortedModules = result;
         },
 
         removeAlert() {
