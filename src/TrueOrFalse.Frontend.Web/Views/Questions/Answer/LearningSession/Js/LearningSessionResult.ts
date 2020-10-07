@@ -4,7 +4,7 @@
         
         $("#QuestionDetails").remove();
 
-        if ($("#LearningTab").hasClass("active")) {
+        if ($("#LearningTabWithOptions").hasClass("active")) {
             $(".SessionBar").hide();
             $("#QuestionListApp").hide();
             $(".SessionHeading").hide();

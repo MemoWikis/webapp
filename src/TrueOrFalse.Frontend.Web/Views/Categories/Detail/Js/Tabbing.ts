@@ -28,6 +28,9 @@
             var tab = $(item);
             var tabName = tab.attr('id');
 
+            if (tabName == "LearningTabWithOptions")
+                return;
+
             tab.click((e) => {
                 if (window.location.pathname.indexOf("/Lernen") >= 0)
                     $("#LearnOptionsHeader").removeClass("disable");
@@ -53,9 +56,8 @@
                 var currentTarget = $(event.currentTarget);
                 var tabName = currentTarget.attr('data-tab-id');
 
-                var gaEventLabel = 'LearningTab-footer';
                 if (tabName === "AnalyticsTab")
-                    gaEventLabel = 'AnalyticsTab-footer';
+                   
 
                 Utils.ShowSpinner();
                 this.RenderTabContent(tabName);
@@ -75,9 +77,16 @@
     }
 
     public RenderTabContent(tabName: string): void {
+        if (tabName == "LearningTabWithOptions")
+            return;
+
+        if (tabName == "LearningTabWithOptions")
+            tabName = "LearningTab";
+
         var url = "/Category/Tab/?tabName=" + tabName + "&categoryId=" + this._categoryId;
         $.get(url, (html) => {
             Utils.HideSpinner();
+
             $('#' + tabName + 'Content').empty().append(html);
 
             if (tabName == "LearningTab" && $('#hddLearningSessionStarted').val() == "False" && $('#hddQuestionCount').val() != 0) {
@@ -104,13 +113,19 @@
     }
 
     private ContentIsPresent(tabName: string): boolean {
+        if (tabName == "LearningTabWithOptions")
+            tabName = "LearningTab";
+
         return !($.trim($('#' + tabName + 'Content').html())=='');
     }
 
     private ShowTab(tabName: string): void {
-
         $('.Tab').removeClass('active');
-        $('#' + tabName).addClass('active');
+        if (tabName == "LearningTabWithOptions" || tabName == "LearningTab") {
+            $('#LearningTabWithOptions').addClass('active');
+            tabName = "LearningTab";
+        } else
+            $('#' + tabName).addClass('active');
 
         $('.TabContent').fadeOut(200);
 

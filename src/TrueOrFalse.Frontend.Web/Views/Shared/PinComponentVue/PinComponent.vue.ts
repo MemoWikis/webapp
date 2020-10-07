@@ -38,7 +38,7 @@
                 helper.questionId = this.questionId;
                 helper.isInWishknowledge = !this.isInWishknowledge;
 
-                if ($("#LearningTab").hasClass("active")) {
+                if ($("#LearningTabWithOptions").hasClass("active")) {
                             this._pinRowType = PinType.Question;
 
                             if (this.questionId == $("#questionId").val()) {
