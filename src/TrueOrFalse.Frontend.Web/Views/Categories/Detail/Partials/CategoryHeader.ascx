@@ -67,6 +67,7 @@
                     </a>
                 </div>
                 <div id="LearningTabWithOptions" class="Tab">
+                    <img src="/Images/Various/SessionConfigReminder.svg" class="session-config-reminder-header">
                     <div id="LearningTab" class="Tab" data-url="<%=Links.CategoryDetailLearningTab(Model.Name, Model.Id) %>">
                         <a href="" >
                             Lernen

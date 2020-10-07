@@ -76,6 +76,20 @@
   align-items: center;
   justify-content: center;
 }
+#CategoryHeader #LearningTabWithOptions .session-config-reminder-header {
+  border-radius: 0%;
+  webkit-border-radius: 0;
+  position: absolute;
+  width: 122px;
+  max-width: 122px;
+  padding-bottom: 100px;
+  margin-left: 174px;
+}
+@media only screen and (max-width: 480px) {
+  #CategoryHeader #LearningTabWithOptions .session-config-reminder-header {
+    margin-left: 156px;
+  }
+}
 #CategoryHeader #LearningTabWithOptions #LearnOptionsHeader {
   padding-right: 10px;
 }
