@@ -186,7 +186,8 @@ Vue.component('session-config-component', {
             this.answerBody.Loader.loadNewSession(this.questionFilter, true);
             $('#SessionConfigModal').modal('hide');
             this.questionFilter.safeLearningSessionOptions = this.safeLearningSessionOptions = false;
-            
+            eventBus.$emit("send-selected-questions", this.selectedQuestionCount);
+
         },
         matchSize() {
             this.radioHeight = this.$refs.radioSection.clientHeight;

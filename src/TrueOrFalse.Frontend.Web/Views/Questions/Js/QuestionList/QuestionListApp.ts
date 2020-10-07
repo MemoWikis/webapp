@@ -13,7 +13,8 @@ var questionListApp = new Vue({
         activeQuestion: 0,      // which question is active
         learningSessionData: "",
         selectedPageFromActiveQuestion: 1,
-        allQuestionsCountFromCategory: 0
+        allQuestionsCountFromCategory: 0,
+        selectedQuestionCount: "alle"
     },
     methods: {
         toggleQuestionsList: function() {
@@ -45,7 +46,13 @@ var questionListApp = new Vue({
     created: function() {
         eventBus.$on("change-active-question", (index) => { this.changeActiveQuestion(index) });
         eventBus.$on("change-active-page", (index) => { this.selectedPageFromActiveQuestion = index });
-        this.questionsCount = this.getAllQuestionsCountFromCategory() ; 
+      
+        this.questionsCount = this.getAllQuestionsCountFromCategory();
+        eventBus.$on("send-selected-questions", (numberOfQuestions) => {
+            numberOfQuestions !== this.questionsCount
+                ? this.selectedQuestionCount = numberOfQuestions
+                : this.selectedQuestionCount = "alle";
+        });
     },
     watch: {
         activeQuestion: function (indexQuestion) {
