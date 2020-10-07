@@ -10,6 +10,8 @@
             $("#LearningTabContent").css("visibility", "visible");
             Utils.ShowSpinner();
             $("#LearnOptionsHeader").removeClass("disable");
+            $("#SessionConfigReminderHeader").removeClass("hide");
+
 
             $('#hddLearningSessionStarted').val("True");
 
@@ -32,10 +34,13 @@
                 return;
 
             tab.click((e) => {
-                if (window.location.pathname.indexOf("/Lernen") >= 0)
+                if (window.location.pathname.indexOf("/Lernen") >= 0) {
                     $("#LearnOptionsHeader").removeClass("disable");
-                else
+                    $("#SessionConfigReminderHeader").removeClass("hide");
+                } else {
                     $("#LearnOptionsHeader").addClass("disable");
+                    $("#SessionConfigReminderHeader").addClass("hide");
+                }
 
                 e.preventDefault();
                 if (tab.hasClass('LoggedInOnly') && NotLoggedIn.Yes()) {
