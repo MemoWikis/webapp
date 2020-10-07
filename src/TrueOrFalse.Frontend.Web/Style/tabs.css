@@ -75,6 +75,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  height: 45px;
 }
 #CategoryHeader #LearningTabWithOptions .session-config-reminder-header {
   border-radius: 0%;
