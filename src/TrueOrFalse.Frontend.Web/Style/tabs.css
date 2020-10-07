@@ -74,9 +74,13 @@
 #CategoryHeader #LearningTabWithOptions {
   display: flex;
   align-items: center;
+  justify-content: center;
 }
 #CategoryHeader #LearningTabWithOptions .disable::before {
   color: #999999;
+}
+#CategoryHeader #LearningTabWithOptions #LearningTab {
+  width: auto;
 }
 #CategoryHeader #LearningTabWithOptions #LearningTab a {
   padding-right: 5px;
