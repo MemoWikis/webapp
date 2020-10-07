@@ -81,12 +81,22 @@
         align-items: center;
         justify-content: center;
 
-        .disable::before{
-            color:#999999;
+        #LearnOptionsHeader {
+            padding-right: 10px;
+
+            @media only screen and (max-width: 768px) {
+                padding-right: 0px;
+            }
+        }
+
+
+        .disable::before {
+            color: #999999;
         }
 
         #LearningTab {
             width: auto;
+
             a {
                 padding-right: 5px;
             }

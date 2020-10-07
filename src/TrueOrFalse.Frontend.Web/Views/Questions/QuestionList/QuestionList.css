@@ -13,6 +13,16 @@
   background-color: #EFEFEF;
   padding: 30px 20px 33px 20px;
 }
+#QuestionListApp .rootElement .session-config-reminder {
+  margin-top: -94px;
+  position: absolute;
+  margin-left: 10px;
+}
+#QuestionListApp .rootElement #CustomSessionConfigBtn {
+  margin-left: 10px;
+  font-size: 16px;
+  margin-bottom: 4px;
+}
 @media (max-width: 479px) {
   #QuestionListApp {
     padding-left: 0;
@@ -25,15 +35,13 @@
 #QuestionListApp .drop-down-question-sort {
   display: flex;
   flex-wrap: wrap;
-  padding-bottom: 10px;
+  padding-bottom: 20px;
   font-size: 18px;
   justify-content: space-between;
 }
-#QuestionListApp .drop-down-question-sort .header {
-  padding-bottom: 10px;
-}
 #QuestionListApp .drop-down-question-sort #ButtonAndDropdown {
   display: flex;
+  align-items: center;
 }
 @media (max-width: 768px) {
   #QuestionListApp .drop-down-question-sort #ButtonAndDropdown {

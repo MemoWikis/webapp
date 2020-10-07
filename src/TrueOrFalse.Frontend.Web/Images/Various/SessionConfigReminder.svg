@@ -1,6 +1,54 @@
-<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="136.117" height="93.054" viewBox="0 0 136.117 93.054">
-  <defs>
-    <style>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="136.117"
+   height="93.054"
+   viewBox="0 0 136.117 93.054"
+   version="1.1"
+   id="svg18"
+   sodipodi:docname="tttt.svg"
+   inkscape:version="1.0.1 (3bc2e813f5, 2020-09-07)">
+  <metadata
+     id="metadata22">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <sodipodi:namedview
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1"
+     objecttolerance="10"
+     gridtolerance="10"
+     guidetolerance="10"
+     inkscape:pageopacity="0"
+     inkscape:pageshadow="2"
+     inkscape:window-width="1920"
+     inkscape:window-height="1017"
+     id="namedview20"
+     showgrid="false"
+     inkscape:zoom="7.6551788"
+     inkscape:cx="68.058502"
+     inkscape:cy="46.527"
+     inkscape:window-x="-8"
+     inkscape:window-y="341"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="arrow" />
+  <defs
+     id="defs7">
+    <style
+       id="style2">
       .cls-1, .cls-3 {
         fill: none;
       }
@@ -19,14 +67,46 @@
         font-family: InkFree, Ink Free;
       }
     </style>
-    <clipPath id="clip-path">
-      <rect class="cls-1" width="136.117" height="93.054"/>
+    <clipPath
+       id="clip-path">
+      <rect
+         class="cls-1"
+         width="136.117"
+         height="93.054"
+         id="rect4" />
     </clipPath>
   </defs>
-  <g id="arrow" class="cls-2">
-    <path id="Path_4316" data-name="Path 4316" class="cls-3" d="M49.336,13.146C37.54-9.9,0,.122,0,.122" transform="translate(15.636 13.47) rotate(9)"/>
-    <path id="Path_4317" data-name="Path 4317" class="cls-3" d="M10.9-3.477A16.687,16.687,0,0,1,5.846,4.1a17.727,17.727,0,0,1-4.73,2.538A5.292,5.292,0,0,1,0,6.9" transform="translate(11.135 6.789) rotate(13)"/>
-    <path id="Path_4318" data-name="Path 4318" class="cls-3" d="M13.226,6.9A24.456,24.456,0,0,0,0,0" transform="translate(11.121 14.341) rotate(-7)"/>
-    <text id="personalisiere_dein_Lernen_" data-name="personalisiere dein Lernen!" class="cls-4" transform="translate(0.552 40.996) rotate(-8)"><tspan x="0.529" y="15">personalisiere dein </tspan><tspan x="36.937" y="35">Lernen!</tspan></text>
+  <g
+     id="arrow"
+     class="cls-2"
+     clip-path="url(#clip-path)">
+    <path
+       id="Path_4316"
+       data-name="Path 4316"
+       class="cls-3"
+       d="M 31.740503,37.512361 C 7.1329372,45.557944 11.158999,84.203551 11.158999,84.203551" />
+    <path
+       id="Path_4317"
+       data-name="Path 4317"
+       class="cls-3"
+       d="M 11.158999,84.203551 A 16.687,16.687 0 0 1 4.913099,77.57463 17.727,17.727 0 0 1 3.504167,72.394934 5.292,5.292 0 0 1 3.499967,71.2486" />
+    <path
+       id="Path_4318"
+       data-name="Path 4318"
+       class="cls-3"
+       d="M 11.158999,84.203551 A 24.456,24.456 0 0 0 16.395724,70.235238" />
+    <text
+       id="personalisiere_dein_Lernen_"
+       data-name="personalisiere dein Lernen!"
+       class="cls-4"
+       transform="rotate(-8)"
+       x="11.247343"
+       y="16.860571"><tspan
+         x="11.776342"
+         y="31.860571"
+         id="tspan12">personalisiere dein</tspan><tspan
+         x="48.184341"
+         y="51.860569"
+         id="tspan14">Lernen!</tspan></text>
   </g>
 </svg>

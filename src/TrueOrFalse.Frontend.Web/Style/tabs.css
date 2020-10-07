@@ -76,6 +76,14 @@
   align-items: center;
   justify-content: center;
 }
+#CategoryHeader #LearningTabWithOptions #LearnOptionsHeader {
+  padding-right: 10px;
+}
+@media only screen and (max-width: 768px) {
+  #CategoryHeader #LearningTabWithOptions #LearnOptionsHeader {
+    padding-right: 0px;
+  }
+}
 #CategoryHeader #LearningTabWithOptions .disable::before {
   color: #999999;
 }
