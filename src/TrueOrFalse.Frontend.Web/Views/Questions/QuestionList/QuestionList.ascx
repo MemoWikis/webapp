@@ -97,8 +97,8 @@
                                     
                                 </div>
                             </div>
-                            <div class="row modal-more-options" @click="displayNone = !displayNone">
-                                <div class="more-options class= col-sm-12">
+                            <div class="row modal-more-options">
+                                <div class="more-options class= col-sm-12" @click="displayNone = !displayNone">
                                     <span v-if="displayNone" >Mehr Optionen</span>
                                     <span v-if="!displayNone">Weniger Optionen</span>
                                     <span class="angle">
@@ -115,14 +115,14 @@
                                     </div>
                                     
                                     <div class="answerHelp">
-                                        <input type="checkbox" id="answerHelp" style="display:none" v-model="answerHelp" />
+                                        <input type="checkbox" id="answerHelp" style="display:none" :disabled="isTestMode" v-model="answerHelp" />
                                         <label for="answerHelp" class="toggle">
                                             <span></span>
                                         </label>
                                         <span>&nbsp;Antworthilfe</span>
                                     </div>
                                     <div class="repititions">
-                                        <input type="checkbox" id="repititions" style="display:none" v-model="repititions" />
+                                        <input type="checkbox" id="repititions" style="display:none" :disabled="isTestMode" v-model="repititions" />
                                         <label for="repititions" class="toggle">
                                             <span></span>
                                         </label>
