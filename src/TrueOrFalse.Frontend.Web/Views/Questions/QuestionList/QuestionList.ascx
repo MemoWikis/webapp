@@ -107,24 +107,24 @@
                                 </div>
                                 <div id="QuestionSortSessionConfig" v-bind:class="{displayNone: displayNone}" class=" col-sm-12">
                                     <div class="randomQuestions">
-                                        <input type="checkbox" id="randomQuestions" style="display:none" v-model="randomQuestions" />
-                                        <label for="randomQuestions" class="toggle">
-                                            <span></span>
+                                        <input type="checkbox" id="randomQuestions" style="display:none" :disabled="!isLoggedIn" v-model="randomQuestions" />
+                                        <label for="randomQuestions" class="toggle" :class="{inactive: !isLoggedIn}">
+                                            <span :class="{inactiveSpan: !isLoggedIn}"></span>
                                         </label>
                                         <span>&nbsp;Zufällige Fragen</span> 
                                     </div>
                                     
                                     <div class="answerHelp">
-                                        <input type="checkbox" id="answerHelp" style="display:none" :disabled="isTestMode" v-model="answerHelp" />
-                                        <label for="answerHelp" class="toggle">
-                                            <span></span>
+                                        <input type="checkbox" id="answerHelp" style="display:none" :disabled="isTestModeOrNotLoginIn" v-model="answerHelp" />
+                                        <label for="answerHelp" class="toggle" :class="{inactive: !isLoggedIn}">
+                                            <span :class="{inactiveSpan: !isLoggedIn}"></span>
                                         </label>
                                         <span>&nbsp;Antworthilfe</span>
                                     </div>
                                     <div class="repititions">
-                                        <input type="checkbox" id="repititions" style="display:none" :disabled="isTestMode" v-model="repititions" />
-                                        <label for="repititions" class="toggle">
-                                            <span></span>
+                                        <input type="checkbox" id="repititions" style="display:none" :disabled="isTestModeOrNotLoginIn" v-model="repititions" />
+                                        <label for="repititions" class="toggle" :class="{inactive: !isLoggedIn}">
+                                            <span :class="{inactiveSpan: !isLoggedIn}"></span>
                                         </label>
                                         <span>&nbsp;Wiederholungen<i> falsch gelöste Fragen werden wiederholt</i></span>
                                     </div>

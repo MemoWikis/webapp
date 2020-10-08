@@ -33,6 +33,7 @@ Vue.component('session-config-component', {
             percentages: '{value}%',
             maxQuestionCountIsZero: false,
             isTestMode: false,
+            isTestModeOrNotLoginIn: false,
             isHoveringOptions: false,
             radioHeight: 0,
             openLogin: false,
@@ -55,6 +56,7 @@ Vue.component('session-config-component', {
         if (NotLoggedIn.Yes()) {
             this.title = 'Test';
             this.isLoggedIn = false;
+            this.isTestModeOrNotLoginIn = IsLoggedIn; 
         };
 
         this.$nextTick(function() {
@@ -80,6 +82,7 @@ Vue.component('session-config-component', {
         },
         isTestMode: function(val) {
             this.questionFilter.isInTestMode = val;
+            this.isTestModeOrNotLoginIn = val;
             if (val == true) {
                 this.answerHelp = false;
                 this.repititions = false; 
