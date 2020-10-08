@@ -328,6 +328,7 @@
     <Compile Include="Views\Categories\Detail\CategoryRedirectController.cs" />
     <Compile Include="Views\Categories\Detail\CategoryController.cs" />
     <Compile Include="Views\Categories\Detail\Partials\BaseContentModule.cs" />
+    <Compile Include="Views\Categories\Detail\Partials\InlineText\InlineTextJson.cs" />
     <Compile Include="Views\Questions\Answer\TopicToContinueLearningModel.cs" />
     <Compile Include="Views\Questions\QuestionList\QuestionJson.cs" />
     <Compile Include="Views\Categories\Detail\Partials\KnowledgeGraph\KnowledgeGraphModel.cs" />

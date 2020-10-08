@@ -8,4 +8,5 @@ public class BaseContentModule : BaseModel
     public bool IsText => Type == "inlinetext";
 
     public TemplateJson TemplateJson;
+
 }

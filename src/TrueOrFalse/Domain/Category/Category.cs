@@ -147,6 +147,7 @@ public class Category : DomainEntity, ICreator
     public virtual string FeaturedSetsIdsString { get; set; }
 
     public virtual string TopicMarkdown { get; set; }
+    public virtual string Content { get; set; }
 
     public virtual CategoryType Type { get; set; }
 

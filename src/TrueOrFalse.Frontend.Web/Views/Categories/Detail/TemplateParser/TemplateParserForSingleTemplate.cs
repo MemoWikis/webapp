@@ -36,6 +36,17 @@ public class TemplateParserForSingleTemplate
         return GetPartialModel(templateJson, category, stringToParse);
     }
 
+    public static BaseContentModule Run(TemplateJson templateJson, Category category)
+    {
+
+        var contentModule = GetPartialModel2(templateJson, category);
+        contentModule.TemplateJson = templateJson;
+        contentModule.Markdown = "";
+        contentModule.Type = templateJson.TemplateName.ToLower();
+
+        return contentModule;
+    }
+
     private static BaseContentModule GetPartialModel(TemplateJson templateJson, Category category, string stringToParse)
     {
         var templateMarkdown = stringToParse
@@ -59,7 +70,7 @@ public class TemplateParserForSingleTemplate
             case "categorynetwork":
                 return new CategoryModel(category, loadKnowledgeSummary: false);
             case "inlinetext":
-                return new InlineTextModel(templateJson.InlineText);
+                return new InlineTextModel(templateJson.InlineText, JsonConvert.DeserializeObject<InlineTextJson>(templateJson.OriginalJson));
             default:
                 throw new Exception("Kein Model für diese Template hinterlegt.");
         }

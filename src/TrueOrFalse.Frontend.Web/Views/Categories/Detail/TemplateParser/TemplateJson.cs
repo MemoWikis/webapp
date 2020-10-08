@@ -9,8 +9,8 @@ using Newtonsoft.Json;
 public class TemplateJson
 {
     public string TemplateName;
-    public string OriginalJson;
+    public string OriginalJson = "";
 
     [JsonIgnore]
-    public string InlineText;
+    public string InlineText = "";
 }

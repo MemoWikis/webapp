@@ -8,7 +8,7 @@
       <div
         class="menubar is-hidden"
         :class="{ 'is-focused': focused }"
-          v-if="focused"
+          v-show="focused"
       >
 
         <button

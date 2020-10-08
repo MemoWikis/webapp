@@ -231,6 +231,28 @@ public class CategoryController : BaseController
 
     [HttpPost]
     [AccessOnlyAsLoggedIn]
+    public ActionResult SaveCategoryContent(int categoryId, string content)
+    {
+        var category = Sl.CategoryRepo.GetById(categoryId);
+
+        if (category != null && content != null)
+        {
+            var document = TemplateParser.Run2(content, category);
+
+            //category.Content = content;
+            //Sl.CategoryRepo.Update(category, User_());
+
+            return Json(document);
+        }
+        else
+        {
+            return Json(false);
+        }
+
+    }
+
+    [HttpPost]
+    [AccessOnlyAsLoggedIn]
     public ActionResult RenderMarkdown(int categoryId, string markdown)
     {
         var category = Sl.CategoryRepo.GetById(categoryId);

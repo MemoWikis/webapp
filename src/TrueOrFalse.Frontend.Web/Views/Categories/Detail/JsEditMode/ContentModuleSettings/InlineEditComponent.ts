@@ -44,10 +44,18 @@ Vue.component('text-component',
                         this.json = getJSON();
                         this.html = getHTML();
                     },
+                    onDrop(view, event, slice, moved) {
+                        return !moved;
+                    },
                 }),
             }
         },
         created() {
+            var templateJson = {
+                "TemplateName": "InlineText",
+                "Content" : this.content
+            }
+            this.$parent.content = JSON.stringify(templateJson);
             this.htmlContent = this.content;
         },
         mounted() {

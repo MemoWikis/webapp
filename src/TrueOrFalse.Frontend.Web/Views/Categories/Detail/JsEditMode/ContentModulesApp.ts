@@ -38,8 +38,9 @@ new Vue({
                 filter: '.placeholder',
                 preventOnFilter: false,
                 onMove: this.onMove,
-                onUpdate: this.updateModuleOrder
-            },
+                onUpdate: this.updateModuleOrder,
+                axis: 'y'
+    },
             saveSuccess: false,
             saveMessage: '',
             editMode: false,
@@ -177,7 +178,7 @@ new Vue({
                 var found = false;
                 items = items.filter(function(item) {
                     if (!found && item[0] == key) {
-                        result.push(item);
+                        result.push(item[1]);
                         found = true;
                         return false;
                     } else
@@ -200,7 +201,7 @@ new Vue({
             return event.related.id !== 'ContentModulePlaceholder';;
         },
 
-        async saveMarkdown() {
+        saveMarkdown() {
 
             if (!this.editMode)
                 return;
@@ -227,6 +228,43 @@ new Vue({
                 },
             );
         },
+
+        saveContent() {
+            if (!this.editMode)
+                return;
+
+            this.sortModules();
+            if (this.sortedModules.length == 0)
+                return;
+            var jsonString = JSON.stringify(this.sortedModules);
+
+            function escapeHtml(unsafe) {
+                return unsafe
+                    .replace(/&/g, "&amp;")
+                    .replace(/</g, "&lt;")
+                    .replace(/>/g, "&gt;")
+                    .replace(/"/g, "&quot;")
+                    .replace(/'/g, "&#039;");
+            }
+            var safeString = escapeHtml(jsonString);
+
+            $.post("/Category/SaveCategoryContent",
+                {
+                    categoryId: $("#hhdCategoryId").val(),
+                    content: safeString,
+                },
+                (success) => {
+                    if (success == true) {
+                        this.saveSuccess = true;
+                        this.saveMessage = "Das Thema wurde gespeichert.";
+                        location.reload();
+                    } else {
+                        this.saveSuccess = false;
+                        this.saveMessage = "Das Speichern schlug fehl.";
+                    };
+                },
+            );
+        }
     },
 });
 

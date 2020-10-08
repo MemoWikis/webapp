@@ -194,8 +194,10 @@ namespace TrueOrFalse
 
             routes.MapRoute("GetQuestionSets", "Questions/GetQuestionSets", new { controller = "Questions", action = "GetQuestionSets" });
             /*Api*/routes.MapRoute("EditPreview", "Category/RenderMarkdown", new { controller = "Category", action = "RenderMarkdown" });
-            /*Api*/routes.MapRoute("EditSave", "Category/SaveMarkdown", new { controller = "Category", action = "SaveMarkdown" });
-            /*Api*/routes.MapRoute("Category_KnowledgeBar", "Category/KnowledgeBar", new { controller = "Category", action = "KnowledgeBar" });
+            ///*Api*/routes.MapRoute("EditSave", "Category/SaveMarkdown", new { controller = "Category", action = "SaveMarkdown" });
+            /*Api*/routes.MapRoute("EditSave", "Category/SaveCategoryContent", new { controller = "Category", action = "SaveCategoryContent" });
+            /*Api*/
+            routes.MapRoute("Category_KnowledgeBar", "Category/KnowledgeBar", new { controller = "Category", action = "KnowledgeBar" });
             /*Api*/routes.MapRoute("AnalyticsTabApi", "Category/Tab", new { controller = "Category", action = "Tab" });
 
             routes.MapRoute("AnalyticsGetKnowledgeDisplay", "Category/GetKnowledgeGraphDisplay", new { controller = "Category", action = "GetKnowledgeGraphDisplay" });
