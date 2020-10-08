@@ -83,7 +83,7 @@
   position: absolute;
   width: 122px;
   max-width: 122px;
-  padding-bottom: 100px;
+  margin-bottom: 100px;
   margin-left: 181px;
 }
 @media only screen and (max-width: 480px) {
