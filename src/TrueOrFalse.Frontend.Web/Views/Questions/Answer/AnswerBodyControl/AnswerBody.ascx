@@ -150,17 +150,19 @@
                                     <% if (Model.SolutionType != SolutionType.FlashCard.ToString()){ %>
                                         <div id="buttons-first-try" class="ButtonGroup">
                                         <a href="#" id="btnCheck" class="btn btn-primary" rel="nofollow">Antworten</a>
-                                        <% if (!Model.IsInTestMode){ %>
+                                        <% if (!Model.IsInTestMode && Model.AnswerHelp){ %>
                                             <a href="#" class="selectorShowSolution SecAction btn btn-link"><i class="fa fa-lightbulb-o">&nbsp;</i>Lösung anzeigen</a>
                                         <% }%>        
-                                    <% } else if(!Model.IsInTestMode) { %>
+                                    <% } else { %>
                                         <div id="buttons-answer" class="ButtonGroup flashCardAnswerButtons" style="display: none">
                                             <a href="#" id="btnRightAnswer" class="btn btn-warning" rel="nofollow">Wusste ich!</a>
                                             <a href="#" id="btnWrongAnswer" class="btn btn-warning" rel="nofollow">Wusste ich nicht!</a>
-                                            <a href="#" id="flashCard-dontCountAnswer" class="selectorShowSolution SecAction btn btn-link">Nicht werten!</a>
+                                            <% if (!Model.IsInTestMode && Model.AnswerHelp){ %>
+                                                <a href="#" id="flashCard-dontCountAnswer" class="selectorShowSolution SecAction btn btn-link">Nicht werten!</a>
+                                            <% } %>
                                             </div>
                                             <div>
-                                    <% } %><!-- ??????----->
+                                    <% } %>
                                     <% if (Model.IsLearningSession && Model.IsLoggedIn && Model.NextUrl != null && !Model.IsInTestMode) { %>
                                         <a id="aSkipStep" href="<%= Model.NextUrl(Url) %>" class="SecAction btn btn-link"><i class="fa fa-step-forward">&nbsp;</i>Frage überspringen</a>
                                     <% } %>
@@ -173,7 +175,7 @@
                                         <button id="continue"  class="btn btn-primary clickToContinue" style="display: none">Weiter</button>
                                     <% } %>
 
-                                    <% if (Model.SolutionType != SolutionType.FlashCard.ToString() && !Model.IsInTestMode) { %>
+                                    <% if (Model.SolutionType != SolutionType.FlashCard.ToString() && !Model.IsInTestMode && Model.AnswerHelp ) { %>
                                         <a href="#" id="aCountAsCorrect" class="SecAction btn btn-link show-tooltip" title="Drücke hier und die Frage wird als richtig beantwortet gewertet" rel="nofollow" style="display: none;">Hab ich gewusst!</a>
                                     <% } %>
                                 </div>
@@ -182,8 +184,9 @@
                                     { %>
                                 <div id="buttons-answer-again" class="ButtonGroup" style="display: none">
                                     <a href="#" id="btnCheckAgain" class="btn btn-warning" rel="nofollow">Nochmal Antworten</a>
+                                    <% if (!Model.IsInTestMode && Model.AnswerHelp){ %>
                                     <a href="#" class="selectorShowSolution SecAction btn btn-link"><i class="fa fa-lightbulb-o">&nbsp;</i>Lösung anzeigen</a>
-                                    
+                                    <% } %>
                                 </div>
                                 <% } %>
                             <div style="clear: both"></div>
@@ -195,12 +198,10 @@
                                     <div class="" id="divAnsweredCorrect" style="display: none; margin-top: 5px;">
                                         <b style="color: green;">Richtig!</b> <span id="wellDoneMsg"></span>
                                     </div>
-                                    <% if (Model.AnswerHelp){ %>
                                     <div id="Solution" class="Detail" style="display: none;">
                                         <div class="Label">Richtige Antwort:</div>
                                         <div class="Content"></div>
                                     </div>
-                                    <% } %>
                                     <div id="divWrongAnswerPlay" class="Detail" style="display: none; background-color: white;">
                                         <span style="color: #B13A48"><b>Deine Antwort war falsch</b></span>
                                         <div>Deine Eingabe:</div>
