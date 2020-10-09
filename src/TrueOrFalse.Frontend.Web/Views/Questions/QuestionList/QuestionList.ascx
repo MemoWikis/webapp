@@ -13,7 +13,8 @@
         <div id="ButtonAndDropdown">
         <session-config-component inline-template @update="updateQuestionsCount" :questions-count="questionsCount" :all-questions-count-from-category="allQuestionsCountFromCategory">
         <div class="rootElement">
-            <img src="/Images/Various/SessionConfigReminderLeft.svg" class="session-config-reminder">
+            <img id="SessionConfigReminderLeft" src="/Images/Various/SessionConfigReminderLeft.svg" >
+            <img id="SessionConfigReminderRight" src="/Images/Various/SessionConfigReminder.svg" >
             <div id="CustomSessionConfigBtn" @click="openModal()"><i class="fa fa-cog" aria-hidden="true"></i></div>
             <div class="modal fade" id="SessionConfigModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                 <div class="modal-dialog" role="document">

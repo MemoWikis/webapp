@@ -6,13 +6,28 @@
     padding: 30px 20px 33px 20px;
 
     .rootElement {
-        .session-config-reminder {
+        #SessionConfigReminderLeft {
             margin-top: -74px;
             position: absolute;
             margin-left: -85px;
 
+            @media(min-width: @screen-sm-min) {
+                display: none;
+            }
+
             @media(max-width: @screen-xxs-max) {
                 display: none;
+            }
+        }
+
+        #SessionConfigReminderRight {
+            margin-top: -74px;
+            position: absolute;
+            margin-left: 9px;
+            display: none; 
+
+            @media(min-width: @screen-sm-min) {
+                display: block;
             }
         }
 

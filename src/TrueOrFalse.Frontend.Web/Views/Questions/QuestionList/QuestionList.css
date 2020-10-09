@@ -13,14 +13,30 @@
   background-color: #EFEFEF;
   padding: 30px 20px 33px 20px;
 }
-#QuestionListApp .rootElement .session-config-reminder {
+#QuestionListApp .rootElement #SessionConfigReminderLeft {
   margin-top: -74px;
   position: absolute;
   margin-left: -85px;
 }
-@media (max-width: 479px) {
-  #QuestionListApp .rootElement .session-config-reminder {
+@media (min-width: 768px) {
+  #QuestionListApp .rootElement #SessionConfigReminderLeft {
     display: none;
+  }
+}
+@media (max-width: 479px) {
+  #QuestionListApp .rootElement #SessionConfigReminderLeft {
+    display: none;
+  }
+}
+#QuestionListApp .rootElement #SessionConfigReminderRight {
+  margin-top: -74px;
+  position: absolute;
+  margin-left: 9px;
+  display: none;
+}
+@media (min-width: 768px) {
+  #QuestionListApp .rootElement #SessionConfigReminderRight {
+    display: block;
   }
 }
 #QuestionListApp .rootElement #CustomSessionConfigBtn {
