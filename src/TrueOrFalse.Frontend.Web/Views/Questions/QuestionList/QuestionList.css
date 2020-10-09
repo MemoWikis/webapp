@@ -18,6 +18,11 @@
   position: absolute;
   margin-left: 9px;
 }
+@media (max-width: 479px) {
+  #QuestionListApp .rootElement .session-config-reminder {
+    display: none;
+  }
+}
 #QuestionListApp .rootElement #CustomSessionConfigBtn {
   margin-left: 10px;
   font-size: 16px;
