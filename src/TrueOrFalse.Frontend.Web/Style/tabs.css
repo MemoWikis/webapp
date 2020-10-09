@@ -84,7 +84,17 @@
   width: 122px;
   max-width: 122px;
   margin-bottom: 100px;
-  margin-left: 181px;
+  margin-left: 154%;
+}
+@media only screen and (max-width: 992px) {
+  #CategoryHeader #LearningTabWithOptions .session-config-reminder-header {
+    margin-left: 156%;
+  }
+}
+@media only screen and (max-width: 768px) {
+  #CategoryHeader #LearningTabWithOptions .session-config-reminder-header {
+    margin-left: 173px;
+  }
 }
 @media only screen and (max-width: 480px) {
   #CategoryHeader #LearningTabWithOptions .session-config-reminder-header {
