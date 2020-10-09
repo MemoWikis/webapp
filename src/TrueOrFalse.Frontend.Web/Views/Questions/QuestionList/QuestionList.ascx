@@ -100,19 +100,19 @@
                             </div>
                             <div class="row modal-more-options">
                                 <div class="more-options class= col-sm-12" @click="displayNone = !displayNone">
-                                    <span v-if="displayNone" >Mehr Optionen</span>
-                                    <span v-if="!displayNone">Weniger Optionen</span>
+                                    <span>erweiterte Optionen</span>
                                     <span class="angle">
-                                        <i class="fas fa-angle-down"></i>
+                                        <i v-if="displayNone" class="fas fa-angle-down"></i>
+                                        <i v-if="!displayNone" class="fas fa-angle-up"></i>
                                     </span>
                                 </div>
                                 <div id="QuestionSortSessionConfig" v-bind:class="{displayNone: displayNone}" class=" col-sm-12">
                                     <div class="randomQuestions">
-                                        <input type="checkbox" id="randomQuestions" style="display:none" :disabled="!isLoggedIn" v-model="randomQuestions" />
-                                        <label for="randomQuestions" class="toggle" :class="{inactive: !isLoggedIn}">
-                                            <span :class="{inactiveSpan: !isLoggedIn}"></span>
+                                        <input type="checkbox" id="randomQuestions" style="display:none" :disabled="isTestModeOrNotLoginIn" v-model="randomQuestions" />
+                                        <label for="randomQuestions" class="toggle" :class="{inactive: !isLoggedIn || isTestMode}">
+                                            <span :class="{inactiveSpan: !isLoggedIn || isTestMode}"></span>
                                         </label>
-                                        <span>&nbsp;Zufällige Fragen</span> 
+                                        <span>&nbsp;Zufällige Fragen<i> Erhöhe die Schwierigkeit mit zufällig vorgelegten Fragen.</i></span> 
                                     </div>
                                     
                                     <div class="answerHelp">
@@ -120,14 +120,14 @@
                                         <label for="answerHelp" class="toggle" :class="{inactive: !isLoggedIn}">
                                             <span :class="{inactiveSpan: !isLoggedIn}"></span>
                                         </label>
-                                        <span>&nbsp;Antworthilfe</span>
+                                        <span>&nbsp;Antworthilfe<i> Die Antworthilfe zeigt dir auf Wunsch die richtige Antwort</i></span>
                                     </div>
                                     <div class="repititions">
                                         <input type="checkbox" id="repititions" style="display:none" :disabled="isTestModeOrNotLoginIn" v-model="repititions" />
                                         <label for="repititions" class="toggle" :class="{inactive: !isLoggedIn}">
                                             <span :class="{inactiveSpan: !isLoggedIn}"></span>
                                         </label>
-                                        <span>&nbsp;Wiederholungen<i> falsch gelöste Fragen werden wiederholt</i></span>
+                                        <span>&nbsp;Wiederholungen<i> Falsch gelöste Fragen werden dir zur Beantwortung erneut vorgelegt.</i></span>
                                     </div>
                                 </div>
                             </div>

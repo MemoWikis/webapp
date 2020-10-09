@@ -84,8 +84,13 @@ Vue.component('session-config-component', {
             this.questionFilter.isInTestMode = val;
             this.isTestModeOrNotLoginIn = val;
             if (val == true) {
+                this.randomQuestions = true;
                 this.answerHelp = false;
-                this.repititions = false; 
+                this.repititions = false;
+            } else {
+                this.randomQuestions = false;
+                this.answerHelp = true;
+                this.repititions = true;
             }
             
         },
