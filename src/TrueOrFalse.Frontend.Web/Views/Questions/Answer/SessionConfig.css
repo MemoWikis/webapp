@@ -16,6 +16,8 @@
 #QuestionSortSessionConfig .repititions span {
   padding-left: 10px;
 }
+#QuestionSortSessionConfig .randomQuestions i,
+#QuestionSortSessionConfig .answerHelp i,
 #QuestionSortSessionConfig .repititions i {
   font-size: 12px;
   font-family: 'Open Sans';
