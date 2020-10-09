@@ -87,7 +87,7 @@
 
         
         <div class="buttonRow">
-            <% if (!Model.LearningSession.Config.InWishknowledge) { %>
+            <% if (!Model.LearningSession.Config.InWishknowledge || Model.LearningSession.Config.IsAnonymous()) { %>
                 <a href="<%= Links.CategoryDetail(Model.LearningSession.Config.Category.Name, Model.LearningSession.Config.CategoryId) %>" class="btn btn-link " style="padding-right: 10px">Zum Thema</a>
                 <a href="<%= Links.StartLearningSession(Model.LearningSession) %>" class="btn btn-primary nextLearningTestSession" style="padding-right: 10px">
                     Weiterlernen
