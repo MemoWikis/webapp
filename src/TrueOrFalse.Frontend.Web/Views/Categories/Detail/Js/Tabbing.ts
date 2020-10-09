@@ -4,6 +4,8 @@
     private _categoryId: number;
 
     constructor(categoryId) {
+        $('#LearnOptionsHeader').tooltip();
+
         this._categoryId = categoryId;
 
         if (window.location.pathname.indexOf("/Lernen") >= 0) {

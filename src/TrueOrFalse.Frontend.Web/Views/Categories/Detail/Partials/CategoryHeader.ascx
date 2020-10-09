@@ -73,7 +73,7 @@
                             Lernen
                         </a>
                     </div>
-                    <div id="LearnOptionsHeader" class="fa fa-cog disable" aria-hidden="true"></div>
+                    <div id="LearnOptionsHeader" class="fa fa-cog disable" aria-hidden="true" data-toggle="tooltip" data-html="true" title="<p style='width: 200px'><b>Persönliche Filter helfen Dir</b>. Nutze die Lernoptionen und entscheide welche Fragen Du lernen möchtest.</p>"></div>
                 </div>
                 <div id="AnalyticsTab" class="Tab" data-url="<%=Links.CategoryDetailAnalyticsTab(Model.Name, Model.Id) %>" >
                     <a href="">
