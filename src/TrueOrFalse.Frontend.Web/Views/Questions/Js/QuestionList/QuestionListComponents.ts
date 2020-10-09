@@ -114,7 +114,16 @@ Vue.component('session-config-component', {
                     this.inWishknowledge = true;
                     this.createdByCurrentUser = true;
                     this.isNotQuestionInWishKnowledge = true;
-                }
+            }
+            if (val == false &&
+                this.inWishknowledge == true &&
+                this.createdByCurrentUser == true &&
+                this.isNotQuestionInWishKnowledge == true)
+            {
+                this.inWishknowledge = false;
+                this.createdByCurrentUser = false;
+                this.isNotQuestionInWishKnowledge = false;
+            }
             
             this.loadQuestionCount();
         },
