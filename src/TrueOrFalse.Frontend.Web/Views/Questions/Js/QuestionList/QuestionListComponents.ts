@@ -449,7 +449,7 @@ let v = Vue.component('question-component', {
             isCreator: false,
             editUrl: "",
             historyUrl: "",
-            linkToComments: this.url + "#QuestionComments",
+            linkToComments: this.url + "#JumpLabel",
             topicTitle: "Thema",
             authorUrl: "",
             questionDetails: "",

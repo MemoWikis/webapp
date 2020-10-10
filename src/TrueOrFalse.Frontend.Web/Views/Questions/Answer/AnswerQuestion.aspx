@@ -128,6 +128,7 @@
             
            </div>
         <div class="row" style="margin-top: 30px; color: darkgray; font-weight: bold;">
+            <div id="JumpLabel" style="position: absolute; height: 0 !important; margin: 100px !important;"></div>
             <div class="col-xs-4">
                 <h4 style="padding:0; margin:0;">Kommentare<a name="comments"></a></h4>    
             </div>
