@@ -219,6 +219,10 @@
 #SessionConfigModal input[type="checkbox"] {
   margin-right: 7px;
 }
+#SessionConfigModal #AllQuestionMinus {
+  margin-right: 7.8px;
+  color: #0075ff;
+}
 #SessionConfigModal .modal-footer {
   border-top: none;
   display: flex;
