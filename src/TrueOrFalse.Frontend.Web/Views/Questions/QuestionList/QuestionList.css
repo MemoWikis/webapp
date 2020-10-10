@@ -215,6 +215,9 @@
 #QuestionListApp .singleQuestionRow .questionSectionFlex .questionContainer .questionBodyTop .questionContainerTopSection .questionHeaderIcons .fa-heart-o {
   font-size: 18px;
   padding-top: 18px;
+}
+#QuestionListApp .singleQuestionRow .questionSectionFlex .questionContainer .questionBodyTop .questionContainerTopSection .questionHeaderIcons .fa-spinner,
+#QuestionListApp .singleQuestionRow .questionSectionFlex .questionContainer .questionBodyTop .questionContainerTopSection .questionHeaderIcons .fa-play {
   padding-right: 10px;
 }
 #QuestionListApp .singleQuestionRow .questionSectionFlex .questionContainer .questionBodyTop .questionContainerTopSection .questionHeaderIcons .iconContainer {

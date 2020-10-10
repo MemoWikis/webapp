@@ -211,11 +211,14 @@
                                             <div class="iconContainer float-right" @click="expandQuestion()">
                                                 <i class="fas fa-angle-down rotateIcon" :class="{ open : showFullQuestion }"></i>
                                             </div>
+                                            <div>
+                                                <pin-wuwi-component :is-in-wishknowledge="isInWishknowledge" :question-id="questionId" />
+                                            </div>
                                             <div class="go-to-question iconContainer">
                                                 <span class="fas fa-play" :class="{ 'activeQ': questionIndex === activeQuestion && selectedPageFromActiveQuestion === selectedPage }" :data-question-id="questionId" @click="loadSpecificQuestion()">
                                                 </span>
                                             </div>
-                                            <pin-wuwi-component :is-in-wishknowledge="isInWishknowledge" :question-id="questionId" />
+                                            <%----%>
 
                                         </div>
                                     </div>
