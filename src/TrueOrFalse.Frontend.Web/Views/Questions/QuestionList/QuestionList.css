@@ -18,7 +18,7 @@
   color: #003264;
 }
 #QuestionListApp .rootElement #SessionConfigReminderLeft {
-  margin-top: -74px;
+  margin-top: -81px;
   position: absolute;
   margin-left: -85px;
 }
@@ -33,7 +33,7 @@
   }
 }
 #QuestionListApp .rootElement #SessionConfigReminderRight {
-  margin-top: -74px;
+  margin-top: -81px;
   position: absolute;
   margin-left: 9px;
   display: none;
