@@ -89,12 +89,12 @@
         <div class="buttonRow">
             <% if (!Model.LearningSession.Config.InWishknowledge || Model.LearningSession.Config.IsAnonymous()) { %>
                 <a href="<%= Links.CategoryDetail(Model.LearningSession.Config.Category.Name, Model.LearningSession.Config.CategoryId) %>" class="btn btn-link " style="padding-right: 10px">Zum Thema</a>
-                <a href="<%= Links.StartLearningSession(Model.LearningSession) %>" class="btn btn-primary nextLearningTestSession" style="padding-right: 10px">
+                <a href="<%= Links.StartLearningSession(Model.LearningSession) %>" class="btn btn-primary nextLearningSession" style="padding-right: 10px">
                     Weiterlernen
                 </a>   
             <% } else if (Model.LearningSession.Config.InWishknowledge) { %>
                 <a href="<%= Links.Knowledge() %>" class="btn btn-link" style="padding-right: 10px">Zur Wissenszentrale</a>
-                <a href="<%= Links.StartWishLearningSession() %>" class="btn btn-primary" style="padding-right: 10px">
+                <a href="<%=Links.StartLearningSession(Model.LearningSession)  %>" class="btn btn-primary nextLearningSession" style="padding-right: 10px">
                     Neue Lernsitzung
                 </a>
             <% } else {

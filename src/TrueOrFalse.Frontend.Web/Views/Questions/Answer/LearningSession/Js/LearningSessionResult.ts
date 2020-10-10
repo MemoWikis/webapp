@@ -34,7 +34,7 @@
             $(".dateSets").toggle(300);
         });
 
-        $(".nextLearningTestSession").click((e) => {
+        $(".nextLearningSession").click((e) => {
             e.preventDefault();
             eventBus.$emit('update-selected-page', 1);
             $(".EduPartnerWrapper").remove();
