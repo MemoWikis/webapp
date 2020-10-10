@@ -37,6 +37,7 @@
         $(".nextLearningSession").click((e) => {
             e.preventDefault();
             eventBus.$emit('update-selected-page', 1);
+            eventBus.$emit('change-active-question', 0);
             $(".EduPartnerWrapper").remove();
             $("#QuestionCountCompletSideBar").fadeIn(); 
             var answerBody = new AnswerBody();
