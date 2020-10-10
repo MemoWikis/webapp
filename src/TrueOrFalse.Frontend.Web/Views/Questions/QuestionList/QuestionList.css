@@ -13,6 +13,10 @@
   background-color: #EFEFEF;
   padding: 30px 20px 33px 20px;
 }
+#QuestionListApp #QuestionListHeaderDropDown .fa-ellipsis-v {
+  font-size: 18px;
+  color: #003264;
+}
 #QuestionListApp .rootElement #SessionConfigReminderLeft {
   margin-top: -74px;
   position: absolute;
@@ -422,6 +426,7 @@
   width: 100%;
   text-align: center;
   padding: 6px 4px !important;
+  background-color: #efefef;
 }
 #QuestionListApp #QuestionListPagination .pagination .selected {
   border-bottom: 3px solid #003264;

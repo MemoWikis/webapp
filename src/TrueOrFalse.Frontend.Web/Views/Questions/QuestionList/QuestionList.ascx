@@ -158,7 +158,7 @@
         </div>
         </session-config-component>
 
-        <div class="Button dropdown">
+        <div id="QuestionListHeaderDropDown" class="Button dropdown">
             <a href="#" class="dropdown-toggle  btn btn-link btn-sm ButtonEllipsis" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
                 <i class="fa fa-ellipsis-v"></i>
             </a>

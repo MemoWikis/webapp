@@ -1,9 +1,20 @@
 ﻿@import (reference) '../../../Style/includes/imports.less';
 
+//Variables
+@colorPagination: #efefef ;
+
+//Less
 #QuestionListApp {
     margin-top: 103px;
     background-color: #EFEFEF;
     padding: 30px 20px 33px 20px;
+
+    #QuestionListHeaderDropDown {
+        .fa-ellipsis-v {
+            font-size: 18px;
+            color: #003264;
+        }
+    }
 
     .rootElement {
         #SessionConfigReminderLeft {
@@ -469,6 +480,7 @@
             .page-item {
                 width: 34px;
 
+
                 &.page-btn {
                     width: unset;
                 }
@@ -483,6 +495,7 @@
                     width: 100%;
                     text-align: center;
                     padding: 6px 4px !important;
+                    background-color: @colorPagination;
                 }
             }
 
