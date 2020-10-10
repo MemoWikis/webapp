@@ -231,7 +231,7 @@
                                             <div class="answer">
                                                 Richtige Antwort: <component :is="answer && {template:answer}"></component>
                                             </div>
-                                            <div class="extendedAnswer" v-if="extendedAnswer != null && extendedAnswer.length > 0">
+                                            <div class="extendedAnswer" v-if="extendedAnswer.length > 11">
                                                 <strong>Ergänzungen zur Antwort:</strong><br/>
                                                 <component :is="extendedAnswer && {template:extendedAnswer}"></component>
                                             </div>
