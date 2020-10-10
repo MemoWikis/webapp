@@ -26,6 +26,10 @@
   padding-top: 2px;
   padding-left: 10px;
 }
+.fontProgressBar {
+  font-family: "Lato";
+  font-weight: bold;
+}
 .CardsContentMargin {
   margin-left: 8px;
   margin-right: 8px;
@@ -336,7 +340,7 @@
   height: 30px;
 }
 .QuestionCount {
-  background-color: #dddddd;
+  background-color: #EFEFEF;
   float: left;
   display: -webkit-box;
   display: -webkit-flex;
@@ -345,6 +349,8 @@
   padding-top: 5px;
   padding-left: 15px;
   padding-right: 15px;
+  font-family: "Lato";
+  font-weight: bold;
 }
 .QuestionCount #CurrentStepNumber {
   padding-right: 3px;
@@ -362,6 +368,8 @@
   right: 5px;
   margin-top: 5px;
   z-index: 2;
+  font-family: "Lato";
+  font-weight: bold;
 }
 @media (max-width: 479px) {
   .ProgressBarContainer {
@@ -402,7 +410,7 @@
   overflow: visible;
 }
 .ProgressBarLeft {
-  background-color: #dddddd;
+  background-color: #EFEFEF;
 }
 .CollectionType {
   float: left;
