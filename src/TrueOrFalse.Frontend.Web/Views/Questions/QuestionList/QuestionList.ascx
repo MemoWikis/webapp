@@ -107,7 +107,7 @@
                                         <i v-if="!displayNone" class="fas fa-angle-up"></i>
                                     </span>
                                 </div>
-                                <div id="QuestionSortSessionConfig" v-bind:class="{displayNone: displayNone}" class=" col-sm-12">
+                                <div id="QuestionSortSessionConfig" v-bind:class="{displayNone: displayNone, opacity: isTestMode }" class=" col-sm-12">
                                     <div class="randomQuestions">
                                         <input type="checkbox" id="randomQuestions" style="display:none" :disabled="isTestModeOrNotLoginIn" v-model="randomQuestions" />
                                         <label for="randomQuestions" class="toggle" :class="{inactive: !isLoggedIn || isTestMode}">

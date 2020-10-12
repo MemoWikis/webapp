@@ -5,6 +5,9 @@
 .paddingLeft20 {
   padding-left: 20px;
 }
+.opacity {
+  opacity: 0.5;
+}
 #QuestionSortSessionConfig .randomQuestions,
 #QuestionSortSessionConfig .answerHelp,
 #QuestionSortSessionConfig .repititions {
@@ -22,9 +25,6 @@
   font-size: 12px;
   font-family: 'Open Sans';
   padding-left: 10px;
-}
-.inactiveSpan {
-  background: #c8ccd4 !important;
 }
 .inactive:before {
   background: #c8ccd4 !important;
