@@ -8,6 +8,7 @@
   "dependencies": {
     "@material/fab": "^1.1.1",
     "d3": "5.7.0",
+    "highlight.js": "^10.2.1",
     "postscribe": "^2.0.8",
     "vue": "^2.6.11",
     "vue-select": "^2.6.4",

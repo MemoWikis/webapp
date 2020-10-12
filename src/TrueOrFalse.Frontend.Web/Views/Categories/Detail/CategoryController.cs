@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
+using SolrNet.Utils;
 using TrueOrFalse.Frontend.Web.Code;
 
 
@@ -105,9 +106,12 @@ public class CategoryController : BaseController
 
     private CategoryModel GetModelWithContentHtml(Category category, int? version = null, bool isCategoryNull = false)
     {
+        var tokens = Tokenizer.Run(category.Content);
+
         return new CategoryModel(category, true, isCategoryNull)
         {
-            CustomPageHtml = MarkdownToHtml.Run(category.TopicMarkdown, category, ControllerContext, version)
+            //CustomPageHtml = MarkdownToHtml.Run(category.TopicMarkdown, category, ControllerContext, version)
+            CustomPageHtml = TemplateToHtml.Run(tokens, category, ControllerContext, version)
         };
     }
 
@@ -239,10 +243,10 @@ public class CategoryController : BaseController
         {
             var document = TemplateParser.Run2(content, category);
 
-            //category.Content = content;
-            //Sl.CategoryRepo.Update(category, User_());
+            category.Content = HttpUtility.HtmlDecode(content);
+            Sl.CategoryRepo.Update(category, User_());
 
-            return Json(document);
+            return Json(true);
         }
         else
         {

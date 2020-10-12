@@ -329,6 +329,8 @@
     <Compile Include="Views\Categories\Detail\CategoryController.cs" />
     <Compile Include="Views\Categories\Detail\Partials\BaseContentModule.cs" />
     <Compile Include="Views\Categories\Detail\Partials\InlineText\InlineTextJson.cs" />
+    <Compile Include="Views\Categories\Detail\TemplateParser\Tokenizer\Tokenizer.cs" />
+    <Compile Include="Views\Categories\Detail\TemplateToHtml\TemplateToHtml.cs" />
     <Compile Include="Views\Questions\Answer\TopicToContinueLearningModel.cs" />
     <Compile Include="Views\Questions\QuestionList\QuestionJson.cs" />
     <Compile Include="Views\Categories\Detail\Partials\KnowledgeGraph\KnowledgeGraphModel.cs" />

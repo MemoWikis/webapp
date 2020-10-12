@@ -5,6 +5,8 @@
     tiptapExtensions
 } = tiptapBuild;
 
+var hljs: any;
+
 Vue.component('editor-menu-bar', tiptap.EditorMenuBar);
 Vue.component('editor-content', tiptap.EditorContent);
 Vue.component('editor-floating-menu', tiptap.EditorFloatingMenu);
@@ -38,15 +40,23 @@ Vue.component('text-component',
                         new tiptapExtensions.Strike(),
                         new tiptapExtensions.Underline(),
                         new tiptapExtensions.History(),
+                        new tiptapExtensions.CodeBlockHighlight({
+                            languages: {
+                            },
+                        })
                     ],
                     content: this.content,
                     onUpdate: ({ getJSON, getHTML }) => {
                         this.json = getJSON();
                         this.html = getHTML();
                     },
-                    onDrop(view, event, slice, moved) {
-                        return !moved;
+                    editorProps: {
+                        handleDOMEvents: {
+                            drop: (view, e) => { e.preventDefault(); },
+                        }
                     },
+                    // hide the drop position indicator
+                    dropCursor: { width: 0, color: 'transparent' },
                 }),
             }
         },
