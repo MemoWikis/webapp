@@ -92,6 +92,7 @@ public class QuestionValuationRepo : RepositoryDb<QuestionValuation>
             .Where(qv => qv.User.Id == userId)
             .Fetch(qv => qv.Question)
             .ThenFetchMany(q => q.Categories)
+            .ThenFetch(q => q.Creator)
             .ToList();
 
         return result;

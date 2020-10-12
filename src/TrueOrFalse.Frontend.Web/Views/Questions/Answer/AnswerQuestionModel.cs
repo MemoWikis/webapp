@@ -11,8 +11,9 @@ public class AnswerQuestionModel : BaseModel
 {
     public Func<UrlHelper, string> PreviousUrl;
     public Func<UrlHelper, string> NextUrl;
-
+    public CategoryModel CategoryModel;
     public Guid QuestionViewGuid;
+    public bool AnswerHelp; 
 
     public string DescriptionForSearchEngines;
     public string DescriptionForFacebook;
@@ -51,24 +52,15 @@ public class AnswerQuestionModel : BaseModel
     public IList<Category> AllCategoriesParents;
     public IList<Category> AllCategorysWithChildrenAndParents { get; set; }
     public IList<Category> ChildrenAndParents; 
-
     public bool IsOwner;
-
     public string ImageUrlAddComment;
-
     public bool HasImage => !IsNullOrEmpty(ImageUrl_500px);
-    public bool HasSound => !IsNullOrEmpty(SoundUrl);
-
     public string CreationDateNiceText { get; private set; }
     public string CreationDate { get; private set; }
-
     public string AverageAnswerTime { get; private set; }
-
     public string QuestionText { get; private set; }
     public string QuestionTextMarkdown { get; private set; }
-
     public QuestionVisibility Visibility { get; private set; }
-
     public bool HasPreviousPage;
     public bool HasNextPage;
 
@@ -94,19 +86,14 @@ public class AnswerQuestionModel : BaseModel
     public int CommentsSettledCount = 0;
 
     public bool IsLearningSession => LearningSession != null;
-    public LearningSession LearningSession;
-    public LearningSessionStep LearningSessionStep;
+    public LearningSessionNew  LearningSession;
+    public LearningSessionStepNew LearningSessionStep;
     public int CurrentLearningStepIdx;
-    public int CurrentLearningStepPercentage;
     public bool IsLastLearningStep = false;
 
     public TestSession TestSession;
     public bool IsTestSession;
-    public int TestSessionId;
-    public int TestSessionCurrentStep;
-    public int TestSessionNumberOfSteps;
-    public int TestSessionCurrentStepPercentage;
-    public bool TestSessionIsLastStep = false;
+
     public int TestSessionProgessAfterAnswering;
 
     public bool DisableCommentLink;
@@ -118,12 +105,10 @@ public class AnswerQuestionModel : BaseModel
     public AnalyticsFooterModel AnalyticsFooterModel;
     public bool QuestionHasParentCategories = false;
 
-    public AnswerQuestionModel(Question question, bool? isMobileDevice = null, bool showCategoryList = true)
+    public AnswerQuestionModel(Question question, bool? isMobileDevice = null, bool showCategoryList = true, CategoryModel categoryModel= null)
     {
-        if(this.QuestionViewGuid == Guid.Empty)
-            QuestionViewGuid = Guid.NewGuid();
-
-        this.IsMobileDevice = isMobileDevice;
+        CategoryModel = categoryModel;
+        IsMobileDevice = isMobileDevice;
         HasNextPage = HasPreviousPage = false;
         SourceIsTabAll = true;
         ContentRecommendationResult = ContentRecommendation.GetForQuestion(question, 6);
@@ -132,68 +117,26 @@ public class AnswerQuestionModel : BaseModel
         Populate(question);
     }
 
-    public AnswerQuestionModel(Guid questionViewGuid, LearningSession learningSession, bool? isMobileDevice = null)
+    public AnswerQuestionModel(LearningSessionNew learningSession, bool? isMobileDevice = null)
     {
         this.IsMobileDevice = isMobileDevice;
-        QuestionViewGuid = questionViewGuid;
 
         LearningSession = learningSession;
 
-        CurrentLearningStepIdx = LearningSession.CurrentLearningStepIdx();
+        CurrentLearningStepIdx = LearningSession.CurrentIndex;
 
         LearningSessionStep = LearningSession.Steps[CurrentLearningStepIdx];
-        LearningSessionStep.Question = Sl.QuestionRepo.GetById(LearningSessionStep.Question.Id);//Prevents nhibernate lazy load exception
 
         IsLastLearningStep = CurrentLearningStepIdx + 1 == LearningSession.Steps.Count();
 
-        CurrentLearningStepPercentage = CurrentLearningStepIdx == 0
-            ? 0
-            : (int)Math.Round(CurrentLearningStepIdx/(float)LearningSession.Steps.Count()*100);
-
-        NextUrl = url => url.Action("Learn", Links.AnswerQuestionController,
-            new {
-                learningSessionId = learningSession.Id,
-                learningSessionName = learningSession.UrlName
-            });
+        NextUrl = url => url.Action("Learn", Links.AnswerQuestionController, new{ skipStepIdx = learningSession.CurrentIndex +1 });
+        QuestionViewGuid = learningSession.QuestionViewGuid;
+        AnswerHelp = learningSession.Config.AnswerHelp; 
 
         Populate(LearningSessionStep.Question);
     }
 
-    public AnswerQuestionModel(int dummyQuestionId, bool testSession = false)
-    {
-        var dummyQuestion = Sl.QuestionRepo.GetById(dummyQuestionId);  
-
-        LearningSession = new LearningSession{Steps = new List<LearningSessionStep>()};      
-
-        for (var i = 0; i < LearningSession.DefaultNumberOfSteps; i++)           
-        {
-            LearningSession.Steps.Add(new LearningSessionStep{Idx = i, Question = dummyQuestion});      
-        }
-
-        Populate(dummyQuestion);
-
-    }
-
-    public AnswerQuestionModel(TestSession testSession, Guid questionViewGuid, Question question, bool? isMobileDevice = null)
-    {
-        this.IsMobileDevice = isMobileDevice;
-
-        QuestionViewGuid = questionViewGuid;
-        TestSession = testSession;
-        IsTestSession = true;
-        TestSessionId = testSession.Id;
-        TestSessionCurrentStep = testSession.CurrentStepIndex;
-        TestSessionNumberOfSteps = testSession.NumberOfSteps;
-        TestSessionIsLastStep = testSession.CurrentStepIndex == testSession.NumberOfSteps;
-        TestSessionCurrentStepPercentage = TestSessionCurrentStep == 0
-            ? 0
-            : (int) Math.Round((TestSessionCurrentStep-1)/(float) TestSessionNumberOfSteps*100);
-        TestSessionProgessAfterAnswering = (int)Math.Round((TestSessionCurrentStep) / (float)TestSessionNumberOfSteps * 100);
-        NextUrl = url => url.Action("Test", Links.AnswerQuestionController);
-        HasNextPage = true;
-        Populate(question);
-    }
-
+    //we have no widgets, this can deleted
     public AnswerQuestionModel(Guid questionViewGuid, Question question, QuestionSearchSpec searchSpec, bool? isMobileDevice = null)
     {
         this.IsMobileDevice = isMobileDevice;
@@ -218,31 +161,6 @@ public class AnswerQuestionModel : BaseModel
             if (SourceCategory != null)
                 SourceIsCategory = true;
         }
-
-        ContentRecommendationResult = ContentRecommendation.GetForQuestion(question, 6);
-        Populate(question);
-    }
-
-    public AnswerQuestionModel(Guid questionViewGuid, Set set, Question question)
-    {
-        QuestionViewGuid = questionViewGuid;
-
-        int pageCurrent = set.QuestionsInSet.GetIndex(question.Id) + 1;
-        int pagesTotal = set.QuestionsInSet.Count;
-        PageCurrent = pageCurrent.ToString();
-        PagesTotal = pagesTotal.ToString();
-
-        HasPreviousPage = pageCurrent > 1;
-        HasNextPage = pageCurrent < pagesTotal;
-
-        if (HasNextPage)
-            NextUrl = url => Links.AnswerQuestion(url, set.QuestionsInSet.GetNextTo(question.Id).Question, set);
-
-        if (HasPreviousPage)
-            PreviousUrl = url => Links.AnswerQuestion(url, set.QuestionsInSet.GetPreviousTo(question.Id).Question, set);
-
-        SourceIsSet = true;
-        Set = set;
 
         ContentRecommendationResult = ContentRecommendation.GetForQuestion(question, 6);
         Populate(question);
@@ -359,10 +277,16 @@ public class AnswerQuestionModel : BaseModel
             if (result.Length < 50)
             {
                 result += "Alternativen: ";
+
+                if (((QuestionSolutionMultipleChoice_SingleSolution) SolutionModel).Choices.Count < 2)
+                    result += "";
+                else
                 result += ((QuestionSolutionMultipleChoice_SingleSolution)SolutionModel)
                     .Choices
                     .Skip(1)
                     .Aggregate((a, b) => a + ", " + b) + "?  ";
+
+                var test = result; 
             }
 
         }

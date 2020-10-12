@@ -99,7 +99,7 @@ public class Category : DomainEntity, ICreator
     public virtual IList<Question> GetAggregatedQuestionsFromMemoryCache(bool onlyVisible = true, bool fullList = true, int categoryId = 0)
     {
         var questionRepo = Sl.QuestionRepo;
-        IList<Question> questions;
+        IList<Question> questions = new List<Question>();
 
         if (fullList)
         {

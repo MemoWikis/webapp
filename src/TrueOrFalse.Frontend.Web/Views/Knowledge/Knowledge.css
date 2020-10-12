@@ -1,13 +1,14 @@
 ﻿#CategoryHeader {
   margin-bottom: 36px;
+  /*    #Management {
+        width: calc(30% - 1px);
+        text-align: center;
+        margin-top: 10px;
+    }
+*/
 }
 #CategoryHeader .Tabs {
-  width: 70%;
-}
-#CategoryHeader #Management {
-  width: calc(30% - 1px);
-  text-align: center;
-  margin-top: 10px;
+  width: 100%;
 }
 #CategoryHeader .Border {
   margin-left: 24px;

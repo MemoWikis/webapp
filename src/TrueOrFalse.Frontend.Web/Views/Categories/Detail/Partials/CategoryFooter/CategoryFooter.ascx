@@ -36,11 +36,11 @@
                     <p><% string aggregatedQuestionCount = "Keine";
                           if (Model.AggregatedQuestionCount > 0)
                               aggregatedQuestionCount = Model.AggregatedQuestionCount.ToString();%>
-                        <%= aggregatedQuestionCount %> Frage<%= StringUtils.PluralSuffix(Model.AggregatedQuestionCount, "n") %> im Wissensnetz. <%if (Model.AggregatedQuestionCount > 0) {%><%--<span class="btn-link">Lernen / Anzeigen</span>--%><%} %></p>
+                        <%= aggregatedQuestionCount %> Frage<%= StringUtils.PluralSuffix(Model.AggregatedQuestionCount, "n") %> im Wissensnetz.</p>
                     <p><% string questionCount = "Keine";
                           if (Model.CategoryQuestionCount > 0)
                               questionCount = Model.CategoryQuestionCount.ToString();%>
-                        <%= questionCount %> Frage<%= StringUtils.PluralSuffix(Model.CategoryQuestionCount, "n") %> direkt zugeordnet. <%if (Model.CategoryQuestionCount > 0) {%><%--<span class="btn-link">Lernen / Anzeigen</span>--%><%} %></p>
+                        <%= questionCount %> Frage<%= StringUtils.PluralSuffix(Model.CategoryQuestionCount, "n") %> direkt zugeordnet.</p>
                 </div>
                 <div class="StartLearningSession">
                     <a href="<%=Links.LearningSessionFooter(Model.Id, Model.Category.Name) %>" id="LearningFooterBtn" data-tab-id="LearningTab" class="btn btn-lg btn-primary footerBtn" >Lernsitzung starten</a> 

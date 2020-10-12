@@ -34,12 +34,9 @@
             .Select(q => q.Id)
             .FirstOrDefault();
 
-        var dummyQuestion = Sl.QuestionRepo.GetById(questionId); // why not take Question from Cache directly?
+        var dummyQuestion = EntityCache.GetQuestionById(questionId);
 
-        if (Model.IsLoggedIn)
-        {
-            Html.RenderPartial("~/Views/Questions/Answer/LearningSession/LearningSessionHeader.ascx", new AnswerQuestionModel(dummyQuestion.Id));
-        }
+        Html.RenderPartial("~/Views/Questions/Answer/LearningSession/LearningSessionHeader.ascx", new AnswerQuestionModel(dummyQuestion, null, true, Model));
     }
     else
     { %>
@@ -52,8 +49,6 @@
     <input type="hidden" id="hddSolutionTypeNum" value="1" />
     <div id="QuestionDetails" data-div-type="questionDetails"></div>
 </div>
-
-<% Html.RenderPartial("~/Views/Questions/Answer/SessionConfig.ascx"); %>
 
 <% Html.RenderPartial("~/Views/Questions/QuestionList/QuestionList.ascx", new QuestionListModel(Model.Category.Id)); %>
 

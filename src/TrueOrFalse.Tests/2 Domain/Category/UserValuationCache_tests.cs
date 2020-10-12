@@ -47,8 +47,6 @@ namespace TrueOrFalse.Tests
 
             var cacheItem2 = UserCache.GetItem(user.Id);
 
-            //var cacheItem2 = Cache.Get<UserValuationCacheItem>(UserValuationCache.GetCacheKey(user.Id));
-
             Assert.That(cacheItem2.CategoryValuations.Count, Is.EqualTo(2));
 
             Assert.That(HttpRuntime.Cache.Count, Is.EqualTo(1));

@@ -113,29 +113,11 @@ public class CategoryRedirectController : BaseController
     [RedirectToErrorPage_IfNotLoggedIn]
     public ActionResult StartLearningSession(int categoryId)
     {
-        var learningSession = CreateLearningSession.ForCategory(categoryId);
-
-        return Redirect(Links.LearningSession(learningSession));
-    }
-
-    [RedirectToErrorPage_IfNotLoggedIn]
-    public ActionResult StartLearningSessionForSets(List<int> setIds, string setListTitle)
-    {
-        var sets = Sl.SetRepo.GetByIds(setIds);
-        var questions = sets.SelectMany(s => s.Questions()).Distinct().ToList();
-
-        if (questions.Count == 0)
-            throw new Exception("Cannot start LearningSession with 0 questions.");
-
-        var learningSession = new LearningSession
+        var config = new LearningSessionConfig
         {
-            SetsToLearnIdsString = string.Join(",", sets.Select(x => x.Id.ToString())),
-            SetListTitle = setListTitle,
-            Steps = GetLearningSessionSteps.Run(questions),
-            User = _sessionUser.User
+            CategoryId = categoryId
         };
-
-        R<LearningSessionRepo>().Create(learningSession);
+        var learningSession = LearningSessionNewCreator.ForAnonymous(config);
 
         return Redirect(Links.LearningSession(learningSession));
     }

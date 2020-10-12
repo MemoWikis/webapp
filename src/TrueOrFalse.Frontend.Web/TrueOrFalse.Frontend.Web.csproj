@@ -1,5 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="..\packages\Microsoft.TypeScript.MSBuild.4.0.3\build\Microsoft.TypeScript.MSBuild.props" Condition="Exists('..\packages\Microsoft.TypeScript.MSBuild.4.0.3\build\Microsoft.TypeScript.MSBuild.props')" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.Default.props" Condition="Exists('$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.Default.props')" />
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
@@ -24,7 +25,7 @@
     <UseIISExpress>false</UseIISExpress>
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
     <RestorePackages>true</RestorePackages>
-    <TypeScriptToolsVersion>2.5</TypeScriptToolsVersion>
+    <TypeScriptToolsVersion>Latest</TypeScriptToolsVersion>
     <IISExpressSSLPort />
     <IISExpressAnonymousAuthentication />
     <IISExpressWindowsAuthentication />
@@ -346,7 +347,6 @@
     <Compile Include="Views\Categories\Detail\TemplateToHtml\MarkdownToHtml.cs" />
     <Compile Include="Views\Categories\Detail\Partials\SetTestSessionNoStartScreen\SetTestSessionNoStartScreenModel.cs" />
     <Compile Include="Views\Categories\Detail\CategoryKnowledgeBarModel.cs" />
-    <Compile Include="Views\Categories\Detail\Tabs\LearningTabModel.cs" />
     <Compile Include="Views\Categories\Detail\TemplateParser\TemplateJson.cs" />
     <Compile Include="Views\Categories\Detail\TemplateParser\TemplateParser.cs" />
     <Compile Include="Views\Categories\Detail\TemplateParser\TemplateParserForSingleTemplate.cs" />
@@ -9055,6 +9055,7 @@
     <Content Include="Images\Memo.png" />
     <Content Include="Images\memo_liegend_bearbeitet4.png" />
     <Content Include="Images\memo_mit_laptop_ohne_koerper.png" />
+    <Content Include="Images\no-question-128.png" />
     <Content Include="Images\OerAward.png" />
     <Content Include="Images\QuestionSets\100_1000.jpg" />
     <Content Include="Images\QuestionSets\100_1024.jpg" />
@@ -21572,6 +21573,7 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Images\Various\SessionConfigReminder.svg" />
+    <Content Include="Images\Various\SessionConfigReminderLeft.svg" />
     <Content Include="Images\Various\tabAnalyticsMockup1.png" />
     <Content Include="Images\Various\treemapChartPsychology.png" />
     <Content Include="robots.not-live.txt">
@@ -21579,6 +21581,9 @@
     </Content>
     <Content Include="robots.live.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Scripts\answerQuestion\AnswerEntry.js">
+      <DependentUpon>AnswerEntry.ts</DependentUpon>
     </Content>
     <Content Include="Scripts\header\ActivityPointsPopup.js">
       <DependentUpon>ActivityPointsPopup.ts</DependentUpon>
@@ -21595,49 +21600,12 @@
     <Content Include="Content\fonts\glyphicons-halflings-regular.woff" />
     <Content Include="Content\fonts\glyphicons-halflings-regular.ttf" />
     <Content Include="Content\fonts\glyphicons-halflings-regular.eot" />
-    <Content Include="Content\bootstrap\wells.less" />
-    <Content Include="Content\bootstrap\variables.less" />
-    <Content Include="Content\bootstrap\utilities.less" />
-    <Content Include="Content\bootstrap\type.less" />
-    <Content Include="Content\bootstrap\tooltip.less" />
-    <Content Include="Content\bootstrap\thumbnails.less" />
-    <Content Include="Content\bootstrap\theme.less" />
-    <Content Include="Content\bootstrap\tables.less" />
-    <Content Include="Content\bootstrap\scaffolding.less" />
-    <Content Include="Content\bootstrap\responsive-utilities.less" />
-    <Content Include="Content\bootstrap\progress-bars.less" />
-    <Content Include="Content\bootstrap\print.less" />
-    <Content Include="Content\bootstrap\popovers.less" />
-    <Content Include="Content\bootstrap\panels.less" />
-    <Content Include="Content\bootstrap\pagination.less" />
-    <Content Include="Content\bootstrap\pager.less" />
-    <Content Include="Content\bootstrap\normalize.less" />
-    <Content Include="Content\bootstrap\navs.less" />
-    <Content Include="Content\bootstrap\navbar.less" />
-    <Content Include="Content\bootstrap\modals.less" />
-    <Content Include="Content\bootstrap\mixins.less" />
-    <Content Include="Content\bootstrap\media.less" />
-    <Content Include="Content\bootstrap\list-group.less" />
-    <Content Include="Content\bootstrap\labels.less" />
-    <Content Include="Content\bootstrap\jumbotron.less" />
-    <Content Include="Content\bootstrap\input-groups.less" />
-    <Content Include="Content\bootstrap\grid.less" />
-    <Content Include="Content\bootstrap\glyphicons.less" />
-    <Content Include="Content\bootstrap\forms.less" />
-    <Content Include="Content\bootstrap\dropdowns.less" />
-    <Content Include="Content\bootstrap\component-animations.less" />
-    <Content Include="Content\bootstrap\code.less" />
-    <Content Include="Content\bootstrap\close.less" />
-    <Content Include="Content\bootstrap\carousel.less" />
-    <Content Include="Content\bootstrap\buttons.less" />
-    <Content Include="Content\bootstrap\button-groups.less" />
-    <Content Include="Content\bootstrap\breadcrumbs.less" />
-    <Content Include="Content\bootstrap\bootstrap.less" />
-    <Content Include="Content\bootstrap\badges.less" />
-    <Content Include="Content\bootstrap\alerts.less" />
     <None Include="job_scheduling_data_2_0.xsd">
       <SubType>Designer</SubType>
     </None>
+    <Content Include="Scripts\answerQuestion\AnswerEntry.js.map">
+      <DependentUpon>AnswerEntry.ts</DependentUpon>
+    </Content>
     <None Include="Scripts\jquery-2.0.3-vsdoc.js" />
     <Content Include="Scripts\jquery-2.0.3.js" />
     <Content Include="Scripts\jquery-2.0.3.min.js" />
@@ -21766,9 +21734,18 @@
     <Content Include="Views\Questions\Answer\Js\QuestionDetails\AnswerQuestionDetailsComponent.js">
       <DependentUpon>AnswerQuestionDetailsComponent.ts</DependentUpon>
     </Content>
+    <Content Include="Views\Questions\Answer\Js\SessionConfig\SessionConfigData.js">
+      <DependentUpon>SessionConfigData.ts</DependentUpon>
+    </Content>
     <Content Include="Views\Questions\Answer\TopicToConinueLearning.ascx" />
     <Content Include="Views\Questions\History\QuestionHistory.css">
       <DependentUpon>QuestionHistory.less</DependentUpon>
+    </Content>
+    <Content Include="Views\Questions\Js\QuestionList\QuestionListApp.js">
+      <DependentUpon>QuestionListApp.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Questions\Js\QuestionList\QuestionListComponents.js">
+      <DependentUpon>QuestionListComponents.ts</DependentUpon>
     </Content>
     <Content Include="Views\Questions\QuestionList\QuestionList.ascx" />
     <Content Include="Views\Categories\Detail\Partials\CategoryFooter\CategoryFooter.ascx" />
@@ -21825,9 +21802,6 @@
     <Content Include="Views\Categories\History\Detail\Js\Page.js.map">
       <DependentUpon>Page.ts</DependentUpon>
     </Content>
-    <Content Include="Views\Categories\ResultTestSession\Js\GetResultTestSession.js">
-      <DependentUpon>GetResultTestSession.ts</DependentUpon>
-    </Content>
     <TypeScriptCompile Include="Scripts\KnowledgeSummaryBar.ts" />
     <TypeScriptCompile Include="Views\Categories\Detail\JsAnalyticsTab\KnowledgeGraph.ts" />
     <TypeScriptCompile Include="Views\Categories\Detail\JsEditMode\ContentModuleSettings\ContentModuleSelectionComponent.ts" />
@@ -21877,7 +21851,6 @@
     <Content Include="Views\Questions\Answer\Js\QuestionFilter.js">
       <DependentUpon>QuestionFilter.ts</DependentUpon>
     </Content>
-    <Content Include="Views\Questions\Answer\SessionConfig.ascx" />
     <Content Include="Views\Questions\Answer\AnswerQuestionDetails.css">
       <DependentUpon>AnswerQuestionDetails.less</DependentUpon>
     </Content>
@@ -21891,7 +21864,6 @@
     <Content Include="Views\Questions\Answer\SessionConfig.css">
       <DependentUpon>SessionConfig.less</DependentUpon>
     </Content>
-    <Content Include="Views\Questions\Answer\TestSession\TestSessionResult.ascx" />
     <Content Include="Views\Questions\History\Detail\Js\Page.js">
       <DependentUpon>Page.ts</DependentUpon>
     </Content>
@@ -21966,9 +21938,6 @@
     <Content Include="Scripts\header\SearchBox.js.map">
       <DependentUpon>SearchBox.ts</DependentUpon>
     </Content>
-    <Content Include="Views\Categories\ResultTestSession\Js\GetResultTestSession.js.map">
-      <DependentUpon>GetResultTestSession.ts</DependentUpon>
-    </Content>
     <Content Include="Views\Knowledge\Js\Page.js.map">
       <DependentUpon>Page.ts</DependentUpon>
     </Content>
@@ -22025,12 +21994,8 @@
     <Compile Include="Views\Maintenance\CMSModel.cs" />
     <Compile Include="Views\Maintenance\ToolsModel.cs" />
     <Compile Include="Views\Questions\Answer\AnswerBodyControl\AnswerBodyModel.cs" />
-    <Compile Include="Views\Questions\Answer\LearningSession\LearningSessionModel.cs" />
     <Compile Include="Views\Questions\Answer\LearningSession\LearningSessionResultController.cs" />
-    <Compile Include="Views\Questions\Answer\TestSession\TestSessionResultController.cs" />
     <Compile Include="Views\Questions\Answer\LearningSession\LearningSessionResultModel.cs" />
-    <Compile Include="Views\Questions\Answer\TestSession\TestSessionResultModel.cs" />
-    <Compile Include="Views\Questions\Answer\TestSession\TestSessionController.cs" />
     <Compile Include="Views\Questions\History\Detail\QuestionHistoryDetailController.cs" />
     <Compile Include="Views\Questions\History\Detail\QuestionHistoryDetailModel.cs" />
     <Compile Include="Views\Questions\History\QuestionChangesOverviewController.cs" />
@@ -22057,6 +22022,7 @@
     <Content Include="Views\Shared\Delete.css">
       <DependentUpon>Delete.less</DependentUpon>
     </Content>
+    <Content Include="Views\Shared\PinComponentVue\PinComponent.vue.ascx" />
     <Content Include="Views\Shared\Modals\ForTheTimeToDeleteModal.ascx" />
     <Compile Include="Views\Shared\Cards\UserCardBaseModel.cs" />
     <Compile Include="Views\Shared\SharedController.cs" />
@@ -22092,13 +22058,6 @@
     <Compile Include="Views\Welcome\WelcomeBoxTopSetsModel.cs" />
     <Compile Include="Views\Welcome\WelcomeBoxSetImgQModel.cs" />
     <Compile Include="Views\Welcome\WelcomeBoxSetTxtQModel.cs" />
-    <Compile Include="Views\Widgets\WidgetBaseModel.cs" />
-    <Compile Include="Views\Widgets\WidgetController.cs" />
-    <Compile Include="Views\Widgets\WidgetSetModel.cs" />
-    <Compile Include="Views\Widgets\WidgetQuestionModel.cs" />
-    <Compile Include="Views\Widgets\WidgetSetResultModel.cs" />
-    <Compile Include="Views\Widgets\WidgetSetStartModel.cs" />
-    <Compile Include="Views\Widgets\WidgetSetVideoModel.cs" />
     <Content Include="Images\LogosPartners\innovationspreis-nominiertButton2016.png" />
     <Content Include="Images\LogosPartners\OERCamp-Logo-Text_unten.jpg" />
     <Content Include="Images\Logo\LogoSmallBlue.png" />
@@ -22338,8 +22297,6 @@
     <Content Include="Views\Questions\Answer\Comments\CommentsSection.ascx" />
     <Content Include="Views\Questions\Answer\AnswerQuestionPager.ascx" />
     <Content Include="Views\Questions\Answer\Sponsor.ascx" />
-    <Content Include="Views\Questions\Answer\TestSession\TestSessionResultDetails.ascx" />
-    <Content Include="Views\Questions\Answer\TestSession\TestSessionResultHead.ascx" />
     <Content Include="Views\Questions\Edit\EditSolutionControls\SolutionTypeFlashCard.ascx" />
     <Content Include="Views\Questions\Edit\EditSolutionControls\SolutionTypeFlashCard.js">
       <DependentUpon>SolutionTypeFlashCard.ts</DependentUpon>
@@ -22366,14 +22323,12 @@
     <TypeScriptCompile Include="Scripts\header\StickyHeader.ts" />
     <TypeScriptCompile Include="Views\Categories\Detail\Js\Tabbing.ts" />
     <TypeScriptCompile Include="Views\Categories\History\Detail\Js\Page.ts" />
-    <TypeScriptCompile Include="Views\Categories\ResultTestSession\Js\GetResultTestSession.ts" />
     <TypeScriptCompile Include="Views\Knowledge\Js\Page.ts" />
     <TypeScriptCompile Include="Views\Knowledge\Js\WishKnowledgeContent.ts" />
     <TypeScriptCompile Include="Views\Knowledge\Js\_dashboard.ts" />
     <TypeScriptCompile Include="Views\Maintenance\Js\CMS.ts" />
     <TypeScriptCompile Include="Views\Messages\Js\Page.ts" />
     <TypeScriptCompile Include="Views\Messages\Js\ShowAllMessages.ts" />
-    <TypeScriptCompile Include="Views\Questions\Answer\Js\SessionConfig\SessionConfig.ts" />
     <TypeScriptCompile Include="Views\Questions\Answer\Js\SessionConfig\SessionConfigData.ts" />
     <TypeScriptCompile Include="Views\Questions\Answer\Js\QuestionFilter.ts" />
     <TypeScriptCompile Include="Views\Questions\Answer\LearningSession\Js\LearningSessionResult.ts" />
@@ -22385,6 +22340,9 @@
     </Content>
     <Content Include="Views\Shared\CategoryLabel.ascx" />
     <Content Include="Views\Shared\MainMenuThemeCentered.ascx" />
+    <Content Include="Views\Shared\PinComponentVue\PinComponent.vue.js">
+      <DependentUpon>PinComponent.vue.ts</DependentUpon>
+    </Content>
     <Content Include="Views\Shared\SidebarCards.ascx" />
     <Content Include="Views\Sets\Edit\QuestionInSet.ascx" />
     <Content Include="Views\Shared\LinkToTop.ascx" />
@@ -22393,6 +22351,9 @@
     <Content Include="Views\Shared\Spinner\Spinner.ascx" />
     <Content Include="Views\Shared\Spinner\Spinner.css">
       <DependentUpon>Spinner.less</DependentUpon>
+    </Content>
+    <Content Include="Views\Shared\Switch\Switch.css">
+      <DependentUpon>Switch.less</DependentUpon>
     </Content>
     <Content Include="Views\Users\Account\WidgetStats\Partials\WidgetStatsDetailViews.ascx" />
     <Content Include="Views\Users\Account\WidgetStats\Partials\WidgetStatsForHost.ascx" />
@@ -22414,10 +22375,6 @@
     <Content Include="Views\Welcome\Team.css">
       <DependentUpon>Team.less</DependentUpon>
     </Content>
-    <Content Include="Views\Widgets\CustomCss\besser.memucho.de.css" />
-    <Content Include="Views\Widgets\WidgetSetStart.aspx" />
-    <Content Include="Views\Widgets\WidgetSetResult.aspx" />
-    <Content Include="Views\Widgets\WidgetSetVideo.aspx" />
     <Content Include="android-chrome-144x144.png" />
     <Content Include="android-chrome-192x192.png" />
     <Content Include="android-chrome-36x36.png" />
@@ -22568,14 +22525,6 @@
     <Content Include="Views\Questions\Answer\AnswerControls\SolutionTypeMultipleChoice_SingleSolution.js.map">
       <DependentUpon>SolutionTypeMultipleChoice_SingleSolution.ts</DependentUpon>
     </Content>
-    <Content Include="Views\Questions\Answer\TestSession\Js\Page.js">
-      <DependentUpon>Page.ts</DependentUpon>
-    </Content>
-    <Content Include="Views\Questions\Answer\TestSession\Js\TestSessionResult.js">
-      <DependentUpon>TestSessionResult.ts</DependentUpon>
-    </Content>
-    <Content Include="Views\Questions\Answer\TestSession\TestSessionResult.aspx" />
-    <Content Include="Views\Questions\Answer\TestSession\TestSessionHeader.ascx" />
     <Content Include="Views\Questions\Edit\EditSolutionControls\SolutionTypeMatchList.ascx" />
     <Content Include="Views\Sets\Detail\Js\SetVideo.js">
       <DependentUpon>SetVideo.ts</DependentUpon>
@@ -22618,7 +22567,6 @@
     <Content Include="Views\Welcome\Registration\SocialButtons.css">
       <DependentUpon>SocialButtons.less</DependentUpon>
     </Content>
-    <Content Include="Views\Widgets\AwesomeIframe.js" />
     <Content Include="mstile-144x144.png" />
     <Content Include="mstile-150x150.png" />
     <Content Include="mstile-310x150.png" />
@@ -22704,18 +22652,6 @@
     <Content Include="Views\Welcome\WelcomeBoxSingleQuestion.ascx" />
     <Content Include="Views\Welcome\WelcomeBoxSetImgQ.ascx" />
     <Content Include="Views\Welcome\WelcomeBoxSetTxtQ.ascx" />
-    <Content Include="Views\Widgets\w.js" />
-    <Content Include="Views\Widgets\WidgetQuestion.js">
-      <DependentUpon>WidgetQuestion.ts</DependentUpon>
-    </Content>
-    <Content Include="Views\Widgets\WidgetSet.aspx" />
-    <Content Include="Views\Widgets\WidgetQuestion.aspx" />
-    <Content Include="Views\Widgets\WidgetSetVideo.js">
-      <DependentUpon>WidgetSetVideo.ts</DependentUpon>
-    </Content>
-    <Content Include="Views\Widgets\WidgetSetVideo.js.map">
-      <DependentUpon>WidgetSetVideo.ts</DependentUpon>
-    </Content>
     <TypeScriptCompile Include="Scripts\answerQuestion\AnswerQuestionUserFeedback.ts" />
     <TypeScriptCompile Include="Scripts\answerQuestion\AnswerEntry.ts" />
     <TypeScriptCompile Include="Scripts\answerQuestion\IAnswerEntry.ts" />
@@ -22768,7 +22704,6 @@
     <Content Include="Images\Licenses\publicdomain.png" />
     <Content Include="Images\no-category-picture-206.png" />
     <Content Include="Images\no-category-picture-350.png" />
-    <Content Include="Images\no-question-128.png" />
     <Content Include="Images\no-set-128.png" />
     <Content Include="Images\no-set-206.png" />
     <Content Include="Images\no-set-50.png" />
@@ -22779,9 +22714,6 @@
     <Content Include="Images\wiki-32.png" />
     <Content Include="img\dimension.png" />
     <Content Include="img\wmd-buttons.png" />
-    <Content Include="Scripts\answerQuestion\AnswerEntry.js">
-      <DependentUpon>AnswerEntry.ts</DependentUpon>
-    </Content>
     <Content Include="Scripts\answerQuestion\AnswerQuestionUserFeedback.js">
       <DependentUpon>AnswerQuestionUserFeedback.ts</DependentUpon>
     </Content>
@@ -23206,9 +23138,6 @@
     <Content Include="Fonts\OpenSans\PRmiXeptR36kaC0GEAetxi9-WlPSxbfiI49GsXo3q0g.ttf" />
     <Content Include="Fonts\OpenSans\PRmiXeptR36kaC0GEAetxne1Pd76Vl7zRpE7NLJQ7XU.ttf" />
     <Content Include="Fonts\OpenSans\PRmiXeptR36kaC0GEAetxpZ7xm-Bj30Bj2KNdXDzSZg.ttf" />
-    <Content Include="Scripts\answerQuestion\AnswerEntry.js.map">
-      <DependentUpon>AnswerEntry.ts</DependentUpon>
-    </Content>
     <Content Include="bin\Domain\Message\HtmlMessage\KnowledgeReportMsg.cshtml" />
     <Content Include="bin\Domain\Message\HtmlMessage\KnowledgeReportMsgStylesInlined.cshtml" />
     <Content Include="bin\Domain\Message\HtmlMessage\TrainingReminderForDateMsg.cshtml" />
@@ -23444,8 +23373,6 @@
     <TypeScriptCompile Include="Views\Questions\Answer\Js\AnswerBodyLoader.ts" />
     <TypeScriptCompile Include="Views\Questions\Answer\LearningSession\Js\LearningSessionResultCharts.ts" />
     <TypeScriptCompile Include="Views\Questions\Answer\LearningSession\Js\Page.ts" />
-    <TypeScriptCompile Include="Views\Questions\Answer\TestSession\Js\Page.ts" />
-    <TypeScriptCompile Include="Views\Questions\Answer\TestSession\Js\TestSessionResult.ts" />
     <TypeScriptCompile Include="Views\Questions\Edit\EditSolutionControls\SolutionTypeFlashCard.ts" />
     <TypeScriptCompile Include="Views\Questions\Edit\Js\MarkdownDescription.ts" />
     <TypeScriptCompile Include="Views\Sets\Detail\Js\SetVideo.ts" />
@@ -23453,6 +23380,7 @@
     <TypeScriptCompile Include="Views\Sets\Edit\Js\EditSet.ts" />
     <TypeScriptCompile Include="Views\Sets\Edit\Js\Validation.ts" />
     <TypeScriptCompile Include="Views\Sets\Js\SetDelete.ts" />
+    <TypeScriptCompile Include="Views\Shared\PinComponentVue\PinComponent.vue.ts" />
     <TypeScriptCompile Include="Views\Shared\Spinner\Js\Spinner.ts" />
     <TypeScriptCompile Include="Views\Users\Account\Js\Membership.ts" />
     <TypeScriptCompile Include="Views\Users\Account\WidgetStats\Js\WidgetStats.ts" />
@@ -23465,11 +23393,9 @@
     <TypeScriptCompile Include="Views\Welcome\Js\TourInit.ts" />
     <TypeScriptCompile Include="Views\Welcome\Login\Login.ts" />
     <TypeScriptCompile Include="Views\Welcome\Registration\Js\FacebookRegistration.ts" />
-    <TypeScriptCompile Include="Views\Widgets\WidgetQuestion.ts" />
     <TypeScriptCompile Include="Views\Welcome\Js\Validation.ts" />
     <TypeScriptCompile Include="Views\Welcome\Js\ValidationPasswordRecovery.ts" />
     <TypeScriptCompile Include="Views\Welcome\Js\ValidationPasswordReset.ts" />
-    <TypeScriptCompile Include="Views\Widgets\WidgetSetVideo.ts" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Global.asax" />
@@ -23961,12 +23887,6 @@
     <Content Include="Views\Users\Detail\Js\Page.js.map">
       <DependentUpon>Page.ts</DependentUpon>
     </Content>
-    <Content Include="Views\Questions\Answer\TestSession\Js\Page.js.map">
-      <DependentUpon>Page.ts</DependentUpon>
-    </Content>
-    <Content Include="Views\Questions\Answer\TestSession\Js\TestSessionResult.js.map">
-      <DependentUpon>TestSessionResult.ts</DependentUpon>
-    </Content>
     <Content Include="Views\Welcome\Js\SendRequestNewsletter.js.map">
       <DependentUpon>SendRequestNewsletter.ts</DependentUpon>
     </Content>
@@ -23998,13 +23918,9 @@
     </Content>
     <Content Include="Views\About\ForTeachers.less" />
     <Content Include="Views\About\Jobs.less" />
-    <Content Include="Views\Widgets\WidgetQuestion.js.map">
-      <DependentUpon>WidgetQuestion.ts</DependentUpon>
-    </Content>
     <Content Include="Views\Questions\Answer\AnswerControls\SolutionTypeMultipleChoice.js.map">
       <DependentUpon>SolutionTypeMultipleChoice.ascx</DependentUpon>
     </Content>
-    <Content Include="Views\Widgets\app.config" />
     <Content Include="Views\Help\Widget.less" />
     <Content Include="Views\Questions\Answer\AnswerControls\SolutionTypeMultipleChoice - Copy.js.map">
       <DependentUpon>SolutionTypeFlashCard.ascx</DependentUpon>
@@ -24059,6 +23975,19 @@
     </Content>
     <Content Include="Views\Questions\Answer\Js\QuestionDetails\AnswerQuestionDetailsComponent.js.map">
       <DependentUpon>AnswerQuestionDetailsComponent.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Questions\Answer\Js\SessionConfig\SessionConfigData.js.map">
+      <DependentUpon>SessionConfigData.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Shared\Switch\Switch.less" />
+    <Content Include="Views\Questions\Js\QuestionList\QuestionListApp.js.map">
+      <DependentUpon>QuestionListApp.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Questions\Js\QuestionList\QuestionListComponents.js.map">
+      <DependentUpon>QuestionListComponents.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Shared\PinComponentVue\PinComponent.vue.js.map">
+      <DependentUpon>PinComponent.vue.ts</DependentUpon>
     </Content>
     <None Include="Web.overwritten.config.sample" />
     <Content Include="Views\Welcome\Logout.aspx" />
@@ -24157,6 +24086,9 @@
       <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
     </PropertyGroup>
     <Error Condition="!Exists('..\packages\OctoPack.3.6.1\build\OctoPack.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\OctoPack.3.6.1\build\OctoPack.targets'))" />
+    <Error Condition="!Exists('..\packages\Microsoft.TypeScript.MSBuild.4.0.3\build\Microsoft.TypeScript.MSBuild.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.TypeScript.MSBuild.4.0.3\build\Microsoft.TypeScript.MSBuild.props'))" />
+    <Error Condition="!Exists('..\packages\Microsoft.TypeScript.MSBuild.4.0.3\build\Microsoft.TypeScript.MSBuild.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.TypeScript.MSBuild.4.0.3\build\Microsoft.TypeScript.MSBuild.targets'))" />
   </Target>
   <Import Project="..\packages\OctoPack.3.6.1\build\OctoPack.targets" Condition="Exists('..\packages\OctoPack.3.6.1\build\OctoPack.targets')" />
+  <Import Project="..\packages\Microsoft.TypeScript.MSBuild.4.0.3\build\Microsoft.TypeScript.MSBuild.targets" Condition="Exists('..\packages\Microsoft.TypeScript.MSBuild.4.0.3\build\Microsoft.TypeScript.MSBuild.targets')" />
 </Project>

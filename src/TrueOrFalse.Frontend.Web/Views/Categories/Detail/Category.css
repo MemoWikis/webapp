@@ -814,7 +814,7 @@ p:empty {
   -webkit-align-items: center;
       -ms-flex-align: center;
           align-items: center;
-  margin-bottom: 50px;
+  margin-bottom: 60px;
 }
 #CategoryHeader #HeadingContainer {
   -webkit-box-flex: 1;
@@ -992,7 +992,7 @@ p:empty {
     margin-bottom: 10px;
   }
   #CategoryHeader #HeadingSection {
-    margin-bottom: 30px;
+    margin-bottom: 60px;
     overflow: hidden;
   }
 }

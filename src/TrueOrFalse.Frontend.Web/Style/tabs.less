@@ -76,6 +76,57 @@
         }
     }
 
+    #LearningTabWithOptions {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 45px;
+
+        .session-config-reminder-header {
+            border-radius: 0%;
+            webkit-border-radius: 0;
+            position: absolute;
+            width: 122px;
+            max-width: 122px;
+            margin-bottom: 100px;
+            margin-left: 154%;
+
+            @media only screen and (max-width: 992px) {
+                margin-left: 156%;
+            }
+
+            @media only screen and (max-width: 768px) {
+                margin-left: 173px;
+            }
+
+            @media only screen and (max-width: 480px) {
+                margin-left: 156px;
+                ;
+            }
+        }
+
+        #LearnOptionsHeader {
+            padding-right: 10px;
+
+            @media only screen and (max-width: 768px) {
+                padding-right: 0px;
+            }
+        }
+
+
+        .disable::before {
+            color: #999999;
+        }
+
+        #LearningTab {
+            width: auto;
+
+            a {
+                padding-right: 5px;
+            }
+        }
+    }
+
     #ManagementMobile {
         display: none;
         justify-content: space-between;

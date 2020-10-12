@@ -1,4 +1,5 @@
 ﻿using System.Web.Optimization;
+using FluentNHibernate.Conventions.Inspections;
 
 namespace TrueOrFalse.View
 {
@@ -193,7 +194,9 @@ namespace TrueOrFalse.View
                 .Include("~/Views/Questions/Js/QuestionList/QuestionListApp.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/js/QuestionListComponents")
-                .Include("~/Views/Questions/Js/QuestionList/QuestionListComponents.js"));
+                .Include("~/Scripts/npm/vue-slider-component/vue-slider-component.umd.js")
+                .Include("~/Views/Questions/Js/QuestionList/QuestionListComponents.js")
+                .Include("~/Views/Shared/PinComponentVue/PinComponent.vue.js"));
 
 
             bundles.Add(new StyleBundle("~/bundles/QuestionList")
@@ -238,29 +241,10 @@ namespace TrueOrFalse.View
             bundles.Add(new ScriptBundle("~/bundles/js/LearningSessionResult")
                 .IncludeDirectory("~/Views/Questions/Answer/LearningSession/Js/", "*.js"));
 
-            bundles.Add(new ScriptBundle("~/bundles/js/TestSessionResult")
-                .IncludeDirectory("~/Views/Questions/Answer/TestSession/Js/", "*.js"));
-
-            bundles.Add(new ScriptBundle("~/bundles/js/AwesomeIframe")
-                .Include("~/Views/Widgets/AwesomeIframe.js"));
-
             bundles.Add(new ScriptBundle("~/bundles/js/WidgetQuestion")
                 .IncludeDirectory("~/Views/Questions/Answer/AnswerControls/", "*.js")
                 .IncludeDirectory("~/Scripts/answerQuestion/", "*.js")
                 .Include("~/Views/Widgets/WidgetQuestion.js")
-                .Include("~/Views/Widgets/AwesomeIframe.js"));
-
-            bundles.Add(new ScriptBundle("~/bundles/js/WidgetSet")
-                .IncludeDirectory("~/Views/Questions/Answer/AnswerControls/", "*.js")
-                .IncludeDirectory("~/Scripts/answerQuestion/", "*.js")
-                .Include("~/Views/Widgets/AwesomeIframe.js"));
-
-            bundles.Add(new ScriptBundle("~/bundles/js/WidgetSetVideo")
-                .IncludeDirectory("~/Views/Questions/Answer/AnswerControls/", "*.js")
-                .IncludeDirectory("~/Scripts/answerQuestion/", "*.js")
-                .IncludeDirectory("~/Views/Questions/ActivityPoints", "*.js")
-                .Include("~/Views/Sets/Detail/Js/SetVideo.js")
-                .Include("~/Views/Widgets/WidgetSetVideo.js")
                 .Include("~/Views/Widgets/AwesomeIframe.js"));
 
             //Markdown
@@ -340,6 +324,8 @@ namespace TrueOrFalse.View
             bundles.Add(new StyleBundle("~/bundles/Team")
                 .Include("~/Views/Welcome/Team.css"));
 
+            bundles.Add(new StyleBundle("~/bundles/switch")
+                .Include("~/Views/Shared/Switch/Switch.css"));
 #if RELEASE
             BundleTable.EnableOptimizations = true;
 #endif

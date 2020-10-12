@@ -1,87 +1,40 @@
 ﻿
 class AnswerBodyLoader {
 
-    private _answerBody: AnswerBody;
     private _isInLearningTab: boolean;
     private _sessionConfigDataJson: SessionConfigDataJson;
     private _getCustomSession: boolean = false;
+    private _isSkipStep: boolean = false;
+
 
     constructor(answerBody: AnswerBody) {
-
-        this._answerBody = answerBody;
         this._isInLearningTab = $('#LearningTab').length > 0;
-
-        if (Utils.IsInWidget())
-            return;
-
         $(() => {
-
-            if (window.location.pathname.split("/")[4] === "im-Fragesatz") {
-                $("#NextQuestionLink, #btnNext").click((e) => {
-                    e.preventDefault();
-                    var NextQuestionLinkArgs = $("#NextQuestionLink").attr("href").split("/");
-                    var setId = NextQuestionLinkArgs[5];
-                    var questionId = NextQuestionLinkArgs[3];
-                    var primaryDataUrl = "/AnswerQuestion/RenderAnswerBodyBySet/?questionId=" +
-                        questionId +
-                        "&setId=" +
-                        setId;
-                    this.loadNewQuestion(primaryDataUrl);
-                });
-
-                $("#PreviousQuestionLink").click((e) => {
-                    e.preventDefault();
-                    var NextQuestionLinkArgs = $("#PreviousQuestionLink").attr("href").split("/");
-                    var setId = NextQuestionLinkArgs[5];
-                    var questionId = NextQuestionLinkArgs[3];
-                    var primaryDataUrl = "/AnswerQuestion/RenderAnswerBodyBySet/?questionId=" +
-                        questionId +
-                        "&setId=" +
-                        setId;
-                    this.loadNewQuestion(primaryDataUrl);
-                });
-
-            } else if ($("#hddIsLearningSession").val() === "True") {
+             if ($("#hddIsLearningSession").val() === "True") {
 
                 if ($("#hddIsLearningSession").attr("data-learning-session-id") == "-1") {
                     $("#hddIsLearningSession").attr("data-learning-session-id", "-2");
                     this.loadNewLearningSession();
                 }
 
-                $("#btnNext, #aSkipStep").click((e) => {
-                    
+                var self = this; 
+                $("#btnNext, #aSkipStep").click(function(e) {
                     e.preventDefault();
-                    var learningSessionId = $("#hddIsLearningSession").attr("data-learning-session-id");
-                    var skipStepIdx = $("#hddIsLearningSession").attr("data-skip-step-index");
-                    var isInTestMode = $("#isInTestMode").val() == "True";
-                    var url = "/AnswerQuestion/RenderAnswerBodyByLearningSession/?learningSessionId=" +
-                        learningSessionId +
-                        "&skipStepIdx=" +
-                        skipStepIdx +
-                        "&isInLearningTab" +
-                        this._isInLearningTab +
-                        "&isInTestMode=" +
-                        isInTestMode;
-                    this.loadNewQuestion(url);
+                    var skipstepIdx = this.id === "btnNext" ? -1 : 1;
+                    self._isSkipStep = skipstepIdx !== -1;
+
+                    var url = "/AnswerQuestion/RenderAnswerBodyByLearningSession/" +
+                        "?skipStepIdx=" + skipstepIdx;
+                    AnswerQuestion.LogTimeForQuestionView();
+                    self.loadNewQuestion(url);
                 });
 
-            } else if (this._answerBody.IsTestSession()) {
-
-                $("#btnNext").click((e) => {
-                    e.preventDefault();
-                    var testSessionId = $("#hddIsTestSession").attr("data-test-session-id");
-                    var url = "/AnswerQuestion/RenderAnswerBodyByTestSession/?testSessionId=" +
-                        testSessionId +
-                        "&isInLearningTab" +
-                        this._isInLearningTab;
-                    this.loadNewQuestion(url);
-                });
-
-            } else {
+            }else {
                 $("#NextQuestionLink, #btnNext").click((e) => {
                     e.preventDefault();
                     var pager = $("#NextQuestionLink").attr("href").split("?")[1].split("=")[1];
                     var primaryDataUrl = "/AnswerQuestion/RenderAnswerBodyByNextQuestion/?pager=" + pager;
+                    AnswerQuestion.LogTimeForQuestionView();
                     this.loadNewQuestion(primaryDataUrl);
                 });
 
@@ -89,6 +42,7 @@ class AnswerBodyLoader {
                     e.preventDefault();
                     var pager = $("#PreviousQuestionLink").attr("href").split("?")[1].split("=")[1];
                     var primaryDataUrl = "/AnswerQuestion/RenderAnswerBodyByPreviousQuestion/?pager=" + pager;
+                    AnswerQuestion.LogTimeForQuestionView();
                     this.loadNewQuestion(primaryDataUrl);
                 });
             }
@@ -113,11 +67,24 @@ class AnswerBodyLoader {
 
     public loadNewSession(questionFilter = null, loadedFromVue = false, continueWithNewSession = false) {
 
-        this._sessionConfigDataJson = {
-            categoryId: $('#hhdCategoryId').val(),
-            isInLearningTab: this._isInLearningTab,
-            questionFilter: questionFilter,
-        }
+            this._sessionConfigDataJson = {
+                categoryId: $('#hhdCategoryId').val(),
+                isInLearningTab: this._isInLearningTab,
+                currentUserId: $("#hddUserId").val(),
+                maxQuestionCount: questionFilter != null ? questionFilter.maxQuestionCount : -1,
+                minProbability: questionFilter != null ? questionFilter.minProbability : 0,
+                maxProbability: questionFilter != null ? questionFilter.maxProbability : 100,
+                inWishknowledge: questionFilter != null ? questionFilter.inWishknowledge : true,
+                questionOrder: questionFilter != null ? questionFilter.questionOrder : -1,
+                isInTestMode: questionFilter != null ? questionFilter.isInTestMode : false,
+                isNotQuestionInWishKnowledge: questionFilter != null ? questionFilter.isNotQuestionInWishKnowledge : true,
+                allQuestions: questionFilter != null ? questionFilter.allQuestions : true,
+                createdByCurrentUser: questionFilter != null ? questionFilter.createdByCurrentUser : true,
+                safeLearningSessionOptions: questionFilter != null ? questionFilter.safeLearningSessionOptions : false,
+                answerHelp: questionFilter != null ? questionFilter.answerHelp : true,
+                repititions: questionFilter != null ? questionFilter.repititions : true,
+                randomQuestions: questionFilter != null ? questionFilter.randomQuestions : false
+            }
 
         var url = "/AnswerQuestion/RenderNewAnswerBodySessionForCategory";
         this._getCustomSession = true;
@@ -128,6 +95,7 @@ class AnswerBodyLoader {
         this._isInLearningTab = $('#LearningTab').length > 0;
         if (this._getCustomSession)
             $("#TestSessionHeader").remove();
+
         if (this._isInLearningTab && this._getCustomSession && loadedFromVue) {
             $("#AnswerBody").fadeOut();
             $("#QuestionDetails").fadeOut();
@@ -148,10 +116,11 @@ class AnswerBodyLoader {
             success: result => {
                 eventBus.$emit('suicide');
                 result = JSON.parse(result);
+
                 if (!this._isInLearningTab) {
                     this.updateUrl(result.url);
                 }
-                //this.sendGoogleAnalyticsPageView(result.offlineDevelopment);
+
                 if (result.LearningSessionResult) {
                     this.showLearningSessionResult(result);
                     $(".ProgressBarSegment .ProgressBarLegend").hide();
@@ -163,17 +132,11 @@ class AnswerBodyLoader {
                     $("#QuestionDetails").empty();
                 }
 
-                if ($("#hddIsLearningSession").val() === "True" || this._answerBody.IsTestSession()) {
-                    this.updateSessionHeader(result.sessionData);
-
-                    if (result.sessionData.learningSessionId > -1)
-                        $("#hddIsLearningSession").attr("data-learning-session-id", result.sessionData.learningSessionId);
-                    if (result.sessionData.testSessionId > -1)
-                        $("#hddIsTestSession").attr("data-test-session-id", result.sessionData.testSessionId);
-                }
-                else 
+                if ($("#hddIsLearningSession").val() !== "True") 
                     this.updateNavigationBar(result.navBarData);
-
+                else
+                    this.updateSessionHeader(result.sessionData);
+              
                 this.updateMenu(result.menuHtml);
                 document.title = $(".QuestionText").html();
                 $("div#comments").replaceWith(result.commentsAsHtml);
@@ -196,33 +159,10 @@ class AnswerBodyLoader {
                 if ($("div[data-div-type='testSessionHeader']").length > 1)
                     $("div[data-div-type='testSessionHeader']").slice(1).remove();
 
-                if (IsLoggedIn.Yes) {
-                    var node = $(".SessionType > span.show-tooltip");
-                    var testToolTip = " <div style= 'text-align: left;'> In diesem Modus" +
-                        "<ul>" +
-                        "<li>werden die Fragen zufällig ausgewählt </li>" +
-                        "<li>hast du jeweils nur einen Antwortversuch </li>" +
-                        "</ul>" +
-                        "</div>";
-                    var learningToolTip = "<div style= 'text-align: left;'> In diesem Modus" +
-                        "<ul>" +
-                        "<li>wiederholst du personalisiert die Fragen, die du am dringendsten lernen solltest </li>" +
-                        "<li>kannst du dir die Lösung anzeigen lassen </li>" +
-                        "<li>werden dir Fragen, die du nicht richtig beantworten konntest, nochmal vorgelegt </li>" +
-                        "</ul>" +
-                        "</div>";
-                    if (result.isInTestMode) {
-                        node[0].firstChild.nodeValue = "Testen";
-                        node[0].setAttribute("data-original-title", testToolTip);
-                    }
-                    else {
-                        node[0].firstChild.nodeValue = "Lernen";
-                        node[0].setAttribute("data-original-title", learningToolTip);
-                    }
-                }
                 if (continueWithNewSession) {
                     $(".SessionSessionHeading").fadeIn();
                     $(".SessionBar").fadeIn();
+                    $("#QuestionListApp").fadeIn();
                 }
                 if (loadedFromVue) {
                     $(".SessionSessionHeading").fadeIn();
@@ -235,11 +175,36 @@ class AnswerBodyLoader {
         });
     }
 
+    private showLearningSessionResult(result) {
+        var container = this._isInLearningTab || $("#AnswerBody").length > 0 ? $('#AnswerBody') : $("#MasterMainWrapper");
+        container.html(result.LearningSessionResult);
+        new LearningSessionResult();
+    }
+
+    private updateUrl(url: string) {
+        if(Modernizr.history)
+            history.pushState({stateType: "BrowserNavigation"}, $(".QuestionText").html(), url);
+    }
+
+    private updateMenu(newMenuHtml: string) {
+        if(newMenuHtml)
+            $("#mainMenuThemeNavigation").replaceWith($(newMenuHtml));
+    }
+
+    private updateSessionHeader(sessionStepData) {
+        if ($("#hddIsLearningSession").val() === "True") {
+            $("#hddIsLearningSession").attr("data-current-step-idx", sessionStepData.currentStepIdx);
+            $("#hddIsLearningSession").attr("data-skip-step-index", sessionStepData.skipStepIdx);
+            $("#hddIsLearningSession").attr("data-is-last-step", sessionStepData.isLastStep);
+            $(".SessionBar .QuestionCount").html(sessionStepData.currentSessionHeader);
+        }
+    }
+
     private updateNavigationBar(navBarData: any) {
         $("#AnswerQuestionPager .Current").replaceWith($(navBarData.currentHtml).find(".Current"));
 
         if (navBarData.nextUrl) {
-            if($("#NextQuestionLink").length === 0)
+            if ($("#NextQuestionLink").length === 0)
                 $("#AnswerQuestionPager .Next").append($(navBarData.currentHtml).find("#NextQuestionLink"));
             else
                 $("#NextQuestionLink").attr("href", navBarData.nextUrl);
@@ -257,36 +222,5 @@ class AnswerBodyLoader {
         }
 
         $("#NextQuestionLink, #PreviousQuestionLink").unbind();
-    }
-
-    private showLearningSessionResult(result) {
-        var container = this._isInLearningTab || $("#AnswerBody").length > 0 ? $('#AnswerBody') : $("#MasterMainWrapper");
-        container.html(result.LearningSessionResult);
-        new LearningSessionResult();
-    }
-
-    private updateSessionHeader(sessionStepData) {
-        if ($("#hddIsTestSession").val() === "True") {
-            $("#hddIsTestSession").attr("data-current-step-idx", sessionStepData.currentStepIdx);
-            $("#hddIsTestSession").attr("data-is-last-step", sessionStepData.isLastStep);
-            $(".SessionBar .QuestionCount").html(sessionStepData.currentSessionHeader);
-        }
-        else if ($("#hddIsLearningSession").val() === "True") {
-            $("#hddIsLearningSession").attr("data-current-step-guid", sessionStepData.currentStepGuid);
-            $("#hddIsLearningSession").attr("data-current-step-idx", sessionStepData.currentStepIdx);
-            $("#hddIsLearningSession").attr("data-skip-step-index", sessionStepData.skipStepIdx);
-            $("#hddIsLearningSession").attr("data-is-last-step", sessionStepData.isLastStep);
-            $(".SessionBar .QuestionCount").html(sessionStepData.currentSessionHeader);
-        }   
-    }
-
-    private updateUrl(url: string) {
-        if(Modernizr.history)
-            history.pushState({stateType: "BrowserNavigation"}, $(".QuestionText").html(), url);
-    }
-
-    private updateMenu(newMenuHtml: string) {
-        if(newMenuHtml)
-            $("#mainMenuThemeNavigation").replaceWith($(newMenuHtml));
     }
 }

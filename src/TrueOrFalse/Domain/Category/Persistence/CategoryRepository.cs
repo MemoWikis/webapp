@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Net;
 using NHibernate;
@@ -342,9 +343,7 @@ public class CategoryRepository : RepositoryDbBase<Category>
 	        AND rc.CategoryRelationType = {(int)CategoryRelationType.IncludesContentOf}
         ) c
         ").UniqueResult<long>();//Union is distinct by default
-
         return (int)count;
-        
     }
 
     public override IList<Category> GetByIds(params int[] categoryIds)

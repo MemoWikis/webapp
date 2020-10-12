@@ -10,15 +10,17 @@ namespace TrueOrFalse.Tests
         
         public List<Category> All = new List<Category>();
 
-        public static ContextCategory New()
+        public static ContextCategory New(bool addContextUser = true)
         {
-            return new ContextCategory();
+            return new ContextCategory(addContextUser);
         }
 
-        private ContextCategory()
+        private ContextCategory(bool addContextUser = true)
         {
             _categoryRepository = Sl.R<CategoryRepository>();
-            _contextUser.Add("Context Category" ).Persist();
+
+            if(addContextUser)
+                _contextUser.Add("Context Category" ).Persist();
         }
 
         public ContextCategory Add(int amount)
@@ -44,8 +46,26 @@ namespace TrueOrFalse.Tests
                     Creator = creator ?? _contextUser.All.First(),
                     Type = categoryType
                 };
+
                 _categoryRepository.Create(category);
             }
+
+            All.Add(category);
+            return this;
+        }
+
+        public ContextCategory AddToEntityCache(string categoryName, CategoryType categoryType = CategoryType.Standard, User creator = null, bool withId = false)
+        {
+            var category = new Category();
+
+            if (withId)
+                category.Id = 0;
+
+            category.Name = categoryName;
+            category.Creator = creator == null ? _contextUser.All.FirstOrDefault() : creator ;
+            category.Type = categoryType;
+
+            EntityCache.AddOrUpdate(category);
 
             All.Add(category);
             return this;

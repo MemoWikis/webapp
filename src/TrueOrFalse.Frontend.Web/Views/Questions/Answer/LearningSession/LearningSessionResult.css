@@ -144,6 +144,9 @@
   margin-top: 40px;
   margin-bottom: 40px;
 }
+.buttonRow .nextLearningTestSession {
+  background: #0065CA;
+}
 .QuestionLearned {
   margin-bottom: 7px;
   border: 1px solid lightgray;

@@ -1,6 +1,8 @@
 ﻿@import (reference) '../../../Style/includes/imports.less';
 .no-white-background;
 //Variables
+@BackgroundColorProgressBar: #EFEFEF ;
+@pixel3: 3px;
 
 //Mixins
 .font-size12-and-padding{
@@ -9,10 +11,16 @@
     padding-left: 10px;
 }
 
+.fontProgressBar {
+    font-family: "Lato";
+    font-weight: bold;
+}
+
 .CardsContentMargin {
     margin-left: 8px;
     margin-right: 8px;
-}
+} 
+
 .navLinks {
     float: right;
     margin-bottom: 10px;
@@ -232,13 +240,13 @@
 .SessionBar {
     font-size: @font-size-base;
     line-height: @line-height-base;
-    border: solid 2px @memo-green;
-    background-color: @memo-green;
-    margin-bottom: 20px;
+    background-color: #dddddd;
+    margin-bottom: 50px;
+    display: flex;
     .clearfix;
 
     .media-below-sm ( {
-        margin-bottom: 0;
+        margin-bottom: 40px;
 
         & + #AnswerBody, & + .row #AnswerBody {
             border-top: none;
@@ -254,60 +262,36 @@
     height: 30px;
 }
 
-.SessionType, .QuestionCount {
-    background-color: @memo-green;
-
-    .media-below-xs( {
-        padding-left: 15px;
-        padding-right: 15px;
-    }
-
-    );
-
-    &, & span {
-        .media-xs-up( {
-            text-align: center;
-        }
-
-        );
-    }
-
-    > span {
-        width: 100%;
-    }
-
-    padding-top: 5px;
-}
-
-.SessionType {
+.QuestionCount {
+    background-color: @BackgroundColorProgressBar;
     float: left;
-
-    span {
-        text-transform: uppercase;
-        font-weight: bold;
+    display: flex;
+    padding-top: 5px;
+    padding-left: 15px;
+    padding-right: 15px;
+   .fontProgressBar();
+    
+    #CurrentStepNumber {
+        padding-right: @pixel3;
+        padding-left: @pixel3;
     }
 
-    .media-xs-up( {
-        width: 20%;
+    #StepCount {
+        padding-left: @pixel3;
     }
-
-    );
-
-    .media-sm-up( {
-        width: 15%;
-    }
-
-    );
-
-    .media-md-up( {
-        width: 11%;
-    }
-
-    );
 }
 
 .ProgressBarContainer {
     display: table;
+    position: relative;
+
+    #spanPercentageDone {
+        position: absolute;
+        right: 5px;
+        margin-top: 5px;
+        z-index: 2;
+        .fontProgressBar;
+    }
 
     .media-below-xs( {
         width: 100%;
@@ -316,19 +300,19 @@
     );
 
     .media-xs-up( {
-        width: 50%;
+        width: 70%;
     }
 
     );
 
     .media-sm-up( {
-        width: 55%;
+        width: 70%;
     }
 
     );
 
     .media-md-up( {
-        width: 70%;
+        width: 81%;
     }
 
     );
@@ -356,7 +340,7 @@
 }
 
 .ProgressBarLeft {
-    background-color: lighten(@memo-green, 30);
+    background-color: @BackgroundColorProgressBar;
 }
 
 .CollectionType {
@@ -403,8 +387,18 @@
     line-height: @line-height-base;
 }
 
+#btnCheck, #btnNext{
+    padding-right: 10px;
+}
+
+
 .QuestionText {
     padding-bottom: 20px;
+    color: #003264;
+    font-size: 25px;
+    font-family:Regular Open Sans, Arial, sans-serif;
+    line-height: 31px;
+    margin: 0;
 
     .media-sm-up ( {
         padding-bottom: 30px;
@@ -792,10 +786,6 @@
             box-shadow: none;
             // padding: 0;
             margin-bottom: 0;
-        }
-
-        .SessionBar {
-            margin-bottom: 15px;
         }
 
         #LicenseQuestion {

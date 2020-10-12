@@ -7,14 +7,7 @@ using System.Linq;
 public class UserCache
 {
     public const int ExpirationSpanInMinutes = 600;
-
     public static string GetCacheKey(int userId) => "UserCashItem_" + userId;
-
-    public static UserCacheItem GetItem(int userId)
-    {
-        var cacheItem = Cache.Get<UserCacheItem>(GetCacheKey(userId));
-        return cacheItem ?? CreateItemFromDatabase(userId);
-    }
 
     public static List<UserCacheItem> GetAllCacheItems()
     {
@@ -27,6 +20,11 @@ public class UserCache
 
         return allUserValuations;
     }
+    public static UserCacheItem GetItem(int userId)
+    {
+        var cacheItem = Cache.Get<UserCacheItem>(GetCacheKey(userId));
+        return cacheItem ?? CreateItemFromDatabase(userId);
+    }
 
     public static UserCacheItem CreateItemFromDatabase(int userId)
     {
@@ -34,7 +32,6 @@ public class UserCache
 
         var cacheItem = new UserCacheItem
         {
-            UserId = userId,
             User = user,
             CategoryValuations = new ConcurrentDictionary<int, CategoryValuation>(
                 Sl.CategoryValuationRepo.GetByUser(userId, onlyActiveKnowledge: false)

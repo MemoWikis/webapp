@@ -24,7 +24,13 @@ public class SessionUser : SessionBase, IRegisterAsInstancePerLifetime
     {
         get => Data.Get("isAdministrativeLogin", false);
         set => Data["isAdministrativeLogin"] = value;
-    } 
+    }
+
+    public LearningSessionNew LearningSession
+    {
+        get => Data.Get<LearningSessionNew>("learningSession");
+        set => Data["learningSession"] = value;
+    }
 
     public User User
     {

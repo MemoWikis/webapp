@@ -10,6 +10,7 @@ public class AnswerBodyModel : BaseModel
     public Guid QuestionViewGuid;
     public string CreationDate;
     public string CreationDateNiceText;
+    public bool AnswerHelp; 
 
     public int QuestionId;
 
@@ -40,7 +41,7 @@ public class AnswerBodyModel : BaseModel
     public bool IsInWidget;
     public bool IsForVideo;
     public bool IsLearningSession;
-    public LearningSession LearningSession;
+    public LearningSessionNew LearningSession;
     public bool IsLastLearningStep = false;
     public bool IsTestSession;
     public int TestSessionProgessAfterAnswering;
@@ -61,7 +62,6 @@ public class AnswerBodyModel : BaseModel
 
     public Func<UrlHelper, string> NextUrl;
     
-    public Func<UrlHelper, string> AjaxUrl_SendAnswer { get; private set; }
     public Func<UrlHelper, string> AjaxUrl_GetSolution { get; private set; }
     public Func<UrlHelper, string> AjaxUrl_CountLastAnswerAsCorrect { get; private set; }
     public Func<UrlHelper, string> AjaxUrl_CountUnansweredAsCorrect { get; private set; }
@@ -70,35 +70,12 @@ public class AnswerBodyModel : BaseModel
 
     public int TotalActivityPoints;
 
-    public AnswerBodyModel(Question question, Game game, Player player, Round round)
-    {
-        QuestionViewGuid = Guid.NewGuid();
-        
-        R<SaveQuestionView>().Run(QuestionViewGuid, question, _sessionUser.User.Id, player, round);
-        
-        var questionValuationForUser = NotNull.Run(Resolve<QuestionValuationRepo>().GetByFromCache(question.Id, UserId));
-        IsInWishknowledge = questionValuationForUser.IsInWishKnowledge();
-
-        if (player != null) 
-        {
-            AjaxUrl_SendAnswer = url => Links.SendAnswer(url, question, game, player, round);
-            AjaxUrl_GetSolution = url => Links.GetSolution(url, question, round);
-        }
-        else
-        {
-            AjaxUrl_SendAnswer = url => Links.SendAnswer(url, question);
-            AjaxUrl_GetSolution = url => Links.GetSolution(url, question);
-        }
-
-        Init(question);
-    }
-
     public AnswerBodyModel(AnswerQuestionModel answerQuestionModel, bool isInLearningTab = false, bool isInTestMode = false)
     {
         QuestionViewGuid = answerQuestionModel.QuestionViewGuid;
 
         IsInWishknowledge = answerQuestionModel.IsInWishknowledge;
-
+        AnswerHelp = answerQuestionModel.AnswerHelp;
 
         IsMobileRequest = answerQuestionModel.IsMobileDevice;
 
@@ -112,22 +89,6 @@ public class AnswerBodyModel : BaseModel
         NextUrl = answerQuestionModel.NextUrl;
 
         IsLastQuestion = !IsLearningSession && !answerQuestionModel.HasNextPage;
-
-        if (answerQuestionModel.IsLearningSession)
-        {
-            AjaxUrl_SendAnswer = url => Links.SendAnswer(
-                url, 
-                answerQuestionModel.Question,
-                answerQuestionModel.LearningSession,
-                answerQuestionModel.LearningSessionStep);
-
-            IsLastLearningStep = answerQuestionModel.IsLastLearningStep;
-        }
-        else
-        {
-            AjaxUrl_SendAnswer = url => Links.SendAnswer(url, answerQuestionModel.Question);
-        }
-
         AjaxUrl_GetSolution = url => Links.GetSolution(url, answerQuestionModel.Question);
 
         CommentCount = answerQuestionModel.Comments.GetTotalCount();
@@ -136,7 +97,6 @@ public class AnswerBodyModel : BaseModel
         DisableAddKnowledgeButton = answerQuestionModel.DisableAddKnowledgeButton;
 
         IsInTestMode = isInTestMode;
-
         Init(answerQuestionModel.Question);
     }
 

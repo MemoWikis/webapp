@@ -17,16 +17,6 @@
         this._answerQuestion = answerQuestion;
     }
 
-    public ShowErrorGame() {
-        $("#divWrongAnswerPlay").show();
-        $("#buttons-first-try").hide();
-        $("#buttons-answer-again").hide();
-
-        $("#divWrongEnteredAnswer").html(this._answerQuestion.AnswersSoFar[0]);
-
-        this.AnimateWrongAnswer();
-    }
-
     public ShowError(text = "", forceShow: boolean = false) {
 
         if (text === "") {
@@ -77,7 +67,7 @@
         $("#wellDoneMsg").html("" + self._successMsgs[Utils.Random(0, self._successMsgs.length - 1)]).show();
     }
 
-    ShowSolution() {
+    ShowSolution(isNotAnswered = false) {
 
         this.ShowNextQuestionLink();
         if (this._answerQuestion.SolutionType !== SolutionType.MatchList &&
@@ -95,10 +85,10 @@
                 $("#divWrongAnswers").show();
             }
         }
-        this.RenderSolutionDetails();
+        this.RenderSolutionDetails(isNotAnswered);
     }
 
-    RenderSolutionDetails() {
+   RenderSolutionDetails(isNotAnswered: boolean) {
         $('#AnswerInputSection').find('.radio').addClass('disabled').find('input').attr('disabled', 'true');
         $('#AnswerInputSection').find('.checkbox').addClass('disabled').find('input').attr('disabled', 'true');
         if (this._answerQuestion.SolutionType === SolutionType.MatchList) {
@@ -116,28 +106,7 @@
         $('#Buttons').css('visibility', 'hidden');
         window.setTimeout(() => { $("#SolutionDetailsSpinner").show(); }, 500);
 
-        AnswerQuestion.AjaxGetSolution(result => {
-
-            if (this._answerQuestion.IsTestSession && this._answerQuestion.AnswersSoFar.length === 0) {
-                //if solution is shown after answering the question in a TestSession, then this does not need to be registered
-                //otherwise, solutionview needs to be registered in the current TestSessionStep
-                $.ajax({
-                    type: 'POST',
-                    url: AnswerQuestion.ajaxUrl_TestSessionRegisterAnsweredQuestion,
-                    data: {
-                        testSessionId: AnswerQuestion.TestSessionId,
-                        questionId: AnswerQuestion.GetQuestionId(),
-                        questionViewGuid: $('#hddQuestionViewGuid').val(),
-                        answeredQuestion: false
-                    },
-                    cache: false
-                });
-
-                this._answerQuestion.UpdateProgressBar(this._answerQuestion.GetCurrentStep());
-
-                AnswerQuestionUserFeedback.IfLastTestQuestionChangeBtnNextToResult();
-            }
-
+        AnswerQuestion.AjaxGetSolution((result) => {
             if (this._answerQuestion.IsLearningSession && this._answerQuestion.AnswersSoFar.length === 0) {
                 //if is learningSession and user asked to show solution before answering, then queue this question to be answered again
                 var self = this;
@@ -147,7 +116,6 @@
                     type: 'POST',
                     url: AnswerQuestion.ajaxUrl_LearningSessionAmendAfterShowSolution,
                     data: {
-                        learningSessionId: this._answerQuestion.LearningSessionId,
                         stepGuid: this._answerQuestion.LearningSessionStepGuid,
                         isInTestMode: isInTestMode,
                     },
@@ -156,7 +124,8 @@
                         if (self._answerQuestion._isLastLearningStep && !result.newStepAdded) {
                             $('#btnNext').html('Zum Ergebnis');
                         }
-                        self._answerQuestion.UpdateProgressBar(result.numberSteps);
+                        result.currentStep = isNotAnswered ? result.currentStep + 1 : result.currentStep;   //the quest has not yet been attached 
+                        self._answerQuestion.UpdateProgressBar(result.numberSteps, null, result.currentStep);
                     }
                 });
             }
@@ -230,18 +199,7 @@
                 this.ShowAnswerDetails();
             }
 
-        });
-    }
-
-    static IfLastTestQuestionChangeBtnNextToResult() {
-        if (AnswerQuestion.IsLastTestSessionStep) {
-            $('#btnNext').html('Zum Ergebnis');
-            $("#btnNext").unbind();
-            $('#hddIsTestSession').attr('data-is-last-step', 'false ');
-            AnswerQuestion.IsLastTestSessionStep = false;
-            new GetResultTestSession();
-           
-        }
+        }, isNotAnswered);
     }
 
     private HighlightMultipleChoiceSolution(correctAnswers: string) {

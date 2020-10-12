@@ -53,7 +53,7 @@ public class SaveQuestionView : IRegisterAsInstancePerLifetime
             Round = round,
             UserAgent = userAgent,
             LearningSession = learningSession,
-            LearningSessionStepGuid = learningSessionStepGuid,
+            LearningSessionStepGuid = new Guid(),
             WidgetView = widgetView
         });
 

@@ -69,7 +69,7 @@ public class ViewRenderer
         var view = viewEngineResult.View;
         controllerContext.Controller.ViewData.Model = model;
 
-        string result = null;
+        string result;
 
         using (var sw = new StringWriter())
         {

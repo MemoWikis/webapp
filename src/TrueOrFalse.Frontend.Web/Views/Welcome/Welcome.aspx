@@ -212,12 +212,6 @@
             </div>
 
             <div id="dashboardFooter">
-                <% if (Model.KnowledgeSummary.Total > 0)
-                    { %>
-                <a href="<%= Links.StartWishLearningSession() %>" data-type="learn-wishknowledge" class="btn btn-lg btn-primary show-tooltip" title="Startet eine persönliche Lernsitzung. Du wiederholst die Fragen aus deinem Wunschwissen, die am dringendsten zu lernen sind.">
-                    <i class="fa fa-line-chart">&nbsp;</i>Jetzt Wunschwissen lernen
-                </a>
-                <% } %>
                 <span class="float-right-sm-up"><a class="btn btn-lg btn-link" href="<%= Links.Knowledge() %>">Mehr auf deiner<span style="text-decoration: none;">&nbsp;&nbsp;</span><i class="fa fa-heart" style="color: #b13a48;">&nbsp;</i>Wissenszentrale</a></span>
             </div>
         </div>

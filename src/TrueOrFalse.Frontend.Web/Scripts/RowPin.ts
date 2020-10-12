@@ -30,7 +30,6 @@ class Pin {
             allPins = $(".Pin[data-category-id]").find(".iAdded, .iAddedNot");
 
         allPins.off('click.rowPin').on('click.rowPin', function (e) {
-
             e.preventDefault();
             if (NotLoggedIn.Yes()) {
                 NotLoggedIn.ShowErrorMsg("Pin_" + PinType[self._pinRowType]);

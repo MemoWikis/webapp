@@ -4,8 +4,9 @@
         
         $("#QuestionDetails").remove();
 
-        if ($("#LearningTab").hasClass("active")) {
+        if ($("#LearningTabWithOptions").hasClass("active")) {
             $(".SessionBar").hide();
+            $("#QuestionListApp").hide();
             $(".SessionHeading").hide();
         }
 
@@ -33,8 +34,10 @@
             $(".dateSets").toggle(300);
         });
 
-        $(".nextLearningTestSession").click((e) => {
+        $(".nextLearningSession").click((e) => {
             e.preventDefault();
+            eventBus.$emit('update-selected-page', 1);
+            eventBus.$emit('change-active-question', 0);
             $(".EduPartnerWrapper").remove();
             $("#QuestionCountCompletSideBar").fadeIn(); 
             var answerBody = new AnswerBody();

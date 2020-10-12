@@ -2,12 +2,11 @@
 declare var Vue: any;
 
 Vue.component('question-details-component', {
-    props: ['modelQuestionId', 'isInLearningTab'],
+    props: ['questionId'],
     template: '#question-details-component',
 
     data() {
         return {
-            questionId: parseInt(this.modelQuestionId),
             personalProbability: 0,
             personalProbabilityText: "Nicht im Wunschwissen",
             personalColor: "#DDDDDD",
@@ -84,12 +83,12 @@ Vue.component('question-details-component', {
         };
     },
 
+    beforeCreate() {
+        eventBus.$off('set-question-id');
+    },
+
     created() {
         var self = this;
-        eventBus.$on('suicide', () => {
-            eventBus.$off();
-            this.$destroy();
-        });
         eventBus.$on('set-question-id',
             (id) => {
                 id = parseInt(id);

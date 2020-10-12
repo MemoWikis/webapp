@@ -1,18 +1,19 @@
 ﻿class Tabbing {
 
     private _reloadPins: boolean = false;
-    private _categoryId :number;
+    private _categoryId: number;
+
     constructor(categoryId) {
+        $('#LearnOptionsHeader').tooltip();
+
         this._categoryId = categoryId;
 
         if (window.location.pathname.indexOf("/Lernen") >= 0) {
-            var answerBody = new AnswerBody();
             $("#LearningTabContent").css("visibility", "visible");
             Utils.ShowSpinner();
+            $("#LearnOptionsHeader").removeClass("disable");
+            $("#SessionConfigReminderHeader").removeClass("hide");
 
-            if (answerBody.IsTestSession()) {
-                answerBody.Loader.loadNewTestSession();
-            }
 
             $('#hddLearningSessionStarted').val("True");
 
@@ -21,13 +22,27 @@
             });
         }
 
+        $("#LearnOptionsHeader").on("click", () => {
+            if (window.location.pathname.indexOf("/Lernen") >= 0) 
+                eventBus.$emit('openLearnOptions');
+        }); 
 
         $('#TabsBar .Tab').each((index, item) => {
 
             var tab = $(item);
             var tabName = tab.attr('id');
 
-            tab.click((e) =>  {
+            if (tabName == "LearningTabWithOptions")
+                return;
+
+            tab.click((e) => {
+                if (window.location.pathname.indexOf("/Lernen") >= 0) {
+                    $("#LearnOptionsHeader").removeClass("disable");
+                    $("#SessionConfigReminderHeader").removeClass("hide");
+                } else {
+                    $("#LearnOptionsHeader").addClass("disable");
+                    $("#SessionConfigReminderHeader").addClass("hide");
+                }
 
                 e.preventDefault();
                 if (tab.hasClass('LoggedInOnly') && NotLoggedIn.Yes()) {
@@ -48,21 +63,14 @@
                 var currentTarget = $(event.currentTarget);
                 var tabName = currentTarget.attr('data-tab-id');
 
-                var gaEventLabel = 'LearningTab-footer';
                 if (tabName === "AnalyticsTab")
-                    gaEventLabel = 'AnalyticsTab-footer';
+                   
 
                 Utils.ShowSpinner();
                 this.RenderTabContent(tabName);
 
                 if (tabName === "LearningTab" && $('#hddLearningSessionStarted').val() === "False" && $('#hddQuestionCount').val() !== "0") {
-                    var answerBody = new AnswerBody();
-
                     Utils.ShowSpinner();
-
-                    if (answerBody.IsTestSession()) {
-                        answerBody.Loader.loadNewTestSession();
-                    }
 
                     $('#hddLearningSessionStarted').val("True");
 
@@ -76,22 +84,23 @@
     }
 
     public RenderTabContent(tabName: string): void {
-        var url = "/Category/Tab/?tabName=" + tabName + "&categoryId=" + this._categoryId;
+        if (tabName == "LearningTabWithOptions")
+            return;
 
+        if (tabName == "LearningTabWithOptions")
+            tabName = "LearningTab";
+
+        var url = "/Category/Tab/?tabName=" + tabName + "&categoryId=" + this._categoryId;
         $.get(url, (html) => {
             Utils.HideSpinner();
+
             $('#' + tabName + 'Content').empty().append(html);
 
             if (tabName == "LearningTab" && $('#hddLearningSessionStarted').val() == "False" && $('#hddQuestionCount').val() != 0) {
-                var answerBody = new AnswerBody();
                 if (!$("#LearningTabContent").css("visibility", "visible"))
                     $("#LearningTabContent").css("visibility", "visible");
 
                 Utils.ShowSpinner();
-
-                if (answerBody.IsTestSession()) {
-                    answerBody.Loader.loadNewTestSession();
-                }
 
                 $('#hddLearningSessionStarted').val("True");
 
@@ -103,32 +112,27 @@
                 this.loadKnowledgeData();
             }
 
-            if (tabName == "TopicTab" && this._reloadPins ) {
+            if (tabName == "TopicTab" ) {
                 new Pin(PinType.Category, KnowledgeBar.ReloadCategory);
                 this._reloadPins = false;
             }
         });
-
-
-    }
-
-    private InitializeLearningTab(): void{
-        var answerBody = new AnswerBody();
-
-        if (answerBody.IsTestSession())
-            answerBody.Loader.loadNewTestSession();
-
-        $('#hddLearningSessionStarted').val("True");
     }
 
     private ContentIsPresent(tabName: string): boolean {
+        if (tabName == "LearningTabWithOptions")
+            tabName = "LearningTab";
+
         return !($.trim($('#' + tabName + 'Content').html())=='');
     }
 
     private ShowTab(tabName: string): void {
-
         $('.Tab').removeClass('active');
-        $('#' + tabName).addClass('active');
+        if (tabName == "LearningTabWithOptions" || tabName == "LearningTab") {
+            $('#LearningTabWithOptions').addClass('active');
+            tabName = "LearningTab";
+        } else
+            $('#' + tabName).addClass('active');
 
         $('.TabContent').fadeOut(200);
 
@@ -145,6 +149,5 @@
                     .html(data);
             }
         });
-
     }
 }

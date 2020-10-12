@@ -56,43 +56,18 @@
         var relevanceForAllAvg = "<%= Model.TotalRelevanceForAllAvg %>";
         var relevanceForAllEntries = "<%= Model.TotalRelevanceForAllEntries %>";
     </script>
-    
-    <%  if (Model.IsTestSession)
-        {
-            var testSession = Model.TestSession;
-
-            if (testSession.IsSetSession)
+    <%
+         if(Model.IsLearningSession)
+    {
+            if (!Model.LearningSession.Config.InWishknowledge)
             {
-                Model.TopNavMenu.BreadCrumb.Add(new TopNavMenuItem {Text = testSession.SetName, Url = testSession.SetLink});
-            }
-            else if (testSession.IsSetsSession)
-            {
-                Model.TopNavMenu.BreadCrumb.Add(new TopNavMenuItem {Text = testSession.SetListTitle, Url = testSession.SetLink});
-            }
-            else
-            {
-                Model.TopNavMenu.BreadCrumb.Add(new TopNavMenuItem {Text = testSession.CategoryToTest.Name, Url = testSession.CategoryToTest.Url});
-                Model.TopNavMenu.IsCategoryLearningBreadCrumb = true;
-            }
-        }
-        else if(Model.IsLearningSession)
-        {
-            if (Model.LearningSession.SetToLearn != null)
-            {
-                Model.TopNavMenu.BreadCrumb.Add(new TopNavMenuItem {Text = Model.LearningSession.SetToLearn.Name, Url = Links.SetDetail(Url, Model.LearningSession.SetToLearn)});
-            }
-            else
-            {
-                if (!Model.LearningSession.IsWishSession)
+                if (Model.LearningSession.Config.Category != null)
                 {
-                    if (Model.LearningSession.CategoryToLearn != null)
-                    {
-                        Model.TopNavMenu.BreadCrumb.Add(new TopNavMenuItem {Text = Model.LearningSession.CategoryToLearn.Name, Url = Links.CategoryDetail( Model.LearningSession.CategoryToLearn)});
-                    }
+                    Model.TopNavMenu.BreadCrumb.Add(new TopNavMenuItem {Text = Model.LearningSession.Config.Category.Name, Url = Links.CategoryDetail( Model.LearningSession.Config.Category)});
                 }
-                Model.TopNavMenu.IsCategoryLearningBreadCrumb = true;
             }
-        }
+            Model.TopNavMenu.IsCategoryLearningBreadCrumb = true;
+            }
         else
         {
             if (Model.SetMinis.Count != 0)
@@ -109,19 +84,8 @@
 </asp:Content>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">  
-<div class="container">
-    <input type="hidden" id="hddIsLearningSession" value="<%= Model.IsLearningSession %>" 
-        data-learning-session-id="<%= Model.IsLearningSession ? Model.LearningSession.Id : -1 %>"
-        data-current-step-guid="<%= Model.IsLearningSession ? Model.LearningSessionStep.Guid.ToString() : "" %>"
-        data-current-step-idx="<%= Model.IsLearningSession ? Model.LearningSessionStep.Idx : -1 %>"
-        data-is-last-step="<%= Model.IsLastLearningStep %>"
-        data-skip-step-index = "-1" />
-    <input type="hidden" id="hddIsTestSession" value="<%= Model.IsTestSession %>" 
-        data-test-session-id="<%= Model.IsTestSession ? Model.TestSessionId : -1 %>"
-        data-current-step-idx="<%= Model.IsTestSession ? Model.TestSessionCurrentStep : -1 %>"
-        data-is-last-step="<%= Model.TestSessionIsLastStep %>"/>
-    <input type="hidden" id="hddQuestionId" value="<%= Model.QuestionId %>"/>
-    <input type="hidden" id="hddIsLandingPage" value="<%=Model.PageCurrent == null ? "2" : Model.PageCurrent %>"/>  <%-- value "1" is Questionsite , value 2 is LandingPage, Test or Learningsession is this input not available--%> 
+<div class="container">                             
+<input type="hidden" id="hddIsLandingPage" value="<%=Model.PageCurrent == null ? "2" : Model.PageCurrent %>"/>  <%-- value "1" is Questionsite , value 2 is LandingPage, Test or Learningsession is this input not available--%> 
 
 
 <% if (Model.IsLearningSession) { %>
@@ -164,6 +128,7 @@
             
            </div>
         <div class="row" style="margin-top: 30px; color: darkgray; font-weight: bold;">
+            <div id="JumpLabel" style="position: absolute; height: 0 !important; margin: 100px !important;"></div>
             <div class="col-xs-4">
                 <h4 style="padding:0; margin:0;">Kommentare<a name="comments"></a></h4>    
             </div>

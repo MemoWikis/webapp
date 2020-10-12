@@ -1,24 +1,14 @@
 ﻿@media (min-width: 768px) {
-}
-@media (min-width: 768px) {
-}
-@media (max-width: 767px) {
-}
-@media (min-width: 768px) {
-}
-@media (min-width: 768px) {
-}
-@media (min-width: 768px) {
-}
-@media (max-width: 767px) {
-}
-@media (max-width: 767px) {
-}
-@media (max-width: 649px) {
-}
-@media (min-width: 650px) {
-}
-#CategoryHeader {
+}@media (min-width: 768px) {
+}@media (max-width: 767px) {
+}@media (min-width: 768px) {
+}@media (min-width: 768px) {
+}@media (min-width: 768px) {
+}@media (max-width: 767px) {
+}@media (max-width: 767px) {
+}@media (max-width: 649px) {
+}@media (min-width: 650px) {
+}#CategoryHeader {
   font-size: 18px;
 }
 #CategoryHeader #TabsBar {
@@ -80,6 +70,53 @@
 #CategoryHeader .Tabs .Tab.active a:active,
 #CategoryHeader .Tabs .Tab.active a:focus {
   outline: none;
+}
+#CategoryHeader #LearningTabWithOptions {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 45px;
+}
+#CategoryHeader #LearningTabWithOptions .session-config-reminder-header {
+  border-radius: 0%;
+  webkit-border-radius: 0;
+  position: absolute;
+  width: 122px;
+  max-width: 122px;
+  margin-bottom: 100px;
+  margin-left: 154%;
+}
+@media only screen and (max-width: 992px) {
+  #CategoryHeader #LearningTabWithOptions .session-config-reminder-header {
+    margin-left: 156%;
+  }
+}
+@media only screen and (max-width: 768px) {
+  #CategoryHeader #LearningTabWithOptions .session-config-reminder-header {
+    margin-left: 173px;
+  }
+}
+@media only screen and (max-width: 480px) {
+  #CategoryHeader #LearningTabWithOptions .session-config-reminder-header {
+    margin-left: 156px;
+  }
+}
+#CategoryHeader #LearningTabWithOptions #LearnOptionsHeader {
+  padding-right: 10px;
+}
+@media only screen and (max-width: 768px) {
+  #CategoryHeader #LearningTabWithOptions #LearnOptionsHeader {
+    padding-right: 0px;
+  }
+}
+#CategoryHeader #LearningTabWithOptions .disable::before {
+  color: #999999;
+}
+#CategoryHeader #LearningTabWithOptions #LearningTab {
+  width: auto;
+}
+#CategoryHeader #LearningTabWithOptions #LearningTab a {
+  padding-right: 5px;
 }
 #CategoryHeader #ManagementMobile {
   display: none;

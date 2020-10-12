@@ -1,23 +1,14 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Concurrent;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text.RegularExpressions;
+﻿using System.Linq;
 using System.Web.Mvc;
-using MarkdownSharp;
-using Microsoft.Ajax.Utilities;
-using Newtonsoft.Json;
-using RabbitMQ.Client.Framing.Impl;
 using TrueOrFalse.Frontend.Web.Code;
 using TrueOrFalse.Web;
-
 public class QuestionListController : BaseController
 {
+ 
     [HttpPost]
-    public JsonResult LoadQuestions(int categoryId, int itemCount, int pageNumber)
+    public JsonResult LoadQuestions( int itemCountPerPage, int pageNumber)
     {
-        var newQuestionList = QuestionListModel.PopulateQuestionsOnPage(categoryId, pageNumber, itemCount, IsLoggedIn);
+        var newQuestionList = QuestionListModel.PopulateQuestionsOnPage( pageNumber, itemCountPerPage, IsLoggedIn);
         return Json(newQuestionList);
     }
 

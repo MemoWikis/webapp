@@ -8,7 +8,7 @@ public class GetQuestionSolution
 {
     public static QuestionSolution Run(int questionId)
     {
-        var question = Sl.R<QuestionRepo>().GetById(questionId);
+        var question = EntityCache.GetQuestionById(questionId);
         return Run(question);
     }
 

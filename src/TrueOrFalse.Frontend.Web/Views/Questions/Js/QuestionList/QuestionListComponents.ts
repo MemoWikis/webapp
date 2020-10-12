@@ -1,11 +1,248 @@
-﻿declare var Vue: any;
+﻿ declare var Vue: any;
 declare var VueAdsPagination: any;
+declare var VueSlider: any;
+
+Vue.component('session-config-component', {
+    components: {
+        VueSlider: window['vue-slider-component']
+    },
+    props: ['questionsCount','allQuestionsCountFromCategory'],
+    data() {
+        return {
+            answerBody: new AnswerBody(),
+            probabilityRange: [0, 100],
+            questionFilter: {
+                minProbability: 0,
+                maxProbability: 99.9,
+                maxQuestionCount: 0,
+                inWishknowledge: true,
+                createdByCurrentUser: true,
+                allQuestions: true,
+                isNotQuestionInWishKnowledge: true,
+                isInTestMode: false,
+                safeLearningSessionOptions: false,
+                categoryId: $('#hhdCategoryId').val(),
+                answerHelp: true,
+                repititions: true,
+                randomQuestions: false
+            },
+            isLoggedIn: true,
+            maxSelectableQuestionCount: 0,
+            selectedQuestionCount: 0,
+            inWishknowledge: true,
+            percentages: '{value}%',
+            maxQuestionCountIsZero: false,
+            isTestMode: false,
+            isTestModeOrNotLoginIn: false,
+            isHoveringOptions: false,
+            radioHeight: 0,
+            openLogin: false,
+            createdByCurrentUser: true,
+            allQuestions: true,
+            isNotQuestionInWishKnowledge: true,
+            safeLearningSessionOptions: false,
+            displayNone: true,
+            randomQuestions: false,
+            answerHelp: true,
+            repititions: true,
+            categoryName: $("#hhdCategoryName").val()
+        };
+    },created() {
+        eventBus.$on('openLearnOptions', ()=>{this.openModal()}); 
+    },
+    mounted() {
+        var self = this;
+        this.loadQuestionCount();
+        if (NotLoggedIn.Yes()) {
+            this.title = 'Test';
+            this.isLoggedIn = false;
+            this.isTestModeOrNotLoginIn = IsLoggedIn; 
+        };
+
+        this.$nextTick(function() {
+            window.addEventListener('resize', this.matchSize);
+            this.matchSize();
+        });
+
+        $('#SessionConfigModal').on('shown.bs.modal',
+            function() {
+                self.matchSize();
+            });
+        $('#SessionConfigModal').on('hidden.bs.modal',
+            function() {
+                if (self.openLogin)
+                    Login.OpenModal();
+            });
+    },
+    watch: {
+        probabilityRange: function () {
+            this.questionFilter.minProbability = this.probabilityRange[0];
+            this.questionFilter.maxProbability = this.probabilityRange[1];
+            this.loadQuestionCount();
+        },
+        isTestMode: function(val) {
+            this.questionFilter.isInTestMode = val;
+            this.isTestModeOrNotLoginIn = val;
+            if (val == true) {
+                this.randomQuestions = true;
+                this.answerHelp = false;
+                this.repititions = false;
+            } else {
+                this.randomQuestions = false;
+                this.answerHelp = true;
+                this.repititions = true;
+            }
+            
+        },
+        selectedQuestionCount: function (val) {
+            this.questionFilter.maxQuestionCount = parseInt(val);
+        },
+        inWishknowledge: function (val) {
+            if (val == true && this.isNotQuestionInWishKnowledge && this.createdByCurrentUser) 
+                this.allQuestions = true;
+            else
+                this.allQuestions = false;
+            
+            this.loadQuestionCount();
+        },
+        createdByCurrentUser: function (val) {
+            if (val == true && this.isNotQuestionInWishKnowledge && this.inWishknowledge)
+                this.allQuestions = true;
+            else
+                this.allQuestions = false;
+
+            this.loadQuestionCount();
+        },
+        allQuestions: function (val) {
+
+                if (val == true) {
+                    this.inWishknowledge = true;
+                    this.createdByCurrentUser = true;
+                    this.isNotQuestionInWishKnowledge = true;
+            }
+            if (val == false &&
+                this.inWishknowledge == true &&
+                this.createdByCurrentUser == true &&
+                this.isNotQuestionInWishKnowledge == true)
+            {
+                this.inWishknowledge = false;
+                this.createdByCurrentUser = false;
+                this.isNotQuestionInWishKnowledge = false;
+            }
+            
+            this.loadQuestionCount();
+        },
+        isNotQuestionInWishKnowledge: function (val) {
+            if (val == true && this.inWishknowledge && this.createdByCurrentUser)
+                this.allQuestions = true;
+            else
+                this.allQuestions = false;
+
+            this.loadQuestionCount();
+        },
+        safeLearningSessionOptions: function (val) {
+            this.questionFilter.safeLearningSessionOptions = val;
+        },
+        randomQuestions: function () {
+            this.questionFilter.randomQuestions = this.randomQuestions;
+        },
+        answerHelp: function (val) {
+            this.questionFilter.answerHelp = this.answerHelp;
+            if (this.answerHelp == true) {
+                this.isTestMode = false;
+                this.questionFilter.isInTestMode = false; 
+            }
+                
+        },
+        repititions: function () {
+            this.questionFilter.repititions = this.repititions;
+            if (this.repititions == true) {
+                this.isTestMode = false;
+                this.questionFilter.isInTestMode = false;
+            }
+        },
+        'questionFilter.maxQuestionCount': function (val) {
+            this.maxQuestionCountIsZero = val === 0;
+        }
+    },
+    methods: {
+        loadQuestionCount() {
+            this.safeQuestionFilter();
+
+            $.ajax({
+                url: "/AnswerQuestion/GetQuestionCount/",
+                data: {
+                    config: this.questionFilter
+                },
+                type: "POST",
+                success: result => {
+                    result = parseInt(result);
+                    this.maxSelectableQuestionCount = result;
+                    this.selectedQuestionCount = result;
+                }
+            });
+        },
+        resetQuestionFilter() {
+            this.questionFilter = {
+                minProbability: 0,
+                maxProbability: 100,
+                maxQuestionCount: this.isLoggedIn ? 10 : 5,
+                questionsInWishknowledge: false,
+                isNotQuestionInWishKnowledge: false,
+                userIsAuthor: false,
+                allQuestions: false
+            };
+        },
+        loadCustomSession() {
+            if (this.maxQuestionCountIsZero)
+                return;
+            eventBus.$emit('update-selected-page', 1);
+            AnswerQuestion.LogTimeForQuestionView();
+
+            this.safeQuestionFilter();
+            this.answerBody.Loader.loadNewSession(this.questionFilter, true);
+            $('#SessionConfigModal').modal('hide');
+            this.questionFilter.safeLearningSessionOptions = this.safeLearningSessionOptions = false;
+            eventBus.$emit("send-selected-questions", this.selectedQuestionCount);
+
+        },
+        matchSize() {
+            this.radioHeight = this.$refs.radioSection.clientHeight;
+        },
+        openModal() {
+            this.loadQuestionCount();
+            $('#SessionConfigModal').modal('show');
+            this.openLogin = false;
+            $(".data-btn-login").click();
+        },
+        goToLogin() {
+            this.openLogin = true;
+            $('#SessionConfigModal').modal('hide');
+        },
+        safeQuestionFilter() {
+            this.questionFilter.allQuestions = this.allQuestions;
+            this.questionFilter.isNotQuestionInWishKnowledge = this.isNotQuestionInWishKnowledge;
+            this.questionFilter.inWishknowledge = this.inWishknowledge;
+            this.questionFilter.createdByCurrentUser = this.createdByCurrentUser;
+            this.questionFilter.safeLearningSessionOptions = this.safeLearningSessionOptions;
+            this.questionFilter.isInTestMode = this.isTestMode;
+            this.questionFilter.maxQuestionCount = this.selectedQuestionCount;
+            this.questionFilter.maxProbability = this.probabilityRange[1] === 100 ? 100 : this.probabilityRange[1];
+            this.questionFilter.minProbability = this.probabilityRange[0] === 0 ? 0 : this.probabilityRange[0];
+        }
+    }
+});
 
 Vue.component('question-list-component', {
+    components: {
+        VueSlider: window['vue-slider-component']
+    },
     props: [
         'categoryId',
-        'allQuestionCount',
-        'isAdmin'],
+        'isAdmin',
+        'isQuestionListToShow',
+        'activeQuestion',
+        'selectedPageFromActiveQuestion'],
     data() {
         return {
             pages: 0,
@@ -26,21 +263,24 @@ Vue.component('question-list-component', {
             pageIsLoading: false,
         };
     },
-
     created() {
         eventBus.$on('reload-knowledge-state', () => this.loadQuestions(this.selectedPage));
         eventBus.$on('reload-wishknowledge-state-per-question', (data) => this.changeQuestionWishknowledgeState(data.questionId, data.isInWishknowledge));
         eventBus.$on('reload-correctnessprobability-for-question', (id) => this.getUpdatedCorrectnessProbability(id));
-    },
+        eventBus.$on('load-questions-list', () => this.initQuestionList());
+        eventBus.$on('update-selected-page', (selectedPage) => {this.selectedPage = selectedPage});
 
+    },
     mounted() {
         this.categoryId = $("#hhdCategoryId").val();
-        this.initQuestionList();
+        
     },
-
     watch: {
         itemCountPerPage: function (val) {
             this.pages = Math.ceil(this.allQuestionCount / val);
+        },
+        selectedPageFromActiveQuestion: function(val) {
+            this.selectedPage = val;
         },
         questions: function() {
             if (this.questions.length > 0)
@@ -53,10 +293,11 @@ Vue.component('question-list-component', {
         },
         pages: function (val) {
             let newArray = [];
-            let currentNumber = 1;
-            for (let i = 0; currentNumber < val + 1; i++) {
-                newArray.push(currentNumber);
-                currentNumber = currentNumber + 1;
+
+            let startNumber = 1;
+            for (let i = 0; startNumber < val + 1; i++) {
+                newArray.push(startNumber);
+                startNumber = startNumber + 1;
             }
             this.pageArray = newArray;
         },
@@ -75,22 +316,16 @@ Vue.component('question-list-component', {
                 this.showRightPageSelector = false;
         }
     },
-
     methods: {
         initQuestionList() {
-            this.pages = Math.ceil(this.allQuestionCount / this.itemCountPerPage);
-            this.loadQuestions(1);
+            this.loadQuestions(this.selectedPage);
         },
-
         loadQuestions(selectedPage) {
-            if (this.pageIsLoading)
-                return;
             this.pageIsLoading = true;
             $.ajax({
                 url: "/QuestionList/LoadQuestions/",
                 data: {
-                    categoryId: this.categoryId,
-                    itemCount: this.itemCountPerPage,
+                    itemCountPerPage: this.itemCountPerPage,
                     pageNumber: selectedPage,
                 },
                 type: "POST",
@@ -99,7 +334,10 @@ Vue.component('question-list-component', {
                     this.selectedPage = selectedPage;
                     this.showLeftSelectionDropUp = false;
                     this.showRightSelectionDropUp = false;
-
+                    if (typeof questions[0] != "undefined")
+                        this.pages = Math.ceil(questions[0].LearningSessionStepCount / this.itemCountPerPage);
+                    else
+                        this.pages = 1;
                     this.$nextTick(function () {
                         this.setPaginationRanges(selectedPage);
                         new Pin(PinType.Question);
@@ -107,10 +345,7 @@ Vue.component('question-list-component', {
                     this.pageIsLoading = false;
                 },
             });
-
         },
-
-
         setPaginationRanges(selectedPage) {
             if ((selectedPage - 2) <= 2) {
                 this.hideLeftPageSelector = true;
@@ -139,17 +374,14 @@ Vue.component('question-list-component', {
                 this.centerArray = this.pageArray;
             };
         },
-
         loadPreviousQuestions() {
             if (this.selectedPage != 1)
                 this.loadQuestions(this.selectedPage - 1);
         },
-
         loadNextQuestions() {
             if (this.selectedPage != this.pageArray.length)
                 this.loadQuestions(this.selectedPage + 1);
         },
-
         changeQuestionWishknowledgeState(questionId, isInWishknowledge) {
             for (var q in this.questions) {
                 if (this.questions[q].Id == questionId) {
@@ -158,7 +390,6 @@ Vue.component('question-list-component', {
                 }
             }
         },
-
         getUpdatedCorrectnessProbability(id) {
             $.ajax({
                 url: "/QuestionList/GetUpdatedCorrectnessProbability/",
@@ -177,7 +408,7 @@ Vue.component('question-list-component', {
     },
 });
 
-Vue.component('question-component', {
+let v = Vue.component('question-component', {
     props: [
         'questionId',
         'questionTitle',
@@ -187,7 +418,13 @@ Vue.component('question-component', {
         'url',
         'hasPersonalAnswer',
         'isAdmin',
-        'selectedPage'],
+        'selectedPage',
+        'isQuestionListToShow',
+        'questionIndex',
+        'activeQuestion',
+        'selectedPageFromActiveQuestion',
+        'lengthOfQuestionsArray'
+    ],
     data() {
         return {
             answer: "",
@@ -212,7 +449,7 @@ Vue.component('question-component', {
             isCreator: false,
             editUrl: "",
             historyUrl: "",
-            linkToComments: this.url + "#QuestionComments",
+            linkToComments: this.url + "#JumpLabel",
             topicTitle: "Thema",
             authorUrl: "",
             questionDetails: "",
@@ -221,15 +458,17 @@ Vue.component('question-component', {
             correctAnswers: "0",
             wrongAnswers: "0",
         }   
-    },
-    
+        },
     mounted() {
         this.correctnessProbability = this.knowledgeState + "%";
         this.setKnowledgebarData(this.knowledgeState);
         this.getWishknowledgePinButton();
+        $("#BorderQuestionList").height($(".drop-down-question-sort").height() + $("#QuestionListApp").height());
     },
-    
     watch: {
+        isQuestionListToShow() {
+            this.expandQuestion();
+        },
         knowledgeState(val) {
             this.setKnowledgebarData(val);
             this.correctnessProbability = this.knowledgeState + "%";
@@ -259,9 +498,8 @@ Vue.component('question-component', {
             this.pinId = "QuestionListPin-" + this.questionId;
             this.questionTitleId = "#QuestionTitle-" + this.questionId;
             this.questionDetailsId = "QuestionDetails-" + this.questionId;
-        }
+        },
     },
-    
     methods: {
         abbreviateNumber(val) {
             var newVal;
@@ -273,7 +511,6 @@ Vue.component('question-component', {
                 return newVal.toFixed(2).toLocaleString("de-DE") + " Mio.";
             }
         },
-
         setKnowledgebarData(val) {
             if (this.isInWishknowledge) {
                 if (this.hasPersonalAnswer) {
@@ -297,14 +534,12 @@ Vue.component('question-component', {
             }
     
         },
-    
         expandQuestion() {
             this.showFullQuestion = !this.showFullQuestion;
             if (this.allDataLoaded == false) {
                 this.loadQuestionBody();
             };
         },
-    
         loadQuestionBody() {
             $.ajax({
                 url: "/QuestionList/LoadQuestionBody/",
@@ -344,21 +579,12 @@ Vue.component('question-component', {
                 },
             });
         },
-    
-        setKnowledgeState() {
-    
-        },
-    
-        loadQuestionComments() {
-    
-        },
-
         getWishknowledgePinButton() {
             var pinId = "#" + this.pinId;
             $.ajax({
                 url: "/QuestionList/RenderWishknowledgePinButton/",
                 data: {
-                    isInWishknowledge: this.isInWishknowledge,
+                    isInWishknowledge: this.isInWishknowledge
                 },
                 type: "POST",
                 success: partialView => {
@@ -366,7 +592,6 @@ Vue.component('question-component', {
                 }
             });
         },
-    
         getEditUrl() {
             $.ajax({
                 url: "/QuestionList/GetEditUrl/",
@@ -379,5 +604,18 @@ Vue.component('question-component', {
                 }
             });
         },
+        loadSpecificQuestion: function() {
+            var answerBody = new AnswerBody();
+            let index = (this.selectedPage - 1) * 25 + this.questionIndex;
+            answerBody.Loader.loadNewQuestion("/AnswerQuestion/RenderAnswerBodyByLearningSession/" +
+                "?skipStepIdx=-5" +
+                "&index=" + index);
+
+            eventBus.$emit('change-active-page', this.selectedPage);
+            eventBus.$emit('change-active-question', this.questionIndex);
+
+            ; 
+            eventBus.$emit('update-progress-bar', this.lengthOfQuestionsArray, index);
+        }
     },
 });

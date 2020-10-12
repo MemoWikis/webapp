@@ -59,16 +59,16 @@
 
     private hasAndSetTabActive() {
         let url = window.location.pathname;
-        if (url.indexOf("Lernen") > 0 && !$("#LearningTab").hasClass("active")) {
+        if (url.indexOf("Lernen") > 0 && !$("#LearningTabWithOptions").hasClass("active")) {
             $("#AnalyticsTab").removeClass("active");
             $("#TopicTab").removeClass("active");
-            $("#LearningTab").addClass("active");
+            $("#LearningTabWithOptions").addClass("active");
         } else if (url.indexOf("Wissensnetz") > 0 && !$("#AnalyticsTab").hasClass("active")) {
-            $("#LearningTab").removeClass("active");
+            $("#LearningTabWithOptions").removeClass("active");
             $("#TopicTab").removeClass("active");
             $("#AnalyticsTab").addClass("active");
         } else {
-            $("#LearningTab").removeClass("active");
+            $("#LearningTabWithOptions").removeClass("active");
             $("#AnalyticsTab").removeClass("active");
             $("#TopicTab").addClass("active");
         }

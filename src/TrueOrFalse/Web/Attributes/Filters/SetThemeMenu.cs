@@ -54,6 +54,7 @@ namespace System.Web.Mvc
                         ? Sl.SetRepo.GetById(Convert.ToInt32(httpContextData["setId"])).Categories
                         : ThemeMenuHistoryOps.GetQuestionCategories(Convert.ToInt32(httpContextData["id"])));
                 }
+                //this cant deleted we have no TestSession
 
                 if (_isTestSessionPage)
                 {
@@ -80,19 +81,18 @@ namespace System.Web.Mvc
 
                 if (_isLearningSessionPage)
                 {
-                    var learningSession = Sl.LearningSessionRepo.GetById(Convert.ToInt32(httpContextData["learningSessionId"]));
-                    if(learningSession.CategoryToLearn != null)
-                        activeCategories.Add(learningSession.CategoryToLearn);
-                    else if (learningSession.SetToLearn != null)
-                        activeCategories.AddRange(learningSession.SetToLearn.Categories);
-                    else
-                    {
-                        if (learningSession.CurrentLearningStepIdx() != -1)
-                            activeCategories.AddRange(learningSession.Steps[learningSession.CurrentLearningStepIdx()]
-                                .Question.Categories);
-                    }
-                        
-
+                    //var learningSession = Sl.SessionUser.LearningSession;
+                    //if (learningSession.CurrentStep.Question.Categories.Count != 0)
+                    //    activeCategories.Add(learningSession.CategoryToLearn);
+                    //else if (learningSession.SetToLearn != null)
+                    //    activeCategories.AddRange(learningSession.SetToLearn.Categories);
+                    //else
+                    //{
+                    //    if (learningSession.CurrentLearningStepIdx() != -1)
+                    //        activeCategories.AddRange(learningSession.Steps[learningSession.CurrentLearningStepIdx()]
+                    //            .Question.Categories);
+                    //}
+                    activeCategories.Add(Sl.CategoryRepo.GetByIdEager(684));
                 }
                 userSession.TopicMenu.PageCategories = activeCategories;
             }

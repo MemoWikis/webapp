@@ -66,10 +66,14 @@
                         <%= Model.Category.Type == CategoryType.Standard ? "Thema" : "Übersicht" %>
                     </a>
                 </div>
-                <div id="LearningTab" class="Tab" data-url="<%=Links.CategoryDetailLearningTab(Model.Name, Model.Id) %>">
-                    <a href="" >
-                        Lernen
-                    </a>
+                <div id="LearningTabWithOptions" class="Tab">
+                    <img src="/Images/Various/SessionConfigReminder.svg" id="SessionConfigReminderHeader" class="session-config-reminder-header hide">
+                    <div id="LearningTab" class="Tab" data-url="<%=Links.CategoryDetailLearningTab(Model.Name, Model.Id) %>">
+                        <a href="" >
+                            Lernen
+                        </a>
+                    </div>
+                    <div id="LearnOptionsHeader" class="fa fa-cog disable" aria-hidden="true" data-toggle="tooltip" data-html="true" title="<p style='width: 200px'><b>Persönliche Filter helfen Dir</b>. Nutze die Lernoptionen und entscheide welche Fragen Du lernen möchtest.</p>"></div>
                 </div>
                 <div id="AnalyticsTab" class="Tab" data-url="<%=Links.CategoryDetailAnalyticsTab(Model.Name, Model.Id) %>" >
                     <a href="">
