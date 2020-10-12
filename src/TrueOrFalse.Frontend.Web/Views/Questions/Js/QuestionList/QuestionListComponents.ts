@@ -46,7 +46,8 @@ Vue.component('session-config-component', {
             answerHelp: true,
             repititions: true,
             categoryName: $("#hhdCategoryName").val(),
-        };
+            displayMinus: false
+    };
     },created() {
         eventBus.$on('openLearnOptions', () => { this.openModal() }); 
         eventBus.$on("start-learning-session", ()=>{this.loadCustomSession()}); 
@@ -104,11 +105,18 @@ Vue.component('session-config-component', {
             else
                 this.allQuestions = false;
 
-            if (this.allQuestions == false && this.selectedQuestionCount !== 0) {
+            if (this.allQuestions == false) {
                 this.loadQuestionCount();
-                this.selectedQuestionCount = 1;
             }
-               
+            if (this.inWishknowledge == false &&
+                this.createdByCurrentUser == false &&
+                this.isNotQuestionInWishKnowledge == false
+                || this.inWishknowledge == true &&
+                this.createdByCurrentUser == true &&
+                this.isNotQuestionInWishKnowledge == true) {
+                this.displayMinus = false; 
+            } else
+                this.displayMinus = true; 
         },
         createdByCurrentUser: function (val) {
             if (val == true && this.isNotQuestionInWishKnowledge && this.inWishknowledge)
@@ -116,10 +124,19 @@ Vue.component('session-config-component', {
             else
                 this.allQuestions = false;
             
-            if (this.allQuestions == false && this.selectedQuestionCount !== 0) {
+            if (this.allQuestions == false) {
                 this.loadQuestionCount();
-                this.selectedQuestionCount = 1;
             }
+
+            if (this.inWishknowledge == false &&
+                this.createdByCurrentUser == false &&
+                this.isNotQuestionInWishKnowledge == false
+                || this.inWishknowledge == true &&
+                this.createdByCurrentUser == true &&
+                this.isNotQuestionInWishKnowledge == true) {
+                this.displayMinus = false;
+            } else
+                this.displayMinus = true;
         },
         allQuestions: function (val) {
 
@@ -137,6 +154,7 @@ Vue.component('session-config-component', {
                 this.createdByCurrentUser = false;
                 this.isNotQuestionInWishKnowledge = false;
             }
+
             this.loadQuestionCount();
         },
         isNotQuestionInWishKnowledge: function (val) {
@@ -145,9 +163,19 @@ Vue.component('session-config-component', {
             else
                 this.allQuestions = false;
 
-            if (this.allQuestions == false && this.selectedQuestionCount !== 0) {
+            if (this.allQuestions == false) {
                 this.loadQuestionCount();
             }
+
+            if (this.inWishknowledge == false &&
+                this.createdByCurrentUser == false &&
+                this.isNotQuestionInWishKnowledge == false
+                || this.inWishknowledge == true &&
+                this.createdByCurrentUser == true &&
+                this.isNotQuestionInWishKnowledge == true) {
+                this.displayMinus = false;
+            } else
+                this.displayMinus = true;
         },
         safeLearningSessionOptions: function (val) {
             this.questionFilter.safeLearningSessionOptions = val;

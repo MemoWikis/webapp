@@ -53,8 +53,8 @@
                                     <div id="CheckboxesLearnOptions" class="row">
                                     <div class="col-sm-6">
                                         <label class="checkbox-label">
-                                            <input id="AllQuestions" type="checkbox" v-model="allQuestions" :disabled="!isLoggedIn" value="False" v-if="!allQuestions"/>
-                                            <i id="AllQuestionMinus" class="fas fa-minus-square" v-if="allQuestions" v-on:click="allQuestions = !allQuestions"></i>
+                                            <input id="AllQuestions" type="checkbox" v-model="allQuestions" :disabled="!isLoggedIn" value="False" v-if="allQuestions || !displayMinus" v-on:click="allQuestions = !allQuestions"/>
+                                            <i id="AllQuestionMinus" class="fas fa-minus-square" v-if="displayMinus" v-on:click="allQuestions = !allQuestions"></i>
                                             Alle Fragen
                                         </label> <br />
                                         <label class="checkbox-label">
