@@ -165,8 +165,8 @@
             </a>
             <ul class="dropdown-menu dropdown-menu-right">
                 <li><a href="<%= Links.CreateQuestion(Model.CategoryId) %>" data-allowed="logged-in"><i class="fa fa-plus-circle"></i>&nbsp;Frage hinzufügen</a></li>
-                <li><a href="#" @click="toggleQuestionsList()"><i class="fa fa-angle-double-down"></i>&nbsp;Alle Fragen erweitern</a></li>
-                <li><a href="#" data-allowed="logged-in" @click="loadCustomSession()"><i class="fa fa-play"></i>&nbsp;Fragen jetzt lernen </a></li>
+                <li @click="toggleQuestionsList()" style="cursor: pointer"><a><i class="fa fa-angle-double-down"></i>&nbsp;Alle Fragen erweitern</a></li>
+                <li style="cursor: pointer"><a data-allowed="logged-in" @click="startNewLearningSession()"><i class="fa fa-play"></i>&nbsp;Fragen jetzt lernen </a></li>
             </ul>
         </div>
     </div>

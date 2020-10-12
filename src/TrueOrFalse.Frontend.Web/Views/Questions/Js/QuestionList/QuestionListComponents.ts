@@ -48,7 +48,8 @@ Vue.component('session-config-component', {
             categoryName: $("#hhdCategoryName").val(),
         };
     },created() {
-        eventBus.$on('openLearnOptions', ()=>{this.openModal()}); 
+        eventBus.$on('openLearnOptions', () => { this.openModal() }); 
+        eventBus.$on("start-learning-session", ()=>{this.loadCustomSession()}); 
     },
     mounted() {
         var self = this;
