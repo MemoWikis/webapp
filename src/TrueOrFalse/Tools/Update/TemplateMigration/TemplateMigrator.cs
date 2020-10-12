@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using SolrNet.Utils;
 using TrueOrFalse.Web;
 using static System.String;
 
@@ -58,16 +59,40 @@ namespace TemplateMigration
 
                     var categoryId = category.Id;
                     var markdown = category.TopicMarkdown;
-                    var content = "";
-                    if (!category.TopicMarkdown.Contains("[[") && !category.TopicMarkdown.Contains("]]"))
+                    var content = "[\\&quot;";
+                    var parts = MarkdownConverter.SplitMarkdown(markdown);
+
+                    foreach (var part in parts)
                     {
-                        var html = MarkdownMarkdig.ToHtml(category.TopicMarkdown).Replace("\n", "<br>");
-                        content = "{ \" TemplateName\":\"InlineText\", \"Content\": \"" + html + "\" }";
+                        if (part.IsCategoryNetwork)
+                            continue;
+
+                        if (part.IsTopicNavigation)
+                        {
+                            var clean = part.ToText().Replace("[[", "").Replace("]]", "");
+                            var stringify = clean.Replace("\"", "\\&quot;");
+                            content += "\n" + stringify + ",";
+                        }
+                        else
+                        {
+                            var html = MarkdownMarkdig.ToHtml(part.ToText()).Replace("\n", "<br>");
+                            if (!IsNullOrEmpty(html))
+                            {
+                                var encodedHtml = html.Replace("\"", "\\\\&quot;");
+                                content += "\n" + "{\\&quot;TemplateName\\&quot;:\\&quot;InlineText\\&quot;,\\&quot;Content\\&quot;:\\&quot;" + encodedHtml + "\\&quot; }" + ",";
+                            }
+                        }
                     }
+                    if (content.EndsWith(","))
+                        content = content.Remove(content.Length - 1);
+                    content += "\\&quot;]";
+                    if (content == "[\\&quot;\\&quot;]")
+                        continue;
+                    
+
+                    content = HttpUtility.HtmlDecode(content);
 
                     category.Content = content;
-
-                    category.TopicMarkdown = MarkdownConverter.ConvertTemplates(category.TopicMarkdown);
 
                     Sl.CategoryRepo.UpdateBeforeEntityCacheInit(category);
 

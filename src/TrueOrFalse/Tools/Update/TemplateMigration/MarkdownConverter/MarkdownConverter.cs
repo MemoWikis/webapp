@@ -54,7 +54,7 @@ namespace TemplateMigration
             return newMarkdown;
         }
 
-        private static List<Part> SplitMarkdown(string markdown)
+        public static List<Part> SplitMarkdown(string markdown)
         {
             var parts = new List<Part>();
             var currentPart = new Part();

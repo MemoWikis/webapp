@@ -20,6 +20,8 @@ public class CategoryMap : ClassMap<Category>
         References(x => x.Creator);
 
         Map(x => x.TopicMarkdown);
+        Map(x => x.Content);
+
         Map(x => x.FeaturedSetsIdsString);
 
         Map(x => x.CountQuestionsAggregated);
@@ -38,7 +40,6 @@ public class CategoryMap : ClassMap<Category>
         Map(x => x.DateCreated);
         Map(x => x.DateModified);
         Map(x => x.FormerSetId);
-        Map(x => x.Content);
 
         HasMany(x => x.CategoryRelations).Table("relatedcategoriestorelatedcategories")
             .Cascade.AllDeleteOrphan()

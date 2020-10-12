@@ -12,7 +12,7 @@ public static class Tokenizer
         foreach (var obj in jsonObject)
         {
             var json = JsonConvert.DeserializeObject<TemplateJson>(obj.Value);
-            json.OriginalJson = obj.Value; ;
+            json.OriginalJson = obj.Value;
             tokens.Add(json);
         }
 
