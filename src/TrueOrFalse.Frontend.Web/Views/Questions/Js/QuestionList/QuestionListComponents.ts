@@ -45,7 +45,7 @@ Vue.component('session-config-component', {
             randomQuestions: false,
             answerHelp: true,
             repititions: true,
-            categoryName: $("#hhdCategoryName").val()
+            categoryName: $("#hhdCategoryName").val(),
         };
     },created() {
         eventBus.$on('openLearnOptions', ()=>{this.openModal()}); 
@@ -102,16 +102,23 @@ Vue.component('session-config-component', {
                 this.allQuestions = true;
             else
                 this.allQuestions = false;
-            
-            this.loadQuestionCount();
+
+            if (this.allQuestions == false && this.selectedQuestionCount !== 0) {
+                this.loadQuestionCount();
+                this.selectedQuestionCount = 1;
+            }
+               
         },
         createdByCurrentUser: function (val) {
             if (val == true && this.isNotQuestionInWishKnowledge && this.inWishknowledge)
                 this.allQuestions = true;
             else
                 this.allQuestions = false;
-
-            this.loadQuestionCount();
+            
+            if (this.allQuestions == false && this.selectedQuestionCount !== 0) {
+                this.loadQuestionCount();
+                this.selectedQuestionCount = 1;
+            }
         },
         allQuestions: function (val) {
 
@@ -129,7 +136,6 @@ Vue.component('session-config-component', {
                 this.createdByCurrentUser = false;
                 this.isNotQuestionInWishKnowledge = false;
             }
-            
             this.loadQuestionCount();
         },
         isNotQuestionInWishKnowledge: function (val) {
@@ -138,7 +144,9 @@ Vue.component('session-config-component', {
             else
                 this.allQuestions = false;
 
-            this.loadQuestionCount();
+            if (this.allQuestions == false && this.selectedQuestionCount !== 0) {
+                this.loadQuestionCount();
+            }
         },
         safeLearningSessionOptions: function (val) {
             this.questionFilter.safeLearningSessionOptions = val;
@@ -171,6 +179,7 @@ Vue.component('session-config-component', {
 
             $.ajax({
                 url: "/AnswerQuestion/GetQuestionCount/",
+                async: false,
                 data: {
                     config: this.questionFilter
                 },
@@ -179,6 +188,7 @@ Vue.component('session-config-component', {
                     result = parseInt(result);
                     this.maxSelectableQuestionCount = result;
                     this.selectedQuestionCount = result;
+                    
                 }
             });
         },
