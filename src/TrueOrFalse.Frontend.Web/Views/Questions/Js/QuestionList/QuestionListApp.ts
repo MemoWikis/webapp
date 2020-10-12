@@ -55,6 +55,9 @@ var questionListApp = new Vue({
                 ? this.selectedQuestionCount = numberOfQuestions
                 : this.selectedQuestionCount = "alle";
         });
+        eventBus.$on('update-selected-page', (selectedPage) => {
+            this.selectedPageFromActiveQuestion = selectedPage;
+        });
     },
     mounted() {
         $('#CustomSessionConfigBtn').tooltip();

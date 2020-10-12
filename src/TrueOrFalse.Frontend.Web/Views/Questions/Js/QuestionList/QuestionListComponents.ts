@@ -306,9 +306,7 @@ Vue.component('question-list-component', {
         eventBus.$on('reload-knowledge-state', () => this.loadQuestions(this.selectedPage));
         eventBus.$on('reload-wishknowledge-state-per-question', (data) => this.changeQuestionWishknowledgeState(data.questionId, data.isInWishknowledge));
         eventBus.$on('reload-correctnessprobability-for-question', (id) => this.getUpdatedCorrectnessProbability(id));
-        eventBus.$on('load-questions-list', () => this.initQuestionList());
-        eventBus.$on('update-selected-page', (selectedPage) => {this.selectedPage = selectedPage});
-
+        eventBus.$on('load-questions-list', ()=>{ this.initQuestionList() });
     },
     mounted() {
         this.categoryId = $("#hhdCategoryId").val();

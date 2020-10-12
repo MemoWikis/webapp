@@ -250,7 +250,7 @@
                                 <div class="questionFooterIcons">
                                     <div>
                                         <a class="commentIcon" :href="linkToComments">
-                                            <i class="fa fa-comment"><span>&nbsp;{{commentCount}}</span></i>
+                                            <i class="fa fa-comment"><span style="font-weight: 400;">&nbsp;{{commentCount}}</span></i>
                                         </a>
                                     </div>
                                     <div class=" ellipsis dropup" @click="showQuestionMenu = true">
