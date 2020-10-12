@@ -101,7 +101,7 @@
                             </div>
                             <div class="row modal-more-options">
                                 <div class="more-options class= col-sm-12" @click="displayNone = !displayNone">
-                                    <span>erweiterte Optionen</span>
+                                    <span>Erweiterte Optionen</span>
                                     <span class="angle">
                                         <i v-if="displayNone" class="fas fa-angle-down"></i>
                                         <i v-if="!displayNone" class="fas fa-angle-up"></i>
