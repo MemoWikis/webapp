@@ -8,6 +8,12 @@
 .opacity {
   opacity: 0.5;
 }
+#QuestionSortSessionConfig div {
+  padding-bottom: 15px;
+}
+#QuestionSortSessionConfig div:last-child {
+  padding-bottom: 0;
+}
 #QuestionSortSessionConfig .randomQuestions,
 #QuestionSortSessionConfig .answerHelp,
 #QuestionSortSessionConfig .repititions {
