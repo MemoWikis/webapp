@@ -201,7 +201,7 @@ namespace TrueOrFalse.View
             bundles.Add(new ScriptBundle("~/bundles/js/QuestionHistoryDetail")
                 .Include("~/Views/Questions/History/Detail/Js/*.js"));
 
-            bundles.Add(new StyleBundle("~/bundles/js/DeleteQuestion")
+            bundles.Add(new ScriptBundle("~/bundles/js/DeleteQuestion")
                 .Include("~/Views/Questions/Js/QuestionRowDelete.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/SetEdit")

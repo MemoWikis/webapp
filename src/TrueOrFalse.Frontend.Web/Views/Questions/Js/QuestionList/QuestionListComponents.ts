@@ -460,7 +460,11 @@ let v = Vue.component('question-component', {
         'questionIndex',
         'activeQuestion',
         'selectedPageFromActiveQuestion',
-        'lengthOfQuestionsArray'
+        'lengthOfQuestionsArray',
+        'questionLinkToComment',
+        'linkToEditQuestion',
+        'linkToQuestionVersions',
+        'linkToQuestion'
     ],
     data() {
         return {
@@ -486,7 +490,6 @@ let v = Vue.component('question-component', {
             isCreator: false,
             editUrl: "",
             historyUrl: "",
-            linkToComments: this.url + "#JumpLabel",
             topicTitle: "Thema",
             authorUrl: "",
             questionDetails: "",
@@ -501,6 +504,7 @@ let v = Vue.component('question-component', {
         this.setKnowledgebarData(this.knowledgeState);
         this.getWishknowledgePinButton();
         $("#BorderQuestionList").height($(".drop-down-question-sort").height() + $("#QuestionListApp").height());
+        new QuestionRowDelete(QuestionRowDeleteSourcePage.QuestionRow);
     },
     watch: {
         isQuestionListToShow() {

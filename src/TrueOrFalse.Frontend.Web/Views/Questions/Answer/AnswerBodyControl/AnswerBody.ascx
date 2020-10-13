@@ -41,23 +41,20 @@
                     <a href="#" class="dropdown-toggle btn btn-link btn-sm ButtonEllipsis" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
                         <i class="fa fa-ellipsis-v"></i>
                     </a>
-                    <ul class="dropdown-menu dropdown-menu-right">
-                        <% if (Model.IsInLearningTab || Model.IsLearningSession) { %>
-                            <li><a href="<%= Links.GetUrl(Model.Question) %>">Frageseite anzeigen </a></li>
+                    <ul class="dropdown-menu dropdown-menu-right standard-question-drop-down">
+                        <% if (Model.IsCreator || Model.IsInstallationAdmin){ %>
+                            <li><a href="<%=Links.EditQuestion( Model.QuestionText, Model.QuestionId) %>" data-allowed="logged-in"><i class="fa fa-code-fork"></i><span>Frage bearbeiten</span></a></li>
                         <% } %>
-                        <% if (Model.IsLoggedIn && (Model.IsCreator || Model.IsInstallationAdmin) && !Model.IsInWidget)
-                           { %>
-                            <li><a href="<%= Links.EditQuestion(Url, Model.QuestionText, Model.QuestionId) %>" class="TextLinkWithIcon">Frage bearbeiten</a></li>
-                        <% }  %>
-                        <% if (Model.IsCreator || Model.IsInstallationAdmin)
-                           { %>
-                            <li id="DeleteQuestion">
-                                <a class="TextLinkWithIcon" data-toggle="modal" data-questionid="<%=Model.QuestionId %>" href="#modalDeleteQuestion">
-                                  <span>Frage löschen</span>
+                        <li style="cursor: pointer"><a href="<%=Links.GetUrl(Model.Question) %>"><i class="fas fa-file"></i><span>Frageseite anzeigen</span></a></li>
+                        <li><a href="<%=Links.QuestionHistory(Model.QuestionId) %>" data-allowed="logged-in"><i class="fa fa-code-fork"></i><span>Bearbeitungshistorie der Frage</span></a></li>
+                        <li style="cursor: pointer"><a href="<%=Links.GetUrl(Model.Question) + "#JumpLabel" %>"><i class="fas fa-comment"></i><span>Frage kommentieren</span></a></li>
+                        <% if (Model.IsInstallationAdmin){ %>
+                            <li>
+                                <a data-toggle="modal" data-questionid="<%=Model.QuestionId %>" href="#modalDeleteQuestion">
+                                    <i class="fas fa-trash"></i><span>Frage löschen</span>
                                 </a>
                             </li>
                         <% } %>
-                        <li><a href="<%= Links.QuestionHistory(Model.QuestionId) %>">Versionen anzeigen</a></li>
                     </ul>
                 </span>
             </div>

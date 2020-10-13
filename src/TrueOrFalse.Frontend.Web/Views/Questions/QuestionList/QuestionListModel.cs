@@ -7,14 +7,14 @@ public class QuestionListModel : BaseModel
 {
     public int CategoryId;
     public int ItemCount;
-    public int AllQuestionsInCategory; 
+    public int AllQuestionsInCategory;
 
 
     public QuestionListModel(int categoryId)
     {
         CategoryId = categoryId;
-        AllQuestionsInCategory = Sl.CategoryRepo.CountAggregatedQuestions(categoryId); //32 ms Duration
-
+        AllQuestionsInCategory = Sl.CategoryRepo.CountAggregatedQuestions(categoryId); 
+        
     }
 
     public static List<QuestionListJson.Question> PopulateQuestionsOnPage(int currentPage, int itemCountPerPage, bool isLoggedIn)
@@ -29,15 +29,18 @@ public class QuestionListModel : BaseModel
         var questionsOfCurrentPage = allQuestions.Skip(itemCountPerPage * (currentPage - 1)).Take(itemCountPerPage).ToList();
         var newQuestionList = new List<QuestionListJson.Question>();
         var learningSessionStepCount = allQuestions.Count(); 
-        foreach (Question q in questionsOfCurrentPage)
+        foreach (var q in questionsOfCurrentPage)
         {
             var question = new QuestionListJson.Question();
             question.Id = q.Id;
             question.Title = q.Text;
             question.LinkToQuestion = Links.GetUrl(q);
             question.ImageData = new ImageFrontendData(Sl.ImageMetaDataRepo.GetBy(q.Id, ImageType.Question)).GetImageUrl(40, true).Url;
-            question.LearningSessionStepCount = learningSessionStepCount; 
-
+            question.LearningSessionStepCount = learningSessionStepCount;
+            question.LinkToQuestion = Links.GetUrl(q);
+            question.LinkToEditQuestion = Links.EditQuestion( q.Text, q.Id);
+            question.LinkToQuestionVersions = Links.QuestionHistory(q.Id);
+            question.LinkToComment = Links.GetUrl(q) + "#JumpLabel";
             question.CorrectnessProbability = q.CorrectnessProbability;
 
             if (userQuestionValuation.ContainsKey(q.Id) && user != null)

@@ -196,7 +196,11 @@
                                 :active-question ="activeQuestion"
                                 :selected-page ="selectedPage"
                                 :selected-page-from-active-question="selectedPageFromActiveQuestion"
-                                :length-of-questions-array="questions[0].LearningSessionStepCount">
+                                :length-of-questions-array="questions[0].LearningSessionStepCount"
+                                :question-link-to-comment ="q.LinkToComment"
+                                :link-to-edit-question ="q.LinkToEditQuestion"
+                                :link-to-question-versions ="q.LinkToQuestionVersions"
+                                :link-to-question ="q.LinkToQuestion">
                 
                 <div class="singleQuestionRow" :class="[{ open: showFullQuestion}, backgroundColor]">
                     <div class="questionSectionFlex">
@@ -249,26 +253,23 @@
                                 </div>
                                 <div class="questionFooterIcons">
                                     <div>
-                                        <a class="commentIcon" :href="linkToComments">
+                                        <a class="commentIcon" :href="questionLinkToComment">
                                             <i class="fa fa-comment"><span style="font-weight: 400;">&nbsp;{{commentCount}}</span></i>
                                         </a>
                                     </div>
-                                    <div class=" ellipsis dropup" @click="showQuestionMenu = true">
-                                        <i class="fas fa-ellipsis-v" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true"></i>
-                                        <ul class="dropdown-menu dropdown-menu-right" v-show="showQuestionMenu">
-                                            <li>
-                                                <a :href="url">Frageseite anzeigen</a>
-                                            </li>
-                                            <li v-if="isCreator || isAdmin == 'True' ">
-                                                <a :href="editUrl" >Frage bearbeiten</a>
-                                            </li>
-                                            <li id="DeleteQuestion" v-if="isCreator || isAdmin == 'True' ">
-                                                <a class="TextLinkWithIcon" data-toggle="modal" :data-questionid="questionId" href="#modalDeleteQuestion">
-                                                    Frage löschen
+                                    <div class="Button dropdown">
+                                        <a href="#" class="dropdown-toggle  btn btn-link btn-sm ButtonEllipsis" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                            <i class="fa fa-ellipsis-v"></i>
+                                        </a>
+                                        <ul class="dropdown-menu dropdown-menu-right standard-question-drop-down">
+                                            <li v-if="isAdmin == 'True' || isCreator"><a :href="linkToEditQuestion" data-allowed="logged-in"><i class="fa fa-code-fork"></i><span>Frage bearbeiten</span></a></li>
+                                            <li style="cursor: pointer"><a :href="linkToQuestion"><i class="fas fa-file"></i><span>Frageseite anzeigen</span></a></li>
+                                            <li><a :href="linkToQuestionVersions" data-allowed="logged-in"><i class="fa fa-code-fork"></i><span>Bearbeitungshistorie der Frage</span></a></li>
+                                            <li style="cursor: pointer"><a :href="questionLinkToComment"><i class="fas fa-comment"></i><span>Frage kommentieren</span></a></li>
+                                            <li v-if="isAdmin == 'True'">
+                                                <a data-toggle="modal" :data-questionid="questionId" href="#modalDeleteQuestion">
+                                                    <i class="fas fa-trash"></i><span>Frage löschen</span>
                                                 </a>
-                                            </li>
-                                            <li>
-                                                <a :href="historyUrl">Versionen anzeigen</a>
                                             </li>
                                         </ul>
                                     </div>
