@@ -220,8 +220,10 @@
   margin-right: 7px;
 }
 #SessionConfigModal #AllQuestionMinus {
-  margin-right: 7.8px;
+  margin-right: 6px;
   color: #0075ff;
+  font-size: 14.5px;
+  padding-left: 1px;
 }
 #SessionConfigModal .modal-footer {
   border-top: none;
