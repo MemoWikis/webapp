@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using SolrNet.Utils;
+using Newtonsoft.Json;
 using TrueOrFalse.Web;
 using static System.String;
 
@@ -59,7 +59,7 @@ namespace TemplateMigration
 
                     var categoryId = category.Id;
                     var markdown = category.TopicMarkdown;
-                    var content = "[\\&quot;";
+                    var contentList = new List<dynamic>();
                     var parts = MarkdownConverter.SplitMarkdown(markdown);
 
                     foreach (var part in parts)
@@ -69,29 +69,34 @@ namespace TemplateMigration
 
                         if (part.IsTopicNavigation)
                         {
-                            var clean = part.ToText().Replace("[[", "").Replace("]]", "");
-                            var stringify = clean.Replace("\"", "\\&quot;");
-                            content += "\n" + stringify + ",";
+                            var clean = part
+                                .ToText()
+                                .Replace("[[", "")
+                                .Replace("]]", "")
+                                .Replace("&quot;", @"""");
+                            var json = JsonConvert.DeserializeObject(clean);
+
+                            contentList.Add(json);
                         }
                         else
                         {
                             var html = MarkdownMarkdig.ToHtml(part.ToText()).Replace("\n", "<br>");
                             if (!IsNullOrEmpty(html))
                             {
-                                var encodedHtml = html.Replace("\"", "\\\\&quot;");
-                                content += "\n" + "{\\&quot;TemplateName\\&quot;:\\&quot;InlineText\\&quot;,\\&quot;Content\\&quot;:\\&quot;" + encodedHtml + "\\&quot; }" + ",";
+                                var inlineTextJson = new InlineTextJson
+                                {
+                                    TemplateName = "InlineText",
+                                    Content = html
+                                };
+                                contentList.Add(inlineTextJson);
                             }
                         }
                     }
-                    if (content.EndsWith(","))
-                        content = content.Remove(content.Length - 1);
-                    content += "\\&quot;]";
-                    if (content == "[\\&quot;\\&quot;]")
+
+                    if (contentList.Count < 1)
                         continue;
-                    
 
-                    content = HttpUtility.HtmlDecode(content);
-
+                    var content = JsonConvert.SerializeObject(contentList);
                     category.Content = content;
 
                     Sl.CategoryRepo.UpdateBeforeEntityCacheInit(category);
@@ -100,5 +105,21 @@ namespace TemplateMigration
                 }
             }
         }
+
+        private class TopicNavigationJson
+        {
+            public string Title;
+            public string Text;
+            public string Load;
+            public string Order;
+        }
+
+        private class InlineTextJson
+        {
+            public string TemplateName;
+            public string Content;
+        }
+
+
     }
 }

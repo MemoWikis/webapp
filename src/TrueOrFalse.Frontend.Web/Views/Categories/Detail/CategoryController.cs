@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
+using Microsoft.Ajax.Utilities;
 using SolrNet.Utils;
 using TrueOrFalse.Frontend.Web.Code;
 
@@ -106,12 +107,12 @@ public class CategoryController : BaseController
 
     private CategoryModel GetModelWithContentHtml(Category category, int? version = null, bool isCategoryNull = false)
     {
-        var tokens = Tokenizer.Run(category.Content);
+        //var tokens = Tokenizer.Run(category.Content);
 
         return new CategoryModel(category, true, isCategoryNull)
         {
-            //CustomPageHtml = MarkdownToHtml.Run(category.TopicMarkdown, category, ControllerContext, version)
-            CustomPageHtml = TemplateToHtml.Run(tokens, category, ControllerContext, version)
+            CustomPageHtml = MarkdownToHtml.Run(category.TopicMarkdown, category, ControllerContext, version)
+            //CustomPageHtml = TemplateToHtml.Run(tokens, category, ControllerContext, version)
         };
     }
 
@@ -225,15 +226,19 @@ public class CategoryController : BaseController
 
     [HttpPost]
     [AccessOnlyAsLoggedIn]
-    public ActionResult SaveCategoryContent(int categoryId, string content)
+    public ActionResult SaveCategoryContent(int categoryId, List<JsonLoader> content)
     {
         var category = Sl.CategoryRepo.GetById(categoryId);
 
         if (category != null && content != null)
         {
-            var document = TemplateParser.Run2(content, category);
-
-            category.Content = HttpUtility.HtmlDecode(content);
+            //var document = TemplateParser.Run2(content, category);
+            var x = JsonConvert.SerializeObject(content, new JsonSerializerSettings
+            {
+                NullValueHandling = NullValueHandling.Ignore
+            });
+            category.Content = x;
+            //category.Content = HttpUtility.HtmlDecode(content.ToString);
             Sl.CategoryRepo.Update(category, User_());
 
             return Json(true);
@@ -272,4 +277,14 @@ public class LoadModelResult
 {
     public Category Category;
     public CategoryModel CategoryModel;
+}
+
+public class JsonLoader
+{
+    public string TemplateName { get; set; }
+    public string Title { get; set; }
+    public string Text { get; set; }
+    public string Load { get; set; }
+    public string Order { get; set; }
+    public string Content { get; set; }
 }

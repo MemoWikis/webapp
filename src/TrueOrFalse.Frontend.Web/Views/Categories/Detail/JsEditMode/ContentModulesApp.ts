@@ -236,24 +236,36 @@ new Vue({
             this.sortModules();
             if (this.sortedModules.length == 0)
                 return;
-            var jsonString = JSON.stringify(this.sortedModules);
+            //var jsonString = JSON.stringify(this.sortedModules);
 
-            function escapeHtml(unsafe) {
-                return unsafe
-                    .replace(/&/g, "&amp;")
-                    .replace(/</g, "&lt;")
-                    .replace(/>/g, "&gt;")
-                    .replace(/"/g, "&quot;")
-                    .replace(/'/g, "&#039;");
+
+            //$.post("/Category/SaveCategoryContent",
+            //    {
+            //        categoryId: $("#hhdCategoryId").val(),
+            //        content: safeString,
+            //    },
+            //    (success) => {
+            //        if (success == true) {
+            //            this.saveSuccess = true;
+            //            this.saveMessage = "Das Thema wurde gespeichert.";
+            //            location.reload();
+            //        } else {
+            //            this.saveSuccess = false;
+            //            this.saveMessage = "Das Speichern schlug fehl.";
+            //        };
+            //    },
+            //);
+            var data = {
+                categoryId: $("#hhdCategoryId").val(),
+                content: this.sortedModules,
             }
-            var safeString = escapeHtml(jsonString);
 
-            $.post("/Category/SaveCategoryContent",
-                {
-                    categoryId: $("#hhdCategoryId").val(),
-                    content: safeString,
-                },
-                (success) => {
+            $.ajax({
+                type: 'post',
+                contentType: "application/json",
+                url: '/Category/SaveCategoryContent',
+                data: JSON.stringify(data),
+                success: function (success) {
                     if (success == true) {
                         this.saveSuccess = true;
                         this.saveMessage = "Das Thema wurde gespeichert.";
@@ -263,7 +275,7 @@ new Vue({
                         this.saveMessage = "Das Speichern schlug fehl.";
                     };
                 },
-            );
+            });
         }
     },
 });

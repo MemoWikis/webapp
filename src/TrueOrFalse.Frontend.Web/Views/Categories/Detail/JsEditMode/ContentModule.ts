@@ -32,7 +32,7 @@ var contentModuleComponent = Vue.component('content-module', {
     created() {
         if (this.contentModuleType != "inlinetext") {
             this.modalType = '#' + this.contentModuleType + 'SettingsDialog';
-            this.content = this.origMarkdown;
+            this.content = JSON.parse(this.origMarkdown);
         };
         this.uid = this._uid + Math.floor((Math.random() * 10000) + 1);
         this.id = this.contentModuleType + 'Module-' + (this.uid);

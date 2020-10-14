@@ -61,12 +61,7 @@ Vue.component('text-component',
             }
         },
         created() {
-            var templateJson = {
-                "TemplateName": "InlineText",
-                "Content" : this.content
-            }
-            this.$parent.content = JSON.stringify(templateJson);
-            this.htmlContent = this.content;
+            this.setContent(this.content);
         },
         mounted() {
             eventBus.$on("set-edit-mode",
@@ -81,10 +76,29 @@ Vue.component('text-component',
                 });
             },
             html() {
-                this.htmlContent = this.html;
-                this.$parent.content = this.html;
+                this.setContent(this.html);
             }
         },
+        methods: {
+            escapeHtml(unsafe) {
+                return unsafe
+                    .replace(/&/g, "&amp;")
+                    .replace(/</g, "&lt;")
+                    .replace(/>/g, "&gt;")
+                    .replace(/"/g, "&quot;")
+                    .replace(/'/g, "&#039;");
+            },
+            setContent(html) {
+                var escaped = this.escapeHtml(html);
+                var json = {
+                    "TemplateName": "InlineText",
+                    "Content": html
+                }
+                this.$parent.content = json;
+                this.htmlContent = html;
+
+            }
+        }
     });
 
 //Vue.component('inline-text-component', {
