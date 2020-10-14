@@ -8,6 +8,9 @@
 .opacity {
   opacity: 0.5;
 }
+.forbidden {
+  cursor: not-allowed !important;
+}
 #QuestionSortSessionConfig div {
   padding-bottom: 10px;
 }
@@ -244,14 +247,6 @@
 #SessionConfigModal label.sliderLabel {
   padding-top: 20px;
   width: 100%;
-}
-#SessionConfigModal .disabled-radios .blur {
-  width: 100%;
-  position: absolute;
-  backdrop-filter: blur(2px);
-  z-index: 1;
-  background: rgba(255, 255, 255, 0.67);
-  margin-left: -35px;
 }
 #SessionConfigModal .disabled-radios .radio input + span:before {
   border: solid 0.5px #c0c0c0;

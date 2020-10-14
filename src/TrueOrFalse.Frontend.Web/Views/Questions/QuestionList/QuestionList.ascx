@@ -29,24 +29,17 @@
                             <h4 class="modal-title">Personalisiere dein Lernen </h4>
                         </div>
                         <div class="modal-body">
-                            <transition name="fade">
-                                <div class="restricted-options" v-show="!isLoggedIn && isHoveringOptions" @mouseover="isHoveringOptions = true" transition="fade">
-                                </div>
-                            </transition>
                             <div ref="radioSection" class="must-logged-in" :class="{'disabled-radios' : !isLoggedIn}" @mouseover="isHoveringOptions = true" @mouseleave="isHoveringOptions = false">
-                                    <transition name="fade">
-                                        <div v-show="!isLoggedIn && isHoveringOptions" class="blur" :style="{height: radioHeight + 'px'}"></div>
-                                    </transition>
-                                    <div class="modal-section-label" :class="{inactive: !isLoggedIn}">Prüfungsmodus&nbsp;<i class="fa fa-info-circle" aria-hidden="true"></i></div>
+                                <div class="modal-section-label" :class="{inactive: !isLoggedIn}">Prüfungsmodus&nbsp;<i class="fa fa-info-circle" aria-hidden="true"></i></div>
                                     <div class="test-mode" :class="{inactive: !isLoggedIn}">
                                         <div class="center">
-                                            <input type="checkbox" id="cbx" style="display:none" v-model="isTestMode" />
-                                            <label for="cbx" class="toggle">
+                                            <input type="checkbox" id="cbx" style="display:none" v-model="isTestMode" :disabled="!isLoggedIn"  />
+                                            <label for="cbx" class="toggle" :class="{forbidden: !isLoggedIn}">
                                                 <span></span>
                                             </label>
                                         </div>
                                     </div>
-                                    <div class="test-mode-info" :class="{inactive: !isLoggedIn}">
+                                    <div class="test-mode-info" :class="{inactive: !isLoggedIn}" >
                                         Du willst es Wissen? Im Prüfungsmodus kannst Du Dein Wissen realistisch testen: zufällige Fragen ohne Antworthilfe und Wiederholungen. Viel Erfolg!
                                     </div>
                                     <div class="modal-divider"></div>
@@ -110,7 +103,7 @@
                                 <div id="QuestionSortSessionConfig" class=" col-sm-12" v-bind:class="{displayNone: displayNone}">
                                     <div class="randomQuestions" :class="{inactive: !isLoggedIn || isTestMode}">
                                         <input type="checkbox" id="randomQuestions" style="display:none" :disabled="isTestModeOrNotLoginIn" v-model="randomQuestions"  />
-                                        <label for="randomQuestions" class="toggle">
+                                        <label for="randomQuestions" class="toggle" :class="{forbidden: !isLoggedIn || isTestMode}">
                                             <span></span>
                                         </label>
                                         <span>&nbsp;Zufällige Fragen<i> Erhöhe die Schwierigkeit mit zufällig vorgelegten Fragen.</i></span> 
@@ -118,14 +111,14 @@
                                     
                                     <div class="answerHelp" :class="{inactive: !isLoggedIn || isTestMode}">
                                         <input type="checkbox" id="answerHelp" style="display:none" :disabled="isTestModeOrNotLoginIn" v-model="answerHelp" />
-                                        <label for="answerHelp" class="toggle">
+                                        <label for="answerHelp" class="toggle" :class="{forbidden: !isLoggedIn || isTestMode}">
                                             <span></span>
                                         </label>
                                         <span>&nbsp;Antworthilfe<i> Die Antworthilfe zeigt dir auf Wunsch die richtige Antwort</i></span>
                                     </div>
                                     <div class="repititions" :class="{inactive: !isLoggedIn || isTestMode}">
                                         <input type="checkbox" id="repititions" style="display:none" :disabled="isTestModeOrNotLoginIn" v-model="repititions" />
-                                        <label for="repititions" class="toggle">
+                                        <label for="repititions" class="toggle" :class="{forbidden: !isLoggedIn || isTestMode}">
                                             <span></span>
                                         </label>
                                         <span>&nbsp;Wiederholungen<i> Falsch gelöste Fragen werden dir zur Beantwortung erneut vorgelegt.</i></span>
