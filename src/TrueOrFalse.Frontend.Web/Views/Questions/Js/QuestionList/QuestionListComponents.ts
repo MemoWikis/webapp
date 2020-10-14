@@ -50,7 +50,7 @@ Vue.component('session-config-component', {
     };
     },created() {
         eventBus.$on('openLearnOptions', () => { this.openModal() }); 
-        eventBus.$on("start-learning-session", ()=>{this.loadCustomSession()}); 
+        eventBus.$on("start-learning-session", () => { this.loadCustomSession() }); 
     },
     mounted() {
         var self = this;
@@ -58,7 +58,9 @@ Vue.component('session-config-component', {
         if (NotLoggedIn.Yes()) {
             this.title = 'Test';
             this.isLoggedIn = false;
-            this.isTestModeOrNotLoginIn = IsLoggedIn; 
+            this.isTestModeOrNotLoginIn = IsLoggedIn;
+            this.randomQuestions = !this.isLoggedIn;
+
         };
 
         this.$nextTick(function() {

@@ -19,7 +19,7 @@
 #QuestionSortSessionConfig {
 
     div{
-        padding-bottom: 15px;
+        padding-bottom: 10px;
     }
 
     div:last-child{
@@ -43,9 +43,14 @@
 }
 
 .inactive:before {
-    background: #c8ccd4 !important;
+    opacity: 0.5;
 }
 
+.inactive{
+    span{
+        opacity: 0.5;
+    }
+}
 .rootElement {
     .notLoggedInModal {
         display: flex;
