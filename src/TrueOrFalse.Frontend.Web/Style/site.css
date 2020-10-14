@@ -77,6 +77,12 @@ h5 {
 .standard-question-drop-down li i {
   padding-right: 15px;
 }
+.standard-question-drop-down li a {
+  display: flex;
+  align-items: center;
+  height: 100%;
+  color: #555555;
+}
 /*Links*/
 a {
   color: #2C5FB2;
