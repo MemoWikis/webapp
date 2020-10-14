@@ -37,8 +37,8 @@
                                     <transition name="fade">
                                         <div v-show="!isLoggedIn && isHoveringOptions" class="blur" :style="{height: radioHeight + 'px'}"></div>
                                     </transition>
-                                    <div class="modal-section-label">Prüfungsmodus&nbsp;<i class="fa fa-info-circle" aria-hidden="true"></i></div>
-                                    <div class="test-mode">
+                                    <div class="modal-section-label" :class="{inactive: !isLoggedIn}">Prüfungsmodus&nbsp;<i class="fa fa-info-circle" aria-hidden="true"></i></div>
+                                    <div class="test-mode" :class="{inactive: !isLoggedIn}">
                                         <div class="center">
                                             <input type="checkbox" id="cbx" style="display:none" v-model="isTestMode" />
                                             <label for="cbx" class="toggle">
@@ -46,11 +46,11 @@
                                             </label>
                                         </div>
                                     </div>
-                                    <div class="test-mode-info">
+                                    <div class="test-mode-info" :class="{inactive: !isLoggedIn}">
                                         Du willst es Wissen? Im Prüfungsmodus kannst Du Dein Wissen realistisch testen: zufällige Fragen ohne Antworthilfe und Wiederholungen. Viel Erfolg!
                                     </div>
                                     <div class="modal-divider"></div>
-                                    <div id="CheckboxesLearnOptions" class="row">
+                                    <div id="CheckboxesLearnOptions" class="row" :class="{inactive: !isLoggedIn}">
                                     <div class="col-sm-6">
                                         <label class="checkbox-label">
                                             <input id="AllQuestions" type="checkbox" v-model="allQuestions" :disabled="!isLoggedIn" value="False" v-if="allQuestions || !displayMinus" v-on:click="allQuestions = !allQuestions"/>
@@ -90,7 +90,7 @@
                                     <div v-if="maxSelectableQuestionCount > 0" class="sliderContainer">
                                         <div class="leftLabel">0</div>
                                         <div class="vueSlider">                            
-                                            <vue-slider v-model="selectedQuestionCount" :max="maxSelectableQuestionCount" ></vue-slider>
+                                            <vue-slider v-model="selectedQuestionCount" :max="maxSelectableQuestionCount" :tooltip="'always'"></vue-slider>
                                         </div>
                                         <div class="rightLabel">{{maxSelectableQuestionCount}}</div>
                                     </div>
@@ -107,7 +107,7 @@
                                         <i v-if="!displayNone" class="fas fa-angle-up"></i>
                                     </span>
                                 </div>
-                                <div id="QuestionSortSessionConfig" class=" col-sm-12">
+                                <div id="QuestionSortSessionConfig" class=" col-sm-12" v-bind:class="{displayNone: displayNone}">
                                     <div class="randomQuestions" :class="{inactive: !isLoggedIn || isTestMode}">
                                         <input type="checkbox" id="randomQuestions" style="display:none" :disabled="isTestModeOrNotLoginIn" v-model="randomQuestions"  />
                                         <label for="randomQuestions" class="toggle">
@@ -151,7 +151,7 @@
                         </div>
                         <div class="modal-footer">
                             <div type="button" class="btn btn-link" data-dismiss="modal">Abbrechen</div>
-                            <div type="button" class="btn btn-primary" :class="{ 'disabled' : maxQuestionCountIsZero }" @click="loadCustomSession()"><i class="fas fa-play"></i> Anwenden</div>
+                            <div type="button" class="btn btn-primary" :class="{ 'disabled' : maxQuestionCountIsZero }" @click="loadCustomSession(false)"><i class="fas fa-play"></i> Anwenden</div>
                         </div>
                     </div>
                 </div>

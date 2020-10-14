@@ -13,7 +13,7 @@ Vue.component('session-config-component', {
             probabilityRange: [0, 100],
             questionFilter: {
                 minProbability: 0,
-                maxProbability: 99.9,
+                maxProbability: 100,
                 maxQuestionCount: 0,
                 inWishknowledge: true,
                 createdByCurrentUser: true,
@@ -46,7 +46,8 @@ Vue.component('session-config-component', {
             answerHelp: true,
             repititions: true,
             categoryName: $("#hhdCategoryName").val(),
-            displayMinus: false
+            displayMinus: false, 
+            isFirstLoad: true
     };
     },created() {
         eventBus.$on('openLearnOptions', () => { this.openModal() }); 
@@ -60,8 +61,9 @@ Vue.component('session-config-component', {
             this.isLoggedIn = false;
             this.isTestModeOrNotLoginIn = IsLoggedIn;
             this.randomQuestions = !this.isLoggedIn;
-
         };
+
+        console.log("ismounted");
 
         this.$nextTick(function() {
             window.addEventListener('resize', this.matchSize);
@@ -216,10 +218,12 @@ Vue.component('session-config-component', {
                 },
                 type: "POST",
                 success: result => {
-                    result = parseInt(result);
-                    this.maxSelectableQuestionCount = result;
-                    this.selectedQuestionCount = result;
-                    
+                    this.maxSelectableQuestionCount = parseInt(result);
+
+                    if (this.isFirstLoad || typeof (this.isFirstLoad) == "undefined"
+                        || this.selectedQuestionCount > this.maxSelectableQuestionCount
+                        || this.selectedQuestionCount == 0)
+                            this.selectedQuestionCount = parseInt(result);
                 }
             });
         },
@@ -234,7 +238,7 @@ Vue.component('session-config-component', {
                 allQuestions: false
             };
         },
-        loadCustomSession() {
+        loadCustomSession(firstLoad = true) {
             if (this.maxQuestionCountIsZero)
                 return;
             eventBus.$emit('update-selected-page', 1);
@@ -245,6 +249,7 @@ Vue.component('session-config-component', {
             $('#SessionConfigModal').modal('hide');
             this.questionFilter.safeLearningSessionOptions = this.safeLearningSessionOptions = false;
             eventBus.$emit("send-selected-questions", this.selectedQuestionCount);
+            this.isFirstLoad = firstLoad;
 
         },
         matchSize() {
