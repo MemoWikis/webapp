@@ -100,33 +100,33 @@
                                 </div>
                             </div>
                             <div class="row modal-more-options">
-                                <div class="more-options class= col-sm-12" @click="displayNone = !displayNone">
-                                    <span>Erweiterte Optionen</span>
+                                <div class="more-options col-sm-12" @click="displayNone = !displayNone">
+                                    <span >Erweiterte Optionen</span>
                                     <span class="angle">
                                         <i v-if="displayNone" class="fas fa-angle-down"></i>
                                         <i v-if="!displayNone" class="fas fa-angle-up"></i>
                                     </span>
                                 </div>
-                                <div id="QuestionSortSessionConfig" v-bind:class="{displayNone: displayNone, opacity: isTestMode }" class=" col-sm-12">
-                                    <div class="randomQuestions">
-                                        <input type="checkbox" id="randomQuestions" style="display:none" :disabled="isTestModeOrNotLoginIn" v-model="randomQuestions" />
-                                        <label for="randomQuestions" class="toggle" :class="{inactive: !isLoggedIn || isTestMode}">
-                                            <span :class="{inactiveSpan: !isLoggedIn || isTestMode}"></span>
+                                <div id="QuestionSortSessionConfig" class=" col-sm-12">
+                                    <div class="randomQuestions" :class="{inactive: !isLoggedIn || isTestMode}">
+                                        <input type="checkbox" id="randomQuestions" style="display:none" :disabled="isTestModeOrNotLoginIn" v-model="randomQuestions"  />
+                                        <label for="randomQuestions" class="toggle">
+                                            <span></span>
                                         </label>
                                         <span>&nbsp;Zufällige Fragen<i> Erhöhe die Schwierigkeit mit zufällig vorgelegten Fragen.</i></span> 
                                     </div>
                                     
-                                    <div class="answerHelp">
+                                    <div class="answerHelp" :class="{inactive: !isLoggedIn || isTestMode}">
                                         <input type="checkbox" id="answerHelp" style="display:none" :disabled="isTestModeOrNotLoginIn" v-model="answerHelp" />
-                                        <label for="answerHelp" class="toggle" :class="{inactive: !isLoggedIn}">
-                                            <span :class="{inactiveSpan: !isLoggedIn}"></span>
+                                        <label for="answerHelp" class="toggle">
+                                            <span></span>
                                         </label>
                                         <span>&nbsp;Antworthilfe<i> Die Antworthilfe zeigt dir auf Wunsch die richtige Antwort</i></span>
                                     </div>
-                                    <div class="repititions">
+                                    <div class="repititions" :class="{inactive: !isLoggedIn || isTestMode}">
                                         <input type="checkbox" id="repititions" style="display:none" :disabled="isTestModeOrNotLoginIn" v-model="repititions" />
-                                        <label for="repititions" class="toggle" :class="{inactive: !isLoggedIn}">
-                                            <span :class="{inactiveSpan: !isLoggedIn}"></span>
+                                        <label for="repititions" class="toggle">
+                                            <span></span>
                                         </label>
                                         <span>&nbsp;Wiederholungen<i> Falsch gelöste Fragen werden dir zur Beantwortung erneut vorgelegt.</i></span>
                                     </div>

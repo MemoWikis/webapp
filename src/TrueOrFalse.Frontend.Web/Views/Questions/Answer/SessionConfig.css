@@ -35,7 +35,7 @@
 .inactive:before {
   opacity: 0.5;
 }
-.inactive span {
+.inactive {
   opacity: 0.5;
 }
 .rootElement .notLoggedInModal {
