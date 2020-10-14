@@ -43,7 +43,14 @@ Vue.component('text-component',
                         new tiptapExtensions.CodeBlockHighlight({
                             languages: {
                             },
-                        })
+                        }),
+                        new tiptapExtensions.Placeholder({
+                            emptyEditorClass: 'is-editor-empty',
+                            emptyNodeClass: 'is-empty',
+                            emptyNodeText: 'Write something …',
+                            showOnlyWhenEditable: true,
+                            showOnlyCurrent: true,
+                        }),
                     ],
                     content: this.content,
                     onUpdate: ({ getJSON, getHTML }) => {

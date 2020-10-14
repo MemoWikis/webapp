@@ -2501,10 +2501,10 @@ p:empty {
 [v-cloak] {
   display: none;
 }
-.editor {
+.inline-text-editor {
   position: relative;
 }
-.editor__floating-menu {
+.inline-text-editor .editor__floating-menu {
   position: absolute;
   z-index: 1;
   margin-top: -0.25rem;
@@ -2513,20 +2513,46 @@ p:empty {
   -webkit-transition: opacity 0.2s, visibility 0.2s;
   transition: opacity 0.2s, visibility 0.2s;
 }
-.editor__floating-menu.is-active {
+.inline-text-editor .editor__floating-menu.is-active {
   opacity: 1;
   visibility: visible;
 }
-.menubar.is-hidden {
+.inline-text-editor .menubar {
+  top: 0%;
+  -webkit-transform: translateY(-webkit-calc(-100% - 2px));
+          transform: translateY(calc(-100% - 2px));
+  position: absolute;
+  background: white;
+}
+.inline-text-editor .menubar.is-hidden {
   visibility: hidden;
   opacity: 0;
 }
-.menubar.is-focused {
+.inline-text-editor .menubar.is-focused {
   visibility: visible;
   opacity: 1;
   -webkit-transition: visibility 0.2s, opacity 0.2s;
   transition: visibility 0.2s, opacity 0.2s;
 }
-.ProseMirror-focused :focus {
+.inline-text-editor .ProseMirror {
+  padding-top: 2px;
+}
+.inline-text-editor .ProseMirror:focus {
   outline: none !important;
+}
+.inline-text-editor button.menubar__button {
+  background: white;
+  border: hidden;
+  -webkit-border-radius: 2px;
+          border-radius: 2px;
+  font-size: 18px;
+  width: 34px;
+  height: 36px;
+  margin: 2px 0;
+}
+.inline-text-editor button.menubar__button:hover {
+  background: #dddddd;
+}
+.inline-text-editor button.menubar__button.is-active {
+  background: #afd534;
 }

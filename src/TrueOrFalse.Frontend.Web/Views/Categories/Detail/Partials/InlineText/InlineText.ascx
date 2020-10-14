@@ -3,9 +3,9 @@
 <%: Html.Partial("~/Views/Categories/Detail/Partials/ContentModuleWrapperStart.ascx") %>
 
 <text-component content="<%: HttpUtility.HtmlDecode(Model.Content)  %>" inline-template>
-    <div>
-    <editor-menu-bar :editor="editor" v-slot="{ commands, isActive, focused }">
-      <div
+    <div class="inline-text-editor">
+        <editor-menu-bar :editor="editor" v-slot="{ commands, isActive, focused }" v-show="editMode">
+          <div
         class="menubar is-hidden"
         :class="{ 'is-focused': focused }"
       >
@@ -128,14 +128,13 @@
           </button>
 
       </div>
-    </editor-menu-bar>
+        </editor-menu-bar>
         
-        <editor-floating-menu :editor="editor" v-slot="{ commands, isActive, menu, focused }">
+<%--        <editor-floating-menu :editor="editor" v-slot="{ commands, isActive, menu }">
             <div
                 class="editor__floating-menu"
                 :class="{ 'is-active': menu.isActive }"
                 :style="`top: ${menu.top}px`"
-                v-if="focused"
             >
 
                 <button
@@ -187,21 +186,13 @@
                 </button>
 
             </div>
-        </editor-floating-menu>
-    <editor-content :editor="editor">
-        <%: Html.Raw(Model.Content)  %>
-    </editor-content>
+        </editor-floating-menu>--%>
+
+        <editor-content :editor="editor">
+            <%: Html.Raw(Model.Content)  %>
+        </editor-content>
     </div>
 
 </text-component>
-     
-
-<%--    <div v-if="textCanBeEdited">
-        <inline-text-component/>
-    </div>
-    <div v-else @click="editInlineText()">
-            <%: Html.Raw(HttpUtility.HtmlDecode(Model.Content))  %>
-        <div v-if="missingText" class="missingTextInModule"> Hier klicken um Text zu bearbeiten</div>
-    </div>--%>
 
 <%: Html.Partial("~/Views/Categories/Detail/Partials/ContentModuleWrapperEnd.ascx") %>

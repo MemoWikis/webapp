@@ -1941,10 +1941,10 @@ p:empty {
     }
 
 
-.editor {
+.inline-text-editor {
     position: relative;
 
-    &__floating-menu {
+    .editor__floating-menu {
         position: absolute;
         z-index: 1;
         margin-top: -0.25rem;
@@ -1957,23 +1957,50 @@ p:empty {
             visibility: visible;
         }
     }
-}
 
-.menubar {
-    &.is-hidden {
-        visibility: hidden;
-        opacity: 0;
+    .menubar {
+        top: 0%;
+
+        transform: translateY(calc(-100% - 2px));
+        position: absolute;
+        background: white;
+
+        &.is-hidden {
+            visibility: hidden;
+            opacity: 0;
+        }
+
+        &.is-focused {
+            visibility: visible;
+            opacity: 1;
+            transition: visibility .2s,opacity .2s;
+        }
     }
 
-    &.is-focused {
-        visibility: visible;
-        opacity: 1;
-        transition: visibility .2s,opacity .2s;
+    .ProseMirror {
+        padding-top: 2px;
+
+        &:focus {
+            outline: none !important;
+        }
+    }
+
+    button.menubar__button {
+        background: white;
+        border: hidden;
+        border-radius: 2px;
+        font-size: 18px;
+        width: 34px;
+        height: 36px;
+        margin: 2px 0;
+
+        &:hover {
+            background: #dddddd;
+        }
+
+        &.is-active {
+            background: #afd534;
+        }
     }
 }
 
-.ProseMirror-focused {
-    :focus {
-        outline: none !important;
-    }
-}

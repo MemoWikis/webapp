@@ -178,7 +178,8 @@ new Vue({
                 var found = false;
                 items = items.filter(function(item) {
                     if (!found && item.id == key) {
-                        result.push(item.contentData);
+                        if (item.contentData.TemplateName != 'InlineText' || item.contentData.Content)
+                            result.push(item.contentData);
                         found = true;
                         return false;
                     } else
