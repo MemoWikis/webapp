@@ -55,8 +55,8 @@
     padding-right: 0;
   }
 }
-#QuestionListApp .ButtonEllipsis {
-  padding-right: 0;
+#QuestionListApp #QuestionFooterIcons .btn-link {
+  color: #999999 !important;
 }
 #QuestionListApp .drop-down-question-sort {
   display: flex;

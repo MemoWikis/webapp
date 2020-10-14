@@ -251,7 +251,7 @@
                                     </div>
                                     <div class="answerCountFooter">{{answerCount}}&nbsp;mal&nbsp;beantwortet&nbsp;|&nbsp;{{correctAnswers}}&nbsp;richtig&nbsp;/&nbsp;{{wrongAnswers}}&nbsp;falsch</div>
                                 </div>
-                                <div class="questionFooterIcons">
+                                <div id="QuestionFooterIcons" class="questionFooterIcons">
                                     <div>
                                         <a class="commentIcon" :href="questionLinkToComment">
                                             <i class="fa fa-comment"><span style="font-weight: 400;">&nbsp;{{commentCount}}</span></i>
@@ -262,7 +262,7 @@
                                             <i class="fa fa-ellipsis-v"></i>
                                         </a>
                                         <ul class="dropdown-menu dropdown-menu-right standard-question-drop-down">
-                                            <li v-if="isAdmin == 'True' || isCreator"><a :href="linkToEditQuestion" data-allowed="logged-in"><i class="fa fa-code-fork"></i><span>Frage bearbeiten</span></a></li>
+                                            <li v-if="isAdmin == 'True' || isCreator"><a :href="linkToEditQuestion" data-allowed="logged-in"><i class="fa fa-pen"></i><span>Frage bearbeiten</span></a></li>
                                             <li style="cursor: pointer"><a :href="linkToQuestion"><i class="fas fa-file"></i><span>Frageseite anzeigen</span></a></li>
                                             <li><a :href="linkToQuestionVersions" data-allowed="logged-in"><i class="fa fa-code-fork"></i><span>Bearbeitungshistorie der Frage</span></a></li>
                                             <li style="cursor: pointer"><a :href="questionLinkToComment"><i class="fas fa-comment"></i><span>Frage kommentieren</span></a></li>
