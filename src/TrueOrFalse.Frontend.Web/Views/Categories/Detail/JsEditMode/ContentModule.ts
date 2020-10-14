@@ -32,7 +32,8 @@ var contentModuleComponent = Vue.component('content-module', {
     created() {
         if (this.contentModuleType != "inlinetext") {
             this.modalType = '#' + this.contentModuleType + 'SettingsDialog';
-            this.content = JSON.parse(this.origMarkdown);
+            if (this.origMarkdown != null)
+                this.content = JSON.parse(this.origMarkdown);
         };
         this.uid = this._uid + Math.floor((Math.random() * 10000) + 1);
         this.id = this.contentModuleType + 'Module-' + (this.uid);
@@ -45,10 +46,7 @@ var contentModuleComponent = Vue.component('content-module', {
     mounted() {
         eventBus.$on('set-edit-mode', (state) => {
             this.canBeEdited = state;
-            if (this.contentModuleType == "topicnavigation" || this.contentModuleType == "inlinetext") {
-                let module = [this.uid, this.content];
-                eventBus.$emit('get-module', module);
-            }
+            this.updateModule();
         });
         eventBus.$on('close-content-module-settings-modal',
             (event) => {
@@ -93,7 +91,7 @@ var contentModuleComponent = Vue.component('content-module', {
     },
 
     watch: {
-        canBeEdited: function(val) {
+        canBeEdited(val) {
             if (val) {
                 this.dataTarget = this.modalType;
                 this.markdown = this.origMarkdown;
@@ -108,6 +106,9 @@ var contentModuleComponent = Vue.component('content-module', {
                 this.hoverState = false;
             };
         },
+        content() {
+            this.updateModule();
+        }
     },
 
     updated: function() {
@@ -131,6 +132,16 @@ var contentModuleComponent = Vue.component('content-module', {
         deleteModule() {
             const self = this;
             self.isDeleted = true;
+        },
+
+        updateModule() {
+            if (this.contentModuleType == "topicnavigation" || this.contentModuleType == "inlinetext") {
+                let module = {
+                    id: this.uid,
+                    contentData: this.content
+                };
+                eventBus.$emit('get-module', module);
+            }
         },
 
         editModule() {

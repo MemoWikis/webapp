@@ -58,7 +58,12 @@ new Vue({
     created() {
         eventBus.$on('get-module',
             (module) => {
-                this.modules.push(module);
+                var index = this.modules.findIndex((m) => m.id == module.id);
+                if (index >= 0)
+                    this.modules[index] = module;
+                else
+                    this.modules.push(module);
+
                 this.updateModuleOrder();
             });
         eventBus.$on('save-markdown',
@@ -140,7 +145,6 @@ new Vue({
         cancelEditMode() {
 
             this.sortModules();
-            this.modules = [];
 
             if (!this.editMode)
                 return;
@@ -170,15 +174,11 @@ new Vue({
             var sorting = this.moduleOrder;
             var result = [];
 
-            console.log(items);
-            console.log(sorting);
-
-
             sorting.forEach(function(key) {
                 var found = false;
                 items = items.filter(function(item) {
-                    if (!found && item[0] == key) {
-                        result.push(item[1]);
+                    if (!found && item.id == key) {
+                        result.push(item.contentData);
                         found = true;
                         return false;
                     } else
@@ -189,6 +189,7 @@ new Vue({
             console.log(result);
 
             this.sortedModules = result;
+            return;
         },
 
         removeAlert() {
@@ -229,32 +230,14 @@ new Vue({
             );
         },
 
-        saveContent() {
+        async saveContent() {
             if (!this.editMode)
                 return;
 
-            this.sortModules();
+            await this.sortModules();
             if (this.sortedModules.length == 0)
                 return;
-            //var jsonString = JSON.stringify(this.sortedModules);
 
-
-            //$.post("/Category/SaveCategoryContent",
-            //    {
-            //        categoryId: $("#hhdCategoryId").val(),
-            //        content: safeString,
-            //    },
-            //    (success) => {
-            //        if (success == true) {
-            //            this.saveSuccess = true;
-            //            this.saveMessage = "Das Thema wurde gespeichert.";
-            //            location.reload();
-            //        } else {
-            //            this.saveSuccess = false;
-            //            this.saveMessage = "Das Speichern schlug fehl.";
-            //        };
-            //    },
-            //);
             var data = {
                 categoryId: $("#hhdCategoryId").val(),
                 content: this.sortedModules,
@@ -279,18 +262,3 @@ new Vue({
         }
     },
 });
-
-
-
-//new Vue({
-//    el: "#EditorApp",
-//    data: {
-//        tiptap: Object.keys(tiptap),
-//        tiptapUtils: Object.keys(tiptapUtils),
-//        tiptapCommands: Object.keys(tiptapCommands),
-//        tiptapExtensions: Object.keys(tiptapExtensions),
-//        editor: new tiptap.Editor({
-//            content: '<p>This is just a boring paragraph</p>',
-//        }),
-//    }
-//});

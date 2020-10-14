@@ -5,14 +5,15 @@ public static class Tokenizer
 {
     public static List<TemplateJson> Run(string contentString)
     {
-        var decoded = System.Net.WebUtility.HtmlDecode(contentString);
-        dynamic jsonObject = JsonConvert.DeserializeObject(decoded);
+        dynamic jsonObject = JsonConvert.DeserializeObject(contentString);
         var tokens = new List<TemplateJson>();
 
         foreach (var obj in jsonObject)
         {
-            var json = JsonConvert.DeserializeObject<TemplateJson>(obj.Value);
-            json.OriginalJson = obj.Value;
+            var json = new TemplateJson{
+                TemplateName = obj.TemplateName
+            };
+            json.OriginalJson = obj.ToString();
             tokens.Add(json);
         }
 
