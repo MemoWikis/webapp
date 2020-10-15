@@ -56,7 +56,6 @@ public class TemplateToHtml
         switch (templateJson.TemplateName.ToLower())
         {
             case "topicnavigation":
-            case "categorynetwork":
             case "textblock":
             case "inlinetext":
                 return GetPartialHtml(contentModule, category, controllerContext);

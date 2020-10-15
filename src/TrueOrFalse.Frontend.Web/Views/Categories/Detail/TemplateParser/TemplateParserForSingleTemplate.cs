@@ -67,8 +67,6 @@ public class TemplateParserForSingleTemplate
         {
             case "topicnavigation":
                 return new TopicNavigationModel(category, JsonConvert.DeserializeObject<TopicNavigationJson>(templateJson.OriginalJson));
-            case "categorynetwork":
-                return new CategoryModel(category, loadKnowledgeSummary: false);
             case "inlinetext":
                 return new InlineTextModel(templateJson.InlineText, JsonConvert.DeserializeObject<InlineTextJson>(templateJson.OriginalJson));
             default:

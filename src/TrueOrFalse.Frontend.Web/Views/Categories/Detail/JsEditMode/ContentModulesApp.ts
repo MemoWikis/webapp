@@ -66,12 +66,6 @@ new Vue({
 
                 this.updateModuleOrder();
             });
-        eventBus.$on('save-markdown',
-            (data) => {
-                if (data == 'top') {
-                    this.saveMarkdown(data);
-                };
-            });
         eventBus.$on("set-edit-mode",
             (state) => {
                 this.editMode = state;
@@ -79,7 +73,7 @@ new Vue({
                     location.reload();
                 }
             });
-        eventBus.$on('new-markdown',
+        eventBus.$on('update-content-module',
             (event) => {
                 if (event.preview == true) {
                     const previewHtml = event.newHtml;

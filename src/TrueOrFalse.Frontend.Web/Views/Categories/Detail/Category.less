@@ -944,7 +944,6 @@ p:empty {
     .footerToolbar {
         display: flex;
         justify-content: space-between;
-        border-bottom: solid 1px #d6d6d6;
 
 
         .wishknowledge {
@@ -955,7 +954,7 @@ p:empty {
                 padding-top: 4px;
                 display: block;
                 height: 100%;
-                line-height: 38px;                                  
+                line-height: 38px;
                 color: #999999;
             }
         }
@@ -972,6 +971,11 @@ p:empty {
                 color: #999999;
             }
         }
+    }
+
+    #Footer-CategoryLearning, #Footer-CategoryNetwork {
+        padding: 30px 0;
+        border-top: solid 1px #d6d6d6
     }
 }
 
@@ -1960,7 +1964,6 @@ p:empty {
 
     .menubar {
         top: 0%;
-
         transform: translateY(calc(-100% - 2px));
         position: absolute;
         background: white;
@@ -1983,6 +1986,10 @@ p:empty {
         &:focus {
             outline: none !important;
         }
+
+        b, strong {
+            font-weight: 600;
+        }
     }
 
     button.menubar__button {
@@ -1993,14 +2000,24 @@ p:empty {
         width: 34px;
         height: 36px;
         margin: 2px 0;
+        color: #555555;
 
         &:hover {
-            background: #dddddd;
+            background: #efefef;
         }
 
         &.is-active {
-            background: #afd534;
+            background: #dddddd;
         }
+    }
+
+    p.is-editor-empty:first-child::before {
+        content: attr(data-empty-text);
+        float: left;
+        color: #aaa;
+        pointer-events: none;
+        height: 0;
+        font-style: italic;
     }
 }
 

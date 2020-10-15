@@ -1011,7 +1011,6 @@ p:empty {
   -webkit-justify-content: space-between;
       -ms-flex-pack: justify;
           justify-content: space-between;
-  border-bottom: solid 1px #d6d6d6;
 }
 #CategoryFooter .footerToolbar .wishknowledge {
   display: -webkit-box;
@@ -1036,6 +1035,11 @@ p:empty {
 #CategoryFooter .footerToolbar .footerDropdown .fa-ellipsis-v {
   font-size: 18px;
   color: #999999;
+}
+#CategoryFooter #Footer-CategoryLearning,
+#CategoryFooter #Footer-CategoryNetwork {
+  padding: 30px 0;
+  border-top: solid 1px #d6d6d6;
 }
 @media (max-width: 991px) {
   #MasterMainWrapper {
@@ -2540,6 +2544,10 @@ p:empty {
 .inline-text-editor .ProseMirror:focus {
   outline: none !important;
 }
+.inline-text-editor .ProseMirror b,
+.inline-text-editor .ProseMirror strong {
+  font-weight: 600;
+}
 .inline-text-editor button.menubar__button {
   background: white;
   border: hidden;
@@ -2549,10 +2557,19 @@ p:empty {
   width: 34px;
   height: 36px;
   margin: 2px 0;
+  color: #555555;
 }
 .inline-text-editor button.menubar__button:hover {
-  background: #dddddd;
+  background: #efefef;
 }
 .inline-text-editor button.menubar__button.is-active {
-  background: #afd534;
+  background: #dddddd;
+}
+.inline-text-editor p.is-editor-empty:first-child::before {
+  content: attr(data-empty-text);
+  float: left;
+  color: #aaa;
+  pointer-events: none;
+  height: 0;
+  font-style: italic;
 }

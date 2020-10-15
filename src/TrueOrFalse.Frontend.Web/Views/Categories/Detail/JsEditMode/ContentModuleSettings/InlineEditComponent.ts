@@ -47,10 +47,10 @@ Vue.component('text-component',
                         new tiptapExtensions.Placeholder({
                             emptyEditorClass: 'is-editor-empty',
                             emptyNodeClass: 'is-empty',
-                            emptyNodeText: 'Write something …',
+                            emptyNodeText: 'Klicke hier um zu tippen ...',
                             showOnlyWhenEditable: true,
                             showOnlyCurrent: true,
-                        }),
+                        })
                     ],
                     content: this.content,
                     onUpdate: ({ getJSON, getHTML }) => {

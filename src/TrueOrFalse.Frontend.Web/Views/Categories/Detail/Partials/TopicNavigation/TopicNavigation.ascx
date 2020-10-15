@@ -21,12 +21,23 @@
                         <div class="col-xs-6 topic">
                             <div class="row">
                                 <div class="col-xs-3">
-                                    <div class="ImageContainer">
+                                    <div class="ImageContainer" v-if="canBeEdited">
+                                        <%= Model.GetCategoryImage(category).RenderHtmlImageBasis(128, true, ImageType.Category) %>
+                                    </div>
+                                    <div class="ImageContainer" v-else>
                                         <%= Model.GetCategoryImage(category).RenderHtmlImageBasis(128, true, ImageType.Category, linkToItem: Links.CategoryDetail(category.Name, category.Id)) %>
                                     </div>
                                 </div>
                                 <div class="col-xs-9">
-                                    <a class="topic-name" href="<%= Links.CategoryDetail(category) %>">
+                                    <div class="topic-name" v-if="canBeEdited">
+                                        <div class="topic-name">
+                                            <% if (Model.GetTotalTopicCount(category) < 1 && Model.GetTotalQuestionCount(category) < 1 && Model.IsInstallationAdmin) { %>
+                                                <i class="fa fa-user-secret show-tooltip" data-original-title="Thema ist leer und wird daher nur Admins angezeigt"></i>
+                                            <% } %>
+                                            <%= category.Type.GetCategoryTypeIconHtml() %><%: category.Name %>
+                                        </div>
+                                    </div>
+                                    <a v-else class="topic-name" href="<%= Links.CategoryDetail(category) %>">
                                         <div class="topic-name">
                                             <% if (Model.GetTotalTopicCount(category) < 1 && Model.GetTotalQuestionCount(category) < 1 && Model.IsInstallationAdmin) { %>
                                                 <i class="fa fa-user-secret show-tooltip" data-original-title="Thema ist leer und wird daher nur Admins angezeigt"></i>

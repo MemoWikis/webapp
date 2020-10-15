@@ -193,7 +193,7 @@ namespace TrueOrFalse
             }
 
             routes.MapRoute("GetQuestionSets", "Questions/GetQuestionSets", new { controller = "Questions", action = "GetQuestionSets" });
-            /*Api*/routes.MapRoute("EditPreview", "Category/RenderMarkdown", new { controller = "Category", action = "RenderMarkdown" });
+            /*Api*/routes.MapRoute("EditPreview", "Category/RenderContentModule", new { controller = "Category", action = "RenderContentModule" });
             ///*Api*/routes.MapRoute("EditSave", "Category/SaveMarkdown", new { controller = "Category", action = "SaveMarkdown" });
             /*Api*/routes.MapRoute("EditSave", "Category/SaveCategoryContent", new { controller = "Category", action = "SaveCategoryContent" });
             /*Api*/

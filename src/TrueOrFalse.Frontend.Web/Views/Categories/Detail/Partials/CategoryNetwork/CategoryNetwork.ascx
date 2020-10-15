@@ -1,10 +1,7 @@
 ﻿<%@ Control Language="C#" AutoEventWireup="true" 
     Inherits="System.Web.Mvc.ViewUserControl<CategoryModel>" %>
-<%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
-
-<%: Html.Partial("~/Views/Categories/Detail/Partials/ContentModuleWrapperStart.ascx") %>
-                
-    <h4>Über- und untergeordnete Themen</h4>
+<div id="Footer-CategoryNetwork">
+    <h1>Über- und untergeordnete Themen</h1>
     
     <% if (Model.Category.IsHistoric) { %>
         <div class="alert alert-info" role="alert">
@@ -55,6 +52,7 @@
     </div>
 
 
-<%: Html.Partial("~/Views/Categories/Detail/Partials/ContentModuleWrapperEnd.ascx") %>
 
 
+
+</div>

@@ -107,12 +107,9 @@ public class CategoryController : BaseController
 
     private CategoryModel GetModelWithContentHtml(Category category, int? version = null, bool isCategoryNull = false)
     {
-        var tokens = Tokenizer.Run(category.Content);
-
         return new CategoryModel(category, true, isCategoryNull)
         {
-            //CustomPageHtml = MarkdownToHtml.Run(category.TopicMarkdown, category, ControllerContext, version)
-            CustomPageHtml = TemplateToHtml.Run(tokens, category, ControllerContext, version)
+            CustomPageHtml = string.IsNullOrEmpty(category.Content) ? "" : TemplateToHtml.Run(Tokenizer.Run(category.Content), category, ControllerContext, version)
         };
     }
 
@@ -255,6 +252,29 @@ public class CategoryController : BaseController
         var category = Sl.CategoryRepo.GetById(categoryId);
 
         return Json(MarkdownSingleTemplateToHtml.Run(markdown, category, this.ControllerContext, true));
+    }
+
+    [HttpPost]
+    [AccessOnlyAsLoggedIn]
+    public ActionResult RenderContentModule(int categoryId, JsonLoader json)
+    {
+        var category = Sl.CategoryRepo.GetById(categoryId);
+        var templateJson = new TemplateJson
+        {
+            TemplateName = json.TemplateName,
+            OriginalJson = JsonConvert.SerializeObject(json, new JsonSerializerSettings
+            {
+                NullValueHandling = NullValueHandling.Ignore
+            })
+        };
+        var baseContentModule = TemplateParserForSingleTemplate.Run(templateJson, category);
+        var html = MarkdownSingleTemplateToHtml.GetHtml(
+            baseContentModule,
+            category,
+            this.ControllerContext
+        );
+
+        return Json(html);
     }
 
     public string GetKnowledgeGraphDisplay(int categoryId)

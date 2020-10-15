@@ -55,7 +55,10 @@
           :class="{ 'is-active': isActive.heading({ level: 2 }) }"
           @click="commands.heading({ level: 2 })"
         >
-          H2
+              <b>
+                  H2
+
+              </b>
         </button>
 
         <button
@@ -63,7 +66,9 @@
           :class="{ 'is-active': isActive.heading({ level: 3 }) }"
           @click="commands.heading({ level: 3 })"
         >
-          H3
+            <b>
+                H3
+            </b>
         </button>
 
         <button
@@ -95,7 +100,7 @@
               :class="{ 'is-active': isActive.code() }"
               @click="commands.code"
           >
-              <i class="fas fa-code"></i>
+              <i class="far fa-file-code"></i>
           </button>
 
         <button
@@ -103,14 +108,16 @@
           :class="{ 'is-active': isActive.code_block() }"
           @click="commands.code_block"
         >
-            <i class="far fa-file-code"></i>
+            <i class="fas fa-file-code"></i>
         </button>
           
           <button
               class="menubar__button"
               @click="commands.horizontal_rule"
           >
-              <i class="far fa-window-minimize"></i>
+              <b>
+                  —
+              </b>
           </button>
           
           <button

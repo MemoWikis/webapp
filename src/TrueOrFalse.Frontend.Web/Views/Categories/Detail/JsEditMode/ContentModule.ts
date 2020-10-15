@@ -150,7 +150,7 @@ var contentModuleComponent = Vue.component('content-module', {
                     this.isListening = true;
                     let parent = {
                         id: this.id,
-                        markdown: this.markdown,
+                        moduleData: this.content,
                     };
                     $(this.modalType).data('parent', parent).modal('show');
                 };

@@ -14,7 +14,6 @@ Vue.component('topicnavigation-modal-component', {
 
     data() {
         return {
-            newMarkdown: '',
             parentId: '',
             title: '',
             text: '',
@@ -47,11 +46,11 @@ Vue.component('topicnavigation-modal-component', {
 
     mounted: function () {
         $('#topicnavigationSettingsDialog').on('show.bs.modal',
-            event => {
-                this.newMarkdown = $('#topicnavigationSettingsDialog').data('parent').markdown;
+            event => { 
+                this.topicNavigationSettings = $('#topicnavigationSettingsDialog').data('parent').moduleData;
+                console.log($('#topicnavigationSettingsDialog').data('parent'));
                 this.parentId = $('#topicnavigationSettingsDialog').data('parent').id;
                 this.initializeData();
-
             });
 
         $('#topicnavigationSettingsDialog').on('hidden.bs.modal',
@@ -115,8 +114,6 @@ Vue.component('topicnavigation-modal-component', {
         },
 
         initializeData() {
-            this.topicNavigationSettings = Utils.ConvertEncodedHtmlToJson(this.newMarkdown);
-
             if (this.topicNavigationSettings.Title)
                 this.title = this.topicNavigationSettings.Title;
             if (this.topicNavigationSettings.Text)
@@ -175,8 +172,7 @@ Vue.component('topicnavigation-modal-component', {
                     this.topicNavigationSettings.Order = this.order;
             }
 
-            this.newMarkdown = Utils.ConvertJsonToMarkdown(this.topicNavigationSettings);
-            Utils.ApplyMarkdown(this.newMarkdown, this.parentId);
+            Utils.ApplyContentModule(this.topicNavigationSettings, this.parentId);
             $('#topicnavigationSettingsDialog').modal('hide');
         },
 
