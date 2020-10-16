@@ -13,7 +13,7 @@ Vue.component('session-config-component', {
             probabilityRange: [0, 100],
             questionFilter: {
                 minProbability: 0,
-                maxProbability: 99.9,
+                maxProbability: 100,
                 maxQuestionCount: 0,
                 inWishknowledge: true,
                 createdByCurrentUser: true,
@@ -45,10 +45,13 @@ Vue.component('session-config-component', {
             randomQuestions: false,
             answerHelp: true,
             repititions: true,
-            categoryName: $("#hhdCategoryName").val()
-        };
+            categoryName: $("#hhdCategoryName").val(),
+            displayMinus: false, 
+            isFirstLoad: true
+    };
     },created() {
-        eventBus.$on('openLearnOptions', ()=>{this.openModal()}); 
+        eventBus.$on('openLearnOptions', () => { this.openModal() }); 
+        eventBus.$on("start-learning-session", () => { this.loadCustomSession() }); 
     },
     mounted() {
         var self = this;
@@ -56,8 +59,11 @@ Vue.component('session-config-component', {
         if (NotLoggedIn.Yes()) {
             this.title = 'Test';
             this.isLoggedIn = false;
-            this.isTestModeOrNotLoginIn = IsLoggedIn; 
+            this.isTestModeOrNotLoginIn = IsLoggedIn;
+            this.randomQuestions = !this.isLoggedIn;
         };
+
+        console.log("ismounted");
 
         this.$nextTick(function() {
             window.addEventListener('resize', this.matchSize);
@@ -102,16 +108,39 @@ Vue.component('session-config-component', {
                 this.allQuestions = true;
             else
                 this.allQuestions = false;
-            
-            this.loadQuestionCount();
+
+            if (this.allQuestions == false) {
+                this.loadQuestionCount();
+            }
+            if (this.inWishknowledge == false &&
+                this.createdByCurrentUser == false &&
+                this.isNotQuestionInWishKnowledge == false
+                || this.inWishknowledge == true &&
+                this.createdByCurrentUser == true &&
+                this.isNotQuestionInWishKnowledge == true) {
+                this.displayMinus = false; 
+            } else
+                this.displayMinus = true; 
         },
         createdByCurrentUser: function (val) {
             if (val == true && this.isNotQuestionInWishKnowledge && this.inWishknowledge)
                 this.allQuestions = true;
             else
                 this.allQuestions = false;
+            
+            if (this.allQuestions == false) {
+                this.loadQuestionCount();
+            }
 
-            this.loadQuestionCount();
+            if (this.inWishknowledge == false &&
+                this.createdByCurrentUser == false &&
+                this.isNotQuestionInWishKnowledge == false
+                || this.inWishknowledge == true &&
+                this.createdByCurrentUser == true &&
+                this.isNotQuestionInWishKnowledge == true) {
+                this.displayMinus = false;
+            } else
+                this.displayMinus = true;
         },
         allQuestions: function (val) {
 
@@ -129,7 +158,7 @@ Vue.component('session-config-component', {
                 this.createdByCurrentUser = false;
                 this.isNotQuestionInWishKnowledge = false;
             }
-            
+
             this.loadQuestionCount();
         },
         isNotQuestionInWishKnowledge: function (val) {
@@ -138,7 +167,19 @@ Vue.component('session-config-component', {
             else
                 this.allQuestions = false;
 
-            this.loadQuestionCount();
+            if (this.allQuestions == false) {
+                this.loadQuestionCount();
+            }
+
+            if (this.inWishknowledge == false &&
+                this.createdByCurrentUser == false &&
+                this.isNotQuestionInWishKnowledge == false
+                || this.inWishknowledge == true &&
+                this.createdByCurrentUser == true &&
+                this.isNotQuestionInWishKnowledge == true) {
+                this.displayMinus = false;
+            } else
+                this.displayMinus = true;
         },
         safeLearningSessionOptions: function (val) {
             this.questionFilter.safeLearningSessionOptions = val;
@@ -171,14 +212,18 @@ Vue.component('session-config-component', {
 
             $.ajax({
                 url: "/AnswerQuestion/GetQuestionCount/",
+                async: false,
                 data: {
                     config: this.questionFilter
                 },
                 type: "POST",
                 success: result => {
-                    result = parseInt(result);
-                    this.maxSelectableQuestionCount = result;
-                    this.selectedQuestionCount = result;
+                    this.maxSelectableQuestionCount = parseInt(result);
+
+                    if (this.isFirstLoad && this.selectedQuestionCount == result || typeof (this.isFirstLoad) == "undefined"
+                        || this.selectedQuestionCount > this.maxSelectableQuestionCount
+                        || this.selectedQuestionCount == 0)
+                            this.selectedQuestionCount = parseInt(result);
                 }
             });
         },
@@ -193,7 +238,7 @@ Vue.component('session-config-component', {
                 allQuestions: false
             };
         },
-        loadCustomSession() {
+        loadCustomSession(firstLoad = true) {
             if (this.maxQuestionCountIsZero)
                 return;
             eventBus.$emit('update-selected-page', 1);
@@ -204,6 +249,7 @@ Vue.component('session-config-component', {
             $('#SessionConfigModal').modal('hide');
             this.questionFilter.safeLearningSessionOptions = this.safeLearningSessionOptions = false;
             eventBus.$emit("send-selected-questions", this.selectedQuestionCount);
+            this.isFirstLoad = firstLoad;
 
         },
         matchSize() {
@@ -267,9 +313,7 @@ Vue.component('question-list-component', {
         eventBus.$on('reload-knowledge-state', () => this.loadQuestions(this.selectedPage));
         eventBus.$on('reload-wishknowledge-state-per-question', (data) => this.changeQuestionWishknowledgeState(data.questionId, data.isInWishknowledge));
         eventBus.$on('reload-correctnessprobability-for-question', (id) => this.getUpdatedCorrectnessProbability(id));
-        eventBus.$on('load-questions-list', () => this.initQuestionList());
-        eventBus.$on('update-selected-page', (selectedPage) => {this.selectedPage = selectedPage});
-
+        eventBus.$on('load-questions-list', ()=>{ this.initQuestionList() });
     },
     mounted() {
         this.categoryId = $("#hhdCategoryId").val();
@@ -423,7 +467,11 @@ let v = Vue.component('question-component', {
         'questionIndex',
         'activeQuestion',
         'selectedPageFromActiveQuestion',
-        'lengthOfQuestionsArray'
+        'lengthOfQuestionsArray',
+        'questionLinkToComment',
+        'linkToEditQuestion',
+        'linkToQuestionVersions',
+        'linkToQuestion'
     ],
     data() {
         return {
@@ -449,7 +497,6 @@ let v = Vue.component('question-component', {
             isCreator: false,
             editUrl: "",
             historyUrl: "",
-            linkToComments: this.url + "#JumpLabel",
             topicTitle: "Thema",
             authorUrl: "",
             questionDetails: "",
@@ -464,6 +511,7 @@ let v = Vue.component('question-component', {
         this.setKnowledgebarData(this.knowledgeState);
         this.getWishknowledgePinButton();
         $("#BorderQuestionList").height($(".drop-down-question-sort").height() + $("#QuestionListApp").height());
+        new QuestionRowDelete(QuestionRowDeleteSourcePage.QuestionRow);
     },
     watch: {
         isQuestionListToShow() {

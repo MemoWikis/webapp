@@ -17,6 +17,12 @@ namespace QuestionListJson
         public bool IsInWishknowledge { get; set; }
         public bool HasPersonalAnswer { get; set; }
         public int LearningSessionStepCount { get; set; }
+        public string LinkToComment { get; set; }
+        public string LinkToEditQuestion { get; set; }
+        public string LinkToDeleteQuestion { get; set; }
+        public string LinkToQuestionDetailSite { get; set; }
+        public string LinkToQuestionVersions { get; set; }
+
     }
 }
 

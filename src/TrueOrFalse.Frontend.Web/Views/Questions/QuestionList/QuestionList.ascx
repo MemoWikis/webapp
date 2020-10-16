@@ -29,32 +29,25 @@
                             <h4 class="modal-title">Personalisiere dein Lernen </h4>
                         </div>
                         <div class="modal-body">
-                            <transition name="fade">
-                                <div class="restricted-options" v-show="!isLoggedIn && isHoveringOptions" @mouseover="isHoveringOptions = true" transition="fade">
-                                </div>
-                            </transition>
                             <div ref="radioSection" class="must-logged-in" :class="{'disabled-radios' : !isLoggedIn}" @mouseover="isHoveringOptions = true" @mouseleave="isHoveringOptions = false">
-                                    <transition name="fade">
-                                        <div v-show="!isLoggedIn && isHoveringOptions" class="blur" :style="{height: radioHeight + 'px'}"></div>
-                                    </transition>
-                                    <div class="modal-section-label">Prüfungsmodus&nbsp;<i class="fa fa-info-circle" aria-hidden="true"></i></div>
-                                    <div class="test-mode">
+                                <div class="modal-section-label" :class="{inactive: !isLoggedIn}">Prüfungsmodus&nbsp;<i class="fa fa-info-circle" aria-hidden="true"></i></div>
+                                    <div class="test-mode" :class="{inactive: !isLoggedIn}">
                                         <div class="center">
-                                            <input type="checkbox" id="cbx" style="display:none" v-model="isTestMode" />
-                                            <label for="cbx" class="toggle">
+                                            <input type="checkbox" id="cbx" style="display:none" v-model="isTestMode" :disabled="!isLoggedIn"  />
+                                            <label for="cbx" class="toggle" :class="{forbidden: !isLoggedIn}">
                                                 <span></span>
                                             </label>
                                         </div>
                                     </div>
-                                    <div class="test-mode-info">
+                                    <div class="test-mode-info" :class="{inactive: !isLoggedIn}" >
                                         Du willst es Wissen? Im Prüfungsmodus kannst Du Dein Wissen realistisch testen: zufällige Fragen ohne Antworthilfe und Wiederholungen. Viel Erfolg!
                                     </div>
                                     <div class="modal-divider"></div>
-                                    <div id="CheckboxesLearnOptions" class="row">
+                                    <div id="CheckboxesLearnOptions" class="row" :class="{inactive: !isLoggedIn}">
                                     <div class="col-sm-6">
                                         <label class="checkbox-label">
-                                            <input id="AllQuestions" type="checkbox" v-model="allQuestions" :disabled="!isLoggedIn" value="False" v-if="!allQuestions"/>
-                                            <i id="AllQuestionMinus" class="fas fa-minus-square" v-if="allQuestions" v-on:click="allQuestions = !allQuestions"></i>
+                                            <input id="AllQuestions" type="checkbox" v-model="allQuestions" :disabled="!isLoggedIn" value="False" v-if="allQuestions || !displayMinus" v-on:click="allQuestions = !allQuestions"/>
+                                            <i id="AllQuestionMinus" class="fas fa-minus-square" v-if="displayMinus" v-on:click="allQuestions = !allQuestions"></i>
                                             Alle Fragen
                                         </label> <br />
                                         <label class="checkbox-label">
@@ -90,7 +83,7 @@
                                     <div v-if="maxSelectableQuestionCount > 0" class="sliderContainer">
                                         <div class="leftLabel">0</div>
                                         <div class="vueSlider">                            
-                                            <vue-slider v-model="selectedQuestionCount" :max="maxSelectableQuestionCount" ></vue-slider>
+                                            <vue-slider v-model="selectedQuestionCount" :max="maxSelectableQuestionCount" :tooltip="'always'"></vue-slider>
                                         </div>
                                         <div class="rightLabel">{{maxSelectableQuestionCount}}</div>
                                     </div>
@@ -100,33 +93,33 @@
                                 </div>
                             </div>
                             <div class="row modal-more-options">
-                                <div class="more-options class= col-sm-12" @click="displayNone = !displayNone">
-                                    <span>erweiterte Optionen</span>
+                                <div class="more-options col-sm-12" @click="displayNone = !displayNone">
+                                    <span >Erweiterte Optionen</span>
                                     <span class="angle">
                                         <i v-if="displayNone" class="fas fa-angle-down"></i>
                                         <i v-if="!displayNone" class="fas fa-angle-up"></i>
                                     </span>
                                 </div>
-                                <div id="QuestionSortSessionConfig" v-bind:class="{displayNone: displayNone}" class=" col-sm-12">
-                                    <div class="randomQuestions">
-                                        <input type="checkbox" id="randomQuestions" style="display:none" :disabled="isTestModeOrNotLoginIn" v-model="randomQuestions" />
-                                        <label for="randomQuestions" class="toggle" :class="{inactive: !isLoggedIn || isTestMode}">
-                                            <span :class="{inactiveSpan: !isLoggedIn || isTestMode}"></span>
+                                <div id="QuestionSortSessionConfig" class=" col-sm-12" v-bind:class="{displayNone: displayNone}">
+                                    <div class="randomQuestions" :class="{inactive: !isLoggedIn || isTestMode}">
+                                        <input type="checkbox" id="randomQuestions" style="display:none" :disabled="isTestModeOrNotLoginIn" v-model="randomQuestions"  />
+                                        <label for="randomQuestions" class="toggle" :class="{forbidden: !isLoggedIn || isTestMode}">
+                                            <span></span>
                                         </label>
                                         <span>&nbsp;Zufällige Fragen<i> Erhöhe die Schwierigkeit mit zufällig vorgelegten Fragen.</i></span> 
                                     </div>
                                     
-                                    <div class="answerHelp">
+                                    <div class="answerHelp" :class="{inactive: !isLoggedIn || isTestMode}">
                                         <input type="checkbox" id="answerHelp" style="display:none" :disabled="isTestModeOrNotLoginIn" v-model="answerHelp" />
-                                        <label for="answerHelp" class="toggle" :class="{inactive: !isLoggedIn}">
-                                            <span :class="{inactiveSpan: !isLoggedIn}"></span>
+                                        <label for="answerHelp" class="toggle" :class="{forbidden: !isLoggedIn || isTestMode}">
+                                            <span></span>
                                         </label>
                                         <span>&nbsp;Antworthilfe<i> Die Antworthilfe zeigt dir auf Wunsch die richtige Antwort</i></span>
                                     </div>
-                                    <div class="repititions">
+                                    <div class="repititions" :class="{inactive: !isLoggedIn || isTestMode}">
                                         <input type="checkbox" id="repititions" style="display:none" :disabled="isTestModeOrNotLoginIn" v-model="repititions" />
-                                        <label for="repititions" class="toggle" :class="{inactive: !isLoggedIn}">
-                                            <span :class="{inactiveSpan: !isLoggedIn}"></span>
+                                        <label for="repititions" class="toggle" :class="{forbidden: !isLoggedIn || isTestMode}">
+                                            <span></span>
                                         </label>
                                         <span>&nbsp;Wiederholungen<i> Falsch gelöste Fragen werden dir zur Beantwortung erneut vorgelegt.</i></span>
                                     </div>
@@ -151,7 +144,7 @@
                         </div>
                         <div class="modal-footer">
                             <div type="button" class="btn btn-link" data-dismiss="modal">Abbrechen</div>
-                            <div type="button" class="btn btn-primary" :class="{ 'disabled' : maxQuestionCountIsZero }" @click="loadCustomSession()"><i class="fas fa-play"></i> Anwenden</div>
+                            <div type="button" class="btn btn-primary" :class="{ 'disabled' : maxQuestionCountIsZero }" @click="loadCustomSession(false)"><i class="fas fa-play"></i> Anwenden</div>
                         </div>
                     </div>
                 </div>
@@ -163,10 +156,10 @@
             <a href="#" class="dropdown-toggle  btn btn-link btn-sm ButtonEllipsis" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
                 <i class="fa fa-ellipsis-v"></i>
             </a>
-            <ul class="dropdown-menu dropdown-menu-right">
-                <li><a href="<%= Links.CreateQuestion(Model.CategoryId) %>" data-allowed="logged-in"><i class="fa fa-plus-circle"></i>&nbsp;Frage hinzufügen</a></li>
-                <li><a href="#" @click="toggleQuestionsList()"><i class="fa fa-angle-double-down"></i>&nbsp;Alle Fragen erweitern</a></li>
-                <li><a href="#" data-allowed="logged-in" @click="loadCustomSession()"><i class="fa fa-play"></i>&nbsp;Fragen jetzt lernen </a></li>
+            <ul class="dropdown-menu dropdown-menu-right standard-question-drop-down">
+                <li><a href="<%= Links.CreateQuestion(Model.CategoryId) %>" data-allowed="logged-in"><i class="fa fa-plus-circle"></i><span>Frage hinzufügen</span></a></li>
+                <li @click="toggleQuestionsList()" style="cursor: pointer"><a><i class="fa fa-angle-double-down"></i><span>Alle Fragen erweitern</span></a></li>
+                <li style="cursor: pointer"><a data-allowed="logged-in" @click="startNewLearningSession()"><i class="fa fa-play"></i><span>Fragen jetzt lernen</span></a></li>
             </ul>
         </div>
     </div>
@@ -196,7 +189,11 @@
                                 :active-question ="activeQuestion"
                                 :selected-page ="selectedPage"
                                 :selected-page-from-active-question="selectedPageFromActiveQuestion"
-                                :length-of-questions-array="questions[0].LearningSessionStepCount">
+                                :length-of-questions-array="questions[0].LearningSessionStepCount"
+                                :question-link-to-comment ="q.LinkToComment"
+                                :link-to-edit-question ="q.LinkToEditQuestion"
+                                :link-to-question-versions ="q.LinkToQuestionVersions"
+                                :link-to-question ="q.LinkToQuestion">
                 
                 <div class="singleQuestionRow" :class="[{ open: showFullQuestion}, backgroundColor]">
                     <div class="questionSectionFlex">
@@ -247,28 +244,25 @@
                                     </div>
                                     <div class="answerCountFooter">{{answerCount}}&nbsp;mal&nbsp;beantwortet&nbsp;|&nbsp;{{correctAnswers}}&nbsp;richtig&nbsp;/&nbsp;{{wrongAnswers}}&nbsp;falsch</div>
                                 </div>
-                                <div class="questionFooterIcons">
+                                <div id="QuestionFooterIcons" class="questionFooterIcons">
                                     <div>
-                                        <a class="commentIcon" :href="linkToComments">
-                                            <i class="fa fa-comment"><span>&nbsp;{{commentCount}}</span></i>
+                                        <a class="commentIcon" :href="questionLinkToComment">
+                                            <i class="fa fa-comment"><span style="font-weight: 400;">&nbsp;{{commentCount}}</span></i>
                                         </a>
                                     </div>
-                                    <div class=" ellipsis dropup" @click="showQuestionMenu = true">
-                                        <i class="fas fa-ellipsis-v" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true"></i>
-                                        <ul class="dropdown-menu dropdown-menu-right" v-show="showQuestionMenu">
-                                            <li>
-                                                <a :href="url">Frageseite anzeigen</a>
-                                            </li>
-                                            <li v-if="isCreator || isAdmin == 'True' ">
-                                                <a :href="editUrl" >Frage bearbeiten</a>
-                                            </li>
-                                            <li id="DeleteQuestion" v-if="isCreator || isAdmin == 'True' ">
-                                                <a class="TextLinkWithIcon" data-toggle="modal" :data-questionid="questionId" href="#modalDeleteQuestion">
-                                                    Frage löschen
+                                    <div class="Button dropdown">
+                                        <a href="#" class="dropdown-toggle  btn btn-link btn-sm ButtonEllipsis" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                            <i class="fa fa-ellipsis-v"></i>
+                                        </a>
+                                        <ul class="dropdown-menu dropdown-menu-right standard-question-drop-down">
+                                            <li v-if="isAdmin == 'True' || isCreator"><a :href="linkToEditQuestion" data-allowed="logged-in"><i class="fa fa-pen"></i><span>Frage bearbeiten</span></a></li>
+                                            <li style="cursor: pointer"><a :href="linkToQuestion"><i class="fas fa-file"></i><span>Frageseite anzeigen</span></a></li>
+                                            <li><a :href="linkToQuestionVersions" data-allowed="logged-in"><i class="fa fa-code-fork"></i><span>Bearbeitungshistorie der Frage</span></a></li>
+                                            <li style="cursor: pointer"><a :href="questionLinkToComment"><i class="fas fa-comment"></i><span>Frage kommentieren</span></a></li>
+                                            <li v-if="isAdmin == 'True'">
+                                                <a data-toggle="modal" :data-questionid="questionId" href="#modalDeleteQuestion">
+                                                    <i class="fas fa-trash"></i><span>Frage löschen</span>
                                                 </a>
-                                            </li>
-                                            <li>
-                                                <a :href="historyUrl">Versionen anzeigen</a>
                                             </li>
                                         </ul>
                                     </div>

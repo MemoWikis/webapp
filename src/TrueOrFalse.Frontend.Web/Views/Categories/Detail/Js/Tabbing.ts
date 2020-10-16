@@ -84,8 +84,6 @@
     }
 
     public RenderTabContent(tabName: string): void {
-        if (tabName == "LearningTabWithOptions")
-            return;
 
         if (tabName == "LearningTabWithOptions")
             tabName = "LearningTab";

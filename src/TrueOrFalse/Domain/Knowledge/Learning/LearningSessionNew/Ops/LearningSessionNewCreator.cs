@@ -27,7 +27,7 @@ public class LearningSessionNewCreator
             questions = RandomLimited(IsInWuWiFromCategoryAndIsNotInWuwi(config.CurrentUserId, config.CategoryId), config);
         else if(config.IsNotQuestionInWishKnowledge && config.CreatedByCurrentUser)
             questions = OrderByProbability(
-                    RandomLimited(NotWuwiFromCategoryAndIsAuthor(config.CurrentUserId, config.CategoryId), config))
+                    RandomLimited(NotWuwiFromCategoryOrIsAuthor(config.CurrentUserId, config.CategoryId), config))
                 .ToList();
         else if (config.IsNotQuestionInWishKnowledge)
             questions = OrderByProbability(
@@ -53,7 +53,7 @@ public class LearningSessionNewCreator
         if (config.IsNotQuestionInWishKnowledge && config.InWishknowledge && !config.CreatedByCurrentUser)
             return RandomLimited(IsInWuWiFromCategoryAndIsNotInWuwi(config.CurrentUserId, config.CategoryId),config).Count; 
         if (config.IsNotQuestionInWishKnowledge && config.CreatedByCurrentUser)
-            return RandomLimited(NotWuwiFromCategoryAndIsAuthor(config.CurrentUserId, config.CategoryId),config).Count;
+            return RandomLimited(NotWuwiFromCategoryOrIsAuthor(config.CurrentUserId, config.CategoryId),config).Count;
         if (config.IsNotQuestionInWishKnowledge)
             return RandomLimited(NotWuwiFromCategory(config.CurrentUserId, config.CategoryId),config).Count;
         if (config.InWishknowledge && config.CreatedByCurrentUser)
@@ -64,8 +64,6 @@ public class LearningSessionNewCreator
             return RandomLimited(UserIsQuestionAuthor(config.CurrentUserId, config.CategoryId),config).Count;
 
         return 0; 
-
-
     }
 
     private static List<Question> RandomLimited(List<Question> questions, LearningSessionConfig config)
@@ -94,15 +92,17 @@ public class LearningSessionNewCreator
 
     private static List<Question> WuwiQuestionsFromCategoryAndUserIsAuthor(int userId, int categoryId)
     {
-        return CompareDictionaryWithQuestionsFromMemoryCache(GetIdsFromQuestionValuation(userId), categoryId)
-            .Where(q => q.Creator.Id == userId).ToList();
+        var wuwi = WuwiQuestionsFromCategory(userId, categoryId); 
+
+        return UserIsQuestionAuthor(userId, categoryId).Concat(wuwi).ToList(); 
     }
 
 
-    private static List<Question> NotWuwiFromCategoryAndIsAuthor(int userId, int categoryId)
+    private static List<Question> NotWuwiFromCategoryOrIsAuthor(int userId, int categoryId)
     {
-        return CompareDictionaryWithQuestionsFromMemoryCache(GetIdsFromQuestionValuation(userId), categoryId, true)
-            .Where(q => q.Creator.Id == userId).ToList();
+        var isNotWuwi = NotWuwiFromCategory(userId, categoryId);
+
+        return UserIsQuestionAuthor(userId, categoryId).Concat(isNotWuwi).ToList(); 
     }
 
     private static List<Question> IsInWuWiFromCategoryAndIsNotInWuwi(int userId, int categoryId)

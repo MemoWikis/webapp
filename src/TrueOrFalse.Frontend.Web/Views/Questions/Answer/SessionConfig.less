@@ -12,7 +12,24 @@
     padding-left: 20px;
 }
 
+.opacity{
+    opacity: 0.5;
+}
+
+
+.forbidden {
+    cursor: not-allowed !important;
+}
+
 #QuestionSortSessionConfig {
+
+    div{
+        padding-bottom: 10px;
+    }
+
+    div:last-child{
+        padding-bottom: 0;
+    }
 
     .randomQuestions, .answerHelp, .repititions {
         display: flex;
@@ -30,13 +47,15 @@
     }
 }
 
-.inactiveSpan {
-    background: #c8ccd4 !important;
+.inactive:before {
+    opacity: 0.5;
 }
 
-.inactive:before {
-    background: #c8ccd4 !important;
+.inactive{
+    opacity: 0.5;
 }
+
+
 
 .rootElement {
     .notLoggedInModal {
@@ -268,8 +287,10 @@
     }
 
     #AllQuestionMinus {
-        margin-right: 7.8px;
+        margin-right: 6px;
         color: #0075ff;
+        font-size: 14.5px;
+        padding-left: 1px;
     }
 
     .modal-footer {
@@ -288,15 +309,6 @@
     }
 
     .disabled-radios {
-
-        .blur {
-            width: 100%;
-            position: absolute;
-            backdrop-filter: blur(2px);
-            z-index: 1;
-            background: rgba(255, 255, 255, 0.67);
-            margin-left: -35px;
-        }
 
         .radio {
 
@@ -463,6 +475,24 @@
 
 
     .sliders {
+        .vue-slider-dot-tooltip-show{
+            margin-bottom: -5px;
+        }
+        
+        .vue-slider-dot-tooltip-inner-top {
+            background-color: transparent;
+            color: black;
+            margin-bottom: -9px;
+        }
+
+        .vue-slider-dot-tooltip-inner-top::after {
+            border: 0;
+        }
+
+        .vue-slider-dot-tooltip-text{
+            font-size : 10px;
+            color: black;
+        }
         margin-top: 50px;
         padding-left: 20px;
 

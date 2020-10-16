@@ -20,6 +20,9 @@ var questionListApp = new Vue({
         toggleQuestionsList: function() {
             this.isQuestionListToShow = !this.isQuestionListToShow;
         },
+        startNewLearningSession: () => {
+            eventBus.$emit("start-learning-session"); 
+        },
         updateQuestionsCount: function(val) {
             this.questionsCount = val;
         },
@@ -51,6 +54,9 @@ var questionListApp = new Vue({
             numberOfQuestions !== this.questionsCount
                 ? this.selectedQuestionCount = numberOfQuestions
                 : this.selectedQuestionCount = "alle";
+        });
+        eventBus.$on('update-selected-page', (selectedPage) => {
+            this.selectedPageFromActiveQuestion = selectedPage;
         });
     },
     mounted() {

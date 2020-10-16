@@ -5,6 +5,18 @@
 .paddingLeft20 {
   padding-left: 20px;
 }
+.opacity {
+  opacity: 0.5;
+}
+.forbidden {
+  cursor: not-allowed !important;
+}
+#QuestionSortSessionConfig div {
+  padding-bottom: 10px;
+}
+#QuestionSortSessionConfig div:last-child {
+  padding-bottom: 0;
+}
 #QuestionSortSessionConfig .randomQuestions,
 #QuestionSortSessionConfig .answerHelp,
 #QuestionSortSessionConfig .repititions {
@@ -23,11 +35,11 @@
   font-family: 'Open Sans';
   padding-left: 10px;
 }
-.inactiveSpan {
-  background: #c8ccd4 !important;
-}
 .inactive:before {
-  background: #c8ccd4 !important;
+  opacity: 0.5;
+}
+.inactive {
+  opacity: 0.5;
 }
 .rootElement .notLoggedInModal {
   display: flex;
@@ -220,8 +232,10 @@
   margin-right: 7px;
 }
 #SessionConfigModal #AllQuestionMinus {
-  margin-right: 7.8px;
+  margin-right: 6px;
   color: #0075ff;
+  font-size: 14.5px;
+  padding-left: 1px;
 }
 #SessionConfigModal .modal-footer {
   border-top: none;
@@ -233,14 +247,6 @@
 #SessionConfigModal label.sliderLabel {
   padding-top: 20px;
   width: 100%;
-}
-#SessionConfigModal .disabled-radios .blur {
-  width: 100%;
-  position: absolute;
-  backdrop-filter: blur(2px);
-  z-index: 1;
-  background: rgba(255, 255, 255, 0.67);
-  margin-left: -35px;
 }
 #SessionConfigModal .disabled-radios .radio input + span:before {
   border: solid 0.5px #c0c0c0;
@@ -352,6 +358,21 @@
 #SessionConfigModal .sliders {
   margin-top: 50px;
   padding-left: 20px;
+}
+#SessionConfigModal .sliders .vue-slider-dot-tooltip-show {
+  margin-bottom: -5px;
+}
+#SessionConfigModal .sliders .vue-slider-dot-tooltip-inner-top {
+  background-color: transparent;
+  color: black;
+  margin-bottom: -9px;
+}
+#SessionConfigModal .sliders .vue-slider-dot-tooltip-inner-top::after {
+  border: 0;
+}
+#SessionConfigModal .sliders .vue-slider-dot-tooltip-text {
+  font-size: 10px;
+  color: black;
 }
 #SessionConfigModal .sliders .noQuestions {
   margin-top: 74px;
