@@ -1165,14 +1165,34 @@ p:empty {
             &.sticky {
                 width: 100%;
                 border-radius: 8px 8px 0 0;
-                animation-name: opacity;
                 animation-duration: 0.1s;
+
+                @media (min-width: 1200px) {
+                    animation-name: opacity810;
+                }
+
+                @media (maxwidth: 1200px) {
+                    animation-name: opacity900;
+                }
             }
 
-            @keyframes opacity {
+
+
+            @keyframes opacity810 {
                 from {
                     width: 810px;
-                    opacity: 0
+                    opacity: 0;
+                }
+
+                to {
+                    opacity: 1
+                }
+            }
+
+            @keyframes opacity900 {
+                from {
+                    width: 900px;
+                    opacity: 0;
                 }
 
                 to {

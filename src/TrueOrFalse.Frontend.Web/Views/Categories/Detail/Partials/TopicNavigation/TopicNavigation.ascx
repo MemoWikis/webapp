@@ -11,7 +11,7 @@
                  <p><%: Model.Text %></p>
             <% } %>
     
-        <div class="topicNavigation row" style= <%= Model.CategoryList.Count == 1 ? " \"justify-content: start;\" " : "" %> @click.stop="">
+        <div class="topicNavigation row" style= <%= Model.CategoryList.Count == 1 ? " \"justify-content: start;\" " : "" %>>
             <% var counter = 0; %>
             <% foreach (var category in Model.CategoryList)
                 { %>
