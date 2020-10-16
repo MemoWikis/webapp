@@ -187,7 +187,7 @@ new Vue({
             });
 
             this.sortedModules = result;
-            if ((result.length == 0 || result[result.length - 1].TemplateName != 'InlineText') && (items.length == 0 || items[items.length - 1].ContentData.TemplateName != 'InlineText'))
+            if ((result.length == 0 || result[result.length - 1].TemplateName != 'InlineText') && (items.length == 0 || items[items.length - 1].contentData.TemplateName != 'InlineText'))
                 eventBus.$emit('add-inline-text-module');
             return;
         },
@@ -214,6 +214,7 @@ new Vue({
                 categoryId: $("#hhdCategoryId").val(),
                 content: filteredModules,
             }
+            console.log(window.location.href);
 
             $.ajax({
                 type: 'post',
@@ -224,7 +225,9 @@ new Vue({
                     if (success == true) {
                         this.saveSuccess = true;
                         this.saveMessage = "Das Thema wurde gespeichert.";
-                        location.reload();
+                        if (window.location.href.endsWith('?openEditMode=True'))
+                            location.href = window.location.href.slice(0, -18);
+                        else location.reload();
                     } else {
                         this.saveSuccess = false;
                         this.saveMessage = "Das Speichern schlug fehl.";

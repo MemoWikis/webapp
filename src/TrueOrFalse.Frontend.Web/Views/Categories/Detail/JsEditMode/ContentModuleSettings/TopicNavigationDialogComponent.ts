@@ -48,7 +48,6 @@ Vue.component('topicnavigation-modal-component', {
         $('#topicnavigationSettingsDialog').on('show.bs.modal',
             event => { 
                 this.topicNavigationSettings = $('#topicnavigationSettingsDialog').data('parent').moduleData;
-                console.log($('#topicnavigationSettingsDialog').data('parent'));
                 this.parentId = $('#topicnavigationSettingsDialog').data('parent').id;
                 this.initializeData();
             });
