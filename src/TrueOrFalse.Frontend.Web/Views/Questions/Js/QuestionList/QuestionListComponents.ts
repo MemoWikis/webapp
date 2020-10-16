@@ -220,7 +220,7 @@ Vue.component('session-config-component', {
                 success: result => {
                     this.maxSelectableQuestionCount = parseInt(result);
 
-                    if (this.isFirstLoad || typeof (this.isFirstLoad) == "undefined"
+                    if (this.isFirstLoad && this.selectedQuestionCount == result || typeof (this.isFirstLoad) == "undefined"
                         || this.selectedQuestionCount > this.maxSelectableQuestionCount
                         || this.selectedQuestionCount == 0)
                             this.selectedQuestionCount = parseInt(result);
