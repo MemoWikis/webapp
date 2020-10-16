@@ -390,9 +390,14 @@ namespace TrueOrFalse.Frontend.Web.Code
         public static string CategoryHistory(int categoryId) =>
             GetUrlHelper().Action("List", "CategoryHistory", new { categoryId = categoryId });
 
-        public static string CategoryDetail(Category category, bool openEditMode = false) =>
+        public static string CategoryDetail(Category category) =>
             HttpContext.Current == null 
                 ? "" 
+                : CategoryDetail(category.Name, category.Id);
+
+        public static string CategoryDetail(Category category, bool openEditMode) =>
+            HttpContext.Current == null
+                ? ""
                 : CategoryDetail(category.Name, category.Id, openEditMode: openEditMode);
 
         public static string CategoryDetail(Category category, int version) =>
@@ -400,7 +405,10 @@ namespace TrueOrFalse.Frontend.Web.Code
                 ? "" 
                 : CategoryDetail(category.Name, category.Id, version);
 
-        public static string CategoryDetail(string name, int id, bool openEditMode = false) =>
+        public static string CategoryDetail(string name, int id) =>
+            GetUrlHelper().Action("Category", CategoryController, new { text = UriSanitizer.Run(name), id = id });
+
+        public static string CategoryDetail(string name, int id, bool openEditMode) =>
             GetUrlHelper().Action("Category", CategoryController, new { text = UriSanitizer.Run(name), id = id, openEditMode = openEditMode });
 
         public static string CategoryDetailAnalyticsTab(Category category) =>
