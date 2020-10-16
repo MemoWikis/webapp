@@ -45,7 +45,7 @@ new Vue({
             editMode: false,
             showTopAlert: false,
             previewModule: null,
-            changedMarkdown: false,
+            changedContent: false,
             footerIsVisible: '',
             awaitInlineTextId: false,
             moduleOrder: [],
@@ -68,7 +68,7 @@ new Vue({
         eventBus.$on("set-edit-mode",
             (state) => {
                 this.editMode = state;
-                if (this.changedMarkdown && !this.editMode) {
+                if (this.changedContent && !this.editMode) {
                     location.reload();
                 }
             });
@@ -77,7 +77,7 @@ new Vue({
                 if (event.preview == true) {
                     const previewHtml = event.newHtml;
                     const moduleToReplace = event.toReplace;
-                    this.changedMarkdown = true;
+                    this.changedContent = true;
                     var inserted = $(previewHtml).insertAfter(moduleToReplace);
                     var instance = new contentModuleComponent({
                         el: inserted.get(0)
@@ -96,7 +96,7 @@ new Vue({
                     var instance = new contentModuleComponent({
                         el: inserted.get(0)
                     });
-                    this.changedMarkdown = true;
+                    this.changedContent = true;
                     eventBus.$emit('set-edit-mode', this.editMode);
                     eventBus.$emit('set-new-content-module', this.editMode);
                 };
@@ -107,7 +107,7 @@ new Vue({
     },
 
     mounted() {
-        this.changedMarkdown = false;
+        this.changedContent = false;
         if ((this.$el.clientHeight + 450) < window.innerHeight)
             this.footerIsVisible = true;
         if (this.$el.attributes.openEditMode.value == 'True')
@@ -117,6 +117,17 @@ new Vue({
     updated() {
         this.footerCheck();
     },
+
+    watch: {
+        async editMode(val) {
+            if (val) {
+                await this.sortModules();
+                    if(this.sortedModules[this.sortedModules.length - 1].TemplateName != 'InlineText');
+                eventBus.$emit('add-inline-text-module');
+            }
+        },
+    },
+
 
     methods: {
 
@@ -146,7 +157,7 @@ new Vue({
 
             this.editMode = false;
             eventBus.$emit('set-edit-mode', this.editMode);
-            if (this.changedMarkdown) {
+            if (this.changedContent) {
                 location.reload();
             };
         },
@@ -182,8 +193,6 @@ new Vue({
                 });
             });
 
-            console.log(result);
-
             this.sortedModules = result;
             return;
         },
@@ -196,34 +205,6 @@ new Vue({
 
         onMove(event) {
             return event.related.id !== 'ContentModulePlaceholder';;
-        },
-
-        saveMarkdown() {
-
-            if (!this.editMode)
-                return;
-
-            const markdownParts = $(".inlinetext, .topicnavigation").map((idx, elem) => $(elem).attr("markdown")).get();
-            let markdownDoc = "";
-            if (markdownParts.length >= 1)
-                markdownDoc = markdownParts.reduce((list, doc) => { return list + "\r\n" + doc });
-
-            $.post("/Category/SaveMarkdown",
-                {
-                    categoryId: $("#hhdCategoryId").val(),
-                    markdown: markdownDoc,
-                },
-                (success) => {
-                    if (success == true) {
-                        this.saveSuccess = true;
-                        this.saveMessage = "Das Thema wurde gespeichert.";
-                        location.reload();
-                    } else {
-                        this.saveSuccess = false;
-                        this.saveMessage = "Das Speichern schlug fehl.";
-                    };
-                },
-            );
         },
 
         async saveContent() {

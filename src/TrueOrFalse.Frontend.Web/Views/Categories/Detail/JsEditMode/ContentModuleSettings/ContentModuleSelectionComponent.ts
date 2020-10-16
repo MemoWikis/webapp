@@ -77,6 +77,17 @@ Vue.component('content-module-selection-modal-component', {
                     eventBus.$emit('close-content-module-settings-modal', false);
                 this.clearData();
             });
+
+        eventBus.$on('add-inline-text-module',
+            () => {
+                let template = {
+                    id: 'before:ContentModulePlaceholder',
+                    moduleData: {
+                        TemplateName: 'InlineText'
+                    },
+                };
+                Utils.ApplyContentModule(template.moduleData, template.id);
+            });
     },
 
     methods: {
@@ -99,7 +110,6 @@ Vue.component('content-module-selection-modal-component', {
 
         selectModule() {
             this.contentModuleTemplate.TemplateName = this.selectedModule;
-            //this.templateMarkdown = Utils.ConvertJsonToMarkdown(this.contentModuleTemplate);
             let template = {
                 id: this.modulePosition + ':' + this.moduleId,
                 moduleData: this.contentModuleTemplate,
