@@ -21,10 +21,10 @@
                         <div class="col-xs-6 topic">
                             <div class="row">
                                 <div class="col-xs-3">
-                                    <div class="ImageContainer" v-if="canBeEdited">
+                                    <div class="ImageContainer" v-show="canBeEdited">
                                         <%= Model.GetCategoryImage(category).RenderHtmlImageBasis(128, true, ImageType.Category) %>
                                     </div>
-                                    <div class="ImageContainer" v-else>
+                                    <div class="ImageContainer" v-show="!canBeEdited">
                                         <%= Model.GetCategoryImage(category).RenderHtmlImageBasis(128, true, ImageType.Category, linkToItem: Links.CategoryDetail(category.Name, category.Id)) %>
                                     </div>
                                 </div>
