@@ -187,7 +187,7 @@ new Vue({
             });
 
             this.sortedModules = result;
-            if ((result.length == 0 || result[result.length - 1].TemplateName != 'InlineText') && items[items.length - 1].ContentData.TemplateName != 'InlineText')
+            if ((result.length == 0 || result[result.length - 1].TemplateName != 'InlineText') && (items.length == 0 || items[items.length - 1].ContentData.TemplateName != 'InlineText'))
                 eventBus.$emit('add-inline-text-module');
             return;
         },
