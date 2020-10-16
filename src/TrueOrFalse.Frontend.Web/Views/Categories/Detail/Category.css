@@ -1539,6 +1539,8 @@ p:empty {
 .contentModuleSettings .selectModuleContainer .moduleSection {
   margin-bottom: 20px;
   padding-bottom: 20px;
+  margin-top: 20px;
+  padding-top: 20px;
 }
 .contentModuleSettings .selectModuleContainer .moduleSection.bottomBorder {
   border-bottom: solid 1px #d6d6d6;
@@ -1566,10 +1568,10 @@ p:empty {
   display: -webkit-flex;
   display: -ms-flexbox;
   display: flex;
-  -webkit-box-pack: justify;
-  -webkit-justify-content: space-between;
-      -ms-flex-pack: justify;
-          justify-content: space-between;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+      -ms-flex-pack: center;
+          justify-content: center;
   -webkit-align-content: flex-start;
       -ms-flex-line-pack: start;
           align-content: flex-start;

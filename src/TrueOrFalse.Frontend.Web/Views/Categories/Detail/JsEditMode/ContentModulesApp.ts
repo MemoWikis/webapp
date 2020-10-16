@@ -62,8 +62,6 @@ new Vue({
                     this.modules[index] = module;
                 else
                     this.modules.push(module);
-
-                this.updateModuleOrder();
             });
         eventBus.$on("set-edit-mode",
             (state) => {
@@ -99,6 +97,8 @@ new Vue({
                     this.changedContent = true;
                     eventBus.$emit('set-edit-mode', this.editMode);
                     eventBus.$emit('set-new-content-module', this.editMode);
+                    this.updateModuleOrder();
+                    this.sortModules();
                 };
             });
 
@@ -119,11 +119,9 @@ new Vue({
     },
 
     watch: {
-        async editMode(val) {
+        editMode(val) {
             if (val) {
-                await this.sortModules();
-                    if(this.sortedModules[this.sortedModules.length - 1].TemplateName != 'InlineText');
-                eventBus.$emit('add-inline-text-module');
+                this.sortModules();
             }
         },
     },
@@ -149,9 +147,6 @@ new Vue({
         },
 
         cancelEditMode() {
-
-            this.sortModules();
-
             if (!this.editMode)
                 return;
 
@@ -164,7 +159,6 @@ new Vue({
 
         setEditMode() {
             this.modules = [];
-            this.sortModules();
 
             if (NotLoggedIn.Yes()) {
                 NotLoggedIn.ShowErrorMsg("OpenEditMode");
@@ -184,8 +178,7 @@ new Vue({
                 var found = false;
                 items = items.filter(function(item) {
                     if (!found && item.id == key) {
-                        if (item.contentData.TemplateName != 'InlineText' || item.contentData.Content)
-                            result.push(item.contentData);
+                        result.push(item.contentData);
                         found = true;
                         return false;
                     } else
@@ -194,6 +187,8 @@ new Vue({
             });
 
             this.sortedModules = result;
+            if (result.length == 0 || result[result.length - 1].TemplateName != 'InlineText')
+                eventBus.$emit('add-inline-text-module');
             return;
         },
 
@@ -214,10 +209,10 @@ new Vue({
             await this.sortModules();
             if (this.sortedModules.length == 0)
                 return;
-
+            var filteredModules = this.sortedModules.filter(o => (o.TemplateName != 'InlineText' || o.Content));
             var data = {
                 categoryId: $("#hhdCategoryId").val(),
-                content: this.sortedModules,
+                content: filteredModules,
             }
 
             $.ajax({
