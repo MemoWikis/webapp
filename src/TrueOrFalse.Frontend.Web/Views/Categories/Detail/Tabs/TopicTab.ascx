@@ -5,7 +5,7 @@
 
 <%= Scripts.Render("~/Scripts/npm/tiptap-build/tiptap-build.js") %> 
 
-<div id="ContentModuleApp">
+<div id="ContentModuleApp" openEditMode="<%= Model.OpenEditMode%>">
     <% if (Model.Category.IsHistoric)
        { %>
         <div class="alert alert-info" role="alert">

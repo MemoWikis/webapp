@@ -58,12 +58,13 @@ public class CategoryModel : BaseContentModule
     public bool IsLearningTab;
     public string TotalPins;
     public AnalyticsFooterModel AnalyticsFooterModel;
-    public bool CategoryIsDeleted; 
+    public bool CategoryIsDeleted;
+    public bool OpenEditMode;
     public CategoryModel()
     {
 
     }
-    public CategoryModel(Category category, bool loadKnowledgeSummary = true, bool isCategoryNull = false)
+    public CategoryModel(Category category, bool loadKnowledgeSummary = true, bool isCategoryNull = false, bool openEditMode = false)
     {
         CategoryIsDeleted = isCategoryNull;
 
@@ -146,6 +147,7 @@ public class CategoryModel : BaseContentModule
         EasiestQuestion = GetQuestion(false);
 
         TotalPins = category.TotalRelevancePersonalEntries.ToString();
+        OpenEditMode = openEditMode;
     }
 
     private List<Question> GetTopQuestionsInSubCats()

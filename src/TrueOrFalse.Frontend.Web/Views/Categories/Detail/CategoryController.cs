@@ -16,9 +16,9 @@ public class CategoryController : BaseController
 
     [SetMainMenu(MainMenuEntry.CategoryDetail)]
     [SetThemeMenu(true)]
-    public ActionResult Category(int id, int? version)
+    public ActionResult Category(int id, int? version, bool? openEditMode)
     {
-        var modelAndCategoryResult = LoadModel(id, version);
+        var modelAndCategoryResult = LoadModel(id, version, openEditMode: openEditMode);
         modelAndCategoryResult.CategoryModel.IsInTopic = true;
 
         return View(_viewLocation, modelAndCategoryResult.CategoryModel);
@@ -48,7 +48,7 @@ public class CategoryController : BaseController
         return View(_viewLocation, modelAndCategoryResult.CategoryModel);
     }
 
-    private LoadModelResult LoadModel(int id, int? version, bool bySetId = false)
+    private LoadModelResult LoadModel(int id, int? version, bool bySetId = false, bool? openEditMode = false)
     {
         var result = new LoadModelResult();
         var category = bySetId ? Resolve<CategoryRepository>().GetBySetId(id) : Resolve<CategoryRepository>().GetById(id);
@@ -67,9 +67,10 @@ public class CategoryController : BaseController
 
         _sessionUiData.VisitedCategories.Add(new CategoryHistoryItem(category, HistoryItemType.Any, categoryChangeData, isCategoryNull));
         result.Category = category;
-        result.CategoryModel = GetModelWithContentHtml(category, version, isCategoryNull);
+            
+        result.CategoryModel = openEditMode == true ? GetModelWithContentHtml(category, version, isCategoryNull, true) : GetModelWithContentHtml(category, version, isCategoryNull);
 
-        if (version != null)
+            if (version != null)
             ApplyCategoryChangeToModel(result.CategoryModel, (int)version, id);
         else
             SaveCategoryView.Run(result.Category, User_());
@@ -105,9 +106,9 @@ public class CategoryController : BaseController
         categoryModel.NextRevExists = Sl.CategoryChangeRepo.GetNextRevision(categoryChange) != null;
     }
 
-    private CategoryModel GetModelWithContentHtml(Category category, int? version = null, bool isCategoryNull = false)
+    private CategoryModel GetModelWithContentHtml(Category category, int? version = null, bool isCategoryNull = false, bool openEditMode = false)
     {
-        return new CategoryModel(category, true, isCategoryNull)
+        return new CategoryModel(category, true, isCategoryNull, openEditMode: openEditMode)
         {
             CustomPageHtml = string.IsNullOrEmpty(category.Content) ? "" : TemplateToHtml.Run(Tokenizer.Run(category.Content), category, ControllerContext, version)
         };

@@ -27,7 +27,6 @@ Vue.directive('sortable',
     });
 
 new Vue({
-    props: ['content'],
     el: '#ContentModuleApp',
     data() {
         return {
@@ -111,6 +110,8 @@ new Vue({
         this.changedMarkdown = false;
         if ((this.$el.clientHeight + 450) < window.innerHeight)
             this.footerIsVisible = true;
+        if (this.$el.attributes.openEditMode.value == 'True')
+            this.setEditMode();
     },
 
     updated() {
