@@ -241,6 +241,11 @@ public class CategoryController : BaseController
         var category = Sl.CategoryRepo.GetById(categoryId);
         return ViewRenderer.RenderPartialView("~/Views/Categories/Detail/CategoryKnowledgeBar.ascx", new CategoryKnowledgeBarModel(category), ControllerContext);
     }
+
+    public void SetSettingsCookie(string test = "")
+    {
+        var t = test;
+    }
 }
 public class LoadModelResult
 {
