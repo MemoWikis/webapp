@@ -136,64 +136,6 @@
 
       </div>
         </editor-menu-bar>
-        
-<%--        <editor-floating-menu :editor="editor" v-slot="{ commands, isActive, menu }">
-            <div
-                class="editor__floating-menu"
-                :class="{ 'is-active': menu.isActive }"
-                :style="`top: ${menu.top}px`"
-            >
-
-                <button
-                    class="menubar__button"
-                    :class="{ 'is-active': isActive.heading({ level: 2 }) }"
-                    @click="commands.heading({ level: 2 })"
-                >
-                    H2
-                </button>
-
-                <button
-                    class="menubar__button"
-                    :class="{ 'is-active': isActive.heading({ level: 3 }) }"
-                    @click="commands.heading({ level: 3 })"
-                >
-                    H3
-                </button>
-
-                <button
-                    class="menubar__button"
-                    :class="{ 'is-active': isActive.bullet_list() }"
-                    @click="commands.bullet_list"
-                >
-                    <i class="fas fa-list-ul"></i>
-                </button>
-
-                <button
-                    class="menubar__button"
-                    :class="{ 'is-active': isActive.ordered_list() }"
-                    @click="commands.ordered_list"
-                >
-                    <i class="fas fa-list-ol"></i>
-                </button>
-
-                <button
-                    class="menubar__button"
-                    :class="{ 'is-active': isActive.blockquote() }"
-                    @click="commands.blockquote"
-                >
-                    <i class="fas fa-quote-right"></i>
-                </button>
-
-                <button
-                    class="menubar__button"
-                    :class="{ 'is-active': isActive.code_block() }"
-                    @click="commands.code_block"
-                >
-                    <i class="far fa-file-code"></i>
-                </button>
-
-            </div>
-        </editor-floating-menu>--%>
 
         <editor-content :editor="editor">
             <%: Html.Raw(Model.Content)  %>

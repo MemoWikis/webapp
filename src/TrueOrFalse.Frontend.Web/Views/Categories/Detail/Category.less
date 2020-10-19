@@ -1989,10 +1989,10 @@ p:empty {
         background: white;
         margin-top: -36px;
         z-index: 10;
-        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.16);
+        box-shadow: 0 6px 6px -6px rgba(0, 0, 0, 0.16);
         border-radius: 2px;
-
-
+        font-size: 0;
+        height: 36px;
 
         &.is-hidden {
             visibility: hidden;
@@ -2018,14 +2018,15 @@ p:empty {
         }
     }
 
-    button.menubar__button {
+    .menubar__button {
         background: white;
         border: hidden;
         font-size: 18px;
-        width: 34px;
+        width: 36px;
         height: 36px;
-        margin: 0px 0;
+        margin: 0px;
         color: #555555;
+        text-align: center;
 
         &:hover {
             background: #efefef;
