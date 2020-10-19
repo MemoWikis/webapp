@@ -21,6 +21,7 @@
   position: absolute;
   margin-top: -74px;
   margin-left: 125px;
+  cursor: pointer;
 }
 @media (max-width: 768px) {
   #QuestionListApp .rootElement #LearningSessionReminderQuestionList span {
