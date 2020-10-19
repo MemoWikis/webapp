@@ -69,7 +69,7 @@
                 <div id="LearningTabWithOptions" class="Tab">
                     <% if (!Model.IsDisplayNoneSessionConfigNote)
                        { %>
-                    <div id="SessionConfigReminderHeader">
+                    <div id="SessionConfigReminderHeader" class="hide">
                         <span>
                             <img src="/Images/Various/SessionConfigReminder.svg" class="session-config-reminder-header">
                         </span>

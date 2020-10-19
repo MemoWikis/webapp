@@ -78,8 +78,8 @@
   height: 45px;
 }
 #CategoryHeader #LearningTabWithOptions #SessionConfigReminderHeader {
-  margin-bottom: 100px;
-  margin-left: 164%;
+  top: -63px;
+  left: 86px;
   position: absolute;
   display: flex;
 }
@@ -96,17 +96,12 @@
 }
 @media only screen and (max-width: 992px) {
   #CategoryHeader #LearningTabWithOptions #SessionConfigReminderHeader {
-    margin-left: 170%;
+    margin-left: -8px;
   }
 }
 @media only screen and (max-width: 768px) {
   #CategoryHeader #LearningTabWithOptions #SessionConfigReminderHeader {
-    margin-left: 177px;
-  }
-}
-@media only screen and (max-width: 480px) {
-  #CategoryHeader #LearningTabWithOptions #SessionConfigReminderHeader {
-    margin-left: 156px;
+    display: none;
   }
 }
 #CategoryHeader #LearningTabWithOptions #LearnOptionsHeader {
