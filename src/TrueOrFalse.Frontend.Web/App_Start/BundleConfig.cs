@@ -94,14 +94,6 @@ namespace TrueOrFalse.View
                 .Include("~/Scripts/npm/vue-select/vue-select.js")
                 .Include("~/Scripts/npm/vue-sticky-directive/vue-sticky-directive.js")
                 .Include("~/Scripts/npm/postscribe/postscribe.js")
-                .Include("~/Scripts/npm/highlight.js/core.js")
-                .Include("~/Scripts/npm/highlight.js/index.js")
-                .Include("~/Scripts/npm/highlight.js/highlight.js")
-                .Include("~/Scripts/npm/highlight.js/languages/c.js")
-                .Include("~/Scripts/npm/highlight.js/languages/css.js")
-                .Include("~/Scripts/npm/highlight.js/languages/javascript.js")
-                .Include("~/Scripts/npm/highlight.js/languages/php.js")
-                .Include("~/Scripts/npm/highlight.js/languages/typescript.js")
                 .IncludeDirectory("~/Views/Categories/Detail/JsEditMode/ContentModuleSettings/", "*.js")
                 .IncludeDirectory("~/Views/Categories/Detail/JsEditMode/", "*.js"));
 

@@ -63,8 +63,6 @@ Vue.component('session-config-component', {
             this.randomQuestions = !this.isLoggedIn;
         };
 
-        console.log("ismounted");
-
         this.$nextTick(function() {
             window.addEventListener('resize', this.matchSize);
             this.matchSize();
