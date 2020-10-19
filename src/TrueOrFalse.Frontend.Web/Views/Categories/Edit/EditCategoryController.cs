@@ -143,7 +143,7 @@ public class EditCategoryController : BaseController
                 Links.CategoryDetail(category),
                 Links.CategoryCreate()));
 
-        return Redirect(Links.CategoryEdit(category));
+        return Redirect(Links.CategoryDetail(category, openEditMode:true));
     }
 
     public ActionResult DetailsPartial(int? categoryId, CategoryType type, string typeModelGuid)

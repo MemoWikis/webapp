@@ -1,23 +1,32 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Text;
 using System.Text.RegularExpressions;
 using System.Web.Mvc;
 
-public class MarkdownSingleTemplateToHtml
+public class TemplateToHtml
 {
-    public static string Run(Token token, Category category, ControllerContext controllerContext, bool preview = false, int? version = null)
+    public static string Run(List<TemplateJson> tokens, Category category, ControllerContext controllerContext, int? version = null)
     {
-        return Run(token.ToText(), category, controllerContext, preview, version);
+        var result = new StringBuilder();
+        foreach (TemplateJson token in tokens)
+        {
+            var htmlResult = Run(token, category, controllerContext, false, version);
+
+            result.Append(htmlResult);
+        }
+
+        return result.ToString();
     }
 
-    public static string Run(string stringToParse, Category category, ControllerContext controllerContext, bool preview = false, int? version = null)
+    public static string Run(TemplateJson templateJson, Category category, ControllerContext controllerContext, bool preview = false, int? version = null)
     {
         try
         {
-            if (string.IsNullOrWhiteSpace(stringToParse) && !preview)
+            if (templateJson == null && !preview)
                 return "";
 
-            var baseContentModule = TemplateParserForSingleTemplate.Run(stringToParse, category);
+            var baseContentModule = TemplateParserForSingleTemplate.Run(templateJson, category);
 
             var html = GetHtml(
                 baseContentModule,
@@ -29,15 +38,15 @@ public class MarkdownSingleTemplateToHtml
                 throw new Exception("Es konnte kein Html erzeugt werden.");
 
             return html;
-        
+
         }
         catch (Exception e)
         {
             if (version == null)
                 Logg.r().Error(e, $"Fehler beim Parsen der Kategorie Id={category.Id}.");
 
-            return GetReplacementForNonparsableTemplate(stringToParse, e.Message);
-        }   
+            return GetReplacementForNonparsableTemplate(templateJson.OriginalJson, e.Message);
+        }
     }
 
     public static string GetHtml(BaseContentModule contentModule, Category category, ControllerContext controllerContext)
@@ -47,7 +56,6 @@ public class MarkdownSingleTemplateToHtml
         switch (templateJson.TemplateName.ToLower())
         {
             case "topicnavigation":
-            case "categorynetwork":
             case "textblock":
             case "inlinetext":
                 return GetPartialHtml(contentModule, category, controllerContext);
@@ -63,9 +71,9 @@ public class MarkdownSingleTemplateToHtml
         }
     }
 
-    
+
     private static string GetPartialHtml(
-        BaseContentModule contentModule, 
+        BaseContentModule contentModule,
         Category category,
         ControllerContext controllerContext)
     {
@@ -80,7 +88,7 @@ public class MarkdownSingleTemplateToHtml
             controllerContext);
     }
 
-    
+
 
     private static string GetElementHtml(TemplateJson templateJson)
     {
@@ -93,14 +101,9 @@ public class MarkdownSingleTemplateToHtml
         }
     }
 
-    /// <summary>
-    /// /If template cannot be parsed show it for admins, otherwise hide it
-    /// </summary>
-    /// <param name="match"></param>
-    /// <returns></returns>
     private static string GetReplacementForNonparsableTemplate(string match, string exceptionMessage)
     {
-        return Sl.SessionUser.IsInstallationAdmin 
+        return Sl.SessionUser.IsInstallationAdmin
             ? $"<div style=\'background-color: rgba(130, 8, 22, 0.33); margin-bottom: 20px;\'>Folgendes Template konnte nicht umgewandelt werden:<div>{match}</div>Fehler: {exceptionMessage}</div>"
             : "";
     }

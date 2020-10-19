@@ -202,5 +202,37 @@ class Utils
             );
         }
     }
+
+    static ApplyContentModule(content: object, parentId: string) {
+
+        var insertNewModule = '';
+        if (parentId.startsWith('before:')) {
+            insertNewModule = 'before';
+            parentId = parentId.replace('before:', '');
+        }
+
+        if (parentId.startsWith('after:')) {
+            insertNewModule = 'after';
+            parentId = parentId.replace('after:', '');
+        }
+
+        var data = {
+            categoryId: $("#hhdCategoryId").val(),
+            json: content
+        };
+        var parent = parentId;
+        $.ajax({
+            type: 'post',
+            contentType: "application/json",
+            url: '/Category/RenderContentModule/',
+            data: JSON.stringify(data),
+            success: function (result) {
+                if (insertNewModule) 
+                    eventBus.$emit('new-content-module', { newHtml: result, position: insertNewModule, id: '#' + parentId });
+                else 
+                    eventBus.$emit('update-content-module', { preview: true, newHtml: result, toReplace: '#' + parentId });
+            },
+        });
+    }
 }
 

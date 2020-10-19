@@ -2,7 +2,7 @@
 
 var contentModuleComponent = Vue.component('content-module', {
     props: {
-        origMarkdown: String,
+        origContent: String,
         contentModuleType: String,
     },
 
@@ -24,28 +24,32 @@ var contentModuleComponent = Vue.component('content-module', {
             readyToFocus: true,
             textAreaId: '',
             moveOptionsToCenter: '',
+            content: null,
+            uid: null,
         };
     },
 
     created() {
         if (this.contentModuleType != "inlinetext") {
             this.modalType = '#' + this.contentModuleType + 'SettingsDialog';
+            if (this.origContent != null)
+                this.content = JSON.parse(this.origContent);
         };
-        this.id = this.contentModuleType + 'Module-' + (this._uid + Math.floor((Math.random() * 10000) + 1));
-        if (this.contentModuleType == 'videowidget' || this.contentModuleType == 'singlequestionsquiz')
-            this.widgetId = 'widget' + (this._uid + Math.floor((Math.random() * 2000) + 1));
-        if (this.contentModuleType == 'singlequestionsquiz') {
-            this.singleQuestionsQuizSettings = Utils.ConvertEncodedHtmlToJson(this.origMarkdown);
-            if (this.singleQuestionsQuizSettings.QuestionIds)
-                this.questions = this.singleQuestionsQuizSettings.QuestionIds.split(',');
-        };
+        this.uid = this._uid + Math.floor((Math.random() * 10000) + 1);
+        this.id = this.contentModuleType + 'Module-' + (this.uid);
+        this.id = this.contentModuleType + 'Module-' + (this.uid);
         if (this.contentModuleType == 'AddModuleButton')
             this.id = 'ContentModulePlaceholder';
         this.textAreaId = 'TextArea-' + (this._uid + Math.floor((Math.random() * 100) + 1));
+        if (this.contentModuleType == "topicnavigation")
+            eventBus.$emit('content-change');
     },
 
     mounted() {
-        eventBus.$on('set-edit-mode', state => this.canBeEdited = state);
+        eventBus.$on('set-edit-mode', (state) => {
+            this.canBeEdited = state;
+            this.updateModule();
+        });
         eventBus.$on('close-content-module-settings-modal',
             (event) => {
                 if (this.isListening && event) {
@@ -55,41 +59,10 @@ var contentModuleComponent = Vue.component('content-module', {
                     this.isListening = false;
                 };
             });
-
-        eventBus.$on('set-hover-state',
-            (state) => {
-                if (state == false) {
-                    this.readyToFocus = false;
-                    this.hoverState = false;
-                };
-            });
-
-        eventBus.$on('set-new-content-module',
-            (state) => {
-                if (state == true && this.readyToFocus == true) {
-                    this.isListening = false;
-                    this.hoverState = true;
-                    if (this.contentModuleType == 'inlinetext') {
-                        this.textCanBeEdited = true;
-                    };
-                };
-            });
-    },
-
-    computed: {
-        missingText: function() {
-            if (this.contentModuleType == 'inlinetext' && this.canBeEdited) {
-                let trimmedMarkdown = this.markdown.trim().replace(' ', '');
-                if (trimmedMarkdown.length > 0)
-                    return false;
-                else
-                    return true;
-            };
-        },
     },
 
     watch: {
-        canBeEdited: function(val) {
+        canBeEdited(val) {
             if (val) {
                 this.dataTarget = this.modalType;
                 this.markdown = this.origMarkdown;
@@ -104,6 +77,9 @@ var contentModuleComponent = Vue.component('content-module', {
                 this.hoverState = false;
             };
         },
+        content() {
+            this.updateModule();
+        }
     },
 
     updated: function() {
@@ -129,13 +105,23 @@ var contentModuleComponent = Vue.component('content-module', {
             self.isDeleted = true;
         },
 
+        updateModule() {
+            if (this.contentModuleType == "topicnavigation" || this.contentModuleType == "inlinetext") {
+                let module = {
+                    id: this.uid,
+                    contentData: this.content
+                };
+                eventBus.$emit('get-module', module);
+            }
+        },
+
         editModule() {
             if (this.canBeEdited) {
                 if (this.contentModuleType != 'inlineText') {
                     this.isListening = true;
                     let parent = {
                         id: this.id,
-                        markdown: this.markdown,
+                        moduleData: this.content,
                     };
                     $(this.modalType).data('parent', parent).modal('show');
                 };

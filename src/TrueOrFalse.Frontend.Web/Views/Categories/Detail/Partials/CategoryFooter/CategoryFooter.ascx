@@ -26,7 +26,7 @@
             </ul>
         </div>
     </div>
-    <div class="footerContainer-Learning row" style="padding:30px 0">
+    <div id="Footer-CategoryLearning" class="row">
         <div class="col-sm-12">
             
             <h1>Lernen</h1>
@@ -56,6 +56,6 @@
         </div>
 
     </div>
-    <%Html.RenderPartial("~/Views/Shared/AnalyticsFooter.ascx", Model.AnalyticsFooterModel); %>
+    <%Html.RenderPartial("~/Views/Categories/Detail/Partials/CategoryNetwork/CategoryNetwork.ascx", Model); %>
 </div>
 

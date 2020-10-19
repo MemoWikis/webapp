@@ -32,3 +32,4 @@ src/TrueOrFalse.Frontend.Web/Views/Welcome/Welcome.min.css
 docs/Mockups/Fragens�tze/Wissen.Fragen.3 Fragens�tze.bmml
 docs/Mockups/Fragensätze/Wissen.Fragen.3 Fragensätze.bmml
 /src/TrueOrFalse.Tests/App.overwritten.config
+!**/npm_builder/**/*.js

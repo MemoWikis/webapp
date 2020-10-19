@@ -13,7 +13,6 @@ Vue.component('content-module-selection-modal-component', {
             contentModules: [
                 { type: 'InlineText', group: 'main', name: 'Text', tooltip: 'Freie Text Gestaltung per Markdown.' },
                 { type: 'TopicNavigation', group: 'main', name: 'Themenliste', tooltip: 'Zeigt eine Liste aller Hauptthemen.' },
-                { type: 'CategoryNetwork', group: 'main', name: 'Themennetzwerk', tooltip: 'Über- und untergeordnete Themen werden übersichtlich dargestellt.' },
             ],
             selectedModule: '',
             modalType: '',
@@ -58,8 +57,7 @@ Vue.component('content-module-selection-modal-component', {
 
     watch: {
         selectedModule: function(val) {
-            if (val != 'InlineText' &&
-                val != 'CategoryNetwork')
+            if (val != 'InlineText')
                 this.modalType = '#' + this.selectedModule.toLowerCase() + 'SettingsDialog';
             else
                 this.modalType = false;
@@ -79,13 +77,23 @@ Vue.component('content-module-selection-modal-component', {
                     eventBus.$emit('close-content-module-settings-modal', false);
                 this.clearData();
             });
+
+        eventBus.$on('add-inline-text-module',
+            () => {
+                let template = {
+                    id: 'before:ContentModulePlaceholder',
+                    moduleData: {
+                        TemplateName: 'InlineText'
+                    },
+                };
+                Utils.ApplyContentModule(template.moduleData, template.id);
+            });
     },
 
     methods: {
         setActive(val) {
             this.selectedModule = val;
-            if (val != 'InlineText' &&
-                val != 'CategoryNetwork')
+            if (val != 'InlineText')
                 this.modalType = '#' + this.selectedModule.toLowerCase() + 'SettingsDialog';
             else
                 this.modalType = false;
@@ -102,10 +110,9 @@ Vue.component('content-module-selection-modal-component', {
 
         selectModule() {
             this.contentModuleTemplate.TemplateName = this.selectedModule;
-            this.templateMarkdown = Utils.ConvertJsonToMarkdown(this.contentModuleTemplate);
             let template = {
                 id: this.modulePosition + ':' + this.moduleId,
-                markdown: this.templateMarkdown,
+                moduleData: this.contentModuleTemplate,
             };
             $('#ContentModuleSelectionModal').modal('hide');
 
@@ -113,11 +120,8 @@ Vue.component('content-module-selection-modal-component', {
 
             if (this.modalType)
                 $(this.modalType).data('parent', template).modal('show');
-            else if (this.selectedModule == 'InlineText') {
-                Utils.ApplyMarkdown('', template.id);
-            }
             else
-                Utils.ApplyMarkdown(template.markdown, template.id);
+                Utils.ApplyContentModule(template.moduleData, template.id);
         },
 
         closeModal() {

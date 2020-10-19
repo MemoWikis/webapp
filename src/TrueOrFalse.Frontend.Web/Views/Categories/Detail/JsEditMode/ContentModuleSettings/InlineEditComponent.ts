@@ -1,47 +1,103 @@
-﻿Vue.component('inline-text-component', {
-    props: {
-        markdown: String,
-        id: String,
-    },
+﻿var {
+    tiptap,
+    tiptapUtils,
+    tiptapCommands,
+    tiptapExtensions
+} = tiptapBuild;
 
-    template: '#inlinetext-edit',
+var hljs: any;
 
-    data() {
-        return {
-            parentId: this.$parent.id,
-            textContent: this.$parent.markdown,
-            textAreaId: this.$parent.textAreaId,
-            textCanBeEdited: this.$parent.textCanBeEdited,
-            textBeforeEdit: '',
-        };
-    },
+Vue.component('editor-menu-bar', tiptap.EditorMenuBar);
+Vue.component('editor-content', tiptap.EditorContent);
+Vue.component('editor-floating-menu', tiptap.EditorFloatingMenu);
 
-    watch: {
-        textContent: function() {
-            this.$parent.markdown = this.textContent;
-        },
-    },
-
-    mounted: function () {
-        this.$refs[this.textAreaId].$el.focus();
-        this.textBeforeEdit = this.textContent;
-    },
-
-    methods: {
-
-        applyNewMarkdown() {
-            if (this.textCanBeEdited) {
-                this.$parent.isListening = true;
-                Utils.ApplyMarkdown(this.textContent, this.parentId);
+Vue.component('text-component',
+    {
+        props: ['content'],
+        data() {
+            return {
+                json: null,
+                html: null,
+                htmlContent: null,
+                editMode: false,
+                editor: new tiptap.Editor({
+                    editable: false,
+                    extensions: [
+                        new tiptapExtensions.Blockquote(),
+                        new tiptapExtensions.BulletList(),
+                        new tiptapExtensions.CodeBlock(),
+                        new tiptapExtensions.HardBreak(),
+                        new tiptapExtensions.Heading({ levels: [2, 3] }),
+                        new tiptapExtensions.HorizontalRule(),
+                        new tiptapExtensions.ListItem(),
+                        new tiptapExtensions.OrderedList(),
+                        new tiptapExtensions.TodoItem(),
+                        new tiptapExtensions.TodoList(),
+                        new tiptapExtensions.Link(),
+                        new tiptapExtensions.Bold(),
+                        new tiptapExtensions.Code(),
+                        new tiptapExtensions.Italic(),
+                        new tiptapExtensions.Strike(),
+                        new tiptapExtensions.Underline(),
+                        new tiptapExtensions.History(),
+                        new tiptapExtensions.CodeBlockHighlight({
+                            languages: {
+                            },
+                        }),
+                        new tiptapExtensions.Placeholder({
+                            emptyEditorClass: 'is-editor-empty',
+                            emptyNodeClass: 'is-empty',
+                            emptyNodeText: 'Klicke hier um zu tippen ...',
+                            showOnlyWhenEditable: true,
+                            showOnlyCurrent: true,
+                        })
+                    ],
+                    content: this.content,
+                    onUpdate: ({ getJSON, getHTML }) => {
+                        this.json = getJSON();
+                        this.html = getHTML();
+                    },
+                    editorProps: {
+                        handleDOMEvents: {
+                            drop: (view, e) => { e.preventDefault(); },
+                        }
+                    },
+                    // hide the drop position indicator
+                    dropCursor: { width: 0, color: 'transparent' },
+                }),
             }
         },
+        created() {
+            this.setContent(this.content);
+        },
+        mounted() {
+            eventBus.$on("set-edit-mode",
+                (state) => {
+                    this.editMode = state;
+                });
+        },
+        watch: {
+            editMode() {
+                this.editor.setOptions({
+                    editable: this.editMode,
+                });
+            },
+            html() {
+                this.setContent(this.html);
+                eventBus.$emit('content-change');
+            }
+        },
+        methods: {
 
-        cancelTextEdit() {
-            this.textContent = this.textBeforeEdit;
-            this.$parent.markdown = this.textContent;
-            this.$parent.textCanBeEdited = false;
-            this.$parent.hoverState = false;
+            setContent(html) {
+                var json = {
+                    "TemplateName": "InlineText",
+                    "Content": html
+                }
+                this.$parent.content = json;
+                this.htmlContent = html;
+
+            }
         }
-    },
-});
+    });
 

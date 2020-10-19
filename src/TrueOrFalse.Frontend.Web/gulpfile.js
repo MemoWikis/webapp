@@ -1,11 +1,5 @@
 ﻿/// <binding AfterBuild='copyScripts' />
 var deps = {
-    "tiptap": {
-        "dist/tiptap.js": ""
-    },
-    "tiptap-extensions": {
-        "dist/extensions.js": ""
-    },
     "vue": {
         "dist/vue.js": ""
     },
@@ -13,7 +7,7 @@ var deps = {
         "vue-sortable.js": ""
     },
     "vue-textarea-autosize": {
-        "dist/vue-textarea-autosize.browser.js": ""
+        "dist/vue-textarea-autosize.umd.js": ""
     },
     "vue-select": {
         "dist/vue-select.js": ""
@@ -31,7 +25,15 @@ var deps = {
         "Sortable.js": ""
     },
     "vue-slider-component" : {
-        "dist/vue-slider-component.umd.js": "",
+        "dist/vue-slider-component.umd.js": ""
+    },
+    "highlight.js": {
+        "lib/*.js": "",
+        "lib/languages/c.js": "languages/",
+        "lib/languages/css.js": "languages/",
+        "lib/languages/javascript.js": "languages/",
+        "lib/languages/php.js": "languages/",
+        "lib/languages/typescript.js": "languages/",
     }
 };
 
@@ -39,7 +41,6 @@ var merge = require('merge-stream');
 var gulp = require('gulp');
 
 function copyScripts(cb) {
-
     var streams = [];
 
     for (var prop in deps) {
@@ -58,3 +59,11 @@ function copyScripts(cb) {
 }
 
 exports.copyScripts = copyScripts;
+
+
+function buildTiptap() {
+    var run = require('gulp-run');
+    return run('npm run build:tiptap').exec;
+}
+
+exports.buildTiptap = buildTiptap;

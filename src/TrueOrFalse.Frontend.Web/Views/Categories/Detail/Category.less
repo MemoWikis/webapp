@@ -944,7 +944,6 @@ p:empty {
     .footerToolbar {
         display: flex;
         justify-content: space-between;
-        border-bottom: solid 1px #d6d6d6;
 
 
         .wishknowledge {
@@ -955,7 +954,7 @@ p:empty {
                 padding-top: 4px;
                 display: block;
                 height: 100%;
-                line-height: 38px;                                  
+                line-height: 38px;
                 color: #999999;
             }
         }
@@ -972,6 +971,11 @@ p:empty {
                 color: #999999;
             }
         }
+    }
+
+    #Footer-CategoryLearning, #Footer-CategoryNetwork {
+        padding: 30px 0;
+        border-top: solid 1px #d6d6d6
     }
 }
 
@@ -1161,6 +1165,39 @@ p:empty {
             &.sticky {
                 width: 100%;
                 border-radius: 8px 8px 0 0;
+                animation-duration: 0.1s;
+
+                @media (min-width: 1200px) {
+                    animation-name: opacity810;
+                }
+
+                @media (maxwidth: 1200px) {
+                    animation-name: opacity900;
+                }
+            }
+
+
+
+            @keyframes opacity810 {
+                from {
+                    width: 810px;
+                    opacity: 0;
+                }
+
+                to {
+                    opacity: 1
+                }
+            }
+
+            @keyframes opacity900 {
+                from {
+                    width: 900px;
+                    opacity: 0;
+                }
+
+                to {
+                    opacity: 1
+                }
             }
 
             .inner {
@@ -1244,7 +1281,6 @@ p:empty {
     }
 
     .addCard {
-
         width: 100%;
         margin: auto 10px;
 
@@ -1345,6 +1381,8 @@ p:empty {
         .moduleSection {
             margin-bottom: 20px;
             padding-bottom: 20px;
+            margin-top: 20px;
+            padding-top: 20px;
 
             &.bottomBorder {
                 border-bottom: solid 1px #d6d6d6;
@@ -1361,7 +1399,7 @@ p:empty {
 
             .mainModules, .subModules, .miscModules {
                 display: flex;
-                justify-content: space-between;
+                justify-content: center;
                 align-content: flex-start;
                 flex-wrap: wrap;
                 width: 100%;
@@ -1926,3 +1964,85 @@ p:empty {
     [v-cloak] {
         display: none;
     }
+
+
+.inline-text-editor {
+    position: relative;
+
+    .editor__floating-menu {
+        position: absolute;
+        z-index: 1;
+        margin-top: -0.25rem;
+        visibility: hidden;
+        opacity: 0;
+        transition: opacity 0.2s, visibility 0.2s;
+
+        &.is-active {
+            opacity: 1;
+            visibility: visible;
+        }
+    }
+
+    .menubar {
+        top: 60px;
+        position: sticky;
+        background: white;
+        margin-top: -36px;
+        z-index: 10;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.16);
+        border-radius: 2px;
+
+
+
+        &.is-hidden {
+            visibility: hidden;
+            opacity: 0;
+        }
+
+        &.is-focused {
+            visibility: visible;
+            opacity: 1;
+            transition: visibility .2s,opacity .2s;
+        }
+    }
+
+    .ProseMirror {
+        padding-top: 2px;
+
+        &:focus {
+            outline: none !important;
+        }
+
+        b, strong {
+            font-weight: 600;
+        }
+    }
+
+    button.menubar__button {
+        background: white;
+        border: hidden;
+        font-size: 18px;
+        width: 34px;
+        height: 36px;
+        margin: 0px 0;
+        color: #555555;
+
+        &:hover {
+            background: #efefef;
+        }
+
+        &.is-active {
+            background: #dddddd;
+        }
+    }
+
+    p.is-editor-empty:first-child::before {
+        content: attr(data-empty-text);
+        float: left;
+        color: #aaa;
+        pointer-events: none;
+        height: 0;
+        font-style: italic;
+    }
+}
+

@@ -20,6 +20,8 @@ public class CategoryMap : ClassMap<Category>
         References(x => x.Creator);
 
         Map(x => x.TopicMarkdown);
+        Map(x => x.Content);
+
         Map(x => x.FeaturedSetsIdsString);
 
         Map(x => x.CountQuestionsAggregated);

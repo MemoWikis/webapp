@@ -86,7 +86,7 @@
 
 
                 
-                <div style="display: flex; align-items: flex-start;flex-direction: row-reverse">
+                <div style="display: flex; align-items: flex-start; flex-direction: row-reverse; justify-content: space-between">
                     <div id="CategoryColumnRight">
                         <div id="CategoryImageColumn" class="">
                             <div class="row">
@@ -120,7 +120,7 @@
 
                         </div>
                     </div>
-                    <div id="CategoryColumnLeft" style="display: flex; align-items: flex-start; flex-direction: column;">
+                    <div id="CategoryColumnLeft">
                         
                         <% if (!Model.IsEditing) { %>
                             <div id="CategoryTypeSelect" class="FormSection">
@@ -194,7 +194,7 @@
                             </div>
                         </div>
 
-                        <div class="FormSection JS-ShowWithPartial" style="display: none;">
+                        <div class="FormSection JS-ShowWithPartial" style="display: none; box-shadow: none;">
                             <div class="form-group">
                                 <label class="columnLabel control-label">
                                     Übergeordnete Themen
@@ -217,7 +217,7 @@
                                 </div>
                             </div>
 
-                            <div class="form-group">
+                            <div class="form-group" style="display:none">
                                 <label class="columnLabel control-label" for="TopicMarkdown">
                                     Freie Seitengestaltung für Themenseite:
                                     <i class="fa fa-question-circle show-tooltip" 

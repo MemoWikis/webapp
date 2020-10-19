@@ -3,8 +3,9 @@
 <%@ Import Namespace="System.Web.Optimization" %>
 <%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
 
+<%= Scripts.Render("~/Scripts/npm/tiptap-build/tiptap-build.js") %> 
 
-<div id="ContentModuleApp">
+<div id="ContentModuleApp" openEditMode="<%= Model.OpenEditMode%>">
     <% if (Model.Category.IsHistoric)
        { %>
         <div class="alert alert-info" role="alert">
@@ -114,12 +115,23 @@
             </content-module>
         </div>
     </div>
+<%--    
+    <div id="EditorApp">
+        <editor-content :editor="editor" />
+    </div>--%>
+
     <% if (!Model.CategoryIsDeleted) {%>
         <%: Html.Partial("~/Views/Categories/Detail/Partials/InlineEditFloatingActionButton.ascx") %>
         <%: Html.Partial("~/Views/Categories/Detail/Partials/ModalComponentCollection.ascx") %>
     <% } %>
     
 </div>
+
+
+<%--<%= Scripts.Render("~/bundles/js/tiptap") %> --%>
+
+
+
 <% if (!Model.CategoryIsDeleted)
    { %>
 <%: Html.Partial("~/Views/Categories/Detail/Partials/CategoryFooter/CategoryFooter.ascx") %>

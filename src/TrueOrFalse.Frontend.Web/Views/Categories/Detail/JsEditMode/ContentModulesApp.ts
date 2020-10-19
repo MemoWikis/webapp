@@ -3,9 +3,12 @@ declare var VueTextareaAutosize: any;
 declare var VueSelect: any;
 declare var Sticky: any;
 declare var Sortable: any;
+declare var tiptapBuild: any;
 
-Vue.use(VueTextareaAutosize);
+
 Vue.component('v-select', VueSelect.VueSelect);
+
+
 
 declare var eventBus: any;
 if (eventBus == null)
@@ -14,7 +17,12 @@ if (eventBus == null)
 Vue.directive('sortable',
     {
         inserted(el, binding) {
-            new Sortable(el, binding.value || {});
+            new Sortable(el, binding.value, 
+                {
+                    onUpdate: function() {
+                        eventBus.$emit('sortable-update');
+                    }
+                });
         },
     });
 
@@ -29,41 +37,46 @@ new Vue({
                 filter: '.placeholder',
                 preventOnFilter: false,
                 onMove: this.onMove,
-            },
+                onUpdate: this.updateModuleOrder,
+                axis: 'y'
+    },
             saveSuccess: false,
             saveMessage: '',
             editMode: false,
             showTopAlert: false,
             previewModule: null,
-            changedMarkdown: false,
+            changedContent: false,
             footerIsVisible: '',
             awaitInlineTextId: false,
+            moduleOrder: [],
+            modules: [],
+            sortedModules: [],
         };
     },
 
     created() {
-
-        eventBus.$on('save-markdown',
-            (data) => {
-                if (data == 'top') {
-                    this.saveMarkdown(data);
-                };
+        eventBus.$on('get-module',
+            (module) => {
+                var index = this.modules.findIndex((m) => m.id == module.id);
+                if (index >= 0)
+                    this.modules[index] = module;
+                else
+                    this.modules.push(module);
             });
         eventBus.$on("set-edit-mode",
             (state) => {
                 this.editMode = state;
-                if (this.changedMarkdown && !this.editMode) {
+                if (this.changedContent && !this.editMode) {
                     location.reload();
                 }
             });
-        eventBus.$on('new-markdown',
+        eventBus.$on('update-content-module',
             (event) => {
                 if (event.preview == true) {
                     const previewHtml = event.newHtml;
                     const moduleToReplace = event.toReplace;
-                    this.changedMarkdown = true;
                     var inserted = $(previewHtml).insertAfter(moduleToReplace);
-                    var instance = new contentModuleComponent({
+                    new contentModuleComponent({
                         el: inserted.get(0)
                     });
                     eventBus.$emit('close-content-module-settings-modal', event.preview);
@@ -80,27 +93,48 @@ new Vue({
                     var instance = new contentModuleComponent({
                         el: inserted.get(0)
                     });
-                    this.changedMarkdown = true;
                     eventBus.$emit('set-edit-mode', this.editMode);
                     eventBus.$emit('set-new-content-module', this.editMode);
+                    this.updateModuleOrder();
+                    this.sortModules();
                 };
             });
 
         window.addEventListener('scroll', this.footerCheck);
         window.addEventListener('resize', this.footerCheck);
+        eventBus.$on('content-change',
+            () => {
+                if (this.editMode)
+                        this.changedContent = true;
+            });
     },
 
     mounted() {
-        this.changedMarkdown = false;
+        this.changedContent = false;
         if ((this.$el.clientHeight + 450) < window.innerHeight)
             this.footerIsVisible = true;
+        if (this.$el.attributes.openEditMode.value == 'True')
+            this.setEditMode();
     },
 
     updated() {
         this.footerCheck();
     },
 
+    watch: {
+        editMode(val) {
+            if (val) {
+                this.sortModules();
+            }
+        },
+    },
+
+
     methods: {
+
+        updateModuleOrder() {
+            this.moduleOrder = $(".inlinetext, .topicnavigation").map((idx, elem) => $(elem).attr("uid")).get();
+        },
 
         footerCheck() {
             const elFooter = document.getElementById('CategoryFooter');
@@ -121,12 +155,13 @@ new Vue({
 
             this.editMode = false;
             eventBus.$emit('set-edit-mode', this.editMode);
-            if (this.changedMarkdown) {
+            if (this.changedContent)
                 location.reload();
-            };
         },
 
         setEditMode() {
+            this.modules = [];
+
             if (NotLoggedIn.Yes()) {
                 NotLoggedIn.ShowErrorMsg("OpenEditMode");
                 return;
@@ -134,6 +169,29 @@ new Vue({
                 this.editMode = !this.editMode;
                 eventBus.$emit('set-edit-mode', this.editMode);
             };
+        },
+
+        sortModules() {
+            var items = this.modules;
+            var sorting = this.moduleOrder;
+            var result = [];
+
+            sorting.forEach(function(key) {
+                var found = false;
+                items = items.filter(function(item) {
+                    if (!found && item.id == key) {
+                        result.push(item.contentData);
+                        found = true;
+                        return false;
+                    } else
+                        return true;
+                });
+            });
+
+            this.sortedModules = result;
+            if ((result.length == 0 || result[result.length - 1].TemplateName != 'InlineText') && (items.length == 0 || items[items.length - 1].contentData.TemplateName != 'InlineText'))
+                eventBus.$emit('add-inline-text-module');
+            return;
         },
 
         removeAlert() {
@@ -146,32 +204,38 @@ new Vue({
             return event.related.id !== 'ContentModulePlaceholder';;
         },
 
-        async saveMarkdown() {
-
+        async saveContent() {
             if (!this.editMode)
                 return;
 
-            const markdownParts = $(".ContentModule").map((idx, elem) => $(elem).attr("markdown")).get();
-            let markdownDoc = "";
-            if (markdownParts.length >= 1)
-                markdownDoc = markdownParts.reduce((list, doc) => { return list + "\r\n" + doc });
+            await this.sortModules();
+            if (this.sortedModules.length == 0)
+                return;
+            var filteredModules = this.sortedModules.filter(o => (o.TemplateName != 'InlineText' || o.Content));
+            var data = {
+                categoryId: $("#hhdCategoryId").val(),
+                content: filteredModules,
+            }
+            console.log(window.location.href);
 
-            $.post("/Category/SaveMarkdown",
-                {
-                    categoryId: $("#hhdCategoryId").val(),
-                    markdown: markdownDoc,
-                },
-                (success) => {
+            $.ajax({
+                type: 'post',
+                contentType: "application/json",
+                url: '/Category/SaveCategoryContent',
+                data: JSON.stringify(data),
+                success: function (success) {
                     if (success == true) {
                         this.saveSuccess = true;
                         this.saveMessage = "Das Thema wurde gespeichert.";
-                        location.reload();
+                        if (window.location.href.endsWith('?openEditMode=True'))
+                            location.href = window.location.href.slice(0, -18);
+                        else location.reload();
                     } else {
                         this.saveSuccess = false;
                         this.saveMessage = "Das Speichern schlug fehl.";
                     };
                 },
-            );
-        },
+            });
+        }
     },
 });

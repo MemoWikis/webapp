@@ -1011,7 +1011,6 @@ p:empty {
   -webkit-justify-content: space-between;
       -ms-flex-pack: justify;
           justify-content: space-between;
-  border-bottom: solid 1px #d6d6d6;
 }
 #CategoryFooter .footerToolbar .wishknowledge {
   display: -webkit-box;
@@ -1036,6 +1035,11 @@ p:empty {
 #CategoryFooter .footerToolbar .footerDropdown .fa-ellipsis-v {
   font-size: 18px;
   color: #999999;
+}
+#CategoryFooter #Footer-CategoryLearning,
+#CategoryFooter #Footer-CategoryNetwork {
+  padding: 30px 0;
+  border-top: solid 1px #d6d6d6;
 }
 @media (max-width: 991px) {
   #MasterMainWrapper {
@@ -1239,6 +1243,56 @@ p:empty {
   width: 100%;
   -webkit-border-radius: 8px 8px 0 0;
           border-radius: 8px 8px 0 0;
+  -webkit-animation-duration: 0.1s;
+          animation-duration: 0.1s;
+}
+@media (min-width: 1200px) {
+  #TopicTabContent #InlineEditToolbar .toolbar.sticky {
+    -webkit-animation-name: opacity810;
+            animation-name: opacity810;
+  }
+}
+@media (maxwidth: 1200px) {
+  #TopicTabContent #InlineEditToolbar .toolbar.sticky {
+    -webkit-animation-name: opacity900;
+            animation-name: opacity900;
+  }
+}
+@-webkit-keyframes opacity810 {
+  from {
+    width: 810px;
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+@keyframes opacity810 {
+  from {
+    width: 810px;
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+@-webkit-keyframes opacity900 {
+  from {
+    width: 900px;
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+@keyframes opacity900 {
+  from {
+    width: 900px;
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }
 #TopicTabContent #InlineEditToolbar .toolbar .inner {
   max-width: 1160px;
@@ -1485,6 +1539,8 @@ p:empty {
 .contentModuleSettings .selectModuleContainer .moduleSection {
   margin-bottom: 20px;
   padding-bottom: 20px;
+  margin-top: 20px;
+  padding-top: 20px;
 }
 .contentModuleSettings .selectModuleContainer .moduleSection.bottomBorder {
   border-bottom: solid 1px #d6d6d6;
@@ -1512,10 +1568,10 @@ p:empty {
   display: -webkit-flex;
   display: -ms-flexbox;
   display: flex;
-  -webkit-box-pack: justify;
-  -webkit-justify-content: space-between;
-      -ms-flex-pack: justify;
-          justify-content: space-between;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+      -ms-flex-pack: center;
+          justify-content: center;
   -webkit-align-content: flex-start;
       -ms-flex-line-pack: start;
           align-content: flex-start;
@@ -2478,4 +2534,75 @@ p:empty {
 }
 [v-cloak] {
   display: none;
+}
+.inline-text-editor {
+  position: relative;
+}
+.inline-text-editor .editor__floating-menu {
+  position: absolute;
+  z-index: 1;
+  margin-top: -0.25rem;
+  visibility: hidden;
+  opacity: 0;
+  -webkit-transition: opacity 0.2s, visibility 0.2s;
+  transition: opacity 0.2s, visibility 0.2s;
+}
+.inline-text-editor .editor__floating-menu.is-active {
+  opacity: 1;
+  visibility: visible;
+}
+.inline-text-editor .menubar {
+  top: 60px;
+  position: -webkit-sticky;
+  position: sticky;
+  background: white;
+  margin-top: -36px;
+  z-index: 10;
+  -webkit-box-shadow: 0 2px 6px rgba(0, 0, 0, 0.16);
+          box-shadow: 0 2px 6px rgba(0, 0, 0, 0.16);
+  -webkit-border-radius: 2px;
+          border-radius: 2px;
+}
+.inline-text-editor .menubar.is-hidden {
+  visibility: hidden;
+  opacity: 0;
+}
+.inline-text-editor .menubar.is-focused {
+  visibility: visible;
+  opacity: 1;
+  -webkit-transition: visibility 0.2s, opacity 0.2s;
+  transition: visibility 0.2s, opacity 0.2s;
+}
+.inline-text-editor .ProseMirror {
+  padding-top: 2px;
+}
+.inline-text-editor .ProseMirror:focus {
+  outline: none !important;
+}
+.inline-text-editor .ProseMirror b,
+.inline-text-editor .ProseMirror strong {
+  font-weight: 600;
+}
+.inline-text-editor button.menubar__button {
+  background: white;
+  border: hidden;
+  font-size: 18px;
+  width: 34px;
+  height: 36px;
+  margin: 0px 0;
+  color: #555555;
+}
+.inline-text-editor button.menubar__button:hover {
+  background: #efefef;
+}
+.inline-text-editor button.menubar__button.is-active {
+  background: #dddddd;
+}
+.inline-text-editor p.is-editor-empty:first-child::before {
+  content: attr(data-empty-text);
+  float: left;
+  color: #aaa;
+  pointer-events: none;
+  height: 0;
+  font-style: italic;
 }
