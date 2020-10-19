@@ -2562,6 +2562,8 @@ p:empty {
           box-shadow: 0 2px 6px rgba(0, 0, 0, 0.16);
   -webkit-border-radius: 2px;
           border-radius: 2px;
+  font-size: 0;
+  height: 36px;
 }
 .inline-text-editor .menubar.is-hidden {
   visibility: hidden;
@@ -2583,19 +2585,19 @@ p:empty {
 .inline-text-editor .ProseMirror strong {
   font-weight: 600;
 }
-.inline-text-editor button.menubar__button {
+.inline-text-editor .menubar__button {
   background: white;
   border: hidden;
   font-size: 18px;
   width: 34px;
   height: 36px;
-  margin: 0px 0;
+  margin: 0px;
   color: #555555;
 }
-.inline-text-editor button.menubar__button:hover {
+.inline-text-editor .menubar__button:hover {
   background: #efefef;
 }
-.inline-text-editor button.menubar__button.is-active {
+.inline-text-editor .menubar__button.is-active {
   background: #dddddd;
 }
 .inline-text-editor p.is-editor-empty:first-child::before {
