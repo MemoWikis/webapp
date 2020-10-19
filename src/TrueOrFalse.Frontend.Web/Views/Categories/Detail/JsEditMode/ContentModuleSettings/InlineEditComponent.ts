@@ -84,6 +84,7 @@ Vue.component('text-component',
             },
             html() {
                 this.setContent(this.html);
+                eventBus.$emit('content-change');
             }
         },
         methods: {

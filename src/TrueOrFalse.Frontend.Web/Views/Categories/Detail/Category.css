@@ -2552,11 +2552,14 @@ p:empty {
   visibility: visible;
 }
 .inline-text-editor .menubar {
-  top: 0%;
-  -webkit-transform: translateY(-webkit-calc(-100% - 2px));
-          transform: translateY(calc(-100% - 2px));
-  position: absolute;
+  top: 60px;
+  position: -webkit-sticky;
+  position: sticky;
   background: white;
+  margin-top: -36px;
+  z-index: 10;
+  -webkit-box-shadow: 0 2px 6px rgba(0, 0, 0, 0.16);
+          box-shadow: 0 2px 6px rgba(0, 0, 0, 0.16);
 }
 .inline-text-editor .menubar.is-hidden {
   visibility: hidden;
@@ -2586,7 +2589,7 @@ p:empty {
   font-size: 18px;
   width: 34px;
   height: 36px;
-  margin: 2px 0;
+  margin: 0px 0;
   color: #555555;
 }
 .inline-text-editor button.menubar__button:hover {

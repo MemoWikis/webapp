@@ -1984,10 +1984,13 @@ p:empty {
     }
 
     .menubar {
-        top: 0%;
-        transform: translateY(calc(-100% - 2px));
-        position: absolute;
+        top: 60px;
+        position: sticky;
         background: white;
+        margin-top: -36px;
+        z-index: 10;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.16);
+
 
         &.is-hidden {
             visibility: hidden;
@@ -2020,7 +2023,7 @@ p:empty {
         font-size: 18px;
         width: 34px;
         height: 36px;
-        margin: 2px 0;
+        margin: 0px 0;
         color: #555555;
 
         &:hover {

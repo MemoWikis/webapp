@@ -2,7 +2,7 @@
 
 var contentModuleComponent = Vue.component('content-module', {
     props: {
-        origMarkdown: String,
+        origContent: String,
         contentModuleType: String,
     },
 
@@ -32,8 +32,8 @@ var contentModuleComponent = Vue.component('content-module', {
     created() {
         if (this.contentModuleType != "inlinetext") {
             this.modalType = '#' + this.contentModuleType + 'SettingsDialog';
-            if (this.origMarkdown != null)
-                this.content = JSON.parse(this.origMarkdown);
+            if (this.origContent != null)
+                this.content = JSON.parse(this.origContent);
         };
         this.uid = this._uid + Math.floor((Math.random() * 10000) + 1);
         this.id = this.contentModuleType + 'Module-' + (this.uid);
@@ -41,6 +41,8 @@ var contentModuleComponent = Vue.component('content-module', {
         if (this.contentModuleType == 'AddModuleButton')
             this.id = 'ContentModulePlaceholder';
         this.textAreaId = 'TextArea-' + (this._uid + Math.floor((Math.random() * 100) + 1));
+        if (this.contentModuleType == "topicnavigation")
+            eventBus.$emit('content-change');
     },
 
     mounted() {
@@ -57,37 +59,6 @@ var contentModuleComponent = Vue.component('content-module', {
                     this.isListening = false;
                 };
             });
-
-        eventBus.$on('set-hover-state',
-            (state) => {
-                if (state == false) {
-                    this.readyToFocus = false;
-                    this.hoverState = false;
-                };
-            });
-
-        eventBus.$on('set-new-content-module',
-            (state) => {
-                if (state == true && this.readyToFocus == true) {
-                    this.isListening = false;
-                    this.hoverState = true;
-                    if (this.contentModuleType == 'inlinetext') {
-                        this.textCanBeEdited = true;
-                    };
-                };
-            });
-    },
-
-    computed: {
-        missingText: function() {
-            if (this.contentModuleType == 'inlinetext' && this.canBeEdited) {
-                let trimmedMarkdown = this.markdown.trim().replace(' ', '');
-                if (trimmedMarkdown.length > 0)
-                    return false;
-                else
-                    return true;
-            };
-        },
     },
 
     watch: {

@@ -75,9 +75,8 @@ new Vue({
                 if (event.preview == true) {
                     const previewHtml = event.newHtml;
                     const moduleToReplace = event.toReplace;
-                    this.changedContent = true;
                     var inserted = $(previewHtml).insertAfter(moduleToReplace);
-                    var instance = new contentModuleComponent({
+                    new contentModuleComponent({
                         el: inserted.get(0)
                     });
                     eventBus.$emit('close-content-module-settings-modal', event.preview);
@@ -94,7 +93,6 @@ new Vue({
                     var instance = new contentModuleComponent({
                         el: inserted.get(0)
                     });
-                    this.changedContent = true;
                     eventBus.$emit('set-edit-mode', this.editMode);
                     eventBus.$emit('set-new-content-module', this.editMode);
                     this.updateModuleOrder();
@@ -104,6 +102,11 @@ new Vue({
 
         window.addEventListener('scroll', this.footerCheck);
         window.addEventListener('resize', this.footerCheck);
+        eventBus.$on('content-change',
+            () => {
+                if (this.editMode)
+                        this.changedContent = true;
+            });
     },
 
     mounted() {
@@ -152,9 +155,8 @@ new Vue({
 
             this.editMode = false;
             eventBus.$emit('set-edit-mode', this.editMode);
-            if (this.changedContent) {
+            if (this.changedContent)
                 location.reload();
-            };
         },
 
         setEditMode() {
