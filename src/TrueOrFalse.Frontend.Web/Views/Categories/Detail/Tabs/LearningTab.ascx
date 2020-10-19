@@ -50,6 +50,6 @@
     <div id="QuestionDetails" data-div-type="questionDetails"></div>
 </div>
 
-<% Html.RenderPartial("~/Views/Questions/QuestionList/QuestionList.ascx", new QuestionListModel(Model.Category.Id)); %>
+<% Html.RenderPartial("~/Views/Questions/QuestionList/QuestionList.ascx", new QuestionListModel(Model.Category.Id, Model.IsDisplayNoneSessionConfigNoteQuestionList)); %>
 <% Html.RenderPartial("~/Views/Questions/Modals/ModalDeleteQuestion.ascx"); %>
 

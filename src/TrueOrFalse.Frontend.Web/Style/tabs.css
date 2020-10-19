@@ -77,27 +77,35 @@
   justify-content: center;
   height: 45px;
 }
-#CategoryHeader #LearningTabWithOptions .session-config-reminder-header {
+#CategoryHeader #LearningTabWithOptions #SessionConfigReminderHeader {
+  margin-bottom: 100px;
+  margin-left: 164%;
+  position: absolute;
+  display: flex;
+}
+#CategoryHeader #LearningTabWithOptions #SessionConfigReminderHeader .session-config-reminder-header {
   border-radius: 0%;
   webkit-border-radius: 0;
-  position: absolute;
   width: 122px;
   max-width: 122px;
-  margin-bottom: 100px;
-  margin-left: 154%;
+}
+#CategoryHeader #LearningTabWithOptions #SessionConfigReminderHeader .fa-times-circle {
+  margin-top: 8px;
+  margin-left: -8px;
+  cursor: pointer;
 }
 @media only screen and (max-width: 992px) {
-  #CategoryHeader #LearningTabWithOptions .session-config-reminder-header {
-    margin-left: 156%;
+  #CategoryHeader #LearningTabWithOptions #SessionConfigReminderHeader {
+    margin-left: 170%;
   }
 }
 @media only screen and (max-width: 768px) {
-  #CategoryHeader #LearningTabWithOptions .session-config-reminder-header {
-    margin-left: 173px;
+  #CategoryHeader #LearningTabWithOptions #SessionConfigReminderHeader {
+    margin-left: 177px;
   }
 }
 @media only screen and (max-width: 480px) {
-  #CategoryHeader #LearningTabWithOptions .session-config-reminder-header {
+  #CategoryHeader #LearningTabWithOptions #SessionConfigReminderHeader {
     margin-left: 156px;
   }
 }

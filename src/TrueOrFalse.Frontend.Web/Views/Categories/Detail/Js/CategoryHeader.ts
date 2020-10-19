@@ -12,6 +12,13 @@ class CategoryHeader {
 
     constructor(page: CategoryPage) {
 
+        $("#SessionConfigReminderHeader>.fa-times-circle").on('click',
+            () => {
+                $.post("/Category/SetSettingsCookie?name=SessionConfigTopNote");
+                $("#SessionConfigReminderHeader").hide(200);
+            }); 
+        
+
         $("#jsAdminStatistics").click(() => {
         
             $("#last60DaysViews").toggle();
