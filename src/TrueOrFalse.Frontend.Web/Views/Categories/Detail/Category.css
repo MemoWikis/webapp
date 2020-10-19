@@ -2558,8 +2558,8 @@ p:empty {
   background: white;
   margin-top: -36px;
   z-index: 10;
-  -webkit-box-shadow: 0 2px 6px rgba(0, 0, 0, 0.16);
-          box-shadow: 0 2px 6px rgba(0, 0, 0, 0.16);
+  -webkit-box-shadow: 0 6px 6px -6px rgba(0, 0, 0, 0.16);
+          box-shadow: 0 6px 6px -6px rgba(0, 0, 0, 0.16);
   -webkit-border-radius: 2px;
           border-radius: 2px;
   font-size: 0;
@@ -2589,10 +2589,11 @@ p:empty {
   background: white;
   border: hidden;
   font-size: 18px;
-  width: 34px;
+  width: 36px;
   height: 36px;
   margin: 0px;
   color: #555555;
+  text-align: center;
 }
 .inline-text-editor .menubar__button:hover {
   background: #efefef;
