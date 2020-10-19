@@ -224,17 +224,15 @@ public class CategoryController : BaseController
 
     [HttpPost]
     [AccessOnlyAsLoggedIn]
-    public ActionResult SaveCategoryContent(int categoryId, List<JsonLoader> content)
+    public ActionResult SaveCategoryContent(int categoryId, List<TemplateParser.JsonLoader> content)
     {
         var category = Sl.CategoryRepo.GetById(categoryId);
 
         if (category != null && content != null)
         {
-            //var document = TemplateParser.Run2(content, category);
-            category.Content = JsonConvert.SerializeObject(content, new JsonSerializerSettings
-            {
-                NullValueHandling = NullValueHandling.Ignore
-            });
+            var mergedContent = TemplateParser.GetContent(content);
+
+            category.Content = mergedContent;
             Sl.CategoryRepo.Update(category, User_());
 
             return Json(true);
@@ -257,7 +255,7 @@ public class CategoryController : BaseController
 
     [HttpPost]
     [AccessOnlyAsLoggedIn]
-    public ActionResult RenderContentModule(int categoryId, JsonLoader json)
+    public ActionResult RenderContentModule(int categoryId, TemplateParser.JsonLoader json)
     {
         var category = Sl.CategoryRepo.GetById(categoryId);
         var templateJson = new TemplateJson
@@ -296,14 +294,4 @@ public class LoadModelResult
 {
     public Category Category;
     public CategoryModel CategoryModel;
-}
-
-public class JsonLoader
-{
-    public string TemplateName { get; set; }
-    public string Title { get; set; }
-    public string Text { get; set; }
-    public string Load { get; set; }
-    public string Order { get; set; }
-    public string Content { get; set; }
 }

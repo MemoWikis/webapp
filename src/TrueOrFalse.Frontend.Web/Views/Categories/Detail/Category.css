@@ -2560,6 +2560,8 @@ p:empty {
   z-index: 10;
   -webkit-box-shadow: 0 2px 6px rgba(0, 0, 0, 0.16);
           box-shadow: 0 2px 6px rgba(0, 0, 0, 0.16);
+  -webkit-border-radius: 2px;
+          border-radius: 2px;
 }
 .inline-text-editor .menubar.is-hidden {
   visibility: hidden;
@@ -2584,8 +2586,6 @@ p:empty {
 .inline-text-editor button.menubar__button {
   background: white;
   border: hidden;
-  -webkit-border-radius: 2px;
-          border-radius: 2px;
   font-size: 18px;
   width: 34px;
   height: 36px;
