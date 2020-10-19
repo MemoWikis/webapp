@@ -13,7 +13,7 @@
         <div id="ButtonAndDropdown">
         <session-config-component inline-template @update="updateQuestionsCount" :questions-count="questionsCount" :all-questions-count-from-category="allQuestionsCountFromCategory">
         <div class="rootElement">
-            <% if(Model.IsSessionNoteHide){%>
+            <% if(Model.IsSessionNoteFadeIn){%>
             <div id="LearningSessionReminderQuestionList">
                 <img id="SessionConfigReminderLeft" src="/Images/Various/SessionConfigReminderLeft.svg" >
                 <img id="SessionConfigReminderRight" src="/Images/Various/SessionConfigReminder.svg" >

@@ -22,6 +22,9 @@ public class CategoryController : BaseController
     public ActionResult Category(int id, int? version, bool? openEditMode)
     {
         var modelAndCategoryResult = LoadModel(id, version, openEditMode: openEditMode);
+        var modelAndCategoryResult = LoadModel(id, version);
+        modelAndCategoryResult.CategoryModel.IsDisplayNoneSessionConfigNote = GetSettingsCookie("SessionConfigTopNote");
+        modelAndCategoryResult.CategoryModel.IsDisplayNoneSessionConfigNoteQuestionList = !GetSettingsCookie("SessionConfigQuestionList");
         modelAndCategoryResult.CategoryModel.IsInTopic = true;
 
         return View(_viewLocation, modelAndCategoryResult.CategoryModel);
@@ -48,6 +51,8 @@ public class CategoryController : BaseController
     public ActionResult CategoryAnalyticsTab(int id, int? version)
     {
         var modelAndCategoryResult = LoadModel(id, version);
+        modelAndCategoryResult.CategoryModel.IsDisplayNoneSessionConfigNote = GetSettingsCookie("SessionConfigTopNote");
+        modelAndCategoryResult.CategoryModel.IsDisplayNoneSessionConfigNoteQuestionList = !GetSettingsCookie("SessionConfigQuestionList");
         modelAndCategoryResult.CategoryModel.IsInAnalyticsTab = true;
 
         return View(_viewLocation, modelAndCategoryResult.CategoryModel);

@@ -8,14 +8,14 @@ public class QuestionListModel : BaseModel
     public int CategoryId;
     public int ItemCount;
     public int AllQuestionsInCategory;
-    public bool IsSessionNoteHide { get; set; }
+    public bool IsSessionNoteFadeIn { get; set; }
 
 
-    public QuestionListModel(int categoryId, bool isSessionNoteHide = false)
+    public QuestionListModel(int categoryId, bool isSessionNoteFadeIn = true)
     {
         CategoryId = categoryId;
         AllQuestionsInCategory = Sl.CategoryRepo.CountAggregatedQuestions(categoryId);
-        IsSessionNoteHide = isSessionNoteHide;
+        IsSessionNoteFadeIn = isSessionNoteFadeIn;
     }
 
     public static List<QuestionListJson.Question> PopulateQuestionsOnPage(int currentPage, int itemCountPerPage, bool isLoggedIn)
