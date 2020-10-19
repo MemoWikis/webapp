@@ -2,10 +2,9 @@
     tiptap,
     tiptapUtils,
     tiptapCommands,
-    tiptapExtensions
+    tiptapExtensions,
+    hljs
 } = tiptapBuild;
-
-var hljs: any;
 
 Vue.component('editor-menu-bar', tiptap.EditorMenuBar);
 Vue.component('editor-content', tiptap.EditorContent);
