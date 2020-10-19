@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using Org.BouncyCastle.Asn1.Ocsp;
 using TrueOrFalse.Web;
 
 public class CategoryModel : BaseContentModule 
@@ -58,13 +59,15 @@ public class CategoryModel : BaseContentModule
     public bool IsLearningTab;
     public string TotalPins;
     public AnalyticsFooterModel AnalyticsFooterModel;
-    public bool CategoryIsDeleted; 
+    public bool CategoryIsDeleted;
+    public bool IsDisplayNoneSessionConfigNote { get; set; }
     public CategoryModel()
     {
 
     }
     public CategoryModel(Category category, bool loadKnowledgeSummary = true, bool isCategoryNull = false)
     {
+ 
         CategoryIsDeleted = isCategoryNull;
 
         AnalyticsFooterModel = new AnalyticsFooterModel(category, false, isCategoryNull);

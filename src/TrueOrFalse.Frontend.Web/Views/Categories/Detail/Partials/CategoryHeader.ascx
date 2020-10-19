@@ -67,13 +67,15 @@
                     </a>
                 </div>
                 <div id="LearningTabWithOptions" class="Tab">
+                    <% if (!Model.IsDisplayNoneSessionConfigNote)
+                       { %>
                     <div id="SessionConfigReminderHeader">
                         <span>
                             <img src="/Images/Various/SessionConfigReminder.svg" class="session-config-reminder-header">
                         </span>
                         <span class="far fa-times-circle"></span>
-
                     </div>
+                        <% } %>
                     <div id="LearningTab" class="Tab" data-url="<%=Links.CategoryDetailLearningTab(Model.Name, Model.Id) %>">
                         <a href="" >
                             Lernen

@@ -1,7 +1,10 @@
 ﻿using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
+using System.Text;
+using System.Web;
 using System.Web.Mvc;
 using TrueOrFalse.Frontend.Web.Code;
 
@@ -18,6 +21,7 @@ public class CategoryController : BaseController
     {
         var modelAndCategoryResult = LoadModel(id, version);
         modelAndCategoryResult.CategoryModel.IsInTopic = true;
+        modelAndCategoryResult.CategoryModel.IsDisplayNoneSessionConfigNote = GetSettingsCookie("SessionConfigTopNote");
 
         return View(_viewLocation, modelAndCategoryResult.CategoryModel);
     }
@@ -54,7 +58,7 @@ public class CategoryController : BaseController
         var isCategoryNull = category == null;
 
         var categoryChangeData = new TrueOrFalse.Data();
-       // var categoryChange = new List<CategoryChange>();
+        // var categoryChange = new List<CategoryChange>();
 
         if (isCategoryNull)
         {
@@ -81,7 +85,7 @@ public class CategoryController : BaseController
         return View(_topicTab, LoadModel(id, version).CategoryModel);
     }
 
-    private void ApplyCategoryChangeToModel(CategoryModel categoryModel, int version, int id=-1)
+    private void ApplyCategoryChangeToModel(CategoryModel categoryModel, int version, int id = -1)
     {
         var ListChangesById = Sl.CategoryChangeRepo.GetForCategory(id);
         var haveVersionData = ListChangesById.Where(lc => lc.Id == version).FirstOrDefault().Type != CategoryChangeType.Delete;
@@ -127,7 +131,7 @@ public class CategoryController : BaseController
 
     public ActionResult StartTestSession(int categoryId)
     {
-        var categoryName = EntityCache.GetCategory(categoryId).Name; 
+        var categoryName = EntityCache.GetCategory(categoryId).Name;
 
         return Redirect(Links.TestSession(categoryName, categoryId));
     }
@@ -163,7 +167,7 @@ public class CategoryController : BaseController
 
         if (questions.Count == 0)
             throw new Exception("Cannot start LearningSession with 0 questions.");
-        var config =  new LearningSessionConfig();
+        var config = new LearningSessionConfig();
         var learningSession = LearningSessionNewCreator.ForAnonymous(config);
 
         return Redirect(Links.LearningSession(learningSession));
@@ -173,8 +177,8 @@ public class CategoryController : BaseController
     {
         var category = Sl.CategoryRepo.GetById(categoryId);
         var isCategoryNull = category == null;
-       category = isCategoryNull ? new Category() : category; 
-        
+        category = isCategoryNull ? new Category() : category;
+
         return ViewRenderer.RenderPartialView(
             "/Views/Categories/Detail/Tabs/" + tabName + ".ascx",
             GetModelWithContentHtml(category, null, isCategoryNull),
@@ -232,7 +236,7 @@ public class CategoryController : BaseController
     {
         var category = Sl.CategoryRepo.GetById(categoryId);
         category = category == null ? new Category() : category;
-        
+
         return ViewRenderer.RenderPartialView("~/Views/Categories/Detail/Partials/KnowledgeGraph/KnowledgeGraph.ascx", new KnowledgeGraphModel(category), ControllerContext);
     }
 
@@ -242,9 +246,36 @@ public class CategoryController : BaseController
         return ViewRenderer.RenderPartialView("~/Views/Categories/Detail/CategoryKnowledgeBar.ascx", new CategoryKnowledgeBarModel(category), ControllerContext);
     }
 
-    public void SetSettingsCookie(string test = "")
+    public void SetSettingsCookie(string name)
     {
-        var t = test;
+
+        HttpCookie cookie = Request.Cookies.Get(name);
+
+        // Check if cookie exists in the current request.
+        if (cookie == null)
+        {
+            // Create cookie.
+            cookie = new HttpCookie(name);
+            // Set value of cookie to current date time.
+            cookie.Value = DateTime.Now.ToString(CultureInfo.InvariantCulture);
+            // Set cookie to expire in 10 minutes.
+            cookie.Expires = DateTime.Now.AddYears(1);
+            // Insert the cookie in the current HttpResponse.
+            Response.Cookies.Add(cookie);
+        }
+        else
+        {
+            Logg.r().Error("Cookie is available");
+        }
+    }
+
+    public bool GetSettingsCookie(string name)
+    {
+        HttpCookie cookie = Request.Cookies.Get(name);
+        if (cookie != null)
+            return true;
+
+        return false;
     }
 }
 public class LoadModelResult

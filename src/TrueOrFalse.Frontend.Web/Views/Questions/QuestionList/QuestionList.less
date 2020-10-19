@@ -17,28 +17,46 @@
     }
 
     .rootElement {
-        #SessionConfigReminderLeft {
-            margin-top: -81px;
-            position: absolute;
-            margin-left: -85px;
+        #LearningSessionReminderQuestionList {
+            span {
+                position: absolute;
+                margin-top: -74px;
+                margin-left: 125px;
 
-            @media(min-width: @screen-sm-min) {
-                display: none;
+                @media(max-width: @screen-sm-min) {
+                    margin-top: -64px;
+                    margin-left: -101px;
+                    font-size: 14px;
+                }
+
+                @media(max-width: @screen-xxs-max) {
+                    display: none;
+                }
             }
 
-            @media(max-width: @screen-xxs-max) {
-                display: none;
+            #SessionConfigReminderLeft {
+                margin-top: -81px;
+                position: absolute;
+                margin-left: -85px;
+
+                @media(min-width: @screen-sm-min) {
+                    display: none;
+                }
+
+                @media(max-width: @screen-xxs-max) {
+                    display: none;
+                }
             }
-        }
 
-        #SessionConfigReminderRight {
-            margin-top: -81px;
-            position: absolute;
-            margin-left: 9px;
-            display: none;
+            #SessionConfigReminderRight {
+                margin-top: -81px;
+                position: absolute;
+                margin-left: 9px;
+                display: none;
 
-            @media(min-width: @screen-sm-min) {
-                display: block;
+                @media(min-width: @screen-sm-min) {
+                    display: block;
+                }
             }
         }
 
@@ -57,7 +75,7 @@
 
     #QuestionFooterIcons {
         .btn-link {
-                color: #999999 !important;  
+            color: #999999 !important;
         }
     }
 

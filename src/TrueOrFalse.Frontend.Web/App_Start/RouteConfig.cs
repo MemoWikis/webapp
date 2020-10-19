@@ -197,6 +197,7 @@ namespace TrueOrFalse
             /*Api*/routes.MapRoute("EditSave", "Category/SaveMarkdown", new { controller = "Category", action = "SaveMarkdown" });
             /*Api*/routes.MapRoute("Category_KnowledgeBar", "Category/KnowledgeBar", new { controller = "Category", action = "KnowledgeBar" });
             /*Api*/routes.MapRoute("AnalyticsTabApi", "Category/Tab", new { controller = "Category", action = "Tab" });
+            /*Api*/routes.MapRoute("SetSetSettingsCookie", "Category/SetSettingsCookie/{text}", new { controller = "Category", action = "SetSettingsCookie", text = UrlParameter.Optional });
 
             routes.MapRoute("AnalyticsGetKnowledgeDisplay", "Category/GetKnowledgeGraphDisplay", new { controller = "Category", action = "GetKnowledgeGraphDisplay" });
             routes.MapRoute("RenderNewKnowledgeSummaryBar", "Category/RenderNewKnowledgeSummaryBar", new { controller = "Category", action = "RenderNewKnowledgeSummaryBar" });
