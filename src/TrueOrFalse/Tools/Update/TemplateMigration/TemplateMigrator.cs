@@ -54,7 +54,7 @@ namespace TemplateMigration
 
             foreach (var category in allCategories)
             {
-                if (category.Id < 590)
+                if (category.Id < 1007)
                     continue;
 
                 if (!IsNullOrEmpty(category.TopicMarkdown))
