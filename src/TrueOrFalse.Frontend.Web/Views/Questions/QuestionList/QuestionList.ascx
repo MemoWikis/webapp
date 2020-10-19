@@ -13,11 +13,13 @@
         <div id="ButtonAndDropdown">
         <session-config-component inline-template @update="updateQuestionsCount" :questions-count="questionsCount" :all-questions-count-from-category="allQuestionsCountFromCategory">
         <div class="rootElement">
+            <% if(Model.IsSessionNoteHide){%>
             <div id="LearningSessionReminderQuestionList">
                 <img id="SessionConfigReminderLeft" src="/Images/Various/SessionConfigReminderLeft.svg" >
                 <img id="SessionConfigReminderRight" src="/Images/Various/SessionConfigReminder.svg" >
                 <span class="far fa-times-circle"></span>
-        </div>
+            </div>
+                <% } %>
             <div id="CustomSessionConfigBtn" @click="openModal()" data-toggle="tooltip" data-html="true" title="<p><b>Persönliche Filter helfen Dir</b>. Nutze die Lernoptionen und entscheide welche Fragen Du lernen möchtest.</p>"><i class="fa fa-cog" aria-hidden="true"></i></div>
             <div class="modal fade" id="SessionConfigModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                 <div class="modal-dialog" role="document">

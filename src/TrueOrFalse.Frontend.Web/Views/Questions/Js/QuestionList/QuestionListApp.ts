@@ -58,9 +58,18 @@ var questionListApp = new Vue({
         eventBus.$on('update-selected-page', (selectedPage) => {
             this.selectedPageFromActiveQuestion = selectedPage;
         });
+
+
     },
     mounted() {
         $('#CustomSessionConfigBtn').tooltip();
+
+        $("#LearningSessionReminderQuestionList>.fa-times-circle").on('click',
+            () => {
+                $.post("/Category/SetSettingsCookie?name=SessionConfigQuestionList");
+                $("#LearningSessionReminderQuestionList").hide(200);
+            });
+
     },
     watch: {
         activeQuestion: function (indexQuestion) {

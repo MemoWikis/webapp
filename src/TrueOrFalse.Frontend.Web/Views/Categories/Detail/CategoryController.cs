@@ -21,7 +21,6 @@ public class CategoryController : BaseController
     {
         var modelAndCategoryResult = LoadModel(id, version);
         modelAndCategoryResult.CategoryModel.IsInTopic = true;
-        modelAndCategoryResult.CategoryModel.IsDisplayNoneSessionConfigNote = GetSettingsCookie("SessionConfigTopNote");
 
         return View(_viewLocation, modelAndCategoryResult.CategoryModel);
     }
@@ -37,6 +36,8 @@ public class CategoryController : BaseController
     public ActionResult CategoryLearningTab(int id, int? version)
     {
         var modelAndCategoryResult = LoadModel(id, version);
+        modelAndCategoryResult.CategoryModel.IsDisplayNoneSessionConfigNote = GetSettingsCookie("SessionConfigTopNote");
+        modelAndCategoryResult.CategoryModel.IsDisplayNoneSessionConfigNoteQuestionList = !GetSettingsCookie("SessionConfigQuestionList");
         modelAndCategoryResult.CategoryModel.IsInLearningTab = true;
 
         return View(_viewLocation, modelAndCategoryResult.CategoryModel);

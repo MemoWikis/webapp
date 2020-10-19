@@ -61,6 +61,8 @@ public class CategoryModel : BaseContentModule
     public AnalyticsFooterModel AnalyticsFooterModel;
     public bool CategoryIsDeleted;
     public bool IsDisplayNoneSessionConfigNote { get; set; }
+    public bool IsDisplayNoneSessionConfigNoteQuestionList { get; set; }
+
     public CategoryModel()
     {
 
