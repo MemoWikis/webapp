@@ -78,8 +78,8 @@
   height: 45px;
 }
 #CategoryHeader #LearningTabWithOptions #SessionConfigReminderHeader {
-  top: -63px;
-  left: 81px;
+  margin-bottom: 100px;
+  margin-left: 164%;
   position: absolute;
   display: flex;
 }
