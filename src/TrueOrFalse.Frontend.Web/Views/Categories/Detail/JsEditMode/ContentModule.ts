@@ -101,6 +101,7 @@ var contentModuleComponent = Vue.component('content-module', {
         },
 
         deleteModule() {
+            eventBus.$emit('content-change');
             const self = this;
             self.isDeleted = true;
         },
