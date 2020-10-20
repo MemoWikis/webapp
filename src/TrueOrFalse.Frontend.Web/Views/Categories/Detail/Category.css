@@ -2568,12 +2568,14 @@ p:empty {
 .inline-text-editor .menubar.is-hidden {
   visibility: hidden;
   opacity: 0;
+  pointer-events: none;
 }
 .inline-text-editor .menubar.is-focused {
   visibility: visible;
   opacity: 1;
   -webkit-transition: visibility 0.2s, opacity 0.2s;
   transition: visibility 0.2s, opacity 0.2s;
+  pointer-events: auto !important;
 }
 .inline-text-editor .ProseMirror {
   padding-top: 2px;
@@ -2584,6 +2586,69 @@ p:empty {
 .inline-text-editor .ProseMirror b,
 .inline-text-editor .ProseMirror strong {
   font-weight: 600;
+}
+.inline-text-editor .ProseMirror p code {
+  color: #555555;
+  bckground-color: #efefef;
+}
+.inline-text-editor .ProseMirror pre {
+  background-color: black;
+  border: none;
+}
+.inline-text-editor .ProseMirror pre::before {
+  content: attr(data-language);
+  text-transform: uppercase;
+  display: block;
+  text-align: right;
+  font-weight: bold;
+  font-size: 0.6rem;
+}
+.inline-text-editor .ProseMirror pre code {
+  color: white;
+}
+.inline-text-editor .ProseMirror pre code .hljs-comment,
+.inline-text-editor .ProseMirror pre code .hljs-quote {
+  color: #999999;
+}
+.inline-text-editor .ProseMirror pre code .hljs-variable,
+.inline-text-editor .ProseMirror pre code .hljs-template-variable,
+.inline-text-editor .ProseMirror pre code .hljs-attribute,
+.inline-text-editor .ProseMirror pre code .hljs-tag,
+.inline-text-editor .ProseMirror pre code .hljs-name,
+.inline-text-editor .ProseMirror pre code .hljs-regexp,
+.inline-text-editor .ProseMirror pre code .hljs-link,
+.inline-text-editor .ProseMirror pre code .hljs-name,
+.inline-text-editor .ProseMirror pre code .hljs-selector-id,
+.inline-text-editor .ProseMirror pre code .hljs-selector-class {
+  color: #f2777a;
+}
+.inline-text-editor .ProseMirror pre code .hljs-number,
+.inline-text-editor .ProseMirror pre code .hljs-meta,
+.inline-text-editor .ProseMirror pre code .hljs-built_in,
+.inline-text-editor .ProseMirror pre code .hljs-builtin-name,
+.inline-text-editor .ProseMirror pre code .hljs-literal,
+.inline-text-editor .ProseMirror pre code .hljs-type,
+.inline-text-editor .ProseMirror pre code .hljs-params {
+  color: #f99157;
+}
+.inline-text-editor .ProseMirror pre code .hljs-string,
+.inline-text-editor .ProseMirror pre code .hljs-symbol,
+.inline-text-editor .ProseMirror pre code .hljs-bullet {
+  color: #99cc99;
+}
+.inline-text-editor .ProseMirror pre code .hljs-title,
+.inline-text-editor .ProseMirror pre code .hljs-section {
+  color: #ffcc66;
+}
+.inline-text-editor .ProseMirror pre code .hljs-keyword,
+.inline-text-editor .ProseMirror pre code .hljs-selector-tag {
+  color: #6699cc;
+}
+.inline-text-editor .ProseMirror pre code .hljs-emphasis {
+  font-style: italic;
+}
+.inline-text-editor .ProseMirror pre code .hljs-strong {
+  font-weight: 700;
 }
 .inline-text-editor .menubar__button {
   background: white;

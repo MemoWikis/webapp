@@ -4,6 +4,7 @@ declare var VueSelect: any;
 declare var Sticky: any;
 declare var Sortable: any;
 declare var tiptapBuild: any;
+declare var hljs: any;
 
 
 Vue.component('v-select', VueSelect.VueSelect);
