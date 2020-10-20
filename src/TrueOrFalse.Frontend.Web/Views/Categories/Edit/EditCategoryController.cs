@@ -66,7 +66,7 @@ public class EditCategoryController : BaseController
 
         model.FillReleatedCategoriesFromPostData(Request.Form);
         model.UpdateCategory(category);
-        if (model.Name != category.Name && categoryAllowed.No(model, category.Type)){
+        if (model.Name != category.Name || categoryAllowed.No(model, category.Type)){
             model.Message = new ErrorMessage(
                 $"Es existiert bereits ein Thema mit dem Namen <strong>'{categoryAllowed.ExistingCategories.First().Name}'</strong>.");
         } else {
