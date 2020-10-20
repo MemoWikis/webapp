@@ -117,8 +117,10 @@ public class CategoryController : BaseController
 
     private CategoryModel GetModelWithContentHtml(Category category, int? version = null, bool isCategoryNull = false, bool openEditMode = false)
     {
+        var isQuestionListSessionConfigNoteDisplay = !GetSettingsCookie("SessionConfigQuestionList");
         return new CategoryModel(category, true, isCategoryNull, openEditMode: openEditMode)
         {
+            IsDisplayNoneSessionConfigNoteQuestionList = isQuestionListSessionConfigNoteDisplay,
             CustomPageHtml = string.IsNullOrEmpty(category.Content) ? "" : TemplateToHtml.Run(Tokenizer.Run(category.Content), category, ControllerContext, version)
         };
     }

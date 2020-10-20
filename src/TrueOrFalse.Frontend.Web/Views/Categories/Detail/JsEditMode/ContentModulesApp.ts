@@ -38,9 +38,12 @@ new Vue({
                 filter: '.placeholder',
                 preventOnFilter: false,
                 onMove: this.onMove,
-                onUpdate: this.updateModuleOrder,
+                onUpdate: () => {
+                    this.updateModuleOrder();
+                    this.changedContent = true;
+                },
                 axis: 'y'
-    },
+            },
             saveSuccess: false,
             saveMessage: '',
             editMode: false,
