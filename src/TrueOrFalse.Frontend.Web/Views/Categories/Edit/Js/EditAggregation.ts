@@ -5,7 +5,7 @@
         $("#EditAggregationModal .nav .tab-unterthemen").click();
     });
 
-    $('#btnEditAggregation').click(e => {
+    $('#btnEditAggregation, #SafeCategory').click(e => {
         e.preventDefault();
         $.ajax({
             type: 'POST',
