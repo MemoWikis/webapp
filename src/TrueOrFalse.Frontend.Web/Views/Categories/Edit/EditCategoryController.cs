@@ -145,9 +145,21 @@ public class EditCategoryController : BaseController
 
         foreach (var parentCategory in model.ParentCategories)
         {
-            EditAggregation(parentCategory.Id,"","");
-        }
+            var parentParentCategories = parentCategory.CategoryRelations.Where(cr =>
+                cr.CategoryRelationType == CategoryRelationType.IsChildCategoryOf).Select(cr => cr.RelatedCategory).ToList();
 
+                EditAggregation(parentCategory.Id,"","");
+
+                if (parentParentCategories.Count != 0)
+                {
+                    foreach (var parentCategory1 in parentParentCategories)
+                    {
+                        EditAggregation(parentCategory1.Id,"","");
+                    }
+                }
+            
+        }
+        
         return Redirect(Links.CategoryDetail(category, openEditMode:true));
     }
 
