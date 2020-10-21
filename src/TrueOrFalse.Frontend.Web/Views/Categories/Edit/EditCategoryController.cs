@@ -143,6 +143,11 @@ public class EditCategoryController : BaseController
                 Links.CategoryDetail(category),
                 Links.CategoryCreate()));
 
+        foreach (var parentCategory in model.ParentCategories)
+        {
+            EditAggregation(parentCategory.Id,"","");
+        }
+
         return Redirect(Links.CategoryDetail(category, openEditMode:true));
     }
 
