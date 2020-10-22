@@ -24,7 +24,7 @@ public class EditCategoryController : BaseController
     [SetThemeMenu]
     public ViewResult Create(string name, string parent, string type)
     {
-        var model = new EditCategoryModel {Name = name ?? "", PreselectedType = !String.IsNullOrEmpty(type) ? (CategoryType)Enum.Parse(typeof(CategoryType), type) : CategoryType.Standard };
+        var model = new EditCategoryModel { Name = name ?? "", PreselectedType = !String.IsNullOrEmpty(type) ? (CategoryType)Enum.Parse(typeof(CategoryType), type) : CategoryType.Standard };
 
         if (!String.IsNullOrEmpty(parent))
             model.ParentCategories.Add(_categoryRepository.GetById(Convert.ToInt32(parent)));
@@ -38,12 +38,12 @@ public class EditCategoryController : BaseController
     {
         var category = _categoryRepository.GetById(id);
 
-        if(!IsAllowedTo.ToEdit(category))
+        if (!IsAllowedTo.ToEdit(category))
             throw new SecurityException("Not allowed to edit category");
 
         _sessionUiData.VisitedCategories.Add(new CategoryHistoryItem(category, HistoryItemType.Edit));
-        
-        var model = new EditCategoryModel(category){IsEditing = true};
+
+        var model = new EditCategoryModel(category) { IsEditing = true };
 
         if (TempData["createCategoryMsg"] != null)
             model.Message = (SuccessMessage)TempData["createCategoryMsg"];
@@ -66,19 +66,22 @@ public class EditCategoryController : BaseController
 
         model.FillReleatedCategoriesFromPostData(Request.Form);
         model.UpdateCategory(category);
-        if (model.Name != category.Name || categoryAllowed.No(model, category.Type)){
+        if (model.Name != category.Name || categoryAllowed.No(model, category.Type))
+        {
             model.Message = new ErrorMessage(
                 $"Es existiert bereits ein Thema mit dem Namen <strong>'{categoryAllowed.ExistingCategories.First().Name}'</strong>.");
-        } else {
+        }
+        else
+        {
             _categoryRepository.Update(category, _sessionUser.User, (Request["ImageIsNew"] == "true"));
 
-            model.Message 
+            model.Message
                 = new SuccessMessage(
                     "Das Thema wurde gespeichert. <br>" + "Du kannst es weiter bearbeiten oder" +
                     $" <a href=\"{Links.CategoryDetail(category)}\">zur Detailansicht wechseln</a>.");
         }
         StoreImage(id);
-        
+
         model.Init(category);
         model.IsEditing = true;
         model.DescendantCategories = Sl.R<CategoryRepository>().GetDescendants(category.Id).ToList();
@@ -90,13 +93,16 @@ public class EditCategoryController : BaseController
     [SetMainMenu(MainMenuEntry.Categories)]
     [SetThemeMenu]
     public ActionResult Create(EditCategoryModel model, HttpPostedFileBase file)
-    {                
-        model.FillReleatedCategoriesFromPostData(Request.Form);
-        
-        var convertResult = model.ConvertToCategory();
-        if (convertResult.HasError){
+    {
 
-            if(convertResult.TypeModel == null)
+
+        model.FillReleatedCategoriesFromPostData(Request.Form);
+
+        var convertResult = model.ConvertToCategory();
+        if (convertResult.HasError)
+        {
+
+            if (convertResult.TypeModel == null)
                 throw new Exception("Dear developer, please assign the type model!");
 
             EditCategoryTypeModel.SaveToSession(convertResult.TypeModel, convertResult.Category);
@@ -108,7 +114,7 @@ public class EditCategoryController : BaseController
         category.Creator = _sessionUser.User;
 
         var categoryNameAllowed = new CategoryNameAllowed();
-        
+
         if (categoryNameAllowed.No(category))
         {
             model.Message = new ErrorMessage(
@@ -119,7 +125,8 @@ public class EditCategoryController : BaseController
 
             return View(_viewPath, model);
 
-        }else if (categoryNameAllowed.ForbiddenWords(category.Name))
+        }
+        else if (categoryNameAllowed.ForbiddenWords(category.Name))
         {
             model.Message = new ErrorMessage("Der Themen Name ist verboten, bitte wähle einen anderen Namen! ");
 
@@ -132,42 +139,43 @@ public class EditCategoryController : BaseController
 
         EditCategoryTypeModel.RemoveRecentTypeModelFromSession();
 
-        TempData["createCategoryMsg"] 
+        TempData["createCategoryMsg"]
             = new SuccessMessage(string.Format(
-                 "Das Thema <strong>'{0}'</strong> {1} wurde angelegt.<br>" + 
+                 "Das Thema <strong>'{0}'</strong> {1} wurde angelegt.<br>" +
                  "Du kannst das Thema weiter bearbeiten," +
                  " <a href=\"{2}\">zur Detailansicht wechseln</a>" +
-                 " oder ein <a href=\"{3}\">neues Thema anlegen</a>.", 
+                 " oder ein <a href=\"{3}\">neues Thema anlegen</a>.",
                 category.Name,
-                category.Type == CategoryType.Standard ? "" : "("+category.Type.GetShortName()+")",
+                category.Type == CategoryType.Standard ? "" : "(" + category.Type.GetShortName() + ")",
                 Links.CategoryDetail(category),
                 Links.CategoryCreate()));
 
+
+
         foreach (var parentCategory in model.ParentCategories)
         {
-            var parentParentCategories = parentCategory.CategoryRelations.Where(cr =>
-                cr.CategoryRelationType == CategoryRelationType.IsChildCategoryOf).Select(cr => cr.RelatedCategory).ToList();
+            var parentsFromParentCategories = Sl.CategoryRepo.GetAllParents(category.Id);
 
-                EditAggregation(parentCategory.Id,"","");
+            EditAggregation(parentCategory.Id, "", "");
 
-                if (parentParentCategories.Count != 0)
+            if (parentsFromParentCategories.Count != 0)
+            {
+                foreach (var parentCategory1 in parentsFromParentCategories)
                 {
-                    foreach (var parentCategory1 in parentParentCategories)
-                    {
-                        EditAggregation(parentCategory1.Id,"","");
-                    }
+                    EditAggregation(parentCategory1.Id, "", "");
                 }
-            
+            }
         }
-        
-        return Redirect(Links.CategoryDetail(category, openEditMode:true));
+
+        return Redirect(Links.CategoryDetail(category, openEditMode: true));
     }
 
     public ActionResult DetailsPartial(int? categoryId, CategoryType type, string typeModelGuid)
     {
         Category category = null;
 
-        if (categoryId.HasValue && categoryId.Value > 0){
+        if (categoryId.HasValue && categoryId.Value > 0)
+        {
             category = _categoryRepository.GetById(categoryId.Value);
         }
 
