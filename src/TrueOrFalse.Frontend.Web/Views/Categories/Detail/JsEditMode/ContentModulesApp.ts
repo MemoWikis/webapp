@@ -213,6 +213,7 @@ new Vue({
             if (!this.editMode)
                 return;
 
+            this.updateModuleOrder();
             await this.sortModules();
 
             var filteredModules = this.sortedModules.filter(o => (o.TemplateName != 'InlineText' || o.Content));
