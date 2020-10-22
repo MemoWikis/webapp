@@ -253,7 +253,7 @@
                             <% if (Model.IsEditing){ %>
                                 <a data-toggle="modal" href="#modalDeleteCategory" data-categoryId="<%= Model.Id %>" class="btn btn-danger"><i class="fa fa-trash-o"></i> Löschen</a>
 
-                                <input id="SafeCategory" type="submit" value="Speichern" class="btn btn-primary" name="btnSave" style="float: right; width: 200px;" />
+                                <input type="submit" value="Speichern" class="btn btn-primary" name="btnSave" style="float: right; width: 200px;" />
                             <% } else { %>
                                 <input id="CreateCategory" type="submit" value="Thema erstellen" class="btn btn-primary" name="btnSave" <% if(!Model.IsLoggedIn){ %> disabled="disabled" <% } %>/>
                             <% } %>

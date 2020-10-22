@@ -66,7 +66,7 @@ public class EditCategoryController : BaseController
 
         model.FillReleatedCategoriesFromPostData(Request.Form);
         model.UpdateCategory(category);
-        if (model.Name != category.Name || categoryAllowed.No(model, category.Type))
+        if (model.Name != category.Name && categoryAllowed.No(model, category.Type))
         {
             model.Message = new ErrorMessage(
                 $"Es existiert bereits ein Thema mit dem Namen <strong>'{categoryAllowed.ExistingCategories.First().Name}'</strong>.");
@@ -126,13 +126,13 @@ public class EditCategoryController : BaseController
             return View(_viewPath, model);
 
         }
-        else if (categoryNameAllowed.ForbiddenWords(category.Name))
+
+        if (categoryNameAllowed.ForbiddenWords(category.Name))
         {
             model.Message = new ErrorMessage("Der Themen Name ist verboten, bitte wähle einen anderen Namen! ");
 
             return View(_viewPath, model);
         }
-
 
         _categoryRepository.Create(category);
         StoreImage(category.Id);
@@ -149,8 +149,6 @@ public class EditCategoryController : BaseController
                 category.Type == CategoryType.Standard ? "" : "(" + category.Type.GetShortName() + ")",
                 Links.CategoryDetail(category),
                 Links.CategoryCreate()));
-
-
 
         foreach (var parentCategory in model.ParentCategories)
         {
