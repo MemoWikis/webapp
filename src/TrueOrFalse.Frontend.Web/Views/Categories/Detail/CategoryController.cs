@@ -241,19 +241,17 @@ public class CategoryController : BaseController
 
         if (category != null)
         {
-            if (content == null)
-                category.Content = null;
-            else
+            if (content != null)
+                category.Content = TemplateParser.GetContent(content);
+            else category.Content = null;
                 category.Content = TemplateParser.GetContent(content);
 
             Sl.CategoryRepo.Update(category, User_());
 
             return Json(true);
         }
-        else
-        {
-            return Json(false);
-        }
+
+        return Json(false);
 
     }
 

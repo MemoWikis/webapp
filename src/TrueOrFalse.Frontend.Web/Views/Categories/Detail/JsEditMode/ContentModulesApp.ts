@@ -126,6 +126,7 @@ new Vue({
     watch: {
         editMode(val) {
             if (val) {
+                this.updateModuleOrder();
                 this.sortModules();
             }
         },
@@ -210,9 +211,9 @@ new Vue({
             if (!this.editMode)
                 return;
 
+            this.updateModuleOrder();
             await this.sortModules();
-            var filteredModules = null;
-            if (this.sortedModules.length > 0)
+
                 filteredModules = this.sortedModules.filter(o => (o.TemplateName != 'InlineText' || o.Content));
             var data = {
                 categoryId: $("#hhdCategoryId").val(),
