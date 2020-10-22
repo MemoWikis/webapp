@@ -2125,3 +2125,47 @@ p:empty {
     }
 }
 
+#FloatingActionButtonApp {
+    position: sticky;
+    bottom: 20px;
+    right: 20px;
+
+    #FABContainer {
+        display: flex;
+        flex-direction: row-reverse;
+
+        #MainFABContainer {
+            display: flex;
+            flex-direction: column-reverse;
+
+            @media(min-width: 1200px) {
+                margin-right: -48px;
+            }
+
+            #MainFAB {
+                width: 56px;
+                height: 56px;
+                background-color: #afd534;
+                display: flex;
+                text-align: center;
+                justify-content: center;
+                border-radius: 50%;
+                box-shadow: 0 0 6px rgba(0, 0, 0, 0.12), 0 6px 6px rgba(0, 0, 0, 0.24);
+
+                i {
+                    margin: auto;
+                }
+            }
+
+            #MiniFABContainer {
+                .mini-fab {
+                    width: 42px;
+                    height: 42px;
+                    border-radius: 50%;
+                    background-color: grey;
+                }
+            }
+        }
+    }
+}
+

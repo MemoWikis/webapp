@@ -27,13 +27,8 @@ var deps = {
     "vue-slider-component" : {
         "dist/vue-slider-component.umd.js": ""
     },
-    "highlight.js": {
-        "lib/*.js": "",
-        "lib/languages/c.js": "languages/",
-        "lib/languages/css.js": "languages/",
-        "lib/languages/javascript.js": "languages/",
-        "lib/languages/php.js": "languages/",
-        "lib/languages/typescript.js": "languages/",
+    "vue-float-action-button": {
+        "dist/vue-fab.js": ""
     }
 };
 

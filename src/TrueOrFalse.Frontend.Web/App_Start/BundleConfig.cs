@@ -94,6 +94,7 @@ namespace TrueOrFalse.View
                 .Include("~/Scripts/npm/vue-select/vue-select.js")
                 .Include("~/Scripts/npm/vue-sticky-directive/vue-sticky-directive.js")
                 .Include("~/Scripts/npm/postscribe/postscribe.js")
+                .Include("~/Scripts/npm/vue-float-action-button/vue-fab.js")
                 .IncludeDirectory("~/Views/Categories/Detail/JsEditMode/ContentModuleSettings/", "*.js")
                 .IncludeDirectory("~/Views/Categories/Detail/JsEditMode/", "*.js"));
 

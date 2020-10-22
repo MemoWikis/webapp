@@ -2674,3 +2674,64 @@ p:empty {
   height: 0;
   font-style: italic;
 }
+#FloatingActionButtonApp {
+  position: -webkit-sticky;
+  position: sticky;
+  bottom: 20px;
+  right: 20px;
+}
+#FloatingActionButtonApp #FABContainer {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: reverse;
+  -webkit-flex-direction: row-reverse;
+      -ms-flex-direction: row-reverse;
+          flex-direction: row-reverse;
+}
+#FloatingActionButtonApp #FABContainer #MainFABContainer {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: reverse;
+  -webkit-flex-direction: column-reverse;
+      -ms-flex-direction: column-reverse;
+          flex-direction: column-reverse;
+}
+@media (min-width: 1200px) {
+  #FloatingActionButtonApp #FABContainer #MainFABContainer {
+    margin-right: -48px;
+  }
+}
+#FloatingActionButtonApp #FABContainer #MainFABContainer #MainFAB {
+  width: 56px;
+  height: 56px;
+  background-color: #afd534;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  text-align: center;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-border-radius: 50%;
+          border-radius: 50%;
+  -webkit-box-shadow: 0 0 6px rgba(0, 0, 0, 0.12), 0 6px 6px rgba(0, 0, 0, 0.24);
+          box-shadow: 0 0 6px rgba(0, 0, 0, 0.12), 0 6px 6px rgba(0, 0, 0, 0.24);
+}
+#FloatingActionButtonApp #FABContainer #MainFABContainer #MainFAB i {
+  margin: auto;
+}
+#FloatingActionButtonApp #FABContainer #MainFABContainer #MiniFABContainer .mini-fab {
+  width: 42px;
+  height: 42px;
+  -webkit-border-radius: 50%;
+          border-radius: 50%;
+  background-color: grey;
+}

@@ -4,12 +4,9 @@ declare var VueSelect: any;
 declare var Sticky: any;
 declare var Sortable: any;
 declare var tiptapBuild: any;
-declare var hljs: any;
-
+declare var hljsBuild: any;
 
 Vue.component('v-select', VueSelect.VueSelect);
-
-
 
 declare var eventBus: any;
 if (eventBus == null)
@@ -55,6 +52,7 @@ new Vue({
             moduleOrder: [],
             modules: [],
             sortedModules: [],
+            fabIsOpen: false,
         };
     },
 
@@ -213,15 +211,13 @@ new Vue({
                 return;
 
             await this.sortModules();
-            if (this.sortedModules.length == 0)
-                return;
-            var filteredModules = this.sortedModules.filter(o => (o.TemplateName != 'InlineText' || o.Content));
+            var filteredModules = null;
+            if (this.sortedModules.length > 0)
+                filteredModules = this.sortedModules.filter(o => (o.TemplateName != 'InlineText' || o.Content));
             var data = {
                 categoryId: $("#hhdCategoryId").val(),
                 content: filteredModules,
             }
-            console.log(window.location.href);
-
             $.ajax({
                 type: 'post',
                 contentType: "application/json",

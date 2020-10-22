@@ -5,7 +5,7 @@ window.tiptapBuild = {
     tiptapExtensions: require("tiptap-extensions"),
 };
 
-window.hljs = {
+window.hljsBuild = {
     apache: require("highlight.js/lib/languages/apache"),
     cLike: require("highlight.js/lib/languages/c-like"),
     xml: require("highlight.js/lib/languages/xml"),

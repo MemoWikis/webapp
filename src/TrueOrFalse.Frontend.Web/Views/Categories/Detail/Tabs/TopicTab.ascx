@@ -74,9 +74,7 @@
     
         </div>
         <% if (Model.CategoryIsDeleted)
-           {
                Html.RenderPartial("~/Views/Shared/Delete.ascx");
-           }
         %>
         <% if (new SessionUser().IsLoggedIn && Model.NextRevExists)
            { %>
@@ -121,15 +119,11 @@
     </div>--%>
 
     <% if (!Model.CategoryIsDeleted) {%>
-        <%: Html.Partial("~/Views/Categories/Detail/Partials/InlineEditFloatingActionButton.ascx") %>
         <%: Html.Partial("~/Views/Categories/Detail/Partials/ModalComponentCollection.ascx") %>
     <% } %>
     
 </div>
-
-
-<%--<%= Scripts.Render("~/bundles/js/tiptap") %> --%>
-
+<%: Html.Partial("~/Views/Categories/Detail/Partials/InlineEditFloatingActionButton.ascx") %>
 
 
 <% if (!Model.CategoryIsDeleted)

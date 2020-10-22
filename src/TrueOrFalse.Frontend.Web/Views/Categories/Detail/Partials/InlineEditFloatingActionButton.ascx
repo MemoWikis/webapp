@@ -1,4 +1,4 @@
-﻿<div id="InlineEditToolbar" :class="{sticky : footerIsVisible}">
+﻿<%--<div id="InlineEditToolbar" :class="{sticky : footerIsVisible}">
     <div class="floatingActionBtn" :class="{sticky : footerIsVisible}">
         <div class="trigger" @click.prevent="setEditMode()" :class="{ open : editMode }">
             <i class="fas fa-pen"></i>  
@@ -47,4 +47,29 @@
 
     </div>
 
+</div>--%>
+
+<div id="FloatingActionButtonApp" class="">
+    <floating-action-button inline-template>
+        <div id="FABContainer">
+            <div id="MainFABContainer">
+                <div id="MainFAB" @click="toggleFAB()">
+                    <i class="fas fa-pen"></i>
+                </div>
+                <div id="MiniFABContainer">
+                    <div class="mini-fab">1
+                        <i class="fas fa-pen"></i>
+                    </div>
+                    <div class="mini-fab">2
+                        <i class="fas fa-pen"></i>
+                    </div>
+                    <div class="mini-fab">3
+                        <i class="fas fa-pen"></i>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </floating-action-button>
+    <div id="EditToolBar"></div>
 </div>

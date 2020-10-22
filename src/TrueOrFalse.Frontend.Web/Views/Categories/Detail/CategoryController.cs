@@ -235,15 +235,17 @@ public class CategoryController : BaseController
 
     [HttpPost]
     [AccessOnlyAsLoggedIn]
-    public ActionResult SaveCategoryContent(int categoryId, List<TemplateParser.JsonLoader> content)
+    public ActionResult SaveCategoryContent(int categoryId, List<TemplateParser.JsonLoader> content = null)
     {
         var category = Sl.CategoryRepo.GetById(categoryId);
 
-        if (category != null && content != null)
+        if (category != null)
         {
-            var mergedContent = TemplateParser.GetContent(content);
+            if (content == null)
+                category.Content = null;
+            else
+                category.Content = TemplateParser.GetContent(content);
 
-            category.Content = mergedContent;
             Sl.CategoryRepo.Update(category, User_());
 
             return Json(true);
