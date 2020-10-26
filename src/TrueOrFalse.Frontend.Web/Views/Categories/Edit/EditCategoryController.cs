@@ -94,8 +94,6 @@ public class EditCategoryController : BaseController
     [SetThemeMenu]
     public ActionResult Create(EditCategoryModel model, HttpPostedFileBase file)
     {
-
-
         model.FillReleatedCategoriesFromPostData(Request.Form);
 
         var convertResult = model.ConvertToCategory();
@@ -150,18 +148,15 @@ public class EditCategoryController : BaseController
                 Links.CategoryDetail(category),
                 Links.CategoryCreate()));
 
-        foreach (var parentCategory in model.ParentCategories)
+        //foreach (var parentCategory in model.ParentCategories)
+        //    EditAggregation(parentCategory.Id, "", "");
+
+        var parentsFromParentCategories = GraphService.GetAllParents(category);
+        if (parentsFromParentCategories.Count != 0)
         {
-            var parentsFromParentCategories = Sl.CategoryRepo.GetAllParents(category.Id);
-
-            EditAggregation(parentCategory.Id, "", "");
-
-            if (parentsFromParentCategories.Count != 0)
+            foreach (var parentCategory1 in parentsFromParentCategories)
             {
-                foreach (var parentCategory1 in parentsFromParentCategories)
-                {
-                    EditAggregation(parentCategory1.Id, "", "");
-                }
+                EditAggregation(parentCategory1.Id, "", "");
             }
         }
 

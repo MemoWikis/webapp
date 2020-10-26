@@ -10,7 +10,7 @@ public class GetAllCategoriesInSeveralRootCategories
         var rootCategories = Sl.R<CategoryRepository>().GetRootCategoriesList();
         foreach (var category in categories)
         {
-            var parentCategories = Sl.R<CategoryRepository>().GetAllParents(category.Id);
+            var parentCategories = GraphService.GetAllParents(category);
             if (parentCategories.Intersect(rootCategories).Count()>1)
             {
                 result.Add(category);

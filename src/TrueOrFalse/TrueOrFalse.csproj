@@ -275,6 +275,7 @@
   <ItemGroup>
     <Compile Include="Domain\Blog\BlogMemuchoDeRepo.cs" />
     <Compile Include="Domain\Blog\WordpressBlogPost.cs" />
+    <Compile Include="Domain\Category\Graph.Services\GraphService.cs" />
     <Compile Include="Domain\Category\History\EditData\CategoryEditData.cs" />
     <Compile Include="Domain\Category\History\EditData\CategoryEditData_V2.cs" />
     <Compile Include="Domain\Category\History\EditData\CategoryRelation_EditData.cs" />
