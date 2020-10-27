@@ -31,7 +31,11 @@ namespace TrueOrFalse.Tests
             return this;
         }
 
-        public ContextCategory Add(string categoryName, CategoryType categoryType = CategoryType.Standard, User creator = null)
+        public ContextCategory Add(
+            string categoryName, 
+            CategoryType categoryType = CategoryType.Standard, 
+            User creator = null, 
+            Category parent = null)
         {
             Category category;
             if (_categoryRepository.Exists(categoryName))
@@ -44,11 +48,24 @@ namespace TrueOrFalse.Tests
                 {
                     Name = categoryName,
                     Creator = creator ?? _contextUser.All.First(),
-                    Type = categoryType
-                };
+                    Type = categoryType,
 
-                _categoryRepository.Create(category);
+                };
             }
+
+            if (parent != null)
+            {
+                var categoryRelations = new List<CategoryRelation>();
+                categoryRelations.Add(new CategoryRelation
+                {
+                    Category = parent,
+                    RelatedCategory = category,
+                    CategoryRelationType = CategoryRelationType.IsChildCategoryOf
+                });
+
+                category.CategoryRelations = categoryRelations;
+            }
+
 
             All.Add(category);
             return this;
@@ -94,6 +111,13 @@ namespace TrueOrFalse.Tests
             _categoryRepository.Session.Flush();
 
             return this;            
+        }
+
+        public ContextCategory AddRelationsToCategory(Category category, List<CategoryRelation> categoryRelations)
+        {
+            category.CategoryRelations = categoryRelations;
+            _categoryRepository.Update(category);
+            return this;
         }
     }
 }
