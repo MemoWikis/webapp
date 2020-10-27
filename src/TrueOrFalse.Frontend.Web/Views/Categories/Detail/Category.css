@@ -1221,171 +1221,6 @@ p:empty {
   -webkit-transition-delay: 0.15s;
           transition-delay: 0.15s;
 }
-#TopicTabContent #InlineEditToolbar .toolbar {
-  pointer-events: none;
-  bottom: 0;
-  width: 0;
-  height: 56px;
-  overflow: hidden;
-  padding: 10px;
-  left: 0;
-  right: 0;
-  position: absolute;
-}
-#TopicTabContent #InlineEditToolbar .toolbar.open {
-  -webkit-box-shadow: 0 -2px 6px rgba(0, 0, 0, 0.16);
-          box-shadow: 0 -2px 6px rgba(0, 0, 0, 0.16);
-  -webkit-transition-delay: 0.15s;
-          transition-delay: 0.15s;
-  width: 100vw;
-}
-#TopicTabContent #InlineEditToolbar .toolbar.sticky {
-  width: 100%;
-  -webkit-border-radius: 8px 8px 0 0;
-          border-radius: 8px 8px 0 0;
-  -webkit-animation-duration: 0.1s;
-          animation-duration: 0.1s;
-}
-@media (min-width: 1200px) {
-  #TopicTabContent #InlineEditToolbar .toolbar.sticky {
-    -webkit-animation-name: opacity810;
-            animation-name: opacity810;
-  }
-}
-@media (maxwidth: 1200px) {
-  #TopicTabContent #InlineEditToolbar .toolbar.sticky {
-    -webkit-animation-name: opacity900;
-            animation-name: opacity900;
-  }
-}
-@-webkit-keyframes opacity810 {
-  from {
-    width: 810px;
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
-}
-@keyframes opacity810 {
-  from {
-    width: 810px;
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
-}
-@-webkit-keyframes opacity900 {
-  from {
-    width: 900px;
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
-}
-@keyframes opacity900 {
-  from {
-    width: 900px;
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
-}
-#TopicTabContent #InlineEditToolbar .toolbar .inner {
-  max-width: 1160px;
-  margin: 0 auto;
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-pack: justify;
-  -webkit-justify-content: space-between;
-      -ms-flex-pack: justify;
-          justify-content: space-between;
-  -webkit-box-orient: horizontal;
-  -webkit-box-direction: normal;
-  -webkit-flex-direction: row;
-      -ms-flex-direction: row;
-          flex-direction: row;
-  padding: 0 15px;
-  -webkit-backface-visibility: hidden;
-          backface-visibility: hidden;
-}
-#TopicTabContent #InlineEditToolbar .toolbar .inner.sticky {
-  margin: 0;
-}
-#TopicTabContent #InlineEditToolbar .toolbar .inner .btnRight,
-#TopicTabContent #InlineEditToolbar .toolbar .inner .btnLeft {
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-pack: end;
-  -webkit-justify-content: flex-end;
-      -ms-flex-pack: end;
-          justify-content: flex-end;
-  -webkit-box-orient: horizontal;
-  -webkit-box-direction: normal;
-  -webkit-flex-direction: row;
-      -ms-flex-direction: row;
-          flex-direction: row;
-}
-#TopicTabContent #InlineEditToolbar .toolbar .inner .btnRight .button,
-#TopicTabContent #InlineEditToolbar .toolbar .inner .btnLeft .button {
-  pointer-events: auto;
-  width: 60px;
-  margin: 0 10px;
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-pack: center;
-  -webkit-justify-content: center;
-      -ms-flex-pack: center;
-          justify-content: center;
-  -webkit-box-orient: vertical;
-  -webkit-box-direction: normal;
-  -webkit-flex-direction: column;
-      -ms-flex-direction: column;
-          flex-direction: column;
-  background: transparent;
-  opacity: 0;
-  cursor: default;
-  -webkit-backface-visibility: hidden;
-          backface-visibility: hidden;
-}
-#TopicTabContent #InlineEditToolbar .toolbar .inner .btnRight .button.expanded,
-#TopicTabContent #InlineEditToolbar .toolbar .inner .btnLeft .button.expanded {
-  opacity: 1;
-  -webkit-transition-delay: 0.15s;
-          transition-delay: 0.15s;
-  cursor: pointer;
-}
-#TopicTabContent #InlineEditToolbar .toolbar .inner .btnRight .button .icon,
-#TopicTabContent #InlineEditToolbar .toolbar .inner .btnLeft .button .icon {
-  z-index: 999999;
-  font-size: 28px;
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-pack: center;
-  -webkit-justify-content: center;
-      -ms-flex-pack: center;
-          justify-content: center;
-  font-size: 25px;
-  height: 20px;
-}
-#TopicTabContent #InlineEditToolbar .toolbar .inner .btnRight .button .btnLabel,
-#TopicTabContent #InlineEditToolbar .toolbar .inner .btnLeft .button .btnLabel {
-  z-index: 999999;
-  font-size: 12px;
-  text-align: center;
-  font-weight: 600;
-}
 /*------------------------------------------------------
     Dialog and Settings
 -------------------------------------------------------*/
@@ -2701,10 +2536,59 @@ p:empty {
   -webkit-flex-direction: column-reverse;
       -ms-flex-direction: column-reverse;
           flex-direction: column-reverse;
+  cursor: pointer;
 }
 @media (min-width: 1200px) {
   #FloatingActionButtonApp #FABContainer #MainFABContainer {
     margin-right: -48px;
+  }
+}
+@-webkit-keyframes move-up {
+  0% {
+    -webkit-transform: translateY(50%) scale3d(0, 0, 1);
+            transform: translateY(50%) scale3d(0, 0, 1);
+    display: unset;
+  }
+  100% {
+    -webkit-transform: translateY(0%) scale3d(1, 1, 1);
+            transform: translateY(0%) scale3d(1, 1, 1);
+    opacity: 1;
+  }
+}
+@keyframes move-up {
+  0% {
+    -webkit-transform: translateY(50%) scale3d(0, 0, 1);
+            transform: translateY(50%) scale3d(0, 0, 1);
+    display: unset;
+  }
+  100% {
+    -webkit-transform: translateY(0%) scale3d(1, 1, 1);
+            transform: translateY(0%) scale3d(1, 1, 1);
+    opacity: 1;
+  }
+}
+@-webkit-keyframes move-down {
+  50% {
+    -webkit-transform: translateY(0%) scale3d(1, 1, 1);
+            transform: translateY(0%) scale3d(1, 1, 1);
+  }
+  100% {
+    -webkit-transform: translateY(50%) scale3d(0, 0, 1);
+            transform: translateY(50%) scale3d(0, 0, 1);
+    opacity: 0.25;
+    display: none;
+  }
+}
+@keyframes move-down {
+  50% {
+    -webkit-transform: translateY(0%) scale3d(1, 1, 1);
+            transform: translateY(0%) scale3d(1, 1, 1);
+  }
+  100% {
+    -webkit-transform: translateY(50%) scale3d(0, 0, 1);
+            transform: translateY(50%) scale3d(0, 0, 1);
+    opacity: 0.25;
+    display: none;
   }
 }
 #FloatingActionButtonApp #FABContainer #MainFABContainer #MainFAB {
@@ -2720,18 +2604,518 @@ p:empty {
   -webkit-justify-content: center;
       -ms-flex-pack: center;
           justify-content: center;
-  -webkit-border-radius: 50%;
-          border-radius: 50%;
+  -webkit-border-radius: 56px;
+          border-radius: 56px;
   -webkit-box-shadow: 0 0 6px rgba(0, 0, 0, 0.12), 0 6px 6px rgba(0, 0, 0, 0.24);
           box-shadow: 0 0 6px rgba(0, 0, 0, 0.12), 0 6px 6px rgba(0, 0, 0, 0.24);
+  z-index: 10;
+  -webkit-animation: move-up 0.5s forwards;
+          animation: move-up 0.5s forwards;
+}
+#FloatingActionButtonApp #FABContainer #MainFABContainer #MainFAB.in-edit-mode {
+  -webkit-animation: move-down 0.5s forwards;
+          animation: move-down 0.5s forwards;
 }
 #FloatingActionButtonApp #FABContainer #MainFABContainer #MainFAB i {
   margin: auto;
+  position: absolute;
+  top: 20px;
 }
-#FloatingActionButtonApp #FABContainer #MainFABContainer #MiniFABContainer .mini-fab {
+#FloatingActionButtonApp #FABContainer #MainFABContainer #MainFAB i.fa-pen {
+  -webkit-transition: opacity 0.3s, -webkit-transform 0.3s;
+  transition: opacity 0.3s, -webkit-transform 0.3s;
+  transition: opacity 0.3s, transform 0.3s;
+  transition: opacity 0.3s, transform 0.3s, -webkit-transform 0.3s;
+}
+#FloatingActionButtonApp #FABContainer #MainFABContainer #MainFAB i.fa-pen.is-open {
+  -webkit-transition: opacity 0.3s, -webkit-transform 0.3s;
+  transition: opacity 0.3s, -webkit-transform 0.3s;
+  transition: opacity 0.3s, transform 0.3s;
+  transition: opacity 0.3s, transform 0.3s, -webkit-transform 0.3s;
+  -webkit-transform: rotate(-180deg) scale(0.5);
+          transform: rotate(-180deg) scale(0.5);
+  opacity: 0;
+}
+#FloatingActionButtonApp #FABContainer #MainFABContainer #MainFAB i.fa-times {
+  opacity: 0;
+  -webkit-transition: opacity 0.3s, -webkit-transform 0.3s;
+  transition: opacity 0.3s, -webkit-transform 0.3s;
+  transition: opacity 0.3s, transform 0.3s;
+  transition: opacity 0.3s, transform 0.3s, -webkit-transform 0.3s;
+  -webkit-transform: rotate(0) scale(0.5);
+          transform: rotate(0) scale(0.5);
+}
+#FloatingActionButtonApp #FABContainer #MainFABContainer #MainFAB i.fa-times.is-open {
+  -webkit-transition: opacity 0.3s, -webkit-transform 0.3s;
+  transition: opacity 0.3s, -webkit-transform 0.3s;
+  transition: opacity 0.3s, transform 0.3s;
+  transition: opacity 0.3s, transform 0.3s, -webkit-transform 0.3s;
+  -webkit-transform: rotate(-180deg) scale(1);
+          transform: rotate(-180deg) scale(1);
+  opacity: 1;
+}
+#FloatingActionButtonApp #FABContainer #MainFABContainer #MiniFABContainer {
+  position: absolute;
+  bottom: 60px;
+  width: 300px;
+  right: 6px;
+}
+@media (min-width: 1200px) {
+  #FloatingActionButtonApp #FABContainer #MainFABContainer #MiniFABContainer {
+    right: -41px;
+  }
+}
+#FloatingActionButtonApp #FABContainer #MainFABContainer #MiniFABContainer .mini-fab-container {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: reverse;
+  -webkit-flex-direction: row-reverse;
+      -ms-flex-direction: row-reverse;
+          flex-direction: row-reverse;
+  margin-bottom: 16px;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+#FloatingActionButtonApp #FABContainer #MainFABContainer #MiniFABContainer .mini-fab-container .mini-fab {
   width: 42px;
   height: 42px;
   -webkit-border-radius: 50%;
           border-radius: 50%;
-  background-color: grey;
+  background-color: #efefef;
+  -webkit-box-shadow: 0 0 3px rgba(0, 0, 0, 0.12), 0 3px 3px rgba(0, 0, 0, 0.24);
+          box-shadow: 0 0 3px rgba(0, 0, 0, 0.12), 0 3px 3px rgba(0, 0, 0, 0.24);
+}
+#FloatingActionButtonApp #FABContainer #MainFABContainer #MiniFABContainer .mini-fab-container .mini-fab i {
+  margin: auto;
+}
+#FloatingActionButtonApp #FABContainer #MainFABContainer #MiniFABContainer .mini-fab-container .mini-fab i.fa-edit {
+  padding-left: 4px;
+  padding-bottom: 2px;
+}
+#FloatingActionButtonApp #FABContainer #MainFABContainer #MiniFABContainer .mini-fab-container .mini-fab-label {
+  text-align: right;
+  padding: 0 8px;
+  margin-right: 16px;
+  font-size: 14px;
+  background-color: #efefef;
+  -webkit-border-radius: 2px;
+          border-radius: 2px;
+  -webkit-box-shadow: 0 0 3px rgba(0, 0, 0, 0.12), 0 3px 3px rgba(0, 0, 0, 0.24);
+          box-shadow: 0 0 3px rgba(0, 0, 0, 0.12), 0 3px 3px rgba(0, 0, 0, 0.24);
+}
+#FloatingActionButtonApp #FABContainer #MainFABContainer #MiniFABContainer .mini-fab-container:hover .mini-fab,
+#FloatingActionButtonApp #FABContainer #MainFABContainer #MiniFABContainer .mini-fab-container:hover .mini-fab-label {
+  -webkit-box-shadow: 0 0 6px rgba(0, 0, 0, 0.12), 0 6px 6px rgba(0, 0, 0, 0.24);
+          box-shadow: 0 0 6px rgba(0, 0, 0, 0.12), 0 6px 6px rgba(0, 0, 0, 0.24);
+  -webkit-transition: ease-in 0.1s;
+  transition: ease-in 0.1s;
+}
+#FloatingActionButtonApp #FABContainer #MainFABContainer #MiniFABContainer .mini-fab-container .mini-fab,
+#FloatingActionButtonApp #FABContainer #MainFABContainer #MiniFABContainer .mini-fab-container .mini-fab-label {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+}
+#FloatingActionButtonApp #FABContainer #MainFABContainer #MiniFABContainer .mini-fab-container .mini-fab.pop-fast,
+#FloatingActionButtonApp #FABContainer #MainFABContainer #MiniFABContainer .mini-fab-container .mini-fab-label.pop-fast {
+  -webkit-animation: pop-in-fast 1s forwards;
+          animation: pop-in-fast 1s forwards;
+}
+#FloatingActionButtonApp #FABContainer #MainFABContainer #MiniFABContainer .mini-fab-container .mini-fab.pop-normal,
+#FloatingActionButtonApp #FABContainer #MainFABContainer #MiniFABContainer .mini-fab-container .mini-fab-label.pop-normal {
+  -webkit-animation: pop-in-normal 1s forwards;
+          animation: pop-in-normal 1s forwards;
+}
+#FloatingActionButtonApp #FABContainer #MainFABContainer #MiniFABContainer .mini-fab-container .mini-fab.pop-slow,
+#FloatingActionButtonApp #FABContainer #MainFABContainer #MiniFABContainer .mini-fab-container .mini-fab-label.pop-slow {
+  -webkit-animation: pop-in-slow 1s forwards;
+          animation: pop-in-slow 1s forwards;
+}
+#FloatingActionButtonApp #FABContainer #MainFABContainer #MiniFABContainer.is-open .mini-fab-container .mini-fab.pop-fast,
+#FloatingActionButtonApp #FABContainer #MainFABContainer #MiniFABContainer.is-open .mini-fab-container .mini-fab-label.pop-fast {
+  -webkit-animation: pop-out-slow 1s forwards;
+          animation: pop-out-slow 1s forwards;
+}
+#FloatingActionButtonApp #FABContainer #MainFABContainer #MiniFABContainer.is-open .mini-fab-container .mini-fab.pop-normal,
+#FloatingActionButtonApp #FABContainer #MainFABContainer #MiniFABContainer.is-open .mini-fab-container .mini-fab-label.pop-normal {
+  -webkit-animation: pop-out-normal 1s forwards;
+          animation: pop-out-normal 1s forwards;
+}
+#FloatingActionButtonApp #FABContainer #MainFABContainer #MiniFABContainer.is-open .mini-fab-container .mini-fab.pop-slow,
+#FloatingActionButtonApp #FABContainer #MainFABContainer #MiniFABContainer.is-open .mini-fab-container .mini-fab-label.pop-slow {
+  -webkit-animation: pop-out-fast 1s forwards;
+          animation: pop-out-fast 1s forwards;
+}
+@-webkit-keyframes pop-out-slow {
+  0% {
+    display: -webkit-box !important;
+    display: -webkit-flex !important;
+    display: flex !important;
+    opacity: 0;
+  }
+  40% {
+    opacity: 0;
+    -webkit-transform: scale3d(0, 0, 1);
+            transform: scale3d(0, 0, 1);
+  }
+  55% {
+    -webkit-transform: scale3d(1.1, 1.1, 1);
+            transform: scale3d(1.1, 1.1, 1);
+  }
+  60% {
+    -webkit-transform: scale3d(1, 1, 1);
+            transform: scale3d(1, 1, 1);
+    opacity: 1;
+  }
+  100% {
+    display: -webkit-box !important;
+    display: -webkit-flex !important;
+    display: flex !important;
+  }
+}
+@keyframes pop-out-slow {
+  0% {
+    display: -webkit-box !important;
+    display: -webkit-flex !important;
+    display: -ms-flexbox !important;
+    display: flex !important;
+    opacity: 0;
+  }
+  40% {
+    opacity: 0;
+    -webkit-transform: scale3d(0, 0, 1);
+            transform: scale3d(0, 0, 1);
+  }
+  55% {
+    -webkit-transform: scale3d(1.1, 1.1, 1);
+            transform: scale3d(1.1, 1.1, 1);
+  }
+  60% {
+    -webkit-transform: scale3d(1, 1, 1);
+            transform: scale3d(1, 1, 1);
+    opacity: 1;
+  }
+  100% {
+    display: -webkit-box !important;
+    display: -webkit-flex !important;
+    display: -ms-flexbox !important;
+    display: flex !important;
+  }
+}
+@-webkit-keyframes pop-out-normal {
+  0% {
+    display: -webkit-box !important;
+    display: -webkit-flex !important;
+    display: flex !important;
+    opacity: 0;
+  }
+  30% {
+    opacity: 0;
+    -webkit-transform: scale3d(0, 0, 1);
+            transform: scale3d(0, 0, 1);
+  }
+  45% {
+    -webkit-transform: scale3d(1.1, 1.1, 1);
+            transform: scale3d(1.1, 1.1, 1);
+  }
+  50% {
+    -webkit-transform: scale3d(1, 1, 1);
+            transform: scale3d(1, 1, 1);
+    opacity: 1;
+  }
+  100% {
+    display: -webkit-box !important;
+    display: -webkit-flex !important;
+    display: flex !important;
+  }
+}
+@keyframes pop-out-normal {
+  0% {
+    display: -webkit-box !important;
+    display: -webkit-flex !important;
+    display: -ms-flexbox !important;
+    display: flex !important;
+    opacity: 0;
+  }
+  30% {
+    opacity: 0;
+    -webkit-transform: scale3d(0, 0, 1);
+            transform: scale3d(0, 0, 1);
+  }
+  45% {
+    -webkit-transform: scale3d(1.1, 1.1, 1);
+            transform: scale3d(1.1, 1.1, 1);
+  }
+  50% {
+    -webkit-transform: scale3d(1, 1, 1);
+            transform: scale3d(1, 1, 1);
+    opacity: 1;
+  }
+  100% {
+    display: -webkit-box !important;
+    display: -webkit-flex !important;
+    display: -ms-flexbox !important;
+    display: flex !important;
+  }
+}
+@-webkit-keyframes pop-out-fast {
+  0% {
+    display: -webkit-box !important;
+    display: -webkit-flex !important;
+    display: flex !important;
+    opacity: 0;
+  }
+  20% {
+    opacity: 0;
+    -webkit-transform: scale3d(0, 0, 1);
+            transform: scale3d(0, 0, 1);
+  }
+  35% {
+    -webkit-transform: scale3d(1.1, 1.1, 1);
+            transform: scale3d(1.1, 1.1, 1);
+  }
+  40% {
+    -webkit-transform: scale3d(1, 1, 1);
+            transform: scale3d(1, 1, 1);
+    opacity: 1;
+  }
+  100% {
+    display: -webkit-box !important;
+    display: -webkit-flex !important;
+    display: flex !important;
+  }
+}
+@keyframes pop-out-fast {
+  0% {
+    display: -webkit-box !important;
+    display: -webkit-flex !important;
+    display: -ms-flexbox !important;
+    display: flex !important;
+    opacity: 0;
+  }
+  20% {
+    opacity: 0;
+    -webkit-transform: scale3d(0, 0, 1);
+            transform: scale3d(0, 0, 1);
+  }
+  35% {
+    -webkit-transform: scale3d(1.1, 1.1, 1);
+            transform: scale3d(1.1, 1.1, 1);
+  }
+  40% {
+    -webkit-transform: scale3d(1, 1, 1);
+            transform: scale3d(1, 1, 1);
+    opacity: 1;
+  }
+  100% {
+    display: -webkit-box !important;
+    display: -webkit-flex !important;
+    display: -ms-flexbox !important;
+    display: flex !important;
+  }
+}
+@-webkit-keyframes pop-in-slow {
+  20% {
+    opacity: 1;
+    -webkit-transform: scale3d(1, 1, 1);
+            transform: scale3d(1, 1, 1);
+  }
+  40% {
+    -webkit-transform: scale3d(0, 0, 1);
+            transform: scale3d(0, 0, 1);
+    opacity: 0;
+  }
+  100% {
+    display: none;
+    opacity: 0;
+  }
+}
+@keyframes pop-in-slow {
+  20% {
+    opacity: 1;
+    -webkit-transform: scale3d(1, 1, 1);
+            transform: scale3d(1, 1, 1);
+  }
+  40% {
+    -webkit-transform: scale3d(0, 0, 1);
+            transform: scale3d(0, 0, 1);
+    opacity: 0;
+  }
+  100% {
+    display: none;
+    opacity: 0;
+  }
+}
+@-webkit-keyframes pop-in-normal {
+  10% {
+    opacity: 1;
+    -webkit-transform: scale3d(1, 1, 1);
+            transform: scale3d(1, 1, 1);
+  }
+  30% {
+    -webkit-transform: scale3d(0, 0, 1);
+            transform: scale3d(0, 0, 1);
+    opacity: 0;
+  }
+  100% {
+    display: none;
+    opacity: 0;
+  }
+}
+@keyframes pop-in-normal {
+  10% {
+    opacity: 1;
+    -webkit-transform: scale3d(1, 1, 1);
+            transform: scale3d(1, 1, 1);
+  }
+  30% {
+    -webkit-transform: scale3d(0, 0, 1);
+            transform: scale3d(0, 0, 1);
+    opacity: 0;
+  }
+  100% {
+    display: none;
+    opacity: 0;
+  }
+}
+@-webkit-keyframes pop-in-fast {
+  0% {
+    opacity: 1;
+    -webkit-transform: scale3d(1, 1, 1);
+            transform: scale3d(1, 1, 1);
+  }
+  20% {
+    -webkit-transform: scale3d(0, 0, 1);
+            transform: scale3d(0, 0, 1);
+    opacity: 0;
+  }
+  100% {
+    display: none;
+    opacity: 0;
+  }
+}
+@keyframes pop-in-fast {
+  0% {
+    opacity: 1;
+    -webkit-transform: scale3d(1, 1, 1);
+            transform: scale3d(1, 1, 1);
+  }
+  20% {
+    -webkit-transform: scale3d(0, 0, 1);
+            transform: scale3d(0, 0, 1);
+    opacity: 0;
+  }
+  100% {
+    display: none;
+    opacity: 0;
+  }
+}
+#FloatingActionButtonApp #EditModeBar .edit-mode-bar-fixed,
+#FloatingActionButtonApp #EditModeBar .edit-mode-bar-sticky {
+  width: 100%;
+  height: 56px;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  background-color: #afd534;
+  position: -webkit-sticky;
+  position: sticky;
+}
+#FloatingActionButtonApp #EditModeBar .toolbar {
+  height: 56px;
+  overflow: hidden;
+  background-color: #afd534;
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  left: 0;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+}
+#FloatingActionButtonApp #EditModeBar .toolbar.pseudo-sticky {
+  position: absolute;
+  -webkit-border-top-left-radius: 10px;
+          border-top-left-radius: 10px;
+  -webkit-border-top-right-radius: 10px;
+          border-top-right-radius: 10px;
+}
+#FloatingActionButtonApp #EditModeBar .toolbar #ButtonContainer {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+  -webkit-justify-content: space-between;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+  -webkit-flex-direction: row;
+      -ms-flex-direction: row;
+          flex-direction: row;
+  width: 100%;
+  max-width: 1140px;
+}
+#FloatingActionButtonApp #EditModeBar .toolbar #ButtonContainer .btn-left,
+#FloatingActionButtonApp #EditModeBar .toolbar #ButtonContainer .btn-right {
+  height: 56px;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: reverse;
+  -webkit-flex-direction: row-reverse;
+      -ms-flex-direction: row-reverse;
+          flex-direction: row-reverse;
+}
+#FloatingActionButtonApp #EditModeBar .toolbar #ButtonContainer .btn-left .button,
+#FloatingActionButtonApp #EditModeBar .toolbar #ButtonContainer .btn-right .button {
+  margin: auto;
+  padding: 0 20px;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-content: center;
+      -ms-flex-line-pack: center;
+          align-content: center;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -webkit-flex-direction: column;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  cursor: pointer;
+}
+#FloatingActionButtonApp #EditModeBar .toolbar #ButtonContainer .btn-left .button .icon,
+#FloatingActionButtonApp #EditModeBar .toolbar #ButtonContainer .btn-right .button .icon {
+  font-size: 25px;
+}
+#FloatingActionButtonApp #EditModeBar .toolbar #ButtonContainer .btn-left .button .btn-label,
+#FloatingActionButtonApp #EditModeBar .toolbar #ButtonContainer .btn-right .button .btn-label {
+  font-size: 12px;
+  line-height: 12px;
+}
+#FloatingActionButtonApp #EditModeBar .toolbar #ButtonContainer .btn-left {
+  width: 100px;
+}
+#FloatingActionButtonApp #EditModeBar .toolbar #ButtonContainer .btn-right {
+  width: 200px;
 }

@@ -49,6 +49,7 @@
     <input type="hidden" id="hddSolutionTypeNum" value="1" />
     <div id="QuestionDetails" data-div-type="questionDetails"></div>
 </div>
+<%: Html.Partial("~/Views/Categories/Detail/Partials/InlineEditFloatingActionButton.ascx") %>
 
 <% Html.RenderPartial("~/Views/Questions/QuestionList/QuestionList.ascx", new QuestionListModel(Model.Category.Id, Model.IsDisplayNoneSessionConfigNoteQuestionList)); %>
 <% Html.RenderPartial("~/Views/Questions/Modals/ModalDeleteQuestion.ascx"); %>

@@ -123,7 +123,7 @@
     <% } %>
     
 </div>
-<%: Html.Partial("~/Views/Categories/Detail/Partials/InlineEditFloatingActionButton.ascx") %>
+<%: Html.Partial("~/Views/Categories/Detail/Partials/InlineEditFloatingActionButton.ascx", Model) %>
 
 
 <% if (!Model.CategoryIsDeleted)

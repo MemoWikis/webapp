@@ -214,7 +214,7 @@ new Vue({
             this.updateModuleOrder();
             await this.sortModules();
 
-                filteredModules = this.sortedModules.filter(o => (o.TemplateName != 'InlineText' || o.Content));
+            var filteredModules = this.sortedModules.filter(o => (o.TemplateName != 'InlineText' || o.Content));
             var data = {
                 categoryId: $("#hhdCategoryId").val(),
                 content: filteredModules,

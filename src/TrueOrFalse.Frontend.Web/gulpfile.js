@@ -27,9 +27,6 @@ var deps = {
     "vue-slider-component" : {
         "dist/vue-slider-component.umd.js": ""
     },
-    "vue-float-action-button": {
-        "dist/vue-fab.js": ""
-    }
 };
 
 var merge = require('merge-stream'); 
