@@ -148,17 +148,7 @@ public class EditCategoryController : BaseController
                 Links.CategoryDetail(category),
                 Links.CategoryCreate()));
 
-        //foreach (var parentCategory in model.ParentCategories)
-        //    EditAggregation(parentCategory.Id, "", "");
-
-        var parentsFromParentCategories = GraphService.GetAllParents(category);
-        if (parentsFromParentCategories.Count != 0)
-        {
-            foreach (var parentCategory1 in parentsFromParentCategories)
-            {
-                EditAggregation(parentCategory1.Id, "", "");
-            }
-        }
+        GraphService.AutomaticInclusionFromSubthemes(category);
 
         return Redirect(Links.CategoryDetail(category, openEditMode: true));
     }
