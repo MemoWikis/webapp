@@ -25,16 +25,11 @@ class Automatic_inclusion : BaseTest
 
             context.Update();
 
-            Assert.That(Sl.CategoryRepo.GetById(subCategories.ByName("Sub1").Id).ParentCategories().Count, Is.EqualTo(1)); 
+            var t = Sl.CategoryRepo.GetById(subCategories.ByName("Sub1").Id).CategoryRelations;
 
-            var c =   GraphService.GetAllParents(subCategories[0]);
-
-          GraphService.AutomaticInclusionFromSubthemes(subCategories[0]);
-
-        //ACT
-
-
-        //ASSERT
-    }
+            GraphService.AutomaticInclusionFromSubthemes(subCategories[0]);
+            Assert.That(Sl.CategoryRepo.GetById(subCategories.ByName("Sub1").Id).ParentCategories().Count, Is.EqualTo(1));
+            Assert.That(Sl.CategoryRepo.GetById(subCategories.ByName("Sub1").Id).CategoryRelations.Count(cr => cr.CategoryRelationType == CategoryRelationType.IncludesContentOf), Is.EqualTo(1));
+        }
     }
 
