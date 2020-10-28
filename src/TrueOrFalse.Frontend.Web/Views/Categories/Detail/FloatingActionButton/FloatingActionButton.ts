@@ -1,7 +1,7 @@
 ﻿
 var FAB = Vue.component('floating-action-button',
     {
-        props: ['tab'],
+        props: ['is-learning-tab'],
         data() {
             return {
                 editMode: false,
@@ -9,7 +9,22 @@ var FAB = Vue.component('floating-action-button',
                 showMiniFAB: false,
                 isTopicTab: true,
                 footerIsVisible: false,
-        }
+                showFab: true,
+                timer: null,
+            }
+        },
+        watch: {
+            editMode(val) {
+                if (this.timer)
+                    clearTimeout(this.timer);
+                if (val)
+                    this.timer = setTimeout(() => {
+                            this.showFab = false;
+                        },
+                        1000);
+                else 
+                    this.showFab = true;
+            }
         },
         created() {
             window.addEventListener('scroll', this.handleScroll);
@@ -57,12 +72,8 @@ var FAB = Vue.component('floating-action-button',
             },
             cancelEditMode() {
                 this.editMode = false;
+                eventBus.$emit('set-edit-mode', this.editMode);
                 this.isOpen = true;
             }
         }
     });
-
-var FABContainer = new Vue({
-    el: '#FloatingActionButtonApp',
-
-})

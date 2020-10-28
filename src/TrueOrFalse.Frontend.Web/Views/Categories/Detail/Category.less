@@ -2012,7 +2012,7 @@ p:empty {
     }
 }
 
-#FloatingActionButtonApp {
+#TopicTabFABApp, LearningTabFABApp {
 
     @scale00: scale3d(0,0,1);
     @scale11: scale3d(1.1, 1.1, 1);
@@ -2023,11 +2023,11 @@ p:empty {
     bottom: 20px;
     right: 20px;
 
-    #FABContainer {
+    .fab-container {
         display: flex;
         flex-direction: row-reverse;
 
-        #MainFABContainer {
+        .main-fab-container {
             display: flex;
             flex-direction: column-reverse;
             cursor: pointer;
@@ -2055,13 +2055,45 @@ p:empty {
 
                 100% {
                     transform: translateY(50%) @scale00;
-                    opacity: .25;
+                    opacity: 0;
                     display: none;
                 }
             }
 
-            #MainFAB {
-                width: 56px;
+            @keyframes move-right {
+                0% {
+                    position: unset;
+                    transform: translateX(-200px) @scale00;
+                    display: unset;
+                }
+
+                20% {
+                    transform: translateX(-200px) @scale00;
+                }
+
+                100% {
+                    transform: translateX(0px) @scale10;
+                    opacity: 1;
+                }
+            }
+
+            @keyframes move-left {
+                50% {
+                    transform: translateX(0px) @scale10;
+                    position: absolute;
+                    right: -48px;
+                }
+
+                100% {
+                    transform: translateX(-200px) @scale00;
+                    opacity: 0;
+                    display: none;
+                    position: unset;
+                }
+            }
+
+            .main-fab {
+                min-width: 56px;
                 height: 56px;
                 background-color: @color-green;
                 display: flex;
@@ -2070,11 +2102,24 @@ p:empty {
                 border-radius: 56px;
                 box-shadow: 0 0 6px rgba(0, 0, 0, 0.12), 0 6px 6px rgba(0, 0, 0, 0.24);
                 z-index: 10;
-                animation: move-up .5s forwards;
+                animation: pop-out-fast .8s forwards;
+                flex-direction: row-reverse;
 
+                .fab-label {
+                    line-height: 56px
+                }
 
                 &.in-edit-mode {
-                    animation: move-down .5s forwards;
+                    animation: pop-in-normal .8s forwards;
+                    margin-top: -56px;
+                }
+
+                &.is-sticky {
+                    animation: move-right .5s forwards;
+
+                    &.in-edit-mode {
+                        animation: move-left .5s forwards;
+                    }
                 }
 
                 &:active {
@@ -2110,7 +2155,7 @@ p:empty {
                 }
             }
 
-            #MiniFABContainer {
+            .mini-fab-list {
                 position: absolute;
                 bottom: 60px;
                 width: 300px;
@@ -2164,15 +2209,15 @@ p:empty {
                         display: flex;
 
                         &.pop-fast {
-                            animation: pop-in-fast 1s forwards;
+                            animation: pop-in-fast .8s forwards;
                         }
 
                         &.pop-normal {
-                            animation: pop-in-normal 1s forwards;
+                            animation: pop-in-normal .8s forwards;
                         }
 
                         &.pop-slow {
-                            animation: pop-in-slow 1s forwards;
+                            animation: pop-in-slow .8s forwards;
                         }
                     }
                 }
@@ -2181,15 +2226,15 @@ p:empty {
                     .mini-fab-container {
                         .mini-fab, .mini-fab-label {
                             &.pop-fast {
-                                animation: pop-out-slow 1s forwards;
+                                animation: pop-out-slow .8s forwards;
                             }
 
                             &.pop-normal {
-                                animation: pop-out-normal 1s forwards;
+                                animation: pop-out-normal .8s forwards;
                             }
 
                             &.pop-slow {
-                                animation: pop-out-fast 1s forwards;
+                                animation: pop-out-fast .8s forwards;
                             }
                         }
                     }
@@ -2330,15 +2375,7 @@ p:empty {
         }
     }
 
-    #EditModeBar {
-        .edit-mode-bar-fixed, .edit-mode-bar-sticky {
-            width: 100%;
-            height: 56px;
-            display: flex;
-            background-color: @color-green;
-            position: sticky;
-        }
-
+    .edit-mode-bar-container {
         .toolbar {
             height: 56px;
             overflow: hidden;
@@ -2349,11 +2386,19 @@ p:empty {
             left: 0;
             display: flex;
             justify-content: center;
+            animation: pop-out-slow .8s forwards;
+            transform-origin: 85% 50%;
 
             &.pseudo-sticky {
                 position: absolute;
-                border-top-left-radius: 10px;
-                border-top-right-radius: 10px;
+                /*border-top-left-radius: 10px;
+                border-top-right-radius: 10px;*/
+                border-radius: 56px;
+                transform-origin: right;
+            }
+
+            &.is-hidden {
+                animation: pop-in-fast .8s forwards
             }
 
             #ButtonContainer {

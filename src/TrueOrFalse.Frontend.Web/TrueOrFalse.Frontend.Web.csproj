@@ -329,6 +329,7 @@
     <Compile Include="Views\Categories\Detail\CategoryRedirectController.cs" />
     <Compile Include="Views\Categories\Detail\CategoryController.cs" />
     <Compile Include="Views\Categories\Detail\Partials\BaseContentModule.cs" />
+    <Compile Include="Views\Categories\Detail\Partials\FloatingActionButton\FloatingActionButtonModel.cs" />
     <Compile Include="Views\Categories\Detail\Partials\InlineText\InlineTextJson.cs" />
     <Compile Include="Views\Categories\Detail\TemplateParser\Tokenizer\Tokenizer.cs" />
     <Compile Include="Views\Categories\Detail\TemplateToHtml\TemplateToHtml.cs" />
@@ -21752,7 +21753,7 @@
     <Content Include="Views\Categories\Detail\Partials\ContentModuleSelectionModal.vue.ascx" />
     <Content Include="Views\Categories\Detail\Partials\InlineText\InlineTextComponent.vue.ascx" />
     <Content Include="Views\Categories\Detail\Partials\KnowledgeGraph\KnowledgeGraph.ascx" />
-    <Content Include="Views\Categories\Detail\Partials\InlineEditFloatingActionButton.ascx" />
+    <Content Include="Views\Categories\Detail\Partials\FloatingActionButton\FloatingActionButton.ascx" />
     <Content Include="Views\Categories\Detail\Partials\ModalComponentCollection.ascx" />
     <Content Include="Views\Categories\Detail\Partials\SettingsDialogCollection.ascx" />
     <Content Include="Views\Categories\Detail\Partials\ContentModuleWrapperStart.ascx" />
@@ -21803,6 +21804,8 @@
       <DependentUpon>Page.ts</DependentUpon>
     </Content>
     <TypeScriptCompile Include="Scripts\KnowledgeSummaryBar.ts" />
+    <TypeScriptCompile Include="Views\Categories\Detail\FloatingActionButton\LearningTabFABLoader.ts" />
+    <TypeScriptCompile Include="Views\Categories\Detail\FloatingActionButton\TopicTabFABLoader.ts" />
     <TypeScriptCompile Include="Views\Categories\Detail\JsAnalyticsTab\KnowledgeGraph.ts" />
     <TypeScriptCompile Include="Views\Categories\Detail\JsEditMode\ContentModuleSettings\ContentModuleSelectionComponent.ts" />
     <TypeScriptCompile Include="Views\Categories\Detail\JsEditMode\ContentModuleSettings\InlineEditComponent.ts" />
@@ -22311,7 +22314,7 @@
     <TypeScriptCompile Include="Scripts\YoutubeApi.ts" />
     <TypeScriptCompile Include="Scripts\NumbersCountUp.ts" />
     <TypeScriptCompile Include="Views\About\Js\Page.ts" />
-    <TypeScriptCompile Include="Views\Categories\Detail\JsEditMode\FloatingActionButton.ts" />
+    <TypeScriptCompile Include="Views\Categories\Detail\FloatingActionButton\FloatingActionButton.ts" />
     <TypeScriptCompile Include="Views\Questions\Answer\Js\QuestionDetails\AnswerQuestionDetailsApp.ts" />
     <TypeScriptCompile Include="Views\Questions\Answer\Js\QuestionDetails\AnswerQuestionDetailsComponent.ts" />
     <TypeScriptCompile Include="Views\Questions\Answer\Js\InlineEditComponent.ts" />

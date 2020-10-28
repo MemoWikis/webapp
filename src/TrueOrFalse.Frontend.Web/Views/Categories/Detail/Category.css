@@ -2509,13 +2509,15 @@ p:empty {
   height: 0;
   font-style: italic;
 }
-#FloatingActionButtonApp {
+#TopicTabFABApp,
+LearningTabFABApp {
   position: -webkit-sticky;
   position: sticky;
   bottom: 20px;
   right: 20px;
 }
-#FloatingActionButtonApp #FABContainer {
+#TopicTabFABApp .fab-container,
+LearningTabFABApp .fab-container {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -2526,7 +2528,8 @@ p:empty {
       -ms-flex-direction: row-reverse;
           flex-direction: row-reverse;
 }
-#FloatingActionButtonApp #FABContainer #MainFABContainer {
+#TopicTabFABApp .fab-container .main-fab-container,
+LearningTabFABApp .fab-container .main-fab-container {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -2539,7 +2542,8 @@ p:empty {
   cursor: pointer;
 }
 @media (min-width: 1200px) {
-  #FloatingActionButtonApp #FABContainer #MainFABContainer {
+  #TopicTabFABApp .fab-container .main-fab-container,
+  LearningTabFABApp .fab-container .main-fab-container {
     margin-right: -48px;
   }
 }
@@ -2575,7 +2579,7 @@ p:empty {
   100% {
     -webkit-transform: translateY(50%) scale3d(0, 0, 1);
             transform: translateY(50%) scale3d(0, 0, 1);
-    opacity: 0.25;
+    opacity: 0;
     display: none;
   }
 }
@@ -2587,12 +2591,77 @@ p:empty {
   100% {
     -webkit-transform: translateY(50%) scale3d(0, 0, 1);
             transform: translateY(50%) scale3d(0, 0, 1);
-    opacity: 0.25;
+    opacity: 0;
     display: none;
   }
 }
-#FloatingActionButtonApp #FABContainer #MainFABContainer #MainFAB {
-  width: 56px;
+@-webkit-keyframes move-right {
+  0% {
+    position: unset;
+    -webkit-transform: translateX(-200px) scale3d(0, 0, 1);
+            transform: translateX(-200px) scale3d(0, 0, 1);
+    display: unset;
+  }
+  20% {
+    -webkit-transform: translateX(-200px) scale3d(0, 0, 1);
+            transform: translateX(-200px) scale3d(0, 0, 1);
+  }
+  100% {
+    -webkit-transform: translateX(0px) scale3d(1, 1, 1);
+            transform: translateX(0px) scale3d(1, 1, 1);
+    opacity: 1;
+  }
+}
+@keyframes move-right {
+  0% {
+    position: unset;
+    -webkit-transform: translateX(-200px) scale3d(0, 0, 1);
+            transform: translateX(-200px) scale3d(0, 0, 1);
+    display: unset;
+  }
+  20% {
+    -webkit-transform: translateX(-200px) scale3d(0, 0, 1);
+            transform: translateX(-200px) scale3d(0, 0, 1);
+  }
+  100% {
+    -webkit-transform: translateX(0px) scale3d(1, 1, 1);
+            transform: translateX(0px) scale3d(1, 1, 1);
+    opacity: 1;
+  }
+}
+@-webkit-keyframes move-left {
+  50% {
+    -webkit-transform: translateX(0px) scale3d(1, 1, 1);
+            transform: translateX(0px) scale3d(1, 1, 1);
+    position: absolute;
+    right: -48px;
+  }
+  100% {
+    -webkit-transform: translateX(-200px) scale3d(0, 0, 1);
+            transform: translateX(-200px) scale3d(0, 0, 1);
+    opacity: 0;
+    display: none;
+    position: unset;
+  }
+}
+@keyframes move-left {
+  50% {
+    -webkit-transform: translateX(0px) scale3d(1, 1, 1);
+            transform: translateX(0px) scale3d(1, 1, 1);
+    position: absolute;
+    right: -48px;
+  }
+  100% {
+    -webkit-transform: translateX(-200px) scale3d(0, 0, 1);
+            transform: translateX(-200px) scale3d(0, 0, 1);
+    opacity: 0;
+    display: none;
+    position: unset;
+  }
+}
+#TopicTabFABApp .fab-container .main-fab-container .main-fab,
+LearningTabFABApp .fab-container .main-fab-container .main-fab {
+  min-width: 56px;
   height: 56px;
   background-color: #afd534;
   display: -webkit-box;
@@ -2609,25 +2678,49 @@ p:empty {
   -webkit-box-shadow: 0 0 6px rgba(0, 0, 0, 0.12), 0 6px 6px rgba(0, 0, 0, 0.24);
           box-shadow: 0 0 6px rgba(0, 0, 0, 0.12), 0 6px 6px rgba(0, 0, 0, 0.24);
   z-index: 10;
-  -webkit-animation: move-up 0.5s forwards;
-          animation: move-up 0.5s forwards;
+  -webkit-animation: pop-out-fast 0.8s forwards;
+          animation: pop-out-fast 0.8s forwards;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: reverse;
+  -webkit-flex-direction: row-reverse;
+      -ms-flex-direction: row-reverse;
+          flex-direction: row-reverse;
 }
-#FloatingActionButtonApp #FABContainer #MainFABContainer #MainFAB.in-edit-mode {
-  -webkit-animation: move-down 0.5s forwards;
-          animation: move-down 0.5s forwards;
+#TopicTabFABApp .fab-container .main-fab-container .main-fab .fab-label,
+LearningTabFABApp .fab-container .main-fab-container .main-fab .fab-label {
+  line-height: 56px;
 }
-#FloatingActionButtonApp #FABContainer #MainFABContainer #MainFAB i {
+#TopicTabFABApp .fab-container .main-fab-container .main-fab.in-edit-mode,
+LearningTabFABApp .fab-container .main-fab-container .main-fab.in-edit-mode {
+  -webkit-animation: pop-in-normal 0.8s forwards;
+          animation: pop-in-normal 0.8s forwards;
+  margin-top: -56px;
+}
+#TopicTabFABApp .fab-container .main-fab-container .main-fab.is-sticky,
+LearningTabFABApp .fab-container .main-fab-container .main-fab.is-sticky {
+  -webkit-animation: move-right 0.5s forwards;
+          animation: move-right 0.5s forwards;
+}
+#TopicTabFABApp .fab-container .main-fab-container .main-fab.is-sticky.in-edit-mode,
+LearningTabFABApp .fab-container .main-fab-container .main-fab.is-sticky.in-edit-mode {
+  -webkit-animation: move-left 0.5s forwards;
+          animation: move-left 0.5s forwards;
+}
+#TopicTabFABApp .fab-container .main-fab-container .main-fab i,
+LearningTabFABApp .fab-container .main-fab-container .main-fab i {
   margin: auto;
   position: absolute;
   top: 20px;
 }
-#FloatingActionButtonApp #FABContainer #MainFABContainer #MainFAB i.fa-pen {
+#TopicTabFABApp .fab-container .main-fab-container .main-fab i.fa-pen,
+LearningTabFABApp .fab-container .main-fab-container .main-fab i.fa-pen {
   -webkit-transition: opacity 0.3s, -webkit-transform 0.3s;
   transition: opacity 0.3s, -webkit-transform 0.3s;
   transition: opacity 0.3s, transform 0.3s;
   transition: opacity 0.3s, transform 0.3s, -webkit-transform 0.3s;
 }
-#FloatingActionButtonApp #FABContainer #MainFABContainer #MainFAB i.fa-pen.is-open {
+#TopicTabFABApp .fab-container .main-fab-container .main-fab i.fa-pen.is-open,
+LearningTabFABApp .fab-container .main-fab-container .main-fab i.fa-pen.is-open {
   -webkit-transition: opacity 0.3s, -webkit-transform 0.3s;
   transition: opacity 0.3s, -webkit-transform 0.3s;
   transition: opacity 0.3s, transform 0.3s;
@@ -2636,7 +2729,8 @@ p:empty {
           transform: rotate(-180deg) scale(0.5);
   opacity: 0;
 }
-#FloatingActionButtonApp #FABContainer #MainFABContainer #MainFAB i.fa-times {
+#TopicTabFABApp .fab-container .main-fab-container .main-fab i.fa-times,
+LearningTabFABApp .fab-container .main-fab-container .main-fab i.fa-times {
   opacity: 0;
   -webkit-transition: opacity 0.3s, -webkit-transform 0.3s;
   transition: opacity 0.3s, -webkit-transform 0.3s;
@@ -2645,7 +2739,8 @@ p:empty {
   -webkit-transform: rotate(0) scale(0.5);
           transform: rotate(0) scale(0.5);
 }
-#FloatingActionButtonApp #FABContainer #MainFABContainer #MainFAB i.fa-times.is-open {
+#TopicTabFABApp .fab-container .main-fab-container .main-fab i.fa-times.is-open,
+LearningTabFABApp .fab-container .main-fab-container .main-fab i.fa-times.is-open {
   -webkit-transition: opacity 0.3s, -webkit-transform 0.3s;
   transition: opacity 0.3s, -webkit-transform 0.3s;
   transition: opacity 0.3s, transform 0.3s;
@@ -2654,18 +2749,21 @@ p:empty {
           transform: rotate(-180deg) scale(1);
   opacity: 1;
 }
-#FloatingActionButtonApp #FABContainer #MainFABContainer #MiniFABContainer {
+#TopicTabFABApp .fab-container .main-fab-container .mini-fab-list,
+LearningTabFABApp .fab-container .main-fab-container .mini-fab-list {
   position: absolute;
   bottom: 60px;
   width: 300px;
   right: 6px;
 }
 @media (min-width: 1200px) {
-  #FloatingActionButtonApp #FABContainer #MainFABContainer #MiniFABContainer {
+  #TopicTabFABApp .fab-container .main-fab-container .mini-fab-list,
+  LearningTabFABApp .fab-container .main-fab-container .mini-fab-list {
     right: -41px;
   }
 }
-#FloatingActionButtonApp #FABContainer #MainFABContainer #MiniFABContainer .mini-fab-container {
+#TopicTabFABApp .fab-container .main-fab-container .mini-fab-list .mini-fab-container,
+LearningTabFABApp .fab-container .main-fab-container .mini-fab-list .mini-fab-container {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -2681,7 +2779,8 @@ p:empty {
       -ms-flex-align: center;
           align-items: center;
 }
-#FloatingActionButtonApp #FABContainer #MainFABContainer #MiniFABContainer .mini-fab-container .mini-fab {
+#TopicTabFABApp .fab-container .main-fab-container .mini-fab-list .mini-fab-container .mini-fab,
+LearningTabFABApp .fab-container .main-fab-container .mini-fab-list .mini-fab-container .mini-fab {
   width: 42px;
   height: 42px;
   -webkit-border-radius: 50%;
@@ -2690,14 +2789,17 @@ p:empty {
   -webkit-box-shadow: 0 0 3px rgba(0, 0, 0, 0.12), 0 3px 3px rgba(0, 0, 0, 0.24);
           box-shadow: 0 0 3px rgba(0, 0, 0, 0.12), 0 3px 3px rgba(0, 0, 0, 0.24);
 }
-#FloatingActionButtonApp #FABContainer #MainFABContainer #MiniFABContainer .mini-fab-container .mini-fab i {
+#TopicTabFABApp .fab-container .main-fab-container .mini-fab-list .mini-fab-container .mini-fab i,
+LearningTabFABApp .fab-container .main-fab-container .mini-fab-list .mini-fab-container .mini-fab i {
   margin: auto;
 }
-#FloatingActionButtonApp #FABContainer #MainFABContainer #MiniFABContainer .mini-fab-container .mini-fab i.fa-edit {
+#TopicTabFABApp .fab-container .main-fab-container .mini-fab-list .mini-fab-container .mini-fab i.fa-edit,
+LearningTabFABApp .fab-container .main-fab-container .mini-fab-list .mini-fab-container .mini-fab i.fa-edit {
   padding-left: 4px;
   padding-bottom: 2px;
 }
-#FloatingActionButtonApp #FABContainer #MainFABContainer #MiniFABContainer .mini-fab-container .mini-fab-label {
+#TopicTabFABApp .fab-container .main-fab-container .mini-fab-list .mini-fab-container .mini-fab-label,
+LearningTabFABApp .fab-container .main-fab-container .mini-fab-list .mini-fab-container .mini-fab-label {
   text-align: right;
   padding: 0 8px;
   margin-right: 16px;
@@ -2708,49 +2810,65 @@ p:empty {
   -webkit-box-shadow: 0 0 3px rgba(0, 0, 0, 0.12), 0 3px 3px rgba(0, 0, 0, 0.24);
           box-shadow: 0 0 3px rgba(0, 0, 0, 0.12), 0 3px 3px rgba(0, 0, 0, 0.24);
 }
-#FloatingActionButtonApp #FABContainer #MainFABContainer #MiniFABContainer .mini-fab-container:hover .mini-fab,
-#FloatingActionButtonApp #FABContainer #MainFABContainer #MiniFABContainer .mini-fab-container:hover .mini-fab-label {
+#TopicTabFABApp .fab-container .main-fab-container .mini-fab-list .mini-fab-container:hover .mini-fab,
+LearningTabFABApp .fab-container .main-fab-container .mini-fab-list .mini-fab-container:hover .mini-fab,
+#TopicTabFABApp .fab-container .main-fab-container .mini-fab-list .mini-fab-container:hover .mini-fab-label,
+LearningTabFABApp .fab-container .main-fab-container .mini-fab-list .mini-fab-container:hover .mini-fab-label {
   -webkit-box-shadow: 0 0 6px rgba(0, 0, 0, 0.12), 0 6px 6px rgba(0, 0, 0, 0.24);
           box-shadow: 0 0 6px rgba(0, 0, 0, 0.12), 0 6px 6px rgba(0, 0, 0, 0.24);
   -webkit-transition: ease-in 0.1s;
   transition: ease-in 0.1s;
 }
-#FloatingActionButtonApp #FABContainer #MainFABContainer #MiniFABContainer .mini-fab-container .mini-fab,
-#FloatingActionButtonApp #FABContainer #MainFABContainer #MiniFABContainer .mini-fab-container .mini-fab-label {
+#TopicTabFABApp .fab-container .main-fab-container .mini-fab-list .mini-fab-container .mini-fab,
+LearningTabFABApp .fab-container .main-fab-container .mini-fab-list .mini-fab-container .mini-fab,
+#TopicTabFABApp .fab-container .main-fab-container .mini-fab-list .mini-fab-container .mini-fab-label,
+LearningTabFABApp .fab-container .main-fab-container .mini-fab-list .mini-fab-container .mini-fab-label {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
   display: flex;
 }
-#FloatingActionButtonApp #FABContainer #MainFABContainer #MiniFABContainer .mini-fab-container .mini-fab.pop-fast,
-#FloatingActionButtonApp #FABContainer #MainFABContainer #MiniFABContainer .mini-fab-container .mini-fab-label.pop-fast {
-  -webkit-animation: pop-in-fast 1s forwards;
-          animation: pop-in-fast 1s forwards;
+#TopicTabFABApp .fab-container .main-fab-container .mini-fab-list .mini-fab-container .mini-fab.pop-fast,
+LearningTabFABApp .fab-container .main-fab-container .mini-fab-list .mini-fab-container .mini-fab.pop-fast,
+#TopicTabFABApp .fab-container .main-fab-container .mini-fab-list .mini-fab-container .mini-fab-label.pop-fast,
+LearningTabFABApp .fab-container .main-fab-container .mini-fab-list .mini-fab-container .mini-fab-label.pop-fast {
+  -webkit-animation: pop-in-fast 0.8s forwards;
+          animation: pop-in-fast 0.8s forwards;
 }
-#FloatingActionButtonApp #FABContainer #MainFABContainer #MiniFABContainer .mini-fab-container .mini-fab.pop-normal,
-#FloatingActionButtonApp #FABContainer #MainFABContainer #MiniFABContainer .mini-fab-container .mini-fab-label.pop-normal {
-  -webkit-animation: pop-in-normal 1s forwards;
-          animation: pop-in-normal 1s forwards;
+#TopicTabFABApp .fab-container .main-fab-container .mini-fab-list .mini-fab-container .mini-fab.pop-normal,
+LearningTabFABApp .fab-container .main-fab-container .mini-fab-list .mini-fab-container .mini-fab.pop-normal,
+#TopicTabFABApp .fab-container .main-fab-container .mini-fab-list .mini-fab-container .mini-fab-label.pop-normal,
+LearningTabFABApp .fab-container .main-fab-container .mini-fab-list .mini-fab-container .mini-fab-label.pop-normal {
+  -webkit-animation: pop-in-normal 0.8s forwards;
+          animation: pop-in-normal 0.8s forwards;
 }
-#FloatingActionButtonApp #FABContainer #MainFABContainer #MiniFABContainer .mini-fab-container .mini-fab.pop-slow,
-#FloatingActionButtonApp #FABContainer #MainFABContainer #MiniFABContainer .mini-fab-container .mini-fab-label.pop-slow {
-  -webkit-animation: pop-in-slow 1s forwards;
-          animation: pop-in-slow 1s forwards;
+#TopicTabFABApp .fab-container .main-fab-container .mini-fab-list .mini-fab-container .mini-fab.pop-slow,
+LearningTabFABApp .fab-container .main-fab-container .mini-fab-list .mini-fab-container .mini-fab.pop-slow,
+#TopicTabFABApp .fab-container .main-fab-container .mini-fab-list .mini-fab-container .mini-fab-label.pop-slow,
+LearningTabFABApp .fab-container .main-fab-container .mini-fab-list .mini-fab-container .mini-fab-label.pop-slow {
+  -webkit-animation: pop-in-slow 0.8s forwards;
+          animation: pop-in-slow 0.8s forwards;
 }
-#FloatingActionButtonApp #FABContainer #MainFABContainer #MiniFABContainer.is-open .mini-fab-container .mini-fab.pop-fast,
-#FloatingActionButtonApp #FABContainer #MainFABContainer #MiniFABContainer.is-open .mini-fab-container .mini-fab-label.pop-fast {
-  -webkit-animation: pop-out-slow 1s forwards;
-          animation: pop-out-slow 1s forwards;
+#TopicTabFABApp .fab-container .main-fab-container .mini-fab-list.is-open .mini-fab-container .mini-fab.pop-fast,
+LearningTabFABApp .fab-container .main-fab-container .mini-fab-list.is-open .mini-fab-container .mini-fab.pop-fast,
+#TopicTabFABApp .fab-container .main-fab-container .mini-fab-list.is-open .mini-fab-container .mini-fab-label.pop-fast,
+LearningTabFABApp .fab-container .main-fab-container .mini-fab-list.is-open .mini-fab-container .mini-fab-label.pop-fast {
+  -webkit-animation: pop-out-slow 0.8s forwards;
+          animation: pop-out-slow 0.8s forwards;
 }
-#FloatingActionButtonApp #FABContainer #MainFABContainer #MiniFABContainer.is-open .mini-fab-container .mini-fab.pop-normal,
-#FloatingActionButtonApp #FABContainer #MainFABContainer #MiniFABContainer.is-open .mini-fab-container .mini-fab-label.pop-normal {
-  -webkit-animation: pop-out-normal 1s forwards;
-          animation: pop-out-normal 1s forwards;
+#TopicTabFABApp .fab-container .main-fab-container .mini-fab-list.is-open .mini-fab-container .mini-fab.pop-normal,
+LearningTabFABApp .fab-container .main-fab-container .mini-fab-list.is-open .mini-fab-container .mini-fab.pop-normal,
+#TopicTabFABApp .fab-container .main-fab-container .mini-fab-list.is-open .mini-fab-container .mini-fab-label.pop-normal,
+LearningTabFABApp .fab-container .main-fab-container .mini-fab-list.is-open .mini-fab-container .mini-fab-label.pop-normal {
+  -webkit-animation: pop-out-normal 0.8s forwards;
+          animation: pop-out-normal 0.8s forwards;
 }
-#FloatingActionButtonApp #FABContainer #MainFABContainer #MiniFABContainer.is-open .mini-fab-container .mini-fab.pop-slow,
-#FloatingActionButtonApp #FABContainer #MainFABContainer #MiniFABContainer.is-open .mini-fab-container .mini-fab-label.pop-slow {
-  -webkit-animation: pop-out-fast 1s forwards;
-          animation: pop-out-fast 1s forwards;
+#TopicTabFABApp .fab-container .main-fab-container .mini-fab-list.is-open .mini-fab-container .mini-fab.pop-slow,
+LearningTabFABApp .fab-container .main-fab-container .mini-fab-list.is-open .mini-fab-container .mini-fab.pop-slow,
+#TopicTabFABApp .fab-container .main-fab-container .mini-fab-list.is-open .mini-fab-container .mini-fab-label.pop-slow,
+LearningTabFABApp .fab-container .main-fab-container .mini-fab-list.is-open .mini-fab-container .mini-fab-label.pop-slow {
+  -webkit-animation: pop-out-fast 0.8s forwards;
+          animation: pop-out-fast 0.8s forwards;
 }
 @-webkit-keyframes pop-out-slow {
   0% {
@@ -3016,19 +3134,8 @@ p:empty {
     opacity: 0;
   }
 }
-#FloatingActionButtonApp #EditModeBar .edit-mode-bar-fixed,
-#FloatingActionButtonApp #EditModeBar .edit-mode-bar-sticky {
-  width: 100%;
-  height: 56px;
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  background-color: #afd534;
-  position: -webkit-sticky;
-  position: sticky;
-}
-#FloatingActionButtonApp #EditModeBar .toolbar {
+#TopicTabFABApp .edit-mode-bar-container .toolbar,
+LearningTabFABApp .edit-mode-bar-container .toolbar {
   height: 56px;
   overflow: hidden;
   background-color: #afd534;
@@ -3044,15 +3151,28 @@ p:empty {
   -webkit-justify-content: center;
       -ms-flex-pack: center;
           justify-content: center;
+  -webkit-animation: pop-out-slow 0.8s forwards;
+          animation: pop-out-slow 0.8s forwards;
+  -webkit-transform-origin: 85% 50%;
+          transform-origin: 85% 50%;
 }
-#FloatingActionButtonApp #EditModeBar .toolbar.pseudo-sticky {
+#TopicTabFABApp .edit-mode-bar-container .toolbar.pseudo-sticky,
+LearningTabFABApp .edit-mode-bar-container .toolbar.pseudo-sticky {
   position: absolute;
-  -webkit-border-top-left-radius: 10px;
-          border-top-left-radius: 10px;
-  -webkit-border-top-right-radius: 10px;
-          border-top-right-radius: 10px;
+  /*border-top-left-radius: 10px;
+                border-top-right-radius: 10px;*/
+  -webkit-border-radius: 56px;
+          border-radius: 56px;
+  -webkit-transform-origin: right;
+          transform-origin: right;
 }
-#FloatingActionButtonApp #EditModeBar .toolbar #ButtonContainer {
+#TopicTabFABApp .edit-mode-bar-container .toolbar.is-hidden,
+LearningTabFABApp .edit-mode-bar-container .toolbar.is-hidden {
+  -webkit-animation: pop-in-fast 0.8s forwards;
+          animation: pop-in-fast 0.8s forwards;
+}
+#TopicTabFABApp .edit-mode-bar-container .toolbar #ButtonContainer,
+LearningTabFABApp .edit-mode-bar-container .toolbar #ButtonContainer {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -3069,8 +3189,10 @@ p:empty {
   width: 100%;
   max-width: 1140px;
 }
-#FloatingActionButtonApp #EditModeBar .toolbar #ButtonContainer .btn-left,
-#FloatingActionButtonApp #EditModeBar .toolbar #ButtonContainer .btn-right {
+#TopicTabFABApp .edit-mode-bar-container .toolbar #ButtonContainer .btn-left,
+LearningTabFABApp .edit-mode-bar-container .toolbar #ButtonContainer .btn-left,
+#TopicTabFABApp .edit-mode-bar-container .toolbar #ButtonContainer .btn-right,
+LearningTabFABApp .edit-mode-bar-container .toolbar #ButtonContainer .btn-right {
   height: 56px;
   display: -webkit-box;
   display: -webkit-flex;
@@ -3082,8 +3204,10 @@ p:empty {
       -ms-flex-direction: row-reverse;
           flex-direction: row-reverse;
 }
-#FloatingActionButtonApp #EditModeBar .toolbar #ButtonContainer .btn-left .button,
-#FloatingActionButtonApp #EditModeBar .toolbar #ButtonContainer .btn-right .button {
+#TopicTabFABApp .edit-mode-bar-container .toolbar #ButtonContainer .btn-left .button,
+LearningTabFABApp .edit-mode-bar-container .toolbar #ButtonContainer .btn-left .button,
+#TopicTabFABApp .edit-mode-bar-container .toolbar #ButtonContainer .btn-right .button,
+LearningTabFABApp .edit-mode-bar-container .toolbar #ButtonContainer .btn-right .button {
   margin: auto;
   padding: 0 20px;
   display: -webkit-box;
@@ -3104,18 +3228,24 @@ p:empty {
           flex-direction: column;
   cursor: pointer;
 }
-#FloatingActionButtonApp #EditModeBar .toolbar #ButtonContainer .btn-left .button .icon,
-#FloatingActionButtonApp #EditModeBar .toolbar #ButtonContainer .btn-right .button .icon {
+#TopicTabFABApp .edit-mode-bar-container .toolbar #ButtonContainer .btn-left .button .icon,
+LearningTabFABApp .edit-mode-bar-container .toolbar #ButtonContainer .btn-left .button .icon,
+#TopicTabFABApp .edit-mode-bar-container .toolbar #ButtonContainer .btn-right .button .icon,
+LearningTabFABApp .edit-mode-bar-container .toolbar #ButtonContainer .btn-right .button .icon {
   font-size: 25px;
 }
-#FloatingActionButtonApp #EditModeBar .toolbar #ButtonContainer .btn-left .button .btn-label,
-#FloatingActionButtonApp #EditModeBar .toolbar #ButtonContainer .btn-right .button .btn-label {
+#TopicTabFABApp .edit-mode-bar-container .toolbar #ButtonContainer .btn-left .button .btn-label,
+LearningTabFABApp .edit-mode-bar-container .toolbar #ButtonContainer .btn-left .button .btn-label,
+#TopicTabFABApp .edit-mode-bar-container .toolbar #ButtonContainer .btn-right .button .btn-label,
+LearningTabFABApp .edit-mode-bar-container .toolbar #ButtonContainer .btn-right .button .btn-label {
   font-size: 12px;
   line-height: 12px;
 }
-#FloatingActionButtonApp #EditModeBar .toolbar #ButtonContainer .btn-left {
+#TopicTabFABApp .edit-mode-bar-container .toolbar #ButtonContainer .btn-left,
+LearningTabFABApp .edit-mode-bar-container .toolbar #ButtonContainer .btn-left {
   width: 100px;
 }
-#FloatingActionButtonApp #EditModeBar .toolbar #ButtonContainer .btn-right {
+#TopicTabFABApp .edit-mode-bar-container .toolbar #ButtonContainer .btn-right,
+LearningTabFABApp .edit-mode-bar-container .toolbar #ButtonContainer .btn-right {
   width: 200px;
 }

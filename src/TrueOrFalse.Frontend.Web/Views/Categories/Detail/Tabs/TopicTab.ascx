@@ -123,7 +123,11 @@
     <% } %>
     
 </div>
-<%: Html.Partial("~/Views/Categories/Detail/Partials/InlineEditFloatingActionButton.ascx", Model) %>
+<div id="TopicTabFABApp">
+    <%: Html.Partial("~/Views/Categories/Detail/Partials/FloatingActionButton/FloatingActionButton.ascx", new FloatingActionButtonModel(Model.Category, true)) %>
+</div>
+<%= Scripts.Render("~/bundles/js/FloatingActionButton") %>
+<%= Scripts.Render("~/bundles/js/TopicTabFABLoader") %>
 
 
 <% if (!Model.CategoryIsDeleted)
