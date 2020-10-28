@@ -39,7 +39,6 @@ public class GraphService
 
     public static void AutomaticInclusionFromSubthemes(Category category)
     {
-
         var parentsFromParentCategories = GraphService.GetAllParents(category);
         if (parentsFromParentCategories.Count != 0)
         {

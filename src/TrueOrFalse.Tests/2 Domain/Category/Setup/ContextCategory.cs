@@ -55,11 +55,11 @@ namespace TrueOrFalse.Tests
 
             if (parent != null)
             {
-                var categoryRelations = new List<CategoryRelation>();
+                var categoryRelations = category.CategoryRelations.Count != 0 ? category.CategoryRelations : new List<CategoryRelation>();
                 categoryRelations.Add(new CategoryRelation
                 {
-                    Category = parent,
-                    RelatedCategory = category,
+                    Category = category,
+                    RelatedCategory = parent,
                     CategoryRelationType = CategoryRelationType.IsChildCategoryOf
                 });
 

@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using NUnit.Framework;
+using SolrNet.Commands.Cores;
 using TrueOrFalse.Tests;
 
 
@@ -7,9 +8,8 @@ class Automatic_inclusion : BaseTest
     {
         [Test]
         public void Test_Subcategory_add_correct_to_parent()
-        {
-            //ARANGE
-            var context = ContextCategory.New();
+        { 
+            var context = ContextCategory.New(); 
             var parentA = context
                 .Add("Category")
                 .Persist()
@@ -23,13 +23,13 @@ class Automatic_inclusion : BaseTest
                 .Persist()
                 .All;
 
-            context.Update();
+            context.Add(subCategories[0].Name, subCategories[0].Type, parent: subCategories.ByName("Sub3"));
+            GraphService.AutomaticInclusionFromSubthemes(subCategories.ByName("Sub1"));
 
-            var t = Sl.CategoryRepo.GetById(subCategories.ByName("Sub1").Id).CategoryRelations;
+            Assert.That(Sl.CategoryRepo.GetById(subCategories.ByName("Sub1").Id).ParentCategories().Count, Is.EqualTo(2));
+            Assert.That(Sl.CategoryRepo.GetById(parentA.Id).CategoryRelations.Count(cr => cr.CategoryRelationType == CategoryRelationType.IncludesContentOf), Is.EqualTo(3));
+            Assert.That(Sl.CategoryRepo.GetById(subCategories.ByName("Sub3").Id).CategoryRelations.Count(cr => cr.CategoryRelationType == CategoryRelationType.IncludesContentOf), Is.EqualTo(1));
 
-            GraphService.AutomaticInclusionFromSubthemes(subCategories[0]);
-            Assert.That(Sl.CategoryRepo.GetById(subCategories.ByName("Sub1").Id).ParentCategories().Count, Is.EqualTo(1));
-            Assert.That(Sl.CategoryRepo.GetById(subCategories.ByName("Sub1").Id).CategoryRelations.Count(cr => cr.CategoryRelationType == CategoryRelationType.IncludesContentOf), Is.EqualTo(1));
         }
     }
 
