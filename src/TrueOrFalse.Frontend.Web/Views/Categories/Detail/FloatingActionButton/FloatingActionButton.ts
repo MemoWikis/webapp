@@ -13,6 +13,10 @@ var FAB = Vue.component('floating-action-button',
                 timer: null,
                 showEditQuestionButton: false,
                 editQuestionUrl: null,
+                isExtended: true,
+                fabLabel: 'Bearbeiten',
+                scrollTimer: null,
+                wasOpen: false,
             }
         },
         watch: {
@@ -26,7 +30,23 @@ var FAB = Vue.component('floating-action-button',
                         1000);
                 else 
                     this.showFab = true;
-            }
+            },
+            isExtended(val) {
+                if (val && this.isOpen)
+                    this.fabLabel = 'Abbrechen';
+                else if (val && !this.isOpen)
+                    this.fabLabel = 'Bearbeiten';
+                else if (!val)
+                    this.fabLabel = '';
+            },
+            isOpen(val) {
+                if (val && this.isExtended)
+                    this.fabLabel = 'Abbrechen';
+                else if (!val && this.isExtended)
+                    this.fabLabel = 'Bearbeiten';
+                else if (!this.isExtended)
+                    this.fabLabel = '';
+            },
         },
         created() {
             window.addEventListener('scroll', this.handleScroll);
@@ -74,8 +94,21 @@ var FAB = Vue.component('floating-action-button',
                 window.location.href = this.createQuestionUrl;
             },
             handleScroll() {
-                this.scroll = true;
+                clearTimeout(this.scrollTimer);
+                if (window.scrollY == 0)
+                    this.isExtended = true;
+                else this.isExtended = false;
                 this.footerCheck();
+                if (this.isOpen) {
+                    this.wasOpen = true;
+                    this.isOpen = false;
+                }
+                if (this.wasOpen) {
+                    this.scrollTimer = setTimeout(() => {
+                        this.isOpen = true;
+                        this.wasOpen = false;
+                    }, 500);
+                };
             },
             footerCheck() {
                 const elFooter = document.getElementById('CategoryFooter');
@@ -102,7 +135,7 @@ var FAB = Vue.component('floating-action-button',
                         });
             },
             saveContent() {
-
+                eventBus.$emit('request-save');
             },
             cancelEditMode() {
                 this.editMode = false;

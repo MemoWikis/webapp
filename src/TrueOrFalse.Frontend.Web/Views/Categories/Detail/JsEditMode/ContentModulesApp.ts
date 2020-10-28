@@ -109,6 +109,12 @@ new Vue({
                 if (this.editMode)
                         this.changedContent = true;
             });
+
+        eventBus.$on('request-save', () => this.saveContent());
+    },
+    destroyed() {
+        window.removeEventListener('scroll', this.handleScroll);
+        window.removeEventListener('resize', this.footerCheck);
     },
 
     mounted() {
