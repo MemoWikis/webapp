@@ -122,7 +122,9 @@ var FAB = Vue.component('floating-action-button',
                         this.footerIsVisible = true;
                 };
             },
-
+            editQuestion() {
+                window.location.href = this.editQuestionUrl;
+            },
             getEditQuestionUrl() {
                 var currentQuestionId = $('#AnswerBody #questionId').val();
                 $.post("/Question/GetEditUrl", { id: currentQuestionId })

@@ -6,7 +6,7 @@ Inherits="System.Web.Mvc.ViewUserControl<FloatingActionButtonModel>" %>
 <floating-action-button inline-template is-topic-tab="<%= Model.IsTopicTab %>" create-category-url="<%= Links.CategoryCreate(Model.Category.Id) %>" create-question-url="<%= Links.CreateQuestion(categoryId: Model.Category.Id) %>">
         <div class="fab-container">
             <div class="main-fab-container">
-                <div class="main-fab" @click="toggleFAB()" :class="{'in-edit-mode': editMode && showFab, 'is-sticky': footerIsVisible && editMode && showFab, 'footer-is-visible' : footerIsVisible  }" v-show="showFab">
+                <div class="main-fab" @click="toggleFAB()" :class="{'in-edit-mode': editMode && showFab, 'is-sticky': footerIsVisible && editMode && showFab }" v-show="showFab">
                     <div class="fab-label" :class="{'extended': isExtended }">{{fabLabel}}</div>
                     <div class="fab-icon-container" :class="{'extended': isExtended }">
                         <i class="fas fa-pen" :class="{'is-open': isOpen }"></i>
