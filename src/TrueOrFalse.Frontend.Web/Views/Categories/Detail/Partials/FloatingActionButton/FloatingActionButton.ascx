@@ -3,7 +3,7 @@ Inherits="System.Web.Mvc.ViewUserControl<FloatingActionButtonModel>" %>
 <%@ Import Namespace="System.Web.Optimization" %>
 <%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
 
-<floating-action-button inline-template is-learning-tab="<%= Model.IsTopicTab %>">
+<floating-action-button inline-template is-topic-tab="<%= Model.IsTopicTab %>" create-category-url="<%= Links.CategoryCreate(Model.Category.Id) %>" create-question-url="<%= Links.CreateQuestion(categoryId: Model.Category.Id) %>">
         <div class="fab-container">
             <div class="main-fab-container">
                 <div class="main-fab" @click="toggleFAB()" :class="{'in-edit-mode': editMode && showFab, 'is-sticky': footerIsVisible && editMode && showFab  }" v-show="showFab">
@@ -25,7 +25,7 @@ Inherits="System.Web.Mvc.ViewUserControl<FloatingActionButtonModel>" %>
                             </div>
                         </div>
 
-                        <div class="mini-fab-container" onclick="location.href='<%= Links.CategoryCreate(Model.Category.Id) %>';" data-allowed="logged-in">
+                        <div class="mini-fab-container" @click="createCategory()">
                             <div class="mini-fab pop-normal">
                                 <i class="far fa-plus-square"></i>
                             </div>
@@ -34,7 +34,7 @@ Inherits="System.Web.Mvc.ViewUserControl<FloatingActionButtonModel>" %>
                             </div>
                         </div>
 
-                        <div class="mini-fab-container" onclick="location.href='<%= Links.CreateQuestion(categoryId: Model.Category.Id) %>';">
+                        <div class="mini-fab-container" @click="createQuestion()">
                             <div class="mini-fab pop-slow">
                                 <i class="fas fa-plus"></i>
                             </div>
@@ -45,7 +45,7 @@ Inherits="System.Web.Mvc.ViewUserControl<FloatingActionButtonModel>" %>
                        else
                        { %>
                                         
-                        <div class="mini-fab-container" href="">
+                        <div class="mini-fab-container" @click="editQuestion()" v-if="showEditQuestionButton">
                             <div class="mini-fab pop-fast">
                                 <i class="fas fa-pen"></i>
                             </div>
@@ -55,7 +55,7 @@ Inherits="System.Web.Mvc.ViewUserControl<FloatingActionButtonModel>" %>
 
                         </div>
 
-                        <div class="mini-fab-container" onclick="location.href='<%= Links.CreateQuestion(categoryId: Model.Category.Id) %>';">
+                        <div class="mini-fab-container" @click="createQuestion()">
                             <div class="mini-fab pop-normal">
                                 <i class="fas fa-plus"></i>
                             </div>
@@ -64,7 +64,7 @@ Inherits="System.Web.Mvc.ViewUserControl<FloatingActionButtonModel>" %>
                             </div>
                         </div>
                 
-                        <div class="mini-fab-container" onclick="location.href='<%= Links.CategoryCreate(Model.Category.Id) %>';" data-allowed="logged-in">
+                        <div class="mini-fab-container" @click="createCategory()">
                             <div class="mini-fab pop-slow">
                                 <i class="far fa-plus-square"></i>
                             </div>

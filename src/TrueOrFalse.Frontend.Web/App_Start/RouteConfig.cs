@@ -61,6 +61,8 @@ namespace TrueOrFalse
             routes.MapRoute("Question_Edit", "Fragen/{text}/Bearbeite/{id}", new { controller = "EditQuestion", action = "Edit" });
             routes.MapRoute("Question_AnswerInSet", "Fragen/{text}/{questionId}/im-Fragesatz/{setId}", new { controller = "AnswerQuestion", action = "Answer" });
             routes.MapRoute("Question_Answer", "Fragen/{text}/{id}/{elementOnPage}", new { controller = "AnswerQuestion", action = "Answer", elementOnPage = UrlParameter.Optional });
+            routes.MapRoute("GetQuestionEditUrl", "Question/GetEditUrl", new { controller = "AnswerQuestion", action = "GetEditQuestionUrl" });
+
 
             routes.MapRoute("LearningSession_Result", "Lernen/{learningSessionName}/Ergebnis/{learningSessionId}", new { controller = "LearningSessionResult", action = "LearningSessionResult" });
             routes.MapRoute("Question_Answer_Learn", "Lernen/{learningSessionName}/{learningSessionId}", new { controller = "AnswerQuestion", action = "Learn" });
@@ -194,7 +196,6 @@ namespace TrueOrFalse
 
             routes.MapRoute("GetQuestionSets", "Questions/GetQuestionSets", new { controller = "Questions", action = "GetQuestionSets" });
             /*Api*/routes.MapRoute("EditPreview", "Category/RenderContentModule", new { controller = "Category", action = "RenderContentModule" });
-            ///*Api*/routes.MapRoute("EditSave", "Category/SaveMarkdown", new { controller = "Category", action = "SaveMarkdown" });
             /*Api*/routes.MapRoute("EditSave", "Category/SaveCategoryContent", new { controller = "Category", action = "SaveCategoryContent" });
             /*Api*/
             routes.MapRoute("Category_KnowledgeBar", "Category/KnowledgeBar", new { controller = "Category", action = "KnowledgeBar" });
