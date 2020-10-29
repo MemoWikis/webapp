@@ -9,7 +9,7 @@ var FAB = Vue.component('floating-action-button',
                 isOpen: false,
                 showMiniFAB: false,
                 footerIsVisible: false,
-                showFab: true,
+                showFAB: true,
                 timer: null,
                 showEditQuestionButton: false,
                 editQuestionUrl: null,
@@ -25,11 +25,11 @@ var FAB = Vue.component('floating-action-button',
                     clearTimeout(this.timer);
                 if (val)
                     this.timer = setTimeout(() => {
-                            this.showFab = false;
+                        this.showFAB = false;
                         },
                         1000);
                 else 
-                    this.showFab = true;
+                    this.showFAB = true;
             },
             isExtended(val) {
                 if (val && this.isOpen)

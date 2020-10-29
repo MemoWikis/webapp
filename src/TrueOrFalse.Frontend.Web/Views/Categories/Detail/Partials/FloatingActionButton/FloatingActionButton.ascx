@@ -6,7 +6,7 @@ Inherits="System.Web.Mvc.ViewUserControl<FloatingActionButtonModel>" %>
 <floating-action-button inline-template is-topic-tab="<%= Model.IsTopicTab %>" create-category-url="<%= Links.CategoryCreate(Model.Category.Id) %>" create-question-url="<%= Links.CreateQuestion(categoryId: Model.Category.Id) %>">
         <div class="fab-container">
             <div class="main-fab-container">
-                <div class="main-fab" @click="toggleFAB()" :class="{'in-edit-mode': editMode && showFab, 'is-sticky': footerIsVisible && editMode && showFab }" v-show="showFab">
+                <div class="main-fab" @click="toggleFAB()" :class="{'in-edit-mode': editMode && showFAB, 'is-sticky': footerIsVisible && editMode && showFAB }" v-show="showFAB">
                     <div class="fab-label" :class="{'extended': isExtended }">{{fabLabel}}</div>
                     <div class="fab-icon-container" :class="{'extended': isExtended }">
                         <i class="fas fa-pen" :class="{'is-open': isOpen }"></i>
@@ -14,7 +14,7 @@ Inherits="System.Web.Mvc.ViewUserControl<FloatingActionButtonModel>" %>
                     </div>
 
                 </div>
-                <div class="mini-fab-list" :class="{'is-open': isOpen }" v-show="showMiniFAB">
+                <div class="mini-fab-list" :class="{'is-open': isOpen }" v-show="showMiniFAB && showFAB">
                     
                     <% if (Model.IsTopicTab)
                        { %>
@@ -85,14 +85,14 @@ Inherits="System.Web.Mvc.ViewUserControl<FloatingActionButtonModel>" %>
                     <div class="toolbar" :class="{'pseudo-sticky' : footerIsVisible, 'is-hidden' : !editMode}">
                         <div class="toolbar-btn-container">
                             <div class="btn-left">
-                                <div class="button" :class="{ expanded : editMode }">
+                                <%--<div class="button" :class="{ expanded : editMode }">
                                     <div class="icon">
                                         <i class="fas fa-question"></i>
                                     </div>
                                     <div class="btn-label">
                                         Hilfe
                                     </div>
-                                </div>
+                                </div>--%>
                             </div>
 
                             <div class="btn-right">
