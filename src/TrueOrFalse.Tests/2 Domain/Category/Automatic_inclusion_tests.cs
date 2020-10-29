@@ -4,7 +4,7 @@ using SolrNet.Commands.Cores;
 using TrueOrFalse.Tests;
 
 
-class Automatic_inclusion : BaseTest
+class Automatic_inclusion_tests : BaseTest
     {
         [Test]
         public void Test_Subcategory_add_correct_to_parent()
