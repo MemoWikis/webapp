@@ -23,13 +23,23 @@ var FAB = Vue.component('floating-action-button',
             editMode(val) {
                 if (this.timer)
                     clearTimeout(this.timer);
-                if (val)
+                if (val) {
+                    $('#BreadcrumbLogoSmall').hide();
+                    $('#BreadCrumbTrail').hide();
+                    $('#EditCategoryBreadCrumb').show();
+
                     this.timer = setTimeout(() => {
-                        this.showFAB = false;
+                            this.showFAB = false;
                         },
                         1000);
-                else 
+                } else {
                     this.showFAB = true;
+
+                    $('#EditCategoryBreadCrumb').hide();
+                    $('#BreadcrumbLogoSmall').show();
+                    $('#BreadCrumbTrail').show();
+
+                }
             },
             isExtended(val) {
                 if (val && this.isOpen)
