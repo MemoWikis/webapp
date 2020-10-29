@@ -42,7 +42,7 @@ var {
     swift,
     yaml,
     typescript,
-} = hljs;
+} = hljsBuild;
 
 Vue.component('editor-menu-bar', tiptap.EditorMenuBar);
 Vue.component('editor-content', tiptap.EditorContent);

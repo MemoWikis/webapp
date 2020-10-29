@@ -8,7 +8,6 @@
   "dependencies": {
     "@material/fab": "^1.1.1",
     "d3": "5.7.0",
-    "highlight.js": "^10.3.1",
     "postscribe": "^2.0.8",
     "vue": "^2.6.12",
     "vue-select": "^2.6.4",
@@ -27,6 +26,7 @@
     "tiptap": "^1.30.0",
     "tiptap-commands": "^1.15.0",
     "tiptap-extensions": "^1.33.2",
-    "tiptap-utils": "^1.11.0"
+    "tiptap-utils": "^1.11.0",
+    "highlight.js": "^10.3.1"
   }
 }

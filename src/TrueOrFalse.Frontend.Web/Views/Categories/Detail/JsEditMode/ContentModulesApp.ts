@@ -4,12 +4,9 @@ declare var VueSelect: any;
 declare var Sticky: any;
 declare var Sortable: any;
 declare var tiptapBuild: any;
-declare var hljs: any;
-
+declare var hljsBuild: any;
 
 Vue.component('v-select', VueSelect.VueSelect);
-
-
 
 declare var eventBus: any;
 if (eventBus == null)
@@ -55,6 +52,7 @@ new Vue({
             moduleOrder: [],
             modules: [],
             sortedModules: [],
+            fabIsOpen: false,
         };
     },
 
@@ -111,6 +109,12 @@ new Vue({
                 if (this.editMode)
                         this.changedContent = true;
             });
+
+        eventBus.$on('request-save', () => this.saveContent());
+    },
+    destroyed() {
+        window.removeEventListener('scroll', this.handleScroll);
+        window.removeEventListener('resize', this.footerCheck);
     },
 
     mounted() {
@@ -221,7 +225,6 @@ new Vue({
                 categoryId: $("#hhdCategoryId").val(),
                 content: filteredModules,
             }
-
             $.ajax({
                 type: 'post',
                 contentType: "application/json",

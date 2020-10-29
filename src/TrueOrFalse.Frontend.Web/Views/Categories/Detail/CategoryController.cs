@@ -244,6 +244,7 @@ public class CategoryController : BaseController
             if (content != null)
                 category.Content = TemplateParser.GetContent(content);
             else category.Content = null;
+                category.Content = TemplateParser.GetContent(content);
 
             Sl.CategoryRepo.Update(category, User_());
 

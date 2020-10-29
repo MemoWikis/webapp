@@ -74,9 +74,7 @@
     
         </div>
         <% if (Model.CategoryIsDeleted)
-           {
                Html.RenderPartial("~/Views/Shared/Delete.ascx");
-           }
         %>
         <% if (new SessionUser().IsLoggedIn && Model.NextRevExists)
            { %>
@@ -121,15 +119,15 @@
     </div>--%>
 
     <% if (!Model.CategoryIsDeleted) {%>
-        <%: Html.Partial("~/Views/Categories/Detail/Partials/InlineEditFloatingActionButton.ascx") %>
         <%: Html.Partial("~/Views/Categories/Detail/Partials/ModalComponentCollection.ascx") %>
     <% } %>
     
 </div>
-
-
-<%--<%= Scripts.Render("~/bundles/js/tiptap") %> --%>
-
+<div id="TopicTabFABApp">
+    <%: Html.Partial("~/Views/Categories/Detail/Partials/FloatingActionButton/FloatingActionButton.ascx", new FloatingActionButtonModel(Model.Category, true)) %>
+</div>
+<%= Scripts.Render("~/bundles/js/FloatingActionButton") %>
+<%= Scripts.Render("~/bundles/js/TopicTabFABLoader") %>
 
 
 <% if (!Model.CategoryIsDeleted)

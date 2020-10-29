@@ -675,6 +675,17 @@ public class AnswerQuestionController : BaseController
         config.CurrentUserId = Sl.SessionUser.UserId;
         return LearningSessionNewCreator.GetQuestionCount(config);
     }
+
+    [HttpPost]
+    public string GetEditQuestionUrl(int id)
+    {
+        var question = _questionRepo.GetById(id);
+        var isAdmin = _sessionUser.User.IsInstallationAdmin;
+        var isAuthor = question.Creator == _sessionUser.User;
+        if (isAdmin || isAuthor)
+            return Links.EditQuestion(question.Text, id);
+        return null;
+    }
 }
 
 public class SafeLearningSessionOptionsHelper
