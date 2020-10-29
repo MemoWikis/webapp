@@ -6,10 +6,10 @@
 } = tiptapBuild;
 var {
     apache,
-    cLike,
+    //cLike,
     xml,
     bash,
-    c,
+    //c,
     coffeescript,
     csharp,
     css,
@@ -80,10 +80,10 @@ Vue.component('text-component',
                         new tiptapExtensions.CodeBlockHighlight({
                             languages: {
                                 apache,
-                                cLike,
+                                //cLike,
                                 xml,
                                 bash,
-                                c,
+                                //c,
                                 coffeescript,
                                 csharp,
                                 css,
