@@ -524,4 +524,41 @@ public class EntityCache
 
         return filteredDict;
     }
+
+    public static List<Category> GetChildren(int categoryId)
+    {
+        var category = GetCategory(categoryId);
+
+        var allCategories = EntityCache.GetAllCategories();
+
+        return allCategories.SelectMany(c =>
+            c.CategoryRelations.Where(cr => cr.CategoryRelationType == CategoryRelationType.IsChildCategoryOf && cr.RelatedCategory.Id == category.Id)
+                .Select(cr => cr.Category)).ToList();
+    }
+
+    public static IList<Category> GetDescendants(int parentId)
+    {
+        var currentGeneration = GetChildren(parentId).ToList();
+        var nextGeneration = new List<Category>();
+        var descendants = new List<Category>();
+
+        while (currentGeneration.Count > 0)
+        {
+            descendants.AddRange(currentGeneration);
+
+            foreach (var category in currentGeneration)
+            {
+                var children = GetChildren(category.Id).ToList();
+                if (children.Count > 0)
+                {
+                    nextGeneration.AddRange(children);
+                }
+            }
+
+            currentGeneration = nextGeneration.Except(descendants).Where(c => c.Id != parentId).Distinct().ToList();
+            nextGeneration = new List<Category>();
+        }
+
+        return descendants;
+    }
 }
