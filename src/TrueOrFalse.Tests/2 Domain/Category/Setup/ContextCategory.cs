@@ -72,12 +72,16 @@ namespace TrueOrFalse.Tests
             return this;
         }
 
-        public ContextCategory AddToEntityCache(string categoryName, CategoryType categoryType = CategoryType.Standard, User creator = null, bool withId = false)
+        public ContextCategory AddToEntityCache(string categoryName, CategoryType categoryType = CategoryType.Standard, User creator = null, bool withId = false, int categoryId = 0)
         {
             var category = new Category();
 
-            if (withId)
+            if (withId && categoryId == 0)
                 category.Id = 0;
+            else
+            {
+                category.Id = categoryId; 
+            }
 
             category.Name = categoryName;
             category.Creator = creator == null ? _contextUser.All.FirstOrDefault() : creator ;
@@ -88,6 +92,7 @@ namespace TrueOrFalse.Tests
             All.Add(category);
             return this;
         }
+
 
         public ContextCategory QuestionCount(int questionCount)
         {
@@ -120,5 +125,14 @@ namespace TrueOrFalse.Tests
             _categoryRepository.Update(category);
             return this;
         }
+
+        public ContextCategory AddRelationsToCategorytoEntityChache(Category category, List<CategoryRelation> categoryRelations)
+        {
+            category.CategoryRelations = categoryRelations;
+            _categoryRepository.Update(category);
+            return this;
+        }
+
+
     }
 }
