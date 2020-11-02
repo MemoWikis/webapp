@@ -21,6 +21,8 @@
     <%= Scripts.Render("~/bundles/js/DeleteQuestion") %>
     <%= Scripts.Render("~/bundles/js/AnswerQuestion") %> 
     <%= Scripts.Render("~/bundles/js/CategorySort") %>
+    <%= Scripts.Render("~/Scripts/npm/tiptap-build/tiptap-build.js") %> 
+
 
     <script type="text/javascript" src="https://www.google.com/jsapi"></script>
     <%  

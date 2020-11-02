@@ -21685,6 +21685,15 @@
     <Content Include="Views\Categories\Detail\Category.min.css">
       <DependentUpon>Category.css</DependentUpon>
     </Content>
+    <Content Include="Views\Categories\Detail\FloatingActionButton\FloatingActionButton.js">
+      <DependentUpon>FloatingActionButton.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Categories\Detail\FloatingActionButton\LearningTabFABLoader.js">
+      <DependentUpon>LearningTabFABLoader.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Categories\Detail\FloatingActionButton\TopicTabFABLoader.js">
+      <DependentUpon>TopicTabFABLoader.ts</DependentUpon>
+    </Content>
     <Content Include="Views\Categories\Detail\JsAnalyticsTab\KnowledgeGraph.js">
       <DependentUpon>KnowledgeGraph.ts</DependentUpon>
     </Content>
@@ -21722,6 +21731,7 @@
       <DependentUpon>Tabbing.ts</DependentUpon>
     </Content>
     <Content Include="Views\Categories\Detail\Partials\BreadCrumbCategories.ascx" />
+    <Content Include="Views\Questions\AddQuestion\AddQuestionModal.vue.ascx" />
     <Content Include="Views\Questions\Answer\AnswerQuestionDetailsComponent.vue.ascx" />
     <Content Include="Views\Questions\Answer\Js\InlineEditComponent.js">
       <DependentUpon>InlineEditComponent.ts</DependentUpon>
@@ -21742,12 +21752,16 @@
     <Content Include="Views\Questions\History\QuestionHistory.css">
       <DependentUpon>QuestionHistory.less</DependentUpon>
     </Content>
+    <Content Include="Views\Questions\Js\AddQuestion\AddQuestion.js">
+      <DependentUpon>AddQuestion.ts</DependentUpon>
+    </Content>
     <Content Include="Views\Questions\Js\QuestionList\QuestionListApp.js">
       <DependentUpon>QuestionListApp.ts</DependentUpon>
     </Content>
     <Content Include="Views\Questions\Js\QuestionList\QuestionListComponents.js">
       <DependentUpon>QuestionListComponents.ts</DependentUpon>
     </Content>
+    <Content Include="Views\Questions\AddQuestion\AddQuestionComponent.vue.ascx" />
     <Content Include="Views\Questions\QuestionList\QuestionList.ascx" />
     <Content Include="Views\Categories\Detail\Partials\CategoryFooter\CategoryFooter.ascx" />
     <Content Include="Views\Categories\Detail\Partials\ContentModuleSelectionModal.vue.ascx" />
@@ -21989,6 +22003,15 @@
       <DependentUpon>KnowledgeSummaryBar.ts</DependentUpon>
     </Content>
     <Content Include="Views\Questions\QuestionList\QuestionList.less" />
+    <Content Include="Views\Categories\Detail\FloatingActionButton\FloatingActionButton.js.map">
+      <DependentUpon>FloatingActionButton.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Categories\Detail\FloatingActionButton\LearningTabFABLoader.js.map">
+      <DependentUpon>LearningTabFABLoader.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Categories\Detail\FloatingActionButton\TopicTabFABLoader.js.map">
+      <DependentUpon>TopicTabFABLoader.ts</DependentUpon>
+    </Content>
     <None Include="Views\Maintenance\ContentStats.less" />
     <Compile Include="Views\Maintenance\ContentStatsModel.cs" />
     <Compile Include="Views\Maintenance\Images\MaintenanceImagesController.cs" />
@@ -22318,6 +22341,7 @@
     <TypeScriptCompile Include="Views\Questions\Answer\Js\QuestionDetails\AnswerQuestionDetailsApp.ts" />
     <TypeScriptCompile Include="Views\Questions\Answer\Js\QuestionDetails\AnswerQuestionDetailsComponent.ts" />
     <TypeScriptCompile Include="Views\Questions\Answer\Js\InlineEditComponent.ts" />
+    <TypeScriptCompile Include="Views\Questions\Js\AddQuestion\AddQuestion.ts" />
     <TypeScriptCompile Include="Views\Questions\Js\QuestionList\QuestionListComponents.ts" />
     <TypeScriptCompile Include="Views\Questions\Js\QuestionList\QuestionListApp.ts" />
     <TypeScriptCompile Include="Views\Categories\Detail\Js\Category.ts" />
@@ -23991,6 +24015,9 @@
     </Content>
     <Content Include="Views\Shared\PinComponentVue\PinComponent.vue.js.map">
       <DependentUpon>PinComponent.vue.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Questions\Js\AddQuestion\AddQuestion.js.map">
+      <DependentUpon>AddQuestion.ts</DependentUpon>
     </Content>
     <None Include="Web.overwritten.config.sample" />
     <Content Include="Views\Welcome\Logout.aspx" />

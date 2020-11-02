@@ -194,6 +194,7 @@ namespace TrueOrFalse.View
                 .Include("~/Views/Questions/Js/QuestionList/QuestionListApp.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/js/QuestionListComponents")
+                .Include("~/Views/Questions/Js/AddQuestion/AddQuestion.js")
                 .Include("~/Scripts/npm/vue-slider-component/vue-slider-component.umd.js")
                 .Include("~/Views/Questions/Js/QuestionList/QuestionListComponents.js")
                 .Include("~/Views/Shared/PinComponentVue/PinComponent.vue.js"));

@@ -277,6 +277,8 @@
                     </div>
                 </div>
             </question-component>
+            <%: Html.Partial("~/Views/Questions/AddQuestion/AddQuestionComponent.vue.ascx") %>
+
             <div id="QuestionListPagination">
                 <ul class="pagination col-xs-12 row justify-content-xs-center" v-if="pageArray.length <= 8">
                     <li class="page-item page-btn" :class="{ disabled : selectedPage == 1 }">
