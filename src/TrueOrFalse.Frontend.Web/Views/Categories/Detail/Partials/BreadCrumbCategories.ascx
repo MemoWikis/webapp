@@ -39,12 +39,3 @@
              <%}%>
         </div>
     <% } %>
-<%--<div id="EditCategoryBreadCrumb" style="text-overflow: ellipsis; overflow: hidden; white-space: nowrap; max-width: 850px; display: none;">
-    <span style="color: #707070;
-    text-decoration: none;
-    font-family: "Open Sans";
-    font-size: 14px;
-    font-weight: bold;">Bearbeite</span>
-    <i style="display: inline;" class="fa fa-chevron-right"></i>
-    <span style="margin-left:10px;"><a  id="99BreadCrumb" style="color:#003264;" href="<%= Links.CategoryDetail(breadCrumbCategories.Last()) %>" class=""><%= breadCrumbCategories.Last().Name %></a></span>
-</div>--%>

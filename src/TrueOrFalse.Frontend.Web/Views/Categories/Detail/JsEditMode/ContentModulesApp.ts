@@ -136,7 +136,9 @@ new Vue({
             if (val) {
                 this.updateModuleOrder();
                 this.sortModules();
-            }
+                $('#EditCategoryBreadcrumbChip').addClass('show');
+            } else
+                $('#EditCategoryBreadcrumbChip').removeClass('show');
         },
     },
 
