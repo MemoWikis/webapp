@@ -46,7 +46,7 @@ public class GraphService
         var sUser = Sl.SessionUser.User;
         var lastChildren = childrenReverse.Where(c => EntityCache.GetChildren(c.Id).Count == 0 && c.IsInWishknowledge());
 
-        return lastChildren.ToList(); 
+        return lastChildren.ToList();
 
     }
 
@@ -56,7 +56,7 @@ public class GraphService
     {
 
         var rootCategory = EntityCache.GetCategory(rootCategoryId);
-        var children = EntityCache.GetDescendants(rootCategory); 
+        var children = EntityCache.GetDescendants(rootCategory);
         var listWithUserPersonelCategories = new List<Category>();
 
 
@@ -64,13 +64,15 @@ public class GraphService
         {
             if (!child.IsInWishknowledge())
                 continue;
-             
-            var parents = children.SelectMany(c => c.CategoryRelations.Where(cr=>cr.CategoryRelationType == CategoryRelationType.IsChildCategoryOf).Select(cr => cr.RelatedCategory)).ToList();
 
-            if (parents.Count != 0)
+            var parents = GetParentsFromCategory(child);
+
+            while (parents.Count > 0)
             {
-                foreach (var parent in parents)
+                for (var i = 0; i < parents.Count;  i++)
                 {
+                    var parent = parents[i];
+
                     if (parent.IsInWishknowledge() || parent.Id == rootCategoryId)
                     {
                         child.CategoryRelations = null;
@@ -84,15 +86,29 @@ public class GraphService
                         categoryRelations.Add(categoryRelation);
                         child.CategoryRelations = categoryRelations;
                         listWithUserPersonelCategories.Add(child);
+                        parents.Clear();
                     }
-                        
+                    else
+                    {
+                        parents.Clear();
+                        var currentParents = GetParentsFromCategory(parent);
+                        foreach (var cp in currentParents)
+                        {
+                            parents.Add(cp);
+                        }
+                        break;
+                    }
                 }
-
             }
         }
 
         return listWithUserPersonelCategories;
 
+    }
+
+    private static List<Category> GetParentsFromCategory(Category category)
+    {
+        return category.CategoryRelations.Where(cr => cr.CategoryRelationType == CategoryRelationType.IsChildCategoryOf).Select(cr => cr.RelatedCategory).ToList();
     }
 
     public static IList<Category> GetAllPersonelCategoriesWithRealtions(Category category) =>
