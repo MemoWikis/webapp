@@ -97,9 +97,6 @@ public class SessionUser : SessionBase, IRegisterAsInstancePerLifetime
         set => Data["testSessions"] = value;
     }
 
-    public TestSessionStep GetPreviousTestSessionStep(int testSessionId) =>
-        GetCurrentTestSessionStep(testSessionId, offset: -1);
-
     public TestSessionStep GetCurrentTestSessionStep(int testSessionId, int offset = 0)
     {
         var currentStepIndex = TestSessions.Find(s => s.Id == testSessionId).CurrentStepIndex - 1 + offset;
