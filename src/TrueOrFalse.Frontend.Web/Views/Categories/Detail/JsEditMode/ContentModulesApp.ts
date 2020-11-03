@@ -69,6 +69,7 @@ new Vue({
             (state) => {
                 this.editMode = state;
                 if (this.changedContent && !this.editMode) {
+                    Utils.ShowSpinner();
                     location.reload();
                 }
             });
@@ -123,6 +124,7 @@ new Vue({
             this.footerIsVisible = true;
         if (this.$el.attributes.openEditMode.value == 'True')
             this.setEditMode();
+        eventBus.$emit('content-is-ready');
     },
 
     updated() {
@@ -134,7 +136,9 @@ new Vue({
             if (val) {
                 this.updateModuleOrder();
                 this.sortModules();
-            }
+                $('#EditCategoryBreadcrumbChip').addClass('show');
+            } else
+                $('#EditCategoryBreadcrumbChip').removeClass('show');
         },
     },
 

@@ -1,4 +1,10 @@
-﻿
+﻿declare var eventBus: any;
+if (eventBus == null)
+    var eventBus = new Vue();
+declare var ripple: any;
+
+Vue.directive("ripple", ripple.Ripple);
+
 var FAB = Vue.component('floating-action-button',
     {
         props: ['is-topic-tab', 'create-category-url','create-question-url'],
@@ -10,6 +16,7 @@ var FAB = Vue.component('floating-action-button',
                 showMiniFAB: false,
                 footerIsVisible: false,
                 showFAB: true,
+                showFABTimer: null,
                 timer: null,
                 showEditQuestionButton: false,
                 editQuestionUrl: null,
@@ -17,20 +24,12 @@ var FAB = Vue.component('floating-action-button',
                 fabLabel: 'Bearbeiten',
                 scrollTimer: null,
                 wasOpen: false,
+                contentIsReady: false,
+                showBar: false,
+                center: true,
             }
         },
         watch: {
-            editMode(val) {
-                if (this.timer)
-                    clearTimeout(this.timer);
-                if (val)
-                    this.timer = setTimeout(() => {
-                        this.showFAB = false;
-                        },
-                        1000);
-                else 
-                    this.showFAB = true;
-            },
             isExtended(val) {
                 if (val && this.isOpen)
                     this.fabLabel = 'Abbrechen';
@@ -54,12 +53,21 @@ var FAB = Vue.component('floating-action-button',
             if (this.isLearningTab)
                 eventBus.$on('load-questions-list', this.getEditQuestionUrl);
         },
+        mounted() {
+            if ($('#ContentModuleApp').attr('openEditMode') == 'True')
+                this.editMode = true;
+            eventBus.$on('content-is-ready',
+                () => {
+                    this.contentIsReady = true;
+                });
+        },
         updated() {
             this.footerCheck();
         },
         destroyed() {
             window.removeEventListener('scroll', this.handleScroll);
             window.removeEventListener('resize', this.footerCheck);
+            eventBus.$off('content-is-ready');
         },
         methods: {
             toggleFAB() {
@@ -74,6 +82,10 @@ var FAB = Vue.component('floating-action-button',
                     NotLoggedIn.ShowErrorMsg("EditCategory");
                     return;
                 }
+                this.showFABTimer = setTimeout(() => {
+                    this.showFAB = false;
+                }, 300);
+                this.showBar = true;
                 this.editMode = !this.editMode;
                 eventBus.$emit('set-edit-mode', this.editMode);
                 this.isOpen = false;
@@ -94,7 +106,6 @@ var FAB = Vue.component('floating-action-button',
                 window.location.href = this.createQuestionUrl;
             },
             handleScroll() {
-                clearTimeout(this.scrollTimer);
                 if (window.scrollY == 0)
                     this.isExtended = true;
                 else this.isExtended = false;
@@ -103,12 +114,6 @@ var FAB = Vue.component('floating-action-button',
                     this.wasOpen = true;
                     this.isOpen = false;
                 }
-                if (this.wasOpen) {
-                    this.scrollTimer = setTimeout(() => {
-                        this.isOpen = true;
-                        this.wasOpen = false;
-                    }, 500);
-                };
             },
             footerCheck() {
                 const elFooter = document.getElementById('CategoryFooter');
@@ -140,9 +145,11 @@ var FAB = Vue.component('floating-action-button',
                 eventBus.$emit('request-save');
             },
             cancelEditMode() {
+                clearTimeout(this.showFABTimer);
+                this.showFAB = true;
+                this.showMiniFAB = false;
                 this.editMode = false;
                 eventBus.$emit('set-edit-mode', this.editMode);
-                this.isOpen = true;
-            }
+            },
         }
     });

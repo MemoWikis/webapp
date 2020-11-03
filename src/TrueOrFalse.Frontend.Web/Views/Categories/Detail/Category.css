@@ -2573,6 +2573,7 @@ p:empty {
 }
 @-webkit-keyframes move-down {
   50% {
+    opacity: initial;
     -webkit-transform: translateY(0%) scale3d(1, 1, 1);
             transform: translateY(0%) scale3d(1, 1, 1);
   }
@@ -2585,6 +2586,7 @@ p:empty {
 }
 @keyframes move-down {
   50% {
+    opacity: initial;
     -webkit-transform: translateY(0%) scale3d(1, 1, 1);
             transform: translateY(0%) scale3d(1, 1, 1);
   }
@@ -2631,6 +2633,7 @@ p:empty {
 }
 @-webkit-keyframes move-left {
   50% {
+    opacity: initial;
     -webkit-transform: translateX(0px) scale3d(1, 1, 1);
             transform: translateX(0px) scale3d(1, 1, 1);
     position: absolute;
@@ -2646,6 +2649,7 @@ p:empty {
 }
 @keyframes move-left {
   50% {
+    opacity: initial;
     -webkit-transform: translateX(0px) scale3d(1, 1, 1);
             transform: translateX(0px) scale3d(1, 1, 1);
     position: absolute;
@@ -2684,18 +2688,25 @@ p:empty {
       -ms-flex-direction: row-reverse;
           flex-direction: row-reverse;
   padding: 0 19px;
-  font-size: 18px;
+  font-size: 14px;
+  line-height: 16px;
+  font-weight: 600;
+  letter-spacing: 1.25px;
   -webkit-box-shadow: 0 0 6px rgba(0, 0, 0, 0.12), 0 6px 6px rgba(0, 0, 0, 0.24);
           box-shadow: 0 0 6px rgba(0, 0, 0, 0.12), 0 6px 6px rgba(0, 0, 0, 0.24);
-  -webkit-transition: -webkit-box-shadow 0.3s;
-  transition: -webkit-box-shadow 0.3s;
-  transition: box-shadow 0.3s;
-  transition: box-shadow 0.3s, -webkit-box-shadow 0.3s;
+  -webkit-transition: height 0.3s, -webkit-box-shadow 0.3s;
+  transition: height 0.3s, -webkit-box-shadow 0.3s;
+  transition: box-shadow 0.3s, height 0.3s;
+  transition: box-shadow 0.3s, height 0.3s, -webkit-box-shadow 0.3s;
 }
 #TopicTabFABApp .fab-container .main-fab-container .main-fab:hover,
 #LearningTabFABApp .fab-container .main-fab-container .main-fab:hover {
   -webkit-box-shadow: 0 0 12px rgba(0, 0, 0, 0.12), 0 12px 12px rgba(0, 0, 0, 0.24);
           box-shadow: 0 0 12px rgba(0, 0, 0, 0.12), 0 12px 12px rgba(0, 0, 0, 0.24);
+}
+#TopicTabFABApp .fab-container .main-fab-container .main-fab.extended,
+#LearningTabFABApp .fab-container .main-fab-container .main-fab.extended {
+  height: 46px;
 }
 #TopicTabFABApp .fab-container .main-fab-container .main-fab .fab-label,
 #LearningTabFABApp .fab-container .main-fab-container .main-fab .fab-label {
@@ -2708,33 +2719,41 @@ p:empty {
 @-webkit-keyframes reduce-size {
   0% {
     width: 117px;
+    height: 48px;
   }
   100% {
     width: 0px;
+    height: 56px;
   }
 }
 @keyframes reduce-size {
   0% {
     width: 117px;
+    height: 48px;
   }
   100% {
     width: 0px;
+    height: 56px;
   }
 }
 @-webkit-keyframes increase-size {
   0% {
     width: 0px;
+    height: 56px;
   }
   100% {
     width: 117px;
+    height: 48px;
   }
 }
 @keyframes increase-size {
   0% {
     width: 0px;
+    height: 56px;
   }
   100% {
     width: 117px;
+    height: 48px;
   }
 }
 #TopicTabFABApp .fab-container .main-fab-container .main-fab .fab-label.extended,
@@ -2742,6 +2761,7 @@ p:empty {
   padding-left: 12px;
   -webkit-animation: increase-size 0.3s forwards;
           animation: increase-size 0.3s forwards;
+  line-height: 48px;
 }
 #TopicTabFABApp .fab-container .main-fab-container .main-fab.in-edit-mode,
 #LearningTabFABApp .fab-container .main-fab-container .main-fab.in-edit-mode {
@@ -2780,6 +2800,7 @@ p:empty {
 #TopicTabFABApp .fab-container .main-fab-container .main-fab .fab-icon-container.extended,
 #LearningTabFABApp .fab-container .main-fab-container .main-fab .fab-icon-container.extended {
   position: unset;
+  height: 48px;
 }
 #TopicTabFABApp .fab-container .main-fab-container .main-fab .fab-icon-container i,
 #LearningTabFABApp .fab-container .main-fab-container .main-fab .fab-icon-container i {
@@ -2855,8 +2876,8 @@ p:empty {
 }
 #TopicTabFABApp .fab-container .main-fab-container .mini-fab-list .mini-fab-container .mini-fab,
 #LearningTabFABApp .fab-container .main-fab-container .mini-fab-list .mini-fab-container .mini-fab {
-  width: 42px;
-  height: 42px;
+  width: 40px;
+  height: 40px;
   -webkit-border-radius: 50%;
           border-radius: 50%;
   background-color: #efefef;
@@ -2876,15 +2897,15 @@ p:empty {
 #TopicTabFABApp .fab-container .main-fab-container .mini-fab-list .mini-fab-container .mini-fab-label,
 #LearningTabFABApp .fab-container .main-fab-container .mini-fab-list .mini-fab-container .mini-fab-label {
   text-align: right;
-  padding: 0 8px;
+  padding: 0 16px;
   margin-right: 16px;
   font-size: 14px;
   background-color: #efefef;
-  -webkit-border-radius: 2px;
-          border-radius: 2px;
+  -webkit-border-radius: 4px;
+          border-radius: 4px;
   -webkit-box-shadow: 0 0 3px rgba(0, 0, 0, 0.12), 0 3px 3px rgba(0, 0, 0, 0.24);
           box-shadow: 0 0 3px rgba(0, 0, 0, 0.12), 0 3px 3px rgba(0, 0, 0, 0.24);
-  line-height: 28px;
+  line-height: 32px;
 }
 #TopicTabFABApp .fab-container .main-fab-container .mini-fab-list .mini-fab-container:hover .mini-fab,
 #LearningTabFABApp .fab-container .main-fab-container .mini-fab-list .mini-fab-container:hover .mini-fab,
@@ -3245,10 +3266,8 @@ p:empty {
 #TopicTabFABApp .edit-mode-bar-container .toolbar.pseudo-sticky,
 #LearningTabFABApp .edit-mode-bar-container .toolbar.pseudo-sticky {
   position: absolute;
-  /*border-top-left-radius: 10px;
-                border-top-right-radius: 10px;*/
-  -webkit-border-radius: 56px;
-          border-radius: 56px;
+  -webkit-border-radius: 4px;
+          border-radius: 4px;
   -webkit-transform-origin: right;
           transform-origin: right;
 }
@@ -3339,4 +3358,51 @@ p:empty {
 #TopicTabFABApp .edit-mode-bar-container .toolbar .toolbar-btn-container .btn-right,
 #LearningTabFABApp .edit-mode-bar-container .toolbar .toolbar-btn-container .btn-right {
   width: 200px;
+}
+.v-ripple__container {
+  color: inherit;
+  -webkit-border-radius: inherit;
+          border-radius: inherit;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  left: 0;
+  top: 0;
+  overflow: hidden;
+  z-index: 0;
+  pointer-events: none;
+  contain: strict;
+}
+.v-ripple__animation {
+  color: inherit;
+  position: absolute;
+  top: 0;
+  left: 0;
+  -webkit-border-radius: 50%;
+          border-radius: 50%;
+  background: currentColor;
+  opacity: 0;
+  pointer-events: none;
+  overflow: hidden;
+  will-change: transform, opacity;
+}
+.v-ripple__animation--enter {
+  -webkit-transition: none;
+  transition: none;
+}
+.v-ripple__animation--in {
+  -webkit-transition: opacity 0.1s cubic-bezier(0.4, 0, 0.2, 1), -webkit-transform 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: opacity 0.1s cubic-bezier(0.4, 0, 0.2, 1), -webkit-transform 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.1s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.1s cubic-bezier(0.4, 0, 0.2, 1), -webkit-transform 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.v-ripple__animation--out {
+  -webkit-transition: opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.r-white {
+  color: white;
+}
+.r-green {
+  color: #c3ff02;
 }
