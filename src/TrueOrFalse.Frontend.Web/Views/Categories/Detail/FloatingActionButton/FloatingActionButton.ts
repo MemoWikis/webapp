@@ -1,4 +1,7 @@
-﻿
+﻿declare var eventBus: any;
+if (eventBus == null)
+    var eventBus = new Vue();
+
 var FAB = Vue.component('floating-action-button',
     {
         props: ['is-topic-tab', 'create-category-url','create-question-url'],
@@ -17,6 +20,7 @@ var FAB = Vue.component('floating-action-button',
                 fabLabel: 'Bearbeiten',
                 scrollTimer: null,
                 wasOpen: false,
+                contentIsReady: false,
             }
         },
         watch: {
@@ -54,12 +58,21 @@ var FAB = Vue.component('floating-action-button',
             if (this.isLearningTab)
                 eventBus.$on('load-questions-list', this.getEditQuestionUrl);
         },
+        mounted() {
+            if ($('#ContentModuleApp').attr('openEditMode') == 'True')
+                this.editMode = true;
+            eventBus.$on('content-is-ready',
+                () => {
+                    this.contentIsReady = true;
+                });
+        },
         updated() {
             this.footerCheck();
         },
         destroyed() {
             window.removeEventListener('scroll', this.handleScroll);
             window.removeEventListener('resize', this.footerCheck);
+            eventBus.$off('content-is-ready');
         },
         methods: {
             toggleFAB() {

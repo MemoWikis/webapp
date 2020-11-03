@@ -80,7 +80,7 @@ namespace TemplateMigration
                         }
                         else
                         {
-                            var html = MarkdownMarkdig.ToHtml(part.ToText()).Replace("\n", "<br>");
+                            var html = MarkdownMarkdig.ToHtml(part.ToText()).Replace("\n", "");
                             if (!IsNullOrEmpty(html))
                             {
                                 var inlineTextJson = new InlineTextJson

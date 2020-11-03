@@ -123,6 +123,7 @@ new Vue({
             this.footerIsVisible = true;
         if (this.$el.attributes.openEditMode.value == 'True')
             this.setEditMode();
+        eventBus.$emit('content-is-ready');
     },
 
     updated() {
