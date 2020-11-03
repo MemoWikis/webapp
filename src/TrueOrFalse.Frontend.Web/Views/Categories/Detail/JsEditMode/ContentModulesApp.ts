@@ -69,6 +69,7 @@ new Vue({
             (state) => {
                 this.editMode = state;
                 if (this.changedContent && !this.editMode) {
+                    Utils.ShowSpinner();
                     location.reload();
                 }
             });

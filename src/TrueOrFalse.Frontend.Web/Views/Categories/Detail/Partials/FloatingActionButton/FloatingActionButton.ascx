@@ -3,10 +3,10 @@ Inherits="System.Web.Mvc.ViewUserControl<FloatingActionButtonModel>" %>
 <%@ Import Namespace="System.Web.Optimization" %>
 <%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
 
-<floating-action-button inline-template is-topic-tab="<%= Model.IsTopicTab %>" create-category-url="<%= Links.CategoryCreate(Model.Category.Id) %>" create-question-url="<%= Links.CreateQuestion(categoryId: Model.Category.Id) %>">
+<floating-action-button inline-template is-topic-tab="<%= Model.IsTopicTab %>" create-category-url="<%= Links.CategoryCreate(Model.Category.Id) %>" create-question-url="<%= Links.CreateQuestion(categoryId: Model.Category.Id) %>" ref="fabContainer">
         <div class="fab-container" v-show="contentIsReady">
             <div class="main-fab-container">
-                <div class="main-fab" @click="toggleFAB()" :class="{'in-edit-mode': editMode && showFAB, 'is-sticky': footerIsVisible && editMode && showFAB }" v-show="showFAB">
+                <div class="main-fab" @click="toggleFAB()" :class="{'in-edit-mode': editMode && showFAB, 'is-sticky': footerIsVisible && editMode && showFAB, 'extended': isExtended }" v-show="showFAB">
                     <div class="fab-label" :class="{'extended': isExtended }">{{fabLabel}}</div>
                     <div class="fab-icon-container" :class="{'extended': isExtended }">
                         <i class="fas fa-pen" :class="{'is-open': isOpen }"></i>
@@ -14,6 +14,7 @@ Inherits="System.Web.Mvc.ViewUserControl<FloatingActionButtonModel>" %>
                     </div>
 
                 </div>
+                
                 <div class="mini-fab-list" :class="{'is-open': isOpen }" v-show="showMiniFAB && showFAB">
                     
                     <% if (Model.IsTopicTab)
@@ -81,7 +82,7 @@ Inherits="System.Web.Mvc.ViewUserControl<FloatingActionButtonModel>" %>
 
             </div>
             <%if (Model.IsTopicTab) {%>
-                <div class="edit-mode-bar-container">
+                <div class="edit-mode-bar-container" v-show="showBar">
                     <div class="toolbar" :class="{'pseudo-sticky' : footerIsVisible, 'is-hidden' : !editMode}">
                         <div class="toolbar-btn-container">
                             <div class="btn-left">
