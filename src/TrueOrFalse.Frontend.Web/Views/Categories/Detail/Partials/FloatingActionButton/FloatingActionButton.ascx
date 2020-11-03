@@ -6,7 +6,7 @@ Inherits="System.Web.Mvc.ViewUserControl<FloatingActionButtonModel>" %>
 <floating-action-button inline-template is-topic-tab="<%= Model.IsTopicTab %>" create-category-url="<%= Links.CategoryCreate(Model.Category.Id) %>" create-question-url="<%= Links.CreateQuestion(categoryId: Model.Category.Id) %>" ref="fabContainer">
         <div class="fab-container" v-show="contentIsReady">
             <div class="main-fab-container">
-                <div class="main-fab" @click="toggleFAB()" :class="{'in-edit-mode': editMode && showFAB, 'is-sticky': footerIsVisible && editMode && showFAB, 'extended': isExtended }" v-show="showFAB" v-ripple="{center,class: 'r-white'}">
+                <div class="main-fab" @click="toggleFAB()" :class="{'in-edit-mode': editMode && showFAB, 'is-sticky': footerIsVisible && editMode && showFAB, 'extended': isExtended }" v-show="showFAB" v-ripple="{center,class: 'r-green'}">
                     <div class="fab-label" :class="{'extended': isExtended }">{{fabLabel}}</div>
                     <div class="fab-icon-container" :class="{'extended': isExtended }">
                         <i class="fas fa-pen" :class="{'is-open': isOpen }"></i>
@@ -19,7 +19,7 @@ Inherits="System.Web.Mvc.ViewUserControl<FloatingActionButtonModel>" %>
                     
                     <% if (Model.IsTopicTab)
                        { %>
-                        <div class="mini-fab-container" @click="editCategoryContent()">
+                        <div class="mini-fab-container" @click="editCategoryContent()" v-ripple="{center,class: 'r-white'}">
                             <div class="mini-fab pop-fast" >
                                 <i class="fas fa-edit"></i>
                             </div>
@@ -28,7 +28,7 @@ Inherits="System.Web.Mvc.ViewUserControl<FloatingActionButtonModel>" %>
                             </div>
                         </div>
 
-                        <div class="mini-fab-container" @click="createCategory()">
+                        <div class="mini-fab-container" @click="createCategory()" v-ripple="{center,class: 'r-white'}">
                             <div class="mini-fab pop-normal">
                                 <i class="far fa-plus-square"></i>
                             </div>
@@ -37,7 +37,7 @@ Inherits="System.Web.Mvc.ViewUserControl<FloatingActionButtonModel>" %>
                             </div>
                         </div>
 
-                        <div class="mini-fab-container" @click="createQuestion()">
+                        <div class="mini-fab-container" @click="createQuestion()" v-ripple="{center,class: 'r-white'}">
                             <div class="mini-fab pop-slow">
                                 <i class="fas fa-plus"></i>
                             </div>
@@ -48,7 +48,7 @@ Inherits="System.Web.Mvc.ViewUserControl<FloatingActionButtonModel>" %>
                        else
                        { %>
                                         
-                        <div class="mini-fab-container" @click="editQuestion()" v-if="showEditQuestionButton">
+                        <div class="mini-fab-container" @click="editQuestion()" v-if="showEditQuestionButton" v-ripple="{center,class: 'r-white'}">
                             <div class="mini-fab pop-fast">
                                 <i class="fas fa-pen"></i>
                             </div>
@@ -58,7 +58,7 @@ Inherits="System.Web.Mvc.ViewUserControl<FloatingActionButtonModel>" %>
 
                         </div>
 
-                        <div class="mini-fab-container" @click="createQuestion()">
+                        <div class="mini-fab-container" @click="createQuestion()" v-ripple="{center,class: 'r-white'}">
                             <div class="mini-fab pop-normal">
                                 <i class="fas fa-plus"></i>
                             </div>
@@ -67,7 +67,7 @@ Inherits="System.Web.Mvc.ViewUserControl<FloatingActionButtonModel>" %>
                             </div>
                         </div>
                 
-                        <div class="mini-fab-container" @click="createCategory()">
+                        <div class="mini-fab-container" @click="createCategory()" v-ripple="{center,class: 'r-white'}">
                             <div class="mini-fab pop-slow">
                                 <i class="far fa-plus-square"></i>
                             </div>
@@ -86,7 +86,7 @@ Inherits="System.Web.Mvc.ViewUserControl<FloatingActionButtonModel>" %>
                     <div class="toolbar" :class="{'pseudo-sticky' : footerIsVisible, 'is-hidden' : !editMode}">
                         <div class="toolbar-btn-container">
                             <div class="btn-left">
-                                <%--<div class="button" :class="{ expanded : editMode }">
+                                <%--<div class="button" :class="{ expanded : editMode }" v-ripple="{center,class: 'r-green'}">
                                     <div class="icon">
                                         <i class="fas fa-question"></i>
                                     </div>
@@ -98,7 +98,7 @@ Inherits="System.Web.Mvc.ViewUserControl<FloatingActionButtonModel>" %>
 
                             <div class="btn-right">
                             
-                                <div class="button" @click.prevent="saveContent()" :class="{ expanded : editMode }">
+                                <div class="button" @click.prevent="saveContent()" :class="{ expanded : editMode }" v-ripple="{center,class: 'r-green'}">
                                     <div class="icon">
                                         <i class="fas fa-save"></i>
                                     </div>
@@ -107,7 +107,7 @@ Inherits="System.Web.Mvc.ViewUserControl<FloatingActionButtonModel>" %>
                                     </div>
                                 </div>
 
-                                <div class="button" @click.prevent="cancelEditMode()" :class="{ expanded : editMode }">
+                                <div class="button" @click.prevent="cancelEditMode()" :class="{ expanded : editMode }" v-ripple="{center,class: 'r-green'}">
                                     <div class="icon">
                                         <i class="fas fa-times"></i>
                                     </div>
