@@ -53,6 +53,15 @@
             <% } %>        
     <%} %>
     </div>
+    <%if (Model.TopNavMenu.BreadCrumbCategories.Count > 0){ %>
+        <div id="EditCategoryBreadCrumb" style="text-overflow: ellipsis; overflow: hidden; white-space: nowrap; max-width: 850px; display: none; width:100%">
+            <span style="color: #707070;text-decoration: none; font-family: 'Open Sans';font-size: 14px;font-weight: bold">Bearbeite</span>
+            <i style="display: inline;" class="fa fa-chevron-right"></i>
+            <span style="margin-left:10px;"><a  id="99BreadCrumb" style="color:#003264;" href="<%= Links.CategoryDetail(Model.TopNavMenu.BreadCrumbCategories.Last()) %>" class=""><%= Model.TopNavMenu.BreadCrumbCategories.Last().Name %></a></span>
+        </div>
+    <%} %>
+
+
     <div id="StickyHeaderContainer">    
         <div class="input-group" id="StickyHeaderSearchBoxDiv" style="margin-right:3px">
             <input type="text" class="form-control" placeholder="Suche" id="StickyHeaderSearchBox">
