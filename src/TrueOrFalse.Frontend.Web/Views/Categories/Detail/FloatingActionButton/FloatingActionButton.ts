@@ -16,11 +16,11 @@ var FAB = Vue.component('floating-action-button',
                 timer: null,
                 showEditQuestionButton: false,
                 editQuestionUrl: null,
-                isExtended: true,
+                isExtended: false,
                 fabLabel: 'Bearbeiten',
                 scrollTimer: null,
                 wasOpen: false,
-                contentIsReady: false,
+                contentIsReady: true,
             }
         },
         watch: {

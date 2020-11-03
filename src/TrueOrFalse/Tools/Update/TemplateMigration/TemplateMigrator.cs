@@ -54,10 +54,12 @@ namespace TemplateMigration
 
             foreach (var category in allCategories)
             {
+                if (category.SkipMigration)
+                    continue;
+
+                var categoryId = category.Id;
                 if (!IsNullOrEmpty(category.TopicMarkdown))
                 {
-
-                    var categoryId = category.Id;
                     var markdown = category.TopicMarkdown;
                     var contentList = new List<dynamic>();
                     var parts = MarkdownConverter.SplitMarkdown(markdown);
@@ -80,7 +82,7 @@ namespace TemplateMigration
                         }
                         else
                         {
-                            var html = MarkdownMarkdig.ToHtml(part.ToText()).Replace("\n", "");
+                            var html = MarkdownMarkdig.ToHtml(part.ToText());
                             if (!IsNullOrEmpty(html))
                             {
                                 var inlineTextJson = new InlineTextJson
@@ -103,6 +105,10 @@ namespace TemplateMigration
 
                     Logg.r().Information("TemplateConversionMarkdownToContent: {categoryId} : {markdown} -- {content}", categoryId, markdown, content);
                 }
+
+                category.SkipMigration = true;
+                Sl.CategoryRepo.UpdateBeforeEntityCacheInit(category);
+                Logg.r().Information("SkipMigrationFor: {categoryId}", categoryId);
             }
         }
 
