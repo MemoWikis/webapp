@@ -1,6 +1,9 @@
 ﻿declare var eventBus: any;
 if (eventBus == null)
     var eventBus = new Vue();
+declare var ripple: any;
+
+Vue.directive("ripple", ripple.Ripple);
 
 var FAB = Vue.component('floating-action-button',
     {
@@ -23,8 +26,7 @@ var FAB = Vue.component('floating-action-button',
                 wasOpen: false,
                 contentIsReady: false,
                 showBar: false,
-                ripples: []
-
+                center: true,
             }
         },
         watch: {
