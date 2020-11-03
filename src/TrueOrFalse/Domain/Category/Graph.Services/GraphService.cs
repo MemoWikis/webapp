@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.ServiceModel.Configuration;
 
 public class GraphService
@@ -37,6 +38,66 @@ public class GraphService
         return parents;
     }
 
+
+    public static List<Category> GetLastWuwiChildrenFromCategories(int categoryId)
+    {
+        var childrenReverse = EntityCache.GetDescendants(categoryId);
+
+        var sUser = Sl.SessionUser.User;
+        var lastChildren = childrenReverse.Where(c => EntityCache.GetChildren(c.Id).Count == 0 && c.IsInWishknowledge());
+
+        return lastChildren.ToList(); 
+
+    }
+
+
+
+    public static IList<Category> GetAllPersonelCategoriesWithRealtions(int rootCategoryId)
+    {
+
+        var rootCategory = EntityCache.GetCategory(rootCategoryId);
+        var children = EntityCache.GetDescendants(rootCategory); 
+        var listWithUserPersonelCategories = new List<Category>();
+
+
+        foreach (var child in children)
+        {
+            if (!child.IsInWishknowledge())
+                continue;
+             
+            var parents = children.SelectMany(c => c.CategoryRelations.Where(cr=>cr.CategoryRelationType == CategoryRelationType.IsChildCategoryOf).Select(cr => cr.RelatedCategory)).ToList();
+
+            if (parents.Count != 0)
+            {
+                foreach (var parent in parents)
+                {
+                    if (parent.IsInWishknowledge() || parent.Id == rootCategoryId)
+                    {
+                        child.CategoryRelations = null;
+                        var categoryRelations = new List<CategoryRelation>();
+                        var categoryRelation = new CategoryRelation
+                        {
+                            CategoryRelationType = CategoryRelationType.IsChildCategoryOf,
+                            Category = child,
+                            RelatedCategory = parent
+                        };
+                        categoryRelations.Add(categoryRelation);
+                        child.CategoryRelations = categoryRelations;
+                        listWithUserPersonelCategories.Add(child);
+                    }
+                        
+                }
+
+            }
+        }
+
+        return listWithUserPersonelCategories;
+
+    }
+
+    public static IList<Category> GetAllPersonelCategoriesWithRealtions(Category category) =>
+        GetAllPersonelCategoriesWithRealtions(category.Id);
+
     public static void AutomaticInclusionFromSubthemes(Category category)
     {
         var parentsFromParentCategories = GraphService.GetAllParents(category);
@@ -48,4 +109,5 @@ public class GraphService
             }
         }
     }
+
 }

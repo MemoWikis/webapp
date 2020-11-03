@@ -536,6 +536,8 @@ public class EntityCache
                 .Select(cr => cr.Category)).ToList();
     }
 
+    public static List<Category> GetChildren(Category category) => GetChildren(category.Id);  
+
     public static IList<Category> GetDescendants(int parentId)
     {
         var currentGeneration = GetChildren(parentId).ToList();
@@ -561,4 +563,6 @@ public class EntityCache
 
         return descendants;
     }
+
+    public static IList<Category> GetDescendants(Category category) => GetDescendants(category.Id);
 }

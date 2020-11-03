@@ -27,13 +27,13 @@ class GraphService_tests : BaseTest
         // Add User
         var user = ContextUser.New().Add("User").Persist().All[0];
 
-        //Add thirdChildren and Sub2 as Wuwi
-        
+
         CategoryInKnowledge.Pin(firstChildrens.ByName("SubSub1").Id, user);
 
-        var t = GraphService.GetWuwiChildrenCategories(rootElement.Id);
+        Sl.SessionUser.Login(user);
+        var lastChildren = GraphService.GetLastWuwiChildrenFromCategories(rootElement.Id);
 
-        //Assert.That();
+        Assert.That(lastChildren.First().Name, Is.EqualTo("SubSub1"));
 
     }
 
@@ -56,19 +56,14 @@ Filter nur Wunschwissen
 
 Assert:
 A -> C
-
-
-
 ";
 
         var context = ContextCategory.New();
 
         var rootElement = context.Add("RootElement").Persist().All.First();
 
-
         var firstChildrens = context
             .Add("Sub1", parent: rootElement)
-            .Add("Sub2", parent: rootElement)
             .Persist()
             .All;
 
@@ -78,33 +73,20 @@ A -> C
             .All
             .ByName("SubSub1");
 
-        var thirdChildren = context.Add("SubSubSub1", parent: secondChildren).Persist().All.ByName("SubSubSub1");
 
         // Add User
         var user = ContextUser.New().Add("User").Persist().All[0];
 
-        //Add thirdChildren and Sub2 as Wuwi
-        CategoryInKnowledge.Pin(thirdChildren.Id, user);
-        CategoryInKnowledge.Pin(firstChildrens.ByName("Sub2").Id, user);
 
+        CategoryInKnowledge.Pin(firstChildrens.ByName("SubSub1").Id, user);
 
-        Assert.That(GraphService
-            .GetAllParents(Sl.CategoryRepo
-                .GetByName("SubSubSub1")
-                .First()
-                .Id)
-            .Where(c => c.IsInWishknowledge())
-            .ToList()
-            .Count, Is.EqualTo(0));
+        Sl.SessionUser.Login(user);
+      var userPersonelCategoriesWithRealtions =   GraphService.GetAllPersonelCategoriesWithRealtions(rootElement);
 
-
-        Assert.That(
-            GraphService
-                .GetAllParents(Sl.CategoryRepo.GetByName("SubSubSub1")
-                    .First()
-                    .Id).Where(c => c.Name == "RootElement").ToList().Count
-            ,
-            Is.EqualTo(1));
+      Assert.That(userPersonelCategoriesWithRealtions.First().Name, Is.EqualTo("SubSub1"));
+      Assert.That(userPersonelCategoriesWithRealtions.First().CategoryRelations.First().RelatedCategory.Name, Is.EqualTo("RootElement"));
+      Assert.That(userPersonelCategoriesWithRealtions.First().CategoryRelations.First().Category.Name, Is.EqualTo("SubSub1"));
+      Assert.That(userPersonelCategoriesWithRealtions.First().CategoryRelations.First().CategoryRelationType, Is.EqualTo(CategoryRelationType.IsChildCategoryOf));
 
     }
 }
