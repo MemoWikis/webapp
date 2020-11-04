@@ -171,6 +171,9 @@ class AnswerBodyLoader {
                     $("#QuestionDetails").fadeIn();
                     $(".FooterQuestionDetails").fadeIn();
                 }
+            },
+            error: () => {
+                Utils.HideSpinner();
             }
         });
     }

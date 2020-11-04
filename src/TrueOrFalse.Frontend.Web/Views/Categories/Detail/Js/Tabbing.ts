@@ -102,9 +102,6 @@
             $('#' + tabName + 'Content').empty().append(html);
 
             if (tabName == "LearningTab" && $('#hddLearningSessionStarted').val() == "False" && $('#hddQuestionCount').val() != 0) {
-                if (!$("#LearningTabContent").css("visibility", "visible"))
-                    $("#LearningTabContent").css("visibility", "visible");
-
                 Utils.ShowSpinner();
 
                 $('#hddLearningSessionStarted').val("True");

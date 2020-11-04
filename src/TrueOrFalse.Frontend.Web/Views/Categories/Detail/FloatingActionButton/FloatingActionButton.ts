@@ -28,6 +28,7 @@ var FAB = Vue.component('floating-action-button',
                 center: true,
                 width: null,
                 shrink: false,
+                expand: false,
             }
         },
         watch: {

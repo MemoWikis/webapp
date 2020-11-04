@@ -3,7 +3,7 @@ Inherits="System.Web.Mvc.ViewUserControl<FloatingActionButtonModel>" %>
 <%@ Import Namespace="System.Web.Optimization" %>
 <%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
 
-<floating-action-button inline-template is-topic-tab="<%= Model.IsTopicTab %>" create-category-url="<%= Links.CategoryCreate(Model.Category.Id) %>" create-question-url="<%= Links.CreateQuestion(categoryId: Model.Category.Id) %>" ref="fabContainer">
+<floating-action-button inline-template is-topic-tab="<%= Model.IsTopicTab %>" create-category-url="<%= Links.CategoryCreate(Model.Category.Id) %>" create-question-url="<%= Links.CreateQuestion(categoryId: Model.Category.Id) %>" ref="fabContainer" v-cloak>
         <div class="fab-container" v-show="contentIsReady">
             <div class="main-fab-container">
                 <div class="main-fab" @click="toggleFAB()" :class="{'in-edit-mode': editMode && showFAB, 'is-sticky': footerIsVisible && editMode && showFAB, 'extended': isExtended }" v-show="showFAB" v-ripple="{center,class: 'r-green'}">

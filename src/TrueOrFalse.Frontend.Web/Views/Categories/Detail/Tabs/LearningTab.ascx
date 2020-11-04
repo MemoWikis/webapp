@@ -52,10 +52,9 @@
 
 <% Html.RenderPartial("~/Views/Questions/QuestionList/QuestionList.ascx", new QuestionListModel(Model.Category.Id, Model.IsDisplayNoneSessionConfigNoteQuestionList)); %>
 <% Html.RenderPartial("~/Views/Questions/Modals/ModalDeleteQuestion.ascx"); %>
-<%= Scripts.Render("~/bundles/js/FloatingActionButton") %>
-
 <div id="LearningTabFABApp">
     <%: Html.Partial("~/Views/Categories/Detail/Partials/FloatingActionButton/FloatingActionButton.ascx", new FloatingActionButtonModel(Model.Category, false)) %>
 </div>
+<%= Scripts.Render("~/bundles/js/FloatingActionButton") %>
 <%= Scripts.Render("~/bundles/js/LearningTabFABLoader") %>
 
