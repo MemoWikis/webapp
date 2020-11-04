@@ -41,6 +41,8 @@
                 return;
 
             tab.click((e) => {
+                eventBus.$emit('tab-change');
+
                 if (window.location.pathname.indexOf("/Lernen") >= 0) {
                     $("#LearnOptionsHeader").removeClass("disable");
                     $("#SessionConfigReminderHeader").removeClass("hide");

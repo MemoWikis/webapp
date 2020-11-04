@@ -52,14 +52,19 @@ var FAB = Vue.component('floating-action-button',
             window.addEventListener('resize', this.footerCheck);
             if (this.isLearningTab)
                 eventBus.$on('load-questions-list', this.getEditQuestionUrl);
+            eventBus.$on('tab-change', () => this.cancelEditMode());
         },
         mounted() {
             if ($('#ContentModuleApp').attr('openEditMode') == 'True')
                 this.editMode = true;
-            eventBus.$on('content-is-ready',
-                () => {
-                    this.contentIsReady = true;
-                });
+            if (this.isTopicTab == "True") {
+                eventBus.$on('content-is-ready',
+                    () => {
+                        this.contentIsReady = true;
+                    });
+            } else
+                this.contentIsReady = true;
+
         },
         updated() {
             this.footerCheck();
