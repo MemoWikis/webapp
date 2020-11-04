@@ -109,12 +109,15 @@ public class GraphService
                     }
                     else
                     {
-                        parents.Clear();
                         var currentParents = GetParentsFromCategory(parent);
+                        parents.Remove(parent);
+                        
                         foreach (var cp in currentParents)
                         {
                             parents.Add(cp);
                         }
+
+                        parents = parents.Distinct().ToList();
                         break;
                     }
                 }
