@@ -235,5 +235,6 @@ public class Category : DomainEntity, ICreator
     public virtual string ToLomXml() => LomXml.From(this);
 
     public virtual int FormerSetId { get; set; }
+    public virtual bool SkipMigration { get; set; }
 
 }

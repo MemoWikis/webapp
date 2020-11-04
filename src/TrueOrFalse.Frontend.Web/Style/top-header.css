@@ -365,6 +365,24 @@
   margin-right: 15px;
   padding-top: 12px;
 }
+#Breadcrumb #EditCategoryBreadcrumbChip {
+  margin: 0 20px;
+  font-weight: 600;
+  border: 2px solid #afd534;
+  border-radius: 36px;
+  height: 30px;
+  padding: 0 20px;
+  margin-top: -4px;
+  line-height: 25px;
+  color: #afd534;
+  opacity: 0;
+  transition: opacity 0.2s ease-in-out, visibility 0.2s ease-in-out;
+  visibility: hidden;
+}
+#Breadcrumb #EditCategoryBreadcrumbChip.show {
+  opacity: 1;
+  visibility: visible;
+}
 .ShowBreadcrumb {
   display: block !important;
 }

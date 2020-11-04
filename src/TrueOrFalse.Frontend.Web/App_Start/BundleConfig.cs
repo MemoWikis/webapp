@@ -99,6 +99,7 @@ namespace TrueOrFalse.View
                 .IncludeDirectory("~/Views/Categories/Detail/JsEditMode/", "*.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/js/FloatingActionButton")
+                .Include("~/Scripts/npm/vue-material-design-ripple-build/vue-material-design-ripple-build.js")
                 .Include("~/Views/Categories/Detail/FloatingActionButton/FloatingActionButton.js"));
             bundles.Add(new ScriptBundle("~/bundles/js/TopicTabFABLoader")
                 .Include("~/Views/Categories/Detail/FloatingActionButton/TopicTabFabLoader.js"));

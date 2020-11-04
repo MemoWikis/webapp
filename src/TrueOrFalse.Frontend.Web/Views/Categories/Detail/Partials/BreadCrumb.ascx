@@ -53,6 +53,11 @@
             <% } %>        
     <%} %>
     </div>
+    <div id="EditCategoryBreadcrumbChip">
+        Bearbeitungsmodus
+    </div>
+
+
     <div id="StickyHeaderContainer">    
         <div class="input-group" id="StickyHeaderSearchBoxDiv" style="margin-right:3px">
             <input type="text" class="form-control" placeholder="Suche" id="StickyHeaderSearchBox">

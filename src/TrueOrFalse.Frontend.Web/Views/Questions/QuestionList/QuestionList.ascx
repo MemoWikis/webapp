@@ -198,7 +198,8 @@
                                 :question-link-to-comment ="q.LinkToComment"
                                 :link-to-edit-question ="q.LinkToEditQuestion"
                                 :link-to-question-versions ="q.LinkToQuestionVersions"
-                                :link-to-question ="q.LinkToQuestion">
+                                :link-to-question ="q.LinkToQuestion"
+                                :key="q.Id">
                 
                 <div class="singleQuestionRow" :class="[{ open: showFullQuestion}, backgroundColor]">
                     <div class="questionSectionFlex">
