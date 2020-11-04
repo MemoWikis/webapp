@@ -1,7 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.ServiceModel.Configuration;
+using FluentNHibernate.Utils;
+using RazorEngine.Compilation.ImpromptuInterface;
 
 public class GraphService
 {
@@ -67,6 +70,8 @@ public class GraphService
 
             var parents = GetParentsFromCategory(child);
 
+            child.CategoryRelations.Clear();
+
             while (parents.Count > 0)
             {
                 for (var i = 0; i < parents.Count;  i++)
@@ -75,18 +80,32 @@ public class GraphService
 
                     if (parent.IsInWishknowledge() || parent.Id == rootCategoryId)
                     {
-                        child.CategoryRelations = null;
-                        var categoryRelations = new List<CategoryRelation>();
+                        var isChildAvailable = listWithUserPersonelCategories.IndexOf(child) != -1;
+
                         var categoryRelation = new CategoryRelation
                         {
                             CategoryRelationType = CategoryRelationType.IsChildCategoryOf,
                             Category = child,
                             RelatedCategory = parent
                         };
-                        categoryRelations.Add(categoryRelation);
-                        child.CategoryRelations = categoryRelations;
-                        listWithUserPersonelCategories.Add(child);
-                        parents.Clear();
+
+                        if (isChildAvailable)
+                        {
+                            var indexOfChild = listWithUserPersonelCategories.IndexOf(child);
+
+                            listWithUserPersonelCategories[indexOfChild]
+                                .CategoryRelations
+                                .Add(categoryRelation);
+                        }
+                        else
+                        {
+                            child.CategoryRelations
+                                .Add(categoryRelation);
+
+                            listWithUserPersonelCategories
+                                .Add(child);
+                        }
+                        parents.Remove(parent);
                     }
                     else
                     {
@@ -103,7 +122,6 @@ public class GraphService
         }
 
         return listWithUserPersonelCategories;
-
     }
 
     private static List<Category> GetParentsFromCategory(Category category)
@@ -125,5 +143,4 @@ public class GraphService
             }
         }
     }
-
 }

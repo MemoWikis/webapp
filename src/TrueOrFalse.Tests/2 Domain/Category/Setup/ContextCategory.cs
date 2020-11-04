@@ -35,8 +35,7 @@ namespace TrueOrFalse.Tests
             string categoryName, 
             CategoryType categoryType = CategoryType.Standard, 
             User creator = null, 
-            Category parent = null,
-            bool IsInWishknowledge = false)
+            Category parent = null)
         {
             Category category;
             if (_categoryRepository.Exists(categoryName))
