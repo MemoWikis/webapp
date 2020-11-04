@@ -2447,14 +2447,18 @@ p:empty {
             background-color: @color-green;
             position: fixed;
             bottom: 0;
-            width: 100%;
             left: 0;
             display: flex;
             justify-content: center;
             animation: pop-out-slow .8s forwards;
-            transform-origin: 85% 85%;
+            transform-origin: 85% 25%;
             box-shadow: 0 -2px 6px rgba(0,0,0,.16);
-            transition: box-shadow 0.3s;
+            transition: box-shadow .3s;
+            min-width: 1px;
+
+            @media (min-width: 1200px) {
+                transform-origin: 65% 25%;
+            }
 
             &.pseudo-sticky {
                 position: absolute;
@@ -2465,6 +2469,39 @@ p:empty {
                 &:hover {
                     box-shadow: 0 0 3px rgba(0, 0, 0, 0.12), 0 3px 3px rgba(0, 0, 0, 0.24);
                 }
+            }
+
+            &.shrink {
+                &.pseudo-sticky {
+                    @keyframes move-to-right {
+                        0% {
+                            left: -25%;
+                        }
+
+                        100% {
+                            left: 0;
+                        }
+                    }
+
+                    animation: move-to-right .1s forwards;
+                    transition: width .1s;
+                }
+            }
+
+            &.expand {
+                transition: width .1s;
+
+                @keyframes expand {
+                    0% {
+                        left: 25%
+                    }
+
+                    100% {
+                        left: 0;
+                    }
+                }
+
+                animation: expand .1s forwards;
             }
 
             &.is-hidden {

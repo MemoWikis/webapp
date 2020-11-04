@@ -23,10 +23,11 @@ var FAB = Vue.component('floating-action-button',
                 isExtended: true,
                 fabLabel: 'Bearbeiten',
                 scrollTimer: null,
-                wasOpen: false,
                 contentIsReady: false,
                 showBar: false,
                 center: true,
+                width: null,
+                shrink: false,
             }
         },
         watch: {
@@ -115,21 +116,33 @@ var FAB = Vue.component('floating-action-button',
                     this.isExtended = true;
                 else this.isExtended = false;
                 this.footerCheck();
-                if (this.isOpen) {
-                    this.wasOpen = true;
-                    this.isOpen = false;
-                }
             },
             footerCheck() {
+                if (this.isTopicTab == "false")
+                    return;
+
+                var contentModuleAppWidth = $('#ContentModuleApp').width();
+                var windowWidth = $(window).width();
                 const elFooter = document.getElementById('TopicTabContentEnd');
 
                 if (elFooter) {
                     var rect = elFooter.getBoundingClientRect();
                     var viewHeight = Math.max(document.documentElement.clientHeight, window.innerHeight);
-                    if (rect.top - viewHeight >= 0 || rect.bottom < 0)
+                    if (rect.top - viewHeight >= 0 || rect.bottom < 0) {
+                        if (this.footerIsVisible && this.editMode) {
+                            this.expand = true;
+                            this.shrink = false;
+                        }
                         this.footerIsVisible = false;
-                    else
+                        this.width = windowWidth;
+                    } else {
+                        if (!this.footerIsVisible && this.editMode) {
+                            this.shrink = true;
+                            this.expand = false;
+                        }
                         this.footerIsVisible = true;
+                        this.width = contentModuleAppWidth;
+                    }
                 };
             },
             editQuestion() {
@@ -150,6 +163,8 @@ var FAB = Vue.component('floating-action-button',
                 eventBus.$emit('request-save');
             },
             cancelEditMode() {
+                this.shrink = false;
+                this.expand = false;
                 clearTimeout(this.showFABTimer);
                 this.showFAB = true;
                 this.showMiniFAB = false;

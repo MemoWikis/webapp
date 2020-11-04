@@ -83,7 +83,7 @@ Inherits="System.Web.Mvc.ViewUserControl<FloatingActionButtonModel>" %>
             </div>
             <%if (Model.IsTopicTab) {%>
                 <div class="edit-mode-bar-container" v-show="showBar">
-                    <div class="toolbar" :class="{'pseudo-sticky' : footerIsVisible, 'is-hidden' : !editMode}">
+                    <div class="toolbar" :class="{'pseudo-sticky' : footerIsVisible, 'is-hidden' : !editMode, 'shrink' : shrink, 'expand' : expand }" :style="{ width: width + 'px' }">
                         <div class="toolbar-btn-container">
                             <div class="btn-left">
                                 <%--<div class="button" :class="{ expanded : editMode }" v-ripple="{center,class: 'r-green'}">
