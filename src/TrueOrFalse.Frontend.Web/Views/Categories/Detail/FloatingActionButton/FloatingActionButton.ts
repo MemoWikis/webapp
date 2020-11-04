@@ -131,15 +131,15 @@ var FAB = Vue.component('floating-action-button',
                     var viewHeight = Math.max(document.documentElement.clientHeight, window.innerHeight);
                     if (rect.top - viewHeight >= 0 || rect.bottom < 0) {
                         if (this.footerIsVisible && this.editMode) {
-                            this.expand = true;
                             this.shrink = false;
+                            this.expand = true;
                         }
                         this.footerIsVisible = false;
                         this.width = windowWidth;
                     } else {
                         if (!this.footerIsVisible && this.editMode) {
-                            this.shrink = true;
                             this.expand = false;
+                            this.shrink = true;
                         }
                         this.footerIsVisible = true;
                         this.width = contentModuleAppWidth;

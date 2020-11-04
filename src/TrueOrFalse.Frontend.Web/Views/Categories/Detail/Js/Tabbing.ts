@@ -9,7 +9,6 @@
         this._categoryId = categoryId;
 
         if (window.location.pathname.indexOf("/Lernen") >= 0) {
-            $("#LearningTabContent").css("visibility", "visible");
             Utils.ShowSpinner();
             $("#LearnOptionsHeader").removeClass("disable");
             $("#SessionConfigReminderHeader").removeClass("hide");
@@ -102,8 +101,6 @@
             $('#' + tabName + 'Content').empty().append(html);
 
             if (tabName == "LearningTab" && $('#hddLearningSessionStarted').val() == "False" && $('#hddQuestionCount').val() != 0) {
-                Utils.ShowSpinner();
-
                 $('#hddLearningSessionStarted').val("True");
 
                 $(() => {
