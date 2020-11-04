@@ -116,7 +116,7 @@ var FAB = Vue.component('floating-action-button',
                 }
             },
             footerCheck() {
-                const elFooter = document.getElementById('CategoryFooter');
+                const elFooter = document.getElementById('TopicTabContentEnd');
 
                 if (elFooter) {
                     var rect = elFooter.getBoundingClientRect();

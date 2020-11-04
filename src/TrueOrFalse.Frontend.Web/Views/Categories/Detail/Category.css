@@ -3270,6 +3270,7 @@ p:empty {
           border-radius: 4px;
   -webkit-transform-origin: right;
           transform-origin: right;
+  bottom: -22px;
 }
 #TopicTabFABApp .edit-mode-bar-container .toolbar.pseudo-sticky:hover,
 #LearningTabFABApp .edit-mode-bar-container .toolbar.pseudo-sticky:hover {
