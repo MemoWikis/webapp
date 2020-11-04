@@ -57,8 +57,11 @@ var FAB = Vue.component('floating-action-button',
             eventBus.$on('tab-change', () => this.cancelEditMode());
         },
         mounted() {
-            if ($('#ContentModuleApp').attr('openEditMode') == 'True')
+            this.footerCheck();
+            if ($('#ContentModuleApp').attr('openEditMode') == 'True') {
+                this.showBar = true;
                 this.editMode = true;
+            }
             if (this.isTopicTab == "True") {
                 eventBus.$on('content-is-ready',
                     () => {
