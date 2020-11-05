@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Net;
 using System.ServiceModel.Configuration;
@@ -69,58 +70,61 @@ public class GraphService
                 continue;
 
             var parents = GetParentsFromCategory(child);
-
+            var hasRootInParents = parents.Any(c => c.Id == rootCategoryId);
             child.CategoryRelations.Clear();
+            listWithUserPersonelCategories.Add(child);
 
             while (parents.Count > 0)
             {
-                for (var i = 0; i < parents.Count;  i++)
+                var parent = parents.First();
+
+                if (parent.IsInWishknowledge() || parent.Id == rootCategoryId && hasRootInParents)
                 {
-                    var parent = parents[i];
+                    var isChildAvailable = listWithUserPersonelCategories.IndexOf(child) != -1;
 
-                    if (parent.IsInWishknowledge() || parent.Id == rootCategoryId)
+                    var categoryRelation = new CategoryRelation
                     {
-                        var isChildAvailable = listWithUserPersonelCategories.IndexOf(child) != -1;
+                        CategoryRelationType = CategoryRelationType.IsChildCategoryOf,
+                        Category = child,
+                        RelatedCategory = parent
+                    };
 
-                        var categoryRelation = new CategoryRelation
-                        {
-                            CategoryRelationType = CategoryRelationType.IsChildCategoryOf,
-                            Category = child,
-                            RelatedCategory = parent
-                        };
+                        var indexOfChild = listWithUserPersonelCategories.IndexOf(child);
 
-                        if (isChildAvailable)
-                        {
-                            var indexOfChild = listWithUserPersonelCategories.IndexOf(child);
-
+                        if (listWithUserPersonelCategories[indexOfChild].CategoryRelations.All(cr =>
+                            cr.RelatedCategory.Id != categoryRelation.RelatedCategory.Id)) // Not add if available
                             listWithUserPersonelCategories[indexOfChild]
                                 .CategoryRelations
                                 .Add(categoryRelation);
-                        }
-                        else
-                        {
-                            child.CategoryRelations
-                                .Add(categoryRelation);
 
-                            listWithUserPersonelCategories
-                                .Add(child);
-                        }
                         parents.Remove(parent);
-                    }
-                    else
-                    {
-                        var currentParents = GetParentsFromCategory(parent);
-                        parents.Remove(parent);
-                        
-                        foreach (var cp in currentParents)
-                        {
-                            parents.Add(cp);
-                        }
-
-                        parents = parents.Distinct().ToList();
-                        break;
-                    }
                 }
+                else
+                {
+                    var currentParents = GetParentsFromCategory(parent);
+                    parents.Remove(parent);
+
+                    foreach (var cp in currentParents)
+                    {
+                        parents.Add(cp);
+                    }
+
+                    parents = parents.Distinct().ToList();
+                   
+                }
+            }
+        }
+
+        foreach (var listWithUserPersonelCategory in listWithUserPersonelCategories)
+        {
+            if (listWithUserPersonelCategory.CategoryRelations.Count == 0)
+            {
+                listWithUserPersonelCategory.CategoryRelations.Add(new CategoryRelation
+                {
+                    CategoryRelationType = CategoryRelationType.IsChildCategoryOf,
+                    RelatedCategory = rootCategory,
+                    Category = listWithUserPersonelCategory
+                });
             }
         }
 
