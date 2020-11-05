@@ -518,6 +518,61 @@ A -> C
             Is.EqualTo(true));
     }
 
+    [Test]
+    public void Wish_knowledge_filter_special_case()
+    {
+        https://docs.google.com/drawings/d/1CWJoFSk5aAJf1EOpWqf1Ffr6ncjwxpOcJqFWZEXUVk4
+
+        var context = ContextCategory.New();
+
+        var rootElement = context.Add("A").Persist().All.First();
+
+        var firstChildren = context
+            .Add("B", parent: rootElement)
+            .Add("C", parent: rootElement)
+            .Add("D", parent: rootElement)
+            .Persist()
+            .All;
+
+        context
+            .Add("D", parent: firstChildren.ByName("C"))
+            .Persist();
+
+        var secondChildren = context
+            .Add("E", parent: firstChildren.ByName("C"))
+            .Persist()
+            .All;
+
+        var ThirdChild = context
+            .Add("F", parent: firstChildren.ByName("E"))
+            .Persist()
+            .All;
+
+        var user = ContextUser.New().Add("User").Persist().All[0];
+
+        // Add in WUWI
+        CategoryInKnowledge.Pin(firstChildren.ByName("F").Id, user);
+        
+        Sl.SessionUser.Login(user);
+
+        var userPersonelCategoriesWithRealtions = GraphService.GetAllPersonelCategoriesWithRealtions(rootElement);
+
+        //Test F
+        Assert.That(IsAllRelationsAChildOf(userPersonelCategoriesWithRealtions
+                .ByName("F").CategoryRelations)
+            , Is.EqualTo(true));
+
+        Assert.That(IsCategoryRelationsCategoriesIdCorrect(userPersonelCategoriesWithRealtions
+                .ByName("F")),
+            Is.EqualTo(true));
+
+        Assert.That(HasCorrectParent(userPersonelCategoriesWithRealtions
+                .ByName("F"), "A"),
+            Is.EqualTo(true));
+        Assert.That(userPersonelCategoriesWithRealtions.First().CategoryRelations.Count, Is.EqualTo(1));
+
+    }
+
     private bool IsAllRelationsAChildOf(IList<CategoryRelation> categoryRelations)
     {
         var result = true;
