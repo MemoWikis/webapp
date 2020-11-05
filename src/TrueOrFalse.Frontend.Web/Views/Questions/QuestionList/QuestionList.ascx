@@ -7,7 +7,7 @@
 <%= Styles.Render("~/bundles/QuestionList") %>
 <%= Styles.Render("~/bundles/switch") %>
 <%= Scripts.Render("~/bundles/js/QuestionListComponents") %>
-<div id="QuestionListApp" class="row">
+<div id="QuestionListApp" class="row" v-cloak>
     <div class="col-xs-12 drop-down-question-sort">
         <div class="header">Du lernst <b>{{selectedQuestionCount}}</b> Fragen aus diesem Thema ({{allQuestionsCountFromCategory}})</div>
         <div id="ButtonAndDropdown">

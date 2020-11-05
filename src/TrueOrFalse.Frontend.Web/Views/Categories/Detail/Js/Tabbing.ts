@@ -9,7 +9,6 @@
         this._categoryId = categoryId;
 
         if (window.location.pathname.indexOf("/Lernen") >= 0) {
-            $("#LearningTabContent").css("visibility", "visible");
             Utils.ShowSpinner();
             $("#LearnOptionsHeader").removeClass("disable");
             $("#SessionConfigReminderHeader").removeClass("hide");
@@ -41,6 +40,8 @@
                 return;
 
             tab.click((e) => {
+                eventBus.$emit('tab-change');
+
                 if (window.location.pathname.indexOf("/Lernen") >= 0) {
                     $("#LearnOptionsHeader").removeClass("disable");
                     $("#SessionConfigReminderHeader").removeClass("hide");
@@ -100,11 +101,6 @@
             $('#' + tabName + 'Content').empty().append(html);
 
             if (tabName == "LearningTab" && $('#hddLearningSessionStarted').val() == "False" && $('#hddQuestionCount').val() != 0) {
-                if (!$("#LearningTabContent").css("visibility", "visible"))
-                    $("#LearningTabContent").css("visibility", "visible");
-
-                Utils.ShowSpinner();
-
                 $('#hddLearningSessionStarted').val("True");
 
                 $(() => {

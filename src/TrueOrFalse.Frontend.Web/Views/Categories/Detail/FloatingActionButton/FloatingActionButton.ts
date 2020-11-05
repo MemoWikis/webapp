@@ -23,10 +23,12 @@ var FAB = Vue.component('floating-action-button',
                 isExtended: true,
                 fabLabel: 'Bearbeiten',
                 scrollTimer: null,
-                wasOpen: false,
                 contentIsReady: false,
                 showBar: false,
                 center: true,
+                width: null,
+                shrink: false,
+                expand: false,
             }
         },
         watch: {
@@ -52,14 +54,22 @@ var FAB = Vue.component('floating-action-button',
             window.addEventListener('resize', this.footerCheck);
             if (this.isLearningTab)
                 eventBus.$on('load-questions-list', this.getEditQuestionUrl);
+            eventBus.$on('tab-change', () => this.cancelEditMode());
         },
         mounted() {
-            if ($('#ContentModuleApp').attr('openEditMode') == 'True')
+            this.footerCheck();
+            if ($('#ContentModuleApp').attr('openEditMode') == 'True') {
+                this.showBar = true;
                 this.editMode = true;
-            eventBus.$on('content-is-ready',
-                () => {
-                    this.contentIsReady = true;
-                });
+            }
+            if (this.isTopicTab == "True") {
+                eventBus.$on('content-is-ready',
+                    () => {
+                        this.contentIsReady = true;
+                    });
+            } else
+                this.contentIsReady = true;
+
         },
         updated() {
             this.footerCheck();
@@ -110,21 +120,33 @@ var FAB = Vue.component('floating-action-button',
                     this.isExtended = true;
                 else this.isExtended = false;
                 this.footerCheck();
-                if (this.isOpen) {
-                    this.wasOpen = true;
-                    this.isOpen = false;
-                }
             },
             footerCheck() {
+                if (this.isTopicTab == "false")
+                    return;
+
+                var contentModuleAppWidth = $('#ContentModuleApp').width();
+                var windowWidth = $(window).width();
                 const elFooter = document.getElementById('TopicTabContentEnd');
 
                 if (elFooter) {
                     var rect = elFooter.getBoundingClientRect();
                     var viewHeight = Math.max(document.documentElement.clientHeight, window.innerHeight);
-                    if (rect.top - viewHeight >= 0 || rect.bottom < 0)
+                    if (rect.top - viewHeight >= 0 || rect.bottom < 0) {
+                        if (this.footerIsVisible && this.editMode) {
+                            this.shrink = false;
+                            this.expand = true;
+                        }
                         this.footerIsVisible = false;
-                    else
+                        this.width = windowWidth;
+                    } else {
+                        if (!this.footerIsVisible && this.editMode) {
+                            this.expand = false;
+                            this.shrink = true;
+                        }
                         this.footerIsVisible = true;
+                        this.width = contentModuleAppWidth;
+                    }
                 };
             },
             editQuestion() {
@@ -145,6 +167,8 @@ var FAB = Vue.component('floating-action-button',
                 eventBus.$emit('request-save');
             },
             cancelEditMode() {
+                this.shrink = false;
+                this.expand = false;
                 clearTimeout(this.showFABTimer);
                 this.showFAB = true;
                 this.showMiniFAB = false;
