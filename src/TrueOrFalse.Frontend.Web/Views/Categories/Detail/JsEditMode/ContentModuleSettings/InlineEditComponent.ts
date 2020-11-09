@@ -6,10 +6,10 @@
 } = tiptapBuild;
 var {
     apache,
-    cLike,
+    //cLike,
     xml,
     bash,
-    c,
+    //c,
     coffeescript,
     csharp,
     css,
@@ -42,7 +42,7 @@ var {
     swift,
     yaml,
     typescript,
-} = hljs;
+} = hljsBuild;
 
 Vue.component('editor-menu-bar', tiptap.EditorMenuBar);
 Vue.component('editor-content', tiptap.EditorContent);
@@ -71,6 +71,7 @@ Vue.component('text-component',
                         new tiptapExtensions.TodoItem(),
                         new tiptapExtensions.TodoList(),
                         new tiptapExtensions.Link(),
+                        new tiptapExtensions.Image(),
                         new tiptapExtensions.Bold(),
                         new tiptapExtensions.Code(),
                         new tiptapExtensions.Italic(),
@@ -80,10 +81,10 @@ Vue.component('text-component',
                         new tiptapExtensions.CodeBlockHighlight({
                             languages: {
                                 apache,
-                                cLike,
+                                //cLike,
                                 xml,
                                 bash,
-                                c,
+                                //c,
                                 coffeescript,
                                 csharp,
                                 css,

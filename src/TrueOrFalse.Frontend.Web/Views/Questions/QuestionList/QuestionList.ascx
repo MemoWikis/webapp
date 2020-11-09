@@ -7,7 +7,7 @@
 <%= Styles.Render("~/bundles/QuestionList") %>
 <%= Styles.Render("~/bundles/switch") %>
 <%= Scripts.Render("~/bundles/js/QuestionListComponents") %>
-<div id="QuestionListApp" class="row">
+<div id="QuestionListApp" class="row" v-cloak>
     <div class="col-xs-12 drop-down-question-sort">
         <div class="header">Du lernst <b>{{selectedQuestionCount}}</b> Fragen aus diesem Thema ({{allQuestionsCountFromCategory}})</div>
         <div id="ButtonAndDropdown">
@@ -198,7 +198,8 @@
                                 :question-link-to-comment ="q.LinkToComment"
                                 :link-to-edit-question ="q.LinkToEditQuestion"
                                 :link-to-question-versions ="q.LinkToQuestionVersions"
-                                :link-to-question ="q.LinkToQuestion">
+                                :link-to-question ="q.LinkToQuestion"
+                                :key="q.Id">
                 
                 <div class="singleQuestionRow" :class="[{ open: showFullQuestion}, backgroundColor]">
                     <div class="questionSectionFlex">

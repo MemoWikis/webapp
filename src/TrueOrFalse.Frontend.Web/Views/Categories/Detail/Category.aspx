@@ -48,13 +48,13 @@
 
     <% Html.RenderPartial("~/Views/Shared/Spinner/Spinner.ascx"); %>
     <% Html.RenderPartial("~/Views/Categories/Detail/Partials/CategoryHeader.ascx", Model);%>
-    
-        <div id="TopicTabContent" class="TabContent">
+
+    <div id="TopicTabContent" class="TabContent">
             <% if (Model.IsInTopic) { %>
                 <% Html.RenderPartial("~/Views/Categories/Detail/Tabs/TopicTab.ascx", Model); %>
             <% } %>
         </div>
-    <div id="LearningTabContent" class="TabContent" style="visibility: hidden">
+    <div id="LearningTabContent" class="TabContent">
             <% if (Model.IsInLearningTab)
                { %> 
                 <% Html.RenderPartial("~/Views/Categories/Detail/Tabs/LearningTab.ascx", Model); %>

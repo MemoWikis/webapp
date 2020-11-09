@@ -4,12 +4,9 @@ declare var VueSelect: any;
 declare var Sticky: any;
 declare var Sortable: any;
 declare var tiptapBuild: any;
-declare var hljs: any;
-
+declare var hljsBuild: any;
 
 Vue.component('v-select', VueSelect.VueSelect);
-
-
 
 declare var eventBus: any;
 if (eventBus == null)
@@ -55,6 +52,7 @@ new Vue({
             moduleOrder: [],
             modules: [],
             sortedModules: [],
+            fabIsOpen: false,
         };
     },
 
@@ -71,6 +69,7 @@ new Vue({
             (state) => {
                 this.editMode = state;
                 if (this.changedContent && !this.editMode) {
+                    Utils.ShowSpinner();
                     location.reload();
                 }
             });
@@ -111,6 +110,12 @@ new Vue({
                 if (this.editMode)
                         this.changedContent = true;
             });
+
+        eventBus.$on('request-save', () => this.saveContent());
+    },
+    destroyed() {
+        window.removeEventListener('scroll', this.handleScroll);
+        window.removeEventListener('resize', this.footerCheck);
     },
 
     mounted() {
@@ -119,6 +124,7 @@ new Vue({
             this.footerIsVisible = true;
         if (this.$el.attributes.openEditMode.value == 'True')
             this.setEditMode();
+        eventBus.$emit('content-is-ready');
     },
 
     updated() {
@@ -128,8 +134,11 @@ new Vue({
     watch: {
         editMode(val) {
             if (val) {
+                this.updateModuleOrder();
                 this.sortModules();
-            }
+                $('#EditCategoryBreadcrumbChip').addClass('show');
+            } else
+                $('#EditCategoryBreadcrumbChip').removeClass('show');
         },
     },
 
@@ -212,16 +221,14 @@ new Vue({
             if (!this.editMode)
                 return;
 
+            this.updateModuleOrder();
             await this.sortModules();
-            if (this.sortedModules.length == 0)
-                return;
+
             var filteredModules = this.sortedModules.filter(o => (o.TemplateName != 'InlineText' || o.Content));
             var data = {
                 categoryId: $("#hhdCategoryId").val(),
                 content: filteredModules,
             }
-            console.log(window.location.href);
-
             $.ajax({
                 type: 'post',
                 contentType: "application/json",

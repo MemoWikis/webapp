@@ -151,7 +151,6 @@ class AnswerBodyLoader {
                 InitClickLog("div#answerQuestionDetails");
                 InitClickLog("div#comments");
                 PreventDropdonwnsFromBeingHorizontallyOffscreen("div#AnswerBody");
-                Utils.HideSpinner();
                 if (this._getCustomSession)
                     this._getCustomSession = false;
                 if ($("div[data-div-type='questionDetails']").length > 1)
@@ -171,6 +170,10 @@ class AnswerBodyLoader {
                     $("#QuestionDetails").fadeIn();
                     $(".FooterQuestionDetails").fadeIn();
                 }
+                Utils.HideSpinner();
+            },
+            error: () => {
+                Utils.HideSpinner();
             }
         });
     }
