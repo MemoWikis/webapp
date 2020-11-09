@@ -1,13 +1,29 @@
 ﻿
 <add-question-component inline-template>
-    <div>
-        <div id="AddQuestionHeader">
-            <div>Frage hinzufügen <span>(Karteikarte)</span></div>
-            <div>erweiterte Optionen</div>
-        </div>
-        <div id="AddQuestionBody">
-            <div id="AddQuestionFormContainer">
+    <div id="AddInlineQuestionContainer">
+
+        <div id="AddQuestionHeader" class="">
+            <div class="add-inline-question-label main-label">
+                Frage hinzufügen 
+                <span>(Karteikarte)</span>
+                <a>erweiterte Optionen</a>
+            </div>
+            <div class="heart-container wuwi-red" @click="addToWuwi = !addToWuwi">
                 <div>
+                    <i class="fa fa-heart" :class="" v-if="addToWuwi"></i>
+                    <i class="fa fa-heart-o" :class="" v-else></i>
+                </div>
+                <div>
+                    <span v-if="addToWuwi">Hinzugefügt</span>
+                    <span v-else class="wuwi-grey">Hinzufügen</span>
+                </div>
+            </div>
+        </div>
+
+        <div id="AddQuestionBody">
+            <div id="AddQuestionFormContainer"  class="inline-question-editor">
+                <div>
+                    <div class="add-inline-question-label s-label">Frage</div>
                     <editor-menu-bar :editor="questionEditor" v-slot="{ commands, isActive, focused }">
                         <div class="menubar is-hidden" :class="{ 'is-focused': focused }">
                         
@@ -65,6 +81,7 @@
                     <editor-content :editor="questionEditor" />
                 </div>
                 <div>
+                    <div class="add-inline-question-label s-label">Antwort</div>
                     <editor-menu-bar :editor="answerEditor" v-slot="{ commands, isActive, focused }">
                         <div class="menubar is-hidden" :class="{ 'is-focused': focused }">
                         
@@ -124,16 +141,18 @@
                 </div>
             </div>
             <div id="AddQuestionPrivacyContainer">
-                Sichtbarkeit <i class="fas fa-question-circle"></i>
+                <div class="add-inline-question-label s-label">                
+                    Sichtbarkeit <i class="fas fa-question-circle"></i>
+                </div>
                 <div class="form-check">
-                    <input class="form-check-input" type="radio" name="publicQuestion" id="publicQuestionRadio" value="0">
-                    <label class="form-check-label" for="publicQuestion">
+                    <input class="form-check-input" type="radio" name="publicQuestionRadio" id="publicQuestionRadio" value="0" v-model="visibility">
+                    <label class="form-check-label" for="publicQuestionRadio">
                         Öffentliche Frage
                     </label>
                 </div>
                 <div class="form-check">
-                    <input class="form-check-input" type="radio" name="privateQuestion" id="privateQuestionRadio" value="1" checked  v-model="visibility">
-                    <label class="form-check-label" for="privateQuestion">
+                    <input class="form-check-input" type="radio" name="privateQuestionRadio" id="privateQuestionRadio" value="1" v-model="visibility">
+                    <label class="form-check-label" for="privateQuestionRadio">
                         Private Frage <i class="fas fa-eye-slash"></i>
                     </label>
                 </div>

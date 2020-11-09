@@ -51,6 +51,7 @@ Vue.component('editor-content', tiptap.EditorContent);
 Vue.component('add-question-component', {
         data() {
             return {
+                addToWuwi: true,
                 isLoggedIn: IsLoggedIn.Yes,
                 visibility: 1,
                 addToWishknowledge: true,
@@ -117,7 +118,6 @@ Vue.component('add-question-component', {
                             emptyEditorClass: 'is-editor-empty',
                             emptyNodeClass: 'is-empty',
                             emptyNodeText: 'Gib den Fragetext ein',
-                            showOnlyWhenEditable: true,
                             showOnlyCurrent: true,
                         })
                     ],
@@ -191,8 +191,7 @@ Vue.component('add-question-component', {
                         new tiptapExtensions.Placeholder({
                             emptyEditorClass: 'is-editor-empty',
                             emptyNodeClass: 'is-empty',
-                            emptyNodeText: 'Gib den Fragetext ein',
-                            showOnlyWhenEditable: true,
+                            emptyNodeText: 'Rückseite der Karteikarte',
                             showOnlyCurrent: true,
                         })
                     ],
@@ -204,7 +203,7 @@ Vue.component('add-question-component', {
                 answer: null,
                 answerJson: null,
                 answerHtml: null,
-
+                solutionType: 9,
             }
         },
 

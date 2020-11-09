@@ -2370,10 +2370,12 @@ p:empty {
 [v-cloak] {
   display: none;
 }
-.inline-text-editor {
+.inline-text-editor,
+.inline-question-editor {
   position: relative;
 }
-.inline-text-editor .editor__floating-menu {
+.inline-text-editor .editor__floating-menu,
+.inline-question-editor .editor__floating-menu {
   position: absolute;
   z-index: 1;
   margin-top: -0.25rem;
@@ -2382,11 +2384,13 @@ p:empty {
   -webkit-transition: opacity 0.2s, visibility 0.2s;
   transition: opacity 0.2s, visibility 0.2s;
 }
-.inline-text-editor .editor__floating-menu.is-active {
+.inline-text-editor .editor__floating-menu.is-active,
+.inline-question-editor .editor__floating-menu.is-active {
   opacity: 1;
   visibility: visible;
 }
-.inline-text-editor .menubar {
+.inline-text-editor .menubar,
+.inline-question-editor .menubar {
   top: 60px;
   position: -webkit-sticky;
   position: sticky;
@@ -2400,37 +2404,46 @@ p:empty {
   font-size: 0;
   height: 36px;
 }
-.inline-text-editor .menubar.is-hidden {
+.inline-text-editor .menubar.is-hidden,
+.inline-question-editor .menubar.is-hidden {
   visibility: hidden;
   opacity: 0;
   pointer-events: none;
 }
-.inline-text-editor .menubar.is-focused {
+.inline-text-editor .menubar.is-focused,
+.inline-question-editor .menubar.is-focused {
   visibility: visible;
   opacity: 1;
   -webkit-transition: visibility 0.2s, opacity 0.2s;
   transition: visibility 0.2s, opacity 0.2s;
   pointer-events: auto !important;
 }
-.inline-text-editor .ProseMirror {
+.inline-text-editor .ProseMirror,
+.inline-question-editor .ProseMirror {
   padding-top: 2px;
 }
-.inline-text-editor .ProseMirror:focus {
+.inline-text-editor .ProseMirror:focus,
+.inline-question-editor .ProseMirror:focus {
   outline: none !important;
 }
 .inline-text-editor .ProseMirror b,
-.inline-text-editor .ProseMirror strong {
+.inline-question-editor .ProseMirror b,
+.inline-text-editor .ProseMirror strong,
+.inline-question-editor .ProseMirror strong {
   font-weight: 600;
 }
-.inline-text-editor .ProseMirror p code {
+.inline-text-editor .ProseMirror p code,
+.inline-question-editor .ProseMirror p code {
   color: #555555;
   bckground-color: #efefef;
 }
-.inline-text-editor .ProseMirror pre {
+.inline-text-editor .ProseMirror pre,
+.inline-question-editor .ProseMirror pre {
   background-color: black;
   border: none;
 }
-.inline-text-editor .ProseMirror pre::before {
+.inline-text-editor .ProseMirror pre::before,
+.inline-question-editor .ProseMirror pre::before {
   content: attr(data-language);
   text-transform: uppercase;
   display: block;
@@ -2438,54 +2451,84 @@ p:empty {
   font-weight: bold;
   font-size: 0.6rem;
 }
-.inline-text-editor .ProseMirror pre code {
+.inline-text-editor .ProseMirror pre code,
+.inline-question-editor .ProseMirror pre code {
   color: white;
 }
 .inline-text-editor .ProseMirror pre code .hljs-comment,
-.inline-text-editor .ProseMirror pre code .hljs-quote {
+.inline-question-editor .ProseMirror pre code .hljs-comment,
+.inline-text-editor .ProseMirror pre code .hljs-quote,
+.inline-question-editor .ProseMirror pre code .hljs-quote {
   color: #999999;
 }
 .inline-text-editor .ProseMirror pre code .hljs-variable,
+.inline-question-editor .ProseMirror pre code .hljs-variable,
 .inline-text-editor .ProseMirror pre code .hljs-template-variable,
+.inline-question-editor .ProseMirror pre code .hljs-template-variable,
 .inline-text-editor .ProseMirror pre code .hljs-attribute,
+.inline-question-editor .ProseMirror pre code .hljs-attribute,
 .inline-text-editor .ProseMirror pre code .hljs-tag,
+.inline-question-editor .ProseMirror pre code .hljs-tag,
 .inline-text-editor .ProseMirror pre code .hljs-name,
+.inline-question-editor .ProseMirror pre code .hljs-name,
 .inline-text-editor .ProseMirror pre code .hljs-regexp,
+.inline-question-editor .ProseMirror pre code .hljs-regexp,
 .inline-text-editor .ProseMirror pre code .hljs-link,
+.inline-question-editor .ProseMirror pre code .hljs-link,
 .inline-text-editor .ProseMirror pre code .hljs-name,
+.inline-question-editor .ProseMirror pre code .hljs-name,
 .inline-text-editor .ProseMirror pre code .hljs-selector-id,
-.inline-text-editor .ProseMirror pre code .hljs-selector-class {
+.inline-question-editor .ProseMirror pre code .hljs-selector-id,
+.inline-text-editor .ProseMirror pre code .hljs-selector-class,
+.inline-question-editor .ProseMirror pre code .hljs-selector-class {
   color: #f2777a;
 }
 .inline-text-editor .ProseMirror pre code .hljs-number,
+.inline-question-editor .ProseMirror pre code .hljs-number,
 .inline-text-editor .ProseMirror pre code .hljs-meta,
+.inline-question-editor .ProseMirror pre code .hljs-meta,
 .inline-text-editor .ProseMirror pre code .hljs-built_in,
+.inline-question-editor .ProseMirror pre code .hljs-built_in,
 .inline-text-editor .ProseMirror pre code .hljs-builtin-name,
+.inline-question-editor .ProseMirror pre code .hljs-builtin-name,
 .inline-text-editor .ProseMirror pre code .hljs-literal,
+.inline-question-editor .ProseMirror pre code .hljs-literal,
 .inline-text-editor .ProseMirror pre code .hljs-type,
-.inline-text-editor .ProseMirror pre code .hljs-params {
+.inline-question-editor .ProseMirror pre code .hljs-type,
+.inline-text-editor .ProseMirror pre code .hljs-params,
+.inline-question-editor .ProseMirror pre code .hljs-params {
   color: #f99157;
 }
 .inline-text-editor .ProseMirror pre code .hljs-string,
+.inline-question-editor .ProseMirror pre code .hljs-string,
 .inline-text-editor .ProseMirror pre code .hljs-symbol,
-.inline-text-editor .ProseMirror pre code .hljs-bullet {
+.inline-question-editor .ProseMirror pre code .hljs-symbol,
+.inline-text-editor .ProseMirror pre code .hljs-bullet,
+.inline-question-editor .ProseMirror pre code .hljs-bullet {
   color: #99cc99;
 }
 .inline-text-editor .ProseMirror pre code .hljs-title,
-.inline-text-editor .ProseMirror pre code .hljs-section {
+.inline-question-editor .ProseMirror pre code .hljs-title,
+.inline-text-editor .ProseMirror pre code .hljs-section,
+.inline-question-editor .ProseMirror pre code .hljs-section {
   color: #ffcc66;
 }
 .inline-text-editor .ProseMirror pre code .hljs-keyword,
-.inline-text-editor .ProseMirror pre code .hljs-selector-tag {
+.inline-question-editor .ProseMirror pre code .hljs-keyword,
+.inline-text-editor .ProseMirror pre code .hljs-selector-tag,
+.inline-question-editor .ProseMirror pre code .hljs-selector-tag {
   color: #6699cc;
 }
-.inline-text-editor .ProseMirror pre code .hljs-emphasis {
+.inline-text-editor .ProseMirror pre code .hljs-emphasis,
+.inline-question-editor .ProseMirror pre code .hljs-emphasis {
   font-style: italic;
 }
-.inline-text-editor .ProseMirror pre code .hljs-strong {
+.inline-text-editor .ProseMirror pre code .hljs-strong,
+.inline-question-editor .ProseMirror pre code .hljs-strong {
   font-weight: 700;
 }
-.inline-text-editor .menubar__button {
+.inline-text-editor .menubar__button,
+.inline-question-editor .menubar__button {
   background: white;
   border: hidden;
   font-size: 18px;
@@ -2495,13 +2538,16 @@ p:empty {
   color: #555555;
   text-align: center;
 }
-.inline-text-editor .menubar__button:hover {
+.inline-text-editor .menubar__button:hover,
+.inline-question-editor .menubar__button:hover {
   background: #efefef;
 }
-.inline-text-editor .menubar__button.is-active {
+.inline-text-editor .menubar__button.is-active,
+.inline-question-editor .menubar__button.is-active {
   background: #dddddd;
 }
-.inline-text-editor p.is-editor-empty:first-child::before {
+.inline-text-editor p.is-editor-empty:first-child::before,
+.inline-question-editor p.is-editor-empty:first-child::before {
   content: attr(data-empty-text);
   float: left;
   color: #aaa;
@@ -3459,4 +3505,95 @@ p:empty {
 }
 .r-green {
   color: #c3ff02;
+}
+#AddInlineQuestionContainer {
+  background: white;
+  margin-top: 20px;
+  padding: 22px 21px 30px;
+  font-size: 16px;
+}
+#AddInlineQuestionContainer .add-inline-question-label {
+  font-weight: 700;
+}
+#AddInlineQuestionContainer .add-inline-question-label.s-label {
+  font-size: 14px;
+  margin-bottom: 5px;
+}
+#AddInlineQuestionContainer .add-inline-question-label span,
+#AddInlineQuestionContainer .add-inline-question-label a {
+  font-weight: 400;
+}
+#AddInlineQuestionContainer .add-inline-question-label a {
+  cursor: pointer;
+}
+#AddInlineQuestionContainer #AddQuestionHeader {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+}
+#AddInlineQuestionContainer #AddQuestionHeader .main-label {
+  padding-bottom: 29px;
+  -webkit-box-flex: 1;
+  -webkit-flex: 1;
+      -ms-flex: 1;
+          flex: 1;
+}
+#AddInlineQuestionContainer #AddQuestionHeader .heart-container {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-content: center;
+      -ms-flex-line-pack: center;
+          align-content: center;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -webkit-flex-direction: column;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  width: 100px;
+}
+#AddInlineQuestionContainer #AddQuestionBody {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+}
+#AddInlineQuestionContainer #AddQuestionBody #AddQuestionFormContainer {
+  padding-right: 24px;
+  -webkit-box-flex: 1;
+  -webkit-flex: 1;
+      -ms-flex: 1;
+          flex: 1;
+}
+#AddInlineQuestionContainer #AddQuestionBody #AddQuestionFormContainer .ProseMirror {
+  padding: 11px 15px 0;
+  border: solid 1px #DDDDDD;
+  -webkit-border-radius: 4px;
+          border-radius: 4px;
+  margin-bottom: 26px;
+}
+#AddInlineQuestionContainer #AddQuestionBody #AddQuestionPrivacyContainer {
+  padding: 20px;
+  border: solid 1px #DDDDDD;
+  -webkit-border-radius: 4px;
+          border-radius: 4px;
+  min-width: 216px;
+  max-height: 143px;
+  margin-top: 24px;
+}
+#AddInlineQuestionContainer #AddQuestionBody #AddQuestionPrivacyContainer .form-check-label,
+#AddInlineQuestionContainer #AddQuestionBody #AddQuestionPrivacyContainer form-check-radio {
+  cursor: pointer;
+}
+#AddInlineQuestionContainer .wuwi-red {
+  color: #ff001f;
+}
+#AddInlineQuestionContainer .wuwi-grey {
+  color: #999999;
 }
