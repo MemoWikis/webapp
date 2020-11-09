@@ -167,6 +167,7 @@ var FAB = Vue.component('floating-action-button',
                 eventBus.$emit('request-save');
             },
             cancelEditMode() {
+                this.isOpen = false;
                 this.shrink = false;
                 this.expand = false;
                 clearTimeout(this.showFABTimer);
