@@ -64,17 +64,14 @@ public class CategoryController : BaseController
 
         var isCategoryNull = category == null;
 
-        var categoryChangeData = new TrueOrFalse.Data();
-        // var categoryChange = new List<CategoryChange>();
-
         if (isCategoryNull)
         {
             category = new Category();
             category.Id = id;
-            category.Name = categoryChangeData.Name;
+            category.Name = "";
         }
 
-        _sessionUiData.VisitedCategories.Add(new CategoryHistoryItem(category, HistoryItemType.Any, categoryChangeData, isCategoryNull));
+        _sessionUiData.VisitedCategories.Add(new CategoryHistoryItem(category, HistoryItemType.Any, isCategoryNull));
         result.Category = category;
             
         result.CategoryModel = openEditMode == true ? GetModelWithContentHtml(category, version, isCategoryNull, true) : GetModelWithContentHtml(category, version, isCategoryNull);
