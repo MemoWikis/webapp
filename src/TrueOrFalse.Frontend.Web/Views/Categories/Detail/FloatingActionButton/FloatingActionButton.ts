@@ -119,6 +119,7 @@ var FAB = Vue.component('floating-action-button',
                 if (window.scrollY == 0)
                     this.isExtended = true;
                 else this.isExtended = false;
+                this.isOpen = false;
                 this.footerCheck();
             },
             footerCheck() {
