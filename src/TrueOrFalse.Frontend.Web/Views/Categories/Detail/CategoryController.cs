@@ -29,13 +29,13 @@ public class CategoryController : BaseController
         return View(_viewLocation, modelAndCategoryResult.CategoryModel);
     }
 
-    public ActionResult CategoryBySetId(int id, int? version)
-    {
-        var modelAndCategoryResult = LoadModel(id, version, true);
-        modelAndCategoryResult.CategoryModel.IsInTopic = true;
+    //public ActionResult CategoryBySetId(int id, int? version)
+    //{
+    //    var modelAndCategoryResult = LoadModel(id, version, true);
+    //    modelAndCategoryResult.CategoryModel.IsInTopic = true;
 
-        return View(_viewLocation, modelAndCategoryResult.CategoryModel);
-    }
+    //    return View(_viewLocation, modelAndCategoryResult.CategoryModel);
+    //}
 
     public ActionResult CategoryLearningTab(int id, int? version)
     {
@@ -57,10 +57,10 @@ public class CategoryController : BaseController
         return View(_viewLocation, modelAndCategoryResult.CategoryModel);
     }
 
-    private LoadModelResult LoadModel(int id, int? version, bool bySetId = false, bool? openEditMode = false)
+    private LoadModelResult LoadModel(int id, int? version, bool? openEditMode = false)
     {
         var result = new LoadModelResult();
-        var category = bySetId ? Resolve<CategoryRepository>().GetBySetId(id) : Resolve<CategoryRepository>().GetById(id);
+        var category =  EntityCache.GetCategory(id);
 
         var isCategoryNull = category == null;
 
@@ -73,10 +73,11 @@ public class CategoryController : BaseController
 
         _sessionUiData.VisitedCategories.Add(new CategoryHistoryItem(category, HistoryItemType.Any, isCategoryNull));
         result.Category = category;
-            
-        result.CategoryModel = openEditMode == true ? GetModelWithContentHtml(category, version, isCategoryNull, true) : GetModelWithContentHtml(category, version, isCategoryNull);
 
-            if (version != null)
+        result.CategoryModel =
+            GetModelWithContentHtml(category, version, isCategoryNull, openEditMode ?? false);
+
+        if (version != null)
             ApplyCategoryChangeToModel(result.CategoryModel, (int)version, id);
         else
             SaveCategoryView.Run(result.Category, User_());

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using Org.BouncyCastle.Asn1.Ocsp;
 using TrueOrFalse.Web;
@@ -82,8 +83,8 @@ public class CategoryModel : BaseContentModule
 
         if(loadKnowledgeSummary)
             KnowledgeSummary = isCategoryNull ? null :  KnowledgeSummaryLoader.RunFromMemoryCache(category.Id, UserId);
-
-        IsInWishknowledge = Sl.CategoryValuationRepo.IsInWishKnowledge(category.Id, UserId);
+   
+        IsInWishknowledge = UserCache.GetCategoryValuations(UserId).Where(cv => cv.CategoryId == category.Id).First().IsInWishKnowledge();
 
         WikipediaURL = category.WikipediaURL;
         Url = category.Url;
