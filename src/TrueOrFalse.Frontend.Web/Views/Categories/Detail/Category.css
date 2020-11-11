@@ -382,6 +382,12 @@ p:empty {
           justify-content: space-between;
   margin-bottom: 20px;
 }
+.topicNavigation.row:before,
+.setCardMiniList.row:before,
+.topicNavigation.row:after,
+.setCardMiniList.row:after {
+  display: inline-block;
+}
 .topicNavigation img,
 .setCardMiniList img {
   -webkit-border-radius: 50%;
@@ -1105,121 +1111,111 @@ p:empty {
   margin-top: 60px;
   -webkit-box-sizing: content-box;
           box-sizing: content-box;
-}
-#TopicTabContent #InlineEditToolbar {
-  position: fixed;
-  bottom: 0;
-  left: 0;
-}
-#TopicTabContent #InlineEditToolbar.sticky {
-  width: 100%;
-  position: -webkit-sticky;
-  position: sticky;
-}
-#TopicTabContent #InlineEditToolbar .pseudo-circle,
-#TopicTabContent #InlineEditToolbar .trigger {
-  width: 56px;
-  height: 56px;
-  -webkit-border-radius: 50%;
-          border-radius: 50%;
-  right: 100px;
-  bottom: 10px;
-  z-index: 99998;
-  cursor: pointer;
-  -webkit-transform-origin: 50% 50%;
-          transform-origin: 50% 50%;
-  overflow: hidden;
-}
-#TopicTabContent #InlineEditToolbar .pseudo-circle {
-  opacity: 0;
-  overflow: hidden;
-  -webkit-transition: opacity 0.1s, -webkit-transform 0.3s cubic-bezier(0, 0, 0.2, 1);
-  transition: opacity 0.1s, -webkit-transform 0.3s cubic-bezier(0, 0, 0.2, 1);
-  transition: transform 0.3s cubic-bezier(0, 0, 0.2, 1), opacity 0.1s;
-  transition: transform 0.3s cubic-bezier(0, 0, 0.2, 1), opacity 0.1s, -webkit-transform 0.3s cubic-bezier(0, 0, 0.2, 1);
-}
-#TopicTabContent #InlineEditToolbar .pseudo-circle.open {
-  margin-right: -342px;
-  -webkit-transition-delay: 0.15s;
-          transition-delay: 0.15s;
-  -webkit-transition: 0.5s;
-  transition: 0.5s;
-  -webkit-transform: scale(10);
-          transform: scale(10);
-  opacity: 1;
-  width: 100%;
-}
-#TopicTabContent #InlineEditToolbar .floatingActionBtn {
-  pointer-events: none;
-  width: 100%;
-  max-width: 1160px;
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-pack: end;
-  -webkit-justify-content: flex-end;
-      -ms-flex-pack: end;
-          justify-content: flex-end;
-  position: fixed;
-  bottom: 30px;
-  right: 0;
-  left: 0;
-  margin-left: auto;
-  margin-right: auto;
-  padding-right: 15px;
-  z-index: 99999;
-}
-#TopicTabContent #InlineEditToolbar .floatingActionBtn.sticky {
-  position: absolute;
-  bottom: -40px;
-}
-#TopicTabContent #InlineEditToolbar .floatingActionBtn .trigger {
-  pointer-events: auto;
-  text-align: center;
-  line-height: 56px;
-  background-color: #afd534;
-  border: 1px solid transparent;
-  -webkit-transition: opacity 0.1s 0.1s, -webkit-transform 0.15s cubic-bezier(0.4, 0, 1, 1), -webkit-box-shadow 0.3s;
-  transition: opacity 0.1s 0.1s, -webkit-transform 0.15s cubic-bezier(0.4, 0, 1, 1), -webkit-box-shadow 0.3s;
-  transition: transform 0.15s cubic-bezier(0.4, 0, 1, 1), opacity 0.1s 0.1s, box-shadow 0.3s;
-  transition: transform 0.15s cubic-bezier(0.4, 0, 1, 1), opacity 0.1s 0.1s, box-shadow 0.3s, -webkit-transform 0.15s cubic-bezier(0.4, 0, 1, 1), -webkit-box-shadow 0.3s;
-  opacity: 1;
-  right: 50px;
-  bottom: 50px;
-  -webkit-box-shadow: 0 0 6px rgba(0, 0, 0, 0.12), 0 6px 6px rgba(0, 0, 0, 0.24);
-          box-shadow: 0 0 6px rgba(0, 0, 0, 0.12), 0 6px 6px rgba(0, 0, 0, 0.24);
-  z-index: 99999;
-  margin-left: auto;
-  margin-right: 0px;
-}
-#TopicTabContent #InlineEditToolbar .floatingActionBtn .trigger.open {
-  -webkit-transform: translate(-50px, 40px);
-          transform: translate(-50px, 40px);
-  opacity: 0;
-}
-#TopicTabContent #InlineEditToolbar .floatingActionBtn .trigger.open icon {
-  opacity: 0;
-}
-#TopicTabContent #InlineEditToolbar .floatingActionBtn .trigger:hover {
-  -webkit-box-shadow: 0 0 12px rgba(0, 0, 0, 0.12), 0 12px 12px rgba(0, 0, 0, 0.24);
-          box-shadow: 0 0 12px rgba(0, 0, 0, 0.12), 0 12px 12px rgba(0, 0, 0, 0.24);
-}
-#TopicTabContent #InlineEditToolbar .dialog {
-  width: 100vw;
-  height: 100vh;
-  background-color: none;
-  left: auto;
-  right: 0;
-  bottom: 0;
-  z-index: 999995;
-  height: 50px;
-  overflow: hidden;
-}
-#TopicTabContent #InlineEditToolbar .dialog.open {
-  background-color: #afd534;
-  -webkit-transition-delay: 0.15s;
-          transition-delay: 0.15s;
+  /*#InlineEditToolbar {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+
+        &.sticky {
+            width: 100%;
+            position: sticky;
+        }
+
+        .pseudo-circle, .trigger {
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            right: 100px;
+            bottom: 10px;
+            z-index: 99998;
+            cursor: pointer;
+            transform-origin: 50% 50%;
+            overflow: hidden;
+        }
+
+        .pseudo-circle {
+            opacity: 0;
+            overflow: hidden;
+            transition: transform 0.3s cubic-bezier(0.0, 0.0, 0.2, 1), opacity 0.1s;
+
+            &.open {
+                margin-right: -342px;
+                transition-delay: .15s;
+                transition: 0.5s;
+                transform: scale(10);
+                opacity: 1;
+                width: 100%;
+            }
+        }
+
+        .floatingActionBtn {
+            pointer-events: none;
+            width: 100%;
+            max-width: 1160px;
+            display: flex;
+            justify-content: flex-end;
+            position: fixed;
+            bottom: 30px;
+            right: 0;
+            left: 0;
+            margin-left: auto;
+            margin-right: auto;
+            padding-right: 15px;
+            z-index: 99999;
+
+            &.sticky {
+                position: absolute;
+                bottom: -40px;
+            }
+
+            .trigger {
+                pointer-events: auto;
+                text-align: center;
+                line-height: 56px;
+                background-color: #afd534;
+                border: 1px solid transparent;
+                transition: transform 0.15s cubic-bezier(0.4, 0.0, 1, 1), opacity 0.1s 0.1s, box-shadow 0.3s;
+                opacity: 1;
+                right: 50px;
+                bottom: 50px;
+                box-shadow: 0 0 6px rgba(0, 0, 0, 0.12), 0 6px 6px rgba(0, 0, 0, 0.24);
+                z-index: 99999;
+                margin-left: auto;
+                margin-right: 0px;
+
+                &.open {
+                    transform: translate(-50px, 40px);
+                    opacity: 0;
+
+                    icon {
+                        opacity: 0;
+                    }
+                }
+
+                &:hover {
+                    box-shadow: 0 0 12px rgba(0, 0, 0, 0.12), 0 12px 12px rgba(0, 0, 0, 0.24);
+                }
+            }
+        }
+
+        .dialog {
+            width: 100vw;
+            height: 100vh;
+            background-color: none;
+            left: auto;
+            right: 0;
+            bottom: 0;
+            z-index: 999995;
+            height: 50px;
+            overflow: hidden;
+
+            &.open {
+                background-color: #afd534;
+                transition-delay: .15s;
+            }
+        }
+
+    }*/
 }
 /*------------------------------------------------------
     Dialog and Settings
@@ -2537,6 +2533,7 @@ p:empty {
   margin: 0px;
   color: #555555;
   text-align: center;
+  padding: 1px 6px;
 }
 .inline-text-editor .menubar__button:hover,
 .inline-question-editor .menubar__button:hover {
@@ -2561,6 +2558,7 @@ p:empty {
   position: sticky;
   bottom: 20px;
   right: 20px;
+  z-index: 999;
 }
 #TopicTabFABApp .fab-container,
 #LearningTabFABApp .fab-container {
@@ -2725,7 +2723,6 @@ p:empty {
           justify-content: center;
   -webkit-border-radius: 56px;
           border-radius: 56px;
-  z-index: 10;
   -webkit-animation: pop-out-fast 0.8s forwards;
           animation: pop-out-fast 0.8s forwards;
   -webkit-box-orient: horizontal;
