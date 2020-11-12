@@ -46,8 +46,6 @@ public class GraphService
     public static List<Category> GetLastWuwiChildrenFromCategories(int categoryId)
     {
         var childrenReverse = EntityCache.GetDescendants(categoryId);
-
-        var sUser = Sl.SessionUser.User;
         var lastChildren = childrenReverse.Where(c => EntityCache.GetChildren(c.Id).Count == 0 && c.IsInWishknowledge());
 
         return lastChildren.ToList();

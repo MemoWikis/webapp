@@ -149,6 +149,8 @@ namespace TrueOrFalse.Tests
 
                 Add("X1", parent: firstChildren.ByName("X3"))
                 .Persist();
+                Add("X1", parent: firstChildren.ByName("X"))
+                    .Persist();
 
             var secondChildren = Add("B", parent: rootElement)
                 .Add("C", parent: firstChildren.ByName("X"))
@@ -160,6 +162,10 @@ namespace TrueOrFalse.Tests
 
             Add("X1", parent: firstChildren.ByName("X2"))
                 .Persist();
+
+            Add("C", parent: firstChildren.ByName("X2"))
+                .Persist();
+
 
             var ThirdChildren = Add("H", parent: firstChildren.ByName("C"))
                 .Add("G", parent: firstChildren.ByName("C"))
