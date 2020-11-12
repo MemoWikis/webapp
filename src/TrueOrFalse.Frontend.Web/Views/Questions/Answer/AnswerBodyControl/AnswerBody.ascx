@@ -43,7 +43,7 @@
                     </a>
                     <ul class="dropdown-menu dropdown-menu-right standard-question-drop-down">
                         <% if (Model.IsCreator || Model.IsInstallationAdmin){ %>
-                            <li><a href="<%=Links.EditQuestion( Model.QuestionText, Model.QuestionId) %>" data-allowed="logged-in"><i class="fa fa-code-fork"></i><span>Frage bearbeiten</span></a></li>
+                            <li><a href="<%=Links.EditQuestion( Model.QuestionText, Model.QuestionId) %>" data-allowed="logged-in"><i class="fa fa-pencil"></i><span>Frage bearbeiten</span></a></li>
                         <% } %>
                         <li style="cursor: pointer"><a href="<%=Links.GetUrl(Model.Question) %>"><i class="fas fa-file"></i><span>Frageseite anzeigen</span></a></li>
                         <li><a href="<%=Links.QuestionHistory(Model.QuestionId) %>" data-allowed="logged-in"><i class="fa fa-code-fork"></i><span>Bearbeitungshistorie der Frage</span></a></li>
