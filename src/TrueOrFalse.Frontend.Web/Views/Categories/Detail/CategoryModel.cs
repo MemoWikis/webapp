@@ -83,8 +83,15 @@ public class CategoryModel : BaseContentModule
 
         if(loadKnowledgeSummary)
             KnowledgeSummary = isCategoryNull ? null :  KnowledgeSummaryLoader.RunFromMemoryCache(category.Id, UserId);
+
+
+        var userValuationCategory = UserCache.GetCategoryValuations(UserId).Where(cv => cv.CategoryId == category.Id).ToList();
    
-        IsInWishknowledge = UserCache.GetCategoryValuations(UserId).Where(cv => cv.CategoryId == category.Id).First().IsInWishKnowledge();
+        if (userValuationCategory.Count() == 0)
+            IsInWishknowledge = false;
+        else 
+            IsInWishknowledge = userValuationCategory.First().IsInWishKnowledge();
+
 
         WikipediaURL = category.WikipediaURL;
         Url = category.Url;

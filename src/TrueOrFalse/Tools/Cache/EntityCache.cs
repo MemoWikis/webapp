@@ -7,7 +7,7 @@ using System.Web;
 using System.Web.Caching;
 using Seedworks.Lib.Persistence;
 
-public class EntityCache
+public class EntityCache : BaseCache
 {
     private const string _cacheKeyQuestions = "allQuestions _EntityCache";
     private const string _cacheKeyCategories = "allCategories_EntityCache";
@@ -56,17 +56,6 @@ public class EntityCache
         Logg.r().Information("EntityCache PutIntoCache" + customMessage + "{Elapsed}", stopWatch.Elapsed);
     }
 
-    private static void IntoForeverCache<T>(string key, ConcurrentDictionary<int, T> objectToCache)
-    {
-        HttpRuntime.Cache.Insert(
-            key,
-            objectToCache,
-            null,
-            Cache.NoAbsoluteExpiration,
-            Cache.NoSlidingExpiration,
-            CacheItemPriority.NotRemovable,
-            null);
-    }
 
     private static ConcurrentDictionary<int, ConcurrentDictionary<int, int>> GetCategoryQuestionsList(IList<Question> questions)
     {

@@ -80,8 +80,6 @@ public class GraphService
 
                 if (parent.IsInWishknowledge() || parent.Id == rootCategoryId && hasRootInParents)
                 {
-                    var isChildAvailable = listWithUserPersonelCategories.IndexOf(child) != -1;
-
                     var categoryRelation = new CategoryRelation
                     {
                         CategoryRelationType = CategoryRelationType.IsChildCategoryOf,
@@ -110,7 +108,6 @@ public class GraphService
                     }
 
                     parents = parents.Distinct().ToList();
-                   
                 }
             }
         }

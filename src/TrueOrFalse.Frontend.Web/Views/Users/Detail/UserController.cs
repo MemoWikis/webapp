@@ -38,4 +38,10 @@ public class UserController : BaseController
         UserImageStore.Run(file, _sessionUser.User.Id);
         return User(_sessionUser.User.Name, _sessionUser.User.Id);
     }
+
+    [HttpPost]
+    public void SetUserWorldInUserCache()
+    {
+        UserCache.IsFiltered = !UserCache.IsFiltered; 
+    }
 }
