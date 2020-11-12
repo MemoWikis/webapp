@@ -119,6 +119,7 @@ var FAB = Vue.component('floating-action-button',
                 if (window.scrollY == 0)
                     this.isExtended = true;
                 else this.isExtended = false;
+                this.isOpen = false;
                 this.footerCheck();
             },
             footerCheck() {
@@ -153,14 +154,17 @@ var FAB = Vue.component('floating-action-button',
                 window.location.href = this.editQuestionUrl;
             },
             getEditQuestionUrl() {
+                if (IsLoggedIn.Yes)
+                    this.showEditQuestionButton = true;
+                else
+                    this.showEditQuestionButton = false;
+
                 var currentQuestionId = $('#AnswerBody #questionId').val();
                 $.post("/Question/GetEditUrl", { id: currentQuestionId })
                     .done((result) => {
                         this.editQuestionUrl = result;
-                        this.showEditQuestionButton = true;
                     }).fail(() => {
                         this.editQuestionUrl = null;
-                        this.showEditQuestionButton = false;
                         });
             },
             saveContent() {
