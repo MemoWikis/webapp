@@ -205,6 +205,8 @@
     <Compile Include="1 View\MarkdownMarkdigTests.cs" />
     <Compile Include="1 View\MarkdownSharpTests.cs" />
     <Compile Include="1 View\RouteTests.cs" />
+    <Compile Include="2 Domain\Category\Automatic_inclusion_tests.cs" />
+    <Compile Include="2 Domain\Category\Hide_non_wuwi_topics_tests.cs" />
     <Compile Include="2 Domain\Question\LearnSession\Count_answer_as_correct.cs" />
     <Compile Include="2 Domain\Question\LearnSession\Create_learning_session.cs" />
     <Compile Include="2 Domain\Question\Setup\ContextLearningSession.cs" />

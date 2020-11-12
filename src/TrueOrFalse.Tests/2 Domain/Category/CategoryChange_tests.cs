@@ -11,6 +11,5 @@ class CategoryChange_tests : BaseTest
         category.Name = "Category 2";
 
         Sl.CategoryRepo.Update(category);
-            
     }
 }

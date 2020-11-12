@@ -244,7 +244,7 @@ public class AnswerQuestionModel : BaseModel
         {
             PrimaryCategory = GetPrimaryCategory.GetForQuestion(question);
             AnalyticsFooterModel = new AnalyticsFooterModel(PrimaryCategory, true);
-            AllCategoriesParents = Sl.CategoryRepo.GetAllParents(PrimaryCategory.Id);
+            AllCategoriesParents = GraphService.GetAllParents(PrimaryCategory);
             var allCategoryChildrens = Sl.CategoryRepo.GetChildren(PrimaryCategory.Id);
             AllCategorysWithChildrenAndParents = question.Categories.Concat(allCategoryChildrens).Concat(AllCategoriesParents).ToList();
             ChildrenAndParents = allCategoryChildrens.Concat(AllCategoriesParents).ToList();
