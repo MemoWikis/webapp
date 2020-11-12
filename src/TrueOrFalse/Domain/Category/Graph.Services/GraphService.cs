@@ -59,8 +59,8 @@ public class GraphService
     public static IList<Category> GetAllPersonelCategoriesWithRealtions(int rootCategoryId)
     {
 
-        var rootCategory = EntityCache.GetCategory(rootCategoryId);
-        var children = EntityCache.GetDescendants(rootCategory);
+        var rootCategory = EntityCache.GetCategory(rootCategoryId).DeepClone();
+        var children = EntityCache.GetDescendants(rootCategory).DeepClone();
         var listWithUserPersonelCategories = new List<Category>();
 
 

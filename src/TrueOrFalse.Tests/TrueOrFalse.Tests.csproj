@@ -215,7 +215,7 @@
     <Compile Include="2 Domain\Question\LearnSession\Get_wuwi_from_category.cs" />
     <Compile Include="2 Domain\Question\LearnSession\Sort_by_probability.cs" />
     <Compile Include="2 Domain\Question\LearnSession\Test_learning_session_steps.cs" />
-    <Compile Include="2 Domain\UserWorld\User_world_tests.cs" />
+    <Compile Include="2 Domain\UserWorld\User_enitity_cache_tests.cs" />
     <Compile Include="2 Domain\User\UserCache\User_cache_tests.cs" />
     <Compile Include="3 Infrastructure\SetMigrationTest.cs" />
     <Compile Include="3 Infrastructure\TemplateMigrationTest.cs" />

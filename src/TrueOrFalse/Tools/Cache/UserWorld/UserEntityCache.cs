@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Caching;
+using FluentNHibernate.Utils;
 using TrueOrFalse.Tools.Cache.UserWorld;
 
 public class UserEntityCache : BaseCache
@@ -18,17 +19,16 @@ public class UserEntityCache : BaseCache
 
     public static void Init()
     {
-        var usersList = Sl.UserRepo.GetAll();
-        foreach (var user in usersList)
-        {
-            var cacheItem = new UserWorldCacheItem()
-            {
-                User = user,
-                Categories = new ConcurrentDictionary<int, Category>(GraphService.GetAllPersonelCategoriesWithRealtions(_rootCategoryId).ToConcurrentDictionary())
-            };
-            IntoForeverCache(CategoriesCacheKey(user.Id), cacheItem.Categories);
+        var user = Sl.SessionUser.User;
 
-        }
+        var cacheItem = new UserWorldCacheItem()
+        {
+            User = user,
+            Categories = new ConcurrentDictionary<int, Category>(GraphService
+                .GetAllPersonelCategoriesWithRealtions(_rootCategoryId).ToConcurrentDictionary())
+        };
+        IntoForeverCache(CategoriesCacheKey(user.Id), cacheItem.Categories);
+
     }
 
     public static UserWorldCacheItem CreateItemFromDatabase(int userId)
