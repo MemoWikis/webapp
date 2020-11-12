@@ -208,6 +208,9 @@ Vue.component('add-question-component', {
         },
 
         methods: {
+            addFlashcard() {
+
+            },
             addQuestion() {
 
             }

@@ -1,4 +1,6 @@
 ﻿
+<%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
+
 <add-question-component inline-template>
     <div id="AddInlineQuestionContainer">
 
@@ -138,6 +140,7 @@
                     <editor-content :editor="answerEditor" />
                 </div>
                 <div>
+                    <div class="btn btn-lg btn-primary" @click="addFlashcard()">Hinzufügen</div>
                 </div>
             </div>
             <div id="AddQuestionPrivacyContainer">
