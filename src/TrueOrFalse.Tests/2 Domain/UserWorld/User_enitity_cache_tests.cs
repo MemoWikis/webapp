@@ -65,7 +65,7 @@ class User_entity_cache_tests : BaseTest
     {
         ContextCategory.New().AddCaseThreeToCache();
         UserEntityCache.Init();
-        ContextCategory.New(false).Case2(); 
+        ContextCategory.New(false).AddCaseTwoToCache(); 
         UserEntityCache.Init();
 
         Assert.That(UserEntityCache.GetCategories(2).Values.ToList().Count, Is.EqualTo(6));
