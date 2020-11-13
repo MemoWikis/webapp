@@ -31,21 +31,6 @@ public class UserEntityCache : BaseCache
 
     }
 
-    public static UserWorldCacheItem CreateItemFromDatabase(int userId)
-    {
-        var user = Sl.UserRepo.GetById(userId);
-        var cacheItem = new UserWorldCacheItem()
-        {
-            User = user,
-            Categories = new ConcurrentDictionary<int, Category>(GraphService.GetAllPersonelCategoriesWithRealtions(_rootCategoryId).ToConcurrentDictionary())
-        };
-
-
-        IntoForeverCache(CategoriesCacheKey(user.Id), cacheItem.Categories);
-
-        return cacheItem;
-    }
-
     public static UserWorldCacheItem GetUserWorldItem(int userId)
     {
         var categories = (ConcurrentDictionary<int, Category>)HttpRuntime.Cache[CategoriesCacheKey(userId)];
