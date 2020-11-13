@@ -5,8 +5,10 @@ using System.Collections.Generic;
 //using System.Collections.Generic;
 using System.Drawing.Design;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web;
 using BDDish.Model;
 using NUnit.Framework;
 using TrueOrFalse.Tests;
@@ -56,12 +58,18 @@ class User_entity_cache_tests : BaseTest
         Assert.That(userEntityCacheCategories.ByName("X").CategoryRelations.Where(cr => cr.RelatedCategory.Name == "A").Count, Is.EqualTo(1));
         Assert.That(userEntityCacheCategories.ByName("X3").CategoryRelations.Where(cr => cr.RelatedCategory.Name == "A").Count, Is.EqualTo(1));
         Assert.That(userEntityCacheCategories.ByName("B").CategoryRelations.Where(cr => cr.RelatedCategory.Name == "A").Count, Is.EqualTo(1));
+    }
 
-        //userWorldCacheCategories
-        //Assert.That(typeof(IDictionary).IsAssignableFrom( userWorldCacheCategories), Is.EqualTo(true));
-        //var categoriesList = new List<Category>();
-        //var t = userWorldCacheCategories; 
+    [Test]
+    public void Give_correct_number_of_cache_items()
+    {
+        ContextCategory.New().AddCaseThreeToCache();
+        UserEntityCache.Init();
+        ContextCategory.New(false).AddCaseThreeToCache(); 
+        UserEntityCache.Init();
 
+        Assert.That(UserEntityCache.GetCategories(2).Values.ToList().Count, Is.EqualTo(6));
+        Assert.That(UserEntityCache.GetCategories(3).Values.ToList().Count, Is.EqualTo(6));
     }
 }
 
