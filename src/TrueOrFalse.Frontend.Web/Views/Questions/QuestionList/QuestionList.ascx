@@ -278,7 +278,7 @@
                     </div>
                 </div>
             </question-component>
-            <%: Html.Partial("~/Views/Questions/AddQuestion/AddQuestionComponent.vue.ascx") %>
+            <%: Html.Partial("~/Views/Questions/AddQuestion/AddQuestionComponent.vue.ascx", new AddQuestionComponentModel(Model.CategoryId)) %>
 
             <div id="QuestionListPagination">
                 <ul class="pagination col-xs-12 row justify-content-xs-center" v-if="pageArray.length <= 8">
@@ -349,6 +349,9 @@
         </div>
     </question-list-component>
     </div>
+
+<%: Html.Partial("~/Views/Questions/AddQuestion/EditQuestionModal.vue.ascx") %>
+
 <%= Scripts.Render("~/bundles/js/QuestionListApp") %>
 
 

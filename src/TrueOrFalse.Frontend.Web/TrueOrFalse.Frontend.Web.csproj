@@ -333,6 +333,7 @@
     <Compile Include="Views\Categories\Detail\Partials\InlineText\InlineTextJson.cs" />
     <Compile Include="Views\Categories\Detail\TemplateParser\Tokenizer\Tokenizer.cs" />
     <Compile Include="Views\Categories\Detail\TemplateToHtml\TemplateToHtml.cs" />
+    <Compile Include="Views\Questions\AddQuestion\AddQuestionComponentModel.cs" />
     <Compile Include="Views\Questions\Answer\TopicToContinueLearningModel.cs" />
     <Compile Include="Views\Questions\QuestionList\QuestionJson.cs" />
     <Compile Include="Views\Categories\Detail\Partials\KnowledgeGraph\KnowledgeGraphModel.cs" />
@@ -21733,7 +21734,8 @@
       <DependentUpon>Tabbing.ts</DependentUpon>
     </Content>
     <Content Include="Views\Categories\Detail\Partials\BreadCrumbCategories.ascx" />
-    <Content Include="Views\Questions\AddQuestion\AddQuestionModal.vue.ascx" />
+    <Content Include="Views\Questions\AddQuestion\EditQuestionModal.vue.ascx" />
+    <Content Include="Views\Questions\AddQuestion\AddQuestion.ascx" />
     <Content Include="Views\Questions\Answer\AnswerQuestionDetailsComponent.vue.ascx" />
     <Content Include="Views\Questions\Answer\Js\InlineEditComponent.js">
       <DependentUpon>InlineEditComponent.ts</DependentUpon>
@@ -21753,6 +21755,9 @@
     <Content Include="Views\Questions\Answer\TopicToConinueLearning.ascx" />
     <Content Include="Views\Questions\History\QuestionHistory.css">
       <DependentUpon>QuestionHistory.less</DependentUpon>
+    </Content>
+    <Content Include="Views\Questions\Js\AddQuestion\AddQuestion - Copy.js">
+      <DependentUpon>EditQuestionModalLoader.ts</DependentUpon>
     </Content>
     <Content Include="Views\Questions\Js\AddQuestion\AddQuestion.js">
       <DependentUpon>AddQuestion.ts</DependentUpon>
@@ -22343,6 +22348,7 @@
     <TypeScriptCompile Include="Views\Questions\Answer\Js\QuestionDetails\AnswerQuestionDetailsApp.ts" />
     <TypeScriptCompile Include="Views\Questions\Answer\Js\QuestionDetails\AnswerQuestionDetailsComponent.ts" />
     <TypeScriptCompile Include="Views\Questions\Answer\Js\InlineEditComponent.ts" />
+    <TypeScriptCompile Include="Views\Questions\Js\AddQuestion\EditQuestionModalLoader.ts" />
     <TypeScriptCompile Include="Views\Questions\Js\AddQuestion\AddQuestion.ts" />
     <TypeScriptCompile Include="Views\Questions\Js\QuestionList\QuestionListComponents.ts" />
     <TypeScriptCompile Include="Views\Questions\Js\QuestionList\QuestionListApp.ts" />
@@ -24020,6 +24026,9 @@
     </Content>
     <Content Include="Views\Questions\Js\AddQuestion\AddQuestion.js.map">
       <DependentUpon>AddQuestion.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Questions\Js\AddQuestion\AddQuestion - Copy.js.map">
+      <DependentUpon>EditQuestionModalLoader.ts</DependentUpon>
     </Content>
     <None Include="Web.overwritten.config.sample" />
     <Content Include="Views\Welcome\Logout.aspx" />

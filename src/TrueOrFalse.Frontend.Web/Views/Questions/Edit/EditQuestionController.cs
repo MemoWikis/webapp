@@ -3,6 +3,7 @@ using System.IO;
 using System.Security;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.Script.Serialization;
 using TrueOrFalse;
 using TrueOrFalse.Frontend.Web.Code;
 using TrueOrFalse.Web;
@@ -166,6 +167,42 @@ public class EditQuestionController : BaseController
             $"Die Frage <i>'{question.Text.TruncateAtWord(30)}'</i> wurde erstellt. Du kannst sie nun weiter bearbeiten.");
 
         return Redirect(Links.EditQuestion(question));
+    }
+
+    public int CreateFlashcard(FlashCardLoader flashCardJson)
+    {
+        var serializer = new JavaScriptSerializer();
+        var question = new Question();
+
+        question.Text = flashCardJson.Text;
+        question.SolutionType = (SolutionType) Enum.Parse(typeof(SolutionType), "Flashcard");
+
+        var solutionModelFlashCard = new QuestionSolutionFlashCard();
+        solutionModelFlashCard.Text = flashCardJson.Answer;
+        question.Solution = serializer.Serialize(solutionModelFlashCard);
+
+        question.Creator = _sessionUser.User;
+
+        var reference = new Reference();
+        reference.DateCreated = DateTime.Now;
+        question.References.Add(reference);
+
+        question.Visibility = flashCardJson.Visibility;
+        question.License = LicenseQuestionRepo.GetDefaultLicense();
+
+        _questionRepo.Create(question);
+
+        Sl.QuestionChangeRepo.AddUpdateEntry(question);
+
+        return question.Id;
+    }
+
+    public class FlashCardLoader
+    {
+        public int CategoryId { get; set; }
+        public string Text { get; set; }
+        public string Answer { get; set; }
+        public QuestionVisibility Visibility { get; set; }
     }
 
     private bool Validate(EditQuestionModel model)

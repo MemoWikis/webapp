@@ -112,6 +112,18 @@ namespace TemplateMigration
             }
         }
 
+        public static void MigrateQuestions()
+        {
+            var allQuestions = Sl.QuestionRepo.GetAll();
+
+            foreach (var question in allQuestions)
+            {
+                //if (question.SkipMigration)
+                //    continue;
+            }
+        }
+
+
         private class TopicNavigationJson
         {
             public string Title;

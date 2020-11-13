@@ -203,4 +203,9 @@ public class Question : DomainEntity, ICreator
     public virtual QuestionSolution GetSolution() => GetQuestionSolution.Run(this);
 
     public virtual string ToLomXml() => LomXml.From(this);
+
+    public string TextHtml { get; set; }
+    public string TextExtendedHtml { get; set; }
+    public string DescriptionHtml { get; set; }
+    public string SkipMigration { get; set; }
 }

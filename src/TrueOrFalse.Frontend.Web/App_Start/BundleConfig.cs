@@ -106,6 +106,9 @@ namespace TrueOrFalse.View
             bundles.Add(new ScriptBundle("~/bundles/js/LearningTabFABLoader")
                 .Include("~/Views/Categories/Detail/FloatingActionButton/LearningTabFabLoader.js"));
 
+            bundles.Add(new ScriptBundle("~/bundles/js/EditQuestionModalLoader")
+                .Include("~/Views/Questions/Js/EditQuestionModalLoader/EditQuestionModalLoader.js"));
+
             bundles.Add(new StyleBundle("~/bundles/CategoryHistory")
                 .Include("~/Views/Categories/History/*.css"));
 

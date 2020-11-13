@@ -1,14 +1,13 @@
-﻿
-<%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
+﻿<%@ Control Language="C#" AutoEventWireup="true" Inherits="System.Web.Mvc.ViewUserControl<AddQuestionComponentModel>" %>
 
-<add-question-component inline-template>
+<add-question-component inline-template current-category-id="<%= Model.CategoryId %>">
     <div id="AddInlineQuestionContainer">
 
         <div id="AddQuestionHeader" class="">
             <div class="add-inline-question-label main-label">
                 Frage hinzufügen 
                 <span>(Karteikarte)</span>
-                <a>erweiterte Optionen</a>
+                <a href="<%= Model.CreateQuestionUrl %>">erweiterte Optionen</a>
             </div>
             <div class="heart-container wuwi-red" @click="addToWuwi = !addToWuwi">
                 <div>
@@ -145,18 +144,36 @@
             </div>
             <div id="AddQuestionPrivacyContainer">
                 <div class="add-inline-question-label s-label">                
-                    Sichtbarkeit <i class="fas fa-question-circle"></i>
+                    Sichtbarkeit
                 </div>
                 <div class="form-check">
                     <input class="form-check-input" type="radio" name="publicQuestionRadio" id="publicQuestionRadio" value="0" v-model="visibility">
                     <label class="form-check-label" for="publicQuestionRadio">
                         Öffentliche Frage
+                        <i class="fa fa-question-circle show-tooltip" title="" data-placement="<%= CssJs.TooltipPlacementLabel %>" 
+                           data-html="true"
+                           data-original-title="
+                            <ul class='show-tooltip-ul'>
+                                <li>Die Frage ist für alle auffindbar.</li>
+                                <li>Jeder kann die Frage in sein Wunschwissen aufnehmen.</li>
+                                <li>Die Frage steht unter einer Creative-Commons-Lizenz und kann frei weiterverwendet werden.</li>
+                            </ul>">
+                        </i>
                     </label>
+
                 </div>
                 <div class="form-check">
                     <input class="form-check-input" type="radio" name="privateQuestionRadio" id="privateQuestionRadio" value="1" v-model="visibility">
                     <label class="form-check-label" for="privateQuestionRadio">
-                        Private Frage <i class="fas fa-eye-slash"></i>
+                        Private Frage                                             
+                        <i class="fa fa-question-circle show-tooltip tooltip-min-200" title="" data-placement="top" 
+                           data-html="true"
+                           data-original-title="
+                            <ul class='show-tooltip-ul'>
+                                <li>Die Frage kann nur von dir genutzt werden.</li>
+                                <li>Niemand sonst kann die Frage sehen oder nutzen.</li>
+                            </ul>">
+                        </i>
                     </label>
                 </div>
             </div>

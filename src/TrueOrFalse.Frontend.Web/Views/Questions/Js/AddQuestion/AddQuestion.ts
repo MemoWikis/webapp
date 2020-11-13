@@ -49,6 +49,7 @@ Vue.component('editor-menu-bar', tiptap.EditorMenuBar);
 Vue.component('editor-content', tiptap.EditorContent);
 
 Vue.component('add-question-component', {
+        props: ['current-category-id'],
         data() {
             return {
                 addToWuwi: true,
@@ -209,10 +210,23 @@ Vue.component('add-question-component', {
 
         methods: {
             addFlashcard() {
+                var json = {
+                    CategoryId: this.currentCategoryId,
+                    Text: this.questionHtml,
+                    Answer: this.answerHtml,
+                    Visibility: this.visibility
+                }
 
+                $.ajax({
+                    type: 'post',
+                    contentType: "application/json",
+                    url: '/Question/CreateFlashcard',
+                    data: JSON.stringify(json),
+                    success: function (questionId) {
+                        if (questionId) {
+                        }
+                    },
+                });
             },
-            addQuestion() {
-
-            }
         }
     })
