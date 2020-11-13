@@ -65,11 +65,11 @@ class User_entity_cache_tests : BaseTest
     {
         ContextCategory.New().AddCaseThreeToCache();
         UserEntityCache.Init();
-        ContextCategory.New(false).AddCaseThreeToCache(); 
+        ContextCategory.New(false).Case2(); 
         UserEntityCache.Init();
 
         Assert.That(UserEntityCache.GetCategories(2).Values.ToList().Count, Is.EqualTo(6));
-        Assert.That(UserEntityCache.GetCategories(3).Values.ToList().Count, Is.EqualTo(6));
+        Assert.That(UserEntityCache.GetCategories(3).Values.ToList().Count, Is.EqualTo(4));
     }
 }
 

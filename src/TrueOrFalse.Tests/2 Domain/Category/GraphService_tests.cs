@@ -248,46 +248,8 @@ A -> C
     [Test]
     public void Wish_knowledge_filter_middle_test()
     {
-        var context = ContextCategory.New();
-
-        var rootElement = context.Add("A").Persist().All.First();
-
-        var firstChildren = context
-            .Add("B", parent: rootElement)
-            .Add("C", parent: rootElement)
-            .Persist()
-            .All;
-
-        var secondChildren = context
-            .Add("H", parent: firstChildren.ByName("C"))
-            .Add("G", parent: firstChildren.ByName("C"))
-            .Add("F", parent: firstChildren.ByName("C"))
-            .Add("E", parent: firstChildren.ByName("C"))
-            .Add("D", parent: firstChildren.ByName("B"))
-            .Persist()
-            .All;
-
-        context
-            .Add("I", parent: secondChildren.ByName("C"))
-            .Persist();
-
-        context
-            .Add("I", parent: secondChildren.ByName("E"))
-            .Persist();
-
-        context.Add("I", parent: secondChildren.ByName("G"))
-            .Persist();
-
-
-        var user = ContextUser.New().Add("User").Persist().All[0];
-
-        // Add in WUWI
-        CategoryInKnowledge.Pin(firstChildren.ByName("B").Id, user);
-        CategoryInKnowledge.Pin(firstChildren.ByName("G").Id, user);
-        CategoryInKnowledge.Pin(firstChildren.ByName("E").Id, user);
-        CategoryInKnowledge.Pin(firstChildren.ByName("I").Id, user);
-
-        Sl.SessionUser.Login(user);
+        ContextCategory.New().Case2();
+        var rootElement = EntityCache.GetAllCategories().First();
 
         var userPersonelCategoriesWithRealtions = GraphService.GetAllPersonelCategoriesWithRealtions(rootElement);
 

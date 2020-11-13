@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using Google.Protobuf.WellKnownTypes;
 using Org.BouncyCastle.Bcpg;
 
 namespace TrueOrFalse.Tests
@@ -195,8 +196,49 @@ namespace TrueOrFalse.Tests
             CategoryInKnowledge.Pin(firstChildren.ByName("I").Id, user);
             CategoryInKnowledge.Pin(firstChildren.ByName("X").Id, user);
             CategoryInKnowledge.Pin(firstChildren.ByName("X3").Id, user);
+        }
 
-          
+        public void Case2()
+        {
+            //  this method display this case https://docs.google.com/drawings/d/1yoBx4OAUT3W2is9WpWczZ7Qb-lwvZeAGqDZYnP89wNk/
+
+            
+
+            var rootElement = Add("A").Persist().All.First();
+
+            var firstChildren =
+                Add("B", parent: rootElement)
+                .Add("C", parent: rootElement)
+                .Persist()
+                .All;
+
+            var secondChildren = 
+                 Add("H", parent: firstChildren.ByName("C"))
+                .Add("G", parent: firstChildren.ByName("C"))
+                .Add("F", parent: firstChildren.ByName("C"))
+                .Add("E", parent: firstChildren.ByName("C"))
+                .Add("D", parent: firstChildren.ByName("B"))
+                .Persist()
+                .All;
+
+            Add("I", parent: secondChildren.ByName("C"))
+                .Persist();
+
+            Add("I", parent: secondChildren.ByName("E"))
+                .Persist();
+
+            Add("I", parent: secondChildren.ByName("G"))
+                .Persist();
+
+            var user = ContextUser.New().Add("User").Persist().All[0];
+
+            // Add in WUWI
+            CategoryInKnowledge.Pin(firstChildren.ByName("B").Id, user);
+            CategoryInKnowledge.Pin(firstChildren.ByName("G").Id, user);
+            CategoryInKnowledge.Pin(firstChildren.ByName("E").Id, user);
+            CategoryInKnowledge.Pin(firstChildren.ByName("I").Id, user);
+
+            Sl.SessionUser.Login(user);
         }
     }
 }

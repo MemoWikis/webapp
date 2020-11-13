@@ -10,12 +10,10 @@ public class UserEntityCache : BaseCache
 
     private static string CategoriesCacheKey(int userId) => "Categories_" + userId;
 
-
     public static void Init()
     {
         var user = Sl.SessionUser.User;
-        var t = GraphService
-            .GetAllPersonelCategoriesWithRealtions(_rootCategoryId);
+
         var cacheItem = new UserEntityCacheItem()
         {
             User = user,
@@ -23,7 +21,6 @@ public class UserEntityCache : BaseCache
                 .GetAllPersonelCategoriesWithRealtions(_rootCategoryId).ToConcurrentDictionary())
         };
         Cache.Add(CategoriesCacheKey(user.Id), cacheItem.Categories, TimeSpan.FromMinutes(ExpirationSpanInMinutes),true);
-
     }
 
     public static UserEntityCacheItem GetUserWorldItem(int userId)
@@ -40,7 +37,6 @@ public class UserEntityCache : BaseCache
         };
         return result;
     }
-
 
     public static ConcurrentDictionary<int, Category> GetCategories(int userId)
     {
