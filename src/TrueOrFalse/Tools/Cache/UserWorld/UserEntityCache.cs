@@ -1,18 +1,12 @@
 ﻿using System;
+using Seedworks.Web.State;
 using System.Collections.Concurrent;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Text;
-using System.Threading.Tasks;
-using System.Web;
-using System.Web.Caching;
-using FluentNHibernate.Utils;
 using TrueOrFalse.Tools.Cache.UserWorld;
 
 public class UserEntityCache : BaseCache
 {
     private static int _rootCategoryId = 1;
+    public const int ExpirationSpanInMinutes = 600;
 
     private static string CategoriesCacheKey(int userId) => "Categories_" + userId;
 
@@ -20,23 +14,24 @@ public class UserEntityCache : BaseCache
     public static void Init()
     {
         var user = Sl.SessionUser.User;
-
-        var cacheItem = new UserWorldCacheItem()
+        var t = GraphService
+            .GetAllPersonelCategoriesWithRealtions(_rootCategoryId);
+        var cacheItem = new UserEntityCacheItem()
         {
             User = user,
             Categories = new ConcurrentDictionary<int, Category>(GraphService
                 .GetAllPersonelCategoriesWithRealtions(_rootCategoryId).ToConcurrentDictionary())
         };
-        IntoForeverCache(CategoriesCacheKey(user.Id), cacheItem.Categories);
+        Cache.Add(CategoriesCacheKey(user.Id), cacheItem.Categories, TimeSpan.FromMinutes(ExpirationSpanInMinutes),true);
 
     }
 
-    public static UserWorldCacheItem GetUserWorldItem(int userId)
+    public static UserEntityCacheItem GetUserWorldItem(int userId)
     {
-        var categories = (ConcurrentDictionary<int, Category>)HttpRuntime.Cache[CategoriesCacheKey(userId)];
+        var categories = Cache.Get<ConcurrentDictionary<int, Category>>(CategoriesCacheKey(userId));
         var user = Sl.UserRepo.GetById(userId);
 
-        var result = new UserWorldCacheItem
+        var result = new UserEntityCacheItem
         {
             User = user ?? Sl.UserRepo.GetById(userId),
             Categories = categories ?? new ConcurrentDictionary<int, Category>(GraphService
@@ -49,8 +44,7 @@ public class UserEntityCache : BaseCache
 
     public static ConcurrentDictionary<int, Category> GetCategories(int userId)
     {
-
-        return (ConcurrentDictionary<int, Category>) HttpRuntime.Cache[CategoriesCacheKey(userId)]; 
+        return Cache.Get<ConcurrentDictionary<int, Category>>(CategoriesCacheKey(userId));
     }
 }
 

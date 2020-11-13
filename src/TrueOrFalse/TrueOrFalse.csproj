@@ -334,7 +334,7 @@
     <Compile Include="Tools\Analytics\Widget\WidgetViewsPerMonthAndKeyResult.cs" />
     <Compile Include="Tools\Cache\BaseCache.cs" />
     <Compile Include="Tools\Cache\UserWorld\UserEntityCache.cs" />
-    <Compile Include="Tools\Cache\UserWorld\UserWorldCacheItem.cs" />
+    <Compile Include="Tools\Cache\UserWorld\UserEntityCacheItem.cs" />
     <Compile Include="Tools\Export\LomExporter.cs" />
     <Compile Include="Tools\Export\LomLists.cs" />
     <Compile Include="Tools\Export\LomXml.cs" />
