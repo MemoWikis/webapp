@@ -58,7 +58,7 @@ public class GraphService
     {
 
         var rootCategory = EntityCache.GetCategory(rootCategoryId).DeepClone();
-        var children = EntityCache.GetDescendants(rootCategory).DeepClone();
+        var children = EntityCache.GetDescendants(rootCategory).DeepClone().Distinct();
         var listWithUserPersonelCategories = new List<Category>();
 
 
