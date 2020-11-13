@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using Org.BouncyCastle.Bcpg;
 
 namespace TrueOrFalse.Tests
 {
@@ -185,6 +186,7 @@ namespace TrueOrFalse.Tests
                 .Persist();
 
             var user = ContextUser.New().Add("User").Persist().All[0];
+            Sl.SessionUser.Login(user);
 
             // Add in WUWI
             CategoryInKnowledge.Pin(firstChildren.ByName("B").Id, user);
@@ -194,7 +196,7 @@ namespace TrueOrFalse.Tests
             CategoryInKnowledge.Pin(firstChildren.ByName("X").Id, user);
             CategoryInKnowledge.Pin(firstChildren.ByName("X3").Id, user);
 
-            Sl.SessionUser.Login(user);
+          
         }
     }
 }

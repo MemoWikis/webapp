@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace TrueOrFalse.Tools.Cache.UserWorld
 {
-   public class UserWorldCacheItem
+   public class UserEntityCacheItem
     {
         public User User;
         public ConcurrentDictionary<int, Category> Categories; 
