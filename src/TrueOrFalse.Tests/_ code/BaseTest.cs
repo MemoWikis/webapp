@@ -1,4 +1,6 @@
-﻿using Autofac;
+﻿using System.Threading;
+using System.Web.UI.WebControls;
+using Autofac;
 using AutofacContrib.SolrNet;
 using AutofacContrib.SolrNet.Config;
 using HibernatingRhinos.Profiler.Appender.NHibernate;
@@ -13,12 +15,12 @@ using TrueOrFalse.Utilities.ScheduledJobs;
 public class BaseTest
 {
     private static IContainer _container;
-
     static BaseTest()
     {
         #if DEBUG
 //            NHibernateProfiler.Initialize();
         #endif
+
     }
 
     [SetUp]
@@ -27,12 +29,15 @@ public class BaseTest
         CleanEmailsFromPickupDirectory.Run();
         InitializeContainer();
 
+        EntityCache.Init(" (started in unit test) ");
+
         Resolve<SessionUser>().Login(new User());
         Resolve<SessionUser>().IsInstallationAdmin = true;
 
+
         DateTimeX.ResetOffset();
 
-        EntityCache.Init(" (started in unit test) ");
+        
     }
 
     public void RecycleContainer()
