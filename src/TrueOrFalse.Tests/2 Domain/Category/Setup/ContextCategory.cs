@@ -134,7 +134,7 @@ namespace TrueOrFalse.Tests
             return this;
         }
 
-        public void AddCaseThreeToCache()
+        public void AddCaseThreeToCache(bool withWuwi = true)
         {
             //Add this Case: https://drive.google.com/file/d/1CEMMm1iIhfNKvuKng5oM6erR0bVDWHr6/view?usp=sharing
 
@@ -187,18 +187,22 @@ namespace TrueOrFalse.Tests
                 .Persist();
 
             var user = ContextUser.New().Add("User").Persist().All[0];
-            Sl.SessionUser.Login(user);
 
-            // Add in WUWI
-            CategoryInKnowledge.Pin(firstChildren.ByName("B").Id, user);
-            CategoryInKnowledge.Pin(firstChildren.ByName("G").Id, user);
-            CategoryInKnowledge.Pin(firstChildren.ByName("F").Id, user);
-            CategoryInKnowledge.Pin(firstChildren.ByName("I").Id, user);
-            CategoryInKnowledge.Pin(firstChildren.ByName("X").Id, user);
-            CategoryInKnowledge.Pin(firstChildren.ByName("X3").Id, user);
+            if (withWuwi)
+            {
+                // Add in WUWI
+                CategoryInKnowledge.Pin(firstChildren.ByName("B").Id, user);
+                CategoryInKnowledge.Pin(firstChildren.ByName("G").Id, user);
+                CategoryInKnowledge.Pin(firstChildren.ByName("F").Id, user);
+                CategoryInKnowledge.Pin(firstChildren.ByName("I").Id, user);
+                CategoryInKnowledge.Pin(firstChildren.ByName("X").Id, user);
+                CategoryInKnowledge.Pin(firstChildren.ByName("X3").Id, user);
+            }
+
+            Sl.SessionUser.Login(user);
         }
 
-        public void Case2()
+        public void AddCaseTwoToCache()
         {
             //  this method display this case https://docs.google.com/drawings/d/1yoBx4OAUT3W2is9WpWczZ7Qb-lwvZeAGqDZYnP89wNk/
 

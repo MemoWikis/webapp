@@ -248,7 +248,7 @@ A -> C
     [Test]
     public void Wish_knowledge_filter_middle_test()
     {
-        ContextCategory.New().Case2();
+        ContextCategory.New().AddCaseTwoToCache();
         var rootElement = EntityCache.GetAllCategories().First();
 
         var userPersonelCategoriesWithRealtions = GraphService.GetAllPersonelCategoriesWithRealtions(rootElement);
@@ -472,6 +472,16 @@ A -> C
 
     }
 
+    [Test]
+    public void Without_wish_knowledge()
+    {
+        ContextCategory.New().AddCaseThreeToCache(false);
+        var rootElement = EntityCache.GetAllCategories().ByName("A");
+
+        var userPersonelCategoriesWithRealtions = GraphService.GetAllPersonelCategoriesWithRealtions(rootElement);
+        Assert.That(userPersonelCategoriesWithRealtions.Count, Is.EqualTo(0));
+    }
+
     private bool IsAllRelationsAChildOf(IList<CategoryRelation> categoryRelations)
     {
         var result = true;
@@ -493,5 +503,7 @@ A -> C
     {
         return category.CategoryRelations.Select(cr => cr.Category.Name == category.Name).All(b => b == true);
     }
+
+
 }
 
