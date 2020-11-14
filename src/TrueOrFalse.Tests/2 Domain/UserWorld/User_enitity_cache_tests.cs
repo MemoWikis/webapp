@@ -1,18 +1,7 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Concurrent;
-using System.Collections.Generic;
-//using System.Collections.Generic;
-using System.Drawing.Design;
-using System.Linq;
-using System.Net;
-using System.Text;
-using System.Threading.Tasks;
-using System.Web;
-using BDDish.Model;
+﻿using System.Linq;
+using System.Threading;
 using NUnit.Framework;
 using TrueOrFalse.Tests;
-
 
 class User_entity_cache_tests : BaseTest
 {
@@ -64,9 +53,8 @@ class User_entity_cache_tests : BaseTest
     public void Give_correct_number_of_cache_items()
     {
         ContextCategory.New().AddCaseThreeToCache();
-        UserEntityCache.Init();
-        ContextCategory.New(false).AddCaseTwoToCache(); 
-        UserEntityCache.Init();
+        ContextCategory.New(false).AddCaseTwoToCache();
+        Thread.Sleep(100);
 
         Assert.That(UserEntityCache.GetCategories(2).Values.ToList().Count, Is.EqualTo(6));
         Assert.That(UserEntityCache.GetCategories(3).Values.ToList().Count, Is.EqualTo(4));
