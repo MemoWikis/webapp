@@ -40,7 +40,13 @@ public class UserEntityCache : BaseCache
 
     public static ConcurrentDictionary<int, Category> GetCategories(int userId)
     {
-        return Cache.Get<ConcurrentDictionary<int, Category>>(CategoriesCacheKey(userId));
+
+        return Cache.Get<ConcurrentDictionary<int, Category>>(CategoriesCacheKey(userId)) ?? new ConcurrentDictionary<int, Category>();
+    }
+
+    public static void DeleteCacheForUser(int userId)
+    {
+        Cache.Remove(CategoriesCacheKey(userId));
     }
 }
 

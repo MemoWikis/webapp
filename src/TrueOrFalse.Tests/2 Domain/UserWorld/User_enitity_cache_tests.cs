@@ -53,11 +53,19 @@ class User_entity_cache_tests : BaseTest
     public void Give_correct_number_of_cache_items()
     {
         ContextCategory.New().AddCaseThreeToCache();
-        ContextCategory.New(false).AddCaseTwoToCache();
         Thread.Sleep(100);
+        var user = Sl.SessionUser.User;
+        Assert.That(UserEntityCache.GetCategories(user.Id).Values.ToList().Count, Is.EqualTo(6));
+        
+        Sl.SessionUser.Logout();
+        Assert.That(UserEntityCache.GetCategories(user.Id).Values.ToList().Count, Is.EqualTo(0));
 
-        Assert.That(UserEntityCache.GetCategories(2).Values.ToList().Count, Is.EqualTo(6));
-        Assert.That(UserEntityCache.GetCategories(3).Values.ToList().Count, Is.EqualTo(4));
+        ContextCategory.New(false).AddCaseTwoToCache();
+        Thread.Sleep(100); 
+        user = Sl.SessionUser.User;
+        Assert.That(UserEntityCache.GetCategories(user.Id).Values.ToList().Count, Is.EqualTo(4));
     }
+
+
 }
 

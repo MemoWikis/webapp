@@ -70,6 +70,7 @@ public class SessionUser : SessionBase, IRegisterAsInstancePerLifetime
 
     public void Logout()
     {
+        UserEntityCache.DeleteCacheForUser(User.Id);
         IsLoggedIn = false;
         IsInstallationAdmin = false;
         User = null;
