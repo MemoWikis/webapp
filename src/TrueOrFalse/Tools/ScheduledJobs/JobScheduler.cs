@@ -1,6 +1,7 @@
 ﻿using Quartz;
 using Quartz.Impl;
 using TrueOrFalse.Infrastructure;
+using TrueOrFalse.Tools.ScheduledJobs.Jobs;
 
 namespace TrueOrFalse.Utilities.ScheduledJobs
 {
@@ -181,6 +182,15 @@ namespace TrueOrFalse.Utilities.ScheduledJobs
                 JobBuilder.Create<InitUserValuationCache>()
                 .UsingJobData("userId", userId)
                 .Build(),
+                TriggerBuilder.Create().StartNow().Build());
+        }
+
+        public static void StartImmediately_InitUser_Entity_Cache(int userId)
+        {
+            _scheduler.ScheduleJob(
+                JobBuilder.Create<InitUserEntityCache>()
+                    .UsingJobData("userId", userId)
+                    .Build(),
                 TriggerBuilder.Create().StartNow().Build());
         }
     }
