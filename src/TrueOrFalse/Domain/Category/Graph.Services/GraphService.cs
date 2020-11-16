@@ -62,10 +62,8 @@ public class GraphService
         var listWithUserPersonelCategories = new List<Category>();
 
 
-        foreach (var child in children)
+        foreach (var child in children.Where(c => c.IsInWishknowledge()))
         {
-            if (!child.IsInWishknowledge())
-                continue;
 
             var parents = GetParentsFromCategory(child);
             var hasRootInParents = parents.Any(c => c.Id == rootCategoryId);
