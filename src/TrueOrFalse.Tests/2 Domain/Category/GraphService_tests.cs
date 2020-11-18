@@ -317,6 +317,7 @@ A -> C
     public void Wish_knowledge_filter_complex_test()
     {
         ContextCategory.New().AddCaseThreeToCache();
+        UserEntityCache.Init(true);
         var rootElement = EntityCache.GetAllCategories().ByName("A"); 
 
         var userPersonelCategoriesWithRealtions = GraphService.GetAllPersonelCategoriesWithRealtions(rootElement);

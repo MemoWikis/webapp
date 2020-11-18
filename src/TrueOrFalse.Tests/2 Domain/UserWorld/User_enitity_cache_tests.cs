@@ -11,7 +11,7 @@ class User_entity_cache_tests : BaseTest
         ContextCategory.New().AddCaseThreeToCache();
         var user = Sl.SessionUser.User;
        
-       UserEntityCache.Init();
+       UserEntityCache.Init(true);
         var userEntityCacheCategories = UserEntityCache.GetCategories(user.Id).Values.ToList();
         var entityCacheCategories = EntityCache.GetAllCategories().ToList();
 
@@ -53,7 +53,7 @@ class User_entity_cache_tests : BaseTest
     public void Give_correct_number_of_cache_items()
     {
         ContextCategory.New().AddCaseThreeToCache();
-        Thread.Sleep(100);
+        UserEntityCache.Init(true);
         var user = Sl.SessionUser.User;
         Assert.That(UserEntityCache.GetCategories(user.Id).Values.ToList().Count, Is.EqualTo(6));
         
@@ -61,9 +61,25 @@ class User_entity_cache_tests : BaseTest
         Assert.That(UserEntityCache.GetCategories(user.Id).Values.ToList().Count, Is.EqualTo(0));
 
         ContextCategory.New(false).AddCaseTwoToCache();
-        Thread.Sleep(100); 
+        Thread.Sleep(100);
+        UserEntityCache.Init(true);
         user = Sl.SessionUser.User;
         Assert.That(UserEntityCache.GetCategories(user.Id).Values.ToList().Count, Is.EqualTo(4));
+    }
+
+    [Test]
+    public void Give_correct_children()
+    {
+        ContextCategory.New().AddCaseThreeToCache();
+        UserEntityCache.Init(true);
+        var user = Sl.SessionUser.User;
+      var children =   UserEntityCache.GetChildren(1, user.Id); 
+
+        Assert.That(children.Where(c => c.Name == "B").Count(), Is.EqualTo(1));
+        Assert.That(children.Where(c => c.Name == "X").Count(), Is.EqualTo(1));
+        Assert.That(children.Where(c => c.Name == "X3").Count(), Is.EqualTo(1));
+        Assert.That(children.Count, Is.EqualTo(3));
+
     }
 
 
