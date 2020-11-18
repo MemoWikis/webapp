@@ -111,10 +111,9 @@ public class TopicNavigationModel : BaseContentModule
 
     public int GetTotalTopicCount(Category category)
     {
-        return Sl.CategoryRepo.GetChildren(category.Id).Count(c => c.Type == CategoryType.Standard && c.GetAggregatedQuestionIdsFromMemoryCache().Count > 0);
-      
-    }
+        return EntityCache.GetChildren(category.Id).Count(c => c.Type == CategoryType.Standard && c.GetAggregatedQuestionIdsFromMemoryCache().Count > 0);
 
+    }
 }
 
 
