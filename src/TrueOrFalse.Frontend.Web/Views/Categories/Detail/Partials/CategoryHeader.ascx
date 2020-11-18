@@ -49,9 +49,7 @@
                                 (<i class="fa fa-user-secret" data-details="<%= Model.GetViewsPerDay() %>">&nbsp;</i><%= Model.GetViews() %> views)
                             </span>
                         </a>
-                    
                         <div id="last60DaysViews" style="display: none"></div>
-                        
                     <% } %>
                 </div>
             </div>

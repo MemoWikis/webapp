@@ -64,6 +64,7 @@ public class CategoryModel : BaseContentModule
     public bool OpenEditMode;
     public bool IsDisplayNoneSessionConfigNote { get; set; }
     public bool IsDisplayNoneSessionConfigNoteQuestionList { get; set; }
+    public bool IsFilteredUserWorld = false; 
 
     public CategoryModel()
     {
@@ -151,8 +152,9 @@ public class CategoryModel : BaseContentModule
         TopWishQuestions = wishQuestions.Items;
 
         SingleQuestions = GetQuestionsForCategory.QuestionsNotIncludedInSet(Id);
+        IsFilteredUserWorld = UserCache.IsFiltered;
 
-        AggregatedTopicCount = new TopicNavigationModel().GetTotalTopicCount(category);
+        AggregatedTopicCount = IsFilteredUserWorld ? CategoriesChildren.Count : new TopicNavigationModel().GetTotalTopicCount(category);
 
         AggregatedQuestionCount = Category.GetCountQuestionsAggregated();
         CategoryQuestionCount = Category.GetCountQuestionsAggregated(true, category.Id);
@@ -161,6 +163,7 @@ public class CategoryModel : BaseContentModule
 
         TotalPins = category.TotalRelevancePersonalEntries.ToString();
         OpenEditMode = openEditMode;
+        
     }
 
     private List<Question> GetTopQuestionsInSubCats()
