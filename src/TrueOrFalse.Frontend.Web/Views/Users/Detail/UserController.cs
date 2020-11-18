@@ -1,4 +1,5 @@
 ﻿using System.Web;
+using System.Web.ModelBinding;
 using System.Web.Mvc;
 
 public class UserController : BaseController
@@ -42,6 +43,8 @@ public class UserController : BaseController
     [HttpPost]
     public void SetUserWorldInUserCache()
     {
+        if (!Sl.SessionUser.IsLoggedIn)
+            return;
         UserCache.IsFiltered = !UserCache.IsFiltered; 
     }
 }
