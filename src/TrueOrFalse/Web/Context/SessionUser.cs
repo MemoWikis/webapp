@@ -65,7 +65,6 @@ public class SessionUser : SessionBase, IRegisterAsInstancePerLifetime
 
         JobScheduler.StartImmediately_InitUserValuationCache(user.Id);
         JobScheduler.StartImmediately_InitUser_Entity_Cache(user.Id);
-
     }
 
     public void Logout()

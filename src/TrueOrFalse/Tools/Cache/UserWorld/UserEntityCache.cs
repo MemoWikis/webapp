@@ -24,8 +24,13 @@ public class UserEntityCache : BaseCache
             Categories = new ConcurrentDictionary<int, Category>(GraphService
                 .GetAllPersonelCategoriesWithRealtions(_rootCategoryId).ToConcurrentDictionary())
         };
-        var categoriesCacheKey = CategoriesCacheKey(user.Id); 
-        Cache.Add(categoriesCacheKey, cacheItem.Categories, TimeSpan.FromMinutes(ExpirationSpanInMinutes),true);
+        var categoriesCacheKey = CategoriesCacheKey(user.Id);
+        
+        Cache.Add(categoriesCacheKey,
+            cacheItem.Categories,
+            TimeSpan.FromMinutes(ExpirationSpanInMinutes),
+            true);
+
         CategoriesCacheKeyList.Add(categoriesCacheKey);
     }
 
@@ -55,10 +60,12 @@ public class UserEntityCache : BaseCache
         var allCategories = UserEntityCache.GetCategories(userId).Values.ToList();
 
         return allCategories.SelectMany(c =>
-            c.CategoryRelations.Where(cr => cr.CategoryRelationType == CategoryRelationType.IsChildCategoryOf && cr.RelatedCategory.Id == category.Id)
-                .Select(cr => cr.Category)).ToList();
+            c.CategoryRelations.Where(cr => 
+                    cr.CategoryRelationType == CategoryRelationType.IsChildCategoryOf
+                    && cr.RelatedCategory.Id == category.Id)
+                .Select(cr => cr.Category))
+            .ToList();
     }
-
 }
 
 
