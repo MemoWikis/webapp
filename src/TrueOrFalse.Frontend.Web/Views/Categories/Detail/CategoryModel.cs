@@ -119,7 +119,7 @@ public class CategoryModel : BaseContentModule
         IsOwnerOrAdmin = _sessionUser.IsLoggedInUserOrAdmin(Creator.Id);
 
         CategoriesParent = category.ParentCategories();
-        CategoriesChildren = _categoryRepo.GetChildren(category.Id);
+        CategoriesChildren = UserCache.IsFiltered ? UserEntityCache.GetChildren(category.Id, UserId) : _categoryRepo.GetChildren(category.Id);
 
         CorrectnesProbability = category.CorrectnessProbability;
         AnswersTotal = category.CorrectnessProbabilityAnswerCount;

@@ -3,12 +3,10 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
-using System.Text;
 using System.Web;
 using System.Web.Mvc;
-using Microsoft.Ajax.Utilities;
-using SolrNet.Utils;
 using TrueOrFalse.Frontend.Web.Code;
+using TrueOrFalse.Tools;
 
 
 [SetUserMenu(UserMenuEntry.None)]
@@ -22,20 +20,10 @@ public class CategoryController : BaseController
     public ActionResult Category(int id, int? version, bool? openEditMode)
     {
         var modelAndCategoryResult = LoadModel(id, version, openEditMode: openEditMode);
-        modelAndCategoryResult.CategoryModel.IsDisplayNoneSessionConfigNote = GetSettingsCookie("SessionConfigTopNote");
-        modelAndCategoryResult.CategoryModel.IsDisplayNoneSessionConfigNoteQuestionList = !GetSettingsCookie("SessionConfigQuestionList");
         modelAndCategoryResult.CategoryModel.IsInTopic = true;
 
         return View(_viewLocation, modelAndCategoryResult.CategoryModel);
     }
-
-    //public ActionResult CategoryBySetId(int id, int? version)
-    //{
-    //    var modelAndCategoryResult = LoadModel(id, version, true);
-    //    modelAndCategoryResult.CategoryModel.IsInTopic = true;
-
-    //    return View(_viewLocation, modelAndCategoryResult.CategoryModel);
-    //}
 
     public ActionResult CategoryLearningTab(int id, int? version)
     {
@@ -50,8 +38,6 @@ public class CategoryController : BaseController
     public ActionResult CategoryAnalyticsTab(int id, int? version)
     {
         var modelAndCategoryResult = LoadModel(id, version);
-        modelAndCategoryResult.CategoryModel.IsDisplayNoneSessionConfigNote = GetSettingsCookie("SessionConfigTopNote");
-        modelAndCategoryResult.CategoryModel.IsDisplayNoneSessionConfigNoteQuestionList = !GetSettingsCookie("SessionConfigQuestionList");
         modelAndCategoryResult.CategoryModel.IsInAnalyticsTab = true;
 
         return View(_viewLocation, modelAndCategoryResult.CategoryModel);
@@ -60,7 +46,16 @@ public class CategoryController : BaseController
     private LoadModelResult LoadModel(int id, int? version, bool? openEditMode = false)
     {
         var result = new LoadModelResult();
-        var category =  EntityCache.GetCategory(id);
+        Category category;
+
+        if (UserCache.IsFiltered && !HelperTools.IsRootCategory(id))
+        {
+            category = UserEntityCache.GetCategory(id, Sl.SessionUser.UserId); 
+        }
+        else
+        {
+            category = EntityCache.GetCategory(id);
+        }
 
         var isCategoryNull = category == null;
 
