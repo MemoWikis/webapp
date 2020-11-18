@@ -48,7 +48,7 @@ public class CategoryController : BaseController
         var result = new LoadModelResult();
         Category category;
 
-        if (UserCache.IsFiltered && !HelperTools.IsRootCategory(id))
+        if (UserCache.IsFiltered)
         {
             category = UserEntityCache.GetCategory(id, Sl.SessionUser.UserId); 
         }
