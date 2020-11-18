@@ -1,10 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Net;
+using System.Runtime.Serialization.Formatters.Binary;
 using System.ServiceModel.Configuration;
+using FluentNHibernate.Automapping;
 using FluentNHibernate.Utils;
+using Google.Protobuf;
+using Quartz.Util;
 using RazorEngine.Compilation.ImpromptuInterface;
 
 public class GraphService
@@ -56,15 +61,18 @@ public class GraphService
 
     public static IList<Category> GetAllPersonelCategoriesWithRealtions(int rootCategoryId)
     {
+        var rootCategory = Extensions.DeepClone(
+            EntityCache.GetCategory(rootCategoryId));
 
-        var rootCategory = EntityCache.GetCategory(rootCategoryId).DeepClone();
-        var children = EntityCache.GetDescendants(rootCategory).DeepClone().Distinct();
+        var children = Extensions.DeepClone(
+             EntityCache.GetDescendants(rootCategory))
+            .Distinct();
+
         var listWithUserPersonelCategories = new List<Category>();
 
 
         foreach (var child in children.Where(c => c.IsInWishknowledge()))
         {
-
             var parents = GetParentsFromCategory(child);
             var hasRootInParents = parents.Any(c => c.Id == rootCategoryId);
             child.CategoryRelations.Clear();
@@ -121,6 +129,9 @@ public class GraphService
             }
         }
 
+        rootCategory.CategoryRelations = new List<CategoryRelation>();
+        listWithUserPersonelCategories.Add(rootCategory);
+            
         return listWithUserPersonelCategories;
     }
 
@@ -141,6 +152,28 @@ public class GraphService
             {
                 ModifyRelationsForCategory.UpdateRelationsOfTypeIncludesContentOf(parentCategory);
             }
+        }
+    }
+}
+
+public static class ObjectClone
+{
+    public static object Copy<T>(this object obj)
+    {
+        var isNotSerializable = !typeof(T).IsSerializable;
+        if (isNotSerializable)
+            throw new ArgumentException("The type must be serializable.", "source");
+
+        var sourceIsNull = ReferenceEquals(obj, null);
+        if (sourceIsNull)
+            return default(T);
+
+        var formatter = new BinaryFormatter();
+        using (var stream = new MemoryStream())
+        {
+            formatter.Serialize(stream, obj);
+            stream.Seek(0, SeekOrigin.Begin);
+            return (T)formatter.Deserialize(stream);
         }
     }
 }
