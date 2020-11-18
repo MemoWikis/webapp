@@ -39,7 +39,12 @@ public class GraphService
                 }
             }
 
-            currentGeneration = previousGeneration.Except(parents).Where(c => c.Id != category.Id).Distinct().ToList(); // ParentParents except the Parents and parentparentcategory.id is non equal categoryId 
+            currentGeneration = previousGeneration
+                .Except(parents)
+                .Where(c => c.Id != category.Id)
+                .Distinct()
+                .ToList(); // ParentParents except the Parents and parentparentcategory.id is non equal categoryId 
+
             previousGeneration = new List<Category>(); // clear list
             // return in While loop
         }
@@ -51,7 +56,10 @@ public class GraphService
     public static List<Category> GetLastWuwiChildrenFromCategories(int categoryId)
     {
         var childrenReverse = EntityCache.GetDescendants(categoryId);
-        var lastChildren = childrenReverse.Where(c => EntityCache.GetChildren(c.Id).Count == 0 && c.IsInWishknowledge());
+        var lastChildren = childrenReverse
+            .Where(c =>
+                EntityCache.GetChildren(c.Id).Count == 0 &&
+                c.IsInWishknowledge());
 
         return lastChildren.ToList();
 
