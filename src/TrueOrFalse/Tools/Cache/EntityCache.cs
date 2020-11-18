@@ -40,18 +40,12 @@ public class EntityCache : BaseCache
 
         var questions = Sl.QuestionRepo.GetAll();
         var categories = Sl.CategoryRepo.GetAllEager();
-        var sets = Sl.SetRepo.GetAllEager();
-        var questionInSets = Sl.QuestionInSetRepo.GetAll();
 
         Logg.r().Information("EntityCache LoadAllEntities" + customMessage + "{Elapsed}", stopWatch.Elapsed);
 
         IntoForeverCache(_cacheKeyQuestions, questions.ToConcurrentDictionary());
         IntoForeverCache(_cacheKeyCategories, categories.ToConcurrentDictionary());
-        IntoForeverCache(_cacheKeySets, sets.ToConcurrentDictionary());
         IntoForeverCache(_cacheKeyCategoryQuestionsList, GetCategoryQuestionsList(questions));
-        IntoForeverCache(_cacheKeyCategorySetsList, GetCategorySetsList(sets));
-        IntoForeverCache(_cacheKeyCategoryQuestionInSetList, GetCategoryQuestionInSetList(questionInSets));
-
 
         Logg.r().Information("EntityCache PutIntoCache" + customMessage + "{Elapsed}", stopWatch.Elapsed);
     }
@@ -68,31 +62,6 @@ public class EntityCache : BaseCache
         return categoryQuestionList;
     }
 
-    private static ConcurrentDictionary<int, ConcurrentDictionary<int, int>> GetCategorySetsList(IList<Set> sets)
-    {
-        var categorySetsList = new ConcurrentDictionary<int, ConcurrentDictionary<int, int>>();
-        foreach (var set in sets)
-        {
-            UpdateCategorySetList(categorySetsList, set);
-        }
-
-        return categorySetsList;
-    }
-
-    private static ConcurrentDictionary<int, ConcurrentDictionary<int, ConcurrentDictionary<int, int>>>
-        GetCategoryQuestionInSetList(IList<QuestionInSet> questionInSetItems)
-    {
-        var categoryQuestionInSetList =
-            new ConcurrentDictionary<int, ConcurrentDictionary<int, ConcurrentDictionary<int, int>>>();
-
-        foreach (var questionInSet in questionInSetItems)
-        {
-            AddQuestionInSetTo(categoryQuestionInSetList, questionInSet);
-        }
-
-        return categoryQuestionInSetList;
-    }
-
     public static IList<Question> GetQuestionsForCategory(int categoryId)
     {
         return GetQuestionsByIds(GetQuestionsIdsForCategory(categoryId));
@@ -103,11 +72,6 @@ public class EntityCache : BaseCache
         return CategoryQuestionsList.ContainsKey(categoryId) 
             ? CategoryQuestionsList[categoryId].Keys.ToList() 
             : new List<int>();
-    }
-
-    public static IList<Question> GetQuestionsInSetsForCategory(int categoryId)
-    {
-        return GetQuestionsByIds(GetQuestionsInSetsIdsForCategory(categoryId));
     }
 
     public static IList<Set> GetSetsForCategory(int categoryId)
@@ -122,27 +86,7 @@ public class EntityCache : BaseCache
 
     public static IList<int> GetSetIdsForCategory(int categoryId)
     {
-        return CategorySetsList.ContainsKey(categoryId)
-            ? CategorySetsList[categoryId].Keys.ToList()
-            : new List<int>();
-    }
-
-    public static IList<int> GetQuestionsInSetsIdsForCategory(int categoryId)
-    {
-        var questionIds = new List<int>();
-
-        if (!CategoryQuestionInSetList.TryGetValue(categoryId, out var questionSetIdLists)) return questionIds;
-
-        foreach (var questionId in questionSetIdLists.Keys)
-        {
-            if (questionSetIdLists.TryGetValue(questionId, out var setIdList)
-                && !setIdList.IsEmpty)
-            {
-                questionIds.Add(questionId);
-            }
-        }
-
-        return questionIds;
+        return new List<int>();
     }
 
     public static IList<Question> GetQuestionsByIds(IList<int> questionIds)
@@ -478,8 +422,6 @@ public class EntityCache : BaseCache
     {
         objectToCache.TryRemove(obj.Id, out var outObj);
     }
-
-
     public static Category GetCategory(int categoryId) => Categories[categoryId];
 
     public static IEnumerable<Category> GetCategories(IEnumerable<int> getIds) => 

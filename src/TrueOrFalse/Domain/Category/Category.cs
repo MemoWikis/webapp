@@ -105,15 +105,13 @@ public class Category : DomainEntity, ICreator
         {
             questions = AggregatedCategories()
                 .SelectMany(c =>
-                    questionRepo.GetForCategoryFromMemoryCache(c.Id)
-                        .Union(EntityCache.GetQuestionsInSetsForCategory(c.Id)))
+                    questionRepo.GetForCategoryFromMemoryCache(c.Id))
                 .Distinct()
                 .ToList();
         }
         else
         {
             questions = questionRepo.GetForCategoryFromMemoryCache(categoryId)
-                .Union(EntityCache.GetQuestionsInSetsForCategory(categoryId))
                 .Distinct()
                 .ToList();
         }
@@ -130,8 +128,7 @@ public class Category : DomainEntity, ICreator
     public virtual IList<int> GetAggregatedQuestionIdsFromMemoryCache()
     {
         return AggregatedCategories()
-            .SelectMany(c => EntityCache.GetQuestionsInSetsIdsForCategory(c.Id)
-                .Union(EntityCache.GetQuestionsIdsForCategory(c.Id)))
+            .SelectMany(c => EntityCache.GetQuestionsIdsForCategory(c.Id))
             .Distinct()
             .ToList();
     }
