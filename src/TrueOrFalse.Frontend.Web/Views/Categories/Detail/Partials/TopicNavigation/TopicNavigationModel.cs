@@ -31,10 +31,9 @@ public class TopicNavigationModel : BaseContentModule
             case "All":
                 CategoryList = Sl.CategoryRepo.GetChildren(category.Id).ToList();
                 break;
-
             default:
                 var categoryIdList = topicNavigation.Load.Split(',').ToList().ConvertAll(Int32.Parse);
-                CategoryList = ConvertToCategoryList(categoryIdList);
+                CategoryList =  UserCache.IsFiltered ? UserEntityCache.GetChildren(category.Id, UserId) :  ConvertToCategoryList(categoryIdList);
                 isLoadList = true;
                 break;
         }
