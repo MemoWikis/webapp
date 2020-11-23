@@ -64,7 +64,7 @@ public class CategoryModel : BaseContentModule
     public bool OpenEditMode;
     public bool IsDisplayNoneSessionConfigNote { get; set; }
     public bool IsDisplayNoneSessionConfigNoteQuestionList { get; set; }
-    public bool IsFilteredUserWorld = false; 
+    public bool IsFilteredUserWorld; 
 
     public CategoryModel()
     {
@@ -120,7 +120,7 @@ public class CategoryModel : BaseContentModule
         IsOwnerOrAdmin = _sessionUser.IsLoggedInUserOrAdmin(Creator.Id);
 
         CategoriesParent = category.ParentCategories();
-        CategoriesChildren = UserCache.IsFiltered ? UserEntityCache.GetChildren(category.Id, UserId) : _categoryRepo.GetChildren(category.Id);
+        CategoriesChildren = UserCache.IsFiltered ? UserEntityCache.GetChildren(category.Id, UserId) : EntityCache.GetChildren(category.Id);
 
         CorrectnesProbability = category.CorrectnessProbability;
         AnswersTotal = category.CorrectnessProbabilityAnswerCount;

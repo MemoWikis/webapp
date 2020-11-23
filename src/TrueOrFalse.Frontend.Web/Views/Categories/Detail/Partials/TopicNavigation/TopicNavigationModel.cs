@@ -32,8 +32,12 @@ public class TopicNavigationModel : BaseContentModule
                 CategoryList = Sl.CategoryRepo.GetChildren(category.Id).ToList();
                 break;
             default:
-                var categoryIdList = topicNavigation.Load.Split(',').ToList().ConvertAll(Int32.Parse);
-                CategoryList =  UserCache.IsFiltered ? UserEntityCache.GetChildren(category.Id, UserId) :  ConvertToCategoryList(categoryIdList);
+                var categoryIdList = topicNavigation.Load.Split(',').ToList().ConvertAll(int.Parse);
+                CategoryList =  UserCache.IsFiltered ? UserEntityCache.GetChildren(category.Id, UserId) : EntityCache.GetCategories(categoryIdList).ToList();
+                foreach (var category1 in CategoryList)
+                {
+                    Logg.r().Warning(category1.Id + "/Database Children");
+                }
                 isLoadList = true;
                 break;
         }
@@ -55,11 +59,16 @@ public class TopicNavigationModel : BaseContentModule
                 {
                     throw new Exception("\"Load: \" und \"Order: \" können nicht gleichzeitig mit Category-Id-Listen als Parameter verwendet werden!");
                 }
-                var firstCategories = ConvertToCategoryList(topicNavigation.Order.Split(',').ToList().ConvertAll(Int32.Parse));
+
+                var firstCategories = EntityCache.GetCategories(
+                    topicNavigation.Order.Split(',')
+                        .ToList()
+                        .ConvertAll(Int32.Parse))
+                    .ToList();
+
                 CategoryList = OrderByCategoryList(firstCategories);
                 break;
         }
-
 
         CategoryList = CategoryList.Where(c => c.Type.GetCategoryTypeGroup() == CategoryTypeGroup.Standard).ToList();
 
@@ -67,30 +76,15 @@ public class TopicNavigationModel : BaseContentModule
         Text = topicNavigation.Text;
     }
 
-
     public int GetTotalQuestionCount(Category category)
     {
         return category.GetAggregatedQuestionsFromMemoryCache().Count;
     }
 
-
-
     public ImageFrontendData GetCategoryImage(Category category)
     {
         var imageMetaData = Sl.ImageMetaDataRepo.GetBy(category.Id, ImageType.Category);
         return new ImageFrontendData(imageMetaData);
-    }
-
-    private List<Category> ConvertToCategoryList(List<int> categoryIdList)
-    {
-        var categoryList = new List<Category>();
-        foreach (var categoryId in categoryIdList)
-        {
-            var category = Sl.CategoryRepo.GetById(categoryId);
-            categoryList.Add(category);
-        }
-
-        return categoryList;
     }
 
     private List<Category> OrderByCategoryList(List<Category> firstCategories)
