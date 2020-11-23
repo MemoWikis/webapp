@@ -1,16 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.IO;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Net;
-using System.Runtime.Serialization.Formatters.Binary;
-using System.ServiceModel.Configuration;
-using FluentNHibernate.Automapping;
 using FluentNHibernate.Utils;
-using Google.Protobuf;
-using Quartz.Util;
-using RazorEngine.Compilation.ImpromptuInterface;
 
 public class GraphService
 {
@@ -52,7 +42,6 @@ public class GraphService
         return parents;
     }
 
-
     public static List<Category> GetLastWuwiChildrenFromCategories(int categoryId)
     {
         var childrenReverse = EntityCache.GetDescendants(categoryId);
@@ -64,8 +53,6 @@ public class GraphService
         return lastChildren.ToList();
 
     }
-
-
 
     public static IList<Category> GetAllPersonelCategoriesWithRealtions(int rootCategoryId)
     {
@@ -160,28 +147,6 @@ public class GraphService
             {
                 ModifyRelationsForCategory.UpdateRelationsOfTypeIncludesContentOf(parentCategory);
             }
-        }
-    }
-}
-
-public static class ObjectClone
-{
-    public static object Copy<T>(this object obj)
-    {
-        var isNotSerializable = !typeof(T).IsSerializable;
-        if (isNotSerializable)
-            throw new ArgumentException("The type must be serializable.", "source");
-
-        var sourceIsNull = ReferenceEquals(obj, null);
-        if (sourceIsNull)
-            return default(T);
-
-        var formatter = new BinaryFormatter();
-        using (var stream = new MemoryStream())
-        {
-            formatter.Serialize(stream, obj);
-            stream.Seek(0, SeekOrigin.Begin);
-            return (T)formatter.Deserialize(stream);
         }
     }
 }

@@ -82,6 +82,31 @@ class User_entity_cache_tests : BaseTest
 
     }
 
+    [Test]
+    public void Test_next_parent_in_wishknowledge()
+    {
+        ContextCategory.New().AddCaseThreeToCache();
+        UserEntityCache.Init(true);
+        var e = EntityCache.GetAllCategories().ByName("E");
+        var d = EntityCache.GetAllCategories().ByName("D");
+        var c = EntityCache.GetAllCategories().ByName("C");
+        var x1 = EntityCache.GetAllCategories().ByName("X1");
+        var h = EntityCache.GetAllCategories().ByName("H");
+
+        var nextParetFromE = UserEntityCache.GetNextParentInWishknowledge(e.Id); 
+        var nextParetFromD = UserEntityCache.GetNextParentInWishknowledge(d.Id); 
+        var nextParetFromC = UserEntityCache.GetNextParentInWishknowledge(c.Id); 
+        var nextParetFromX1 = UserEntityCache.GetNextParentInWishknowledge(x1.Id); 
+        var nextParetFromH = UserEntityCache.GetNextParentInWishknowledge(x1.Id); 
+  
+
+        Assert.That(nextParetFromX1.Name, Is.EqualTo("X3"));
+        Assert.That(nextParetFromE.Name, Is.EqualTo("X"));
+        Assert.That(nextParetFromD.Name, Is.EqualTo("B"));
+        Assert.That(nextParetFromC.Name, Is.EqualTo("X"));
+        Assert.That(nextParetFromH.Name, Is.EqualTo("X3"));
+
+    }
 
 }
 

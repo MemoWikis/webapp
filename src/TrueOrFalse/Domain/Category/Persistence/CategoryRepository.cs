@@ -180,7 +180,6 @@ public class CategoryRepository : RepositoryDbBase<Category>
             FROM relatedcategoriestorelatedcategories
             WHERE  Related_id = {categoryId} 
             AND CategoryRelationType = {(int)CategoryRelationType.IsChildCategoryOf}").List<int>();
-
         return GetByIds(categoryIds.ToArray());
     }
 
