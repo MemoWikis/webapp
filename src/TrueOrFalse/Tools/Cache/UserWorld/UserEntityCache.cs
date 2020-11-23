@@ -58,6 +58,7 @@ public class UserEntityCache : BaseCache
     public static void DeleteCacheForUser(int userId)
     {
         Cache.Remove(CategoriesCacheKey(userId));
+        CategoriesCacheKeyList.Remove(CategoriesCacheKey(Sl.SessionUser.UserId));
     }
 
     public static List<Category> GetChildren(int categoryId, int userId)
