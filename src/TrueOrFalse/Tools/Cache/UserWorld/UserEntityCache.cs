@@ -2,7 +2,9 @@
 using Seedworks.Web.State;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
+using TrueOrFalse.Tools;
 using TrueOrFalse.Tools.Cache.UserWorld;
 
 public class UserEntityCache : BaseCache
@@ -39,7 +41,12 @@ public class UserEntityCache : BaseCache
         if (!CategoriesCacheKeyList.Contains(CategoriesCacheKey(userId)))
             Init();
 
-        return Cache.Get<ConcurrentDictionary<int, Category>>(CategoriesCacheKey(userId))[categoryId]; ;
+        if(Cache.Get<ConcurrentDictionary<int, Category>>(CategoriesCacheKey(userId)).ContainsKey(categoryId))
+             return Cache.Get<ConcurrentDictionary<int, Category>>(CategoriesCacheKey(userId))[categoryId];
+
+     return Cache.Get<ConcurrentDictionary<int, Category>>(
+         CategoriesCacheKey(userId))[GetNextParentInWishknowledge(categoryId).Id];
+
     }
 
     public static ConcurrentDictionary<int, Category> GetCategories(int userId)
@@ -57,7 +64,7 @@ public class UserEntityCache : BaseCache
     {
         var category = GetCategory(categoryId,userId);
 
-        var allCategories = UserEntityCache.GetCategories(userId).Values.ToList();
+        var allCategories = GetCategories(userId).Values.ToList();
 
         return allCategories.SelectMany(c =>
             c.CategoryRelations.Where(cr => 
@@ -65,6 +72,40 @@ public class UserEntityCache : BaseCache
                     && cr.RelatedCategory.Id == category.Id)
                 .Select(cr => cr.Category))
             .ToList();
+    }
+
+    public static Category GetNextParentInWishknowledge(int categoryId)
+    {
+        var counter = 0; 
+
+        var nextParents = EntityCache.GetCategory(categoryId).ParentCategories().Distinct().ToList();
+
+        while (nextParents.Count > 0)
+        {
+
+            var nextParent = nextParents.First();
+
+            if (nextParent.IsInWishknowledge())
+            {
+               return nextParent;
+            }
+
+            if (nextParents.Count == 1 && HelperTools.IsRootCategory(nextParents.First().Id))
+                return nextParents.First(); 
+
+                var parentHelperList = nextParent.ParentCategories();
+                nextParents.RemoveAt(0);
+
+                foreach (var parent in parentHelperList)
+                {
+                   nextParents.Add(parent); 
+                }
+
+                nextParents.Distinct();
+                counter++; 
+        }
+        Logg.r().Error("Root category Not available/ UserEntityCache/NextParentInWishknowledge");
+        throw new NotImplementedException();
     }
 }
 
