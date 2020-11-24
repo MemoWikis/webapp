@@ -64,7 +64,12 @@ public class SessionUser : SessionBase, IRegisterAsInstancePerLifetime
             FormsAuthentication.SetAuthCookie(user.Id.ToString(), false);
 
         JobScheduler.StartImmediately_InitUserValuationCache(user.Id);
-        JobScheduler.StartImmediately_InitUser_Entity_Cache(user.Id);
+        if(User.Name != "User")
+            UserEntityCache.Init();
+        else
+        {
+            UserEntityCache.Init(true);
+        }
     }
 
     public void Logout()
