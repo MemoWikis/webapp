@@ -911,7 +911,6 @@
     <Compile Include="Tools\Cache\UserCache.cs" />
     <Compile Include="Tools\Cache\UserCacheItem.cs" />
     <Compile Include="Tools\HelperTools.cs" />
-    <Compile Include="Tools\ScheduledJobs\Jobs\InitUserEntityCache.cs" />
     <Compile Include="Tools\Update\Steps\UpdateToVs216.cs" />
     <Compile Include="Tools\Update\Steps\UpdateToVs215.cs" />
     <Compile Include="Tools\Update\Steps\UpdateToVs214.cs" />
