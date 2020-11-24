@@ -82,6 +82,7 @@ public class CategoriesController : BaseController
     }
 
     [AccessOnlyAsAdmin]
+    [HttpPost]
     public EmptyResult Delete(int id)
     {
         var category = _categoryRepo.GetById(id);
