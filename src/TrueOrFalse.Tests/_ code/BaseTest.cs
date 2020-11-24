@@ -30,14 +30,7 @@ public class BaseTest
         InitializeContainer();
 
         EntityCache.Init(" (started in unit test) ");
-
-        Resolve<SessionUser>().Login(new User());
-        Resolve<SessionUser>().IsInstallationAdmin = true;
-
-
         DateTimeX.ResetOffset();
-
-        
     }
 
     public void RecycleContainer()
