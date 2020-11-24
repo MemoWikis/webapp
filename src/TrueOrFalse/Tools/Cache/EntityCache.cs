@@ -351,8 +351,6 @@ public class EntityCache : BaseCache
     {
         Remove(Categories, category);
         CategoryQuestionsList.TryRemove(category.Id, out var catOut);
-        CategorySetsList.TryRemove(category.Id, out var catOut2);
-        CategoryQuestionInSetList.TryRemove(category.Id, out var listOut);
     }
 
     public static void AddOrUpdate(Set set, List<int> affectedCategoriesIds = null)
