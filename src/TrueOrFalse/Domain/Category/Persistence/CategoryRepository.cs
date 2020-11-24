@@ -112,6 +112,7 @@ public class CategoryRepository : RepositoryDbBase<Category>
         base.Delete(category);
         EntityCache.Remove(category);
         UserCache.RemoveAllForCategory(category.Id); 
+        UserEntityCache.ChangeAllActiveCategoryCaches();
     }
 
     public override void DeleteWithoutFlush(Category category)

@@ -4,6 +4,7 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using Seedworks.Lib;
 using TrueOrFalse.Tools;
 using TrueOrFalse.Tools.Cache.UserWorld;
 
@@ -15,10 +16,10 @@ public class UserEntityCache : BaseCache
     private static string CategoriesCacheKey(int userId) => "Categories_" + userId;
     private static List<string> CategoriesCacheKeyList = new List<string>();
 
-    public static void Init(bool isTest = false)
+    public static void Init(bool isTest = false, int userId = -1)
     {
         _rootCategoryId = isTest ? 1 : _rootCategoryId;
-       var user = Sl.SessionUser.User;
+        var user = userId == -1 ?  Sl.SessionUser.User : UserCache.GetItem(userId).User;
 
         var cacheItem = new UserEntityCacheItem()
         {
@@ -33,7 +34,8 @@ public class UserEntityCache : BaseCache
             TimeSpan.FromMinutes(ExpirationSpanInMinutes),
             true);
 
-        CategoriesCacheKeyList.Add(categoriesCacheKey);
+        if(userId == -1)
+            CategoriesCacheKeyList.Add(categoriesCacheKey);
     }
 
     public static Category GetCategory(int categoryId, int userId)
@@ -107,6 +109,17 @@ public class UserEntityCache : BaseCache
         }
         Logg.r().Error("Root category Not available/ UserEntityCache/NextParentInWishknowledge");
         throw new NotImplementedException();
+    }
+
+    public static void ChangeAllActiveCategoryCaches()
+    {
+        foreach (var CategoryCacheKey in CategoriesCacheKeyList)
+        {
+            var firstChar = CategoryCacheKey.IndexOf("_") + 1 ;
+            var length = (CategoryCacheKey.Length - 1) - (firstChar - 1); 
+                         var userId = CategoryCacheKey.Substring(firstChar, length).ToInt(); 
+            Init(true, userId: userId);
+        }
     }
 }
 

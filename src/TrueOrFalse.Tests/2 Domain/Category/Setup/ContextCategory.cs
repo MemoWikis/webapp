@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using Google.Protobuf.WellKnownTypes;
 using Org.BouncyCastle.Bcpg;
 
@@ -198,7 +199,6 @@ namespace TrueOrFalse.Tests
                 CategoryInKnowledge.Pin(firstChildren.ByName("X").Id, user);
                 CategoryInKnowledge.Pin(firstChildren.ByName("X3").Id, user);
             }
-
             Sl.SessionUser.Login(user);
         }
 
