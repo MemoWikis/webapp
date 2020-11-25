@@ -40,17 +40,17 @@ public class EntityCache
 
         var questions = Sl.QuestionRepo.GetAll();
         var categories = Sl.CategoryRepo.GetAllEager();
-        var sets = Sl.SetRepo.GetAllEager();
-        var questionInSets = Sl.QuestionInSetRepo.GetAll();
+        //var sets = Sl.SetRepo.GetAllEager();
+        //var questionInSets = Sl.QuestionInSetRepo.GetAll();
 
         Logg.r().Information("EntityCache LoadAllEntities" + customMessage + "{Elapsed}", stopWatch.Elapsed);
 
         IntoForeverCache(_cacheKeyQuestions, questions.ToConcurrentDictionary());
         IntoForeverCache(_cacheKeyCategories, categories.ToConcurrentDictionary());
-        IntoForeverCache(_cacheKeySets, sets.ToConcurrentDictionary());
+        //IntoForeverCache(_cacheKeySets, sets.ToConcurrentDictionary());
         IntoForeverCache(_cacheKeyCategoryQuestionsList, GetCategoryQuestionsList(questions));
-        IntoForeverCache(_cacheKeyCategorySetsList, GetCategorySetsList(sets));
-        IntoForeverCache(_cacheKeyCategoryQuestionInSetList, GetCategoryQuestionInSetList(questionInSets));
+        //IntoForeverCache(_cacheKeyCategorySetsList, GetCategorySetsList(sets));
+        //IntoForeverCache(_cacheKeyCategoryQuestionInSetList, GetCategoryQuestionInSetList(questionInSets));
 
 
         Logg.r().Information("EntityCache PutIntoCache" + customMessage + "{Elapsed}", stopWatch.Elapsed);
@@ -121,10 +121,10 @@ public class EntityCache
         return GetQuestionsByIds(GetQuestionsInSetsIdsForCategory(categoryId));
     }
 
-    public static IList<Set> GetSetsForCategory(int categoryId)
-    {
-        return GetSetsByIds(GetSetIdsForCategory(categoryId));
-    }
+    //public static IList<Set> GetSetsForCategory(int categoryId)
+    //{
+    //    return GetSetsByIds(GetSetIdsForCategory(categoryId));
+    //}
 
     public static IList<Set> GetSetsForCategories(IList<Category> categories)
     {

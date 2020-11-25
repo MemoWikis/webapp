@@ -204,8 +204,8 @@ public class Question : DomainEntity, ICreator
 
     public virtual string ToLomXml() => LomXml.From(this);
 
-    public string TextHtml { get; set; }
-    public string TextExtendedHtml { get; set; }
-    public string DescriptionHtml { get; set; }
-    public string SkipMigration { get; set; }
+    public virtual string TextHtml { get; set; }
+    public virtual string TextExtendedHtml { get; set; }
+    public virtual string DescriptionHtml { get; set; }
+    public virtual bool SkipMigration { get; set; }
 }

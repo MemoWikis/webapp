@@ -150,11 +150,11 @@ public class SetModel : BaseModel
         foreach (var visitedCategoryItem in Sl.SessionUiData.VisitedCategories)
         {
             var visitedCategory = EntityCache.GetCategory(visitedCategoryItem.Id);
-            var visitedCategoryAggregatedSets = visitedCategory.GetAggregatedSetsFromMemoryCache();
-            if (visitedCategoryAggregatedSets.Contains(currentSet))
-            {
-                return visitedCategory;
-            }
+            //var visitedCategoryAggregatedSets = visitedCategory.GetAggregatedSetsFromMemoryCache();
+            //if (visitedCategoryAggregatedSets.Contains(currentSet))
+            //{
+            //    return visitedCategory;
+            //}
         }
 
         return currentSet.Categories.Count > 0 

@@ -98,6 +98,13 @@ public class QuestionRepo : RepositoryDbBase<Question>
         }
     }
 
+    public void UpdateBeforeEntityCacheInit(Question question)
+    {
+        base.Update(question);
+        EntityCache.AddOrUpdate(question);
+        Flush();
+    }
+
     public override void Create(Question question)
     {
         if (question.Creator == null)

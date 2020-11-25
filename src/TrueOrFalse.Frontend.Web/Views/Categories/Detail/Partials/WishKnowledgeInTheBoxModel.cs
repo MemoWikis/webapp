@@ -31,12 +31,12 @@ public class WishKnowledgeInTheBoxModel : BaseModel
             aggregatedQuestions.AddRange(EntityCache.GetQuestionsForCategory(currentCategory.Id));
         }
 
-        var aggregatedSets = EntityCache.GetSetsForCategories(aggregatedCategories);
+        //var aggregatedSets = EntityCache.GetSetsForCategories(aggregatedCategories);
 
-        foreach (var set in aggregatedSets)
-        {
-            aggregatedQuestions.AddRange(set.Questions());
-        }
+        //foreach (var set in aggregatedSets)
+        //{
+        //    aggregatedQuestions.AddRange(set.Questions());
+        //}
 
         return aggregatedQuestions;
     }

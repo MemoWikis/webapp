@@ -23,8 +23,8 @@ public class KnowledgeCardMiniCategoryModel:BaseModel
         return category.GetAggregatedQuestionsFromMemoryCache().Count;
     }
 
-    public int GetTotalSetCount(Category category)
-    {
-        return category.GetAggregatedSetsFromMemoryCache().Count;
-    }
+    //public int GetTotalSetCount(Category category)
+    //{
+    //    return category.GetAggregatedSetsFromMemoryCache().Count;
+    //}
 }

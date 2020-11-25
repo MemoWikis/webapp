@@ -62,15 +62,15 @@ public class SetController : BaseController
         return Redirect(Links.CategoryDetailLearningTab(Sl.CategoryRepo.GetBySetId(setId)));
     }
 
-    public ActionResult StartTestSessionForSets(List<int> setIds, string setListTitle)
-    {
-        var sets = Sl.SetRepo.GetByIdsEager(setIds.ToArray());
-        var testSession = new TestSession(sets, setListTitle);
+    //public ActionResult StartTestSessionForSets(List<int> setIds, string setListTitle)
+    //{
+    //    var sets = Sl.SetRepo.GetByIdsEager(setIds.ToArray());
+    //    var testSession = new TestSession(sets, setListTitle);
 
-        Sl.SessionUser.AddTestSession(testSession);
+    //    Sl.SessionUser.AddTestSession(testSession);
 
-        return Redirect(Links.TestSession(testSession.UriName, testSession.Id));
-    }
+    //    return Redirect(Links.TestSession(testSession.UriName, testSession.Id));
+    //}
 
     [HttpPost]
     public JsonResult Copy(int sourceSetId)

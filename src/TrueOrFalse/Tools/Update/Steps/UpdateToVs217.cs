@@ -20,7 +20,7 @@ namespace TrueOrFalse.Updates
             Sl.Resolve<ISession>()
                 .CreateSQLQuery(
                     @"ALTER TABLE `question`
-                    ADD COLUMN `DescriptionHtml` BIT NULL DEFAULT NULL AFTER `Description`"
+                    ADD COLUMN `DescriptionHtml` TEXT NULL DEFAULT NULL AFTER `Description`"
                 )
                 .ExecuteUpdate();
             Sl.Resolve<ISession>()

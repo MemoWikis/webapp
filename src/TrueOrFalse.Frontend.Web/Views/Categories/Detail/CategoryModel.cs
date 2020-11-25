@@ -131,7 +131,7 @@ public class CategoryModel : BaseContentModule
         if (category.Type != CategoryType.Standard)
             TopQuestionsWithReferences = Sl.R<ReferenceRepo>().GetQuestionsForCategory(category.Id);
 
-        CountSets = category.GetCountSets();
+        //CountSets = category.GetCountSets();
         CountWishQuestions = wishQuestions.Total;
 
         TopQuestions = AggregatedQuestions.Take(MaxCountQuestionsToDisplay).ToList();

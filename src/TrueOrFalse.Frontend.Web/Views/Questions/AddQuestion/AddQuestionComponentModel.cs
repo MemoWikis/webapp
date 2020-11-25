@@ -1,7 +1,4 @@
-﻿using System.Collections.Concurrent;
-using System.Collections.Generic;
-using System.Linq;
-using TrueOrFalse.Frontend.Web.Code;
+﻿//using TrueOrFalse.Frontend.Web.Code;
 
 public class AddQuestionComponentModel : BaseModel
 {
@@ -11,6 +8,6 @@ public class AddQuestionComponentModel : BaseModel
     public AddQuestionComponentModel(int categoryId)
     {
         CategoryId = categoryId;
-        CreateQuestionUrl = Links.CreateQuestion(categoryId: categoryId);
+        //CreateQuestionUrl = Links.CreateQuestion(categoryId: CategoryId);
     }
 }

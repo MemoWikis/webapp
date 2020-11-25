@@ -1,13 +1,12 @@
-﻿<%@ Control Language="C#" AutoEventWireup="true" Inherits="System.Web.Mvc.ViewUserControl<AddQuestionComponentModel>" %>
-
-<add-question-component inline-template current-category-id="<%= Model.CategoryId %>">
+﻿<%@ Control Language="C#" Inherits="ViewUserControl<AddQuestionComponentModel>" %>
+<add-question-component inline-template current-category-id="<%: Model.CategoryId %>">
     <div id="AddInlineQuestionContainer">
 
         <div id="AddQuestionHeader" class="">
             <div class="add-inline-question-label main-label">
                 Frage hinzufügen 
                 <span>(Karteikarte)</span>
-                <a href="<%= Model.CreateQuestionUrl %>">erweiterte Optionen</a>
+                <a href="<%: Model.CreateQuestionUrl %>">erweiterte Optionen</a>
             </div>
             <div class="heart-container wuwi-red" @click="addToWuwi = !addToWuwi">
                 <div>
@@ -179,5 +178,4 @@
             </div>
         </div>
     </div>
-
 </add-question-component>
