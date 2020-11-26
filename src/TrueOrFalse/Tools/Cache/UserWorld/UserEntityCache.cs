@@ -25,7 +25,7 @@ public class UserEntityCache : BaseCache
         {
             User = user,
             Categories = new ConcurrentDictionary<int, Category>(GraphService
-                .GetAllPersonelCategoriesWithRealtions(_rootCategoryId).ToConcurrentDictionary())
+                .GetAllPersonelCategoriesWithRealtions(_rootCategoryId, userId).ToConcurrentDictionary())
         };
         var categoriesCacheKey = CategoriesCacheKey(user.Id);
         
@@ -111,14 +111,15 @@ public class UserEntityCache : BaseCache
         throw new NotImplementedException();
     }
 
-    public static void ChangeAllActiveCategoryCaches()
+    public static void ChangeAllActiveCategoryCaches(bool isTest)
     {
         foreach (var CategoryCacheKey in CategoriesCacheKeyList)
         {
             var firstChar = CategoryCacheKey.IndexOf("_") + 1 ;
+
             var length = (CategoryCacheKey.Length - 1) - (firstChar - 1); 
                          var userId = CategoryCacheKey.Substring(firstChar, length).ToInt(); 
-            Init(true, userId: userId);
+            Init(isTest,  userId);
         }
     }
 }
