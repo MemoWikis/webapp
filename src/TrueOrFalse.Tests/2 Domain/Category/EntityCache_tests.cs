@@ -58,18 +58,19 @@ class EntityCache_tests : BaseTest
         }
 
 
-        [Test]
-        public void Should_calculate_probability_delete_all_relevant_relations()
-        {
-            ContextCategory.New().AddCaseThreeToCache();
-            var allCacheCategories = EntityCache.GetAllCategories(); 
-            var deleteCategory = allCacheCategories.ByName("E");
-            var idFromDeleteCategory = deleteCategory.Id; 
+    [Test]
+    public void Should_delete_all_child_of_relations()
+    {
+        ContextCategory.New().AddCaseThreeToCache();
+        var allCacheCategories = EntityCache.GetAllCategories();
+        var deleteCategory = allCacheCategories.ByName("E");
+        var idFromDeleteCategory = deleteCategory.Id;
 
-            Sl.CategoryRepo.Delete(deleteCategory);
+        Sl.CategoryRepo.Delete(deleteCategory);
 
-            var relatedCategories = EntityCache.GetAllCategories().SelectMany(c => c.CategoryRelations.Where(cr => cr.RelatedCategory.Id == idFromDeleteCategory)).ToList();
-            Assert.That(relatedCategories.Count, Is.EqualTo(0));
-        }
+        var relatedCategories = EntityCache.GetAllCategories().SelectMany(c => c.CategoryRelations.Where(cr => cr.RelatedCategory.Id == idFromDeleteCategory)).ToList();
+        Assert.That(relatedCategories.Count, Is.EqualTo(0));
     }
+
+}
 

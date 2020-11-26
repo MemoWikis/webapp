@@ -68,7 +68,7 @@ public class GraphService
 
         var listWithUserPersonelCategories = new List<Category>();
 
-        var user = userId == -1 ? Sl.CurrentUserId : userId;
+        userId = userId == -1 ? Sl.CurrentUserId : userId;
 
        
 
@@ -86,7 +86,7 @@ public class GraphService
             {
                 var parent = parents.First();
 
-                if (parent.IsInWishknowledge() || parent.Id == rootCategoryId && hasRootInParents)
+                if (Sl.CategoryValuationRepo.IsInWishKnowledge(parent.Id, userId) || parent.Id == rootCategoryId && hasRootInParents)
                 {
                     var categoryRelation = new CategoryRelation
                     {
