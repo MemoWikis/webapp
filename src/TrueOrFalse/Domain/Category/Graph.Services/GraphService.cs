@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using FluentNHibernate.Utils;
+using Org.BouncyCastle.Bcpg;
 
 public class GraphService
 {
@@ -54,8 +55,10 @@ public class GraphService
 
     }
 
-    public static IList<Category> GetAllPersonelCategoriesWithRealtions(int rootCategoryId)
+    public static IList<Category> GetAllPersonelCategoriesWithRealtions(int rootCategoryId, int userId = -1)
     {
+        
+
         var rootCategory = Extensions.DeepClone(
             EntityCache.GetCategory(rootCategoryId));
 
@@ -65,9 +68,15 @@ public class GraphService
 
         var listWithUserPersonelCategories = new List<Category>();
 
+        var user = userId == -1 ? Sl.CurrentUserId : userId;
 
-        foreach (var child in children.Where(c => c.IsInWishknowledge()))
+       
+
+        foreach (var child in children)
         {
+            if (!Sl.CategoryValuationRepo.IsInWishKnowledge(child.Id, userId))
+                continue;
+
             var parents = GetParentsFromCategory(child);
             var hasRootInParents = parents.Any(c => c.Id == rootCategoryId);
             child.CategoryRelations.Clear();
@@ -135,8 +144,8 @@ public class GraphService
         return category.CategoryRelations.Where(cr => cr.CategoryRelationType == CategoryRelationType.IsChildCategoryOf).Select(cr => cr.RelatedCategory).ToList();
     }
 
-    public static IList<Category> GetAllPersonelCategoriesWithRealtions(Category category) =>
-        GetAllPersonelCategoriesWithRealtions(category.Id);
+    public static IList<Category> GetAllPersonelCategoriesWithRealtions(Category category, int userId = -1) =>
+        GetAllPersonelCategoriesWithRealtions(category.Id, userId);
 
     public static void AutomaticInclusionFromSubthemes(Category category)
     {
