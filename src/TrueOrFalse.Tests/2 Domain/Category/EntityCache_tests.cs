@@ -56,5 +56,20 @@ class EntityCache_tests : BaseTest
         Assert.That(allChildren.Count(c => c.Name == "Sub1"), Is.EqualTo(1));
         Assert.That(allChildren.Count(c => c.Name == "SubSub1"), Is.EqualTo(1));
         }
+
+
+        [Test]
+        public void Should_calculate_probability_delete_all_relevant_relations()
+        {
+            ContextCategory.New().AddCaseThreeToCache();
+            var allCacheCategories = EntityCache.GetAllCategories(); 
+            var deleteCategory = allCacheCategories.ByName("E");
+            var idFromDeleteCategory = deleteCategory.Id; 
+
+            Sl.CategoryRepo.Delete(deleteCategory);
+
+            var relatedCategories = EntityCache.GetAllCategories().SelectMany(c => c.CategoryRelations.Where(cr => cr.RelatedCategory.Id == idFromDeleteCategory)).ToList();
+            Assert.That(relatedCategories.Count, Is.EqualTo(0));
+        }
     }
 
