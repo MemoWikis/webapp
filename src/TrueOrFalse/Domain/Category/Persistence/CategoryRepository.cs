@@ -108,11 +108,19 @@ public class CategoryRepository : RepositoryDbBase<Category>
 
     public override void Delete(Category category)
     {
+        var allCategories = EntityCache.GetChildren(category);
+
         _searchIndexCategory.Delete(category);
         base.Delete(category);
+
+        foreach (var category1 in allCategories)
+        {
+            category1.CategoryRelations = category1.CategoryRelations.Where(cr => cr.RelatedCategory.Id != category.Id).ToList();
+            EntityCache.AddOrUpdate(category1);
+        }
         EntityCache.Remove(category);
         UserCache.RemoveAllForCategory(category.Id); 
-        UserEntityCache.ChangeAllActiveCategoryCaches();
+        UserEntityCache.ChangeAllActiveCategoryCaches(true);
     }
 
     public override void DeleteWithoutFlush(Category category)
