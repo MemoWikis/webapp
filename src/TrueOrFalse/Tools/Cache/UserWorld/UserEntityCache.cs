@@ -1,19 +1,18 @@
 ﻿using System;
-using Seedworks.Web.State;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using Seedworks.Lib;
 using TrueOrFalse.Tools;
-using TrueOrFalse.Tools.Cache.UserWorld;
+
 
 public class UserEntityCache : BaseCache
 {
     private static int _rootCategoryId = 1726; //RootKategorie
     public const int ExpirationSpanInMinutes = 600;
+    public static ConcurrentDictionary<string, ConcurrentDictionary<int, Category>> _Categories = new ConcurrentDictionary<string, ConcurrentDictionary<int, Category>>(); 
 
-    private static string CategoriesCacheKey(int userId) => "Categories_" + userId;
+    public static string CategoriesCacheKey(int userId) => "Categories_" + userId;
     private static List<string> CategoriesCacheKeyList = new List<string>();
 
     public static void Init(bool isTest = false, int userId = -1)
@@ -21,18 +20,13 @@ public class UserEntityCache : BaseCache
         _rootCategoryId = isTest ? 1 : _rootCategoryId;
         var user = userId == -1 ?  Sl.SessionUser.User : UserCache.GetItem(userId).User;
 
-        var cacheItem = new UserEntityCacheItem()
-        {
-            User = user,
-            Categories = new ConcurrentDictionary<int, Category>(GraphService
-                .GetAllPersonelCategoriesWithRealtions(_rootCategoryId, userId).ToConcurrentDictionary())
-        };
+
+        var categories = new ConcurrentDictionary<int, Category>(GraphService
+            .GetAllPersonelCategoriesWithRealtions(_rootCategoryId, userId).ToConcurrentDictionary()); 
+    
         var categoriesCacheKey = CategoriesCacheKey(user.Id);
         
-        Cache.Add(categoriesCacheKey,
-            cacheItem.Categories,
-            TimeSpan.FromMinutes(ExpirationSpanInMinutes),
-            true);
+        _Categories[categoriesCacheKey] = (categories); 
 
         if(userId == -1)
             CategoriesCacheKeyList.Add(categoriesCacheKey);
@@ -42,25 +36,26 @@ public class UserEntityCache : BaseCache
     {
         if (!CategoriesCacheKeyList.Contains(CategoriesCacheKey(userId)))
             Init();
+ 
+        if (_Categories[CategoriesCacheKey(userId)].ContainsKey(categoryId))
+            return _Categories[CategoriesCacheKey(userId)][categoryId];
 
-        if(Cache.Get<ConcurrentDictionary<int, Category>>(CategoriesCacheKey(userId)).ContainsKey(categoryId))
-             return Cache.Get<ConcurrentDictionary<int, Category>>(CategoriesCacheKey(userId))[categoryId];
-
-     return Cache.Get<ConcurrentDictionary<int, Category>>(
-         CategoriesCacheKey(userId))[GetNextParentInWishknowledge(categoryId).Id];
-
+    return _Categories[CategoriesCacheKey(userId)][GetNextParentInWishknowledge(categoryId).Id];
     }
 
     public static ConcurrentDictionary<int, Category> GetCategories(int userId)
     {
+        ConcurrentDictionary<int, Category> result; 
 
-        return Cache.Get<ConcurrentDictionary<int, Category>>(CategoriesCacheKey(userId)) ?? new ConcurrentDictionary<int, Category>();
+        _Categories.TryGetValue(CategoriesCacheKey(userId), out result);
+        return result ?? new ConcurrentDictionary<int, Category>(); 
     }
 
     public static void DeleteCacheForUser(int userId)
     {
-        Cache.Remove(CategoriesCacheKey(userId));
-        CategoriesCacheKeyList.Remove(CategoriesCacheKey(Sl.SessionUser.UserId));
+        var cacheKey = CategoriesCacheKey(Sl.SessionUser.UserId);
+        _Categories.TryRemove(cacheKey, out var d );
+        CategoriesCacheKeyList.Remove(cacheKey);
     }
 
     public static List<Category> GetChildren(int categoryId, int userId)
@@ -85,7 +80,6 @@ public class UserEntityCache : BaseCache
 
         while (nextParents.Count > 0)
         {
-
             var nextParent = nextParents.First();
 
             if (nextParent.IsInWishknowledge())

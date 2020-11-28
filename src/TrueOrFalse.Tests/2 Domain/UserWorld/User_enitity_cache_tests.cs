@@ -119,6 +119,8 @@ class User_entity_cache_tests : BaseTest
         cate.Name = "Daniel";
         UserEntityCache.ChangeAllActiveCategoryCaches(true);
 
+        
+
         Assert.That(UserEntityCache.GetCategories(2).First().Value.Name, Is.EqualTo("Daniel"));
         Assert.That(UserEntityCache.GetCategories(2).Count, Is.EqualTo(7));
 
@@ -157,7 +159,11 @@ class User_entity_cache_tests : BaseTest
         Assert.That(userEntityCacheAfterDeleteForUser2.ByName("I").CategoryRelations.Where(cr => cr.RelatedCategory.Name == "X").Count(), Is.EqualTo(1));
         Assert.That(userEntityCacheAfterDeleteForUser2.ByName("I").CategoryRelations.Where(cr => cr.RelatedCategory.Name == "X3").Count(), Is.EqualTo(1));
         Assert.That(userEntityCacheAfterDeleteForUser2.ByName("I").CategoryRelations.Where(cr => cr.RelatedCategory.Name == "A").Count(), Is.EqualTo(0));
+        Assert.That(userEntityCacheAfterDeleteForUser2.ByName("I").CategoryRelations.Where(cr => cr.RelatedCategory.Name == "E").Count(), Is.EqualTo(0));
 
+        var t = UserEntityCache._Categories[UserEntityCache.CategoriesCacheKey(2)];
+        
+    
     }
 }
 
