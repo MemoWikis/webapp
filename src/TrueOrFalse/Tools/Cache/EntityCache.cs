@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Web;
-using System.Web.Caching;
 using Seedworks.Lib.Persistence;
 
 public class EntityCache : BaseCache

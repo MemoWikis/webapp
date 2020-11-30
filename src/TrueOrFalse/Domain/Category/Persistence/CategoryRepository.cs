@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Net;
-using NHibernate;
+﻿using NHibernate;
 using NHibernate.Criterion;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using TrueOrFalse.Search;
-using static System.String;
 
 
 public class CategoryRepository : RepositoryDbBase<Category>

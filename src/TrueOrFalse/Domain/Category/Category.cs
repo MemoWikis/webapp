@@ -1,11 +1,8 @@
-﻿using System;
+﻿using Seedworks.Lib.Persistence;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using Microsoft.Owin.Security.Provider;
-using Newtonsoft.Json;
-using NHibernate;
-using Seedworks.Lib.Persistence;
 
 [DebuggerDisplay("Id={Id} Name={Name}")]
 [Serializable]
