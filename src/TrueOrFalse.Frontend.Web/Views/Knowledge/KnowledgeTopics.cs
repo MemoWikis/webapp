@@ -24,9 +24,6 @@ public class KnowledgeTopics : BaseModel
             .Where(v => v.IsInWishKnowledge())
             .Select(i => i.SetId)
             .ToList();
-
-        Sets = isAuthor ? EntityCache.GetSetsByIds(setIds).Where(v => v.Creator != null && v.Creator.Id == UserId).ToList()
-            : EntityCache.GetSetsByIds(setIds);
     }
 
     public List<CategoryAndSetWishKnowledge> FilteredCategoryWishKnowledge(ControllerContext controllerContext)
