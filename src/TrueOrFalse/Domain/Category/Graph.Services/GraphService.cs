@@ -56,13 +56,11 @@ public class GraphService
 
     public static IList<Category> GetAllPersonelCategoriesWithRealtions(int rootCategoryId, int userId = -1)
     {
-        
-
         var rootCategory = Extensions.DeepClone(
-            EntityCache.GetCategory(rootCategoryId));
+            EntityCache.GetCategory(rootCategoryId, true));
 
         var children = Extensions.DeepClone(
-             EntityCache.GetDescendants(rootCategory))
+             EntityCache.GetDescendants(rootCategory, true))
             .Distinct();
 
         var listWithUserPersonelCategories = new List<Category>();

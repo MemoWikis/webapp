@@ -207,9 +207,9 @@ public class EntityCache : BaseCache
     {
         objectToCache.TryRemove(obj.Id, out var outObj);
     }
-    public static Category GetCategory(int categoryId, bool isFromGetNextParent = false)
+    public static Category GetCategory(int categoryId, bool isFromUserEntityCache = false)
     {
-        if (UserCache.IsFiltered && !isFromGetNextParent)
+        if (UserCache.IsFiltered && !isFromUserEntityCache)
             return UserEntityCache.GetCategory(categoryId, Sl.SessionUser.UserId);
 
         return Categories[categoryId];
@@ -221,22 +221,22 @@ public class EntityCache : BaseCache
     public static IEnumerable<Category> GetAllCategories() => Categories.Values.ToList();
 
 
-    public static List<Category> GetChildren(int categoryId)
+    public static List<Category> GetChildren(int categoryId, bool isFromEntityCache = false)
     {
-        var category = GetCategory(categoryId);
+        var category = GetCategory(categoryId, isFromEntityCache);
 
-        var allCategories = EntityCache.GetAllCategories();
+        var allCategories = GetAllCategories();
 
         return allCategories.SelectMany(c =>
             c.CategoryRelations.Where(cr => cr.CategoryRelationType == CategoryRelationType.IsChildCategoryOf && cr.RelatedCategory.Id == category.Id)
                 .Select(cr => cr.Category)).ToList();
     }
 
-    public static List<Category> GetChildren(Category category) => GetChildren(category.Id);  
+    public static List<Category> GetChildren(Category category, bool isFromEntityCache = false) => GetChildren(category.Id, isFromEntityCache);  
 
-    public static IList<Category> GetDescendants(int parentId)
+    public static IList<Category> GetDescendants(int parentId, bool isFromUserEntityCache = false)
     {
-        var currentGeneration = GetChildren(parentId).ToList();
+        var currentGeneration = GetChildren(parentId, isFromUserEntityCache).ToList();
         var nextGeneration = new List<Category>();
         var descendants = new List<Category>();
 
@@ -246,7 +246,7 @@ public class EntityCache : BaseCache
 
             foreach (var category in currentGeneration)
             {
-                var children = GetChildren(category.Id).ToList();
+                var children = GetChildren(category.Id, isFromUserEntityCache).ToList();
                 if (children.Count > 0)
                 {
                     nextGeneration.AddRange(children);
@@ -260,5 +260,6 @@ public class EntityCache : BaseCache
         return descendants;
     }
 
-    public static IList<Category> GetDescendants(Category category) => GetDescendants(category.Id);
+    public static IList<Category> GetDescendants(Category category, bool isFromEntityCache = false) =>
+        GetDescendants(category.Id, isFromEntityCache);
 }

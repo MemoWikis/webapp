@@ -27,7 +27,7 @@ public class UserEntityCache : BaseCache
         
         _Categories[categoriesCacheKey] = (categories); 
 
-        if(userId == -1)
+        if(!CategoriesCacheKeyList.Contains(categoriesCacheKey))
             CategoriesCacheKeyList.Add(categoriesCacheKey);
     }
 
@@ -83,7 +83,7 @@ public class UserEntityCache : BaseCache
     {
         var counter = 0; 
 
-        var nextParents = EntityCache.GetCategory(categoryId).ParentCategories().Distinct().ToList();
+        var nextParents = EntityCache.GetCategory(categoryId,true).ParentCategories().Distinct().ToList();
 
         while (nextParents.Count > 0)
         {
