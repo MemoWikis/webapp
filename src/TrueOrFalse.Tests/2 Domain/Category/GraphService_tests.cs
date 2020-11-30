@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using FluentNHibernate.Utils;
 using NUnit.Framework;
 using TrueOrFalse.Tests;
 
@@ -483,6 +484,86 @@ A -> C
         Assert.That(userPersonelCategoriesWithRealtions.Count, Is.EqualTo(1)); //root topic is ever available
     }
 
+    [Test]
+    public void Should_delete_all_includes_content_of_relations()
+    {
+        ContextCategory.New().AddCaseThreeToCache();
+        var rootCategoryOrginal = EntityCache.GetAllCategories().First().DeepClone();
+
+        Category rootCategorieCopy2 = rootCategoryOrginal.DeepClone();
+        Category rootCategorieCopy1 = rootCategoryOrginal.DeepClone();
+
+        var result = GraphService.IsCategoryRelationEqual(rootCategorieCopy1, rootCategorieCopy2);
+        Assert.That(result, Is.EqualTo(true));
+
+        rootCategorieCopy1.Name = "geändert";
+        result = GraphService.IsCategoryRelationEqual(rootCategorieCopy1, rootCategorieCopy2);
+        Assert.That(result, Is.EqualTo(true));
+
+        rootCategorieCopy1.CategoryRelations = new List<CategoryRelation>
+        {
+            new CategoryRelation
+            {
+                RelatedCategory = new Category{Id = 222},
+                CategoryRelationType = CategoryRelationType.IsChildCategoryOf,
+                Category = new Category{Id = 111}
+            }
+        };
+
+        rootCategorieCopy2.CategoryRelations = new List<CategoryRelation>
+        {
+            new CategoryRelation
+            {
+                RelatedCategory = new Category{Id = 222},
+                CategoryRelationType = CategoryRelationType.IsChildCategoryOf,
+                Category = new Category{Id = 111}
+
+            }
+        };
+
+        result = GraphService.IsCategoryRelationEqual(rootCategorieCopy1, rootCategorieCopy2);
+        Assert.That(result, Is.EqualTo(true));
+
+
+        rootCategorieCopy2.CategoryRelations = new List<CategoryRelation>
+        {
+            new CategoryRelation
+            {
+                RelatedCategory = new Category{Id = 222},
+                CategoryRelationType = CategoryRelationType.IsChildCategoryOf,
+                Category = new Category{Id = 113}
+
+            }
+        };
+
+        result = GraphService.IsCategoryRelationEqual(rootCategorieCopy1, rootCategorieCopy2);
+        Assert.That(result, Is.EqualTo(false));
+
+        rootCategorieCopy1.CategoryRelations = new List<CategoryRelation>
+        {
+            new CategoryRelation
+            {
+                RelatedCategory = new Category{Id = 222},
+                CategoryRelationType = CategoryRelationType.IsChildCategoryOf,
+                Category = new Category{Id = 111}
+            }
+        };
+
+        rootCategorieCopy2.CategoryRelations = new List<CategoryRelation>
+        {
+            new CategoryRelation
+            {
+                RelatedCategory = new Category{Id = 222},
+                CategoryRelationType = CategoryRelationType.IsChildCategoryOf,
+                Category = new Category{Id = 112}
+
+            }
+        };
+
+        result = GraphService.IsCategoryRelationEqual(rootCategorieCopy1, rootCategorieCopy2);
+        Assert.That(result, Is.EqualTo(false));
+    }
+
     private bool IsAllRelationsAChildOf(IList<CategoryRelation> categoryRelations)
     {
         var result = true;
@@ -504,7 +585,6 @@ A -> C
     {
         return category.CategoryRelations.Select(cr => cr.Category.Name == category.Name).All(b => b == true);
     }
-
 
 }
 

@@ -1,7 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using FluentNHibernate.Utils;
+using System.Collections.Generic;
 using System.Linq;
-using FluentNHibernate.Utils;
-using Org.BouncyCastle.Bcpg;
 
 public class GraphService
 {
@@ -157,5 +156,27 @@ public class GraphService
                 ModifyRelationsForCategory.UpdateRelationsOfTypeIncludesContentOf(parentCategory);
             }
         }
+    }
+
+    public static bool IsCategoryRelationEqual(Category category1, Category category2)
+    {
+        if (category1 != null && category2 != null || category1.CategoryRelations != null && category2.CategoryRelations != null)
+        {
+            var relations1 = category1.CategoryRelations;
+            var relations2 = category2.CategoryRelations;
+
+            if (relations2.Count != relations1.Count)
+                return false;
+
+            if (relations2.Count == 0 && relations1.Count == 0)
+                return true;
+
+            var count = 0;
+
+            var countVariousRelations = relations1.Where(r => !relations2.Any(r2 => r2.RelatedCategory.Id == r.RelatedCategory.Id && r2.Category.Id == r.Category.Id)).Count();
+            return countVariousRelations == 0;
+        }
+        Logg.r().Error("Category or CategoryRelations have NullReferenceException");
+        return false;
     }
 }
