@@ -136,7 +136,10 @@ public class EntityCache : BaseCache
 
                 categoryQuestionsList[category.Id]?.AddOrUpdate(question.Id, 0, (k, v) => 0);
             }
-            catch { } 
+            catch
+            {
+                Logg.r().Error("Update failed in AddQuestionToCategorie");
+            }
         }
     }
 
