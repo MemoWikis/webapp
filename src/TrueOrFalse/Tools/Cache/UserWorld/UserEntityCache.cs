@@ -9,8 +9,7 @@ using TrueOrFalse.Tools;
 public class UserEntityCache : BaseCache
 {
     private static int _rootCategoryId = 1726; //RootKategorie
-    public const int ExpirationSpanInMinutes = 600;
-    public static ConcurrentDictionary<string, ConcurrentDictionary<int, Category>> _Categories = new ConcurrentDictionary<string, ConcurrentDictionary<int, Category>>(); 
+    private static ConcurrentDictionary<string, ConcurrentDictionary<int, Category>> _Categories = new ConcurrentDictionary<string, ConcurrentDictionary<int, Category>>(); 
 
     public static string CategoriesCacheKey(int userId) => "Categories_" + userId;
     private static List<string> CategoriesCacheKeyList = new List<string>();
@@ -30,6 +29,14 @@ public class UserEntityCache : BaseCache
 
         if(userId == -1)
             CategoriesCacheKeyList.Add(categoriesCacheKey);
+    }
+
+    public static ConcurrentDictionary<int, Category> GetCategories(string categoryCacheKey)
+    {
+        if (_Categories.ContainsKey(categoryCacheKey))
+            return _Categories[categoryCacheKey];
+
+        return new ConcurrentDictionary<int, Category>();
     }
 
     public static Category GetCategory(int categoryId, int userId)
