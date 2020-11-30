@@ -39,6 +39,8 @@ public class EntityCache : BaseCache
     }
 
 
+
+
     private static ConcurrentDictionary<int, ConcurrentDictionary<int, int>> GetCategoryQuestionsList(IList<Question> questions)
     {
         var categoryQuestionList = new ConcurrentDictionary<int, ConcurrentDictionary<int, int>>();
@@ -205,7 +207,13 @@ public class EntityCache : BaseCache
     {
         objectToCache.TryRemove(obj.Id, out var outObj);
     }
-    public static Category GetCategory(int categoryId) => Categories[categoryId];
+    public static Category GetCategory(int categoryId, bool isFromGetNextParent = false)
+    {
+        if (UserCache.IsFiltered && !isFromGetNextParent)
+            return UserEntityCache.GetCategory(categoryId, Sl.SessionUser.UserId);
+
+        return Categories[categoryId];
+    }
 
     public static IEnumerable<Category> GetCategories(IEnumerable<int> getIds) => 
         getIds.Select(categoryId => Categories[categoryId]);

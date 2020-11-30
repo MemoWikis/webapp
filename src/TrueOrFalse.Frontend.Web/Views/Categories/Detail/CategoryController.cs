@@ -48,15 +48,8 @@ public class CategoryController : BaseController
         var result = new LoadModelResult();
         Category category;
 
-        if (UserCache.IsFiltered)
-        {
-            category = UserEntityCache.GetCategory(id, Sl.SessionUser.UserId); 
-        }
-        else
-        {
-            category = EntityCache.GetCategory(id);
-        }
-
+        category = EntityCache.GetCategory(id);
+        
         var isCategoryNull = category == null;
 
         if (isCategoryNull)
