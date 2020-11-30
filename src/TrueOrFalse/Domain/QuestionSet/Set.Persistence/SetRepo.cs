@@ -151,10 +151,6 @@ public class SetRepo : RepositoryDbBase<Set>
 
     public IList<Set> GetAllEager() => GetByIdsEager();
 
-    public IList<Set> GetForCategoryFromMemoryCache(int categoryId)
-    {
-        return EntityCache.GetSetsForCategory(categoryId).ToList();
-    }
 
     public IEnumerable<Set> GetMostRecent_WithAtLeast3Questions(int amount)
     {

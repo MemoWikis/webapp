@@ -88,11 +88,6 @@ public class Category : DomainEntity, ICreator
         return GetAggregatedQuestionsFromMemoryCache().Count;
     }
 
-    public virtual int GetCountSets()
-    {
-        return GetAggregatedSetsFromMemoryCache().Count;
-    }
-
     public virtual IList<Question> GetAggregatedQuestionsFromMemoryCache(bool onlyVisible = true, bool fullList = true, int categoryId = 0)
     {
         var questionRepo = Sl.QuestionRepo;
@@ -128,11 +123,6 @@ public class Category : DomainEntity, ICreator
             .SelectMany(c => EntityCache.GetQuestionsIdsForCategory(c.Id))
             .Distinct()
             .ToList();
-    }
-
-    public virtual IList<Set> GetAggregatedSetsFromMemoryCache()
-    {
-        return EntityCache.GetSetsForCategories(AggregatedCategories());
     }
 
     public virtual int CountQuestions { get; set; }
