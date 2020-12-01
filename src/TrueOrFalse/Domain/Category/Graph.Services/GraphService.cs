@@ -171,7 +171,7 @@ public class GraphService
 
             var count = 0;
 
-            var countVariousRelations = relations1.Where(r => !relations2.Any(r2 => r2.RelatedCategory.Id == r.RelatedCategory.Id && r2.Category.Id == r.Category.Id)).Count();
+            var countVariousRelations = relations1.Where(r => !relations2.Any(r2 => r2.RelatedCategory.Id == r.RelatedCategory.Id && r2.Category.Id == r.Category.Id && r2.CategoryRelationType.ToString().Equals(r.CategoryRelationType.ToString()))).Count();
             return countVariousRelations == 0;
         }
         Logg.r().Error("Category or CategoryRelations have NullReferenceException");

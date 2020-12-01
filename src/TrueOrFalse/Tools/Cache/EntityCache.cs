@@ -210,6 +210,9 @@ public class EntityCache : BaseCache
     {
         objectToCache.TryRemove(obj.Id, out var outObj);
     }
+
+    //There is an infinite loop when the user is logged in to complaints and when the server is restarted
+    //https://docs.google.com/document/d/1XgfHVvUY_Fh1ID93UZEWFriAqTwC1crhCwJ9yqAPtTY
     public static Category GetCategory(int categoryId, bool isFromUserEntityCache = false)
     {
         if (UserCache.IsFiltered && !isFromUserEntityCache)
