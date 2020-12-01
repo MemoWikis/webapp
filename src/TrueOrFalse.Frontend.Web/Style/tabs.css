@@ -33,6 +33,8 @@
   position: relative;
   top: 3px;
   border-bottom: solid 6px transparent;
+  text-align: center;
+  flex-grow: 1;
 }
 #CategoryHeader .Tabs .Tab a {
   display: block;

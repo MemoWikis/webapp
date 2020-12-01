@@ -25,6 +25,7 @@
                         <li><a href="<%= Links.CategoryEdit(Url, Model.Name, Model.Id) %>" data-allowed="logged-in" ><i class="fa fa-pencil"></i>&nbsp;bearbeiten</a></li>
                         <li><a href="<%= Links.CreateQuestion(categoryId: Model.Id) %>" data-allowed="logged-in" ><i class="fa fa-plus-circle"></i>&nbsp;Frage hinzufügen</a></li>
                         <li><a href="<%= Links.CategoryCreate(Model.Id) %>" data-allowed="logged-in" ><i class="fa fa-plus-circle"></i>&nbsp;Unterthema hinzufügen</a></li>
+                        <li><a href="<%=Links.CategoryDetailAnalyticsTab(Model.Name, Model.Id) %>" data-allowed="logged-in" ><i class="fa fa-plus-circle"></i>&nbsp;Wissensnetz anzeigen</a></li>
                     </ul>
                 </div>
             </div>
@@ -83,11 +84,6 @@
                     </div>
                     <div id="LearnOptionsHeader" class="fa fa-cog disable" aria-hidden="true" data-toggle="tooltip" data-html="true" title="<p style='width: 200px'><b>Persönliche Filter helfen Dir</b>. Nutze die Lernoptionen und entscheide welche Fragen Du lernen möchtest.</p>"></div>
                 </div>
-                <div id="AnalyticsTab" class="Tab" data-url="<%=Links.CategoryDetailAnalyticsTab(Model.Name, Model.Id) %>" >
-                    <a href="">
-                        Wissensnetz
-                    </a>
-                </div>
             </div>
             <div id="Management">
                 <div class="Border"></div>
@@ -111,6 +107,7 @@
                             <li><a href="<%= Links.CreateQuestion(categoryId: Model.Id) %>" data-allowed="logged-in"><i class="fa fa-plus-circle"></i>&nbsp;Frage hinzufügen</a></li>
                             <li><a href="<%= Links.CategoryCreate(Model.Id) %>" data-allowed="logged-in"><i class="fa fa-plus-circle"></i>&nbsp;Unterthema hinzufügen</a></li>
                             <li><a href="<%= Links.CategoryEdit(Url, Model.Name, Model.Id) %>" data-allowed="logged-in"><i class="fa fa-pencil"></i>&nbsp;bearbeiten (Expertenmodus)</a></li>
+                            <li><a href="" id="AnalyticsTab" data-url="<%=Links.CategoryDetailAnalyticsTab(Model.Name, Model.Id) %>" data-allowed="logged-in" class="Tab" ><i class="fa fa-plus-circle"></i>&nbsp;Wissensnetz anzeigen</a></li>
                         </ul>
                     </div>
                 </div>
