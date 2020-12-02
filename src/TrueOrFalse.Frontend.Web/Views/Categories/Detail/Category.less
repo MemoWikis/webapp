@@ -2602,3 +2602,82 @@ p:empty {
 .r-green {
     color: #c3ff02
 }
+
+/* test animation heart*/
+
+@bubble-d: 4.5rem; // bubble diameter
+@bubble-r: .5*@bubble-d; // bubble-radius
+
+body {
+    display: flex;
+    justify-content: center;
+    margin: 0;
+    height: 100vh;
+}
+
+[id='toggle-heart'] {
+    position: absolute;
+    left: -100vw;
+
+    &:checked + label {
+        color: #e2264d;
+        will-change: font-size;
+        animation: heart 1s cubic-bezier(.17, .89, .32, 1.49);
+
+        &:before, &:after {
+            animation: inherit;
+            animation-timing-function: cubic-bezier(.21, .61, .35, 1);
+        }
+
+        &:before {
+            will-change: transform, border-width, border-color;
+            animation-name: bubble;
+        }
+    }
+}
+
+[for='toggle-heart'] {
+    align-self: center;
+    position: relative;
+    color: #aab8c2;
+    font-size: 2em;
+    cursor: pointer;
+
+    &:before, &:after {
+        position: absolute;
+        z-index: -1;
+        top: 50%;
+        left: 50%;
+        border-radius: 50%;
+        content: '';
+    }
+
+    &:before {
+        box-sizing: border-box;
+        margin: -@bubble-r;
+        border: solid @bubble-r #e2264d;
+        width: @bubble-d;
+        height: @bubble-d;
+        transform: scale(0);
+    }
+}
+
+@keyframes heart {
+    0%, 17.5% {
+        font-size: 0;
+    }
+}
+
+@keyframes bubble {
+    15% {
+        transform: scale(1);
+        border-color: #cc8ef5;
+        border-width: @bubble-r;
+    }
+
+    30%, 100% {
+        transform: scale(1);
+        border-color: #cc8ef5;
+        border-width: 0;
+    }
+}

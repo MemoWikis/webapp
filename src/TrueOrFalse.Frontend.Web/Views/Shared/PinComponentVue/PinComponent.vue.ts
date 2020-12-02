@@ -9,7 +9,8 @@
         data() {
             return {
                 stateLoad: 'loading',
-                showAddTxt: false
+                showAddTxt: false,
+                type: 'default'
             }
         },
         watch: {
@@ -59,9 +60,9 @@
                                 }
                             }
                         }
+            },
+
+            animatePin() {
             }
-
-
-
         }
     });
