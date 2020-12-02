@@ -16,10 +16,10 @@
         </div>
     </div>
     <div class="header-item" <% if (Model.IsLoggedIn && Model.SidebarModel.UnreadMessageCount == 0){ %> style="margin-right: 15px;"<% } %> >
-<%--        <a href="<%=Links.Knowledge() %>" data-btn-login="<%= !userSession.IsLoggedIn %>" class="TextLinkWithIcon KnowledgeLink">
+        <a href="<%=Links.Knowledge() %>" data-btn-login="<%= !userSession.IsLoggedIn %>" class="TextLinkWithIcon KnowledgeLink">
             <i style="font-size: 32px;" class="fa fa-dot-circle-o"></i>
             <span class="primary-point-text TextSpan" style="padding-top: 6px;">Wissenszentrale</span>
-        </a>--%>
+        </a>
     </div>
     <div class="header-item"
          <%if (!userSession.IsLoggedIn){%>
@@ -92,7 +92,7 @@
         %>
     </div>
     <div id="MenuButtonContainer" class="header-item" style="margin-right: 0px;">
-<%--        <a id="MenuButton" class="TextLinkWithIcon"><i class="fa fa-bars"></i>
-            <span style="padding-top: 7px;" class="TextSpan">Menü</span></a>--%>
+        <a id="MenuButton" class="TextLinkWithIcon"><i class="fa fa-bars"></i>
+            <span style="padding-top: 7px;" class="TextSpan">Menü</span></a>
     </div>
 </div>
