@@ -231,7 +231,6 @@
                                 </label>
                                 <div class="columnControlsFull">
                                     <textarea class="form-control" name="TopicMarkdown" id="TopicMarkdown" 
-                                        <% var x = Model.TopicMarkdown; %>
                                         rows="<%= string.IsNullOrEmpty(Model.TopicMarkdown) ? "4" : "16" %>" 
                                         style="width: 100%; max-width: 100%;"><%= Model.TopicMarkdown %></textarea>
                                 </div>

@@ -268,4 +268,5 @@ public class EntityCache : BaseCache
 
     public static IList<Category> GetDescendants(Category category, bool isFromEntityCache = false) =>
         GetDescendants(category.Id, isFromEntityCache);
+
 }

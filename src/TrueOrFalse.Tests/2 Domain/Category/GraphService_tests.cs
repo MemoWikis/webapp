@@ -583,7 +583,7 @@ A -> C
 
     private bool IsCategoryRelationsCategoriesIdCorrect(Category category)
     {
-        return category.CategoryRelations.Select(cr => cr.Category.Name == category.Name).All(b => b == true);
+        return category.CategoryRelations.Select(cr => cr.Category.Name == category.Name).All(b => b);
     }
 
 }
