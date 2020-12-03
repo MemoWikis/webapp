@@ -11,12 +11,11 @@ public class GraphService
     {
         category = category == null ? new Category() : category;
 
-        var currentGeneration = category.ParentCategories(); // get ParentCategorys
-        var previousGeneration = new List<Category>(); // new List is empty
-        var parents = new List<Category>();  // new List is empty
-                                             //
+        var currentGeneration = category.ParentCategories(); 
+        var previousGeneration = new List<Category>();
+        var parents = new List<Category>();  
 
-        while (currentGeneration.Count > 0) // 
+        while (currentGeneration.Count > 0) 
         {
             parents.AddRange(currentGeneration);
 
@@ -36,7 +35,6 @@ public class GraphService
                 .ToList(); // ParentParents except the Parents and parentparentcategory.id is non equal categoryId 
 
             previousGeneration = new List<Category>(); // clear list
-            // return in While loop
         }
 
         return parents;
@@ -66,8 +64,6 @@ public class GraphService
         var listWithUserPersonelCategories = new List<Category>();
 
         userId = userId == -1 ? Sl.CurrentUserId : userId;
-
-       
 
         foreach (var child in children)
         {
@@ -156,6 +152,26 @@ public class GraphService
         }
     }
 
+    public static bool IsCategoryParentEqual(IList<Category> parent1 , IList<Category> parent2)
+    {
+        if (parent1 == null || parent2 == null)
+        {
+            Logg.r().Error("parent1 or parent2 have a NullReferenceException");
+            return false; 
+        }
+           
+
+        if (parent1.Count != parent2.Count)
+            return false;
+
+        if (parent1.Count == 0 && parent2.Count == 0)
+            return true;
+
+        var result = parent1.Where(p => !parent2.Any(p2 => p2.Id == p.Id)).Count();
+
+        return result == 0;
+    }
+
     public static bool IsCategoryRelationEqual(Category category1, Category category2)
     {
         if (category1 != null && category2 != null || category1.CategoryRelations != null && category2.CategoryRelations != null)
@@ -174,7 +190,7 @@ public class GraphService
             var countVariousRelations = relations1.Where(r => !relations2.Any(r2 => r2.RelatedCategory.Id == r.RelatedCategory.Id && r2.Category.Id == r.Category.Id && r2.CategoryRelationType.ToString().Equals(r.CategoryRelationType.ToString()))).Count();
             return countVariousRelations == 0;
         }
-        Logg.r().Error("Category or CategoryRelations have NullReferenceException");
+        Logg.r().Error("Category or CategoryRelations have a NullReferenceException");
         return false;
     }
 }

@@ -112,7 +112,7 @@ public class UserEntityCache : BaseCache
         throw new NotImplementedException();
     }
 
-    public static void ChangeAllActiveCategoryCaches(bool isTest)
+    public static void ChangeAllActiveCategoryCaches(bool isTest = false)
     {
         foreach (var CategoryCacheKey in CategoriesCacheKeyList)
         {
@@ -122,6 +122,19 @@ public class UserEntityCache : BaseCache
                          var userId = CategoryCacheKey.Substring(firstChar, length).ToInt(); 
             Init(isTest,  userId);
         }
+    }
+
+
+    public static void ChangeCategoryInUserEntityCaches(Category category)
+    {
+        foreach (var UserCategoriesCache in _Categories.Values)
+        {
+            if (UserCategoriesCache.ContainsKey(category.Id))
+                UserCategoriesCache.TryUpdate(category.Id, category, UserCategoriesCache[category.Id]);
+           
+        }
+        var c = _Categories;
+
     }
 }
 
