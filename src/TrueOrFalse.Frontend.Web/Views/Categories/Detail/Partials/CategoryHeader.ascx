@@ -1,5 +1,6 @@
 ﻿<%@ Control Language="C#" AutoEventWireup="true" 
     Inherits="System.Web.Mvc.ViewUserControl<CategoryModel>" %>
+<%@ Import Namespace="System.Web.Optimization" %>
 <%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
 
 <div id="CategoryHeader">
@@ -87,17 +88,31 @@
             </div>
             <div id="Management">
                 <div class="Border"></div>
-                <div class="KnowledgeBarWrapper">
+                <div class="KnowledgeBarWrapper col-md-3">
                     <% Html.RenderPartial("~/Views/Categories/Detail/CategoryKnowledgeBar.ascx", new CategoryKnowledgeBarModel(Model.Category)); %>
                     <%--<div class="KnowledgeBarLegend">Dein Wissensstand</div>--%>
                 </div>
-                <div class="Buttons">
-                    <div class="Button Pin" data-category-id="<%= Model.Id %>">
-                        <a href="#" class="noTextdecoration" style="font-size: 22px; height: 10px;">
-                            <%= Html.Partial("AddToWishknowledge", new AddToWishknowledge(Model.IsInWishknowledge)) %>
-                        </a>
+                <div class="Border"></div>
+                <div class="Buttons row">
+                    <div class="PinContainer col-md-4">
+                        <div class="Button Pin" data-category-id="<%= Model.Id %>">
+                            <a href="#" class="noTextdecoration" style="font-size: 22px; height: 10px;">
+                                <%= Html.Partial("AddToWishknowledge", new AddToWishknowledge(Model.IsInWishknowledge)) %>
+                            </a>
+                        </div>
                     </div>
-                    <div class="Button dropdown">
+
+                    <div id="MyWorldToggleApp" class="col-md-8 row">
+                        <div class="col-md-9 toggle-label">
+                            <div>
+                                Zeige nur mein
+                                <br/>
+                                <b>Wunschwissen</b> an
+                            </div>
+                        </div>
+                        <% Html.RenderPartial("~/Views/Shared/MyWorldToggle/MyWorldToggleComponent.vue.ascx"); %>
+                    </div>
+                    <div class="Button dropdown DropdownButton">
                         <% buttonId = Guid.NewGuid(); %>
                         <a href="#" id="<%= buttonId %>" class="dropdown-toggle  btn btn-link btn-sm ButtonEllipsis" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
                             <i class="fa fa-ellipsis-v"></i>
@@ -117,3 +132,5 @@
         </div>
     <% } %>
 </div>
+
+<%= Scripts.Render("~/bundles/js/MyWorldToggle") %>

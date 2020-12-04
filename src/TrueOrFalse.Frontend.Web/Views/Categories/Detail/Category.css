@@ -856,7 +856,6 @@ p:empty {
   text-align: center;
 }
 #CategoryHeader #Management {
-  width: 50%;
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -884,10 +883,18 @@ p:empty {
   color: #999999;
 }
 #CategoryHeader .Buttons {
-  -webkit-box-flex: 0;
-  -webkit-flex-grow: 0;
-      -ms-flex-positive: 0;
-          flex-grow: 0;
+  -webkit-box-flex: 1;
+  -webkit-flex-grow: 1;
+      -ms-flex-positive: 1;
+          flex-grow: 1;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+  -webkit-justify-content: space-between;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
 }
 #CategoryHeader .Buttons .Button {
   float: left;
@@ -3458,7 +3465,7 @@ p:empty {
   color: #c3ff02;
 }
 /* test animation heart*/
-body {
+.Pin-container {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -3470,29 +3477,29 @@ body {
   margin: 0;
   height: 100vh;
 }
-[id='toggle-heart'] {
+.Pin-container [id='toggle-heart'] {
   position: absolute;
   left: -100vw;
 }
-[id='toggle-heart']:checked + label {
+.Pin-container [id='toggle-heart']:checked + label {
   color: #e2264d;
   will-change: font-size;
   -webkit-animation: heart 1s cubic-bezier(0.17, 0.89, 0.32, 1.49);
           animation: heart 1s cubic-bezier(0.17, 0.89, 0.32, 1.49);
 }
-[id='toggle-heart']:checked + label:before,
-[id='toggle-heart']:checked + label:after {
+.Pin-container [id='toggle-heart']:checked + label:before,
+.Pin-container [id='toggle-heart']:checked + label:after {
   -webkit-animation: inherit;
           animation: inherit;
   -webkit-animation-timing-function: cubic-bezier(0.21, 0.61, 0.35, 1);
           animation-timing-function: cubic-bezier(0.21, 0.61, 0.35, 1);
 }
-[id='toggle-heart']:checked + label:before {
+.Pin-container [id='toggle-heart']:checked + label:before {
   will-change: transform, border-width, border-color;
   -webkit-animation-name: bubble;
           animation-name: bubble;
 }
-[for='toggle-heart'] {
+.Pin-container [for='toggle-heart'] {
   -webkit-align-self: center;
       -ms-flex-item-align: center;
           align-self: center;
@@ -3501,8 +3508,8 @@ body {
   font-size: 2em;
   cursor: pointer;
 }
-[for='toggle-heart']:before,
-[for='toggle-heart']:after {
+.Pin-container [for='toggle-heart']:before,
+.Pin-container [for='toggle-heart']:after {
   position: absolute;
   z-index: -1;
   top: 50%;
@@ -3511,7 +3518,7 @@ body {
           border-radius: 50%;
   content: '';
 }
-[for='toggle-heart']:before {
+.Pin-container [for='toggle-heart']:before {
   -webkit-box-sizing: border-box;
           box-sizing: border-box;
   margin: -2.25rem;

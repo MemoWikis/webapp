@@ -3,8 +3,6 @@
 #CategoryHeader {
     font-size: 18px;
 
-
-
     #TabsBar {
         height: 45px;
         border-top: solid 1px @border-grey;
@@ -21,7 +19,6 @@
 
     .Tabs {
         display: flex;
-        width: 50%;
         justify-content: space-between;
         align-items: center;
 
@@ -86,10 +83,13 @@
 
         #SessionConfigReminderHeader {
             top: -63px;
-            left: 86px;
+            left: 149px;
             position: absolute;
             display: flex;
 
+            @media(max-width: 1200px) {
+                left: 168px;
+            }
 
             .session-config-reminder-header {
                 border-radius: 0%;
@@ -183,3 +183,94 @@
 
     );
 }
+
+#CategoryTabsApp{
+    width: 42%;
+}
+#Management {
+    width: 58%;
+
+    .PinContainer {
+        display:flex;
+        justify-content: center;
+    }
+
+    .DropdownButton {
+        display:flex;
+        justify-content: center;
+        align-items: center;
+    }
+}
+
+#MyWorldToggleApp {
+    background-color: #EFEFEF;
+    padding-right: 8px;
+    display: flex;
+    justify-content: center;
+
+    .toggle-label {
+        font-size: 12px;
+        line-height: 12px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100%;
+    }
+
+    .toggle-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100%;
+        padding-right: 8px;
+
+        .toggle {
+            position: relative;
+            display: block;
+            width: 40px;
+            height: 20px;
+            cursor: pointer;
+            -webkit-tap-highlight-color: transparent;
+            transform: translate3d(0, 0, 0);
+            margin: 5px 0 0 0;
+
+            &:before {
+                content: "";
+                position: relative;
+                top: 1px;
+                left: 1px;
+                width: 34px;
+                height: 14px;
+                display: block;
+                background: #c8ccd4;
+                border-radius: 12px;
+                transition: background 0.5s ease;
+            }
+
+            span {
+                position: absolute;
+                top: -2px;
+                left: 0;
+                width: 20px;
+                height: 20px;
+                display: block;
+                background: #fff;
+                border-radius: 50%;
+                box-shadow: 0 2px 6px rgba(154,153,153,0.75);
+                transition: all 0.5s ease;
+            }
+        }
+
+        #mwcbx:checked + .toggle:before {
+            background: #fdc1c8fa;
+        }
+
+        #mwcbx:checked + .toggle span {
+            transform: translateX(18px);
+            background: #FF001F;
+        }
+    }
+}
+
+
+

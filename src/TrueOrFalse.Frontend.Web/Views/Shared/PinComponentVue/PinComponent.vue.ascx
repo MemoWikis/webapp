@@ -1,7 +1,7 @@
 ﻿    <div>
-        <div v-if="type == 'full'">
+        <div v-if="type == 'full'" class="pin-container">
             <input id="toggle-heart" type="checkbox"/>
-            <label for="toggle-heart"><i class="fa fa-heart show-tooltip" style="color: #FF001F" title="Aus deinem Wunschwissen entfernen"></i></label>
+            <label for="toggle-heart">❤</label>
         </div>
         <div v-else-if="type == 'long'">
 
