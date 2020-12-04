@@ -27,6 +27,6 @@
     "tiptap-commands": "^1.15.0",
     "tiptap-extensions": "^1.33.2",
     "tiptap-utils": "^1.11.0",
-    "highlight.js": "^10.3.1"
+    "highlight.js": "^10.4.1"
   }
 }
