@@ -72,6 +72,8 @@
                 }
 
                 border-bottom-color: @memo-blue;
+                top: -0px;
+                padding-top: 6px;
             }
         }
     }
@@ -183,12 +185,17 @@
 }
 #Management {
     .KnowledgeBarWrapper{
-            min-width: 110px;    
+            min-width: 160px;
+            padding: 0 15px;
         }
     
     .PinContainer {
         display:flex;
         justify-content: center;
+        width: 90px;
+        .Pin {
+            padding: 0 15px;
+        }
     }
 
     .DropdownButton {
@@ -202,11 +209,11 @@
     background-color: #EFEFEF;
     display: flex;
     justify-content: space-between;
-    transition:background .3s ease-in;
-    padding: 0 18px;
-    min-width: 196px !important;
+    transition: background .3s ease-in;
+    padding: 0 13px 0 15px;
+    min-width: 170px !important;
     width: 100%;
-    max-width: 196px;
+    max-width: 170px;
 
     &.active {
         background-color: rgba(255, 160, 122, 0.2)
@@ -214,13 +221,14 @@
 
     .toggle-label {
         font-size: 12px;
-        line-height: 12px;
+        line-height: 13px;
         display: flex;
         justify-content: center;
         align-items: center;
         height: 100%;
         padding: 0 8px 0 0;
-        min-width: 120px !important;
+        min-width: 100px !important;
+        color: #555555;
     }
 
     .toggle-container {
@@ -277,8 +285,27 @@
     }
 }
 
-
-#LearnOptionsHeaderContainer{
+#LearnOptionsHeaderContainer {
     line-height: 38px;
-    cursor: pointer;
+}
+
+.active {
+    #LearnOptionsHeaderContainer {
+        line-height: 38px;
+        cursor: pointer;
+    }
+}
+
+
+#TopicTab {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 45px;
+
+    .center-tab {
+        width: auto;
+        display: inline-flex;
+        justify-content: center;
+    }
 }

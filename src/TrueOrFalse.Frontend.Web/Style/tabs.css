@@ -63,6 +63,8 @@
 }
 #CategoryHeader .Tabs .Tab.active {
   border-bottom-color: #003264;
+  top: 0px;
+  padding-top: 6px;
 }
 #CategoryHeader .Tabs .Tab.active a {
   color: #003264;
@@ -157,11 +159,16 @@
   flex-grow: 1;
 }
 #Management .KnowledgeBarWrapper {
-  min-width: 110px;
+  min-width: 160px;
+  padding: 0 15px;
 }
 #Management .PinContainer {
   display: flex;
   justify-content: center;
+  width: 90px;
+}
+#Management .PinContainer .Pin {
+  padding: 0 15px;
 }
 #Management .DropdownButton {
   display: flex;
@@ -173,23 +180,24 @@
   display: flex;
   justify-content: space-between;
   transition: background 0.3s ease-in;
-  padding: 0 18px;
-  min-width: 196px !important;
+  padding: 0 13px 0 15px;
+  min-width: 170px !important;
   width: 100%;
-  max-width: 196px;
+  max-width: 170px;
 }
 #MyWorldToggleApp.active {
   background-color: rgba(255, 160, 122, 0.2);
 }
 #MyWorldToggleApp .toggle-label {
   font-size: 12px;
-  line-height: 12px;
+  line-height: 13px;
   display: flex;
   justify-content: center;
   align-items: center;
   height: 100%;
   padding: 0 8px 0 0;
-  min-width: 120px !important;
+  min-width: 100px !important;
+  color: #555555;
 }
 #MyWorldToggleApp .toggle-container {
   display: flex;
@@ -240,5 +248,19 @@
 }
 #LearnOptionsHeaderContainer {
   line-height: 38px;
+}
+.active #LearnOptionsHeaderContainer {
+  line-height: 38px;
   cursor: pointer;
+}
+#TopicTab {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 45px;
+}
+#TopicTab .center-tab {
+  width: auto;
+  display: inline-flex;
+  justify-content: center;
 }

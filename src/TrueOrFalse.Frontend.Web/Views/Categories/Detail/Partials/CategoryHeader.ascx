@@ -51,9 +51,12 @@
         <div id="TabsBar">
             <div id="CategoryTabsApp" class="Tabs">
                 <div id="TopicTab" class="Tab" data-url="<%=Links.CategoryDetail(Model.Name, Model.Id) %>" >
-                    <a href="">
-                        <%= Model.Category.Type == CategoryType.Standard ? "Thema" : "Übersicht" %>
-                    </a>
+                    <div class="center-tab">
+                        <a href="">
+                            <%= Model.Category.Type == CategoryType.Standard ? "Thema" : "Übersicht" %>
+                        </a>
+                    </div>
+
                 </div>
                 <div id="LearningTabWithOptions" class="Tab">
                     <div id="LearningTab" class="Tab" data-url="<%=Links.CategoryDetailLearningTab(Model.Name, Model.Id) %>">
@@ -99,7 +102,7 @@
                             <div>
                                 Zeige nur mein
                                 <br/>
-                                <b>Wunschwissen</b> an
+                                <b>Wunschwissen</b>
                             </div>
                         </div>
                         <% Html.RenderPartial("~/Views/Shared/MyWorldToggle/MyWorldToggleComponent.vue.ascx"); %>

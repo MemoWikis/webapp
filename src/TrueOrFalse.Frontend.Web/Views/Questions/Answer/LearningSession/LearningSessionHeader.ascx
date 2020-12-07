@@ -3,7 +3,7 @@
 <link href="/Views/Questions/Answer/LearningSession/LearningSessionResult.css" rel="stylesheet" />
 
 <div class="SessionHeading">
-    <% Html.RenderPartial("~/Views/Questions/Answer/Sponsor.ascx", Model); %>
+<%--    <% Html.RenderPartial("~/Views/Questions/Answer/Sponsor.ascx", Model); %>--%>
     <div class="SessionTitle">
         <div class="CollectionType TypeCategory">Thema</div>
             <% var category = EntityCache.GetCategory(Model.CategoryModel.Id); 

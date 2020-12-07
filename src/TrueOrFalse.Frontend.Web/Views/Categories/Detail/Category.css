@@ -922,11 +922,6 @@ p:empty {
       -ms-flex-pack: justify;
           justify-content: space-between;
 }
-#CategoryHeader .Buttons .Button {
-  float: left;
-  padding-left: 5px;
-  padding-right: 5px;
-}
 #CategoryHeader .Buttons .Pin i {
   width: 23px;
   -webkit-transition: font 0.3s ease;
