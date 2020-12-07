@@ -286,12 +286,16 @@
             top: -2px;
             left: 1px;
         }
+
+        &, &:focus, &:active, &:hover {
+            box-shadow: none !important;
+        }
     }
 
     .iAdded {
 
         &, &:focus, &:active, &:hover {
-            box-shadow: none;
+            box-shadow: none !important;
         }
 
         i {

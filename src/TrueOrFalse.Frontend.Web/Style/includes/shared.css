@@ -6835,11 +6835,17 @@ fieldset[disabled] .HeartToAddButton .iAddedNot.active {
   top: -2px;
   left: 1px;
 }
+.HeartToAddButton .iAddedNot,
+.HeartToAddButton .iAddedNot:focus,
+.HeartToAddButton .iAddedNot:active,
+.HeartToAddButton .iAddedNot:hover {
+  box-shadow: none !important;
+}
 .HeartToAddButton .iAdded,
 .HeartToAddButton .iAdded:focus,
 .HeartToAddButton .iAdded:active,
 .HeartToAddButton .iAdded:hover {
-  box-shadow: none;
+  box-shadow: none !important;
 }
 .HeartToAddButton .iAdded i {
   color: #FF001F;
