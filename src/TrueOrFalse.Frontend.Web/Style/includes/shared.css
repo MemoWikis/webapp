@@ -6686,6 +6686,20 @@ fieldset[disabled] .BoxButton.active {
   position: relative;
 }
 /*Heart Button*/
+.HeartToAddButton.questionBodyPin .iAdded .iAddedNot {
+  align-items: center;
+  display: inline-flex;
+  padding-right: 0;
+}
+.HeartToAddButton.questionBodyPin .iAdded .iAddedNot .pin-label {
+  padding: 0 3px !important;
+  font-size: 8px !important;
+  line-height: 14px !important;
+  font-weight: 600 !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.1em;
+  color: #FF001F !important;
+}
 .HeartToAddButton .iAdded,
 .HeartToAddButton .iAddedNot,
 .HeartToAddButton .iAddSpinner {
@@ -7642,4 +7656,39 @@ fieldset[disabled] .HeartToAddButton .iAddedNot.active {
 .TestStyle .Card:hover {
   filter: grayscale(0%);
   opacity: 1;
+}
+.pinHeader {
+  display: flex;
+  justify-content: center;
+  align-content: center;
+  align-items: center;
+  height: 100%;
+  padding: 0 18px;
+  max-height: 43px;
+  min-width: 78px;
+  width: 78px;
+}
+.pinHeader a .pinButton {
+  display: flex;
+  justify-content: center;
+  align-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+.pinHeader a .pinButton.hide2 {
+  display: none !important;
+}
+.pinHeader a .pinButton i {
+  font-size: 20px !important;
+  line-height: 23px;
+  color: #FF001F !important;
+}
+.pinHeader a .pinButton .Text {
+  padding: 0 3px !important;
+  font-size: 8px !important;
+  line-height: 14px !important;
+  font-weight: 600 !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.1em;
+  color: #FF001F !important;
 }

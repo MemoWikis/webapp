@@ -6,33 +6,6 @@
 <div id="CategoryHeader">
     
     <% var buttonId = Guid.NewGuid(); %>
-    <% if (!Model.Category.IsHistoric) { %>
-        <div id="ManagementMobile">
-            <div class="KnowledgeBarWrapper">
-                <% Html.RenderPartial("~/Views/Categories/Detail/CategoryKnowledgeBar.ascx", new CategoryKnowledgeBarModel(Model.Category)); %>
-            </div>
-            <div class="Buttons">
-                <div class="Button Pin" data-category-id="<%= Model.Id %>">
-                    <a href="#" class="noTextdecoration" style="font-size: 22px; height: 10px;">
-                        <%= Html.Partial("AddToWishknowledge", new AddToWishknowledge(Model.IsInWishknowledge)) %>
-                    </a>
-                </div>
-                <div class="Button dropdown">
-                    <a href="#" id="<%= buttonId %>" class="dropdown-toggle  btn btn-link btn-sm ButtonEllipsis" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                        <i class="fa fa-ellipsis-v"></i>
-                    </a>
-                    <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="<%= buttonId %>">
-                        <li><a href="<%= Links.CategoryHistory(Model.Id) %>"><i class="fa fa-code-fork"></i>&nbsp;Bearbeitungshistorie</a></li>
-                        <li><a href="<%= Links.CategoryEdit(Url, Model.Name, Model.Id) %>" data-allowed="logged-in" ><i class="fa fa-pencil"></i>&nbsp;bearbeiten</a></li>
-                        <li><a href="<%= Links.CreateQuestion(categoryId: Model.Id) %>" data-allowed="logged-in" ><i class="fa fa-plus-circle"></i>&nbsp;Frage hinzufügen</a></li>
-                        <li><a href="<%= Links.CategoryCreate(Model.Id) %>" data-allowed="logged-in" ><i class="fa fa-plus-circle"></i>&nbsp;Unterthema hinzufügen</a></li>
-                        <li><a href="<%=Links.CategoryDetailAnalyticsTab(Model.Name, Model.Id) %>" data-allowed="logged-in" ><i class="fas fa-project-diagram"></i>&nbsp;Wissensnetz anzeigen</a></li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-    <% } %>
-
     <div id="HeadingSection">
         <div class="ImageContainer">
             <%= Model.ImageFrontendData.RenderHtmlImageBasis(128, true, ImageType.Category, linkToItem: Links.CategoryDetail(Model.Category)) %>
@@ -41,6 +14,15 @@
             <h1 style="margin-bottom: 0"><%= Model.Name %></h1>
             <div>
                 <div class="greyed">
+                    
+                    <% if (!Model.Category.IsHistoric) { %>
+                        <div class="Button Pin mobileHeader" data-category-id="<%= Model.Id %>">
+                            <a href="#" class="noTextdecoration" style="font-size: 22px; height: 10px;">
+                                <%= Html.Partial("AddToWishknowledge", new AddToWishknowledge(Model.IsInWishknowledge, displayAdd: false)) %>
+                            </a>
+                        </div>
+                    <% } %>
+
                     <%= Model.Category.Type == CategoryType.Standard ? "Thema" : Model.Type %> mit <% if (Model.AggregatedTopicCount == 1)
                                                                                                       { %> 1 Unterthema und <% }
                                                                                                       if (Model.AggregatedTopicCount > 1)
@@ -57,6 +39,11 @@
                     <% } %>
                 </div>
             </div>
+            <% if (!Model.Category.IsHistoric) { %>
+                <div class="KnowledgeBarWrapper mobileHeader">
+                    <% Html.RenderPartial("~/Views/Categories/Detail/CategoryKnowledgeBar.ascx", new CategoryKnowledgeBarModel(Model.Category)); %>
+                </div>
+            <% } %>
         </div>
     </div>
 
@@ -87,23 +74,23 @@
                 </div>
             </div>
             <div id="Management">
-                <div class="Border"></div>
-                <div class="KnowledgeBarWrapper col-md-3">
+                <div class="Border hide-sm"></div>
+                <div class="KnowledgeBarWrapper col-md-3 hide-sm">
                     <% Html.RenderPartial("~/Views/Categories/Detail/CategoryKnowledgeBar.ascx", new CategoryKnowledgeBarModel(Model.Category)); %>
                     <%--<div class="KnowledgeBarLegend">Dein Wissensstand</div>--%>
                 </div>
-                <div class="Border"></div>
-                <div class="Buttons row">
-                    <div class="PinContainer col-md-4">
-                        <div class="Button Pin" data-category-id="<%= Model.Id %>">
-                            <a href="#" class="noTextdecoration" style="font-size: 22px; height: 10px;">
-                                <%= Html.Partial("AddToWishknowledge", new AddToWishknowledge(Model.IsInWishknowledge)) %>
+                <div class="Border hide-sm"></div>
+                <div class="Buttons">
+                    <div class="PinContainer hide-sm">
+                        <div class="Button Pin pinHeader" data-category-id="<%= Model.Id %>">
+                            <a href="#" class="noTextdecoration" style="font-size: 22px;">
+                                <%= Html.Partial("AddToWishknowledge", new AddToWishknowledge(Model.IsInWishknowledge, isHeader: true)) %>
                             </a>
                         </div>
                     </div>
 
-                    <div id="MyWorldToggleApp" class="col-md-8 row">
-                        <div class="col-md-9 toggle-label">
+                    <div id="MyWorldToggleApp" :class="{'active': showMyWorld}">
+                        <div class="toggle-label">
                             <div>
                                 Zeige nur mein
                                 <br/>

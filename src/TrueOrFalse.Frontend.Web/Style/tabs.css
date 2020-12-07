@@ -113,11 +113,6 @@
 #CategoryHeader #LearningTabWithOptions #LearnOptionsHeader {
   padding-right: 10px;
 }
-@media only screen and (max-width: 768px) {
-  #CategoryHeader #LearningTabWithOptions #LearnOptionsHeader {
-    padding-right: 0px;
-  }
-}
 #CategoryHeader #LearningTabWithOptions .disable::before {
   color: #999999;
 }
@@ -181,7 +176,15 @@
 #MyWorldToggleApp {
   background-color: #EFEFEF;
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
+  transition: background 0.3s ease-in;
+  padding: 0 18px;
+  min-width: 196px !important;
+  width: 100%;
+  max-width: 196px;
+}
+#MyWorldToggleApp.active {
+  background-color: rgba(255, 160, 122, 0.2);
 }
 #MyWorldToggleApp .toggle-label {
   font-size: 12px;
@@ -190,13 +193,14 @@
   justify-content: center;
   align-items: center;
   height: 100%;
+  padding: 0 8px 0 0;
+  min-width: 120px !important;
 }
 #MyWorldToggleApp .toggle-container {
   display: flex;
   justify-content: center;
   align-items: center;
   height: 100%;
-  padding-right: 8px;
 }
 #MyWorldToggleApp .toggle-container .toggle {
   position: relative;

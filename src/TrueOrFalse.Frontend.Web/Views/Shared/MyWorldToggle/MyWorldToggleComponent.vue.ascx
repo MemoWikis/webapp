@@ -1,5 +1,5 @@
 ﻿<my-world-toggle-component inline-template>
-    <div class="col-md-3 toggle-container">
+    <div class="toggle-container">
         <input type="checkbox" id="mwcbx" style="display:none" data-allowed="logged-in" v-model="showMyWorld" />
         <label for="mwcbx" class="toggle">
             <span></span>

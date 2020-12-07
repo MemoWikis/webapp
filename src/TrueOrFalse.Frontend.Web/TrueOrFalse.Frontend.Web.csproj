@@ -21724,6 +21724,9 @@
       <DependentUpon>Tabbing.ts</DependentUpon>
     </Content>
     <Content Include="Views\Categories\Detail\Partials\BreadCrumbCategories.ascx" />
+    <Content Include="Views\Shared\MyWorldToggle\MyWorldToggleComponent.js">
+      <DependentUpon>MyWorldToggleComponent.ts</DependentUpon>
+    </Content>
     <Content Include="Views\Shared\MyWorldToggle\MyWorldToggleComponent.vue.ascx" />
     <Content Include="Views\Questions\Answer\AnswerQuestionDetailsComponent.vue.ascx" />
     <Content Include="Views\Questions\Answer\Js\InlineEditComponent.js">
@@ -22027,6 +22030,9 @@
     <Content Include="Views\Shared\Delete.ascx" />
     <Content Include="Views\Shared\Delete.css">
       <DependentUpon>Delete.less</DependentUpon>
+    </Content>
+    <Content Include="Views\Shared\MyWorldToggle\MyWorldToggleLoader.js">
+      <DependentUpon>MyWorldToggleLoader.ts</DependentUpon>
     </Content>
     <Content Include="Views\Shared\PinComponentVue\PinComponent.vue.ascx" />
     <Content Include="Views\Shared\Modals\ForTheTimeToDeleteModal.ascx" />
@@ -23996,6 +24002,12 @@
     </Content>
     <Content Include="Views\Shared\PinComponentVue\PinComponent.vue.js.map">
       <DependentUpon>PinComponent.vue.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Shared\MyWorldToggle\MyWorldToggleLoader.js.map">
+      <DependentUpon>MyWorldToggleLoader.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Shared\MyWorldToggle\MyWorldToggleComponent.js.map">
+      <DependentUpon>MyWorldToggleComponent.ts</DependentUpon>
     </Content>
     <None Include="Web.overwritten.config.sample" />
     <Content Include="Views\Welcome\Logout.aspx" />

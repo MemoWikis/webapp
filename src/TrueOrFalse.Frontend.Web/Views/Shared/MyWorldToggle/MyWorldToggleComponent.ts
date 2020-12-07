@@ -11,14 +11,18 @@
             }
         },
         created() {
-            $.get("/Category/GetMyWorldCookie/", (showMyWorld) => {
-                this.showMyWorld = showMyWorld == "True";
-            });
+
         },
         methods: {
+            loadCookie() {
+                $.get("/Category/GetMyWorldCookie/", (showMyWorld) => {
+                    this.showMyWorld = showMyWorld == "True";
+                    this.$root.showMyWorld = this.showMyWorld;
+                });
+            },
             toggleMyWorld() {
                 var s = this.showMyWorld;
-                $.post(`/Category/SetMyWorldCookie/?showMyWorld=${s}`);
+                $.post(`/Category/SetMyWorldCookie/?showMyWorld=${s}`, () => this.loadCookie());
             }
         }
     });

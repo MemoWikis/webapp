@@ -796,11 +796,24 @@ p:empty {
     }
 
     .KnowledgeBarWrapper {
-        padding-top: 13px;
-        padding-left: 30px;
-        padding-right: 30px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
         flex-grow: 1;
         vertical-align: middle;
+
+        &.mobileHeader {
+            margin-top: 10px;
+            justify-content: flex-start;
+            width: 50%;
+            align-items: flex-start;
+            height: 30px;
+
+            .ConditionalLegend {
+                text-align: start;
+                top: 16px;
+            }
+        }
     }
 
     .category-knowledge-bar {
@@ -818,7 +831,6 @@ p:empty {
     }
 
     .Buttons {
-        flex-grow: 1;
         display: flex;
         justify-content: space-between;
 
@@ -903,7 +915,9 @@ p:empty {
         }
 
         #Management {
-            display: none;
+            .hide-sm {
+                display: none;
+            }
         }
 
         .Tabs {
@@ -938,6 +952,24 @@ p:empty {
     }
 
     );
+
+
+    .mobileHeader {
+        @media(min-width: 767px) {
+            display: none;
+        }
+
+        &.Button {
+            &.Pin {
+                display: inline-block;
+                padding-right: 8px;
+                
+                @media (min-width: 767px) {
+                    display: none !important;
+                }
+            }
+        }
+    }
 }
 
 /*------------------------------------------------------
