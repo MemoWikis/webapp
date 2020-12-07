@@ -1128,7 +1128,7 @@
   float: right;
 }
 .AnswerQuestionBodyMenu .Pin {
-  padding-right: 5px;
+  min-width: 106px;
 }
 .AnswerQuestionBodyMenu .edit-question {
   margin-top: 0.7em;

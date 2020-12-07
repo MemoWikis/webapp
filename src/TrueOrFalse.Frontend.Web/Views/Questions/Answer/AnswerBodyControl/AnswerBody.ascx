@@ -32,9 +32,9 @@
            { %>
             <% if (!Model.DisableAddKnowledgeButton)
                { %>
-                <span class="Pin" data-question-id="<%= Model.QuestionId %>">
+                <div class="Pin" data-question-id="<%= Model.QuestionId %>">
                     <%= Html.Partial("AddToWishknowledgeButtonQuestionDetail", new AddToWishknowledge(Model.IsInWishknowledge, isShortVersion: true)) %>
-                </span>
+                </div>
             <% } %>
             <div class="Button dropdown">
                 <span class="margin-top-4">

@@ -1,36 +1,11 @@
 ﻿<%@ Control Language="C#" AutoEventWireup="true" 
     Inherits="System.Web.Mvc.ViewUserControl<CategoryModel>" %>
+<%@ Import Namespace="System.Web.Optimization" %>
 <%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
 
 <div id="CategoryHeader">
     
     <% var buttonId = Guid.NewGuid(); %>
-    <% if (!Model.Category.IsHistoric) { %>
-        <div id="ManagementMobile">
-            <div class="KnowledgeBarWrapper">
-                <% Html.RenderPartial("~/Views/Categories/Detail/CategoryKnowledgeBar.ascx", new CategoryKnowledgeBarModel(Model.Category)); %>
-            </div>
-            <div class="Buttons">
-                <div class="Button Pin" data-category-id="<%= Model.Id %>">
-                    <a href="#" class="noTextdecoration" style="font-size: 22px; height: 10px;">
-                        <%= Html.Partial("AddToWishknowledge", new AddToWishknowledge(Model.IsInWishknowledge)) %>
-                    </a>
-                </div>
-                <div class="Button dropdown">
-                    <a href="#" id="<%= buttonId %>" class="dropdown-toggle  btn btn-link btn-sm ButtonEllipsis" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                        <i class="fa fa-ellipsis-v"></i>
-                    </a>
-                    <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="<%= buttonId %>">
-                        <li><a href="<%= Links.CategoryHistory(Model.Id) %>"><i class="fa fa-code-fork"></i>&nbsp;Bearbeitungshistorie</a></li>
-                        <li><a href="<%= Links.CategoryEdit(Url, Model.Name, Model.Id) %>" data-allowed="logged-in" ><i class="fa fa-pencil"></i>&nbsp;bearbeiten</a></li>
-                        <li><a href="<%= Links.CreateQuestion(categoryId: Model.Id) %>" data-allowed="logged-in" ><i class="fa fa-plus-circle"></i>&nbsp;Frage hinzufügen</a></li>
-                        <li><a href="<%= Links.CategoryCreate(Model.Id) %>" data-allowed="logged-in" ><i class="fa fa-plus-circle"></i>&nbsp;Unterthema hinzufügen</a></li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-    <% } %>
-
     <div id="HeadingSection">
         <div class="ImageContainer">
             <%= Model.ImageFrontendData.RenderHtmlImageBasis(128, true, ImageType.Category, linkToItem: Links.CategoryDetail(Model.Category)) %>
@@ -39,6 +14,15 @@
             <h1 style="margin-bottom: 0"><%= Model.Name %></h1>
             <div>
                 <div class="greyed">
+                    
+                    <% if (!Model.Category.IsHistoric) { %>
+                        <div class="Button Pin mobileHeader" data-category-id="<%= Model.Id %>">
+                            <a href="#" class="noTextdecoration" style="font-size: 22px; height: 10px;">
+                                <%= Html.Partial("AddToWishknowledge", new AddToWishknowledge(Model.IsInWishknowledge, displayAdd: false)) %>
+                            </a>
+                        </div>
+                    <% } %>
+
                     <%= Model.Category.Type == CategoryType.Standard ? "Thema" : Model.Type %> mit <% if (Model.AggregatedTopicCount == 1)
                                                                                                       { %> 1 Unterthema und <% }
                                                                                                       if (Model.AggregatedTopicCount > 1)
@@ -55,6 +39,11 @@
                     <% } %>
                 </div>
             </div>
+            <% if (!Model.Category.IsHistoric) { %>
+                <div class="KnowledgeBarWrapper mobileHeader">
+                    <% Html.RenderPartial("~/Views/Categories/Detail/CategoryKnowledgeBar.ascx", new CategoryKnowledgeBarModel(Model.Category)); %>
+                </div>
+            <% } %>
         </div>
     </div>
 
@@ -62,46 +51,63 @@
         <div id="TabsBar">
             <div id="CategoryTabsApp" class="Tabs">
                 <div id="TopicTab" class="Tab" data-url="<%=Links.CategoryDetail(Model.Name, Model.Id) %>" >
-                    <a href="">
-                        <%= Model.Category.Type == CategoryType.Standard ? "Thema" : "Übersicht" %>
-                    </a>
+                    <div class="center-tab">
+                        <a href="">
+                            <%= Model.Category.Type == CategoryType.Standard ? "Thema" : "Übersicht" %>
+                        </a>
+                    </div>
+
                 </div>
                 <div id="LearningTabWithOptions" class="Tab">
-                    <% if (!Model.IsDisplayNoneSessionConfigNote)
-                       { %>
-                    <div id="SessionConfigReminderHeader" class="hide">
-                        <span>
-                            <img src="/Images/Various/SessionConfigReminder.svg" class="session-config-reminder-header">
-                        </span>
-                        <span class="far fa-times-circle"></span>
-                    </div>
-                        <% } %>
                     <div id="LearningTab" class="Tab" data-url="<%=Links.CategoryDetailLearningTab(Model.Name, Model.Id) %>">
                         <a href="" >
                             Lernen
                         </a>
+                        <div id="LearnOptionsHeaderContainer">
+                            <i id="LearnOptionsHeader" class="fa fa-cog disable" aria-hidden="true" data-toggle="tooltip" data-html="true" title="<p style='width: 200px'><b>Persönliche Filter helfen Dir</b>. Nutze die Lernoptionen und entscheide welche Fragen Du lernen möchtest.</p>">
+                            </i>
+                            <% if (!Model.IsDisplayNoneSessionConfigNote)
+                               { %>
+                                <div id="SessionConfigReminderHeader" class="hide">
+                                    <span>
+                                        <img src="/Images/Various/SessionConfigReminder.svg" class="session-config-reminder-header">
+                                    </span>
+                                    <span class="far fa-times-circle"></span>
+                                </div>
+                            <% } %>
+                        </div>
+
+
                     </div>
-                    <div id="LearnOptionsHeader" class="fa fa-cog disable" aria-hidden="true" data-toggle="tooltip" data-html="true" title="<p style='width: 200px'><b>Persönliche Filter helfen Dir</b>. Nutze die Lernoptionen und entscheide welche Fragen Du lernen möchtest.</p>"></div>
-                </div>
-                <div id="AnalyticsTab" class="Tab" data-url="<%=Links.CategoryDetailAnalyticsTab(Model.Name, Model.Id) %>" >
-                    <a href="">
-                        Wissensnetz
-                    </a>
                 </div>
             </div>
             <div id="Management">
-                <div class="Border"></div>
-                <div class="KnowledgeBarWrapper">
+                <div class="Border hide-sm"></div>
+                <div class="KnowledgeBarWrapper col-md-3 hide-sm">
                     <% Html.RenderPartial("~/Views/Categories/Detail/CategoryKnowledgeBar.ascx", new CategoryKnowledgeBarModel(Model.Category)); %>
                     <%--<div class="KnowledgeBarLegend">Dein Wissensstand</div>--%>
                 </div>
+                <div class="Border hide-sm"></div>
                 <div class="Buttons">
-                    <div class="Button Pin" data-category-id="<%= Model.Id %>">
-                        <a href="#" class="noTextdecoration" style="font-size: 22px; height: 10px;">
-                            <%= Html.Partial("AddToWishknowledge", new AddToWishknowledge(Model.IsInWishknowledge)) %>
-                        </a>
+                    <div class="PinContainer hide-sm">
+                        <div class="Button Pin pinHeader" data-category-id="<%= Model.Id %>">
+                            <a href="#" class="noTextdecoration" style="font-size: 22px;">
+                                <%= Html.Partial("AddToWishknowledge", new AddToWishknowledge(Model.IsInWishknowledge, isHeader: true)) %>
+                            </a>
+                        </div>
                     </div>
-                    <div class="Button dropdown">
+
+                    <div id="MyWorldToggleApp" :class="{'active': showMyWorld}">
+                        <div class="toggle-label">
+                            <div>
+                                Zeige nur mein
+                                <br/>
+                                <b>Wunschwissen</b>
+                            </div>
+                        </div>
+                        <% Html.RenderPartial("~/Views/Shared/MyWorldToggle/MyWorldToggleComponent.vue.ascx"); %>
+                    </div>
+                    <div class="Button dropdown DropdownButton">
                         <% buttonId = Guid.NewGuid(); %>
                         <a href="#" id="<%= buttonId %>" class="dropdown-toggle  btn btn-link btn-sm ButtonEllipsis" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
                             <i class="fa fa-ellipsis-v"></i>
@@ -111,6 +117,7 @@
                             <li><a href="<%= Links.CreateQuestion(categoryId: Model.Id) %>" data-allowed="logged-in"><i class="fa fa-plus-circle"></i>&nbsp;Frage hinzufügen</a></li>
                             <li><a href="<%= Links.CategoryCreate(Model.Id) %>" data-allowed="logged-in"><i class="fa fa-plus-circle"></i>&nbsp;Unterthema hinzufügen</a></li>
                             <li><a href="<%= Links.CategoryEdit(Url, Model.Name, Model.Id) %>" data-allowed="logged-in"><i class="fa fa-pencil"></i>&nbsp;bearbeiten (Expertenmodus)</a></li>
+                            <li><a href="" id="AnalyticsTab" data-url="<%=Links.CategoryDetailAnalyticsTab(Model.Name, Model.Id) %>" data-allowed="logged-in" class="Tab" ><i class="fas fa-project-diagram"></i>&nbsp;Wissensnetz anzeigen</a></li>
                         </ul>
                     </div>
                 </div>
@@ -120,3 +127,5 @@
         </div>
     <% } %>
 </div>
+
+<%= Scripts.Render("~/bundles/js/MyWorldToggle") %>
