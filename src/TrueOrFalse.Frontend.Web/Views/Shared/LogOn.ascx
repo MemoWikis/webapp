@@ -49,12 +49,12 @@
                 </a>
                 <ul class="dropdown-menu pull-right" id="userDropdown" role="menu" aria-labelledby="dLabel" style="right: 0px;">
                     <li>
-                        <a style="white-space: unset; padding: 0px;" href="<%= Links.Knowledge()%>">
+                        <div style="white-space: unset; padding: 0px;">
                             <div id="activity-popover-title">Deine Lernpunkte</div>
                             <div style="padding: 3px 20px 0px 20px;">
                                 <% Html.RenderPartial("/Views/Shared/ActivityPopupContent.ascx"); %>
                             </div>
-                        </a>
+                        </div>
                     </li>
                     <li class="divider"></li>
                     <li>
@@ -73,10 +73,12 @@
                     <li><a class="<%= Model.UserMenuActive(UserMenuEntry.UserDetail) %>" href="<%=Url.Action(Links.UserAction, Links.UserController, new {name = userSession.User.Name, id = userSession.User.Id}) %>">Deine Profilseite</a></li>
                     <li class="divider"></li>
                     <li><a class="<%= Model.UserMenuActive(UserMenuEntry.UserSettings) %>" href="<%= Url.Action(Links.UserSettingsAction, Links.UserSettingsController) %>">Konto-Einstellungen</a></li>
-                    <li><a  <% if (!userSession.IsInstallationAdmin) {%> style="padding-bottom: 15px;" <%}%> href="#" id="btn-logout" data-url="<%= Url.Action(Links.Logout, Links.WelcomeController) %>" data-is-facebook="<%= user.IsFacebookUser ? "true" : ""  %>">Ausloggen</a>  </li>
                     <% if (userSession.IsInstallationAdmin)  { %>
-                        <li><a style="padding-bottom: 15px;" href="<%= Url.Action("RemoveAdminRights", Links.AccountController) %>">Adminrechte abgeben</a>  </li>
+                        <li><a style="padding-bottom: 15px;" href="<%= Url.Action("Maintenance", "Maintenance") %>">Administrativ</a></li>
+                        <li><a style="padding-bottom: 15px;" href="<%= Url.Action("RemoveAdminRights", Links.AccountController) %>">Adminrechte abgeben</a></li>
                     <% } %>
+                    <li><a  <% if (!userSession.IsInstallationAdmin) {%> style="padding-bottom: 15px;" <%}%> href="#" id="btn-logout" data-url="<%= Url.Action(Links.Logout, Links.WelcomeController) %>" data-is-facebook="<%= user.IsFacebookUser ? "true" : ""  %>">Ausloggen</a>  </li>
+
                 </ul>
             </div>
         </div>

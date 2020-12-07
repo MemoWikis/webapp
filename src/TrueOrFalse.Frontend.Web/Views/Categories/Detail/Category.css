@@ -860,6 +860,10 @@ p:empty {
   display: -webkit-flex;
   display: -ms-flexbox;
   display: flex;
+  -webkit-box-pack: end;
+  -webkit-justify-content: flex-end;
+      -ms-flex-pack: end;
+          justify-content: flex-end;
 }
 #CategoryHeader .KnowledgeBarWrapper {
   display: -webkit-box;
@@ -886,12 +890,12 @@ p:empty {
   -webkit-justify-content: flex-start;
       -ms-flex-pack: start;
           justify-content: flex-start;
-  width: 50%;
   -webkit-box-align: start;
   -webkit-align-items: flex-start;
       -ms-flex-align: start;
           align-items: flex-start;
   height: 30px;
+  max-width: 300px;
 }
 #CategoryHeader .KnowledgeBarWrapper.mobileHeader .ConditionalLegend {
   text-align: start;
@@ -948,8 +952,18 @@ p:empty {
     display: none;
   }
 }
+#CategoryHeader .Buttons .Pin .Text.showOnHover {
+  display: none;
+}
 #CategoryHeader .Buttons .Pin:hover .Text {
   color: #FF001F;
+}
+#CategoryHeader .Buttons .Pin:hover .Text.hideOnHover {
+  display: none;
+}
+#CategoryHeader .Buttons .Pin:hover .Text.showOnHover {
+  color: #999999 !important;
+  display: unset;
 }
 #CategoryHeader .Buttons .Pin:hover i {
   font-size: 110%;

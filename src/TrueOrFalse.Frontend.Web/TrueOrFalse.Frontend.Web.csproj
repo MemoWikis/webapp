@@ -21669,6 +21669,9 @@
     <Content Include="Scripts\NumbersCountUp.js">
       <DependentUpon>NumbersCountUp.ts</DependentUpon>
     </Content>
+    <Content Include="Style\includes\shared.css">
+      <DependentUpon>shared.less</DependentUpon>
+    </Content>
     <Content Include="Style\sidebar.css">
       <DependentUpon>sidebar.less</DependentUpon>
     </Content>
@@ -22909,9 +22912,6 @@
       <DependentUpon>colors.less</DependentUpon>
     </Content>
     <Content Include="Style\includes\colors.less" />
-    <Content Include="Style\includes\shared.css">
-      <DependentUpon>shared.less</DependentUpon>
-    </Content>
     <Content Include="Style\includes\shared.less" />
     <Content Include="Style\jquery-ui\images\ui-bg_flat_0_aaaaaa_40x100.png" />
     <Content Include="Style\jquery-ui\images\ui-bg_flat_75_ffffff_40x100.png" />
@@ -22971,9 +22971,6 @@
     </Content>
     <Content Include="Style\includes\colors.css.map">
       <DependentUpon>colors.css</DependentUpon>
-    </Content>
-    <Content Include="Style\includes\shared.css.map">
-      <DependentUpon>shared.css</DependentUpon>
     </Content>
     <Content Include="Style\z_buttons_2.3.2.css.map">
       <DependentUpon>z_buttons_2.3.2.css</DependentUpon>

@@ -22,6 +22,7 @@
   background-color: #d6d6d6;
   margin-top: 7px;
   margin-bottom: 7px;
+  min-width: 1px;
 }
 #CategoryHeader .Tabs {
   display: flex;
@@ -80,14 +81,9 @@
 }
 #CategoryHeader #LearningTabWithOptions #SessionConfigReminderHeader {
   top: -63px;
-  left: 149px;
   position: absolute;
   display: flex;
-}
-@media (max-width: 1200px) {
-  #CategoryHeader #LearningTabWithOptions #SessionConfigReminderHeader {
-    left: 168px;
-  }
+  margin-left: -2px;
 }
 #CategoryHeader #LearningTabWithOptions #SessionConfigReminderHeader .session-config-reminder-header {
   border-radius: 0%;
@@ -110,14 +106,13 @@
     display: none;
   }
 }
-#CategoryHeader #LearningTabWithOptions #LearnOptionsHeader {
-  padding-right: 10px;
-}
 #CategoryHeader #LearningTabWithOptions .disable::before {
   color: #999999;
 }
 #CategoryHeader #LearningTabWithOptions #LearningTab {
   width: auto;
+  display: inline-flex;
+  justify-content: center;
 }
 #CategoryHeader #LearningTabWithOptions #LearningTab a {
   padding-right: 5px;
@@ -159,10 +154,10 @@
   }
 }
 #CategoryTabsApp {
-  width: 42%;
+  flex-grow: 1;
 }
-#Management {
-  width: 58%;
+#Management .KnowledgeBarWrapper {
+  min-width: 110px;
 }
 #Management .PinContainer {
   display: flex;
@@ -242,4 +237,8 @@
 #MyWorldToggleApp .toggle-container #mwcbx:checked + .toggle span {
   transform: translateX(18px);
   background: #FF001F;
+}
+#LearnOptionsHeaderContainer {
+  line-height: 38px;
+  cursor: pointer;
 }

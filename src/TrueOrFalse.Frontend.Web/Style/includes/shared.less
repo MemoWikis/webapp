@@ -299,6 +299,40 @@
             font-size: 22px;
         }
     }
+
+    &.questionBodyPin {
+
+        .iAdded, .iAddedNot {
+            align-items: center;
+            display: inline-flex;
+            padding-right: 0;
+
+            .pinLabel {
+                padding: 0 0 0 8px;
+                font-size: 8px;
+                line-height: 14px;
+                font-weight: 600;
+                text-transform: uppercase;
+                letter-spacing: 0.1em;
+                color: #FF001F;
+
+                &.showOnHover {
+                    display: none;
+                    color: #999999;
+                }
+            }
+
+            &:hover {
+                .showOnHover {
+                    display: unset !important;
+                }
+
+                .hideOnHover {
+                    display: none;
+                }
+            }
+        }
+    }
 }
 
 .RoundHeartButton {
@@ -474,24 +508,6 @@
         line-height: 44px;
     }
 
-    &.questionBodyPin {
-
-        .iAdded .iAddedNot {
-            align-items: center !important;
-            display: inline-flex !important;
-            padding-right: 0 !important;
-
-            .pin-label {
-                padding: 0 3px !important;
-                font-size: 8px !important;
-                line-height: 14px !important;
-                font-weight: 600 !important;
-                text-transform: uppercase !important;
-                letter-spacing: 0.1em;
-                color: #FF001F !important;
-            }
-        }
-    }
 }
 
 

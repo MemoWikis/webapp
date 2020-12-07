@@ -14,6 +14,7 @@
             background-color: @border-grey;
             margin-top: 7px;
             margin-bottom: 7px;
+            min-width: 1px;
         }
     }
 
@@ -83,13 +84,9 @@
 
         #SessionConfigReminderHeader {
             top: -63px;
-            left: 149px;
             position: absolute;
             display: flex;
-
-            @media(max-width: 1200px) {
-                left: 168px;
-            }
+            margin-left: -2px;
 
             .session-config-reminder-header {
                 border-radius: 0%;
@@ -114,8 +111,6 @@
         }
 
         #LearnOptionsHeader {
-            padding-right: 10px;
-
         }
 
 
@@ -125,6 +120,8 @@
 
         #LearningTab {
             width: auto;
+            display: inline-flex;
+            justify-content: center;
 
             a {
                 padding-right: 5px;
@@ -182,11 +179,13 @@
 }
 
 #CategoryTabsApp{
-    width: 42%;
+    flex-grow: 1;
 }
 #Management {
-    width: 58%;
-
+    .KnowledgeBarWrapper{
+            min-width: 110px;    
+        }
+    
     .PinContainer {
         display:flex;
         justify-content: center;
@@ -278,3 +277,8 @@
     }
 }
 
+
+#LearnOptionsHeaderContainer{
+    line-height: 38px;
+    cursor: pointer;
+}

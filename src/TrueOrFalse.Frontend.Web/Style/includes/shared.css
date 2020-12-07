@@ -6845,6 +6845,35 @@ fieldset[disabled] .HeartToAddButton .iAddedNot.active {
   color: #FF001F;
   font-size: 22px;
 }
+.HeartToAddButton.questionBodyPin .iAdded,
+.HeartToAddButton.questionBodyPin .iAddedNot {
+  align-items: center;
+  display: inline-flex;
+  padding-right: 0;
+}
+.HeartToAddButton.questionBodyPin .iAdded .pinLabel,
+.HeartToAddButton.questionBodyPin .iAddedNot .pinLabel {
+  padding: 0 0 0 8px;
+  font-size: 8px;
+  line-height: 14px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: #FF001F;
+}
+.HeartToAddButton.questionBodyPin .iAdded .pinLabel.showOnHover,
+.HeartToAddButton.questionBodyPin .iAddedNot .pinLabel.showOnHover {
+  display: none;
+  color: #999999;
+}
+.HeartToAddButton.questionBodyPin .iAdded:hover .showOnHover,
+.HeartToAddButton.questionBodyPin .iAddedNot:hover .showOnHover {
+  display: unset !important;
+}
+.HeartToAddButton.questionBodyPin .iAdded:hover .hideOnHover,
+.HeartToAddButton.questionBodyPin .iAddedNot:hover .hideOnHover {
+  display: none;
+}
 .RoundHeartButton {
   height: 44px;
   width: 44px;
@@ -6975,20 +7004,6 @@ fieldset[disabled] .HeartToAddButton .iAddedNot.active {
   font-size: 24px;
   font-weight: normal;
   line-height: 44px;
-}
-.RoundHeartButton.questionBodyPin .iAdded .iAddedNot {
-  align-items: center !important;
-  display: inline-flex !important;
-  padding-right: 0 !important;
-}
-.RoundHeartButton.questionBodyPin .iAdded .iAddedNot .pin-label {
-  padding: 0 3px !important;
-  font-size: 8px !important;
-  line-height: 14px !important;
-  font-weight: 600 !important;
-  text-transform: uppercase !important;
-  letter-spacing: 0.1em;
-  color: #FF001F !important;
 }
 /*  Boxes
 ----------------------------------------------------------*/

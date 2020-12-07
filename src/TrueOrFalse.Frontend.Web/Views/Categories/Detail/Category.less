@@ -793,6 +793,7 @@ p:empty {
 
     #Management {
         display: flex;
+        justify-content: flex-end;
     }
 
     .KnowledgeBarWrapper {
@@ -805,9 +806,9 @@ p:empty {
         &.mobileHeader {
             margin-top: 10px;
             justify-content: flex-start;
-            width: 50%;
             align-items: flex-start;
             height: 30px;
+            max-width: 300px;
 
             .ConditionalLegend {
                 text-align: start;
@@ -862,11 +863,24 @@ p:empty {
                 @media(max-width: 380px ) {
                     display: none;
                 }
+
+                &.showOnHover {
+                    display: none;
+                }
             }
 
             &:hover {
                 .Text {
                     color: #FF001F;
+
+                    &.hideOnHover {
+                        display: none;
+                    }
+
+                    &.showOnHover {
+                        color: #999999 !important;
+                        display: unset;
+                    }
                 }
 
                 i {
@@ -963,7 +977,7 @@ p:empty {
             &.Pin {
                 display: inline-block;
                 padding-right: 8px;
-                
+
                 @media (min-width: 767px) {
                     display: none !important;
                 }
