@@ -18,22 +18,7 @@
                             <small class="form-text text-muted">Beschreibe die Navigation</small>
                         </div>
 
-                        
-                        <div class="form-group" style="margin-top: 30px;">
-                            <label for="load">Themenauswahl</label>
-                            <div class="radio" style="margin-top:0">
-                                <label class="clickable">
-                                    <input type="radio" value="All" v-model="load">
-                                    Alle Unterthemen
-                                </label>
-                            </div>
-                            <div class="radio">
-                                <label class="clickable">
-                                    <input type="radio" value="Custom" v-model="load">
-                                    Benutzerdefinierte Themen
-                                </label>
-                            </div>
-                        </div>
+
                         
                         <div class="form-group">
                             <label for="order">Sortierung</label>
