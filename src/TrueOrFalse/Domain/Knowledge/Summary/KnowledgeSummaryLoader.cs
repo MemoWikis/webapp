@@ -46,13 +46,6 @@ public class KnowledgeSummaryLoader
             aggregatedQuestions.AddRange(EntityCache.GetQuestionsForCategory(currentCategory.Id));
         }
 
-        var aggregatedSets = EntityCache.GetSetsForCategories(aggregatedCategories);
-
-        foreach (var set in aggregatedSets)
-        {
-            aggregatedQuestions.AddRange(set.Questions());
-        }
-
         aggregatedQuestions = aggregatedQuestions.Distinct().ToList();
 
         var userValuations = UserCache.GetItem(userId).QuestionValuations;

@@ -24029,8 +24029,6 @@
     <Content Include="Views\Shared\PinComponentVue\PinComponent.vue.js.map">
       <DependentUpon>PinComponent.vue.ts</DependentUpon>
     </Content>
-    </Content>
-    </Content>
     <None Include="Web.overwritten.config.sample" />
     <Content Include="Views\Welcome\Logout.aspx" />
     <Content Include="Views\Api\Export.aspx" />

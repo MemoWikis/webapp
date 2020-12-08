@@ -128,7 +128,7 @@ public class EntityCache
 
     public static IList<Set> GetSetsForCategories(IList<Category> categories)
     {
-        return categories.SelectMany(c => GetSetsForCategory(c.Id)).Distinct().ToList();
+        return null;
     }
 
     public static IList<int> GetSetIdsForCategory(int categoryId)
