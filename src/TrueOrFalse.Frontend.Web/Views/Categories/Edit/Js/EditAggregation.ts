@@ -11,11 +11,9 @@
             type: 'POST',
             url: "/EditCategory/EditAggregation",
             data: {
-
                 categoryId: $('#hhdCategoryId').val(),
                 categoriesToExcludeIdsString: $('#CategoriesToExcludeIdsString').val(),
                 categoriesToIncludeIdsString: $('#CategoriesToIncludeIdsString').val()
-
             },
             cache: false,
             success(e) {

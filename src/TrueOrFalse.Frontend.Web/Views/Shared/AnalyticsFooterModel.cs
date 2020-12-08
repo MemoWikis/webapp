@@ -23,7 +23,7 @@ public class AnalyticsFooterModel
    {
        var descendants = isCategoryChangeData? new List<Category>() : GetCategoriesDescendants.WithAppliedRules(Category);
        CategoriesDescendantsCount = descendants.Count;
-       AllCategoriesParents = isCategoryChangeData ? new List<Category>() : Sl.CategoryRepo.GetAllParents(CategoryId);
+       AllCategoriesParents = isCategoryChangeData ? new List<Category>() : GraphService.GetAllParents(CategoryId);
 
        if (AllCategoriesParents.Count > 0)
            ParentList = GetCategoryParentList();

@@ -176,7 +176,6 @@ public class CategoryRepository : RepositoryDbBase<Category>
 
     public IList<Category> GetChildren(int categoryId)
     {
-
         var categoryIds = _session.CreateSQLQuery($@"SELECT Category_id
             FROM relatedcategoriestorelatedcategories
             WHERE  Related_id = {categoryId} 
@@ -191,7 +190,6 @@ public class CategoryRepository : RepositoryDbBase<Category>
         int parentId,
         String searchTerm = "")
     {
-
         Category relatedCategoryAlias = null; 
         Category categoryAlias = null;
 
@@ -236,36 +234,6 @@ public class CategoryRepository : RepositoryDbBase<Category>
         } 
 
         return descendants;
-    }
-
-    public IList<Category> GetAllParents(int categoryId)
-    {
-        var category = GetById(categoryId);
-
-        category = category == null ? new Category() : category;
-
-        var currentGeneration = category.ParentCategories();
-        var previousGeneration = new List<Category>();
-        var parents = new List<Category>();
-
-        while (currentGeneration.Count > 0)
-        {
-            parents.AddRange(currentGeneration);
-
-            foreach (var currentCategory in currentGeneration)
-            {
-                var directParents = currentCategory.ParentCategories();
-                if (directParents.Count > 0)
-                {
-                    previousGeneration.AddRange(directParents);
-                }
-            }
-
-            currentGeneration = previousGeneration.Except(parents).Where(c => c.Id != categoryId).Distinct().ToList();
-            previousGeneration = new List<Category>();
-        }
-
-        return parents;
     }
 
     public IList<UserTinyModel> GetAuthors(int categoryId, bool filterUsersForSidebar = false)

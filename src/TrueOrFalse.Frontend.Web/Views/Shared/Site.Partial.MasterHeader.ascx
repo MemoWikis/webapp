@@ -46,9 +46,6 @@
                                 <img src="/Images/Logo/LogoSmall.png">
                             </div>
                         </a>
-                        <a id="BetaLogo" href="<%= Links.BetaInfo() %>">
-                            [beta]
-                        </a>
 
                         <div class="input-group" id="HeaderSearchBoxDiv">
                             <input type="text" class="form-control" placeholder="Suche" id="headerSearchBox">

@@ -856,21 +856,50 @@ p:empty {
   text-align: center;
 }
 #CategoryHeader #Management {
-  width: 50%;
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
   display: flex;
+  -webkit-box-pack: end;
+  -webkit-justify-content: flex-end;
+      -ms-flex-pack: end;
+          justify-content: flex-end;
 }
 #CategoryHeader .KnowledgeBarWrapper {
-  padding-top: 13px;
-  padding-left: 30px;
-  padding-right: 30px;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+      -ms-flex-align: center;
+          align-items: center;
   -webkit-box-flex: 1;
   -webkit-flex-grow: 1;
       -ms-flex-positive: 1;
           flex-grow: 1;
   vertical-align: middle;
+}
+#CategoryHeader .KnowledgeBarWrapper.mobileHeader {
+  margin-top: 10px;
+  -webkit-box-pack: start;
+  -webkit-justify-content: flex-start;
+      -ms-flex-pack: start;
+          justify-content: flex-start;
+  -webkit-box-align: start;
+  -webkit-align-items: flex-start;
+      -ms-flex-align: start;
+          align-items: flex-start;
+  height: 30px;
+  max-width: 300px;
+}
+#CategoryHeader .KnowledgeBarWrapper.mobileHeader .ConditionalLegend {
+  text-align: start;
+  top: 16px;
 }
 #CategoryHeader .category-knowledge-bar .ConditionalLegend {
   display: block !important;
@@ -884,15 +913,14 @@ p:empty {
   color: #999999;
 }
 #CategoryHeader .Buttons {
-  -webkit-box-flex: 0;
-  -webkit-flex-grow: 0;
-      -ms-flex-positive: 0;
-          flex-grow: 0;
-}
-#CategoryHeader .Buttons .Button {
-  float: left;
-  padding-left: 5px;
-  padding-right: 5px;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+  -webkit-justify-content: space-between;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
 }
 #CategoryHeader .Buttons .Pin i {
   width: 23px;
@@ -919,8 +947,18 @@ p:empty {
     display: none;
   }
 }
+#CategoryHeader .Buttons .Pin .Text.showOnHover {
+  display: none;
+}
 #CategoryHeader .Buttons .Pin:hover .Text {
   color: #FF001F;
+}
+#CategoryHeader .Buttons .Pin:hover .Text.hideOnHover {
+  display: none;
+}
+#CategoryHeader .Buttons .Pin:hover .Text.showOnHover {
+  color: #999999 !important;
+  display: unset;
 }
 #CategoryHeader .Buttons .Pin:hover i {
   font-size: 110%;
@@ -971,7 +1009,7 @@ p:empty {
     display: -ms-flexbox;
     display: flex;
   }
-  #CategoryHeader #Management {
+  #CategoryHeader #Management .hide-sm {
     display: none;
   }
   #CategoryHeader .Tabs {
@@ -1000,6 +1038,20 @@ p:empty {
   #CategoryHeader #HeadingSection {
     margin-bottom: 60px;
     overflow: hidden;
+  }
+}
+@media (min-width: 767px) {
+  #CategoryHeader .mobileHeader {
+    display: none;
+  }
+}
+#CategoryHeader .mobileHeader.Button.Pin {
+  display: inline-block;
+  padding-right: 8px;
+}
+@media (min-width: 767px) {
+  #CategoryHeader .mobileHeader.Button.Pin {
+    display: none !important;
   }
 }
 /*------------------------------------------------------
@@ -3503,6 +3555,7 @@ p:empty {
 .r-green {
   color: #c3ff02;
 }
+<<<<<<< HEAD
 #AddInlineQuestionContainer {
   background: white;
   margin-top: 20px;
@@ -3524,10 +3577,15 @@ p:empty {
   cursor: pointer;
 }
 #AddInlineQuestionContainer #AddQuestionHeader {
+=======
+/* test animation heart*/
+.Pin-container {
+>>>>>>> master
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
   display: flex;
+<<<<<<< HEAD
 }
 #AddInlineQuestionContainer #AddQuestionHeader .main-label {
   padding-bottom: 29px;
@@ -3593,4 +3651,105 @@ p:empty {
 }
 #AddInlineQuestionContainer .wuwi-grey {
   color: #999999;
+=======
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  margin: 0;
+  height: 100vh;
+}
+.Pin-container [id='toggle-heart'] {
+  position: absolute;
+  left: -100vw;
+}
+.Pin-container [id='toggle-heart']:checked + label {
+  color: #e2264d;
+  will-change: font-size;
+  -webkit-animation: heart 1s cubic-bezier(0.17, 0.89, 0.32, 1.49);
+          animation: heart 1s cubic-bezier(0.17, 0.89, 0.32, 1.49);
+}
+.Pin-container [id='toggle-heart']:checked + label:before,
+.Pin-container [id='toggle-heart']:checked + label:after {
+  -webkit-animation: inherit;
+          animation: inherit;
+  -webkit-animation-timing-function: cubic-bezier(0.21, 0.61, 0.35, 1);
+          animation-timing-function: cubic-bezier(0.21, 0.61, 0.35, 1);
+}
+.Pin-container [id='toggle-heart']:checked + label:before {
+  will-change: transform, border-width, border-color;
+  -webkit-animation-name: bubble;
+          animation-name: bubble;
+}
+.Pin-container [for='toggle-heart'] {
+  -webkit-align-self: center;
+      -ms-flex-item-align: center;
+          align-self: center;
+  position: relative;
+  color: #aab8c2;
+  font-size: 2em;
+  cursor: pointer;
+}
+.Pin-container [for='toggle-heart']:before,
+.Pin-container [for='toggle-heart']:after {
+  position: absolute;
+  z-index: -1;
+  top: 50%;
+  left: 50%;
+  -webkit-border-radius: 50%;
+          border-radius: 50%;
+  content: '';
+}
+.Pin-container [for='toggle-heart']:before {
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  margin: -2.25rem;
+  border: solid 2.25rem #e2264d;
+  width: 4.5rem;
+  height: 4.5rem;
+  -webkit-transform: scale(0);
+          transform: scale(0);
+}
+@-webkit-keyframes heart {
+  0%,
+  17.5% {
+    font-size: 0;
+  }
+}
+@keyframes heart {
+  0%,
+  17.5% {
+    font-size: 0;
+  }
+}
+@-webkit-keyframes bubble {
+  15% {
+    -webkit-transform: scale(1);
+            transform: scale(1);
+    border-color: #cc8ef5;
+    border-width: 2.25rem;
+  }
+  30%,
+  100% {
+    -webkit-transform: scale(1);
+            transform: scale(1);
+    border-color: #cc8ef5;
+    border-width: 0;
+  }
+}
+@keyframes bubble {
+  15% {
+    -webkit-transform: scale(1);
+            transform: scale(1);
+    border-color: #cc8ef5;
+    border-width: 2.25rem;
+  }
+  30%,
+  100% {
+    -webkit-transform: scale(1);
+            transform: scale(1);
+    border-color: #cc8ef5;
+    border-width: 0;
+  }
+>>>>>>> master
 }

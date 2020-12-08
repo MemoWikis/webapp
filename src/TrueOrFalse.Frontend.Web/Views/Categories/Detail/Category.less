@@ -792,16 +792,29 @@ p:empty {
     }
 
     #Management {
-        width: 50%;
         display: flex;
+        justify-content: flex-end;
     }
 
     .KnowledgeBarWrapper {
-        padding-top: 13px;
-        padding-left: 30px;
-        padding-right: 30px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
         flex-grow: 1;
         vertical-align: middle;
+
+        &.mobileHeader {
+            margin-top: 10px;
+            justify-content: flex-start;
+            align-items: flex-start;
+            height: 30px;
+            max-width: 300px;
+
+            .ConditionalLegend {
+                text-align: start;
+                top: 16px;
+            }
+        }
     }
 
     .category-knowledge-bar {
@@ -819,13 +832,8 @@ p:empty {
     }
 
     .Buttons {
-        flex-grow: 0;
-
-        .Button {
-            float: left;
-            padding-left: 5px;
-            padding-right: 5px;
-        }
+        display: flex;
+        justify-content: space-between;
 
         .Pin {
             i {
@@ -849,11 +857,24 @@ p:empty {
                 @media(max-width: 380px ) {
                     display: none;
                 }
+
+                &.showOnHover {
+                    display: none;
+                }
             }
 
             &:hover {
                 .Text {
                     color: #FF001F;
+
+                    &.hideOnHover {
+                        display: none;
+                    }
+
+                    &.showOnHover {
+                        color: #999999 !important;
+                        display: unset;
+                    }
                 }
 
                 i {
@@ -902,7 +923,9 @@ p:empty {
         }
 
         #Management {
-            display: none;
+            .hide-sm {
+                display: none;
+            }
         }
 
         .Tabs {
@@ -937,6 +960,24 @@ p:empty {
     }
 
     );
+
+
+    .mobileHeader {
+        @media(min-width: 767px) {
+            display: none;
+        }
+
+        &.Button {
+            &.Pin {
+                display: inline-block;
+                padding-right: 8px;
+
+                @media (min-width: 767px) {
+                    display: none !important;
+                }
+            }
+        }
+    }
 }
 
 /*------------------------------------------------------
@@ -2681,3 +2722,83 @@ p:empty {
         color: #999999;
     }
 }
+
+/* test animation heart*/
+.Pin-container {
+    display: flex;
+    justify-content: center;
+    margin: 0;
+    height: 100vh;
+
+    @bubble-d: 4.5rem; // bubble diameter
+    @bubble-r: .5*@bubble-d; // bubble-radius
+    .bubble(@ext) {
+        transform: scale(1);
+        border-color: #cc8ef5;
+        border-width: @ext;
+    }
+
+    [id='toggle-heart'] {
+        position: absolute;
+        left: -100vw;
+
+        &:checked + label {
+            color: #e2264d;
+            will-change: font-size;
+            animation: heart 1s cubic-bezier(.17, .89, .32, 1.49);
+
+            &:before, &:after {
+                animation: inherit;
+                animation-timing-function: cubic-bezier(.21, .61, .35, 1);
+            }
+
+            &:before {
+                will-change: transform, border-width, border-color;
+                animation-name: bubble;
+            }
+        }
+    }
+
+    [for='toggle-heart'] {
+        align-self: center;
+        position: relative;
+        color: #aab8c2;
+        font-size: 2em;
+        cursor: pointer;
+
+        &:before, &:after {
+            position: absolute;
+            z-index: -1;
+            top: 50%;
+            left: 50%;
+            border-radius: 50%;
+            content: '';
+        }
+
+        &:before {
+            box-sizing: border-box;
+            margin: -@bubble-r;
+            border: solid @bubble-r #e2264d;
+            width: @bubble-d;
+            height: @bubble-d;
+            transform: scale(0);
+        }
+    }
+
+    @keyframes heart {
+        0%, 17.5% {
+            font-size: 0;
+        }
+    }
+
+    @keyframes bubble {
+        15% {
+            .bubble(@bubble-r);
+        }
+
+        30%, 100% {
+            .bubble(0);
+        }
+    }
+}
+

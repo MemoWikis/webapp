@@ -31,7 +31,12 @@ namespace TrueOrFalse.Tests
             return this;
         }
 
-        public ContextCategory Add(string categoryName, CategoryType categoryType = CategoryType.Standard, User creator = null)
+        public ContextCategory Add(
+            string categoryName, 
+            CategoryType categoryType = CategoryType.Standard, 
+            User creator = null, 
+            Category parent = null,
+            bool IsInWishknowledge = false)
         {
             Category category;
             if (_categoryRepository.Exists(categoryName))
@@ -44,11 +49,24 @@ namespace TrueOrFalse.Tests
                 {
                     Name = categoryName,
                     Creator = creator ?? _contextUser.All.First(),
-                    Type = categoryType
-                };
+                    Type = categoryType,
 
-                _categoryRepository.Create(category);
+                };
             }
+
+            if (parent != null)
+            {
+                var categoryRelations = category.CategoryRelations.Count != 0 ? category.CategoryRelations : new List<CategoryRelation>();
+                categoryRelations.Add(new CategoryRelation
+                {
+                    Category = category,
+                    RelatedCategory = parent,
+                    CategoryRelationType = CategoryRelationType.IsChildCategoryOf
+                });
+
+                category.CategoryRelations = categoryRelations;
+            }
+
 
             All.Add(category);
             return this;
@@ -94,6 +112,13 @@ namespace TrueOrFalse.Tests
             _categoryRepository.Session.Flush();
 
             return this;            
+        }
+
+        public ContextCategory AddRelationsToCategory(Category category, List<CategoryRelation> categoryRelations)
+        {
+            category.CategoryRelations = categoryRelations;
+            _categoryRepository.Update(category);
+            return this;
         }
     }
 }

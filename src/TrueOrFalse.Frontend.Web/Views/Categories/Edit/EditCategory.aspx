@@ -255,7 +255,7 @@
 
                                 <input type="submit" value="Speichern" class="btn btn-primary" name="btnSave" style="float: right; width: 200px;" />
                             <% } else { %>
-                                <input type="submit" value="Thema erstellen" class="btn btn-primary" name="btnSave" <% if(!Model.IsLoggedIn){ %> disabled="disabled" <% } %>/>
+                                <input id="CreateCategory" type="submit" value="Thema erstellen" class="btn btn-primary" name="btnSave" <% if(!Model.IsLoggedIn){ %> disabled="disabled" <% } %>/>
                             <% } %>
                         </div>
                     </div>

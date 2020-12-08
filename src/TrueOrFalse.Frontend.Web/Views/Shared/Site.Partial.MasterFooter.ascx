@@ -41,6 +41,7 @@
         <a href="<%=Links.Team() %>">Team</a><br />
         <a href="<%=Links.AboutMemucho() %>">Über memucho</a><br />
         <a href="<%=Links.ForTeachers() %>">memucho für Lehrer/Dozenten</a><br />
+        <a href="<%= Links.Users() %>">Alle Nutzer</a><br />
             &nbsp;<br />
         <a href="http://blog.memucho.de">memucho-Blog</a><br />
         <a href="<%=Links.WelfareCompany() %>">Gemeinwohlökonomie</a><br />

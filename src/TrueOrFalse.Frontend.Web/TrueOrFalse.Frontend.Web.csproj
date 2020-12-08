@@ -21670,6 +21670,9 @@
     <Content Include="Scripts\NumbersCountUp.js">
       <DependentUpon>NumbersCountUp.ts</DependentUpon>
     </Content>
+    <Content Include="Style\includes\shared.css">
+      <DependentUpon>shared.less</DependentUpon>
+    </Content>
     <Content Include="Style\sidebar.css">
       <DependentUpon>sidebar.less</DependentUpon>
     </Content>
@@ -21736,6 +21739,10 @@
     <Content Include="Views\Categories\Detail\Partials\BreadCrumbCategories.ascx" />
     <Content Include="Views\Questions\AddQuestion\AddQuestionComponent.vue.ascx" />
     <Content Include="Views\Questions\AddQuestion\EditQuestionModal.vue.ascx" />
+    <Content Include="Views\Shared\MyWorldToggle\MyWorldToggleComponent.js">
+      <DependentUpon>MyWorldToggleComponent.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Shared\MyWorldToggle\MyWorldToggleComponent.vue.ascx" />
     <Content Include="Views\Questions\Answer\AnswerQuestionDetailsComponent.vue.ascx" />
     <Content Include="Views\Questions\Answer\Js\InlineEditComponent.js">
       <DependentUpon>InlineEditComponent.ts</DependentUpon>
@@ -22053,6 +22060,9 @@
     <Content Include="Views\Shared\Delete.ascx" />
     <Content Include="Views\Shared\Delete.css">
       <DependentUpon>Delete.less</DependentUpon>
+    </Content>
+    <Content Include="Views\Shared\MyWorldToggle\MyWorldToggleLoader.js">
+      <DependentUpon>MyWorldToggleLoader.ts</DependentUpon>
     </Content>
     <Content Include="Views\Shared\PinComponentVue\PinComponent.vue.ascx" />
     <Content Include="Views\Shared\Modals\ForTheTimeToDeleteModal.ascx" />
@@ -22931,9 +22941,6 @@
       <DependentUpon>colors.less</DependentUpon>
     </Content>
     <Content Include="Style\includes\colors.less" />
-    <Content Include="Style\includes\shared.css">
-      <DependentUpon>shared.less</DependentUpon>
-    </Content>
     <Content Include="Style\includes\shared.less" />
     <Content Include="Style\jquery-ui\images\ui-bg_flat_0_aaaaaa_40x100.png" />
     <Content Include="Style\jquery-ui\images\ui-bg_flat_75_ffffff_40x100.png" />
@@ -22993,9 +23000,6 @@
     </Content>
     <Content Include="Style\includes\colors.css.map">
       <DependentUpon>colors.css</DependentUpon>
-    </Content>
-    <Content Include="Style\includes\shared.css.map">
-      <DependentUpon>shared.css</DependentUpon>
     </Content>
     <Content Include="Style\z_buttons_2.3.2.css.map">
       <DependentUpon>z_buttons_2.3.2.css</DependentUpon>
@@ -23414,8 +23418,10 @@
     <TypeScriptCompile Include="Views\Sets\Edit\Js\EditSet.ts" />
     <TypeScriptCompile Include="Views\Sets\Edit\Js\Validation.ts" />
     <TypeScriptCompile Include="Views\Sets\Js\SetDelete.ts" />
+    <TypeScriptCompile Include="Views\Shared\MyWorldToggle\MyWorldToggleLoader.ts" />
     <TypeScriptCompile Include="Views\Shared\PinComponentVue\PinComponent.vue.ts" />
     <TypeScriptCompile Include="Views\Shared\Spinner\Js\Spinner.ts" />
+    <TypeScriptCompile Include="Views\Shared\MyWorldToggle\MyWorldToggleComponent.ts" />
     <TypeScriptCompile Include="Views\Users\Account\Js\Membership.ts" />
     <TypeScriptCompile Include="Views\Users\Account\WidgetStats\Js\WidgetStats.ts" />
     <TypeScriptCompile Include="Views\Users\Account\Settings\Validation.ts" />
@@ -24023,11 +24029,7 @@
     <Content Include="Views\Shared\PinComponentVue\PinComponent.vue.js.map">
       <DependentUpon>PinComponent.vue.ts</DependentUpon>
     </Content>
-    <Content Include="Views\Questions\Js\AddQuestion\AddQuestion.js.map">
-      <DependentUpon>AddQuestion.ts</DependentUpon>
     </Content>
-    <Content Include="Views\Questions\Js\AddQuestion\AddQuestion - Copy.js.map">
-      <DependentUpon>EditQuestionModalLoader.ts</DependentUpon>
     </Content>
     <None Include="Web.overwritten.config.sample" />
     <Content Include="Views\Welcome\Logout.aspx" />

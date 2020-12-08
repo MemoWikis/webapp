@@ -202,6 +202,8 @@ namespace TrueOrFalse
             routes.MapRoute("Category_KnowledgeBar", "Category/KnowledgeBar", new { controller = "Category", action = "KnowledgeBar" });
             /*Api*/routes.MapRoute("AnalyticsTabApi", "Category/Tab", new { controller = "Category", action = "Tab" });
             /*Api*/routes.MapRoute("SetSetSettingsCookie", "Category/SetSettingsCookie/{text}", new { controller = "Category", action = "SetSettingsCookie", text = UrlParameter.Optional });
+            /*Api*/routes.MapRoute("SetMyWorldCookie", "Category/SetMyWorldCookie/{text}", new { controller = "Category", action = "SetMyWorldCookie", text = UrlParameter.Optional });
+            /*Api*/routes.MapRoute("GetMyWorldCookie", "Category/GetMyWorldCookie/", new { controller = "Category", action = "GetMyWorldCookie" });
 
             routes.MapRoute("AnalyticsGetKnowledgeDisplay", "Category/GetKnowledgeGraphDisplay", new { controller = "Category", action = "GetKnowledgeGraphDisplay" });
             routes.MapRoute("RenderNewKnowledgeSummaryBar", "Category/RenderNewKnowledgeSummaryBar", new { controller = "Category", action = "RenderNewKnowledgeSummaryBar" });
