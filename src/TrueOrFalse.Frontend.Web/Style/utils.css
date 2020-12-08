@@ -9,7 +9,7 @@
 }@media (max-width: 649px) {
 }@media (min-width: 650px) {
 }.hide2 {
-  display: none;
+  display: none !important;
 }
 .list-group-item .hide2 {
   display: none;

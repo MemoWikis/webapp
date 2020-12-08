@@ -318,6 +318,38 @@ public class CategoryController : BaseController
 
         return false;
     }
+
+    public void SetMyWorldCookie(bool showMyWorld)
+    {
+        var myWorldCookieName = "memucho_myworld";
+        HttpCookie cookie = Request.Cookies.Get(myWorldCookieName);
+
+        if (cookie == null)
+        {
+            cookie = new HttpCookie(myWorldCookieName);
+            cookie.Value = DateTime.Now.ToString(CultureInfo.InvariantCulture);
+            cookie.Expires = DateTime.Now.AddYears(1);
+            cookie.Values.Add("showMyWorld", showMyWorld.ToString());
+        }
+        else
+        {
+            cookie.Values["showMyWorld"] = showMyWorld.ToString();
+        }
+        Response.Cookies.Add(cookie);
+    }
+    public bool GetMyWorldCookie()
+    {
+        HttpCookie cookie = Request.Cookies.Get("memucho_myworld");
+        if (cookie != null)
+        {
+            var val = cookie.Values["showMyWorld"];
+            if (val == "True")
+                return true;
+        }
+
+        return false;
+    }
+
 }
 public class LoadModelResult
 {

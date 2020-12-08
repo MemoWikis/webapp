@@ -15,8 +15,6 @@
         <% } %>
     </div>
 
-
-
     <div class="iAddSpinner hide2">
         <i class="fa fa-spinner fa-spin" style="color:#FF001F;"></i>
     </div>
