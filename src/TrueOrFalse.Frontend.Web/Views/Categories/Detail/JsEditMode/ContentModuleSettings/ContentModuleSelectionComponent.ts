@@ -12,7 +12,6 @@ Vue.component('content-module-selection-modal-component', {
             templateMarkdown: '',
             contentModules: [
                 { type: 'InlineText', group: 'main', name: 'Text', tooltip: 'Freie Text Gestaltung per Markdown.' },
-                { type: 'TopicNavigation', group: 'main', name: 'Themenliste', tooltip: 'Zeigt eine Liste aller Hauptthemen.' },
             ],
             selectedModule: '',
             modalType: '',

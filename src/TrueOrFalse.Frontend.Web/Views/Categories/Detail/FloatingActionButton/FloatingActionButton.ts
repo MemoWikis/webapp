@@ -133,7 +133,7 @@ var FAB = Vue.component('floating-action-button',
                 if (elFooter) {
                     var rect = elFooter.getBoundingClientRect();
                     var viewHeight = Math.max(document.documentElement.clientHeight, window.innerHeight);
-                    if (rect.top - viewHeight >= 0 || rect.bottom < 0) {
+                    if (rect.top - viewHeight >= 0) {
                         if (this.footerIsVisible && this.editMode) {
                             this.shrink = false;
                             this.expand = true;
