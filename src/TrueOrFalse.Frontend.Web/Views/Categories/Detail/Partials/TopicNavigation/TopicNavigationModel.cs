@@ -17,7 +17,6 @@ public class TopicNavigationModel : BaseContentModule
 
     public TopicNavigationModel(Category category, TopicNavigationJson topicNavigation)
     {
-
         Category = category;
 
         var isLoadList = false;
