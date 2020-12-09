@@ -35,8 +35,7 @@ Vue.component('topicnavigation-modal-component', {
             },
             searchResults: '',
             searchType: 'Categories',
-            options: [],
-            isFiltered: false
+            options: []
         }
     },
 
@@ -136,10 +135,6 @@ Vue.component('topicnavigation-modal-component', {
                     this.order = this.topicNavigationSettings.Order;
                 };
             }
-            $.post("/User/IsFiltered",
-                (data) => {
-                    this.isFiltered = data;
-                }); 
         },
 
         addTopic() {
