@@ -45,6 +45,12 @@ public class UserController : BaseController
     {
         if (!Sl.SessionUser.IsLoggedIn)
             return;
-        UserCache.IsFiltered = !UserCache.IsFiltered; 
+        UserCache.IsFiltered = !UserCache.IsFiltered;
+    }
+
+    [HttpPost]
+    public bool IsFiltered()
+    {
+        return UserCache.IsFiltered;
     }
 }
