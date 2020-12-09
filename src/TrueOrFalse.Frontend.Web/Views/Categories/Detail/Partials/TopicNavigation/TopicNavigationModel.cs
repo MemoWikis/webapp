@@ -25,7 +25,7 @@ public class TopicNavigationModel : BaseContentModule
         {
             case null:
             case "All":
-                CategoryList = Sl.CategoryRepo.GetChildren(category.Id).ToList();
+                CategoryList = UserCache.IsFiltered ? UserEntityCache.GetChildren(category.Id, UserId) : Sl.CategoryRepo.GetChildren(category.Id).ToList();
                 break;
             default:
                 var categoryIdList = topicNavigation.Load.Split(',').ToList().ConvertAll(int.Parse);
@@ -56,13 +56,17 @@ public class TopicNavigationModel : BaseContentModule
                     throw new Exception("\"Load: \" und \"Order: \" können nicht gleichzeitig mit Category-Id-Listen als Parameter verwendet werden!");
                 }
 
-                var firstCategories = EntityCache.GetCategories(
-                    topicNavigation.Order.Split(',')
-                        .ToList()
-                        .ConvertAll(Int32.Parse))
-                    .ToList();
+                if (!UserCache.IsFiltered)
+                {
+                    var firstCategories = EntityCache.GetCategories(
+                            topicNavigation.Order.Split(',')
+                                .ToList()
+                                .ConvertAll(Int32.Parse))
+                        .ToList();
 
-                CategoryList = OrderByCategoryList(firstCategories);
+                    CategoryList = OrderByCategoryList(firstCategories);
+                }
+               
                 break;
         }
 
