@@ -5,10 +5,12 @@
                 showMyWorld: false,
             }
         },
+        mounted() {
+            this.loadCookie();
+        },
         watch: {
-            showMyWorld() {
-                this.toggleMyWorld();
-                this.sendShowMyWorld();
+            showMyWorld(val) {
+                this.$root.showMyWorld = val;
             }
         },
         methods: {
@@ -19,13 +21,15 @@
                 });
             },
             toggleMyWorld() {
+                this.showMyWorld = !this.showMyWorld;
                 var s = this.showMyWorld;
-                $.post(`/Category/SetMyWorldCookie/?showMyWorld=${s}`, () => this.loadCookie());
+                $.post(`/Category/SetMyWorldCookie/?showMyWorld=${s}`).done(() => {
+                    location.reload();
+                });
             },
             sendShowMyWorld() {
                 $.post("/User/SetUserWorldInUserCache",
                     { showMyWorld: this.showMyWorld });
-                location.reload();
             }
         }
     });

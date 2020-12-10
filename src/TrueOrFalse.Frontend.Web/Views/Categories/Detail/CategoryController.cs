@@ -344,9 +344,11 @@ public class CategoryController : BaseController
         {
             var val = cookie.Values["showMyWorld"];
             if (val == "True")
+            {
+                UserCache.IsFiltered = true;
                 return true;
+            }
         }
-
         return false;
     }
 
