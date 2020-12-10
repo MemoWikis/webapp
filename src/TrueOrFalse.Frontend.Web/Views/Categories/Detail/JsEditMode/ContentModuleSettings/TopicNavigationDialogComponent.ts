@@ -17,7 +17,7 @@ Vue.component('topicnavigation-modal-component', {
             parentId: '',
             title: '',
             text: '',
-            load: '',
+            load: 'Custom',
             order: '',
             topics: [],
             loadTopics: [],
@@ -103,7 +103,7 @@ Vue.component('topicnavigation-modal-component', {
             this.settingsHasChanged = false;
             this.title = '';
             this.text = '';
-            this.load = '';
+            this.load = 'Custom';
             this.order = '';
             this.newTopic = '';
             this.showTopicInput = false;
