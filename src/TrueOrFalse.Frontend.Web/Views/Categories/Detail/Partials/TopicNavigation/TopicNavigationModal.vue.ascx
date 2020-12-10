@@ -51,7 +51,7 @@
                                      <a class="clickable" @click.prevent="removeTopic(index)"><i class="fa fa-trash"></i> Thema entfernen</a>
                                 </div>
                             </div>
-                            <div id="addCardPlaceholder" class="topicCards smallCard grid placeholder">
+                        <%--    <div id="addCardPlaceholder" class="topicCards smallCard grid placeholder">
                                 <div class="addCard" v-if="showTopicInput">
                                     <div class="form-group">
                                         <v-select label="Item.Name" :filterable="false" :options="options" @search="onSearch" v-model="newTopic">
@@ -76,7 +76,7 @@
                                     </div>
                                 </div>
                                 <div v-else class="addCard btn btn-primary" @click="showTopicInput = true">Thema hinzufügen</div>
-                            </div>
+                            </div>--%>
                         </div>
                     </div>
                     
