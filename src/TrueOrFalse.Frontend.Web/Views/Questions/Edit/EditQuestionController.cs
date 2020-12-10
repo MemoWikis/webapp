@@ -175,7 +175,7 @@ public class EditQuestionController : BaseController
         var question = new Question();
 
         question.Text = flashCardJson.Text;
-        question.SolutionType = (SolutionType) Enum.Parse(typeof(SolutionType), "Flashcard");
+        question.SolutionType = (SolutionType) Enum.Parse(typeof(SolutionType), "9");
 
         var solutionModelFlashCard = new QuestionSolutionFlashCard();
         solutionModelFlashCard.Text = flashCardJson.Answer;
