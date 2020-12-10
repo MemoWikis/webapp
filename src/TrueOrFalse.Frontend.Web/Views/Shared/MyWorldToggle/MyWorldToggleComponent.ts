@@ -8,10 +8,8 @@
         watch: {
             showMyWorld() {
                 this.toggleMyWorld();
+                this.sendShowMyWorld();
             }
-        },
-        created() {
-
         },
         methods: {
             loadCookie() {
@@ -23,6 +21,10 @@
             toggleMyWorld() {
                 var s = this.showMyWorld;
                 $.post(`/Category/SetMyWorldCookie/?showMyWorld=${s}`, () => this.loadCookie());
+            },
+            sendShowMyWorld() {
+                $.post("/User/SetUserWorldInUserCache", { showMyWorld: this.showMyWorld }).done((data) => { console.log(data) });
+                location.reload();
             }
         }
     });
