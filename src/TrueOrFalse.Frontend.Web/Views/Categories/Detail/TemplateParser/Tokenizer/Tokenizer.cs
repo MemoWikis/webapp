@@ -13,7 +13,6 @@ public static class Tokenizer
         TemplateJson loadbeforeLastLoadToken = null; 
         TemplateJson loadAsLastToken = null; 
 
-
         foreach (var obj in jsonObject)
         {
 
@@ -26,7 +25,6 @@ public static class Tokenizer
                 loadbeforeLastLoadToken = AddJsonTemplate(JsonConvert.DeserializeObject(tempObj), true); 
                 loadAsLastToken = json;
             }
-               
             else
                 tokens.Add(json);
         }
