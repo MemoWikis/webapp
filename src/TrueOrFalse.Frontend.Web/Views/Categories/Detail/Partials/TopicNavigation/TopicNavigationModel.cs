@@ -28,7 +28,7 @@ public class TopicNavigationModel : BaseContentModule
                 break;
             default:
                 var categoryIdList = topicNavigation.Load.Split(',').ToList().ConvertAll(int.Parse);
-                CategoryList =  UserCache.IsFiltered ? UserEntityCache.GetChildren(category.Id, UserId) : EntityCache.GetCategories(categoryIdList).ToList();
+                CategoryList =  UserCache.IsFiltered ? EntityCache.GetCategories(categoryIdList).Where(c => c.IsInWishknowledge()).ToList() : EntityCache.GetCategories(categoryIdList).ToList();
                 foreach (var category1 in CategoryList)
                 {
                     Logg.r().Warning(category1.Id + "/Database Children");

@@ -23,7 +23,8 @@
                 $.post(`/Category/SetMyWorldCookie/?showMyWorld=${s}`, () => this.loadCookie());
             },
             sendShowMyWorld() {
-                $.post("/User/SetUserWorldInUserCache", { showMyWorld: this.showMyWorld }).done((data) => { console.log(data) });
+                $.post("/User/SetUserWorldInUserCache",
+                    { showMyWorld: this.showMyWorld });
                 location.reload();
             }
         }
