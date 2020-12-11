@@ -5,6 +5,7 @@ using System.Globalization;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using Microsoft.Ajax.Utilities;
 using TrueOrFalse.Frontend.Web.Code;
 using TrueOrFalse.Tools;
 
@@ -73,10 +74,10 @@ public class CategoryController : BaseController
         return result;
     }
 
-    [HttpPost]
-    public ActionResult GetTopicTabAsync(int id, int? version)
+
+    public ActionResult GetTopicTabAsync(int id)
     {
-        return View(_topicTab, LoadModel(id, version).CategoryModel);
+        return View(_topicTab, LoadModel(id, null).CategoryModel);
     }
 
     private void ApplyCategoryChangeToModel(CategoryModel categoryModel, int version, int id = -1)
@@ -104,6 +105,7 @@ public class CategoryController : BaseController
     private CategoryModel GetModelWithContentHtml(Category category, int? version = null, bool isCategoryNull = false, bool openEditMode = false)
     {
         var isQuestionListSessionConfigNoteDisplay = !GetSettingsCookie("SessionConfigQuestionList");
+
         return new CategoryModel(category, true, isCategoryNull, openEditMode)
         {
             IsDisplayNoneSessionConfigNoteQuestionList = isQuestionListSessionConfigNoteDisplay,
@@ -335,12 +337,13 @@ public class CategoryController : BaseController
         {
             cookie.Values["showMyWorld"] = showMyWorld.ToString();
         }
+        UserCache.IsFiltered = showMyWorld;
         Response.Cookies.Add(cookie);
     }
     public bool GetMyWorldCookie()
     {
         HttpCookie cookie = Request.Cookies.Get("memucho_myworld");
-        if (cookie != null)
+        if (cookie != null && IsLoggedIn)
         {
             var val = cookie.Values["showMyWorld"];
             if (val == "True")
@@ -349,6 +352,8 @@ public class CategoryController : BaseController
                 return true;
             }
         }
+
+        UserCache.IsFiltered = false; 
         return false;
     }
 

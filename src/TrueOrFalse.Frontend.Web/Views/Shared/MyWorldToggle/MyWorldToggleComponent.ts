@@ -24,8 +24,13 @@
                 this.showMyWorld = !this.showMyWorld;
                 var s = this.showMyWorld;
                 $.post(`/Category/SetMyWorldCookie/?showMyWorld=${s}`).done(() => {
-                    location.reload();
+                    $.post("/Category/GetTopicTabAsync/?id=709").done((data) => {
+                        $("#TopicTabContent").empty().append(data);
+                        console.log(data);
+                    });
                 });
+
+            
             },
             sendShowMyWorld() {
                 $.post("/User/SetUserWorldInUserCache",
