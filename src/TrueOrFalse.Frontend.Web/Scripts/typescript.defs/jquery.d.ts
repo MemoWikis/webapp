@@ -3541,9 +3541,6 @@ interface JQuery {
      * version deprecated: 1.7, removed: 1.9
      */
     selector: string;
-    [index: string]: any;
-    [index: number]: HTMLElement;
-
     /**
      * Add elements to the set of matched elements.
      * 
@@ -3913,9 +3910,6 @@ interface JQuery {
      * @param callback The new function to add to the queue, with a function to call that will dequeue the next item.
      */
     queue(queueName: string, callback: Function): JQuery;
-}
-declare module "jquery" {
-    export = $;
 }
 declare var jQuery: JQueryStatic;
 declare var $: JQueryStatic;
