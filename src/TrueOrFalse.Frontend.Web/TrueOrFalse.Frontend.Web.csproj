@@ -2061,15 +2061,9 @@
       <DependentUpon>AnswerEntry.ts</DependentUpon>
     </Content>
     <None Include="Properties\PublishProfiles\TeamcityLive.pubxml" />
-    <None Include="Scripts\jquery-2.0.3-vsdoc.js" />
-    <Content Include="Scripts\jquery-2.0.3.js" />
-    <Content Include="Scripts\jquery-2.0.3.min.js" />
-    <Content Include="Scripts\jquery-ui-1.10.3.js" />
-    <Content Include="Scripts\jquery-ui-1.10.3.min.js" />
     <Content Include="Scripts\KnowledgeSummaryBar.js">
       <DependentUpon>KnowledgeSummaryBar.ts</DependentUpon>
     </Content>
-    <Content Include="Scripts\modernizr-2.6.2.js" />
     <Content Include="Scripts\npm\d3\d3.js" />
     <Content Include="Scripts\npm\postscribe\postscribe.js" />
     <Content Include="Scripts\npm\sortablejs\Sortable.js" />
