@@ -2060,6 +2060,7 @@
     <Content Include="Scripts\answerQuestion\AnswerEntry.js.map">
       <DependentUpon>AnswerEntry.ts</DependentUpon>
     </Content>
+    <None Include="Properties\PublishProfiles\TeamcityLive.pubxml" />
     <None Include="Scripts\jquery-2.0.3-vsdoc.js" />
     <Content Include="Scripts\jquery-2.0.3.js" />
     <Content Include="Scripts\jquery-2.0.3.min.js" />
@@ -2394,7 +2395,6 @@
     <Content Include="Fonts\font-awesome-5.7.2\webfonts\fa-solid-900.woff2" />
     <None Include="Log.ignore" />
     <None Include="packages.config" />
-    <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <Content Include="Scripts\header\SearchBox.js.map">
       <DependentUpon>SearchBox.ts</DependentUpon>
     </Content>
