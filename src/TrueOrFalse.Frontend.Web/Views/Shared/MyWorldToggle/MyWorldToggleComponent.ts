@@ -26,11 +26,7 @@
                 var s = this.showMyWorld;
 
                 $.post(`/Category/SetMyWorldCookie/?showMyWorld=${s}`).done(() => {
-
-                    $.post("/Category/GetTopicTabAsync/?id=709").done((data) => {
-                        $("#TopicTabContent").empty().append(data);
-                        Utils.HideSpinner();
-                    });
+                    location.reload();
                 });
             },
             sendShowMyWorld() {
