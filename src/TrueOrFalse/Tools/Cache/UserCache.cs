@@ -7,7 +7,8 @@ using System.Linq;
 public class UserCache
 {
     public const int ExpirationSpanInMinutes = 600;
-    public static string GetCacheKey(int userId) => "UserCashItem_" + userId;
+    private static string GetCacheKey(int userId) => "UserCashItem_" + userId;
+    public static bool IsFiltered = false; 
 
     public static List<UserCacheItem> GetAllCacheItems()
     {
@@ -35,14 +36,16 @@ public class UserCache
             User = user,
             CategoryValuations = new ConcurrentDictionary<int, CategoryValuation>(
                 Sl.CategoryValuationRepo.GetByUser(userId, onlyActiveKnowledge: false)
-                .Select(v => new KeyValuePair<int, CategoryValuation>(v.CategoryId, v))),
+                    .Select(v => new KeyValuePair<int, CategoryValuation>(v.CategoryId, v))),
             QuestionValuations = new ConcurrentDictionary<int, QuestionValuation>(
                 Sl.QuestionValuationRepo.GetByUserWithQuestion(userId)
-                .Select(v => new KeyValuePair<int, QuestionValuation>(v.Question.Id, v))),
+                    .Select(v => new KeyValuePair<int, QuestionValuation>(v.Question.Id, v))),
             SetValuations = new ConcurrentDictionary<int, SetValuation>(
                 Sl.SetValuationRepo.GetByUser(userId, onlyActiveKnowledge: false)
-                .Select(v => new KeyValuePair<int, SetValuation>(v.SetId, v)))
+                    .Select(v => new KeyValuePair<int, SetValuation>(v.SetId, v))),
+            IsFiltered = IsFiltered
         };
+            
         Add_valuationCacheItem_to_cache(cacheItem, userId);
 
         return cacheItem;

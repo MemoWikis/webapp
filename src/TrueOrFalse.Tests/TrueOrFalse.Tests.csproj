@@ -206,7 +206,8 @@
     <Compile Include="1 View\MarkdownSharpTests.cs" />
     <Compile Include="1 View\RouteTests.cs" />
     <Compile Include="2 Domain\Category\Automatic_inclusion_tests.cs" />
-    <Compile Include="2 Domain\Category\Hide_non_wuwi_topics_tests.cs" />
+    <Compile Include="2 Domain\Category\EntityCache_tests.cs" />
+    <Compile Include="2 Domain\Category\GraphService_tests.cs" />
     <Compile Include="2 Domain\Question\LearnSession\Count_answer_as_correct.cs" />
     <Compile Include="2 Domain\Question\LearnSession\Create_learning_session.cs" />
     <Compile Include="2 Domain\Question\Setup\ContextLearningSession.cs" />
@@ -214,6 +215,8 @@
     <Compile Include="2 Domain\Question\LearnSession\Get_wuwi_from_category.cs" />
     <Compile Include="2 Domain\Question\LearnSession\Sort_by_probability.cs" />
     <Compile Include="2 Domain\Question\LearnSession\Test_learning_session_steps.cs" />
+    <Compile Include="2 Domain\UserWorld\User_enitity_cache_tests.cs" />
+    <Compile Include="2 Domain\User\UserCache\User_cache_tests.cs" />
     <Compile Include="3 Infrastructure\SetMigrationTest.cs" />
     <Compile Include="3 Infrastructure\TemplateMigrationTest.cs" />
     <Compile Include="1 View\TemplateParserTest.cs" />
@@ -291,7 +294,6 @@
     <Compile Include="3 Infrastructure\DoesTableExistTests.cs" />
     <Compile Include="3 Infrastructure\Percents_from_ints.cs" />
     <Compile Include="3 Infrastructure\PersistentLogin\PersistentLoginPersistenceTests.cs" />
-    <Compile Include="3 Infrastructure\EntityCacheTests.cs" />
     <Compile Include="3 Infrastructure\YoutubeVideoTests.cs" />
     <Compile Include="4 Search\CategorySearchTests.cs" />
     <Compile Include="4 Search\UserSearchTests.cs" />

@@ -3,12 +3,11 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
-using System.Text;
 using System.Web;
 using System.Web.Mvc;
 using Microsoft.Ajax.Utilities;
-using SolrNet.Utils;
 using TrueOrFalse.Frontend.Web.Code;
+using TrueOrFalse.Tools;
 
 
 [SetUserMenu(UserMenuEntry.None)]
@@ -22,16 +21,6 @@ public class CategoryController : BaseController
     public ActionResult Category(int id, int? version, bool? openEditMode)
     {
         var modelAndCategoryResult = LoadModel(id, version, openEditMode: openEditMode);
-        modelAndCategoryResult.CategoryModel.IsDisplayNoneSessionConfigNote = GetSettingsCookie("SessionConfigTopNote");
-        modelAndCategoryResult.CategoryModel.IsDisplayNoneSessionConfigNoteQuestionList = !GetSettingsCookie("SessionConfigQuestionList");
-        modelAndCategoryResult.CategoryModel.IsInTopic = true;
-
-        return View(_viewLocation, modelAndCategoryResult.CategoryModel);
-    }
-
-    public ActionResult CategoryBySetId(int id, int? version)
-    {
-        var modelAndCategoryResult = LoadModel(id, version, true);
         modelAndCategoryResult.CategoryModel.IsInTopic = true;
 
         return View(_viewLocation, modelAndCategoryResult.CategoryModel);
@@ -50,36 +39,34 @@ public class CategoryController : BaseController
     public ActionResult CategoryAnalyticsTab(int id, int? version)
     {
         var modelAndCategoryResult = LoadModel(id, version);
-        modelAndCategoryResult.CategoryModel.IsDisplayNoneSessionConfigNote = GetSettingsCookie("SessionConfigTopNote");
-        modelAndCategoryResult.CategoryModel.IsDisplayNoneSessionConfigNoteQuestionList = !GetSettingsCookie("SessionConfigQuestionList");
         modelAndCategoryResult.CategoryModel.IsInAnalyticsTab = true;
 
         return View(_viewLocation, modelAndCategoryResult.CategoryModel);
     }
 
-    private LoadModelResult LoadModel(int id, int? version, bool bySetId = false, bool? openEditMode = false)
+    private LoadModelResult LoadModel(int id, int? version, bool? openEditMode = false)
     {
         var result = new LoadModelResult();
-        var category = bySetId ? Resolve<CategoryRepository>().GetBySetId(id) : Resolve<CategoryRepository>().GetById(id);
+        Category category;
 
+        category = EntityCache.GetCategory(id);
+        
         var isCategoryNull = category == null;
-
-        var categoryChangeData = new TrueOrFalse.Data();
-        // var categoryChange = new List<CategoryChange>();
 
         if (isCategoryNull)
         {
             category = new Category();
             category.Id = id;
-            category.Name = categoryChangeData.Name;
+            category.Name = "";
         }
 
-        _sessionUiData.VisitedCategories.Add(new CategoryHistoryItem(category, HistoryItemType.Any, categoryChangeData, isCategoryNull));
+        _sessionUiData.VisitedCategories.Add(new CategoryHistoryItem(category, HistoryItemType.Any, isCategoryNull));
         result.Category = category;
-            
-        result.CategoryModel = openEditMode == true ? GetModelWithContentHtml(category, version, isCategoryNull, true) : GetModelWithContentHtml(category, version, isCategoryNull);
 
-            if (version != null)
+        result.CategoryModel =
+            GetModelWithContentHtml(category, version, isCategoryNull, openEditMode ?? false);
+
+        if (version != null)
             ApplyCategoryChangeToModel(result.CategoryModel, (int)version, id);
         else
             SaveCategoryView.Run(result.Category, User_());
@@ -87,10 +74,10 @@ public class CategoryController : BaseController
         return result;
     }
 
-    [HttpPost]
-    public ActionResult GetTopicTabAsync(int id, int? version)
+
+    public ActionResult GetTopicTabAsync(int id)
     {
-        return View(_topicTab, LoadModel(id, version).CategoryModel);
+        return View(_topicTab, LoadModel(id, null).CategoryModel);
     }
 
     private void ApplyCategoryChangeToModel(CategoryModel categoryModel, int version, int id = -1)
@@ -118,7 +105,8 @@ public class CategoryController : BaseController
     private CategoryModel GetModelWithContentHtml(Category category, int? version = null, bool isCategoryNull = false, bool openEditMode = false)
     {
         var isQuestionListSessionConfigNoteDisplay = !GetSettingsCookie("SessionConfigQuestionList");
-        return new CategoryModel(category, true, isCategoryNull, openEditMode: openEditMode)
+
+        return new CategoryModel(category, true, isCategoryNull, openEditMode)
         {
             IsDisplayNoneSessionConfigNoteQuestionList = isQuestionListSessionConfigNoteDisplay,
             CustomPageHtml = string.IsNullOrEmpty(category.Content) ? "" : TemplateToHtml.Run(Tokenizer.Run(category.Content), category, ControllerContext, version)
@@ -349,18 +337,23 @@ public class CategoryController : BaseController
         {
             cookie.Values["showMyWorld"] = showMyWorld.ToString();
         }
+        UserCache.IsFiltered = showMyWorld;
         Response.Cookies.Add(cookie);
     }
     public bool GetMyWorldCookie()
     {
         HttpCookie cookie = Request.Cookies.Get("memucho_myworld");
-        if (cookie != null)
+        if (cookie != null && IsLoggedIn)
         {
             var val = cookie.Values["showMyWorld"];
             if (val == "True")
+            {
+                UserCache.IsFiltered = true;
                 return true;
+            }
         }
 
+        UserCache.IsFiltered = false; 
         return false;
     }
 

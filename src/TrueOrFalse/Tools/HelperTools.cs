@@ -18,5 +18,7 @@ namespace TrueOrFalse.Tools
                 return false;
             return true;
         }
+
+        public static bool IsRootCategory(int id) => id == 1726;
     }
 }

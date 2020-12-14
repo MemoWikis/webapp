@@ -659,21 +659,6 @@ public class MaintenanceController : BaseController
                     .Any(c => c.Type.GetCategoryTypeGroup() == CategoryTypeGroup.Standard))
                     category.TopicMarkdown = "[[{\"TemplateName\":\"TopicNavigation\",\"Title\":\"Unterthemen\"}]]\r\n";
 
-                var aggregatedSets = category.GetAggregatedSetsFromMemoryCache();
-                var aggregatedSetsCount = aggregatedSets.Count;
-                var aggregatedQuestionCount = category.GetCountQuestionsAggregated();
-
-                if (aggregatedSetsCount > 0 && aggregatedSetsCount <= 5)
-                {
-                    foreach (var set in aggregatedSets)
-                        category.TopicMarkdown = category.TopicMarkdown +
-                                                 "[[{\"TemplateName\":\"SingleSetFullWidth\",\"SetId\":" + set.Id +
-                                                 "}]]" + Environment.NewLine;
-                }
-                else if (aggregatedSetsCount == 0 && aggregatedQuestionCount > 0)
-                    category.TopicMarkdown = category.TopicMarkdown + "[[{\"TemplateName\":\"SingleQuestionsQuiz\"}]]" +
-                                             Environment.NewLine;
-
                 if (R<CategoryRepository>().GetChildren(category.Id)
                     .Any(c => c.Type.GetCategoryTypeGroup() == CategoryTypeGroup.Education))
                     category.TopicMarkdown = category.TopicMarkdown + "[[{\"TemplateName\":\"EducationOfferList\"}]]" +

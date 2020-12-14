@@ -3573,7 +3573,6 @@
     <Compile Include="Views\Shared\HistoryAndProbabilityModel.cs" />
     <Compile Include="Views\Sets\Detail\SetController.cs" />
     <Compile Include="Views\Sets\Detail\SetModel.cs" />
-    <Compile Include="Views\Sets\Edit\EditSetController.cs" />
     <Compile Include="Views\Sets\Edit\EditSetModel.cs" />
     <Compile Include="Views\Sets\SetsControllerSearch.cs" />
     <Compile Include="Views\Sets\SetRowModel.cs" />

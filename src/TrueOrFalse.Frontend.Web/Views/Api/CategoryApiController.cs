@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
-using TrueOrFalse.Frontend.Web.Code;
 using TrueOrFalse.Search;
 
 public class CategoryApiController : BaseController
@@ -128,7 +127,10 @@ public class CategoryApiController : BaseController
             return false;
 
         CategoryInKnowledge.Pin(Convert.ToInt32(categoryId), _sessionUser.User);
+        UserEntityCache.DeleteCacheForUser();
+        UserEntityCache.Init();
         return true;
+        
     }
 
     [HttpPost]
@@ -138,6 +140,8 @@ public class CategoryApiController : BaseController
             return false;
 
         CategoryInKnowledge.Unpin(Convert.ToInt32(categoryId), _sessionUser.User);
+        UserEntityCache.DeleteCacheForUser();
+        UserEntityCache.Init();
         return true;
     }
     [HttpPost]

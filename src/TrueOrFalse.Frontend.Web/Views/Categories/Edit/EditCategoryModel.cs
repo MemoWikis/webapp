@@ -48,6 +48,7 @@ public class EditCategoryModel : BaseModel
     public string ImageLicenseOwner { get; set; }
 
     public Category Category;
+    public Category UpdatedCategory; 
 
     public CategoryType PreselectedType;
 
@@ -137,9 +138,10 @@ public class EditCategoryModel : BaseModel
             category.FeaturedSetsIdsString = FeaturedSetIdsString;
         }
 
+        
         ModifyRelationsForCategory.UpdateCategoryRelationsOfType(category, ParentCategories, CategoryRelationType.IsChildCategoryOf);
 
-        FillFromRequest(category);
+        UpdatedCategory =  FillFromRequest(category).Category;
 }
 
     private static string ToNumericalString(string input)
@@ -510,16 +512,7 @@ public class EditCategoryModel : BaseModel
             .Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries)
             .Select(x => Convert.ToInt32(x))
             .Any(c => c == categoryId);
-    }
-
-    public bool IsInCategoriesToExclude(int categoryId)
-    {
-        return !string.IsNullOrEmpty(CategoriesToExcludeIdsString)
-               && CategoriesToExcludeIdsString
-            .Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries)
-            .Select(x => Convert.ToInt32(x))
-            .Any(c => c == categoryId);
-    }
+    } 
 }
 
 

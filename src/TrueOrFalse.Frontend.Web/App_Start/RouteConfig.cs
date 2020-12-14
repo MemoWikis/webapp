@@ -122,6 +122,7 @@ namespace TrueOrFalse
             /* API */ routes.MapRoute("Category_StartTestSession", "Kategorie/Testen/{categoryName}/{categoryId}", new { controller = "Category", action = "StartTestSession" });
             /* API */ routes.MapRoute("Category_StartLearningSession", "Category/StartLearningSession", new { controller = "Category", action = "StartLearningSession" });
             /* API */ routes.MapRoute("Category_StartLearningSessionForSets", "Category/StartLearningSessionForSets", new { controller = "Category", action = "StartLearningSessionForSets" });
+            /* API */ routes.MapRoute("TopicTabAsync", "Category/GetTopicTabAsync", new { controller = "Category", action = "GetTopicTabAsync" });
 
             routes.MapRoute("Knowledge_Learn", "Lernen/Wunschwissen", new { controller = "Knowledge", action = "StartLearningSession" });
             routes.MapRoute("KnowledgeUeberblick", "Wissenszentrale/Ueberblick", new { controller = "Knowledge", action = "Knowledge" });
