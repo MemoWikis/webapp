@@ -21,7 +21,7 @@ public static class Tokenizer
             if (obj.Load != null && obj.Load.Value.Equals("All"))
             {
                 var tempObj =
-                    "[{\"TemplateName\":\"InlineText\",\"Content\":\"<h3 id=\\\"AllSubtopics\\\">Alle Unterthemen</h3>\\n\"}]";
+                    "[{\"TemplateName\":\"InlineText\",\"Content\":\"<h3 id=\\\"AllSubtopics\\\">Alle untergeordneten Themen</h3>\\n\"}]";
                 loadbeforeLastLoadToken = AddJsonTemplate(JsonConvert.DeserializeObject(tempObj), true); 
                 loadAsLastToken = json;
             }
