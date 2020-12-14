@@ -58,11 +58,14 @@ public class UserEntityCache : BaseCache
         return result ?? new ConcurrentDictionary<int, Category>(); 
     }
 
-    public static void DeleteCacheForUser(int userId)
+    public static void DeleteCacheForUser()
     {
-        var cacheKey = CategoriesCacheKey(Sl.SessionUser.UserId);
-        _Categories.TryRemove(cacheKey, out var d );
-        CategoriesCacheKeyList.Remove(cacheKey);
+        if (Sl.SessionUser != null)
+        {
+            var cacheKey = CategoriesCacheKey(Sl.SessionUser.UserId);
+            _Categories.TryRemove(cacheKey, out var d);
+            CategoriesCacheKeyList.Remove(cacheKey);
+        }
     }
 
     public static List<Category> GetChildren(int categoryId, int userId)

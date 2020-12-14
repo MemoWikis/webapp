@@ -127,7 +127,7 @@ public class CategoryApiController : BaseController
             return false;
 
         CategoryInKnowledge.Pin(Convert.ToInt32(categoryId), _sessionUser.User);
-        UserEntityCache.DeleteCacheForUser(_sessionUser.UserId);
+        UserEntityCache.DeleteCacheForUser();
         UserEntityCache.Init();
         return true;
         
@@ -140,7 +140,7 @@ public class CategoryApiController : BaseController
             return false;
 
         CategoryInKnowledge.Unpin(Convert.ToInt32(categoryId), _sessionUser.User);
-        UserEntityCache.DeleteCacheForUser(_sessionUser.UserId);
+        UserEntityCache.DeleteCacheForUser();
         UserEntityCache.Init();
         return true;
     }
