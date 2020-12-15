@@ -5,6 +5,7 @@ using System.Security;
 using System.Web;
 using System.Web.Mvc;
 using TrueOrFalse.Frontend.Web.Code;
+using TrueOrFalse.View.Web.Views.Api;
 using TrueOrFalse.Web;
 
 [SetUserMenu(UserMenuEntry.None)]
@@ -26,7 +27,7 @@ public class EditCategoryController : BaseController
     {
         var model = new EditCategoryModel { Name = name ?? "", PreselectedType = !String.IsNullOrEmpty(type) ? (CategoryType)Enum.Parse(typeof(CategoryType), type) : CategoryType.Standard };
 
-        if (!String.IsNullOrEmpty(parent))
+        if (!string.IsNullOrEmpty(parent))
             model.ParentCategories.Add(_categoryRepository.GetById(Convert.ToInt32(parent)));
 
         return View(_viewPath, model);
@@ -160,6 +161,7 @@ public class EditCategoryController : BaseController
                 Links.CategoryCreate()));
 
         GraphService.AutomaticInclusionFromSubthemes(category);
+        new CategoryApiModel().Pin(category.Id); 
 
         return Redirect(Links.CategoryDetail(category, openEditMode: true));
     }

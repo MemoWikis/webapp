@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
 using TrueOrFalse.Search;
+using TrueOrFalse.View.Web.Views.Api;
 
 public class CategoryApiController : BaseController
 {
@@ -123,15 +124,10 @@ public class CategoryApiController : BaseController
     [HttpPost]
     public bool Pin(string categoryId)
     {
-        if (_sessionUser.User == null)
-            return false;
-
-        CategoryInKnowledge.Pin(Convert.ToInt32(categoryId), _sessionUser.User);
-        UserEntityCache.DeleteCacheForUser();
-        UserEntityCache.Init();
-        return true;
-        
+       return new CategoryApiModel().Pin(categoryId);
     }
+
+    public bool Pin(int categoryId) => Pin(categoryId.ToString()); 
 
     [HttpPost]
     public bool Unpin(string categoryId)
