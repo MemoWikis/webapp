@@ -20,7 +20,8 @@ public class CategoryController : BaseController
     [SetThemeMenu(true)]
     public ActionResult Category(int id, int? version, bool? openEditMode)
     {
-        var modelAndCategoryResult = LoadModel(id, version, openEditMode: openEditMode);
+        GetMyWorldCookie(); 
+        var modelAndCategoryResult = LoadModel(id, version, openEditMode);
         modelAndCategoryResult.CategoryModel.IsInTopic = true;
 
         return View(_viewLocation, modelAndCategoryResult.CategoryModel);
@@ -170,7 +171,7 @@ public class CategoryController : BaseController
 
         return Redirect(Links.LearningSession(learningSession));
     }
-
+    [HttpPost]
     public string Tab(string tabName, int categoryId)
     {
         var category = Sl.CategoryRepo.GetById(categoryId);
@@ -183,14 +184,14 @@ public class CategoryController : BaseController
             ControllerContext
         );
     }
-
+    [HttpPost]
     public string KnowledgeBar(int categoryId) =>
         ViewRenderer.RenderPartialView(
             "/Views/Categories/Detail/CategoryKnowledgeBar.ascx",
             new CategoryKnowledgeBarModel(Sl.CategoryRepo.GetById(categoryId)),
             ControllerContext
         );
-
+    [HttpPost]
     public string WishKnowledgeInTheBox(int categoryId) =>
         ViewRenderer.RenderPartialView(
             "/Views/Categories/Detail/Partials/WishKnowledgeInTheBox.ascx",
@@ -353,10 +354,28 @@ public class CategoryController : BaseController
             }
         }
 
+        if (!IsLoggedIn)
+        {
+            SetMyWorldCookie(false);
+        }
+
         UserCache.IsFiltered = false; 
         return false;
     }
 
+    public bool DeleteCookie()
+    {
+        var myWorldCookieName = "memucho_myworld";
+        HttpCookie cookie = Request.Cookies.Get(myWorldCookieName);
+
+        if (cookie != null)
+        {
+            cookie.Expires = DateTime.Now.AddDays(-1);
+            Response.Cookies.Add(cookie);
+        }
+
+        return true;
+    }
 }
 public class LoadModelResult
 {

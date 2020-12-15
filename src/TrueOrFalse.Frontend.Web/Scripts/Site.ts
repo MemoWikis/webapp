@@ -7,7 +7,7 @@
     if (isAnswered(".sparklineTotals"))
         FillSparksElements(".sparklineTotals");
     else
-        FillSparksElements(".sparklineTotals", "#949494",'#FFA07A', "pie",  false);
+        FillSparksElements(".sparklineTotals", "#949494", '#FFA07A', "pie", false);
 }
 
 function isAnswered(elementName: string) {
@@ -15,11 +15,11 @@ function isAnswered(elementName: string) {
         parseInt($(elementName).attr("data-answersFalse")) === 0)
         return false;
 
-    return true; 
+    return true;
 }
 
 function FillSparksElements(elementName: string, color1 = '#AFD534', color2 = '#FFA07A', sparkType = "pie", isAnswered = true) {
-    
+
     $(elementName).each(function () {
         if (isAnswered) {
             $(this).sparkline([parseInt($(this).attr("data-answersTrue")), parseInt($(this).attr("data-answersFalse"))],
@@ -72,12 +72,12 @@ function InitLabelTooltips() {
     });
 }
 
-function InitIconTooltips(awesomeClass : string, tooltipText : string) {
+function InitIconTooltips(awesomeClass: string, tooltipText: string) {
     $('i.' + awesomeClass).each(function () {
 
         var hasTitleAttribute = jQuery.inArray(this, $.makeArray($('.' + awesomeClass + '[title]'))) !== -1 //Does title attribute exist altogether
             && $(this).attr('title') !== "";//Is title attribute not empty
-        if (!hasTitleAttribute){
+        if (!hasTitleAttribute) {
             $(this).addClass('show-tooltip');
             $(this).attr('title', tooltipText).attr('data-placement', 'top');
         }
@@ -86,7 +86,7 @@ function InitIconTooltips(awesomeClass : string, tooltipText : string) {
 
 function Allowed_only_for_active_users() {
     $("[data-allowed=logged-in]")
-        .click(function(e) {
+        .click(function (e) {
             var elem = $(this);
             if (NotLoggedIn.Yes()) {
                 e.preventDefault();
@@ -95,7 +95,7 @@ function Allowed_only_for_active_users() {
         });
 }
 
-function InitClickLog(limitingSlector: string = null){
+function InitClickLog(limitingSlector: string = null) {
     $(limitingSlector + "[data-click-log]")
         .click(function () {
             var data = $(this).attr("data-click-log");
@@ -149,13 +149,13 @@ function InitPopoverForAllSets() {
 
             elem.popover('show');
         });
-    });    
+    });
 }
 
 function PreventDropdonwnsFromBeingHorizontallyOffscreen(limitingSlector: string = null) {
     $(limitingSlector + '.dropdown')
         .on('shown.bs.dropdown',
-            function(e) {
+            function (e) {
                 var dropdown = $(e.delegateTarget).find('ul');
                 if (dropdown.offset().left + dropdown.outerWidth() > document.body.clientWidth) {
                     dropdown.addClass('AlignDdRight');
@@ -168,19 +168,28 @@ var developOffline;
 class Site {
 
     constructor() {
-        $("#btn-logout").click(this.LogoutClick);        
+        $("#btn-logout").click(this.LogoutClick);
     }
 
-    private LogoutClick(e)
-    {
+    private LogoutClick(e) {
         e.preventDefault();
 
         var redirect = () => { location.href = $(this).attr("data-url"); }
 
         if ($(this).attr("data-is-facebook") == "true") {
-            FacebookMemuchoUser.Logout(redirect);
+            $.post("/Category/DeleteCookie").done(
+                (data) => {
+                    console.log(data);
+                    FacebookMemuchoUser.Logout(redirect);
+                }
+            );
+            
         } else {
-            redirect();
+            $.post("/Category/DeleteCookie").done(
+                () => {
+                    redirect;
+                }
+            );
         }
     }
     static RedirectToDashboard() { location.href = "/Wissenszentrale/Ueberblick"; }

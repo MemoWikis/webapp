@@ -317,6 +317,7 @@
     <Compile Include="Views\Api\ActivityPoints\ActivityLevelProgressModel.cs" />
     <Compile Include="Views\Api\ActivityPoints\LevelPopupModel.cs" />
     <Compile Include="Views\Api\AppController.cs" />
+    <Compile Include="Views\Api\CategoryApiModel.cs" />
     <Compile Include="Views\Api\CategoryStatisticsApiController.cs" />
     <Compile Include="Views\Api\EduSharingApiController.cs" />
     <Compile Include="Views\Api\MetaData\LomApiConroller.cs" />
