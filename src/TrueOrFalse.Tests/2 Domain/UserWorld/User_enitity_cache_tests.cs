@@ -118,7 +118,6 @@ class User_entity_cache_tests : BaseTest
         cate.Name = "Daniel";
         UserEntityCache.ChangeAllActiveCategoryCaches(true);
 
-        
 
         Assert.That(UserEntityCache.GetCategories(2).First().Value.Name, Is.EqualTo("Daniel"));
         Assert.That(UserEntityCache.GetCategories(2).Count, Is.EqualTo(7));
@@ -126,10 +125,31 @@ class User_entity_cache_tests : BaseTest
 
         var user = ContextUser.New().Add("Daniel").Persist().All.First();
         Sl.SessionUser.Login(user);
-        var userEntityCacheAfterDeleteForUser3 = UserEntityCache.GetCategories(3);
-        Assert.That(userEntityCacheAfterDeleteForUser3.Count, Is.EqualTo(1));
+        var userEntityCacheAfterRenameForUser3 = UserEntityCache.GetCategories(3);
+        Assert.That(userEntityCacheAfterRenameForUser3.Count, Is.EqualTo(1)); // is RootKategorie
         Assert.That(UserEntityCache.GetCategories(3).First().Value.Name, Is.EqualTo("Daniel"));
     }
+
+    [Test]
+    public void Test_change_for_all_user_entity_caches()
+    {
+        ContextCategory.New().AddCaseThreeToCache();
+
+        var cate = EntityCache.GetAllCategories().First();
+        cate.Name = "Daniel";
+        UserEntityCache.ChangeCategoryInUserEntityCaches(cate);
+
+        Assert.That(UserEntityCache.GetCategories(2).First().Value.Name, Is.EqualTo("Daniel"));
+        Assert.That(UserEntityCache.GetCategories(2).Count, Is.EqualTo(7));
+
+        var user = ContextUser.New().Add("Daniel").Persist().All.First();
+        Sl.SessionUser.Login(user);
+        var userEntityCacheAfterRenameForUser3 = UserEntityCache.GetCategories(3);
+        Assert.That(userEntityCacheAfterRenameForUser3.Count, Is.EqualTo(1)); // is RootKategorie
+        Assert.That(UserEntityCache.GetCategories(3).First().Value.Name, Is.EqualTo("Daniel"));
+    }
+
+
 
     [Test]
     public void Test_delete_category()
