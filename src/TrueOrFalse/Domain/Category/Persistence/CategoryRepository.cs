@@ -112,7 +112,7 @@ public class CategoryRepository : RepositoryDbBase<Category>
 
         foreach (var category1 in allCategories)
         {
-            category1.CategoryRelations = category1.CategoryRelations.Where(cr => cr.RelatedCategory.Id != category.Id).ToList();
+            category1.CategoryRelations = category1.CategoryRelations.Where(cr => cr.RelatedCategory.Id != category.Id && cr.Category.Id != category.Id).ToList();
             EntityCache.AddOrUpdate(category1);
         }
         EntityCache.Remove(category);

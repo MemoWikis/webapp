@@ -63,7 +63,7 @@ class EntityCache_tests : BaseTest
 
         Sl.CategoryRepo.Delete(deleteCategory);
 
-        var relatedCategories = EntityCache.GetAllCategories().SelectMany(c => c.CategoryRelations.Where(cr => cr.RelatedCategory.Id == idFromDeleteCategory)).ToList();
+        var relatedCategories = EntityCache.GetAllCategories().SelectMany(c => c.CategoryRelations.Where(cr => cr.RelatedCategory.Id == idFromDeleteCategory && cr.Category.Id == idFromDeleteCategory)).ToList();
         Assert.That(relatedCategories.Count, Is.EqualTo(0));
     }
 }
