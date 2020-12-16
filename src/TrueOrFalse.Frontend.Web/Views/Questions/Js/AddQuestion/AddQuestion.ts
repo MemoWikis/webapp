@@ -220,11 +220,10 @@ Vue.component('add-question-component', {
                 $.ajax({
                     type: 'post',
                     contentType: "application/json",
-                    url: '/Question/CreateFlashcard',
+                    url: '/QuestionList/CreateFlashcard',
                     data: JSON.stringify(json),
-                    success: function (questionId) {
-                        if (questionId) {
-                        }
+                    success: function (data) {
+                        eventBus.$emit('add-question-to-list', data.Data);
                     },
                 });
             },

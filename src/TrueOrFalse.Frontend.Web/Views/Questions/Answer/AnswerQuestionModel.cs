@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Web.Mvc;
 using TrueOrFalse;
 using TrueOrFalse.Frontend.Web.Code;
@@ -59,6 +60,7 @@ public class AnswerQuestionModel : BaseModel
     public string CreationDate { get; private set; }
     public string AverageAnswerTime { get; private set; }
     public string QuestionText { get; private set; }
+    public string QuestionTitle { get; private set; }
     public string QuestionTextMarkdown { get; private set; }
     public QuestionVisibility Visibility { get; private set; }
     public bool HasPreviousPage;
@@ -202,6 +204,7 @@ public class AnswerQuestionModel : BaseModel
 
         QuestionId = question.Id;
         QuestionText = question.Text;
+        QuestionTitle = Regex.Replace(QuestionText, "<.*?>", String.Empty);
         QuestionTextMarkdown = question.TextExtended != null ? MarkdownMarkdig.ToHtml(question.TextExtended) : "";
         Visibility = question.Visibility;
         SolutionType = question.SolutionType.ToString();

@@ -210,7 +210,9 @@
                                 </div>
                                 <div class="questionContainerTopSection col-xs-11" >
                                     <div class="questionHeader row">
-                                        <div class="questionTitle col-xs-9" ref="questionTitle" :id="questionTitleId" @click.self="expandQuestion()">{{questionTitle}}</div>
+                                        <div class="questionTitle col-xs-9" ref="questionTitle" :id="questionTitleId" @click.self="expandQuestion()">
+                                            <component :is="questionTitleHtml && {template:questionTitleHtml}"></component>
+                                        </div>
                                         <div class="questionHeaderIcons col-xs-3"  @click.self="expandQuestion()">
                                             <div class="iconContainer float-right" @click="expandQuestion()">
                                                 <i class="fas fa-angle-down rotateIcon" :class="{ open : showFullQuestion }"></i>

@@ -375,25 +375,6 @@ public class EntityCache
         AddOrUpdate(Categories, category);
 
         UpdateCategoryForQuestions(category);
-        UpdateCategoryForSets(category);
-    }
-
-    private static void UpdateCategoryForSets(Category category)
-    {
-        var affectedSetIds = GetSetIdsForCategory(category.Id);
-
-        foreach (var setId in affectedSetIds)
-        {
-            if (Sets.TryGetValue(setId, out var set))
-            {
-                var categoryToReplace = set.Categories.FirstOrDefault(c => c.Id == category.Id);
-
-                if(categoryToReplace == null) return;
-
-                var index = set.Categories.IndexOf(categoryToReplace);
-                set.Categories[index] = category;
-            }
-        }
     }
 
     private static void UpdateCategoryForQuestions(Category category)

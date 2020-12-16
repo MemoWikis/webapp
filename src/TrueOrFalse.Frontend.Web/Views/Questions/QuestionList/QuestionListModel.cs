@@ -1,6 +1,8 @@
-﻿using System.Collections.Concurrent;
+﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.RegularExpressions;
 using TrueOrFalse.Frontend.Web.Code;
 
 public class QuestionListModel : BaseModel
@@ -29,12 +31,13 @@ public class QuestionListModel : BaseModel
 
         var questionsOfCurrentPage = allQuestions.Skip(itemCountPerPage * (currentPage - 1)).Take(itemCountPerPage).ToList();
         var newQuestionList = new List<QuestionListJson.Question>();
-        var learningSessionStepCount = allQuestions.Count(); 
+        var learningSessionStepCount = allQuestions.Count();
+
         foreach (var q in questionsOfCurrentPage)
         {
             var question = new QuestionListJson.Question();
             question.Id = q.Id;
-            question.Title = q.Text;
+            question.Title = Regex.Replace(q.Text, "<.*?>", String.Empty);
             question.LinkToQuestion = Links.GetUrl(q);
             question.ImageData = new ImageFrontendData(Sl.ImageMetaDataRepo.GetBy(q.Id, ImageType.Question)).GetImageUrl(40, true).Url;
             question.LearningSessionStepCount = learningSessionStepCount;

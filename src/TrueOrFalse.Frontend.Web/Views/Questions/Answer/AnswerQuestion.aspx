@@ -14,7 +14,7 @@
     
     <meta name="description" content="<%= Model.DescriptionForSearchEngines %>"/>
     
-    <meta property="og:title" content="<%: Model.QuestionText %>" />
+    <meta property="og:title" content="<%: Model.QuestionTitle %>" />
     <meta property="og:url" content="<%= Settings.CanonicalHost %><%= Links.AnswerQuestion(Model.Question) %>" />
     <meta property="og:type" content="article" />
     <meta property="og:image" content="<%= GetQuestionImageFrontendData.Run(Model.Question).GetImageUrl(435, true, imageTypeForDummy: ImageType.Question).Url %>" />
@@ -28,6 +28,7 @@
     <%= Scripts.Render("~/bundles/js/DeleteQuestion") %>
     <%= Scripts.Render("~/bundles/js/Vue")%>
     <%= Scripts.Render("~/bundles/js/d3") %>
+    <%= Scripts.Render("~/Scripts/npm/tiptap-build/tiptap-build.js") %> 
     <script type="text/x-template" id="question-details-component">
         <%: Html.Partial("~/Views/Questions/Answer/AnswerQuestionDetailsComponent.vue.ascx") %>
     </script>

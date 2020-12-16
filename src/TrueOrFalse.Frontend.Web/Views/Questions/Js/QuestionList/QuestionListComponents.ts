@@ -312,6 +312,7 @@ Vue.component('question-list-component', {
         eventBus.$on('reload-wishknowledge-state-per-question', (data) => this.changeQuestionWishknowledgeState(data.questionId, data.isInWishknowledge));
         eventBus.$on('reload-correctnessprobability-for-question', (id) => this.getUpdatedCorrectnessProbability(id));
         eventBus.$on('load-questions-list', ()=>{ this.initQuestionList() });
+        eventBus.$on('add-question-to-list', (q)=>{ this.addQuestionToList(q) });
     },
     mounted() {
         this.categoryId = $("#hhdCategoryId").val();
@@ -447,6 +448,9 @@ Vue.component('question-list-component', {
                 }
             });
         },
+        addQuestionToList(q) {
+            this.questions.push(q);
+        }
     },
 });
 
@@ -502,7 +506,8 @@ let v = Vue.component('question-component', {
             answerCount: "0",
             correctAnswers: "0",
             wrongAnswers: "0",
-        }   
+            questionTitleHtml: "<div>" + this.questionTitle + "</div>",
+            }   
         },
     mounted() {
         this.correctnessProbability = this.knowledgeState + "%";
@@ -587,6 +592,7 @@ let v = Vue.component('question-component', {
             };
         },
         loadQuestionBody() {
+            console.log(this.questionId);
             $.ajax({
                 url: "/QuestionList/LoadQuestionBody/",
                 data: { questionId: this.questionId },
