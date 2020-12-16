@@ -59,9 +59,11 @@ public class EntityCache : BaseCache
 
     public static IList<int> GetQuestionsIdsForCategory(int categoryId)
     {
-        return CategoryQuestionsList.ContainsKey(categoryId) 
-            ? CategoryQuestionsList[categoryId].Keys.ToList() 
-            : new List<int>();
+        if (CategoryQuestionsList == null)
+        {
+            Init();
+        }
+        return CategoryQuestionsList.ContainsKey(categoryId) ?  CategoryQuestionsList[categoryId].Keys.ToList() : new List<int>();
     }
 
     public static IList<Question> GetQuestionsByIds(IList<int> questionIds)
