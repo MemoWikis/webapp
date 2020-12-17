@@ -178,6 +178,7 @@
         :active-question ="activeQuestion"
         :selected-page-from-active-question="selectedPageFromActiveQuestion">
         <div class="col-xs-12 questionListComponent">
+
             <question-component inline-template
                                 v-on:pin-unpin ="changePin()"
                                 v-for="(q, index) in questions"
@@ -210,7 +211,7 @@
                                 </div>
                                 <div class="questionContainerTopSection col-xs-11" >
                                     <div class="questionHeader row">
-                                        <div class="questionTitle col-xs-9" ref="questionTitle" :id="questionTitleId" @click.self="expandQuestion()">
+                                        <div class="questionTitle col-xs-9" ref="questionTitle" :id="questionTitleId" @click="expandQuestion()">
                                             <component :is="questionTitleHtml && {template:questionTitleHtml}"></component>
                                         </div>
                                         <div class="questionHeaderIcons col-xs-3"  @click.self="expandQuestion()">

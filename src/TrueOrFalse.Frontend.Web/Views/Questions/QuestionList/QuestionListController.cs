@@ -31,15 +31,17 @@ public class QuestionListController : BaseController
         question.Solution = serializer.Serialize(solutionModelFlashCard);
 
         question.Creator = _sessionUser.User;
-
-        var reference = new Reference();
-        reference.DateCreated = DateTime.Now;
+        question.Categories.Add(Sl.CategoryRepo.GetById(flashCardJson.CategoryId));
         question.Visibility = flashCardJson.Visibility;
         question.License = LicenseQuestionRepo.GetDefaultLicense();
 
         questionRepo.Create(question);
 
         Sl.QuestionChangeRepo.AddUpdateEntry(question);
+
+        if (flashCardJson.AddToWishknowledge)
+            QuestionInKnowledge.Pin(Convert.ToInt32(question.Id), _sessionUser.User);
+
         var json = Json(LoadQuestion(question.Id));
 
         return json;
@@ -50,6 +52,7 @@ public class QuestionListController : BaseController
         public string Text { get; set; }
         public string Answer { get; set; }
         public QuestionVisibility Visibility { get; set; }
+        public bool AddToWishknowledge { get; set; }
     }
 
     [HttpPost]

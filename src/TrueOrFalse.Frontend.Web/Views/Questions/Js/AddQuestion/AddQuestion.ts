@@ -214,7 +214,8 @@ Vue.component('add-question-component', {
                     CategoryId: this.currentCategoryId,
                     Text: this.questionHtml,
                     Answer: this.answerHtml,
-                    Visibility: this.visibility
+                    Visibility: this.visibility,
+                    AddToWishknowledge: this.addToWishknowledge
                 }
 
                 $.ajax({
