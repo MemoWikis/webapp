@@ -8,13 +8,13 @@
                 <span>(Karteikarte)</span>
                 <a href="<%: Model.CreateQuestionUrl %>">erweiterte Optionen</a>
             </div>
-            <div class="heart-container wuwi-red" @click="addToWuwi = !addToWuwi">
+            <div class="heart-container wuwi-red" @click="addToWishknowledge = !addToWishknowledge">
                 <div>
-                    <i class="fa fa-heart" :class="" v-if="addToWuwi"></i>
+                    <i class="fa fa-heart" :class="" v-if="addToWishknowledge"></i>
                     <i class="fa fa-heart-o" :class="" v-else></i>
                 </div>
                 <div>
-                    <span v-if="addToWuwi">Hinzugefügt</span>
+                    <span v-if="addToWishknowledge">Hinzugefügt</span>
                     <span v-else class="wuwi-grey">Hinzufügen</span>
                 </div>
             </div>

@@ -52,7 +52,6 @@ Vue.component('add-question-component', {
         props: ['current-category-id'],
         data() {
             return {
-                addToWuwi: true,
                 isLoggedIn: IsLoggedIn.Yes,
                 visibility: 1,
                 addToWishknowledge: true,
@@ -217,7 +216,7 @@ Vue.component('add-question-component', {
                     Visibility: this.visibility,
                     AddToWishknowledge: this.addToWishknowledge
                 }
-
+                console.log(json);
                 $.ajax({
                     type: 'post',
                     contentType: "application/json",
