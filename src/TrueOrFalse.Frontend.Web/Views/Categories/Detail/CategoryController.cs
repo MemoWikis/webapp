@@ -50,7 +50,7 @@ public class CategoryController : BaseController
         var result = new LoadModelResult();
         Category category;
 
-        category = EntityCache.GetCategory(id);
+        category = Sl.CategoryRepo.GetByIdEager(id);
         
         var isCategoryNull = category == null;
 
