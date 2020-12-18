@@ -8,8 +8,10 @@ public class WelcomeController : BaseController
 {
     [SetMainMenu(MainMenuEntry.None)]
     [SetThemeMenu]
-    public ActionResult Welcome(){
-        return View(new WelcomeModel());
+    public ActionResult Welcome()
+    {
+        var category = EntityCache.GetCategory(1); 
+        return Redirect(Links.CategoryDetail(category)); ;
     }
 
     public ActionResult Team()

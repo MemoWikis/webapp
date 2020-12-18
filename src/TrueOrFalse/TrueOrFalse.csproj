@@ -912,6 +912,7 @@
     <Compile Include="Tools\Cache\UserCache.cs" />
     <Compile Include="Tools\Cache\UserCacheItem.cs" />
     <Compile Include="Tools\HelperTools.cs" />
+    <Compile Include="Tools\Update\Steps\UpdateToVs217.cs" />
     <Compile Include="Tools\Update\Steps\UpdateToVs216.cs" />
     <Compile Include="Tools\Update\Steps\UpdateToVs215.cs" />
     <Compile Include="Tools\Update\Steps\UpdateToVs214.cs" />

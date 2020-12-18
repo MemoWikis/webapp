@@ -8,7 +8,7 @@ using TrueOrFalse.Tools;
 
 public class UserEntityCache : BaseCache
 {
-    private static int _rootCategoryId = 1726; //RootKategorie
+    private static int _rootCategoryId = HelperTools.RootCategoryId; //RootKategorie
     private static ConcurrentDictionary<string, ConcurrentDictionary<int, Category>> _Categories = new ConcurrentDictionary<string, ConcurrentDictionary<int, Category>>(); 
 
     public static string CategoriesCacheKey(int userId) => "Categories_" + userId;

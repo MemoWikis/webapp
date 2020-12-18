@@ -251,12 +251,6 @@ namespace TrueOrFalse.Frontend.Web.Code
 
         public static string LearningSession(LearningSessionNew learningSession)
         {
-            //return GetUrlHelper().Action("Learn", AnswerQuestionController,
-            //    new
-            //    {
-            //        learningSessionId = 1,
-            //        learningSessionName = learningSession.UrlName,
-            //    });
             return "#";
         }
 
@@ -385,10 +379,10 @@ namespace TrueOrFalse.Frontend.Web.Code
         //public static string Category(Category category) => UriSanitizer.Run(category.Name) + "/" + category.Id;
 
         public static string CategoryHistoryDetail(int categoryId, int categoryChangeId) => 
-            GetUrlHelper().Action("Detail", "CategoryHistoryDetail", new { categoryId  = categoryId , categoryChangeId = categoryChangeId });
+            GetUrlHelper().Action("Detail", "CategoryHistoryDetail", new {categoryId , categoryChangeId });
 
         public static string CategoryHistory(int categoryId) =>
-            GetUrlHelper().Action("List", "CategoryHistory", new { categoryId = categoryId });
+            GetUrlHelper().Action("List", "CategoryHistory", new {categoryId });
 
         public static string CategoryDetail(Category category) =>
             HttpContext.Current == null 
@@ -398,7 +392,7 @@ namespace TrueOrFalse.Frontend.Web.Code
         public static string CategoryDetail(Category category, bool openEditMode) =>
             HttpContext.Current == null
                 ? ""
-                : CategoryDetail(category.Name, category.Id, openEditMode: openEditMode);
+                : CategoryDetail(category.Name, category.Id, openEditMode);
 
         public static string CategoryDetail(Category category, int version) =>
             HttpContext.Current == null 

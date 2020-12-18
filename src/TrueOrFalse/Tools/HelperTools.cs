@@ -1,15 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Web;
-using System.Web.Globalization;
+﻿using System.Web;
 
 namespace TrueOrFalse.Tools
 {
     public class HelperTools
     {
+        public static int RootCategoryId = 1;
         public static bool IsLocal()
         {
             var request = HttpContext.Current.Request;
@@ -18,7 +13,6 @@ namespace TrueOrFalse.Tools
                 return false;
             return true;
         }
-
-        public static bool IsRootCategory(int id) => id == 1726;
+        public static bool IsRootCategory(int id) => id == 1;
     }
 }
