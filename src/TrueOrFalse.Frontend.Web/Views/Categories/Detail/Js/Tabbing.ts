@@ -91,7 +91,7 @@
             tabName = "LearningTab";
 
         var url = "/Category/Tab/?tabName=" + tabName + "&categoryId=" + this._categoryId;
-        $.get(url, (html) => {
+        $.post(url, (html) => {
             Utils.HideSpinner();
 
             $('#' + tabName + 'Content').empty().append(html);
