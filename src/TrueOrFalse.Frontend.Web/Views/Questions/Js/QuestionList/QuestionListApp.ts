@@ -1,4 +1,5 @@
 ﻿declare var Vue: any;
+declare var VueAdsPagination: any;
 declare var eventBus: any;
 
 if (eventBus == null)

@@ -22359,6 +22359,7 @@
     <TypeScriptCompile Include="Views\Questions\Answer\Js\InlineEditComponent.ts" />
     <TypeScriptCompile Include="Views\Questions\Js\AddQuestion\EditQuestionModalLoader.ts" />
     <TypeScriptCompile Include="Views\Questions\Js\AddQuestion\AddQuestion.ts" />
+    <TypeScriptCompile Include="Views\Questions\Js\QuestionList\QuestionComponent.ts" />
     <TypeScriptCompile Include="Views\Questions\Js\QuestionList\QuestionListComponents.ts" />
     <TypeScriptCompile Include="Views\Questions\Js\QuestionList\QuestionListApp.ts" />
     <TypeScriptCompile Include="Views\Categories\Detail\Js\Category.ts" />
@@ -22377,6 +22378,7 @@
     <TypeScriptCompile Include="Views\Questions\Answer\Js\QuestionFilter.ts" />
     <TypeScriptCompile Include="Views\Questions\Answer\LearningSession\Js\LearningSessionResult.ts" />
     <TypeScriptCompile Include="Views\Questions\History\Detail\Js\Page.ts" />
+    <TypeScriptCompile Include="Views\Questions\Js\QuestionList\SessionConfig.ts" />
     <TypeScriptCompile Include="Views\Sets\Detail\Js\SetCopy.ts" />
     <TypeScriptCompile Include="Views\Sets\Edit\Js\YoutubePreview.ts" />
     <Content Include="Views\Sets\Edit\Js\YoutubePreview.js">
