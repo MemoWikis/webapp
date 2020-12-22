@@ -26,19 +26,23 @@ public class EditQuestionController : BaseController
             model.Message = (SuccessMessage)TempData["createQuestionsMsg"];
 
         model.SetToCreateModel();
-        if(categoryId != null)
-            model.Categories.Add(Sl.CategoryRepo.GetById((int)categoryId));
 
-        if (setId != null)
+        if (categoryId != null)
         {
-            var set = Sl.SetRepo.GetById((int) setId);
-            model.Set = set;
-
-            foreach (var category in set.Categories)
-            {
-                model.Categories.Add(category);
-            }
+            var c = EntityCache.GetCategory((int) categoryId); 
+                model.Categories.Add(EntityCache.GetCategory((int) categoryId));
         }
+
+        //if (setId != null)
+        //{
+        //    var set = Sl.SetRepo.GetById((int) setId);
+        //    model.Set = set;
+
+        //    foreach (var category in set.Categories)
+        //    {
+        //        model.Categories.Add(category);
+        //    }
+        //}
 
         return View(_viewLocation, model);
     }
