@@ -149,6 +149,7 @@
                 .Add(UpdateToVs216.Run)
                 .Add(UpdateToVs217.Run)
                 .Add(UpdateToVs218.Run)
+                .Add(UpdateToVs219.Run)
                 .Run();
         }
     }

@@ -450,7 +450,6 @@ public class AnswerQuestionController : BaseController
                 MaxQuestionCount = config.MaxQuestionCount,
                 Repititions = config.Repititions,
                 AnswerHelp = config.AnswerHelp
-
             };
 
             updateUser.LearningSessionOptions = JsonConvert.SerializeObject(learningSessionOptionsHelper);
@@ -700,5 +699,4 @@ public class SafeLearningSessionOptionsHelper
    public int MaxQuestionCount { get; set; }
    public bool Repititions { get; set;}
    public bool AnswerHelp { get; set;  }
-
 }

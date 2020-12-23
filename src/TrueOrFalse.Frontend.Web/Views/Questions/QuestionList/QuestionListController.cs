@@ -42,6 +42,7 @@ public class QuestionListController : BaseController
         if (flashCardJson.AddToWishknowledge)
             QuestionInKnowledge.Pin(Convert.ToInt32(question.Id), _sessionUser.User);
 
+        InsertNewQuestionToLearningSession(question, flashCardJson.CurrentIndex);
         var json = Json(LoadQuestion(question.Id));
 
         return json;
@@ -53,6 +54,14 @@ public class QuestionListController : BaseController
         public string Answer { get; set; }
         public QuestionVisibility Visibility { get; set; }
         public bool AddToWishknowledge { get; set; }
+        public int CurrentIndex { get; set; }
+    }
+
+    public void InsertNewQuestionToLearningSession(Question question, int currentIndex)
+    {
+        var learningSession = Sl.SessionUser.LearningSession;
+        var step = new LearningSessionStepNew(question);
+        learningSession.Steps.Insert(currentIndex, step);
     }
 
     [HttpPost]
