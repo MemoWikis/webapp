@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Net;
-using NHibernate;
+﻿using NHibernate;
 using NHibernate.Criterion;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using TrueOrFalse.Search;
-using static System.String;
 
 
 public class CategoryRepository : RepositoryDbBase<Category>
@@ -26,10 +23,10 @@ public class CategoryRepository : RepositoryDbBase<Category>
 
         if (categoryIds != null)
             query = query.Where(Restrictions.In("Id", categoryIds.ToArray()));
-
         return query
             .Left.JoinQueryOver<CategoryRelation>(s => s.CategoryRelations)
             .Left.JoinQueryOver(x => x.RelatedCategory)
+            .Left.JoinQueryOver(u => u.Creator)
             .List()
             .GroupBy(c => c.Id)
             .Select(c => c.First())
@@ -108,10 +105,19 @@ public class CategoryRepository : RepositoryDbBase<Category>
 
     public override void Delete(Category category)
     {
+        var allCategories = EntityCache.GetChildren(category);
+
         _searchIndexCategory.Delete(category);
         base.Delete(category);
+
+        foreach (var category1 in allCategories)
+        {
+            category1.CategoryRelations = category1.CategoryRelations.Where(cr => cr.RelatedCategory.Id != category.Id && cr.Category.Id != category.Id).ToList();
+            EntityCache.AddOrUpdate(category1);
+        }
         EntityCache.Remove(category);
         UserCache.RemoveAllForCategory(category.Id); 
+        UserEntityCache.ChangeAllActiveCategoryCaches(true);
     }
 
     public override void DeleteWithoutFlush(Category category)
@@ -180,7 +186,6 @@ public class CategoryRepository : RepositoryDbBase<Category>
             FROM relatedcategoriestorelatedcategories
             WHERE  Related_id = {categoryId} 
             AND CategoryRelationType = {(int)CategoryRelationType.IsChildCategoryOf}").List<int>();
-
         return GetByIds(categoryIds.ToArray());
     }
 

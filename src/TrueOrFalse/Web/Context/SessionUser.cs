@@ -64,10 +64,17 @@ public class SessionUser : SessionBase, IRegisterAsInstancePerLifetime
             FormsAuthentication.SetAuthCookie(user.Id.ToString(), false);
 
         JobScheduler.StartImmediately_InitUserValuationCache(user.Id);
+        if(User.Name != "User")
+            UserEntityCache.Init();
+        else
+        {
+            UserEntityCache.Init(true);
+        }
     }
 
     public void Logout()
     {
+        UserEntityCache.DeleteCacheForUser();
         IsLoggedIn = false;
         IsInstallationAdmin = false;
         User = null;
@@ -96,9 +103,6 @@ public class SessionUser : SessionBase, IRegisterAsInstancePerLifetime
         get => Data.Get<List<TestSession>>("testSessions");
         set => Data["testSessions"] = value;
     }
-
-    public TestSessionStep GetPreviousTestSessionStep(int testSessionId) =>
-        GetCurrentTestSessionStep(testSessionId, offset: -1);
 
     public TestSessionStep GetCurrentTestSessionStep(int testSessionId, int offset = 0)
     {

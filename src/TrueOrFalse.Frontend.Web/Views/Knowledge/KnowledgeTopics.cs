@@ -24,9 +24,6 @@ public class KnowledgeTopics : BaseModel
             .Where(v => v.IsInWishKnowledge())
             .Select(i => i.SetId)
             .ToList();
-
-        Sets = isAuthor ? EntityCache.GetSetsByIds(setIds).Where(v => v.Creator != null && v.Creator.Id == UserId).ToList()
-            : EntityCache.GetSetsByIds(setIds);
     }
 
     public List<CategoryAndSetWishKnowledge> FilteredCategoryWishKnowledge(ControllerContext controllerContext)
@@ -76,7 +73,6 @@ public class KnowledgeTopics : BaseModel
             categoryAndSetWishKnowledge.LinkStartLearningSession = Links.StartCategoryLearningSession(categoryWish.Id);
             categoryAndSetWishKnowledge.CreateQuestionLink = Links.CreateQuestion(categoryId: categoryWish.Id);
             categoryAndSetWishKnowledge.StartGameLink = Links.GameCreateFromCategory(categoryWish.Id);
-            categoryAndSetWishKnowledge.LearnSetsCount = categoryWish.GetCountSets();
             categoryAndSetWishKnowledge.QuestionsCount = categoryWish.CountQuestionsAggregated;
             categoryAndSetWishKnowledge.EditCategoryOrSetLink = Links.CategoryEdit(categoryWish);
             categoryAndSetWishKnowledge.ShareFacebookLink = facebookLink;

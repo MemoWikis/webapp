@@ -1,4 +1,5 @@
 ﻿using System.Web;
+using System.Web.ModelBinding;
 using System.Web.Mvc;
 
 public class UserController : BaseController
@@ -37,5 +38,22 @@ public class UserController : BaseController
     {
         UserImageStore.Run(file, _sessionUser.User.Id);
         return User(_sessionUser.User.Name, _sessionUser.User.Id);
+    }
+
+    [HttpPost]
+    public bool SetUserWorldInUserCache(bool showMyWorld)
+    {
+        if (!Sl.SessionUser.IsLoggedIn)
+            return false;
+
+        UserCache.IsFiltered = showMyWorld;
+
+        return showMyWorld; 
+    }
+
+    [HttpPost]
+    public bool IsFiltered()
+    {
+        return UserCache.IsFiltered;
     }
 }

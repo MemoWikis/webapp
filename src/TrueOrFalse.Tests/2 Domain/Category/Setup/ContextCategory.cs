@@ -35,8 +35,7 @@ namespace TrueOrFalse.Tests
             string categoryName, 
             CategoryType categoryType = CategoryType.Standard, 
             User creator = null, 
-            Category parent = null,
-            bool IsInWishknowledge = false)
+            Category parent = null)
         {
             Category category;
             if (_categoryRepository.Exists(categoryName))
@@ -72,12 +71,16 @@ namespace TrueOrFalse.Tests
             return this;
         }
 
-        public ContextCategory AddToEntityCache(string categoryName, CategoryType categoryType = CategoryType.Standard, User creator = null, bool withId = false)
+        public ContextCategory AddToEntityCache(string categoryName, CategoryType categoryType = CategoryType.Standard, User creator = null, bool withId = false, int categoryId = 0)
         {
             var category = new Category();
 
-            if (withId)
+            if (withId && categoryId == 0)
                 category.Id = 0;
+            else
+            {
+                category.Id = categoryId; 
+            }
 
             category.Name = categoryName;
             category.Creator = creator == null ? _contextUser.All.FirstOrDefault() : creator ;
@@ -88,6 +91,7 @@ namespace TrueOrFalse.Tests
             All.Add(category);
             return this;
         }
+
 
         public ContextCategory QuestionCount(int questionCount)
         {
@@ -119,6 +123,123 @@ namespace TrueOrFalse.Tests
             category.CategoryRelations = categoryRelations;
             _categoryRepository.Update(category);
             return this;
+        }
+
+        public ContextCategory AddRelationsToCategorytoEntityChache(Category category, List<CategoryRelation> categoryRelations)
+        {
+            category.CategoryRelations = categoryRelations;
+            _categoryRepository.Update(category);
+            return this;
+        }
+
+        public void AddCaseThreeToCache(bool withWuwi = true)
+        {
+            //Add this Case: https://drive.google.com/file/d/1CEMMm1iIhfNKvuKng5oM6erR0bVDWHr6/view?usp=sharing
+
+
+            var rootElement = Add("A").Persist().All.First();
+
+            var firstChildren = 
+                 Add("X", parent: rootElement)
+                .Add("X1", parent: rootElement)
+                .Add("X2", parent: rootElement)
+                .Add("X3", parent: rootElement)
+                .Persist()
+                .All;
+
+                Add("X1", parent: firstChildren.ByName("X3"))
+                .Persist();
+                Add("X1", parent: firstChildren.ByName("X"))
+                    .Persist();
+
+            var secondChildren = Add("B", parent: rootElement)
+                .Add("C", parent: firstChildren.ByName("X"))
+                .Persist()
+                .All;
+
+            Add("C", parent: firstChildren.ByName("X1"))
+                .Persist();
+
+            Add("X1", parent: firstChildren.ByName("X2"))
+                .Persist();
+
+            Add("C", parent: firstChildren.ByName("X2"))
+                .Persist();
+
+
+            var ThirdChildren = Add("H", parent: firstChildren.ByName("C"))
+                .Add("G", parent: firstChildren.ByName("C"))
+                .Add("F", parent: firstChildren.ByName("C"))
+                .Add("E", parent: firstChildren.ByName("C"))
+                .Add("D", parent: firstChildren.ByName("B"))
+                .Persist()
+                .All;
+
+            Add("I", parent: secondChildren.ByName("C"))
+                .Persist();
+
+            Add("I", parent: secondChildren.ByName("E"))
+                .Persist();
+
+            Add("I", parent: secondChildren.ByName("G"))
+                .Persist();
+
+            var user = ContextUser.New().Add("User").Persist().All[0];
+
+            if (withWuwi)
+            {
+                // Add in WUWI
+                CategoryInKnowledge.Pin(firstChildren.ByName("B").Id, user);
+                CategoryInKnowledge.Pin(firstChildren.ByName("G").Id, user);
+                CategoryInKnowledge.Pin(firstChildren.ByName("F").Id, user);
+                CategoryInKnowledge.Pin(firstChildren.ByName("I").Id, user);
+                CategoryInKnowledge.Pin(firstChildren.ByName("X").Id, user);
+                CategoryInKnowledge.Pin(firstChildren.ByName("X3").Id, user);
+            }
+            Sl.SessionUser.Login(user);
+        }
+
+        public void AddCaseTwoToCache()
+        {
+            //  this method display this case https://docs.google.com/drawings/d/1yoBx4OAUT3W2is9WpWczZ7Qb-lwvZeAGqDZYnP89wNk/
+
+            
+
+            var rootElement = Add("A").Persist().All.First();
+
+            var firstChildren =
+                Add("B", parent: rootElement)
+                .Add("C", parent: rootElement)
+                .Persist()
+                .All;
+
+            var secondChildren = 
+                 Add("H", parent: firstChildren.ByName("C"))
+                .Add("G", parent: firstChildren.ByName("C"))
+                .Add("F", parent: firstChildren.ByName("C"))
+                .Add("E", parent: firstChildren.ByName("C"))
+                .Add("D", parent: firstChildren.ByName("B"))
+                .Persist()
+                .All;
+
+            Add("I", parent: secondChildren.ByName("C"))
+                .Persist();
+
+            Add("I", parent: secondChildren.ByName("E"))
+                .Persist();
+
+            Add("I", parent: secondChildren.ByName("G"))
+                .Persist();
+
+            var user = ContextUser.New().Add("User").Persist().All[0];
+
+            // Add in WUWI
+            CategoryInKnowledge.Pin(firstChildren.ByName("B").Id, user);
+            CategoryInKnowledge.Pin(firstChildren.ByName("G").Id, user);
+            CategoryInKnowledge.Pin(firstChildren.ByName("E").Id, user);
+            CategoryInKnowledge.Pin(firstChildren.ByName("I").Id, user);
+
+            Sl.SessionUser.Login(user);
         }
     }
 }

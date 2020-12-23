@@ -35,7 +35,7 @@ Vue.component('topicnavigation-modal-component', {
             },
             searchResults: '',
             searchType: 'Categories',
-            options: [],
+            options: []
         }
     },
 
@@ -143,7 +143,10 @@ Vue.component('topicnavigation-modal-component', {
                     this.topics.push(this.newTopic.Item.Id);
                     this.newTopic = '';
                 }
-            } catch (e) { };
+            } catch (e) {
+                $.post("/Logg/SetLoggReport",
+                    {report: "Topic can't Added ---------- TopicNavigationDialogComponent.ts/addTopic " });
+            }
         },
 
         hideTopicInput() {
@@ -162,7 +165,7 @@ Vue.component('topicnavigation-modal-component', {
                 this.topicNavigationSettings.Text = this.text;
 
             const topicIdParts = $(".topicNavigationDialogData").map((idx, elem) => $(elem).attr("topicId")).get();
-            if (topicIdParts.length >= 1) {
+            if (topicIdParts.length > 0) {
                 if (this.load != 'All')
                     this.topicNavigationSettings.Load = topicIdParts.join(',');
                 else if (this.order == 'ManualSort')

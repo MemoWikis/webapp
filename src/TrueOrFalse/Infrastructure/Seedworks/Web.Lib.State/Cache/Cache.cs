@@ -3,7 +3,7 @@ using System.Collections;
 
 namespace Seedworks.Web.State
 {    
-    public class Cache
+    public class Cache 
     {
         private static readonly ICache _cache;
         

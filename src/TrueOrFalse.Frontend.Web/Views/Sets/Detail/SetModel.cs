@@ -64,10 +64,6 @@ public class SetModel : BaseModel
         Name = set.Name;
         Text = set.Text;
 
-        Set = set;
-
-        FillPreviousCategoryData();
-
         KnowledgeSummary = KnowledgeSummaryLoader.Run(UserId, set);
 
         ImageMetaDataCache.WarmupRequestCache(set);
@@ -126,40 +122,6 @@ public class SetModel : BaseModel
         ActiveMemory = SetActiveMemoryLoader.Run(set, questionValutionsForCurrentUser);
 
         ContentRecommendationResult = ContentRecommendation.GetForSet(Set, 6);
-    }
-
-    private void FillPreviousCategoryData()
-    {
-        if (!IsNullOrEmpty(HttpContext.Current.Request.UrlReferrer?.LocalPath))
-        {
-            if (HttpContext.Current.Request.UrlReferrer.LocalPath.Contains("Kategorien"))
-            {
-                if (new SessionUiData().VisitedCategories.Any())
-                {
-                    var visitedCategory = GetLastVisitedCategoryOrDefault(Set);
-
-                    PreviousCategoryUrl = Links.CategoryDetail(visitedCategory.Name, visitedCategory.Id);
-                    PreviousCategoryName = visitedCategory.Name;
-                }
-            }
-        }
-    }
-
-    private Category GetLastVisitedCategoryOrDefault(Set currentSet)
-    {
-        foreach (var visitedCategoryItem in Sl.SessionUiData.VisitedCategories)
-        {
-            var visitedCategory = EntityCache.GetCategory(visitedCategoryItem.Id);
-            //var visitedCategoryAggregatedSets = visitedCategory.GetAggregatedSetsFromMemoryCache();
-            //if (visitedCategoryAggregatedSets.Contains(currentSet))
-            //{
-            //    return visitedCategory;
-            //}
-        }
-
-        return currentSet.Categories.Count > 0 
-                ? Set.Categories.First()
-                : Sl.CategoryRepo.Allgemeinwissen;
     }
 
     public string GetViews() => Sl.SetViewRepo.GetViewCount(Id).ToString();

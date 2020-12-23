@@ -5,6 +5,7 @@ using System.Security;
 using System.Web;
 using System.Web.Mvc;
 using TrueOrFalse.Frontend.Web.Code;
+using TrueOrFalse.View.Web.Views.Api;
 using TrueOrFalse.Web;
 
 [SetUserMenu(UserMenuEntry.None)]
@@ -26,7 +27,7 @@ public class EditCategoryController : BaseController
     {
         var model = new EditCategoryModel { Name = name ?? "", PreselectedType = !String.IsNullOrEmpty(type) ? (CategoryType)Enum.Parse(typeof(CategoryType), type) : CategoryType.Standard };
 
-        if (!String.IsNullOrEmpty(parent))
+        if (!string.IsNullOrEmpty(parent))
             model.ParentCategories.Add(_categoryRepository.GetById(Convert.ToInt32(parent)));
 
         return View(_viewPath, model);
@@ -54,10 +55,11 @@ public class EditCategoryController : BaseController
     [HttpPost]
     //[SetMenu(MainMenuEntry.Categories)]
     [SetThemeMenu(true)]
-    public ViewResult Edit(int id, EditCategoryModel model, HttpPostedFileBase file)
+    public ViewResult Edit(int id, EditCategoryModel model)
     {
         var category = _categoryRepository.GetById(id);
         _sessionUiData.VisitedCategories.Add(new CategoryHistoryItem(category, HistoryItemType.Edit));
+
 
         if (!IsAllowedTo.ToEdit(category))
             throw new SecurityException("Not allowed to edit categoty");
@@ -66,6 +68,10 @@ public class EditCategoryController : BaseController
 
         model.FillReleatedCategoriesFromPostData(Request.Form);
         model.UpdateCategory(category);
+
+        var isChangeParents = !GraphService.IsCategoryParentEqual(model.ParentCategories,
+            EntityCache.GetCategory(category.Id).ParentCategories()); 
+
         if (model.Name != category.Name && categoryAllowed.No(model, category.Type))
         {
             model.Message = new ErrorMessage(
@@ -81,6 +87,12 @@ public class EditCategoryController : BaseController
                     $" <a href=\"{Links.CategoryDetail(category)}\">zur Detailansicht wechseln</a>.");
         }
         StoreImage(id);
+        if(isChangeParents)
+            UserEntityCache.ChangeAllActiveCategoryCaches();
+        else
+            UserEntityCache.ChangeCategoryInUserEntityCaches(category);
+
+
 
         model.Init(category);
         model.IsEditing = true;
@@ -149,6 +161,7 @@ public class EditCategoryController : BaseController
                 Links.CategoryCreate()));
 
         GraphService.AutomaticInclusionFromSubthemes(category);
+        new CategoryApiModel().Pin(category.Id); 
 
         return Redirect(Links.CategoryDetail(category, openEditMode: true));
     }

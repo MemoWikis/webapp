@@ -16,7 +16,7 @@
             <% foreach (var category in Model.CategoryList)
                 { %>
                 
-                    <% if(Model.GetTotalTopicCount(category) > 0 || Model.GetTotalQuestionCount(category) > 0 || Model.IsInstallationAdmin)   
+                    <% if(Model.GetTotalTopicCount(category) > 0 || Model.GetTotalQuestionCount(category) > 0 || Model.IsInstallationAdmin ||category.Creator.Id == Model.UserId)   
                        { %>
                         <div class="col-xs-6 topic">
                             <div class="row">
@@ -31,16 +31,16 @@
                                 <div class="col-xs-9">
                                     <div class="topic-name" v-if="canBeEdited">
                                         <div class="topic-name">
-                                            <% if (Model.GetTotalTopicCount(category) < 1 && Model.GetTotalQuestionCount(category) < 1 && Model.IsInstallationAdmin) { %>
-                                                <i class="fa fa-user-secret show-tooltip" data-original-title="Thema ist leer und wird daher nur Admins angezeigt"></i>
+                                            <% if (Model.GetTotalTopicCount(category) < 1 && Model.GetTotalQuestionCount(category) < 1 && (Model.IsInstallationAdmin || category.Creator.Id == Model.UserId)) { %>
+                                                <i class="fa fa-user-secret show-tooltip" data-original-title="Thema ist leer und wird daher nur Admins und dem Ersteller angezeigt"></i>
                                             <% } %>
                                             <%= category.Type.GetCategoryTypeIconHtml() %><%: category.Name %>
                                         </div>
                                     </div>
                                     <a v-else class="topic-name" href="<%= Links.CategoryDetail(category) %>">
                                         <div class="topic-name">
-                                            <% if (Model.GetTotalTopicCount(category) < 1 && Model.GetTotalQuestionCount(category) < 1 && Model.IsInstallationAdmin) { %>
-                                                <i class="fa fa-user-secret show-tooltip" data-original-title="Thema ist leer und wird daher nur Admins angezeigt"></i>
+                                            <% if (Model.GetTotalTopicCount(category) < 1 && Model.GetTotalQuestionCount(category) < 1 && (Model.IsInstallationAdmin || category.Creator.Id == Model.UserId)) { %>
+                                                <i class="fa fa-user-secret show-tooltip" data-original-title="Thema ist leer und wird daher nur Admins und dem Ersteller angezeigt"></i>
                                             <% } %>
                                             <%= category.Type.GetCategoryTypeIconHtml() %><%: category.Name %>
                                         </div>

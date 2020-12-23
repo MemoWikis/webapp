@@ -8,16 +8,12 @@
 
         this._categoryId = categoryId;
 
+
         if (window.location.pathname.indexOf("/Lernen") >= 0) {
             Utils.ShowSpinner();
             $("#LearnOptionsHeader").removeClass("disable");
             $("#SessionConfigReminderHeader").removeClass("hide");
-            $.post("/Category/GetSettingsCookie?name=SessionConfigTopNote", (data) => {
-                if (data == false) {
-
-                }
-            });
-
+            $.post("/Category/GetSettingsCookie?name=SessionConfigTopNote");
 
             $('#hddLearningSessionStarted').val("True");
 

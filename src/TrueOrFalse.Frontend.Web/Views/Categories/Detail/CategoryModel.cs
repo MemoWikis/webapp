@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using Org.BouncyCastle.Asn1.Ocsp;
 using TrueOrFalse.Web;
@@ -63,6 +64,7 @@ public class CategoryModel : BaseContentModule
     public bool OpenEditMode;
     public bool IsDisplayNoneSessionConfigNote { get; set; }
     public bool IsDisplayNoneSessionConfigNoteQuestionList { get; set; }
+    public bool IsFilteredUserWorld; 
 
     public CategoryModel()
     {
@@ -83,7 +85,14 @@ public class CategoryModel : BaseContentModule
         if(loadKnowledgeSummary)
             KnowledgeSummary = isCategoryNull ? null :  KnowledgeSummaryLoader.RunFromMemoryCache(category.Id, UserId);
 
-        IsInWishknowledge = Sl.CategoryValuationRepo.IsInWishKnowledge(category.Id, UserId);
+
+        var userValuationCategory = UserCache.GetCategoryValuations(UserId).Where(cv => cv.CategoryId == category.Id).ToList();
+   
+        if (userValuationCategory.Count() == 0)
+            IsInWishknowledge = false;
+        else 
+            IsInWishknowledge = userValuationCategory.First().IsInWishKnowledge();
+
 
         WikipediaURL = category.WikipediaURL;
         Url = category.Url;
@@ -111,7 +120,7 @@ public class CategoryModel : BaseContentModule
         IsOwnerOrAdmin = _sessionUser.IsLoggedInUserOrAdmin(Creator.Id);
 
         CategoriesParent = category.ParentCategories();
-        CategoriesChildren = _categoryRepo.GetChildren(category.Id);
+        CategoriesChildren = UserCache.IsFiltered ? UserEntityCache.GetChildren(category.Id, UserId) : EntityCache.GetChildren(category.Id);
 
         CorrectnesProbability = category.CorrectnessProbability;
         AnswersTotal = category.CorrectnessProbabilityAnswerCount;
@@ -131,7 +140,6 @@ public class CategoryModel : BaseContentModule
         if (category.Type != CategoryType.Standard)
             TopQuestionsWithReferences = Sl.R<ReferenceRepo>().GetQuestionsForCategory(category.Id);
 
-        //CountSets = category.GetCountSets();
         CountWishQuestions = wishQuestions.Total;
 
         TopQuestions = AggregatedQuestions.Take(MaxCountQuestionsToDisplay).ToList();
@@ -143,8 +151,9 @@ public class CategoryModel : BaseContentModule
         TopWishQuestions = wishQuestions.Items;
 
         SingleQuestions = GetQuestionsForCategory.QuestionsNotIncludedInSet(Id);
+        IsFilteredUserWorld = UserCache.IsFiltered;
 
-        AggregatedTopicCount = new TopicNavigationModel().GetTotalTopicCount(category);
+        AggregatedTopicCount = IsFilteredUserWorld ? CategoriesChildren.Count : new TopicNavigationModel().GetTotalTopicCount(category);
 
         AggregatedQuestionCount = Category.GetCountQuestionsAggregated();
         CategoryQuestionCount = Category.GetCountQuestionsAggregated(true, category.Id);
@@ -153,6 +162,7 @@ public class CategoryModel : BaseContentModule
 
         TotalPins = category.TotalRelevancePersonalEntries.ToString();
         OpenEditMode = openEditMode;
+        
     }
 
     private List<Question> GetTopQuestionsInSubCats()

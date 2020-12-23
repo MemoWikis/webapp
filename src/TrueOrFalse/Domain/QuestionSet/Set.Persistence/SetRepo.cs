@@ -40,7 +40,6 @@ public class SetRepo : RepositoryDbBase<Set>
         var aggregatedCategoriesToUpdate =
             CategoryAggregation.GetAggregatingAncestors(Sl.CategoryRepo.GetByIds(categoriesToUpdateIds));
 
-        EntityCache.AddOrUpdate(set, categoriesToUpdateIds);
        
         foreach (var category in aggregatedCategoriesToUpdate)
         {
@@ -58,7 +57,6 @@ public class SetRepo : RepositoryDbBase<Set>
         UserActivityAdd.CreatedSet(set);
         ReputationUpdate.ForUser(set.Creator);
         _searchIndexSet.Update(set);
-        EntityCache.AddOrUpdate(set);
     }
 
     public int Copy(Set sourceSet)
@@ -151,10 +149,6 @@ public class SetRepo : RepositoryDbBase<Set>
 
     public IList<Set> GetAllEager() => GetByIdsEager();
 
-    //public IList<Set> GetForCategoryFromMemoryCache(int categoryId)
-    //{
-    //    return EntityCache.GetSetsForCategory(categoryId).ToList();
-    //}
 
     public IEnumerable<Set> GetMostRecent_WithAtLeast3Questions(int amount)
     {
@@ -218,7 +212,6 @@ public class SetRepo : RepositoryDbBase<Set>
 
         _searchIndexSet.Delete(set);
         base.Delete(set);
-        EntityCache.Remove(set);
         foreach (var category in set.Categories)
         {
             category.UpdateCountQuestionsAggregated();

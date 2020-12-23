@@ -39,14 +39,6 @@
     <div class="columnControlsFull">
         <input class="form-control InputIsxn" name="ISBN" type="text" value="<%= model.ISBN %>">
     </div>
-    <%--<div class="columnControlsFull JS-InputWithCheckbox">
-        <input class="form-control" name="ISBN" type="text" value="<%= model.ISBN %>">
-        <div class="checkbox">
-            <label>
-                <input type="checkbox"> Das Buch hat keine ISBN-Nummer.
-            </label>
-        </div>
-    </div>--%>
 </div>
 <div class="form-group">
     <label class="columnLabel control-label" for="Publisher">Verlag</label>

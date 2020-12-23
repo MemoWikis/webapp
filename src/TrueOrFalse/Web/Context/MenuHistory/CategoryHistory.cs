@@ -14,20 +14,11 @@ public class CategoryHistoryItem : HistoryItemBase
     public string Name { get; private set; }
     public HistoryItemType Type { get; set; }
 
-    public CategoryHistoryItem(Category category, HistoryItemType type = HistoryItemType.Any, Data data = null, bool isCategoryNull = false)
+    public CategoryHistoryItem(Category category, HistoryItemType type = HistoryItemType.Any, bool isCategoryNull = false)
     {
-        Id = isCategoryNull ? data.Id : category.Id;
-        Name = isCategoryNull ? data.Name :  category.Name;
+        Id = isCategoryNull ? -1 : category.Id;
+        Name = isCategoryNull ? "" :  category.Name;
         Type = type;
     }
 }
 
-namespace TrueOrFalse
-{
-    public class Data
-    {
-        public int Id;
-        public string Name;
-       
-    }
-}

@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading;
+﻿
 using Quartz;
-using RollbarSharp;
+
 
 namespace TrueOrFalse.Utilities.ScheduledJobs
 {
@@ -17,7 +14,7 @@ namespace TrueOrFalse.Utilities.ScheduledJobs
 
                 var dataMap = context.JobDetail.JobDataMap;
 
-                UserCache.GetItem(dataMap.GetInt("userId"));
+                UserCache.CreateItemFromDatabase(dataMap.GetInt("userId"));
 
             }, "InitUserValuationCache");
         }

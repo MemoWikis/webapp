@@ -65,11 +65,8 @@
                     </li>s
                 </ul>
             </div>
-            
             <br/>
             <br/>
-            &nbsp;
-    
         </div>
         <% if (Model.CategoryIsDeleted)
                Html.RenderPartial("~/Views/Shared/Delete.ascx");

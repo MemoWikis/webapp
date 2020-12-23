@@ -58,12 +58,10 @@ declare module _ {
 
     // Common interface between Arrays and jQuery objects
     interface List<T> extends Collection<T> {
-        [index: number]: T;
         length: number;
     }
 
     interface Dictionary<T> extends Collection<T> {
-        [index: string]: T;
     }
 }
 
@@ -2973,7 +2971,3 @@ interface _ChainOfArrays<T> extends _Chain<T[]> {
 }
 
 declare var _: UnderscoreStatic;
-
-declare module "underscore" {
-    export = _;
-}
