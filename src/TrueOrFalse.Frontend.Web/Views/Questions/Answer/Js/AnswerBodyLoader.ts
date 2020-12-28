@@ -138,7 +138,7 @@ class AnswerBodyLoader {
                     this.updateSessionHeader(result.sessionData);
               
                 this.updateMenu(result.menuHtml);
-                document.title = $(".QuestionText").html();
+                document.title = $("#QuestionTitle").html();
                 $("div#comments").replaceWith(result.commentsAsHtml);
 
                 new AnswerBody();

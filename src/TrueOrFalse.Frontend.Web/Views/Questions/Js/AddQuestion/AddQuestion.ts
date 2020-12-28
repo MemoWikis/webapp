@@ -209,16 +209,15 @@ Vue.component('add-question-component', {
 
         methods: {
             addFlashcard() {
-                var currentIndex = $('#hddIsLearningSession').data("current-step-idx");
+                var lastIndex = $('#QuestionListComponent').attr("data-last-index");
                 var json = {
                     CategoryId: this.currentCategoryId,
                     Text: this.questionHtml,
                     Answer: this.answerHtml,
                     Visibility: this.visibility,
                     AddToWishknowledge: this.addToWishknowledge,
-                    CurrentIndex: currentIndex,
+                    LastIndex: parseInt(lastIndex) + 1,
                 }
-                console.log(json);
                 $.ajax({
                     type: 'post',
                     contentType: "application/json",
@@ -229,7 +228,7 @@ Vue.component('add-question-component', {
                         answerBody.Loader.loadNewQuestion("/AnswerQuestion/RenderAnswerBodyByLearningSession/" +
                             "?skipStepIdx=-5" +
                             "&index=" +
-                            currentIndex);
+                            (lastIndex + 1 ));
                         eventBus.$emit('add-question-to-list', data.Data);
                     },
                 });

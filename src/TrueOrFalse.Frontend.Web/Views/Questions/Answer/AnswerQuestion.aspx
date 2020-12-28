@@ -5,7 +5,7 @@
 
 <asp:Content ID="ContentHeadSEO" ContentPlaceHolderID="HeadSEO" runat="server">
     
-    <% Title = Model.QuestionText; %>
+    <% Title = Model.QuestionTitle; %>
     <% if (Model.IsLearningSession || Model.IsTestSession ) { %>
         <meta name="robots" content="noindex" />
     <%}else { %>
@@ -91,9 +91,7 @@
 
 <% if (Model.IsLearningSession) { %>
            <% Html.RenderPartial("~/Views/Questions/Answer/LearningSession/LearningSessionHeader.ascx", Model); %>
-    <% }else if (Model.IsTestSession) { %>
-           <% Html.RenderPartial("~/Views/Questions/Answer/TestSession/TestSessionHeader.ascx", Model); %>
-    <% }else { %>
+    <% } else { %>
       <%-- value "1" is Questionsite , value 2 is LandingPage, Test or Learningsession is this input not available--%> 
         <div class="AnswerQuestionHeader">
             <% Html.RenderPartial("~/Views/Questions/Answer/AnswerQuestionPager.ascx", Model); %>

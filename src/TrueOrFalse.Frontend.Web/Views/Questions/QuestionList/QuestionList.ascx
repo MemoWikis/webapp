@@ -177,7 +177,7 @@
         :is-question-list-to-show="isQuestionListToShow"
         :active-question ="activeQuestion"
         :selected-page-from-active-question="selectedPageFromActiveQuestion">
-        <div class="col-xs-12 questionListComponent">
+        <div class="col-xs-12 questionListComponent" id="QuestionListComponent" :data-last-index="lastQuestionInListIndex">
 
             <question-component inline-template
                                 v-on:pin-unpin ="changePin()"
@@ -200,7 +200,8 @@
                                 :link-to-edit-question ="q.LinkToEditQuestion"
                                 :link-to-question-versions ="q.LinkToQuestionVersions"
                                 :link-to-question ="q.LinkToQuestion"
-                                :key="q.Id">
+                                :key="q.Id"
+                                :is-last-item="index == (questions.length-1)">
                 
                 <div class="singleQuestionRow" :class="[{ open: showFullQuestion}, backgroundColor]">
                     <div class="questionSectionFlex">

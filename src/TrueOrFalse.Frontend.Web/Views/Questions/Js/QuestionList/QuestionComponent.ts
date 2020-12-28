@@ -17,7 +17,8 @@
         'questionLinkToComment',
         'linkToEditQuestion',
         'linkToQuestionVersions',
-        'linkToQuestion'
+        'linkToQuestion',
+        'isLastItem'
     ],
     data() {
         return {
@@ -59,8 +60,11 @@
         this.getWishknowledgePinButton();
         $("#BorderQuestionList").height($(".drop-down-question-sort").height() + $("#QuestionListApp").height());
         new QuestionRowDelete(QuestionRowDeleteSourcePage.QuestionRow);
+        if (this.isLastItem)
+            this.$parent.lastQuestionInListIndex = this.questionIndex;
     },
     watch: {
+
         isQuestionListToShow() {
             this.expandQuestion();
         },
@@ -136,7 +140,6 @@
             };
         },
         loadQuestionBody() {
-            console.log(this.questionId);
             $.ajax({
                 url: "/QuestionList/LoadQuestionBody/",
                 data: { questionId: this.questionId },

@@ -1,4 +1,21 @@
-﻿let qcl = Vue.component('question-list-component', {
+﻿interface QuestionListItem
+{
+    CorrectnessProbability: Number;
+    HasPersonalAnswer: Boolean;
+    Id: Number;
+    ImageData: String;
+    IsInWishknowledge: Boolean;
+    LearningSessionStepCount: Number;
+    LinkToComment: String;
+    LinkToDeleteQuestion: String;
+    LinkToEditQuestion: String;
+    LinkToQuestion: String;
+    LinkToQuestionDetailSite: String;
+    LinkToQuestionVersions: String;
+    Title: String;
+}
+
+let qlc = Vue.component('question-list-component', {
     components: {
         VueSlider: window['vue-slider-component']
     },
@@ -13,31 +30,31 @@
             pages: 0,
             selectedPage: 1,
             itemCountPerPage: 25,
-            questions: [],
+            questions: [] as QuestionListItem[],
             hasQuestions: false,
             showFirstPage: true,
-            pageArray: [],
+            pageArray: [] as Number[],
             questionText: "Fragen",
             showLeftPageSelector: false,
             showRightPageSelector: false,
-            leftSelectorArray: [],
-            rightSelectorArray: [],
-            centerArray: [],
+            leftSelectorArray: [] as Number[],
+            rightSelectorArray: [] as Number[],
+            centerArray: [] as Number[],
             showLeftSelectionDropUp: false,
             showRightSelectionDropUp: false,
             pageIsLoading: false,
+            lastQuestionInListIndex: null,
         };
     },
     created() {
         eventBus.$on('reload-knowledge-state', () => this.loadQuestions(this.selectedPage));
         eventBus.$on('reload-wishknowledge-state-per-question', (data) => this.changeQuestionWishknowledgeState(data.questionId, data.isInWishknowledge));
         eventBus.$on('reload-correctnessprobability-for-question', (id) => this.getUpdatedCorrectnessProbability(id));
-        eventBus.$on('load-questions-list', ()=>{ this.initQuestionList() });
-        eventBus.$on('add-question-to-list', (q)=>{ this.addQuestionToList(q) });
+        eventBus.$on('load-questions-list', () => { this.initQuestionList()});
+        eventBus.$on('add-question-to-list', (q: QuestionListItem) => { this.addQuestionToList(q)});
     },
     mounted() {
         this.categoryId = $("#hhdCategoryId").val();
-        
     },
     watch: {
         itemCountPerPage: function (val) {
@@ -169,7 +186,7 @@
                 }
             });
         },
-        addQuestionToList(q) {
+        addQuestionToList(q: QuestionListItem) {
             this.questions.push(q);
         }
     },
