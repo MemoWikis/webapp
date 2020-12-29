@@ -172,6 +172,8 @@ class AnswerBodyLoader {
                     if (isNewSession)
                         eventBus.$emit('load-questions-list');
                 }
+
+                eventBus.$emit('change-active-question');
                 Utils.HideSpinner();
             },
             error: () => {

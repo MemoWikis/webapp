@@ -11,14 +11,15 @@
         'selectedPage',
         'isQuestionListToShow',
         'questionIndex',
-        'activeQuestion',
+        'activeQuestionId',
         'selectedPageFromActiveQuestion',
         'lengthOfQuestionsArray',
         'questionLinkToComment',
         'linkToEditQuestion',
         'linkToQuestionVersions',
         'linkToQuestion',
-        'isLastItem'
+        'isLastItem',
+        'sessionIndex'
     ],
     data() {
         return {
@@ -205,16 +206,13 @@
         },
         loadSpecificQuestion: function () {
             var answerBody = new AnswerBody();
-            let index = (this.selectedPage - 1) * 25 + this.questionIndex;
             answerBody.Loader.loadNewQuestion("/AnswerQuestion/RenderAnswerBodyByLearningSession/" +
                 "?skipStepIdx=-5" +
-                "&index=" + index);
+                "&index=" + this.sessionIndex);
 
             eventBus.$emit('change-active-page', this.selectedPage);
             eventBus.$emit('change-active-question', this.questionIndex);
-
-            ;
-            eventBus.$emit('update-progress-bar', this.lengthOfQuestionsArray, index);
+            eventBus.$emit('update-progress-bar', this.lengthOfQuestionsArray, this.sessionIndex);
         }
     },
 });

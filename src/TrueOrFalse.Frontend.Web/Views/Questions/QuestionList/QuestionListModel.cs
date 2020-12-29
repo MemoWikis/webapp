@@ -46,6 +46,12 @@ public class QuestionListModel : BaseModel
             question.LinkToQuestionVersions = Links.QuestionHistory(q.Id);
             question.LinkToComment = Links.GetUrl(q) + "#JumpLabel";
             question.CorrectnessProbability = q.CorrectnessProbability;
+            if (Sl.SessionUser.LearningSession != null)
+            {
+                var steps = Sl.SessionUser.LearningSession.Steps;
+                var index = steps.IndexOf(s => s.Question.Id == q.Id);
+                question.SessionIndex = index;
+            }
 
             if (userQuestionValuation.ContainsKey(q.Id) && user != null)
             {

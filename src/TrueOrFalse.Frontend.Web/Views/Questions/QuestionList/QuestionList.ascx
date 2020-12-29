@@ -175,7 +175,7 @@
         :all-question-count="questionsCount" 
         is-admin="<%= Model.IsInstallationAdmin %>"  
         :is-question-list-to-show="isQuestionListToShow"
-        :active-question ="activeQuestion"
+        :active-question-id="activeQuestionId"
         :selected-page-from-active-question="selectedPageFromActiveQuestion">
         <div class="col-xs-12 questionListComponent" id="QuestionListComponent" :data-last-index="lastQuestionInListIndex">
 
@@ -192,7 +192,7 @@
                                 :is-admin="isAdmin"
                                 :is-question-list-to-show ="isQuestionListToShow"
                                 :question-index="index"
-                                :active-question ="activeQuestion"
+                                :active-question-id="activeQuestionId"
                                 :selected-page ="selectedPage"
                                 :selected-page-from-active-question="selectedPageFromActiveQuestion"
                                 :length-of-questions-array="questions[0].LearningSessionStepCount"
@@ -201,6 +201,7 @@
                                 :link-to-question-versions ="q.LinkToQuestionVersions"
                                 :link-to-question ="q.LinkToQuestion"
                                 :key="q.Id"
+                                :session-index="q.SessionIndex"
                                 :is-last-item="index == (questions.length-1)">
                 
                 <div class="singleQuestionRow" :class="[{ open: showFullQuestion}, backgroundColor]">
@@ -223,7 +224,7 @@
                                                 <pin-wuwi-component :is-in-wishknowledge="isInWishknowledge" :question-id="questionId" />
                                             </div>
                                             <div class="go-to-question iconContainer">
-                                                <span class="fas fa-play" :class="{ 'activeQ': questionIndex === activeQuestion && selectedPageFromActiveQuestion === selectedPage }" :data-question-id="questionId" @click="loadSpecificQuestion()">
+                                                <span class="fas fa-play" :class="{ 'activeQ': activeQuestionId == questionId }" :data-question-id="questionId" @click="loadSpecificQuestion()">
                                                 </span>
                                             </div>
                                             <%----%>

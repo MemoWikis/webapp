@@ -23,7 +23,7 @@ let qlc = Vue.component('question-list-component', {
         'categoryId',
         'isAdmin',
         'isQuestionListToShow',
-        'activeQuestion',
+        'activeQuestionId',
         'selectedPageFromActiveQuestion'],
     data() {
         return {
