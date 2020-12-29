@@ -245,7 +245,6 @@ let sc= Vue.component('session-config-component', {
             this.questionFilter.safeLearningSessionOptions = this.safeLearningSessionOptions = false;
             eventBus.$emit("send-selected-questions", this.selectedQuestionCount);
             this.isFirstLoad = firstLoad;
-
         },
         matchSize() {
             this.radioHeight = this.$refs.radioSection.clientHeight;

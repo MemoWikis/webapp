@@ -88,10 +88,10 @@ class AnswerBodyLoader {
 
         var url = "/AnswerQuestion/RenderNewAnswerBodySessionForCategory";
         this._getCustomSession = true;
-        this.loadNewQuestion(url, loadedFromVue, continueWithNewSession);
+        this.loadNewQuestion(url, loadedFromVue, continueWithNewSession, true);
     }
 
-    public loadNewQuestion(url: string, loadedFromVue: boolean = false, continueWithNewSession: boolean = false) {
+    public loadNewQuestion(url: string, loadedFromVue: boolean = false, continueWithNewSession: boolean = false, isNewSession: boolean = false) {
         this._isInLearningTab = $('#LearningTab').length > 0;
         if (this._getCustomSession)
             $("#TestSessionHeader").remove();
@@ -169,6 +169,8 @@ class AnswerBodyLoader {
                     $("#AnswerBody").fadeIn();
                     $("#QuestionDetails").fadeIn();
                     $(".FooterQuestionDetails").fadeIn();
+                    if (isNewSession)
+                        eventBus.$emit('load-questions-list');
                 }
                 Utils.HideSpinner();
             },

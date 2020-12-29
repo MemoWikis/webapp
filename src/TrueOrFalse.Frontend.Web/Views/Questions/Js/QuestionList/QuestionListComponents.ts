@@ -55,6 +55,7 @@ let qlc = Vue.component('question-list-component', {
     },
     mounted() {
         this.categoryId = $("#hhdCategoryId").val();
+        this.initQuestionList();
     },
     watch: {
         itemCountPerPage: function (val) {
@@ -112,20 +113,23 @@ let qlc = Vue.component('question-list-component', {
                 type: "POST",
                 success: questions => {
                     this.questions = questions;
-                    this.selectedPage = selectedPage;
-                    this.showLeftSelectionDropUp = false;
-                    this.showRightSelectionDropUp = false;
-                    if (typeof questions[0] != "undefined")
-                        this.pages = Math.ceil(questions[0].LearningSessionStepCount / this.itemCountPerPage);
-                    else
-                        this.pages = 1;
-                    this.$nextTick(function () {
-                        this.setPaginationRanges(selectedPage);
-                        new Pin(PinType.Question);
-                    });
-                    this.pageIsLoading = false;
+                    this.updatePageCount(selectedPage);
                 },
             });
+        },
+        updatePageCount(selectedPage) {
+            this.selectedPage = selectedPage;
+            this.showLeftSelectionDropUp = false;
+            this.showRightSelectionDropUp = false;
+            if (typeof this.questions[0] != "undefined")
+                this.pages = Math.ceil(this.questions[0].LearningSessionStepCount / this.itemCountPerPage);
+            else
+                this.pages = 1;
+            this.$nextTick(function () {
+                this.setPaginationRanges(selectedPage);
+                new Pin(PinType.Question);
+            });
+            this.pageIsLoading = false;
         },
         setPaginationRanges(selectedPage) {
             if ((selectedPage - 2) <= 2) {
