@@ -36,7 +36,6 @@ class AnswerBody {
 
             $("#row-1:visible").focus();
         }
-        eventBus.$emit('load-questions-list');
     }
 
     ScrollToAnswerQuestionHeaderIfOutsideView() {

@@ -228,7 +228,7 @@ Vue.component('add-question-component', {
                         answerBody.Loader.loadNewQuestion("/AnswerQuestion/RenderAnswerBodyByLearningSession/" +
                             "?skipStepIdx=-5" +
                             "&index=" +
-                            (lastIndex + 1 ));
+                            (parseInt(lastIndex) + 1));
                         eventBus.$emit('add-question-to-list', data.Data);
                     },
                 });
