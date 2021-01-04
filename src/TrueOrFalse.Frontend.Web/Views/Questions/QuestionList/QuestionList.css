@@ -193,16 +193,17 @@
   flex-wrap: nowrap;
   justify-content: space-between;
   min-width: 0;
-  align-items: flex-end;
+  min-height: 57px;
 }
 #QuestionListApp .singleQuestionRow .questionSectionFlex .questionContainer .questionBodyTop .questionContainerTopSection .questionHeader:hover {
   cursor: pointer;
 }
 #QuestionListApp .singleQuestionRow .questionSectionFlex .questionContainer .questionBodyTop .questionContainerTopSection .questionHeader .questionTitle {
-  padding: 16px 8px 8px 8px;
+  padding: 8px;
   min-width: 0;
   color: #555555;
   font-weight: 600;
+  align-self: center;
 }
 @media (max-width: 640px) {
   #QuestionListApp .singleQuestionRow .questionSectionFlex .questionContainer .questionBodyTop .questionContainerTopSection .questionHeader .col-xs-3 {
