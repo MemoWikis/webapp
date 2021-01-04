@@ -109,6 +109,7 @@ let qlc = Vue.component('question-list-component', {
                 data: {
                     itemCountPerPage: this.itemCountPerPage,
                     pageNumber: selectedPage,
+                    categoryId: this.categoryId
                 },
                 type: "POST",
                 success: questions => {
