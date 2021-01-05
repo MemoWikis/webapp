@@ -3918,3 +3918,6 @@ p:empty {
     border-width: 0;
   }
 }
+.questionTitle p {
+  margin: 0;
+}
