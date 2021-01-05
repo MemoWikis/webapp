@@ -114,61 +114,64 @@ class AnswerBodyLoader {
             type: 'POST',
             headers: { "cache-control": "no-cache" },
             success: result => {
-                eventBus.$emit('suicide');
-                result = JSON.parse(result);
+                if (result !== "") {
+                    eventBus.$emit('suicide');
+                    result = JSON.parse(result);
+                    console.log(result);
 
-                if (!this._isInLearningTab) {
-                    this.updateUrl(result.url);
-                }
+                    if (!this._isInLearningTab) {
+                        this.updateUrl(result.url);
+                    }
 
-                if (result.LearningSessionResult) {
-                    this.showLearningSessionResult(result);
-                    $(".ProgressBarSegment .ProgressBarLegend").hide();
-                    return;
-                }
-                $(".FooterQuestionDetails").remove();
-                $("#AnswerBody").replaceWith(result.answerBodyAsHtml);
-                if (this._isInLearningTab && !this._getCustomSession) {
-                    $("#QuestionDetails").empty();
-                }
+                    if (result.LearningSessionResult) {
+                        this.showLearningSessionResult(result);
+                        $(".ProgressBarSegment .ProgressBarLegend").hide();
+                        return;
+                    }
+                    $(".FooterQuestionDetails").remove();
+                    $("#AnswerBody").replaceWith(result.answerBodyAsHtml);
+                    if (this._isInLearningTab && !this._getCustomSession) {
+                        $("#QuestionDetails").empty();
+                    }
 
-                if ($("#hddIsLearningSession").val() !== "True") 
-                    this.updateNavigationBar(result.navBarData);
-                else
-                    this.updateSessionHeader(result.sessionData);
-              
-                this.updateMenu(result.menuHtml);
-                document.title = $(".QuestionText").html();
-                $("div#comments").replaceWith(result.commentsAsHtml);
+                    if ($("#hddIsLearningSession").val() !== "True")
+                        this.updateNavigationBar(result.navBarData);
+                    else
+                        this.updateSessionHeader(result.sessionData);
 
-                new AnswerBody();
-                FillSparklineTotals();
-                InitTooltips();
-                Images.Init();
-                InitClickLog("div#LicenseQuestion");
-                InitClickLog("div#AnswerBody");
-                InitClickLog("div#AnswerQuestionPager");
-                InitClickLog("div#answerQuestionDetails");
-                InitClickLog("div#comments");
-                PreventDropdonwnsFromBeingHorizontallyOffscreen("div#AnswerBody");
-                if (this._getCustomSession)
-                    this._getCustomSession = false;
-                if ($("div[data-div-type='questionDetails']").length > 1)
-                    $("div[data-div-type='questionDetails']").last().remove();
-                if ($("div[data-div-type='testSessionHeader']").length > 1)
-                    $("div[data-div-type='testSessionHeader']").slice(1).remove();
+                    this.updateMenu(result.menuHtml);
+                    document.title = $(".QuestionText").html();
+                    $("div#comments").replaceWith(result.commentsAsHtml);
 
-                if (continueWithNewSession) {
-                    $(".SessionSessionHeading").fadeIn();
-                    $(".SessionBar").fadeIn();
-                    $("#QuestionListApp").fadeIn();
-                }
-                if (loadedFromVue) {
-                    $(".SessionSessionHeading").fadeIn();
-                    $(".SessionBar").fadeIn();
-                    $("#AnswerBody").fadeIn();
-                    $("#QuestionDetails").fadeIn();
-                    $(".FooterQuestionDetails").fadeIn();
+                    new AnswerBody();
+                    FillSparklineTotals();
+                    InitTooltips();
+                    Images.Init();
+                    InitClickLog("div#LicenseQuestion");
+                    InitClickLog("div#AnswerBody");
+                    InitClickLog("div#AnswerQuestionPager");
+                    InitClickLog("div#answerQuestionDetails");
+                    InitClickLog("div#comments");
+                    PreventDropdonwnsFromBeingHorizontallyOffscreen("div#AnswerBody");
+                    if (this._getCustomSession)
+                        this._getCustomSession = false;
+                    if ($("div[data-div-type='questionDetails']").length > 1)
+                        $("div[data-div-type='questionDetails']").last().remove();
+                    if ($("div[data-div-type='testSessionHeader']").length > 1)
+                        $("div[data-div-type='testSessionHeader']").slice(1).remove();
+
+                    if (continueWithNewSession) {
+                        $(".SessionSessionHeading").fadeIn();
+                        $(".SessionBar").fadeIn();
+                        $("#QuestionListApp").fadeIn();
+                    }
+                    if (loadedFromVue) {
+                        $(".SessionSessionHeading").fadeIn();
+                        $(".SessionBar").fadeIn();
+                        $("#AnswerBody").fadeIn();
+                        $("#QuestionDetails").fadeIn();
+                        $(".FooterQuestionDetails").fadeIn();
+                    }
                 }
                 Utils.HideSpinner();
             },

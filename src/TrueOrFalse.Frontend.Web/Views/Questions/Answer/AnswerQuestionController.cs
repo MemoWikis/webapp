@@ -467,6 +467,8 @@ public class AnswerQuestionController : BaseController
     public string RenderAnswerBodyByLearningSession(int skipStepIdx = -1, int index = -1)
     {
         var learningSession = Sl.SessionUser.LearningSession;
+        if (learningSession.Steps.Count == 0)
+            return ""; 
 
         if (index != -1)
         {
