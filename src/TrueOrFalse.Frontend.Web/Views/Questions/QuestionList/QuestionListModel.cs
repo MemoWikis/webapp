@@ -20,19 +20,15 @@ public class QuestionListModel : BaseModel
         IsSessionNoteFadeIn = isSessionNoteFadeIn;
     }
 
-    public static List<QuestionListJson.Question> PopulateQuestionsOnPage(int currentPage, int itemCountPerPage, bool isLoggedIn, int categoryId)
+    public static List<QuestionListJson.Question> PopulateQuestionsOnPage(int currentPage, int itemCountPerPage, bool isLoggedIn)
     {
-        IEnumerable<Question> allQuestions;
+        var allQuestions = Sl.SessionUser.LearningSession.Steps.Select(q => q.Question);
         var user = isLoggedIn ? Sl.R<SessionUser>().User : null;
 
         ConcurrentDictionary<int, QuestionValuation> userQuestionValuation = new ConcurrentDictionary<int, QuestionValuation>();
         if (user != null)
-        {
-            allQuestions = Sl.SessionUser.LearningSession.Steps.Select(q => q.Question);
             userQuestionValuation = UserCache.GetItem(user.Id).QuestionValuations;
-        }
-        else
-            allQuestions = GetAllQuestions(categoryId);
+
 
         var questionsOfCurrentPage = allQuestions.Skip(itemCountPerPage * (currentPage - 1)).Take(itemCountPerPage).ToList();
         var newQuestionList = new List<QuestionListJson.Question>();
@@ -67,9 +63,5 @@ public class QuestionListModel : BaseModel
             newQuestionList.Add(question);
         }
         return newQuestionList;
-    }
-    private static List<Question> GetAllQuestions(int categoryId)
-    {
-        return EntityCache.GetQuestionsForCategory(categoryId).ToList();
     }
 }

@@ -44,6 +44,7 @@ let qlc = Vue.component('question-list-component', {
             showRightSelectionDropUp: false,
             pageIsLoading: false,
             lastQuestionInListIndex: null,
+            answerBodyHasLoaded: false,
         };
     },
     created() {
@@ -52,10 +53,16 @@ let qlc = Vue.component('question-list-component', {
         eventBus.$on('reload-correctnessprobability-for-question', (id) => this.getUpdatedCorrectnessProbability(id));
         eventBus.$on('load-questions-list', () => { this.initQuestionList()});
         eventBus.$on('add-question-to-list', (q: QuestionListItem) => { this.addQuestionToList(q)});
+        eventBus.$on('answerbody-loaded', () => {
+            if (this.answerBodyHasLoaded)
+                return;
+            else
+                this.initQuestionList();
+            this.answerBodyHasLoaded = true;
+        });
     },
     mounted() {
         this.categoryId = $("#hhdCategoryId").val();
-        this.initQuestionList();
     },
     watch: {
         itemCountPerPage: function (val) {
@@ -109,7 +116,6 @@ let qlc = Vue.component('question-list-component', {
                 data: {
                     itemCountPerPage: this.itemCountPerPage,
                     pageNumber: selectedPage,
-                    categoryId: this.categoryId
                 },
                 type: "POST",
                 success: questions => {

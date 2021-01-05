@@ -10,9 +10,9 @@ public class QuestionListController : BaseController
 {
  
     [HttpPost]
-    public JsonResult LoadQuestions(int itemCountPerPage, int pageNumber, int categoryId)
+    public JsonResult LoadQuestions(int itemCountPerPage, int pageNumber)
     {
-        var newQuestionList = QuestionListModel.PopulateQuestionsOnPage(pageNumber, itemCountPerPage, IsLoggedIn, categoryId);
+        var newQuestionList = QuestionListModel.PopulateQuestionsOnPage(pageNumber, itemCountPerPage, IsLoggedIn);
         return Json(newQuestionList);
     }
 
