@@ -121,6 +121,11 @@ let qlc = Vue.component('question-list-component', {
                 success: questions => {
                     this.questions = questions;
                     this.updatePageCount(selectedPage);
+                    this.$nextTick(() => {
+                        document.querySelectorAll('code').forEach(block => {
+                            hljsBuild.core.highlightBlock(block);
+                        });
+                    });
                 },
             });
         },

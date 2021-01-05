@@ -2483,7 +2483,10 @@ p:empty {
 #flashCardContent .ProseMirror:focus,
 .inline-text-editor .flashCardContentSite:focus,
 .inline-question-editor .flashCardContentSite:focus,
-#flashCardContent .flashCardContentSite:focus {
+#flashCardContent .flashCardContentSite:focus,
+.inline-text-editor .questionTitle:focus,
+.inline-question-editor .questionTitle:focus,
+#flashCardContent .questionTitle:focus {
   outline: none !important;
 }
 .inline-text-editor .ProseMirror b,
@@ -2492,12 +2495,18 @@ p:empty {
 .inline-text-editor .flashCardContentSite b,
 .inline-question-editor .flashCardContentSite b,
 #flashCardContent .flashCardContentSite b,
+.inline-text-editor .questionTitle b,
+.inline-question-editor .questionTitle b,
+#flashCardContent .questionTitle b,
 .inline-text-editor .ProseMirror strong,
 .inline-question-editor .ProseMirror strong,
 #flashCardContent .ProseMirror strong,
 .inline-text-editor .flashCardContentSite strong,
 .inline-question-editor .flashCardContentSite strong,
-#flashCardContent .flashCardContentSite strong {
+#flashCardContent .flashCardContentSite strong,
+.inline-text-editor .questionTitle strong,
+.inline-question-editor .questionTitle strong,
+#flashCardContent .questionTitle strong {
   font-weight: 600;
 }
 .inline-text-editor .ProseMirror p code,
@@ -2505,7 +2514,10 @@ p:empty {
 #flashCardContent .ProseMirror p code,
 .inline-text-editor .flashCardContentSite p code,
 .inline-question-editor .flashCardContentSite p code,
-#flashCardContent .flashCardContentSite p code {
+#flashCardContent .flashCardContentSite p code,
+.inline-text-editor .questionTitle p code,
+.inline-question-editor .questionTitle p code,
+#flashCardContent .questionTitle p code {
   color: #555555;
   bckground-color: #efefef;
 }
@@ -2514,7 +2526,10 @@ p:empty {
 #flashCardContent .ProseMirror pre,
 .inline-text-editor .flashCardContentSite pre,
 .inline-question-editor .flashCardContentSite pre,
-#flashCardContent .flashCardContentSite pre {
+#flashCardContent .flashCardContentSite pre,
+.inline-text-editor .questionTitle pre,
+.inline-question-editor .questionTitle pre,
+#flashCardContent .questionTitle pre {
   background-color: black;
   border: none;
 }
@@ -2523,7 +2538,10 @@ p:empty {
 #flashCardContent .ProseMirror pre::before,
 .inline-text-editor .flashCardContentSite pre::before,
 .inline-question-editor .flashCardContentSite pre::before,
-#flashCardContent .flashCardContentSite pre::before {
+#flashCardContent .flashCardContentSite pre::before,
+.inline-text-editor .questionTitle pre::before,
+.inline-question-editor .questionTitle pre::before,
+#flashCardContent .questionTitle pre::before {
   content: attr(data-language);
   text-transform: uppercase;
   display: block;
@@ -2536,7 +2554,10 @@ p:empty {
 #flashCardContent .ProseMirror pre code,
 .inline-text-editor .flashCardContentSite pre code,
 .inline-question-editor .flashCardContentSite pre code,
-#flashCardContent .flashCardContentSite pre code {
+#flashCardContent .flashCardContentSite pre code,
+.inline-text-editor .questionTitle pre code,
+.inline-question-editor .questionTitle pre code,
+#flashCardContent .questionTitle pre code {
   color: white;
 }
 .inline-text-editor .ProseMirror pre code .hljs-comment,
@@ -2545,12 +2566,18 @@ p:empty {
 .inline-text-editor .flashCardContentSite pre code .hljs-comment,
 .inline-question-editor .flashCardContentSite pre code .hljs-comment,
 #flashCardContent .flashCardContentSite pre code .hljs-comment,
+.inline-text-editor .questionTitle pre code .hljs-comment,
+.inline-question-editor .questionTitle pre code .hljs-comment,
+#flashCardContent .questionTitle pre code .hljs-comment,
 .inline-text-editor .ProseMirror pre code .hljs-quote,
 .inline-question-editor .ProseMirror pre code .hljs-quote,
 #flashCardContent .ProseMirror pre code .hljs-quote,
 .inline-text-editor .flashCardContentSite pre code .hljs-quote,
 .inline-question-editor .flashCardContentSite pre code .hljs-quote,
-#flashCardContent .flashCardContentSite pre code .hljs-quote {
+#flashCardContent .flashCardContentSite pre code .hljs-quote,
+.inline-text-editor .questionTitle pre code .hljs-quote,
+.inline-question-editor .questionTitle pre code .hljs-quote,
+#flashCardContent .questionTitle pre code .hljs-quote {
   color: #999999;
 }
 .inline-text-editor .ProseMirror pre code .hljs-variable,
@@ -2559,60 +2586,90 @@ p:empty {
 .inline-text-editor .flashCardContentSite pre code .hljs-variable,
 .inline-question-editor .flashCardContentSite pre code .hljs-variable,
 #flashCardContent .flashCardContentSite pre code .hljs-variable,
+.inline-text-editor .questionTitle pre code .hljs-variable,
+.inline-question-editor .questionTitle pre code .hljs-variable,
+#flashCardContent .questionTitle pre code .hljs-variable,
 .inline-text-editor .ProseMirror pre code .hljs-template-variable,
 .inline-question-editor .ProseMirror pre code .hljs-template-variable,
 #flashCardContent .ProseMirror pre code .hljs-template-variable,
 .inline-text-editor .flashCardContentSite pre code .hljs-template-variable,
 .inline-question-editor .flashCardContentSite pre code .hljs-template-variable,
 #flashCardContent .flashCardContentSite pre code .hljs-template-variable,
+.inline-text-editor .questionTitle pre code .hljs-template-variable,
+.inline-question-editor .questionTitle pre code .hljs-template-variable,
+#flashCardContent .questionTitle pre code .hljs-template-variable,
 .inline-text-editor .ProseMirror pre code .hljs-attribute,
 .inline-question-editor .ProseMirror pre code .hljs-attribute,
 #flashCardContent .ProseMirror pre code .hljs-attribute,
 .inline-text-editor .flashCardContentSite pre code .hljs-attribute,
 .inline-question-editor .flashCardContentSite pre code .hljs-attribute,
 #flashCardContent .flashCardContentSite pre code .hljs-attribute,
+.inline-text-editor .questionTitle pre code .hljs-attribute,
+.inline-question-editor .questionTitle pre code .hljs-attribute,
+#flashCardContent .questionTitle pre code .hljs-attribute,
 .inline-text-editor .ProseMirror pre code .hljs-tag,
 .inline-question-editor .ProseMirror pre code .hljs-tag,
 #flashCardContent .ProseMirror pre code .hljs-tag,
 .inline-text-editor .flashCardContentSite pre code .hljs-tag,
 .inline-question-editor .flashCardContentSite pre code .hljs-tag,
 #flashCardContent .flashCardContentSite pre code .hljs-tag,
+.inline-text-editor .questionTitle pre code .hljs-tag,
+.inline-question-editor .questionTitle pre code .hljs-tag,
+#flashCardContent .questionTitle pre code .hljs-tag,
 .inline-text-editor .ProseMirror pre code .hljs-name,
 .inline-question-editor .ProseMirror pre code .hljs-name,
 #flashCardContent .ProseMirror pre code .hljs-name,
 .inline-text-editor .flashCardContentSite pre code .hljs-name,
 .inline-question-editor .flashCardContentSite pre code .hljs-name,
 #flashCardContent .flashCardContentSite pre code .hljs-name,
+.inline-text-editor .questionTitle pre code .hljs-name,
+.inline-question-editor .questionTitle pre code .hljs-name,
+#flashCardContent .questionTitle pre code .hljs-name,
 .inline-text-editor .ProseMirror pre code .hljs-regexp,
 .inline-question-editor .ProseMirror pre code .hljs-regexp,
 #flashCardContent .ProseMirror pre code .hljs-regexp,
 .inline-text-editor .flashCardContentSite pre code .hljs-regexp,
 .inline-question-editor .flashCardContentSite pre code .hljs-regexp,
 #flashCardContent .flashCardContentSite pre code .hljs-regexp,
+.inline-text-editor .questionTitle pre code .hljs-regexp,
+.inline-question-editor .questionTitle pre code .hljs-regexp,
+#flashCardContent .questionTitle pre code .hljs-regexp,
 .inline-text-editor .ProseMirror pre code .hljs-link,
 .inline-question-editor .ProseMirror pre code .hljs-link,
 #flashCardContent .ProseMirror pre code .hljs-link,
 .inline-text-editor .flashCardContentSite pre code .hljs-link,
 .inline-question-editor .flashCardContentSite pre code .hljs-link,
 #flashCardContent .flashCardContentSite pre code .hljs-link,
+.inline-text-editor .questionTitle pre code .hljs-link,
+.inline-question-editor .questionTitle pre code .hljs-link,
+#flashCardContent .questionTitle pre code .hljs-link,
 .inline-text-editor .ProseMirror pre code .hljs-name,
 .inline-question-editor .ProseMirror pre code .hljs-name,
 #flashCardContent .ProseMirror pre code .hljs-name,
 .inline-text-editor .flashCardContentSite pre code .hljs-name,
 .inline-question-editor .flashCardContentSite pre code .hljs-name,
 #flashCardContent .flashCardContentSite pre code .hljs-name,
+.inline-text-editor .questionTitle pre code .hljs-name,
+.inline-question-editor .questionTitle pre code .hljs-name,
+#flashCardContent .questionTitle pre code .hljs-name,
 .inline-text-editor .ProseMirror pre code .hljs-selector-id,
 .inline-question-editor .ProseMirror pre code .hljs-selector-id,
 #flashCardContent .ProseMirror pre code .hljs-selector-id,
 .inline-text-editor .flashCardContentSite pre code .hljs-selector-id,
 .inline-question-editor .flashCardContentSite pre code .hljs-selector-id,
 #flashCardContent .flashCardContentSite pre code .hljs-selector-id,
+.inline-text-editor .questionTitle pre code .hljs-selector-id,
+.inline-question-editor .questionTitle pre code .hljs-selector-id,
+#flashCardContent .questionTitle pre code .hljs-selector-id,
 .inline-text-editor .ProseMirror pre code .hljs-selector-class,
 .inline-question-editor .ProseMirror pre code .hljs-selector-class,
 #flashCardContent .ProseMirror pre code .hljs-selector-class,
 .inline-text-editor .flashCardContentSite pre code .hljs-selector-class,
 .inline-question-editor .flashCardContentSite pre code .hljs-selector-class,
-#flashCardContent .flashCardContentSite pre code .hljs-selector-class {
+#flashCardContent .flashCardContentSite pre code .hljs-selector-class,
+.inline-text-editor .questionTitle pre code .hljs-selector-class,
+.inline-question-editor .questionTitle pre code .hljs-selector-class,
+#flashCardContent .questionTitle pre code .hljs-selector-class {
   color: #f2777a;
 }
 .inline-text-editor .ProseMirror pre code .hljs-number,
@@ -2621,42 +2678,63 @@ p:empty {
 .inline-text-editor .flashCardContentSite pre code .hljs-number,
 .inline-question-editor .flashCardContentSite pre code .hljs-number,
 #flashCardContent .flashCardContentSite pre code .hljs-number,
+.inline-text-editor .questionTitle pre code .hljs-number,
+.inline-question-editor .questionTitle pre code .hljs-number,
+#flashCardContent .questionTitle pre code .hljs-number,
 .inline-text-editor .ProseMirror pre code .hljs-meta,
 .inline-question-editor .ProseMirror pre code .hljs-meta,
 #flashCardContent .ProseMirror pre code .hljs-meta,
 .inline-text-editor .flashCardContentSite pre code .hljs-meta,
 .inline-question-editor .flashCardContentSite pre code .hljs-meta,
 #flashCardContent .flashCardContentSite pre code .hljs-meta,
+.inline-text-editor .questionTitle pre code .hljs-meta,
+.inline-question-editor .questionTitle pre code .hljs-meta,
+#flashCardContent .questionTitle pre code .hljs-meta,
 .inline-text-editor .ProseMirror pre code .hljs-built_in,
 .inline-question-editor .ProseMirror pre code .hljs-built_in,
 #flashCardContent .ProseMirror pre code .hljs-built_in,
 .inline-text-editor .flashCardContentSite pre code .hljs-built_in,
 .inline-question-editor .flashCardContentSite pre code .hljs-built_in,
 #flashCardContent .flashCardContentSite pre code .hljs-built_in,
+.inline-text-editor .questionTitle pre code .hljs-built_in,
+.inline-question-editor .questionTitle pre code .hljs-built_in,
+#flashCardContent .questionTitle pre code .hljs-built_in,
 .inline-text-editor .ProseMirror pre code .hljs-builtin-name,
 .inline-question-editor .ProseMirror pre code .hljs-builtin-name,
 #flashCardContent .ProseMirror pre code .hljs-builtin-name,
 .inline-text-editor .flashCardContentSite pre code .hljs-builtin-name,
 .inline-question-editor .flashCardContentSite pre code .hljs-builtin-name,
 #flashCardContent .flashCardContentSite pre code .hljs-builtin-name,
+.inline-text-editor .questionTitle pre code .hljs-builtin-name,
+.inline-question-editor .questionTitle pre code .hljs-builtin-name,
+#flashCardContent .questionTitle pre code .hljs-builtin-name,
 .inline-text-editor .ProseMirror pre code .hljs-literal,
 .inline-question-editor .ProseMirror pre code .hljs-literal,
 #flashCardContent .ProseMirror pre code .hljs-literal,
 .inline-text-editor .flashCardContentSite pre code .hljs-literal,
 .inline-question-editor .flashCardContentSite pre code .hljs-literal,
 #flashCardContent .flashCardContentSite pre code .hljs-literal,
+.inline-text-editor .questionTitle pre code .hljs-literal,
+.inline-question-editor .questionTitle pre code .hljs-literal,
+#flashCardContent .questionTitle pre code .hljs-literal,
 .inline-text-editor .ProseMirror pre code .hljs-type,
 .inline-question-editor .ProseMirror pre code .hljs-type,
 #flashCardContent .ProseMirror pre code .hljs-type,
 .inline-text-editor .flashCardContentSite pre code .hljs-type,
 .inline-question-editor .flashCardContentSite pre code .hljs-type,
 #flashCardContent .flashCardContentSite pre code .hljs-type,
+.inline-text-editor .questionTitle pre code .hljs-type,
+.inline-question-editor .questionTitle pre code .hljs-type,
+#flashCardContent .questionTitle pre code .hljs-type,
 .inline-text-editor .ProseMirror pre code .hljs-params,
 .inline-question-editor .ProseMirror pre code .hljs-params,
 #flashCardContent .ProseMirror pre code .hljs-params,
 .inline-text-editor .flashCardContentSite pre code .hljs-params,
 .inline-question-editor .flashCardContentSite pre code .hljs-params,
-#flashCardContent .flashCardContentSite pre code .hljs-params {
+#flashCardContent .flashCardContentSite pre code .hljs-params,
+.inline-text-editor .questionTitle pre code .hljs-params,
+.inline-question-editor .questionTitle pre code .hljs-params,
+#flashCardContent .questionTitle pre code .hljs-params {
   color: #f99157;
 }
 .inline-text-editor .ProseMirror pre code .hljs-string,
@@ -2665,18 +2743,27 @@ p:empty {
 .inline-text-editor .flashCardContentSite pre code .hljs-string,
 .inline-question-editor .flashCardContentSite pre code .hljs-string,
 #flashCardContent .flashCardContentSite pre code .hljs-string,
+.inline-text-editor .questionTitle pre code .hljs-string,
+.inline-question-editor .questionTitle pre code .hljs-string,
+#flashCardContent .questionTitle pre code .hljs-string,
 .inline-text-editor .ProseMirror pre code .hljs-symbol,
 .inline-question-editor .ProseMirror pre code .hljs-symbol,
 #flashCardContent .ProseMirror pre code .hljs-symbol,
 .inline-text-editor .flashCardContentSite pre code .hljs-symbol,
 .inline-question-editor .flashCardContentSite pre code .hljs-symbol,
 #flashCardContent .flashCardContentSite pre code .hljs-symbol,
+.inline-text-editor .questionTitle pre code .hljs-symbol,
+.inline-question-editor .questionTitle pre code .hljs-symbol,
+#flashCardContent .questionTitle pre code .hljs-symbol,
 .inline-text-editor .ProseMirror pre code .hljs-bullet,
 .inline-question-editor .ProseMirror pre code .hljs-bullet,
 #flashCardContent .ProseMirror pre code .hljs-bullet,
 .inline-text-editor .flashCardContentSite pre code .hljs-bullet,
 .inline-question-editor .flashCardContentSite pre code .hljs-bullet,
-#flashCardContent .flashCardContentSite pre code .hljs-bullet {
+#flashCardContent .flashCardContentSite pre code .hljs-bullet,
+.inline-text-editor .questionTitle pre code .hljs-bullet,
+.inline-question-editor .questionTitle pre code .hljs-bullet,
+#flashCardContent .questionTitle pre code .hljs-bullet {
   color: #99cc99;
 }
 .inline-text-editor .ProseMirror pre code .hljs-title,
@@ -2685,12 +2772,18 @@ p:empty {
 .inline-text-editor .flashCardContentSite pre code .hljs-title,
 .inline-question-editor .flashCardContentSite pre code .hljs-title,
 #flashCardContent .flashCardContentSite pre code .hljs-title,
+.inline-text-editor .questionTitle pre code .hljs-title,
+.inline-question-editor .questionTitle pre code .hljs-title,
+#flashCardContent .questionTitle pre code .hljs-title,
 .inline-text-editor .ProseMirror pre code .hljs-section,
 .inline-question-editor .ProseMirror pre code .hljs-section,
 #flashCardContent .ProseMirror pre code .hljs-section,
 .inline-text-editor .flashCardContentSite pre code .hljs-section,
 .inline-question-editor .flashCardContentSite pre code .hljs-section,
-#flashCardContent .flashCardContentSite pre code .hljs-section {
+#flashCardContent .flashCardContentSite pre code .hljs-section,
+.inline-text-editor .questionTitle pre code .hljs-section,
+.inline-question-editor .questionTitle pre code .hljs-section,
+#flashCardContent .questionTitle pre code .hljs-section {
   color: #ffcc66;
 }
 .inline-text-editor .ProseMirror pre code .hljs-keyword,
@@ -2699,12 +2792,18 @@ p:empty {
 .inline-text-editor .flashCardContentSite pre code .hljs-keyword,
 .inline-question-editor .flashCardContentSite pre code .hljs-keyword,
 #flashCardContent .flashCardContentSite pre code .hljs-keyword,
+.inline-text-editor .questionTitle pre code .hljs-keyword,
+.inline-question-editor .questionTitle pre code .hljs-keyword,
+#flashCardContent .questionTitle pre code .hljs-keyword,
 .inline-text-editor .ProseMirror pre code .hljs-selector-tag,
 .inline-question-editor .ProseMirror pre code .hljs-selector-tag,
 #flashCardContent .ProseMirror pre code .hljs-selector-tag,
 .inline-text-editor .flashCardContentSite pre code .hljs-selector-tag,
 .inline-question-editor .flashCardContentSite pre code .hljs-selector-tag,
-#flashCardContent .flashCardContentSite pre code .hljs-selector-tag {
+#flashCardContent .flashCardContentSite pre code .hljs-selector-tag,
+.inline-text-editor .questionTitle pre code .hljs-selector-tag,
+.inline-question-editor .questionTitle pre code .hljs-selector-tag,
+#flashCardContent .questionTitle pre code .hljs-selector-tag {
   color: #6699cc;
 }
 .inline-text-editor .ProseMirror pre code .hljs-emphasis,
@@ -2712,7 +2811,10 @@ p:empty {
 #flashCardContent .ProseMirror pre code .hljs-emphasis,
 .inline-text-editor .flashCardContentSite pre code .hljs-emphasis,
 .inline-question-editor .flashCardContentSite pre code .hljs-emphasis,
-#flashCardContent .flashCardContentSite pre code .hljs-emphasis {
+#flashCardContent .flashCardContentSite pre code .hljs-emphasis,
+.inline-text-editor .questionTitle pre code .hljs-emphasis,
+.inline-question-editor .questionTitle pre code .hljs-emphasis,
+#flashCardContent .questionTitle pre code .hljs-emphasis {
   font-style: italic;
 }
 .inline-text-editor .ProseMirror pre code .hljs-strong,
@@ -2720,7 +2822,10 @@ p:empty {
 #flashCardContent .ProseMirror pre code .hljs-strong,
 .inline-text-editor .flashCardContentSite pre code .hljs-strong,
 .inline-question-editor .flashCardContentSite pre code .hljs-strong,
-#flashCardContent .flashCardContentSite pre code .hljs-strong {
+#flashCardContent .flashCardContentSite pre code .hljs-strong,
+.inline-text-editor .questionTitle pre code .hljs-strong,
+.inline-question-editor .questionTitle pre code .hljs-strong,
+#flashCardContent .questionTitle pre code .hljs-strong {
   font-weight: 700;
 }
 .inline-text-editor .menubar__button,
