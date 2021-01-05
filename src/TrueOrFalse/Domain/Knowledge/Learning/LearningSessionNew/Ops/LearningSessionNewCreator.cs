@@ -136,7 +136,7 @@ public class LearningSessionNewCreator
             .GetAggregatedQuestionsFromMemoryCache().Where(q => q.Creator.Id == userId).ToList();
     }
 
-    private static List<Question> GetCategoryQuestionsFromEntityCache(int categoryId)
+    public static List<Question> GetCategoryQuestionsFromEntityCache(int categoryId)
     {
         return EntityCache.GetCategory(categoryId).GetAggregatedQuestionsFromMemoryCache().ToList();
     }

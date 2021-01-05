@@ -227,5 +227,40 @@ public class CategoryModel : BaseContentModule
             : views.Aggregate((a, b) => a + " " + b + System.Environment.NewLine);
     }
 
+    public Question GetDummyQuestion()
+    {
+        Question dummyQuestion = new Question(); 
 
+        if (Category.CountQuestionsAggregated > 0 && !UserCache.IsFiltered)
+        {
+            var questionId = Category
+                .GetAggregatedQuestionsFromMemoryCache()
+                .Where(q => q.IsVisibleToCurrentUser())
+                .Select(q => q.Id)
+                .FirstOrDefault();
+
+            return dummyQuestion = EntityCache.GetQuestionById(questionId);
+
+        }
+
+        if (Category.CountQuestionsAggregated > 0 && UserCache.IsFiltered)
+        {
+            var questionsFromCurrentCategoryAndChildren =
+                LearningSessionNewCreator.GetCategoryQuestionsFromEntityCache(Category.Id);
+            var allChildCategories = UserEntityCache.GetChildren(Category.Id, UserId);
+
+            foreach (var childCategory in allChildCategories)
+            {
+                var childQuestions = LearningSessionNewCreator.GetCategoryQuestionsFromEntityCache(childCategory.Id);
+                foreach (var question in childQuestions)
+                {
+                    questionsFromCurrentCategoryAndChildren.Add(question);
+                }
+            }
+
+            return questionsFromCurrentCategoryAndChildren.First(); 
+        }
+
+        return dummyQuestion; 
+    }
 }
