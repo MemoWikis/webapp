@@ -38,6 +38,9 @@ class AnswerBody {
         }
 
         eventBus.$emit('answerbody-loaded');
+        document.querySelectorAll('code').forEach(block => {
+            hljsBuild.core.highlightBlock(block);
+        });
     }
 
     ScrollToAnswerQuestionHeaderIfOutsideView() {
