@@ -239,7 +239,7 @@ public class CategoryModel : BaseContentModule
                 .Select(q => q.Id)
                 .FirstOrDefault();
 
-            return dummyQuestion = EntityCache.GetQuestionById(questionId);
+            return EntityCache.GetQuestionById(questionId);
 
         }
 
