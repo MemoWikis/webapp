@@ -115,9 +115,9 @@ class AnswerBodyLoader {
             headers: { "cache-control": "no-cache" },
             success: result => {
                 if (result !== "") {
+
                     eventBus.$emit('suicide');
                     result = JSON.parse(result);
-                    console.log(result);
 
                     if (!this._isInLearningTab) {
                         this.updateUrl(result.url);
@@ -171,8 +171,12 @@ class AnswerBodyLoader {
                         $("#AnswerBody").fadeIn();
                         $("#QuestionDetails").fadeIn();
                         $(".FooterQuestionDetails").fadeIn();
+                        $("#QuestionListApp").show(); 
                     }
+                } else {
+                    $("#QuestionListApp").hide(); 
                 }
+                
                 Utils.HideSpinner();
             },
             error: () => {
