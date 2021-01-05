@@ -25,7 +25,7 @@ public class UserEntityCache : BaseCache
     
         var categoriesCacheKey = CategoriesCacheKey(user.Id);
         
-        _Categories[categoriesCacheKey] = (categories); 
+        _Categories[categoriesCacheKey] = categories; 
 
         if(!CategoriesCacheKeyList.Contains(categoriesCacheKey))
             CategoriesCacheKeyList.Add(categoriesCacheKey);

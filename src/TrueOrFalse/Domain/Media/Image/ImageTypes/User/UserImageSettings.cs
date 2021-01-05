@@ -74,7 +74,8 @@ public class UserImageSettings : ImageSettings, IImageSettings
                 }
             }
             catch(WebException webException)
-            {    
+            {
+                Logg.r().Error("GoogleUser not available" + webException);
             }
 
         }

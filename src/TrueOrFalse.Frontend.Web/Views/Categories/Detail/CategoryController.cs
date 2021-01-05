@@ -21,9 +21,6 @@ public class CategoryController : BaseController
         GetMyWorldCookie(); 
         var modelAndCategoryResult = LoadModel(id, version, openEditMode);
         modelAndCategoryResult.CategoryModel.IsInTopic = true;
-        var l = EntityCache.GetAllCategories().Select(c =>
-            c.CategoryRelations.Where(cr => cr.Category.Id == 1 || cr.RelatedCategory.Id == 1).ToList()); 
-
         return View(_viewLocation, modelAndCategoryResult.CategoryModel);
     }
 
