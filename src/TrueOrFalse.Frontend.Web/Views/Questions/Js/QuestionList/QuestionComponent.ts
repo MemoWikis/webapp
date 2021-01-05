@@ -139,10 +139,10 @@
             if (this.allDataLoaded == false) {
                 this.loadQuestionBody();
             };
-            this.$nextTick(() => {
-                document.querySelectorAll('code').forEach(block => {
-                    hljsBuild.core.highlightBlock(block);
-                });
+        },
+        highlightCode() {
+            document.querySelectorAll('code').forEach(block => {
+                hljsBuild.core.highlightBlock(block);
             });
         },
         loadQuestionBody() {

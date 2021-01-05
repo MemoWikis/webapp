@@ -2481,32 +2481,32 @@ p:empty {
 /*CodeHighlight*/
 .ProseMirror:focus,
 .flashCardContentSite:focus,
-.questionTitle:focus {
+.singleQuestionRow:focus {
   outline: none !important;
 }
 .ProseMirror b,
 .flashCardContentSite b,
-.questionTitle b,
+.singleQuestionRow b,
 .ProseMirror strong,
 .flashCardContentSite strong,
-.questionTitle strong {
+.singleQuestionRow strong {
   font-weight: 600;
 }
 .ProseMirror p code,
 .flashCardContentSite p code,
-.questionTitle p code {
+.singleQuestionRow p code {
   color: #555555;
   bckground-color: #efefef;
 }
 .ProseMirror pre,
 .flashCardContentSite pre,
-.questionTitle pre {
+.singleQuestionRow pre {
   background-color: black;
   border: none;
 }
 .ProseMirror pre::before,
 .flashCardContentSite pre::before,
-.questionTitle pre::before {
+.singleQuestionRow pre::before {
   content: attr(data-language);
   text-transform: uppercase;
   display: block;
@@ -2516,110 +2516,110 @@ p:empty {
 }
 .ProseMirror pre code,
 .flashCardContentSite pre code,
-.questionTitle pre code {
+.singleQuestionRow pre code {
   color: white;
 }
 .ProseMirror pre code .hljs-comment,
 .flashCardContentSite pre code .hljs-comment,
-.questionTitle pre code .hljs-comment,
+.singleQuestionRow pre code .hljs-comment,
 .ProseMirror pre code .hljs-quote,
 .flashCardContentSite pre code .hljs-quote,
-.questionTitle pre code .hljs-quote {
+.singleQuestionRow pre code .hljs-quote {
   color: #999999;
 }
 .ProseMirror pre code .hljs-variable,
 .flashCardContentSite pre code .hljs-variable,
-.questionTitle pre code .hljs-variable,
+.singleQuestionRow pre code .hljs-variable,
 .ProseMirror pre code .hljs-template-variable,
 .flashCardContentSite pre code .hljs-template-variable,
-.questionTitle pre code .hljs-template-variable,
+.singleQuestionRow pre code .hljs-template-variable,
 .ProseMirror pre code .hljs-attribute,
 .flashCardContentSite pre code .hljs-attribute,
-.questionTitle pre code .hljs-attribute,
+.singleQuestionRow pre code .hljs-attribute,
 .ProseMirror pre code .hljs-tag,
 .flashCardContentSite pre code .hljs-tag,
-.questionTitle pre code .hljs-tag,
+.singleQuestionRow pre code .hljs-tag,
 .ProseMirror pre code .hljs-name,
 .flashCardContentSite pre code .hljs-name,
-.questionTitle pre code .hljs-name,
+.singleQuestionRow pre code .hljs-name,
 .ProseMirror pre code .hljs-regexp,
 .flashCardContentSite pre code .hljs-regexp,
-.questionTitle pre code .hljs-regexp,
+.singleQuestionRow pre code .hljs-regexp,
 .ProseMirror pre code .hljs-link,
 .flashCardContentSite pre code .hljs-link,
-.questionTitle pre code .hljs-link,
+.singleQuestionRow pre code .hljs-link,
 .ProseMirror pre code .hljs-name,
 .flashCardContentSite pre code .hljs-name,
-.questionTitle pre code .hljs-name,
+.singleQuestionRow pre code .hljs-name,
 .ProseMirror pre code .hljs-selector-id,
 .flashCardContentSite pre code .hljs-selector-id,
-.questionTitle pre code .hljs-selector-id,
+.singleQuestionRow pre code .hljs-selector-id,
 .ProseMirror pre code .hljs-selector-class,
 .flashCardContentSite pre code .hljs-selector-class,
-.questionTitle pre code .hljs-selector-class {
+.singleQuestionRow pre code .hljs-selector-class {
   color: #f2777a;
 }
 .ProseMirror pre code .hljs-number,
 .flashCardContentSite pre code .hljs-number,
-.questionTitle pre code .hljs-number,
+.singleQuestionRow pre code .hljs-number,
 .ProseMirror pre code .hljs-meta,
 .flashCardContentSite pre code .hljs-meta,
-.questionTitle pre code .hljs-meta,
+.singleQuestionRow pre code .hljs-meta,
 .ProseMirror pre code .hljs-built_in,
 .flashCardContentSite pre code .hljs-built_in,
-.questionTitle pre code .hljs-built_in,
+.singleQuestionRow pre code .hljs-built_in,
 .ProseMirror pre code .hljs-builtin-name,
 .flashCardContentSite pre code .hljs-builtin-name,
-.questionTitle pre code .hljs-builtin-name,
+.singleQuestionRow pre code .hljs-builtin-name,
 .ProseMirror pre code .hljs-literal,
 .flashCardContentSite pre code .hljs-literal,
-.questionTitle pre code .hljs-literal,
+.singleQuestionRow pre code .hljs-literal,
 .ProseMirror pre code .hljs-type,
 .flashCardContentSite pre code .hljs-type,
-.questionTitle pre code .hljs-type,
+.singleQuestionRow pre code .hljs-type,
 .ProseMirror pre code .hljs-params,
 .flashCardContentSite pre code .hljs-params,
-.questionTitle pre code .hljs-params {
+.singleQuestionRow pre code .hljs-params {
   color: #f99157;
 }
 .ProseMirror pre code .hljs-string,
 .flashCardContentSite pre code .hljs-string,
-.questionTitle pre code .hljs-string,
+.singleQuestionRow pre code .hljs-string,
 .ProseMirror pre code .hljs-symbol,
 .flashCardContentSite pre code .hljs-symbol,
-.questionTitle pre code .hljs-symbol,
+.singleQuestionRow pre code .hljs-symbol,
 .ProseMirror pre code .hljs-bullet,
 .flashCardContentSite pre code .hljs-bullet,
-.questionTitle pre code .hljs-bullet {
+.singleQuestionRow pre code .hljs-bullet {
   color: #99cc99;
 }
 .ProseMirror pre code .hljs-title,
 .flashCardContentSite pre code .hljs-title,
-.questionTitle pre code .hljs-title,
+.singleQuestionRow pre code .hljs-title,
 .ProseMirror pre code .hljs-section,
 .flashCardContentSite pre code .hljs-section,
-.questionTitle pre code .hljs-section {
+.singleQuestionRow pre code .hljs-section {
   color: #ffcc66;
 }
 .ProseMirror pre code .hljs-keyword,
 .flashCardContentSite pre code .hljs-keyword,
-.questionTitle pre code .hljs-keyword,
+.singleQuestionRow pre code .hljs-keyword,
 .ProseMirror pre code .hljs-selector-tag,
 .flashCardContentSite pre code .hljs-selector-tag,
-.questionTitle pre code .hljs-selector-tag {
+.singleQuestionRow pre code .hljs-selector-tag {
   color: #6699cc;
 }
 .ProseMirror pre code .hljs-emphasis,
 .flashCardContentSite pre code .hljs-emphasis,
-.questionTitle pre code .hljs-emphasis {
+.singleQuestionRow pre code .hljs-emphasis {
   font-style: italic;
 }
 .ProseMirror pre code .hljs-strong,
 .flashCardContentSite pre code .hljs-strong,
-.questionTitle pre code .hljs-strong {
+.singleQuestionRow pre code .hljs-strong {
   font-weight: 700;
 }
-.questionTitle pre {
+.singleQuestionRow pre {
   margin: 0;
 }
 .menubar__button {
