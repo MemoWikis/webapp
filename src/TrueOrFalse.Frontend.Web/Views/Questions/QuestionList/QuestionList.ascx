@@ -214,7 +214,7 @@
                                 <div class="questionContainerTopSection col-xs-11" >
                                     <div class="questionHeader row">
                                         <div class="questionTitle col-xs-9" ref="questionTitle" :id="questionTitleId" @click="expandQuestion()">
-                                            <component :is="questionTitleHtml && {template:questionTitleHtml}" @hook:mounted="highlightCode" ></component>
+                                            <component :is="questionTitleHtml && {template:questionTitleHtml}" @hook:mounted="highlightCode(questionTitleId)" ></component>
                                         </div>
                                         <div class="questionHeaderIcons col-xs-3"  @click.self="expandQuestion()">
                                             <div class="iconContainer float-right" @click="expandQuestion()">
@@ -233,15 +233,15 @@
                                     </div>
                                     <div class="extendedQuestionContainer" v-show="showFullQuestion">
                                         <div class="questionBody">
-                                            <div class="RenderedMarkdown extendedQuestion">
-                                                <component :is="extendedQuestion && {template:extendedQuestion}" @hook:mounted="highlightCode"></component>
+                                            <div class="RenderedMarkdown extendedQuestion" :id="extendedQuestionId">
+                                                <component :is="extendedQuestion && {template:extendedQuestion}" @hook:mounted="highlightCode(extendedQuestionId)"></component>
                                             </div>
-                                            <div class="answer">
-                                                Richtige Antwort: <component :is="answer && {template:answer}" @hook:mounted="highlightCode"></component>
+                                            <div class="answer" :id="answerId">
+                                                Richtige Antwort: <component :is="answer && {template:answer}" @hook:mounted="highlightCode(answerId)"></component>
                                             </div>
-                                            <div class="extendedAnswer" v-if="extendedAnswer.length > 11">
+                                            <div class="extendedAnswer" v-if="extendedAnswer.length > 11" :id="extendedAnswerId">
                                                 <strong>Ergänzungen zur Antwort:</strong><br/>
-                                                <component :is="extendedAnswer && {template:extendedAnswer}" @hook:mounted="highlightCode"></component>
+                                                <component :is="extendedAnswer && {template:extendedAnswer}" @hook:mounted="highlightCode(extendedAnswerId)"></component>
                                             </div>
                                         </div>
                                     </div>

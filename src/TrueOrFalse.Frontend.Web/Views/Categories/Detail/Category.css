@@ -2622,6 +2622,9 @@ p:empty {
 .singleQuestionRow pre {
   margin: 0;
 }
+.singleQuestionRow .answer pre {
+  width: 80%;
+}
 .menubar__button {
   background: white;
   border: hidden;

@@ -40,6 +40,9 @@
             isLoggedIn: IsLoggedIn.Yes,
             pinId: "QuestionListPin-" + this.questionId,
             questionTitleId: "#QuestionTitle-" + this.questionId,
+            extendedQuestionId: "#eqId-" + this.questionId,
+            answerId: "#aId-" + this.questionId,
+            extendedAnswerId: "#eaId-" + this.questionId,
             questionDetailsId: "QuestionDetails-" + this.questionId,
             showQuestionMenu: false,
             isCreator: false,
@@ -140,8 +143,8 @@
                 this.loadQuestionBody();
             };
         },
-        highlightCode() {
-            document.querySelectorAll('code').forEach(block => {
+        highlightCode(elementId) {
+            document.getElementById(elementId).querySelectorAll('code').forEach(block => {
                 hljsBuild.core.highlightBlock(block);
             });
         },
