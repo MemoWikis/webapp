@@ -329,6 +329,17 @@ public class CategoryController : BaseController
         {
             cookie.Values["showMyWorld"] = showMyWorld.ToString();
         }
+
+        if (UserName != "User")
+        {
+            if (!UserEntityCache.IsCategoryCacheKeyAvailable())
+                UserEntityCache.Init();
+        }
+        else
+        {
+            UserEntityCache.Init(true);
+        }
+
         UserCache.IsFiltered = showMyWorld;
         Response.Cookies.Add(cookie);
     }

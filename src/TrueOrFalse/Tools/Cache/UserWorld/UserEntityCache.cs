@@ -2,6 +2,7 @@
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.NetworkInformation;
 using Seedworks.Lib;
 using TrueOrFalse.Tools;
 
@@ -136,9 +137,15 @@ public class UserEntityCache : BaseCache
                 UserCategoriesCache.TryUpdate(category.Id, category, UserCategoriesCache[category.Id]);
            
         }
-        var c = _Categories;
-
     }
+
+    public static bool IsCategoryCacheKeyAvailable(int userId = -1)
+    {
+        userId = userId == -1 ? Sl.SessionUser.UserId : userId;
+        return CategoriesCacheKeyList.Contains(CategoriesCacheKey(userId)); 
+    }
+
+
 }
 
 
