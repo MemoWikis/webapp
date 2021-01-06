@@ -13,8 +13,6 @@ public class LoginController : BaseController
     [HttpPost]
     public JsonResult Login(LoginModel loginModel)
     {
-        //loginModel.Password = Request["Password"];
-
         var credentialsAreValid = R<CredentialsAreValid>();
 
         if (credentialsAreValid.Yes(loginModel.EmailAddress, loginModel.Password))

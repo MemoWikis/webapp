@@ -200,7 +200,7 @@ class AnswerBodyLoader {
         if(newMenuHtml)
             $("#mainMenuThemeNavigation").replaceWith($(newMenuHtml));
     }
-
+     
     private updateSessionHeader(sessionStepData) {
         if ($("#hddIsLearningSession").val() === "True") {
             $("#hddIsLearningSession").attr("data-current-step-idx", sessionStepData.currentStepIdx);
