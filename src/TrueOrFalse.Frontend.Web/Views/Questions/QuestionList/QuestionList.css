@@ -531,3 +531,9 @@
 #QuestionListApp #AddInlineQuestionContainer .wuwi-grey {
   color: #999999;
 }
+#QuestionListApp.no-questions {
+  background: none;
+}
+#QuestionListApp.no-questions #QuestionListComponent {
+  border: #999999 solid 0.03125em;
+}

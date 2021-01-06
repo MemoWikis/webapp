@@ -17,6 +17,7 @@ var questionListApp = new Vue({
         allQuestionsCountFromCategory: 0,
         selectedQuestionCount: "alle",
         activeQuestionId: 0 as Number,
+        hasNoQuestions: true,
     },
     methods: {
         toggleQuestionsList: function() {
@@ -63,6 +64,10 @@ var questionListApp = new Vue({
         eventBus.$on('update-selected-page', (selectedPage) => {
             this.selectedPageFromActiveQuestion = selectedPage;
         });
+        eventBus.$on('add-question-to-list',
+            () => {
+                this.getAllQuestionsCountFromCategory();
+            });
     },
     mounted() {
         $('#CustomSessionConfigBtn').tooltip();
@@ -83,6 +88,12 @@ var questionListApp = new Vue({
                 this.selectedPageFromActiveQuestion = selectedPage + 1;      //question 25 is page 2 
             }
         },
+        questionsCount(val) {
+            if (val < 1)
+                this.hasNoQuestions = true;
+            else
+                this.hasNoQuestions = false;
+        }
     }
 });
 

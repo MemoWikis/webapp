@@ -7,21 +7,21 @@
 <%= Styles.Render("~/bundles/QuestionList") %>
 <%= Styles.Render("~/bundles/switch") %>
 <%= Scripts.Render("~/bundles/js/QuestionListComponents") %>
-<div id="QuestionListApp" class="row" v-cloak>
-    <div class="col-xs-12 drop-down-question-sort">
+<div id="QuestionListApp" class="row" v-cloak :class="{'no-questions': hasNoQuestions }">
+    <div class="col-xs-12 drop-down-question-sort" v-show="questionsCount > 0">
         <div class="header">Du lernst <b>{{selectedQuestionCount}}</b> Fragen aus diesem Thema ({{allQuestionsCountFromCategory}})</div>
         <div id="ButtonAndDropdown">
-        <session-config-component inline-template @update="updateQuestionsCount" :questions-count="questionsCount" :all-questions-count-from-category="allQuestionsCountFromCategory">
-        <div class="rootElement">
-            <% if(Model.IsSessionNoteFadeIn){%>
-            <div id="LearningSessionReminderQuestionList">
-                <img id="SessionConfigReminderLeft" src="/Images/Various/SessionConfigReminderLeft.svg" >
-                <img id="SessionConfigReminderRight" src="/Images/Various/SessionConfigReminder.svg" >
-                <span class="far fa-times-circle"></span>
-            </div>
-                <% } %>
-            <div id="CustomSessionConfigBtn" @click="openModal()" data-toggle="tooltip" data-html="true" title="<p><b>Persönliche Filter helfen Dir</b>. Nutze die Lernoptionen und entscheide welche Fragen Du lernen möchtest.</p>"><i class="fa fa-cog" aria-hidden="true"></i></div>
-            <div class="modal fade" id="SessionConfigModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <session-config-component inline-template @update="updateQuestionsCount" :questions-count="questionsCount" :all-questions-count-from-category="allQuestionsCountFromCategory">
+            <div class="rootElement">
+                <% if(Model.IsSessionNoteFadeIn){%>
+                <div id="LearningSessionReminderQuestionList">
+                    <img id="SessionConfigReminderLeft" src="/Images/Various/SessionConfigReminderLeft.svg" >
+                    <img id="SessionConfigReminderRight" src="/Images/Various/SessionConfigReminder.svg" >
+                    <span class="far fa-times-circle"></span>
+                </div>
+                    <% } %>
+                <div id="CustomSessionConfigBtn" @click="openModal()" data-toggle="tooltip" data-html="true" title="<p><b>Persönliche Filter helfen Dir</b>. Nutze die Lernoptionen und entscheide welche Fragen Du lernen möchtest.</p>"><i class="fa fa-cog" aria-hidden="true"></i></div>
+                <div class="modal fade" id="SessionConfigModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                 <div class="modal-dialog" role="document">
                     <div class="modal-content">
                         <div class="notLoggedInModal" v-show="!isLoggedIn">
@@ -154,10 +154,10 @@
                     </div>
                 </div>
             </div>
-        </div>
-        </session-config-component>
+            </div>
+            </session-config-component>
 
-        <div id="QuestionListHeaderDropDown" class="Button dropdown">
+            <div id="QuestionListHeaderDropDown" class="Button dropdown">
             <a href="#" class="dropdown-toggle  btn btn-link btn-sm ButtonEllipsis" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
                 <i class="fa fa-ellipsis-v"></i>
             </a>
@@ -167,8 +167,8 @@
                 <li style="cursor: pointer"><a data-allowed="logged-in" @click="startNewLearningSession()"><i class="fa fa-play"></i><span>Fragen jetzt lernen</span></a></li>
             </ul>
         </div>
+        </div>
     </div>
-</div>
     <question-list-component 
         inline-template 
         category-id="<%= Model.CategoryId %>" 
@@ -285,7 +285,7 @@
             </question-component>
             <%: Html.Partial("~/Views/Questions/AddQuestion/AddQuestionComponent.vue.ascx", new AddQuestionComponentModel(Model.CategoryId)) %>
 
-            <div id="QuestionListPagination">
+            <div id="QuestionListPagination" v-show="hasQuestions">
                 <ul class="pagination col-xs-12 row justify-content-xs-center" v-if="pageArray.length <= 8">
                     <li class="page-item page-btn" :class="{ disabled : selectedPage == 1 }">
                         <span class="page-link" @click="loadPreviousQuestions()">Vorherige</span>
