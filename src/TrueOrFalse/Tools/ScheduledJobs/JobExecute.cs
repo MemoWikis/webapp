@@ -38,7 +38,7 @@ public class JobExecute
                             	.Information("JOB START: {Job}, AppDomain(Hash): {AppDomain}, Thread: {ThreadId}",
                                 jobName,
                                 appDomainName.GetHashCode().ToString("x"),
-                                threadId);
+                                threadId,Settings.Environment());
                                
                         action(scope);
 
@@ -48,7 +48,7 @@ public class JobExecute
                                     jobName,
                                     appDomainName.GetHashCode().ToString("x"),
                                     threadId,
-                                    stopwatch.Elapsed);
+                                    stopwatch.Elapsed, Settings.Environment());
 
                         stopwatch.Stop();
                     }
@@ -66,7 +66,7 @@ public class JobExecute
         }
         catch (Exception e)
         {
-            Logg.r().Error(e, "Job error on {JobName}" , jobName);
+            Logg.r().Error(e, "Job error on {JobName}" , jobName, Settings.Environment());
 
             if (!String.IsNullOrEmpty(Settings.RollbarAccessToken))
                 new RollbarClient().SendException(e);
