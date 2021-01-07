@@ -309,12 +309,12 @@ public class CategoryController : BaseController
             cookie.Values["showMyWorld"] = showMyWorld.ToString();
         }
 
-        if (UserName != "User")
+        if (_sessionUser.IsLoggedIn && _sessionUser.User.Name != "User")
         {
             if (!UserEntityCache.IsCategoryCacheKeyAvailable())
                 UserEntityCache.Init();
         }
-        else
+        else if(_sessionUser.IsLoggedIn)
         {
             UserEntityCache.Init(true);
         }

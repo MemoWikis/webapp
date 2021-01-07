@@ -6,7 +6,6 @@ public class BaseController : Controller
     protected SessionUiData _sessionUiData => Resolve<SessionUiData>();
 
     public int UserId => _sessionUser.UserId;
-    public string UserName => _sessionUser.User.Name; 
 
     public bool IsLoggedIn => _sessionUser.IsLoggedIn;
     public bool IsInstallationAdmin => _sessionUser.IsInstallationAdmin;
