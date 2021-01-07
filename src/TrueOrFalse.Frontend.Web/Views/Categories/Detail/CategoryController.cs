@@ -348,6 +348,7 @@ public class CategoryController : BaseController
     {
         var myWorldCookieName = "memucho_myworld";
         HttpCookie cookie = Request.Cookies.Get(myWorldCookieName);
+        UserCache.IsFiltered = false; 
 
         if (cookie != null)
         {
