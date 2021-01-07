@@ -46,7 +46,7 @@ public class CategoryController : BaseController
     {
         var result = new LoadModelResult();
         Category category;
-
+        var allCategories = EntityCache.GetAllCategories(); 
         category = EntityCache.GetCategory(id);
         
         var isCategoryNull = category == null;
@@ -195,35 +195,14 @@ public class CategoryController : BaseController
             ControllerContext
         );
 
-    [AccessOnlyAsLoggedIn]
-    public ActionResult SaveMarkdown(int categoryId, string markdown)
-    {
-        var category = Sl.CategoryRepo.GetById(categoryId);
-
-        if (category != null && markdown != null)
-        {
-            var elements = TemplateParser.Run(markdown, category);
-            var description = Document.GetDescription(elements);
-            category.Description = description;
-            category.TopicMarkdown = markdown;
-            Sl.CategoryRepo.Update(category, User_());
-
-            return Json(true);
-        }
-        else
-        {
-            return Json(false);
-        }
-    }
-
     [HttpPost]
     [AccessOnlyAsLoggedIn]
     public ActionResult SaveCategoryContent(int categoryId, List<TemplateParser.JsonLoader> content = null)
     {
-        var category = Sl.CategoryRepo.GetById(categoryId);
+        var category = Sl.CategoryRepo.GetByIdEager(categoryId);
 
         if (category != null)
-        {
+        { 
             if (content != null)
                 category.Content = TemplateParser.GetContent(content);
             else category.Content = null;

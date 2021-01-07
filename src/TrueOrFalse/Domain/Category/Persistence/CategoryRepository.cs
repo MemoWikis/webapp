@@ -35,22 +35,6 @@ public class CategoryRepository : RepositoryDbBase<Category>
 
     public Category GetBySetIdEager(int categoryId) => GetByIdsEager(new[] { categoryId }).FirstOrDefault();
 
-    public IList<Category> GetBySetIdsEager(IEnumerable<int> categoryIds = null)
-    {
-        var query = _session.QueryOver<Category>();
-
-        if (categoryIds != null)
-            query = query.Where(Restrictions.In("FormerSetId", categoryIds.ToArray()));
-
-        return query
-            .Left.JoinQueryOver<CategoryRelation>(s => s.CategoryRelations)
-            .Left.JoinQueryOver(x => x.RelatedCategory)
-            .List()
-            .GroupBy(c => c.Id)
-            .Select(c => c.First())
-            .ToList();
-    }
-
     public IList<Category> GetAllEager() => GetByIdsEager();
 
     public override void Create(Category category)
