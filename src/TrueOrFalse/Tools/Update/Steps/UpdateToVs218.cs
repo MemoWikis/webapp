@@ -11,7 +11,7 @@ namespace TrueOrFalse.Updates
         {
             Sl.Resolve<ISession>()
                 .CreateSQLQuery(
-                    @"ALTER TABLE `memucho`.`categorychange` CHANGE COLUMN `Data` `Data` LONGTEXT NULL DEFAULT NULL;")
+                    @"ALTER TABLE `categorychange` CHANGE COLUMN `Data` `Data` LONGTEXT NULL DEFAULT NULL;")
                 .ExecuteUpdate();
         }
     }
