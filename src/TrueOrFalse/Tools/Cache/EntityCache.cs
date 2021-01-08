@@ -91,7 +91,8 @@ public class EntityCache : BaseCache
         if (Questions.TryGetValue(questionId, out var question))
             return question;
 
-        throw new Exception("Question not in Cache");
+        Logg.r().Warning("QuestionId is not available");
+        return new Question();
     }
 
     private static void UpdateCategoryQuestionList(

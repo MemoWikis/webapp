@@ -21,7 +21,7 @@ public class GraphService
 
             foreach (var currentCategory in currentGeneration)  //go through Parents 
             {
-                var directParents = currentCategory.ParentCategories(); // Get from all parents the Parents
+                var directParents = EntityCache.GetCategory(currentCategory.Id).ParentCategories(); //Parents of parents are not eagerly loaded. Because of that, we get the parents using the cache.
                 if (directParents.Count > 0) // go through ParentParents
                 {
                     previousGeneration.AddRange(directParents); // Add the ParentParents
@@ -36,7 +36,6 @@ public class GraphService
 
             previousGeneration = new List<Category>(); // clear list
         }
-
         return parents;
     }
 

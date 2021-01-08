@@ -5,9 +5,7 @@ using System.Globalization;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using Microsoft.Ajax.Utilities;
 using TrueOrFalse.Frontend.Web.Code;
-using TrueOrFalse.Tools;
 
 
 [SetUserMenu(UserMenuEntry.None)]
@@ -23,7 +21,6 @@ public class CategoryController : BaseController
         GetMyWorldCookie(); 
         var modelAndCategoryResult = LoadModel(id, version, openEditMode);
         modelAndCategoryResult.CategoryModel.IsInTopic = true;
-
         return View(_viewLocation, modelAndCategoryResult.CategoryModel);
     }
 
@@ -50,7 +47,7 @@ public class CategoryController : BaseController
         var result = new LoadModelResult();
         Category category;
 
-        category = Sl.CategoryRepo.GetByIdEager(id);
+        category = EntityCache.GetCategory(id);
         
         var isCategoryNull = category == null;
 
@@ -74,7 +71,6 @@ public class CategoryController : BaseController
 
         return result;
     }
-
 
     public ActionResult GetTopicTabAsync(int id)
     {
@@ -113,7 +109,6 @@ public class CategoryController : BaseController
             CustomPageHtml = string.IsNullOrEmpty(category.Content) ? "" : TemplateToHtml.Run(Tokenizer.Run(category.Content), category, ControllerContext, version)
         };
     }
-
     public void CategoryById(int id)
     {
         Response.Redirect(Links.CategoryDetail(Resolve<CategoryRepository>().GetById(id)));
@@ -171,7 +166,8 @@ public class CategoryController : BaseController
 
         return Redirect(Links.LearningSession(learningSession));
     }
-    [HttpPost]
+
+   [HttpPost]
     public string Tab(string tabName, int categoryId)
     {
         var category = Sl.CategoryRepo.GetById(categoryId);
@@ -184,7 +180,7 @@ public class CategoryController : BaseController
             ControllerContext
         );
     }
-    [HttpPost]
+    [HttpGet]
     public string KnowledgeBar(int categoryId) =>
         ViewRenderer.RenderPartialView(
             "/Views/Categories/Detail/CategoryKnowledgeBar.ascx",
@@ -199,7 +195,6 @@ public class CategoryController : BaseController
             ControllerContext
         );
 
-    [HttpPost]
     [AccessOnlyAsLoggedIn]
     public ActionResult SaveMarkdown(int categoryId, string markdown)
     {
@@ -219,7 +214,6 @@ public class CategoryController : BaseController
         {
             return Json(false);
         }
-
     }
 
     [HttpPost]
@@ -239,9 +233,7 @@ public class CategoryController : BaseController
 
             return Json(true);
         }
-
         return Json(false);
-
     }
 
     [HttpPost]
@@ -272,7 +264,6 @@ public class CategoryController : BaseController
             category,
             this.ControllerContext
         );
-
         return Json(html);
     }
 
@@ -338,6 +329,17 @@ public class CategoryController : BaseController
         {
             cookie.Values["showMyWorld"] = showMyWorld.ToString();
         }
+
+        if (UserName != "User")
+        {
+            if (!UserEntityCache.IsCategoryCacheKeyAvailable())
+                UserEntityCache.Init();
+        }
+        else
+        {
+            UserEntityCache.Init(true);
+        }
+
         UserCache.IsFiltered = showMyWorld;
         Response.Cookies.Add(cookie);
     }
@@ -373,7 +375,6 @@ public class CategoryController : BaseController
             cookie.Expires = DateTime.Now.AddDays(-1);
             Response.Cookies.Add(cookie);
         }
-
         return true;
     }
 }

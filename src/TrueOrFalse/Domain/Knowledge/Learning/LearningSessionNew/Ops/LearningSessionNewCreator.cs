@@ -19,8 +19,22 @@ public class LearningSessionNewCreator
     public static LearningSessionNew ForLoggedInUser(LearningSessionConfig config)
     {  
         List<Question> questions = new List<Question>();
+        if (UserCache.IsFiltered)
+        {
+            var questionsFromCurrentCategoryAndChildren = GetCategoryQuestionsFromEntityCache(config.CategoryId);  
+            var allChildCategories = UserEntityCache.GetChildren(config.CategoryId, config.CurrentUserId);
 
-        if (config.AllQuestions || config.InWishknowledge && config.CreatedByCurrentUser && config.IsNotQuestionInWishKnowledge)
+            foreach (var childCategory in allChildCategories)
+            {
+                var childQuestions = GetCategoryQuestionsFromEntityCache(childCategory.Id);
+                foreach (var question in childQuestions)
+                {
+                    questionsFromCurrentCategoryAndChildren.Add(question);
+                }
+            }
+            questions = questionsFromCurrentCategoryAndChildren; 
+        }
+        else if (config.AllQuestions || config.InWishknowledge && config.CreatedByCurrentUser && config.IsNotQuestionInWishKnowledge)
             questions = OrderByProbability(RandomLimited(GetCategoryQuestionsFromEntityCache(config.CategoryId),
                 config)).ToList();
         else if (config.IsNotQuestionInWishKnowledge && config.InWishknowledge && !config.CreatedByCurrentUser) 
@@ -122,7 +136,7 @@ public class LearningSessionNewCreator
             .GetAggregatedQuestionsFromMemoryCache().Where(q => q.Creator.Id == userId).ToList();
     }
 
-    private static List<Question> GetCategoryQuestionsFromEntityCache(int categoryId)
+    public static List<Question> GetCategoryQuestionsFromEntityCache(int categoryId)
     {
         return EntityCache.GetCategory(categoryId).GetAggregatedQuestionsFromMemoryCache().ToList();
     }
