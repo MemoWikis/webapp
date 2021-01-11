@@ -35,22 +35,6 @@ public class CategoryRepository : RepositoryDbBase<Category>
 
     public Category GetBySetIdEager(int categoryId) => GetByIdsEager(new[] { categoryId }).FirstOrDefault();
 
-    public IList<Category> GetBySetIdsEager(IEnumerable<int> categoryIds = null)
-    {
-        var query = _session.QueryOver<Category>();
-
-        if (categoryIds != null)
-            query = query.Where(Restrictions.In("FormerSetId", categoryIds.ToArray()));
-
-        return query
-            .Left.JoinQueryOver<CategoryRelation>(s => s.CategoryRelations)
-            .Left.JoinQueryOver(x => x.RelatedCategory)
-            .List()
-            .GroupBy(c => c.Id)
-            .Select(c => c.First())
-            .ToList();
-    }
-
     public IList<Category> GetAllEager() => GetByIdsEager();
 
     public override void Create(Category category)
@@ -71,7 +55,7 @@ public class CategoryRepository : RepositoryDbBase<Category>
     /// <summary>
     /// Update method for internal purpose, takes care that no change sets are created.
     /// </summary>
-    public override void Update(Category category) => Update(category, null);
+    public override void Update(Category category) => Update(category);
 
     // ReSharper disable once MethodOverloadWithOptionalParameter
     public void Update(Category category, User author = null, bool imageWasUpdated = false)
@@ -86,6 +70,7 @@ public class CategoryRepository : RepositoryDbBase<Category>
 
         Sl.R<UpdateQuestionCountForCategory>().Run(new List<Category>{category});
         EntityCache.AddOrUpdate(category);
+        UserEntityCache.ChangeCategoryInUserEntityCaches(category);
     }
 
     public void UpdateWithoutFlush(Category category)

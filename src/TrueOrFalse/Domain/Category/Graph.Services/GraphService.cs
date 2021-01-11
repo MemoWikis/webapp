@@ -5,7 +5,7 @@ using System.Linq;
 public class GraphService
 {
     public static IList<Category> GetAllParents(int categoryId) =>
-        GetAllParents(Sl.CategoryRepo.GetById(categoryId));
+        GetAllParents(Sl.CategoryRepo.GetByIdEager(categoryId));
 
     public static IList<Category> GetAllParents(Category category)
     {

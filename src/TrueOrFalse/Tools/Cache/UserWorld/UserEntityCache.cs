@@ -128,7 +128,6 @@ public class UserEntityCache : BaseCache
         }
     }
 
-
     public static void ChangeCategoryInUserEntityCaches(Category category)
     {
         foreach (var UserCategoriesCache in _Categories.Values)

@@ -28,40 +28,36 @@
     </div>
 <% } %>
 
-
 <header id="MasterHeader">
     <div id="MasterHeaderContainer"class="container">
         <div class="row" style="background-color:#003264">
-           
-                <div class=" HeaderMainRow" style="background-color:#003264">
-                    <div class="col-xs-6 col-Logo">
-                        <a id="LogoLink" href="/">
-                            <div id="Pictogram">
-                                <img src="/Images/Logo/LogoPictogram.png">
-                            </div>
-                            <div id="Wordmark">
-                                <img src="/Images/Logo/LogoWordmarkWithTagline.png">
-                            </div>
-                            <div id="LogoSmall">
-                                <img src="/Images/Logo/LogoSmall.png">
-                            </div>
-                        </a>
+            <div class=" HeaderMainRow" style="background-color:#003264">
+                <div class="col-xs-6 col-Logo">
+                    <a id="LogoLink" href="/">
+                        <div id="Pictogram">
+                            <img src="/Images/Logo/LogoPictogram.png">
+                        </div>
+                        <div id="Wordmark">
+                            <img src="/Images/Logo/LogoWordmarkWithTagline.png">
+                        </div>
+                        <div id="LogoSmall">
+                            <img src="/Images/Logo/LogoSmall.png">
+                        </div>
+                    </a>
 
-                        <div class="input-group" id="HeaderSearchBoxDiv">
-                            <input type="text" class="form-control" placeholder="Suche" id="headerSearchBox">
-                            <div class="input-group-btn">
-                                <button class="btn btn-default"  style="border: 1px #979797 solid; border-left:none; height: 44px;" type="submit"><i class="fa fa-search" style = "font-size: 30px"  aria-hidden="true"></i></button>
-                            </div>
+                    <div class="input-group" id="HeaderSearchBoxDiv">
+                        <input type="text" class="form-control" placeholder="Suche" id="headerSearchBox">
+                        <div class="input-group-btn">
+                            <button class="btn btn-default"  style="border: 1px #979797 solid; border-left:none; height: 44px;" type="submit"><i class="fa fa-search" style = "font-size: 30px"  aria-hidden="true"></i></button>
                         </div>
                     </div>
-                    <div class="col-xs-6 col-LoginAndHelp">
-            	        <div id="loginAndHelp" >
-                            <% Html.RenderPartial(UserControls.Logon); %>
-                        </div>
-                    </div>                    
                 </div>
-           
+                <div class="col-xs-6 col-LoginAndHelp">
+            	    <div id="loginAndHelp" >
+                        <% Html.RenderPartial(UserControls.Logon); %>
+                    </div>
+                </div>                    
+            </div>
         </div>
     </div>
-    <button type="button" id="UserWorldButton"> Meine Welt</button>
 </header>
