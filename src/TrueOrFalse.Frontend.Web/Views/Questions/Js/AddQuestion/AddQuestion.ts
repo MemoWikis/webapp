@@ -225,8 +225,11 @@ Vue.component('add-question-component', {
                     data: JSON.stringify(json),
                     success: function (data) {
                         var answerBody = new AnswerBody();
+                        var skipIndex = this.questions != null ? -5 : 0;
+
                         answerBody.Loader.loadNewQuestion("/AnswerQuestion/RenderAnswerBodyByLearningSession/" +
-                            "?skipStepIdx=-5" +
+                            "?skipStepIdx=" +
+                            skipIndex +
                             "&index=" +
                             lastIndex);
                         eventBus.$emit('add-question-to-list', data.Data);

@@ -148,10 +148,11 @@
                 .Add(UpdateToVs215.Run)
                 .Add(UpdateToVs216.Run)
                 .Add(UpdateToVs217.Run)
-<<<<<<< HEAD
                 .Add(UpdateToVs218.Run)
+<<<<<<< HEAD
+                .Add(UpdateToVs219.Run)
 =======
->>>>>>> origin/master
+>>>>>>> origin/feature/automatic-integration-of-sub-topics
                 .Run();
         }
     }
