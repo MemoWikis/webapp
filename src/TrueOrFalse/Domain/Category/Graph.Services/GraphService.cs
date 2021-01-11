@@ -140,6 +140,7 @@ public class GraphService
         GetAllPersonelCategoriesWithRealtions(category.Id, userId);
 
     public static void AutomaticInclusionFromSubthemes(Category category)
+    public static void AutomaticInclusionOfChildThemes(Category category)
     {
         var parentsFromParentCategories = GraphService.GetAllParents(category);
         if (parentsFromParentCategories.Count != 0)
@@ -147,6 +148,7 @@ public class GraphService
             foreach (var parentCategory in parentsFromParentCategories)
             {
                 ModifyRelationsForCategory.UpdateRelationsOfTypeIncludesContentOf(parentCategory);
+                ModifyRelationsForCategory.UpdateRelationsOfTypeIncludesContentOf(EntityCache.GetCategory(parentCategory.Id));
             }
         }
     }

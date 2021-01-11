@@ -24,7 +24,7 @@ class Automatic_inclusion_tests : BaseTest
                 .All;
 
             context.Add(subCategories[0].Name, subCategories[0].Type, parent: subCategories.ByName("Sub3"));
-            GraphService.AutomaticInclusionFromSubthemes(subCategories.ByName("Sub1"));
+            GraphService.AutomaticInclusionOfChildThemes(subCategories.ByName("Sub1"));
 
             Assert.That(Sl.CategoryRepo.GetById(subCategories.ByName("Sub1").Id).ParentCategories().Count, Is.EqualTo(2));
             Assert.That(Sl.CategoryRepo.GetById(parentA.Id).CategoryRelations.Count(cr => cr.CategoryRelationType == CategoryRelationType.IncludesContentOf), Is.EqualTo(3));

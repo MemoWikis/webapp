@@ -3,6 +3,7 @@ using NHibernate.Criterion;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using TrueOrFalse.Infrastructure.Persistence;
 using TrueOrFalse.Search;
 
 
@@ -12,6 +13,7 @@ public class CategoryRepository : RepositoryDbBase<Category>
 
     public CategoryRepository(ISession session, SearchIndexCategory searchIndexCategory)
         : base(session){
+        _searchIndexCategory = searchIndexCategory;
         _searchIndexCategory = searchIndexCategory;
     }
 
@@ -50,6 +52,11 @@ public class CategoryRepository : RepositoryDbBase<Category>
         EntityCache.AddOrUpdate(category);
 
         Sl.CategoryChangeRepo.AddCreateEntry(category, category.Creator);
+
+        _session.Flush();
+        _session.Close();
+
+        Sl.R<SessionManager>().Session = Sl.R<ISessionFactory>().OpenSession();
     }
 
     /// <summary>
