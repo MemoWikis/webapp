@@ -160,7 +160,7 @@ public class EditCategoryController : BaseController
                 Links.CategoryDetail(category),
                 Links.CategoryCreate()));
 
-        GraphService.AutomaticInclusionFromSubthemes(category);
+        //GraphService.AutomaticInclusionFromSubthemes(category);
         new CategoryApiModel().Pin(category.Id); 
 
         return Redirect(Links.CategoryDetail(category, openEditMode: true));

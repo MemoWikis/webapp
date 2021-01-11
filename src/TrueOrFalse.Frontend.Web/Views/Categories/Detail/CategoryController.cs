@@ -46,7 +46,7 @@ public class CategoryController : BaseController
     {
         var result = new LoadModelResult();
         Category category;
-        var allCategories = EntityCache.GetAllCategories(); 
+
         category = EntityCache.GetCategory(id);
         
         var isCategoryNull = category == null;
@@ -195,23 +195,41 @@ public class CategoryController : BaseController
             ControllerContext
         );
 
+    [AccessOnlyAsLoggedIn]
+    public ActionResult SaveMarkdown(int categoryId, string markdown)
+    {
+        var category = Sl.CategoryRepo.GetById(categoryId);
+
+        if (category != null && markdown != null)
+        {
+            var elements = TemplateParser.Run(markdown, category);
+            var description = Document.GetDescription(elements);
+            category.Description = description;
+            category.TopicMarkdown = markdown;
+            Sl.CategoryRepo.Update(category, User_());
+
+            return Json(true);
+        }
+        else
+        {
+            return Json(false);
+        }
+    }
+
     [HttpPost]
     [AccessOnlyAsLoggedIn]
     public ActionResult SaveCategoryContent(int categoryId, List<TemplateParser.JsonLoader> content = null)
     {
-        var category = Sl.CategoryRepo.GetByIdEager(categoryId);
+        var category = Sl.CategoryRepo.GetById(categoryId);
 
         if (category != null)
-        { 
-            //if (content != null)
-            //    category.Content = TemplateParser.GetContent(content);
-            //else 
-            //    category.Content = null;
-
-            category.Content = TemplateParser.GetContent(content);
+        {
+            if (content != null)
+                category.Content = TemplateParser.GetContent(content);
+            else category.Content = null;
+                category.Content = TemplateParser.GetContent(content);
 
             Sl.CategoryRepo.Update(category, User_());
-
 
             return Json(true);
         }
@@ -312,15 +330,15 @@ public class CategoryController : BaseController
             cookie.Values["showMyWorld"] = showMyWorld.ToString();
         }
 
-        if (_sessionUser.IsLoggedIn && _sessionUser.User.Name != "User")
-        {
+        //if (UserName != "User")
+        //{
             if (!UserEntityCache.IsCategoryCacheKeyAvailable())
                 UserEntityCache.Init();
-        }
-        else if(_sessionUser.IsLoggedIn)
-        {
-            UserEntityCache.Init(true);
-        }
+        //}
+        //else
+        //{
+        //    UserEntityCache.Init(true);
+        //}
 
         UserCache.IsFiltered = showMyWorld;
         Response.Cookies.Add(cookie);
@@ -351,7 +369,6 @@ public class CategoryController : BaseController
     {
         var myWorldCookieName = "memucho_myworld";
         HttpCookie cookie = Request.Cookies.Get(myWorldCookieName);
-        UserCache.IsFiltered = false; 
 
         if (cookie != null)
         {
