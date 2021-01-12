@@ -139,15 +139,13 @@ public class GraphService
     public static IList<Category> GetAllPersonelCategoriesWithRealtions(Category category, int userId = -1) =>
         GetAllPersonelCategoriesWithRealtions(category.Id, userId);
 
-    public static void AutomaticInclusionFromSubthemes(Category category)
     public static void AutomaticInclusionOfChildThemes(Category category)
     {
-        var parentsFromParentCategories = GraphService.GetAllParents(category);
+        var parentsFromParentCategories = GetAllParents(category);
         if (parentsFromParentCategories.Count != 0)
         {
             foreach (var parentCategory in parentsFromParentCategories)
             {
-                ModifyRelationsForCategory.UpdateRelationsOfTypeIncludesContentOf(parentCategory);
                 ModifyRelationsForCategory.UpdateRelationsOfTypeIncludesContentOf(EntityCache.GetCategory(parentCategory.Id));
             }
         }
