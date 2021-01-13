@@ -46,7 +46,6 @@ public class CategoryController : BaseController
     {
         var result = new LoadModelResult();
         Category category;
-        var allCategories = EntityCache.GetAllCategories(); 
         category = EntityCache.GetCategory(id);
         
         var isCategoryNull = category == null;

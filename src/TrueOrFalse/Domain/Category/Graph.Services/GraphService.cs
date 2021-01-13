@@ -54,7 +54,7 @@ public class GraphService
     public static IList<Category> GetAllPersonelCategoriesWithRealtions(int rootCategoryId, int userId = -1)
     {
         var rootCategory = Extensions.DeepClone(
-            EntityCache.GetCategory(rootCategoryId, true));
+            Sl.CategoryRepo.GetByIdEager(rootCategoryId));
 
         var children = Extensions.DeepClone(
              EntityCache.GetDescendants(rootCategory, true))
