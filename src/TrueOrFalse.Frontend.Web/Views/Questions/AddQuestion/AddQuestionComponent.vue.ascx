@@ -63,9 +63,9 @@
                             <i class="far fa-file-code"></i>
                         </button>
                         
-                        <button class="menubar__button" :class="{ 'is-active': isActive.code_block() }" @click="commands.code_block" >
+<%--                        <button class="menubar__button" :class="{ 'is-active': isActive.code_block() }" @click="commands.code_block" >
                           <i class="fas fa-file-code"></i>
-                        </button>
+                        </button>--%>
 
                         <button class="menubar__button" @click="commands.undo" >
                             <i class="fas fa-undo-alt"></i>
@@ -121,9 +121,9 @@
                             <i class="far fa-file-code"></i>
                         </button>
                         
-                        <button class="menubar__button" :class="{ 'is-active': isActive.code_block() }" @click="commands.code_block" >
+<%--                        <button class="menubar__button" :class="{ 'is-active': isActive.code_block() }" @click="commands.code_block" >
                           <i class="fas fa-file-code"></i>
-                        </button>
+                        </button>--%>
 
                         <button class="menubar__button" @click="commands.undo" >
                             <i class="fas fa-undo-alt"></i>

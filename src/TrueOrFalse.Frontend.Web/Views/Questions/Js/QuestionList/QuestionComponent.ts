@@ -56,19 +56,18 @@
             correctAnswers: "0",
             wrongAnswers: "0",
             questionTitleHtml: "<div>" + this.questionTitle + "</div>",
+            highlightedHtml: ""
         }
     },
     mounted() {
         this.correctnessProbability = this.knowledgeState + "%";
         this.setKnowledgebarData(this.knowledgeState);
         this.getWishknowledgePinButton();
-        $("#BorderQuestionList").height($(".drop-down-question-sort").height() + $("#QuestionListApp").height());
         new QuestionRowDelete(QuestionRowDeleteSourcePage.QuestionRow);
         if (this.isLastItem)
             this.$parent.lastQuestionInListIndex = this.questionIndex;
     },
     watch: {
-
         isQuestionListToShow() {
             this.expandQuestion();
         },
