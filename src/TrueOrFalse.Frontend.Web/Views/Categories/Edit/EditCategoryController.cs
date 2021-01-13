@@ -145,6 +145,7 @@ public class EditCategoryController : BaseController
         }
 
         _categoryRepository.Create(category);
+
         StoreImage(category.Id);
 
         EditCategoryTypeModel.RemoveRecentTypeModelFromSession();
@@ -160,7 +161,7 @@ public class EditCategoryController : BaseController
                 Links.CategoryDetail(category),
                 Links.CategoryCreate()));
 
-        //GraphService.AutomaticInclusionFromSubthemes(category);
+        GraphService.AutomaticInclusionOfChildThemes(EntityCache.GetCategory(category.Id));
         new CategoryApiModel().Pin(category.Id); 
 
         return Redirect(Links.CategoryDetail(category, openEditMode: true));
