@@ -18,8 +18,8 @@ class GraphService_tests : BaseTest
             .Persist()
             .All;
 
-        var secondChildren = context.
-            Add("SubSub1", parent: firstChildrens.ByName("Sub1"))
+        var secondChildren = context
+            .Add("SubSub1", parent: firstChildrens.ByName("Sub1"))
             .Persist()
             .All
             .ByName("SubSub1");
@@ -27,7 +27,6 @@ class GraphService_tests : BaseTest
 
         // Add User
         var user = ContextUser.New().Add("User").Persist().All[0];
-
 
         CategoryInKnowledge.Pin(firstChildrens.ByName("SubSub1").Id, user);
 
@@ -38,26 +37,9 @@ class GraphService_tests : BaseTest
 
     }
 
-
-
     [Test]
     public void Should_get_correct_category_with_relations()
     {
-
-        var test =
-            @"
-Arrange: 
-
-A -> B -> +C
-A(2) -> B(4) -> +C(5)
-
-
-Act:
-Filter nur Wunschwissen
-
-Assert:
-A -> C
-";
 
         var context = ContextCategory.New();
 
@@ -82,12 +64,13 @@ A -> C
         CategoryInKnowledge.Pin(firstChildrens.ByName("SubSub1").Id, user);
 
         Sl.SessionUser.Login(user);
-      var userPersonelCategoriesWithRealtions =   GraphService.GetAllPersonalCategoriesWithRelations(rootElement, 2);
 
-      Assert.That(userPersonelCategoriesWithRealtions.First().Name, Is.EqualTo("SubSub1"));
-      Assert.That(userPersonelCategoriesWithRealtions.First().CategoryRelations.First().RelatedCategory.Name, Is.EqualTo("RootElement"));
-      Assert.That(userPersonelCategoriesWithRealtions.First().CategoryRelations.First().Category.Name, Is.EqualTo("SubSub1"));
-      Assert.That(userPersonelCategoriesWithRealtions.First().CategoryRelations.First().CategoryRelationType, Is.EqualTo(CategoryRelationType.IsChildCategoryOf));
+        var userPersonnelCategoriesWithRelations =   GraphService.GetAllPersonalCategoriesWithRelations(rootElement, 2);
+
+        Assert.That(userPersonnelCategoriesWithRelations.First().Name, Is.EqualTo("SubSub1"));
+        Assert.That(userPersonnelCategoriesWithRelations.First().CategoryRelations.First().RelatedCategory.Name, Is.EqualTo("RootElement"));
+        Assert.That(userPersonnelCategoriesWithRelations.First().CategoryRelations.First().Category.Name, Is.EqualTo("SubSub1"));
+        Assert.That(userPersonnelCategoriesWithRelations.First().CategoryRelations.First().CategoryRelationType, Is.EqualTo(CategoryRelationType.IsChildCategoryOf));
 
     }
     [Test]
@@ -139,16 +122,11 @@ A -> C
         var userPersonelCategoriesWithRealtions = GraphService.GetAllPersonalCategoriesWithRelations(rootElement,2);
 
         //Test C
-        Assert.That(IsAllRelationsAChildOf(userPersonelCategoriesWithRealtions
-            .ByName("C").CategoryRelations), 
+        Assert.That(IsAllRelationsAChildOf(userPersonelCategoriesWithRealtions.ByName("C").CategoryRelations), 
             Is.EqualTo(true));
 
-        Assert.That(userPersonelCategoriesWithRealtions
-                .ByName("C")
-                .CategoryRelations
-                .First()
-                .RelatedCategory.Id,
-                Is.EqualTo(rootElement.Id));
+        Assert.That(userPersonelCategoriesWithRealtions.ByName("C").CategoryRelations.First().RelatedCategory.Id, 
+            Is.EqualTo(rootElement.Id));
 
         Assert.That(userPersonelCategoriesWithRealtions
             .ByName("C").CategoryRelations
@@ -156,17 +134,11 @@ A -> C
             .Category.Id, 
             Is.EqualTo(secondChildren.ByName("C").Id));
 
-
         //Test I
-        Assert.That(IsAllRelationsAChildOf(userPersonelCategoriesWithRealtions
-            .ByName("I").CategoryRelations)
-            , Is.EqualTo(true));
+        Assert.That(IsAllRelationsAChildOf(userPersonelCategoriesWithRealtions.ByName("I").CategoryRelations), 
+            Is.EqualTo(true));
 
-        Assert.That(userPersonelCategoriesWithRealtions
-            .ByName("I")
-            .CategoryRelations
-            .First()
-            .RelatedCategory.Id,
+        Assert.That(userPersonelCategoriesWithRealtions.ByName("I").CategoryRelations.First().RelatedCategory.Id,
             Is.EqualTo(secondChildren.ByName("C").Id));
 
         Assert.That(userPersonelCategoriesWithRealtions
@@ -255,63 +227,49 @@ A -> C
         var userPersonelCategoriesWithRealtions = GraphService.GetAllPersonalCategoriesWithRelations(rootElement,2);
 
         //Test I
-        Assert.That(IsAllRelationsAChildOf(userPersonelCategoriesWithRealtions
-           .ByName("I").CategoryRelations)
+        Assert.That(IsAllRelationsAChildOf(userPersonelCategoriesWithRealtions.ByName("I").CategoryRelations)
            , Is.EqualTo(true));
 
-        Assert.That(IsCategoryRelationsCategoriesIdCorrect(userPersonelCategoriesWithRealtions
-            .ByName("I")),
+        Assert.That(IsCategoryRelationsCategoriesIdCorrect(userPersonelCategoriesWithRealtions.ByName("I")),
             Is.EqualTo(true));
 
-        Assert.That(HasCorrectParent(userPersonelCategoriesWithRealtions
-                .ByName("I"), "A"),
+        Assert.That(HasCorrectParent(userPersonelCategoriesWithRealtions.ByName("I"), "A"),
             Is.EqualTo(false));
 
-        Assert.That(HasCorrectParent(userPersonelCategoriesWithRealtions
-                .ByName("I"), "E" ),
+        Assert.That(HasCorrectParent(userPersonelCategoriesWithRealtions.ByName("I"), "E" ),
             Is.EqualTo(true));
 
-        Assert.That(HasCorrectParent(userPersonelCategoriesWithRealtions
-                .ByName("I"), "G"),
+        Assert.That(HasCorrectParent(userPersonelCategoriesWithRealtions.ByName("I"), "G"),
             Is.EqualTo(true));
 
         //Test B
-        Assert.That(IsAllRelationsAChildOf(userPersonelCategoriesWithRealtions
-                .ByName("B").CategoryRelations)
+        Assert.That(IsAllRelationsAChildOf(userPersonelCategoriesWithRealtions.ByName("B").CategoryRelations)
             , Is.EqualTo(true));
 
-        Assert.That(IsCategoryRelationsCategoriesIdCorrect(userPersonelCategoriesWithRealtions
-                .ByName("B")),
+        Assert.That(IsCategoryRelationsCategoriesIdCorrect(userPersonelCategoriesWithRealtions.ByName("B")),
             Is.EqualTo(true));
 
-        Assert.That(HasCorrectParent(userPersonelCategoriesWithRealtions
-                .ByName("B"), "A"),
+        Assert.That(HasCorrectParent(userPersonelCategoriesWithRealtions.ByName("B"), "A"),
             Is.EqualTo(true));
 
         //Test E
-        Assert.That(IsAllRelationsAChildOf(userPersonelCategoriesWithRealtions
-                .ByName("E").CategoryRelations)
+        Assert.That(IsAllRelationsAChildOf(userPersonelCategoriesWithRealtions.ByName("E").CategoryRelations)
             , Is.EqualTo(true));
 
-        Assert.That(IsCategoryRelationsCategoriesIdCorrect(userPersonelCategoriesWithRealtions
-                .ByName("E")),
+        Assert.That(IsCategoryRelationsCategoriesIdCorrect(userPersonelCategoriesWithRealtions.ByName("E")),
             Is.EqualTo(true));
 
-        Assert.That(HasCorrectParent(userPersonelCategoriesWithRealtions
-                .ByName("E"), "A"),
+        Assert.That(HasCorrectParent(userPersonelCategoriesWithRealtions.ByName("E"), "A"),
             Is.EqualTo(true));
 
         //Test G
-        Assert.That(IsAllRelationsAChildOf(userPersonelCategoriesWithRealtions
-                .ByName("G").CategoryRelations)
+        Assert.That(IsAllRelationsAChildOf(userPersonelCategoriesWithRealtions.ByName("G").CategoryRelations)
             , Is.EqualTo(true));
 
-        Assert.That(IsCategoryRelationsCategoriesIdCorrect(userPersonelCategoriesWithRealtions
-                .ByName("G")),
+        Assert.That(IsCategoryRelationsCategoriesIdCorrect(userPersonelCategoriesWithRealtions.ByName("G")),
             Is.EqualTo(true));
 
-        Assert.That(HasCorrectParent(userPersonelCategoriesWithRealtions
-                .ByName("G"), "A"),
+        Assert.That(HasCorrectParent(userPersonelCategoriesWithRealtions.ByName("G"), "A"),
             Is.EqualTo(true));
     }
     [Test]
@@ -321,101 +279,78 @@ A -> C
         UserEntityCache.Init(true);
         var rootElement = EntityCache.GetAllCategories().ByName("A"); 
 
-        var userPersonelCategoriesWithRealtions = GraphService.GetAllPersonalCategoriesWithRelations(rootElement, 2);
-
+        var allPersonalCategoriesWithRelations = GraphService.GetAllPersonalCategoriesWithRelations(rootElement, 2);
 
         //Test I
-        Assert.That(IsAllRelationsAChildOf(userPersonelCategoriesWithRealtions
-                .ByName("I").CategoryRelations)
-            , Is.EqualTo(true));
-
-        Assert.That(IsCategoryRelationsCategoriesIdCorrect(userPersonelCategoriesWithRealtions
-                .ByName("I")),
+        Assert.That(IsAllRelationsAChildOf(allPersonalCategoriesWithRelations.ByName("I").CategoryRelations), 
             Is.EqualTo(true));
 
-        Assert.That(HasCorrectParent(userPersonelCategoriesWithRealtions
-                .ByName("I"), "A"),
+        Assert.That(IsCategoryRelationsCategoriesIdCorrect(allPersonalCategoriesWithRelations.ByName("I")),
+            Is.EqualTo(true));
+
+        Assert.That(HasCorrectParent(allPersonalCategoriesWithRelations.ByName("I"), "A"),
             Is.EqualTo(false));
 
-        Assert.That(HasCorrectParent(userPersonelCategoriesWithRealtions
-                .ByName("I"), "G"),
+        Assert.That(HasCorrectParent(allPersonalCategoriesWithRelations.ByName("I"), "G"),
             Is.EqualTo(true));
 
-        Assert.That(HasCorrectParent(userPersonelCategoriesWithRealtions
-                .ByName("I"), "X3"),
+        Assert.That(HasCorrectParent(allPersonalCategoriesWithRelations.ByName("I"), "X3"),
             Is.EqualTo(true));
 
-        Assert.That(HasCorrectParent(userPersonelCategoriesWithRealtions
-                .ByName("I"), "X"),
+        Assert.That(HasCorrectParent(allPersonalCategoriesWithRelations.ByName("I"), "X"),
             Is.EqualTo(true));
 
 
         //Test G
-        Assert.That(IsAllRelationsAChildOf(userPersonelCategoriesWithRealtions
-                .ByName("G").CategoryRelations)
-            , Is.EqualTo(true));
-
-        Assert.That(IsCategoryRelationsCategoriesIdCorrect(userPersonelCategoriesWithRealtions
-                .ByName("G")),
+        Assert.That(IsAllRelationsAChildOf(allPersonalCategoriesWithRelations.ByName("G").CategoryRelations), 
             Is.EqualTo(true));
 
-        Assert.That(HasCorrectParent(userPersonelCategoriesWithRealtions
-                .ByName("G"), "X3"),
+        Assert.That(IsCategoryRelationsCategoriesIdCorrect(allPersonalCategoriesWithRelations.ByName("G")),
             Is.EqualTo(true));
 
-        Assert.That(HasCorrectParent(userPersonelCategoriesWithRealtions
-                .ByName("G"), "X"),
+        Assert.That(HasCorrectParent(allPersonalCategoriesWithRelations.ByName("G"), "X3"),
             Is.EqualTo(true));
 
-        Assert.That(HasCorrectParent(userPersonelCategoriesWithRealtions
-                .ByName("G"), "A"),
+        Assert.That(HasCorrectParent(allPersonalCategoriesWithRelations.ByName("G"), "X"),
+            Is.EqualTo(true));
+
+        Assert.That(HasCorrectParent(allPersonalCategoriesWithRelations.ByName("G"), "A"),
             Is.EqualTo(false));
 
 
         //Test F
-        Assert.That(IsAllRelationsAChildOf(userPersonelCategoriesWithRealtions
-                .ByName("F").CategoryRelations)
-            , Is.EqualTo(true));
-
-        Assert.That(IsCategoryRelationsCategoriesIdCorrect(userPersonelCategoriesWithRealtions
-                .ByName("F")),
+        Assert.That(IsAllRelationsAChildOf(allPersonalCategoriesWithRelations.ByName("F").CategoryRelations), 
             Is.EqualTo(true));
 
-        Assert.That(HasCorrectParent(userPersonelCategoriesWithRealtions
-                .ByName("F"), "X3"),
+        Assert.That(IsCategoryRelationsCategoriesIdCorrect(allPersonalCategoriesWithRelations.ByName("F")),
             Is.EqualTo(true));
 
-        Assert.That(HasCorrectParent(userPersonelCategoriesWithRealtions
-                .ByName("F"), "X"),
+        Assert.That(HasCorrectParent(allPersonalCategoriesWithRelations.ByName("F"), "X3"),
             Is.EqualTo(true));
 
-        Assert.That(HasCorrectParent(userPersonelCategoriesWithRealtions
-                .ByName("F"), "A"),
+        Assert.That(HasCorrectParent(allPersonalCategoriesWithRelations.ByName("F"), "X"),
+            Is.EqualTo(true));
+
+        Assert.That(HasCorrectParent(allPersonalCategoriesWithRelations.ByName("F"), "A"),
             Is.EqualTo(false));
 
         //Test X3
-        Assert.That(IsAllRelationsAChildOf(userPersonelCategoriesWithRealtions
-                .ByName("X3").CategoryRelations)
+        Assert.That(IsAllRelationsAChildOf(allPersonalCategoriesWithRelations.ByName("X3").CategoryRelations)
             , Is.EqualTo(true));
 
-        Assert.That(IsCategoryRelationsCategoriesIdCorrect(userPersonelCategoriesWithRealtions
-                .ByName("X3")),
+        Assert.That(IsCategoryRelationsCategoriesIdCorrect(allPersonalCategoriesWithRelations.ByName("X3")),
             Is.EqualTo(true));
 
-        Assert.That(HasCorrectParent(userPersonelCategoriesWithRealtions
-                .ByName("X3"), "A"),
+        Assert.That(HasCorrectParent(allPersonalCategoriesWithRelations.ByName("X3"), "A"),
             Is.EqualTo(true));
 
-        Assert.That(IsAllRelationsAChildOf(userPersonelCategoriesWithRealtions
-                .ByName("X").CategoryRelations)
+        Assert.That(IsAllRelationsAChildOf(allPersonalCategoriesWithRelations.ByName("X").CategoryRelations)
             , Is.EqualTo(true));
 
-        Assert.That(IsCategoryRelationsCategoriesIdCorrect(userPersonelCategoriesWithRealtions
-                .ByName("X")),
+        Assert.That(IsCategoryRelationsCategoriesIdCorrect(allPersonalCategoriesWithRelations.ByName("X")),
             Is.EqualTo(true));
 
-        Assert.That(HasCorrectParent(userPersonelCategoriesWithRealtions
-                .ByName("X"), "A"),
+        Assert.That(HasCorrectParent(allPersonalCategoriesWithRelations.ByName("X"), "A"),
             Is.EqualTo(true));
     }
 
@@ -456,21 +391,19 @@ A -> C
         
         Sl.SessionUser.Login(user);
 
-        var userPersonelCategoriesWithRealtions = GraphService.GetAllPersonalCategoriesWithRelations(rootElement, 2);
+        var userPersonnelCategoriesWithRelations = GraphService.GetAllPersonalCategoriesWithRelations(rootElement, 2);
 
         //Test F
-        Assert.That(IsAllRelationsAChildOf(userPersonelCategoriesWithRealtions
-                .ByName("F").CategoryRelations)
+        Assert.That(IsAllRelationsAChildOf(userPersonnelCategoriesWithRelations.ByName("F").CategoryRelations)
             , Is.EqualTo(true));
 
-        Assert.That(IsCategoryRelationsCategoriesIdCorrect(userPersonelCategoriesWithRealtions
+        Assert.That(IsCategoryRelationsCategoriesIdCorrect(userPersonnelCategoriesWithRelations
                 .ByName("F")),
             Is.EqualTo(true));
 
-        Assert.That(HasCorrectParent(userPersonelCategoriesWithRealtions
-                .ByName("F"), "A"),
+        Assert.That(HasCorrectParent(userPersonnelCategoriesWithRelations.ByName("F"), "A"),
             Is.EqualTo(true));
-        Assert.That(userPersonelCategoriesWithRealtions.First().CategoryRelations.Count, Is.EqualTo(1));
+        Assert.That(userPersonnelCategoriesWithRelations.First().CategoryRelations.Count, Is.EqualTo(1));
 
     }
 
@@ -488,19 +421,19 @@ A -> C
     public void Should_delete_all_includes_content_of_relations()
     {
         ContextCategory.New().AddCaseThreeToCache();
-        var rootCategoryOrginal = EntityCache.GetAllCategories().First().DeepClone();
+        var rootCategoryOriginal = EntityCache.GetAllCategories().First().DeepClone();
 
-        Category rootCategorieCopy2 = rootCategoryOrginal.DeepClone();
-        Category rootCategorieCopy1 = rootCategoryOrginal.DeepClone();
+        var rootCategoryCopy2 = rootCategoryOriginal.DeepClone();
+        var rootCategoryCopy1 = rootCategoryOriginal.DeepClone();
 
-        var result = GraphService.IsCategoryRelationEqual(rootCategorieCopy1, rootCategorieCopy2);
+        var result = GraphService.IsCategoryRelationEqual(rootCategoryCopy1, rootCategoryCopy2);
         Assert.That(result, Is.EqualTo(true));
 
-        rootCategorieCopy1.Name = "geändert";
-        result = GraphService.IsCategoryRelationEqual(rootCategorieCopy1, rootCategorieCopy2);
+        rootCategoryCopy1.Name = "geändert";
+        result = GraphService.IsCategoryRelationEqual(rootCategoryCopy1, rootCategoryCopy2);
         Assert.That(result, Is.EqualTo(true));
 
-        rootCategorieCopy1.CategoryRelations = new List<CategoryRelation>
+        rootCategoryCopy1.CategoryRelations = new List<CategoryRelation>
         {
             new CategoryRelation
             {
@@ -510,36 +443,34 @@ A -> C
             }
         };
 
-        rootCategorieCopy2.CategoryRelations = new List<CategoryRelation>
+        rootCategoryCopy2.CategoryRelations = new List<CategoryRelation>
         {
             new CategoryRelation
             {
                 RelatedCategory = new Category{Id = 222},
                 CategoryRelationType = CategoryRelationType.IsChildCategoryOf,
                 Category = new Category{Id = 111}
-
             }
         };
 
-        result = GraphService.IsCategoryRelationEqual(rootCategorieCopy1, rootCategorieCopy2);
+        result = GraphService.IsCategoryRelationEqual(rootCategoryCopy1, rootCategoryCopy2);
         Assert.That(result, Is.EqualTo(true));
 
 
-        rootCategorieCopy2.CategoryRelations = new List<CategoryRelation>
+        rootCategoryCopy2.CategoryRelations = new List<CategoryRelation>
         {
             new CategoryRelation
             {
                 RelatedCategory = new Category{Id = 222},
                 CategoryRelationType = CategoryRelationType.IsChildCategoryOf,
                 Category = new Category{Id = 113}
-
             }
         };
 
-        result = GraphService.IsCategoryRelationEqual(rootCategorieCopy1, rootCategorieCopy2);
+        result = GraphService.IsCategoryRelationEqual(rootCategoryCopy1, rootCategoryCopy2);
         Assert.That(result, Is.EqualTo(false));
 
-        rootCategorieCopy1.CategoryRelations = new List<CategoryRelation>
+        rootCategoryCopy1.CategoryRelations = new List<CategoryRelation>
         {
             new CategoryRelation
             {
@@ -549,18 +480,17 @@ A -> C
             }
         };
 
-        rootCategorieCopy2.CategoryRelations = new List<CategoryRelation>
+        rootCategoryCopy2.CategoryRelations = new List<CategoryRelation>
         {
             new CategoryRelation
             {
                 RelatedCategory = new Category{Id = 222},
                 CategoryRelationType = CategoryRelationType.IsChildCategoryOf,
                 Category = new Category{Id = 112}
-
             }
         };
 
-        result = GraphService.IsCategoryRelationEqual(rootCategorieCopy1, rootCategorieCopy2);
+        result = GraphService.IsCategoryRelationEqual(rootCategoryCopy1, rootCategoryCopy2);
         Assert.That(result, Is.EqualTo(false));
     }
 
