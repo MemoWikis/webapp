@@ -2,11 +2,13 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
+using System.Runtime.Serialization.Formatters.Binary;
 
 [DebuggerDisplay("Id={Id} Name={Name}")]
 [Serializable]
-public class Category : DomainEntity, ICreator
+public class Category : DomainEntity, ICreator, ICloneable
 {
     public virtual string Name { get; set; }
 
@@ -221,4 +223,9 @@ public class Category : DomainEntity, ICreator
     public virtual int FormerSetId { get; set; }
     public virtual bool SkipMigration { get; set; }
 
+
+    public virtual object Clone()
+    {
+        return this.MemberwiseClone(); 
+    }
 }

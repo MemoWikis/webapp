@@ -51,15 +51,13 @@ public class GraphService
 
     }
 
-    public static IList<Category> GetAllPersonelCategoriesWithRealtions(int rootCategoryId, int userId = -1)
+    public static IList<Category> GetAllPersonalCategoriesWithRelations(int rootCategoryId, int userId = -1)
     {
-        var rootCategory = Extensions.DeepClone(
-            Sl.CategoryRepo.GetByIdEager(rootCategoryId));
+        var rootCategory = (Category)EntityCache.GetCategory(rootCategoryId).Clone();
 
-        var children = Extensions.DeepClone(
-             EntityCache.GetDescendants(rootCategory, true))
+        var childrenUnCloned = EntityCache.GetDescendants(rootCategory, true)
             .Distinct();
-
+        var children = childrenUnCloned.Select(c => (Category)c.Clone()); 
         var listWithUserPersonelCategories = new List<Category>();
 
         userId = userId == -1 ? Sl.CurrentUserId : userId;
@@ -136,8 +134,8 @@ public class GraphService
         return category.CategoryRelations.Where(cr => cr.CategoryRelationType == CategoryRelationType.IsChildCategoryOf).Select(cr => cr.RelatedCategory).ToList();
     }
 
-    public static IList<Category> GetAllPersonelCategoriesWithRealtions(Category category, int userId = -1) =>
-        GetAllPersonelCategoriesWithRealtions(category.Id, userId);
+    public static IList<Category> GetAllPersonalCategoriesWithRelations(Category category, int userId = -1) =>
+        GetAllPersonalCategoriesWithRelations(category.Id, userId);
 
     public static void AutomaticInclusionOfChildThemes(Category category)
     {
