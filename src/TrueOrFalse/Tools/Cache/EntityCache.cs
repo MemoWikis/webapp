@@ -38,9 +38,6 @@ public class EntityCache : BaseCache
         Logg.r().Information("EntityCache PutIntoCache" + customMessage + "{Elapsed}", stopWatch.Elapsed);
     }
 
-
-
-
     private static ConcurrentDictionary<int, ConcurrentDictionary<int, int>> GetCategoryQuestionsList(IList<Question> questions)
     {
         var categoryQuestionList = new ConcurrentDictionary<int, ConcurrentDictionary<int, int>>();
