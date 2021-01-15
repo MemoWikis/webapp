@@ -1,4 +1,6 @@
-﻿class KnowledgeWheel {
+﻿var drawKnowledgeChart;
+
+class KnowledgeWheel {
 
     static ReloadCategory() {
         KnowledgeWheel.Reload("/KnowledgeWheel/GetForCategory/?categoryId=" + $("#hhdCategoryId").val());
