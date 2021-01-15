@@ -68,8 +68,6 @@ class AnswerQuestion {
                 '.clickToContinue',
                 (e) => {
                     e.preventDefault();
-                    setVideo.HideYoutubeOverlay();
-                    player.playVideo();
                 });
         };
 

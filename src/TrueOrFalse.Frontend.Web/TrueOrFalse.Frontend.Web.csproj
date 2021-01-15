@@ -2112,9 +2112,6 @@
     <Content Include="Images\Screenshots\widget-blackboard_f04_done.png" />
     <Content Include="Images\Screenshots\widget-blackboard_f04_done_short.png" />
     <Content Include="Scripts\vendor\vuetable-2.js" />
-    <Content Include="Scripts\YoutubeApi.js">
-      <DependentUpon>YoutubeApi.ts</DependentUpon>
-    </Content>
     <Content Include="Scripts\NumbersCountUp.js">
       <DependentUpon>NumbersCountUp.ts</DependentUpon>
     </Content>
@@ -2335,9 +2332,6 @@
       <DependentUpon>Error.less</DependentUpon>
     </Content>
     <Content Include="Views\Error\Error.less" />
-    <Content Include="Scripts\YoutubeApi.js.map">
-      <DependentUpon>YoutubeApi.ts</DependentUpon>
-    </Content>
     <Content Include="Views\Messages\Partials\MessagesRows.ascx" />
     <Content Include="Views\Knowledge\Partials\KnowledgeCardMiniSet.ascx" />
     <Content Include="Views\Knowledge\Partials\KnowledgeCardMiniCategory.ascx" />
@@ -2605,7 +2599,6 @@
     <Content Include="Views\Sets\Edit\Js\AddQuestions.js" />
     <TypeScriptCompile Include="Scripts\header\StickyHeaderSearchBox.ts" />
     <TypeScriptCompile Include="Scripts\SidebarCards.ts" />
-    <TypeScriptCompile Include="Scripts\YoutubeApi.ts" />
     <TypeScriptCompile Include="Scripts\NumbersCountUp.ts" />
     <TypeScriptCompile Include="Views\About\Js\Page.ts" />
     <TypeScriptCompile Include="Views\Categories\Detail\FloatingActionButton\FloatingActionButton.ts" />
@@ -2630,10 +2623,6 @@
     <TypeScriptCompile Include="Views\Questions\Answer\Js\QuestionFilter.ts" />
     <TypeScriptCompile Include="Views\Questions\Answer\LearningSession\Js\LearningSessionResult.ts" />
     <TypeScriptCompile Include="Views\Questions\History\Detail\Js\Page.ts" />
-    <TypeScriptCompile Include="Views\Sets\Edit\Js\YoutubePreview.ts" />
-    <Content Include="Views\Sets\Edit\Js\YoutubePreview.js">
-      <DependentUpon>YoutubePreview.ts</DependentUpon>
-    </Content>
     <Content Include="Views\Shared\CategoryLabel.ascx" />
     <Content Include="Views\Shared\MainMenuThemeCentered.ascx" />
     <Content Include="Views\Shared\PinComponentVue\PinComponent.vue.js">
@@ -4169,9 +4158,6 @@
     <Content Include="Views\Help\Widget.less" />
     <Content Include="Views\Welcome\Contact.less" />
     <Content Include="Views\Shared\ActivityPopupContent.ascx" />
-    <Content Include="Views\Sets\Edit\Js\YoutubePreview.js.map">
-      <DependentUpon>YoutubePreview.ts</DependentUpon>
-    </Content>
     <Content Include="Views\Welcome\Partials\BlogPostCarousel.ascx" />
     <Content Include="Views\Users\Account\WidgetStats\WidgetStats.less" />
     <Content Include="Views\Maintenance\Js\ContentStats.js.map">
