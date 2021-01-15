@@ -21,7 +21,6 @@ public class QuestionDelete
         Sl.R<ReferenceRepo>().DeleteForQuestion(questionId);
         Sl.R<AnswerRepo>().DeleteFor(questionId); //not accounted for: answerfeature_to_answer
         Sl.R<QuestionViewRepository>().DeleteForQuestion(questionId);
-        Sl.R<QuestionInSetRepo>().DeleteForQuestion(questionId);
         Sl.R<UserActivityRepo>().DeleteForQuestion(questionId);
         Sl.R<QuestionViewRepository>().DeleteForQuestion(questionId);
         Sl.R<QuestionValuationRepo>().DeleteForQuestion(questionId);

@@ -217,7 +217,6 @@
     <Compile Include="2 Domain\Question\LearnSession\Test_learning_session_steps.cs" />
     <Compile Include="2 Domain\UserWorld\User_enitity_cache_tests.cs" />
     <Compile Include="2 Domain\User\UserCache\User_cache_tests.cs" />
-    <Compile Include="3 Infrastructure\SetMigrationTest.cs" />
     <Compile Include="3 Infrastructure\TemplateMigrationTest.cs" />
     <Compile Include="1 View\TemplateParserTest.cs" />
     <Compile Include="1 View\UserNavigationModelListTest.cs" />
@@ -236,7 +235,6 @@
     <Compile Include="2 Domain\Knowledge\Should_recalculate_all_wish_knowledge_items.cs" />
     <Compile Include="2 Domain\Message\Message_persistence.cs" />
     <Compile Include="2 Domain\Message\Send_knowledgeReport.cs" />
-    <Compile Include="2 Domain\Message\Send_trainingDate_reminder.cs" />
     <Compile Include="2 Domain\Question\Answer\AnswerDate_tests.cs" />
     <Compile Include="2 Domain\Question\Answer\AnswerText_tests.cs" />
     <Compile Include="2 Domain\Question\Answer\Should_get_following_answer.cs" />
@@ -250,10 +248,6 @@
     <Compile Include="2 Domain\Question\Remove_images_that_are_not_in_markup_anymore.cs" />
     <Compile Include="2 Domain\Question\Questions_in_Sets.cs" />
     <Compile Include="2 Domain\Question\Reference\Reference_persistence.cs" />
-    <Compile Include="2 Domain\Set\Set_performance.cs" />
-    <Compile Include="2 Domain\Set\Set_manipulate.cs" />
-    <Compile Include="2 Domain\Set\Set_persistence.cs" />
-    <Compile Include="2 Domain\Set\Setup\ContextSet.cs" />
     <Compile Include="2 Domain\Question\Answer\Should_retrieve_stats_in_time_period.cs" />
     <Compile Include="2 Domain\Question\History\History_totals_per_user_tests.cs" />
     <Compile Include="2 Domain\Question\Valuation\QuestionValuation_add_totals_test.cs" />
@@ -261,14 +255,11 @@
     <Compile Include="2 Domain\Question\Question_persist_and_load_answer_type.cs" />
     <Compile Include="2 Domain\Question\Serialize_and_init_solutionMetadata.cs" />
     <Compile Include="2 Domain\Question\Views\QuestionViewTests.cs" />
-    <Compile Include="2 Domain\Set\Timecode_Tests.cs" />
-    <Compile Include="2 Domain\Set\Valuation\SetValuation_persistence_tests.cs" />
     <Compile Include="2 Domain\User\ActivityPoints\UserLevelCalculatorTests.cs" />
     <Compile Include="2 Domain\User\Activity\UserActivity_persistence.cs" />
     <Compile Include="2 Domain\User\Activity\Write_activity_new_follower.cs" />
     <Compile Include="2 Domain\User\Activity\Write_activity_following.cs" />
     <Compile Include="2 Domain\User\Activity\Write_activity_game_date.cs" />
-    <Compile Include="2 Domain\User\Activity\Write_activity_category_set.cs" />
     <Compile Include="2 Domain\User\Activity\Write_activity_question.cs" />
     <Compile Include="2 Domain\User\AppAccess_persistence.cs" />
     <Compile Include="2 Domain\User\Badges\Badge_awarder.cs" />
@@ -294,12 +285,10 @@
     <Compile Include="3 Infrastructure\DoesTableExistTests.cs" />
     <Compile Include="3 Infrastructure\Percents_from_ints.cs" />
     <Compile Include="3 Infrastructure\PersistentLogin\PersistentLoginPersistenceTests.cs" />
-    <Compile Include="3 Infrastructure\YoutubeVideoTests.cs" />
     <Compile Include="4 Search\CategorySearchTests.cs" />
     <Compile Include="3 Infrastructure\DeepCloneTests.cs" />
     <Compile Include="4 Search\UserSearchTests.cs" />
     <Compile Include="4 Search\QuestionSearchTests.cs" />
-    <Compile Include="4 Search\SetSearchTests.cs" />
     <Compile Include="4 Search\Support\UserInputToSearchExpressionTest.cs" />
     <Compile Include="5 Utiltities\UrlTest.cs" />
     <Compile Include="5 Utiltities\TimeElapsedAsTextTests.cs" />

@@ -18,7 +18,6 @@ public class SetDeleter
         setRepo.Delete(set);
 
         Sl.SetValuationRepo.DeleteWhereSetIdIs(setId);
-        Sl.UpdateSetDataForQuestion.Run(set.QuestionsInSet);
         Sl.SetValuationRepo.DeleteWhereSetIdIs(set.Id);
         Sl.UpdateSetCountForCategory.Run(categoriesToUpdate);
 

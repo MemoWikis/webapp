@@ -162,21 +162,6 @@ namespace TrueOrFalse
             };
         }
 
-        [HttpPost]
-        public JsonResult AddToQuestionSet()
-        {
-            var parts = Request.Form[0].Split(':');
-            var questionIds = parts[0].Split(',').Select(id => Convert.ToInt32(id)).ToArray();
-            var questionSetId = Convert.ToInt32(parts[1]);
-        
-            var result = AddToSet.Run(questionIds, questionSetId);
-        
-            return new JsonResult{ Data = new{
-                QuestionsAddedCount = result.AmountAddedQuestions,
-                QuestionAlreadyInSet = result.AmountOfQuestionsAlreadyInSet
-            }};
-        }
-
         [RedirectToErrorPage_IfNotLoggedIn]
         public ActionResult Restore(int questionId, int questionChangeId)
         {
@@ -186,6 +171,7 @@ namespace TrueOrFalse
             return Redirect(Links.AnswerQuestion(question));
         }
     }
+
 
     public class QuestionsControllerUtil : BaseUtil
     {

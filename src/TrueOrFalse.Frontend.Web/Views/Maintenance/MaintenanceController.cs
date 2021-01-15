@@ -6,7 +6,6 @@ using System.Web.Mvc;
 using NHibernate;
 using NHibernate.Linq;
 using NHibernate.Util;
-using SetMigration;
 using TrueOrFalse;
 using TrueOrFalse.Frontend.Web.Code;
 using TrueOrFalse.Infrastructure;
@@ -119,21 +118,6 @@ public class MaintenanceController : BaseController
         return result;
     }
 
-    [HttpPost]
-    public string CmsRenderSetsWithDifferentlyCategorizedQuestions()
-    {
-        var sets = GetAllSetsWithDifferentlyCategorizedQuestions.Run().OrderByDescending(s => s.DateCreated);
-        var result = sets.Count() + " sets were found:<br/>";
-        foreach (var set in sets)
-        {
-            result += "<a href=\"" + Links.SetDetail(Url, set) +
-                      "\"><span class=\"label label-set\" style=\"max-width: 200px; margin-top: 5px; margin-right: 10px;\">" +
-                      set.Id + "-" + set.Name + "</span></a> \n";
-        }
-
-        return result;
-    }
-
     [SetMainMenu(MainMenuEntry.Maintenance)]
     public ActionResult ContentCreatedReport()
     {
@@ -182,24 +166,6 @@ public class MaintenanceController : BaseController
         Resolve<UpdateQuestionAnswerCounts>().Run();
         return View("Maintenance",
             new MaintenanceModel { Message = new SuccessMessage("Aggregierte Werte wurden aktualisiert.") });
-    }
-
-    [ValidateAntiForgeryToken]
-    [HttpPost]
-    public ActionResult CalcAggregatedValuesSets()
-    {
-        Resolve<UpdateSetDataForQuestion>().Run();
-        return View("Maintenance",
-            new MaintenanceModel { Message = new SuccessMessage("Aggregierte Werte wurden aktualisiert.") });
-    }
-
-    [ValidateAntiForgeryToken]
-    [HttpPost]
-    public ActionResult DeleteValuationsForRemovedSets()
-    {
-        Resolve<DeleteValuationsForNonExisitingSets>().Run();
-        return View("Maintenance",
-            new MaintenanceModel { Message = new SuccessMessage("Valuations for deleted sets are removed.") });
     }
 
     [ValidateAntiForgeryToken]
@@ -703,36 +669,6 @@ public class MaintenanceController : BaseController
 
         return View("Tools",
             new ToolsModel { Message = new SuccessMessage("Der User wurde gelöscht") });
-    }
-
-    [HttpPost]
-    public ActionResult MigrateSetsToCategories()
-    {
-        SetMigrator.Start();
-
-        return View("Maintenance",
-            new MaintenanceModel { Message = new SuccessMessage("Lernsets wurden migriert") });
-    }
-
-    [HttpPost]
-    public ActionResult MigrateSetTextAndCleanup()
-    {
-        var setMigrator = new SetMigrator();
-        setMigrator.UpdateSetMigration();
-
-        return View("Maintenance",
-            new MaintenanceModel { Message = new SuccessMessage("Lernsets Text wurden migriert und Kopien wurden migriert und gelöscht") });
-    }
-
-
-    [HttpPost]
-    public ActionResult MigrateSetImages()
-    {
-        var setMigrator = new SetMigrator();
-        setMigrator.MigratePictures();
-
-        return View("Maintenance",
-            new MaintenanceModel { Message = new SuccessMessage("Bilder wurden migriert") });
     }
 
     [ValidateAntiForgeryToken]

@@ -315,9 +315,7 @@
     <Compile Include="Domain\Knowledge\Learning\LearningSession\Ops\CreateLearningSession.cs" />
     <Compile Include="Domain\Knowledge\Learning\LearningSession\SessionConfigData.cs" />
     <Compile Include="Domain\Knowledge\Learning\LearningSession\QuestionFilter.cs" />
-    <Compile Include="Domain\QuestionSet\Ops\CopySet.cs" />
     <Compile Include="Domain\QuestionSet\Ops\GetAllOvercategorizedSets.cs" />
-    <Compile Include="Domain\QuestionSet\Ops\GetAllSetsWithDifferentlyCategorizedQuestions.cs" />
     <Compile Include="Domain\QuestionSet\Ops\SortSetsIntoListOfCategories.cs" />
     <Compile Include="Domain\Question\History\QuestionChange.cs" />
     <Compile Include="Domain\Question\History\EditData\QuestionEditData.cs" />
@@ -734,16 +732,10 @@
     <Compile Include="Domain\Knowledge\History\Ops\CreateKnowledgeHistoryItem.cs" />
     <Compile Include="Domain\Knowledge\History\Persistence\KnowledgeHistoryItemMap.cs" />
     <Compile Include="Domain\Knowledge\History\Persistence\KnowledgeHistoryRepository.cs" />
-    <Compile Include="Domain\QuestionSet\Ops\AddToSetResult.cs" />
-    <Compile Include="Domain\QuestionSet\Ops\AddToSet.cs" />
     <Compile Include="Domain\Category\Ops\GetCategoriesCount.cs" />
     <Compile Include="Domain\QuestionSet\Ops\SetDeleter.cs" />
-    <Compile Include="Domain\QuestionSet\Ops\UpdateQuestionOrder\NewQuestionIndex.cs" />
-    <Compile Include="Domain\QuestionSet\Ops\UpdateQuestionOrder\UpdateQuestionsOrder.cs" />
-    <Compile Include="Domain\QuestionSet\QuestionInSet\Persistence\QuestionInSetRepo.cs" />
     <Compile Include="Domain\QuestionSet\QuestionInSet\QuestionInSet.cs" />
     <Compile Include="Domain\QuestionSet\QuestionInSet\Persistence\QuestionInSetMap.cs" />
-    <Compile Include="Domain\QuestionSet\QuestionInSet\QuestionInSetListExts.cs" />
     <Compile Include="Domain\QuestionSet\Set.cs" />
     <Compile Include="Domain\QuestionSet\Set.Persistence\SetMap.cs" />
     <Compile Include="Domain\QuestionSet\Set.Persistence\SetRepo.cs">
@@ -753,7 +745,6 @@
     <Compile Include="Domain\QuestionSet\SetActiveMemory\SetActiveMemory.cs" />
     <Compile Include="Domain\QuestionSet\SetActiveMemory\SetActiveMemoryLoader.cs" />
     <Compile Include="Domain\QuestionSet\SetValuation\Ops\CreateOrUpdateSetValuation.cs" />
-    <Compile Include="Domain\QuestionSet\SetValuation\Ops\DeleteValuationsForNonExisitingSets.cs" />
     <Compile Include="Domain\QuestionSet\SetValuation\Ops\GetSetTotalResult.cs" />
     <Compile Include="Domain\QuestionSet\SetValuation\Ops\GetSetTotal.cs" />
     <Compile Include="Domain\QuestionSet\SetListExt.cs" />
@@ -781,7 +772,6 @@
     <Compile Include="Domain\Question\Answer\QuestionSolutionSequence.cs" />
     <Compile Include="Domain\Question\Answer\QuestionSolution.cs" />
     <Compile Include="Domain\Question\Answer\QuestionSolutionExact.cs" />
-    <Compile Include="Domain\Question\Question.Ops\UpdateSetDataForQuestion.cs" />
     <Compile Include="Domain\Question\Question.Ops\QuestionDelete.cs" />
     <Compile Include="Domain\NotNull.cs" />
     <Compile Include="Domain\Question\Question.Ops\QuestionGetCount.cs" />
@@ -1024,7 +1014,6 @@
     <Compile Include="Tools\ScheduledJobs\RunningsJobs\RunningJobRepo.cs" />
     <Compile Include="Tools\Update\Scripts\SolrCoreReload.cs" />
     <Compile Include="Tools\Update\Scripts\PathTo.cs" />
-    <Compile Include="Tools\Update\SetMigration\SetMigrator.cs" />
     <Compile Include="Tools\Update\Steps\UpdateToVs193.cs" />
     <Compile Include="Tools\Update\Steps\UpdateToVs192.cs" />
     <Compile Include="Tools\Update\Steps\UpdateToVs191.cs" />

@@ -76,7 +76,6 @@ public class LeitnerSimulationTest : BaseTest
         var date = new Date
         {
             DateTime = DateTime.Now.AddDays(numberOfDays),
-            Sets = ContextSet.New().AddSet("Set", numberOfQuestions: numberOfQuestions).All,
             User = ContextUser.GetUser()
         };
 
