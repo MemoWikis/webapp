@@ -9,7 +9,7 @@ using NUnit.Framework;
 namespace TrueOrFalse.Tests
 {
     [TestFixture]
-    public class DeepCloneTests
+    public class DeepCloneTests : BaseTest
     {
         [Test]
         public void Should_clone_category_with_circular_relations()
@@ -38,6 +38,22 @@ namespace TrueOrFalse.Tests
             Assert.That(cloneA.ParentCategories().First().Name, Is.EqualTo("Root"));
             Assert.That(cloneA.ParentCategories().First().ParentCategories().First().Name, Is.EqualTo("A"));
 
+        }
+
+        [Test]
+        public void Should_clone_category_from_db()
+        {
+            //test case 3 deepclone
+            ContextCategory.New().AddCaseThreeToCache();
+            RecycleContainer();
+
+            var categoriesThird = Sl.CategoryRepo.GetAll();
+            RecycleContainer();
+            foreach (var category in categoriesThird)
+            {
+               var categoryCloned = category.DeepClone();
+               Assert.That(categoryCloned, Is.Not.Null);
+            }
         }
     }
 }
