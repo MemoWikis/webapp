@@ -105,10 +105,6 @@
         <div id="ContentModulePlaceholder" v-if="editMode" v-cloak>
         </div>
     </div>
-<%--    
-    <div id="EditorApp">
-        <editor-content :editor="editor" />
-    </div>--%>
 
     <% if (!Model.CategoryIsDeleted) {%>
         <%: Html.Partial("~/Views/Categories/Detail/Partials/ModalComponentCollection.ascx") %>
