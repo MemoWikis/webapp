@@ -45,7 +45,7 @@ namespace TrueOrFalse.Frontend.Web
             }
             else
             {
-                EntityCache.Init();
+                //EntityCache.Init();
             }
 
 

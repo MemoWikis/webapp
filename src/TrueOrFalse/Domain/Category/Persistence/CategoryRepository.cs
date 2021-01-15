@@ -3,6 +3,7 @@ using NHibernate.Criterion;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using FluentNHibernate.Utils;
 using TrueOrFalse.Infrastructure.Persistence;
 using TrueOrFalse.Search;
 
@@ -25,7 +26,7 @@ public class CategoryRepository : RepositoryDbBase<Category>
 
         if (categoryIds != null)
             query = query.Where(Restrictions.In("Id", categoryIds.ToArray()));
-        return query
+        var l =  query
             .Left.JoinQueryOver<CategoryRelation>(s => s.CategoryRelations)
             .Left.JoinQueryOver(x => x.RelatedCategory)
             .Left.JoinQueryOver(u => u.Creator)
@@ -33,6 +34,13 @@ public class CategoryRepository : RepositoryDbBase<Category>
             .GroupBy(c => c.Id)
             .Select(c => c.First())
             .ToList();
+
+        foreach (var category  in l)
+        {
+            var t = category.DeepClone(); 
+        }
+
+        return l;
     }
 
     public Category GetBySetIdEager(int categoryId) => GetByIdsEager(new[] { categoryId }).FirstOrDefault();
@@ -53,10 +61,10 @@ public class CategoryRepository : RepositoryDbBase<Category>
 
         Sl.CategoryChangeRepo.AddCreateEntry(category, category.Creator);
 
-        _session.Flush();
-        _session.Close();
+        //_session.Flush();
+        //_session.Close();
 
-        Sl.R<SessionManager>().Session = Sl.R<ISessionFactory>().OpenSession();
+        //Sl.R<SessionManager>().Session = Sl.R<ISessionFactory>().OpenSession();
     }
 
     /// <summary>

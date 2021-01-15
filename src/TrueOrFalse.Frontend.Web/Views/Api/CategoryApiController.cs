@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
+using FluentNHibernate.Utils;
 using TrueOrFalse.Search;
 using TrueOrFalse.View.Web.Views.Api;
 
@@ -149,6 +150,19 @@ public class CategoryApiController : BaseController
         CategoryInKnowledge.UnpinQuestionsInCategory(Convert.ToInt32(categoryId), _sessionUser.User);
         return true;
     }
+
+#if DEBUG
+    [HttpGet]
+    public void ForDebuggingFetchCategory()
+    {
+        //EntityCache.Init();
+
+        var categorya = Sl.CategoryRepo.GetAllEager();
+        var questions = Sl.QuestionRepo.GetAll();
+        var category = Sl.CategoryRepo.GetByIdEager(1);
+        //var clone = category.DeepClone();
+    }
+#endif 
 }
 
 public class CategoryJsonResult
