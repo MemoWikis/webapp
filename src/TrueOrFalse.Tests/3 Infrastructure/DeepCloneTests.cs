@@ -43,27 +43,17 @@ namespace TrueOrFalse.Tests
         [Test]
         public void Should_clone_category_from_db()
         {
-
             //test case 3 deepclone
             ContextCategory.New().AddCaseThreeToCache();
-            var categoriesFirstTest = EntityCache.GetAllCategories();
-
-            foreach (var category in categoriesFirstTest)
-            {
-                Assert.That(category.DeepClone(), Is.Not.Null);
-            }
-
             RecycleContainer();
 
-            //Get From Database with new Session. 
-           var categoriesSecondTest = Sl.CategoryRepo.GetAllEager();
-           Assert.That(categoriesSecondTest.Count(), Is.Not.EqualTo(0));
-
-           foreach (var category in categoriesSecondTest)
-           {
-               Assert.That(category.DeepClone(), Is.Not.Null);
-           }
-
+            var categoriesThird = Sl.CategoryRepo.GetAll();
+            RecycleContainer();
+            foreach (var category in categoriesThird)
+            {
+               var categoryCloned = category.DeepClone();
+               Assert.That(categoryCloned, Is.Not.Null);
+            }
         }
     }
 }
