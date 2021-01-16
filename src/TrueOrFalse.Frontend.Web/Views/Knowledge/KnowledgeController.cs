@@ -62,13 +62,6 @@ public class KnowledgeController : BaseController
         }
     }
 
-    public int GetDatesCount(string userId)
-    {
-        var Dates = R<DateRepo>().GetBy(Int32.Parse(userId), true);
-        return Dates.Count - 1; // if last date is deleted counter is still 1  
-        //after deleting, however, there is no longer an appointment
-    }
-
     [HttpGet]
     public JsonResult GetCatsAndSetsWish(int page, int per_page, string sort = "", bool isAuthor = false)
     {

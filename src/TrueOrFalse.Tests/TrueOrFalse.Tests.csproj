@@ -220,7 +220,6 @@
     <Compile Include="3 Infrastructure\TemplateMigrationTest.cs" />
     <Compile Include="1 View\TemplateParserTest.cs" />
     <Compile Include="1 View\UserNavigationModelListTest.cs" />
-    <Compile Include="2 Domain.Jobs\TrainingPlanUpdateCheckJobTest.cs" />
     <Compile Include="2 Domain\Category\CategoryChange_tests.cs" />
     <Compile Include="2 Domain\Category\UserValuationCache_tests.cs" />
     <Compile Include="2 Domain\Comment\Comment_persistence.cs" />
@@ -259,7 +258,6 @@
     <Compile Include="2 Domain\User\Activity\UserActivity_persistence.cs" />
     <Compile Include="2 Domain\User\Activity\Write_activity_new_follower.cs" />
     <Compile Include="2 Domain\User\Activity\Write_activity_following.cs" />
-    <Compile Include="2 Domain\User\Activity\Write_activity_game_date.cs" />
     <Compile Include="2 Domain\User\Activity\Write_activity_question.cs" />
     <Compile Include="2 Domain\User\AppAccess_persistence.cs" />
     <Compile Include="2 Domain\User\Badges\Badge_awarder.cs" />
@@ -358,7 +356,9 @@
   <ItemGroup>
     <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="2 Domain.Jobs\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

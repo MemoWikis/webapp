@@ -126,18 +126,6 @@ public class SetRepo : RepositoryDbBase<Set>
             .RowCount();
     }
 
-    /// <summary>
-    /// Return how often a set is part of a future or previous date
-    /// </summary>
-    public int HowOftenInDate(int setId)
-    {
-        return _session.QueryOver<Date>()
-            .JoinQueryOver<Set>(d => d.Sets)
-            .Where(s => s.Id == setId)
-            .Select(Projections.RowCount())
-            .SingleOrDefault<int>();
-    }
-
     public override void Delete(Set set)
     {
         //if (Sl.R<SessionUser>().IsLoggedInUserOrAdmin(set.Creator.Id))

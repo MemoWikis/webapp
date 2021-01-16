@@ -46,29 +46,11 @@ public class GenerateAnswerFeatures
             });
 
         //TRAINING TYPE 
-
-        answerFeatures.Add(new AnswerFeature{
-            Id2 = "NormalAnswer",
-            Name = "Antwortseite",
-            Description = "Es wurde auf der AnswerPage gelernt, nicht in der Lernsitzung.",
-            Group = AnswerFeatureGroups.TrainingType,
-            DoesApply = param => 
-                param.Answer.Round == null && 
-                param.Answer.LearningSessionStepGuid == Guid.Empty
-        });
-
         answerFeatures.Add(new AnswerFeature{
             Id2 = "LearningSession",
             Name = "Lernsitzung",
             Group = AnswerFeatureGroups.TrainingType,
             DoesApply = param => param.Answer.LearningSessionStepGuid != Guid.Empty
-        });
-
-        answerFeatures.Add(new AnswerFeature{
-            Id2 = "InGame",
-            Name = "Spiel",
-            Group = AnswerFeatureGroups.TrainingType,
-            DoesApply = param => param.Answer.Round != null
         });
 
         //ANSWER PATTERNS

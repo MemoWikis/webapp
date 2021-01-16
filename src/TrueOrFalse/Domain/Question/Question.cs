@@ -117,11 +117,6 @@ public class Question : DomainEntity, ICreator
         return false;
     }
 
-    public virtual int TimeToLearnInSeconds()
-    {
-        return TrainingPlan.SecondsPerQuestionEst;
-    }
-
     public Question()
     {
         Categories = new List<Category>();

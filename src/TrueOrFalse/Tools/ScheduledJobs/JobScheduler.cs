@@ -31,14 +31,10 @@ namespace TrueOrFalse.Utilities.ScheduledJobs
             Sl.R<RunningJobRepo>().TruncateTable();
             
             Schedule_CleanupWorkInProgressQuestions();
-            //Current not in use
-            //Schedule_GameLoop();
             Schedule_RecalcKnowledgeStati();
             Schedule_RecalcKnowledgeSummariesForCategory();
             Schedule_RecalcReputation();
             Schedule_RecalcReputationForAll();
-            Schedule_TrainingReminderCheck();
-            Schedule_TrainingPlanUpdateCheck();
             Schedule_EditCategoryInWishKnowledge();
             Schedule_KnowledgeReportCheck();
             Schedule_LOM_Export();
@@ -101,25 +97,6 @@ namespace TrueOrFalse.Utilities.ScheduledJobs
                         x.StartingDailyAt(new TimeOfDay(4, 00))
                             .OnEveryDay()
                             .EndingDailyAfterCount(1)).Build());
-        }
-
-        private static void Schedule_TrainingPlanUpdateCheck()
-        {
-            _scheduler.ScheduleJob(JobBuilder.Create<TrainingPlanUpdateCheck>().Build(),
-                TriggerBuilder.Create()
-                    .WithSimpleSchedule(x =>
-                        x.WithIntervalInMinutes(TrainingPlanUpdateCheck.IntervalInMinutes)
-                        .RepeatForever())
-                    .Build());
-        }
-
-        private static void Schedule_TrainingReminderCheck()
-        {
-            _scheduler.ScheduleJob(JobBuilder.Create<TrainingReminderCheck>().Build(),
-                TriggerBuilder.Create()
-                    .WithSimpleSchedule(x => 
-                        x.WithIntervalInMinutes(TrainingReminderCheck.IntervalInMinutes)
-                        .RepeatForever()).Build());
         }
 
         private static void Schedule_KnowledgeReportCheck()

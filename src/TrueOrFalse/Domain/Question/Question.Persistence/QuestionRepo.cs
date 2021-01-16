@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using NHibernate;
 using NHibernate.Criterion;
-using NHibernate.Linq;
 using TrueOrFalse.Search;
 
 public class QuestionRepo : RepositoryDbBase<Question>
@@ -23,13 +21,6 @@ public class QuestionRepo : RepositoryDbBase<Question>
     public void UpdateFieldsOnly(Question question)
     {
         base.Update(question);
-    }
-
-    public new void UpdateFieldsOnlyForMigration(Question question)
-    {
-        base.Update(question);
-        EntityCache.AddOrUpdate(question);
-        Sl.R<UpdateQuestionCountForCategory>().Run(question.Categories);
     }
 
     public IList<UserTinyModel> GetAuthorsQuestion(int questionId, bool filterUsersForSidebar = false)
@@ -170,30 +161,6 @@ public class QuestionRepo : RepositoryDbBase<Question>
             .List<Question>();
     }
 
-    public IList<Question> GetByVisibility(int userId)
-    {
-        var query = _session.QueryOver<Question>().Where(q =>
-            (q.Visibility == QuestionVisibility.Owner || q.Visibility == QuestionVisibility.OwnerAndFriends) && q.Creator.Id == userId);
-        return query.List<Question>();
-    }
-
-    public IList<Question> GetForReference(int categoryId, int currentUser, int resultCount = -1)
-    {
-        var query = _session.QueryOver<Question>()
-            .OrderBy(q => q.TotalRelevancePersonalEntries)
-            .Desc
-            .ThenBy(q => q.DateCreated)
-            .Desc
-            .Where(q => q.Visibility == QuestionVisibility.All || q.Creator.Id == currentUser)
-            .JoinQueryOver<Reference>(q => q.References)
-            .Where(q => q.Category.Id == categoryId);
-
-        if (resultCount > -1)
-            query.Take(resultCount);
-
-        return query.List<Question>();
-    }
-
     public PagedResult<Question> GetForCategoryAndInWishCount(int categoryId, int userId, int resultCount)
     {
         var query = _session.QueryOver<QuestionValuation>()
@@ -237,18 +204,6 @@ public class QuestionRepo : RepositoryDbBase<Question>
             .Select(questionId => questions.FirstOrDefault(question => question.Id == questionId))
             .Where(q => q != null)
             .ToList();
-    }
-
-    public IList<int> GetAllKnowledgeList(int userId)
-    {
-        return _session
-            .QueryOver<QuestionValuation>()
-            .Where(q =>
-                q.User.Id == userId &&
-                q.RelevancePersonal != -1)
-            .JoinQueryOver(q => q.Question)
-            .Select(q => q.Question.Id)
-            .List<int>();
     }
 
     public IList<int> GetByKnowledge(
@@ -325,33 +280,6 @@ public class QuestionRepo : RepositoryDbBase<Question>
                 v.RelevancePersonal > -1
             )
             .RowCount();
-    }
-
-    /// <summary>
-    /// Return how often a question is part of a future date
-    /// </summary>
-    public int HowOftenInFutureDate(int questionId)
-    {
-        var query = "SELECT COUNT(*) FROM " +
-                    "(SELECT qis.Set_id, dts.Date_id, d.User_id, d.DateTime FROM questioninset as qis LEFT JOIN question as q ON qis.Question_id = q.Id " +
-                    "LEFT JOIN date_to_sets as dts ON dts.Set_id = qis.Set_id " +
-                    "LEFT JOIN date as d ON d.Id = dts.Date_id " +
-                    "WHERE qis.Question_id = {0} AND d.DateTime > NOW() GROUP BY dts.Date_id) " +
-                    "AS c; ";
-        return (int)Sl.R<ISession>()
-            .CreateSQLQuery(String.Format(query, questionId))
-            .UniqueResult<long>();
-
-        //Sl.R<ISession>()
-        //    .CreateSQLQuery(
-        //        "SELECT COUNT(*) FROM " +
-        //        "(SELECT qis.Set_id, dts.Date_id, d.User_id, d.DateTime FROM questioninset as qis LEFT JOIN question as q ON qis.Question_id = q.Id " +
-        //        "LEFT JOIN date_to_sets as dts ON dts.Set_id = qis.Set_id " +
-        //        "LEFT JOIN date as d ON d.Id = dts.Date_id " +
-        //        "WHERE qis.Question_id = :questionId AND d.DateTime > NOW() GROUP BY dts.Date_id) " +
-        //        "AS c; ")
-        //    .SetParameter("questionId", questionId)
-        //    .ExecuteUpdate();
     }
 
     public int HowManyNewPublicQuestionsCreatedSince(DateTime since)

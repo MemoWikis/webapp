@@ -381,24 +381,6 @@
     <Compile Include="Domain\Comments\ShouldReasons.cs" />
     <Compile Include="Domain\ContentRecommendation\ContentRecommendation.cs" />
     <Compile Include="Domain\ContentRecommendation\ContentRecommendationResult.cs" />
-    <Compile Include="Domain\Date\Date.cs" />
-    <Compile Include="Domain\Date\DateVisibility.cs" />
-    <Compile Include="Domain\Date\Ops.Stats\GetTrainingPlanStats.cs" />
-    <Compile Include="Domain\Date\Ops.Stats\TrainingPlanStatsPerDayResult.cs" />
-    <Compile Include="Domain\Date\Ops.Stats\TrainingPlanStatsResult.cs" />
-    <Compile Include="Domain\Date\Ops\CopyDate.cs" />
-    <Compile Include="Domain\Date\Ops\DeleteDate.cs" />
-    <Compile Include="Domain\Date\Ops\GetDatesInNetwork.cs" />
-    <Compile Include="Domain\Date\Ops\GetSampleDates.cs" />
-    <Compile Include="Domain\Date\Persistence\DateMap.cs" />
-    <Compile Include="Domain\Date\Persistence\DateRepo.cs" />
-    <Compile Include="Domain\Game\Game.cs" />
-    <Compile Include="Domain\Game\Round.cs" />
-    <Compile Include="Domain\Game\GameStatus.cs" />
-    <Compile Include="Domain\Game\Persistence\GameMap.cs" />
-    <Compile Include="Domain\Game\Persistence\RoundMap.cs" />
-    <Compile Include="Domain\Game\Persistence\PlayerMap.cs" />
-    <Compile Include="Domain\Game\Player.cs" />
     <Compile Include="Domain\ICreator.cs" />
     <Compile Include="Domain\IsAllowedTo.cs" />
     <Compile Include="Domain\Knowledge\GetKnowledgeStatus.cs" />
@@ -406,17 +388,6 @@
     <Compile Include="Domain\Knowledge\Learning\LearningAnalyzer\AnswerPatternMatch.cs" />
     <Compile Include="Domain\Knowledge\Learning\LearningAnalyzer\AnswerPatternMatcher.cs" />
     <Compile Include="Domain\Knowledge\Learning\LearningAnalyzer\AnswerPatterns\AnswerPatternRepo.cs" />
-    <Compile Include="Domain\Knowledge\Learning\TrainingPlan\Configuration\TrainingPlanSettings.cs" />
-    <Compile Include="Domain\Knowledge\Learning\TrainingPlan\Creation\AddFinalBoost.cs" />
-    <Compile Include="Domain\Knowledge\Learning\TrainingPlan\Creation\AnswerProbability.cs" />
-    <Compile Include="Domain\Knowledge\Learning\TrainingPlan\Creation\TrainingPlanUpdater.cs" />
-    <Compile Include="Domain\Knowledge\Learning\TrainingPlan\NotificationStatus.cs" />
-    <Compile Include="Domain\Knowledge\Learning\TrainingPlan\Persistence\TrainingDateMap.cs" />
-    <Compile Include="Domain\Knowledge\Learning\TrainingPlan\Persistence\TrainingDateRepo.cs" />
-    <Compile Include="Domain\Knowledge\Learning\TrainingPlan\Persistence\TrainingPlanJsonRepo.cs" />
-    <Compile Include="Domain\Knowledge\Learning\TrainingPlan\Persistence\TrainingPlanMap.cs" />
-    <Compile Include="Domain\Knowledge\Learning\TrainingPlan\Persistence\TrainingPlanRepo.cs" />
-    <Compile Include="Domain\Knowledge\Learning\TrainingPlan\TrainingQuestion.cs" />
     <Compile Include="Domain\Knowledge\Probability\AlgoInsight\Features_Question\QuestionFeatureGroups.cs" />
     <Compile Include="Domain\Knowledge\Probability\ForValuation\ProbabilityCalc_Curve.cs" />
     <Compile Include="Domain\Knowledge\Summary\KnowledgeSummaryUpdate.cs" />
@@ -566,16 +537,11 @@
     <Compile Include="Domain\User\Ops\IsGoogleAccessToken.cs" />
     <Compile Include="Infrastructure\Email\MailMessage2.cs" />
     <Compile Include="Domain\Message\MessageTypes.cs" />
-    <Compile Include="Domain\Message\HtmlMessage\TrainingReminderForDateMsgModel.cs" />
-    <Compile Include="Domain\Message\HtmlMessage\TrainingReminderForDateMsg.cs" />
     <Compile Include="Domain\Question\References\Ops\ReferenceCount.cs" />
     <Compile Include="Infrastructure\AsyncExe.cs" />
     <Compile Include="Infrastructure\IoC\AutofacRegistrationWriter.cs" />
     <Compile Include="Infrastructure\Time\DateTimeX.cs" />
     <Compile Include="Infrastructure\Time\Period.cs" />
-    <Compile Include="Domain\Knowledge\Learning\TrainingPlan\TrainingDate.cs" />
-    <Compile Include="Domain\Knowledge\Learning\TrainingPlan\TrainingPlan.cs" />
-    <Compile Include="Domain\Knowledge\Learning\TrainingPlan\Creation\TrainingPlanCreator.cs" />
     <Compile Include="Domain\Question\AnswerHistory\Ops.FollowingAnswer\FollowingAnswer.cs" />
     <Compile Include="Domain\Knowledge\Learning\LearningAnalyzer\AnswerPatterns\IAnswerPattern.cs" />
     <Compile Include="Domain\Knowledge\Learning\LearningAnalyzer\AnswerPatterns\Info\AnswerPatternInfoLoader.cs" />
@@ -624,7 +590,6 @@
     <Compile Include="Domain\Knowledge\Count\GetWishSetCount.cs" />
     <Compile Include="Domain\Knowledge\Probability\ForUser\ProbabilityCalc_User.cs" />
     <Compile Include="Domain\Knowledge\Probability\ForUser\ProbabilityUpdate_User.cs" />
-    <Compile Include="Domain\Question\QuestionValuation\AddValuationEntries_ForQuestionsInSetsAndDates.cs" />
     <Compile Include="Domain\Knowledge\Probability\ForValuation\ProbabilityCalcResult.cs" />
     <Compile Include="Domain\Knowledge\Probability\ForValuation\ProbabilityCalc_Simple3.cs" />
     <Compile Include="Domain\Knowledge\Probability\ForValuation\ProbabilityCalc_Simple2.cs" />
@@ -1006,8 +971,6 @@
     <Compile Include="Tools\ScheduledJobs\Jobs\KnowledgeReportCheck.cs" />
     <Compile Include="Tools\ScheduledJobs\Jobs\RecalcReputationForAll.cs" />
     <Compile Include="Tools\ScheduledJobs\Jobs\TestJob.cs" />
-    <Compile Include="Tools\ScheduledJobs\Jobs\TrainingPlanUpdateCheck.cs" />
-    <Compile Include="Tools\ScheduledJobs\Jobs\TrainingReminderCheck.cs" />
     <Compile Include="Infrastructure\MutexX.cs" />
     <Compile Include="Tools\ScheduledJobs\RunningsJobs\RunningJobMap.cs" />
     <Compile Include="Tools\ScheduledJobs\RunningsJobs\RunningJob.cs" />
@@ -1158,7 +1121,6 @@
     <Compile Include="Web\Attributes\Filters\SetUserMenuAttribute.cs" />
     <Compile Include="Web\Attributes\Filters\SetThemeMenu.cs" />
     <Compile Include="Web\Attributes\Validation\MustBeTrueAttribute.cs" />
-    <Compile Include="Web\Context\MenuHistory\DateHistory.cs" />
     <Compile Include="Web\Context\MenuHistory\CategoryHistory.cs" />
     <Compile Include="Web\Context\MenuHistory\HelpHistory.cs" />
     <Compile Include="Web\Context\MenuHistory\HistoryBase.cs" />
@@ -1218,12 +1180,6 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="Domain\Message\HtmlMessage\KnowledgeReportMsg.cshtml">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="Domain\Message\HtmlMessage\TrainingReminderForDateMsgStylesInlined.cshtml">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="Domain\Message\HtmlMessage\TrainingReminderForDateMsg.cshtml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="job_scheduling_data_2_0.xsd">

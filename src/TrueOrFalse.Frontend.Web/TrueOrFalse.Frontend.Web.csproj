@@ -322,7 +322,6 @@
     <Compile Include="Views\Api\MetaData\LomApiConroller.cs" />
     <Compile Include="Views\Api\Search\SearchApiController.cs" />
     <Compile Include="Views\Api\Search\PrepareSearch.cs" />
-    <Compile Include="Views\Api\TrainingPlanApiController.cs" />
     <Compile Include="Views\Api\User\FacebookUsersApiController.cs" />
     <Compile Include="Views\Api\User\GoogleUsersApiController.cs" />
     <Compile Include="Views\Beta\BetaController.cs" />
@@ -370,7 +369,6 @@
     <Compile Include="Views\Knowledge\KnowledgeQuestions.cs" />
     <Compile Include="Views\Knowledge\Partials\KnowledgeCardMiniSetModel.cs" />
     <Compile Include="Views\Knowledge\Partials\KnowledgeCardMiniCategoryModel.cs" />
-    <Compile Include="Views\Knowledge\TrainingDateModel.cs" />
     <Compile Include="Views\Knowledge\Wheel\KnowledgeWheelController.cs" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
@@ -2857,7 +2855,6 @@
     <Content Include="Views\AlgoInsight\TabForecast.ascx" />
     <Content Include="Views\Beta\Video1.aspx" />
     <Content Include="Views\Drafts\Widget.html" />
-    <Content Include="Views\Knowledge\TrainingDate.ascx" />
     <Content Include="Views\Maintenance\AntiForgeryToken.ascx" />
     <Content Include="Views\Maintenance\CMS.aspx" />
     <Content Include="Views\Sets\Edit\Js\Validation.js">

@@ -14,7 +14,6 @@ public class LearningSessionMap : ClassMap<LearningSession>
         Map(x => x.SetsToLearnIdsString);
         Map(x => x.SetListTitle);
         References(x => x.CategoryToLearn);
-        References(x => x.DateToLearn);
 
         Map(x => x.IsWishSession);
 

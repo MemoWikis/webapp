@@ -25,8 +25,6 @@
 
     public int UserId => _sessionUser.UserId;
 
-    public Game UpcomingGame;
-
     public UserMenu UserMenu;
     
     public SidebarModel SidebarModel = new SidebarModel();

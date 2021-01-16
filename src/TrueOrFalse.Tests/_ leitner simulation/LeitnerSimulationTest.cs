@@ -24,8 +24,6 @@ public class LeitnerSimulationTest : BaseTest
         var leitnerSimulation = new LeitnerSimulation();
         leitnerSimulation.Start(numberOfDays, numberOfQuestions);
 
-        var memuchoTrainingPlan = Get_comparison_with_training_plan_creator(numberOfQuestions, numberOfDays);
-
         var sb = new StringBuilder();
 
         sb.AppendLine($"Amount questions: {numberOfQuestions}");
@@ -33,12 +31,6 @@ public class LeitnerSimulationTest : BaseTest
         sb.AppendLine("");
         sb.AppendLine($"Total Leitner repititions: {leitnerSimulation.Days.GetSumOfRepetitions()}");
         sb.AppendLine("");
-
-        TrainingPlan.AvgRepetitionsPerTraingDate = 2;
-        sb.AppendLine("Total memucho repetitions: " + memuchoTrainingPlan.GetSumOfRepetitions() + " (avg. 2 repetitions per training session)");
-        TrainingPlan.AvgRepetitionsPerTraingDate = 3;
-        sb.AppendLine("Total memucho repetitions: " + memuchoTrainingPlan.GetSumOfRepetitions() + " (avg. 3 repetitions per training session)");
-
 
         sb.AppendLine("----------------------------------------------------------");
         sb.AppendLine("Leitner Details:");
@@ -59,33 +51,10 @@ public class LeitnerSimulationTest : BaseTest
         sb.AppendLine("----------------------------------------------------------");
         sb.AppendLine("Memucho Details:");
         sb.AppendLine("");
-        TrainingPlan.AvgRepetitionsPerTraingDate = 2;
-        sb.AppendLine($"(avg. {TrainingPlan.AvgRepetitionsPerTraingDate} repetitions per training session)");
-        sb.AppendLine("");
 
-        foreach (var trainingDate in memuchoTrainingPlan.Dates)
-            sb.AppendLine($"Day: {(trainingDate.DateTime - DateTime.Now).Days} " +
-                          $"{trainingDate.DateTime} repetitions: {trainingDate.AllQuestionsInTraining.Count * TrainingPlan.AvgRepetitionsPerTraingDate} ");
-        
         var fileName = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, $"leitner-days-{numberOfDays}-questions-{numberOfQuestions}.txt");
         File.WriteAllText(fileName, sb.ToString());
     }
 
-    public static TrainingPlan Get_comparison_with_training_plan_creator(int numberOfQuestions, int numberOfDays)
-    {
-        var date = new Date
-        {
-            DateTime = DateTime.Now.AddDays(numberOfDays),
-            User = ContextUser.GetUser()
-        };
-
-        date.TrainingPlan = TrainingPlanCreator.Run(date, new TrainingPlanSettings
-        {
-            QuestionsPerDate_IdealAmount = 20,
-            MinSpacingBetweenSessionsInMinutes = 1200,
-        });
-
-        return date.TrainingPlan;
-    }
 }
 

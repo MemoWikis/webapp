@@ -1,6 +1,4 @@
-﻿using System;
-using System.Linq;
-using TrueOrFalse.Search;
+﻿using System.Linq;
 
 public class SetDeleter 
 {
@@ -50,20 +48,6 @@ public class SetDeleter
                     "er ist " + howOftenInOtherPeopleWuwi + "-mal Teil des Wunschwissens anderer Nutzer. " +
                     "Bitte melde dich bei uns, wenn du meinst, das Lernset sollte dennoch gelöscht werden."
             };
-        }
-        var howOftenInFutureDate = Sl.R<SetRepo>().HowOftenInDate(setId);
-        if (howOftenInFutureDate > 0)
-        {
-            return new CanBeDeletedResult
-            {
-                Yes = false,
-                IfNot_Reason =
-                    "Das Lernset kann nicht gelöscht werden, da in " +
-                    howOftenInFutureDate + " Termin" + StringUtils.PluralSuffix(howOftenInFutureDate, "en") +
-                    " (vielleicht auch bei dir) damit gelernt wurde oder wird. " +
-                    "Bitte melde dich bei uns, wenn du meinst, das Lernset sollte dennoch gelöscht werden."
-            };
-
         }
 
         return new CanBeDeletedResult {Yes = true};

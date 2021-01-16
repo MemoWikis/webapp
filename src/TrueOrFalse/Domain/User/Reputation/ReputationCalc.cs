@@ -1,6 +1,4 @@
-﻿using System;
-using System.Linq;
-using NHibernate;
+﻿using NHibernate;
 
 public class ReputationCalc : IRegisterAsInstancePerLifetime
 {
@@ -8,10 +6,6 @@ public class ReputationCalc : IRegisterAsInstancePerLifetime
 
     public const int PointsPerQuestionCreated = 1; //excluding private questions
     public const int PointsPerQuestionInOtherWishknowledge = 5;
-    public const int PointsPerSetCreated = 2;
-    public const int PointsPerSetInOtherWishknowledge = 10;
-    public const int PointsPerDateCreatedVisible = 1;
-    public const int PointsPerDateCopied = 5; //Own dates copied by others
     public const int PointsPerUserFollowingMe = 20;
     public const int PointsForPublicWishknowledge = 30;
 
@@ -32,30 +26,10 @@ public class ReputationCalc : IRegisterAsInstancePerLifetime
             .List<Question>();
         result.ForQuestionsCreated = createdQuestions.Count * PointsPerQuestionCreated;
 
-        var createdSets = _session.QueryOver<Set>()
-            .Where(s => s.Creator.Id == result.User.Id)
-            .RowCount();
-        result.ForSetsCreated = createdSets*PointsPerSetCreated;
-
         /*Calculate Reputation for Questions, Sets, Categories in other user's wish knowledge */
 
         var countQuestionsInOtherWishknowledge = Sl.UserRepo.GetByIds(user.Id);
         result.ForQuestionsInOtherWishknowledge = countQuestionsInOtherWishknowledge[0].TotalInOthersWishknowledge * PointsPerQuestionInOtherWishknowledge;
-
-        var countSetsInOtherWishknowledge = GetCountOfSetsInOtherPeoplesWishknowledge(user);
-        result.ForSetsInOtherWishknowledge = countSetsInOtherWishknowledge * PointsPerSetInOtherWishknowledge;
-
-
-        /* Calculate Reputation for Dates */
-        var datesCreatedVisibleCount =
-            _session.QueryOver<Date>()
-                .Where(d => d.User == user)
-                .And(d => d.Visibility == DateVisibility.InNetwork)
-                .RowCount();
-        var datesCopiedInstancesCount =
-            _session.QueryOver<Date>().Where(d => d.User == user).List<Date>().Sum(d => d.CopiedInstances.Count);
-        result.ForDatesCreatedVisible = datesCreatedVisibleCount * PointsPerDateCreatedVisible;
-        result.ForDatesCopied = datesCopiedInstancesCount * PointsPerDateCopied;
 
         /* Calculate Reputation for other things */
 
@@ -63,21 +37,5 @@ public class ReputationCalc : IRegisterAsInstancePerLifetime
         result.ForUsersFollowingMe = _session.R<TotalFollowers>().Run(result.User.Id) * PointsPerUserFollowingMe;
 
         return result;
-    }
-
-    private int GetCountOfSetsInOtherPeoplesWishknowledge(User user)
-    {
-        var tinyUser = new UserTinyModel(user);
-        var query =
-            $@"SELECT count(*)
-                FROM setvaluation sv
-                LEFT JOIN questionset s
-                ON sv.SetId = s.Id
-                WHERE s.Creator_id = {tinyUser.Id}
-                AND sv.UserId <> {tinyUser.Id}
-                AND sv.RelevancePersonal <> -1";
-
-        var countSetsInOtherWishknowledge = Convert.ToInt32(_session.CreateSQLQuery(query).UniqueResult());
-        return countSetsInOtherWishknowledge;
     }
 }

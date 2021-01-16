@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Linq;
-using System.Text;
-using Seedworks.Web.State;
-using TrueOrFalse.Frontend.Web.Code;
 
 public class KnowledgeReportMsgModel
 {
@@ -39,11 +36,6 @@ public class KnowledgeReportMsgModel
     public string NewSets;
     public string TotalAvailableQuestions;
     public string TotalAvailableSets;
-
-    public string UpcomingDates;
-    public string DatesInNetwork;
-    public string UpcomingTrainingDatesCount;
-    public string UpcomingTrainingDatesTrainingTime;
 
     public string UnreadMessagesCount;
     public string FollowerIAm;
@@ -142,49 +134,12 @@ public class KnowledgeReportMsgModel
         else if (streak.LongestLength == 1)
             TopStreak += " (" + streak.LongestStart.ToString("dd.MM.yyyy") + ")";
 
-
-
         /* Stats on new content */
 
         NewQuestions = Sl.R<QuestionRepo>().HowManyNewPublicQuestionsCreatedSince(ShowStatsForPeriodSince).ToString();
         NewSets = Sl.R<SetRepo>().HowManyNewSetsCreatedSince(ShowStatsForPeriodSince).ToString();
         TotalAvailableQuestions = Sl.R<QuestionRepo>().TotalPublicQuestionCount().ToString();
         TotalAvailableSets = Sl.R<SetRepo>().TotalSetCount().ToString();
-
-
-        /* User's dates and training sessions */
-
-        var upcomingDates = Sl.R<DateRepo>().GetBy(user.Id, onlyUpcoming: true);
-        var sbUpcomingDates = new StringBuilder();
-        if (!upcomingDates.Any())
-        {
-            sbUpcomingDates.AppendLine("Du hast gerade keinen Termin. ");
-            sbUpcomingDates.AppendLine("<a href = \"https://memucho.de/Termin/Erstellen?utm_medium=email" + UtmSourceFullString +
-                            UtmCampaignFullString + "&utm_term=createDate\">Termin erstellen</a>.");
-        }
-        else
-        {
-            sbUpcomingDates.AppendLine("Du lernst gerade für " + upcomingDates.Count + " Termin" + StringUtils.PluralSuffix(upcomingDates.Count, "e") + ":");
-            foreach (var date in upcomingDates)
-            {
-                sbUpcomingDates.AppendLine("<br/><strong>-&nbsp;" + date.GetTitle() + "</strong> (in " + new TimeSpanLabel(date.Remaining()).Full + ")");
-            }
-        }
-        UpcomingDates = sbUpcomingDates.ToString();
-
-        var datesInNetworkCount = Sl.R<GetDatesInNetwork>().Run(user.Id).Count;
-        DatesInNetwork = datesInNetworkCount.ToString() + " Termin" + StringUtils.PluralSuffix(datesInNetworkCount, "e");
-        
-        var upcomingTrainingDates = Sl.R<TrainingDateRepo>().GetUpcomingTrainingDates();
-        UpcomingTrainingDatesCount = upcomingTrainingDates.Count.ToString();
-        if (upcomingTrainingDates.Count > 0)
-        {
-            var trainingTimeTimeSpan = new TimeSpan();
-            trainingTimeTimeSpan = upcomingTrainingDates.Aggregate(trainingTimeTimeSpan, (current, upcomingTrainingDate) => current.Add(upcomingTrainingDate.TimeEstimated())); //adds up al TimeEstimated
-            UpcomingTrainingDatesTrainingTime = " mit einer geschätzten Lernzeit von insgesamt " + trainingTimeTimeSpan.ToString("hh'h:'mm'min'");
-
-        }
-
 
         /* User's additional status & infos */
 

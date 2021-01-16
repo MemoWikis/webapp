@@ -146,8 +146,6 @@ public class MaintenanceController : BaseController
     [HttpPost]
     public ActionResult RecalculateAllKnowledgeItems()
     {
-        R<AddValuationEntries_ForQuestionsInSetsAndDates>().RunForAllUsers();
-
         ProbabilityUpdate_ValuationAll.Run();
         ProbabilityUpdate_Question.Run();
         ProbabilityUpdate_Category.Run();
@@ -393,110 +391,6 @@ public class MaintenanceController : BaseController
     }
 
     [HttpPost]
-    public ActionResult MigrateAnswerData()
-    {
-        var questionViewRepo = Sl.R<QuestionViewRepository>();
-
-        var allQuestionViews = questionViewRepo.GetAll().ToList();
-
-        var answerRepo = Sl.R<AnswerRepo>();
-
-        var allAnswers = answerRepo.GetAll().OrderBy(x => x.DateCreated);
-
-        var questionViewsToUpdate = allQuestionViews
-            .Where(v => v.GuidString == null)
-            .OrderBy(v => v.DateCreated)
-            .ToList();
-
-        var maxTimeForView = TimeSpan.FromHours(2);
-
-        foreach (var questionView in questionViewsToUpdate)
-        {
-            questionView.Guid = Guid.NewGuid();
-            questionView.Migrated = true;
-            questionViewRepo.Update(questionView);
-
-            IList<Answer> answersForQuestionView;
-
-            if (questionView.Round != null)
-            {
-
-                answersForQuestionView = allAnswers.Where(a => a.Round == questionView.Round
-                                                               && a.UserId == questionView.UserId)
-                    .ToList();
-            }
-            else
-            {
-
-                var nextViewIndex = allQuestionViews.FindIndex(x =>
-                    x.DateCreated > questionView.DateCreated
-                    && x.UserId == questionView.UserId);
-
-                var upperTimeBound =
-                    nextViewIndex != -1 &&
-                    allQuestionViews[nextViewIndex].DateCreated < questionView.DateCreated.Add(maxTimeForView)
-                        ? allQuestionViews[nextViewIndex].DateCreated
-                        : questionView.DateCreated.Add(maxTimeForView);
-
-                answersForQuestionView = allAnswers
-                    .Where(a =>
-                        a.QuestionViewGuidString == null
-                        && a.DateCreated >= questionView.DateCreated && a.DateCreated < upperTimeBound
-                        && a.UserId == questionView.UserId
-                        && a.Question.Id == questionView.QuestionId)
-
-                    .ToList();
-            }
-
-            AddInteractionNumber(answersForQuestionView);
-
-            foreach (var answer in answersForQuestionView)
-            {
-                answer.QuestionViewGuid = questionView.Guid;
-                answer.Migrated = true;
-                answer.MillisecondsSinceQuestionView = (answer.DateCreated - questionView.DateCreated).Milliseconds;
-
-                answerRepo.Update(answer);
-            }
-        }
-
-        return View("Maintenance", new MaintenanceModel { Message = new SuccessMessage("Wurde migriert") });
-    }
-
-    public void AddInteractionNumber(IList<Answer> answersForQuestionView)
-    {
-        var orderedAnswers = answersForQuestionView
-            .OrderBy(a =>
-            {
-                switch (a.AnswerredCorrectly)
-                {
-                    case AnswerCorrectness.False:
-                        return 0;
-                    case AnswerCorrectness.True:
-                        return 1;
-                    case AnswerCorrectness.IsView:
-                        return 3;
-                    case AnswerCorrectness.MarkedAsTrue:
-                        return
-                            a.AnswerText == ""
-                                ? 4
-                                : 2; //MarkedAsTrue can be after IsView if newly created or before if existing answer is changed
-                }
-
-                return 3;
-            })
-            .ThenBy(a => a.DateCreated);
-
-        var interactionNumber = 1;
-
-        foreach (var answer in orderedAnswers)
-        {
-            answer.InteractionNumber = interactionNumber;
-            interactionNumber++;
-        }
-    }
-
-    [HttpPost]
     public ActionResult CheckForDuplicateInteractionNumbers()
     {
         var duplicates = Sl.R<AnswerRepo>().GetAll()
@@ -555,24 +449,6 @@ public class MaintenanceController : BaseController
             });
 
         return View("Maintenance", new MaintenanceModel { Message = new SuccessMessage("Cleared") });
-    }
-
-    [HttpPost]
-    public ActionResult CheckForDuplicateGameRoundAnswers()
-    {
-        var duplicates = Sl.R<AnswerRepo>().GetAll()
-            .Where(a => a.Round != null)
-            .GroupBy(a => new { a.Round, a.UserId })
-            .Where(g => g.Count(a => a.AnswerredCorrectly == AnswerCorrectness.IsView) > 1
-                        || g.Count(a => a.AnsweredCorrectly()) > 1)
-            .SelectMany(g => g)
-            .ToList();
-
-        var message = duplicates.Any()
-            ? $"Dubletten: {duplicates.Select(a => a.Id.ToString()).Aggregate((a, b) => a + " " + b)}"
-            : "Es gibt keine Dubletten.";
-
-        return View("Maintenance", new MaintenanceModel { Message = new SuccessMessage(message) });
     }
 
     [ValidateAntiForgeryToken]

@@ -17,8 +17,6 @@ public class AnswerLog : IRegisterAsInstancePerLifetime
         Guid questionViewGuid,
         int interactionNumber,
         int millisecondsSinceQuestionView,
-        Player player = null,
-        Round round = null,
         LearningSession learningSession = null,
         Guid learningSessionStepGuid = default(Guid),
       //  bool countUnansweredAsCorrect = false,
@@ -33,8 +31,6 @@ public class AnswerLog : IRegisterAsInstancePerLifetime
             MillisecondsSinceQuestionView = millisecondsSinceQuestionView,
             AnswerText = answerQuestionResult.AnswerGiven,
             AnswerredCorrectly = answerQuestionResult.IsCorrect ? AnswerCorrectness.True : AnswerCorrectness.False,
-            Round = round,
-            Player = player,
             LearningSession = learningSession,
             LearningSessionStepGuid = learningSessionStepGuid,
             DateCreated = dateCreated == default(DateTime)

@@ -53,14 +53,6 @@ public class UserActivityTools
                 return string.Format("<a href='{0}'>{1}</a>", Links.AnswerQuestion(userActivity.Question), userActivity.Question.Text);
             case UserActivityType.CreatedCategory:
                 return string.Format("<a href='{0}'><span class='label label-category'>{1}</span></a>", Links.CategoryDetail(userActivity.Category), userActivity.Category.Name);
-            case UserActivityType.CreatedDate:
-                return "<a href='/Termine'>" + userActivity.Date.GetTitle() + "</a>";
-            case UserActivityType.CopiedDate:
-                return "<a href='/Termine'>" + userActivity.Date.GetTitle() + "</a>";
-            case UserActivityType.CreatedSet:
-                return string.Format("<a href='{0}'><span class='label label-set'>{1}</span></a>", Links.SetDetail(userActivity.Set.Name, userActivity.Set.Id), userActivity.Set.Name);
-            case UserActivityType.CreatedGame:
-                return ""; //Game has no title
             case UserActivityType.FollowedUser:
                 return string.Format("<a href='{0}'>{1}</a>", Links.UserDetail(userActivity.UserIsFollowed),userActivity.UserIsFollowed.Name);
         }
