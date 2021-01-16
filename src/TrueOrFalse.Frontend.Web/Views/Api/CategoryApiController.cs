@@ -157,7 +157,7 @@ public class CategoryApiController : BaseController
     [HttpGet]
     public void ForDebugging_CreateDeepCloneError(string categoryId)
     {
-        var questions = Sl.QuestionRepo.GetAll();
+        var questions = Sl.QuestionRepo.GetAllEager();
         var categories = Sl.CategoryRepo.GetAllEager();
 
         categories.First().DeepClone();

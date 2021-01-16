@@ -307,4 +307,20 @@ public class QuestionRepo : RepositoryDbBase<Question>
             .Count(q => q.TotalFalseAnswers < q.TotalTrueAnswers);
         return (100 * moreWrongThanRight / (moreRightThanWrong + moreWrongThanRight));
     }
+
+    public IList<Question> GetAllEager()
+    {
+        var questions = _session.QueryOver<Question>()
+            .Future();
+
+        var questions1 = _session.QueryOver<Question>()
+            .Fetch(SelectMode.Fetch, x => x.Categories)
+            .Future();
+
+        var questions2 = _session.QueryOver<Question>()
+            .Fetch(SelectMode.Fetch, x => x.Creator)
+            .Future();
+
+        return questions.ToList();
+    }
 }

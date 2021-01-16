@@ -25,6 +25,7 @@ public class CategoryRepository : RepositoryDbBase<Category>
 
         if (categoryIds != null)
             query = query.Where(Restrictions.In("Id", categoryIds.ToArray()));
+        
         return query
             .Left.JoinQueryOver<CategoryRelation>(s => s.CategoryRelations)
             .Left.JoinQueryOver(x => x.RelatedCategory)
