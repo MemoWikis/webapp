@@ -1,19 +1,11 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Diagnostics.Eventing.Reader;
 using System.Linq;
-using System.Security.Cryptography.X509Certificates;
-using System.Web.Helpers;
 using System.Web.Mvc;
-using FluentNHibernate.Conventions;
-using FluentNHibernate.MappingModel.Output.Sorting;
 using GraphJsonDtos;
-using Newtonsoft.Json.Linq;
 
 public class GetCategoryGraph
 {
-
     public static JsonResult AsJson(Category category)
     {
         var graphData = Get(category);
@@ -113,6 +105,8 @@ public class GetCategoryGraph
                 link.level = Math.Max(sourceNode.Level, targetNode.Level);
         }
     }
+
+    public static void Test_AssignLinkLevels(IList<Node> nodes, List<Link> links) => AssignLinkLevels(nodes, links);
 
     public static CategoryGraph Get(Category category)
     {
