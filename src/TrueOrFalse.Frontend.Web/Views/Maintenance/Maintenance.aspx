@@ -45,27 +45,6 @@
                 Aggregierte Zahlen aktualisieren
             </a>
         </div>
-        <div class="col-md-6 MaintenanceSection">
-            <h4 style="margin-top: 10px;">Lernsets</h4>
-            <a href="<%= Url.Action("CalcAggregatedValuesSets", "Maintenance") %>" data-url="toSecurePost" style="display: none;">
-                <i class="fa fa-retweet"></i>
-                Aggregierte Zahlen aktualisieren
-            </a>
-            <a href="<%= Url.Action("DeleteValuationsForRemovedSets", "Maintenance") %>" data-url="toSecurePost" style="display: none;">
-                <i class="fa fa-retweet"></i>
-                cleanup set valuations & update SetInfo for all questions
-            </a>
-            <a href="<%= Url.Action("MigrateSetsToCategories", "Maintenance") %>" data-url="toSecurePost" style="display: none;">
-                <i class="fa fa-retweet"></i> Lernsets migrieren
-            </a>
-            <a href="<%= Url.Action("MigrateSetTextAndCleanup", "Maintenance") %>" data-url="toSecurePost" style="">
-                <i class="fa fa-retweet"></i> Lernset Text Migration und redundante Themenkopien (Lernsetkopien) migrieren und löschen
-            </a><br />
-            
-            <a href="<%= Url.Action("MigrateSetImages", "Maintenance") %>" data-url="toSecurePost" style="">
-                <i class="fa fa-retweet"></i> Lernsetbilder migrieren.
-            </a><br />
-        </div>
     </div>
 
     <div class="row">
@@ -131,9 +110,6 @@
             </a><br />
             <a href="<%= Url.Action("CheckForDuplicateLearningSessionStepGuidsInAnswers", "Maintenance") %>" data-url="toSecurePost" style="">
                 <i class="fa fa-retweet"></i> Auf Antworten mit selber LearningSessionStepGuid checken
-            </a><br />
-            <a href="<%= Url.Action("CheckForDuplicateGameRoundAnswers", "Maintenance") %>" data-url="toSecurePost" style="">
-                <i class="fa fa-retweet"></i> Auf Antworten mit selber RundenId und UserId checken
             </a><br />
             <a href="<%= Url.Action("MigrateDefaultTemplates", "Maintenance") %>" data-url="toSecurePost" style="display: none;">
                 <i class="fa fa-retweet"></i> Themen ohne topicMarkdown mit Templates migrieren

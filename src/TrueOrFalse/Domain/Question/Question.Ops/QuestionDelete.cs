@@ -21,7 +21,6 @@ public class QuestionDelete
         Sl.R<ReferenceRepo>().DeleteForQuestion(questionId);
         Sl.R<AnswerRepo>().DeleteFor(questionId); //not accounted for: answerfeature_to_answer
         Sl.R<QuestionViewRepository>().DeleteForQuestion(questionId);
-        Sl.R<QuestionInSetRepo>().DeleteForQuestion(questionId);
         Sl.R<UserActivityRepo>().DeleteForQuestion(questionId);
         Sl.R<QuestionViewRepository>().DeleteForQuestion(questionId);
         Sl.R<QuestionValuationRepo>().DeleteForQuestion(questionId);
@@ -37,7 +36,6 @@ public class QuestionDelete
             .CreateSQLQuery("DELETE FROM questionFeature_to_question where Question_id = " + questionId)
             .ExecuteUpdate(); //probably not necessary
 
-        Sl.R<TrainingDateRepo>().DeleteQuestionInAllTrainingDates(questionId);
         Sl.R<LearningSessionRepo>().DeleteQuestionInAllLearningSessions(questionId);
 
         questionRepo.Delete(question);
@@ -69,21 +67,6 @@ public class QuestionDelete
                     "Bitte melde dich bei uns, wenn du meinst, die Frage sollte dennoch gelöscht werden."
             };
         }
-
-        var howOftenInFutureDate = Sl.R<QuestionRepo>().HowOftenInFutureDate(questionId);
-        if (howOftenInFutureDate > 0)
-        {
-            return new CanBeDeletedResult
-            {
-                Yes = false,
-                IfNot_Reason =
-                    "Die Frage kann nicht gelöscht werden, da in " +
-                    howOftenInFutureDate + " zukünftigen Termin" + StringUtils.PluralSuffix(howOftenInFutureDate, "en") + " (vielleicht auch bei dir) damit gelernt wird. " +
-                    "Bitte melde dich bei uns, wenn du meinst, die Frage sollte dennoch gelöscht werden."
-            };
-
-        }
-
         return new CanBeDeletedResult{ Yes = true };
     }
 

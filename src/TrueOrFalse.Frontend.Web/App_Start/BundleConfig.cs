@@ -228,7 +228,6 @@ namespace TrueOrFalse.View
 
             bundles.Add(new ScriptBundle("~/bundles/js/Set")
                 .Include("~/Views/Knowledge/Wheel/KnowledgeWheel.js")
-                .IncludeDirectory("~/Views/Sets/Detail/Js", "*.js")
                 .IncludeDirectory("~/Views/Questions/Answer/AnswerControls/", "*.js")
                 .IncludeDirectory("~/Scripts/answerQuestion/", "*.js")
                 .IncludeDirectory("~/Views/Questions/ActivityPoints", "*.js"));

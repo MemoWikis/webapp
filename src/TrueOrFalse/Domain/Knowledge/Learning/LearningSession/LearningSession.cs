@@ -31,7 +31,6 @@ public class LearningSession : DomainEntity, IRegisterAsInstancePerLifetime
     public virtual Set SetToLearn { get; set; }
     public virtual string SetsToLearnIdsString { get; set; }
     public virtual string SetListTitle { get; set; }
-    public virtual Date DateToLearn { get; set; }
     public virtual Category CategoryToLearn { get; set; }
 
     public virtual bool IsCompleted { get; set; }
@@ -49,9 +48,6 @@ public class LearningSession : DomainEntity, IRegisterAsInstancePerLifetime
             if (IsCategorySession)
                 return "Thema-" + UriSegmentFriendlyUser.Run(CategoryToLearn.Name);
 
-            if (IsDateSession)
-                return "Termin-" + DateToLearn.DateTime.ToString("D").Replace(",", "").Replace(" ", "_").Replace(".", "");
-
             if (IsWishSession)
                 return "Wunschwissen";
 
@@ -61,7 +57,6 @@ public class LearningSession : DomainEntity, IRegisterAsInstancePerLifetime
 
     public virtual bool IsSetSession { get { return SetToLearn != null; } }
     public virtual bool IsSetsSession { get { return !string.IsNullOrEmpty(SetsToLearnIdsString); } }
-    public virtual bool IsDateSession{ get { return DateToLearn != null; }}
     public virtual bool IsCategorySession{ get { return CategoryToLearn != null; }}
     public virtual bool IsWishSession { get; set; }
 
@@ -74,9 +69,6 @@ public class LearningSession : DomainEntity, IRegisterAsInstancePerLifetime
 
             if (IsSetsSession)
                 return SetsToLearn().Sum(s => s.Questions().Count); //DB is accessed
-
-            if (IsDateSession)
-                return DateToLearn.AllQuestions().Count;
 
             if (IsCategorySession)
                 return GetQuestionsForCategory.AllIncludingQuestionsInSet(CategoryToLearn.Id).Count;
@@ -128,42 +120,6 @@ public class LearningSession : DomainEntity, IRegisterAsInstancePerLifetime
         IsCompleted = true;
 
         Sl.R<LearningSessionRepo>().Update(this);
-    }
-
-    public static LearningSession InitDateSession(Date date, TrainingDate trainingDate)
-    {
-        var learningSession = new LearningSession
-        {
-            DateToLearn = date,
-            User = date.User
-        };
-
-        if (trainingDate == null
-            || (trainingDate.IsBoostingDate
-                && !date.TrainingPlan.BoostingPhaseHasStarted()))
-        {
-            learningSession.Steps = GetLearningSessionSteps
-                .Run(date.AllQuestions(),
-                date.TrainingPlanSettings.QuestionsPerDate_Minimum);
-        }
-        else if (trainingDate.LearningSession != null)
-        {
-            learningSession = trainingDate.LearningSession;
-        }
-        else
-        {
-            learningSession.Steps = GetLearningSessionSteps.Run(trainingDate);
-            trainingDate.LearningSession = learningSession;
-        }
-
-        Sl.R<LearningSessionRepo>().Create(learningSession);
-
-        if (trainingDate != null)
-        {
-            Sl.R<TrainingDateRepo>().Update(trainingDate);
-        }
-
-        return learningSession;
     }
 
     public virtual void SkipStep(int stepIdx)

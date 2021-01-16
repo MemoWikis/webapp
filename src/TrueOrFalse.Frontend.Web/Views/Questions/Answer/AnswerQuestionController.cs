@@ -681,11 +681,14 @@ public class AnswerQuestionController : BaseController
     [HttpPost]
     public string GetEditQuestionUrl(int id)
     {
+        if (!IsLoggedIn)
+            return null;
+
         var question = _questionRepo.GetById(id);
-        var isAdmin = _sessionUser.User.IsInstallationAdmin;
         var isAuthor = question.Creator == _sessionUser.User;
-        if (isAdmin || isAuthor)
+        if (IsInstallationAdmin  || isAuthor)
             return Links.EditQuestion(question.Text, id);
+
         return null;
     }
 }

@@ -234,8 +234,6 @@ public class AnswerRepo : RepositoryDb<Answer>
     public IList<Answer> GetAllEager(bool includingSolutionViews = false)
     {
         return Query(includingSolutionViews)
-            .Fetch(x => x.Round).Eager
-            .Fetch(x => x.Player).Eager
             .Fetch(x => x.Question).Eager
             .List();
     }

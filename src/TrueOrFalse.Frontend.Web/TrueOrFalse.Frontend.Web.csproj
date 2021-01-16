@@ -322,7 +322,6 @@
     <Compile Include="Views\Api\MetaData\LomApiConroller.cs" />
     <Compile Include="Views\Api\Search\SearchApiController.cs" />
     <Compile Include="Views\Api\Search\PrepareSearch.cs" />
-    <Compile Include="Views\Api\TrainingPlanApiController.cs" />
     <Compile Include="Views\Api\User\FacebookUsersApiController.cs" />
     <Compile Include="Views\Api\User\GoogleUsersApiController.cs" />
     <Compile Include="Views\Beta\BetaController.cs" />
@@ -370,7 +369,6 @@
     <Compile Include="Views\Knowledge\KnowledgeQuestions.cs" />
     <Compile Include="Views\Knowledge\Partials\KnowledgeCardMiniSetModel.cs" />
     <Compile Include="Views\Knowledge\Partials\KnowledgeCardMiniCategoryModel.cs" />
-    <Compile Include="Views\Knowledge\TrainingDateModel.cs" />
     <Compile Include="Views\Knowledge\Wheel\KnowledgeWheelController.cs" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
@@ -2112,9 +2110,6 @@
     <Content Include="Images\Screenshots\widget-blackboard_f04_done.png" />
     <Content Include="Images\Screenshots\widget-blackboard_f04_done_short.png" />
     <Content Include="Scripts\vendor\vuetable-2.js" />
-    <Content Include="Scripts\YoutubeApi.js">
-      <DependentUpon>YoutubeApi.ts</DependentUpon>
-    </Content>
     <Content Include="Scripts\NumbersCountUp.js">
       <DependentUpon>NumbersCountUp.ts</DependentUpon>
     </Content>
@@ -2331,14 +2326,10 @@
     <Content Include="Views\Questions\QuestionList\QuestionList.css">
       <DependentUpon>QuestionList.less</DependentUpon>
     </Content>
-    <Content Include="Views\Sets\Detail\Modals\CopySetModal.ascx" />
     <Content Include="Views\Error\Error.css">
       <DependentUpon>Error.less</DependentUpon>
     </Content>
     <Content Include="Views\Error\Error.less" />
-    <Content Include="Scripts\YoutubeApi.js.map">
-      <DependentUpon>YoutubeApi.ts</DependentUpon>
-    </Content>
     <Content Include="Views\Messages\Partials\MessagesRows.ascx" />
     <Content Include="Views\Knowledge\Partials\KnowledgeCardMiniSet.ascx" />
     <Content Include="Views\Knowledge\Partials\KnowledgeCardMiniCategory.ascx" />
@@ -2460,8 +2451,6 @@
     <Compile Include="Views\Questions\History\QuestionHistoryModel.cs" />
     <Compile Include="Views\Questions\QuestionList\QuestionListController.cs" />
     <Compile Include="Views\Sets\Detail\SetKnowledgeBarModel.cs" />
-    <Compile Include="Views\Sets\Detail\Video\SetVideoController.cs" />
-    <Compile Include="Views\Sets\Detail\Video\SetVideoModel.cs" />
     <Compile Include="Views\Sets\Edit\QuestionInSetModel.cs" />
     <Compile Include="Views\Shared\AnalyticsFooterModel.cs" />
     <Compile Include="Views\Shared\AuthorViewModel.cs" />
@@ -2495,7 +2484,6 @@
     <Compile Include="Views\Users\Account\MembershipModel.cs" />
     <Compile Include="Views\Api\CategoryApiController.cs" />
     <Compile Include="Views\Api\QuestionsApiController.cs" />
-    <Compile Include="Views\Api\SetsApiController.cs" />
     <Compile Include="Views\Categories\Edit\CssJs.cs" />
     <Compile Include="Views\Categories\Edit\TypeControls\EditCategoryTypeModel.cs" />
     <Compile Include="Views\Categories\CategoriesSearchResultModel.cs" />
@@ -2609,7 +2597,6 @@
     <Content Include="Views\Sets\Edit\Js\AddQuestions.js" />
     <TypeScriptCompile Include="Scripts\header\StickyHeaderSearchBox.ts" />
     <TypeScriptCompile Include="Scripts\SidebarCards.ts" />
-    <TypeScriptCompile Include="Scripts\YoutubeApi.ts" />
     <TypeScriptCompile Include="Scripts\NumbersCountUp.ts" />
     <TypeScriptCompile Include="Views\About\Js\Page.ts" />
     <TypeScriptCompile Include="Views\Categories\Detail\FloatingActionButton\FloatingActionButton.ts" />
@@ -2634,11 +2621,6 @@
     <TypeScriptCompile Include="Views\Questions\Answer\Js\QuestionFilter.ts" />
     <TypeScriptCompile Include="Views\Questions\Answer\LearningSession\Js\LearningSessionResult.ts" />
     <TypeScriptCompile Include="Views\Questions\History\Detail\Js\Page.ts" />
-    <TypeScriptCompile Include="Views\Sets\Detail\Js\SetCopy.ts" />
-    <TypeScriptCompile Include="Views\Sets\Edit\Js\YoutubePreview.ts" />
-    <Content Include="Views\Sets\Edit\Js\YoutubePreview.js">
-      <DependentUpon>YoutubePreview.ts</DependentUpon>
-    </Content>
     <Content Include="Views\Shared\CategoryLabel.ascx" />
     <Content Include="Views\Shared\MainMenuThemeCentered.ascx" />
     <Content Include="Views\Shared\PinComponentVue\PinComponent.vue.js">
@@ -2815,16 +2797,8 @@
       <DependentUpon>SolutionTypeMultipleChoice_SingleSolution.ts</DependentUpon>
     </Content>
     <Content Include="Views\Questions\Edit\EditSolutionControls\SolutionTypeMatchList.ascx" />
-    <Content Include="Views\Sets\Detail\Js\SetVideo.js">
-      <DependentUpon>SetVideo.ts</DependentUpon>
-    </Content>
-    <Content Include="Views\Sets\Detail\Js\SetVideoPlayer.js">
-      <DependentUpon>SetVideoPlayer.ts</DependentUpon>
-    </Content>
     <Content Include="Views\Knowledge\Wheel\KnowledgeWheel.ascx" />
-    <Content Include="Views\Sets\Detail\Video\VideoPager.ascx" />
     <Content Include="Views\Questions\Edit\EditSolutionControls\SolutionTypeMultipleChoice.ascx" />
-    <Content Include="Views\Sets\Detail\Video\SetVideo.ascx" />
     <Content Include="Views\Sets\Edit\Js\EditSet.js">
       <DependentUpon>EditSet.ts</DependentUpon>
     </Content>
@@ -2881,7 +2855,6 @@
     <Content Include="Views\AlgoInsight\TabForecast.ascx" />
     <Content Include="Views\Beta\Video1.aspx" />
     <Content Include="Views\Drafts\Widget.html" />
-    <Content Include="Views\Knowledge\TrainingDate.ascx" />
     <Content Include="Views\Maintenance\AntiForgeryToken.ascx" />
     <Content Include="Views\Maintenance\CMS.aspx" />
     <Content Include="Views\Sets\Edit\Js\Validation.js">
@@ -3646,8 +3619,6 @@
     <TypeScriptCompile Include="Views\Questions\Answer\LearningSession\Js\Page.ts" />
     <TypeScriptCompile Include="Views\Questions\Edit\EditSolutionControls\SolutionTypeFlashCard.ts" />
     <TypeScriptCompile Include="Views\Questions\Edit\Js\MarkdownDescription.ts" />
-    <TypeScriptCompile Include="Views\Sets\Detail\Js\SetVideo.ts" />
-    <TypeScriptCompile Include="Views\Sets\Detail\Js\SetVideoPlayer.ts" />
     <TypeScriptCompile Include="Views\Sets\Edit\Js\EditSet.ts" />
     <TypeScriptCompile Include="Views\Sets\Edit\Js\Validation.ts" />
     <TypeScriptCompile Include="Views\Sets\Js\SetDelete.ts" />
@@ -3805,9 +3776,6 @@
     <Content Include="Views\Questions\Js\ToQuestionSet.js">
       <DependentUpon>ToQuestionSet.ts</DependentUpon>
     </Content>
-    <Content Include="Views\Sets\Detail\Js\Set.js">
-      <DependentUpon>Set.ts</DependentUpon>
-    </Content>
     <Content Include="Views\Sets\Detail\Set.aspx" />
     <Content Include="Views\Sets\Detail\Set.css">
       <DependentUpon>Set.less</DependentUpon>
@@ -3828,7 +3796,6 @@
     <TypeScriptCompile Include="Scripts\RowPin.ts" />
     <TypeScriptCompile Include="Views\Questions\Edit\Js\Validation.ts" />
     <TypeScriptCompile Include="Views\Questions\Js\QuestionsSearch.ts" />
-    <TypeScriptCompile Include="Views\Sets\Detail\Js\Set.ts" />
     <TypeScriptCompile Include="Views\Sets\Edit\Js\ImageUpload.ts" />
     <TypeScriptCompile Include="Views\Sets\Edit\Js\SetSortable.ts" />
     <TypeScriptCompile Include="Views\Sets\Edit\Js\RemoveQuestionFromSet.ts" />
@@ -3993,9 +3960,6 @@
       <DependentUpon>ImageUpload.ts</DependentUpon>
     </Content>
     <Content Include="Views\Sets\Detail\Set.less" />
-    <Content Include="Views\Sets\Detail\Js\Set.js.map">
-      <DependentUpon>Set.ts</DependentUpon>
-    </Content>
     <Content Include="Views\Categories\Categories.css.map">
       <DependentUpon>Categories.css</DependentUpon>
     </Content>
@@ -4176,12 +4140,6 @@
     <Content Include="Views\Welcome\Login\Login.js.map">
       <DependentUpon>Login.ts</DependentUpon>
     </Content>
-    <Content Include="Views\Sets\Detail\Js\SetVideoPlayer.js.map">
-      <DependentUpon>SetVideoPlayer.ts</DependentUpon>
-    </Content>
-    <Content Include="Views\Sets\Detail\Js\SetVideo.js.map">
-      <DependentUpon>SetVideo.ts</DependentUpon>
-    </Content>
     <Content Include="Views\Categories\Js\CategoryDelete.js.map">
       <DependentUpon>CategoryDelete.ts</DependentUpon>
     </Content>
@@ -4197,9 +4155,6 @@
     <Content Include="Views\Help\Widget.less" />
     <Content Include="Views\Welcome\Contact.less" />
     <Content Include="Views\Shared\ActivityPopupContent.ascx" />
-    <Content Include="Views\Sets\Edit\Js\YoutubePreview.js.map">
-      <DependentUpon>YoutubePreview.ts</DependentUpon>
-    </Content>
     <Content Include="Views\Welcome\Partials\BlogPostCarousel.ascx" />
     <Content Include="Views\Users\Account\WidgetStats\WidgetStats.less" />
     <Content Include="Views\Maintenance\Js\ContentStats.js.map">

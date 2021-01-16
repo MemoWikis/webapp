@@ -127,7 +127,6 @@ public class KnowledgeSummaryLoader
     }
 
     public static KnowledgeSummary Run(
-        IList<TrainingQuestion> trainingQuestions, 
         bool beforeTraining = false, 
         bool afterTraining = false)
     {
@@ -140,19 +139,6 @@ public class KnowledgeSummaryLoader
         var needsLearning = 0;
         var needsConsolidation = 0;
         var solid = 0;
-        foreach (var question in trainingQuestions)
-        {
-            var value = beforeTraining 
-                ? question.ProbBefore 
-                : question.ProbAfter;
-
-            if (value < 70)
-                needsLearning += 1;
-            else if (value < 90)
-                needsConsolidation += 1;
-            else
-                solid += 1;
-        }
 
         return new KnowledgeSummary(needsLearning: needsLearning, needsConsolidation: needsConsolidation, solid: solid);
     }

@@ -27,8 +27,6 @@ public class QuestionView : IPersistable, WithDateCreated
 
     public virtual string UserAgent { get; set; }
 
-    public virtual Player Player { get; set; }
-    public virtual Round Round { get; set; }
     public virtual LearningSession LearningSession { get; set; }
 
     public virtual WidgetView WidgetView { get; set; }

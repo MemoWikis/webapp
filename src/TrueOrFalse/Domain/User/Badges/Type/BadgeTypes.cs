@@ -79,8 +79,6 @@ public class BadgeTypes
                 BadgeCheckOn = new []{ BadgeCheckOn.GameFinished, BadgeCheckOn.DateCreated, BadgeCheckOn.UserFollowed, BadgeCheckOn.WishKnowledgeAdd, BadgeCheckOn.CommentedAdded, BadgeCheckOn.CategoryUpdateOrCreate },
                 AwardCheck = BadgeAwardCheck.Get(fp => 
                     fp.IsBadgeAwarded("NewbieSilver", fp) &&
-                    fp.GamesPlayed() >= 3 &&
-                    fp.DatesCreated() >= 3 &&
                     fp.UsersFollowing() >= 3
                         ? BadgeLevel.GetGold() 
                         : null)
@@ -421,22 +419,6 @@ public class BadgeTypes
                 },
                 BadgeCheckOn = new []{ BadgeCheckOn.OncePerDay },
                 /* TODO:  */
-            },
-
-            new BadgeType
-            {
-                Key = "CalendarType",
-                Name = "KalenderTyp",
-                Description = "{badgePoints} Termine erstellt",
-                Group =  BadgeTypeGroups.GetByKey(BadgeTypeGroupKeys.Training),
-                Levels = new List<BadgeLevel>
-                {
-                    BadgeLevel.GetBronze(1),
-                    BadgeLevel.GetSilver(20),
-                    BadgeLevel.GetGold(200)
-                },
-                BadgeCheckOn = new []{ BadgeCheckOn.OncePerDay },
-                AwardCheck = BadgeAwardCheck.GetLevel(fp => fp.DatesCreated())
             },
 
             //Community/Comments

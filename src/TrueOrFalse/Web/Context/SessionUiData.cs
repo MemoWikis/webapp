@@ -18,7 +18,6 @@ public class SessionUiData : SessionBase, IRegisterAsInstancePerLifetime
     public UserHistory VisitedUserDetails => Data.Get("lastVisitedUsers", new UserHistory());
     public CategoryHistory VisitedCategories => Data.Get("lastVisitedCategories", new CategoryHistory());
     public HelpHistory VisitedHelpPages => Data.Get("lastVisitedHelpPages", new HelpHistory());
-    public DateHistory VisitedDatePages => Data.Get("lastVisitedDatePages", new DateHistory());
 
     /* SearchSpecs *************/
     public QuestionSearchSpec SearchSpecQuestionAll => Data.Get("searchSpecQuestionAll", new QuestionSearchSpec { PageSize = 10 });

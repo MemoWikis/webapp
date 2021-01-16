@@ -141,6 +141,7 @@ public class CategoryApiController : BaseController
         UserEntityCache.Init();
         return true;
     }
+
     [HttpPost]
     public bool UnpinQuestionsInCategory(string categoryId)
     {
@@ -152,16 +153,16 @@ public class CategoryApiController : BaseController
     }
 
 #if DEBUG
-    [HttpGet]
-    public void ForDebuggingFetchCategory()
-    {
-        //EntityCache.Init();
 
-        var categorya = Sl.CategoryRepo.GetAllEager();
-        var questions = Sl.QuestionRepo.GetAll();
-        var category = Sl.CategoryRepo.GetByIdEager(1);
-        //var clone = category.DeepClone();
+    [HttpGet]
+    public void ForDebugging_CreateDeepCloneError(string categoryId)
+    {
+        var questions = Sl.QuestionRepo.GetAllEager();
+        var categories = Sl.CategoryRepo.GetAllEager();
+
+        categories.First().DeepClone();
     }
+
 #endif 
 }
 

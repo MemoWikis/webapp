@@ -18,12 +18,6 @@ public class LOM_Export_Tests : BaseTest
         var lomXmlQuestion = question.ToLomXml();
 
         Console.Write(lomXmlQuestion);
-
-        var set = ContextSet.New().AddSet("Example question").AddCategory("cat 2").Persist().All.First();
-        var lomXmlSet = set.ToLomXml();
-
-        Console.Write(lomXmlSet);
-
     }
 }
 

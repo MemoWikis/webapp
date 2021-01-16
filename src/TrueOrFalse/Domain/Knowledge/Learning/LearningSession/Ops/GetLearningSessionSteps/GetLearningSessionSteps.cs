@@ -4,20 +4,6 @@ using System.Linq;
 
 public class GetLearningSessionSteps
 {
-    public static IList<LearningSessionStep> Run(Set set)
-    {
-        var allQuestions = set.Questions();
-        return Run(allQuestions);
-    }
-
-    public static IList<LearningSessionStep> Run(TrainingDate trainingDate)
-    {
-        return ComplementPreselectedSteps(
-            trainingDate.AllQuestionsInTraining
-                .Select(q => new LearningSessionStep { Guid = Guid.NewGuid(), Question = q.Question })
-                .ToList());
-    }
-
     public static IList<LearningSessionStep> Run(IList<Question> questions, int numberOfSteps = LearningSession.DefaultNumberOfSteps)
     {
         var auxParams = GetStepSelectionParams(questions);

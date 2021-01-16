@@ -29,8 +29,6 @@ public class SaveQuestionView : IRegisterAsInstancePerLifetime
         Guid questionViewGuid,
         Question question,
         int userId,
-        Player player = null,
-        Round round = null,
         LearningSession learningSession = null,
         Guid learningSessionStepGuid = default(Guid),
         WidgetView widgetView = null)
@@ -49,8 +47,6 @@ public class SaveQuestionView : IRegisterAsInstancePerLifetime
             QuestionId = question.Id,
             UserId = userId,
             Milliseconds = -1,
-            Player = player,
-            Round = round,
             UserAgent = userAgent,
             LearningSession = learningSession,
             LearningSessionStepGuid = new Guid(),

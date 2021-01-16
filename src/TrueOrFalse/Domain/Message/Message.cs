@@ -14,7 +14,4 @@ public class Message : DomainEntity
 
     public virtual bool WasSendPerEmail { get; set; }
     public virtual bool WasSendToSmartphone { get; set; }
-
-    public virtual TrainingDate TrainingDate { get; set; }
-    public virtual TrainingPlan TrainingPlan { get; set; }
 }

@@ -144,14 +144,6 @@ public class EditQuestionController : BaseController
 
         var setLink = (WasInSet: false, SetId: -1);
 
-        if (Request["hddSetId"] != null)
-        {
-            setLink.WasInSet = true;
-            setLink.SetId = Convert.ToInt32(Request["hddSetId"]);
-
-            AddToSet.Run(question, Sl.SetRepo.GetById(setLink.SetId));
-        }
-
         if (Request["btnSave"] == "saveAndNew")
         {
             model.Reset();

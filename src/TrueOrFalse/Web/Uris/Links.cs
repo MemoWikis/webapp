@@ -234,10 +234,6 @@ namespace TrueOrFalse.Frontend.Web.Code
             return url.Action("GetSolution", AnswerQuestionController, new { id = question.Id }, null);
         }
 
-        public static string GetSolution(UrlHelper url, Question question, Round round){
-            return url.Action("GetSolution", AnswerQuestionController, new { id = question.Id, roundId = round.Id }, null);
-        }
-
         public static string CountLastAnswerAsCorrect(UrlHelper url, Question question){
             return url.Action("CountLastAnswerAsCorrect", AnswerQuestionController, new { id = question.Id }, null);
         }

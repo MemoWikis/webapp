@@ -29,10 +29,6 @@ public class Answer : IPersistable, WithDateCreated, IAnswered
 
     public virtual AnswerCorrectness AnswerredCorrectly { get; set; }
     public virtual string AnswerText { get; set; }
-    public virtual Round Round { get; set; }
-
-    public virtual Player Player { get; set; }
-
     public virtual LearningSession LearningSession { get; set; }
     public virtual Guid LearningSessionStepGuid { get; set; }
 
