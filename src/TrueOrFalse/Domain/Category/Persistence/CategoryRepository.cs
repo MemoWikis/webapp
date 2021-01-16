@@ -52,11 +52,6 @@ public class CategoryRepository : RepositoryDbBase<Category>
         EntityCache.AddOrUpdate(category);
 
         Sl.CategoryChangeRepo.AddCreateEntry(category, category.Creator);
-
-        _session.Flush();
-        _session.Close();
-
-        Sl.R<SessionManager>().Session = Sl.R<ISessionFactory>().OpenSession();
     }
 
     /// <summary>

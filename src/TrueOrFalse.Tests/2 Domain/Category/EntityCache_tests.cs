@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using NUnit.Framework;
+using Quartz.Util;
 using TrueOrFalse.Tests;
 
 class EntityCache_tests : BaseTest
@@ -8,7 +9,6 @@ class EntityCache_tests : BaseTest
     [Test]
     public void Should_get_direct_childrens()
     {
-
         var context = ContextCategory.New();
 
         var parent = context.Add("RootElement").Persist().All.First();
@@ -66,7 +66,25 @@ class EntityCache_tests : BaseTest
         var relatedCategories = EntityCache.GetAllCategories().SelectMany(c => c.CategoryRelations.Where(cr => cr.RelatedCategory.Id == idFromDeleteCategory && cr.Category.Id == idFromDeleteCategory)).ToList();
         Assert.That(relatedCategories.Count, Is.EqualTo(0));
     }
+
+
+    [Test]
+    public void Should_able_to_deep_clone_cache_items()
+    {
+        var contexCategory = ContextCategory.New();
+        var contextQuestion = ContextQuestion.New();
+
+        var rootCategory = contexCategory.Add("root").Persist().All.First();
+
+        var question1 = contextQuestion.AddQuestion().Persist().All.First();
+        question1.Categories.Add(rootCategory);
+        Sl.QuestionRepo.Update(question1);
+
+        RecycleContainer();
+
+        EntityCache.Init();
+
+        EntityCache.GetAllCategories().First().DeepClone();
+    }
+
 }
-
-
-
