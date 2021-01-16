@@ -354,16 +354,16 @@ public class CategoryRepository : RepositoryDbBase<Category>
 
     private const int AllgemeinwissenId = 709;
 
-    public Category Allgemeinwissen => GetById(AllgemeinwissenId);
+    public Category Allgemeinwissen => EntityCache.GetCategory(AllgemeinwissenId);
 
     public List<Category> GetRootCategoriesList()
     {
         return new List<Category>
         {
-            Sl.CategoryRepo.GetById(682), //Schule
-            Sl.CategoryRepo.GetById(687), //Studium
-            Sl.CategoryRepo.GetById(689), //Zertifikate
-            Sl.CategoryRepo.GetById(AllgemeinwissenId) //Allgemeinwissen
+            EntityCache.GetCategory(682), //Schule
+            EntityCache.GetCategory(687), //Studium
+            EntityCache.GetCategory(689), //Zertifikate
+            EntityCache.GetCategory(AllgemeinwissenId) //Allgemeinwissen
         };
     }
 }
