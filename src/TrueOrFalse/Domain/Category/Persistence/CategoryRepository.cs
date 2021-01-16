@@ -64,6 +64,7 @@ public class CategoryRepository : RepositoryDbBase<Category>
     public void Update(Category category, User author = null, bool imageWasUpdated = false)
     {
         _searchIndexCategory.Update(category);
+
         base.Update(category);
 
         if(author != null)
