@@ -84,7 +84,13 @@ class EntityCache_tests : BaseTest
 
         EntityCache.Init();
 
-        EntityCache.GetAllCategories().First().DeepClone();
+        var questions = Sl.QuestionRepo.GetAll();
+        var categories = Sl.CategoryRepo.GetAllEager();
+
+        categories.First().DeepClone();
+
+        //ObjectExtensions.DeepClone(EntityCache.GetAllCategories().First());
+        //FluentNHibernate.Utils.Extensions.DeepClone(EntityCache.GetAllCategories().First());
     }
 
 }
