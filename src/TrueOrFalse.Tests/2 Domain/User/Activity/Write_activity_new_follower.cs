@@ -58,7 +58,7 @@ public class Write_activity_new_follower : BaseTest
 
         //User1 should see additional activity: User3 created one category; User4 one set; User5 one date; User6 follows User7
         activitiesUser1 = R<UserActivityRepo>().GetByUser(user1);
-        Assert.That(activitiesUser1.Count, Is.EqualTo(6));
+        Assert.That(activitiesUser1.Count, Is.EqualTo(4));
         foreach (var activityUser1 in activitiesUser1)
         {
             if (activityUser1.UserCauser == user3)
