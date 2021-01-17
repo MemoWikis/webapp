@@ -94,7 +94,6 @@ class TemplateParserTest
         var markdownWithMultiTexts = MarkdownTokenizer.Run("Text[[Template]]Test");
 
         Assert.That(markdownWithMultiTexts.Count(p => p.IsText), Is.EqualTo(2));
-
     }
 
     [Test]
@@ -110,6 +109,8 @@ class TemplateParserTest
     [Test]
     public void Should_extract_description()
     {
+        EntityCacheSetup.Simple();
+
         var document = TemplateParser.Run(
             "Test Anfang\r\n\r\nTest 2\r\n[[{\"TemplateName\":\"Cards\", \"CardOrientation\":\"Landscape\", \"SetListIds\":\"105,87\"}]]\r\n" +
             "Test\r\n\r\n" +
@@ -126,6 +127,8 @@ class TemplateParserTest
     [Test]
     public void Should_extract_description_without_templates()
     {
+        EntityCacheSetup.Simple();
+
         var document = TemplateParser.Run(
             "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor",
             new Category());

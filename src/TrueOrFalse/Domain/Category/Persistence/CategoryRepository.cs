@@ -3,9 +3,7 @@ using NHibernate.Criterion;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using TrueOrFalse.Infrastructure.Persistence;
 using TrueOrFalse.Search;
-
 
 public class CategoryRepository : RepositoryDbBase<Category>
 {
@@ -353,7 +351,7 @@ public class CategoryRepository : RepositoryDbBase<Category>
             .RowCount();
     }
 
-    private const int AllgemeinwissenId = 709;
+    public const int AllgemeinwissenId = 709;
 
     public Category Allgemeinwissen => EntityCache.GetCategory(AllgemeinwissenId);
 

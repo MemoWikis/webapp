@@ -1,9 +1,6 @@
-﻿using System.Threading;
-using System.Web.UI.WebControls;
-using Autofac;
+﻿using Autofac;
 using AutofacContrib.SolrNet;
 using AutofacContrib.SolrNet.Config;
-using HibernatingRhinos.Profiler.Appender.NHibernate;
 using NHibernate;
 using NUnit.Framework;
 using TrueOrFalse;
