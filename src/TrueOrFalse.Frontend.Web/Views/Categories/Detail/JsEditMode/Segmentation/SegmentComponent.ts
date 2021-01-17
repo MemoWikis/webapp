@@ -1,4 +1,4 @@
-﻿Vue.component('segmentation-category-card-component', {
+﻿Vue.component('segment-component', {
     props: {
         name: String,
         description: String,
