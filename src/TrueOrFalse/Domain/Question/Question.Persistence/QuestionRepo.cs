@@ -313,12 +313,16 @@ public class QuestionRepo : RepositoryDbBase<Question>
         var questions = _session.QueryOver<Question>()
             .Future();
 
-        var questions1 = _session.QueryOver<Question>()
+        _session.QueryOver<Question>()
             .Fetch(SelectMode.Fetch, x => x.Categories)
             .Future();
 
-        var questions2 = _session.QueryOver<Question>()
+        _session.QueryOver<Question>()
             .Fetch(SelectMode.Fetch, x => x.Creator)
+            .Future();
+
+        _session.QueryOver<Question>()
+            .Fetch(SelectMode.Fetch, x => x.References)
             .Future();
 
         return questions.ToList();

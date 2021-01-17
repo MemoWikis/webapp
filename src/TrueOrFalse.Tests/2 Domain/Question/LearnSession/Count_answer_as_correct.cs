@@ -5,7 +5,6 @@ namespace TrueOrFalse.Tests._2_Domain.Question.LearnSession
 {
     class Count_answer_as_correct : BaseTest
     {
-
         [Test]
         public void SetAnswerAsCorrectAnonymus()
         {
