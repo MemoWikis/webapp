@@ -27,21 +27,24 @@ public class SegmentationModel : BaseContentModule
         
         var categoryList = UserCache.IsFiltered ? UserEntityCache.GetChildren(category.Id, UserId) : EntityCache.GetChildren(category.Id).ToList();
         CategoryList = categoryList.Where(c => c.Type.GetCategoryTypeGroup() == CategoryTypeGroup.Standard).ToList();
-        var segments = GetSegments(category.Id);
 
-        if (segments != null)
+        var segments = new List<Segment>();
+        if (category.CustomSegments != null)
+        {
+            segments = GetSegments(category.Id);
             NotInSegmentCategoryList = GetNotInSegmentCategoryList(segments, categoryList);
+            Segments = segments;
+        }
         else
             NotInSegmentCategoryList = categoryList;
 
-        Segments = segments;
     }
 
     public List<Segment> GetSegments(int id)
     {
         var segments = new List<Segment>();
-        var segmentJson = JsonConvert.DeserializeObject<List<SegmentJson>>(EntityCache.GetCategory(id).CustomSegments);
-        foreach (var s in segmentJson)
+        var customSegmentJson = JsonConvert.DeserializeObject<CustomSegmentJson>(EntityCache.GetCategory(id).CustomSegments);
+        foreach (var s in customSegmentJson.Segments)
         {
             var segment = new Segment();
             segment.Title = s.Title;
