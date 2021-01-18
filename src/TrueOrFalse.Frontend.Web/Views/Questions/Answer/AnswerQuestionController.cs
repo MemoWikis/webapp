@@ -69,39 +69,6 @@ public class AnswerQuestionController : BaseController
             new AnswerQuestionModel(Sl.Resolve<SessionUser>().LearningSession));
     }
 
-    public static ActionResult TestActionShared(
-        int testSessionId,
-        Func<TestSession, ActionResult> redirectToFinalStepFunc,
-        Func<TestSession, Guid, Question, ActionResult> resultFunc,
-        Func<TestSession, WidgetView> widgetViewFunc = null
-    )
-    {
-        var sessionUser = Sl.SessionUser;
-
-        var sessionCount = sessionUser.TestSessions.Count(s => s.Id == testSessionId);
-
-        if (sessionCount == 0)
-        { 
-            throw new Exception("SessionCount is 0. Shoult be 1");
-        }
-
-        if (sessionCount > 1)
-            throw new Exception(
-                $"SessionCount is {sessionUser.TestSessions.Count(s => s.Id == testSessionId)}. Should be not more then more than 1.");
-
-        var testSession = sessionUser.TestSessions.Find(s => s.Id == testSessionId);
-
-        if (testSession.CurrentStepIndex > testSession.NumberOfSteps)
-            return redirectToFinalStepFunc(testSession);
-
-        var question = Sl.R<QuestionRepo>().GetById(testSession.Steps.ElementAt(testSession.CurrentStepIndex - 1).QuestionId);
-        var questionViewGuid = Guid.NewGuid();
-
-        Sl.SaveQuestionView.Run(questionViewGuid, question, sessionUser.User, widgetViewFunc?.Invoke(testSession));
-
-        return resultFunc(testSession, questionViewGuid, question);
-    }
-
     public ActionResult AnswerQuestion(string text, int? id, int? elementOnPage, string pager, string category)
     {
         if (IsNullOrEmpty(pager) && (elementOnPage == null || elementOnPage == -1))

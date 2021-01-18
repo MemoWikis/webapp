@@ -89,9 +89,8 @@ public class AnswerQuestionModel : BaseModel
     public LearningSessionNew  LearningSession;
     public LearningSessionStepNew LearningSessionStep;
     public int CurrentLearningStepIdx;
-    public bool IsLastLearningStep = false;
+    public bool IsLastLearningStep;
 
-    public TestSession TestSession;
     public bool IsTestSession;
 
     public int TestSessionProgessAfterAnswering;

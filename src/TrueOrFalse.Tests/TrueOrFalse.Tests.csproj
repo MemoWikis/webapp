@@ -227,7 +227,6 @@
     <Compile Include="2 Domain\Image\ImageInfo_from_wikimedia.cs" />
     <Compile Include="2 Domain\Image\ImageMetadata_from_wikimedia.cs" />
     <Compile Include="2 Domain\Image\Image_persistence.cs" />
-    <Compile Include="2 Domain\Knowledge\Learning\Should_create_learningSession_steps.cs" />
     <Compile Include="2 Domain\Knowledge\Should_calculate_probability.cs" />
     <Compile Include="2 Domain\Knowledge\Should_calculate_wish_knowledge_count.cs" />
     <Compile Include="2 Domain\Knowledge\Should_recalculate_all_wish_knowledge_items.cs" />

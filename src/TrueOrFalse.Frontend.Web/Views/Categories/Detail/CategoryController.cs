@@ -129,17 +129,6 @@ public class CategoryController : BaseController
         return Redirect(Links.TestSession(categoryName, categoryId));
     }
 
-    public ActionResult StartTestSessionForSetsInCategory(List<int> setIds, string setListTitle, int categoryId)
-    {
-        var sets = Sl.SetRepo.GetByIds(setIds);
-        var category = Sl.CategoryRepo.GetByIdEager(categoryId);
-        var testSession = new TestSession(sets, setListTitle, category);
-
-        Sl.SessionUser.AddTestSession(testSession);
-
-        return Redirect(Links.TestSession(testSession.UriName, testSession.Id));
-    }
-
     [RedirectToErrorPage_IfNotLoggedIn]
     public ActionResult StartLearningSession(int categoryId)
     {

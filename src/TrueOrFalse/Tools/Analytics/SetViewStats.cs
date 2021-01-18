@@ -41,8 +41,6 @@ public class SetViewStats
             .And(a => a.DateCreated >= _goLive)
             .RowCount();
 
-        result.LearningSessionsTotal = Sl.R<LearningSessionRepo>().GetNumberOfSessionsForSet(setId);
-
         result.DatesTotal = (int)Sl.Resolve<ISession>()
             .CreateSQLQuery("SELECT count(*) FROM date_to_sets WHERE Set_id =" + setId)
             .UniqueResult<long>();

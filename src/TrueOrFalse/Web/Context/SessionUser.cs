@@ -93,25 +93,10 @@ public class SessionUser : SessionBase, IRegisterAsInstancePerLifetime
         }
     }
 
-    public List<TestSession> TestSessions
-    {
-        get => Data.Get<List<TestSession>>("testSessions");
-        set => Data["testSessions"] = value;
-    }
-
-    public TestSessionStep GetCurrentTestSessionStep(int testSessionId, int offset = 0)
-    {
-        var currentStepIndex = TestSessions.Find(s => s.Id == testSessionId).CurrentStepIndex - 1 + offset;
-
-        return TestSessions
-            .Find(s => s.Id == testSessionId)
-            .Steps.ElementAt(currentStepIndex);
-    }
-
     private int _currentTestSessionId
     {
-        get { return Data.Get("_currentTestSessionId", 0); }
-        set { Data["_currentTestSessionId"] = value; }
+        get => Data.Get("_currentTestSessionId", 0);
+        set => Data["_currentTestSessionId"] = value;
     }
 
     public int GetNextTestSessionId()
@@ -125,14 +110,6 @@ public class SessionUser : SessionBase, IRegisterAsInstancePerLifetime
         }
     }
 
-    public void AddTestSession(TestSession testSession)
-    {
-        if (testSession.NumberOfSteps == 0)
-            throw new Exception("Cannot start TestSession from set with no questions.");
-
-        TestSessions.Add(testSession);
-    }
-
     public List<int> AnsweredQuestionIds
     {
         get => Data.Get<List<int>>("answeredQuestionIds");
@@ -143,9 +120,6 @@ public class SessionUser : SessionBase, IRegisterAsInstancePerLifetime
     {
         if (AnsweredQuestionIds == null)
             AnsweredQuestionIds = new List<int>();
-
-        if (TestSessions == null)
-            TestSessions = new List<TestSession>();
     }
 
     public List<ActivityPoints> ActivityPoints => Data.Get("pointActivitys", new List<ActivityPoints>());

@@ -36,7 +36,6 @@ public class GenerateAnswerFeatures
         });
 
         //REPETITION 
-
         for (int i = 0; i < 20 ; i++)
             answerFeatures.Add(new AnswerFeature{
                 Id2 = "repeated-" + i,
@@ -44,14 +43,6 @@ public class GenerateAnswerFeatures
                 Group = AnswerFeatureGroups.Repetitions,
                 DoesApply = AnswerFeatureFilter.Repetitions(i)
             });
-
-        //TRAINING TYPE 
-        answerFeatures.Add(new AnswerFeature{
-            Id2 = "LearningSession",
-            Name = "Lernsitzung",
-            Group = AnswerFeatureGroups.TrainingType,
-            DoesApply = param => param.Answer.LearningSessionStepGuid != Guid.Empty
-        });
 
         //ANSWER PATTERNS
         foreach (var answerPattern in AnswerPatternRepo.GetAll())

@@ -98,31 +98,6 @@ public class SetsController : BaseController
         return View(_viewLocation, new SetsModel(sets, _sessionUiData.SearchSpecSetsAll, SearchTabType.All));
     }
 
-    [HttpPost]
-    public JsonResult DeleteDetails(int setId)
-    {
-        var set = _setRepo.GetById(setId);
-
-        var canBeDeleted = SetDeleter.CanBeDeleted(set.Creator.Id, setId);
-
-        return new JsonResult
-        {
-            Data = new
-            {
-                setTitle = set.Name.TruncateAtWord(90),
-                canNotBeDeleted = !canBeDeleted.Yes,
-                canNotBeDeletedReason = canBeDeleted.IfNot_Reason
-            }
-        };
-    }
-
-    [HttpPost]
-    public EmptyResult Delete(int setId)
-    {
-        SetDeleter.Run(setId);
-        return new EmptyResult();
-    }
-
     public class SetsControllerUtil : BaseUtil
     {
         private readonly SetsControllerSearch _setsControllerSearch;
