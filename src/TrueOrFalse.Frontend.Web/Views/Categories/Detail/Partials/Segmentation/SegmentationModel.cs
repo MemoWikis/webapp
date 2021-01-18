@@ -22,7 +22,6 @@ public class SegmentationModel : BaseContentModule
         Category = category;
         
         CategoryList = UserCache.IsFiltered ? UserEntityCache.GetChildren(category.Id, UserId) : EntityCache.GetChildren(category.Id).ToList();
-        
         CategoryList = CategoryList.Where(c => c.Type.GetCategoryTypeGroup() == CategoryTypeGroup.Standard).ToList();
 
         var sortedCategories = new List<Category>();
@@ -39,39 +38,6 @@ public class SegmentationModel : BaseContentModule
             UnsortedCategoryList = CategoryList.Where(c => !sortedCategories.Any(s => c.Id == s.Id)).ToList();
         } else
             UnsortedCategoryList = CategoryList;
-    }
-
-    public int GetTotalQuestionCount(Category category)
-    {
-        return category.GetAggregatedQuestionsFromMemoryCache().Count;
-    }
-
-    public ImageFrontendData GetCategoryImage(Category category)
-    {
-        var imageMetaData = Sl.ImageMetaDataRepo.GetBy(category.Id, ImageType.Category);
-        return new ImageFrontendData(imageMetaData);
-    }
-
-    private List<Category> OrderByCategoryList(List<Category> firstCategories)
-    {
-        foreach (var category in firstCategories)
-        {
-            CategoryList.Remove(category);
-        }
-
-        firstCategories.AddRange(CategoryList);
-        return firstCategories;
-    }
-
-    public static string ReturnKnowledgeStatus(List<string> list, int counter)
-    {  
-        return list.ElementAt(counter);
-    }
-
-    public int GetTotalTopicCount(Category category)
-    {
-        return EntityCache.GetChildren(category.Id).Count(c => c.Type == CategoryType.Standard && c.GetAggregatedQuestionIdsFromMemoryCache().Count > 0);
-
     }
 }
 
