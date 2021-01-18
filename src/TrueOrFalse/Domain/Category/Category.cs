@@ -134,6 +134,7 @@ public class Category : DomainEntity, ICreator, ICloneable
 
     public virtual string TopicMarkdown { get; set; }
     public virtual string Content { get; set; }
+    public virtual string CustomSegments { get; set; }
 
     public virtual CategoryType Type { get; set; }
 

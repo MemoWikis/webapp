@@ -21,6 +21,7 @@ public class CategoryMap : ClassMap<Category>
 
         Map(x => x.TopicMarkdown);
         Map(x => x.Content);
+        Map(x => x.CustomSegments);
 
         Map(x => x.FeaturedSetsIdsString);
 
