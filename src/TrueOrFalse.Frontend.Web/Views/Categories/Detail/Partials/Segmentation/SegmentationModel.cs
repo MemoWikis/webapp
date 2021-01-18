@@ -21,8 +21,8 @@ public class SegmentationModel : BaseContentModule
     {
         Category = category;
         
-        CategoryList = UserCache.IsFiltered ? UserEntityCache.GetChildren(category.Id, UserId) : EntityCache.GetChildren(category.Id).ToList();
-        CategoryList = CategoryList.Where(c => c.Type.GetCategoryTypeGroup() == CategoryTypeGroup.Standard).ToList();
+        var categoryList = UserCache.IsFiltered ? UserEntityCache.GetChildren(category.Id, UserId) : EntityCache.GetChildren(category.Id).ToList();
+        CategoryList = categoryList.Where(c => c.Type.GetCategoryTypeGroup() == CategoryTypeGroup.Standard).ToList();
 
         var sortedCategories = new List<Category>();
         if (!IsLoggedIn)
@@ -35,9 +35,9 @@ public class SegmentationModel : BaseContentModule
                        sortedCategories.Add(c);
                 }       
 
-            UnsortedCategoryList = CategoryList.Where(c => !sortedCategories.Any(s => c.Id == s.Id)).ToList();
+            UnsortedCategoryList = categoryList.Where(c => !sortedCategories.Any(s => c.Id == s.Id)).ToList();
         } else
-            UnsortedCategoryList = CategoryList;
+            UnsortedCategoryList = categoryList;
     }
 }
 
