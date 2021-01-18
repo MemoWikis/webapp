@@ -8,6 +8,7 @@ public class SegmentationModel : BaseContentModule
 
     public string Title;
     public string Text;
+    public bool HasCustomSegments = false;
 
     public List<Category> CategoryList;
     public List<Category> NotInSegmentCategoryList;
@@ -25,17 +26,19 @@ public class SegmentationModel : BaseContentModule
         CategoryList = categoryList.Where(c => c.Type.GetCategoryTypeGroup() == CategoryTypeGroup.Standard).ToList();
 
         var inSegmentCategoryList = new List<Category>();
-        if (!IsLoggedIn)
-        {
-            if (Segments != null)
-                foreach (var segment in Segments)
-                {
-                    var categoriesToAdd = segment.CategoryList.Where(c => !inSegmentCategoryList.Any(s => s.Id == c.Id));
-                    foreach (var c in categoriesToAdd)
-                        inSegmentCategoryList.Add(c);
-                }
 
-            NotInSegmentCategoryList = categoryList.Where(c => !inSegmentCategoryList.Any(s => c.Id == s.Id)).ToList();
+        if (Segments != null)
+        {
+            foreach (var segment in Segments)
+            {
+                var categoriesToAdd = segment.CategoryList.Where(c => !inSegmentCategoryList.Any(s => s.Id == c.Id));
+                foreach (var c in categoriesToAdd)
+                    inSegmentCategoryList.Add(c);
+                NotInSegmentCategoryList = categoryList.Where(c => !inSegmentCategoryList.Any(s => c.Id == s.Id)).ToList();
+
+            }
+
+            HasCustomSegments = true;
         } else
             NotInSegmentCategoryList = categoryList;
     }
