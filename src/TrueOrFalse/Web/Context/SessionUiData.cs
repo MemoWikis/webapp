@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using Seedworks.Web.State;
-using TrueOrFalse.Search;
 
 public class SessionUiData : SessionBase, IRegisterAsInstancePerLifetime
 {
