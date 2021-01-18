@@ -21,18 +21,20 @@ public class SegmentationModel : BaseContentModule
     {
         Category = category;
         
-        CategoryList = UserCache.IsFiltered ? UserEntityCache.GetChildren(category.Id, UserId) : Sl.CategoryRepo.GetChildren(category.Id).ToList();
+        CategoryList = UserCache.IsFiltered ? UserEntityCache.GetChildren(category.Id, UserId) : EntityCache.GetChildren(category.Id).ToList();
+        
         CategoryList = CategoryList.Where(c => c.Type.GetCategoryTypeGroup() == CategoryTypeGroup.Standard).ToList();
 
         var sortedCategories = new List<Category>();
         if (!IsLoggedIn)
         {
-            foreach (var segment in Segments)
-            {
-                var categoriesToAdd = segment.CategoryList.Where(c => !sortedCategories.Any(s => s.Id == c.Id));
-                foreach (var c in categoriesToAdd)
-                    sortedCategories.Add(c);
-            }
+            if (Segments != null)
+                foreach (var segment in Segments)
+                {
+                    var categoriesToAdd = segment.CategoryList.Where(c => !sortedCategories.Any(s => s.Id == c.Id));
+                    foreach (var c in categoriesToAdd)
+                       sortedCategories.Add(c);
+                }       
 
             UnsortedCategoryList = CategoryList.Where(c => !sortedCategories.Any(s => c.Id == s.Id)).ToList();
         } else
