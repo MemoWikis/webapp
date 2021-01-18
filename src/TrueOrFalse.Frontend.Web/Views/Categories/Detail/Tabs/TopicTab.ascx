@@ -111,6 +111,9 @@
     <% } %>
     
 </div>
+<div>
+    <%: Html.Partial("~/Views/Categories/Detail/Partials/Segmentation/SegmentationComponent.vue.ascx") %>
+</div>
 <div id="TopicTabFABApp">
     <%: Html.Partial("~/Views/Categories/Detail/Partials/FloatingActionButton/FloatingActionButton.ascx", new FloatingActionButtonModel(Model.Category, true)) %>
 </div>
