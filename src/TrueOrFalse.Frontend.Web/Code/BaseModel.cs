@@ -43,9 +43,4 @@
     {
         return  UserMenu.UserMenuActive(userMenuEntry);
     }
-
-    public bool UserMenuIsActive(UserMenuEntry userMenuEntry)
-    {
-        return !string.IsNullOrEmpty(UserMenu.UserMenuActive(userMenuEntry));
-    }
 }

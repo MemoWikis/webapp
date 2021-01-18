@@ -12,7 +12,6 @@ namespace Seedworks.Web.State
     {
         private static HttpSessionState SessionState{ get { return HttpContext.Current.Session; } }
         protected SessionData Data = new SessionData();
-        protected RequestData RequestData = new RequestData();
 
         public void Kill()
         {
@@ -27,13 +26,6 @@ namespace Seedworks.Web.State
                 if (SessionState.IsNewSession)
                 {
                     string cookieHeader = HttpContext.Current.Request.Headers["Cookie"];
-                    if ((null != cookieHeader) && (cookieHeader.IndexOf("ASP.NET_SessionId") >= 0))
-                    {
-                        //if (Request.IsAuthenticated == true)
-                        //{
-                        //    //Do something magical here!
-                        //}
-                    }
                 }
             }
             return true;

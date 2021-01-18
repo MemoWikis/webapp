@@ -204,7 +204,6 @@
     <Compile Include="1 View\GetNodeLevelsTests.cs" />
     <Compile Include="1 View\MarkdownMarkdigTests.cs" />
     <Compile Include="1 View\MarkdownSharpTests.cs" />
-    <Compile Include="1 View\RouteTests.cs" />
     <Compile Include="2 Domain\Category\Automatic_inclusion_tests.cs" />
     <Compile Include="2 Domain\Category\EntityCache_tests.cs" />
     <Compile Include="2 Domain\Category\GraphService_tests.cs" />

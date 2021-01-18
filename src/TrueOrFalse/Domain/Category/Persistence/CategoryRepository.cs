@@ -3,6 +3,7 @@ using NHibernate.Criterion;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using FluentNHibernate.Utils;
 using TrueOrFalse.Search;
 
 public class CategoryRepository : RepositoryDbBase<Category>
@@ -10,12 +11,13 @@ public class CategoryRepository : RepositoryDbBase<Category>
     private readonly SearchIndexCategory _searchIndexCategory;
 
     public CategoryRepository(ISession session, SearchIndexCategory searchIndexCategory)
-        : base(session){
+        : base(session)
+    {
         _searchIndexCategory = searchIndexCategory;
         _searchIndexCategory = searchIndexCategory;
     }
 
-    public Category GetByIdEager(int categoryId) => GetByIdsEager(new[] {categoryId}).FirstOrDefault();
+    public Category GetByIdEager(int categoryId) => GetByIdsEager(new[] { categoryId }).FirstOrDefault();
 
     public IList<Category> GetByIdsEager(IEnumerable<int> categoryIds = null)
     {
@@ -23,9 +25,8 @@ public class CategoryRepository : RepositoryDbBase<Category>
 
         if (categoryIds != null)
             query = query.Where(Restrictions.In("Id", categoryIds.ToArray()));
-        
-        return query
-            .Left.JoinQueryOver<CategoryRelation>(s => s.CategoryRelations)
+
+        return query.Left.JoinQueryOver<CategoryRelation>(s => s.CategoryRelations)
             .Left.JoinQueryOver(x => x.RelatedCategory)
             .Left.JoinQueryOver(u => u.Creator)
             .List()
@@ -65,14 +66,16 @@ public class CategoryRepository : RepositoryDbBase<Category>
 
         base.Update(category);
 
-        if(author != null)
+        if (author != null)
             Sl.CategoryChangeRepo.AddUpdateEntry(category, author, imageWasUpdated);
 
         Flush();
 
-        Sl.R<UpdateQuestionCountForCategory>().Run(new List<Category>{category});
+        Sl.R<UpdateQuestionCountForCategory>().Run(new List<Category> { category });
         EntityCache.AddOrUpdate(category);
         UserEntityCache.ChangeCategoryInUserEntityCaches(category);
+        GraphService.AutomaticInclusionOfChildThemes(EntityCache.GetCategory(category.Id));
+
     }
 
     public void UpdateWithoutFlush(Category category)
@@ -103,7 +106,7 @@ public class CategoryRepository : RepositoryDbBase<Category>
             EntityCache.AddOrUpdate(category1);
         }
         EntityCache.Remove(category);
-        UserCache.RemoveAllForCategory(category.Id); 
+        UserCache.RemoveAllForCategory(category.Id);
         UserEntityCache.ChangeAllActiveCategoryCaches(true);
     }
 
@@ -143,8 +146,8 @@ public class CategoryRepository : RepositoryDbBase<Category>
     {
         var includingCategories = GetCategoriesForRelatedCategory(category, CategoryRelationType.IncludesContentOf);
 
-        if(includingSelf)
-            includingCategories = includingCategories.Union(new List<Category>{category}).ToList();
+        if (includingSelf)
+            includingCategories = includingCategories.Union(new List<Category> { category }).ToList();
 
         return includingCategories;
 
@@ -182,7 +185,7 @@ public class CategoryRepository : RepositoryDbBase<Category>
         int parentId,
         String searchTerm = "")
     {
-        Category relatedCategoryAlias = null; 
+        Category relatedCategoryAlias = null;
         Category categoryAlias = null;
 
         var query = Session
@@ -204,7 +207,7 @@ public class CategoryRepository : RepositoryDbBase<Category>
 
     public IList<Category> GetDescendants(int parentId)
     {
-        var currentGeneration  = GetChildren(parentId).ToList();
+        var currentGeneration = GetChildren(parentId).ToList();
         var nextGeneration = new List<Category>();
         var descendants = new List<Category>();
 
@@ -223,7 +226,7 @@ public class CategoryRepository : RepositoryDbBase<Category>
 
             currentGeneration = nextGeneration.Except(descendants).Where(c => c.Id != parentId).Distinct().ToList();
             nextGeneration = new List<Category>();
-        } 
+        }
 
         return descendants;
     }
@@ -241,7 +244,7 @@ public class CategoryRepository : RepositoryDbBase<Category>
 
     public int CountAggregatedSets(int categoryId)
     {
-        var count = 
+        var count =
            _session.CreateSQLQuery($@"
 
             SELECT COUNT(DISTINCT(setId)) FROM
@@ -309,7 +312,7 @@ public class CategoryRepository : RepositoryDbBase<Category>
     public override IList<Category> GetByIds(params int[] categoryIds)
     {
         var resultTmp = base.GetByIds(categoryIds);
-        
+
         var result = new List<Category>();
         for (int i = 0; i < categoryIds.Length; i++)
         {
@@ -344,7 +347,7 @@ public class CategoryRepository : RepositoryDbBase<Category>
         return GetByName(categoryName).Any(x => x.Type == CategoryType.Standard);
     }
 
-    
+
     public int TotalCategoryCount()
     {
         return _session.QueryOver<Category>()

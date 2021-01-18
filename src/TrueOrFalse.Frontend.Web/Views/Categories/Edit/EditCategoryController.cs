@@ -161,7 +161,6 @@ public class EditCategoryController : BaseController
                 Links.CategoryDetail(category),
                 Links.CategoryCreate()));
 
-        GraphService.AutomaticInclusionOfChildThemes(EntityCache.GetCategory(category.Id));
         new CategoryApiModel().Pin(category.Id); 
 
         return Redirect(Links.CategoryDetail(category, openEditMode: true));
