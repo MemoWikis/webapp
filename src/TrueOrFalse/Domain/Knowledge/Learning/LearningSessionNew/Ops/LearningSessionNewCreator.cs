@@ -1,11 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Diagnostics.Eventing.Reader;
+﻿using System.Collections.Generic;
 using System.Linq;
-using NHibernate.Cfg.Loquacious;
-using Org.BouncyCastle.Crypto;
-
 
 public class LearningSessionNewCreator
 {
