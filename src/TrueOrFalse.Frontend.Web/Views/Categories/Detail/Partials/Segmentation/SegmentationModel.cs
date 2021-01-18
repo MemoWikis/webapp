@@ -17,60 +17,11 @@ public class SegmentationModel : BaseContentModule
     {
     }
 
-    public SegmentationModel(Category category, TopicNavigationJson topicNavigation)
+    public SegmentationModel(Category category)
     {
         Category = category;
-
-        var isLoadList = false;
-        switch (topicNavigation.Load)
-        {
-            case null:
-            case "All":
-                CategoryList = UserCache.IsFiltered ? UserEntityCache.GetChildren(category.Id, UserId) : Sl.CategoryRepo.GetChildren(category.Id).ToList();
-                break;
-            default:
-                var categoryIdList = topicNavigation.Load.Split(',').ToList().ConvertAll(int.Parse);
-                CategoryList =  UserCache.IsFiltered ? EntityCache.GetCategories(categoryIdList).Where(c => c.IsInWishknowledge()).ToList() : EntityCache.GetCategories(categoryIdList).ToList();
-                foreach (var category1 in CategoryList)
-                {
-                    Logg.r().Warning(category1.Id + "/Database Children");
-                }
-                isLoadList = true;
-                break;
-        }
-
-        switch (topicNavigation.Order)
-        {
-            case null:
-            case "QuestionAmount":
-                if(topicNavigation.Load == null || topicNavigation.Load == "All")
-                    CategoryList = CategoryList.OrderByDescending(c => c.GetAggregatedQuestionsFromMemoryCache().Count).ToList();
-                break;
-
-            case "Name":
-                CategoryList = CategoryList.OrderBy(c => c.Name).ToList();
-                break;
-
-            default:
-                if (isLoadList)
-                {
-                    throw new Exception("\"Load: \" und \"Order: \" können nicht gleichzeitig mit Category-Id-Listen als Parameter verwendet werden!");
-                }
-
-                if (!UserCache.IsFiltered)
-                {
-                    var firstCategories = EntityCache.GetCategories(
-                            topicNavigation.Order.Split(',')
-                                .ToList()
-                                .ConvertAll(Int32.Parse))
-                        .ToList();
-
-                    CategoryList = OrderByCategoryList(firstCategories);
-                }
-               
-                break;
-        }
-
+        
+        CategoryList = UserCache.IsFiltered ? UserEntityCache.GetChildren(category.Id, UserId) : Sl.CategoryRepo.GetChildren(category.Id).ToList();
         CategoryList = CategoryList.Where(c => c.Type.GetCategoryTypeGroup() == CategoryTypeGroup.Standard).ToList();
 
         var sortedCategories = new List<Category>();
@@ -86,9 +37,6 @@ public class SegmentationModel : BaseContentModule
             UnsortedCategoryList = CategoryList.Where(c => !sortedCategories.Any(s => c.Id == s.Id)).ToList();
         } else
             UnsortedCategoryList = CategoryList;
-        
-        Title = topicNavigation.Title;
-        Text = topicNavigation.Text;
     }
 
     public int GetTotalQuestionCount(Category category)
