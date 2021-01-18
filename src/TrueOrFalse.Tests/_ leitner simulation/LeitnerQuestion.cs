@@ -14,8 +14,6 @@ public class LeitnerQuestion
     public int Complexity;
     public LeitnerBox Box;
 
-    public int NextRepetitionDayNumber = 0;
-
     public static IList<LeitnerQuestion> CreateQuestions(int amount)
     {
         return Enumerable
@@ -41,8 +39,6 @@ public class LeitnerQuestion
         var probability = GetProbability(dayNumber, History);
         var random = _random.Next(0, 100);
         var wasCorrect =  random < probability;
-
-        //Logg.r().Information($"day: {dayNumber} box:{Box.Number} random: {random} prob:{probability} wascorrect: {wasCorrect}");
 
         History.Add(new LeitnerAnswer
         {
