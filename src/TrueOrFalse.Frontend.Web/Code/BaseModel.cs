@@ -33,8 +33,6 @@
 
     public TopNavMenu TopNavMenu = new TopNavMenu();
 
-    public bool ShowUserReportWidget = true;
-
     public BaseModel()
     {
         var sessionUiData = Resolve<SessionUiData>();
@@ -46,10 +44,5 @@
     public string UserMenuActive(UserMenuEntry userMenuEntry)
     {
         return  UserMenu.UserMenuActive(userMenuEntry);
-    }
-
-    public bool UserMenuIsActive(UserMenuEntry userMenuEntry)
-    {
-        return !string.IsNullOrEmpty(UserMenu.UserMenuActive(userMenuEntry));
     }
 }
