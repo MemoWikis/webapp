@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Microsoft.Ajax.Utilities;
+using Newtonsoft.Json;
 using NHibernate.Mapping;
 
 public class SegmentationModel : BaseContentModule
@@ -25,24 +27,51 @@ public class SegmentationModel : BaseContentModule
         
         var categoryList = UserCache.IsFiltered ? UserEntityCache.GetChildren(category.Id, UserId) : EntityCache.GetChildren(category.Id).ToList();
         CategoryList = categoryList.Where(c => c.Type.GetCategoryTypeGroup() == CategoryTypeGroup.Standard).ToList();
+        var segments = GetSegments(category.Id);
 
-        var inSegmentCategoryList = new List<Category>();
+        if (segments != null)
+            NotInSegmentCategoryList = GetNotInSegmentCategoryList(segments, categoryList);
+        else
+            NotInSegmentCategoryList = categoryList;
 
-        if (Segments != null)
+        Segments = segments;
+    }
+
+    public List<Segment> GetSegments(int id)
+    {
+        var segments = new List<Segment>();
+        var segmentJson = JsonConvert.DeserializeObject<List<SegmentJson>>(EntityCache.GetCategory(id).CustomSegments);
+        foreach (var s in segmentJson)
         {
-            var notInSegmentCategoryList = new List<Category>();
-            foreach (var segment in Segments)
+            var segment = new Segment();
+            segment.Title = s.Title;
+            foreach (var categoryId in s.CategoryIds)
             {
-                var categoriesToAdd = segment.CategoryList.Where(c => !inSegmentCategoryList.Any(s => s.Id == c.Id));
-                foreach (var c in categoriesToAdd)
-                    inSegmentCategoryList.Add(c);
-                notInSegmentCategoryList.AddRange(categoryList.Where(c => !inSegmentCategoryList.Any(s => c.Id == s.Id)));
+                var category = EntityCache.GetCategory(categoryId);
+                segment.CategoryList.Add(category);
             }
 
-            NotInSegmentCategoryList = notInSegmentCategoryList.ToList();
-            HasCustomSegments = true;
-        } else
-            NotInSegmentCategoryList = categoryList;
+            segments.Add(segment);
+        }
+
+        return segments;
+    }
+
+    public List<Category> GetNotInSegmentCategoryList(List<Segment> segments, List<Category> categoryList)
+    {
+        var notInSegmentCategoryList = new List<Category>();
+        var inSegmentCategoryList = new List<Category>();
+
+        foreach (var segment in segments)
+        {
+            var categoriesToAdd = segment.CategoryList.Where(c => !inSegmentCategoryList.Any(s => s.Id == c.Id));
+            foreach (var c in categoriesToAdd)
+                inSegmentCategoryList.Add(c);
+            notInSegmentCategoryList.AddRange(categoryList.Where(c => !inSegmentCategoryList.Any(s => c.Id == s.Id)));
+        }
+
+        HasCustomSegments = true;
+        return notInSegmentCategoryList.ToList();
     }
 }
 
