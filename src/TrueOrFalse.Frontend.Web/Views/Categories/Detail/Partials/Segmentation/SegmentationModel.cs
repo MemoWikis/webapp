@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using NHibernate.Mapping;
 
 public class SegmentationModel : BaseContentModule
 {
@@ -29,15 +30,16 @@ public class SegmentationModel : BaseContentModule
 
         if (Segments != null)
         {
+            var notInSegmentCategoryList = new List<Category>();
             foreach (var segment in Segments)
             {
                 var categoriesToAdd = segment.CategoryList.Where(c => !inSegmentCategoryList.Any(s => s.Id == c.Id));
                 foreach (var c in categoriesToAdd)
                     inSegmentCategoryList.Add(c);
-                NotInSegmentCategoryList = categoryList.Where(c => !inSegmentCategoryList.Any(s => c.Id == s.Id)).ToList();
-
+                notInSegmentCategoryList.AddRange(categoryList.Where(c => !inSegmentCategoryList.Any(s => c.Id == s.Id)));
             }
 
+            NotInSegmentCategoryList = notInSegmentCategoryList.ToList();
             HasCustomSegments = true;
         } else
             NotInSegmentCategoryList = categoryList;
