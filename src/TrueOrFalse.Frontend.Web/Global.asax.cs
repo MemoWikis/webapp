@@ -7,6 +7,7 @@ using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
 using Autofac.Integration.Mvc;
+using NHibernate;
 using StackExchange.Profiling;
 using TrueOrFalse.Infrastructure;
 using TrueOrFalse.Updates;
@@ -48,7 +49,7 @@ namespace TrueOrFalse.Frontend.Web
                 EntityCache.Init();
             }
 
-
+            Sl.Resolve<ISession>().Close();
 
             Logg.r().Information("=== Application Start ===============================");
         }

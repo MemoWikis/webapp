@@ -80,7 +80,6 @@ namespace TrueOrFalse.Tests
             question.SolutionMetadataJson = new SolutionMetadataText { IsCaseSensitive = true, IsExactInput = false }.Json;
             question.Creator = creator ?? _contextUser.All.First();
             question.CorrectnessProbability = correctnessProbability == 0 ? Rand.Next(1, 101) : correctnessProbability;
-            question.Categories = ContextCategory.New(false).AddToEntityCache("blabla", CategoryType.Standard, null, true).All;
 
             if (categories != null)
                 question.Categories = categories;

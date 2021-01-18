@@ -308,6 +308,7 @@
     <Compile Include="_ code\Email\OneEmailWasSend.cs" />
     <Compile Include="_ code\Email\GetEmailsFromPickupDirectory.cs" />
     <Compile Include="_ code\GlobalTest.cs" />
+    <Compile Include="_ code\Setup\EntityCacheSetup.cs" />
     <Compile Include="_ leitner simulation\LeitnerAnswer.cs" />
     <Compile Include="_ leitner simulation\LeitnerBox.cs" />
     <Compile Include="_ leitner simulation\LeitnerBoxListExts.cs" />

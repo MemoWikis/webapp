@@ -18,9 +18,9 @@ namespace Seedworks.Lib.Persistence
 			_session = session;
 		}
 
-		public ISession Session { get { return _session; } }
+		public ISession Session => _session;
 
-		public void ExecuteFile(string filePath)
+        public void ExecuteFile(string filePath)
 		{
 			string sql = File.ReadAllText(filePath);
 
@@ -84,11 +84,6 @@ namespace Seedworks.Lib.Persistence
 		public void Clear()
 		{
 			_session.Clear();
-		}
-
-		public void RemoveFromCache(object item)
-		{
-			_session.Evict(item);
 		}
 
 		public ISessionStatistics GetStatisticsSession()
