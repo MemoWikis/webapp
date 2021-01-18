@@ -29,18 +29,14 @@
     
     public SidebarModel SidebarModel = new SidebarModel();
 
-    public TopicMenu TopicMenu;
+    public TopicMenu TopicMenu = new TopicMenu();
 
     public TopNavMenu TopNavMenu = new TopNavMenu();
-
-    public bool ShowUserReportWidget = true;
 
     public BaseModel()
     {
         var sessionUiData = Resolve<SessionUiData>();
         UserMenu = sessionUiData.UserMenu;
-
-        TopicMenu = Sl.SessionUiData.TopicMenu;
     }
 
     public string UserMenuActive(UserMenuEntry userMenuEntry)
