@@ -1,7 +1,8 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
-public class GetCategoriesDescendants
+public class GetCategoryChildren
 {
     public static List<Category> WithAppliedRules(Category category)
     {
@@ -23,5 +24,13 @@ public class GetCategoriesDescendants
             .Except(categoriesToExclude)
             .Union(categoriesToInclude)
             .ToList();
+    }
+
+    public static List<Category> WithAppliedRulesFromMemory(Category category)
+    {
+        throw new Exception("not done yet");
+
+        //consider wishknowlede, visibilty and exclude and included categories
+        return EntityCache.GetChildren(category);
     }
 }

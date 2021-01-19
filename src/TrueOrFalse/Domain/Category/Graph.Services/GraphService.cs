@@ -1,5 +1,4 @@
-﻿using FluentNHibernate.Utils;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 
 public class GraphService
@@ -41,13 +40,13 @@ public class GraphService
 
     public static List<Category> GetLastWuwiChildrenFromCategories(int categoryId)
     {
-        var childrenReverse = EntityCache.GetDescendants(categoryId);
-        var lastChildren = childrenReverse
+        var childrenReversed = EntityCache.GetChildren(categoryId);
+        var children = childrenReversed
             .Where(c =>
                 EntityCache.GetChildren(c.Id).Count == 0 &&
                 c.IsInWishknowledge());
 
-        return lastChildren.ToList();
+        return children.ToList();
 
     }
 

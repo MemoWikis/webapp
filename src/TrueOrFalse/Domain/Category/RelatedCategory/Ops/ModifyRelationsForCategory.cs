@@ -55,7 +55,7 @@ public class ModifyRelationsForCategory
     {
         var catRepo = Sl.CategoryRepo;
 
-        var descendants = GetCategoriesDescendants.WithAppliedRules(category);
+        var descendants = GetCategoryChildren.WithAppliedRules(category);
 
         UpdateCategoryRelationsOfType(category, descendants, CategoryRelationType.IncludesContentOf);
 

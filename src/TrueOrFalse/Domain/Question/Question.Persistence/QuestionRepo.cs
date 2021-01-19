@@ -314,15 +314,15 @@ public class QuestionRepo : RepositoryDbBase<Question>
             .Future();
 
         _session.QueryOver<Question>()
-            .Fetch(SelectMode.Fetch, x => x.Categories)
+            .Fetch(SelectMode.FetchLazyProperties, x => x.Categories)
             .Future();
 
         _session.QueryOver<Question>()
-            .Fetch(SelectMode.Fetch, x => x.Creator)
+            .Fetch(SelectMode.FetchLazyProperties, x => x.Creator)
             .Future();
 
         _session.QueryOver<Question>()
-            .Fetch(SelectMode.Fetch, x => x.References)
+            .Fetch(SelectMode.FetchLazyProperties, x => x.References)
             .Future();
 
         return questions.ToList();

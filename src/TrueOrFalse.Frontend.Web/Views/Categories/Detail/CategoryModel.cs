@@ -72,7 +72,6 @@ public class CategoryModel : BaseContentModule
     }
     public CategoryModel(Category category, bool loadKnowledgeSummary = true, bool isCategoryNull = false, bool openEditMode = false)
     {
- 
         CategoryIsDeleted = isCategoryNull;
 
         AnalyticsFooterModel = new AnalyticsFooterModel(category, false, isCategoryNull);

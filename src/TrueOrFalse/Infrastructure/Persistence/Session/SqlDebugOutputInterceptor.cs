@@ -5,7 +5,6 @@ using System.Threading.Tasks;
 using NHibernate;
 using NHibernate.Impl;
 using NHibernate.SqlCommand;
-using ObjectDumper;
 using Serilog;
 
 public class SqlDebugOutputInterceptor : EmptyInterceptor
