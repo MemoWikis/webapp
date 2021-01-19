@@ -24,7 +24,14 @@ namespace TrueOrFalse.Infrastructure
 
             try
             {
-                builder.RegisterInstance(SessionFactory.CreateSessionFactory());
+#if DEBUG
+                var interceptor = new SqlDebugOutputInterceptor();
+                var sessionBuilder = SessionFactory.CreateSessionFactory().WithOptions().Interceptor(interceptor);
+#else
+                var sessionBuilder = SessionFactory.CreateSessionFactory().WithOptions().NoInterceptor();
+#endif 
+
+                builder.RegisterInstance(sessionBuilder);
             }
             catch (Exception ex)
             {
@@ -60,7 +67,7 @@ namespace TrueOrFalse.Infrastructure
                 throw new Exception(sb.ToString());
             }
 
-            builder.Register(context => new SessionManager(context.Resolve<ISessionFactory>().OpenSession())).InstancePerLifetimeScope();
+            builder.Register(context => new SessionManager(context.Resolve<ISessionBuilder>().OpenSession())).InstancePerLifetimeScope();
             builder.Register(context => context.Resolve<SessionManager>().Session).ExternallyOwned();
         }
     }
