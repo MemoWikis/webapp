@@ -73,7 +73,7 @@ public class ImageMetadata_from_wikimedia : BaseTest
         Assert.That(result1.ImageNotFound, Is.False);
 
         var result2 = Resolve<WikiImageMetaLoader>().Run("https://de.wikipedia.org/wiki/James_Bond#/media/File:007_evolution.svg");
-        Assert.That(result1.ApiHost, Is.EqualTo("en.wikipedia.org"));
+        Assert.That(result2.ApiHost, Is.EqualTo("en.wikipedia.org"));
         Assert.That(result2.ImageNotFound, Is.False);
     }
 
