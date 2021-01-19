@@ -66,6 +66,7 @@ public class ImageMetadata_from_wikimedia : BaseTest
     }
 
     [Test]
+    [Ignore("currently no sample data for the case")]
     public void If_image_not_on_commons_try_original_host()
     {
         var result1 = Resolve<WikiImageMetaLoader>().Run("http://en.wikipedia.org/wiki/File:Solr.png");
