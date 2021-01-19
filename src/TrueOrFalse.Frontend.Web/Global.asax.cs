@@ -23,6 +23,8 @@ namespace TrueOrFalse.Frontend.Web
        
         protected void Application_Start()
         {
+            Logg.r().Information("=== Application Start (start) ===============================");
+
             IgnoreLog.Initialize();
             InitializeAutofac();
             
@@ -51,7 +53,7 @@ namespace TrueOrFalse.Frontend.Web
 
             Sl.Resolve<ISession>().Close();
 
-            Logg.r().Information("=== Application Start ===============================");
+            Logg.r().Information("=== Application Start (end) ===============================");
         }
 
         protected void Application_Stop()

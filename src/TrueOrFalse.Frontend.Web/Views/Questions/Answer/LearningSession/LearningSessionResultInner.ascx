@@ -109,7 +109,7 @@
             </p>
             <% foreach (var learningSessionStepNew in Model.AnsweredStepsGrouped)
                 {
-                    if ((learningSessionStepNew.First().AnswerState != AnswerStateNew.Unanswered) && learningSessionStepNew.First().AnswerState == AnswerStateNew.Correct)
+                    if ((learningSessionStepNew.First().AnswerState != AnswerState.Unanswered) && learningSessionStepNew.First().AnswerState == AnswerState.Correct)
                     { %> 
                         <div class="row">
                             <div class="col-xs-12">
@@ -120,7 +120,7 @@
                                     </i><%= learningSessionStepNew.First().Question.GetShortTitle(150) %> 
                                     (Details)</a><br/>
                     <% }
-                    else if ((learningSessionStepNew.Count() > 1) && (learningSessionStepNew.Last().AnswerState != AnswerStateNew.Unanswered) && learningSessionStepNew.Last().AnswerState == AnswerStateNew.Correct)
+                    else if ((learningSessionStepNew.Count() > 1) && (learningSessionStepNew.Last().AnswerState != AnswerState.Unanswered) && learningSessionStepNew.Last().AnswerState == AnswerState.Correct)
                     { %> 
                         <div class="row">
                             <div class="col-xs-12">
@@ -132,7 +132,7 @@
                                     (Details)</a><br/>
 
                     <% }
-                    else if (learningSessionStepNew.All(a => a.AnswerState == AnswerStateNew.Unanswered))
+                    else if (learningSessionStepNew.All(a => a.AnswerState == AnswerState.Unanswered))
                     { %> 
                         <div class="row">
                             <div class="col-xs-12">
@@ -143,8 +143,8 @@
                                     </i><%= learningSessionStepNew.First().Question.GetShortTitle(150) %> 
                                     (Details)</a><br/>
                     <% }
-                    else if (((learningSessionStepNew.Last().AnswerState != AnswerStateNew.Unanswered) && (learningSessionStepNew.Last().AnswerState == AnswerStateNew.Correct)) ||
-                                ((learningSessionStepNew.Last().AnswerState == AnswerStateNew.Unanswered) && (learningSessionStepNew.Count() > 1)))
+                    else if (((learningSessionStepNew.Last().AnswerState != AnswerState.Unanswered) && (learningSessionStepNew.Last().AnswerState == AnswerState.Correct)) ||
+                                ((learningSessionStepNew.Last().AnswerState == AnswerState.Unanswered) && (learningSessionStepNew.Count() > 1)))
                     { %>
                         <div class="row">
                             <div class="col-xs-12">
@@ -179,11 +179,11 @@
                                                 <% int counter = 1;
                                                 foreach (var step in learningSessionStepNew)
                                                 {
-                                                    if (step.AnswerState == AnswerStateNew.Skipped)
+                                                    if (step.AnswerState == AnswerState.Skipped)
                                                     {
                                                         %> <p class="answerTry">Dein <%= counter %>. Versuch: (übersprungen)</p><%
                                                     }
-                                                    else if (step.AnswerState == AnswerStateNew.Unanswered)
+                                                    else if (step.AnswerState == AnswerState.Unanswered)
                                                     {
                                                         %> <p class="answerTry">Dein <%= counter %>. Versuch: (noch nicht gesehen)</p><%
                                                     }

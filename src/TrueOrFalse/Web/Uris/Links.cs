@@ -245,12 +245,12 @@ namespace TrueOrFalse.Frontend.Web.Code
         /*Learn*/
         public const string LearningSessionResultController = "LearningSessionResult";
 
-        public static string LearningSession(LearningSessionNew learningSession)
+        public static string LearningSession(LearningSession learningSession)
         {
             return "#";
         }
 
-        public static string StartLearningSession(LearningSessionNew learningSession)
+        public static string StartLearningSession(LearningSession learningSession)
         {
             if(!learningSession.Config.InWishknowledge)
                 return StartCategoryLearningSession(learningSession.Config.CategoryId);

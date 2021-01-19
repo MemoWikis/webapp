@@ -2,9 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.IO;
 using System.Linq;
-using System.Runtime.Serialization.Formatters.Binary;
 
 [DebuggerDisplay("Id={Id} Name={Name}")]
 [Serializable]
@@ -38,7 +36,19 @@ public class Category : DomainEntity, ICreator, ICloneable
 
     public virtual string CategoriesToExcludeIdsString { get; set; }
 
+    private IEnumerable<int> _categoriesToExcludeIds;
+    public virtual IEnumerable<int> CategoriesToExcludeIds() =>
+        _categoriesToExcludeIds ?? (_categoriesToExcludeIds = CategoriesToExcludeIdsString
+            .Split(new[] {','}, StringSplitOptions.RemoveEmptyEntries)
+            .Select(x => Convert.ToInt32(x)));
+
+
+    private IEnumerable<int> _categoriesToIncludeIds;
     public virtual string CategoriesToIncludeIdsString { get; set; }
+    public virtual IEnumerable<int> CategoriesToIncludeIds() =>
+        _categoriesToIncludeIds ?? (_categoriesToIncludeIds = CategoriesToIncludeIdsString
+            .Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries)
+            .Select(x => Convert.ToInt32(x)));
 
     public virtual IList<Category> CategoriesToInclude()
     {
@@ -134,6 +144,7 @@ public class Category : DomainEntity, ICreator, ICloneable
 
     public virtual string TopicMarkdown { get; set; }
     public virtual string Content { get; set; }
+    public virtual string CustomSegments { get; set; }
 
     public virtual CategoryType Type { get; set; }
 

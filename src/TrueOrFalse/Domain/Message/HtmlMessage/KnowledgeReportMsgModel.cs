@@ -90,19 +90,6 @@ public class KnowledgeReportMsgModel
         KnowledgeNotLearned = knowledgeSummary.NotLearned.ToString();
         KnowledgeNotLearnedPercentage = knowledgeSummary.NotLearnedPercentage.ToString();
 
-        var knowledgeLastLearnedDate = Sl.R<LearningSessionRepo>().GetDateOfLastWishSession(user);
-        if (knowledgeLastLearnedDate == null)
-        {
-            KnowledgeLastLearnedDate = "noch nie";
-            KnowledgeLastLearnedDateAsDistance = "";
-        }
-        else
-        {
-            KnowledgeLastLearnedDate = knowledgeLastLearnedDate.Value.ToString("'zuletzt am' dd.MM.yyyy 'um' HH:mm");
-            var remainingLabel = new TimeSpanLabel(DateTime.Now - (DateTime) knowledgeLastLearnedDate, useDativ: true);
-            KnowledgeLastLearnedDateAsDistance = "<br />(Vor " + remainingLabel.Full + ")";
-        }
-
 
         /* User's stats about recent learning behaviour */
 

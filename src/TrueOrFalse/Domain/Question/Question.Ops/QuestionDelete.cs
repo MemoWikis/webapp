@@ -36,8 +36,6 @@ public class QuestionDelete
             .CreateSQLQuery("DELETE FROM questionFeature_to_question where Question_id = " + questionId)
             .ExecuteUpdate(); //probably not necessary
 
-        Sl.R<LearningSessionRepo>().DeleteQuestionInAllLearningSessions(questionId);
-
         questionRepo.Delete(question);
         Sl.QuestionChangeRepo.AddDeleteEntry(question);
 

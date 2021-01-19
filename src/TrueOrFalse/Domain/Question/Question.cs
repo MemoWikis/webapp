@@ -79,7 +79,7 @@ public class Question : DomainEntity, ICreator
                 return new List<SetMini>();
             return JsonConvert.DeserializeObject<List<SetMini>>(SetsTop5Json);
         }
-        set { SetsTop5Json = JsonConvert.SerializeObject(value); }
+        set => SetsTop5Json = JsonConvert.SerializeObject(value);
     }
     public virtual IList<Set> SetsTop5
     {
@@ -95,7 +95,7 @@ public class Question : DomainEntity, ICreator
 
     public virtual bool IsWorkInProgress { get; set; }
 
-    public virtual IList<QuestionFeature> Features { get; set; }
+    public virtual IList<QuestionFeature> Features { get; set; } = new List<QuestionFeature>();
 
     public virtual bool IsEasyQuestion()
     {

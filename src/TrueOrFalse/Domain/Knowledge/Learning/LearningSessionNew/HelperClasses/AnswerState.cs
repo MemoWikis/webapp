@@ -1,4 +1,4 @@
-﻿public enum AnswerStateNew
+﻿public enum AnswerState
 {
     Unanswered = 0,
     False = 1,

@@ -20,7 +20,7 @@ namespace TrueOrFalse.Tests
 
             learningSession.AddAnswer(new AnswerQuestionResult{IsCorrect =  false});
             Assert.That(learningSession.Steps.Count, Is.EqualTo(6));
-            Assert.That(learningSession.Steps.Last().AnswerState, Is.EqualTo(AnswerStateNew.Unanswered));
+            Assert.That(learningSession.Steps.Last().AnswerState, Is.EqualTo(AnswerState.Unanswered));
 
             learningSession.NextStep();
             Assert.That(learningSession.CurrentIndex, Is.EqualTo(2));
@@ -28,7 +28,7 @@ namespace TrueOrFalse.Tests
             learningSession.SkipStep();
             var currentStep = learningSession.CurrentIndex - 1; 
             Assert.That(learningSession.Steps.Count, Is.EqualTo(6));
-            Assert.That(learningSession.Steps[currentStep].AnswerState, Is.EqualTo(AnswerStateNew.Skipped));
+            Assert.That(learningSession.Steps[currentStep].AnswerState, Is.EqualTo(AnswerState.Skipped));
         }
 
         [Test]

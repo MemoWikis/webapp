@@ -10,7 +10,7 @@ namespace TrueOrFalse.Tests._2_Domain.Question.LearnSession
         {
             var learningSession = ContextLearningSession.GetLearningSessionForAnonymusUser(5);
             learningSession.SetCurrentStepAsCorrect();
-            Assert.That(learningSession.CurrentStep.AnswerState, Is.EqualTo(AnswerStateNew.Correct));
+            Assert.That(learningSession.CurrentStep.AnswerState, Is.EqualTo(AnswerState.Correct));
             Assert.That(learningSession.Steps.Count, Is.EqualTo(5));
         }
 

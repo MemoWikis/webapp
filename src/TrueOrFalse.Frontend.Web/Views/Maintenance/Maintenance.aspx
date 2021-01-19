@@ -88,28 +88,13 @@
             <a href="<%= Url.Action("ReIndexAllUsers", "Maintenance") %>" data-url="toSecurePost">
                 <i class="fa fa-retweet"></i> Nutzer
             </a>
-        </div>        
-        <div class="col-md-6 MaintenanceSection">
-            <h4>Lernpläne</h4>
-            <a href="<%= Url.Action("CreateTrainingDates", "Maintenance") %>" data-url="toSecurePost">
-                <i class="fa fa-retweet"></i> Lernpläne erstellen
-            </a>
         </div>
     </div>
     <div class="row">
         <div class="col-md-6 MaintenanceSection">
             <h4>Sonstige</h4>
-            <a href="<%= Url.Action("MigrateAnswerData", "Maintenance") %>" data-url="toSecurePost" style="display: none;">
-                <i class="fa fa-retweet"></i> Antwortdaten migrieren
-            </a>
-            <a href="<%= Url.Action("ClearMigratedData", "Maintenance") %>" data-url="toSecurePost" style="display: none;">
-                <i class="fa fa-retweet"></i> Migrierte Daten löschen
-            </a>
             <a href="<%= Url.Action("CheckForDuplicateInteractionNumbers", "Maintenance") %>" data-url="toSecurePost" style="">
                 <i class="fa fa-retweet"></i> Auf Antworten mit selber Guid und InteractionNr checken
-            </a><br />
-            <a href="<%= Url.Action("CheckForDuplicateLearningSessionStepGuidsInAnswers", "Maintenance") %>" data-url="toSecurePost" style="">
-                <i class="fa fa-retweet"></i> Auf Antworten mit selber LearningSessionStepGuid checken
             </a><br />
             <a href="<%= Url.Action("MigrateDefaultTemplates", "Maintenance") %>" data-url="toSecurePost" style="display: none;">
                 <i class="fa fa-retweet"></i> Themen ohne topicMarkdown mit Templates migrieren

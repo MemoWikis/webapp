@@ -13,15 +13,15 @@ Inherits="System.Web.Mvc.ViewUserControl<AnalyticsFooterModel>" %>
     <div class="analyticsTextContainer col-sm-8">
         <h1>Wissensnetz</h1>
 
-        <% if (Model.AllCategoriesParents.Count > 0){ %>
-            <p>Übergeordnete Themen: <%= Model.AllCategoriesParents.Count %><span> <%= Model.ParentList %></span></p>
+        <% if (Model.AllParents.Count > 0){ %>
+            <p>Übergeordnete Themen: <%= Model.AllParents.Count %><span> <%= Model.ParentList %></span></p>
         <% } %>
-        <% if (Model.CategoriesDescendantsCount > 0){ %>
-            <p>Untergeordnete Themen: <%= Model.CategoriesDescendantsCount %></p>
+        <% if (Model.ChildrenCount > 0){ %>
+            <p>Untergeordnete Themen: <%= Model.ChildrenCount %></p>
         <% } %>
             
         <div class="OpenAnalyticsTab">
-            <a href="<%= Links.AnalyticsFooter(Model.CategoryId, Model.Category.Name) %>" id="AnalyticsFooterBtn" data-tab-id="AnalyticsTab" class="btn btn-lg btn-primary footerBtn">Wissensnetz ansehen</a>   
+            <a href="<%= Links.AnalyticsFooter(Model.CategoryId, Model.CategoryName) %>" id="AnalyticsFooterBtn" data-tab-id="AnalyticsTab" class="btn btn-lg btn-primary footerBtn">Wissensnetz ansehen</a>   
         </div>
     </div>
 </div>

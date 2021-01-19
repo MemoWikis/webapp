@@ -42,10 +42,7 @@ namespace TrueOrFalse
             var page = jsonResult.query.pages;
             var pageName = ((ICollection<string>)page.GetDynamicMemberNames()).First();
 
-            //$temp:
-            //Image "http://commons.wikimedia.org/w/index.php?title=File:OS_Street_View_NC46SW.jpg"
-            //mit apiResult: "{\"warnings\":{\"query\":{\"*\":\"Formatting of continuation data will be changing soon. To continue using the current formatting, use the 'rawcontinue' parameter. To begin using the new format, pass an empty string for 'continue' in the initial query.\"}},\"query\":{\"normalized\":[{\"from\":\"File:OS_Street_View_NC46SW.jpg\",\"to\":\"File:OS Street View NC46SW.jpg\"}],\"pages\":{\"10912841\":{\"pageid\":10912841,\"ns\":6,\"title\":\"File:OS Street View NC46SW.jpg\",\"imagerepository\":\"local\",\"imageinfo\":[{\"timestamp\":\"2010-07-17T19:42:54Z\",\"user\":\"OrdnanceSurveyBot\",\"userid\":\"1179188\",\"size\":842955,\"width\":5000,\"height\":5000,\"thumburl\":\"http://upload.wikimedia.org/wikipedia/commons/thumb/9/94/OS_Street_View_NC46SW.jpg/200px-OS_Street_View_NC46SW.jpg\",\"thumbwidth\":200,\"thumbheight\":200,\"url\":\"http://upload.wikimedia.org/wikipedia/commons/9/94/OS_Street_View_NC46SW.jpg\",\"descriptionurl\":\"http://commons.wikimedia.org/wiki/File:OS_Street_View_NC46SW.jpg\",\"sha1\":\"923f6f583bedec3beb855446b65ca16a766f0644\",\"metadata\":null}]}}}}";
-            //lässt ihn in folgende Bedingung springen, die dann dazu führt, dass Image nicht gespeichert werden kann:
+            // if json result does not contain "imageinfo", try api from host same as the image file name host.
             if (((ICollection<string>) page[pageName].GetDynamicMemberNames()).All(x => x != "imageinfo"))
             {
                 if (WikiApiUtils.ExtractDomain(host) == "commons.wikimedia.org")

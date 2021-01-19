@@ -12,7 +12,7 @@ public class TopNavMenuItem
 public class TopNavMenu
 {
     public List<Category> RootCategoriesList;
-    public IList<Category> BreadCrumbCategories => Sl.SessionUiData.TopicMenu.CategoryPath;
+    public IList<Category> BreadCrumbCategories = new List<Category>();
     public IList<TopNavMenuItem> BreadCrumb = new List<TopNavMenuItem>();
     public virtual IList<Category> Categories { get; set; }
     public bool IsWidgetOrKnowledgeCentral = false; 

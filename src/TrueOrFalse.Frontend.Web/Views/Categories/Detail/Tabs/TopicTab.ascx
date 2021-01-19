@@ -105,15 +105,14 @@
         <div id="ContentModulePlaceholder" v-if="editMode" v-cloak>
         </div>
     </div>
-<%--    
-    <div id="EditorApp">
-        <editor-content :editor="editor" />
-    </div>--%>
 
     <% if (!Model.CategoryIsDeleted) {%>
         <%: Html.Partial("~/Views/Categories/Detail/Partials/ModalComponentCollection.ascx") %>
     <% } %>
     
+</div>
+<div>
+    <%: Html.Partial("~/Views/Categories/Detail/Partials/Segmentation/SegmentationComponent.vue.ascx", new SegmentationModel(Model.Category)) %>
 </div>
 <div id="TopicTabFABApp">
     <%: Html.Partial("~/Views/Categories/Detail/Partials/FloatingActionButton/FloatingActionButton.ascx", new FloatingActionButtonModel(Model.Category, true)) %>

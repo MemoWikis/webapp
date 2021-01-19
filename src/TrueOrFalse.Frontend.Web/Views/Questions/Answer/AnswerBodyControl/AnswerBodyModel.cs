@@ -41,7 +41,7 @@ public class AnswerBodyModel : BaseModel
     public bool IsInWidget;
     public bool IsForVideo;
     public bool IsLearningSession;
-    public LearningSessionNew LearningSession;
+    public LearningSession LearningSession;
     public bool IsLastLearningStep = false;
     public bool IsTestSession;
     public int TestSessionProgessAfterAnswering;

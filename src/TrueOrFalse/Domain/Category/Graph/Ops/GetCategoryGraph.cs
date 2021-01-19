@@ -110,7 +110,7 @@ public class GetCategoryGraph
 
     public static CategoryGraph Get(Category category)
     {
-        var descendants = GetCategoriesDescendants.WithAppliedRules(category);
+        var descendants = GetCategoryChildren.WithAppliedRules(category);
 
         var nodes = new List<CategoryNode>{new CategoryNode{Category = category}};
 

@@ -1,10 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 using System.Web.Mvc;
-using NHibernate;
-using NHibernate.Linq;
 using NHibernate.Util;
 using TrueOrFalse;
 using TrueOrFalse.Frontend.Web.Code;
@@ -401,23 +398,6 @@ public class MaintenanceController : BaseController
             .ToList();
 
         var message = duplicates.Any() ? "Es gibt Dubletten." : "Es gibt keine Dubletten.";
-
-        return View("Maintenance", new MaintenanceModel { Message = new SuccessMessage(message) });
-    }
-
-    [HttpPost]
-    public ActionResult CheckForDuplicateLearningSessionStepGuidsInAnswers()
-    {
-        var duplicates = Sl.R<AnswerRepo>().GetAll()
-            .Where(a => a.LearningSessionStepGuid != Guid.Empty)
-            .GroupBy(a => new { a.LearningSessionStepGuid })
-            .Where(g => g.Skip(1).Any())
-            .SelectMany(g => g)
-            .ToList();
-
-        var message = duplicates.Any()
-            ? $"Dubletten: {duplicates.Select(a => a.Id.ToString()).Aggregate((a, b) => a + " " + b)}"
-            : "Es gibt keine Dubletten.";
 
         return View("Maintenance", new MaintenanceModel { Message = new SuccessMessage(message) });
     }

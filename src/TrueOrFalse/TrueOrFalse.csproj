@@ -307,14 +307,11 @@
     <Compile Include="Domain\Category\Type\Impl\CategoryTypeEducationProvider.cs" />
     <Compile Include="Domain\Knowledge\Count\GetWishTopicCount.cs" />
     <Compile Include="Domain\Category\Views\ViewsPerDay.cs" />
-    <Compile Include="Domain\Knowledge\Learning\LearningSessionNew\HelperClasses\AnswerStateNew.cs" />
+    <Compile Include="Domain\Knowledge\Learning\LearningSessionNew\HelperClasses\AnswerState.cs" />
     <Compile Include="Domain\Knowledge\Learning\LearningSessionNew\HelperClasses\LearningSessionConfig.cs" />
-    <Compile Include="Domain\Knowledge\Learning\LearningSessionNew\Ops\LearningSessionNew.cs" />
-    <Compile Include="Domain\Knowledge\Learning\LearningSessionNew\Ops\LearningSessionNewCreator.cs" />
-    <Compile Include="Domain\Knowledge\Learning\LearningSessionNew\HelperClasses\LearningSessionStepNew.cs" />
-    <Compile Include="Domain\Knowledge\Learning\LearningSession\Ops\CreateLearningSession.cs" />
-    <Compile Include="Domain\Knowledge\Learning\LearningSession\SessionConfigData.cs" />
-    <Compile Include="Domain\Knowledge\Learning\LearningSession\QuestionFilter.cs" />
+    <Compile Include="Domain\Knowledge\Learning\LearningSessionNew\Ops\LearningSession.cs" />
+    <Compile Include="Domain\Knowledge\Learning\LearningSessionNew\Ops\LearningSessionCreator.cs" />
+    <Compile Include="Domain\Knowledge\Learning\LearningSessionNew\HelperClasses\LearningSessionStep.cs" />
     <Compile Include="Domain\QuestionSet\Ops\GetAllOvercategorizedSets.cs" />
     <Compile Include="Domain\QuestionSet\Ops\SortSetsIntoListOfCategories.cs" />
     <Compile Include="Domain\Question\History\QuestionChange.cs" />
@@ -328,6 +325,7 @@
     <Compile Include="Domain\User\UserTinyModel.cs" />
     <Compile Include="Infrastructure\BooleanExtensions.cs" />
     <Compile Include="Infrastructure\Logging\LoggController.cs" />
+    <Compile Include="Infrastructure\Persistence\Session\SqlDebugOutputInterceptor.cs" />
     <Compile Include="Tools\Analytics\Widget\WidgetDetailViewsPerMonthAndTypeResult.cs" />
     <Compile Include="Tools\Analytics\Widget\WidgetViewsPerMonthAndKeyResult.cs" />
     <Compile Include="Tools\Cache\BaseCache.cs" />
@@ -345,7 +343,7 @@
     <Compile Include="Domain\Category\RelatedCategory\CategoryRelation.cs" />
     <Compile Include="Domain\Category\RelatedCategory\CategoryRelationType.cs" />
     <Compile Include="Domain\Category\RelatedCategory\Ops\CategoryAggregation.cs" />
-    <Compile Include="Domain\Category\RelatedCategory\Ops\GetCategoriesDescendants.cs" />
+    <Compile Include="Domain\Category\RelatedCategory\Ops\GetCategoryChildren.cs" />
     <Compile Include="Domain\Category\RelatedCategory\Ops\ModifyRelationsForCategory.cs" />
     <Compile Include="Domain\Category\RelatedCategory\Persistence\CategoryRelationMap.cs" />
     <Compile Include="Domain\Category\RelatedCategory\Persistence\CategoryRelationRepo.cs" />
@@ -391,11 +389,6 @@
     <Compile Include="Domain\Knowledge\Probability\AlgoInsight\Features_Question\QuestionFeatureGroups.cs" />
     <Compile Include="Domain\Knowledge\Probability\ForValuation\ProbabilityCalc_Curve.cs" />
     <Compile Include="Domain\Knowledge\Summary\KnowledgeSummaryUpdate.cs" />
-    <Compile Include="Domain\Knowledge\TestSession\GetRandomQuestions.cs" />
-    <Compile Include="Domain\Knowledge\TestSession\GetTestSession.cs" />
-    <Compile Include="Domain\Knowledge\TestSession\TestSession.cs" />
-    <Compile Include="Domain\Knowledge\TestSession\TestSessionStep.cs" />
-    <Compile Include="Domain\Knowledge\TestSession\TestSessionStepAnswerState.cs" />
     <Compile Include="Domain\Media\Image\Persistence\ImageMetaDataCache.cs" />
     <Compile Include="Domain\Media\Image\Wikimedia\ParseMarkup\Parser\Template\Author\ParseAuthor.cs" />
     <Compile Include="Domain\Media\Image\Wikimedia\ParseMarkup\Parser\Template\Description\ParseDescription.cs" />
@@ -556,8 +549,6 @@
     <Compile Include="Domain\Knowledge\Learning\LearningAnalyzer\ForgettingCurveLoader.cs" />
     <Compile Include="Domain\Knowledge\Learning\LearningAnalyzer\ForgettingCurve\IntervalizerResultItem.cs" />
     <Compile Include="Domain\Knowledge\Learning\LearningAnalyzer\ForgettingCurve\AnswerPairFromHistoryRows.cs" />
-    <Compile Include="Domain\Knowledge\Learning\LearningSession\Ops\GetLearningSessionSteps\StepSelectionParams.cs" />
-    <Compile Include="Domain\Knowledge\Learning\LearningSession\StepAnswerState.cs" />
     <Compile Include="Domain\Knowledge\Probability\AlgoInsight\AlgoInfo\AlgoInfo.cs" />
     <Compile Include="Domain\Knowledge\Probability\AlgoInsight\AlgoInfo\AlgoInfoRepo.cs" />
     <Compile Include="Domain\Knowledge\Probability\AlgoInsight\AlgoTester.cs" />
@@ -596,11 +587,6 @@
     <Compile Include="Domain\Knowledge\Probability\ForValuation\ProbabilityCalc_Abstract.cs" />
     <Compile Include="Domain\Knowledge\Summary\KnowledgeSummary.cs" />
     <Compile Include="Domain\Knowledge\Summary\KnowledgeSummaryLoader.cs" />
-    <Compile Include="Domain\Knowledge\Learning\LearningSession\LearningSession.cs" />
-    <Compile Include="Domain\Knowledge\Learning\LearningSession\Ops\GetLearningSessionSteps\GetLearningSessionSteps.cs" />
-    <Compile Include="Domain\Knowledge\Learning\LearningSession\LearningSessionStep.cs" />
-    <Compile Include="Domain\Knowledge\Learning\LearningSession\Persistence\LearningSessionMap.cs" />
-    <Compile Include="Domain\Knowledge\Learning\LearningSession\Persistence\LearningSessionRepository.cs" />
     <Compile Include="Domain\Media\Image\FrontendData\GetQuestionImageFrontendData.cs" />
     <Compile Include="Domain\Media\Image\FrontendData\ImageFrontendData.cs" />
     <Compile Include="Domain\Media\Image\ImageTypes\ImageSettings.cs" />
@@ -698,7 +684,6 @@
     <Compile Include="Domain\Knowledge\History\Persistence\KnowledgeHistoryItemMap.cs" />
     <Compile Include="Domain\Knowledge\History\Persistence\KnowledgeHistoryRepository.cs" />
     <Compile Include="Domain\Category\Ops\GetCategoriesCount.cs" />
-    <Compile Include="Domain\QuestionSet\Ops\SetDeleter.cs" />
     <Compile Include="Domain\QuestionSet\QuestionInSet\QuestionInSet.cs" />
     <Compile Include="Domain\QuestionSet\QuestionInSet\Persistence\QuestionInSetMap.cs" />
     <Compile Include="Domain\QuestionSet\Set.cs" />
@@ -867,6 +852,7 @@
     <Compile Include="Tools\Cache\UserCacheItem.cs" />
     <Compile Include="Tools\HelperTools.cs" />
     <Compile Include="Tools\Update\Steps\UpdateToVs219.cs" />
+    <Compile Include="Tools\Update\Steps\UpdateToVs221.cs" />
     <Compile Include="Tools\Update\Steps\UpdateToVs218.cs" />
     <Compile Include="Tools\Update\Steps\UpdateToVs217.cs" />
     <Compile Include="Tools\Update\Steps\UpdateToVs216.cs" />

@@ -69,39 +69,6 @@ public class AnswerQuestionController : BaseController
             new AnswerQuestionModel(Sl.Resolve<SessionUser>().LearningSession));
     }
 
-    public static ActionResult TestActionShared(
-        int testSessionId,
-        Func<TestSession, ActionResult> redirectToFinalStepFunc,
-        Func<TestSession, Guid, Question, ActionResult> resultFunc,
-        Func<TestSession, WidgetView> widgetViewFunc = null
-    )
-    {
-        var sessionUser = Sl.SessionUser;
-
-        var sessionCount = sessionUser.TestSessions.Count(s => s.Id == testSessionId);
-
-        if (sessionCount == 0)
-        { 
-            throw new Exception("SessionCount is 0. Shoult be 1");
-        }
-
-        if (sessionCount > 1)
-            throw new Exception(
-                $"SessionCount is {sessionUser.TestSessions.Count(s => s.Id == testSessionId)}. Should be not more then more than 1.");
-
-        var testSession = sessionUser.TestSessions.Find(s => s.Id == testSessionId);
-
-        if (testSession.CurrentStepIndex > testSession.NumberOfSteps)
-            return redirectToFinalStepFunc(testSession);
-
-        var question = Sl.R<QuestionRepo>().GetById(testSession.Steps.ElementAt(testSession.CurrentStepIndex - 1).QuestionId);
-        var questionViewGuid = Guid.NewGuid();
-
-        Sl.SaveQuestionView.Run(questionViewGuid, question, sessionUser.User, widgetViewFunc?.Invoke(testSession));
-
-        return resultFunc(testSession, questionViewGuid, question);
-    }
-
     public ActionResult AnswerQuestion(string text, int? id, int? elementOnPage, string pager, string category)
     {
         if (IsNullOrEmpty(pager) && (elementOnPage == null || elementOnPage == -1))
@@ -241,7 +208,7 @@ public class AnswerQuestionController : BaseController
         var learningSession = Sl.SessionUser.LearningSession;
         var learningSessionStep = learningSession.CurrentStep;
 
-        learningSessionStep.AnswerState = AnswerStateNew.ShowedSolutionOnly;
+        learningSessionStep.AnswerState = AnswerState.ShowedSolutionOnly;
 
         bool newStepAdded = !(learningSession.LimitForThisQuestionHasBeenReached(learningSessionStep) || learningSession.LimitForNumberOfRepetitionsHasBeenReached() || isInTestMode);
         learningSession.ShowSolution();
@@ -433,7 +400,7 @@ public class AnswerQuestionController : BaseController
     [HttpPost]
     public string RenderNewAnswerBodySessionForCategory(LearningSessionConfig config)
     {
-        var learningSession = UserId != -1 ? LearningSessionNewCreator.ForLoggedInUser(config) : LearningSessionNewCreator.ForAnonymous(config);
+        var learningSession = UserId != -1 ? LearningSessionCreator.ForLoggedInUser(config) : LearningSessionCreator.ForAnonymous(config);
 
         if (config.SafeLearningSessionOptions)
         {
@@ -578,7 +545,7 @@ public class AnswerQuestionController : BaseController
         var menuHtml = Empty;
         if (answerQuestionModel.Set == null && !isSession)
         {
-            Sl.SessionUiData.TopicMenu.PageCategories = ThemeMenuHistoryOps.GetQuestionCategories(answerQuestionModel.Question.Id);
+            //Sl.SessionUiData.TopicMenu.PageCategories = ThemeMenuHistoryOps.GetQuestionCategories(answerQuestionModel.Question.Id);
             menuHtml = ViewRenderer.RenderPartialView("~/Views/Categories/Navigation/CategoryNavigation.ascx", new CategoryNavigationModel(), ControllerContext);
         }
 
@@ -641,7 +608,7 @@ public class AnswerQuestionController : BaseController
     }
     
     [SetThemeMenu(isLearningSessionPage: true)]
-    public string RenderLearningSessionResult(LearningSessionNew learningSession, bool isInTestMode = false)
+    public string RenderLearningSessionResult(LearningSession learningSession, bool isInTestMode = false)
     {
         var serializer = new JavaScriptSerializer { MaxJsonLength = Int32.MaxValue, RecursionLimit = 100 };
         return serializer.Serialize(
@@ -672,10 +639,10 @@ public class AnswerQuestionController : BaseController
             c.AllQuestions = true;
             c.CategoryId = categoryId;
             c.MaxProbability = 100;
-            return LearningSessionNewCreator.GetQuestionCount(c);
+            return LearningSessionCreator.GetQuestionCount(c);
         }
         config.CurrentUserId = Sl.SessionUser.UserId;
-        return LearningSessionNewCreator.GetQuestionCount(config);
+        return LearningSessionCreator.GetQuestionCount(config);
     }
 
     [HttpPost]
