@@ -208,7 +208,7 @@ public class AnswerQuestionController : BaseController
         var learningSession = Sl.SessionUser.LearningSession;
         var learningSessionStep = learningSession.CurrentStep;
 
-        learningSessionStep.AnswerState = AnswerStateNew.ShowedSolutionOnly;
+        learningSessionStep.AnswerState = AnswerState.ShowedSolutionOnly;
 
         bool newStepAdded = !(learningSession.LimitForThisQuestionHasBeenReached(learningSessionStep) || learningSession.LimitForNumberOfRepetitionsHasBeenReached() || isInTestMode);
         learningSession.ShowSolution();
@@ -400,7 +400,7 @@ public class AnswerQuestionController : BaseController
     [HttpPost]
     public string RenderNewAnswerBodySessionForCategory(LearningSessionConfig config)
     {
-        var learningSession = UserId != -1 ? LearningSessionNewCreator.ForLoggedInUser(config) : LearningSessionNewCreator.ForAnonymous(config);
+        var learningSession = UserId != -1 ? LearningSessionCreator.ForLoggedInUser(config) : LearningSessionCreator.ForAnonymous(config);
 
         if (config.SafeLearningSessionOptions)
         {
@@ -608,7 +608,7 @@ public class AnswerQuestionController : BaseController
     }
     
     [SetThemeMenu(isLearningSessionPage: true)]
-    public string RenderLearningSessionResult(LearningSessionNew learningSession, bool isInTestMode = false)
+    public string RenderLearningSessionResult(LearningSession learningSession, bool isInTestMode = false)
     {
         var serializer = new JavaScriptSerializer { MaxJsonLength = Int32.MaxValue, RecursionLimit = 100 };
         return serializer.Serialize(
@@ -639,10 +639,10 @@ public class AnswerQuestionController : BaseController
             c.AllQuestions = true;
             c.CategoryId = categoryId;
             c.MaxProbability = 100;
-            return LearningSessionNewCreator.GetQuestionCount(c);
+            return LearningSessionCreator.GetQuestionCount(c);
         }
         config.CurrentUserId = Sl.SessionUser.UserId;
-        return LearningSessionNewCreator.GetQuestionCount(config);
+        return LearningSessionCreator.GetQuestionCount(config);
     }
 
     [HttpPost]

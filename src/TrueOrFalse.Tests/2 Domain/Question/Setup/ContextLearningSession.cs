@@ -5,17 +5,17 @@ using TrueOrFalse.Tests;
 
 internal static class ContextLearningSession
 {
-    public static List<LearningSessionStepNew> GetSteps(int amountQuestions)
+    public static List<LearningSessionStep> GetSteps(int amountQuestions)
     {
         var learningSession = GetLearningSessionForAnonymusUser(amountQuestions);
 
         return learningSession.Steps.ToList();
     }
 
-    public static LearningSessionNew GetLearningSessionForAnonymusUser(int amountQuestions)
+    public static LearningSession GetLearningSessionForAnonymusUser(int amountQuestions)
     {
         ContextQuestion.PutQuestionsIntoMemoryCache();
-        var learningSession = LearningSessionNewCreator.ForAnonymous(
+        var learningSession = LearningSessionCreator.ForAnonymous(
             new LearningSessionConfig
             {
                 CategoryId = 0,
@@ -25,22 +25,22 @@ internal static class ContextLearningSession
         return learningSession;
     }
 
-    public static LearningSessionNew GetLearningSessionWithUser(int userId, int amountQuestions)
+    public static LearningSession GetLearningSessionWithUser(int userId, int amountQuestions)
     {
         ContextQuestion.PutQuestionsIntoMemoryCache(amountQuestions);
-        return new LearningSessionNew(GetSteps(amountQuestions), new LearningSessionConfig { CurrentUserId = userId });
+        return new LearningSession(GetSteps(amountQuestions), new LearningSessionConfig { CurrentUserId = userId });
     }
 
-    public static LearningSessionNew GetLearningSession(LearningSessionConfig config )
+    public static LearningSession GetLearningSession(LearningSessionConfig config )
     {
 
         ContextQuestion.PutQuestionsIntoMemoryCache();
         if (config.CurrentUserId == -1)
         {
-            return LearningSessionNewCreator.ForAnonymous(config);
+            return LearningSessionCreator.ForAnonymous(config);
         }
 
-        return LearningSessionNewCreator.ForLoggedInUser(config); 
+        return LearningSessionCreator.ForLoggedInUser(config); 
         
 
     }

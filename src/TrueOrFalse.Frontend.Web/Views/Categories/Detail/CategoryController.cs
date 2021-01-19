@@ -136,7 +136,7 @@ public class CategoryController : BaseController
         {
             CategoryId = categoryId
         };
-        var learningSession = LearningSessionNewCreator.ForAnonymous(config);
+        var learningSession = LearningSessionCreator.ForAnonymous(config);
 
         return Redirect(Links.LearningSession(learningSession));
     }
@@ -150,7 +150,7 @@ public class CategoryController : BaseController
         if (questions.Count == 0)
             throw new Exception("Cannot start LearningSession with 0 questions.");
         var config = new LearningSessionConfig();
-        var learningSession = LearningSessionNewCreator.ForAnonymous(config);
+        var learningSession = LearningSessionCreator.ForAnonymous(config);
 
         return Redirect(Links.LearningSession(learningSession));
     }

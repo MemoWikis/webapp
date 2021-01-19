@@ -1,18 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using FluentNHibernate.Conventions.Inspections;
 
 [Serializable]
-public class LearningSessionNew
+public class LearningSession
 {
-    public IList<LearningSessionStepNew> Steps;
+    public IList<LearningSessionStep> Steps;
     public LearningSessionConfig Config;
     public int Pager;
 
     public int CurrentIndex { get; private set; }
     public bool IsLastStep { get; private set; }
-    public LearningSessionStepNew CurrentStep => Steps[CurrentIndex];
+    public LearningSessionStep CurrentStep => Steps[CurrentIndex];
     public string UrlName = "";
 
     public User User;
@@ -20,7 +19,7 @@ public class LearningSessionNew
     public Guid QuestionViewGuid;
 
 
-    public LearningSessionNew(List<LearningSessionStepNew> learningSessionSteps, LearningSessionConfig config)
+    public LearningSession(List<LearningSessionStep> learningSessionSteps, LearningSessionConfig config)
     {
         Steps = learningSessionSteps;
         var userCashItem = UserCache.GetItem(config.CurrentUserId);
@@ -32,7 +31,7 @@ public class LearningSessionNew
 
     public bool AddAnswer(AnswerQuestionResult answer)
     {
-        CurrentStep.AnswerState = answer.IsCorrect ? AnswerStateNew.Correct : AnswerStateNew.False;
+        CurrentStep.AnswerState = answer.IsCorrect ? AnswerState.Correct : AnswerState.False;
         return ReAddCurrentStepToEnd();
     }
 
@@ -46,7 +45,7 @@ public class LearningSessionNew
 
     public void SkipStep()
     {
-        CurrentStep.AnswerState = AnswerStateNew.Skipped;
+        CurrentStep.AnswerState = AnswerState.Skipped;
         IsLastStep = TestIsLastStep();
 
         if (!IsLastStep)
@@ -59,7 +58,7 @@ public class LearningSessionNew
         {
             for (int i = CurrentIndex; i < index; i++)
             {
-                Steps[i].AnswerState = AnswerStateNew.Skipped;
+                Steps[i].AnswerState = AnswerState.Skipped;
             }
         }
 
@@ -74,12 +73,12 @@ public class LearningSessionNew
     private bool ReAddCurrentStepToEnd()
     {
         if (LimitForThisQuestionHasBeenReached(CurrentStep) || LimitForNumberOfRepetitionsHasBeenReached() ||
-            Config.IsInTestMode || Config.IsAnonymous() || CurrentStep.AnswerState == AnswerStateNew.Correct || !Config.Repititions)
+            Config.IsInTestMode || Config.IsAnonymous() || CurrentStep.AnswerState == AnswerState.Correct || !Config.Repititions)
         {
             return false;
         }
 
-        var step = new LearningSessionStepNew(CurrentStep.Question);
+        var step = new LearningSessionStep(CurrentStep.Question);
         Steps.Add(step);
         return true; 
     }
@@ -90,7 +89,7 @@ public class LearningSessionNew
     }
 
 
-    public virtual bool LimitForThisQuestionHasBeenReached(LearningSessionStepNew step)
+    public virtual bool LimitForThisQuestionHasBeenReached(LearningSessionStep step)
     {
         return Steps.Count(s => s.Question == step.Question) >= 3;
     }
@@ -116,7 +115,7 @@ public class LearningSessionNew
 
     public void SetCurrentStepAsCorrect()
     {
-        CurrentStep.AnswerState = AnswerStateNew.Correct;
+        CurrentStep.AnswerState = AnswerState.Correct;
         DeleteLastStep();
     }
     public void DeleteLastStep()

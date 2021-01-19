@@ -86,8 +86,8 @@ public class AnswerQuestionModel : BaseModel
     public int CommentsSettledCount = 0;
 
     public bool IsLearningSession => LearningSession != null;
-    public LearningSessionNew  LearningSession;
-    public LearningSessionStepNew LearningSessionStep;
+    public LearningSession  LearningSession;
+    public LearningSessionStep LearningSessionStep;
     public int CurrentLearningStepIdx;
     public bool IsLastLearningStep;
 
@@ -116,7 +116,7 @@ public class AnswerQuestionModel : BaseModel
         Populate(question);
     }
 
-    public AnswerQuestionModel(LearningSessionNew learningSession, bool? isMobileDevice = null)
+    public AnswerQuestionModel(LearningSession learningSession, bool? isMobileDevice = null)
     {
         this.IsMobileDevice = isMobileDevice;
 

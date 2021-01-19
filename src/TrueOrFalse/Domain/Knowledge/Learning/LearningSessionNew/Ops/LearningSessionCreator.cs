@@ -1,16 +1,16 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 
-public class LearningSessionNewCreator
+public class LearningSessionCreator
 {
-    public static LearningSessionNew ForAnonymous(LearningSessionConfig config)
+    public static LearningSession ForAnonymous(LearningSessionConfig config)
     {
         var questions = RandomLimited(GetCategoryQuestionsFromEntityCache(config.CategoryId), config);
 
-        return new LearningSessionNew(questions.Select(q => new LearningSessionStepNew(q)).ToList(), config);
+        return new LearningSession(questions.Select(q => new LearningSessionStep(q)).ToList(), config);
     }
 
-    public static LearningSessionNew ForLoggedInUser(LearningSessionConfig config)
+    public static LearningSession ForLoggedInUser(LearningSessionConfig config)
     {  
         List<Question> questions = new List<Question>();
         if (UserCache.IsFiltered)
@@ -50,7 +50,7 @@ public class LearningSessionNewCreator
             questions = OrderByProbability(
                 RandomLimited(UserIsQuestionAuthor(config.CurrentUserId, config.CategoryId), config)).ToList();
 
-        return new LearningSessionNew(questions.Select(q => new LearningSessionStepNew(q)).ToList(), config);
+        return new LearningSession(questions.Select(q => new LearningSessionStep(q)).ToList(), config);
     }
 
     public static int GetQuestionCount(LearningSessionConfig config)

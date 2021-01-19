@@ -246,12 +246,12 @@ public class CategoryModel : BaseContentModule
         if (Category.CountQuestionsAggregated > 0 && UserCache.IsFiltered)
         {
             var questionsFromCurrentCategoryAndChildren =
-                LearningSessionNewCreator.GetCategoryQuestionsFromEntityCache(Category.Id);
+                LearningSessionCreator.GetCategoryQuestionsFromEntityCache(Category.Id);
             var allChildCategories = UserEntityCache.GetChildren(Category.Id, UserId);
 
             foreach (var childCategory in allChildCategories)
             {
-                var childQuestions = LearningSessionNewCreator.GetCategoryQuestionsFromEntityCache(childCategory.Id);
+                var childQuestions = LearningSessionCreator.GetCategoryQuestionsFromEntityCache(childCategory.Id);
                 foreach (var question in childQuestions)
                 {
                     questionsFromCurrentCategoryAndChildren.Add(question);
