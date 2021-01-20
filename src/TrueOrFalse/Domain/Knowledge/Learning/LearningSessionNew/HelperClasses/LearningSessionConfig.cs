@@ -14,7 +14,7 @@ public class LearningSessionConfig
     public bool IsInLearningTab { get; set; } 
     public bool InWishknowledge { get; set; }
     public int MinProbability { get; set; }
-    public int MaxProbability { get; set; }
+    public int MaxProbability { get; set; } = 100; 
     public int QuestionOrder { get; set; }
     public bool CreatedByCurrentUser { get; set; }
     public bool AllQuestions { get; set; }

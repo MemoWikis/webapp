@@ -54,10 +54,10 @@ namespace TrueOrFalse.Tests
             return this;
         }
 
-        public ContextQuestion AddQuestions(int amount, User creator = null, bool withId = false)
+        public ContextQuestion AddQuestions(int amount, User creator = null, bool withId = false, IList<Category> categoriesQuestions = null)
         {
             for (var i = 0; i < amount; i++)
-                AddQuestion(questionText: "Question" + i, solutionText: "Solution" + i, i, withId, creator: creator);
+                AddQuestion(questionText: "Question" + i, solutionText: "Solution" + i, i, withId, creator: creator,categories: categoriesQuestions);
             return this;
         }
 
@@ -182,16 +182,18 @@ namespace TrueOrFalse.Tests
 
         public static void PutQuestionsIntoMemoryCache(int amount = 20)
         {
-            var questions = New().AddQuestions(amount, null, true).All;
 
-            ContextCategory.New(false).AddToEntityCache("Category name", CategoryType.Standard, null, true);
 
-            var categoryIds = new List<int> { 0 };
+            ContextCategory.New(false).AddToEntityCache("Category name", CategoryType.Standard, null, true, 1);
+            var categories = EntityCache.GetAllCategories();
+
+            var questions = New().AddQuestions(amount, null, true, categories).All;
+
+            var categoryIds = new List<int> { 1 };
 
             foreach (var question in questions)
                 EntityCache.AddOrUpdate(question, categoryIds);
         }
-
 
 
         public static List<UserCacheItem> SetWuwi(int amountQuestion)

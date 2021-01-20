@@ -18,9 +18,11 @@ internal static class ContextLearningSession
         var learningSession = LearningSessionCreator.ForAnonymous(
             new LearningSessionConfig
             {
-                CategoryId = 0,
+                CategoryId = 1,
                 MaxQuestionCount = amountQuestions,
-                CurrentUserId = -1
+                CurrentUserId = -1,
+                MaxProbability = 100
+                
             });
         return learningSession;
     }
@@ -28,7 +30,7 @@ internal static class ContextLearningSession
     public static LearningSession GetLearningSessionWithUser(int userId, int amountQuestions)
     {
         ContextQuestion.PutQuestionsIntoMemoryCache(amountQuestions);
-        return new LearningSession(GetSteps(amountQuestions), new LearningSessionConfig { CurrentUserId = userId });
+        return new LearningSession(GetSteps(amountQuestions), new LearningSessionConfig { CurrentUserId = userId, CategoryId = 1});
     }
 
     public static LearningSession GetLearningSession(LearningSessionConfig config )
