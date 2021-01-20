@@ -144,7 +144,6 @@
          }
      </script>
 <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Open+Sans" />
-<input type="hidden" id="hddCountDates" value="<%=Model.Dates.Count %>"/>
 <input type="hidden" id="hddUserId" value="<%=Model.UserId %>"/>
 
 <div class="row first-row">
@@ -178,10 +177,6 @@
             <h3 id="rang">Rang <%=Model.ReputationRank %></h3>
             <b>(<%= Model.ReputationTotal %> Reputations Punkte)</b>
             </p>
-     <%--   <p>
-            <i class="fa fa-question-circle show-tooltip" data-original-title="Reputationspunkte erhältst du, wenn du gute Lerninhalte erstellst und andere damit lernen."></i>
-            <br/>
-        </p>--%>
     </span>
 </div>
 

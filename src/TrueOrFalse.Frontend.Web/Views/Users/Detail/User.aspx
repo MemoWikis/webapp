@@ -48,22 +48,20 @@
             <div class="box-content" style="min-height: 120px; clear: both; ">
             
                 <div class="column">
-                    <h4 style="margin-top: 0px;">Reputation</h4>
+                    <h4 style="margin-top: 0;">Reputation</h4>
                     <div>- <%= Model.Reputation.ForQuestionsCreated %> für erstellte Fragen</div>
                     <div>- <%= Model.User.Id != -1 ? Model.Reputation.ForQuestionsInOtherWishknowledge : 0 %> für eigene Fragen im Wunschwissen anderer </div>
-                    <div>- <%= Model.User.Id != -1 ? Model.Reputation.ForDatesCreatedVisible : 0 %> für erstellte Termine (sichtbar im Netzwerk)</div>
-                    <div>- <%= Model.User.Id != -1 ? Model.Reputation.ForDatesCopied : 0 %> für eigene Termine, die von anderen übernommen wurden</div>
                     <div>- <%= Model.User.Id != -1 ? Model.Reputation.ForPublicWishknowledge : 0 %> für die Veröffentlichung des eigenen Wunschwissens</div>
                     <div>- <%= Model.Reputation.ForUsersFollowingMe %> für folgende Nutzer</div>
                 </div>
                 <div class="column" >
-                    <h4 style="margin-top: 0px;">Erstellte Inhalte</h4>
+                    <h4 style="margin-top: 0;">Erstellte Inhalte</h4>
                     <div><a href="<%= Links.QuestionWithCreatorFilter(Url, Model.User.User) %>"><%= Model.AmountCreatedQuestions %> öffentliche Fragen erstellt</a></div>
                     <div><%= Model.AmountCreatedCategories %>  Themen erstellt</div>
                 </div>
             
                 <div class="column">
-                    <h4 style="margin-top: 0px;">Wunschwissen</h4>
+                    <h4 style="margin-top: 0;">Wunschwissen</h4>
                     <div><%= Model.AmountWishCountQuestions %> Fragen gemerkt</div>
                     <div><%= Model.AmountWishCountSets %> Lernsets gemerkt</div>
                     <div></div>

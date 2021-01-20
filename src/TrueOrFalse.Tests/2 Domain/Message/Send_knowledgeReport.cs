@@ -8,7 +8,6 @@ public class Send_knowledgeReport : BaseTest
     public void ShouldSend()
     {
         var user = ContextUser.New().Add(new User { EmailAddress = "test@test.de", Name = "Firstname Lastname" }).Persist().All[0];
-        //var sets = ContextSet.New().AddSet("Set", numberOfQuestions: 10).All;
         var questions = ContextQuestion.New()
             .AddQuestion(questionText: "q1", solutionText: "a1")
             .AddQuestion(questionText: "q2", solutionText: "a2")
