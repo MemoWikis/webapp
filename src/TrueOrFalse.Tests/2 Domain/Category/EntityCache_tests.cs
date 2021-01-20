@@ -71,7 +71,6 @@ class EntityCache_tests : BaseTest
         Assert.That(relatedCategories.Count, Is.EqualTo(0));
     }
 
-
     [Test]
     public void Should_able_to_deep_clone_cache_items()
     {

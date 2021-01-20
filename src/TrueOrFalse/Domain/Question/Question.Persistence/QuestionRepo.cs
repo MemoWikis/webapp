@@ -96,7 +96,9 @@ public class QuestionRepo : RepositoryDbBase<Question>
 
         base.Create(question);
         Flush();
+
         Sl.R<UpdateQuestionCountForCategory>().Run(question.Categories);
+
         foreach (var category in question.Categories.ToList())
         {
             category.UpdateCountQuestionsAggregated();
