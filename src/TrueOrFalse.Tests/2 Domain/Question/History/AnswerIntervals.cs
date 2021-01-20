@@ -4,7 +4,7 @@ using NUnit.Framework;
 using TrueOrFalse.Tests;
 
 [TestFixture]
-public class AnswerIntervals_test 
+public class AnswerIntervals_test : BaseTest
 {
     [Test]
     public void Should_get_intervals()
