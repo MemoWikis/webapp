@@ -16,8 +16,8 @@ public class AccountController : BaseController
     public ActionResult Membership(MembershipModel model)
     {
         var membership = model.ToMembership();
-        R<MembershipRepo>().Create(membership);
-        
+        Sl.MembershipRepo.Create(membership);
+
         _sessionUser.User.MembershipPeriods.Add(membership);
 
         SendEmail.Run(new MailMessage(

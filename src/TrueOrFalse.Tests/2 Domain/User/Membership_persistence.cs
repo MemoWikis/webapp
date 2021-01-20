@@ -22,11 +22,11 @@ public class Membership_persistence : BaseTest
             AutoRenewal = true
         };
 
-        R<MembershipRepo>().Create(membership);
+        Sl.MembershipRepo.Create(membership);
 
         RecycleContainer();
 
-        var membershipFromDb = R<MembershipRepo>().GetById(membership.Id);
+        var membershipFromDb = Sl.MembershipRepo.GetById(membership.Id);
         var userFromDb = R<UserRepo>().GetById(membership.User.Id);
         
         Assert.That(membershipFromDb.PricePerMonth, Is.EqualTo(2.50m));
