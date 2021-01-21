@@ -37,7 +37,6 @@ public class SegmentationModel : BaseContentModule
         }
         else
             NotInSegmentCategoryList = categoryList;
-
     }
 
     public List<Segment> GetSegments(int id)
@@ -48,10 +47,10 @@ public class SegmentationModel : BaseContentModule
         {
             var segment = new Segment();
             segment.Title = s.Title;
-            foreach (var categoryId in s.CategoryIds)
+            foreach (var categoryId in s.ChildCategoryIds)
             {
                 var category = EntityCache.GetCategory(categoryId);
-                segment.CategoryList.Add(category);
+                segment.ChildCategories.Add(category);
             }
 
             segments.Add(segment);
@@ -67,7 +66,8 @@ public class SegmentationModel : BaseContentModule
 
         foreach (var segment in segments)
         {
-            var categoriesToAdd = segment.CategoryList.Where(c => !inSegmentCategoryList.Any(s => s.Id == c.Id));
+            inSegmentCategoryList.Add(segment.Category);
+            var categoriesToAdd = segment.ChildCategories.Where(c => !inSegmentCategoryList.Any(s => s.Id == c.Id));
             foreach (var c in categoriesToAdd)
                 inSegmentCategoryList.Add(c);
             notInSegmentCategoryList.AddRange(categoryList.Where(c => !inSegmentCategoryList.Any(s => c.Id == s.Id)));

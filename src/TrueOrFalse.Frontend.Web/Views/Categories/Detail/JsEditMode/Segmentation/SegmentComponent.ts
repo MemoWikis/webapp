@@ -7,7 +7,9 @@
 
     data() {
         return {
-            categories: []
+            categories: [],
+            id: null,
+            canBeEdited: false,
         };
     },
 
@@ -15,6 +17,7 @@
     },
 
     mounted() {
+        this.id = "Segment-" + this._uid;
     },
 
     watch: {
@@ -24,8 +27,28 @@
     },
 
     methods: {
-        getChildrenForCustomCategories() {
+        updateCategoryOrder() {
+            this.categories = $("#" + this.id + " > .topic").map((idx, elem) => $(elem).attr("category-id")).get();
+        },
+        loadCategoryCard(id) {
+            var currentElement = $("#" + this.id + " > .topic");
 
+            $.ajax({
+                type: 'Get',
+                contentType: "application/json",
+                url: '/SegmentationController/GetCategoryCard',
+                data: { categoryId: id },
+                success: function (data) {
+                    if (data) {
+                        var inserted = $(data.newHtml).append(currentElement);
+                        var instance = new categoryCardComponent({
+                            el: inserted.get(0)
+                        });
+                    } else {
+
+                    };
+                },
+            });
         }
     },
 });

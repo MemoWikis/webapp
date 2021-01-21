@@ -333,9 +333,11 @@
     <Compile Include="Views\Categories\Detail\Partials\FloatingActionButton\FloatingActionButtonModel.cs" />
     <Compile Include="Views\Categories\Detail\Partials\InlineText\InlineTextJson.cs" />
     <Compile Include="Views\Categories\Detail\Partials\Segmentation\SegmentationController.cs" />
+    <Compile Include="Views\Categories\Detail\Partials\Segmentation\SegmentModel.cs" />
     <Compile Include="Views\Categories\Detail\Partials\Segmentation\SegmentJson.cs" />
     <Compile Include="Views\Categories\Detail\Partials\Segmentation\Segment.cs" />
     <Compile Include="Views\Categories\Detail\Partials\Segmentation\SegmentationModel.cs" />
+    <Compile Include="Views\Categories\Detail\Partials\Segmentation\SegmentationCategoryCardModel.cs" />
     <Compile Include="Views\Categories\Detail\TemplateParser\Tokenizer\Tokenizer.cs" />
     <Compile Include="Views\Categories\Detail\TemplateToHtml\TemplateToHtml.cs" />
     <Compile Include="Views\Questions\Answer\TopicToContinueLearningModel.cs" />
@@ -2165,6 +2167,9 @@
     <Content Include="Views\Categories\Detail\JsEditMode\Segmentation\SegmentationComponent.js">
       <DependentUpon>SegmentationComponent.ts</DependentUpon>
     </Content>
+    <Content Include="Views\Categories\Detail\JsEditMode\Segmentation\SegmentComponent.js">
+      <DependentUpon>SegmentComponent.ts</DependentUpon>
+    </Content>
     <Content Include="Views\Categories\Detail\Js\Category.js">
       <DependentUpon>Category.ts</DependentUpon>
     </Content>
@@ -2461,6 +2466,9 @@
     </Content>
     <Content Include="Views\Categories\Detail\JsEditMode\Segmentation\SegmentationComponent.js.map">
       <DependentUpon>SegmentationComponent.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Categories\Detail\JsEditMode\Segmentation\SegmentComponent.js.map">
+      <DependentUpon>SegmentComponent.ts</DependentUpon>
     </Content>
     <None Include="Views\Maintenance\ContentStats.less" />
     <Compile Include="Views\Maintenance\ContentStatsModel.cs" />
