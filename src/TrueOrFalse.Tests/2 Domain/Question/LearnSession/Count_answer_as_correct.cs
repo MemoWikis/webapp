@@ -34,7 +34,6 @@ namespace TrueOrFalse.Tests._2_Domain.Question.LearnSession
             learningSession.SetCurrentStepAsCorrect();
             Assert.That(learningSession.Steps.Count, Is.EqualTo(5));
 
-            ContextQuestion.SetWuwi(10);
         }
 
         [Test]

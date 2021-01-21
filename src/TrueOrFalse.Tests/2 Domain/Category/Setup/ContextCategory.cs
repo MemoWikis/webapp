@@ -49,7 +49,6 @@ namespace TrueOrFalse.Tests
                     Name = categoryName,
                     Creator = creator ?? _contextUser.All.First(),
                     Type = categoryType,
-
                 };
             }
 
