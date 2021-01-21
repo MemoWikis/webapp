@@ -171,9 +171,12 @@ namespace TrueOrFalse.Tests
 
         public static void PutQuestionIntoMemoryCache(int answerProbability, int id)
         {
-            var questions = New().AddQuestion("", "", id, true, null, null, answerProbability).All;
             ContextCategory.New(false).AddToEntityCache("Category name", CategoryType.Standard, null, true);
-            var categoryIds = new List<int> { 0 };
+            var categories = EntityCache.GetAllCategories(); 
+
+            var questions = New().AddQuestion("", "", id, true, null, categories, answerProbability).All;
+           
+            var categoryIds = new List<int> { 1 };
 
             EntityCache.AddOrUpdate(questions[0], categoryIds);
 

@@ -27,10 +27,11 @@ internal static class ContextLearningSession
         return learningSession;
     }
 
-    public static LearningSession GetLearningSessionWithUser(int userId, int amountQuestions)
+    public static LearningSession GetLearningSessionWithUser(LearningSessionConfig config)
     {
-        ContextQuestion.PutQuestionsIntoMemoryCache(amountQuestions);
-        return new LearningSession(GetSteps(amountQuestions), new LearningSessionConfig { CurrentUserId = userId, CategoryId = 1});
+        ContextQuestion.PutQuestionsIntoMemoryCache(config.MaxQuestionCount);
+        config.AllQuestions = true; 
+        return new LearningSession(GetSteps(config.MaxQuestionCount), config);
     }
 
     public static LearningSession GetLearningSession(LearningSessionConfig config )
