@@ -71,30 +71,5 @@ namespace TrueOrFalse.Tests
             var answers = Resolve<AnswerRepo>().GetAll();
             Assert.That(answers.Count, Is.EqualTo(0));
         }
-
-        [Test]
-        [Ignore("")]
-        public void Dont_delete_question_while_it_is_in_future_date()
-        {
-            //Scenario: User1 creates 10 questions for a set that user2 uses for a date. As long as date is in future, questions included in this date cannot be deleted
-            var contextUser = ContextUser.New().Add("User1").Add("User2").Persist();
-            var user1 = contextUser.All[0];
-            var user2 = contextUser.All[1];
-            
-            var contextQuestions = ContextQuestion.New()
-                .PersistImmediately()
-                .AddQuestions(10, user1);
-
-            var question1 = contextQuestions.All[0];
-
-            RecycleContainer();
-            question1 = R<QuestionRepo>().GetById(question1.Id);
-
-            var ex = Assert.Throws<Exception>(() => QuestionDelete.Run(question1.Id));
-            Assert.That(ex.Message.Length > 0);
-
-            QuestionDelete.Run(question1.Id);
-            Assert.That(Resolve<QuestionGetCount>().Run(user1.Id), Is.EqualTo(9));
-        }
     }
 }
