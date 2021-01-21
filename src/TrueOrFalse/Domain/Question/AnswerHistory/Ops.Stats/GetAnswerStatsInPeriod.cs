@@ -89,9 +89,6 @@ public class GetAnswerStatsInPeriod : IRegisterAsInstancePerLifetime
         if (excludeAnswerViews)
             query += "AND AnswerredCorrectly != 3 ";
 
-        if (onlyLearningSessions)
-            query += "AND LearningSessionStepGuid is not null ";
-
         if(startHour != null && endHour != null)
             query +=
                 @" AND TIME(DateCreated) >= MAKETIME({0}, 0, 0)
