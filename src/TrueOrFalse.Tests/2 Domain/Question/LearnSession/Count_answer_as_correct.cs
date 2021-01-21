@@ -18,7 +18,12 @@ namespace TrueOrFalse.Tests._2_Domain.Question.LearnSession
         public void SetAnswerAsCorrectLoggedIn()
         {
 
-            var learningSession = ContextLearningSession.GetLearningSessionWithUser(1, 5);
+            var learningSession = ContextLearningSession.GetLearningSessionWithUser(new LearningSessionConfig
+            {
+                CurrentUserId = 1,
+                MaxQuestionCount = 5,
+                CategoryId = 1
+            });
             learningSession.SetCurrentStepAsCorrect();
             Assert.That(learningSession.Steps.Count, Is.EqualTo(4));
 
@@ -31,16 +36,16 @@ namespace TrueOrFalse.Tests._2_Domain.Question.LearnSession
                     CategoryId = 1,
                     AllQuestions = true
                 });
+
             learningSession.SetCurrentStepAsCorrect();
             Assert.That(learningSession.Steps.Count, Is.EqualTo(5));
 
-            ContextQuestion.SetWuwi(10);
         }
 
         [Test]
         public void SetAnswerAsCorrectTestModeAndWishSession()
         {
-           var lastUserCashItem =  ContextQuestion.SetWuwi(10).Last();
+           var lastUserCashItem =  ContextQuestion.SetWuwi(1000).Last();
             var learningSession = ContextLearningSession.GetLearningSession(
                 new LearningSessionConfig
                 {

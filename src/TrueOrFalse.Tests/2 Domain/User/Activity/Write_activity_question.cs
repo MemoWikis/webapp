@@ -4,6 +4,7 @@ using TrueOrFalse.Tests;
 public class Write_activity_question : BaseTest
 {
     [Test]
+    //[Ignore("https://www.notion.so/bitwerke/Probleme-9cd8c8303c6344cd9eac58c5424182cc")]
     public void Should_write_activity_on_question_save()
     {
         //User1 follows User2 and User4
@@ -30,6 +31,7 @@ public class Write_activity_question : BaseTest
         R<UserRepo>().Update(user3);
 
         //User4 creates one question
+        System.Threading.Thread.Sleep(50); // to much commits without sleep
         ContextQuestion.New().AddQuestion(creator: user4).Persist();
         //User2 creates two questions
         ContextQuestion.New()
@@ -53,6 +55,5 @@ public class Write_activity_question : BaseTest
         //User2 should not see any activity
         var activitiesUser2 = R<UserActivityRepo>().GetByUser(user2);
         Assert.That(activitiesUser2.Count, Is.EqualTo(0));
-       
     }
 }

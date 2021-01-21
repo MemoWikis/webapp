@@ -5,16 +5,16 @@ using TrueOrFalse.Tests;
 
 internal static class ContextLearningSession
 {
-    public static List<LearningSessionStep> GetSteps(int amountQuestions)
+    public static List<LearningSessionStep> GetSteps(int amountQuestionInMemory, int amountQuestions = 20)
     {
-        var learningSession = GetLearningSessionForAnonymusUser(amountQuestions);
+        var learningSession = GetLearningSessionForAnonymusUser(amountQuestionInMemory, amountQuestions);
 
         return learningSession.Steps.ToList();
     }
 
-    public static LearningSession GetLearningSessionForAnonymusUser(int amountQuestions)
+    public static LearningSession GetLearningSessionForAnonymusUser(int amountQuestions, int amountQuestionInMemory = 20)
     {
-        ContextQuestion.PutQuestionsIntoMemoryCache();
+        ContextQuestion.PutQuestionsIntoMemoryCache(amountQuestionInMemory);
         var learningSession = LearningSessionCreator.ForAnonymous(
             new LearningSessionConfig
             {
@@ -27,10 +27,11 @@ internal static class ContextLearningSession
         return learningSession;
     }
 
-    public static LearningSession GetLearningSessionWithUser(int userId, int amountQuestions)
+    public static LearningSession GetLearningSessionWithUser(LearningSessionConfig config)
     {
-        ContextQuestion.PutQuestionsIntoMemoryCache(amountQuestions);
-        return new LearningSession(GetSteps(amountQuestions), new LearningSessionConfig { CurrentUserId = userId, CategoryId = 1});
+        ContextQuestion.PutQuestionsIntoMemoryCache(config.MaxQuestionCount);
+        config.AllQuestions = true; 
+        return new LearningSession(GetSteps(config.MaxQuestionCount), config);
     }
 
     public static LearningSession GetLearningSession(LearningSessionConfig config )
