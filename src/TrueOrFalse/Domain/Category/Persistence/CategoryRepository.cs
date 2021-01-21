@@ -25,14 +25,30 @@ public class CategoryRepository : RepositoryDbBase<Category>
 
         if (categoryIds != null)
             query = query.Where(Restrictions.In("Id", categoryIds.ToArray()));
+        else
+        {
+            //warmup entity cache
+            var users = _session
+                .QueryOver<User>()
+                .Fetch(SelectMode.Fetch, u => u.MembershipPeriods)
+                .List();
+        }
 
-        return query.Left.JoinQueryOver<CategoryRelation>(s => s.CategoryRelations)
+        var result = query.Left.JoinQueryOver<CategoryRelation>(s => s.CategoryRelations)
             .Left.JoinQueryOver(x => x.RelatedCategory)
             .Left.JoinQueryOver(u => u.Creator)
             .List()
             .GroupBy(c => c.Id)
             .Select(c => c.First())
             .ToList();
+
+        foreach (var category in result)
+        {
+            NHibernateUtil.Initialize(category.Creator);
+            NHibernateUtil.Initialize(category.CategoryRelations);
+        }
+
+        return result;
     }
 
     public Category GetBySetIdEager(int categoryId) => GetByIdsEager(new[] { categoryId }).FirstOrDefault();

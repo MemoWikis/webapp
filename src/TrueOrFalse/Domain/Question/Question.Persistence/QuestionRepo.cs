@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using FluentNHibernate.Utils;
 using NHibernate;
 using NHibernate.Criterion;
 using TrueOrFalse.Search;
@@ -312,21 +313,32 @@ public class QuestionRepo : RepositoryDbBase<Question>
 
     public IList<Question> GetAllEager()
     {
+        //warmup entity cache
+        var users = _session
+            .QueryOver<User>()
+            .Fetch(SelectMode.Fetch, u => u.MembershipPeriods)
+            .List();
+        
         var questions = _session.QueryOver<Question>()
             .Future();
 
         _session.QueryOver<Question>()
-            .Fetch(SelectMode.FetchLazyProperties, x => x.Categories)
+            .Fetch(SelectMode.Fetch, x => x.Categories)
             .Future();
 
         _session.QueryOver<Question>()
-            .Fetch(SelectMode.FetchLazyProperties, x => x.Creator)
+            .Fetch(SelectMode.Fetch, x => x.References)
             .Future();
 
-        _session.QueryOver<Question>()
-            .Fetch(SelectMode.FetchLazyProperties, x => x.References)
-            .Future();
+        
+        var result = questions.ToList();
 
-        return questions.ToList();
+        foreach (var question in result)
+        {
+            NHibernateUtil.Initialize(question.Creator);
+            NHibernateUtil.Initialize(question.References);
+        }
+
+        return result;
     }
 }
