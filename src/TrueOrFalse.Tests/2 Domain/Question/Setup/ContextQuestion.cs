@@ -57,7 +57,7 @@ namespace TrueOrFalse.Tests
         public ContextQuestion AddQuestions(int amount, User creator = null, bool withId = false, IList<Category> categoriesQuestions = null)
         {
             for (var i = 0; i < amount; i++)
-                AddQuestion(questionText: "Question" + i, solutionText: "Solution" + i, i, withId, creator: creator,categories: categoriesQuestions);
+                AddQuestion("Question" + i, "Solution" + i, i, withId, creator, categoriesQuestions);
             return this;
         }
 
@@ -200,6 +200,8 @@ namespace TrueOrFalse.Tests
         {
             var contextUser = ContextUser.New();
             var users = contextUser.Add().All;
+            var categoryList = ContextCategory.New().Add("Daniel").All;
+            categoryList.First().Id = 1; 
 
             var userCacheItem = new UserCacheItem();
             userCacheItem.User = users.FirstOrDefault();
@@ -207,7 +209,7 @@ namespace TrueOrFalse.Tests
             userCacheItem.SetValuations = new ConcurrentDictionary<int, SetValuation>();
             userCacheItem.QuestionValuations = new ConcurrentDictionary<int, QuestionValuation>();
 
-            var questions = ContextQuestion.New().AddQuestions(amountQuestion, users.FirstOrDefault(), true).All;
+            var questions = New().AddQuestions(amountQuestion, users.FirstOrDefault(), true, categoryList).All;
             users.ForEach(u => Sl.UserRepo.Create(u));
             UserCache.AddOrUpdate(users.FirstOrDefault());
 
