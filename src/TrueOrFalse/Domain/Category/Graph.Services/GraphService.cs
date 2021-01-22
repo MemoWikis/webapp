@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using FluentNHibernate.Utils;
 
 public class GraphService
 {
@@ -52,11 +53,11 @@ public class GraphService
 
     public static IList<Category> GetAllPersonalCategoriesWithRelations(int rootCategoryId, int userId = -1)
     {
-        var rootCategory = (Category)EntityCache.GetCategory(rootCategoryId).Clone();
+        var rootCategory = (Category)EntityCache.GetCategory(rootCategoryId).DeepClone();
 
         var childrenUnCloned = EntityCache.GetDescendants(rootCategory, true)
             .Distinct();
-        var children = childrenUnCloned.Select(c => (Category)c.Clone()); 
+        var children = childrenUnCloned.Select(c => (Category)c.DeepClone()); 
         var listWithUserPersonelCategories = new List<Category>();
 
         userId = userId == -1 ? Sl.CurrentUserId : userId;
