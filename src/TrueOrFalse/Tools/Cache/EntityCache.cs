@@ -26,8 +26,13 @@ public class EntityCache : BaseCache
 
         Logg.r().Information("EntityCache Start" + customMessage + "{Elapsed}", stopWatch.Elapsed);
 
-        var questions = Sl.QuestionRepo.GetAllEager();
         var categories = Sl.CategoryRepo.GetAllEager();
+        var questions = Sl.QuestionRepo.GetAllEager();
+
+#if DEBUG
+        categories.DeepClone();
+        questions.DeepClone();
+#endif
 
         Logg.r().Information("EntityCache LoadAllEntities" + customMessage + "{Elapsed}", stopWatch.Elapsed);
 

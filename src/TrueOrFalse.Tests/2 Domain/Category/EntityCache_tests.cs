@@ -4,7 +4,6 @@ using NHibernate;
 using NHibernate.Collection.Generic;
 using NHibernate.Engine;
 using NUnit.Framework;
-using Quartz.Util;
 using TrueOrFalse.Tests;
 
 class EntityCache_tests : BaseTest
