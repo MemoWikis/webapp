@@ -25,7 +25,7 @@ public class ThemeMenuHistoryOps
 
     public static IList<Category> GetQuestionCategories(int questionId)
     {
-        var question = Sl.QuestionRepo.GetById(questionId);
+        var question = EntityCache.GetQuestionById(questionId);
 
         if (question == null)
         {

@@ -33,22 +33,12 @@ namespace System.Web.Mvc
                     var categoryId = (string)httpContextData["id"];
 
                     if (int.TryParse(categoryId, out var categoryIdNumber))
-                        activeCategories.Add(Sl.CategoryRepo.GetByIdEager(categoryIdNumber));
+                        activeCategories.Add(EntityCache.GetCategory(categoryIdNumber));
                 }
-                    
-                if (_isQuestionSetPage)
-                {
-                    var categoryId = (string)httpContextData["id"];
-
-                    if (int.TryParse(categoryId, out var categoryIdNumber))
-                        activeCategories.Add(Sl.CategoryRepo.GetBySetIdEager(categoryIdNumber));
-                }
-
+                
                 if (_isQuestionPage)
                 {
-                    activeCategories.AddRange(httpContextData["setId"] != null
-                        ? Sl.SetRepo.GetById(Convert.ToInt32(httpContextData["setId"])).Categories
-                        : ThemeMenuHistoryOps.GetQuestionCategories(Convert.ToInt32(httpContextData["id"])));
+                    activeCategories.AddRange(ThemeMenuHistoryOps.GetQuestionCategories(Convert.ToInt32(httpContextData["id"])));
                 }
 
                 if (_isLearningSessionPage)
