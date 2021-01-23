@@ -67,7 +67,7 @@ public class Category : DomainEntity, ICreator, ICloneable
     public virtual IList<Category> AggregatedCategories(bool includingSelf = true)
     {
         var list = CategoryRelations.Where(r => r.CategoryRelationType == CategoryRelationType.IncludesContentOf)
-            .Select(r => r.RelatedCategory).ToList();
+            .Select(r => EntityCache.GetCategory(r.RelatedCategory.Id) ).ToList();
         
         if(includingSelf)
             list.Add(this);
@@ -108,14 +108,13 @@ public class Category : DomainEntity, ICreator, ICloneable
         if (fullList)
         {
             questions = AggregatedCategories()
-                .SelectMany(c =>
-                    questionRepo.GetForCategoryFromMemoryCache(c.Id))
+                .SelectMany(c => EntityCache.GetQuestionsForCategory(c.Id))
                 .Distinct()
                 .ToList();
         }
         else
         {
-            questions = questionRepo.GetForCategoryFromMemoryCache(categoryId)
+            questions = EntityCache.GetQuestionsForCategory(categoryId)
                 .Distinct()
                 .ToList();
         }

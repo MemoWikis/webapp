@@ -45,8 +45,7 @@ public class CategoryController : BaseController
     private LoadModelResult LoadModel(int id, int? version, bool? openEditMode = false)
     {
         var result = new LoadModelResult();
-        Category category;
-        category = EntityCache.GetCategory(id);
+        var category = EntityCache.GetCategory(id);
         
         var isCategoryNull = category == null;
 
