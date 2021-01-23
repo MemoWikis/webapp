@@ -99,18 +99,15 @@ public class LearningSession
         return Steps.Count >= Steps.Select(s => s.Question).Distinct().Count() * 2;
     }
 
-    public int TotalPossibleQuestions
+    public int TotalPossibleQuestions()
     {
-        get
-        {
-            if (!Config.InWishknowledge)
-                return EntityCache.GetCategory(Config.CategoryId).CountQuestions;
+        if (!Config.InWishknowledge)
+            return EntityCache.GetCategory(Config.CategoryId).CountQuestions;
 
-            if (Config.InWishknowledge)
-                return User.WishCountQuestions;
+        if (Config.InWishknowledge)
+            return User.WishCountQuestions;
 
-            throw new Exception("unknown session type");
-        }
+        throw new Exception("unknown session type");
     }
 
     public void SetCurrentStepAsCorrect()

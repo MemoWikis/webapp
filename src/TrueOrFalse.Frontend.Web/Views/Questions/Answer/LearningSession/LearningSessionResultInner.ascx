@@ -244,7 +244,7 @@
                         Du hast dieses Thema gelernt:<br />
                         <a href="<%= Links.CategoryDetail(Model.LearningSession.Config.Category.Name, Model.LearningSession.Config.CategoryId) %>" style="display: inline-block;">
                             <span class="label label-category"><%: Model.LearningSession.Config.Category.Name %></span>
-                        </a> (insgesamt <%=Model.LearningSession.TotalPossibleQuestions %> Fragen)
+                        </a> (insgesamt <%=Model.LearningSession.TotalPossibleQuestions() %> Fragen)
                     </p>
                 </div>
             </div>
