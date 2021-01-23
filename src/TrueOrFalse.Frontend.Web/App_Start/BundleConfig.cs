@@ -15,7 +15,8 @@ namespace TrueOrFalse.View
                   "~/Style/jquery-ui/jquery-ui.structure.css", 
                   "~/Style/jquery-ui/jquery-ui.theme.css",
                   "~/Fonts/font-awesome-5.7.2/css/all.css",
-                  "~/Fonts/font-awesome-5.7.2/css/v4-shims.css" ));
+                  "~/Fonts/font-awesome-5.7.2/css/v4-shims.css",
+                  "~/Views/Shared/CategoryLabel.css"));
 
             bundles.Add(new StyleBundle("~/bundles/markdownCss")
                 .Include("~/Style/markdown-editor.css"));
@@ -69,8 +70,6 @@ namespace TrueOrFalse.View
                 .Include("~/Views/Categories/Detail/Category.css")
                 .Include("~/Views/Shared/Delete.css"));
 
-            bundles.Add(new StyleBundle("~/bundles/CategoryLabel")
-                .Include("~/Views/Shared/CategoryLabel.css"));
 
             bundles.Add(new ScriptBundle("~/bundles/js/Category")
                 .Include("~/Views/Knowledge/Wheel/KnowledgeWheel.js")

@@ -1,8 +1,6 @@
 ﻿<%@ Control Language="C#" Inherits="System.Web.Mvc.ViewUserControl<Question>" %>
-<%@ Import Namespace="System.Web.Optimization" %>
 <%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
 
-<%= Styles.Render("~/bundles/CategoryLabel") %>
 <div style="display: flex; flex-wrap: wrap;">
 
     <% foreach(var category in Model.Categories){ %>
