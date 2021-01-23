@@ -41,7 +41,7 @@ public class CategoriesController : BaseController
 
     [SetMainMenu(MainMenuEntry.Categories)]
     [SetThemeMenu]
-    public ActionResult CategoriesWish(int? page, SetsModel model, string orderBy)
+    public ActionResult CategoriesWish(int? page, string orderBy)
     {
         var searchSpec = _sessionUiData.SearchSpecCategoryWish;
 

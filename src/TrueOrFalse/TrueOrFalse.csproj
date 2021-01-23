@@ -313,7 +313,6 @@
     <Compile Include="Domain\Knowledge\Learning\LearningSessionNew\Ops\LearningSessionCreator.cs" />
     <Compile Include="Domain\Knowledge\Learning\LearningSessionNew\HelperClasses\LearningSessionStep.cs" />
     <Compile Include="Domain\QuestionSet\Ops\GetAllOvercategorizedSets.cs" />
-    <Compile Include="Domain\QuestionSet\Ops\SortSetsIntoListOfCategories.cs" />
     <Compile Include="Domain\Question\History\QuestionChange.cs" />
     <Compile Include="Domain\Question\History\EditData\QuestionEditData.cs" />
     <Compile Include="Domain\Question\History\EditData\QuestionEditData_V1.cs" />
@@ -694,15 +693,7 @@
     <Compile Include="Domain\QuestionSet\Set.Persistence\SetSearchSpec.cs" />
     <Compile Include="Domain\QuestionSet\SetActiveMemory\SetActiveMemory.cs" />
     <Compile Include="Domain\QuestionSet\SetActiveMemory\SetActiveMemoryLoader.cs" />
-    <Compile Include="Domain\QuestionSet\SetValuation\Ops\CreateOrUpdateSetValuation.cs" />
-    <Compile Include="Domain\QuestionSet\SetValuation\Ops\GetSetTotalResult.cs" />
-    <Compile Include="Domain\QuestionSet\SetValuation\Ops\GetSetTotal.cs" />
     <Compile Include="Domain\QuestionSet\SetListExt.cs" />
-    <Compile Include="Domain\QuestionSet\SetValuation\SetValuationExt.cs" />
-    <Compile Include="Domain\QuestionSet\SetValuation\Ops\SetInKnowledge.cs" />
-    <Compile Include="Domain\QuestionSet\SetValuation\Persistence\SetValuationRepo.cs" />
-    <Compile Include="Domain\QuestionSet\SetValuation\Persistence\SetValuationMap.cs" />
-    <Compile Include="Domain\QuestionSet\SetValuation\SetValuation.cs" />
     <Compile Include="Domain\Question\AnswerHistory\Ops.Stats\GetAnswerStatsInPeriod.cs" />
     <Compile Include="Domain\Question\AnswerHistory\Ops.Stats\GetAnswerStatsInPeriodResult.cs" />
     <Compile Include="Domain\Question\AnswerHistory\Ops.TotalPerUser\TotalsPersUserLoader.cs" />
@@ -818,13 +809,6 @@
     <Compile Include="Search\Category\SearchCategories.cs" />
     <Compile Include="Search\Category\SearchCategoriesOrderBy.cs" />
     <Compile Include="Search\Category\SearchCategoriesResult.cs" />
-    <Compile Include="Search\QuestionSet\IndexOperations\ReIndexAllSets.cs" />
-    <Compile Include="Search\QuestionSet\IndexOperations\SearchIndexSet.cs" />
-    <Compile Include="Search\QuestionSet\Model\SetSolrMap.cs" />
-    <Compile Include="Search\QuestionSet\Model\ToSetSolrMap.cs" />
-    <Compile Include="Search\QuestionSet\SearchSetsOrderBy.cs" />
-    <Compile Include="Search\QuestionSet\SearchSets.cs" />
-    <Compile Include="Search\QuestionSet\SearchSetsResult.cs" />
     <Compile Include="Search\Question\IndexOperations\SearchIndexQuestion.cs" />
     <Compile Include="Search\Question\Model\QuestionSolrMap.cs" />
     <Compile Include="Search\Question\IndexOperations\ReIndexAllQuestions.cs" />

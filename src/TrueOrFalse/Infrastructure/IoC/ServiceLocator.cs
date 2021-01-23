@@ -26,7 +26,6 @@ public class Sl
     public static CategoryChangeRepo CategoryChangeRepo => R<CategoryChangeRepo>();
 
     public static SetRepo SetRepo => R<SetRepo>();
-    public static SetValuationRepo SetValuationRepo => R<SetValuationRepo>();
     public static SetViewRepo SetViewRepo => R<SetViewRepo>();
 
     public static QuestionRepo QuestionRepo => R<QuestionRepo>();

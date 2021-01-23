@@ -201,15 +201,6 @@ public class MaintenanceController : BaseController
 
     [ValidateAntiForgeryToken]
     [HttpPost]
-    public ActionResult ReIndexAllSets()
-    {
-        Resolve<ReIndexAllSets>().Run();
-        return View("Maintenance",
-            new MaintenanceModel { Message = new SuccessMessage("Lernsets wurden neu indiziert.") });
-    }
-
-    [ValidateAntiForgeryToken]
-    [HttpPost]
     public ActionResult ReIndexAllCategories()
     {
         Resolve<ReIndexAllCategories>().Run();

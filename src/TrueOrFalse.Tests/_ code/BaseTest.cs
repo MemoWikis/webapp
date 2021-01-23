@@ -65,11 +65,6 @@ public class BaseTest
                     Url = solrUrl + "tofQuestionTest"
                 },
             new SolrServerElement {
-                    Id = "set",
-                    DocumentType = typeof (SetSolrMap).AssemblyQualifiedName,
-                    Url = solrUrl + "tofSetTest"
-                },
-            new SolrServerElement {
                     Id = "category",
                     DocumentType = typeof (CategorySolrMap).AssemblyQualifiedName,
                     Url = solrUrl + "tofCategoryTest"

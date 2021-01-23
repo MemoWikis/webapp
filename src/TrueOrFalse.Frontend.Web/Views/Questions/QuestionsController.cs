@@ -146,22 +146,6 @@ namespace TrueOrFalse
             return new EmptyResult();
         }
 
-        [HttpPost]
-        public JsonResult GetQuestionSets(string filter)
-        {
-            var searchSpec = new SetSearchSpec{PageSize = 12};
-            var searchResult = Resolve<SearchSets>().Run(
-                filter, searchSpec, _sessionUser.User.Id, searchOnlyWithStartingWith:true);
-            var questionSets = Resolve<SetRepo>().GetByIds(searchResult.SetIds.ToArray());
-
-            return new JsonResult{
-                Data = new{
-                   Sets = questionSets.Select(s => new{Id = s.Id, Name = s.Name, QuestionCount = s.QuestionsInSet.Count}),
-                   Total = searchResult.Count
-                }
-            };
-        }
-
         [RedirectToErrorPage_IfNotLoggedIn]
         public ActionResult Restore(int questionId, int questionChangeId)
         {

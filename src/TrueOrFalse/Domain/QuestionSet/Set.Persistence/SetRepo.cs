@@ -1,23 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using NHibernate;
 using NHibernate.Criterion;
-using NHibernate.Linq;
 using NHibernate.Transform;
-using TrueOrFalse.Search;
 
 public class SetRepo : RepositoryDbBase<Set>
 {
-    private readonly SearchIndexSet _searchIndexSet;
-
     public SetRepo(
-        ISession session, 
-        SearchIndexSet searchIndexSet)
+        ISession session)
         : base(session)
     {
-        _searchIndexSet = searchIndexSet;
     }
 
     public IList<Set> GetByIds(List<int> setIds)
@@ -111,27 +104,11 @@ public class SetRepo : RepositoryDbBase<Set>
             .List<TopSetResult>().ToList();
     }
 
-    /// <summary>
-    /// Return how often a set is in other peoples WuWi
-    /// </summary>
-    public int HowOftenInOtherPeoplesWuwi(int userId, int setId)
-    {
-        return Sl.R<SetValuationRepo>()
-            .Query
-            .Where(v =>
-                v.UserId != userId &&
-                v.SetId == setId &&
-                v.RelevancePersonal > -1
-            )
-            .RowCount();
-    }
-
     public override void Delete(Set set)
     {
         //if (Sl.R<SessionUser>().IsLoggedInUserOrAdmin(set.Creator.Id))
         //    throw new InvalidAccessException(); //exception is thrown, even if admin (=creator of set) is logged in
 
-        _searchIndexSet.Delete(set);
         base.Delete(set);
         foreach (var category in set.Categories)
         {

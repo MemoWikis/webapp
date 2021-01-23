@@ -79,9 +79,6 @@
             <a href="<%= Url.Action("ReIndexAllQuestions", "Maintenance") %>" data-url="toSecurePost">
                 <i class="fa fa-retweet"></i> Fragen 
             </a> /
-            <a href="<%= Url.Action("ReIndexAllSets", "Maintenance") %>" data-url="toSecurePost">
-                <i class="fa fa-retweet"></i> Lernsets
-            </a> /
             <a href="<%= Url.Action("ReIndexAllCategories", "Maintenance") %>" data-url="toSecurePost">
                 <i class="fa fa-retweet"></i> Themen
             </a> /

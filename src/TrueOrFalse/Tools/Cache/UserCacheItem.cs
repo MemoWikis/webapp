@@ -7,7 +7,7 @@ public class UserCacheItem
     private User _user;
     public User User
     {
-        get { return _user; }
+        get => _user;
         set
         {
             _user = value;
@@ -18,6 +18,5 @@ public class UserCacheItem
 
     public ConcurrentDictionary<int, CategoryValuation> CategoryValuations;
     public ConcurrentDictionary<int, QuestionValuation> QuestionValuations;
-    public ConcurrentDictionary<int, SetValuation> SetValuations;
     public bool IsFiltered;
 }

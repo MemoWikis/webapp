@@ -35,7 +35,6 @@ public class KnowledgeModel : BaseModel
     public User User = new User();
     public int ReputationRank;
     public int ReputationTotal;
-    public IList<object> CatsAndSetsWish;
 
     public UIMessage Message;
 
@@ -91,10 +90,6 @@ public class KnowledgeModel : BaseModel
             .ToList();
         var categoriesWishPool = R<CategoryRepository>().GetByIds(categoryValuationIds);
         var categoriesWish = OrderCategoriesByQuestionCountAndLevel.Run(categoriesWishPool);
-
-        var setValuationIds = R<SetValuationRepo>().GetByUser(UserId).Select(v => v.SetId).ToList();
-        var setsWish = R<SetRepo>().GetByIds(setValuationIds).OrderByDescending(s => s.QuestionCount()).ToList(); // sorts by questioncount including private questions! Excluding them would also exclude private questions visible to user
-        CatsAndSetsWish = SortSetsIntoListOfCategories.Run(categoriesWish, setsWish);
 
         AnswerRecent = R<AnswerRepo>().GetUniqueByUser(UserId, amount: 15);
 
@@ -162,8 +157,6 @@ public class KnowledgeModel : BaseModel
         };
 
         var wishCategories = Sl.R<CategoryRepository>().GetByIds(652, 145, 6) ?? new List<Category>();
-        var wishSets = Sl.R<SetRepo>().GetByIds(14, 20, 189) ?? new List<Set>();
-        CatsAndSetsWish = SortSetsIntoListOfCategories.Run(wishCategories, wishSets);
 
         AnswerRecent = new List<Answer>();
         var questionsLearned = R<QuestionRepo>().GetMostViewed(9);

@@ -209,7 +209,6 @@ namespace TrueOrFalse.Tests
             var userCacheItem = new UserCacheItem();
             userCacheItem.User = users.FirstOrDefault();
             userCacheItem.CategoryValuations = new ConcurrentDictionary<int, CategoryValuation>();
-            userCacheItem.SetValuations = new ConcurrentDictionary<int, SetValuation>();
             userCacheItem.QuestionValuations = new ConcurrentDictionary<int, QuestionValuation>();
 
             var questions = New().AddQuestions(amountQuestion, users.FirstOrDefault(), true, categoryList).All;
