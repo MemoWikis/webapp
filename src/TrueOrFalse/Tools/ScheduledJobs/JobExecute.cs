@@ -77,7 +77,7 @@ public class JobExecute
     {
         using (new MutexX(5000, "IsRunning"))
         {
-            using (var session = scope.R<ISessionFactory>().OpenSession())
+            using (var session = scope.R<ISessionBuilder>().OpenSession())
             using (var transaction = session.BeginTransaction(IsolationLevel.Serializable))
             {
                 transaction.Begin();
@@ -96,7 +96,7 @@ public class JobExecute
 
     private static void CloseJob(string jobName, ILifetimeScope scope)
     {
-        using (var session = scope.R<ISessionFactory>().OpenSession())
+        using (var session = scope.R<ISessionBuilder>().OpenSession())
         {
             new RunningJobRepo(session).Remove(jobName);
         }

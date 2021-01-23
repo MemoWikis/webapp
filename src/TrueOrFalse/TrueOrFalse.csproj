@@ -324,6 +324,7 @@
     <Compile Include="Domain\User\UserTinyModel.cs" />
     <Compile Include="Infrastructure\BooleanExtensions.cs" />
     <Compile Include="Infrastructure\Logging\LoggController.cs" />
+    <Compile Include="Infrastructure\ObjectExtensions.cs" />
     <Compile Include="Infrastructure\Persistence\Session\SqlDebugOutputInterceptor.cs" />
     <Compile Include="Tools\Analytics\Widget\WidgetDetailViewsPerMonthAndTypeResult.cs" />
     <Compile Include="Tools\Analytics\Widget\WidgetViewsPerMonthAndKeyResult.cs" />

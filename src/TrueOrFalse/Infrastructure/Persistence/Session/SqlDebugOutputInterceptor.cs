@@ -44,6 +44,9 @@ public class SqlDebugOutputInterceptor : EmptyInterceptor
     {
         var statistics = ((SessionImpl) _session).Statistics;
 
+        if (!_session.IsOpen)
+            return;
+
         Log.Information("NHibernate post flush {sessionId} collections {collectionCount} entities {entityCount}",
             ((SessionImpl)_session).SessionId.ToString(), statistics.CollectionCount, statistics.EntityCount);
 
