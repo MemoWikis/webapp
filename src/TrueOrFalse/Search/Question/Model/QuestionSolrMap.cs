@@ -42,7 +42,7 @@ namespace TrueOrFalse.Search
 
         [SolrField("Valuation")]
         public int Valuation { get; set; }
-        
+
         [SolrField("Views")]
         public int Views { get; set; }
         

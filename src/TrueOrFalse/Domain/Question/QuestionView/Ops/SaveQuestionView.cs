@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Threading.Tasks;
 using System.Web;
 using NHibernate;
 using TrueOrFalse.Search;
@@ -20,7 +19,7 @@ public class SaveQuestionView : IRegisterAsInstancePerLifetime
         _session = session;
     }
 
-    public void Run(Guid questionViewGuid, Question question, User user, WidgetView widgetView = null)
+    public void Run(Guid questionViewGuid, Question question, User user)
     {
         Run(questionViewGuid, question, user == null ? -1 : user.Id);
     }
@@ -29,7 +28,6 @@ public class SaveQuestionView : IRegisterAsInstancePerLifetime
         Guid questionViewGuid,
         Question question,
         int userId,
-        Guid learningSessionStepGuid = default(Guid),
         WidgetView widgetView = null)
     {
         if (HttpContext.Current == null)
@@ -50,11 +48,8 @@ public class SaveQuestionView : IRegisterAsInstancePerLifetime
             WidgetView = widgetView
         });
 
-        var viewCount = _questionViewRepo.GetViewCount(question.Id);
         _session.CreateSQLQuery("UPDATE Question SET TotalViews = " + _questionViewRepo.GetViewCount(question.Id) + " WHERE Id = " + question.Id).
             ExecuteUpdate();
-
-        AsyncExe.Run(() => { _searchIndexQuestion.UpdateQuestionView(question.Id, viewCount, question.Creator?.Id); });
     }
 
     public void LogOverallTime(Guid guid, int millisencondsSinceQuestionView)
