@@ -488,7 +488,7 @@ public class AnswerQuestionController : BaseController
 
     public JsonResult GetQuestionDetails(int questionId)
     {
-        var question = Sl.QuestionRepo.GetById(questionId);
+        var question = EntityCache.GetQuestionById(questionId);
         var answerQuestionModel = new AnswerQuestionModel(question);
 
         var correctnessProbability = answerQuestionModel.HistoryAndProbability.CorrectnessProbability;

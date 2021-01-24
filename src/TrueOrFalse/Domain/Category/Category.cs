@@ -29,7 +29,7 @@ public class Category : DomainEntity, ICreator, ICloneable
         return CategoryRelations.Any()
             ? CategoryRelations
                 .Where(r => r.CategoryRelationType == CategoryRelationType.IsChildCategoryOf)
-                .Select(x => x.RelatedCategory)
+                .Select(x => EntityCache.GetCategory(x.RelatedCategory.Id))
                 .ToList()
             : new List<Category>();
     }
