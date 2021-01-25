@@ -51,8 +51,6 @@ public class CategoryRepository : RepositoryDbBase<Category>
         return result;
     }
 
-    public Category GetBySetIdEager(int categoryId) => GetByIdsEager(new[] { categoryId }).FirstOrDefault();
-
     public IList<Category> GetAllEager() => GetByIdsEager();
 
     public override void Create(Category category)
