@@ -52,10 +52,10 @@ function copyScripts(cb) {
 
 exports.copyScripts = copyScripts;
 
-
-function buildTiptap() {
+function buildTiptap(cb) {
     var run = require('gulp-run');
-    return run('npm run build:tiptap').exec;
+    run('npm run build:tiptap');
+    cb();
 }
 
 exports.buildTiptap = buildTiptap;

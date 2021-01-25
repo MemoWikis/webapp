@@ -7,6 +7,7 @@
   "dependencies": {
     "@material/fab": "^1.1.1",
     "d3": "5.7.0",
+    "gulp-run": "^1.7.1",
     "postscribe": "^2.0.8",
     "prosemirror-tables": "^0.9.5",
     "vue": "^2.6.12",
