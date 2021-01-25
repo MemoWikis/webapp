@@ -1916,7 +1916,11 @@ var control_Control = /*#__PURE__*/function () {
   control_createClass(Control, [{
     key: "setValue",
     value: function setValue(value) {
-      this.setDotsValue(Array.isArray(value) ? _toConsumableArray(value) : [value], true);
+      var _this = this;
+
+      this.setDotsValue(Array.isArray(value) ? this.order ? _toConsumableArray(value).sort(function (a, b) {
+        return _this.getIndexByValue(a) - _this.getIndexByValue(b);
+      }) : _toConsumableArray(value) : [value], true);
     }
   }, {
     key: "setDotsValue",
@@ -1931,14 +1935,14 @@ var control_Control = /*#__PURE__*/function () {
   }, {
     key: "setDotsPos",
     value: function setDotsPos(dotsPos) {
-      var _this = this;
+      var _this2 = this;
 
       var list = this.order ? _toConsumableArray(dotsPos).sort(function (a, b) {
         return a - b;
       }) : dotsPos;
       this.dotsPos = list;
       this.setDotsValue(list.map(function (dotPos) {
-        return _this.getValueByPos(dotPos);
+        return _this2.getValueByPos(dotPos);
       }), this.adsorb);
     } // Get value by position
 
@@ -1965,10 +1969,10 @@ var control_Control = /*#__PURE__*/function () {
   }, {
     key: "syncDotsPos",
     value: function syncDotsPos() {
-      var _this2 = this;
+      var _this3 = this;
 
       this.dotsPos = this.dotsValue.map(function (v) {
-        return _this2.parseValue(v);
+        return _this3.parseValue(v);
       });
     }
     /**
@@ -2074,13 +2078,13 @@ var control_Control = /*#__PURE__*/function () {
   }, {
     key: "getFixedChangePosArr",
     value: function getFixedChangePosArr(changePos, index) {
-      var _this3 = this;
+      var _this4 = this;
 
       this.dotsPos.forEach(function (originPos, i) {
         if (i !== index) {
-          var _this3$getValidPos = _this3.getValidPos(originPos + changePos, i),
-              lastPos = _this3$getValidPos.pos,
-              inRange = _this3$getValidPos.inRange;
+          var _this4$getValidPos = _this4.getValidPos(originPos + changePos, i),
+              lastPos = _this4$getValidPos.pos,
+              inRange = _this4$getValidPos.inRange;
 
           if (!inRange) {
             changePos = Math.min(Math.abs(lastPos - originPos), Math.abs(changePos)) * (changePos < 0 ? -1 : 1);
@@ -2104,7 +2108,7 @@ var control_Control = /*#__PURE__*/function () {
   }, {
     key: "getLimitRangeChangePosArr",
     value: function getLimitRangeChangePosArr(pos, changePos, index) {
-      var _this4 = this;
+      var _this5 = this;
 
       var changeDots = [{
         index: index,
@@ -2129,16 +2133,16 @@ var control_Control = /*#__PURE__*/function () {
 
         var inLimitRange = function inLimitRange(pos2, pos1) {
           var diff = Math.abs(pos2 - pos1);
-          return isMinRange ? diff < _this4.minRangeDir : diff > _this4.maxRangeDir;
+          return isMinRange ? diff < _this5.minRangeDir : diff > _this5.maxRangeDir;
         };
 
         var i = index + next;
-        var nextPos = _this4.dotsPos[i];
+        var nextPos = _this5.dotsPos[i];
         var curPos = pos;
 
-        while (_this4.isPos(nextPos) && inLimitRange(nextPos, curPos)) {
-          var _this4$getValidPos = _this4.getValidPos(nextPos + newChangePos, i),
-              lastPos = _this4$getValidPos.pos;
+        while (_this5.isPos(nextPos) && inLimitRange(nextPos, curPos)) {
+          var _this5$getValidPos = _this5.getValidPos(nextPos + newChangePos, i),
+              lastPos = _this5$getValidPos.pos;
 
           changeDots.push({
             index: i,
@@ -2146,7 +2150,7 @@ var control_Control = /*#__PURE__*/function () {
           });
           i = i + next;
           curPos = lastPos;
-          nextPos = _this4.dotsPos[i];
+          nextPos = _this5.dotsPos[i];
         }
       });
       return this.dotsPos.map(function (_, i) {
@@ -2316,20 +2320,20 @@ var control_Control = /*#__PURE__*/function () {
   }, {
     key: "markList",
     get: function get() {
-      var _this5 = this;
+      var _this6 = this;
 
       if (!this.marks) {
         return [];
       }
 
       var getMarkByValue = function getMarkByValue(value, mark) {
-        var pos = _this5.parseValue(value);
+        var pos = _this6.parseValue(value);
 
         return _objectSpread({
           pos: pos,
           value: value,
           label: value,
-          active: _this5.isActiveByPos(pos)
+          active: _this6.isActiveByPos(pos)
         }, mark);
       };
 
@@ -2341,7 +2345,7 @@ var control_Control = /*#__PURE__*/function () {
         return Object.keys(this.marks).sort(function (a, b) {
           return +a - +b;
         }).map(function (value) {
-          var item = _this5.marks[value];
+          var item = _this6.marks[value];
           return getMarkByValue(value, typeof item !== 'string' ? item : {
             label: item
           });
@@ -2354,7 +2358,7 @@ var control_Control = /*#__PURE__*/function () {
         return this.getValues().map(function (value) {
           return {
             value: value,
-            result: _this5.marks(value)
+            result: _this6.marks(value)
           };
         }).filter(function (_ref3) {
           var result = _ref3.result;
@@ -2434,22 +2438,22 @@ var control_Control = /*#__PURE__*/function () {
   }, {
     key: "valuePosRange",
     get: function get() {
-      var _this6 = this;
+      var _this7 = this;
 
       var dotsPos = this.dotsPos;
       var valuePosRange = [];
       dotsPos.forEach(function (pos, i) {
-        valuePosRange.push([Math.max(_this6.minRange ? _this6.minRangeDir * i : 0, !_this6.enableCross ? dotsPos[i - 1] || 0 : 0, _this6.getDotRange(i, 'min', 0)), Math.min(_this6.minRange ? 100 - _this6.minRangeDir * (dotsPos.length - 1 - i) : 100, !_this6.enableCross ? dotsPos[i + 1] || 100 : 100, _this6.getDotRange(i, 'max', 100))]);
+        valuePosRange.push([Math.max(_this7.minRange ? _this7.minRangeDir * i : 0, !_this7.enableCross ? dotsPos[i - 1] || 0 : 0, _this7.getDotRange(i, 'min', 0)), Math.min(_this7.minRange ? 100 - _this7.minRangeDir * (dotsPos.length - 1 - i) : 100, !_this7.enableCross ? dotsPos[i + 1] || 100 : 100, _this7.getDotRange(i, 'max', 100))]);
       });
       return valuePosRange;
     }
   }, {
     key: "dotsIndex",
     get: function get() {
-      var _this7 = this;
+      var _this8 = this;
 
       return this.dotsValue.map(function (val) {
-        return _this7.getIndexByValue(val);
+        return _this8.getIndexByValue(val);
       });
     }
   }]);
@@ -2610,6 +2614,7 @@ function () {
       value: function onValueChanged() {
         if (this.control && !this.states.has(SliderState.Drag) && this.isNotSync) {
           this.control.setValue(this.value);
+          this.syncValueByPos();
         }
       }
     }, {
@@ -2656,7 +2661,14 @@ function () {
     }, {
       key: "setScale",
       value: function setScale() {
-        this.scale = new Decimal(Math.floor(this.isHorizontal ? this.$refs.rail.offsetWidth : this.$refs.rail.offsetHeight)).divide(100).toNumber();
+        var decimal = new Decimal(Math.floor(this.isHorizontal ? this.$refs.rail.offsetWidth : this.$refs.rail.offsetHeight));
+
+        if (this.zoom !== void 0) {
+          decimal.multiply(this.zoom);
+        }
+
+        decimal.divide(100);
+        this.scale = decimal.toNumber();
       }
     }, {
       key: "initControl",
@@ -2681,6 +2693,7 @@ function () {
           dotOptions: this.dotOptions,
           onError: this.emitError
         });
+        this.syncValueByPos();
         ['data', 'enableCross', 'fixed', 'max', 'min', 'interval', 'minRange', 'maxRange', 'order', 'marks', 'process', 'adsorb', 'included', 'dotOptions'].forEach(function (name) {
           _this2.$watch(name, function (val) {
             if (name === 'data' && Array.isArray(_this2.control.data) && Array.isArray(val) && _this2.control.data.length === val.length && val.every(function (item, index) {
@@ -3485,6 +3498,10 @@ function () {
     type: [Boolean, Function],
     default: true
   })], VueSlider.prototype, "process", void 0);
+
+  __decorate([Prop({
+    type: [Number]
+  })], VueSlider.prototype, "zoom", void 0);
 
   __decorate([Prop(Boolean)], VueSlider.prototype, "included", void 0);
 
