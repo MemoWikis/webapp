@@ -8,13 +8,16 @@
 var segmentationComponent = Vue.component('segmentation-component', {
     props: {
         categoryId: Number,
+        editMode: Boolean,
     },
 
     data() {
         return {
             baseCategoryList: [],
             customCategoryList: [] as Segment[],
-            editMode: false,
+            componentKey: 0,
+            selectedCategoryId: null,
+            isCustomSegment: false,
         };
     },
 
@@ -31,5 +34,27 @@ var segmentationComponent = Vue.component('segmentation-component', {
     },
 
     methods: {
+        forceRerender() {
+            this.componentKey += 1;
+        },
+        loadSegment(id) {
+            var currentElement = $("#CustomSegmentSection");
+            var data = { CategoryId: id }
+            $.ajax({
+                type: 'Post',
+                contentType: "application/json",
+                url: '/Segmentation/GetSegmentHtml',
+                data: JSON.stringify(data),
+                success: function (data) {
+                    if (data) {
+                        currentElement.append(data.html);
+                        this.$refs[id].destroy();
+                        this.removeChild(this.$refs[id]);
+                        this.forceRerender();
+                    } else {
+                    };
+                },
+            });
+        }
     },
 });

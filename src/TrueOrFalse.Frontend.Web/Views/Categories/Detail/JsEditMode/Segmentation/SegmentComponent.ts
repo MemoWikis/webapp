@@ -1,15 +1,32 @@
-﻿Vue.component('segment-component', {
+﻿Vue.component('category-card-component', {
+    props: {
+        categoryId: String,
+        editMode: Boolean,
+        isCustomSegment: Boolean,
+    },
+
+    methods: {
+        thisToSegment() {
+            var id = parseInt(this.categoryId);
+            this.$parent.loadSegment(id);
+        },
+    }
+});
+
+Vue.component('segment-component', {
     props: {
         name: String,
         description: String,
         baseCategoryList: Array,
+        editMode: Boolean,
     },
 
     data() {
         return {
             categories: [],
             id: null,
-            canBeEdited: false,
+            cardsKey: null,
+            isCustomSegment: true,
         };
     },
 
@@ -17,7 +34,9 @@
     },
 
     mounted() {
-        this.id = "Segment-" + this._uid;
+        var uid = this._uid;
+        this.id = "Segment-" + uid;
+        this.cardsKey = uid;
     },
 
     watch: {
@@ -27,6 +46,9 @@
     },
 
     methods: {
+        forceRerender() {
+            this.cardsKey += 1;
+        },
         updateCategoryOrder() {
             this.categories = $("#" + this.id + " > .topic").map((idx, elem) => $(elem).attr("category-id")).get();
         },
@@ -35,15 +57,13 @@
 
             $.ajax({
                 type: 'Get',
-                contentType: "application/json",
-                url: '/SegmentationController/GetCategoryCard',
-                data: { categoryId: id },
+                contentType: "application/int",
+                url: '/Segmentation/GetCategoryCard',
+                data: id,
                 success: function (data) {
                     if (data) {
-                        var inserted = $(data.newHtml).append(currentElement);
-                        var instance = new categoryCardComponent({
-                            el: inserted.get(0)
-                        });
+                        currentElement.append(data.html);
+                        this.forceRerender();
                     } else {
 
                     };

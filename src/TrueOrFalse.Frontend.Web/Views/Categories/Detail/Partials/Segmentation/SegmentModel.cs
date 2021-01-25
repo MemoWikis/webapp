@@ -15,7 +15,7 @@ public class SegmentModel : BaseContentModule
     {
         Category = segment.Category;
         ChildCategories = segment.ChildCategories;
-        if (segment.Title.Length > 0)
+        if (segment.Title != null)
             Title = segment.Title;
         else
             Title = segment.Category.Name;
