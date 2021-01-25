@@ -7,37 +7,6 @@ using TrueOrFalse.Tests;
 class GraphService_tests : BaseTest
 {
     [Test]
-    public void Should_get_correct_category()
-    {
-        var context = ContextCategory.New();
-
-        var rootElement = context.Add("RootElement").Persist().All.First();
-
-        var firstChildrens = context
-            .Add("Sub1", parent: rootElement)
-            .Persist()
-            .All;
-
-        var secondChildren = context
-            .Add("SubSub1", parent: firstChildrens.ByName("Sub1"))
-            .Persist()
-            .All
-            .ByName("SubSub1");
-
-
-        // Add User
-        var user = ContextUser.New().Add("User").Persist().All[0];
-
-        CategoryInKnowledge.Pin(firstChildrens.ByName("SubSub1").Id, user);
-
-        Sl.SessionUser.Login(user);
-        var lastChildren = GraphService.GetLastWuwiChildrenFromCategories(rootElement.Id);
-
-        Assert.That(lastChildren.First().Name, Is.EqualTo("SubSub1"));
-
-    }
-
-    [Test]
     public void Should_get_correct_category_with_relations()
     {
 
