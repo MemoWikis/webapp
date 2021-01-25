@@ -1,4 +1,4 @@
-﻿Vue.component('category-card-component', {
+﻿var categoryCardComponent = Vue.component('category-card-component', {
     props: {
         categoryId: String,
         editMode: Boolean,

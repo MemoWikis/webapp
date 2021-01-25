@@ -15,6 +15,9 @@
               } %>
         </div>
         <div id="GeneratedSegmentSection">
+            <h2 v-if="hasCustomSegment">
+                Alle Unterthemen
+            </h2>
             <%if (Model.CategoryList.Any()) {
                   if(!String.IsNullOrEmpty(Model.Title)){%>
                     <h2><%: Model.Title %></h2>

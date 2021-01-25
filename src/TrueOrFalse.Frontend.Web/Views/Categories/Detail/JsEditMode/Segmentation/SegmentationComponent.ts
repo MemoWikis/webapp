@@ -18,6 +18,7 @@ var segmentationComponent = Vue.component('segmentation-component', {
             componentKey: 0,
             selectedCategoryId: null,
             isCustomSegment: false,
+            hasCustomSegment: false,
         };
     },
 
@@ -25,6 +26,7 @@ var segmentationComponent = Vue.component('segmentation-component', {
     },
 
     mounted() {
+        this.hasCustomSegment = $('#CustomSegmentSection').html().length > 0;
     },
 
     watch: {
@@ -47,7 +49,11 @@ var segmentationComponent = Vue.component('segmentation-component', {
                 data: JSON.stringify(data),
                 success: function (data) {
                     if (data) {
-                        currentElement.append(data.html);
+                        this.hasCustomSegment = true;
+                        var inserted = currentElement.append(data.html);
+                        var instance = new categoryCardComponent({
+                            el: inserted.get(0)
+                        });
                         this.$refs[id].destroy();
                         this.removeChild(this.$refs[id]);
                         this.forceRerender();
