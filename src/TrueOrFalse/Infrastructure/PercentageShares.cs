@@ -37,7 +37,7 @@ public class PercentageShares
             double val = values[i] * 100;
             int percent = (int)Math.Round(val + error);
             error += val - percent;
-            if (error < 0 || error >= 1)
+            if (Math.Abs(error) >= 0.5)
             {
                 int sign = Math.Sign(error);
                 percent += sign;

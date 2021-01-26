@@ -15,8 +15,10 @@ namespace TrueOrFalse.Tests
         public void Should_clone_category_with_circular_relations()
         {
             //Crate to object with circular reference
-            var categoryRoot = new Category { Name = "Root" };
-            var categoryA = new Category { Name = "A" };
+            var categories = ContextCategory.New().Add("Root").Add("A").Persist().All;
+            var categoryRoot = categories.ByName("Root");
+            var categoryA = categories.ByName("A"); 
+            
             categoryRoot.CategoryRelations = new List<CategoryRelation> {
                 new CategoryRelation {Category = categoryRoot, RelatedCategory = categoryA, CategoryRelationType = CategoryRelationType.IsChildCategoryOf},
             };

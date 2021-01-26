@@ -58,10 +58,10 @@ public class ReputationUpdate : IRegisterAsInstancePerLifetime
             else
                 user.ReputationPos++;
 
-            _userRepo.Update(user, runSolrUpdateAsync: true);
+            _userRepo.Update(user);
         }
 
-        _userRepo.Update(userToUpdate, runSolrUpdateAsync:true);
+        _userRepo.Update(userToUpdate);
     }
 
     public void RunForAll()

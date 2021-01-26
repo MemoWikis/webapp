@@ -39,18 +39,6 @@ public class GraphService
         return parents;
     }
 
-    public static List<Category> GetLastWuwiChildrenFromCategories(int categoryId)
-    {
-        var childrenReversed = EntityCache.GetChildren(categoryId);
-        var children = childrenReversed
-            .Where(c =>
-                EntityCache.GetChildren(c.Id).Count == 0 &&
-                c.IsInWishknowledge());
-
-        return children.ToList();
-
-    }
-
     public static IList<Category> GetAllPersonalCategoriesWithRelations(int rootCategoryId, int userId = -1)
     {
         var rootCategory = (Category)EntityCache.GetCategory(rootCategoryId).DeepClone();
