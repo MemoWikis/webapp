@@ -60,16 +60,9 @@ public class UserRepo : RepositoryDbBase<User>
         UserCache.AddOrUpdate(followerInfo.User);
     }
 
-    public override void Update(User user)
-    {
-        this.Update(user, false);
-        UserCache.AddOrUpdate(user);
-    }
-
-    public void Update(User user, bool runSolrUpdateAsync = true)
+    public void Update(User user)
     {
         Logg.r().Information("user update {Id} {Email} {Stacktrace}", user.Id, user.EmailAddress, new StackTrace());
-        _searchIndexUser.Update(user, runSolrUpdateAsync);
         base.Update(user);
         UserCache.AddOrUpdate(user);
     }
@@ -78,7 +71,6 @@ public class UserRepo : RepositoryDbBase<User>
     {
         Logg.r().Information("user create {Id} {Email} {Stacktrace}", user.Id, user.EmailAddress, new StackTrace());
         base.Create(user);
-        _searchIndexUser.Update(user);
         UserCache.AddOrUpdate(user);
     }
 
