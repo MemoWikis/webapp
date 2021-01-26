@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using FluentNHibernate.Utils;
 using NHibernate;
 using NHibernate.Criterion;
 using TrueOrFalse.Search;
