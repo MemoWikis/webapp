@@ -57,7 +57,7 @@ namespace TrueOrFalse.Tests
 
 
         [Test]
-        [Ignore("")]
+       
         public void Should_import_questions_and_answers()
         {
             var importer = Resolve<Importer>();
@@ -74,6 +74,7 @@ namespace TrueOrFalse.Tests
         }
 
         [Test]
+        [Ignore("")]
         public void Should_import_categories()
         {
             var importer = Resolve<Importer>();
