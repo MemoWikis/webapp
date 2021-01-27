@@ -51,7 +51,7 @@ public class PathTo
 
     private static string GetPath(string fileName)
     {
-        if (HttpContext.Current != null)
+        if (HttpContext.Current != null && !fileName.Equals("Log.ignore"))
             return HttpContext.Current.Server.MapPath("~/bin/" + fileName);
 
         if(JobExecute.CodeIsRunningInsideAJob)
