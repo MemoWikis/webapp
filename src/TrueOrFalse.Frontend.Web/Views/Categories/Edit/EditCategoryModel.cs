@@ -86,7 +86,7 @@ public class EditCategoryModel : BaseModel
         Id = category.Id;
         Description = category.Description;
         ParentCategories = parentCategories;
-        AggregatedCategories = category.AggregatedCategories(includingSelf: false);
+        AggregatedCategories = category.AggregatedCategories(includingSelf: false).OrderBy(c => c.Name).ToList();
         NonAggregatedCategories = category.NonAggregatedCategories();
         DisableLearningFunctions = category.DisableLearningFunctions;
         ImageUrl = new CategoryImageSettings(category.Id).GetUrl_350px_square().Url;
