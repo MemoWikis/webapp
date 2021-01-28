@@ -106,10 +106,10 @@ public static class QuestionInKnowledge
             SET WishCountQuestions =
                 (SELECT count(id)
                 FROM QuestionValuation
-                WHERE userId = {user.Id}
+                WHERE userId = :userId
                 AND RelevancePersonal > 0) 
-            WHERE Id = {user.Id}";
-        Sl.Resolve<ISession>().CreateSQLQuery(query).ExecuteUpdate();
+            WHERE Id = :userId";
+        Sl.Resolve<ISession>().CreateSQLQuery(query).SetParameter("userId", user.Id).ExecuteUpdate();
     }
 
     private static string GenerateQualityQuery(int questionId)
