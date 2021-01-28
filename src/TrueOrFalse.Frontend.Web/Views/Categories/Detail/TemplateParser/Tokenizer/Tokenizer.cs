@@ -30,7 +30,7 @@ public static class Tokenizer
         }
         if(loadAsLastToken != null)
             tokens.Add(loadbeforeLastLoadToken);
-            tokens.Add(loadAsLastToken);
+        tokens.Add(loadAsLastToken);
 
         return tokens;
     }

@@ -1,7 +1,7 @@
 ﻿interface Segment {
-    title: String,
-    description: String,
-    categoryList: Array<Number>,
+    CategoryId: Number,
+    Title: String,
+    ChildCategoryIds: Array<Number>,
 };
 
 
@@ -27,6 +27,7 @@ var segmentationComponent = Vue.component('segmentation-component', {
 
     mounted() {
         this.hasCustomSegment = $('#CustomSegmentSection').html().length > 0;
+        this.$on('remove-segment', id => this.addCategoryToBaseList(id));
     },
 
     watch: {
@@ -40,27 +41,50 @@ var segmentationComponent = Vue.component('segmentation-component', {
             this.componentKey += 1;
         },
         loadSegment(id) {
+            var self = this;
             var currentElement = $("#CustomSegmentSection");
             var data = { CategoryId: id }
+
             $.ajax({
                 type: 'Post',
                 contentType: "application/json",
                 url: '/Segmentation/GetSegmentHtml',
                 data: JSON.stringify(data),
-                success: function (data) {
+                success: function(data) {
                     if (data) {
-                        this.hasCustomSegment = true;
+                        self.hasCustomSegment = true;
                         var inserted = currentElement.append(data.html);
-                        var instance = new categoryCardComponent({
+                        var instance = new segmentComponent({
                             el: inserted.get(0)
                         });
-                        this.$refs[id].destroy();
-                        this.removeChild(this.$refs[id]);
-                        this.forceRerender();
+                        self.$refs['card' + id].visible = false;
+                        self.forceRerender();
                     } else {
                     };
                 },
             });
-        }
+        },
+        addCategoryToBaseList(categoryId) {
+            var self = this;
+            var currentElement = $("#GeneratedSegmentSection > .topicNavigation");
+
+            $.ajax({
+                type: 'Get',
+                contentType: "application/int",
+                url: '/Segmentation/GetCategoryCard',
+                data: categoryId,
+                success: function (data) {
+                    if (data) {
+                        var inserted = currentElement.append(data.html);
+                        var instance = new categoryCardComponent({
+                            el: inserted.get(0)
+                        });
+                        self.forceRerender();
+                    } else {
+
+                    };
+                },
+            });
+        },
     },
 });

@@ -1,29 +1,36 @@
-﻿<%@ Control Language="C#" AutoEventWireup="true" Inherits="System.Web.Mvc.ViewUserControl<SegmentationCategoryCardModel>" %>
+﻿ <%@ Control Language="C#" AutoEventWireup="true" Inherits="System.Web.Mvc.ViewUserControl<SegmentationCategoryCardModel>" %>
 <%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
                 
-<category-card-component inline-template :edit-mode="editMode" ref="<%= Model.Category.Id %>" :is-custom-segment="isCustomSegment" category-id="<%= Model.Category.Id %>">
+<category-card-component inline-template :edit-mode="editMode" ref="card<%= Model.Category.Id %>" :is-custom-segment="isCustomSegment" category-id="<%= Model.Category.Id %>">
     
-    <div class="col-xs-6 topic">
+    <div class="col-xs-6 topic segment-category-card" v-if="visible" @mouseover="hover = true" @mouseleave="hover = false">
             <% if(Model.GetTotalTopicCount(Model.Category) > 0 || Model.GetTotalQuestionCount(Model.Category) > 0 || Model.IsInstallationAdmin ||Model.Category.Creator.Id == Model.UserId)   
                        { %>
-                        <div>
                             <div class="row">
                                 <div class="col-xs-3">
                                     <div class="ImageContainer" v-show="editMode">
-                                        <%= Model.GetCategoryImage(Model.Category).RenderHtmlImageBasis(128, true, ImageType.Category) %>
+                                        <%= Model.GetCategoryImage(Model.Category).RenderHtmlImageBasis(128, true, ImageType.Category) %> 
                                     </div>
                                     <div class="ImageContainer" v-show="!editMode">
                                         <%= Model.GetCategoryImage(Model.Category).RenderHtmlImageBasis(128, true, ImageType.Category, linkToItem: Links.CategoryDetail(Model.Category.Name, Model.Category.Id)) %>
                                     </div>
                                 </div>
                                 <div class="col-xs-9">
-                                    <div class="topic-name" v-if="editMode">
+                                    <div class="topic-name col-xs-10" v-if="editMode">
                                         <div class="topic-name">
                                             <% if (Model.GetTotalTopicCount(Model.Category) < 1 && Model.GetTotalQuestionCount(Model.Category) < 1 && (Model.IsInstallationAdmin || Model.Category.Creator.Id == Model.UserId)) { %>
                                                 <i class="fa fa-user-secret show-tooltip" data-original-title="Thema ist leer und wird daher nur Admins und dem Ersteller angezeigt"></i>
                                             <% } %>
                                             <%= Model.Category.Type.GetCategoryTypeIconHtml() %><%: Model.Category.Name %>
                                         </div>
+                                    </div>
+                                    <div v-if="editMode" class="Button dropdown DropdownButton">
+                                        <a href="#" :id="dropdownId" class="dropdown-toggle  btn btn-link btn-sm ButtonEllipsis" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                            <i class="fa fa-ellipsis-v"></i>
+                                        </a>
+                                        <ul class="dropdown-menu dropdown-menu-right" :aria-labelledby="dropdownId">
+                                            <li><a @click="thisToSegment"><i class="fa fa-code-fork"></i>&nbsp;Unterthemen einblenden</a></li>
+                                        </ul>
                                     </div>
                                     <a v-else class="topic-name" href="<%= Links.CategoryDetail(Model.Category) %>">
                                         <div class="topic-name">
@@ -52,18 +59,8 @@
                                         <% Html.RenderPartial("~/Views/Categories/Detail/CategoryKnowledgeBar.ascx", new CategoryKnowledgeBarModel(Model.Category)); %>
                                         <div class="KnowledgeBarLegend">Dein Wissensstand</div>
                                     </div>
-                                    <div v-if="isCustomSegment">
-
-                                    </div>
-                                    <div v-else>
-                                        <div v-show="editMode">
-                                            <div class="btn btn-lg btn-default" @click="thisToSegment">Unterthemen einblenden</div>
-                                        </div>
-                                    </div>
-
                                 </div>
                             </div>
-                        </div>
                     <% } %>
 
     </div>

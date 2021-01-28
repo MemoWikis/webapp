@@ -10,15 +10,21 @@ public class SegmentModel : BaseContentModule
     public string Title;
     public Category Category;
     public List<Category> ChildCategories;
+    public int[] ChildCategoryIds;
 
     public SegmentModel(Segment segment)
     {
         Category = segment.Category;
-        ChildCategories = segment.ChildCategories;
+        var childCategories = segment.ChildCategories;
         if (segment.Title != null)
             Title = segment.Title;
         else
             Title = segment.Category.Name;
+
+        ChildCategories = childCategories;
+        var childCategoryIds = new List<int>();
+        childCategories.ForEach(c => childCategoryIds.Add(c.Id));
+        ChildCategoryIds = childCategoryIds.ToArray();
     }
 }
 

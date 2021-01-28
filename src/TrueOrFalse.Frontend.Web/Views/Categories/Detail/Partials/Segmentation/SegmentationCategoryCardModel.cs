@@ -5,20 +5,12 @@ using System.Linq;
 public class SegmentationCategoryCardModel : BaseContentModule
 {
     public Category Category;
-
     public string Title;
-    public string Text;
-
-    public List<Category> CategoryList;
 
     public SegmentationCategoryCardModel(Category category)
     {
         Category = category;
-
-        var isLoadList = false;
-        var categoryList = UserCache.IsFiltered ? UserEntityCache.GetChildren(category.Id, UserId) : Sl.CategoryRepo.GetChildren(category.Id).ToList();
-
-        CategoryList = categoryList.Where(c => c.Type.GetCategoryTypeGroup() == CategoryTypeGroup.Standard).ToList();
+        Title = category.Name;
     }
 
     public int GetTotalQuestionCount(Category category)

@@ -42,8 +42,9 @@ public class SegmentationModel : BaseContentModule
     public List<Segment> GetSegments(int id)
     {
         var segments = new List<Segment>();
+        var segmentJson = JsonConvert.DeserializeObject<dynamic>(EntityCache.GetCategory(id).CustomSegments);
         var customSegmentJson = JsonConvert.DeserializeObject<CustomSegmentJson>(EntityCache.GetCategory(id).CustomSegments);
-        foreach (var s in customSegmentJson.Segments)
+        foreach (var s in segmentJson)
         {
             var segment = new Segment();
             segment.Title = s.Title;
@@ -52,11 +53,10 @@ public class SegmentationModel : BaseContentModule
                 var category = EntityCache.GetCategory(categoryId);
                 segment.ChildCategories.Add(category);
             }
-
             segments.Add(segment);
         }
 
-        return segments;
+        return segments.OrderBy(s => s.Title).ToList();
     }
 
     public List<Category> GetNotInSegmentCategoryList(List<Segment> segments, List<Category> categoryList)
@@ -74,7 +74,7 @@ public class SegmentationModel : BaseContentModule
         }
 
         HasCustomSegments = true;
-        return notInSegmentCategoryList.ToList();
+        return notInSegmentCategoryList.OrderBy(c => c.Name).ToList();
     }
 }
 

@@ -224,10 +224,23 @@ new Vue({
             this.updateModuleOrder();
             await this.sortModules();
 
+            var segmentation;
+
+            $("#CustomSegmentSection > .segment-category-card").each((index, el) => {
+                var segment = {
+                    CategoryId: $(el).data('category-id'),
+                    ChildCategoryIds: $(el).data('child-category-ids')
+                }
+
+                segmentation.push(segment);
+            });
+
+
             var filteredModules = this.sortedModules.filter(o => (o.TemplateName != 'InlineText' || o.Content));
             var data = {
                 categoryId: $("#hhdCategoryId").val(),
                 content: filteredModules,
+                segmentation: segmentation
             }
             $.ajax({
                 type: 'post',

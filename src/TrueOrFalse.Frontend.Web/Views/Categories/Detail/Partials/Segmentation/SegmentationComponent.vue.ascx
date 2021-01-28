@@ -2,9 +2,13 @@
 <%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
 <segmentation-component inline-template :edit-mode="editMode">
     <div :key="componentKey">
-        <div class="segmentHeader">
+        <div v-if="hasCustomSegment" class="segmentHeader">
             Alle Unterthemen
         </div>
+        <div v-else class="segmentHeader">
+            Untergeordnete Themen
+        </div>
+
         <div id="CustomSegmentSection">
             <%if (Model.Segments != null  && Model.Segments.Any()) {
                   foreach (var segment in Model.Segments)
@@ -16,7 +20,7 @@
         </div>
         <div id="GeneratedSegmentSection">
             <h2 v-if="hasCustomSegment">
-                Alle Unterthemen
+                Weitere untergeordnete Themen
             </h2>
             <%if (Model.CategoryList.Any()) {
                   if(!String.IsNullOrEmpty(Model.Title)){%>

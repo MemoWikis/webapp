@@ -5,6 +5,19 @@
         isCustomSegment: Boolean,
     },
 
+    data() {
+        return {
+            visible: true,
+            hover: false,
+            dropdownId: null,
+        };
+    },
+    mounted() {
+        this.dropdownId = 'Dropdown' + this.categoryId;
+
+        if (this.isCustomSegment)
+            this.dropdownId += this.$parent.id;
+    },
     methods: {
         thisToSegment() {
             var id = parseInt(this.categoryId);
@@ -13,11 +26,11 @@
     }
 });
 
-Vue.component('segment-component', {
+var segmentComponent = Vue.component('segment-component', {
     props: {
-        name: String,
+        title: String,
         description: String,
-        baseCategoryList: Array,
+        ChildCategoryIds: String,
         editMode: Boolean,
     },
 
@@ -27,6 +40,7 @@ Vue.component('segment-component', {
             id: null,
             cardsKey: null,
             isCustomSegment: true,
+            visible: true,
         };
     },
 
@@ -34,9 +48,16 @@ Vue.component('segment-component', {
     },
 
     mounted() {
+        var self = this;
         var uid = this._uid;
-        this.id = "Segment-" + uid;
-        this.cardsKey = uid;
+        self.id = "Segment-" + uid;
+        self.cardsKey = uid;
+        var segment = {
+            CategoryId: self.id,
+            Title: self.title,
+            ChildCategoryIds: self.categories
+        }
+        this.$emit('new-segment', segment);
     },
 
     watch: {
@@ -53,7 +74,8 @@ Vue.component('segment-component', {
             this.categories = $("#" + this.id + " > .topic").map((idx, elem) => $(elem).attr("category-id")).get();
         },
         loadCategoryCard(id) {
-            var currentElement = $("#" + this.id + " > .topic");
+            var self = this;
+            var currentElement = $("#" + this.id + " > .topicNavigation");
 
             $.ajax({
                 type: 'Get',
@@ -63,12 +85,15 @@ Vue.component('segment-component', {
                 success: function (data) {
                     if (data) {
                         currentElement.append(data.html);
-                        this.forceRerender();
+                        self.forceRerender();
                     } else {
 
                     };
                 },
             });
-        }
+        },
+        removeSegment() {
+            this.$emit('remove-segment', this.categoryId);
+        },
     },
 });
