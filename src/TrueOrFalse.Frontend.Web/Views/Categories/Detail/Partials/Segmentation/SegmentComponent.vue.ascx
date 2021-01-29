@@ -1,7 +1,7 @@
 ﻿<%@ Control Language="C#" AutoEventWireup="true" Inherits="System.Web.Mvc.ViewUserControl<SegmentModel>" %>
 <%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
-<segment-component inline-template :edit-mode="editMode" ref="segment<%= Model.Category.Id %>" title="<%= Model.Title %>" child-category-ids="<%= Model.ChildCategoryIds %>">
-    <div v-if="visible">
+<segment-component inline-template :edit-mode="editMode" ref="segment<%= Model.Category.Id %>" title="<%= Model.Title %>" child-category-ids="<%= Model.ChildCategoryIds %>" category-id="<%= Model.Category.Id %>">
+    <div class="segment" :data-category-id="categoryId" :data-child-category-ids="currentChildCategoryIds">
         <div class="segmentSubHeader">
             <h2>
                 <%= Model.Title %>

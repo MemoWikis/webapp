@@ -1,9 +1,9 @@
 ﻿ <%@ Control Language="C#" AutoEventWireup="true" Inherits="System.Web.Mvc.ViewUserControl<SegmentationCategoryCardModel>" %>
 <%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
                 
-<category-card-component inline-template :edit-mode="editMode" ref="card<%= Model.Category.Id %>" :is-custom-segment="isCustomSegment" category-id="<%= Model.Category.Id %>">
+<category-card-component inline-template :edit-mode="editMode" ref="card<%= Model.Category.Id %>" :is-custom-segment="isCustomSegment" category-id="<%= Model.Category.Id %>" :selected-categories="selectedCategories">
     
-    <div class="col-xs-6 topic segment-category-card" v-if="visible" @mouseover="hover = true" @mouseleave="hover = false">
+    <div class="col-xs-6 topic segment-category-card" v-if="visible" @mouseover="hover = true" @mouseleave="hover = false" @click="selectCategory">
             <% if(Model.GetTotalTopicCount(Model.Category) > 0 || Model.GetTotalQuestionCount(Model.Category) > 0 || Model.IsInstallationAdmin ||Model.Category.Creator.Id == Model.UserId)   
                        { %>
                             <div class="row">

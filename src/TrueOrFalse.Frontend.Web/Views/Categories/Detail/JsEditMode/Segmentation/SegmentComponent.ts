@@ -3,6 +3,7 @@
         categoryId: String,
         editMode: Boolean,
         isCustomSegment: Boolean,
+        selectedCategories: Array,
     },
 
     data() {
@@ -10,18 +11,27 @@
             visible: true,
             hover: false,
             dropdownId: null,
+            id: parseInt(this.categoryId),
+            isSelected: false,
         };
     },
     mounted() {
-        this.dropdownId = 'Dropdown' + this.categoryId;
+        this.dropdownId = 'Dropdown' + this.id;
 
         if (this.isCustomSegment)
             this.dropdownId += this.$parent.id;
     },
     methods: {
         thisToSegment() {
-            var id = parseInt(this.categoryId);
-            this.$parent.loadSegment(id);
+            this.$parent.loadSegment(this.id);
+        },
+        selectCategory() {
+            if (this.isEditMode) {
+                if (this.isSelected)
+                    this.$emit('unselect-category', this.id);
+                else
+                    this.$emit('select-category', this.id);
+            }
         },
     }
 });
@@ -30,7 +40,8 @@ var segmentComponent = Vue.component('segment-component', {
     props: {
         title: String,
         description: String,
-        ChildCategoryIds: String,
+        childCategoryIds: String,
+        categoryId: Number,
         editMode: Boolean,
     },
 
@@ -41,6 +52,8 @@ var segmentComponent = Vue.component('segment-component', {
             cardsKey: null,
             isCustomSegment: true,
             visible: true,
+            selectedCategories: [],
+            currentChildCategoryIds: []
         };
     },
 
@@ -49,15 +62,27 @@ var segmentComponent = Vue.component('segment-component', {
 
     mounted() {
         var self = this;
-        var uid = this._uid;
-        self.id = "Segment-" + uid;
-        self.cardsKey = uid;
+        self.id = "Segment-" + self.categoryId;
+        self.currentChildCategoryIds = JSON.parse(self.childCategoryIds);
         var segment = {
-            CategoryId: self.id,
+            CategoryId: self.categoryId,
             Title: self.title,
             ChildCategoryIds: self.categories
         }
         this.$emit('new-segment', segment);
+        this.$on('select-category',
+            (id) => {
+                if (this.selectedCategories.includes(id))
+                    return;
+                else this.selectedCategories.push(id);
+            });
+        this.$on('unselect-category',
+            (id) => {
+                if (this.selectedCategories.includes(id)) {
+                    var index = this.selectedCategories.indexOf(id);
+                    this.selectedCategories.splice(index, 1);
+                }
+            });
     },
 
     watch: {
@@ -67,9 +92,6 @@ var segmentComponent = Vue.component('segment-component', {
     },
 
     methods: {
-        forceRerender() {
-            this.cardsKey += 1;
-        },
         updateCategoryOrder() {
             this.categories = $("#" + this.id + " > .topic").map((idx, elem) => $(elem).attr("category-id")).get();
         },
@@ -85,7 +107,6 @@ var segmentComponent = Vue.component('segment-component', {
                 success: function (data) {
                     if (data) {
                         currentElement.append(data.html);
-                        self.forceRerender();
                     } else {
 
                     };

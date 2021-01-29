@@ -42,17 +42,22 @@ public class SegmentationModel : BaseContentModule
     public List<Segment> GetSegments(int id)
     {
         var segments = new List<Segment>();
-        var segmentJson = JsonConvert.DeserializeObject<dynamic>(EntityCache.GetCategory(id).CustomSegments);
-        var customSegmentJson = JsonConvert.DeserializeObject<CustomSegmentJson>(EntityCache.GetCategory(id).CustomSegments);
+        var segmentJson = JsonConvert.DeserializeObject<List<SegmentJson>>(EntityCache.GetCategory(id).CustomSegments);
         foreach (var s in segmentJson)
         {
             var segment = new Segment();
+            segment.Category = EntityCache.GetCategory(s.CategoryId);
             segment.Title = s.Title;
-            foreach (var categoryId in s.ChildCategoryIds)
+            if (s.ChildCategoryIds != null)
             {
-                var category = EntityCache.GetCategory(categoryId);
-                segment.ChildCategories.Add(category);
-            }
+                foreach (var categoryId in s.ChildCategoryIds)
+                {
+                    var category = EntityCache.GetCategory(categoryId);
+                    segment.ChildCategories.Add(category);
+                }
+            } else 
+                segment.ChildCategories = EntityCache.GetChildren(s.CategoryId);
+
             segments.Add(segment);
         }
 
@@ -67,9 +72,13 @@ public class SegmentationModel : BaseContentModule
         foreach (var segment in segments)
         {
             inSegmentCategoryList.Add(segment.Category);
-            var categoriesToAdd = segment.ChildCategories.Where(c => !inSegmentCategoryList.Any(s => s.Id == c.Id));
-            foreach (var c in categoriesToAdd)
-                inSegmentCategoryList.Add(c);
+            if (segment.ChildCategories != null)
+            {
+                var categoriesToAdd = segment.ChildCategories.Where(c => !inSegmentCategoryList.Any(s => s.Id == c.Id)).ToList();
+                foreach (var c in categoriesToAdd)
+                    inSegmentCategoryList.Add(c);
+            }
+
             notInSegmentCategoryList.AddRange(categoryList.Where(c => !inSegmentCategoryList.Any(s => c.Id == s.Id)));
         }
 

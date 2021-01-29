@@ -19,6 +19,8 @@ var segmentationComponent = Vue.component('segmentation-component', {
             selectedCategoryId: null,
             isCustomSegment: false,
             hasCustomSegment: false,
+            selectedCategories: [],
+
         };
     },
 
@@ -37,9 +39,6 @@ var segmentationComponent = Vue.component('segmentation-component', {
     },
 
     methods: {
-        forceRerender() {
-            this.componentKey += 1;
-        },
         loadSegment(id) {
             var self = this;
             var currentElement = $("#CustomSegmentSection");
@@ -58,7 +57,6 @@ var segmentationComponent = Vue.component('segmentation-component', {
                             el: inserted.get(0)
                         });
                         self.$refs['card' + id].visible = false;
-                        self.forceRerender();
                     } else {
                     };
                 },
@@ -79,7 +77,6 @@ var segmentationComponent = Vue.component('segmentation-component', {
                         var instance = new categoryCardComponent({
                             el: inserted.get(0)
                         });
-                        self.forceRerender();
                     } else {
 
                     };
