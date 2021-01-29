@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using FluentNHibernate.Utils;
 
@@ -39,14 +40,16 @@ public class GraphService
         return parents;
     }
 
-    public static IList<Category> GetAllPersonalCategoriesWithRelations(int rootCategoryId, int userId = -1)
+    public static IList<Category> GetAllPersonalCategoriesWithRelations(int rootCategoryId, int userId = -1, bool isFromUserEntityCache =false)
     {
-        var rootCategory = (Category)EntityCache.GetCategory(rootCategoryId).DeepClone();
+            var rootCategory = (Category)EntityCache.GetCategory(rootCategoryId, isFromUserEntityCache).DeepClone();
 
         var childrenUnCloned = EntityCache.GetDescendants(rootCategory, true)
             .Distinct();
         var children = childrenUnCloned.Select(c => (Category)c.DeepClone()); 
         var listWithUserPersonelCategories = new List<Category>();
+
+        
 
         userId = userId == -1 ? Sl.CurrentUserId : userId;
 

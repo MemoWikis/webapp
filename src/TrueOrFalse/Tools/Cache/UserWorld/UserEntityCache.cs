@@ -21,7 +21,7 @@ public class UserEntityCache : BaseCache
         var user = userId == -1 ?  Sl.SessionUser.User : UserCache.GetItem(userId).User;
 
         var categories = new ConcurrentDictionary<int, Category>(GraphService
-            .GetAllPersonalCategoriesWithRelations(_rootCategoryId, userId).ToConcurrentDictionary()); 
+            .GetAllPersonalCategoriesWithRelations(_rootCategoryId, userId, true).ToConcurrentDictionary()); 
     
         var categoriesCacheKey = CategoriesCacheKey(user.Id);
         
