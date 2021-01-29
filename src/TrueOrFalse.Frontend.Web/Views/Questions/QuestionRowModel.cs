@@ -11,14 +11,13 @@ public class QuestionRowModel : BaseModel
 
     public ImageFrontendData ImageFrontendData;
 
-    public int QuestionId { get; private set; }
-    public string QuestionText { get; private set; }
-    public string QuestionShort { get; private set; }
-    public string CreatorName { get; private set; }
-    public int IndexInResulSet { get; private set; }
-    private readonly UserTinyModel Creator;
-    public string CreatorUrlName { get; private set; }
-    public int CreatorId { get; private set; }
+    public int QuestionId { get; }
+    public string QuestionText { get; }
+    public string QuestionShort { get; }
+    public string CreatorName { get; }
+    public int IndexInResulSet { get; }
+    public string CreatorUrlName { get; }
+    public int CreatorId { get; }
 
     public bool IsPrivate;
 
@@ -30,11 +29,8 @@ public class QuestionRowModel : BaseModel
     public string TotalQualityAvg;
     public int Views;
 
-    public Func<UrlHelper, string> AnswerQuestionLink { get; private set; }
-    public Func<UrlHelper, string> UserLink { get; private set;  }
-
-    public IList<SetMini> SetMinis;
-    public int SetCount;
+    public Func<UrlHelper, string> AnswerQuestionLink { get; }
+    public Func<UrlHelper, string> UserLink { get; }
 
     public DateTime DateCreated;
 
@@ -49,20 +45,20 @@ public class QuestionRowModel : BaseModel
         int indexInResultSet, 
         SearchTabType searchTab) 
     {
-        Creator = new UserTinyModel(question.Creator);
+        var creator = new UserTinyModel(question.Creator);
         ImageFrontendData = GetQuestionImageFrontendData.Run(question);
 
         Question = question;
         QuestionId = question.Id;
         QuestionText = question.Text;
         QuestionShort = question.GetShortTitle();
-        CreatorName = Creator.Name;
+        CreatorName = creator.Name;
 
-        CreatorUrlName = UriSegmentFriendlyUser.Run(Creator.Name);
-        CreatorId = Creator.Id;
+        CreatorUrlName = UriSegmentFriendlyUser.Run(creator.Name);
+        CreatorId = creator.Id;
 
         AnswerQuestionLink = urlHelper => Links.AnswerQuestion(question, indexInResultSet, searchTab.ToString());
-        UserLink = urlHelper => Links.UserDetail(Creator.Name, Creator.Id);
+        UserLink = urlHelper => Links.UserDetail(creator.Name, creator.Id);
         
         IndexInResulSet = indexInResultSet;
 
@@ -77,9 +73,6 @@ public class QuestionRowModel : BaseModel
         TotalQualityAvg = (question.TotalQualityAvg / 10d).ToString();
 
         Views = question.TotalViews;
-
-        SetCount = question.SetsAmount;
-        SetMinis = question.SetTop5Minis;
 
         IsInWishknowledge = questionValuation.IsInWishKnowledge();
 

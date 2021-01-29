@@ -37,9 +37,6 @@ public class QuestionMap : ClassMap<Question>
             .Table("categories_to_questions")
             .Cascade.SaveUpdate();
 
-        Map(x => x.SetsAmount);
-        Map(x => x.SetsTop5Json);
-
         Map(x => x.IsWorkInProgress);
 
         //HasManyToMany(x => x.Features)

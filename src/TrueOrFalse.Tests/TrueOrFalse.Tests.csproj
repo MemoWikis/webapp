@@ -242,7 +242,6 @@
     <Compile Include="2 Domain\Question\History\AnswerFeature_persistence_tests.cs" />
     <Compile Include="2 Domain\Question\History\AnswerIntervals.cs" />
     <Compile Include="2 Domain\Question\History\PatternMatcher_test.cs" />
-    <Compile Include="2 Domain\Question\Questions_in_Sets.cs" />
     <Compile Include="2 Domain\Question\Reference\Reference_persistence.cs" />
     <Compile Include="2 Domain\Question\Answer\Should_retrieve_stats_in_time_period.cs" />
     <Compile Include="2 Domain\Question\History\History_totals_per_user_tests.cs" />

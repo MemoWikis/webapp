@@ -321,8 +321,6 @@ namespace TrueOrFalse.Frontend.Web.Code
         public const string SetController = "Set";
         public const string SetCreateAction = "Create";
         public const string SetEditController = "EditSet";
-
-        public static string SetDetail(UrlHelper url, SetMini setMini) => SetDetail(url, setMini.Name, setMini.Id);
         public static string SetDetail(UrlHelper url, Set set) => SetDetail(url, set.Name, set.Id);
         public static string SetDetail(Set set) => 
             HttpContext.Current == null

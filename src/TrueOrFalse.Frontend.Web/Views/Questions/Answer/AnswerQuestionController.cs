@@ -543,7 +543,7 @@ public class AnswerQuestionController : BaseController
             previousPageLink = answerQuestionModel.PreviousUrl(Url);
 
         var menuHtml = Empty;
-        if (answerQuestionModel.Set == null && !isSession)
+        if (!isSession)
         {
             //Sl.SessionUiData.TopicMenu.PageCategories = ThemeMenuHistoryOps.GetQuestionCategories(answerQuestionModel.Question.Id);
             menuHtml = ViewRenderer.RenderPartialView("~/Views/Categories/Navigation/CategoryNavigation.ascx", new CategoryNavigationModel(), ControllerContext);

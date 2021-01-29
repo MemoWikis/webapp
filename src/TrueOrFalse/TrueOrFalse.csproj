@@ -717,7 +717,6 @@
     <Compile Include="Domain\Question\Question.Ops\QuestionDelete.cs" />
     <Compile Include="Domain\NotNull.cs" />
     <Compile Include="Domain\Question\Question.Ops\QuestionGetCount.cs" />
-    <Compile Include="Domain\QuestionSet\SetMini.cs" />
     <Compile Include="Domain\Question\Question.Persistence\QuestionSearchSpecSession.cs" />
     <Compile Include="Domain\Question\QuestionValuation\Ops\GetQuestionTotalResult.cs" />
     <Compile Include="Domain\Question\QuestionValuation\Ops\GetQuestionTotal.cs" />
