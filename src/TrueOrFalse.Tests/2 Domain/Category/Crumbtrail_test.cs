@@ -31,11 +31,25 @@ public class Crumbtrail_test : BaseTest
             .Persist() 
             .All;
 
-
-        var crumbtrail_1_1_1_1 = CrumbtrailService.Get(thirdLevelChildren.ByName("1.1.1.1"));
+        var crumbtrail_1_1_1_1 = CrumbtrailService.Get(thirdLevelChildren.ByName("1.1.1.1"), rootElement);
         Assert.That(crumbtrail_1_1_1_1.ToDebugString(), Is.EqualTo("1 => 1.1 => 1.1.1 => [1.1.1.1]"));
 
-        var crumbtrail_1_2_2_1 = CrumbtrailService.Get(thirdLevelChildren.ByName("1.2.2.1"));
+        var crumbtrail_1_2_1_1 = CrumbtrailService.Get(thirdLevelChildren.ByName("1.2.1.1"), rootElement);
+        Assert.That(crumbtrail_1_2_1_1.ToDebugString(), Is.EqualTo("1 => 1.2 => 1.2.1 => [1.2.1.1]"));
+
+        var crumbtrail_1_2_1_2 = CrumbtrailService.Get(thirdLevelChildren.ByName("1.2.1.2"), rootElement);
+        Assert.That(crumbtrail_1_2_1_2.ToDebugString(), Is.EqualTo("1 => 1.2 => 1.2.1 => [1.2.1.2]"));
+
+        var crumbtrail_1_2_2_1 = CrumbtrailService.Get(thirdLevelChildren.ByName("1.2.2.1"), rootElement);
         Assert.That(crumbtrail_1_2_2_1.ToDebugString(), Is.EqualTo("1 => 1.2 => 1.2.2 => [1.2.2.1]"));
+
+
+        //add circular references
+        context
+            .Add("1.2", parent: secondLevelChildren.ByName("1.2.1"))
+            .Persist();
+
+        var crumbtrail_1_2_1 = CrumbtrailService.Get(thirdLevelChildren.ByName("1.2.1"), rootElement);
+        Assert.That(crumbtrail_1_2_1.ToDebugString(), Is.EqualTo("1 => 1.2 => [1.2.1]"));
     }
 }

@@ -2,23 +2,31 @@
 
 public class CrumbtrailService
 {
-    public static Crumbtrail Get(Category category)
+    public static Crumbtrail Get(Category category, Category root)
     {
-        var result = new Crumbtrail(category);
+        var result = new Crumbtrail(category, root);
         var parents = category.ParentCategories();
         foreach (var parent in parents) 
-            Get(result, parent);
+            AddParent(result, parent);
 
         result.Items = result.Items.Reverse().ToList();
 
         return result;
     }
 
-    private static void Get(Crumbtrail crumbtrail, Category category)
+    private static void AddParent(Crumbtrail crumbtrail, Category category)
     {
-        crumbtrail.Items.Add(new CrumbtrailItem(category));
+        if (crumbtrail.Rootfound)
+            return;
+
+        crumbtrail.Add(category);
 
         foreach (var currentCategory in category.ParentCategories())
-            Get(crumbtrail, currentCategory);
+        {
+            if (crumbtrail.AlreadyAdded(currentCategory))
+                return;
+
+            AddParent(crumbtrail, currentCategory);
+        } ;
     }
 }
