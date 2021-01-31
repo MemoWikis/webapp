@@ -4,7 +4,6 @@
 <%@ Import Namespace="TrueOrFalse" %>
 
 <asp:Content ID="ContentHeadSEO" ContentPlaceHolderID="HeadSEO" runat="server">
-    
     <% Title = Model.QuestionText; %>
     <% if (Model.IsLearningSession || Model.IsTestSession ) { %>
         <meta name="robots" content="noindex" />
@@ -57,8 +56,8 @@
         var relevanceForAllEntries = "<%= Model.TotalRelevanceForAllEntries %>";
     </script>
     <%
-         if(Model.IsLearningSession)
-    {
+        if(Model.IsLearningSession)
+        {
             if (!Model.LearningSession.Config.InWishknowledge)
             {
                 if (Model.LearningSession.Config.Category != null)
@@ -67,11 +66,6 @@
                 }
             }
             Model.TopNavMenu.IsCategoryLearningBreadCrumb = true;
-            }
-        else
-        {
-            if (Model.SetMinis.Count != 0)
-                Model.TopNavMenu.BreadCrumb.Add(new TopNavMenuItem {Text = Model.SetMinis[0].Name, Url = Links.SetDetail(Model.SetMinis[0].Name, Model.SetMinis[0].Id) });
         }
 
         Model.TopNavMenu.IsCategoryBreadCrumb = false;
@@ -90,9 +84,7 @@
 
 <% if (Model.IsLearningSession) { %>
            <% Html.RenderPartial("~/Views/Questions/Answer/LearningSession/LearningSessionHeader.ascx", Model); %>
-    <% }else if (Model.IsTestSession) { %>
-           <% Html.RenderPartial("~/Views/Questions/Answer/TestSession/TestSessionHeader.ascx", Model); %>
-    <% }else { %>
+<% }else { %>
       <%-- value "1" is Questionsite , value 2 is LandingPage, Test or Learningsession is this input not available--%> 
         <div class="AnswerQuestionHeader">
             <% Html.RenderPartial("~/Views/Questions/Answer/AnswerQuestionPager.ascx", Model); %>

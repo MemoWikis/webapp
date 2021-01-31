@@ -9,26 +9,21 @@
         var imageSetttings = new UserImageSettings(userSession.User.Id);
         userImage = imageSetttings.GetUrl_30px_square(userSession.User).Url;
     }
-
-     %>
+%>
 
 <div id="BreadCrumbContainer" class="container">
  
     <a href="/" id="BreadcrumbLogoSmall" class="show-tooltip" data-placement="bottom" title="Zur Startseite" >
-        
         <i class="fas fa-home"></i> <% if (!Model.TopNavMenu.IsWelcomePage && Model.TopNavMenu.BreadCrumbCategories.Count > 0){ %><i class="fa fa-chevron-right"></i><% } %>
-        
     </a>
 
     <div id="BreadCrumbTrail" style="display:flex;">
-        <ul id="Path" class="path">
-        </ul>
+        <ul id="Path" class="path"></ul>
 
     <%if(!Model.TopNavMenu.IsWelcomePage){ %>  
-            <% if (Model.TopNavMenu.IsCategoryBreadCrumb || Model.TopNavMenu.QuestionBreadCrumb)  
-               { %>
-                <%= Html.Partial("/Views/Categories/Detail/Partials/BreadCrumbCategories.ascx", Model.TopNavMenu) %>
-              <% } %>
+        <% if (Model.TopNavMenu.IsCategoryBreadCrumb || Model.TopNavMenu.QuestionBreadCrumb){ %>
+            <%= Html.Partial("/Views/Categories/Detail/Partials/BreadCrumbCategories.ascx", Model.TopNavMenu) %>
+        <% } %>
 
             <% var i = 0;
                foreach (var breadCrumbItem in Model.TopNavMenu.BreadCrumb) {
@@ -56,7 +51,6 @@
         Bearbeitungsmodus
     </div>
 
-
     <div id="StickyHeaderContainer">    
         <div class="input-group" id="StickyHeaderSearchBoxDiv" style="margin-right:3px">
             <input type="text" class="form-control" placeholder="Suche" id="StickyHeaderSearchBox">
@@ -64,7 +58,6 @@
                 <button class="btn btn-default" id="StickyHeaderSearchButton" onclick="SearchButtonClick()" style="height:34px; border: none;" type="submit"><i class="fa fa-search" style="font-size:25px; padding:0;margin:0; margin-top:-3px" aria-hidden="true"></i></button>
             </div>
         </div>
-<%--        <div id="KnowledgeImage" style="margin-right:0;"><a href="<%= Links.Knowledge() %>"><i style="margin-top:6px; font-size:32px;" class="fa fa-dot-circle-o"></i></a></div>--%>
         <div id="BreadcrumbUserDropdownImage"  <%if(Model.IsLoggedIn){ %> style="margin-right: 15px; min-width: 29px;" <%} %>>
         <%if(Model.IsLoggedIn){ %>
            <a class="TextLinkWithIcon dropdown-toggle" id="dLabelBreadCrumb" data-toggle="dropdown" href="#">
@@ -108,6 +101,5 @@
              <a class="TextLinkWithIcon" href="#" data-btn-login="true"><i style="font-size:32px; color:grey; padding-top:19px;" class="fa fa-sign-in"></i></a>
         <%} %>
         </div>
-<%--        <div><a id="StickyMenuButton"><i class="fa fa-bars" style="font-size:inherit; margin-right:0px; color:grey"></i></a></div>--%>
     </div>
 </div> 

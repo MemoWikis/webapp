@@ -3,45 +3,21 @@
 
 <div id="AnswerQuestionPager">
     <div class="Current">
-        <% if (!String.IsNullOrEmpty(Model.PageCurrent) && !String.IsNullOrEmpty(Model.PagesTotal)){
-
-               if (Model.SourceIsCategory){ %>
+        <% 
+        if (!String.IsNullOrEmpty(Model.PageCurrent) && !String.IsNullOrEmpty(Model.PagesTotal)){
+            if (Model.SourceIsCategory){ %>
                 Frage <%= Model.PageCurrent %> von <%= Model.PagesTotal %> im Thema
-                <% if(Model.SourceCategory.IsSpoiler(Model.Question)){ %>
-                    <a href="#" onclick="location.href='<%= Links.CategoryDetail(Model.SourceCategory) %>'" style="height: 30px">
-                        <span class="label label-category" data-isSpolier="true" style="position: relative; top: -1px;">Spoiler</span>
-                    </a>                    
-                <% } else { %>
-                    <a href="<%= Links.CategoryDetail(Model.SourceCategory) %>" style="height: 30px">
-                        <span class="label label-category" style="position: relative; top: -1px;"><%= Model.SourceCategory.Name %></span>
-                    </a>
-                <% } %>
-            <% }
-
-                                else if (Model.SourceIsSet) { %>
-                Frage <%= Model.PageCurrent %> von <%= Model.PagesTotal %> im Lernset
-                                
-                <a href="<%= Links.SetDetail(Url, Model.Set) %>">
-                    <span class="label label-set"><%= Model.Set.Name %></span>
-                </a>     
-                                  
-            <% }
-                            
-                                else if (Model.SourceIsTabWish || Model.SourceIsTabMine || Model.SourceIsTabAll){ %>
-                Suchtreffer: <%= Model.PageCurrent %> von  
-                <a href="<%= QuestionSearchSpecSession.GetUrl(Model.SearchTabOverview) %>">  
-                    <%= Model.PagesTotal %> in                       
-                    <span>
-                        <% if (Model.SourceIsTabWish) { %> 
-                            deinem Wunschwissen <% } %>
-                        <% if (Model.SourceIsTabMine) { %> 
-                            deinen Fragen <% } %>
-                        <% if (Model.SourceIsTabAll) { %> 
-                            allen Fragen <% } %>
-                    </span>
+            <% if(Model.SourceCategory.IsSpoiler(Model.Question)){ %>
+                <a href="#" onclick="location.href='<%= Links.CategoryDetail(Model.SourceCategory) %>'" style="height: 30px">
+                    <span class="label label-category" data-isSpolier="true" style="position: relative; top: -1px;">Spoiler</span>
                 </a>
+            <% } else { %>
+                <a href="<%= Links.CategoryDetail(Model.SourceCategory) %>" style="height: 30px">
+                    <span class="label label-category" style="position: relative; top: -1px;"><%= Model.SourceCategory.Name %></span>
+                </a>
+            <% } %>
         <% }
-           } %> 
+        } %>
     </div>
     <div class="Previous" style="padding-right: 5px;">
         <% if (Model.HasPreviousPage) { %>

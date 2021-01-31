@@ -64,11 +64,6 @@ public class AnswerQuestionModel : BaseModel
     public bool HasPreviousPage;
     public bool HasNextPage;
 
-    public bool SourceIsTabAll;
-    public bool SourceIsTabMine;
-    public bool SourceIsTabWish;
-
-    public bool SourceIsSet;
     public bool SourceIsCategory;
     public Category SourceCategory;
 
@@ -106,7 +101,6 @@ public class AnswerQuestionModel : BaseModel
         CategoryModel = categoryModel;
         IsMobileDevice = isMobileDevice;
         HasNextPage = HasPreviousPage = false;
-        SourceIsTabAll = true;
         ContentRecommendationResult = ContentRecommendation.GetForQuestion(question, 6);
         ShowCategoryList = showCategoryList;
 
@@ -147,10 +141,6 @@ public class AnswerQuestionModel : BaseModel
 
         NextUrl = url => url.Action("Next", Links.AnswerQuestionController, new {pager = PagerKey});
         PreviousUrl = url => url.Action("Previous", Links.AnswerQuestionController, new {pager = PagerKey});
-
-        SourceIsTabAll = SearchTabType.All == searchSpec.SearchTab;
-        SourceIsTabMine = SearchTabType.Mine == searchSpec.SearchTab;
-        SourceIsTabWish = SearchTabType.Wish == searchSpec.SearchTab;
 
         if (searchSpec.Filter.HasExactOneCategoryFilter()){
             SourceCategory = Resolve<CategoryRepository>().GetById(searchSpec.Filter.Categories.First());
