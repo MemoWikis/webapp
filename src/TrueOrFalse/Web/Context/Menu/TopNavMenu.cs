@@ -9,7 +9,6 @@ public class TopNavMenuItem
 
 public class TopNavMenu
 {
-    public List<Category> RootCategoriesList;
     public IList<Category> BreadCrumbCategories = new List<Category>();
     public IList<TopNavMenuItem> BreadCrumb = new List<TopNavMenuItem>();
     public virtual IList<Category> Categories { get; set; }
@@ -19,9 +18,4 @@ public class TopNavMenu
     public bool QuestionBreadCrumb = false;
 
     public bool IsWelcomePage;
-
-    public TopNavMenu()
-    {
-        RootCategoriesList = Sl.CategoryRepo.GetRootCategoriesList();      
-    }
 }
