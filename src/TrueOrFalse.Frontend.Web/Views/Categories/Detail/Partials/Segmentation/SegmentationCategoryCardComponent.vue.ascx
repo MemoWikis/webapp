@@ -19,8 +19,8 @@
                                     </div>
                                 </div>
                                 <div class="col-xs-9" @click.self="selectCategory()">
-                                    <div v-if="editMode" class="topic-name col-xs-10" v-if="editMode" @click="selectCategory()">
-                                        <div class="topic-name">
+                                    <div v-if="editMode" class="topic-name" v-if="editMode">
+                                        <div class="topic-name col-xs-10" @click="selectCategory()">
                                             <% if (Model.GetTotalTopicCount(Model.Category) < 1 && Model.GetTotalQuestionCount(Model.Category) < 1 && (Model.IsInstallationAdmin || Model.Category.Creator.Id == Model.UserId)) { %>
                                                 <i class="fa fa-user-secret show-tooltip" data-original-title="Thema ist leer und wird daher nur Admins und dem Ersteller angezeigt"></i>
                                             <% } %>
@@ -31,7 +31,8 @@
                                                 <i class="fa fa-ellipsis-v"></i>
                                             </a>
                                             <ul class="dropdown-menu dropdown-menu-right" :aria-labelledby="dropdownId">
-                                                <li><a @click="thisToSegment"><i class="fa fa-code-fork"></i>&nbsp;Unterthemen einblenden</a></li>
+                                                <li v-if="!isCustomSegment"><a @click="thisToSegment"><i class="fa fa-code-fork"></i>&nbsp;Unterthemen einblenden</a></li>
+                                                <li><a @click="splitRelation"><i class="fa fa-code-fork"></i>&nbsp;Verknüpfung entfernen</a></li>
                                             </ul>
                                         </div>
                                     </div>

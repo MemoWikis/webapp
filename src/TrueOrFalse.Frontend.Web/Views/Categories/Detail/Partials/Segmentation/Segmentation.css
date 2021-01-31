@@ -34,6 +34,11 @@
   z-index: 3;
   transform: scale(1.4);
 }
+#Segmentation #CustomSegmentSection .topicNavigation .segmentCategoryCard .DropdownButton,
+#Segmentation #GeneratedSegmentSection .topicNavigation .segmentCategoryCard .DropdownButton {
+  position: absolute;
+  right: 10px;
+}
 #Segmentation #CustomSegmentSection .segment .segmentSubHeader .segmentKnowledgeBar {
   max-width: 420px;
 }

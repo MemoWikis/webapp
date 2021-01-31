@@ -9,7 +9,7 @@
         <div v-if="hasCustomSegment" class="segmentationHeader">
             Alle Unterthemen
         </div>
-        <div v-else class="segmentHeader">
+        <div v-else class="segmentationHeader">
             Untergeordnete Themen
         </div>
 

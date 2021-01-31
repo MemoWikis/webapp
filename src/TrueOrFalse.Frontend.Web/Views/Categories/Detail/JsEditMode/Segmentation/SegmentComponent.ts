@@ -50,6 +50,9 @@
                     this.$emit('select-category', this.id);
             }
         },
+        splitRelation() {
+
+        }
     }
 });
 
