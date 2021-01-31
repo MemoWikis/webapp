@@ -72,6 +72,9 @@ namespace TrueOrFalse.View
             bundles.Add(new StyleBundle("~/bundles/CategoryLabel")
                 .Include("~/Views/Shared/CategoryLabel.css"));
 
+            bundles.Add(new StyleBundle("~/bundles/Segmentation")
+                .Include("~/Views/Categories/Detail/Partials/Segmentation/Segmentation.css"));
+
             bundles.Add(new ScriptBundle("~/bundles/js/Category")
                 .Include("~/Views/Knowledge/Wheel/KnowledgeWheel.js")
                 .Include("~/Scripts/npm/d3/d3.js")

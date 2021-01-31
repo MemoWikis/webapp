@@ -1,8 +1,12 @@
 ﻿<%@ Control Language="C#" AutoEventWireup="true" Inherits="System.Web.Mvc.ViewUserControl<SegmentationModel>" %>
+<%@ Import Namespace="System.Web.Optimization" %>
 <%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
+
+<%= Styles.Render("~/bundles/Segmentation") %>
+
 <segmentation-component inline-template :edit-mode="editMode">
-    <div :key="componentKey">
-        <div v-if="hasCustomSegment" class="segmentHeader">
+    <div :key="componentKey" id="Segmentation">
+        <div v-if="hasCustomSegment" class="segmentationHeader">
             Alle Unterthemen
         </div>
         <div v-else class="segmentHeader">
@@ -18,7 +22,7 @@
                 <% }
               } %>
         </div>
-        <div id="GeneratedSegmentSection">
+        <div id="GeneratedSegmentSection" @mouseover="hover = true" @mouseleave="hover = false" :class="{ hover : showHover }">
             <h2 v-if="hasCustomSegment">
                 Weitere untergeordnete Themen
             </h2>
@@ -35,6 +39,9 @@
                        { %>
                         <%: Html.Partial("~/Views/Categories/Detail/Partials/Segmentation/SegmentationCategoryCardComponent.vue.ascx", new SegmentationCategoryCardModel(category)) %>
                     <% } %>
+                    <div class="col-xs-6">
+
+                    </div>
                 </div>
             <%}else { %>
                 <div class="hidden">&nbsp;</div><% //if empty, templateparser throws error %>

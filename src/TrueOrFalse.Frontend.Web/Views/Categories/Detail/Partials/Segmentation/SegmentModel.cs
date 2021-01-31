@@ -10,7 +10,7 @@ public class SegmentModel : BaseContentModule
     public string Title;
     public Category Category;
     public List<Category> ChildCategories;
-    public int[] ChildCategoryIds;
+    public string ChildCategoryIds;
 
     public SegmentModel(Segment segment)
     {
@@ -24,7 +24,7 @@ public class SegmentModel : BaseContentModule
         ChildCategories = childCategories;
         var childCategoryIds = new List<int>();
         childCategories.ForEach(c => childCategoryIds.Add(c.Id));
-        ChildCategoryIds = childCategoryIds.ToArray();
+        ChildCategoryIds = "[" + String.Join(",", childCategoryIds) + "]";
     }
 }
 

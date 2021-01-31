@@ -168,10 +168,6 @@
       "autoPrefix": "> 1%, last 2 versions, Firefox ESR, iOS <=7"
     }
   },
-  //{
-  //  "outputFile": "Views/Games/Play/Play.css",
-  //  "inputFile": "Views/Games/Play/Play.less"
-  //},
   {
     "outputFile": "Views/Dates/Dates.css",
     "inputFile": "Views/Dates/Dates.less"
@@ -366,5 +362,9 @@
   {
     "outputFile": "Views/Shared/Switch/Switch.css",
     "inputFile": "Views/Shared/Switch/Switch.less"
+  },
+  {
+    "outputFile": "Views/Categories/Detail/Partials/Segmentation/Segmentation.css",
+    "inputFile": "Views/Categories/Detail/Partials/Segmentation/Segmentation.less"
   }
 ]

@@ -1,0 +1,56 @@
+﻿@darkgrey: #999999;
+
+#Segmentation {
+    .segmentationHeader {
+        font-size: 14px;
+        font-weight: 600;
+        color: @darkgrey;
+        line-height: 20px;
+        letter-spacing: 1.25px;
+        text-transform: uppercase;
+        font-family: 'Open Sans';
+        border-bottom: @darkgrey 1px solid;
+        padding-bottom: 12px;
+        margin-bottom: 41px;
+    }
+
+    #GeneratedSegmentSection, .segment, .segmentCategoryCard {
+        border-radius: 3px;
+        border: solid transparent 1px;
+        transition: 0.2s;
+
+        &.hover {
+            border-color: #45aece;
+            cursor: pointer;
+        }
+    }
+
+    #GeneratedSegmentSection, .segment {
+        &.hover {
+            margin: 0 -20px;
+            padding: 0 20px;
+        }
+    }
+
+    #CustomSegmentSection, #GeneratedSegmentSection {
+        .topicNavigation {
+            .segmentCategoryCard {
+                label {
+                    position: absolute;
+                    z-index: 3;
+                    transform: scale(1.4);
+                }
+            }
+        }
+    }
+
+    #CustomSegmentSection {
+        .segment {
+            .segmentSubHeader {
+                .segmentKnowledgeBar {
+                    max-width: 420px;
+                }
+            }
+        }
+    }
+}

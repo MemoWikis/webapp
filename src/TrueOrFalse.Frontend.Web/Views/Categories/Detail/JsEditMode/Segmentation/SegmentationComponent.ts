@@ -7,7 +7,7 @@
 
 var segmentationComponent = Vue.component('segmentation-component', {
     props: {
-        categoryId: Number,
+        categoryId: String,
         editMode: Boolean,
     },
 
@@ -20,7 +20,9 @@ var segmentationComponent = Vue.component('segmentation-component', {
             isCustomSegment: false,
             hasCustomSegment: false,
             selectedCategories: [],
-
+            id: 'SegmentationComponent',
+            hover: false,
+            showHover: false,
         };
     },
 
@@ -33,6 +35,12 @@ var segmentationComponent = Vue.component('segmentation-component', {
     },
 
     watch: {
+        hover(val) {
+            if (val && this.editMode)
+                this.showHover = true;
+            else
+                this.showHover = false;
+        }
     },
 
     updated() {
@@ -82,6 +90,17 @@ var segmentationComponent = Vue.component('segmentation-component', {
                     };
                 },
             });
+        },
+        selectCategory(id) {
+            if (this.selectedCategories.includes(id))
+                return;
+            else this.selectedCategories.push(id);
+        },
+        unselectCategory(id) {
+            if (this.selectedCategories.includes(id)) {
+                var index = this.selectedCategories.indexOf(id);
+                this.selectedCategories.splice(index, 1);
+            }
         },
     },
 });
