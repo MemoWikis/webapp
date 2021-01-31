@@ -27,6 +27,6 @@ public class CrumbtrailService
                 return;
 
             AddParent(crumbtrail, currentCategory);
-        } ;
+        }
     }
 }

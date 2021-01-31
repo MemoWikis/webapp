@@ -1,12 +1,10 @@
 ﻿using System.Collections.Generic;
 
-
 public class TopNavMenuItem
 {
     public string Text;
     public string Url;
     public string ToolTipText;
-
 }
 
 public class TopNavMenu
@@ -15,11 +13,9 @@ public class TopNavMenu
     public IList<Category> BreadCrumbCategories = new List<Category>();
     public IList<TopNavMenuItem> BreadCrumb = new List<TopNavMenuItem>();
     public virtual IList<Category> Categories { get; set; }
-    public bool IsWidgetOrKnowledgeCentral = false; 
 
     public bool IsCategoryBreadCrumb = true;
     public bool IsCategoryLearningBreadCrumb = false;
-    public bool SetBreadCrumb = false;
     public bool QuestionBreadCrumb = false;
 
     public bool IsWelcomePage;
@@ -29,4 +25,3 @@ public class TopNavMenu
         RootCategoriesList = Sl.CategoryRepo.GetRootCategoriesList();      
     }
 }
-
