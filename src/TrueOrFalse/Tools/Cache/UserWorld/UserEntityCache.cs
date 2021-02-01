@@ -91,7 +91,7 @@ public class UserEntityCache : BaseCache
                return nextParent;
             }
 
-            if (nextParents.Count == 1 && RootCategory.IsRootCategory(nextParents.First().Id))
+            if (nextParents.Count == 1 && nextParents.First().IsRootCategory)
                 return nextParents.First(); 
 
                 var parentHelperList = nextParent.ParentCategories();

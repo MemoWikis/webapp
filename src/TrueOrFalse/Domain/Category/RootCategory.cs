@@ -1,9 +1,5 @@
-﻿namespace TrueOrFalse.Tools
+﻿public class RootCategory
 {
-    public class RootCategory
-    {
-        public static int RootCategoryId = 1;
-
-        public static bool IsRootCategory(int id) => id == 1;
-    }
+    public const int RootCategoryId = 1;
+    public static Category Get => EntityCache.GetCategory(RootCategoryId);
 }

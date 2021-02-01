@@ -1,7 +1,5 @@
 ﻿using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
-using Org.BouncyCastle.Asn1.Ocsp;
 using TrueOrFalse.Web;
 
 public class CategoryModel : BaseContentModule 
@@ -68,10 +66,12 @@ public class CategoryModel : BaseContentModule
 
     public CategoryModel()
     {
-
     }
+
     public CategoryModel(Category category, bool loadKnowledgeSummary = true, bool isCategoryNull = false, bool openEditMode = false)
     {
+        TopNavMenu.BreadCrumbCategories = CrumbtrailService.Get(category, RootCategory.Get);
+
         CategoryIsDeleted = isCategoryNull;
 
         AnalyticsFooterModel = new AnalyticsFooterModel(category, false, isCategoryNull);
