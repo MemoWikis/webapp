@@ -3,10 +3,13 @@
         data() {
             return {
                 showMyWorld: false,
+                editMode: false,
+                disabled: false,
             }
         },
         mounted() {
             this.loadCookie();
+            eventBus.$on('set-edit-mode', editMode => this.editMode = editMode);
         },
         watch: {
             showMyWorld(val) {
@@ -21,6 +24,8 @@
                 });
             },
             toggleMyWorld() {
+                if (this.disabled)
+                    return;
                 Utils.ShowSpinner();
                 this.showMyWorld = !this.showMyWorld;
                 var s = this.showMyWorld;

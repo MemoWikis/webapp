@@ -35,7 +35,7 @@
                 <% } %>
         
                 <div class="topicNavigation row">
-                    <% foreach (var category in Model.CategoryList)
+                    <% foreach (var category in Model.NotInSegmentCategoryList)
                        { %>
                         <%: Html.Partial("~/Views/Categories/Detail/Partials/Segmentation/SegmentationCategoryCardComponent.vue.ascx", new SegmentationCategoryCardModel(category)) %>
                     <% } %>

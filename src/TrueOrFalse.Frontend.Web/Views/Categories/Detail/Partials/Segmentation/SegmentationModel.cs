@@ -51,7 +51,7 @@ public class SegmentationModel : BaseContentModule
             if (s.ChildCategoryIds != null)
                 segment.ChildCategories = UserCache.IsFiltered ? EntityCache.GetCategories(s.ChildCategoryIds).Where(c => c.IsInWishknowledge()).ToList() : EntityCache.GetCategories(s.ChildCategoryIds).ToList();
             else
-                segment.ChildCategories = UserCache.IsFiltered ? UserEntityCache.GetChildren(id, UserId) : Sl.CategoryRepo.GetChildren(id).ToList();
+                segment.ChildCategories = UserCache.IsFiltered ? UserEntityCache.GetChildren(s.CategoryId, UserId) : Sl.CategoryRepo.GetChildren(s.CategoryId).ToList();
 
             segments.Add(segment);
         }
