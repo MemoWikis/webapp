@@ -49,14 +49,9 @@ public class SegmentationModel : BaseContentModule
             segment.Category = EntityCache.GetCategory(s.CategoryId);
             segment.Title = s.Title;
             if (s.ChildCategoryIds != null)
-            {
-                foreach (var categoryId in s.ChildCategoryIds)
-                {
-                    var category = EntityCache.GetCategory(categoryId);
-                    segment.ChildCategories.Add(category);
-                }
-            } else 
-                segment.ChildCategories = EntityCache.GetChildren(s.CategoryId);
+                segment.ChildCategories = UserCache.IsFiltered ? EntityCache.GetCategories(s.ChildCategoryIds).Where(c => c.IsInWishknowledge()).ToList() : EntityCache.GetCategories(s.ChildCategoryIds).ToList();
+            else
+                segment.ChildCategories = UserCache.IsFiltered ? UserEntityCache.GetChildren(id, UserId) : Sl.CategoryRepo.GetChildren(id).ToList();
 
             segments.Add(segment);
         }

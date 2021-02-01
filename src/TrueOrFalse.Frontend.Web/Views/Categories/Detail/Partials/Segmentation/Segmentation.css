@@ -6,7 +6,7 @@
   letter-spacing: 1.25px;
   text-transform: uppercase;
   font-family: 'Open Sans';
-  border-bottom: #999999 1px solid;
+  border-bottom: #999999 0.03125em solid;
   padding-bottom: 12px;
   margin-bottom: 41px;
 }

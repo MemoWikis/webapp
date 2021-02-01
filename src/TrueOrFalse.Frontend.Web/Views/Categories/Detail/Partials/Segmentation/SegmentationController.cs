@@ -14,10 +14,10 @@ public class SegmentationController : BaseController
         var segment = new Segment();
         segment.Category = EntityCache.GetCategory(categoryId);
         if (json.ChildCategoryIds != null)
-            foreach (int childCategoryId in json.ChildCategoryIds)
-                segment.ChildCategories.Add(EntityCache.GetCategory(childCategoryId));
+            segment.ChildCategories = UserCache.IsFiltered ? EntityCache.GetCategories(json.ChildCategoryIds).Where(c => c.IsInWishknowledge()).ToList() : EntityCache.GetCategories(json.ChildCategoryIds).ToList();
         else
-            segment.ChildCategories = EntityCache.GetChildren(categoryId);
+            segment.ChildCategories = UserCache.IsFiltered ? UserEntityCache.GetChildren(categoryId, UserId) : Sl.CategoryRepo.GetChildren(categoryId).ToList();
+
         var segmentHtml = ViewRenderer.RenderPartialView(
             "~/Views/Categories/Detail/Partials/Segmentation/SegmentComponent.vue.ascx", new SegmentModel(segment),
             ControllerContext);
