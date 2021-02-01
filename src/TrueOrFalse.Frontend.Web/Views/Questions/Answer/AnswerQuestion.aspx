@@ -65,7 +65,6 @@
                     Model.TopNavMenu.BreadCrumb.Add(new TopNavMenuItem {Text = Model.LearningSession.Config.Category.Name, Url = Links.CategoryDetail( Model.LearningSession.Config.Category)});
                 }
             }
-            Model.TopNavMenu.IsCategoryLearningBreadCrumb = true;
         }
 
         Model.TopNavMenu.IsCategoryBreadCrumb = false;
