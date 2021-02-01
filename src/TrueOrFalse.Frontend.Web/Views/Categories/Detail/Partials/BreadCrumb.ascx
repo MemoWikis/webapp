@@ -24,7 +24,7 @@
         <ul id="Path" class="path"></ul>
 
     <%if(!Model.TopNavMenu.IsWelcomePage){ %>  
-        <% if (Model.TopNavMenu.IsCategoryBreadCrumb || Model.TopNavMenu.QuestionBreadCrumb){ %>
+        <% if ((Model.TopNavMenu.IsCategoryBreadCrumb || Model.TopNavMenu.QuestionBreadCrumb) && Model.TopNavMenu.BreadCrumbCategories != null){ %>
             <%= Html.Partial("/Views/Categories/Detail/Partials/BreadCrumbCategories.ascx", Model.TopNavMenu) %>
         <% } %>
 
