@@ -522,7 +522,7 @@ public class MaintenanceController : BaseController
     [HttpPost]
     public ActionResult ReloadListFromIgnoreCrawlers()
     {
-        if (HelperTools.IsLocal())
+        if (Request.IsLocal)
         {
             IgnoreLog.LoadNewList();
             return View("Tools",
