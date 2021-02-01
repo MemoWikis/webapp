@@ -1,6 +1,6 @@
 ﻿namespace TrueOrFalse.Tools
 {
-    public class HelperTools
+    public class RootCategory
     {
         public static int RootCategoryId = 1;
 

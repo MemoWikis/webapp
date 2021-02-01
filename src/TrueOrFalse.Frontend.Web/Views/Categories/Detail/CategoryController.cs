@@ -306,7 +306,7 @@ public class CategoryController : BaseController
         }
         else if(_sessionUser.IsLoggedIn)
         {
-            UserEntityCache.Init(true);
+            UserEntityCache.Init();
         }
 
         UserCache.IsFiltered = showMyWorld;

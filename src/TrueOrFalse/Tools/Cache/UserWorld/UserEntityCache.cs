@@ -2,26 +2,22 @@
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net.NetworkInformation;
 using Seedworks.Lib;
 using TrueOrFalse.Tools;
 
-
 public class UserEntityCache : BaseCache
 {
-    private static int _rootCategoryId = HelperTools.RootCategoryId; //RootKategorie
-    private static ConcurrentDictionary<string, ConcurrentDictionary<int, Category>> _Categories = new ConcurrentDictionary<string, ConcurrentDictionary<int, Category>>(); 
+    private static readonly ConcurrentDictionary<string, ConcurrentDictionary<int, Category>> _Categories = new ConcurrentDictionary<string, ConcurrentDictionary<int, Category>>(); 
 
     public static string CategoriesCacheKey(int userId) => "Categories_" + userId;
-    private static List<string> CategoriesCacheKeyList = new List<string>();
+    private static readonly List<string> CategoriesCacheKeyList = new List<string>();
 
-    public static void Init(bool isTest = false, int userId = -1)
+    public static void Init(int userId = -1)
     {
-        _rootCategoryId = isTest ? 1 : _rootCategoryId;
         var user = userId == -1 ?  Sl.SessionUser.User : UserCache.GetItem(userId).User;
 
         var categories = new ConcurrentDictionary<int, Category>(GraphService
-            .GetAllPersonalCategoriesWithRelations(_rootCategoryId, userId, true).ToConcurrentDictionary()); 
+            .GetAllPersonalCategoriesWithRelations(RootCategory.RootCategoryId, userId, true).ToConcurrentDictionary()); 
     
         var categoriesCacheKey = CategoriesCacheKey(user.Id);
         
@@ -47,7 +43,7 @@ public class UserEntityCache : BaseCache
         if (_Categories[CategoriesCacheKey(userId)].ContainsKey(categoryId))
             return _Categories[CategoriesCacheKey(userId)][categoryId];
 
-    return _Categories[CategoriesCacheKey(userId)][GetNextParentInWishknowledge(categoryId).Id];
+        return _Categories[CategoriesCacheKey(userId)][GetNextParentInWishknowledge(categoryId).Id];
     }
 
     public static ConcurrentDictionary<int, Category> GetCategories(int userId)
@@ -63,7 +59,7 @@ public class UserEntityCache : BaseCache
         if (Sl.SessionUser != null)
         {
             var cacheKey = CategoriesCacheKey(Sl.SessionUser.UserId);
-            _Categories.TryRemove(cacheKey, out var d);
+            _Categories.TryRemove(cacheKey, out _);
             CategoriesCacheKeyList.Remove(cacheKey);
         }
     }
@@ -84,8 +80,6 @@ public class UserEntityCache : BaseCache
 
     public static Category GetNextParentInWishknowledge(int categoryId)
     {
-        var counter = 0; 
-
         var nextParents = EntityCache.GetCategory(categoryId,true).ParentCategories().Distinct().ToList();
 
         while (nextParents.Count > 0)
@@ -97,7 +91,7 @@ public class UserEntityCache : BaseCache
                return nextParent;
             }
 
-            if (nextParents.Count == 1 && HelperTools.IsRootCategory(nextParents.First().Id))
+            if (nextParents.Count == 1 && RootCategory.IsRootCategory(nextParents.First().Id))
                 return nextParents.First(); 
 
                 var parentHelperList = nextParent.ParentCategories();
@@ -109,21 +103,21 @@ public class UserEntityCache : BaseCache
                 }
 
                 nextParents.Distinct();
-                counter++; 
         }
         Logg.r().Error("Root category Not available/ UserEntityCache/NextParentInWishknowledge");
         throw new NotImplementedException();
     }
 
-    public static void ChangeAllActiveCategoryCaches(bool isTest = false)
+    public static void ChangeAllActiveCategoryCaches()
     {
         foreach (var CategoryCacheKey in CategoriesCacheKeyList)
         {
-            var firstChar = CategoryCacheKey.IndexOf("_") + 1 ;
+            var firstChar = CategoryCacheKey.IndexOf("_", StringComparison.Ordinal) + 1 ;
 
             var length = (CategoryCacheKey.Length - 1) - (firstChar - 1); 
-                         var userId = CategoryCacheKey.Substring(firstChar, length).ToInt(); 
-            Init(isTest,  userId);
+            var userId = CategoryCacheKey.Substring(firstChar, length).ToInt(); 
+            
+            Init(userId);
         }
     }
 
@@ -133,7 +127,6 @@ public class UserEntityCache : BaseCache
         {
             if (UserCategoriesCache.ContainsKey(category.Id))
                 UserCategoriesCache.TryUpdate(category.Id, category, UserCategoriesCache[category.Id]);
-           
         }
     }
 

@@ -245,7 +245,7 @@ class GraphService_tests : BaseTest
     public void Wish_knowledge_filter_complex_test()
     {
         ContextCategory.New().AddCaseThreeToCache();
-        UserEntityCache.Init(true);
+        UserEntityCache.Init();
         var rootElement = EntityCache.GetAllCategories().ByName("A"); 
 
         var allPersonalCategoriesWithRelations = GraphService.GetAllPersonalCategoriesWithRelations(rootElement, 2);

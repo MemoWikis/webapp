@@ -41,14 +41,12 @@ public class GraphService
 
     public static IList<Category> GetAllPersonalCategoriesWithRelations(int rootCategoryId, int userId = -1, bool isFromUserEntityCache =false)
     {
-            var rootCategory = (Category)EntityCache.GetCategory(rootCategoryId, isFromUserEntityCache).DeepClone();
+        var rootCategory = EntityCache.GetCategory(rootCategoryId, isFromUserEntityCache).DeepClone();
 
         var childrenUnCloned = EntityCache.GetDescendants(rootCategory, true)
             .Distinct();
         var children = childrenUnCloned.Select(c => (Category)c.DeepClone()); 
         var listWithUserPersonelCategories = new List<Category>();
-
-        
 
         userId = userId == -1 ? Sl.CurrentUserId : userId;
 

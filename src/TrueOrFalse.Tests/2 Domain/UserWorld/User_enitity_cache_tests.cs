@@ -11,7 +11,7 @@ class User_entity_cache_tests : BaseTest
         ContextCategory.New().AddCaseThreeToCache();
         var user = Sl.SessionUser.User;
        
-       UserEntityCache.Init(true);
+        UserEntityCache.Init();
         var userEntityCacheCategories = UserEntityCache.GetCategories(user.Id).Values.ToList();
         var entityCacheCategories = EntityCache.GetAllCategories().ToList();
 
@@ -53,7 +53,7 @@ class User_entity_cache_tests : BaseTest
     public void Give_correct_number_of_cache_items()
     {
         ContextCategory.New().AddCaseThreeToCache();
-        UserEntityCache.Init(true);
+        UserEntityCache.Init();
         var user = Sl.SessionUser.User;
         Assert.That(UserEntityCache.GetCategories(user.Id).Values.ToList().Count, Is.EqualTo(7));
         
@@ -62,7 +62,7 @@ class User_entity_cache_tests : BaseTest
 
         ContextCategory.New(false).AddCaseTwoToCache();
         Thread.Sleep(100);
-        UserEntityCache.Init(true);
+        UserEntityCache.Init();
         user = Sl.SessionUser.User;
         Assert.That(UserEntityCache.GetCategories(user.Id).Values.ToList().Count, Is.EqualTo(5));
     }
@@ -71,7 +71,7 @@ class User_entity_cache_tests : BaseTest
     public void Give_correct_children()
     {
         ContextCategory.New().AddCaseThreeToCache();
-        UserEntityCache.Init(true);
+        UserEntityCache.Init();
         var user = Sl.SessionUser.User;
       var children =   UserEntityCache.GetChildren(1, user.Id); 
 
@@ -87,7 +87,7 @@ class User_entity_cache_tests : BaseTest
     {
         ContextCategory.New().AddCaseThreeToCache();
         
-        UserEntityCache.Init(true);
+        UserEntityCache.Init();
 
         var e = EntityCache.GetAllCategories().ByName("E");
         var d = EntityCache.GetAllCategories().ByName("D");
@@ -113,11 +113,11 @@ class User_entity_cache_tests : BaseTest
     public void Test_init_for_all_user_entity_caches_change_name()
     {
         ContextCategory.New().AddCaseThreeToCache();
-        UserEntityCache.Init(true);
+        UserEntityCache.Init();
 
         var cate = EntityCache.GetAllCategories().First();
         cate.Name = "Daniel";
-        UserEntityCache.ChangeAllActiveCategoryCaches(true);
+        UserEntityCache.ChangeAllActiveCategoryCaches();
 
 
         Assert.That(UserEntityCache.GetCategories(2).First().Value.Name, Is.EqualTo("Daniel"));
@@ -126,7 +126,7 @@ class User_entity_cache_tests : BaseTest
 
         var user = ContextUser.New().Add("Daniel").Persist().All.First();
         Sl.SessionUser.Login(user);
-        UserEntityCache.Init(true);
+        UserEntityCache.Init();
 
         var userEntityCacheAfterRenameForUser3 = UserEntityCache.GetCategories(3);
         Assert.That(userEntityCacheAfterRenameForUser3.Count, Is.EqualTo(1)); // is RootKategorie
@@ -137,7 +137,7 @@ class User_entity_cache_tests : BaseTest
     public void Test_change_for_all_user_entity_caches()
     {
         ContextCategory.New().AddCaseThreeToCache();
-        UserEntityCache.Init(true);
+        UserEntityCache.Init();
 
         var cate = EntityCache.GetAllCategories().First();
         cate.Name = "Daniel";
@@ -148,7 +148,7 @@ class User_entity_cache_tests : BaseTest
 
         var user = ContextUser.New().Add("Daniel").Persist().All.First();
         Sl.SessionUser.Login(user);
-        UserEntityCache.Init(true);
+        UserEntityCache.Init();
          
         var userEntityCacheAfterRenameForUser3 = UserEntityCache.GetCategories(3);
         Assert.That(userEntityCacheAfterRenameForUser3.Count, Is.EqualTo(1)); // is RootKategorie
@@ -156,36 +156,35 @@ class User_entity_cache_tests : BaseTest
     }
 
 
-
     [Test]
     public void Test_delete_category()
     {
         ContextCategory.New().AddCaseThreeToCache();
-        UserEntityCache.Init(true);
+        UserEntityCache.Init();
 
         CategoryInKnowledge.Pin(EntityCache.GetAllCategories().ByName("E").Id, Sl.UserRepo.GetById(2));
         Sl.CategoryRepo.Delete(EntityCache.GetAllCategories().ByName("E"));
 
-        var userEntityCacheAfterDeleteForUser2 = UserEntityCache.GetCategories(2).Select(x => x.Value);
+        var userEntityCacheAfterDeleteForUser2 = UserEntityCache.GetCategories(2).Select(x => x.Value).ToList();
 
         Assert.That(userEntityCacheAfterDeleteForUser2.Count, Is.EqualTo(7));
         Assert.That(userEntityCacheAfterDeleteForUser2.ByName("X").CategoryRelations.First().RelatedCategory.Name, Is.EqualTo("A"));
         Assert.That(userEntityCacheAfterDeleteForUser2.ByName("X3").CategoryRelations.First().RelatedCategory.Name, Is.EqualTo("A"));
         Assert.That(userEntityCacheAfterDeleteForUser2.ByName("B").CategoryRelations.First().RelatedCategory.Name, Is.EqualTo("A"));
 
-        Assert.That(userEntityCacheAfterDeleteForUser2.ByName("G").CategoryRelations.Where(cr => cr.RelatedCategory.Name == "X").Count(), Is.EqualTo(1));
-        Assert.That(userEntityCacheAfterDeleteForUser2.ByName("G").CategoryRelations.Where(cr => cr.RelatedCategory.Name == "X3").Count(), Is.EqualTo(1));
-        Assert.That(userEntityCacheAfterDeleteForUser2.ByName("G").CategoryRelations.Where(cr => cr.RelatedCategory.Name == "A").Count(), Is.EqualTo(0));
+        Assert.That(userEntityCacheAfterDeleteForUser2.ByName("G").CategoryRelations.Count(cr => cr.RelatedCategory.Name == "X"), Is.EqualTo(1));
+        Assert.That(userEntityCacheAfterDeleteForUser2.ByName("G").CategoryRelations.Count(cr => cr.RelatedCategory.Name == "X3"), Is.EqualTo(1));
+        Assert.That(userEntityCacheAfterDeleteForUser2.ByName("G").CategoryRelations.Count(cr => cr.RelatedCategory.Name == "A"), Is.EqualTo(0));
 
-        Assert.That(userEntityCacheAfterDeleteForUser2.ByName("F").CategoryRelations.Where(cr => cr.RelatedCategory.Name == "X3").Count(), Is.EqualTo(1));
-        Assert.That(userEntityCacheAfterDeleteForUser2.ByName("F").CategoryRelations.Where(cr => cr.RelatedCategory.Name == "X3").Count(), Is.EqualTo(1));
-        Assert.That(userEntityCacheAfterDeleteForUser2.ByName("F").CategoryRelations.Where(cr => cr.RelatedCategory.Name == "A").Count(), Is.EqualTo(0));
+        Assert.That(userEntityCacheAfterDeleteForUser2.ByName("F").CategoryRelations.Count(cr => cr.RelatedCategory.Name == "X3"), Is.EqualTo(1));
+        Assert.That(userEntityCacheAfterDeleteForUser2.ByName("F").CategoryRelations.Count(cr => cr.RelatedCategory.Name == "X3"), Is.EqualTo(1));
+        Assert.That(userEntityCacheAfterDeleteForUser2.ByName("F").CategoryRelations.Count(cr => cr.RelatedCategory.Name == "A"), Is.EqualTo(0));
 
-        Assert.That(userEntityCacheAfterDeleteForUser2.ByName("I").CategoryRelations.Where(cr => cr.RelatedCategory.Name == "G").Count(), Is.EqualTo(1));
-        Assert.That(userEntityCacheAfterDeleteForUser2.ByName("I").CategoryRelations.Where(cr => cr.RelatedCategory.Name == "X").Count(), Is.EqualTo(1));
-        Assert.That(userEntityCacheAfterDeleteForUser2.ByName("I").CategoryRelations.Where(cr => cr.RelatedCategory.Name == "X3").Count(), Is.EqualTo(1));
-        Assert.That(userEntityCacheAfterDeleteForUser2.ByName("I").CategoryRelations.Where(cr => cr.RelatedCategory.Name == "A").Count(), Is.EqualTo(0));
-        Assert.That(userEntityCacheAfterDeleteForUser2.ByName("I").CategoryRelations.Where(cr => cr.RelatedCategory.Name == "E").Count(), Is.EqualTo(0));
+        Assert.That(userEntityCacheAfterDeleteForUser2.ByName("I").CategoryRelations.Count(cr => cr.RelatedCategory.Name == "G"), Is.EqualTo(1));
+        Assert.That(userEntityCacheAfterDeleteForUser2.ByName("I").CategoryRelations.Count(cr => cr.RelatedCategory.Name == "X"), Is.EqualTo(1));
+        Assert.That(userEntityCacheAfterDeleteForUser2.ByName("I").CategoryRelations.Count(cr => cr.RelatedCategory.Name == "X3"), Is.EqualTo(1));
+        Assert.That(userEntityCacheAfterDeleteForUser2.ByName("I").CategoryRelations.Count(cr => cr.RelatedCategory.Name == "A"), Is.EqualTo(0));
+        Assert.That(userEntityCacheAfterDeleteForUser2.ByName("I").CategoryRelations.Count(cr => cr.RelatedCategory.Name == "E"), Is.EqualTo(0));
     }
 }
 
