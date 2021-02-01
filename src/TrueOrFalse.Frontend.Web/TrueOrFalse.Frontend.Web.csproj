@@ -335,6 +335,7 @@
     <Compile Include="Views\Categories\Detail\Partials\Segmentation\SegmentationModel.cs" />
     <Compile Include="Views\Categories\Detail\TemplateParser\Tokenizer\Tokenizer.cs" />
     <Compile Include="Views\Categories\Detail\TemplateToHtml\TemplateToHtml.cs" />
+    <Compile Include="Views\Questions\AddQuestion\AddQuestionComponentModel.cs" />
     <Compile Include="Views\Questions\Answer\TopicToContinueLearningModel.cs" />
     <Compile Include="Views\Questions\QuestionList\QuestionJson.cs" />
     <Compile Include="Views\Categories\Detail\Partials\KnowledgeGraph\KnowledgeGraphModel.cs" />
@@ -2134,6 +2135,15 @@
     <Content Include="Views\About\Js\Page.js">
       <DependentUpon>Page.ts</DependentUpon>
     </Content>
+    <Content Include="Views\Categories\Detail\FloatingActionButton\FloatingActionButton.js">
+      <DependentUpon>FloatingActionButton.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Categories\Detail\FloatingActionButton\LearningTabFABLoader.js">
+      <DependentUpon>LearningTabFABLoader.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Categories\Detail\FloatingActionButton\TopicTabFABLoader.js">
+      <DependentUpon>TopicTabFABLoader.ts</DependentUpon>
+    </Content>
     <Content Include="Views\Categories\Detail\JsAnalyticsTab\KnowledgeGraph.js">
       <DependentUpon>KnowledgeGraph.ts</DependentUpon>
     </Content>
@@ -2179,6 +2189,8 @@
     <Content Include="Views\Categories\Detail\Partials\BreadCrumbCategories.ascx" />
     <Content Include="Views\Categories\Detail\Partials\Segmentation\SegmentationCategoryCardComponent.vue.ascx" />
     <Content Include="Views\Categories\Detail\Partials\Segmentation\SegmentComponent.vue.ascx" />
+    <Content Include="Views\Questions\AddQuestion\AddQuestionComponent.vue.ascx" />
+    <Content Include="Views\Questions\AddQuestion\EditQuestionModal.vue.ascx" />
     <Content Include="Views\Categories\Detail\Partials\Segmentation\SegmentationComponent.vue.ascx" />
     <Content Include="Views\Shared\MyWorldToggle\MyWorldToggleComponent.js">
       <DependentUpon>MyWorldToggleComponent.ts</DependentUpon>
@@ -2203,6 +2215,12 @@
     <Content Include="Views\Questions\Answer\TopicToConinueLearning.ascx" />
     <Content Include="Views\Questions\History\QuestionHistory.css">
       <DependentUpon>QuestionHistory.less</DependentUpon>
+    </Content>
+    <Content Include="Views\Questions\Js\AddQuestion\AddQuestion - Copy.js">
+      <DependentUpon>EditQuestionModalLoader.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Questions\Js\AddQuestion\AddQuestion.js">
+      <DependentUpon>AddQuestion.ts</DependentUpon>
     </Content>
     <Content Include="Views\Questions\Js\QuestionList\QuestionListApp.js">
       <DependentUpon>QuestionListApp.ts</DependentUpon>
@@ -2448,8 +2466,17 @@
     <Content Include="Views\Categories\Detail\JsEditMode\Segmentation\SegmentationCategoryCardComponent.js.map">
       <DependentUpon>SegmentationCategoryCardComponent.ts</DependentUpon>
     </Content>
+    <Content Include="Views\Categories\Detail\FloatingActionButton\FloatingActionButton.js.map">
+      <DependentUpon>FloatingActionButton.ts</DependentUpon>
+    </Content>
     <Content Include="Views\Categories\Detail\JsEditMode\Segmentation\SegmentationComponent.js.map">
       <DependentUpon>SegmentationComponent.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Categories\Detail\FloatingActionButton\LearningTabFABLoader.js.map">
+      <DependentUpon>LearningTabFABLoader.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Categories\Detail\FloatingActionButton\TopicTabFABLoader.js.map">
+      <DependentUpon>TopicTabFABLoader.ts</DependentUpon>
     </Content>
     <None Include="Views\Maintenance\ContentStats.less" />
     <Compile Include="Views\Maintenance\ContentStatsModel.cs" />
@@ -2618,6 +2645,9 @@
     <TypeScriptCompile Include="Views\Questions\Answer\Js\QuestionDetails\AnswerQuestionDetailsApp.ts" />
     <TypeScriptCompile Include="Views\Questions\Answer\Js\QuestionDetails\AnswerQuestionDetailsComponent.ts" />
     <TypeScriptCompile Include="Views\Questions\Answer\Js\InlineEditComponent.ts" />
+    <TypeScriptCompile Include="Views\Questions\Js\AddQuestion\EditQuestionModalLoader.ts" />
+    <TypeScriptCompile Include="Views\Questions\Js\AddQuestion\AddQuestion.ts" />
+    <TypeScriptCompile Include="Views\Questions\Js\QuestionList\QuestionComponent.ts" />
     <TypeScriptCompile Include="Views\Questions\Js\QuestionList\QuestionListComponents.ts" />
     <TypeScriptCompile Include="Views\Questions\Js\QuestionList\QuestionListApp.ts" />
     <TypeScriptCompile Include="Views\Categories\Detail\Js\Category.ts" />
@@ -2636,6 +2666,7 @@
     <TypeScriptCompile Include="Views\Questions\Answer\Js\QuestionFilter.ts" />
     <TypeScriptCompile Include="Views\Questions\Answer\LearningSession\Js\LearningSessionResult.ts" />
     <TypeScriptCompile Include="Views\Questions\History\Detail\Js\Page.ts" />
+    <TypeScriptCompile Include="Views\Questions\Js\QuestionList\SessionConfig.ts" />
     <Content Include="Views\Shared\CategoryLabel.ascx" />
     <Content Include="Views\Shared\MainMenuThemeCentered.ascx" />
     <Content Include="Views\Shared\PinComponentVue\PinComponent.vue.js">
@@ -4146,12 +4177,6 @@
     </Content>
     <Content Include="Views\Shared\PinComponentVue\PinComponent.vue.js.map">
       <DependentUpon>PinComponent.vue.ts</DependentUpon>
-    </Content>
-    <Content Include="Views\Shared\MyWorldToggle\MyWorldToggleLoader.js.map">
-      <DependentUpon>MyWorldToggleLoader.ts</DependentUpon>
-    </Content>
-    <Content Include="Views\Shared\MyWorldToggle\MyWorldToggleComponent.js.map">
-      <DependentUpon>MyWorldToggleComponent.ts</DependentUpon>
     </Content>
     <None Include="Web.overwritten.config.sample" />
     <Content Include="Views\Welcome\Logout.aspx" />

@@ -7,21 +7,21 @@
 <%= Styles.Render("~/bundles/QuestionList") %>
 <%= Styles.Render("~/bundles/switch") %>
 <%= Scripts.Render("~/bundles/js/QuestionListComponents") %>
-<div id="QuestionListApp" class="row" v-cloak>
-    <div class="col-xs-12 drop-down-question-sort">
+<div id="QuestionListApp" class="row" v-cloak :class="{'no-questions': hasNoQuestions }">
+    <div class="col-xs-12 drop-down-question-sort" v-show="questionsCount > 0">
         <div class="header">Du lernst <b>{{selectedQuestionCount}}</b> Fragen aus diesem Thema ({{allQuestionsCountFromCategory}})</div>
         <div id="ButtonAndDropdown">
-        <session-config-component inline-template @update="updateQuestionsCount" :questions-count="questionsCount" :all-questions-count-from-category="allQuestionsCountFromCategory">
-        <div class="rootElement">
-            <% if(Model.IsSessionNoteFadeIn){%>
-            <div id="LearningSessionReminderQuestionList">
-                <img id="SessionConfigReminderLeft" src="/Images/Various/SessionConfigReminderLeft.svg" >
-                <img id="SessionConfigReminderRight" src="/Images/Various/SessionConfigReminder.svg" >
-                <span class="far fa-times-circle"></span>
-            </div>
-                <% } %>
-            <div id="CustomSessionConfigBtn" @click="openModal()" data-toggle="tooltip" data-html="true" title="<p><b>Persönliche Filter helfen Dir</b>. Nutze die Lernoptionen und entscheide welche Fragen Du lernen möchtest.</p>"><i class="fa fa-cog" aria-hidden="true"></i></div>
-            <div class="modal fade" id="SessionConfigModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <session-config-component inline-template @update="updateQuestionsCount" :questions-count="questionsCount" :all-questions-count-from-category="allQuestionsCountFromCategory">
+            <div class="rootElement">
+                <% if(Model.IsSessionNoteFadeIn){%>
+                <div id="LearningSessionReminderQuestionList">
+                    <img id="SessionConfigReminderLeft" src="/Images/Various/SessionConfigReminderLeft.svg" >
+                    <img id="SessionConfigReminderRight" src="/Images/Various/SessionConfigReminder.svg" >
+                    <span class="far fa-times-circle"></span>
+                </div>
+                    <% } %>
+                <div id="CustomSessionConfigBtn" @click="openModal()" data-toggle="tooltip" data-html="true" title="<p><b>Persönliche Filter helfen Dir</b>. Nutze die Lernoptionen und entscheide welche Fragen Du lernen möchtest.</p>"><i class="fa fa-cog" aria-hidden="true"></i></div>
+                <div class="modal fade" id="SessionConfigModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                 <div class="modal-dialog" role="document">
                     <div class="modal-content">
                         <div class="notLoggedInModal" v-show="!isLoggedIn">
@@ -154,10 +154,10 @@
                     </div>
                 </div>
             </div>
-        </div>
-        </session-config-component>
+            </div>
+            </session-config-component>
 
-        <div id="QuestionListHeaderDropDown" class="Button dropdown">
+            <div id="QuestionListHeaderDropDown" class="Button dropdown">
             <a href="#" class="dropdown-toggle  btn btn-link btn-sm ButtonEllipsis" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
                 <i class="fa fa-ellipsis-v"></i>
             </a>
@@ -167,17 +167,18 @@
                 <li style="cursor: pointer"><a data-allowed="logged-in" @click="startNewLearningSession()"><i class="fa fa-play"></i><span>Fragen jetzt lernen</span></a></li>
             </ul>
         </div>
+        </div>
     </div>
-</div>
     <question-list-component 
         inline-template 
         category-id="<%= Model.CategoryId %>" 
         :all-question-count="questionsCount" 
         is-admin="<%= Model.IsInstallationAdmin %>"  
         :is-question-list-to-show="isQuestionListToShow"
-        :active-question ="activeQuestion"
+        :active-question-id="activeQuestionId"
         :selected-page-from-active-question="selectedPageFromActiveQuestion">
-        <div class="col-xs-12 questionListComponent">
+        <div class="col-xs-12 questionListComponent" id="QuestionListComponent" :data-last-index="lastQuestionInListIndex">
+
             <question-component inline-template
                                 v-on:pin-unpin ="changePin()"
                                 v-for="(q, index) in questions"
@@ -191,7 +192,7 @@
                                 :is-admin="isAdmin"
                                 :is-question-list-to-show ="isQuestionListToShow"
                                 :question-index="index"
-                                :active-question ="activeQuestion"
+                                :active-question-id="activeQuestionId"
                                 :selected-page ="selectedPage"
                                 :selected-page-from-active-question="selectedPageFromActiveQuestion"
                                 :length-of-questions-array="questions[0].LearningSessionStepCount"
@@ -199,7 +200,9 @@
                                 :link-to-edit-question ="q.LinkToEditQuestion"
                                 :link-to-question-versions ="q.LinkToQuestionVersions"
                                 :link-to-question ="q.LinkToQuestion"
-                                :key="q.Id">
+                                :key="q.Id"
+                                :session-index="q.SessionIndex"
+                                :is-last-item="index == (questions.length-1)">
                 
                 <div class="singleQuestionRow" :class="[{ open: showFullQuestion}, backgroundColor]">
                     <div class="questionSectionFlex">
@@ -210,7 +213,9 @@
                                 </div>
                                 <div class="questionContainerTopSection col-xs-11" >
                                     <div class="questionHeader row">
-                                        <div class="questionTitle col-xs-9" ref="questionTitle" :id="questionTitleId" @click.self="expandQuestion()">{{questionTitle}}</div>
+                                        <div class="questionTitle col-xs-9" ref="questionTitle" :id="questionTitleId" @click="expandQuestion()">
+                                            <component :is="questionTitleHtml && {template:questionTitleHtml}" @hook:mounted="highlightCode(questionTitleId)" ></component>
+                                        </div>
                                         <div class="questionHeaderIcons col-xs-3"  @click.self="expandQuestion()">
                                             <div class="iconContainer float-right" @click="expandQuestion()">
                                                 <i class="fas fa-angle-down rotateIcon" :class="{ open : showFullQuestion }"></i>
@@ -219,7 +224,7 @@
                                                 <pin-wuwi-component :is-in-wishknowledge="isInWishknowledge" :question-id="questionId" />
                                             </div>
                                             <div class="go-to-question iconContainer">
-                                                <span class="fas fa-play" :class="{ 'activeQ': questionIndex === activeQuestion && selectedPageFromActiveQuestion === selectedPage }" :data-question-id="questionId" @click="loadSpecificQuestion()">
+                                                <span class="fas fa-play" :class="{ 'activeQ': activeQuestionId == questionId }" :data-question-id="questionId" @click="loadSpecificQuestion()">
                                                 </span>
                                             </div>
                                             <%----%>
@@ -228,15 +233,15 @@
                                     </div>
                                     <div class="extendedQuestionContainer" v-show="showFullQuestion">
                                         <div class="questionBody">
-                                            <div class="RenderedMarkdown extendedQuestion">
-                                                <component :is="extendedQuestion && {template:extendedQuestion}"></component>
+                                            <div class="RenderedMarkdown extendedQuestion" :id="extendedQuestionId">
+                                                <component :is="extendedQuestion && {template:extendedQuestion}" @hook:mounted="highlightCode(extendedQuestionId)"></component>
                                             </div>
-                                            <div class="answer">
-                                                Richtige Antwort: <component :is="answer && {template:answer}"></component>
+                                            <div class="answer" :id="answerId">
+                                                Richtige Antwort: <component :is="answer && {template:answer}" @hook:mounted="highlightCode(answerId)"></component>
                                             </div>
-                                            <div class="extendedAnswer" v-if="extendedAnswer.length > 11">
+                                            <div class="extendedAnswer" v-if="extendedAnswer.length > 11" :id="extendedAnswerId">
                                                 <strong>Ergänzungen zur Antwort:</strong><br/>
-                                                <component :is="extendedAnswer && {template:extendedAnswer}"></component>
+                                                <component :is="extendedAnswer && {template:extendedAnswer}" @hook:mounted="highlightCode(extendedAnswerId)"></component>
                                             </div>
                                         </div>
                                     </div>
@@ -278,7 +283,9 @@
                     </div>
                 </div>
             </question-component>
-            <div id="QuestionListPagination">
+            <%: Html.Partial("~/Views/Questions/AddQuestion/AddQuestionComponent.vue.ascx", new AddQuestionComponentModel(Model.CategoryId)) %>
+
+            <div id="QuestionListPagination" v-show="hasQuestions">
                 <ul class="pagination col-xs-12 row justify-content-xs-center" v-if="pageArray.length <= 8">
                     <li class="page-item page-btn" :class="{ disabled : selectedPage == 1 }">
                         <span class="page-link" @click="loadPreviousQuestions()">Vorherige</span>
@@ -347,6 +354,9 @@
         </div>
     </question-list-component>
     </div>
+
+<%: Html.Partial("~/Views/Questions/AddQuestion/EditQuestionModal.vue.ascx") %>
+
 <%= Scripts.Render("~/bundles/js/QuestionListApp") %>
 
 

@@ -2416,10 +2416,14 @@ p:empty {
 [v-cloak] {
   display: none;
 }
-.inline-text-editor {
+.inline-text-editor,
+.inline-question-editor,
+#flashCardContent {
   position: relative;
 }
-.inline-text-editor .editor__floating-menu {
+.inline-text-editor .editor__floating-menu,
+.inline-question-editor .editor__floating-menu,
+#flashCardContent .editor__floating-menu {
   position: absolute;
   z-index: 1;
   margin-top: -0.25rem;
@@ -2428,11 +2432,15 @@ p:empty {
   -webkit-transition: opacity 0.2s, visibility 0.2s;
   transition: opacity 0.2s, visibility 0.2s;
 }
-.inline-text-editor .editor__floating-menu.is-active {
+.inline-text-editor .editor__floating-menu.is-active,
+.inline-question-editor .editor__floating-menu.is-active,
+#flashCardContent .editor__floating-menu.is-active {
   opacity: 1;
   visibility: visible;
 }
-.inline-text-editor .menubar {
+.inline-text-editor .menubar,
+.inline-question-editor .menubar,
+#flashCardContent .menubar {
   top: 60px;
   position: -webkit-sticky;
   position: sticky;
@@ -2446,37 +2454,59 @@ p:empty {
   font-size: 0;
   height: 36px;
 }
-.inline-text-editor .menubar.is-hidden {
+.inline-text-editor .menubar.is-hidden,
+.inline-question-editor .menubar.is-hidden,
+#flashCardContent .menubar.is-hidden {
   visibility: hidden;
   opacity: 0;
   pointer-events: none;
 }
-.inline-text-editor .menubar.is-focused {
+.inline-text-editor .menubar.is-focused,
+.inline-question-editor .menubar.is-focused,
+#flashCardContent .menubar.is-focused {
   visibility: visible;
   opacity: 1;
   -webkit-transition: visibility 0.2s, opacity 0.2s;
   transition: visibility 0.2s, opacity 0.2s;
   pointer-events: auto !important;
 }
-.inline-text-editor .ProseMirror {
+.inline-text-editor .ProseMirror,
+.inline-question-editor .ProseMirror,
+#flashCardContent .ProseMirror,
+.inline-text-editor .flashCardContentSite,
+.inline-question-editor .flashCardContentSite,
+#flashCardContent .flashCardContentSite {
   padding-top: 2px;
 }
-.inline-text-editor .ProseMirror:focus {
+/*CodeHighlight*/
+.ProseMirror:focus,
+#AnswerBody:focus,
+.singleQuestionRow:focus {
   outline: none !important;
 }
-.inline-text-editor .ProseMirror b,
-.inline-text-editor .ProseMirror strong {
+.ProseMirror b,
+#AnswerBody b,
+.singleQuestionRow b,
+.ProseMirror strong,
+#AnswerBody strong,
+.singleQuestionRow strong {
   font-weight: 600;
 }
-.inline-text-editor .ProseMirror p code {
+.ProseMirror p code,
+#AnswerBody p code,
+.singleQuestionRow p code {
   color: #555555;
   bckground-color: #efefef;
 }
-.inline-text-editor .ProseMirror pre {
+.ProseMirror pre,
+#AnswerBody pre,
+.singleQuestionRow pre {
   background-color: black;
   border: none;
 }
-.inline-text-editor .ProseMirror pre::before {
+.ProseMirror pre::before,
+#AnswerBody pre::before,
+.singleQuestionRow pre::before {
   content: attr(data-language);
   text-transform: uppercase;
   display: block;
@@ -2484,54 +2514,118 @@ p:empty {
   font-weight: bold;
   font-size: 0.6rem;
 }
-.inline-text-editor .ProseMirror pre code {
+.ProseMirror pre code,
+#AnswerBody pre code,
+.singleQuestionRow pre code {
   color: white;
 }
-.inline-text-editor .ProseMirror pre code .hljs-comment,
-.inline-text-editor .ProseMirror pre code .hljs-quote {
+.ProseMirror code .hljs-comment,
+#AnswerBody code .hljs-comment,
+.singleQuestionRow code .hljs-comment,
+.ProseMirror code .hljs-quote,
+#AnswerBody code .hljs-quote,
+.singleQuestionRow code .hljs-quote {
   color: #999999;
 }
-.inline-text-editor .ProseMirror pre code .hljs-variable,
-.inline-text-editor .ProseMirror pre code .hljs-template-variable,
-.inline-text-editor .ProseMirror pre code .hljs-attribute,
-.inline-text-editor .ProseMirror pre code .hljs-tag,
-.inline-text-editor .ProseMirror pre code .hljs-name,
-.inline-text-editor .ProseMirror pre code .hljs-regexp,
-.inline-text-editor .ProseMirror pre code .hljs-link,
-.inline-text-editor .ProseMirror pre code .hljs-name,
-.inline-text-editor .ProseMirror pre code .hljs-selector-id,
-.inline-text-editor .ProseMirror pre code .hljs-selector-class {
+.ProseMirror code .hljs-variable,
+#AnswerBody code .hljs-variable,
+.singleQuestionRow code .hljs-variable,
+.ProseMirror code .hljs-template-variable,
+#AnswerBody code .hljs-template-variable,
+.singleQuestionRow code .hljs-template-variable,
+.ProseMirror code .hljs-attribute,
+#AnswerBody code .hljs-attribute,
+.singleQuestionRow code .hljs-attribute,
+.ProseMirror code .hljs-tag,
+#AnswerBody code .hljs-tag,
+.singleQuestionRow code .hljs-tag,
+.ProseMirror code .hljs-name,
+#AnswerBody code .hljs-name,
+.singleQuestionRow code .hljs-name,
+.ProseMirror code .hljs-regexp,
+#AnswerBody code .hljs-regexp,
+.singleQuestionRow code .hljs-regexp,
+.ProseMirror code .hljs-link,
+#AnswerBody code .hljs-link,
+.singleQuestionRow code .hljs-link,
+.ProseMirror code .hljs-name,
+#AnswerBody code .hljs-name,
+.singleQuestionRow code .hljs-name,
+.ProseMirror code .hljs-selector-id,
+#AnswerBody code .hljs-selector-id,
+.singleQuestionRow code .hljs-selector-id,
+.ProseMirror code .hljs-selector-class,
+#AnswerBody code .hljs-selector-class,
+.singleQuestionRow code .hljs-selector-class {
   color: #f2777a;
 }
-.inline-text-editor .ProseMirror pre code .hljs-number,
-.inline-text-editor .ProseMirror pre code .hljs-meta,
-.inline-text-editor .ProseMirror pre code .hljs-built_in,
-.inline-text-editor .ProseMirror pre code .hljs-builtin-name,
-.inline-text-editor .ProseMirror pre code .hljs-literal,
-.inline-text-editor .ProseMirror pre code .hljs-type,
-.inline-text-editor .ProseMirror pre code .hljs-params {
+.ProseMirror code .hljs-number,
+#AnswerBody code .hljs-number,
+.singleQuestionRow code .hljs-number,
+.ProseMirror code .hljs-meta,
+#AnswerBody code .hljs-meta,
+.singleQuestionRow code .hljs-meta,
+.ProseMirror code .hljs-built_in,
+#AnswerBody code .hljs-built_in,
+.singleQuestionRow code .hljs-built_in,
+.ProseMirror code .hljs-builtin-name,
+#AnswerBody code .hljs-builtin-name,
+.singleQuestionRow code .hljs-builtin-name,
+.ProseMirror code .hljs-literal,
+#AnswerBody code .hljs-literal,
+.singleQuestionRow code .hljs-literal,
+.ProseMirror code .hljs-type,
+#AnswerBody code .hljs-type,
+.singleQuestionRow code .hljs-type,
+.ProseMirror code .hljs-params,
+#AnswerBody code .hljs-params,
+.singleQuestionRow code .hljs-params {
   color: #f99157;
 }
-.inline-text-editor .ProseMirror pre code .hljs-string,
-.inline-text-editor .ProseMirror pre code .hljs-symbol,
-.inline-text-editor .ProseMirror pre code .hljs-bullet {
+.ProseMirror code .hljs-string,
+#AnswerBody code .hljs-string,
+.singleQuestionRow code .hljs-string,
+.ProseMirror code .hljs-symbol,
+#AnswerBody code .hljs-symbol,
+.singleQuestionRow code .hljs-symbol,
+.ProseMirror code .hljs-bullet,
+#AnswerBody code .hljs-bullet,
+.singleQuestionRow code .hljs-bullet {
   color: #99cc99;
 }
-.inline-text-editor .ProseMirror pre code .hljs-title,
-.inline-text-editor .ProseMirror pre code .hljs-section {
+.ProseMirror code .hljs-title,
+#AnswerBody code .hljs-title,
+.singleQuestionRow code .hljs-title,
+.ProseMirror code .hljs-section,
+#AnswerBody code .hljs-section,
+.singleQuestionRow code .hljs-section {
   color: #ffcc66;
 }
-.inline-text-editor .ProseMirror pre code .hljs-keyword,
-.inline-text-editor .ProseMirror pre code .hljs-selector-tag {
+.ProseMirror code .hljs-keyword,
+#AnswerBody code .hljs-keyword,
+.singleQuestionRow code .hljs-keyword,
+.ProseMirror code .hljs-selector-tag,
+#AnswerBody code .hljs-selector-tag,
+.singleQuestionRow code .hljs-selector-tag {
   color: #6699cc;
 }
-.inline-text-editor .ProseMirror pre code .hljs-emphasis {
+.ProseMirror code .hljs-emphasis,
+#AnswerBody code .hljs-emphasis,
+.singleQuestionRow code .hljs-emphasis {
   font-style: italic;
 }
-.inline-text-editor .ProseMirror pre code .hljs-strong {
+.ProseMirror code .hljs-strong,
+#AnswerBody code .hljs-strong,
+.singleQuestionRow code .hljs-strong {
   font-weight: 700;
 }
-.inline-text-editor .menubar__button {
+.singleQuestionRow pre {
+  margin: 0;
+}
+.singleQuestionRow .answer pre {
+  width: 80%;
+}
+.menubar__button {
   background: white;
   border: hidden;
   font-size: 18px;
@@ -2542,13 +2636,13 @@ p:empty {
   text-align: center;
   padding: 1px 6px;
 }
-.inline-text-editor .menubar__button:hover {
+.menubar__button:hover {
   background: #efefef;
 }
-.inline-text-editor .menubar__button.is-active {
+.menubar__button.is-active {
   background: #dddddd;
 }
-.inline-text-editor p.is-editor-empty:first-child::before {
+p.is-editor-empty:first-child::before {
   content: attr(data-empty-text);
   float: left;
   color: #aaa;
@@ -3612,4 +3706,7 @@ p:empty {
     border-color: #cc8ef5;
     border-width: 0;
   }
+}
+.questionTitle p {
+  margin: 0;
 }

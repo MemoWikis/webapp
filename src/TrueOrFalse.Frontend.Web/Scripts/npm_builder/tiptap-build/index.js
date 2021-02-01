@@ -42,5 +42,6 @@ window.hljsBuild = {
     sql: require("highlight.js/lib/languages/sql"),
     swift: require("highlight.js/lib/languages/swift"),
     yaml: require("highlight.js/lib/languages/yaml"),
-    typescript: require("highlight.js/lib/languages/typescript")
+    typescript: require("highlight.js/lib/languages/typescript"),
+    core: require("highlight.js")
 };

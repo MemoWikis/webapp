@@ -1,15 +1,95 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
+using System.Text.RegularExpressions;
 using System.Web.Mvc;
+using System.Web.Script.Serialization;
+using TrueOrFalse;
 using TrueOrFalse.Frontend.Web.Code;
 using TrueOrFalse.Web;
 public class QuestionListController : BaseController
 {
  
     [HttpPost]
-    public JsonResult LoadQuestions( int itemCountPerPage, int pageNumber)
+    public JsonResult LoadQuestions(int itemCountPerPage, int pageNumber)
     {
-        var newQuestionList = QuestionListModel.PopulateQuestionsOnPage( pageNumber, itemCountPerPage, IsLoggedIn);
+        var newQuestionList = QuestionListModel.PopulateQuestionsOnPage(pageNumber, itemCountPerPage, IsLoggedIn);
         return Json(newQuestionList);
+    }
+
+    [HttpPost]
+    public JsonResult CreateFlashcard(FlashCardLoader flashCardJson)
+    {
+        var serializer = new JavaScriptSerializer();
+        var question = new Question();
+        var questionRepo = Sl.QuestionRepo;
+
+        question.Text = flashCardJson.Text;
+        question.SolutionType = (SolutionType)Enum.Parse(typeof(SolutionType), "9");
+
+        var solutionModelFlashCard = new QuestionSolutionFlashCard();
+        solutionModelFlashCard.Text = flashCardJson.Answer;
+        question.Solution = serializer.Serialize(solutionModelFlashCard);
+
+        question.Creator = _sessionUser.User;
+        question.Categories.Add(Sl.CategoryRepo.GetById(flashCardJson.CategoryId));
+        question.Visibility = flashCardJson.Visibility;
+        question.License = LicenseQuestionRepo.GetDefaultLicense();
+
+        questionRepo.Create(question);
+
+        Sl.QuestionChangeRepo.AddUpdateEntry(question);
+
+        if (flashCardJson.AddToWishknowledge)
+            QuestionInKnowledge.Pin(Convert.ToInt32(question.Id), _sessionUser.User);
+
+        InsertNewQuestionToLearningSession(question, flashCardJson.LastIndex);
+        var json = Json(LoadQuestion(question.Id));
+
+        return json;
+    }
+    public class FlashCardLoader
+    {
+        public int CategoryId { get; set; }
+        public string Text { get; set; }
+        public string Answer { get; set; }
+        public QuestionVisibility Visibility { get; set; }
+        public bool AddToWishknowledge { get; set; }
+        public int LastIndex { get; set; }
+    }
+
+    public void InsertNewQuestionToLearningSession(Question question, int lastIndex)
+    {
+        var learningSession = Sl.SessionUser.LearningSession;
+        var step = new LearningSessionStepNew(question);
+        learningSession.Steps.Insert(lastIndex, step);
+    }
+
+    [HttpPost]
+    public JsonResult LoadQuestion(int questionId)
+    {
+        var user =  Sl.R<SessionUser>().User;
+        var userQuestionValuation = UserCache.GetItem(user.Id).QuestionValuations;
+        var q = EntityCache.GetQuestionById(questionId);
+        var question = new QuestionListJson.Question();
+        question.Id = q.Id;
+        question.Title = q.Text;
+        //question.Title = Regex.Replace(q.Text, "<.*?>", String.Empty);
+        question.LinkToQuestion = Links.GetUrl(q);
+        question.ImageData = new ImageFrontendData(Sl.ImageMetaDataRepo.GetBy(q.Id, ImageType.Question)).GetImageUrl(40, true).Url;
+        question.LinkToQuestion = Links.GetUrl(q);
+        question.LinkToEditQuestion = Links.EditQuestion(q.Text, q.Id);
+        question.LinkToQuestionVersions = Links.QuestionHistory(q.Id);
+        question.LinkToComment = Links.GetUrl(q) + "#JumpLabel";
+        question.CorrectnessProbability = q.CorrectnessProbability;
+
+        if (userQuestionValuation.ContainsKey(q.Id) && user != null)
+        {
+            question.CorrectnessProbability = userQuestionValuation[q.Id].CorrectnessProbability;
+            question.IsInWishknowledge = userQuestionValuation[q.Id].IsInWishKnowledge();
+            question.HasPersonalAnswer = userQuestionValuation[q.Id].CorrectnessProbabilityAnswerCount > 0;
+        }
+
+        return Json(question);
     }
 
     [HttpPost]
@@ -21,7 +101,6 @@ public class QuestionListController : BaseController
         var solution = GetQuestionSolution.Run(question);
         var answerQuestionModel = new AnswerQuestionModel(question);
         var history = answerQuestionModel.HistoryAndProbability.AnswerHistory;
-
 
         var json = Json(new
         {

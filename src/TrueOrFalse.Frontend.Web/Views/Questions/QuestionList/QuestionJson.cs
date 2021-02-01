@@ -22,7 +22,7 @@ namespace QuestionListJson
         public string LinkToDeleteQuestion { get; set; }
         public string LinkToQuestionDetailSite { get; set; }
         public string LinkToQuestionVersions { get; set; }
-
+        public int SessionIndex { get; set; }
     }
 }
 

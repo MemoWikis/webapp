@@ -193,16 +193,17 @@
   flex-wrap: nowrap;
   justify-content: space-between;
   min-width: 0;
-  align-items: flex-end;
+  min-height: 57px;
 }
 #QuestionListApp .singleQuestionRow .questionSectionFlex .questionContainer .questionBodyTop .questionContainerTopSection .questionHeader:hover {
   cursor: pointer;
 }
 #QuestionListApp .singleQuestionRow .questionSectionFlex .questionContainer .questionBodyTop .questionContainerTopSection .questionHeader .questionTitle {
-  padding: 16px 8px 8px 8px;
+  padding: 8px;
   min-width: 0;
   color: #555555;
   font-weight: 600;
+  align-self: center;
 }
 @media (max-width: 640px) {
   #QuestionListApp .singleQuestionRow .questionSectionFlex .questionContainer .questionBodyTop .questionContainerTopSection .questionHeader .col-xs-3 {
@@ -464,4 +465,75 @@
     margin-right: -20px;
     margin-left: -20px;
   }
+}
+#QuestionListApp #AddInlineQuestionContainer {
+  background: white;
+  margin-top: 20px;
+  padding: 22px 21px 30px;
+  font-size: 16px;
+}
+#QuestionListApp #AddInlineQuestionContainer .add-inline-question-label {
+  font-weight: 700;
+}
+#QuestionListApp #AddInlineQuestionContainer .add-inline-question-label.s-label {
+  font-size: 14px;
+  margin-bottom: 5px;
+}
+#QuestionListApp #AddInlineQuestionContainer .add-inline-question-label span,
+#QuestionListApp #AddInlineQuestionContainer .add-inline-question-label a {
+  font-weight: 400;
+}
+#QuestionListApp #AddInlineQuestionContainer .add-inline-question-label a {
+  cursor: pointer;
+}
+#QuestionListApp #AddInlineQuestionContainer #AddQuestionHeader {
+  display: flex;
+}
+#QuestionListApp #AddInlineQuestionContainer #AddQuestionHeader .main-label {
+  padding-bottom: 29px;
+  flex: 1;
+}
+#QuestionListApp #AddInlineQuestionContainer #AddQuestionHeader .heart-container {
+  display: flex;
+  align-content: center;
+  align-items: center;
+  flex-direction: column;
+  width: 100px;
+}
+#QuestionListApp #AddInlineQuestionContainer #AddQuestionBody {
+  display: flex;
+}
+#QuestionListApp #AddInlineQuestionContainer #AddQuestionBody #AddQuestionFormContainer {
+  padding-right: 24px;
+  flex: 1;
+}
+#QuestionListApp #AddInlineQuestionContainer #AddQuestionBody #AddQuestionFormContainer .ProseMirror {
+  padding: 11px 15px 0;
+  border: solid 1px #DDDDDD;
+  border-radius: 4px;
+  margin-bottom: 26px;
+}
+#QuestionListApp #AddInlineQuestionContainer #AddQuestionBody #AddQuestionPrivacyContainer {
+  padding: 20px;
+  border: solid 1px #DDDDDD;
+  border-radius: 4px;
+  min-width: 216px;
+  max-height: 143px;
+  margin-top: 24px;
+}
+#QuestionListApp #AddInlineQuestionContainer #AddQuestionBody #AddQuestionPrivacyContainer .form-check-label,
+#QuestionListApp #AddInlineQuestionContainer #AddQuestionBody #AddQuestionPrivacyContainer form-check-radio {
+  cursor: pointer;
+}
+#QuestionListApp #AddInlineQuestionContainer .wuwi-red {
+  color: #ff001f;
+}
+#QuestionListApp #AddInlineQuestionContainer .wuwi-grey {
+  color: #999999;
+}
+#QuestionListApp.no-questions {
+  background: none;
+}
+#QuestionListApp.no-questions #QuestionListComponent {
+  border: #999999 solid 0.03125em;
 }

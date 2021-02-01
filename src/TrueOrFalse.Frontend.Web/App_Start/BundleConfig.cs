@@ -108,6 +108,9 @@ namespace TrueOrFalse.View
             bundles.Add(new ScriptBundle("~/bundles/js/LearningTabFABLoader")
                 .Include("~/Views/Categories/Detail/FloatingActionButton/LearningTabFabLoader.js"));
 
+            bundles.Add(new ScriptBundle("~/bundles/js/EditQuestionModalLoader")
+                .Include("~/Views/Questions/Js/EditQuestionModalLoader/EditQuestionModalLoader.js"));
+
             bundles.Add(new StyleBundle("~/bundles/CategoryHistory")
                 .Include("~/Views/Categories/History/*.css"));
 
@@ -194,8 +197,11 @@ namespace TrueOrFalse.View
                 .Include("~/Views/Questions/Js/QuestionList/QuestionListApp.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/js/QuestionListComponents")
+                .Include("~/Views/Questions/Js/AddQuestion/AddQuestion.js")
                 .Include("~/Scripts/npm/vue-slider-component/vue-slider-component.umd.js")
+                .Include("~/Views/Questions/Js/QuestionList/SessionConfig.js")
                 .Include("~/Views/Questions/Js/QuestionList/QuestionListComponents.js")
+                .Include("~/Views/Questions/Js/QuestionList/QuestionComponent.js")
                 .Include("~/Views/Shared/PinComponentVue/PinComponent.vue.js"));
 
 
