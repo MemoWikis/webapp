@@ -29,8 +29,6 @@
     
     public SidebarModel SidebarModel = new SidebarModel();
 
-    public TopicMenu TopicMenu = new TopicMenu();
-
     public TopNavMenu TopNavMenu = new TopNavMenu();
 
     public BaseModel()

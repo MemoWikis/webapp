@@ -1105,7 +1105,6 @@
     <Compile Include="Web\Context\MenuHistory\UserHistory.cs" />
     <Compile Include="Web\Context\ContextItemKeys.cs" />
     <Compile Include="Web\Context\Menu\UserMenu.cs" />
-    <Compile Include="Web\Context\Menu\TopicMenu.cs" />
     <Compile Include="Web\Context\Menu\MainMenu.cs" />
     <Compile Include="Web\Context\Menu\TopNavMenu.cs" />
     <Compile Include="Web\Context\SessionUiData.cs" />
