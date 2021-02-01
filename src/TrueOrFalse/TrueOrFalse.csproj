@@ -840,9 +840,9 @@
     <Compile Include="Domain\Category\RootCategory.cs" />
     <Compile Include="Tools\Update\Steps\UpdateToVs219.cs" />
     <Compile Include="Tools\Update\Steps\UpdateToVs220.cs" />
+    <Compile Include="Tools\Update\Steps\UpdateToVs222.cs" />
     <Compile Include="Tools\Update\Steps\UpdateToVs221.cs" />
     <Compile Include="Tools\Update\Steps\UpdateToVs218.cs" />
-    <Compile Include="Tools\Update\Steps\UpdateToVs219.cs" />
     <Compile Include="Tools\Update\Steps\UpdateToVs217.cs" />
     <Compile Include="Tools\Update\Steps\UpdateToVs216.cs" />
     <Compile Include="Tools\Update\Steps\UpdateToVs215.cs" />
