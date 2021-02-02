@@ -43,34 +43,25 @@ public class GraphService
 
     public static IList<Category> GetAllPersonalCategoriesWithRelations(int rootCategoryId, int userId = -1, bool isFromUserEntityCache =false)
     {
-       
         var rootCategory = EntityCache.GetCategory(rootCategoryId, isFromUserEntityCache).DeepClone();
-      
-  
-
         var childrenUnCloned = EntityCache.GetDescendants(rootCategory, true)
-            .Distinct();
-
-        
-        var children = childrenUnCloned.Select(c => (Category)c.DeepClone());
+            .Distinct()
+            .Where(c => c.IsInWishknowledge());
+       
+        var children = childrenUnCloned.Select(c => c.DeepClone());
         var listWithUserPersonelCategories = new List<Category>();
-
-        var time = new Stopwatch();
-        time.Start();
-        var counter = 0; 
 
         userId = userId == -1 ? Sl.CurrentUserId : userId;
 
+        var time = new Stopwatch();
+        time.Start();
+
         foreach (var child in children)
         {
-            if (!Sl.CategoryValuationRepo.IsInWishKnowledge(child.Id, userId))
-                continue;
-
             var parents = GetParentsFromCategory(child);
             var hasRootInParents = parents.Any(c => c.Id == rootCategoryId);
             child.CategoryRelations.Clear();
             listWithUserPersonelCategories.Add(child);
-
 
             while (parents.Count > 0)
             {
@@ -95,7 +86,7 @@ public class GraphService
 
                         parents.Remove(parent);
                 }
-                else
+                else 
                 {
                     var currentParents = GetParentsFromCategory(parent);
                     parents.Remove(parent);
@@ -107,17 +98,10 @@ public class GraphService
 
                     parents = parents.Distinct().ToList();
                 }
-
-                if (time.ElapsedMilliseconds >= 1000)
-                {
-                    Logg.r().Warning(time.ElapsedMilliseconds + " ms vergangene Zeit für einen Durchgang /  " +
-                                     counter + ". Durchgang" + "/ CategoryId: " + parent.Id);
-                    counter++;
-                }
-
-                time.Restart();
+               
             }
         }
+
 
         foreach (var listWithUserPersonelCategory in listWithUserPersonelCategories)
         {
@@ -131,9 +115,6 @@ public class GraphService
                 });
             }
         }
-
-        Logg.r().Warning(time.ElapsedMilliseconds + "/after get listWithUserPeronelCategories");
-
         rootCategory.CategoryRelations = new List<CategoryRelation>();
         listWithUserPersonelCategories.Add(rootCategory);
             
