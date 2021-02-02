@@ -1,4 +1,8 @@
-﻿Vue.component('my-world-toggle-component',
+﻿declare var eventBus: any;
+if (eventBus == null)
+    var eventBus = new Vue();
+
+Vue.component('my-world-toggle-component',
     {
         data() {
             return {
@@ -7,9 +11,14 @@
                 disabled: false,
             }
         },
+        created() {
+
+        },
         mounted() {
             this.loadCookie();
-            eventBus.$on('set-edit-mode', editMode => this.editMode = editMode);
+            eventBus.$on('set-edit-mode', (state) => {
+                this.editMode = state;
+            });
         },
         watch: {
             showMyWorld(val) {
@@ -24,7 +33,7 @@
                 });
             },
             toggleMyWorld() {
-                if (this.disabled)
+                if (this.editMode)
                     return;
                 Utils.ShowSpinner();
                 this.showMyWorld = !this.showMyWorld;

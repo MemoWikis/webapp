@@ -36,7 +36,7 @@ public class SegmentationModel : BaseContentModule
             Segments = segments;
         }
         else
-            NotInSegmentCategoryList = categoryList;
+            NotInSegmentCategoryList = categoryList.OrderBy(c => c.Name).ToList();
     }
 
     public List<Segment> GetSegments(int id)

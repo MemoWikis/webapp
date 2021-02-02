@@ -2193,6 +2193,7 @@
       <DependentUpon>Segmentation.less</DependentUpon>
     </Content>
     <Content Include="Views\Categories\Detail\Partials\Segmentation\SegmentationCategoryCardComponent.vue.ascx" />
+    <Content Include="Views\Categories\Detail\Partials\Segmentation\AddCategoryCardComponent.vue.ascx" />
     <Content Include="Views\Categories\Detail\Partials\Segmentation\SegmentComponent.vue.ascx" />
     <Content Include="Views\Categories\Detail\Partials\Segmentation\SegmentationComponent.vue.ascx" />
     <Content Include="Views\Shared\MyWorldToggle\MyWorldToggleComponent.js">

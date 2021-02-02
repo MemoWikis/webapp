@@ -1,6 +1,8 @@
-﻿<%@ Control Language="C#" AutoEventWireup="true" Inherits="System.Web.Mvc.ViewUserControl<SegmentationModel>" %>
+﻿<uc1:SegmentationComponentvue runat="server" id="SegmentationComponentvue" /><%@ Control Language="C#" AutoEventWireup="true" Inherits="System.Web.Mvc.ViewUserControl<SegmentationModel>" %>
 <%@ Import Namespace="System.Web.Optimization" %>
 <%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
+<%@ Register Src="~/Views/Categories/Detail/Partials/Segmentation/SegmentationComponent.vue.ascx" TagPrefix="uc1" TagName="SegmentationComponentvue" %>
+
 
 <%= Styles.Render("~/bundles/Segmentation") %>
 
@@ -18,8 +20,7 @@
                   foreach (var segment in Model.Segments)
                   { %>
                     <%: Html.Partial("~/Views/Categories/Detail/Partials/Segmentation/SegmentComponent.vue.ascx", new SegmentModel(segment)) %>
-        
-                <% }
+            <% }
               } %>
         </div>
         <div id="GeneratedSegmentSection" @mouseover="hover = true" @mouseleave="hover = false" :class="{ hover : showHover }">

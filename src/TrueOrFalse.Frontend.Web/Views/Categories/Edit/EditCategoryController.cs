@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Security;
 using System.Web;
+using System.Web.Helpers;
 using System.Web.Mvc;
+using FluentNHibernate.Data;
 using TrueOrFalse.Frontend.Web.Code;
 using TrueOrFalse.View.Web.Views.Api;
 using TrueOrFalse.Web;
@@ -134,7 +136,6 @@ public class EditCategoryController : BaseController
                               Links.CategoryEdit(categoryNameAllowed.ExistingCategories.First())));
 
             return View(_viewPath, model);
-
         }
 
         if (categoryNameAllowed.ForbiddenWords(category.Name))
@@ -163,6 +164,50 @@ public class EditCategoryController : BaseController
         GraphService.AutomaticInclusionFromSubthemes(category);
         new CategoryApiModel().Pin(category.Id); 
 
+        return Redirect(Links.CategoryDetail(category, openEditMode: true));
+    }
+
+    public JsonResult NameCheck(string name)
+    {
+        var dummyCategory = new Category();
+        dummyCategory.Name = name;
+        dummyCategory.Type = CategoryType.Standard;
+        var categoryNameAllowed = new CategoryNameAllowed();
+
+        if (categoryNameAllowed.No(dummyCategory))
+        {
+            return Json(new
+            {
+                categoryNameAllowed = false,
+                errorMsg = "Der Themen Name ist bereits vergeben, bitte wähle einen anderen Namen!"
+            });
+        }
+
+        if (categoryNameAllowed.ForbiddenWords(name))
+        {
+            return Json(new
+            {
+                categoryNameAllowed = false,
+                errorMsg = "Der Themen Name ist verboten, bitte wähle einen anderen Namen!"
+            });
+        }
+
+        return Json(new
+        {
+            categoryNameAllowed = true
+        });
+    }
+
+    public ActionResult QuickCreate(string name, int parentCategoryId)
+    {
+        var category = new Category(name);
+        var parentCategory = EntityCache.GetCategory(parentCategoryId);
+        ModifyRelationsForCategory.AddParentCategory(category, parentCategory);
+
+        category.Creator = _sessionUser.User;
+        category.Type = CategoryType.Standard;
+        _categoryRepository.Create(category);
+        StoreImage(category.Id);
         return Redirect(Links.CategoryDetail(category, openEditMode: true));
     }
 
