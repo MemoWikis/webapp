@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 
 public class GraphService
@@ -42,19 +43,20 @@ public class GraphService
     public static IList<Category> GetAllPersonalCategoriesWithRelations(int rootCategoryId, int userId = -1, bool isFromUserEntityCache =false)
     {
         var rootCategory = EntityCache.GetCategory(rootCategoryId, isFromUserEntityCache).DeepClone();
-
         var childrenUnCloned = EntityCache.GetDescendants(rootCategory, true)
-            .Distinct();
-        var children = childrenUnCloned.Select(c => (Category)c.DeepClone()); 
+            .Distinct()
+            .Where(c => c.IsInWishknowledge());
+       
+        var children = childrenUnCloned.Select(c => c.DeepClone());
         var listWithUserPersonelCategories = new List<Category>();
 
         userId = userId == -1 ? Sl.CurrentUserId : userId;
 
+        var time = new Stopwatch();
+        time.Start();
+
         foreach (var child in children)
         {
-            if (!Sl.CategoryValuationRepo.IsInWishKnowledge(child.Id, userId))
-                continue;
-
             var parents = GetParentsFromCategory(child);
             var hasRootInParents = parents.Any(c => c.Id == rootCategoryId);
             child.CategoryRelations.Clear();
@@ -83,7 +85,7 @@ public class GraphService
 
                         parents.Remove(parent);
                 }
-                else
+                else 
                 {
                     var currentParents = GetParentsFromCategory(parent);
                     parents.Remove(parent);
@@ -95,8 +97,10 @@ public class GraphService
 
                     parents = parents.Distinct().ToList();
                 }
+               
             }
         }
+
 
         foreach (var listWithUserPersonelCategory in listWithUserPersonelCategories)
         {
@@ -110,7 +114,6 @@ public class GraphService
                 });
             }
         }
-
         rootCategory.CategoryRelations = new List<CategoryRelation>();
         listWithUserPersonelCategories.Add(rootCategory);
             
@@ -170,7 +173,7 @@ public class GraphService
             if (relations2.Count == 0 && relations1.Count == 0)
                 return true;
 
-            var count = 0;
+            var count = 0; 
 
             var countVariousRelations = relations1.Where(r => !relations2.Any(r2 => r2.RelatedCategory.Id == r.RelatedCategory.Id && r2.Category.Id == r.Category.Id && r2.CategoryRelationType.ToString().Equals(r.CategoryRelationType.ToString()))).Count();
             return countVariousRelations == 0;
