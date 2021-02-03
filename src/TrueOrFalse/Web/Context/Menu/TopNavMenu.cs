@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using TrueOrFalse.Tools;
 
 
 public class TopNavMenuItem
@@ -26,7 +27,8 @@ public class TopNavMenu
 
     public TopNavMenu()
     {
-        RootCategoriesList = Sl.CategoryRepo.GetRootCategoriesList();      
+        RootCategoriesList = new List<Category>();
+        RootCategoriesList.Add(EntityCache.GetCategory(HelperTools.RootCategoryId));
     }
 }
 
