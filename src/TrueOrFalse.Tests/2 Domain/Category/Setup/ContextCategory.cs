@@ -131,7 +131,7 @@ namespace TrueOrFalse.Tests
             return this;
         }
 
-        public void AddCaseThreeToCache(bool withWuwi = true)
+        public User AddCaseThreeToCache(bool withWuwi = true)
         {
             //Add this Case: https://drive.google.com/file/d/1CEMMm1iIhfNKvuKng5oM6erR0bVDWHr6/view?usp=sharing
 
@@ -196,6 +196,7 @@ namespace TrueOrFalse.Tests
                 CategoryInKnowledge.Pin(firstChildren.ByName("X3").Id, user);
             }
             Sl.SessionUser.Login(user);
+            return user; 
         }
 
         public void AddCaseTwoToCache()

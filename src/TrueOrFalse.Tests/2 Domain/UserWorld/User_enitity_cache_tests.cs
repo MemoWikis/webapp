@@ -85,8 +85,11 @@ class User_entity_cache_tests : BaseTest
     [Test]
     public void Test_next_parent_in_wishknowledge()
     {
-        ContextCategory.New().AddCaseThreeToCache();
-        
+      var user = ContextCategory.New().AddCaseThreeToCache();
+      ContextCategory.New().Add("noParent").Persist();
+      var noParent = EntityCache.GetAllCategories().ByName("noParent");
+      CategoryInKnowledge.Pin(noParent.Id, user);
+
         UserEntityCache.Init();
 
         var e = EntityCache.GetAllCategories().ByName("E");
@@ -99,14 +102,15 @@ class User_entity_cache_tests : BaseTest
         var nextParetFromD = UserEntityCache.GetNextParentInWishknowledge(d.Id); 
         var nextParetFromC = UserEntityCache.GetNextParentInWishknowledge(c.Id); 
         var nextParetFromX1 = UserEntityCache.GetNextParentInWishknowledge(x1.Id); 
-        var nextParetFromH = UserEntityCache.GetNextParentInWishknowledge(x1.Id); 
-  
+        var nextParetFromH = UserEntityCache.GetNextParentInWishknowledge(x1.Id);
+        var nextParentFromNoParent = UserEntityCache.GetNextParentInWishknowledge(noParent.Id);
 
         Assert.That(nextParetFromX1.Name, Is.EqualTo("X3"));
         Assert.That(nextParetFromE.Name, Is.EqualTo("X"));
         Assert.That(nextParetFromD.Name, Is.EqualTo("B"));
         Assert.That(nextParetFromC.Name, Is.EqualTo("X"));
         Assert.That(nextParetFromH.Name, Is.EqualTo("X3"));
+        Assert.That(nextParentFromNoParent.Name, Is.EqualTo("A"));
     }
 
     [Test]
