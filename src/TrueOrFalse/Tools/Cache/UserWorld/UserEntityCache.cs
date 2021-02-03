@@ -81,6 +81,8 @@ public class UserEntityCache : BaseCache
     public static Category GetNextParentInWishknowledge(int categoryId)
     {
         var nextParents = EntityCache.GetCategory(categoryId,true).ParentCategories().Distinct().ToList();
+        if (nextParents.Count == 0)
+            nextParents.Add(RootCategory.Get);  // Has Category no parent then add Rootcategory
 
         while (nextParents.Count > 0)
         {
