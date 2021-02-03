@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using TrueOrFalse.Tools;
 
 public class TopNavMenuItem
 {
@@ -17,4 +18,6 @@ public class TopNavMenu
     public bool QuestionBreadCrumb = false;
 
     public bool IsWelcomePage;
+        RootCategoriesList = new List<Category>();
+        RootCategoriesList.Add(EntityCache.GetCategory(HelperTools.RootCategoryId));
 }
