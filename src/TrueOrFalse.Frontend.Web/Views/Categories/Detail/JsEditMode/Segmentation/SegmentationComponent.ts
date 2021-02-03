@@ -102,5 +102,9 @@ var segmentationComponent = Vue.component('segmentation-component', {
                 this.selectedCategories.splice(index, 1);
             }
         },
+        addCategory() {
+            var self = this;
+            $('#AddCategoryModal').data('id', self.categoryId).modal('show');
+        }
     },
 });

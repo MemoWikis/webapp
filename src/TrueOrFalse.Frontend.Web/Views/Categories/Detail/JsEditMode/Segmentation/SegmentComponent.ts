@@ -143,5 +143,9 @@ var segmentComponent = Vue.component('segment-component', {
         removeSegment() {
             this.$emit('remove-segment', parseInt(this.categoryId));
         },
+        addCategory() {
+            var self = this;
+            $('#AddCategoryModal').data('id', self.categoryId).modal('show');
+        }
     },
 });

@@ -39,6 +39,21 @@
   position: absolute;
   right: 10px;
 }
+#Segmentation #CustomSegmentSection .topicNavigation .addCategoryCard,
+#Segmentation #GeneratedSegmentSection .topicNavigation .addCategoryCard {
+  border-radius: 3px;
+  border: dashed #999999 1px;
+  transition: 0.2s;
+  justify-content: center;
+  align-content: center;
+  text-align: center;
+  min-height: 150px;
+}
+#Segmentation #CustomSegmentSection .topicNavigation .addCategoryCard:hover,
+#Segmentation #GeneratedSegmentSection .topicNavigation .addCategoryCard:hover {
+  border-color: #18A0FB;
+  color: #18A0FB;
+}
 #Segmentation #CustomSegmentSection .segment .segmentSubHeader .segmentKnowledgeBar {
   max-width: 420px;
 }

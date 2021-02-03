@@ -167,6 +167,7 @@ public class EditCategoryController : BaseController
         return Redirect(Links.CategoryDetail(category, openEditMode: true));
     }
 
+    [HttpPost]
     public JsonResult NameCheck(string name)
     {
         var dummyCategory = new Category();
@@ -198,7 +199,8 @@ public class EditCategoryController : BaseController
         });
     }
 
-    public ActionResult QuickCreate(string name, int parentCategoryId)
+    [HttpPost]
+    public JsonResult QuickCreate(string name, int parentCategoryId)
     {
         var category = new Category(name);
         var parentCategory = EntityCache.GetCategory(parentCategoryId);
@@ -208,7 +210,11 @@ public class EditCategoryController : BaseController
         category.Type = CategoryType.Standard;
         _categoryRepository.Create(category);
         StoreImage(category.Id);
-        return Redirect(Links.CategoryDetail(category, openEditMode: true));
+        return Json(new
+        {
+            success = true,
+            url = Links.CategoryDetail(category, openEditMode: true),
+        });
     }
 
     public ActionResult DetailsPartial(int? categoryId, CategoryType type, string typeModelGuid)

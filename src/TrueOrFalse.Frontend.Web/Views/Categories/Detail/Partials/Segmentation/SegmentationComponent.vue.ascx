@@ -1,7 +1,6 @@
-﻿<uc1:SegmentationComponentvue runat="server" id="SegmentationComponentvue" /><%@ Control Language="C#" AutoEventWireup="true" Inherits="System.Web.Mvc.ViewUserControl<SegmentationModel>" %>
+﻿<%@ Control Language="C#" AutoEventWireup="true" Inherits="System.Web.Mvc.ViewUserControl<SegmentationModel>" %>
 <%@ Import Namespace="System.Web.Optimization" %>
 <%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
-<%@ Register Src="~/Views/Categories/Detail/Partials/Segmentation/SegmentationComponent.vue.ascx" TagPrefix="uc1" TagName="SegmentationComponentvue" %>
 
 
 <%= Styles.Render("~/bundles/Segmentation") %>
@@ -40,14 +39,14 @@
                        { %>
                         <%: Html.Partial("~/Views/Categories/Detail/Partials/Segmentation/SegmentationCategoryCardComponent.vue.ascx", new SegmentationCategoryCardModel(category)) %>
                     <% } %>
-                    <div class="col-xs-6">
-
+                    <div class="col-xs-6 addCategoryCard" @click="addCategory">
+                        <i class="fas fa-plus"></i> Neues Thema hinzufügen
                     </div>
                 </div>
             <%}else { %>
                 <div class="hidden">&nbsp;</div><% //if empty, templateparser throws error %>
             <%} %>
         </div>
-
+        <%: Html.Partial("~/Views/Categories/Detail/Partials/Segmentation/AddCategoryComponent.vue.ascx") %>
     </div>
 </segmentation-component>

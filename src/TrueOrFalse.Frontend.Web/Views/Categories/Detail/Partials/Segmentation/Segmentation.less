@@ -1,4 +1,5 @@
 ﻿@darkgrey: #999999;
+@highlightblue: #18A0FB;
 
 #Segmentation {
     .segmentationHeader {
@@ -44,6 +45,21 @@
                 .DropdownButton {
                     position: absolute;
                     right: 10px;
+                }
+            }
+
+            .addCategoryCard {
+                border-radius: 3px;
+                border: dashed @darkgrey 1px;
+                transition: 0.2s;
+                justify-content: center;
+                align-content: center;
+                text-align: center;
+                min-height: 150px;
+
+                &:hover {
+                    border-color: @highlightblue;
+                    color: @highlightblue;
                 }
             }
         }
