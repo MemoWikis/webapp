@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 
 public class TopicNavigationModel : BaseContentModule
@@ -9,7 +10,8 @@ public class TopicNavigationModel : BaseContentModule
     public string Title;
     public string Text;
 
-    public List<Category> CategoryList; 
+    public List<Category> CategoryList;
+    public int TopicCount = -1; 
 
     public TopicNavigationModel()
     {
@@ -100,8 +102,13 @@ public class TopicNavigationModel : BaseContentModule
 
     public int GetTotalTopicCount(Category category)
     {
-        return EntityCache.GetChildren(category.Id).Count(c => c.Type == CategoryType.Standard && c.GetAggregatedQuestionIdsFromMemoryCache().Count > 0);
-
+        if (TopicCount == -1)
+        {
+            TopicCount = EntityCache.GetChildren(category.Id).Count(c =>
+                c.Type == CategoryType.Standard && c.GetAggregatedQuestionIdsFromMemoryCache().Count > 0);
+            return TopicCount; 
+        }
+        return TopicCount; 
     }
 }
 
