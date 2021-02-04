@@ -19,7 +19,6 @@ class StickyHeaderClass {
         this._breadcrumb = $('#Breadcrumb').get(0);
         this._rightMainMenu = $("#RightMainMenu").get(0);
         this._header = $("#MasterHeader").get(0);
-        this._rightMainMenu.style.position = "absolute";
         this._breadCrumbContainerElementsCopy = $("#BreadCrumbTrail > div").clone();
         this._breadCrumbContainerCount = this._breadCrumbContainerElementsCopy.length;
         this._breadCrumbFirstElementWidth = parseInt($('#BreadCrumbTrail > div:eq(0)').css("width"));
@@ -127,7 +126,6 @@ class StickyHeaderClass {
             this._breadcrumb.style.position = "absolute";
             this._breadcrumb.classList.remove("ShowBreadcrumb");
             this.toggleClass($("#BreadcrumbUserDropdownImage"), $("#HeaderUserDropdown"), "open");
-            this._rightMainMenu.style.position = "absolute";
 
             $("#BreadcrumbUserDropdown").css("margin-top", "0");
             $('#StickyHeaderContainer').hide();
