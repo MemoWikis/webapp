@@ -68,8 +68,6 @@ class StickyHeaderClass {
 
             this.toggleClass($("#HeaderUserDropdown"), $("#BreadcrumbUserDropdownImage"), "open");
 
-            this._rightMainMenu.style.position = "fixed";
-
             if (top.location.pathname !== "/")
                 this.computeBreadcrumb(260);
 
@@ -88,7 +86,6 @@ class StickyHeaderClass {
             this.computeBreadcrumb(70);
 
             $('#StickyHeaderContainer').hide();
-            this._rightMainMenu.style.position = "absolute";
 
             if (top.location.pathname === "/") {
                 this._breadcrumb.style.display = "none";

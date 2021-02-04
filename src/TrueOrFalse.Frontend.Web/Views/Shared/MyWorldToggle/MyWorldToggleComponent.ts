@@ -25,9 +25,10 @@
                 this.showMyWorld = !this.showMyWorld;
                 var s = this.showMyWorld;
 
-                $.post(`/Category/SetMyWorldCookie/?showMyWorld=${s}`).done(() => {
-                    location.reload();
-                });
+                if(IsLoggedIn.Yes)
+                    $.post(`/Category/SetMyWorldCookie/?showMyWorld=${s}`).done(() => {
+                        location.reload();
+                    });
             },
             sendShowMyWorld() {
                 $.post("/User/SetUserWorldInUserCache",
