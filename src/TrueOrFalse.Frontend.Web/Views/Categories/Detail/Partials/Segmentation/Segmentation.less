@@ -2,6 +2,8 @@
 @highlightblue: #18A0FB;
 
 #Segmentation {
+    margin-bottom: 40px;
+
     .segmentationHeader {
         font-size: 14px;
         font-weight: 600;
@@ -36,10 +38,16 @@
     #CustomSegmentSection, #GeneratedSegmentSection {
         .topicNavigation {
             .segmentCategoryCard {
-                label {
+                .topic-name {
+                    padding: 0;
+                }
+
+                .checkBox {
                     position: absolute;
                     z-index: 3;
-                    transform: scale(1.4);
+                    line-height: 0;
+                    background: white;
+                    color: @highlightblue;
                 }
 
                 .DropdownButton {
@@ -49,13 +57,20 @@
             }
 
             .addCategoryCard {
+                display: flex;
                 border-radius: 3px;
-                border: dashed @darkgrey 1px;
+                border: dashed @darkgrey 2px;
                 transition: 0.2s;
                 justify-content: center;
                 align-content: center;
+                align-items: center;
                 text-align: center;
                 min-height: 150px;
+                color: @darkgrey;
+
+                @media (max-width: 649px) {
+                    width: 100%;
+                }
 
                 &:hover {
                     border-color: @highlightblue;
@@ -70,6 +85,58 @@
             .segmentSubHeader {
                 .segmentKnowledgeBar {
                     max-width: 420px;
+                }
+            }
+        }
+    }
+
+    .categoryCardModal {
+        .modal-s {
+            width: 430px;
+        }
+
+        .dismissModal {
+            position: absolute;
+            right: 15px;
+            z-index: 10;
+            top: 10px;
+        }
+
+        .modal-content {
+            padding: 34px 50px;
+
+            .addCategoryCardModal {
+                h4 {
+                    text-align: center;
+                }
+
+                .modalBody {
+                    font-size: 14px;
+                    padding: 10px 0 20px;
+                    margin-bottom: 10px;
+
+                    .alert {
+                        line-height: 18px;
+                    }
+
+                    a {
+                        color: @highlightblue;
+                    }
+
+                    .checkBox {
+                        user-select: none;
+                        cursor: pointer;
+                        color: @darkgrey;
+
+                        i {
+                            color: @highlightblue;
+                        }
+                    }
+                }
+
+                .modalFooter {
+                    display: flex;
+                    justify-content: center;
                 }
             }
         }

@@ -1,5 +1,5 @@
 ﻿@import (reference) '../../../Style/includes/imports.less';
-
+@highlightblue: #18A0FB;
 
 div.column  { width: 33%; float: left;}
 
@@ -1356,7 +1356,7 @@ p:empty {
                         border-radius: 3px;
                         border: solid transparent 1px;
                         transition: 0.2s;
-                        border-color: #45aece;
+                        border-color: @highlightblue;
                     }
 
                     img.show-tooltip {
@@ -1433,7 +1433,7 @@ p:empty {
         }
 
         &.hover {
-            border-color: #45aece;
+            border-color: @highlightblue;
             cursor: pointer;
             margin: 0 -20px;
             padding: 0 20px;

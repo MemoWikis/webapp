@@ -1,6 +1,6 @@
 ﻿var categoryCardComponent = Vue.component('category-card-component', {
     props: {
-        categoryId: String,
+        categoryId: [String, Number],
         editMode: Boolean,
         isCustomSegment: Boolean,
         selectedCategories: Array,
@@ -76,6 +76,7 @@ var segmentComponent = Vue.component('segment-component', {
             currentChildCategoryIds: [],
             hover: false,
             showHover: false,
+            addCategoryId: ""
         };
     },
 
@@ -83,15 +84,15 @@ var segmentComponent = Vue.component('segment-component', {
     },
 
     mounted() {
-        var self = this;
-        self.id = "Segment-" + self.categoryId;
-        if (self.childCategoryIds != null)
-            self.currentChildCategoryIds = JSON.parse(self.childCategoryIds);
+        this.id = "Segment-" + this.categoryId;
+        if (this.childCategoryIds != null)
+            this.currentChildCategoryIds = JSON.parse(this.childCategoryIds);
         var segment = {
-            CategoryId: parseInt(self.categoryId),
-            Title: self.title,
-            ChildCategoryIds: self.categories
+            CategoryId: parseInt(this.categoryId),
+            Title: this.title,
+            ChildCategoryIds: this.categories
         }
+        this.addCategoryId = "AddCategoryTo-" + this.id + "-Btn";
         this.$emit('new-segment', segment);
     },
 
@@ -122,30 +123,19 @@ var segmentComponent = Vue.component('segment-component', {
         updateCategoryOrder() {
             this.categories = $("#" + this.id + " > .topic").map((idx, elem) => $(elem).attr("category-id")).get();
         },
-        loadCategoryCard(id) {
-            var self = this;
-            var currentElement = $("#" + this.id + " > .topicNavigation");
-
-            $.ajax({
-                type: 'Get',
-                contentType: "application/int",
-                url: '/Segmentation/GetCategoryCard',
-                data: id,
-                success: function (data) {
-                    if (data) {
-                        currentElement.append(data.html);
-                    } else {
-
-                    };
-                },
-            });
-        },
         removeSegment() {
             this.$emit('remove-segment', parseInt(this.categoryId));
         },
         addCategory() {
+            if (NotLoggedIn.Yes()) {
+                NotLoggedIn.ShowErrorMsg("CreateCategory");
+                return;
+            }
             var self = this;
-            $('#AddCategoryModal').data('id', self.categoryId).modal('show');
-        }
+            var parent = {
+                id: self.categoryId,
+                addCategoryBtnId: $("#" + self.addCategoryId)
+            }
+            $('#AddCategoryModal').data('parent', parent).modal('show');        }
     },
 });

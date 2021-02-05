@@ -5,7 +5,7 @@
 
 <%= Styles.Render("~/bundles/Segmentation") %>
 
-<segmentation-component inline-template :edit-mode="editMode">
+<segmentation-component inline-template :edit-mode="editMode" :category-id="<%= Model.Category.Id %>" v-cloak>
     <div :key="componentKey" id="Segmentation">
         <div v-if="hasCustomSegment" class="segmentationHeader">
             Alle Unterthemen
@@ -39,8 +39,10 @@
                        { %>
                         <%: Html.Partial("~/Views/Categories/Detail/Partials/Segmentation/SegmentationCategoryCardComponent.vue.ascx", new SegmentationCategoryCardModel(category)) %>
                     <% } %>
-                    <div class="col-xs-6 addCategoryCard" @click="addCategory">
-                        <i class="fas fa-plus"></i> Neues Thema hinzufügen
+                    <div :id="addCategoryId" class="col-xs-6 addCategoryCard" @click="addCategory">
+                        <div>
+                             <i class="fas fa-plus"></i> Neues Thema hinzufügen
+                        </div>                    
                     </div>
                 </div>
             <%}else { %>

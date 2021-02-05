@@ -7,7 +7,7 @@
 
 var segmentationComponent = Vue.component('segmentation-component', {
     props: {
-        categoryId: String,
+        categoryId: [String, Number],
         editMode: Boolean,
     },
 
@@ -23,6 +23,7 @@ var segmentationComponent = Vue.component('segmentation-component', {
             id: 'SegmentationComponent',
             hover: false,
             showHover: false,
+            addCategoryId: "AddToCurrentCategoryCard"
         };
     },
 
@@ -103,8 +104,16 @@ var segmentationComponent = Vue.component('segmentation-component', {
             }
         },
         addCategory() {
+            if (NotLoggedIn.Yes()) {
+                NotLoggedIn.ShowErrorMsg("CreateCategory");
+                return;
+            }
             var self = this;
-            $('#AddCategoryModal').data('id', self.categoryId).modal('show');
+            var parent = {
+                id: self.categoryId,
+                addCategoryBtnId: $("#AddToCurrentCategoryBtn")
+            }
+            $('#AddCategoryModal').data('parent', parent).modal('show');
         }
     },
 });

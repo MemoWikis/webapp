@@ -21,8 +21,10 @@
             <% foreach (var category in Model.ChildCategories) {%>
                 <%: Html.Partial("~/Views/Categories/Detail/Partials/Segmentation/SegmentationCategoryCardComponent.vue.ascx", new SegmentationCategoryCardModel(category)) %>
             <%} %>
-            <div class="col-xs-6 addCategoryCard" @click="addCategory">
-                <i class="fas fa-plus"></i> Neues Thema hinzufügen
+            <div class="col-xs-6 addCategoryCard" @click="addCategory" :id="addCategoryId">
+                <div>
+                     <i class="fas fa-plus"></i> Neues Thema hinzufügen
+                </div>
             </div>
         </div>
     </div>

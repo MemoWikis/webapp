@@ -8,9 +8,10 @@
                        { %>
                             <div class="row" @click.self="selectCategory()">
                                 <div class="col-xs-3" @click="selectCategory()">
-                                    <label class="checkbox-label" v-if="editMode">
-                                        <input :id="checkboxId" type="checkbox" v-model="isSelected"/>
-                                    </label> 
+                                    <div class="checkBox" v-if="editMode">
+                                        <i class="fas fa-check-square" v-if="isSelected"></i>
+                                        <i class="far fa-square" v-else></i>
+                                    </div>
                                     <div class="ImageContainer" v-show="editMode">
                                         <%= Model.GetCategoryImage(Model.Category).RenderHtmlImageBasis(128, true, ImageType.Category) %> 
                                     </div>

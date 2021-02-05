@@ -168,19 +168,21 @@ public class EditCategoryController : BaseController
     }
 
     [HttpPost]
-    public JsonResult NameCheck(string name)
+    public JsonResult ValidateName(string name)
     {
         var dummyCategory = new Category();
         dummyCategory.Name = name;
         dummyCategory.Type = CategoryType.Standard;
         var categoryNameAllowed = new CategoryNameAllowed();
-
-        if (categoryNameAllowed.No(dummyCategory))
+        if (categoryNameAllowed.No(dummyCategory, fromCache: true))
         {
+
             return Json(new
             {
                 categoryNameAllowed = false,
-                errorMsg = "Der Themen Name ist bereits vergeben, bitte wähle einen anderen Namen!"
+                name,
+                url = Links.CategoryDetail(EntityCache.GetByName(name).FirstOrDefault(c => c.Type == CategoryType.Standard)), 
+                errorMsg = " ist bereits vergeben, bitte wähle einen anderen Namen!"
             });
         }
 
@@ -189,7 +191,8 @@ public class EditCategoryController : BaseController
             return Json(new
             {
                 categoryNameAllowed = false,
-                errorMsg = "Der Themen Name ist verboten, bitte wähle einen anderen Namen!"
+                name,
+                errorMsg = " ist verboten, bitte wähle einen anderen Namen!"
             });
         }
 
@@ -214,6 +217,7 @@ public class EditCategoryController : BaseController
         {
             success = true,
             url = Links.CategoryDetail(category, openEditMode: true),
+            id = category.Id
         });
     }
 
