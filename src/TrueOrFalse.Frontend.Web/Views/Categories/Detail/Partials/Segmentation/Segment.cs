@@ -5,7 +5,8 @@ using System.Linq;
 public class Segment
 {
     public string Title;
-    public List<Category> CategoryList;
+    public Category Category;
+    public List<Category> ChildCategories;
 }
 
 

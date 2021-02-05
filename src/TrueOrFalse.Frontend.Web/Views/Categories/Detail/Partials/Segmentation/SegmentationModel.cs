@@ -36,28 +36,27 @@ public class SegmentationModel : BaseContentModule
             Segments = segments;
         }
         else
-            NotInSegmentCategoryList = categoryList;
-
+            NotInSegmentCategoryList = categoryList.OrderBy(c => c.Name).ToList();
     }
 
     public List<Segment> GetSegments(int id)
     {
         var segments = new List<Segment>();
-        var customSegmentJson = JsonConvert.DeserializeObject<CustomSegmentJson>(EntityCache.GetCategory(id).CustomSegments);
-        foreach (var s in customSegmentJson.Segments)
+        var segmentJson = JsonConvert.DeserializeObject<List<SegmentJson>>(EntityCache.GetCategory(id).CustomSegments);
+        foreach (var s in segmentJson)
         {
             var segment = new Segment();
+            segment.Category = EntityCache.GetCategory(s.CategoryId);
             segment.Title = s.Title;
-            foreach (var categoryId in s.CategoryIds)
-            {
-                var category = EntityCache.GetCategory(categoryId);
-                segment.CategoryList.Add(category);
-            }
+            if (s.ChildCategoryIds != null)
+                segment.ChildCategories = UserCache.IsFiltered ? EntityCache.GetCategories(s.ChildCategoryIds).Where(c => c.IsInWishknowledge()).ToList() : EntityCache.GetCategories(s.ChildCategoryIds).ToList();
+            else
+                segment.ChildCategories = UserCache.IsFiltered ? UserEntityCache.GetChildren(s.CategoryId, UserId) : Sl.CategoryRepo.GetChildren(s.CategoryId).ToList();
 
             segments.Add(segment);
         }
 
-        return segments;
+        return segments.OrderBy(s => s.Title).ToList();
     }
 
     public List<Category> GetNotInSegmentCategoryList(List<Segment> segments, List<Category> categoryList)
@@ -67,14 +66,19 @@ public class SegmentationModel : BaseContentModule
 
         foreach (var segment in segments)
         {
-            var categoriesToAdd = segment.CategoryList.Where(c => !inSegmentCategoryList.Any(s => s.Id == c.Id));
-            foreach (var c in categoriesToAdd)
-                inSegmentCategoryList.Add(c);
+            inSegmentCategoryList.Add(segment.Category);
+            if (segment.ChildCategories != null)
+            {
+                var categoriesToAdd = segment.ChildCategories.Where(c => !inSegmentCategoryList.Any(s => s.Id == c.Id)).ToList();
+                foreach (var c in categoriesToAdd)
+                    inSegmentCategoryList.Add(c);
+            }
+
             notInSegmentCategoryList.AddRange(categoryList.Where(c => !inSegmentCategoryList.Any(s => c.Id == s.Id)));
         }
 
         HasCustomSegments = true;
-        return notInSegmentCategoryList.ToList();
+        return notInSegmentCategoryList.OrderBy(c => c.Name).ToList();
     }
 }
 

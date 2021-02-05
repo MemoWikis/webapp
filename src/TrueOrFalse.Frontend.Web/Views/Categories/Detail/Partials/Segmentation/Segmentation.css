@@ -1,0 +1,115 @@
+﻿#Segmentation {
+  margin-bottom: 40px;
+}
+#Segmentation .segmentationHeader {
+  font-size: 14px;
+  font-weight: 600;
+  color: #999999;
+  line-height: 20px;
+  letter-spacing: 1.25px;
+  text-transform: uppercase;
+  font-family: 'Open Sans';
+  border-bottom: #999999 0.03125em solid;
+  padding-bottom: 12px;
+  margin-bottom: 41px;
+}
+#Segmentation #GeneratedSegmentSection,
+#Segmentation .segment,
+#Segmentation .segmentCategoryCard {
+  border-radius: 3px;
+  border: solid transparent 1px;
+  transition: 0.2s;
+}
+#Segmentation #GeneratedSegmentSection.hover,
+#Segmentation .segment.hover,
+#Segmentation .segmentCategoryCard.hover {
+  border-color: #45aece;
+  cursor: pointer;
+}
+#Segmentation #GeneratedSegmentSection.hover,
+#Segmentation .segment.hover {
+  margin: 0 -20px;
+  padding: 0 20px;
+}
+#Segmentation #CustomSegmentSection .topicNavigation .segmentCategoryCard .topic-name,
+#Segmentation #GeneratedSegmentSection .topicNavigation .segmentCategoryCard .topic-name {
+  padding: 0;
+}
+#Segmentation #CustomSegmentSection .topicNavigation .segmentCategoryCard .checkBox,
+#Segmentation #GeneratedSegmentSection .topicNavigation .segmentCategoryCard .checkBox {
+  position: absolute;
+  z-index: 3;
+  line-height: 0;
+  background: white;
+  color: #18A0FB;
+}
+#Segmentation #CustomSegmentSection .topicNavigation .segmentCategoryCard .DropdownButton,
+#Segmentation #GeneratedSegmentSection .topicNavigation .segmentCategoryCard .DropdownButton {
+  position: absolute;
+  right: 10px;
+}
+#Segmentation #CustomSegmentSection .topicNavigation .addCategoryCard,
+#Segmentation #GeneratedSegmentSection .topicNavigation .addCategoryCard {
+  display: flex;
+  border-radius: 3px;
+  border: dashed #999999 2px;
+  transition: 0.2s;
+  justify-content: center;
+  align-content: center;
+  align-items: center;
+  text-align: center;
+  min-height: 150px;
+  color: #999999;
+}
+@media (max-width: 649px) {
+  #Segmentation #CustomSegmentSection .topicNavigation .addCategoryCard,
+  #Segmentation #GeneratedSegmentSection .topicNavigation .addCategoryCard {
+    width: 100%;
+  }
+}
+#Segmentation #CustomSegmentSection .topicNavigation .addCategoryCard:hover,
+#Segmentation #GeneratedSegmentSection .topicNavigation .addCategoryCard:hover {
+  border-color: #18A0FB;
+  color: #18A0FB;
+}
+#Segmentation #CustomSegmentSection .segment .segmentSubHeader .segmentKnowledgeBar {
+  max-width: 420px;
+}
+#Segmentation .categoryCardModal .modal-s {
+  width: 430px;
+}
+#Segmentation .categoryCardModal .dismissModal {
+  position: absolute;
+  right: 15px;
+  z-index: 10;
+  top: 10px;
+}
+#Segmentation .categoryCardModal .modal-content {
+  padding: 34px 50px;
+}
+#Segmentation .categoryCardModal .modal-content .addCategoryCardModal h4 {
+  text-align: center;
+}
+#Segmentation .categoryCardModal .modal-content .addCategoryCardModal .modalBody {
+  font-size: 14px;
+  padding: 10px 0 20px;
+  margin-bottom: 10px;
+}
+#Segmentation .categoryCardModal .modal-content .addCategoryCardModal .modalBody .alert {
+  line-height: 18px;
+}
+#Segmentation .categoryCardModal .modal-content .addCategoryCardModal .modalBody a {
+  color: #18A0FB;
+}
+#Segmentation .categoryCardModal .modal-content .addCategoryCardModal .modalBody .checkBox {
+  user-select: none;
+  cursor: pointer;
+  color: #999999;
+}
+#Segmentation .categoryCardModal .modal-content .addCategoryCardModal .modalBody .checkBox i {
+  color: #18A0FB;
+}
+#Segmentation .categoryCardModal .modal-content .addCategoryCardModal .modalFooter {
+  display: flex;
+  justify-content: center;
+}

@@ -330,9 +330,12 @@
     <Compile Include="Views\Categories\Detail\Partials\BaseContentModule.cs" />
     <Compile Include="Views\Categories\Detail\Partials\FloatingActionButton\FloatingActionButtonModel.cs" />
     <Compile Include="Views\Categories\Detail\Partials\InlineText\InlineTextJson.cs" />
+    <Compile Include="Views\Categories\Detail\Partials\Segmentation\SegmentationController.cs" />
+    <Compile Include="Views\Categories\Detail\Partials\Segmentation\SegmentModel.cs" />
     <Compile Include="Views\Categories\Detail\Partials\Segmentation\SegmentJson.cs" />
     <Compile Include="Views\Categories\Detail\Partials\Segmentation\Segment.cs" />
     <Compile Include="Views\Categories\Detail\Partials\Segmentation\SegmentationModel.cs" />
+    <Compile Include="Views\Categories\Detail\Partials\Segmentation\SegmentationCategoryCardModel.cs" />
     <Compile Include="Views\Categories\Detail\TemplateParser\Tokenizer\Tokenizer.cs" />
     <Compile Include="Views\Categories\Detail\TemplateToHtml\TemplateToHtml.cs" />
     <Compile Include="Views\Questions\AddQuestion\AddQuestionComponentModel.cs" />
@@ -2167,6 +2170,12 @@
     <Content Include="Views\Categories\Detail\JsEditMode\Segmentation\SegmentationComponent.js">
       <DependentUpon>SegmentationComponent.ts</DependentUpon>
     </Content>
+    <Content Include="Views\Categories\Detail\JsEditMode\Segmentation\SegmentComponent - Copy.js">
+      <DependentUpon>AddCategoryComponent.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Categories\Detail\JsEditMode\Segmentation\SegmentComponent.js">
+      <DependentUpon>SegmentComponent.ts</DependentUpon>
+    </Content>
     <Content Include="Views\Categories\Detail\Js\Category.js">
       <DependentUpon>Category.ts</DependentUpon>
     </Content>
@@ -2186,7 +2195,11 @@
       <DependentUpon>Tabbing.ts</DependentUpon>
     </Content>
     <Content Include="Views\Categories\Detail\Partials\BreadCrumbCategories.ascx" />
+    <Content Include="Views\Categories\Detail\Partials\Segmentation\Segmentation.css">
+      <DependentUpon>Segmentation.less</DependentUpon>
+    </Content>
     <Content Include="Views\Categories\Detail\Partials\Segmentation\SegmentationCategoryCardComponent.vue.ascx" />
+    <Content Include="Views\Categories\Detail\Partials\Segmentation\AddCategoryComponent.vue.ascx" />
     <Content Include="Views\Categories\Detail\Partials\Segmentation\SegmentComponent.vue.ascx" />
     <Content Include="Views\Questions\AddQuestion\AddQuestionComponent.vue.ascx" />
     <Content Include="Views\Questions\AddQuestion\EditQuestionModal.vue.ascx" />
@@ -2476,6 +2489,7 @@
     <Content Include="Views\Categories\Detail\FloatingActionButton\TopicTabFABLoader.js.map">
       <DependentUpon>TopicTabFABLoader.ts</DependentUpon>
     </Content>
+    <Content Include="Views\Categories\Detail\Partials\Segmentation\Segmentation.less" />
     <None Include="Views\Maintenance\ContentStats.less" />
     <Compile Include="Views\Maintenance\ContentStatsModel.cs" />
     <Compile Include="Views\Maintenance\Images\MaintenanceImagesController.cs" />
@@ -2639,6 +2653,7 @@
     <TypeScriptCompile Include="Views\Categories\Detail\FloatingActionButton\FloatingActionButton.ts" />
     <TypeScriptCompile Include="Views\Categories\Detail\JsEditMode\Segmentation\SegmentationCategoryCardComponent.ts" />
     <TypeScriptCompile Include="Views\Categories\Detail\JsEditMode\Segmentation\SegmentationComponent.ts" />
+    <TypeScriptCompile Include="Views\Categories\Detail\JsEditMode\Segmentation\AddCategoryComponent.ts" />
     <TypeScriptCompile Include="Views\Categories\Detail\JsEditMode\Segmentation\SegmentComponent.ts" />
     <TypeScriptCompile Include="Views\Questions\Answer\Js\QuestionDetails\AnswerQuestionDetailsApp.ts" />
     <TypeScriptCompile Include="Views\Questions\Answer\Js\QuestionDetails\AnswerQuestionDetailsComponent.ts" />

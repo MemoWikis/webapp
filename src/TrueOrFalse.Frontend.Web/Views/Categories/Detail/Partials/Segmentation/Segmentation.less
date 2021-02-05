@@ -1,0 +1,144 @@
+﻿@darkgrey: #999999;
+@highlightblue: #18A0FB;
+
+#Segmentation {
+    margin-bottom: 40px;
+
+    .segmentationHeader {
+        font-size: 14px;
+        font-weight: 600;
+        color: @darkgrey;
+        line-height: 20px;
+        letter-spacing: 1.25px;
+        text-transform: uppercase;
+        font-family: 'Open Sans';
+        border-bottom: @darkgrey 0.03125em solid;
+        padding-bottom: 12px;
+        margin-bottom: 41px;
+    }
+
+    #GeneratedSegmentSection, .segment, .segmentCategoryCard {
+        border-radius: 3px;
+        border: solid transparent 1px;
+        transition: 0.2s;
+
+        &.hover {
+            border-color: #45aece;
+            cursor: pointer;
+        }
+    }
+
+    #GeneratedSegmentSection, .segment {
+        &.hover {
+            margin: 0 -20px;
+            padding: 0 20px;
+        }
+    }
+
+    #CustomSegmentSection, #GeneratedSegmentSection {
+        .topicNavigation {
+            .segmentCategoryCard {
+                .topic-name {
+                    padding: 0;
+                }
+
+                .checkBox {
+                    position: absolute;
+                    z-index: 3;
+                    line-height: 0;
+                    background: white;
+                    color: @highlightblue;
+                }
+
+                .DropdownButton {
+                    position: absolute;
+                    right: 10px;
+                }
+            }
+
+            .addCategoryCard {
+                display: flex;
+                border-radius: 3px;
+                border: dashed @darkgrey 2px;
+                transition: 0.2s;
+                justify-content: center;
+                align-content: center;
+                align-items: center;
+                text-align: center;
+                min-height: 150px;
+                color: @darkgrey;
+
+                @media (max-width: 649px) {
+                    width: 100%;
+                }
+
+                &:hover {
+                    border-color: @highlightblue;
+                    color: @highlightblue;
+                }
+            }
+        }
+    }
+
+    #CustomSegmentSection {
+        .segment {
+            .segmentSubHeader {
+                .segmentKnowledgeBar {
+                    max-width: 420px;
+                }
+            }
+        }
+    }
+
+    .categoryCardModal {
+        .modal-s {
+            width: 430px;
+        }
+
+        .dismissModal {
+            position: absolute;
+            right: 15px;
+            z-index: 10;
+            top: 10px;
+        }
+
+        .modal-content {
+            padding: 34px 50px;
+
+            .addCategoryCardModal {
+                h4 {
+                    text-align: center;
+                }
+
+                .modalBody {
+                    font-size: 14px;
+                    padding: 10px 0 20px;
+                    margin-bottom: 10px;
+
+                    .alert {
+                        line-height: 18px;
+                    }
+
+                    a {
+                        color: @highlightblue;
+                    }
+
+                    .checkBox {
+                        user-select: none;
+                        cursor: pointer;
+                        color: @darkgrey;
+
+                        i {
+                            color: @highlightblue;
+                        }
+                    }
+                }
+
+                .modalFooter {
+                    display: flex;
+                    justify-content: center;
+                }
+            }
+        }
+    }
+}
