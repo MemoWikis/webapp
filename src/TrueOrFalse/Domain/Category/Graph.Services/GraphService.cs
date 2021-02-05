@@ -93,6 +93,7 @@ public class GraphService
                     foreach (var cp in currentParents)
                     {
                         parents.Add(cp);
+                        
                     }
 
                     parents = parents.Distinct().ToList();
@@ -116,7 +117,29 @@ public class GraphService
         }
         rootCategory.CategoryRelations = new List<CategoryRelation>();
         listWithUserPersonelCategories.Add(rootCategory);
+
+        foreach (var listWithUserPersonelCategory in listWithUserPersonelCategories)
+        {
             
+            foreach (var categoryRelation in listWithUserPersonelCategory.CategoryRelations)    
+            {
+                if(categoryRelation.CategoryRelationType == CategoryRelationType.IsChildCategoryOf)
+                    foreach (var listWithUserPersonelCategoryInner in listWithUserPersonelCategories)
+                    {
+                        if (listWithUserPersonelCategoryInner.Id == categoryRelation.RelatedCategory.Id)
+                        {
+                            if (listWithUserPersonelCategoryInner.CachedData.Children == null)
+                                listWithUserPersonelCategoryInner.CachedData.Children = new List<Category>();
+
+                            listWithUserPersonelCategoryInner.CachedData.Children
+                                .Add(EntityCache.GetCategory(categoryRelation.Category.Id, true));
+
+                        }
+                    }
+            }  
+        }
+        
+           
         return listWithUserPersonelCategories;
     }
 

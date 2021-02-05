@@ -35,6 +35,8 @@ public class Category : DomainEntity, ICreator, ICloneable
             : new List<Category>();
     }
 
+    public virtual CategoryCachedData CachedData { get; set; } = new CategoryCachedData();
+
     public virtual string CategoriesToExcludeIdsString { get; set; }
 
     private IEnumerable<int> _categoriesToExcludeIds;

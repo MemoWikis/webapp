@@ -274,6 +274,7 @@
   <ItemGroup>
     <Compile Include="Domain\Blog\BlogMemuchoDeRepo.cs" />
     <Compile Include="Domain\Blog\WordpressBlogPost.cs" />
+    <Compile Include="Domain\Category\CategoryCachedData.cs" />
     <Compile Include="Domain\Category\Crumbtrail\Crumbtrail.cs" />
     <Compile Include="Domain\Category\Crumbtrail\CrumbtrailItem.cs" />
     <Compile Include="Domain\Category\Crumbtrail\CrumbtrailService.cs" />
