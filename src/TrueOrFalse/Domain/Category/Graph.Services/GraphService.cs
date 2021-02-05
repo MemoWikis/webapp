@@ -118,29 +118,31 @@ public class GraphService
         rootCategory.CategoryRelations = new List<CategoryRelation>();
         listWithUserPersonelCategories.Add(rootCategory);
 
-        foreach (var listWithUserPersonelCategory in listWithUserPersonelCategories)
+        return AddChildrenToCategory(listWithUserPersonelCategories);
+    }
+
+    public static List<Category> AddChildrenToCategory(List<Category> categoryList)
+    {
+        foreach (var category in categoryList)
         {
-            
-            foreach (var categoryRelation in listWithUserPersonelCategory.CategoryRelations)    
+            foreach (var categoryRelation in category.CategoryRelations)
             {
-                if(categoryRelation.CategoryRelationType == CategoryRelationType.IsChildCategoryOf)
-                    foreach (var listWithUserPersonelCategoryInner in listWithUserPersonelCategories)
+                if (categoryRelation.CategoryRelationType == CategoryRelationType.IsChildCategoryOf)
+                    foreach (var categoryInner in categoryList)
                     {
-                        if (listWithUserPersonelCategoryInner.Id == categoryRelation.RelatedCategory.Id)
+                        if (categoryInner.Id == categoryRelation.RelatedCategory.Id)
                         {
-                            if (listWithUserPersonelCategoryInner.CachedData.Children == null)
-                                listWithUserPersonelCategoryInner.CachedData.Children = new List<Category>();
+                            if (categoryInner.CachedData.Children == null)
+                                categoryInner.CachedData.Children = new List<Category>();
 
-                            listWithUserPersonelCategoryInner.CachedData.Children
+                            categoryInner.CachedData.Children
                                 .Add(EntityCache.GetCategory(categoryRelation.Category.Id, true));
-
                         }
                     }
-            }  
+            }
         }
-        
-           
-        return listWithUserPersonelCategories;
+
+        return categoryList; 
     }
 
     private static List<Category> GetParentsFromCategory(Category category)
