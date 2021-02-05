@@ -36,10 +36,10 @@ class GraphService_tests : BaseTest
 
         var userPersonnelCategoriesWithRelations =   GraphService.GetAllPersonalCategoriesWithRelations(rootElement, 2);
 
-        Assert.That(userPersonnelCategoriesWithRelations.First().Name, Is.EqualTo("SubSub1"));
-        Assert.That(userPersonnelCategoriesWithRelations.First().CategoryRelations.First().RelatedCategory.Name, Is.EqualTo("RootElement"));
-        Assert.That(userPersonnelCategoriesWithRelations.First().CategoryRelations.First().Category.Name, Is.EqualTo("SubSub1"));
-        Assert.That(userPersonnelCategoriesWithRelations.First().CategoryRelations.First().CategoryRelationType, Is.EqualTo(CategoryRelationType.IsChildCategoryOf));
+        Assert.That(userPersonnelCategoriesWithRelations.ByName("SubSub1").Name, Is.EqualTo("SubSub1"));
+        Assert.That(userPersonnelCategoriesWithRelations.ByName("SubSub1").CategoryRelations.First().RelatedCategory.Name, Is.EqualTo("RootElement"));
+        Assert.That(userPersonnelCategoriesWithRelations.ByName("SubSub1").CategoryRelations.First().Category.Name, Is.EqualTo("SubSub1"));
+        Assert.That(userPersonnelCategoriesWithRelations.ByName("SubSub1").CategoryRelations.First().CategoryRelationType, Is.EqualTo(CategoryRelationType.IsChildCategoryOf));
 
     }
     [Test]
@@ -396,7 +396,7 @@ class GraphService_tests : BaseTest
 
         Assert.That(HasCorrectParent(userPersonnelCategoriesWithRelations.ByName("F"), "A"),
             Is.EqualTo(true));
-        Assert.That(userPersonnelCategoriesWithRelations.First().CategoryRelations.Count, Is.EqualTo(1));
+        Assert.That(userPersonnelCategoriesWithRelations.ByName("F").CategoryRelations.Count, Is.EqualTo(1));
 
     }
 

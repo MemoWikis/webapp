@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using FluentNHibernate.Conventions;
 
 public class GraphService
 {
@@ -118,31 +120,29 @@ public class GraphService
         rootCategory.CategoryRelations = new List<CategoryRelation>();
         listWithUserPersonelCategories.Add(rootCategory);
 
-        return AddChildrenToCategory(listWithUserPersonelCategories);
+        var l = listWithUserPersonelCategories.ToConcurrentDictionary(); 
+
+        return AddChildrenToCategory(l);
     }
 
-    public static List<Category> AddChildrenToCategory(List<Category> categoryList)
+    public static List<Category> AddChildrenToCategory(ConcurrentDictionary<int, Category> categoryList)
     {
-        foreach (var category in categoryList)
+        foreach (var category in categoryList.Values)
         {
             foreach (var categoryRelation in category.CategoryRelations)
             {
-                if (categoryRelation.CategoryRelationType == CategoryRelationType.IsChildCategoryOf)
-                    foreach (var categoryInner in categoryList)
-                    {
-                        if (categoryInner.Id == categoryRelation.RelatedCategory.Id)
-                        {
-                            if (categoryInner.CachedData.Children == null)
-                                categoryInner.CachedData.Children = new List<Category>();
+                if (categoryRelation.CategoryRelationType == CategoryRelationType.IsChildCategoryOf && categoryList.ContainsKey(categoryRelation.RelatedCategory.Id))
+                {
+                    if (categoryList[categoryRelation.RelatedCategory.Id].CachedData.Children == null)
+                            categoryList[categoryRelation.RelatedCategory.Id].CachedData.Children = new List<Category>();
 
-                            categoryInner.CachedData.Children
-                                .Add(EntityCache.GetCategory(categoryRelation.Category.Id, true));
-                        }
-                    }
+                        categoryList[categoryRelation.RelatedCategory.Id].CachedData.Children
+                            .Add(EntityCache.GetCategory(categoryRelation.Category.Id, true));
+                }
             }
         }
 
-        return categoryList; 
+        return categoryList.Values.ToList(); 
     }
 
     private static List<Category> GetParentsFromCategory(Category category)
