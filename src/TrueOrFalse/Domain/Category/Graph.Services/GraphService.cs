@@ -122,10 +122,10 @@ public class GraphService
 
         var l = listWithUserPersonelCategories.ToConcurrentDictionary(); 
 
-        return AddChildrenToCategory(l);
+        return AddChildrenToCategory(l).Values.ToList();
     }
 
-    public static List<Category> AddChildrenToCategory(ConcurrentDictionary<int, Category> categoryList)
+    public static ConcurrentDictionary<int, Category> AddChildrenToCategory(ConcurrentDictionary<int, Category> categoryList)
     {
         foreach (var category in categoryList.Values)
         {
@@ -142,7 +142,7 @@ public class GraphService
             }
         }
 
-        return categoryList.Values.ToList(); 
+        return categoryList; 
     }
 
     private static List<Category> GetParentsFromCategory(Category category)
