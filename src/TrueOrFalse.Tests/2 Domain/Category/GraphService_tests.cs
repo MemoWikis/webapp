@@ -36,10 +36,10 @@ class GraphService_tests : BaseTest
 
         var userPersonnelCategoriesWithRelations =   GraphService.GetAllPersonalCategoriesWithRelations(rootElement, 2);
 
-        Assert.That(userPersonnelCategoriesWithRelations.First().Name, Is.EqualTo("SubSub1"));
-        Assert.That(userPersonnelCategoriesWithRelations.First().CategoryRelations.First().RelatedCategory.Name, Is.EqualTo("RootElement"));
-        Assert.That(userPersonnelCategoriesWithRelations.First().CategoryRelations.First().Category.Name, Is.EqualTo("SubSub1"));
-        Assert.That(userPersonnelCategoriesWithRelations.First().CategoryRelations.First().CategoryRelationType, Is.EqualTo(CategoryRelationType.IsChildCategoryOf));
+        Assert.That(userPersonnelCategoriesWithRelations.ByName("SubSub1").Name, Is.EqualTo("SubSub1"));
+        Assert.That(userPersonnelCategoriesWithRelations.ByName("SubSub1").CategoryRelations.First().RelatedCategory.Name, Is.EqualTo("RootElement"));
+        Assert.That(userPersonnelCategoriesWithRelations.ByName("SubSub1").CategoryRelations.First().Category.Name, Is.EqualTo("SubSub1"));
+        Assert.That(userPersonnelCategoriesWithRelations.ByName("SubSub1").CategoryRelations.First().CategoryRelationType, Is.EqualTo(CategoryRelationType.IsChildCategoryOf));
 
     }
     [Test]
@@ -321,6 +321,30 @@ class GraphService_tests : BaseTest
 
         Assert.That(HasCorrectParent(allPersonalCategoriesWithRelations.ByName("X"), "A"),
             Is.EqualTo(true));
+
+        Assert.That(HasCorrectChild(allPersonalCategoriesWithRelations.ByName("X"), "I"), Is.EqualTo(true));
+        Assert.That(HasCorrectChild(allPersonalCategoriesWithRelations.ByName("X"), "G"), Is.EqualTo(true));
+        Assert.That(HasCorrectChild(allPersonalCategoriesWithRelations.ByName("X"), "F"), Is.EqualTo(true));
+        Assert.That(allPersonalCategoriesWithRelations.ByName("X").CachedData.Children.Count, Is.EqualTo(3));
+
+        Assert.That(HasCorrectChild(allPersonalCategoriesWithRelations.ByName("X3"), "F"), Is.EqualTo(true));
+        Assert.That(HasCorrectChild(allPersonalCategoriesWithRelations.ByName("X3"), "G"), Is.EqualTo(true));
+        Assert.That(HasCorrectChild(allPersonalCategoriesWithRelations.ByName("X3"), "I"), Is.EqualTo(true));
+        Assert.That(allPersonalCategoriesWithRelations.ByName("X").CachedData.Children.Count, Is.EqualTo(3));
+     
+        Assert.That(allPersonalCategoriesWithRelations.ByName("B").CachedData.Children, Is.EqualTo(null));
+
+        Assert.That(allPersonalCategoriesWithRelations.ByName("F").CachedData.Children, Is.EqualTo(null));
+
+        Assert.That(HasCorrectChild(allPersonalCategoriesWithRelations.ByName("G"), "I"), Is.EqualTo(true));
+        Assert.That(allPersonalCategoriesWithRelations.ByName("G").CachedData.Children.Count, Is.EqualTo(1));
+
+        Assert.That(HasCorrectChild(allPersonalCategoriesWithRelations.ByName("A"), "B"), Is.EqualTo(true));
+        Assert.That(HasCorrectChild(allPersonalCategoriesWithRelations.ByName("A"), "X"), Is.EqualTo(true));
+        Assert.That(HasCorrectChild(allPersonalCategoriesWithRelations.ByName("A"), "X3"), Is.EqualTo(true));
+        Assert.That(allPersonalCategoriesWithRelations.ByName("A").CachedData.Children.Count, Is.EqualTo(3));
+
+
     }
 
     [Test]
@@ -372,7 +396,7 @@ class GraphService_tests : BaseTest
 
         Assert.That(HasCorrectParent(userPersonnelCategoriesWithRelations.ByName("F"), "A"),
             Is.EqualTo(true));
-        Assert.That(userPersonnelCategoriesWithRelations.First().CategoryRelations.Count, Is.EqualTo(1));
+        Assert.That(userPersonnelCategoriesWithRelations.ByName("F").CategoryRelations.Count, Is.EqualTo(1));
 
     }
 
@@ -478,6 +502,11 @@ class GraphService_tests : BaseTest
     private bool HasCorrectParent(Category category, string nameParent)
     {
         return category.CategoryRelations.Any(cr => cr.RelatedCategory.Name == nameParent);
+    }
+
+    private bool HasCorrectChild(Category category, string nameChild)
+    {
+        return category.CachedData.Children.Any(child => child.Name == nameChild );
     }
 
     private bool IsCategoryRelationsCategoriesIdCorrect(Category category)

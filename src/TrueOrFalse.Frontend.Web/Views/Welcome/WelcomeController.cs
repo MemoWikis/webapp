@@ -10,7 +10,7 @@ public class WelcomeController : BaseController
     [SetThemeMenu]
     public ActionResult Welcome()
     {
-        var category = EntityCache.GetCategory(1); 
+        var category = RootCategory.Get; 
         return Redirect(Links.CategoryDetail(category)); ;
     }
 

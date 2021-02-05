@@ -376,10 +376,10 @@ public class CategoryRepository : RepositoryDbBase<Category>
     {
         return new List<Category>
         {
-            EntityCache.GetCategory(682), //Schule
-            EntityCache.GetCategory(687), //Studium
-            EntityCache.GetCategory(689), //Zertifikate
-            EntityCache.GetCategory(AllgemeinwissenId) //Allgemeinwissen
+            EntityCache.GetCategory(682, true), //Schule
+            EntityCache.GetCategory(687, true), //Studium
+            EntityCache.GetCategory(689, true), //Zertifikate
+            EntityCache.GetCategory(AllgemeinwissenId, true) //Allgemeinwissen
         };
     }
 }

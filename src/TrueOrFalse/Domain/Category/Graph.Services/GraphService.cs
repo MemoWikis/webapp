@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using FluentNHibernate.Conventions;
 
 public class GraphService
 {
@@ -93,6 +95,7 @@ public class GraphService
                     foreach (var cp in currentParents)
                     {
                         parents.Add(cp);
+                        
                     }
 
                     parents = parents.Distinct().ToList();
@@ -116,8 +119,30 @@ public class GraphService
         }
         rootCategory.CategoryRelations = new List<CategoryRelation>();
         listWithUserPersonelCategories.Add(rootCategory);
-            
-        return listWithUserPersonelCategories;
+
+        var l = listWithUserPersonelCategories.ToConcurrentDictionary(); 
+
+        return AddChildrenToCategory(l).Values.ToList();
+    }
+
+    public static ConcurrentDictionary<int, Category> AddChildrenToCategory(ConcurrentDictionary<int, Category> categoryList)
+    {
+        foreach (var category in categoryList.Values)
+        {
+            foreach (var categoryRelation in category.CategoryRelations)
+            {
+                if (categoryRelation.CategoryRelationType == CategoryRelationType.IsChildCategoryOf && categoryList.ContainsKey(categoryRelation.RelatedCategory.Id))
+                {
+                    if (categoryList[categoryRelation.RelatedCategory.Id].CachedData.Children == null)
+                            categoryList[categoryRelation.RelatedCategory.Id].CachedData.Children = new List<Category>();
+
+                        categoryList[categoryRelation.RelatedCategory.Id].CachedData.Children
+                            .Add(EntityCache.GetCategory(categoryRelation.Category.Id, true));
+                }
+            }
+        }
+
+        return categoryList; 
     }
 
     private static List<Category> GetParentsFromCategory(Category category)

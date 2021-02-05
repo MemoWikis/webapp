@@ -362,6 +362,8 @@ public class CategoryController : BaseController
             cookie.Expires = DateTime.Now.AddDays(-1);
             Response.Cookies.Add(cookie);
         }
+
+        UserCache.IsFiltered = false; 
         return true;
     }
 }

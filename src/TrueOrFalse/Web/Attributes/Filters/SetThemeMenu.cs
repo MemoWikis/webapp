@@ -33,7 +33,7 @@ namespace System.Web.Mvc
                     var categoryId = (string)httpContextData["id"];
 
                     if (int.TryParse(categoryId, out var categoryIdNumber))
-                        activeCategories.Add(EntityCache.GetCategory(categoryIdNumber));
+                        activeCategories.Add(EntityCache.GetCategory(categoryIdNumber, true));
                 }
                 
                 if (_isQuestionPage)
@@ -43,7 +43,7 @@ namespace System.Web.Mvc
 
                 if (_isLearningSessionPage)
                 {
-                    activeCategories.Add(Sl.CategoryRepo.GetByIdEager(684));
+                    activeCategories.Add(EntityCache.GetCategory(684));
                 }
             }
 
