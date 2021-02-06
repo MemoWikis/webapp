@@ -29,15 +29,10 @@ public class EntityCache : BaseCache
         var categories = Sl.CategoryRepo.GetAllEager();
         var questions = Sl.QuestionRepo.GetAllEager();
 
-#if DEBUG
-        categories.DeepClone();
-        questions.DeepClone();
-#endif
-
         Logg.r().Information("EntityCache LoadAllEntities" + customMessage + "{Elapsed}", stopWatch.Elapsed);
 
         IntoForeverCache(_cacheKeyQuestions, questions.ToConcurrentDictionary());
-        IntoForeverCache(_cacheKeyCategories, categories.ToConcurrentDictionary());
+        IntoForeverCache(_cacheKeyCategories, GraphService.AddChildrenToCategory(categories.ToConcurrentDictionary()));
         IntoForeverCache(_cacheKeyCategoryQuestionsList, GetCategoryQuestionsList(questions));
 
         Logg.r().Information("EntityCache PutIntoCache" + customMessage + "{Elapsed}", stopWatch.Elapsed);

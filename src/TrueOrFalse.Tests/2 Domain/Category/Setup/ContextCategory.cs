@@ -148,18 +148,13 @@ namespace TrueOrFalse.Tests
 
                 Add("X1", parent: firstChildren.ByName("X3"))
                 .Persist();
-                Add("X1", parent: firstChildren.ByName("X"))
-                    .Persist();
 
-            var secondChildren = Add("B", parent: rootElement)
+                var secondChildren = Add("B", parent: rootElement)
                 .Add("C", parent: firstChildren.ByName("X"))
                 .Persist()
                 .All;
 
             Add("C", parent: firstChildren.ByName("X1"))
-                .Persist();
-
-            Add("X1", parent: firstChildren.ByName("X2"))
                 .Persist();
 
             Add("C", parent: firstChildren.ByName("X2"))
@@ -240,6 +235,11 @@ namespace TrueOrFalse.Tests
             CategoryInKnowledge.Pin(firstChildren.ByName("I").Id, user);
 
             Sl.SessionUser.Login(user);
+        }
+
+        public static bool HasCorrectChild(Category category, string nameChild)
+        {
+            return category.CachedData.Children.Any(child => child.Name == nameChild);
         }
     }
 }

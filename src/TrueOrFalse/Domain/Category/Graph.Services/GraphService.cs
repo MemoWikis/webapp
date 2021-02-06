@@ -120,9 +120,9 @@ public class GraphService
         rootCategory.CategoryRelations = new List<CategoryRelation>();
         listWithUserPersonelCategories.Add(rootCategory);
 
-        var l = listWithUserPersonelCategories.ToConcurrentDictionary(); 
+        var listAsConcurrentDictionary = listWithUserPersonelCategories.ToConcurrentDictionary(); 
 
-        return AddChildrenToCategory(l).Values.ToList();
+        return AddChildrenToCategory(listAsConcurrentDictionary).Values.ToList();
     }
 
     public static ConcurrentDictionary<int, Category> AddChildrenToCategory(ConcurrentDictionary<int, Category> categoryList)
@@ -137,7 +137,7 @@ public class GraphService
                             categoryList[categoryRelation.RelatedCategory.Id].CachedData.Children = new List<Category>();
 
                         categoryList[categoryRelation.RelatedCategory.Id].CachedData.Children
-                            .Add(EntityCache.GetCategory(categoryRelation.Category.Id, true));
+                            .Add(categoryList[categoryRelation.Category.Id]);
                 }
             }
         }
