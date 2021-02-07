@@ -29,7 +29,7 @@
                                 </div>
                             </div>
                             <div class="modalFooter">
-                                <div class="btn btn-primary" @click="addCategory">Thema Erstellen</div>       
+                                <div class="btn btn-primary" @click="addCategory" :disabled="disableAddCategory">Thema Erstellen</div>       
                             </div>   
                         </div>
                     </div>

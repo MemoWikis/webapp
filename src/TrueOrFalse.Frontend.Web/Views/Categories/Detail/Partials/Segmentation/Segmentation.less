@@ -15,6 +15,8 @@
         border-bottom: @darkgrey 0.03125em solid;
         padding-bottom: 12px;
         margin-bottom: 41px;
+        display: flex;
+        justify-content: space-between;
     }
 
     #GeneratedSegmentSection, .segment, .segmentCategoryCard {
@@ -37,6 +39,8 @@
 
     #CustomSegmentSection, #GeneratedSegmentSection {
         .topicNavigation {
+            margin-top: 20px;
+
             .segmentCategoryCard {
                 .topic-name {
                     padding: 0;
@@ -53,6 +57,10 @@
                 .DropdownButton {
                     position: absolute;
                     right: 10px;
+
+                    i {
+                        color: @highlightblue;
+                    }
                 }
             }
 
@@ -89,6 +97,37 @@
             }
         }
     }
+
+    .segmentHeader {
+        display: inline-flex;
+        width: 100%;
+        justify-content: space-between;
+        margin-top: 20px;
+        margin-bottom: 10px;
+
+        .segmentTitle {
+            display: inline-flex;
+
+            h2 {
+                margin: 0;
+            }
+
+            span.Button {
+                padding-top: 10px;
+                margin-left: 10px;
+            }
+        }
+
+        .segmentDropdown {
+            font-size: 35px;
+            height: 35px;
+
+            i {
+                color: @highlightblue;
+            }
+        }
+    }
+
 
     .categoryCardModal {
         .modal-s {

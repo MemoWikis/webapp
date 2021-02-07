@@ -14,9 +14,18 @@
             showErrorMsg: false,
             disabled: false,
             addCategoryBtnId: null,
+            disableAddCategory: true,
+            selectedCategories: [],
+            moveCategories: false,
         };
     },
     watch: {
+        name(val) {
+            if (val.length <= 0)
+                this.disableAddCategory = true;
+            else
+                this.disableAddCategory = false;
+        }
     },
     created() {
     },
@@ -25,6 +34,9 @@
             event => {
                 this.parentId = $('#AddCategoryModal').data('parent').id;
                 this.addCategoryBtnId = $('#AddCategoryModal').data('parent').addCategoryBtnId;
+                this.moveCategories = $('#AddCategoryModal').data('parent').moveCategories;
+                if (this.moveCategories)
+                    this.selectedCategories = $('#AddCategoryModal').data('parent').selectedCategories;
             });
 
         $('#AddCategoryModal').on('hidden.bs.modal',
@@ -40,6 +52,8 @@
             this.parentId = null;
             this.existingCategoryName = "";
             this.existingCategoryUrl = "";
+            this.selectedCategories = [];
+            this.moveCategories = false;
         },
         closeModal() {
             $('#AddCategoryModal').modal('hide');
@@ -65,6 +79,25 @@
         },
         addCategory() {
             var self = this;
+            var url;
+            var categoryData;
+            if (this.moveCategories) {
+                categoryData = {
+                    name: self.name,
+                    parentCategoryId: self.parentId,
+                    childCategoryIds: self.selectedCategories,
+                }
+                url = '/EditCategory/QuickCreateWithCategories';
+
+            } else {
+                categoryData = {
+                    name: self.name,
+                    parentCategoryId: self.parentId
+                }
+                url = '/EditCategory/QuickCreate';
+
+            }
+
             $.ajax({
                 type: 'Post',
                 contentType: "application/json",
@@ -72,14 +105,10 @@
                 data: JSON.stringify({ name: self.name }),
                 success: function (data) {
                     if (data.categoryNameAllowed) {
-                        var categoryData = {
-                            name: self.name,
-                            parentCategoryId: self.parentId
-                        }
                         $.ajax({
                             type: 'Post',
                             contentType: "application/json",
-                            url: '/EditCategory/QuickCreate',
+                            url: url,
                             data: JSON.stringify(categoryData),
                             success: function (data) {
                                 if (data.success) {
@@ -110,8 +139,12 @@
                     if (data) {
                         var inserted = $(data.html).insertBefore(self.addCategoryBtnId);
                         var instance = new categoryCardComponent({
-                            el: inserted.get(0)
+                            el: inserted.get(0),
+                            props: {
+                                editMode: true,
+                            },
                         });
+                        $('#AddCategoryModal').modal('hide');
                     } else {
 
                     };

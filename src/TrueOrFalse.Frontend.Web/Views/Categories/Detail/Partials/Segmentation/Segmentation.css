@@ -12,6 +12,8 @@
   border-bottom: #999999 0.03125em solid;
   padding-bottom: 12px;
   margin-bottom: 41px;
+  display: flex;
+  justify-content: space-between;
 }
 #Segmentation #GeneratedSegmentSection,
 #Segmentation .segment,
@@ -31,6 +33,10 @@
   margin: 0 -20px;
   padding: 0 20px;
 }
+#Segmentation #CustomSegmentSection .topicNavigation,
+#Segmentation #GeneratedSegmentSection .topicNavigation {
+  margin-top: 20px;
+}
 #Segmentation #CustomSegmentSection .topicNavigation .segmentCategoryCard .topic-name,
 #Segmentation #GeneratedSegmentSection .topicNavigation .segmentCategoryCard .topic-name {
   padding: 0;
@@ -47,6 +53,10 @@
 #Segmentation #GeneratedSegmentSection .topicNavigation .segmentCategoryCard .DropdownButton {
   position: absolute;
   right: 10px;
+}
+#Segmentation #CustomSegmentSection .topicNavigation .segmentCategoryCard .DropdownButton i,
+#Segmentation #GeneratedSegmentSection .topicNavigation .segmentCategoryCard .DropdownButton i {
+  color: #18A0FB;
 }
 #Segmentation #CustomSegmentSection .topicNavigation .addCategoryCard,
 #Segmentation #GeneratedSegmentSection .topicNavigation .addCategoryCard {
@@ -74,6 +84,30 @@
 }
 #Segmentation #CustomSegmentSection .segment .segmentSubHeader .segmentKnowledgeBar {
   max-width: 420px;
+}
+#Segmentation .segmentHeader {
+  display: inline-flex;
+  width: 100%;
+  justify-content: space-between;
+  margin-top: 20px;
+  margin-bottom: 10px;
+}
+#Segmentation .segmentHeader .segmentTitle {
+  display: inline-flex;
+}
+#Segmentation .segmentHeader .segmentTitle h2 {
+  margin: 0;
+}
+#Segmentation .segmentHeader .segmentTitle span.Button {
+  padding-top: 10px;
+  margin-left: 10px;
+}
+#Segmentation .segmentHeader .segmentDropdown {
+  font-size: 35px;
+  height: 35px;
+}
+#Segmentation .segmentHeader .segmentDropdown i {
+  color: #18A0FB;
 }
 #Segmentation .categoryCardModal .modal-s {
   width: 430px;

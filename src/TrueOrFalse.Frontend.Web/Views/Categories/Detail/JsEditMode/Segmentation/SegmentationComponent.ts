@@ -23,7 +23,8 @@ var segmentationComponent = Vue.component('segmentation-component', {
             id: 'SegmentationComponent',
             hover: false,
             showHover: false,
-            addCategoryId: "AddToCurrentCategoryCard"
+            addCategoryId: "AddToCurrentCategoryCard",
+            dropdownId: "MainSegment-Dropdown"
         };
     },
 
@@ -111,7 +112,36 @@ var segmentationComponent = Vue.component('segmentation-component', {
             var self = this;
             var parent = {
                 id: self.categoryId,
-                addCategoryBtnId: $("#AddToCurrentCategoryBtn")
+                addCategoryBtnId: $("#AddToCurrentCategoryBtn"),
+                moveCategories: false,
+            }
+            $('#AddCategoryModal').data('parent', parent).modal('show');
+        },
+        removeChildren() {
+            var self = this;
+            var data = {
+                parentCategoryId: self.categoryId,
+                childCategoryIds: self.selectedCategories,
+            };
+            $.ajax({
+                type: 'Post',
+                contentType: "application/json",
+                url: '/EditCategory/RemoveChildren',
+                data: JSON.stringify(data),
+                success: function (data) {
+                    for (var categoryId in self.selectedCategories) {
+                        self.$refs['card' + categoryId].visible = false;
+                    }
+                },
+            });
+        },
+        moveToNewCategory() {
+            var self = this;
+            var parent = {
+                id: self.categoryId,
+                addCategoryBtnId: $("#AddToCurrentCategoryBtn"),
+                moveCategories: true,
+                selectedCategories: self.selectedCategories,
             }
             $('#AddCategoryModal').data('parent', parent).modal('show');
         }

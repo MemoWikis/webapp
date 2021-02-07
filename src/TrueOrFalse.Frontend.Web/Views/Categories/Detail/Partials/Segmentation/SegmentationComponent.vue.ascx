@@ -1,7 +1,5 @@
 ﻿<%@ Control Language="C#" AutoEventWireup="true" Inherits="System.Web.Mvc.ViewUserControl<SegmentationModel>" %>
 <%@ Import Namespace="System.Web.Optimization" %>
-<%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
-
 
 <%= Styles.Render("~/bundles/Segmentation") %>
 
@@ -12,6 +10,15 @@
         </div>
         <div v-else class="segmentationHeader">
             Untergeordnete Themen
+            <div v-if="editMode" class="Button dropdown DropdownButton segmentDropdown">
+                <a href="#" :id="dropdownId" class="dropdown-toggle  btn btn-link btn-sm ButtonEllipsis" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                    <i class="fa fa-ellipsis-v"></i>
+                </a>
+                <ul class="dropdown-menu dropdown-menu-right" :aria-labelledby="dropdownId">
+                    <li><a @click="moveToNewCategory"><i class="fas fa-code-branch"></i>&nbsp;In neues Thema verschieben</a></li>
+                    <li><a @click="removeChildren"><i class="fas fa-unlink"></i>&nbsp;Verknüpfungen entfernen</a></li>
+                </ul>
+            </div>
         </div>
 
         <div id="CustomSegmentSection">
@@ -23,31 +30,45 @@
               } %>
         </div>
         <div id="GeneratedSegmentSection" @mouseover="hover = true" @mouseleave="hover = false" :class="{ hover : showHover }">
-            <h2 v-if="hasCustomSegment">
-                Weitere untergeordnete Themen
-            </h2>
-            <%if (Model.CategoryList.Any()) {
-                  if(!String.IsNullOrEmpty(Model.Title)){%>
-                    <h2><%: Model.Title %></h2>
-                <% }
-               if(!String.IsNullOrEmpty(Model.Text)){%>
-                    <p><%: Model.Text %></p>
-                <% } %>
+            <div class="segmentHeader" v-if="hasCustomSegment">
+                <div class="segmentTitle">
+                    <h2>
+                        Weitere untergeordnete Themen
+                    </h2>
+                </div>
+                <div v-if="showHover" class="Button dropdown DropdownButton segmentDropdown">
+                    <a href="#" :id="dropdownId" class="dropdown-toggle  btn btn-link btn-sm ButtonEllipsis" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                        <i class="fa fa-ellipsis-v"></i>
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-right" :aria-labelledby="dropdownId">
+                        <li><a @click="moveToNewCategory"><i class="fas fa-code-branch"></i>&nbsp;In neues Thema verschieben</a></li>
+                        <li><a @click="removeChildren"><i class="fas fa-unlink"></i>&nbsp;Verknüpfungen entfernen</a></li>
+                    </ul>
+                </div>
+            </div>
+            <%if(!String.IsNullOrEmpty(Model.Title)){%>
+                <h2><%: Model.Title %></h2>
+            <% }
+            if(!String.IsNullOrEmpty(Model.Text)){%>
+                 <p><%: Model.Text %></p>
+             <% } %>
         
                 <div class="topicNavigation row">
-                    <% foreach (var category in Model.NotInSegmentCategoryList)
-                       { %>
+                    <%if (Model.CategoryList.Any()) {
+                      foreach (var category in Model.NotInSegmentCategoryList)
+                      { %>
                         <%: Html.Partial("~/Views/Categories/Detail/Partials/Segmentation/SegmentationCategoryCardComponent.vue.ascx", new SegmentationCategoryCardModel(category)) %>
                     <% } %>
-                    <div :id="addCategoryId" class="col-xs-6 addCategoryCard" @click="addCategory">
+                    <%}else { %>
+                        <div class="hidden">&nbsp;</div><% //if empty, templateparser throws error %>
+                    <%} %>
+                    <div id="AddToCurrentCategoryBtn" class="col-xs-6 addCategoryCard" @click="addCategory">
                         <div>
                              <i class="fas fa-plus"></i> Neues Thema hinzufügen
                         </div>                    
                     </div>
                 </div>
-            <%}else { %>
-                <div class="hidden">&nbsp;</div><% //if empty, templateparser throws error %>
-            <%} %>
+
         </div>
         <%: Html.Partial("~/Views/Categories/Detail/Partials/Segmentation/AddCategoryComponent.vue.ascx") %>
     </div>

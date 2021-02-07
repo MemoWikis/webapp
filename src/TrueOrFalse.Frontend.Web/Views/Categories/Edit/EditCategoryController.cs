@@ -62,7 +62,6 @@ public class EditCategoryController : BaseController
         var category = _categoryRepository.GetById(id);
         _sessionUiData.VisitedCategories.Add(new CategoryHistoryItem(category, HistoryItemType.Edit));
 
-
         if (!IsAllowedTo.ToEdit(category))
             throw new SecurityException("Not allowed to edit categoty");
 
@@ -219,6 +218,57 @@ public class EditCategoryController : BaseController
             url = Links.CategoryDetail(category, openEditMode: true),
             id = category.Id
         });
+    }
+
+    [HttpPost]
+    public JsonResult QuickCreateWithCategories(string name, int parentCategoryId, int[] childCategoryIds)
+    {
+        var category = new Category(name);
+        var parentCategory = EntityCache.GetCategory(parentCategoryId);
+        ModifyRelationsForCategory.AddParentCategory(category, parentCategory);
+
+        category.Creator = _sessionUser.User;
+        category.Type = CategoryType.Standard;
+        _categoryRepository.Create(category);
+        StoreImage(category.Id);
+        foreach (var childCategoryId in childCategoryIds)
+        {
+            RemoveParent(parentCategoryId, childCategoryId);
+            ModifyRelationsForCategory.AddParentCategory(EntityCache.GetCategory(childCategoryId), category);
+        }
+        
+        return Json(new
+        {
+            success = true,
+            url = Links.CategoryDetail(category, openEditMode: true),
+            id = category.Id
+        });
+    }
+
+    [HttpPost]
+    public bool RemoveParent(int parentCategoryIdToRemove, int childCategoryId)
+    {
+        var childCategory = EntityCache.GetCategory(childCategoryId);
+        
+        if (!IsAllowedTo.ToEdit(childCategory))
+            throw new SecurityException("Not allowed to edit category");
+
+        var updatedParentList = childCategory.ParentCategories().Where(c => c.Id != parentCategoryIdToRemove).ToList();
+        ModifyRelationsForCategory.UpdateCategoryRelationsOfType(childCategory, updatedParentList, CategoryRelationType.IsChildCategoryOf);
+        UserEntityCache.ChangeAllActiveCategoryCaches();
+
+        Sl.CategoryRepo.Update(childCategory, _sessionUser.User);
+        
+        return true;
+    }
+
+    [HttpPost]
+    public bool RemoveChildren(int parentCategoryId, int[] childCategoryIds)
+    {
+        foreach (int childCategoryId in childCategoryIds)
+            RemoveParent(parentCategoryId, childCategoryId);
+
+        return true;
     }
 
     public ActionResult DetailsPartial(int? categoryId, CategoryType type, string typeModelGuid)

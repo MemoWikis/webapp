@@ -50,7 +50,21 @@
                     this.$emit('select-category', this.id);
             }
         },
-        splitRelation() {
+        removeParent() {
+            var self = this;
+            var data = {
+                parentCategoryIdToRemove: self.$parent.categoryId,
+                childCategoryId: self.categoryId,
+            };
+            $.ajax({
+                type: 'Post',
+                contentType: "application/json",
+                url: '/EditCategory/RemoveParent',
+                data: JSON.stringify(data),
+                success: function (data) {
+                    self.visible = false;
+                },
+            });
 
         }
     }
@@ -76,7 +90,8 @@ var segmentComponent = Vue.component('segment-component', {
             currentChildCategoryIds: [],
             hover: false,
             showHover: false,
-            addCategoryId: ""
+            addCategoryId: "",
+            dropdownId: null,
         };
     },
 
@@ -94,6 +109,7 @@ var segmentComponent = Vue.component('segment-component', {
         }
         this.addCategoryId = "AddCategoryTo-" + this.id + "-Btn";
         this.$emit('new-segment', segment);
+        this.dropdownId = this.id + '-Dropdown';
     },
 
     watch: {
@@ -134,8 +150,28 @@ var segmentComponent = Vue.component('segment-component', {
             var self = this;
             var parent = {
                 id: self.categoryId,
-                addCategoryBtnId: $("#" + self.addCategoryId)
+                addCategoryBtnId: $("#" + self.addCategoryId),
+                moveCategories: false,
             }
-            $('#AddCategoryModal').data('parent', parent).modal('show');        }
+            $('#AddCategoryModal').data('parent', parent).modal('show');
+        },
+        removeChildren() {
+            var self = this;
+            var data = {
+                parentCategoryId: self.categoryId,
+                childCategoryIds: self.selectedCategories,
+            };
+            $.ajax({
+                type: 'Post',
+                contentType: "application/json",
+                url: '/EditCategory/RemoveChildren',
+                data: JSON.stringify(data),
+                success: function (data) {
+                    for (var categoryId in self.selectedCategories) {
+                        self.$refs['card' + categoryId].visible = false;
+                    }
+                },
+            });
+        }
     },
 });
