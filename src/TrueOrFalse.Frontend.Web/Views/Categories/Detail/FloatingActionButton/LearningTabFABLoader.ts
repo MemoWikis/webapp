@@ -1,4 +1,3 @@
-﻿
-var LearningTabFAB = new Vue({
+﻿var LearningTabFAB = new Vue({
     el: '#LearningTabFABApp',
 });

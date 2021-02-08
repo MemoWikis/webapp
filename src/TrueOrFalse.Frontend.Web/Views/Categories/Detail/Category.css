@@ -3613,3 +3613,50 @@ p:empty {
     border-width: 0;
   }
 }
+.categoryCardModal .modal-s {
+  width: 430px;
+}
+.categoryCardModal .dismissModal {
+  position: absolute;
+  right: 15px;
+  z-index: 10;
+  top: 10px;
+}
+.categoryCardModal .modal-content {
+  padding: 34px 50px;
+}
+.categoryCardModal .modal-content .addCategoryCardModal h4 {
+  text-align: center;
+}
+.categoryCardModal .modal-content .addCategoryCardModal .modalBody {
+  font-size: 14px;
+  padding: 10px 0 20px;
+  margin-bottom: 10px;
+}
+.categoryCardModal .modal-content .addCategoryCardModal .modalBody .alert {
+  line-height: 18px;
+}
+.categoryCardModal .modal-content .addCategoryCardModal .modalBody a {
+  color: #18A0FB;
+}
+.categoryCardModal .modal-content .addCategoryCardModal .modalBody .checkBox {
+  -webkit-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+          user-select: none;
+  cursor: pointer;
+  color: #999999;
+}
+.categoryCardModal .modal-content .addCategoryCardModal .modalBody .checkBox i {
+  color: #18A0FB;
+}
+.categoryCardModal .modal-content .addCategoryCardModal .modalFooter {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+}

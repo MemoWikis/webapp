@@ -1,5 +1,6 @@
 ﻿@import (reference) '../../../Style/includes/imports.less';
 @highlightblue: #18A0FB;
+@darkgrey: #999999;
 
 div.column  { width: 33%; float: left;}
 
@@ -2720,6 +2721,58 @@ p:empty {
 
         30%, 100% {
             .bubble(0);
+        }
+    }
+}
+
+.categoryCardModal {
+    .modal-s {
+        width: 430px;
+    }
+
+    .dismissModal {
+        position: absolute;
+        right: 15px;
+        z-index: 10;
+        top: 10px;
+    }
+
+    .modal-content {
+        padding: 34px 50px;
+
+        .addCategoryCardModal {
+            h4 {
+                text-align: center;
+            }
+
+            .modalBody {
+                font-size: 14px;
+                padding: 10px 0 20px;
+                margin-bottom: 10px;
+
+                .alert {
+                    line-height: 18px;
+                }
+
+                a {
+                    color: @highlightblue;
+                }
+
+                .checkBox {
+                    user-select: none;
+                    cursor: pointer;
+                    color: @darkgrey;
+
+                    i {
+                        color: @highlightblue;
+                    }
+                }
+            }
+
+            .modalFooter {
+                display: flex;
+                justify-content: center;
+            }
         }
     }
 }

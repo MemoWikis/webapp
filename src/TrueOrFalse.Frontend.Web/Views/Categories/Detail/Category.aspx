@@ -67,6 +67,10 @@
                 <% Html.RenderPartial("~/Views/Categories/Detail/Tabs/AnalyticsTab.ascx"); %>
             <% } %>
         </div>
+    <div id="AddCategoryApp">
+        <%: Html.Partial("~/Views/Categories/Edit/AddCategoryComponent.vue.ascx") %>
+    </div>
+
     <%= Scripts.Render("~/bundles/js/DeleteQuestion") %>
     <%= Scripts.Render("~/bundles/js/Category") %>
 </asp:Content>

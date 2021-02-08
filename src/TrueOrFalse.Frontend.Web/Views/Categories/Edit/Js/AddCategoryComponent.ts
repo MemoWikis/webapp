@@ -1,8 +1,4 @@
 ﻿var addCategoryComponent = Vue.component('add-category-component', {
-    props: {
-        editMode: Boolean,
-    },
-
     data() {
         return {
             name: "",
@@ -113,7 +109,10 @@
                             success: function (data) {
                                 if (data.success) {
                                     window.open(data.url, "_blank");
-                                    self.loadCategoryCard(data.id);
+                                    if (self.addCategoryBtnId != null)
+                                        self.loadCategoryCard(data.id);
+                                    else
+                                        $('#AddCategoryModal').modal('hide');
                                 } else {
                                 };
                             },
@@ -152,4 +151,9 @@
             });
         },
     }
+});
+
+
+var AddCategoryApp = new Vue({
+    el: '#AddCategoryApp',
 });

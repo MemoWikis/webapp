@@ -76,6 +76,7 @@ namespace TrueOrFalse.View
                 .Include("~/Views/Categories/Detail/Partials/Segmentation/Segmentation.css"));
 
             bundles.Add(new ScriptBundle("~/bundles/js/Category")
+                .Include("~/Views/Categories/Edit/Js/AddCategoryComponent.js")
                 .Include("~/Views/Knowledge/Wheel/KnowledgeWheel.js")
                 .Include("~/Scripts/npm/d3/d3.js")
                 .IncludeDirectory("~/Views/Categories/Detail/JsAnalyticsTab/", "*.js")
@@ -108,6 +109,7 @@ namespace TrueOrFalse.View
             bundles.Add(new ScriptBundle("~/bundles/js/FloatingActionButton")
                 .Include("~/Scripts/npm/vue-material-design-ripple-build/vue-material-design-ripple-build.js")
                 .Include("~/Views/Categories/Detail/FloatingActionButton/FloatingActionButton.js"));
+            
             bundles.Add(new ScriptBundle("~/bundles/js/TopicTabFABLoader")
                 .Include("~/Views/Categories/Detail/FloatingActionButton/TopicTabFabLoader.js"));
             bundles.Add(new ScriptBundle("~/bundles/js/LearningTabFABLoader")

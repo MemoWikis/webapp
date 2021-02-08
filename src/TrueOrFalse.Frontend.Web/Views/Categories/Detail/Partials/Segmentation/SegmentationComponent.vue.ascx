@@ -70,6 +70,5 @@
                 </div>
 
         </div>
-        <%: Html.Partial("~/Views/Categories/Detail/Partials/Segmentation/AddCategoryComponent.vue.ascx") %>
     </div>
 </segmentation-component>
