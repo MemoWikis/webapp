@@ -1,13 +1,16 @@
 ﻿<%@ Control Language="C#" AutoEventWireup="true" Inherits="System.Web.Mvc.ViewUserControl<SegmentModel>" %>
+<%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
 
 <segment-component inline-template :edit-mode="editMode" ref="segment<%= Model.Category.Id %>" title="<%= Model.Title %>" child-category-ids="<%= Model.ChildCategoryIds %>" category-id="<%= Model.Category.Id %>">
     <div class="segment" :data-category-id="categoryId" :data-child-category-ids="currentChildCategoryIds" @mouseover="hover = true" @mouseleave="hover = false" :class="{ hover : showHover }">
         <div class="segmentSubHeader">
             <div class="segmentHeader">
                 <div class="segmentTitle">
-                    <h2>
-                        <%= Model.Title %>
-                    </h2>
+                    <a href="<%= Links.CategoryDetail(Model.Category) %>">                        
+                        <h2>
+                                <%= Model.Title %>
+                        </h2>
+                    </a>
                     <span class="Button Pin" data-category-id="<%= Model.Category.Id %>">
                         <a href="#" class="noTextdecoration" style="font-size: 18px; height: 10px;padding-right:4px">
                             <%= Html.Partial("AddToWishknowledge", new AddToWishknowledge(Model.Category.IsInWishknowledge(), displayAdd:false)) %>
@@ -19,7 +22,7 @@
                         <i class="fa fa-ellipsis-v"></i>
                     </a>
                     <ul class="dropdown-menu dropdown-menu-right" :aria-labelledby="dropdownId">
-                        <li><a @click="removeChildren"><i class="fas fa-unlink"></i>&nbsp;Verknüpfungen entfernen</a></li>
+                        <li><a @click="removeChildren"><i class="fas fa-unlink"></i>&nbsp;Themen entfernen</a></li>
                     </ul>
                 </div>
             </div>

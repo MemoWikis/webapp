@@ -1,4 +1,5 @@
 ﻿#Segmentation {
+  margin-top: 80px;
   margin-bottom: 40px;
 }
 #Segmentation .segmentationHeader {
@@ -25,13 +26,7 @@
 #Segmentation #GeneratedSegmentSection.hover,
 #Segmentation .segment.hover,
 #Segmentation .segmentCategoryCard.hover {
-  border-color: #45aece;
   cursor: pointer;
-}
-#Segmentation #GeneratedSegmentSection.hover,
-#Segmentation .segment.hover {
-  margin: 0 -20px;
-  padding: 0 20px;
 }
 #Segmentation #CustomSegmentSection .topicNavigation,
 #Segmentation #GeneratedSegmentSection .topicNavigation {
@@ -95,6 +90,14 @@
 }
 #Segmentation .segmentHeader .segmentTitle {
   display: inline-flex;
+}
+#Segmentation .segmentHeader .segmentTitle a {
+  color: #203256;
+  transition: 0.2s;
+}
+#Segmentation .segmentHeader .segmentTitle a:hover {
+  text-decoration: none;
+  color: #18A0FB;
 }
 #Segmentation .segmentHeader .segmentTitle h2 {
   margin: 0;

@@ -1,6 +1,7 @@
 ﻿@import (reference) '../../../Style/includes/imports.less';
-@highlightblue: #18A0FB;
 @darkgrey: #999999;
+@highlightblue: #18A0FB;
+@basefontcolor: #203256;
 
 div.column  { width: 33%; float: left;}
 
@@ -1602,8 +1603,6 @@ p:empty {
 
     #ContentModulePlaceholder {
         width: 100%;
-        margin: 20px 0 60px;
-        padding: 19px;
 
         .placeholderBorder {
             height: 200px;
@@ -2765,6 +2764,7 @@ p.is-editor-empty:first-child::before {
 
         .addCategoryCardModal {
             h4 {
+                font-size: 25px;
                 text-align: center;
             }
 
@@ -2778,7 +2778,13 @@ p.is-editor-empty:first-child::before {
                 }
 
                 a {
-                    color: @highlightblue;
+                    color: @basefontcolor;
+                    transition: 0.2s;
+
+                    &:hover {
+                        text-decoration: none;
+                        color: @highlightblue;
+                    }
                 }
 
                 .checkBox {

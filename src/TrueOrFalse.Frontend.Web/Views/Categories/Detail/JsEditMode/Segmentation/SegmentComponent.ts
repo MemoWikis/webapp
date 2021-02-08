@@ -5,6 +5,7 @@
         isCustomSegment: Boolean,
         selectedCategories: Array,
         segmentId: String,
+        hide: String,
     },
 
     data() {
@@ -167,9 +168,9 @@ var segmentComponent = Vue.component('segment-component', {
                 url: '/EditCategory/RemoveChildren',
                 data: JSON.stringify(data),
                 success: function (data) {
-                    for (var categoryId in self.selectedCategories) {
+                    self.selectedCategories.map(categoryId => {
                         self.$refs['card' + categoryId].visible = false;
-                    }
+                    });
                 },
             });
         }

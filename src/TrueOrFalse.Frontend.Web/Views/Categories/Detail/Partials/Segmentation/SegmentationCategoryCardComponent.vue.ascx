@@ -3,12 +3,12 @@
 
  <% if(Model.GetTotalTopicCount(Model.Category) > 0 || Model.GetTotalQuestionCount(Model.Category) > 0 || Model.IsInstallationAdmin ||Model.Category.Creator.Id == Model.UserId) { %>
 
-    <category-card-component @select-category="selectCategory" @unselect-category="unselectCategory" inline-template :edit-mode="editMode" ref="card<%= Model.Category.Id %>" :is-custom-segment="isCustomSegment" category-id="<%= Model.Category.Id %>" :selected-categories="selectedCategories" :segment-id="id">
+    <category-card-component @select-category="selectCategory" @unselect-category="unselectCategory" inline-template :edit-mode="editMode" ref="card<%= Model.Category.Id %>" :is-custom-segment="isCustomSegment" category-id="<%= Model.Category.Id %>" :selected-categories="selectedCategories" :segment-id="id" hide="false">
         
         <div class="col-xs-6 topic segmentCategoryCard" v-if="visible" @mouseover="hover = true" @mouseleave="hover = false" :class="{ hover : showHover }">
             <div class="row" @click.self="selectCategory()">
                 <div class="col-xs-3" @click="selectCategory()">
-                    <div class="checkBox" v-if="editMode">
+                    <div v-show="showHover || isSelected" class="checkBox" v-if="editMode">
                         <i class="fas fa-check-square" v-if="isSelected"></i>
                         <i class="far fa-square" v-else></i>
                     </div>
@@ -33,7 +33,7 @@
                             </a>
                             <ul class="dropdown-menu dropdown-menu-right" :aria-labelledby="dropdownId">
                                 <li v-if="!isCustomSegment"><a @click="thisToSegment"><i class="fa fa-code-fork"></i>&nbsp;Unterthemen einblenden</a></li>
-                                <li><a @click="removeParent"><i class="fas fa-unlink"></i>&nbsp;Verknüpfung entfernen</a></li>
+                                <li><a @click="removeParent"><i class="fas fa-unlink"></i>&nbsp;Thema entfernen</a></li>
                             </ul>
                         </div>
                     </div>

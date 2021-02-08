@@ -3,8 +3,8 @@
 
 <%= Styles.Render("~/bundles/Segmentation") %>
 
-<segmentation-component inline-template :edit-mode="editMode" :category-id="<%= Model.Category.Id %>" v-cloak>
-    <div :key="componentKey" id="Segmentation">
+<segmentation-component inline-template :edit-mode="editMode" :category-id="<%= Model.Category.Id %>">
+    <div :key="componentKey" id="Segmentation" v-cloak>
         <div v-if="hasCustomSegment" class="segmentationHeader">
             Alle Unterthemen
         </div>
@@ -16,7 +16,7 @@
                 </a>
                 <ul class="dropdown-menu dropdown-menu-right" :aria-labelledby="dropdownId">
                     <li><a @click="moveToNewCategory"><i class="fas fa-code-branch"></i>&nbsp;In neues Thema verschieben</a></li>
-                    <li><a @click="removeChildren"><i class="fas fa-unlink"></i>&nbsp;Verknüpfungen entfernen</a></li>
+                    <li><a @click="removeChildren"><i class="fas fa-unlink"></i>&nbsp;Themen entfernen</a></li>
                 </ul>
             </div>
         </div>
@@ -42,7 +42,7 @@
                     </a>
                     <ul class="dropdown-menu dropdown-menu-right" :aria-labelledby="dropdownId">
                         <li><a @click="moveToNewCategory"><i class="fas fa-code-branch"></i>&nbsp;In neues Thema verschieben</a></li>
-                        <li><a @click="removeChildren"><i class="fas fa-unlink"></i>&nbsp;Verknüpfungen entfernen</a></li>
+                        <li><a @click="removeChildren"><i class="fas fa-unlink"></i>&nbsp;Themen entfernen</a></li>
                     </ul>
                 </div>
             </div>

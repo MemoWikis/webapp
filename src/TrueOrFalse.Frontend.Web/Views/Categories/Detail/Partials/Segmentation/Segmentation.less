@@ -1,7 +1,9 @@
 ﻿@darkgrey: #999999;
 @highlightblue: #18A0FB;
+@basefontcolor: #203256;
 
 #Segmentation {
+    margin-top: 80px;
     margin-bottom: 40px;
 
     .segmentationHeader {
@@ -25,15 +27,7 @@
         transition: 0.2s;
 
         &.hover {
-            border-color: #45aece;
             cursor: pointer;
-        }
-    }
-
-    #GeneratedSegmentSection, .segment {
-        &.hover {
-            margin: 0 -20px;
-            padding: 0 20px;
         }
     }
 
@@ -108,6 +102,16 @@
 
         .segmentTitle {
             display: inline-flex;
+
+            a {
+                color: @basefontcolor;
+                transition: 0.2s;
+
+                &:hover {
+                    text-decoration: none;
+                    color: @highlightblue;
+                }
+            }
 
             h2 {
                 margin: 0;

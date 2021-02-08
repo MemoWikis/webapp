@@ -44,7 +44,8 @@
         clearData() {
             this.name = "";
             this.private = false;
-            this.errorMsg = false;
+            this.errorMsg = "";
+            this.showErrorMsg = false;
             this.parentId = null;
             this.existingCategoryName = "";
             this.existingCategoryUrl = "";
