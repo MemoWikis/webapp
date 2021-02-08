@@ -2588,6 +2588,7 @@ p:empty {
       -ms-flex-direction: column-reverse;
           flex-direction: column-reverse;
   cursor: pointer;
+  z-index: 999;
 }
 @media (min-width: 1200px) {
   #TopicTabFABApp .fab-container .main-fab-container,

@@ -70,6 +70,7 @@
   text-align: center;
   min-height: 150px;
   color: #999999;
+  cursor: pointer;
 }
 @media (max-width: 649px) {
   #Segmentation #CustomSegmentSection .topicNavigation .addCategoryCard,
