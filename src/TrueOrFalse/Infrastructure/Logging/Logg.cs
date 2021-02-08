@@ -25,6 +25,8 @@ public class Logg
             .WriteTo.Seq(_seqUrl)
             .CreateLogger();
 
+        //configure globally shared logger
+        Log.Logger = _logger;
     }
 
     public static ILogger r(bool isCrawler = false) => isCrawler ? _loggerIsCrawler : _logger;

@@ -27,6 +27,9 @@ public class TemplateParser
 
     public static string GetContent(List<JsonLoader> content)
     {
+        if (content == null) //page is empty
+            return "";
+
         var mergedContent = new List<JsonLoader>();
         var currentIsText = false;
         var currentText = "";

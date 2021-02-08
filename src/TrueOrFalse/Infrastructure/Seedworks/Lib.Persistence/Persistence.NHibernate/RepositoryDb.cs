@@ -132,7 +132,15 @@ namespace Seedworks.Lib.Persistence
 			if (domainObject is WithDateModified)
 				(domainObject as WithDateModified).DateModified = DateTime.Now;
 
-            _session.Update(domainObject);
+            try
+            {
+                _session.Update(domainObject);
+            }
+            catch (NonUniqueObjectException)
+            {
+                _session.Merge(domainObject);
+            }
+
 			ClearAllItemCache();
 
 			if (OnItemUpdated != null)

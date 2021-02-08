@@ -112,6 +112,33 @@ namespace TemplateMigration
             }
         }
 
+        public static void MigrateQuestions()
+        {
+            Logg.r().Information("StartQuestionMigration");
+            var allQuestions = Sl.QuestionRepo.GetAll();
+
+            foreach (var question in allQuestions)
+            {
+                if (question.SkipMigration)
+                    continue;
+                var questionId = question.Id;
+                if (!IsNullOrEmpty(question.Text))
+                    question.TextHtml = MarkdownMarkdig.ToHtml(question.Text);
+                if (!IsNullOrEmpty(question.TextExtended))
+                    question.TextExtendedHtml = MarkdownMarkdig.ToHtml(question.TextExtended);
+                if (!IsNullOrEmpty(question.Description))
+                    question.DescriptionHtml = MarkdownMarkdig.ToHtml(question.Description);
+                Sl.QuestionRepo.UpdateFieldsOnly(question);
+                question.SkipMigration = true;
+                Sl.QuestionRepo.UpdateFieldsOnly(question);
+
+                Logg.r().Information("QuestionMigration: {questionId}", questionId);
+            }
+
+            Sl.QuestionRepo.Flush();
+        }
+
+
         private class TopicNavigationJson
         {
             public string Title;

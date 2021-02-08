@@ -1900,7 +1900,7 @@ p:empty {
     }
 
 
-.inline-text-editor {
+.inline-text-editor, .inline-question-editor, #flashCardContent {
     position: relative;
 
     .editor__floating-menu {
@@ -1942,122 +1942,143 @@ p:empty {
         }
     }
 
-    .ProseMirror {
+    .ProseMirror, .flashCardContentSite{
         padding-top: 2px;
 
-        &:focus {
-            outline: none !important;
         }
+}
 
-        b, strong {
-            font-weight: 600;
-        }
-        p {
-            code {
-                color: #555555;
-                bckground-color: #efefef
-            }
-        }
+/*CodeHighlight*/
+.ProseMirror, #AnswerBody, .singleQuestionRow {
 
-        pre {
-            background-color: black;
-            border: none;
+    &:focus {
+        outline: none !important;
+    }
 
-            &::before {
-                content: attr(data-language);
-                text-transform: uppercase;
-                display: block;
-                text-align: right;
-                font-weight: bold;
-                font-size: 0.6rem;
-            }
+    b, strong {
+        font-weight: 600;
+    }
 
-            code {
-                color: white;
-
-                .hljs-comment,
-                .hljs-quote {
-                    color: #999999;
-                }
-
-                .hljs-variable,
-                .hljs-template-variable,
-                .hljs-attribute,
-                .hljs-tag,
-                .hljs-name,
-                .hljs-regexp,
-                .hljs-link,
-                .hljs-name,
-                .hljs-selector-id,
-                .hljs-selector-class {
-                    color: #f2777a;
-                }
-
-                .hljs-number,
-                .hljs-meta,
-                .hljs-built_in,
-                .hljs-builtin-name,
-                .hljs-literal,
-                .hljs-type,
-                .hljs-params {
-                    color: #f99157;
-                }
-
-                .hljs-string,
-                .hljs-symbol,
-                .hljs-bullet {
-                    color: #99cc99;
-                }
-
-                .hljs-title,
-                .hljs-section {
-                    color: #ffcc66;
-                }
-
-                .hljs-keyword,
-                .hljs-selector-tag {
-                    color: #6699cc;
-                }
-
-                .hljs-emphasis {
-                    font-style: italic;
-                }
-
-                .hljs-strong {
-                    font-weight: 700;
-                }
-            }
+    p {
+        code {
+            color: #555555;
+            bckground-color: #efefef
         }
     }
 
-    .menubar__button {
-        background: white;
-        border: hidden;
-        font-size: 18px;
-        width: 36px;
-        height: 36px;
-        margin: 0px;
-        color: #555555;
-        text-align: center;
-        padding: 1px 6px;
+    pre {
+        background-color: black;
+        border: none;
 
-        &:hover {
-            background: #efefef;
+        &::before {
+            content: attr(data-language);
+            text-transform: uppercase;
+            display: block;
+            text-align: right;
+            font-weight: bold;
+            font-size: 0.6rem;
         }
 
-        &.is-active {
-            background: #dddddd;
+        code {
+            color: white;
         }
+}
+
+code {
+    .hljs-comment,
+    .hljs-quote {
+        color: #999999;
     }
 
-    p.is-editor-empty:first-child::before {
-        content: attr(data-empty-text);
-        float: left;
-        color: #aaa;
-        pointer-events: none;
-        height: 0;
+    .hljs-variable,
+    .hljs-template-variable,
+    .hljs-attribute,
+    .hljs-tag,
+    .hljs-name,
+    .hljs-regexp,
+    .hljs-link,
+    .hljs-name,
+    .hljs-selector-id,
+    .hljs-selector-class {
+        color: #f2777a;
+    }
+
+    .hljs-number,
+    .hljs-meta,
+    .hljs-built_in,
+    .hljs-builtin-name,
+    .hljs-literal,
+    .hljs-type,
+    .hljs-params {
+        color: #f99157;
+    }
+
+    .hljs-string,
+    .hljs-symbol,
+    .hljs-bullet {
+        color: #99cc99;
+    }
+
+    .hljs-title,
+    .hljs-section {
+        color: #ffcc66;
+    }
+
+    .hljs-keyword,
+    .hljs-selector-tag {
+        color: #6699cc;
+    }
+
+    .hljs-emphasis {
         font-style: italic;
     }
+
+    .hljs-strong {
+        font-weight: 700;
+    }
+}
+
+}
+
+.singleQuestionRow {
+    pre {
+        margin: 0;
+    }
+
+    .answer {
+        pre {
+            width: 80%;
+        }
+    }
+}
+
+.menubar__button {
+    background: white;
+    border: hidden;
+    font-size: 18px;
+    width: 36px;
+    height: 36px;
+    margin: 0px;
+    color: #555555;
+    text-align: center;
+    padding: 1px 6px;
+
+    &:hover {
+        background: #efefef;
+    }
+
+    &.is-active {
+        background: #dddddd;
+    }
+}
+
+p.is-editor-empty:first-child::before {
+    content: attr(data-empty-text);
+    float: left;
+    color: #aaa;
+    pointer-events: none;
+    height: 0;
+    font-style: italic;
 }
 
 #TopicTabFABApp, #LearningTabFABApp {
@@ -2647,6 +2668,7 @@ p:empty {
     color: #c3ff02
 }
 
+
 /* test animation heart*/
 .Pin-container {
     display: flex;
@@ -2778,3 +2800,8 @@ p:empty {
     }
 }
 
+.questionTitle {
+    p { 
+        margin: 0;
+    }
+}

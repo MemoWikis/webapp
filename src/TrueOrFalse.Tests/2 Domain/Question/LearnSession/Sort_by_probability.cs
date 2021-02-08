@@ -11,7 +11,7 @@ namespace TrueOrFalse.Tests
             ContextQuestion.PutQuestionIntoMemoryCache(answerProbability: 10,1);
             ContextQuestion.PutQuestionIntoMemoryCache(answerProbability: 20, 2);
 
-            var learningSession = LearningSessionNewCreator.ForLoggedInUser(new LearningSessionConfig {CategoryId = 0});
+            var learningSession = LearningSessionCreator.ForLoggedInUser(new LearningSessionConfig {CategoryId = 0, AllQuestions = true});
             
             //Todo: GetLearningSessionForAnonymusUser user probability
             Assert.That(learningSession.Steps[0].Question.CorrectnessProbability, Is.EqualTo(50)) ;

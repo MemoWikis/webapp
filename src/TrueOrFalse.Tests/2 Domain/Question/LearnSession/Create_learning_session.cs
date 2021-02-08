@@ -15,7 +15,8 @@ namespace TrueOrFalse.Tests._2_Domain.Question.LearnSession
                     CurrentUserId = 0,
                     MaxQuestionCount = 5,
                     MaxProbability = 50,
-                    MinProbability = 10
+                    MinProbability = 10,
+                    CategoryId = 1
                 });
 
             foreach (var step in learningSession.Steps)

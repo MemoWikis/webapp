@@ -40,9 +40,6 @@ public class UserCache
             QuestionValuations = new ConcurrentDictionary<int, QuestionValuation>(
                 Sl.QuestionValuationRepo.GetByUserWithQuestion(userId)
                     .Select(v => new KeyValuePair<int, QuestionValuation>(v.Question.Id, v))),
-            SetValuations = new ConcurrentDictionary<int, SetValuation>(
-                Sl.SetValuationRepo.GetByUser(userId, onlyActiveKnowledge: false)
-                    .Select(v => new KeyValuePair<int, SetValuation>(v.SetId, v))),
             IsFiltered = IsFiltered
         };
             
@@ -57,7 +54,6 @@ public class UserCache
     }
 
     public static IList<QuestionValuation> GetQuestionValuations(int userId) => GetItem(userId).QuestionValuations.Values.ToList();
-    public static IList<SetValuation> GetSetValuations(int userId) => GetItem(userId).SetValuations.Values.ToList();
     public static IList<CategoryValuation> GetCategoryValuations(int userId) => GetItem(userId).CategoryValuations.Values.ToList();
 
     public static void AddOrUpdate(QuestionValuation questionValuation)
@@ -77,16 +73,6 @@ public class UserCache
         lock ("82f573db-40a7-43d9-9e68-6cd78b626e8d")
         {
             cacheItem.CategoryValuations.AddOrUpdate(categoryValuation.CategoryId, categoryValuation, (k, v) => categoryValuation);
-        }
-    }
-
-    public static void AddOrUpdate(SetValuation setValuation)
-    {
-        var cacheItem = GetItem(setValuation.UserId);
-
-        lock ("76g99f0r-784h-222f-778g-kl7755889h7d")
-        {
-            cacheItem.SetValuations.AddOrUpdate(setValuation.SetId, setValuation, (k, v) => setValuation);
         }
     }
 
@@ -113,16 +99,6 @@ public class UserCache
         {
             var cacheItem = GetItem(userId);
             cacheItem.CategoryValuations.TryRemove(categoryId, out var catValOut);
-        }
-    }
-
-    /// <summary> Used for set delete </summary>
-    public static void RemoveAllForSet(int setId)
-    {
-        foreach (var userId in Sl.UserRepo.GetAllIds())
-        {
-            var cacheItem = GetItem(userId);
-            cacheItem.SetValuations.TryRemove(setId, out var setValOut);
         }
     }
 

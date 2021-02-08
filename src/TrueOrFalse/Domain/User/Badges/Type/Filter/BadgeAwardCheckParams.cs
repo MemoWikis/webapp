@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using RabbitMQ.Client.Impl;
 using TrueOrFalse;
 using ISession = NHibernate.ISession;
 
@@ -131,43 +130,10 @@ public class BadgeAwardCheckParams
         return R<SetRepo>().GetByIds(setIds.ToArray());
     }
 
-
     public bool IsBadgeAwarded(string badgeKey, BadgeAwardCheckParams awardCheckParams)
     {
         var badgeType = BadgeTypes.All().ByKey(badgeKey);
         return badgeType.AwardCheck(awardCheckParams).Success;
-    }
-
-    public int GamesPlayed()
-    {
-        return R<ISession>().QueryOver<Game>()
-            .Where(q => q.Players.Any(p => p.User.Id == CurrentUser.Id))
-            .RowCount();
-    }
-
-
-    private string GamesPlayerCountQuery()
-    {
-        string query =
-            @"  SELECT * FROM (
-	                SELECT (
-		                select count(*) 
-		                from game_player p_inner 
-		                where p_inner.Game_Id = p_outer.Game_Id) as playerCount
-	                FROM game_player p_outer
-	                WHERE IsCreator = true
-	                AND User_id = {0}
-                ) t ";
-
-        return query;
-    }
-
-    
-    public int DatesCreated()
-    {
-        return R<ISession>().QueryOver<Date>()
-            .Where(d => d.User.Id == CurrentUser.Id)
-            .RowCount();
     }
 
     public int UsersFollowing()

@@ -45,27 +45,6 @@
                 Aggregierte Zahlen aktualisieren
             </a>
         </div>
-        <div class="col-md-6 MaintenanceSection">
-            <h4 style="margin-top: 10px;">Lernsets</h4>
-            <a href="<%= Url.Action("CalcAggregatedValuesSets", "Maintenance") %>" data-url="toSecurePost" style="display: none;">
-                <i class="fa fa-retweet"></i>
-                Aggregierte Zahlen aktualisieren
-            </a>
-            <a href="<%= Url.Action("DeleteValuationsForRemovedSets", "Maintenance") %>" data-url="toSecurePost" style="display: none;">
-                <i class="fa fa-retweet"></i>
-                cleanup set valuations & update SetInfo for all questions
-            </a>
-            <a href="<%= Url.Action("MigrateSetsToCategories", "Maintenance") %>" data-url="toSecurePost" style="display: none;">
-                <i class="fa fa-retweet"></i> Lernsets migrieren
-            </a>
-            <a href="<%= Url.Action("MigrateSetTextAndCleanup", "Maintenance") %>" data-url="toSecurePost" style="">
-                <i class="fa fa-retweet"></i> Lernset Text Migration und redundante Themenkopien (Lernsetkopien) migrieren und löschen
-            </a><br />
-            
-            <a href="<%= Url.Action("MigrateSetImages", "Maintenance") %>" data-url="toSecurePost" style="">
-                <i class="fa fa-retweet"></i> Lernsetbilder migrieren.
-            </a><br />
-        </div>
     </div>
 
     <div class="row">
@@ -100,40 +79,19 @@
             <a href="<%= Url.Action("ReIndexAllQuestions", "Maintenance") %>" data-url="toSecurePost">
                 <i class="fa fa-retweet"></i> Fragen 
             </a> /
-            <a href="<%= Url.Action("ReIndexAllSets", "Maintenance") %>" data-url="toSecurePost">
-                <i class="fa fa-retweet"></i> Lernsets
-            </a> /
             <a href="<%= Url.Action("ReIndexAllCategories", "Maintenance") %>" data-url="toSecurePost">
                 <i class="fa fa-retweet"></i> Themen
             </a> /
             <a href="<%= Url.Action("ReIndexAllUsers", "Maintenance") %>" data-url="toSecurePost">
                 <i class="fa fa-retweet"></i> Nutzer
             </a>
-        </div>        
-        <div class="col-md-6 MaintenanceSection">
-            <h4>Lernpläne</h4>
-            <a href="<%= Url.Action("CreateTrainingDates", "Maintenance") %>" data-url="toSecurePost">
-                <i class="fa fa-retweet"></i> Lernpläne erstellen
-            </a>
         </div>
     </div>
     <div class="row">
         <div class="col-md-6 MaintenanceSection">
             <h4>Sonstige</h4>
-            <a href="<%= Url.Action("MigrateAnswerData", "Maintenance") %>" data-url="toSecurePost" style="display: none;">
-                <i class="fa fa-retweet"></i> Antwortdaten migrieren
-            </a>
-            <a href="<%= Url.Action("ClearMigratedData", "Maintenance") %>" data-url="toSecurePost" style="display: none;">
-                <i class="fa fa-retweet"></i> Migrierte Daten löschen
-            </a>
             <a href="<%= Url.Action("CheckForDuplicateInteractionNumbers", "Maintenance") %>" data-url="toSecurePost" style="">
                 <i class="fa fa-retweet"></i> Auf Antworten mit selber Guid und InteractionNr checken
-            </a><br />
-            <a href="<%= Url.Action("CheckForDuplicateLearningSessionStepGuidsInAnswers", "Maintenance") %>" data-url="toSecurePost" style="">
-                <i class="fa fa-retweet"></i> Auf Antworten mit selber LearningSessionStepGuid checken
-            </a><br />
-            <a href="<%= Url.Action("CheckForDuplicateGameRoundAnswers", "Maintenance") %>" data-url="toSecurePost" style="">
-                <i class="fa fa-retweet"></i> Auf Antworten mit selber RundenId und UserId checken
             </a><br />
             <a href="<%= Url.Action("MigrateDefaultTemplates", "Maintenance") %>" data-url="toSecurePost" style="display: none;">
                 <i class="fa fa-retweet"></i> Themen ohne topicMarkdown mit Templates migrieren

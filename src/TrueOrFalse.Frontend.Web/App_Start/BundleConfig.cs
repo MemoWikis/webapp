@@ -15,7 +15,8 @@ namespace TrueOrFalse.View
                   "~/Style/jquery-ui/jquery-ui.structure.css", 
                   "~/Style/jquery-ui/jquery-ui.theme.css",
                   "~/Fonts/font-awesome-5.7.2/css/all.css",
-                  "~/Fonts/font-awesome-5.7.2/css/v4-shims.css" ));
+                  "~/Fonts/font-awesome-5.7.2/css/v4-shims.css",
+                  "~/Views/Shared/CategoryLabel.css"));
 
             bundles.Add(new StyleBundle("~/bundles/markdownCss")
                 .Include("~/Style/markdown-editor.css"));
@@ -69,8 +70,6 @@ namespace TrueOrFalse.View
                 .Include("~/Views/Categories/Detail/Category.css")
                 .Include("~/Views/Shared/Delete.css"));
 
-            bundles.Add(new StyleBundle("~/bundles/CategoryLabel")
-                .Include("~/Views/Shared/CategoryLabel.css"));
 
             bundles.Add(new StyleBundle("~/bundles/Segmentation")
                 .Include("~/Views/Categories/Detail/Partials/Segmentation/Segmentation.css"));
@@ -115,6 +114,9 @@ namespace TrueOrFalse.View
             bundles.Add(new ScriptBundle("~/bundles/js/LearningTabFABLoader")
                 .Include("~/Views/Categories/Detail/FloatingActionButton/LearningTabFabLoader.js"));
 
+            bundles.Add(new ScriptBundle("~/bundles/js/EditQuestionModalLoader")
+                .Include("~/Views/Questions/Js/EditQuestionModalLoader/EditQuestionModalLoader.js"));
+
             bundles.Add(new StyleBundle("~/bundles/CategoryHistory")
                 .Include("~/Views/Categories/History/*.css"));
 
@@ -142,9 +144,6 @@ namespace TrueOrFalse.View
 
             bundles.Add(new ScriptBundle("~/bundles/Beta")
                 .IncludeDirectory("~/Views/Beta/Js/", "*.js"));
-
-            bundles.Add(new ScriptBundle("~/bundles/Sets")
-                .IncludeDirectory("~/Views/Sets/Js/", "*.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/Categories")
                 .IncludeDirectory("~/Views/Categories/Js/", "*.js"));
@@ -204,8 +203,11 @@ namespace TrueOrFalse.View
                 .Include("~/Views/Questions/Js/QuestionList/QuestionListApp.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/js/QuestionListComponents")
+                .Include("~/Views/Questions/Js/AddQuestion/AddQuestion.js")
                 .Include("~/Scripts/npm/vue-slider-component/vue-slider-component.umd.js")
+                .Include("~/Views/Questions/Js/QuestionList/SessionConfig.js")
                 .Include("~/Views/Questions/Js/QuestionList/QuestionListComponents.js")
+                .Include("~/Views/Questions/Js/QuestionList/QuestionComponent.js")
                 .Include("~/Views/Shared/PinComponentVue/PinComponent.vue.js"));
 
 
@@ -225,20 +227,6 @@ namespace TrueOrFalse.View
             bundles.Add(new ScriptBundle("~/bundles/js/DeleteQuestion")
                 .Include("~/Views/Questions/Js/QuestionRowDelete.js"));
 
-            bundles.Add(new ScriptBundle("~/bundles/SetEdit")
-                .Include("~/Views/Sets/Detail/Js/YoutubeApi.js")
-                .IncludeDirectory("~/Views/Sets/Edit/Js/" ,"*.js")
-                .IncludeDirectory("~/Views/Sets/Js/", "*.js")
-                .Include("~/Views/Images/ImageUpload/ImageUpload.js")
-                .Include("~/Scripts/autocompletes/AutocompleteCategories.js"));
-
-            bundles.Add(new ScriptBundle("~/bundles/js/Set")
-                .Include("~/Views/Knowledge/Wheel/KnowledgeWheel.js")
-                .IncludeDirectory("~/Views/Sets/Detail/Js", "*.js")
-                .IncludeDirectory("~/Views/Questions/Answer/AnswerControls/", "*.js")
-                .IncludeDirectory("~/Scripts/answerQuestion/", "*.js")
-                .IncludeDirectory("~/Views/Questions/ActivityPoints", "*.js"));
-
             bundles.Add(new StyleBundle("~/bundles/Set")
                 .Include("~/Views/Questions/Answer/AnswerQuestion.css")
                 .Include("~/Views/Questions/Answer/AnswerQuestionSolution.css")
@@ -246,7 +234,6 @@ namespace TrueOrFalse.View
                 
             bundles.Add(new ScriptBundle("~/bundles/js/Messages")
                 .IncludeDirectory("~/Views/Messages/Js/", "*.js"));
-
 
             bundles.Add(new ScriptBundle("~/bundles/js/LearningSessionResult")
                 .IncludeDirectory("~/Views/Questions/Answer/LearningSession/Js/", "*.js"));

@@ -1,6 +1,8 @@
-﻿using System.Collections.Concurrent;
+﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.RegularExpressions;
 using TrueOrFalse.Frontend.Web.Code;
 
 public class QuestionListModel : BaseModel
@@ -23,13 +25,15 @@ public class QuestionListModel : BaseModel
         var allQuestions = Sl.SessionUser.LearningSession.Steps.Select(q => q.Question);
         var user = isLoggedIn ? Sl.R<SessionUser>().User : null;
 
-        ConcurrentDictionary<int, QuestionValuation> userQuestionValuation = new ConcurrentDictionary<int, QuestionValuation>(); 
-        if(user != null)
-             userQuestionValuation = UserCache.GetItem(user.Id).QuestionValuations;
+        ConcurrentDictionary<int, QuestionValuation> userQuestionValuation = new ConcurrentDictionary<int, QuestionValuation>();
+        if (user != null)
+            userQuestionValuation = UserCache.GetItem(user.Id).QuestionValuations;
+
 
         var questionsOfCurrentPage = allQuestions.Skip(itemCountPerPage * (currentPage - 1)).Take(itemCountPerPage).ToList();
         var newQuestionList = new List<QuestionListJson.Question>();
-        var learningSessionStepCount = allQuestions.Count(); 
+        var learningSessionStepCount = allQuestions.Count();
+
         foreach (var q in questionsOfCurrentPage)
         {
             var question = new QuestionListJson.Question();
@@ -43,6 +47,12 @@ public class QuestionListModel : BaseModel
             question.LinkToQuestionVersions = Links.QuestionHistory(q.Id);
             question.LinkToComment = Links.GetUrl(q) + "#JumpLabel";
             question.CorrectnessProbability = q.CorrectnessProbability;
+            if (Sl.SessionUser.LearningSession != null)
+            {
+                var steps = Sl.SessionUser.LearningSession.Steps;
+                var index = steps.IndexOf(s => s.Question.Id == q.Id);
+                question.SessionIndex = index;
+            }
 
             if (userQuestionValuation.ContainsKey(q.Id) && user != null)
             {

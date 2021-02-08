@@ -9,16 +9,18 @@ namespace TrueOrFalse.Tests
         [Test]
         public void GetWuwiSession()
         {
+            ContextQuestion.PutQuestionsIntoMemoryCache();
             ContextQuestion.SetWuwi(20);
-            var categoryId = 0;
-            var usercashItem = UserCache.GetAllCacheItems().Last();
             
+            var categoryId = 1;
+            var usercashItem = UserCache.GetAllCacheItems().Where(uci => uci.User.Name == "Daniel" ).First();
+
             var wuwis = usercashItem.QuestionValuations
                 .Select(qv => qv.Value)
                 .Where(qv=> qv.IsInWishKnowledge() && qv.Question.Categories.Any(c=> c.Id == categoryId) )
                 .ToList();
 
-            var wuwisFromLearningSession = LearningSessionNewCreator.ForLoggedInUser(new LearningSessionConfig
+            var wuwisFromLearningSession = LearningSessionCreator.ForLoggedInUser(new LearningSessionConfig
                 {InWishknowledge = true, CategoryId = categoryId, CurrentUserId = usercashItem.UserId});
 
             Assert.That(wuwisFromLearningSession.Steps.Count, Is.EqualTo(wuwis.Count));

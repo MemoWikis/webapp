@@ -1,44 +1,46 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-public class AnalyticsFooterModel 
+public class AnalyticsFooterModel
 {
+    public string CategoryName;
+    public IList<Category> AllParents;
+    public int ChildrenCount;
+    public string ParentList;
+    public int CategoryId;
+    public bool IsQuestionssite; 
 
-   public IList<Category> AllCategoriesParents;
-   public int CategoriesDescendantsCount;
-   public string ParentList;
-   public int CategoryId;
-   public Category Category;
-   public bool IsQuestionssite; 
+    public AnalyticsFooterModel(Category category, bool isQuestionsSite = false, bool isCategoryNull = false)
+    {
+        IsQuestionssite = isQuestionsSite;
 
-   public AnalyticsFooterModel(Category category, bool isQuestionsSite = false, bool isCategoryNull = false)
-   {
-       Category = category;
-       CategoryId = category.Id; 
-       GetCategoryRelations(isCategoryNull);
-       IsQuestionssite = isQuestionsSite;
-   }
+        if (!IsQuestionssite)
+            return;
 
+        CategoryName = category.Name;
+        CategoryId = category.Id; 
+        SetCategoryRelations(isCategoryNull, category);
+    }
 
-   public void GetCategoryRelations(bool isCategoryChangeData)
-   {
-       var descendants = isCategoryChangeData? new List<Category>() : GetCategoriesDescendants.WithAppliedRules(Category);
-       CategoriesDescendantsCount = descendants.Count;
-       AllCategoriesParents = isCategoryChangeData ? new List<Category>() : GraphService.GetAllParents(CategoryId);
+    public void SetCategoryRelations(bool isCategoryChangeData, Category category)
+    {
+        var children = isCategoryChangeData? new List<Category>() : GetCategoryChildren.WithAppliedRules(category);
+        ChildrenCount = children.Count;
+        AllParents = isCategoryChangeData ? new List<Category>() : GraphService.GetAllParents(CategoryId);
 
-       if (AllCategoriesParents.Count > 0)
-           ParentList = GetCategoryParentList();
-   }
+        if (AllParents.Count > 0)
+           ParentList = GetCategoryParentList(AllParents);
+    }
 
 
-   private string GetCategoryParentList()
-   {
+    private string GetCategoryParentList(IList<Category> allParents)
+    {
        string categoryList = "";
        string parentList;
-       foreach (var category in AllCategoriesParents.Take(3))
+       foreach (var category in allParents.Take(3))
        {
            categoryList = categoryList + category.Name + ", ";
        }
-       if (AllCategoriesParents.Count > 3)
+       if (allParents.Count > 3)
        {
            parentList = categoryList + "...";
        }
@@ -49,5 +51,5 @@ public class AnalyticsFooterModel
        }
 
        return "(" + parentList + ")";
-   }
+    }
 }

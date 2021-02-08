@@ -68,34 +68,9 @@ public class Question : DomainEntity, ICreator
 
     public virtual int TotalViews { get; set; }
 
-    public virtual int SetsAmount { get; set; }
-    public virtual string SetsTop5Json { get; set; }
-
-    public virtual IList<SetMini> SetTop5Minis
-    {
-        get
-        {
-            if (String.IsNullOrEmpty(SetsTop5Json))
-                return new List<SetMini>();
-            return JsonConvert.DeserializeObject<List<SetMini>>(SetsTop5Json);
-        }
-        set { SetsTop5Json = JsonConvert.SerializeObject(value); }
-    }
-    public virtual IList<Set> SetsTop5
-    {
-        get
-        {
-            if (String.IsNullOrEmpty(SetsTop5Json))
-                return new List<Set>();
-            var result = new List<Set>();
-            JsonConvert.DeserializeObject<List<SetMini>>(SetsTop5Json).ForEach(s => result.Add(Sl.R<SetRepo>().GetById(s.Id)));
-            return result;
-        }
-    }
-
     public virtual bool IsWorkInProgress { get; set; }
 
-    public virtual IList<QuestionFeature> Features { get; set; }
+    public virtual IList<QuestionFeature> Features { get; set; } = new List<QuestionFeature>();
 
     public virtual bool IsEasyQuestion()
     {
@@ -115,11 +90,6 @@ public class Question : DomainEntity, ICreator
     public virtual bool IsNobrainer()
     {
         return false;
-    }
-
-    public virtual int TimeToLearnInSeconds()
-    {
-        return TrainingPlan.SecondsPerQuestionEst;
     }
 
     public Question()
@@ -203,4 +173,9 @@ public class Question : DomainEntity, ICreator
     public virtual QuestionSolution GetSolution() => GetQuestionSolution.Run(this);
 
     public virtual string ToLomXml() => LomXml.From(this);
+
+    public virtual string TextHtml { get; set; }
+    public virtual string TextExtendedHtml { get; set; }
+    public virtual string DescriptionHtml { get; set; }
+    public virtual bool SkipMigration { get; set; }
 }

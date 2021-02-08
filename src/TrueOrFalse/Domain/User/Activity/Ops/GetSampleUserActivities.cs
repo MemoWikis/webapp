@@ -23,10 +23,6 @@ public class GetSampleUserActivities
             UserConcerned = userConcerned,
             UserCauser = userMemucho,
             Type = UserActivityType.CreatedDate,
-            Date = new Date
-            {
-                Details = "Mathe-Klausur Algebra"
-            }
         });
 
         result.Add(new UserActivity
@@ -34,11 +30,7 @@ public class GetSampleUserActivities
             At = DateTime.Now.AddHours(-10),
             UserConcerned = userConcerned,
             UserCauser = userMemucho,
-            Type = UserActivityType.CreatedSet,
-            Set = new Set
-            {
-                Name = "Allgemeine Algebra"
-            }
+            Type = UserActivityType.CreatedSet
         });
 
         result.Add(new UserActivity

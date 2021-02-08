@@ -162,9 +162,6 @@ Vue.component('question-details-component', {
         },
     },
 
-    computed: {
-    },
-
     mounted: function () {
         if (!this.arcLoaded) {
             this.loadCategoryList();

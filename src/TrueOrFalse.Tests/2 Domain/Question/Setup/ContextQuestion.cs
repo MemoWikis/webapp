@@ -54,10 +54,10 @@ namespace TrueOrFalse.Tests
             return this;
         }
 
-        public ContextQuestion AddQuestions(int amount, User creator = null, bool withId = false)
+        public ContextQuestion AddQuestions(int amount, User creator = null, bool withId = false, IList<Category> categoriesQuestions = null)
         {
             for (var i = 0; i < amount; i++)
-                AddQuestion(questionText: "Question" + i, solutionText: "Solution" + i, i, withId, creator: creator);
+                AddQuestion("Question" + i, "Solution" + i, i, withId, creator, categoriesQuestions);
             return this;
         }
 
@@ -80,7 +80,6 @@ namespace TrueOrFalse.Tests
             question.SolutionMetadataJson = new SolutionMetadataText { IsCaseSensitive = true, IsExactInput = false }.Json;
             question.Creator = creator ?? _contextUser.All.First();
             question.CorrectnessProbability = correctnessProbability == 0 ? Rand.Next(1, 101) : correctnessProbability;
-            question.Categories = ContextCategory.New(false).AddToEntityCache("blabla", CategoryType.Standard, null, true).All;
 
             if (categories != null)
                 question.Categories = categories;
@@ -172,9 +171,12 @@ namespace TrueOrFalse.Tests
 
         public static void PutQuestionIntoMemoryCache(int answerProbability, int id)
         {
-            var questions = New().AddQuestion("", "", id, true, null, null, answerProbability).All;
             ContextCategory.New(false).AddToEntityCache("Category name", CategoryType.Standard, null, true);
-            var categoryIds = new List<int> { 0 };
+            var categories = EntityCache.GetAllCategories(); 
+
+            var questions = New().AddQuestion("", "", id, true, null, categories, answerProbability).All;
+           
+            var categoryIds = new List<int> { 1 };
 
             EntityCache.AddOrUpdate(questions[0], categoryIds);
 
@@ -183,30 +185,33 @@ namespace TrueOrFalse.Tests
 
         public static void PutQuestionsIntoMemoryCache(int amount = 20)
         {
-            var questions = New().AddQuestions(amount, null, true).All;
 
-            ContextCategory.New(false).AddToEntityCache("Category name", CategoryType.Standard, null, true);
 
-            var categoryIds = new List<int> { 0 };
+            ContextCategory.New(false).AddToEntityCache("Category name", CategoryType.Standard, null, true, 1);
+            var categories = EntityCache.GetAllCategories();
+
+            var questions = New().AddQuestions(amount, null, true, categories).All;
+
+            var categoryIds = new List<int> { 1 };
 
             foreach (var question in questions)
                 EntityCache.AddOrUpdate(question, categoryIds);
         }
 
 
-
         public static List<UserCacheItem> SetWuwi(int amountQuestion)
         {
             var contextUser = ContextUser.New();
             var users = contextUser.Add().All;
+            var categoryList = ContextCategory.New().Add("Daniel").All;
+            categoryList.First().Id = 1; 
 
             var userCacheItem = new UserCacheItem();
             userCacheItem.User = users.FirstOrDefault();
             userCacheItem.CategoryValuations = new ConcurrentDictionary<int, CategoryValuation>();
-            userCacheItem.SetValuations = new ConcurrentDictionary<int, SetValuation>();
             userCacheItem.QuestionValuations = new ConcurrentDictionary<int, QuestionValuation>();
 
-            var questions = ContextQuestion.New().AddQuestions(amountQuestion, users.FirstOrDefault(), true).All;
+            var questions = New().AddQuestions(amountQuestion, users.FirstOrDefault(), true, categoryList).All;
             users.ForEach(u => Sl.UserRepo.Create(u));
             UserCache.AddOrUpdate(users.FirstOrDefault());
 

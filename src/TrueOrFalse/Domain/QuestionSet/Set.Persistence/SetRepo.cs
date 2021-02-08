@@ -1,90 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using NHibernate;
 using NHibernate.Criterion;
-using NHibernate.Linq;
 using NHibernate.Transform;
-using TrueOrFalse.Search;
 
 public class SetRepo : RepositoryDbBase<Set>
 {
-    private readonly SearchIndexSet _searchIndexSet;
-
     public SetRepo(
-        ISession session, 
-        SearchIndexSet searchIndexSet)
+        ISession session)
         : base(session)
     {
-        _searchIndexSet = searchIndexSet;
-    }
-
-    public override void Update(Set set)
-    {
-        _searchIndexSet.Update(set);
-        base.Update(set);
-
-        var categoriesToUpdateIds =
-            _session.CreateSQLQuery("SELECT Category_id FROM categories_to_sets WHERE Set_id =" + set.Id)
-            .List<int>().ToList();
-
-        Flush();//Flush exactly here: If category has been added, categories_to_sets entry has been added already (important for UpdateSetCountForCategory). If category has been removed, it is still included in categoriesToUpdate.
-
-        categoriesToUpdateIds.AddRange(set.Categories.Select(x => x.Id).ToList());
-        categoriesToUpdateIds = categoriesToUpdateIds.GroupBy(x => x).Select(x => x.First()).ToList();
-        Sl.Resolve<UpdateSetCountForCategory>().Run(categoriesToUpdateIds);
-
-        Sl.Resolve<UpdateSetDataForQuestion>().Run(set.QuestionsInSet, skipUpdateQuestion: true); //as long as properties of question (particularly categories) cannot be changed here, skipUpdateQuestion can be set to true for performance reasons
-
-        var aggregatedCategoriesToUpdate =
-            CategoryAggregation.GetAggregatingAncestors(Sl.CategoryRepo.GetByIds(categoriesToUpdateIds));
-
-       
-        foreach (var category in aggregatedCategoriesToUpdate)
-        {
-            category.UpdateCountQuestionsAggregated();
-            Sl.CategoryRepo.Update(category);
-            KnowledgeSummaryUpdate.ScheduleForCategory(category.Id);
-        }
-    }
-
-    public override void Create(Set set)
-    {
-        base.Create(set);
-        Flush();
-        Sl.Resolve<UpdateSetCountForCategory>().Run(set.Categories);
-        UserActivityAdd.CreatedSet(set);
-        ReputationUpdate.ForUser(set.Creator);
-        _searchIndexSet.Update(set);
-    }
-
-    public int Copy(Set sourceSet)
-    {
-        var questionsInSet = new HashSet<QuestionInSet>();
-        sourceSet.QuestionsInSet.ToList().ForEach(q => questionsInSet.Add(new QuestionInSet
-        {
-            Question = q.Question,
-            Set = q.Set,
-            Timecode = q.Timecode,
-            Sort = q.Sort
-        }));
-        var categories = new List<Category>();
-        categories.AddRange(sourceSet.Categories);
-        Set copiedSet = new Set
-        {
-            Creator = _userSession.User,
-            Name = sourceSet.Name + " (Kopie von " + _userSession.User.Name + ")",
-            Text = sourceSet.Text,
-            VideoUrl = sourceSet.VideoUrl,
-            QuestionsInSet = questionsInSet,
-            Categories = categories,
-            CopiedFrom = sourceSet
-        };
-
-        Create(copiedSet);
-
-        return copiedSet.Id;
     }
 
     public IList<Set> GetByIds(List<int> setIds)
@@ -178,39 +104,11 @@ public class SetRepo : RepositoryDbBase<Set>
             .List<TopSetResult>().ToList();
     }
 
-    /// <summary>
-    /// Return how often a set is in other peoples WuWi
-    /// </summary>
-    public int HowOftenInOtherPeoplesWuwi(int userId, int setId)
-    {
-        return Sl.R<SetValuationRepo>()
-            .Query
-            .Where(v =>
-                v.UserId != userId &&
-                v.SetId == setId &&
-                v.RelevancePersonal > -1
-            )
-            .RowCount();
-    }
-
-    /// <summary>
-    /// Return how often a set is part of a future or previous date
-    /// </summary>
-    public int HowOftenInDate(int setId)
-    {
-        return _session.QueryOver<Date>()
-            .JoinQueryOver<Set>(d => d.Sets)
-            .Where(s => s.Id == setId)
-            .Select(Projections.RowCount())
-            .SingleOrDefault<int>();
-    }
-
     public override void Delete(Set set)
     {
         //if (Sl.R<SessionUser>().IsLoggedInUserOrAdmin(set.Creator.Id))
         //    throw new InvalidAccessException(); //exception is thrown, even if admin (=creator of set) is logged in
 
-        _searchIndexSet.Delete(set);
         base.Delete(set);
         foreach (var category in set.Categories)
         {

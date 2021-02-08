@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.InteropServices;
 using System.Web;
 using TrueOrFalse.Web;
 
@@ -31,21 +30,15 @@ public class KnowledgeModel : BaseModel
     public KnowledgeSummary KnowledgeSummary = new KnowledgeSummary();
     public GetStreaksDaysResult StreakDays = new GetStreaksDaysResult();
 
-    public IList<Date> Dates = new List<Date>();
-    public IList<Date> DatesInNetwork = new List<Date>();
     public IList<Answer> AnswerRecent = new List<Answer>();
-    public IList<TrainingDateModel> TrainingDates = new List<TrainingDateModel>();
 
     public User User = new User();
     public int ReputationRank;
     public int ReputationTotal;
-    public IList<object> CatsAndSetsWish;
 
     public UIMessage Message;
 
     public IList<UserActivity> NetworkActivities;
-    public IList<string> NetworkActivitiesActionString; 
-    
 
     public KnowledgeModel(string emailKey = null)
     {
@@ -98,14 +91,6 @@ public class KnowledgeModel : BaseModel
         var categoriesWishPool = R<CategoryRepository>().GetByIds(categoryValuationIds);
         var categoriesWish = OrderCategoriesByQuestionCountAndLevel.Run(categoriesWishPool);
 
-        var setValuationIds = R<SetValuationRepo>().GetByUser(UserId).Select(v => v.SetId).ToList();
-        var setsWish = R<SetRepo>().GetByIds(setValuationIds).OrderByDescending(s => s.QuestionCount()).ToList(); // sorts by questioncount including private questions! Excluding them would also exclude private questions visible to user
-        CatsAndSetsWish = SortSetsIntoListOfCategories.Run(categoriesWish, setsWish);
-
-        //GET DATES information
-        Dates = R<DateRepo>().GetBy(UserId, true);
-        DatesInNetwork = R<GetDatesInNetwork>().Run(UserId);
-
         AnswerRecent = R<AnswerRepo>().GetUniqueByUser(UserId, amount: 15);
 
         //GET NETWORK ACTIVITY
@@ -133,9 +118,6 @@ public class KnowledgeModel : BaseModel
         var reputation = new ReputationCalcResult
         {
             ForQuestionsCreated = 120,
-            ForSetsCreated = 80,
-            ForDatesCopied = 20,
-            ForSetsInOtherWishknowledge = 40,
             ForQuestionsInOtherWishknowledge = 220
         };
         ReputationRank = 38;
@@ -175,11 +157,6 @@ public class KnowledgeModel : BaseModel
         };
 
         var wishCategories = Sl.R<CategoryRepository>().GetByIds(652, 145, 6) ?? new List<Category>();
-        var wishSets = Sl.R<SetRepo>().GetByIds(14, 20, 189) ?? new List<Set>();
-        CatsAndSetsWish = SortSetsIntoListOfCategories.Run(wishCategories, wishSets);
-
-        Dates = GetSampleDates.Run();
-        DatesInNetwork = GetSampleDates.RunAgain();
 
         AnswerRecent = new List<Answer>();
         var questionsLearned = R<QuestionRepo>().GetMostViewed(9);
@@ -192,33 +169,5 @@ public class KnowledgeModel : BaseModel
         }
 
         NetworkActivities = GetSampleUserActivities.Run(User);
-
-        TrainingDates = new List<TrainingDateModel>
-        {
-            new TrainingDateModel(new TrainingDate
-            {
-                DateTime = DateTime.Now.AddHours(4),
-                AllQuestions = Sl.R<SetRepo>().GetById(17).Questions().Select(q => new TrainingQuestion {Question = q, IsInTraining = true}).ToList(),
-                TrainingPlan = new TrainingPlan {Date = Dates[0]}
-            }),
-            new TrainingDateModel(new TrainingDate
-            {
-                DateTime = DateTime.Now.AddHours(24),
-                AllQuestions = Sl.R<SetRepo>().GetById(20).Questions().Select(q => new TrainingQuestion {Question = q, IsInTraining = true}).ToList(),
-                TrainingPlan = new TrainingPlan {Date = Dates[0]}
-            }),
-            new TrainingDateModel(new TrainingDate
-            {
-                DateTime = DateTime.Now.AddHours(57),
-                AllQuestions = Sl.R<SetRepo>().GetById(45).Questions().Select(q => new TrainingQuestion {Question = q, IsInTraining = true}).ToList(),
-                TrainingPlan = new TrainingPlan {Date = Dates[1]}
-            }),
-            new TrainingDateModel(new TrainingDate
-            {
-                DateTime = DateTime.Now.AddHours(71),
-                AllQuestions = Sl.R<SetRepo>().GetById(65).Questions().Select(q => new TrainingQuestion {Question = q, IsInTraining = true}).ToList(),
-                TrainingPlan = new TrainingPlan()
-            })
-        };
     }
 }

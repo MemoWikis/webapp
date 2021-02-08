@@ -234,10 +234,6 @@ namespace TrueOrFalse.Frontend.Web.Code
             return url.Action("GetSolution", AnswerQuestionController, new { id = question.Id }, null);
         }
 
-        public static string GetSolution(UrlHelper url, Question question, Round round){
-            return url.Action("GetSolution", AnswerQuestionController, new { id = question.Id, roundId = round.Id }, null);
-        }
-
         public static string CountLastAnswerAsCorrect(UrlHelper url, Question question){
             return url.Action("CountLastAnswerAsCorrect", AnswerQuestionController, new { id = question.Id }, null);
         }
@@ -249,12 +245,12 @@ namespace TrueOrFalse.Frontend.Web.Code
         /*Learn*/
         public const string LearningSessionResultController = "LearningSessionResult";
 
-        public static string LearningSession(LearningSessionNew learningSession)
+        public static string LearningSession(LearningSession learningSession)
         {
             return "#";
         }
 
-        public static string StartLearningSession(LearningSessionNew learningSession)
+        public static string StartLearningSession(LearningSession learningSession)
         {
             if(!learningSession.Config.InWishknowledge)
                 return StartCategoryLearningSession(learningSession.Config.CategoryId);
@@ -325,8 +321,6 @@ namespace TrueOrFalse.Frontend.Web.Code
         public const string SetController = "Set";
         public const string SetCreateAction = "Create";
         public const string SetEditController = "EditSet";
-
-        public static string SetDetail(UrlHelper url, SetMini setMini) => SetDetail(url, setMini.Name, setMini.Id);
         public static string SetDetail(UrlHelper url, Set set) => SetDetail(url, set.Name, set.Id);
         public static string SetDetail(Set set) => 
             HttpContext.Current == null

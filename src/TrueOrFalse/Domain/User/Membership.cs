@@ -22,7 +22,7 @@ public class Membership : DomainEntity
     }
     public virtual bool IsActive(DateTime givenDateTime)
     {
-        return givenDateTime >= PeriodStart && givenDateTime <= PeriodEnd;
+        return givenDateTime >= PeriodStart.AddMinutes(-1) && givenDateTime <= PeriodEnd;
     }
 }
 

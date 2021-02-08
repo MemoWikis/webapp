@@ -1,12 +1,6 @@
 ﻿using NHibernate;
 using System.Collections.Generic;
 
-
-public class CategoryChangeParameters
-{
-
-}
-
 public class CategoryChangeRepo : RepositoryDbBase<CategoryChange>
 {
     public CategoryChangeRepo(ISession session) : base(session){}
@@ -94,22 +88,6 @@ public class CategoryChangeRepo : RepositoryDbBase<CategoryChange>
             ";
         var nextRevision = Sl.R<ISession>().CreateSQLQuery(query).AddEntity(typeof(CategoryChange)).UniqueResult<CategoryChange>();
         return nextRevision;
-    }
-
-    public virtual CategoryChange GetPreviousRevision(CategoryChange categoryChange)
-    {
-        var categoryId = categoryChange.Category.Id;
-        var currentRevisionDate = categoryChange.DateCreated.ToString("yyyy-MM-dd HH-mm-ss");
-        var query = $@"
-            
-            SELECT * FROM CategoryChange cc
-            WHERE cc.Category_id = {categoryId} and cc.DateCreated < '{currentRevisionDate}' 
-            ORDER BY cc.DateCreated DESC 
-            LIMIT 1
-
-            ";
-        var previousRevision = Sl.R<ISession>().CreateSQLQuery(query).AddEntity(typeof(CategoryChange)).UniqueResult<CategoryChange>();
-        return previousRevision;
     }
 
     public virtual int GetCategoryId(int version)

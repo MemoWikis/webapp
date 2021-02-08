@@ -1,9 +1,6 @@
-﻿using System.Threading;
-using System.Web.UI.WebControls;
-using Autofac;
+﻿using Autofac;
 using AutofacContrib.SolrNet;
 using AutofacContrib.SolrNet.Config;
-using HibernatingRhinos.Profiler.Appender.NHibernate;
 using NHibernate;
 using NUnit.Framework;
 using TrueOrFalse;
@@ -66,11 +63,6 @@ public class BaseTest
                     Id = "question",
                     DocumentType = typeof (QuestionSolrMap).AssemblyQualifiedName,
                     Url = solrUrl + "tofQuestionTest"
-                },
-            new SolrServerElement {
-                    Id = "set",
-                    DocumentType = typeof (SetSolrMap).AssemblyQualifiedName,
-                    Url = solrUrl + "tofSetTest"
                 },
             new SolrServerElement {
                     Id = "category",

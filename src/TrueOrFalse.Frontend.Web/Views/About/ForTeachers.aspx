@@ -26,9 +26,7 @@
                     Egal, wie du deinen Unterricht gestaltest, es gibt verschiedene Möglichkeiten, memucho sinnvoll einzubinden.
                     Das Tolle ist: memucho ist für dich und für die Schüler und Studenten kostenlos.
                 </p>
-                <!--Selber Schülern zur Verfügung stellen, als Lerntool empfehlen, in eigene Blogs oder Schulseiten einbinden, ..?-->
-                <!--Unsere Lernauswertungen, die Möglichkeit zum Quiz-Spiel gegen memucho oder in Echtzeit gegen Freunde, und das Sammeln-->
-                    
+
                 <div class="row">
                     <div class="col-xs-12 col-sm-6">
                         <div class="row overviewBlock">
@@ -67,22 +65,6 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-xs-12 col-sm-6">
-                        <div class="row overviewBlock">
-                            <div class="col-xs-2 overviewIcon">
-                                <i class="fa fa-trophy" style="color: #afd534">&nbsp;</i>
-                            </div>
-                            <div class="col-xs-10">
-                                <p class="overviewHeader">Echtzeit-Quiz und Lernauswertung</p>
-                                <p class="overviewSubtext">Jeder erhält eine individuelle Lernauswertung und die ganze Klasse kann im Echtzeit-Quiz gegeneinander antreten.</p>
-                            </div>
-                            <div class="col-xs-12">
-                                <p class="overviewMore">
-                                    <a href="#QuizMore" class="btn btn-primary">Mehr erfahren</a>
-                                </p>
-                            </div>
-                        </div>
-                    </div>
                 </div>
 
             </div>
@@ -102,66 +84,11 @@
                     Vorhandene Inhalte übernehmen, neu zusammenstellen und mit eigenen Inhalten ergänzen
                 </p>
                 <p>
-                    Bei memucho gibt es bereits <a href="<%= Links.QuestionsAll()%>"><%= Model.TotalPublicQuestionCount.ToString("N0") %> öffentliche Fragen</a> und
-                    <a href="<%= Links.SetsAll()%>"><%= Model.TotalSetCount.ToString("N0") %> zusammengestellte Lernsets</a> (jedes Lernset bündelt mehrere Fragen zu einem Thema),
+                    Bei memucho gibt es bereits <a href="<%= Links.QuestionsAll()%>"><%= Model.TotalPublicQuestionCount.ToString("N0") %> öffentliche Fragen</a>,
                     eingeordnet in <a href="<%= Links.CategoriesAll()%>"><%= Model.TotalCategoryCount.ToString("N0") %> Themen und Unterthemen</a>. 
-                    Alle Inhalte bei memucho sind frei und rechtssicher verwendbar, sie stehen unter der Creative-Commons-Lizenz "CC-BY 4.0". 
-                    Du kannst die vorhandenen Lernsets einfach nutzen und zum Beispiel deinen Schülern zum Lernen empfehlen.
+                    Alle Inhalte bei memucho sind frei und rechtssicher verwendbar, sie stehen unter der Creative-Commons-Lizenz "CC-BY 4.0".
                 </p>
-                <p>
-                    Die Fragen in den Lernsets passen nicht genau auf den behandelten Stoff? Kein Problem, du kannst die Zusammenstellung ganz leicht ändern und bei Bedarf
-                    mit eigenen Fragen ergänzen. Dabei musst du das Rad nicht neu erfinden.
-                    Du legst einfach ein eigenes Lernset an und fügst alle Fragen, die es bei memucho schon gibt und die für dich relevant sind, hinzu.
-                    Zu den Aspekten, die bei memucho noch fehlen, erstellst du einfach eigene Fragen und fügst sie deinem eigenen Lernset hinzu.
-                    So passen die Fragen ganz genau zum behandelten Lernstoff.<br />
                 </p>
-                <p>
-                    Übrigens: Eine tolle Alternative ist es, deine <a href="#StudentContentMore">Schüler oder Studenten in das Erstellen der Lerninhalte</a> einzubeziehen.
-                </p>
-                <p>
-                    Du willst genauer wissen, wie du Lernset neu zusammenstellst und ergänzt?
-                    <button class="btn btn-secondary" data-toggle="collapse" data-target="#CompileContentDetails">Schritt-für-Schritt-Anleitung anzeigen</button>
-                </p>
-
-                <div id="CompileContentDetails" class="collapse">
-                    <h4 style="margin-top: 25px;">
-                        Schritt-für-Schritt-Anleitung zum Anpassen und Ergänzen von Lernsets
-                    </h4>
-                    <ol>
-                        <li>
-                            Erstelle ein <a href="<%= Links.SetCreate() %>">neues leeres Lernset</a>
-                            (Menü <i class="fa fa-arrow-circle-o-right"></i> Lernsets <i class="fa fa-arrow-circle-o-right"></i> Lernset erstellen)
-                        </li>
-                        <img src="/Images/Screenshots/fragen-zusammenstellen.png" class="screenshot" width="525" height="379" />
-                        <li>
-                            Füge alle passenden Fragen, die du gerne übernehmen würdest, zu deinem Lernset hinzu (vgl. Screenshot). Das geht so:
-                            <ul>
-                                <li>
-                                    Gehe zu <a href="<%= Links.QuestionsAll() %>">Fragen</a> und nutze die Filterfunktionen, um die gesuchten Fragen anzuzeigen.
-                                    Du kannst dir zum Beispiel nur die Fragen zu einem Thema anzeigen lassen.
-                                </li>
-                                <li>Markiere die gewünschten Fragen (Klick auf die Checkbox in der oberen Hälfte des Bildes).</li>
-                                <li>Klick auf die Schaltfläche "Zum Lernset hinzufügen". Wähle hier den von dir angelegten Lernset aus.</li>
-                            </ul>
-                        </li>
-                        <li>
-                            Bei <a href="<%= Links.SetsMine() %>">"Meine Lernsets"</a> 
-                            (Menü <i class="fa fa-arrow-circle-o-right"></i> Lernsets <i class="fa fa-arrow-circle-o-right"></i> Karteireiter Meine Lernsets)
-                            findest du deine Lernsets jederzeit wieder und kannst sie bearbeiten.
-                            Füge ein passendes Bild hinzu, eine gute Beschreibung und passe gegebenenfalls die Reihenfolge der Fragen an.
-                            Wenn andere dein Lernset nützlich finden und damit lernen, erhältst du Reputationspunkte!
-                        </li>
-                        <li>
-                            Wenn dir im Lernset bestimmte Aspekte fehlen, kannst du jederzeit <a href="<%= Links.CreateQuestion() %>">eigene Fragen erstellen</a>
-                            (Menü <i class="fa fa-arrow-circle-o-right"></i> Fragen <i class="fa fa-arrow-circle-o-right"></i> Frage erstellen).
-                        </li>
-                        <li>
-                            Füge nun noch die eigenen Fragen zu dem Lernset hinzu. Du findest die von dir erstellten Fragen unter <a href="<%=Links.QuestionsMine()%>">Meine Fragen</a> 
-                            (Menü <i class="fa fa-arrow-circle-o-right"></i> Fragen <i class="fa fa-arrow-circle-o-right"></i> Karteireiter Meine Fragen). 
-                            Wähle sie aus und füge sie deinem Lernset hinzu (wie oben).
-                        </li>
-                    </ol>
-                </div>
             </div>
         </div>
     </div>
@@ -191,45 +118,10 @@
                     Über die Kommentarfunktion kann auf Fehler hingewiesen werden und Verbesserungsvorschläge gemacht werden. 
                     Wir achten darauf, dass die Kommentare fair und konstruktiv sind. Fehler sind kein Problem, denn sie können leicht korrigiert werden.
                 </p>
-                <p>
-                    Hat eine Klasse oder ein Kurs Fragen erstellt, können diese über die <a href="#WidgetMore">Widget-Funktion</a> auch direkt in die Kursseite
-                    oder - zum Beispiel als Abschluss eines Projektes - sogar auf die Schulwebseite eingebunden werden. 
-                    Eine tolle und sehr einfache Präsentation der Aktivitäten in der Schule. Bestimmt macht es auch Eltern Spaß, ihr Wissen zu testen oder sogar
-                    im Quiz gegen die eigenen Kinder anzutreten.
-                    <!-- Beispiel liefern?: Der Biokurs behandelt gerade Vererbungslehre? Das von Schülern erstellte passende Lernset als Ergebnis auf der Schulwebseite kann mit Eltern geteilt werden... -->
-                </p>
             </div>
         </div>
     </div>
 
-
-    <div class="row">
-        <div class="col-xs-12">
-            <div class="well">
-                <h2 style="margin-bottom: 15px;" class="PageHeader" id="QuizMore">
-                    <span class="ColoredUnderline GeneralMemucho"><i class="fa fa-trophy" style="color: #afd534">&nbsp;&nbsp;</i>Echtzeit-Quiz und Lernauswertung steigern die Motivation</span>
-                </h2>
-                <p class="subheader">
-                    Echtzeit-Quiz mit bis zu 30 Mitspielern und eine individuelle Lernauswertung steigern die Motivation
-                </p>
-                <p>
-                    Den Klassensieger in der Vererbungslehre oder den EU-Institutionen in einem spannenden Spiel bestimmen?
-                    Auf Basis der Lerninhalte können bis zu 30 Spieler in einem Echtzeit-Quiz gegeneinander antreten. 
-                    (Der Echtzeit-Quiz befindet sich zur Zeit noch in der Testphase.) 
-                    Für jede Frage gibt es 15 Sekunden Zeit, wer am Ende die meisten Fragen richtig beantwortet hat, hat gewonnen. 
-                    Spielen kann jeder auf seinem eigenen Handy oder auf Schulgeräten. Benötigt wird nur Internet und ein aktueller Browser.
-                </p>
-                <p>
-                    Jeder, der mit memucho lernt, erhält persönliche Lernauswertungen. In der eigenen Wissenszentrale sieht man den eigenen Wissensstand und die eigenen Lernaktivitäten. 
-                    Wie viele Lerntage hatte ich bisher? Wie viele Tage in Folge? Hier können eigene Bestmarken gesetzt und immer wieder überboten werden. 
-                    Auch bei einzelnen Lernsitzungen erhalten die Lernenden immer ein Feedback und sehen, wie sich ihr Wissensstand entwickelt.
-                    Diese Rückmeldungen motivieren zum Lernen und zur Auseinandersetzung mit dem Lernstoff.
-                </p>
-
-            </div>
-        </div>
-    </div>
-    
     <div class="row">
         <div class="col-xs-12">
             <div class="well" style="margin-top: 25px;">

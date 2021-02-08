@@ -10,10 +10,7 @@ public class UserActivityMap : ClassMap<UserActivity>
         Map(x => x.At);
         Map(x => x.Type);
         References(x => x.Question);
-        References(x => x.Set);
         References(x => x.Category);
-        References(x => x.Date);
-        References(x => x.Game);
         References(x => x.UserIsFollowed);
         References(x => x.UserCauser);
 

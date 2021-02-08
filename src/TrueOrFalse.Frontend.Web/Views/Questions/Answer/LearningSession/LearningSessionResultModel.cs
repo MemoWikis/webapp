@@ -1,11 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 
 public class LearningSessionResultModel : BaseModel
 {
-    public LearningSessionNew LearningSession;
+    public LearningSession LearningSession;
     public int NumberSteps;
     public int NumberUniqueQuestions;
     public int NumberCorrectAnswers; //answered correctly at first try
@@ -17,9 +16,7 @@ public class LearningSessionResultModel : BaseModel
     public int NumberWrongAnswersPercentage;
     public int NumberNotAnsweredPercentage;
 
-    public IEnumerable<IGrouping<int, LearningSessionStepNew>> AnsweredStepsGrouped;
-    public TrainingPlan TrainingPlan;
-    public int TrainingDateCount;
+    public IEnumerable<IGrouping<int, LearningSessionStep>> AnsweredStepsGrouped;
 
     public int WishCountQuestions;
     public int WishCountSets;
@@ -27,12 +24,12 @@ public class LearningSessionResultModel : BaseModel
     public int PercentageAverageRightAnswers;
     public int CounterSteps { get; set; }
 
-    public LearningSessionResultModel(LearningSessionNew learningSession, bool isInTestMode = false)
+    public LearningSessionResultModel(LearningSession learningSession, bool isInTestMode = false)
     {
         ShowSummaryText = !isInTestMode;
         LearningSession = learningSession;
         NumberSteps = LearningSession.Steps.Count();
-        var numberQuestions = LearningSession.Steps.Count(s => s.AnswerState == AnswerStateNew.Unanswered || s.AnswerState == AnswerStateNew.Skipped);
+        var numberQuestions = LearningSession.Steps.Count(s => s.AnswerState == AnswerState.Unanswered || s.AnswerState == AnswerState.Skipped);
         PercentageAverageRightAnswers = (int)Math.Round(LearningSession.Steps.Sum(s => s.Question.CorrectnessProbability) / (float)numberQuestions);
         
         if (learningSession.Config.InWishknowledge && !learningSession.Config.AllQuestions)
@@ -49,14 +46,14 @@ public class LearningSessionResultModel : BaseModel
             NumberUniqueQuestions = AnsweredStepsGrouped.Count();
 
             NumberCorrectAnswers = AnsweredStepsGrouped.Count(
-                g => g.First().AnswerState != AnswerStateNew.Unanswered
-                && g.First().AnswerState == AnswerStateNew.Correct);
+                g => g.First().AnswerState != AnswerState.Unanswered
+                && g.First().AnswerState == AnswerState.Correct);
 
             NumberCorrectAfterRepetitionAnswers = AnsweredStepsGrouped.Count(
-                g => g.Last().AnswerState != AnswerStateNew.Unanswered 
-                && g.Count() > 1 && g.Last().AnswerState == AnswerStateNew.Correct);
+                g => g.Last().AnswerState != AnswerState.Unanswered 
+                && g.Count() > 1 && g.Last().AnswerState == AnswerState.Correct);
 
-            NumberNotAnswered = AnsweredStepsGrouped.Count(g => g.All(a => a.AnswerState == AnswerStateNew.Unanswered || a.AnswerState == AnswerStateNew.Skipped));
+            NumberNotAnswered = AnsweredStepsGrouped.Count(g => g.All(a => a.AnswerState == AnswerState.Unanswered || a.AnswerState == AnswerState.Skipped));
 
             NumberWrongAnswers = NumberUniqueQuestions - NumberNotAnswered - NumberCorrectAnswers - NumberCorrectAfterRepetitionAnswers;
             

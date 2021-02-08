@@ -88,10 +88,10 @@ class AnswerBodyLoader {
 
         var url = "/AnswerQuestion/RenderNewAnswerBodySessionForCategory";
         this._getCustomSession = true;
-        this.loadNewQuestion(url, loadedFromVue, continueWithNewSession);
+        this.loadNewQuestion(url, loadedFromVue, continueWithNewSession, true);
     }
 
-    public loadNewQuestion(url: string, loadedFromVue: boolean = false, continueWithNewSession: boolean = false) {
+    public loadNewQuestion(url: string, loadedFromVue: boolean = false, continueWithNewSession: boolean = false, isNewSession: boolean = false) {
         this._isInLearningTab = $('#LearningTab').length > 0;
         if (this._getCustomSession)
             $("#TestSessionHeader").remove();
@@ -114,62 +114,71 @@ class AnswerBodyLoader {
             type: 'POST',
             headers: { "cache-control": "no-cache" },
             success: result => {
-                eventBus.$emit('suicide');
-                result = JSON.parse(result);
+                if (result !== "") {
 
-                if (!this._isInLearningTab) {
-                    this.updateUrl(result.url);
+                    eventBus.$emit('suicide');
+                    result = JSON.parse(result);
+
+                    if (!this._isInLearningTab) {
+                        this.updateUrl(result.url);
+                    }
+
+                    if (result.LearningSessionResult) {
+                        this.showLearningSessionResult(result);
+                        $(".ProgressBarSegment .ProgressBarLegend").hide();
+                        return;
+                    }
+                    $(".FooterQuestionDetails").remove();
+                    $("#AnswerBody").replaceWith(result.answerBodyAsHtml);
+                    if (this._isInLearningTab && !this._getCustomSession) {
+                        $("#QuestionDetails").empty();
+                    }
+
+                    if ($("#hddIsLearningSession").val() !== "True")
+                        this.updateNavigationBar(result.navBarData);
+                    else
+                        this.updateSessionHeader(result.sessionData);
+
+                    this.updateMenu(result.menuHtml);
+                document.title = $("#QuestionTitle").html();
+                    $("div#comments").replaceWith(result.commentsAsHtml);
+
+                    new AnswerBody();
+                    FillSparklineTotals();
+                    InitTooltips();
+                    Images.Init();
+                    InitClickLog("div#LicenseQuestion");
+                    InitClickLog("div#AnswerBody");
+                    InitClickLog("div#AnswerQuestionPager");
+                    InitClickLog("div#answerQuestionDetails");
+                    InitClickLog("div#comments");
+                    PreventDropdonwnsFromBeingHorizontallyOffscreen("div#AnswerBody");
+                    if (this._getCustomSession)
+                        this._getCustomSession = false;
+                    if ($("div[data-div-type='questionDetails']").length > 1)
+                        $("div[data-div-type='questionDetails']").last().remove();
+                    if ($("div[data-div-type='testSessionHeader']").length > 1)
+                        $("div[data-div-type='testSessionHeader']").slice(1).remove();
+
+                    if (continueWithNewSession) {
+                        $(".SessionSessionHeading").fadeIn();
+                        $(".SessionBar").fadeIn();
+                        $("#QuestionListApp").fadeIn();
+                    }
+                    if (loadedFromVue) {
+                        $(".SessionSessionHeading").fadeIn();
+                        $(".SessionBar").fadeIn();
+                        $("#AnswerBody").fadeIn();
+                        $("#QuestionDetails").fadeIn();
+                        $(".FooterQuestionDetails").fadeIn();
+                        //$("#QuestionListApp").show(); 
+                        if (isNewSession)
+                        eventBus.$emit('load-questions-list');
+                    } 
+                        //$("#QuestionListApp").hide();
+                eventBus.$emit('change-active-question');
                 }
 
-                if (result.LearningSessionResult) {
-                    this.showLearningSessionResult(result);
-                    $(".ProgressBarSegment .ProgressBarLegend").hide();
-                    return;
-                }
-                $(".FooterQuestionDetails").remove();
-                $("#AnswerBody").replaceWith(result.answerBodyAsHtml);
-                if (this._isInLearningTab && !this._getCustomSession) {
-                    $("#QuestionDetails").empty();
-                }
-
-                if ($("#hddIsLearningSession").val() !== "True") 
-                    this.updateNavigationBar(result.navBarData);
-                else
-                    this.updateSessionHeader(result.sessionData);
-              
-                this.updateMenu(result.menuHtml);
-                document.title = $(".QuestionText").html();
-                $("div#comments").replaceWith(result.commentsAsHtml);
-
-                new AnswerBody();
-                FillSparklineTotals();
-                InitTooltips();
-                Images.Init();
-                InitClickLog("div#LicenseQuestion");
-                InitClickLog("div#AnswerBody");
-                InitClickLog("div#AnswerQuestionPager");
-                InitClickLog("div#answerQuestionDetails");
-                InitClickLog("div#comments");
-                PreventDropdonwnsFromBeingHorizontallyOffscreen("div#AnswerBody");
-                if (this._getCustomSession)
-                    this._getCustomSession = false;
-                if ($("div[data-div-type='questionDetails']").length > 1)
-                    $("div[data-div-type='questionDetails']").last().remove();
-                if ($("div[data-div-type='testSessionHeader']").length > 1)
-                    $("div[data-div-type='testSessionHeader']").slice(1).remove();
-
-                if (continueWithNewSession) {
-                    $(".SessionSessionHeading").fadeIn();
-                    $(".SessionBar").fadeIn();
-                    $("#QuestionListApp").fadeIn();
-                }
-                if (loadedFromVue) {
-                    $(".SessionSessionHeading").fadeIn();
-                    $(".SessionBar").fadeIn();
-                    $("#AnswerBody").fadeIn();
-                    $("#QuestionDetails").fadeIn();
-                    $(".FooterQuestionDetails").fadeIn();
-                }
                 Utils.HideSpinner();
             },
             error: () => {
@@ -193,7 +202,7 @@ class AnswerBodyLoader {
         if(newMenuHtml)
             $("#mainMenuThemeNavigation").replaceWith($(newMenuHtml));
     }
-
+     
     private updateSessionHeader(sessionStepData) {
         if ($("#hddIsLearningSession").val() === "True") {
             $("#hddIsLearningSession").attr("data-current-step-idx", sessionStepData.currentStepIdx);

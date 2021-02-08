@@ -29,27 +29,6 @@ public class Answer : IPersistable, WithDateCreated, IAnswered
 
     public virtual AnswerCorrectness AnswerredCorrectly { get; set; }
     public virtual string AnswerText { get; set; }
-    public virtual Round Round { get; set; }
-
-    public virtual Player Player { get; set; }
-
-    public virtual LearningSession LearningSession { get; set; }
-    public virtual Guid LearningSessionStepGuid { get; set; }
-
-    public virtual string LearningSessionStepGuidString
-    {
-        get => LearningSessionStepGuid == Guid.Empty ? null : LearningSessionStepGuid.ToString();
-        set
-        {
-            if (value == null)
-            {
-                LearningSessionStepGuid = Guid.Empty;
-                return;
-            }
-
-            LearningSessionStepGuid = new Guid(value);
-        }
-    }
 
     /// <summary>Duration</summary>
     public virtual int MillisecondsSinceQuestionView { get; set; }

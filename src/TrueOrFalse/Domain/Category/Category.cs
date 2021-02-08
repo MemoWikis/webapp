@@ -3,10 +3,11 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using TrueOrFalse.Tools;
 
 [DebuggerDisplay("Id={Id} Name={Name}")]
 [Serializable]
-public class Category : DomainEntity, ICreator
+public class Category : DomainEntity, ICreator, ICloneable
 {
     public virtual string Name { get; set; }
 
@@ -29,14 +30,28 @@ public class Category : DomainEntity, ICreator
         return CategoryRelations.Any()
             ? CategoryRelations
                 .Where(r => r.CategoryRelationType == CategoryRelationType.IsChildCategoryOf)
-                .Select(x => x.RelatedCategory)
+                .Select(x => EntityCache.GetCategory(x.RelatedCategory.Id))
                 .ToList()
             : new List<Category>();
     }
 
+    public virtual CategoryCachedData CachedData { get; set; } = new CategoryCachedData();
+
     public virtual string CategoriesToExcludeIdsString { get; set; }
 
+    private IEnumerable<int> _categoriesToExcludeIds;
+    public virtual IEnumerable<int> CategoriesToExcludeIds() =>
+        _categoriesToExcludeIds ?? (_categoriesToExcludeIds = CategoriesToExcludeIdsString
+            .Split(new[] {','}, StringSplitOptions.RemoveEmptyEntries)
+            .Select(x => Convert.ToInt32(x)));
+
+
+    private IEnumerable<int> _categoriesToIncludeIds;
     public virtual string CategoriesToIncludeIdsString { get; set; }
+    public virtual IEnumerable<int> CategoriesToIncludeIds() =>
+        _categoriesToIncludeIds ?? (_categoriesToIncludeIds = CategoriesToIncludeIdsString
+            .Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries)
+            .Select(x => Convert.ToInt32(x)));
 
     public virtual IList<Category> CategoriesToInclude()
     {
@@ -55,7 +70,7 @@ public class Category : DomainEntity, ICreator
     public virtual IList<Category> AggregatedCategories(bool includingSelf = true)
     {
         var list = CategoryRelations.Where(r => r.CategoryRelationType == CategoryRelationType.IncludesContentOf)
-            .Select(r => r.RelatedCategory).ToList();
+            .Select(r => EntityCache.GetCategory(r.RelatedCategory.Id) ).ToList();
         
         if(includingSelf)
             list.Add(this);
@@ -96,14 +111,13 @@ public class Category : DomainEntity, ICreator
         if (fullList)
         {
             questions = AggregatedCategories()
-                .SelectMany(c =>
-                    questionRepo.GetForCategoryFromMemoryCache(c.Id))
+                .SelectMany(c => EntityCache.GetQuestionsForCategory(c.Id))
                 .Distinct()
                 .ToList();
         }
         else
         {
-            questions = questionRepo.GetForCategoryFromMemoryCache(categoryId)
+            questions = EntityCache.GetQuestionsForCategory(categoryId)
                 .Distinct()
                 .ToList();
         }
@@ -222,4 +236,10 @@ public class Category : DomainEntity, ICreator
     public virtual int FormerSetId { get; set; }
     public virtual bool SkipMigration { get; set; }
 
+    public virtual object Clone()
+    {
+        return this.MemberwiseClone(); 
+    }
+
+    public virtual bool IsRootCategory => Id == RootCategory.RootCategoryId;
 }

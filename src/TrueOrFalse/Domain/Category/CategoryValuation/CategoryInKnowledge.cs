@@ -49,12 +49,9 @@ public class CategoryInKnowledge
         var questionsInCategory = Sl.CategoryRepo.GetById(categoryId).GetAggregatedQuestionsFromMemoryCache();
         var questionIds = questionsInCategory.GetIds();
 
-        var questionsInPinnedSets = SetInKnowledge.ValuatedQuestionsInSets(user, questionIds);
         var questionsInPinnedCategories = QuestionsInValuatedCategories(user, questionIds, exeptCategoryId:categoryId);
-
-        var questionInOtherPinnedEntitites = questionsInPinnedSets.Union(questionsInPinnedCategories);
+        var questionInOtherPinnedEntitites = questionsInPinnedCategories;
         var questionsToUnpin = questionsInCategory.Where(question => questionInOtherPinnedEntitites.All(id => id != question.Id)).ToList();
-
 
         var questionValuations = UserCache.GetItem(user.Id).QuestionValuations;
         foreach (var question in questionsToUnpin)
@@ -137,10 +134,9 @@ public class CategoryInKnowledge
         var questionsInCategory = Sl.CategoryRepo.GetById(categoryId).GetAggregatedQuestionsFromMemoryCache();
         var questionIds = questionsInCategory.GetIds();
 
-        var questionsInPinnedSets = SetInKnowledge.ValuatedQuestionsInSets(user, questionIds);
         var questionsInPinnedCategories = QuestionsInValuatedCategories(user, questionIds, exeptCategoryId: categoryId);
 
-        var questionInOtherPinnedEntitites = questionsInPinnedSets.Union(questionsInPinnedCategories);
+        var questionInOtherPinnedEntitites = questionsInPinnedCategories;
         var questionsToUnpin = questionsInCategory.Where(question => questionInOtherPinnedEntitites.All(id => id != question.Id)).ToList();
 
         foreach (var question in questionsToUnpin)

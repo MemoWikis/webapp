@@ -17,11 +17,6 @@ public class AnswerMap : ClassMap<Answer>
         Map(x => x.AnswerText);
         Map(x => x.AnswerredCorrectly);
 
-        References(x => x.Round).Cascade.None();
-        References(x => x.Player).Cascade.None();
-        References(x => x.LearningSession).Cascade.None();
-        Map(x => x.LearningSessionStepGuidString).Column("LearningSessionStepGuid").CustomSqlType("varchar(36)").Unique();
-        
         HasManyToMany(x => x.Features).
             Table("answerFeature_to_answer");
 

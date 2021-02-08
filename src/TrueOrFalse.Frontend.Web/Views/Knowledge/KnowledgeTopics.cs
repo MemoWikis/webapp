@@ -7,7 +7,6 @@ using TrueOrFalse.Frontend.Web.Code;
 public class KnowledgeTopics : BaseModel
 {
     readonly IList<Category> Categories;
-    readonly IList<Set> Sets;
 
     public KnowledgeTopics(bool isAuthor)
     {
@@ -20,15 +19,11 @@ public class KnowledgeTopics : BaseModel
             ? EntityCache.GetCategories(categoriesIds).Where(v => v.Creator != null && v.Creator.Id == UserId).ToList()
             : EntityCache.GetCategories(categoriesIds).ToList();
 
-        var setIds = UserCache.GetSetValuations(UserId)
-            .Where(v => v.IsInWishKnowledge())
-            .Select(i => i.SetId)
-            .ToList();
     }
 
     public List<CategoryAndSetWishKnowledge> FilteredCategoryWishKnowledge(ControllerContext controllerContext)
     {
-        return GetCategoryAndSetWishKnowledgeItems(Categories, Sets, controllerContext);
+        return GetCategoryAndSetWishKnowledgeItems(Categories, controllerContext);
     }
 
     public IList<CategoryAndSetWishKnowledge> SortList(List<CategoryAndSetWishKnowledge> unSortList, string sortCondition)
@@ -54,63 +49,37 @@ public class KnowledgeTopics : BaseModel
         return sortList;
     }
 
-    private List<CategoryAndSetWishKnowledge> GetCategoryAndSetWishKnowledgeItems(IList<Category> CategorieWishes, IList<Set> setWishes, ControllerContext controllerContext)
+    private List<CategoryAndSetWishKnowledge> GetCategoryAndSetWishKnowledgeItems(IList<Category> CategorieWishes, ControllerContext controllerContext)
     {
-        List<CategoryAndSetWishKnowledge> filteredCategoryAndSetWishKnowledges = new List<CategoryAndSetWishKnowledge>();
-        var countList = CategorieWishes.Count + setWishes.Count;
+        List<CategoryAndSetWishKnowledge> filteredCategory = new List<CategoryAndSetWishKnowledge>();
+        var countList = CategorieWishes.Count;
 
         foreach (var categoryWish in CategorieWishes)
         {
             var facebookLink = "https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2F" + changeUrlToFacebookCompatible(Settings.CanonicalHost + Links.CategoryDetail(categoryWish.Name, categoryWish.Id)) + "%2F&amp;src=sdkpreparse";
-            var categoryAndSetWishKnowledge = new CategoryAndSetWishKnowledge();
+            var categoryWishKnowledge = new CategoryAndSetWishKnowledge();
 
-            categoryAndSetWishKnowledge.Description = categoryWish.Description;
-            categoryAndSetWishKnowledge.Title = categoryWish.Name;
-            categoryAndSetWishKnowledge.ImageFrontendData = new ImageFrontendData(categoryWish.Id, ImageType.Category).GetImageUrl(128);
-            categoryAndSetWishKnowledge.KnowlegdeWishPartial = KnowledgeWishPartial(categoryWish, controllerContext);
-            categoryAndSetWishKnowledge.Id = categoryWish.Id;
-            categoryAndSetWishKnowledge.IsCategory = true;
-            categoryAndSetWishKnowledge.LinkStartLearningSession = Links.StartCategoryLearningSession(categoryWish.Id);
-            categoryAndSetWishKnowledge.CreateQuestionLink = Links.CreateQuestion(categoryId: categoryWish.Id);
-            categoryAndSetWishKnowledge.StartGameLink = Links.GameCreateFromCategory(categoryWish.Id);
-            categoryAndSetWishKnowledge.QuestionsCount = categoryWish.CountQuestionsAggregated;
-            categoryAndSetWishKnowledge.EditCategoryOrSetLink = Links.CategoryEdit(categoryWish);
-            categoryAndSetWishKnowledge.ShareFacebookLink = facebookLink;
-            categoryAndSetWishKnowledge.HasVideo = false;
-            categoryAndSetWishKnowledge.KnowledgeWishAVGPercantage = CountDesiredKnowledge(categoryWish);
-            categoryAndSetWishKnowledge.LinkToSetOrCategory = Links.GetUrl(categoryWish);
-            categoryAndSetWishKnowledge.ListCount = countList;
+            categoryWishKnowledge.Description = categoryWish.Description;
+            categoryWishKnowledge.Title = categoryWish.Name;
+            categoryWishKnowledge.ImageFrontendData = new ImageFrontendData(categoryWish.Id, ImageType.Category).GetImageUrl(128);
+            categoryWishKnowledge.KnowlegdeWishPartial = KnowledgeWishPartial(categoryWish, controllerContext);
+            categoryWishKnowledge.Id = categoryWish.Id;
+            categoryWishKnowledge.IsCategory = true;
+            categoryWishKnowledge.LinkStartLearningSession = Links.StartCategoryLearningSession(categoryWish.Id);
+            categoryWishKnowledge.CreateQuestionLink = Links.CreateQuestion(categoryId: categoryWish.Id);
+            categoryWishKnowledge.StartGameLink = Links.GameCreateFromCategory(categoryWish.Id);
+            categoryWishKnowledge.QuestionsCount = categoryWish.CountQuestionsAggregated;
+            categoryWishKnowledge.EditCategoryOrSetLink = Links.CategoryEdit(categoryWish);
+            categoryWishKnowledge.ShareFacebookLink = facebookLink;
+            categoryWishKnowledge.HasVideo = false;
+            categoryWishKnowledge.KnowledgeWishAVGPercantage = CountDesiredKnowledge(categoryWish);
+            categoryWishKnowledge.LinkToSetOrCategory = Links.GetUrl(categoryWish);
+            categoryWishKnowledge.ListCount = countList;
             
-            filteredCategoryAndSetWishKnowledges.Add(categoryAndSetWishKnowledge);
+            filteredCategory.Add(categoryWishKnowledge);
         }
 
-        foreach (var setWish in setWishes)
-        {
-            var facebookLink = "https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2F" + changeUrlToFacebookCompatible(Settings.CanonicalHost + Links.SetDetail(setWish.Name, setWish.Id)) + "%2F&amp;src=sdkpreparse";
-            var categoryAndSetWishKnowledge = new CategoryAndSetWishKnowledge
-            {
-                Description = setWish.Text,
-                Title = setWish.Name,
-                ImageFrontendData = new ImageFrontendData(setWish.Id, ImageType.QuestionSet).GetImageUrl(128),
-                KnowlegdeWishPartial = KnowledgeWishPartial(setWish, controllerContext),
-                Id = setWish.Id,
-                IsCategory = false,
-                LinkStartLearningSession = Links.StartLearningSessionForSet(setWish.Id),
-                CreateQuestionLink = Links.CreateQuestion(setId: setWish.Id),
-                StartGameLink = Links.GameCreateFromSet(setWish.Id),
-                LearnSetsCount = 1,
-                QuestionsCount = setWish.QuestionCount(),
-                EditCategoryOrSetLink = Links.SetEdit(setWish),
-                ShareFacebookLink = facebookLink,
-                HasVideo = setWish.HasVideo,
-                KnowledgeWishAVGPercantage = CountDesiredKnowledge(setWish),
-                LinkToSetOrCategory = Links.GetUrl(setWish),
-                ListCount = countList
-            };
-
-            filteredCategoryAndSetWishKnowledges.Add(categoryAndSetWishKnowledge);
-        }
-        return filteredCategoryAndSetWishKnowledges;
+        return filteredCategory;
     }
 
     public class CategoryAndSetWishKnowledge

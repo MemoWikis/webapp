@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Seedworks.Lib.Persistence;
 
+[Serializable]
 public class QuestionFeature : DomainEntity
 {
     public virtual string Id2 { get; set; }

@@ -1,11 +1,9 @@
 using System.Collections.Generic;
 using Seedworks.Web.State;
-using TrueOrFalse.Search;
 
 public class SessionUiData : SessionBase, IRegisterAsInstancePerLifetime
 {
     public MainMenu MainMenu => Data.Get("menu", new MainMenu());
-    public TopicMenu TopicMenu => Data.Get("ThemeMenu", new TopicMenu());
     public UserMenu UserMenu => Data.Get("UserMenu", new UserMenu());
 
     /* History **************/
@@ -18,7 +16,6 @@ public class SessionUiData : SessionBase, IRegisterAsInstancePerLifetime
     public UserHistory VisitedUserDetails => Data.Get("lastVisitedUsers", new UserHistory());
     public CategoryHistory VisitedCategories => Data.Get("lastVisitedCategories", new CategoryHistory());
     public HelpHistory VisitedHelpPages => Data.Get("lastVisitedHelpPages", new HelpHistory());
-    public DateHistory VisitedDatePages => Data.Get("lastVisitedDatePages", new DateHistory());
 
     /* SearchSpecs *************/
     public QuestionSearchSpec SearchSpecQuestionAll => Data.Get("searchSpecQuestionAll", new QuestionSearchSpec { PageSize = 10 });

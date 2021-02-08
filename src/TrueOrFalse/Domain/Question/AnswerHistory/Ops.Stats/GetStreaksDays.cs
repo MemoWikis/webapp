@@ -27,6 +27,8 @@ public class GetStreaksDays : IRegisterAsInstancePerLifetime
         if (getAnswerStats.Count == 0)
             return result;
 
+        getAnswerStats = getAnswerStats.OrderBy(x => x.DateTime).ToList();
+
         SetLastStreak(getAnswerStats, result);
         SetLongestStreak(getAnswerStats, result);
         if (seperateStreakInRecentPeriodSince.HasValue)

@@ -146,37 +146,6 @@ namespace TrueOrFalse
             return new EmptyResult();
         }
 
-        [HttpPost]
-        public JsonResult GetQuestionSets(string filter)
-        {
-            var searchSpec = new SetSearchSpec{PageSize = 12};
-            var searchResult = Resolve<SearchSets>().Run(
-                filter, searchSpec, _sessionUser.User.Id, searchOnlyWithStartingWith:true);
-            var questionSets = Resolve<SetRepo>().GetByIds(searchResult.SetIds.ToArray());
-
-            return new JsonResult{
-                Data = new{
-                   Sets = questionSets.Select(s => new{Id = s.Id, Name = s.Name, QuestionCount = s.QuestionsInSet.Count}),
-                   Total = searchResult.Count
-                }
-            };
-        }
-
-        [HttpPost]
-        public JsonResult AddToQuestionSet()
-        {
-            var parts = Request.Form[0].Split(':');
-            var questionIds = parts[0].Split(',').Select(id => Convert.ToInt32(id)).ToArray();
-            var questionSetId = Convert.ToInt32(parts[1]);
-        
-            var result = AddToSet.Run(questionIds, questionSetId);
-        
-            return new JsonResult{ Data = new{
-                QuestionsAddedCount = result.AmountAddedQuestions,
-                QuestionAlreadyInSet = result.AmountOfQuestionsAlreadyInSet
-            }};
-        }
-
         [RedirectToErrorPage_IfNotLoggedIn]
         public ActionResult Restore(int questionId, int questionChangeId)
         {
@@ -186,6 +155,7 @@ namespace TrueOrFalse
             return Redirect(Links.AnswerQuestion(question));
         }
     }
+
 
     public class QuestionsControllerUtil : BaseUtil
     {

@@ -2,18 +2,14 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using FluentNHibernate.Utils;
 using NHibernate;
-using NHibernate.Criterion;
 using NHibernate.Util;
-using Seedworks.Lib;
-using TrueOrFalse.Infrastructure;
 using TrueOrFalse.Web;
 
 public class StatisticsModel : BaseModel
 {
-    private ISession _session;
-    private int _memuchoId = 26;
+    private readonly ISession _session;
+    private readonly int _memuchoId = 26;
 
     public UIMessage Message;
 
@@ -148,33 +144,6 @@ public class StatisticsModel : BaseModel
             })
             .ToList();
 
-        var learningSessionsStartedCount = _session
-            .QueryOver<LearningSession>()
-            .WhereRestrictionOn(l => l.User.Id).Not.IsIn((ICollection) excludedUserIds)
-            .And(l => l.DateCreated.Date >= Since.Date)
-            .List()
-            .GroupBy(l => l.DateCreated.Date)
-            .Select(r => new AmountPerDay
-            {
-                DateTime = r.Key,
-                Value = r.Count()
-            })
-            .ToList();
-
-        var datesCreatedCount = _session
-            .QueryOver<Date>()
-            .WhereRestrictionOn(d => d.User.Id).Not.IsIn((ICollection)excludedUserIds)
-            .And(d => d.DateCreated.Date >= Since.Date)
-            .List()
-            .GroupBy(d => d.DateCreated.Date)
-            .Select(r => new AmountPerDay
-            {
-                DateTime = r.Key,
-                Value = r.Count()
-            })
-            .ToList();
-
-
         /* Part 2: How many different users have (answered Questions | created date | ...) on each day */
         // to check plausibility: "SELECT * from questionview Where UserId NOT IN (-1, 2, 25, 26, 33, 72, 75, 77) AND DateCreated > '2016-12-18';"
 
@@ -208,36 +177,6 @@ public class StatisticsModel : BaseModel
                     });
                 });
 
-        var usersThatStartedLearningSessionCount = new List<AmountPerDay>();
-        _session.QueryOver<LearningSession>()
-                .WhereRestrictionOn(l => l.User.Id).Not.IsIn((ICollection)excludedUserIds)
-                .And(l => l.DateCreated.Date >= Since.Date)
-                .List()
-                .GroupBy(l => l.DateCreated.Date)
-                .ForEach(u =>
-                {
-                    usersThatStartedLearningSessionCount.Add(new AmountPerDay
-                    {
-                        DateTime = u.Key,
-                        Value = u.Select(s => s.User.Id).Distinct().Count()
-                    });
-                });
-
-        var usersThatCreatedDateCount = new List<AmountPerDay>();
-        _session.QueryOver<Date>()
-                .WhereRestrictionOn(l => l.User.Id).Not.IsIn((ICollection)excludedUserIds)
-                .And(l => l.DateCreated.Date >= Since.Date)
-                .List()
-                .GroupBy(l => l.DateCreated.Date)
-                .ForEach(u =>
-                {
-                    usersThatCreatedDateCount.Add(new AmountPerDay
-                    {
-                        DateTime = u.Key,
-                        Value = u.Select(s => s.User.Id).Distinct().Count()
-                    });
-                });
-
 
         /* merge single usage statistics into condensed list */
 
@@ -250,13 +189,9 @@ public class StatisticsModel : BaseModel
                 DateTime = curDay,
                 QuestionsAnsweredCount = (questionsAnsweredCount.Find(i => i.DateTime == curDay) == null) ? 0 : questionsAnsweredCount.Find(i => i.DateTime == curDay).Value,
                 QuestionsViewedCount = (questionsViewedCount.Find(i => i.DateTime == curDay) == null) ? 0 : questionsViewedCount.Find(i => i.DateTime == curDay).Value,
-                LearningSessionsStartedCount = (learningSessionsStartedCount.Find(i => i.DateTime == curDay) == null) ? 0 : learningSessionsStartedCount.Find(i => i.DateTime == curDay).Value,
-                DatesCreatedCount = (datesCreatedCount.Find(i => i.DateTime == curDay) == null) ? 0 : datesCreatedCount.Find(i => i.DateTime == curDay).Value,
 
                 UsersThatAnsweredQuestionCount = (usersThatAnsweredQuestionCount.Find(i => i.DateTime == curDay) == null) ? 0 : usersThatAnsweredQuestionCount.Find(i => i.DateTime == curDay).Value,
                 UsersThatViewedQuestionCount = (usersThatViewedQuestionCount.Find(i => i.DateTime == curDay) == null) ? 0 : usersThatViewedQuestionCount.Find(i => i.DateTime == curDay).Value,
-                UsersThatStartedLearningSessionCount = (usersThatStartedLearningSessionCount.Find(i => i.DateTime == curDay) == null) ? 0 : usersThatStartedLearningSessionCount.Find(i => i.DateTime == curDay).Value,
-                UsersThatCreatedDateCount = (usersThatCreatedDateCount.Find(i => i.DateTime == curDay) == null) ? 0 : usersThatCreatedDateCount.Find(i => i.DateTime == curDay).Value,
             });
             curDay = curDay.AddDays(1);
         }

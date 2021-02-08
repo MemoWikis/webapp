@@ -35,11 +35,6 @@ namespace TrueOrFalse.Infrastructure
                                         Url = solrUrl + "tofQuestion" + solrSuffix
                                     },
                                 new SolrServerElement {   
-                                        Id = "set",
-                                        DocumentType = typeof (SetSolrMap).AssemblyQualifiedName,
-                                        Url = solrUrl + "tofSet" + solrSuffix
-                                    },
-                                new SolrServerElement {   
                                         Id = "category",
                                         DocumentType = typeof (CategorySolrMap).AssemblyQualifiedName,
                                         Url = solrUrl + "tofCategory" + solrSuffix

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Web.Mvc;
 using TrueOrFalse.Frontend.Web.Code;
 using TrueOrFalse.Web;
@@ -41,7 +42,7 @@ public class AnswerBodyModel : BaseModel
     public bool IsInWidget;
     public bool IsForVideo;
     public bool IsLearningSession;
-    public LearningSessionNew LearningSession;
+    public LearningSession LearningSession;
     public bool IsLastLearningStep = false;
     public bool IsTestSession;
     public int TestSessionProgessAfterAnswering;
@@ -69,6 +70,7 @@ public class AnswerBodyModel : BaseModel
     public Func<UrlHelper, string> AjaxUrl_LearningSessionAmendAfterShowSolution { get; private set; }
 
     public int TotalActivityPoints;
+    public string QuestionTitle { get; private set; }
 
     public AnswerBodyModel(AnswerQuestionModel answerQuestionModel, bool isInLearningTab = false, bool isInTestMode = false)
     {
@@ -103,7 +105,7 @@ public class AnswerBodyModel : BaseModel
     private void Init(Question question)
     {
         QuestionId = question.Id;
-        Creator =  new UserTinyModel(question.Creator);
+        Creator = new UserTinyModel(question.Creator);
         IsCreator = Creator.Id == UserId;
         HasCategories = question.Categories.Any();
         var questionChangeList = Sl.QuestionChangeRepo.GetForQuestion(QuestionId);
@@ -121,7 +123,7 @@ public class AnswerBodyModel : BaseModel
 
 
         var questionValuationForUser = NotNull.Run(Sl.QuestionValuationRepo.GetByFromCache(question.Id, UserId));
-        KnowledgeStatus = questionValuationForUser.KnowledgeStatus; 
+        KnowledgeStatus = questionValuationForUser.KnowledgeStatus;
 
         AjaxUrl_CountLastAnswerAsCorrect = url => Links.CountLastAnswerAsCorrect(url, question);
         AjaxUrl_CountUnansweredAsCorrect = url => Links.CountUnansweredAsCorrect(url, question);
@@ -141,7 +143,7 @@ public class AnswerBodyModel : BaseModel
         }
 
         LicenseQuestion = question.License;
-                          
+
         SoundUrl = new GetQuestionSoundUrl().Run(question);
 
         SolutionMetadata = new SolutionMetadata { Json = question.SolutionMetadataJson };
@@ -151,6 +153,8 @@ public class AnswerBodyModel : BaseModel
         SolutionModel = GetQuestionSolution.Run(question);
 
         TotalActivityPoints = IsLoggedIn ? Sl.SessionUser.User.ActivityPoints : Sl.R<SessionUser>().getTotalActivityPoints();
+
+        QuestionTitle = Regex.Replace(QuestionText, "<.*?>", String.Empty);
     }
 
     private string EscapeFlashCardText(string text)

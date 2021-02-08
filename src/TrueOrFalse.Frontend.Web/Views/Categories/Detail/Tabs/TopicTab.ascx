@@ -3,8 +3,6 @@
 <%@ Import Namespace="System.Web.Optimization" %>
 <%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
 
-<%= Scripts.Render("~/Scripts/npm/tiptap-build/tiptap-build.js") %> 
-
 <div id="ContentModuleApp" openEditMode="<%= Model.OpenEditMode%>">
     <% if (Model.Category.IsHistoric)
        { %>

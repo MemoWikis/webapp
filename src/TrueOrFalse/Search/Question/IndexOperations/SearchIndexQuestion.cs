@@ -67,21 +67,8 @@ namespace TrueOrFalse.Search
                         _solrOperations.Add(solrQuestion, new AddParameters { CommitWithin = 5000 });
 
                     }, "UpdateQuestionSolrJob", writeLog: false);
-                });
+                }, true);
             }
-        }
-
-        public void UpdateQuestionView(int questionId, int totalViews, int? creatorId)
-        {
-            _solrOperations.AtomicUpdate(
-                questionId.ToString(), 
-                new[]
-                {
-                    new AtomicUpdateSpec("Views", AtomicUpdateType.Set, totalViews),
-                    new AtomicUpdateSpec("CreatorId", AtomicUpdateType.Set, creatorId ?? -1)
-                }
-            );
-            _solrOperations.Commit();
         }
 
         public void Delete(Question question)

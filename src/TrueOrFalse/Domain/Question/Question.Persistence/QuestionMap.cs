@@ -6,8 +6,11 @@ public class QuestionMap : ClassMap<Question>
     {
         Id(x => x.Id);
         Map(x => x.Text).Length(Constants.VarCharMaxLength);
+        Map(x => x.TextHtml);
         Map(x => x.TextExtended).Length(Constants.VarCharMaxLength);
+        Map(x => x.TextExtendedHtml);
         Map(x => x.Description).Length(Constants.VarCharMaxLength);
+        Map(x => x.DescriptionHtml);
         Map(x => x.LicenseId).Column("License");
         Map(x => x.Visibility);
         References(x => x.Creator);
@@ -37,16 +40,14 @@ public class QuestionMap : ClassMap<Question>
             .Table("categories_to_questions")
             .Cascade.SaveUpdate();
 
-        Map(x => x.SetsAmount);
-        Map(x => x.SetsTop5Json);
-
         Map(x => x.IsWorkInProgress);
 
-        HasManyToMany(x => x.Features)
-            .Table("questionFeature_to_question")
-            .Inverse();
+        //HasManyToMany(x => x.Features)
+        //    .Table("questionFeature_to_question")
+        //    .Inverse();
 
         Map(x => x.DateCreated);
         Map(x => x.DateModified);
+        Map(x => x.SkipMigration);
     }
 }

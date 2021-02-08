@@ -33,7 +33,7 @@ namespace Seedworks.Web.State
 				{
 					HttpContext.Current.Session[key] = value;
 				}
-				else
+				else 
 				{
 					AppDomain.CurrentDomain.SetData(key, value);
 				}

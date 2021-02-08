@@ -5,42 +5,45 @@ using TrueOrFalse.Tests;
 
 internal static class ContextLearningSession
 {
-    public static List<LearningSessionStepNew> GetSteps(int amountQuestions)
+    public static List<LearningSessionStep> GetSteps(int amountQuestionInMemory, int amountQuestions = 20)
     {
-        var learningSession = GetLearningSessionForAnonymusUser(amountQuestions);
+        var learningSession = GetLearningSessionForAnonymusUser(amountQuestionInMemory, amountQuestions);
 
         return learningSession.Steps.ToList();
     }
 
-    public static LearningSessionNew GetLearningSessionForAnonymusUser(int amountQuestions)
+    public static LearningSession GetLearningSessionForAnonymusUser(int amountQuestions, int amountQuestionInMemory = 20)
     {
-        ContextQuestion.PutQuestionsIntoMemoryCache();
-        var learningSession = LearningSessionNewCreator.ForAnonymous(
+        ContextQuestion.PutQuestionsIntoMemoryCache(amountQuestionInMemory);
+        var learningSession = LearningSessionCreator.ForAnonymous(
             new LearningSessionConfig
             {
-                CategoryId = 0,
+                CategoryId = 1,
                 MaxQuestionCount = amountQuestions,
-                CurrentUserId = -1
+                CurrentUserId = -1,
+                MaxProbability = 100
+                
             });
         return learningSession;
     }
 
-    public static LearningSessionNew GetLearningSessionWithUser(int userId, int amountQuestions)
+    public static LearningSession GetLearningSessionWithUser(LearningSessionConfig config)
     {
-        ContextQuestion.PutQuestionsIntoMemoryCache(amountQuestions);
-        return new LearningSessionNew(GetSteps(amountQuestions), new LearningSessionConfig { CurrentUserId = userId });
+        ContextQuestion.PutQuestionsIntoMemoryCache(config.MaxQuestionCount);
+        config.AllQuestions = true; 
+        return new LearningSession(GetSteps(config.MaxQuestionCount), config);
     }
 
-    public static LearningSessionNew GetLearningSession(LearningSessionConfig config )
+    public static LearningSession GetLearningSession(LearningSessionConfig config )
     {
 
         ContextQuestion.PutQuestionsIntoMemoryCache();
         if (config.CurrentUserId == -1)
         {
-            return LearningSessionNewCreator.ForAnonymous(config);
+            return LearningSessionCreator.ForAnonymous(config);
         }
 
-        return LearningSessionNewCreator.ForLoggedInUser(config); 
+        return LearningSessionCreator.ForLoggedInUser(config); 
         
 
     }

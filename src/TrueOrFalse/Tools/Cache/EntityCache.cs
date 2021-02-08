@@ -26,8 +26,13 @@ public class EntityCache : BaseCache
 
         Logg.r().Information("EntityCache Start" + customMessage + "{Elapsed}", stopWatch.Elapsed);
 
-        var questions = Sl.QuestionRepo.GetAll();
         var categories = Sl.CategoryRepo.GetAllEager();
+        var questions = Sl.QuestionRepo.GetAllEager();
+
+#if DEBUG
+        categories.DeepClone();
+        questions.DeepClone();
+#endif
 
         Logg.r().Information("EntityCache LoadAllEntities" + customMessage + "{Elapsed}", stopWatch.Elapsed);
 
@@ -37,9 +42,6 @@ public class EntityCache : BaseCache
 
         Logg.r().Information("EntityCache PutIntoCache" + customMessage + "{Elapsed}", stopWatch.Elapsed);
     }
-
-
-
 
     private static ConcurrentDictionary<int, ConcurrentDictionary<int, int>> GetCategoryQuestionsList(IList<Question> questions)
     {
@@ -91,7 +93,8 @@ public class EntityCache : BaseCache
         if (Questions.TryGetValue(questionId, out var question))
             return question;
 
-        throw new Exception("Question not in Cache");
+        Logg.r().Warning("QuestionId is not available");
+        return new Question();
     }
 
     private static void UpdateCategoryQuestionList(
@@ -226,8 +229,7 @@ public class EntityCache : BaseCache
     public static IEnumerable<Category> GetCategories(IEnumerable<int> getIds) => 
         getIds.Select(categoryId => Categories[categoryId]);
 
-    public static IEnumerable<Category> GetAllCategories() => Categories.Values.ToList();
-
+    public static IList<Category> GetAllCategories() => Categories.Values.ToList();
 
     public static List<Category> GetChildren(int categoryId, bool isFromEntityCache = false)
     {

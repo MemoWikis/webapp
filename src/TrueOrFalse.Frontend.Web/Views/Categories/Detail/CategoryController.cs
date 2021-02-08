@@ -45,9 +45,7 @@ public class CategoryController : BaseController
     private LoadModelResult LoadModel(int id, int? version, bool? openEditMode = false)
     {
         var result = new LoadModelResult();
-        Category category;
-
-        category = EntityCache.GetCategory(id);
+        var category = EntityCache.GetCategory(id);
         
         var isCategoryNull = category == null;
 
@@ -130,17 +128,6 @@ public class CategoryController : BaseController
         return Redirect(Links.TestSession(categoryName, categoryId));
     }
 
-    public ActionResult StartTestSessionForSetsInCategory(List<int> setIds, string setListTitle, int categoryId)
-    {
-        var sets = Sl.SetRepo.GetByIds(setIds);
-        var category = Sl.CategoryRepo.GetByIdEager(categoryId);
-        var testSession = new TestSession(sets, setListTitle, category);
-
-        Sl.SessionUser.AddTestSession(testSession);
-
-        return Redirect(Links.TestSession(testSession.UriName, testSession.Id));
-    }
-
     [RedirectToErrorPage_IfNotLoggedIn]
     public ActionResult StartLearningSession(int categoryId)
     {
@@ -148,7 +135,7 @@ public class CategoryController : BaseController
         {
             CategoryId = categoryId
         };
-        var learningSession = LearningSessionNewCreator.ForAnonymous(config);
+        var learningSession = LearningSessionCreator.ForAnonymous(config);
 
         return Redirect(Links.LearningSession(learningSession));
     }
@@ -162,7 +149,7 @@ public class CategoryController : BaseController
         if (questions.Count == 0)
             throw new Exception("Cannot start LearningSession with 0 questions.");
         var config = new LearningSessionConfig();
-        var learningSession = LearningSessionNewCreator.ForAnonymous(config);
+        var learningSession = LearningSessionCreator.ForAnonymous(config);
 
         return Redirect(Links.LearningSession(learningSession));
     }
@@ -335,6 +322,17 @@ public class CategoryController : BaseController
         {
             cookie.Values["showMyWorld"] = showMyWorld.ToString();
         }
+        
+        if (_sessionUser.IsLoggedIn && _sessionUser.User.Name != "User")
+        {
+            if (!UserEntityCache.IsCategoryCacheKeyAvailable())
+                UserEntityCache.Init();
+        }
+        else if(_sessionUser.IsLoggedIn)
+        {
+            UserEntityCache.Init();
+        }
+
         UserCache.IsFiltered = showMyWorld;
         Response.Cookies.Add(cookie);
     }
@@ -370,6 +368,8 @@ public class CategoryController : BaseController
             cookie.Expires = DateTime.Now.AddDays(-1);
             Response.Cookies.Add(cookie);
         }
+
+        UserCache.IsFiltered = false; 
         return true;
     }
 }

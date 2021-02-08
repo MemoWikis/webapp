@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Web;
 
 public class PathTo
@@ -10,7 +11,12 @@ public class PathTo
 
     public static string Log_Ignore()
     {
-       return AppDomain.CurrentDomain.BaseDirectory + "Log.ignore";
+        var path = GetPath("Log.ignore") ;
+
+        if (path.Contains("Test"))
+            path = path.Substring(0, path.IndexOf("TrueOrFalse.Tests")) + "TrueOrFalse.Frontend.Web\\Log.ignore"; 
+
+        return path;
     }
 
     public static string SolrSchema(string fileName)
@@ -45,7 +51,7 @@ public class PathTo
 
     private static string GetPath(string fileName)
     {
-        if (HttpContext.Current != null)
+        if (HttpContext.Current != null && !fileName.Equals("Log.ignore"))
             return HttpContext.Current.Server.MapPath("~/bin/" + fileName);
 
         if(JobExecute.CodeIsRunningInsideAJob)

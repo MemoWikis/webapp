@@ -17,9 +17,6 @@ public class AnswerLog : IRegisterAsInstancePerLifetime
         Guid questionViewGuid,
         int interactionNumber,
         int millisecondsSinceQuestionView,
-        Player player = null,
-        Round round = null,
-        LearningSession learningSession = null,
         Guid learningSessionStepGuid = default(Guid),
       //  bool countUnansweredAsCorrect = false,
         /*for testing*/ DateTime dateCreated = default(DateTime))
@@ -33,10 +30,6 @@ public class AnswerLog : IRegisterAsInstancePerLifetime
             MillisecondsSinceQuestionView = millisecondsSinceQuestionView,
             AnswerText = answerQuestionResult.AnswerGiven,
             AnswerredCorrectly = answerQuestionResult.IsCorrect ? AnswerCorrectness.True : AnswerCorrectness.False,
-            Round = round,
-            Player = player,
-            LearningSession = learningSession,
-            LearningSessionStepGuid = learningSessionStepGuid,
             DateCreated = dateCreated == default(DateTime)
                 ? DateTime.Now
                 : dateCreated
@@ -78,7 +71,6 @@ public class AnswerLog : IRegisterAsInstancePerLifetime
 
     public void LogAnswerView(Question question, int userId, Guid questionViewGuid, int interactionNumber, int millisecondsSinceQuestionView, int? roundId = null, int LearningSessionId = -1, Guid LearningSessionStepGuid = default(Guid))
     {
-
         var answer = new Answer
         {
             Question = question,
@@ -89,8 +81,6 @@ public class AnswerLog : IRegisterAsInstancePerLifetime
             AnswerText = "",
             AnswerredCorrectly = AnswerCorrectness.IsView,
             DateCreated = DateTime.Now,
-            LearningSession = LearningSessionId != -1 ? Sl.R<LearningSessionRepo>().GetById(LearningSessionId) : null,
-            LearningSessionStepGuid = LearningSessionStepGuid
         };
 
         _answerRepo.Create(answer);

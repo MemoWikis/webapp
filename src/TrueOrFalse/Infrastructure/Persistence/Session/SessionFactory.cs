@@ -22,6 +22,7 @@ namespace TrueOrFalse
             var configuration = ReadConfigurationFromCacheOrBuildIt();
             _configuration = configuration;
             _configuration.SetProperty(Environment.Hbm2ddlKeyWords, "none");
+
             return configuration.BuildSessionFactory();
         }
 

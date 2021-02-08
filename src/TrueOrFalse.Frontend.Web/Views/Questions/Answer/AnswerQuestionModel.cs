@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Web.Mvc;
 using TrueOrFalse;
 using TrueOrFalse.Frontend.Web.Code;
@@ -59,24 +60,17 @@ public class AnswerQuestionModel : BaseModel
     public string CreationDate { get; private set; }
     public string AverageAnswerTime { get; private set; }
     public string QuestionText { get; private set; }
+    public string QuestionTitle { get; private set; }
     public string QuestionTextMarkdown { get; private set; }
     public QuestionVisibility Visibility { get; private set; }
     public bool HasPreviousPage;
     public bool HasNextPage;
 
-    public bool SourceIsTabAll;
-    public bool SourceIsTabMine;
-    public bool SourceIsTabWish;
-
-    public bool SourceIsSet;
     public bool SourceIsCategory;
     public Category SourceCategory;
 
-    public Set Set;
     public IList<Category> Categories;
     public Category PrimaryCategory;
-    public IList<SetMini> SetMinis;
-    public int SetCount;
 
     public HistoryAndProbabilityModel HistoryAndProbability;
 
@@ -86,12 +80,11 @@ public class AnswerQuestionModel : BaseModel
     public int CommentsSettledCount = 0;
 
     public bool IsLearningSession => LearningSession != null;
-    public LearningSessionNew  LearningSession;
-    public LearningSessionStepNew LearningSessionStep;
+    public LearningSession  LearningSession;
+    public LearningSessionStep LearningSessionStep;
     public int CurrentLearningStepIdx;
-    public bool IsLastLearningStep = false;
+    public bool IsLastLearningStep;
 
-    public TestSession TestSession;
     public bool IsTestSession;
 
     public int TestSessionProgessAfterAnswering;
@@ -110,14 +103,13 @@ public class AnswerQuestionModel : BaseModel
         CategoryModel = categoryModel;
         IsMobileDevice = isMobileDevice;
         HasNextPage = HasPreviousPage = false;
-        SourceIsTabAll = true;
         ContentRecommendationResult = ContentRecommendation.GetForQuestion(question, 6);
         ShowCategoryList = showCategoryList;
 
         Populate(question);
     }
 
-    public AnswerQuestionModel(LearningSessionNew learningSession, bool? isMobileDevice = null)
+    public AnswerQuestionModel(LearningSession learningSession, bool? isMobileDevice = null)
     {
         this.IsMobileDevice = isMobileDevice;
 
@@ -151,10 +143,6 @@ public class AnswerQuestionModel : BaseModel
 
         NextUrl = url => url.Action("Next", Links.AnswerQuestionController, new {pager = PagerKey});
         PreviousUrl = url => url.Action("Previous", Links.AnswerQuestionController, new {pager = PagerKey});
-
-        SourceIsTabAll = SearchTabType.All == searchSpec.SearchTab;
-        SourceIsTabMine = SearchTabType.Mine == searchSpec.SearchTab;
-        SourceIsTabWish = SearchTabType.Wish == searchSpec.SearchTab;
 
         if (searchSpec.Filter.HasExactOneCategoryFilter()){
             SourceCategory = Resolve<CategoryRepository>().GetById(searchSpec.Filter.Categories.First());
@@ -202,6 +190,7 @@ public class AnswerQuestionModel : BaseModel
 
         QuestionId = question.Id;
         QuestionText = question.Text;
+        QuestionTitle = Regex.Replace(QuestionText, "<.*?>", String.Empty);
         QuestionTextMarkdown = question.TextExtended != null ? MarkdownMarkdig.ToHtml(question.TextExtended) : "";
         Visibility = question.Visibility;
         SolutionType = question.SolutionType.ToString();
@@ -234,10 +223,6 @@ public class AnswerQuestionModel : BaseModel
         SoundUrl = new GetQuestionSoundUrl().Run(question);
 
         Categories = question.Categories;
-        SetMinis = question.SetTop5Minis;
-        SetCount = question.SetsAmount;
-
-
         QuestionHasParentCategories = question.Categories.Any();
         //Find best suited primary category for question
         if (!IsTestSession && !IsLearningSession && QuestionHasParentCategories)

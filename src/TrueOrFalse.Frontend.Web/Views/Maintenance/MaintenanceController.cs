@@ -1,12 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 using System.Web.Mvc;
-using NHibernate;
-using NHibernate.Linq;
 using NHibernate.Util;
-using SetMigration;
 using TrueOrFalse;
 using TrueOrFalse.Frontend.Web.Code;
 using TrueOrFalse.Infrastructure;
@@ -119,21 +115,6 @@ public class MaintenanceController : BaseController
         return result;
     }
 
-    [HttpPost]
-    public string CmsRenderSetsWithDifferentlyCategorizedQuestions()
-    {
-        var sets = GetAllSetsWithDifferentlyCategorizedQuestions.Run().OrderByDescending(s => s.DateCreated);
-        var result = sets.Count() + " sets were found:<br/>";
-        foreach (var set in sets)
-        {
-            result += "<a href=\"" + Links.SetDetail(Url, set) +
-                      "\"><span class=\"label label-set\" style=\"max-width: 200px; margin-top: 5px; margin-right: 10px;\">" +
-                      set.Id + "-" + set.Name + "</span></a> \n";
-        }
-
-        return result;
-    }
-
     [SetMainMenu(MainMenuEntry.Maintenance)]
     public ActionResult ContentCreatedReport()
     {
@@ -162,8 +143,6 @@ public class MaintenanceController : BaseController
     [HttpPost]
     public ActionResult RecalculateAllKnowledgeItems()
     {
-        R<AddValuationEntries_ForQuestionsInSetsAndDates>().RunForAllUsers();
-
         ProbabilityUpdate_ValuationAll.Run();
         ProbabilityUpdate_Question.Run();
         ProbabilityUpdate_Category.Run();
@@ -182,24 +161,6 @@ public class MaintenanceController : BaseController
         Resolve<UpdateQuestionAnswerCounts>().Run();
         return View("Maintenance",
             new MaintenanceModel { Message = new SuccessMessage("Aggregierte Werte wurden aktualisiert.") });
-    }
-
-    [ValidateAntiForgeryToken]
-    [HttpPost]
-    public ActionResult CalcAggregatedValuesSets()
-    {
-        Resolve<UpdateSetDataForQuestion>().Run();
-        return View("Maintenance",
-            new MaintenanceModel { Message = new SuccessMessage("Aggregierte Werte wurden aktualisiert.") });
-    }
-
-    [ValidateAntiForgeryToken]
-    [HttpPost]
-    public ActionResult DeleteValuationsForRemovedSets()
-    {
-        Resolve<DeleteValuationsForNonExisitingSets>().Run();
-        return View("Maintenance",
-            new MaintenanceModel { Message = new SuccessMessage("Valuations for deleted sets are removed.") });
     }
 
     [ValidateAntiForgeryToken]
@@ -236,15 +197,6 @@ public class MaintenanceController : BaseController
     {
         Resolve<ReIndexAllQuestions>().Run();
         return View("Maintenance", new MaintenanceModel { Message = new SuccessMessage("Fragen wurden neu indiziert.") });
-    }
-
-    [ValidateAntiForgeryToken]
-    [HttpPost]
-    public ActionResult ReIndexAllSets()
-    {
-        Resolve<ReIndexAllSets>().Run();
-        return View("Maintenance",
-            new MaintenanceModel { Message = new SuccessMessage("Lernsets wurden neu indiziert.") });
     }
 
     [ValidateAntiForgeryToken]
@@ -427,110 +379,6 @@ public class MaintenanceController : BaseController
     }
 
     [HttpPost]
-    public ActionResult MigrateAnswerData()
-    {
-        var questionViewRepo = Sl.R<QuestionViewRepository>();
-
-        var allQuestionViews = questionViewRepo.GetAll().ToList();
-
-        var answerRepo = Sl.R<AnswerRepo>();
-
-        var allAnswers = answerRepo.GetAll().OrderBy(x => x.DateCreated);
-
-        var questionViewsToUpdate = allQuestionViews
-            .Where(v => v.GuidString == null)
-            .OrderBy(v => v.DateCreated)
-            .ToList();
-
-        var maxTimeForView = TimeSpan.FromHours(2);
-
-        foreach (var questionView in questionViewsToUpdate)
-        {
-            questionView.Guid = Guid.NewGuid();
-            questionView.Migrated = true;
-            questionViewRepo.Update(questionView);
-
-            IList<Answer> answersForQuestionView;
-
-            if (questionView.Round != null)
-            {
-
-                answersForQuestionView = allAnswers.Where(a => a.Round == questionView.Round
-                                                               && a.UserId == questionView.UserId)
-                    .ToList();
-            }
-            else
-            {
-
-                var nextViewIndex = allQuestionViews.FindIndex(x =>
-                    x.DateCreated > questionView.DateCreated
-                    && x.UserId == questionView.UserId);
-
-                var upperTimeBound =
-                    nextViewIndex != -1 &&
-                    allQuestionViews[nextViewIndex].DateCreated < questionView.DateCreated.Add(maxTimeForView)
-                        ? allQuestionViews[nextViewIndex].DateCreated
-                        : questionView.DateCreated.Add(maxTimeForView);
-
-                answersForQuestionView = allAnswers
-                    .Where(a =>
-                        a.QuestionViewGuidString == null
-                        && a.DateCreated >= questionView.DateCreated && a.DateCreated < upperTimeBound
-                        && a.UserId == questionView.UserId
-                        && a.Question.Id == questionView.QuestionId)
-
-                    .ToList();
-            }
-
-            AddInteractionNumber(answersForQuestionView);
-
-            foreach (var answer in answersForQuestionView)
-            {
-                answer.QuestionViewGuid = questionView.Guid;
-                answer.Migrated = true;
-                answer.MillisecondsSinceQuestionView = (answer.DateCreated - questionView.DateCreated).Milliseconds;
-
-                answerRepo.Update(answer);
-            }
-        }
-
-        return View("Maintenance", new MaintenanceModel { Message = new SuccessMessage("Wurde migriert") });
-    }
-
-    public void AddInteractionNumber(IList<Answer> answersForQuestionView)
-    {
-        var orderedAnswers = answersForQuestionView
-            .OrderBy(a =>
-            {
-                switch (a.AnswerredCorrectly)
-                {
-                    case AnswerCorrectness.False:
-                        return 0;
-                    case AnswerCorrectness.True:
-                        return 1;
-                    case AnswerCorrectness.IsView:
-                        return 3;
-                    case AnswerCorrectness.MarkedAsTrue:
-                        return
-                            a.AnswerText == ""
-                                ? 4
-                                : 2; //MarkedAsTrue can be after IsView if newly created or before if existing answer is changed
-                }
-
-                return 3;
-            })
-            .ThenBy(a => a.DateCreated);
-
-        var interactionNumber = 1;
-
-        foreach (var answer in orderedAnswers)
-        {
-            answer.InteractionNumber = interactionNumber;
-            interactionNumber++;
-        }
-    }
-
-    [HttpPost]
     public ActionResult CheckForDuplicateInteractionNumbers()
     {
         var duplicates = Sl.R<AnswerRepo>().GetAll()
@@ -541,23 +389,6 @@ public class MaintenanceController : BaseController
             .ToList();
 
         var message = duplicates.Any() ? "Es gibt Dubletten." : "Es gibt keine Dubletten.";
-
-        return View("Maintenance", new MaintenanceModel { Message = new SuccessMessage(message) });
-    }
-
-    [HttpPost]
-    public ActionResult CheckForDuplicateLearningSessionStepGuidsInAnswers()
-    {
-        var duplicates = Sl.R<AnswerRepo>().GetAll()
-            .Where(a => a.LearningSessionStepGuid != Guid.Empty)
-            .GroupBy(a => new { a.LearningSessionStepGuid })
-            .Where(g => g.Skip(1).Any())
-            .SelectMany(g => g)
-            .ToList();
-
-        var message = duplicates.Any()
-            ? $"Dubletten: {duplicates.Select(a => a.Id.ToString()).Aggregate((a, b) => a + " " + b)}"
-            : "Es gibt keine Dubletten.";
 
         return View("Maintenance", new MaintenanceModel { Message = new SuccessMessage(message) });
     }
@@ -589,24 +420,6 @@ public class MaintenanceController : BaseController
             });
 
         return View("Maintenance", new MaintenanceModel { Message = new SuccessMessage("Cleared") });
-    }
-
-    [HttpPost]
-    public ActionResult CheckForDuplicateGameRoundAnswers()
-    {
-        var duplicates = Sl.R<AnswerRepo>().GetAll()
-            .Where(a => a.Round != null)
-            .GroupBy(a => new { a.Round, a.UserId })
-            .Where(g => g.Count(a => a.AnswerredCorrectly == AnswerCorrectness.IsView) > 1
-                        || g.Count(a => a.AnsweredCorrectly()) > 1)
-            .SelectMany(g => g)
-            .ToList();
-
-        var message = duplicates.Any()
-            ? $"Dubletten: {duplicates.Select(a => a.Id.ToString()).Aggregate((a, b) => a + " " + b)}"
-            : "Es gibt keine Dubletten.";
-
-        return View("Maintenance", new MaintenanceModel { Message = new SuccessMessage(message) });
     }
 
     [ValidateAntiForgeryToken]
@@ -705,41 +518,11 @@ public class MaintenanceController : BaseController
             new ToolsModel { Message = new SuccessMessage("Der User wurde gelöscht") });
     }
 
-    [HttpPost]
-    public ActionResult MigrateSetsToCategories()
-    {
-        SetMigrator.Start();
-
-        return View("Maintenance",
-            new MaintenanceModel { Message = new SuccessMessage("Lernsets wurden migriert") });
-    }
-
-    [HttpPost]
-    public ActionResult MigrateSetTextAndCleanup()
-    {
-        var setMigrator = new SetMigrator();
-        setMigrator.UpdateSetMigration();
-
-        return View("Maintenance",
-            new MaintenanceModel { Message = new SuccessMessage("Lernsets Text wurden migriert und Kopien wurden migriert und gelöscht") });
-    }
-
-
-    [HttpPost]
-    public ActionResult MigrateSetImages()
-    {
-        var setMigrator = new SetMigrator();
-        setMigrator.MigratePictures();
-
-        return View("Maintenance",
-            new MaintenanceModel { Message = new SuccessMessage("Bilder wurden migriert") });
-    }
-
     [ValidateAntiForgeryToken]
     [HttpPost]
     public ActionResult ReloadListFromIgnoreCrawlers()
     {
-        if (HelperTools.IsLocal())
+        if (Request.IsLocal)
         {
             IgnoreLog.LoadNewList();
             return View("Tools",

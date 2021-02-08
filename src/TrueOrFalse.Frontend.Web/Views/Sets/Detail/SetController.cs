@@ -62,37 +62,10 @@ public class SetController : BaseController
         return Redirect(Links.CategoryDetailLearningTab(Sl.CategoryRepo.GetBySetId(setId)));
     }
 
-    public ActionResult StartTestSessionForSets(List<int> setIds, string setListTitle)
-    {
-        var sets = Sl.SetRepo.GetByIdsEager(setIds.ToArray());
-        var testSession = new TestSession(sets, setListTitle);
-
-        Sl.SessionUser.AddTestSession(testSession);
-
-        return Redirect(Links.TestSession(testSession.UriName, testSession.Id));
-    }
-
-    [HttpPost]
-    public JsonResult Copy(int sourceSetId)
-    {
-        var copiedSetId = R<CopySet>().Run(sourceSetId, UserId);
-        var copiedSet = R<SetRepo>().GetById(copiedSetId);
-        return new JsonResult
-        {
-            Data = new
-            {
-                CopiedSetId = copiedSetId,
-                CopiedSetName = copiedSet.Name,
-                CopiedSetEditUrl = Links.QuestionSetEdit(copiedSet.Name, copiedSet.Id)
-            }
-        };
-    }
-
     public string KnowledgeBar(int setId) =>
         ViewRenderer.RenderPartialView(
             "/Views/Sets/Detail/SetKnowledgeBar.ascx",
             new SetKnowledgeBarModel(Sl.SetRepo.GetById(setId)),
             ControllerContext
         );
-
 }

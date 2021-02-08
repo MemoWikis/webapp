@@ -36,7 +36,11 @@ class AnswerBody {
 
             $("#row-1:visible").focus();
         }
-        eventBus.$emit('load-questions-list');
+
+        eventBus.$emit('answerbody-loaded');
+        document.getElementById('AnswerBody').querySelectorAll('code').forEach(block => {
+            hljsBuild.core.highlightBlock(block);
+        });
     }
 
     ScrollToAnswerQuestionHeaderIfOutsideView() {

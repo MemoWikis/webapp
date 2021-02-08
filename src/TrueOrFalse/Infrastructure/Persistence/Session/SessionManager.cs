@@ -9,17 +9,12 @@ namespace TrueOrFalse.Infrastructure.Persistence
     /// </summary>
     public class SessionManager : ISessionManager
     {
-        private readonly ISession _session;
-
         public SessionManager(ISession session)
         {
-            _session = session;
+            Session = session;
         }
 
-        public ISession Session
-        {
-            get { return _session; }
-        }
+        public ISession Session { get; set; }
 
         public void Dispose()
         {

@@ -4,8 +4,7 @@
 <%@ Import Namespace="TrueOrFalse" %>
 
 <asp:Content ID="ContentHeadSEO" ContentPlaceHolderID="HeadSEO" runat="server">
-    
-    <% Title = Model.QuestionText; %>
+    <% Title = Model.QuestionTitle; %>
     <% if (Model.IsLearningSession || Model.IsTestSession ) { %>
         <meta name="robots" content="noindex" />
     <%}else { %>
@@ -14,7 +13,7 @@
     
     <meta name="description" content="<%= Model.DescriptionForSearchEngines %>"/>
     
-    <meta property="og:title" content="<%: Model.QuestionText %>" />
+    <meta property="og:title" content="<%: Model.QuestionTitle %>" />
     <meta property="og:url" content="<%= Settings.CanonicalHost %><%= Links.AnswerQuestion(Model.Question) %>" />
     <meta property="og:type" content="article" />
     <meta property="og:image" content="<%= GetQuestionImageFrontendData.Run(Model.Question).GetImageUrl(435, true, imageTypeForDummy: ImageType.Question).Url %>" />
@@ -28,6 +27,7 @@
     <%= Scripts.Render("~/bundles/js/DeleteQuestion") %>
     <%= Scripts.Render("~/bundles/js/Vue")%>
     <%= Scripts.Render("~/bundles/js/d3") %>
+    <%= Scripts.Render("~/Scripts/npm/tiptap-build/tiptap-build.js") %> 
     <script type="text/x-template" id="question-details-component">
         <%: Html.Partial("~/Views/Questions/Answer/AnswerQuestionDetailsComponent.vue.ascx") %>
     </script>
@@ -57,8 +57,8 @@
         var relevanceForAllEntries = "<%= Model.TotalRelevanceForAllEntries %>";
     </script>
     <%
-         if(Model.IsLearningSession)
-    {
+        if(Model.IsLearningSession)
+        {
             if (!Model.LearningSession.Config.InWishknowledge)
             {
                 if (Model.LearningSession.Config.Category != null)
@@ -66,12 +66,6 @@
                     Model.TopNavMenu.BreadCrumb.Add(new TopNavMenuItem {Text = Model.LearningSession.Config.Category.Name, Url = Links.CategoryDetail( Model.LearningSession.Config.Category)});
                 }
             }
-            Model.TopNavMenu.IsCategoryLearningBreadCrumb = true;
-            }
-        else
-        {
-            if (Model.SetMinis.Count != 0)
-                Model.TopNavMenu.BreadCrumb.Add(new TopNavMenuItem {Text = Model.SetMinis[0].Name, Url = Links.SetDetail(Model.SetMinis[0].Name, Model.SetMinis[0].Id) });
         }
 
         Model.TopNavMenu.IsCategoryBreadCrumb = false;
@@ -90,9 +84,7 @@
 
 <% if (Model.IsLearningSession) { %>
            <% Html.RenderPartial("~/Views/Questions/Answer/LearningSession/LearningSessionHeader.ascx", Model); %>
-    <% }else if (Model.IsTestSession) { %>
-           <% Html.RenderPartial("~/Views/Questions/Answer/TestSession/TestSessionHeader.ascx", Model); %>
-    <% }else { %>
+<% }else { %>
       <%-- value "1" is Questionsite , value 2 is LandingPage, Test or Learningsession is this input not available--%> 
         <div class="AnswerQuestionHeader">
             <% Html.RenderPartial("~/Views/Questions/Answer/AnswerQuestionPager.ascx", Model); %>

@@ -3,6 +3,8 @@ using System.IO;
 using System.Security;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.Script.Serialization;
+using QuestionListJson;
 using TrueOrFalse;
 using TrueOrFalse.Frontend.Web.Code;
 using TrueOrFalse.Web;
@@ -143,14 +145,6 @@ public class EditQuestionController : BaseController
         UpdateSound(soundfile, question.Id);
 
         var setLink = (WasInSet: false, SetId: -1);
-
-        if (Request["hddSetId"] != null)
-        {
-            setLink.WasInSet = true;
-            setLink.SetId = Convert.ToInt32(Request["hddSetId"]);
-
-            AddToSet.Run(question, Sl.SetRepo.GetById(setLink.SetId));
-        }
 
         if (Request["btnSave"] == "saveAndNew")
         {

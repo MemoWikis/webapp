@@ -8,7 +8,6 @@ public class SidebarModel : UserCardBaseModel
     public MainMenu MainMenu;
     public int UnreadMessageCount = 0;
     public bool IsWelcomePage;
-    public CategoryNavigationModel categoryNavigationModel;
     public IList<AuthorViewModel> Authors = new List<AuthorViewModel>();
     public string AuthorCardLinkText;
     public string AuthorImageUrl;

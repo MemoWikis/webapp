@@ -25,21 +25,15 @@ public class ThemeMenuHistoryOps
 
     public static IList<Category> GetQuestionCategories(int questionId)
     {
-        var question = Sl.QuestionRepo.GetById(questionId);
+        var question = EntityCache.GetQuestionById(questionId);
 
         if (question == null)
-        {
             return new List<Category>();
-        }
 
         if (question.Categories.Count > 0)
-        {
             return question.Categories.ToList();
-        }
 
-        var questionSetsCategories = new List<Category>();
-        questionSetsCategories.AddRange(question.SetsTop5.SelectMany(s => s.Categories));
-        return questionSetsCategories;
+        return new List<Category>();
     }
 
 }

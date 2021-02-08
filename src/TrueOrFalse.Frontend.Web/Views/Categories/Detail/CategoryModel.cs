@@ -1,7 +1,5 @@
 ﻿using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
-using Org.BouncyCastle.Asn1.Ocsp;
 using TrueOrFalse.Web;
 
 public class CategoryModel : BaseContentModule 
@@ -68,11 +66,12 @@ public class CategoryModel : BaseContentModule
 
     public CategoryModel()
     {
-
     }
+
     public CategoryModel(Category category, bool loadKnowledgeSummary = true, bool isCategoryNull = false, bool openEditMode = false)
     {
- 
+        TopNavMenu.BreadCrumbCategories = CrumbtrailService.Get(category, RootCategory.Get);
+
         CategoryIsDeleted = isCategoryNull;
 
         AnalyticsFooterModel = new AnalyticsFooterModel(category, false, isCategoryNull);
@@ -227,5 +226,40 @@ public class CategoryModel : BaseContentModule
             : views.Aggregate((a, b) => a + " " + b + System.Environment.NewLine);
     }
 
+    public Question GetDummyQuestion()
+    {
+        Question dummyQuestion = new Question(); 
 
+        if (Category.CountQuestionsAggregated > 0 && !UserCache.IsFiltered)
+        {
+            var questionId = Category
+                .GetAggregatedQuestionsFromMemoryCache()
+                .Where(q => q.IsVisibleToCurrentUser())
+                .Select(q => q.Id)
+                .FirstOrDefault();
+
+            return EntityCache.GetQuestionById(questionId);
+
+        }
+
+        if (Category.CountQuestionsAggregated > 0 && UserCache.IsFiltered)
+        {
+            var questionsFromCurrentCategoryAndChildren =
+                LearningSessionCreator.GetCategoryQuestionsFromEntityCache(Category.Id);
+            var allChildCategories = UserEntityCache.GetChildren(Category.Id, UserId);
+
+            foreach (var childCategory in allChildCategories)
+            {
+                var childQuestions = LearningSessionCreator.GetCategoryQuestionsFromEntityCache(childCategory.Id);
+                foreach (var question in childQuestions)
+                {
+                    questionsFromCurrentCategoryAndChildren.Add(question);
+                }
+            }
+
+            return questionsFromCurrentCategoryAndChildren.First(); 
+        }
+
+        return dummyQuestion; 
+    }
 }

@@ -113,8 +113,6 @@ public class SetModel : BaseModel
 
         //foo = R<ISession>().SessionFactory.Statistics.QueryExecutionCount;
 
-        IsInWishknowledge = Sl.SetValuationRepo.IsInWishKnowledge(Id, UserId);
-
         //foo = R<ISession>().SessionFactory.Statistics.QueryExecutionCount;
 
         TotalPins = set.TotalRelevancePersonalEntries.ToString();

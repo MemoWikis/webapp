@@ -1,11 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using NHibernate;
 using NHibernate.Criterion;
 using Seedworks.Lib.Persistence;
-using Serilog;
 
 public class AnswerRepo : RepositoryDb<Answer> 
 {
@@ -170,62 +168,6 @@ public class AnswerRepo : RepositoryDb<Answer>
                     .SingleOrDefault();
     }
 
-    public Answer GetLastByLearningSessionStepGuid(Guid learningSessionStepGuid)
-    {
-        if (learningSessionStepGuid == default(Guid))
-            return null;
-
-        var answerInteractions = _session.QueryOver<Answer>()
-            .Where(a => a.LearningSessionStepGuidString == learningSessionStepGuid.ToString())
-            .List();
-
-        if (!answerInteractions.Any())
-            return null;
-
-        return answerInteractions
-            .OrderByDescending(a => a.Id)
-            .Last();
-    }
-
-    public IList<Answer> GetByLearningSessionStepGuid(Guid learningSessionStepGuid, int? learningSessionId = null)
-    {
-        if (learningSessionStepGuid == default(Guid) && learningSessionId == null )
-            return null;
-
-        var answerInteractions = _session.QueryOver<Answer>()
-            .Where(qi => qi.LearningSession.Id == learningSessionId).List();
-
-        answerInteractions = answerInteractions
-            .Where(a => a.LearningSessionStepGuidString == learningSessionStepGuid.ToString())
-            .OrderByDescending(a => a.Id)
-            .ToList();
-
-        if (!answerInteractions.Any())
-            return null;
-
-        return answerInteractions;
-    }
-
-    public IList<Answer> GetByLearningSessionStepGuids(int learningSessionId, IList<Guid> learningSessionStepGuids)
-    {
-        if (!learningSessionStepGuids.Any())
-            return null;
-
-        var answerInteractions = _session.QueryOver<Answer>()
-            .Where(a => a.LearningSession.Id == learningSessionId)
-            .List();
-
-        answerInteractions = answerInteractions
-            .Where(a => learningSessionStepGuids.Any(l => l == a.LearningSessionStepGuid)).ToList();
-
-        if (!answerInteractions.Any())
-            return null;
-
-        return answerInteractions
-            .OrderByDescending(a => a.Id)
-            .ToList();
-    }
-
     public override void Create(Answer answer)
     {
         _session.Save(answer);
@@ -234,8 +176,6 @@ public class AnswerRepo : RepositoryDb<Answer>
     public IList<Answer> GetAllEager(bool includingSolutionViews = false)
     {
         return Query(includingSolutionViews)
-            .Fetch(x => x.Round).Eager
-            .Fetch(x => x.Player).Eager
             .Fetch(x => x.Question).Eager
             .List();
     }

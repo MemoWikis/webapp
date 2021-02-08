@@ -79,6 +79,27 @@ public class LicenseImage
             CopyOfLicenseTextRequired = false;
             ChangesNotAllowed = true;
         }
+        else if (LicenseRequirementsType == LicenseRequirementsType.Cc0)
+        {
+            AuthorRequired = false;
+            LicenseLinkRequired = false;
+            CopyOfLicenseTextRequired = false;
+            ChangesNotAllowed = false;
+        }
+        else if (LicenseRequirementsType == LicenseRequirementsType.MIT)
+        {
+            AuthorRequired = false;
+            LicenseLinkRequired = false;
+            CopyOfLicenseTextRequired = false;
+            ChangesNotAllowed = false;
+        }
+        else if (LicenseRequirementsType == LicenseRequirementsType.NoCategory)
+        {
+            AuthorRequired = true;
+            LicenseLinkRequired = true;
+            CopyOfLicenseTextRequired = true;
+            ChangesNotAllowed = true;
+        }
     }
 
     public LicenseRequirementsType ParseLicenseRequirementsType()

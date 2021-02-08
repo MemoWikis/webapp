@@ -26,6 +26,9 @@
     <input type="hidden" id="hddTimeRecords" />
     <input type="hidden" id="hddQuestionId" value="<%=Model.QuestionId %>" />
     <input type="hidden" id="isInTestMode" value="<%=Model.IsInTestMode %>"/>
+    <div id="QuestionTitle" style="display:none">
+        <%= Model.QuestionTitle %>
+    </div>
     <div class="AnswerQuestionBodyMenu">
 
         <% if (!Model.IsInWidget)

@@ -1,8 +1,5 @@
 ﻿<%@ Control Language="C#" Inherits="System.Web.Mvc.ViewUserControl<Category>" %>
 <%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
-<%@ Import Namespace="System.Web.Optimization" %>
-
-<%= Styles.Render("~/bundles/CategoryLabel") %>
 
 <% var iconHTML = "";
     switch (Model.Type)

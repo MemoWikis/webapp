@@ -1,4 +1,5 @@
 ﻿declare var Vue: any;
+declare var VueAdsPagination: any;
 declare var eventBus: any;
 
 if (eventBus == null)
@@ -14,7 +15,9 @@ var questionListApp = new Vue({
         learningSessionData: "",
         selectedPageFromActiveQuestion: 1,
         allQuestionsCountFromCategory: 0,
-        selectedQuestionCount: "alle"
+        selectedQuestionCount: "alle",
+        activeQuestionId: 0 as Number,
+        hasNoQuestions: true,
     },
     methods: {
         toggleQuestionsList: function() {
@@ -44,10 +47,13 @@ var questionListApp = new Vue({
 
                 }
             });
+        },
+        setActiveQuestionId: function () {
+            this.activeQuestionId = parseInt($('input#hddQuestionId').attr('value'));
         }
     },
     created: function() {
-        eventBus.$on("change-active-question", (index) => { this.changeActiveQuestion(index) });
+        eventBus.$on("change-active-question", () => this.setActiveQuestionId());
         eventBus.$on("change-active-page", (index) => { this.selectedPageFromActiveQuestion = index });
         this.questionsCount = this.getAllQuestionsCountFromCategory();
         eventBus.$on("send-selected-questions", (numberOfQuestions) => {
@@ -58,8 +64,10 @@ var questionListApp = new Vue({
         eventBus.$on('update-selected-page', (selectedPage) => {
             this.selectedPageFromActiveQuestion = selectedPage;
         });
-
-
+        eventBus.$on('add-question-to-list',
+            () => {
+                this.getAllQuestionsCountFromCategory();
+            });
     },
     mounted() {
         $('#CustomSessionConfigBtn').tooltip();
@@ -69,7 +77,7 @@ var questionListApp = new Vue({
                 $.post("/Category/SetSettingsCookie?name=SessionConfigQuestionList");
                 $("#LearningSessionReminderQuestionList").hide(200);
             });
-
+        this.setActiveQuestionId();
     },
     watch: {
         activeQuestion: function (indexQuestion) {
@@ -80,6 +88,12 @@ var questionListApp = new Vue({
                 this.selectedPageFromActiveQuestion = selectedPage + 1;      //question 25 is page 2 
             }
         },
+        questionsCount(val) {
+            if (val < 1)
+                this.hasNoQuestions = true;
+            else
+                this.hasNoQuestions = false;
+        }
     }
 });
 

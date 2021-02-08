@@ -14,9 +14,6 @@ public class MessageMap : ClassMap<Message>
         Map(x => x.WasSendPerEmail);
         Map(x => x.WasSendToSmartphone);
 
-        References(x => x.TrainingDate);
-        References(x => x.TrainingPlan);
-
         Map(x => x.DateCreated);
         Map(x => x.DateModified);
     }
