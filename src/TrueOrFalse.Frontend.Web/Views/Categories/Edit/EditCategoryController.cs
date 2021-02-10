@@ -230,13 +230,19 @@ public class EditCategoryController : BaseController
         category.Creator = _sessionUser.User;
         category.Type = CategoryType.Standard;
         _categoryRepository.Create(category);
-        StoreImage(category.Id);
+        
         foreach (var childCategoryId in childCategoryIds)
         {
+            var childCategory = EntityCache.GetCategory(childCategoryId);
             RemoveParent(parentCategoryId, childCategoryId);
-            ModifyRelationsForCategory.AddParentCategory(EntityCache.GetCategory(childCategoryId), category);
+
+            var updatedParentList = childCategory.ParentCategories().Where(c => c.Id != parentCategoryId).ToList();
+            updatedParentList.Add(category);
+            ModifyRelationsForCategory.UpdateCategoryRelationsOfType(childCategory, updatedParentList, CategoryRelationType.IsChildCategoryOf);
+            Sl.CategoryRepo.Update(childCategory, _sessionUser.User);
         }
-        
+        UserEntityCache.ChangeAllActiveCategoryCaches();
+
         return Json(new
         {
             success = true,

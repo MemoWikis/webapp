@@ -33,6 +33,9 @@
                 this.moveCategories = $('#AddCategoryModal').data('parent').moveCategories;
                 if (this.moveCategories)
                     this.selectedCategories = $('#AddCategoryModal').data('parent').selectedCategories;
+                if ($('#AddCategoryModal').data('parent').redirect != null &&
+                    $('#AddCategoryModal').data('parent').redirect)
+                    this.redirect = true;
             });
 
         $('#AddCategoryModal').on('hidden.bs.modal',
@@ -51,6 +54,7 @@
             this.existingCategoryUrl = "";
             this.selectedCategories = [];
             this.moveCategories = false;
+            this.redirect = false;
         },
         closeModal() {
             $('#AddCategoryModal').modal('hide');
@@ -109,9 +113,12 @@
                             data: JSON.stringify(categoryData),
                             success: function (data) {
                                 if (data.success) {
-                                    window.open(data.url, "_blank");
+                                    if (self.redirect)
+                                        window.open(data.url, '_self');
                                     if (self.addCategoryBtnId != null)
                                         self.loadCategoryCard(data.id);
+                                    if (self.moveCategories)
+                                        eventBus.$emit('remove-category-cards', self.selectedCategories);
                                     else
                                         $('#AddCategoryModal').modal('hide');
                                 } else {

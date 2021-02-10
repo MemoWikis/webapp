@@ -2,7 +2,7 @@
 <%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
 
 <segment-component inline-template :edit-mode="editMode" ref="segment<%= Model.Category.Id %>" title="<%= Model.Title %>" child-category-ids="<%= Model.ChildCategoryIds %>" category-id="<%= Model.Category.Id %>">
-    <div class="segment" :data-category-id="categoryId" :data-child-category-ids="currentChildCategoryIds" @mouseover="hover = true" @mouseleave="hover = false" :class="{ hover : showHover }">
+    <div v-if="visible" class="segment" :data-category-id="categoryId" :data-child-category-ids="currentChildCategoryIds" @mouseover="hover = true" @mouseleave="hover = false" :class="{ hover : showHover }">
         <div class="segmentSubHeader">
             <div class="segmentHeader">
                 <div class="segmentTitle">
@@ -23,6 +23,7 @@
                     </a>
                     <ul class="dropdown-menu dropdown-menu-right" :aria-labelledby="dropdownId">
                         <li><a @click="removeChildren"><i class="fas fa-unlink"></i>&nbsp;Themen entfernen</a></li>
+                        <li><a @click="removeSegment"><i class="fas fa-trash"></i>&nbsp;Segment entfernen</a></li>
                     </ul>
                 </div>
             </div>

@@ -32,8 +32,18 @@ var segmentationComponent = Vue.component('segmentation-component', {
     },
 
     mounted() {
+        var self = this;
         this.hasCustomSegment = $('#CustomSegmentSection').html().length > 0;
-        this.$on('remove-segment', id => this.addCategoryToBaseList(id));
+        this.$on('remove-segment', (id) => {
+            console.log('segmentationComponent');
+            self.addCategoryToBaseList(id);
+        });
+        eventBus.$on('remove-category-cards',
+            ids => {
+                ids.map(id => {
+                    self.$refs['card' + id].visible = false;
+                });
+            });
     },
 
     watch: {
@@ -144,6 +154,6 @@ var segmentationComponent = Vue.component('segmentation-component', {
                 selectedCategories: self.selectedCategories,
             }
             $('#AddCategoryModal').data('parent', parent).modal('show');
-        }
+        },
     },
 });

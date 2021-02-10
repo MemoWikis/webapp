@@ -17,10 +17,6 @@ public class SegmentationModel : BaseContentModule
     public List<Category> NotInSegmentCategoryList;
     public List<Segment> Segments;
 
-    public SegmentationModel()
-    {
-    }
-
     public SegmentationModel(Category category)
     {
         Category = category;
@@ -56,7 +52,7 @@ public class SegmentationModel : BaseContentModule
             segments.Add(segment);
         }
 
-        return segments.OrderBy(s => s.Title).ToList();
+        return segments.Distinct().OrderBy(s => s.Title).ToList();
     }
 
     public List<Category> GetNotInSegmentCategoryList(List<Segment> segments, List<Category> categoryList)
@@ -74,7 +70,7 @@ public class SegmentationModel : BaseContentModule
                     inSegmentCategoryList.Add(c);
             }
 
-            notInSegmentCategoryList.AddRange(categoryList.Where(c => !inSegmentCategoryList.Any(s => c.Id == s.Id)));
+            notInSegmentCategoryList.AddRange(categoryList.Where(c => !inSegmentCategoryList.Any(s => c.Id == s.Id) && !notInSegmentCategoryList.Any(s => s.Id == c.Id)));
         }
 
         HasCustomSegments = true;

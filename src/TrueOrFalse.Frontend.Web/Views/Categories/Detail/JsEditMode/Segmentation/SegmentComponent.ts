@@ -109,7 +109,8 @@ var segmentComponent = Vue.component('segment-component', {
             ChildCategoryIds: this.categories
         }
         this.addCategoryId = "AddCategoryTo-" + this.id + "-Btn";
-        this.$emit('new-segment', segment);
+        if (this.categoryId != undefined)
+            eventBus.$emit('new-segment', segment);
         this.dropdownId = this.id + '-Dropdown';
     },
 
@@ -142,6 +143,7 @@ var segmentComponent = Vue.component('segment-component', {
         },
         removeSegment() {
             this.$emit('remove-segment', parseInt(this.categoryId));
+            this.visible = false;
         },
         addCategory() {
             if (NotLoggedIn.Yes()) {
