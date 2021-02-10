@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Security;
 using System.Web;
+using System.Web.Helpers;
 using System.Web.Mvc;
+using FluentNHibernate.Data;
 using TrueOrFalse.Frontend.Web.Code;
 using TrueOrFalse.View.Web.Views.Api;
 using TrueOrFalse.Web;
@@ -59,7 +61,6 @@ public class EditCategoryController : BaseController
     {
         var category = _categoryRepository.GetById(id);
         _sessionUiData.VisitedCategories.Add(new CategoryHistoryItem(category, HistoryItemType.Edit));
-
 
         if (!IsAllowedTo.ToEdit(category))
             throw new SecurityException("Not allowed to edit categoty");
@@ -134,7 +135,6 @@ public class EditCategoryController : BaseController
                               Links.CategoryEdit(categoryNameAllowed.ExistingCategories.First())));
 
             return View(_viewPath, model);
-
         }
 
         if (categoryNameAllowed.ForbiddenWords(category.Name))
@@ -164,6 +164,117 @@ public class EditCategoryController : BaseController
         new CategoryApiModel().Pin(category.Id); 
 
         return Redirect(Links.CategoryDetail(category, openEditMode: true));
+    }
+
+    [HttpPost]
+    public JsonResult ValidateName(string name)
+    {
+        var dummyCategory = new Category();
+        dummyCategory.Name = name;
+        dummyCategory.Type = CategoryType.Standard;
+        var categoryNameAllowed = new CategoryNameAllowed();
+        if (categoryNameAllowed.No(dummyCategory, fromCache: true))
+        {
+
+            return Json(new
+            {
+                categoryNameAllowed = false,
+                name,
+                url = Links.CategoryDetail(EntityCache.GetByName(name).FirstOrDefault(c => c.Type == CategoryType.Standard)), 
+                errorMsg = " ist bereits vergeben, bitte wähle einen anderen Namen!"
+            });
+        }
+
+        if (categoryNameAllowed.ForbiddenWords(name))
+        {
+            return Json(new
+            {
+                categoryNameAllowed = false,
+                name,
+                errorMsg = " ist verboten, bitte wähle einen anderen Namen!"
+            });
+        }
+
+        return Json(new
+        {
+            categoryNameAllowed = true
+        });
+    }
+
+    [HttpPost]
+    public JsonResult QuickCreate(string name, int parentCategoryId)
+    {
+        var category = new Category(name);
+        var parentCategory = EntityCache.GetCategory(parentCategoryId);
+        ModifyRelationsForCategory.AddParentCategory(category, parentCategory);
+
+        category.Creator = _sessionUser.User;
+        category.Type = CategoryType.Standard;
+        _categoryRepository.Create(category);
+        StoreImage(category.Id);
+        return Json(new
+        {
+            success = true,
+            url = Links.CategoryDetail(category, openEditMode: true),
+            id = category.Id
+        });
+    }
+
+    [HttpPost]
+    public JsonResult QuickCreateWithCategories(string name, int parentCategoryId, int[] childCategoryIds)
+    {
+        var category = new Category(name);
+        var parentCategory = EntityCache.GetCategory(parentCategoryId);
+        ModifyRelationsForCategory.AddParentCategory(category, parentCategory);
+
+        category.Creator = _sessionUser.User;
+        category.Type = CategoryType.Standard;
+        _categoryRepository.Create(category);
+        
+        foreach (var childCategoryId in childCategoryIds)
+        {
+            var childCategory = EntityCache.GetCategory(childCategoryId);
+            RemoveParent(parentCategoryId, childCategoryId);
+
+            var updatedParentList = childCategory.ParentCategories().Where(c => c.Id != parentCategoryId).ToList();
+            updatedParentList.Add(category);
+            ModifyRelationsForCategory.UpdateCategoryRelationsOfType(childCategory, updatedParentList, CategoryRelationType.IsChildCategoryOf);
+            Sl.CategoryRepo.Update(childCategory, _sessionUser.User);
+        }
+        UserEntityCache.ChangeAllActiveCategoryCaches();
+
+        return Json(new
+        {
+            success = true,
+            url = Links.CategoryDetail(category, openEditMode: true),
+            id = category.Id
+        });
+    }
+
+    [HttpPost]
+    public bool RemoveParent(int parentCategoryIdToRemove, int childCategoryId)
+    {
+        var childCategory = EntityCache.GetCategory(childCategoryId);
+        
+        if (!IsAllowedTo.ToEdit(childCategory))
+            throw new SecurityException("Not allowed to edit category");
+
+        var updatedParentList = childCategory.ParentCategories().Where(c => c.Id != parentCategoryIdToRemove).ToList();
+        ModifyRelationsForCategory.UpdateCategoryRelationsOfType(childCategory, updatedParentList, CategoryRelationType.IsChildCategoryOf);
+        UserEntityCache.ChangeAllActiveCategoryCaches();
+
+        Sl.CategoryRepo.Update(childCategory, _sessionUser.User);
+        
+        return true;
+    }
+
+    [HttpPost]
+    public bool RemoveChildren(int parentCategoryId, int[] childCategoryIds)
+    {
+        foreach (int childCategoryId in childCategoryIds)
+            RemoveParent(parentCategoryId, childCategoryId);
+
+        return true;
     }
 
     public ActionResult DetailsPartial(int? categoryId, CategoryType type, string typeModelGuid)

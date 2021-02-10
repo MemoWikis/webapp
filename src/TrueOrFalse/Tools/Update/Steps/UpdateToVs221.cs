@@ -9,7 +9,7 @@ namespace TrueOrFalse.Updates
             Sl.Resolve<ISession>()
                 .CreateSQLQuery(
                     @"ALTER TABLE `category`
-                    ADD COLUMN `CustomSegments` TEXT NULL DEFAULT NULL AFTER `Content`"
+                    ADD COLUMN `CustomSegments` LONGTEXT NULL DEFAULT NULL AFTER `Content`"
                 ).ExecuteUpdate();
         }
     }

@@ -7,7 +7,7 @@ Vue.directive("ripple", ripple.Ripple);
 
 var FAB = Vue.component('floating-action-button',
     {
-        props: ['is-topic-tab', 'create-category-url','create-question-url'],
+        props: ['is-topic-tab', 'create-category-url','category-id'],
         data() {
             return {
                 isLearningTab: this.isTopicTab == 'False',
@@ -106,7 +106,16 @@ var FAB = Vue.component('floating-action-button',
                     NotLoggedIn.ShowErrorMsg("CreateCategory");
                     return;
                 }
-                window.location.href = this.createCategoryUrl;
+                var self = this;
+                var parent = {
+                    id: self.categoryId,
+                    addCategoryBtnId: $("#AddToCurrentCategoryBtn"),
+                    moveCategories: false,
+                    redirect: true,
+                }
+                if (self.isLearningTab)
+                    parent.addCategoryBtnId = null;
+                $('#AddCategoryModal').data('parent', parent).modal('show');
             },
             createQuestion() {
                 if (NotLoggedIn.Yes()) {

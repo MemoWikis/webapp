@@ -60,7 +60,7 @@
                                            { %><%= Model.GetTotalTopicCount(category)  %> Unterthemen <% } 
                                            else { %><% } %><%=Model.GetTotalQuestionCount(category) %> Frage<% if(Model.GetTotalQuestionCount(category) != 1){ %>n<% } %>
                                     </div>
-                                    <% if (Model.CategoryList[counter].CountQuestionsAggregated != 0)
+                                    <% if (category.CountQuestionsAggregated != 0)
                                        { %>  
                                         <div class="KnowledgeBarWrapper">
                                             <% Html.RenderPartial("~/Views/Categories/Detail/CategoryKnowledgeBar.ascx", new CategoryKnowledgeBarModel(category)); %>

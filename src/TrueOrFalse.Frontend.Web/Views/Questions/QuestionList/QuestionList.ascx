@@ -49,27 +49,28 @@
                                     </div>
                                     <div class="modal-divider"></div>
                                     <div id="CheckboxesLearnOptions" class="row" :class="{inactive: !isLoggedIn}">
-                                    <div class="col-sm-6">
-                                        <label class="checkbox-label">
-                                            <input id="AllQuestions" type="checkbox" v-model="allQuestions" :disabled="!isLoggedIn" value="False" v-if="allQuestions || !displayMinus" v-on:click="allQuestions = !allQuestions"/>
-                                            <i id="AllQuestionMinus" class="fas fa-minus-square" v-if="displayMinus" v-on:click="allQuestions = !allQuestions"></i>
-                                            Alle Fragen
-                                        </label> <br />
-                                        <label class="checkbox-label">
-                                            <input id="QuestionInWishknowledge" type="checkbox" v-model="inWishknowledge" :disabled="!isLoggedIn" value="False"/>
-                                            In meinem Wunschwissen
-                                        </label>
-                                    </div>
-                                    <div class="col-sm-6">
-                                        <label class="checkbox-label">
-                                            <input id="UserIsAuthor" type="checkbox" v-model="createdByCurrentUser" :disabled="!isLoggedIn" value="False"/>
-                                            Von mir erstellt
-                                        </label> <br />
-                                        <label class="checkbox-label">
-                                            <input id="IsNotQuestionInWishKnowledge" type="checkbox" v-model="isNotQuestionInWishKnowledge" :disabled="!isLoggedIn" value="False"/>
-                                            Nicht in meinem Wunschwissen
-                                        </label>
-                                    </div>
+                                        <div class="col-sm-6">
+                                            <label class="checkbox-label">
+                                                <input id="AllQuestions" type="checkbox" v-model="allQuestions" :disabled="!isLoggedIn" value="False" v-if="allQuestions || !displayMinus" v-on:click="allQuestions = !allQuestions"/>
+                                                <i id="AllQuestionMinus" class="fas fa-minus-square" v-if="displayMinus" v-on:click="allQuestions = !allQuestions"></i>
+                                                Alle Fragen
+                                            </label> 
+                                            <br />
+                                            <label class="checkbox-label">
+                                                <input id="QuestionInWishknowledge" type="checkbox" v-model="inWishknowledge" :disabled="!isLoggedIn" value="False"/>
+                                                In meinem Wunschwissen
+                                            </label>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <label class="checkbox-label">
+                                                <input id="UserIsAuthor" type="checkbox" v-model="createdByCurrentUser" :disabled="!isLoggedIn" value="False"/>
+                                                Von mir erstellt
+                                            </label> <br />
+                                            <label class="checkbox-label">
+                                                <input id="IsNotQuestionInWishKnowledge" type="checkbox" v-model="isNotQuestionInWishKnowledge" :disabled="!isLoggedIn" value="False"/>
+                                                Nicht in meinem Wunschwissen
+                                            </label>
+                                        </div>
                                 </div>
                             </div>
                             <div class="sliders row">

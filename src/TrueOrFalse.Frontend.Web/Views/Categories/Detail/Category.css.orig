@@ -1974,6 +1974,8 @@ p:empty {
 }
 #ContentModulePlaceholder {
   width: 100%;
+  margin: 20px 0 60px;
+  padding: 19px;
 }
 #ContentModulePlaceholder .placeholderBorder {
   height: 200px;
@@ -3706,6 +3708,7 @@ p.is-editor-empty:first-child::before {
     border-width: 0;
   }
 }
+<<<<<<< HEAD
 .categoryCardModal .modal-s {
   width: 430px;
 }
@@ -3719,7 +3722,6 @@ p.is-editor-empty:first-child::before {
   padding: 34px 50px;
 }
 .categoryCardModal .modal-content .addCategoryCardModal h4 {
-  font-size: 25px;
   text-align: center;
 }
 .categoryCardModal .modal-content .addCategoryCardModal .modalBody {
@@ -3731,12 +3733,6 @@ p.is-editor-empty:first-child::before {
   line-height: 18px;
 }
 .categoryCardModal .modal-content .addCategoryCardModal .modalBody a {
-  color: #203256;
-  -webkit-transition: 0.2s;
-  transition: 0.2s;
-}
-.categoryCardModal .modal-content .addCategoryCardModal .modalBody a:hover {
-  text-decoration: none;
   color: #18A0FB;
 }
 .categoryCardModal .modal-content .addCategoryCardModal .modalBody .checkBox {
@@ -3759,7 +3755,8 @@ p.is-editor-empty:first-child::before {
   -webkit-justify-content: center;
       -ms-flex-pack: center;
           justify-content: center;
-}
+=======
 .questionTitle p {
   margin: 0;
+>>>>>>> origin/master
 }

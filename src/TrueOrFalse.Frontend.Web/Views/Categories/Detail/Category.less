@@ -1,5 +1,7 @@
 ﻿@import (reference) '../../../Style/includes/imports.less';
-
+@darkgrey: #999999;
+@highlightblue: #18A0FB;
+@basefontcolor: #203256;
 
 div.column  { width: 33%; float: left;}
 
@@ -364,7 +366,7 @@ p:empty {
     display: flex;
     flex-wrap: wrap;
     align-content: space-between;
-    justify-content: space-between;
+    justify-content: start;
     margin-bottom: 20px;
 
     &.row:before, &.row:after {
@@ -1356,7 +1358,7 @@ p:empty {
                         border-radius: 3px;
                         border: solid transparent 1px;
                         transition: 0.2s;
-                        border-color: #45aece;
+                        border-color: @highlightblue;
                     }
 
                     img.show-tooltip {
@@ -1433,7 +1435,7 @@ p:empty {
         }
 
         &.hover {
-            border-color: #45aece;
+            border-color: @highlightblue;
             cursor: pointer;
             margin: 0 -20px;
             padding: 0 20px;
@@ -1601,8 +1603,6 @@ p:empty {
 
     #ContentModulePlaceholder {
         width: 100%;
-        margin: 20px 0 60px;
-        padding: 19px;
 
         .placeholderBorder {
             height: 200px;
@@ -2100,6 +2100,7 @@ p.is-editor-empty:first-child::before {
             display: flex;
             flex-direction: column-reverse;
             cursor: pointer;
+            z-index:999;
 
             @media(min-width: 1200px) {
                 margin-right: -48px;
@@ -2742,6 +2743,65 @@ p.is-editor-empty:first-child::before {
 
         30%, 100% {
             .bubble(0);
+        }
+    }
+}
+
+.categoryCardModal {
+    .modal-s {
+        width: 430px;
+    }
+
+    .dismissModal {
+        position: absolute;
+        right: 15px;
+        z-index: 10;
+        top: 10px;
+    }
+
+    .modal-content {
+        padding: 34px 50px;
+
+        .addCategoryCardModal {
+            h4 {
+                font-size: 25px;
+                text-align: center;
+            }
+
+            .modalBody {
+                font-size: 14px;
+                padding: 10px 0 20px;
+                margin-bottom: 10px;
+
+                .alert {
+                    line-height: 18px;
+                }
+
+                a {
+                    color: @basefontcolor;
+                    transition: 0.2s;
+
+                    &:hover {
+                        text-decoration: none;
+                        color: @highlightblue;
+                    }
+                }
+
+                .checkBox {
+                    user-select: none;
+                    cursor: pointer;
+                    color: @darkgrey;
+
+                    i {
+                        color: @highlightblue;
+                    }
+                }
+            }
+
+            .modalFooter {
+                display: flex;
+                justify-content: center;
+            }
         }
     }
 }

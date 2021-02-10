@@ -214,6 +214,8 @@ namespace TrueOrFalse
             routes.MapRoute("Analytics_Tab", "{categoryName}/{Id}/Wissensnetz", new { controller = "Category", action = "CategoryAnalyticsTab" });
 
             routes.MapRoute("Category", "{text}/{id}", new { controller = "Category", action = "Category" });
+            routes.MapRoute("GetSegmentHtml", "Segmentation/GetSegmentHtml", new { controller = "Segmentation", action = "GetSegmentHtml" });
+            routes.MapRoute("GetCategoryCard", "Segmentation/GetCategoryCard", new { controller = "Segmentation", action = "GetCategoryCard" });
             
             routes.MapRoute("Default", "{controller}/{action}/{id}", new { controller = "Welcome", action = "Welcome", id = UrlParameter.Optional });
             routes.MapRoute("Various", "{action}", new {controller = "VariousPublic"});

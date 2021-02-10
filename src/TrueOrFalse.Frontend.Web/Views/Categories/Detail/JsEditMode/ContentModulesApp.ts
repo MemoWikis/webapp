@@ -53,6 +53,7 @@ new Vue({
             modules: [],
             sortedModules: [],
             fabIsOpen: false,
+            segments: [],
         };
     },
 
@@ -112,6 +113,12 @@ new Vue({
             });
 
         eventBus.$on('request-save', () => this.saveContent());
+        eventBus.$on('new-segment', (segment) => { this.segments.push(segment) });
+        eventBus.$on('remove-segment',
+            (id) => {
+                var index = this.segments.map(s => s.CategoryId).indexOf(id);
+                this.segments.splice(index, 1);
+            });
     },
     destroyed() {
         window.removeEventListener('scroll', this.handleScroll);
@@ -224,10 +231,31 @@ new Vue({
             this.updateModuleOrder();
             await this.sortModules();
 
+            var segmentation = [];
+
+            $("#CustomSegmentSection > .segment").each((index, el) => {
+
+                var segment;
+
+                if ($(el).data('child-category-ids').length > 0)
+                    segment = {
+                        CategoryId: $(el).data('category-id'),
+                        ChildCategoryIds: $(el).data('child-category-ids')
+                    }
+                else
+                    segment = {
+                        CategoryId: $(el).data('category-id'),
+                    }
+
+                segmentation.push(segment);
+            });
+
+
             var filteredModules = this.sortedModules.filter(o => (o.TemplateName != 'InlineText' || o.Content));
             var data = {
                 categoryId: $("#hhdCategoryId").val(),
                 content: filteredModules,
+                segmentation: segmentation
             }
             $.ajax({
                 type: 'post',

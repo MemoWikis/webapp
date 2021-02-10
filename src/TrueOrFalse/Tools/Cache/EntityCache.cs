@@ -268,4 +268,10 @@ public class EntityCache : BaseCache
     public static IList<Category> GetDescendants(Category category, bool isFromEntityCache = false) =>
         GetDescendants(category.Id, isFromEntityCache);
 
+    public static List<Category> GetByName(string name, CategoryType type = CategoryType.Standard)
+    {
+        var allCategories = GetAllCategories();
+        return allCategories.Where(c => c.Name == name).ToList();
+    }
+
 }
