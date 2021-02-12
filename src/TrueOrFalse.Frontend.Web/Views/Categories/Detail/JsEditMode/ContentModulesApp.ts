@@ -113,12 +113,9 @@ new Vue({
             });
 
         eventBus.$on('request-save', () => this.saveContent());
-        eventBus.$on('new-segment', (segment) => { this.segments.push(segment) });
-        eventBus.$on('remove-segment',
-            (id) => {
-                var index = this.segments.map(s => s.CategoryId).indexOf(id);
-                this.segments.splice(index, 1);
-            });
+        eventBus.$on('new-segment', (segment) => {
+            this.segments.push(segment);
+        });
     },
     destroyed() {
         window.removeEventListener('scroll', this.handleScroll);
@@ -132,6 +129,11 @@ new Vue({
         if (this.$el.attributes.openEditMode.value == 'True')
             this.setEditMode();
         eventBus.$emit('content-is-ready');
+        eventBus.$on('remove-segment',
+            (categoryId) => {
+                var index = this.segments.map(s => s.CategoryId).indexOf(categoryId);
+                this.segments.splice(index, 1);
+            });
     },
 
     updated() {
@@ -275,6 +277,6 @@ new Vue({
                     };
                 },
             });
-        }
+        },
     },
 });

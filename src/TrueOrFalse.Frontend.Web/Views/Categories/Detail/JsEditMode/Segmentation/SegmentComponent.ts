@@ -142,7 +142,7 @@ var segmentComponent = Vue.component('segment-component', {
             this.categories = $("#" + this.id + " > .topic").map((idx, elem) => $(elem).attr("category-id")).get();
         },
         removeSegment() {
-            this.$emit('remove-segment', parseInt(this.categoryId));
+            eventBus.$emit('remove-segment', parseInt(this.categoryId));
             this.visible = false;
         },
         addCategory() {
