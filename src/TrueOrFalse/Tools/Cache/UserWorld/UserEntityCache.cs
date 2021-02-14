@@ -48,10 +48,17 @@ public class UserEntityCache : BaseCache
 
     public static ConcurrentDictionary<int, Category> GetCategories(int userId)
     {
+        if (!CategoriesCacheKeyList.Contains(CategoriesCacheKey(userId)))
+            Init();
+
         ConcurrentDictionary<int, Category> result; 
 
         _Categories.TryGetValue(CategoriesCacheKey(userId), out result);
-        return result ?? new ConcurrentDictionary<int, Category>(); 
+
+        if(result == null)
+            Logg.r().Error("CategoryCache is null, UserId=" + userId );
+
+        return result;
     }
 
     public static void DeleteCacheForUser()
@@ -137,8 +144,6 @@ public class UserEntityCache : BaseCache
         userId = userId == -1 ? Sl.SessionUser.UserId : userId;
         return CategoriesCacheKeyList.Contains(CategoriesCacheKey(userId)); 
     }
-
-
 }
 
 

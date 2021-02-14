@@ -42,7 +42,7 @@ public class GraphService
         return parents;
     }
 
-    public static IList<Category> GetAllPersonalCategoriesWithRelations(int rootCategoryId, int userId = -1, bool isFromUserEntityCache =false)
+    public static IList<Category> GetAllPersonalCategoriesWithRelations(int rootCategoryId, int userId = -1, bool isFromUserEntityCache = false)
     {
         var rootCategory = EntityCache.GetCategory(rootCategoryId, isFromUserEntityCache).DeepClone();
         var childrenUnCloned = EntityCache.GetDescendants(rootCategory, true)
@@ -116,8 +116,11 @@ public class GraphService
                     Category = listWithUserPersonelCategory
                 });
             }
+
+            listWithUserPersonelCategory.CachedData.Children = new List<Category>(); 
         }
         rootCategory.CategoryRelations = new List<CategoryRelation>();
+        rootCategory.CachedData.Children = new List<Category>(); 
         listWithUserPersonelCategories.Add(rootCategory);
 
         var listAsConcurrentDictionary = listWithUserPersonelCategories.ToConcurrentDictionary(); 
@@ -133,16 +136,17 @@ public class GraphService
             {
                 if (categoryRelation.CategoryRelationType == CategoryRelationType.IsChildCategoryOf && categoryList.ContainsKey(categoryRelation.RelatedCategory.Id))
                 {
-                    if (categoryList[categoryRelation.RelatedCategory.Id].CachedData.Children == null)
-                            categoryList[categoryRelation.RelatedCategory.Id].CachedData.Children = new List<Category>();
-
-                        categoryList[categoryRelation.RelatedCategory.Id].CachedData.Children
+                    categoryList[categoryRelation.RelatedCategory.Id].CachedData.Children
                             .Add(categoryList[categoryRelation.Category.Id]);
                 }
             }
         }
 
-        return categoryList; 
+        foreach (var category in categoryList)
+        {
+            category.Value.CachedData.Children = category.Value.CachedData.Children.Distinct().ToList(); 
+        }
+        return categoryList;   
     }
 
     private static List<Category> GetParentsFromCategory(Category category)

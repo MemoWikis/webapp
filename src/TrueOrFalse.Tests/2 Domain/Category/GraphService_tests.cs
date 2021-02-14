@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using FluentNHibernate.Utils;
+using Google.Protobuf.WellKnownTypes;
 using NUnit.Framework;
 using TrueOrFalse.Tests;
 
@@ -245,7 +246,7 @@ class GraphService_tests : BaseTest
     public void Wish_knowledge_filter_complex_test()
     {
         ContextCategory.New().AddCaseThreeToCache();
-        UserEntityCache.Init();
+        EntityCache.Init();
         var rootElement = EntityCache.GetAllCategories().ByName("A"); 
 
         var allPersonalCategoriesWithRelations = GraphService.GetAllPersonalCategoriesWithRelations(rootElement, 2);
@@ -322,29 +323,53 @@ class GraphService_tests : BaseTest
         Assert.That(HasCorrectParent(allPersonalCategoriesWithRelations.ByName("X"), "A"),
             Is.EqualTo(true));
 
-        Assert.That(ContextCategory.HasCorrectChild(allPersonalCategoriesWithRelations.ByName("X"), "I"), Is.EqualTo(true));
-        Assert.That(ContextCategory.HasCorrectChild(allPersonalCategoriesWithRelations.ByName("X"), "G"), Is.EqualTo(true));
-        Assert.That(ContextCategory.HasCorrectChild(allPersonalCategoriesWithRelations.ByName("X"), "F"), Is.EqualTo(true));
-        Assert.That(allPersonalCategoriesWithRelations.ByName("X").CachedData.Children.Count, Is.EqualTo(3));
+        Assert.That(ContextCategory.HasCorrectChild(allPersonalCategoriesWithRelations.ByName("X"), "I"),
+            Is.EqualTo(true));
 
-        Assert.That(ContextCategory.HasCorrectChild(allPersonalCategoriesWithRelations.ByName("X3"), "F"), Is.EqualTo(true));
-        Assert.That(ContextCategory.HasCorrectChild(allPersonalCategoriesWithRelations.ByName("X3"), "G"), Is.EqualTo(true));
-        Assert.That(ContextCategory.HasCorrectChild(allPersonalCategoriesWithRelations.ByName("X3"), "I"), Is.EqualTo(true));
-        Assert.That(allPersonalCategoriesWithRelations.ByName("X").CachedData.Children.Count, Is.EqualTo(3));
+        Assert.That(ContextCategory.HasCorrectChild(allPersonalCategoriesWithRelations.ByName("X"), "G"),
+            Is.EqualTo(true));
+
+        Assert.That(ContextCategory.HasCorrectChild(allPersonalCategoriesWithRelations.ByName("X"), "F"),
+            Is.EqualTo(true));
+
+        Assert.That(allPersonalCategoriesWithRelations.ByName("X").CachedData.Children.Count,
+            Is.EqualTo(3));
+
+        Assert.That(ContextCategory.HasCorrectChild(allPersonalCategoriesWithRelations.ByName("X3"), "F"),
+            Is.EqualTo(true));
+
+        Assert.That(ContextCategory.HasCorrectChild(allPersonalCategoriesWithRelations.ByName("X3"), "G"),
+            Is.EqualTo(true));
+
+        Assert.That(ContextCategory.HasCorrectChild(allPersonalCategoriesWithRelations.ByName("X3"), "I"), 
+            Is.EqualTo(true));
+
+        Assert.That(allPersonalCategoriesWithRelations.ByName("X").CachedData.Children.Count,
+            Is.EqualTo(3));
      
-        Assert.That(allPersonalCategoriesWithRelations.ByName("B").CachedData.Children, Is.EqualTo(null));
+        Assert.That(allPersonalCategoriesWithRelations.ByName("B").CachedData.Children.Count,
+            Is.EqualTo(0));
 
-        Assert.That(allPersonalCategoriesWithRelations.ByName("F").CachedData.Children, Is.EqualTo(null));
+        Assert.That(allPersonalCategoriesWithRelations.ByName("F").CachedData.Children.Count,
+            Is.EqualTo(0));
 
-        Assert.That(ContextCategory.HasCorrectChild(allPersonalCategoriesWithRelations.ByName("G"), "I"), Is.EqualTo(true));
-        Assert.That(allPersonalCategoriesWithRelations.ByName("G").CachedData.Children.Count, Is.EqualTo(1));
+        Assert.That(ContextCategory.HasCorrectChild(allPersonalCategoriesWithRelations.ByName("G"), "I"),
+            Is.EqualTo(true));
 
-        Assert.That(ContextCategory.HasCorrectChild(allPersonalCategoriesWithRelations.ByName("A"), "B"), Is.EqualTo(true));
-        Assert.That(ContextCategory.HasCorrectChild(allPersonalCategoriesWithRelations.ByName("A"), "X"), Is.EqualTo(true));
-        Assert.That(ContextCategory.HasCorrectChild(allPersonalCategoriesWithRelations.ByName("A"), "X3"), Is.EqualTo(true));
-        Assert.That(allPersonalCategoriesWithRelations.ByName("A").CachedData.Children.Count, Is.EqualTo(3));
+        Assert.That(allPersonalCategoriesWithRelations.ByName("G").CachedData.Children.Count,
+            Is.EqualTo(1));
 
+        Assert.That(ContextCategory.HasCorrectChild(allPersonalCategoriesWithRelations.ByName("A"), "B"),
+            Is.EqualTo(true)); 
 
+        Assert.That(ContextCategory.HasCorrectChild(allPersonalCategoriesWithRelations.ByName("A"), "X"),
+            Is.EqualTo(true));
+
+        Assert.That(ContextCategory.HasCorrectChild(allPersonalCategoriesWithRelations.ByName("A"), "X3"), 
+            Is.EqualTo(true));
+
+        Assert.That(allPersonalCategoriesWithRelations.ByName("A").CachedData.Children.Count,
+            Is.EqualTo(3));
     }
 
     [Test]

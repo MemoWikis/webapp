@@ -165,9 +165,9 @@ class EntityCache_tests : BaseTest
         Assert.That(EntityCache.GetCategory(categories.ByName("X").Id).CachedData.Children.Count, Is.EqualTo(1));
 
 
-        Assert.That(EntityCache.GetCategory(categories.ByName("D").Id).CachedData.Children, Is.EqualTo(null));
-        Assert.That(EntityCache.GetCategory(categories.ByName("F").Id).CachedData.Children, Is.EqualTo(null));
-        Assert.That(EntityCache.GetCategory(categories.ByName("H").Id).CachedData.Children, Is.EqualTo(null));
+        Assert.That(EntityCache.GetCategory(categories.ByName("D").Id).CachedData.Children.Count, Is.EqualTo(0));
+        Assert.That(EntityCache.GetCategory(categories.ByName("F").Id).CachedData.Children.Count, Is.EqualTo(0));
+        Assert.That(EntityCache.GetCategory(categories.ByName("H").Id).CachedData.Children.Count, Is.EqualTo(0));
 
         Assert.That(ContextCategory.HasCorrectChild(EntityCache.GetCategory(categories.ByName("G").Id), "I"), Is.EqualTo(true));
         Assert.That(EntityCache.GetCategory(categories.ByName("X").Id).CachedData.Children.Count, Is.EqualTo(1));
