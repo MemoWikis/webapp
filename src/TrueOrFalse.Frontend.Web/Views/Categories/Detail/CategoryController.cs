@@ -205,9 +205,9 @@ public class CategoryController : BaseController
 
     [HttpPost]
     [AccessOnlyAsLoggedIn]
-    public ActionResult SaveCategoryContent(int categoryId, List<TemplateParser.JsonLoader> content = null, List<SegmentJson> segmentation = null)
+    public JsonResult SaveCategoryContent(int categoryId, List<TemplateParser.JsonLoader> content = null)
     {
-        var category = Sl.CategoryRepo.GetById(categoryId);
+        var category = EntityCache.GetCategory(categoryId);
 
         if (category != null)
         {
@@ -216,12 +216,27 @@ public class CategoryController : BaseController
             else category.Content = null;
                 category.Content = TemplateParser.GetContent(content);
 
+            Sl.CategoryRepo.Update(category, User_());
+
+            return Json(true);
+        }
+        return Json(false);
+    }
+
+    [HttpPost]
+    [AccessOnlyAsLoggedIn]
+    public JsonResult SaveSegments(int categoryId, List<SegmentJson> segmentation = null)
+    {
+        var category = EntityCache.GetCategory(categoryId);
+
+        if (category != null)
+        {
             if (segmentation != null)
                 category.CustomSegments = JsonConvert.SerializeObject(segmentation, new JsonSerializerSettings
                 {
                     NullValueHandling = NullValueHandling.Ignore
                 }); ;
-                
+
             Sl.CategoryRepo.Update(category, User_());
 
             return Json(true);

@@ -54,11 +54,13 @@ new Vue({
             sortedModules: [],
             fabIsOpen: false,
             segments: [],
+            categoryId: null,
         };
     },
 
     created() {
         var self = this;
+        self.categoryId = parseInt($("#hhdCategoryId").val());
         eventBus.$on('get-module',
             (module) => {
                 var index = this.modules.findIndex((m) => m.id == module.id);
@@ -140,6 +142,7 @@ new Vue({
                 var index = this.segments.map(s => s.CategoryId).indexOf(categoryId);
                 this.segments.splice(index, 1);
             });
+        eventBus.$on('save-segments', () => this.saveSegments());
     },
 
     updated() {
@@ -233,6 +236,7 @@ new Vue({
         },
 
         async saveContent() {
+            var self = this;
             if (NotLoggedIn.Yes()) {
                 NotLoggedIn.ShowErrorMsg("SaveContent");
                 return;
@@ -243,31 +247,12 @@ new Vue({
             this.updateModuleOrder();
             await this.sortModules();
 
-            var segmentation = [];
-
-            $("#CustomSegmentSection > .segment").each((index, el) => {
-
-                var segment;
-
-                if ($(el).data('child-category-ids').length > 0)
-                    segment = {
-                        CategoryId: $(el).data('category-id'),
-                        ChildCategoryIds: $(el).data('child-category-ids')
-                    }
-                else
-                    segment = {
-                        CategoryId: $(el).data('category-id'),
-                    }
-
-                segmentation.push(segment);
-            });
-
+            this.saveSegments();
 
             var filteredModules = this.sortedModules.filter(o => (o.TemplateName != 'InlineText' || o.Content));
             var data = {
-                categoryId: $("#hhdCategoryId").val(),
+                categoryId: self.categoryId,
                 content: filteredModules,
-                segmentation: segmentation
             }
             $.ajax({
                 type: 'post',
@@ -288,5 +273,47 @@ new Vue({
                 },
             });
         },
+
+        saveSegments() {
+            var self = this;
+            var segmentation = [];
+
+            $("#CustomSegmentSection > .segment").each((index, el) => {
+
+                var segment;
+
+                if ($(el).data('child-category-ids').length > 0)
+                    segment = {
+                        CategoryId: $(el).data('category-id'),
+                        ChildCategoryIds: $(el).data('child-category-ids')
+                    }
+                else
+                    segment = {
+                        CategoryId: $(el).data('category-id'),
+                    }
+
+                segmentation.push(segment);
+            });
+
+            var data = {
+                categoryId: self.categoryId,
+                segmentation: segmentation
+            }
+            $.ajax({
+                type: 'post',
+                contentType: "application/json",
+                url: '/Category/SaveSegments',
+                data: JSON.stringify(data),
+                success: function (success) {
+                    if (success == true) {
+                        this.saveSuccess = true;
+                        this.saveMessage = "Das Thema wurde gespeichert.";
+                    } else {
+                        this.saveSuccess = false;
+                        this.saveMessage = "Das Speichern schlug fehl.";
+                    };
+                },
+            });
+        }
     },
 });

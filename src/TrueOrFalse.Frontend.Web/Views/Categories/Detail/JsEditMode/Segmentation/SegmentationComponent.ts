@@ -77,15 +77,13 @@ var segmentationComponent = Vue.component('segmentation-component', {
                             el: inserted.get(0)
                         });
                         self.$refs['card' + id].visible = false;
+                        eventBus.$emit('save-segments');
                     } else {
                     };
                 },
             });
         },
         addCategoryToBaseList(id) {
-            var self = this;
-            var currentElement = $("#GeneratedSegmentSection > .topicNavigation");
-
             $.ajax({
                 type: 'Post',
                 contentType: "application/json",
@@ -98,6 +96,7 @@ var segmentationComponent = Vue.component('segmentation-component', {
                         var instance = new categoryCardComponent({
                             el: inserted.get(0)
                         });
+                        eventBus.$emit('save-segments');
                     } else {
 
                     };
