@@ -45,6 +45,8 @@
                             <%= Model.Category.Type.GetCategoryTypeIconHtml() %><%: Model.Category.Name %>
                         </div>
                     </a>
+<%--                    <pin-wuwi-component :category-id="categoryId" />--%>
+
                     <div class="set-question-count" @click="selectCategory()">
                         <span>
                             <span class="Button Pin" data-category-id="<%= Model.Category.Id %>">

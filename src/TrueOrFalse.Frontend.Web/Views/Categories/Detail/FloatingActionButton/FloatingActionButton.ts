@@ -29,6 +29,7 @@ var FAB = Vue.component('floating-action-button',
                 width: null,
                 shrink: false,
                 expand: false,
+                contentHasChanged: false,
             }
         },
         watch: {
@@ -48,6 +49,12 @@ var FAB = Vue.component('floating-action-button',
                 else if (!this.isExtended)
                     this.fabLabel = '';
             },
+            contentHasChanged(val) {
+                if (val) {
+                    this.showBar = true;
+                    this.editMode = true;
+                }
+            }
         },
         created() {
             window.addEventListener('scroll', this.handleScroll);
@@ -69,6 +76,10 @@ var FAB = Vue.component('floating-action-button',
                     });
             } else
                 this.contentIsReady = true;
+            eventBus.$on('content-change',
+                () => {
+                    this.contentHasChanged = true;
+                });
 
         },
         updated() {

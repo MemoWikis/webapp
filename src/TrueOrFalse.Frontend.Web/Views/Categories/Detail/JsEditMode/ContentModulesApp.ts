@@ -58,6 +58,7 @@ new Vue({
     },
 
     created() {
+        var self = this;
         eventBus.$on('get-module',
             (module) => {
                 var index = this.modules.findIndex((m) => m.id == module.id);
@@ -108,8 +109,13 @@ new Vue({
         window.addEventListener('resize', this.footerCheck);
         eventBus.$on('content-change',
             () => {
-                if (this.editMode)
-                        this.changedContent = true;
+                if (this.editMode) {
+                    this.changedContent = true;
+                    //_.debounce(() => {
+                    //        self.saveContent();
+                    //    },
+                    //    300);
+                }
             });
 
         eventBus.$on('request-save', () => this.saveContent());
@@ -126,7 +132,7 @@ new Vue({
         this.changedContent = false;
         if ((this.$el.clientHeight + 450) < window.innerHeight)
             this.footerIsVisible = true;
-        if (this.$el.attributes.openEditMode.value == 'True')
+        //if (this.$el.attributes.openEditMode.value == 'True')
             this.setEditMode();
         eventBus.$emit('content-is-ready');
         eventBus.$on('remove-segment',
@@ -227,6 +233,10 @@ new Vue({
         },
 
         async saveContent() {
+            if (NotLoggedIn.Yes()) {
+                NotLoggedIn.ShowErrorMsg("SaveContent");
+                return;
+            }
             if (!this.editMode)
                 return;
 
@@ -268,9 +278,9 @@ new Vue({
                     if (success == true) {
                         this.saveSuccess = true;
                         this.saveMessage = "Das Thema wurde gespeichert.";
-                        if (window.location.href.endsWith('?openEditMode=True'))
-                            location.href = window.location.href.slice(0, -18);
-                        else location.reload();
+                        //if (window.location.href.endsWith('?openEditMode=True'))
+                        //    location.href = window.location.href.slice(0, -18);
+                        //else location.reload();
                     } else {
                         this.saveSuccess = false;
                         this.saveMessage = "Das Speichern schlug fehl.";

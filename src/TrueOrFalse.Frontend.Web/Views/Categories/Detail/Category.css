@@ -3763,3 +3763,8 @@ p.is-editor-empty:first-child::before {
 .questionTitle p {
   margin: 0;
 }
+@media (max-width: 600px) {
+  #ContentModuleApp #MarkdownContent .ProseMirror {
+    margin-top: 30px;
+  }
+}
