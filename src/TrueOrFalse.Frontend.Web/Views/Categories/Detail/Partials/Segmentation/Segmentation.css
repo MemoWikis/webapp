@@ -48,6 +48,7 @@
 #Segmentation #GeneratedSegmentSection .topicNavigation .segmentCategoryCard .DropdownButton {
   position: absolute;
   right: 10px;
+  top: 0px;
 }
 #Segmentation #CustomSegmentSection .topicNavigation .segmentCategoryCard .DropdownButton i,
 #Segmentation #GeneratedSegmentSection .topicNavigation .segmentCategoryCard .DropdownButton i {
