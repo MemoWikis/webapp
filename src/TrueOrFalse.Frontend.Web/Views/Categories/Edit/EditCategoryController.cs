@@ -252,7 +252,7 @@ public class EditCategoryController : BaseController
     }
 
     [HttpPost]
-    public bool RemoveParent(int parentCategoryIdToRemove, int childCategoryId)
+    public JsonResult RemoveParent(int parentCategoryIdToRemove, int childCategoryId)
     {
         var childCategory = EntityCache.GetCategory(childCategoryId);
         
@@ -265,16 +265,22 @@ public class EditCategoryController : BaseController
 
         Sl.CategoryRepo.Update(childCategory, _sessionUser.User);
         
-        return true;
+        return Json(new
+        {
+            success = true,
+        });
     }
 
     [HttpPost]
-    public bool RemoveChildren(int parentCategoryId, int[] childCategoryIds)
+    public JsonResult RemoveChildren(int parentCategoryId, int[] childCategoryIds)
     {
         foreach (int childCategoryId in childCategoryIds)
             RemoveParent(parentCategoryId, childCategoryId);
 
-        return true;
+        return Json(new
+        {
+            success = true,
+        });
     }
 
     public ActionResult DetailsPartial(int? categoryId, CategoryType type, string typeModelGuid)

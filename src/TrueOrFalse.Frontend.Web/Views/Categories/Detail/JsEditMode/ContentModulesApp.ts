@@ -43,7 +43,7 @@ new Vue({
             },
             saveSuccess: false,
             saveMessage: '',
-            editMode: false,
+            editMode: true,
             showTopAlert: false,
             previewModule: null,
             changedContent: false,
@@ -135,7 +135,7 @@ new Vue({
         if ((this.$el.clientHeight + 450) < window.innerHeight)
             this.footerIsVisible = true;
         //if (this.$el.attributes.openEditMode.value == 'True')
-            this.setEditMode();
+            //this.setEditMode();
         eventBus.$emit('content-is-ready');
         eventBus.$on('remove-segment',
             (categoryId) => {
@@ -238,7 +238,6 @@ new Vue({
         async saveContent() {
             var self = this;
             if (NotLoggedIn.Yes()) {
-                NotLoggedIn.ShowErrorMsg("SaveContent");
                 return;
             }
             if (!this.editMode)
@@ -275,6 +274,9 @@ new Vue({
         },
 
         saveSegments() {
+            if (NotLoggedIn.Yes()) {
+                return;
+            }
             var self = this;
             var segmentation = [];
 

@@ -58,7 +58,6 @@ Vue.component('text-component',
                 htmlContent: null,
                 editMode: false,
                 editor: new tiptap.Editor({
-                    editable: false,
                     extensions: [
                         new tiptapExtensions.Blockquote(),
                         new tiptapExtensions.BulletList(),

@@ -106,10 +106,10 @@
   padding-top: 10px;
   margin-left: 10px;
 }
-#Segmentation .segmentHeader .segmentDropdown {
+#Segmentation .segmentDropdown {
   font-size: 35px;
-  height: 35px;
+  height: 30px;
 }
-#Segmentation .segmentHeader .segmentDropdown i {
+#Segmentation .segmentDropdown i {
   color: #18A0FB;
 }
