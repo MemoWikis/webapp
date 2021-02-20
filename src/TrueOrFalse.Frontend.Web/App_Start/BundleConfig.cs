@@ -266,15 +266,6 @@ namespace TrueOrFalse.View
                 .Include("~/Views/Maintenance/Js/CMS.js")
                 .Include("~/Views/Maintenance/Js/CmsCategoryNetworkNavigation.js"));
 
-            bundles.Add(new StyleBundle("~/bundles/MaintenanceContentStats")
-                .Include("~/Scripts/vendor.somewhere/dataTables.bootstrap.css")
-                .Include("~/Views/Maintenance/ContentStats.css"));
-
-            bundles.Add(new ScriptBundle("~/bundles/js/MaintenanceContentStats")
-                .Include("~/Scripts/vendor.somewhere/dataTables.bootstrap.js")
-                .Include("~/Scripts/vendor.somewhere/jquery.dataTables.js")
-                .Include("~/Views/Maintenance/Js/ContentStats.js"));
-
             bundles.Add(new ScriptBundle("~/bundles/js/diff2html")
                 .Include("~/Scripts/vendor/diff2html/*.js"));
 

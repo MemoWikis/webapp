@@ -2493,8 +2493,6 @@
     <Content Include="Views\Categories\Detail\JsEditMode\Segmentation\SegmentComponent.js.map">
       <DependentUpon>SegmentComponent.ts</DependentUpon>
     </Content>
-    <None Include="Views\Maintenance\ContentStats.less" />
-    <Compile Include="Views\Maintenance\ContentStatsModel.cs" />
     <Compile Include="Views\Maintenance\Images\MaintenanceImagesController.cs" />
     <Compile Include="Views\Maintenance\StatisticsModel.cs" />
     <Compile Include="Views\Maintenance\ContentCreatedReportModel.cs" />
@@ -2611,10 +2609,6 @@
       <DependentUpon>Widget.less</DependentUpon>
     </Content>
     <Content Include="Views\Images\ImageDetailYoutubeModal.ascx" />
-    <Content Include="Views\Maintenance\ContentStats.aspx" />
-    <Content Include="Views\Maintenance\ContentStats.css">
-      <DependentUpon>ContentStats.less</DependentUpon>
-    </Content>
     <Content Include="Views\Questions\ActivityPoints\ActivityPoints.js">
       <DependentUpon>ActivityPoints.ts</DependentUpon>
     </Content>

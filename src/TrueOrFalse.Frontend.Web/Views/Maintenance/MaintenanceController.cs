@@ -107,18 +107,6 @@ public class MaintenanceController : BaseController
     }
 
     [SetMainMenu(MainMenuEntry.Maintenance)]
-    public ActionResult ContentStats()
-    {
-        return View(new ContentStatsModel());
-    }
-
-    [SetMainMenu(MainMenuEntry.Maintenance)]
-    public ActionResult ContentStatsShowStats()
-    {
-        return View("ContentStats", new ContentStatsModel(true));
-    }
-
-    [SetMainMenu(MainMenuEntry.Maintenance)]
     public ActionResult Statistics()
     {
         return View(new StatisticsModel());
@@ -246,25 +234,6 @@ public class MaintenanceController : BaseController
         JobScheduler.StartImmediately_CleanUpWorkInProgressQuestions();
         return View("Tools",
             new ToolsModel { Message = new SuccessMessage("Job: 'Cleanup work in progress' wird ausgeführt.") });
-    }
-
-    [ValidateAntiForgeryToken]
-    [HttpPost]
-    public ActionResult TrainingReminderCheck()
-    {
-        //JobScheduler.StartImmediately_TrainingReminderCheck();
-        return View("Tools",
-            new ToolsModel { Message = new SuccessMessage("Job: 'Training Reminder Check' wird ausgeführt.") });
-    }
-
-    [ValidateAntiForgeryToken]
-    [HttpPost]
-    public ActionResult TrainingPlanUpdateCheck()
-    {
-        //JobScheduler.StartImmediately_TrainingPlanUpdateCheck();
-        Logg.r().Information("TrainingPlanUpdateCheck manually started");
-        return View("Tools",
-            new ToolsModel { Message = new SuccessMessage("Job: 'Training Plan Update Check' wird ausgeführt.") });
     }
 
     [ValidateAntiForgeryToken]
