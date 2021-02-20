@@ -15,10 +15,11 @@ public class EntityCache : BaseCache
     private static ConcurrentDictionary<int, Question> Questions => (ConcurrentDictionary<int, Question>)HttpRuntime.Cache[_cacheKeyQuestions];
     private static ConcurrentDictionary<int, Category> Categories => (ConcurrentDictionary<int, Category>)HttpRuntime.Cache[_cacheKeyCategories];
 
-    //In category lists last level ConcurrentDictionary is used for easy access to keys (item ids) only (value is always 0)
+    /// <summary>
+    /// Dictionary(key:categoryId, value:questions)
+    /// </summary>
     private static ConcurrentDictionary<int, ConcurrentDictionary<int, int>> CategoryQuestionsList => 
         (ConcurrentDictionary<int, ConcurrentDictionary<int, int>>)HttpRuntime.Cache[_cacheKeyCategoryQuestionsList];
-
 
     public static void Init(string customMessage = "")
     {
