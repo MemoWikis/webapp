@@ -333,8 +333,8 @@
     <Compile Include="Tools\Analytics\Widget\WidgetDetailViewsPerMonthAndTypeResult.cs" />
     <Compile Include="Tools\Analytics\Widget\WidgetViewsPerMonthAndKeyResult.cs" />
     <Compile Include="Tools\Cache\BaseCache.cs" />
-    <Compile Include="Tools\Cache\UserWorld\UserEntityCache.cs" />
-    <Compile Include="Tools\Cache\UserWorld\UserEntityCacheItem.cs" />
+    <Compile Include="Tools\Cache\UserEntityCache\UserEntityCache.cs" />
+    <Compile Include="Tools\Cache\UserEntityCache\UserEntityCacheItem.cs" />
     <Compile Include="Tools\Export\LomExporter.cs" />
     <Compile Include="Tools\Export\LomLists.cs" />
     <Compile Include="Tools\Export\LomXml.cs" />
@@ -836,8 +836,8 @@
     <Compile Include="Tools\Analytics\Widget\Persistence\WidgetViewMap.cs" />
     <Compile Include="Tools\Analytics\Widget\Persistence\WidgetViewRepo.cs" />
     <Compile Include="Tools\Analytics\Widget\WidgetView.cs" />
-    <Compile Include="Tools\Cache\UserCache.cs" />
-    <Compile Include="Tools\Cache\UserCacheItem.cs" />
+    <Compile Include="Tools\Cache\UserCache\UserCache.cs" />
+    <Compile Include="Tools\Cache\UserCache\UserCacheItem.cs" />
     <Compile Include="Domain\Category\RootCategory.cs" />
     <Compile Include="Tools\Update\Steps\UpdateToVs219.cs" />
     <Compile Include="Tools\Update\Steps\UpdateToVs220.cs" />
