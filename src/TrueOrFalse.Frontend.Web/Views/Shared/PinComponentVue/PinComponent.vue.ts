@@ -2,7 +2,9 @@
     {
         props: {
             isInWishknowledge: Boolean,
-            questionId: Number
+            questionId: [Number, String],
+            categoryId: [Number, String],
+            isCategory: Boolean,
         },
         template: '#pin-wuwi-template',
 

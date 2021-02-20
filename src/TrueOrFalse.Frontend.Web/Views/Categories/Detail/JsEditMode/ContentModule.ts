@@ -10,12 +10,12 @@ var contentModuleComponent = Vue.component('content-module', {
         return {
             hoverState: false,
             isDeleted: false,
-            canBeEdited: false,
+            canBeEdited: true,
             markdown: '',
             isListening: false,
             modalType: '',
             id: '',
-            textCanBeEdited: false,
+            textCanBeEdited: true,
             dataTarget: '',
             widgetId: '',
             questions: [],
@@ -41,8 +41,6 @@ var contentModuleComponent = Vue.component('content-module', {
         if (this.contentModuleType == 'AddModuleButton')
             this.id = 'ContentModulePlaceholder';
         this.textAreaId = 'TextArea-' + (this._uid + Math.floor((Math.random() * 100) + 1));
-        if (this.contentModuleType == "topicnavigation")
-            eventBus.$emit('content-change');
     },
 
     mounted() {

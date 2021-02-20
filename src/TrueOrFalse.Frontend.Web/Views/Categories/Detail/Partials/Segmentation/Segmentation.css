@@ -48,6 +48,7 @@
 #Segmentation #GeneratedSegmentSection .topicNavigation .segmentCategoryCard .DropdownButton {
   position: absolute;
   right: 10px;
+  top: 0px;
 }
 #Segmentation #CustomSegmentSection .topicNavigation .segmentCategoryCard .DropdownButton i,
 #Segmentation #GeneratedSegmentSection .topicNavigation .segmentCategoryCard .DropdownButton i {
@@ -106,10 +107,10 @@
   padding-top: 10px;
   margin-left: 10px;
 }
-#Segmentation .segmentHeader .segmentDropdown {
+#Segmentation .segmentDropdown {
   font-size: 35px;
-  height: 35px;
+  height: 30px;
 }
-#Segmentation .segmentHeader .segmentDropdown i {
+#Segmentation .segmentDropdown i {
   color: #18A0FB;
 }

@@ -1,7 +1,6 @@
 ﻿
 class StickyHeaderClass {
     private _breadcrumb;
-    private _rightMainMenu;
     private _header;
     private _masterHeaderOuterHeight = $("#MasterHeader").outerHeight();
     private _stickyHeaderisFixed = true;
@@ -17,7 +16,6 @@ class StickyHeaderClass {
 
     constructor() {
         this._breadcrumb = $('#Breadcrumb').get(0);
-        this._rightMainMenu = $("#RightMainMenu").get(0);
         this._header = $("#MasterHeader").get(0);
         this._breadCrumbContainerElementsCopy = $("#BreadCrumbTrail > div").clone();
         this._breadCrumbContainerCount = this._breadCrumbContainerElementsCopy.length;
@@ -109,8 +107,6 @@ class StickyHeaderClass {
 
 
             this.toggleClass($("#HeaderUserDropdown"), $("#BreadcrumbUserDropdownImage"), "open");
-
-            this._rightMainMenu.style.position = "fixed";
 
             if (top.location.pathname !== "/")
                 this.computeBreadcrumb(260);

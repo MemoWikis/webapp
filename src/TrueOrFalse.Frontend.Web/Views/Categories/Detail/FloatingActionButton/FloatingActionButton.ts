@@ -29,6 +29,9 @@ var FAB = Vue.component('floating-action-button',
                 width: null,
                 shrink: false,
                 expand: false,
+                contentHasChanged: false,
+                disableSave: true,
+                showLoginReminder: false,
             }
         },
         watch: {
@@ -48,6 +51,12 @@ var FAB = Vue.component('floating-action-button',
                 else if (!this.isExtended)
                     this.fabLabel = '';
             },
+            contentHasChanged(val) {
+                if (val) {
+                    this.showBar = true;
+                    this.editMode = true;
+                }
+            }
         },
         created() {
             window.addEventListener('scroll', this.handleScroll);
@@ -55,6 +64,10 @@ var FAB = Vue.component('floating-action-button',
             if (this.isLearningTab)
                 eventBus.$on('load-questions-list', this.getEditQuestionUrl);
             eventBus.$on('tab-change', () => this.cancelEditMode());
+            if (IsLoggedIn.Yes) {
+                this.disableSave = false;
+                this.showLoginReminder = true;
+            }
         },
         mounted() {
             this.footerCheck();
@@ -69,6 +82,10 @@ var FAB = Vue.component('floating-action-button',
                     });
             } else
                 this.contentIsReady = true;
+            eventBus.$on('content-change',
+                () => {
+                    this.contentHasChanged = true;
+                });
 
         },
         updated() {
@@ -80,6 +97,9 @@ var FAB = Vue.component('floating-action-button',
             eventBus.$off('content-is-ready');
         },
         methods: {
+            openLogin() {
+
+            },
             toggleFAB() {
                 this.showMiniFAB = true;
                 this.isOpen = !this.isOpen;
@@ -88,10 +108,10 @@ var FAB = Vue.component('floating-action-button',
 
             },
             editCategoryContent() {
-                if (NotLoggedIn.Yes()) {
-                    NotLoggedIn.ShowErrorMsg("EditCategory");
-                    return;
-                }
+                //if (NotLoggedIn.Yes()) {
+                //    NotLoggedIn.ShowErrorMsg("EditCategory");
+                //    return;
+                //}
                 this.showFABTimer = setTimeout(() => {
                     this.showFAB = false;
                 }, 300);
@@ -177,6 +197,10 @@ var FAB = Vue.component('floating-action-button',
                         });
             },
             saveContent() {
+                if (NotLoggedIn.Yes()) {
+                    NotLoggedIn.ShowErrorMsg("SaveContentWithBtn");
+                    return;
+                }
                 eventBus.$emit('request-save');
             },
             cancelEditMode() {

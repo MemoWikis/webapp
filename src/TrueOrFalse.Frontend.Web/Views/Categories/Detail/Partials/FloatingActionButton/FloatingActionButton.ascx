@@ -86,17 +86,12 @@ Inherits="System.Web.Mvc.ViewUserControl<FloatingActionButtonModel>" %>
                     <div class="toolbar" :class="{'pseudo-sticky' : footerIsVisible, 'is-hidden' : !editMode, 'shrink' : shrink, 'expand' : expand }" :style="{ width: width + 'px' }">
                         <div class="toolbar-btn-container">
                             <div class="btn-left">
-                                <%--<div class="button" :class="{ expanded : editMode }" v-ripple="{center,class: 'r-green'}">
-                                    <div class="icon">
-                                        <i class="fas fa-question"></i>
-                                    </div>
-                                    <div class="btn-label">
-                                        Hilfe
-                                    </div>
-                                </div>--%>
                             </div>
-
-                            <div class="btn-right">
+                            <div class="centerText" v-show="showLoginReminder">
+                                Um zu speichern, musst du <a href="#" data-btn-login="true">
+                                    <span style="padding-top: 4px" class="TextSpan">angemeldet</span></a> sein.
+                            </div>
+                            <div class="btn-right" v-show="contentHasChanged">
                             
                                 <div class="button" @click.prevent="saveContent()" :class="{ expanded : editMode }" v-ripple="{center,class: 'r-green'}">
                                     <div class="icon">

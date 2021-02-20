@@ -34,8 +34,7 @@ var segmentationComponent = Vue.component('segmentation-component', {
     mounted() {
         var self = this;
         this.hasCustomSegment = $('#CustomSegmentSection').html().length > 0;
-        this.$on('remove-segment', (id) => {
-            console.log('segmentationComponent');
+        eventBus.$on('remove-segment', (id) => {
             self.addCategoryToBaseList(id);
         });
         eventBus.$on('remove-category-cards',
@@ -71,32 +70,33 @@ var segmentationComponent = Vue.component('segmentation-component', {
                 data: JSON.stringify(data),
                 success: function(data) {
                     if (data) {
+                        eventBus.$emit('content-change');
                         self.hasCustomSegment = true;
                         var inserted = currentElement.append(data.html);
                         var instance = new segmentComponent({
                             el: inserted.get(0)
                         });
                         self.$refs['card' + id].visible = false;
+                        eventBus.$emit('save-segments');
                     } else {
                     };
                 },
             });
         },
-        addCategoryToBaseList(categoryId) {
-            var self = this;
-            var currentElement = $("#GeneratedSegmentSection > .topicNavigation");
-
+        addCategoryToBaseList(id) {
             $.ajax({
-                type: 'Get',
-                contentType: "application/int",
+                type: 'Post',
+                contentType: "application/json",
                 url: '/Segmentation/GetCategoryCard',
-                data: categoryId,
+                data: JSON.stringify({ categoryId: id }),
                 success: function (data) {
                     if (data) {
-                        var inserted = currentElement.append(data.html);
+                        eventBus.$emit('content-change');
+                        var inserted = $(data.html).insertBefore('#AddToCurrentCategoryBtn');
                         var instance = new categoryCardComponent({
                             el: inserted.get(0)
                         });
+                        eventBus.$emit('save-segments');
                     } else {
 
                     };
@@ -139,6 +139,7 @@ var segmentationComponent = Vue.component('segmentation-component', {
                 url: '/EditCategory/RemoveChildren',
                 data: JSON.stringify(data),
                 success: function (data) {
+                    eventBus.$emit('content-change');
                     self.selectedCategories.map(categoryId => {
                         self.$refs['card' + categoryId].visible = false;
                     });

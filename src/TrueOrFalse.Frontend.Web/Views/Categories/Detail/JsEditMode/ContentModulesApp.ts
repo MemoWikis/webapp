@@ -43,7 +43,7 @@ new Vue({
             },
             saveSuccess: false,
             saveMessage: '',
-            editMode: false,
+            editMode: true,
             showTopAlert: false,
             previewModule: null,
             changedContent: false,
@@ -54,10 +54,13 @@ new Vue({
             sortedModules: [],
             fabIsOpen: false,
             segments: [],
+            categoryId: null,
         };
     },
 
     created() {
+        var self = this;
+        self.categoryId = parseInt($("#hhdCategoryId").val());
         eventBus.$on('get-module',
             (module) => {
                 var index = this.modules.findIndex((m) => m.id == module.id);
@@ -108,17 +111,19 @@ new Vue({
         window.addEventListener('resize', this.footerCheck);
         eventBus.$on('content-change',
             () => {
-                if (this.editMode)
-                        this.changedContent = true;
+                if (this.editMode) {
+                    this.changedContent = true;
+                    //_.debounce(() => {
+                    //        self.saveContent();
+                    //    },
+                    //    300);
+                }
             });
 
         eventBus.$on('request-save', () => this.saveContent());
-        eventBus.$on('new-segment', (segment) => { this.segments.push(segment) });
-        eventBus.$on('remove-segment',
-            (id) => {
-                var index = this.segments.map(s => s.CategoryId).indexOf(id);
-                this.segments.splice(index, 1);
-            });
+        eventBus.$on('new-segment', (segment) => {
+            this.segments.push(segment);
+        });
     },
     destroyed() {
         window.removeEventListener('scroll', this.handleScroll);
@@ -129,9 +134,15 @@ new Vue({
         this.changedContent = false;
         if ((this.$el.clientHeight + 450) < window.innerHeight)
             this.footerIsVisible = true;
-        if (this.$el.attributes.openEditMode.value == 'True')
-            this.setEditMode();
+        //if (this.$el.attributes.openEditMode.value == 'True')
+            //this.setEditMode();
         eventBus.$emit('content-is-ready');
+        eventBus.$on('remove-segment',
+            (categoryId) => {
+                var index = this.segments.map(s => s.CategoryId).indexOf(categoryId);
+                this.segments.splice(index, 1);
+            });
+        eventBus.$on('save-segments', () => this.saveSegments());
     },
 
     updated() {
@@ -225,12 +236,48 @@ new Vue({
         },
 
         async saveContent() {
+            var self = this;
+            if (NotLoggedIn.Yes()) {
+                return;
+            }
             if (!this.editMode)
                 return;
 
             this.updateModuleOrder();
             await this.sortModules();
 
+            this.saveSegments();
+
+            var filteredModules = this.sortedModules.filter(o => (o.TemplateName != 'InlineText' || o.Content));
+            var data = {
+                categoryId: self.categoryId,
+                content: filteredModules,
+            }
+            $.ajax({
+                type: 'post',
+                contentType: "application/json",
+                url: '/Category/SaveCategoryContent',
+                data: JSON.stringify(data),
+                success: function (success) {
+                    if (success == true) {
+                        this.saveSuccess = true;
+                        this.saveMessage = "Das Thema wurde gespeichert.";
+                        //if (window.location.href.endsWith('?openEditMode=True'))
+                        //    location.href = window.location.href.slice(0, -18);
+                        //else location.reload();
+                    } else {
+                        this.saveSuccess = false;
+                        this.saveMessage = "Das Speichern schlug fehl.";
+                    };
+                },
+            });
+        },
+
+        saveSegments() {
+            if (NotLoggedIn.Yes()) {
+                return;
+            }
+            var self = this;
             var segmentation = [];
 
             $("#CustomSegmentSection > .segment").each((index, el) => {
@@ -250,25 +297,19 @@ new Vue({
                 segmentation.push(segment);
             });
 
-
-            var filteredModules = this.sortedModules.filter(o => (o.TemplateName != 'InlineText' || o.Content));
             var data = {
-                categoryId: $("#hhdCategoryId").val(),
-                content: filteredModules,
+                categoryId: self.categoryId,
                 segmentation: segmentation
             }
             $.ajax({
                 type: 'post',
                 contentType: "application/json",
-                url: '/Category/SaveCategoryContent',
+                url: '/Category/SaveSegments',
                 data: JSON.stringify(data),
                 success: function (success) {
                     if (success == true) {
                         this.saveSuccess = true;
                         this.saveMessage = "Das Thema wurde gespeichert.";
-                        if (window.location.href.endsWith('?openEditMode=True'))
-                            location.href = window.location.href.slice(0, -18);
-                        else location.reload();
                     } else {
                         this.saveSuccess = false;
                         this.saveMessage = "Das Speichern schlug fehl.";

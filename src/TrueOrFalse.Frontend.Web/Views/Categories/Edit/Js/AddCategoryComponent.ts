@@ -96,7 +96,6 @@
                     parentCategoryId: self.parentId
                 }
                 url = '/EditCategory/QuickCreate';
-
             }
 
             $.ajax({

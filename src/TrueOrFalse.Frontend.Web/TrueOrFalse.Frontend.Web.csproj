@@ -2490,6 +2490,9 @@
       <DependentUpon>TopicTabFABLoader.ts</DependentUpon>
     </Content>
     <Content Include="Views\Categories\Detail\Partials\Segmentation\Segmentation.less" />
+    <Content Include="Views\Categories\Detail\JsEditMode\Segmentation\SegmentComponent.js.map">
+      <DependentUpon>SegmentComponent.ts</DependentUpon>
+    </Content>
     <None Include="Views\Maintenance\ContentStats.less" />
     <Compile Include="Views\Maintenance\ContentStatsModel.cs" />
     <Compile Include="Views\Maintenance\Images\MaintenanceImagesController.cs" />
