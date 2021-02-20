@@ -64,7 +64,7 @@
                         <div id="LearnOptionsHeaderContainer">
                             <i id="LearnOptionsHeader" class="fa fa-cog disable" aria-hidden="true" data-toggle="tooltip" data-html="true" title="<p style='width: 200px'><b>Persönliche Filter helfen Dir</b>. Nutze die Lernoptionen und entscheide welche Fragen Du lernen möchtest.</p>">
                             </i>
-                            <% if (!Model.IsDisplayNoneSessionConfigNote)
+                            <% if (!Model.ShowLearningSessionConfigurationMessageForTab)
                                { %>
                                 <div id="SessionConfigReminderHeader" class="hide">
                                     <span>

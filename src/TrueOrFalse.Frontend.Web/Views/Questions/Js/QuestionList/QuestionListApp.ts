@@ -74,7 +74,7 @@ var questionListApp = new Vue({
 
         $("#LearningSessionReminderQuestionList>.fa-times-circle").on('click',
             () => {
-                $.post("/Category/SetSettingsCookie?name=SessionConfigQuestionList");
+                $.post("/Category/SetSettingsCookie?name=SessionConfigurationMessageList");
                 $("#LearningSessionReminderQuestionList").hide(200);
             });
         this.setActiveQuestionId();

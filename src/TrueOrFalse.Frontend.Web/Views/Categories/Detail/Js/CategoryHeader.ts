@@ -14,7 +14,7 @@ class CategoryHeader {
 
         $("#SessionConfigReminderHeader>.fa-times-circle").on('click',
             () => {
-                $.post("/Category/SetSettingsCookie?name=SessionConfigTopNote");
+                $.post("/Category/SetSettingsCookie?name=ShowSessionConfigurationMessageTab");
                 $("#SessionConfigReminderHeader").hide(200);
             }); 
         

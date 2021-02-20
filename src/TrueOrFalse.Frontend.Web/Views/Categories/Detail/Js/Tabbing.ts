@@ -13,7 +13,7 @@
             Utils.ShowSpinner();
             $("#LearnOptionsHeader").removeClass("disable");
             $("#SessionConfigReminderHeader").removeClass("hide");
-            $.post("/Category/GetSettingsCookie?name=SessionConfigTopNote");
+            $.post("/Category/GetSettingsCookie?name=ShowSessionConfigurationMessageTab");
 
             $('#hddLearningSessionStarted').val("True");
 

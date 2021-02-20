@@ -27,8 +27,8 @@ public class CategoryController : BaseController
     public ActionResult CategoryLearningTab(int id, int? version)
     {
         var modelAndCategoryResult = LoadModel(id, version);
-        modelAndCategoryResult.CategoryModel.IsDisplayNoneSessionConfigNote = GetSettingsCookie("SessionConfigTopNote");
-        modelAndCategoryResult.CategoryModel.IsDisplayNoneSessionConfigNoteQuestionList = !GetSettingsCookie("SessionConfigQuestionList");
+        modelAndCategoryResult.CategoryModel.ShowLearningSessionConfigurationMessageForTab = GetSettingsCookie("ShowSessionConfigurationMessageTab");
+        modelAndCategoryResult.CategoryModel.ShowLearningSessionConfigurationMessageForQuestionList = !GetSettingsCookie("SessionConfigurationMessageList");
         modelAndCategoryResult.CategoryModel.IsInLearningTab = true;
 
         return View(_viewLocation, modelAndCategoryResult.CategoryModel);
@@ -99,11 +99,9 @@ public class CategoryController : BaseController
 
     private CategoryModel GetModelWithContentHtml(Category category, int? version = null, bool isCategoryNull = false, bool openEditMode = false)
     {
-        var isQuestionListSessionConfigNoteDisplay = !GetSettingsCookie("SessionConfigQuestionList");
-
         return new CategoryModel(category, true, isCategoryNull, openEditMode)
         {
-            IsDisplayNoneSessionConfigNoteQuestionList = isQuestionListSessionConfigNoteDisplay,
+            ShowLearningSessionConfigurationMessageForQuestionList = !GetSettingsCookie("SessionConfigurationMessageList"),
             CustomPageHtml = string.IsNullOrEmpty(category.Content) ? "" : TemplateToHtml.Run(Tokenizer.Run(category.Content), category, ControllerContext, version)
         };
     }
