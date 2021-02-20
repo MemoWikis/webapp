@@ -100,21 +100,6 @@ public class MaintenanceController : BaseController
         return result;
     }
 
-    [HttpPost]
-    public string CmsRenderOvercategorizedSets()
-    {
-        var sets = GetAllOvercategorizedSets.Run();
-        var result = sets.Count() + " sets were found:<br/>";
-        foreach (var set in sets)
-        {
-            result += "<a href=\"" + Links.SetDetail(Url, set) +
-                      "\"><span class=\"label label-set\" style=\"max-width: 200px; margin-top: 5px; margin-right: 10px;\">" +
-                      set.Id + "-" + set.Name + "</span></a> \n";
-        }
-
-        return result;
-    }
-
     [SetMainMenu(MainMenuEntry.Maintenance)]
     public ActionResult ContentCreatedReport()
     {

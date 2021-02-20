@@ -316,7 +316,6 @@
     <Compile Include="Domain\Knowledge\Learning\LearningSessionNew\Ops\LearningSession.cs" />
     <Compile Include="Domain\Knowledge\Learning\LearningSessionNew\Ops\LearningSessionCreator.cs" />
     <Compile Include="Domain\Knowledge\Learning\LearningSessionNew\HelperClasses\LearningSessionStep.cs" />
-    <Compile Include="Domain\QuestionSet\Ops\GetAllOvercategorizedSets.cs" />
     <Compile Include="Domain\Question\History\QuestionChange.cs" />
     <Compile Include="Domain\Question\History\EditData\QuestionEditData.cs" />
     <Compile Include="Domain\Question\History\EditData\QuestionEditData_V1.cs" />
