@@ -296,88 +296,6 @@ public class MaintenanceController : BaseController
 
     }
 
-    [ValidateAntiForgeryToken]
-    [HttpPost]
-    public ActionResult AssignCategoryToQuestionsInSet(ToolsModel toolsModel)
-    {
-        var categoryToAssign = Sl.R<CategoryRepository>().GetById(toolsModel.CategoryToAddId);
-
-        var setIds = toolsModel.SetsToAddCategoryToIds.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries)
-            .Select(x => Convert.ToInt32(x)).ToList();
-
-        var sets = Sl.Resolve<SetRepo>().GetByIds(setIds);
-
-        if (sets.Count == 0)
-        {
-            throw new Exception("no sets found");
-        }
-
-        var setsString = "";
-
-        sets.ForEach(s => setsString += $", \"{s.Name}\" (Id {s.Id})");
-
-        setsString = setsString.Substring(2); //Remove superfluous characters
-
-        var questionRepo = Sl.R<QuestionRepo>();
-
-        var questions = sets.SelectMany(s => s.Questions());
-
-        foreach (var question in questions)
-        {
-            question.Categories.Add(categoryToAssign);
-            question.Categories = question.Categories.Distinct().ToList();
-            questionRepo.Update(question);
-        }
-
-        toolsModel.Message =
-            new SuccessMessage(
-                $"Das Thema \"{categoryToAssign.Name}\" (Id {categoryToAssign.Id}) wurde den Fragen in den Lernsets {setsString} zugewiesen");
-
-        //ModelState.Clear(); 
-
-        return View("Tools", toolsModel);
-    }
-
-    [ValidateAntiForgeryToken]
-    [HttpPost]
-    public ActionResult RemoveCategoryFromQuestionsInSet(ToolsModel toolsModel)
-    {
-        var categoryToRemove = Sl.R<CategoryRepository>().GetById(toolsModel.CategoryToRemoveId);
-
-        var setIds = toolsModel.SetsToRemoveCategoryFromIds.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries)
-            .Select(x => Convert.ToInt32(x)).ToList();
-
-        var sets = Sl.Resolve<SetRepo>().GetByIds(setIds);
-
-        if (sets.Count == 0)
-        {
-            throw new Exception("no sets found");
-        }
-
-        var setsString = "";
-
-        sets.ForEach(s => setsString += $", \"{s.Name}\" (Id {s.Id})");
-
-        setsString = setsString.Substring(2); //Remove superfluous characters
-
-        var questionRepo = Sl.R<QuestionRepo>();
-
-        var questions = sets.SelectMany(s => s.Questions());
-
-        foreach (var question in questions)
-        {
-            question.Categories.Remove(categoryToRemove);
-            question.Categories = question.Categories.Distinct().ToList();
-            questionRepo.Update(question);
-        }
-
-        toolsModel.Message =
-            new SuccessMessage(
-                $"Das Thema \"{categoryToRemove.Name}\" (Id {categoryToRemove.Id}) wurde von den Fragen in den Lernsets {setsString} entfernt");
-
-        return View("Tools", toolsModel);
-    }
-
     [HttpPost]
     public ActionResult CheckForDuplicateInteractionNumbers()
     {
@@ -429,7 +347,6 @@ public class MaintenanceController : BaseController
         var list = new List<Category>();
 
         var cats = Sl.R<CategoryRepository>().GetAll();
-        var questionRepo = Sl.R<QuestionRepo>();
 
         foreach (var cat in cats)
         {

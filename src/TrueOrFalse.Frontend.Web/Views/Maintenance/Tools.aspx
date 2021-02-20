@@ -64,13 +64,6 @@
             <%= Html.AntiForgeryToken() %>
 
             <div class="form-group">
-                <label class="col-sm-2 control-label">Lernsets (Set-Ids kommasepariert)</label>
-                <div class="col-xs-2">
-                    <%= Html.TextBoxFor(m => m.SetsToAddCategoryToIds, new {@class="form-control"} ) %>    
-                </div>
-            </div>
-        
-            <div class="form-group">
                 <label class="control-label col-sm-2">Thema/Kategorie (Id)</label>
                 <div class="col-xs-2">
                     <%= Html.TextBoxFor(m => m.CategoryToAddId, new {@class="form-control"} ) %>    
@@ -93,13 +86,6 @@
         
             <%= Html.AntiForgeryToken() %>
 
-            <div class="form-group">
-                <label class="col-sm-2 control-label">Lernsets (Set-Ids kommasepariert)</label>
-                <div class="col-xs-2">
-                    <%= Html.TextBoxFor(m => m.SetsToRemoveCategoryFromIds, new {@class="form-control"} ) %>    
-                </div>
-            </div>
-        
             <div class="form-group">
                 <label class="control-label col-sm-2">Thema/Kategorie (Id)</label>
                 <div class="col-xs-2">
