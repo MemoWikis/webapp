@@ -10,7 +10,7 @@ namespace Seedworks.Web.State
 {
     internal class CacheAspNet : ICache
     {
-        public int Count { get { return HttpRuntime.Cache.Count; } }
+        public int Count => HttpRuntime.Cache.Count;
 
         public IDictionaryEnumerator GetEnumerator()
         {

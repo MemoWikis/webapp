@@ -1,9 +1,7 @@
 ﻿using StackExchange.Profiling;
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using System.Text;
 using System.Web.Mvc;
 using System.Web.Script.Serialization;
 using Newtonsoft.Json;
@@ -41,7 +39,7 @@ public class AnswerQuestionController : BaseController
     [SetThemeMenu(isLearningSessionPage: true)]
     public ActionResult Learn( int skipStepIdx = -1)
     {
-        var learningSession = Sl.SessionUser.LearningSession;
+        var learningSession = LearningSessionCache.GetLearningSession();
 
         if (learningSession.User != _sessionUser.User)
             throw new Exception("not logged in or not possessing user");
@@ -66,7 +64,7 @@ public class AnswerQuestionController : BaseController
           );
 
         return View(_viewLocation,
-            new AnswerQuestionModel(Sl.Resolve<SessionUser>().LearningSession));
+            new AnswerQuestionModel(LearningSessionCache.GetLearningSession()));
     }
 
     public ActionResult AnswerQuestion(string text, int? id, int? elementOnPage, string pager, string category)
@@ -179,7 +177,7 @@ public class AnswerQuestionController : BaseController
     )
     {
         if(isLearningSession)
-            Sl.SessionUser.LearningSession.CurrentStep.Answer = answer; 
+            LearningSessionCache.GetLearningSession().CurrentStep.Answer = answer; 
 
         var result = _answerQuestion.Run(id, answer, UserId, questionViewGuid, interactionNumber,
             millisecondsSinceQuestionView, learningSessionId, new Guid(), inTestMode);
@@ -204,8 +202,7 @@ public class AnswerQuestionController : BaseController
     [HttpPost]
     public JsonResult AmendAfterShowSolution( bool isInTestMode = false)
     {
-        
-        var learningSession = Sl.SessionUser.LearningSession;
+        var learningSession = LearningSessionCache.GetLearningSession();
         var learningSessionStep = learningSession.CurrentStep;
 
         learningSessionStep.AnswerState = AnswerState.ShowedSolutionOnly;
@@ -311,7 +308,7 @@ public class AnswerQuestionController : BaseController
 
         if (learningSessionId != null)
         {
-            var learningSession = Sl.Resolve<SessionUser>().LearningSession;
+            var learningSession = LearningSessionCache.GetLearningSession();
 
             answerQuestionModel = new AnswerQuestionModel(learningSession, isMobileDevice);
             if (hideAddToKnowledge.HasValue)
@@ -400,11 +397,13 @@ public class AnswerQuestionController : BaseController
     [HttpPost]
     public string RenderNewAnswerBodySessionForCategory(LearningSessionConfig config)
     {
-        var learningSession = UserId != -1 ? LearningSessionCreator.ForLoggedInUser(config) : LearningSessionCreator.ForAnonymous(config);
+        var learningSession = IsLoggedIn ? 
+            LearningSessionCreator.ForLoggedInUser(config) : 
+            LearningSessionCreator.ForAnonymous(config);
 
         if (config.SafeLearningSessionOptions)
         {
-            var updateUser = Sl.UserRepo.GetById(UserId);
+            var user = Sl.UserRepo.GetById(UserId);
             var learningSessionOptionsHelper = new SafeLearningSessionOptionsHelper
             {
                 UserIsAuthor = config.CreatedByCurrentUser,
@@ -419,11 +418,11 @@ public class AnswerQuestionController : BaseController
                 AnswerHelp = config.AnswerHelp
             };
 
-            updateUser.LearningSessionOptions = JsonConvert.SerializeObject(learningSessionOptionsHelper);
-            Sl.UserRepo.Update(updateUser);
+            user.LearningSessionOptions = JsonConvert.SerializeObject(learningSessionOptionsHelper);
+            Sl.UserRepo.Update(user);
         }
 
-        Sl.SessionUser.LearningSession = learningSession;
+        LearningSessionCache.AddOrUpdate(learningSession);
 
         var firstStep = 0; 
         return RenderAnswerBodyByLearningSession(firstStep);
@@ -432,7 +431,7 @@ public class AnswerQuestionController : BaseController
     [HttpPost]
     public string RenderAnswerBodyByLearningSession(int skipStepIdx = -1, int index = -1)
     {
-        var learningSession = Sl.SessionUser.LearningSession;
+        var learningSession = LearningSessionCache.GetLearningSession();
         if (learningSession.Steps.Count == 0)
             return ""; 
 
@@ -547,7 +546,7 @@ public class AnswerQuestionController : BaseController
             "~/Views/Questions/Answer/AnswerBodyControl/AnswerBody.ascx",
             new AnswerBodyModel(answerQuestionModel, isInLearningTab, isInTestMode),
             ControllerContext);
-        var learningSession = Sl.SessionUser.LearningSession; 
+        var learningSession = LearningSessionCache.GetLearningSession();
         var serializer = new JavaScriptSerializer();
         
         var serializedPageData = serializer.Serialize(new

@@ -59,7 +59,7 @@ public class QuestionListController : BaseController
 
     public void InsertNewQuestionToLearningSession(Question question, int lastIndex)
     {
-        var learningSession = Sl.SessionUser.LearningSession;
+        var learningSession = LearningSessionCache.GetLearningSession();
         var step = new LearningSessionStep(question);
         learningSession.Steps.Insert(lastIndex, step);
     }

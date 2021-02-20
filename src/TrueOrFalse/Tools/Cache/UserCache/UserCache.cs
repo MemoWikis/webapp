@@ -7,6 +7,8 @@ using System.Linq;
 public class UserCache
 {
     public const int ExpirationSpanInMinutes = 600;
+    public static LearningSession LearningSession { get; set; }
+
     private static string GetCacheKey(int userId) => "UserCashItem_" + userId;
     public static bool IsFiltered = false; 
 

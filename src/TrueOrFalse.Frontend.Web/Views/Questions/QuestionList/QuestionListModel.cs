@@ -22,7 +22,7 @@ public class QuestionListModel : BaseModel
 
     public static List<QuestionListJson.Question> PopulateQuestionsOnPage(int currentPage, int itemCountPerPage, bool isLoggedIn)
     {
-        var allQuestions = Sl.SessionUser.LearningSession.Steps.Select(q => q.Question);
+        var allQuestions = LearningSessionCache.GetLearningSession().Steps.Select(q => q.Question).ToList();
         var user = isLoggedIn ? Sl.R<SessionUser>().User : null;
 
         ConcurrentDictionary<int, QuestionValuation> userQuestionValuation = new ConcurrentDictionary<int, QuestionValuation>();
@@ -47,9 +47,11 @@ public class QuestionListModel : BaseModel
             question.LinkToQuestionVersions = Links.QuestionHistory(q.Id);
             question.LinkToComment = Links.GetUrl(q) + "#JumpLabel";
             question.CorrectnessProbability = q.CorrectnessProbability;
-            if (Sl.SessionUser.LearningSession != null)
+
+            var learningSession = LearningSessionCache.GetLearningSession();
+            if (learningSession != null)
             {
-                var steps = Sl.SessionUser.LearningSession.Steps;
+                var steps = learningSession.Steps;
                 var index = steps.IndexOf(s => s.Question.Id == q.Id);
                 question.SessionIndex = index;
             }

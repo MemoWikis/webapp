@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using System.Web;
 using System.Web.Security;
-using Quartz.Util;
 using Seedworks.Web.State;
 using TrueOrFalse.Utilities.ScheduledJobs;
 
@@ -25,12 +22,6 @@ public class SessionUser : SessionBase, IRegisterAsInstancePerLifetime
     {
         get => Data.Get("isAdministrativeLogin", false);
         set => Data["isAdministrativeLogin"] = value;
-    }
-
-    public LearningSession LearningSession
-    {
-        get => Data.Get<LearningSession>("learningSession");
-        set => Data["learningSession"] = value;
     }
 
     public User User

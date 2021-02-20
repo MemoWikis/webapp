@@ -8,7 +8,7 @@ public class LearningSessionResultController : BaseController
     [SetThemeMenu(isLearningSessionPage: true)]
     public ActionResult LearningSessionResult(int learningSessionId, string learningSessionName)
     {
-        var learningSession = Sl.SessionUser.LearningSession;
+        var learningSession = LearningSessionCache.GetLearningSession();
 
         if (learningSession.User != _sessionUser.User)
             throw new Exception("not logged in or not possessing user");
