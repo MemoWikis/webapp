@@ -89,7 +89,7 @@ public class EditCategoryController : BaseController
         }
         StoreImage(id);
         if(isChangeParents)
-            UserEntityCache.ChangeAllActiveCategoryCaches();
+            UserEntityCache.ReInitAllActiveCategoryCaches();
         else
             UserEntityCache.ChangeCategoryInUserEntityCaches(category);
 
@@ -241,7 +241,7 @@ public class EditCategoryController : BaseController
             ModifyRelationsForCategory.UpdateCategoryRelationsOfType(childCategory, updatedParentList, CategoryRelationType.IsChildCategoryOf);
             Sl.CategoryRepo.Update(childCategory, _sessionUser.User);
         }
-        UserEntityCache.ChangeAllActiveCategoryCaches();
+        UserEntityCache.ReInitAllActiveCategoryCaches();
 
         return Json(new
         {
@@ -261,7 +261,7 @@ public class EditCategoryController : BaseController
 
         var updatedParentList = childCategory.ParentCategories().Where(c => c.Id != parentCategoryIdToRemove).ToList();
         ModifyRelationsForCategory.UpdateCategoryRelationsOfType(childCategory, updatedParentList, CategoryRelationType.IsChildCategoryOf);
-        UserEntityCache.ChangeAllActiveCategoryCaches();
+        UserEntityCache.ReInitAllActiveCategoryCaches();
 
         Sl.CategoryRepo.Update(childCategory, _sessionUser.User);
         

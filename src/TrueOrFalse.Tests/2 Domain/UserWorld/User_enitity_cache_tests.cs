@@ -118,7 +118,7 @@ class User_entity_cache_tests : BaseTest
 
         var cate = EntityCache.GetAllCategories().First();
         cate.Name = "Daniel";
-        UserEntityCache.ChangeAllActiveCategoryCaches();
+        UserEntityCache.ReInitAllActiveCategoryCaches();
 
 
         Assert.That(UserEntityCache.GetCategories(2).First().Value.Name, Is.EqualTo("Daniel"));
