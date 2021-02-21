@@ -104,14 +104,24 @@ public class UserCache
         }
     }
 
-    public static void Remove(User user)
+    public static void Remove(User user) => Remove(user.Id );
+
+    public static void Remove(int userId)
     {
-        var cacheKey = GetCacheKey(user.Id);
+        var cacheKey = GetCacheKey(userId);
         var cacheItem = Cache.Get<UserCacheItem>(cacheKey);
 
         if (cacheItem != null)
         {
             Cache.Remove(cacheKey);
         }
+    }
+
+    public static void Clear()
+    {
+        var allUserIds = Sl.UserRepo.GetAllIds();
+
+        foreach (var userId in allUserIds)
+            Remove(userId);
     }
 }

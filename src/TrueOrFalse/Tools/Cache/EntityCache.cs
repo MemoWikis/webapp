@@ -275,4 +275,10 @@ public class EntityCache : BaseCache
         return allCategories.Where(c => c.Name == name).ToList();
     }
 
+    public static void Clear()
+    {
+        Questions.Clear();
+        Categories.Clear();
+        CategoryQuestionsList.Clear();
+    }
 }

@@ -4,10 +4,9 @@ using System.Linq;
 using System.Web.Mvc;
 using NHibernate.Util;
 using TrueOrFalse;
-using TrueOrFalse.Frontend.Web.Code;
-using TrueOrFalse.Infrastructure;
 using TrueOrFalse.Search;
 using TrueOrFalse.Tools;
+using TrueOrFalse.Tools.Cache;
 using TrueOrFalse.Utilities.ScheduledJobs;
 using TrueOrFalse.Web;
 using static System.String;
@@ -32,7 +31,6 @@ public class MaintenanceController : BaseController
     [SetMainMenu(MainMenuEntry.Maintenance)]
     public ActionResult CMS()
     {
-        var settings = Sl.R<DbSettingsRepo>().Get();
         return View(new CMSModel().Init());
     }
 
@@ -326,7 +324,6 @@ public class MaintenanceController : BaseController
         return View("Maintenance", new MaintenanceModel { Message = new SuccessMessage("Aggregate erstellt") });
     }
 
-
     [HttpPost]
     public ActionResult MigrateDefaultTemplates()
     {
@@ -378,11 +375,9 @@ public class MaintenanceController : BaseController
             new MaintenanceModel { Message = new SuccessMessage("Die Category Description wurden migriert") });
     }
 
-
     [HttpPost]
     public ActionResult UserDelete(ToolsModel toolsModel)
     {
-        var searchTerm = toolsModel.UserId;
         Sl.UserRepo.DeleteFromAllTables(toolsModel.UserId);
 
         return View("Tools",
@@ -403,5 +398,12 @@ public class MaintenanceController : BaseController
         return View("Tools",
             new ToolsModel { Message = new ErrorMessage("Sie sind nicht berechtigt die Liste neu zu laden.") });
     }
-}
 
+    public ActionResult ClearCache()
+    {
+        CacheClearer.Run();
+
+        return View("Maintenance",
+            new MaintenanceModel { Message = new SuccessMessage("Der Cache wurde geleert.") });
+    }
+}

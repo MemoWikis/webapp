@@ -44,6 +44,14 @@
                 Aggregierte Zahlen aktualisieren
             </a>
         </div>
+        
+        <div class="col-md-6 MaintenanceSection">
+            <h4>Cache</h4>
+            <a href="<%= Url.Action("ClearCache", "Maintenance") %>" data-url="toSecurePost">
+                <i class="fa fa-retweet"></i>
+                Cache leeren
+            </a><br/>
+        </div>
     </div>
 
     <div class="row">
@@ -59,20 +67,6 @@
             </a>
         </div>
         <div class="col-md-6 MaintenanceSection">
-            <h4>Nutzer</h4>
-            <a href="<%= Url.Action("UpdateUserReputationAndRankings", "Maintenance") %>" data-url="toSecurePost">
-                <i class="fa fa-retweet"></i>
-                Rankings und Reputation + Aggregates
-            </a><br />
-            <a href="<%= Url.Action("UpdateUserWishCount", "Maintenance") %>" data-url="toSecurePost">
-                <i class="fa fa-retweet"></i>
-                Aggregates
-            </a>
-        </div>        
-    </div>
-
-    <div class="row">
-        <div class="col-md-6 MaintenanceSection">
             <h4>Suche</h4>
             Alle für Suche neu indizieren: <br/>
             <a href="<%= Url.Action("ReIndexAllQuestions", "Maintenance") %>" data-url="toSecurePost">
@@ -86,7 +80,19 @@
             </a>
         </div>
     </div>
+
     <div class="row">
+        <div class="col-md-6 MaintenanceSection">
+            <h4>Nutzer</h4>
+            <a href="<%= Url.Action("UpdateUserReputationAndRankings", "Maintenance") %>" data-url="toSecurePost">
+                <i class="fa fa-retweet"></i>
+                Rankings und Reputation + Aggregates
+            </a><br />
+            <a href="<%= Url.Action("UpdateUserWishCount", "Maintenance") %>" data-url="toSecurePost">
+                <i class="fa fa-retweet"></i>
+                Aggregates
+            </a>
+        </div>
         <div class="col-md-6 MaintenanceSection">
             <h4>Sonstige</h4>
             <a href="<%= Url.Action("CheckForDuplicateInteractionNumbers", "Maintenance") %>" data-url="toSecurePost" style="">
@@ -98,10 +104,7 @@
             <a href="<%= Url.Action("MigrateDescriptionToTemplates", "Maintenance") %>" data-url="toSecurePost" style="display: none;">
                 <i class="fa fa-retweet"></i> Themenbeschreibung migrieren
             </a>
-
-        </div>        
-        
+        </div>
     </div>
-
     <br/><br/>
 </asp:Content>
