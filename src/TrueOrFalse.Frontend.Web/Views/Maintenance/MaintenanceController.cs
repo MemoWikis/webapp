@@ -402,6 +402,7 @@ public class MaintenanceController : BaseController
     public ActionResult ClearCache()
     {
         CacheClearer.Run();
+        Session.Abandon();
 
         return View("Maintenance",
             new MaintenanceModel { Message = new SuccessMessage("Der Cache wurde geleert.") });
