@@ -24,7 +24,8 @@ var segmentationComponent = Vue.component('segmentation-component', {
             hover: false,
             showHover: false,
             addCategoryId: "AddToCurrentCategoryCard",
-            dropdownId: "MainSegment-Dropdown"
+            dropdownId: "MainSegment-Dropdown",
+            controlWishknowledge: false,
         };
     },
 

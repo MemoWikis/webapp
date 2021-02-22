@@ -3,7 +3,7 @@
 
  <% if(Model.GetTotalTopicCount(Model.Category) > 0 || Model.GetTotalQuestionCount(Model.Category) > 0 || Model.IsInstallationAdmin ||Model.Category.Creator.Id == Model.UserId) { %>
 
-    <category-card-component @select-category="selectCategory" @unselect-category="unselectCategory" inline-template :edit-mode="editMode" ref="card<%= Model.Category.Id %>" :is-custom-segment="isCustomSegment" category-id="<%= Model.Category.Id %>" :selected-categories="selectedCategories" :segment-id="id" hide="false">
+    <category-card-component @select-category="selectCategory" @unselect-category="unselectCategory" inline-template :edit-mode="editMode" ref="card<%= Model.Category.Id %>" :is-custom-segment="isCustomSegment" category-id="<%= Model.Category.Id %>" :selected-categories="selectedCategories" :segment-id="id" hide="false" :control-wishknowledge="controlWishknowledge">
         
         <div class="col-xs-6 topic segmentCategoryCard" v-if="visible" @mouseover="hover = true" @mouseleave="hover = false" :class="{ hover : showHover }">
             <div class="row">
@@ -37,16 +37,16 @@
                             </ul>
                         </div>
                     </a>
-<%--                    <pin-wuwi-component :category-id="categoryId" />--%>
+                    <pin-category-component :category-id="categoryId" :control-wishknowledge="controlWishknowledge"/>
 
                     <div class="set-question-count">
-                        <span>
+<%--                        <span>
                             <span class="Button Pin" data-category-id="<%= Model.Category.Id %>">
                                 <a href="#" class="noTextdecoration" style="font-size: 18px; height: 10px;padding-right:4px">
                                     <%= Html.Partial("AddToWishknowledge", new AddToWishknowledge(Model.Category.IsInWishknowledge(), displayAdd:false)) %>
                                 </a>
                             </span>
-                        </span>
+                        </span>--%>
                         
                         <% if (Model.GetTotalTopicCount(Model.Category) == 1)
                            { %>1 Unterthema <% } %>

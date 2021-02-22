@@ -31,7 +31,7 @@ var FAB = Vue.component('floating-action-button',
                 expand: false,
                 contentHasChanged: false,
                 disableSave: true,
-                showLoginReminder: false,
+                showLoginReminder: true,
             }
         },
         watch: {
@@ -66,15 +66,15 @@ var FAB = Vue.component('floating-action-button',
             eventBus.$on('tab-change', () => this.cancelEditMode());
             if (IsLoggedIn.Yes) {
                 this.disableSave = false;
-                this.showLoginReminder = true;
+                this.showLoginReminder = false;
             }
         },
         mounted() {
             this.footerCheck();
-            if ($('#ContentModuleApp').attr('openEditMode') == 'True') {
-                this.showBar = true;
-                this.editMode = true;
-            }
+            //if ($('#ContentModuleApp').attr('openEditMode') == 'True') {
+            //    this.showBar = true;
+            //    this.editMode = true;
+            //}
             if (this.isTopicTab == "True") {
                 eventBus.$on('content-is-ready',
                     () => {

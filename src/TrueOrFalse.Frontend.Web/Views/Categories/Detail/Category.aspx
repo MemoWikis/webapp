@@ -22,6 +22,9 @@
     <%= Scripts.Render("~/bundles/js/AnswerQuestion") %> 
     <%= Scripts.Render("~/bundles/js/CategorySort") %>
     <%= Scripts.Render("~/Scripts/npm/tiptap-build/tiptap-build.js") %>
+    <script type="text/x-template" id="pin-category-template">
+        <%: Html.Partial("~/Views/Shared/PinComponentVue/PinCategoryComponent.vue.ascx") %>
+    </script>
     <script>hljsBuild.core.initHighlightingOnLoad;</script>
 
     <script type="text/javascript" src="https://www.google.com/jsapi"></script>

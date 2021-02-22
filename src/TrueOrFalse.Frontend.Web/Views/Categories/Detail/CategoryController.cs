@@ -5,6 +5,7 @@ using System.Globalization;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using FluentNHibernate.Data;
 using TrueOrFalse.Frontend.Web.Code;
 
 
@@ -386,6 +387,30 @@ public class CategoryController : BaseController
 
         UserCache.IsFiltered = false; 
         return true;
+    }
+
+    [HttpPost]
+    public bool GetWishknowledge(int categoryId)
+    {
+        var user = User_();
+        var userValuation = UserCache.GetItem(user.Id).CategoryValuations;
+        var isInWishknowledge = false;
+        if (userValuation.ContainsKey(categoryId) && user != null) { }
+            isInWishknowledge = userValuation[categoryId].IsInWishKnowledge();
+
+        return isInWishknowledge;
+    }
+    
+    [HttpPost]
+    public bool AddToWishknowledge(int categoryId)
+    {
+        var user = User_();
+        var userValuation = UserCache.GetItem(user.Id).CategoryValuations;
+        var isInWishknowledge = false;
+        if (userValuation.ContainsKey(categoryId) && user != null) { }
+        isInWishknowledge = userValuation[categoryId].IsInWishKnowledge();
+
+        return isInWishknowledge;
     }
 }
 public class LoadModelResult

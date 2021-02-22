@@ -73,8 +73,9 @@ new Vue({
             (state) => {
                 this.editMode = state;
                 if (this.changedContent && !this.editMode) {
-                    Utils.ShowSpinner();
-                    location.reload();
+                    //Utils.ShowSpinner();
+                    //location.reload();
+                    eventBus.$emit('cancel-edit-mode');
                 }
             });
         eventBus.$on('update-content-module',
@@ -134,8 +135,6 @@ new Vue({
         this.changedContent = false;
         if ((this.$el.clientHeight + 450) < window.innerHeight)
             this.footerIsVisible = true;
-        //if (this.$el.attributes.openEditMode.value == 'True')
-            //this.setEditMode();
         eventBus.$emit('content-is-ready');
         eventBus.$on('remove-segment',
             (categoryId) => {
@@ -143,6 +142,7 @@ new Vue({
                 this.segments.splice(index, 1);
             });
         eventBus.$on('save-segments', () => this.saveSegments());
+        this.sortModules();
     },
 
     updated() {
@@ -186,8 +186,9 @@ new Vue({
 
             this.editMode = false;
             eventBus.$emit('set-edit-mode', this.editMode);
-            if (this.changedContent)
-                location.reload();
+            eventBus.$emit('cancel-edit-mode');
+            //if (this.changedContent)
+            //    location.reload();
         },
 
         setEditMode() {

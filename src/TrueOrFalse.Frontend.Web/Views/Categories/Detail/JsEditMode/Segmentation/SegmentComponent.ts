@@ -1,4 +1,83 @@
-﻿var categoryCardComponent = Vue.component('category-card-component', {
+﻿var pinComponent = Vue.component('pin-category-component', {
+    template: '#pin-category-template',
+
+    props: {
+        categoryId: [Number, String],
+        controlWishknowledge: Boolean
+    },
+    data() {
+        return {
+            isInwishknowledge: false,
+            isLoading: false,
+            stateLoad: 'loading',
+        }
+    },
+    watch: {
+        controlWishknowledge(val) {
+            if (val)
+                this.loadWishknowldge();
+        }
+    },
+    mounted() {
+        this.loadWishknowledge();
+    },
+    methods: {
+        loadWishknowledge() {
+            var self = this;
+            self.stateLoad = 'loading';
+            var data = {
+                categoryId: self.categoryId,
+            };
+            $.ajax({
+                type: 'Post',
+                contentType: "application/json",
+                url: '/Category/GetWishknowledge',
+                data: JSON.stringify(data),
+                success: function (result) {
+                    self.isInWishknowledge = result;
+                    if (self.isInWishknowledge)
+                        self.stateLoad = 'added';
+                    else
+                        self.stateLoad = 'notAdded'
+                },
+            });
+        },
+        addToWishknowledge() {
+            var self = this;
+            self.stateLoad = 'loading';
+            var data = {
+                categoryId: self.categoryId,
+            };
+            $.ajax({
+                type: 'Post',
+                contentType: "application/json",
+                url: 'Api/Category/Pin',
+                data: JSON.stringify(data),
+                success: function (result) {
+                    self.isInWishknowledge = result;
+                },
+            });
+        },
+        removeFromWishknowledge() {
+            var self = this;
+            self.stateLoad = 'loading';
+            var data = {
+                categoryId: self.categoryId,
+            };
+            $.ajax({
+                type: 'Post',
+                contentType: "application/json",
+                url: 'Api/Category/UnPin',
+                data: JSON.stringify(data),
+                success: function (result) {
+                    self.isInWishknowledge = result;
+                },
+            });
+        }
+    }
+});
+
+var categoryCardComponent = Vue.component('category-card-component', {
     props: {
         categoryId: [String, Number],
         editMode: Boolean,
@@ -6,6 +85,7 @@
         selectedCategories: Array,
         segmentId: String,
         hide: String,
+        controlWishknowledge: Boolean,
     },
 
     data() {
@@ -28,7 +108,7 @@
                 this.showHover = true;
             else
                 this.showHover = false;
-        }
+        },
     },
     mounted() {
         this.dropdownId = this.segmentId + '-Dropdown' + this.id ;
@@ -93,6 +173,7 @@ var segmentComponent = Vue.component('segment-component', {
             showHover: false,
             addCategoryId: "",
             dropdownId: null,
+            controlWishknowledge: false,
         };
     },
 

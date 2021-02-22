@@ -2529,6 +2529,7 @@
     <Content Include="Views\Shared\MyWorldToggle\MyWorldToggleLoader.js">
       <DependentUpon>MyWorldToggleLoader.ts</DependentUpon>
     </Content>
+    <Content Include="Views\Shared\PinComponentVue\PinCategoryComponent.vue.ascx" />
     <Content Include="Views\Shared\PinComponentVue\PinComponent.vue.ascx" />
     <Content Include="Views\Shared\Modals\ForTheTimeToDeleteModal.ascx" />
     <Compile Include="Views\Shared\Cards\UserCardBaseModel.cs" />
