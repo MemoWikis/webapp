@@ -105,27 +105,24 @@ public class Category : DomainEntity, ICreator, ICloneable
 
     public virtual IList<Question> GetAggregatedQuestionsFromMemoryCache(bool onlyVisible = true, bool fullList = true, int categoryId = 0)
     {
-        var questionRepo = Sl.QuestionRepo;
-        IList<Question> questions = new List<Question>();
+        IEnumerable<Question> questions;
 
         if (fullList)
         {
             questions = AggregatedCategories()
                 .SelectMany(c => EntityCache.GetQuestionsForCategory(c.Id))
-                .Distinct()
-                .ToList();
+                .Distinct();
         }
         else
         {
             questions = EntityCache.GetQuestionsForCategory(categoryId)
-                .Distinct()
-                .ToList();
+                .Distinct();
         }
 
 
         if (onlyVisible)
         {
-            questions = questions.Where(q => q.IsVisibleToCurrentUser()).ToList();
+            questions = questions.Where(q => q.IsVisibleToCurrentUser());
         }
 
         return questions.ToList();

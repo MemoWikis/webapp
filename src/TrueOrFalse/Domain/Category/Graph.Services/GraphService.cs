@@ -160,13 +160,9 @@ public class GraphService
     public static void AutomaticInclusionOfChildThemes(Category category)
     {
         var parentsFromParentCategories = GetAllParents(category);
-        if (parentsFromParentCategories.Count != 0)
-        {
-            foreach (var parentCategory in parentsFromParentCategories)
-            {
-                ModifyRelationsForCategory.UpdateRelationsOfTypeIncludesContentOf(EntityCache.GetCategory(parentCategory.Id));
-            }
-        }
+
+        foreach (var parentCategory in parentsFromParentCategories)
+            ModifyRelationsForCategory.UpdateRelationsOfTypeIncludesContentOf(EntityCache.GetCategory(parentCategory.Id));
     }
 
     public static bool IsCategoryParentEqual(IList<Category> parent1 , IList<Category> parent2)
