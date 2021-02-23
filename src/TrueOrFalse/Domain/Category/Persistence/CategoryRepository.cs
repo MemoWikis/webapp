@@ -221,7 +221,7 @@ public class CategoryRepository : RepositoryDbBase<Category>
 
     public IList<Category> GetDescendants(int parentId)
     {
-        var currentGeneration = GetChildren(parentId).ToList();
+        var currentGeneration =EntityCache.GetCategory(parentId,getDataFromEntityCache:true).CachedData.Children.ToList();
         var nextGeneration = new List<Category>();
         var descendants = new List<Category>();
 
@@ -231,7 +231,11 @@ public class CategoryRepository : RepositoryDbBase<Category>
 
             foreach (var category in currentGeneration)
             {
-                var children = GetChildren(category.Id).ToList();
+                var children = EntityCache.GetCategory(category.Id, getDataFromEntityCache: true)
+                    .CachedData
+                    .Children
+                    .ToList();
+
                 if (children.Count > 0)
                 {
                     nextGeneration.AddRange(children);
