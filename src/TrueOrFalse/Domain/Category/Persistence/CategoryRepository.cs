@@ -260,34 +260,6 @@ public class CategoryRepository : RepositoryDbBase<Category>
             .ToList();
     }
 
-    public int CountAggregatedSets(int categoryId)
-    {
-        var count =
-           _session.CreateSQLQuery($@"
-
-            SELECT COUNT(DISTINCT(setId)) FROM
-            (
-
-                SELECT DISTINCT(cs.Set_id) setId
-                FROM categories_to_sets cs
-                WHERE cs.Category_id = {categoryId}
-
-                UNION
-
-                SELECT DISTINCT(cs.Set_id) setId
-                FROM relatedcategoriestorelatedcategories rc
-                INNER JOIN category c
-                ON rc.Related_Id = c.Id
-                INNER JOIN categories_to_sets cs
-                ON c.Id = cs.Category_id
-                WHERE rc.Category_id = {categoryId}
-                AND rc.CategoryRelationType = {(int)CategoryRelationType.IncludesContentOf}
-            ) c
-        ").UniqueResult<long>();
-
-        return (int)count;
-    }
-
     public int CountAggregatedQuestions(int categoryId)
     {
         var count = _session.CreateSQLQuery($@"
