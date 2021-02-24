@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 public class ModifyRelationsForCategory
@@ -22,13 +23,13 @@ public class ModifyRelationsForCategory
             .Except(existingRelationsOfType.Select(r => r.RelatedCategory))
             .Select(c => new CategoryRelation{Category = category, RelatedCategory = c, CategoryRelationType = relationType});
 
-        var relationsToRemove =  existingRelationsOfType.ToConcurrentDictionary();
+        var relationsToRemove =  existingRelationsOfType.ToConcurrentDictionaryForRelationsForChildren();
 
         foreach (var categoryRelation in relatedCategories)
             if (relationsToRemove.ContainsKey(categoryRelation.Id))
             {
                 CategoryRelation cr; 
-                relationsToRemove.TryRemove(categoryRelation.Id, out cr);
+                relationsToRemove.TryRemove(categoryRelation.Id,out cr);
             }
         
         foreach (var relation in relationsToAdd)

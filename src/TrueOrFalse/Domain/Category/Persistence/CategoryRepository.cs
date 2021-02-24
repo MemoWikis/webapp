@@ -221,7 +221,7 @@ public class CategoryRepository : RepositoryDbBase<Category>
 
     public IList<Category> GetDescendants(int parentId)
     {
-        var currentGeneration =EntityCache.GetCategory(parentId,getDataFromEntityCache:true).CachedData.Children.ToList();
+        var currentGeneration = EntityCache.GetCategory(parentId,getDataFromEntityCache: true).CachedData.Children.ToList();
         var nextGeneration = new List<Category>();
         var descendants = new List<Category>();
 

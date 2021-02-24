@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using NUnit.Framework;
 using SolrNet.Commands.Cores;
 using TrueOrFalse.Tests;
@@ -23,7 +24,7 @@ class Automatic_inclusion_tests : BaseTest
                 .Persist()
                 .All;
 
-            context.Add(subCategories[0].Name, subCategories[0].Type, parent: subCategories.ByName("Sub3"));
+            context.Add(subCategories.ByName("Sub1").Name, subCategories[0].Type, parent: subCategories.ByName("Sub3"));
             EntityCache.Init();
             GraphService.AutomaticInclusionOfChildThemes(subCategories.ByName("Sub1"));
 
