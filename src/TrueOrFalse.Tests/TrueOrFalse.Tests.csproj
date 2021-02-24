@@ -208,6 +208,7 @@
     <Compile Include="2 Domain\Category\Crumbtrail_test.cs" />
     <Compile Include="2 Domain\Category\EntityCache_tests.cs" />
     <Compile Include="2 Domain\Category\GraphService_tests.cs" />
+    <Compile Include="2 Domain\Category\ModifyRelationsForCategory_tests.cs" />
     <Compile Include="2 Domain\Question\LearnSession\Count_answer_as_correct.cs" />
     <Compile Include="2 Domain\Question\LearnSession\Create_learning_session.cs" />
     <Compile Include="2 Domain\Question\Setup\ContextLearningSession.cs" />
