@@ -23,20 +23,19 @@ public class ModifyRelationsForCategory
             .Except(existingRelationsOfType.Select(r => r.RelatedCategory))
             .Select(c => new CategoryRelation{Category = category, RelatedCategory = c, CategoryRelationType = relationType});
 
-        var relationsToRemove =  existingRelationsOfType.ToDictionary(r => r.RelatedCategory.Id);
-
-        foreach (var categoryRelation in relatedCategories)
-            if (relationsToRemove.ContainsKey(categoryRelation.Id))
+        var relationsToRemove = new List<CategoryRelation>(); 
+        var relatedCategoriesDictionary =  relatedCategories.ToDictionary(r => r.Id);
+        foreach (var categoryRelation in existingRelationsOfType)
+            if (!relatedCategoriesDictionary.ContainsKey(categoryRelation.RelatedCategory.Id))
             {
-                CategoryRelation cr; 
-                relationsToRemove.Remove(categoryRelation.Id);
+                relationsToRemove.Add(categoryRelation);
             }
         
         foreach (var relation in relationsToAdd)
             category.CategoryRelations.Add(relation);
 
         foreach (var relation in relationsToRemove)
-            category.CategoryRelations.Remove(relation.Value);
+            category.CategoryRelations.Remove(relation);
     }
 
     public static void AddCategoryRelationOfType(Category category, Category relatedCategory, CategoryRelationType relationType)
