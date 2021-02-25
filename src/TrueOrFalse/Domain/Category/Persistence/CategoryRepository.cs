@@ -74,8 +74,9 @@ public class CategoryRepository : RepositoryDbBase<Category>
     public override void Update(Category category) => Update(category);
 
     // ReSharper disable once MethodOverloadWithOptionalParameter
-    public void Update(Category category, User author = null, bool imageWasUpdated = false)
+    public void Update(Category category, User author = null, bool imageWasUpdated = false, bool isFromModifiyRelations = false)
     {
+        if(!isFromModifiyRelations)
         _searchIndexCategory.Update(category);
 
         base.Update(category);

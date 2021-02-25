@@ -1,7 +1,5 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using NUnit.Framework;
-using SolrNet.Commands.Cores;
 using TrueOrFalse.Tests;
 
 

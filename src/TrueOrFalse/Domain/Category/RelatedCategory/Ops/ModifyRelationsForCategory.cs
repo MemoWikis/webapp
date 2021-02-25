@@ -23,13 +23,13 @@ public class ModifyRelationsForCategory
             .Except(existingRelationsOfType.Select(r => r.RelatedCategory))
             .Select(c => new CategoryRelation{Category = category, RelatedCategory = c, CategoryRelationType = relationType});
 
-        var relationsToRemove =  existingRelationsOfType.ToConcurrentDictionaryForRelationsForChildren();
+        var relationsToRemove =  existingRelationsOfType.ToDictionary(r => r.RelatedCategory.Id);
 
         foreach (var categoryRelation in relatedCategories)
             if (relationsToRemove.ContainsKey(categoryRelation.Id))
             {
                 CategoryRelation cr; 
-                relationsToRemove.TryRemove(categoryRelation.Id,out cr);
+                relationsToRemove.Remove(categoryRelation.Id);
             }
         
         foreach (var relation in relationsToAdd)
@@ -67,7 +67,7 @@ public class ModifyRelationsForCategory
             return;
 
         category.UpdateCountQuestionsAggregated();
-        Sl.CategoryRepo.Update(category);
+        Sl.CategoryRepo.Update(category, isFromModifiyRelations: true);
 
         KnowledgeSummaryUpdate.RunForCategory(category.Id);
     }
