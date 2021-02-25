@@ -395,7 +395,7 @@ public class CategoryController : BaseController
         var user = User_();
         var userValuation = UserCache.GetItem(user.Id).CategoryValuations;
         var isInWishknowledge = false;
-        if (userValuation.ContainsKey(categoryId) && user != null) { }
+        if (userValuation.ContainsKey(categoryId) && user != null)
             isInWishknowledge = userValuation[categoryId].IsInWishKnowledge();
 
         return isInWishknowledge;

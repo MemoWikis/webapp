@@ -37,20 +37,21 @@
                             </ul>
                         </div>
                     </a>
-                    <pin-category-component :category-id="categoryId" :control-wishknowledge="controlWishknowledge"/>
 
                     <div class="set-question-count">
-<%--                        <span>
+<%--                        <pin-category-component :category-id="categoryId" :control-wishknowledge="controlWishknowledge"/>--%>
+
+                     <span>
                             <span class="Button Pin" data-category-id="<%= Model.Category.Id %>">
                                 <a href="#" class="noTextdecoration" style="font-size: 18px; height: 10px;padding-right:4px">
                                     <%= Html.Partial("AddToWishknowledge", new AddToWishknowledge(Model.Category.IsInWishknowledge(), displayAdd:false)) %>
                                 </a>
                             </span>
-                        </span>--%>
+                        </span>
                         
                         <% if (Model.GetTotalTopicCount(Model.Category) == 1)
                            { %>1 Unterthema <% } %>
-                        <% if(Model.GetTotalTopicCount(Model.Category) > 1 && Model.GetTotalTopicCount(Model.Category) > 0)
+                        <% if(Model.GetTotalTopicCount(Model.Category) > 1)
                            { %><%= Model.GetTotalTopicCount(Model.Category)  %> Unterthemen <% } 
                            else { %><% } %><%=Model.GetTotalQuestionCount(Model.Category) %> Frage<% if(Model.GetTotalQuestionCount(Model.Category) != 1){ %>n<% } %>
                     </div>

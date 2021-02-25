@@ -3,26 +3,23 @@
 
     props: {
         categoryId: [Number, String],
-        controlWishknowledge: Boolean
     },
     data() {
         return {
-            isInwishknowledge: false,
+            isInWishknowledge: false,
             isLoading: false,
-            stateLoad: 'loading',
+            stateLoad: 'notAdded',
         }
     },
     watch: {
-        controlWishknowledge(val) {
-            if (val)
-                this.loadWishknowldge();
-        }
     },
     mounted() {
         this.loadWishknowledge();
     },
     methods: {
         loadWishknowledge() {
+            if (NotLoggedIn.Yes())
+                return;
             var self = this;
             self.stateLoad = 'loading';
             var data = {
@@ -34,15 +31,22 @@
                 url: '/Category/GetWishknowledge',
                 data: JSON.stringify(data),
                 success: function (result) {
-                    self.isInWishknowledge = result;
+                    if (result == 'True')
+                        self.isInWishknowledge = true;
+                    else
+                        self.isInWishknowledge = false;
                     if (self.isInWishknowledge)
                         self.stateLoad = 'added';
                     else
-                        self.stateLoad = 'notAdded'
+                        self.stateLoad = 'notAdded';
                 },
             });
         },
         addToWishknowledge() {
+            if (NotLoggedIn.Yes()) {
+                NotLoggedIn.ShowErrorMsg("PinCategory");
+                return;
+            }
             var self = this;
             self.stateLoad = 'loading';
             var data = {
@@ -51,10 +55,17 @@
             $.ajax({
                 type: 'Post',
                 contentType: "application/json",
-                url: 'Api/Category/Pin',
+                url: '/Api/Category/Pin',
                 data: JSON.stringify(data),
                 success: function (result) {
-                    self.isInWishknowledge = result;
+                    if (result == 'True')
+                        self.isInWishknowledge = true;
+                    else
+                        self.isInWishknowledge = false;
+                    if (self.isInWishknowledge)
+                        self.stateLoad = 'added';
+                    else
+                        self.stateLoad = 'notAdded';
                 },
             });
         },
@@ -67,13 +78,20 @@
             $.ajax({
                 type: 'Post',
                 contentType: "application/json",
-                url: 'Api/Category/UnPin',
+                url: '/Api/Category/UnPin',
                 data: JSON.stringify(data),
                 success: function (result) {
-                    self.isInWishknowledge = result;
+                    if (result == 'False')
+                        self.isInWishknowledge = true;
+                    else
+                        self.isInWishknowledge = false;
+                    if (self.isInWishknowledge)
+                        self.stateLoad = 'added';
+                    else
+                        self.stateLoad = 'notAdded';
                 },
             });
-        }
+        },
     }
 });
 
@@ -85,7 +103,6 @@ var categoryCardComponent = Vue.component('category-card-component', {
         selectedCategories: Array,
         segmentId: String,
         hide: String,
-        controlWishknowledge: Boolean,
     },
 
     data() {
@@ -147,7 +164,7 @@ var categoryCardComponent = Vue.component('category-card-component', {
                 },
             });
 
-        }
+        },
     }
 });
 
@@ -174,6 +191,7 @@ var segmentComponent = Vue.component('segment-component', {
             addCategoryId: "",
             dropdownId: null,
             controlWishknowledge: false,
+            timer: null,
         };
     },
 
@@ -256,6 +274,9 @@ var segmentComponent = Vue.component('segment-component', {
                     });
                 },
             });
-        }
+        },
+        updateKnowledgeBar() {
+
+        },
     },
 });

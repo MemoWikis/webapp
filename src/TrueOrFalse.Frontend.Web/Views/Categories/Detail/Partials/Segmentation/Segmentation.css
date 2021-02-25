@@ -95,6 +95,7 @@
 #Segmentation .segmentHeader .segmentTitle a {
   color: #203256;
   transition: 0.2s;
+  padding-right: 10px;
 }
 #Segmentation .segmentHeader .segmentTitle a:hover {
   text-decoration: none;

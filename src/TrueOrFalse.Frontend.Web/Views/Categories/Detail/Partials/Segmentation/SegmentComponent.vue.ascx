@@ -11,11 +11,8 @@
                                 <%= Model.Title %>
                         </h2>
                     </a>
-                    <span class="Button Pin" data-category-id="<%= Model.Category.Id %>">
-                        <a href="#" class="noTextdecoration" style="font-size: 18px; height: 10px;padding-right:4px">
-                            <%= Html.Partial("AddToWishknowledge", new AddToWishknowledge(Model.Category.IsInWishknowledge(), displayAdd:false)) %>
-                        </a>
-                    </span>
+                    <pin-category-component :category-id="categoryId" @update-knowledge-bar="updateKnowledgeBar"/>
+
                 </div>
                 <div v-if="showHover" class="Button dropdown DropdownButton segmentDropdown">
                     <a href="#" :id="dropdownId" class="dropdown-toggle  btn btn-link btn-sm ButtonEllipsis" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
