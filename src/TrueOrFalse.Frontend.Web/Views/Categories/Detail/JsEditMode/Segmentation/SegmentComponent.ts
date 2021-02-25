@@ -47,6 +47,9 @@
                 NotLoggedIn.ShowErrorMsg("PinCategory");
                 return;
             }
+
+            if (this.stateLoad == 'loading')
+                return;
             var self = this;
             self.stateLoad = 'loading';
             var data = {
@@ -74,6 +77,8 @@
         removeFromWishknowledge() {
             var self = this;
             self.stateLoad = 'loading';
+            if (this.stateLoad == 'loading')
+                return;
             var data = {
                 categoryId: self.categoryId,
             };
@@ -91,6 +96,9 @@
                         self.stateLoad = 'added';
                     else
                         self.stateLoad = 'notAdded';
+
+                    $("#JS-RemoveQuestionsCat").attr("data-category-id", self.categoryId);
+                    $("#UnpinCategoryModal").modal('show');
 
                     self.renderNewKnowledgeBar();
                 },

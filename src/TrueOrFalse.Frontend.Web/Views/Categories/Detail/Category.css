@@ -3778,3 +3778,6 @@ p.is-editor-empty:first-child::before {
       -ms-flex-align: center;
           align-items: center;
 }
+.set-question-count .pin-category-component {
+  display: inline-block;
+}
