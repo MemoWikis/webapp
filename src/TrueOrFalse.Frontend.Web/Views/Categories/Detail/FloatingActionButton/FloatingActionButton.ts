@@ -53,8 +53,8 @@ var FAB = Vue.component('floating-action-button',
             },
             contentHasChanged(val) {
                 if (val) {
-                    this.showBar = true;
                     this.editMode = true;
+                    this.editCategoryContent();
                 }
             }
         },
@@ -71,10 +71,6 @@ var FAB = Vue.component('floating-action-button',
         },
         mounted() {
             this.footerCheck();
-            //if ($('#ContentModuleApp').attr('openEditMode') == 'True') {
-            //    this.showBar = true;
-            //    this.editMode = true;
-            //}
             if (this.isTopicTab == "True") {
                 eventBus.$on('content-is-ready',
                     () => {
@@ -105,21 +101,13 @@ var FAB = Vue.component('floating-action-button',
                 this.isOpen = !this.isOpen;
                 if (this.editMode)
                     this.editCategoryContent();
-
             },
             editCategoryContent() {
-                //if (NotLoggedIn.Yes()) {
-                //    NotLoggedIn.ShowErrorMsg("EditCategory");
-                //    return;
-                //}
                 this.showFABTimer = setTimeout(() => {
                     this.showFAB = false;
                 }, 300);
                 this.showBar = true;
-                this.editMode = !this.editMode;
-                eventBus.$emit('set-edit-mode', this.editMode);
                 this.isOpen = false;
-
             },
             createCategory() {
                 if (NotLoggedIn.Yes()) {
@@ -210,8 +198,10 @@ var FAB = Vue.component('floating-action-button',
                 clearTimeout(this.showFABTimer);
                 this.showFAB = true;
                 this.showMiniFAB = false;
+
                 this.editMode = false;
-                eventBus.$emit('set-edit-mode', this.editMode);
+                this.contentHasChanged = false;
+                eventBus.$emit('cancel-edit-mode');
             },
         }
     });

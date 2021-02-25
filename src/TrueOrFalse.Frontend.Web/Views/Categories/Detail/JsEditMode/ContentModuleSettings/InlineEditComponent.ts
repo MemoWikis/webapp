@@ -226,10 +226,6 @@ Vue.component('text-component',
             this.setContent(this.content);
         },
         mounted() {
-            eventBus.$on("set-edit-mode",
-                (state) => {
-                    this.editMode = state;
-                });
             eventBus.$on('cancel-edit-mode',
                 () => {
                     this.editor.destroy();

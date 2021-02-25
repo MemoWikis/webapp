@@ -60,24 +60,24 @@
             $('#AddCategoryModal').modal('hide');
         },
 
-        validateName() {
-            var self = this;
-            $.ajax({
-                type: 'Post',
-                contentType: "application/json",
-                url: '/EditCategory/ValidateName',
-                data: JSON.stringify({ name: self.name }),
-                success: function (data) {
-                    if (data.categoryNameAllowed) {
-                    } else {
-                        self.errorMsg = data.errorMsg;
-                        self.existingCategoryName = data.name;
-                        self.existingCategoryUrl = data.url;
-                        self.showErrorMsg = true;
-                    };
-                },
-            });
-        },
+        //validateName() {
+        //    var self = this;
+        //    $.ajax({
+        //        type: 'Post',
+        //        contentType: "application/json",
+        //        url: '/EditCategory/ValidateName',
+        //        data: JSON.stringify({ name: self.name }),
+        //        success: function (data) {
+        //            if (data.categoryNameAllowed) {
+        //            } else {
+        //                self.errorMsg = data.errorMsg;
+        //                self.existingCategoryName = data.name;
+        //                self.existingCategoryUrl = data.url;
+        //                self.showErrorMsg = true;
+        //            };
+        //        },
+        //    });
+        //},
         addCategory() {
             var self = this;
             var url;

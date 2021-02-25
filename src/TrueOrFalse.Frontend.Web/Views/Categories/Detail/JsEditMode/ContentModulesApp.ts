@@ -88,7 +88,7 @@ new Vue({
                         el: inserted.get(0)
                     });
                     eventBus.$emit('close-content-module-settings-modal', event.preview);
-                    eventBus.$emit('set-edit-mode', this.editMode);
+                    eventBus.$emit('set-edit-mode', true);
                 };
             });
         eventBus.$on('new-content-module',
@@ -101,7 +101,7 @@ new Vue({
                     var instance = new contentModuleComponent({
                         el: inserted.get(0)
                     });
-                    eventBus.$emit('set-edit-mode', this.editMode);
+                    eventBus.$emit('set-edit-mode', true);
                     eventBus.$emit('set-new-content-module', this.editMode);
                     this.updateModuleOrder();
                     this.sortModules();
@@ -185,22 +185,9 @@ new Vue({
                 return;
 
             this.editMode = false;
-            eventBus.$emit('set-edit-mode', this.editMode);
             eventBus.$emit('cancel-edit-mode');
             //if (this.changedContent)
             //    location.reload();
-        },
-
-        setEditMode() {
-            this.modules = [];
-
-            if (NotLoggedIn.Yes()) {
-                NotLoggedIn.ShowErrorMsg("OpenEditMode");
-                return;
-            } else {
-                this.editMode = !this.editMode;
-                eventBus.$emit('set-edit-mode', this.editMode);
-            };
         },
 
         sortModules() {
