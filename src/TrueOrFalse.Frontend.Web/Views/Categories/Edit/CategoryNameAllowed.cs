@@ -39,23 +39,6 @@ public class CategoryNameAllowed
 
     }
 
-    public bool No(Category category, bool fromCache)
-    {
-        return !Yes(category.Name, category.Type, fromCache);
-    }
-
-    private bool Yes(string categoryName, CategoryType type, bool fromCache)
-    {
-        var typesToTest = new[] { CategoryType.Standard, CategoryType.Magazine, CategoryType.Daily };
-        if (typesToTest.All(t => type != t))
-            return true;
-
-        ExistingCategories = EntityCache.GetByName(categoryName);
-
-        return ExistingCategories.All(c => c.Type != type);
-
-    }
-
     public bool ForbiddenWords(string categoryName)
     {
         var categoryNameProcessed = categoryName.Trim().ToLower();

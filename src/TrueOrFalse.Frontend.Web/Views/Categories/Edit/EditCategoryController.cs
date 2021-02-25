@@ -173,7 +173,7 @@ public class EditCategoryController : BaseController
         dummyCategory.Name = name;
         dummyCategory.Type = CategoryType.Standard;
         var categoryNameAllowed = new CategoryNameAllowed();
-        if (categoryNameAllowed.No(dummyCategory, fromCache: true))
+        if (categoryNameAllowed.No(dummyCategory))
         {
 
             return Json(new
