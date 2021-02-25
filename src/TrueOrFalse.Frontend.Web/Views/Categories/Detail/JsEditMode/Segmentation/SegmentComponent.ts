@@ -66,6 +66,8 @@
                         self.stateLoad = 'added';
                     else
                         self.stateLoad = 'notAdded';
+
+                    self.renderNewKnowledgeBar();
                 },
             });
         },
@@ -89,9 +91,23 @@
                         self.stateLoad = 'added';
                     else
                         self.stateLoad = 'notAdded';
+
+                    self.renderNewKnowledgeBar();
                 },
             });
         },
+
+        renderNewKnowledgeBar() {
+            var self = this;
+            $.ajax({
+                url: '/Category/RenderNewKnowledgeSummaryBar?categoryId=' + self.categoryId,
+                type: 'GET',
+                success: data => {
+                    $(".category-knowledge-bar[data-category-id='" + self.categoryId + "']").replaceWith(data);
+                    $('.show-tooltip').tooltip();
+                },
+            });
+        }
     }
 });
 
