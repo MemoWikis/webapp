@@ -45,7 +45,7 @@
 
                         <% if (Model.Category.CachedData.Children.Count == 1)
                            { %>1 Unterthema <% } %>
-                        <% if(Model.Category.CachedData.Children.Count(Model.Category) > 1)
+                        <% if(Model.Category.CachedData.Children.Count > 1)
                            { %><%= Model.Category.CachedData.Children.Count  %> Unterthemen <% } 
                            else { %><% } %><%=Model.GetTotalQuestionCount(Model.Category) %> Frage<% if(Model.GetTotalQuestionCount(Model.Category) != 1){ %>n<% } %>
                     </div>
