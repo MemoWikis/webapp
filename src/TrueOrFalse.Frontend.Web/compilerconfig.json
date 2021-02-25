@@ -236,10 +236,6 @@
     "inputFile": "Style/grid.less"
   },
   {
-    "outputFile": "Views/Maintenance/ContentStats.css",
-    "inputFile": "Views/Maintenance/ContentStats.less"
-  },
-  {
     "outputFile": "Views/Games/Edit/Game.css",
     "inputFile": "Views/Games/Edit/Game.less"
   },

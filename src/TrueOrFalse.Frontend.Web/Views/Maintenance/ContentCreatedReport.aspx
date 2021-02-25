@@ -23,7 +23,6 @@
                 <li><a href="/Maintenance/Tools">Tools</a></li>
                 <li><a href="/Maintenance/CMS">CMS</a></li>
                 <li class="active"><a href="/Maintenance/ContentCreatedReport">Cnt-Created</a></li>
-                <li><a href="/Maintenance/ContentStats">Cnt Stats</a></li>
                 <li><a href="/Maintenance/Statistics">Stats</a></li>
             </ul>
         </div>
@@ -35,7 +34,6 @@
             <ul>
                 <li><a href="#CategoriesAdded">Themen erstellt</a></li>
                 <li><a href="#CategoriesEdited">Themen bearbeitet</a></li>
-                <li><a href="#SetsAdded">Lernsets erstellt</a></li>
                 <li><a href="#RecentQuestionsAddedNotMemucho">Fragen erstellt ohne memucho</a></li>
                 <li><a href="#RecentQuestionsAddedMemucho">Fragen erstellt memucho</a></li>
             </ul>
@@ -74,19 +72,6 @@
         </div>
 
         <div class="col-xs-12">
-            <h4 id="SetsAdded">Lernsets, die seit <%= Model.Since %> erstellt wurden: <%= Model.SetsAdded.Count %></h4>
-            <span class="greyed" style="font-size: 10px;"><a href="#Top">(nach oben)</a></span>
-
-            <% foreach (var set in Model.SetsAdded) {%>
-                <div>
-                    <span class="greyed" style="font-size: 10px;"><%= set.DateCreated %></span> 
-                    <a href="<%= Links.UserDetail(set.Creator) %>" class="linkUser"><%= set.Creator.Name %></a>: 
-                    <a href="<%= Links.SetDetail(set) %>"><%: set.Name %></a> 
-                </div>
-            <%} %>
-        </div>
-
-        <div class="col-xs-12">
             <h4 id="RecentQuestionsAddedNotMemucho">Alle nicht von memucho seit <%= Model.Since %> erstellten Fragen: <%= Model.RecentQuestionsAddedNotMemucho.Count %></h4>
             <span class="greyed" style="font-size: 10px;"><a href="#Top">(nach oben)</a></span>
 
@@ -95,14 +80,7 @@
                     <span class="greyed" style="font-size: 10px;"><%= question.DateCreated %></span> 
                     <a href="<%= Links.UserDetail(question.Creator) %>" class="linkUser"><%= question.Creator.Name %></a>: 
                     <%= question.IsPrivate()? "<i class='fa fa-lock'></i> " : "" %>
-                    <a href="<%= Links.AnswerQuestion(question) %>"><%: question.Text %></a> 
-                    <% if (question.SetTop5Minis.Any()) { %>
-                        (
-                        <% foreach (var set in question.SetTop5Minis) { %>
-                            <a href="<%= Links.SetDetail(set.Name, set.Id) %>" class="linkSet"><%= set.Name %></a> |
-                        <% } %>
-                        )
-                    <% } %>
+                    <a href="<%= Links.AnswerQuestion(question) %>"><%: question.Text %></a>
                 </div>
             <%} %>
         </div>
@@ -115,14 +93,7 @@
                 <div class="LabelItem LabelItem-Question">
                     <span class="greyed" style="font-size: 10px;"><%= question.DateCreated %></span> 
                     <%= question.IsPrivate()? "<i class='fa fa-lock'></i> " : "" %>
-                    <a href="<%= Links.AnswerQuestion(question) %>"><%: question.Text %></a> 
-                    <% if (question.SetTop5Minis.Any()) { %>
-                        (
-                        <% foreach (var set in question.SetTop5Minis) { %>
-                            <a href="<%= Links.SetDetail(set.Name, set.Id) %>" class="linkSet"><%= set.Name %></a> |
-                        <% } %>
-                        )
-                    <% } %>
+                    <a href="<%= Links.AnswerQuestion(question) %>"><%: question.Text %></a>
                 </div>
             <%} %>
         </div>

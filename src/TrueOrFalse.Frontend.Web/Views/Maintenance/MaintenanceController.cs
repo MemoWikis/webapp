@@ -4,10 +4,9 @@ using System.Linq;
 using System.Web.Mvc;
 using NHibernate.Util;
 using TrueOrFalse;
-using TrueOrFalse.Frontend.Web.Code;
-using TrueOrFalse.Infrastructure;
 using TrueOrFalse.Search;
 using TrueOrFalse.Tools;
+using TrueOrFalse.Tools.Cache;
 using TrueOrFalse.Utilities.ScheduledJobs;
 using TrueOrFalse.Web;
 using static System.String;
@@ -32,7 +31,6 @@ public class MaintenanceController : BaseController
     [SetMainMenu(MainMenuEntry.Maintenance)]
     public ActionResult CMS()
     {
-        var settings = Sl.R<DbSettingsRepo>().Get();
         return View(new CMSModel().Init());
     }
 
@@ -100,37 +98,10 @@ public class MaintenanceController : BaseController
         return result;
     }
 
-    [HttpPost]
-    public string CmsRenderOvercategorizedSets()
-    {
-        var sets = GetAllOvercategorizedSets.Run();
-        var result = sets.Count() + " sets were found:<br/>";
-        foreach (var set in sets)
-        {
-            result += "<a href=\"" + Links.SetDetail(Url, set) +
-                      "\"><span class=\"label label-set\" style=\"max-width: 200px; margin-top: 5px; margin-right: 10px;\">" +
-                      set.Id + "-" + set.Name + "</span></a> \n";
-        }
-
-        return result;
-    }
-
     [SetMainMenu(MainMenuEntry.Maintenance)]
     public ActionResult ContentCreatedReport()
     {
         return View(new ContentCreatedReportModel());
-    }
-
-    [SetMainMenu(MainMenuEntry.Maintenance)]
-    public ActionResult ContentStats()
-    {
-        return View(new ContentStatsModel());
-    }
-
-    [SetMainMenu(MainMenuEntry.Maintenance)]
-    public ActionResult ContentStatsShowStats()
-    {
-        return View("ContentStats", new ContentStatsModel(true));
     }
 
     [SetMainMenu(MainMenuEntry.Maintenance)]
@@ -265,25 +236,6 @@ public class MaintenanceController : BaseController
 
     [ValidateAntiForgeryToken]
     [HttpPost]
-    public ActionResult TrainingReminderCheck()
-    {
-        //JobScheduler.StartImmediately_TrainingReminderCheck();
-        return View("Tools",
-            new ToolsModel { Message = new SuccessMessage("Job: 'Training Reminder Check' wird ausgeführt.") });
-    }
-
-    [ValidateAntiForgeryToken]
-    [HttpPost]
-    public ActionResult TrainingPlanUpdateCheck()
-    {
-        //JobScheduler.StartImmediately_TrainingPlanUpdateCheck();
-        Logg.r().Information("TrainingPlanUpdateCheck manually started");
-        return View("Tools",
-            new ToolsModel { Message = new SuccessMessage("Job: 'Training Plan Update Check' wird ausgeführt.") });
-    }
-
-    [ValidateAntiForgeryToken]
-    [HttpPost]
     public ActionResult Start100TestJobs()
     {
         for (var i = 0; i < 100; i++)
@@ -294,88 +246,6 @@ public class MaintenanceController : BaseController
 
         return View("Tools", new ToolsModel { Message = new SuccessMessage("Started 100 test jobs.") });
 
-    }
-
-    [ValidateAntiForgeryToken]
-    [HttpPost]
-    public ActionResult AssignCategoryToQuestionsInSet(ToolsModel toolsModel)
-    {
-        var categoryToAssign = Sl.R<CategoryRepository>().GetById(toolsModel.CategoryToAddId);
-
-        var setIds = toolsModel.SetsToAddCategoryToIds.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries)
-            .Select(x => Convert.ToInt32(x)).ToList();
-
-        var sets = Sl.Resolve<SetRepo>().GetByIds(setIds);
-
-        if (sets.Count == 0)
-        {
-            throw new Exception("no sets found");
-        }
-
-        var setsString = "";
-
-        sets.ForEach(s => setsString += $", \"{s.Name}\" (Id {s.Id})");
-
-        setsString = setsString.Substring(2); //Remove superfluous characters
-
-        var questionRepo = Sl.R<QuestionRepo>();
-
-        var questions = sets.SelectMany(s => s.Questions());
-
-        foreach (var question in questions)
-        {
-            question.Categories.Add(categoryToAssign);
-            question.Categories = question.Categories.Distinct().ToList();
-            questionRepo.Update(question);
-        }
-
-        toolsModel.Message =
-            new SuccessMessage(
-                $"Das Thema \"{categoryToAssign.Name}\" (Id {categoryToAssign.Id}) wurde den Fragen in den Lernsets {setsString} zugewiesen");
-
-        //ModelState.Clear(); 
-
-        return View("Tools", toolsModel);
-    }
-
-    [ValidateAntiForgeryToken]
-    [HttpPost]
-    public ActionResult RemoveCategoryFromQuestionsInSet(ToolsModel toolsModel)
-    {
-        var categoryToRemove = Sl.R<CategoryRepository>().GetById(toolsModel.CategoryToRemoveId);
-
-        var setIds = toolsModel.SetsToRemoveCategoryFromIds.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries)
-            .Select(x => Convert.ToInt32(x)).ToList();
-
-        var sets = Sl.Resolve<SetRepo>().GetByIds(setIds);
-
-        if (sets.Count == 0)
-        {
-            throw new Exception("no sets found");
-        }
-
-        var setsString = "";
-
-        sets.ForEach(s => setsString += $", \"{s.Name}\" (Id {s.Id})");
-
-        setsString = setsString.Substring(2); //Remove superfluous characters
-
-        var questionRepo = Sl.R<QuestionRepo>();
-
-        var questions = sets.SelectMany(s => s.Questions());
-
-        foreach (var question in questions)
-        {
-            question.Categories.Remove(categoryToRemove);
-            question.Categories = question.Categories.Distinct().ToList();
-            questionRepo.Update(question);
-        }
-
-        toolsModel.Message =
-            new SuccessMessage(
-                $"Das Thema \"{categoryToRemove.Name}\" (Id {categoryToRemove.Id}) wurde von den Fragen in den Lernsets {setsString} entfernt");
-
-        return View("Tools", toolsModel);
     }
 
     [HttpPost]
@@ -429,7 +299,6 @@ public class MaintenanceController : BaseController
         var list = new List<Category>();
 
         var cats = Sl.R<CategoryRepository>().GetAll();
-        var questionRepo = Sl.R<QuestionRepo>();
 
         foreach (var cat in cats)
         {
@@ -454,7 +323,6 @@ public class MaintenanceController : BaseController
 
         return View("Maintenance", new MaintenanceModel { Message = new SuccessMessage("Aggregate erstellt") });
     }
-
 
     [HttpPost]
     public ActionResult MigrateDefaultTemplates()
@@ -507,11 +375,9 @@ public class MaintenanceController : BaseController
             new MaintenanceModel { Message = new SuccessMessage("Die Category Description wurden migriert") });
     }
 
-
     [HttpPost]
     public ActionResult UserDelete(ToolsModel toolsModel)
     {
-        var searchTerm = toolsModel.UserId;
         Sl.UserRepo.DeleteFromAllTables(toolsModel.UserId);
 
         return View("Tools",
@@ -532,5 +398,13 @@ public class MaintenanceController : BaseController
         return View("Tools",
             new ToolsModel { Message = new ErrorMessage("Sie sind nicht berechtigt die Liste neu zu laden.") });
     }
-}
 
+    public ActionResult ClearCache()
+    {
+        CacheClearer.Run();
+        Session.Abandon();
+
+        return View("Maintenance",
+            new MaintenanceModel { Message = new SuccessMessage("Der Cache wurde geleert.") });
+    }
+}

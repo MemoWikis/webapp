@@ -64,6 +64,5 @@ namespace Seedworks.Web.State.Analysis
             return GetByType(type) != null;
         }
 
-
     }
 }

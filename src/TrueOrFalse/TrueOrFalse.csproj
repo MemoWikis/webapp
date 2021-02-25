@@ -316,7 +316,6 @@
     <Compile Include="Domain\Knowledge\Learning\LearningSessionNew\Ops\LearningSession.cs" />
     <Compile Include="Domain\Knowledge\Learning\LearningSessionNew\Ops\LearningSessionCreator.cs" />
     <Compile Include="Domain\Knowledge\Learning\LearningSessionNew\HelperClasses\LearningSessionStep.cs" />
-    <Compile Include="Domain\QuestionSet\Ops\GetAllOvercategorizedSets.cs" />
     <Compile Include="Domain\Question\History\QuestionChange.cs" />
     <Compile Include="Domain\Question\History\EditData\QuestionEditData.cs" />
     <Compile Include="Domain\Question\History\EditData\QuestionEditData_V1.cs" />
@@ -333,8 +332,10 @@
     <Compile Include="Tools\Analytics\Widget\WidgetDetailViewsPerMonthAndTypeResult.cs" />
     <Compile Include="Tools\Analytics\Widget\WidgetViewsPerMonthAndKeyResult.cs" />
     <Compile Include="Tools\Cache\BaseCache.cs" />
-    <Compile Include="Tools\Cache\UserWorld\UserEntityCache.cs" />
-    <Compile Include="Tools\Cache\UserWorld\UserEntityCacheItem.cs" />
+    <Compile Include="Tools\Cache\CacheClearer.cs" />
+    <Compile Include="Tools\Cache\LearningSessionCache.cs" />
+    <Compile Include="Tools\Cache\UserEntityCache\UserEntityCache.cs" />
+    <Compile Include="Tools\Cache\UserEntityCache\UserEntityCacheItem.cs" />
     <Compile Include="Tools\Export\LomExporter.cs" />
     <Compile Include="Tools\Export\LomLists.cs" />
     <Compile Include="Tools\Export\LomXml.cs" />
@@ -836,8 +837,8 @@
     <Compile Include="Tools\Analytics\Widget\Persistence\WidgetViewMap.cs" />
     <Compile Include="Tools\Analytics\Widget\Persistence\WidgetViewRepo.cs" />
     <Compile Include="Tools\Analytics\Widget\WidgetView.cs" />
-    <Compile Include="Tools\Cache\UserCache.cs" />
-    <Compile Include="Tools\Cache\UserCacheItem.cs" />
+    <Compile Include="Tools\Cache\UserCache\UserCache.cs" />
+    <Compile Include="Tools\Cache\UserCache\UserCacheItem.cs" />
     <Compile Include="Domain\Category\RootCategory.cs" />
     <Compile Include="Tools\Update\Steps\UpdateToVs219.cs" />
     <Compile Include="Tools\Update\Steps\UpdateToVs220.cs" />

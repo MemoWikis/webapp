@@ -15,10 +15,11 @@ public class EntityCache : BaseCache
     private static ConcurrentDictionary<int, Question> Questions => (ConcurrentDictionary<int, Question>)HttpRuntime.Cache[_cacheKeyQuestions];
     private static ConcurrentDictionary<int, Category> Categories => (ConcurrentDictionary<int, Category>)HttpRuntime.Cache[_cacheKeyCategories];
 
-    //In category lists last level ConcurrentDictionary is used for easy access to keys (item ids) only (value is always 0)
+    /// <summary>
+    /// Dictionary(key:categoryId, value:questions)
+    /// </summary>
     private static ConcurrentDictionary<int, ConcurrentDictionary<int, int>> CategoryQuestionsList => 
         (ConcurrentDictionary<int, ConcurrentDictionary<int, int>>)HttpRuntime.Cache[_cacheKeyCategoryQuestionsList];
-
 
     public static void Init(string customMessage = "")
     {
@@ -29,15 +30,10 @@ public class EntityCache : BaseCache
         var categories = Sl.CategoryRepo.GetAllEager();
         var questions = Sl.QuestionRepo.GetAllEager();
 
-#if DEBUG
-        categories.DeepClone();
-        questions.DeepClone();
-#endif
-
         Logg.r().Information("EntityCache LoadAllEntities" + customMessage + "{Elapsed}", stopWatch.Elapsed);
 
         IntoForeverCache(_cacheKeyQuestions, questions.ToConcurrentDictionary());
-        IntoForeverCache(_cacheKeyCategories, categories.ToConcurrentDictionary());
+        IntoForeverCache(_cacheKeyCategories, GraphService.AddChildrenToCategory(categories.ToConcurrentDictionary()));
         IntoForeverCache(_cacheKeyCategoryQuestionsList, GetCategoryQuestionsList(questions));
 
         Logg.r().Information("EntityCache PutIntoCache" + customMessage + "{Elapsed}", stopWatch.Elapsed);
@@ -218,9 +214,9 @@ public class EntityCache : BaseCache
 
     //There is an infinite loop when the user is logged in to complaints and when the server is restarted
     //https://docs.google.com/document/d/1XgfHVvUY_Fh1ID93UZEWFriAqTwC1crhCwJ9yqAPtTY
-    public static Category GetCategory(int categoryId, bool isFromUserEntityCache = false)
+    public static Category GetCategory(int categoryId, bool isFromUserEntityCache = false,  bool getDataFromEntityCache = false)
     {
-        if (UserCache.IsFiltered && !isFromUserEntityCache)
+        if (UserCache.IsFiltered && !isFromUserEntityCache && !getDataFromEntityCache)
             return UserEntityCache.GetCategory(categoryId, Sl.SessionUser.UserId);
 
         return Categories[categoryId];
@@ -279,4 +275,10 @@ public class EntityCache : BaseCache
         return allCategories.Where(c => c.Name == name).ToList();
     }
 
+    public static void Clear()
+    {
+        Questions.Clear();
+        Categories.Clear();
+        CategoryQuestionsList.Clear();
+    }
 }

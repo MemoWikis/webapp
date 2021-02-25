@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 
 public class SegmentationCategoryCardModel : BaseContentModule
 {
@@ -9,7 +7,7 @@ public class SegmentationCategoryCardModel : BaseContentModule
 
     public SegmentationCategoryCardModel(Category category)
     {
-        Category = category;
+        Category = category; 
         Title = category.Name;
     }
 
@@ -22,12 +20,6 @@ public class SegmentationCategoryCardModel : BaseContentModule
     {
         var imageMetaData = Sl.ImageMetaDataRepo.GetBy(category.Id, ImageType.Category);
         return new ImageFrontendData(imageMetaData);
-    }
-
-    public int GetTotalTopicCount(Category category)
-    {
-        var count = EntityCache.GetChildren(category.Id).Count(c => c.Type == CategoryType.Standard && c.GetAggregatedQuestionIdsFromMemoryCache().Count > 0);
-        return count;
     }
 }
 

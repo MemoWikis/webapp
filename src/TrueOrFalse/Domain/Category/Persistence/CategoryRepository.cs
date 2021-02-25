@@ -74,8 +74,9 @@ public class CategoryRepository : RepositoryDbBase<Category>
     public override void Update(Category category) => Update(category);
 
     // ReSharper disable once MethodOverloadWithOptionalParameter
-    public void Update(Category category, User author = null, bool imageWasUpdated = false)
+    public void Update(Category category, User author = null, bool imageWasUpdated = false, bool isFromModifiyRelations = false)
     {
+        if(!isFromModifiyRelations)
         _searchIndexCategory.Update(category);
 
         base.Update(category);
@@ -121,7 +122,7 @@ public class CategoryRepository : RepositoryDbBase<Category>
         }
         EntityCache.Remove(category);
         UserCache.RemoveAllForCategory(category.Id);
-        UserEntityCache.ChangeAllActiveCategoryCaches();
+        UserEntityCache.ReInitAllActiveCategoryCaches();
     }
 
     public override void DeleteWithoutFlush(Category category)
@@ -221,7 +222,7 @@ public class CategoryRepository : RepositoryDbBase<Category>
 
     public IList<Category> GetDescendants(int parentId)
     {
-        var currentGeneration = GetChildren(parentId).ToList();
+        var currentGeneration = EntityCache.GetCategory(parentId,getDataFromEntityCache: true).CachedData.Children.ToList();
         var nextGeneration = new List<Category>();
         var descendants = new List<Category>();
 
@@ -231,7 +232,11 @@ public class CategoryRepository : RepositoryDbBase<Category>
 
             foreach (var category in currentGeneration)
             {
-                var children = GetChildren(category.Id).ToList();
+                var children = EntityCache.GetCategory(category.Id, getDataFromEntityCache: true)
+                    .CachedData
+                    .Children
+                    .ToList();
+
                 if (children.Count > 0)
                 {
                     nextGeneration.AddRange(children);
@@ -254,34 +259,6 @@ public class CategoryRepository : RepositoryDbBase<Category>
         return allAuthors.GroupBy(a => a.Id)
             .Select(groupedAuthor => groupedAuthor.First())
             .ToList();
-    }
-
-    public int CountAggregatedSets(int categoryId)
-    {
-        var count =
-           _session.CreateSQLQuery($@"
-
-            SELECT COUNT(DISTINCT(setId)) FROM
-            (
-
-                SELECT DISTINCT(cs.Set_id) setId
-                FROM categories_to_sets cs
-                WHERE cs.Category_id = {categoryId}
-
-                UNION
-
-                SELECT DISTINCT(cs.Set_id) setId
-                FROM relatedcategoriestorelatedcategories rc
-                INNER JOIN category c
-                ON rc.Related_Id = c.Id
-                INNER JOIN categories_to_sets cs
-                ON c.Id = cs.Category_id
-                WHERE rc.Category_id = {categoryId}
-                AND rc.CategoryRelationType = {(int)CategoryRelationType.IncludesContentOf}
-            ) c
-        ").UniqueResult<long>();
-
-        return (int)count;
     }
 
     public int CountAggregatedQuestions(int categoryId)

@@ -11,7 +11,7 @@ class User_entity_cache_tests : BaseTest
         ContextCategory.New().AddCaseThreeToCache();
         var user = Sl.SessionUser.User;
        
-        UserEntityCache.Init();
+        EntityCache.Init();
         var userEntityCacheCategories = UserEntityCache.GetCategories(user.Id).Values.ToList();
         var entityCacheCategories = EntityCache.GetAllCategories().ToList();
 
@@ -33,7 +33,6 @@ class User_entity_cache_tests : BaseTest
         Assert.That(entityCacheCategories.ByName("X2").CategoryRelations.Where(cr => cr.RelatedCategory.Name == "A").Count, Is.EqualTo(1));
         Assert.That(entityCacheCategories.ByName("X").CategoryRelations.Where(cr => cr.RelatedCategory.Name == "A").Count, Is.EqualTo(1));
         Assert.That(entityCacheCategories.ByName("X1").CategoryRelations.Where(cr => cr.RelatedCategory.Name == "A").Count, Is.EqualTo(1));
-        Assert.That(entityCacheCategories.ByName("X1").CategoryRelations.Where(cr => cr.RelatedCategory.Name == "X").Count, Is.EqualTo(1));
         Assert.That(entityCacheCategories.ByName("X3").CategoryRelations.Where(cr => cr.RelatedCategory.Name == "A").Count, Is.EqualTo(1));
 
         //userEntityCache
@@ -47,22 +46,20 @@ class User_entity_cache_tests : BaseTest
         Assert.That(userEntityCacheCategories.ByName("X").CategoryRelations.Where(cr => cr.RelatedCategory.Name == "A").Count, Is.EqualTo(1));
         Assert.That(userEntityCacheCategories.ByName("X3").CategoryRelations.Where(cr => cr.RelatedCategory.Name == "A").Count, Is.EqualTo(1));
         Assert.That(userEntityCacheCategories.ByName("B").CategoryRelations.Where(cr => cr.RelatedCategory.Name == "A").Count, Is.EqualTo(1));
+
     }
 
     [Test]
     public void Give_correct_number_of_cache_items()
     {
         ContextCategory.New().AddCaseThreeToCache();
-        UserEntityCache.Init();
+        EntityCache.Init();
         var user = Sl.SessionUser.User;
         Assert.That(UserEntityCache.GetCategories(user.Id).Values.ToList().Count, Is.EqualTo(7));
-        
-        Sl.SessionUser.Logout();
-        Assert.That(UserEntityCache.GetCategories(user.Id).Values.ToList().Count, Is.EqualTo(0));
 
         ContextCategory.New(false).AddCaseTwoToCache();
         Thread.Sleep(100);
-        UserEntityCache.Init();
+        EntityCache.Init();
         user = Sl.SessionUser.User;
         Assert.That(UserEntityCache.GetCategories(user.Id).Values.ToList().Count, Is.EqualTo(5));
     }
@@ -71,7 +68,7 @@ class User_entity_cache_tests : BaseTest
     public void Give_correct_children()
     {
         ContextCategory.New().AddCaseThreeToCache();
-        UserEntityCache.Init();
+        EntityCache.Init();
         var user = Sl.SessionUser.User;
       var children =   UserEntityCache.GetChildren(1, user.Id); 
 
@@ -90,7 +87,7 @@ class User_entity_cache_tests : BaseTest
       var noParent = EntityCache.GetAllCategories().ByName("noParent");
       CategoryInKnowledge.Pin(noParent.Id, user);
 
-        UserEntityCache.Init();
+        EntityCache.Init();
 
         var e = EntityCache.GetAllCategories().ByName("E");
         var d = EntityCache.GetAllCategories().ByName("D");
@@ -117,11 +114,11 @@ class User_entity_cache_tests : BaseTest
     public void Test_init_for_all_user_entity_caches_change_name()
     {
         ContextCategory.New().AddCaseThreeToCache();
-        UserEntityCache.Init();
+        EntityCache.Init();
 
         var cate = EntityCache.GetAllCategories().First();
         cate.Name = "Daniel";
-        UserEntityCache.ChangeAllActiveCategoryCaches();
+        UserEntityCache.ReInitAllActiveCategoryCaches();
 
 
         Assert.That(UserEntityCache.GetCategories(2).First().Value.Name, Is.EqualTo("Daniel"));
@@ -141,7 +138,7 @@ class User_entity_cache_tests : BaseTest
     public void Test_change_for_all_user_entity_caches()
     {
         ContextCategory.New().AddCaseThreeToCache();
-        UserEntityCache.Init();
+        EntityCache.Init();
 
         var cate = EntityCache.GetAllCategories().First();
         cate.Name = "Daniel";
@@ -164,7 +161,7 @@ class User_entity_cache_tests : BaseTest
     public void Test_delete_category()
     {
         ContextCategory.New().AddCaseThreeToCache();
-        UserEntityCache.Init();
+        EntityCache.Init();
 
         CategoryInKnowledge.Pin(EntityCache.GetAllCategories().ByName("E").Id, Sl.UserRepo.GetById(2));
         Sl.CategoryRepo.Delete(EntityCache.GetAllCategories().ByName("E"));

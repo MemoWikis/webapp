@@ -14,7 +14,6 @@
             </div>
         </a>
         <div class="set-question-count">
-            <%: Model.GetTotalSetCount(Model.Category) %> Lernset<%= StringUtils.PluralSuffix(Model.GetTotalSetCount(Model.Category),"s") %>
             <%: Model.GetTotalQuestionCount(Model.Category) %> Frage<%= StringUtils.PluralSuffix(Model.GetTotalQuestionCount(Model.Category),"n") %>
         </div>
         <div class="KnowledgeBarWrapper">

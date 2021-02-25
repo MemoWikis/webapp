@@ -22,13 +22,11 @@
                 <li><a href="/Maintenance/Tools">Tools</a></li>
                 <li class="active"><a href="/Maintenance/CMS">CMS</a></li>
                 <li><a href="/Maintenance/ContentCreatedReport">Cnt-Created</a></li>
-                <li><a href="/Maintenance/ContentStats">Cnt Stats</a></li>
                 <li><a href="/Maintenance/Statistics">Stats</a></li>
             </ul>
         </div>
     </nav>
     <% Html.Message(Model.Message); %>
-        
 
     <div>
         <h2>Tools zur Content-Pflege</h2>
@@ -71,26 +69,6 @@
                 <a href="#" id="btnShowCategoriesInSeveralRootCategories" class="btn btn-default">Themen anzeigen</a>
             </p>
             <div id="showCategoriesInSeveralRootCategoriesResult" style="margin-left: 25px; padding: 0 10px 10px;"></div>
-        </div>
-
-        <div id="showOvercategorizedSets">
-            <h4 style="margin-top: 40px;">Überkategorisierte Lernsets</h4>
-            <p>
-                Lernsets anzeigen, die mehrere Themen haben, wobei mind. eines ein (direktes oder indirektes) aggregiertes Unterthema von einem anderen ist: 
-                <a href="#" id="btnShowOvercategorizedSets" class="btn btn-default">Lernsets anzeigen</a>
-            </p>
-            <div id="showOvercategorizedSetsResult" style="margin-left: 25px; padding: 0 10px 10px;"></div>
-        </div>
-
-        <div id="showSetsWithDifferentlyCategorizedQuestions">
-            <h4 style="margin-top: 40px;">Inkongruente Kategorisierung von Fragen in Lernsets</h4>
-            <p>
-                Lernsets anzeigen, bei denen die Fragen andere Themen zugewiesen haben als die Lernsets, in denen sie sind. 
-                Für jedes Lernset wird geschaut, ob es darin mind. 1 Frage gibt, die andere Themen hat als die Lernsets zu denen sie gehört 
-                (sortiert nach Erstellungsdatum, Neueste zuerst): 
-                <a href="#" id="btnShowSetsWithDifferentlyCategorizedQuestions" class="btn btn-default">Lernsets anzeigen</a>
-            </p>
-            <div id="showSetsWithDifferentlyCategorizedQuestionsResult" style="margin-left: 25px; padding: 0 10px 10px;"></div>
         </div>
     </div>
 

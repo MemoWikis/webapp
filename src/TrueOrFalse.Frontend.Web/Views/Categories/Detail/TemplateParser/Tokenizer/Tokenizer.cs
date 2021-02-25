@@ -15,7 +15,6 @@ public static class Tokenizer
 
         foreach (var obj in jsonObject)
         {
-
             var json = AddJsonTemplate(obj);
 
             if (obj.Load != null && obj.Load.Value.Equals("All"))

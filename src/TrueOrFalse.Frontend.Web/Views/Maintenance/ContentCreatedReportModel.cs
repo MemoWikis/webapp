@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using NHibernate;
-using TrueOrFalse.Infrastructure;
 using TrueOrFalse.Web;
 
 public class ContentCreatedReportModel : BaseModel
@@ -17,7 +16,6 @@ public class ContentCreatedReportModel : BaseModel
     public IList<Question> RecentQuestionsAddedNotMemucho;
     public IList<Category> CategoriesAdded;
     public IEnumerable<IGrouping<Category, CategoryChange>> CategoriesChanged;
-    public IList<Set> SetsAdded;
 
     public ContentCreatedReportModel()
     {
@@ -49,12 +47,6 @@ public class ContentCreatedReportModel : BaseModel
             .Where(c => c.DateCreated > Since)
             .List()
             .GroupBy(c => c.Category);
-
-        SetsAdded = _session
-            .QueryOver<Set>()
-            .OrderBy(s => s.DateCreated).Desc
-            .Where(s => s.DateCreated > Since)
-            .List();
     }
 
 }

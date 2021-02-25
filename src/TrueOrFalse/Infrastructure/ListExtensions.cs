@@ -56,4 +56,9 @@ public static class ListExtensions
     {
         return new ConcurrentDictionary<int, T>(list.Select(i => new KeyValuePair<int, T>(i.Id, i)));
     }
+
+    public static ConcurrentDictionary<int, CategoryRelation> ToConcurrentDictionaryForRelationsForChildren(this IList<CategoryRelation> list)  
+    {
+        return new ConcurrentDictionary<int, CategoryRelation>(list.Select(i => new KeyValuePair<int, CategoryRelation>(i.RelatedCategory.Id, i)));
+    }
 }

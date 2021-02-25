@@ -60,8 +60,8 @@ public class CategoryModel : BaseContentModule
     public AnalyticsFooterModel AnalyticsFooterModel;
     public bool CategoryIsDeleted;
     public bool OpenEditMode;
-    public bool IsDisplayNoneSessionConfigNote { get; set; }
-    public bool IsDisplayNoneSessionConfigNoteQuestionList { get; set; }
+    public bool ShowLearningSessionConfigurationMessageForTab { get; set; }
+    public bool ShowLearningSessionConfigurationMessageForQuestionList { get; set; }
     public bool IsFilteredUserWorld; 
 
     public CategoryModel()

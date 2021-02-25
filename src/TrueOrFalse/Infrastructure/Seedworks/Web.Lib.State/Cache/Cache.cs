@@ -58,12 +58,4 @@ namespace Seedworks.Web.State
             return _cache.GetEnumerator();
         }
     }
-
-    ///// <summary>
-    ///// Convenience Name in case the "Cache" is used as MemberVariable. E.g: System.Web.Page.Cache
-    ///// </summary>
-    //public class CacheSf : Cache{}
-    //NO! do this instead:
-    //using CacheSf = SpeakFriend.Utilities.Web.Cache;
-    
 }

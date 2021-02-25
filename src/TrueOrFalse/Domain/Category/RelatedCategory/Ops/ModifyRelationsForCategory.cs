@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 public class ModifyRelationsForCategory
@@ -9,7 +10,6 @@ public class ModifyRelationsForCategory
     /// <param name="category"></param>
     /// <param name="relatedCategories">Existing relations are updated with this collection (existing are kept, non-included are deleted)</param>
     /// <param name="relationType">If specified only relations of this type will be updated</param>
-    /// <param name="relatedCategoriesType">If specified only relations with related category of this type will be updated</param>
     public static void UpdateCategoryRelationsOfType(
         Category category,
         IList<Category> relatedCategories, 
@@ -23,8 +23,14 @@ public class ModifyRelationsForCategory
             .Except(existingRelationsOfType.Select(r => r.RelatedCategory))
             .Select(c => new CategoryRelation{Category = category, RelatedCategory = c, CategoryRelationType = relationType});
 
-        var relationsToRemove = existingRelationsOfType.Where(r => relatedCategories.All(c => c != r.RelatedCategory)).ToList();
-
+        var relationsToRemove = new List<CategoryRelation>(); 
+        var relatedCategoriesDictionary =  relatedCategories.ToDictionary(r => r.Id);
+        foreach (var categoryRelation in existingRelationsOfType)
+            if (!relatedCategoriesDictionary.ContainsKey(categoryRelation.RelatedCategory.Id))
+            {
+                relationsToRemove.Add(categoryRelation);
+            }
+        
         foreach (var relation in relationsToAdd)
             category.CategoryRelations.Add(relation);
 
@@ -53,20 +59,14 @@ public class ModifyRelationsForCategory
 
     public static void UpdateRelationsOfTypeIncludesContentOf(Category category, bool persist = true)
     {
-        var catRepo = Sl.CategoryRepo;
-
         var descendants = GetCategoryChildren.WithAppliedRules(category);
-
         UpdateCategoryRelationsOfType(category, descendants, CategoryRelationType.IncludesContentOf);
 
         if(!persist)
             return;
 
-        catRepo.Update(category);
-
         category.UpdateCountQuestionsAggregated();
-
-        catRepo.Update(category);
+        Sl.CategoryRepo.Update(category, isFromModifiyRelations: true);
 
         KnowledgeSummaryUpdate.RunForCategory(category.Id);
     }

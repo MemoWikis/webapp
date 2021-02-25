@@ -40,7 +40,7 @@ public class KnowledgeController : BaseController
             .GetByUserFromCache(user.Id)
             .QuestionIds().ToList();
 
-        var learningSession = Sl.Resolve<SessionUser>().LearningSession;
+        var learningSession = LearningSessionCache.GetLearningSession();
 
        return Redirect(Links.LearningSession(learningSession));
     }
