@@ -60,6 +60,10 @@ var segmentationComponent = Vue.component('segmentation-component', {
 
     methods: {
         loadSegment(id) {
+            if (NotLoggedIn.Yes()) {
+                NotLoggedIn.ShowErrorMsg("CreateSegment");
+                return;
+            }
             var self = this;
             var currentElement = $("#CustomSegmentSection");
             var data = { CategoryId: id }
@@ -129,6 +133,10 @@ var segmentationComponent = Vue.component('segmentation-component', {
             $('#AddCategoryModal').data('parent', parent).modal('show');
         },
         removeChildren() {
+            if (NotLoggedIn.Yes()) {
+                NotLoggedIn.ShowErrorMsg("RemoveChildren");
+                return;
+            }
             var self = this;
             var data = {
                 parentCategoryId: self.categoryId,
@@ -148,6 +156,10 @@ var segmentationComponent = Vue.component('segmentation-component', {
             });
         },
         moveToNewCategory() {
+            if (NotLoggedIn.Yes()) {
+                NotLoggedIn.ShowErrorMsg("MoveToNewCategory");
+                return;
+            }
             var self = this;
             var parent = {
                 id: self.categoryId,
