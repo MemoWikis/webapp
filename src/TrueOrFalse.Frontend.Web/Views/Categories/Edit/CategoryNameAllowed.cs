@@ -36,7 +36,6 @@ public class CategoryNameAllowed
         ExistingCategories = ServiceLocator.Resolve<CategoryRepository>().GetByName(categoryName);
 
         return ExistingCategories.All(c => c.Type != type);
-
     }
 
     public bool ForbiddenWords(string categoryName)

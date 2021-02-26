@@ -28,13 +28,6 @@ namespace TrueOrFalse.Frontend.Web.Code
         public static string HelpFAQ() => GetUrlHelper().Action(HelpActionFAQ, HelpController);
         public const string HelpWillkommen = "Willkommen";
         public const string HelpWunschwissen = "Willkommen";
-        public static string HelpWidget() => GetUrlHelper().Action("Widget", HelpController);
-        public static string HelpWidgetWordpress() => GetUrlHelper().Action("WidgetInWordpress", HelpController);
-        public static string HelpWidgetMoodle() => GetUrlHelper().Action("WidgetInMoodle", HelpController);
-        public static string HelpWidgetBlackboard() => GetUrlHelper().Action("WidgetInBlackboard", HelpController);
-        public static string WidgetPricing() => GetUrlHelper().Action("WidgetPricing", HelpController);
-        public static string WidgetExamples() => GetUrlHelper().Action("WidgetExamples", HelpController);
-
         public const string AccountController = "Account";
         public const string RegisterAction = "Register";
         public const string RegisterSuccess = "RegisterSuccess";
@@ -291,20 +284,6 @@ namespace TrueOrFalse.Frontend.Web.Code
         public static string TestSessionStartForCategory(string categoryName, int categoryId) => 
             GetUrlHelper().Action("StartTestSession", CategoryController, new { categoryName = UriSanitizer.Run(categoryName), categoryId = categoryId });
 
-        public static string TestSessionStartForSets(List<int> setIds, string setListTitle)
-        {
-            return GetUrlHelper().Action("StartTestSessionForSets", SetController, new { setListTitle })
-                + "&setIds="
-                + Join("&setIds=", setIds);
-        }
-        public static string TestSessionStartForSetsInCategory(List<int> setIds, string setListTitle, int categoryId)
-        {
-            return GetUrlHelper().Action("StartTestSessionForSetsInCategory", CategoryController, new { setListTitle, categoryId })
-                + "&setIds="
-                + Join("&setIds=", setIds);
-        }
-
-        public static string TestSessionRegisterQuestionAnswered(UrlHelper url) => url.Action("RegisterQuestionAnswered", TestSessionController);
         public static string LearningSessionAmendAfterShowSolution(UrlHelper url) => url.Action("AmendAfterShowSolution", AnswerQuestionController);
 
         /*Questionsets / Sets*/
@@ -312,12 +291,6 @@ namespace TrueOrFalse.Frontend.Web.Code
         public const string SetsAction = "Sets";
         public const string SetsWishAction = "SetsWish";
         public const string SetsMineAction = "SetsMine";
-        public static string SetsAll() { return GetUrlHelper().Action(SetsAction, SetsController); }
-        public static string SetsWish() { return GetUrlHelper().Action(SetsWishAction, SetsController); }
-        public static string SetsMine() { return GetUrlHelper().Action(SetsMineAction, SetsController); }
-        public static string SetCreate() { return GetUrlHelper().Action(SetCreateAction, SetEditController); }
-        public static string SetEdit(Set set) => SetEdit(GetUrlHelper(), set.Name, set.Id);
-        public static string SetEdit(UrlHelper url, string name, int id) => url.Action("Edit", "EditSet", new { text = UriSanitizer.Run(name), id = id });
         public const string SetController = "Set";
         public const string SetCreateAction = "Create";
         public const string SetEditController = "EditSet";
@@ -333,11 +306,7 @@ namespace TrueOrFalse.Frontend.Web.Code
                 new { text = UriSanitizer.Run(name), id = id}, null);            
         }
 
-        public static string QuestionSetEdit(string name, int questionSetId) => QuestionSetEdit(GetUrlHelper(), name, questionSetId);
 
-        public static string QuestionSetEdit(UrlHelper url, string name, int questionSetId){
-            return url.Action("Edit", "EditSet", new { text = UriSanitizer.Run(name), id = questionSetId });
-        }
 
         /* Messages */
         public static string Messages(UrlHelper url) => url.Action("Messages","Messages");
@@ -345,18 +314,6 @@ namespace TrueOrFalse.Frontend.Web.Code
         public static object MessageSetUnread(UrlHelper url) => url.Action("SetMessageUnread", "Messages");
 
         /* Games */
-        public static string Games() => Games(GetUrlHelper());
-        public static string Games(UrlHelper url) => url.Action("Games", "Games");
-        public static string GameCreateFromDate(int dateId) => GetUrlHelper().Action("Create", "Game", new {dateId = dateId});
-        public static string GameCreateFromSet(int setId) => GetUrlHelper().Action("Create", "Game", new { setId = setId});
-        public static string GameCreateFromSets(List<int> setIds) => GetUrlHelper().Action("Create", "Game") + "?setIds="
-                + Join("&setIds=", setIds);
-        public static string GameCreateFromCategory(int categoryId) => GetUrlHelper().Action("Create", "Game", new { categoryId = categoryId });
-
-
-
-        public static string GameCreate() => GetUrlHelper().Action("Create", "Game", null);
-        public static string GamePlay(UrlHelper url, int gameId) => GetUrlHelper().Action("Play", "Play", new { gameId = gameId });
 
         /*Category*/
         public const string CategoriesAction = "Categories";
