@@ -3,28 +3,24 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
 using NUnit.Framework;
+using TemplateMigration;
 
 
 [TestFixture]
 class TopicNavigationMigrationTest
 {
-    //[Test]
-    //public void RemoveTopicNavigation()
-    //{
-    //    var testString = "[{\"TemplateName\":\"TopicNavigation\"}]";
-    //    var testString2 = "[{\"TemplateName\":\"TopicNavigation\",\"Load\":\"All\"}]";
-    //    var expectedResult = "";
+    [Test]
+    public void Should_remove_TopicNavigation()
+    {
+        var testString = "[{\"TemplateName\":\"TopicNavigation\"}]";
+        var testString2 = "[{\"TemplateName\":\"TopicNavigation\",\"Load\":\"All\"}]";
+        var expectedResult = "";
 
-    //    var tokens = Tokenizer.Run(testString);
-
-    //    var newString = "";
-    //    foreach (TemplateJson token in tokens)
-    //    {
-    //        if (token.TemplateName == "InlineText")
-    //            newString += token.OriginalJson;
-    //    }
-    //}
+        var newContent = TopicNavigationMigration.RemoveTopicNavigation(testString);
+        Assert.That(newContent, Is.EqualTo(expectedResult));
+    }
 
     //[Test]
     //public void RemoveTopicNavigationEndingWithInlineText()
