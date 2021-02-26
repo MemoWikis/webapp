@@ -16,7 +16,7 @@ namespace TemplateMigration
 
             var newString = "";
             var newContent = "";
-            
+            tokens = tokens.Where(t => t != null).ToList();
             foreach (TemplateJson token in tokens)
             {
                 if (token.TemplateName == "InlineText")
@@ -46,26 +46,17 @@ namespace TemplateMigration
             dynamic jsonObject = JsonConvert.DeserializeObject(contentString);
 
             var tokens = new List<TemplateJson>();
-            TemplateJson loadbeforeLastLoadToken = null;
-            TemplateJson loadAsLastToken = null;
 
             foreach (var obj in jsonObject)
             {
                 var json = AddJsonTemplate(obj);
-
-                if (obj.Load != null && obj.Load.Value.Equals("All"))
-                {
-                    var tempObj =
-                        "[{\"TemplateName\":\"InlineText\",\"Content\":\"<h3 id=\\\"AllSubtopics\\\">Alle untergeordneten Themen</h3>\\n\"}]";
-                    loadbeforeLastLoadToken = AddJsonTemplate(JsonConvert.DeserializeObject(tempObj), true);
-                    loadAsLastToken = json;
-                }
-                else
+                if (obj.TemplateName.Value.Equals("InlineText"))
+                    tokens.Add(json);
+                else if (obj.Load == null || obj.Load.Value.Equals("All"))
+                    continue;
+                else if (obj.Load != null || !obj.Load.Value.Equals("All"))
                     tokens.Add(json);
             }
-            if (loadAsLastToken != null)
-                tokens.Add(loadbeforeLastLoadToken);
-            tokens.Add(loadAsLastToken);
 
             return tokens;
         }

@@ -19,15 +19,21 @@ class TopicNavigationMigrationTest
         var expectedResult = "";
 
         var newContent = TopicNavigationMigration.RemoveTopicNavigation(testString);
+        var newContent2 = TopicNavigationMigration.RemoveTopicNavigation(testString2);
         Assert.That(newContent, Is.EqualTo(expectedResult));
+        Assert.That(newContent2, Is.EqualTo(expectedResult));
     }
 
-    //[Test]
-    //public void RemoveTopicNavigationEndingWithInlineText()
-    //{
-    //    var testString = "[{\"TemplateName\":\"TopicNavigation\"},{ \"TemplateName\":\"InlineText\",\"Content\":\"<h2 id=\"weiterfuhrende-links\">Weiterführende Links</h2>\n<p><a href=\"https://de.wikipedia.org/wiki/Containervirtualisierung\">https://de.wikipedia.org/wiki/Containervirtualisierung</a></p>\n\"}]";
-    //    var expectedResult = "[{ \"TemplateName\":\"InlineText\",\"Content\":\"<h2 id=\"weiterfuhrende-links\">Weiterführende Links</h2>\n<p><a href=\"https://de.wikipedia.org/wiki/Containervirtualisierung\">https://de.wikipedia.org/wiki/Containervirtualisierung</a></p>\n\"}]";
+    [Test]
+    public void RemoveTopicNavigationEndingWithInlineText()
+    {
+        var testString =
+            "[{\"TemplateName\":\"InlineText\",\"Content\":\"<p>Allgemeinwissen bezeichnet umgangssprachlich einen Wissenskanon, der allgemein vorausgesetzt werden kann oder zumindest angestrebt ist unabhängig von der eigenen Fachrichtung. Was genau dazu gehört, ist jedoch je nach Kontext, Interesse und anderen Faktoren unterschiedlich und immer umstritten. Allgemeinwissen gilt als Gegenstück zum Spezialwissen bzw. Spezialisierungswissen.</p>\\n<h3 id=\\\"jahre-reformation\\\"><a href=\\\"https://memucho.de/Kategorien/Reformation/830\\\">500 Jahre Reformation</a></h3>\\n\"}]";
+        var expectedResult = "<p>Allgemeinwissen bezeichnet umgangssprachlich einen Wissenskanon, der allgemein vorausgesetzt werden kann oder zumindest angestrebt ist unabhängig von der eigenen Fachrichtung. Was genau dazu gehört, ist jedoch je nach Kontext, Interesse und anderen Faktoren unterschiedlich und immer umstritten. Allgemeinwissen gilt als Gegenstück zum Spezialwissen bzw. Spezialisierungswissen.</p>\n<h3 id=\"jahre-reformation\"><a href=\"https://memucho.de/Kategorien/Reformation/830\">500 Jahre Reformation</a></h3>\n";
+        
+        var newContent = TopicNavigationMigration.RemoveTopicNavigation(testString); 
+        Assert.That(newContent, Is.EqualTo(expectedResult));
 
-    //}
+    }
 }
 
