@@ -1,7 +1,7 @@
 ﻿ <%@ Control Language="C#" AutoEventWireup="true" Inherits="System.Web.Mvc.ViewUserControl<SegmentationCategoryCardModel>" %>
 <%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
 
- <% if(Model.Category.CachedData.Children.Count > 0 || Model.GetTotalQuestionCount(Model.Category) > 0 || Model.IsInstallationAdmin ||Model.Category.Creator.Id == Model.UserId) { %>
+ <% if(Model.Category.CachedData.Children.Count > 0 || Model.GetTotalQuestionCount(Model.Category) > 0 || Model.IsInstallationAdmin || Model.Category.Creator.Id == Model.UserId) { %>
 
     <category-card-component @select-category="selectCategory" @unselect-category="unselectCategory" inline-template :edit-mode="editMode" ref="card<%= Model.Category.Id %>" :is-custom-segment="isCustomSegment" category-id="<%= Model.Category.Id %>" :selected-categories="selectedCategories" :segment-id="id" hide="false" :control-wishknowledge="controlWishknowledge">
         
@@ -45,7 +45,7 @@
 
                         <% if (Model.Category.CachedData.Children.Count == 1)
                            { %>1 Unterthema <% } %>
-                        <% if(Model.Category.CachedData.Children.Count(Model.Category) > 1)
+                        <% if(Model.Category.CachedData.Children.Count > 1)
                            { %><%= Model.Category.CachedData.Children.Count  %> Unterthemen <% } 
                            else { %><% } %><%=Model.GetTotalQuestionCount(Model.Category) %> Frage<% if(Model.GetTotalQuestionCount(Model.Category) != 1){ %>n<% } %>
                     </div>
