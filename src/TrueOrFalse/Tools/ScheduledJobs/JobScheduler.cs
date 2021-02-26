@@ -1,6 +1,7 @@
 ﻿using Quartz;
 using Quartz.Impl;
 using TrueOrFalse.Infrastructure;
+using TrueOrFalse.Tools.ScheduledJobs.Jobs;
 
 namespace TrueOrFalse.Utilities.ScheduledJobs
 {
@@ -144,6 +145,7 @@ namespace TrueOrFalse.Utilities.ScheduledJobs
         public static void StartImmediately_RecalcKnowledgeStati() { StartImmediately<RecalcKnowledgeStati>(); }
         public static void StartImmediately_RefreshEntityCache() { StartImmediately<RefreshEntityCache>(); }
         public static void StartImmediately_RecalcTotalWishInOthersPeople() { StartImmediately<RecalcTotalWishInOthersPeople>(); }
+        public static void StartImmediately_ModifyRealtionsForCategory() { StartImmediately<ModifyRelationForCategory>(); }
 
         public static void StartImmediately<TypeToStart>() where TypeToStart : IJob
         {

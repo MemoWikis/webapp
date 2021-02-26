@@ -1,12 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Security;
 using System.Web;
-using System.Web.Helpers;
 using System.Web.Mvc;
-using FluentNHibernate.Data;
 using TrueOrFalse.Frontend.Web.Code;
+using TrueOrFalse.Tools.ScheduledJobs.Jobs;
+using TrueOrFalse.Utilities.ScheduledJobs;
 using TrueOrFalse.View.Web.Views.Api;
 using TrueOrFalse.Web;
 
@@ -224,12 +223,14 @@ public class EditCategoryController : BaseController
     public JsonResult QuickCreateWithCategories(string name, int parentCategoryId, int[] childCategoryIds)
     {
         var category = new Category(name);
-        var parentCategory = EntityCache.GetCategory(parentCategoryId);
-        ModifyRelationsForCategory.AddParentCategory(category, parentCategory);
 
-        category.Creator = _sessionUser.User;
-        category.Type = CategoryType.Standard;
-        _categoryRepository.Create(category);
+        CategoryData.Category = category;
+        CategoryData.ParentCategoryId = parentCategoryId;
+        CategoryData.Category.Creator = _sessionUser.User;
+
+        JobScheduler.StartImmediately_ModifyRealtionsForCategory();
+
+        
         
         foreach (var childCategoryId in childCategoryIds)
         {
