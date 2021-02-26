@@ -14,8 +14,12 @@ namespace TrueOrFalse.View.Web.Views.Api
                 return false;
 
             CategoryInKnowledge.Pin(Convert.ToInt32(categoryId), _sessionUser.User);
-            UserEntityCache.DeleteCacheForUser();
-            UserEntityCache.Init();
+            if (UserCache.IsFiltered)
+            {
+                UserEntityCache.DeleteCacheForUser();
+                UserEntityCache.Init();
+            }
+            
             return true;
         }
     }
