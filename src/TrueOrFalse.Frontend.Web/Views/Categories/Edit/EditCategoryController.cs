@@ -4,8 +4,6 @@ using System.Security;
 using System.Web;
 using System.Web.Mvc;
 using TrueOrFalse.Frontend.Web.Code;
-using TrueOrFalse.Tools.ScheduledJobs.Jobs;
-using TrueOrFalse.Utilities.ScheduledJobs;
 using TrueOrFalse.View.Web.Views.Api;
 using TrueOrFalse.Web;
 
@@ -222,16 +220,16 @@ public class EditCategoryController : BaseController
     [HttpPost]
     public JsonResult QuickCreateWithCategories(string name, int parentCategoryId, int[] childCategoryIds)
     {
-        var category = new Category(name);
+        var category = new Category(name) {Creator = _sessionUser.User};
 
-        CategoryData.Category = category;
-        CategoryData.ParentCategoryId = parentCategoryId;
-        CategoryData.Category.Creator = _sessionUser.User;
+        JobExecute.RunAsTask(scope =>
+        {
+            var parentCategory = EntityCache.GetCategory(parentCategoryId);
+            ModifyRelationsForCategory.AddParentCategory(category, parentCategory);
+        }, "ModifyRelationForCategoryJob");
 
-        JobScheduler.StartImmediately_ModifyRealtionsForCategory();
+        Sl.CategoryRepo.Create(category);
 
-        
-        
         foreach (var childCategoryId in childCategoryIds)
         {
             var childCategory = EntityCache.GetCategory(childCategoryId);

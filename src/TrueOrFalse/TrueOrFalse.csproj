@@ -840,7 +840,6 @@
     <Compile Include="Tools\Cache\UserCache\UserCache.cs" />
     <Compile Include="Tools\Cache\UserCache\UserCacheItem.cs" />
     <Compile Include="Domain\Category\RootCategory.cs" />
-    <Compile Include="Tools\ScheduledJobs\Jobs\ModifyRelationForCategory.cs" />
     <Compile Include="Tools\Update\Steps\UpdateToVs219.cs" />
     <Compile Include="Tools\Update\Steps\UpdateToVs220.cs" />
     <Compile Include="Tools\Update\Steps\UpdateToVs222.cs" />
