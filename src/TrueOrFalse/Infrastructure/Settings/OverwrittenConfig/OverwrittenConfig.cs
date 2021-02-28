@@ -24,7 +24,7 @@ public static class OverwrittenConfig
             ContextUtil.IsWebContext || ContextUtil.UseWebConfig ? "Web.overwritten.config" : "App.overwritten.config"
         );
 
-        Log.Information("{ContextUtil.IsWebContext} {filePath}", ContextUtil.IsWebContext, filePath);
+        Log.Information("{isWebContext} {filePath}", ContextUtil.IsWebContext, filePath);
 
         if (!File.Exists(filePath))
             return new OverwrittenConfigValueResult(false, null);

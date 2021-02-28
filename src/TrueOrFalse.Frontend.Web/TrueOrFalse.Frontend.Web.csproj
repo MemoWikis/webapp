@@ -2225,9 +2225,6 @@
     <Content Include="Views\Questions\History\QuestionHistory.css">
       <DependentUpon>QuestionHistory.less</DependentUpon>
     </Content>
-    <Content Include="Views\Questions\Js\AddQuestion\AddQuestion - Copy.js">
-      <DependentUpon>EditQuestionModalLoader.ts</DependentUpon>
-    </Content>
     <Content Include="Views\Questions\Js\AddQuestion\AddQuestion.js">
       <DependentUpon>AddQuestion.ts</DependentUpon>
     </Content>
