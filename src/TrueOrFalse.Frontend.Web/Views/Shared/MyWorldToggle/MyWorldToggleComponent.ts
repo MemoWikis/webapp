@@ -11,9 +11,6 @@ Vue.component('my-world-toggle-component',
                 disabled: false,
             }
         },
-        created() {
-
-        },
         mounted() {
             this.loadCookie();
             eventBus.$on('set-edit-mode', (state) => {
