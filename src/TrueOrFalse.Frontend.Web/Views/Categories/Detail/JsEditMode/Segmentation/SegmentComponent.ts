@@ -115,6 +115,16 @@
                     $('.show-tooltip').tooltip();
                 },
             });
+
+            var parentId = $('#hhdCategoryId').val();
+            $.ajax({
+                url: '/Category/RenderNewKnowledgeSummaryBar?categoryId=' + parentId,
+                type: 'GET',
+                success: data => {
+                    $(".category-knowledge-bar[data-category-id='" + parentId + "']").replaceWith(data);
+                    $('.show-tooltip').tooltip();
+                },
+            });
         }
     }
 });

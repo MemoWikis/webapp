@@ -6,7 +6,7 @@ public class QuestionDelete
 {
     public static void Run(int questionId)
     {
-        var questionRepo = Sl.R<QuestionRepo>();
+        var questionRepo = Sl.QuestionRepo;
         var question = questionRepo.GetById(questionId);
         ThrowIfNot_IsLoggedInUserOrAdmin.Run(question.Creator.Id);
 
@@ -25,10 +25,6 @@ public class QuestionDelete
         Sl.R<QuestionViewRepository>().DeleteForQuestion(questionId);
         Sl.R<QuestionValuationRepo>().DeleteForQuestion(questionId);
         Sl.R<CommentRepository>().DeleteForQuestion(questionId);
-        Sl.R<ISession>()
-            .CreateSQLQuery("DELETE FROM game_round where Question_id = :questionId")
-            .SetParameter("questionId", questionId)
-            .ExecuteUpdate();
         Sl.R<ISession>()
             .CreateSQLQuery("DELETE FROM categories_to_questions where Question_id = " + questionId)
             .ExecuteUpdate();

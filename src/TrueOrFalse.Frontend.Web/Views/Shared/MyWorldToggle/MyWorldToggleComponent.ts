@@ -7,7 +7,6 @@ Vue.component('my-world-toggle-component',
         data() {
             return {
                 showMyWorld: false,
-                editMode: false,
                 disabled: false,
             }
         },
@@ -16,9 +15,6 @@ Vue.component('my-world-toggle-component',
         },
         mounted() {
             this.loadCookie();
-            eventBus.$on('set-edit-mode', (state) => {
-                this.editMode = state;
-            });
         },
         watch: {
             showMyWorld(val) {
@@ -33,8 +29,7 @@ Vue.component('my-world-toggle-component',
                 });
             },
             toggleMyWorld() {
-                if (this.editMode)
-                    return;
+                console.log('test');
                 Utils.ShowSpinner();
                 this.showMyWorld = !this.showMyWorld;
                 var s = this.showMyWorld;

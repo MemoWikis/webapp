@@ -67,7 +67,6 @@ public class KnowledgeTopics : BaseModel
             categoryWishKnowledge.IsCategory = true;
             categoryWishKnowledge.LinkStartLearningSession = Links.StartCategoryLearningSession(categoryWish.Id);
             categoryWishKnowledge.CreateQuestionLink = Links.CreateQuestion(categoryId: categoryWish.Id);
-            categoryWishKnowledge.StartGameLink = Links.GameCreateFromCategory(categoryWish.Id);
             categoryWishKnowledge.QuestionsCount = categoryWish.CountQuestionsAggregated;
             categoryWishKnowledge.EditCategoryOrSetLink = Links.CategoryEdit(categoryWish);
             categoryWishKnowledge.ShareFacebookLink = facebookLink;

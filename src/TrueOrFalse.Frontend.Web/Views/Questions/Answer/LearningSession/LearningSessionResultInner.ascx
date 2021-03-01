@@ -228,7 +228,6 @@
                     </p>
                     <ul>
                         <li><a href="<%= Links.QuestionsWish() %>"><%= Model.WishCountQuestions %> Fragen</a></li>
-                        <li><a href="<%= Links.SetsWish() %>"><%= Model.WishCountSets %> Lernset<%= StringUtils.PluralSuffix(Model.WishCountSets,"s") %></a></li>
                     </ul>
                 </div>
             </div>
