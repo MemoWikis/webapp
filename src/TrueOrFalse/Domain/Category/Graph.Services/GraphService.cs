@@ -151,7 +151,7 @@ public class GraphService
 
     private static List<Category> GetParentsFromCategory(Category category, bool isFromUserEntityCache = false)
     {
-        if(isFromUserEntityCache)
+        if(!isFromUserEntityCache)
             return category.CategoryRelations.Where(cr => cr.CategoryRelationType == CategoryRelationType.IsChildCategoryOf).Select(cr => cr.RelatedCategory).ToList();
 
         return EntityCache.GetCategory(category.Id, getDataFromEntityCache: true).CategoryRelations.Where(cr => cr.CategoryRelationType == CategoryRelationType.IsChildCategoryOf).Select(cr => cr.RelatedCategory).ToList();
