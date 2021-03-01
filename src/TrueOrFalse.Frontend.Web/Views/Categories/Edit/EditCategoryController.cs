@@ -1,8 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Security;
 using System.Web;
 using System.Web.Mvc;
+using Newtonsoft.Json;
 using TrueOrFalse.Frontend.Web.Code;
 using TrueOrFalse.View.Web.Views.Api;
 using TrueOrFalse.Web;
@@ -248,6 +250,45 @@ public class EditCategoryController : BaseController
             url = Links.CategoryDetail(category, openEditMode: true),
             id = category.Id
         });
+    }
+
+    [HttpPost]
+    [AccessOnlyAsLoggedIn]
+    public JsonResult SaveCategoryContent(int categoryId, string content = null)
+    {
+        var category = EntityCache.GetCategory(categoryId);
+
+        if (category != null)
+        {
+            if (content != null)
+                category.Content = content;
+            else category.Content = null;
+
+            //Sl.CategoryRepo.Update(category, User_());
+            return Json(true);
+        }
+        return Json(false);
+    }
+
+    [HttpPost]
+    [AccessOnlyAsLoggedIn]
+    public JsonResult SaveSegments(int categoryId, List<SegmentJson> segmentation = null)
+    {
+        var category = EntityCache.GetCategory(categoryId);
+
+        if (category != null)
+        {
+            if (segmentation != null)
+                category.CustomSegments = JsonConvert.SerializeObject(segmentation, new JsonSerializerSettings
+                {
+                    NullValueHandling = NullValueHandling.Ignore
+                }); ;
+
+            Sl.CategoryRepo.Update(category, User_());
+
+            return Json(true);
+        }
+        return Json(false);
     }
 
     [HttpPost]

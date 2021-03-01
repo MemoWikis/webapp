@@ -103,7 +103,7 @@ public class CategoryController : BaseController
         return new CategoryModel(category, true, isCategoryNull, openEditMode)
         {
             ShowLearningSessionConfigurationMessageForQuestionList = !GetSettingsCookie("SessionConfigurationMessageList"),
-            CustomPageHtml = string.IsNullOrEmpty(category.Content) ? "" : TemplateToHtml.Run(Tokenizer.Run(category.Content), category, ControllerContext, version)
+            CustomPageHtml = TemplateToHtml.Run(category, ControllerContext, version)
         };
     }
     public void CategoryById(int id)
@@ -200,47 +200,6 @@ public class CategoryController : BaseController
         {
             return Json(false);
         }
-    }
-
-    [HttpPost]
-    [AccessOnlyAsLoggedIn]
-    public JsonResult SaveCategoryContent(int categoryId, List<TemplateParser.JsonLoader> content = null)
-    {
-        var category = EntityCache.GetCategory(categoryId);
-
-        if (category != null)
-        {
-            if (content != null)
-                category.Content = TemplateParser.GetContent(content);
-            else category.Content = null;
-                category.Content = TemplateParser.GetContent(content);
-
-            Sl.CategoryRepo.Update(category, User_());
-
-            return Json(true);
-        }
-        return Json(false);
-    }
-
-    [HttpPost]
-    [AccessOnlyAsLoggedIn]
-    public JsonResult SaveSegments(int categoryId, List<SegmentJson> segmentation = null)
-    {
-        var category = EntityCache.GetCategory(categoryId);
-
-        if (category != null)
-        {
-            if (segmentation != null)
-                category.CustomSegments = JsonConvert.SerializeObject(segmentation, new JsonSerializerSettings
-                {
-                    NullValueHandling = NullValueHandling.Ignore
-                }); ;
-
-            Sl.CategoryRepo.Update(category, User_());
-
-            return Json(true);
-        }
-        return Json(false);
     }
 
     [HttpPost]

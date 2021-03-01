@@ -841,6 +841,7 @@
     <Compile Include="Tools\Cache\UserCache\UserCacheItem.cs" />
     <Compile Include="Domain\Category\RootCategory.cs" />
     <Compile Include="Tools\Update\Steps\UpdateToVs219.cs" />
+    <Compile Include="Tools\Update\Steps\UpdateToVs224.cs" />
     <Compile Include="Tools\Update\Steps\UpdateToVs223.cs" />
     <Compile Include="Tools\Update\Steps\UpdateToVs222.cs" />
     <Compile Include="Tools\Update\Steps\UpdateToVs221.cs" />

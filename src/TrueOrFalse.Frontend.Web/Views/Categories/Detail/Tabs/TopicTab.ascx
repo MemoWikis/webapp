@@ -96,12 +96,10 @@
         <br/>
     <% } %>
     
-    <div id="MarkdownContent" class="module" v-sortable="options">
+    <div id="MarkdownContent" class="module">
         
         <%= Model.CustomPageHtml %>
-        
-        <div id="ContentModulePlaceholder" v-if="editMode" v-cloak>
-        </div>
+
     </div>
 
     <% if (!Model.CategoryIsDeleted) {%>

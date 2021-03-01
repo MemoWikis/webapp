@@ -13,4 +13,9 @@ public class InlineTextModel : BaseContentModule
             Content = MarkdownMarkdig.ToHtml(htmlContent).Replace("\n", "<br>");
         else Content = json.Content;
     }
+
+    public InlineTextModel(string content)
+    {
+        Content = content ?? "";
+    }
 }

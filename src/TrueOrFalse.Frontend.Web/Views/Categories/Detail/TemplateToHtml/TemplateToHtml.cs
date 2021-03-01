@@ -19,6 +19,11 @@ public class TemplateToHtml
         return result.ToString();
     }
 
+    public static string Run(Category category, ControllerContext controllerContext, int? version = null)
+    {
+        return GetInlineTextHtml(category.Content, controllerContext);
+    }
+
     public static string Run(TemplateJson templateJson, Category category, ControllerContext controllerContext, bool preview = false, int? version = null)
     {
         try
@@ -85,6 +90,15 @@ public class TemplateToHtml
         return ViewRenderer.RenderPartialView(
             $"~/Views/Categories/Detail/Partials/{templateJson.TemplateName}/{templateJson.TemplateName}.ascx",
             partialModel,
+            controllerContext);
+    }
+
+    private static string GetInlineTextHtml(string categoryContent, ControllerContext controllerContext)
+    {
+        var inlineTextModel = new InlineTextModel(categoryContent);
+        return ViewRenderer.RenderPartialView(
+            $"~/Views/Categories/Detail/Partials/InlineText/InlineText.ascx",
+            inlineTextModel,
             controllerContext);
     }
 

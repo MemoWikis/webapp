@@ -12,18 +12,6 @@ declare var eventBus: any;
 if (eventBus == null)
     var eventBus = new Vue();
 
-Vue.directive('sortable',
-    {
-        inserted(el, binding) {
-            new Sortable(el, binding.value, 
-                {
-                    onUpdate: function() {
-                        eventBus.$emit('sortable-update');
-                    }
-                });
-        },
-    });
-
 new Vue({
     el: '#ContentModuleApp',
     data() {
@@ -55,6 +43,7 @@ new Vue({
             fabIsOpen: false,
             segments: [],
             categoryId: null,
+            content: null,
         };
     },
 
@@ -89,22 +78,6 @@ new Vue({
                     });
                     eventBus.$emit('close-content-module-settings-modal', event.preview);
                     eventBus.$emit('set-edit-mode', true);
-                };
-            });
-        eventBus.$on('new-content-module',
-            (result) => {
-                if (result) {
-                    if (result.position == 'before') {}
-                        var inserted = $(result.newHtml).insertBefore(result.id);
-                    if (result.position == 'after')
-                        var inserted = $(result.newHtml).insertAfter(result.id);
-                    var instance = new contentModuleComponent({
-                        el: inserted.get(0)
-                    });
-                    eventBus.$emit('set-edit-mode', true);
-                    eventBus.$emit('set-new-content-module', this.editMode);
-                    this.updateModuleOrder();
-                    this.sortModules();
                 };
             });
 
@@ -142,30 +115,13 @@ new Vue({
                 this.segments.splice(index, 1);
             });
         eventBus.$on('save-segments', () => this.saveSegments());
-        this.sortModules();
     },
 
     updated() {
         this.footerCheck();
     },
 
-    watch: {
-        editMode(val) {
-            if (val) {
-                this.updateModuleOrder();
-                this.sortModules();
-                $('#EditCategoryBreadcrumbChip').addClass('show');
-            } else
-                $('#EditCategoryBreadcrumbChip').removeClass('show');
-        },
-    },
-
-
     methods: {
-
-        updateModuleOrder() {
-            this.moduleOrder = $(".inlinetext, .topicnavigation").map((idx, elem) => $(elem).attr("uid")).get();
-        },
 
         footerCheck() {
             const elFooter = document.getElementById('CategoryFooter');
@@ -181,36 +137,7 @@ new Vue({
         },
 
         cancelEditMode() {
-            if (!this.editMode)
-                return;
-
-            this.editMode = false;
             eventBus.$emit('cancel-edit-mode');
-            //if (this.changedContent)
-            //    location.reload();
-        },
-
-        sortModules() {
-            var items = this.modules;
-            var sorting = this.moduleOrder;
-            var result = [];
-
-            sorting.forEach(function(key) {
-                var found = false;
-                items = items.filter(function(item) {
-                    if (!found && item.id == key) {
-                        result.push(item.contentData);
-                        found = true;
-                        return false;
-                    } else
-                        return true;
-                });
-            });
-
-            this.sortedModules = result;
-            if ((result.length == 0 || result[result.length - 1].TemplateName != 'InlineText') && (items.length == 0 || items[items.length - 1].contentData.TemplateName != 'InlineText'))
-                eventBus.$emit('add-inline-text-module');
-            return;
         },
 
         removeAlert() {
@@ -219,27 +146,17 @@ new Vue({
             this.showTopAlert = false;
         },
 
-        onMove(event) {
-            return event.related.id !== 'ContentModulePlaceholder';;
-        },
-
         async saveContent() {
-            var self = this;
             if (NotLoggedIn.Yes()) {
                 return;
             }
-            if (!this.editMode)
-                return;
-
-            this.updateModuleOrder();
-            await this.sortModules();
+            var self = this;
 
             this.saveSegments();
 
-            var filteredModules = this.sortedModules.filter(o => (o.TemplateName != 'InlineText' || o.Content));
             var data = {
                 categoryId: self.categoryId,
-                content: filteredModules,
+                content: self.content,
             }
             $.ajax({
                 type: 'post',
@@ -250,9 +167,6 @@ new Vue({
                     if (success == true) {
                         this.saveSuccess = true;
                         this.saveMessage = "Das Thema wurde gespeichert.";
-                        //if (window.location.href.endsWith('?openEditMode=True'))
-                        //    location.href = window.location.href.slice(0, -18);
-                        //else location.reload();
                     } else {
                         this.saveSuccess = false;
                         this.saveMessage = "Das Speichern schlug fehl.";

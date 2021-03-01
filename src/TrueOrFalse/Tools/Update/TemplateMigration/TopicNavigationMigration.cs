@@ -3,37 +3,63 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web;
 using System.Web.Razor.Tokenizer;
 using Newtonsoft.Json;
+using TrueOrFalse.Frontend.Web.Code;
+using static System.String;
 
 namespace TemplateMigration
 {
     public class TopicNavigationMigration
     {
-        public static string RemoveTopicNavigation(string categoryContent)
+        public static void Run()
         {
-            var tokens = GetTokens(categoryContent);
-
-            var newString = "";
-            var newContent = "";
-            tokens = tokens.Where(t => t != null).ToList();
-            foreach (TemplateJson token in tokens)
+            var allCategories = Sl.CategoryRepo.GetAll();
+            foreach (var category in allCategories)
             {
-                if (token.TemplateName == "InlineText")
+                if (IsNullOrEmpty(category.Content))
+                    continue;
+
+                var categoryContentBeforeMigration = category.Content;
+                var categoryId = category.Id;
+                category.Content = RemoveTopicNavigation(category.Content, allCategories);
+
+                Sl.CategoryRepo.UpdateBeforeEntityCacheInit(category);
+
+                Logg.r().Information("MigrateContent: {categoryId} {beforeContentMigration} {afterContentMigration}", categoryId, categoryContentBeforeMigration, category.Content);
+            }
+        }
+        public static string RemoveTopicNavigation(string categoryContent, IList<Category> allCategories)
+        {
+            var templates = GetTemplates(categoryContent).Where(t => t != null).ToList();
+
+            var newContent = "";
+            foreach (var template in templates)
+            {
+                if (template.TemplateName == "InlineText")
                 {
-                    var inlineTextToken = JsonConvert.DeserializeObject<InlineTextJson>(token.OriginalJson);
+                    var inlineTextToken = JsonConvert.DeserializeObject<InlineTextJson>(template.OriginalJson);
                     newContent += inlineTextToken.Content;
                 }
-                else if (token.TemplateName == "TopicNavigation")
+                else if (template.TemplateName == "TopicNavigation")
                 {
-                    var topicNavigationToken = JsonConvert.DeserializeObject<TopicNavigationJson>(token.OriginalJson);
+                    var topicNavigationToken = JsonConvert.DeserializeObject<TopicNavigationJson>(template.OriginalJson);
                     if (topicNavigationToken.Load == null || topicNavigationToken.Load == "All")
                         continue;
-                    else
-                    {
-                        var categoryIdList = topicNavigationToken.Load.Split(',').ToList().ConvertAll(int.Parse);
 
+                    var newCategoryListHtml = "<p><ul>";
+                    var categoryIds = topicNavigationToken.Load.Split(',').ToList().ConvertAll(int.Parse);
+                    foreach (var categoryId in categoryIds)
+                    {
+                        var category = allCategories.FirstOrDefault(c => c.Id == categoryId);
+                        var url = "/" + HttpUtility.UrlEncode(category.Name) + "/" + category.Id;
+                        var html = "\n<li><a href=\"" + url + "\">" + category.Name + "</a></li>";
+                        newCategoryListHtml += html;
                     }
+
+                    newCategoryListHtml += "</p></ul>";
+                    newContent += newCategoryListHtml;
                 }
 
             }
@@ -41,7 +67,7 @@ namespace TemplateMigration
             return newContent;
         }
 
-        public static List<TemplateJson> GetTokens(string contentString)
+        public static List<TemplateJson> GetTemplates(string contentString)
         {
             dynamic jsonObject = JsonConvert.DeserializeObject(contentString);
 
