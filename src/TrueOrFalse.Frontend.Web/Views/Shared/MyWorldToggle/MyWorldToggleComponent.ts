@@ -10,9 +10,6 @@ Vue.component('my-world-toggle-component',
                 disabled: false,
             }
         },
-        created() {
-
-        },
         mounted() {
             this.loadCookie();
         },
