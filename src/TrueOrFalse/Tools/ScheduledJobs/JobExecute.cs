@@ -2,13 +2,20 @@
 using System.Data;
 using System.Diagnostics;
 using System.Threading;
+using System.Threading.Tasks;
 using Autofac;
 using NHibernate;
 using RollbarSharp;
 
 public class JobExecute
 {
-    [ThreadStatic] public static bool CodeIsRunningInsideAJob;
+    [ThreadStatic] 
+    public static bool CodeIsRunningInsideAJob;
+
+    public static void RunAsTask(Action<ILifetimeScope> action, string jobName, bool writeLog = true)
+    {
+        Task.Run(() => { Run(action, jobName, writeLog); });
+    }
 
     public static void Run(Action<ILifetimeScope> action, string jobName, bool writeLog = true)
     {

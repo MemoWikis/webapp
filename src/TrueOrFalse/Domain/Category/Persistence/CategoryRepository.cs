@@ -60,8 +60,10 @@ public class CategoryRepository : RepositoryDbBase<Category>
 
         base.Create(category);
         Flush();
+        
         if (category.Creator != null)
             UserActivityAdd.CreatedCategory(category);
+
         _searchIndexCategory.Update(category);
         EntityCache.AddOrUpdate(category);
 
@@ -89,8 +91,11 @@ public class CategoryRepository : RepositoryDbBase<Category>
         Sl.R<UpdateQuestionCountForCategory>().Run(new List<Category> { category });
         EntityCache.AddOrUpdate(category);
         UserEntityCache.ChangeCategoryInUserEntityCaches(category);
-        GraphService.AutomaticInclusionOfChildThemes(EntityCache.GetCategory(category.Id));
 
+        JobExecute.RunAsTask(scope =>
+        {
+            GraphService.AutomaticInclusionOfChildThemes(EntityCache.GetCategory(category.Id));
+        }, "AutomaticInclusionOfChildThemes");
     }
 
     public void UpdateWithoutFlush(Category category)

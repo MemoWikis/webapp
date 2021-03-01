@@ -1,11 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Security;
 using System.Web;
-using System.Web.Helpers;
 using System.Web.Mvc;
-using FluentNHibernate.Data;
 using TrueOrFalse.Frontend.Web.Code;
 using TrueOrFalse.View.Web.Views.Api;
 using TrueOrFalse.Web;
@@ -223,14 +220,16 @@ public class EditCategoryController : BaseController
     [HttpPost]
     public JsonResult QuickCreateWithCategories(string name, int parentCategoryId, int[] childCategoryIds)
     {
-        var category = new Category(name);
-        var parentCategory = EntityCache.GetCategory(parentCategoryId);
-        ModifyRelationsForCategory.AddParentCategory(category, parentCategory);
+        var category = new Category(name) {Creator = _sessionUser.User};
 
-        category.Creator = _sessionUser.User;
-        category.Type = CategoryType.Standard;
-        _categoryRepository.Create(category);
-        
+        JobExecute.RunAsTask(scope =>
+        {
+            var parentCategory = EntityCache.GetCategory(parentCategoryId);
+            ModifyRelationsForCategory.AddParentCategory(category, parentCategory);
+        }, "ModifyRelationForCategoryJob");
+
+        Sl.CategoryRepo.Create(category);
+
         foreach (var childCategoryId in childCategoryIds)
         {
             var childCategory = EntityCache.GetCategory(childCategoryId);
