@@ -29,7 +29,6 @@ Vue.component('my-world-toggle-component',
                 });
             },
             toggleMyWorld() {
-                console.log('test');
                 Utils.ShowSpinner();
                 this.showMyWorld = !this.showMyWorld;
                 var s = this.showMyWorld;
