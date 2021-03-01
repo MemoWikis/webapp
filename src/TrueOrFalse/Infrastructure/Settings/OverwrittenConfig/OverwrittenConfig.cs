@@ -1,11 +1,15 @@
 ﻿using System;
 using System.IO;
+using System.Reflection;
+using System.Web;
+using System.Web.Configuration;
 using System.Xml.Linq;
 using Seedworks.Web.State;
-using Serilog;
 
 public static class OverwrittenConfig
 {
+    
+
     public static string ValueString(string itemName)
     {
         var result = Value(itemName);
@@ -23,8 +27,6 @@ public static class OverwrittenConfig
         string filePath = ContextUtil.GetFilePath(
             ContextUtil.IsWebContext || ContextUtil.UseWebConfig ? "Web.overwritten.config" : "App.overwritten.config"
         );
-
-        Log.Information("{isWebContext} {filePath}", ContextUtil.IsWebContext, filePath);
 
         if (!File.Exists(filePath))
             return new OverwrittenConfigValueResult(false, null);
