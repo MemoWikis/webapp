@@ -52,7 +52,7 @@ var FAB = Vue.component('floating-action-button',
                     this.fabLabel = '';
             },
             contentHasChanged(val) {
-                if (val) {
+                if (val && !this.editMode) {
                     this.editMode = true;
                     this.editCategoryContent();
                 }

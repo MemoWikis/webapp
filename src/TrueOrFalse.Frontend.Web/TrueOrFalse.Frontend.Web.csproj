@@ -2152,7 +2152,7 @@
     <Content Include="Views\Categories\Detail\JsEditMode\ContentModulesApp.js">
       <DependentUpon>ContentModulesApp.ts</DependentUpon>
     </Content>
-    <Content Include="Views\Categories\Detail\JsEditMode\ContentModuleSettings\InlineEditComponent.js">
+    <Content Include="Views\Categories\Detail\JsEditMode\InlineEdit\InlineEditComponent.js">
       <DependentUpon>InlineEditComponent.ts</DependentUpon>
     </Content>
     <Content Include="Views\Categories\Detail\JsEditMode\Segmentation\SegmentationCategoryCardComponent.js">
@@ -2273,7 +2273,7 @@
     <TypeScriptCompile Include="Views\Categories\Detail\FloatingActionButton\LearningTabFABLoader.ts" />
     <TypeScriptCompile Include="Views\Categories\Detail\FloatingActionButton\TopicTabFABLoader.ts" />
     <TypeScriptCompile Include="Views\Categories\Detail\JsAnalyticsTab\KnowledgeGraph.ts" />
-    <TypeScriptCompile Include="Views\Categories\Detail\JsEditMode\ContentModuleSettings\InlineEditComponent.ts" />
+    <TypeScriptCompile Include="Views\Categories\Detail\JsEditMode\InlineEdit\InlineEditComponent.ts" />
     <TypeScriptCompile Include="Views\Categories\Detail\JsEditMode\ContentModulesApp.ts" />
     <Content Include="Views\Knowledge\Css\KnowledgeQuestions.css">
       <DependentUpon>KnowledgeQuestions.less</DependentUpon>
@@ -2423,7 +2423,7 @@
     <Content Include="Views\Categories\Detail\JsEditMode\ContentModulesApp.js.map">
       <DependentUpon>ContentModulesApp.ts</DependentUpon>
     </Content>
-    <Content Include="Views\Categories\Detail\JsEditMode\ContentModuleSettings\InlineEditComponent.js.map">
+    <Content Include="Views\Categories\Detail\JsEditMode\InlineEdit\InlineEditComponent.js.map">
       <DependentUpon>InlineEditComponent.ts</DependentUpon>
     </Content>
     <Content Include="Views\Knowledge\Wheel\KnowledgeWheel.js.map">

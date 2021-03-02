@@ -1,6 +1,6 @@
 ﻿<%@ Control Language="C#" AutoEventWireup="true" Inherits="System.Web.Mvc.ViewUserControl<InlineTextModel>" %>
 
-<text-component content="<%: HttpUtility.HtmlDecode(Model.Content)  %>" inline-template>
+<text-component content="<%: HttpUtility.HtmlDecode(Model.Content)%>" inline-template>
     <div class="inline-text-editor">
         <editor-menu-bar :editor="editor" v-slot="{ commands, isActive, focused }">
           <div
@@ -108,8 +108,8 @@
         >
             <i class="fas fa-file-code"></i>
         </button>
-          
-          <button
+
+              <button
               class="menubar__button"
               @click="commands.horizontal_rule"
           >

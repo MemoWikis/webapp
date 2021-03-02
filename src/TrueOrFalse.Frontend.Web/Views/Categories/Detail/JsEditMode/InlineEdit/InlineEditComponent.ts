@@ -75,6 +75,10 @@ Vue.component('text-component',
                         new tiptapExtensions.Strike(),
                         new tiptapExtensions.Underline(),
                         new tiptapExtensions.History(),
+                        new tiptapExtensions.TrailingNode({
+                            node: 'paragraph',
+                            notAfter: ['paragraph'],
+                        }),
                         new tiptapExtensions.CodeBlockHighlight({
                             languages: {
                                 apache,
@@ -160,6 +164,10 @@ Vue.component('text-component',
                                 new tiptapExtensions.Strike(),
                                 new tiptapExtensions.Underline(),
                                 new tiptapExtensions.History(),
+                                new tiptapExtensions.TrailingNode({
+                                    node: 'paragraph',
+                                    notAfter: ['paragraph'],
+                                }),
                                 new tiptapExtensions.CodeBlockHighlight({
                                     languages: {
                                         apache,
@@ -231,7 +239,7 @@ Vue.component('text-component',
             setContent(html) {
                 this.htmlContent = html;
                 this.$root.content = html;
-            }
+            },
         }
     });
 
