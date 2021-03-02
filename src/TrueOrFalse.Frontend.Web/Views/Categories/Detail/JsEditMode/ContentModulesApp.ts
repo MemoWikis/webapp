@@ -44,20 +44,13 @@ new Vue({
             segments: [],
             categoryId: null,
             content: null,
+            json: null,
         };
     },
 
     created() {
         var self = this;
         self.categoryId = parseInt($("#hhdCategoryId").val());
-        eventBus.$on('get-module',
-            (module) => {
-                var index = this.modules.findIndex((m) => m.id == module.id);
-                if (index >= 0)
-                    this.modules[index] = module;
-                else
-                    this.modules.push(module);
-            });
         eventBus.$on("set-edit-mode",
             (state) => {
                 this.editMode = state;
@@ -67,20 +60,6 @@ new Vue({
                     eventBus.$emit('cancel-edit-mode');
                 }
             });
-        eventBus.$on('update-content-module',
-            (event) => {
-                if (event.preview == true) {
-                    const previewHtml = event.newHtml;
-                    const moduleToReplace = event.toReplace;
-                    var inserted = $(previewHtml).insertAfter(moduleToReplace);
-                    new contentModuleComponent({
-                        el: inserted.get(0)
-                    });
-                    eventBus.$emit('close-content-module-settings-modal', event.preview);
-                    eventBus.$emit('set-edit-mode', true);
-                };
-            });
-
         window.addEventListener('scroll', this.footerCheck);
         window.addEventListener('resize', this.footerCheck);
         eventBus.$on('content-change',

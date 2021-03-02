@@ -264,7 +264,7 @@ public class EditCategoryController : BaseController
                 category.Content = content;
             else category.Content = null;
 
-            //Sl.CategoryRepo.Update(category, User_());
+            Sl.CategoryRepo.Update(category, User_());
             return Json(true);
         }
         return Json(false);

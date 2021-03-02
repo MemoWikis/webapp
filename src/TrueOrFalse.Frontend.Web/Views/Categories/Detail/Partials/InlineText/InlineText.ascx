@@ -1,7 +1,5 @@
 ﻿<%@ Control Language="C#" AutoEventWireup="true" Inherits="System.Web.Mvc.ViewUserControl<InlineTextModel>" %>
 
-<%: Html.Partial("~/Views/Categories/Detail/Partials/ContentModuleWrapperStart.ascx") %>
-
 <text-component content="<%: HttpUtility.HtmlDecode(Model.Content)  %>" inline-template>
     <div class="inline-text-editor">
         <editor-menu-bar :editor="editor" v-slot="{ commands, isActive, focused }">
@@ -143,5 +141,3 @@
     </div>
 
 </text-component>
-
-<%: Html.Partial("~/Views/Categories/Detail/Partials/ContentModuleWrapperEnd.ascx") %>

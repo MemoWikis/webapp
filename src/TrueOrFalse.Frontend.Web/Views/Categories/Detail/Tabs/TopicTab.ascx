@@ -101,10 +101,6 @@
         <%= Model.CustomPageHtml %>
 
     </div>
-
-    <% if (!Model.CategoryIsDeleted) {%>
-        <%: Html.Partial("~/Views/Categories/Detail/Partials/ModalComponentCollection.ascx") %>
-    <% } %>
     <div>
         <%: Html.Partial("~/Views/Categories/Detail/Partials/Segmentation/SegmentationComponent.vue.ascx", new SegmentationModel(Model.Category)) %>
     </div>

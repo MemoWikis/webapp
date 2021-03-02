@@ -44,7 +44,6 @@
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
         
     <!-- Vue Templates must be loaded before Vue Apps --------------------------- -->
-    <%: Html.Partial("~/Views/Categories/Detail/Partials/SettingsDialogCollection.ascx") %>
 
     <input type="hidden" id="hhdCategoryId" value="<%= Model.Category.Id %>"/>
     <input type="hidden" id="hhdCategoryName" value="<%= Model.Category.Name %>"/>

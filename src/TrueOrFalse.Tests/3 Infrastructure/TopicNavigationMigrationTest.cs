@@ -56,7 +56,7 @@ class TopicNavigationMigrationTest
         var testString = "[{\"TemplateName\":\"TopicNavigation\",\"Load\":\"1,2\"}]";
         var newContent = TopicNavigationMigration.RemoveTopicNavigation(testString, dummyList);
         var expectedResult =
-            "<p><ul>\n<li><a href=\"/Test1/1\">Test1</a></li>\n<li><a href=\"/Test2/2\">Test2</a></li></p></ul>";
+            "<p><ul>\n<li><a href=\"/Test1/1\">Test1</a></li>\n<li><a href=\"/Test2/2\">Test2</a></li></ul></p>";
         Assert.That(newContent, Is.EqualTo(expectedResult));
     }
 }

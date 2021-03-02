@@ -1,12 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Web;
-using System.Web.Razor.Tokenizer;
 using Newtonsoft.Json;
-using TrueOrFalse.Frontend.Web.Code;
+using TrueOrFalse.Web;
 using static System.String;
 
 namespace TemplateMigration
@@ -53,12 +48,12 @@ namespace TemplateMigration
                     foreach (var categoryId in categoryIds)
                     {
                         var category = allCategories.FirstOrDefault(c => c.Id == categoryId);
-                        var url = "/" + HttpUtility.UrlEncode(category.Name) + "/" + category.Id;
+                        var url = "/" + UriSanitizer.Run(category.Name) + "/" + category.Id;
                         var html = "\n<li><a href=\"" + url + "\">" + category.Name + "</a></li>";
                         newCategoryListHtml += html;
                     }
 
-                    newCategoryListHtml += "</p></ul>";
+                    newCategoryListHtml += "</ul></p>";
                     newContent += newCategoryListHtml;
                 }
 

@@ -129,13 +129,6 @@ Vue.component('text-component',
                         this.json = getJSON();
                         this.html = getHTML();
                     },
-                    editorProps: {
-                        handleDOMEvents: {
-                            drop: (view, e) => { e.preventDefault(); },
-                        }
-                    },
-                    // hide the drop position indicator
-                    dropCursor: { width: 0, color: 'transparent' },
                 }),
             }
         },
@@ -221,13 +214,6 @@ Vue.component('text-component',
                                 this.json = getJSON();
                                 this.html = getHTML();
                             },
-                            editorProps: {
-                                handleDOMEvents: {
-                                    drop: (view, e) => { e.preventDefault(); },
-                                }
-                            },
-                            // hide the drop position indicator
-                            dropCursor: { width: 0, color: 'transparent' },
                         });
                 });
         },
@@ -235,16 +221,14 @@ Vue.component('text-component',
             html() {
                 this.setContent(this.html);
                 eventBus.$emit('content-change');
+            },
+
+            json() {
+                this.$root.json = this.json;
             }
         },
         methods: {
-
             setContent(html) {
-                var json = {
-                    "TemplateName": "InlineText",
-                    "Content": html
-                }
-                this.$parent.content = json;
                 this.htmlContent = html;
                 this.$root.content = html;
             }
