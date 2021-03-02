@@ -29,7 +29,7 @@ public class UserEntityCache : BaseCache
         if (!_Categories.ContainsKey(userId))
             Init();
  
-        if (_Categories[userId].ContainsKey(categoryId))
+        if (_Categories[userId].ContainsKey(categoryId)) 
             return _Categories[userId][categoryId];
 
         return _Categories[userId][GetNextParentInWishknowledge(categoryId).Id];

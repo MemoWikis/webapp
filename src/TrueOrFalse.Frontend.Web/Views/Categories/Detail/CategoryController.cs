@@ -27,8 +27,7 @@ public class CategoryController : BaseController
 
     public ActionResult CategoryLearningTab(int id, int? version)
     {
-        if(IsLoggedIn)
-            UserCache.IsFiltered =  GetMyWorldCookie();
+        GetMyWorldCookie();
 
         var modelAndCategoryResult = LoadModel(id, version);
         modelAndCategoryResult.CategoryModel.ShowLearningSessionConfigurationMessageForTab = GetSettingsCookie("ShowSessionConfigurationMessageTab");
@@ -199,10 +198,8 @@ public class CategoryController : BaseController
 
             return Json(true);
         }
-        else
-        {
-            return Json(false);
-        }
+
+        return Json(false);
     }
 
     [HttpPost]
