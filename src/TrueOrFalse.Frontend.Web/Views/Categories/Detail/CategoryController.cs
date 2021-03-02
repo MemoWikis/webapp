@@ -27,6 +27,9 @@ public class CategoryController : BaseController
 
     public ActionResult CategoryLearningTab(int id, int? version)
     {
+        if(IsLoggedIn)
+            UserCache.IsFiltered =  GetMyWorldCookie();
+
         var modelAndCategoryResult = LoadModel(id, version);
         modelAndCategoryResult.CategoryModel.ShowLearningSessionConfigurationMessageForTab = GetSettingsCookie("ShowSessionConfigurationMessageTab");
         modelAndCategoryResult.CategoryModel.ShowLearningSessionConfigurationMessageForQuestionList = !GetSettingsCookie("SessionConfigurationMessageList");
