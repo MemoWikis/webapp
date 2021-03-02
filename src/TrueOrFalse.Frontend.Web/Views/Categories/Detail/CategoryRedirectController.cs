@@ -69,7 +69,7 @@ public class CategoryRedirectController : BaseController
         var historicCategory = categoryChange.ToHistoricCategory();
         categoryModel.Name = historicCategory.Name;
         categoryModel.CategoryChange = categoryChange;
-        categoryModel.CustomPageHtml = MarkdownToHtml.Run(historicCategory.TopicMarkdown, historicCategory, ControllerContext);
+        categoryModel.CustomPageHtml = TemplateToHtml.Run(historicCategory, ControllerContext); 
         categoryModel.Description = MarkdownToHtml.Run(historicCategory.Description, historicCategory, ControllerContext);
         categoryModel.WikipediaURL = historicCategory.WikipediaURL;
         categoryModel.NextRevExists = Sl.CategoryChangeRepo.GetNextRevision(categoryChange) != null;
