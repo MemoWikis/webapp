@@ -6,7 +6,7 @@ using System.Web.Mvc;
 
 public class TemplateToHtml
 {
-    public static string Run(Category category, ControllerContext controllerContext, int? version = null)
+    public static string Run(Category category, ControllerContext controllerContext)
     {
         var html = GetInlineTextHtml(category, controllerContext);
         if (string.IsNullOrEmpty(html))
