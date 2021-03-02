@@ -115,6 +115,9 @@
 
                 <input type="hidden" id="currentMarkdown" value="<%= Server.HtmlEncode(Model.CurrentMarkdown) %>"/>
                 <input type="hidden" id="prevMarkdown" value="<%= Server.HtmlEncode(Model.PrevMarkdown) %>"/>
+
+                <input type="hidden" id="currentContent" value="<%= Server.HtmlEncode(Model.CurrentContent) %>"/>
+                <input type="hidden" id="prevContent" value="<%= Server.HtmlEncode(Model.PrevContent) %>"/>
                 
                 <input type="hidden" id="currentDescription" value="<%= Server.HtmlEncode(Model.CurrentDescription) %>"/>
                 <input type="hidden" id="prevDescription" value="<%= Server.HtmlEncode(Model.PrevDescription) %>"/>
