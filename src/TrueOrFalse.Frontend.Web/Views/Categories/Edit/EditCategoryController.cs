@@ -276,6 +276,8 @@ public class EditCategoryController : BaseController
     [AccessOnlyAsLoggedIn]
     public JsonResult SaveSegments(int categoryId, List<SegmentJson> segmentation = null)
     {
+        if (categoryId == 0 && !IsInstallationAdmin)
+            return Json("Die Startseite kann nur von einem Admin bearbeitet werden");
         var category = EntityCache.GetCategory(categoryId);
 
         if (category != null)
