@@ -21,8 +21,6 @@ public class CategoryModel : BaseContentModule
     public IList<Question> AggregatedQuestions;
     public IList<Question> CategoryQuestions;
     public int AggregatedTopicCount;
-    public int AggregatedQuestionCount;
-    public int CategoryQuestionCount;
     public IList<Question> TopQuestions;
     public IList<Question> TopQuestionsWithReferences;
     public List<Question> TopQuestionsInSubCats = new List<Question>();
@@ -153,9 +151,6 @@ public class CategoryModel : BaseContentModule
         IsFilteredUserWorld = UserCache.IsFiltered;
 
         AggregatedTopicCount = IsFilteredUserWorld ? CategoriesChildren.Count : new TopicNavigationModel().GetTotalTopicCount(category);
-
-        AggregatedQuestionCount = Category.GetCountQuestionsAggregated();
-        CategoryQuestionCount = Category.GetCountQuestionsAggregated(true, category.Id);
         HardestQuestion = GetQuestion(true);
         EasiestQuestion = GetQuestion(false);
 

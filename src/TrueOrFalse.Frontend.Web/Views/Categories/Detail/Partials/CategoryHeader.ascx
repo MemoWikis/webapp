@@ -26,7 +26,7 @@
                     <%= Model.Category.Type == CategoryType.Standard ? "Thema" : Model.Type %> mit <% if (Model.AggregatedTopicCount == 1)
                                                                                                       { %> 1 Unterthema und <% }
                                                                                                       if (Model.AggregatedTopicCount > 1)
-                                                                                                      { %> <%= Model.AggregatedTopicCount %> Unterthemen und <% } %><%= Model.AggregatedQuestionCount %> Frage<%= StringUtils.PluralSuffix(Model.AggregatedQuestionCount, "n") %>
+                                                                                                      { %> <%= Model.AggregatedTopicCount %> Unterthemen und <% } %><%= Model.CountAggregatedQuestions %> Frage<%= StringUtils.PluralSuffix(Model.CountAggregatedQuestions, "n") %>
                     <% if (Model.IsInstallationAdmin) { %>
                         <a href="#" id="jsAdminStatistics">
                             <span style="margin-left: 10px; font-size: smaller;" class="show-tooltip" data-placement="right" data-original-title="Nur von admin sichtbar">

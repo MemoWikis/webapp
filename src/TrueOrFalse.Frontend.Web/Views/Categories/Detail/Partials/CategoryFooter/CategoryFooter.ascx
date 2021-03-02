@@ -33,14 +33,14 @@
         
             <div style="display: flex; justify-content: space-between; margin-top: 20px;">
                 <div class="QuestionCounter">
-                    <p><% string aggregatedQuestionCount = "Keine";
-                          if (Model.AggregatedQuestionCount > 0)
-                              aggregatedQuestionCount = Model.AggregatedQuestionCount.ToString();%>
-                        <%= aggregatedQuestionCount %> Frage<%= StringUtils.PluralSuffix(Model.AggregatedQuestionCount, "n") %> im Wissensnetz.</p>
+                    <p><% string CountAggregatedQuestions = "Keine";
+                          if (Model.CountAggregatedQuestions > 0)
+                              CountAggregatedQuestions = Model.CountAggregatedQuestions.ToString();%>
+                        <%= CountAggregatedQuestions %> Frage<%= StringUtils.PluralSuffix(Model.CountAggregatedQuestions, "n") %> im Wissensnetz.</p>
                     <p><% string questionCount = "Keine";
-                          if (Model.CategoryQuestionCount > 0)
-                              questionCount = Model.CategoryQuestionCount.ToString();%>
-                        <%= questionCount %> Frage<%= StringUtils.PluralSuffix(Model.CategoryQuestionCount, "n") %> direkt zugeordnet.</p>
+                          if (Model.CountAggregatedQuestions > 0)
+                              questionCount = Model.CountAggregatedQuestions.ToString();%>
+                        <%= questionCount %> Frage<%= StringUtils.PluralSuffix(Model.CountAggregatedQuestions, "n") %> direkt zugeordnet.</p>
                 </div>
                 <div class="StartLearningSession">
                     <a href="<%=Links.LearningSessionFooter(Model.Id, Model.Category.Name) %>" id="LearningFooterBtn" data-tab-id="LearningTab" class="btn btn-lg btn-primary footerBtn" >Lernsitzung starten</a> 

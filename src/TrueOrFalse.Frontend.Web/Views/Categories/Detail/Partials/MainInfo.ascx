@@ -16,7 +16,7 @@
             <div class="col-xs-12">
                 <header>
                     <div id="AboveMainHeading" class="greyed">
-                        <%= Model.Category.Type == CategoryType.Standard ? "Thema" : Model.Type %> mit <%= Model.AggregatedSetCount %> Lernset<%= StringUtils.PluralSuffix(Model.AggregatedSetCount, "s") %> und <%= Model.AggregatedQuestionCount %> Frage<%= StringUtils.PluralSuffix(Model.AggregatedQuestionCount, "n") %>
+                        Thema mit und <%= Model.CountAggregatedQuestions %> Frage<%= StringUtils.PluralSuffix(Model.CountAggregatedQuestions, "n") %>
                         <% if(Model.IsInstallationAdmin) { %>
                             <span style="margin-left: 10px; font-size: smaller;" class="show-tooltip" data-placement="right" data-original-title="Nur von admin sichtbar">
                                 (<i class="fa fa-user-secret">&nbsp;</i><%= Model.GetViews() %> views)
