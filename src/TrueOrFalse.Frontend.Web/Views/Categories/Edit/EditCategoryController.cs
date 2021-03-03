@@ -162,7 +162,7 @@ public class EditCategoryController : BaseController
 
         new CategoryApiModel().Pin(category.Id); 
 
-        return Redirect(Links.CategoryDetail(category, openEditMode: true));
+        return Redirect(Links.CategoryDetail(category));
     }
 
     [HttpPost]
@@ -214,7 +214,7 @@ public class EditCategoryController : BaseController
         return Json(new
         {
             success = true,
-            url = Links.CategoryDetail(category, openEditMode: true),
+            url = Links.CategoryDetail(category),
             id = category.Id
         });
     }
@@ -247,7 +247,7 @@ public class EditCategoryController : BaseController
         return Json(new
         {
             success = true,
-            url = Links.CategoryDetail(category, openEditMode: true),
+            url = Links.CategoryDetail(category),
             id = category.Id
         });
     }

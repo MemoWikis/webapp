@@ -2,7 +2,6 @@
 declare var VueTextareaAutosize: any;
 declare var VueSelect: any;
 declare var Sticky: any;
-declare var Sortable: any;
 declare var tiptapBuild: any;
 declare var hljsBuild: any;
 
@@ -16,30 +15,12 @@ new Vue({
     el: '#ContentModuleApp',
     data() {
         return {
-            options: {
-                handle: '.Handle',
-                animation: 100,
-                fallbackOnBody: true,
-                filter: '.placeholder',
-                preventOnFilter: false,
-                onMove: this.onMove,
-                onUpdate: () => {
-                    this.updateModuleOrder();
-                    this.changedContent = true;
-                },
-                axis: 'y'
-            },
             saveSuccess: false,
             saveMessage: '',
             editMode: true,
             showTopAlert: false,
-            previewModule: null,
             changedContent: false,
             footerIsVisible: '',
-            awaitInlineTextId: false,
-            moduleOrder: [],
-            modules: [],
-            sortedModules: [],
             fabIsOpen: false,
             segments: [],
             categoryId: null,

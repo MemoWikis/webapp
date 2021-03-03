@@ -17,10 +17,10 @@ public class CategoryController : BaseController
 
     [SetMainMenu(MainMenuEntry.CategoryDetail)]
     [SetThemeMenu(true)]
-    public ActionResult Category(int id, int? version, bool? openEditMode)
+    public ActionResult Category(int id, int? version)
     {
         GetMyWorldCookie(); 
-        var modelAndCategoryResult = LoadModel(id, version, openEditMode);
+        var modelAndCategoryResult = LoadModel(id, version);
         modelAndCategoryResult.CategoryModel.IsInTopic = true;
         return View(_viewLocation, modelAndCategoryResult.CategoryModel);
     }
@@ -43,7 +43,7 @@ public class CategoryController : BaseController
         return View(_viewLocation, modelAndCategoryResult.CategoryModel);
     }
 
-    private LoadModelResult LoadModel(int id, int? version, bool? openEditMode = false)
+    private LoadModelResult LoadModel(int id, int? version)
     {
         var result = new LoadModelResult();
         var category = EntityCache.GetCategory(id);
@@ -61,7 +61,7 @@ public class CategoryController : BaseController
         result.Category = category;
 
         result.CategoryModel =
-            GetModelWithContentHtml(category, version, isCategoryNull, openEditMode ?? false);
+            GetModelWithContentHtml(category, version, isCategoryNull);
 
         if (version != null)
             ApplyCategoryChangeToModel(result.CategoryModel, (int)version, id);
@@ -98,12 +98,12 @@ public class CategoryController : BaseController
         categoryModel.NextRevExists = Sl.CategoryChangeRepo.GetNextRevision(categoryChange) != null;
     }
 
-    private CategoryModel GetModelWithContentHtml(Category category, int? version = null, bool isCategoryNull = false, bool openEditMode = false)
+    private CategoryModel GetModelWithContentHtml(Category category, int? version = null, bool isCategoryNull = false)
     {
-        return new CategoryModel(category, true, isCategoryNull, openEditMode)
+        return new CategoryModel(category, true, isCategoryNull)
         {
             ShowLearningSessionConfigurationMessageForQuestionList = !GetSettingsCookie("SessionConfigurationMessageList"),
-            CustomPageHtml = TemplateToHtml.Run(category, ControllerContext, version)
+            CustomPageHtml = TemplateToHtml.Run(category, ControllerContext)
         };
     }
     public void CategoryById(int id)

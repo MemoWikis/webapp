@@ -59,7 +59,6 @@ public class CategoryModel : BaseContentModule
     public string TotalPins;
     public AnalyticsFooterModel AnalyticsFooterModel;
     public bool CategoryIsDeleted;
-    public bool OpenEditMode;
     public bool ShowLearningSessionConfigurationMessageForTab { get; set; }
     public bool ShowLearningSessionConfigurationMessageForQuestionList { get; set; }
     public bool IsFilteredUserWorld; 
@@ -68,7 +67,7 @@ public class CategoryModel : BaseContentModule
     {
     }
 
-    public CategoryModel(Category category, bool loadKnowledgeSummary = true, bool isCategoryNull = false, bool openEditMode = false)
+    public CategoryModel(Category category, bool loadKnowledgeSummary = true, bool isCategoryNull = false)
     {
         TopNavMenu.BreadCrumbCategories = CrumbtrailService.Get(category, RootCategory.Get);
 
@@ -160,8 +159,6 @@ public class CategoryModel : BaseContentModule
         EasiestQuestion = GetQuestion(false);
 
         TotalPins = category.TotalRelevancePersonalEntries.ToString();
-        OpenEditMode = openEditMode;
-        
     }
 
     private List<Question> GetTopQuestionsInSubCats()

@@ -339,12 +339,7 @@ namespace TrueOrFalse.Frontend.Web.Code
             HttpContext.Current == null 
                 ? "" 
                 : CategoryDetail(category.Name, category.Id);
-
-        public static string CategoryDetail(Category category, bool openEditMode) =>
-            HttpContext.Current == null
-                ? ""
-                : CategoryDetail(category.Name, category.Id, openEditMode);
-
+        
         public static string CategoryDetail(Category category, int version) =>
             HttpContext.Current == null 
                 ? "" 
@@ -352,9 +347,6 @@ namespace TrueOrFalse.Frontend.Web.Code
 
         public static string CategoryDetail(string name, int id) =>
             GetUrlHelper().Action("Category", CategoryController, new { text = UriSanitizer.Run(name), id = id });
-
-        public static string CategoryDetail(string name, int id, bool openEditMode) =>
-            GetUrlHelper().Action("Category", CategoryController, new { text = UriSanitizer.Run(name), id = id, openEditMode = openEditMode });
 
         public static string CategoryDetailAnalyticsTab(Category category) =>
             CategoryDetail(category) + "/Wissensnetz";
