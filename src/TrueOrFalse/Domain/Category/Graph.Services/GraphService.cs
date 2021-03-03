@@ -59,7 +59,7 @@ public class GraphService
 
         foreach (var child in children)
         {
-            var parents = GetParentsFromCategory(child);
+            var parents = GetParentsFromCategory(child, isFromUserEntityCache);
             var hasRootInParents = parents.Any(c => c.Id == rootCategoryId);
             child.CategoryRelations.Clear();
             listWithUserPersonelCategories.Add(child);
@@ -149,9 +149,12 @@ public class GraphService
         return categoryList;   
     }
 
-    private static List<Category> GetParentsFromCategory(Category category)
+    private static List<Category> GetParentsFromCategory(Category category, bool isFromUserEntityCache = false)
     {
-        return category.CategoryRelations.Where(cr => cr.CategoryRelationType == CategoryRelationType.IsChildCategoryOf).Select(cr => cr.RelatedCategory).ToList();
+        if(!isFromUserEntityCache)
+            return category.CategoryRelations.Where(cr => cr.CategoryRelationType == CategoryRelationType.IsChildCategoryOf).Select(cr => cr.RelatedCategory).ToList();
+
+        return EntityCache.GetCategory(category.Id, getDataFromEntityCache: true).CategoryRelations.Where(cr => cr.CategoryRelationType == CategoryRelationType.IsChildCategoryOf).Select(cr => cr.RelatedCategory).ToList();
     }
 
     public static IList<Category> GetAllPersonalCategoriesWithRelations(Category category, int userId = -1) =>

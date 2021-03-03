@@ -210,6 +210,8 @@ public class EditCategoryController : BaseController
         category.Creator = _sessionUser.User;
         category.Type = CategoryType.Standard;
         _categoryRepository.Create(category);
+
+        CategoryInKnowledge.Pin(category.Id, Sl.SessionUser.User);
         StoreImage(category.Id);
         return Json(new
         {
