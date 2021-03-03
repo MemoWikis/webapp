@@ -58,7 +58,7 @@ public class CategoryRedirectController : BaseController
     {
         return new CategoryModel(category)
         {
-            CustomPageHtml = MarkdownToHtml.Run(category.TopicMarkdown, category, ControllerContext)
+            CustomPageHtml = TemplateToHtml.Run(category, ControllerContext)
         };
     }
     
@@ -70,7 +70,6 @@ public class CategoryRedirectController : BaseController
         categoryModel.Name = historicCategory.Name;
         categoryModel.CategoryChange = categoryChange;
         categoryModel.CustomPageHtml = TemplateToHtml.Run(historicCategory, ControllerContext); 
-        categoryModel.Description = MarkdownToHtml.Run(historicCategory.Description, historicCategory, ControllerContext);
         categoryModel.WikipediaURL = historicCategory.WikipediaURL;
         categoryModel.NextRevExists = Sl.CategoryChangeRepo.GetNextRevision(categoryChange) != null;
     }
@@ -125,38 +124,5 @@ public class CategoryRedirectController : BaseController
             ControllerContext
         );
 
-
-    [HttpPost]
-    [AccessOnlyAsLoggedIn]
-    public ActionResult SaveMarkdown(int categoryId, string markdown)
-    {
-        var category = Sl.CategoryRepo.GetById(categoryId);
-
-        if (category != null && markdown != null)
-        {
-            var elements = TemplateParser.Run(markdown, category);
-            var description = Document.GetDescription(elements);
-            category.Description = description;
-            category.TopicMarkdown = markdown;
-            Sl.CategoryRepo.Update(category, User_());
-
-            return Json(true);
-        }
-        else
-        {
-            return Json(false);
-        }
-        
-    }
-
-
-    [HttpPost]
-    [AccessOnlyAsLoggedIn]
-    public ActionResult RenderMarkdown(int categoryId, string markdown)
-    {
-        var category = Sl.CategoryRepo.GetById(categoryId);
-
-        return Json(MarkdownSingleTemplateToHtml.Run(markdown, category, this.ControllerContext, true));
-    }
 }
 

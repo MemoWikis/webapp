@@ -93,7 +93,6 @@ public class CategoryController : BaseController
         categoryModel.Name = historicCategory.Name;
         categoryModel.CategoryChange = categoryChange;
         categoryModel.CustomPageHtml = TemplateToHtml.Run(historicCategory, ControllerContext);
-        categoryModel.Description = MarkdownToHtml.Run(historicCategory.Description, historicCategory, ControllerContext);
         categoryModel.WikipediaURL = historicCategory.WikipediaURL;
         categoryModel.NextRevExists = Sl.CategoryChangeRepo.GetNextRevision(categoryChange) != null;
     }
@@ -180,58 +179,6 @@ public class CategoryController : BaseController
             new WishKnowledgeInTheBoxModel(Sl.CategoryRepo.GetById(categoryId)),
             ControllerContext
         );
-
-    [AccessOnlyAsLoggedIn]
-    public ActionResult SaveMarkdown(int categoryId, string markdown)
-    {
-        var category = Sl.CategoryRepo.GetById(categoryId);
-
-        if (category != null && markdown != null)
-        {
-            var elements = TemplateParser.Run(markdown, category);
-            var description = Document.GetDescription(elements);
-            category.Description = description;
-            category.TopicMarkdown = markdown;
-            Sl.CategoryRepo.Update(category, User_());
-
-            return Json(true);
-        }
-        else
-        {
-            return Json(false);
-        }
-    }
-
-    [HttpPost]
-    [AccessOnlyAsLoggedIn]
-    public ActionResult RenderMarkdown(int categoryId, string markdown)
-    {
-        var category = Sl.CategoryRepo.GetById(categoryId);
-
-        return Json(MarkdownSingleTemplateToHtml.Run(markdown, category, this.ControllerContext, true));
-    }
-
-    [HttpPost]
-    [AccessOnlyAsLoggedIn]
-    public ActionResult RenderContentModule(int categoryId, TemplateParser.JsonLoader json)
-    {
-        var category = Sl.CategoryRepo.GetById(categoryId);
-        var templateJson = new TemplateJson
-        {
-            TemplateName = json.TemplateName,
-            OriginalJson = JsonConvert.SerializeObject(json, new JsonSerializerSettings
-            {
-                NullValueHandling = NullValueHandling.Ignore
-            })
-        };
-        var baseContentModule = TemplateParserForSingleTemplate.Run(templateJson, category);
-        var html = MarkdownSingleTemplateToHtml.GetHtml(
-            baseContentModule,
-            category,
-            this.ControllerContext
-        );
-        return Json(html);
-    }
 
     public string GetKnowledgeGraphDisplay(int categoryId)
     {

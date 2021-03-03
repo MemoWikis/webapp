@@ -356,16 +356,6 @@ public class EditCategoryController : BaseController
         }
     }
 
-    [HttpPost]
-    public JsonResult GetMarkdownPreview(int categoryId, string text)
-    {
-        var category = Sl.CategoryRepo.GetByIdEager(categoryId);
-        category.TopicMarkdown = text;
-
-        Sl.Session.Evict(category); //prevent change tracking and updates
-
-        return Json(MarkdownToHtml.Run(category.TopicMarkdown, category, ControllerContext));
-    }
 
     [HttpPost]
     [AccessOnlyAsAdmin]

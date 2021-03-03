@@ -6,6 +6,7 @@ public abstract class CategoryEditData
     public string Description;
     public string TopicMardkown;
     public string Content;
+    public string CustomSegments;
     public string WikipediaURL;
     public bool DisableLearningFunctions;
 

@@ -22,6 +22,10 @@ function ShowDiff2Html() {
     var prevContent = $('#prevContent').val();
     var diffContent = Diff(prevContent, currentContent, 'Änderungen des Inhaltes');
 
+    var currentSegments = $('#currentSegments').val();
+    var prevSegments = $('#prevContent').val();
+    var diffSegments = Diff(prevSegments, currentSegments, 'Änderungen der Segmente');
+
     var currentDescription = $('#currentDescription').val();
     var prevDescription = $('#prevDescription').val();
     var diffDescription = Diff(prevDescription, currentDescription, 'Änderungen der Beschreibung');
@@ -46,6 +50,8 @@ function ShowDiff2Html() {
         ShowDiff(diffMarkdown, '#diffData');
     if (diffContent)
         ShowDiff(diffContent, '#diffData');
+    if (diffSegments)
+        ShowDiff(diffSegments, '#diffSegments');
     if (diffRelations)
         ShowDiff(diffRelations, '#diffRelations');
     

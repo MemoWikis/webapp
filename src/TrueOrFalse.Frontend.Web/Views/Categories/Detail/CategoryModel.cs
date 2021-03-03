@@ -151,7 +151,7 @@ public class CategoryModel : BaseContentModule
         SingleQuestions = GetQuestionsForCategory.QuestionsNotIncludedInSet(Id);
         IsFilteredUserWorld = UserCache.IsFiltered;
 
-        AggregatedTopicCount = IsFilteredUserWorld ? CategoriesChildren.Count : new TopicNavigationModel().GetTotalTopicCount(category);
+        AggregatedTopicCount = IsFilteredUserWorld ? CategoriesChildren.Count : GetTotalTopicCount(category);
 
         AggregatedQuestionCount = Category.GetCountQuestionsAggregated();
         CategoryQuestionCount = Category.GetCountQuestionsAggregated(true, category.Id);
@@ -258,5 +258,12 @@ public class CategoryModel : BaseContentModule
         }
 
         return dummyQuestion; 
+    }
+    public int GetTotalTopicCount(Category category)
+    {
+        return EntityCache.GetChildren(category.Id).Count(c =>
+                c.Type == CategoryType.Standard && c.GetAggregatedQuestionIdsFromMemoryCache().Count > 0);
+
+
     }
 }

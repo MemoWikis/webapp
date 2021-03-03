@@ -5,8 +5,6 @@ declare var Sticky: any;
 declare var tiptapBuild: any;
 declare var hljsBuild: any;
 
-Vue.component('v-select', VueSelect.VueSelect);
-
 declare var eventBus: any;
 if (eventBus == null)
     var eventBus = new Vue();

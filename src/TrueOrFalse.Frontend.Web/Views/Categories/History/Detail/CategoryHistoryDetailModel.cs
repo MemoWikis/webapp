@@ -24,6 +24,7 @@ public class CategoryHistoryDetailModel : BaseModel
     public DateTime CurrentDateCreated;
     public string CurrentMarkdown;
     public string CurrentContent;
+    public string CurrentSegments;
     public string CurrentDescription;
     public string CurrentWikipediaUrl;
     public string CurrentRelations;
@@ -32,6 +33,7 @@ public class CategoryHistoryDetailModel : BaseModel
     public DateTime PrevDateCreated;
     public string PrevMarkdown;
     public string PrevContent;
+    public string PrevSegments;
     public string PrevDescription;
     public string PrevWikipediaUrl;
     public string PrevRelations;
@@ -72,6 +74,7 @@ public class CategoryHistoryDetailModel : BaseModel
         CurrentName = currentVersionTypeDelete ? previouisRevisionData.Name :  currentRevisionData.Name;
         CurrentMarkdown = currentRevisionData.TopicMardkown?.Replace("\\r\\n", "\r\n");
         CurrentContent = currentRevisionData.Content;
+        CurrentSegments = currentRevisionData.CustomSegments;
         CurrentDescription = currentRevisionData.Description?.Replace("\\r\\n", "\r\n");
         CurrentWikipediaUrl = currentVersionTypeDelete ? ""  : currentRevisionData.WikipediaURL;
 
@@ -88,6 +91,7 @@ public class CategoryHistoryDetailModel : BaseModel
             PrevName = prevRevisionData?.Name;
             PrevMarkdown = prevRevisionData?.TopicMardkown?.Replace("\\r\\n", "\r\n");
             PrevContent = prevRevisionData?.Content;
+            PrevSegments = currentRevisionData?.CustomSegments;
             PrevDescription = prevRevisionData?.Description?.Replace("\\r\\n", "\r\n");
             PrevWikipediaUrl = prevRevisionData?.WikipediaURL;
 

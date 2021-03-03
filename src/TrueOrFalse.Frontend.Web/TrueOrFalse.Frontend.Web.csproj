@@ -347,17 +347,11 @@
     <Compile Include="Views\Categories\Detail\Partials\InlineText\InlineTextModel.cs" />
     <Compile Include="Views\Categories\Detail\Partials\Spacer\SpacerJson.cs" />
     <Compile Include="Views\Categories\Detail\Partials\Spacer\SpacerModel.cs" />
-    <Compile Include="Views\Categories\Detail\Partials\TopicNavigation\TopicNavigationJson.cs" />
     <Compile Include="Views\Categories\Detail\Partials\WishKnowledgeInTheBoxModel.cs" />
-    <Compile Include="Views\Categories\Detail\Partials\TopicNavigation\TopicNavigationModel.cs" />
     <Compile Include="Views\Categories\Detail\TemplateParser\Document.cs" />
-    <Compile Include="Views\Categories\Detail\TemplateToHtml\MarkdownToHtml.cs" />
     <Compile Include="Views\Categories\Detail\Partials\SetTestSessionNoStartScreen\SetTestSessionNoStartScreenModel.cs" />
     <Compile Include="Views\Categories\Detail\CategoryKnowledgeBarModel.cs" />
     <Compile Include="Views\Categories\Detail\TemplateParser\TemplateJson.cs" />
-    <Compile Include="Views\Categories\Detail\TemplateParser\TemplateParser.cs" />
-    <Compile Include="Views\Categories\Detail\TemplateParser\TemplateParserForSingleTemplate.cs" />
-    <Compile Include="Views\Categories\Detail\TemplateToHtml\MarkdownSingleTemplateToHtml.cs" />
     <Compile Include="Views\Categories\Detail\TemplateParser\Tokenizer\MarkdownTokenizer.cs" />
     <Compile Include="Views\Categories\Detail\TemplateParser\Tokenizer\Token.cs" />
     <Compile Include="Views\Categories\Detail\TemplateParser\Tokenizer\TokenType.cs" />
@@ -2232,12 +2226,10 @@
     <Content Include="Views\Categories\Detail\Partials\BreadCrumb.ascx" />
     <Content Include="Views\Categories\Detail\Partials\Spacer\Spacer.ascx" />
     <Content Include="Views\Categories\Detail\Partials\CategoryHeader.ascx" />
-    <Content Include="Views\Categories\Detail\Partials\TopicNavigation\TopicNavigationModal.vue.ascx" />
     <Content Include="Views\Categories\Detail\Partials\WishKnowledgeInTheBox.ascx" />
     <Content Include="Views\Categories\Detail\Tabs\LearningTab.ascx" />
     <Content Include="Views\Categories\Detail\Tabs\AnalyticsTab.ascx" />
     <Content Include="Views\Categories\Detail\Tabs\TopicTab.ascx" />
-    <Content Include="Views\Categories\Detail\Partials\TopicNavigation\TopicNavigation.ascx" />
     <Content Include="Views\Categories\Edit\GraphDisplay\CategoryGraph.ascx" />
     <Content Include="Views\Categories\Edit\Js\ChangeTypeControls.js">
       <DependentUpon>ChangeTypeControls.ts</DependentUpon>

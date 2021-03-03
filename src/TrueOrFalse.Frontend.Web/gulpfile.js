@@ -3,14 +3,8 @@ var deps = {
     "vue": {
         "dist/vue.js": ""
     },
-    "vue-sortable": {
-        "vue-sortable.js": ""
-    },
     "vue-textarea-autosize": {
         "dist/vue-textarea-autosize.umd.js": ""
-    },
-    "vue-select": {
-        "dist/vue-select.js": ""
     },
     "vue-sticky-directive": {
         "vue-sticky-directive.js": ""
@@ -20,9 +14,6 @@ var deps = {
     },
     "d3": {
         "dist/d3.js": ""
-    },
-    "sortablejs": {
-        "Sortable.js": ""
     },
     "vue-slider-component" : {
         "dist/vue-slider-component.umd.js": ""

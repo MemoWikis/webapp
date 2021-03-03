@@ -119,6 +119,9 @@
                 <input type="hidden" id="currentContent" value="<%= Server.HtmlEncode(Model.CurrentContent) %>"/>
                 <input type="hidden" id="prevContent" value="<%= Server.HtmlEncode(Model.PrevContent) %>"/>
                 
+                <input type="hidden" id="currentSegments" value="<%= Server.HtmlEncode(Model.CurrentSegments) %>"/>
+                <input type="hidden" id="prevSegments" value="<%= Server.HtmlEncode(Model.PrevSegments) %>"/>
+                
                 <input type="hidden" id="currentDescription" value="<%= Server.HtmlEncode(Model.CurrentDescription) %>"/>
                 <input type="hidden" id="prevDescription" value="<%= Server.HtmlEncode(Model.PrevDescription) %>"/>
                 
@@ -145,6 +148,7 @@
                     <div id="diffDescription"></div>
                     <div id="diffWikipediaUrl"></div>
                     <div id="diffData"></div>
+                    <div id="diffSegments"></div>
                     <div id="diffRelations"></div>
                     <div id="noRelationsAlert" class="alert alert-info" role="alert" style="display: none;">
                         Es können <b>keine Beziehungsdaten</b> angezeigt werden, da für die gewählten Revisionen keine enstsprechenden Daten vorliegen.
