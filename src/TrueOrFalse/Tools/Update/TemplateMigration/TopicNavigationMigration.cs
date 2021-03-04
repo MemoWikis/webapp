@@ -43,17 +43,17 @@ namespace TemplateMigration
                     if (topicNavigationToken.Load == null || topicNavigationToken.Load == "All")
                         continue;
 
-                    var newCategoryListHtml = "<p><ul>";
+                    var newCategoryListHtml = "<ul>";
                     var categoryIds = topicNavigationToken.Load.Split(',').ToList().ConvertAll(int.Parse);
                     foreach (var categoryId in categoryIds)
                     {
                         var category = allCategories.FirstOrDefault(c => c.Id == categoryId);
                         var url = "/" + UriSanitizer.Run(category.Name) + "/" + category.Id;
-                        var html = "\n<li><a href=\"" + url + "\">" + category.Name + "</a></li>";
+                        var html = "\n<li><p><a href=\"" + url + "\">" + category.Name + "</a></p></li>";
                         newCategoryListHtml += html;
                     }
 
-                    newCategoryListHtml += "</ul></p>";
+                    newCategoryListHtml += "</ul>";
                     newContent += newCategoryListHtml;
                 }
 

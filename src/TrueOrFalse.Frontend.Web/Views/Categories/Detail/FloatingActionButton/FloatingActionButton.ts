@@ -93,9 +93,6 @@ var FAB = Vue.component('floating-action-button',
             eventBus.$off('content-is-ready');
         },
         methods: {
-            openLogin() {
-
-            },
             toggleFAB() {
                 this.showMiniFAB = true;
                 this.isOpen = !this.isOpen;
@@ -198,7 +195,6 @@ var FAB = Vue.component('floating-action-button',
                 clearTimeout(this.showFABTimer);
                 this.showFAB = true;
                 this.showMiniFAB = false;
-
                 this.editMode = false;
                 this.contentHasChanged = false;
                 eventBus.$emit('cancel-edit-mode');

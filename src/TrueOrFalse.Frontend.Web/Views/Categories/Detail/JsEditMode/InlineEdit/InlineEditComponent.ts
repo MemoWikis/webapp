@@ -53,8 +53,8 @@ Vue.component('text-component',
         data() {
             return {
                 json: null,
-                html: null,
-                htmlContent: null,
+                html: this.content,
+                contentIsReady: false,
                 editor: new tiptap.Editor({
                     extensions: [
                         new tiptapExtensions.Blockquote(),
@@ -129,6 +129,14 @@ Vue.component('text-component',
                         })
                     ],
                     content: this.content,
+                    editorProps: {
+                        handleKeyDown: () => {
+                            this.contentIsReady = true;
+                        },
+                    },
+                    onPaste: () => {
+                        this.contentIsReady = true;
+                    },
                     onUpdate: ({ getJSON, getHTML }) => {
                         this.json = getJSON();
                         this.html = getHTML();
@@ -137,7 +145,7 @@ Vue.component('text-component',
             }
         },
         created() {
-            this.setContent(this.content);
+            this.$root.content = this.html;
         },
         mounted() {
             eventBus.$on('cancel-edit-mode',
@@ -218,6 +226,14 @@ Vue.component('text-component',
                                 })
                             ],
                             content: this.content,
+                            editorProps: {
+                                handleKeyDown: () => {
+                                    this.contentIsReady = true;
+                                },
+                            },
+                            onPaste: () => {
+                                this.contentIsReady = true;
+                            },
                             onUpdate: ({ getJSON, getHTML }) => {
                                 this.json = getJSON();
                                 this.html = getHTML();
@@ -227,19 +243,14 @@ Vue.component('text-component',
         },
         watch: {
             html() {
-                this.setContent(this.html);
-                eventBus.$emit('content-change');
+                this.$root.content = this.html;
+                if (this.contentIsReady)
+                    eventBus.$emit('content-change');
             },
 
             json() {
                 this.$root.json = this.json;
             }
         },
-        methods: {
-            setContent(html) {
-                this.htmlContent = html;
-                this.$root.content = html;
-            },
-        }
     });
 
