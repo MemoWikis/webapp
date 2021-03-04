@@ -54,7 +54,7 @@ Vue.component('text-component',
             return {
                 json: null,
                 html: this.content,
-                contentIsReady: false,
+                contentIsChanged: false,
                 editor: new tiptap.Editor({
                     extensions: [
                         new tiptapExtensions.Blockquote(),
@@ -131,11 +131,11 @@ Vue.component('text-component',
                     content: this.content,
                     editorProps: {
                         handleKeyDown: () => {
-                            this.contentIsReady = true;
+                            this.contentIsChanged = true;
                         },
                     },
                     onPaste: () => {
-                        this.contentIsReady = true;
+                        this.contentIsChanged = true;
                     },
                     onUpdate: ({ getJSON, getHTML }) => {
                         this.json = getJSON();
@@ -228,11 +228,11 @@ Vue.component('text-component',
                             content: this.content,
                             editorProps: {
                                 handleKeyDown: () => {
-                                    this.contentIsReady = true;
+                                    this.contentIsChanged = true;
                                 },
                             },
                             onPaste: () => {
-                                this.contentIsReady = true;
+                                this.contentIsChanged = true;
                             },
                             onUpdate: ({ getJSON, getHTML }) => {
                                 this.json = getJSON();
@@ -244,7 +244,7 @@ Vue.component('text-component',
         watch: {
             html() {
                 this.$root.content = this.html;
-                if (this.contentIsReady)
+                if (this.contentIsChanged)
                     eventBus.$emit('content-change');
             },
 
