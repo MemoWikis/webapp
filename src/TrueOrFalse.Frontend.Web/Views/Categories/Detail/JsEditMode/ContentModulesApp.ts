@@ -1,5 +1,4 @@
 ﻿declare var Vue: any;
-declare var VueTextareaAutosize: any;
 declare var VueSelect: any;
 declare var Sticky: any;
 declare var tiptapBuild: any;
@@ -20,7 +19,7 @@ new Vue({
             changedContent: false,
             footerIsVisible: '',
             fabIsOpen: false,
-            segments: [],
+            segments: [] as Segment[],
             categoryId: null,
             content: null,
             json: null,
