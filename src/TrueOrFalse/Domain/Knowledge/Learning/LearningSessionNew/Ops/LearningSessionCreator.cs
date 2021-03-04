@@ -13,7 +13,7 @@ public class LearningSessionCreator
     public static LearningSession ForLoggedInUser(LearningSessionConfig config)
     {  
         List<Question> questions = new List<Question>();
-        if (UserCache.IsFiltered)
+        if (UserCache.GetItem(config.CurrentUserId).IsFiltered)
         {
             var questionsFromCurrentCategoryAndChildren = GetCategoryQuestionsFromEntityCache(config.CategoryId);  
             var allChildCategories = UserEntityCache.GetChildren(config.CategoryId, config.CurrentUserId);

@@ -347,7 +347,7 @@ public class CategoryController : BaseController
             UserEntityCache.Init();
         }
 
-        UserCache.IsFiltered = showMyWorld;
+        UserCache.GetItem(_sessionUser.UserId).IsFiltered = showMyWorld;
         Response.Cookies.Add(cookie);
     }
     public bool GetMyWorldCookie()
@@ -358,7 +358,7 @@ public class CategoryController : BaseController
             var val = cookie.Values["showMyWorld"];
             if (val == "True")
             {
-                UserCache.IsFiltered = true;
+                UserCache.GetItem(_sessionUser.UserId).IsFiltered = true;
                 return true;
             }
         }
@@ -368,7 +368,7 @@ public class CategoryController : BaseController
             SetMyWorldCookie(false);
         }
 
-        UserCache.IsFiltered = false; 
+        UserCache.GetItem(_sessionUser.UserId).IsFiltered = false; 
         return false;
     }
 
@@ -383,7 +383,7 @@ public class CategoryController : BaseController
             Response.Cookies.Add(cookie);
         }
 
-        UserCache.IsFiltered = false; 
+        UserCache.GetItem(_sessionUser.UserId).IsFiltered = false; 
         return true;
     }
 

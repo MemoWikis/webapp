@@ -117,7 +117,7 @@ public class CategoryModel : BaseContentModule
         IsOwnerOrAdmin = _sessionUser.IsLoggedInUserOrAdmin(Creator.Id);
 
         CategoriesParent = category.ParentCategories();
-        CategoriesChildren = UserCache.IsFiltered ? UserEntityCache.GetChildren(category.Id, UserId) : EntityCache.GetChildren(category.Id);
+        CategoriesChildren = UserCache.GetItem(_sessionUser.UserId).IsFiltered ? UserEntityCache.GetChildren(category.Id, UserId) : EntityCache.GetChildren(category.Id);
 
         CorrectnesProbability = category.CorrectnessProbability;
         AnswersTotal = category.CorrectnessProbabilityAnswerCount;
@@ -148,7 +148,7 @@ public class CategoryModel : BaseContentModule
         TopWishQuestions = wishQuestions.Items;
 
         SingleQuestions = GetQuestionsForCategory.QuestionsNotIncludedInSet(Id);
-        IsFilteredUserWorld = UserCache.IsFiltered;
+        IsFilteredUserWorld = UserCache.GetItem(_sessionUser.UserId).IsFiltered;
 
         AggregatedTopicCount = IsFilteredUserWorld ? CategoriesChildren.Count : new TopicNavigationModel().GetTotalTopicCount(category);
         HardestQuestion = GetQuestion(true);
@@ -225,7 +225,7 @@ public class CategoryModel : BaseContentModule
     {
         Question dummyQuestion = new Question(); 
 
-        if (Category.CountQuestionsAggregated > 0 && !UserCache.IsFiltered)
+        if (Category.CountQuestionsAggregated > 0 && !UserCache.GetItem(_sessionUser.UserId).IsFiltered)
         {
             var questionId = Category
                 .GetAggregatedQuestionsFromMemoryCache()
@@ -237,7 +237,7 @@ public class CategoryModel : BaseContentModule
 
         }
 
-        if (Category.CountQuestionsAggregated > 0 && UserCache.IsFiltered)
+        if (Category.CountQuestionsAggregated > 0 && UserCache.GetItem(_sessionUser.UserId).IsFiltered)
         {
             var questionsFromCurrentCategoryAndChildren =
                 LearningSessionCreator.GetCategoryQuestionsFromEntityCache(Category.Id);

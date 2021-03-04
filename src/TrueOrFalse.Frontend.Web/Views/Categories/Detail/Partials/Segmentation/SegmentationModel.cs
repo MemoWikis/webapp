@@ -21,7 +21,7 @@ public class SegmentationModel : BaseContentModule
     {
         Category = category;
         
-        var categoryList = UserCache.IsFiltered ? UserEntityCache.GetChildren(category.Id, UserId) : EntityCache.GetChildren(category.Id).ToList();
+        var categoryList = UserCache.GetItem(_sessionUser.UserId).IsFiltered ? UserEntityCache.GetChildren(category.Id, UserId) : EntityCache.GetChildren(category.Id).ToList();
         CategoryList = categoryList.Where(c => c.Type.GetCategoryTypeGroup() == CategoryTypeGroup.Standard).ToList();
 
         var segments = new List<Segment>();
@@ -45,9 +45,9 @@ public class SegmentationModel : BaseContentModule
             segment.Category = EntityCache.GetCategory(s.CategoryId);
             segment.Title = s.Title;
             if (s.ChildCategoryIds != null)
-                segment.ChildCategories = UserCache.IsFiltered ? EntityCache.GetCategories(s.ChildCategoryIds).Where(c => c.IsInWishknowledge()).ToList() : EntityCache.GetCategories(s.ChildCategoryIds).ToList();
+                segment.ChildCategories = UserCache.GetItem(_sessionUser.UserId).IsFiltered ? EntityCache.GetCategories(s.ChildCategoryIds).Where(c => c.IsInWishknowledge()).ToList() : EntityCache.GetCategories(s.ChildCategoryIds).ToList();
             else
-                segment.ChildCategories = UserCache.IsFiltered ? UserEntityCache.GetChildren(s.CategoryId, UserId) : Sl.CategoryRepo.GetChildren(s.CategoryId).ToList();
+                segment.ChildCategories = UserCache.GetItem(_sessionUser.UserId).IsFiltered ? UserEntityCache.GetChildren(s.CategoryId, UserId) : Sl.CategoryRepo.GetChildren(s.CategoryId).ToList();
 
             segments.Add(segment);
         }

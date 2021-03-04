@@ -46,7 +46,7 @@ public class UserController : BaseController
         if (!Sl.SessionUser.IsLoggedIn)
             return false;
 
-        UserCache.IsFiltered = showMyWorld;
+        UserCache.GetItem(_sessionUser.UserId).IsFiltered = showMyWorld;
 
         return showMyWorld; 
     }
@@ -54,6 +54,6 @@ public class UserController : BaseController
     [HttpPost]
     public bool IsFiltered()
     {
-        return UserCache.IsFiltered;
+        return UserCache.GetItem(_sessionUser.UserId).IsFiltered;
     }
 }

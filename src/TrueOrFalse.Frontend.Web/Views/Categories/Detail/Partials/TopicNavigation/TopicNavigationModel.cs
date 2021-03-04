@@ -26,11 +26,11 @@ public class TopicNavigationModel : BaseContentModule
         {
             case null:
             case "All":
-                CategoryList = UserCache.IsFiltered ? UserEntityCache.GetChildren(category.Id, UserId) : Sl.CategoryRepo.GetChildren(category.Id).ToList();
+                CategoryList = UserCache.GetItem(_sessionUser.UserId).IsFiltered ? UserEntityCache.GetChildren(category.Id, UserId) : Sl.CategoryRepo.GetChildren(category.Id).ToList();
                 break;
             default:
                 var categoryIdList = topicNavigation.Load.Split(',').ToList().ConvertAll(int.Parse);
-                CategoryList =  UserCache.IsFiltered ? EntityCache.GetCategories(categoryIdList).Where(c => c.IsInWishknowledge()).ToList() : EntityCache.GetCategories(categoryIdList).ToList();
+                CategoryList = UserCache.GetItem(_sessionUser.UserId).IsFiltered ? EntityCache.GetCategories(categoryIdList).Where(c => c.IsInWishknowledge()).ToList() : EntityCache.GetCategories(categoryIdList).ToList();
                 isLoadList = true;
                 break;
         }
@@ -53,7 +53,7 @@ public class TopicNavigationModel : BaseContentModule
                     throw new Exception("\"Load: \" und \"Order: \" können nicht gleichzeitig mit Category-Id-Listen als Parameter verwendet werden!");
                 }
 
-                if (!UserCache.IsFiltered)
+                if (!UserCache.GetItem(_sessionUser.UserId).IsFiltered)
                 {
                     var firstCategories = EntityCache.GetCategories(
                             topicNavigation.Order.Split(',')

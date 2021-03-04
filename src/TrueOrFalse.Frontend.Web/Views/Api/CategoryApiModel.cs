@@ -14,7 +14,7 @@ namespace TrueOrFalse.View.Web.Views.Api
                 return false;
 
             CategoryInKnowledge.Pin(Convert.ToInt32(categoryId), _sessionUser.User);
-            if (UserCache.IsFiltered)
+            if (UserCache.GetItem(_sessionUser.UserId).IsFiltered)
             {
                 UserEntityCache.DeleteCacheForUser();
                 UserEntityCache.Init();

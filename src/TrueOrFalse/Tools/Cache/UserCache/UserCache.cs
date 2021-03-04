@@ -10,7 +10,6 @@ public class UserCache
     public static LearningSession LearningSession { get; set; }
 
     private static string GetCacheKey(int userId) => "UserCashItem_" + userId;
-    public static bool IsFiltered = false; 
 
     public static List<UserCacheItem> GetAllCacheItems()
     {
@@ -41,8 +40,7 @@ public class UserCache
                     .Select(v => new KeyValuePair<int, CategoryValuation>(v.CategoryId, v))),
             QuestionValuations = new ConcurrentDictionary<int, QuestionValuation>(
                 Sl.QuestionValuationRepo.GetByUserWithQuestion(userId)
-                    .Select(v => new KeyValuePair<int, QuestionValuation>(v.Question.Id, v))),
-            IsFiltered = IsFiltered
+                    .Select(v => new KeyValuePair<int, QuestionValuation>(v.Question.Id, v)))
         };
             
         Add_valuationCacheItem_to_cache(cacheItem, userId);
