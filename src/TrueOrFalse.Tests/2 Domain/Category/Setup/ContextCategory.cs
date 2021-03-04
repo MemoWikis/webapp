@@ -52,9 +52,11 @@ namespace TrueOrFalse.Tests
                 };
             }
 
-            if (parent != null)
+            var categoryRelations = category.CategoryRelations.Count != 0 ? category.CategoryRelations : new List<CategoryRelation>();
+
+            if (parent != null) // set parent
             {
-                var categoryRelations = category.CategoryRelations.Count != 0 ? category.CategoryRelations : new List<CategoryRelation>();
+                
                 categoryRelations.Add(new CategoryRelation
                 {
                     Category = category,
@@ -64,7 +66,6 @@ namespace TrueOrFalse.Tests
 
                 category.CategoryRelations = categoryRelations;
             }
-
 
             All.Add(category);
             return this;
@@ -107,6 +108,14 @@ namespace TrueOrFalse.Tests
             return this;
         }
 
+        public ContextCategory Update(Category category)
+        {
+            _categoryRepository.Update(category);
+
+            _categoryRepository.Session.Flush();
+            return this; 
+        }
+
         public ContextCategory Update()
         {
             foreach (var cat in All)
@@ -118,13 +127,6 @@ namespace TrueOrFalse.Tests
         }
 
         public ContextCategory AddRelationsToCategory(Category category, List<CategoryRelation> categoryRelations)
-        {
-            category.CategoryRelations = categoryRelations;
-            _categoryRepository.Update(category);
-            return this;
-        }
-
-        public ContextCategory AddRelationsToCategorytoEntityChache(Category category, List<CategoryRelation> categoryRelations)
         {
             category.CategoryRelations = categoryRelations;
             _categoryRepository.Update(category);
@@ -179,6 +181,7 @@ namespace TrueOrFalse.Tests
                 .Persist();
 
             var user = ContextUser.New().Add("User").Persist().All[0];
+            
 
             if (withWuwi)
             {
@@ -197,9 +200,6 @@ namespace TrueOrFalse.Tests
         public void AddCaseTwoToCache()
         {
             //  this method display this case https://docs.google.com/drawings/d/1yoBx4OAUT3W2is9WpWczZ7Qb-lwvZeAGqDZYnP89wNk/
-
-            
-
             var rootElement = Add("A").Persist().All.First();
 
             var firstChildren =

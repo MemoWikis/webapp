@@ -3,7 +3,6 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using TrueOrFalse.Tools;
 
 [DebuggerDisplay("Id={Id} Name={Name}")]
 [Serializable]
@@ -69,10 +68,16 @@ public class Category : DomainEntity, ICreator, ICloneable
 
     public virtual IList<Category> AggregatedCategories(bool includingSelf = true)
     {
-        var list = CategoryRelations.Where(r => r.CategoryRelationType == CategoryRelationType.IncludesContentOf)
-            .Select(r => EntityCache.GetCategory(r.RelatedCategory.Id) ).ToList();
-        
-        if(includingSelf)
+        var list = new List<Category>();
+
+        if(UserCache.GetItem(Sl.CurrentUserId).IsFiltered) 
+            list = CategoryRelations.Where(r => r.CategoryRelationType == CategoryRelationType.IncludesContentOf && r.Category.IsInWishknowledge())
+                .Select(r => EntityCache.GetCategory(r.Category.Id)).ToList();
+        else
+            list = CategoryRelations.Where(r => r.CategoryRelationType == CategoryRelationType.IncludesContentOf)
+                .Select(r => EntityCache.GetCategory(r.Category.Id)).ToList();
+
+        if (includingSelf)
             list.Add(this);
 
         return list;
