@@ -150,6 +150,7 @@ Vue.component('text-component',
         mounted() {
             eventBus.$on('cancel-edit-mode',
                 () => {
+                    this.contentIsChanged = false;
                     this.editor.destroy();
                     this.editor =
                         new tiptap.Editor({

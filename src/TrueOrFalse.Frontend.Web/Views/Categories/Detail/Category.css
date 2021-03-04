@@ -3493,6 +3493,21 @@ p.is-editor-empty:first-child::before {
   width: 100%;
   max-width: 1140px;
 }
+#TopicTabFABApp .edit-mode-bar-container .toolbar .toolbar-btn-container .centerText,
+#LearningTabFABApp .edit-mode-bar-container .toolbar .toolbar-btn-container .centerText {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
 #TopicTabFABApp .edit-mode-bar-container .toolbar .toolbar-btn-container .btn-left,
 #LearningTabFABApp .edit-mode-bar-container .toolbar .toolbar-btn-container .btn-left,
 #TopicTabFABApp .edit-mode-bar-container .toolbar .toolbar-btn-container .btn-right,

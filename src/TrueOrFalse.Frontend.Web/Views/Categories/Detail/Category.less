@@ -2100,7 +2100,7 @@ p.is-editor-empty:first-child::before {
             display: flex;
             flex-direction: column-reverse;
             cursor: pointer;
-            z-index:999;
+            z-index: 999;
 
             @media(min-width: 1200px) {
                 margin-right: -48px;
@@ -2583,6 +2583,12 @@ p.is-editor-empty:first-child::before {
                 flex-direction: row;
                 width: 100%;
                 max-width: 1140px;
+
+                .centerText {
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                }
 
                 .btn-left, .btn-right {
                     height: 56px;

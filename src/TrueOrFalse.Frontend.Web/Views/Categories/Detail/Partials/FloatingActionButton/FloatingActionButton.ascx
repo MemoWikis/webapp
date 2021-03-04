@@ -88,8 +88,8 @@ Inherits="System.Web.Mvc.ViewUserControl<FloatingActionButtonModel>" %>
                             <div class="btn-left">
                             </div>
                             <div class="centerText" v-show="showLoginReminder">
-                                Um zu speichern, musst du <a href="#" data-btn-login="true">
-                                    <span style="padding-top: 4px" class="TextSpan">angemeldet</span></a> sein.
+                                Um zu speichern, musst du &nbsp;<a href="#" data-btn-login="true">
+                                    <span style="padding-top: 4px" class="TextSpan">angemeldet</span></a>&nbsp; sein.
                             </div>
                             <div class="btn-right" v-show="contentHasChanged">
                             
