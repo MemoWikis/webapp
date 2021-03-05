@@ -5,6 +5,7 @@ public class InlineTextModel : BaseContentModule
 {
     public string Content;
     public string Raw;
+    public int Id;
     
     public InlineTextModel(string htmlContent, InlineTextJson json = null)
     {
@@ -12,5 +13,11 @@ public class InlineTextModel : BaseContentModule
         if (json == null)
             Content = MarkdownMarkdig.ToHtml(htmlContent).Replace("\n", "<br>");
         else Content = json.Content;
+    }
+
+    public InlineTextModel(Category category)
+    {
+        Id = category.Id;
+        Content = category.Content ?? "";
     }
 }

@@ -21,6 +21,8 @@ public class CategoryModel : BaseContentModule
     public IList<Question> AggregatedQuestions;
     public IList<Question> CategoryQuestions;
     public int AggregatedTopicCount;
+    public int AggregatedQuestionCount;
+    public int CategoryQuestionCount;
     public IList<Question> TopQuestions;
     public IList<Question> TopQuestionsWithReferences;
     public List<Question> TopQuestionsInSubCats = new List<Question>();
@@ -57,7 +59,6 @@ public class CategoryModel : BaseContentModule
     public string TotalPins;
     public AnalyticsFooterModel AnalyticsFooterModel;
     public bool CategoryIsDeleted;
-    public bool OpenEditMode;
     public bool ShowLearningSessionConfigurationMessageForTab { get; set; }
     public bool ShowLearningSessionConfigurationMessageForQuestionList { get; set; }
     public bool IsFilteredUserWorld; 
@@ -66,7 +67,7 @@ public class CategoryModel : BaseContentModule
     {
     }
 
-    public CategoryModel(Category category, bool loadKnowledgeSummary = true, bool isCategoryNull = false, bool openEditMode = false)
+    public CategoryModel(Category category, bool loadKnowledgeSummary = true, bool isCategoryNull = false)
     {
         TopNavMenu.BreadCrumbCategories = CrumbtrailService.Get(category, RootCategory.Get);
 
@@ -150,13 +151,11 @@ public class CategoryModel : BaseContentModule
         SingleQuestions = GetQuestionsForCategory.QuestionsNotIncludedInSet(Id);
         IsFilteredUserWorld = UserCache.GetItem(_sessionUser.UserId).IsFiltered;
 
-        AggregatedTopicCount = IsFilteredUserWorld ? CategoriesChildren.Count : new TopicNavigationModel().GetTotalTopicCount(category);
+        AggregatedTopicCount = IsFilteredUserWorld ? CategoriesChildren.Count : GetTotalTopicCount(category);
         HardestQuestion = GetQuestion(true);
         EasiestQuestion = GetQuestion(false);
 
         TotalPins = category.TotalRelevancePersonalEntries.ToString();
-        OpenEditMode = openEditMode;
-        
     }
 
     private List<Question> GetTopQuestionsInSubCats()
@@ -256,5 +255,12 @@ public class CategoryModel : BaseContentModule
         }
 
         return dummyQuestion; 
+    }
+    public int GetTotalTopicCount(Category category)
+    {
+        return EntityCache.GetChildren(category.Id).Count(c =>
+                c.Type == CategoryType.Standard && c.GetAggregatedQuestionIdsFromMemoryCache().Count > 0);
+
+
     }
 }

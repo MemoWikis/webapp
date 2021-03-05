@@ -106,7 +106,8 @@ public class DraftsController : BaseController
 
         var contentHtml = string.IsNullOrEmpty(category.TopicMarkdown)
            ? null
-           : MarkdownToHtml.Run(category.TopicMarkdown, category, ControllerContext);
+           : TemplateToHtml.Run(category, ControllerContext);
+
 
         return View(new CategoryModel(category)
         {

@@ -15,6 +15,8 @@ public class CategoryEditData_V2 : CategoryEditData
         Name = category.Name;
         Description = category.Description;
         TopicMardkown = category.TopicMarkdown;
+        Content = category.Content;
+        CustomSegments = category.CustomSegments;
         WikipediaURL = category.WikipediaURL;
         DisableLearningFunctions = category.DisableLearningFunctions;
         CategoryRelations = category.CategoryRelations
@@ -44,6 +46,8 @@ public class CategoryEditData_V2 : CategoryEditData
         category.Name = this.Name;
         category.Description = this.Description;
         category.TopicMarkdown = this.TopicMardkown;
+        category.Content = this.Content;
+        category.CustomSegments = this.CustomSegments;
         category.WikipediaURL = this.WikipediaURL;
         category.DisableLearningFunctions = this.DisableLearningFunctions;
 

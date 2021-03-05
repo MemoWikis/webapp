@@ -1,8 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Security;
 using System.Web;
 using System.Web.Mvc;
+using Newtonsoft.Json;
 using TrueOrFalse.Frontend.Web.Code;
 using TrueOrFalse.View.Web.Views.Api;
 using TrueOrFalse.Web;
@@ -160,7 +162,7 @@ public class EditCategoryController : BaseController
 
         new CategoryApiModel().Pin(category.Id); 
 
-        return Redirect(Links.CategoryDetail(category, openEditMode: true));
+        return Redirect(Links.CategoryDetail(category));
     }
 
     [HttpPost]
@@ -214,7 +216,7 @@ public class EditCategoryController : BaseController
         return Json(new
         {
             success = true,
-            url = Links.CategoryDetail(category, openEditMode: true),
+            url = Links.CategoryDetail(category),
             id = category.Id
         });
     }
@@ -247,9 +249,52 @@ public class EditCategoryController : BaseController
         return Json(new
         {
             success = true,
-            url = Links.CategoryDetail(category, openEditMode: true),
+            url = Links.CategoryDetail(category),
             id = category.Id
         });
+    }
+
+    [HttpPost]
+    [AccessOnlyAsLoggedIn]
+    public JsonResult SaveCategoryContent(int categoryId, string content = null)
+    {
+        if (categoryId == RootCategory.RootCategoryId && !IsInstallationAdmin)
+            return Json("Die Startseite kann nur von einem Admin bearbeitet werden");
+        
+        var category = EntityCache.GetCategory(categoryId);
+        if (category != null)
+        {
+            if (content != null)
+                category.Content = content;
+            else category.Content = null;
+
+            Sl.CategoryRepo.Update(category, User_());
+            return Json(true);
+        }
+        return Json(false);
+    }
+
+    [HttpPost]
+    [AccessOnlyAsLoggedIn]
+    public JsonResult SaveSegments(int categoryId, List<SegmentJson> segmentation = null)
+    {
+        if (categoryId == 0 && !IsInstallationAdmin)
+            return Json("Die Startseite kann nur von einem Admin bearbeitet werden");
+        var category = EntityCache.GetCategory(categoryId);
+
+        if (category != null)
+        {
+            if (segmentation != null)
+                category.CustomSegments = JsonConvert.SerializeObject(segmentation, new JsonSerializerSettings
+                {
+                    NullValueHandling = NullValueHandling.Ignore
+                }); ;
+
+            Sl.CategoryRepo.Update(category, User_());
+
+            return Json(true);
+        }
+        return Json(false);
     }
 
     [HttpPost]
@@ -313,16 +358,6 @@ public class EditCategoryController : BaseController
         }
     }
 
-    [HttpPost]
-    public JsonResult GetMarkdownPreview(int categoryId, string text)
-    {
-        var category = Sl.CategoryRepo.GetByIdEager(categoryId);
-        category.TopicMarkdown = text;
-
-        Sl.Session.Evict(category); //prevent change tracking and updates
-
-        return Json(MarkdownToHtml.Run(category.TopicMarkdown, category, ControllerContext));
-    }
 
     [HttpPost]
     [AccessOnlyAsAdmin]

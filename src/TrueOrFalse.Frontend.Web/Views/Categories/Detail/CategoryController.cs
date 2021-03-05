@@ -17,10 +17,10 @@ public class CategoryController : BaseController
 
     [SetMainMenu(MainMenuEntry.CategoryDetail)]
     [SetThemeMenu(true)]
-    public ActionResult Category(int id, int? version, bool? openEditMode)
+    public ActionResult Category(int id, int? version)
     {
         GetMyWorldCookie(); 
-        var modelAndCategoryResult = LoadModel(id, version, openEditMode);
+        var modelAndCategoryResult = LoadModel(id, version);
         modelAndCategoryResult.CategoryModel.IsInTopic = true;
         return View(_viewLocation, modelAndCategoryResult.CategoryModel);
     }
@@ -45,7 +45,7 @@ public class CategoryController : BaseController
         return View(_viewLocation, modelAndCategoryResult.CategoryModel);
     }
 
-    private LoadModelResult LoadModel(int id, int? version, bool? openEditMode = false)
+    private LoadModelResult LoadModel(int id, int? version)
     {
         var result = new LoadModelResult();
         var category = EntityCache.GetCategory(id);
@@ -63,7 +63,7 @@ public class CategoryController : BaseController
         result.Category = category;
 
         result.CategoryModel =
-            GetModelWithContentHtml(category, version, isCategoryNull, openEditMode ?? false);
+            GetModelWithContentHtml(category, version, isCategoryNull);
 
         if (version != null)
             ApplyCategoryChangeToModel(result.CategoryModel, (int)version, id);
@@ -94,18 +94,17 @@ public class CategoryController : BaseController
 
         categoryModel.Name = historicCategory.Name;
         categoryModel.CategoryChange = categoryChange;
-        categoryModel.CustomPageHtml = MarkdownToHtml.Run(historicCategory.TopicMarkdown, historicCategory, ControllerContext, version);
-        categoryModel.Description = MarkdownToHtml.Run(historicCategory.Description, historicCategory, ControllerContext);
+        categoryModel.CustomPageHtml = TemplateToHtml.Run(historicCategory, ControllerContext);
         categoryModel.WikipediaURL = historicCategory.WikipediaURL;
         categoryModel.NextRevExists = Sl.CategoryChangeRepo.GetNextRevision(categoryChange) != null;
     }
 
-    private CategoryModel GetModelWithContentHtml(Category category, int? version = null, bool isCategoryNull = false, bool openEditMode = false)
+    private CategoryModel GetModelWithContentHtml(Category category, int? version = null, bool isCategoryNull = false)
     {
-        return new CategoryModel(category, true, isCategoryNull, openEditMode)
+        return new CategoryModel(category, true, isCategoryNull)
         {
             ShowLearningSessionConfigurationMessageForQuestionList = !GetSettingsCookie("SessionConfigurationMessageList"),
-            CustomPageHtml = string.IsNullOrEmpty(category.Content) ? "" : TemplateToHtml.Run(Tokenizer.Run(category.Content), category, ControllerContext, version)
+            CustomPageHtml = TemplateToHtml.Run(category, ControllerContext)
         };
     }
     public void CategoryById(int id)
@@ -182,97 +181,6 @@ public class CategoryController : BaseController
             new WishKnowledgeInTheBoxModel(Sl.CategoryRepo.GetById(categoryId)),
             ControllerContext
         );
-
-    [AccessOnlyAsLoggedIn]
-    public ActionResult SaveMarkdown(int categoryId, string markdown)
-    {
-        var category = Sl.CategoryRepo.GetById(categoryId);
-
-        if (category != null && markdown != null)
-        {
-            var elements = TemplateParser.Run(markdown, category);
-            var description = Document.GetDescription(elements);
-            category.Description = description;
-            category.TopicMarkdown = markdown;
-            Sl.CategoryRepo.Update(category, User_());
-
-            return Json(true);
-        }
-
-        return Json(false);
-    }
-
-    [HttpPost]
-    [AccessOnlyAsLoggedIn]
-    public JsonResult SaveCategoryContent(int categoryId, List<TemplateParser.JsonLoader> content = null)
-    {
-        var category = EntityCache.GetCategory(categoryId);
-
-        if (category != null)
-        {
-            if (content != null)
-                category.Content = TemplateParser.GetContent(content);
-            else category.Content = null;
-                category.Content = TemplateParser.GetContent(content);
-
-            Sl.CategoryRepo.Update(category, User_());
-
-            return Json(true);
-        }
-        return Json(false);
-    }
-
-    [HttpPost]
-    [AccessOnlyAsLoggedIn]
-    public JsonResult SaveSegments(int categoryId, List<SegmentJson> segmentation = null)
-    {
-        var category = EntityCache.GetCategory(categoryId);
-
-        if (category != null)
-        {
-            if (segmentation != null)
-                category.CustomSegments = JsonConvert.SerializeObject(segmentation, new JsonSerializerSettings
-                {
-                    NullValueHandling = NullValueHandling.Ignore
-                }); ;
-
-            Sl.CategoryRepo.Update(category, User_());
-
-            return Json(true);
-        }
-        return Json(false);
-    }
-
-    [HttpPost]
-    [AccessOnlyAsLoggedIn]
-    public ActionResult RenderMarkdown(int categoryId, string markdown)
-    {
-        var category = Sl.CategoryRepo.GetById(categoryId);
-
-        return Json(MarkdownSingleTemplateToHtml.Run(markdown, category, this.ControllerContext, true));
-    }
-
-    [HttpPost]
-    [AccessOnlyAsLoggedIn]
-    public ActionResult RenderContentModule(int categoryId, TemplateParser.JsonLoader json)
-    {
-        var category = Sl.CategoryRepo.GetById(categoryId);
-        var templateJson = new TemplateJson
-        {
-            TemplateName = json.TemplateName,
-            OriginalJson = JsonConvert.SerializeObject(json, new JsonSerializerSettings
-            {
-                NullValueHandling = NullValueHandling.Ignore
-            })
-        };
-        var baseContentModule = TemplateParserForSingleTemplate.Run(templateJson, category);
-        var html = MarkdownSingleTemplateToHtml.GetHtml(
-            baseContentModule,
-            category,
-            this.ControllerContext
-        );
-        return Json(html);
-    }
 
     public string GetKnowledgeGraphDisplay(int categoryId)
     {

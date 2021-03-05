@@ -53,91 +53,8 @@ Vue.component('text-component',
         data() {
             return {
                 json: null,
-                html: null,
-                htmlContent: null,
-                editMode: false,
-                options: {
-                    extensions: [
-                        new tiptapExtensions.Blockquote(),
-                        new tiptapExtensions.BulletList(),
-                        new tiptapExtensions.CodeBlock(),
-                        new tiptapExtensions.HardBreak(),
-                        new tiptapExtensions.Heading({ levels: [2, 3] }),
-                        new tiptapExtensions.HorizontalRule(),
-                        new tiptapExtensions.ListItem(),
-                        new tiptapExtensions.OrderedList(),
-                        new tiptapExtensions.TodoItem(),
-                        new tiptapExtensions.TodoList(),
-                        new tiptapExtensions.Link(),
-                        new tiptapExtensions.Image(),
-                        new tiptapExtensions.Bold(),
-                        new tiptapExtensions.Code(),
-                        new tiptapExtensions.Italic(),
-                        new tiptapExtensions.Strike(),
-                        new tiptapExtensions.Underline(),
-                        new tiptapExtensions.History(),
-                        new tiptapExtensions.CodeBlockHighlight({
-                            languages: {
-                                apache,
-                                //cLike,
-                                xml,
-                                bash,
-                                //c,
-                                coffeescript,
-                                csharp,
-                                css,
-                                markdown,
-                                diff,
-                                ruby,
-                                go,
-                                http,
-                                ini,
-                                java,
-                                javascript,
-                                json,
-                                kotlin,
-                                less,
-                                lua,
-                                makefile,
-                                perl,
-                                nginx,
-                                objectivec,
-                                php,
-                                phpTemplate,
-                                plaintext,
-                                properties,
-                                python,
-                                pythonREPL,
-                                rust,
-                                scss,
-                                shell,
-                                sql,
-                                swift,
-                                yaml,
-                                typescript,
-                            },
-                        }),
-                        new tiptapExtensions.Placeholder({
-                            emptyEditorClass: 'is-editor-empty',
-                            emptyNodeClass: 'is-empty',
-                            emptyNodeText: 'Klicke hier um zu tippen ...',
-                            showOnlyWhenEditable: true,
-                            showOnlyCurrent: true,
-                        })
-                    ],
-                    content: this.content,
-                    onUpdate: ({ getJSON, getHTML }) => {
-                        this.json = getJSON();
-                        this.html = getHTML();
-                    },
-                    editorProps: {
-                        handleDOMEvents: {
-                            drop: (view, e) => { e.preventDefault(); },
-                        }
-                    },
-                    // hide the drop position indicator
-                    dropCursor: { width: 0, color: 'transparent' },
-                },
+                html: this.content,
+                contentIsChanged: false,
                 editor: new tiptap.Editor({
                     extensions: [
                         new tiptapExtensions.Blockquote(),
@@ -158,6 +75,10 @@ Vue.component('text-component',
                         new tiptapExtensions.Strike(),
                         new tiptapExtensions.Underline(),
                         new tiptapExtensions.History(),
+                        new tiptapExtensions.TrailingNode({
+                            node: 'paragraph',
+                            notAfter: ['paragraph'],
+                        }),
                         new tiptapExtensions.CodeBlockHighlight({
                             languages: {
                                 apache,
@@ -208,26 +129,28 @@ Vue.component('text-component',
                         })
                     ],
                     content: this.content,
+                    editorProps: {
+                        handleKeyDown: () => {
+                            this.contentIsChanged = true;
+                        },
+                    },
+                    onPaste: () => {
+                        this.contentIsChanged = true;
+                    },
                     onUpdate: ({ getJSON, getHTML }) => {
                         this.json = getJSON();
                         this.html = getHTML();
                     },
-                    editorProps: {
-                        handleDOMEvents: {
-                            drop: (view, e) => { e.preventDefault(); },
-                        }
-                    },
-                    // hide the drop position indicator
-                    dropCursor: { width: 0, color: 'transparent' },
                 }),
             }
         },
         created() {
-            this.setContent(this.content);
+            this.$root.content = this.html;
         },
         mounted() {
             eventBus.$on('cancel-edit-mode',
                 () => {
+                    this.contentIsChanged = false;
                     this.editor.destroy();
                     this.editor =
                         new tiptap.Editor({
@@ -250,6 +173,10 @@ Vue.component('text-component',
                                 new tiptapExtensions.Strike(),
                                 new tiptapExtensions.Underline(),
                                 new tiptapExtensions.History(),
+                                new tiptapExtensions.TrailingNode({
+                                    node: 'paragraph',
+                                    notAfter: ['paragraph'],
+                                }),
                                 new tiptapExtensions.CodeBlockHighlight({
                                     languages: {
                                         apache,
@@ -300,42 +227,31 @@ Vue.component('text-component',
                                 })
                             ],
                             content: this.content,
+                            editorProps: {
+                                handleKeyDown: () => {
+                                    this.contentIsChanged = true;
+                                },
+                            },
+                            onPaste: () => {
+                                this.contentIsChanged = true;
+                            },
                             onUpdate: ({ getJSON, getHTML }) => {
                                 this.json = getJSON();
                                 this.html = getHTML();
                             },
-                            editorProps: {
-                                handleDOMEvents: {
-                                    drop: (view, e) => { e.preventDefault(); },
-                                }
-                            },
-                            // hide the drop position indicator
-                            dropCursor: { width: 0, color: 'transparent' },
                         });
                 });
         },
         watch: {
-            editMode() {
-                this.editor.setOptions({
-                    editable: this.editMode,
-                });
-            },
             html() {
-                this.setContent(this.html);
-                eventBus.$emit('content-change');
+                this.$root.content = this.html;
+                if (this.contentIsChanged)
+                    eventBus.$emit('content-change');
+            },
+
+            json() {
+                this.$root.json = this.json;
             }
         },
-        methods: {
-
-            setContent(html) {
-                var json = {
-                    "TemplateName": "InlineText",
-                    "Content": html
-                }
-                this.$parent.content = json;
-                this.htmlContent = html;
-
-            }
-        }
     });
 

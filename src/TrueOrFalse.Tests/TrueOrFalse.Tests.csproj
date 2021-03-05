@@ -281,6 +281,7 @@
     <Compile Include="3 Infrastructure\DoesTableExistTests.cs" />
     <Compile Include="3 Infrastructure\Percents_from_ints.cs" />
     <Compile Include="3 Infrastructure\PersistentLogin\PersistentLoginPersistenceTests.cs" />
+    <Compile Include="3 Infrastructure\TopicNavigationMigrationTest.cs" />
     <Compile Include="4 Search\CategorySearchTests.cs" />
     <Compile Include="3 Infrastructure\DeepCloneTests.cs" />
     <Compile Include="4 Search\UserSearchTests.cs" />

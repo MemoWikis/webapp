@@ -18,6 +18,14 @@ function ShowDiff2Html() {
     var prevMarkdown = $('#prevMarkdown').val();
     var diffMarkdown = Diff(prevMarkdown, currentMarkdown, 'Änderungen des Inhaltes');
 
+    var currentContent = $('#currentContent').val();
+    var prevContent = $('#prevContent').val();
+    var diffContent = Diff(prevContent, currentContent, 'Änderungen des Inhaltes');
+
+    var currentSegments = $('#currentSegments').val();
+    var prevSegments = $('#prevContent').val();
+    var diffSegments = Diff(prevSegments, currentSegments, 'Änderungen der Segmente');
+
     var currentDescription = $('#currentDescription').val();
     var prevDescription = $('#prevDescription').val();
     var diffDescription = Diff(prevDescription, currentDescription, 'Änderungen der Beschreibung');
@@ -40,11 +48,15 @@ function ShowDiff2Html() {
         ShowDiff(diffWikipediaUrl, '#diffWikipediaUrl');
     if (diffMarkdown)
         ShowDiff(diffMarkdown, '#diffData');
+    if (diffContent)
+        ShowDiff(diffContent, '#diffData');
+    if (diffSegments)
+        ShowDiff(diffSegments, '#diffSegments');
     if (diffRelations)
         ShowDiff(diffRelations, '#diffRelations');
     
     // Zeige Hinweis, falls es keine inhaltichen Änderungen zu geben scheint
-    if (!diffName && !diffDescription && !diffWikipediaUrl && !diffMarkdown && !diffRelations && imageWasUpdated === "false")
+    if (!diffName && !diffDescription && !diffWikipediaUrl && !diffMarkdown && !diffContent && !diffRelations  && imageWasUpdated === "false")
     {
         $("#diffPanel").hide();
         $("#noChangesAlert").show();

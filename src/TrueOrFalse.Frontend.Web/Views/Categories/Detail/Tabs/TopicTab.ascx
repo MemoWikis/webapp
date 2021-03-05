@@ -3,7 +3,7 @@
 <%@ Import Namespace="System.Web.Optimization" %>
 <%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
 
-<div id="ContentModuleApp" openEditMode="<%= Model.OpenEditMode%>">
+<div id="ContentModuleApp">
     <% if (Model.Category.IsHistoric)
        { %>
         <div class="alert alert-info" role="alert">
@@ -96,17 +96,11 @@
         <br/>
     <% } %>
     
-    <div id="MarkdownContent" class="module" v-sortable="options">
+    <div id="MarkdownContent" class="module">
         
         <%= Model.CustomPageHtml %>
-        
-        <div id="ContentModulePlaceholder" v-if="editMode" v-cloak>
-        </div>
-    </div>
 
-    <% if (!Model.CategoryIsDeleted) {%>
-        <%: Html.Partial("~/Views/Categories/Detail/Partials/ModalComponentCollection.ascx") %>
-    <% } %>
+    </div>
     <div>
         <%: Html.Partial("~/Views/Categories/Detail/Partials/Segmentation/SegmentationComponent.vue.ascx", new SegmentationModel(Model.Category)) %>
     </div>

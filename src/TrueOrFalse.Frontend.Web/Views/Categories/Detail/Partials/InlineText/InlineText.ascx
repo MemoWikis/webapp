@@ -1,10 +1,8 @@
 ﻿<%@ Control Language="C#" AutoEventWireup="true" Inherits="System.Web.Mvc.ViewUserControl<InlineTextModel>" %>
 
-<%: Html.Partial("~/Views/Categories/Detail/Partials/ContentModuleWrapperStart.ascx") %>
-
-<text-component content="<%: HttpUtility.HtmlDecode(Model.Content)  %>" inline-template>
+<text-component content="<%: HttpUtility.HtmlDecode(Model.Content)%>" inline-template>
     <div class="inline-text-editor">
-        <editor-menu-bar :editor="editor" v-slot="{ commands, isActive, focused }" v-show="editMode">
+        <editor-menu-bar :editor="editor" v-slot="{ commands, isActive, focused }">
           <div
         class="menubar is-hidden"
         :class="{ 'is-focused': focused }"
@@ -110,8 +108,8 @@
         >
             <i class="fas fa-file-code"></i>
         </button>
-          
-          <button
+
+              <button
               class="menubar__button"
               @click="commands.horizontal_rule"
           >
@@ -143,5 +141,3 @@
     </div>
 
 </text-component>
-
-<%: Html.Partial("~/Views/Categories/Detail/Partials/ContentModuleWrapperEnd.ascx") %>

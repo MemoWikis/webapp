@@ -10,9 +10,6 @@ Vue.component('my-world-toggle-component',
                 disabled: false,
             }
         },
-        created() {
-
-        },
         mounted() {
             this.loadCookie();
         },
@@ -29,6 +26,11 @@ Vue.component('my-world-toggle-component',
                 });
             },
             toggleMyWorld() {
+                if (NotLoggedIn.Yes()) {
+                    NotLoggedIn.ShowErrorMsg("ToggleMyWorld");
+                    return;
+                }
+
                 Utils.ShowSpinner();
                 this.showMyWorld = !this.showMyWorld;
                 var s = this.showMyWorld;

@@ -841,6 +841,7 @@
     <Compile Include="Tools\Cache\UserCache\UserCacheItem.cs" />
     <Compile Include="Domain\Category\RootCategory.cs" />
     <Compile Include="Tools\Update\Steps\UpdateToVs219.cs" />
+    <Compile Include="Tools\Update\Steps\UpdateToVs224.cs" />
     <Compile Include="Tools\Update\Steps\UpdateToVs223.cs" />
     <Compile Include="Tools\Update\Steps\UpdateToVs222.cs" />
     <Compile Include="Tools\Update\Steps\UpdateToVs221.cs" />
@@ -851,6 +852,7 @@
     <Compile Include="Tools\Update\Steps\UpdateToVs214.cs" />
     <Compile Include="Tools\Update\Steps\UpdateToVs213.cs" />
     <Compile Include="Tools\Update\Steps\UpdateToVs212.cs" />
+    <Compile Include="Tools\Update\TemplateMigration\TopicNavigationMigration.cs" />
     <Compile Include="Web\IgnoreLog.cs" />
     <Compile Include="Tools\Import\Importer.cs" />
     <Compile Include="Tools\Import\ImporterResult.cs" />
