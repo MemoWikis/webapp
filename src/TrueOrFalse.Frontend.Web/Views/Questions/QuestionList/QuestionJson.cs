@@ -23,6 +23,7 @@ namespace QuestionListJson
         public string LinkToQuestionDetailSite { get; set; }
         public string LinkToQuestionVersions { get; set; }
         public int SessionIndex { get; set; }
+        public QuestionVisibility Visibility { get; set; }
     }
 }
 
