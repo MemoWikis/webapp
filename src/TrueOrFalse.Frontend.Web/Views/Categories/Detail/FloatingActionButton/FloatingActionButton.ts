@@ -32,6 +32,9 @@ var FAB = Vue.component('floating-action-button',
                 contentHasChanged: false,
                 disableSave: true,
                 showLoginReminder: true,
+                showSaveMsg: false,
+                saveMsg: '',
+                saveMsgTimer: null,
             }
         },
         watch: {
@@ -81,6 +84,18 @@ var FAB = Vue.component('floating-action-button',
             eventBus.$on('content-change',
                 () => {
                     this.contentHasChanged = true;
+                });
+            eventBus.$on('save-msg',
+                (val) => {
+                    this.saveMsgTimer = null;
+                    this.saveMsg = val;
+                    this.showSaveMsg = true;
+
+                    var self = this;
+                    this.saveMsgTimer = setTimeout(() => {
+                        self.showSaveMsg = false;
+                        self.saveMsg = '';
+                    }, 2999);
                 });
 
         },

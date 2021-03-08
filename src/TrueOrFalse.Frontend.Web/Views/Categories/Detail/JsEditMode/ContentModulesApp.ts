@@ -126,8 +126,9 @@ new Vue({
                         this.saveMessage = "Das Thema wurde gespeichert.";
                     } else {
                         this.saveSuccess = false;
-                        this.saveMessage = "Das Speichern schlug fehl.";
+                        this.saveMessage = "Das Thema konnte nicht gespeichert werden.";
                     };
+                    eventBus.$emit('save-msg', this.saveMessage);
                 },
             });
         },

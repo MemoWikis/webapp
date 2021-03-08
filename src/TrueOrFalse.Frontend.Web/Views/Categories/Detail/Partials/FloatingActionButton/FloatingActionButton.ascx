@@ -88,11 +88,18 @@ Inherits="System.Web.Mvc.ViewUserControl<FloatingActionButtonModel>" %>
                             <div class="btn-left">
                             </div>
                             <div class="centerText" v-show="showLoginReminder">
-                                Um zu speichern, musst du &nbsp;<a href="#" data-btn-login="true">
-                                    <span style="padding-top: 4px" class="TextSpan">angemeldet</span></a>&nbsp; sein.
+                                <div>
+                                    Um zu speichern, musst du&nbsp;<a href="#" data-btn-login="true" style="padding-top: 4px">angemeldet</a>&nbsp;sein.
+                                </div>
                             </div>
-                            <div class="btn-right" v-show="contentHasChanged">
-                            
+
+                            <div v-if="showSaveMsg" class="saveMsg">
+                                <div>
+                                    {{saveMsg}}
+                                </div>
+                            </div>
+
+                            <div class="btn-right" v-show="contentHasChanged" v-else>
                                 <div class="button" @click.prevent="saveContent()" :class="{ expanded : editMode }" v-ripple="{center,class: 'r-green'}">
                                     <div class="icon">
                                         <i class="fas fa-save"></i>
@@ -110,10 +117,8 @@ Inherits="System.Web.Mvc.ViewUserControl<FloatingActionButtonModel>" %>
                                         Verwerfen
                                     </div>
                                 </div>
-
-                            
-
                             </div>
+
                         </div>
                     </div>
                 </div>
