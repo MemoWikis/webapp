@@ -95,7 +95,7 @@ var FAB = Vue.component('floating-action-button',
                     this.saveMsgTimer = setTimeout(() => {
                         self.showSaveMsg = false;
                         self.saveMsg = '';
-                    }, 2999);
+                    }, 2750);
                 });
 
         },
