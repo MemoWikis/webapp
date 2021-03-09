@@ -211,14 +211,8 @@ public class EditCategoryModel : BaseModel
         if (category.Type == CategoryType.VolumeChapter)
             return FillVolumeChapter(category, request, result);
 
-        //if (category.Type == CategoryType.Website)
-        //    category.TypeJson = new CategoryTypeWebsite { Url = ToUrlWithProtocol(request["Url"]) }.ToJson();
-
         if (category.Type == CategoryType.WebsiteArticle)
             return FillWebsiteArticle(category, request, result);
-
-        //if (category.Type == CategoryType.WebsiteVideo)
-        //    category.TypeJson = new CategoryTypeWebsiteVideo {Url = ToUrlWithProtocol(request["YoutubeUrl"])}.ToJson();
 
         return result;
     }
