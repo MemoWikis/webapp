@@ -2218,7 +2218,6 @@
     </Content>
     <Content Include="Views\Questions\QuestionList\QuestionList.ascx" />
     <Content Include="Views\Categories\Detail\Partials\CategoryFooter\CategoryFooter.ascx" />
-    <Content Include="Views\Categories\Detail\Partials\InlineText\InlineTextComponent.vue.ascx" />
     <Content Include="Views\Categories\Detail\Partials\KnowledgeGraph\KnowledgeGraph.ascx" />
     <Content Include="Views\Categories\Detail\Partials\FloatingActionButton\FloatingActionButton.ascx" />
     <Content Include="Views\Categories\Detail\Partials\Alert.ascx" />
