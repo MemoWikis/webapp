@@ -16,17 +16,7 @@ public class LearningSessionCreator
         if (UserCache.GetItem(config.CurrentUserId).IsFiltered)
         {
             var questionsFromCurrentCategoryAndChildren = GetCategoryQuestionsFromEntityCache(config.CategoryId);  
-            var allChildCategories = UserEntityCache.GetChildren(config.CategoryId, config.CurrentUserId);
-
-            foreach (var childCategory in allChildCategories)
-            {
-                var childQuestions = GetCategoryQuestionsFromEntityCache(childCategory.Id);
-                foreach (var question in childQuestions)
-                {
-                    questionsFromCurrentCategoryAndChildren.Add(question);
-                }
-            }
-            questions = questionsFromCurrentCategoryAndChildren; 
+            questions = questionsFromCurrentCategoryAndChildren.Distinct().ToList(); 
         }
         else if (config.AllQuestions || config.InWishknowledge && config.CreatedByCurrentUser && config.IsNotQuestionInWishKnowledge)
             questions = OrderByProbability(RandomLimited(GetCategoryQuestionsFromEntityCache(config.CategoryId),
