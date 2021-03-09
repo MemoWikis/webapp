@@ -77,7 +77,6 @@ public class UserImageSettings : ImageSettings, IImageSettings
             {
                 Logg.r().Error("GoogleUser not available" + webException);
             }
-
         }
 
         var sanitizedEmailAdress = emailAddress.Trim().ToLowerInvariant();

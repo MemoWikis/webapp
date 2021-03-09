@@ -222,39 +222,13 @@ public class CategoryModel : BaseContentModule
 
     public Question GetDummyQuestion()
     {
-        Question dummyQuestion = new Question(); 
-
-        if (Category.CountQuestionsAggregated > 0 && !UserCache.GetItem(_sessionUser.UserId).IsFiltered)
-        {
-            var questionId = Category
+        var questionId = Category
                 .GetAggregatedQuestionsFromMemoryCache()
                 .Where(q => q.IsVisibleToCurrentUser())
                 .Select(q => q.Id)
                 .FirstOrDefault();
 
             return EntityCache.GetQuestionById(questionId);
-
-        }
-
-        if (Category.CountQuestionsAggregated > 0 && UserCache.GetItem(_sessionUser.UserId).IsFiltered)
-        {
-            var questionsFromCurrentCategoryAndChildren =
-                LearningSessionCreator.GetCategoryQuestionsFromEntityCache(Category.Id);
-            var allChildCategories = UserEntityCache.GetChildren(Category.Id, UserId);
-
-            foreach (var childCategory in allChildCategories)
-            {
-                var childQuestions = LearningSessionCreator.GetCategoryQuestionsFromEntityCache(childCategory.Id);
-                foreach (var question in childQuestions)
-                {
-                    questionsFromCurrentCategoryAndChildren.Add(question);
-                }
-            }
-
-            return questionsFromCurrentCategoryAndChildren.First(); 
-        }
-
-        return dummyQuestion; 
     }
     public int GetTotalTopicCount(Category category)
     {
