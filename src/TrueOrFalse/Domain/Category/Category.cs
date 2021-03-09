@@ -70,12 +70,15 @@ public class Category : DomainEntity, ICreator, ICloneable
     {
         var list = new List<Category>();
 
-        if(UserCache.GetItem(Sl.CurrentUserId).IsFiltered) 
-            list = CategoryRelations.Where(r => r.CategoryRelationType == CategoryRelationType.IncludesContentOf && r.Category.IsInWishknowledge())
-                .Select(r => EntityCache.GetCategory(r.Category.Id)).ToList();
+        if (UserCache.GetItem(Sl.CurrentUserId).IsFiltered)
+        {
+            list = EntityCache.GetCategory(Id, getDataFromEntityCache: true).CategoryRelations.Where(r => r.RelatedCategory
+                    .IsInWishknowledge() && r.CategoryRelationType == CategoryRelationType.IncludesContentOf)
+                .Select(r => EntityCache.GetCategory(r.RelatedCategory.Id)).ToList();
+        }
         else
             list = CategoryRelations.Where(r => r.CategoryRelationType == CategoryRelationType.IncludesContentOf)
-                .Select(r => EntityCache.GetCategory(r.Category.Id)).ToList();
+                .Select(r => EntityCache.GetCategory(r.RelatedCategory.Id)).ToList();
 
         if (includingSelf)
             list.Add(this);
