@@ -1902,6 +1902,10 @@ p:empty {
 .inline-text-editor, .inline-question-editor, #flashCardContent {
     position: relative;
 
+    a {
+        cursor: pointer;
+    }
+
     .editor__floating-menu {
         position: absolute;
         z-index: 1;
@@ -1941,10 +1945,9 @@ p:empty {
         }
     }
 
-    .ProseMirror, .flashCardContentSite{
+    .ProseMirror, .flashCardContentSite {
         padding-top: 2px;
-
-        }
+    }
 }
 
 /*CodeHighlight*/
@@ -2068,6 +2071,24 @@ code {
 
     &.is-active {
         background: #dddddd;
+    }
+}
+
+.link-modal {
+    .link-form {
+        display: inline-flex;
+        justify-content: space-between;
+        width: 100%;
+
+        .link-input {
+            width: 100%;
+            margin-right: 15px;
+        }
+
+        .link-btn {
+            font-size: 16px;
+            padding-top: 3px;
+        }
     }
 }
 
@@ -2848,6 +2869,7 @@ p.is-editor-empty:first-child::before {
             @media (max-width: 600px) {
                 margin-top: 30px;
             }
+
         }
     }
 }

@@ -219,7 +219,7 @@
                                             <component :is="questionTitleHtml && {template:questionTitleHtml}" @hook:mounted="highlightCode(questionTitleId)" ></component>
                                             <div v-if="visibility == 1" class="privateQuestionIcon">
                                                 <p>
-                                                    <i class="fas fa-user-secret"></i>
+                                                    <i class="fas fa-eye-slash"></i>
                                                 </p>
                                             </div>
                                         </div>

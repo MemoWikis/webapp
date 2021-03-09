@@ -2,7 +2,7 @@
 
 <text-component content="<%: HttpUtility.HtmlDecode(Model.Content)%>" inline-template>
     <div class="inline-text-editor">
-        <editor-menu-bar :editor="editor" v-slot="{ commands, isActive, focused }">
+        <editor-menu-bar :editor="editor" v-slot="{ commands, isActive, focused, getMarkAttrs }">
           <div
         class="menubar is-hidden"
         :class="{ 'is-focused': focused }"
@@ -92,22 +92,23 @@
         >
             <i class="fas fa-quote-right"></i>
         </button>
-          
-          <button
-              class="menubar__button"
-              :class="{ 'is-active': isActive.code() }"
-              @click="commands.code"
-          >
-              <i class="far fa-file-code"></i>
-          </button>
 
-        <button
+              <button
           class="menubar__button"
           :class="{ 'is-active': isActive.code_block() }"
           @click="commands.code_block"
         >
             <i class="fas fa-file-code"></i>
         </button>
+              
+              <button
+                  data-toggle="modal" data-target="#inlineEditLinkModal"
+                  class="menubar__button"
+                  @click="showLinkMenu(getMarkAttrs('link'))"
+                  :class="{ 'is-active': isActive.link() }"
+              >
+                  <i class="fas fa-link"></i>
+              </button>
 
               <button
               class="menubar__button"
@@ -134,6 +135,25 @@
 
       </div>
         </editor-menu-bar>
+        
+        <editor-menu-bubble class="link-modal" :editor="editor" @hide="hideLinkMenu" v-slot="{ commands, isActive, getMarkAttrs, menu }">
+            <div class="modal fade" id="inlineEditLinkModal" tabindex="-1" role="dialog" aria-labelledby="inlineEditLinkModalLabel">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-body">
+                            <form class="link-form" @submit.prevent="setLinkUrl(commands.link, linkUrl)">
+                                <input class="link-input" type="text" v-model="linkUrl" placeholder="https://" ref="linkInput" @keydown.esc="hideLinkMenu"/>
+                                <button class="link-btn btn btn-danger" @click="setLinkUrl(commands.link, null)" type="button">
+                                    <i class="far fa-times-circle"></i>
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </editor-menu-bubble>
+
+
 
         <editor-content :editor="editor">
             <%: Html.Raw(Model.Content)  %>

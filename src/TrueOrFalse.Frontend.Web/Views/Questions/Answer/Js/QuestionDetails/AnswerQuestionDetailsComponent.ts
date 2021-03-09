@@ -7,6 +7,7 @@ Vue.component('question-details-component', {
 
     data() {
         return {
+            visibility: 0,
             personalProbability: 0,
             personalProbabilityText: "Nicht im Wunschwissen",
             personalColor: "#DDDDDD",
@@ -208,9 +209,17 @@ Vue.component('question-details-component', {
                     this.personalAnswerCount = data.personalAnswerCount;
                     this.personalAnsweredCorrectly = data.personalAnsweredCorrectly;
                     this.personalAnsweredWrongly = data.personalAnsweredWrongly;
-                    this.overallAnswerCount = data.overallAnswerCount;
-                    this.overallAnsweredCorrectly = data.overallAnsweredCorrectly;
-                    this.overallAnsweredWrongly = data.overallAnsweredWrongly;
+                    this.visibility = data.visibility;
+                    if (this.visibility == 1) {
+                        this.overallAnswerCount = 0;
+                        this.overallAnsweredCorrectly = 0;
+                        this.overallAnsweredWrongly = 0;
+                    } else {
+                        this.overallAnswerCount = data.overallAnswerCount;
+                        this.overallAnsweredCorrectly = data.overallAnsweredCorrectly;
+                        this.overallAnsweredWrongly = data.overallAnsweredWrongly;
+                    }
+
                     this.personalColor = data.personalColor;
                     this.categories = data.categories;
                     await this.setPersonalProbability();
@@ -616,7 +625,11 @@ Vue.component('question-details-component', {
                 .attr('y', -8)
                 .html(function () {
                     var fontColor = self.overallAnswerCount > 0 ? "#999999" : "#DDDDDD";
-                    return "<i class='fas fa-users' style='font-size:16px; color:" + fontColor + "'> </i>";
+                    if (self.visibility == 1)
+                        return "<i class='fas fa-eye-slash' style='font-size:16px; color:" + fontColor + "'> </i>";
+                    else
+                        return "<i class='fas fa-users' style='font-size:16px; color:" + fontColor + "'> </i>";
+
                 });
         },
 
