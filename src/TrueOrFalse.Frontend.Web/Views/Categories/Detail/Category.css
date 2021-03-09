@@ -3494,11 +3494,13 @@ p.is-editor-empty:first-child::before {
   max-width: 1140px;
 }
 #TopicTabFABApp .edit-mode-bar-container .toolbar .toolbar-btn-container .centerText,
-#LearningTabFABApp .edit-mode-bar-container .toolbar .toolbar-btn-container .centerText {
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
+#LearningTabFABApp .edit-mode-bar-container .toolbar .toolbar-btn-container .centerText,
+#TopicTabFABApp .edit-mode-bar-container .toolbar .toolbar-btn-container .saveMsg,
+#LearningTabFABApp .edit-mode-bar-container .toolbar .toolbar-btn-container .saveMsg {
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
   -webkit-box-pack: center;
   -webkit-justify-content: center;
       -ms-flex-pack: center;
@@ -3507,6 +3509,39 @@ p.is-editor-empty:first-child::before {
   -webkit-align-items: center;
       -ms-flex-align: center;
           align-items: center;
+  font-size: 14px;
+  text-transform: uppercase;
+  font-weight: 600;
+}
+#TopicTabFABApp .edit-mode-bar-container .toolbar .toolbar-btn-container .saveMsg,
+#LearningTabFABApp .edit-mode-bar-container .toolbar .toolbar-btn-container .saveMsg {
+  padding-right: 20px;
+  -webkit-animation-name: opacity;
+          animation-name: opacity;
+  -webkit-animation-duration: 3s;
+          animation-duration: 3s;
+}
+@-webkit-keyframes opacity {
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+@keyframes opacity {
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
 }
 #TopicTabFABApp .edit-mode-bar-container .toolbar .toolbar-btn-container .btn-left,
 #LearningTabFABApp .edit-mode-bar-container .toolbar .toolbar-btn-container .btn-left,
@@ -3562,7 +3597,8 @@ p.is-editor-empty:first-child::before {
 }
 #TopicTabFABApp .edit-mode-bar-container .toolbar .toolbar-btn-container .btn-left,
 #LearningTabFABApp .edit-mode-bar-container .toolbar .toolbar-btn-container .btn-left {
-  width: 100px;
+  width: 100%;
+  max-width: 200px;
 }
 #TopicTabFABApp .edit-mode-bar-container .toolbar .toolbar-btn-container .btn-right,
 #LearningTabFABApp .edit-mode-bar-container .toolbar .toolbar-btn-container .btn-right {

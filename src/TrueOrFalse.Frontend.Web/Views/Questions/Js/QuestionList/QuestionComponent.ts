@@ -19,7 +19,8 @@
         'linkToQuestionVersions',
         'linkToQuestion',
         'isLastItem',
-        'sessionIndex'
+        'sessionIndex',
+        'visibility'
     ],
     data() {
         return {

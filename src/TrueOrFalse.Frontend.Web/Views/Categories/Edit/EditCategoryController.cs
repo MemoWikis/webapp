@@ -288,7 +288,7 @@ public class EditCategoryController : BaseController
                 category.CustomSegments = JsonConvert.SerializeObject(segmentation, new JsonSerializerSettings
                 {
                     NullValueHandling = NullValueHandling.Ignore
-                }); ;
+                });
 
             Sl.CategoryRepo.Update(category, User_());
 

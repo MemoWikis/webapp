@@ -203,7 +203,8 @@
                                 :link-to-question ="q.LinkToQuestion"
                                 :key="q.Id"
                                 :session-index="q.SessionIndex"
-                                :is-last-item="index == (questions.length-1)">
+                                :is-last-item="index == (questions.length-1)"
+                                :visibility="q.Visibility">
                 
                 <div class="singleQuestionRow" :class="[{ open: showFullQuestion}, backgroundColor]">
                     <div class="questionSectionFlex">
@@ -216,6 +217,11 @@
                                     <div class="questionHeader row">
                                         <div class="questionTitle col-xs-9" ref="questionTitle" :id="questionTitleId" @click="expandQuestion()">
                                             <component :is="questionTitleHtml && {template:questionTitleHtml}" @hook:mounted="highlightCode(questionTitleId)" ></component>
+                                            <div v-if="visibility == 1" class="privateQuestionIcon">
+                                                <p>
+                                                    <i class="fas fa-user-secret"></i>
+                                                </p>
+                                            </div>
                                         </div>
                                         <div class="questionHeaderIcons col-xs-3"  @click.self="expandQuestion()">
                                             <div class="iconContainer float-right" @click="expandQuestion()">
