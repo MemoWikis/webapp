@@ -204,6 +204,11 @@
   color: #555555;
   font-weight: 600;
   align-self: center;
+  display: inline-flex;
+}
+#QuestionListApp .singleQuestionRow .questionSectionFlex .questionContainer .questionBodyTop .questionContainerTopSection .questionHeader .questionTitle .privateQuestionIcon {
+  padding-left: 8px;
+  padding-right: 8px;
 }
 @media (max-width: 640px) {
   #QuestionListApp .singleQuestionRow .questionSectionFlex .questionContainer .questionBodyTop .questionContainerTopSection .questionHeader .col-xs-3 {

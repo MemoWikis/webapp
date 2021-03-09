@@ -47,6 +47,7 @@ public class QuestionListModel : BaseModel
             question.LinkToQuestionVersions = Links.QuestionHistory(q.Id);
             question.LinkToComment = Links.GetUrl(q) + "#JumpLabel";
             question.CorrectnessProbability = q.CorrectnessProbability;
+            question.Visibility = q.Visibility;
 
             var learningSession = LearningSessionCache.GetLearningSession();
             if (learningSession != null)

@@ -93,7 +93,6 @@
                     Weiterlernen
                 </a>   
             <% } else if (Model.LearningSession.Config.InWishknowledge) { %>
-                <a href="<%= Links.Knowledge() %>" class="btn btn-link" style="padding-right: 10px">Zur Wissenszentrale</a>
                 <a href="<%=Links.StartLearningSession(Model.LearningSession)  %>" class="btn btn-primary nextLearningSession" style="padding-right: 10px">
                     Neue Lernsitzung
                 </a>
