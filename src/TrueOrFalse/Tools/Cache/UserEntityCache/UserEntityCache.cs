@@ -39,7 +39,7 @@ public class UserEntityCache : BaseCache
         obj.TryAdd(category.Id, categoryClone );
     }
 
-    public static Category GetCategory(int categoryId, int userId)
+    public static Category GetCategoryWhenNotAvalaibleThenGetNextParent(int categoryId, int userId)
     {
         if (!_Categories.ContainsKey(userId))
             Init();
@@ -71,7 +71,7 @@ public class UserEntityCache : BaseCache
 
     public static List<Category> GetChildren(int categoryId, int userId)
     {
-        var category = GetCategory(categoryId,userId);
+        var category = GetCategoryWhenNotAvalaibleThenGetNextParent(categoryId,userId);
 
         var allCategories = GetCategories(userId).Values.ToList();
 
@@ -101,15 +101,15 @@ public class UserEntityCache : BaseCache
             if (nextParents.Count == 1 && nextParents.First().IsRootCategory)
                 return nextParents.First(); 
 
-                var parentHelperList = nextParent.ParentCategories();
-                nextParents.RemoveAt(0);
+            var parentHelperList = nextParent.ParentCategories();
+            nextParents.RemoveAt(0);
 
-                foreach (var parent in parentHelperList)
-                {
-                   nextParents.Add(parent); 
-                }
+            foreach (var parent in parentHelperList)
+            {
+               nextParents.Add(parent); 
+            }
 
-                nextParents.Distinct();
+            nextParents.Distinct();
         }
         Logg.r().Error("Root category Not available/ UserEntityCache/NextParentInWishknowledge");
         throw new NotImplementedException();
