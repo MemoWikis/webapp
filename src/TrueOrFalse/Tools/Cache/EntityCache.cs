@@ -217,7 +217,7 @@ public class EntityCache : BaseCache
     public static Category GetCategory(int categoryId, bool isFromUserEntityCache = false,  bool getDataFromEntityCache = false)
     {
         if (UserCache.GetItem(Sl.CurrentUserId).IsFiltered && !isFromUserEntityCache && !getDataFromEntityCache)
-            return UserEntityCache.GetCategory(categoryId, Sl.SessionUser.UserId);
+            return UserEntityCache.GetCategoryWhenNotAvalaibleThenGetNextParent(categoryId, Sl.SessionUser.UserId);
 
         return Categories[categoryId];
     }
