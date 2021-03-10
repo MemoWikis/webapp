@@ -204,7 +204,7 @@ public class EditCategoryController : BaseController
     public JsonResult QuickCreate(string name, int parentCategoryId)
     {
         var category = new Category(name);
-        var parentCategory = EntityCache.GetCategory(parentCategoryId);
+        var parentCategory = EntityCache.GetCategory(parentCategoryId, getDataFromEntityCache:true);
         ModifyRelationsForCategory.AddParentCategory(category, parentCategory);
 
         category.Creator = _sessionUser.User;
@@ -213,6 +213,9 @@ public class EditCategoryController : BaseController
 
         CategoryInKnowledge.Pin(category.Id, Sl.SessionUser.User);
         StoreImage(category.Id);
+        
+        UserEntityCache.Add(category, UserId);
+
         return Json(new
         {
             success = true,

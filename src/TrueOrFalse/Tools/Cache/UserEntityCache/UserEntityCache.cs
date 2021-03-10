@@ -24,6 +24,21 @@ public class UserEntityCache : BaseCache
         _Categories[user.Id] = categories;
     }
 
+    public static void Add(Category category, int userId)
+    {
+        var obj = _Categories[userId];
+        var categoryClone = category.DeepClone();
+        var childRelations = categoryClone.CategoryRelations.Where(r => r.CategoryRelationType == CategoryRelationType.IsChildCategoryOf);
+
+        categoryClone.CategoryRelations = new List<CategoryRelation>();
+
+        foreach (var categoryRelation in childRelations)
+        {
+            categoryClone.CategoryRelations.Add(categoryRelation);
+        }
+        obj.TryAdd(category.Id, categoryClone );
+    }
+
     public static Category GetCategory(int categoryId, int userId)
     {
         if (!_Categories.ContainsKey(userId))
