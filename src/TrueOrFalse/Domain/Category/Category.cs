@@ -24,7 +24,7 @@ public class Category : DomainEntity, ICreator, ICloneable
 
     public virtual IList<CategoryRelation> CategoryRelations { get; set; }
 
-    public virtual IList<Category> ParentCategories()
+    public virtual IList<Category> ParentCategories() 
     {
         return CategoryRelations.Any()
             ? CategoryRelations
