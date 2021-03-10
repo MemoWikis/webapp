@@ -58,7 +58,14 @@
                             <strong>{{allCorrectAnswers}}</strong> richtig / <strong>{{allWrongAnswers}}</strong> falsch
                         </div>
                         <div v-else class="counterLabel">
-                            Diese Frage wurde noch nie beantwortet.
+                            <template v-if="visibility == 1">
+                                Diese Frage ist <br/>
+                                privat und nur für <br/>
+                                dich sichtbar
+                            </template>
+                            <template v-else>
+                                Diese Frage wurde noch nie beantwortet.
+                            </template>
                         </div>
                     </div>
                 </div>

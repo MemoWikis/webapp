@@ -510,6 +510,7 @@ public class AnswerQuestionController : BaseController
                 categoryType = c.Type,
                 linkToCategory = Links.CategoryDetail(c),
             }).AsEnumerable().Distinct().ToList(),
+            visibility = question.Visibility,
         });
 
         return json;

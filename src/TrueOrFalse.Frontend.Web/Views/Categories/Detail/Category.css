@@ -2419,6 +2419,11 @@ p:empty {
 #flashCardContent {
   position: relative;
 }
+.inline-text-editor a,
+.inline-question-editor a,
+#flashCardContent a {
+  cursor: pointer;
+}
 .inline-text-editor .editor__floating-menu,
 .inline-question-editor .editor__floating-menu,
 #flashCardContent .editor__floating-menu {
@@ -2639,6 +2644,25 @@ p:empty {
 }
 .menubar__button.is-active {
   background: #dddddd;
+}
+.link-modal .link-form {
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-box-pack: justify;
+  -webkit-justify-content: space-between;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  width: 100%;
+}
+.link-modal .link-form .link-input {
+  width: 100%;
+  margin-right: 15px;
+}
+.link-modal .link-form .link-btn {
+  font-size: 16px;
+  padding-top: 3px;
 }
 p.is-editor-empty:first-child::before {
   content: attr(data-empty-text);

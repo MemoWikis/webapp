@@ -4,6 +4,7 @@
     tiptapCommands,
     tiptapExtensions,
 } = tiptapBuild;
+
 var {
     apache,
     //cLike,
@@ -44,6 +45,7 @@ var {
     typescript,
 } = hljsBuild;
 Vue.component('editor-menu-bar', tiptap.EditorMenuBar);
+Vue.component('editor-menu-bubble', tiptap.EditorMenuBubble);
 Vue.component('editor-content', tiptap.EditorContent);
 Vue.component('editor-floating-menu', tiptap.EditorFloatingMenu);
 
@@ -52,6 +54,8 @@ Vue.component('text-component',
         props: ['content'],
         data() {
             return {
+                linkUrl: null,
+                linkMenuIsActive: false,
                 json: null,
                 html: this.content,
                 contentIsChanged: false,
@@ -67,10 +71,12 @@ Vue.component('text-component',
                         new tiptapExtensions.OrderedList(),
                         new tiptapExtensions.TodoItem(),
                         new tiptapExtensions.TodoList(),
-                        new tiptapExtensions.Link(),
+                        new tiptapExtensions.Link({
+                            target: "_self"
+                        }),
                         new tiptapExtensions.Image(),
                         new tiptapExtensions.Bold(),
-                        new tiptapExtensions.Code(),
+                        //new tiptapExtensions.Code(),
                         new tiptapExtensions.Italic(),
                         new tiptapExtensions.Strike(),
                         new tiptapExtensions.Underline(),
@@ -126,11 +132,11 @@ Vue.component('text-component',
                             emptyNodeText: 'Klicke hier um zu tippen ...',
                             showOnlyWhenEditable: true,
                             showOnlyCurrent: true,
-                        })
+                        }),
                     ],
                     content: this.content,
                     editorProps: {
-                        handleKeyDown: () => {
+                        handleKeyDown: (e, k) => {
                             this.contentIsChanged = true;
                         },
                     },
@@ -141,6 +147,8 @@ Vue.component('text-component',
                         this.json = getJSON();
                         this.html = getHTML();
                     },
+                    nativeExtensions: [
+                        ]
                 }),
             }
         },
@@ -165,10 +173,12 @@ Vue.component('text-component',
                                 new tiptapExtensions.OrderedList(),
                                 new tiptapExtensions.TodoItem(),
                                 new tiptapExtensions.TodoList(),
-                                new tiptapExtensions.Link(),
+                                new tiptapExtensions.Link({
+                                    target: "_self"
+                                }),
                                 new tiptapExtensions.Image(),
                                 new tiptapExtensions.Bold(),
-                                new tiptapExtensions.Code(),
+                                //new tiptapExtensions.Code(),
                                 new tiptapExtensions.Italic(),
                                 new tiptapExtensions.Strike(),
                                 new tiptapExtensions.Underline(),
@@ -239,6 +249,8 @@ Vue.component('text-component',
                                 this.json = getJSON();
                                 this.html = getHTML();
                             },
+                            nativeExtensions: [
+                            ],
                         });
                 });
         },
@@ -252,6 +264,22 @@ Vue.component('text-component',
             json() {
                 this.$root.json = this.json;
             }
+        },
+        methods: {
+            showLinkMenu(attrs) {
+                this.linkUrl = attrs.href;
+                this.$nextTick(() => {
+                    this.$refs.linkInput.focus();
+                });
+            },
+            hideLinkMenu() {
+                this.linkUrl = null;
+                $('#inlineEditLinkModal').modal('hide');
+            },
+            setLinkUrl(command, url) {
+                command({ href: url });
+                this.hideLinkMenu();
+            },
         },
     });
 
