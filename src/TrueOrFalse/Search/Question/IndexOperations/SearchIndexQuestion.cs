@@ -67,7 +67,7 @@ namespace TrueOrFalse.Search
                         _solrOperations.Add(solrQuestion, new AddParameters { CommitWithin = 5000 });
 
                     }, "UpdateQuestionSolrJob", writeLog: false);
-                }, true);
+                });
             }
         }
 
