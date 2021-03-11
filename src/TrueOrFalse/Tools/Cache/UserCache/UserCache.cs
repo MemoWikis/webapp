@@ -32,7 +32,12 @@ public class UserCache
     public static bool IsInWishknowledge(int userId, int categoryId)
     {
         var cacheItem = GetItem(userId);
-        return cacheItem.CategoryValuations.ContainsKey(categoryId);
+        var hasCategoryValuation = cacheItem.CategoryValuations.ContainsKey(categoryId);
+
+        if (!hasCategoryValuation)
+            return false;
+
+        return cacheItem.CategoryValuations[categoryId].IsInWishKnowledge();
     }
 
     public static UserCacheItem CreateItemFromDatabase(int userId)
