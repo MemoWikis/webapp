@@ -28,7 +28,9 @@ public class UserEntityCache : BaseCache
     {
         var obj = _Categories[userId];
         var categoryClone = category.DeepClone();
-        var childRelations = categoryClone.CategoryRelations.Where(r => r.CategoryRelationType == CategoryRelationType.IsChildCategoryOf);
+        var childRelations = categoryClone
+            .CategoryRelations
+            .Where(r => r.CategoryRelationType == CategoryRelationType.IsChildCategoryOf);
 
         categoryClone.CategoryRelations = new List<CategoryRelation>();
 
