@@ -68,7 +68,7 @@ public class GraphService
             {
                 var parent = parents.First();
 
-                if (Sl.CategoryValuationRepo.IsInWishKnowledge(parent.Id, userId) || parent.Id == rootCategoryId && hasRootInParents)
+                if (UserCache.IsInWishknowledge(parent.Id, userId) || parent.Id == rootCategoryId && hasRootInParents)
                 {
                     var categoryRelation = new CategoryRelation
                     {

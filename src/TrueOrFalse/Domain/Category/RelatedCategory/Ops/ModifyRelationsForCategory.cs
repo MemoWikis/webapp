@@ -21,7 +21,11 @@ public class ModifyRelationsForCategory
 
         var relationsToAdd = relatedCategories
             .Except(existingRelationsOfType.Select(r => r.RelatedCategory))
-            .Select(c => new CategoryRelation{Category = category, RelatedCategory = c, CategoryRelationType = relationType});
+            .Select(c => new CategoryRelation{
+                Category = EntityCache.GetCategory(category.Id), 
+                RelatedCategory = EntityCache.GetCategory(c.Id, getDataFromEntityCache: true), 
+                CategoryRelationType = relationType}
+        );
 
         var relationsToRemove = new List<CategoryRelation>(); 
         var relatedCategoriesDictionary =  relatedCategories.ToDictionary(r => r.Id);

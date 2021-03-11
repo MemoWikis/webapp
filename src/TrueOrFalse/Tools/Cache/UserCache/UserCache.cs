@@ -3,6 +3,7 @@ using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
+using Org.BouncyCastle.Bcpg;
 
 public class UserCache
 {
@@ -26,6 +27,12 @@ public class UserCache
     {
         var cacheItem = Cache.Get<UserCacheItem>(GetCacheKey(userId));
         return cacheItem ?? CreateItemFromDatabase(userId);
+    }
+
+    public static bool IsInWishknowledge(int userId, int categoryId)
+    {
+        var cacheItem = GetItem(userId);
+        return cacheItem.CategoryValuations.ContainsKey(categoryId);
     }
 
     public static UserCacheItem CreateItemFromDatabase(int userId)

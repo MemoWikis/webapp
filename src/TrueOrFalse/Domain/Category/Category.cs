@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using MySqlX.XDevAPI;
 
 [DebuggerDisplay("Id={Id} Name={Name}")]
 [Serializable]
@@ -163,10 +164,7 @@ public class Category : DomainEntity, ICreator, ICloneable
     public virtual int TotalRelevancePersonalEntries { get; set; }
     public virtual bool IsHistoric { get; set; }
 
-    public virtual bool IsInWishknowledge()
-    {
-        return Sl.CategoryValuationRepo.IsInWishKnowledge(Id, Sl.CurrentUserId);
-    }
+    public virtual bool IsInWishknowledge() => UserCache.IsInWishknowledge(Sl.CurrentUserId, Id);
 
     public Category(){
         CategoryRelations = new List<CategoryRelation>();

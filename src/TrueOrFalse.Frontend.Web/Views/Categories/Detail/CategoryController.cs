@@ -298,10 +298,12 @@ public class CategoryController : BaseController
     [HttpPost]
     public bool GetWishknowledge(int categoryId)
     {
-        var user = User_();
-        var userValuation = UserCache.GetItem(user.Id).CategoryValuations;
+        if (!IsLoggedIn)
+            return false;
+
+        var userValuation = UserCache.GetItem(UserId).CategoryValuations;
         var isInWishknowledge = false;
-        if (userValuation.ContainsKey(categoryId) && user != null)
+        if (userValuation.ContainsKey(categoryId))
             isInWishknowledge = userValuation[categoryId].IsInWishKnowledge();
 
         return isInWishknowledge;
