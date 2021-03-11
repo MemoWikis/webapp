@@ -78,6 +78,8 @@ public class CategoryRepository : RepositoryDbBase<Category>
     // ReSharper disable once MethodOverloadWithOptionalParameter
     public void Update(Category category, User author = null, bool imageWasUpdated = false, bool isFromModifiyRelations = false)
     {
+        category = category.DeepClone();
+
         if(!isFromModifiyRelations) 
             _searchIndexCategory.Update(category);
 
@@ -94,8 +96,8 @@ public class CategoryRepository : RepositoryDbBase<Category>
 
         JobExecute.RunAsTask(scope =>
         {
-            GraphService.AutomaticInclusionOfChildThemes(EntityCache.GetCategory(category.Id));
-        }, "AutomaticInclusionOfChildThemes");
+            GraphService.AutomaticInclusionOfChildCategories(EntityCache.GetCategory(category.Id));
+        }, "AutomaticInclusionOfChildCategories");
     }
 
     public void UpdateWithoutFlush(Category category)

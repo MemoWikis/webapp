@@ -160,7 +160,7 @@ public class GraphService
     public static IList<Category> GetAllPersonalCategoriesWithRelations(Category category, int userId = -1) =>
         GetAllPersonalCategoriesWithRelations(category.Id, userId);
 
-    public static void AutomaticInclusionOfChildThemes(Category category)
+    public static void AutomaticInclusionOfChildCategories(Category category)
     {
         var parentsFromParentCategories = GetAllParents(category);
 
