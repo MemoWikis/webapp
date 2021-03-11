@@ -12,4 +12,14 @@ public static class QuestionValuationExt
     {
         return setValuations.Select(x => x.Question.Id).ToList();
     }
+
+    public static QuestionValuationCacheItem ByQuestionId(this IEnumerable<QuestionValuationCacheItem> questionValuations, int questionId)
+    {
+        return questionValuations.FirstOrDefault(x => x.Question.Id == questionId);
+    }
+
+    public static IList<int> QuestionIds(this IEnumerable<QuestionValuationCacheItem> setValuations)
+    {
+        return setValuations.Select(x => x.Question.Id).ToList();
+    }
 }

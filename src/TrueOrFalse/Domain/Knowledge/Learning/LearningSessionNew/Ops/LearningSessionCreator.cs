@@ -158,7 +158,7 @@ public class LearningSessionCreator
 
     private static Dictionary<int, int> GetIdsFromQuestionValuation(int userId)
     {
-       return UserCache.GetQuestionValuations(userId).Where(qv => qv.IsInWishKnowledge())
+       return UserCache.GetQuestionValuations(userId).Where(qv => qv.IsInWishKnowledge)
             .Select(qv => qv.Question.Id).ToDictionary(q => q);
     }
 

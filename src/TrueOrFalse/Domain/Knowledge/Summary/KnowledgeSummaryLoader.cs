@@ -49,9 +49,7 @@ public class KnowledgeSummaryLoader
         aggregatedQuestions = aggregatedQuestions.Distinct().ToList();
 
         var userValuations = UserCache.GetItem(userId).QuestionValuations;
-
-        var aggregatedQuestionValuations = new List<QuestionValuation>();
-
+        var aggregatedQuestionValuations = new List<QuestionValuationCacheItem>();
         int countNoValuation = 0;
 
         foreach (var question in aggregatedQuestions)
@@ -71,10 +69,10 @@ public class KnowledgeSummaryLoader
         }
 
         var aggregatedQuestionValuationsInWishKnowledge =
-            aggregatedQuestionValuations.Where(v => v.IsInWishKnowledge()).ToList();
+            aggregatedQuestionValuations.Where(v => v.IsInWishKnowledge).ToList();
 
         var knowledgeSummary = new KnowledgeSummary(
-            notInWishKnowledge: countNoValuation + aggregatedQuestionValuations.Count(v => !v.IsInWishKnowledge()),
+            notInWishKnowledge: countNoValuation + aggregatedQuestionValuations.Count(v => !v.IsInWishKnowledge),
             notLearned: aggregatedQuestionValuationsInWishKnowledge.Count(v => v.KnowledgeStatus == KnowledgeStatus.NotLearned),
             needsLearning: aggregatedQuestionValuationsInWishKnowledge.Count(v => v.KnowledgeStatus == KnowledgeStatus.NeedsLearning),
             needsConsolidation: aggregatedQuestionValuationsInWishKnowledge.Count(v => v.KnowledgeStatus == KnowledgeStatus.NeedsConsolidation),
@@ -103,7 +101,7 @@ public class KnowledgeSummaryLoader
 
         var questionValuations = Sl.QuestionValuationRepo.GetByUserFromCache(userId);
         if (onlyValuated)
-            questionValuations = questionValuations.Where(v => v.RelevancePersonal != -1).ToList();
+            questionValuations = questionValuations.Where(v => v.IsInWishKnowledge).ToList();
         if (questionIds != null)
             questionValuations = questionValuations.Where(v => questionIds.Contains(v.Question.Id)).ToList();
 

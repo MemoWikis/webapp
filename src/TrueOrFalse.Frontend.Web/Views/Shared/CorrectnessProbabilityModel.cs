@@ -12,7 +12,7 @@ namespace TrueOrFalse
         public string CPDerivationSign;
         public string CPPColor;
 
-        public CorrectnessProbabilityModel(Question question, QuestionValuation questionValuationForUser)
+        public CorrectnessProbabilityModel(Question question, QuestionValuationCacheItem questionValuationForUser)
         {
             UserHasAnswerHistory = questionValuationForUser.CorrectnessProbabilityAnswerCount > 0;
             QuestionHasAnswerHistory = question.TotalAnswers() > 0;

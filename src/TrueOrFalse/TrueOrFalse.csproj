@@ -323,6 +323,7 @@
     <Compile Include="Domain\Question\History\Ops\RestoreQuestion.cs" />
     <Compile Include="Domain\Question\History\Persistence\QuestionChangeMap.cs" />
     <Compile Include="Domain\Question\History\Persistence\QuestionChangeRepo.cs" />
+    <Compile Include="Domain\Question\QuestionValuation\QuestionValuationCacheItem.cs" />
     <Compile Include="Domain\SaveType.cs" />
     <Compile Include="Domain\User\UserTinyModel.cs" />
     <Compile Include="Infrastructure\BooleanExtensions.cs" />

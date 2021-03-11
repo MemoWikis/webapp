@@ -4,7 +4,7 @@ public class HistoryAndProbabilityModel
 {
     public AnswerHistoryModel AnswerHistory;
     public CorrectnessProbabilityModel CorrectnessProbability;
-    public QuestionValuation QuestionValuation;
+    public QuestionValuationCacheItem QuestionValuation;
 
     public bool LoadJs;
 }

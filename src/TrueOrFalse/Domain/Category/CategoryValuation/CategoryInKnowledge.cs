@@ -22,13 +22,13 @@ public class CategoryInKnowledge
         foreach (var question in questions)
         {
             var questionValuation = questionValuations.FirstOrDefault(v => v.Value.Question.Id == question.Id).Value;
-            CreateOrUpdateQuestionValution(question, user, questionValuation, 50, userCategoryAnswers);
+            CreateOrUpdateQuestionValution(question, user, isInWishKnowledge:true, questionValuation, userCategoryAnswers);
         }
         QuestionInKnowledge.SetUserWishCountQuestions(user);
         UpdateCategoryValuation(categoryId, user);
     }
 
-    private static void UpdateProbabilityForQuestionValuation(Question question, User user, IList<Answer> answers, QuestionValuation userQuestionValuation)
+    private static void UpdateProbabilityForQuestionValuation(Question question, User user, IList<Answer> answers, QuestionValuationCacheItem userQuestionValuation)
     {
         var probabilityResult = Sl.R<ProbabilityCalc_Simple1>().Run(question, user, answers);
 
@@ -57,30 +57,34 @@ public class CategoryInKnowledge
         foreach (var question in questionsToUnpin)
         {
             var questionValuation = questionValuations.FirstOrDefault(v => v.Value.Question.Id == question.Id).Value;
-            CreateOrUpdateQuestionValution(question, user, questionValuation, -1);
+            CreateOrUpdateQuestionValution(question, user, false, questionValuation);
         }
 
         QuestionInKnowledge.SetUserWishCountQuestions(user);
     }
 
-    private static void CreateOrUpdateQuestionValution(Question question, User user, QuestionValuation userQuestionValuation, int relevance, IList<Answer> answersForProbabilityUpdate = null)
+    private static void CreateOrUpdateQuestionValution(
+        Question question, 
+        User user,
+        bool isInWishKnowledge,
+        QuestionValuationCacheItem userQuestionValuation,
+        IList<Answer> answersForProbabilityUpdate = null)
     {
         if (userQuestionValuation == null)
         {
-            userQuestionValuation = new QuestionValuation
+            userQuestionValuation = new QuestionValuationCacheItem()
             {
                 Question = question,
                 User = user,
-                RelevancePersonal = relevance,
-                CorrectnessProbability = question.CorrectnessProbability
+                IsInWishKnowledge = isInWishKnowledge
             };
         }
         else
         {
-            userQuestionValuation.RelevancePersonal = relevance;
+            userQuestionValuation.IsInWishKnowledge = isInWishKnowledge;
         }
 
-        if(relevance == 50 && answersForProbabilityUpdate != null)
+        if(isInWishKnowledge && answersForProbabilityUpdate != null)
             UpdateProbabilityForQuestionValuation(question, user, answersForProbabilityUpdate, userQuestionValuation);
 
         Sl.QuestionValuationRepo.CreateOrUpdateInCache(userQuestionValuation);

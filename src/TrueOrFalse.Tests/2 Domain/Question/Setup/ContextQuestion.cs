@@ -209,7 +209,7 @@ namespace TrueOrFalse.Tests
             var userCacheItem = new UserCacheItem();
             userCacheItem.User = users.FirstOrDefault();
             userCacheItem.CategoryValuations = new ConcurrentDictionary<int, CategoryValuation>();
-            userCacheItem.QuestionValuations = new ConcurrentDictionary<int, QuestionValuation>();
+            userCacheItem.QuestionValuations = new ConcurrentDictionary<int, QuestionValuationCacheItem>();
 
             var questions = New().AddQuestions(amountQuestion, users.FirstOrDefault(), true, categoryList).All;
             users.ForEach(u => Sl.UserRepo.Create(u));
@@ -225,15 +225,15 @@ namespace TrueOrFalse.Tests
             var rand = new Random();
             for (int i = 0; i < questions.Count; i++)
             {
-                var questionValuation = new QuestionValuation();
+                var questionValuation = new QuestionValuationCacheItem();
 
                 questionValuation.Id = i;
                 questionValuation.Question = questions[i];
 
                 if (i == 0)
-                    questionValuation.RelevancePersonal = -1;
+                    questionValuation.IsInWishKnowledge = false;
                 else
-                    questionValuation.RelevancePersonal = rand.Next(-1, 2);
+                    questionValuation.IsInWishKnowledge = rand.Next(-1, 2) != -1;
 
                 questionValuation.User = users.FirstOrDefault();
                 UserCache.AddOrUpdate(questionValuation);

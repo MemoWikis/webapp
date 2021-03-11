@@ -45,9 +45,9 @@ public class UserCache
             CategoryValuations = new ConcurrentDictionary<int, CategoryValuation>(
                 Sl.CategoryValuationRepo.GetByUser(userId, onlyActiveKnowledge: false)
                     .Select(v => new KeyValuePair<int, CategoryValuation>(v.CategoryId, v))),
-            QuestionValuations = new ConcurrentDictionary<int, QuestionValuation>(
+            QuestionValuations = new ConcurrentDictionary<int, QuestionValuationCacheItem>(
                 Sl.QuestionValuationRepo.GetByUserWithQuestion(userId)
-                    .Select(v => new KeyValuePair<int, QuestionValuation>(v.Question.Id, v)))
+                    .Select(v => new KeyValuePair<int, QuestionValuationCacheItem>(v.Question.Id, v.ToCacheItem())))
         };
             
         Add_valuationCacheItem_to_cache(cacheItem, userId);
@@ -60,10 +60,10 @@ public class UserCache
         Cache.Add(GetCacheKey(userId), cacheItem, TimeSpan.FromMinutes(ExpirationSpanInMinutes), slidingExpiration: true);
     }
 
-    public static IList<QuestionValuation> GetQuestionValuations(int userId) => GetItem(userId).QuestionValuations.Values.ToList();
+    public static IList<QuestionValuationCacheItem> GetQuestionValuations(int userId) => GetItem(userId).QuestionValuations.Values.ToList();
     public static IList<CategoryValuation> GetCategoryValuations(int userId) => GetItem(userId).CategoryValuations.Values.ToList();
 
-    public static void AddOrUpdate(QuestionValuation questionValuation)
+    public static void AddOrUpdate(QuestionValuationCacheItem questionValuation)
     {
         var cacheItem = GetItem(questionValuation.User.Id);
 

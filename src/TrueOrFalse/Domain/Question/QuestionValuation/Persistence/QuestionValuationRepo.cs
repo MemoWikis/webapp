@@ -28,18 +28,18 @@ public class QuestionValuationRepo : RepositoryDb<QuestionValuation>
                 q.Question.Id == questionId)
             .SingleOrDefault();
 
-    public QuestionValuation GetByFromCache(int questionId, int userId) => 
+    public QuestionValuationCacheItem GetByFromCache(int questionId, int userId) => 
         UserCache.GetItem(userId).QuestionValuations
             .Where(v => v.Value.Question.Id == questionId)
             .Select(v => v.Value)
         .FirstOrDefault();
 
-    public IList<QuestionValuation> GetActiveInWishknowledgeFromCache(int questionId) => 
+    public IList<QuestionValuationCacheItem> GetActiveInWishknowledgeFromCache(int questionId) => 
         UserCache.GetAllCacheItems()
             .Select(c => c.QuestionValuations.Values).SelectMany(v => v)
             .Where(v => 
                 v.Question.Id == questionId && 
-                v.RelevancePersonal > -1)
+                v.IsInWishKnowledge)
             .ToList();
 
     public IList<QuestionValuation> GetByQuestionIds(IEnumerable<int> questionIds, int userId)
@@ -51,19 +51,19 @@ public class QuestionValuationRepo : RepositoryDb<QuestionValuation>
                     .List<QuestionValuation>();        
     }
 
-    public IList<QuestionValuation> GetByQuestionsAndUserFromCache(IEnumerable<int> questionIds, int userId) => 
+    public IList<QuestionValuationCacheItem> GetByQuestionsAndUserFromCache(IEnumerable<int> questionIds, int userId) => 
         UserCache.GetItem(userId).QuestionValuations.Values
             .Where(v => questionIds.Contains(v.Question.Id))
         .ToList();
 
-    public IList<QuestionValuation> GetByQuestionFromCache(Question question)
+    public IList<QuestionValuationCacheItem> GetByQuestionFromCache(Question question)
     {
         var questionValuations = UserCache.GetAllCacheItems().Select(c => c.QuestionValuations.Values).SelectMany(v => v);
 
         return questionValuations.Where(v => v.Question.Id == question.Id).ToList();
     }
 
-    public IList<QuestionValuation> GetByQuestionsFromCache(IList<Question> questions)
+    public IList<QuestionValuationCacheItem> GetByQuestionsFromCache(IList<Question> questions)
     {
         var questionValuations = UserCache.GetAllCacheItems().Select(c => c.QuestionValuations.Values).SelectMany(l => l);
 
@@ -98,7 +98,7 @@ public class QuestionValuationRepo : RepositoryDb<QuestionValuation>
         return result;
     }
 
-    public IList<QuestionValuation> GetByUserFromCache(int userId, bool onlyActiveKnowledge = true)
+    public IList<QuestionValuationCacheItem> GetByUserFromCache(int userId, bool onlyActiveKnowledge = true)
     {
         var cacheItem = UserCache.GetItem(userId);
         return cacheItem.QuestionValuations.Values.ToList();
@@ -115,10 +115,10 @@ public class QuestionValuationRepo : RepositoryDb<QuestionValuation>
             .List<QuestionValuation>();
     }
 
-    public IList<QuestionValuation> GetActiveInWishknowledgeFromCache(IList<int> questionIds, int userId)
+    public IList<QuestionValuationCacheItem> GetActiveInWishknowledgeFromCache(IList<int> questionIds, int userId)
     {
         if(!questionIds.Any())
-            return new List<QuestionValuation>();
+            return new List<QuestionValuationCacheItem>();
 
         return UserCache.GetItem(userId).QuestionValuations
             .Where(v => questionIds.Contains(v.Value.Question.Id))
@@ -140,7 +140,7 @@ public class QuestionValuationRepo : RepositoryDb<QuestionValuation>
 
         foreach (var questionValuation in questionValuations)
         {
-            UserCache.AddOrUpdate(questionValuation);
+            UserCache.AddOrUpdate(questionValuation.ToCacheItem());
         }
     }
 
@@ -149,7 +149,7 @@ public class QuestionValuationRepo : RepositoryDb<QuestionValuation>
         base.Create(questionValuation);
         _searchIndexQuestion.Update(_questionRepo.GetById(questionValuation.Question.Id));
 
-        UserCache.AddOrUpdate(questionValuation);
+        UserCache.AddOrUpdate(questionValuation.ToCacheItem());
     }
 
     public void CreateInDatabase(QuestionValuation questionValuation)
@@ -163,7 +163,7 @@ public class QuestionValuationRepo : RepositoryDb<QuestionValuation>
         base.CreateOrUpdate(questionValuation);
         _searchIndexQuestion.Update(_questionRepo.GetById(questionValuation.Question.Id));
 
-        UserCache.AddOrUpdate(questionValuation);
+        UserCache.AddOrUpdate(questionValuation.ToCacheItem());
     }
 
     public void CreateOrUpdateInDatabase(QuestionValuation questionValuation)
@@ -172,7 +172,7 @@ public class QuestionValuationRepo : RepositoryDb<QuestionValuation>
         _searchIndexQuestion.Update(_questionRepo.GetById(questionValuation.Question.Id));
     }
 
-    public void CreateOrUpdateInCache(QuestionValuation questionValuation)
+    public void CreateOrUpdateInCache(QuestionValuationCacheItem questionValuation)
     {
         UserCache.AddOrUpdate(questionValuation);
     }
@@ -182,7 +182,7 @@ public class QuestionValuationRepo : RepositoryDb<QuestionValuation>
         base.Update(questionValuation);
         _searchIndexQuestion.Update(_questionRepo.GetById(questionValuation.Question.Id));
 
-        UserCache.AddOrUpdate(questionValuation);
+        UserCache.AddOrUpdate(questionValuation.ToCacheItem());
     }
 
     public void UpdateInDatabase(QuestionValuation questionValuation)
@@ -200,7 +200,7 @@ public class QuestionValuationRepo : RepositoryDb<QuestionValuation>
                 break;
 
             case SaveType.CacheOnly:
-                CreateOrUpdateInCache(questionValuation);
+                CreateOrUpdateInCache(questionValuation.ToCacheItem());
                 break;
 
             case SaveType.DatabaseOnly:
@@ -221,7 +221,7 @@ public class QuestionValuationRepo : RepositoryDb<QuestionValuation>
                 break;
 
             case SaveType.CacheOnly:
-                CreateOrUpdateInCache(questionValuation);
+                CreateOrUpdateInCache(questionValuation.ToCacheItem());
                 break;
 
             case SaveType.DatabaseOnly:
@@ -242,7 +242,7 @@ public class QuestionValuationRepo : RepositoryDb<QuestionValuation>
                 break;
 
             case SaveType.CacheOnly:
-                CreateOrUpdateInCache(questionValuation);
+                CreateOrUpdateInCache(questionValuation.ToCacheItem());
                 break;
 
             case SaveType.DatabaseOnly:

@@ -25,7 +25,7 @@ public class QuestionListModel : BaseModel
         var allQuestions = LearningSessionCache.GetLearningSession().Steps.Select(q => q.Question).ToList();
         var user = isLoggedIn ? Sl.R<SessionUser>().User : null;
 
-        ConcurrentDictionary<int, QuestionValuation> userQuestionValuation = new ConcurrentDictionary<int, QuestionValuation>();
+        ConcurrentDictionary<int, QuestionValuationCacheItem> userQuestionValuation = new ConcurrentDictionary<int, QuestionValuationCacheItem>();
         if (user != null)
             userQuestionValuation = UserCache.GetItem(user.Id).QuestionValuations;
 
@@ -60,7 +60,7 @@ public class QuestionListModel : BaseModel
             if (userQuestionValuation.ContainsKey(q.Id) && user != null)
             {
                 question.CorrectnessProbability = userQuestionValuation[q.Id].CorrectnessProbability;
-                question.IsInWishknowledge = userQuestionValuation[q.Id].IsInWishKnowledge();
+                question.IsInWishknowledge = userQuestionValuation[q.Id].IsInWishKnowledge;
                 question.HasPersonalAnswer = userQuestionValuation[q.Id].CorrectnessProbabilityAnswerCount > 0;
             }
             newQuestionList.Add(question);

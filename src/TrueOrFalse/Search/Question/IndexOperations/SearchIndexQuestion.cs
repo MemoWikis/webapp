@@ -38,7 +38,7 @@ namespace TrueOrFalse.Search
                     continue;
 
                 _solrOperations.Add(ToQuestionSolrMap.Run(
-                    question, _questionValuationRepo.GetActiveInWishknowledgeFromCache(question.Id)));                
+                    question, _questionValuationRepo.GetActiveInWishknowledgeFromCache(question.Id)));
             }
         }
 

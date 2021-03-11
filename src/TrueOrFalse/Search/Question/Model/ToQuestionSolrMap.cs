@@ -5,7 +5,7 @@ namespace TrueOrFalse.Search
 {
     public class ToQuestionSolrMap
     {
-        public static QuestionSolrMap Run(Question question, IList<QuestionValuation> valuations)
+        public static QuestionSolrMap Run(Question question, IList<QuestionValuationCacheItem> valuations)
         {
 
             var allCategories = question.Categories.ToList();
@@ -20,8 +20,8 @@ namespace TrueOrFalse.Search
                 {
                     Id = question.Id,
                     CreatorId = creator.Id,
-                    ValuatorIds = valuations.Where(v => v.RelevancePersonal != -1 && v.User != null).Select(x => x.User.Id).ToList(),
-                    Valuation = valuations.Count(v => v.RelevancePersonal != -1),
+                    ValuatorIds = valuations.Where(v => v.IsInWishKnowledge && v.User != null).Select(x => x.User.Id).ToList(),
+                    Valuation = valuations.Count(v => v.IsInWishKnowledge),
                     IsPrivate = question.Visibility != QuestionVisibility.All,
                     Text = question.Text,
                     Description = question.Description,

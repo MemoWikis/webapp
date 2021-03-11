@@ -206,7 +206,7 @@ public class AnswerQuestionModel : BaseModel
             QuestionValuation = questionValuationForUser
         };
 
-        IsInWishknowledge = questionValuationForUser.IsInWishKnowledge();
+        IsInWishknowledge = questionValuationForUser.IsInWishKnowledge;
         
         TotalViews = question.TotalViews + 1;
 

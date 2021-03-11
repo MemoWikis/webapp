@@ -17,15 +17,15 @@ public class SetQuestionRowModel
         Question question,
         Set set,
         TotalPerUser totalForUser, 
-        QuestionValuation questionValuation)
+        QuestionValuationCacheItem questionValuation)
     {
         Question = question;
         Set = set;
         CorrectAnswer = Question.GetSolution().GetCorrectAnswerAsHtml();
 
-        questionValuation = questionValuation ?? new QuestionValuation();
+        questionValuation = questionValuation ?? new QuestionValuationCacheItem();
 
-        IsInWishknowledge = questionValuation.IsInWishKnowledge();
+        IsInWishknowledge = questionValuation.IsInWishKnowledge;
         UserIsInstallationAdmin = Sl.SessionUser.IsInstallationAdmin;
 
         HistoryAndProbability = new HistoryAndProbabilityModel
