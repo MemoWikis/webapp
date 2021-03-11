@@ -26,9 +26,11 @@
     </div>
     
     <div class="questionDetailsFooterPartialRight">
-        <div class="wishknowledgeCount"><i class="fas fa-heart"></i><span id="<%= "WishknowledgeCounter-" + Model.QuestionId %>" data-relevance="<%= Model.IsInWishknowledge %>"><%= Model.Question.TotalRelevancePersonalEntries %></span></div>
-        <div class="viewCount"><i class="fas fa-eye"></i><span><%= Model.Question.TotalViews %></span></div>
-        <div class="commentCount"><a href="<%= Links.GetUrl(Model.Question) + "#JumpLabel"%>"><i class="fas fa-comment"></i><span><%= Model.CommentCount %></span></a></div>
+        <% if (Model.Question.IsVisibleToCurrentUser()){ %>
+            <div class="wishknowledgeCount"><i class="fas fa-heart"></i><span id="<%= "WishknowledgeCounter-" + Model.QuestionId %>" data-relevance="<%= Model.IsInWishknowledge %>"><%= Model.Question.TotalRelevancePersonalEntries %></span></div>
+            <div class="viewCount"><i class="fas fa-eye"></i><span><%= Model.Question.TotalViews %></span></div>
+            <div class="commentCount"><a href="<%= Links.GetUrl(Model.Question) + "#JumpLabel"%>"><i class="fas fa-comment"></i><span><%= Model.CommentCount %></span></a></div>
+        <%}%>
     </div>
 </div>
 <%= Scripts.Render("~/bundles/js/QuestionDetailsApp") %>

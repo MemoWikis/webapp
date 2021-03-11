@@ -22,7 +22,7 @@ public class SegmentationModel : BaseContentModule
         Category = category;
         
         var categoryList = UserCache.IsFiltered ? UserEntityCache.GetChildren(category.Id, UserId) : EntityCache.GetChildren(category.Id).ToList();
-        CategoryList = categoryList.Where(c => c.Type.GetCategoryTypeGroup() == CategoryTypeGroup.Standard).ToList();
+        CategoryList = categoryList.Where(c => c.Type.GetCategoryTypeGroup() == CategoryTypeGroup.Standard && c.IsVisibleToCurrentUser()).ToList();
 
         var segments = new List<Segment>();
         if (category.CustomSegments != null)

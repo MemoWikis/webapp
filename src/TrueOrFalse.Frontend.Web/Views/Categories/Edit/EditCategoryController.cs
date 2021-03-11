@@ -201,7 +201,7 @@ public class EditCategoryController : BaseController
     }
 
     [HttpPost]
-    public JsonResult QuickCreate(string name, int parentCategoryId)
+    public JsonResult QuickCreate(string name, int parentCategoryId, bool isPrivate)
     {
         var category = new Category(name);
         var parentCategory = EntityCache.GetCategory(parentCategoryId);
@@ -209,6 +209,8 @@ public class EditCategoryController : BaseController
 
         category.Creator = _sessionUser.User;
         category.Type = CategoryType.Standard;
+        if (isPrivate)
+            category.Visibility = CategoryVisibility.Owner;
         _categoryRepository.Create(category);
 
         CategoryInKnowledge.Pin(category.Id, Sl.SessionUser.User);
@@ -222,23 +224,30 @@ public class EditCategoryController : BaseController
     }
 
     [HttpPost]
-    public JsonResult QuickCreateWithCategories(string name, int parentCategoryId, int[] childCategoryIds)
+    public JsonResult QuickCreateWithCategories(string name, int parentCategoryId, bool isPrivate, int[] childCategoryIds)
     {
         var category = new Category(name) {Creator = _sessionUser.User};
+        if (isPrivate)
+            category.Visibility = CategoryVisibility.Owner;
+        
+        var parentCategory = EntityCache.GetCategory(parentCategoryId);
 
         JobExecute.RunAsTask(scope =>
         {
-            var parentCategory = EntityCache.GetCategory(parentCategoryId);
             ModifyRelationsForCategory.AddParentCategory(category, parentCategory);
         }, "ModifyRelationForCategoryJob");
 
         Sl.CategoryRepo.Create(category);
-
+        var movedCategories = new List<int>();
         foreach (var childCategoryId in childCategoryIds)
         {
             var childCategory = EntityCache.GetCategory(childCategoryId);
-            RemoveParent(parentCategoryId, childCategoryId);
+            var hasNoPrivateRelation = childCategory.Visibility != CategoryVisibility.Owner && parentCategory.Visibility == CategoryVisibility.Owner;
+            if (isPrivate && hasNoPrivateRelation)
+                continue;
 
+            RemoveParent(parentCategoryId, childCategoryId);
+            movedCategories.Add(childCategoryId);
             var updatedParentList = childCategory.ParentCategories().Where(c => c.Id != parentCategoryId).ToList();
             updatedParentList.Add(category);
             ModifyRelationsForCategory.UpdateCategoryRelationsOfType(childCategory, updatedParentList, CategoryRelationType.IsChildCategoryOf);
@@ -250,7 +259,8 @@ public class EditCategoryController : BaseController
         {
             success = true,
             url = Links.CategoryDetail(category),
-            id = category.Id
+            id = category.Id,
+            movedCategories,
         });
     }
 

@@ -2,7 +2,7 @@
     data() {
         return {
             name: "",
-            private: false,
+            isPrivate: false,
             errorMsg: "",
             parentId: null,
             existingCategoryName: "",
@@ -46,7 +46,7 @@
     methods: {
         clearData() {
             this.name = "";
-            this.private = false;
+            this.isPrivate = false;
             this.errorMsg = "";
             this.showErrorMsg = false;
             this.parentId = null;
@@ -60,24 +60,6 @@
             $('#AddCategoryModal').modal('hide');
         },
 
-        //validateName() {
-        //    var self = this;
-        //    $.ajax({
-        //        type: 'Post',
-        //        contentType: "application/json",
-        //        url: '/EditCategory/ValidateName',
-        //        data: JSON.stringify({ name: self.name }),
-        //        success: function (data) {
-        //            if (data.categoryNameAllowed) {
-        //            } else {
-        //                self.errorMsg = data.errorMsg;
-        //                self.existingCategoryName = data.name;
-        //                self.existingCategoryUrl = data.url;
-        //                self.showErrorMsg = true;
-        //            };
-        //        },
-        //    });
-        //},
         addCategory() {
             var self = this;
             var url;
@@ -86,14 +68,16 @@
                 categoryData = {
                     name: self.name,
                     parentCategoryId: self.parentId,
-                    childCategoryIds: self.selectedCategories,
+                    isPrivate: self.isPrivate,
+                    childCategoryIds: self.selectedCategories
                 }
                 url = '/EditCategory/QuickCreateWithCategories';
 
             } else {
                 categoryData = {
                     name: self.name,
-                    parentCategoryId: self.parentId
+                    parentCategoryId: self.parentId,
+                    isPrivate: self.isPrivate
                 }
                 url = '/EditCategory/QuickCreate';
             }
@@ -116,8 +100,9 @@
                                         window.open(data.url, '_self');
                                     if (self.addCategoryBtnId != null)
                                         self.loadCategoryCard(data.id);
-                                    if (self.moveCategories)
-                                        eventBus.$emit('remove-category-cards', self.selectedCategories);
+                                    if (self.moveCategories) {
+                                        eventBus.$emit('remove-category-cards', data.movedCategories);
+                                    }
                                     else
                                         $('#AddCategoryModal').modal('hide');
                                 } else {

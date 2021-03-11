@@ -93,10 +93,6 @@ new Vue({
             };
         },
 
-        cancelEditMode() {
-            eventBus.$emit('cancel-edit-mode');
-        },
-
         removeAlert() {
             this.saveMessage = '';
             this.saveSuccess = false;
@@ -124,6 +120,7 @@ new Vue({
                     if (success == true) {
                         this.saveSuccess = true;
                         this.saveMessage = "Das Thema wurde gespeichert.";
+                        eventBus.$emit('save-success');
                     } else {
                         this.saveSuccess = false;
                         this.saveMessage = "Das Thema konnte nicht gespeichert werden.";

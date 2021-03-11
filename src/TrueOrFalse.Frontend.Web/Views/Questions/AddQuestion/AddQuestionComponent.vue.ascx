@@ -164,7 +164,7 @@
                 <div class="form-check">
                     <input class="form-check-input" type="radio" name="privateQuestionRadio" id="privateQuestionRadio" value="1" v-model="visibility">
                     <label class="form-check-label" for="privateQuestionRadio">
-                        <i class="fas fa-eye-slash"></i>&nbsp;Private Frage                                             
+                        <i class="fas fa-lock"></i>&nbsp;Private Frage                                             
                         <i class="fa fa-question-circle show-tooltip tooltip-min-200" title="" data-placement="top" 
                            data-html="true"
                            data-original-title="

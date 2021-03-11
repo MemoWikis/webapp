@@ -23,9 +23,12 @@
                     <a class="topic-name" href="<%= Links.CategoryDetail(Model.Category) %>">
                         <div class="topic-name">
                             <% if (Model.Category.CachedData.Children.Count < 1 && Model.GetTotalQuestionCount(Model.Category) < 1 && (Model.IsInstallationAdmin || Model.Category.Creator.Id == Model.UserId)) { %>
-                                <i class="fa fa-user-secret show-tooltip" data-original-title="Thema ist leer und wird daher nur Admins und dem Ersteller angezeigt"></i>
+                                <i class="fas fa-user-cog show-tooltip" data-original-title="Thema ist leer und wird daher nur Admins und dem Ersteller angezeigt"></i>
                             <% } %>
                             <%= Model.Category.Type.GetCategoryTypeIconHtml() %><%: Model.Category.Name %>
+                            <% if (Model.Category.Visibility == CategoryVisibility.Owner) { %>
+                                <i class="fas fa-user-cog show-tooltip" data-original-title="Thema ist leer und wird daher nur Admins und dem Ersteller angezeigt"></i>
+                            <% } %>
                         </div>
                         <div v-if="showHover" class="Button dropdown DropdownButton">
                             <a href="#" :id="dropdownId" class="dropdown-toggle  btn btn-link btn-sm ButtonEllipsis" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">

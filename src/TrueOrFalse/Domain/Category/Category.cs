@@ -155,6 +155,8 @@ public class Category : DomainEntity, ICreator, ICloneable
     public virtual int TotalRelevancePersonalEntries { get; set; }
     public virtual bool IsHistoric { get; set; }
 
+    public virtual CategoryVisibility Visibility { get; set; }
+
     public virtual bool IsInWishknowledge()
     {
         return Sl.CategoryValuationRepo.IsInWishKnowledge(Id, Sl.CurrentUserId);
@@ -239,4 +241,9 @@ public class Category : DomainEntity, ICreator, ICloneable
     }
 
     public virtual bool IsRootCategory => Id == RootCategory.RootCategoryId;
+    public virtual bool IsVisibleToCurrentUser()
+    {
+        var creator = new UserTinyModel(Creator);
+        return Visibility == CategoryVisibility.All || Sl.SessionUser.IsLoggedInUser(creator.Id);
+    }
 }

@@ -11,7 +11,9 @@
             <%= Model.ImageFrontendData.RenderHtmlImageBasis(128, true, ImageType.Category, linkToItem: Links.CategoryDetail(Model.Category)) %>
         </div>
         <div id="HeadingContainer">
-            <h1 style="margin-bottom: 0"><%= Model.Name %></h1>
+            <h1 style="margin-bottom: 0"><%= Model.Name %>
+                <%if (Model.Category.Visibility == CategoryVisibility.Owner) {%><i class="fas fa-lock"></i><%} %>
+            </h1>
             <div>
                 <div class="greyed">
                     
@@ -30,7 +32,7 @@
                     <% if (Model.IsInstallationAdmin) { %>
                         <a href="#" id="jsAdminStatistics">
                             <span style="margin-left: 10px; font-size: smaller;" class="show-tooltip" data-placement="right" data-original-title="Nur von admin sichtbar">
-                                (<i class="fa fa-user-secret" data-details="<%= Model.GetViewsPerDay() %>">&nbsp;</i><%= Model.GetViews() %> views)
+                                (<i class="fas fa-user-cog" data-details="<%= Model.GetViewsPerDay() %>">&nbsp;</i><%= Model.GetViews() %> views)
                             </span>
                         </a>
                         <div id="last60DaysViews" style="display: none"></div>

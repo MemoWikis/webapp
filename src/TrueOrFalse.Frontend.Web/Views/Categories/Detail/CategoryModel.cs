@@ -61,7 +61,7 @@ public class CategoryModel : BaseContentModule
     public bool CategoryIsDeleted;
     public bool ShowLearningSessionConfigurationMessageForTab { get; set; }
     public bool ShowLearningSessionConfigurationMessageForQuestionList { get; set; }
-    public bool IsFilteredUserWorld; 
+    public bool IsFilteredUserWorld;
 
     public CategoryModel()
     {

@@ -2186,6 +2186,9 @@
     <Content Include="Views\Questions\AddQuestion\AddQuestionComponent.vue.ascx" />
     <Content Include="Views\Questions\AddQuestion\EditQuestionModal.vue.ascx" />
     <Content Include="Views\Categories\Detail\Partials\Segmentation\SegmentationComponent.vue.ascx" />
+    <Content Include="Views\Questions\QuestionList\QuestionComponent.vue.ascx" />
+    <Content Include="Views\Questions\QuestionList\SessionConfigComponent.vue.ascx" />
+    <Content Include="Views\Questions\QuestionList\QuestionListComponent.vue.ascx" />
     <Content Include="Views\Shared\MyWorldToggle\MyWorldToggleComponent.js">
       <DependentUpon>MyWorldToggleComponent.ts</DependentUpon>
     </Content>
