@@ -42,6 +42,9 @@ public class SegmentationModel : BaseContentModule
         foreach (var s in segmentJson)
         {
             var segment = new Segment();
+            var segmentCategory = EntityCache.GetCategory(s.CategoryId);
+            if (segmentCategory.IsNotVisibleToCurrentUser)
+                continue;
             segment.Category = EntityCache.GetCategory(s.CategoryId);
             segment.Title = s.Title;
             if (s.ChildCategoryIds != null)

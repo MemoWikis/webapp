@@ -48,7 +48,10 @@
                 <img src="<%= imgUrl %>">
             <% } %>
             <span><%= iconHTML %><%= Model.Name %></span>
-            <i class="fas fa-lock"></i>
+            <% if (Model.Visibility == CategoryVisibility.Owner)
+               { %>
+                <i class="fas fa-lock"></i>            
+            <% } %>
             <span class="remove-category-chip"></span>
         </div>
     </a>

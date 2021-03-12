@@ -8,7 +8,10 @@
                 <div class="segmentTitle">
                     <a href="<%= Links.CategoryDetail(Model.Category) %>">                        
                         <h2>
-                                <%= Model.Title %>
+                            <%= Model.Title %>
+                            <% if (Model.Category.Visibility == CategoryVisibility.Owner) {%>
+                                <i class="fas fa-lock"></i>
+                            <%}%>
                         </h2>
                     </a>
                     <pin-category-component :category-id="categoryId" @update-knowledge-bar="updateKnowledgeBar"/>

@@ -109,7 +109,10 @@ public class CategoryController : BaseController
     }
     public void CategoryById(int id)
     {
-        Response.Redirect(Links.CategoryDetail(Resolve<CategoryRepository>().GetById(id)));
+        var category = Resolve<CategoryRepository>().GetById(id);
+        if (category.IsNotVisibleToCurrentUser)
+            category = null;
+        Response.Redirect(Links.CategoryDetail(category));
     }
 
     [RedirectToErrorPage_IfNotLoggedIn]
