@@ -22,7 +22,7 @@ class UserEntityCacheCategoryItem
 
     public virtual User Creator { get; set; }
 
-    public virtual IList<CategoryRelation> CategoryRelations { get; set; }
+    public virtual IList<UserEntityCacheCategoryRelations> CategoryRelations { get; set; }
     public virtual int CountQuestions { get; set; }
     public virtual string TopicMarkdown { get; set; }
     public virtual string Content { get; set; }
