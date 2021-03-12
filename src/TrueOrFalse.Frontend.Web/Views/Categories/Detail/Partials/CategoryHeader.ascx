@@ -12,7 +12,7 @@
         </div>
         <div id="HeadingContainer">
             <h1 style="margin-bottom: 0"><%= Model.Name %>
-                <%if (Model.Category.Visibility == CategoryVisibility.Owner) {%><i class="fas fa-lock"></i><%} %>
+                <%if (Model.Category.Visibility == CategoryVisibility.Owner) {%><i class="fas fa-lock header-icon"></i><%} %>
             </h1>
             <div>
                 <div class="greyed">

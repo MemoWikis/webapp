@@ -1494,3 +1494,11 @@ a.noTextdecoration:hover {
   border-top: 1px grey solid;
   opacity: 0.4;
 }
+i.fa-lock {
+  font-size: 14px;
+  color: #999999;
+  padding: 0 2px;
+}
+i.fa-lock.header-icon {
+  font-size: 24px;
+}

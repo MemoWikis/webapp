@@ -47,6 +47,8 @@ public class CategoryController : BaseController
     {
         var result = new LoadModelResult();
         var category = EntityCache.GetCategory(id);
+        if (category.IsNotVisibleToCurrentUser)
+            category = null;
         
         var isCategoryNull = category == null;
 

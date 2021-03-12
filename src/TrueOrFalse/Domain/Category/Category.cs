@@ -246,4 +246,6 @@ public class Category : DomainEntity, ICreator, ICloneable
         var creator = new UserTinyModel(Creator);
         return Visibility == CategoryVisibility.All || Sl.SessionUser.IsLoggedInUser(creator.Id);
     }
+
+    public virtual bool IsNotVisibleToCurrentUser => !IsVisibleToCurrentUser();
 }

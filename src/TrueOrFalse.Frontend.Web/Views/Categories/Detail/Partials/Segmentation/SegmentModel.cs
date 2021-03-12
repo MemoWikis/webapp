@@ -16,10 +16,7 @@ public class SegmentModel : BaseContentModule
     {
         Category = segment.Category;
         var childCategories = segment.ChildCategories;
-        if (segment.Title != null)
-            Title = segment.Title;
-        else
-            Title = segment.Category.Name;
+        Title = segment.Title ?? segment.Category.Name;
 
         ChildCategories = childCategories;
         var childCategoryIds = new List<int>();

@@ -828,6 +828,31 @@ p:empty {
       -ms-flex: auto;
           flex: auto;
 }
+#CategoryHeader #HeadingContainer h1 {
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+}
+#CategoryHeader #HeadingContainer h1 i {
+  padding-left: 10px;
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
 #CategoryHeader .ImageContainer {
   width: 120px;
   -webkit-box-flex: 0;
