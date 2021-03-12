@@ -42,6 +42,9 @@ public class GraphService
         return parents;
     }
 
+    public static IList<Category> GetAllPersonalCategoriesWithRelations_TP(Category category, int userId = -1) =>
+        GetAllPersonalCategoriesWithRelations(category.Id, userId);
+
     public static IList<Category> GetAllPersonalCategoriesWithRelations(int rootCategoryId, int userId = -1, bool isFromUserEntityCache = false)
     {
         var rootCategory = EntityCache.GetCategory(rootCategoryId, isFromUserEntityCache).DeepClone();
@@ -152,13 +155,16 @@ public class GraphService
     private static List<Category> GetParentsFromCategory(Category category, bool isFromUserEntityCache = false)
     {
         if(!isFromUserEntityCache)
-            return category.CategoryRelations.Where(cr => cr.CategoryRelationType == CategoryRelationType.IsChildCategoryOf).Select(cr => cr.RelatedCategory).ToList();
+            return category.CategoryRelations
+                .Where(cr => cr.CategoryRelationType == CategoryRelationType.IsChildCategoryOf)
+                .Select(cr => cr.RelatedCategory).ToList();
 
-        return EntityCache.GetCategory(category.Id, getDataFromEntityCache: true).CategoryRelations.Where(cr => cr.CategoryRelationType == CategoryRelationType.IsChildCategoryOf).Select(cr => cr.RelatedCategory).ToList();
+        return EntityCache.GetCategory(category.Id, getDataFromEntityCache: true)
+            .CategoryRelations.Where(cr => cr.CategoryRelationType == CategoryRelationType.IsChildCategoryOf)
+            .Select(cr => cr.RelatedCategory)
+            .ToList();
     }
 
-    public static IList<Category> GetAllPersonalCategoriesWithRelations(Category category, int userId = -1) =>
-        GetAllPersonalCategoriesWithRelations(category.Id, userId);
 
     public static void AutomaticInclusionOfChildCategories(Category category)
     {
