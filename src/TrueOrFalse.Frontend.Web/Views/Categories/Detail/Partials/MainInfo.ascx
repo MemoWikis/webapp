@@ -108,27 +108,6 @@
 <% if (!Model.Category.DisableLearningFunctions) { %>
 
     <div class="row BoxButtonBar">
-        <%--<div class="BoxButtonColumn">
-            <% var tooltipGame = "Tritt zu diesem Thema gegen andere Nutzer im Echtzeit-Quizspiel an.";
-               if (Model.CountSets == 0)
-                   tooltipGame = "Noch keine Lernsets zum Spielen zu diesem Thema vorhanden"; %>
-
-            <div class="BoxButton show-tooltip 
-                <%= !Model.IsLoggedIn ? "LookDisabled" : "" %> 
-                <%= Model.CountSets == 0 ? "LookNotClickable" : "" %>"
-                data-original-title="<%= tooltipGame %>">
-                <div class="BoxButtonIcon"><i class="fa fa-gamepad"></i></div>
-                <div class="BoxButtonText">
-                    <span>Spiel starten</span>
-                </div>
-                <% if (Model.CountSets > 0)
-                   { %>
-                    <a href="<%= Links.GameCreateFromCategory(Model.Id) %>" rel="nofollow"
-                    data-allowed="logged-in" data-allowed-type="game">
-                    </a>
-                <% } %>
-            </div>
-        </div>--%>
         <div class="BoxButtonColumn">
             <% var tooltipDate = "Gib an, bis wann du alle Lernsets zu diesem Thema lernen musst und erhalte deinen persönlichen Lernplan.";
                if (Model.CountSets == 0)
