@@ -2,10 +2,11 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using Seedworks.Lib.Persistence;
 
 [DebuggerDisplay("Id={Id} Name={Name}")]
 [Serializable]
-class UserEntityCacheCategoryItem
+public class UserEntityCacheCategoryItem : DomainEntity
 {
     public virtual int Id { get; set; }
     public virtual string Name { get; set; }
@@ -54,7 +55,7 @@ class UserEntityCacheCategoryItem
             : new List<Category>();
     }
 
-    public virtual CategoryCachedData CachedData { get; set; } = new CategoryCachedData();
+    public virtual UserEntityCachedCategoryData CachedData { get; set; } = new UserEntityCachedCategoryData();
 
     public virtual string CategoriesToExcludeIdsString { get; set; }
 
@@ -155,12 +156,11 @@ class UserEntityCacheCategoryItem
             .ToList();
     }
 
-
     public virtual bool IsInWishknowledge() => UserCache.IsInWishknowledge(Sl.CurrentUserId, Id);
 
     public UserEntityCacheCategoryItem()
     {
-        CategoryRelations = new List<CategoryRelation>();
+        CategoryRelations = new List<UserEntityCacheCategoryRelations>();
     }
 
     public UserEntityCacheCategoryItem(string name) : this()
@@ -173,11 +173,12 @@ class UserEntityCacheCategoryItem
 
     public UserEntityCacheCategoryItem ToCacheCategoryItem(Category category)
     {
+        var c = category.CategoryRelations;
         return new UserEntityCacheCategoryItem
         {
             Id = category.Id,
-            CachedData = category.CachedData,
-            CategoryRelations = category.CategoryRelations,
+            CachedData = new UserEntityCachedCategoryData().ToCachedCategoryData(category.CachedData) ,
+            CategoryRelations = new UserEntityCacheCategoryRelations().ToListCategoryRelations(category.CategoryRelations),
             CategoriesToExcludeIdsString = category.CategoriesToExcludeIdsString,
             CategoriesToIncludeIdsString = CategoriesToIncludeIdsString,
             Content = category.Content,
@@ -202,9 +203,7 @@ class UserEntityCacheCategoryItem
             WikipediaURL = category.WikipediaURL
 
         };
-
     }
-
 }
 
 
