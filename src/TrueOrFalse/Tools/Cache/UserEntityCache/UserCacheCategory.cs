@@ -8,7 +8,7 @@ using Seedworks.Lib.Persistence;
 
 [DebuggerDisplay("Id={Id} Name={Name}")]
 [Serializable]
-public class ClonedCategory
+public class UserCacheCategory
 {
     public virtual int Id { get; set; }
     public virtual string Name { get; set; }
@@ -25,7 +25,7 @@ public class ClonedCategory
 
     public virtual User Creator { get; set; }
 
-    public virtual IList<UserEntityCategoryRelations> CategoryRelations { get; set; }
+    public virtual IList<UserCacheRelations> CategoryRelations { get; set; }
     public virtual int CountQuestions { get; set; }
     public virtual string TopicMarkdown { get; set; }
     public virtual string Content { get; set; }
@@ -52,7 +52,7 @@ public class ClonedCategory
         return CategoryRelations.Any()
             ? CategoryRelations
                 .Where(r => r.CategoryRelationType == CategoryRelationType.IsChildCategoryOf)
-                .Select(x => EntityCache.GetCategory(x.RelatedCategory.Id))
+                .Select(x => EntityCache.GetCategory(x.RelatedCategoryId))
                 .ToList()
             : new List<Category>();
     }
@@ -89,9 +89,9 @@ public class ClonedCategory
             : new List<Category>();
     }
 
-    public virtual IList<ClonedCategory> AggregatedCategories(bool includingSelf = true)
+    public virtual IList<UserCacheCategory> AggregatedCategories(bool includingSelf = true)
     {
-        var list = new List<ClonedCategory>();
+        var list = new List<UserCacheCategory>();
 
         if (UserCache.GetItem(Sl.CurrentUserId).IsFiltered)
         {
@@ -103,7 +103,7 @@ public class ClonedCategory
         }
         else
             list = CategoryRelations.Where(r => r.CategoryRelationType == CategoryRelationType.IncludesContentOf)
-                .Select(r =>ToCacheCategoryItem(EntityCache.GetCategory(r.RelatedCategory.Id))).ToList();
+                .Select(r =>ToCacheCategoryItem(EntityCache.GetCategory(r.RelatedCategoryId.Id))).ToList();
 
         if (includingSelf)
             list.Add(this);
@@ -160,12 +160,12 @@ public class ClonedCategory
 
     public virtual bool IsInWishknowledge() => UserCache.IsInWishknowledge(Sl.CurrentUserId, Id);
 
-    public ClonedCategory()
+    public UserCacheCategory()
     {
         
     }
 
-    public ClonedCategory(string name)
+    public UserCacheCategory(string name)
     {
         Name = name;
     }
@@ -173,9 +173,9 @@ public class ClonedCategory
     public virtual bool IsSpoiler(Question question) =>
         IsSpoilerCategory.Yes(Name, question);
 
-    public ConcurrentDictionary<int, ClonedCategory> ToConcurrentDictionary(ConcurrentDictionary<int, Category> concurrentDictionary)
+    public ConcurrentDictionary<int, UserCacheCategory> ToConcurrentDictionary(ConcurrentDictionary<int, Category> concurrentDictionary)
     {
-        var concDic = new ConcurrentDictionary<int, ClonedCategory>();
+        var concDic = new ConcurrentDictionary<int, UserCacheCategory>();
 
         foreach (var keyValuePair in concurrentDictionary)
         {
@@ -185,9 +185,9 @@ public class ClonedCategory
         return concDic; 
     }
 
-    public IEnumerable<ClonedCategory> ToIEnumerable(IEnumerable<Category> categoryList, bool withCachedData = false, bool withRealtions = false)
+    public IEnumerable<UserCacheCategory> ToIEnumerable(IEnumerable<Category> categoryList, bool withCachedData = false, bool withRealtions = false)
     {
-        var categories = new List<ClonedCategory>();
+        var categories = new List<UserCacheCategory>();
 
         foreach (var category in categoryList)
         {
@@ -197,12 +197,12 @@ public class ClonedCategory
         return categories; 
     }
 
-    public ClonedCategory ToCacheCategoryItem(Category category, bool withCachedData = true, bool withRealtions = true)
+    public UserCacheCategory ToCacheCategoryItem(Category category, bool withCachedData = true, bool withRealtions = true)
     {
         var c = category.CategoryRelations;
         var categoryCachedData = new CategoryCachedData();
-        var userEntityCacheCategoryRelations = new UserEntityCategoryRelations();
-        return new ClonedCategory
+        var userEntityCacheCategoryRelations = new UserCacheRelations();
+        return new UserCacheCategory
         {
             Id = category.Id,
             CachedData = category.CachedData,
