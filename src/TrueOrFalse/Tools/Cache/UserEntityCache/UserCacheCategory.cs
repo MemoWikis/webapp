@@ -196,10 +196,8 @@ public class UserCacheCategory
         return categories; 
     }
 
-    public UserCacheCategory ToCacheCategoryItem(Category category)
+    public static UserCacheCategory ToCacheCategoryItem(Category category)
     {
-        var c = category.CategoryRelations;
-        var categoryCachedData = new CategoryCachedData();
         var userEntityCacheCategoryRelations = new UserCacheRelations();
         return new UserCacheCategory
         {
@@ -207,7 +205,7 @@ public class UserCacheCategory
             CachedData = category.CachedData,
             CategoryRelations = userEntityCacheCategoryRelations.ToListCategoryRelations(category.CategoryRelations),
             CategoriesToExcludeIdsString = category.CategoriesToExcludeIdsString,
-            CategoriesToIncludeIdsString = CategoriesToIncludeIdsString,
+            CategoriesToIncludeIdsString = category.CategoriesToIncludeIdsString,
             Content = category.Content,
             CorrectnessProbability = category.CorrectnessProbability,
             CorrectnessProbabilityAnswerCount = category.CorrectnessProbabilityAnswerCount,
