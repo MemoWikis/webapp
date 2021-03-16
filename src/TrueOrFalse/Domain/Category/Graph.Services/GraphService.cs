@@ -42,19 +42,19 @@ public class GraphService
         return parents;
     }
 
-    public static IList<UserEntityCacheCategoryItem> GetAllPersonalCategoriesWithRelations_TP(Category category, int userId = -1) =>
+    public static IList<UserCacheCategory> GetAllPersonalCategoriesWithRelations_TP(Category category, int userId = -1) =>
         GetAllPersonalCategoriesWithRelations(category.Id, userId);
 
-    public static IList<UserEntityCacheCategoryItem> GetAllPersonalCategoriesWithRelations(int rootCategoryId, int userId = -1, bool isFromUserEntityCache = false)
+    public static IList<UserCacheCategory> GetAllPersonalCategoriesWithRelations(int rootCategoryId, int userId = -1, bool isFromUserEntityCache = false)
     {
-        var userEntityCacheCategoryItem = new UserEntityCacheCategoryItem(); 
+        var userEntityCacheCategoryItem = new UserCacheCategory(); 
         var rootCategory = userEntityCacheCategoryItem.ToCacheCategoryItem(EntityCache.GetCategory(rootCategoryId, isFromUserEntityCache));
         var children = EntityCache.GetDescendants(rootCategory.Id, true)
             .Distinct()
             .Where(c => c.IsInWishknowledge())
             .Select(c => userEntityCacheCategoryItem.ToCacheCategoryItem(c));
         
-        var listWithUserPersonelCategories = new List<UserEntityCacheCategoryItem>();
+        var listWithUserPersonelCategories = new List<UserCacheCategory>();
 
         userId = userId == -1 ? Sl.CurrentUserId : userId;
 
@@ -64,37 +64,38 @@ public class GraphService
         foreach (var child in children)
         {
             var parents = GetParentsFromCategory(child, isFromUserEntityCache).ToList();
-            var hasRootInParents = parents.Any(c => c.Id == rootCategoryId);
+            var hasRootInParents = parents.Any(id => id == rootCategoryId);
             child.CategoryRelations.Clear();
             listWithUserPersonelCategories.Add(child);
 
             while (parents.Count > 0)
             {
-                var parent = parents.First();
+                var parentId = parents.First();
 
-                if (UserCache.IsInWishknowledge(parent.Id, userId) || parent.Id == rootCategoryId && hasRootInParents)
+                if (UserCache.IsInWishknowledge(parentId, userId) || parentId == rootCategoryId && hasRootInParents)
                 {
-                    var categoryRelation = new UserEntityCacheCategoryRelations()
+                    var categoryRelation = new UserCacheRelations()
                     {
                         CategoryRelationType = CategoryRelationType.IsChildCategoryOf,
-                        Category = child,
-                        RelatedCategory = parent
+                        CategoryId = child.Id,
+                        RelatedCategoryId = parentId
                     };
 
                         var indexOfChild = listWithUserPersonelCategories.IndexOf(child);
 
                         if (listWithUserPersonelCategories[indexOfChild].CategoryRelations.All(cr =>
-                            cr.RelatedCategory.Id != categoryRelation.RelatedCategory.Id)) // Not add if available
+                            cr.RelatedCategoryId != categoryRelation.RelatedCategoryId)) // Not add if available
                             listWithUserPersonelCategories[indexOfChild]
                                 .CategoryRelations
                                 .Add(categoryRelation);
 
-                        parents.Remove(parent);
+                        parents.Remove(parentId);
                 }
-                else 
+                else
                 {
-                    var currentParents = GetParentsFromCategory(parent);
-                    parents.Remove(parent);
+                    var c = parentId;
+                    var currentParents = GetParentsFromCategory(parentId);
+                    parents.Remove(parentId);
 
                     foreach (var cp in currentParents)
                     {
@@ -107,33 +108,52 @@ public class GraphService
                
             }
         }
-
-
+        
         foreach (var listWithUserPersonelCategory in listWithUserPersonelCategories)
         {
             if (listWithUserPersonelCategory.CategoryRelations.Count == 0)
             {
-                listWithUserPersonelCategory.CategoryRelations.Add(new UserEntityCacheCategoryRelations()
+                listWithUserPersonelCategory.CategoryRelations.Add(new UserCacheRelations()
                 {
                     CategoryRelationType = CategoryRelationType.IsChildCategoryOf,
-                    RelatedCategory = rootCategory,
-                    Category = listWithUserPersonelCategory
+                    RelatedCategoryId = rootCategory.Id,
+                    CategoryId = listWithUserPersonelCategory.Id
                 });
             }
 
-            listWithUserPersonelCategory.CachedData.Children = new List<UserEntityCacheCategoryItem>(); 
+            listWithUserPersonelCategory.CachedData.Children = new List<int>(); 
         }
-        rootCategory.CategoryRelations = new List<UserEntityCacheCategoryRelations>();
-        rootCategory.CachedData.Children = new List<UserEntityCacheCategoryItem>(); 
+        rootCategory.CategoryRelations = new List<UserCacheRelations>();
+        rootCategory.CachedData.Children = new List<int>(); 
         listWithUserPersonelCategories.Add(rootCategory);
 
-        var l = new List<Category>();
-        var listAsConcurrentDictionary = listWithUserPersonelCategories.ToConcurrentDictionary(); 
+        var listAsConcurrentDictionary = listWithUserPersonelCategories.ToConcurrentDictionary();
 
         return AddChildrenToCategory(listAsConcurrentDictionary).Values.ToList();
     }
 
-    public static ConcurrentDictionary<int, UserEntityCacheCategoryItem> AddChildrenToCategory(ConcurrentDictionary<int, UserEntityCacheCategoryItem> categoryList)
+    public static ConcurrentDictionary<int, UserCacheCategory> AddChildrenToCategory(ConcurrentDictionary<int, UserCacheCategory> categoryList)
+    {
+        foreach (var category in categoryList.Values)
+        {
+            foreach (var categoryRelation in category.CategoryRelations)
+            {
+                if (categoryRelation.CategoryRelationType == CategoryRelationType.IsChildCategoryOf && categoryList.ContainsKey(categoryRelation.RelatedCategoryId))
+                {
+                    categoryList[categoryRelation.RelatedCategoryId].CachedData.Children
+                        .Add(categoryList[categoryRelation.CategoryId].Id);
+                }
+            }
+        }
+
+        foreach (var category in categoryList)
+        {
+            category.Value.CachedData.Children = category.Value.CachedData.Children.Distinct().ToList();
+        }
+        return categoryList;
+    }
+
+    public static ConcurrentDictionary<int, Category> AddChildrenToCategory(ConcurrentDictionary<int, Category> categoryList)
     {
         foreach (var category in categoryList.Values)
         {
@@ -142,7 +162,7 @@ public class GraphService
                 if (categoryRelation.CategoryRelationType == CategoryRelationType.IsChildCategoryOf && categoryList.ContainsKey(categoryRelation.RelatedCategory.Id))
                 {
                     categoryList[categoryRelation.RelatedCategory.Id].CachedData.Children
-                            .Add(categoryList[categoryRelation.Category.Id]);
+                            .Add(categoryList[categoryRelation.Category.Id].Id);
                 }
             }
         }
@@ -154,17 +174,17 @@ public class GraphService
         return categoryList;   
     }
 
-    private static IEnumerable<UserEntityCacheCategoryItem> GetParentsFromCategory(UserEntityCacheCategoryItem userEntityCacheCategoryItem, bool isFromUserEntityCache = false)
+    private static IEnumerable<int> GetParentsFromCategory(UserCacheCategory userCacheCategory, bool isFromUserEntityCache = false)
     {
         
         if(!isFromUserEntityCache)
-            return userEntityCacheCategoryItem.CategoryRelations
+            return userCacheCategory.CategoryRelations
                 .Where(cr => cr.CategoryRelationType == CategoryRelationType.IsChildCategoryOf)
-                .Select(cr => cr.RelatedCategory);
+                .Select(cr => cr.RelatedCategoryId);
 
-        return EntityCache.GetCategory(userEntityCacheCategoryItem.Id, getDataFromEntityCache: true)
+        return EntityCache.GetCategory(userCacheCategory.Id, getDataFromEntityCache: true)
             .CategoryRelations.Where(cr => cr.CategoryRelationType == CategoryRelationType.IsChildCategoryOf)
-            .Select(cr => userEntityCacheCategoryItem.ToCacheCategoryItem(cr.RelatedCategory));
+            .Select(cr => cr.RelatedCategory.Id);
     }
 
 
