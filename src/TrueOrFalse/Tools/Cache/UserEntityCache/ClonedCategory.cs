@@ -1,12 +1,14 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using NHibernate.Mapping;
 using Seedworks.Lib.Persistence;
 
 [DebuggerDisplay("Id={Id} Name={Name}")]
 [Serializable]
-public class UserEntityCacheCategoryItem : DomainEntity
+public class ClonedCategory : DomainEntity
 {
     public virtual int Id { get; set; }
     public virtual string Name { get; set; }
@@ -23,7 +25,7 @@ public class UserEntityCacheCategoryItem : DomainEntity
 
     public virtual User Creator { get; set; }
 
-    public virtual IList<UserEntityCacheCategoryRelations> CategoryRelations { get; set; }
+    public virtual IList<UserEntityCategoryRelations> CategoryRelations { get; set; }
     public virtual int CountQuestions { get; set; }
     public virtual string TopicMarkdown { get; set; }
     public virtual string Content { get; set; }
@@ -55,7 +57,7 @@ public class UserEntityCacheCategoryItem : DomainEntity
             : new List<Category>();
     }
 
-    public virtual UserEntityCachedCategoryData CachedData { get; set; } = new UserEntityCachedCategoryData();
+    public virtual CategoryCachedData CachedData { get; set; }
 
     public virtual string CategoriesToExcludeIdsString { get; set; }
 
@@ -87,9 +89,9 @@ public class UserEntityCacheCategoryItem : DomainEntity
             : new List<Category>();
     }
 
-    public virtual IList<UserEntityCacheCategoryItem> AggregatedCategories(bool includingSelf = true)
+    public virtual IList<ClonedCategory> AggregatedCategories(bool includingSelf = true)
     {
-        var list = new List<UserEntityCacheCategoryItem>();
+        var list = new List<ClonedCategory>();
 
         if (UserCache.GetItem(Sl.CurrentUserId).IsFiltered)
         {
@@ -158,12 +160,12 @@ public class UserEntityCacheCategoryItem : DomainEntity
 
     public virtual bool IsInWishknowledge() => UserCache.IsInWishknowledge(Sl.CurrentUserId, Id);
 
-    public UserEntityCacheCategoryItem()
+    public ClonedCategory()
     {
-        CategoryRelations = new List<UserEntityCacheCategoryRelations>();
+        
     }
 
-    public UserEntityCacheCategoryItem(string name) : this()
+    public ClonedCategory(string name)
     {
         Name = name;
     }
@@ -171,14 +173,40 @@ public class UserEntityCacheCategoryItem : DomainEntity
     public virtual bool IsSpoiler(Question question) =>
         IsSpoilerCategory.Yes(Name, question);
 
-    public UserEntityCacheCategoryItem ToCacheCategoryItem(Category category)
+    public ConcurrentDictionary<int, ClonedCategory> ToConcurrentDictionary(ConcurrentDictionary<int, Category> concurrentDictionary)
+    {
+        var concDic = new ConcurrentDictionary<int, ClonedCategory>();
+
+        foreach (var keyValuePair in concurrentDictionary)
+        {
+            concDic.TryAdd(keyValuePair.Key, ToCacheCategoryItem(keyValuePair.Value)); 
+        }
+
+        return concDic; 
+    }
+
+    public IEnumerable<ClonedCategory> ToIEnumerable(IEnumerable<Category> categoryList, bool withCachedData = false, bool withRealtions = false)
+    {
+        var categories = new List<ClonedCategory>();
+
+        foreach (var category in categoryList)
+        {
+            categories.Add(ToCacheCategoryItem(category, withCachedData, withRealtions));
+        }
+
+        return categories; 
+    }
+
+    public ClonedCategory ToCacheCategoryItem(Category category, bool withCachedData = true, bool withRealtions = true)
     {
         var c = category.CategoryRelations;
-        return new UserEntityCacheCategoryItem
+        var categoryCachedData = new CategoryCachedData();
+        var userEntityCacheCategoryRelations = new UserEntityCategoryRelations();
+        return new ClonedCategory
         {
             Id = category.Id,
-            CachedData = new UserEntityCachedCategoryData().ToCachedCategoryData(category.CachedData) ,
-            CategoryRelations = new UserEntityCacheCategoryRelations().ToListCategoryRelations(category.CategoryRelations),
+            CachedData = category.CachedData,
+            CategoryRelations = withRealtions ?  userEntityCacheCategoryRelations.ToListCategoryRelations(category.CategoryRelations): null,
             CategoriesToExcludeIdsString = category.CategoriesToExcludeIdsString,
             CategoriesToIncludeIdsString = CategoriesToIncludeIdsString,
             Content = category.Content,
@@ -201,7 +229,6 @@ public class UserEntityCacheCategoryItem : DomainEntity
             Url = category.Url,
             UrlLinkText = category.UrlLinkText,
             WikipediaURL = category.WikipediaURL
-
         };
     }
 }
