@@ -47,12 +47,11 @@ public class GraphService
 
     public static IList<UserCacheCategory> GetAllPersonalCategoriesWithRelations(int rootCategoryId, int userId = -1, bool isFromUserEntityCache = false)
     {
-        var userEntityCacheCategoryItem = new UserCacheCategory(); 
-        var rootCategory = userEntityCacheCategoryItem.ToCacheCategory(EntityCache.GetCategory(rootCategoryId, isFromUserEntityCache));
+        var rootCategory = UserCacheCategory.ToCacheCategory(EntityCache.GetCategory(rootCategoryId, isFromUserEntityCache));
         var children = EntityCache.GetDescendants(rootCategory.Id, true)
             .Distinct()
             .Where(c => c.IsInWishknowledge())
-            .Select(c => userEntityCacheCategoryItem.ToCacheCategory(c));
+            .Select(c => UserCacheCategory.ToCacheCategory(c));
         
         var listWithUserPersonelCategories = new List<UserCacheCategory>();
 
@@ -63,7 +62,7 @@ public class GraphService
 
         foreach (var child in children)
         {
-            var parents = GetParentsFromCategory(child, isFromUserEntityCache).ToList();
+            var parents = GetParentsFromCategory(child.Id, isFromUserEntityCache).ToList();
             var hasRootInParents = parents.Any(id => id == rootCategoryId);
             child.CategoryRelations.Clear();
             listWithUserPersonelCategories.Add(child);
@@ -176,18 +175,18 @@ public class GraphService
 
     private static IEnumerable<int> GetParentsFromCategory(int categoryId, bool isFromUserEntityCache = false)
     {
-        
-        if(!isFromUserEntityCache)
-            var userCacheCategory = UserEntityCache.GetCategories()
+
+        if (!isFromUserEntityCache) {
+            var userCacheCategory = UserEntityCache.GetCategory(Sl.CurrentUserId, categoryId);
             return userCacheCategory.CategoryRelations
                 .Where(cr => cr.CategoryRelationType == CategoryRelationType.IsChildCategoryOf)
                 .Select(cr => cr.RelatedCategoryId);
+        }
 
-        return EntityCache.GetCategory(userCacheCategory.Id, getDataFromEntityCache: true)
+        return EntityCache.GetCategory(categoryId, getDataFromEntityCache: true)
             .CategoryRelations.Where(cr => cr.CategoryRelationType == CategoryRelationType.IsChildCategoryOf)
             .Select(cr => cr.RelatedCategory.Id);
     }
-
 
     public static void AutomaticInclusionOfChildCategories(Category category)
     {
