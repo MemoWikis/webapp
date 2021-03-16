@@ -4,6 +4,6 @@ using System.Collections.Generic;
 [Serializable]
 public class CategoryCachedData
 {
-    public IList<Category> TotalAggregatedChildren { get; set; } = new List<Category>();
-    public IList<Category> Children { get; set; } = new List<Category>(); 
+    public IList<int> TotalAggregatedChildren { get; set; } = new List<int>();
+    public IList<int> Children { get; set; } = new List<int>(); 
 }
