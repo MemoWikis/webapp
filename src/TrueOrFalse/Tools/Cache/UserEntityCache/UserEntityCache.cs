@@ -52,7 +52,12 @@ public class UserEntityCache : BaseCache
         return _Categories[userId][GetNextParentInWishknowledge(categoryId).Id];
     }
 
-    public static UserCacheCategory GetCategoryChildren(int userId, int categoryId) => GetCategories(userId)[categoryId];
+    public static UserCacheCategory GetCategory(int userId, int categoryId)
+    {
+        var allCategories = GetCategories(userId);
+        UserCacheCategory result;
+        return allCategories.TryGetValue(categoryId, out result) ?  result : null;
+    }
 
     public static ConcurrentDictionary<int, UserCacheCategory> GetCategories(int userId)
     {
