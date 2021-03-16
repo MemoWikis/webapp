@@ -48,11 +48,11 @@ public class GraphService
     public static IList<UserCacheCategory> GetAllPersonalCategoriesWithRelations(int rootCategoryId, int userId = -1, bool isFromUserEntityCache = false)
     {
         var userEntityCacheCategoryItem = new UserCacheCategory(); 
-        var rootCategory = userEntityCacheCategoryItem.ToCacheCategoryItem(EntityCache.GetCategory(rootCategoryId, isFromUserEntityCache));
+        var rootCategory = userEntityCacheCategoryItem.ToCacheCategory(EntityCache.GetCategory(rootCategoryId, isFromUserEntityCache));
         var children = EntityCache.GetDescendants(rootCategory.Id, true)
             .Distinct()
             .Where(c => c.IsInWishknowledge())
-            .Select(c => userEntityCacheCategoryItem.ToCacheCategoryItem(c));
+            .Select(c => userEntityCacheCategoryItem.ToCacheCategory(c));
         
         var listWithUserPersonelCategories = new List<UserCacheCategory>();
 
@@ -174,10 +174,11 @@ public class GraphService
         return categoryList;   
     }
 
-    private static IEnumerable<int> GetParentsFromCategory(UserCacheCategory userCacheCategory, bool isFromUserEntityCache = false)
+    private static IEnumerable<int> GetParentsFromCategory(int categoryId, bool isFromUserEntityCache = false)
     {
         
         if(!isFromUserEntityCache)
+            var userCacheCategory = UserEntityCache.GetCategories()
             return userCacheCategory.CategoryRelations
                 .Where(cr => cr.CategoryRelationType == CategoryRelationType.IsChildCategoryOf)
                 .Select(cr => cr.RelatedCategoryId);

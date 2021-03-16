@@ -87,12 +87,11 @@ public class EditCategoryController : BaseController
                     $" <a href=\"{Links.CategoryDetail(category)}\">zur Detailansicht wechseln</a>.");
         }
         StoreImage(id);
+
         if(isChangeParents)
             UserEntityCache.ReInitAllActiveCategoryCaches();
         else
             UserEntityCache.ChangeCategoryInUserEntityCaches(category);
-
-
 
         model.Init(category);
         model.IsEditing = true;
@@ -215,7 +214,7 @@ public class EditCategoryController : BaseController
         StoreImage(category.Id);
         
         if(UserCache.GetItem(Sl.CurrentUserId).IsFiltered)
-            UserEntityCache.Add(UserCacheCategory.ToCacheCategoryItem(category), UserId);
+            UserEntityCache.Add(UserCacheCategory.ToCacheCategory(category), UserId);
 
         return Json(new
         {

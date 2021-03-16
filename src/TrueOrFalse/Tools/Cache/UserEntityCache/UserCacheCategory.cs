@@ -98,11 +98,11 @@ public class UserCacheCategory
                 .GetCategory(Id, getDataFromEntityCache: true).CategoryRelations
                 .Where(r => r.RelatedCategory
                 .IsInWishknowledge() && r.CategoryRelationType == CategoryRelationType.IncludesContentOf)
-                .Select(r => ToCacheCategoryItem(EntityCache.GetCategory(r.RelatedCategory.Id))).ToList();
+                .Select(r => ToCacheCategory(EntityCache.GetCategory(r.RelatedCategory.Id))).ToList();
         }
         else
             list = CategoryRelations.Where(r => r.CategoryRelationType == CategoryRelationType.IncludesContentOf)
-                .Select(r =>ToCacheCategoryItem(EntityCache.GetCategory(r.RelatedCategoryId))).ToList();
+                .Select(r =>ToCacheCategory(EntityCache.GetCategory(r.RelatedCategoryId))).ToList();
 
         if (includingSelf)
             list.Add(this);
@@ -178,7 +178,7 @@ public class UserCacheCategory
 
         foreach (var keyValuePair in concurrentDictionary)
         {
-            concDic.TryAdd(keyValuePair.Key, ToCacheCategoryItem(keyValuePair.Value)); 
+            concDic.TryAdd(keyValuePair.Key, ToCacheCategory(keyValuePair.Value)); 
         }
 
         return concDic; 
@@ -190,13 +190,13 @@ public class UserCacheCategory
 
         foreach (var category in categoryList)
         {
-            categories.Add(ToCacheCategoryItem(category));
+            categories.Add(ToCacheCategory(category));
         }
 
         return categories; 
     }
 
-    public static UserCacheCategory ToCacheCategoryItem(Category category)
+    public static UserCacheCategory ToCacheCategory(Category category)
     {
         var userEntityCacheCategoryRelations = new UserCacheRelations();
         return new UserCacheCategory
