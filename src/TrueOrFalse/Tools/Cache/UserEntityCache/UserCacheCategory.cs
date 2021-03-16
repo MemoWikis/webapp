@@ -46,7 +46,6 @@ public class UserCacheCategory
 
     public virtual bool IsRootCategory => Id == RootCategory.RootCategoryId;
 
-
     public virtual IList<Category> ParentCategories()
     {
         return CategoryRelations.Any()
@@ -103,7 +102,7 @@ public class UserCacheCategory
         }
         else
             list = CategoryRelations.Where(r => r.CategoryRelationType == CategoryRelationType.IncludesContentOf)
-                .Select(r =>ToCacheCategoryItem(EntityCache.GetCategory(r.RelatedCategoryId.Id))).ToList();
+                .Select(r =>ToCacheCategoryItem(EntityCache.GetCategory(r.RelatedCategoryId))).ToList();
 
         if (includingSelf)
             list.Add(this);
@@ -191,13 +190,13 @@ public class UserCacheCategory
 
         foreach (var category in categoryList)
         {
-            categories.Add(ToCacheCategoryItem(category, withCachedData, withRealtions));
+            categories.Add(ToCacheCategoryItem(category));
         }
 
         return categories; 
     }
 
-    public UserCacheCategory ToCacheCategoryItem(Category category, bool withCachedData = true, bool withRealtions = true)
+    public UserCacheCategory ToCacheCategoryItem(Category category)
     {
         var c = category.CategoryRelations;
         var categoryCachedData = new CategoryCachedData();
@@ -206,7 +205,7 @@ public class UserCacheCategory
         {
             Id = category.Id,
             CachedData = category.CachedData,
-            CategoryRelations = withRealtions ?  userEntityCacheCategoryRelations.ToListCategoryRelations(category.CategoryRelations): null,
+            CategoryRelations = userEntityCacheCategoryRelations.ToListCategoryRelations(category.CategoryRelations),
             CategoriesToExcludeIdsString = category.CategoriesToExcludeIdsString,
             CategoriesToIncludeIdsString = CategoriesToIncludeIdsString,
             Content = category.Content,
