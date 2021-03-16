@@ -8,7 +8,7 @@ using Seedworks.Lib.Persistence;
 
 [DebuggerDisplay("Id={Id} Name={Name}")]
 [Serializable]
-public class ClonedCategory : DomainEntity
+public class ClonedCategory
 {
     public virtual int Id { get; set; }
     public virtual string Name { get; set; }
