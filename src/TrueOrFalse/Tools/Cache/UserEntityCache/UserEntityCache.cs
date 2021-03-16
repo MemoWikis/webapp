@@ -9,8 +9,8 @@ public class UserEntityCache : BaseCache
     /// <summary>
     /// Dictionary[UserId, Dictionary[CategoryId, Category]]
     /// </summary>
-    private static readonly ConcurrentDictionary<int, ConcurrentDictionary<int, Category>> _Categories = 
-        new ConcurrentDictionary<int, ConcurrentDictionary<int, Category>>();
+    private static readonly ConcurrentDictionary<int, ConcurrentDictionary<int, UserCacheCategory>> _Categories = 
+        new ConcurrentDictionary<int, ConcurrentDictionary<int, UserCacheCategory>>();
 
     public static void Init(int userId = -1)
     {
@@ -18,30 +18,30 @@ public class UserEntityCache : BaseCache
             Sl.SessionUser.User : 
             UserCache.GetItem(userId).User;
 
-        var categories = new ConcurrentDictionary<int, Category>(GraphService
+        var categories = new ConcurrentDictionary<int, UserCacheCategory>(GraphService
             .GetAllPersonalCategoriesWithRelations(RootCategory.RootCategoryId, userId, true).ToConcurrentDictionary()); 
         
         _Categories[user.Id] = categories;
     }
 
-    public static void Add(Category category, int userId)
+    public static void Add(UserCacheCategory category, int userId)
     {
         var obj = _Categories[userId];
-        var categoryClone = category.DeepClone();
-        var childRelations = categoryClone
+    
+        var childRelations = category
             .CategoryRelations
             .Where(r => r.CategoryRelationType == CategoryRelationType.IsChildCategoryOf);
 
-        categoryClone.CategoryRelations = new List<CategoryRelation>();
+        category.CategoryRelations = new List<UserCacheRelations>();
 
         foreach (var categoryRelation in childRelations)
         {
-            categoryClone.CategoryRelations.Add(categoryRelation);
+            category.CategoryRelations.Add(categoryRelation);
         }
-        obj.TryAdd(category.Id, categoryClone );
+        obj.TryAdd(category.Id, category );
     }
 
-    public static Category GetCategoryWhenNotAvalaibleThenGetNextParent(int categoryId, int userId)
+    public static UserCacheCategory GetCategoryWhenNotAvalaibleThenGetNextParent(int categoryId, int userId)
     {
         if (!_Categories.ContainsKey(userId))
             Init();
@@ -52,7 +52,9 @@ public class UserEntityCache : BaseCache
         return _Categories[userId][GetNextParentInWishknowledge(categoryId).Id];
     }
 
-    public static ConcurrentDictionary<int, Category> GetCategories(int userId)
+    public static UserCacheCategory GetCategoryChildren(int userId, int categoryId) => GetCategories(userId)[categoryId];
+
+    public static ConcurrentDictionary<int, UserCacheCategory> GetCategories(int userId)
     {
         if (!_Categories.ContainsKey(userId))
             Init();
@@ -71,7 +73,7 @@ public class UserEntityCache : BaseCache
             _Categories.TryRemove(Sl.SessionUser.UserId, out _);
     }
 
-    public static List<Category> GetChildren(int categoryId, int userId)
+    public static List<int> GetChildren(int categoryId, int userId)
     {
         var category = GetCategoryWhenNotAvalaibleThenGetNextParent(categoryId,userId);
 
@@ -80,8 +82,8 @@ public class UserEntityCache : BaseCache
         return allCategories.SelectMany(c =>
             c.CategoryRelations.Where(cr => 
                     cr.CategoryRelationType == CategoryRelationType.IsChildCategoryOf
-                    && cr.RelatedCategory.Id == category.Id)
-                .Select(cr => cr.Category))
+                    && cr.RelatedCategoryId == category.Id)
+                .Select(cr => cr.CategoryId))
             .ToList();
     }
 
@@ -128,7 +130,7 @@ public class UserEntityCache : BaseCache
         foreach (var categories in _Categories.Values)
         {
             if (categories.ContainsKey(category.Id))
-                categories.TryUpdate(category.Id, category, categories[category.Id]);
+                categories.TryUpdate(category.Id, UserCacheCategory.ToCacheCategory(category), categories[category.Id]);
         }
     }
 
