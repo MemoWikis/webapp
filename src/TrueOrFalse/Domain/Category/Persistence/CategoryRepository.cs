@@ -235,22 +235,22 @@ public class CategoryRepository : RepositoryDbBase<Category>
 
         while (currentGeneration.Count > 0)
         {
-            descendants.AddRange(currentGeneration);
+            descendants.AddRange(EntityCache.GetCategories(currentGeneration));
 
-            foreach (var category in currentGeneration)
+            foreach (var categoryId in currentGeneration)
             {
-                var children = EntityCache.GetCategory(category.Id, getDataFromEntityCache: true)
+                var children = EntityCache.GetCategory(categoryId, getDataFromEntityCache: true)
                     .CachedData
                     .Children
                     .ToList();
 
                 if (children.Count > 0)
                 {
-                    nextGeneration.AddRange(children);
+                    nextGeneration.AddRange(EntityCache.GetCategories(children));
                 }
             }
 
-            currentGeneration = nextGeneration.Except(descendants).Where(c => c.Id != parentId).Distinct().ToList();
+            currentGeneration = nextGeneration.Except(descendants).Where(c => c.Id != parentId).Select(c => c.Id).Distinct().ToList();
             nextGeneration = new List<Category>();
         }
 
