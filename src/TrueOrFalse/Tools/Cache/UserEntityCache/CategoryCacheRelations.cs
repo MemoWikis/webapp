@@ -4,7 +4,7 @@ using System;
 using System.Collections.Generic;
 using NHibernate.Mapping;
 
-public class UserCacheRelations
+public class CategoryCacheRelations
 {
     public virtual int CategoryId { get; set; }
 
@@ -12,10 +12,10 @@ public class UserCacheRelations
 
     public virtual CategoryRelationType CategoryRelationType { get; set; }
 
-    public IList<UserCacheRelations> ToListCategoryRelations(
+    public IList<CategoryCacheRelations> ToListCategoryRelations(
         IList<CategoryRelation> listCategoryRelations)
     {
-        var result = new List<UserCacheRelations>();
+        var result = new List<CategoryCacheRelations>();
 
         if (listCategoryRelations == null)
             Logg.r().Error("CategoryRelations cannot be null");
@@ -28,9 +28,9 @@ public class UserCacheRelations
         return result;
     }
 
-    public UserCacheRelations ToUserEntityCacheRelation(CategoryRelation categoryRelation)
+    public CategoryCacheRelations ToUserEntityCacheRelation(CategoryRelation categoryRelation)
     {
-        return new UserCacheRelations
+        return new CategoryCacheRelations
         {
             CategoryId = categoryRelation.Category.Id,
             CategoryRelationType = categoryRelation.CategoryRelationType,
