@@ -229,7 +229,7 @@ public class CategoryRepository : RepositoryDbBase<Category>
 
     public IList<Category> GetDescendants(int parentId)
     {
-        var currentGeneration = EntityCache.GetCategory(parentId,getDataFromEntityCache: true).CachedData.Children.ToList();
+        var currentGeneration = EntityCache.GetCategoryCacheItem(parentId,getDataFromEntityCache: true).CachedData.Children.ToList();
         var nextGeneration = new List<Category>();
         var descendants = new List<Category>();
 
@@ -239,7 +239,7 @@ public class CategoryRepository : RepositoryDbBase<Category>
 
             foreach (var categoryId in currentGeneration)
             {
-                var children = EntityCache.GetCategory(categoryId, getDataFromEntityCache: true)
+                var children = EntityCache.GetCategoryCacheItem(categoryId, getDataFromEntityCache: true)
                     .CachedData
                     .Children
                     .ToList();
@@ -361,10 +361,10 @@ public class CategoryRepository : RepositoryDbBase<Category>
     {
         return new List<CategoryCacheItem>
         {
-            EntityCache.GetCategory(SchuleId, getDataFromEntityCache:true),
-            EntityCache.GetCategory(StudiumId, getDataFromEntityCache:true),
-            EntityCache.GetCategory(ZertifikateId, getDataFromEntityCache:true), 
-            EntityCache.GetCategory(AllgemeinwissenId, getDataFromEntityCache:true)
+            EntityCache.GetCategoryCacheItem(SchuleId, getDataFromEntityCache:true),
+            EntityCache.GetCategoryCacheItem(StudiumId, getDataFromEntityCache:true),
+            EntityCache.GetCategoryCacheItem(ZertifikateId, getDataFromEntityCache:true), 
+            EntityCache.GetCategoryCacheItem(AllgemeinwissenId, getDataFromEntityCache:true)
         };
     }
 }
