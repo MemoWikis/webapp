@@ -336,7 +336,7 @@
     <Compile Include="Tools\Cache\CacheClearer.cs" />
     <Compile Include="Tools\Cache\LearningSessionCache.cs" />
     <Compile Include="Tools\Cache\UserEntityCache\UserEntityCache.cs" />
-    <Compile Include="Tools\Cache\UserEntityCache\UserCacheCategory.cs" />
+    <Compile Include="Tools\Cache\UserEntityCache\CategoryCacheItem.cs" />
     <Compile Include="Tools\Cache\UserEntityCache\UserCacheRelations.cs" />
     <Compile Include="Tools\Cache\UserEntityCache\UserEntityCacheItem.cs" />
     <Compile Include="Tools\Export\LomExporter.cs" />

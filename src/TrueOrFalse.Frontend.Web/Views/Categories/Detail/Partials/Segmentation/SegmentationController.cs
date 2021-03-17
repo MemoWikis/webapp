@@ -12,7 +12,7 @@ public class SegmentationController : BaseController
     {
         var categoryId = json.CategoryId;
         var segment = new Segment();
-        segment.Category = EntityCache.GetCategory(categoryId);
+        segment.Item = EntityCache.GetCategoryCacheItem(categoryId);
         if (json.ChildCategoryIds != null)
             segment.ChildCategories = UserCache.GetItem(_sessionUser.UserId).IsFiltered ? EntityCache.GetCategories(json.ChildCategoryIds).Where(c => c.IsInWishknowledge()).ToList() : EntityCache.GetCategories(json.ChildCategoryIds).ToList();
         else
@@ -31,7 +31,7 @@ public class SegmentationController : BaseController
     [HttpPost]
     public JsonResult GetCategoryCard(int categoryId)
     {
-        var category = EntityCache.GetCategory(categoryId);
+        var category = EntityCache.GetCategoryCacheItem(categoryId);
         var categoryCardHtml = ViewRenderer.RenderPartialView(
             "~/Views/Categories/Detail/Partials/Segmentation/SegmentationCategoryCardComponent.vue.ascx", new SegmentationCategoryCardModel(category),
             ControllerContext);

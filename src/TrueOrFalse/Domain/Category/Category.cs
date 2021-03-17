@@ -30,7 +30,7 @@ public class Category : DomainEntity, ICreator, ICloneable
         return CategoryRelations.Any()
             ? CategoryRelations
                 .Where(r => r.CategoryRelationType == CategoryRelationType.IsChildCategoryOf)
-                .Select(x => EntityCache.GetCategory(x.RelatedCategory.Id))
+                .Select(x => EntityCache.GetCategoryCacheItem(x.RelatedCategory.Id))
                 .ToList()
             : new List<Category>();
     }
@@ -74,14 +74,14 @@ public class Category : DomainEntity, ICreator, ICloneable
         if (UserCache.GetItem(Sl.CurrentUserId).IsFiltered)
         {
             list = EntityCache
-                .GetCategory(Id, getDataFromEntityCache: true).CategoryRelations
+                .GetCategoryCacheItem(Id, getDataFromEntityCache: true).CategoryRelations
                 .Where(r => r.RelatedCategory
                 .IsInWishknowledge() && r.CategoryRelationType == CategoryRelationType.IncludesContentOf)
-                .Select(r => EntityCache.GetCategory(r.RelatedCategory.Id)).ToList();
+                .Select(r => EntityCache.GetCategoryCacheItem(r.RelatedCategory.Id)).ToList();
         }
         else
             list = CategoryRelations.Where(r => r.CategoryRelationType == CategoryRelationType.IncludesContentOf)
-                .Select(r => EntityCache.GetCategory(r.RelatedCategory.Id)).ToList();
+                .Select(r => EntityCache.GetCategoryCacheItem(r.RelatedCategory.Id)).ToList();
 
         if (includingSelf)
             list.Add(this);

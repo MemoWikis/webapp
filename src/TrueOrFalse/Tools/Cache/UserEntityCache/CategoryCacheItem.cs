@@ -3,12 +3,10 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using NHibernate.Mapping;
-using Seedworks.Lib.Persistence;
 
 [DebuggerDisplay("Id={Id} Name={Name}")]
 [Serializable]
-public class UserCacheCategory
+public class CategoryCacheItem
 {
     public virtual int Id { get; set; }
     public virtual string Name { get; set; }
@@ -51,7 +49,7 @@ public class UserCacheCategory
         return CategoryRelations.Any()
             ? CategoryRelations
                 .Where(r => r.CategoryRelationType == CategoryRelationType.IsChildCategoryOf)
-                .Select(x => EntityCache.GetCategory(x.RelatedCategoryId))
+                .Select(x => EntityCache.GetCategoryCacheItem(x.RelatedCategoryId))
                 .ToList()
             : new List<Category>();
     }
@@ -88,21 +86,21 @@ public class UserCacheCategory
             : new List<Category>();
     }
 
-    public virtual IList<UserCacheCategory> AggregatedCategories(bool includingSelf = true)
+    public virtual IList<CategoryCacheItem> AggregatedCategories(bool includingSelf = true)
     {
-        var list = new List<UserCacheCategory>();
+        var list = new List<CategoryCacheItem>();
 
         if (UserCache.GetItem(Sl.CurrentUserId).IsFiltered)
         {
             list = EntityCache
-                .GetCategory(Id, getDataFromEntityCache: true).CategoryRelations
+                .GetCategoryCacheItem(Id, getDataFromEntityCache: true).CategoryRelations
                 .Where(r => r.RelatedCategory
                 .IsInWishknowledge() && r.CategoryRelationType == CategoryRelationType.IncludesContentOf)
-                .Select(r => ToCacheCategory(EntityCache.GetCategory(r.RelatedCategory.Id))).ToList();
+                .Select(r => ToCacheCategory(EntityCache.GetCategoryCacheItem(r.RelatedCategory.Id))).ToList();
         }
         else
             list = CategoryRelations.Where(r => r.CategoryRelationType == CategoryRelationType.IncludesContentOf)
-                .Select(r =>ToCacheCategory(EntityCache.GetCategory(r.RelatedCategoryId))).ToList();
+                .Select(r =>ToCacheCategory(EntityCache.GetCategoryCacheItem(r.RelatedCategoryId))).ToList();
 
         if (includingSelf)
             list.Add(this);
@@ -159,12 +157,12 @@ public class UserCacheCategory
 
     public virtual bool IsInWishknowledge() => UserCache.IsInWishknowledge(Sl.CurrentUserId, Id);
 
-    public UserCacheCategory()
+    public CategoryCacheItem()
     {
         
     }
 
-    public UserCacheCategory(string name)
+    public CategoryCacheItem(string name)
     {
         Name = name;
     }
@@ -172,9 +170,9 @@ public class UserCacheCategory
     public virtual bool IsSpoiler(Question question) =>
         IsSpoilerCategory.Yes(Name, question);
 
-    public ConcurrentDictionary<int, UserCacheCategory> ToConcurrentDictionary(ConcurrentDictionary<int, Category> concurrentDictionary)
+    public ConcurrentDictionary<int, CategoryCacheItem> ToConcurrentDictionary(ConcurrentDictionary<int, Category> concurrentDictionary)
     {
-        var concDic = new ConcurrentDictionary<int, UserCacheCategory>();
+        var concDic = new ConcurrentDictionary<int, CategoryCacheItem>();
 
         foreach (var keyValuePair in concurrentDictionary)
         {
@@ -184,9 +182,9 @@ public class UserCacheCategory
         return concDic; 
     }
 
-    public IEnumerable<UserCacheCategory> ToIEnumerable(IEnumerable<Category> categoryList, bool withCachedData = false, bool withRealtions = false)
+    public IEnumerable<CategoryCacheItem> ToIEnumerable(IEnumerable<Category> categoryList, bool withCachedData = false, bool withRealtions = false)
     {
-        var categories = new List<UserCacheCategory>();
+        var categories = new List<CategoryCacheItem>();
 
         foreach (var category in categoryList)
         {
@@ -196,10 +194,12 @@ public class UserCacheCategory
         return categories; 
     }
 
-    public static UserCacheCategory ToCacheCategory(Category category)
+    public static IEnumerable<CategoryCacheItem> ToCacheCategories( List<Category> categories) => categories.Select(c => ToCacheCategory(c));
+
+    public static CategoryCacheItem ToCacheCategory(Category category)
     {
         var userEntityCacheCategoryRelations = new UserCacheRelations();
-        return new UserCacheCategory
+        return new CategoryCacheItem
         {
             Id = category.Id,
             CachedData = category.CachedData,

@@ -9,8 +9,8 @@ public class UserEntityCache : BaseCache
     /// <summary>
     /// Dictionary[UserId, Dictionary[CategoryId, Category]]
     /// </summary>
-    private static readonly ConcurrentDictionary<int, ConcurrentDictionary<int, UserCacheCategory>> _Categories = 
-        new ConcurrentDictionary<int, ConcurrentDictionary<int, UserCacheCategory>>();
+    private static readonly ConcurrentDictionary<int, ConcurrentDictionary<int, CategoryCacheItem>> _Categories = 
+        new ConcurrentDictionary<int, ConcurrentDictionary<int, CategoryCacheItem>>();
 
     public static void Init(int userId = -1)
     {
@@ -18,30 +18,30 @@ public class UserEntityCache : BaseCache
             Sl.SessionUser.User : 
             UserCache.GetItem(userId).User;
 
-        var categories = new ConcurrentDictionary<int, UserCacheCategory>(GraphService
+        var categories = new ConcurrentDictionary<int, CategoryCacheItem>(GraphService
             .GetAllPersonalCategoriesWithRelations(RootCategory.RootCategoryId, userId, true).ToConcurrentDictionary()); 
         
         _Categories[user.Id] = categories;
     }
 
-    public static void Add(UserCacheCategory category, int userId)
+    public static void Add(CategoryCacheItem item, int userId)
     {
         var obj = _Categories[userId];
     
-        var childRelations = category
+        var childRelations = item
             .CategoryRelations
             .Where(r => r.CategoryRelationType == CategoryRelationType.IsChildCategoryOf);
 
-        category.CategoryRelations = new List<UserCacheRelations>();
+        item.CategoryRelations = new List<UserCacheRelations>();
 
         foreach (var categoryRelation in childRelations)
         {
-            category.CategoryRelations.Add(categoryRelation);
+            item.CategoryRelations.Add(categoryRelation);
         }
-        obj.TryAdd(category.Id, category );
+        obj.TryAdd(item.Id, item );
     }
 
-    public static UserCacheCategory GetCategoryWhenNotAvalaibleThenGetNextParent(int categoryId, int userId)
+    public static CategoryCacheItem GetCategoryWhenNotAvalaibleThenGetNextParent(int categoryId, int userId)
     {
         if (!_Categories.ContainsKey(userId))
             Init();
@@ -52,14 +52,14 @@ public class UserEntityCache : BaseCache
         return _Categories[userId][GetNextParentInWishknowledge(categoryId).Id];
     }
 
-    public static UserCacheCategory GetCategory(int userId, int categoryId)
+    public static CategoryCacheItem GetCategory(int userId, int categoryId)
     {
         var allCategories = GetCategories(userId);
-        UserCacheCategory result;
+        CategoryCacheItem result;
         return allCategories.TryGetValue(categoryId, out result) ?  result : null;
     }
 
-    public static ConcurrentDictionary<int, UserCacheCategory> GetCategories(int userId)
+    public static ConcurrentDictionary<int, CategoryCacheItem> GetCategories(int userId)
     {
         if (!_Categories.ContainsKey(userId))
             Init();
@@ -78,7 +78,7 @@ public class UserEntityCache : BaseCache
             _Categories.TryRemove(Sl.SessionUser.UserId, out _);
     }
 
-    public static List<int> GetChildren(int categoryId, int userId)
+    public static List<CategoryCacheItem> GetChildren(int categoryId, int userId)
     {
         var category = GetCategoryWhenNotAvalaibleThenGetNextParent(categoryId,userId);
 
@@ -88,13 +88,13 @@ public class UserEntityCache : BaseCache
             c.CategoryRelations.Where(cr => 
                     cr.CategoryRelationType == CategoryRelationType.IsChildCategoryOf
                     && cr.RelatedCategoryId == category.Id)
-                .Select(cr => cr.CategoryId))
+                .Select(cr => GetCategory( userId,cr.CategoryId)))
             .ToList();
     }
 
     public static Category GetNextParentInWishknowledge(int categoryId)
     {
-        var nextParents = EntityCache.GetCategory(categoryId,true).ParentCategories().Distinct().ToList();
+        var nextParents = EntityCache.GetCategoryCacheItem(categoryId,true).ParentCategories().Distinct().ToList();
         if (nextParents.Count == 0)
             nextParents.Add(RootCategory.Get);  // Has Category no parent then add Rootcategory
 
@@ -135,7 +135,7 @@ public class UserEntityCache : BaseCache
         foreach (var categories in _Categories.Values)
         {
             if (categories.ContainsKey(category.Id))
-                categories.TryUpdate(category.Id, UserCacheCategory.ToCacheCategory(category), categories[category.Id]);
+                categories.TryUpdate(category.Id, CategoryCacheItem.ToCacheCategory(category), categories[category.Id]);
         }
     }
 

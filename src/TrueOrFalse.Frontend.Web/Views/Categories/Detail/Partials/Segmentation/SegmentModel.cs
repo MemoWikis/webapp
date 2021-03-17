@@ -14,12 +14,12 @@ public class SegmentModel : BaseContentModule
 
     public SegmentModel(Segment segment)
     {
-        Category = segment.Category;
+        Category = segment.Item;
         var childCategories = segment.ChildCategories;
         if (segment.Title != null)
             Title = segment.Title;
         else
-            Title = segment.Category.Name;
+            Title = segment.Item.Name;
 
         ChildCategories = childCategories;
         var childCategoryIds = new List<int>();

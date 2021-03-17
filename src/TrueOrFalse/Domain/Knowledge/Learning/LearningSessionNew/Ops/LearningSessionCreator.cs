@@ -116,13 +116,13 @@ public class LearningSessionCreator
 
     private static List<Question> UserIsQuestionAuthor(int userId, int categoryId)
     {
-        return EntityCache.GetCategory(categoryId)
+        return EntityCache.GetCategoryCacheItem(categoryId)
             .GetAggregatedQuestionsFromMemoryCache().Where(q => q.Creator.Id == userId).ToList();
     }
 
     public static List<Question> GetCategoryQuestionsFromEntityCache(int categoryId)
     {
-        return EntityCache.GetCategory(categoryId).GetAggregatedQuestionsFromMemoryCache().ToList();
+        return EntityCache.GetCategoryCacheItem(categoryId).GetAggregatedQuestionsFromMemoryCache().ToList();
     }
 
     private static IList<Question> OrderByProbability( List<Question> questions)
@@ -133,7 +133,7 @@ public class LearningSessionCreator
     private static List<Question> CompareDictionaryWithQuestionsFromMemoryCache(Dictionary<int, int> dic1, int categoryId, bool isNotWuwi = false)
     {
         List<Question> questions = new List<Question>();
-        var questionsFromEntityCache = EntityCache.GetCategory(categoryId)
+        var questionsFromEntityCache = EntityCache.GetCategoryCacheItem(categoryId)
             .GetAggregatedQuestionsFromMemoryCache().ToDictionary(q => q.Id);
 
         if (!isNotWuwi)

@@ -214,22 +214,30 @@ public class EntityCache : BaseCache
 
     //There is an infinite loop when the user is logged in to complaints and when the server is restarted
     //https://docs.google.com/document/d/1XgfHVvUY_Fh1ID93UZEWFriAqTwC1crhCwJ9yqAPtTY
-    public static Category GetCategory(int categoryId, bool isFromUserEntityCache = false,  bool getDataFromEntityCache = false)
+    public static CategoryCacheItem GetCategoryCacheItem(int categoryId, bool isFromUserEntityCache = false,  bool getDataFromEntityCache = false)
     {
         if (UserCache.GetItem(Sl.CurrentUserId).IsFiltered && !isFromUserEntityCache && !getDataFromEntityCache)
             return UserEntityCache.GetCategoryWhenNotAvalaibleThenGetNextParent(categoryId, Sl.SessionUser.UserId);
 
+        return CategoryCacheItem.ToCacheCategory( Categories[categoryId]);
+    }
+
+    public static Category GetCategory(int categoryId, bool isFromUserEntityCache = false, bool getDataFromEntityCache = false)
+    {
         return Categories[categoryId];
     }
 
     public static IEnumerable<Category> GetCategories(IEnumerable<int> getIds) => 
         getIds.Select(categoryId => Categories[categoryId]);
 
+    public static IEnumerable<Category> GetCategories(IList<int> getIds) =>
+        getIds.Select(categoryId => Categories[categoryId]);
+
     public static IList<Category> GetAllCategories() => Categories.Values.ToList();
 
     public static List<Category> GetChildren(int categoryId, bool isFromEntityCache = false)
     {
-        var category = GetCategory(categoryId, isFromEntityCache);
+        var category = GetCategoryCacheItem(categoryId, isFromEntityCache);
 
         var allCategories = GetAllCategories();
 

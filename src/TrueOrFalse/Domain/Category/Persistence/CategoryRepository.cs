@@ -353,17 +353,18 @@ public class CategoryRepository : RepositoryDbBase<Category>
     }
 
     public const int AllgemeinwissenId = 709;
+    public const int StudiumId = 687;
+    public const int SchuleId = 682;
+    public const int ZertifikateId = 689;
 
-    public Category Allgemeinwissen => EntityCache.GetCategory(AllgemeinwissenId);
-
-    public List<Category> GetRootCategoriesList()
+    public List<CategoryCacheItem> GetRootCategoriesList()
     {
-        return new List<Category>
+        return new List<CategoryCacheItem>
         {
-            EntityCache.GetCategory(682, true), //Schule
-            EntityCache.GetCategory(687, true), //Studium
-            EntityCache.GetCategory(689, true), //Zertifikate
-            EntityCache.GetCategory(AllgemeinwissenId, true) //Allgemeinwissen
+            EntityCache.GetCategory(SchuleId, getDataFromEntityCache:true),
+            EntityCache.GetCategory(StudiumId, getDataFromEntityCache:true),
+            EntityCache.GetCategory(ZertifikateId, getDataFromEntityCache:true), 
+            EntityCache.GetCategory(AllgemeinwissenId, getDataFromEntityCache:true)
         };
     }
 }

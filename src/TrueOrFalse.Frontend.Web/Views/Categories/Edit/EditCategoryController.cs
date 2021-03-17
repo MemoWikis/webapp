@@ -70,7 +70,7 @@ public class EditCategoryController : BaseController
         model.UpdateCategory(category);
 
         var isChangeParents = !GraphService.IsCategoryParentEqual(model.ParentCategories,
-            EntityCache.GetCategory(category.Id).ParentCategories()); 
+            EntityCache.GetCategoryCacheItem(category.Id).ParentCategories()); 
 
         if (model.Name != category.Name && categoryAllowed.No(model, category.Type))
         {
@@ -203,7 +203,7 @@ public class EditCategoryController : BaseController
     public JsonResult QuickCreate(string name, int parentCategoryId)
     {
         var category = new Category(name);
-        var parentCategory = EntityCache.GetCategory(parentCategoryId, getDataFromEntityCache:true);
+        var parentCategory = EntityCache.GetCategoryCacheItem(parentCategoryId, getDataFromEntityCache:true);
         ModifyRelationsForCategory.AddParentCategory(category, parentCategory);
 
         category.Creator = _sessionUser.User;
@@ -214,7 +214,7 @@ public class EditCategoryController : BaseController
         StoreImage(category.Id);
         
         if(UserCache.GetItem(Sl.CurrentUserId).IsFiltered)
-            UserEntityCache.Add(UserCacheCategory.ToCacheCategory(category), UserId);
+            UserEntityCache.Add(CategoryCacheItem.ToCacheCategory(category), UserId);
 
         return Json(new
         {
@@ -231,7 +231,7 @@ public class EditCategoryController : BaseController
 
         JobExecute.RunAsTask(scope =>
         {
-            var parentCategory = EntityCache.GetCategory(parentCategoryId);
+            var parentCategory = EntityCache.GetCategoryCacheItem(parentCategoryId);
             ModifyRelationsForCategory.AddParentCategory(category, parentCategory);
         }, "ModifyRelationForCategoryJob");
 
@@ -239,7 +239,7 @@ public class EditCategoryController : BaseController
 
         foreach (var childCategoryId in childCategoryIds)
         {
-            var childCategory = EntityCache.GetCategory(childCategoryId);
+            var childCategory = EntityCache.GetCategoryCacheItem(childCategoryId);
             RemoveParent(parentCategoryId, childCategoryId);
 
             var updatedParentList = childCategory.ParentCategories().Where(c => c.Id != parentCategoryId).ToList();
@@ -264,7 +264,7 @@ public class EditCategoryController : BaseController
         if (categoryId == RootCategory.RootCategoryId && !IsInstallationAdmin)
             return Json("Die Startseite kann nur von einem Admin bearbeitet werden");
         
-        var category = EntityCache.GetCategory(categoryId);
+        var category = EntityCache.GetCategoryCacheItem(categoryId);
         if (category != null)
         {
             if (content != null)
@@ -283,7 +283,7 @@ public class EditCategoryController : BaseController
     {
         if (categoryId == 0 && !IsInstallationAdmin)
             return Json("Die Startseite kann nur von einem Admin bearbeitet werden");
-        var category = EntityCache.GetCategory(categoryId);
+        var category = EntityCache.GetCategoryCacheItem(categoryId);
 
         if (category != null)
         {
@@ -303,7 +303,7 @@ public class EditCategoryController : BaseController
     [HttpPost]
     public JsonResult RemoveParent(int parentCategoryIdToRemove, int childCategoryId)
     {
-        var childCategory = EntityCache.GetCategory(childCategoryId);
+        var childCategory = EntityCache.GetCategoryCacheItem(childCategoryId);
         
         if (!IsAllowedTo.ToEdit(childCategory))
             throw new SecurityException("Not allowed to edit category");

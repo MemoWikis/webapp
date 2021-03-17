@@ -42,18 +42,18 @@ public class GraphService
         return parents;
     }
 
-    public static IList<UserCacheCategory> GetAllPersonalCategoriesWithRelations_TP(Category category, int userId = -1) =>
+    public static IList<CategoryCacheItem> GetAllPersonalCategoriesWithRelations_TP(Category category, int userId = -1) =>
         GetAllPersonalCategoriesWithRelations(category.Id, userId);
 
-    public static IList<UserCacheCategory> GetAllPersonalCategoriesWithRelations(int rootCategoryId, int userId = -1, bool isFromUserEntityCache = false)
+    public static IList<CategoryCacheItem> GetAllPersonalCategoriesWithRelations(int rootCategoryId, int userId = -1, bool isFromUserEntityCache = false)
     {
-        var rootCategory = UserCacheCategory.ToCacheCategory(EntityCache.GetCategory(rootCategoryId, isFromUserEntityCache));
+        var rootCategory = CategoryCacheItem.ToCacheCategory(EntityCache.GetCategory(rootCategoryId, isFromUserEntityCache));
         var children = EntityCache.GetDescendants(rootCategory.Id, true)
             .Distinct()
             .Where(c => c.IsInWishknowledge())
-            .Select(c => UserCacheCategory.ToCacheCategory(c));
+            .Select(c => CategoryCacheItem.ToCacheCategory(c));
         
-        var listWithUserPersonelCategories = new List<UserCacheCategory>();
+        var listWithUserPersonelCategories = new List<CategoryCacheItem>();
 
         userId = userId == -1 ? Sl.CurrentUserId : userId;
 
@@ -131,7 +131,7 @@ public class GraphService
         return AddChildrenToCategory(listAsConcurrentDictionary).Values.ToList();
     }
 
-    public static ConcurrentDictionary<int, UserCacheCategory> AddChildrenToCategory(ConcurrentDictionary<int, UserCacheCategory> categoryList)
+    public static ConcurrentDictionary<int, CategoryCacheItem> AddChildrenToCategory(ConcurrentDictionary<int, CategoryCacheItem> categoryList)
     {
         foreach (var category in categoryList.Values)
         {
