@@ -222,7 +222,7 @@ public class EntityCache : BaseCache
         return CategoryCacheItem.ToCacheCategory( Categories[categoryId]);
     }
 
-    public static Category GetCategory(int categoryId, bool isFromUserEntityCache = false, bool getDataFromEntityCache = false)
+    public static Category GetCategory(int categoryId)
     {
         return Categories[categoryId];
     }
