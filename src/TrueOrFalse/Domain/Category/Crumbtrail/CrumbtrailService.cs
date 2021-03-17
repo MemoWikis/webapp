@@ -2,7 +2,7 @@
 
 public class CrumbtrailService
 {
-    public static Crumbtrail Get(Category category, Category root)
+    public static Crumbtrail Get(CategoryCacheItem category, CategoryCacheItem root)
     {
         var result = new Crumbtrail(category, root);
         var parents = category.ParentCategories();
@@ -14,14 +14,14 @@ public class CrumbtrailService
         return result;
     }
 
-    private static void AddParent(Crumbtrail crumbtrail, Category category)
+    private static void AddParent(Crumbtrail crumbtrail, CategoryCacheItem categoryCacheItem)
     {
         if (crumbtrail.Rootfound)
             return;
 
-        crumbtrail.Add(category);
+        crumbtrail.Add(categoryCacheItem);
 
-        foreach (var currentCategory in category.ParentCategories())
+        foreach (var currentCategory in categoryCacheItem.ParentCategories())
         {
             if (crumbtrail.AlreadyAdded(currentCategory))
                 return;

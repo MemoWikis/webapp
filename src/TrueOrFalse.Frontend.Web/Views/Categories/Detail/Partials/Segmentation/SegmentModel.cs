@@ -8,8 +8,8 @@ using NHibernate.Mapping;
 public class SegmentModel : BaseContentModule
 {
     public string Title;
-    public Category Category;
-    public List<Category> ChildCategories;
+    public CategoryCacheItem Category;
+    public List<CategoryCacheItem> ChildCategories;
     public string ChildCategoryIds;
 
     public SegmentModel(Segment segment)

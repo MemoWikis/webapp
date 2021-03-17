@@ -222,16 +222,18 @@ public class EntityCache : BaseCache
         return CategoryCacheItem.ToCacheCategory( Categories[categoryId]);
     }
 
-    public static Category GetCategory(int categoryId)
-    {
-        return Categories[categoryId];
-    }
+    public static Category GetCategory(int categoryId) => Categories[categoryId];
+    public static Category GetCategory(CategoryCacheItem categoryCahCacheItem) => Categories[categoryCahCacheItem.Id];
+    
 
-    public static IEnumerable<Category> GetCategories(IEnumerable<int> getIds) => 
+    public static IEnumerable<Category> GetCategoryCacheItems(IEnumerable<int> getIds) => 
         getIds.Select(categoryId => Categories[categoryId]);
+
+    public static IEnumerable<CategoryCacheItem> GetCategoryCacheItems(IList<int> getIds) =>
+        getIds.Select(categoryId => GetCategoryCacheItem(categoryId));
 
     public static IEnumerable<Category> GetCategories(IList<int> getIds) =>
-        getIds.Select(categoryId => Categories[categoryId]);
+        getIds.Select(categoryId => GetCategory(categoryId));
 
     public static IList<Category> GetAllCategories() => Categories.Values.ToList();
 

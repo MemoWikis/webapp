@@ -2,10 +2,10 @@
 
 public class SegmentationCategoryCardModel : BaseContentModule
 {
-    public Category Category;
+    public CategoryCacheItem Category;
     public string Title;
 
-    public SegmentationCategoryCardModel(Category category)
+    public SegmentationCategoryCardModel(CategoryCacheItem category)
     {
         Category = category; 
         Title = category.Name;

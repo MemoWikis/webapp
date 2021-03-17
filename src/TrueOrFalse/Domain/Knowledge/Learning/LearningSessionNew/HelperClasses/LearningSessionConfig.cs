@@ -5,7 +5,7 @@ using System.Collections.Generic;
 public class LearningSessionConfig
 {
     public int CategoryId { get; set; }
-    public Category Category { get; set; }
+    public CategoryCacheItem Category { get; set; }
     public int MaxQuestionCount { get; set; }
     /// <summary>
     /// Currently logged in user

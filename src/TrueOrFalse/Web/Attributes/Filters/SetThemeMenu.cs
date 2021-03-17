@@ -26,7 +26,7 @@ namespace System.Web.Mvc
             {
                 var httpContextData = HttpContext.Current.Request.RequestContext.RouteData.Values;
 
-                var activeCategories = new List<Category>();
+                var activeCategories = new List<CategoryCacheItem>();
 
                 if (_isCategoryPage)
                 {
@@ -38,7 +38,7 @@ namespace System.Web.Mvc
                 
                 if (_isQuestionPage)
                 {
-                    activeCategories.AddRange(ThemeMenuHistoryOps.GetQuestionCategories(Convert.ToInt32(httpContextData["id"])));
+                    activeCategories.AddRange( CategoryCacheItem.ToCacheCategories(ThemeMenuHistoryOps.GetQuestionCategories(Convert.ToInt32(httpContextData["id"]))));
                 }
 
                 if (_isLearningSessionPage)

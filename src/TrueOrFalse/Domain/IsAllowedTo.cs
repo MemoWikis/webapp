@@ -6,8 +6,9 @@
     public static bool ToEdit(Set set) => ToEdit(Sl.R<SessionUser>().User, set);
     public static bool ToEdit(User user, Set set) => CheckAccess(user, set);
 
-    public static bool ToEdit(Category category) => ToEdit(Sl.R<SessionUser>().User, category);
-    public static bool ToEdit(User user, Category category) => CheckAccess(user, category);
+    public static bool ToEdit(CategoryCacheItem category) => ToEdit(Sl.R<SessionUser>().User, category);
+    public static bool ToEdit(Category category) => CheckAccess(Sl.R<SessionUser>().User, category);
+    public static bool ToEdit(User user, CategoryCacheItem category) => CheckAccess(user, category);
 
     private static bool CheckAccess(User user, ICreator entity)
     {

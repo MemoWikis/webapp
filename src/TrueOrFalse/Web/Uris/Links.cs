@@ -339,7 +339,12 @@ namespace TrueOrFalse.Frontend.Web.Code
             HttpContext.Current == null 
                 ? "" 
                 : CategoryDetail(category.Name, category.Id);
-        
+
+        public static string CategoryDetail(CategoryCacheItem category) =>
+            HttpContext.Current == null
+                ? ""
+                : CategoryDetail(category.Name, category.Id);
+
         public static string CategoryDetail(Category category, int version) =>
             HttpContext.Current == null 
                 ? "" 
@@ -387,7 +392,8 @@ namespace TrueOrFalse.Frontend.Web.Code
             throw new Exception("unexpected type");
         }
 
-        public static string CategoryEdit(Category category) => CategoryEdit(GetUrlHelper(), category.Name, category.Id);
+        public static string CategoryEdit(CategoryCacheItem categoryCacheItem) => CategoryEdit(GetUrlHelper(), categoryCacheItem.Name, categoryCacheItem.Id);
+        public static string CategoryEdit(Category categoryCacheItem) => CategoryEdit(GetUrlHelper(), categoryCacheItem.Name, categoryCacheItem.Id);
         public static string CategoryEdit(string name, int id) => CategoryEdit(GetUrlHelper(), name, id);
         public static string CategoryEdit(UrlHelper url, string name, int id) => url.Action("Edit", "EditCategory", new { text = UriSanitizer.Run(name), id = id });
         

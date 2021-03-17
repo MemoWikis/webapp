@@ -1,4 +1,4 @@
 public class CategoryNode
 {
-    public Category Category;
+    public CategoryCacheItem CategoryCacheItem;
 }

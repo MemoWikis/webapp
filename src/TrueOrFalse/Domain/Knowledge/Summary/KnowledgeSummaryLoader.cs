@@ -32,7 +32,7 @@ public class KnowledgeSummaryLoader
 
     public static KnowledgeSummary RunFromMemoryCache(int categoryId, int userId)
     {
-        return RunFromMemoryCache(EntityCache.GetCategoryCacheItem(categoryId), userId);
+        return RunFromMemoryCache(EntityCache.GetCategoryCacheItem(categoryId).Id, userId);
     }
 
     public static KnowledgeSummary RunFromMemoryCache(Category category, int userId)

@@ -22,8 +22,8 @@ public class ModifyRelationsForCategory
         var relationsToAdd = relatedCategories
             .Except(existingRelationsOfType.Select(r => r.RelatedCategory))
             .Select(c => new CategoryRelation{
-                Category = EntityCache.GetCategoryCacheItem(category.Id), 
-                RelatedCategory = EntityCache.GetCategoryCacheItem(c.Id, getDataFromEntityCache: true), 
+                Category = EntityCache.GetCategory(category.Id), 
+                RelatedCategory = EntityCache.GetCategory(c.Id), 
                 CategoryRelationType = relationType}
         );
 
@@ -61,10 +61,13 @@ public class ModifyRelationsForCategory
         AddCategoryRelationOfType(category, relatedCategory, CategoryRelationType.IsChildCategoryOf);
     }
 
-    public static void UpdateRelationsOfTypeIncludesContentOf(Category category, bool persist = true)
+    public static void UpdateRelationsOfTypeIncludesContentOf(CategoryCacheItem categoryCacheItem, bool persist = true)
     {
-        var descendants = GetCategoryChildren.WithAppliedRules(category);
-        UpdateCategoryRelationsOfType(category, descendants, CategoryRelationType.IncludesContentOf);
+        var descendants = GetCategoryChildren.WithAppliedRules(categoryCacheItem);
+        var descendantsAsCategory = descendants.Select(cci => EntityCache.GetCategory(cci.Id)).ToList();
+        var category = EntityCache.GetCategory(categoryCacheItem.Id); 
+
+        UpdateCategoryRelationsOfType(category, descendantsAsCategory, CategoryRelationType.IncludesContentOf);
 
         if(!persist)
             return;

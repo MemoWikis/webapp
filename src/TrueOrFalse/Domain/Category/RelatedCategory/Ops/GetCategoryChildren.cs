@@ -4,26 +4,27 @@ using System.Linq;
 
 public class GetCategoryChildren
 {
-    public static List<Category> WithAppliedRules(Category category)
+    public static List<CategoryCacheItem> WithAppliedRules(CategoryCacheItem category)
     {
-        var categoriesToExclude = new List<Category>();
+        var categoriesToExclude = new List<CategoryCacheItem>();
         foreach (var categoryToExclude in category.CategoriesToExclude())
         {
             categoriesToExclude.Add(categoryToExclude);
-            categoriesToExclude.AddRange(Sl.CategoryRepo.GetDescendants(categoryToExclude.Id));
+            categoriesToExclude.AddRange(CategoryCacheItem.ToCacheCategories(EntityCache.GetDescendants(categoryToExclude.Id)).ToList());
         }
 
-        var categoriesToInclude = new List<Category>();
+        var categoriesToInclude = new List<CategoryCacheItem>();
         foreach (var categoryToInclude in category.CategoriesToInclude())
         {
             categoriesToInclude.Add(categoryToInclude);
-            categoriesToInclude.AddRange(Sl.CategoryRepo.GetDescendants(categoryToInclude.Id));
+            categoriesToInclude.AddRange(CategoryCacheItem
+                .ToCacheCategories(EntityCache.GetDescendants(categoryToInclude.Id)));
         }
 
-        return Sl.CategoryRepo.GetDescendants(category.Id)
-            .Except(categoriesToExclude)
+        return CategoryCacheItem.ToCacheCategories(EntityCache.GetDescendants(category.Id)).Except(categoriesToExclude)
             .Union(categoriesToInclude)
             .ToList();
+
     }
 
     public static List<Category> WithAppliedRulesFromMemory(Category category)

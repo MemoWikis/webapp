@@ -7,7 +7,7 @@ using NHibernate.Mapping;
 
 public class SegmentationModel : BaseContentModule
 {
-    public Category Category;
+    public CategoryCacheItem Category;
 
     public string Title;
     public string Text;
@@ -17,7 +17,7 @@ public class SegmentationModel : BaseContentModule
     public List<CategoryCacheItem> NotInSegmentCategoryList;
     public List<Segment> Segments;
 
-    public SegmentationModel(Category category)
+    public SegmentationModel(CategoryCacheItem category)
     {
         Category = category;
         
@@ -38,16 +38,20 @@ public class SegmentationModel : BaseContentModule
     public List<Segment> GetSegments(int id)
     {
         var segments = new List<Segment>();
-        var segmentJson = JsonConvert.DeserializeObject<List<SegmentJson>>(EntityCache.GetCategory(id).CustomSegments);
+        var segmentJson = JsonConvert.DeserializeObject<List<SegmentJson>>(EntityCache.GetCategoryCacheItem(id).CustomSegments);
         foreach (var s in segmentJson)
         {
             var segment = new Segment();
-            segment.Item = CategoryCacheItem.ToCacheCategory(EntityCache.GetCategory(s.CategoryId));
+            segment.Item = EntityCache.GetCategoryCacheItem(s.CategoryId);
             segment.Title = s.Title;
             if (s.ChildCategoryIds != null)
-                segment.ChildCategories = UserCache.GetItem(_sessionUser.UserId).IsFiltered ? CategoryCacheItem.ToCacheCategories(EntityCache.GetCategories(s.ChildCategoryIds).Where(c => c.IsInWishknowledge()).ToList()).ToList() : CategoryCacheItem.ToCacheCategories(EntityCache.GetCategories(s.ChildCategoryIds).ToList()).ToList(); 
+                segment.ChildCategories = UserCache.GetItem(_sessionUser.UserId).IsFiltered
+                    ? EntityCache.GetCategoryCacheItems(s.ChildCategoryIds).Where(c => c.IsInWishknowledge()).ToList()
+                    : EntityCache.GetCategoryCacheItems(s.ChildCategoryIds).ToList();
             else
-                segment.ChildCategories = UserCache.GetItem(_sessionUser.UserId).IsFiltered ? UserEntityCache.GetChildren(s.CategoryId, UserId).ToList() : CategoryCacheItem.ToCacheCategories(EntityCache.GetChildren(s.CategoryId)).ToList();
+                segment.ChildCategories = UserCache.GetItem(_sessionUser.UserId).IsFiltered ? 
+                    UserEntityCache.GetChildren(s.CategoryId, UserId).ToList() : 
+                    CategoryCacheItem.ToCacheCategories(EntityCache.GetChildren(s.CategoryId)).ToList();
 
             segments.Add(segment);
         }

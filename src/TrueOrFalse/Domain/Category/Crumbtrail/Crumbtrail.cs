@@ -7,7 +7,7 @@ public class Crumbtrail
     public CrumbtrailItem Current;
     public IList<CrumbtrailItem> Items = new List<CrumbtrailItem>();
 
-    public Crumbtrail(Category current, Category root)
+    public Crumbtrail(CategoryCacheItem current, CategoryCacheItem root)
     {
         Current = new CrumbtrailItem(current);
         Root = new CrumbtrailItem(root);
@@ -20,7 +20,7 @@ public class Crumbtrail
                                          .Aggregate((a, b) => a + " => " + b) 
                                      + " => [" + Current.Text + "]";
 
-    public bool AlreadyAdded(Category category)
+    public bool AlreadyAdded(CategoryCacheItem   category)
     {
         foreach (var item in Items)
             if (item.IsEqual(category))
@@ -29,7 +29,7 @@ public class Crumbtrail
         return false;
     }
 
-    public void Add(Category category)
+    public void Add(CategoryCacheItem category)
     {
         if (Root.IsEqual(category))
             Rootfound = true;

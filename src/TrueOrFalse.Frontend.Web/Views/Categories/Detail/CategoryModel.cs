@@ -16,8 +16,8 @@ public class CategoryModel : BaseContentModule
     public string CustomPageHtml;//Is set in controller because controller context is needed
     public CategoryChange CategoryChange;//Is set in controller because controller context is needed
     public bool NextRevExists;   //Is set in controller because controller context is needed
-    public IList<Category> CategoriesParent;
-    public IList<Category> CategoriesChildren;
+    public IList<CategoryCacheItem> CategoriesParent;
+    public IList<CategoryCacheItem> CategoriesChildren;
     public IList<Question> AggregatedQuestions;
     public IList<Question> CategoryQuestions;
     public int AggregatedTopicCount;
@@ -37,7 +37,7 @@ public class CategoryModel : BaseContentModule
     public string CreatorName;
     public string CreationDate;
     public string ImageUrl_250;
-    public Category Category;
+    public CategoryCacheItem Category;
     public ImageFrontendData ImageFrontendData;
     public string WikipediaURL;
     public string Url;
@@ -67,7 +67,7 @@ public class CategoryModel : BaseContentModule
     {
     }
 
-    public CategoryModel(Category category, bool loadKnowledgeSummary = true, bool isCategoryNull = false)
+    public CategoryModel(CategoryCacheItem category, bool loadKnowledgeSummary = true, bool isCategoryNull = false)
     {
         TopNavMenu.BreadCrumbCategories = CrumbtrailService.Get(category, RootCategory.Get);
 
@@ -120,7 +120,7 @@ public class CategoryModel : BaseContentModule
         CategoriesParent = category.ParentCategories();
         CategoriesChildren = UserCache.GetItem(_sessionUser.UserId).IsFiltered ? 
             UserEntityCache.GetChildren(category.Id, UserId) :
-            EntityCache.GetChildren(category.Id);
+           CategoryCacheItem.ToCacheCategories(EntityCache.GetChildren(category.Id)).ToList();
 
         CorrectnesProbability = category.CorrectnessProbability;
         AnswersTotal = category.CorrectnessProbabilityAnswerCount;
@@ -232,7 +232,7 @@ public class CategoryModel : BaseContentModule
 
             return EntityCache.GetQuestionById(questionId);
     }
-    public int GetTotalTopicCount(Category category)
+    public int GetTotalTopicCount(CategoryCacheItem category)
     {
         return EntityCache.GetChildren(category.Id).Count(c =>
                 c.Type == CategoryType.Standard && c.GetAggregatedQuestionIdsFromMemoryCache().Count > 0);

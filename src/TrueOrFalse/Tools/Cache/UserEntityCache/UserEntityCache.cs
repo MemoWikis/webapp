@@ -32,7 +32,7 @@ public class UserEntityCache : BaseCache
             .CategoryRelations
             .Where(r => r.CategoryRelationType == CategoryRelationType.IsChildCategoryOf);
 
-        item.CategoryRelations = new List<UserCacheRelations>();
+        item.CategoryRelations = new List<CategoryCacheRelations>();
 
         foreach (var categoryRelation in childRelations)
         {
@@ -92,7 +92,7 @@ public class UserEntityCache : BaseCache
             .ToList();
     }
 
-    public static Category GetNextParentInWishknowledge(int categoryId)
+    public static CategoryCacheItem GetNextParentInWishknowledge(int categoryId)
     {
         var nextParents = EntityCache.GetCategoryCacheItem(categoryId,true).ParentCategories().Distinct().ToList();
         if (nextParents.Count == 0)

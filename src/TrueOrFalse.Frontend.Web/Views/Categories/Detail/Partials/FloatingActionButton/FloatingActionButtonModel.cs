@@ -1,11 +1,11 @@
 ﻿public class FloatingActionButtonModel : BaseContentModule
 {
-    public Category Category;
+    public CategoryCacheItem Category;
     public bool IsTopicTab;
 
-    public FloatingActionButtonModel(Category category, bool isTopicTab)
+    public FloatingActionButtonModel(CategoryCacheItem categoryCacheCategory, bool isTopicTab)
     {
-        Category = category;
+        Category = categoryCacheCategory;
         IsTopicTab = isTopicTab;
     }
 }

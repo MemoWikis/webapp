@@ -48,13 +48,13 @@ public class CategoryController : BaseController
     private LoadModelResult LoadModel(int id, int? version)
     {
         var result = new LoadModelResult();
-        var category = EntityCache.GetCategory(id);
+        var category = EntityCache.GetCategoryCacheItem(id);
         
         var isCategoryNull = category == null;
 
         if (isCategoryNull)
         {
-            category = new Category();
+            category = new CategoryCacheItem();
             category.Id = id;
             category.Name = "";
         }
@@ -68,7 +68,7 @@ public class CategoryController : BaseController
         if (version != null)
             ApplyCategoryChangeToModel(result.CategoryModel, (int)version, id);
         else
-            SaveCategoryView.Run(result.Category, User_());
+            SaveCategoryView.Run(EntityCache.GetCategory(result.Category.Id), User_());
 
         return result;
     }
@@ -94,12 +94,12 @@ public class CategoryController : BaseController
 
         categoryModel.Name = historicCategory.Name;
         categoryModel.CategoryChange = categoryChange;
-        categoryModel.CustomPageHtml = TemplateToHtml.Run(historicCategory, ControllerContext);
+        categoryModel.CustomPageHtml = TemplateToHtml.Run( CategoryCacheItem.ToCacheCategory(historicCategory), ControllerContext);
         categoryModel.WikipediaURL = historicCategory.WikipediaURL;
         categoryModel.NextRevExists = Sl.CategoryChangeRepo.GetNextRevision(categoryChange) != null;
     }
 
-    private CategoryModel GetModelWithContentHtml(Category category, int? version = null, bool isCategoryNull = false)
+    private CategoryModel GetModelWithContentHtml(CategoryCacheItem category, int? version = null, bool isCategoryNull = false)
     {
         return new CategoryModel(category, true, isCategoryNull)
         {
@@ -123,7 +123,7 @@ public class CategoryController : BaseController
 
     public ActionResult StartTestSession(int categoryId)
     {
-        var categoryName = EntityCache.GetCategory(categoryId).Name;
+        var categoryName = EntityCache.GetCategoryCacheItem(categoryId).Name;
 
         return Redirect(Links.TestSession(categoryName, categoryId));
     }
@@ -157,13 +157,13 @@ public class CategoryController : BaseController
    [HttpPost]
     public string Tab(string tabName, int categoryId)
     {
-        var category = Sl.CategoryRepo.GetById(categoryId);
-        var isCategoryNull = category == null;
-        category = isCategoryNull ? new Category() : category;
+        var categoryCacheItem = EntityCache.GetCategoryCacheItem(categoryId);
+        var isCategoryNull = categoryCacheItem == null;
+        categoryCacheItem = isCategoryNull ? new CategoryCacheItem() : categoryCacheItem;
 
         return ViewRenderer.RenderPartialView(
             "/Views/Categories/Detail/Tabs/" + tabName + ".ascx",
-            GetModelWithContentHtml(category, null, isCategoryNull),
+            GetModelWithContentHtml(categoryCacheItem, null, isCategoryNull),
             ControllerContext
         );
     }
@@ -171,7 +171,7 @@ public class CategoryController : BaseController
     public string KnowledgeBar(int categoryId) =>
         ViewRenderer.RenderPartialView(
             "/Views/Categories/Detail/CategoryKnowledgeBar.ascx",
-            new CategoryKnowledgeBarModel(Sl.CategoryRepo.GetById(categoryId)),
+            new CategoryKnowledgeBarModel(EntityCache.GetCategoryCacheItem(categoryId)),
             ControllerContext
         );
     [HttpPost]
@@ -184,15 +184,15 @@ public class CategoryController : BaseController
 
     public string GetKnowledgeGraphDisplay(int categoryId)
     {
-        var category = Sl.CategoryRepo.GetById(categoryId);
-        category = category == null ? new Category() : category;
+        var category = EntityCache.GetCategoryCacheItem(categoryId);
+        category = category == null ? new CategoryCacheItem() : category;
 
         return ViewRenderer.RenderPartialView("~/Views/Categories/Detail/Partials/KnowledgeGraph/KnowledgeGraph.ascx", new KnowledgeGraphModel(category), ControllerContext);
     }
 
     public string RenderNewKnowledgeSummaryBar(int categoryId)
     {
-        var category = Sl.CategoryRepo.GetById(categoryId);
+        var category = EntityCache.GetCategoryCacheItem(categoryId);
         return ViewRenderer.RenderPartialView("~/Views/Categories/Detail/CategoryKnowledgeBar.ascx", new CategoryKnowledgeBarModel(category), ControllerContext);
     }
 
@@ -323,6 +323,6 @@ public class CategoryController : BaseController
 }
 public class LoadModelResult
 {
-    public Category Category;
+    public CategoryCacheItem Category;
     public CategoryModel CategoryModel;
 }

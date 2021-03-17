@@ -6,7 +6,7 @@ using System.Linq;
 
 [DebuggerDisplay("Id={Id} Name={Name}")]
 [Serializable]
-public class CategoryCacheItem
+public class CategoryCacheItem : ICreator
 {
     public virtual int Id { get; set; }
     public virtual string Name { get; set; }
@@ -23,7 +23,7 @@ public class CategoryCacheItem
 
     public virtual User Creator { get; set; }
 
-    public virtual IList<UserCacheRelations> CategoryRelations { get; set; }
+    public virtual IList<CategoryCacheRelations> CategoryRelations { get; set; }
     public virtual int CountQuestions { get; set; }
     public virtual string TopicMarkdown { get; set; }
     public virtual string Content { get; set; }
@@ -44,14 +44,14 @@ public class CategoryCacheItem
 
     public virtual bool IsRootCategory => Id == RootCategory.RootCategoryId;
 
-    public virtual IList<Category> ParentCategories()
+    public virtual IList<CategoryCacheItem>ParentCategories()
     {
         return CategoryRelations.Any()
             ? CategoryRelations
                 .Where(r => r.CategoryRelationType == CategoryRelationType.IsChildCategoryOf)
                 .Select(x => EntityCache.GetCategoryCacheItem(x.RelatedCategoryId))
                 .ToList()
-            : new List<Category>();
+            : new List<CategoryCacheItem>();
     }
 
     public virtual CategoryCachedData CachedData { get; set; }
@@ -72,18 +72,18 @@ public class CategoryCacheItem
             .Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries)
             .Select(x => Convert.ToInt32(x)));
 
-    public virtual IList<Category> CategoriesToInclude()
+    public virtual IList<CategoryCacheItem> CategoriesToInclude()
     {
         return !string.IsNullOrEmpty(CategoriesToIncludeIdsString)
-            ? Sl.R<CategoryRepository>().GetByIdsFromString(CategoriesToIncludeIdsString)
-            : new List<Category>();
+            ? ToCacheCategories(Sl.R<CategoryRepository>().GetByIdsFromString(CategoriesToIncludeIdsString)).ToList()
+            : new List<CategoryCacheItem>();
     }
 
-    public virtual IList<Category> CategoriesToExclude()
+    public virtual IList<CategoryCacheItem> CategoriesToExclude()
     {
         return !string.IsNullOrEmpty(CategoriesToExcludeIdsString)
-            ? Sl.R<CategoryRepository>().GetByIdsFromString(CategoriesToExcludeIdsString)
-            : new List<Category>();
+            ? ToCacheCategories(Sl.R<CategoryRepository>().GetByIdsFromString(CategoriesToExcludeIdsString)).ToList()
+            : new List<CategoryCacheItem>();
     }
 
     public virtual IList<CategoryCacheItem> AggregatedCategories(bool includingSelf = true)
@@ -94,13 +94,13 @@ public class CategoryCacheItem
         {
             list = EntityCache
                 .GetCategoryCacheItem(Id, getDataFromEntityCache: true).CategoryRelations
-                .Where(r => r.RelatedCategory
+                .Where(r => EntityCache.GetCategoryCacheItem(r.RelatedCategoryId)
                 .IsInWishknowledge() && r.CategoryRelationType == CategoryRelationType.IncludesContentOf)
-                .Select(r => ToCacheCategory(EntityCache.GetCategoryCacheItem(r.RelatedCategory.Id))).ToList();
+                .Select(r => EntityCache.GetCategoryCacheItem(r.RelatedCategoryId)).ToList();
         }
         else
             list = CategoryRelations.Where(r => r.CategoryRelationType == CategoryRelationType.IncludesContentOf)
-                .Select(r =>ToCacheCategory(EntityCache.GetCategoryCacheItem(r.RelatedCategoryId))).ToList();
+                .Select(r =>EntityCache.GetCategoryCacheItem(r.RelatedCategoryId)).ToList();
 
         if (includingSelf)
             list.Add(this);
@@ -195,10 +195,11 @@ public class CategoryCacheItem
     }
 
     public static IEnumerable<CategoryCacheItem> ToCacheCategories( List<Category> categories) => categories.Select(c => ToCacheCategory(c));
+    public static IEnumerable<CategoryCacheItem> ToCacheCategories( IEnumerable<Category> categories) => categories.Select(c => ToCacheCategory(c));
 
     public static CategoryCacheItem ToCacheCategory(Category category)
     {
-        var userEntityCacheCategoryRelations = new UserCacheRelations();
+        var userEntityCacheCategoryRelations = new CategoryCacheRelations();
         return new CategoryCacheItem
         {
             Id = category.Id,

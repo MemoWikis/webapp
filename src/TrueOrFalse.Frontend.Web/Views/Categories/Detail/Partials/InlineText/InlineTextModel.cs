@@ -15,7 +15,7 @@ public class InlineTextModel : BaseContentModule
         else Content = json.Content;
     }
 
-    public InlineTextModel(Category category)
+    public InlineTextModel(CategoryCacheItem category)
     {
         Id = category.Id;
         Content = category.Content ?? "";

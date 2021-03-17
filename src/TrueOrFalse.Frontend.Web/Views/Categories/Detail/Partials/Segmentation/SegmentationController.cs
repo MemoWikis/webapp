@@ -9,14 +9,17 @@ public class SegmentationController : BaseController
 {
     [HttpPost]
     public JsonResult GetSegmentHtml(SegmentJson json)
+ 
     {
         var categoryId = json.CategoryId;
         var segment = new Segment();
         segment.Item = EntityCache.GetCategoryCacheItem(categoryId);
+
         if (json.ChildCategoryIds != null)
-            segment.ChildCategories = UserCache.GetItem(_sessionUser.UserId).IsFiltered ? EntityCache.GetCategories(json.ChildCategoryIds).Where(c => c.IsInWishknowledge()).ToList() : EntityCache.GetCategories(json.ChildCategoryIds).ToList();
+            segment.ChildCategories = UserCache.GetItem(_sessionUser.UserId).IsFiltered ? EntityCache.GetCategoryCacheItems(json.ChildCategoryIds)
+                .Where(c => c.IsInWishknowledge()).ToList() : EntityCache.GetCategoryCacheItems(json.ChildCategoryIds).ToList();
         else
-            segment.ChildCategories = UserCache.GetItem(_sessionUser.UserId).IsFiltered ? UserEntityCache.GetChildren(categoryId, UserId) : Sl.CategoryRepo.GetChildren(categoryId).ToList();
+            segment.ChildCategories = UserCache.GetItem(_sessionUser.UserId).IsFiltered ? UserEntityCache.GetChildren(categoryId, UserId) :  CategoryCacheItem.ToCacheCategories(EntityCache.GetChildren(categoryId)).ToList();
 
         var segmentHtml = ViewRenderer.RenderPartialView(
             "~/Views/Categories/Detail/Partials/Segmentation/SegmentComponent.vue.ascx", new SegmentModel(segment),

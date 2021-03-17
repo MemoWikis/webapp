@@ -3,13 +3,13 @@ using System.Linq;
 public class AnalyticsFooterModel
 {
     public string CategoryName;
-    public IList<Category> AllParents;
+    public IList<CategoryCacheItem> AllParents;
     public int ChildrenCount;
     public string ParentList;
     public int CategoryId;
     public bool IsQuestionssite; 
 
-    public AnalyticsFooterModel(Category category, bool isQuestionsSite = false, bool isCategoryNull = false)
+    public AnalyticsFooterModel(CategoryCacheItem category, bool isQuestionsSite = false, bool isCategoryNull = false)
     {
         IsQuestionssite = isQuestionsSite;
 
@@ -21,18 +21,18 @@ public class AnalyticsFooterModel
         SetCategoryRelations(isCategoryNull, category);
     }
 
-    public void SetCategoryRelations(bool isCategoryChangeData, Category category)
+    public void SetCategoryRelations(bool isCategoryChangeData, CategoryCacheItem category)
     {
-        var children = isCategoryChangeData? new List<Category>() : GetCategoryChildren.WithAppliedRules(category);
+        var children = isCategoryChangeData ? new List<CategoryCacheItem>() : GetCategoryChildren.WithAppliedRules(category);
         ChildrenCount = children.Count;
-        AllParents = isCategoryChangeData ? new List<Category>() : GraphService.GetAllParents(CategoryId);
+        AllParents = isCategoryChangeData ? new List<CategoryCacheItem>() : GraphService.GetAllParents(CategoryId);
 
         if (AllParents.Count > 0)
            ParentList = GetCategoryParentList(AllParents);
     }
 
 
-    private string GetCategoryParentList(IList<Category> allParents)
+    private string GetCategoryParentList(IList<CategoryCacheItem> allParents)
     {
        string categoryList = "";
        string parentList;
