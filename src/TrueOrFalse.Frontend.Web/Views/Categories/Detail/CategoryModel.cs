@@ -21,8 +21,6 @@ public class CategoryModel : BaseContentModule
     public IList<Question> AggregatedQuestions;
     public IList<Question> CategoryQuestions;
     public int AggregatedTopicCount;
-    public int AggregatedQuestionCount;
-    public int CategoryQuestionCount;
     public IList<Question> TopQuestions;
     public IList<Question> TopQuestionsWithReferences;
     public List<Question> TopQuestionsInSubCats = new List<Question>();
