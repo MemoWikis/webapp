@@ -405,7 +405,7 @@ public class EditCategoryController : BaseController
 
     public string GetCategoryGraphDisplay(int categoryId)
     {
-        var category = Sl.CategoryRepo.GetById(categoryId);
+        var category = EntityCache.GetCategoryCacheItem(categoryId);
         return ViewRenderer.RenderPartialView("~/Views/Categories/Edit/GraphDisplay/CategoryGraph.ascx", new CategoryGraphModel(category), ControllerContext);
     }
 }

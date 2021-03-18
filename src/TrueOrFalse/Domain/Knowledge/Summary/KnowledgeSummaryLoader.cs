@@ -32,14 +32,14 @@ public class KnowledgeSummaryLoader
 
     public static KnowledgeSummary RunFromMemoryCache(int categoryId, int userId)
     {
-        return RunFromMemoryCache(EntityCache.GetCategoryCacheItem(categoryId).Id, userId);
+        return RunFromMemoryCache(EntityCache.GetCategoryCacheItem(categoryId), userId);
     }
 
-    public static KnowledgeSummary RunFromMemoryCache(Category category, int userId)
+    public static KnowledgeSummary RunFromMemoryCache(CategoryCacheItem categoryCacheItem, int userId)
     {
         var aggregatedQuestions = new List<Question>();
 
-        var aggregatedCategories = category.AggregatedCategories(includingSelf: true);
+        var aggregatedCategories = categoryCacheItem.AggregatedCategories(includingSelf: true);
 
         foreach (var currentCategory in aggregatedCategories)
         {

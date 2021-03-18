@@ -194,7 +194,7 @@ public class CategoryModel : BaseContentModule
         }
     }
 
-    public ImageUrl GetCategoryImageUrl(Category category)
+    public ImageUrl GetCategoryImageUrl(CategoryCacheItem category)
     {
         var imageMetaData = Sl.ImageMetaDataRepo.GetBy(category.Id, ImageType.Category);
         return new ImageFrontendData(imageMetaData).GetImageUrl(232);

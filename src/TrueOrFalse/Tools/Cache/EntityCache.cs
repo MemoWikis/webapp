@@ -83,7 +83,6 @@ public class EntityCache : BaseCache
 
     public static IList<Question> GetAllQuestions() => Questions.Values.ToList();
  
-
     public static Question GetQuestionById(int questionId)
     {
         if (Questions.TryGetValue(questionId, out var question))
@@ -224,13 +223,13 @@ public class EntityCache : BaseCache
 
     public static Category GetCategory(int categoryId) => Categories[categoryId];
     public static Category GetCategory(CategoryCacheItem categoryCahCacheItem) => Categories[categoryCahCacheItem.Id];
-    
 
-    public static IEnumerable<Category> GetCategoryCacheItems(IEnumerable<int> getIds) => 
-        getIds.Select(categoryId => Categories[categoryId]);
 
+    public static IEnumerable<CategoryCacheItem> GetCategoryCacheItems(IEnumerable<int> getIds) =>
+        getIds.Select(categoryId => GetCategoryCacheItem(categoryId));
     public static IEnumerable<CategoryCacheItem> GetCategoryCacheItems(IList<int> getIds) =>
         getIds.Select(categoryId => GetCategoryCacheItem(categoryId));
+
 
     public static IEnumerable<Category> GetCategories(IList<int> getIds) =>
         getIds.Select(categoryId => GetCategory(categoryId));
@@ -275,9 +274,6 @@ public class EntityCache : BaseCache
 
         return descendants;
     }
-
-    public static IList<Category> GetDescendants(Category category, bool isFromEntityCache = false) =>
-        GetDescendants(category.Id, isFromEntityCache);
 
     public static List<Category> GetByName(string name, CategoryType type = CategoryType.Standard)
     {

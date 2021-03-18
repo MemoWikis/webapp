@@ -357,6 +357,8 @@ public class CategoryRepository : RepositoryDbBase<Category>
     public const int SchuleId = 682;
     public const int ZertifikateId = 689;
 
+    public IEnumerable<int> GetRootCategoryInts() => GetRootCategoriesList().Select(c => c.Id); 
+
     public List<Category> GetRootCategoriesList()
     {
         return new List<Category>

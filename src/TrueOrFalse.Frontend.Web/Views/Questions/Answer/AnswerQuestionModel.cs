@@ -50,9 +50,9 @@ public class AnswerQuestionModel : BaseModel
     public string SoundUrl;
     public int TotalViews;
 
-    public IList<Category> AllCategoriesParents;
-    public IList<Category> AllCategorysWithChildrenAndParents { get; set; }
-    public IList<Category> ChildrenAndParents; 
+    public IList<CategoryCacheItem> AllCategoriesParents;
+    public IList<CategoryCacheItem> AllCategorysWithChildrenAndParents { get; set; }
+    public IList<CategoryCacheItem> ChildrenAndParents; 
     public bool IsOwner;
     public string ImageUrlAddComment;
     public bool HasImage => !IsNullOrEmpty(ImageUrl_500px);
@@ -70,7 +70,7 @@ public class AnswerQuestionModel : BaseModel
     public Category SourceCategory;
 
     public IList<Category> Categories;
-    public Category PrimaryCategory;
+    public CategoryCacheItem PrimaryCategory;
 
     public HistoryAndProbabilityModel HistoryAndProbability;
 
@@ -229,9 +229,9 @@ public class AnswerQuestionModel : BaseModel
         {
             PrimaryCategory = GetPrimaryCategory.GetForQuestion(question);
             AnalyticsFooterModel = new AnalyticsFooterModel(PrimaryCategory, true);
-            AllCategoriesParents = GraphService.GetAllParents(PrimaryCategory);
-            var allCategoryChildrens = Sl.CategoryRepo.GetChildren(PrimaryCategory.Id);
-            AllCategorysWithChildrenAndParents = question.Categories.Concat(allCategoryChildrens).Concat(AllCategoriesParents).ToList();
+            AllCategoriesParents = GraphService.GetAllParents(PrimaryCategory.Id);
+            var allCategoryChildrens = CategoryCacheItem.ToCacheCategories(EntityCache.GetChildren(PrimaryCategory.Id)).ToList();
+            AllCategorysWithChildrenAndParents = CategoryCacheItem.ToCacheCategories(question.Categories).Concat(allCategoryChildrens).Concat(AllCategoriesParents).ToList();
             ChildrenAndParents = allCategoryChildrens.Concat(AllCategoriesParents).ToList();
         }
 
