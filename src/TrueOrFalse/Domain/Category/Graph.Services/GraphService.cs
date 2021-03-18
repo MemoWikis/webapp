@@ -93,7 +93,7 @@ public class GraphService
                 else
                 {
                     var c = parentId;
-                    var currentParents = GetParentsFromCategory(parentId);
+                    var currentParents = GetParentsFromCategory(parentId, isFromUserEntityCache);
                     parents.Remove(parentId);
 
                     foreach (var cp in currentParents)
