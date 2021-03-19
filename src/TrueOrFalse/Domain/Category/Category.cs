@@ -30,12 +30,10 @@ public class Category : DomainEntity, ICreator, ICloneable
         return CategoryRelations.Any()
             ? CategoryRelations
                 .Where(r => r.CategoryRelationType == CategoryRelationType.IsChildCategoryOf)
-                .Select(x => EntityCache.GetCategory(x.RelatedCategoryId.Id))
+                .Select(x => x.RelatedCategory)
                 .ToList()
             : new List<Category>();
     }
-
-    public virtual CategoryCachedData CachedData { get; set; } = new CategoryCachedData();
 
     public virtual string CategoriesToExcludeIdsString { get; set; }
 
@@ -73,15 +71,14 @@ public class Category : DomainEntity, ICreator, ICloneable
 
         if (UserCache.GetItem(Sl.CurrentUserId).IsFiltered)
         {
-            list = EntityCache
-                .GetCategory(Id).CategoryRelations
-                .Where(r => EntityCache.GetCategory( r.RelatedCategory.Id)
+            list = Sl.CategoryRepo.GetByIdEager((Id)).CategoryRelations
+                .Where(r => r.RelatedCategory
                 .IsInWishknowledge() && r.CategoryRelationType == CategoryRelationType.IncludesContentOf)
-                .Select(r => EntityCache.GetCategory(r.RelatedCategory.Id)).ToList();
+                .Select(r => Sl.CategoryRepo.GetByIdEager(r.RelatedCategory.Id)).ToList();
         }
         else
             list = CategoryRelations.Where(r => r.CategoryRelationType == CategoryRelationType.IncludesContentOf)
-                .Select(r => EntityCache.GetCategory(r.RelatedCategoryId.Id)).ToList();
+                .Select(r => Sl.CategoryRepo.GetByIdEager(r.RelatedCategory.Id)).ToList();
 
         if (includingSelf)
             list.Add(this);

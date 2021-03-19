@@ -103,7 +103,7 @@ public class EditCategoryModel : BaseModel
         
         category.DisableLearningFunctions = DisableLearningFunctions;
         category.TopicMarkdown = TopicMarkdown;
-        ModifyRelationsForCategory.UpdateCategoryRelationsOfType(category, ParentCategories, CategoryRelationType.IsChildCategoryOf);
+        ModifyRelationsForCategory.UpdateCategoryRelationsOfType(EntityCache.GetCategoryCacheItem(category.Id), ParentCategories.Select(c => c.Id).ToList(), CategoryRelationType.IsChildCategoryOf);
 
         var request = HttpContext.Current.Request;
         var categoryType = "standard";
@@ -134,7 +134,7 @@ public class EditCategoryModel : BaseModel
         }
 
         
-        ModifyRelationsForCategory.UpdateCategoryRelationsOfType(category, ParentCategories, CategoryRelationType.IsChildCategoryOf);
+        ModifyRelationsForCategory.UpdateCategoryRelationsOfType(EntityCache.GetCategoryCacheItem(category.Id), ParentCategories.Select(c => c.Id).ToList(), CategoryRelationType.IsChildCategoryOf);
 
         UpdatedCategory =  FillFromRequest(category).Category;
 }
@@ -485,7 +485,7 @@ public class EditCategoryModel : BaseModel
                 }
             }
 
-            ModifyRelationsForCategory.AddParentCategory(category, parentFromDb);            
+            ModifyRelationsForCategory.AddParentCategory(EntityCache.GetCategoryCacheItem(category.Id), parentFromDb.Id);            
         }
     }
 

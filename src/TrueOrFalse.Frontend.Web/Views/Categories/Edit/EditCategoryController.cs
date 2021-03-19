@@ -58,7 +58,7 @@ public class EditCategoryController : BaseController
     [SetThemeMenu(true)]
     public ViewResult Edit(int id, EditCategoryModel model)
     {
-        var category = EntityCache.GetCategory(id);
+        var category = EntityCache.GetCategoryCacheItem(id);
         _sessionUiData.VisitedCategories.Add(new CategoryHistoryItem(category, HistoryItemType.Edit));
 
         if (!IsAllowedTo.ToEdit(category))
@@ -67,7 +67,7 @@ public class EditCategoryController : BaseController
         var categoryAllowed = new CategoryNameAllowed();
 
         model.FillReleatedCategoriesFromPostData(Request.Form);
-        model.UpdateCategory(category);
+        model.UpdateCategory(Sl.CategoryRepo.GetByIdEager(category.Id));
 
         var isChangeParents = !GraphService.IsCategoryParentEqual(CategoryCacheItem.ToCacheCategories(model.ParentCategories).ToList(),
             EntityCache.GetCategoryCacheItem(category.Id).ParentCategories()); 
@@ -79,7 +79,7 @@ public class EditCategoryController : BaseController
         }
         else
         {
-            _categoryRepository.Update(category, _sessionUser.User, (Request["ImageIsNew"] == "true"));
+            _categoryRepository.Update(Sl.CategoryRepo.GetByIdEager(category.Id), _sessionUser.User, Request["ImageIsNew"] == "true");
 
             model.Message
                 = new SuccessMessage(
@@ -93,7 +93,7 @@ public class EditCategoryController : BaseController
         else
             UserEntityCache.ChangeCategoryInUserEntityCaches(category);
 
-        model.Init(category);
+        model.Init(Sl.CategoryRepo.GetByIdEager(category.Id));
         model.IsEditing = true;
         model.DescendantCategories = Sl.R<CategoryRepository>().GetDescendants(category.Id).ToList();
 
@@ -204,7 +204,7 @@ public class EditCategoryController : BaseController
     {
         var category = new Category(name);
         var parentCategory = EntityCache.GetCategoryCacheItem(parentCategoryId, getDataFromEntityCache:true);
-        ModifyRelationsForCategory.AddParentCategory(category, EntityCache.GetCategory(parentCategory.Id));
+        ModifyRelationsForCategory.AddParentCategory(CategoryCacheItem.ToCacheCategory(category), parentCategory.Id);
 
         category.Creator = _sessionUser.User;
         category.Type = CategoryType.Standard;
@@ -231,22 +231,20 @@ public class EditCategoryController : BaseController
 
         JobExecute.RunAsTask(scope =>
         {
-            var parentCategory = EntityCache.GetCategoryCacheItem(parentCategoryId);
-            ModifyRelationsForCategory.AddParentCategory(category, EntityCache.GetCategory(category.Id));
+            ModifyRelationsForCategory.AddParentCategory( CategoryCacheItem.ToCacheCategory(category), category.Id);
         }, "ModifyRelationForCategoryJob");
 
         Sl.CategoryRepo.Create(category);
 
         foreach (var childCategoryId in childCategoryIds)
         {
-            var childCategory = EntityCache.GetCategoryCacheItem(childCategoryId);
+            var childCategory = Sl.CategoryRepo.GetByIdEager(childCategoryId);
             RemoveParent(parentCategoryId, childCategoryId);
-
-            var updatedParentList = EntityCache.GetCategories(childCategory.ParentCategories().Where(c => c.Id != parentCategoryId).Select(c => c.Id).ToList()).ToList();
+            var updatedParentList = Sl.CategoryRepo.GetByIdsEager(childCategory.ParentCategories().Where(c => c.Id != parentCategoryId).Select(c => c.Id).ToList()).ToList();
             updatedParentList.Add(category);
 
-            var childCategoryAsCategory = EntityCache.GetCategory(childCategory.Id); 
-            ModifyRelationsForCategory.UpdateCategoryRelationsOfType(childCategoryAsCategory, updatedParentList, CategoryRelationType.IsChildCategoryOf);
+            var childCategoryAsCategory =Sl.CategoryRepo.GetByIdEager(childCategory.Id); 
+            ModifyRelationsForCategory.UpdateCategoryRelationsOfType( CategoryCacheItem.ToCacheCategory(childCategory), updatedParentList.Select(c => c.Id).ToList(), CategoryRelationType.IsChildCategoryOf);
             Sl.CategoryRepo.Update(childCategoryAsCategory, _sessionUser.User);
         }
         UserEntityCache.ReInitAllActiveCategoryCaches();
@@ -273,7 +271,7 @@ public class EditCategoryController : BaseController
                 category.Content = content;
             else category.Content = null;
 
-            Sl.CategoryRepo.Update(EntityCache.GetCategory(category), User_());
+            Sl.CategoryRepo.Update(Sl.CategoryRepo.GetByIdEager(category), User_());
             return Json(true);
         }
         return Json(false);
@@ -295,7 +293,7 @@ public class EditCategoryController : BaseController
                     NullValueHandling = NullValueHandling.Ignore
                 });
 
-            Sl.CategoryRepo.Update(EntityCache.GetCategory(category.Id), User_());
+            Sl.CategoryRepo.Update(Sl.CategoryRepo.GetByIdEager(category.Id), User_());
 
             return Json(true);
         }
@@ -311,9 +309,9 @@ public class EditCategoryController : BaseController
             throw new SecurityException("Not allowed to edit category");
 
 
-        var childCategoryAsCategory = EntityCache.GetCategory(childCategory.Id); 
+        var childCategoryAsCategory = Sl.CategoryRepo.GetByIdEager(childCategory.Id); 
         var updatedParentList = childCategory.ParentCategories().Where(c => c.Id != parentCategoryIdToRemove).ToList();
-        ModifyRelationsForCategory.UpdateCategoryRelationsOfType(childCategoryAsCategory, EntityCache.GetCategories(updatedParentList.Select(c => c.Id).ToList()).ToList(), CategoryRelationType.IsChildCategoryOf);
+        ModifyRelationsForCategory.UpdateCategoryRelationsOfType(CategoryCacheItem.ToCacheCategory(childCategoryAsCategory), updatedParentList.Select(c => c.Id).ToList(), CategoryRelationType.IsChildCategoryOf);
         UserEntityCache.ReInitAllActiveCategoryCaches();
 
         Sl.CategoryRepo.Update(childCategoryAsCategory, _sessionUser.User);

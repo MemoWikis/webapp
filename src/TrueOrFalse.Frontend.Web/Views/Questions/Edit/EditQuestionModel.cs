@@ -111,7 +111,7 @@ public class EditQuestionModel : BaseModel
         QuestionExtended = question.TextExtended;
         SolutionType = question.SolutionType.ToString();
         Description = question.Description;
-        Categories = question.CategoriesIds;
+        Categories = question.Categories;
         References = question.References;
         LicenseId = question.LicenseId;
         ImageUrl_128 = QuestionImageSettings.Create(question.Id).GetUrl_500px().Url;

@@ -32,9 +32,9 @@ public class CategoryCacheRelation
     {
         return new CategoryCacheRelation
         {
-            CategoryId = categoryRelation.CategoryId,
+            CategoryId = categoryRelation.Category.Id,
             CategoryRelationType = categoryRelation.CategoryRelationType,
-            RelatedCategoryId = categoryRelation.RelatedCategoryId
+            RelatedCategoryId = categoryRelation.RelatedCategory.Id
         };
 
     }

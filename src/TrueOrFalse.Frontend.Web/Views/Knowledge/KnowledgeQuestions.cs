@@ -43,7 +43,7 @@ public class KnowledgeQuestions : BaseModel
             var userImageSettings = new UserImageSettings(userTinyModel.Id);
          
             var questions = new Questions();
-            var categories = question.CategoriesIds;
+            var categories = question.Categories;
 
             questions.Title = question.Text;
 
@@ -53,7 +53,7 @@ public class KnowledgeQuestions : BaseModel
             questions.AuthorId = userTinyModel.Id;
             questions.LinkToCategory = categories.IsEmpty() ? " " : Links.GetUrl(categories[0]);
             questions.Category = categories.IsEmpty() ? "keine Kategorie" : categories[0].Name;
-            questions.CategoryImageData = categories.IsEmpty() ? null : new ImageFrontendData(question.CategoriesIds[0].Id, ImageType.Category).GetImageUrl(128); ;
+            questions.CategoryImageData = categories.IsEmpty() ? null : new ImageFrontendData(question.Categories[0].Id, ImageType.Category).GetImageUrl(128); ;
             questions.QuestionMetaData = new ImageFrontendData(Sl.ImageMetaDataRepo.GetBy(question.Id, ImageType.Question)).GetImageUrl(30);
             questions.TooltipLinkToCategory = "Kategorie " + questions.Category + " in neuem Tab öffnen";
             questions.CountQuestions = CountWishQuestions;
@@ -120,11 +120,11 @@ public class KnowledgeQuestions : BaseModel
                     break;
                 case "category|asc":
                     sortList = unSortList
-                        .OrderBy(qv => qv.Question.CategoriesIds.IsEmpty() ? "" : qv.Question.CategoriesIds[0].Name).ToList();
+                        .OrderBy(qv => qv.Question.Categories.IsEmpty() ? "" : qv.Question.Categories[0].Name).ToList();
                     break;
                 case "category|desc":
                     sortList = unSortList
-                        .OrderByDescending(qv => qv.Question.CategoriesIds.IsEmpty() ? "" : qv.Question.CategoriesIds[0].Name).ToList();
+                        .OrderByDescending(qv => qv.Question.Categories.IsEmpty() ? "" : qv.Question.Categories[0].Name).ToList();
                     break;
             }
         }

@@ -18,6 +18,7 @@ public class CategoryRepository : RepositoryDbBase<Category>
     }
 
     public Category GetByIdEager(int categoryId) => GetByIdsEager(new[] { categoryId }).FirstOrDefault();
+    public Category GetByIdEager( CategoryCacheItem category) => GetByIdsEager(new[] { category.Id }).FirstOrDefault();
 
     public IList<Category> GetByIdsEager(IEnumerable<int> categoryIds = null)
     {
@@ -35,7 +36,7 @@ public class CategoryRepository : RepositoryDbBase<Category>
         }
 
         var result = query.Left.JoinQueryOver<CategoryRelation>(s => s.CategoryRelations)
-            .Left.JoinQueryOver(x => x.RelatedCategoryId)
+            .Left.JoinQueryOver(x => x.RelatedCategory)
             .List()
             .GroupBy(c => c.Id)
             .Select(c => c.First())
@@ -88,8 +89,9 @@ public class CategoryRepository : RepositoryDbBase<Category>
         Flush();
 
         Sl.R<UpdateQuestionCountForCategory>().Run(new List<Category> { category });
-        EntityCache.AddOrUpdate( CategoryCacheItem.ToCacheCategory(category));
-        UserEntityCache.ChangeCategoryInUserEntityCaches(category);
+        var categoryCacheItem = CategoryCacheItem.ToCacheCategory(category);
+        EntityCache.AddOrUpdate(categoryCacheItem );
+        UserEntityCache.ChangeCategoryInUserEntityCaches(categoryCacheItem);
 
         JobExecute.RunAsTask(scope =>
         {
@@ -155,22 +157,22 @@ public class CategoryRepository : RepositoryDbBase<Category>
                 .ToList();
     }
 
-    public IList<int> GetIncludingCategories(Category category, bool includingSelf = true)
+    public IList<Category> GetIncludingCategories(Category category, bool includingSelf = true)
     {
         var includingCategories = GetCategoriesIdsForRelatedCategory(category, CategoryRelationType.IncludesContentOf);
 
         if (includingSelf)
-            includingCategories = includingCategories.Union(new List<int> { category.Id }).ToList();
+            includingCategories = includingCategories.Union(new List<Category> { category }).ToList();
 
         return includingCategories;
 
     }
 
-    public IList<int> GetCategoriesIdsForRelatedCategory(Category relatedCategory, CategoryRelationType relationType = CategoryRelationType.None)
+    public IList<Category> GetCategoriesIdsForRelatedCategory(Category relatedCategory, CategoryRelationType relationType = CategoryRelationType.None)
     {
         var query = _session.QueryOver<CategoryRelation>()
             .Where(r => r.CategoryRelationType == CategoryRelationType.IncludesContentOf
-                        && r.RelatedCategoryId == relatedCategory.Id);
+                        && r.RelatedCategory == relatedCategory);
 
         if (relationType != CategoryRelationType.None)
         {
@@ -178,7 +180,7 @@ public class CategoryRepository : RepositoryDbBase<Category>
         }
 
         return query.List()
-            .Select(r => r.CategoryId)
+            .Select(r => r.Category)
             .ToList();
     }
 
@@ -203,8 +205,8 @@ public class CategoryRepository : RepositoryDbBase<Category>
 
         var query = Session
             .QueryOver<CategoryRelation>()
-            .JoinAlias(c => c.RelatedCategoryId, () => relatedCategoryAlias)
-            .JoinAlias(c => c.CategoryId, () => categoryAlias)
+            .JoinAlias(c => c.RelatedCategory, () => relatedCategoryAlias)
+            .JoinAlias(c => c.Category, () => categoryAlias)
             .Where(r =>
                 r.CategoryRelationType == CategoryRelationType.IsChildCategoryOf
                 && relatedCategoryAlias.Type == parentType
@@ -215,24 +217,30 @@ public class CategoryRepository : RepositoryDbBase<Category>
             query.WhereRestrictionOn(r => categoryAlias.Name)
                 .IsLike(searchTerm);
 
-        return query.Select(r => r.CategoryId).List<Category>();
+        return query.Select(r => r.Category).List<Category>();
     }
 
-    public IList<int> GetDescendants(int parentId)
+    public IList<Category> GetDescendants(int parentId)
     {
-        var currentGeneration = EntityCache.GetCategoryCacheItem(parentId,getDataFromEntityCache: true).CachedData.Children.ToList();
-        var nextGeneration = new List<int>();
-        var descendants = new List<int>();
+        var currentGeneration = EntityCache
+            .GetCategoryCacheItem(parentId)
+            .CachedData.ChildrenIds
+            .Select(id => Sl.CategoryRepo.GetByIdEager(id))
+            .ToList();
+
+        var nextGeneration = new List<Category>();
+        var descendants = new List<Category>();
 
         while (currentGeneration.Count > 0)
         {
             descendants.AddRange(currentGeneration);
 
-            foreach (var categoryId in currentGeneration)
+            foreach (var category in currentGeneration)
             {
-                var children = EntityCache.GetCategoryCacheItem(categoryId, getDataFromEntityCache: true)
+                var children = EntityCache.GetCategoryCacheItem(category.Id)
                     .CachedData
-                    .Children
+                    .ChildrenIds
+                    .Select(id => Sl.CategoryRepo.GetByIdEager(id))
                     .ToList();
 
                 if (children.Count > 0)
@@ -241,8 +249,8 @@ public class CategoryRepository : RepositoryDbBase<Category>
                 }
             }
 
-            currentGeneration = nextGeneration.Except(descendants).Where(id => id != parentId).Distinct().ToList();
-            nextGeneration = new List<int>();
+            currentGeneration = nextGeneration.Except(descendants).Where(c => c.Id != parentId).Distinct().ToList();
+            nextGeneration = new List<Category>();
         }
 
         return descendants;

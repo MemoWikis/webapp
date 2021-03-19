@@ -27,13 +27,14 @@ public class EntityCache : BaseCache
 
         Logg.r().Information("EntityCache Start" + customMessage + "{Elapsed}", stopWatch.Elapsed);
 
-        var categories = Sl.CategoryRepo.GetAllEager();
+        var categories = CategoryCacheItem.ToCacheCategories(Sl.CategoryRepo.GetAllEager()).ToList();
         var questions = Sl.QuestionRepo.GetAllEager();
+        
 
         Logg.r().Information("EntityCache LoadAllEntities" + customMessage + "{Elapsed}", stopWatch.Elapsed);
 
         IntoForeverCache(_cacheKeyQuestions, questions.ToConcurrentDictionary());
-        IntoForeverCache(_cacheKeyCategories, GraphService.AddChildrenToCategory(categories.ToConcurrentDictionary()));
+        IntoForeverCache(_cacheKeyCategories,GraphService.AddChildrenToCategory(categories.ToConcurrentDictionary()));
         IntoForeverCache(_cacheKeyCategoryQuestionsList, GetCategoryQuestionsList(questions));
 
         Logg.r().Information("EntityCache PutIntoCache" + customMessage + "{Elapsed}", stopWatch.Elapsed);
@@ -124,7 +125,7 @@ public class EntityCache : BaseCache
     {
         if (categories == null)
         {
-            categories = question.Categories;
+            categories = GetCategoryCacheItems(question.Categories.GetIds()).ToList();
         }
 
         foreach (var category in categories)
@@ -184,7 +185,7 @@ public class EntityCache : BaseCache
                 if(categoryToReplace == null) return;
 
                 var index = question.Categories.IndexOf(categoryToReplace);
-                question.Categories[index] = categoryCacheItem;
+                question.Categories[index] = Sl.CategoryRepo.GetByIdEager(categoryCacheItem.Id);
             }
         }
     }

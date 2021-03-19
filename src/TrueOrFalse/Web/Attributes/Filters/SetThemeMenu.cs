@@ -38,7 +38,7 @@ namespace System.Web.Mvc
                 
                 if (_isQuestionPage)
                 {
-                    activeCategories.AddRange( CategoryCacheItem.ToCacheCategories(ThemeMenuHistoryOps.GetQuestionCategories(Convert.ToInt32(httpContextData["id"]))));
+                    activeCategories.AddRange( ThemeMenuHistoryOps.GetQuestionCategories(Convert.ToInt32(httpContextData["id"])));
                 }
 
                 if (_isLearningSessionPage)

@@ -16,4 +16,7 @@ public static class CategoryListExtensions
 
     public static IEnumerable<int> GetIds(this IEnumerable<CategoryCacheItem> sets) =>
         sets.Select(q => q.Id).ToList();
+
+    public static IEnumerable<int> GetIds(this IEnumerable<Category> sets) =>
+        sets.Select(q => q.Id).ToList();
 }

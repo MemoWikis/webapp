@@ -130,12 +130,12 @@ public class UserEntityCache : BaseCache
             Init(userId);
     }
 
-    public static void ChangeCategoryInUserEntityCaches(Category category)
+    public static void ChangeCategoryInUserEntityCaches(CategoryCacheItem categoryCacheItem)
     {
         foreach (var categories in _Categories.Values)
         {
-            if (categories.ContainsKey(category.Id))
-                categories.TryUpdate(category.Id, CategoryCacheItem.ToCacheCategory(category), categories[category.Id]);
+            if (categories.ContainsKey(categoryCacheItem.Id))
+                categories.TryUpdate(categoryCacheItem.Id, categoryCacheItem, categories[categoryCacheItem.Id]);
         }
     }
 

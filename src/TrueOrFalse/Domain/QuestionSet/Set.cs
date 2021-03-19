@@ -48,7 +48,7 @@ public class Set : DomainEntity, ICreator
 
     public Set(){
         QuestionsInSet = new HashSet<QuestionInSet>();
-        Categories = new List<Category>();
+        //Categories = new List<Category>();
     }
 
     public virtual IList<int> QuestionIds() => 

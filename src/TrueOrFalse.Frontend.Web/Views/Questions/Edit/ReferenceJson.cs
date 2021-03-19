@@ -23,7 +23,7 @@ public class ReferenceJson
                 Id = refJson.ReferenceId == -1 ? default(int) : refJson.ReferenceId,
                 ReferenceType = Reference.GetReferenceType(refJson.ReferenceType),
                 Question = question,
-                Category = catRepo.GetById(refJson.CategoryId),
+                Category = EntityCache.GetCategoryCacheItem(refJson.CategoryId),
                 AdditionalInfo = refJson.AdditionalText,
                 ReferenceText = refJson.ReferenceText
             };

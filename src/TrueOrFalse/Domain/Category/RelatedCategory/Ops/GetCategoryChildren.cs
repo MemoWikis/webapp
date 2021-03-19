@@ -10,24 +10,23 @@ public class GetCategoryChildren
         foreach (var categoryToExclude in category.CategoriesToExclude())
         {
             categoriesToExclude.Add(categoryToExclude);
-            categoriesToExclude.AddRange(CategoryCacheItem.ToCacheCategories(EntityCache.GetDescendants(categoryToExclude.Id)).ToList());
+            categoriesToExclude.AddRange(EntityCache.GetDescendants(categoryToExclude.Id));
         }
 
         var categoriesToInclude = new List<CategoryCacheItem>();
         foreach (var categoryToInclude in category.CategoriesToInclude())
         {
             categoriesToInclude.Add(categoryToInclude);
-            categoriesToInclude.AddRange(CategoryCacheItem
-                .ToCacheCategories(EntityCache.GetDescendants(categoryToInclude.Id)));
+            categoriesToInclude.AddRange(EntityCache.GetDescendants(categoryToInclude.Id));
         }
 
-        return CategoryCacheItem.ToCacheCategories(EntityCache.GetDescendants(category.Id)).Except(categoriesToExclude)
+        return EntityCache.GetDescendants(category.Id).Except(categoriesToExclude)
             .Union(categoriesToInclude)
             .ToList();
 
     }
 
-    public static List<Category> WithAppliedRulesFromMemory(Category category)
+    public static List<CategoryCacheItem> WithAppliedRulesFromMemory(CategoryCacheItem category)
     {
         throw new Exception("not done yet");
 

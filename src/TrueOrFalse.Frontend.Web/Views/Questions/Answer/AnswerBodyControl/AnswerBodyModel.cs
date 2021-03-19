@@ -107,13 +107,13 @@ public class AnswerBodyModel : BaseModel
         QuestionId = question.Id;
         Creator = new UserTinyModel(question.Creator);
         IsCreator = Creator.Id == UserId;
-        HasCategories = question.CategoriesIds.Any();
+        HasCategories = question.Categories.Any();
         var questionChangeList = Sl.QuestionChangeRepo.GetForQuestion(QuestionId);
         QuestionChangeAuthor = questionChangeList.Count == 0 ? Creator : new UserTinyModel(questionChangeList.OrderBy(q => q.Id).LastOrDefault().Author);
 
         if (HasCategories)
         {
-            PrimaryCategory = question.CategoriesIds.LastOrDefault();
+            PrimaryCategory = question.Categories.LastOrDefault();
         }
 
         CreationDate = question.DateCreated.ToString("dd.MM.yyyy HH:mm:ss");

@@ -222,16 +222,20 @@ public class AnswerQuestionModel : BaseModel
         ImageUrl_500px = QuestionImageSettings.Create(question.Id).GetUrl_128px().Url;
         SoundUrl = new GetQuestionSoundUrl().Run(question);
 
-        Categories = question.CategoriesIds;
-        QuestionHasParentCategories = question.CategoriesIds.Any();
+        Categories = question.Categories;
+        QuestionHasParentCategories = question.Categories.Any();
         //Find best suited primary category for question
         if (!IsTestSession && !IsLearningSession && QuestionHasParentCategories)
         {
             PrimaryCategory = GetPrimaryCategory.GetForQuestion(question);
             AnalyticsFooterModel = new AnalyticsFooterModel(PrimaryCategory, true);
             AllCategoriesParents = GraphService.GetAllParents(PrimaryCategory.Id);
-            var allCategoryChildrens = CategoryCacheItem.ToCacheCategories(EntityCache.GetChildren(PrimaryCategory.Id)).ToList();
-            AllCategorysWithChildrenAndParents = CategoryCacheItem.ToCacheCategories(question.CategoriesIds).Concat(allCategoryChildrens).Concat(AllCategoriesParents).ToList();
+            var allCategoryChildrens = EntityCache.GetChildren(PrimaryCategory.Id);
+            AllCategorysWithChildrenAndParents = EntityCache.GetCategoryCacheItems(
+                question.Categories.Select(c => c.Id)
+                    .Concat(allCategoryChildrens.Select(c => c.Id))
+                    .Concat(AllCategoriesParents.Select(c => c.Id)))
+                .ToList();
             ChildrenAndParents = allCategoryChildrens.Concat(AllCategoriesParents).ToList();
         }
 

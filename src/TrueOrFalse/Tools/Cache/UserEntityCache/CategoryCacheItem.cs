@@ -204,7 +204,7 @@ public class CategoryCacheItem : ICreator
         return new CategoryCacheItem
         {
             Id = category.Id,
-            CachedData = category.CachedData,
+            CachedData = EntityCache.GetCategoryCacheItem(category.Id).CachedData,
             CategoryRelations = userEntityCacheCategoryRelations.ToListCategoryRelations(category.CategoryRelations),
             CategoriesToExcludeIdsString = category.CategoriesToExcludeIdsString,
             CategoriesToIncludeIdsString = category.CategoriesToIncludeIdsString,

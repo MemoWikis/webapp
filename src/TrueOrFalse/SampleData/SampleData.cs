@@ -46,7 +46,7 @@ namespace TrueOrFalse
             var importerResult = _importer.Run(System.IO.File.ReadAllText(xmlFile));
 
             foreach (var category in importerResult.Categories){
-                _categoryRepository.Create(category);
+                _categoryRepository.Create(Sl.CategoryRepo.GetByIdEager(category.Id));
             }
             foreach (var question in importerResult.Questions)
             {

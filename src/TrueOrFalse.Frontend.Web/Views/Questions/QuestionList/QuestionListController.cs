@@ -31,7 +31,7 @@ public class QuestionListController : BaseController
         question.Solution = serializer.Serialize(solutionModelFlashCard);
 
         question.Creator = _sessionUser.User;
-        question.CategoriesIds.Add(Sl.CategoryRepo.GetById(flashCardJson.CategoryId));
+        question.Categories.Add(Sl.CategoryRepo.GetById(flashCardJson.CategoryId));
         question.Visibility = flashCardJson.Visibility;
         question.License = LicenseQuestionRepo.GetDefaultLicense();
 
@@ -106,7 +106,7 @@ public class QuestionListController : BaseController
         {
             answer = solution.GetCorrectAnswerAsHtml(),
             extendedAnswer = question.Description != null ? MarkdownMarkdig.ToHtml(question.Description) : "",
-            categories = question.CategoriesIds.Select(c => new
+            categories = question.Categories.Select(c => new
             {
                 name = c.Name,
                 categoryType = c.Type,

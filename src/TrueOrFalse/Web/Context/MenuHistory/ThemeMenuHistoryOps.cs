@@ -28,7 +28,7 @@ public class ThemeMenuHistoryOps
         var question = EntityCache.GetQuestionById(questionId);
 
         if (question.Categories != null ||  question.Categories.Count > 0)
-            return question.Categories.ToList();
+            return EntityCache.GetCategoryCacheItems(question.Categories.Select(c => c.Id)).ToList();
 
         return new List<CategoryCacheItem>();
     }

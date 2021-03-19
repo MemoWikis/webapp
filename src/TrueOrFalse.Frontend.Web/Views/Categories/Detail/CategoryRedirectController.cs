@@ -49,7 +49,7 @@ public class CategoryRedirectController : BaseController
         if (version != null)
             ApplyCategoryChangeToModel(categoryModel, (int)version);
         else
-            SaveCategoryView.Run(EntityCache.GetCategory(category.Id), User_());
+            SaveCategoryView.Run(EntityCache.GetCategoryCacheItem(category.Id), User_());
    
         return View(_viewLocation, categoryModel);
     }

@@ -22,6 +22,7 @@ public class ProbabilityUpdate_Question : IRegisterAsInstancePerLifetime
 
         Sl.QuestionRepo.UpdateFieldsOnly(question);
 
-        question.CategoriesIds.ForEach(c => KnowledgeSummaryUpdate.ScheduleForCategory(c.Id));
+        question.Categories
+            .ForEach(c => KnowledgeSummaryUpdate.ScheduleForCategory(c.Id));
     }
 }

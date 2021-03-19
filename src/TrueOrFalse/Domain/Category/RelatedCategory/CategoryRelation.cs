@@ -6,9 +6,9 @@ using Seedworks.Lib.Persistence;
 [Serializable]
 public class CategoryRelation : DomainEntity
 {
-    public virtual int CategoryId { get; set; }
+    public virtual Category Category { get; set; }
 
-    public virtual int RelatedCategoryId { get; set; }
+    public virtual Category RelatedCategory { get; set; }
 
     public virtual CategoryRelationType CategoryRelationType { get; set; }
 }

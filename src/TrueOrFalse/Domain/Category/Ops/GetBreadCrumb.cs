@@ -3,24 +3,24 @@ using System.Linq;
 
 public class GetBreadCrumb
 {
-    public static IList<Category> For(Category category)
+    public static IList<CategoryCacheItem> For(CategoryCacheItem categoryCacheItem)
     {
-        if(category == null)
-            return new List<Category>();
+        if(categoryCacheItem == null)
+            return new List<CategoryCacheItem>();
 
-        var result = GetParent(category, new List<Category>());
+        var result = GetParent(categoryCacheItem, new List<CategoryCacheItem>());
         result.Reverse();
         return result;
     }
 
-    private static List<Category> GetParent(Category category, List<Category> result)
+    private static List<CategoryCacheItem> GetParent(CategoryCacheItem categoryCacheItem, List<CategoryCacheItem> result)
     {
-        var defaultCategories = Sl.CategoryRepo.GetRootCategoriesListÍds();
-        if (!category.ParentCategories().Any() || defaultCategories.Contains(category))
+        var defaultCategories = EntityCache.GetCategoryCacheItems( Sl.CategoryRepo.GetRootCategoriesListÍds());
+        if (!categoryCacheItem.ParentCategories().Any() || defaultCategories.Contains(categoryCacheItem))
             return result;
 
-        var categoryToAdd = category.ParentCategories().First();
-        foreach (var parentCategory in category.ParentCategories())
+        var categoryToAdd = categoryCacheItem.ParentCategories().First();
+        foreach (var parentCategory in categoryCacheItem.ParentCategories())
         {
             if (defaultCategories.Contains(parentCategory))
                 categoryToAdd = parentCategory;

@@ -31,8 +31,7 @@ public class EditQuestionController : BaseController
 
         if (categoryId != null)
         {
-            var c = EntityCache.GetCategoryCacheItem((int) categoryId); 
-                model.Categories.Add(EntityCache.GetCategory((int) categoryId));
+                model.Categories.Add(Sl.CategoryRepo.GetByIdEager((int) categoryId));
         }
         return View(_viewLocation, model);
     }

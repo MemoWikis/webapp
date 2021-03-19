@@ -1,7 +1,7 @@
 ﻿ <%@ Control Language="C#" AutoEventWireup="true" Inherits="System.Web.Mvc.ViewUserControl<SegmentationCategoryCardModel>" %>
 <%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
 
- <% if(Model.Category.CachedData.Children.Count > 0 || Model.GetTotalQuestionCount(Model.Category) > 0 || Model.IsInstallationAdmin || Model.Category.Creator.Id == Model.UserId) { %>
+ <% if(Model.Category.CachedData.ChildrenIds.Count > 0 || Model.GetTotalQuestionCount(Model.Category) > 0 || Model.IsInstallationAdmin || Model.Category.Creator.Id == Model.UserId) { %>
 
     <category-card-component @select-category="selectCategory" @unselect-category="unselectCategory" inline-template :edit-mode="editMode" ref="card<%= Model.Category.Id %>" :is-custom-segment="isCustomSegment" category-id="<%= Model.Category.Id %>" :selected-categories="selectedCategories" :segment-id="id" hide="false" :control-wishknowledge="controlWishknowledge">
         
@@ -22,7 +22,7 @@
                 <div class="col-xs-9">
                     <a class="topic-name" href="<%= Links.CategoryDetail(Model.Category) %>">
                         <div class="topic-name">
-                            <% if (Model.Category.CachedData.Children.Count < 1 && Model.GetTotalQuestionCount(Model.Category) < 1 && (Model.IsInstallationAdmin || Model.Category.Creator.Id == Model.UserId)) { %>
+                            <% if (Model.Category.CachedData.ChildrenIds.Count < 1 && Model.GetTotalQuestionCount(Model.Category) < 1 && (Model.IsInstallationAdmin || Model.Category.Creator.Id == Model.UserId)) { %>
                                 <i class="fa fa-user-secret show-tooltip" data-original-title="Thema ist leer und wird daher nur Admins und dem Ersteller angezeigt"></i>
                             <% } %>
                             <%= Model.Category.Type.GetCategoryTypeIconHtml() %><%: Model.Category.Name %>
@@ -43,10 +43,10 @@
                             <pin-category-component :category-id="categoryId"/>
                         </span>
 
-                        <% if (Model.Category.CachedData.Children.Count == 1)
+                        <% if (Model.Category.CachedData.ChildrenIds.Count == 1)
                            { %>1 Unterthema <% } %>
-                        <% if(Model.Category.CachedData.Children.Count > 1)
-                           { %><%= Model.Category.CachedData.Children.Count  %> Unterthemen <% } 
+                        <% if(Model.Category.CachedData.ChildrenIds.Count > 1)
+                           { %><%= Model.Category.CachedData.ChildrenIds.Count  %> Unterthemen <% } 
                            else { %><% } %><%=Model.GetTotalQuestionCount(Model.Category) %> Frage<% if(Model.GetTotalQuestionCount(Model.Category) != 1){ %>n<% } %>
                     </div>
                     <%if(Model.GetTotalQuestionCount(Model.Category) > 0) {%>

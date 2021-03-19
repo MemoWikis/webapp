@@ -68,7 +68,7 @@ public class CategoryController : BaseController
         if (version != null)
             ApplyCategoryChangeToModel(result.CategoryModel, (int)version, id);
         else
-            SaveCategoryView.Run(EntityCache.GetCategory(result.Category.Id), User_());
+            SaveCategoryView.Run(EntityCache.GetCategoryCacheItem(result.Category.Id), User_());
 
         return result;
     }

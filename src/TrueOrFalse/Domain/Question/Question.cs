@@ -31,7 +31,7 @@ public class Question : DomainEntity, ICreator
     public virtual SolutionType SolutionType { get; set; }
     public virtual string SolutionMetadataJson { get; set; }
 
-    public virtual IList<CategoryCacheItem> Categories { get; set; }
+    public virtual IList<Category> Categories { get; set; }
     public virtual IList<Reference> References { get; set; }
     public virtual QuestionVisibility Visibility { get; set; }
 
@@ -94,7 +94,7 @@ public class Question : DomainEntity, ICreator
 
     public Question()
     {
-        Categories = new List<CategoryCacheItem>();
+        Categories = new List<Category>();
         References = new List<Reference>();
     }
 

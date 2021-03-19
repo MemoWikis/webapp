@@ -16,7 +16,7 @@ public class QuestionDelete
             throw new Exception("Question cannot be deleted: " + canBeDeletedResult.IfNot_Reason);
         }
 
-        var categoriesToUpdate = question.CategoriesIds.ToList();
+        var categoriesToUpdate = question.Categories.ToList();
         //delete connected db-entries
         Sl.R<ReferenceRepo>().DeleteForQuestion(questionId);
         Sl.R<AnswerRepo>().DeleteFor(questionId); //not accounted for: answerfeature_to_answer
