@@ -3,7 +3,7 @@
 
 <div style="display: flex; flex-wrap: wrap;">
 
-    <% foreach(var category in Model.Categories){ %>
+    <% foreach(var category in Model.CategoriesIds){ %>
 
         <% if(category.IsSpoiler(Model)){ %>
 

@@ -504,7 +504,7 @@ public class AnswerQuestionController : BaseController
             overallAnsweredCorrectly = history.TimesAnsweredCorrect,
             overallAnsweredWrongly = history.TimesAnsweredWrongTotal,
             isInWishknowledge = answerQuestionModel.IsInWishknowledge,
-            categories = question.Categories.Select(c => new
+            categories = question.CategoriesIds.Select(c => new
             {
                 name = c.Name,
                 categoryType = c.Type,

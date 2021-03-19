@@ -51,7 +51,7 @@ public class GraphService
         var children = EntityCache.GetDescendants(rootCategory.Id, true)
             .Distinct()
             .Where(c => c.IsInWishknowledge())
-            .Select(c => CategoryCacheItem.ToCacheCategory(c));
+            .Select(c => c);
         
         var listWithUserPersonelCategories = new List<CategoryCacheItem>();
 
@@ -73,7 +73,7 @@ public class GraphService
 
                 if (UserCache.IsInWishknowledge(parentId, userId) || parentId == rootCategoryId && hasRootInParents)
                 {
-                    var categoryRelation = new CategoryCacheRelations()
+                    var categoryRelation = new CategoryCacheRelation()
                     {
                         CategoryRelationType = CategoryRelationType.IsChildCategoryOf,
                         CategoryId = child.Id,
@@ -112,7 +112,7 @@ public class GraphService
         {
             if (listWithUserPersonelCategory.CategoryRelations.Count == 0)
             {
-                listWithUserPersonelCategory.CategoryRelations.Add(new CategoryCacheRelations()
+                listWithUserPersonelCategory.CategoryRelations.Add(new CategoryCacheRelation()
                 {
                     CategoryRelationType = CategoryRelationType.IsChildCategoryOf,
                     RelatedCategoryId = rootCategory.Id,
@@ -122,7 +122,7 @@ public class GraphService
 
             listWithUserPersonelCategory.CachedData.Children = new List<int>(); 
         }
-        rootCategory.CategoryRelations = new List<CategoryCacheRelations>();
+        rootCategory.CategoryRelations = new List<CategoryCacheRelation>();
         rootCategory.CachedData.Children = new List<int>(); 
         listWithUserPersonelCategories.Add(rootCategory);
 
@@ -158,10 +158,10 @@ public class GraphService
         {
             foreach (var categoryRelation in category.CategoryRelations)
             {
-                if (categoryRelation.CategoryRelationType == CategoryRelationType.IsChildCategoryOf && categoryList.ContainsKey(categoryRelation.RelatedCategory.Id))
+                if (categoryRelation.CategoryRelationType == CategoryRelationType.IsChildCategoryOf && categoryList.ContainsKey(categoryRelation.RelatedCategoryId.Id))
                 {
-                    categoryList[categoryRelation.RelatedCategory.Id].CachedData.Children
-                            .Add(categoryList[categoryRelation.Category.Id].Id);
+                    categoryList[categoryRelation.RelatedCategoryId.Id].CachedData.Children
+                            .Add(categoryList[categoryRelation.CategoryId.Id].Id);
                 }
             }
         }
@@ -231,7 +231,7 @@ public class GraphService
 
             var count = 0; 
 
-            var countVariousRelations = relations1.Where(r => !relations2.Any(r2 => r2.RelatedCategory.Id == r.RelatedCategory.Id && r2.Category.Id == r.Category.Id && r2.CategoryRelationType.ToString().Equals(r.CategoryRelationType.ToString()))).Count();
+            var countVariousRelations = relations1.Where(r => !relations2.Any(r2 => r2.RelatedCategoryId.Id == r.RelatedCategoryId.Id && r2.CategoryId.Id == r.CategoryId.Id && r2.CategoryRelationType.ToString().Equals(r.CategoryRelationType.ToString()))).Count();
             return countVariousRelations == 0;
         }
         Logg.r().Error("Category or CategoryRelations have a NullReferenceException");

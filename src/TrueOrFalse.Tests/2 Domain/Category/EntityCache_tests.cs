@@ -79,7 +79,7 @@ class EntityCache_tests : BaseTest
         var rootCategory = contexCategory.Add("root").Persist().All.First();
 
         var question1 = contextQuestion.AddQuestion().Persist().All.First();
-        question1.Categories.Add(rootCategory);
+        question1.CategoriesIds.Add(rootCategory);
         Sl.QuestionRepo.Update(question1);
 
         RecycleContainer();
@@ -103,25 +103,25 @@ class EntityCache_tests : BaseTest
         var rootCategory = contexCategory.Add("root").Persist().All.First();
 
         var question1 = contextQuestion.AddQuestion().Persist().All.First();
-        question1.Categories.Add(rootCategory);
+        question1.CategoriesIds.Add(rootCategory);
         Sl.QuestionRepo.Update(question1);
 
         //((PersistentGenericBag<Category>)question1.Categories).session
 
-        var session = typeof(PersistentGenericBag<Category>).GetField("session", BindingFlags.NonPublic | BindingFlags.Instance)?.GetValue(question1.Categories);
-        var session2 = question1.Categories.GetFieldValue<object>("session");
+        var session = typeof(PersistentGenericBag<Category>).GetField("session", BindingFlags.NonPublic | BindingFlags.Instance)?.GetValue(question1.CategoriesIds);
+        var session2 = question1.CategoriesIds.GetFieldValue<object>("session");
 
-        var persistentGenericBag = ((PersistentGenericBag<Category>) question1.Categories);
+        var persistentGenericBag = ((PersistentGenericBag<Category>) question1.CategoriesIds);
         var session3 = persistentGenericBag.GetFieldValue<ISessionImplementor>("session");
 
-        Assert.IsTrue(NHibernateUtil.IsInitialized(question1.Categories));
+        Assert.IsTrue(NHibernateUtil.IsInitialized(question1.CategoriesIds));
 
 
-        Sl.QuestionRepo.Session.Evict(question1.Categories);
+        Sl.QuestionRepo.Session.Evict(question1.CategoriesIds);
 
         RecycleContainer();
 
-        Assert.IsTrue(NHibernateUtil.IsInitialized(question1.Categories));
+        Assert.IsTrue(NHibernateUtil.IsInitialized(question1.CategoriesIds));
     }
     [Test]
     public void Should_have_correct_children()

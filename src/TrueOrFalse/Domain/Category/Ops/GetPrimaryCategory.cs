@@ -4,8 +4,8 @@ public class GetPrimaryCategory
 {
     public static CategoryCacheItem GetForQuestion(Question question)
     {
-        if (question.Categories.Any())
-            return CategoryCacheItem.ToCacheCategory(question.Categories.First());
+        if (question.CategoriesIds.Any())
+            return CategoryCacheItem.ToCacheCategory(question.CategoriesIds.First());
 
         return null;
     }

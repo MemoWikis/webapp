@@ -9,8 +9,8 @@ public class ProbabilityCalc_Simple3 : ProbabilityCalc_Abstract, IRegisterAsInst
 	    if (!previousHistoryItems.Any())
 		    return ProbabilityCalcResult.GetResult(
                 previousHistoryItems,
-                question.Categories.Any() ? 
-                    (int) question.Categories.Select(c => c.CorrectnessProbability).Average() : 
+                question.CategoriesIds.Any() ? 
+                    (int) question.CategoriesIds.Select(c => c.CorrectnessProbability).Average() : 
                     50);
 
         var weightedFavorableOutcomes = 0m;

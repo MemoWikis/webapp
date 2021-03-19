@@ -32,7 +32,7 @@ public class UserEntityCache : BaseCache
             .CategoryRelations
             .Where(r => r.CategoryRelationType == CategoryRelationType.IsChildCategoryOf);
 
-        item.CategoryRelations = new List<CategoryCacheRelations>();
+        item.CategoryRelations = new List<CategoryCacheRelation>();
 
         foreach (var categoryRelation in childRelations)
         {

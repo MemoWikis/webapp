@@ -23,7 +23,7 @@ namespace TrueOrFalse
             var result = new ImporterResult();
 
             result.Categories = (from categoryElement in document.Root.Elements("category")
-                                 select new Category(categoryElement.Element("name").Value) { Id = Convert.ToInt32(categoryElement.Element("id").Value) }).ToList();
+                                 select new CategoryCacheItem(categoryElement.Element("name").Value) { Id = Convert.ToInt32(categoryElement.Element("id").Value) });
 
             foreach (var category in result.Categories)
             {

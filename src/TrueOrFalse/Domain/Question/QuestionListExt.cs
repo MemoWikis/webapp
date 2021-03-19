@@ -10,8 +10,8 @@ public static class QuestionListExt
     public static IList<int> GetIds(this IEnumerable<Question> questions) => 
         questions.Select(q => q.Id).ToList();
 
-    public static IEnumerable<Category> GetAllCategories(this IEnumerable<Question> questions) => 
-        questions.SelectMany(q => q.Categories).Where(c => c != null).Distinct();
+    public static IEnumerable<CategoryCacheItem> GetAllCategories(this IEnumerable<Question> questions) => 
+        questions.SelectMany(q => EntityCache.GetCategoryCacheItems(q.CategoriesIds)).Where(c => c != null).Distinct();
 
     public static IEnumerable<QuestionsInCategory> QuestionsInCategories(this IEnumerable<Question> questions)
     {
@@ -20,7 +20,7 @@ public static class QuestionListExt
         return questionsArray.GetAllCategories()
             .Select(c => new QuestionsInCategory{
                 Category = c,
-                Questions = questionsArray.Where(q => q.Categories.Any(x => x == c)).ToList()
+                Questions = questionsArray.Where(q => q.CategoriesIds.Any(x => x == c)).ToList()
             });
     }
 
@@ -34,6 +34,6 @@ public static class QuestionListExt
 [DebuggerDisplay("{Category.Name} {Questions.Count}")]
 public class QuestionsInCategory
 {
-    public Category Category;
+    public CategoryCacheItem Category;
     public IList<Question> Questions;
 }

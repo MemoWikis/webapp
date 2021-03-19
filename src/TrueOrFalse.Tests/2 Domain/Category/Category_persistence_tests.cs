@@ -88,9 +88,9 @@ namespace TrueOrFalse.Tests.Persistence
                     category.CategoryRelations.Add(
                         new CategoryRelation
                         {
-                            Category = categories[i],
+                            CategoryId = categories[i],
                             CategoryRelationType = CategoryRelationType.IncludesContentOf,
-                            RelatedCategory = category
+                            RelatedCategoryId = category
                         });
 
                     context.Update(category);
@@ -107,7 +107,7 @@ namespace TrueOrFalse.Tests.Persistence
 
         private bool HasCorrectCategoryIdInRelations(Category category, int categoryIdFromRelation)
         {
-            return category.CategoryRelations.Any(r => r.Category.Id == categoryIdFromRelation); 
+            return category.CategoryRelations.Any(r => r.CategoryId.Id == categoryIdFromRelation); 
         }
     }
 }

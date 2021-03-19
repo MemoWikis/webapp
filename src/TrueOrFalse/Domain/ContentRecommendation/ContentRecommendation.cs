@@ -9,7 +9,7 @@ public class ContentRecommendation
     {
         var result = new ContentRecommendationResult();
         var amountCategories = amount <= 2 ? 0 : (int)Math.Floor((double)amount / 3);
-        var categories = set.Questions().SelectMany(q => q.Categories).Distinct().Where(c => c.CountQuestionsAggregated > 5 || c.CountQuestions > 5).ToList(); //only consider categories with at least 5 questions
+        var categories = set.Questions().SelectMany(q => q.CategoriesIds).Distinct().Where(c => c.CountQuestionsAggregated > 5 || c.CountQuestions > 5).ToList(); //only consider categories with at least 5 questions
         categories.Shuffle();
         ((List<Category>)result.Categories).AddRange(categories.Take(amountCategories));
         return result;
@@ -22,7 +22,7 @@ public class ContentRecommendation
         var result = new ContentRecommendationResult();
 
         var amountCategories = amount <= 2 ? 0 : (int) Math.Floor((double) amount/3);
-        var categories = question.Categories.Where(c => c.CountQuestionsAggregated > 5 || c.CountQuestions > 5).ToList(); //only consider categories with at least 5 questions
+        var categories = question.CategoriesIds.Where(c => c.CountQuestionsAggregated > 5 || c.CountQuestions > 5).ToList(); //only consider categories with at least 5 questions
         categories.Shuffle();
         ((List<Category>)result.Categories).AddRange(categories.Take(amountCategories));
 

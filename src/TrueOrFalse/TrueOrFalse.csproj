@@ -337,7 +337,7 @@
     <Compile Include="Tools\Cache\LearningSessionCache.cs" />
     <Compile Include="Tools\Cache\UserEntityCache\UserEntityCache.cs" />
     <Compile Include="Tools\Cache\UserEntityCache\CategoryCacheItem.cs" />
-    <Compile Include="Tools\Cache\UserEntityCache\CategoryCacheRelations.cs" />
+    <Compile Include="Tools\Cache\UserEntityCache\CategoryCacheRelation.cs" />
     <Compile Include="Tools\Cache\UserEntityCache\UserEntityCacheItem.cs" />
     <Compile Include="Tools\Export\LomExporter.cs" />
     <Compile Include="Tools\Export\LomLists.cs" />

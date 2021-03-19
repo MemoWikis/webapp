@@ -7,74 +7,74 @@ public class ModifyRelationsForCategory
     /// <summary>
     /// Updates relations with relatedCategories (keeps existing and deletes missing) with possible restrictions on type of relation (IsChildOf etc.) and type of category (Standard, Book etc.)
     /// </summary>
-    /// <param name="category"></param>
+    /// <param name="categoryCacheItem"></param>
     /// <param name="relatedCategories">Existing relations are updated with this collection (existing are kept, non-included are deleted)</param>
     /// <param name="relationType">If specified only relations of this type will be updated</param>
     public static void UpdateCategoryRelationsOfType(
-        Category category,
-        IList<Category> relatedCategories, 
+        CategoryCacheItem categoryCacheItem,
+        IList<int> relatedCategories, 
         CategoryRelationType relationType)
     {
-        var existingRelationsOfType = category.CategoryRelations.Any()
-            ? category.CategoryRelations?.Where(r => r.CategoryRelationType == relationType).ToList()
-            : new List<CategoryRelation>();
+        var existingRelationsOfType = categoryCacheItem.CategoryRelations.Any()
+            ? categoryCacheItem.CategoryRelations?.Where(r => r.CategoryRelationType == relationType).ToList()
+            : new List<CategoryCacheRelation>();
 
         var relationsToAdd = relatedCategories
-            .Except(existingRelationsOfType.Select(r => r.RelatedCategory))
-            .Select(c => new CategoryRelation{
-                Category = EntityCache.GetCategory(category.Id), 
-                RelatedCategory = EntityCache.GetCategory(c.Id), 
+            .Except(existingRelationsOfType.Select(r => r.RelatedCategoryId))
+            .Select(Id => new CategoryCacheRelation{
+                CategoryId = categoryCacheItem.Id, 
+                RelatedCategoryId = Id, 
                 CategoryRelationType = relationType}
         );
 
-        var relationsToRemove = new List<CategoryRelation>(); 
-        var relatedCategoriesDictionary =  relatedCategories.ToDictionary(r => r.Id);
+        var relationsToRemove = new List<CategoryCacheRelation>(); 
+        var relatedCategoriesDictionary =  relatedCategories.ToDictionary(Id => Id);
         foreach (var categoryRelation in existingRelationsOfType)
-            if (!relatedCategoriesDictionary.ContainsKey(categoryRelation.RelatedCategory.Id))
+            if (!relatedCategoriesDictionary.ContainsKey(categoryRelation.RelatedCategoryId))
             {
                 relationsToRemove.Add(categoryRelation);
             }
         
         foreach (var relation in relationsToAdd)
-            category.CategoryRelations.Add(relation);
+            categoryCacheItem.CategoryRelations.Add(relation);
 
         foreach (var relation in relationsToRemove)
-            category.CategoryRelations.Remove(relation);
+            categoryCacheItem.CategoryRelations.Remove(relation);
     }
 
-    public static void AddCategoryRelationOfType(Category category, Category relatedCategory, CategoryRelationType relationType)
+    private static void AddCategoryRelationOfType(CategoryCacheItem categoryCacherCacheItem, int relatedCategoryId, CategoryRelationType relationType)
     {
-        if(category.CategoryRelations.Any(r => r.RelatedCategory == relatedCategory && r.CategoryRelationType == relationType))
+        if(categoryCacherCacheItem.CategoryRelations.Any(r => r.RelatedCategoryId == relatedCategoryId && r.CategoryRelationType == relationType))
             return;
 
-        category.CategoryRelations.Add(
-            new CategoryRelation
+        categoryCacherCacheItem.CategoryRelations.Add(
+            new CategoryCacheRelation()
             {
-                Category = category,
-                RelatedCategory = relatedCategory,
+                CategoryId = categoryCacherCacheItem.Id,
+                RelatedCategoryId = relatedCategoryId,
                 CategoryRelationType = relationType 
             });
     }
 
-    public static void AddParentCategory(Category category, Category relatedCategory)
+    public static void AddParentCategory(CategoryCacheItem category, int relatedCategoryId)
     {
-        AddCategoryRelationOfType(category, relatedCategory, CategoryRelationType.IsChildCategoryOf);
+        AddCategoryRelationOfType(category, relatedCategoryId, CategoryRelationType.IsChildCategoryOf);
     }
 
     public static void UpdateRelationsOfTypeIncludesContentOf(CategoryCacheItem categoryCacheItem, bool persist = true)
     {
         var descendants = GetCategoryChildren.WithAppliedRules(categoryCacheItem);
-        var descendantsAsCategory = descendants.Select(cci => EntityCache.GetCategory(cci.Id)).ToList();
-        var category = EntityCache.GetCategory(categoryCacheItem.Id); 
+        var descendantsAsCategory = descendants.Select(cci => cci.Id).ToList();
+        
 
-        UpdateCategoryRelationsOfType(category, descendantsAsCategory, CategoryRelationType.IncludesContentOf);
+        UpdateCategoryRelationsOfType(categoryCacheItem, descendantsAsCategory, CategoryRelationType.IncludesContentOf);
 
         if(!persist)
             return;
 
-        category.UpdateCountQuestionsAggregated();
-        Sl.CategoryRepo.Update(category, isFromModifiyRelations: true);
+        categoryCacheItem.UpdateCountQuestionsAggregated();
+        Sl.CategoryRepo.Update(Sl.CategoryRepo.GetByIdEager(categoryCacheItem.Id), isFromModifiyRelations: true);
 
-        KnowledgeSummaryUpdate.RunForCategory(category.Id);
+        KnowledgeSummaryUpdate.RunForCategory(categoryCacheItem.Id);
     }
 }

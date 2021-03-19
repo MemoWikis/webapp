@@ -17,7 +17,7 @@ public class EditQuestionModel_to_Question
         question.TextExtended = model.QuestionExtended;
 
         question.Description = model.Description;
-        question.Categories = model.Categories;
+        question.CategoriesIds = model.Categories;
 
         question.SolutionType = (SolutionType) Enum.Parse(typeof(SolutionType), model.SolutionType);
 

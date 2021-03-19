@@ -30,7 +30,7 @@ public class Category : DomainEntity, ICreator, ICloneable
         return CategoryRelations.Any()
             ? CategoryRelations
                 .Where(r => r.CategoryRelationType == CategoryRelationType.IsChildCategoryOf)
-                .Select(x => EntityCache.GetCategory(x.RelatedCategory.Id))
+                .Select(x => EntityCache.GetCategory(x.RelatedCategoryId.Id))
                 .ToList()
             : new List<Category>();
     }
@@ -81,7 +81,7 @@ public class Category : DomainEntity, ICreator, ICloneable
         }
         else
             list = CategoryRelations.Where(r => r.CategoryRelationType == CategoryRelationType.IncludesContentOf)
-                .Select(r => EntityCache.GetCategory(r.RelatedCategory.Id)).ToList();
+                .Select(r => EntityCache.GetCategory(r.RelatedCategoryId.Id)).ToList();
 
         if (includingSelf)
             list.Add(this);

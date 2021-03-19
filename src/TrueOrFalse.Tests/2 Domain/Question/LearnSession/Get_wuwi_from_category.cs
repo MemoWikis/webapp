@@ -17,7 +17,7 @@ namespace TrueOrFalse.Tests
 
             var wuwis = usercashItem.QuestionValuations
                 .Select(qv => qv.Value)
-                .Where(qv=> qv.IsInWishKnowledge && qv.Question.Categories.Any(c=> c.Id == categoryId) )
+                .Where(qv=> qv.IsInWishKnowledge && qv.Question.CategoriesIds.Any(c=> c.Id == categoryId) )
                 .ToList();
 
             var wuwisFromLearningSession = LearningSessionCreator.ForLoggedInUser(new LearningSessionConfig

@@ -94,7 +94,7 @@ public class Question : DomainEntity, ICreator
 
     public Question()
     {
-        Categories = new List<Category>();
+        Categories = new List<CategoryCacheItem>();
         References = new List<Reference>();
     }
 

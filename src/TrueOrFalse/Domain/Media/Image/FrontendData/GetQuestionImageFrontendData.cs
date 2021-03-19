@@ -8,7 +8,7 @@
         if (imageMetaData != null)
             return new ImageFrontendData(imageMetaData);
 
-        foreach (var category in question.Categories)
+        foreach (var category in question.CategoriesIds)
         {
             imageMetaData = imageMetaDataRepo.GetBy(category.Id, ImageType.Category);
 

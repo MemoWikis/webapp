@@ -38,8 +38,8 @@ class GraphService_tests : BaseTest
         var userPersonnelCategoriesWithRelations =   GraphService.GetAllPersonalCategoriesWithRelations_TP(rootElement, 2);
 
         Assert.That(userPersonnelCategoriesWithRelations.ByName("SubSub1").Name, Is.EqualTo("SubSub1"));
-        Assert.That(userPersonnelCategoriesWithRelations.ByName("SubSub1").CategoryRelations.First().RelatedCategory.Name, Is.EqualTo("RootElement"));
-        Assert.That(userPersonnelCategoriesWithRelations.ByName("SubSub1").CategoryRelations.First().Category.Name, Is.EqualTo("SubSub1"));
+        Assert.That(userPersonnelCategoriesWithRelations.ByName("SubSub1").CategoryRelations.First().RelatedCategoryId.Name, Is.EqualTo("RootElement"));
+        Assert.That(userPersonnelCategoriesWithRelations.ByName("SubSub1").CategoryRelations.First().CategoryId.Name, Is.EqualTo("SubSub1"));
         Assert.That(userPersonnelCategoriesWithRelations.ByName("SubSub1").CategoryRelations.First().CategoryRelationType, Is.EqualTo(CategoryRelationType.IsChildCategoryOf));
 
     }
@@ -95,32 +95,32 @@ class GraphService_tests : BaseTest
         Assert.That(IsAllRelationsAChildOf(userPersonelCategoriesWithRealtions.ByName("C").CategoryRelations), 
             Is.EqualTo(true));
 
-        Assert.That(userPersonelCategoriesWithRealtions.ByName("C").CategoryRelations.First().RelatedCategory.Id, 
+        Assert.That(userPersonelCategoriesWithRealtions.ByName("C").CategoryRelations.First().RelatedCategoryId.Id, 
             Is.EqualTo(rootElement.Id));
 
         Assert.That(userPersonelCategoriesWithRealtions
             .ByName("C").CategoryRelations
             .First()
-            .Category.Id, 
+            .CategoryId.Id, 
             Is.EqualTo(secondChildren.ByName("C").Id));
 
         //Test I
         Assert.That(IsAllRelationsAChildOf(userPersonelCategoriesWithRealtions.ByName("I").CategoryRelations), 
             Is.EqualTo(true));
 
-        Assert.That(userPersonelCategoriesWithRealtions.ByName("I").CategoryRelations.First().RelatedCategory.Id,
+        Assert.That(userPersonelCategoriesWithRealtions.ByName("I").CategoryRelations.First().RelatedCategoryId.Id,
             Is.EqualTo(secondChildren.ByName("C").Id));
 
         Assert.That(userPersonelCategoriesWithRealtions
             .ByName("I")
             .CategoryRelations
             .First()
-            .Category.Id, 
+            .CategoryId.Id, 
             Is.EqualTo(secondChildren.ByName("I").Id));
 
         var relationId = userPersonelCategoriesWithRealtions
             .ByName("I")
-            .CategoryRelations.Where(cr => cr.RelatedCategory.Name == "E" ).Select(cr => cr.RelatedCategory.Id).First();
+            .CategoryRelations.Where(cr => cr.RelatedCategoryId.Name == "E" ).Select(cr => cr.RelatedCategoryId.Id).First();
            
         Assert.That(relationId,
             Is.EqualTo(secondChildren.ByName("E").Id));
@@ -128,12 +128,12 @@ class GraphService_tests : BaseTest
         Assert.That(userPersonelCategoriesWithRealtions
                 .ByName("I")
                 .CategoryRelations[1]
-                .Category.Id,
+                .CategoryId.Id,
             Is.EqualTo(secondChildren.ByName("I").Id));
 
         relationId = userPersonelCategoriesWithRealtions
             .ByName("I")
-            .CategoryRelations.Where(cr => cr.RelatedCategory.Name == "G").Select(cr => cr.RelatedCategory.Id).First();
+            .CategoryRelations.Where(cr => cr.RelatedCategoryId.Name == "G").Select(cr => cr.RelatedCategoryId.Id).First();
 
         Assert.That(relationId,
             Is.EqualTo(secondChildren.ByName("G").Id));
@@ -141,7 +141,7 @@ class GraphService_tests : BaseTest
         Assert.That(userPersonelCategoriesWithRealtions
                 .ByName("I")
                 .CategoryRelations[2]
-                .Category.Id,
+                .CategoryId.Id,
             Is.EqualTo(secondChildren.ByName("I").Id));
 
 
@@ -156,13 +156,13 @@ class GraphService_tests : BaseTest
                 .ByName("G")
                 .CategoryRelations
                 .First()
-                .RelatedCategory.Id,
+                .RelatedCategoryId.Id,
             Is.EqualTo(firstChildren.ByName("C").Id));
 
         Assert.That(userPersonelCategoriesWithRealtions
                 .ByName("G").CategoryRelations
                 .First()
-                .Category.Id,
+                .CategoryId.Id,
             Is.EqualTo(secondChildren.ByName("G").Id));
 
         // Test E
@@ -177,13 +177,13 @@ class GraphService_tests : BaseTest
                 .ByName("E")
                 .CategoryRelations
                 .First()
-                .RelatedCategory.Id,
+                .RelatedCategoryId.Id,
             Is.EqualTo(firstChildren.ByName("C").Id));
 
         Assert.That(userPersonelCategoriesWithRealtions
                 .ByName("E").CategoryRelations
                 .First()
-                .Category.Id,
+                .CategoryId.Id,
             Is.EqualTo(secondChildren.ByName("E").Id));
 
     }
@@ -455,9 +455,9 @@ class GraphService_tests : BaseTest
         {
             new CategoryRelation
             {
-                RelatedCategory = new Category{Id = 222},
+                RelatedCategoryId = new Category{Id = 222},
                 CategoryRelationType = CategoryRelationType.IsChildCategoryOf,
-                Category = new Category{Id = 111}
+                CategoryId = new Category{Id = 111}
             }
         };
 
@@ -465,9 +465,9 @@ class GraphService_tests : BaseTest
         {
             new CategoryRelation
             {
-                RelatedCategory = new Category{Id = 222},
+                RelatedCategoryId = new Category{Id = 222},
                 CategoryRelationType = CategoryRelationType.IsChildCategoryOf,
-                Category = new Category{Id = 111}
+                CategoryId = new Category{Id = 111}
             }
         };
 
@@ -479,9 +479,9 @@ class GraphService_tests : BaseTest
         {
             new CategoryRelation
             {
-                RelatedCategory = new Category{Id = 222},
+                RelatedCategoryId = new Category{Id = 222},
                 CategoryRelationType = CategoryRelationType.IsChildCategoryOf,
-                Category = new Category{Id = 113}
+                CategoryId = new Category{Id = 113}
             }
         };
 
@@ -492,9 +492,9 @@ class GraphService_tests : BaseTest
         {
             new CategoryRelation
             {
-                RelatedCategory = new Category{Id = 222},
+                RelatedCategoryId = new Category{Id = 222},
                 CategoryRelationType = CategoryRelationType.IsChildCategoryOf,
-                Category = new Category{Id = 111}
+                CategoryId = new Category{Id = 111}
             }
         };
 
@@ -502,9 +502,9 @@ class GraphService_tests : BaseTest
         {
             new CategoryRelation
             {
-                RelatedCategory = new Category{Id = 222},
+                RelatedCategoryId = new Category{Id = 222},
                 CategoryRelationType = CategoryRelationType.IsChildCategoryOf,
-                Category = new Category{Id = 112}
+                CategoryId = new Category{Id = 112}
             }
         };
 
@@ -526,14 +526,14 @@ class GraphService_tests : BaseTest
 
     private bool HasCorrectParent(Category category, string nameParent)
     {
-        return category.CategoryRelations.Any(cr => cr.RelatedCategory.Name == nameParent);
+        return category.CategoryRelations.Any(cr => cr.RelatedCategoryId.Name == nameParent);
     }
 
    
 
     private bool IsCategoryRelationsCategoriesIdCorrect(Category category)
     {
-        return category.CategoryRelations.Select(cr => cr.Category.Name == category.Name).All(b => b);
+        return category.CategoryRelations.Select(cr => cr.CategoryId.Name == category.Name).All(b => b);
     }
 
 }

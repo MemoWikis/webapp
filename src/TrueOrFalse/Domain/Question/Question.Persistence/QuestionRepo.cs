@@ -68,7 +68,7 @@ public class QuestionRepo : RepositoryDbBase<Question>
         Flush();
 
         var categoriesToUpdateIds = categoriesBeforeUpdateIds
-            .Union(question.Categories.Select(c => c.Id))
+            .Union(question.CategoriesIds)
             .Union(question.References.Where(r => r.Category != null)
             .Select(r => r.Category.Id))
             .Distinct()
@@ -104,13 +104,14 @@ public class QuestionRepo : RepositoryDbBase<Question>
         base.Create(question);
         Flush();
 
-        Sl.R<UpdateQuestionCountForCategory>().Run(question.Categories);
+        Sl.R<UpdateQuestionCountForCategory>().Run(question.CategoriesIds);
 
-        foreach (var category in question.Categories.ToList())
+        foreach (var categoryId in question.CategoriesIds)
         {
+            var category = Sl.CategoryRepo.GetByIdEager(categoryId);
             category.UpdateCountQuestionsAggregated();
             Sl.CategoryRepo.Update(category);
-            KnowledgeSummaryUpdate.ScheduleForCategory(category.Id);
+            KnowledgeSummaryUpdate.ScheduleForCategory(categoryId);
         }
         if (question.Visibility != QuestionVisibility.Owner)
         {
@@ -147,7 +148,7 @@ public class QuestionRepo : RepositoryDbBase<Question>
             .OrderBy(q => q.TotalRelevancePersonalEntries).Desc
             .ThenBy(x => x.DateCreated).Desc
             .Where(q => q.Visibility == QuestionVisibility.All || q.Creator.Id == currentUser)
-            .JoinQueryOver<Category>(q => q.Categories)
+            .JoinQueryOver<int>(q => q.CategoriesIds)
             .Where(Restrictions.In("Id", categoryIds.ToArray()));
 
         if (resultCount > -1)
@@ -160,8 +161,8 @@ public class QuestionRepo : RepositoryDbBase<Question>
     {
         return _session.QueryOver<Question>()
             .Where(q => q.Visibility == QuestionVisibility.All)
-            .JoinQueryOver<Category>(q => q.Categories)
-            .Where(c => c.Id == categoryId)
+            .JoinQueryOver<int>(q => q.CategoriesIds)
+            .Where(id => id == categoryId)
             .List<Question>();
     }
 
@@ -174,8 +175,8 @@ public class QuestionRepo : RepositoryDbBase<Question>
             .JoinQueryOver(q => q.Question)
             .OrderBy(q => q.TotalRelevancePersonalEntries).Desc
             .ThenBy(x => x.DateCreated).Desc
-            .JoinQueryOver<Category>(q => q.Categories)
-            .Where(c => c.Id == categoryId);
+            .JoinQueryOver<int>(q => q.CategoriesIds)
+            .Where(id => id == categoryId);
 
         return new PagedResult<Question>
         {
@@ -198,7 +199,7 @@ public class QuestionRepo : RepositoryDbBase<Question>
     {
         var questions = _session
             .QueryOver<Question>()
-            .Fetch(q => q.Categories).Eager
+            .Fetch(q => q.CategoriesIds).Eager
             .Where(Restrictions.In("Id", questionIds))
             .List()
             .Distinct()
@@ -324,7 +325,7 @@ public class QuestionRepo : RepositoryDbBase<Question>
             .Future();
 
         _session.QueryOver<Question>()
-            .Fetch(SelectMode.Fetch, x => x.Categories)
+            .Fetch(SelectMode.Fetch, x => x.CategoriesIds)
             .Future();
 
         _session.QueryOver<Question>()

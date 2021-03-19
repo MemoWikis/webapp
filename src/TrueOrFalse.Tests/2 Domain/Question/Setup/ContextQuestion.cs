@@ -82,7 +82,7 @@ namespace TrueOrFalse.Tests
             question.CorrectnessProbability = correctnessProbability == 0 ? Rand.Next(1, 101) : correctnessProbability;
 
             if (categories != null)
-                question.Categories = categories;
+                question.CategoriesIds = categories;
 
             All.Add(question);
 
@@ -155,7 +155,7 @@ namespace TrueOrFalse.Tests
         public ContextQuestion AddCategory(string categoryName)
         {
             _contextCategory.Add(categoryName);
-            All.Last().Categories.Add(_contextCategory.All.Last());
+            All.Last().CategoriesIds.Add(_contextCategory.All.Last());
             return this;
         }
 

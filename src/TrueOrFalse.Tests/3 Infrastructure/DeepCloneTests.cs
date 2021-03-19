@@ -20,13 +20,13 @@ namespace TrueOrFalse.Tests
             var categoryA = categories.ByName("A"); 
             
             categoryRoot.CategoryRelations = new List<CategoryRelation> {
-                new CategoryRelation {Category = categoryRoot, RelatedCategory = categoryA, CategoryRelationType = CategoryRelationType.IsChildCategoryOf},
+                new CategoryRelation {CategoryId = categoryRoot, RelatedCategoryId = categoryA, CategoryRelationType = CategoryRelationType.IsChildCategoryOf},
             };
 
             Assert.That(categoryRoot.DeepClone(), Is.Not.Null);
 
             categoryA.CategoryRelations = new List<CategoryRelation> {
-                new CategoryRelation {Category = categoryA, RelatedCategory = categoryRoot, CategoryRelationType = CategoryRelationType.IsChildCategoryOf},
+                new CategoryRelation {CategoryId = categoryA, RelatedCategoryId = categoryRoot, CategoryRelationType = CategoryRelationType.IsChildCategoryOf},
             };
 
             //Pre cloning, check that circular reference exists

@@ -22,7 +22,7 @@
         <% if (Model.UserIsInstallationAdmin) { %>
             <p style="margin-top: 8px; padding-left: 15px;">
                 <i class="fa fa-user-secret show-tooltip" title="Die Themen werden an dieser Stelle nur Admin-Nutzern angezeigt."></i>
-                <% foreach (var category in Model.Question.Categories){ %>
+                <% foreach (var category in Model.Question.CategoriesIds){ %>
                     <% Html.RenderPartial("CategoryLabel", category); %>
                 <% } %>
             </p>

@@ -46,8 +46,8 @@ public class QuestionImageSettings : ImageSettings, IImageSettings
         if (imageUrl.HasUploadedImage)
             return imageUrl;
 
-        if (_question.Categories.Any())
-            return new CategoryImageSettings(_question.Categories.First().Id).GetUrl(width, isSquare);
+        if (_question.CategoriesIds.Any())
+            return new CategoryImageSettings(_question.CategoriesIds.First().Id).GetUrl(width, isSquare);
 
         return imageUrl;
     }

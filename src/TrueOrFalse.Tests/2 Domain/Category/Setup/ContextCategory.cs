@@ -59,8 +59,8 @@ namespace TrueOrFalse.Tests
                 
                 categoryRelations.Add(new CategoryRelation
                 {
-                    Category = category,
-                    RelatedCategory = parent,
+                    CategoryId = category,
+                    RelatedCategoryId = parent,
                     CategoryRelationType = CategoryRelationType.IsChildCategoryOf
                 });
 

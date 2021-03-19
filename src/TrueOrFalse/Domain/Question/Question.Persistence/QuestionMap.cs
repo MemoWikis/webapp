@@ -36,7 +36,7 @@ public class QuestionMap : ClassMap<Question>
         Map(x => x.SolutionMetadataJson);
 
         HasMany(x => x.References).Cascade.AllDeleteOrphan();
-        HasManyToMany(x => x.Categories)
+        HasManyToMany(x => x.CategoriesIds)
             .Table("categories_to_questions")
             .Cascade.SaveUpdate();
 

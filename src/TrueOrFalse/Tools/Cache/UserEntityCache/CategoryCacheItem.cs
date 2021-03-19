@@ -11,6 +11,7 @@ public class CategoryCacheItem : ICreator
     public virtual int Id { get; set; }
     public virtual string Name { get; set; }
 
+    public virtual DateTime DateCreated { get; set; }
     public virtual string Description { get; set; }
 
     public virtual string WikipediaURL { get; set; }
@@ -23,7 +24,7 @@ public class CategoryCacheItem : ICreator
 
     public virtual User Creator { get; set; }
 
-    public virtual IList<CategoryCacheRelations> CategoryRelations { get; set; }
+    public virtual IList<CategoryCacheRelation> CategoryRelations { get; set; }
     public virtual int CountQuestions { get; set; }
     public virtual string TopicMarkdown { get; set; }
     public virtual string Content { get; set; }
@@ -199,7 +200,7 @@ public class CategoryCacheItem : ICreator
 
     public static CategoryCacheItem ToCacheCategory(Category category)
     {
-        var userEntityCacheCategoryRelations = new CategoryCacheRelations();
+        var userEntityCacheCategoryRelations = new CategoryCacheRelation();
         return new CategoryCacheItem
         {
             Id = category.Id,
@@ -226,7 +227,8 @@ public class CategoryCacheItem : ICreator
             TypeJson = category.TypeJson,
             Url = category.Url,
             UrlLinkText = category.UrlLinkText,
-            WikipediaURL = category.WikipediaURL
+            WikipediaURL = category.WikipediaURL,
+            DateCreated = category.DateCreated
         };
     }
 }

@@ -23,9 +23,9 @@ namespace TrueOrFalse.Tests.Persistence
 
             var questions = Resolve<QuestionRepo>().GetAll();
             questions.Count.Should().Be.EqualTo(2);
-            questions[0].Categories.Count.Should().Be.EqualTo(3);
-            questions[0].Categories.Count(c => c.Name == "A").Should().Be.EqualTo(1);
-            questions[0].Categories.Count(c => c.Name == "C").Should().Be.EqualTo(1);
+            questions[0].CategoriesIds.Count.Should().Be.EqualTo(3);
+            questions[0].CategoriesIds.Count(c => c.Name == "A").Should().Be.EqualTo(1);
+            questions[0].CategoriesIds.Count(c => c.Name == "C").Should().Be.EqualTo(1);
             questions[0].Solution.StartsWith("Another").Should().Be.True();
         }
 
