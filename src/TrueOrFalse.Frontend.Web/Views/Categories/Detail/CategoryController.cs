@@ -140,7 +140,21 @@ public class CategoryController : BaseController
         return Redirect(Links.LearningSession(learningSession));
     }
 
-    [HttpPost]
+    [RedirectToErrorPage_IfNotLoggedIn]
+    public ActionResult StartLearningSessionForSets(List<int> setIds, string setListTitle)
+    {
+        var sets = Sl.SetRepo.GetByIds(setIds);
+        var questions = sets.SelectMany(s => s.Questions()).Distinct().ToList();
+
+        if (questions.Count == 0)
+            throw new Exception("Cannot start LearningSession with 0 questions.");
+        var config = new LearningSessionConfig();
+        var learningSession = LearningSessionCreator.ForAnonymous(config);
+
+        return Redirect(Links.LearningSession(learningSession));
+    }
+
+   [HttpPost]
     public string Tab(string tabName, int categoryId)
     {
         var categoryCacheItem = EntityCache.GetCategoryCacheItem(categoryId);
