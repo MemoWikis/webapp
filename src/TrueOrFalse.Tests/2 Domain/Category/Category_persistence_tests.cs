@@ -55,7 +55,8 @@ namespace TrueOrFalse.Tests.Persistence
                     var parentCategories = new List<Category>();
                     parentCategories.Add(context.All.First(x => x.Name.StartsWith("Daily-A")));
                     parentCategories.Add(context.All.First(x => x.Name.StartsWith("Standard-1")));
-                    ModifyRelationsForCategory.UpdateCategoryRelationsOfType(c, parentCategories,
+
+                    ModifyRelationsForCategory.UpdateCategoryRelationsOfType(CategoryCacheItem.ToCacheCategory(c), parentCategories.Select(cat => cat.Id).ToList(),
                         CategoryRelationType.IsChildCategoryOf);
                 });
 
@@ -86,14 +87,14 @@ namespace TrueOrFalse.Tests.Persistence
                     var category = categories.ByName("A");
 
                     category.CategoryRelations.Add(
-                        new CategoryRelation
+                        new CategoryCacheRelation()
                         {
-                            CategoryId = categories[i],
+                            CategoryId = categories[i].Id,
                             CategoryRelationType = CategoryRelationType.IncludesContentOf,
-                            RelatedCategoryId = category
+                            RelatedCategoryId = category.Id
                         });
 
-                    context.Update(category);
+                    context.Update(Sl.CategoryRepo.GetByIdEager(category.Id));
                 }
             }
 
@@ -103,11 +104,6 @@ namespace TrueOrFalse.Tests.Persistence
             
             usercacheItem2.IsFiltered = false;
             Assert.That(categories.ByName("A").AggregatedCategories().Count, Is.EqualTo(13));
-        }
-
-        private bool HasCorrectCategoryIdInRelations(Category category, int categoryIdFromRelation)
-        {
-            return category.CategoryRelations.Any(r => r.CategoryId.Id == categoryIdFromRelation); 
         }
     }
 }

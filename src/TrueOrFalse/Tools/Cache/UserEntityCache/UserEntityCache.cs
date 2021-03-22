@@ -21,7 +21,7 @@ public class UserEntityCache : BaseCache
         var categories = new ConcurrentDictionary<int, CategoryCacheItem>(GraphService
             .GetAllPersonalCategoriesWithRelations(RootCategory.RootCategoryId, userId, true).ToConcurrentDictionary()); 
         
-        _Categories[user.Id] = categories;
+        _Categories[user.Id] = categories.DeepClone();
     }
 
     public static void Add(CategoryCacheItem item, int userId)

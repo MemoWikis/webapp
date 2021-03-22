@@ -59,8 +59,8 @@ namespace TrueOrFalse.Tests
                 
                 categoryRelations.Add(new CategoryRelation
                 {
-                    CategoryId = category,
-                    RelatedCategoryId = parent,
+                    Category = category,
+                    RelatedCategory = parent,
                     CategoryRelationType = CategoryRelationType.IsChildCategoryOf
                 });
 
@@ -86,7 +86,7 @@ namespace TrueOrFalse.Tests
             category.Creator = creator == null ? _contextUser.All.FirstOrDefault() : creator ;
             category.Type = categoryType;
 
-            EntityCache.AddOrUpdate(category);
+            EntityCache.AddOrUpdate(CategoryCacheItem.ToCacheCategory(category));
 
             All.Add(category);
             return this;
@@ -237,9 +237,9 @@ namespace TrueOrFalse.Tests
             Sl.SessionUser.Login(user);
         }
 
-        public static bool HasCorrectChild(Category category, string nameChild)
+        public static bool HasCorrectChild(CategoryCacheItem categoryCachedItem, string childName)
         {
-            return category.CachedData.Children.Any(child => child.Name == nameChild);
+            return categoryCachedItem.CachedData.ChildrenIds.Any(child => child == EntityCache.GetByName(childName).First().Id );
         }
     }
 }

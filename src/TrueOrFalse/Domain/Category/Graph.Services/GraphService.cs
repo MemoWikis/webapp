@@ -42,7 +42,7 @@ public class GraphService
         return parents;
     }
 
-    public static IList<CategoryCacheItem> GetAllPersonalCategoriesWithRelations_TP(Category category, int userId = -1) =>
+    public static IList<CategoryCacheItem> GetAllPersonalCategoriesWithRelations_TP(CategoryCacheItem category, int userId = -1) =>
         GetAllPersonalCategoriesWithRelations(category.Id, userId);
 
     public static IList<CategoryCacheItem> GetAllPersonalCategoriesWithRelations(int rootCategoryId, int userId = -1, bool isFromUserEntityCache = false)
@@ -196,7 +196,7 @@ public class GraphService
         return result == 0;
     }
 
-    public static bool IsCategoryRelationEqual(Category category1, Category category2)
+    public static bool IsCategoryRelationEqual(CategoryCacheItem category1, CategoryCacheItem category2)
     {
         if (category1 != null && category2 != null || category1.CategoryRelations != null && category2.CategoryRelations != null)
         {
@@ -211,7 +211,7 @@ public class GraphService
 
             var count = 0; 
 
-            var countVariousRelations = relations1.Where(r => !relations2.Any(r2 => r2.RelatedCategory.Id == r.RelatedCategory.Id && r2.Category.Id == r.Category.Id && r2.CategoryRelationType.ToString().Equals(r.CategoryRelationType.ToString()))).Count();
+            var countVariousRelations = relations1.Count(r => !relations2.Any(r2 => r2.RelatedCategoryId == r.RelatedCategoryId && r2.CategoryId == r.CategoryId && r2.CategoryRelationType.ToString().Equals(r.CategoryRelationType.ToString())));
             return countVariousRelations == 0;
         }
         Logg.r().Error("Category or CategoryRelations have a NullReferenceException");

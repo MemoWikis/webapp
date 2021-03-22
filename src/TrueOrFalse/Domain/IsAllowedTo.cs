@@ -27,4 +27,22 @@
 
         return false;
     }
+
+    private static bool CheckAccess(User user, CategoryCacheItem entity)
+    {
+        var t = entity.GetType().FullName;
+        if (user == null || entity == null)
+            return false;
+
+        if (user.IsInstallationAdmin)
+            return true;
+
+        if (entity.GetType().FullName == "Category")
+            return true;
+
+        if (user.Id == entity.Creator.Id)
+            return true;
+
+        return false;
+    }
 }

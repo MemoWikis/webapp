@@ -9,10 +9,11 @@ namespace TrueOrFalse.Search
         {
 
             var allCategories = EntityCache.GetCategoryCacheItems(question.Categories.Select(c => c.Id)).ToList();
-            allCategories.AddRange(
+
+            allCategories.AddRange(EntityCache.GetCategoryCacheItems(
                 question.References
                     .Where(r => r.Category != null)
-                    .Select(r => r.Category));
+                    .Select(r => r.Category.Id)));
 
             var creator = new UserTinyModel(question.Creator);
 

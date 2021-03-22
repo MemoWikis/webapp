@@ -6,7 +6,7 @@ using System.Linq;
 
 [DebuggerDisplay("Id={Id} Name={Name}")]
 [Serializable]
-public class CategoryCacheItem : ICreator
+public class CategoryCacheItem
 {
     public virtual int Id { get; set; }
     public virtual string Name { get; set; }
@@ -45,7 +45,7 @@ public class CategoryCacheItem : ICreator
 
     public virtual bool IsRootCategory => Id == RootCategory.RootCategoryId;
 
-    public virtual IList<CategoryCacheItem>ParentCategories()
+    public virtual IList<CategoryCacheItem> ParentCategories()
     {
         return CategoryRelations.Any()
             ? CategoryRelations
@@ -55,7 +55,7 @@ public class CategoryCacheItem : ICreator
             : new List<CategoryCacheItem>();
     }
 
-    public virtual CategoryCachedData CachedData { get; set; }
+    public virtual CategoryCachedData CachedData { get; set; } = new CategoryCachedData();
 
     public virtual string CategoriesToExcludeIdsString { get; set; }
 
@@ -101,7 +101,7 @@ public class CategoryCacheItem : ICreator
         }
         else
             list = CategoryRelations.Where(r => r.CategoryRelationType == CategoryRelationType.IncludesContentOf)
-                .Select(r =>EntityCache.GetCategoryCacheItem(r.RelatedCategoryId)).ToList();
+                .Select(r => EntityCache.GetCategoryCacheItem(r.RelatedCategoryId)).ToList();
 
         if (includingSelf)
             list.Add(this);
@@ -160,7 +160,7 @@ public class CategoryCacheItem : ICreator
 
     public CategoryCacheItem()
     {
-        
+
     }
 
     public CategoryCacheItem(string name)
@@ -177,10 +177,10 @@ public class CategoryCacheItem : ICreator
 
         foreach (var keyValuePair in concurrentDictionary)
         {
-            concDic.TryAdd(keyValuePair.Key, ToCacheCategory(keyValuePair.Value)); 
+            concDic.TryAdd(keyValuePair.Key, ToCacheCategory(keyValuePair.Value));
         }
 
-        return concDic; 
+        return concDic;
     }
 
     public IEnumerable<CategoryCacheItem> ToIEnumerable(IEnumerable<Category> categoryList, bool withCachedData = false, bool withRealtions = false)
@@ -192,11 +192,11 @@ public class CategoryCacheItem : ICreator
             categories.Add(ToCacheCategory(category));
         }
 
-        return categories; 
+        return categories;
     }
 
-    public static IEnumerable<CategoryCacheItem> ToCacheCategories( List<Category> categories) => categories.Select(c => ToCacheCategory(c));
-    public static IEnumerable<CategoryCacheItem> ToCacheCategories( IEnumerable<Category> categories) => categories.Select(c => ToCacheCategory(c));
+    public static IEnumerable<CategoryCacheItem> ToCacheCategories(List<Category> categories) => categories.Select(c => ToCacheCategory(c));
+    public static IEnumerable<CategoryCacheItem> ToCacheCategories(IEnumerable<Category> categories) => categories.Select(c => ToCacheCategory(c));
 
     public static CategoryCacheItem ToCacheCategory(Category category)
     {
@@ -204,7 +204,7 @@ public class CategoryCacheItem : ICreator
         return new CategoryCacheItem
         {
             Id = category.Id,
-            CachedData = EntityCache.GetCategoryCacheItem(category.Id).CachedData,
+            CachedData = new CategoryCachedData(),
             CategoryRelations = userEntityCacheCategoryRelations.ToListCategoryRelations(category.CategoryRelations),
             CategoriesToExcludeIdsString = category.CategoriesToExcludeIdsString,
             CategoriesToIncludeIdsString = category.CategoriesToIncludeIdsString,

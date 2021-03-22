@@ -5,5 +5,5 @@ using System.Collections.Generic;
 public class CategoryCachedData
 {
     public IList<int> TotalAggregatedChildrenIds { get; set; } = new List<int>();
-    public IList<int> ChildrenIds { get; set; } = new List<int>(); 
+    public IList<int> ChildrenIds  { get; set; } = new List<int>(); 
 }

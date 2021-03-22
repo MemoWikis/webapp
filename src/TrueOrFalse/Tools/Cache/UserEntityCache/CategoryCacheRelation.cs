@@ -2,8 +2,9 @@
 
 using System;
 using System.Collections.Generic;
-using NHibernate.Mapping;
 
+
+[Serializable]
 public class CategoryCacheRelation
 {
     public virtual int CategoryId { get; set; }

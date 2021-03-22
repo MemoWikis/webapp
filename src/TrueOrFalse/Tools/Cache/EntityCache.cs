@@ -4,13 +4,13 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Web;
-using Seedworks.Lib.Persistence;
-
 public class EntityCache : BaseCache
 {
     private const string _cacheKeyQuestions = "allQuestions _EntityCache";
     private const string _cacheKeyCategories = "allCategories_EntityCache";
     private const string _cacheKeyCategoryQuestionsList = "categoryQuestionsList_EntityCache";
+
+    private static bool IsFirstStart = true; 
 
     private static ConcurrentDictionary<int, Question> Questions => (ConcurrentDictionary<int, Question>)HttpRuntime.Cache[_cacheKeyQuestions];
     private static ConcurrentDictionary<int, CategoryCacheItem> Categories => (ConcurrentDictionary<int, CategoryCacheItem>)HttpRuntime.Cache[_cacheKeyCategories];
@@ -34,10 +34,12 @@ public class EntityCache : BaseCache
         Logg.r().Information("EntityCache LoadAllEntities" + customMessage + "{Elapsed}", stopWatch.Elapsed);
 
         IntoForeverCache(_cacheKeyQuestions, questions.ToConcurrentDictionary());
-        IntoForeverCache(_cacheKeyCategories,GraphService.AddChildrenToCategory(categories.ToConcurrentDictionary()));
+        IntoForeverCache(_cacheKeyCategories, GraphService.AddChildrenToCategory(categories.ToConcurrentDictionary()));
         IntoForeverCache(_cacheKeyCategoryQuestionsList, GetCategoryQuestionsList(questions));
 
         Logg.r().Information("EntityCache PutIntoCache" + customMessage + "{Elapsed}", stopWatch.Elapsed);
+
+        IsFirstStart = false; 
     }
 
     private static ConcurrentDictionary<int, ConcurrentDictionary<int, int>> GetCategoryQuestionsList(IList<Question> questions)
@@ -227,7 +229,8 @@ public class EntityCache : BaseCache
     //https://docs.google.com/document/d/1XgfHVvUY_Fh1ID93UZEWFriAqTwC1crhCwJ9yqAPtTY
     public static CategoryCacheItem GetCategoryCacheItem(int categoryId, bool isFromUserEntityCache = false,  bool getDataFromEntityCache = false)
     {
-        if (UserCache.GetItem(Sl.CurrentUserId).IsFiltered && !isFromUserEntityCache && !getDataFromEntityCache)
+
+        if ( !IsFirstStart && !isFromUserEntityCache && !getDataFromEntityCache && UserCache.GetItem(Sl.SessionUser.UserId).IsFiltered)
             return UserEntityCache.GetCategoryWhenNotAvalaibleThenGetNextParent(categoryId, Sl.SessionUser.UserId);
 
         return Categories[categoryId];

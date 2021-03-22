@@ -82,7 +82,7 @@ namespace TrueOrFalse.Tests
             question.CorrectnessProbability = correctnessProbability == 0 ? Rand.Next(1, 101) : correctnessProbability;
 
             if (categories != null)
-                question.CategoriesIds = categories;
+                question.Categories = categories;
 
             All.Add(question);
 
@@ -155,7 +155,7 @@ namespace TrueOrFalse.Tests
         public ContextQuestion AddCategory(string categoryName)
         {
             _contextCategory.Add(categoryName);
-            All.Last().CategoriesIds.Add(_contextCategory.All.Last());
+            All.Last().Categories.Add(_contextCategory.All.Last());
             return this;
         }
 
@@ -172,7 +172,7 @@ namespace TrueOrFalse.Tests
         public static void PutQuestionIntoMemoryCache(int answerProbability, int id)
         {
             ContextCategory.New(false).AddToEntityCache("Category name", CategoryType.Standard, null, true);
-            var categories = EntityCache.GetAllCategories(); 
+            var categories = Sl.CategoryRepo.GetAllEager(); 
 
             var questions = New().AddQuestion("", "", id, true, null, categories, answerProbability).All;
            
@@ -186,9 +186,8 @@ namespace TrueOrFalse.Tests
         public static void PutQuestionsIntoMemoryCache(int amount = 20)
         {
 
-
-            ContextCategory.New(false).AddToEntityCache("Category name", CategoryType.Standard, null, true, 1);
-            var categories = EntityCache.GetAllCategories();
+            ContextCategory.New(false).AddToEntityCache("Category name", CategoryType.Standard, null, true, 1).Persist();
+            var categories = Sl.CategoryRepo.GetAllEager();
 
             var questions = New().AddQuestions(amount, null, true, categories).All;
 

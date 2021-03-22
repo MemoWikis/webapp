@@ -11,13 +11,13 @@ class ModifyRelationsForCategory_tests : BaseTest
     {
         ContextCategory.New().AddCaseThreeToCache();
         EntityCache.Init();
-        ModifyRelationsForCategory.UpdateCategoryRelationsOfType(EntityCache.GetByName("X3").FirstOrDefault(), EntityCache.GetByName("B"), CategoryRelationType.IsChildCategoryOf);
+        ModifyRelationsForCategory.UpdateCategoryRelationsOfType(EntityCache.GetByName("X3").FirstOrDefault(), EntityCache.GetByName("B").GetIds().ToList(), CategoryRelationType.IsChildCategoryOf);
 
 
 
         var X3 = EntityCache.GetByName("X3").First();
-        Assert.That(X3.CategoryRelations.First().Category.Name, Is.EqualTo("X3"));
-        Assert.That(X3.CategoryRelations.First().RelatedCategory.Name, Is.EqualTo("B"));
+        Assert.That(EntityCache.GetCategoryCacheItem(X3.CategoryRelations.First().CategoryId).Name, Is.EqualTo("X3"));
+        Assert.That(EntityCache.GetCategoryCacheItem(X3.CategoryRelations.First().RelatedCategoryId).Name, Is.EqualTo("B"));
         Assert.That(ContextCategory.HasCorrectChild(X3, "A"), Is.EqualTo(false));
         
         Assert.That(X3.CategoryRelations.Count,Is.EqualTo(1));
