@@ -14,8 +14,6 @@ public class ReferenceJson
     {
         var referencesJson = JsonConvert.DeserializeObject<IEnumerable<ReferenceJson>>(json);
 
-        var catRepo = Sl.Resolve<CategoryRepository>();
-
         return referencesJson.Select(refJson =>
         {
             return new Reference
@@ -23,7 +21,7 @@ public class ReferenceJson
                 Id = refJson.ReferenceId == -1 ? default(int) : refJson.ReferenceId,
                 ReferenceType = Reference.GetReferenceType(refJson.ReferenceType),
                 Question = question,
-                Category = EntityCache.GetCategoryCacheItem(refJson.CategoryId),
+                Category = Sl.CategoryRepo.GetByIdEager(refJson.CategoryId),
                 AdditionalInfo = refJson.AdditionalText,
                 ReferenceText = refJson.ReferenceText
             };
