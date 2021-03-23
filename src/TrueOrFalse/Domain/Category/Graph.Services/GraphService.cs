@@ -47,12 +47,13 @@ public class GraphService
 
     public static IList<CategoryCacheItem> GetAllPersonalCategoriesWithRelations(int rootCategoryId, int userId = -1, bool isFromUserEntityCache = false)
     {
-        var rootCategory = EntityCache.GetCategoryCacheItem(rootCategoryId, isFromUserEntityCache);
+        var rootCategory = EntityCache.GetCategoryCacheItem(rootCategoryId, isFromUserEntityCache).DeepClone();
+        
         var children = EntityCache.GetDescendants(rootCategory.Id, true)
             .Distinct()
             .Where(c => c.IsInWishknowledge())
-            .Select(c => c);
-        
+            .Select(c => c.DeepClone());
+
         var listWithUserPersonelCategories = new List<CategoryCacheItem>();
 
         userId = userId == -1 ? Sl.CurrentUserId : userId;
@@ -127,6 +128,8 @@ public class GraphService
         listWithUserPersonelCategories.Add(rootCategory);
 
         var listAsConcurrentDictionary = listWithUserPersonelCategories.ToConcurrentDictionary();
+
+        
 
         return AddChildrenToCategory(listAsConcurrentDictionary).Values.ToList();
     }

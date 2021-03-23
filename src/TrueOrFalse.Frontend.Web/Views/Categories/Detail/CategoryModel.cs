@@ -118,7 +118,7 @@ public class CategoryModel : BaseContentModule
         CategoriesParent = category.ParentCategories();
         CategoriesChildren = UserCache.GetItem(_sessionUser.UserId).IsFiltered ? 
             UserEntityCache.GetChildren(category.Id, UserId) :
-           EntityCache.GetChildren(category.Id);
+           EntityCache.GetChildren(category.Id, true);
 
         CorrectnesProbability = category.CorrectnessProbability;
         AnswersTotal = category.CorrectnessProbabilityAnswerCount;

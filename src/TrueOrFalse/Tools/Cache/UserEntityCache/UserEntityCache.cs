@@ -18,10 +18,8 @@ public class UserEntityCache : BaseCache
             Sl.SessionUser.User : 
             UserCache.GetItem(userId).User;
 
-        var categories = new ConcurrentDictionary<int, CategoryCacheItem>(GraphService
-            .GetAllPersonalCategoriesWithRelations(RootCategory.RootCategoryId, userId, true).ToConcurrentDictionary()); 
-        
-        _Categories[user.Id] = categories.DeepClone();
+        _Categories[user.Id] = new ConcurrentDictionary<int, CategoryCacheItem>(GraphService
+            .GetAllPersonalCategoriesWithRelations(RootCategory.RootCategoryId, userId, true).ToConcurrentDictionary());
     }
 
     public static void Add(CategoryCacheItem item, int userId)
