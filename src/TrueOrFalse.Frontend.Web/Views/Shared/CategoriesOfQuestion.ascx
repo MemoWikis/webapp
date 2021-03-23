@@ -3,7 +3,7 @@
 
 <div style="display: flex; flex-wrap: wrap;">
 
-    <% foreach(var category in Model.CategoriesIds){ %>
+    <% foreach(var category in Model.Categories){ %>
 
         <% if(category.IsSpoiler(Model)){ %>
 
@@ -16,7 +16,7 @@
                 </a>
             </div>
         <% }else{ %>
-            <% Html.RenderPartial("CategoryLabel", category); %>
+            <% Html.RenderPartial("CategoryLabel", EntityCache.GetCategoryCacheItem(category.Id)); %>
         <%} %>
 
     <% } %>
