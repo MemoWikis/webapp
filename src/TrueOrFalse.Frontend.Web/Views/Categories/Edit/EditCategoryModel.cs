@@ -485,7 +485,7 @@ public class EditCategoryModel : BaseModel
                 }
             }
 
-            ModifyRelationsForCategory.AddParentCategory(EntityCache.GetCategoryCacheItem(category.Id), parentFromDb.Id);            
+            ModifyRelationsForCategory.AddParentCategory(Sl.CategoryRepo.GetByIdEager(category.Id), parentFromDb.Id);            
         }
     }
 

@@ -42,21 +42,21 @@ public class ModifyRelationsForCategory
             categoryCacheItem.CategoryRelations.Remove(relation);
     }
 
-    private static void AddCategoryRelationOfType(CategoryCacheItem categoryCacherCacheItem, int relatedCategoryId, CategoryRelationType relationType)
+    private static void AddCategoryRelationOfType(Category categoryCacherCacheItem, int relatedCategoryId, CategoryRelationType relationType)
     {
-        if(categoryCacherCacheItem.CategoryRelations.Any(r => r.RelatedCategoryId == relatedCategoryId && r.CategoryRelationType == relationType))
+        if(categoryCacherCacheItem.CategoryRelations.Any(r => r.RelatedCategory.Id == relatedCategoryId && r.CategoryRelationType == relationType))
             return;
 
         categoryCacherCacheItem.CategoryRelations.Add(
-            new CategoryCacheRelation()
+            new CategoryRelation()
             {
-                CategoryId = categoryCacherCacheItem.Id,
-                RelatedCategoryId = relatedCategoryId,
+                Category = categoryCacherCacheItem,
+                RelatedCategory = Sl.CategoryRepo.GetByIdEager(relatedCategoryId),
                 CategoryRelationType = relationType 
             });
     }
 
-    public static void AddParentCategory(CategoryCacheItem category, int relatedCategoryId)
+    public static void AddParentCategory(Category category, int relatedCategoryId)
     {
         AddCategoryRelationOfType(category, relatedCategoryId, CategoryRelationType.IsChildCategoryOf);
     }

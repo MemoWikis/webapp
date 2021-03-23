@@ -54,7 +54,6 @@ public class EditCategoryController : BaseController
     }
 
     [HttpPost]
-    //[SetMenu(MainMenuEntry.Categories)]
     [SetThemeMenu(true)]
     public ViewResult Edit(int id, EditCategoryModel model)
     {
@@ -204,7 +203,7 @@ public class EditCategoryController : BaseController
     {
         var category = new Category(name);
         var parentCategory = EntityCache.GetCategoryCacheItem(parentCategoryId, getDataFromEntityCache:true);
-        ModifyRelationsForCategory.AddParentCategory(CategoryCacheItem.ToCacheCategory(category), parentCategory.Id);
+        ModifyRelationsForCategory.AddParentCategory(category, parentCategory.Id);
 
         category.Creator = _sessionUser.User;
         category.Type = CategoryType.Standard;
@@ -231,7 +230,7 @@ public class EditCategoryController : BaseController
 
         JobExecute.RunAsTask(scope =>
         {
-            ModifyRelationsForCategory.AddParentCategory( CategoryCacheItem.ToCacheCategory(category), category.Id);
+            ModifyRelationsForCategory.AddParentCategory( Sl.CategoryRepo.GetByIdEager(category.Id), category.Id);
         }, "ModifyRelationForCategoryJob");
 
         Sl.CategoryRepo.Create(category);
