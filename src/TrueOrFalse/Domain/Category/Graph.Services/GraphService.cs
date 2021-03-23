@@ -8,13 +8,13 @@ using FluentNHibernate.Conventions;
 public class GraphService
 {
     public static IList<CategoryCacheItem> GetAllParents(int categoryId) =>
-       GetAllParents(categoryId);
+       GetAllParents(EntityCache.GetCategoryCacheItem(categoryId));
 
-    public static IList<CategoryCacheItem> GetAllParents(Category category)
+    public static IList<CategoryCacheItem> GetAllParents(CategoryCacheItem category)
     {
-        category = category == null ? new Category() : category;
+        category = category == null ? new CategoryCacheItem() : category;
 
-        var currentGeneration = CategoryCacheItem.ToCacheCategories(category.ParentCategories()).ToList(); 
+        var currentGeneration = category.ParentCategories(); 
         var previousGeneration = new List<CategoryCacheItem>();
         var parents = new List<CategoryCacheItem>();  
 
@@ -173,7 +173,7 @@ public class GraphService
 
     public static void AutomaticInclusionOfChildCategories(Category category)
     {
-        var parentsFromParentCategories = GetAllParents(category);
+        var parentsFromParentCategories = GetAllParents(category.Id);
 
         foreach (var parentCategory in parentsFromParentCategories)
             ModifyRelationsForCategory.UpdateRelationsOfTypeIncludesContentOf(EntityCache.GetCategoryCacheItem(parentCategory.Id));
