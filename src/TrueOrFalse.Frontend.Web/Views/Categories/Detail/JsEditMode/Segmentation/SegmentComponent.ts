@@ -76,9 +76,9 @@
         },
         removeFromWishknowledge() {
             var self = this;
-            self.stateLoad = 'loading';
             if (this.stateLoad == 'loading')
                 return;
+            self.stateLoad = 'loading';
             var data = {
                 categoryId: self.categoryId,
             };
