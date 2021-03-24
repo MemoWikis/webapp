@@ -91,16 +91,7 @@ public class CategoryCacheItem
     {
         var list = new List<CategoryCacheItem>();
 
-        if (UserCache.GetItem(Sl.CurrentUserId).IsFiltered)
-        {
-            list = EntityCache
-                .GetCategoryCacheItem(Id, getDataFromEntityCache: true).CategoryRelations
-                .Where(r => EntityCache.GetCategoryCacheItem(r.RelatedCategoryId)
-                .IsInWishknowledge() && r.CategoryRelationType == CategoryRelationType.IncludesContentOf)
-                .Select(r => EntityCache.GetCategoryCacheItem(r.RelatedCategoryId)).ToList();
-        }
-        else
-            list = CategoryRelations.Where(r => r.CategoryRelationType == CategoryRelationType.IncludesContentOf)
+        list = CategoryRelations.Where(r => r.CategoryRelationType == CategoryRelationType.IncludesContentOf)
                 .Select(r => EntityCache.GetCategoryCacheItem(r.RelatedCategoryId)).ToList();
 
         if (includingSelf)

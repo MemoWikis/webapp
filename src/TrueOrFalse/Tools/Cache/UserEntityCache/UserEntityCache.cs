@@ -57,6 +57,7 @@ public class UserEntityCache : BaseCache
         return allCategories.TryGetValue(categoryId, out result) ?  result : null;
     }
 
+    public static IEnumerable<CategoryCacheItem> GetAllCategories(int userId) => _Categories[userId].Values;  
     public static ConcurrentDictionary<int, CategoryCacheItem> GetCategories(int userId)
     {
         if (!_Categories.ContainsKey(userId))
