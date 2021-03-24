@@ -4,11 +4,13 @@ public class SegmentationCategoryCardModel : BaseContentModule
 {
     public CategoryCacheItem Category;
     public string Title;
+    public int TotalQuestionCount; 
 
     public SegmentationCategoryCardModel(CategoryCacheItem category)
     {
         Category = category; 
         Title = category.Name;
+        TotalQuestionCount = GetTotalQuestionCount(category);
     }
 
     public int GetTotalQuestionCount(CategoryCacheItem category)
