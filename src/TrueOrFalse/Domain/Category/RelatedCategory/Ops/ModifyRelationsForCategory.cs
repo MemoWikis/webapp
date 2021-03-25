@@ -15,31 +15,34 @@ public class ModifyRelationsForCategory
         IList<int> relatedCategories, 
         CategoryRelationType relationType)
     {
-        var existingRelationsOfType = categoryCacheItem.CategoryRelations.Any()
-            ? categoryCacheItem.CategoryRelations?.Where(r => r.CategoryRelationType == relationType).ToList()
-            : new List<CategoryCacheRelation>();
+        var category = Sl.CategoryRepo.GetByIdEager(categoryCacheItem.Id);
+        var relatedCategoriesAsCategories = Sl.CategoryRepo.GetByIdsEager(relatedCategories); 
 
-        var relationsToAdd = relatedCategories
-            .Except(existingRelationsOfType.Select(r => r.RelatedCategoryId))
-            .Select(Id => new CategoryCacheRelation{
-                CategoryId = categoryCacheItem.Id, 
-                RelatedCategoryId = Id, 
+        var existingRelationsOfType = category.CategoryRelations.Any()
+            ? category.CategoryRelations?.Where(r => r.CategoryRelationType == relationType).ToList()
+            : new List<CategoryRelation>();
+
+        var relationsToAdd = relatedCategoriesAsCategories
+            .Except(existingRelationsOfType.Select(r => r.RelatedCategory))
+            .Select(Id => new CategoryRelation{
+                Category = category, 
+                RelatedCategory = Id, 
                 CategoryRelationType = relationType}
         );
 
-        var relationsToRemove = new List<CategoryCacheRelation>(); 
-        var relatedCategoriesDictionary =  relatedCategories.ToDictionary(Id => Id);
+        var relationsToRemove = new List<CategoryRelation>(); 
+        var relatedCategoriesDictionary =  relatedCategoriesAsCategories.ToConcurrentDictionary();
         foreach (var categoryRelation in existingRelationsOfType)
-            if (!relatedCategoriesDictionary.ContainsKey(categoryRelation.RelatedCategoryId))
+            if (!relatedCategoriesDictionary.ContainsKey(categoryRelation.RelatedCategory.Id))
             {
                 relationsToRemove.Add(categoryRelation);
             }
         
         foreach (var relation in relationsToAdd)
-            categoryCacheItem.CategoryRelations.Add(relation);
+            category.CategoryRelations.Add(relation);
 
         foreach (var relation in relationsToRemove)
-            categoryCacheItem.CategoryRelations.Remove(relation);
+            category.CategoryRelations.Remove(relation);
     }
 
     private static void AddCategoryRelationOfType(Category categoryCacherCacheItem, int relatedCategoryId, CategoryRelationType relationType)
