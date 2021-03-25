@@ -160,18 +160,22 @@ class User_entity_cache_tests : BaseTest
     [Test]
     public void Test_delete_category()
     {
-        ContextCategory.New().AddCaseThreeToCache();
+        var user = ContextCategory.New().AddCaseThreeToCache();
         EntityCache.Init();
 
         CategoryInKnowledge.Pin(EntityCache.GetAllCategories().ByName("E").Id, Sl.UserRepo.GetById(2));
         Sl.CategoryRepo.Delete(Sl.CategoryRepo.GetByName("E").First());
 
-        var userEntityCacheAfterDeleteForUser2 = UserEntityCache.GetCategories(2).Select(x => x.Value).ToList();
+
+        var userEntityCacheAfterDeleteForUser2 = UserEntityCache.GetCategories(user.Id).Select(x => x.Value).ToList();
+        var alleCategories = EntityCache.GetAllCategories();
+        var categoryIdForA = alleCategories.ByName("A").Id; 
+
 
         Assert.That(userEntityCacheAfterDeleteForUser2.Count, Is.EqualTo(7));
-        Assert.That(userEntityCacheAfterDeleteForUser2.ByName("X").CategoryRelations.First().RelatedCategoryId, Is.EqualTo("A"));
-        Assert.That(userEntityCacheAfterDeleteForUser2.ByName("X3").CategoryRelations.First().RelatedCategoryId, Is.EqualTo("A"));
-        Assert.That(userEntityCacheAfterDeleteForUser2.ByName("B").CategoryRelations.First().RelatedCategoryId, Is.EqualTo("A"));
+        Assert.That(userEntityCacheAfterDeleteForUser2.ByName("X").CategoryRelations.First().RelatedCategoryId, Is.EqualTo(categoryIdForA));
+        Assert.That(userEntityCacheAfterDeleteForUser2.ByName("X3").CategoryRelations.First().RelatedCategoryId, Is.EqualTo(categoryIdForA));
+        Assert.That(userEntityCacheAfterDeleteForUser2.ByName("B").CategoryRelations.First().RelatedCategoryId, Is.EqualTo(categoryIdForA));
 
         Assert.That(userEntityCacheAfterDeleteForUser2.ByName("G").CategoryRelations.Count(cr => EntityCache.GetCategoryCacheItem(cr.RelatedCategoryId).Name == "X"), Is.EqualTo(1));
         Assert.That(userEntityCacheAfterDeleteForUser2.ByName("G").CategoryRelations.Count(cr => EntityCache.GetCategoryCacheItem(cr.RelatedCategoryId).Name == "X3"), Is.EqualTo(1));

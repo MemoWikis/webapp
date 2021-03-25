@@ -34,6 +34,8 @@ class GraphService_tests : BaseTest
         CategoryInKnowledge.Pin(firstChildrenIdss.ByName("SubSub1").Id, user);
 
         Sl.SessionUser.Login(user);
+        EntityCache.Clear();
+        EntityCache.Init();
 
         var userPersonnelCategoriesWithRelations =   GraphService.GetAllPersonalCategoriesWithRelations_TP(CategoryCacheItem.ToCacheCategory(rootElement), 2);
 
@@ -43,10 +45,12 @@ class GraphService_tests : BaseTest
         Assert.That(userPersonnelCategoriesWithRelations.ByName("SubSub1").CategoryRelations.First().CategoryRelationType, Is.EqualTo(CategoryRelationType.IsChildCategoryOf));
 
     }
+
     [Test]
     public void Wish_knowledge_filter_simple_test()
     {
         // Case https://docs.google.com/drawings/d/1Wbne-XXmYkA578uSc6nY0mxz_s-pG8E9Q9flmgY2ZNY/
+        RecycleContainer();
 
         var context = ContextCategory.New();
 
@@ -88,8 +92,10 @@ class GraphService_tests : BaseTest
         CategoryInKnowledge.Pin(firstChildrenIds.ByName("I").Id, user);
 
         Sl.SessionUser.Login(user);
+        EntityCache.Init();
+        UserEntityCache.Clear();
 
-        var userPersonelCategoriesWithRealtions = GraphService.GetAllPersonalCategoriesWithRelations_TP(CategoryCacheItem.ToCacheCategory(rootElement),2);
+        var userPersonelCategoriesWithRealtions = GraphService.GetAllPersonalCategoriesWithRelations_TP(CategoryCacheItem.ToCacheCategory(rootElement),user.Id);
          
         //Test C
         Assert.That(IsAllRelationsAChildOf(userPersonelCategoriesWithRealtions.ByName("C").CategoryRelations), 
@@ -191,7 +197,10 @@ class GraphService_tests : BaseTest
     [Test]
     public void Wish_knowledge_filter_middle_test()
     {
+        RecycleContainer();
         ContextCategory.New().AddCaseTwoToCache();
+        EntityCache.Init();
+        UserEntityCache.Clear();
         var rootElement = EntityCache.GetAllCategories().First();
 
         var userPersonelCategoriesWithRealtions = GraphService.GetAllPersonalCategoriesWithRelations_TP(rootElement,2);
@@ -245,8 +254,11 @@ class GraphService_tests : BaseTest
     [Test]
     public void Wish_knowledge_filter_complex_test()
     {
+        RecycleContainer();
         ContextCategory.New().AddCaseThreeToCache();
+        EntityCache.Clear();
         EntityCache.Init();
+        UserEntityCache.Clear();
         var rootElement = EntityCache.GetAllCategories().ByName("A"); 
 
         var allPersonalCategoriesWithRelations = GraphService.GetAllPersonalCategoriesWithRelations_TP(rootElement, 2);
@@ -375,6 +387,7 @@ class GraphService_tests : BaseTest
     [Test]
     public void Wish_knowledge_filter_special_case()
     {
+        RecycleContainer();
         https://docs.google.com/drawings/d/1CWJoFSk5aAJf1EOpWqf1Ffr6ncjwxpOcJqFWZEXUVk4
 
         var context = ContextCategory.New();
@@ -408,6 +421,8 @@ class GraphService_tests : BaseTest
         CategoryInKnowledge.Pin(firstChildrenIds.ByName("F").Id, user);
         
         Sl.SessionUser.Login(user);
+        EntityCache.Init();
+        UserEntityCache.Clear();
 
         var userPersonnelCategoriesWithRelations = GraphService.GetAllPersonalCategoriesWithRelations_TP(CategoryCacheItem.ToCacheCategory(rootElement), 2);
 
@@ -428,7 +443,12 @@ class GraphService_tests : BaseTest
     [Test]
     public void Without_wish_knowledge()
     {
+        RecycleContainer();
         ContextCategory.New().AddCaseThreeToCache(false);
+        UserEntityCache.Clear();
+        EntityCache.Clear();
+        EntityCache.Init();
+        
         var rootElement = EntityCache.GetAllCategories().ByName("A");
 
         var userPersonelCategoriesWithRealtions = GraphService.GetAllPersonalCategoriesWithRelations_TP(rootElement, 2);
@@ -438,6 +458,7 @@ class GraphService_tests : BaseTest
     [Test]
     public void Should_delete_all_includes_content_of_relations()
     {
+        RecycleContainer();
         ContextCategory.New().AddCaseThreeToCache();
         var rootCategoryOriginal = EntityCache.GetAllCategories().First().DeepClone();
 
