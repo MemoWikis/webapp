@@ -65,7 +65,18 @@ public class CategoryRepository : RepositoryDbBase<Category>
             UserActivityAdd.CreatedCategory(category);
 
         _searchIndexCategory.Update(category);
-        EntityCache.AddOrUpdate(CategoryCacheItem.ToCacheCategory(category));
+        var categoryCacheItem = CategoryCacheItem.ToCacheCategory(category);
+    
+
+        EntityCache.AddOrUpdate(categoryCacheItem);
+        var parents = category.ParentCategories();
+
+        foreach (var categoryParent in parents)
+        {
+            var categoryCacheItemParent = EntityCache.GetCategoryCacheItem(categoryParent.Id); 
+
+            categoryCacheItemParent.CachedData.ChildrenIds.Add(categoryCacheItem.Id);   //change EntityCacheObject
+        }
 
         Sl.CategoryChangeRepo.AddCreateEntry(category, category.Creator);
     }
@@ -109,8 +120,12 @@ public class CategoryRepository : RepositoryDbBase<Category>
 
     public override void Delete(Category category)
     {
-        var categoryCacheItem = CategoryCacheItem.ToCacheCategory(category);
+        var categoryCacheItem = EntityCache.GetCategoryCacheItem(category.Id);
         var children = EntityCache.GetChildren(categoryCacheItem);
+        var parentIds = categoryCacheItem.CategoryRelations.Select(c => c.RelatedCategoryId);
+
+        
+
 
         _searchIndexCategory.Delete(category);
         base.Delete(category);
@@ -120,6 +135,12 @@ public class CategoryRepository : RepositoryDbBase<Category>
             category1.CategoryRelations = category1.CategoryRelations.Where(cr => cr.RelatedCategoryId != category.Id && cr.CategoryId != category.Id).ToList();
             EntityCache.AddOrUpdate(category1);
         }
+
+        foreach (var parentId in parentIds)
+        {
+             EntityCache.GetCategoryCacheItem(parentId).CachedData.ChildrenIds.Remove(categoryCacheItem.Id); //Remove ChildrenIds from Parents - change object
+        }
+
         EntityCache.Remove(categoryCacheItem);
         UserCache.RemoveAllForCategory(category.Id);
         UserEntityCache.ReInitAllActiveCategoryCaches();
