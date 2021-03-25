@@ -177,6 +177,7 @@ public class EntityCache : BaseCache
     private static void UpdateCategoryForQuestions(CategoryCacheItem categoryCacheItem)
     {
         var affectedQuestionsIds = GetQuestionsIdsForCategory(categoryCacheItem.Id);
+        var category = Sl.CategoryRepo.GetByIdEager(categoryCacheItem.Id); 
 
         foreach (var questionId in affectedQuestionsIds)
         {
@@ -187,7 +188,7 @@ public class EntityCache : BaseCache
                 if(categoryToReplace == null) return;
 
                 var index = question.Categories.IndexOf(categoryToReplace);
-                question.Categories[index] = Sl.CategoryRepo.GetByIdEager(categoryCacheItem.Id);
+                question.Categories[index] = category ;
             }
         }
     }
