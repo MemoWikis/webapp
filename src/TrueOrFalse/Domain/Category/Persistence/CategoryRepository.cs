@@ -89,7 +89,7 @@ public class CategoryRepository : RepositoryDbBase<Category>
         Flush();
 
         Sl.R<UpdateQuestionCountForCategory>().Run(new List<Category> { category });
-        var categoryCacheItem = CategoryCacheItem.ToCacheCategory(category);
+        var categoryCacheItem = EntityCache.GetCategoryCacheItem(category.Id);
         EntityCache.AddOrUpdate(categoryCacheItem );
         UserEntityCache.ChangeCategoryInUserEntityCaches(categoryCacheItem);
 
