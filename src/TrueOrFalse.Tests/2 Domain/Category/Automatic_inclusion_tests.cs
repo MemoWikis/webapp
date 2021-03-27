@@ -1,4 +1,6 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
+using System.Threading;
 using NUnit.Framework;
 using TrueOrFalse.Tests;
 
@@ -53,8 +55,33 @@ class Automatic_inclusion_tests : BaseTest
 
         Sl.CategoryRepo.Delete(context.All.ByName("Sub1"));
         Assert.That(EntityCache.GetByName("Category").First().CachedData.ChildrenIds.Count, Is.EqualTo(2));
+
         context.Add("Sub1", parent: parentA).Persist();
         Assert.That(EntityCache.GetByName("Category").First().CachedData.ChildrenIds.Count, Is.EqualTo(3));
+
+        context.All.ByName("Sub2").CategoryRelations.Add(new CategoryRelation
+        {
+            Category = context.All.ByName("Sub2"),
+            CategoryRelationType = CategoryRelationType.IsChildCategoryOf,
+            RelatedCategory = context.All.ByName("Sub3")
+        });
+        Sl.CategoryRepo.Update(context.All.ByName("Sub2"));
+        Assert.That(EntityCache.GetByName("Sub3").First().CachedData.ChildrenIds.Count, Is.EqualTo(1));
+
+
+        context.All.ByName("Sub3").CategoryRelations.RemoveAt(0);
+        Sl.CategoryRepo.Update(context.All.ByName("Sub3"));
+        Assert.That(EntityCache.GetByName("Category").First().CachedData.ChildrenIds.Count, Is.EqualTo(2));
+
+        context.All.ByName("Sub3").CategoryRelations.Add(new CategoryRelation
+        {
+            Category = context.All.ByName("Sub3"),
+            CategoryRelationType = CategoryRelationType.IsChildCategoryOf,
+            RelatedCategory = Sl.CategoryRepo.GetByName("Sub1").First() 
+        });
+        Sl.CategoryRepo.Update(context.All.ByName("Sub3"));
+
+        Assert.That(EntityCache.GetByName("Sub1").First().CachedData.ChildrenIds.Count, Is.EqualTo(1));
 
 
     }

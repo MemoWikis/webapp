@@ -66,19 +66,41 @@ public class CategoryRepository : RepositoryDbBase<Category>
 
         _searchIndexCategory.Update(category);
         var categoryCacheItem = CategoryCacheItem.ToCacheCategory(category);
-    
-
         EntityCache.AddOrUpdate(categoryCacheItem);
-        var parents = category.ParentCategories();
+
+        UpdateCachedData(categoryCacheItem, CreateDeleteUpdate.Create);
+
+        Sl.CategoryChangeRepo.AddCreateEntry(category, category.Creator);
+    }
+
+    public void UpdateCachedData(CategoryCacheItem categoryCacheItem, Enum createDeleteUpdate )
+    {
+        var parents = categoryCacheItem.ParentCategories();
 
         foreach (var categoryParent in parents)
         {
-            var categoryCacheItemParent = EntityCache.GetCategoryCacheItem(categoryParent.Id); 
+            var categoryCacheItemParent = EntityCache.GetCategoryCacheItem(categoryParent.Id);
+            switch (createDeleteUpdate)
+            {
+                case CreateDeleteUpdate.Create:
+                    categoryCacheItemParent.CachedData.ChildrenIds.Add(categoryCacheItem.Id);   //change EntityCacheObject
+                    break;
+                case CreateDeleteUpdate.Delete:
+                    categoryCacheItemParent.CachedData.ChildrenIds.Remove(categoryCacheItem.Id);   //change EntityCacheObject
+                    break;
 
-            categoryCacheItemParent.CachedData.ChildrenIds.Add(categoryCacheItem.Id);   //change EntityCacheObject
+            }
+
+            
         }
+    }
 
-        Sl.CategoryChangeRepo.AddCreateEntry(category, category.Creator);
+    enum CreateDeleteUpdate
+    {
+        Create = 1, 
+        Delete = 2,
+        Update = 3
+
     }
 
     /// <summary>
@@ -101,7 +123,31 @@ public class CategoryRepository : RepositoryDbBase<Category>
 
         Sl.R<UpdateQuestionCountForCategory>().Run(new List<Category> { category });
         var categoryCacheItem = EntityCache.GetCategoryCacheItem(category.Id);
+
+        var parentIdsCacheItem = categoryCacheItem.CategoryRelations.Where(cr => cr.CategoryRelationType == CategoryRelationType.IsChildCategoryOf).Select(cr => cr.RelatedCategoryId).ToList();
+        var parentIdsCategory = category.CategoryRelations.Where(cr => cr.CategoryRelationType == CategoryRelationType.IsChildCategoryOf).Select(cr => cr.RelatedCategory.Id).ToList();
+        var exceptIdsToAdd = parentIdsCategory.Except(parentIdsCacheItem);
+        var exceptIdsToDelete = parentIdsCacheItem.Except(parentIdsCategory);
+
+        if (exceptIdsToAdd.Any() || exceptIdsToDelete.Any())
+        {
+            foreach (var id in exceptIdsToAdd)
+            {
+                EntityCache.GetCategoryCacheItem(id).CachedData.ChildrenIds.Add(category.Id);
+            }
+
+            foreach (var id in exceptIdsToDelete)
+            {
+                EntityCache.GetCategoryCacheItem(id).CachedData.ChildrenIds.Remove(category.Id);
+            }
+        }
+            
+            
+            
+
         EntityCache.AddOrUpdate(categoryCacheItem );
+
+
         UserEntityCache.ChangeCategoryInUserEntityCaches(categoryCacheItem);
 
         JobExecute.RunAsTask(scope =>
@@ -122,11 +168,7 @@ public class CategoryRepository : RepositoryDbBase<Category>
     {
         var categoryCacheItem = EntityCache.GetCategoryCacheItem(category.Id);
         var children = EntityCache.GetChildren(categoryCacheItem);
-        var parentIds = categoryCacheItem.CategoryRelations.Select(c => c.RelatedCategoryId);
-
         
-
-
         _searchIndexCategory.Delete(category);
         base.Delete(category);
 
@@ -136,11 +178,7 @@ public class CategoryRepository : RepositoryDbBase<Category>
             EntityCache.AddOrUpdate(category1);
         }
 
-        foreach (var parentId in parentIds)
-        {
-             EntityCache.GetCategoryCacheItem(parentId).CachedData.ChildrenIds.Remove(categoryCacheItem.Id); //Remove ChildrenIds from Parents - change object
-        }
-
+        UpdateCachedData(categoryCacheItem, CreateDeleteUpdate.Delete);
         EntityCache.Remove(categoryCacheItem);
         UserCache.RemoveAllForCategory(category.Id);
         UserEntityCache.ReInitAllActiveCategoryCaches();
