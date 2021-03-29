@@ -68,14 +68,19 @@ public class CategoryRepository : RepositoryDbBase<Category>
         var categoryCacheItem = CategoryCacheItem.ToCacheCategory(category);
         EntityCache.AddOrUpdate(categoryCacheItem);
 
-        UpdateCachedData(categoryCacheItem, CreateDeleteUpdate.Create);
+        UpdateCachedData(categoryCacheItem, CreateDeleteUpdate.Create, category);
 
         Sl.CategoryChangeRepo.AddCreateEntry(category, category.Creator);
+        JobExecute.RunAsTask(scope =>
+        {
+            GraphService.AutomaticInclusionOfChildCategories(category);
+        }, "AutomaticInclusionOfChildCategories");
     }
 
     public void UpdateCachedData(CategoryCacheItem categoryCacheItem, Enum createDeleteUpdate,Category category = null )
     {
         IList<CategoryCacheItem> parents = new List<CategoryCacheItem>();
+        
 
         if (UserCache.GetItem(Sl.SessionUser.UserId).IsFiltered)
         {
@@ -175,11 +180,6 @@ public class CategoryRepository : RepositoryDbBase<Category>
         EntityCache.AddOrUpdate(categoryCacheItem );
 
         UserEntityCache.ChangeCategoryInUserEntityCaches(categoryCacheItem);
-
-        JobExecute.RunAsTask(scope =>
-        {
-            GraphService.AutomaticInclusionOfChildCategories(category);
-        }, "AutomaticInclusionOfChildCategories");
     }
 
     public void UpdateBeforeEntityCacheInit(Category category)
@@ -204,7 +204,7 @@ public class CategoryRepository : RepositoryDbBase<Category>
             EntityCache.AddOrUpdate(category1);
         }
 
-        UpdateCachedData(categoryCacheItem, CreateDeleteUpdate.Delete);
+        UpdateCachedData(categoryCacheItem, CreateDeleteUpdate.Delete, category);
         EntityCache.Remove(categoryCacheItem);
         UserCache.RemoveAllForCategory(category.Id);
         UserEntityCache.ReInitAllActiveCategoryCaches();

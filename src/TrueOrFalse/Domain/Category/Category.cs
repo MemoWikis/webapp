@@ -68,17 +68,15 @@ public class Category : DomainEntity, ICreator, ICloneable
     public virtual IList<Category> AggregatedCategories(bool includingSelf = true)
     {
         var list = new List<Category>();
+        list = CategoryRelations.Where(r => r.CategoryRelationType == CategoryRelationType.IncludesContentOf)
+            .Select(r => Sl.CategoryRepo.GetByIdEager(r.RelatedCategory.Id)).ToList();
 
-        if (UserCache.GetItem(Sl.CurrentUserId).IsFiltered)
-        {
-            list = Sl.CategoryRepo.GetByIdEager((Id)).CategoryRelations
-                .Where(r => r.RelatedCategory
-                .IsInWishknowledge() && r.CategoryRelationType == CategoryRelationType.IncludesContentOf)
-                .Select(r => Sl.CategoryRepo.GetByIdEager(r.RelatedCategory.Id)).ToList();
-        }
-        else
-            list = CategoryRelations.Where(r => r.CategoryRelationType == CategoryRelationType.IncludesContentOf)
-                .Select(r => Sl.CategoryRepo.GetByIdEager(r.RelatedCategory.Id)).ToList();
+        if (Sl.SessionUser.User != null && UserCache.GetItem(Sl.SessionUser.User.Id).IsFiltered)
+
+            list = list.Where(c => c.IsInWishknowledge()).ToList(); 
+              
+       
+
 
         if (includingSelf)
             list.Add(this);

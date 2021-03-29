@@ -76,9 +76,8 @@ namespace TrueOrFalse.Tests.Persistence
         {
             var context = ContextCategory.New();
            var user =  context.AddCaseThreeToCache();
-            EntityCache.Init();
 
-            var categories = EntityCache.GetAllCategories();
+           var categories = Sl.CategoryRepo.GetAllEager();
 
             for (int i = 0; i < categories.Count; i++)
             {
@@ -87,11 +86,11 @@ namespace TrueOrFalse.Tests.Persistence
                     var category = categories.ByName("A");
 
                     category.CategoryRelations.Add(
-                        new CategoryCacheRelation()
+                        new CategoryRelation()
                         {
-                            CategoryId = categories[i].Id,
+                            Category = category ,
                             CategoryRelationType = CategoryRelationType.IncludesContentOf,
-                            RelatedCategoryId = category.Id
+                            RelatedCategory = categories[i]
                         });
 
                     context.Update(Sl.CategoryRepo.GetByIdEager(category.Id));

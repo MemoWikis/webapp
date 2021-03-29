@@ -90,9 +90,13 @@ public class CategoryCacheItem
     public virtual IList<CategoryCacheItem> AggregatedCategories(bool includingSelf = true)
     {
         var list = new List<CategoryCacheItem>();
-
-        list = CategoryRelations.Where(r => r.CategoryRelationType == CategoryRelationType.IncludesContentOf)
-                .Select(r => EntityCache.GetCategoryCacheItem(r.RelatedCategoryId)).ToList();
+        list = EntityCache.GetCategoryCacheItem((Id)).CategoryRelations
+            .Where(r => r.CategoryRelationType == CategoryRelationType.IncludesContentOf)
+            .Select(r => EntityCache.GetCategoryCacheItem(r.RelatedCategoryId)).ToList(); 
+        if (UserCache.GetItem(Sl.CurrentUserId).IsFiltered)
+        {
+            list = list.Where(c => c.IsInWishknowledge()).ToList(); 
+        }
 
         if (includingSelf)
             list.Add(this);
