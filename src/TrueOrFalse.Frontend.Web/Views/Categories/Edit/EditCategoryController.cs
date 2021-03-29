@@ -212,8 +212,7 @@ public class EditCategoryController : BaseController
         CategoryInKnowledge.Pin(category.Id, Sl.SessionUser.User);
         StoreImage(category.Id);
         
-        if(UserCache.GetItem(Sl.CurrentUserId).IsFiltered)
-            UserEntityCache.Add(CategoryCacheItem.ToCacheCategory(category), UserId);
+        
 
         return Json(new
         {

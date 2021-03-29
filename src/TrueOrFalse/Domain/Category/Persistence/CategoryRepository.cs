@@ -73,25 +73,73 @@ public class CategoryRepository : RepositoryDbBase<Category>
         Sl.CategoryChangeRepo.AddCreateEntry(category, category.Creator);
     }
 
-    public void UpdateCachedData(CategoryCacheItem categoryCacheItem, Enum createDeleteUpdate )
+    public void UpdateCachedData(CategoryCacheItem categoryCacheItem, Enum createDeleteUpdate,Category category = null )
     {
-        var parents = categoryCacheItem.ParentCategories();
+        IList<CategoryCacheItem> parents = new List<CategoryCacheItem>();
+
+        if (UserCache.GetItem(Sl.SessionUser.UserId).IsFiltered)
+        {
+            parents = categoryCacheItem.ParentCategories().Where(c => c.IsInWishknowledge()).ToList();
+            if (parents.Count == 0)
+                parents.Add(EntityCache.GetCategoryCacheItem(RootCategory.RootCategoryId)); 
+        }
+
+        else
+            parents = categoryCacheItem.ParentCategories();
 
         foreach (var categoryParent in parents)
         {
-            var categoryCacheItemParent = EntityCache.GetCategoryCacheItem(categoryParent.Id);
+            CategoryCacheItem categoryCacheItemParent = EntityCache.GetCategoryCacheItem(categoryParent.Id); ; 
+        
             switch (createDeleteUpdate)
             {
                 case CreateDeleteUpdate.Create:
-                    categoryCacheItemParent.CachedData.ChildrenIds.Add(categoryCacheItem.Id);   //change EntityCacheObject
+                    categoryCacheItemParent.CachedData.ChildrenIds.Add(categoryCacheItem.Id);
+
+                    if (UserCache.GetItem(Sl.CurrentUserId).IsFiltered)
+                        UserEntityCache.Add(categoryCacheItem, Sl.CurrentUserId);//change EntityCacheObject
+
+                    UserEntityCache.ChangeCategoryInUserEntityCaches(categoryCacheItemParent);
                     break;
                 case CreateDeleteUpdate.Delete:
                     categoryCacheItemParent.CachedData.ChildrenIds.Remove(categoryCacheItem.Id);   //change EntityCacheObject
+                    UserEntityCache.ChangeCategoryInUserEntityCaches(categoryCacheItemParent);
                     break;
+                case CreateDeleteUpdate.Update:
+                    if (category != null)
+                    {
+                        var parentIdsCacheItem = categoryCacheItem.CategoryRelations
+                            .Where(cr => cr.CategoryRelationType == CategoryRelationType.IsChildCategoryOf)
+                            .Select(cr => cr.RelatedCategoryId).ToList();
+                        var parentIdsCategory = category.CategoryRelations
+                            .Where(cr => cr.CategoryRelationType == CategoryRelationType.IsChildCategoryOf)
+                            .Select(cr => cr.RelatedCategory.Id).ToList();
+                        var exceptIdsToAdd = parentIdsCategory.Except(parentIdsCacheItem).ToList();
+                        var exceptIdsToDelete = parentIdsCacheItem.Except(parentIdsCategory).ToList();
 
+                        if (exceptIdsToAdd.Any() || exceptIdsToDelete.Any())
+                        {
+                            foreach (var id in exceptIdsToAdd)
+                            {
+                                var addCategory = EntityCache.GetCategoryCacheItem(id); 
+                                    addCategory.CachedData.ChildrenIds.Add(category.Id);
+                                UserEntityCache.ChangeCategoryInUserEntityCaches(addCategory);
+                            }
+
+                            foreach (var id in exceptIdsToDelete)
+                            {
+                                var removeCategory = EntityCache.GetCategoryCacheItem(id);
+                                    removeCategory.CachedData.ChildrenIds.Remove(category.Id);
+                                    UserEntityCache.ChangeCategoryInUserEntityCaches(removeCategory);
+                            }
+                        }
+                    }
+                    else
+                    {
+                        Logg.r().Error("category do not have null");
+                    }
+                    break;
             }
-
-            
         }
     }
 
@@ -100,7 +148,6 @@ public class CategoryRepository : RepositoryDbBase<Category>
         Create = 1, 
         Delete = 2,
         Update = 3
-
     }
 
     /// <summary>
@@ -123,30 +170,9 @@ public class CategoryRepository : RepositoryDbBase<Category>
 
         Sl.R<UpdateQuestionCountForCategory>().Run(new List<Category> { category });
         var categoryCacheItem = EntityCache.GetCategoryCacheItem(category.Id);
-
-        var parentIdsCacheItem = categoryCacheItem.CategoryRelations.Where(cr => cr.CategoryRelationType == CategoryRelationType.IsChildCategoryOf).Select(cr => cr.RelatedCategoryId).ToList();
-        var parentIdsCategory = category.CategoryRelations.Where(cr => cr.CategoryRelationType == CategoryRelationType.IsChildCategoryOf).Select(cr => cr.RelatedCategory.Id).ToList();
-        var exceptIdsToAdd = parentIdsCategory.Except(parentIdsCacheItem);
-        var exceptIdsToDelete = parentIdsCacheItem.Except(parentIdsCategory);
-
-        if (exceptIdsToAdd.Any() || exceptIdsToDelete.Any())
-        {
-            foreach (var id in exceptIdsToAdd)
-            {
-                EntityCache.GetCategoryCacheItem(id).CachedData.ChildrenIds.Add(category.Id);
-            }
-
-            foreach (var id in exceptIdsToDelete)
-            {
-                EntityCache.GetCategoryCacheItem(id).CachedData.ChildrenIds.Remove(category.Id);
-            }
-        }
-            
-            
-            
+        UpdateCachedData(categoryCacheItem, CreateDeleteUpdate.Update, category);
 
         EntityCache.AddOrUpdate(categoryCacheItem );
-
 
         UserEntityCache.ChangeCategoryInUserEntityCaches(categoryCacheItem);
 
