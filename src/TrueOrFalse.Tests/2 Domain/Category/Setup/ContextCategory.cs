@@ -100,8 +100,7 @@ namespace TrueOrFalse.Tests
         }
 
         public ContextCategory Persist()
-        {
-            foreach(var cat in All)
+        { foreach(var cat in All)
                 if(cat.Id <= 0) //if not allread created
                     _categoryRepository.Create(cat);
 
@@ -240,6 +239,14 @@ namespace TrueOrFalse.Tests
         public static bool HasCorrectChild(CategoryCacheItem categoryCachedItem, string childName)
         {
             return categoryCachedItem.CachedData.ChildrenIds.Any(child => child == EntityCache.GetByName(childName).First().Id );
+        }
+
+        public static bool HasCorrectParent(CategoryCacheItem categoryCachedItem, string parentName)
+        {
+
+            var e = EntityCache.GetByName(parentName).First().Id;
+            return categoryCachedItem.CategoryRelations.Any(cr =>
+                cr.RelatedCategoryId == EntityCache.GetByName(parentName).First().Id);
         }
     }
 }

@@ -43,7 +43,7 @@ public class GraphService
     }
 
     public static IList<CategoryCacheItem> GetAllPersonalCategoriesWithRelations_TP(CategoryCacheItem category, int userId = -1) =>
-        GetAllPersonalCategoriesWithRelations(category.Id, userId);
+        GetAllPersonalCategoriesWithRelations(category.Id, userId, true);
 
     public static IList<CategoryCacheItem> GetAllPersonalCategoriesWithRelations(int rootCategoryId, int userId = -1, bool isFromUserEntityCache = false)
     {
@@ -72,7 +72,7 @@ public class GraphService
             {
                 var parentId = parents.First();
 
-                if (UserCache.IsInWishknowledge(parentId, userId) || parentId == rootCategoryId && hasRootInParents)
+                if (UserCache.IsInWishknowledge(userId, parentId) || parentId == rootCategoryId && hasRootInParents)
                 {
                     var categoryRelation = new CategoryCacheRelation()
                     {

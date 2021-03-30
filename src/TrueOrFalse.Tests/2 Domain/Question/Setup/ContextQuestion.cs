@@ -154,7 +154,8 @@ namespace TrueOrFalse.Tests
 
         public ContextQuestion AddCategory(string categoryName)
         {
-            _contextCategory.Add(categoryName);
+            _contextCategory.Add(categoryName).Persist();
+            EntityCache.Init();
             All.Last().Categories.Add(_contextCategory.All.Last());
             return this;
         }
@@ -171,7 +172,7 @@ namespace TrueOrFalse.Tests
 
         public static void PutQuestionIntoMemoryCache(int answerProbability, int id)
         {
-            ContextCategory.New(false).AddToEntityCache("Category name", CategoryType.Standard, null, true);
+            ContextCategory.New(false).AddToEntityCache("Category name").Persist();
             var categories = Sl.CategoryRepo.GetAllEager(); 
 
             var questions = New().AddQuestion("", "", id, true, null, categories, answerProbability).All;
@@ -186,7 +187,7 @@ namespace TrueOrFalse.Tests
         public static void PutQuestionsIntoMemoryCache(int amount = 20)
         {
 
-            ContextCategory.New(false).AddToEntityCache("Category name", CategoryType.Standard, null, true, 1).Persist();
+            ContextCategory.New(false).AddToEntityCache("Category name", CategoryType.Standard).Persist();
             var categories = Sl.CategoryRepo.GetAllEager();
 
             var questions = New().AddQuestions(amount, null, true, categories).All;
