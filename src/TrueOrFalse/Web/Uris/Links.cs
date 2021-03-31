@@ -133,7 +133,7 @@ namespace TrueOrFalse.Frontend.Web.Code
             return "/Fragen/Suche/Kategorie/" + UriSanitizer.Run(categoryName) + "/" + categoryId;
         }
 
-        public static string QuestionWish_WithCategoryFilter(Category category) => "/Fragen/Wunschwissen/Suche/Kategorie/" + UriSanitizer.Run(category.Name) + "/" + category.Id;
+        public static string QuestionWish_WithCategoryFilter(CategoryCacheItem category) => "/Fragen/Wunschwissen/Suche/Kategorie/" + UriSanitizer.Run(category.Name) + "/" + category.Id;
 
         public static string QuestionWithCreatorFilter(UrlHelper url, User user) => user != null
             ? "/Fragen/Suche/" + "Ersteller__" + user.Name + "__"
@@ -380,8 +380,8 @@ namespace TrueOrFalse.Frontend.Web.Code
             if (type == null)
                 return "";
 
-            if (type is Category)
-                return CategoryDetail((Category) type);
+            if (type is CategoryCacheItem)
+                return CategoryDetail((CategoryCacheItem) type);
 
             if (type is Set)
                 return SetDetail((Set)type);
