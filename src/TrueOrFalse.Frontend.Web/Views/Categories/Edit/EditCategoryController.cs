@@ -202,8 +202,7 @@ public class EditCategoryController : BaseController
     public JsonResult QuickCreate(string name, int parentCategoryId, bool isPrivate)
     {
         var category = new Category(name);
-        var parentCategory = EntityCache.GetCategoryCacheItem(parentCategoryId, getDataFromEntityCache:true);
-        ModifyRelationsForCategory.AddParentCategory(category, parentCategory.Id);
+        ModifyRelationsForCategory.AddParentCategory(category, parentCategoryId);
 
         category.Creator = _sessionUser.User;
         category.Type = CategoryType.Standard;
@@ -214,8 +213,6 @@ public class EditCategoryController : BaseController
         CategoryInKnowledge.Pin(category.Id, Sl.SessionUser.User);
         StoreImage(category.Id);
         
-        
-
         return Json(new
         {
             success = true,
@@ -231,7 +228,7 @@ public class EditCategoryController : BaseController
         if (isPrivate)
             category.Visibility = CategoryVisibility.Owner;
         
-        var parentCategory = EntityCache.GetCategory(parentCategoryId);
+        var parentCategory = EntityCache.GetCategoryCacheItem(parentCategoryId);
 
         JobExecute.RunAsTask(scope =>
         {
@@ -252,7 +249,7 @@ public class EditCategoryController : BaseController
             updatedParentList.Add(category);
 
             var childCategoryAsCategory =Sl.CategoryRepo.GetByIdEager(childCategory.Id); 
-            ModifyRelationsForCategory.UpdateCategoryRelationsOfType( CategoryCacheItem.ToCacheCategory(childCategory), updatedParentList.Select(c => c.Id).ToList(), CategoryRelationType.IsChildCategoryOf);
+            ModifyRelationsForCategory.UpdateCategoryRelationsOfType(CategoryCacheItem.ToCacheCategory(childCategory), updatedParentList.Select(c => c.Id).ToList(), CategoryRelationType.IsChildCategoryOf);
             Sl.CategoryRepo.Update(childCategoryAsCategory, _sessionUser.User);
         }
         UserEntityCache.ReInitAllActiveCategoryCaches();
