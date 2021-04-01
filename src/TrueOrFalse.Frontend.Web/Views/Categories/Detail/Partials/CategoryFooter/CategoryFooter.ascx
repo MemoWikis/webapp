@@ -21,7 +21,7 @@
             <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="<%= buttonId %>">
                 <li><a href="<%= Links.CategoryHistory(Model.Id) %>"><i class="fa fa-code-fork"></i>&nbsp;Bearbeitungshistorie</a></li>
                 <li><a href="<%= Links.CategoryEdit(Url, Model.Name, Model.Id) %>" data-allowed="logged-in" ><i class="fa fa-pencil"></i>&nbsp;bearbeiten</a></li>
-                <li><a href="<%= Links.CreateQuestion(categoryId: Model.Id) %>" data-allowed="logged-in" ><i class="fa fa-plus-circle"></i>&nbsp;Frage hinzufügen</a></li>
+                <li><a href="<%= Links.CreateQuestion(Model.Id) %>" data-allowed="logged-in" ><i class="fa fa-plus-circle"></i>&nbsp;Frage hinzufügen</a></li>
                 <li><a href="<%= Links.CategoryCreate(Model.Id) %>" data-allowed="logged-in" ><i class="fa fa-plus-circle"></i>&nbsp;Unterthema hinzufügen</a></li>
             </ul>
         </div>
@@ -33,14 +33,14 @@
         
             <div style="display: flex; justify-content: space-between; margin-top: 20px;">
                 <div class="QuestionCounter">
-                    <p><% string aggregatedQuestionCount = "Keine";
-                          if (Model.AggregatedQuestionCount > 0)
-                              aggregatedQuestionCount = Model.AggregatedQuestionCount.ToString();%>
-                        <%= aggregatedQuestionCount %> Frage<%= StringUtils.PluralSuffix(Model.AggregatedQuestionCount, "n") %> im Wissensnetz.</p>
+                    <p><% string CountAggregatedQuestions = "Keine";
+                          if (Model.CountAggregatedQuestions > 0)
+                              CountAggregatedQuestions = Model.CountAggregatedQuestions.ToString();%>
+                        <%= CountAggregatedQuestions %> Frage<%= StringUtils.PluralSuffix(Model.CountAggregatedQuestions, "n") %> im Wissensnetz.</p>
                     <p><% string questionCount = "Keine";
-                          if (Model.CategoryQuestionCount > 0)
-                              questionCount = Model.CategoryQuestionCount.ToString();%>
-                        <%= questionCount %> Frage<%= StringUtils.PluralSuffix(Model.CategoryQuestionCount, "n") %> direkt zugeordnet.</p>
+                          if (Model.CountAggregatedQuestions > 0)
+                              questionCount = Model.CountAggregatedQuestions.ToString();%>
+                        <%= questionCount %> Frage<%= StringUtils.PluralSuffix(Model.CountAggregatedQuestions, "n") %> direkt zugeordnet.</p>
                 </div>
                 <div class="StartLearningSession">
                     <a href="<%=Links.LearningSessionFooter(Model.Id, Model.Category.Name) %>" id="LearningFooterBtn" data-tab-id="LearningTab" class="btn btn-lg btn-primary footerBtn" >Lernsitzung starten</a> 

@@ -38,9 +38,9 @@
         <% if(Model.User.ShowWishKnowledge || Model.IsCurrentUser){ %>
         <h4 style="margin-top: 20px;">Themen mit Wunschwissen</h4>
             <% foreach (var item in Model.WishQuestionsCategories.OrderByDescending(x => x.Questions.Count)){ %>
-                <% Html.RenderPartial("CategoryLabel", item.Category); %>
+                <% Html.RenderPartial("CategoryLabel", item.CategoryCacheItem); %>
                 <% if(Model.IsCurrentUser) { %>
-                    <a href="<%= Links.QuestionWish_WithCategoryFilter(item.Category) %>" class="show-tooltip" title="<%: item.Questions.Count %> Fragen im Wunschwissen">
+                    <a href="<%= Links.QuestionWish_WithCategoryFilter(item.CategoryCacheItem) %>" class="show-tooltip" title="<%: item.Questions.Count %> Fragen im Wunschwissen">
                 <% } %>
                     <span><%: item.Questions.Count %>x</span> 
                 <% if(Model.IsCurrentUser) { %>

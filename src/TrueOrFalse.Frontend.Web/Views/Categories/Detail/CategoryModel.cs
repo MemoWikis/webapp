@@ -16,13 +16,11 @@ public class CategoryModel : BaseContentModule
     public string CustomPageHtml;//Is set in controller because controller context is needed
     public CategoryChange CategoryChange;//Is set in controller because controller context is needed
     public bool NextRevExists;   //Is set in controller because controller context is needed
-    public IList<Category> CategoriesParent;
-    public IList<Category> CategoriesChildren;
+    public IList<CategoryCacheItem> CategoriesParent;
+    public IList<CategoryCacheItem> CategoriesChildren;
     public IList<Question> AggregatedQuestions;
     public IList<Question> CategoryQuestions;
     public int AggregatedTopicCount;
-    public int AggregatedQuestionCount;
-    public int CategoryQuestionCount;
     public IList<Question> TopQuestions;
     public IList<Question> TopQuestionsWithReferences;
     public List<Question> TopQuestionsInSubCats = new List<Question>();
@@ -37,7 +35,7 @@ public class CategoryModel : BaseContentModule
     public string CreatorName;
     public string CreationDate;
     public string ImageUrl_250;
-    public Category Category;
+    public CategoryCacheItem Category;
     public ImageFrontendData ImageFrontendData;
     public string WikipediaURL;
     public string Url;
@@ -67,7 +65,7 @@ public class CategoryModel : BaseContentModule
     {
     }
 
-    public CategoryModel(Category category, bool loadKnowledgeSummary = true, bool isCategoryNull = false)
+    public CategoryModel(CategoryCacheItem category, bool loadKnowledgeSummary = true, bool isCategoryNull = false)
     {
         TopNavMenu.BreadCrumbCategories = CrumbtrailService.Get(category, RootCategory.Get);
 
@@ -118,7 +116,9 @@ public class CategoryModel : BaseContentModule
         IsOwnerOrAdmin = _sessionUser.IsLoggedInUserOrAdmin(Creator.Id);
 
         CategoriesParent = category.ParentCategories();
-        CategoriesChildren = UserCache.IsFiltered ? UserEntityCache.GetChildren(category.Id, UserId) : EntityCache.GetChildren(category.Id);
+        CategoriesChildren = UserCache.GetItem(_sessionUser.UserId).IsFiltered ? 
+            UserEntityCache.GetChildren(category.Id, UserId) :
+           EntityCache.GetChildren(category.Id, true);
 
         CorrectnesProbability = category.CorrectnessProbability;
         AnswersTotal = category.CorrectnessProbabilityAnswerCount;
@@ -149,12 +149,9 @@ public class CategoryModel : BaseContentModule
         TopWishQuestions = wishQuestions.Items;
 
         SingleQuestions = GetQuestionsForCategory.QuestionsNotIncludedInSet(Id);
-        IsFilteredUserWorld = UserCache.IsFiltered;
+        IsFilteredUserWorld = UserCache.GetItem(_sessionUser.UserId).IsFiltered;
 
         AggregatedTopicCount = IsFilteredUserWorld ? CategoriesChildren.Count : GetTotalTopicCount(category);
-
-        AggregatedQuestionCount = Category.GetCountQuestionsAggregated();
-        CategoryQuestionCount = Category.GetCountQuestionsAggregated(true, category.Id);
         HardestQuestion = GetQuestion(true);
         EasiestQuestion = GetQuestion(false);
 
@@ -195,7 +192,7 @@ public class CategoryModel : BaseContentModule
         }
     }
 
-    public ImageUrl GetCategoryImageUrl(Category category)
+    public ImageUrl GetCategoryImageUrl(CategoryCacheItem category)
     {
         var imageMetaData = Sl.ImageMetaDataRepo.GetBy(category.Id, ImageType.Category);
         return new ImageFrontendData(imageMetaData).GetImageUrl(232);
@@ -225,41 +222,15 @@ public class CategoryModel : BaseContentModule
 
     public Question GetDummyQuestion()
     {
-        Question dummyQuestion = new Question(); 
-
-        if (Category.CountQuestionsAggregated > 0 && !UserCache.IsFiltered)
-        {
-            var questionId = Category
+        var questionId = Category
                 .GetAggregatedQuestionsFromMemoryCache()
                 .Where(q => q.IsVisibleToCurrentUser())
                 .Select(q => q.Id)
                 .FirstOrDefault();
 
             return EntityCache.GetQuestionById(questionId);
-
-        }
-
-        if (Category.CountQuestionsAggregated > 0 && UserCache.IsFiltered)
-        {
-            var questionsFromCurrentCategoryAndChildren =
-                LearningSessionCreator.GetCategoryQuestionsFromEntityCache(Category.Id);
-            var allChildCategories = UserEntityCache.GetChildren(Category.Id, UserId);
-
-            foreach (var childCategory in allChildCategories)
-            {
-                var childQuestions = LearningSessionCreator.GetCategoryQuestionsFromEntityCache(childCategory.Id);
-                foreach (var question in childQuestions)
-                {
-                    questionsFromCurrentCategoryAndChildren.Add(question);
-                }
-            }
-
-            return questionsFromCurrentCategoryAndChildren.First(); 
-        }
-
-        return dummyQuestion; 
     }
-    public int GetTotalTopicCount(Category category)
+    public int GetTotalTopicCount(CategoryCacheItem category)
     {
         return EntityCache.GetChildren(category.Id).Count(c =>
                 c.Type == CategoryType.Standard && c.GetAggregatedQuestionIdsFromMemoryCache().Count > 0);

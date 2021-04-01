@@ -4,16 +4,16 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Web;
-using Seedworks.Lib.Persistence;
-
 public class EntityCache : BaseCache
 {
     private const string _cacheKeyQuestions = "allQuestions _EntityCache";
     private const string _cacheKeyCategories = "allCategories_EntityCache";
     private const string _cacheKeyCategoryQuestionsList = "categoryQuestionsList_EntityCache";
 
+    private static bool IsFirstStart = true; 
+
     private static ConcurrentDictionary<int, Question> Questions => (ConcurrentDictionary<int, Question>)HttpRuntime.Cache[_cacheKeyQuestions];
-    private static ConcurrentDictionary<int, Category> Categories => (ConcurrentDictionary<int, Category>)HttpRuntime.Cache[_cacheKeyCategories];
+    private static ConcurrentDictionary<int, CategoryCacheItem> Categories => (ConcurrentDictionary<int, CategoryCacheItem>)HttpRuntime.Cache[_cacheKeyCategories];
 
     /// <summary>
     /// Dictionary(key:categoryId, value:questions)
@@ -27,8 +27,9 @@ public class EntityCache : BaseCache
 
         Logg.r().Information("EntityCache Start" + customMessage + "{Elapsed}", stopWatch.Elapsed);
 
-        var categories = Sl.CategoryRepo.GetAllEager();
+        var categories = CategoryCacheItem.ToCacheCategories(Sl.CategoryRepo.GetAllEager()).ToList();
         var questions = Sl.QuestionRepo.GetAllEager();
+        
 
         Logg.r().Information("EntityCache LoadAllEntities" + customMessage + "{Elapsed}", stopWatch.Elapsed);
 
@@ -37,6 +38,8 @@ public class EntityCache : BaseCache
         IntoForeverCache(_cacheKeyCategoryQuestionsList, GetCategoryQuestionsList(questions));
 
         Logg.r().Information("EntityCache PutIntoCache" + customMessage + "{Elapsed}", stopWatch.Elapsed);
+
+        IsFirstStart = false; 
     }
 
     private static ConcurrentDictionary<int, ConcurrentDictionary<int, int>> GetCategoryQuestionsList(IList<Question> questions)
@@ -83,7 +86,6 @@ public class EntityCache : BaseCache
 
     public static IList<Question> GetAllQuestions() => Questions.Values.ToList();
  
-
     public static Question GetQuestionById(int questionId)
     {
         if (Questions.TryGetValue(questionId, out var question))
@@ -121,11 +123,11 @@ public class EntityCache : BaseCache
     private static void AddQuestionToCategories(
         Question question,
         ConcurrentDictionary<int, ConcurrentDictionary<int, int>> categoryQuestionsList,
-        IList<Category> categories = null)
+        IList<CategoryCacheItem> categories = null)
     {
         if (categories == null)
         {
-            categories = question.Categories;
+            categories = GetCategoryCacheItems(question.Categories.GetIds()).ToList();
         }
 
         foreach (var category in categories)
@@ -165,32 +167,33 @@ public class EntityCache : BaseCache
         RemoveQuestionFrom(CategoryQuestionsList, question);
     }
 
-    public static void AddOrUpdate(Category category)
+    public static void AddOrUpdate(CategoryCacheItem categoryCacheItem)
     {
-        AddOrUpdate(Categories, category);
+        AddOrUpdate(Categories, categoryCacheItem);
 
-        UpdateCategoryForQuestions(category);
+        UpdateCategoryForQuestions(categoryCacheItem);
     }
 
-    private static void UpdateCategoryForQuestions(Category category)
+    private static void UpdateCategoryForQuestions(CategoryCacheItem categoryCacheItem)
     {
-        var affectedQuestionsIds = GetQuestionsIdsForCategory(category.Id);
+        var affectedQuestionsIds = GetQuestionsIdsForCategory(categoryCacheItem.Id);
+        var category = Sl.CategoryRepo.GetByIdEager(categoryCacheItem.Id); 
 
         foreach (var questionId in affectedQuestionsIds)
         {
             if (Questions.TryGetValue(questionId, out var question))
             {
-                var categoryToReplace = question.Categories.FirstOrDefault(c => c.Id == category.Id);
+                var categoryToReplace = question.Categories.FirstOrDefault(c => c.Id == categoryCacheItem.Id);
 
                 if(categoryToReplace == null) return;
 
                 var index = question.Categories.IndexOf(categoryToReplace);
-                question.Categories[index] = category;
+                question.Categories[index] = category ;
             }
         }
     }
 
-    public static void Remove(Category category)
+    public static void Remove(CategoryCacheItem category)
     {
         Remove(Categories, category);
         CategoryQuestionsList.TryRemove(category.Id, out var catOut);
@@ -202,49 +205,63 @@ public class EntityCache : BaseCache
     /// <typeparam name="T"></typeparam>
     /// <param name="objectToCache"></param>
     /// <param name="obj"></param>
-    private static void AddOrUpdate<T>(ConcurrentDictionary<int, T> objectToCache, T obj) where T : DomainEntity
+    private static void AddOrUpdate(ConcurrentDictionary<int, CategoryCacheItem> objectToCache, CategoryCacheItem obj)
     {
         objectToCache.AddOrUpdate(obj.Id, obj, (k, v) => obj);
     }
 
-    private static void Remove<T>(ConcurrentDictionary<int, T> objectToCache, T obj) where T : DomainEntity
+    private static void AddOrUpdate(ConcurrentDictionary<int, Question> objectToCache, Question obj)
+    {
+        objectToCache.AddOrUpdate(obj.Id, obj, (k, v) => obj);
+    }
+
+    private static void Remove(ConcurrentDictionary<int, CategoryCacheItem> objectToCache, CategoryCacheItem obj)
     {
         objectToCache.TryRemove(obj.Id, out var outObj);
     }
 
+    private static void Remove(ConcurrentDictionary<int, Question> objectToCache, Question obj)
+    {
+        objectToCache.TryRemove(obj.Id, out var outObj);
+    }
+
+
     //There is an infinite loop when the user is logged in to complaints and when the server is restarted
     //https://docs.google.com/document/d/1XgfHVvUY_Fh1ID93UZEWFriAqTwC1crhCwJ9yqAPtTY
-    public static Category GetCategory(int categoryId, bool isFromUserEntityCache = false,  bool getDataFromEntityCache = false)
+    public static CategoryCacheItem GetCategoryCacheItem(int categoryId, bool isFromUserEntityCache = false,  bool getDataFromEntityCache = false)
     {
-        if (UserCache.IsFiltered && !isFromUserEntityCache && !getDataFromEntityCache)
-            return UserEntityCache.GetCategory(categoryId, Sl.SessionUser.UserId);
+
+        if ( !IsFirstStart && !isFromUserEntityCache && !getDataFromEntityCache && UserCache.GetItem(Sl.SessionUser.UserId).IsFiltered)
+            return UserEntityCache.GetCategoryWhenNotAvalaibleThenGetNextParent(categoryId, Sl.SessionUser.UserId);
 
         return Categories[categoryId];
     }
 
-    public static IEnumerable<Category> GetCategories(IEnumerable<int> getIds) => 
-        getIds.Select(categoryId => Categories[categoryId]);
+    public static IEnumerable<CategoryCacheItem> GetCategoryCacheItems(IEnumerable<int> getIds) =>
+        getIds.Select(categoryId => GetCategoryCacheItem(categoryId));
+    public static IEnumerable<CategoryCacheItem> GetCategoryCacheItems(IList<int> getIds) =>
+        getIds.Select(categoryId => GetCategoryCacheItem(categoryId));
 
-    public static IList<Category> GetAllCategories() => Categories.Values.ToList();
+    public static IList<CategoryCacheItem> GetAllCategories() => Categories.Values.ToList();
 
-    public static List<Category> GetChildren(int categoryId, bool isFromEntityCache = false)
+    public static List<CategoryCacheItem> GetChildren(int categoryId, bool isFromEntityCache = false)
     {
-        var category = GetCategory(categoryId, isFromEntityCache);
+        var category = GetCategoryCacheItem(categoryId, isFromEntityCache);
 
         var allCategories = GetAllCategories();
 
         return allCategories.SelectMany(c =>
-            c.CategoryRelations.Where(cr => cr.CategoryRelationType == CategoryRelationType.IsChildCategoryOf && cr.RelatedCategory.Id == category.Id)
-                .Select(cr => cr.Category)).ToList();
+            c.CategoryRelations.Where(cr => cr.CategoryRelationType == CategoryRelationType.IsChildCategoryOf && cr.RelatedCategoryId == category.Id)
+                .Select(cr => GetCategoryCacheItem(cr.CategoryId, isFromEntityCache))).ToList();
     }
 
-    public static List<Category> GetChildren(Category category, bool isFromEntityCache = false) => GetChildren(category.Id, isFromEntityCache);  
+    public static List<CategoryCacheItem> GetChildren(CategoryCacheItem category, bool isFromEntityCache = false) => GetChildren(category.Id, isFromEntityCache);  
 
-    public static IList<Category> GetDescendants(int parentId, bool isFromUserEntityCache = false)
+    public static IList<CategoryCacheItem> GetDescendants(int parentId, bool isFromUserEntityCache = false)
     {
         var currentGeneration = GetChildren(parentId, isFromUserEntityCache).ToList();
-        var nextGeneration = new List<Category>();
-        var descendants = new List<Category>();
+        var nextGeneration = new List<CategoryCacheItem>();
+        var descendants = new List<CategoryCacheItem>();
 
         while (currentGeneration.Count > 0)
         {
@@ -260,16 +277,13 @@ public class EntityCache : BaseCache
             }
 
             currentGeneration = nextGeneration.Except(descendants).Where(c => c.Id != parentId).Distinct().ToList();
-            nextGeneration = new List<Category>();
+            nextGeneration = new List<CategoryCacheItem>();
         }
 
         return descendants;
     }
 
-    public static IList<Category> GetDescendants(Category category, bool isFromEntityCache = false) =>
-        GetDescendants(category.Id, isFromEntityCache);
-
-    public static List<Category> GetByName(string name, CategoryType type = CategoryType.Standard)
+    public static List<CategoryCacheItem> GetByName(string name, CategoryType type = CategoryType.Standard)
     {
         var allCategories = GetAllCategories();
         return allCategories.Where(c => c.Name == name).ToList();

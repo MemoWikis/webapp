@@ -2,7 +2,7 @@
 using System.Diagnostics;
 using Seedworks.Lib.Persistence;
 
-[DebuggerDisplay("{Category.Name}({Category.Id}) [{CategoryRelationType.ToString()}] {RelatedCategory.Name}({RelatedCategory.Id})")]
+[DebuggerDisplay("{Category.Name}({CategoryId.Id}) [{CategoryRelationType.ToString()}] {RelatedCategoryId.Name}({RelatedCategory.Id})")]
 [Serializable]
 public class CategoryRelation : DomainEntity
 {

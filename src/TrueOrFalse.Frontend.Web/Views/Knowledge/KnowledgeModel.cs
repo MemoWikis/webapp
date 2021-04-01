@@ -57,7 +57,7 @@ public class KnowledgeModel : BaseModel
 
         User = R<UserRepo>().GetById(UserId);
         QuestionsCount = R<GetWishQuestionCountCached>().Run(UserId);
-        SetsCount = R<GetWishSetCount>().Run(UserId);
+       // SetsCount = R<GetWishSetCount>().Run(UserId);
         TopicCount = R<GetWishTopicCount>().Run(UserId);
 
         ActivityPoints = User.ActivityPoints;

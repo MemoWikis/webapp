@@ -318,7 +318,7 @@ public class MaintenanceController : BaseController
         foreach (var category in allCategories)
         {
             Logg.r().Information("Created aggregates for {0}", category.Name);
-            ModifyRelationsForCategory.UpdateRelationsOfTypeIncludesContentOf(category);
+            ModifyRelationsForCategory.UpdateRelationsOfTypeIncludesContentOf(EntityCache.GetCategoryCacheItem(category.Id));
         }
 
         return View("Maintenance", new MaintenanceModel { Message = new SuccessMessage("Aggregate erstellt") });

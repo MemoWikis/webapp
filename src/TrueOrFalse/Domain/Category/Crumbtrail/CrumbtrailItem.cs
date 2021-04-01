@@ -1,13 +1,13 @@
 ﻿public class CrumbtrailItem
 {
     public string Text;
-    public readonly Category Category;
+    public readonly CategoryCacheItem Category;
 
-    public CrumbtrailItem(Category category)
+    public CrumbtrailItem(CategoryCacheItem category)
     {
         Text = category.Name;
         Category = category;
     }
 
-    public bool IsEqual(Category category) => Category.Id == category.Id;
+    public bool IsEqual(CategoryCacheItem category) => Category.Id == category.Id;
 }

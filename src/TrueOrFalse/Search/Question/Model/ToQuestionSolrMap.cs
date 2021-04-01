@@ -5,14 +5,15 @@ namespace TrueOrFalse.Search
 {
     public class ToQuestionSolrMap
     {
-        public static QuestionSolrMap Run(Question question, IList<QuestionValuation> valuations)
+        public static QuestionSolrMap Run(Question question, IList<QuestionValuationCacheItem> valuations)
         {
 
-            var allCategories = question.Categories.ToList();
-            allCategories.AddRange(
+            var allCategories = EntityCache.GetCategoryCacheItems(question.Categories.Select(c => c.Id)).ToList();
+
+            allCategories.AddRange(EntityCache.GetCategoryCacheItems(
                 question.References
                     .Where(r => r.Category != null)
-                    .Select(r => r.Category));
+                    .Select(r => r.Category.Id)));
 
             var creator = new UserTinyModel(question.Creator);
 
@@ -20,8 +21,8 @@ namespace TrueOrFalse.Search
                 {
                     Id = question.Id,
                     CreatorId = creator.Id,
-                    ValuatorIds = valuations.Where(v => v.RelevancePersonal != -1 && v.User != null).Select(x => x.User.Id).ToList(),
-                    Valuation = valuations.Count(v => v.RelevancePersonal != -1),
+                    ValuatorIds = valuations.Where(v => v.IsInWishKnowledge && v.User != null).Select(x => x.User.Id).ToList(),
+                    Valuation = valuations.Count(v => v.IsInWishKnowledge),
                     IsPrivate = question.Visibility != QuestionVisibility.All,
                     Text = question.Text,
                     Description = question.Description,

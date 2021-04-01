@@ -52,9 +52,11 @@ namespace TrueOrFalse.Tests
                 };
             }
 
-            if (parent != null)
+            var categoryRelations = category.CategoryRelations.Count != 0 ? category.CategoryRelations : new List<CategoryRelation>();
+
+            if (parent != null) // set parent
             {
-                var categoryRelations = category.CategoryRelations.Count != 0 ? category.CategoryRelations : new List<CategoryRelation>();
+                
                 categoryRelations.Add(new CategoryRelation
                 {
                     Category = category,
@@ -64,7 +66,6 @@ namespace TrueOrFalse.Tests
 
                 category.CategoryRelations = categoryRelations;
             }
-
 
             All.Add(category);
             return this;
@@ -85,7 +86,7 @@ namespace TrueOrFalse.Tests
             category.Creator = creator == null ? _contextUser.All.FirstOrDefault() : creator ;
             category.Type = categoryType;
 
-            EntityCache.AddOrUpdate(category);
+            EntityCache.AddOrUpdate(CategoryCacheItem.ToCacheCategory(category));
 
             All.Add(category);
             return this;
@@ -99,12 +100,19 @@ namespace TrueOrFalse.Tests
         }
 
         public ContextCategory Persist()
-        {
-            foreach(var cat in All)
+        { foreach(var cat in All)
                 if(cat.Id <= 0) //if not allread created
                     _categoryRepository.Create(cat);
 
             return this;
+        }
+
+        public ContextCategory Update(Category category)
+        {
+            _categoryRepository.Update(category);
+
+            _categoryRepository.Session.Flush();
+            return this; 
         }
 
         public ContextCategory Update()
@@ -118,13 +126,6 @@ namespace TrueOrFalse.Tests
         }
 
         public ContextCategory AddRelationsToCategory(Category category, List<CategoryRelation> categoryRelations)
-        {
-            category.CategoryRelations = categoryRelations;
-            _categoryRepository.Update(category);
-            return this;
-        }
-
-        public ContextCategory AddRelationsToCategorytoEntityChache(Category category, List<CategoryRelation> categoryRelations)
         {
             category.CategoryRelations = categoryRelations;
             _categoryRepository.Update(category);
@@ -179,6 +180,7 @@ namespace TrueOrFalse.Tests
                 .Persist();
 
             var user = ContextUser.New().Add("User").Persist().All[0];
+            
 
             if (withWuwi)
             {
@@ -197,9 +199,6 @@ namespace TrueOrFalse.Tests
         public void AddCaseTwoToCache()
         {
             //  this method display this case https://docs.google.com/drawings/d/1yoBx4OAUT3W2is9WpWczZ7Qb-lwvZeAGqDZYnP89wNk/
-
-            
-
             var rootElement = Add("A").Persist().All.First();
 
             var firstChildren =
@@ -237,9 +236,17 @@ namespace TrueOrFalse.Tests
             Sl.SessionUser.Login(user);
         }
 
-        public static bool HasCorrectChild(Category category, string nameChild)
+        public static bool HasCorrectChild(CategoryCacheItem categoryCachedItem, string childName)
         {
-            return category.CachedData.Children.Any(child => child.Name == nameChild);
+            return categoryCachedItem.CachedData.ChildrenIds.Any(child => child == EntityCache.GetByName(childName).First().Id );
+        }
+
+        public static bool HasCorrectParent(CategoryCacheItem categoryCachedItem, string parentName)
+        {
+
+            var e = EntityCache.GetByName(parentName).First().Id;
+            return categoryCachedItem.CategoryRelations.Any(cr =>
+                cr.RelatedCategoryId == EntityCache.GetByName(parentName).First().Id);
         }
     }
 }

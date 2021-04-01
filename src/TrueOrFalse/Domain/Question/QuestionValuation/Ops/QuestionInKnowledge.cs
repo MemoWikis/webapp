@@ -136,14 +136,8 @@ public static class QuestionInKnowledge
         var questionValuations = Sl.QuestionValuationRepo.GetByQuestionsFromCache(questions);
         foreach (var question in questions)
         {
-            var totalRelevancePersonalEntriesCount = questionValuations.Count(v => v.Question.Id == question.Id && v.RelevancePersonal != -1);
+            var totalRelevancePersonalEntriesCount = questionValuations.Count(v => v.Question.Id == question.Id && v.IsInWishKnowledge);
             question.TotalRelevancePersonalEntries = totalRelevancePersonalEntriesCount;
-
-            var totalRelevancePersonalAvg = totalRelevancePersonalEntriesCount == 0
-                                            ? 0
-                                            : questionValuations.Where(v => v.Question.Id == question.Id && v.RelevancePersonal != -1)
-                                                  .Select(v => v.RelevancePersonal).Sum() / totalRelevancePersonalEntriesCount;
-            question.TotalRelevancePersonalAvg = totalRelevancePersonalAvg;
         }
     }
 

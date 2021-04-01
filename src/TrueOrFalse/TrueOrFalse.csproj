@@ -324,6 +324,7 @@
     <Compile Include="Domain\Question\History\Ops\RestoreQuestion.cs" />
     <Compile Include="Domain\Question\History\Persistence\QuestionChangeMap.cs" />
     <Compile Include="Domain\Question\History\Persistence\QuestionChangeRepo.cs" />
+    <Compile Include="Domain\Question\QuestionValuation\QuestionValuationCacheItem.cs" />
     <Compile Include="Domain\SaveType.cs" />
     <Compile Include="Domain\User\UserTinyModel.cs" />
     <Compile Include="Infrastructure\BooleanExtensions.cs" />
@@ -336,6 +337,8 @@
     <Compile Include="Tools\Cache\CacheClearer.cs" />
     <Compile Include="Tools\Cache\LearningSessionCache.cs" />
     <Compile Include="Tools\Cache\UserEntityCache\UserEntityCache.cs" />
+    <Compile Include="Tools\Cache\UserEntityCache\CategoryCacheItem.cs" />
+    <Compile Include="Tools\Cache\UserEntityCache\CategoryCacheRelation.cs" />
     <Compile Include="Tools\Cache\UserEntityCache\UserEntityCacheItem.cs" />
     <Compile Include="Tools\Export\LomExporter.cs" />
     <Compile Include="Tools\Export\LomLists.cs" />

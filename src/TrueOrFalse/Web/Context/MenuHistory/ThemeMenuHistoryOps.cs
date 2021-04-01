@@ -23,17 +23,14 @@ public class ThemeMenuHistoryOps
         return new List<Category>();
     }
 
-    public static IList<Category> GetQuestionCategories(int questionId)
+    public static IList<CategoryCacheItem> GetQuestionCategories(int questionId)
     {
         var question = EntityCache.GetQuestionById(questionId);
 
-        if (question == null)
-            return new List<Category>();
+        if (question.Categories != null ||  question.Categories.Count > 0)
+            return EntityCache.GetCategoryCacheItems(question.Categories.Select(c => c.Id)).ToList();
 
-        if (question.Categories.Count > 0)
-            return question.Categories.ToList();
-
-        return new List<Category>();
+        return new List<CategoryCacheItem>();
     }
 
 }

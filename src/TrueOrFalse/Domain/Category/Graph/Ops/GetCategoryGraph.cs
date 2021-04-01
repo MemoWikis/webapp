@@ -6,12 +6,12 @@ using GraphJsonDtos;
 
 public class GetCategoryGraph
 {
-    public static JsonResult AsJson(Category category)
+    public static JsonResult AsJson(CategoryCacheItem category)
     {
         var graphData = Get(category);
 
         var links = GetLinks(graphData);
-        var nodes = GetNodes(category, graphData);
+        var nodes = GetNodes(graphData);
 
         AssignNodeLevels(nodes, links);
         AssignLinkLevels(nodes, links);
@@ -26,23 +26,23 @@ public class GetCategoryGraph
         };
     }
 
-    private static List<Node> GetNodes(Category category, CategoryGraph graphData)
+    private static List<Node> GetNodes(CategoryGraph graphData)
     {
         var nodes = graphData.nodes.Select((node, index) =>
             new Node
             {
                 Id = index,
-                CategoryId = node.Category.Id,
-                Title = (node.Category.Name).Replace("\"", ""),
-                Knowledge = GetKnowledgeData(node.Category.Id, Sl.SessionUser.UserId),
+                CategoryId = node.CategoryCacheItem.Id,
+                Title = (node.CategoryCacheItem.Name).Replace("\"", ""),
+                Knowledge = GetKnowledgeData(node.CategoryCacheItem.Id, Sl.SessionUser.UserId),
             }).ToList();
         return nodes;
     }
 
     private static KnowledgeSummary GetKnowledgeData(int categoryId, int userId)
     {
-        var category = EntityCache.GetCategory(categoryId);
-        return KnowledgeSummaryLoader.RunFromMemoryCache(category, userId);
+        var category = EntityCache.GetCategoryCacheItem(categoryId);
+        return KnowledgeSummaryLoader.RunFromMemoryCache(category.Id, userId);
     }
 
     private static List<Link> GetLinks(CategoryGraph graphData)
@@ -50,8 +50,8 @@ public class GetCategoryGraph
         var links = new List<Link>();
         foreach (var link in graphData.links)
         {
-            var parentIndex = graphData.nodes.FindIndex(node => node.Category == link.Parent);
-            var childIndex = graphData.nodes.FindIndex(node => node.Category == link.Child);
+            var parentIndex = graphData.nodes.FindIndex(node => node.CategoryCacheItem == link.Parent);
+            var childIndex = graphData.nodes.FindIndex(node => node.CategoryCacheItem == link.Child);
             if (childIndex >= 0 && parentIndex >= 0)
                 links.Add(new Link
                 {
@@ -108,21 +108,21 @@ public class GetCategoryGraph
 
     public static void Test_AssignLinkLevels(IList<Node> nodes, List<Link> links) => AssignLinkLevels(nodes, links);
 
-    public static CategoryGraph Get(Category category)
+    public static CategoryGraph Get(CategoryCacheItem category)
     {
         var descendants = GetCategoryChildren.WithAppliedRules(category);
 
-        var nodes = new List<CategoryNode>{new CategoryNode{Category = category}};
+        var nodes = new List<CategoryNode>{new CategoryNode{CategoryCacheItem = category}};
 
         foreach (var descendant in descendants)
-            nodes.Add(new CategoryNode {Category = descendant});
+            nodes.Add(new CategoryNode {CategoryCacheItem = descendant});
 
         var links = new List<CategoryLink>();
         foreach (var categoryNode in nodes)
         {
             var categoryNodeLinks = GetLinksFromCategory(
-                categoryNode.Category,
-                Sl.CategoryRepo.GetChildren(categoryNode.Category.Id).ToList()
+                categoryNode.CategoryCacheItem,CategoryCacheItem.ToCacheCategories(
+                Sl.CategoryRepo.GetChildren(categoryNode.CategoryCacheItem.Id)).ToList()
             );
 
             links.AddRange(categoryNodeLinks);
@@ -135,7 +135,7 @@ public class GetCategoryGraph
         };
     }
 
-    private static IEnumerable<CategoryLink> GetLinksFromCategory(Category parent, List<Category> children) => 
+    private static IEnumerable<CategoryLink> GetLinksFromCategory(CategoryCacheItem parent, List<CategoryCacheItem> children) => 
         children.Select(child => new CategoryLink{
             Parent = parent,
             Child = child

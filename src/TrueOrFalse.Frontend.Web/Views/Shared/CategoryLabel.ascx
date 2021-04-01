@@ -1,4 +1,4 @@
-﻿<%@ Control Language="C#" Inherits="System.Web.Mvc.ViewUserControl<Category>" %>
+﻿<%@ Control Language="C#" Inherits="System.Web.Mvc.ViewUserControl<CategoryCacheItem>" %>
 <%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
 
 <% var iconHTML = "";

@@ -2414,9 +2414,6 @@
       <DependentUpon>StickyHeaderSearchBox.ts</DependentUpon>
     </Content>
     <Content Include="Style\sidebar.less" />
-    <Content Include="Views\Categories\Detail\JsEditMode\ContentModulesApp.js.map">
-      <DependentUpon>ContentModulesApp.ts</DependentUpon>
-    </Content>
     <Content Include="Views\Categories\Detail\JsEditMode\InlineEdit\InlineEditComponent.js.map">
       <DependentUpon>InlineEditComponent.ts</DependentUpon>
     </Content>
@@ -4142,6 +4139,9 @@
     </Content>
     <Content Include="Views\Shared\PinComponentVue\PinComponent.vue.js.map">
       <DependentUpon>PinComponent.vue.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Categories\Detail\JsEditMode\ContentModulesApp.js.map">
+      <DependentUpon>ContentModulesApp.ts</DependentUpon>
     </Content>
     <None Include="Web.overwritten.config.sample" />
     <Content Include="Views\Welcome\Logout.aspx" />

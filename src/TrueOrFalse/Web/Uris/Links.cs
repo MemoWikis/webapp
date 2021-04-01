@@ -133,7 +133,7 @@ namespace TrueOrFalse.Frontend.Web.Code
             return "/Fragen/Suche/Kategorie/" + UriSanitizer.Run(categoryName) + "/" + categoryId;
         }
 
-        public static string QuestionWish_WithCategoryFilter(Category category) => "/Fragen/Wunschwissen/Suche/Kategorie/" + UriSanitizer.Run(category.Name) + "/" + category.Id;
+        public static string QuestionWish_WithCategoryFilter(CategoryCacheItem category) => "/Fragen/Wunschwissen/Suche/Kategorie/" + UriSanitizer.Run(category.Name) + "/" + category.Id;
 
         public static string QuestionWithCreatorFilter(UrlHelper url, User user) => user != null
             ? "/Fragen/Suche/" + "Ersteller__" + user.Name + "__"
@@ -339,7 +339,12 @@ namespace TrueOrFalse.Frontend.Web.Code
             HttpContext.Current == null 
                 ? "" 
                 : CategoryDetail(category.Name, category.Id);
-        
+
+        public static string CategoryDetail(CategoryCacheItem category) =>
+            HttpContext.Current == null
+                ? ""
+                : CategoryDetail(category.Name, category.Id);
+
         public static string CategoryDetail(Category category, int version) =>
             HttpContext.Current == null 
                 ? "" 
@@ -375,8 +380,8 @@ namespace TrueOrFalse.Frontend.Web.Code
             if (type == null)
                 return "";
 
-            if (type is Category)
-                return CategoryDetail((Category) type);
+            if (type is CategoryCacheItem)
+                return CategoryDetail((CategoryCacheItem) type);
 
             if (type is Set)
                 return SetDetail((Set)type);
@@ -387,7 +392,8 @@ namespace TrueOrFalse.Frontend.Web.Code
             throw new Exception("unexpected type");
         }
 
-        public static string CategoryEdit(Category category) => CategoryEdit(GetUrlHelper(), category.Name, category.Id);
+        public static string CategoryEdit(CategoryCacheItem categoryCacheItem) => CategoryEdit(GetUrlHelper(), categoryCacheItem.Name, categoryCacheItem.Id);
+        public static string CategoryEdit(Category categoryCacheItem) => CategoryEdit(GetUrlHelper(), categoryCacheItem.Name, categoryCacheItem.Id);
         public static string CategoryEdit(string name, int id) => CategoryEdit(GetUrlHelper(), name, id);
         public static string CategoryEdit(UrlHelper url, string name, int id) => url.Action("Edit", "EditCategory", new { text = UriSanitizer.Run(name), id = id });
         

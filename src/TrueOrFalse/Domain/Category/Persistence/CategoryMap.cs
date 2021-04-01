@@ -23,8 +23,6 @@ public class CategoryMap : ClassMap<Category>
         Map(x => x.Content);
         Map(x => x.CustomSegments);
 
-        Map(x => x.FeaturedSetsIdsString);
-
         Map(x => x.CountQuestionsAggregated);
 
         Map(x => x.CountQuestions);

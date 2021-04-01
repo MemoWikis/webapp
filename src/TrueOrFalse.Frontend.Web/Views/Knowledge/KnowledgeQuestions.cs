@@ -1,16 +1,12 @@
 ﻿using FluentNHibernate.Conventions;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web.UI.WebControls.Expressions;
-using Antlr.Runtime.Misc;
-using Seedworks.Lib.Persistence;
 using TrueOrFalse.Frontend.Web.Code;
 
 public class KnowledgeQuestions : BaseModel
 {
-    public List<QuestionValuation> TotalWishKnowledgeValuationsWithAuthor;
-    public List<QuestionValuation> TotalWishKnowledgeValuationsPerPage;
+    public List<QuestionValuationCacheItem> TotalWishKnowledgeValuationsWithAuthor;
+    public List<QuestionValuationCacheItem> TotalWishKnowledgeValuationsPerPage;
     public List<Questions> TotalWishKnowledgeQuestions;
     public int CountWishQuestions;
     public int LastPage;
@@ -19,11 +15,11 @@ public class KnowledgeQuestions : BaseModel
     {
         TotalWishKnowledgeValuationsWithAuthor = isAuthor
             ? UserCache.CreateItemFromDatabase(UserId).QuestionValuations.Values
-                .Where(v => v.Question.Creator != null && v.Question.Creator.Id == UserId && v.IsInWishKnowledge())
+                .Where(v => v.Question.Creator != null && v.Question.Creator.Id == UserId && v.IsInWishKnowledge)
                 .Distinct()
                 .ToList()
             : UserCache.CreateItemFromDatabase(UserId).QuestionValuations.Values
-                .Where(v => v.IsInWishKnowledge())
+                .Where(v => v.IsInWishKnowledge)
                 .Distinct()
                 .ToList();
 
@@ -98,9 +94,9 @@ public class KnowledgeQuestions : BaseModel
         return questionsList;
     }
 
-    public List<QuestionValuation> GetSortList(List<QuestionValuation> unSortList, string sortCondition)
+    public List<QuestionValuationCacheItem> GetSortList(List<QuestionValuationCacheItem> unSortList, string sortCondition)
     {
-        var sortList = new List<QuestionValuation>();
+        var sortList = new List<QuestionValuationCacheItem>();
         if (sortCondition.Equals("knowWas|asc,author|asc,category|asc"))
         {
             sortList = unSortList.OrderBy(v => v.Question.Text ?? "").ToList();

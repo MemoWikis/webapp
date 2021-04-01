@@ -8,6 +8,6 @@ namespace TrueOrFalse
     public class ImporterResult
     {
         public IEnumerable<Question> Questions;
-        public IEnumerable<Category> Categories;
+        public IEnumerable<CategoryCacheItem> Categories;
     }
 }

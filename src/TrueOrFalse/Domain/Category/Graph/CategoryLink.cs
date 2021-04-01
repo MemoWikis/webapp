@@ -1,5 +1,5 @@
 ﻿public class CategoryLink
 {
-    public Category Parent;
-    public Category Child;
+    public CategoryCacheItem Parent;
+    public CategoryCacheItem Child;
 }

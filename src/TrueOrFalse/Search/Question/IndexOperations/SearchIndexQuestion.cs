@@ -38,7 +38,7 @@ namespace TrueOrFalse.Search
                     continue;
 
                 _solrOperations.Add(ToQuestionSolrMap.Run(
-                    question, _questionValuationRepo.GetActiveInWishknowledgeFromCache(question.Id)));                
+                    question, _questionValuationRepo.GetActiveInWishknowledgeFromCache(question.Id)));
             }
         }
 
@@ -67,7 +67,7 @@ namespace TrueOrFalse.Search
                         _solrOperations.Add(solrQuestion, new AddParameters { CommitWithin = 5000 });
 
                     }, "UpdateQuestionSolrJob", writeLog: false);
-                }, true);
+                });
             }
         }
 

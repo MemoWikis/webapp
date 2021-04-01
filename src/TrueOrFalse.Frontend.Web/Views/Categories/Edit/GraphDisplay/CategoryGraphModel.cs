@@ -4,11 +4,11 @@ using System.Web.Script.Serialization;
 
 public class CategoryGraphModel : BaseModel
 {
-    public Category Category;
+    public CategoryCacheItem Category;
     public JsonResult GraphData;
     public string GraphDataString;
 
-    public CategoryGraphModel(Category category)
+    public CategoryGraphModel(CategoryCacheItem category)
     {
         Category = category;
         GraphData = GetCategoryGraph.AsJson(category);

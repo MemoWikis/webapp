@@ -34,8 +34,6 @@ public class EditCategoryModel : BaseModel
 
     public string TopicMarkdown { get; set; } 
 
-    public string FeaturedSetIdsString { get; set; }
-
     public bool IsEditing { get; set; }
 
     public string ImageUrl { get; set; }
@@ -95,7 +93,6 @@ public class EditCategoryModel : BaseModel
         CategoriesToInclude = category.CategoriesToInclude();
         CategoriesToExcludeIdsString = category.CategoriesToExcludeIdsString;
         CategoriesToExclude = category.CategoriesToExclude();
-        FeaturedSetIdsString = category.FeaturedSetsIdsString;
         DescendantCategories = Sl.R<CategoryRepository>().GetDescendants(category.Id).ToList();
     }
 
@@ -106,8 +103,7 @@ public class EditCategoryModel : BaseModel
         
         category.DisableLearningFunctions = DisableLearningFunctions;
         category.TopicMarkdown = TopicMarkdown;
-        category.FeaturedSetsIdsString = FeaturedSetIdsString;
-        ModifyRelationsForCategory.UpdateCategoryRelationsOfType(category, ParentCategories, CategoryRelationType.IsChildCategoryOf);
+        ModifyRelationsForCategory.UpdateCategoryRelationsOfType(EntityCache.GetCategoryCacheItem(category.Id), ParentCategories.Select(c => c.Id).ToList(), CategoryRelationType.IsChildCategoryOf);
 
         var request = HttpContext.Current.Request;
         var categoryType = "standard";
@@ -135,11 +131,10 @@ public class EditCategoryModel : BaseModel
         {
             category.DisableLearningFunctions = DisableLearningFunctions;
             category.TopicMarkdown = TopicMarkdown;
-            category.FeaturedSetsIdsString = FeaturedSetIdsString;
         }
 
         
-        ModifyRelationsForCategory.UpdateCategoryRelationsOfType(category, ParentCategories, CategoryRelationType.IsChildCategoryOf);
+        ModifyRelationsForCategory.UpdateCategoryRelationsOfType(EntityCache.GetCategoryCacheItem(category.Id), ParentCategories.Select(c => c.Id).ToList(), CategoryRelationType.IsChildCategoryOf);
 
         UpdatedCategory =  FillFromRequest(category).Category;
 }
@@ -490,7 +485,7 @@ public class EditCategoryModel : BaseModel
                 }
             }
 
-            ModifyRelationsForCategory.AddParentCategory(category, parentFromDb);            
+            ModifyRelationsForCategory.AddParentCategory(Sl.CategoryRepo.GetByIdEager(category.Id), parentFromDb.Id);            
         }
     }
 

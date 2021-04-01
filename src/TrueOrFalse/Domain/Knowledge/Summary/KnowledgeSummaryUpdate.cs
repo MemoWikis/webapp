@@ -34,7 +34,7 @@
     }
 
     public static void ScheduleForCategory(int categoryId) 
-        => Sl.R<JobQueueRepo>().Add(JobQueueType.RecalcKnowledgeSummaryForCategory, categoryId.ToString());
+        => Sl.JobQueueRepo.Add(JobQueueType.RecalcKnowledgeSummaryForCategory, categoryId.ToString());
 
     
 }

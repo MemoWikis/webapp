@@ -13,7 +13,7 @@ public class SidebarModel : UserCardBaseModel
     public string AuthorImageUrl;
     public string CategorySuggestionImageUrl;
     public string CategorySuggestionUrl;
-    public Category SuggestionCategory;
+    public CategoryCacheItem SuggestionCategory;
     private SponsorModel _sponsorModel;
     public int FollowerCount;
 

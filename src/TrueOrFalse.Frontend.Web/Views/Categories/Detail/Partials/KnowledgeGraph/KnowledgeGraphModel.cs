@@ -4,14 +4,14 @@ using System.Web.Script.Serialization;
 
 public class KnowledgeGraphModel : BaseModel
 {
-    public Category Category;
+    public CategoryCacheItem CategoryCahCacheItem;
     public JsonResult GraphData;
     public string GraphDataString;
 
-    public KnowledgeGraphModel(Category category)
+    public KnowledgeGraphModel(CategoryCacheItem categoryCahCacheItem)
     {
-        Category = category;
-        GraphData = GetCategoryGraph.AsJson(category);
+        CategoryCahCacheItem = categoryCahCacheItem;
+        GraphData = GetCategoryGraph.AsJson(categoryCahCacheItem);
         GraphDataString = EscapeChars(new JavaScriptSerializer().Serialize(GraphData.Data));
     }
 

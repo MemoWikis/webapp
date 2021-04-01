@@ -45,7 +45,7 @@ public class UserModel : BaseModel
         AmountCreatedCategories = Resolve<UserSummary>().AmountCreatedCategories(User.Id);
 
         AmountWishCountQuestions = Resolve<GetWishQuestionCount>().Run(User.Id);
-        AmountWishCountSets = Resolve<GetWishSetCount>().Run(User.Id);
+      //  AmountWishCountSets = Resolve<GetWishSetCount>().Run(User.Id);
 
         var imageResult = new UserImageSettings(User.Id).GetUrl_250px(User);
         ImageUrl_250 = imageResult.Url;

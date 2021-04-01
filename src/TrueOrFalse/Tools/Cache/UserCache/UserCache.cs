@@ -3,6 +3,7 @@ using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
+using Org.BouncyCastle.Bcpg;
 
 public class UserCache
 {
@@ -10,7 +11,6 @@ public class UserCache
     public static LearningSession LearningSession { get; set; }
 
     private static string GetCacheKey(int userId) => "UserCashItem_" + userId;
-    public static bool IsFiltered = false; 
 
     public static List<UserCacheItem> GetAllCacheItems()
     {
@@ -29,6 +29,17 @@ public class UserCache
         return cacheItem ?? CreateItemFromDatabase(userId);
     }
 
+    public static bool IsInWishknowledge(int userId, int categoryId)
+    {
+        var cacheItem = GetItem(userId);
+        var hasCategoryValuation = cacheItem.CategoryValuations.ContainsKey(categoryId);
+
+        if (!hasCategoryValuation)
+            return false;
+
+        return cacheItem.CategoryValuations[categoryId].IsInWishKnowledge();
+    }
+
     public static UserCacheItem CreateItemFromDatabase(int userId)
     {
         var user = Sl.UserRepo.GetById(userId);
@@ -39,10 +50,9 @@ public class UserCache
             CategoryValuations = new ConcurrentDictionary<int, CategoryValuation>(
                 Sl.CategoryValuationRepo.GetByUser(userId, onlyActiveKnowledge: false)
                     .Select(v => new KeyValuePair<int, CategoryValuation>(v.CategoryId, v))),
-            QuestionValuations = new ConcurrentDictionary<int, QuestionValuation>(
+            QuestionValuations = new ConcurrentDictionary<int, QuestionValuationCacheItem>(
                 Sl.QuestionValuationRepo.GetByUserWithQuestion(userId)
-                    .Select(v => new KeyValuePair<int, QuestionValuation>(v.Question.Id, v))),
-            IsFiltered = IsFiltered
+                    .Select(v => new KeyValuePair<int, QuestionValuationCacheItem>(v.Question.Id, v.ToCacheItem())))
         };
             
         Add_valuationCacheItem_to_cache(cacheItem, userId);
@@ -55,10 +65,10 @@ public class UserCache
         Cache.Add(GetCacheKey(userId), cacheItem, TimeSpan.FromMinutes(ExpirationSpanInMinutes), slidingExpiration: true);
     }
 
-    public static IList<QuestionValuation> GetQuestionValuations(int userId) => GetItem(userId).QuestionValuations.Values.ToList();
+    public static IList<QuestionValuationCacheItem> GetQuestionValuations(int userId) => GetItem(userId).QuestionValuations.Values.ToList();
     public static IList<CategoryValuation> GetCategoryValuations(int userId) => GetItem(userId).CategoryValuations.Values.ToList();
 
-    public static void AddOrUpdate(QuestionValuation questionValuation)
+    public static void AddOrUpdate(QuestionValuationCacheItem questionValuation)
     {
         var cacheItem = GetItem(questionValuation.User.Id);
 

@@ -38,7 +38,7 @@ public class LomExporter
 
             try
             {
-                File.WriteAllText(Path.Combine(exportPath, $"topic-{category.Id}.xml"), LomXml.From(category));
+                File.WriteAllText(Path.Combine(exportPath, $"topic-{category.Id}.xml"), LomXml.From(EntityCache.GetCategoryCacheItem(category.Id)));
             }
             catch (Exception e)
             {

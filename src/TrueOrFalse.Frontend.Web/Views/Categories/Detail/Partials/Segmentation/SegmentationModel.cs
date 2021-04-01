@@ -7,28 +7,28 @@ using NHibernate.Mapping;
 
 public class SegmentationModel : BaseContentModule
 {
-    public Category Category;
+    public CategoryCacheItem Category;
 
     public string Title;
     public string Text;
     public bool HasCustomSegments = false;
 
-    public List<Category> CategoryList;
-    public List<Category> NotInSegmentCategoryList;
+    public List<CategoryCacheItem> CategoryList;
+    public List<CategoryCacheItem> NotInSegmentCategoryList;
     public List<Segment> Segments;
 
-    public SegmentationModel(Category category)
+    public SegmentationModel(CategoryCacheItem category)
     {
         Category = category;
         
-        var categoryList = UserCache.IsFiltered ? UserEntityCache.GetChildren(category.Id, UserId).Where(c => c.IsVisibleToCurrentUser()).ToList() : EntityCache.GetChildren(category.Id).Where(c => c.IsVisibleToCurrentUser()).ToList();
+        var categoryList = UserCache.GetItem(_sessionUser.UserId).IsFiltered ? UserEntityCache.GetChildren(category.Id, UserId) : EntityCache.GetChildren(category.Id);
         CategoryList = categoryList.Where(c => c.Type.GetCategoryTypeGroup() == CategoryTypeGroup.Standard).ToList();
 
         var segments = new List<Segment>();
         if (category.CustomSegments != null)
         {
             segments = GetSegments(category.Id);
-            NotInSegmentCategoryList = GetNotInSegmentCategoryList(segments, categoryList);
+            NotInSegmentCategoryList = GetNotInSegmentCategoryList(segments, categoryList.ToList());
             Segments = segments;
         }
         else
@@ -38,19 +38,24 @@ public class SegmentationModel : BaseContentModule
     public List<Segment> GetSegments(int id)
     {
         var segments = new List<Segment>();
-        var segmentJson = JsonConvert.DeserializeObject<List<SegmentJson>>(EntityCache.GetCategory(id).CustomSegments);
+        var segmentJson = JsonConvert.DeserializeObject<List<SegmentJson>>(EntityCache.GetCategoryCacheItem(id).CustomSegments);
         foreach (var s in segmentJson)
         {
             var segment = new Segment();
-            var segmentCategory = EntityCache.GetCategory(s.CategoryId);
-            if (segmentCategory.IsNotVisibleToCurrentUser)
+            segmentItem = EntityCache.GetCategoryCacheItem(s.CategoryId);
+            var segmentItem = EntityCache.GetCategory(s.CategoryId);
+            if (segmentItem.IsNotVisibleToCurrentUser)
                 continue;
-            segment.Category = EntityCache.GetCategory(s.CategoryId);
+            segment.Item = EntityCache.GetCategory(s.CategoryId);
             segment.Title = s.Title;
             if (s.ChildCategoryIds != null)
-                segment.ChildCategories = UserCache.IsFiltered ? EntityCache.GetCategories(s.ChildCategoryIds).Where(c => c.IsInWishknowledge()).ToList() : EntityCache.GetCategories(s.ChildCategoryIds).ToList();
+                segment.ChildCategories = UserCache.GetItem(_sessionUser.UserId).IsFiltered
+                    ? EntityCache.GetCategoryCacheItems(s.ChildCategoryIds).Where(c => c.IsInWishknowledge()).ToList()
+                    : EntityCache.GetCategoryCacheItems(s.ChildCategoryIds).ToList();
             else
-                segment.ChildCategories = UserCache.IsFiltered ? UserEntityCache.GetChildren(s.CategoryId, UserId) : Sl.CategoryRepo.GetChildren(s.CategoryId).ToList();
+                segment.ChildCategories = UserCache.GetItem(_sessionUser.UserId).IsFiltered ? 
+                    UserEntityCache.GetChildren(s.CategoryId, UserId).ToList() : 
+                    EntityCache.GetChildren(s.CategoryId);
 
             segments.Add(segment);
         }
@@ -58,14 +63,14 @@ public class SegmentationModel : BaseContentModule
         return segments.Distinct().OrderBy(s => s.Title).ToList();
     }
 
-    public List<Category> GetNotInSegmentCategoryList(List<Segment> segments, List<Category> categoryList)
+    public List<CategoryCacheItem> GetNotInSegmentCategoryList(List<Segment> segments, List<CategoryCacheItem> categoryList)
     {
-        var notInSegmentCategoryList = new List<Category>();
-        var inSegmentCategoryList = new List<Category>();
+        var notInSegmentCategoryList = new List<CategoryCacheItem>();
+        var inSegmentCategoryList = new List<CategoryCacheItem>();
 
         foreach (var segment in segments)
         {
-            inSegmentCategoryList.Add(segment.Category);
+            inSegmentCategoryList.Add(segment.Item);
             if (segment.ChildCategories != null)
             {
                 var categoriesToAdd = segment.ChildCategories.Where(c => !inSegmentCategoryList.Any(s => s.Id == c.Id)).ToList();

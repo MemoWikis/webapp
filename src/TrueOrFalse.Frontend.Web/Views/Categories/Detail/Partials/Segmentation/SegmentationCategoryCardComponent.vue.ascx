@@ -1,6 +1,7 @@
 ﻿ <%@ Control Language="C#" AutoEventWireup="true" Inherits="System.Web.Mvc.ViewUserControl<SegmentationCategoryCardModel>" %>
 <%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
 
+ <% if(Model.Category.CachedData.ChildrenIds.Count > 0 || Model.TotalQuestionCount > 0 || Model.IsInstallationAdmin || Model.Category.Creator.Id == Model.UserId) { %>
  <category-card-component @select-category="selectCategory" @unselect-category="unselectCategory" inline-template :edit-mode="editMode" ref="card<%= Model.Category.Id %>" :is-custom-segment="isCustomSegment" category-id="<%= Model.Category.Id %>" :selected-categories="selectedCategories" :segment-id="id" hide="false" :control-wishknowledge="controlWishknowledge">
     
     <div class="col-xs-6 topic segmentCategoryCard" v-if="visible" @mouseover="hover = true" @mouseleave="hover = false" :class="{ hover : showHover }">
@@ -41,13 +42,13 @@
                         <pin-category-component :category-id="categoryId"/>
                     </span>
 
-                    <% if (Model.Category.CachedData.Children.Count == 1)
+                        <% if (Model.Category.CachedData.ChildrenIds.Count == 1)
                        { %>1 Unterthema <% } %>
-                    <% if(Model.Category.CachedData.Children.Count > 1)
-                       { %><%= Model.Category.CachedData.Children.Count  %> Unterthemen <% } 
-                       else { %><% } %><%=Model.GetTotalQuestionCount(Model.Category) %> Frage<% if(Model.GetTotalQuestionCount(Model.Category) != 1){ %>n<% } %>
+                        <% if(Model.Category.CachedData.ChildrenIds.Count > 1)
+                           { %><%= Model.Category.CachedData.ChildrenIds.Count  %> Unterthemen <% } 
+                           else { %><% } %><%=Model.TotalQuestionCount %> Frage<% if(Model.TotalQuestionCount != 1){ %>n<% } %>
                 </div>
-                <%if(Model.GetTotalQuestionCount(Model.Category) > 0) {%>
+                    <%if(Model.TotalQuestionCount > 0) {%>
                     <div class="KnowledgeBarWrapper">
                         <% Html.RenderPartial("~/Views/Categories/Detail/CategoryKnowledgeBar.ascx", new CategoryKnowledgeBarModel(Model.Category)); %>
                         <div class="KnowledgeBarLegend">Dein Wissensstand</div>

@@ -6,7 +6,7 @@ using TrueOrFalse.Frontend.Web.Code;
 
 public class KnowledgeTopics : BaseModel
 {
-    readonly IList<Category> Categories;
+    readonly IList<CategoryCacheItem> Categories;
 
     public KnowledgeTopics(bool isAuthor)
     {
@@ -16,8 +16,8 @@ public class KnowledgeTopics : BaseModel
             .ToList();
 
         Categories = isAuthor
-            ? EntityCache.GetCategories(categoriesIds).Where(v => v.Creator != null && v.Creator.Id == UserId).ToList()
-            : EntityCache.GetCategories(categoriesIds).ToList();
+            ? EntityCache.GetCategoryCacheItems(categoriesIds).Where(v => v.Creator != null && v.Creator.Id == UserId).ToList()
+            : EntityCache.GetCategoryCacheItems(categoriesIds).ToList();
 
     }
 
@@ -49,7 +49,7 @@ public class KnowledgeTopics : BaseModel
         return sortList;
     }
 
-    private List<CategoryAndSetWishKnowledge> GetCategoryAndSetWishKnowledgeItems(IList<Category> CategorieWishes, ControllerContext controllerContext)
+    private List<CategoryAndSetWishKnowledge> GetCategoryAndSetWishKnowledgeItems(IList<CategoryCacheItem> CategorieWishes, ControllerContext controllerContext)
     {
         List<CategoryAndSetWishKnowledge> filteredCategory = new List<CategoryAndSetWishKnowledge>();
         var countList = CategorieWishes.Count;
@@ -108,9 +108,9 @@ public class KnowledgeTopics : BaseModel
         return url.Replace("https://", "www.");
     }
 
-    private string KnowledgeWishPartial(Category category, ControllerContext controllerContext)
+    private string KnowledgeWishPartial(CategoryCacheItem categoryCacheCacheItem, ControllerContext controllerContext)
     {
-        var KnowledgeBarPartial = ViewRenderer.RenderPartialView("~/Views/Categories/Detail/CategoryKnowledgeBar.ascx", new CategoryKnowledgeBarModel(category), controllerContext); // 128 ms
+        var KnowledgeBarPartial = ViewRenderer.RenderPartialView("~/Views/Categories/Detail/CategoryKnowledgeBar.ascx", new CategoryKnowledgeBarModel(categoryCacheCacheItem), controllerContext); // 128 ms
 
         return KnowledgeBarPartial;
     }

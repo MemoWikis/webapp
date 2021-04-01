@@ -26,24 +26,24 @@ namespace System.Web.Mvc
             {
                 var httpContextData = HttpContext.Current.Request.RequestContext.RouteData.Values;
 
-                var activeCategories = new List<Category>();
+                var activeCategories = new List<CategoryCacheItem>();
 
                 if (_isCategoryPage)
                 {
                     var categoryId = (string)httpContextData["id"];
 
                     if (int.TryParse(categoryId, out var categoryIdNumber))
-                        activeCategories.Add(EntityCache.GetCategory(categoryIdNumber, true));
+                        activeCategories.Add(EntityCache.GetCategoryCacheItem(categoryIdNumber, true));
                 }
                 
                 if (_isQuestionPage)
                 {
-                    activeCategories.AddRange(ThemeMenuHistoryOps.GetQuestionCategories(Convert.ToInt32(httpContextData["id"])));
+                    activeCategories.AddRange( ThemeMenuHistoryOps.GetQuestionCategories(Convert.ToInt32(httpContextData["id"])));
                 }
 
                 if (_isLearningSessionPage)
                 {
-                    activeCategories.Add(EntityCache.GetCategory(684));
+                    activeCategories.Add(EntityCache.GetCategoryCacheItem(684));
                 }
             }
 

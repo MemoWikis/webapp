@@ -15,7 +15,7 @@ namespace TrueOrFalse.Tests.Persistence
 
             var user = new User {Name = "Some user"};
             Resolve<UserRepo>().Create(user);
-            
+
             var category = new Category("Sports")
             {
                 Creator = user,
@@ -50,11 +50,14 @@ namespace TrueOrFalse.Tests.Persistence
 
             context.All
                 .Where(c => c.Name.StartsWith("DailyIssue"))
-                .ForEach(c =>{
+                .ForEach(c =>
+                {
                     var parentCategories = new List<Category>();
                     parentCategories.Add(context.All.First(x => x.Name.StartsWith("Daily-A")));
                     parentCategories.Add(context.All.First(x => x.Name.StartsWith("Standard-1")));
-                    ModifyRelationsForCategory.UpdateCategoryRelationsOfType(c, parentCategories, CategoryRelationType.IsChildCategoryOf);
+
+                    ModifyRelationsForCategory.UpdateCategoryRelationsOfType(CategoryCacheItem.ToCacheCategory(c), parentCategories.Select(cat => cat.Id).ToList(),
+                        CategoryRelationType.IsChildCategoryOf);
                 });
 
             context.Update();
@@ -66,7 +69,40 @@ namespace TrueOrFalse.Tests.Persistence
             Assert.That(children.Any(c => c.Name == "DailyIssue-1"), Is.True);
             Assert.That(children.Any(c => c.Name == "DailyIssue-2"), Is.True);
             Assert.That(children.Any(c => c.Name == "DailyIssue-3"), Is.True);
+        }
+       
+        [Test]
+        public void Get_correct_aggregated_categories()
+        {
+            var context = ContextCategory.New();
+           var user =  context.AddCaseThreeToCache();
 
+           var categories = Sl.CategoryRepo.GetAllEager();
+
+            for (int i = 0; i < categories.Count; i++)
+            {
+                if (categories[i].Name != "A")
+                {
+                    var category = categories.ByName("A");
+
+                    category.CategoryRelations.Add(
+                        new CategoryRelation()
+                        {
+                            Category = category ,
+                            CategoryRelationType = CategoryRelationType.IncludesContentOf,
+                            RelatedCategory = categories[i]
+                        });
+
+                    context.Update(Sl.CategoryRepo.GetByIdEager(category.Id));
+                }
+            }
+
+            var usercacheItem2 = UserCache.GetItem(user.Id);
+            usercacheItem2.IsFiltered = true;
+            Assert.That(categories.ByName("A").AggregatedCategories().Count, Is.EqualTo(7));
+            
+            usercacheItem2.IsFiltered = false;
+            Assert.That(categories.ByName("A").AggregatedCategories().Count, Is.EqualTo(13));
         }
     }
 }

@@ -16,7 +16,7 @@
             <div class="col-xs-12">
                 <header>
                     <div id="AboveMainHeading" class="greyed">
-                        <%= Model.Category.Type == CategoryType.Standard ? "Thema" : Model.Type %> mit <%= Model.AggregatedQuestionCount %> Frage<%= StringUtils.PluralSuffix(Model.AggregatedQuestionCount, "n") %>
+                        Thema mit <%= Model.CountAggregatedQuestions %> Frage<%= StringUtils.PluralSuffix(Model.CountAggregatedQuestions, "n") %>
                         <% if(Model.IsInstallationAdmin) { %>
                             <span style="margin-left: 10px; font-size: smaller;" class="show-tooltip" data-placement="right" data-original-title="Nur von admin sichtbar">
                                 (<i class="fas fa-user-cog">&nbsp;</i><%= Model.GetViews() %> views)
@@ -108,27 +108,6 @@
 <% if (!Model.Category.DisableLearningFunctions) { %>
 
     <div class="row BoxButtonBar">
-        <%--<div class="BoxButtonColumn">
-            <% var tooltipGame = "Tritt zu diesem Thema gegen andere Nutzer im Echtzeit-Quizspiel an.";
-               if (Model.CountSets == 0)
-                   tooltipGame = "Noch keine Lernsets zum Spielen zu diesem Thema vorhanden"; %>
-
-            <div class="BoxButton show-tooltip 
-                <%= !Model.IsLoggedIn ? "LookDisabled" : "" %> 
-                <%= Model.CountSets == 0 ? "LookNotClickable" : "" %>"
-                data-original-title="<%= tooltipGame %>">
-                <div class="BoxButtonIcon"><i class="fa fa-gamepad"></i></div>
-                <div class="BoxButtonText">
-                    <span>Spiel starten</span>
-                </div>
-                <% if (Model.CountSets > 0)
-                   { %>
-                    <a href="<%= Links.GameCreateFromCategory(Model.Id) %>" rel="nofollow"
-                    data-allowed="logged-in" data-allowed-type="game">
-                    </a>
-                <% } %>
-            </div>
-        </div>--%>
         <div class="BoxButtonColumn">
             <% var tooltipDate = "Gib an, bis wann du alle Lernsets zu diesem Thema lernen musst und erhalte deinen persönlichen Lernplan.";
                if (Model.CountSets == 0)

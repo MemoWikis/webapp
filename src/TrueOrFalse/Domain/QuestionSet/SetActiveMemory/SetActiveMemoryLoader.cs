@@ -4,7 +4,7 @@ using TrueOrFalse;
 
 public class SetActiveMemoryLoader
 {
-    public static SetActiveMemory Run(Set set, IList<QuestionValuation> questionValuationsForUser)
+    public static SetActiveMemory Run(Set set, IList<QuestionValuationCacheItem> questionValuationsForUser)
     {
         return new SetActiveMemory
         {

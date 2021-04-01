@@ -41,7 +41,7 @@ public class QuestionRowModel : BaseModel
     public QuestionRowModel(
         Question question, 
         TotalPerUser totalForUser, 
-        QuestionValuation questionValuation,
+        QuestionValuationCacheItem questionValuation,
         int indexInResultSet, 
         SearchTabType searchTab) 
     {
@@ -74,7 +74,7 @@ public class QuestionRowModel : BaseModel
 
         Views = question.TotalViews;
 
-        IsInWishknowledge = questionValuation.IsInWishKnowledge();
+        IsInWishknowledge = questionValuation.IsInWishKnowledge;
 
         HistoryAndProbability = new HistoryAndProbabilityModel
         {

@@ -11,9 +11,17 @@ public class LomXml
     private static XElement _sourceElementLre => new XElement("source", "LREv3.0");
     private static readonly XCData _vCardCData = new XCData("BEGIN:vCard VERSION:3.0 FN:memucho.de N:memucho.de END:vcard");
 
-    public static string From(Category category)
+    public static string From(CategoryCacheItem categoryCacheItem)
     {
-        return From(new LomXmlParams(category));
+        return From(new LomXmlParams(categoryCacheItem));
+    }
+
+    public static string From(Category category) => From(new LomXmlParams(category)) ;
+   
+
+    public static string From(Question question)
+    {
+        return From(new LomXmlParams(question));
     }
 
     public static string From(Set set)
@@ -21,10 +29,6 @@ public class LomXml
         return From(new LomXmlParams(set));
     }
 
-    public static string From(Question question)
-    {
-        return From(new LomXmlParams(question));
-    }
 
     public static string From(LomXmlParams objectParams)
     {
@@ -102,7 +106,7 @@ public class LomXml
                 new XElement("catalog", "memucho"),
                 new XElement("entry", p.MetaMetaCatalogEntry)
             ),
-            new XElement("contribute", 
+            new XElement("contribute",
                 new XElement("role",
                     _sourceElementLre,
                     new XElement("value", LomMetaMetadataRoleLre.Creator.GetValue())
@@ -143,11 +147,6 @@ public class LomXml
                 new XElement("string", p.RightsDescription, _langAttributeDe))
         );
     }
-
-    //private static XElement GetClassification()
-    //{
-    //    return new XElement();
-    //}
 }
 
 public class LomXmlParams
@@ -163,12 +162,25 @@ public class LomXmlParams
     public string RightsDescription;
 
 
-    public LomXmlParams(Category category)
+    public LomXmlParams(CategoryCacheItem categoryCacheItem)
+    {
+        GeneralIdentifier = "thema-" + categoryCacheItem.Id;
+        GeneralTitle = categoryCacheItem.Name;
+        GeneralDescription = categoryCacheItem.Description;
+        Categories = Sl.CategoryRepo.GetByIdsEager(categoryCacheItem.ParentCategories().Select(c => c.Id));
+        AggregationLevel = LomAggregationLevel.Level3Course.GetValue();
+        LifecycleDate = categoryCacheItem.DateCreated;
+        MetaMetaCatalogEntry = "metadata.memucho-thema-" + categoryCacheItem.Id;
+        TechnicalLocation = "https://memucho.de" + Links.CategoryDetail(categoryCacheItem);
+        RightsDescription = "CC BY, Autor: " + categoryCacheItem.Creator.Name + " (Nutzer auf memucho.de)";
+    }
+
+        public LomXmlParams(Category category)
     {
         GeneralIdentifier = "thema-" + category.Id;
         GeneralTitle = category.Name;
         GeneralDescription = category.Description;
-        Categories = category.ParentCategories();
+        Categories = Sl.CategoryRepo.GetByIdsEager(category.ParentCategories().Select(c => c.Id));
         AggregationLevel = LomAggregationLevel.Level3Course.GetValue();
         LifecycleDate = category.DateCreated;
         MetaMetaCatalogEntry = "metadata.memucho-thema-" + category.Id;
@@ -181,7 +193,7 @@ public class LomXmlParams
         GeneralIdentifier = "frage-" + question.Id;
         GeneralTitle = question.Text;
         GeneralDescription = "Lernfrage \"" + question.Text + "\" mit Antwortmöglichkeit";
-        Categories = question.Categories;
+        Categories = Sl.CategoryRepo.GetByIdsEager(question.Categories.Select(c => c.Id));
         AggregationLevel = LomAggregationLevel.Level1Fragment.GetValue();
         LifecycleDate = question.DateCreated;
         MetaMetaCatalogEntry = "metadata.memucho-frage-" + question.Id;
@@ -201,5 +213,4 @@ public class LomXmlParams
         TechnicalLocation = "https://memucho.de" + Links.SetDetail(set);
         RightsDescription = "CC BY, Autor: " + set.Creator.Name + " (Nutzer auf memucho.de)";
     }
-
 }

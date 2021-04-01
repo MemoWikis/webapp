@@ -74,7 +74,7 @@ public class QuestionRepo : RepositoryDbBase<Question>
             .Distinct()
             .ToList(); //All categories added or removed have to be updated
 
-        Sl.Resolve<UpdateQuestionCountForCategory>().Run(categoriesToUpdateIds);
+            Sl.Resolve<UpdateQuestionCountForCategory>().Run(categoriesToUpdateIds);
 
         EntityCache.AddOrUpdate(question, categoriesToUpdateIds);
 

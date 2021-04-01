@@ -13,20 +13,10 @@ public class LearningSessionCreator
     public static LearningSession ForLoggedInUser(LearningSessionConfig config)
     {  
         List<Question> questions = new List<Question>();
-        if (UserCache.IsFiltered)
+        if (UserCache.GetItem(config.CurrentUserId).IsFiltered)
         {
             var questionsFromCurrentCategoryAndChildren = GetCategoryQuestionsFromEntityCache(config.CategoryId);  
-            var allChildCategories = UserEntityCache.GetChildren(config.CategoryId, config.CurrentUserId);
-
-            foreach (var childCategory in allChildCategories)
-            {
-                var childQuestions = GetCategoryQuestionsFromEntityCache(childCategory.Id);
-                foreach (var question in childQuestions)
-                {
-                    questionsFromCurrentCategoryAndChildren.Add(question);
-                }
-            }
-            questions = questionsFromCurrentCategoryAndChildren; 
+            questions = questionsFromCurrentCategoryAndChildren.Distinct().ToList(); 
         }
         else if (config.AllQuestions || config.InWishknowledge && config.CreatedByCurrentUser && config.IsNotQuestionInWishKnowledge)
             questions = OrderByProbability(RandomLimited(GetCategoryQuestionsFromEntityCache(config.CategoryId),
@@ -126,13 +116,13 @@ public class LearningSessionCreator
 
     private static List<Question> UserIsQuestionAuthor(int userId, int categoryId)
     {
-        return EntityCache.GetCategory(categoryId)
+        return EntityCache.GetCategoryCacheItem(categoryId)
             .GetAggregatedQuestionsFromMemoryCache().Where(q => q.Creator.Id == userId).ToList();
     }
 
     public static List<Question> GetCategoryQuestionsFromEntityCache(int categoryId)
     {
-        return EntityCache.GetCategory(categoryId).GetAggregatedQuestionsFromMemoryCache().ToList();
+        return EntityCache.GetCategoryCacheItem(categoryId).GetAggregatedQuestionsFromMemoryCache().ToList();
     }
 
     private static IList<Question> OrderByProbability( List<Question> questions)
@@ -143,7 +133,7 @@ public class LearningSessionCreator
     private static List<Question> CompareDictionaryWithQuestionsFromMemoryCache(Dictionary<int, int> dic1, int categoryId, bool isNotWuwi = false)
     {
         List<Question> questions = new List<Question>();
-        var questionsFromEntityCache = EntityCache.GetCategory(categoryId)
+        var questionsFromEntityCache = EntityCache.GetCategoryCacheItem(categoryId)
             .GetAggregatedQuestionsFromMemoryCache().ToDictionary(q => q.Id);
 
         if (!isNotWuwi)
@@ -168,7 +158,7 @@ public class LearningSessionCreator
 
     private static Dictionary<int, int> GetIdsFromQuestionValuation(int userId)
     {
-       return UserCache.GetQuestionValuations(userId).Where(qv => qv.IsInWishKnowledge())
+       return UserCache.GetQuestionValuations(userId).Where(qv => qv.IsInWishKnowledge)
             .Select(qv => qv.Question.Id).ToDictionary(q => q);
     }
 

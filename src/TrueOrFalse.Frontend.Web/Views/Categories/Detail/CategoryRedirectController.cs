@@ -32,7 +32,7 @@ public class CategoryRedirectController : BaseController
     {
         var result = new LoadModelResult();
 
-        var category = Resolve<CategoryRepository>().GetById(id);
+        var category = EntityCache.GetCategoryCacheItem(id);
         _sessionUiData.VisitedCategories.Add(new CategoryHistoryItem(category));
         result.Category = category;
         result.CategoryModel = GetModelWithContentHtml(category);
@@ -40,7 +40,7 @@ public class CategoryRedirectController : BaseController
        return result;
     }
 
-    private ActionResult Category(Category category, int? version)
+    private ActionResult Category(CategoryCacheItem category, int? version)
     {
         _sessionUiData.VisitedCategories.Add(new CategoryHistoryItem(category));
 
@@ -49,12 +49,12 @@ public class CategoryRedirectController : BaseController
         if (version != null)
             ApplyCategoryChangeToModel(categoryModel, (int)version);
         else
-            SaveCategoryView.Run(category, User_());
+            SaveCategoryView.Run(EntityCache.GetCategoryCacheItem(category.Id), User_());
    
         return View(_viewLocation, categoryModel);
     }
     
-    private CategoryModel GetModelWithContentHtml(Category category)
+    private CategoryModel GetModelWithContentHtml(CategoryCacheItem category)
     {
         return new CategoryModel(category)
         {
@@ -66,7 +66,7 @@ public class CategoryRedirectController : BaseController
     {
         var categoryChange = Sl.CategoryChangeRepo.GetByIdEager(version);
         Sl.Session.Evict(categoryChange);
-        var historicCategory = categoryChange.ToHistoricCategory();
+        var historicCategory = CategoryCacheItem.ToCacheCategory(categoryChange.ToHistoricCategory());
         categoryModel.Name = historicCategory.Name;
         categoryModel.CategoryChange = categoryChange;
         categoryModel.CustomPageHtml = TemplateToHtml.Run(historicCategory, ControllerContext); 
@@ -104,7 +104,7 @@ public class CategoryRedirectController : BaseController
     {
         return ViewRenderer.RenderPartialView(
             "/Views/Categories/Detail/Tabs/" + tabName + ".ascx",
-            GetModelWithContentHtml(Sl.CategoryRepo.GetById(categoryId)),
+            GetModelWithContentHtml(EntityCache.GetCategoryCacheItem(categoryId)),
             ControllerContext
         );
     }
@@ -112,7 +112,7 @@ public class CategoryRedirectController : BaseController
     public string KnowledgeBar(int categoryId) => 
         ViewRenderer.RenderPartialView(
             "/Views/Categories/Detail/CategoryKnowledgeBar.ascx",
-            new CategoryKnowledgeBarModel(Sl.CategoryRepo.GetById(categoryId)), 
+            new CategoryKnowledgeBarModel(EntityCache.GetCategoryCacheItem(categoryId)), 
             ControllerContext
         );
 

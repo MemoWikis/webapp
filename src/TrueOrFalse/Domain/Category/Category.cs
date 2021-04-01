@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using TrueOrFalse.Tools;
+using MySqlX.XDevAPI;
 
 [DebuggerDisplay("Id={Id} Name={Name}")]
 [Serializable]
@@ -25,17 +25,15 @@ public class Category : DomainEntity, ICreator, ICloneable
 
     public virtual IList<CategoryRelation> CategoryRelations { get; set; }
 
-    public virtual IList<Category> ParentCategories()
+    public virtual IList<Category> ParentCategories() 
     {
         return CategoryRelations.Any()
             ? CategoryRelations
                 .Where(r => r.CategoryRelationType == CategoryRelationType.IsChildCategoryOf)
-                .Select(x => EntityCache.GetCategory(x.RelatedCategory.Id))
+                .Select(x => x.RelatedCategory)
                 .ToList()
             : new List<Category>();
     }
-
-    public virtual CategoryCachedData CachedData { get; set; } = new CategoryCachedData();
 
     public virtual string CategoriesToExcludeIdsString { get; set; }
 
@@ -69,10 +67,18 @@ public class Category : DomainEntity, ICreator, ICloneable
 
     public virtual IList<Category> AggregatedCategories(bool includingSelf = true)
     {
-        var list = CategoryRelations.Where(r => r.CategoryRelationType == CategoryRelationType.IncludesContentOf)
-            .Select(r => EntityCache.GetCategory(r.RelatedCategory.Id) ).ToList();
-        
-        if(includingSelf)
+        var list = new List<Category>();
+        list = CategoryRelations.Where(r => r.CategoryRelationType == CategoryRelationType.IncludesContentOf)
+            .Select(r => Sl.CategoryRepo.GetByIdEager(r.RelatedCategory.Id)).ToList();
+
+        if (Sl.SessionUser.User != null && UserCache.GetItem(Sl.SessionUser.User.Id).IsFiltered)
+
+            list = list.Where(c => c.IsInWishknowledge()).ToList(); 
+              
+       
+
+
+        if (includingSelf)
             list.Add(this);
 
         return list;
@@ -156,11 +162,8 @@ public class Category : DomainEntity, ICreator, ICloneable
     public virtual bool IsHistoric { get; set; }
 
     public virtual CategoryVisibility Visibility { get; set; }
+    public virtual bool IsInWishknowledge() => UserCache.IsInWishknowledge(Sl.CurrentUserId, Id);
 
-    public virtual bool IsInWishknowledge()
-    {
-        return Sl.CategoryValuationRepo.IsInWishKnowledge(Id, Sl.CurrentUserId);
-    }
 
     public Category(){
         CategoryRelations = new List<CategoryRelation>();

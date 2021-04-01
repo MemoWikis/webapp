@@ -31,4 +31,19 @@ public class QuestionValuation : IPersistable, WithDateCreated
         RelevancePersonal = -1;
         RelevanceForAll = -1;
     }
+
+    public virtual QuestionValuationCacheItem ToCacheItem()
+    {
+        return new QuestionValuationCacheItem
+        {
+            Id = Id,
+            User = User,
+            CorrectnessProbability = CorrectnessProbability,
+            CorrectnessProbabilityAnswerCount = CorrectnessProbabilityAnswerCount,
+            KnowledgeStatus = KnowledgeStatus,
+            IsInWishKnowledge = IsInWishKnowledge(),
+            DateCreated = DateCreated,
+            Question = Question,
+        };
+    }
 }
