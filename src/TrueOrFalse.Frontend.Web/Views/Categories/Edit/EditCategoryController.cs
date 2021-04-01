@@ -229,7 +229,7 @@ public class EditCategoryController : BaseController
 
         JobExecute.RunAsTask(scope =>
         {
-            ModifyRelationsForCategory.AddParentCategory( Sl.CategoryRepo.GetByIdEager(category.Id), category.Id);
+            ModifyRelationsForCategory.AddParentCategory( Sl.CategoryRepo.GetByIdEager(category.Id), parentCategoryId);
         }, "ModifyRelationForCategoryJob");
 
         Sl.CategoryRepo.Create(category);

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Linq;
 using System.Web;
+using TrueOrFalse.Tools.Cache.UserWorld;
 using TrueOrFalse.Web;
 
 public class EditCategoryModel : BaseModel
@@ -103,7 +104,7 @@ public class EditCategoryModel : BaseModel
         
         category.DisableLearningFunctions = DisableLearningFunctions;
         category.TopicMarkdown = TopicMarkdown;
-        ModifyRelationsForCategory.UpdateCategoryRelationsOfType(EntityCache.GetCategoryCacheItem(category.Id), ParentCategories.Select(c => c.Id).ToList(), CategoryRelationType.IsChildCategoryOf);
+        ModifyRelationsForCategory.AddParentCategories(category, ParentCategories.Select(c => c.Id).ToList());
 
         var request = HttpContext.Current.Request;
         var categoryType = "standard";

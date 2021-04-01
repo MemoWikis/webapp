@@ -64,6 +64,14 @@ public class ModifyRelationsForCategory
         AddCategoryRelationOfType(category, relatedCategoryId, CategoryRelationType.IsChildCategoryOf);
     }
 
+    public static void AddParentCategories(Category category, List<int> relatedCategoryIds)
+    {
+        foreach (var relatedId in relatedCategoryIds)
+        {
+            AddCategoryRelationOfType(category, relatedId, CategoryRelationType.IsChildCategoryOf);
+        }
+        
+    }
     public static void UpdateRelationsOfTypeIncludesContentOf(CategoryCacheItem categoryCacheItem, bool persist = true)
     {
         var descendants = GetCategoryChildren.WithAppliedRules(categoryCacheItem);
