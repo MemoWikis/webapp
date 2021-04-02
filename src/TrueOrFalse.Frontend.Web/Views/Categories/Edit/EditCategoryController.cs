@@ -412,4 +412,40 @@ public class EditCategoryController : BaseController
         var category = EntityCache.GetCategoryCacheItem(categoryId);
         return ViewRenderer.RenderPartialView("~/Views/Categories/Edit/GraphDisplay/CategoryGraph.ascx", new CategoryGraphModel(category), ControllerContext);
     }
+
+    [HttpPost]
+    public JsonResult PublishCategory(int categoryId)
+    {
+        var allParents = GraphService.GetAllParents(categoryId);
+        var hasPublicParent = allParents.Any(c => c.Visibility == CategoryVisibility.All);
+
+        if (hasPublicParent)
+        {
+            var categoryCacheItem = EntityCache.GetCategoryCacheItem(categoryId);
+            categoryCacheItem.Visibility = CategoryVisibility.All;
+            EntityCache.AddOrUpdate(categoryCacheItem);
+
+            JobExecute.RunAsTask(scope =>
+            {
+                var category = Sl.CategoryRepo.GetById(categoryId);
+                category.Visibility = CategoryVisibility.All;
+                _categoryRepository.Update(category, _sessionUser.User);
+            }, "PublishCategory");
+            return Json(new
+            {
+                success = true,
+                message = "Dein Thema wurde erfolgreich veröffentlicht."
+            });
+        }
+        else
+        {
+            return Json(new
+            {
+                success = false,
+                message = "Veröffentlichung ist nicht möglich. Das übergeordnete Thema ist privat.",
+                parentList = allParents.Select(c => c.Id).ToList()
+            });
+        }
+
+    }
 }

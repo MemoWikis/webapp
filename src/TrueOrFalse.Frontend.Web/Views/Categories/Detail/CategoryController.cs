@@ -312,6 +312,30 @@ public class CategoryController : BaseController
 
         return isInWishknowledge;
     }
+
+    [HttpPost]
+    [AccessOnlyAsLoggedIn]
+    public JsonResult GetCategoryPublishModalData(int categoryId)
+    {
+        var categoryCacheItem = EntityCache.GetCategoryCacheItem(categoryId);
+        var userCacheItem = UserCache.GetItem(User_().Id);
+        if (categoryCacheItem.Creator != userCacheItem.User)
+            return Json(new
+        {
+            success = false,
+        });
+        var filteredAggregatedQuestions = categoryCacheItem
+            .GetAggregatedQuestionsFromMemoryCache()
+            .Where(q => q.Creator == userCacheItem.User)
+            .Select(q => q.Id).ToList();
+
+        return Json(new
+        {
+            categoryName = categoryCacheItem.Name,
+            questionIds = filteredAggregatedQuestions,
+            questionCount = filteredAggregatedQuestions.Count()
+        });
+    }
 }
 public class LoadModelResult
 {
