@@ -416,12 +416,15 @@ public class EditCategoryController : BaseController
     [HttpPost]
     public JsonResult PublishCategory(int categoryId)
     {
-        var allParents = GraphService.GetAllParents(categoryId);
+        var categoryCacheItem = EntityCache.GetCategoryCacheItem(categoryId);
+        var allParentRelations = categoryCacheItem.CategoryRelations.Where(r =>
+            r.CategoryRelationType == CategoryRelationType.IsChildCategoryOf && r.CategoryId == categoryId).ToList();
+        var allParents = new List<CategoryCacheItem>();
+        allParentRelations.ForEach(cr => allParents.Add(EntityCache.GetCategoryCacheItem(cr.RelatedCategoryId)));
         var hasPublicParent = allParents.Any(c => c.Visibility == CategoryVisibility.All);
 
         if (hasPublicParent)
         {
-            var categoryCacheItem = EntityCache.GetCategoryCacheItem(categoryId);
             categoryCacheItem.Visibility = CategoryVisibility.All;
             EntityCache.AddOrUpdate(categoryCacheItem);
 
@@ -434,7 +437,6 @@ public class EditCategoryController : BaseController
             return Json(new
             {
                 success = true,
-                message = "Dein Thema wurde erfolgreich veröffentlicht."
             });
         }
         else
@@ -442,7 +444,6 @@ public class EditCategoryController : BaseController
             return Json(new
             {
                 success = false,
-                message = "Veröffentlichung ist nicht möglich. Das übergeordnete Thema ist privat.",
                 parentList = allParents.Select(c => c.Id).ToList()
             });
         }

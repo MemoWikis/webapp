@@ -47,58 +47,8 @@
                 </div>
             <% } %>
             <%if (Model.Category.Visibility == CategoryVisibility.Owner) {%>
-                    <div id="PublishCategoryApp">
-                        <div class="btn btn-primary" @click="openPublishModal">Thema veröffentlichen</div>  
-                            <div class="modal fade" id="PublishCategoryModal" tabindex="-1" role="dialog" aria-labelledby="modal-content-module-settings" aria-hidden="true">
-                                <div v-if="publishRequestConfirmation" class="modal-dialog modal-s">
-                                    <div class="modal-content">
-                                        <div class="modalBody">
-                                            <div>
-                                                <i v-if="publishSuccess" class="fas fa-check-circle"></i>
-                                                <i v-else class="far fa-times-circle"></i>
-                                            </div>
-                                            <div>
-                                                {{publishRequestMessage}}
-                                            </div>
-                                        </div>
-                                        <div class="modalFooter">
-                                            <div class="btn btn-primary" data-dismiss="modal">OK</div>       
-                                        </div>   
-                                    </div>
-                                </div>
-                                <div v-else class="modal-dialog modal-s" role="document">
-                                    <button type="button" class="close dismissModal" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-
-                                    <div class="modal-content">
-                                        <div class="modalHeader">
-                                            <h4 class="modal-title">Thema {{categoryName}} veröffentlichen</h4>
-                                        </div>
-                                        <div class="modalBody">
-                                            <div>
-                                                Öffentliche Inhalte sind für alle auffindbar und können frei weiterverwendet werden. 
-                                                Du veröffentlichst unter Creative-Commons-Lizenz.
-                                            </div>
-                                            <div class="checkBox" @click="publishQuestions = !publishQuestions">
-                                                <i class="fas fa-check-square" v-if="publishQuestions" ></i>
-                                                <i class="far fa-square" v-else></i>
-                                                Möchtest Du {{questionCount}} private Fragen veröffentlichen?
-                                            </div>
-                                            <div class="checkBox" @click="checkedLicense = !checkedLicense">
-                                                <i class="fas fa-check-square" v-if="checkedLicense" ></i>
-                                                <i class="far fa-square" v-else></i>
-                                                Ich stelle diesen Eintrag unter die Lizenz "Creative Commons - Namensnennung 4.0 International" (CC BY 4.0, Lizenztext, deutsche Zusammenfassung). 
-                                                Der Eintrag kann bei angemessener Namensnennung ohne Einschränkung weiter genutzt werden. Die Texte und ggf. 
-                                                Bilder sind meine eigene Arbeit und nicht aus urheberrechtlich geschützten Quellen kopiert. 
-                                            </div>
-                                        </div>
-                                        <div class="modalFooter">
-                                            <div class="btn btn-primary" @click="publishCategory" :disabled="!checkedLicense">veröffentlichen</div>       
-                                        </div>   
-                                    </div>
-                                </div>
-                            </div>
-                    </div>
-                <%} %>
+                <% Html.RenderPartial("~/Views/Categories/Detail/Partials/PublishCategory/PublishCategory.vue.ascx"); %>
+            <%} %>
         </div>
     </div>
 

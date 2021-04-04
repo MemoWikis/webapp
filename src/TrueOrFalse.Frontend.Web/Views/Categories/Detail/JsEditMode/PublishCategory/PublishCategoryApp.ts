@@ -8,13 +8,14 @@ new Vue({
         return {
             categoryId: null,
             publishQuestions: false,
-            checkedLicense: false,
-            categoryname: "",
+            confirmLicense: false,
+            categoryName: "",
             questionIds: [],
             questionCount: 0,
             publishSuccess: false,
             publishRequestConfirmation: false,
-            publishRequestMessage: "",
+            blinkTimer: null,
+            blink: false,
         };
     },
 
@@ -24,6 +25,9 @@ new Vue({
     destroyed() {
     },
 
+    mounted() {
+    },
+
     methods: {
         openPublishModal() {
             this.resetModal();
@@ -31,9 +35,11 @@ new Vue({
             $('#PublishCategoryModal').modal('show');
         },
         resetModal() {
+            this.blinkTimer = null;
+            this.blink = false;
             this.publishQuestions = false;
             this.checkedLicense = false;
-            this.categoryname = "";
+            this.categoryName = "";
             this.questionIds = [];
             this.questionCount = 0;
             this.publishSuccess = false;
@@ -59,6 +65,16 @@ new Vue({
         },
         publishCategory() {
             var self = this;
+
+            if (!self.confirmLicense) {
+                self.blinkTimer = null;
+                self.blink = true;
+                self.blinkTimer = setTimeout(() => {
+                        self.blink = false;
+                    },
+                    2000);
+                return;
+            }
             var data = {
                 categoryId: self.categoryId,
             };
@@ -70,7 +86,6 @@ new Vue({
                 success: function (result) {
                     self.publishRequestConfirmation = true;
                     self.publishSuccess = result.success;
-                    self.publishRequestMessage = result.message;
                     if (self.publishQuestions && result.success)
                         self.publishPrivateQuestions();
                 },
