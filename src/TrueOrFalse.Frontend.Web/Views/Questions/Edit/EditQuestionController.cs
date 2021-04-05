@@ -20,7 +20,7 @@ public class EditQuestionController : BaseController
     }
 
     [SetMainMenu(MainMenuEntry.Questions)]
-    public ActionResult Create(int? categoryId, int? setId)
+    public ActionResult Create(int? categoryId)
     {
         var model = new EditQuestionModel();
         

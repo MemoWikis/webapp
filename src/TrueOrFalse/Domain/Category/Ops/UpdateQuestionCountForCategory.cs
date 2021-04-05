@@ -13,7 +13,7 @@ public class UpdateQuestionCountForCategory : IRegisterAsInstancePerLifetime
         _questionRepository = questionRepo;
     }
 
-    public void Run(Category category)
+    private void Run(Category category)
     {
         category.CountQuestions = _questionRepository.GetForCategory(category.Id).Count;
         category.UpdateCountQuestionsAggregated();
