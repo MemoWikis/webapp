@@ -26,7 +26,7 @@
     },
     created() {
         var visibility = $('#hddVisibility').val();
-        if (visibility != 0) {
+        if (visibility != 'All') {
             this.parentIsPrivate = true;
             this.isPrivate = true;
         }
