@@ -13,6 +13,7 @@
             disableAddCategory: true,
             selectedCategories: [],
             moveCategories: false,
+            parentIsPrivate: false,
         };
     },
     watch: {
@@ -24,6 +25,11 @@
         }
     },
     created() {
+        var visibility = $('#hddVisibility').val();
+        if (visibility != 0) {
+            this.parentIsPrivate = true;
+            this.isPrivate = true;
+        }
     },
     mounted() {
         $('#AddCategoryModal').on('show.bs.modal',
@@ -58,6 +64,13 @@
         },
         closeModal() {
             $('#AddCategoryModal').modal('hide');
+        },
+
+        togglePrivacy() {
+            if (this.parentIsPrivate)
+                return;
+            else
+                this.isPrivate = !this.isPrivate;
         },
 
         addCategory() {
