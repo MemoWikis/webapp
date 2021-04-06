@@ -133,5 +133,5 @@
     <% } %>
     
 </div>
-
+<%= Scripts.Render("~/bundles/js/PublishCategory") %>
 <%= Scripts.Render("~/bundles/js/MyWorldToggle") %>

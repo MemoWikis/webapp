@@ -1,7 +1,10 @@
 ﻿<%@ Import Namespace="System.Web.Optimization" %>
 
-<div id="PublishCategoryApp">
-    <div class="btn btn-primary" @click="openPublishModal"><i class="fas fa-upload"></i> Thema veröffentlichen</div>  
+<publish-category-component inline-template>
+    <div id="PublishCategoryComponent">
+        <div class="btn btn-primary" @click="openPublishModal">
+            <i class="fas fa-upload"></i> Thema veröffentlichen
+        </div>  
         <div class="modal fade" id="PublishCategoryModal" tabindex="-1" role="dialog" aria-labelledby="modal-content-module-settings" aria-hidden="true">
             <div v-if="publishRequestConfirmation" class="modal-dialog modal-xs">
                 <div class="modal-content after-request-modal">
@@ -66,6 +69,6 @@
                 </div>
             </div>
         </div>
-</div>
+    </div>
 
-<%= Scripts.Render("~/bundles/js/PublishCategory") %>
+</publish-category-component>

@@ -2,8 +2,7 @@
 if (eventBus == null)
     var eventBus = new Vue();
 
-new Vue({
-    el: '#PublishCategoryApp',
+Vue.component('publish-category-component',{
     data() {
         return {
             categoryId: null,
