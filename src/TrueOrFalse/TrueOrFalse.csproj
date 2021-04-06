@@ -307,6 +307,7 @@
     <Compile Include="Domain\Category\History\EditData\CategoryRelation_EditData_V1.cs" />
     <Compile Include="Domain\Category\History\Persistence\CategoryChangeMap.cs" />
     <Compile Include="Domain\Category\History\Persistence\CategoryChangeRepo.cs" />
+    <Compile Include="Domain\Category\CategoryVisibility.cs" />
     <Compile Include="Domain\Category\Type\Impl\CategoryTypeCourse.cs" />
     <Compile Include="Domain\Category\Type\Impl\CategoryTypeEducationProvider.cs" />
     <Compile Include="Domain\Knowledge\Count\GetWishTopicCount.cs" />
@@ -844,6 +845,7 @@
     <Compile Include="Tools\Cache\UserCache\UserCacheItem.cs" />
     <Compile Include="Domain\Category\RootCategory.cs" />
     <Compile Include="Tools\Update\Steps\UpdateToVs219.cs" />
+    <Compile Include="Tools\Update\Steps\UpdateToVs225.cs" />
     <Compile Include="Tools\Update\Steps\UpdateToVs224.cs" />
     <Compile Include="Tools\Update\Steps\UpdateToVs223.cs" />
     <Compile Include="Tools\Update\Steps\UpdateToVs222.cs" />

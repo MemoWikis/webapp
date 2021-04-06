@@ -1,6 +1,6 @@
 ﻿<%@ Control Language="C#" AutoEventWireup="true" Inherits="System.Web.Mvc.ViewUserControl<InlineTextModel>" %>
-
-<text-component content="<%: HttpUtility.HtmlDecode(Model.Content)%>" inline-template>
+<keep-alive>
+    <text-component content="<%: HttpUtility.HtmlDecode(Model.Content)%>" inline-template>
     <div class="inline-text-editor">
         <editor-menu-bar :editor="editor" v-slot="{ commands, isActive, focused, getMarkAttrs }">
           <div
@@ -161,3 +161,4 @@
     </div>
 
 </text-component>
+</keep-alive>

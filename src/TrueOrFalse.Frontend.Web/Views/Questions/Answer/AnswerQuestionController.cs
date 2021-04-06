@@ -504,11 +504,12 @@ public class AnswerQuestionController : BaseController
             overallAnsweredCorrectly = history.TimesAnsweredCorrect,
             overallAnsweredWrongly = history.TimesAnsweredWrongTotal,
             isInWishknowledge = answerQuestionModel.IsInWishknowledge,
-            categories = question.Categories.Select(c => new
+            categories = question.Categories.Where(c => c.IsVisibleToCurrentUser()).Select(c => new
             {
                 name = c.Name,
                 categoryType = c.Type,
                 linkToCategory = Links.CategoryDetail(c),
+                isPrivate = c.Visibility == CategoryVisibility.Owner,
             }).AsEnumerable().Distinct().ToList(),
             visibility = question.Visibility,
         });

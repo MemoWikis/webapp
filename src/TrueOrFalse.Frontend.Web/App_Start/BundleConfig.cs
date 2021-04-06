@@ -102,6 +102,9 @@ namespace TrueOrFalse.View
                 .IncludeDirectory("~/Views/Categories/Detail/JsEditMode/Segmentation/", "*.js")
                 .IncludeDirectory("~/Views/Categories/Detail/JsEditMode/", "*.js"));
 
+            bundles.Add(new ScriptBundle("~/bundles/js/PublishCategory")
+                .IncludeDirectory("~/Views/Categories/Detail/JsEditMode/PublishCategory/", "*.js"));
+
             bundles.Add(new ScriptBundle("~/bundles/js/MyWorldToggle")
                 .IncludeDirectory("~/Views/Shared/MyWorldToggle/", "*.js"));
 

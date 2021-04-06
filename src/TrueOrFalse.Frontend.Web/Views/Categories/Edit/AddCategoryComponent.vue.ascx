@@ -22,8 +22,8 @@
                                     <a :href="existingCategoryUrl" target="_blank" class="alert-link">{{existingCategoryName}}</a>
                                     {{errorMsg}}
                                 </div>
-                                <div class="checkBox" @click="private = !private">
-                                    <i class="fas fa-check-square" v-if="private" ></i>
+                                <div class="checkBox" :disabled="parentIsPrivate" @click="togglePrivacy()">
+                                    <i class="fas fa-check-square" v-if="isPrivate" ></i>
                                     <i class="far fa-square" v-else></i>
                                     Privates Thema
                                 </div>

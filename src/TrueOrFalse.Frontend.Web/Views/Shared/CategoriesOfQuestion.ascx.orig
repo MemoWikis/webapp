@@ -8,6 +8,7 @@
 
             <% if(category.IsSpoiler(Model)){ %>
 
+<<<<<<< HEAD
                 <div class="category-chip-container">
                     <a href="#" onclick="location.href='<%= Links.CategoryDetail(category)%>'">
                         <div class="category-chip show-tooltip" title="Das Thema entspricht der Antwort.">
@@ -17,9 +18,21 @@
                     </a>
                 </div>
             <% }else{ %>
-            <% Html.RenderPartial("CategoryLabel", EntityCache.GetCategoryCacheItem(category.Id)); %>
+                <% Html.RenderPartial("CategoryLabel", category); %>
             <%} %>
         
+=======
+            <div class="category-chip-container">
+                <a href="#" onclick="location.href='<%= Links.CategoryDetail(category)%>'">
+                    <div class="category-chip show-tooltip" title="Das Thema entspricht der Antwort.">
+                        <span>Spoiler</span>
+                        <span class="remove-category-chip"></span>
+                    </div>
+                </a>
+            </div>
+        <% }else{ %>
+            <% Html.RenderPartial("CategoryLabel", EntityCache.GetCategoryCacheItem(category.Id)); %>
+>>>>>>> master
         <%} %>
 
 

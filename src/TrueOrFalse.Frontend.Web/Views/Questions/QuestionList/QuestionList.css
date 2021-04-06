@@ -530,7 +530,7 @@
 #QuestionListApp #AddInlineQuestionContainer #AddQuestionBody #AddQuestionPrivacyContainer form-check-radio {
   cursor: pointer;
 }
-#QuestionListApp #AddInlineQuestionContainer #AddQuestionBody #AddQuestionPrivacyContainer .form-check-label i.fa-eye-slash {
+#QuestionListApp #AddInlineQuestionContainer #AddQuestionBody #AddQuestionPrivacyContainer .form-check-label i.fa-lock {
   font-size: 14px;
 }
 #QuestionListApp #AddInlineQuestionContainer .wuwi-red {
