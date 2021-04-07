@@ -2484,9 +2484,6 @@
     <Content Include="Views\Shared\Delete.css">
       <DependentUpon>Delete.less</DependentUpon>
     </Content>
-    <Content Include="Views\Shared\MyWorldToggle\MyWorldToggleLoader.js">
-      <DependentUpon>MyWorldToggleLoader.ts</DependentUpon>
-    </Content>
     <Content Include="Views\Shared\PinComponentVue\PinCategoryComponent.vue.ascx" />
     <Content Include="Views\Shared\PinComponentVue\PinComponent.vue.ascx" />
     <Content Include="Views\Shared\Modals\ForTheTimeToDeleteModal.ascx" />
@@ -3609,7 +3606,6 @@
     <TypeScriptCompile Include="Views\Questions\Answer\LearningSession\Js\Page.ts" />
     <TypeScriptCompile Include="Views\Questions\Edit\EditSolutionControls\SolutionTypeFlashCard.ts" />
     <TypeScriptCompile Include="Views\Questions\Edit\Js\MarkdownDescription.ts" />
-    <TypeScriptCompile Include="Views\Shared\MyWorldToggle\MyWorldToggleLoader.ts" />
     <TypeScriptCompile Include="Views\Shared\PinComponentVue\PinComponent.vue.ts" />
     <TypeScriptCompile Include="Views\Shared\Spinner\Js\Spinner.ts" />
     <TypeScriptCompile Include="Views\Shared\MyWorldToggle\MyWorldToggleComponent.ts" />
