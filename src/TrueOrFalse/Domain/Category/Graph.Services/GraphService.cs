@@ -59,7 +59,7 @@ public class GraphService
         userId = userId == -1 ? Sl.CurrentUserId : userId;
 
         var time = new Stopwatch();
-        time.Start();
+        time.Start(); 
 
         foreach (var child in children)
         {
@@ -128,10 +128,33 @@ public class GraphService
         listWithUserPersonelCategories.Add(rootCategory);
 
         var listAsConcurrentDictionary = listWithUserPersonelCategories.ToConcurrentDictionary();
+        var cacheItemWithChildren = AddChildrenToCategory(listAsConcurrentDictionary);
 
-        
+         foreach (var categoryCacheItem in cacheItemWithChildren.Values)
+         {
 
-        return AddChildrenToCategory(listAsConcurrentDictionary).Values.ToList();
+             var childrenOuter = categoryCacheItem.CachedData.ChildrenIds; 
+             
+             while (childrenOuter.Count > 0)
+             {
+                 
+                 listAsConcurrentDictionary.TryGetValue(childrenOuter[0], out var value);
+                 childrenOuter.RemoveAt(0);
+                 categoryCacheItem.CategoryRelations.Add(new CategoryCacheRelation
+                 {
+                     CategoryRelationType = CategoryRelationType.IncludesContentOf,
+                     RelatedCategoryId = value.Id,
+                     CategoryId = categoryCacheItem.Id
+                 });
+
+                foreach (var cachedDataChildrenId in value.CachedData.ChildrenIds)
+                {
+                    childrenOuter.Add(cachedDataChildrenId);
+                }
+             }
+         }
+
+         return cacheItemWithChildren.Values.ToList(); 
     }
 
     public static ConcurrentDictionary<int, CategoryCacheItem> AddChildrenToCategory(ConcurrentDictionary<int, CategoryCacheItem> categoryList)
@@ -154,6 +177,7 @@ public class GraphService
         }
         return categoryList;
     }
+    
 
 
     private static IEnumerable<int> GetParentsFromCategory(int categoryId, bool isFromUserEntityCache = false)
@@ -199,25 +223,4 @@ public class GraphService
         return result == 0;
     }
 
-    public static bool IsCategoryRelationEqual(CategoryCacheItem category1, CategoryCacheItem category2)
-    {
-        if (category1 != null && category2 != null || category1.CategoryRelations != null && category2.CategoryRelations != null)
-        {
-            var relations1 = category1.CategoryRelations;
-            var relations2 = category2.CategoryRelations;
-
-            if (relations2.Count != relations1.Count)
-                return false;
-
-            if (relations2.Count == 0 && relations1.Count == 0)
-                return true;
-
-            var count = 0; 
-
-            var countVariousRelations = relations1.Count(r => !relations2.Any(r2 => r2.RelatedCategoryId == r.RelatedCategoryId && r2.CategoryId == r.CategoryId && r2.CategoryRelationType.ToString().Equals(r.CategoryRelationType.ToString())));
-            return countVariousRelations == 0;
-        }
-        Logg.r().Error("Category or CategoryRelations have a NullReferenceException");
-        return false;
-    }
 }
