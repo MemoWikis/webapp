@@ -93,7 +93,6 @@ public class GraphService
                 }
                 else
                 {
-                    var c = parentId;
                     var currentParents = GetParentsFromCategory(parentId, isFromUserEntityCache);
                     parents.Remove(parentId);
 
@@ -132,8 +131,8 @@ public class GraphService
 
          foreach (var categoryCacheItem in cacheItemWithChildren.Values)
          {
-
-             var childrenOuter = categoryCacheItem.CachedData.ChildrenIds; 
+             
+             var childrenOuter = categoryCacheItem.CachedData.ChildrenIds.DeepClone(); 
              
              while (childrenOuter.Count > 0)
              {
@@ -151,7 +150,7 @@ public class GraphService
                 {
                     childrenOuter.Add(cachedDataChildrenId);
                 }
-             }
+             } 
          }
 
          return cacheItemWithChildren.Values.ToList(); 
