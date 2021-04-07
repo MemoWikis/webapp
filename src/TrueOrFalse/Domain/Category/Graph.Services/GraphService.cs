@@ -128,12 +128,9 @@ public class GraphService
         listWithUserPersonelCategories.Add(rootCategory);
 
         var listAsConcurrentDictionary = listWithUserPersonelCategories.ToConcurrentDictionary();
+        var cacheItemWithChildren = AddChildrenToCategory(listAsConcurrentDictionary);
 
-        
-
-         var q = AddChildrenToCategory(listAsConcurrentDictionary);
-
-         foreach (var categoryCacheItem in q.Values)
+         foreach (var categoryCacheItem in cacheItemWithChildren.Values)
          {
 
              var childrenOuter = categoryCacheItem.CachedData.ChildrenIds; 
@@ -151,13 +148,13 @@ public class GraphService
                  });
 
                 foreach (var cachedDataChildrenId in value.CachedData.ChildrenIds)
-                 {
+                {
                     childrenOuter.Add(cachedDataChildrenId);
-                 }
+                }
              }
          }
 
-         return q.Values.ToList(); 
+         return cacheItemWithChildren.Values.ToList(); 
     }
 
     public static ConcurrentDictionary<int, CategoryCacheItem> AddChildrenToCategory(ConcurrentDictionary<int, CategoryCacheItem> categoryList)
