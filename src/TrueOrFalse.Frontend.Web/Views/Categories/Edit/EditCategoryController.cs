@@ -199,21 +199,20 @@ public class EditCategoryController : BaseController
     }
 
     [HttpPost]
-    public JsonResult QuickCreate(string name, int parentCategoryId)
+    public JsonResult QuickCreate(string name, int parentCategoryId, bool isPrivate)
     {
         var category = new Category(name);
-        var parentCategory = EntityCache.GetCategoryCacheItem(parentCategoryId, getDataFromEntityCache:true);
-        ModifyRelationsForCategory.AddParentCategory(category, parentCategory.Id);
+        ModifyRelationsForCategory.AddParentCategory(category, parentCategoryId);
 
         category.Creator = _sessionUser.User;
         category.Type = CategoryType.Standard;
+        if (isPrivate)
+            category.Visibility = CategoryVisibility.Owner;
         _categoryRepository.Create(category);
 
         CategoryInKnowledge.Pin(category.Id, Sl.SessionUser.User);
         StoreImage(category.Id);
         
-        
-
         return Json(new
         {
             success = true,
@@ -223,9 +222,13 @@ public class EditCategoryController : BaseController
     }
 
     [HttpPost]
-    public JsonResult QuickCreateWithCategories(string name, int parentCategoryId, int[] childCategoryIds)
+    public JsonResult QuickCreateWithCategories(string name, int parentCategoryId, bool isPrivate, int[] childCategoryIds)
     {
         var category = new Category(name) {Creator = _sessionUser.User};
+        if (isPrivate)
+            category.Visibility = CategoryVisibility.Owner;
+        
+        var parentCategory = EntityCache.GetCategoryCacheItem(parentCategoryId);
 
         JobExecute.RunAsTask(scope =>
         {
@@ -233,16 +236,20 @@ public class EditCategoryController : BaseController
         }, "ModifyRelationForCategoryJob");
 
         Sl.CategoryRepo.Create(category);
-
+        var movedCategories = new List<int>();
         foreach (var childCategoryId in childCategoryIds)
         {
             var childCategory = Sl.CategoryRepo.GetByIdEager(childCategoryId);
+            var hasNoPrivateRelation = childCategory.Visibility != CategoryVisibility.Owner && parentCategory.Visibility == CategoryVisibility.Owner;
+            if (isPrivate && hasNoPrivateRelation)
+                continue; 
             RemoveParent(parentCategoryId, childCategoryId);
+            movedCategories.Add(childCategoryId);
             var updatedParentList = Sl.CategoryRepo.GetByIdsEager(childCategory.ParentCategories().Where(c => c.Id != parentCategoryId).Select(c => c.Id).ToList()).ToList();
             updatedParentList.Add(category);
 
             var childCategoryAsCategory =Sl.CategoryRepo.GetByIdEager(childCategory.Id); 
-            ModifyRelationsForCategory.UpdateCategoryRelationsOfType( CategoryCacheItem.ToCacheCategory(childCategory), updatedParentList.Select(c => c.Id).ToList(), CategoryRelationType.IsChildCategoryOf);
+            ModifyRelationsForCategory.UpdateCategoryRelationsOfType(CategoryCacheItem.ToCacheCategory(childCategory), updatedParentList.Select(c => c.Id).ToList(), CategoryRelationType.IsChildCategoryOf);
             Sl.CategoryRepo.Update(childCategoryAsCategory, _sessionUser.User);
         }
         UserEntityCache.ReInitAllActiveCategoryCaches();
@@ -251,7 +258,8 @@ public class EditCategoryController : BaseController
         {
             success = true,
             url = Links.CategoryDetail(category),
-            id = category.Id
+            id = category.Id,
+            movedCategories,
         });
     }
 
@@ -403,5 +411,42 @@ public class EditCategoryController : BaseController
     {
         var category = EntityCache.GetCategoryCacheItem(categoryId);
         return ViewRenderer.RenderPartialView("~/Views/Categories/Edit/GraphDisplay/CategoryGraph.ascx", new CategoryGraphModel(category), ControllerContext);
+    }
+
+    [HttpPost]
+    public JsonResult PublishCategory(int categoryId)
+    {
+        var categoryCacheItem = EntityCache.GetCategoryCacheItem(categoryId);
+        var allParentRelations = categoryCacheItem.CategoryRelations.Where(r =>
+            r.CategoryRelationType == CategoryRelationType.IsChildCategoryOf && r.CategoryId == categoryId).ToList();
+        var allParents = new List<CategoryCacheItem>();
+        allParentRelations.ForEach(cr => allParents.Add(EntityCache.GetCategoryCacheItem(cr.RelatedCategoryId)));
+        var hasPublicParent = allParents.Any(c => c.Visibility == CategoryVisibility.All);
+
+        if (hasPublicParent)
+        {
+            categoryCacheItem.Visibility = CategoryVisibility.All;
+            EntityCache.AddOrUpdate(categoryCacheItem);
+
+            JobExecute.RunAsTask(scope =>
+            {
+                var category = Sl.CategoryRepo.GetById(categoryId);
+                category.Visibility = CategoryVisibility.All;
+                _categoryRepository.Update(category, _sessionUser.User);
+            }, "PublishCategory");
+            return Json(new
+            {
+                success = true,
+            });
+        }
+        else
+        {
+            return Json(new
+            {
+                success = false,
+                parentList = allParents.Select(c => c.Id).ToList()
+            });
+        }
+
     }
 }

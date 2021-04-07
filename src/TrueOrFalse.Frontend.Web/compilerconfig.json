@@ -24,13 +24,6 @@
     }
   },
   {
-    "outputFile": "Views/Sets/Detail/Set.css",
-    "inputFile": "Views/Sets/Detail/Set.less",
-    "minify": {
-      "enabled": false
-    }
-  },
-  {
     "outputFile": "Views/Users/Detail/User.css",
     "inputFile": "Views/Users/Detail/User.less",
     "minify": {
@@ -40,13 +33,6 @@
   {
     "outputFile": "Views/Users/Users.css",
     "inputFile": "Views/Users/Users.less",
-    "minify": {
-      "enabled": false
-    }
-  },
-  {
-    "outputFile": "Views/Sets/Sets.css",
-    "inputFile": "Views/Sets/Sets.less",
     "minify": {
       "enabled": false
     }
@@ -169,10 +155,6 @@
     }
   },
   {
-    "outputFile": "Views/Dates/Dates.css",
-    "inputFile": "Views/Dates/Dates.less"
-  },
-  {
     "outputFile": "Views/Welcome/Register.css",
     "inputFile": "Views/Welcome/Register.less"
   },
@@ -228,20 +210,8 @@
     }
   },
   {
-    "outputFile": "Views/Games/Games.css",
-    "inputFile": "Views/Games/Games.less"
-  },
-  {
     "outputFile": "Style/grid.css",
     "inputFile": "Style/grid.less"
-  },
-  {
-    "outputFile": "Views/Games/Edit/Game.css",
-    "inputFile": "Views/Games/Edit/Game.less"
-  },
-  {
-    "outputFile": "Views/Dates/Edit/EditDate.css",
-    "inputFile": "Views/Dates/Edit/EditDate.less"
   },
   {
     "outputFile": "Views/Error/Error.css",

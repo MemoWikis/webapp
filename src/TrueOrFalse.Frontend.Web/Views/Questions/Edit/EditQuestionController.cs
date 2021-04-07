@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Security;
 using System.Web;
@@ -251,5 +252,24 @@ public class EditQuestionController : BaseController
             throw new SecurityException("Not allowed to edit question");
 
         new StoreSound().Run(soundfile.InputStream, Path.Combine(Server.MapPath("/Sounds/Questions/"), questionId + ".m4a"));
+    }
+
+    public void PublishQuestions(List<int> questionIds)
+    {
+        foreach (var questionId in questionIds)
+        {
+            var questionCacheItem = EntityCache.GetQuestionById(questionId);
+            if (questionCacheItem.Creator == Sl.SessionUser.User)
+            {
+                questionCacheItem.Visibility = QuestionVisibility.All;
+                EntityCache.AddOrUpdate(questionCacheItem);
+                JobExecute.RunAsTask(scope =>
+                {
+                    var question = Sl.QuestionRepo.GetById(questionId);
+                    question.Visibility = QuestionVisibility.All;
+                    _questionRepo.Update(question);
+                }, "PublishQuestion");
+            }
+        }
     }
 }

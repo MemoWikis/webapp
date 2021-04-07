@@ -58,7 +58,9 @@ Vue.component('text-component',
                 linkMenuIsActive: false,
                 json: null,
                 html: this.content,
+                contentHasBeenSaved: false,
                 contentIsChanged: false,
+                savedContent: null,
                 editor: new tiptap.Editor({
                     extensions: [
                         new tiptapExtensions.Blockquote(),
@@ -156,8 +158,18 @@ Vue.component('text-component',
             this.$root.content = this.html;
         },
         mounted() {
+            eventBus.$on('save-success',
+                () => {
+                    this.contentHasBeenSaved = true;
+                    this.savedContent = this.html;
+                });
             eventBus.$on('cancel-edit-mode',
                 () => {
+                    var newContent;
+                    if (this.contentHasBeenSaved)
+                        newContent = this.savedContent;
+                    else
+                        newContent = this.content;
                     this.contentIsChanged = false;
                     this.editor.destroy();
                     this.editor =
@@ -236,7 +248,7 @@ Vue.component('text-component',
                                     showOnlyCurrent: true,
                                 })
                             ],
-                            content: this.content,
+                            content: newContent,
                             editorProps: {
                                 handleKeyDown: () => {
                                     this.contentIsChanged = true;

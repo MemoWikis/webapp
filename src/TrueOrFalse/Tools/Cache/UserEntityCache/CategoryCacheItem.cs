@@ -42,7 +42,7 @@ public class CategoryCacheItem
 
     public virtual int FormerSetId { get; set; }
     public virtual bool SkipMigration { get; set; }
-
+    public virtual CategoryVisibility Visibility { get; set; }
     public virtual bool IsRootCategory => Id == RootCategory.RootCategoryId;
 
     public virtual IList<CategoryCacheItem> ParentCategories()
@@ -216,6 +216,7 @@ public class CategoryCacheItem
             IsHistoric = category.IsHistoric,
             Name = category.Name,
             SkipMigration = category.SkipMigration,
+            Visibility = category.Visibility,
             TopicMarkdown = category.TopicMarkdown,
             TotalRelevancePersonalEntries = 50,
             Type = category.Type,
@@ -226,6 +227,14 @@ public class CategoryCacheItem
             DateCreated = category.DateCreated
         };
     }
+
+    public virtual bool IsVisibleToCurrentUser()
+    {
+        var creator = new UserTinyModel(Creator);
+        return Visibility == CategoryVisibility.All || Sl.SessionUser.IsLoggedInUser(creator.Id);
+    }
+
+    public virtual bool IsNotVisibleToCurrentUser => !IsVisibleToCurrentUser();
 }
 
 

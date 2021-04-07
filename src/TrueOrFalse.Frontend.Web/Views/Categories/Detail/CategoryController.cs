@@ -49,6 +49,8 @@ public class CategoryController : BaseController
     {
         var result = new LoadModelResult();
         var category = EntityCache.GetCategoryCacheItem(id);
+        if (category.IsNotVisibleToCurrentUser)
+            category = null;
         
         var isCategoryNull = category == null;
 
@@ -109,7 +111,10 @@ public class CategoryController : BaseController
     }
     public void CategoryById(int id)
     {
-        Response.Redirect(Links.CategoryDetail(Resolve<CategoryRepository>().GetById(id)));
+        var category = Resolve<CategoryRepository>().GetById(id);
+        if (category.IsNotVisibleToCurrentUser)
+            category = null;
+        Response.Redirect(Links.CategoryDetail(category));
     }
 
     [RedirectToErrorPage_IfNotLoggedIn]
@@ -306,6 +311,30 @@ public class CategoryController : BaseController
         isInWishknowledge = userValuation[categoryId].IsInWishKnowledge();
 
         return isInWishknowledge;
+    }
+
+    [HttpPost]
+    [AccessOnlyAsLoggedIn]
+    public JsonResult GetCategoryPublishModalData(int categoryId)
+    {
+        var categoryCacheItem = EntityCache.GetCategoryCacheItem(categoryId);
+        var userCacheItem = UserCache.GetItem(User_().Id);
+        if (categoryCacheItem.Creator != userCacheItem.User)
+            return Json(new
+        {
+            success = false,
+        });
+        var filteredAggregatedQuestions = categoryCacheItem
+            .GetAggregatedQuestionsFromMemoryCache()
+            .Where(q => q.Creator == userCacheItem.User)
+            .Select(q => q.Id).ToList();
+
+        return Json(new
+        {
+            categoryName = categoryCacheItem.Name,
+            questionIds = filteredAggregatedQuestions,
+            questionCount = filteredAggregatedQuestions.Count()
+        });
     }
 }
 public class LoadModelResult

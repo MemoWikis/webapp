@@ -85,7 +85,9 @@ public class CategoryChangeDayModel
                 CategoryChangeId = cc.Id,
                 CategoryId = cc.Category == null ? categoryId :  cc.Category.Id,
                 CategoryName = cc.Category == null ? _catName : cc.Category.Name,
-                Typ = typ
+                Typ = typ,
+                CreatorId = new UserTinyModel(cc.Category.Creator).Id,
+                Visibility = cc.Category.Visibility,
             };
         }).ToList();
     }
@@ -93,7 +95,7 @@ public class CategoryChangeDayModel
 
 public class CategoryChangeDetailModel
 {
-    public UserTinyModel Author ;
+    public UserTinyModel Author;
     public string AuthorName;
     public string AuthorImageUrl;
     public string ElapsedTime;
@@ -102,7 +104,14 @@ public class CategoryChangeDetailModel
     public int CategoryChangeId;
     public int CategoryId;
     public string CategoryName;
-    public string Typ; 
+    public string Typ;
+    public CategoryVisibility Visibility;
+    public bool IsPrivate => Visibility == CategoryVisibility.Owner || Visibility == CategoryVisibility.OwnerAndFriends;
+    public int CreatorId;
+    public bool IsVisibleToCurrentUser()
+    {
+        return Visibility == CategoryVisibility.All || Sl.SessionUser.IsLoggedInUser(CreatorId);
+    }
 }
 
 public class Data
