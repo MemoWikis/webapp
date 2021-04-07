@@ -14,8 +14,8 @@ public class LearningSessionCache
         else
         {
             _learningSessions.AddOrUpdate(
-                HttpContext.Current.Session.SessionID, 
-                learningSession, 
+                HttpContext.Current.Session.SessionID,
+                learningSession,
                 (a, b) => learningSession
             );
         }
@@ -27,10 +27,8 @@ public class LearningSessionCache
         {
             return UserCache.LearningSession;
         }
-        else
-        {
-            _learningSessions.TryGetValue(HttpContext.Current.Session.SessionID, out var learningSession);
-            return learningSession;
-        }
+
+        _learningSessions.TryGetValue(HttpContext.Current.Session.SessionID, out var learningSession);
+        return learningSession;
     }
 }
