@@ -75,9 +75,11 @@ public class CategoryRepository : RepositoryDbBase<Category>
         {
             GraphService.AutomaticInclusionOfChildCategories(category);
         }, "AutomaticInclusionOfChildCategories");
+        if (UserCache.GetItem(Sl.CurrentUserId).IsFiltered)
+            UserEntityCache.Add(categoryCacheItem, Sl.CurrentUserId);
     }
 
-    public void UpdateCachedData(CategoryCacheItem categoryCacheItem, Enum createDeleteUpdate,Category category = null )
+    public void UpdateCachedData(CategoryCacheItem categoryCacheItem, CreateDeleteUpdate createDeleteUpdate, Category category = null )
     {
         IList<CategoryCacheItem> parents = new List<CategoryCacheItem>();
         
@@ -88,7 +90,6 @@ public class CategoryRepository : RepositoryDbBase<Category>
             if (parents.Count == 0)
                 parents.Add(EntityCache.GetCategoryCacheItem(RootCategory.RootCategoryId)); 
         }
-
         else
             parents = categoryCacheItem.ParentCategories();
 
@@ -100,16 +101,14 @@ public class CategoryRepository : RepositoryDbBase<Category>
             {
                 case CreateDeleteUpdate.Create:
                     categoryCacheItemParent.CachedData.ChildrenIds.Add(categoryCacheItem.Id);
-
-                    if (UserCache.GetItem(Sl.CurrentUserId).IsFiltered)
-                        UserEntityCache.Add(categoryCacheItem, Sl.CurrentUserId);//change EntityCacheObject
-
                     UserEntityCache.ChangeCategoryInUserEntityCaches(categoryCacheItemParent);
                     break;
+
                 case CreateDeleteUpdate.Delete:
                     categoryCacheItemParent.CachedData.ChildrenIds.Remove(categoryCacheItem.Id);   //change EntityCacheObject
                     UserEntityCache.ChangeCategoryInUserEntityCaches(categoryCacheItemParent);
                     break;
+
                 case CreateDeleteUpdate.Update:
                     if (category != null)
                     {
@@ -148,7 +147,7 @@ public class CategoryRepository : RepositoryDbBase<Category>
         }
     }
 
-    enum CreateDeleteUpdate
+   public enum CreateDeleteUpdate
     {
         Create = 1, 
         Delete = 2,
