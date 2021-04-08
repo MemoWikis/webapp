@@ -7,39 +7,42 @@ using FluentNHibernate.Conventions;
 
 public class GraphService
 {
-    public static IList<CategoryCacheItem> GetAllParents(int categoryId) =>
-       GetAllParents(EntityCache.GetCategoryCacheItem(categoryId));
+    public static IList<CategoryCacheItem> GetAllParents(int categoryId, bool getFromEntityCache = false) =>
+       GetAllParents(EntityCache.GetCategoryCacheItem(categoryId, getDataFromEntityCache: getFromEntityCache));
 
     public static IList<CategoryCacheItem> GetAllParents(CategoryCacheItem category)
     {
-        category = category == null ? new CategoryCacheItem() : category;
+        var parentIds = GetDirektParents(category);
+        var allParents = new List<CategoryCacheItem>();
+        var deletedIds = new Dictionary<int, int>();
 
-        var currentGeneration = category.ParentCategories(); 
-        var previousGeneration = new List<CategoryCacheItem>();
-        var parents = new List<CategoryCacheItem>();  
-
-        while (currentGeneration.Count > 0) 
+        while (parentIds.Count > 0)
         {
-            parents.AddRange(currentGeneration);
+            var parent = EntityCache.GetCategoryCacheItem(parentIds[0]);
 
-            foreach (var currentCategory in currentGeneration)  //go through Parents 
+            if (!deletedIds.ContainsKey(parentIds[0]))
             {
-                var directParents = EntityCache.GetCategoryCacheItem(currentCategory.Id).ParentCategories(); //Parents of parents are not eagerly loaded. Because of that, we get the parents using the cache.
-                if (directParents.Count > 0) // go through ParentParents
+                allParents.Add(parent);//Avoidance of circular references
+
+                deletedIds.Add(parentIds[0], parentIds[0]);
+                var currentParents = GetDirektParents(parent);
+                foreach (var currentParent in currentParents)
                 {
-                    previousGeneration.AddRange(directParents); // Add the ParentParents
+                    parentIds.Add(currentParent);
                 }
             }
 
-            currentGeneration = previousGeneration
-                .Except(parents)
-                .Where(c => c.Id != category.Id)
-                .Distinct()
-                .ToList(); // ParentParents except the Parents and parentparentcategory.id is non equal categoryId 
-
-            previousGeneration = new List<CategoryCacheItem>(); // clear list
+            parentIds.RemoveAt(0);
         }
-        return parents;
+
+        return allParents;
+    }
+
+    public static List<int> GetDirektParents(CategoryCacheItem category)
+    {
+        return category.CategoryRelations
+            .Where(cr => cr.CategoryRelationType == CategoryRelationType.IsChildCategoryOf)
+            .Select(cr => cr.RelatedCategoryId).ToList();
     }
 
     public static IList<CategoryCacheItem> GetAllPersonalCategoriesWithRelations_TP(CategoryCacheItem category, int userId = -1) =>
@@ -194,7 +197,15 @@ public class GraphService
             .Select(cr => cr.RelatedCategoryId);
     }
 
-    public static void AutomaticInclusionOfChildCategories(Category category)
+    public static void AutomaticInclusionOfChildCategoriesForEntityCacheAndDb(Category category)
+    {
+        var parentsFromParentCategories = GetAllParents(category.Id,true);
+
+        foreach (var parentCategory in parentsFromParentCategories)
+            ModifyRelationsForCategory.UpdateRelationsOfTypeIncludesContentOf(EntityCache.GetCategoryCacheItem(parentCategory.Id));
+    }
+
+    public static void AutomaticInclusionOfChildCategoriesForUsérEntityCache(Category category)
     {
         var parentsFromParentCategories = GetAllParents(category.Id);
 

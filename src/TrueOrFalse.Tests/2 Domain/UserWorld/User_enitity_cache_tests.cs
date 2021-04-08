@@ -197,8 +197,9 @@ class User_entity_cache_tests : BaseTest
         var user= ContextCategory.New().AddCaseThreeToCache();
         EntityCache.Init();
         UserEntityCache.Init(user.Id);
+        UserCache.GetItem(user.Id).IsFiltered = true; 
 
-        var parentNames = UserEntityCache.GetAllParents(user.Id,
+        var parentNames = GraphService.GetAllParents(
             UserEntityCache.GetAllCategories(user.Id)
                 .Where(c => c.Name == "I").First().Id).Select(c => c.Name);
 

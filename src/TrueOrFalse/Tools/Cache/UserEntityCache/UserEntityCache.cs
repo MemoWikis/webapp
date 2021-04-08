@@ -146,43 +146,6 @@ public class UserEntityCache : BaseCache
         userId = userId == -1 ? Sl.SessionUser.UserId : userId;
         return _Categories.ContainsKey(userId); 
     }
-
-    public static List<CategoryCacheItem> GetAllParents(int userId, int categoryId)
-    {
-        var category = GetCategory(userId, categoryId);
-        var parentIds = GetDirektParents(category);
-        var allParents = new List<CategoryCacheItem>();
-        var deletedIds = new Dictionary<int, int>(); 
-
-
-        while (parentIds.Count > 0)
-        {
-            var parent = GetCategory(userId, parentIds[0]);
-
-            if (!deletedIds.ContainsKey(parentIds[0]))
-            {
-                allParents.Add(parent);//Avoidance of circular references
-
-                deletedIds.Add(parentIds[0], parentIds[0]);
-                var currentParents = GetDirektParents(parent);
-                foreach (var currentParent in currentParents)
-                {
-                    parentIds.Add(currentParent);
-                }
-            }
-
-            parentIds.RemoveAt(0);
-        }
-
-        return allParents; 
-    }
-
-    public static List<int> GetDirektParents(CategoryCacheItem category)
-    {
-        return category.CategoryRelations
-            .Where(cr => cr.CategoryRelationType == CategoryRelationType.IsChildCategoryOf)
-            .Select(cr => cr.RelatedCategoryId).ToList();
-    }
 }
 
 
