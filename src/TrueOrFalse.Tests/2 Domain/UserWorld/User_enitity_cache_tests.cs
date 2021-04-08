@@ -191,5 +191,22 @@ class User_entity_cache_tests : BaseTest
         Assert.That(userEntityCacheAfterDeleteForUser2.ByName("I").CategoryRelations.Count(cr => EntityCache.GetCategoryCacheItem(cr.RelatedCategoryId).Name == "A"), Is.EqualTo(0));
         Assert.That(userEntityCacheAfterDeleteForUser2.ByName("I").CategoryRelations.Count(cr => EntityCache.GetCategoryCacheItem(cr.RelatedCategoryId).Name == "E"), Is.EqualTo(0));
     }
+    [Test]
+    public void Get_all_parents()
+    {
+        var user= ContextCategory.New().AddCaseThreeToCache();
+        EntityCache.Init();
+        UserEntityCache.Init(user.Id);
+
+        var parentNames = UserEntityCache.GetAllParents(user.Id,
+            UserEntityCache.GetAllCategories(user.Id)
+                .Where(c => c.Name == "I").First().Id).Select(c => c.Name);
+
+        Assert.That(parentNames.Contains("G"), Is.EqualTo(true));
+        Assert.That(parentNames.Contains("X3"), Is.EqualTo(true));
+        Assert.That(parentNames.Contains("X"), Is.EqualTo(true));
+        Assert.That(parentNames.Contains("A"), Is.EqualTo(true));
+        Assert.That(parentNames.Count(), Is.EqualTo(4)); 
+    }
 }
 

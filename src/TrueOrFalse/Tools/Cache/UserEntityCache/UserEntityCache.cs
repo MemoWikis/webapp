@@ -76,6 +76,24 @@ public class UserEntityCache : BaseCache
         if (Sl.SessionUser != null) 
             _Categories.TryRemove(Sl.SessionUser.UserId, out _);
     }
+    public static void ReInitAllActiveCategoryCaches()
+    {
+        foreach (var userId in _Categories.Keys)
+            Init(userId);
+    }
+    public static void ChangeCategoryInUserEntityCaches(CategoryCacheItem categoryCacheItem)
+    {
+        foreach (var categories in _Categories.Values)
+        {
+            if (categories.ContainsKey(categoryCacheItem.Id))
+                categories.TryUpdate(categoryCacheItem.Id, categoryCacheItem, categories[categoryCacheItem.Id]);
+        }
+    }
+
+    public static void Clear()
+    {
+        _Categories.Clear();
+    }
 
     public static List<CategoryCacheItem> GetChildren(int categoryId, int userId)
     {
@@ -123,30 +141,47 @@ public class UserEntityCache : BaseCache
         throw new NotImplementedException();
     }
 
-    public static void ReInitAllActiveCategoryCaches()
-    {
-        foreach (var userId in _Categories.Keys) 
-            Init(userId);
-    }
-
-    public static void ChangeCategoryInUserEntityCaches(CategoryCacheItem categoryCacheItem)
-    {
-        foreach (var categories in _Categories.Values)
-        {
-            if (categories.ContainsKey(categoryCacheItem.Id))
-                categories.TryUpdate(categoryCacheItem.Id, categoryCacheItem, categories[categoryCacheItem.Id]);
-        }
-    }
-
     public static bool IsCategoryCacheKeyAvailable(int userId = -1)
     {
         userId = userId == -1 ? Sl.SessionUser.UserId : userId;
         return _Categories.ContainsKey(userId); 
     }
 
-    public static void Clear()
+    public static List<CategoryCacheItem> GetAllParents(int userId, int categoryId)
     {
-        _Categories.Clear();
+        var category = GetCategory(userId, categoryId);
+        var parentIds = GetDirektParents(category);
+        var allParents = new List<CategoryCacheItem>();
+        var deletedIds = new Dictionary<int, int>(); 
+
+
+        while (parentIds.Count > 0)
+        {
+            var parent = GetCategory(userId, parentIds[0]);
+
+            if (!deletedIds.ContainsKey(parentIds[0]))
+            {
+                allParents.Add(parent);//Avoidance of circular references
+
+                deletedIds.Add(parentIds[0], parentIds[0]);
+                var currentParents = GetDirektParents(parent);
+                foreach (var currentParent in currentParents)
+                {
+                    parentIds.Add(currentParent);
+                }
+            }
+
+            parentIds.RemoveAt(0);
+        }
+
+        return allParents; 
+    }
+
+    public static List<int> GetDirektParents(CategoryCacheItem category)
+    {
+        return category.CategoryRelations
+            .Where(cr => cr.CategoryRelationType == CategoryRelationType.IsChildCategoryOf)
+            .Select(cr => cr.RelatedCategoryId).ToList();
     }
 }
 
