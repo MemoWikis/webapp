@@ -79,7 +79,7 @@ public class CategoryRepository : RepositoryDbBase<Category>
         if (UserCache.GetItem(Sl.CurrentUserId).IsFiltered)
         {
             UserEntityCache.Add(categoryCacheItem, Sl.CurrentUserId);
-            GraphService.AutomaticInclusionOfChildCategoriesForUsérEntityCache(categoryCacheItem, CreateDeleteUpdate.Create);
+            GraphService.AutomaticInclusionOfChildCategoriesForUserEntityCache(categoryCacheItem, CreateDeleteUpdate.Create);
         }
     }
 
@@ -119,9 +119,11 @@ public class CategoryRepository : RepositoryDbBase<Category>
                         var parentIdsCacheItem = categoryCacheItem.CategoryRelations
                             .Where(cr => cr.CategoryRelationType == CategoryRelationType.IsChildCategoryOf)
                             .Select(cr => cr.RelatedCategoryId).ToList();
+
                         var parentIdsCategory = category.CategoryRelations
                             .Where(cr => cr.CategoryRelationType == CategoryRelationType.IsChildCategoryOf)
                             .Select(cr => cr.RelatedCategory.Id).ToList();
+
                         var exceptIdsToAdd = parentIdsCategory.Except(parentIdsCacheItem).ToList();
                         var exceptIdsToDelete = parentIdsCacheItem.Except(parentIdsCategory).ToList();
 
@@ -177,12 +179,12 @@ public class CategoryRepository : RepositoryDbBase<Category>
         Flush();
 
         Sl.R<UpdateQuestionCountForCategory>().Run(new List<Category> { category });
-        var categoryCacheItem = EntityCache.GetCategoryCacheItem(category.Id);
+        var categoryCacheItem = CategoryCacheItem.ToCacheCategory(category);
         UpdateCachedData(categoryCacheItem, CreateDeleteUpdate.Update, category);
 
         EntityCache.AddOrUpdate(categoryCacheItem );
-
         UserEntityCache.ChangeCategoryInUserEntityCaches(categoryCacheItem);
+        GraphService.AutomaticInclusionOfChildCategoriesForUserEntityCache(categoryCacheItem,CreateDeleteUpdate.Update);
     }
 
     public void UpdateBeforeEntityCacheInit(Category category)

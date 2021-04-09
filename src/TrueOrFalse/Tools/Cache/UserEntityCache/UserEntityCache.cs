@@ -90,6 +90,11 @@ public class UserEntityCache : BaseCache
         }
     }
 
+    public static ConcurrentDictionary<int, ConcurrentDictionary<int, CategoryCacheItem>> GetAllCaches()
+    {
+        return _Categories; 
+    }
+
     public static void Clear()
     {
         _Categories.Clear();

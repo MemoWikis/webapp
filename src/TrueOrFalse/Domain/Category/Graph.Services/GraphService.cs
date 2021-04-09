@@ -205,14 +205,23 @@ public class GraphService
             ModifyRelationsForCategory.UpdateRelationsOfTypeIncludesContentOf(EntityCache.GetCategoryCacheItem(parentCategory.Id));
     }
 
-    public static void AutomaticInclusionOfChildCategoriesForUsérEntityCache(CategoryCacheItem category, CategoryRepository.CreateDeleteUpdate createDeleteUpdate)
+    public static void AutomaticInclusionOfChildCategoriesForUserEntityCache(CategoryCacheItem category, CategoryRepository.CreateDeleteUpdate createDeleteUpdate)
     {
+
+
         switch (createDeleteUpdate)
         {
             case CategoryRepository.CreateDeleteUpdate.Create:
                 var parentsFromParentCategories = GetAllParents(category.Id).ToList();
                 ModifyRelationsUserEntityCache.CreateRelationsIncludetContentOf(parentsFromParentCategories, category);
                 break;
+
+            case CategoryRepository.CreateDeleteUpdate.Update: 
+                ModifyRelationsUserEntityCache.UpdateRelationsIncludetContentOf(category);
+                break; 
+
+
+
         }
         
         
