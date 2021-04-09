@@ -243,10 +243,15 @@ namespace TrueOrFalse.Tests
 
         public static bool HasCorrectParent(CategoryCacheItem categoryCachedItem, string parentName)
         {
-
-            var e = EntityCache.GetByName(parentName).First().Id;
             return categoryCachedItem.CategoryRelations.Any(cr =>
                 cr.RelatedCategoryId == EntityCache.GetByName(parentName).First().Id);
+        }
+
+        public static bool HasCorrectIncludetContent(CategoryCacheItem categoryCacheItem, string name, int userId)
+        {
+            return categoryCacheItem.CategoryRelations
+                .Any(cr => cr.RelatedCategoryId == UserEntityCache.GetAllCategories(userId).ByName(name).Id &&
+                           cr.CategoryRelationType == CategoryRelationType.IncludesContentOf); 
         }
     }
 }

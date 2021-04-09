@@ -75,8 +75,12 @@ public class CategoryRepository : RepositoryDbBase<Category>
         {
             GraphService.AutomaticInclusionOfChildCategories(category);
         }, "AutomaticInclusionOfChildCategories");
+
         if (UserCache.GetItem(Sl.CurrentUserId).IsFiltered)
+        {
             UserEntityCache.Add(categoryCacheItem, Sl.CurrentUserId);
+            GraphService.AutomaticInclusionOfChildCategoriesForUsérEntityCache(categoryCacheItem, CreateDeleteUpdate.Create);
+        }
     }
 
     public void UpdateCachedData(CategoryCacheItem categoryCacheItem, CreateDeleteUpdate createDeleteUpdate, Category category = null )
