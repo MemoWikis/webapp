@@ -96,12 +96,3 @@ class CategoryHeader {
             .attr("height", function(d) { return height - y(<any>d.value); });
     }
 }
-
-new Vue({
-    el: '#CategoryHeader',
-    data() {
-        return {
-            showMyWorld: false,
-        }
-    }
-})

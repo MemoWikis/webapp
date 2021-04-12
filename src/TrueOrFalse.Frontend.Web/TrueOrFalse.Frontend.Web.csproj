@@ -2146,6 +2146,12 @@
     <Content Include="Views\Categories\Detail\JsAnalyticsTab\KnowledgeGraph.js">
       <DependentUpon>KnowledgeGraph.ts</DependentUpon>
     </Content>
+    <Content Include="Views\Categories\Detail\JsEditMode\CategoryHeader\CategoryHeaderApp.js">
+      <DependentUpon>CategoryHeaderApp.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Categories\Detail\JsEditMode\CategoryHeader\CategoryNameComponent.js">
+      <DependentUpon>CategoryNameComponent.ts</DependentUpon>
+    </Content>
     <Content Include="Views\Categories\Detail\JsEditMode\ContentModulesApp.js">
       <DependentUpon>ContentModulesApp.ts</DependentUpon>
     </Content>
@@ -2271,6 +2277,8 @@
     <TypeScriptCompile Include="Views\Categories\Detail\FloatingActionButton\LearningTabFABLoader.ts" />
     <TypeScriptCompile Include="Views\Categories\Detail\FloatingActionButton\TopicTabFABLoader.ts" />
     <TypeScriptCompile Include="Views\Categories\Detail\JsAnalyticsTab\KnowledgeGraph.ts" />
+    <TypeScriptCompile Include="Views\Categories\Detail\JsEditMode\CategoryHeader\CategoryHeaderApp.ts" />
+    <TypeScriptCompile Include="Views\Categories\Detail\JsEditMode\CategoryHeader\CategoryNameComponent.ts" />
     <TypeScriptCompile Include="Views\Categories\Detail\JsEditMode\InlineEdit\InlineEditComponent.ts" />
     <TypeScriptCompile Include="Views\Categories\Detail\JsEditMode\ContentModulesApp.ts" />
     <Content Include="Views\Knowledge\Css\KnowledgeQuestions.css">
@@ -4143,6 +4151,12 @@
     </Content>
     <Content Include="Views\Categories\Detail\JsEditMode\ContentModulesApp.js.map">
       <DependentUpon>ContentModulesApp.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Categories\Detail\JsEditMode\CategoryHeader\CategoryHeaderApp.js.map">
+      <DependentUpon>CategoryHeaderApp.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Categories\Detail\JsEditMode\CategoryHeader\CategoryNameComponent.js.map">
+      <DependentUpon>CategoryNameComponent.ts</DependentUpon>
     </Content>
     <None Include="Web.overwritten.config.sample" />
     <Content Include="Views\Welcome\Logout.aspx" />

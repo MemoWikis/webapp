@@ -449,4 +449,37 @@ public class EditCategoryController : BaseController
         }
 
     }
+
+    [HttpPost]
+    [AccessOnlyAsLoggedIn]
+    public JsonResult SaveName(int categoryId, string name)
+    {
+        var categoryNameAllowed = new CategoryNameAllowed();
+        var dummyCategory = new Category();
+        dummyCategory.Name = name;
+        dummyCategory.Type = CategoryType.Standard;
+        if (categoryNameAllowed.Yes(dummyCategory))
+        {
+            var categoryCacheItem = EntityCache.GetCategoryCacheItem(categoryId);
+            categoryCacheItem.Name = name;
+            EntityCache.AddOrUpdate(categoryCacheItem);
+            JobExecute.RunAsTask(scope =>
+            {
+                var category = Sl.CategoryRepo.GetById(categoryId);
+                category.Name = name;
+                Sl.CategoryRepo.Update(category, User_());
+            }, "UpdateCategoryName");
+            var newUrl = Links.CategoryDetail(categoryCacheItem);
+            return Json(new
+            {
+                nameHasChanged = true,
+                newUrl,
+            });
+        }
+
+        return Json(new
+        {
+            nameHasChanged = false,
+        });
+    }
 }

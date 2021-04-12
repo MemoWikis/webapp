@@ -9,10 +9,34 @@
     <div id="HeadingSection">
         <div class="ImageContainer">
             <%= Model.ImageFrontendData.RenderHtmlImageBasis(128, true, ImageType.Category, linkToItem: Links.CategoryDetail(Model.Category)) %>
+            <div class="">
+                <a href="#" style="position: relative; top: -6px; font-size: 90%;" id="aImageUpload">[Verwende ein anderes Bild]</a>
+            </div>
         </div>
-        <div id="HeadingContainer">
+        <div id="HeadingContainer" data-category-name="<%= Model.Name %>">
             <h1 style="margin-bottom: 0">
-                <%= Model.Name %>
+
+                <%if (Model.Category.Creator == Sl.SessionUser.User) {%>
+                    <template v-if="editCategoryName">                    
+                        <category-name-component inline-template old-category-name="<%= Model.Name %>" category-id="<%= Model.Category.Id %>">
+                            <textarea-autosize
+                                placeholder="Type something here..."
+                                ref="categoryNameArea"
+                                v-model="categoryName"
+                                :min-height="20"
+                            />
+                        </category-name-component>
+
+                    </template>
+                    <template v-else>
+                        {{categoryName}}
+                        <i class="fas fa-edit" @click="editCategoryName = true"></i>
+                    </template>
+
+                <%} else {%>
+                    <%= Model.Name %>
+                <%} %>
+
                 <%if (Model.Category.Visibility == CategoryVisibility.Owner) {%><i class="fas fa-lock header-icon"></i>
                 <%} %>
             </h1>
@@ -133,5 +157,10 @@
     <% } %>
     
 </div>
+<% Html.RenderPartial("~/Views/Images/ImageUpload/ImageUpload.ascx"); %>
+<%= Scripts.Render("~/bundles/fileUploader") %>
+<%= Styles.Render("~/bundles/CategoryEdit") %>
+<%= Scripts.Render("~/bundles/js/CategoryEdit") %>
 <%= Scripts.Render("~/bundles/js/PublishCategory") %>
 <%= Scripts.Render("~/bundles/js/MyWorldToggle") %>
+

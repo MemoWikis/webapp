@@ -93,20 +93,26 @@ namespace TrueOrFalse.View
                 .Include("~/Scripts/npm/tiptap-build/tiptap-build.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/js/CategoryEditMode")
-                .Include("~/Scripts/npm/vue-textarea-autosize/vue-textarea-autosize.browser.js")
+                .Include("~/Scripts/npm/vue-textarea-autosize/vue-textarea-autosize.umd.js")
                 .Include("~/Scripts/npm/vue-select/vue-select.js")
                 .Include("~/Scripts/npm/vue-sticky-directive/vue-sticky-directive.js")
                 .Include("~/Scripts/npm/postscribe/postscribe.js")
                 .Include("~/Scripts/npm/vue-float-action-button/vue-fab.js")
                 .IncludeDirectory("~/Views/Categories/Detail/JsEditMode/InlineEdit/", "*.js")
                 .IncludeDirectory("~/Views/Categories/Detail/JsEditMode/Segmentation/", "*.js")
-                .IncludeDirectory("~/Views/Categories/Detail/JsEditMode/", "*.js"));
+                .IncludeDirectory("~/Views/Categories/Detail/JsEditMode/", "*.js")
+                .Include("~/Views/Categories/Detail/JsEditMode/CategoryHeader/CategoryNameComponent.js")
+                .Include("~/Views/Categories/Detail/JsEditMode/CategoryHeader/CategoryHeaderApp.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/js/PublishCategory")
                 .IncludeDirectory("~/Views/Categories/Detail/JsEditMode/PublishCategory/", "*.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/js/MyWorldToggle")
                 .IncludeDirectory("~/Views/Shared/MyWorldToggle/", "*.js"));
+
+            bundles.Add(new ScriptBundle("~/bundles/js/CategoryHeaderVue")
+                .Include("~/Views/Categories/Detail/JsEditMode/CategoryHeader/CategoryNameComponent.js")
+                .Include("~/Views/Categories/Detail/JsEditMode/CategoryHeader/CategoryHeaderApp.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/js/FloatingActionButton")
                 .Include("~/Scripts/npm/vue-material-design-ripple-build/vue-material-design-ripple-build.js")
