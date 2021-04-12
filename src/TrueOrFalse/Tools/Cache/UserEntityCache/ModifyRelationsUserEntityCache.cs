@@ -67,15 +67,7 @@ class ModifyRelationsUserEntityCache
                     parentToRelationAdd.CategoryRelations.Add(new CategoryCacheRelation { CategoryRelationType = CategoryRelationType.IncludesContentOf, RelatedCategoryId = child.Id, CategoryId = parent.Key });
                 }  
             }
-
-
-
-
         }
-
-
-
-
     }
 
 }
