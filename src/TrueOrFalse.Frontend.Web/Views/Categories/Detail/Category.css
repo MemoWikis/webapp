@@ -807,6 +807,9 @@ p:empty {
 -------------------------------------------------------*/
 #CategoryHeader {
   margin-bottom: 20px;
+  /*------------------------------------------------------
+    Inline Edit Category Header
+    -------------------------------------------------------*/
 }
 #CategoryHeader ConditionalLegend {
   display: block;
@@ -833,10 +836,10 @@ p:empty {
   display: -webkit-inline-flex;
   display: -ms-inline-flexbox;
   display: inline-flex;
-  -webkit-box-pack: center;
-  -webkit-justify-content: center;
-      -ms-flex-pack: center;
-          justify-content: center;
+  -webkit-box-pack: start;
+  -webkit-justify-content: start;
+      -ms-flex-pack: start;
+          justify-content: start;
 }
 #CategoryHeader #HeadingContainer h1 i {
   padding-left: 10px;
@@ -1076,6 +1079,15 @@ p:empty {
   #CategoryHeader .mobileHeader.Button.Pin {
     display: none !important;
   }
+}
+#CategoryHeader #HeadingContainer h1 {
+  width: 100%;
+}
+#CategoryHeader #HeadingContainer h1 textarea {
+  outline: none;
+  border: none;
+  width: 100%;
+  height: 54px;
 }
 /*------------------------------------------------------
     CategoryFooter

@@ -17,23 +17,19 @@
             <h1 style="margin-bottom: 0">
 
                 <%if (Model.Category.Creator == Sl.SessionUser.User) {%>
-                    <template v-if="editCategoryName">                    
-                        <category-name-component inline-template old-category-name="<%= Model.Name %>" category-id="<%= Model.Category.Id %>">
-                            <textarea-autosize
-                                placeholder="Type something here..."
-                                ref="categoryNameArea"
-                                v-model="categoryName"
-                                :min-height="20"
-                            />
-                        </category-name-component>
+                    <category-name-component inline-template old-category-name="<%= Model.Name %>" category-id="<%= Model.Category.Id %>">
+                        <textarea-autosize
+                            placeholder="Type something here..."
+                            ref="categoryNameArea"
+                            v-model="categoryName"
+                            :min-height="54"
+                            rows="1"
+                            @keydown.enter.native.prevent
+                            @keyup.enter.native="requestSave()"
+                        />
+                    </category-name-component>
 
-                    </template>
-                    <template v-else>
-                        {{categoryName}}
-                        <i class="fas fa-edit" @click="editCategoryName = true"></i>
-                    </template>
-
-                <%} else {%>
+                    <%} else {%>
                     <%= Model.Name %>
                 <%} %>
 

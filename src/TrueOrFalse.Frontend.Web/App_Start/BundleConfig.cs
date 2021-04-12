@@ -75,12 +75,15 @@ namespace TrueOrFalse.View
                 .Include("~/Views/Categories/Detail/Partials/Segmentation/Segmentation.css"));
 
             bundles.Add(new ScriptBundle("~/bundles/js/Category")
-                .Include("~/Views/Categories/Edit/Js/AddCategoryComponent.js")
                 .Include("~/Views/Knowledge/Wheel/KnowledgeWheel.js")
                 .Include("~/Scripts/npm/d3/d3.js")
                 .IncludeDirectory("~/Views/Categories/Detail/JsAnalyticsTab/", "*.js")
                 .IncludeDirectory("~/Views/Categories/Detail/Js/", "*.js")
-                .Include("~/Views/Categories/ResultTestSession/Js/GetResultTestSession.js"));
+                .Include("~/Views/Categories/ResultTestSession/Js/GetResultTestSession.js")
+                .Include("~/Scripts/npm/vue-textarea-autosize/vue-textarea-autosize.umd.js")
+                .Include("~/Views/Categories/Detail/JsEditMode/CategoryHeader/CategoryNameComponent.js")
+                .Include("~/Views/Categories/Detail/JsEditMode/CategoryHeader/CategoryHeaderApp.js")
+                .Include("~/Views/Categories/Edit/Js/AddCategory/AddCategoryComponent.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/js/d3")
                 .Include("~/Scripts/npm/d3/d3.js"));
@@ -93,26 +96,19 @@ namespace TrueOrFalse.View
                 .Include("~/Scripts/npm/tiptap-build/tiptap-build.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/js/CategoryEditMode")
-                .Include("~/Scripts/npm/vue-textarea-autosize/vue-textarea-autosize.umd.js")
                 .Include("~/Scripts/npm/vue-select/vue-select.js")
                 .Include("~/Scripts/npm/vue-sticky-directive/vue-sticky-directive.js")
                 .Include("~/Scripts/npm/postscribe/postscribe.js")
                 .Include("~/Scripts/npm/vue-float-action-button/vue-fab.js")
                 .IncludeDirectory("~/Views/Categories/Detail/JsEditMode/InlineEdit/", "*.js")
                 .IncludeDirectory("~/Views/Categories/Detail/JsEditMode/Segmentation/", "*.js")
-                .IncludeDirectory("~/Views/Categories/Detail/JsEditMode/", "*.js")
-                .Include("~/Views/Categories/Detail/JsEditMode/CategoryHeader/CategoryNameComponent.js")
-                .Include("~/Views/Categories/Detail/JsEditMode/CategoryHeader/CategoryHeaderApp.js"));
+                .IncludeDirectory("~/Views/Categories/Detail/JsEditMode/", "*.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/js/PublishCategory")
                 .IncludeDirectory("~/Views/Categories/Detail/JsEditMode/PublishCategory/", "*.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/js/MyWorldToggle")
                 .IncludeDirectory("~/Views/Shared/MyWorldToggle/", "*.js"));
-
-            bundles.Add(new ScriptBundle("~/bundles/js/CategoryHeaderVue")
-                .Include("~/Views/Categories/Detail/JsEditMode/CategoryHeader/CategoryNameComponent.js")
-                .Include("~/Views/Categories/Detail/JsEditMode/CategoryHeader/CategoryHeaderApp.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/js/FloatingActionButton")
                 .Include("~/Scripts/npm/vue-material-design-ripple-build/vue-material-design-ripple-build.js")
@@ -167,7 +163,7 @@ namespace TrueOrFalse.View
                 .Include("~/Views/Categories/Js/CategoryDelete.js")
                 .Include("~/Views/Images/ImageUpload/ImageUpload.js")
                 .Include("~/Scripts/autocompletes/AutocompleteCategories.js")
-                .Include("~/Scripts/vendor.somewhere/simplemde.js")
+                //.Include("~/Scripts/vendor.somewhere/simplemde.js")
                 .Include("~/Views/Categories/Edit/Js/EditCategoryNavBar.js")
                 .Include("~/Scripts/vendor.somewhere/d3v3.js"));
 

@@ -43,7 +43,12 @@ Vue.component('category-name-component',
                     },
                 });
             }, 500),
+            requestSave() {
+                eventBus.$emit('request-save');
+            },
             saveName() {
+                if (this.categoryName == this.oldCategoryName)
+                    return;
                 var self = this;
                 var id = parseInt(this.categoryId);
                 var name = this.categoryName;
@@ -57,9 +62,9 @@ Vue.component('category-name-component',
                     }),
                     success: function (result) {
                         if (result.nameHasChanged) {
-                            self.$parent.categoryName = name;
-                            self.$parent.editCategoryName = false;
+                            document.title = name;
                             $('#BreadCrumbTrail > div:last-child a').text(name).attr("href", result.newUrl);
+                            window.history.pushState("", name, result.newUrl);
                         }
                     },
                 });

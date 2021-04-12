@@ -2193,6 +2193,9 @@
     <Content Include="Views\Categories\Detail\Partials\Segmentation\SegmentationCategoryCardComponent.vue.ascx" />
     <Content Include="Views\Categories\Edit\AddCategoryComponent.vue.ascx" />
     <Content Include="Views\Categories\Detail\Partials\Segmentation\SegmentComponent.vue.ascx" />
+    <Content Include="Views\Categories\Edit\Js\AddCategory\AddCategoryComponent.js">
+      <DependentUpon>AddCategoryComponent.ts</DependentUpon>
+    </Content>
     <Content Include="Views\Questions\AddQuestion\AddQuestionComponent.vue.ascx" />
     <Content Include="Views\Questions\AddQuestion\EditQuestionModal.vue.ascx" />
     <Content Include="Views\Categories\Detail\Partials\Segmentation\SegmentationComponent.vue.ascx" />
@@ -2617,7 +2620,7 @@
     <TypeScriptCompile Include="Views\Categories\Detail\JsEditMode\Segmentation\SegmentationCategoryCardComponent.ts" />
     <TypeScriptCompile Include="Views\Categories\Detail\JsEditMode\Segmentation\SegmentationComponent.ts" />
     <TypeScriptCompile Include="Views\Categories\Detail\JsEditMode\PublishCategory\PublishCategoryComponent.ts" />
-    <TypeScriptCompile Include="Views\Categories\Edit\Js\AddCategoryComponent.ts" />
+    <TypeScriptCompile Include="Views\Categories\Edit\Js\AddCategory\AddCategoryComponent.ts" />
     <TypeScriptCompile Include="Views\Categories\Detail\JsEditMode\Segmentation\SegmentComponent.ts" />
     <TypeScriptCompile Include="Views\Questions\Answer\Js\QuestionDetails\AnswerQuestionDetailsApp.ts" />
     <TypeScriptCompile Include="Views\Questions\Answer\Js\QuestionDetails\AnswerQuestionDetailsComponent.ts" />
@@ -4157,6 +4160,9 @@
     </Content>
     <Content Include="Views\Categories\Detail\JsEditMode\CategoryHeader\CategoryNameComponent.js.map">
       <DependentUpon>CategoryNameComponent.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Categories\Edit\Js\AddCategory\AddCategoryComponent.js.map">
+      <DependentUpon>AddCategoryComponent.ts</DependentUpon>
     </Content>
     <None Include="Web.overwritten.config.sample" />
     <Content Include="Views\Welcome\Logout.aspx" />
