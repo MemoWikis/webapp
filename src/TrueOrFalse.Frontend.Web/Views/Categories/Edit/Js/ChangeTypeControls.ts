@@ -64,7 +64,7 @@
         $("#CategoryDetailsBody").html("<h4 class='CategoryTypeHeader'> Formular wird geladen...</h4>");
 
         $.ajax({
-            url: '/EditCategory/DetailsPartial?categoryId=' + $("#categoryId").val() + '&type=' + selectedValue,
+            url: '/EditCategory/DetailsPartial?categoryId=' + $("#hhdCategoryId").val() + '&type=' + 'Standard',
             type: 'GET',
             success: function (data) {
                 fnEditCatValidation(selectedValue, true, false);//initiate validator without rules for fields not rendered yet

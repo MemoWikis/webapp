@@ -60,6 +60,12 @@ public class CategoryModel : BaseContentModule
     public bool ShowLearningSessionConfigurationMessageForTab { get; set; }
     public bool ShowLearningSessionConfigurationMessageForQuestionList { get; set; }
     public bool IsFilteredUserWorld;
+    public string ImageIsNew { get; set; }
+    public string ImageSource { get; set; }
+    public string ImageWikiFileName { get; set; }
+
+    public string ImageGuid { get; set; }
+    public string ImageLicenseOwner { get; set; }
 
     public CategoryModel()
     {

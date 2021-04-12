@@ -2281,6 +2281,7 @@
     <TypeScriptCompile Include="Views\Categories\Detail\FloatingActionButton\TopicTabFABLoader.ts" />
     <TypeScriptCompile Include="Views\Categories\Detail\JsAnalyticsTab\KnowledgeGraph.ts" />
     <TypeScriptCompile Include="Views\Categories\Detail\JsEditMode\CategoryHeader\CategoryHeaderApp.ts" />
+    <TypeScriptCompile Include="Views\Categories\Detail\JsEditMode\CategoryHeader\CategoryImageComponent.ts" />
     <TypeScriptCompile Include="Views\Categories\Detail\JsEditMode\CategoryHeader\CategoryNameComponent.ts" />
     <TypeScriptCompile Include="Views\Categories\Detail\JsEditMode\InlineEdit\InlineEditComponent.ts" />
     <TypeScriptCompile Include="Views\Categories\Detail\JsEditMode\ContentModulesApp.ts" />

@@ -81,6 +81,7 @@ namespace TrueOrFalse.View
                 .IncludeDirectory("~/Views/Categories/Detail/Js/", "*.js")
                 .Include("~/Views/Categories/ResultTestSession/Js/GetResultTestSession.js")
                 .Include("~/Scripts/npm/vue-textarea-autosize/vue-textarea-autosize.umd.js")
+                .Include("~/Views/Categories/Detail/JsEditMode/CategoryHeader/CategoryImageComponent.js")
                 .Include("~/Views/Categories/Detail/JsEditMode/CategoryHeader/CategoryNameComponent.js")
                 .Include("~/Views/Categories/Detail/JsEditMode/CategoryHeader/CategoryHeaderApp.js")
                 .Include("~/Views/Categories/Edit/Js/AddCategory/AddCategoryComponent.js"));

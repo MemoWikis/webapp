@@ -4,15 +4,22 @@
 <%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
 
 <div id="CategoryHeader">
-    
+    <%: Html.HiddenFor(m => m.ImageIsNew) %>
+    <%: Html.HiddenFor(m => m.ImageSource) %>
+    <%: Html.HiddenFor(m => m.ImageWikiFileName) %>
+    <%: Html.HiddenFor(m => m.ImageGuid) %>
+    <%: Html.HiddenFor(m => m.ImageLicenseOwner) %>
     <% var buttonId = Guid.NewGuid(); %>
     <div id="HeadingSection">
-        <div class="ImageContainer">
-            <%= Model.ImageFrontendData.RenderHtmlImageBasis(128, true, ImageType.Category, linkToItem: Links.CategoryDetail(Model.Category)) %>
-            <div class="">
-                <a href="#" style="position: relative; top: -6px; font-size: 90%;" id="aImageUpload">[Verwende ein anderes Bild]</a>
-            </div>
-        </div>
+        <%if (Model.Category.Creator == Sl.SessionUser.User || Sl.SessionUser.IsInstallationAdmin ) {%>
+            <category-image-component category-id="<%= Model.Category.Id %>" inline-template>
+                <div class="ImageContainer" @click="openImageUploadModal()">
+                    <%= Model.ImageFrontendData.RenderHtmlImageBasis(128, true, ImageType.Category, isHeader: true) %>
+                </div>
+            </category-image-component> 
+        <%} else {%>
+            <%= Model.ImageFrontendData.RenderHtmlImageBasis(128, true, ImageType.Category, linkToItem: Links.CategoryDetail(Model.Category), isHeader: true) %>
+        <%} %>
         <div id="HeadingContainer" data-category-name="<%= Model.Name %>">
             <h1 style="margin-bottom: 0">
 
@@ -30,7 +37,7 @@
                     </category-name-component>
 
                     <%} else {%>
-                    <%= Model.Name %>
+                        <%= Model.Name %>
                 <%} %>
 
                 <%if (Model.Category.Visibility == CategoryVisibility.Owner) {%><i class="fas fa-lock header-icon"></i>

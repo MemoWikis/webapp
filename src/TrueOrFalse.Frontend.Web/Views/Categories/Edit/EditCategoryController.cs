@@ -269,7 +269,7 @@ public class EditCategoryController : BaseController
     {
         if (categoryId == RootCategory.RootCategoryId && !IsInstallationAdmin)
             return Json("Die Startseite kann nur von einem Admin bearbeitet werden");
-        
+
         var category = EntityCache.GetCategoryCacheItem(categoryId);
         if (category != null)
         {
@@ -414,6 +414,7 @@ public class EditCategoryController : BaseController
     }
 
     [HttpPost]
+    [AccessOnlyAsLoggedIn]
     public JsonResult PublishCategory(int categoryId)
     {
         var categoryCacheItem = EntityCache.GetCategoryCacheItem(categoryId);
@@ -481,5 +482,16 @@ public class EditCategoryController : BaseController
         {
             nameHasChanged = false,
         });
+    }
+
+    [HttpPost]
+    [AccessOnlyAsLoggedIn]
+    public void SaveImage(int categoryId, string source, string wikiFileName = null, string guid = null, string licenseOwner = null)
+    {
+        if (source == "wikimedia")
+            Resolve<ImageStore>().RunWikimedia<CategoryImageSettings>(wikiFileName, categoryId, ImageType.Category, _sessionUser.User.Id);
+        if (source == "upload")
+            Resolve<ImageStore>().RunUploaded<CategoryImageSettings>(
+                _sessionUiData.TmpImagesStore.ByGuid(guid), categoryId, _sessionUser.User.Id, licenseOwner);
     }
 }
