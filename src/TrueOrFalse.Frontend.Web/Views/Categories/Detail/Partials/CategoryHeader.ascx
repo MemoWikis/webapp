@@ -16,7 +16,7 @@
         <div id="HeadingContainer" data-category-name="<%= Model.Name %>">
             <h1 style="margin-bottom: 0">
 
-                <%if (Model.Category.Creator == Sl.SessionUser.User) {%>
+                <%if (Model.Category.Creator == Sl.SessionUser.User || Sl.SessionUser.IsInstallationAdmin ) {%>
                     <category-name-component inline-template old-category-name="<%= Model.Name %>" category-id="<%= Model.Category.Id %>">
                         <textarea-autosize
                             placeholder="Type something here..."
