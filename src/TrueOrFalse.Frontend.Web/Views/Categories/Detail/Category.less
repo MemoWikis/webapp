@@ -997,14 +997,48 @@ p:empty {
     /*------------------------------------------------------
     Inline Edit Category Header
     -------------------------------------------------------*/
-    #HeadingContainer {
-        h1 {
-            width: 100%;
-            textarea {
-                outline: none;
-                border: none;
+    #HeadingSection {
+        .ImageContainer {
+            .imageUploadBtn {
+                position: absolute;
+                width: 120px;
+                display: flex;
+                justify-content: center;
+                z-index: 100;
+                background: #FFFFFFE6;
+                height: 80px;
+                top: 0;
+                align-items: center;
+                left: 0;
+                opacity: 0;
+                transition: ease-out 0.2s;
+                color: #2699FB;
+                text-align: center;
+                flex-direction: column;
+                cursor: pointer;
+
+                &:hover {
+                    opacity: 1;
+                    transition: ease-in 0.2s;
+                }
+
+                .imageUploadLabel{
+                    font-size: 10px;
+                    line-height: 12px;
+                }
+            }
+        }
+
+        #HeadingContainer {
+            h1 {
                 width: 100%;
-                height: 54px;
+
+                textarea {
+                    outline: none;
+                    border: none;
+                    width: 100%;
+                    height: 54px;
+                }
             }
         }
     }

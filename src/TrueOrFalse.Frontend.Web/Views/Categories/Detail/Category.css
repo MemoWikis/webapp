@@ -1081,10 +1081,51 @@ p:empty {
     display: none !important;
   }
 }
-#CategoryHeader #HeadingContainer h1 {
+#CategoryHeader #HeadingSection .ImageContainer .imageUploadBtn {
+  position: absolute;
+  width: 120px;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  z-index: 100;
+  background: #FFFFFFE6;
+  height: 80px;
+  top: 0;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+      -ms-flex-align: center;
+          align-items: center;
+  left: 0;
+  opacity: 0;
+  -webkit-transition: ease-out 0.2s;
+  transition: ease-out 0.2s;
+  color: #2699FB;
+  text-align: center;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -webkit-flex-direction: column;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  cursor: pointer;
+}
+#CategoryHeader #HeadingSection .ImageContainer .imageUploadBtn:hover {
+  opacity: 1;
+  -webkit-transition: ease-in 0.2s;
+  transition: ease-in 0.2s;
+}
+#CategoryHeader #HeadingSection .ImageContainer .imageUploadBtn .imageUploadLabel {
+  font-size: 10px;
+  line-height: 12px;
+}
+#CategoryHeader #HeadingSection #HeadingContainer h1 {
   width: 100%;
 }
-#CategoryHeader #HeadingContainer h1 textarea {
+#CategoryHeader #HeadingSection #HeadingContainer h1 textarea {
   outline: none;
   border: none;
   width: 100%;

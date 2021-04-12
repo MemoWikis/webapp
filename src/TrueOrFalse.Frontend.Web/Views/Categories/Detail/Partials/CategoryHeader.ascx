@@ -14,11 +14,23 @@
         <%if (Model.Category.Creator == Sl.SessionUser.User || Sl.SessionUser.IsInstallationAdmin ) {%>
             <category-image-component category-id="<%= Model.Category.Id %>" inline-template>
                 <div class="ImageContainer" @click="openImageUploadModal()">
+                    <div class="imageUploadBtn">
+                        <div>
+                            <i class="fas fa-pen"></i>
+                        </div>
+                        <div class="imageUploadLabel">
+                            Verwende ein <br />
+                            anderes Bild
+                        </div>
+
+                    </div>
                     <%= Model.ImageFrontendData.RenderHtmlImageBasis(128, true, ImageType.Category, isHeader: true) %>
                 </div>
             </category-image-component> 
         <%} else {%>
-            <%= Model.ImageFrontendData.RenderHtmlImageBasis(128, true, ImageType.Category, linkToItem: Links.CategoryDetail(Model.Category), isHeader: true) %>
+            <div class="ImageContainer">
+                <%= Model.ImageFrontendData.RenderHtmlImageBasis(128, true, ImageType.Category, linkToItem: Links.CategoryDetail(Model.Category), isHeader: true) %>
+            </div>
         <%} %>
         <div id="HeadingContainer" data-category-name="<%= Model.Name %>">
             <h1 style="margin-bottom: 0">
