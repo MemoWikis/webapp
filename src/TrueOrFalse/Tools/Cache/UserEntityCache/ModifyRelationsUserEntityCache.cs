@@ -1,14 +1,17 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Google.Protobuf.WellKnownTypes;
 
-class ModifyRelationsUserEntityCache
+public class ModifyRelationsUserEntityCache
 {
-    public static void CreateRelationsIncludetContentOf(List<CategoryCacheItem> parents, CategoryCacheItem child)
+    public static void CreateRelationsIncludetContentOf(CategoryCacheItem child)
     {
+
+        var parents = GraphService.GetAllParents(child); 
         foreach (var parent in parents)
         {
             parent.CategoryRelations.Add(new CategoryCacheRelation
@@ -22,10 +25,7 @@ class ModifyRelationsUserEntityCache
 
     public static void UpdateRelationsIncludetContentOf(CategoryCacheItem child)
     {
-        var allCaches = UserEntityCache.GetAllCaches()
-            .Select(cache => cache.Value);
-
-        foreach (var cache in allCaches)
+        foreach (var cache in GetAllCaches())
         {
             if (cache.ContainsKey(child.Id))
             {
@@ -69,6 +69,33 @@ class ModifyRelationsUserEntityCache
             }
         }
     }
+
+    public static void DeleteIncludetContentOfRelations(CategoryCacheItem category)
+    {
+        foreach (var cache in GetAllCaches())
+        {
+            if (cache.ContainsKey(category.Id))
+            {
+                var allParents = GraphService.GetAllParents(category);
+                foreach (var parent in allParents)
+                {
+                    for (int i = 0; i < parent.CategoryRelations.Count; i++)
+                    {
+                        if (parent.CategoryRelations[i].RelatedCategoryId == category.Id && parent.CategoryRelations[i].CategoryRelationType == CategoryRelationType.IncludesContentOf)
+                            parent.CategoryRelations.RemoveAt(i);
+                    }
+                }
+            }
+             cache.TryRemove(category.Id, out var result); 
+        }
+    }
+
+    private static IEnumerable<ConcurrentDictionary<int,CategoryCacheItem>> GetAllCaches()
+    {
+        return UserEntityCache.GetAllCaches()
+            .Select(cache => cache.Value);
+    }
+
 
 }
 

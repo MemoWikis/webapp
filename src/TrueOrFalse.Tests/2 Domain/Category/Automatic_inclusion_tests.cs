@@ -38,6 +38,10 @@ class Automatic_inclusion_tests : BaseTest
     [Test]
     public void Test_automatic_inclusion_user_entity_cache()
     {
+        var user = ContextUser.New().Add("Dandor").Persist().All.First();
+        Sl.SessionUser.Login(user);
+        UserCache.GetItem(user.Id).IsFiltered = true;
+
         var context = ContextCategory.New();
         var parentA = context
             .Add("Category")
@@ -52,15 +56,48 @@ class Automatic_inclusion_tests : BaseTest
             .Persist()
             .All;
 
+        CategoryInKnowledge.Pin(EntityCache.GetByName("Sub1").First().Id, user);
+        CategoryInKnowledge.Pin(EntityCache.GetByName("Sub2").First().Id, user);
+        CategoryInKnowledge.Pin(EntityCache.GetByName("Sub3").First().Id, user);
+
         context.Add(subCategories.ByName("Sub1").Name, subCategories[0].Type, parent: subCategories.ByName("Sub3"));
         EntityCache.Init();
 
-     
+        UserEntityCache.Init(user.Id);
+
+        UserCache.GetItem(user.Id).IsFiltered = true;
+        context.Add("SubSub1", parent: subCategories.ByName("Sub1"))
+            .Persist();
+
+        Assert.That(ContextCategory.HasCorrectIncludetContent(EntityCache.GetByName("Category").First(), "SubSub1", user.Id), Is.EqualTo(true));
+        Assert.That(ContextCategory.HasCorrectIncludetContent(UserEntityCache.GetAllCategories(user.Id).ByName("Sub1"), "SubSub1", user.Id), Is.EqualTo(true));
+
+    }
+
+    [Test]
+    public void Test_delete_user_cache_item()
+    {
+        var context = ContextCategory.New();
+        var parentA = context
+            .Add("Category")
+            .Persist()
+            .All.First();
+
+        var subCategories = context
+            .Add("Sub1", parent: parentA)
+            .Add("Sub2", parent: parentA)
+            .Add("Sub3", parent: parentA)
+            .Persist()
+            .All;
+
+        context.Add(subCategories.ByName("Sub1").Name, subCategories[0].Type, parent: subCategories.ByName("Sub3"));
+        EntityCache.Init();
+
+
         var user = ContextUser.New().Add("Dandor").Persist().All.First();
         Sl.SessionUser.Login(user);
 
-        ContextCategory
-            .New()
+        context
             .Add("SubSub1", parent: subCategories.ByName("Sub1"))
             .Persist();
 
@@ -69,12 +106,14 @@ class Automatic_inclusion_tests : BaseTest
         CategoryInKnowledge.Pin(EntityCache.GetByName("Sub3").First().Id, user);
         CategoryInKnowledge.Pin(EntityCache.GetByName("SubSub1").First().Id, user);
 
-        UserCache.GetItem(user.Id).IsFiltered = true; 
-        GraphService.AutomaticInclusionOfChildCategoriesForUserEntityCache(EntityCache.GetByName("SubSub1").First(), CategoryRepository.CreateDeleteUpdate.Create);
+        UserCache.GetItem(user.Id).IsFiltered = true;
 
-        Assert.That(ContextCategory.HasCorrectIncludetContent(UserEntityCache.GetAllCategories(user.Id).ByName("Category"), "SubSub1", user.Id), Is.EqualTo(true));
-        Assert.That(ContextCategory.HasCorrectIncludetContent(UserEntityCache.GetAllCategories(user.Id).ByName("Sub1"), "SubSub1", user.Id), Is.EqualTo(true));
+        var idFromDeleteCategory = EntityCache.GetByName("SubSub1").First().Id; 
 
+        context.Delete(Sl.CategoryRepo.GetByName("SubSub1").First());
+
+        Assert.That(ContextCategory.isIdAvailableInRelations(UserEntityCache.GetAllCategories(user.Id).ByName("Category"), idFromDeleteCategory), Is.EqualTo(false));
+        Assert.That(ContextCategory.isIdAvailableInRelations(UserEntityCache.GetAllCategories(user.Id).ByName("Sub1"),idFromDeleteCategory), Is.EqualTo(false));
     }
 
     [Test]

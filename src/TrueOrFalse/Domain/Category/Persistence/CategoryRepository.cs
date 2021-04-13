@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using FluentNHibernate.Utils;
 using TrueOrFalse.Search;
+using TrueOrFalse.Tools.Cache.UserWorld;
 
 public class CategoryRepository : RepositoryDbBase<Category>
 {
@@ -79,7 +80,7 @@ public class CategoryRepository : RepositoryDbBase<Category>
         if (UserCache.GetItem(Sl.CurrentUserId).IsFiltered)
         {
             UserEntityCache.Add(categoryCacheItem, Sl.CurrentUserId);
-            GraphService.AutomaticInclusionOfChildCategoriesForUserEntityCache(categoryCacheItem, CreateDeleteUpdate.Create);
+            ModifyRelationsUserEntityCache.CreateRelationsIncludetContentOf(categoryCacheItem);
         }
     }
 
@@ -184,7 +185,7 @@ public class CategoryRepository : RepositoryDbBase<Category>
 
         EntityCache.AddOrUpdate(categoryCacheItem );
         UserEntityCache.ChangeCategoryInUserEntityCaches(categoryCacheItem);
-        GraphService.AutomaticInclusionOfChildCategoriesForUserEntityCache(categoryCacheItem,CreateDeleteUpdate.Update);
+        ModifyRelationsUserEntityCache.UpdateRelationsIncludetContentOf(categoryCacheItem);
     }
 
     public void UpdateBeforeEntityCacheInit(Category category)
@@ -199,7 +200,11 @@ public class CategoryRepository : RepositoryDbBase<Category>
     {
         var categoryCacheItem = EntityCache.GetCategoryCacheItem(category.Id);
         var children = EntityCache.GetChildren(categoryCacheItem);
-        
+
+        ModifyRelationsUserEntityCache.DeleteIncludetContentOfRelations(EntityCache.GetCategoryCacheItem(category.Id));
+
+
+
         _searchIndexCategory.Delete(category);
         base.Delete(category);
 
@@ -208,11 +213,9 @@ public class CategoryRepository : RepositoryDbBase<Category>
             category1.CategoryRelations = category1.CategoryRelations.Where(cr => cr.RelatedCategoryId != category.Id && cr.CategoryId != category.Id).ToList();
             EntityCache.AddOrUpdate(category1);
         }
-
         UpdateCachedData(categoryCacheItem, CreateDeleteUpdate.Delete, category);
         EntityCache.Remove(categoryCacheItem);
         UserCache.RemoveAllForCategory(category.Id);
-        UserEntityCache.ReInitAllActiveCategoryCaches();
     }
 
     public override void DeleteWithoutFlush(Category category)
@@ -288,7 +291,7 @@ public class CategoryRepository : RepositoryDbBase<Category>
         CategoryType parentType,
         CategoryType childrenType,
         int parentId,
-        String searchTerm = "")
+        string searchTerm = "")
     {
         Category relatedCategoryAlias = null;
         Category categoryAlias = null;

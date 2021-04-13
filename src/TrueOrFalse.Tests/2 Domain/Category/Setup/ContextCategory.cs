@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
+using System.Data;
 using System.Linq;
+using SolrNet;
 
 namespace TrueOrFalse.Tests
 {
@@ -125,6 +127,12 @@ namespace TrueOrFalse.Tests
             return this;            
         }
 
+        public ContextCategory Delete(Category category)
+        {
+            _categoryRepository.Delete(category);
+            return this;
+        }
+
         public ContextCategory AddRelationsToCategory(Category category, List<CategoryRelation> categoryRelations)
         {
             category.CategoryRelations = categoryRelations;
@@ -244,7 +252,7 @@ namespace TrueOrFalse.Tests
         public static bool HasCorrectParent(CategoryCacheItem categoryCachedItem, string parentName)
         {
             return categoryCachedItem.CategoryRelations.Any(cr =>
-                cr.RelatedCategoryId == EntityCache.GetByName(parentName).First().Id);
+                cr.RelatedCategoryId == EntityCache.GetByName(parentName).First().Id && cr.CategoryRelationType == CategoryRelationType.IsChildCategoryOf);
         }
 
         public static bool HasCorrectIncludetContent(CategoryCacheItem categoryCacheItem, string name, int userId)
@@ -252,6 +260,12 @@ namespace TrueOrFalse.Tests
             return categoryCacheItem.CategoryRelations
                 .Any(cr => cr.RelatedCategoryId == UserEntityCache.GetAllCategories(userId).ByName(name).Id &&
                            cr.CategoryRelationType == CategoryRelationType.IncludesContentOf); 
+        }
+
+        public static bool isIdAvailableInRelations(CategoryCacheItem categoryCacheItem, int deletedId)
+        {
+            return categoryCacheItem.CategoryRelations.Any(cr =>
+                cr.RelatedCategoryId == deletedId || cr.CategoryId == deletedId); 
         }
     }
 }
