@@ -3,11 +3,16 @@
         props: ['categoryId'],
         data() {
             return {
-
+                imgSrc: ''
             }
+        },
+        created() {
+            this.imgSrc = $("#CategoryHeaderImg").attr('src');
+
         },
         mounted() {
             eventBus.$on('request-save', () => this.saveImage());
+            eventBus.$on('cancel-edit-mode', () => { $("#CategoryHeaderImg").attr('src', this.imgSrc); });
         },
         methods: {
             openImageUploadModal() {

@@ -23,6 +23,10 @@ Vue.component('category-name-component',
         },
         mounted() {
             eventBus.$on('request-save', () => this.saveName());
+            eventBus.$on('cancel-edit-mode',
+                () => {
+                    this.categoryName = this.oldCategoryName;
+                });
         },
         methods: {
             validateName: _.debounce(function (name) {
