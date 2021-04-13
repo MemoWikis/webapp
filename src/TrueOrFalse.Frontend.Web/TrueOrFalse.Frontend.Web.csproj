@@ -2158,6 +2158,9 @@
     <Content Include="Views\Categories\Detail\JsEditMode\InlineEdit\InlineEditComponent.js">
       <DependentUpon>InlineEditComponent.ts</DependentUpon>
     </Content>
+    <Content Include="Views\Categories\Detail\JsEditMode\PublishCategory\PublishCategoryComponent.js">
+      <DependentUpon>PublishCategoryComponent.ts</DependentUpon>
+    </Content>
     <Content Include="Views\Categories\Detail\JsEditMode\Segmentation\SegmentationCategoryCardComponent.js">
       <DependentUpon>SegmentationCategoryCardComponent.ts</DependentUpon>
     </Content>
@@ -4156,6 +4159,9 @@
     <Content Include="Views\Categories\Detail\JsEditMode\ContentModulesApp.js.map">
       <DependentUpon>ContentModulesApp.ts</DependentUpon>
     </Content>
+    <Content Include="Views\Shared\MyWorldToggle\MyWorldToggleComponent.js.map">
+      <DependentUpon>MyWorldToggleComponent.ts</DependentUpon>
+    </Content>
     <Content Include="Views\Categories\Detail\JsEditMode\CategoryHeader\CategoryHeaderApp.js.map">
       <DependentUpon>CategoryHeaderApp.ts</DependentUpon>
     </Content>
@@ -4164,6 +4170,9 @@
     </Content>
     <Content Include="Views\Categories\Edit\Js\AddCategory\AddCategoryComponent.js.map">
       <DependentUpon>AddCategoryComponent.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Categories\Detail\JsEditMode\PublishCategory\PublishCategoryComponent.js.map">
+      <DependentUpon>PublishCategoryComponent.ts</DependentUpon>
     </Content>
     <None Include="Web.overwritten.config.sample" />
     <Content Include="Views\Welcome\Logout.aspx" />
