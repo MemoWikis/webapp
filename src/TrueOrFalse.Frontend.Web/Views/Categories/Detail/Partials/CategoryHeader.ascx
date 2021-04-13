@@ -44,7 +44,7 @@
                             :min-height="54"
                             rows="1"
                             @keydown.enter.native.prevent
-                            @keyup.enter.native="requestSave()"
+                            @keyup.enter.native.prevent
                         />
                     </category-name-component>
 
