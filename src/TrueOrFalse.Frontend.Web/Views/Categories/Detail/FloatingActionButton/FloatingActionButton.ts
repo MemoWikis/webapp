@@ -97,7 +97,6 @@ var FAB = Vue.component('floating-action-button',
                         self.saveMsg = '';
                     }, 2750);
                 });
-
         },
         updated() {
             this.footerCheck();

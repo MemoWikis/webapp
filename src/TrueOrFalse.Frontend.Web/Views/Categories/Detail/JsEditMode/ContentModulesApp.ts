@@ -23,6 +23,8 @@ new Vue({
             categoryId: null,
             content: null,
             json: null,
+            nameIsValid: true,
+            errorMsg: '',
         };
     },
 
@@ -44,10 +46,6 @@ new Vue({
             () => {
                 if (this.editMode) {
                     this.changedContent = true;
-                    //_.debounce(() => {
-                    //        self.saveContent();
-                    //    },
-                    //    300);
                 }
             });
 
@@ -62,6 +60,7 @@ new Vue({
     },
 
     mounted() {
+        eventBus.$on('request-save', () => this.saveContent());
         this.changedContent = false;
         if ((this.$el.clientHeight + 450) < window.innerHeight)
             this.footerIsVisible = true;
@@ -71,7 +70,11 @@ new Vue({
                 var index = this.segments.map(s => s.CategoryId).indexOf(categoryId);
                 this.segments.splice(index, 1);
             });
-        eventBus.$on('save-segments', () => this.saveSegments());
+        eventBus.$on('name-is-valid', (data) => {
+            this.nameIsValid = data.isValid;
+            if (!data.isValid)
+                this.errorMsg = data.msg;
+        });
     },
 
     updated() {
@@ -104,6 +107,10 @@ new Vue({
                 return;
             }
             var self = this;
+            if (!this.nameIsValid) {
+                eventBus.$emit('save-msg', self.errorMsg);
+                return;
+            }
 
             this.saveSegments();
 
@@ -172,7 +179,7 @@ new Vue({
                         this.saveMessage = "Das Speichern schlug fehl.";
                     };
                 },
-            });
+            })
         },
     },
 });

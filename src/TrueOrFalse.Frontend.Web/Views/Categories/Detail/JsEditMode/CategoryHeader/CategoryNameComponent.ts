@@ -42,8 +42,13 @@ Vue.component('category-name-component',
                     data: JSON.stringify({ name: name }),
                     success: function (data) {
                         self.categoryNameAllowed = data.categoryNameAllowed;
-                        if (!data.categoryNameAllowed)
+                        if (data.categoryNameAllowed)
+                            eventBus.$emit('name-is-valid', { isValid:true });
+                        else {
                             self.errorMsg = data.errorMsg;
+                            eventBus.$emit('name-is-valid', { isValid: false, msg: name + data.errorMsg });
+                        }
+
                     },
                 });
             }, 500),
@@ -64,11 +69,12 @@ Vue.component('category-name-component',
                         categoryId: id,
                         name: name
                     }),
-                    success: function (result) {
+                    success: function (result) { 
                         if (result.nameHasChanged) {
                             document.title = name;
                             $('#BreadCrumbTrail > div:last-child a').text(name).attr("href", result.newUrl);
                             window.history.pushState("", name, result.newUrl);
+                        } else {
                         }
                     },
                 });
