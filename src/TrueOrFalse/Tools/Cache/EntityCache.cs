@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Web;
+
 public class EntityCache : BaseCache
 {
     private const string _cacheKeyQuestions = "allQuestions _EntityCache";
@@ -170,7 +171,6 @@ public class EntityCache : BaseCache
     public static void AddOrUpdate(CategoryCacheItem categoryCacheItem)
     {
         AddOrUpdate(Categories, categoryCacheItem);
-
         UpdateCategoryForQuestions(categoryCacheItem);
     }
 
@@ -230,7 +230,6 @@ public class EntityCache : BaseCache
     //https://docs.google.com/document/d/1XgfHVvUY_Fh1ID93UZEWFriAqTwC1crhCwJ9yqAPtTY
     public static CategoryCacheItem GetCategoryCacheItem(int categoryId, bool isFromUserEntityCache = false,  bool getDataFromEntityCache = false)
     {
-
         if ( !IsFirstStart && !isFromUserEntityCache && !getDataFromEntityCache && UserCache.GetItem(Sl.SessionUser.UserId).IsFiltered)
             return UserEntityCache.GetCategoryWhenNotAvalaibleThenGetNextParent(categoryId, Sl.SessionUser.UserId);
 
