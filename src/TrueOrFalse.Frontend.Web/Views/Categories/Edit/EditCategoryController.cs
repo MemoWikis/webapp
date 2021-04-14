@@ -172,12 +172,11 @@ public class EditCategoryController : BaseController
         var categoryNameAllowed = new CategoryNameAllowed();
         if (categoryNameAllowed.No(dummyCategory))
         {
-
             return Json(new
             {
                 categoryNameAllowed = false,
                 name,
-                url = Links.CategoryDetail(EntityCache.GetByName(name).FirstOrDefault(c => c.Type == CategoryType.Standard)), 
+                url = Links.CategoryDetail(dummyCategory), 
                 errorMsg = " ist bereits vergeben, bitte wähle einen anderen Namen!"
             });
         }
