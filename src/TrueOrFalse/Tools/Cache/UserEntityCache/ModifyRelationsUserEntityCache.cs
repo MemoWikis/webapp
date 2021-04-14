@@ -22,7 +22,7 @@ public class ModifyRelationsUserEntityCache
             });
         }
     }
-
+     
     public static void UpdateRelationsIncludetContentOf(CategoryCacheItem child)
     {
         foreach (var cache in GetAllCaches())

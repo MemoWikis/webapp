@@ -18,7 +18,6 @@
             </h1>
             <div>
                 <div class="greyed">
-                    
                     <% if (!Model.Category.IsHistoric) { %>
                         <div class="Button Pin mobileHeader" data-category-id="<%= Model.Id %>">
                             <a href="#" class="noTextdecoration" style="font-size: 22px; height: 10px;">

@@ -71,7 +71,6 @@ class Automatic_inclusion_tests : BaseTest
 
         Assert.That(ContextCategory.HasCorrectIncludetContent(EntityCache.GetByName("Category").First(), "SubSub1", user.Id), Is.EqualTo(true));
         Assert.That(ContextCategory.HasCorrectIncludetContent(UserEntityCache.GetAllCategories(user.Id).ByName("Sub1"), "SubSub1", user.Id), Is.EqualTo(true));
-
     }
 
     [Test]
