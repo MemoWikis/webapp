@@ -45,12 +45,12 @@ public class CategoryCacheItem
     public virtual CategoryVisibility Visibility { get; set; }
     public virtual bool IsRootCategory => Id == RootCategory.RootCategoryId;
 
-    public virtual IList<CategoryCacheItem> ParentCategories()
+    public virtual IList<CategoryCacheItem> ParentCategories(bool getFromEntityCache = false)
     {
         return CategoryRelations.Any()
             ? CategoryRelations
                 .Where(r => r.CategoryRelationType == CategoryRelationType.IsChildCategoryOf)
-                .Select(x => EntityCache.GetCategoryCacheItem(x.RelatedCategoryId))
+                .Select(x => EntityCache.GetCategoryCacheItem(x.RelatedCategoryId, getDataFromEntityCache: getFromEntityCache))
                 .ToList()
             : new List<CategoryCacheItem>();
     }
@@ -64,7 +64,6 @@ public class CategoryCacheItem
         _categoriesToExcludeIds ?? (_categoriesToExcludeIds = CategoriesToExcludeIdsString
             .Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries)
             .Select(x => Convert.ToInt32(x)));
-
 
     private IEnumerable<int> _categoriesToIncludeIds;
     public virtual string CategoriesToIncludeIdsString { get; set; }

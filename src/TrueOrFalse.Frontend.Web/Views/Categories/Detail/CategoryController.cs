@@ -20,9 +20,9 @@ public class CategoryController : BaseController
     public ActionResult Category(int id, int? version)
     {
         GetMyWorldCookie(); 
-        var modelAndCategoryResult = LoadModel(id, version);
-        modelAndCategoryResult.CategoryModel.IsInTopic = true;
-        return View(_viewLocation, modelAndCategoryResult.CategoryModel);
+        var modelAndCategory = LoadModel(id, version);
+        modelAndCategory.CategoryModel.IsInTopic = true;
+        return View(_viewLocation, modelAndCategory.CategoryModel);
     }
 
     public ActionResult CategoryLearningTab(int id, int? version)
