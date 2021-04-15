@@ -233,7 +233,7 @@ public class CategoryModel : BaseContentModule
     public int GetTotalTopicCount(CategoryCacheItem category)
     {
         return EntityCache.GetChildren(category.Id).Count(c =>
-                c.Type == CategoryType.Standard && c.GetAggregatedQuestionIdsFromMemoryCache().Count > 0);
+                c.Type == CategoryType.Standard);
 
 
     }
