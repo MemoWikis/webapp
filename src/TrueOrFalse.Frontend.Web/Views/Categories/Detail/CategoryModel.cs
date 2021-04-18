@@ -57,6 +57,7 @@ public class CategoryModel : BaseContentModule
     public string TotalPins;
     public AnalyticsFooterModel AnalyticsFooterModel;
     public bool CategoryIsDeleted;
+    public IList<AuthorViewModel> Authors = new List<AuthorViewModel>();
     public bool ShowLearningSessionConfigurationMessageForTab { get; set; }
     public bool ShowLearningSessionConfigurationMessageForQuestionList { get; set; }
     public bool IsFilteredUserWorld;
@@ -117,7 +118,7 @@ public class CategoryModel : BaseContentModule
         ImageUrl_250 = imageResult.Url;
     
         var authors = _categoryRepo.GetAuthors(Id, filterUsersForSidebar: true);
-        SidebarModel.Fill(authors, UserId);
+        Authors = AuthorViewModel.Convert(authors);
 
         IsOwnerOrAdmin = _sessionUser.IsLoggedInUserOrAdmin(Creator.Id);
 
@@ -240,7 +241,5 @@ public class CategoryModel : BaseContentModule
     {
         return EntityCache.GetChildren(category.Id).Count(c =>
                 c.Type == CategoryType.Standard && c.GetAggregatedQuestionIdsFromMemoryCache().Count > 0);
-
-
     }
 }

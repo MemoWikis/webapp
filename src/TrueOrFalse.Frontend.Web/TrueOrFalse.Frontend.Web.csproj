@@ -2149,6 +2149,9 @@
     <Content Include="Views\Categories\Detail\JsEditMode\CategoryHeader\CategoryHeaderApp.js">
       <DependentUpon>CategoryHeaderApp.ts</DependentUpon>
     </Content>
+    <Content Include="Views\Categories\Detail\JsEditMode\CategoryHeader\CategoryImageComponent.js">
+      <DependentUpon>CategoryImageComponent.ts</DependentUpon>
+    </Content>
     <Content Include="Views\Categories\Detail\JsEditMode\CategoryHeader\CategoryNameComponent.js">
       <DependentUpon>CategoryNameComponent.ts</DependentUpon>
     </Content>
@@ -2189,6 +2192,7 @@
       <DependentUpon>Tabbing.ts</DependentUpon>
     </Content>
     <Content Include="Views\Categories\Detail\Partials\BreadCrumbCategories.ascx" />
+    <Content Include="Views\Categories\Detail\Partials\CategoryHeaderAuthors.ascx" />
     <Content Include="Views\Categories\Detail\Partials\PublishCategory\PublishCategory.vue.ascx" />
     <Content Include="Views\Categories\Detail\Partials\Segmentation\Segmentation.css">
       <DependentUpon>Segmentation.less</DependentUpon>
@@ -2654,6 +2658,7 @@
     <Content Include="Views\Shared\PinComponentVue\PinComponent.vue.js">
       <DependentUpon>PinComponent.vue.ts</DependentUpon>
     </Content>
+    <Content Include="Views\Shared\Sidebar.ascx" />
     <Content Include="Views\Shared\SidebarCards.ascx" />
     <Content Include="Views\Shared\LinkToTop.ascx" />
     <Content Include="Views\Shared\GlobalLicense.ascx" />
@@ -4173,6 +4178,9 @@
     </Content>
     <Content Include="Views\Categories\Detail\JsEditMode\PublishCategory\PublishCategoryComponent.js.map">
       <DependentUpon>PublishCategoryComponent.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Categories\Detail\JsEditMode\CategoryHeader\CategoryImageComponent.js.map">
+      <DependentUpon>CategoryImageComponent.ts</DependentUpon>
     </Content>
     <None Include="Web.overwritten.config.sample" />
     <Content Include="Views\Welcome\Logout.aspx" />

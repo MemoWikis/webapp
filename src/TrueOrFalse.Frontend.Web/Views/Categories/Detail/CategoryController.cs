@@ -336,6 +336,21 @@ public class CategoryController : BaseController
             questionCount = filteredAggregatedQuestions.Count()
         });
     }
+
+    [HttpPost]
+    [AccessOnlyAsLoggedIn]
+    public JsonResult GetCategoryHeaderAuthors(int categoryId)
+    {
+        var category = EntityCache.GetCategoryCacheItem(categoryId);
+        var html = ViewRenderer.RenderPartialView(
+            "~/Views/Categories/Detail/Partials/CategoryHeaderAuthors.ascx", new CategoryModel(category),
+            ControllerContext);
+
+        return Json(new
+        {
+            html
+        });
+    }
 }
 public class LoadModelResult
 {

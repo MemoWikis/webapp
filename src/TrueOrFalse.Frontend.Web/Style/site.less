@@ -699,15 +699,69 @@ ul.AutocompleteHeader {
 
 #MasterSidebarColumn {
     position: static;
-    margin-top: 70px;
-
-
-    .media-lg ( {
-        float: right;
-    });
 
     @media(max-width: 1199.9px) {
         display: none;
+    }
+
+    #Sidebar {
+        display: inline-flex;
+
+        #SidebarDivider {
+            border-left: solid 1px #DDDDDD;
+            position: fixed;
+            height: 100vh;
+            top: 0;
+        }
+
+        #SidebarContent {
+            color: #555555;
+            padding-top: 70px;
+
+            .sidebar-card {
+                padding-left: 30px;
+                font-family: 'Open Sans';
+
+                .sidebar-title {
+                    font-size: 12px;
+                    border-bottom: solid 1px #DDDDDD;
+                    text-transform: uppercase;
+                    padding-bottom: 10px;
+                    font-weight: 600;
+                    letter-spacing: 0.25px;
+                }
+
+                .sidebar-body {
+                    padding: 25px 0;
+
+                    .sidebar-card-preheader {
+                        font-size: 12px;
+                        padding-bottom: 10px;
+                    }
+
+                    .sidebar-card-header {
+                        font-size: 18px;
+                        padding-bottom: 15px;
+                        font-weight: 600;
+                    }
+
+                    .sidebar-card-content {
+                        font-size: 12px;
+                    }
+                }
+
+                .sidebar-footer {
+                    padding-top: 5px;
+                    font-size: 12px;
+                    border-top: solid 1px #DDDDDD;
+                    text-align: right;
+
+                    a {
+                        color: #999999;
+                    }
+                }
+            }
+        }
     }
 }
 

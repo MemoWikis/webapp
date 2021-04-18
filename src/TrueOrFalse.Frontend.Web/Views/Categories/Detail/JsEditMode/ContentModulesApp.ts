@@ -30,13 +30,12 @@ new Vue({
 
     created() {
         var self = this;
+        self.loadBootstrapTooltips();
         self.categoryId = parseInt($("#hhdCategoryId").val());
         eventBus.$on("set-edit-mode",
             (state) => {
                 this.editMode = state;
                 if (this.changedContent && !this.editMode) {
-                    //Utils.ShowSpinner();
-                    //location.reload();
                     eventBus.$emit('cancel-edit-mode');
                 }
             });
@@ -83,6 +82,28 @@ new Vue({
 
     methods: {
 
+        updateAuthors() {
+            var self = this;
+            $.ajax({
+                type: 'post',
+                contentType: "application/json",
+                url: '/GetAuthorsForHeader',
+                data: JSON.stringify({
+                    categoryId: this.categoryId
+                }),
+                success: function (data) {
+                    $('#Authors').replaceWith(data.html);
+                    self.loadBootstrapTooltips();
+                },
+            });
+        },
+
+        loadBootstrapTooltips() {
+            $(function() {
+                $('[data-toggle="tooltip"]').tooltip();
+            });
+        },
+
         footerCheck() {
             const elFooter = document.getElementById('CategoryFooter');
 
@@ -125,14 +146,15 @@ new Vue({
                 data: JSON.stringify(data),
                 success: function (success) {
                     if (success == true) {
-                        this.saveSuccess = true;
-                        this.saveMessage = "Das Thema wurde gespeichert.";
+                        self.saveSuccess = true;
+                        self.saveMessage = "Das Thema wurde gespeichert.";
                         eventBus.$emit('save-success');
+                        self.updateAuthors();
                     } else {
-                        this.saveSuccess = false;
-                        this.saveMessage = "Das Thema konnte nicht gespeichert werden.";
+                        self.saveSuccess = false;
+                        self.saveMessage = "Das Thema konnte nicht gespeichert werden.";
                     };
-                    eventBus.$emit('save-msg', this.saveMessage);
+                    eventBus.$emit('save-msg', self.saveMessage);
                 },
             });
         },
