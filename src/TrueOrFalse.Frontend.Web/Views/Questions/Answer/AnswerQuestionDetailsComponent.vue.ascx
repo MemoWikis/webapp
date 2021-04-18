@@ -6,7 +6,7 @@
 
     <div id="questionDetailsContainer" class="row" style="min-height:265px">
         <div id="categoryList" class="col-sm-5" :class="{ isLandingPage:'isLandingPage'}">
-            <div class="sectionLabel">Verwandte Themen</div>
+            <div class="sectionLabel">Themen</div>
             <div class="categoryListChips" v-html="categoryList">
             </div>
             <div class="categoryListLinks">
