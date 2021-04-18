@@ -231,7 +231,7 @@ public class CategoryCacheItem
     public virtual bool IsVisibleToCurrentUser()
     {
         var creator = new UserTinyModel(Creator);
-        return Visibility == CategoryVisibility.All || Sl.SessionUser.IsLoggedInUser(creator.Id);
+        return Visibility == CategoryVisibility.All || creator.Id == Sl.SessionUser.UserId;
     }
 
     public virtual bool IsNotVisibleToCurrentUser => !IsVisibleToCurrentUser();
