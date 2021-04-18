@@ -49,13 +49,13 @@ public class SegmentationModel : BaseContentModule
             segment.Title = s.Title;
             if (s.ChildCategoryIds != null)
                 segment.ChildCategories = UserCache.GetItem(_sessionUser.UserId).IsFiltered
-                    ? EntityCache.GetCategoryCacheItems(s.ChildCategoryIds).Where(c => c.IsInWishknowledge() && c.IsVisibleToCurrentUser()).ToList()
-                    : EntityCache.GetCategoryCacheItems(s.ChildCategoryIds).Where(c => c.IsVisibleToCurrentUser()).ToList();
+                    ? EntityCache.GetCategoryCacheItems(s.ChildCategoryIds).Where(c => c.IsInWishknowledge()).ToList()
+                    : EntityCache.GetCategoryCacheItems(s.ChildCategoryIds).ToList();
             else
                 segment.ChildCategories = UserCache.GetItem(_sessionUser.UserId).IsFiltered ? 
-                    UserEntityCache.GetChildren(s.CategoryId, UserId).Where(c => c.IsVisibleToCurrentUser()).ToList() : 
-                    EntityCache.GetChildren(s.CategoryId).Where(c => c.IsVisibleToCurrentUser()).ToList();
-
+                    UserEntityCache.GetChildren(s.CategoryId, UserId).ToList() : 
+                    EntityCache.GetChildren(s.CategoryId);
+            segment.ChildCategories.Where(c => c.IsVisibleToCurrentUser()).ToList();
             segments.Add(segment);
         }
 
