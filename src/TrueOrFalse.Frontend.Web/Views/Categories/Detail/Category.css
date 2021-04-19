@@ -963,7 +963,7 @@ p:empty {
 }
 #CategoryHeader .category-sub-header .category-sub-header-divider .vertical-line {
   height: 16px;
-  border-left: solid 0.5px #DDDDDD;
+  border-left: solid 1px #DDDDDD;
 }
 #CategoryHeader .category-sub-header #Authors {
   display: -webkit-box;
@@ -981,6 +981,30 @@ p:empty {
   display: -webkit-flex;
   display: -ms-flexbox;
   display: flex;
+}
+#CategoryHeader .category-sub-header #Authors .additional-authors-btn {
+  -webkit-border-radius: 10px;
+          border-radius: 10px;
+  min-width: 20px;
+  height: 20px;
+  line-height: 20px;
+  text-align: center;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+      -ms-flex-align: center;
+          align-items: center;
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  font-size: 12px;
+  border: solid 1px #DDDDDD;
+  padding: 0 2px;
+  cursor: pointer;
 }
 #CategoryHeader .Buttons {
   display: -webkit-box;

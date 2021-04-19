@@ -66,9 +66,8 @@
                         </div>
                     <% } %>
 
-                    <%= Model.Category.Type == CategoryType.Standard ? "Thema" : Model.Type %> mit <% if (Model.AggregatedTopicCount == 1)
-                                                                                                      { %> 1 Unterthema <% }
-                                                                                                      if (Model.AggregatedTopicCount > 1)
+                    <% if (Model.AggregatedTopicCount == 1) { %> 1 Unterthema <% }
+                    if (Model.AggregatedTopicCount > 1)
                                                                                                       { %> <%= Model.AggregatedTopicCount %> Unterthemen <% } %>
                     
                     <div class="category-sub-header-divider">

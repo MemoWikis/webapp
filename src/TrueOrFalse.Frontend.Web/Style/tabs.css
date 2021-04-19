@@ -82,14 +82,14 @@
   height: 45px;
 }
 #CategoryHeader #LearningTabWithOptions #SessionConfigReminderHeader {
-  top: -63px;
+  top: -66px;
   position: absolute;
   display: flex;
-  margin-left: -2px;
+  margin-left: -2.5px;
+  z-index: 100;
 }
 #CategoryHeader #LearningTabWithOptions #SessionConfigReminderHeader .session-config-reminder-header {
   border-radius: 0%;
-  webkit-border-radius: 0;
   width: 122px;
   max-width: 122px;
 }

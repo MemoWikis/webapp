@@ -1147,7 +1147,7 @@
   z-index: 10;
 }
 .AnswerQuestionBodyMenu .dropdown-toggle {
-  padding-right: 0px;
+  padding-right: 10px;
   font-size: 18px;
   color: #999999;
   margin-top: -2px;

@@ -36,9 +36,10 @@
   }
 }
 #QuestionListApp .rootElement #LearningSessionReminderQuestionList #SessionConfigReminderLeft {
-  margin-top: -81px;
+  margin-top: -67px;
   position: absolute;
   margin-left: -85px;
+  z-index: 100;
 }
 @media (min-width: 768px) {
   #QuestionListApp .rootElement #LearningSessionReminderQuestionList #SessionConfigReminderLeft {
@@ -51,10 +52,11 @@
   }
 }
 #QuestionListApp .rootElement #LearningSessionReminderQuestionList #SessionConfigReminderRight {
-  margin-top: -81px;
+  margin-top: -67px;
   position: absolute;
-  margin-left: 9px;
+  margin-left: 7.5px;
   display: none;
+  z-index: 100;
 }
 @media (min-width: 768px) {
   #QuestionListApp .rootElement #LearningSessionReminderQuestionList #SessionConfigReminderRight {
