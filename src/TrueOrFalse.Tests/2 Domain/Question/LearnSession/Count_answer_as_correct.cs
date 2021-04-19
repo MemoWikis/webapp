@@ -45,11 +45,11 @@ namespace TrueOrFalse.Tests._2_Domain.Question.LearnSession
         [Test]
         public void SetAnswerAsCorrectTestModeAndWishSession()
         {
-           var lastUserCashItem =  ContextQuestion.SetWuwi(1000).Last();
+           var lastUserCacheItem =  ContextQuestion.SetWuwi(1000).Last();
             var learningSession = ContextLearningSession.GetLearningSession(
                 new LearningSessionConfig
                 {
-                    CurrentUserId = lastUserCashItem.UserId,
+                    CurrentUserId = lastUserCacheItem.UserId,
                     IsInTestMode = true,
                     InWishknowledge = true,
                     MaxQuestionCount = 5, 
@@ -63,11 +63,11 @@ namespace TrueOrFalse.Tests._2_Domain.Question.LearnSession
 
         [Test]
         public void SetAnswerAsCorrectWishSession(){
-            var lastUserCashItem = ContextQuestion.SetWuwi(10).Last();
+            var lastUserCacheItem = ContextQuestion.SetWuwi(10).Last();
             var learningSession = ContextLearningSession.GetLearningSession(
                 new LearningSessionConfig
                 {
-                    CurrentUserId = lastUserCashItem.UserId,
+                    CurrentUserId = lastUserCacheItem.UserId,
                     IsInTestMode = false,
                     InWishknowledge = true,
                     MaxQuestionCount = 5,

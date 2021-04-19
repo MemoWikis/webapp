@@ -13,15 +13,15 @@ namespace TrueOrFalse.Tests
             ContextQuestion.SetWuwi(20);
             
             var categoryId = 1;
-            var usercashItem = UserCache.GetAllCacheItems().Where(uci => uci.User.Name == "Daniel" ).First();
+            var userCacheItem = UserCache.GetAllCacheItems().Where(uci => uci.User.Name == "Daniel" ).First();
 
-            var wuwis = usercashItem.QuestionValuations
+            var wuwis = userCacheItem.QuestionValuations
                 .Select(qv => qv.Value)
                 .Where(qv=> qv.IsInWishKnowledge && qv.Question.Categories.Any(c=> c.Id == categoryId) )
                 .ToList();
 
             var wuwisFromLearningSession = LearningSessionCreator.ForLoggedInUser(new LearningSessionConfig
-                {InWishknowledge = true, CategoryId = categoryId, CurrentUserId = usercashItem.UserId});
+                {InWishknowledge = true, CategoryId = categoryId, CurrentUserId = userCacheItem.UserId});
 
             Assert.That(wuwisFromLearningSession.Steps.Count, Is.EqualTo(wuwis.Count));
         }

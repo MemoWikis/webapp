@@ -11,7 +11,7 @@ public class UserCache
     public const int ExpirationSpanInMinutes = 600;
     public static LearningSession LearningSession { get; set; }
 
-    private static string GetCacheKey(int userId) => "UserCashItem_" + userId;
+    private static string GetCacheKey(int userId) => "UserCacheItem_" + userId;
 
     public static List<UserCacheItem> GetAllCacheItems()
     {
@@ -117,7 +117,7 @@ public class UserCache
             keys.Add(enumerator.Key.ToString());
         }
 
-        foreach (var userCacheKey in keys.Where(k => k.Contains("UserCashItem_")))
+        foreach (var userCacheKey in keys.Where(k => k.Contains("UserCacheItem_")))
         {
             var startIndex = userCacheKey.IndexOf("_") + 1;
             var endIndex = userCacheKey.Length - startIndex;

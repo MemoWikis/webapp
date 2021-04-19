@@ -22,8 +22,8 @@ public class LearningSession
     public LearningSession(List<LearningSessionStep> learningSessionSteps, LearningSessionConfig config)
     {
         Steps = learningSessionSteps;
-        var userCashItem = UserCache.GetItem(config.CurrentUserId);
-        User = userCashItem.User;
+        var userCacheItem = UserCache.GetItem(config.CurrentUserId);
+        User = userCacheItem.User;
         IsLoggedIn = config.CurrentUserId != -1;
         Config = config;
         Config.Category = EntityCache.GetCategoryCacheItem(Config.CategoryId);
