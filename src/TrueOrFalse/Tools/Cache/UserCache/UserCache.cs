@@ -1,9 +1,10 @@
 ﻿using Seedworks.Web.State;
 using System;
+using System.CodeDom;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
-using Org.BouncyCastle.Bcpg;
+using System.Web;
 
 public class UserCache
 {
@@ -23,6 +24,7 @@ public class UserCache
 
         return allUserValuations;
     }
+
     public static UserCacheItem GetItem(int userId)
     {
         var cacheItem = Cache.Get<UserCacheItem>(GetCacheKey(userId));
@@ -104,13 +106,35 @@ public class UserCache
         }
     }
 
+    public static List<UserCacheItem> GetAllActiveCaches()
+    {
+        var enumerator = System.Web.HttpRuntime.Cache.GetEnumerator();
+        List<string> keys = new List<string>();
+        List<UserCacheItem> userCacheItems = new List<UserCacheItem>();
+
+        while (enumerator.MoveNext())
+        {
+            keys.Add(enumerator.Key.ToString());
+        }
+
+        foreach (var userCacheKey in keys.Where(k => k.Contains("UserCashItem_")))
+        {
+            var startIndex = userCacheKey.IndexOf("_") + 1;
+            var endIndex = userCacheKey.Length - startIndex;
+            var userId = Int32.Parse(userCacheKey.Substring(startIndex, endIndex));
+            userCacheItems.Add(GetItem(userId));
+        }
+
+        return userCacheItems; 
+    }
+
     /// <summary> Used for category delete </summary>
     public static void RemoveAllForCategory(int categoryId)
     {
-        foreach (var userId in Sl.UserRepo.GetAllIds())
+        Sl.CategoryValuationRepo.DeleteCategoryValuation(categoryId);
+        foreach (var userCache in GetAllActiveCaches())
         {
-            var cacheItem = GetItem(userId);
-            cacheItem.CategoryValuations.TryRemove(categoryId, out var catValOut);
+            userCache.CategoryValuations.TryRemove(categoryId, out var result); 
         }
     }
 
