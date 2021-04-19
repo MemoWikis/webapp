@@ -115,9 +115,9 @@ public class CategoryValuationRepo : RepositoryDb<CategoryValuation>
         Sl.SearchIndexCategory.Update(Sl.CategoryRepo.GetById(categoryValuation.CategoryId));
     }
 
-    public void DeleteCategoryValuation(Category category)
+    public void DeleteCategoryValuation( int categoryId)
     {
         Session.CreateSQLQuery("DELETE FROM categoryvaluation WHERE CategoryId = :categoryId")
-            .SetParameter("categoryId", category.Id).ExecuteUpdate();
+            .SetParameter("categoryId", categoryId).ExecuteUpdate();
     }
 }

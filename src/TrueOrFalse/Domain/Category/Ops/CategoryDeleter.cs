@@ -31,7 +31,7 @@ public class CategoryDeleter : IRegisterAsInstancePerLifetime
         else
             Sl.CategoryRepo.Delete(category);
         Sl.CategoryChangeRepo.AddDeleteEntry(category);
-        Sl.CategoryValuationRepo.DeleteCategoryValuation(category);
+        Sl.CategoryValuationRepo.DeleteCategoryValuation(category.Id);
 
         UserCache.RemoveAllForCategory(category.Id);
     }
