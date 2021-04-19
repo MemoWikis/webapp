@@ -195,11 +195,13 @@ public class ImageFrontendData
         string insertLicenseLinkAfterAncestorOfClass = "ImageContainer", 
         string additionalCssClasses = "",
         string linkToItem = "",
-        bool noFollow = false)
+        bool noFollow = false,
+        bool isHeader = false)
     {
         try
         {
             var imageUrl = GetImageUrl(width, asSquare, false, imageTypeForDummies);
+            var headerId = isHeader ? "id='CategoryHeaderImg'" : "";
 
             if (additionalCssClasses != "")
                 additionalCssClasses = " " + additionalCssClasses;
@@ -226,7 +228,8 @@ public class ImageFrontendData
                         .Truncate(120, true);
 
                 return AddLink(
-                    "<img src='" + GetImageUrl(width, asSquare, true, imageTypeForDummies).Url +
+                    "<img " + headerId +
+                    " src='" + GetImageUrl(width, asSquare, true, imageTypeForDummies).Url +
                     "' " + //Dummy url gets replaced by javascript (look for class: LicensedImage) to avoid displaying images without license in case of no javascript
                     "class='ItemImage LicensedImage JS-InitImage" + additionalCssClasses + "' " +
                     "data-image-id='" + ImageMetaData.Id + "' data-image-url='" + imageUrl.Url + "' " +
@@ -236,7 +239,8 @@ public class ImageFrontendData
                     linkToItem, noFollow);
             }
             return AddLink( //if no image, then display dummy picture
-                "<img src='" + imageUrl.Url
+                "<img " + headerId +
+                    "src='" + imageUrl.Url
                              + "' class='ItemImage JS-InitImage" + additionalCssClasses
                              + "' data-append-image-link-to='" + insertLicenseLinkAfterAncestorOfClass
                              + "' alt=''/>",

@@ -11,6 +11,7 @@ $(function () {
     imageUploadModal.SetTitle("Themenbild hochladen");
     imageUploadModal.OnSave(function (url: string) {
         $("#categoryImg").attr("src", url);
+        $("#CategoryHeaderImg").attr("src", url);
 
         if (imageUploadModal.Mode === ImageUploadModalMode.Wikimedia) {
             $("#ImageIsNew").val("true");
@@ -24,6 +25,8 @@ $(function () {
             $("#ImageGuid").val(imageUploadModal.ImageGuid);
             $("#ImageLicenseOwner").val(imageUploadModal.LicenseOwner);
         }
+
+        eventBus.$emit('content-change');
 
         $("#modalImageUpload").modal("hide");
         imageUploadModal.ResetModal();

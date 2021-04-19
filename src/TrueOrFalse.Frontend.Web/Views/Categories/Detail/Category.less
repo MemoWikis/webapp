@@ -766,11 +766,12 @@ p:empty {
     #HeadingContainer {
         //margin-left: 120px;
         flex: auto;
-        h1{
-            display: inline-flex;
-            justify-content:center;
 
-            i{
+        h1 {
+            display: inline-flex;
+            justify-content: start;
+
+            i {
                 padding-left: 10px;
                 display: inline-flex;
                 justify-content: center;
@@ -797,6 +798,7 @@ p:empty {
     img {
         border-radius: 50%;
         width: 80px;
+        height: 80px;
     }
 
     .LicenseInfo {
@@ -844,6 +846,41 @@ p:empty {
             .greyed;
         }
     }
+
+    .category-sub-header {
+        display: flex;
+
+        .category-sub-header-divider {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding-left: 15px;
+            padding-right: 15px;
+
+            .vertical-line {
+                height: 16px;
+                border-left: solid 0.5px #DDDDDD;
+            }
+        }
+
+        #Authors {
+            display: flex;
+
+            a.author {
+            }
+
+            .author-img {
+                width: 20px;
+                height: 20px;
+                margin-right: 4px;
+            }
+
+            .author-listitem {
+                display: flex;
+            }
+        }
+    }
+
 
     .Buttons {
         display: flex;
@@ -988,6 +1025,54 @@ p:empty {
 
                 @media (min-width: 767px) {
                     display: none !important;
+                }
+            }
+        }
+    }
+    /*------------------------------------------------------
+    Inline Edit Category Header
+    -------------------------------------------------------*/
+    #HeadingSection {
+        .ImageContainer {
+            .imageUploadBtn {
+                position: absolute;
+                width: 120px;
+                display: flex;
+                justify-content: center;
+                z-index: 100;
+                background: #FFFFFFE6;
+                height: 80px;
+                top: 0;
+                align-items: center;
+                left: 0;
+                opacity: 0;
+                transition: ease-out 0.2s;
+                color: #2699FB;
+                text-align: center;
+                flex-direction: column;
+                cursor: pointer;
+
+                &:hover {
+                    opacity: 1;
+                    transition: ease-in 0.2s;
+                }
+
+                .imageUploadLabel {
+                    font-size: 10px;
+                    line-height: 12px;
+                }
+            }
+        }
+
+        #HeadingContainer {
+            h1 {
+                width: 100%;
+
+                textarea {
+                    outline: none;
+                    border: none;
+                    width: 100%;
+                    height: 54px;
                 }
             }
         }

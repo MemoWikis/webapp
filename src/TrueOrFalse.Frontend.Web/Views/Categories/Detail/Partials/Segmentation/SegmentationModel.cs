@@ -21,7 +21,7 @@ public class SegmentationModel : BaseContentModule
     {
         Category = category;
         
-        var categoryList = UserCache.GetItem(_sessionUser.UserId).IsFiltered ? UserEntityCache.GetChildren(category.Id, UserId) : EntityCache.GetChildren(category.Id);
+        var categoryList = UserCache.GetItem(_sessionUser.UserId).IsFiltered ? UserEntityCache.GetChildren(category.Id, UserId).Where(c => c.IsVisibleToCurrentUser()) : EntityCache.GetChildren(category.Id).Where(c => c.IsVisibleToCurrentUser());
         CategoryList = categoryList.Where(c => c.Type.GetCategoryTypeGroup() == CategoryTypeGroup.Standard).ToList();
 
         var segments = new List<Segment>();
@@ -55,7 +55,7 @@ public class SegmentationModel : BaseContentModule
                 segment.ChildCategories = UserCache.GetItem(_sessionUser.UserId).IsFiltered ? 
                     UserEntityCache.GetChildren(s.CategoryId, UserId).ToList() : 
                     EntityCache.GetChildren(s.CategoryId);
-
+            segment.ChildCategories.Where(c => c.IsVisibleToCurrentUser()).ToList();
             segments.Add(segment);
         }
 
@@ -69,6 +69,7 @@ public class SegmentationModel : BaseContentModule
 
         foreach (var segment in segments)
         {
+
             inSegmentCategoryList.Add(segment.Item);
             if (segment.ChildCategories != null)
             {

@@ -23,7 +23,7 @@
                     </a>
                     <ul class="dropdown-menu dropdown-menu-right" :aria-labelledby="dropdownId">
                         <li><a @click="removeChildren"><i class="fas fa-unlink"></i>&nbsp;Themen entfernen</a></li>
-                        <li><a @click="removeSegment"><i class="fas fa-trash"></i>&nbsp;Segment entfernen</a></li>
+                        <li><a @click="removeSegment"><i class="fas fa-trash"></i>&nbsp;Unterthemen ausblenden</a></li>
                     </ul>
                 </div>
             </div>

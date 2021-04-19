@@ -2146,6 +2146,15 @@
     <Content Include="Views\Categories\Detail\JsAnalyticsTab\KnowledgeGraph.js">
       <DependentUpon>KnowledgeGraph.ts</DependentUpon>
     </Content>
+    <Content Include="Views\Categories\Detail\JsEditMode\CategoryHeader\CategoryHeaderApp.js">
+      <DependentUpon>CategoryHeaderApp.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Categories\Detail\JsEditMode\CategoryHeader\CategoryImageComponent.js">
+      <DependentUpon>CategoryImageComponent.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Categories\Detail\JsEditMode\CategoryHeader\CategoryNameComponent.js">
+      <DependentUpon>CategoryNameComponent.ts</DependentUpon>
+    </Content>
     <Content Include="Views\Categories\Detail\JsEditMode\ContentModulesApp.js">
       <DependentUpon>ContentModulesApp.ts</DependentUpon>
     </Content>
@@ -2183,6 +2192,7 @@
       <DependentUpon>Tabbing.ts</DependentUpon>
     </Content>
     <Content Include="Views\Categories\Detail\Partials\BreadCrumbCategories.ascx" />
+    <Content Include="Views\Categories\Detail\Partials\CategoryHeaderAuthors.ascx" />
     <Content Include="Views\Categories\Detail\Partials\PublishCategory\PublishCategory.vue.ascx" />
     <Content Include="Views\Categories\Detail\Partials\Segmentation\Segmentation.css">
       <DependentUpon>Segmentation.less</DependentUpon>
@@ -2190,6 +2200,9 @@
     <Content Include="Views\Categories\Detail\Partials\Segmentation\SegmentationCategoryCardComponent.vue.ascx" />
     <Content Include="Views\Categories\Edit\AddCategoryComponent.vue.ascx" />
     <Content Include="Views\Categories\Detail\Partials\Segmentation\SegmentComponent.vue.ascx" />
+    <Content Include="Views\Categories\Edit\Js\AddCategory\AddCategoryComponent.js">
+      <DependentUpon>AddCategoryComponent.ts</DependentUpon>
+    </Content>
     <Content Include="Views\Questions\AddQuestion\AddQuestionComponent.vue.ascx" />
     <Content Include="Views\Questions\AddQuestion\EditQuestionModal.vue.ascx" />
     <Content Include="Views\Categories\Detail\Partials\Segmentation\SegmentationComponent.vue.ascx" />
@@ -2274,6 +2287,9 @@
     <TypeScriptCompile Include="Views\Categories\Detail\FloatingActionButton\LearningTabFABLoader.ts" />
     <TypeScriptCompile Include="Views\Categories\Detail\FloatingActionButton\TopicTabFABLoader.ts" />
     <TypeScriptCompile Include="Views\Categories\Detail\JsAnalyticsTab\KnowledgeGraph.ts" />
+    <TypeScriptCompile Include="Views\Categories\Detail\JsEditMode\CategoryHeader\CategoryHeaderApp.ts" />
+    <TypeScriptCompile Include="Views\Categories\Detail\JsEditMode\CategoryHeader\CategoryImageComponent.ts" />
+    <TypeScriptCompile Include="Views\Categories\Detail\JsEditMode\CategoryHeader\CategoryNameComponent.ts" />
     <TypeScriptCompile Include="Views\Categories\Detail\JsEditMode\InlineEdit\InlineEditComponent.ts" />
     <TypeScriptCompile Include="Views\Categories\Detail\JsEditMode\ContentModulesApp.ts" />
     <Content Include="Views\Knowledge\Css\KnowledgeQuestions.css">
@@ -2612,7 +2628,7 @@
     <TypeScriptCompile Include="Views\Categories\Detail\JsEditMode\Segmentation\SegmentationCategoryCardComponent.ts" />
     <TypeScriptCompile Include="Views\Categories\Detail\JsEditMode\Segmentation\SegmentationComponent.ts" />
     <TypeScriptCompile Include="Views\Categories\Detail\JsEditMode\PublishCategory\PublishCategoryComponent.ts" />
-    <TypeScriptCompile Include="Views\Categories\Edit\Js\AddCategoryComponent.ts" />
+    <TypeScriptCompile Include="Views\Categories\Edit\Js\AddCategory\AddCategoryComponent.ts" />
     <TypeScriptCompile Include="Views\Categories\Detail\JsEditMode\Segmentation\SegmentComponent.ts" />
     <TypeScriptCompile Include="Views\Questions\Answer\Js\QuestionDetails\AnswerQuestionDetailsApp.ts" />
     <TypeScriptCompile Include="Views\Questions\Answer\Js\QuestionDetails\AnswerQuestionDetailsComponent.ts" />
@@ -2642,6 +2658,7 @@
     <Content Include="Views\Shared\PinComponentVue\PinComponent.vue.js">
       <DependentUpon>PinComponent.vue.ts</DependentUpon>
     </Content>
+    <Content Include="Views\Shared\Sidebar.ascx" />
     <Content Include="Views\Shared\SidebarCards.ascx" />
     <Content Include="Views\Shared\LinkToTop.ascx" />
     <Content Include="Views\Shared\GlobalLicense.ascx" />
@@ -4150,8 +4167,20 @@
     <Content Include="Views\Shared\MyWorldToggle\MyWorldToggleComponent.js.map">
       <DependentUpon>MyWorldToggleComponent.ts</DependentUpon>
     </Content>
+    <Content Include="Views\Categories\Detail\JsEditMode\CategoryHeader\CategoryHeaderApp.js.map">
+      <DependentUpon>CategoryHeaderApp.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Categories\Detail\JsEditMode\CategoryHeader\CategoryNameComponent.js.map">
+      <DependentUpon>CategoryNameComponent.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Categories\Edit\Js\AddCategory\AddCategoryComponent.js.map">
+      <DependentUpon>AddCategoryComponent.ts</DependentUpon>
+    </Content>
     <Content Include="Views\Categories\Detail\JsEditMode\PublishCategory\PublishCategoryComponent.js.map">
       <DependentUpon>PublishCategoryComponent.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Categories\Detail\JsEditMode\CategoryHeader\CategoryImageComponent.js.map">
+      <DependentUpon>CategoryImageComponent.ts</DependentUpon>
     </Content>
     <None Include="Web.overwritten.config.sample" />
     <Content Include="Views\Welcome\Logout.aspx" />

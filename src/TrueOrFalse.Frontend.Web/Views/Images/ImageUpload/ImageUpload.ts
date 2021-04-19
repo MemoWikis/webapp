@@ -93,7 +93,7 @@ class ImageUploadModal
 
         this._onPreviewLoadSuccess = function () {
             self.SaveButtonWikiSpinner.hide();
-            self.SaveButtonWiki.removeClass('disabled').find($('span')).html('Bild speichern');
+            self.SaveButtonWiki.removeClass('disabled').find($('span')).html('Bild übernehmen');
             self.PreviewLoadOngoing = false;
         }
 

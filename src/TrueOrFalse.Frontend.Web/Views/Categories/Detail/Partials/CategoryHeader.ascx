@@ -4,20 +4,60 @@
 <%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
 
 <div id="CategoryHeader">
-    
+    <%: Html.HiddenFor(m => m.ImageIsNew) %>
+    <%: Html.HiddenFor(m => m.ImageSource) %>
+    <%: Html.HiddenFor(m => m.ImageWikiFileName) %>
+    <%: Html.HiddenFor(m => m.ImageGuid) %>
+    <%: Html.HiddenFor(m => m.ImageLicenseOwner) %>
     <% var buttonId = Guid.NewGuid(); %>
     <div id="HeadingSection">
-        <div class="ImageContainer">
-            <%= Model.ImageFrontendData.RenderHtmlImageBasis(128, true, ImageType.Category, linkToItem: Links.CategoryDetail(Model.Category)) %>
-        </div>
-        <div id="HeadingContainer">
+        <%if (Model.Category.Creator == Sl.SessionUser.User || Sl.SessionUser.IsInstallationAdmin ) {%>
+            <category-image-component category-id="<%= Model.Category.Id %>" inline-template>
+                <div class="ImageContainer" @click="openImageUploadModal()">
+                    <div class="imageUploadBtn">
+                        <div>
+                            <i class="fas fa-pen"></i>
+                        </div>
+                        <div class="imageUploadLabel">
+                            Verwende ein <br />
+                            anderes Bild
+                        </div>
+
+                    </div>
+                    <%= Model.ImageFrontendData.RenderHtmlImageBasis(128, true, ImageType.Category, isHeader: true) %>
+                </div>
+            </category-image-component> 
+        <%} else {%>
+            <div class="ImageContainer">
+                <%= Model.ImageFrontendData.RenderHtmlImageBasis(128, true, ImageType.Category, linkToItem: Links.CategoryDetail(Model.Category), isHeader: true) %>
+            </div>
+        <%} %>
+        <div id="HeadingContainer" data-category-name="<%= Model.Name %>">
             <h1 style="margin-bottom: 0">
-                <%= Model.Name %>
+
+                <%if (Model.Category.Creator == Sl.SessionUser.User || Sl.SessionUser.IsInstallationAdmin ) {%>
+                    <category-name-component inline-template old-category-name="<%= Model.Name %>" category-id="<%= Model.Category.Id %>">
+                        <textarea-autosize
+                            placeholder="Type something here..."
+                            ref="categoryNameArea"
+                            v-model="categoryName"
+                            :min-height="54"
+                            rows="1"
+                            @keydown.enter.native.prevent
+                            @keyup.enter.native.prevent
+                        />
+                    </category-name-component>
+
+                    <%} else {%>
+                        <%= Model.Name %>
+                <%} %>
+
                 <%if (Model.Category.Visibility == CategoryVisibility.Owner) {%><i class="fas fa-lock header-icon"></i>
                 <%} %>
             </h1>
             <div>
-                <div class="greyed">
+                <div class="greyed category-sub-header">
+                    
                     <% if (!Model.Category.IsHistoric) { %>
                         <div class="Button Pin mobileHeader" data-category-id="<%= Model.Id %>">
                             <a href="#" class="noTextdecoration" style="font-size: 22px; height: 10px;">
@@ -27,9 +67,15 @@
                     <% } %>
 
                     <%= Model.Category.Type == CategoryType.Standard ? "Thema" : Model.Type %> mit <% if (Model.AggregatedTopicCount == 1)
-                                                                                                      { %> 1 Unterthema und <% }
+                                                                                                      { %> 1 Unterthema <% }
                                                                                                       if (Model.AggregatedTopicCount > 1)
-                                                                                                      { %> <%= Model.AggregatedTopicCount %> Unterthemen und <% } %><%= Model.CountAggregatedQuestions %> Frage<%= StringUtils.PluralSuffix(Model.CountAggregatedQuestions, "n") %>
+                                                                                                      { %> <%= Model.AggregatedTopicCount %> Unterthemen <% } %>
+                    
+                    <div class="category-sub-header-divider">
+                        <div class="vertical-line"></div>
+                    </div>
+                    <% Html.RenderPartial("~/Views/Categories/Detail/Partials/CategoryHeaderAuthors.ascx", Model); %>
+
                     <% if (Model.IsInstallationAdmin) { %>
                         <a href="#" id="jsAdminStatistics">
                             <span style="margin-left: 10px; font-size: smaller;" class="show-tooltip" data-placement="right" data-original-title="Nur von admin sichtbar">
@@ -132,5 +178,10 @@
     <% } %>
     
 </div>
+<% Html.RenderPartial("~/Views/Images/ImageUpload/ImageUpload.ascx"); %>
+<%= Scripts.Render("~/bundles/fileUploader") %>
+<%= Styles.Render("~/bundles/CategoryEdit") %>
+<%= Scripts.Render("~/bundles/js/CategoryEdit") %>
 <%= Scripts.Render("~/bundles/js/PublishCategory") %>
 <%= Scripts.Render("~/bundles/js/MyWorldToggle") %>
+

@@ -126,7 +126,7 @@
                     <a href="#" class="modalImageUploadDismiss btn btn-default" data-dismiss="modal">Abbrechen</a>
                     <a href="#" class="aSaveImage btn btn-primary disabled">
                         <i class="fa fa-refresh fa-spin" style="display: none;"></i>
-                        <span>Bild speichern</span>
+                        <span>Bild übernehmen</span>
                     </a>
                 </div>
             </div>

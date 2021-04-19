@@ -57,9 +57,16 @@ public class CategoryModel : BaseContentModule
     public string TotalPins;
     public AnalyticsFooterModel AnalyticsFooterModel;
     public bool CategoryIsDeleted;
+    public IList<AuthorViewModel> Authors = new List<AuthorViewModel>();
     public bool ShowLearningSessionConfigurationMessageForTab { get; set; }
     public bool ShowLearningSessionConfigurationMessageForQuestionList { get; set; }
     public bool IsFilteredUserWorld;
+    public string ImageIsNew { get; set; }
+    public string ImageSource { get; set; }
+    public string ImageWikiFileName { get; set; }
+
+    public string ImageGuid { get; set; }
+    public string ImageLicenseOwner { get; set; }
 
     public CategoryModel()
     {
@@ -111,7 +118,7 @@ public class CategoryModel : BaseContentModule
         ImageUrl_250 = imageResult.Url;
     
         var authors = _categoryRepo.GetAuthors(Id, filterUsersForSidebar: true);
-        SidebarModel.Fill(authors, UserId);
+        Authors = AuthorViewModel.Convert(authors);
 
         IsOwnerOrAdmin = _sessionUser.IsLoggedInUserOrAdmin(Creator.Id);
 

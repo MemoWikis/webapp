@@ -807,6 +807,9 @@ p:empty {
 -------------------------------------------------------*/
 #CategoryHeader {
   margin-bottom: 20px;
+  /*------------------------------------------------------
+    Inline Edit Category Header
+    -------------------------------------------------------*/
 }
 #CategoryHeader ConditionalLegend {
   display: block;
@@ -833,10 +836,10 @@ p:empty {
   display: -webkit-inline-flex;
   display: -ms-inline-flexbox;
   display: inline-flex;
-  -webkit-box-pack: center;
-  -webkit-justify-content: center;
-      -ms-flex-pack: center;
-          justify-content: center;
+  -webkit-box-pack: start;
+  -webkit-justify-content: start;
+      -ms-flex-pack: start;
+          justify-content: start;
 }
 #CategoryHeader #HeadingContainer h1 i {
   padding-left: 10px;
@@ -875,6 +878,7 @@ p:empty {
   -webkit-border-radius: 50%;
           border-radius: 50%;
   width: 80px;
+  height: 80px;
 }
 #CategoryHeader .LicenseInfo {
   color: #999999;
@@ -934,6 +938,49 @@ p:empty {
   font-size: 10px;
   line-height: 10px;
   color: #999999;
+}
+#CategoryHeader .category-sub-header {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+}
+#CategoryHeader .category-sub-header .category-sub-header-divider {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+      -ms-flex-align: center;
+          align-items: center;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+#CategoryHeader .category-sub-header .category-sub-header-divider .vertical-line {
+  height: 16px;
+  border-left: solid 0.5px #DDDDDD;
+}
+#CategoryHeader .category-sub-header #Authors {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+}
+#CategoryHeader .category-sub-header #Authors .author-img {
+  width: 20px;
+  height: 20px;
+  margin-right: 4px;
+}
+#CategoryHeader .category-sub-header #Authors .author-listitem {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
 }
 #CategoryHeader .Buttons {
   display: -webkit-box;
@@ -1076,6 +1123,56 @@ p:empty {
   #CategoryHeader .mobileHeader.Button.Pin {
     display: none !important;
   }
+}
+#CategoryHeader #HeadingSection .ImageContainer .imageUploadBtn {
+  position: absolute;
+  width: 120px;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  z-index: 100;
+  background: #FFFFFFE6;
+  height: 80px;
+  top: 0;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+      -ms-flex-align: center;
+          align-items: center;
+  left: 0;
+  opacity: 0;
+  -webkit-transition: ease-out 0.2s;
+  transition: ease-out 0.2s;
+  color: #2699FB;
+  text-align: center;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -webkit-flex-direction: column;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  cursor: pointer;
+}
+#CategoryHeader #HeadingSection .ImageContainer .imageUploadBtn:hover {
+  opacity: 1;
+  -webkit-transition: ease-in 0.2s;
+  transition: ease-in 0.2s;
+}
+#CategoryHeader #HeadingSection .ImageContainer .imageUploadBtn .imageUploadLabel {
+  font-size: 10px;
+  line-height: 12px;
+}
+#CategoryHeader #HeadingSection #HeadingContainer h1 {
+  width: 100%;
+}
+#CategoryHeader #HeadingSection #HeadingContainer h1 textarea {
+  outline: none;
+  border: none;
+  width: 100%;
+  height: 54px;
 }
 /*------------------------------------------------------
     CategoryFooter

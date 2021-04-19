@@ -413,6 +413,7 @@ public class EditCategoryController : BaseController
     }
 
     [HttpPost]
+    [AccessOnlyAsLoggedIn]
     public JsonResult PublishCategory(int categoryId)
     {
         var categoryCacheItem = EntityCache.GetCategoryCacheItem(categoryId);
@@ -446,5 +447,49 @@ public class EditCategoryController : BaseController
         });
 
 
+    }
+
+    [HttpPost]
+    [AccessOnlyAsLoggedIn]
+    public JsonResult SaveName(int categoryId, string name)
+    {
+        var categoryNameAllowed = new CategoryNameAllowed();
+        var dummyCategory = new Category();
+        dummyCategory.Name = name;
+        dummyCategory.Type = CategoryType.Standard;
+        if (categoryNameAllowed.Yes(dummyCategory))
+        {
+            var categoryCacheItem = EntityCache.GetCategoryCacheItem(categoryId);
+            categoryCacheItem.Name = name;
+            EntityCache.AddOrUpdate(categoryCacheItem);
+            JobExecute.RunAsTask(scope =>
+            {
+                var category = Sl.CategoryRepo.GetById(categoryId);
+                category.Name = name;
+                Sl.CategoryRepo.Update(category, User_());
+            }, "UpdateCategoryName");
+            var newUrl = Links.CategoryDetail(categoryCacheItem);
+            return Json(new
+            {
+                nameHasChanged = true,
+                newUrl,
+            });
+        }
+
+        return Json(new
+        {
+            nameHasChanged = false,
+        });
+    }
+
+    [HttpPost]
+    [AccessOnlyAsLoggedIn]
+    public void SaveImage(int categoryId, string source, string wikiFileName = null, string guid = null, string licenseOwner = null)
+    {
+        if (source == "wikimedia")
+            Resolve<ImageStore>().RunWikimedia<CategoryImageSettings>(wikiFileName, categoryId, ImageType.Category, _sessionUser.User.Id);
+        if (source == "upload")
+            Resolve<ImageStore>().RunUploaded<CategoryImageSettings>(
+                _sessionUiData.TmpImagesStore.ByGuid(guid), categoryId, _sessionUser.User.Id, licenseOwner);
     }
 }

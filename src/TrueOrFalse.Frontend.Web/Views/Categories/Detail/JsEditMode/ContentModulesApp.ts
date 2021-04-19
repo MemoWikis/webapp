@@ -23,18 +23,19 @@ new Vue({
             categoryId: null,
             content: null,
             json: null,
+            nameIsValid: true,
+            errorMsg: '',
         };
     },
 
     created() {
         var self = this;
+        self.loadBootstrapTooltips();
         self.categoryId = parseInt($("#hhdCategoryId").val());
         eventBus.$on("set-edit-mode",
             (state) => {
                 this.editMode = state;
                 if (this.changedContent && !this.editMode) {
-                    //Utils.ShowSpinner();
-                    //location.reload();
                     eventBus.$emit('cancel-edit-mode');
                 }
             });
@@ -44,10 +45,6 @@ new Vue({
             () => {
                 if (this.editMode) {
                     this.changedContent = true;
-                    //_.debounce(() => {
-                    //        self.saveContent();
-                    //    },
-                    //    300);
                 }
             });
 
@@ -62,6 +59,7 @@ new Vue({
     },
 
     mounted() {
+        eventBus.$on('request-save', () => this.saveContent());
         this.changedContent = false;
         if ((this.$el.clientHeight + 450) < window.innerHeight)
             this.footerIsVisible = true;
@@ -71,7 +69,11 @@ new Vue({
                 var index = this.segments.map(s => s.CategoryId).indexOf(categoryId);
                 this.segments.splice(index, 1);
             });
-        eventBus.$on('save-segments', () => this.saveSegments());
+        eventBus.$on('name-is-valid', (data) => {
+            this.nameIsValid = data.isValid;
+            if (!data.isValid)
+                this.errorMsg = data.msg;
+        });
     },
 
     updated() {
@@ -79,6 +81,28 @@ new Vue({
     },
 
     methods: {
+
+        updateAuthors() {
+            var self = this;
+            $.ajax({
+                type: 'post',
+                contentType: "application/json",
+                url: '/GetAuthorsForHeader',
+                data: JSON.stringify({
+                    categoryId: this.categoryId
+                }),
+                success: function (data) {
+                    $('#Authors').replaceWith(data.html);
+                    self.loadBootstrapTooltips();
+                },
+            });
+        },
+
+        loadBootstrapTooltips() {
+            $(function() {
+                $('[data-toggle="tooltip"]').tooltip();
+            });
+        },
 
         footerCheck() {
             const elFooter = document.getElementById('CategoryFooter');
@@ -104,6 +128,10 @@ new Vue({
                 return;
             }
             var self = this;
+            if (!this.nameIsValid) {
+                eventBus.$emit('save-msg', self.errorMsg);
+                return;
+            }
 
             this.saveSegments();
 
@@ -118,14 +146,15 @@ new Vue({
                 data: JSON.stringify(data),
                 success: function (success) {
                     if (success == true) {
-                        this.saveSuccess = true;
-                        this.saveMessage = "Das Thema wurde gespeichert.";
+                        self.saveSuccess = true;
+                        self.saveMessage = "Das Thema wurde gespeichert.";
                         eventBus.$emit('save-success');
+                        self.updateAuthors();
                     } else {
-                        this.saveSuccess = false;
-                        this.saveMessage = "Das Thema konnte nicht gespeichert werden.";
+                        self.saveSuccess = false;
+                        self.saveMessage = "Das Thema konnte nicht gespeichert werden.";
                     };
-                    eventBus.$emit('save-msg', this.saveMessage);
+                    eventBus.$emit('save-msg', self.saveMessage);
                 },
             });
         },
@@ -172,7 +201,7 @@ new Vue({
                         this.saveMessage = "Das Speichern schlug fehl.";
                     };
                 },
-            });
+            })
         },
     },
 });

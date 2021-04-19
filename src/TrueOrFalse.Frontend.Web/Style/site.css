@@ -736,17 +736,60 @@ ul.AutocompleteHeader {
 ----------------------------------------------------------*/
 #MasterSidebarColumn {
   position: static;
-  margin-top: 70px;
-}
-@media (min-width: 1200px) {
-  #MasterSidebarColumn {
-    float: right;
-  }
 }
 @media (max-width: 1199.9px) {
   #MasterSidebarColumn {
     display: none;
   }
+}
+#MasterSidebarColumn #Sidebar {
+  display: inline-flex;
+}
+#MasterSidebarColumn #Sidebar #SidebarDivider {
+  border-left: solid 1px #DDDDDD;
+  position: fixed;
+  height: 100vh;
+  top: 0;
+}
+#MasterSidebarColumn #Sidebar #SidebarContent {
+  color: #555555;
+  padding-top: 70px;
+}
+#MasterSidebarColumn #Sidebar #SidebarContent .sidebar-card {
+  padding-left: 30px;
+  font-family: 'Open Sans';
+}
+#MasterSidebarColumn #Sidebar #SidebarContent .sidebar-card .sidebar-title {
+  font-size: 12px;
+  border-bottom: solid 1px #DDDDDD;
+  text-transform: uppercase;
+  padding-bottom: 10px;
+  font-weight: 600;
+  letter-spacing: 0.25px;
+}
+#MasterSidebarColumn #Sidebar #SidebarContent .sidebar-card .sidebar-body {
+  padding: 25px 0;
+}
+#MasterSidebarColumn #Sidebar #SidebarContent .sidebar-card .sidebar-body .sidebar-card-preheader {
+  font-size: 12px;
+  padding-bottom: 10px;
+}
+#MasterSidebarColumn #Sidebar #SidebarContent .sidebar-card .sidebar-body .sidebar-card-header {
+  font-size: 18px;
+  padding-bottom: 15px;
+  font-weight: 600;
+}
+#MasterSidebarColumn #Sidebar #SidebarContent .sidebar-card .sidebar-body .sidebar-card-content {
+  font-size: 12px;
+}
+#MasterSidebarColumn #Sidebar #SidebarContent .sidebar-card .sidebar-footer {
+  padding-top: 5px;
+  font-size: 12px;
+  border-top: solid 1px #DDDDDD;
+  text-align: right;
+}
+#MasterSidebarColumn #Sidebar #SidebarContent .sidebar-card .sidebar-footer a {
+  color: #999999;
 }
 #MasterMainWrapper {
   background-color: white;
