@@ -15,7 +15,7 @@ Inherits="System.Web.Mvc.ViewUserControl<CategoryModel>" %>
 
     <% if (Model.Authors.Count > 3 ){%>
         <div class="dropdown">
-            <div class="btn btn-link" type="button" id="AuthorDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+            <div class="btn-link" type="button" id="AuthorDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
                 +<%= Model.Authors.Count - 3 %>
             </div>
             <ul class="dropdown-menu" aria-labelledby="AuthorDropdown">
