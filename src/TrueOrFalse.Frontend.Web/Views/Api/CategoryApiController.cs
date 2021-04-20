@@ -4,7 +4,6 @@ using System.Linq;
 using System.Web.Mvc;
 using FluentNHibernate.Utils;
 using TrueOrFalse.Search;
-using TrueOrFalse.View.Web.Views.Api;
 
 public class CategoryApiController : BaseController
 {
