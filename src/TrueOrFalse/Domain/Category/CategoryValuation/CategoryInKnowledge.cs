@@ -49,7 +49,7 @@ public class CategoryInKnowledge
         var questionsInCategory = Sl.CategoryRepo.GetById(categoryId).GetAggregatedQuestionsFromMemoryCache();
         var questionIds = questionsInCategory.GetIds();
 
-        var questionsInPinnedCategories = QuestionsInValuatedCategories(user, questionIds, exeptCategoryId:categoryId);
+        var questionsInPinnedCategories = QuestionsInValuatedCategories(user, questionIds, categoryId);
         var questionInOtherPinnedEntitites = questionsInPinnedCategories;
         var questionsToUnpin = questionsInCategory.Where(question => questionInOtherPinnedEntitites.All(id => id != question.Id)).ToList();
 

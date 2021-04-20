@@ -22,6 +22,9 @@ public class UserEntityCache : BaseCache
             .GetAllPersonalCategoriesWithRelations(RootCategory.RootCategoryId, userId, true).ToConcurrentDictionary());
     }
 
+    public static bool IsCacheAvailable(int userId) => _Categories.ContainsKey(userId); 
+   
+
     public static void Add(CategoryCacheItem item, int userId)
     {
         var obj = _Categories[userId];
