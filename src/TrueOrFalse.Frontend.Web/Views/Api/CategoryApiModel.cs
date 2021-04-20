@@ -9,7 +9,7 @@ public class CategoryApiModel : BaseModel
             return false;
 
         CategoryInKnowledge.Pin(Convert.ToInt32(categoryId), _sessionUser.User);
-        if (UserCache.GetItem(_sessionUser.UserId).IsFiltered)
+        if (UserEntityCache.IsCacheAvailable(_sessionUser.UserId))
         {
             UserEntityCache.DeleteCacheForUser();
             UserEntityCache.Init();
