@@ -17,7 +17,6 @@ namespace TrueOrFalse.Tests._2_Domain.Question.LearnSession
         [Test]
         public void SetAnswerAsCorrectLoggedIn()
         {
-
             var learningSession = ContextLearningSession.GetLearningSessionWithUser(new LearningSessionConfig
             {
                 CurrentUserId = 1,
@@ -54,7 +53,6 @@ namespace TrueOrFalse.Tests._2_Domain.Question.LearnSession
                     InWishknowledge = true,
                     MaxQuestionCount = 5, 
                     CategoryId = 1
-
                 });
 
             learningSession.SetCurrentStepAsCorrect();

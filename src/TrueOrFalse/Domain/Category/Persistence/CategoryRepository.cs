@@ -248,12 +248,8 @@ public class CategoryRepository : RepositoryDbBase<Category>
 
         Sl.R<UpdateQuestionCountForCategory>().Run(new List<Category> { category });
 
-
         var categoryCacheItem = CategoryCacheItem.ToCacheCategory(category);
-
-
         UpdateCachedData(categoryCacheItem, CreateDeleteUpdate.Update);
-
         EntityCache.AddOrUpdate(categoryCacheItem);
         UserEntityCache.ChangeCategoryInUserEntityCaches(categoryCacheItem);
         ModifyRelationsUserEntityCache.UpdateRelationsIncludetContentOf(categoryCacheItem);
@@ -269,21 +265,15 @@ public class CategoryRepository : RepositoryDbBase<Category>
 
     public override void Delete(Category category)
     {
-        var categoryCacheItem = EntityCache.GetCategoryCacheItem(category.Id);
+        var categoryCacheItem = EntityCache.GetCategoryCacheItem(category.Id, getDataFromEntityCache:true);
        
-
         ModifyRelationsUserEntityCache.DeleteIncludetContentOfRelations(EntityCache.GetCategoryCacheItem(category.Id));
 
         _searchIndexCategory.Delete(category);
         base.Delete(category);
-
-        var children = EntityCache.GetChildren(categoryCacheItem);
-        foreach (var category1 in children)
-        {
-            category1.CategoryRelations = category1.CategoryRelations.Where(cr => cr.RelatedCategoryId != category.Id && cr.CategoryId != category.Id).ToList();
-            EntityCache.AddOrUpdate(category1);
-        }
+        
         UpdateCachedData(categoryCacheItem, CreateDeleteUpdate.Delete);
+        ModifyRelationsUserEntityCache.DeleteRelationsInChildren(categoryCacheItem);
         EntityCache.Remove(categoryCacheItem);
         UserCache.RemoveAllForCategory(category.Id);
     }
