@@ -80,7 +80,7 @@ public class CategoryRepository : RepositoryDbBase<Category>
         }
     }
 
-    private void AddCachedData(CategoryCacheItem categoryCacheItem, bool getFromEntityCache = false)
+    private static void AddCachedData(CategoryCacheItem categoryCacheItem, bool getFromEntityCache = false)
     {
         var parentsUserCache = categoryCacheItem.ParentCategories(getFromEntityCache).ToList();
         if (parentsUserCache.Count == 0)
@@ -95,7 +95,7 @@ public class CategoryRepository : RepositoryDbBase<Category>
         }
     }
 
-    public void UpdateCachedData(CategoryCacheItem categoryCacheItem, CreateDeleteUpdate createDeleteUpdate)
+    public static void UpdateCachedData(CategoryCacheItem categoryCacheItem, CreateDeleteUpdate createDeleteUpdate)
     {
         //Create
         if (createDeleteUpdate == CreateDeleteUpdate.Create)
@@ -214,7 +214,7 @@ public class CategoryRepository : RepositoryDbBase<Category>
         }
     }
 
-    private IEnumerable<int> GetIdsToRemove(CategoryCacheItem oldCategoryCacheItem)
+    private static IEnumerable<int> GetIdsToRemove(CategoryCacheItem oldCategoryCacheItem)
     {
         return oldCategoryCacheItem.CategoryRelations
             .Where(cr => cr.CategoryRelationType == CategoryRelationType.IsChildCategoryOf)
@@ -263,19 +263,13 @@ public class CategoryRepository : RepositoryDbBase<Category>
         Flush();
     }
 
-    public override void Delete(Category category)
+    public override  void Delete(Category category)
     {
         var categoryCacheItem = EntityCache.GetCategoryCacheItem(category.Id, getDataFromEntityCache:true);
-       
-        ModifyRelationsUserEntityCache.DeleteIncludetContentOfRelations(EntityCache.GetCategoryCacheItem(category.Id));
-
+     
         _searchIndexCategory.Delete(category);
         base.Delete(category);
-        
-        UpdateCachedData(categoryCacheItem, CreateDeleteUpdate.Delete);
-        ModifyRelationsUserEntityCache.DeleteRelationsInChildren(categoryCacheItem);
-        EntityCache.Remove(categoryCacheItem);
-        UserCache.RemoveAllForCategory(category.Id);
+
     }
 
     public override void DeleteWithoutFlush(Category category)
