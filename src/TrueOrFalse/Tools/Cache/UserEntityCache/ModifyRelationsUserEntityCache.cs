@@ -93,55 +93,21 @@ public class ModifyRelationsUserEntityCache
             .Select(cache => cache.Value);
     }
 
-    public static void DeleteRelationsInChildren(CategoryCacheItem categoryCacheItem)
+    public static void DeleteInUserEntityCache(CategoryCacheItem category)
     {
-        DeleteInEntityCache(categoryCacheItem);
-        DeleteInUserEntityCache(categoryCacheItem.Id);
-     
-    }
+        DeleteIncludetContentOfRelations(EntityCache.GetCategoryCacheItem(category.Id));
 
-    private static void DeleteInEntityCache(CategoryCacheItem categoryCacheItem)
-    {
-        var children = EntityCache.GetChildren(categoryCacheItem);
-        foreach (var category in children)
-        {
-            category.CategoryRelations = category.CategoryRelations.Where(cr => cr.RelatedCategoryId != categoryCacheItem.Id && cr.CategoryId != categoryCacheItem.Id).ToList();
-            if (category.CategoryRelations.Count == 0 || !HasChildrenOfRelation(category.CategoryRelations))
-                category.CategoryRelations.Add(new CategoryCacheRelation
-                {
-                    CategoryId = category.Id,
-                    CategoryRelationType = CategoryRelationType.IsChildCategoryOf,
-                    RelatedCategoryId = RootCategory.RootCategoryId
-                });
-        }
-    }
-
-    private static bool HasChildrenOfRelation( IList<CategoryCacheRelation> relations)
-    {
-        return relations.Count(r => r.CategoryRelationType == CategoryRelationType.IsChildCategoryOf) != 0; 
-    }
-
-    private static void DeleteInUserEntityCache(int categoryId)
-    {
         foreach (var userEntityCache in UserEntityCache.GetAllCaches().Values)
         {
-            if (userEntityCache.ContainsKey(categoryId))
+            if (userEntityCache.ContainsKey(category.Id))
             {
                 var allCacheItems = userEntityCache.Values;
                 foreach (var cacheItem in allCacheItems)
                 {
                     foreach (var relation in cacheItem.CategoryRelations)
                     {
-                        if(relation.RelatedCategoryId == categoryId)
+                        if(relation.RelatedCategoryId == category.Id)
                             cacheItem.CategoryRelations.Remove(relation);
-
-                        if(cacheItem.CategoryRelations.Count== 0 || !HasChildrenOfRelation(cacheItem.CategoryRelations))
-                            cacheItem.CategoryRelations.Add(new CategoryCacheRelation
-                            {
-                                CategoryId = cacheItem.Id,
-                                CategoryRelationType = CategoryRelationType.IsChildCategoryOf,
-                                RelatedCategoryId = RootCategory.RootCategoryId
-                            });
                     }
                 }
             }
