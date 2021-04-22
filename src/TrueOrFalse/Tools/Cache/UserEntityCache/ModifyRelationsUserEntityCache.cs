@@ -7,19 +7,42 @@ public class ModifyRelationsUserEntityCache
 {
     public static void CreateRelationsIncludetContentOf(CategoryCacheItem child)
     {
-
-        var parents = GraphService.GetAllParents(child); 
+        var parents = GraphService.GetAllParentsFromUserEntityCache(Sl.CurrentUserId, child); 
         foreach (var parent in parents)
         {
-            parent.CategoryRelations.Add(new CategoryCacheRelation
+
+            var newRelation = new CategoryCacheRelation
             {
                 RelatedCategoryId = child.Id,
                 CategoryRelationType = CategoryRelationType.IncludesContentOf,
                 CategoryId = parent.Id
-            });
+            };
+
+
+            var hasEqualRelation = false; 
+                foreach (var categoryRelation in parent.CategoryRelations)
+                {
+                    if (IsCategorRelationEqual(categoryRelation, newRelation))
+                    {
+                        Logg.r().Error("----RelatedId = " + newRelation.RelatedCategoryId + "---- CategoryId = " + newRelation.CategoryId + "----- Type = " + newRelation.CategoryRelationType + "------ParentId" + parent.Id);
+                        hasEqualRelation = true; 
+                        break; 
+                    }
+                        
+                }
+
+                if(!hasEqualRelation)
+                    parent.CategoryRelations.Add(newRelation);
         }
+        
     }
-     
+
+    private static bool IsCategorRelationEqual(CategoryCacheRelation relation1, CategoryCacheRelation relation2)
+    {
+        return relation1.RelatedCategoryId == relation2.RelatedCategoryId &&
+               relation1.CategoryRelationType == relation2.CategoryRelationType &&
+               relation1.CategoryId == relation2.CategoryId; 
+    }
     public static void UpdateRelationsIncludetContentOf(CategoryCacheItem child)
     {
         foreach (var cache in GetAllCaches())
