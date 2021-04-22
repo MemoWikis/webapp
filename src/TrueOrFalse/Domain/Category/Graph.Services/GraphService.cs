@@ -226,7 +226,7 @@ public class GraphService
             .Select(cr => cr.RelatedCategoryId);
     }
 
-    public static void AutomaticInclusionOfChildCategoriesForEntityCacheAndDb(Category category)
+    public static void AutomaticInclusionOfChildCategoriesForEntityCacheAndDb(CategoryCacheItem category)
     {
         var parentsFromParentCategories = GetAllParents(category.Id, true);
 

@@ -71,7 +71,7 @@ public class CategoryRepository : RepositoryDbBase<Category>
         UpdateCachedData(categoryCacheItem, CreateDeleteUpdate.Create);
 
         Sl.CategoryChangeRepo.AddCreateEntry(category, category.Creator);
-        GraphService.AutomaticInclusionOfChildCategoriesForEntityCacheAndDb(category);
+        GraphService.AutomaticInclusionOfChildCategoriesForEntityCacheAndDb(categoryCacheItem);
 
         if (UserCache.GetItem(Sl.CurrentUserId).IsFiltered)
         {
@@ -265,8 +265,6 @@ public class CategoryRepository : RepositoryDbBase<Category>
 
     public override  void Delete(Category category)
     {
-        var categoryCacheItem = EntityCache.GetCategoryCacheItem(category.Id, getDataFromEntityCache:true);
-     
         _searchIndexCategory.Delete(category);
         base.Delete(category);
 
