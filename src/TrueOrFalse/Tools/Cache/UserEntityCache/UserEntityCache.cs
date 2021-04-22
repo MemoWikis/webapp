@@ -20,6 +20,11 @@ public class UserEntityCache : BaseCache
 
         _Categories[user.Id] = new ConcurrentDictionary<int, CategoryCacheItem>(GraphService
             .GetAllPersonalCategoriesWithRelations(RootCategory.RootCategoryId, userId, true).ToConcurrentDictionary());
+
+        foreach (var cacheItem in _Categories[user.Id])
+        {
+            ModifyRelationsUserEntityCache.CreateRelationsIncludetContentOf(cacheItem.Value);
+        }
     }
 
     public static bool IsCacheAvailable(int userId) => _Categories.ContainsKey(userId); 
@@ -96,6 +101,12 @@ public class UserEntityCache : BaseCache
     public static ConcurrentDictionary<int, ConcurrentDictionary<int, CategoryCacheItem>> GetAllCaches()
     {
         return _Categories; 
+    }
+
+    public static ConcurrentDictionary<int, CategoryCacheItem> GetUserCache(int userId)
+    {
+         _Categories.TryGetValue(userId, out var result);
+         return result; 
     }
 
     public static void Clear()
