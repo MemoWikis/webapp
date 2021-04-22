@@ -8,7 +8,7 @@ class ModifyRelationsEntityCache
 {
     public static void DeleteIncludetContentOf(CategoryCacheItem category)
     {
-        var allParents = GraphService.GetAllParents(category);
+        var allParents = GraphService.GetAllParents(category.Id, true);
         foreach (var parent in allParents)
         {
             for (var i = 0; i < parent.CategoryRelations.Count; i++)
@@ -21,4 +21,3 @@ class ModifyRelationsEntityCache
         }
     }
 }
-
