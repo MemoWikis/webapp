@@ -18,17 +18,14 @@ public class ModifyRelationsUserEntityCache
                 CategoryId = parent.Id
             };
 
-
             var hasEqualRelation = false; 
                 foreach (var categoryRelation in parent.CategoryRelations)
                 {
                     if (IsCategorRelationEqual(categoryRelation, newRelation))
                     {
-                        Logg.r().Error("----RelatedId = " + newRelation.RelatedCategoryId + "---- CategoryId = " + newRelation.CategoryId + "----- Type = " + newRelation.CategoryRelationType + "------ParentId" + parent.Id);
                         hasEqualRelation = true; 
                         break; 
                     }
-                        
                 }
 
                 if(!hasEqualRelation)
