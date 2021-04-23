@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Windows.Forms;
 using MySqlX.XDevAPI;
 
 [DebuggerDisplay("Id={Id} Name={Name}")]
@@ -67,16 +68,18 @@ public class Category : DomainEntity, ICreator, ICloneable
 
     public virtual IList<Category> AggregatedCategories(bool includingSelf = true)
     {
-        var list = new List<Category>();
-        list = CategoryRelations.Where(r => r.CategoryRelationType == CategoryRelationType.IncludesContentOf)
-            .Select(r => Sl.CategoryRepo.GetByIdEager(r.RelatedCategory.Id)).ToList();
+        var categoryIds = new List<int>();
+
+        categoryIds = CategoryRelations.Where(r => r.CategoryRelationType == CategoryRelationType.IncludesContentOf)
+            .Select(r => r.RelatedCategory.Id).ToList();
+
+        IList<Category> list;
+
+        list = Sl.CategoryRepo.GetByIds(categoryIds); 
 
         if (Sl.SessionUser.User != null && UserCache.GetItem(Sl.SessionUser.User.Id).IsFiltered)
 
             list = list.Where(c => c.IsInWishknowledge()).ToList(); 
-              
-       
-
 
         if (includingSelf)
             list.Add(this);
