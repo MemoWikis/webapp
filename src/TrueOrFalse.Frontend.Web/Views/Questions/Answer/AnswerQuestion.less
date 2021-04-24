@@ -1,7 +1,7 @@
 ﻿@import (reference) '../../../Style/includes/imports.less';
 .no-white-background;
 //Variables
-@BackgroundColorProgressBar: #EFEFEF ;
+@BackgroundColorProgressBar: @memo-grey-lighter ;
 @pixel3: 3px;
 
 //Mixins
@@ -240,7 +240,7 @@
 .SessionBar {
     font-size: @font-size-base;
     line-height: @line-height-base;
-    background-color: #dddddd;
+    background-color: @memo-grey-light;
     margin-bottom: 50px;
     display: flex;
     .clearfix;
@@ -394,7 +394,7 @@
 
 .QuestionText {
     padding-bottom: 20px;
-    color: #003264;
+    color: @memo-blue;
     font-size: 25px;
     font-family:Regular Open Sans, Arial, sans-serif;
     line-height: 31px;
@@ -1065,7 +1065,7 @@
         .dropdown-toggle {
             padding-right: 10px;
             font-size: 18px;
-            color: #999999;
+            color: @memo-grey-dark;
             margin-top: -2px;
         }
 

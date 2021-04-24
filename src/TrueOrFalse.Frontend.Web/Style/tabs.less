@@ -72,8 +72,8 @@
                 }
 
                 border-bottom-color: @memo-blue;
-                top: -0px;
-                padding-top: 6px;
+                top: 1px;
+                padding-top: 9px;
             }
         }
     }
@@ -117,7 +117,7 @@
 
 
         .disable::before {
-            color: #999999;
+            color: @memo-grey-dark;
         }
 
         #LearningTab {
@@ -206,7 +206,7 @@
 }
 
 #MyWorldToggleApp {
-    background-color: #EFEFEF;
+    background-color: @memo-grey-lighter;
     display: flex;
     justify-content: space-between;
     transition: background .3s ease-in;
@@ -228,7 +228,7 @@
         height: 100%;
         padding: 0 8px 0 0;
         min-width: 100px !important;
-        color: #555555;
+        color: @memo-grey-darker;
     }
 
     .toggle-container {
@@ -280,7 +280,7 @@
 
         #mwcbx:checked + .toggle span {
             transform: translateX(18px);
-            background: #FF001F;
+            background: @memo-wuwi-red;
         }
     }
 }

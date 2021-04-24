@@ -11,7 +11,9 @@
 }#QuestionListApp {
   margin-top: 103px;
   background-color: #EFEFEF;
-  padding: 30px 20px 33px 20px;
+  padding: 30px 0px 33px 20px;
+  margin-right: 0;
+  margin-left: 0;
 }
 #QuestionListApp #QuestionListHeaderDropDown .fa-ellipsis-v {
   font-size: 18px;
@@ -134,7 +136,7 @@
   flex-direction: row;
   flex-wrap: nowrap;
   transition: all 0.2s ease-out;
-  color: #949494;
+  margin-right: 20px;
 }
 #QuestionListApp .singleQuestionRow.open {
   height: unset;
@@ -453,7 +455,7 @@
   width: 100%;
   text-align: center;
   padding: 6px 4px !important;
-  background-color: #efefef;
+  background-color: #EFEFEF;
 }
 #QuestionListApp #QuestionListPagination .pagination .selected {
   border-bottom: 3px solid #003264;

@@ -1,4 +1,5 @@
-﻿
+﻿@import (reference) '/Style/includes/imports.less';
+
 .toggle {
     position: relative;
     display: block;
@@ -41,7 +42,7 @@
 
 #cbx:checked + .toggle span {
     transform: translateX(18px);
-    background: #AFD534;
+    background: @memo-green;
 }
 #randomQuestions:checked + .toggle:before {
     background: #e7f5bffa;
@@ -49,7 +50,7 @@
 
 #randomQuestions:checked + .toggle span {
     transform: translateX(18px);
-    background: #AFD534;
+    background: @memo-green;
 }
 
 #answerHelp:checked + .toggle:before {
@@ -58,7 +59,7 @@
 
 #answerHelp:checked + .toggle span {
     transform: translateX(18px);
-    background: #AFD534;
+    background: @memo-green;
 }
 
 #repititions:checked + .toggle:before {
@@ -67,5 +68,5 @@
 
 #repititions:checked + .toggle span {
     transform: translateX(18px);
-    background: #AFD534;
+    background: @memo-green;
 }

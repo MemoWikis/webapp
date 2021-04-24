@@ -3,18 +3,18 @@
   margin-bottom: 40px;
 }
 #Segmentation .segmentationHeader {
-  font-size: 14px;
-  font-weight: 600;
-  color: #999999;
-  line-height: 20px;
-  letter-spacing: 1.25px;
-  text-transform: uppercase;
   font-family: 'Open Sans';
   border-bottom: #999999 0.03125em solid;
-  padding-bottom: 12px;
-  margin-bottom: 41px;
   display: flex;
   justify-content: space-between;
+}
+#Segmentation .segmentationHeader .segmentDropdown {
+  opacity: 0;
+  transition: opacity 0.5s ease-in-out;
+}
+#Segmentation:hover .segmentDropdown {
+  opacity: 1;
+  transition: opacity 0.5s ease-in-out;
 }
 #Segmentation #GeneratedSegmentSection,
 #Segmentation .segment,

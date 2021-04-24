@@ -291,7 +291,7 @@ div.selected-row:hover {
 .rowBase {
   -webkit-border-radius: 4px;
           border-radius: 4px;
-  border: 1px solid #dddddd;
+  border: 1px solid #DDDDDD;
   margin-bottom: 10px;
 }
 @media (min-width: 768px) {

@@ -1,18 +1,20 @@
 ﻿@import (reference) '../../../Style/includes/imports.less';
 
 //Variables
-@colorPagination: #efefef ;
+@colorPagination: @memo-grey-lighter ;
 
 //Less
 #QuestionListApp {
     margin-top: 103px;
-    background-color: #EFEFEF;
-    padding: 30px 20px 33px 20px;
+    background-color: @memo-grey-lighter;
+    padding: 30px 0px 33px 20px;
+    margin-right: 0;
+    margin-left: 0;
 
     #QuestionListHeaderDropDown {
         .fa-ellipsis-v {
             font-size: 18px;
-            color: #003264;
+            color: @memo-blue;
         }
     }
 
@@ -79,7 +81,7 @@
 
     #QuestionFooterIcons {
         .btn-link {
-            color: #999999 !important;
+            color: @memo-grey-dark !important;
         }
     }
 
@@ -131,7 +133,7 @@
 
     .activeQ {
         &::before {
-            color: #555555;
+            color: @memo-grey-darker;
         }
     }
 
@@ -139,12 +141,12 @@
         background: linear-gradient(to right, #D6D6D6 0px, #D6D6D6 8px, #ffffffff 9px, #ffffffff 100%);
         font-family: "Open Sans";
         font-size: 14px;
-        border: 0.05px solid #DDDDDD;
+        border: 0.05px solid @memo-grey-light;
         display: flex;
         flex-direction: row;
         flex-wrap: nowrap;
         transition: all .2s ease-out;
-        color: #949494;
+        margin-right: 20px;
 
         &.open {
             height: unset;
@@ -155,7 +157,7 @@
         }
 
         &.solid {
-            background: linear-gradient(to right, #AFD534 0px, #AFD534 8px, #ffffffff 9px, #ffffffff 100%);
+            background: linear-gradient(to right, @memo-green 0px, @memo-green 8px, #ffffffff 9px, #ffffffff 100%);
         }
 
         &.shouldConsolidate {
@@ -163,7 +165,7 @@
         }
 
         &.shouldLearn {
-            background: linear-gradient(to right, #FFA07A 0px, #FFA07A 8px, #ffffffff 9px, #ffffffff 100%);
+            background: linear-gradient(to right, @memo-salmon 0px, @memo-salmon 8px, #ffffffff 9px, #ffffffff 100%);
         }
 
         &.inWishknowledge {
@@ -221,7 +223,7 @@
                             .questionTitle {
                                 padding: 8px;
                                 min-width: 0;
-                                color: #555555;
+                                color: @memo-grey-darker;
                                 font-weight: 600;
                                 align-self: center;
                                 display: inline-flex;
@@ -259,7 +261,7 @@
                             min-width: 77px;
                             display: flex;
                             flex-wrap: nowrap;
-                            color: #DDDDDD;
+                            color: @memo-grey-light;
                             flex-direction: row-reverse;
                             padding: 0;
 
@@ -390,7 +392,7 @@
                                     color: #D6D6D6;
 
                                     &.solid {
-                                        color: #AFD534;
+                                        color: @memo-green;
                                     }
 
                                     &.shouldConsolidate {
@@ -398,7 +400,7 @@
                                     }
 
                                     &.shouldLearn {
-                                        color: #FFA07A;
+                                        color: @memo-salmon;
                                     }
 
                                     &.inWishknowledge {
@@ -410,11 +412,11 @@
                                     padding: 1px 10px;
                                     border-radius: 20px;
                                     background: #D6D6D6;
-                                    color: #555555;
+                                    color: @memo-grey-darker;
                                     white-space: nowrap;
 
                                     &.solid {
-                                        background: #AFD534;
+                                        background: @memo-green;
                                     }
 
                                     &.shouldConsolidate {
@@ -422,7 +424,7 @@
                                     }
 
                                     &.shouldLearn {
-                                        background: #FFA07A;
+                                        background: @memo-salmon;
                                     }
 
                                     &.inWishknowledge {
@@ -447,7 +449,7 @@
                     }
 
                     .questionFooterIcons {
-                        color: #999999;
+                        color: @memo-grey-dark;
                         font-size: 11px;
                         margin: 0;
                         display: flex;
@@ -457,7 +459,7 @@
 
                         a.commentIcon {
                             text-decoration: none;
-                            color: #999999;
+                            color: @memo-grey-dark;
                             font-size: 14px;
                         }
 
@@ -486,7 +488,7 @@
 
         .questionFooter {
             height: 52px;
-            border-top: 0.5px solid #DDDDDD;
+            border-top: 0.5px solid @memo-grey-light;
             display: flex;
             flex-direction: row-reverse;
             font-size: 20px;
@@ -532,10 +534,10 @@
             }
 
             .selected {
-                border-bottom: 3px solid #003264;
+                border-bottom: 3px solid @memo-blue;
 
                 .page-link {
-                    color: #003264 !important;
+                    color: @memo-blue !important;
                 }
             }
 
@@ -604,7 +606,7 @@
 
                 .ProseMirror {
                     padding: 11px 15px 0;
-                    border: solid 1px #DDDDDD;
+                    border: solid 1px @memo-grey-light;
                     border-radius: 4px;
                     margin-bottom: 26px;
                 }
@@ -612,7 +614,7 @@
 
             #AddQuestionPrivacyContainer {
                 padding: 20px;
-                border: solid 1px #DDDDDD;
+                border: solid 1px @memo-grey-light;
                 border-radius: 4px;
                 min-width: 216px;
                 max-height: 143px;
@@ -635,7 +637,7 @@
         }
 
         .wuwi-grey {
-            color: #999999;
+            color: @memo-grey-dark;
         }
     }
 
@@ -643,7 +645,7 @@
         background: none;
 
         #QuestionListComponent {
-            border: #999999 solid 0.03125em;
+            border: @memo-grey-dark solid 0.03125em;
         }
     }
 }

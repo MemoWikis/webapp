@@ -1,5 +1,5 @@
 ﻿@import (reference) '../../../Style/includes/imports.less';
-@darkgrey: #999999;
+@darkgrey: @memo-grey-dark;
 @highlightblue: #18A0FB;
 @basefontcolor: #203256;
 
@@ -508,7 +508,7 @@ p:empty {
     }
 
     .Solid {
-        background-color: #afd534;
+        background-color: @memo-green;
     }
 
 
@@ -859,7 +859,7 @@ p:empty {
 
             .vertical-line {
                 height: 16px;
-                border-left: solid 1px #DDDDDD;
+                border-left: solid 1px @memo-grey-light;
             }
         }
 
@@ -889,7 +889,7 @@ p:empty {
                 align-items: center;
                 display: inline-flex;
                 font-size: 12px;
-                border: solid 1px #DDDDDD;
+                border: solid 1px @memo-grey-light;
                 padding: 0 2px;
                 cursor: pointer;
             }
@@ -931,14 +931,14 @@ p:empty {
 
             &:hover {
                 .Text {
-                    color: #FF001F;
+                    color: @memo-wuwi-red;
 
                     &.hideOnHover {
                         display: none;
                     }
 
                     &.showOnHover {
-                        color: #999999 !important;
+                        color: @memo-grey-dark !important;
                         display: unset;
                     }
                 }
@@ -1114,7 +1114,7 @@ p:empty {
                 display: block;
                 height: 100%;
                 line-height: 38px;
-                color: #999999;
+                color: @memo-grey-dark;
             }
         }
 
@@ -1127,7 +1127,7 @@ p:empty {
 
             .fa-ellipsis-v {
                 font-size: 18px;
-                color: #999999;
+                color: @memo-grey-dark;
             }
         }
     }
@@ -1259,7 +1259,7 @@ p:empty {
                 pointer-events: auto;
                 text-align: center;
                 line-height: 56px;
-                background-color: #afd534;
+                background-color: @memo-green;
                 border: 1px solid transparent;
                 transition: transform 0.15s cubic-bezier(0.4, 0.0, 1, 1), opacity 0.1s 0.1s, box-shadow 0.3s;
                 opacity: 1;
@@ -1297,7 +1297,7 @@ p:empty {
             overflow: hidden;
 
             &.open {
-                background-color: #afd534;
+                background-color: @memo-green;
                 transition-delay: .15s;
             }
         }
@@ -1418,7 +1418,7 @@ p:empty {
     }
 
     .sortable-ghost {
-        background: #dddddd;
+        background: @memo-grey-light;
     }
 
     .selectModuleContainer {
@@ -1646,7 +1646,7 @@ p:empty {
 
             .ButtonEllipsis {
                 font-size: 18px;
-                color: #999999;
+                color: @memo-grey-dark;
             }
 
             .delete {
@@ -1664,7 +1664,7 @@ p:empty {
         left: -50px;
         margin-top: -50px;
         font-size: 18px;
-        color: #999999;
+        color: @memo-grey-dark;
         width: 40px;
         height: 100px;
         display: flex;
@@ -1706,7 +1706,7 @@ p:empty {
 
             .ButtonEllipsis {
                 font-size: 18px;
-                color: #999999;
+                color: @memo-grey-dark;
             }
         }
     }
@@ -1749,7 +1749,7 @@ p:empty {
 
     #graphToolbar, #knowledgeGraphFullscreen, #knowledgeBarCheckBox {
         padding: 0 5px;
-        color: #999999;
+        color: @memo-grey-dark;
         line-height: 20px;
         vertical-align: middle;
 
@@ -1802,7 +1802,7 @@ p:empty {
                     width: 100%;
                     height: 6px;
                     border-radius: 5px;
-                    background: #003264;
+                    background: @memo-blue;
                     outline: none;
                     transition: opacity .2s;
                 }
@@ -1910,7 +1910,7 @@ p:empty {
 
         i {
             font-size: 18px;
-            color: #999999;
+            color: @memo-grey-dark;
         }
     }
 
@@ -1955,7 +1955,7 @@ p:empty {
             left: 0;
             right: 0;
             bottom: 0;
-            background-color: #999999;
+            background-color: @memo-grey-dark;
             transition: .1s;
             border-radius: 60px;
         }
@@ -1973,11 +1973,11 @@ p:empty {
         }
 
         input:checked + .graphToggle {
-            background-color: #003264;
+            background-color: @memo-blue;
         }
 
         input:focus + .graphToggle {
-            box-shadow: 0 0 1px #003264;
+            box-shadow: 0 0 1px @memo-blue;
         }
 
         input:checked + .graphToggle:before {
@@ -1989,7 +1989,7 @@ p:empty {
 #KnowledgeGraphHelpText {
     padding-left:20px;
     font-size: 14px;
-    color: #999999;
+    color: @memo-grey-dark;
 }
     
 
@@ -2002,7 +2002,7 @@ p:empty {
 }
 
     .sortable-ghost {
-        background: #dddddd;
+        background: @memo-grey-light;
     }
 
     [v-cloak] {
@@ -2074,8 +2074,8 @@ p:empty {
 
     p {
         code {
-            color: #555555;
-            bckground-color: #efefef
+            color: @memo-grey-darker;
+            bckground-color: @memo-grey-lighter
         }
     }
 
@@ -2100,7 +2100,7 @@ p:empty {
 code {
     .hljs-comment,
     .hljs-quote {
-        color: #999999;
+        color: @memo-grey-dark;
     }
 
     .hljs-variable,
@@ -2172,16 +2172,16 @@ code {
     width: 36px;
     height: 36px;
     margin: 0px;
-    color: #555555;
+    color: @memo-grey-darker;
     text-align: center;
     padding: 1px 6px;
 
     &:hover {
-        background: #efefef;
+        background: @memo-grey-lighter;
     }
 
     &.is-active {
-        background: #dddddd;
+        background: @memo-grey-light;
     }
 }
 
@@ -2217,7 +2217,7 @@ p.is-editor-empty:first-child::before {
     @scale00: scale3d(0,0,1);
     @scale11: scale3d(1.1, 1.1, 1);
     @scale10: scale3d(1, 1, 1);
-    @color-green: #afd534;
+    @color-green: @memo-green;
 
     position: sticky;
     bottom: 20px;
@@ -2438,7 +2438,7 @@ p.is-editor-empty:first-child::before {
                         width: 40px;
                         height: 40px;
                         border-radius: 50%;
-                        background-color: #efefef;
+                        background-color: @memo-grey-lighter;
                         box-shadow: 0 0 3px rgba(0, 0, 0, 0.12), 0 3px 3px rgba(0, 0, 0, 0.24);
 
                         i {
@@ -2457,7 +2457,7 @@ p.is-editor-empty:first-child::before {
                         padding: 0 16px;
                         margin-right: 16px;
                         font-size: 14px;
-                        background-color: #efefef;
+                        background-color: @memo-grey-lighter;
                         border-radius: 4px;
                         box-shadow: 0 0 3px rgba(0, 0, 0, 0.12), 0 3px 3px rgba(0, 0, 0, 0.24);
                         line-height: 32px;
@@ -3003,7 +3003,7 @@ p.is-editor-empty:first-child::before {
     }
 
     #PublishCategoryModal {
-        color: #555555;
+        color: @memo-grey-darker;
 
         .dismiss-modal-button {
             position: absolute;
@@ -3047,7 +3047,7 @@ p.is-editor-empty:first-child::before {
                     font-size: 24px;
 
                     .fa-check-square {
-                        color: #0065CA;
+                        color: @memo-blue-link;
                     }
                 }
 
@@ -3107,11 +3107,11 @@ p.is-editor-empty:first-child::before {
                     font-size: 24px;
 
                     &.fa-times-circle {
-                        color: #FFA07A;
+                        color: @memo-salmon;
                     }
 
                     &.fa-check-circle {
-                        color: #AFD534;
+                        color: @memo-green;
                     }
                 }
             }
@@ -3125,10 +3125,10 @@ p.is-editor-empty:first-child::before {
             .btn {
                 width: 154px;
                 border: none;
-                background-color: #FFA07A;
+                background-color: @memo-salmon;
 
                 &.success {
-                    background-color: #AFD534;
+                    background-color: @memo-green;
                 }
             }
         }

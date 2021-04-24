@@ -1546,5 +1546,116 @@ i.fa-lock.header-icon {
   font-size: 24px;
 }
 /*******************************************************************/
-/*  new Styles
+/*  new Styles 
 ----------------------------------------------------------*/
+/*******************************************************************/
+/*  Typography
+----------------------------------------------------------*/
+h1 {
+  font-size: 45px;
+  font-weight: 400;
+  letter-spacing: -1.5px;
+  line-height: 54px;
+  color: #003264;
+}
+h2 {
+  font-size: 35px;
+  font-weight: 500;
+  line-height: 42px;
+  color: #003264;
+}
+h3 {
+  font-size: 25px;
+  font-weight: 400;
+  line-height: 34px;
+  color: #003264;
+}
+.subtitle {
+  font-size: 18px;
+  font-weight: 400;
+  line-height: 22px;
+  color: #999999;
+}
+.body-l {
+  font-size: 18px;
+  font-weight: 400;
+  line-height: 30px;
+  color: #003264;
+}
+.body-m {
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 20px;
+  color: #555555;
+}
+.body-s {
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 18px;
+  color: #555555;
+}
+.body-xs {
+  font-size: 10px;
+  font-weight: 400;
+  line-height: 16px;
+  color: #555555;
+}
+.body-l,
+.body-m,
+.body-s,
+.body-xs {
+  margin-bottom: 10px;
+}
+.body-l.bold,
+.body-m.bold,
+.body-s.bold,
+.body-xs.bold {
+  font-weight: 700;
+}
+.memo-button,
+.overline-l {
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 48px;
+  letter-spacing: 1.25px;
+  text-transform: uppercase;
+}
+.overline-s,
+.overline-l {
+  color: #555555;
+  font-weight: 600;
+  border-bottom: solid 1px #DDDDDD;
+}
+.overline-s {
+  font-size: 12px;
+  line-height: 18px;
+  letter-spacing: 0.25px;
+  text-transform: uppercase;
+  padding-bottom: 10px;
+  margin-bottom: 25px;
+}
+.overline-l {
+  font-size: 14px;
+  line-height: 48px;
+  letter-spacing: 1.25px;
+  text-transform: uppercase;
+  margin-bottom: 40px;
+}
+.underline-s {
+  border-top: solid 1px #DDDDDD;
+  font-size: 12px;
+  line-height: 18px;
+  letter-spacing: 0.25px;
+  padding-top: 10px;
+  margin-top: 25px;
+  text-align: right;
+  color: #DDDDDD;
+}
+.underline-s a {
+  color: #999999;
+  transition: color 0.1s ease-in-out;
+}
+.underline-s a:hover {
+  color: #0065CA;
+  transition: color 0.1s ease-in-out;
+}

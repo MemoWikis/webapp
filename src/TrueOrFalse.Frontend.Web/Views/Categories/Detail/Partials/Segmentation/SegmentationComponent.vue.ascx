@@ -8,7 +8,7 @@
         <div v-if="hasCustomSegment" class="segmentationHeader">
             Alle Unterthemen
         </div>
-        <div v-else class="segmentationHeader">
+        <div v-else class="segmentationHeader overline-l">
             Untergeordnete Themen
             <div v-if="editMode" class="Button dropdown DropdownButton segmentDropdown">
                 <a href="#" :id="dropdownId" class="dropdown-toggle  btn btn-link btn-sm ButtonEllipsis" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">

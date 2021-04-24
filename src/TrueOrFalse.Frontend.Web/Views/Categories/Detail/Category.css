@@ -523,13 +523,13 @@ p:empty {
   background-color: #fdd648;
 }
 .category-knowledge-bar .solid-knowledge {
-  background-color: #afd534;
+  background-color: #AFD534;
 }
 .category-knowledge-bar .not-learned {
   background-color: silver;
 }
 .category-knowledge-bar .not-in-wish-knowledge {
-  background-color: #dddddd;
+  background-color: #DDDDDD;
 }
 /*------------------------------------------------------
     Knowledge Square
@@ -550,7 +550,7 @@ p:empty {
   background-color: lightsalmon;
 }
 .Solid {
-  background-color: #afd534;
+  background-color: #AFD534;
 }
 /*------------------------------------------------------
     MEDIA LIST
@@ -1368,7 +1368,7 @@ p:empty {
                 pointer-events: auto;
                 text-align: center;
                 line-height: 56px;
-                background-color: #afd534;
+                background-color: @memo-green;
                 border: 1px solid transparent;
                 transition: transform 0.15s cubic-bezier(0.4, 0.0, 1, 1), opacity 0.1s 0.1s, box-shadow 0.3s;
                 opacity: 1;
@@ -1406,7 +1406,7 @@ p:empty {
             overflow: hidden;
 
             &.open {
-                background-color: #afd534;
+                background-color: @memo-green;
                 transition-delay: .15s;
             }
         }
@@ -1558,7 +1558,7 @@ p:empty {
           flex-direction: column;
 }
 .contentModuleSettings .sortable-ghost {
-  background: #dddddd;
+  background: #DDDDDD;
 }
 .contentModuleSettings .selectModuleContainer {
   margin-top: 30px;
@@ -1896,7 +1896,7 @@ p:empty {
 .ContentModule .ModuleBorder .singleCatFullWidth .KnowledgeBarWrapper .set-knowledge-bar .solid-knowledge,
 .ContentModule .ModuleBorder .singleSetFullWidth .KnowledgeBarWrapper .category-knowledge-bar .solid-knowledge,
 .ContentModule .ModuleBorder .singleCatFullWidth .KnowledgeBarWrapper .category-knowledge-bar .solid-knowledge {
-  background-color: #afd534;
+  background-color: #AFD534;
 }
 .ContentModule .ModuleBorder .singleSetFullWidth .KnowledgeBarWrapper .set-knowledge-bar .not-learned,
 .ContentModule .ModuleBorder .singleCatFullWidth .KnowledgeBarWrapper .set-knowledge-bar .not-learned,
@@ -1908,7 +1908,7 @@ p:empty {
 .ContentModule .ModuleBorder .singleCatFullWidth .KnowledgeBarWrapper .set-knowledge-bar .not-in-wish-knowledge,
 .ContentModule .ModuleBorder .singleSetFullWidth .KnowledgeBarWrapper .category-knowledge-bar .not-in-wish-knowledge,
 .ContentModule .ModuleBorder .singleCatFullWidth .KnowledgeBarWrapper .category-knowledge-bar .not-in-wish-knowledge {
-  background-color: #dddddd;
+  background-color: #DDDDDD;
 }
 .ContentModule .ModuleBorder .singleSetFullWidth .buttons,
 .ContentModule .ModuleBorder .singleCatFullWidth .buttons {
@@ -2555,7 +2555,7 @@ p:empty {
   padding-right: 10px;
 }
 .sortable-ghost {
-  background: #dddddd;
+  background: #DDDDDD;
 }
 [v-cloak] {
   display: none;
@@ -2645,7 +2645,7 @@ p:empty {
 #AnswerBody p code,
 .singleQuestionRow p code {
   color: #555555;
-  bckground-color: #efefef;
+  bckground-color: #EFEFEF;
 }
 .ProseMirror pre,
 #AnswerBody pre,
@@ -2786,10 +2786,10 @@ p:empty {
   padding: 1px 6px;
 }
 .menubar__button:hover {
-  background: #efefef;
+  background: #EFEFEF;
 }
 .menubar__button.is-active {
-  background: #dddddd;
+  background: #DDDDDD;
 }
 .link-modal .link-form {
   display: -webkit-inline-box;
@@ -2978,7 +2978,7 @@ p.is-editor-empty:first-child::before {
 #LearningTabFABApp .fab-container .main-fab-container .main-fab {
   min-width: 56px;
   height: 56px;
-  background-color: #afd534;
+  background-color: #AFD534;
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -3190,7 +3190,7 @@ p.is-editor-empty:first-child::before {
   height: 40px;
   -webkit-border-radius: 50%;
           border-radius: 50%;
-  background-color: #efefef;
+  background-color: #EFEFEF;
   -webkit-box-shadow: 0 0 3px rgba(0, 0, 0, 0.12), 0 3px 3px rgba(0, 0, 0, 0.24);
           box-shadow: 0 0 3px rgba(0, 0, 0, 0.12), 0 3px 3px rgba(0, 0, 0, 0.24);
 }
@@ -3210,7 +3210,7 @@ p.is-editor-empty:first-child::before {
   padding: 0 16px;
   margin-right: 16px;
   font-size: 14px;
-  background-color: #efefef;
+  background-color: #EFEFEF;
   -webkit-border-radius: 4px;
           border-radius: 4px;
   -webkit-box-shadow: 0 0 3px rgba(0, 0, 0, 0.12), 0 3px 3px rgba(0, 0, 0, 0.24);
@@ -3549,7 +3549,7 @@ p.is-editor-empty:first-child::before {
 #LearningTabFABApp .edit-mode-bar-container .toolbar {
   height: 56px;
   overflow: hidden;
-  background-color: #afd534;
+  background-color: #AFD534;
   position: fixed;
   bottom: 0;
   left: 0;

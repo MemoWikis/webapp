@@ -1,4 +1,4 @@
-﻿@darkgrey: #999999;
+﻿@import (reference) '/Style/includes/imports.less';
 @highlightblue: #18A0FB;
 @basefontcolor: #203256;
 
@@ -7,18 +7,22 @@
     margin-bottom: 40px;
 
     .segmentationHeader {
-        font-size: 14px;
-        font-weight: 600;
-        color: @darkgrey;
-        line-height: 20px;
-        letter-spacing: 1.25px;
-        text-transform: uppercase;
         font-family: 'Open Sans';
-        border-bottom: @darkgrey 0.03125em solid;
-        padding-bottom: 12px;
-        margin-bottom: 41px;
+        border-bottom: @memo-grey-dark 0.03125em solid;
         display: flex;
         justify-content: space-between;
+
+        .segmentDropdown {
+            opacity: 0;
+            transition: opacity .5s ease-in-out;
+        }
+    }
+
+    &:hover {
+        .segmentDropdown {
+            opacity: 1;
+            transition: opacity .5s ease-in-out;
+        }
     }
 
     #GeneratedSegmentSection, .segment, .segmentCategoryCard {
@@ -62,14 +66,14 @@
             .addCategoryCard {
                 display: flex;
                 border-radius: 3px;
-                border: dashed @darkgrey 2px;
+                border: dashed @memo-grey-dark 2px;
                 transition: 0.2s;
                 justify-content: center;
                 align-content: center;
                 align-items: center;
                 text-align: center;
                 min-height: 150px;
-                color: @darkgrey;
+                color: @memo-grey-dark;
                 cursor: pointer;
 
                 @media (max-width: 649px) {
@@ -107,7 +111,7 @@
             a {
                 color: @basefontcolor;
                 transition: 0.2s;
-                padding-right:10px;
+                padding-right: 10px;
 
                 &:hover {
                     text-decoration: none;
