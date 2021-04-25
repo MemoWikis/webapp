@@ -453,13 +453,14 @@ public class EditCategoryController : BaseController
         {
             var categoryCacheItem = EntityCache.GetCategoryCacheItem(categoryId);
             categoryCacheItem.Name = name;
-            EntityCache.AddOrUpdate(categoryCacheItem);
+
             JobExecute.RunAsTask(scope =>
             {
                 var category = Sl.CategoryRepo.GetById(categoryId);
                 category.Name = name;
                 Sl.CategoryRepo.Update(category, User_());
             }, "UpdateCategoryName");
+
             var newUrl = Links.CategoryDetail(categoryCacheItem);
             return Json(new
             {

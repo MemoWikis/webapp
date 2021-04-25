@@ -80,15 +80,15 @@ namespace TrueOrFalse.Tests
             if (withId && categoryId == 0)
                 category.Id = 0;
             else
-            {
                 category.Id = categoryId; 
-            }
 
             category.Name = categoryName;
             category.Creator = creator == null ? _contextUser.All.FirstOrDefault() : creator ;
             category.Type = categoryType;
 
-            EntityCache.AddOrUpdate(CategoryCacheItem.ToCacheCategory(category));
+            var categoryCacheItem = CategoryCacheItem.ToCacheCategory(category);
+            EntityCache.AddOrUpdate(categoryCacheItem);
+            EntityCache.UpdateCategoryReferencesInQuestions(categoryCacheItem, category);
 
             All.Add(category);
             return this;
