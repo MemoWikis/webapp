@@ -1,7 +1,4 @@
 ﻿@import (reference) '../../../Style/includes/imports.less';
-@darkgrey: @memo-grey-dark;
-@highlightblue: #18A0FB;
-@basefontcolor: #203256;
 
 div.column  { width: 33%; float: left;}
 
@@ -374,7 +371,7 @@ p:empty {
     }
 
     img {
-        border-radius: 50%;
+        border-radius: 0;
         box-shadow: 5px 5px 10px @gray-lighter;
     }
 
@@ -796,7 +793,7 @@ p:empty {
     }
 
     img {
-        border-radius: 50%;
+        border-radius: 0;
         width: 80px;
         height: 80px;
     }
@@ -849,6 +846,7 @@ p:empty {
 
     .category-sub-header {
         display: flex;
+        flex-wrap: wrap;
 
         .category-sub-header-divider {
             display: flex;
@@ -870,9 +868,10 @@ p:empty {
             }
 
             .author-img {
-                width: 20px;
-                height: 20px;
                 margin-right: 4px;
+                border-radius: 50%;
+                height: 20px;
+                width: 20px;
             }
 
             .author-listitem {
@@ -888,10 +887,19 @@ p:empty {
                 justify-content: center;
                 align-items: center;
                 display: inline-flex;
-                font-size: 12px;
+                font-size: 11px;
+                font-weight: 600;
                 border: solid 1px @memo-grey-light;
                 padding: 0 2px;
                 cursor: pointer;
+                transition: all .1s ease-in-out;
+
+                &:hover {
+                    background: @memo-blue;
+                    color: white;
+                    transition: all .1s ease-in-out;
+                    border: solid 1px @memo-blue;
+                }
             }
         }
     }
@@ -1062,10 +1070,10 @@ p:empty {
                 left: 0;
                 opacity: 0;
                 transition: ease-out 0.2s;
-                color: #2699FB;
                 text-align: center;
                 flex-direction: column;
                 cursor: pointer;
+                color: @memo-blue;
 
                 &:hover {
                     opacity: 1;
@@ -1469,7 +1477,7 @@ p:empty {
                         border-radius: 3px;
                         border: solid transparent 1px;
                         transition: 0.2s;
-                        border-color: @highlightblue;
+                        border-color: @memo-blue-link;
                     }
 
                     img.show-tooltip {
@@ -1546,7 +1554,7 @@ p:empty {
         }
 
         &.hover {
-            border-color: @highlightblue;
+            border-color: @memo-blue-link;
             cursor: pointer;
             margin: 0 -20px;
             padding: 0 20px;
@@ -2940,22 +2948,22 @@ p.is-editor-empty:first-child::before {
                 }
 
                 a {
-                    color: @basefontcolor;
+                    color: @memo-blue;
                     transition: 0.2s;
 
                     &:hover {
                         text-decoration: none;
-                        color: @highlightblue;
+                        color: @memo-blue-link;
                     }
                 }
 
                 .checkBox {
                     user-select: none;
                     cursor: pointer;
-                    color: @darkgrey;
+                    color: @memo-grey-dark;
 
                     i {
-                        color: @highlightblue;
+                        color: @memo-blue-link;
                     }
                 }
             }

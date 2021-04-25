@@ -390,8 +390,8 @@ p:empty {
 }
 .topicNavigation img,
 .setCardMiniList img {
-  -webkit-border-radius: 50%;
-          border-radius: 50%;
+  -webkit-border-radius: 0;
+          border-radius: 0;
   -webkit-box-shadow: 5px 5px 10px #eeeeee;
           box-shadow: 5px 5px 10px #eeeeee;
 }
@@ -875,8 +875,8 @@ p:empty {
   }
 }
 #CategoryHeader img {
-  -webkit-border-radius: 50%;
-          border-radius: 50%;
+  -webkit-border-radius: 0;
+          border-radius: 0;
   width: 80px;
   height: 80px;
 }
@@ -944,6 +944,9 @@ p:empty {
   display: -webkit-flex;
   display: -ms-flexbox;
   display: flex;
+  -webkit-flex-wrap: wrap;
+      -ms-flex-wrap: wrap;
+          flex-wrap: wrap;
 }
 #CategoryHeader .category-sub-header .category-sub-header-divider {
   display: -webkit-box;
@@ -972,9 +975,11 @@ p:empty {
   display: flex;
 }
 #CategoryHeader .category-sub-header #Authors .author-img {
-  width: 20px;
-  height: 20px;
   margin-right: 4px;
+  -webkit-border-radius: 50%;
+          border-radius: 50%;
+  height: 20px;
+  width: 20px;
 }
 #CategoryHeader .category-sub-header #Authors .author-listitem {
   display: -webkit-box;
@@ -1001,10 +1006,20 @@ p:empty {
   display: -webkit-inline-flex;
   display: -ms-inline-flexbox;
   display: inline-flex;
-  font-size: 12px;
+  font-size: 11px;
+  font-weight: 600;
   border: solid 1px #DDDDDD;
   padding: 0 2px;
   cursor: pointer;
+  -webkit-transition: all 0.1s ease-in-out;
+  transition: all 0.1s ease-in-out;
+}
+#CategoryHeader .category-sub-header #Authors .additional-authors-btn:hover {
+  background: #003264;
+  color: white;
+  -webkit-transition: all 0.1s ease-in-out;
+  transition: all 0.1s ease-in-out;
+  border: solid 1px #003264;
 }
 #CategoryHeader .Buttons {
   display: -webkit-box;
@@ -1171,7 +1186,6 @@ p:empty {
   opacity: 0;
   -webkit-transition: ease-out 0.2s;
   transition: ease-out 0.2s;
-  color: #2699FB;
   text-align: center;
   -webkit-box-orient: vertical;
   -webkit-box-direction: normal;
@@ -1179,6 +1193,7 @@ p:empty {
       -ms-flex-direction: column;
           flex-direction: column;
   cursor: pointer;
+  color: #003264;
 }
 #CategoryHeader #HeadingSection .ImageContainer .imageUploadBtn:hover {
   opacity: 1;
@@ -1651,7 +1666,7 @@ p:empty {
   border: solid transparent 1px;
   -webkit-transition: 0.2s;
   transition: 0.2s;
-  border-color: #18A0FB;
+  border-color: #0065CA;
 }
 .contentModuleSettings .selectModuleContainer .moduleSection .mainModules .sampleContainer img.show-tooltip,
 .contentModuleSettings .selectModuleContainer .moduleSection .subModules .sampleContainer img.show-tooltip,
@@ -1745,7 +1760,7 @@ p:empty {
   }
 }
 .ContentModule .ModuleBorder.hover {
-  border-color: #18A0FB;
+  border-color: #0065CA;
   cursor: pointer;
   margin: 0 -20px;
   padding: 0 20px;
@@ -3952,13 +3967,13 @@ p.is-editor-empty:first-child::before {
   line-height: 18px;
 }
 .categoryCardModal .modal-content .addCategoryCardModal .modalBody a {
-  color: #203256;
+  color: #003264;
   -webkit-transition: 0.2s;
   transition: 0.2s;
 }
 .categoryCardModal .modal-content .addCategoryCardModal .modalBody a:hover {
   text-decoration: none;
-  color: #18A0FB;
+  color: #0065CA;
 }
 .categoryCardModal .modal-content .addCategoryCardModal .modalBody .checkBox {
   -webkit-user-select: none;
@@ -3969,7 +3984,7 @@ p.is-editor-empty:first-child::before {
   color: #999999;
 }
 .categoryCardModal .modal-content .addCategoryCardModal .modalBody .checkBox i {
-  color: #18A0FB;
+  color: #0065CA;
 }
 .categoryCardModal .modal-content .addCategoryCardModal .modalFooter {
   display: -webkit-box;

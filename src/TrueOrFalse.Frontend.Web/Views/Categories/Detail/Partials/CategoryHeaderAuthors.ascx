@@ -13,13 +13,13 @@ Inherits="System.Web.Mvc.ViewUserControl<CategoryModel>" %>
     <% } %>
 
 
-    <% if (Model.Authors.Count > 7 ){%>
+    <% if (Model.Authors.Count > 1 ){%>
         <div class="dropdown">
             <div class="additional-authors-btn" type="button" id="AuthorDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                +<%= Model.Authors.Count - 7 %>
+                +<%= Model.Authors.Count - 1 %>
             </div>
             <ul class="dropdown-menu" aria-labelledby="AuthorDropdown">
-                <% foreach (var author in Model.Authors.Skip(7)) { %>
+                <% foreach (var author in Model.Authors.Skip(1)) { %>
                     <li>                                    
                         <a href="<%= Links.UserDetail(author.User) %>">
                             <div class="author-listitem">

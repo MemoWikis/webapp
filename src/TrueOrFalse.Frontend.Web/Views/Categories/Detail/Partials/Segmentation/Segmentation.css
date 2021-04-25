@@ -1,20 +1,21 @@
-﻿#Segmentation {
+﻿@media (min-width: 768px) {
+}@media (min-width: 768px) {
+}@media (max-width: 767px) {
+}@media (min-width: 768px) {
+}@media (min-width: 768px) {
+}@media (min-width: 768px) {
+}@media (max-width: 767px) {
+}@media (max-width: 767px) {
+}@media (max-width: 649px) {
+}@media (min-width: 650px) {
+}#Segmentation {
   margin-top: 80px;
   margin-bottom: 40px;
 }
 #Segmentation .segmentationHeader {
   font-family: 'Open Sans';
-  border-bottom: #999999 0.03125em solid;
   display: flex;
   justify-content: space-between;
-}
-#Segmentation .segmentationHeader .segmentDropdown {
-  opacity: 0;
-  transition: opacity 0.5s ease-in-out;
-}
-#Segmentation:hover .segmentDropdown {
-  opacity: 1;
-  transition: opacity 0.5s ease-in-out;
 }
 #Segmentation #GeneratedSegmentSection,
 #Segmentation .segment,
@@ -42,7 +43,24 @@
   z-index: 3;
   line-height: 0;
   background: white;
-  color: #18A0FB;
+  color: #999999;
+  opacity: 0;
+  transition: opacity 0.1s ease-in-out;
+}
+#Segmentation #CustomSegmentSection .topicNavigation .segmentCategoryCard .checkBox:hover,
+#Segmentation #GeneratedSegmentSection .topicNavigation .segmentCategoryCard .checkBox:hover {
+  color: #203256;
+}
+#Segmentation #CustomSegmentSection .topicNavigation .segmentCategoryCard .checkBox.show,
+#Segmentation #GeneratedSegmentSection .topicNavigation .segmentCategoryCard .checkBox.show {
+  opacity: 1;
+  transition: opacity 0.1s ease-in-out;
+}
+#Segmentation #CustomSegmentSection .topicNavigation .segmentCategoryCard .checkBox.selected,
+#Segmentation #GeneratedSegmentSection .topicNavigation .segmentCategoryCard .checkBox.selected {
+  color: #203256;
+  opacity: 1;
+  transition: opacity 0.1s ease-in-out;
 }
 #Segmentation #CustomSegmentSection .topicNavigation .segmentCategoryCard .DropdownButton,
 #Segmentation #GeneratedSegmentSection .topicNavigation .segmentCategoryCard .DropdownButton {
@@ -52,7 +70,11 @@
 }
 #Segmentation #CustomSegmentSection .topicNavigation .segmentCategoryCard .DropdownButton i,
 #Segmentation #GeneratedSegmentSection .topicNavigation .segmentCategoryCard .DropdownButton i {
-  color: #18A0FB;
+  color: #999999;
+}
+#Segmentation #CustomSegmentSection .topicNavigation .segmentCategoryCard .DropdownButton i:hover,
+#Segmentation #GeneratedSegmentSection .topicNavigation .segmentCategoryCard .DropdownButton i:hover {
+  color: #203256;
 }
 #Segmentation #CustomSegmentSection .topicNavigation .addCategoryCard,
 #Segmentation #GeneratedSegmentSection .topicNavigation .addCategoryCard {
@@ -76,8 +98,8 @@
 }
 #Segmentation #CustomSegmentSection .topicNavigation .addCategoryCard:hover,
 #Segmentation #GeneratedSegmentSection .topicNavigation .addCategoryCard:hover {
-  border-color: #18A0FB;
-  color: #18A0FB;
+  border-color: #203256;
+  color: #203256;
 }
 #Segmentation #CustomSegmentSection .segment .segmentSubHeader .segmentKnowledgeBar {
   max-width: 420px;
@@ -108,10 +130,23 @@
   padding-top: 10px;
   margin-left: 10px;
 }
-#Segmentation .segmentDropdown {
+#Segmentation .segmentDropdown,
+#Segmentation .dropdown {
   font-size: 35px;
   height: 30px;
+  opacity: 0;
+  transition: all 0.1s ease-in-out;
 }
-#Segmentation .segmentDropdown i {
-  color: #18A0FB;
+#Segmentation .segmentDropdown i,
+#Segmentation .dropdown i {
+  color: #999999;
+}
+#Segmentation .segmentDropdown i:hover,
+#Segmentation .dropdown i:hover {
+  color: #203256;
+}
+#Segmentation .segmentDropdown.hover,
+#Segmentation .dropdown.hover {
+  opacity: 1;
+  transition: all 0.1s ease-in-out;
 }

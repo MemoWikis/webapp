@@ -15,9 +15,14 @@
   margin-right: 0;
   margin-left: 0;
 }
-#QuestionListApp #QuestionListHeaderDropDown .fa-ellipsis-v {
+#QuestionListApp #QuestionListHeaderDropDown .btn {
   font-size: 18px;
+  color: #999999;
+  transition: all 0.1s ease-in-out;
+}
+#QuestionListApp #QuestionListHeaderDropDown .btn:hover {
   color: #003264;
+  transition: all 0.1s ease-in-out;
 }
 #QuestionListApp .rootElement #LearningSessionReminderQuestionList span {
   position: absolute;
@@ -56,7 +61,7 @@
 #QuestionListApp .rootElement #LearningSessionReminderQuestionList #SessionConfigReminderRight {
   margin-top: -67px;
   position: absolute;
-  margin-left: 7.5px;
+  margin-left: 10px;
   display: none;
   z-index: 100;
 }
@@ -65,12 +70,14 @@
     display: block;
   }
 }
-#QuestionListApp .rootElement #CustomSessionConfigBtn {
-  margin-left: 10px;
-  font-size: 16px;
-  margin-bottom: 4px;
+#QuestionListApp .rootElement #CustomSessionConfigBtn.btn {
   font-size: 18px;
-  cursor: pointer;
+  color: #999999;
+  transition: all 0.1s ease-in-out;
+}
+#QuestionListApp .rootElement #CustomSessionConfigBtn.btn:hover {
+  color: #003264;
+  transition: all 0.1s ease-in-out;
 }
 @media (max-width: 479px) {
   #QuestionListApp {
@@ -95,11 +102,6 @@
 @media (max-width: 768px) {
   #QuestionListApp .drop-down-question-sort #ButtonAndDropdown {
     padding-left: 10px;
-  }
-}
-@media (max-width: 991px) {
-  #QuestionListApp .drop-down-question-sort {
-    justify-content: center;
   }
 }
 @media (max-width: 768px) {
@@ -480,6 +482,7 @@
   margin-top: 20px;
   padding: 22px 21px 30px;
   font-size: 16px;
+  margin-right: 20px;
 }
 #QuestionListApp #AddInlineQuestionContainer .add-inline-question-label {
   font-weight: 700;
@@ -508,6 +511,15 @@
   align-items: center;
   flex-direction: column;
   width: 100px;
+}
+#QuestionListApp #AddInlineQuestionContainer #AddQuestionHeader .heart-container .Text {
+  padding: 0 3px !important;
+  font-size: 8px !important;
+  line-height: 14px !important;
+  font-weight: 600 !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.1em;
+  color: #FF001F !important;
 }
 #QuestionListApp #AddInlineQuestionContainer #AddQuestionBody {
   display: flex;

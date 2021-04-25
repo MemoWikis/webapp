@@ -13,7 +13,7 @@ public class AuthorViewModel
     {
         return authors.Select(author => new AuthorViewModel
         {
-            ImageUrl = new UserImageSettings(author.Id).GetUrl_250px(author).Url,
+            ImageUrl = new UserImageSettings(author.Id).GetUrl_20px(author).Url,
             User = author,
             Reputation = author.Reputation,
             ReputationPos = author.ReputationPos

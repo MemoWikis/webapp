@@ -1,6 +1,6 @@
-﻿@import (reference) '/Style/includes/imports.less';
-@highlightblue: #18A0FB;
-@basefontcolor: #203256;
+﻿@import (reference) '../../../../../Style/includes/imports.less';
+@memo-blue-link: #18A0FB;
+@memo-blue: #203256;
 
 #Segmentation {
     margin-top: 80px;
@@ -8,21 +8,8 @@
 
     .segmentationHeader {
         font-family: 'Open Sans';
-        border-bottom: @memo-grey-dark 0.03125em solid;
         display: flex;
         justify-content: space-between;
-
-        .segmentDropdown {
-            opacity: 0;
-            transition: opacity .5s ease-in-out;
-        }
-    }
-
-    &:hover {
-        .segmentDropdown {
-            opacity: 1;
-            transition: opacity .5s ease-in-out;
-        }
     }
 
     #GeneratedSegmentSection, .segment, .segmentCategoryCard {
@@ -49,7 +36,25 @@
                     z-index: 3;
                     line-height: 0;
                     background: white;
-                    color: @highlightblue;
+                    color: @memo-grey-dark;
+                    opacity: 0;
+                    transition: opacity .1s ease-in-out;
+
+                    &:hover {
+                        color: @memo-blue;
+                    }
+
+                    &.show {
+                        opacity: 1;
+                        transition: opacity .1s ease-in-out;
+                    }
+
+
+                    &.selected {
+                        color: @memo-blue;
+                        opacity: 1;
+                        transition: opacity .1s ease-in-out;
+                    }
                 }
 
                 .DropdownButton {
@@ -58,7 +63,11 @@
                     top: 0px;
 
                     i {
-                        color: @highlightblue;
+                        color: @memo-grey-dark;
+
+                        &:hover {
+                            color: @memo-blue;
+                        }
                     }
                 }
             }
@@ -81,8 +90,8 @@
                 }
 
                 &:hover {
-                    border-color: @highlightblue;
-                    color: @highlightblue;
+                    border-color: @memo-blue;
+                    color: @memo-blue;
                 }
             }
         }
@@ -109,13 +118,13 @@
             display: inline-flex;
 
             a {
-                color: @basefontcolor;
+                color: @memo-blue;
                 transition: 0.2s;
                 padding-right: 10px;
 
                 &:hover {
                     text-decoration: none;
-                    color: @highlightblue;
+                    color: @memo-blue-link;
                 }
             }
 
@@ -130,12 +139,25 @@
         }
     }
 
-    .segmentDropdown {
+    .segmentDropdown, .dropdown {
         font-size: 35px;
         height: 30px;
+        opacity: 0;
+        transition: all .1s ease-in-out;
 
         i {
-            color: @highlightblue;
+            color: @memo-grey-dark;
+
+            &:hover {
+                color: @memo-blue;
+            }
+        }
+    }
+
+    .segmentDropdown, .dropdown {
+        &.hover {
+            opacity: 1;
+            transition: all .1s ease-in-out;
         }
     }
 }

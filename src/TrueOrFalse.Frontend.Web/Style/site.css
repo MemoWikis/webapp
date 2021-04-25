@@ -1612,19 +1612,26 @@ h3 {
 .body-xs.bold {
   font-weight: 700;
 }
-.memo-button,
-.overline-l {
-  font-size: 14px;
+.memo-button {
+  font-size: 14px !important;
   font-weight: 600;
-  line-height: 48px;
+  line-height: 36px;
   letter-spacing: 1.25px;
   text-transform: uppercase;
+  height: 36px !important;
+  padding: 0 12px !important;
 }
 .overline-s,
 .overline-l {
   color: #555555;
   font-weight: 600;
   border-bottom: solid 1px #DDDDDD;
+}
+.overline-s.no-line,
+.overline-l.no-line {
+  border: none;
+  margin-bottom: 0;
+  padding-bottom: 0;
 }
 .overline-s {
   font-size: 12px;
@@ -1658,4 +1665,7 @@ h3 {
 .underline-s a:hover {
   color: #0065CA;
   transition: color 0.1s ease-in-out;
+}
+.margin-bottom-0 {
+  margin-bottom: 0;
 }

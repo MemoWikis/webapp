@@ -17,7 +17,7 @@
                     <pin-category-component :category-id="categoryId" @update-knowledge-bar="updateKnowledgeBar"/>
 
                 </div>
-                <div v-if="showHover" class="Button dropdown DropdownButton segmentDropdown">
+                <div class="Button dropdown DropdownButton segmentDropdown" :class="{ hover : showHover }">
                     <a href="#" :id="dropdownId" class="dropdown-toggle  btn btn-link btn-sm ButtonEllipsis" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
                         <i class="fa fa-ellipsis-v"></i>
                     </a>
@@ -34,7 +34,7 @@
                 </div>
             </div>
         </div>
-        <div class="topicNavigation" :key="cardsKey">
+        <div class="topicNavigation row" :key="cardsKey">
             <% foreach (var category in Model.ChildCategories) {%>
                 <%: Html.Partial("~/Views/Categories/Detail/Partials/Segmentation/SegmentationCategoryCardComponent.vue.ascx", new SegmentationCategoryCardModel(category)) %>
             <%} %>

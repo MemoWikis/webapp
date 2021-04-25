@@ -468,10 +468,6 @@
 }
 .QuestionText {
   padding-bottom: 20px;
-  color: #003264;
-  font-size: 25px;
-  font-family: Regular Open Sans, Arial, sans-serif;
-  line-height: 31px;
   margin: 0;
 }
 @media (min-width: 768px) {
@@ -643,6 +639,8 @@
 #AnswerInputSection .radio {
   margin-bottom: 0;
   margin-top: -2px;
+  margin-left: 0;
+  cursor: pointer;
 }
 #AnswerInputSection .radio + .radio {
   margin-top: 10px;
@@ -651,6 +649,9 @@
   #AnswerInputSection .radio + .radio {
     margin-top: 15px;
   }
+}
+#AnswerInputSection .radio .input {
+  cursor: pointer;
 }
 #AnswerInputSection .checkbox {
   margin-bottom: 0;
@@ -1128,7 +1129,11 @@
   float: right;
 }
 .AnswerQuestionBodyMenu .Pin {
-  min-width: 106px;
+  padding-right: 10px;
+}
+.AnswerQuestionBodyMenu .Pin .iAddedNot,
+.AnswerQuestionBodyMenu .Pin .iAdded {
+  padding-right: 12px;
 }
 .AnswerQuestionBodyMenu .edit-question {
   margin-top: 0.7em;

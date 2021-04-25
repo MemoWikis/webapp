@@ -27,7 +27,7 @@
         .Tab {
             position: relative;
             top: 3px;
-            border-bottom: solid 6px transparent;
+            border-bottom: solid 4px transparent;
             text-align: center;
             flex-grow: 1;
 
@@ -73,7 +73,7 @@
 
                 border-bottom-color: @memo-blue;
                 top: 1px;
-                padding-top: 9px;
+                padding-top: 3px;
             }
         }
     }
@@ -85,7 +85,7 @@
         height: 45px;
 
         #SessionConfigReminderHeader {
-            top: -66px;
+            top: -69px;
             position: absolute;
             display: flex;
             margin-left: -2.5px;
@@ -113,6 +113,13 @@
         }
 
         #LearnOptionsHeader {
+            color: @memo-grey-dark;
+            transition: all .1s ease-in-out;
+
+            &:hover {
+                color: @memo-blue;
+                transition: all .1s ease-in-out;
+            }
         }
 
 
