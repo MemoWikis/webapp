@@ -144,22 +144,22 @@
             <div class="modal-footer" id="modalFooter" style="text-align: left;">
                 <div class="col-lg-6">
                     <% var dataContent = @"<span style='color: red'>ACHTUNG! Wirklich neu laden? Bitte vorher sicherstellen, dass das Bild mit dem alten übereinstimmt.</span>"; %>
-                    <a id="ReloadImage" class="btn btn-danger" 
+                    <a id="ReloadImage" class="btn btn-danger memo-button" 
                         tabindex="0" role="button"
                         data-toggle="popover" data-trigger="hover" data-content="<%= dataContent %>">
                         <i class="fa fa-refresh"></i> Bild neu laden
                     </a>
                     <% dataContent = @"<span style='color: red'>ACHTUNG! Das Bild wird unwiederbringlich gelöscht.</span>"; %>
-                    <a id="DeleteImage" class="btn btn-danger" 
+                    <a id="DeleteImage" class="btn btn-danger memo-button" 
                         tabindex="0" role="button"
                         data-toggle="popover" data-trigger="hover" data-content="<%= dataContent %>">
                         <i class="fa fa-trash-o"></i>&nbsp; Bild löschen
                     </a>
                 </div>
                 <div class="col-lg-6" style="text-align: right;">
-                    <a href="#" class="btn btn-default" data-dismiss="modal">Abbrechen</a>
+                    <a href="#" class="btn btn-default memo-button" data-dismiss="modal">Abbrechen</a>
                     <%--<button type="submit" class="btn btn-primary" id="SaveImageData">Bilddaten speichern</button>--%>
-                    <button type="submit" class="btn btn-primary" id="SaveImageDataAndClose">Bilddaten speichern und schließen</button>       
+                    <button type="submit" class="btn btn-primary memo-button" id="SaveImageDataAndClose">Bilddaten speichern und schließen</button>       
                 </div>
             </div>
         </div>

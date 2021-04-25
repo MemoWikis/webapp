@@ -12,9 +12,9 @@
     <% var buttonId = Guid.NewGuid(); %>
     <div id="HeadingSection">
         <%if (Model.Category.Creator == Sl.SessionUser.User || Sl.SessionUser.IsInstallationAdmin ) {%>
-            <category-image-component category-id="<%= Model.Category.Id %>" inline-template>
+            <category-image-component category-id="<%= Model.Category.Id %>" inline-template is-learning-tab="<%= Model.IsInLearningTab %>">
                 <div class="ImageContainer" @click="openImageUploadModal()">
-                    <div class="imageUploadBtn">
+                    <div class="imageUploadBtn" v-if="!disabled">
                         <div>
                             <i class="fas fa-pen"></i>
                         </div>

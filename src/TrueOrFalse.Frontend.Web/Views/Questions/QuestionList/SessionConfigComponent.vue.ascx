@@ -128,8 +128,8 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <div type="button" class="btn btn-link" data-dismiss="modal">Abbrechen</div>
-                        <div type="button" class="btn btn-primary" :class="{ 'disabled' : maxQuestionCountIsZero }" @click="loadCustomSession(false)"><i class="fas fa-play"></i> Anwenden</div>
+                        <div type="button" class="btn btn-link memo-button" data-dismiss="modal">Abbrechen</div>
+                        <div type="button" class="btn btn-primary memo-button" :class="{ 'disabled' : maxQuestionCountIsZero }" @click="loadCustomSession(false)"><i class="fas fa-play"></i> Anwenden</div>
                     </div>
                 </div>
             </div>

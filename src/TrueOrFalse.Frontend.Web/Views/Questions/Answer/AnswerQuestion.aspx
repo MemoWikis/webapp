@@ -224,8 +224,8 @@
                         </p>
                     </div>
                     <div class="modal-footer">
-                        <a href="#" class="btn" data-dismiss="modal">Schliessen</a>
-                        <a href="#" class="btn btn-primary btn-success" id="btnImprove">Absenden</a>
+                        <a href="#" class="btn memo-button" data-dismiss="modal">Schliessen</a>
+                        <a href="#" class="btn btn-primary btn-success memo-button" id="btnImprove">Absenden</a>
                     </div>
                 </div>
             </div>
@@ -286,8 +286,8 @@
             
                     </div>
                     <div class="modal-footer">
-                        <a href="#" class="btn btn-default" data-dismiss="modal" id="A1">Schließen</a>
-                        <a href="#" class="btn btn-primary btn-danger" id="btnShouldDelete">Absenden</a>
+                        <a href="#" class="btn btn-default memo-button" data-dismiss="modal" id="A1">Schließen</a>
+                        <a href="#" class="btn btn-primary btn-danger memo-button" id="btnShouldDelete">Absenden</a>
                     </div>
                 </div>
             </div>

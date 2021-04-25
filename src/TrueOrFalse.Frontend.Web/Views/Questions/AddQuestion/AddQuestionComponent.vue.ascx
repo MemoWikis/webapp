@@ -138,7 +138,7 @@
                     <editor-content :editor="answerEditor" />
                 </div>
                 <div>
-                    <div class="btn btn-lg btn-primary" @click="addFlashcard()">Hinzufügen</div>
+                    <div class="btn btn-lg btn-primary memo-button" @click="addFlashcard()">Hinzufügen</div>
                 </div>
             </div>
             <div id="AddQuestionPrivacyContainer">

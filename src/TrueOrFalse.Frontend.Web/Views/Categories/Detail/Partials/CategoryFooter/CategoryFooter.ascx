@@ -63,7 +63,7 @@
                         <%= questionCount %> Frage<%= StringUtils.PluralSuffix(Model.CountAggregatedQuestions, "n") %> direkt zugeordnet.</p>
                 </div>
                 <div class="StartLearningSession">
-                    <a href="<%=Links.LearningSessionFooter(Model.Id, Model.Category.Name) %>" id="LearningFooterBtn" data-tab-id="LearningTab" class="btn btn-lg btn-primary footerBtn" >Lernsitzung starten</a> 
+                    <a href="<%=Links.LearningSessionFooter(Model.Id, Model.Category.Name) %>" id="LearningFooterBtn" data-tab-id="LearningTab" class="btn btn-lg btn-primary footerBtn memo-button" >Lernsitzung starten</a> 
                 </div>
             </div>
         

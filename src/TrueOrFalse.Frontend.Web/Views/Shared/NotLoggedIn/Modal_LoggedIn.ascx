@@ -17,9 +17,9 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <a href="#" data-dismiss="modal" class="btn btn-secondary" id="btnCloseDateDelete">Jetzt nicht, danke</a>
-                <a href="#" data-btn-login="true" class="btn btn-secondary" id=""><i class="fa fa-sign-in">&nbsp;</i>Einloggen</a>
-                <a href="/Registrieren" class="btn btn-success" id="btnCloseDateDelete"><i class="fa fa-chevron-circle-right">&nbsp;&nbsp;</i>Jetzt Registrieren</a>
+                <a href="#" data-dismiss="modal" class="btn btn-secondary memo-button" id="btnCloseDateDelete">Jetzt nicht, danke</a>
+                <a href="#" data-btn-login="true" class="btn btn-secondary memo-button" id=""><i class="fa fa-sign-in">&nbsp;</i>Einloggen</a>
+                <a href="/Registrieren" class="btn btn-success memo-button" id="btnCloseDateDelete"><i class="fa fa-chevron-circle-right">&nbsp;&nbsp;</i>Jetzt Registrieren</a>
             </div>
         </div>
     </div>

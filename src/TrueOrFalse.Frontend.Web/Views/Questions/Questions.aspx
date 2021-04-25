@@ -284,8 +284,8 @@
                 Es werden nur die Fragen gezeigt, die du dir <b>merken</b> möchtest, also Fragen, die zu deinem Wunschwissen gehören. 
             </div>
             <div class="modal-footer">
-                <a href="#" class="btn btn-warning" data-dismiss="modal">Mmh, nicht ganz klar.</a>
-                <a href="#" class="btn btn-info" data-dismiss="modal">Danke, ich habe verstanden!</a>
+                <a href="#" class="btn btn-warning memo-button" data-dismiss="modal">Mmh, nicht ganz klar.</a>
+                <a href="#" class="btn btn-info memo-button" data-dismiss="modal">Danke, ich habe verstanden!</a>
             </div>
         </div>
     </div>
