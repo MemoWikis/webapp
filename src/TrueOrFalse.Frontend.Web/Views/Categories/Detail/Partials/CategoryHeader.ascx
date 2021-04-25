@@ -36,7 +36,7 @@
             <h1 style="margin-bottom: 0">
 
                 <%if (Model.Category.Creator == Sl.SessionUser.User || Sl.SessionUser.IsInstallationAdmin ) {%>
-                    <category-name-component inline-template old-category-name="<%= Model.Name %>" category-id="<%= Model.Category.Id %>">
+                    <category-name-component inline-template old-category-name="<%= Model.Name %>" category-id="<%= Model.Category.Id %>" is-learning-tab="<%= Model.IsInLearningTab %>">
                         <textarea-autosize
                             placeholder="Type something here..."
                             ref="categoryNameArea"
@@ -45,6 +45,7 @@
                             rows="1"
                             @keydown.enter.native.prevent
                             @keyup.enter.native.prevent
+                            :disabled="disabled"
                         />
                     </category-name-component>
 

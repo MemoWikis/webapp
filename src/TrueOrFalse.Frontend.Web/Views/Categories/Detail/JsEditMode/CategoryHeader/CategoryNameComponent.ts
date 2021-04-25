@@ -2,12 +2,13 @@
 Vue.use(VueTextareaAutosize);
 Vue.component('category-name-component',
     {
-        props: ['oldCategoryName','categoryId'],
+        props: ['oldCategoryName','categoryId','isLearningTab'],
         data() {
             return {
                 categoryName: "",
                 categoryNameAllowed: null,
                 errorMsg: "",
+                disabled: false,
             }
         },
         created() {
@@ -22,13 +23,26 @@ Vue.component('category-name-component',
             }
         },
         mounted() {
+            if (this.isLearningTab == 'True') {
+                this.controlTab('LearningTab');
+            };
             eventBus.$on('request-save', () => this.saveName());
             eventBus.$on('cancel-edit-mode',
                 () => {
                     this.categoryName = this.oldCategoryName;
                 });
+            eventBus.$on('tab-change',
+                (tabName) => {
+                    this.controlTab(tabName);
+                });
         },
         methods: {
+            controlTab(tabName) {
+                if (tabName == 'TopicTab')
+                    this.disabled = false;
+                else
+                    this.disabled = true;
+            },
             validateName: _.debounce(function (name) {
                 var self = this;
                 if (name.length <= 0) {

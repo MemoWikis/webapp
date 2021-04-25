@@ -1213,6 +1213,9 @@ p:empty {
   width: 100%;
   height: 54px;
 }
+#CategoryHeader #HeadingSection #HeadingContainer h1 textarea:disabled {
+  background: none;
+}
 /*------------------------------------------------------
     CategoryFooter
 -------------------------------------------------------*/
