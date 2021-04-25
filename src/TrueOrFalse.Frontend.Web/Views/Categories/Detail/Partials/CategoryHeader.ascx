@@ -198,7 +198,7 @@
                                     <div class="dropdown-icon">
                                         <i class="fas fa-project-diagram"></i>
                                     </div>
-                                    &nbsp;Wissensnetz anzeigen
+                                    Wissensnetz anzeigen
                                 </a>
                             </li>
                         </ul>
