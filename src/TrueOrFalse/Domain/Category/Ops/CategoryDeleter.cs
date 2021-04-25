@@ -14,9 +14,13 @@ public class CategoryDeleter : IRegisterAsInstancePerLifetime
 
     public void Run(Category category, bool forSetMigration = false)
     {
-        if (category == null)
+        var categoryCacheItem = EntityCache.GetCategoryCacheItem(category.Id, getDataFromEntityCache: true);
+        if (categoryCacheItem.CachedData.ChildrenIds.Count != 0)
+        {
+            Logg.r().Error("Category can´t deleted it has children");
             return;
-        
+        }
+
         if (!forSetMigration)
             ThrowIfNot_IsLoggedInUserOrAdmin.Run(category.Creator.Id);
 
@@ -33,6 +37,10 @@ public class CategoryDeleter : IRegisterAsInstancePerLifetime
         Sl.CategoryChangeRepo.AddDeleteEntry(category);
         Sl.CategoryValuationRepo.DeleteCategoryValuation(category.Id);
 
+        ModifyRelationsEntityCache.DeleteIncludetContentOf(categoryCacheItem);
+        ModifyRelationsUserEntityCache.DeleteInUserEntityCache(categoryCacheItem);
+        CategoryRepository.UpdateCachedData(categoryCacheItem, CategoryRepository.CreateDeleteUpdate.Delete);
+        EntityCache.Remove(categoryCacheItem);
         UserCache.RemoveAllForCategory(category.Id);
     }
 }

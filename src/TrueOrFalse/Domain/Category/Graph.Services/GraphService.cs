@@ -36,6 +36,38 @@ public class GraphService
         return allParents;
     }
 
+    public static List<CategoryCacheItem> GetAllParentsFromUserEntityCache(int userId, CategoryCacheItem category)
+    {
+       var userCache =  UserEntityCache.GetUserCache(userId);
+
+
+       var parentIds = GetDirektParents(category);
+       var allParents = new List<CategoryCacheItem>();
+       var deletedIds = new Dictionary<int, int>();
+
+       while (parentIds.Count > 0)
+       { 
+           userCache.TryGetValue(parentIds[0], out var parent);
+
+           if (!deletedIds.ContainsKey(parentIds[0]))
+           {
+               allParents.Add(parent);//Avoidance of circular references
+
+               deletedIds.Add(parentIds[0], parentIds[0]);
+               var currentParents = GetDirektParents(parent);
+               foreach (var currentParent in currentParents)
+               {
+                   parentIds.Add(currentParent);
+               }
+           }
+           parentIds.RemoveAt(0);
+       }
+       return allParents;
+
+    }
+
+
+
     public static List<int> GetDirektParents(CategoryCacheItem category)
     {
         return category.CategoryRelations
@@ -194,12 +226,12 @@ public class GraphService
             .Select(cr => cr.RelatedCategoryId);
     }
 
-    public static void AutomaticInclusionOfChildCategoriesForEntityCacheAndDb(Category category)
+    public static void AutomaticInclusionOfChildCategoriesForEntityCacheAndDb(CategoryCacheItem category)
     {
         var parentsFromParentCategories = GetAllParents(category.Id, true);
 
         foreach (var parentCategory in parentsFromParentCategories)
-            ModifyRelationsForCategory.UpdateRelationsOfTypeIncludesContentOf(EntityCache.GetCategoryCacheItem(parentCategory.Id));
+            ModifyRelationsForCategory.UpdateRelationsOfTypeIncludesContentOf(EntityCache.GetCategoryCacheItem(parentCategory.Id, getDataFromEntityCache: true));
     }
 
     public static bool IsCategoryParentEqual(IList<CategoryCacheItem> parent1, IList<CategoryCacheItem> parent2)

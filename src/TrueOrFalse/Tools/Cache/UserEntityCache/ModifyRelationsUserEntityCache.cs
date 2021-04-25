@@ -2,27 +2,44 @@
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Google.Protobuf.WellKnownTypes;
 
 public class ModifyRelationsUserEntityCache
 {
     public static void CreateRelationsIncludetContentOf(CategoryCacheItem child)
     {
-
-        var parents = GraphService.GetAllParents(child); 
+        var parents = GraphService.GetAllParentsFromUserEntityCache(Sl.CurrentUserId, child); 
         foreach (var parent in parents)
         {
-            parent.CategoryRelations.Add(new CategoryCacheRelation
+
+            var newRelation = new CategoryCacheRelation
             {
                 RelatedCategoryId = child.Id,
                 CategoryRelationType = CategoryRelationType.IncludesContentOf,
                 CategoryId = parent.Id
-            });
+            };
+
+            var hasEqualRelation = false; 
+                foreach (var categoryRelation in parent.CategoryRelations)
+                {
+                    if (IsCategorRelationEqual(categoryRelation, newRelation))
+                    {
+                        hasEqualRelation = true; 
+                        break; 
+                    }
+                }
+
+                if(!hasEqualRelation)
+                    parent.CategoryRelations.Add(newRelation);
         }
+        
     }
-     
+
+    private static bool IsCategorRelationEqual(CategoryCacheRelation relation1, CategoryCacheRelation relation2)
+    {
+        return relation1.RelatedCategoryId == relation2.RelatedCategoryId &&
+               relation1.CategoryRelationType == relation2.CategoryRelationType &&
+               relation1.CategoryId == relation2.CategoryId; 
+    }
     public static void UpdateRelationsIncludetContentOf(CategoryCacheItem child)
     {
         foreach (var cache in GetAllCaches())
@@ -86,7 +103,7 @@ public class ModifyRelationsUserEntityCache
                     }
                 }
             }
-             cache.TryRemove(category.Id, out var result); 
+            cache.TryRemove(category.Id, out var result); 
         }
     }
 
@@ -96,6 +113,25 @@ public class ModifyRelationsUserEntityCache
             .Select(cache => cache.Value);
     }
 
+    public static void DeleteInUserEntityCache(CategoryCacheItem category)
+    {
+        DeleteIncludetContentOfRelations(EntityCache.GetCategoryCacheItem(category.Id));
 
+        foreach (var userEntityCache in UserEntityCache.GetAllCaches().Values)
+        {
+            if (userEntityCache.ContainsKey(category.Id))
+            {
+                var allCacheItems = userEntityCache.Values;
+                foreach (var cacheItem in allCacheItems)
+                {
+                    foreach (var relation in cacheItem.CategoryRelations)
+                    {
+                        if(relation.RelatedCategoryId == category.Id)
+                            cacheItem.CategoryRelations.Remove(relation);
+                    }
+                }
+            }
+        }
+    }
 }
 
