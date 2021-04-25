@@ -150,7 +150,6 @@ public class CategoryCacheItem
 
     public CategoryCacheItem()
     {
-
     }
 
     public CategoryCacheItem(string name)
@@ -230,6 +229,10 @@ public class CategoryCacheItem
     }
 
     public virtual bool IsNotVisibleToCurrentUser => !IsVisibleToCurrentUser();
+
+    public virtual bool HasPublicParent() {
+        return ParentCategories().Any(c => c.Visibility == CategoryVisibility.All);
+    }
 }
 
 

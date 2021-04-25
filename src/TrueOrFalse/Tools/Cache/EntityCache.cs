@@ -171,13 +171,11 @@ public class EntityCache : BaseCache
     public static void AddOrUpdate(CategoryCacheItem categoryCacheItem)
     {
         AddOrUpdate(Categories, categoryCacheItem);
-        UpdateCategoryForQuestions(categoryCacheItem);
     }
 
-    private static void UpdateCategoryForQuestions(CategoryCacheItem categoryCacheItem)
+    public static void UpdateCategoryReferencesInQuestions(CategoryCacheItem categoryCacheItem, Category category)
     {
         var affectedQuestionsIds = GetQuestionsIdsForCategory(categoryCacheItem.Id);
-        var category = Sl.CategoryRepo.GetByIdEager(categoryCacheItem.Id); 
 
         foreach (var questionId in affectedQuestionsIds)
         {

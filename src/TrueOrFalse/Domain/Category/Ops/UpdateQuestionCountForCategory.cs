@@ -13,7 +13,7 @@ public class UpdateQuestionCountForCategory : IRegisterAsInstancePerLifetime
         _questionRepository = questionRepo;
     }
 
-    private void Run(Category category)
+    public void Run(Category category)
     {
         category.CountQuestions = _questionRepository.GetForCategory(category.Id).Count;
         category.UpdateCountQuestionsAggregated();
@@ -21,18 +21,14 @@ public class UpdateQuestionCountForCategory : IRegisterAsInstancePerLifetime
 
     public void Run(IList<Category> categories)
     {
-        foreach (var category in categories)
-        {
+        foreach (var category in categories) 
             Run(category);
-        }
     }
 
     public void Run(IList<int> categoryIds)
     {
-        foreach (var categoryId in categoryIds)
-        {
+        foreach (var categoryId in categoryIds) 
             Run(_categoryRepository.GetById(categoryId));
-        }
     }
 
     public void All() => RunWithSql(_categoryRepository.GetAll());

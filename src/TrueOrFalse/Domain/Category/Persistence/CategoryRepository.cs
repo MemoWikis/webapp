@@ -251,6 +251,7 @@ public class CategoryRepository : RepositoryDbBase<Category>
         var categoryCacheItem = CategoryCacheItem.ToCacheCategory(category);
         UpdateCachedData(categoryCacheItem, CreateDeleteUpdate.Update);
         EntityCache.AddOrUpdate(categoryCacheItem);
+        EntityCache.UpdateCategoryReferencesInQuestions(categoryCacheItem, category);
         UserEntityCache.ChangeCategoryInUserEntityCaches(categoryCacheItem);
         ModifyRelationsUserEntityCache.UpdateRelationsIncludetContentOf(categoryCacheItem);
     }
