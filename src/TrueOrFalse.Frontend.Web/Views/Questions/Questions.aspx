@@ -228,22 +228,30 @@
                                     <ul class="dropdown-menu">
                                         <li>
                                             <a href="<%= Request.Url.AbsolutePath + "?orderBy=byBestMatch" %>" rel="nofollow">
-                                                <% if (Model.OrderBy.BestMatch.IsCurrent()){ %><i class="fa fa-check"></i> <% } %> Beste Treffer
+                                                <div class="dropdown-icon">
+                                                    <% if (Model.OrderBy.BestMatch.IsCurrent()){ %><i class="fa fa-check"></i> <% } %>
+                                                </div> Beste Treffer
                                             </a>
                                         </li>
                                         <li>
                                             <a href="<%= Request.Url.AbsolutePath + "?orderBy=byRelevance" %>" rel="nofollow">
-                                                <% if (Model.OrderBy.PersonalRelevance.IsCurrent()){ %><i class="fa fa-check"></i> <% } %>Gemerkt
+                                                <div class="dropdown-icon">
+                                                    <% if (Model.OrderBy.PersonalRelevance.IsCurrent()){ %><i class="fa fa-check"></i> <% } %>
+                                                </div>Gemerkt
                                             </a>
                                         </li>
                                         <li>
                                             <a href="<%= Request.Url.AbsolutePath + "?orderBy=byDateCreated" %>" rel="nofollow">
-                                                <% if (Model.OrderBy.CreationDate.IsCurrent()){ %><i class="fa fa-check"></i> <% } %>Datum erstellt
+                                                <div class="dropdown-icon">
+                                                    <% if (Model.OrderBy.CreationDate.IsCurrent()){ %><i class="fa fa-check"></i> <% } %>
+                                                </div>Datum erstellt
                                             </a>
                                         </li>
                                         <li>
                                             <a href="<%= Request.Url.AbsolutePath + "?orderBy=byViews" %>" rel="nofollow">
-                                                <% if (Model.OrderBy.Views.IsCurrent()){ %><i class="fa fa-check"></i> <% } %>Gesehen
+                                                <div class="dropdown-icon">
+                                                    <% if (Model.OrderBy.Views.IsCurrent()){ %><i class="fa fa-check"></i> <% } %>
+                                                </div>Gesehen
                                             </a>
                                         </li>
                                     </ul>

@@ -137,17 +137,26 @@
                                         <ul class="dropdown-menu">
                                             <li>
                                                 <a href="<%= Request.Url.AbsolutePath + "?orderBy=byBestMatch" %>">
-                                                    <% if (Model.OrderBy.BestMatch.IsCurrent()){ %><i class="fa fa-check"></i> <% } %> Beste Treffer
+                                                    <div class="dropdown-icon">
+                                                        <% if (Model.OrderBy.BestMatch.IsCurrent()){ %><i class="fa fa-check"></i> <% } %>
+                                                    </div>
+                                                    Beste Treffer
                                                 </a>
                                             </li>
                                             <li>
                                                 <a href="<%= Request.Url.AbsolutePath + "?orderBy=byQuestions" %>">
-                                                    <% if (Model.OrderBy.QuestionCount.IsCurrent()){ %><i class="fa fa-check"></i> <% } %> Anzahl Fragen
+                                                    <div class="dropdown-icon">
+                                                        <% if (Model.OrderBy.QuestionCount.IsCurrent()){ %><i class="fa fa-check"></i> <% } %> 
+                                                    </div>
+                                                    Anzahl Fragen
                                                 </a>
                                             </li>
                                             <li>
                                                 <a href="<%= Request.Url.AbsolutePath + "?orderBy=byDate" %>">
-                                                    <% if (Model.OrderBy.CreationDate.IsCurrent()){ %><i class="fa fa-check"></i> <% } %> Datum erstellt
+                                                    <div class="dropdown-icon">
+                                                        <% if (Model.OrderBy.CreationDate.IsCurrent()){ %><i class="fa fa-check"></i> <% } %> 
+                                                    </div>
+                                                    Datum erstellt
                                                 </a>
                                             </li>
                                         </ul>

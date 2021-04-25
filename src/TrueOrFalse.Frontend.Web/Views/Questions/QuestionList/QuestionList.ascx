@@ -18,9 +18,15 @@
                 <i class="fa fa-ellipsis-v"></i>
             </a>
             <ul class="dropdown-menu dropdown-menu-right standard-question-drop-down">
-                <li><a href="<%= Links.CreateQuestion(Model.CategoryId) %>" data-allowed="logged-in"><i class="fa fa-plus-circle"></i><span>Frage hinzufügen</span></a></li>
-                <li @click="toggleQuestionsList()" style="cursor: pointer"><a><i class="fa fa-angle-double-down"></i><span>Alle Fragen erweitern</span></a></li>
-                <li style="cursor: pointer"><a data-allowed="logged-in" @click="startNewLearningSession()"><i class="fa fa-play"></i><span>Fragen jetzt lernen</span></a></li>
+                <li><a href="<%= Links.CreateQuestion(Model.CategoryId) %>" data-allowed="logged-in">
+                    <div class="dropdown-icon"><i class="fa fa-plus-circle"></i></div><span>Frage hinzufügen</span>
+                </a></li>
+                <li @click="toggleQuestionsList()" style="cursor: pointer"><a>
+                    <div class="dropdown-icon"><i class="fa fa-angle-double-down"></i></div><span>Alle Fragen erweitern</span>
+                </a></li>
+                <li style="cursor: pointer"><a data-allowed="logged-in" @click="startNewLearningSession()">
+                    <div class="dropdown-icon"><i class="fa fa-play"></i></div><span>Fragen jetzt lernen</span>
+                </a></li>
             </ul>
         </div>
         </div>

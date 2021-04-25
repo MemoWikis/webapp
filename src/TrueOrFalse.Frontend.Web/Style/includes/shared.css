@@ -7455,6 +7455,13 @@ fieldset[disabled] .HeartToAddButton .iAddedNot.active {
 }
 .ButtonEllipsis {
   margin-left: 0px !important;
+  font-size: 18px;
+  color: #999999;
+  transition: all 0.1s ease-in-out;
+}
+.ButtonEllipsis:hover {
+  color: #003264;
+  transition: all 0.1s ease-in-out;
 }
 .ButtonOnHover {
   font-weight: bold;

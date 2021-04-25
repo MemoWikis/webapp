@@ -88,13 +88,22 @@
                                 <i class="fa fa-ellipsis-v"></i>
                             </a>
                             <ul class="dropdown-menu dropdown-menu-right standard-question-drop-down">
-                                <li v-if="isAdmin == 'True' || isCreator"><a :href="linkToEditQuestion" data-allowed="logged-in"><i class="fa fa-pen"></i><span>Frage bearbeiten</span></a></li>
-                                <li style="cursor: pointer"><a :href="linkToQuestion"><i class="fas fa-file"></i><span>Frageseite anzeigen</span></a></li>
-                                <li><a :href="linkToQuestionVersions" data-allowed="logged-in"><i class="fa fa-code-fork"></i><span>Bearbeitungshistorie der Frage</span></a></li>
-                                <li style="cursor: pointer"><a :href="questionLinkToComment"><i class="fas fa-comment"></i><span>Frage kommentieren</span></a></li>
+                                <li v-if="isAdmin == 'True' || isCreator"><a :href="linkToEditQuestion" data-allowed="logged-in">
+                                    <div class="dropdown-icon"><i class="fa fa-pen"></i></div>
+                                    <span>Frage bearbeiten</span>
+                                </a></li>
+                                <li style="cursor: pointer"><a :href="linkToQuestion">
+                                    <div class="dropdown-icon"><i class="fas fa-file"></i></div><span>Frageseite anzeigen</span>
+                                </a></li>
+                                <li><a :href="linkToQuestionVersions" data-allowed="logged-in">
+                                    <div class="dropdown-icon"><i class="fa fa-code-fork"></i></div><span>Bearbeitungshistorie der Frage</span>
+                                </a></li>
+                                <li style="cursor: pointer"><a :href="questionLinkToComment">
+                                    <div class="dropdown-icon"><i class="fas fa-comment"></i></div><span>Frage kommentieren</span>
+                                </a></li>
                                 <li v-if="isAdmin == 'True'">
                                     <a data-toggle="modal" :data-questionid="questionId" href="#modalDeleteQuestion">
-                                        <i class="fas fa-trash"></i><span>Frage löschen</span>
+                                        <div class="dropdown-icon"><i class="fas fa-trash"></i></div><span>Frage löschen</span>
                                     </a>
                                 </li>
                             </ul>

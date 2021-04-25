@@ -30,8 +30,12 @@
                             <i class="fa fa-ellipsis-v"></i>
                         </a>
                         <ul class="dropdown-menu dropdown-menu-right" :aria-labelledby="dropdownId">
-                            <li v-if="!isCustomSegment"><a @click="thisToSegment"><i class="fa fa-code-fork"></i>&nbsp;Unterthemen einblenden</a></li>
-                            <li><a @click="removeParent"><i class="fas fa-unlink"></i>&nbsp;Thema entfernen</a></li>
+                            <li v-if="!isCustomSegment"><a @click="thisToSegment">
+                                <div class="dropdown-icon"><i class="fa fa-code-fork"></i></div>Unterthemen einblenden
+                            </a></li>
+                            <li><a @click="removeParent">
+                                <div class="dropdown-icon"><i class="fas fa-unlink"></i></div>Thema entfernen
+                            </a></li>
                         </ul>
                     </div>
                 </a>

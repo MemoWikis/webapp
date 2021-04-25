@@ -46,15 +46,46 @@
                     </a>
                     <ul class="dropdown-menu dropdown-menu-right standard-question-drop-down">
                         <% if (Model.IsCreator || Model.IsInstallationAdmin){ %>
-                            <li><a href="<%=Links.EditQuestion( Model.QuestionText, Model.QuestionId) %>" data-allowed="logged-in"><i class="fa fa-pencil"></i><span>Frage bearbeiten</span></a></li>
+                            <li>
+                                <a href="<%=Links.EditQuestion( Model.QuestionText, Model.QuestionId) %>" data-allowed="logged-in">
+                                    <div class="dropdown-icon">
+                                        <i class="fa fa-pencil"></i>
+                                    </div>
+                                    <span>Frage bearbeiten</span>
+                                </a>
+                            </li>
                         <% } %>
-                        <li style="cursor: pointer"><a href="<%=Links.GetUrl(Model.Question) %>"><i class="fas fa-file"></i><span>Frageseite anzeigen</span></a></li>
-                        <li><a href="<%=Links.QuestionHistory(Model.QuestionId) %>" data-allowed="logged-in"><i class="fa fa-code-fork"></i><span>Bearbeitungshistorie der Frage</span></a></li>
-                        <li style="cursor: pointer"><a href="<%=Links.GetUrl(Model.Question) + "#JumpLabel" %>"><i class="fas fa-comment"></i><span>Frage kommentieren</span></a></li>
+                        <li style="cursor: pointer">
+                            <a href="<%=Links.GetUrl(Model.Question) %>">
+                                <div class="dropdown-icon">
+                                    <i class="fas fa-file"></i>
+                                </div>
+                                <span>Frageseite anzeigen</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="<%=Links.QuestionHistory(Model.QuestionId) %>" data-allowed="logged-in">
+                                <div class="dropdown-icon">
+                                    <i class="fa fa-code-fork"></i>
+                                </div>
+                                <span>Bearbeitungshistorie der Frage</span>
+                            </a>
+                        </li>
+                        <li style="cursor: pointer">
+                            <a href="<%=Links.GetUrl(Model.Question) + "#JumpLabel" %>">
+                                <div class="dropdown-icon">
+                                    <i class="fas fa-comment"></i>
+                                </div>
+                                <span>Frage kommentieren</span>
+                            </a>
+                        </li>
                         <% if (Model.IsInstallationAdmin){ %>
                             <li>
                                 <a data-toggle="modal" data-questionid="<%=Model.QuestionId %>" href="#modalDeleteQuestion">
-                                    <i class="fas fa-trash"></i><span>Frage löschen</span>
+                                    <div class="dropdown-icon">
+                                        <i class="fas fa-trash"></i>
+                                    </div>
+                                    <span>Frage löschen</span>
                                 </a>
                             </li>
                         <% } %>

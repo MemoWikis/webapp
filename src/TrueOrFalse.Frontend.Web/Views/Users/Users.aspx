@@ -64,12 +64,16 @@
                                     <ul class="dropdown-menu">
                                         <li>
                                             <a href="<%= Request.Url.AbsolutePath + "?orderBy=byReputation" %>">
-                                                <% if (Model.OrderBy.Reputation.IsCurrent()){ %><i class="fa fa-check"></i> <% } %> Reputation
+                                                <div class="dropdown-icon">
+                                                    <% if (Model.OrderBy.Reputation.IsCurrent()){ %><i class="fa fa-check"></i> <% } %> 
+                                                </div>Reputation
                                             </a>
                                         </li>
                                         <li>
                                             <a href="<%= Request.Url.AbsolutePath + "?orderBy=byWishCount" %>">
-                                                <% if (Model.OrderBy.WishCount.IsCurrent()){ %><i class="fa fa-check"></i> <% } %>  Wunschwissen
+                                                <div class="dropdown-icon">
+                                                    <% if (Model.OrderBy.WishCount.IsCurrent()){ %><i class="fa fa-check"></i> <% } %>  
+                                                </div>Wunschwissen
                                             </a>
                                         </li>
                                     </ul>

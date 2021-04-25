@@ -22,8 +22,12 @@
                         <i class="fa fa-ellipsis-v"></i>
                     </a>
                     <ul class="dropdown-menu dropdown-menu-right" :aria-labelledby="dropdownId">
-                        <li><a @click="removeChildren"><i class="fas fa-unlink"></i>&nbsp;Themen entfernen</a></li>
-                        <li><a @click="removeSegment"><i class="fas fa-trash"></i>&nbsp;Unterthemen ausblenden</a></li>
+                        <li><a @click="removeChildren">
+                            <div class="dropdown-icon"><i class="fas fa-unlink"></i></div>Themen entfernen
+                        </a></li>
+                        <li><a @click="removeSegment">
+                            <div class="dropdown-icon"><i class="fas fa-trash"></i></div>Unterthemen ausblenden
+                        </a></li>
                     </ul>
                 </div>
             </div>

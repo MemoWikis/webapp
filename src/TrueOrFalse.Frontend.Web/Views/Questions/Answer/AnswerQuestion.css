@@ -1128,9 +1128,6 @@
   display: flex;
   float: right;
 }
-.AnswerQuestionBodyMenu .Pin {
-  padding-right: 10px;
-}
 .AnswerQuestionBodyMenu .Pin .iAddedNot,
 .AnswerQuestionBodyMenu .Pin .iAdded {
   padding-right: 12px;
@@ -1153,8 +1150,6 @@
 }
 .AnswerQuestionBodyMenu .dropdown-toggle {
   padding-right: 10px;
-  font-size: 18px;
-  color: #999999;
   margin-top: -2px;
 }
 .AnswerQuestionBodyMenu .hide2 {
