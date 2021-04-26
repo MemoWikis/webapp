@@ -416,16 +416,10 @@ public class EditCategoryController : BaseController
     public JsonResult PublishCategory(int categoryId)
     {
         var categoryCacheItem = EntityCache.GetCategoryCacheItem(categoryId);
-        var allParentRelations = categoryCacheItem.CategoryRelations.Where(r =>
-            r.CategoryRelationType == CategoryRelationType.IsChildCategoryOf && r.CategoryId == categoryId).ToList();
-        var allParents = new List<CategoryCacheItem>();
-        allParentRelations.ForEach(cr => allParents.Add(EntityCache.GetCategoryCacheItem(cr.RelatedCategoryId)));
-        var hasPublicParent = allParents.Any(c => c.Visibility == CategoryVisibility.All);
 
-        if (hasPublicParent)
+        if (categoryCacheItem.HasPublicParent())
         {
             categoryCacheItem.Visibility = CategoryVisibility.All;
-            EntityCache.AddOrUpdate(categoryCacheItem);
 
             JobExecute.RunAsTask(scope =>
             {
@@ -433,6 +427,7 @@ public class EditCategoryController : BaseController
                 category.Visibility = CategoryVisibility.All;
                 _categoryRepository.Update(category, _sessionUser.User);
             }, "PublishCategory");
+            
             return Json(new
             {
                 success = true,
@@ -442,10 +437,8 @@ public class EditCategoryController : BaseController
         return Json(new
         {
             success = false,
-            parentList = allParents.Select(c => c.Id).ToList()
+            parentList = categoryCacheItem.ParentCategories().Select(c => c.Id).ToList()
         });
-
-
     }
 
     [HttpPost]
@@ -460,13 +453,14 @@ public class EditCategoryController : BaseController
         {
             var categoryCacheItem = EntityCache.GetCategoryCacheItem(categoryId);
             categoryCacheItem.Name = name;
-            EntityCache.AddOrUpdate(categoryCacheItem);
+
             JobExecute.RunAsTask(scope =>
             {
                 var category = Sl.CategoryRepo.GetById(categoryId);
                 category.Name = name;
                 Sl.CategoryRepo.Update(category, User_());
             }, "UpdateCategoryName");
+
             var newUrl = Links.CategoryDetail(categoryCacheItem);
             return Json(new
             {

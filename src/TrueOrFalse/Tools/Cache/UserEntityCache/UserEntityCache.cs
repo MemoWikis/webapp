@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.Diagnostics.Eventing.Reader;
 using System.Linq;
 using Seedworks.Lib;
 
@@ -89,12 +90,49 @@ public class UserEntityCache : BaseCache
         foreach (var userId in _Categories.Keys)
             Init(userId);
     }
-    public static void ChangeCategoryInUserEntityCaches(CategoryCacheItem categoryCacheItem)
+    public static void ChangeCategoryInUserEntityCaches(CategoryCacheItem entityCacheItem, bool isModifyRelations = false)
     {
-        foreach (var categories in _Categories.Values)
+        var listParents = new ConcurrentDictionary<int, int>();
+        foreach (var cacheWithUser in GetAllCaches())
         {
-            if (categories.ContainsKey(categoryCacheItem.Id))
-                categories.TryUpdate(categoryCacheItem.Id, categoryCacheItem, categories[categoryCacheItem.Id]);
+            var user = cacheWithUser.Key;
+            var cache = cacheWithUser.Value;
+            if (cache.ContainsKey(entityCacheItem.Id))
+            {
+                cache.TryGetValue(entityCacheItem.Id, out var userCacheItem);
+
+                userCacheItem.CategoryRelations = new List<CategoryCacheRelation>();
+
+                foreach (var categoryCacheRelation in entityCacheItem.CategoryRelations)
+                {
+                    CategoryCacheRelation newRelation; 
+                    if (cache.ContainsKey(categoryCacheRelation.RelatedCategoryId))
+                    {
+                       newRelation = new CategoryCacheRelation
+                        {
+                            CategoryId = entityCacheItem.Id,
+                            CategoryRelationType = CategoryRelationType.IsChildCategoryOf,
+                            RelatedCategoryId = categoryCacheRelation.RelatedCategoryId
+                        }; 
+                    }
+                    else
+                    {
+                        var nextParentInUserCache = GetNextParentInWishknowledge(entityCacheItem.Id);
+                       newRelation = new CategoryCacheRelation
+                        {
+                            CategoryId = entityCacheItem.Id,
+                            CategoryRelationType = CategoryRelationType.IsChildCategoryOf,
+                            RelatedCategoryId = nextParentInUserCache.Id
+                        };
+                    }
+
+
+                    if (!listParents.ContainsKey(newRelation.RelatedCategoryId))
+                    {
+                        userCacheItem.CategoryRelations.Add(newRelation);
+                    }
+                }
+            }
         }
     }
 
@@ -105,7 +143,7 @@ public class UserEntityCache : BaseCache
 
     public static ConcurrentDictionary<int, CategoryCacheItem> GetUserCache(int userId)
     {
-         _Categories.TryGetValue(userId, out var result);
+        _Categories.TryGetValue(userId, out var result);
          return result; 
     }
 

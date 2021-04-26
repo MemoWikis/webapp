@@ -77,15 +77,9 @@ public class ModifyRelationsForCategory
         var descendants = GetCategoryChildren.WithAppliedRules(categoryCacheItem);
         var descendantsAsCategory = descendants.Select(cci => cci.Id).ToList();
         
-
         UpdateCategoryRelationsOfType(categoryCacheItem, descendantsAsCategory, CategoryRelationType.IncludesContentOf);
-
-        if(!persist)
-            return;
 
         categoryCacheItem.UpdateCountQuestionsAggregated();
         Sl.CategoryRepo.Update(Sl.CategoryRepo.GetByIdEager(categoryCacheItem.Id), isFromModifiyRelations: true);
-
-        KnowledgeSummaryUpdate.RunForCategory(categoryCacheItem.Id);
     }
 }

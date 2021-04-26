@@ -66,9 +66,7 @@ public class CategoryRepository : RepositoryDbBase<Category>
         _searchIndexCategory.Update(category);
         var categoryCacheItem = CategoryCacheItem.ToCacheCategory(category);
 
-        EntityCache.AddOrUpdate(categoryCacheItem);
-
-        UpdateCachedData(categoryCacheItem, CreateDeleteUpdate.Create);
+        EntityCache.AddOrUpdate(categoryCacheItem); 
 
         Sl.CategoryChangeRepo.AddCreateEntry(category, category.Creator);
         GraphService.AutomaticInclusionOfChildCategoriesForEntityCacheAndDb(categoryCacheItem);
@@ -101,7 +99,7 @@ public class CategoryRepository : RepositoryDbBase<Category>
         if (createDeleteUpdate == CreateDeleteUpdate.Create)
         {
             //UpdateUserCache
-            if (UserCache.GetItem(Sl.SessionUser.UserId).IsFiltered)
+            if (UserEntityCache.GetUserCache(Sl.CurrentUserId) != null)
             {
                 AddCachedData(categoryCacheItem);
             }
@@ -246,11 +244,13 @@ public class CategoryRepository : RepositoryDbBase<Category>
 
         Flush();
 
-        Sl.R<UpdateQuestionCountForCategory>().Run(new List<Category> { category });
+        Sl.R<UpdateQuestionCountForCategory>().Run(category);
 
-        var categoryCacheItem = CategoryCacheItem.ToCacheCategory(category);
+        var categoryCacheItem = EntityCache.GetCategoryCacheItem(category.Id); 
+
         UpdateCachedData(categoryCacheItem, CreateDeleteUpdate.Update);
         EntityCache.AddOrUpdate(categoryCacheItem);
+        EntityCache.UpdateCategoryReferencesInQuestions(categoryCacheItem, category);
         UserEntityCache.ChangeCategoryInUserEntityCaches(categoryCacheItem);
         ModifyRelationsUserEntityCache.UpdateRelationsIncludetContentOf(categoryCacheItem);
     }
