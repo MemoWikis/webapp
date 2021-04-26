@@ -12,7 +12,6 @@
 }
 
 .fontProgressBar {
-    font-family: "Lato";
     font-weight: bold;
 }
 
@@ -25,12 +24,10 @@
     float: right;
     margin-bottom: 10px;
 
-    .media-below-md( {
+    .media-below-md({
         width: 100%;
         float: none;
-    }
-
-    );
+    });
 
     & > div {
         display: inline-block !important;
@@ -264,13 +261,13 @@
 
 .QuestionCount {
     background-color: @BackgroundColorProgressBar;
-    float: left;
     display: flex;
-    padding-top: 5px;
-    padding-left: 15px;
+    padding-left: 12px;
     padding-right: 15px;
-   .fontProgressBar();
-    
+    display: flex;
+    align-items: center;
+    .fontProgressBar();
+
     #CurrentStepNumber {
         padding-right: @pixel3;
         padding-left: @pixel3;
@@ -287,7 +284,7 @@
 
     #spanPercentageDone {
         position: absolute;
-        right: 5px;
+        right: 12px;
         margin-top: 5px;
         z-index: 2;
         .fontProgressBar;
@@ -1091,3 +1088,6 @@
     }
 
 
+#QuestionTitle, #AnswerAndSolution, h3.QuestionText {
+    padding-left: 12px;
+}

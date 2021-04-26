@@ -75,6 +75,16 @@
                 top: 3px;
                 padding-top: 2px;
                 margin-bottom: 2px;
+
+                #LearnOptionsHeader {
+                    color: @memo-grey-dark;
+                    transition: all .1s ease-in-out;
+
+                    &:hover {
+                        color: @memo-blue;
+                        transition: all .1s ease-in-out;
+                    }
+                }
             }
         }
     }
@@ -113,19 +123,8 @@
             }
         }
 
-        #LearnOptionsHeader {
-            color: @memo-grey-dark;
-            transition: all .1s ease-in-out;
-
-            &:hover {
-                color: @memo-blue;
-                transition: all .1s ease-in-out;
-            }
-        }
-
-
         .disable::before {
-            color: @memo-grey-dark;
+            color: @memo-grey-light;
         }
 
         #LearningTab {

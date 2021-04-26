@@ -1480,7 +1480,7 @@ h3,
 h4,
 h5,
 h6 {
-  font-family: 'Lato', sans-serif;
+  font-family: 'Open Sans';
 }
 h1 {
   font-size: 30px;
@@ -1615,6 +1615,10 @@ h3 {
   height: 36px !important;
   padding: 0 12px !important;
 }
+.memo-button.btn-link {
+  color: #0065CA;
+  padding-left: 0 !important;
+}
 .overline-s,
 .overline-l {
   color: #555555;
@@ -1676,6 +1680,13 @@ h3 {
   align-items: center;
   width: 20px;
   margin-right: 12.5px;
+}
+.dropdown-menu li .dropdown-icon i {
+  transition: color 0.1s ease-in-out;
+  color: #999999 !important;
+}
+.dropdown-menu li:hover .dropdown-icon i {
+  color: #003264 !important;
 }
 #userDropdown li.divider {
   height: 1px;

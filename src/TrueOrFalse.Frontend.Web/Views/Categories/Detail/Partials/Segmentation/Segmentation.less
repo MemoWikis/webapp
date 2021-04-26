@@ -36,37 +36,43 @@
                     z-index: 3;
                     line-height: 0;
                     background: white;
-                    color: @memo-grey-dark;
+                    color: @memo-green;
                     opacity: 0;
                     transition: opacity .1s ease-in-out;
+                    transition: color .1s ease-in-out;
 
-                    &:hover {
-                        color: @memo-blue;
-                    }
 
                     &.show {
                         opacity: 1;
                         transition: opacity .1s ease-in-out;
+                        transition: color .1s ease-in-out;
                     }
 
 
                     &.selected {
-                        color: @memo-blue;
+                        color: @memo-green;
                         opacity: 1;
                         transition: opacity .1s ease-in-out;
+                    }
+
+                    &:hover {
+                        color: @memo-blue;
+                        transition: color .1s ease-in-out;
                     }
                 }
 
                 .DropdownButton {
                     position: absolute;
                     right: 10px;
-                    top: 0px;
+                    top: -10px;
 
                     i {
-                        color: @memo-grey-dark;
+                        color: @memo-green;
+                        transition: color .1s ease-in-out;
 
                         &:hover {
                             color: @memo-blue;
+                            transition: color .1s ease-in-out;
                         }
                     }
                 }
@@ -90,8 +96,8 @@
                 }
 
                 &:hover {
-                    border-color: @memo-blue;
-                    color: @memo-blue;
+                    border-color: @memo-green;
+                    color: @memo-green;
                 }
             }
         }
@@ -146,10 +152,12 @@
         transition: all .1s ease-in-out;
 
         i {
-            color: @memo-grey-dark;
+            color: @memo-green;
+            transition: color .1s ease-in-out;
 
             &:hover {
                 color: @memo-blue;
+                transition: color .1s ease-in-out;
             }
         }
     }

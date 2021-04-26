@@ -76,6 +76,14 @@
 #CategoryHeader .Tabs .Tab.active a:focus {
   outline: none;
 }
+#CategoryHeader .Tabs .Tab.active #LearnOptionsHeader {
+  color: #999999;
+  transition: all 0.1s ease-in-out;
+}
+#CategoryHeader .Tabs .Tab.active #LearnOptionsHeader:hover {
+  color: #003264;
+  transition: all 0.1s ease-in-out;
+}
 #CategoryHeader #LearningTabWithOptions {
   display: flex;
   align-items: center;
@@ -109,16 +117,8 @@
     display: none;
   }
 }
-#CategoryHeader #LearningTabWithOptions #LearnOptionsHeader {
-  color: #999999;
-  transition: all 0.1s ease-in-out;
-}
-#CategoryHeader #LearningTabWithOptions #LearnOptionsHeader:hover {
-  color: #003264;
-  transition: all 0.1s ease-in-out;
-}
 #CategoryHeader #LearningTabWithOptions .disable::before {
-  color: #999999;
+  color: #DDDDDD;
 }
 #CategoryHeader #LearningTabWithOptions #LearningTab {
   width: auto;

@@ -91,7 +91,7 @@
                                  
                 <div class="form-group">
                     <div class="col-xs-offset-4 col-xs-8 xxs-stack">
-                        <input type="submit" value="Einloggen" class="btn btn-primary" id="btnModalLogin" /> 
+                        <input type="submit" value="Einloggen" class="btn btn-primary memo-button" id="btnModalLogin" /> 
 
                         <label class="checkbox" style="white-space:nowrap;">
                             <%: Html.CheckBoxFor(model => model.PersistentLogin) %> Eingeloggt bleiben

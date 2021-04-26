@@ -1508,7 +1508,7 @@ li.google-visualization-tooltip-item span {
 }
 /*Fonts*/
 h1, h2, h3, h4, h5, h6 {
-    font-family: 'Lato', sans-serif;
+    font-family: 'Open Sans';
     //font-family: "Times New Roman", Times, serif;
 }
 
@@ -1663,6 +1663,11 @@ h3 {
     text-transform: uppercase;
     height: 36px !important;
     padding: 0 12px !important;
+
+    &.btn-link {
+        color: @memo-blue-link;
+        padding-left: 0 !important;
+    }
 }
 
 .overline-s, .overline-l {
@@ -1735,6 +1740,19 @@ h3 {
             align-items: center;
             width: 20px;
             margin-right: 12.5px;
+
+            i {
+                transition: color .1s ease-in-out;
+                color: @memo-grey-dark !important;
+            }
+        }
+
+        &:hover {
+            .dropdown-icon {
+                i {
+                    color: @memo-blue !important;
+                }
+            }
         }
     }
 }
