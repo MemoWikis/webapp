@@ -79,9 +79,6 @@ public class ModifyRelationsForCategory
         
         UpdateCategoryRelationsOfType(categoryCacheItem, descendantsAsCategory, CategoryRelationType.IncludesContentOf);
 
-        if(!persist)
-            return;
-
         categoryCacheItem.UpdateCountQuestionsAggregated();
         Sl.CategoryRepo.Update(Sl.CategoryRepo.GetByIdEager(categoryCacheItem.Id), isFromModifiyRelations: true);
     }

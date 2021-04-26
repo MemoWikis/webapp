@@ -134,11 +134,6 @@ public class UserEntityCache : BaseCache
                 }
             }
         }
-        //foreach (var categories in _Categories.Values)
-        //{
-        //    if (categories.ContainsKey(categoryCacheItem.Id))
-        //        categories.TryUpdate(categoryCacheItem.Id, categoryCacheItem, categories[categoryCacheItem.Id]);
-        //}
     }
 
     public static ConcurrentDictionary<int, ConcurrentDictionary<int, CategoryCacheItem>> GetAllCaches()
@@ -148,7 +143,7 @@ public class UserEntityCache : BaseCache
 
     public static ConcurrentDictionary<int, CategoryCacheItem> GetUserCache(int userId)
     {
-         _Categories.TryGetValue(userId, out var result);
+        _Categories.TryGetValue(userId, out var result);
          return result; 
     }
 
