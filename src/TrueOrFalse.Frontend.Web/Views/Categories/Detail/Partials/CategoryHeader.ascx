@@ -68,7 +68,9 @@
                     <% } %>
                     <div>
                         <% if (Model.AggregatedTopicCount == 1) { %> 1 Unterthema <% }
-                           if (Model.AggregatedTopicCount > 1){ %> <%= Model.AggregatedTopicCount %> Unterthemen <% } %>
+                           else if (Model.AggregatedTopicCount > 1){ %> <%= Model.AggregatedTopicCount %> Unterthemen <% }
+                           else { %> 0 Unterthemen
+                        <% } %>
                     </div>
                     <div class="category-sub-header-divider">
                         <div class="vertical-line"></div>

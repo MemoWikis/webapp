@@ -13,7 +13,6 @@
     }
 
     #GeneratedSegmentSection, .segment, .segmentCategoryCard {
-        border-radius: 3px;
         border: solid transparent 1px;
         transition: 0.2s;
 
@@ -27,6 +26,7 @@
             margin-top: 20px;
 
             .segmentCategoryCard {
+
                 .topic-name {
                     padding: 0;
                 }
@@ -80,8 +80,7 @@
 
             .addCategoryCard {
                 display: flex;
-                border-radius: 3px;
-                border: dashed @memo-grey-dark 2px;
+                border: solid 1px @memo-grey-light;
                 transition: 0.2s;
                 justify-content: center;
                 align-content: center;
@@ -168,4 +167,10 @@
             transition: all .1s ease-in-out;
         }
     }
+}
+
+.segmentCategoryCard, addCategoryCardBtn {
+    &:hover {
+/*        background: @memo-grey-lighter 10%;
+*/    }
 }

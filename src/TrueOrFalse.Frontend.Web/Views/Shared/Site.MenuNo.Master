@@ -29,9 +29,14 @@
         <asp:ContentPlaceHolder ID="SubHeader" runat="server" />
         <section id="MasterMainContent" class="container">
             <div class="row">
-                <section id="MasterMainColumn">
-                    <asp:ContentPlaceHolder ID="MainContent" runat="server"></asp:ContentPlaceHolder>
+                <section id="MasterMainColumn" class="col-lg-9" >
+                    <section id="MasterMainWrapper">
+                        <asp:ContentPlaceHolder ID="MainContent" runat="server"></asp:ContentPlaceHolder>
+                    </section>
                     <% Html.RenderPartial("GlobalLicense"); %>
+                </section>
+                <section id="MasterSidebarColumn" class="col-md-3">                  
+                    <% Html.RenderPartial("Sidebar", Model.SidebarModel); %>                                        
                 </section>
             </div>
         </section>

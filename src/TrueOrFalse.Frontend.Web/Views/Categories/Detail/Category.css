@@ -392,8 +392,6 @@ p:empty {
 .setCardMiniList img {
   -webkit-border-radius: 0;
           border-radius: 0;
-  -webkit-box-shadow: 5px 5px 10px #eeeeee;
-          box-shadow: 5px 5px 10px #eeeeee;
 }
 .topicNavigation a,
 .setCardMiniList a {

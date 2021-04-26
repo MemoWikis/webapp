@@ -20,7 +20,6 @@
 #Segmentation #GeneratedSegmentSection,
 #Segmentation .segment,
 #Segmentation .segmentCategoryCard {
-  border-radius: 3px;
   border: solid transparent 1px;
   transition: 0.2s;
 }
@@ -84,8 +83,7 @@
 #Segmentation #CustomSegmentSection .topicNavigation .addCategoryCard,
 #Segmentation #GeneratedSegmentSection .topicNavigation .addCategoryCard {
   display: flex;
-  border-radius: 3px;
-  border: dashed #999999 2px;
+  border: solid 1px #DDDDDD;
   transition: 0.2s;
   justify-content: center;
   align-content: center;
@@ -156,4 +154,9 @@
 #Segmentation .dropdown.hover {
   opacity: 1;
   transition: all 0.1s ease-in-out;
+}
+.segmentCategoryCard:hover,
+addCategoryCardBtn:hover {
+  /*        background: @memo-grey-lighter 10%;
+*/
 }

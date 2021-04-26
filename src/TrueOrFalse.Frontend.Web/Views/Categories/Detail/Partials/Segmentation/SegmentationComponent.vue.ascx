@@ -70,7 +70,7 @@
                     <%}else { %>
                         <div class="hidden">&nbsp;</div><% //if empty, templateparser throws error %>
                     <%} %>
-                    <div id="AddToCurrentCategoryBtn" class="col-xs-6 addCategoryCard" @click="addCategory">
+                    <div id="AddToCurrentCategoryBtn" class="col-xs-6 addCategoryCard memo-button" @click="addCategory">
                         <div>
                              <i class="fas fa-plus"></i> Neues Thema hinzufügen
                         </div>                    

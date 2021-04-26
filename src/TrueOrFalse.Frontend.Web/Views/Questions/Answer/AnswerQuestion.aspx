@@ -78,7 +78,7 @@
 </asp:Content>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">  
-<div class="container">                             
+<div class="" style="width: 100%; padding: 0 20px;">                             
 <input type="hidden" id="hddIsLandingPage" value="<%=Model.PageCurrent == null ? "2" : Model.PageCurrent %>"/>  <%-- value "1" is Questionsite , value 2 is LandingPage, Test or Learningsession is this input not available--%> 
 
 
@@ -92,14 +92,7 @@
    <% } %>
 
     <div id="FirstRow"class="row">
-        <div class="col-xs-9">
-            
         <% Html.RenderPartial("~/Views/Questions/Answer/AnswerBodyControl/AnswerBody.ascx", new AnswerBodyModel(Model)); %>
-
-        </div>
-        <div class="col-xs-3">
-            <% Html.RenderPartial("~/Views/Shared/SidebarCards.ascx", Model.SidebarModel); %>
-        </div>
     </div>
     <div id="Topics"class="row ">
         <div style="display: none" id="GreaterThen767">
@@ -110,7 +103,7 @@
         </div>
     </div>
     <div class="row">
-        <div class="col-xs-9">
+        <div class="">
 
            <div class= "col-sm-12">
                 <% if (Model.QuestionHasParentCategories &&!Model.IsLearningSession && !Model.IsTestSession && Model.ContentRecommendationResult.Categories.Count != 0)
