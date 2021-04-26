@@ -10,7 +10,7 @@ public class GetAllCategoriesInSeveralRootCategories
         var rootCategories = EntityCache.GetCategoryCacheItems(Sl.CategoryRepo.GetRootCategoryInts());
         foreach (var category in categories)
         {
-            var parentCategories = GraphService.GetAllParents(category.Id);
+            var parentCategories = GraphService.GetAllParentsFromUserEntityCache(category.Id);
             if (parentCategories.Intersect(rootCategories).Any())
             {
                 result.Add(category);

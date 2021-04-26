@@ -7,10 +7,10 @@ using FluentNHibernate.Conventions;
 
 public class GraphService
 {
-    public static IList<CategoryCacheItem> GetAllParents(int categoryId, bool getFromEntityCache = false) =>
-       GetAllParents(EntityCache.GetCategoryCacheItem(categoryId, getDataFromEntityCache: getFromEntityCache));
+    public static IList<CategoryCacheItem> GetAllParentsFromEntityCache(int categoryId, bool getFromEntityCache = false) =>
+       GetAllParentsFromEntityCache(EntityCache.GetCategoryCacheItem(categoryId, getDataFromEntityCache: getFromEntityCache));
 
-    public static IList<CategoryCacheItem> GetAllParents(CategoryCacheItem category)
+    public static IList<CategoryCacheItem> GetAllParentsFromEntityCache(CategoryCacheItem category)
     {
         var parentIds = GetDirektParents(category);
         var allParents = new List<CategoryCacheItem>();
@@ -65,8 +65,6 @@ public class GraphService
        return allParents;
 
     }
-
-
 
     public static List<int> GetDirektParents(CategoryCacheItem category)
     {
@@ -228,7 +226,7 @@ public class GraphService
 
     public static void AutomaticInclusionOfChildCategoriesForEntityCacheAndDb(CategoryCacheItem category)
     {
-        var parentsFromParentCategories = GetAllParents(category.Id, true);
+        var parentsFromParentCategories = GetAllParentsFromEntityCache(category.Id, true);
 
         foreach (var parentCategory in parentsFromParentCategories)
             ModifyRelationsForCategory.UpdateRelationsOfTypeIncludesContentOf(EntityCache.GetCategoryCacheItem(parentCategory.Id, getDataFromEntityCache: true));

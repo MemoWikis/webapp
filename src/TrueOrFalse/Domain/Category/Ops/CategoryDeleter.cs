@@ -30,10 +30,12 @@ public class CategoryDeleter : IRegisterAsInstancePerLifetime
         _session.CreateSQLQuery("DELETE FROM categories_to_sets where Category_id = " + category.Id).ExecuteUpdate();
 
         Sl.UserActivityRepo.DeleteForCategory(category.Id);
+
         if (forSetMigration)
             Sl.CategoryRepo.DeleteWithoutFlush(category);
         else
             Sl.CategoryRepo.Delete(category);
+
         Sl.CategoryChangeRepo.AddDeleteEntry(category);
         Sl.CategoryValuationRepo.DeleteCategoryValuation(category.Id);
 

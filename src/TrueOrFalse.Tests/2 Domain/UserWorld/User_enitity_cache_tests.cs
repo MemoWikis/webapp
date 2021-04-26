@@ -199,7 +199,7 @@ class User_entity_cache_tests : BaseTest
         UserEntityCache.Init(user.Id);
         UserCache.GetItem(user.Id).IsFiltered = true; 
 
-        var parentNames = GraphService.GetAllParents(
+        var parentNames = GraphService.GetAllParentsFromUserEntityCache(
             UserEntityCache.GetAllCategories(user.Id)
                 .Where(c => c.Name == "I").First().Id).Select(c => c.Name);
 
