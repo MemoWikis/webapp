@@ -10,7 +10,7 @@
                     <span class="far fa-times-circle"></span>
                 </div>
                     <% } %>
-        <div id="CustomSessionConfigBtn" @click="openModal()" data-toggle="tooltip" data-html="true" title="<p><b>Persönliche Filter helfen Dir</b>. Nutze die Lernoptionen und entscheide welche Fragen Du lernen möchtest.</p>">
+        <div id="CustomSessionConfigBtn" class="btn btn-link" @click="openModal()" data-toggle="tooltip" data-html="true" title="<p><b>Persönliche Filter helfen Dir</b>. Nutze die Lernoptionen und entscheide welche Fragen Du lernen möchtest.</p>">
             <i class="fa fa-cog" aria-hidden="true"></i>
         </div>
         <div class="modal fade" id="SessionConfigModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -128,8 +128,8 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <div type="button" class="btn btn-link" data-dismiss="modal">Abbrechen</div>
-                        <div type="button" class="btn btn-primary" :class="{ 'disabled' : maxQuestionCountIsZero }" @click="loadCustomSession(false)"><i class="fas fa-play"></i> Anwenden</div>
+                        <div type="button" class="btn btn-link memo-button" data-dismiss="modal">Abbrechen</div>
+                        <div type="button" class="btn btn-primary memo-button" :class="{ 'disabled' : maxQuestionCountIsZero }" @click="loadCustomSession(false)"><i class="fas fa-play"></i> Anwenden</div>
                     </div>
                 </div>
             </div>

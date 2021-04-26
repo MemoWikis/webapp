@@ -74,21 +74,16 @@ h1, h2, h3, h4, h5 {
     padding: 0;
 
     li {
-        height: 40px;
 
         span {
             font-size: 14px;
-        }
-
-        i {
-            padding-right: 12.5px;
         }
 
         a {
             display: flex;
             align-items: center;
             height: 100%;
-            color: #555555
+            color: @memo-grey-darker;
         }
     }
 }
@@ -245,7 +240,7 @@ img {
     display: block;
     height: 100%;
     float: left;
-    color: #FFD700;
+    color: @memo-yellow;
     font-size: 14px;
     margin-top: 12px;
     margin-left: 7.74px;
@@ -389,7 +384,7 @@ img {
     }
 
     .ProgressBarLeft {
-        background-color: #DDDDDD;
+        background-color: @memo-grey-light;
     }
 
     .ProgressInfoText {
@@ -517,7 +512,7 @@ ul.AutocompleteHeader {
     .half-circle {
         width: 31px;
         height: 31px !important;
-        background-color: #AFD534;
+        background-color: @memo-green;
         border-bottom-right-radius: 110px;
         border-top-right-radius: 110px;
         border-bottom: 0;
@@ -708,14 +703,14 @@ ul.AutocompleteHeader {
         display: inline-flex;
 
         #SidebarDivider {
-            border-left: solid 1px #DDDDDD;
+            border-left: solid 1px @memo-grey-light;
             position: fixed;
             height: 100vh;
             top: 0;
         }
 
         #SidebarContent {
-            color: #555555;
+            color: @memo-grey-darker;
             padding-top: 70px;
 
             .sidebar-card {
@@ -724,7 +719,7 @@ ul.AutocompleteHeader {
 
                 .sidebar-title {
                     font-size: 12px;
-                    border-bottom: solid 1px #DDDDDD;
+                    border-bottom: solid 1px @memo-grey-light;
                     text-transform: uppercase;
                     padding-bottom: 10px;
                     font-weight: 600;
@@ -753,11 +748,11 @@ ul.AutocompleteHeader {
                 .sidebar-footer {
                     padding-top: 5px;
                     font-size: 12px;
-                    border-top: solid 1px #DDDDDD;
+                    border-top: solid 1px @memo-grey-light;
                     text-align: right;
 
                     a {
-                        color: #999999;
+                        color: @memo-grey-dark;
                     }
                 }
             }
@@ -1589,5 +1584,165 @@ i.fa-lock {
 }
 
 /*******************************************************************/
-/*  new Styles
+/*  new Styles 
 ----------------------------------------------------------*/
+
+/*******************************************************************/
+/*  Typography
+----------------------------------------------------------*/
+
+h1 {
+    font-size: 45px;
+    font-weight: 400;
+    letter-spacing: -1.5px;
+    line-height: 54px;
+    color: @memo-blue;
+}
+
+h2 {
+    font-size: 35px;
+    font-weight: 500;
+    line-height: 42px;
+    color: @memo-blue;
+}
+
+h3 {
+    font-size: 25px;
+    font-weight: 400;
+    line-height: 34px;
+    color: @memo-blue;
+}
+
+.subtitle {
+    font-size: 18px;
+    font-weight: 400;
+    line-height: 22px;
+    color: @memo-grey-dark;
+}
+
+.body-l {
+    font-size: 18px;
+    font-weight: 400;
+    line-height: 30px;
+    color: @memo-blue;
+}
+
+.body-m {
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 20px;
+    color: @memo-grey-darker;
+}
+
+.body-s {
+    font-size: 12px;
+    font-weight: 400;
+    line-height: 18px;
+    color: @memo-grey-darker;
+}
+
+.body-xs {
+    font-size: 10px;
+    font-weight: 400;
+    line-height: 16px;
+    color: @memo-grey-darker;
+}
+
+.body-l,.body-m,.body-s,.body-xs{
+    margin-bottom: 10px;
+    &.bold {
+        font-weight: 700;
+    }
+}
+
+.memo-button {
+    font-size: 14px !important;
+    font-weight: 600;
+    line-height: 36px;
+    letter-spacing: 1.25px;
+    text-transform: uppercase;
+    height: 36px !important;
+    padding: 0 12px !important;
+}
+
+.overline-s, .overline-l {
+    color: @memo-grey-darker;
+    font-weight: 600;
+    border-bottom: solid 1px @memo-grey-light;
+
+    &.no-line {
+        border: none;
+        margin-bottom: 0;
+        padding-bottom: 0;
+    }
+}
+
+.overline-s {
+    font-size: 12px;
+    line-height: 18px;
+    letter-spacing: .25px;
+    text-transform: uppercase;
+    padding-bottom: 10px;
+    margin-bottom: 25px;
+}
+
+.overline-l {
+    font-size: 14px;
+    line-height: 48px;
+    letter-spacing: 1.25px;
+    text-transform: uppercase;
+    margin-bottom: 40px;
+}
+
+.underline-s {
+    border-top: solid 1px @memo-grey-light;
+    font-size: 12px;
+    line-height: 18px;
+    letter-spacing: .25px;
+    padding-top: 10px;
+    margin-top: 25px;
+    text-align: right;
+    color: @memo-grey-light;
+
+    a {
+        color: @memo-grey-dark;
+        transition: color .1s ease-in-out;
+
+        &:hover {
+            color: @memo-blue-link;
+            transition: color .1s ease-in-out;
+        }
+    }
+}
+
+.margin-bottom-0 {
+    margin-bottom: 0;
+}
+
+.dropdown-menu {
+
+    li {
+        line-height: 32px;
+
+        a {
+            display: flex;
+            line-height: 32px;
+        }
+
+        .dropdown-icon {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 20px;
+            margin-right: 12.5px;
+        }
+    }
+}
+
+#userDropdown {
+    li {
+        &.divider {
+            height: 1px;
+        }
+    }
+}

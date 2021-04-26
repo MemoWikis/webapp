@@ -56,7 +56,7 @@
             answerCount: "0",
             correctAnswers: "0",
             wrongAnswers: "0",
-            questionTitleHtml: "<div>" + this.questionTitle + "</div>",
+            questionTitleHtml: "<div class='body-m bold margin-bottom-0'>" + this.questionTitle + "</div>",
             highlightedHtml: ""
         }
     },

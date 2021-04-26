@@ -265,7 +265,7 @@
 
     .iAddedNot {
         .btn-danger;
-        background-color: #FF001F;
+        background-color: @memo-wuwi-red;
 
         i {
             color: white;
@@ -299,7 +299,7 @@
         }
 
         i {
-            color: #FF001F;
+            color: @memo-wuwi-red;
             font-size: 22px;
         }
     }
@@ -318,11 +318,11 @@
                 font-weight: 600;
                 text-transform: uppercase;
                 letter-spacing: 0.1em;
-                color: #FF001F;
+                color: @memo-wuwi-red;
 
                 &.showOnHover {
                     display: none;
-                    color: #999999;
+                    color: @memo-grey-dark;
                 }
             }
 
@@ -383,14 +383,14 @@
 
 
     &.iAdded {
-        border-color: #FF001F;
-        background-color: #FF001F;
+        border-color: @memo-wuwi-red;
+        background-color: @memo-wuwi-red;
         animation: resetBGColor 0.3s forwards;
 
         &:hover {
             @keyframes changeBGColor {
                 0% {
-                    background-color: #FF001F;
+                    background-color: @memo-wuwi-red;
                 }
 
                 100% {
@@ -404,12 +404,12 @@
                 }
 
                 100% {
-                    background-color: #FF001F;
+                    background-color: @memo-wuwi-red;
                 }
             }
 
             box-sizing: border-box;
-            border: 1px solid #FF001F;
+            border: 1px solid @memo-wuwi-red;
             cursor: pointer;
             animation: changeBGColor 0.4s forwards;
         }
@@ -440,7 +440,7 @@
 
         &:hover {
             box-sizing: border-box;
-            border: 1px solid #FF001F;
+            border: 1px solid @memo-wuwi-red;
             cursor: pointer;
             animation: heartbeatPulse 2s infinite;
 
@@ -713,7 +713,15 @@
 }
 
 .ButtonEllipsis {
-   margin-left: 0px !important;
+    margin-left: 0px !important;
+    font-size: 18px;
+    color: @memo-grey-dark;
+    transition: all .1s ease-in-out;
+
+    &:hover {
+        color: @memo-blue;
+        transition: all .1s ease-in-out;
+    }
 }
 
 .ButtonOnHover {
@@ -1316,7 +1324,7 @@
     margin: 20px 0;
     padding: 20px;
     /*border-left: 3px solid #eee;*/
-    border: 1px solid #dddddd;
+    border: 1px solid @memo-grey-light;
     box-shadow: 0 0px 0px rgba(0,0,0,0.16), 0 1px 0px rgba(0,0,0,0.23);
 }
 
@@ -1641,7 +1649,7 @@
             i {
                 font-size: 20px !important;
                 line-height: 23px;
-                color: #FF001F !important;
+                color: @memo-wuwi-red !important;
             }
 
             .Text {
@@ -1651,7 +1659,7 @@
                 font-weight: 600 !important;
                 text-transform: uppercase !important;
                 letter-spacing: 0.1em;
-                color: #FF001F !important;
+                color: @memo-wuwi-red !important;
             }
         }
     }

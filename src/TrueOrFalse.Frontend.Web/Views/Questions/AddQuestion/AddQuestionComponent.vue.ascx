@@ -13,7 +13,7 @@
                     <i class="fa fa-heart" :class="" v-if="addToWishknowledge"></i>
                     <i class="fa fa-heart-o" :class="" v-else></i>
                 </div>
-                <div>
+                <div class="Text">
                     <span v-if="addToWishknowledge">Hinzugefügt</span>
                     <span v-else class="wuwi-grey">Hinzufügen</span>
                 </div>
@@ -138,7 +138,7 @@
                     <editor-content :editor="answerEditor" />
                 </div>
                 <div>
-                    <div class="btn btn-lg btn-primary" @click="addFlashcard()">Hinzufügen</div>
+                    <div class="btn btn-lg btn-primary memo-button" @click="addFlashcard()">Hinzufügen</div>
                 </div>
             </div>
             <div id="AddQuestionPrivacyContainer">

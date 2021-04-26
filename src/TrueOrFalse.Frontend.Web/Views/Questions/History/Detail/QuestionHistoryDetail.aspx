@@ -63,18 +63,18 @@
                         <% if (new SessionUser().IsLoggedIn) {
                             if (Model.NextRevExists) { %>
                                 <a id="restoreButton" data-allowed="logged-in" onclick="$('#alertConfirmRestore').show();">
-                                    <i class="fa fa-undo"></i> &nbsp; Wiederherstellen
+                                    <div class="dropdown-icon"><i class="fa fa-undo"></i></div>Wiederherstellen
                                 </a>
                             <% } else { %>
                                 <a id="editButton" data-allowed="logged-in" href="<%= Links.EditQuestion(Model.QuestionText, Model.QuestionId) %>">
-                                    <i class="fa fa-edit"></i> &nbsp; Frage bearbeiten
+                                    <div class="dropdown-icon"><i class="fa fa-edit"></i></div>Frage bearbeiten
                                 </a>
                             <% } %>
                         <% } %>
                     </li>
                     <li>
                         <a href="<%= Links.QuestionChangesOverview(1) %>">
-                            <i class="fa fa-list"></i> &nbsp; Bearbeitungshistorie aller Fragen
+                            <div class="dropdown-icon"><i class="fa fa-list"></i></div>Bearbeitungshistorie aller Fragen
                         </a>
                     </li>
                 </ul>

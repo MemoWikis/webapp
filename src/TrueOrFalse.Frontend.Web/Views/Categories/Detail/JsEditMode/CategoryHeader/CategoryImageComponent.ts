@@ -1,9 +1,10 @@
 ﻿Vue.component('category-image-component',
     {
-        props: ['categoryId'],
+        props: ['categoryId','isLearningTab'],
         data() {
             return {
-                imgSrc: ''
+                imgSrc: '',
+                disabled: false,
             }
         },
         created() {
@@ -11,11 +12,26 @@
 
         },
         mounted() {
+            if (this.isLearningTab == 'True') {
+                this.controlTab('LearningTab');
+            };
             eventBus.$on('request-save', () => this.saveImage());
             eventBus.$on('cancel-edit-mode', () => { $("#CategoryHeaderImg").attr('src', this.imgSrc); });
+            eventBus.$on('tab-change',
+                (tabName) => {
+                    this.controlTab(tabName);
+                });
         },
         methods: {
+            controlTab(tabName) {
+                if (tabName == 'TopicTab')
+                    this.disabled = false;
+                else
+                    this.disabled = true;
+            },
             openImageUploadModal() {
+                if (this.disabled)
+                    return;
                 $("#modalImageUpload").modal('show');
             },
             saveImage() {

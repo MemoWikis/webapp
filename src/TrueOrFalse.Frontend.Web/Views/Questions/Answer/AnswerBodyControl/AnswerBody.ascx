@@ -46,15 +46,46 @@
                     </a>
                     <ul class="dropdown-menu dropdown-menu-right standard-question-drop-down">
                         <% if (Model.IsCreator || Model.IsInstallationAdmin){ %>
-                            <li><a href="<%=Links.EditQuestion( Model.QuestionText, Model.QuestionId) %>" data-allowed="logged-in"><i class="fa fa-pencil"></i><span>Frage bearbeiten</span></a></li>
+                            <li>
+                                <a href="<%=Links.EditQuestion( Model.QuestionText, Model.QuestionId) %>" data-allowed="logged-in">
+                                    <div class="dropdown-icon">
+                                        <i class="fa fa-pencil"></i>
+                                    </div>
+                                    <span>Frage bearbeiten</span>
+                                </a>
+                            </li>
                         <% } %>
-                        <li style="cursor: pointer"><a href="<%=Links.GetUrl(Model.Question) %>"><i class="fas fa-file"></i><span>Frageseite anzeigen</span></a></li>
-                        <li><a href="<%=Links.QuestionHistory(Model.QuestionId) %>" data-allowed="logged-in"><i class="fa fa-code-fork"></i><span>Bearbeitungshistorie der Frage</span></a></li>
-                        <li style="cursor: pointer"><a href="<%=Links.GetUrl(Model.Question) + "#JumpLabel" %>"><i class="fas fa-comment"></i><span>Frage kommentieren</span></a></li>
+                        <li style="cursor: pointer">
+                            <a href="<%=Links.GetUrl(Model.Question) %>">
+                                <div class="dropdown-icon">
+                                    <i class="fas fa-file"></i>
+                                </div>
+                                <span>Frageseite anzeigen</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="<%=Links.QuestionHistory(Model.QuestionId) %>" data-allowed="logged-in">
+                                <div class="dropdown-icon">
+                                    <i class="fa fa-code-fork"></i>
+                                </div>
+                                <span>Bearbeitungshistorie der Frage</span>
+                            </a>
+                        </li>
+                        <li style="cursor: pointer">
+                            <a href="<%=Links.GetUrl(Model.Question) + "#JumpLabel" %>">
+                                <div class="dropdown-icon">
+                                    <i class="fas fa-comment"></i>
+                                </div>
+                                <span>Frage kommentieren</span>
+                            </a>
+                        </li>
                         <% if (Model.IsInstallationAdmin){ %>
                             <li>
                                 <a data-toggle="modal" data-questionid="<%=Model.QuestionId %>" href="#modalDeleteQuestion">
-                                    <i class="fas fa-trash"></i><span>Frage löschen</span>
+                                    <div class="dropdown-icon">
+                                        <i class="fas fa-trash"></i>
+                                    </div>
+                                    <span>Frage löschen</span>
                                 </a>
                             </li>
                         <% } %>
@@ -66,9 +97,9 @@
     </div>
     
     <% if (Model.SolutionType != SolutionType.FlashCard.ToString()) { %>
-    <h1 class="QuestionText">
+    <h3 class="QuestionText">
         <%= Model.QuestionText %>
-    </h1>
+    </h3>
     <% } %>
 
     <div class="row">
@@ -108,7 +139,7 @@
 
                             if (Model.SolutionType == SolutionType.FlashCard.ToString()){ %>
                                 <script type="text/javascript">
-                                    var questionText = '<h1 class="QuestionText" style="text-align: center; font-size: 22px; font-family: Open Sans, Arial, sans-serif; line-height: 31px; margin: 0;"><%= Model.QuestionText %></h1>';
+                                    var questionText = '<h3 class="QuestionText" style="text-align: center; font-size: 22px; font-family: Open Sans, Arial, sans-serif; line-height: 31px; margin: 0;"><%= Model.QuestionText %></h3>';
                                     var flashCardFrontHTML = questionText + '<%= Model.QuestionTextMarkdown %>';
                                     $("#flashCard-front").append($('<div id="flashCard-frontContent">').append(flashCardFrontHTML));
                                     $('#flashCard-frontContent img').load(function() {
@@ -143,49 +174,49 @@
                                         <% } %>
                                     </div>
                                     <% if (Model.SolutionType == SolutionType.FlashCard.ToString()) { %>
-                                        <a href="#" id="btnFlipCard" class="btn btn-warning" rel="nofollow">Umdrehen</a>
+                                        <a href="#" id="btnFlipCard" class="btn btn-warning memo-button" rel="nofollow">Umdrehen</a>
                                     <% } %>
                              
 
                                     <% if (Model.SolutionType != SolutionType.FlashCard.ToString()){ %>
                                         <div id="buttons-first-try" class="ButtonGroup">
-                                        <a href="#" id="btnCheck" class="btn btn-primary" rel="nofollow">Antworten</a>
+                                        <a href="#" id="btnCheck" class="btn btn-primary memo-button" rel="nofollow">Antworten</a>
                                         <% if (!Model.IsInTestMode && Model.AnswerHelp){ %>
-                                            <a href="#" class="selectorShowSolution SecAction btn btn-link"><i class="fa fa-lightbulb-o">&nbsp;</i>Lösung anzeigen</a>
+                                            <a href="#" class="selectorShowSolution SecAction btn btn-link memo-button"><i class="fa fa-lightbulb-o">&nbsp;</i>Lösung anzeigen</a>
                                         <% }%>        
                                     <% } else { %>
                                         <div id="buttons-answer" class="ButtonGroup flashCardAnswerButtons" style="display: none">
-                                            <a href="#" id="btnRightAnswer" class="btn btn-warning" rel="nofollow">Wusste ich!</a>
-                                            <a href="#" id="btnWrongAnswer" class="btn btn-warning" rel="nofollow">Wusste ich nicht!</a>
+                                            <a href="#" id="btnRightAnswer" class="btn btn-warning memo-button" rel="nofollow">Wusste ich!</a>
+                                            <a href="#" id="btnWrongAnswer" class="btn btn-warning memo-button" rel="nofollow">Wusste ich nicht!</a>
                                             <% if (!Model.IsInTestMode && Model.AnswerHelp){ %>
-                                                <a href="#" id="flashCard-dontCountAnswer" class="selectorShowSolution SecAction btn btn-link">Nicht werten!</a>
+                                                <a href="#" id="flashCard-dontCountAnswer" class="selectorShowSolution SecAction btn btn-link memo-button">Nicht werten!</a>
                                             <% } %>
                                             </div>
                                             <div>
                                     <% } %>
                                     <% if (Model.IsLearningSession && Model.IsLoggedIn && Model.NextUrl != null && !Model.IsInTestMode) { %>
-                                        <a id="aSkipStep" href="<%= Model.NextUrl(Url) %>" class="SecAction btn btn-link"><i class="fa fa-step-forward">&nbsp;</i>Frage überspringen</a>
+                                        <a id="aSkipStep" href="<%= Model.NextUrl(Url) %>" class="SecAction btn btn-link memo-button"><i class="fa fa-step-forward">&nbsp;</i>Frage überspringen</a>
                                     <% } %>
                                 </div>
 
                                 <div id="buttons-next-question" class="ButtonGroup" style="display: none;">
                                     <% if (Model.NextUrl != null && !Model.IsLastQuestion) { %>
-                                        <a href="<%= Model.NextUrl(Url) %>" id="btnNext" class="btn btn-primary" rel="nofollow">Nächste Frage</a>
+                                        <a href="<%= Model.NextUrl(Url) %>" id="btnNext" class="btn btn-primary memo-button" rel="nofollow">Nächste Frage</a>
                                     <% }else if(Model.NextUrl == null && Model.IsForVideo){ %> 
-                                        <button id="continue"  class="btn btn-primary clickToContinue" style="display: none">Weiter</button>
+                                        <button id="continue"  class="btn btn-primary clickToContinue memo-button" style="display: none">Weiter</button>
                                     <% } %>
 
                                     <% if (Model.SolutionType != SolutionType.FlashCard.ToString() && !Model.IsInTestMode && Model.AnswerHelp ) { %>
-                                        <a href="#" id="aCountAsCorrect" class="SecAction btn btn-link show-tooltip" title="Drücke hier und die Frage wird als richtig beantwortet gewertet" rel="nofollow" style="display: none;">Hab ich gewusst!</a>
+                                        <a href="#" id="aCountAsCorrect" class="SecAction btn btn-link show-tooltip memo-button" title="Drücke hier und die Frage wird als richtig beantwortet gewertet" rel="nofollow" style="display: none;">Hab ich gewusst!</a>
                                     <% } %>
                                 </div>
 
                                 <% if (Model.SolutionType != SolutionType.FlashCard.ToString())
                                     { %>
                                 <div id="buttons-answer-again" class="ButtonGroup" style="display: none">
-                                    <a href="#" id="btnCheckAgain" class="btn btn-warning" rel="nofollow">Nochmal Antworten</a>
+                                    <a href="#" id="btnCheckAgain" class="btn btn-warning memo-button" rel="nofollow">Nochmal Antworten</a>
                                     <% if (!Model.IsInTestMode && Model.AnswerHelp){ %>
-                                    <a href="#" class="selectorShowSolution SecAction btn btn-link"><i class="fa fa-lightbulb-o">&nbsp;</i>Lösung anzeigen</a>
+                                    <a href="#" class="selectorShowSolution SecAction btn btn-link memo-button"><i class="fa fa-lightbulb-o">&nbsp;</i>Lösung anzeigen</a>
                                     <% } %>
                                 </div>
                                 <% } %>
@@ -200,7 +231,7 @@
                                     </div>
                                     <div id="Solution" class="Detail" style="display: none;">
                                         <div class="Label">Richtige Antwort:</div>
-                                        <div class="Content"></div>
+                                        <div class="body-m"></div>
                                     </div>
                                     <div id="divWrongAnswerPlay" class="Detail" style="display: none; background-color: white;">
                                         <span style="color: #B13A48"><b>Deine Antwort war falsch</b></span>

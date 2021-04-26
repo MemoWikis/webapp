@@ -116,14 +116,14 @@
 
             <div class="modal-footer" id="modalFooter" style="text-align: left;">
                 <div id="ButtonsWikimedia" class="ButtonContainer float-none-xxs">
-                    <a href="#" class="modalImageUploadDismiss btn btn-default" data-dismiss="modal">Abbrechen</a>
+                    <a href="#" class="modalImageUploadDismiss btn btn-default memo-button" data-dismiss="modal">Abbrechen</a>
                     <a href="#" class="aSaveImage btn btn-primary disabled">
                         <i class="fa fa-refresh fa-spin" style="display: none;"></i>
                         <span>Vorschau laden</span>
                     </a>
                 </div>
                 <div id="ButtonsUserUpload" class="ButtonContainer float-none-xxs" style="display: none;">
-                    <a href="#" class="modalImageUploadDismiss btn btn-default" data-dismiss="modal">Abbrechen</a>
+                    <a href="#" class="modalImageUploadDismiss btn btn-default memo-button" data-dismiss="modal">Abbrechen</a>
                     <a href="#" class="aSaveImage btn btn-primary disabled">
                         <i class="fa fa-refresh fa-spin" style="display: none;"></i>
                         <span>Bild übernehmen</span>

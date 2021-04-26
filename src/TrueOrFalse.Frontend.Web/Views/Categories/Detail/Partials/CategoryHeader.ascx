@@ -12,9 +12,9 @@
     <% var buttonId = Guid.NewGuid(); %>
     <div id="HeadingSection">
         <%if (Model.Category.Creator == Sl.SessionUser.User || Sl.SessionUser.IsInstallationAdmin ) {%>
-            <category-image-component category-id="<%= Model.Category.Id %>" inline-template>
+            <category-image-component category-id="<%= Model.Category.Id %>" inline-template is-learning-tab="<%= Model.IsInLearningTab %>">
                 <div class="ImageContainer" @click="openImageUploadModal()">
-                    <div class="imageUploadBtn">
+                    <div class="imageUploadBtn" v-if="!disabled">
                         <div>
                             <i class="fas fa-pen"></i>
                         </div>
@@ -36,7 +36,7 @@
             <h1 style="margin-bottom: 0">
 
                 <%if (Model.Category.Creator == Sl.SessionUser.User || Sl.SessionUser.IsInstallationAdmin ) {%>
-                    <category-name-component inline-template old-category-name="<%= Model.Name %>" category-id="<%= Model.Category.Id %>">
+                    <category-name-component inline-template old-category-name="<%= Model.Name %>" category-id="<%= Model.Category.Id %>" is-learning-tab="<%= Model.IsInLearningTab %>">
                         <textarea-autosize
                             placeholder="Type something here..."
                             ref="categoryNameArea"
@@ -45,6 +45,7 @@
                             rows="1"
                             @keydown.enter.native.prevent
                             @keyup.enter.native.prevent
+                            :disabled="disabled"
                         />
                     </category-name-component>
 
@@ -65,11 +66,10 @@
                             </a>
                         </div>
                     <% } %>
-
-                    <% if (Model.AggregatedTopicCount == 1) { %> 1 Unterthema <% }
-                    if (Model.AggregatedTopicCount > 1)
-                                                                                                      { %> <%= Model.AggregatedTopicCount %> Unterthemen <% } %>
-                    
+                    <div>
+                        <% if (Model.AggregatedTopicCount == 1) { %> 1 Unterthema <% }
+                           if (Model.AggregatedTopicCount > 1){ %> <%= Model.AggregatedTopicCount %> Unterthemen <% } %>
+                    </div>
                     <div class="category-sub-header-divider">
                         <div class="vertical-line"></div>
                     </div>
@@ -162,11 +162,46 @@
                             <i class="fa fa-ellipsis-v"></i>
                         </a>
                         <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="<%= buttonId %>">
-                            <li><a href="<%= Links.CategoryHistory(Model.Id) %>"><i class="fa fa-code-fork"></i>&nbsp;Bearbeitungshistorie</a></li>
-                            <li><a href="<%= Links.CreateQuestion(categoryId: Model.Id) %>" data-allowed="logged-in"><i class="fa fa-plus-circle"></i>&nbsp;Frage hinzufügen</a></li>
-                            <li><a href="<%= Links.CategoryCreate(Model.Id) %>" data-allowed="logged-in"><i class="fa fa-plus-circle"></i>&nbsp;Unterthema hinzufügen</a></li>
-                            <li><a href="<%= Links.CategoryEdit(Url, Model.Name, Model.Id) %>" data-allowed="logged-in"><i class="fa fa-pencil"></i>&nbsp;bearbeiten (Expertenmodus)</a></li>
-                            <li><a href="" id="AnalyticsTab" data-url="<%=Links.CategoryDetailAnalyticsTab(Model.Name, Model.Id) %>" data-allowed="logged-in" class="Tab" ><i class="fas fa-project-diagram"></i>&nbsp;Wissensnetz anzeigen</a></li>
+                            <li>
+                                <a href="<%= Links.CategoryHistory(Model.Id) %>">
+                                    <div class="dropdown-icon">
+                                        <i class="fa fa-code-fork"></i>
+                                    </div>
+                                    Bearbeitungshistorie
+                                </a>
+                            </li>
+                            <li>
+                                <a href="<%= Links.CreateQuestion(categoryId: Model.Id) %>" data-allowed="logged-in">
+                                    <div class="dropdown-icon">
+                                        <i class="fa fa-plus-circle"></i>
+                                    </div>
+                                    Frage hinzufügen
+                                </a>
+                            </li>
+                            <li>
+                                <a href="<%= Links.CategoryCreate(Model.Id) %>" data-allowed="logged-in">
+                                    <div class="dropdown-icon">
+                                        <i class="fa fa-plus-circle"></i>
+                                    </div>
+                                    Unterthema hinzufügen
+                                </a>
+                            </li>
+                            <li>
+                                <a href="<%= Links.CategoryEdit(Url, Model.Name, Model.Id) %>" data-allowed="logged-in">
+                                    <div class="dropdown-icon">
+                                        <i class="fa fa-pencil"></i>
+                                    </div>
+                                    bearbeiten (Expertenmodus)
+                                </a>
+                            </li>
+                            <li>
+                                <a href="" id="AnalyticsTab" data-url="<%=Links.CategoryDetailAnalyticsTab(Model.Name, Model.Id) %>" data-allowed="logged-in" class="Tab" >
+                                    <div class="dropdown-icon">
+                                        <i class="fas fa-project-diagram"></i>
+                                    </div>
+                                    Wissensnetz anzeigen
+                                </a>
+                            </li>
                         </ul>
                     </div>
                 </div>

@@ -1,7 +1,7 @@
 ﻿@import (reference) '../../../Style/includes/imports.less';
 .no-white-background;
 //Variables
-@BackgroundColorProgressBar: #EFEFEF ;
+@BackgroundColorProgressBar: @memo-grey-lighter ;
 @pixel3: 3px;
 
 //Mixins
@@ -240,7 +240,7 @@
 .SessionBar {
     font-size: @font-size-base;
     line-height: @line-height-base;
-    background-color: #dddddd;
+    background-color: @memo-grey-light;
     margin-bottom: 50px;
     display: flex;
     .clearfix;
@@ -394,17 +394,11 @@
 
 .QuestionText {
     padding-bottom: 20px;
-    color: #003264;
-    font-size: 25px;
-    font-family:Regular Open Sans, Arial, sans-serif;
-    line-height: 31px;
     margin: 0;
 
-    .media-sm-up ( {
+    .media-sm-up ({
         padding-bottom: 30px;
-    }
-
-    );
+    });
 }
 
 
@@ -560,6 +554,8 @@
     .radio {
         margin-bottom: 0;
         margin-top: -2px;
+        margin-left: 0;
+        cursor: pointer;
 
         & + .radio {
             margin-top: 10px;
@@ -569,6 +565,10 @@
             }
 
             );
+        }
+
+        .input {
+            cursor: pointer;
         }
     }
 
@@ -1033,46 +1033,46 @@
     /*-----------------------AnswerQuestionBodyMenu--------------------
 
 ---------------------------------------------------------------*/
-    .AnswerQuestionBodyMenu {
-        display: flex;
-        float: right;
+.AnswerQuestionBodyMenu {
+    display: flex;
+    float: right;
 
-        .Pin {
-            min-width: 106px;
-        }
-
-        .edit-question {
-            margin-top: 0.7em;
-            padding-right: 8px;
-        }
-
-        .category {
-            margin-right: 15px;
-        }
-
-        .set {
-            margin-right: 15px
-        }
-
-        .margin-top-4 {
-            margin-top: 0.25em;
-        }
-
-        .dropdown-menu {
-            z-index: 10;
-        }
-
-        .dropdown-toggle {
-            padding-right: 10px;
-            font-size: 18px;
-            color: #999999;
-            margin-top: -2px;
-        }
-
-        .hide2 {
-            display: none !important;
+    .Pin {
+        .iAddedNot, .iAdded{
+            padding-right: 12px;
         }
     }
+
+    .edit-question {
+        margin-top: 0.7em;
+        padding-right: 8px;
+    }
+
+    .category {
+        margin-right: 15px;
+    }
+
+    .set {
+        margin-right: 15px
+    }
+
+    .margin-top-4 {
+        margin-top: 0.25em;
+    }
+
+    .dropdown-menu {
+        z-index: 10;
+    }
+
+    .dropdown-toggle {
+        padding-right: 10px;
+        margin-top: -2px;
+    }
+
+    .hide2 {
+        display: none !important;
+    }
+}
 
     .SingleCategoryAttention {
         .well {

@@ -17,8 +17,8 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <a href="#" class="btn btn-default" id="btnCloseQuestionDelete">Abbrechen</a>
-                <a href="#" class="btn btn-primary btn-danger" id="confirmQuestionDelete">Löschen</a>
+                <a href="#" class="btn btn-default memo-button" id="btnCloseQuestionDelete">Abbrechen</a>
+                <a href="#" class="btn btn-primary btn-danger memo-button" id="confirmQuestionDelete">Löschen</a>
             </div>
         </div>
     </div>

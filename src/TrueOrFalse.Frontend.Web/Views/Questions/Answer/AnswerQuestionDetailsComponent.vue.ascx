@@ -6,7 +6,7 @@
 
     <div id="questionDetailsContainer" class="row" style="min-height:265px">
         <div id="categoryList" class="col-sm-5" :class="{ isLandingPage:'isLandingPage'}">
-            <div class="sectionLabel">Themen</div>
+            <div class="overline-s no-line">Themen</div>
             <div class="categoryListChips" v-html="categoryList">
             </div>
             <div class="categoryListLinks">
@@ -15,7 +15,7 @@
         </div>
         <div id="questionStatistics" class="col-sm-7 row">
             <div id="probabilityContainer" class="col-sm-6" ref="probabilityContainer">
-                <div class="sectionLabel">Antwortwahrscheinlichkeit</div>
+                <div class="overline-s no-line">Antwortwahrscheinlichkeit</div>
                 <div id="semiPieSection">
                     <div id="semiPieChart" style="min-height:130px">
                         <div class="semiPieSvgContainer" ref="semiPie" :class="{'isInWishknowledge' : isInWishknowledge}">
@@ -33,7 +33,7 @@
                 
             </div>
             <div id="counterContainer" class="col-sm-6" style="font-size:12px">
-                <div class="sectionLabel">Antworten</div>
+                <div class="overline-s no-line">Antworten</div>
                 
                 <div class="counterBody">
                     <div class="counterHalf">

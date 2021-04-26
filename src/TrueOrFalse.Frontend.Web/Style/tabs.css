@@ -32,7 +32,7 @@
 #CategoryHeader .Tabs .Tab {
   position: relative;
   top: 3px;
-  border-bottom: solid 6px transparent;
+  border-bottom: solid 5px transparent;
   text-align: center;
   flex-grow: 1;
 }
@@ -63,8 +63,9 @@
 }
 #CategoryHeader .Tabs .Tab.active {
   border-bottom-color: #003264;
-  top: 0px;
-  padding-top: 6px;
+  top: 3px;
+  padding-top: 2px;
+  margin-bottom: 2px;
 }
 #CategoryHeader .Tabs .Tab.active a {
   color: #003264;
@@ -82,7 +83,7 @@
   height: 45px;
 }
 #CategoryHeader #LearningTabWithOptions #SessionConfigReminderHeader {
-  top: -66px;
+  top: -69px;
   position: absolute;
   display: flex;
   margin-left: -2.5px;
@@ -107,6 +108,14 @@
   #CategoryHeader #LearningTabWithOptions #SessionConfigReminderHeader {
     display: none;
   }
+}
+#CategoryHeader #LearningTabWithOptions #LearnOptionsHeader {
+  color: #999999;
+  transition: all 0.1s ease-in-out;
+}
+#CategoryHeader #LearningTabWithOptions #LearnOptionsHeader:hover {
+  color: #003264;
+  transition: all 0.1s ease-in-out;
 }
 #CategoryHeader #LearningTabWithOptions .disable::before {
   color: #999999;

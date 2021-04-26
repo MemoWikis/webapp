@@ -40,6 +40,7 @@ public class UserImageSettings : ImageSettings, IImageSettings
     public ImageUrl GetUrl_50px(IUserTinyModel user) { return GetUrl(user, 50);}
     public ImageUrl GetUrl_200px(IUserTinyModel user) { return GetUrl(user, 200); }
     public ImageUrl GetUrl_250px(IUserTinyModel user) { return GetUrl(user, 250); }
+    public ImageUrl GetUrl_20px(IUserTinyModel user) { return GetUrl(user, 20); }
 
     private ImageUrl GetUrl(IUserTinyModel user, int width, bool isSquare = false) {
         return ImageUrl.Get(this, width, isSquare, arg => GetFallbackImage(user, arg));

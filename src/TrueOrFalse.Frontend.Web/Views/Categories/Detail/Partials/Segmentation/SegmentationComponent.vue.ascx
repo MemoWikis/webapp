@@ -5,18 +5,22 @@
 
 <segmentation-component inline-template :edit-mode="editMode" :category-id="<%= Model.Category.Id %>">
     <div :key="componentKey" id="Segmentation" v-cloak>
-        <div v-if="hasCustomSegment" class="segmentationHeader">
+        <div v-if="hasCustomSegment" class="segmentationHeader overline-l">
             Alle Unterthemen
         </div>
-        <div v-else class="segmentationHeader">
+        <div v-else class="segmentationHeader overline-l">
             Untergeordnete Themen
             <div v-if="editMode" class="Button dropdown DropdownButton segmentDropdown">
                 <a href="#" :id="dropdownId" class="dropdown-toggle  btn btn-link btn-sm ButtonEllipsis" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
                     <i class="fa fa-ellipsis-v"></i>
                 </a>
                 <ul class="dropdown-menu dropdown-menu-right" :aria-labelledby="dropdownId">
-                    <li><a @click="moveToNewCategory"><i class="fas fa-code-branch"></i>&nbsp;In neues Thema verschieben</a></li>
-                    <li><a @click="removeChildren"><i class="fas fa-unlink"></i>&nbsp;Themen entfernen</a></li>
+                    <li><a @click="moveToNewCategory">
+                        <div class="dropdown-icon"><i class="fas fa-code-branch"></i></div>In neues Thema verschieben
+                    </a></li>
+                    <li><a @click="removeChildren">
+                        <div class="dropdown-icon"><i class="fas fa-unlink"></i></div>Themen entfernen
+                    </a></li>
                 </ul>
             </div>
         </div>
@@ -36,13 +40,17 @@
                         Weitere untergeordnete Themen
                     </h2>
                 </div>
-                <div v-if="showHover" class="Button dropdown DropdownButton segmentDropdown">
+                <div class="Button dropdown DropdownButton segmentDropdown" :class="{ hover : showHover }">
                     <a href="#" :id="dropdownId" class="dropdown-toggle  btn btn-link btn-sm ButtonEllipsis" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
                         <i class="fa fa-ellipsis-v"></i>
                     </a>
                     <ul class="dropdown-menu dropdown-menu-right" :aria-labelledby="dropdownId">
-                        <li><a @click="moveToNewCategory"><i class="fas fa-code-branch"></i>&nbsp;In neues Thema verschieben</a></li>
-                        <li><a @click="removeChildren"><i class="fas fa-unlink"></i>&nbsp;Themen entfernen</a></li>
+                        <li><a @click="moveToNewCategory">
+                            <div class="dropdown-icon"><i class="fas fa-code-branch"></i></div>In neues Thema verschieben
+                        </a></li>
+                        <li><a @click="removeChildren">
+                            <div class="dropdown-icon"><i class="fas fa-unlink"></i></div>Themen entfernen
+                        </a></li>
                     </ul>
                 </div>
             </div>

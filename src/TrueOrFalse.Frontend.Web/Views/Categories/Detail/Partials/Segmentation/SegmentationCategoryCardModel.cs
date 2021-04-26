@@ -4,7 +4,9 @@ public class SegmentationCategoryCardModel : BaseContentModule
 {
     public CategoryCacheItem Category;
     public string Title;
-    public int TotalQuestionCount; 
+    public int TotalQuestionCount;
+    public int VisibleQuestionCount;
+    public int VisibleCategoryCount;
 
     public SegmentationCategoryCardModel(CategoryCacheItem category)
     {

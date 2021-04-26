@@ -19,10 +19,30 @@
                 <i class="fa fa-ellipsis-v"></i>
             </a>
             <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="<%= buttonId %>">
-                <li><a href="<%= Links.CategoryHistory(Model.Id) %>"><i class="fa fa-code-fork"></i>&nbsp;Bearbeitungshistorie</a></li>
-                <li><a href="<%= Links.CategoryEdit(Url, Model.Name, Model.Id) %>" data-allowed="logged-in" ><i class="fa fa-pencil"></i>&nbsp;bearbeiten</a></li>
-                <li><a href="<%= Links.CreateQuestion(Model.Id) %>" data-allowed="logged-in" ><i class="fa fa-plus-circle"></i>&nbsp;Frage hinzufügen</a></li>
-                <li><a href="<%= Links.CategoryCreate(Model.Id) %>" data-allowed="logged-in" ><i class="fa fa-plus-circle"></i>&nbsp;Unterthema hinzufügen</a></li>
+                <li>
+                    <a href="<%= Links.CategoryHistory(Model.Id) %>">
+                        <div class="dropdown-icon"><i class="fa fa-code-fork"></i></div>
+                        Bearbeitungshistorie
+                    </a>
+                </li>
+                <li>
+                    <a href="<%= Links.CategoryEdit(Url, Model.Name, Model.Id) %>" data-allowed="logged-in">
+                        <div class="dropdown-icon"><i class="fa fa-pencil"></i></div>
+                        bearbeiten
+                    </a>
+                </li>
+                <li>
+                    <a href="<%= Links.CreateQuestion(Model.Id) %>" data-allowed="logged-in">
+                        <div class="dropdown-icon"><i class="fa fa-plus-circle"></i></div>
+                        Frage hinzufügen
+                    </a>
+                </li>
+                <li>
+                    <a href="<%= Links.CategoryCreate(Model.Id) %>" data-allowed="logged-in">
+                        <div class="dropdown-icon"><i class="fa fa-plus-circle"></i></div>
+                        Unterthema hinzufügen
+                    </a>
+                </li>
             </ul>
         </div>
     </div>
@@ -43,7 +63,7 @@
                         <%= questionCount %> Frage<%= StringUtils.PluralSuffix(Model.CountAggregatedQuestions, "n") %> direkt zugeordnet.</p>
                 </div>
                 <div class="StartLearningSession">
-                    <a href="<%=Links.LearningSessionFooter(Model.Id, Model.Category.Name) %>" id="LearningFooterBtn" data-tab-id="LearningTab" class="btn btn-lg btn-primary footerBtn" >Lernsitzung starten</a> 
+                    <a href="<%=Links.LearningSessionFooter(Model.Id, Model.Category.Name) %>" id="LearningFooterBtn" data-tab-id="LearningTab" class="btn btn-lg btn-primary footerBtn memo-button" >Lernsitzung starten</a> 
                 </div>
             </div>
         

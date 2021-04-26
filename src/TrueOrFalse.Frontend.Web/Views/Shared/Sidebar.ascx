@@ -8,13 +8,13 @@
     </div>
     <div id="SidebarContent">
         <div class="sidebar-card">
-            <div class="sidebar-title">Unterstützen</div>
-            <div class="sidebar-body">
-                <div class="sidebar-card-preheader">Bitwerke – Code und 3D</div>
-                <div class="sidebar-card-header">Softwareentwicklung</div>
-                <div class="sidebar-card-content">Wir, die Macher von memucho freuen uns über Softwareentwicklungsaufträge.</div>
+            <div class="overline-s">Unterstützen</div>
+            <div>
+                <div class="body-s">Bitwerke – Code und 3D</div>
+                <div class="body-l">Softwareentwicklung</div>
+                <div class="body-s">Wir, die Macher von memucho freuen uns über Softwareentwicklungsaufträge.</div>
             </div>
-            <div class="sidebar-footer">
+            <div class="underline-s">
                 <a href="https://bitwerke.de/"><i class="fas fa-external-link-alt"></i>  Bitwerke.de</a>
             </div>
         </div>

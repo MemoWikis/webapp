@@ -6,7 +6,7 @@
     <div class="col-xs-6 topic segmentCategoryCard" v-if="visible" @mouseover="hover = true" @mouseleave="hover = false" :class="{ hover : showHover }">
         <div class="row">
             <div class="col-xs-3">
-                <div v-show="showHover || isSelected" class="checkBox" v-if="editMode"  @click="selectCategory()">
+                <div class="checkBox" @click="selectCategory()" :class="{ show : showHover, selected : isSelected }">
                     <i class="fas fa-check-square" v-if="isSelected"></i>
                     <i class="far fa-square" v-else></i>
                 </div>
@@ -25,13 +25,17 @@
                             <i class="fas fa-lock"></i>
                         <% } %>
                     </div>
-                    <div v-if="showHover" class="Button dropdown DropdownButton">
+                    <div class="Button dropdown DropdownButton" :class="{ hover : showHover }">
                         <a href="#" :id="dropdownId" class="dropdown-toggle  btn btn-link btn-sm ButtonEllipsis" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
                             <i class="fa fa-ellipsis-v"></i>
                         </a>
                         <ul class="dropdown-menu dropdown-menu-right" :aria-labelledby="dropdownId">
-                            <li v-if="!isCustomSegment"><a @click="thisToSegment"><i class="fa fa-code-fork"></i>&nbsp;Unterthemen einblenden</a></li>
-                            <li><a @click="removeParent"><i class="fas fa-unlink"></i>&nbsp;Thema entfernen</a></li>
+                            <li v-if="!isCustomSegment"><a @click="thisToSegment">
+                                <div class="dropdown-icon"><i class="fa fa-code-fork"></i></div>Unterthemen einblenden
+                            </a></li>
+                            <li><a @click="removeParent">
+                                <div class="dropdown-icon"><i class="fas fa-unlink"></i></div>Thema entfernen
+                            </a></li>
                         </ul>
                     </div>
                 </a>
