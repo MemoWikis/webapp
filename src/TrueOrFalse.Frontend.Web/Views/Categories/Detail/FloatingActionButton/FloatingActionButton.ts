@@ -73,6 +73,9 @@ var FAB = Vue.component('floating-action-button',
             }
         },
         mounted() {
+            $(function () {
+                $('[data-toggle="tooltip"]').tooltip();
+            });
             this.footerCheck();
             if (this.isTopicTab == "True") {
                 eventBus.$on('content-is-ready',
