@@ -1620,13 +1620,13 @@ h3 {
   padding-left: 0 !important;
 }
 .overline-s,
-.overline-l {
+.overline-m {
   color: #555555;
   font-weight: 600;
   border-bottom: solid 1px #DDDDDD;
 }
 .overline-s.no-line,
-.overline-l.no-line {
+.overline-m.no-line {
   border: none;
   margin-bottom: 0;
   padding-bottom: 0;
@@ -1636,12 +1636,12 @@ h3 {
   line-height: 18px;
   letter-spacing: 0.25px;
   text-transform: uppercase;
-  padding-bottom: 10px;
+  padding-bottom: 5px;
   margin-bottom: 25px;
 }
-.overline-l {
+.overline-m {
   font-size: 14px;
-  line-height: 48px;
+  line-height: 30px;
   letter-spacing: 1.25px;
   text-transform: uppercase;
   margin-bottom: 40px;

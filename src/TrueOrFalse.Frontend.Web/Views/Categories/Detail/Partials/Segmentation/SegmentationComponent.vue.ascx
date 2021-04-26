@@ -5,10 +5,10 @@
 
 <segmentation-component inline-template :edit-mode="editMode" :category-id="<%= Model.Category.Id %>">
     <div :key="componentKey" id="Segmentation" v-cloak>
-        <div v-if="hasCustomSegment" class="segmentationHeader overline-l">
+        <div v-if="hasCustomSegment" class="segmentationHeader overline-m">
             Alle Unterthemen
         </div>
-        <div v-else class="segmentationHeader overline-l">
+        <div v-else class="segmentationHeader overline-m">
             Untergeordnete Themen
             <div v-if="editMode" class="Button dropdown DropdownButton segmentDropdown">
                 <a href="#" :id="dropdownId" class="dropdown-toggle  btn btn-link btn-sm ButtonEllipsis" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
