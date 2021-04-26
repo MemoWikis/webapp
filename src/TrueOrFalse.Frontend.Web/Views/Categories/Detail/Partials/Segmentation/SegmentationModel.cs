@@ -25,7 +25,7 @@ public class SegmentationModel : BaseContentModule
         CategoryList = categoryList.Where(c => c.Type.GetCategoryTypeGroup() == CategoryTypeGroup.Standard).ToList();
 
         var segments = new List<Segment>();
-        if (category.CustomSegments != null)
+        if (!String.IsNullOrEmpty(category.CustomSegments))
         {
             segments = GetSegments(category.Id);
             NotInSegmentCategoryList = GetNotInSegmentCategoryList(segments, categoryList.ToList());
