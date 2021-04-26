@@ -231,7 +231,7 @@
                                     </div>
                                     <div id="Solution" class="Detail" style="display: none;">
                                         <div class="Label">Richtige Antwort:</div>
-                                        <div class="body-m"></div>
+                                        <div class="Content body-m"></div>
                                     </div>
                                     <div id="divWrongAnswerPlay" class="Detail" style="display: none; background-color: white;">
                                         <span style="color: #B13A48"><b>Deine Antwort war falsch</b></span>
@@ -262,11 +262,11 @@
 
                                         <div id="Description" class="Detail" style="display: none;">
                                             <div class="Label">Ergänzungen zur Antwort:</div>
-                                            <div class="Content"></div>
+                                            <div class="Content body-m"></div>
                                         </div>
                                         <div id="References" class="Detail" style="display: none;">
                                             <div class="Label">Quellen:</div>
-                                            <div class="Content"></div>
+                                            <div class="Content body-s"></div>
                                         </div>
                                     </div>
                                 <% } %>
