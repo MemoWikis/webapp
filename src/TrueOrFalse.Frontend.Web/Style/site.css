@@ -1480,7 +1480,7 @@ h3,
 h4,
 h5,
 h6 {
-  font-family: 'Lato', sans-serif;
+  font-family: 'Open Sans';
 }
 h1 {
   font-size: 30px;
@@ -1615,14 +1615,18 @@ h3 {
   height: 36px !important;
   padding: 0 12px !important;
 }
+.memo-button.btn-link {
+  color: #0065CA;
+  padding-left: 0 !important;
+}
 .overline-s,
-.overline-l {
-  color: #555555;
+.overline-m {
+  color: #999999;
   font-weight: 600;
   border-bottom: solid 1px #DDDDDD;
 }
 .overline-s.no-line,
-.overline-l.no-line {
+.overline-m.no-line {
   border: none;
   margin-bottom: 0;
   padding-bottom: 0;
@@ -1632,12 +1636,12 @@ h3 {
   line-height: 18px;
   letter-spacing: 0.25px;
   text-transform: uppercase;
-  padding-bottom: 10px;
+  padding-bottom: 5px;
   margin-bottom: 25px;
 }
-.overline-l {
+.overline-m {
   font-size: 14px;
-  line-height: 48px;
+  line-height: 30px;
   letter-spacing: 1.25px;
   text-transform: uppercase;
   margin-bottom: 40px;
@@ -1668,7 +1672,8 @@ h3 {
 }
 .dropdown-menu li a {
   display: flex;
-  line-height: 32px;
+  line-height: 26px;
+  color: #999999;
 }
 .dropdown-menu li .dropdown-icon {
   display: flex;
@@ -1677,6 +1682,19 @@ h3 {
   width: 20px;
   margin-right: 12.5px;
 }
+.dropdown-menu li .dropdown-icon i {
+  transition: color 0.1s ease-in-out;
+  color: #999999 !important;
+}
+.dropdown-menu li:hover a {
+  color: #003264 !important;
+}
+.dropdown-menu li:hover .dropdown-icon i {
+  color: #003264 !important;
+}
 #userDropdown li.divider {
   height: 1px;
+}
+.grey-darker {
+  color: #555555;
 }

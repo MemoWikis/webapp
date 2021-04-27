@@ -26,14 +26,12 @@
 }
 #QuestionListApp .rootElement #LearningSessionReminderQuestionList span {
   position: absolute;
-  margin-top: -74px;
-  margin-left: 125px;
+  margin-top: -64px;
+  margin-left: -101px;
   cursor: pointer;
 }
 @media (max-width: 768px) {
   #QuestionListApp .rootElement #LearningSessionReminderQuestionList span {
-    margin-top: -64px;
-    margin-left: -101px;
     font-size: 14px;
   }
 }
@@ -47,28 +45,14 @@
   position: absolute;
   margin-left: -85px;
   z-index: 100;
-}
-@media (min-width: 768px) {
-  #QuestionListApp .rootElement #LearningSessionReminderQuestionList #SessionConfigReminderLeft {
-    display: none;
-  }
-}
-@media (max-width: 479px) {
-  #QuestionListApp .rootElement #LearningSessionReminderQuestionList #SessionConfigReminderLeft {
-    display: none;
-  }
+  display: block;
 }
 #QuestionListApp .rootElement #LearningSessionReminderQuestionList #SessionConfigReminderRight {
   margin-top: -67px;
   position: absolute;
   margin-left: 10px;
-  display: none;
   z-index: 100;
-}
-@media (min-width: 768px) {
-  #QuestionListApp .rootElement #LearningSessionReminderQuestionList #SessionConfigReminderRight {
-    display: block;
-  }
+  display: none;
 }
 #QuestionListApp .rootElement #CustomSessionConfigBtn.btn {
   font-size: 18px;
@@ -94,6 +78,7 @@
   padding-bottom: 20px;
   font-size: 18px;
   justify-content: space-between;
+  padding-right: 0;
 }
 #QuestionListApp .drop-down-question-sort #ButtonAndDropdown {
   display: flex;
@@ -148,16 +133,16 @@
   box-shadow: 0px 1px 6px 0px #C4C4C4;
 }
 #QuestionListApp .singleQuestionRow.solid {
-  background: linear-gradient(to right, #AFD534 0px, #AFD534 8px, #ffffffff 9px, #ffffffff 100%);
+  background: linear-gradient(to right, #AFD534 0px, #AFD534 8px, #ffffffff 8px, #ffffffff 100%);
 }
 #QuestionListApp .singleQuestionRow.shouldConsolidate {
-  background: linear-gradient(to right, #FDD648 0px, #FDD648 8px, #ffffffff 9px, #ffffffff 100%);
+  background: linear-gradient(to right, #FDD648 0px, #FDD648 8px, #ffffffff 8px, #ffffffff 100%);
 }
 #QuestionListApp .singleQuestionRow.shouldLearn {
-  background: linear-gradient(to right, #FFA07A 0px, #FFA07A 8px, #ffffffff 9px, #ffffffff 100%);
+  background: linear-gradient(to right, #FFA07A 0px, #FFA07A 8px, #ffffffff 8px, #ffffffff 100%);
 }
 #QuestionListApp .singleQuestionRow.inWishknowledge {
-  background: linear-gradient(to right, #949494 0px, #949494 8px, #ffffffff 9px, #ffffffff 100%);
+  background: linear-gradient(to right, #949494 0px, #949494 8px, #ffffffff 8px, #ffffffff 100%);
 }
 #QuestionListApp .singleQuestionRow .knowledgeState {
   width: 8px;
@@ -511,6 +496,8 @@
   align-items: center;
   flex-direction: column;
   width: 100px;
+  margin-right: -22px;
+  cursor: pointer;
 }
 #QuestionListApp #AddInlineQuestionContainer #AddQuestionHeader .heart-container .Text {
   padding: 0 3px !important;

@@ -20,7 +20,6 @@
 #Segmentation #GeneratedSegmentSection,
 #Segmentation .segment,
 #Segmentation .segmentCategoryCard {
-  border-radius: 3px;
   border: solid transparent 1px;
   transition: 0.2s;
 }
@@ -43,44 +42,48 @@
   z-index: 3;
   line-height: 0;
   background: white;
-  color: #999999;
+  color: #AFD534;
   opacity: 0;
   transition: opacity 0.1s ease-in-out;
-}
-#Segmentation #CustomSegmentSection .topicNavigation .segmentCategoryCard .checkBox:hover,
-#Segmentation #GeneratedSegmentSection .topicNavigation .segmentCategoryCard .checkBox:hover {
-  color: #203256;
+  transition: color 0.1s ease-in-out;
 }
 #Segmentation #CustomSegmentSection .topicNavigation .segmentCategoryCard .checkBox.show,
 #Segmentation #GeneratedSegmentSection .topicNavigation .segmentCategoryCard .checkBox.show {
   opacity: 1;
   transition: opacity 0.1s ease-in-out;
+  transition: color 0.1s ease-in-out;
 }
 #Segmentation #CustomSegmentSection .topicNavigation .segmentCategoryCard .checkBox.selected,
 #Segmentation #GeneratedSegmentSection .topicNavigation .segmentCategoryCard .checkBox.selected {
-  color: #203256;
+  color: #AFD534;
   opacity: 1;
   transition: opacity 0.1s ease-in-out;
+}
+#Segmentation #CustomSegmentSection .topicNavigation .segmentCategoryCard .checkBox:hover,
+#Segmentation #GeneratedSegmentSection .topicNavigation .segmentCategoryCard .checkBox:hover {
+  color: #203256;
+  transition: color 0.1s ease-in-out;
 }
 #Segmentation #CustomSegmentSection .topicNavigation .segmentCategoryCard .DropdownButton,
 #Segmentation #GeneratedSegmentSection .topicNavigation .segmentCategoryCard .DropdownButton {
   position: absolute;
   right: 10px;
-  top: 0px;
+  top: -10px;
 }
 #Segmentation #CustomSegmentSection .topicNavigation .segmentCategoryCard .DropdownButton i,
 #Segmentation #GeneratedSegmentSection .topicNavigation .segmentCategoryCard .DropdownButton i {
-  color: #999999;
+  color: #AFD534;
+  transition: color 0.1s ease-in-out;
 }
 #Segmentation #CustomSegmentSection .topicNavigation .segmentCategoryCard .DropdownButton i:hover,
 #Segmentation #GeneratedSegmentSection .topicNavigation .segmentCategoryCard .DropdownButton i:hover {
   color: #203256;
+  transition: color 0.1s ease-in-out;
 }
 #Segmentation #CustomSegmentSection .topicNavigation .addCategoryCard,
 #Segmentation #GeneratedSegmentSection .topicNavigation .addCategoryCard {
   display: flex;
-  border-radius: 3px;
-  border: dashed #999999 2px;
+  border: solid 1px #DDDDDD;
   transition: 0.2s;
   justify-content: center;
   align-content: center;
@@ -98,8 +101,8 @@
 }
 #Segmentation #CustomSegmentSection .topicNavigation .addCategoryCard:hover,
 #Segmentation #GeneratedSegmentSection .topicNavigation .addCategoryCard:hover {
-  border-color: #203256;
-  color: #203256;
+  border-color: #AFD534;
+  color: #AFD534;
 }
 #Segmentation #CustomSegmentSection .segment .segmentSubHeader .segmentKnowledgeBar {
   max-width: 420px;
@@ -139,14 +142,21 @@
 }
 #Segmentation .segmentDropdown i,
 #Segmentation .dropdown i {
-  color: #999999;
+  color: #AFD534;
+  transition: color 0.1s ease-in-out;
 }
 #Segmentation .segmentDropdown i:hover,
 #Segmentation .dropdown i:hover {
   color: #203256;
+  transition: color 0.1s ease-in-out;
 }
 #Segmentation .segmentDropdown.hover,
 #Segmentation .dropdown.hover {
   opacity: 1;
   transition: all 0.1s ease-in-out;
+}
+.segmentCategoryCard:hover,
+addCategoryCardBtn:hover {
+  /*        background: @memo-grey-lighter 10%;
+*/
 }

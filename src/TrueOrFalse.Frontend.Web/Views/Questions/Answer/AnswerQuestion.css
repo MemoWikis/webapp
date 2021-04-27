@@ -27,7 +27,6 @@
   padding-left: 10px;
 }
 .fontProgressBar {
-  font-family: "Lato";
   font-weight: bold;
 }
 .CardsContentMargin {
@@ -341,15 +340,16 @@
 }
 .QuestionCount {
   background-color: #EFEFEF;
-  float: left;
+  padding-left: 12px;
+  padding-right: 15px;
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
   display: flex;
-  padding-top: 5px;
-  padding-left: 15px;
-  padding-right: 15px;
-  font-family: "Lato";
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+      -ms-flex-align: center;
+          align-items: center;
   font-weight: bold;
 }
 .QuestionCount #CurrentStepNumber {
@@ -365,10 +365,9 @@
 }
 .ProgressBarContainer #spanPercentageDone {
   position: absolute;
-  right: 5px;
+  right: 12px;
   margin-top: 5px;
   z-index: 2;
-  font-family: "Lato";
   font-weight: bold;
 }
 @media (max-width: 479px) {
@@ -1162,4 +1161,9 @@
   .row.hasFlashCard {
     margin-top: 37px;
   }
+}
+#QuestionTitle,
+#AnswerAndSolution,
+h3.QuestionText {
+  padding-left: 12px;
 }

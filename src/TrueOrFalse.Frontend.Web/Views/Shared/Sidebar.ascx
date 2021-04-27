@@ -11,7 +11,7 @@
             <div class="overline-s">Unterstützen</div>
             <div>
                 <div class="body-s">Bitwerke – Code und 3D</div>
-                <div class="body-l">Softwareentwicklung</div>
+                <div class="body-l grey-darker">Softwareentwicklung</div>
                 <div class="body-s">Wir, die Macher von memucho freuen uns über Softwareentwicklungsaufträge.</div>
             </div>
             <div class="underline-s">

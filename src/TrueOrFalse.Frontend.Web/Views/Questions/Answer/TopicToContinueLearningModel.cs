@@ -8,8 +8,8 @@ public class TopicToContinueLearningModel
     public bool IsLearningSession { get; }
     public bool IsTestSession { get; }
     public ContentRecommendationResult ContentRecommendationResult { get; }
-    public IList<Category> Categories; 
-    public TopicToContinueLearningModel(AnswerQuestionModel answerQuestionModel, IList<Category> categoryList)
+    public IList<CategoryCacheItem> Categories; 
+    public TopicToContinueLearningModel(AnswerQuestionModel answerQuestionModel, IList<CategoryCacheItem> categoryList)
     {
         IsLearningSession = answerQuestionModel.IsLearningSession;
         IsTestSession = answerQuestionModel.IsTestSession;

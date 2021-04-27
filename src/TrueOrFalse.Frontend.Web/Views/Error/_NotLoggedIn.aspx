@@ -23,7 +23,7 @@
         Um die Funktion zu nutzen, musst du eingeloggt sein.
         <br />
         <br />
-        <a href="#" data-btn-login="true" class="btn btn-success">Jetzt einloggen</a> oder
+        <a href="#" data-btn-login="true" class="btn btn-success memo-button">Jetzt einloggen</a> oder
         <a href="<%= Url.Action(Links.RegisterAction, Links.RegisterController) %>"> registrieren</a>
     </p>
 

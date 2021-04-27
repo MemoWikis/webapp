@@ -372,7 +372,6 @@ p:empty {
 
     img {
         border-radius: 0;
-        box-shadow: 5px 5px 10px @gray-lighter;
     }
 
     a {
@@ -390,6 +389,7 @@ p:empty {
     }
 
     .topic, .setCardMini {
+
         .row {
             margin-top: 20px;
             margin-bottom: 25px;
@@ -798,6 +798,12 @@ p:empty {
         height: 80px;
     }
 
+    #CategoryHeaderImg {
+        border-radius: 0;
+        width: 120px;
+        height: 120px;
+    }
+
     .LicenseInfo {
         .greyed;
         text-align: center;
@@ -1028,7 +1034,7 @@ p:empty {
         }
 
         #HeadingSection {
-            margin-bottom: 60px;
+            margin-bottom: 50px;
             overflow: hidden;
         }
     }
@@ -1064,7 +1070,7 @@ p:empty {
                 justify-content: center;
                 z-index: 100;
                 background: #FFFFFFE6;
-                height: 80px;
+                height: 120px;
                 top: 0;
                 align-items: center;
                 left: 0;
@@ -1073,7 +1079,7 @@ p:empty {
                 text-align: center;
                 flex-direction: column;
                 cursor: pointer;
-                color: @memo-blue;
+                color: @memo-green;
 
                 &:hover {
                     opacity: 1;
@@ -1081,8 +1087,8 @@ p:empty {
                 }
 
                 .imageUploadLabel {
-                    font-size: 10px;
-                    line-height: 12px;
+                    font-size: 14px;
+                    line-height: 18px;
                 }
             }
         }
@@ -2247,7 +2253,7 @@ p.is-editor-empty:first-child::before {
             z-index: 999;
 
             @media(min-width: 1200px) {
-                margin-right: -48px;
+                margin-right: -28px;
             }
 
             @keyframes move-up {

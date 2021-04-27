@@ -28,13 +28,11 @@
         #LearningSessionReminderQuestionList {
             span {
                 position: absolute;
-                margin-top: -74px;
-                margin-left: 125px;
+                margin-top: -64px;
+                margin-left: -101px;
                 cursor: pointer;
 
                 @media(max-width: @screen-sm-min) {
-                    margin-top: -64px;
-                    margin-left: -101px;
                     font-size: 14px;
                 }
 
@@ -48,14 +46,7 @@
                 position: absolute;
                 margin-left: -85px;
                 z-index: 100;
-
-                @media(min-width: @screen-sm-min) {
-                    display: none;
-                }
-
-                @media(max-width: @screen-xxs-max) {
-                    display: none;
-                }
+                display: block;
             }
 
             #SessionConfigReminderRight {
@@ -64,9 +55,9 @@
                 margin-left: 10px;
                 display: none;
                 z-index: 100;
+                display: none;
 
                 @media(min-width: @screen-sm-min) {
-                    display: block;
                 }
             }
         }
@@ -102,6 +93,7 @@
         padding-bottom: 20px;
         font-size: 18px;
         justify-content: space-between;
+        padding-right: 0;
 
         #ButtonAndDropdown {
             display: flex;
@@ -164,19 +156,19 @@
         }
 
         &.solid {
-            background: linear-gradient(to right, @memo-green 0px, @memo-green 8px, #ffffffff 9px, #ffffffff 100%);
+            background: linear-gradient(to right, @memo-green 0px, @memo-green 8px, #ffffffff 8px, #ffffffff 100%);
         }
 
         &.shouldConsolidate {
-            background: linear-gradient(to right, #FDD648 0px, #FDD648 8px, #ffffffff 9px, #ffffffff 100%);
+            background: linear-gradient(to right, #FDD648 0px, #FDD648 8px, #ffffffff 8px, #ffffffff 100%);
         }
 
         &.shouldLearn {
-            background: linear-gradient(to right, @memo-salmon 0px, @memo-salmon 8px, #ffffffff 9px, #ffffffff 100%);
+            background: linear-gradient(to right, @memo-salmon 0px, @memo-salmon 8px, #ffffffff 8px, #ffffffff 100%);
         }
 
         &.inWishknowledge {
-            background: linear-gradient(to right, #949494 0px, #949494 8px, #ffffffff 9px, #ffffffff 100%);
+            background: linear-gradient(to right, #949494 0px, #949494 8px, #ffffffff 8px, #ffffffff 100%);
         }
 
         .knowledgeState {
@@ -602,6 +594,8 @@
                 align-items: center;
                 flex-direction: column;
                 width: 100px;
+                margin-right: -22px;
+                cursor: pointer;
 
                 .Text {
                     padding: 0 3px !important;
