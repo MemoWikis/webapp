@@ -73,7 +73,7 @@ public class CategoryRepository : RepositoryDbBase<Category>
         if (UserEntityCache.HasUserCache(Sl.CurrentUserId))
         {
             UserEntityCache.Add(categoryCacheItem, Sl.CurrentUserId);
-            ModifyRelationsUserEntityCache.CreateRelationsIncludetContentOf(categoryCacheItem);
+            ModifyRelationsUserEntityCache.CreateRelationsIncludetContentOf(UserEntityCache.GetCategory(Sl.CurrentUserId,categoryCacheItem.Id));
         }
     }
 

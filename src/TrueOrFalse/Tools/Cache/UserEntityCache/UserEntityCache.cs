@@ -3,6 +3,7 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Diagnostics.Eventing.Reader;
 using System.Linq;
+using NHibernate.SqlCommand;
 using Seedworks.Lib;
 
 public class UserEntityCache : BaseCache
@@ -32,9 +33,11 @@ public class UserEntityCache : BaseCache
 
     public static void Add(CategoryCacheItem item, int userId)
     {
+        var newItem = item.DeepClone(); 
+
         var obj = _Categories[userId];
     
-        var childRelations = item
+        var childRelations = newItem
             .CategoryRelations
             .Where(r => r.CategoryRelationType == CategoryRelationType.IsChildCategoryOf);
 
@@ -47,19 +50,19 @@ public class UserEntityCache : BaseCache
             childRelationsInWuWi.Add(
                 new CategoryCacheRelation
                 {
-                    CategoryId = item.Id,
+                    CategoryId = newItem.Id,
                     CategoryRelationType = CategoryRelationType.IsChildCategoryOf,
                     RelatedCategoryId = GetNextParentInWishknowledge(relation.RelatedCategoryId).Id
                 }); 
         }
 
-        item.CategoryRelations = new List<CategoryCacheRelation>();
+        newItem.CategoryRelations = new List<CategoryCacheRelation>();
 
         foreach (var categoryRelation in childRelationsInWuWi)
         {
-            item.CategoryRelations.Add(categoryRelation);
+            newItem.CategoryRelations.Add(categoryRelation);
         }
-        obj.TryAdd(item.Id, item );
+        obj.TryAdd(newItem.Id, newItem );
     }
 
     public static CategoryCacheItem GetCategoryWhenNotAvalaibleThenGetNextParent(int categoryId, int userId)
@@ -212,7 +215,10 @@ public class UserEntityCache : BaseCache
             .ToList();
     }
 
-
+    public static IEnumerable<CategoryCacheItem> GetByName(int userId, string name)
+    {
+       return  GetAllCategories(userId).Where(cCI => cCI.Name == name); 
+    }
 
     public static bool IsCategoryCacheKeyAvailable(int userId = -1)
     {
