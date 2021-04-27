@@ -84,6 +84,14 @@ public class QuestionListController : BaseController
         question.CorrectnessProbability = q.CorrectnessProbability;
         question.Visibility = q.Visibility;
 
+        var learningSession = LearningSessionCache.GetLearningSession();
+        if (learningSession != null)
+        {
+            var steps = learningSession.Steps;
+            var index = steps.IndexOf(s => s.Question.Id == q.Id);
+            question.SessionIndex = index;
+        }
+
         if (userQuestionValuation.ContainsKey(q.Id) && user != null)
         {
             question.CorrectnessProbability = userQuestionValuation[q.Id].CorrectnessProbability;
