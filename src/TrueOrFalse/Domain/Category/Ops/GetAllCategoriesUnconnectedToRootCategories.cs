@@ -15,7 +15,7 @@ public class GetAllCategoriesUnconnectedToRootCategories
         rootCategories.Add(EntityCache.GetCategoryCacheItem(CategoryRepository.AllgemeinwissenId));
         foreach (var category in categories)
         {
-            var parentCategories = GraphService.GetAllParentsFromUserEntityCache(category.Id);
+            var parentCategories = GraphService.GetAllParentsFromEntityCache(category.Id);
             if (!parentCategories.Intersect(rootCategories).Any())
             {
                 result.Add(EntityCache.GetCategoryCacheItem(category.Id));

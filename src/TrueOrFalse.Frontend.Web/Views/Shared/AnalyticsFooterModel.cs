@@ -25,7 +25,7 @@ public class AnalyticsFooterModel
     {
         var children = isCategoryChangeData ? new List<CategoryCacheItem>() : GetCategoryChildren.WithAppliedRules(category);
         ChildrenCount = children.Count;
-        AllParents = isCategoryChangeData ? new List<CategoryCacheItem>() : GraphService.GetAllParentsFromUserEntityCache(CategoryId);
+        AllParents = isCategoryChangeData ? new List<CategoryCacheItem>() : GraphService.GetAllParentsFromEntityCache(CategoryId);
 
         if (AllParents.Count > 0)
            ParentList = GetCategoryParentList(AllParents);

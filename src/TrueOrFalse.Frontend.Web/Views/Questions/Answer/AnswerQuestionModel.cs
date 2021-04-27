@@ -229,7 +229,7 @@ public class AnswerQuestionModel : BaseModel
         {
             PrimaryCategory = GetPrimaryCategory.GetForQuestion(question);
             AnalyticsFooterModel = new AnalyticsFooterModel(PrimaryCategory, true);
-            AllCategoriesParents = GraphService.GetAllParentsFromUserEntityCache(PrimaryCategory.Id);
+            AllCategoriesParents = GraphService.GetAllParentsFromEntityCache(PrimaryCategory.Id);
             var allCategoryChildrens = EntityCache.GetChildren(PrimaryCategory.Id);
             AllCategorysWithChildrenAndParents = EntityCache.GetCategoryCacheItems(
                 question.Categories.Select(c => c.Id)
