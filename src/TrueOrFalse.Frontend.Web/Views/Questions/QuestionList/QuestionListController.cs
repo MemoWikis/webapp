@@ -32,7 +32,8 @@ public class QuestionListController : BaseController
 
         question.Creator = _sessionUser.User;
         question.Categories.Add(Sl.CategoryRepo.GetById(flashCardJson.CategoryId));
-        question.Visibility = flashCardJson.Visibility;
+        var visibility = (QuestionVisibility)flashCardJson.Visibility;
+        question.Visibility = visibility;
         question.License = LicenseQuestionRepo.GetDefaultLicense();
 
         questionRepo.Create(question);
@@ -52,7 +53,7 @@ public class QuestionListController : BaseController
         public int CategoryId { get; set; }
         public string Text { get; set; }
         public string Answer { get; set; }
-        public QuestionVisibility Visibility { get; set; }
+        public int Visibility { get; set; }
         public bool AddToWishknowledge { get; set; }
         public int LastIndex { get; set; }
     }
@@ -81,6 +82,7 @@ public class QuestionListController : BaseController
         question.LinkToQuestionVersions = Links.QuestionHistory(q.Id);
         question.LinkToComment = Links.GetUrl(q) + "#JumpLabel";
         question.CorrectnessProbability = q.CorrectnessProbability;
+        question.Visibility = q.Visibility;
 
         if (userQuestionValuation.ContainsKey(q.Id) && user != null)
         {

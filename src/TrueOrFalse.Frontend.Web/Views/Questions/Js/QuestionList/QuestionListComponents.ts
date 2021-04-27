@@ -13,6 +13,7 @@
     LinkToQuestionDetailSite: String;
     LinkToQuestionVersions: String;
     Title: String;
+    Visibility: Number;
 }
 
 let qlc = Vue.component('question-list-component', {
