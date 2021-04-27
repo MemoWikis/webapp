@@ -31,7 +31,7 @@ public class ModifyRelationsUserEntityCache
                 if(!hasEqualRelation)
                     parent.CategoryRelations.Add(newRelation);
         }
-        
+         
     }
 
     private static bool IsCategorRelationEqual(CategoryCacheRelation relation1, CategoryCacheRelation relation2)
@@ -42,8 +42,10 @@ public class ModifyRelationsUserEntityCache
     }
     public static void UpdateRelationsIncludetContentOf(CategoryCacheItem child)
     {
-        foreach (var cache in GetAllCaches())
+        foreach (var cacheWithUser in UserEntityCache.GetAllCaches())
         {
+            var cache = cacheWithUser.Value; 
+
             if (cache.ContainsKey(child.Id))
             {
                 cache.TryGetValue(child.Id, out var result);
@@ -89,11 +91,13 @@ public class ModifyRelationsUserEntityCache
 
     public static void DeleteIncludetContentOfRelations(CategoryCacheItem category)
     {
-        foreach (var cache in GetAllCaches())
+        foreach (var cacheWithUser in UserEntityCache.GetAllCaches())
         {
+            var userId = cacheWithUser.Key;
+            var cache = cacheWithUser.Value; 
             if (cache.ContainsKey(category.Id))
             {
-                var allParents = GraphService.GetAllParents(category);
+                var allParents = GraphService.GetAllParentsFromUserEntityCache(userId, category);
                 foreach (var parent in allParents)
                 {
                     for (int i = 0; i < parent.CategoryRelations.Count; i++)
@@ -106,13 +110,6 @@ public class ModifyRelationsUserEntityCache
             cache.TryRemove(category.Id, out var result); 
         }
     }
-
-    private static IEnumerable<ConcurrentDictionary<int,CategoryCacheItem>> GetAllCaches()
-    {
-        return UserEntityCache.GetAllCaches()
-            .Select(cache => cache.Value);
-    }
-
     public static void DeleteInUserEntityCache(CategoryCacheItem category)
     {
         DeleteIncludetContentOfRelations(EntityCache.GetCategoryCacheItem(category.Id));

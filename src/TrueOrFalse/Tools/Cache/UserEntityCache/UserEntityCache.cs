@@ -28,8 +28,7 @@ public class UserEntityCache : BaseCache
         }
     }
 
-    public static bool IsCacheAvailable(int userId) => _Categories.ContainsKey(userId); 
-   
+    public static bool IsCacheAvailable(int userId) => _Categories.ContainsKey(userId);
 
     public static void Add(CategoryCacheItem item, int userId)
     {
@@ -39,9 +38,24 @@ public class UserEntityCache : BaseCache
             .CategoryRelations
             .Where(r => r.CategoryRelationType == CategoryRelationType.IsChildCategoryOf);
 
+        var childRelationsInWuWi =
+            childRelations.Where(cr => _Categories[Sl.CurrentUserId].ContainsKey(cr.RelatedCategoryId)).ToList(); 
+        
+        var childRelationsNotInWuwi = childRelations.Where(cr => !_Categories[Sl.CurrentUserId].ContainsKey(cr.RelatedCategoryId));
+        foreach (var relation in childRelationsNotInWuwi)
+        {
+            childRelationsInWuWi.Add(
+                new CategoryCacheRelation
+                {
+                    CategoryId = item.Id,
+                    CategoryRelationType = CategoryRelationType.IsChildCategoryOf,
+                    RelatedCategoryId = GetNextParentInWishknowledge(relation.RelatedCategoryId).Id
+                }); 
+        }
+
         item.CategoryRelations = new List<CategoryCacheRelation>();
 
-        foreach (var categoryRelation in childRelations)
+        foreach (var categoryRelation in childRelationsInWuWi)
         {
             item.CategoryRelations.Add(categoryRelation);
         }
@@ -103,7 +117,7 @@ public class UserEntityCache : BaseCache
 
                 userCacheItem.CategoryRelations = new List<CategoryCacheRelation>();
 
-                foreach (var categoryCacheRelation in entityCacheItem.CategoryRelations)
+                foreach (var categoryCacheRelation in userCacheItem.CategoryRelations)
                 {
                     CategoryCacheRelation newRelation; 
                     if (cache.ContainsKey(categoryCacheRelation.RelatedCategoryId))
@@ -135,12 +149,44 @@ public class UserEntityCache : BaseCache
             }
         }
     }
+    public static CategoryCacheItem GetNextParentInWishknowledge(int categoryId)
+    {
+        var nextParents = EntityCache.GetCategoryCacheItem(categoryId, true).ParentCategories().Distinct().ToList();
+        if (nextParents.Count == 0)
+            nextParents.Add(RootCategory.Get);  // Has Category no parent then add Rootcategory
+
+        while (nextParents.Count > 0)
+        {
+            var nextParent = nextParents.First();
+
+            if (nextParent.IsInWishknowledge())
+            {
+                return nextParent;
+            }
+
+            if (nextParents.Count == 1 && nextParents.First().IsRootCategory)
+                return nextParents.First();
+
+            var parentHelperList = nextParent.ParentCategories();
+            nextParents.RemoveAt(0);
+
+            foreach (var parent in parentHelperList)
+            {
+                nextParents.Add(parent);
+            }
+
+            nextParents.Distinct();
+        }
+        Logg.r().Error("Root category Not available/ UserEntityCache/NextParentInWishknowledge");
+        throw new NotImplementedException();
+    }
 
     public static ConcurrentDictionary<int, ConcurrentDictionary<int, CategoryCacheItem>> GetAllCaches()
     {
         return _Categories; 
     }
 
+    public static bool HasUserCache(int userId) => GetUserCache(userId) != null;  
     public static ConcurrentDictionary<int, CategoryCacheItem> GetUserCache(int userId)
     {
         _Categories.TryGetValue(userId, out var result);
@@ -166,37 +212,7 @@ public class UserEntityCache : BaseCache
             .ToList();
     }
 
-    public static CategoryCacheItem GetNextParentInWishknowledge(int categoryId)
-    {
-        var nextParents = EntityCache.GetCategoryCacheItem(categoryId,true).ParentCategories().Distinct().ToList();
-        if (nextParents.Count == 0)
-            nextParents.Add(RootCategory.Get);  // Has Category no parent then add Rootcategory
 
-        while (nextParents.Count > 0)
-        {
-            var nextParent = nextParents.First();
-
-            if (nextParent.IsInWishknowledge())
-            {
-               return nextParent;
-            }
-
-            if (nextParents.Count == 1 && nextParents.First().IsRootCategory)
-                return nextParents.First(); 
-
-            var parentHelperList = nextParent.ParentCategories();
-            nextParents.RemoveAt(0);
-
-            foreach (var parent in parentHelperList)
-            {
-               nextParents.Add(parent); 
-            }
-
-            nextParents.Distinct();
-        }
-        Logg.r().Error("Root category Not available/ UserEntityCache/NextParentInWishknowledge");
-        throw new NotImplementedException();
-    }
 
     public static bool IsCategoryCacheKeyAvailable(int userId = -1)
     {

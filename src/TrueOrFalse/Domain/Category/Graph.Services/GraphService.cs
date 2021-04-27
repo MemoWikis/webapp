@@ -18,7 +18,7 @@ public class GraphService
 
         while (parentIds.Count > 0)
         {
-            var parent = EntityCache.GetCategoryCacheItem(parentIds[0]);
+            var parent = EntityCache.GetCategoryCacheItem(parentIds[0], getDataFromEntityCache: true);
 
             if (!deletedIds.ContainsKey(parentIds[0]))
             {
@@ -63,7 +63,6 @@ public class GraphService
            parentIds.RemoveAt(0);
        }
        return allParents;
-
     }
 
     public static List<int> GetDirektParents(CategoryCacheItem category)

@@ -60,8 +60,7 @@ public class CategoryRepository : RepositoryDbBase<Category>
         base.Create(category);
         Flush();
 
-        if (category.Creator != null)
-            UserActivityAdd.CreatedCategory(category);
+        UserActivityAdd.CreatedCategory(category);
 
         _searchIndexCategory.Update(category);
         var categoryCacheItem = CategoryCacheItem.ToCacheCategory(category);
@@ -71,7 +70,7 @@ public class CategoryRepository : RepositoryDbBase<Category>
         Sl.CategoryChangeRepo.AddCreateEntry(category, category.Creator);
         GraphService.AutomaticInclusionOfChildCategoriesForEntityCacheAndDb(categoryCacheItem);
 
-        if (UserCache.GetItem(Sl.CurrentUserId).IsFiltered)
+        if (UserEntityCache.HasUserCache(Sl.CurrentUserId))
         {
             UserEntityCache.Add(categoryCacheItem, Sl.CurrentUserId);
             ModifyRelationsUserEntityCache.CreateRelationsIncludetContentOf(categoryCacheItem);
@@ -234,7 +233,7 @@ public class CategoryRepository : RepositoryDbBase<Category>
     // ReSharper disable once MethodOverloadWithOptionalParameter
     public void Update(Category category, User author = null, bool imageWasUpdated = false, bool isFromModifiyRelations = false)
     {
-        if (!isFromModifiyRelations)
+        if (!isFromModifiyRelations) 
             _searchIndexCategory.Update(category);
 
         base.Update(category);
@@ -246,7 +245,7 @@ public class CategoryRepository : RepositoryDbBase<Category>
 
         Sl.R<UpdateQuestionCountForCategory>().Run(category);
 
-        var categoryCacheItem = EntityCache.GetCategoryCacheItem(category.Id); 
+        var categoryCacheItem = EntityCache.GetCategoryCacheItem(category.Id, getDataFromEntityCache: true); 
 
         UpdateCachedData(categoryCacheItem, CreateDeleteUpdate.Update);
         EntityCache.AddOrUpdate(categoryCacheItem);
@@ -274,7 +273,7 @@ public class CategoryRepository : RepositoryDbBase<Category>
     {
         _searchIndexCategory.Delete(category);
         base.DeleteWithoutFlush(category);
-        EntityCache.Remove(CategoryCacheItem.ToCacheCategory(category));
+        EntityCache.Remove(EntityCache.GetCategoryCacheItem(category.Id, getDataFromEntityCache: true));
         UserCache.RemoveAllForCategory(category.Id);
     }
 
