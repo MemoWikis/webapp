@@ -12,16 +12,20 @@
 %>
 
 <div id="BreadCrumbContainer" class="container">
- 
-    <a href="/" id="BreadcrumbLogoSmall" class="show-tooltip" data-placement="bottom" title="Zur Startseite" >
-        <i class="fas fa-home"></i> 
-        <% if (!Model.TopNavMenu.IsWelcomePage && Model.TopNavMenu.BreadCrumbCategories != null && Model.TopNavMenu.BreadCrumbCategories.Items.Count > 1){ %>
+    <span>
+        <a href="/" id="BreadcrumbLogoSmall" class="show-tooltip" data-placement="bottom" title="Zur Startseite" >
+            <i class="fas fa-home"></i>
+        </a>
+    </span>
+    <% if (!Model.TopNavMenu.IsWelcomePage && Model.TopNavMenu.BreadCrumbCategories != null && Model.TopNavMenu.BreadCrumbCategories.Items.Count > 0){ %>
+        <span>
             <i class="fa fa-chevron-right"></i>
-        <% } %>
-    </a>
+        </span>
+    <% } %>
 
-    <div id="BreadCrumbTrail" style="display:flex;">
-        <ul id="Path" class="path"></ul>
+
+    <div id="BreadCrumbTrail">
+        <ul id="Path" class="path dropdown-menu" aria-labelledby="BreadCrumbDropdown"></ul>
 
     <%if(!Model.TopNavMenu.IsWelcomePage){ %>  
         <% if ((Model.TopNavMenu.IsCategoryBreadCrumb || Model.TopNavMenu.QuestionBreadCrumb) && Model.TopNavMenu.BreadCrumbCategories != null){ %>
@@ -32,14 +36,14 @@
                foreach (var breadCrumbItem in Model.TopNavMenu.BreadCrumb) {
                    i++;
             %> 
-                    <div style="display: flex; height: auto; margin-bottom: 5px" class="show-tooltip" data-placement="bottom" title="<%= breadCrumbItem.ToolTipText%>">  
+                    <div>  
 
                        <%if (breadCrumbItem.Equals(Model.TopNavMenu.BreadCrumb.Last())){%>
-                          <span style="display: flex; margin-left: 10px;"><a id="<%=i %>BreadCrumb" style="color:#003264;" href="<%= breadCrumbItem.Url %>">
+                          <span style="display: flex; margin-left: 10px;"><a class="show-tooltip" id="<%=i %>BreadCrumb" href="<%= breadCrumbItem.Url %>" title="<%= breadCrumbItem.ToolTipText%>" data-placement="bottom">
                               <%= breadCrumbItem.Text %>
                           </a></span>
                         <%} else {%>
-                           <span style="display: inline-table; margin-left: 10px;"><a id="<%= i %>BreadCrumb" style="display:inline;"  href="<%= breadCrumbItem.Url %>"><%= breadCrumbItem.Text %></a>
+                           <span style="display: inline-table; margin-left: 10px;"><a id="<%= i %>BreadCrumb" class="show-tooltip"  href="<%= breadCrumbItem.Url %>" title="<%= breadCrumbItem.ToolTipText%>" data-placement="bottom"><%= breadCrumbItem.Text %></a>
                            <%if (!breadCrumbItem.Equals(Model.TopNavMenu.BreadCrumb.Last()))
                              { %>
                                  <i style="display: inline;" class="fa fa-chevron-right"></i>
@@ -50,10 +54,6 @@
             <% } %>        
     <%} %>
     </div>
-    <div id="EditCategoryBreadcrumbChip">
-        Bearbeitungsmodus
-    </div>
-
     <div id="StickyHeaderContainer">    
         <div class="input-group" id="StickyHeaderSearchBoxDiv" style="margin-right:3px">
             <input type="text" class="form-control" placeholder="Suche" id="StickyHeaderSearchBox">

@@ -12,7 +12,7 @@
                                 <h4 class="modal-title">Neues Thema erstellen</h4>
                             </div>
                             <div class="modalBody">
-                                <form>
+                                <form v-on:submit.prevent="addCategory">
                                     <div class="form-group">
                                         <input class="form-control" v-model="name" placeholder="Bitte gib den Namen des Themas ein" />
                                         <small class="form-text text-muted"></small>

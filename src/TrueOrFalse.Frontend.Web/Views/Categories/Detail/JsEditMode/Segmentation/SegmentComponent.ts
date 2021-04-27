@@ -135,7 +135,7 @@ var categoryCardComponent = Vue.component('category-card-component', {
         editMode: Boolean,
         isCustomSegment: Boolean,
         selectedCategories: Array,
-        segmentId: String,
+        segmentId: [String, Number],
         hide: String,
     },
 

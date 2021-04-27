@@ -7,20 +7,20 @@
 <%
 for (var i = 1; i <= breadCrumbCategoriesCount - 1; i++)
 { %>
-    <div id="<%=i %>BreadCrumbContainer" style="display: flex; height: auto; margin-bottom: 8px;" class="show-tooltip" data-placement="bottom" title="Zur Themenseite"> 
+    <div id="<%=i %>BreadCrumbContainer" class="breadcrumb-item" data-placement="bottom"> 
         <% if (true) {
                 if (i == breadCrumbCategoriesCount - 1 && !Model.QuestionBreadCrumb) { %> 
-                    <span style="margin-left:10px;"><a  id="<%=  i%>BreadCrumb" style="color:#003264;" href="<%= Links.CategoryDetail(breadCrumbCategories[i].Category) %>" class=""><%= breadCrumbCategories[i].Category.Name %></a></span>
+                    <span><a id="<%=  i%>BreadCrumb" class="show-tooltip last-in-breadcrumb" href="<%= Links.CategoryDetail(breadCrumbCategories[i].Category) %>" title="Zur Themenseite" data-placement="bottom"><%= breadCrumbCategories[i].Category.Name %></a></span>
               <%}
                 else if(i != breadCrumbCategoriesCount){ %>
-                    <span  style="display:inline-table; margin-left:10px;"><a id="<%=i %>BreadCrumb" href="<%= Links.CategoryDetail(breadCrumbCategories[i].Category) %>" class=""><%= breadCrumbCategories[i].Category.Name %></a>
-                        <i style="display: inline;" class="fa fa-chevron-right"></i>
+                    <span><a id="<%=i %>BreadCrumb" class="show-tooltip" href="<%= Links.CategoryDetail(breadCrumbCategories[i].Category) %>"title="Zur Themenseite" data-placement="bottom"><%= breadCrumbCategories[i].Category.Name %></a>
+                        <i class="fa fa-chevron-right"></i>
                     </span> 
               <%}
                 else if(i == breadCrumbCategoriesCount && Model.QuestionBreadCrumb)
                 { %>
-                    <span  style="display:inline-table; margin-left:10px;"><a id="<%=i %>BreadCrumb" href="<%= Links.CategoryDetail(breadCrumbCategories[i].Category) %>" class=""><%= breadCrumbCategories[i].Category.Name %></a>
-                        <i style="display: inline;" class="fa fa-chevron-right"></i>
+                    <span><a id="<%=i %>BreadCrumb" class="show-tooltip" href="<%= Links.CategoryDetail(breadCrumbCategories[i].Category) %>" title="Zur Themenseite" data-placement="bottom"><%= breadCrumbCategories[i].Category.Name %></a>
+                        <i class="fa fa-chevron-right"></i>
                     </span>
              <% } %>
          <% } %>

@@ -271,9 +271,6 @@
   line-height: 21px;
   display: block;
   font-family: sans;
-  padding-top: 11px;
-  padding-bottom: 14px !important;
-  color: #000000 !important;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.16);
   position: absolute;
   z-index: 99;
@@ -282,14 +279,21 @@
 }
 #Breadcrumb #BreadCrumbContainer {
   display: flex;
+  align-items: center;
+  align-content: center;
+  height: 100%;
 }
 #Breadcrumb #BreadCrumbContainer .fa-home {
   font-size: 15px;
 }
+#Breadcrumb #BreadCrumbContainer #BreadCrumbTrail {
+  display: flex;
+  align-content: center;
+  align-items: center;
+}
 #Breadcrumb #BreadCrumbContainer #BreadCrumbTrail #Path {
   position: absolute;
   z-index: 1;
-  top: 45.4px;
   list-style-type: none;
   background-color: white;
   display: none;
@@ -304,10 +308,10 @@
   margin-top: -8px;
 }
 #Breadcrumb i.fa-chevron-right {
-  font-size: 11.2px;
+  font-size: 10px;
   width: auto;
   margin-left: 10px;
-  color: #707070;
+  color: #999999;
   margin-right: 0;
   background-color: white;
   border-radius: 0px;
@@ -321,19 +325,19 @@
   color: #AED71B;
 }
 #Breadcrumb a {
-  color: #707070;
+  color: #999999;
   text-decoration: none;
   font-family: "Open Sans";
   font-size: 14px;
-  font-weight: bold;
+  font-weight: 600;
+  padding-left: 10px;
+  transition: all 0.1s ease-in-out;
 }
 #Breadcrumb a.current {
   cursor: default;
 }
-@media (max-width: 1199px) {
-  #Breadcrumb {
-    padding-bottom: 20px;
-  }
+#Breadcrumb a:hover {
+  color: #003264;
 }
 #Breadcrumb #StickyHeaderContainer {
   margin-left: auto;
@@ -491,7 +495,31 @@
 /*Breadcrumb*/
 #Breadcrumb {
   z-index: 99;
+  color: #999999;
+}
+#Breadcrumb #BreadCrumbTrail,
+#Breadcrumb .breadcrumb-item {
+  height: 100%;
 }
 #Breadcrumb .messages {
   padding-right: 5px;
+}
+#Breadcrumb span {
+  display: flex;
+  align-items: center;
+  height: 100%;
+}
+#Breadcrumb #PathMobileBreadCrumb {
+  display: flex;
+  align-items: center;
+  height: 100%;
+}
+#Breadcrumb #PathMobileBreadCrumb:hover {
+  color: #003264;
+}
+#Breadcrumb #Path {
+  top: 24px;
+}
+#Breadcrumb .last-in-breadcrumb {
+  color: #555555;
 }

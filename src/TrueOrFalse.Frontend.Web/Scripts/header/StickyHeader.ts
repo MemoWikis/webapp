@@ -286,7 +286,7 @@ class StickyHeaderClass {
     private addEllipsis() {
         $('#BreadCrumbTrail > div:eq(0)')
             .after(
-            '<div id="PathMobileBreadCrumb" class="path" style="font-size: 14px;" ><span class="fas fa-ellipsis-h" style="margin-left: 10px;"></span><i class="fa fa-chevron-right"></i></div>');
+            '<div id="PathMobileBreadCrumb" class="path" ><i id="EllipsisBreadcrumb" class="fas fa-ellipsis-h dropdown-toggle" style="margin-left: 10px;" data-toggle="dropdown" id="BreadCrumbDropdown" type="button"></i><i class="fa fa-chevron-right"></i></div>');
         this._isAddEllipsis = true;
     }
 }

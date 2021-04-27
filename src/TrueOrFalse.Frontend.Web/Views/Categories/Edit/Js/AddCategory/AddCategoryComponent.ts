@@ -74,6 +74,7 @@
         },
 
         addCategory() {
+            Utils.ShowSpinner();
             var self = this;
             var url;
             var categoryData;
@@ -118,6 +119,7 @@
                                     }
                                     else
                                         $('#AddCategoryModal').modal('hide');
+                                        Utils.HideSpinner();
                                 } else {
                                 };
                             },

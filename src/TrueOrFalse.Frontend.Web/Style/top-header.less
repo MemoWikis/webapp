@@ -299,16 +299,22 @@
 
     #BreadCrumbContainer {
         display: flex;
+        align-items: center;
+        align-content: center;
+        height: 100%;
 
         .fa-home {
             font-size: 15px;
         }
 
         #BreadCrumbTrail {
+            display: flex;
+            align-content: center;
+            align-items: center;
+
             #Path {
                 position: absolute;
                 z-index: 1;
-                top: 45.4px;
                 list-style-type: none;
                 background-color: white;
                 display: none;
@@ -326,9 +332,6 @@
     line-height: 21px;
     display: block;
     font-family: sans;
-    padding-top: 11px;
-    padding-bottom: 14px !important;
-    color: #000000 !important;
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.16);
     position: absolute;
     z-index: 99;
@@ -345,10 +348,10 @@
 
     i.fa-chevron-right {
         padding: 0px;
-        font-size: 11.2px;
+        font-size: 10px;
         width: auto;
         margin-left: 10px;
-        color: #707070;
+        color: @memo-grey-dark;
         margin-right: 0;
         background-color: white;
         border-radius: 0px;
@@ -367,25 +370,22 @@
     }
 
     a {
-        color: #707070;
+        color: @memo-grey-dark;
         text-decoration: none;
         font-family: "Open Sans";
         font-size: 14px;
-        font-weight: bold;
-
+        font-weight: 600;
+        padding-left: 10px;
+        transition: all .1s ease-in-out;
 
         &.current {
             cursor: default;
         }
+
+        &:hover{
+            color: @memo-blue;
+        }
     }
-
-    .media-below-lg( {
-        padding-bottom: 20px;
-    }
-
-    );
-
-
 
     #StickyHeaderContainer {
         margin-left: auto;
@@ -435,7 +435,7 @@
         line-height: 25px;
         color: @memo-green;
         opacity: 0;
-        transition: opacity .2s ease-in-out, visibility .2s ease-in-out ;
+        transition: opacity .2s ease-in-out, visibility .2s ease-in-out;
         visibility: hidden;
 
         &.show {
@@ -461,7 +461,6 @@
         @media(max-width:492px) {
             width: 170px !important;
         }
-
         /*@media(max-width:420px) {
             width: 110px !important;
         }
@@ -550,12 +549,36 @@
 
 #Breadcrumb {
     z-index: 99;
-
+    color: @memo-grey-dark;
+    #BreadCrumbTrail, .breadcrumb-item{
+        height: 100%;
+    } 
     .messages {
         padding-right: 5px;
     }
 
+    span {
+        display: flex;
+        align-items: center;
+        height: 100%;
+    }
 
+    #PathMobileBreadCrumb {
+        display: flex;
+        align-items: center;
+        height: 100%;
+        &:hover {
+            color: @memo-blue;
+        }
+    }
+
+    #Path {
+        top: 24px;
+    }
+
+    .last-in-breadcrumb {
+        color: @memo-grey-darker;
+    }
 }
 
 
