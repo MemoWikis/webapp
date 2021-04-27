@@ -312,12 +312,18 @@ public class EditCategoryController : BaseController
         if (!IsAllowedTo.ToEdit(childCategory))
             throw new SecurityException("Not allowed to edit category");
 
-
         var childCategoryAsCategory = Sl.CategoryRepo.GetByIdEager(childCategory.Id);
         var updatedParentList = childCategory.ParentCategories().Where(c => c.Id != parentCategoryIdToRemove).ToList();
+
+        if (updatedParentList.Count == 0)
+            return Json(new
+            {
+                success = false,
+                errorMsg = "Das Thema muss einem Thema zugeordnet sein."
+            });
         ModifyRelationsForCategory.UpdateCategoryRelationsOfType(CategoryCacheItem.ToCacheCategory(childCategoryAsCategory), updatedParentList.Select(c => c.Id).ToList(), CategoryRelationType.IsChildCategoryOf);
         UserEntityCache.ReInitAllActiveCategoryCaches();
-
+        EntityCache.AddOrUpdate(childCategory);
         Sl.CategoryRepo.Update(childCategoryAsCategory, _sessionUser.User);
 
         return Json(new

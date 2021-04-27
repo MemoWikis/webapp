@@ -194,7 +194,8 @@ var categoryCardComponent = Vue.component('category-card-component', {
                 url: '/EditCategory/RemoveParent',
                 data: JSON.stringify(data),
                 success: function (data) {
-                    self.visible = false;
+                    if (data.success == true)
+                        self.visible = false;
                 },
             });
 
