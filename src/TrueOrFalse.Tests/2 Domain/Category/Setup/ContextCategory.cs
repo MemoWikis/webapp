@@ -201,6 +201,7 @@ namespace TrueOrFalse.Tests
                 CategoryInKnowledge.Pin(firstChildren.ByName("X3").Id, user);
             }
             Sl.SessionUser.Login(user);
+            UserEntityCache.Init(user.Id);
             return user; 
         }
 
