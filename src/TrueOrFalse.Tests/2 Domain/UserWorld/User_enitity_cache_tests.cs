@@ -247,19 +247,6 @@ class User_entity_cache_tests : BaseTest
         Assert.That(newCat.CategoryRelations.First().CategoryId, Is.EqualTo(EntityCache.GetByName("New1").First().Id));
         Assert.That(UserEntityCache.GetByName(user.Id, "New1").First().CategoryRelations.First().CategoryRelationType, Is.EqualTo(CategoryRelationType.IsChildCategoryOf));
         Assert.That(UserEntityCache.GetByName(user.Id, "New1").First().CategoryRelations.Count, Is.EqualTo(1));
-
-
-        // Test Relations 
-
-        var relation = new CategoryCacheRelation
-        {
-            CategoryId = RootCategory.RootCategoryId,
-            CategoryRelationType = CategoryRelationType.IncludesContentOf,
-            RelatedCategoryId = newCat.Id
-        }; 
-
-        Assert.That(HasRelation(EntityCache.GetCategoryCacheItem(RootCategory.RootCategoryId),relation), Is.EqualTo(true));
-
     }
 
     private static bool HasRelation(CategoryCacheItem category, CategoryCacheRelation expectedRelation)
