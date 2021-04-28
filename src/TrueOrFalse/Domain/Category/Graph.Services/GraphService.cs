@@ -264,11 +264,7 @@ public class GraphService
             ModifyRelationsEntityCache.CreateIncludeContentOf(parentAsCacheItem, relationsToAddEntityCache);
             parent.UpdateCountQuestionsAggregated();
         }
-
-
-       
     }
-
     public static bool IsCategoryParentEqual(IList<CategoryCacheItem> parent1, IList<CategoryCacheItem> parent2)
     {
         if (parent1 == null || parent2 == null)
