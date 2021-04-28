@@ -68,7 +68,7 @@ public class CategoryRepository : RepositoryDbBase<Category>
         EntityCache.AddOrUpdate(categoryCacheItem); 
 
         Sl.CategoryChangeRepo.AddCreateEntry(category, category.Creator);
-        GraphService.AutomaticInclusionOfChildCategoriesForEntityCacheAndDb(categoryCacheItem);
+        GraphService.AutomaticInclusionOfChildCategoriesForEntityCacheAndDbCreate(categoryCacheItem);
 
         if (UserEntityCache.HasUserCache(Sl.CurrentUserId))
         {
