@@ -25,21 +25,18 @@
             </div>
         </div>
 
-        <div id="CustomSegmentSection">
-            <template v-if="loaded">
+        <div id="CustomSegmentSection" v-if="loadComponents" v-cloak>
                 <template v-for="s in segments">
                     <%: Html.Partial("~/Views/Categories/Detail/Partials/Segmentation/SegmentComponent.vue.ascx") %>
                 </template>
-            </template>
-            <template v-else>
-                <%if (Model.Segments != null  && Model.Segments.Any()) {
+        </div>
+        <div id="CustomSegmentSection" v-else>
+            <%if (Model.Segments != null  && Model.Segments.Any()) {
                       foreach (var segment in Model.Segments)
                       { %>
                         <%: Html.Partial("~/Views/Categories/Detail/Partials/Segmentation/SegmentComponent.Placeholder.ascx", new SegmentModel(segment)) %>
                 <% }
                   } %>
-            </template>
-
         </div>
         <div id="GeneratedSegmentSection" @mouseover="hover = true" @mouseleave="hover = false" :class="{ hover : showHover }">
             <div class="segmentHeader" v-if="hasCustomSegment">
@@ -71,7 +68,7 @@
         
                 <div class="topicNavigation row">
                     <%if (Model.CategoryList.Any()) { %>
-                        <template v-if="loaded">
+                        <template v-if="loadComponents" v-cloak>
                             <template v-for="id in currentChildCategoryIds">
                                 <%: Html.Partial("~/Views/Categories/Detail/Partials/Segmentation/SegmentationCategoryCardComponent.vue.ascx")%>
                             </template>

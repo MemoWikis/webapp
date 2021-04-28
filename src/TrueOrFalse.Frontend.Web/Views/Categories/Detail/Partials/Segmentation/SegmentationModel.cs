@@ -41,13 +41,17 @@ public class SegmentationModel : BaseContentModule
 
         var childCategoryIds = NotInSegmentCategoryList.GetIds();
         NotInSegmentCategoryIds = "[" + String.Join(",", childCategoryIds) + "]";
-        var filteredSegments = Segments.Select(s => new
+        if (Segments != null)
         {
-            CategoryId = s.Item.Id,
-            Title = s.Title,
-            ChildCategoryIds = "[" + String.Join(", ", s.ChildCategories.Select(c => c.Id).ToList()) + "]",
-        }).ToList(); ;
-        SegmentJson = HttpUtility.HtmlEncode(JsonConvert.SerializeObject(filteredSegments));
+            var filteredSegments = Segments.Select(s => new
+            {
+                CategoryId = s.Item.Id,
+                Title = s.Title,
+                ChildCategoryIds = "[" + String.Join(", ", s.ChildCategories.Select(c => c.Id).ToList()) + "]",
+            }).ToList(); ;
+            SegmentJson = HttpUtility.HtmlEncode(JsonConvert.SerializeObject(filteredSegments));
+        }
+
     }
 
 

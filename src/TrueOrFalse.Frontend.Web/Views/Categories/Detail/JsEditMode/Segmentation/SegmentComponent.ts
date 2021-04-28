@@ -271,7 +271,7 @@ var segmentComponent = Vue.component('segment-component', {
     },
 
     mounted() {
-        this.getCategoryData();
+        this.getSegmentData();
         this.segmentId = "Segment-" + this.categoryId;
         if (this.childCategoryIds != null)
             this.currentChildCategoryIds = JSON.parse(this.childCategoryIds);
@@ -307,7 +307,7 @@ var segmentComponent = Vue.component('segment-component', {
     },
 
     methods: {
-        getCategoryData() {
+        getSegmentData() {
             var self = this;
             var data = {
                 categoryId: parseInt(self.categoryId),
@@ -315,7 +315,7 @@ var segmentComponent = Vue.component('segment-component', {
             $.ajax({
                 type: 'Post',
                 contentType: "application/json",
-                url: '/Segmentation/GetCategoryData',
+                url: '/Segmentation/GetSegmentData',
                 data: JSON.stringify(data),
                 success: function(data) {
                     self.linkToCategory = data.linkToCategory;
@@ -375,16 +375,13 @@ var segmentComponent = Vue.component('segment-component', {
             });
         },
         filterChildren(selectedCategoryIds) {
-            let filteredcurrentChildCategoryIds = this.currentChildCategoryIds.filter(
+            let filteredCurrentChildCategoryIds = this.currentChildCategoryIds.filter(
                 function (e) {
                     return this.indexOf(e) < 0;
                 },
                 selectedCategoryIds
             );
-            this.currentChildCategoryIds = filteredcurrentChildCategoryIds;
-        },
-        updateKnowledgeBar() {
-
+            this.currentChildCategoryIds = filteredCurrentChildCategoryIds;
         },
     },
 });

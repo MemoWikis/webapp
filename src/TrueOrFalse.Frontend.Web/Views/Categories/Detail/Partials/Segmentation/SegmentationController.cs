@@ -9,7 +9,7 @@ using TrueOrFalse.Frontend.Web.Code;
 public class SegmentationController : BaseController
 {
     [HttpPost]
-    public JsonResult GetSegmentHtml(SegmentJson json)
+    public JsonResult GetSegment(SegmentJson json)
  
     {
         var categoryId = json.CategoryId;
@@ -22,13 +22,11 @@ public class SegmentationController : BaseController
         else
             segment.ChildCategories = UserCache.GetItem(_sessionUser.UserId).IsFiltered ? UserEntityCache.GetChildren(categoryId, UserId) :  EntityCache.GetChildren(categoryId);
 
-        var segmentHtml = ViewRenderer.RenderPartialView(
-            "~/Views/Categories/Detail/Partials/Segmentation/SegmentComponent.vue.ascx", new SegmentModel(segment),
-            ControllerContext);
-
         return Json(new
         {
-            html = segmentHtml
+            CategoryId = segment.Item.Id,
+            Title = json.Title,
+            ChildCategoryIds = "[" + String.Join(", ", segment.ChildCategories.Select(c => c.Id).ToList()) + "]",
         });
     }
 
@@ -73,6 +71,27 @@ public class SegmentationController : BaseController
             imgHtml,
             childCategoryCount,
             questionCount,
+            knowledgeBarHtml
+        });
+    }
+
+    [HttpPost]
+    public JsonResult GetSegmentData(int categoryId)
+    {
+        var categoryCacheItem = EntityCache.GetCategoryCacheItem(categoryId);
+        var linkToCategory = Links.CategoryDetail(categoryCacheItem);
+
+        var questionCount = categoryCacheItem.GetAggregatedQuestionsFromMemoryCache().Count;
+        var knowledgeBarHtml = "";
+        if (questionCount > 0)
+            knowledgeBarHtml = ViewRenderer.RenderPartialView("~/Views/Categories/Detail/CategoryKnowledgeBar.ascx", new CategoryKnowledgeBarModel(categoryCacheItem), ControllerContext);
+
+        return Json(new
+        {
+            categoryId = categoryCacheItem.Id,
+            categoryName = categoryCacheItem.Name,
+            visibility = categoryCacheItem.Visibility,
+            linkToCategory,
             knowledgeBarHtml
         });
     }
