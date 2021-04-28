@@ -24,6 +24,7 @@ public class Sl
     public static CategoryValuationRepo CategoryValuationRepo => R<CategoryValuationRepo>();
     public static CategoryViewRepo CategoryViewRepo => R<CategoryViewRepo>();
     public static CategoryChangeRepo CategoryChangeRepo => R<CategoryChangeRepo>();
+    public static CategoryDeleter CategoryDeleter => R<CategoryDeleter>();
 
     public static SetViewRepo SetViewRepo => R<SetViewRepo>();
     public static SetRepo SetRepo => R<SetRepo>();
