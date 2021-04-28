@@ -1,17 +1,14 @@
-﻿<%@ Control Language="C#" AutoEventWireup="true" Inherits="System.Web.Mvc.ViewUserControl<SegmentModel>" %>
-<%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
+﻿<%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
 
-<segment-component inline-template :edit-mode="editMode" ref="segment<%= Model.Category.Id %>" title="<%= Model.Title %>" child-category-ids="<%= Model.ChildCategoryIds %>" category-id="<%= Model.Category.Id %>">
+<segment-component inline-template :edit-mode="editMode" :ref="'segment'+ s.CategoryId" :title="s.Title" :child-category-ids="s.ChildCategoryIds" :category-id="s.CategoryId">
     <div v-if="visible" class="segment" :data-category-id="categoryId" :data-child-category-ids="currentChildCategoryIds" @mouseover="hover = true" @mouseleave="hover = false" :class="{ hover : showHover }">
         <div class="segmentSubHeader">
             <div class="segmentHeader">
                 <div class="segmentTitle">
-                    <a href="<%= Links.CategoryDetail(Model.Category) %>">                        
+                    <a :href="linkToCategory">                        
                         <h2>
-                            <%= Model.Title %>
-                            <% if (Model.Category.Visibility == CategoryVisibility.Owner) {%>
-                                <i class="fas fa-lock"></i>
-                            <%}%>
+                            {{segmentTitle}}
+                            <i v-if="visibility == 1" class="fas fa-lock"></i>
                         </h2>
                     </a>
                     <pin-category-component :category-id="categoryId" @update-knowledge-bar="updateKnowledgeBar"/>
@@ -33,15 +30,15 @@
             </div>
             
             <div class="segmentKnowledgeBar">
-                <div class="KnowledgeBarWrapper">
-                    <% Html.RenderPartial("~/Views/Categories/Detail/CategoryKnowledgeBar.ascx", new CategoryKnowledgeBarModel(Model.Category)); %>
+                <div class="KnowledgeBarWrapper" v-html="knowledgeBarHtml">
                 </div>
             </div>
         </div>
         <div class="topicNavigation row" :key="cardsKey">
-            <% foreach (var category in Model.ChildCategories) {%>
-                <%: Html.Partial("~/Views/Categories/Detail/Partials/Segmentation/SegmentationCategoryCardComponent.vue.ascx", new SegmentationCategoryCardModel(category)) %>
-            <%} %>
+            <template v-for="id in currentChildCategoryIds">
+                <%: Html.Partial("~/Views/Categories/Detail/Partials/Segmentation/SegmentationCategoryCardComponent.vue.ascx")%>
+            </template>
+
             <div class="col-xs-6 addCategoryCard memo-button" @click="addCategory" :id="addCategoryId">
                 <div>
                      <i class="fas fa-plus"></i> Neues Thema hinzufügen

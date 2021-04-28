@@ -148,6 +148,14 @@ var categoryCardComponent = Vue.component('category-card-component', {
             isSelected: false,
             checkboxId: '',
             showHover: false,
+            imgHtml: null,
+            linkToCategory: null,
+            visibility: 0,
+            categoryTypeHtml: null,
+            childCategoryCount: 0,
+            questionCount: 0,
+            categoryName: null,
+            knowledgeBarHtml: null,
         };
     },
     watch: {
@@ -161,6 +169,9 @@ var categoryCardComponent = Vue.component('category-card-component', {
                 this.showHover = false;
         },
     },
+    created() {
+        this.getCategoryData();
+    },
     mounted() {
         this.dropdownId = this.segmentId + '-Dropdown' + this.id ;
         this.checkboxId = this.segmentId + '-Checkbox' + this.id;
@@ -168,6 +179,29 @@ var categoryCardComponent = Vue.component('category-card-component', {
             this.dropdownId += this.$parent.id;
     },
     methods: {
+        getCategoryData() {
+            var self = this;
+            var data = {
+                categoryId: parseInt(self.categoryId),
+            };
+            $.ajax({
+                type: 'Post',
+                contentType: "application/json",
+                url: '/Segmentation/GetCategoryData',
+                data: JSON.stringify(data),
+                success: function (data) {
+                    self.imgHtml = data.imgHtml;
+                    self.linkToCategory = data.linkToCategory;
+                    self.visibility = data.visibility;
+                    self.categoryTypeHtml = data.categoryTypeHtml;
+                    self.knowledgeBarHtml = data.knowledgeBarHtml;
+                    self.questionCount = data.questionCount;
+                    self.childCategoryCount = data.childCategoryCount;
+                    self.categoryName = data.categoryName;
+                },
+            });
+        },
+
         thisToSegment() {
             if (!this.isCustomSegment)
                 this.$parent.loadSegment(this.id);
@@ -208,14 +242,14 @@ var segmentComponent = Vue.component('segment-component', {
         title: String,
         description: String,
         childCategoryIds: String,
-        categoryId: String,
+        categoryId: [String, Number],
         editMode: Boolean,
     },
 
     data() {
         return {
             categories: [],
-            id: null,
+            segmentId: null,
             cardsKey: null,
             isCustomSegment: true,
             visible: true,
@@ -225,8 +259,11 @@ var segmentComponent = Vue.component('segment-component', {
             showHover: false,
             addCategoryId: "",
             dropdownId: null,
-            controlWishknowledge: false,
             timer: null,
+            linkToCategory: null,
+            visibility: 0,
+            segmentTitle: null,
+            knowledgeBarHtml: null,
         };
     },
 
@@ -234,7 +271,8 @@ var segmentComponent = Vue.component('segment-component', {
     },
 
     mounted() {
-        this.id = "Segment-" + this.categoryId;
+        this.getCategoryData();
+        this.segmentId = "Segment-" + this.categoryId;
         if (this.childCategoryIds != null)
             this.currentChildCategoryIds = JSON.parse(this.childCategoryIds);
         var segment = {
@@ -242,10 +280,18 @@ var segmentComponent = Vue.component('segment-component', {
             Title: this.title,
             ChildCategoryIds: this.categories
         }
-        this.addCategoryId = "AddCategoryTo-" + this.id + "-Btn";
+        this.addCategoryId = "AddCategoryTo-" + this.segmentId + "-Btn";
         if (this.categoryId != undefined)
             eventBus.$emit('new-segment', segment);
-        this.dropdownId = this.id + '-Dropdown';
+        this.dropdownId = this.segmentId + '-Dropdown';
+
+        this.$on('select-category', (id) => this.selectCategory(id));
+        this.$on('unselect-category', (id) => this.unselectCategory(id));
+        eventBus.$on('add-category-card',
+            (e) => {
+                if (e.parentId == this.categoryId)
+                    this.currentChildCategoryIds.push(e.newCategoryId);
+            });
     },
 
     watch: {
@@ -261,6 +307,26 @@ var segmentComponent = Vue.component('segment-component', {
     },
 
     methods: {
+        getCategoryData() {
+            var self = this;
+            var data = {
+                categoryId: parseInt(self.categoryId),
+            };
+            $.ajax({
+                type: 'Post',
+                contentType: "application/json",
+                url: '/Segmentation/GetCategoryData',
+                data: JSON.stringify(data),
+                success: function(data) {
+                    self.linkToCategory = data.linkToCategory;
+                    self.visibility = data.visibility;
+                    self.knowledgeBarHtml = data.knowledgeBarHtml;
+                    if (self.title)
+                        self.segmentTitle = self.title;
+                    else self.segmentTitle = data.categoryName;
+                },
+            });
+        },
         selectCategory(id) {
             if (this.selectedCategories.includes(id))
                 return;
@@ -273,7 +339,7 @@ var segmentComponent = Vue.component('segment-component', {
             }
         },
         updateCategoryOrder() {
-            this.categories = $("#" + this.id + " > .topic").map((idx, elem) => $(elem).attr("category-id")).get();
+            this.categories = $("#" + this.segmentId + " > .topic").map((idx, elem) => $(elem).attr("category-id")).get();
         },
         removeSegment() {
             eventBus.$emit('remove-segment', parseInt(this.categoryId));
@@ -303,12 +369,19 @@ var segmentComponent = Vue.component('segment-component', {
                 contentType: "application/json",
                 url: '/EditCategory/RemoveChildren',
                 data: JSON.stringify(data),
-                success: function (data) {
-                    self.selectedCategories.map(categoryId => {
-                        self.$refs['card' + categoryId].visible = false;
-                    });
+                success: function (result) {
+                    self.filterChildren(data.childCategoryIds);
                 },
             });
+        },
+        filterChildren(selectedCategoryIds) {
+            let filteredcurrentChildCategoryIds = this.currentChildCategoryIds.filter(
+                function (e) {
+                    return this.indexOf(e) < 0;
+                },
+                selectedCategoryIds
+            );
+            this.currentChildCategoryIds = filteredcurrentChildCategoryIds;
         },
         updateKnowledgeBar() {
 

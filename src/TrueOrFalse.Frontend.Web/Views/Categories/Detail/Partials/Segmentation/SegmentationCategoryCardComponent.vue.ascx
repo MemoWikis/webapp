@@ -1,7 +1,6 @@
-﻿ <%@ Control Language="C#" AutoEventWireup="true" Inherits="System.Web.Mvc.ViewUserControl<SegmentationCategoryCardModel>" %>
-<%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
+﻿<%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
 
- <category-card-component @select-category="selectCategory" @unselect-category="unselectCategory" inline-template :edit-mode="editMode" ref="card<%= Model.Category.Id %>" :is-custom-segment="isCustomSegment" category-id="<%= Model.Category.Id %>" :selected-categories="selectedCategories" :segment-id="id" hide="false" :control-wishknowledge="controlWishknowledge">
+ <category-card-component @select-category="selectCategory" @unselect-category="unselectCategory" inline-template :edit-mode="editMode" :ref="'card' + id" :is-custom-segment="isCustomSegment" :category-id="id" :selected-categories="selectedCategories" :segment-id="segmentId" hide="false">
     
     <div class="col-xs-6 topic segmentCategoryCard" v-if="visible" @mouseover="hover = true" @mouseleave="hover = false" :class="{ hover : showHover }">
         <div class="row">
@@ -10,20 +9,14 @@
                     <i class="fas fa-check-square" v-if="isSelected"></i>
                     <i class="far fa-square" v-else></i>
                 </div>
-                <div class="ImageContainer" v-show="editMode">
-                    <%= Model.GetCategoryImage(Model.Category).RenderHtmlImageBasis(128, true, ImageType.Category) %> 
-                </div>
-                <div class="ImageContainer" v-show="!editMode">
-                    <%= Model.GetCategoryImage(Model.Category).RenderHtmlImageBasis(128, true, ImageType.Category, linkToItem: Links.CategoryDetail(Model.Category.Name, Model.Category.Id)) %>
+                <div class="ImageContainer" v-html="imgHtml">
                 </div>
             </div>
             <div class="col-xs-9">
-                <a class="topic-name" href="<%= Links.CategoryDetail(Model.Category) %>">
+                <a class="topic-name" :href="linkToCategory">
                     <div class="topic-name">
-                        <%= Model.Category.Type.GetCategoryTypeIconHtml() %><%: Model.Category.Name %>
-                        <% if (Model.Category.Visibility == CategoryVisibility.Owner) { %>
-                            <i class="fas fa-lock"></i>
-                        <% } %>
+                        <template v-html="categoryTypeHtml"></template> {{categoryName}}
+                        <i v-if="visibility == 1" class="fas fa-lock"></i>
                     </div>
                     <div class="Button dropdown DropdownButton" :class="{ hover : showHover }">
                         <a href="#" :id="dropdownId" class="dropdown-toggle  btn btn-link btn-sm ButtonEllipsis" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
@@ -44,19 +37,15 @@
                     <span>
                         <pin-category-component :category-id="categoryId"/>
                     </span>
-
-                        <% if (Model.Category.CachedData.ChildrenIds.Count == 1)
-                       { %>1 Unterthema <% } %>
-                        <% if(Model.Category.CachedData.ChildrenIds.Count > 1)
-                           { %><%= Model.Category.CachedData.ChildrenIds.Count  %> Unterthemen <% } 
-                           else { %><% } %><%=Model.TotalQuestionCount %> Frage<% if(Model.TotalQuestionCount != 1){ %>n<% } %>
+                    
+                    <template v-if="childCategoryCount == 1">1 Unterthema</template>
+                    <template v-else-if="childCategoryCount > 1">{{childCategoryCount}} Unterthemen</template>
+                    {{questionCount}} Frage<template v-if="questionCount != 1">n</template>
                 </div>
-                    <%if(Model.TotalQuestionCount > 0) {%>
-                    <div class="KnowledgeBarWrapper">
-                        <% Html.RenderPartial("~/Views/Categories/Detail/CategoryKnowledgeBar.ascx", new CategoryKnowledgeBarModel(Model.Category)); %>
-                        <div class="KnowledgeBarLegend">Dein Wissensstand</div>
-                    </div>
-                <% }%>
+                <div v-if="questionCount > 0" class="KnowledgeBarWrapper">
+                    <div v-html="knowledgeBarHtml"></div>
+                    <div class="KnowledgeBarLegend">Dein Wissensstand</div>
+                </div>
 
             </div>
         </div>

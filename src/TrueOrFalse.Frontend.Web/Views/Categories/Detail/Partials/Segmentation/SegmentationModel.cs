@@ -1,6 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Web;
+using System.Web.Helpers;
+using System.Web.Mvc;
 using Microsoft.Ajax.Utilities;
 using Newtonsoft.Json;
 using NHibernate.Mapping;
@@ -16,6 +19,8 @@ public class SegmentationModel : BaseContentModule
     public List<CategoryCacheItem> CategoryList;
     public List<CategoryCacheItem> NotInSegmentCategoryList;
     public List<Segment> Segments;
+    public string NotInSegmentCategoryIds;
+    public string SegmentJson;
 
     public SegmentationModel(CategoryCacheItem category)
     {
@@ -33,7 +38,18 @@ public class SegmentationModel : BaseContentModule
         }
         else
             NotInSegmentCategoryList = categoryList.OrderBy(c => c.Name).ToList();
+
+        var childCategoryIds = NotInSegmentCategoryList.GetIds();
+        NotInSegmentCategoryIds = "[" + String.Join(",", childCategoryIds) + "]";
+        var filteredSegments = Segments.Select(s => new
+        {
+            CategoryId = s.Item.Id,
+            Title = s.Title,
+            ChildCategoryIds = "[" + String.Join(", ", s.ChildCategories.Select(c => c.Id).ToList()) + "]",
+        }).ToList(); ;
+        SegmentJson = HttpUtility.HtmlEncode(JsonConvert.SerializeObject(filteredSegments));
     }
+
 
     public List<Segment> GetSegments(int id)
     {

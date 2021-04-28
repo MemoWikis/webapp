@@ -9,23 +9,27 @@ var segmentationComponent = Vue.component('segmentation-component', {
     props: {
         categoryId: [String, Number],
         editMode: Boolean,
+        childCategoryIds: String,
+        segmentJson: String,
     },
 
     data() {
         return {
             baseCategoryList: [],
-            customCategoryList: [] as Segment[],
             componentKey: 0,
             selectedCategoryId: null,
             isCustomSegment: false,
             hasCustomSegment: false,
             selectedCategories: [],
-            id: 'SegmentationComponent',
+            segmentId: 'SegmentationComponent',
             hover: false,
             showHover: false,
             addCategoryId: "AddToCurrentCategoryCard",
             dropdownId: "MainSegment-Dropdown",
             controlWishknowledge: false,
+            loaded: false,
+            currentChildCategoryIds: [],
+            segments: [] as Segment[],
         };
     },
 
@@ -33,6 +37,11 @@ var segmentationComponent = Vue.component('segmentation-component', {
     },
 
     mounted() {
+        if (this.childCategoryIds != null)
+            this.currentChildCategoryIds = JSON.parse(this.childCategoryIds);
+        if (this.segmentJson != null)
+            this.segments = JSON.parse(this.segmentJson);
+
         var self = this;
         this.hasCustomSegment = $('#CustomSegmentSection').html().length > 0;
         eventBus.$on('remove-segment', (id) => {
@@ -43,6 +52,11 @@ var segmentationComponent = Vue.component('segmentation-component', {
                 ids.map(id => {
                     self.$refs['card' + id].visible = false;
                 });
+            });
+        eventBus.$on('add-category-card',
+            (e) => {
+                if (e.parentId == this.categoryId)
+                    this.currentChildCategoryIds.push(e.newCategoryId);
             });
     },
 

@@ -134,28 +134,11 @@
             });
         },
         loadCategoryCard(id) {
-            var self = this;
-
-            $.ajax({
-                type: 'Post',
-                contentType: "application/json",
-                url: '/Segmentation/GetCategoryCard',
-                data: JSON.stringify({ categoryId: id }),
-                success: function (data) {
-                    if (data) {
-                        var inserted = $(data.html).insertBefore(self.addCategoryBtnId);
-                        var instance = new categoryCardComponent({
-                            el: inserted.get(0),
-                            props: {
-                                editMode: true,
-                            },
-                        });
-                        $('#AddCategoryModal').modal('hide');
-                    } else {
-
-                    };
-                },
-            });
+            var data = {
+                parentId: this.parentId,
+                newCategoryId: id
+            };
+            eventBus.$emit('add-category-card', data);
         },
     }
 });
