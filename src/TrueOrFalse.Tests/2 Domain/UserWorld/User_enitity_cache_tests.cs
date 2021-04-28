@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using NUnit.Framework;
 using TrueOrFalse.Tests;
@@ -248,8 +249,22 @@ class User_entity_cache_tests : BaseTest
         Assert.That(UserEntityCache.GetByName(user.Id, "New1").First().CategoryRelations.Count, Is.EqualTo(1));
 
 
+        // Test Relations 
 
+        var relation = new CategoryCacheRelation
+        {
+            CategoryId = RootCategory.RootCategoryId,
+            CategoryRelationType = CategoryRelationType.IncludesContentOf,
+            RelatedCategoryId = newCat.Id
+        }; 
 
+        Assert.That(HasRelation(EntityCache.GetCategoryCacheItem(RootCategory.RootCategoryId),relation), Is.EqualTo(true));
+
+    }
+
+    private static bool HasRelation(CategoryCacheItem category, CategoryCacheRelation expectedRelation)
+    {
+       return category.CategoryRelations.Contains(expectedRelation); 
     }
 }
 

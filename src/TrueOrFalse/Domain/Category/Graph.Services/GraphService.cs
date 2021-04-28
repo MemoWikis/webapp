@@ -223,12 +223,42 @@ public class GraphService
             .Select(cr => cr.RelatedCategoryId);
     }
 
-    public static void AutomaticInclusionOfChildCategoriesForEntityCacheAndDb(CategoryCacheItem category)
+    public static void AutomaticInclusionOfChildCategoriesForEntityCacheAndDbUpdate(CategoryCacheItem category)
     {
         var parentsFromParentCategories = GetAllParentsFromEntityCache(category.Id, true);
 
         foreach (var parentCategory in parentsFromParentCategories)
             ModifyRelationsForCategory.UpdateRelationsOfTypeIncludesContentOf(EntityCache.GetCategoryCacheItem(parentCategory.Id, getDataFromEntityCache: true));
+    }
+
+    public static void AutomaticInclusionOfChildCategoriesForEntityCacheAndDbCreate(CategoryCacheItem category)
+    {
+        var parentsFromParentCategories = GetAllParentsFromEntityCache(category.Id, true);
+
+        foreach (var parent in parentsFromParentCategories)
+        {
+            var descendants = GetCategoryChildren.WithAppliedRules(parent);
+            var descendantsAsCategory = Sl.CategoryRepo.GetByIds(descendants.Select(cci => cci.Id).ToList());
+
+            var parentAsCategory = Sl.CategoryRepo.GetByIdEager(parent.Id);
+
+            var existingRelations =
+                ModifyRelationsForCategory.GetExistingRelations(parentAsCategory,
+                    CategoryRelationType.IncludesContentOf);
+
+            var relationsToAdd = ModifyRelationsForCategory.GetRelationsToAdd(parentAsCategory,
+                descendantsAsCategory,
+                CategoryRelationType.IncludesContentOf,
+                existingRelations);
+
+            ModifyRelationsForCategory.CreateIncludeContentOf(parentAsCategory, relationsToAdd);
+
+            parent.UpdateCountQuestionsAggregated();
+            Sl.CategoryRepo.Update(Sl.CategoryRepo.GetByIdEager(parent.Id), isFromModifiyRelations: true);
+        }
+
+
+       
     }
 
     public static bool IsCategoryParentEqual(IList<CategoryCacheItem> parent1, IList<CategoryCacheItem> parent2)

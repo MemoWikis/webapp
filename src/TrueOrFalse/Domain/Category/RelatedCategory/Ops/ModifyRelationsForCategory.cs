@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using RabbitMQ.Client.Framing.Impl;
 
 public class ModifyRelationsForCategory
 {
@@ -16,44 +17,23 @@ public class ModifyRelationsForCategory
         CategoryRelationType relationType)
     {
         var category = Sl.CategoryRepo.GetByIdEager(categoryCacheItem.Id);
-        var relatedCategoriesAsCategories = Sl.CategoryRepo.GetByIdsEager(relatedCategories); 
+        var relatedCategoriesAsCategories = Sl.CategoryRepo.GetByIdsEager(relatedCategories);
+        var existingRelationsOfType = GetExistingRelations(category, relationType).ToList(); 
 
-        var existingRelationsOfType = category.CategoryRelations.Any()
-            ? category.CategoryRelations?.Where(r => r.CategoryRelationType == relationType).ToList()
-            : new List<CategoryRelation>();
+        CreateIncludeContentOf(category, GetRelationsToAdd(category, relatedCategoriesAsCategories, relationType, existingRelationsOfType));
 
-        var relationsToAdd = relatedCategoriesAsCategories
-            .Except(existingRelationsOfType.Select(r => r.RelatedCategory))
-            .Select(Id => new CategoryRelation{
-                Category = category, 
-                RelatedCategory = Id, 
-                CategoryRelationType = relationType}
-        );
-
-        var relationsToRemove = new List<CategoryRelation>(); 
-        var relatedCategoriesDictionary =  relatedCategoriesAsCategories.ToConcurrentDictionary();
-        foreach (var categoryRelation in existingRelationsOfType)
-            if (!relatedCategoriesDictionary.ContainsKey(categoryRelation.RelatedCategory.Id))
-            {
-                relationsToRemove.Add(categoryRelation);
-            }
-        
-        foreach (var relation in relationsToAdd)
-            category.CategoryRelations.Add(relation);
-
-        foreach (var relation in relationsToRemove)
-            category.CategoryRelations.Remove(relation);
+        RemoveIncludeContentOf(category, GetRelationsToRemove(relatedCategoriesAsCategories, existingRelationsOfType)); 
     }
 
-    private static void AddCategoryRelationOfType(Category categoryCacherCacheItem, int relatedCategoryId, CategoryRelationType relationType)
+    private static void AddCategoryRelationOfType(Category category, int relatedCategoryId, CategoryRelationType relationType)
     {
-        if(categoryCacherCacheItem.CategoryRelations.Any(r => r.RelatedCategory.Id == relatedCategoryId && r.CategoryRelationType == relationType))
+        if(category.CategoryRelations.Any(r => r.RelatedCategory.Id == relatedCategoryId && r.CategoryRelationType == relationType))
             return;
 
-        categoryCacherCacheItem.CategoryRelations.Add(
+        category.CategoryRelations.Add(
             new CategoryRelation()
             {
-                Category = categoryCacherCacheItem,
+                Category = category,
                 RelatedCategory = Sl.CategoryRepo.GetByIdEager(relatedCategoryId),
                 CategoryRelationType = relationType 
             });
@@ -72,7 +52,7 @@ public class ModifyRelationsForCategory
         }
         
     }
-    public static void UpdateRelationsOfTypeIncludesContentOf(CategoryCacheItem categoryCacheItem, bool persist = true)
+    public static void UpdateRelationsOfTypeIncludesContentOf(CategoryCacheItem categoryCacheItem)
     {
         var descendants = GetCategoryChildren.WithAppliedRules(categoryCacheItem);
         var descendantsAsCategory = descendants.Select(cci => cci.Id).ToList();
@@ -81,5 +61,56 @@ public class ModifyRelationsForCategory
 
         categoryCacheItem.UpdateCountQuestionsAggregated();
         Sl.CategoryRepo.Update(Sl.CategoryRepo.GetByIdEager(categoryCacheItem.Id), isFromModifiyRelations: true);
+    }
+
+    public static IEnumerable<CategoryRelation> GetExistingRelations(Category category, CategoryRelationType relationType)
+    {
+        return category.CategoryRelations.Any()
+            ? category.CategoryRelations?.Where(r => r.CategoryRelationType == relationType).ToList()
+            : new List<CategoryRelation>();
+    }
+
+    public static IEnumerable<CategoryRelation> GetRelationsToAdd(Category category, IEnumerable<Category> relatedCategoriesAsCategories, CategoryRelationType relationType, IEnumerable<CategoryRelation> existingRelationsOfType)
+    {
+        return relatedCategoriesAsCategories
+            .Except(existingRelationsOfType.Select(r => r.RelatedCategory))
+            .Select(c => new CategoryRelation
+                {
+                    Category = category,
+                    RelatedCategory = c,
+                    CategoryRelationType = relationType
+                }
+            );
+    }
+
+    private static IEnumerable<CategoryRelation> GetRelationsToRemove( IList<Category> relatedCategoriesAsCategories, IEnumerable<CategoryRelation> existingRelationsOfType)
+    {
+         var relationsToRemove = new List<CategoryRelation>();
+        var relatedCategoriesDictionary = relatedCategoriesAsCategories.ToConcurrentDictionary();
+
+        foreach (var categoryRelation in existingRelationsOfType)
+            if (!relatedCategoriesDictionary.ContainsKey(categoryRelation.RelatedCategory.Id))
+                relationsToRemove.Add(categoryRelation);
+
+        return relationsToRemove; 
+    }
+    public static void CreateIncludeContentOf(Category category, IEnumerable<CategoryRelation> relationsToAdd)
+    {
+
+        foreach (var relation in relationsToAdd)
+        {
+            category.CategoryRelations.Add(relation);
+
+        }
+    }
+
+    public static void RemoveIncludeContentOf(Category category, IEnumerable<CategoryRelation> relationsToRemove)
+    {
+
+        foreach (var relation in relationsToRemove)
+        {
+            category.CategoryRelations.Remove(relation);
+
+        }
     }
 }
