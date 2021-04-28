@@ -5,6 +5,7 @@ using System.Security;
 using System.Web;
 using System.Web.Mvc;
 using Newtonsoft.Json;
+using NHibernate.Mapping;
 using TrueOrFalse.Frontend.Web.Code;
 using TrueOrFalse.Web;
 
@@ -307,6 +308,22 @@ public class EditCategoryController : BaseController
     [HttpPost]
     public JsonResult RemoveParent(int parentCategoryIdToRemove, int childCategoryId)
     {
+        var parentHasBeenRemoved = ParentRemover(parentCategoryIdToRemove, childCategoryId);
+        if (parentHasBeenRemoved)
+            return Json(new
+            {
+                success = true,
+            });
+        else
+            return Json(new
+            {
+                success = false,
+                errorMsg = "Das Thema muss einem Thema zugeordnet sein."
+            });
+    }
+
+    private bool ParentRemover(int parentCategoryIdToRemove, int childCategoryId)
+    {
         var childCategory = EntityCache.GetCategoryCacheItem(childCategoryId);
 
         if (!IsAllowedTo.ToEdit(childCategory))
@@ -316,31 +333,30 @@ public class EditCategoryController : BaseController
         var updatedParentList = childCategory.ParentCategories().Where(c => c.Id != parentCategoryIdToRemove).ToList();
 
         if (updatedParentList.Count == 0)
-            return Json(new
-            {
-                success = false,
-                errorMsg = "Das Thema muss einem Thema zugeordnet sein."
-            });
+            return false;
+
         ModifyRelationsForCategory.UpdateCategoryRelationsOfType(CategoryCacheItem.ToCacheCategory(childCategoryAsCategory), updatedParentList.Select(c => c.Id).ToList(), CategoryRelationType.IsChildCategoryOf);
         UserEntityCache.ReInitAllActiveCategoryCaches();
         EntityCache.AddOrUpdate(childCategory);
         Sl.CategoryRepo.Update(childCategoryAsCategory, _sessionUser.User);
 
-        return Json(new
-        {
-            success = true,
-        });
+        return true;
     }
 
     [HttpPost]
     public JsonResult RemoveChildren(int parentCategoryId, int[] childCategoryIds)
     {
+        var removedChildCategoryIds = new List<int>();
         foreach (int childCategoryId in childCategoryIds)
-            RemoveParent(parentCategoryId, childCategoryId);
+        {
+            var parentHasBeenRemoved = ParentRemover(parentCategoryId, childCategoryId);
+            if (parentHasBeenRemoved)
+                removedChildCategoryIds.Add(childCategoryId);
+        }
 
         return Json(new
         {
-            success = true,
+            removedChildCategoryIds = "[" + String.Join(",", removedChildCategoryIds) + "]",
         });
     }
 

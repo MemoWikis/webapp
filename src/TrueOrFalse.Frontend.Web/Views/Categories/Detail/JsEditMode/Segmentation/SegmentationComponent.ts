@@ -159,10 +159,10 @@ var segmentationComponent = Vue.component('segmentation-component', {
                 contentType: "application/json",
                 url: '/EditCategory/RemoveChildren',
                 data: JSON.stringify(data),
-                success: function (data) {
+                success: function (result) {
                     eventBus.$emit('content-change');
-                    self.filterChildren(data.selectedChildrenIds);
-                },
+                    var removedChildCategoryIds = JSON.parse(result.removedChildCategoryIds);
+                    self.filterChildren(removedChildCategoryIds);                },
             });
         },
         moveToNewCategory() {

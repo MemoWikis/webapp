@@ -370,7 +370,8 @@ var segmentComponent = Vue.component('segment-component', {
                 url: '/EditCategory/RemoveChildren',
                 data: JSON.stringify(data),
                 success: function (result) {
-                    self.filterChildren(data.childCategoryIds);
+                    var removedChildCategoryIds = JSON.parse(result.removedChildCategoryIds);
+                    self.filterChildren(removedChildCategoryIds);
                 },
             });
         },

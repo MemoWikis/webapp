@@ -11,7 +11,7 @@
                             <i v-if="visibility == 1" class="fas fa-lock"></i>
                         </h2>
                     </a>
-                    <pin-category-component :category-id="categoryId" @update-knowledge-bar="updateKnowledgeBar"/>
+                    <pin-category-component :category-id="categoryId"/>
 
                 </div>
                 <div class="Button dropdown DropdownButton segmentDropdown" :class="{ hover : showHover }">
