@@ -67,12 +67,12 @@
              <% } %>
         
                 <div class="topicNavigation row">
-                    <%if (Model.CategoryList.Any()) { %>
-                        <template v-if="loadComponents" v-cloak>
-                            <template v-for="id in currentChildCategoryIds">
-                                <%: Html.Partial("~/Views/Categories/Detail/Partials/Segmentation/SegmentationCategoryCardComponent.vue.ascx")%>
-                            </template>
+                    <template v-if="loadComponents" v-cloak>
+                        <template v-for="id in currentChildCategoryIds">
+                            <%: Html.Partial("~/Views/Categories/Detail/Partials/Segmentation/SegmentationCategoryCardComponent.vue.ascx")%>
                         </template>
+                    </template>
+                    <%if (Model.CategoryList.Any()) { %>
                         <template v-else>
                             <% foreach (var category in Model.NotInSegmentCategoryList) {%>
                                 <%: Html.Partial("~/Views/Categories/Detail/Partials/Segmentation/SegmentationCategoryCardComponent.Placeholder.ascx", new SegmentationCategoryCardModel(category)) %>
