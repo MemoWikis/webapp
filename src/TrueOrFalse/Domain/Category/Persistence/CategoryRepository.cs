@@ -324,7 +324,6 @@ public class CategoryRepository : RepositoryDbBase<Category>
             includingCategories = includingCategories.Union(new List<Category> { category }).ToList();
 
         return includingCategories;
-
     }
 
     public IList<Category> GetCategoriesIdsForRelatedCategory(Category relatedCategory, CategoryRelationType relationType = CategoryRelationType.None)
