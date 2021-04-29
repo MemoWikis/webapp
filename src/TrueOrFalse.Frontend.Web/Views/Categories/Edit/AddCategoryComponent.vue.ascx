@@ -11,7 +11,7 @@
                             <div class="modalHeader">
                                 <h4 class="modal-title">Neues Thema erstellen</h4>
                             </div>
-                            <div class="modalBody">
+                            <div class="modalBody" v-if="createCategory">
                                 <form v-on:submit.prevent="addCategory">
                                     <div class="form-group">
                                         <input class="form-control" v-model="name" placeholder="Bitte gib den Namen des Themas ein" />
@@ -28,8 +28,27 @@
                                     Privates Thema
                                 </div>
                             </div>
+                            <div class="modalBody" v-else>
+                                <form v-on:submit.prevent="addCategory">
+                                    <div class="form-group">
+                                        <input class="form-control" v-model="name" placeholder="Bitte gib den Namen des Themas ein" />
+                                        <small class="form-text text-muted"></small>
+                                    </div>
+                                </form>
+                                <div class="alert alert-warning" role="alert" v-if="showErrorMsg">
+                                    <a :href="existingCategoryUrl" target="_blank" class="alert-link">{{existingCategoryName}}</a>
+                                    {{errorMsg}}
+                                </div>
+                            </div>
                             <div class="modalFooter">
-                                <div class="btn btn-primary memo-button" @click="addCategory" :disabled="disableAddCategory">Thema Erstellen</div>       
+                                <div v-if="createCategory">
+                                    <div class="btn btn-primary memo-button" @click="addCategory" :disabled="disableAddCategory">Thema Erstellen</div>       
+                                    <div class="btn btn-link memo-button" @click="createCategory = false" >Bestehendes Thema Hinzufügen</div>
+                                </div>
+                                <div v-else>
+                                    <div class="btn btn-primary memo-button" @click="addCategory" :disabled="disableAddCategory">Thema Hinzufügen</div>       
+                                    <div class="btn btn-link memo-button" @click="createCategory = true">Neues Thema Erstellen</div>
+                                </div>
                             </div>   
                         </div>
                     </div>

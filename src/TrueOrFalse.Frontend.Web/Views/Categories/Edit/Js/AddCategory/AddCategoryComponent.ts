@@ -14,6 +14,7 @@
             selectedCategories: [],
             moveCategories: false,
             parentIsPrivate: false,
+            createCategory: true,
         };
     },
     watch: {
