@@ -225,6 +225,12 @@ public class UserEntityCache : BaseCache
         userId = userId == -1 ? Sl.SessionUser.UserId : userId;
         return _Categories.ContainsKey(userId); 
     }
+
+    public static IEnumerable<int> GetParentsIds(int userId, int topicId)
+    {
+        _Categories[userId].TryGetValue(topicId, out var topic);
+        return topic.CategoryRelations.Where(cr => cr.CategoryRelationType == CategoryRelationType.IsChildCategoryOf).Select(cr => cr.RelatedCategoryId);
+    }
 }
 
 
