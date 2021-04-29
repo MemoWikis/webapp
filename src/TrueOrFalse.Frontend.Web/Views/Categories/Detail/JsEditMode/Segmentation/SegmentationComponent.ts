@@ -113,7 +113,6 @@ var segmentationComponent = Vue.component('segmentation-component', {
                 success: function (data) {
                     if (data) {
                         eventBus.$emit('content-change');
-
                         eventBus.$emit('save-segments');
                     } else {
 
@@ -163,7 +162,8 @@ var segmentationComponent = Vue.component('segmentation-component', {
                 success: function (result) {
                     eventBus.$emit('content-change');
                     var removedChildCategoryIds = JSON.parse(result.removedChildCategoryIds);
-                    self.filterChildren(removedChildCategoryIds);                },
+                    self.filterChildren(removedChildCategoryIds);
+                },
             });
         },
         moveToNewCategory() {
@@ -191,6 +191,7 @@ var segmentationComponent = Vue.component('segmentation-component', {
                 selectedCategoryIds
             );
             this.currentChildCategoryIds = filteredCurrentChildCategoryIds;
+            eventBus.$emit('save-segments');
         }
     },
 });

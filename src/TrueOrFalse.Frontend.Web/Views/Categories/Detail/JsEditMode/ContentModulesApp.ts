@@ -49,6 +49,7 @@ new Vue({
             });
 
         eventBus.$on('request-save', () => this.saveContent());
+        eventBus.$on('save-segments', () => this.saveSegments());
         eventBus.$on('new-segment', (segment) => {
             this.segments.push(segment);
         });
@@ -159,7 +160,7 @@ new Vue({
             });
         },
 
-        saveSegments() {
+        saveSegments: _.debounce(function () {
             if (NotLoggedIn.Yes()) {
                 return;
             }
@@ -170,11 +171,15 @@ new Vue({
 
                 var segment;
 
-                if ($(el).data('child-category-ids').length > 0)
+                if ($(el).attr('data-child-category-ids').length > 0) {
                     segment = {
                         CategoryId: $(el).data('category-id'),
-                        ChildCategoryIds: $(el).data('child-category-ids')
+                        ChildCategoryIds: $(el).attr('data-child-category-ids')
                     }
+                    console.log($(el))
+                    console.log($(el).attr('data-child-category-ids'))
+                }
+
                 else
                     segment = {
                         CategoryId: $(el).data('category-id'),
@@ -192,7 +197,7 @@ new Vue({
                 contentType: "application/json",
                 url: '/Category/SaveSegments',
                 data: JSON.stringify(data),
-                success: function (success) {
+                success: function(success) {
                     if (success == true) {
                         this.saveSuccess = true;
                         this.saveMessage = "Das Thema wurde gespeichert.";
@@ -202,6 +207,6 @@ new Vue({
                     };
                 },
             })
-        },
+        },400)
     },
 });

@@ -232,7 +232,9 @@ var categoryCardComponent = Vue.component('category-card-component', {
                         self.visible = false;
                 },
             });
-
+        },
+        hideCategory() {
+            this.$parent.filterChildren([this.categoryId]);
         },
     }
 });
@@ -255,6 +257,7 @@ var segmentComponent = Vue.component('segment-component', {
             visible: true,
             selectedCategories: [],
             currentChildCategoryIds: [],
+            currentChildCategoryIdsString: "",
             hover: false,
             showHover: false,
             addCategoryId: "",
@@ -264,6 +267,7 @@ var segmentComponent = Vue.component('segment-component', {
             visibility: 0,
             segmentTitle: null,
             knowledgeBarHtml: null,
+
         };
     },
 
@@ -273,8 +277,10 @@ var segmentComponent = Vue.component('segment-component', {
     mounted() {
         this.getSegmentData();
         this.segmentId = "Segment-" + this.categoryId;
-        if (this.childCategoryIds != null)
-            this.currentChildCategoryIds = JSON.parse(this.childCategoryIds);
+        if (this.childCategoryIds != null) {
+            var baseChildCategoryIds = JSON.parse(this.childCategoryIds);
+            this.currentChildCategoryIds.push(baseChildCategoryIds);
+        }
         var segment = {
             CategoryId: parseInt(this.categoryId),
             Title: this.title,
@@ -289,7 +295,7 @@ var segmentComponent = Vue.component('segment-component', {
         this.$on('unselect-category', (id) => this.unselectCategory(id));
         eventBus.$on('add-category-card',
             (e) => {
-                if (e.parentId == this.categoryId)
+                if (this.categoryId == e.parentId)
                     this.currentChildCategoryIds.push(e.newCategoryId);
             });
     },
@@ -300,6 +306,9 @@ var segmentComponent = Vue.component('segment-component', {
                 this.showHover = true;
             else
                 this.showHover = false;
+        },
+        currentChildCategoryIds() {
+            this.currentChildCategoryIdsString = this.currentChildCategoryIds.join(',');
         }
     },
 
@@ -383,6 +392,7 @@ var segmentComponent = Vue.component('segment-component', {
                 selectedCategoryIds
             );
             this.currentChildCategoryIds = filteredCurrentChildCategoryIds;
+            eventBus.$emit('save-segments');
         },
     },
 });

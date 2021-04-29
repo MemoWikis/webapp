@@ -1,7 +1,7 @@
 ﻿<%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
 
 <segment-component inline-template :edit-mode="editMode" :ref="'segment'+ s.CategoryId" :title="s.Title" :child-category-ids="s.ChildCategoryIds" :category-id="s.CategoryId">
-    <div v-if="visible" class="segment" :data-category-id="categoryId" :data-child-category-ids="currentChildCategoryIds" @mouseover="hover = true" @mouseleave="hover = false" :class="{ hover : showHover }">
+    <div class="segment" :data-category-id="categoryId" :data-child-category-ids="currentChildCategoryIdsString" @mouseover="hover = true" @mouseleave="hover = false" :class="{ hover : showHover }">
         <div class="segmentSubHeader">
             <div class="segmentHeader">
                 <div class="segmentTitle">
@@ -19,11 +19,14 @@
                         <i class="fa fa-ellipsis-v"></i>
                     </a>
                     <ul class="dropdown-menu dropdown-menu-right" :aria-labelledby="dropdownId">
+                        <li><a @click="removeSegment">
+                            <div class="dropdown-icon"><i class="fas fa-trash"></i></div>Unterthema ausblenden
+                        </a></li>
+                        <li><a @click="removeChildren">
+                            <div class="dropdown-icon"><i class="fas fa-eye-slash"></i></div>Themen ausblenden
+                        </a></li>
                         <li><a @click="removeChildren">
                             <div class="dropdown-icon"><i class="fas fa-unlink"></i></div>Themen entfernen
-                        </a></li>
-                        <li><a @click="removeSegment">
-                            <div class="dropdown-icon"><i class="fas fa-trash"></i></div>Unterthemen ausblenden
                         </a></li>
                     </ul>
                 </div>
