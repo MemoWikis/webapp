@@ -2851,6 +2851,7 @@ p.is-editor-empty:first-child::before {
   bottom: 20px;
   right: 20px;
   z-index: 9;
+  height: 56px;
 }
 #TopicTabFABApp .fab-container,
 #LearningTabFABApp .fab-container {

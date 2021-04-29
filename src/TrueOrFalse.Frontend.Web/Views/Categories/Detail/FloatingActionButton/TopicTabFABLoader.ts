@@ -1,4 +1,4 @@
 ﻿
-var TopicTabFAB = new Vue({
-    el: '#TopicTabFABApp',
-});
+//var TopicTabFAB = new Vue({
+//    el: '#TopicTabFABApp',
+//});
