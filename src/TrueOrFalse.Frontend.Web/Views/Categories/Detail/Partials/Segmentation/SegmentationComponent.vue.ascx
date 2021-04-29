@@ -3,7 +3,7 @@
 
 <%= Styles.Render("~/bundles/Segmentation") %>
 
-<segmentation-component inline-template :edit-mode="editMode" :category-id="<%= Model.Category.Id %>">
+<segmentation-component inline-template :edit-mode="editMode" :category-id="<%= Model.Category.Id %>" child-category-ids="<%= Model.NotInSegmentCategoryIds %>" segment-json="<%= Model.SegmentJson %>">
     <div :key="componentKey" id="Segmentation" v-cloak>
         <div v-if="hasCustomSegment" class="segmentationHeader overline-m">
             Alle Unterthemen
@@ -25,13 +25,18 @@
             </div>
         </div>
 
-        <div id="CustomSegmentSection">
+        <div id="CustomSegmentSection" v-if="loadComponents" v-cloak>
+                <template v-for="s in segments">
+                    <%: Html.Partial("~/Views/Categories/Detail/Partials/Segmentation/SegmentComponent.vue.ascx") %>
+                </template>
+        </div>
+        <div id="CustomSegmentSection" v-else>
             <%if (Model.Segments != null  && Model.Segments.Any()) {
-                  foreach (var segment in Model.Segments)
-                  { %>
-                    <%: Html.Partial("~/Views/Categories/Detail/Partials/Segmentation/SegmentComponent.vue.ascx", new SegmentModel(segment)) %>
-            <% }
-              } %>
+                      foreach (var segment in Model.Segments)
+                      { %>
+                        <%: Html.Partial("~/Views/Categories/Detail/Partials/Segmentation/SegmentComponent.Placeholder.ascx", new SegmentModel(segment)) %>
+                <% }
+                  } %>
         </div>
         <div id="GeneratedSegmentSection" @mouseover="hover = true" @mouseleave="hover = false" :class="{ hover : showHover }">
             <div class="segmentHeader" v-if="hasCustomSegment">
@@ -62,12 +67,17 @@
              <% } %>
         
                 <div class="topicNavigation row">
-                    <%if (Model.CategoryList.Any()) {
-                      foreach (var category in Model.NotInSegmentCategoryList)
-                      { %>
-                        <%: Html.Partial("~/Views/Categories/Detail/Partials/Segmentation/SegmentationCategoryCardComponent.vue.ascx", new SegmentationCategoryCardModel(category)) %>
-                    <% } %>
-                    <%}else { %>
+                    <template v-if="loadComponents" v-cloak>
+                        <template v-for="id in currentChildCategoryIds">
+                            <%: Html.Partial("~/Views/Categories/Detail/Partials/Segmentation/SegmentationCategoryCardComponent.vue.ascx")%>
+                        </template>
+                    </template>
+                    <%if (Model.CategoryList.Any()) { %>
+                        <template v-else>
+                            <% foreach (var category in Model.NotInSegmentCategoryList) {%>
+                                <%: Html.Partial("~/Views/Categories/Detail/Partials/Segmentation/SegmentationCategoryCardComponent.Placeholder.ascx", new SegmentationCategoryCardModel(category)) %>
+                            <%} %>
+                        </template>                    <%}else { %>
                         <div class="hidden">&nbsp;</div><% //if empty, templateparser throws error %>
                     <%} %>
                     <div id="AddToCurrentCategoryBtn" class="col-xs-6 addCategoryCard memo-button" @click="addCategory">

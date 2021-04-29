@@ -2197,7 +2197,9 @@
     <Content Include="Views\Categories\Detail\Partials\Segmentation\Segmentation.css">
       <DependentUpon>Segmentation.less</DependentUpon>
     </Content>
+    <Content Include="Views\Categories\Detail\Partials\Segmentation\SegmentationCategoryCardComponent.Placeholder.ascx" />
     <Content Include="Views\Categories\Detail\Partials\Segmentation\SegmentationCategoryCardComponent.vue.ascx" />
+    <Content Include="Views\Categories\Detail\Partials\Segmentation\SegmentComponent.Placeholder.ascx" />
     <Content Include="Views\Categories\Edit\AddCategoryComponent.vue.ascx" />
     <Content Include="Views\Categories\Detail\Partials\Segmentation\SegmentComponent.vue.ascx" />
     <Content Include="Views\Categories\Edit\Js\AddCategory\AddCategoryComponent.js">

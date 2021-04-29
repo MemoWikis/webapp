@@ -495,6 +495,10 @@ p:empty {
 .setCardMiniList .category-knowledge-bar,
 .topicNavigation .set-knowledge-bar,
 .setCardMiniList .set-knowledge-bar {
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
   margin-top: 15px;
   height: 10px;
   width: 180px;
@@ -882,7 +886,7 @@ p:empty {
   -webkit-border-radius: 0;
           border-radius: 0;
   width: 120px;
-  height: 120px;
+  height: auto;
 }
 #CategoryHeader .LicenseInfo {
   color: #999999;

@@ -24,7 +24,7 @@
                         </div>
                     </div>
                     <div class="modalFooter">
-                        <div class="btn btn-primary" :class="{ success : publishSuccess }" data-dismiss="modal">OK</div>       
+                        <div class="btn btn-primary" :class="{ success : publishSuccess }" onClick="window.location.reload()">OK</div>       
                     </div>   
                 </div>
             </div>

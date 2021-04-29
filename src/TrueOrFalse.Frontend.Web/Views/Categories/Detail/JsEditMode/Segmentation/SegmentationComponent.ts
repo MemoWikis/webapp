@@ -9,23 +9,27 @@ var segmentationComponent = Vue.component('segmentation-component', {
     props: {
         categoryId: [String, Number],
         editMode: Boolean,
+        childCategoryIds: String,
+        segmentJson: String,
     },
 
     data() {
         return {
             baseCategoryList: [],
-            customCategoryList: [] as Segment[],
             componentKey: 0,
             selectedCategoryId: null,
             isCustomSegment: false,
             hasCustomSegment: false,
             selectedCategories: [],
-            id: 'SegmentationComponent',
+            segmentId: 'SegmentationComponent',
             hover: false,
             showHover: false,
             addCategoryId: "AddToCurrentCategoryCard",
             dropdownId: "MainSegment-Dropdown",
             controlWishknowledge: false,
+            loadComponents: true,
+            currentChildCategoryIds: [],
+            segments: [] as Segment[],
         };
     },
 
@@ -33,6 +37,11 @@ var segmentationComponent = Vue.component('segmentation-component', {
     },
 
     mounted() {
+        if (this.childCategoryIds != null)
+            this.currentChildCategoryIds = JSON.parse(this.childCategoryIds);
+        if (this.segmentJson.length > 0)
+            this.segments = JSON.parse(this.segmentJson);
+
         var self = this;
         this.hasCustomSegment = $('#CustomSegmentSection').html().length > 0;
         eventBus.$on('remove-segment', (id) => {
@@ -44,6 +53,16 @@ var segmentationComponent = Vue.component('segmentation-component', {
                     self.$refs['card' + id].visible = false;
                 });
             });
+        eventBus.$on('add-category-card',
+            (e) => {
+                if (e.parentId == this.categoryId)
+                    this.currentChildCategoryIds.push(e.newCategoryId);
+            });
+
+        eventBus.$on('category-data-is-loading', () => {
+            this.loaded = false;
+        });
+        eventBus.$on('category-data-finished-loading', () => this.showComponents());
     },
 
     watch: {
@@ -71,17 +90,13 @@ var segmentationComponent = Vue.component('segmentation-component', {
             $.ajax({
                 type: 'Post',
                 contentType: "application/json",
-                url: '/Segmentation/GetSegmentHtml',
+                url: '/Segmentation/GetSegment',
                 data: JSON.stringify(data),
-                success: function(data) {
-                    if (data) {
+                success: function(segment) {
+                    if (segment) {
                         eventBus.$emit('content-change');
                         self.hasCustomSegment = true;
-                        var inserted = currentElement.append(data.html);
-                        var instance = new segmentComponent({
-                            el: inserted.get(0)
-                        });
-                        self.$refs['card' + id].visible = false;
+                        self.segments.push(segment);
                         eventBus.$emit('save-segments');
                     } else {
                     };
@@ -97,10 +112,7 @@ var segmentationComponent = Vue.component('segmentation-component', {
                 success: function (data) {
                     if (data) {
                         eventBus.$emit('content-change');
-                        var inserted = $(data.html).insertBefore('#AddToCurrentCategoryBtn');
-                        var instance = new categoryCardComponent({
-                            el: inserted.get(0)
-                        });
+
                         eventBus.$emit('save-segments');
                     } else {
 
@@ -147,12 +159,10 @@ var segmentationComponent = Vue.component('segmentation-component', {
                 contentType: "application/json",
                 url: '/EditCategory/RemoveChildren',
                 data: JSON.stringify(data),
-                success: function (data) {
+                success: function (result) {
                     eventBus.$emit('content-change');
-                    self.selectedCategories.map(categoryId => {
-                        self.$refs['card' + categoryId].visible = false;
-                    });
-                },
+                    var removedChildCategoryIds = JSON.parse(result.removedChildCategoryIds);
+                    self.filterChildren(removedChildCategoryIds);                },
             });
         },
         moveToNewCategory() {
@@ -169,5 +179,17 @@ var segmentationComponent = Vue.component('segmentation-component', {
             }
             $('#AddCategoryModal').data('parent', parent).modal('show');
         },
+        showComponents: _.debounce(function() {
+            this.loaded = true;
+        }, 1000),
+        filterChildren(selectedCategoryIds) {
+            let filteredCurrentChildCategoryIds = this.currentChildCategoryIds.filter(
+                function (e) {
+                    return this.indexOf(e) < 0;
+                },
+                selectedCategoryIds
+            );
+            this.currentChildCategoryIds = filteredCurrentChildCategoryIds;
+        }
     },
 });
