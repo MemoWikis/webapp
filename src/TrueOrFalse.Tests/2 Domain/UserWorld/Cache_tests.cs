@@ -286,7 +286,6 @@ class User_entity_cache_tests : BaseTest
 
         var categoryNew = Sl.CategoryRepo.GetByName("New").First();
 
-        var categoryCacheItem = EntityCache.GetByName("New").First();
         Resolve<CategoryDeleter>().Run(categoryNew);
 
         var userCaches  = UserEntityCache.GetAllCaches();
@@ -312,7 +311,9 @@ class User_entity_cache_tests : BaseTest
         Assert.That(hasDeletedIdInRelations, Is.EqualTo(false));
         Assert.That(hasDeletedIdInCachedData, Is.EqualTo(false));
 
-        categoryCacheItem = EntityCache.GetByName("New1").First();
+        var categoryNew1 = EntityCache.GetByName("New1").First();
+
+
     }
 
     private static bool HasRelation(CategoryCacheItem category, CategoryCacheRelation expectedRelation)
