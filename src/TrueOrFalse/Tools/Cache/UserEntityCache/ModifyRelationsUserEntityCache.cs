@@ -110,20 +110,20 @@ public class ModifyRelationsUserEntityCache
             cache.TryRemove(category.Id, out var result); 
         }
     }
-    public static void DeleteInUserEntityCache(CategoryCacheItem category)
+    public static void DeleteInUserEntityCache(CategoryCacheItem categoryFromEntityCache)
     {
-        DeleteIncludetContentOfRelations(EntityCache.GetCategoryCacheItem(category.Id));
+        DeleteIncludetContentOfRelations(categoryFromEntityCache);
 
         foreach (var userEntityCache in UserEntityCache.GetAllCaches().Values)
         {
-            if (userEntityCache.ContainsKey(category.Id))
+            if (userEntityCache.ContainsKey(categoryFromEntityCache.Id))
             {
                 var allCacheItems = userEntityCache.Values;
                 foreach (var cacheItem in allCacheItems)
                 {
                     foreach (var relation in cacheItem.CategoryRelations)
                     {
-                        if(relation.RelatedCategoryId == category.Id)
+                        if(relation.RelatedCategoryId == categoryFromEntityCache.Id)
                             cacheItem.CategoryRelations.Remove(relation);
                     }
                 }

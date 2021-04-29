@@ -100,7 +100,11 @@ public class CategoryRepository : RepositoryDbBase<Category>
             //UpdateUserCache
             if (UserEntityCache.GetUserCache(Sl.CurrentUserId) != null)
             {
-                AddCachedData(categoryCacheItem);
+                var parentIds = UserEntityCache.GetParentsIds(Sl.CurrentUserId, categoryCacheItem.Id);
+                foreach (var parentId in parentIds)
+                {
+                    UserEntityCache.GetCategory(Sl.CurrentUserId, parentId).CachedData.ChildrenIds.Add(categoryCacheItem.Id); 
+                }
             }
 
             //Update EntityCache
@@ -253,6 +257,25 @@ public class CategoryRepository : RepositoryDbBase<Category>
         UserEntityCache.ChangeCategoryInUserEntityCaches(categoryCacheItem);
         ModifyRelationsUserEntityCache.UpdateRelationsIncludetContentOf(categoryCacheItem);
     }
+
+    public void UpdateWithoutCaches(Category category, User author = null, bool imageWasUpdated = false,
+        bool isFromModifiyRelations = false)
+    {
+        if (!isFromModifiyRelations)
+            _searchIndexCategory.Update(category);
+
+        base.Update(category);
+
+        if (author != null)
+            Sl.CategoryChangeRepo.AddUpdateEntry(category, author, imageWasUpdated);
+
+        Flush();
+
+        Sl.R<UpdateQuestionCountForCategory>().Run(category);
+    }
+
+
+
 
     public void UpdateBeforeEntityCacheInit(Category category)
     {
