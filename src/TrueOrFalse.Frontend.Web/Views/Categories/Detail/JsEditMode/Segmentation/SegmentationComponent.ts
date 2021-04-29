@@ -41,11 +41,12 @@ var segmentationComponent = Vue.component('segmentation-component', {
             this.currentChildCategoryIds = JSON.parse(this.childCategoryIds);
         if (this.segmentJson.length > 0)
             this.segments = JSON.parse(this.segmentJson);
+        this.hasCustomSegment = this.segments.length > 0;
 
         var self = this;
-        this.hasCustomSegment = $('#CustomSegmentSection').html().length > 0;
         eventBus.$on('remove-segment', (id) => {
             self.addCategoryToBaseList(id);
+            this.hasCustomSegment = this.segments.length > 0;
         });
         eventBus.$on('remove-category-cards',
             ids => {
