@@ -236,8 +236,8 @@ public class EntityCache : BaseCache
 
     public static IEnumerable<CategoryCacheItem> GetCategoryCacheItems(IEnumerable<int> getIds) =>
         getIds.Select(categoryId => GetCategoryCacheItem(categoryId));
-    public static IEnumerable<CategoryCacheItem> GetCategoryCacheItems(IList<int> getIds) =>
-        getIds.Select(categoryId => GetCategoryCacheItem(categoryId));
+    public static IEnumerable<CategoryCacheItem> GetCategoryCacheItems(IList<int> getIds, bool getDataFromEntityCache = true) =>
+        getIds.Select(categoryId => GetCategoryCacheItem(categoryId, getDataFromEntityCache: getDataFromEntityCache));
 
     public static IList<CategoryCacheItem> GetAllCategories() => Categories.Values.ToList();
 

@@ -70,26 +70,14 @@ public class CategoryRepository : RepositoryDbBase<Category>
         Sl.CategoryChangeRepo.AddCreateEntry(category, category.Creator);
         GraphService.AutomaticInclusionOfChildCategoriesForEntityCacheAndDbCreate(categoryCacheItem);
 
+
         if (UserEntityCache.HasUserCache(Sl.CurrentUserId))
         {
             UserEntityCache.Add(categoryCacheItem, Sl.CurrentUserId);
             ModifyRelationsUserEntityCache.CreateRelationsIncludetContentOf(UserEntityCache.GetCategory(Sl.CurrentUserId,categoryCacheItem.Id));
         }
-    }
 
-    private static void AddCachedData(CategoryCacheItem categoryCacheItem, bool getFromEntityCache = false)
-    {
-        var parentsUserCache = categoryCacheItem.ParentCategories(getFromEntityCache).ToList();
-        if (parentsUserCache.Count == 0)
-            parentsUserCache.Add(EntityCache.GetCategoryCacheItem(RootCategory.RootCategoryId));
-        else
-        {
-            foreach (var parent in parentsUserCache)
-            {
-                if (!parent.CachedData.ChildrenIds.Contains(categoryCacheItem.Id))
-                    parent.CachedData.ChildrenIds.Add(categoryCacheItem.Id);
-            }
-        }
+        UpdateCachedData(categoryCacheItem, CreateDeleteUpdate.Create);
     }
 
     public static void UpdateCachedData(CategoryCacheItem categoryCacheItem, CreateDeleteUpdate createDeleteUpdate)
@@ -108,7 +96,11 @@ public class CategoryRepository : RepositoryDbBase<Category>
             }
 
             //Update EntityCache
-            AddCachedData(categoryCacheItem, true);
+            var parents = EntityCache.GetCategoryCacheItems(GraphService.GetDirektParents(categoryCacheItem));
+            foreach (var parent in parents)
+            {
+                parent.CachedData.ChildrenIds.Add(categoryCacheItem.Id);
+            }
         }
 
         //Update

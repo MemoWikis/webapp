@@ -219,6 +219,7 @@ class User_entity_cache_tests : BaseTest
         EntityCache.Init();
 
         UserCache.GetItem(user.Id).IsFiltered = true; 
+        UserEntityCache.Init();
         cateContext.Add("New", parent: Sl.CategoryRepo.GetByName("X2").First()).Persist();
 
         var newCat = UserEntityCache.GetByName(user.Id, "New").First(); 
@@ -242,11 +243,76 @@ class User_entity_cache_tests : BaseTest
         Assert.That(UserEntityCache.GetByName(user.Id, "New1").First().CategoryRelations.First().CategoryRelationType, Is.EqualTo(CategoryRelationType.IsChildCategoryOf));
         Assert.That(UserEntityCache.GetByName(user.Id, "New1").First().CategoryRelations.Count, Is.EqualTo(1));
 
+        var hasChildrenInUserCachedData = UserEntityCache.GetByName(user.Id, "A")
+            .SelectMany(cCI => cCI.CachedData.ChildrenIds.Select(id => id)).ToList().IndexOf(newCat.Id) != -1;
+
+        var hasChildrenInEntityCachedData = EntityCache.GetByName( "X2")
+            .SelectMany(cCI => cCI.CachedData.ChildrenIds.Select(id => id)).ToList().IndexOf(newCat.Id) != -1;
+
+        Assert.That(hasChildrenInUserCachedData, Is.EqualTo(true));
+        Assert.That(hasChildrenInEntityCachedData, Is.EqualTo(true));
+
         newCat = EntityCache.GetByName("New1").First();
         Assert.That(newCat.CategoryRelations.First().RelatedCategoryId, Is.EqualTo(EntityCache.GetByName("X2").First().Id));
         Assert.That(newCat.CategoryRelations.First().CategoryId, Is.EqualTo(EntityCache.GetByName("New1").First().Id));
         Assert.That(UserEntityCache.GetByName(user.Id, "New1").First().CategoryRelations.First().CategoryRelationType, Is.EqualTo(CategoryRelationType.IsChildCategoryOf));
         Assert.That(UserEntityCache.GetByName(user.Id, "New1").First().CategoryRelations.Count, Is.EqualTo(1));
+        
+        hasChildrenInUserCachedData = UserEntityCache.GetByName(user.Id, "A")
+            .SelectMany(cCI => cCI.CachedData.ChildrenIds.Select(id => id)).ToList().IndexOf(newCat.Id) != -1;
+
+        hasChildrenInEntityCachedData = EntityCache.GetByName("X2")
+            .SelectMany(cCI => cCI.CachedData.ChildrenIds.Select(id => id)).ToList().IndexOf(newCat.Id) != -1; 
+
+        Assert.That(hasChildrenInUserCachedData, Is.EqualTo(true));
+        Assert.That(hasChildrenInEntityCachedData, Is.EqualTo(true));
+
+    }
+
+    [Test]
+    public void Delete_category()
+    {
+        var cateContext = ContextCategory.New();
+        var user1 = cateContext.AddCaseThreeToCache();
+        var user = cateContext.AddCaseThreeToCache();
+
+        EntityCache.Init();
+
+        cateContext.Add("New", creator: user,parent: Sl.CategoryRepo.GetByName("X2").First()).Persist();
+        cateContext.Add("New1",creator: user, parent: Sl.CategoryRepo.GetByName("X2").First()).Persist();
+
+        CategoryInKnowledge.Pin(EntityCache.GetByName("New").First().Id, user1);
+        CategoryInKnowledge.Pin(EntityCache.GetByName("New1").First().Id, user1);
+
+        var categoryNew = Sl.CategoryRepo.GetByName("New").First();
+
+        var categoryCacheItem = EntityCache.GetByName("New").First();
+        Resolve<CategoryDeleter>().Run(categoryNew);
+
+        var userCaches  = UserEntityCache.GetAllCaches();
+        var hasDeletedIdInRelations = false;
+        var hasDeletedIdInCachedData = false; 
+        foreach (var userCachesValue in userCaches.Values)
+        {
+            if (userCachesValue.Values
+                .SelectMany(cci => cci.CategoryRelations
+                    .Select(cr => cr.RelatedCategoryId))
+                .ToList()
+                .IndexOf(categoryNew.Id) != -1)
+                hasDeletedIdInRelations = true;
+
+            if (userCachesValue.Values
+                .SelectMany(cCI => cCI.CachedData.ChildrenIds
+                    .Select(id => id))
+                .ToList()
+                .IndexOf(categoryNew.Id) != -1)
+                hasDeletedIdInCachedData = true; 
+        }
+
+        Assert.That(hasDeletedIdInRelations, Is.EqualTo(false));
+        Assert.That(hasDeletedIdInCachedData, Is.EqualTo(false));
+
+        categoryCacheItem = EntityCache.GetByName("New1").First();
     }
 
     private static bool HasRelation(CategoryCacheItem category, CategoryCacheRelation expectedRelation)
