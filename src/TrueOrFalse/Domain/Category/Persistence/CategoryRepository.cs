@@ -241,13 +241,13 @@ public class CategoryRepository : RepositoryDbBase<Category>
 
         Sl.R<UpdateQuestionCountForCategory>().Run(category);
 
-        var categoryCacheItem = EntityCache.GetCategoryCacheItem(category.Id, getDataFromEntityCache: true); 
+        var categoryCacheItemOld = EntityCache.GetCategoryCacheItem(category.Id, getDataFromEntityCache: true); 
 
-        UpdateCachedData(categoryCacheItem, CreateDeleteUpdate.Update);
-        EntityCache.AddOrUpdate(categoryCacheItem);
-        EntityCache.UpdateCategoryReferencesInQuestions(categoryCacheItem, category);
-        UserEntityCache.ChangeCategoryInUserEntityCaches(categoryCacheItem);
-        ModifyRelationsUserEntityCache.UpdateRelationsIncludetContentOf(categoryCacheItem);
+        UpdateCachedData(categoryCacheItemOld, CreateDeleteUpdate.Update);
+        EntityCache.AddOrUpdate(categoryCacheItemOld);
+        EntityCache.UpdateCategoryReferencesInQuestions(categoryCacheItemOld, category);
+        UserEntityCache.ChangeCategoryInUserEntityCaches(categoryCacheItemOld);
+        ModifyRelationsUserEntityCache.UpdateRelationsIncludetContentOf(categoryCacheItemOld);
     }
 
     public void UpdateWithoutCaches(Category category, User author = null, bool imageWasUpdated = false,
