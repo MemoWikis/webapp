@@ -108,8 +108,6 @@ class EntityCache_tests : BaseTest
         question1.Categories.Add(rootCategory);
         Sl.QuestionRepo.Update(question1);
 
-        //((PersistentGenericBag<Category>)question1.Categories).session
-
         var session = typeof(PersistentGenericBag<Category>).GetField("session", BindingFlags.NonPublic | BindingFlags.Instance)?.GetValue(question1.Categories);
         var session2 = question1.Categories.GetFieldValue<object>("session");
 
@@ -125,6 +123,7 @@ class EntityCache_tests : BaseTest
 
         Assert.IsTrue(NHibernateUtil.IsInitialized(question1.Categories));
     }
+
     [Test]
     public void Should_have_correct_children()
     {
@@ -173,8 +172,6 @@ class EntityCache_tests : BaseTest
 
         Assert.That(ContextCategory.HasCorrectChild(EntityCache.GetCategoryCacheItem(categories.ByName("G").Id), "I"), Is.EqualTo(true));
         Assert.That(EntityCache.GetCategoryCacheItem(categories.ByName("X").Id).CachedData.ChildrenIds.Count, Is.EqualTo(1));
-
-
     }
 }
 
