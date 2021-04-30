@@ -67,6 +67,7 @@ public class CategoryCacheItem
 
     private IEnumerable<int> _categoriesToIncludeIds;
     public virtual string CategoriesToIncludeIdsString { get; set; }
+
     public virtual IEnumerable<int> CategoriesToIncludeIds() =>
         _categoriesToIncludeIds ?? (_categoriesToIncludeIds = CategoriesToIncludeIdsString
             .Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries)
