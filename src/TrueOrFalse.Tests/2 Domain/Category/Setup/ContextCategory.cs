@@ -69,7 +69,8 @@ namespace TrueOrFalse.Tests
                 category.CategoryRelations = categoryRelations;
             }
 
-            All.Add(category);
+            if(!_categoryRepository.Exists(categoryName))
+                All.Add(category);
             return this;
         }
 
