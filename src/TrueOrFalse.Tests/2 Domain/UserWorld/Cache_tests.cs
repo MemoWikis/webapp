@@ -277,6 +277,7 @@ class User_entity_cache_tests : BaseTest
         var user = cateContext.AddCaseThreeToCache();
 
         EntityCache.Init();
+        UserEntityCache.GetAllCaches();	// This expression causes side effects and will not be evaluated	
 
         cateContext.Add("New", creator: user,parent: Sl.CategoryRepo.GetByName("X2").First()).Persist();
         cateContext.Add("New1",creator: user, parent: Sl.CategoryRepo.GetByName("X2").First()).Persist();
@@ -312,8 +313,24 @@ class User_entity_cache_tests : BaseTest
         Assert.That(hasDeletedIdInCachedData, Is.EqualTo(false));
 
         var categoryNew1 = EntityCache.GetByName("New1").First();
+    }
 
+    [Test]
+    public void Update_category()
+    {
+        var cateContext = ContextCategory.New();
+        var user = cateContext.AddCaseThreeToCache();
+        var all = cateContext.All; 
 
+        var category = Sl.CategoryRepo.GetByName("B").First(); 
+        category.CategoryRelations.Clear();
+        category.CategoryRelations.Add(new CategoryRelation
+        {
+            RelatedCategory = Sl.CategoryRepo.GetByIdEager(Sl.CategoryRepo.GetByName("X3").First().Id),
+            CategoryRelationType = CategoryRelationType.IsChildCategoryOf,
+            Category = category
+        });
+        Sl.CategoryRepo.Update(category);
     }
 
     private static bool HasRelation(CategoryCacheItem category, CategoryCacheRelation expectedRelation)
