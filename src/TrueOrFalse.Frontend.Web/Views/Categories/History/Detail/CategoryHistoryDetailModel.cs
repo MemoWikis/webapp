@@ -112,7 +112,7 @@ public class CategoryHistoryDetailModel : BaseModel
         string res;
         switch (relation.RelationType)
         {
-            case CategoryRelationType.IsChildCategoryOf:
+            case CategoryRelationType.IsChildOf:
                 res = $"\"{relatedCategory.Name}\" (ist übergeordnet)";
                 break;
             case CategoryRelationType.IncludesContentOf:
@@ -131,7 +131,7 @@ public class CategoryHistoryDetailModel : BaseModel
         string res = "";
         if (relations != null && relations.IsNotEmpty())
         {
-            var parents = relations.Where(r => r.RelationType == CategoryRelationType.IsChildCategoryOf);
+            var parents = relations.Where(r => r.RelationType == CategoryRelationType.IsChildOf);
             res += "Übergeordnete Themen\n";
             res += (parents.IsEmpty())
                 ? "<keine>"
@@ -143,7 +143,7 @@ public class CategoryHistoryDetailModel : BaseModel
                 ? "<keine>"
                 : string.Join("\n", children.Select(Relation2String));
 
-            var otherRelations = relations.Where(r => r.RelationType != CategoryRelationType.IsChildCategoryOf && r.RelationType != CategoryRelationType.IncludesContentOf);
+            var otherRelations = relations.Where(r => r.RelationType != CategoryRelationType.IsChildOf && r.RelationType != CategoryRelationType.IncludesContentOf);
             res += "\n\nAndere Beziehungsdaten\n";
             res += (otherRelations.IsEmpty())
                 ? "<keine>"

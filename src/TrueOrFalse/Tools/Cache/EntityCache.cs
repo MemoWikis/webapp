@@ -286,7 +286,7 @@ public class EntityCache : BaseCache
         var allCategories = GetAllCategories();
 
         return allCategories.SelectMany(c =>
-            c.CategoryRelations.Where(cr => cr.CategoryRelationType == CategoryRelationType.IsChildCategoryOf && cr.RelatedCategoryId == category.Id)
+            c.CategoryRelations.Where(cr => cr.CategoryRelationType == CategoryRelationType.IsChildOf && cr.RelatedCategoryId == category.Id)
                 .Select(cr => GetCategoryCacheItem(cr.CategoryId, isFromEntityCache))).ToList();
     }
 

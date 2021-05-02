@@ -1,6 +1,6 @@
 ﻿public enum CategoryRelationType
 {
     None = 0,
-    IsChildCategoryOf = 1,
+    IsChildOf = 1,
     IncludesContentOf = 2,
 }

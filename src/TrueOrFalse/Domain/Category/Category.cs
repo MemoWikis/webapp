@@ -30,7 +30,7 @@ public class Category : DomainEntity, ICreator, ICloneable
     {
         return CategoryRelations.Any()
             ? CategoryRelations
-                .Where(r => r.CategoryRelationType == CategoryRelationType.IsChildCategoryOf)
+                .Where(r => r.CategoryRelationType == CategoryRelationType.IsChildOf)
                 .Select(x => x.RelatedCategory)
                 .ToList()
             : new List<Category>();

@@ -225,13 +225,13 @@ class User_entity_cache_tests : BaseTest
         var newCat = UserEntityCache.GetByName(user.Id, "New").First(); 
         Assert.That(newCat.CategoryRelations.First().RelatedCategoryId, Is.EqualTo(RootCategory.RootCategoryId));
         Assert.That(newCat.CategoryRelations.First().CategoryId, Is.EqualTo(EntityCache.GetByName("New").First().Id));
-        Assert.That(UserEntityCache.GetByName(user.Id, "New").First().CategoryRelations.First().CategoryRelationType, Is.EqualTo(CategoryRelationType.IsChildCategoryOf));
+        Assert.That(UserEntityCache.GetByName(user.Id, "New").First().CategoryRelations.First().CategoryRelationType, Is.EqualTo(CategoryRelationType.IsChildOf));
         Assert.That(UserEntityCache.GetByName(user.Id, "New").First().CategoryRelations.Count, Is.EqualTo(1));
 
         newCat = EntityCache.GetByName("New").First();
         Assert.That(newCat.CategoryRelations.First().RelatedCategoryId, Is.EqualTo(EntityCache.GetByName("X2").First().Id));
         Assert.That(newCat.CategoryRelations.First().CategoryId, Is.EqualTo(EntityCache.GetByName("New").First().Id));
-        Assert.That(UserEntityCache.GetByName(user.Id, "New").First().CategoryRelations.First().CategoryRelationType, Is.EqualTo(CategoryRelationType.IsChildCategoryOf));
+        Assert.That(UserEntityCache.GetByName(user.Id, "New").First().CategoryRelations.First().CategoryRelationType, Is.EqualTo(CategoryRelationType.IsChildOf));
         Assert.That(UserEntityCache.GetByName(user.Id, "New").First().CategoryRelations.Count, Is.EqualTo(1));
 
         UserCache.GetItem(user.Id).IsFiltered = false;
@@ -240,7 +240,7 @@ class User_entity_cache_tests : BaseTest
         newCat = UserEntityCache.GetByName(user.Id, "New1").First();
         Assert.That(newCat.CategoryRelations.First().RelatedCategoryId, Is.EqualTo(RootCategory.RootCategoryId));
         Assert.That(newCat.CategoryRelations.First().CategoryId, Is.EqualTo(EntityCache.GetByName("New1").First().Id));
-        Assert.That(UserEntityCache.GetByName(user.Id, "New1").First().CategoryRelations.First().CategoryRelationType, Is.EqualTo(CategoryRelationType.IsChildCategoryOf));
+        Assert.That(UserEntityCache.GetByName(user.Id, "New1").First().CategoryRelations.First().CategoryRelationType, Is.EqualTo(CategoryRelationType.IsChildOf));
         Assert.That(UserEntityCache.GetByName(user.Id, "New1").First().CategoryRelations.Count, Is.EqualTo(1));
 
         var hasChildrenInUserCachedData = UserEntityCache.GetByName(user.Id, "A")
@@ -255,7 +255,7 @@ class User_entity_cache_tests : BaseTest
         newCat = EntityCache.GetByName("New1").First();
         Assert.That(newCat.CategoryRelations.First().RelatedCategoryId, Is.EqualTo(EntityCache.GetByName("X2").First().Id));
         Assert.That(newCat.CategoryRelations.First().CategoryId, Is.EqualTo(EntityCache.GetByName("New1").First().Id));
-        Assert.That(UserEntityCache.GetByName(user.Id, "New1").First().CategoryRelations.First().CategoryRelationType, Is.EqualTo(CategoryRelationType.IsChildCategoryOf));
+        Assert.That(UserEntityCache.GetByName(user.Id, "New1").First().CategoryRelations.First().CategoryRelationType, Is.EqualTo(CategoryRelationType.IsChildOf));
         Assert.That(UserEntityCache.GetByName(user.Id, "New1").First().CategoryRelations.Count, Is.EqualTo(1));
         
         hasChildrenInUserCachedData = UserEntityCache.GetByName(user.Id, "A")
@@ -327,7 +327,7 @@ class User_entity_cache_tests : BaseTest
         category.CategoryRelations.Add(new CategoryRelation
         {
             RelatedCategory = Sl.CategoryRepo.GetByIdEager(Sl.CategoryRepo.GetByName("X3").First().Id),
-            CategoryRelationType = CategoryRelationType.IsChildCategoryOf,
+            CategoryRelationType = CategoryRelationType.IsChildOf,
             Category = category
         });
         Sl.CategoryRepo.Update(category);

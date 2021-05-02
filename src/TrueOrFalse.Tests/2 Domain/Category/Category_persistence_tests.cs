@@ -56,8 +56,8 @@ namespace TrueOrFalse.Tests.Persistence
                     parentCategories.Add(context.All.First(x => x.Name.StartsWith("Daily-A")));
                     parentCategories.Add(context.All.First(x => x.Name.StartsWith("Standard-1")));
 
-                    ModifyRelationsForCategory.UpdateCategoryRelationsOfType(CategoryCacheItem.ToCacheCategory(c), parentCategories.Select(cat => cat.Id).ToList(),
-                        CategoryRelationType.IsChildCategoryOf);
+                    ModifyRelationsForCategory.UpdateCategoryRelationsOfType(c.Id, parentCategories.Select(cat => cat.Id).ToList(),
+                        CategoryRelationType.IsChildOf);
                 });
 
             context.Update();

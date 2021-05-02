@@ -49,7 +49,7 @@ public class CategoryCacheItem
     {
         return CategoryRelations.Any()
             ? CategoryRelations
-                .Where(r => r.CategoryRelationType == CategoryRelationType.IsChildCategoryOf)
+                .Where(r => r.CategoryRelationType == CategoryRelationType.IsChildOf)
                 .Select(x => EntityCache.GetCategoryCacheItem(x.RelatedCategoryId, getDataFromEntityCache: getFromEntityCache))
                 .ToList()
             : new List<CategoryCacheItem>();

@@ -63,7 +63,7 @@ namespace TrueOrFalse.Tests
                 {
                     Category = category,
                     RelatedCategory = parent,
-                    CategoryRelationType = CategoryRelationType.IsChildCategoryOf
+                    CategoryRelationType = CategoryRelationType.IsChildOf
                 });
 
                 category.CategoryRelations = categoryRelations;
@@ -254,7 +254,7 @@ namespace TrueOrFalse.Tests
         public static bool HasCorrectParent(CategoryCacheItem categoryCachedItem, string parentName)
         {
             return categoryCachedItem.CategoryRelations.Any(cr =>
-                cr.RelatedCategoryId == EntityCache.GetByName(parentName).First().Id && cr.CategoryRelationType == CategoryRelationType.IsChildCategoryOf);
+                cr.RelatedCategoryId == EntityCache.GetByName(parentName).First().Id && cr.CategoryRelationType == CategoryRelationType.IsChildOf);
         }
 
         public static bool HasCorrectIncludetContent(CategoryCacheItem categoryCacheItem, string name, int userId)

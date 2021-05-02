@@ -116,11 +116,11 @@ public class CategoryRepository : RepositoryDbBase<Category>
                     userEntityCache.TryGetValue(categoryCacheItem.Id, out var oldCategoryCacheItem);
 
                     var parentIdsCacheItem = categoryCacheItem.CategoryRelations
-                        .Where(cr => cr.CategoryRelationType == CategoryRelationType.IsChildCategoryOf)
+                        .Where(cr => cr.CategoryRelationType == CategoryRelationType.IsChildOf)
                         .Select(cr => cr.RelatedCategoryId).ToList();
 
                     var parentIdsOldCategoryCacheItem = oldCategoryCacheItem.CategoryRelations
-                        .Where(cr => cr.CategoryRelationType == CategoryRelationType.IsChildCategoryOf)
+                        .Where(cr => cr.CategoryRelationType == CategoryRelationType.IsChildOf)
                         .Select(cr => cr.RelatedCategoryId).ToList();
 
                     var exceptIdsToDelete = parentIdsOldCategoryCacheItem.Except(parentIdsCacheItem).ToList();
@@ -158,11 +158,11 @@ public class CategoryRepository : RepositoryDbBase<Category>
             var oldCategoryCacheItem1 = EntityCache.GetCategoryCacheItem(categoryCacheItem.Id, getDataFromEntityCache: true);
 
             var parentIdsCacheItem1 = categoryCacheItem.CategoryRelations
-                .Where(cr => cr.CategoryRelationType == CategoryRelationType.IsChildCategoryOf)
+                .Where(cr => cr.CategoryRelationType == CategoryRelationType.IsChildOf)
                 .Select(cr => cr.RelatedCategoryId).ToList();
 
             var parentIdsOldCategoryCacheItem1 = oldCategoryCacheItem1.CategoryRelations
-                .Where(cr => cr.CategoryRelationType == CategoryRelationType.IsChildCategoryOf)
+                .Where(cr => cr.CategoryRelationType == CategoryRelationType.IsChildOf)
                 .Select(cr => cr.RelatedCategoryId).ToList();
 
             var exceptIdsToDelete1 = parentIdsOldCategoryCacheItem1.Except(parentIdsCacheItem1).ToList();
@@ -210,7 +210,7 @@ public class CategoryRepository : RepositoryDbBase<Category>
     private static IEnumerable<int> GetIdsToRemove(CategoryCacheItem oldCategoryCacheItem)
     {
         return oldCategoryCacheItem.CategoryRelations
-            .Where(cr => cr.CategoryRelationType == CategoryRelationType.IsChildCategoryOf)
+            .Where(cr => cr.CategoryRelationType == CategoryRelationType.IsChildOf)
             .Select(cr => cr.RelatedCategoryId);
     }
 
@@ -348,7 +348,7 @@ public class CategoryRepository : RepositoryDbBase<Category>
         var categoryIds = _session.CreateSQLQuery($@"SELECT Category_id
             FROM relatedcategoriestorelatedcategories
             WHERE  Related_id = {categoryId} 
-            AND CategoryRelationType = {(int)CategoryRelationType.IsChildCategoryOf}").List<int>();
+            AND CategoryRelationType = {(int)CategoryRelationType.IsChildOf}").List<int>();
         return GetByIds(categoryIds.ToArray());
     }
 
@@ -366,7 +366,7 @@ public class CategoryRepository : RepositoryDbBase<Category>
             .JoinAlias(c => c.RelatedCategory, () => relatedCategoryAlias)
             .JoinAlias(c => c.Category, () => categoryAlias)
             .Where(r =>
-                r.CategoryRelationType == CategoryRelationType.IsChildCategoryOf
+                r.CategoryRelationType == CategoryRelationType.IsChildOf
                 && relatedCategoryAlias.Type == parentType
                 && relatedCategoryAlias.Id == parentId
                 && categoryAlias.Type == childrenType);

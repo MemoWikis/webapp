@@ -134,8 +134,11 @@ public class EditCategoryModel : BaseModel
             category.TopicMarkdown = TopicMarkdown;
         }
 
-        
-        ModifyRelationsForCategory.UpdateCategoryRelationsOfType(EntityCache.GetCategoryCacheItem(category.Id), ParentCategories.Select(c => c.Id).ToList(), CategoryRelationType.IsChildCategoryOf);
+        ModifyRelationsForCategory.UpdateCategoryRelationsOfType(
+            category.Id, 
+            ParentCategories.Select(c => c.Id).ToList(), 
+            CategoryRelationType.IsChildOf
+        );
 
         UpdatedCategory =  FillFromRequest(category).Category;
 }

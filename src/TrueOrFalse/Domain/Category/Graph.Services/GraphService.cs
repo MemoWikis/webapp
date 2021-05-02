@@ -68,7 +68,7 @@ public class GraphService
     public static List<int> GetDirektParents(CategoryCacheItem category)
     {
         return category.CategoryRelations
-            .Where(cr => cr.CategoryRelationType == CategoryRelationType.IsChildCategoryOf)
+            .Where(cr => cr.CategoryRelationType == CategoryRelationType.IsChildOf)
             .Select(cr => cr.RelatedCategoryId).ToList();
     }
 
@@ -106,7 +106,7 @@ public class GraphService
                 {
                     var categoryRelation = new CategoryCacheRelation()
                     {
-                        CategoryRelationType = CategoryRelationType.IsChildCategoryOf,
+                        CategoryRelationType = CategoryRelationType.IsChildOf,
                         CategoryId = child.Id,
                         RelatedCategoryId = parentId
                     };
@@ -143,7 +143,7 @@ public class GraphService
             {
                 listWithUserPersonelCategory.CategoryRelations.Add(new CategoryCacheRelation()
                 {
-                    CategoryRelationType = CategoryRelationType.IsChildCategoryOf,
+                    CategoryRelationType = CategoryRelationType.IsChildOf,
                     RelatedCategoryId = rootCategory.Id,
                     CategoryId = listWithUserPersonelCategory.Id
                 });
@@ -193,7 +193,7 @@ public class GraphService
         {
             foreach (var categoryRelation in category.CategoryRelations)
             {
-                if (categoryRelation.CategoryRelationType == CategoryRelationType.IsChildCategoryOf && categoryList.ContainsKey(categoryRelation.RelatedCategoryId))
+                if (categoryRelation.CategoryRelationType == CategoryRelationType.IsChildOf && categoryList.ContainsKey(categoryRelation.RelatedCategoryId))
                 {
                     categoryList[categoryRelation.RelatedCategoryId].CachedData.ChildrenIds
                         .Add(categoryList[categoryRelation.CategoryId].Id);
@@ -214,12 +214,12 @@ public class GraphService
         {
             var userCacheCategory = UserEntityCache.GetCategory(Sl.CurrentUserId, categoryId);
             return userCacheCategory.CategoryRelations
-                .Where(cr => cr.CategoryRelationType == CategoryRelationType.IsChildCategoryOf)
+                .Where(cr => cr.CategoryRelationType == CategoryRelationType.IsChildOf)
                 .Select(cr => cr.RelatedCategoryId);
         }
 
         return EntityCache.GetCategoryCacheItem(categoryId, getDataFromEntityCache: true)
-            .CategoryRelations.Where(cr => cr.CategoryRelationType == CategoryRelationType.IsChildCategoryOf)
+            .CategoryRelations.Where(cr => cr.CategoryRelationType == CategoryRelationType.IsChildOf)
             .Select(cr => cr.RelatedCategoryId);
     }
 
