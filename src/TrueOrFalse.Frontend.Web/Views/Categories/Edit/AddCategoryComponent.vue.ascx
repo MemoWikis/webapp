@@ -31,8 +31,11 @@
                             <div class="modalBody" v-else>
                                 <form v-on:submit.prevent="selectCategory">
                                     <div class="form-group">
-                                        <input class="form-control" v-model="name" placeholder="Bitte gib den Namen des Themas ein" />
+                                        <input class="form-control" list="CategorySearchDatalist" v-model="searchTerm" placeholder="Bitte gib den Namen des Themas ein" @change="selectCategory"/>
                                         <small class="form-text text-muted"></small>
+                                        <datalist id="CategorySearchDatalist">
+                                            <option v-for="c in categories" :value="c.Name" :data-value="c.Id"></option>
+                                        </datalist>
                                     </div>
                                 </form>
                                 <div class="alert alert-warning" role="alert" v-if="showErrorMsg">
@@ -46,7 +49,7 @@
                                     <div class="btn btn-link memo-button" @click="createCategory = false" >Bestehendes Thema Hinzufügen</div>
                                 </div>
                                 <div v-else>
-                                    <div class="btn btn-primary memo-button" @click="addCategory" :disabled="disableAddCategory">Thema Hinzufügen</div>       
+                                    <div class="btn btn-primary memo-button" @click="addExistingCategory" :disabled="disableAddCategory">Thema Hinzufügen</div>       
                                     <div class="btn btn-link memo-button" @click="createCategory = true">Neues Thema Erstellen</div>
                                 </div>
                             </div>   

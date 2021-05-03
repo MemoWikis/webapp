@@ -12,23 +12,13 @@ public class SearchBoxElementsGet
         var pageSize = 5;
         var categoriesResult = result.CategoriesResult = Sl.SearchCategories.Run(term, new Pager { PageSize = pageSize });
 
-//        if (type == "Categories")
-//            result.CategoriesResult = categoriesResult;
-//        else if (type == "Sets")
-//            result.SetsResult = setsResult;
-//        else if (type == null)
-//        {
-//            result.CategoriesResult = categoriesResult;
-//            result.SetsResult = setsResult;
-//        }
-
         result.CategoriesResult = categoriesResult;
         result.UsersResult = Sl.SearchUsers.Run(term, new Pager { PageSize = pageSize }, SearchUsersOrderBy.None);
 
         var searchSpec = Sl.SessionUiData.SearchSpecQuestionSearchBox;
         searchSpec.OrderBy.BestMatch.Desc();
         searchSpec.Filter.SearchTerm = term;
-        searchSpec.Filter.IgnorePrivates = false;
+        searchSpec.Filter.IgnorePrivates = true;
         searchSpec.PageSize = pageSize;
 
 //        if (type == "Questions" || type == null)

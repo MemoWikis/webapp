@@ -36,15 +36,36 @@ public class SearchApiController : BaseController
 
     public JsonResult ByNameForVue(string term, string type)
     {
-        var items = new List<ResultItem>();
+        var items = new List<MiniCategoryItem>();
         var elements = SearchBoxElementsGet.Go(term, type);
 
         if (elements.Categories.Any())
         {
-            AddCategoryItems(items, elements);
+            AddMiniCategoryItems(items, elements);
         }
+        return Json(new
+        {
+            totalCount = elements.CategoriesResultCount,
+            categories = items,
+        }, JsonRequestBehavior.AllowGet);
+    }
 
-        return Json(new { Items = items }, JsonRequestBehavior.AllowGet);
+    public static void AddMiniCategoryItems(List<MiniCategoryItem> items, SearchBoxElements elements)
+    {
+        items.AddRange(
+            elements.Categories.Select(c => new MiniCategoryItem
+            {
+                Id = c.Id,
+                Name = c.Name,
+                Url = Links.CategoryDetail(c.Name, c.Id)
+            }));
+    }
+
+    public class MiniCategoryItem
+    {
+        public int Id;
+        public string Name;
+        public string Url;
     }
 
 

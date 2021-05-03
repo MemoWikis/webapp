@@ -21,8 +21,11 @@ var addCategoryComponent = Vue.component('add-category-component', {
             moveCategories: false,
             parentIsPrivate: false,
             createCategory: true,
-            searchResult: [],
+            categories: [],
             searchTerm: "",
+            totalCount: 0,
+            selectedCategoryId: 0,
+            debounceSearchCategory: _.debounce(this.searchCategory, 300)
         };
     },
     watch: {
@@ -33,9 +36,10 @@ var addCategoryComponent = Vue.component('add-category-component', {
                 this.disableAddCategory = false;
         },
         searchTerm(val) {
-            if (val.length > 0)
-                this.searchCategory();
-        } 
+            if (val.length > 0) {
+                this.debounceSearchCategory();
+            }
+        },
     },
     created() {
         var visibility = $('#hddVisibility').val();
@@ -154,20 +158,27 @@ var addCategoryComponent = Vue.component('add-category-component', {
             eventBus.$emit('add-category-card', data);
         },
         selectCategory() {
-
+            var self = this;
+            self.selectedCategoryId = $('#CategorySearchDatalist [value="' + self.searchTerm + '"]').attr('data-value');
+            if (self.selectedCategoryId > 0)
+                self.disableAddCategory = false;
         },
-        searchCategory: _.debounce(() => {
+        searchCategory() {
             var self = this;
             var data = {
                 term: self.searchTerm,
                 type: 'Categories'
-            }
-            $.get("/Api/Search/ByNameForVue",
-                function(data) {
-                    if (data.items.length > 0)
-                        self.searchResult = data.items;
+            };
+
+            $.get("/Api/Search/ByNameForVue", data,
+                function (result) {
+                    self.categories = result.categories;
+                    self.totalCount = result.totalCount;
                 });
-        },400),
+        },
+        addExistingCategory() {
+
+        }
     }
 });
 
