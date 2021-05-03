@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Concurrent;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 
 public class ModifyRelationsUserEntityCache
@@ -31,7 +29,6 @@ public class ModifyRelationsUserEntityCache
                 if(!hasEqualRelation)
                     parent.CategoryRelations.Add(newRelation);
         }
-         
     }
 
     private static bool IsCategorRelationEqual(CategoryCacheRelation relation1, CategoryCacheRelation relation2)
@@ -75,7 +72,6 @@ public class ModifyRelationsUserEntityCache
                         {
                             parentsInner.Add(parentParent);
                         }
-
                     }
                     parentsInner.RemoveAt(0);
                 }

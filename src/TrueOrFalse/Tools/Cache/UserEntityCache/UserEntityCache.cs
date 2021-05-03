@@ -112,7 +112,6 @@ public class UserEntityCache : BaseCache
         var listParents = new ConcurrentDictionary<int, int>();
         foreach (var cacheWithUser in GetAllCaches())
         {
-            var user = cacheWithUser.Key;
             var cache = cacheWithUser.Value;
             if (cache.ContainsKey(entityCacheItem.Id))
             {

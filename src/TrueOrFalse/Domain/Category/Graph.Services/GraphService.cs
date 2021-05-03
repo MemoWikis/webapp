@@ -12,7 +12,7 @@ public class GraphService
 
     public static IList<CategoryCacheItem> GetAllParentsFromEntityCache(CategoryCacheItem category)
     {
-        var parentIds = GetDirektParents(category);
+        var parentIds = GetDirectParents(category);
         var allParents = new List<CategoryCacheItem>();
         var deletedIds = new Dictionary<int, int>();
 
@@ -25,7 +25,7 @@ public class GraphService
                 allParents.Add(parent);//Avoidance of circular references
 
                 deletedIds.Add(parentIds[0], parentIds[0]);
-                var currentParents = GetDirektParents(parent);
+                var currentParents = GetDirectParents(parent);
                 foreach (var currentParent in currentParents)
                 {
                     parentIds.Add(currentParent);
@@ -41,7 +41,7 @@ public class GraphService
        var userCache =  UserEntityCache.GetUserCache(userId);
 
        userCache.TryGetValue(category.Id, out var userEntityCacheItem);
-       var parentIds = GetDirektParents(userEntityCacheItem);
+       var parentIds = GetDirectParents(userEntityCacheItem);
        var allParents = new List<CategoryCacheItem>();
        var deletedIds = new Dictionary<int, int>();
 
@@ -54,7 +54,7 @@ public class GraphService
                allParents.Add(parent);//Avoidance of circular references
 
                deletedIds.Add(parentIds[0], parentIds[0]);
-               var currentParents = GetDirektParents(parent);
+               var currentParents = GetDirectParents(parent);
                foreach (var currentParent in currentParents)
                {
                    parentIds.Add(currentParent);
@@ -65,7 +65,7 @@ public class GraphService
        return allParents;
     }
 
-    public static List<int> GetDirektParents(CategoryCacheItem category)
+    public static List<int> GetDirectParents(CategoryCacheItem category)
     {
         return category.CategoryRelations
             .Where(cr => cr.CategoryRelationType == CategoryRelationType.IsChildOf)
