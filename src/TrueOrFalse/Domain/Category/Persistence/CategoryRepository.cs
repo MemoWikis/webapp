@@ -96,7 +96,7 @@ public class CategoryRepository : RepositoryDbBase<Category>
             }
 
             //Update EntityCache
-            var parents = EntityCache.GetCategoryCacheItems(GraphService.GetDirektParents(categoryCacheItem));
+            var parents = EntityCache.GetCategoryCacheItems(GraphService.GetDirectParents(categoryCacheItem));
             foreach (var parent in parents)
             {
                 parent.CachedData.ChildrenIds.Add(categoryCacheItem.Id);
