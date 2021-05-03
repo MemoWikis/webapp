@@ -25,7 +25,7 @@ public class UserEntityCache : BaseCache
 
         foreach (var cacheItem in _Categories[user.Id])
         {
-            ModifyRelationsUserEntityCache.CreateRelationsIncludetContentOf(cacheItem.Value);
+            ModifyRelationsUserEntityCache.AddChildren(cacheItem.Value);
         }
     }
 

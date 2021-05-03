@@ -234,6 +234,12 @@ public class CategoryCacheItem
     public virtual bool HasPublicParent() {
         return ParentCategories().Any(c => c.Visibility == CategoryVisibility.All);
     }
+    public virtual bool HasRelation(CategoryCacheRelation newRelation)
+    {
+        foreach (var categoryRelation in this.CategoryRelations)
+            if (CategoryCacheRelation.IsCategorRelationEqual(categoryRelation, newRelation))
+                return true;
+
+        return false;
+    }
 }
-
-

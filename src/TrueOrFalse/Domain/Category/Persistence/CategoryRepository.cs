@@ -74,7 +74,7 @@ public class CategoryRepository : RepositoryDbBase<Category>
         if (UserEntityCache.HasUserCache(Sl.CurrentUserId))
         {
             UserEntityCache.Add(categoryCacheItem, Sl.CurrentUserId);
-            ModifyRelationsUserEntityCache.CreateRelationsIncludetContentOf(UserEntityCache.GetCategory(Sl.CurrentUserId,categoryCacheItem.Id));
+            ModifyRelationsUserEntityCache.AddToParents(categoryCacheItem);
         }
 
         UpdateCachedData(categoryCacheItem, CreateDeleteUpdate.Create);
@@ -247,7 +247,7 @@ public class CategoryRepository : RepositoryDbBase<Category>
         EntityCache.AddOrUpdate(categoryCacheItemOld);
         EntityCache.UpdateCategoryReferencesInQuestions(categoryCacheItemOld, category);
         UserEntityCache.ChangeCategoryInUserEntityCaches(categoryCacheItemOld);
-        ModifyRelationsUserEntityCache.UpdateRelationsIncludetContentOf(categoryCacheItemOld);
+        ModifyRelationsUserEntityCache.UpdateIncludedContentOf(categoryCacheItemOld);
     }
 
     public void UpdateWithoutCaches(Category category, User author = null, bool imageWasUpdated = false,

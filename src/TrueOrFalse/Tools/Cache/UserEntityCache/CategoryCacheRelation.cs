@@ -1,8 +1,5 @@
-﻿
-
-using System;
+﻿using System;
 using System.Collections.Generic;
-
 
 [Serializable]
 public class CategoryCacheRelation
@@ -37,7 +34,12 @@ public class CategoryCacheRelation
             CategoryRelationType = categoryRelation.CategoryRelationType,
             RelatedCategoryId = categoryRelation.RelatedCategory.Id
         };
+    }
 
+    public static bool IsCategorRelationEqual(CategoryCacheRelation relation1, CategoryCacheRelation relation2)
+    {
+        return relation1.RelatedCategoryId == relation2.RelatedCategoryId &&
+               relation1.CategoryRelationType == relation2.CategoryRelationType &&
+               relation1.CategoryId == relation2.CategoryId;
     }
 }
-
