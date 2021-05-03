@@ -34,6 +34,19 @@ public class SearchApiController : BaseController
         return Json( new{ Items = items }, JsonRequestBehavior.AllowGet);
     }
 
+    public JsonResult ByNameForVue(string term, string type)
+    {
+        var items = new List<ResultItem>();
+        var elements = SearchBoxElementsGet.Go(term, type);
+
+        if (elements.Categories.Any())
+        {
+            AddCategoryItems(items, elements);
+        }
+
+        return Json(new { Items = items }, JsonRequestBehavior.AllowGet);
+    }
+
 
     private static void AddHeader(List<ResultItem> items, ResultItemType resultItemType, int resultCount, string term)
     {

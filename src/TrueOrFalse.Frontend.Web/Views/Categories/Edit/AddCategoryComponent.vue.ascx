@@ -29,7 +29,7 @@
                                 </div>
                             </div>
                             <div class="modalBody" v-else>
-                                <form v-on:submit.prevent="addCategory">
+                                <form v-on:submit.prevent="selectCategory">
                                     <div class="form-group">
                                         <input class="form-control" v-model="name" placeholder="Bitte gib den Namen des Themas ein" />
                                         <small class="form-text text-muted"></small>

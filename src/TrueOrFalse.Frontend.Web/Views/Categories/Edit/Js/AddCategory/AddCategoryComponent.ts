@@ -1,4 +1,10 @@
-﻿var addCategoryComponent = Vue.component('add-category-component', {
+﻿////interface ResultItem {
+////    ResultCount: Number,
+////    Type: String, 
+////    Item: Object,
+////}
+
+var addCategoryComponent = Vue.component('add-category-component', {
     data() {
         return {
             name: "",
@@ -15,6 +21,8 @@
             moveCategories: false,
             parentIsPrivate: false,
             createCategory: true,
+            searchResult: [],
+            searchTerm: "",
         };
     },
     watch: {
@@ -23,7 +31,11 @@
                 this.disableAddCategory = true;
             else
                 this.disableAddCategory = false;
-        }
+        },
+        searchTerm(val) {
+            if (val.length > 0)
+                this.searchCategory();
+        } 
     },
     created() {
         var visibility = $('#hddVisibility').val();
@@ -141,6 +153,21 @@
             };
             eventBus.$emit('add-category-card', data);
         },
+        selectCategory() {
+
+        },
+        searchCategory: _.debounce(() => {
+            var self = this;
+            var data = {
+                term: self.searchTerm,
+                type: 'Categories'
+            }
+            $.get("/Api/Search/ByNameForVue",
+                function(data) {
+                    if (data.items.length > 0)
+                        self.searchResult = data.items;
+                });
+        },400),
     }
 });
 
