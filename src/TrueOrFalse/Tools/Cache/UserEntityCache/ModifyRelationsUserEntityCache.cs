@@ -3,12 +3,11 @@ using System.Linq;
 
 public class ModifyRelationsUserEntityCache
 {
-    public static void CreateRelationsIncludetContentOf(CategoryCacheItem child)
+    public static void CreateRelationsIncludedContentOf(CategoryCacheItem child)
     {
         var parents = GraphService.GetAllParentsFromUserEntityCache(Sl.CurrentUserId, child); 
         foreach (var parent in parents)
         {
-
             var newRelation = new CategoryCacheRelation
             {
                 RelatedCategoryId = child.Id,
@@ -37,7 +36,8 @@ public class ModifyRelationsUserEntityCache
                relation1.CategoryRelationType == relation2.CategoryRelationType &&
                relation1.CategoryId == relation2.CategoryId; 
     }
-    public static void UpdateRelationsIncludetContentOf(CategoryCacheItem child)
+
+    public static void UpdateIncludedContentOf(CategoryCacheItem child)
     {
         foreach (var cacheWithUser in UserEntityCache.GetAllCaches())
         {
@@ -85,7 +85,7 @@ public class ModifyRelationsUserEntityCache
         }
     }
 
-    public static void DeleteIncludetContentOfRelations(CategoryCacheItem category)
+    public static void DeleteIncludedContentOf(CategoryCacheItem category)
     {
         foreach (var cacheWithUser in UserEntityCache.GetAllCaches())
         {
@@ -106,9 +106,10 @@ public class ModifyRelationsUserEntityCache
             cache.TryRemove(category.Id, out var result); 
         }
     }
-    public static void DeleteInUserEntityCache(CategoryCacheItem categoryFromEntityCache)
+
+    public static void Delete(CategoryCacheItem categoryFromEntityCache)
     {
-        DeleteIncludetContentOfRelations(categoryFromEntityCache);
+        DeleteIncludedContentOf(categoryFromEntityCache);
 
         foreach (var userEntityCache in UserEntityCache.GetAllCaches().Values)
         {
