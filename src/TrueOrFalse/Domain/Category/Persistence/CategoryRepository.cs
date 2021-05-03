@@ -247,7 +247,7 @@ public class CategoryRepository : RepositoryDbBase<Category>
         EntityCache.AddOrUpdate(categoryCacheItemOld);
         EntityCache.UpdateCategoryReferencesInQuestions(categoryCacheItemOld, category);
         UserEntityCache.ChangeCategoryInUserEntityCaches(categoryCacheItemOld);
-        ModifyRelationsUserEntityCache.UpdateIncludedContentOf(categoryCacheItemOld);
+        ModifyRelationsUserEntityCache.UpdateParents(categoryCacheItemOld);
     }
 
     public void UpdateWithoutCaches(Category category, User author = null, bool imageWasUpdated = false,
