@@ -157,11 +157,9 @@ var addCategoryComponent = Vue.component('add-category-component', {
             };
             eventBus.$emit('add-category-card', data);
         },
-        selectCategory() {
-            var self = this;
-            self.selectedCategoryId = $('#CategorySearchDatalist [value="' + self.searchTerm + '"]').attr('data-value');
-            if (self.selectedCategoryId > 0)
-                self.disableAddCategory = false;
+        selectCategory(category) {
+            this.searchTerm = category.Name;
+            this.selectedCategoryId = category.Id;
         },
         searchCategory() {
             var self = this;

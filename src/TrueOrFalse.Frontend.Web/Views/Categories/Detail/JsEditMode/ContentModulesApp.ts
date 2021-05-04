@@ -25,6 +25,8 @@ new Vue({
             json: null,
             nameIsValid: true,
             errorMsg: '',
+            debounceSaveContent: _.debounce(this.saveContent, 400),
+            debounceSaveSegments: _.debounce(this.saveSegments, 400)
         };
     },
 
@@ -47,9 +49,8 @@ new Vue({
                     this.changedContent = true;
                 }
             });
-
-        eventBus.$on('request-save', () => this.saveContent());
-        eventBus.$on('save-segments', () => this.saveSegments());
+        eventBus.$on('request-save', () => this.debounceSaveContent());
+        eventBus.$on('save-segments', () => this.debounceSaveSegments());
         eventBus.$on('new-segment', (segment) => {
             this.segments.push(segment);
         });
@@ -60,7 +61,6 @@ new Vue({
     },
 
     mounted() {
-        eventBus.$on('request-save', () => this.saveContent());
         this.changedContent = false;
         if ((this.$el.clientHeight + 450) < window.innerHeight)
             this.footerIsVisible = true;
@@ -124,7 +124,7 @@ new Vue({
             this.showTopAlert = false;
         },
 
-        async saveContent() {
+        saveContent() {
             if (NotLoggedIn.Yes()) {
                 return;
             }
@@ -133,8 +133,6 @@ new Vue({
                 eventBus.$emit('save-msg', self.errorMsg);
                 return;
             }
-
-            this.saveSegments();
 
             var data = {
                 categoryId: self.categoryId,
@@ -160,7 +158,7 @@ new Vue({
             });
         },
 
-        saveSegments: _.debounce(function () {
+        saveSegments() {
             if (NotLoggedIn.Yes()) {
                 return;
             }
@@ -176,8 +174,6 @@ new Vue({
                         CategoryId: $(el).data('category-id'),
                         ChildCategoryIds: $(el).attr('data-child-category-ids')
                     }
-                    console.log($(el))
-                    console.log($(el).attr('data-child-category-ids'))
                 }
 
                 else
@@ -207,6 +203,6 @@ new Vue({
                     };
                 },
             })
-        },400)
+        }
     },
 });

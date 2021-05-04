@@ -30,12 +30,19 @@
                             </div>
                             <div class="modalBody" v-else>
                                 <form v-on:submit.prevent="selectCategory">
-                                    <div class="form-group">
+<%--                                    <div class="form-group">
                                         <input class="form-control" list="CategorySearchDatalist" v-model="searchTerm" placeholder="Bitte gib den Namen des Themas ein" @change="selectCategory"/>
                                         <small class="form-text text-muted"></small>
                                         <datalist id="CategorySearchDatalist">
                                             <option v-for="c in categories" :value="c.Name" :data-value="c.Id"></option>
                                         </datalist>
+                                    </div>--%>
+                                    
+                                    <div class="form-group dropdown">
+                                        <input class="form-control dropdown-toggle" type="text" v-model="searchTerm" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" placeholder="Bitte gib den Namen des Themas ein"/>
+                                        <ul v-show="categories.length > 0" class="dropdown-menu" aria-labelledby="dropdownMenu1">
+                                            <li v-for="c in categories" @click="selectCategory(c)">{{c.Name}}</li>
+                                        </ul>
                                     </div>
                                 </form>
                                 <div class="alert alert-warning" role="alert" v-if="showErrorMsg">
