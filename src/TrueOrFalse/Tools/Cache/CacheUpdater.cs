@@ -1,7 +1,7 @@
 ﻿
-    class CacheUpdater
+   public  class CacheUpdater
     {
-        public CacheUpdater(Category category)
+        public  CacheUpdater(Category category)
         {
             var categoryCacheItemOld = EntityCache.GetCategoryCacheItem(category.Id, getDataFromEntityCache: true);
 
@@ -9,7 +9,7 @@
             EntityCache.AddOrUpdate(categoryCacheItemOld);
             EntityCache.UpdateCategoryReferencesInQuestions(categoryCacheItemOld, category);
             UserEntityCache.ChangeCategoryInUserEntityCaches(categoryCacheItemOld);
-            ModifyRelationsUserEntityCache.UpdateRelationsIncludetContentOf(categoryCacheItemOld);
+            ModifyRelationsUserEntityCache.UpdateParents	(categoryCacheItemOld);
 
             Sl.CategoryRepo.Update(category);
     }
