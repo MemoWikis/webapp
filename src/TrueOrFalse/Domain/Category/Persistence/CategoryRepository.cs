@@ -74,7 +74,7 @@ public class CategoryRepository : RepositoryDbBase<Category>
         if (UserEntityCache.HasUserCache(Sl.CurrentUserId))
         {
             UserEntityCache.Add(categoryCacheItem, Sl.CurrentUserId);
-            ModifyRelationsUserEntityCache.CreateRelationsIncludetContentOf(UserEntityCache.GetCategory(Sl.CurrentUserId,categoryCacheItem.Id));
+            ModifyRelationsUserEntityCache.AddToParents(categoryCacheItem);
         }
 
         UpdateCachedData(categoryCacheItem, CreateDeleteUpdate.Create);

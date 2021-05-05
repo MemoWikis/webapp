@@ -36,7 +36,7 @@ public class CategoryDeleter : IRegisterAsInstancePerLifetime
 
         ModifyRelationsEntityCache.DeleteIncludetContentOf(categoryCacheItem);
         CategoryRepository.UpdateCachedData(categoryCacheItem, CategoryRepository.CreateDeleteUpdate.Delete);
-        ModifyRelationsUserEntityCache.DeleteInUserEntityCache(categoryCacheItem);
+        ModifyRelationsUserEntityCache.Delete(categoryCacheItem);
         EntityCache.Remove(categoryCacheItem);
         UserCache.RemoveAllForCategory(category.Id);
 
