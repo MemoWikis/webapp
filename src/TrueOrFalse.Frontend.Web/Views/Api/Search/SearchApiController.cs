@@ -58,7 +58,8 @@ public class SearchApiController : BaseController
                 Id = c.Id,
                 Name = c.Name,
                 Url = Links.CategoryDetail(c.Name, c.Id),
-                QuestionCount = c.GetCountQuestionsAggregated()
+                QuestionCount = c.GetCountQuestionsAggregated(),
+                ImageUrl = new CategoryImageSettings(c.Id).GetUrl_50px(asSquare: true).Url,
             }));
     }
 
@@ -68,6 +69,7 @@ public class SearchApiController : BaseController
         public string Name;
         public string Url;
         public int QuestionCount;
+        public string ImageUrl;
     }
 
 

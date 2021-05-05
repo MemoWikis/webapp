@@ -4175,3 +4175,18 @@ p.is-editor-empty:first-child::before {
 #PublishCategoryComponent #PublishCategoryModal .after-request-modal .btn.success {
   background-color: #AFD534;
 }
+.categorySearchAutocomplete .dropdown-menu li.searchResultItem {
+  padding: 2px;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  width: 100%;
+}
+.categorySearchAutocomplete .dropdown-menu li.searchResultItem .searchResultLabel {
+  color: #555555;
+}
+.categorySearchAutocomplete .dropdown-menu li.searchResultItem .searchResultQuestionCount {
+  color: #DDDDDD;
+  font-style: italic;
+}

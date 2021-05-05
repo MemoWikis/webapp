@@ -221,6 +221,20 @@ public class EditCategoryController : BaseController
     }
 
     [HttpPost]
+    public JsonResult AddChild(int childCategoryId, int parentCategoryId)
+    {
+        var category = Sl.CategoryRepo.GetById(childCategoryId);
+        ModifyRelationsForCategory.AddParentCategory(category, parentCategoryId);
+
+        return Json(new
+        {
+            success = true,
+            url = Links.CategoryDetail(category),
+            id = category.Id
+        });
+    }
+
+    [HttpPost]
     public JsonResult QuickCreateWithCategories(string name, int parentCategoryId, bool isPrivate, int[] childCategoryIds)
     {
         var category = new Category(name) { Creator = _sessionUser.User };

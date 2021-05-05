@@ -30,18 +30,18 @@
                             </div>
                             <div class="modalBody" v-else>
                                 <form v-on:submit.prevent="selectCategory">
-<%--                                    <div class="form-group">
-                                        <input class="form-control" list="CategorySearchDatalist" v-model="searchTerm" placeholder="Bitte gib den Namen des Themas ein" @change="selectCategory"/>
-                                        <small class="form-text text-muted"></small>
-                                        <datalist id="CategorySearchDatalist">
-                                            <option v-for="c in categories" :value="c.Name" :data-value="c.Id"></option>
-                                        </datalist>
-                                    </div>--%>
-                                    
-                                    <div class="form-group dropdown">
-                                        <input class="form-control dropdown-toggle" type="text" v-model="searchTerm" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" placeholder="Bitte gib den Namen des Themas ein"/>
-                                        <ul v-show="categories.length > 0" class="dropdown-menu" aria-labelledby="dropdownMenu1">
-                                            <li v-for="c in categories" @click="selectCategory(c)">{{c.Name}}</li>
+                                    <div class="form-group dropdown categorySearchAutocomplete"  :class="{ 'open' : showDropdown}">
+                                        <input class="form-control dropdown-toggle" type="text" v-model="searchTerm" id="searchList" @click="lockDropdown = false"  aria-haspopup="true" placeholder="Bitte gib den Namen des Themas ein"/>
+                                        <ul class="dropdown-menu" aria-labelledby="searchList">
+                                            <li class="">Kein Treffer? Bitte weitertippen oder Thema in neuem Tab erstellen</li>
+                                            <li class="searchResultItem" v-for="c in categories" @click="selectCategory(c)">
+                                                <img :src="c.ImageUrl"/>
+                                                <div>
+                                                    <div class="searchResultLabel">{{c.Name}}</div>
+                                                    <div class="searchResultQuestionCount">{{c.QuestionCount}} Frage<template v-if="c.QuestionCount != 1">n</template></div>
+                                                </div>
+                                            </li>
+                                            <li class="underline-s">{{totalCount}}</li>
                                         </ul>
                                     </div>
                                 </form>

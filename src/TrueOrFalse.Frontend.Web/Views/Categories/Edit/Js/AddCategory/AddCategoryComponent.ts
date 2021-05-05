@@ -25,7 +25,9 @@ var addCategoryComponent = Vue.component('add-category-component', {
             searchTerm: "",
             totalCount: 0,
             selectedCategoryId: 0,
-            debounceSearchCategory: _.debounce(this.searchCategory, 300)
+            debounceSearchCategory: _.debounce(this.searchCategory, 300),
+            showDropdown: false,
+            lockDropdown: true,
         };
     },
     watch: {
@@ -35,11 +37,20 @@ var addCategoryComponent = Vue.component('add-category-component', {
             else
                 this.disableAddCategory = false;
         },
-        searchTerm(val) {
-            if (val.length > 0) {
+        searchTerm(term) {
+            if (term.length > 0 && this.lockDropdown == false) {
+                this.showDropdown = true;
                 this.debounceSearchCategory();
             }
+            else
+                this.showDropdown = false;
         },
+        selectedCategory(id) {
+            if (this.createCategory)
+                return;
+            if (id > 0)
+                this.disableAddCategory = false;
+        }
     },
     created() {
         var visibility = $('#hddVisibility').val();
@@ -63,7 +74,7 @@ var addCategoryComponent = Vue.component('add-category-component', {
 
         $('#AddCategoryModal').on('hidden.bs.modal',
             event => {
-                this.clearData();
+                Object.assign(this.$data, this.$options.data.apply(this));
             });
     },
     methods: {
@@ -78,6 +89,8 @@ var addCategoryComponent = Vue.component('add-category-component', {
             this.selectedCategories = [];
             this.moveCategories = false;
             this.redirect = false;
+            this.showDropdown = false;
+            this.selectedCategoryId = 0;
         },
         closeModal() {
             $('#AddCategoryModal').modal('hide');
@@ -158,10 +171,13 @@ var addCategoryComponent = Vue.component('add-category-component', {
             eventBus.$emit('add-category-card', data);
         },
         selectCategory(category) {
+            this.showDropdown = false;
+            this.lockDropdown = true;
             this.searchTerm = category.Name;
             this.selectedCategoryId = category.Id;
         },
         searchCategory() {
+            this.showDropdown = true;
             var self = this;
             var data = {
                 term: self.searchTerm,
@@ -175,7 +191,34 @@ var addCategoryComponent = Vue.component('add-category-component', {
                 });
         },
         addExistingCategory() {
+            Utils.ShowSpinner();
+            var self = this;
+            var categoryData = {
+                childCategoryId: self.selectedCategoryId,
+                parentCategoryId: self.parentId,
+            }
 
+            $.ajax({
+                type: 'Post',
+                contentType: "application/json",
+                url: '/EditCategory/AddChild',
+                data: JSON.stringify(categoryData),
+                success: function (data) {
+                    if (data.success) {
+                        if (self.redirect)
+                            window.open(data.url, '_self');
+                        if (self.addCategoryBtnId != null)
+                            self.loadCategoryCard(data.id);
+                        if (self.moveCategories) {
+                            eventBus.$emit('remove-category-cards', data.movedCategories);
+                        }
+                        else
+                            $('#AddCategoryModal').modal('hide');
+                        Utils.HideSpinner();
+                    } else {
+                    };
+                },
+            });
         }
     }
 });

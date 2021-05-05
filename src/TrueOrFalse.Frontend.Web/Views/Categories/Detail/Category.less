@@ -3153,3 +3153,24 @@ p.is-editor-empty:first-child::before {
         }
     }
 }
+
+.categorySearchAutocomplete {
+    .dropdown-menu {
+        li {
+            &.searchResultItem {
+                padding: 2px;
+                display: flex;
+                width: 100%;
+
+                .searchResultLabel {
+                    color: @memo-grey-darker;
+                }
+
+                .searchResultQuestionCount{
+                    color: @memo-grey-light;
+                    font-style: italic;
+                }
+            }
+        }
+    }
+}
