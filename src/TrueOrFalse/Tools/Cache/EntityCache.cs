@@ -39,7 +39,7 @@ public class EntityCache : BaseCache
         IntoForeverCache(_cacheKeyCategoryQuestionsList, GetCategoryQuestionsList(questions));
 
         Logg.r().Information("EntityCache PutIntoCache" + customMessage + "{Elapsed}", stopWatch.Elapsed);
-
+        Logg.r().Warning("ist gebaut");
         IsFirstStart = false; 
     }
 
