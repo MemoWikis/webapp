@@ -216,7 +216,7 @@
     <Compile Include="2 Domain\Question\LearnSession\Get_wuwi_from_category.cs" />
     <Compile Include="2 Domain\Question\LearnSession\Sort_by_probability.cs" />
     <Compile Include="2 Domain\Question\LearnSession\Test_learning_session_steps.cs" />
-    <Compile Include="2 Domain\UserWorld\Cache_tests.cs" />
+    <Compile Include="2 Domain\Category\Cache_tests.cs" />
     <Compile Include="2 Domain\User\UserCache\User_cache_tests.cs" />
     <Compile Include="3 Infrastructure\TemplateMigrationTest.cs" />
     <Compile Include="1 View\TemplateParserTest.cs" />
@@ -358,6 +358,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="2 Domain.Jobs\" />
+    <Folder Include="2 Domain\UserWorld\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
