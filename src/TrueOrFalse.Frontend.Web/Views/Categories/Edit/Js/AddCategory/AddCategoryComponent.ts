@@ -48,6 +48,10 @@ var addCategoryComponent = Vue.component('add-category-component', {
         selectedCategoryId(id) {
             if (id > 0 && !this.createCategory)
                 this.disableAddCategory = false;
+        },
+        createCategory() {
+            if (this.selectedCategory != null)
+                this.showSelectedCategory = true;
         }
     },
     mounted() {
