@@ -21,7 +21,11 @@ class ModifyRelationsEntityCache
         }
     }
 
-    public static IEnumerable<CategoryCacheRelation> GetRelationsToAdd(CategoryCacheItem categoryCacheItem, IEnumerable<Category> relatedCategoriesAsCategories, CategoryRelationType relationType, IEnumerable<CategoryRelation> existingRelationsOfType)
+    public static IEnumerable<CategoryCacheRelation> GetRelationsToAdd(
+        CategoryCacheItem categoryCacheItem,
+        IEnumerable<Category> relatedCategoriesAsCategories,
+        CategoryRelationType relationType,
+        IEnumerable<CategoryRelation> existingRelationsOfType)
     {
         return relatedCategoriesAsCategories
             .Except(existingRelationsOfType.Select(r => r.RelatedCategory))

@@ -68,8 +68,7 @@ public class EditCategoryController : BaseController
         model.FillReleatedCategoriesFromPostData(Request.Form);
         model.UpdateCategory(Sl.CategoryRepo.GetByIdEager(category.Id));
 
-        var isChangeParents = !GraphService.IsCategoryParentEqual(CategoryCacheItem.ToCacheCategories(model.ParentCategories).ToList(),
-            EntityCache.GetCategoryCacheItem(category.Id).ParentCategories());
+       
 
         if (model.Name != category.Name && categoryAllowed.No(model, category.Type))
         {
@@ -86,6 +85,9 @@ public class EditCategoryController : BaseController
                     $" <a href=\"{Links.CategoryDetail(category)}\">zur Detailansicht wechseln</a>.");
         }
         StoreImage(id);
+
+        var isChangeParents = !GraphService.IsCategoryParentEqual(CategoryCacheItem.ToCacheCategories(model.ParentCategories).ToList(),
+            EntityCache.GetCategoryCacheItem(category.Id).ParentCategories());
 
         if (isChangeParents)
             UserEntityCache.ReInitAllActiveCategoryCaches();
