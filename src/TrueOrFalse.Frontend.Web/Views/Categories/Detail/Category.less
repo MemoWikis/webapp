@@ -2955,6 +2955,11 @@ p.is-editor-empty:first-child::before {
                 padding: 10px 0 20px;
                 margin-bottom: 10px;
 
+                .form-control {
+                    width: 100%;
+                    max-width: 100%;
+                }
+
                 .alert {
                     line-height: 18px;
                 }
@@ -2971,11 +2976,10 @@ p.is-editor-empty:first-child::before {
 
                 .checkBox {
                     user-select: none;
-                    cursor: pointer;
                     color: @memo-grey-dark;
 
                     i {
-                        color: @memo-blue-link;
+                        color: @memo-grey-dark;
                     }
                 }
             }
@@ -2983,6 +2987,8 @@ p.is-editor-empty:first-child::before {
             .modalFooter {
                 display: flex;
                 justify-content: center;
+                align-items: center;
+                flex-direction: column;
             }
         }
     }
@@ -3156,21 +3162,60 @@ p.is-editor-empty:first-child::before {
 
 .categorySearchAutocomplete {
     .dropdown-menu {
-        li {
-            &.searchResultItem {
-                padding: 2px;
-                display: flex;
-                width: 100%;
+        width: 100%;
 
-                .searchResultLabel {
-                    color: @memo-grey-darker;
-                }
+        .dropdownFooter {
+            line-height: 20px;
+            padding: 8px;
+            text-align: end;
 
-                .searchResultQuestionCount{
-                    color: @memo-grey-light;
-                    font-style: italic;
+            .dropdownLink {
+                color: @memo-blue-link;
+                cursor: pointer;
+
+                &:hover {
+                    text-decoration: underline;
                 }
             }
+        }
+    }
+
+    .searchResultItem {
+        padding: 4px 8px;
+        display: flex;
+        width: 100%;
+        height: 70px;
+        transition: .2s ease-in-out;
+        cursor: pointer;
+
+        &:hover {
+            background: @memo-grey-lighter;
+            color: @memo-blue;
+        }
+
+        .searchResultLabel {
+            height: 40px;
+            line-height: normal;
+            color: @memo-grey-darker;
+            text-overflow: ellipsis;
+            margin: 0;
+            overflow: hidden;
+            max-width: 408px;
+        }
+
+        .searchResultQuestionCount {
+            color: @memo-grey-light;
+            font-style: italic;
+            height: 20px;
+            line-height: normal;
+        }
+
+
+        img {
+            max-height: 70px;
+            max-width: 70px;
+            height: auto;
+            margin-right: 10px;
         }
     }
 }

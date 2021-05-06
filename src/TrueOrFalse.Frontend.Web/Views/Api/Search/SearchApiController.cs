@@ -37,7 +37,7 @@ public class SearchApiController : BaseController
     public JsonResult ByNameForVue(string term, string type)
     {
         var items = new List<MiniCategoryItem>();
-        var elements = SearchBoxElementsGet.Go(term, type);
+        var elements = SearchBoxElementsGet.GoAllCategories(term);
 
         if (elements.Categories.Any())
         {
@@ -59,7 +59,7 @@ public class SearchApiController : BaseController
                 Name = c.Name,
                 Url = Links.CategoryDetail(c.Name, c.Id),
                 QuestionCount = c.GetCountQuestionsAggregated(),
-                ImageUrl = new CategoryImageSettings(c.Id).GetUrl_50px(asSquare: true).Url,
+                ImageUrl = new CategoryImageSettings(c.Id).GetUrl_128px(asSquare: true).Url,
             }));
     }
 

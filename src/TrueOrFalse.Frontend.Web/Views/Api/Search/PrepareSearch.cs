@@ -24,10 +24,20 @@ public class SearchBoxElementsGet
 //        if (type == "Questions" || type == null)
             result.QuestionsResult = Sl.SearchQuestions.Run(term, searchSpec);
 
-        if (type != null)
-            result.Ensure_max_elements_per_type_count_of_9(type);
-        else
-            result.Ensure_max_element_count_of_12();
+        //if (type != null)
+        result.Ensure_max_elements_per_type_count_of_9("Categories");
+        //else
+        //    result.Ensure_max_element_count_of_12();
+
+        return result;
+    }
+
+    public static SearchBoxElements GoAllCategories(string term)
+    {
+        var result = new SearchBoxElements();
+
+        var categoriesResult = result.CategoriesResult = Sl.SearchCategories.Run(term, new Pager { QueryAll = true });
+        result.CategoriesResult = categoriesResult;
 
         return result;
     }

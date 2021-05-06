@@ -8,7 +8,6 @@ var addCategoryComponent = Vue.component('add-category-component', {
     data() {
         return {
             name: "",
-            isPrivate: false,
             errorMsg: "",
             parentId: null,
             existingCategoryName: "",
@@ -19,7 +18,6 @@ var addCategoryComponent = Vue.component('add-category-component', {
             disableAddCategory: true,
             selectedCategories: [],
             moveCategories: false,
-            parentIsPrivate: false,
             createCategory: true,
             categories: [],
             searchTerm: "",
@@ -28,6 +26,8 @@ var addCategoryComponent = Vue.component('add-category-component', {
             debounceSearchCategory: _.debounce(this.searchCategory, 300),
             showDropdown: false,
             lockDropdown: true,
+            selectedCategory: null,
+            showSelectedCategory: false,
         };
     },
     watch: {
@@ -45,18 +45,9 @@ var addCategoryComponent = Vue.component('add-category-component', {
             else
                 this.showDropdown = false;
         },
-        selectedCategory(id) {
-            if (this.createCategory)
-                return;
-            if (id > 0)
+        selectedCategoryId(id) {
+            if (id > 0 && !this.createCategory)
                 this.disableAddCategory = false;
-        }
-    },
-    created() {
-        var visibility = $('#hddVisibility').val();
-        if (visibility != 'All') {
-            this.parentIsPrivate = true;
-            this.isPrivate = true;
         }
     },
     mounted() {
@@ -80,7 +71,6 @@ var addCategoryComponent = Vue.component('add-category-component', {
     methods: {
         clearData() {
             this.name = "";
-            this.isPrivate = false;
             this.errorMsg = "";
             this.showErrorMsg = false;
             this.parentId = null;
@@ -96,13 +86,6 @@ var addCategoryComponent = Vue.component('add-category-component', {
             $('#AddCategoryModal').modal('hide');
         },
 
-        togglePrivacy() {
-            if (this.parentIsPrivate)
-                return;
-            else
-                this.isPrivate = !this.isPrivate;
-        },
-
         addCategory() {
             Utils.ShowSpinner();
             var self = this;
@@ -112,7 +95,6 @@ var addCategoryComponent = Vue.component('add-category-component', {
                 categoryData = {
                     name: self.name,
                     parentCategoryId: self.parentId,
-                    isPrivate: self.isPrivate,
                     childCategoryIds: self.selectedCategories
                 }
                 url = '/EditCategory/QuickCreateWithCategories';
@@ -121,7 +103,6 @@ var addCategoryComponent = Vue.component('add-category-component', {
                 categoryData = {
                     name: self.name,
                     parentCategoryId: self.parentId,
-                    isPrivate: self.isPrivate
                 }
                 url = '/EditCategory/QuickCreate';
             }
@@ -174,7 +155,15 @@ var addCategoryComponent = Vue.component('add-category-component', {
             this.showDropdown = false;
             this.lockDropdown = true;
             this.searchTerm = category.Name;
+            this.selectedCategory = category;
             this.selectedCategoryId = category.Id;
+            this.showSelectedCategory = true;
+        },
+        toggleShowSelectedCategory() {
+            this.showSelectedCategory = false;
+            this.$nextTick(() => {
+                this.$refs.searchInput.focus();
+            });
         },
         searchCategory() {
             this.showDropdown = true;
@@ -188,6 +177,9 @@ var addCategoryComponent = Vue.component('add-category-component', {
                 function (result) {
                     self.categories = result.categories;
                     self.totalCount = result.totalCount;
+                    self.$nextTick(() => {
+                        $('[data-toggle="tooltip"]').tooltip();
+                    });
                 });
         },
         addExistingCategory() {

@@ -3975,6 +3975,10 @@ p.is-editor-empty:first-child::before {
   padding: 10px 0 20px;
   margin-bottom: 10px;
 }
+.categoryCardModal .modal-content .addCategoryCardModal .modalBody .form-control {
+  width: 100%;
+  max-width: 100%;
+}
 .categoryCardModal .modal-content .addCategoryCardModal .modalBody .alert {
   line-height: 18px;
 }
@@ -3992,11 +3996,10 @@ p.is-editor-empty:first-child::before {
      -moz-user-select: none;
       -ms-user-select: none;
           user-select: none;
-  cursor: pointer;
   color: #999999;
 }
 .categoryCardModal .modal-content .addCategoryCardModal .modalBody .checkBox i {
-  color: #0065CA;
+  color: #999999;
 }
 .categoryCardModal .modal-content .addCategoryCardModal .modalFooter {
   display: -webkit-box;
@@ -4007,6 +4010,15 @@ p.is-editor-empty:first-child::before {
   -webkit-justify-content: center;
       -ms-flex-pack: center;
           justify-content: center;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -webkit-flex-direction: column;
+      -ms-flex-direction: column;
+          flex-direction: column;
 }
 .questionTitle p {
   margin: 0;
@@ -4175,18 +4187,55 @@ p.is-editor-empty:first-child::before {
 #PublishCategoryComponent #PublishCategoryModal .after-request-modal .btn.success {
   background-color: #AFD534;
 }
-.categorySearchAutocomplete .dropdown-menu li.searchResultItem {
-  padding: 2px;
+.categorySearchAutocomplete .dropdown-menu {
+  width: 100%;
+}
+.categorySearchAutocomplete .dropdown-menu .dropdownFooter {
+  line-height: 20px;
+  padding: 8px;
+  text-align: end;
+}
+.categorySearchAutocomplete .dropdown-menu .dropdownFooter .dropdownLink {
+  color: #0065CA;
+  cursor: pointer;
+}
+.categorySearchAutocomplete .dropdown-menu .dropdownFooter .dropdownLink:hover {
+  text-decoration: underline;
+}
+.categorySearchAutocomplete .searchResultItem {
+  padding: 4px 8px;
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
   display: flex;
   width: 100%;
+  height: 70px;
+  -webkit-transition: 0.2s ease-in-out;
+  transition: 0.2s ease-in-out;
+  cursor: pointer;
 }
-.categorySearchAutocomplete .dropdown-menu li.searchResultItem .searchResultLabel {
+.categorySearchAutocomplete .searchResultItem:hover {
+  background: #EFEFEF;
+  color: #003264;
+}
+.categorySearchAutocomplete .searchResultItem .searchResultLabel {
+  height: 40px;
+  line-height: normal;
   color: #555555;
+  text-overflow: ellipsis;
+  margin: 0;
+  overflow: hidden;
+  max-width: 408px;
 }
-.categorySearchAutocomplete .dropdown-menu li.searchResultItem .searchResultQuestionCount {
+.categorySearchAutocomplete .searchResultItem .searchResultQuestionCount {
   color: #DDDDDD;
   font-style: italic;
+  height: 20px;
+  line-height: normal;
+}
+.categorySearchAutocomplete .searchResultItem img {
+  max-height: 70px;
+  max-width: 70px;
+  height: auto;
+  margin-right: 10px;
 }
