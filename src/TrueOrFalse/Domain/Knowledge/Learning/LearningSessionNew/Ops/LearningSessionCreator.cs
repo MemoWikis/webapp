@@ -16,7 +16,7 @@ public class LearningSessionCreator
         if (UserCache.GetItem(config.CurrentUserId).IsFiltered)
         {
             var questionsFromCurrentCategoryAndChildren = GetCategoryQuestionsFromEntityCache(config.CategoryId);  
-            questions = questionsFromCurrentCategoryAndChildren.Distinct().ToList(); 
+            questions = questionsFromCurrentCategoryAndChildren.Where(q => q.IsInWishknowledge()).Distinct().ToList(); 
         }
         else if (config.AllQuestions || config.InWishknowledge && config.CreatedByCurrentUser && config.IsNotQuestionInWishKnowledge)
             questions = OrderByProbability(RandomLimited(GetCategoryQuestionsFromEntityCache(config.CategoryId),
