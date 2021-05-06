@@ -324,22 +324,24 @@ class User_entity_cache_tests : BaseTest
     {
         var cateContext = ContextCategory.New();
         var user = cateContext.AddCaseThreeToCache();
-        var all = cateContext.All; 
+        var all = cateContext.All;
+        
 
         var category = Sl.CategoryRepo.GetByName("B").First(); 
         category.CategoryRelations.Clear();
         category.CategoryRelations.Add(new CategoryRelation
         {
-            RelatedCategory = Sl.CategoryRepo.GetByIdEager(Sl.CategoryRepo.GetByName("X3").First().Id),
+            RelatedCategory = Sl.CategoryRepo.GetByName("X3").First(),
             CategoryRelationType = CategoryRelationType.IsChildOf,
             Category = category
         });
-        Sl.CategoryRepo.Update(category);
-    }
+        new CacheUpdater(category);
 
-    private static bool HasRelation(CategoryCacheItem category, CategoryCacheRelation expectedRelation)
-    {
-       return category.CategoryRelations.Contains(expectedRelation); 
+      var c  =  Sl.CategoryRepo.GetByName("B");
+      //ModifyRelationsForCategory.UpdateCategoryRelationsOfType();
+
+        Sl.CategoryRepo.Update(category);
+
     }
 }
 
