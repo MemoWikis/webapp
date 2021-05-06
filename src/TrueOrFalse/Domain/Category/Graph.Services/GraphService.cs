@@ -252,7 +252,7 @@ public class GraphService
                 existingRelations);
 
             ModifyRelationsForCategory.CreateIncludeContentOf(parentAsCategory, relationsToAdd);
-            Sl.CategoryRepo.UpdateWithoutCaches(Sl.CategoryRepo.GetByIdEager(parent.Id), isFromModifiyRelations: true);
+            Sl.CategoryRepo.Update(Sl.CategoryRepo.GetByIdEager(parent.Id), isFromModifiyRelations: true);
 
             var parentAsCacheItem = EntityCache.GetCategoryCacheItem(parent.Id);
             var relationsToAddEntityCache = ModifyRelationsEntityCache.GetRelationsToAdd(parentAsCacheItem,

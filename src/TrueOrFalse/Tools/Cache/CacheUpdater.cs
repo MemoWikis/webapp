@@ -10,8 +10,6 @@
             EntityCache.UpdateCategoryReferencesInQuestions(categoryCacheItemOld, category);
             UserEntityCache.ChangeCategoryInUserEntityCaches(categoryCacheItemOld);
             ModifyRelationsUserEntityCache.UpdateParents	(categoryCacheItemOld);
-
-            Sl.CategoryRepo.Update(category);
     }
 
     }

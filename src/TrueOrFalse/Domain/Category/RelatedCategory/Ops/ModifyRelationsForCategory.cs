@@ -19,11 +19,8 @@ public class ModifyRelationsForCategory
         var category = Sl.CategoryRepo.GetByIdEager(categoryId);
         var relatedCategoriesAsCategories = Sl.CategoryRepo.GetByIdsEager(relatedCategories);
         var existingRelationsOfType = GetExistingRelations(category, relationType).ToList();
-        
-
 
         CreateIncludeContentOf(category, GetRelationsToAdd(category, relatedCategoriesAsCategories, relationType, existingRelationsOfType));
-
         RemoveIncludeContentOf(category, GetRelationsToRemove(relatedCategoriesAsCategories, existingRelationsOfType)); 
     }
 
@@ -114,16 +111,23 @@ public class ModifyRelationsForCategory
 
     public static void RemoveIncludeContentOf(Category category, IEnumerable<CategoryRelation> relationsToRemove)
     {
-        for (var i = 0; i > relationsToRemove.Count(); i++)
+        var relationsToRemoveList = relationsToRemove.ToList();
+        var relationsCount = relationsToRemove.Count();
+
+        if (category.CategoryRelations.Count < 2)
+            return; 
+
+        for (var i = 0; i < relationsToRemoveList.Count; i++)
         {
-            category.CategoryRelations.RemoveAt(i);
-
-            var categoryCacheItem = EntityCache.GetCategoryCacheItem(category.Id); 
-
-
-            categoryCacheItem.CategoryRelations.RemoveAt(i);
-
-
+            for (int j = 0; j < category.CategoryRelations.Count;  j++)
+            {
+                if (relationsToRemoveList[i] == category.CategoryRelations[j])
+                {
+                    category.CategoryRelations.RemoveAt(j);
+                    var categoryCacheItem = EntityCache.GetCategoryCacheItem(category.Id);
+                    categoryCacheItem.CategoryRelations.RemoveAt(j);
+                }
+            }
         }
     }
 }
