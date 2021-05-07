@@ -2242,6 +2242,7 @@ p.is-editor-empty:first-child::before {
     bottom: 20px;
     right: 20px;
     z-index: 9;
+    height: 56px;
 
     .fab-container {
         display: flex;
@@ -2954,6 +2955,11 @@ p.is-editor-empty:first-child::before {
                 padding: 10px 0 20px;
                 margin-bottom: 10px;
 
+                .form-control {
+                    width: 100%;
+                    max-width: 100%;
+                }
+
                 .alert {
                     line-height: 18px;
                 }
@@ -2970,11 +2976,10 @@ p.is-editor-empty:first-child::before {
 
                 .checkBox {
                     user-select: none;
-                    cursor: pointer;
                     color: @memo-grey-dark;
 
                     i {
-                        color: @memo-blue-link;
+                        color: @memo-grey-dark;
                     }
                 }
             }
@@ -2982,6 +2987,8 @@ p.is-editor-empty:first-child::before {
             .modalFooter {
                 display: flex;
                 justify-content: center;
+                align-items: center;
+                flex-direction: column;
             }
         }
     }
@@ -2999,7 +3006,6 @@ p.is-editor-empty:first-child::before {
             @media (max-width: 600px) {
                 margin-top: 30px;
             }
-
         }
     }
 }
@@ -3150,6 +3156,66 @@ p.is-editor-empty:first-child::before {
                     background-color: @memo-green;
                 }
             }
+        }
+    }
+}
+
+.categorySearchAutocomplete {
+    .dropdown-menu {
+        width: 100%;
+
+        .dropdownFooter {
+            line-height: 20px;
+            padding: 8px;
+            text-align: end;
+
+            .dropdownLink {
+                color: @memo-blue-link;
+                cursor: pointer;
+
+                &:hover {
+                    text-decoration: underline;
+                }
+            }
+        }
+    }
+
+    .searchResultItem {
+        padding: 4px 8px;
+        display: flex;
+        width: 100%;
+        height: 70px;
+        transition: .2s ease-in-out;
+        cursor: pointer;
+
+        &:hover {
+            background: @memo-grey-lighter;
+            color: @memo-blue;
+        }
+
+        .searchResultLabel {
+            height: 40px;
+            line-height: normal;
+            color: @memo-grey-darker;
+            text-overflow: ellipsis;
+            margin: 0;
+            overflow: hidden;
+            max-width: 408px;
+        }
+
+        .searchResultQuestionCount {
+            color: @memo-grey-light;
+            font-style: italic;
+            height: 20px;
+            line-height: normal;
+        }
+
+
+        img {
+            max-height: 70px;
+            max-width: 70px;
+            height: auto;
+            margin-right: 10px;
         }
     }
 }

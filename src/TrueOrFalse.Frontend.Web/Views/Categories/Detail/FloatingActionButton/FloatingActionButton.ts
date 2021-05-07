@@ -159,7 +159,7 @@ var FAB = Vue.component('floating-action-button',
 
                 var contentModuleAppWidth = $('#ContentModuleApp').width();
                 var windowWidth = $(window).width();
-                const elFooter = document.getElementById('TopicTabContentEnd');
+                const elFooter = document.getElementById('Segmentation');
 
                 if (elFooter) {
                     var rect = elFooter.getBoundingClientRect();

@@ -1675,7 +1675,7 @@ h3 {
 .dropdown-menu div a {
   display: flex;
   line-height: 26px;
-  color: #999999;
+  color: #555555;
 }
 .dropdown-menu li .dropdown-icon,
 .dropdown-menu div .dropdown-icon {
@@ -1688,7 +1688,7 @@ h3 {
 .dropdown-menu li .dropdown-icon i,
 .dropdown-menu div .dropdown-icon i {
   transition: color 0.1s ease-in-out;
-  color: #999999 !important;
+  color: #555555 !important;
 }
 .dropdown-menu li:hover a,
 .dropdown-menu div:hover a,
@@ -1701,4 +1701,8 @@ h3 {
 }
 .grey-darker {
   color: #555555;
+}
+b,
+strong {
+  font-weight: 600;
 }

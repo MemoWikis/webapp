@@ -41,11 +41,12 @@ var segmentationComponent = Vue.component('segmentation-component', {
             this.currentChildCategoryIds = JSON.parse(this.childCategoryIds);
         if (this.segmentJson.length > 0)
             this.segments = JSON.parse(this.segmentJson);
+        this.hasCustomSegment = this.segments.length > 0;
 
         var self = this;
-        this.hasCustomSegment = $('#CustomSegmentSection').html().length > 0;
         eventBus.$on('remove-segment', (id) => {
             self.addCategoryToBaseList(id);
+            this.hasCustomSegment = this.segments.length > 0;
         });
         eventBus.$on('remove-category-cards',
             ids => {
@@ -112,7 +113,6 @@ var segmentationComponent = Vue.component('segmentation-component', {
                 success: function (data) {
                     if (data) {
                         eventBus.$emit('content-change');
-
                         eventBus.$emit('save-segments');
                     } else {
 
@@ -162,7 +162,8 @@ var segmentationComponent = Vue.component('segmentation-component', {
                 success: function (result) {
                     eventBus.$emit('content-change');
                     var removedChildCategoryIds = JSON.parse(result.removedChildCategoryIds);
-                    self.filterChildren(removedChildCategoryIds);                },
+                    self.filterChildren(removedChildCategoryIds);
+                },
             });
         },
         moveToNewCategory() {
@@ -190,6 +191,7 @@ var segmentationComponent = Vue.component('segmentation-component', {
                 selectedCategoryIds
             );
             this.currentChildCategoryIds = filteredCurrentChildCategoryIds;
+            eventBus.$emit('save-segments');
         }
     },
 });

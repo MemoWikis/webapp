@@ -26,6 +26,9 @@
                             <li v-if="!isCustomSegment"><a @click="thisToSegment">
                                 <div class="dropdown-icon"><i class="fa fa-code-fork"></i></div>Unterthemen einblenden
                             </a></li>
+                            <li v-if="isCustomSegment"><a @click="hideCategory">
+                                <div class="dropdown-icon"><i class="fas fa-eye-slash"></i></div>Thema ausblenden
+                            </a></li>
                             <li><a @click="removeParent">
                                 <div class="dropdown-icon"><i class="fas fa-unlink"></i></div>Thema entfernen
                             </a></li>

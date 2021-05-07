@@ -104,14 +104,15 @@
         <%= Model.CustomPageHtml %>
 
     </div>
+    <div id="TopicTabFABApp">
+        <%: Html.Partial("~/Views/Categories/Detail/Partials/FloatingActionButton/FloatingActionButton.ascx", new FloatingActionButtonModel(Model.Category, true)) %>
+    </div>
     <div>
         <%: Html.Partial("~/Views/Categories/Detail/Partials/Segmentation/SegmentationComponent.vue.ascx", new SegmentationModel(Model.Category)) %>
     </div>
 </div>
 
-<div id="TopicTabFABApp">
-    <%: Html.Partial("~/Views/Categories/Detail/Partials/FloatingActionButton/FloatingActionButton.ascx", new FloatingActionButtonModel(Model.Category, true)) %>
-</div>
+
 <div id="TopicTabContentEnd"></div>
 <%= Scripts.Render("~/bundles/js/FloatingActionButton") %>
 <%= Scripts.Render("~/bundles/js/TopicTabFABLoader") %>

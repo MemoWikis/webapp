@@ -139,14 +139,16 @@
                     <%--<div class="KnowledgeBarLegend">Dein Wissensstand</div>--%>
                 </div>
                 <div class="Border hide-sm"></div>
-                <div class="Buttons">
-                    <div class="PinContainer hide-sm">
-                        <div class="Button Pin pinHeader" data-category-id="<%= Model.Id %>">
-                            <a href="#" class="noTextdecoration" style="font-size: 22px;">
-                                <%= Html.Partial("AddToWishknowledge", new AddToWishknowledge(Model.IsInWishknowledge, isHeader: true)) %>
-                            </a>
+                <div class="Buttons"><%if (Model.Category.Id != RootCategory.RootCategoryId){%>
+                        <div class="PinContainer hide-sm">
+                            <div class="Button Pin pinHeader" data-category-id="<%= Model.Id %>">
+                                <a href="#" class="noTextdecoration" style="font-size: 22px;">
+                                    <%= Html.Partial("AddToWishknowledge", new AddToWishknowledge(Model.IsInWishknowledge, isHeader: true)) %>
+                                </a>
+                            </div>
                         </div>
-                    </div>
+                    <%} %>
+
 
                     <div id="MyWorldToggleApp" :class="{'active': showMyWorld}">
                         <div class="toggle-label">
