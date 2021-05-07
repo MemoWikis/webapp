@@ -50,6 +50,7 @@
     <input type="hidden" id="hddUserId" value="<%= Model.UserId %>"/>
     <input type="hidden" id="hddQuestionCount" value="<%=Model.CountAggregatedQuestions %>"/> 
     <input type="hidden" id="hddVisibility" value="<%= Model.Category.Visibility %>"/>
+    <input type="hidden" id="hddIsMyWorld" value="<%= Model.IsMyWorld %>"/>
 
     <% Html.RenderPartial("~/Views/Shared/Spinner/Spinner.ascx"); %>
     <% Html.RenderPartial("~/Views/Categories/Detail/Partials/CategoryHeader.ascx", Model);%>

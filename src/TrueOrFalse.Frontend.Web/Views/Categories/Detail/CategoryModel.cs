@@ -67,6 +67,7 @@ public class CategoryModel : BaseContentModule
 
     public string ImageGuid { get; set; }
     public string ImageLicenseOwner { get; set; }
+    public bool IsMyWorld { get; set; }
 
     public CategoryModel()
     {
@@ -74,10 +75,9 @@ public class CategoryModel : BaseContentModule
 
     public CategoryModel(CategoryCacheItem category, bool loadKnowledgeSummary = true, bool isCategoryNull = false)
     {
+        IsMyWorld = UserCache.GetItem(Sl.CurrentUserId).IsFiltered; 
         TopNavMenu.BreadCrumbCategories = CrumbtrailService.Get(category, RootCategory.Get);
-
         CategoryIsDeleted = isCategoryNull;
-
         AnalyticsFooterModel = new AnalyticsFooterModel(category, false, isCategoryNull);
         MetaTitle = category.Name;
         MetaDescription = SeoUtils.ReplaceDoubleQuotes(category.Description).Truncate(250, true);
@@ -88,14 +88,12 @@ public class CategoryModel : BaseContentModule
         if(loadKnowledgeSummary)
             KnowledgeSummary = isCategoryNull ? null :  KnowledgeSummaryLoader.RunFromMemoryCache(category.Id, UserId);
 
-
         var userValuationCategory = UserCache.GetCategoryValuations(UserId).Where(cv => cv.CategoryId == category.Id).ToList();
    
         if (userValuationCategory.Count() == 0)
             IsInWishknowledge = false;
         else 
             IsInWishknowledge = userValuationCategory.First().IsInWishKnowledge();
-
 
         WikipediaURL = category.WikipediaURL;
         Url = category.Url;
