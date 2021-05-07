@@ -335,6 +335,7 @@
     <Compile Include="Tools\Analytics\Widget\WidgetViewsPerMonthAndKeyResult.cs" />
     <Compile Include="Tools\Cache\BaseCache.cs" />
     <Compile Include="Tools\Cache\CacheClearer.cs" />
+    <Compile Include="Tools\Cache\CacheUpdater.cs" />
     <Compile Include="Tools\Cache\LearningSessionCache.cs" />
     <Compile Include="Tools\Cache\ModifyRelationsEntityCache.cs" />
     <Compile Include="Tools\Cache\UserEntityCache\ModifyRelationsUserEntityCache.cs" />

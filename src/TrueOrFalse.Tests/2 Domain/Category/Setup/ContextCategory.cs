@@ -63,13 +63,14 @@ namespace TrueOrFalse.Tests
                 {
                     Category = category,
                     RelatedCategory = parent,
-                    CategoryRelationType = CategoryRelationType.IsChildCategoryOf
+                    CategoryRelationType = CategoryRelationType.IsChildOf
                 });
 
                 category.CategoryRelations = categoryRelations;
             }
 
-            All.Add(category);
+            if(!_categoryRepository.Exists(categoryName))
+                All.Add(category);
             return this;
         }
 
@@ -152,40 +153,32 @@ namespace TrueOrFalse.Tests
                 .Add("X1", parent: rootElement)
                 .Add("X2", parent: rootElement)
                 .Add("X3", parent: rootElement)
-                .Persist()
-                .All;
+                .Persist().All;
 
-                Add("X1", parent: firstChildren.ByName("X3"))
-                .Persist();
+            Add("X1", parent: firstChildren.ByName("X3")); 
+
 
                 var secondChildren = Add("B", parent: rootElement)
                 .Add("C", parent: firstChildren.ByName("X"))
-                .Persist()
-                .All;
+                .Persist().All;
 
-            Add("C", parent: firstChildren.ByName("X1"))
-                .Persist();
-
-            Add("C", parent: firstChildren.ByName("X2"))
-                .Persist();
+                Add("C", parent: firstChildren.ByName("X1")).Persist();
+                Add("C", parent: firstChildren.ByName("X2")).Persist();
 
 
             var ThirdChildren = Add("H", parent: firstChildren.ByName("C"))
-                .Add("G", parent: firstChildren.ByName("C"))
-                .Add("F", parent: firstChildren.ByName("C"))
-                .Add("E", parent: firstChildren.ByName("C"))
-                .Add("D", parent: firstChildren.ByName("B"))
+                .Add("G", parent: secondChildren.ByName("C"))
+                .Add("F", parent: secondChildren.ByName("C"))
+                .Add("E", parent: secondChildren.ByName("C"))
+                .Add("D", parent: secondChildren.ByName("B"))
                 .Persist()
                 .All;
 
-            Add("I", parent: secondChildren.ByName("C"))
-                .Persist();
-
-            Add("I", parent: secondChildren.ByName("E"))
-                .Persist();
-
-            Add("I", parent: secondChildren.ByName("G"))
-                .Persist();
+            Add("I", parent: secondChildren.ByName("C")).Persist();
+            Add("I", parent: secondChildren.ByName("E")).Persist();
+            Add("I", parent: secondChildren.ByName("G")).Persist();
+               
+            
 
             var user = ContextUser.New().Add("User").Persist().All[0];
             
@@ -201,6 +194,7 @@ namespace TrueOrFalse.Tests
                 CategoryInKnowledge.Pin(firstChildren.ByName("X3").Id, user);
             }
             Sl.SessionUser.Login(user);
+            EntityCache.Init();
             UserEntityCache.Init(user.Id);
             return user; 
         }
@@ -253,7 +247,7 @@ namespace TrueOrFalse.Tests
         public static bool HasCorrectParent(CategoryCacheItem categoryCachedItem, string parentName)
         {
             return categoryCachedItem.CategoryRelations.Any(cr =>
-                cr.RelatedCategoryId == EntityCache.GetByName(parentName).First().Id && cr.CategoryRelationType == CategoryRelationType.IsChildCategoryOf);
+                cr.RelatedCategoryId == EntityCache.GetByName(parentName).First().Id && cr.CategoryRelationType == CategoryRelationType.IsChildOf);
         }
 
         public static bool HasCorrectIncludetContent(CategoryCacheItem categoryCacheItem, string name, int userId)

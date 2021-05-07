@@ -4,7 +4,7 @@ let sc= Vue.component('session-config-component', {
     components: {
         VueSlider: window['vue-slider-component']
     },
-    props: ['questionsCount', 'allQuestionsCountFromCategory'],
+    props: ['questionsCount', 'allQuestionsCountFromCategory','isMyWorld'],
     data() {
         return {
             answerBody: new AnswerBody(),
@@ -239,7 +239,11 @@ let sc= Vue.component('session-config-component', {
             eventBus.$emit('update-selected-page', 1);
             AnswerQuestion.LogTimeForQuestionView();
 
-            this.safeQuestionFilter();
+            this.safeQuestionFilter(); 
+
+            if (this.isMyWorld == 'True')
+                this.questionFilter.isNotQuestionInWishKnowledge = false;
+
             this.answerBody.Loader.loadNewSession(this.questionFilter, true);
             $('#SessionConfigModal').modal('hide');
             this.questionFilter.safeLearningSessionOptions = this.safeLearningSessionOptions = false;

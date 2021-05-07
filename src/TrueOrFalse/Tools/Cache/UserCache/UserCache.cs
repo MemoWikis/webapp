@@ -42,6 +42,17 @@ public class UserCache
         return cacheItem.CategoryValuations[categoryId].IsInWishKnowledge();
     }
 
+    public static bool IsQuestionInWishknowledge(int userId, int questionId)
+    {
+        var cacheItem = GetItem(userId);
+        var hasQuestionValuation = cacheItem.QuestionValuations.ContainsKey(questionId);
+
+        if (!hasQuestionValuation)
+            return false;
+
+        return cacheItem.QuestionValuations[questionId].IsInWishKnowledge; 
+    }
+
     public static UserCacheItem CreateItemFromDatabase(int userId)
     {
         var user = Sl.UserRepo.GetById(userId);

@@ -24,11 +24,6 @@ public class CategoryDeleter : IRegisterAsInstancePerLifetime
         if (!forSetMigration)
             ThrowIfNot_IsLoggedInUserOrAdmin.Run(category.Creator.Id);
 
-        _session.CreateSQLQuery("DELETE FROM relatedcategoriestorelatedcategories where Related_id = " + category.Id).ExecuteUpdate();
-        _session.CreateSQLQuery("DELETE FROM relatedcategoriestorelatedcategories where Category_id = " + category.Id).ExecuteUpdate();
-        _session.CreateSQLQuery("DELETE FROM categories_to_questions where Category_id = " + category.Id).ExecuteUpdate();
-        _session.CreateSQLQuery("DELETE FROM categories_to_sets where Category_id = " + category.Id).ExecuteUpdate();
-
         Sl.UserActivityRepo.DeleteForCategory(category.Id);
 
         if (forSetMigration)
@@ -40,9 +35,14 @@ public class CategoryDeleter : IRegisterAsInstancePerLifetime
         Sl.CategoryValuationRepo.DeleteCategoryValuation(category.Id);
 
         ModifyRelationsEntityCache.DeleteIncludetContentOf(categoryCacheItem);
-        ModifyRelationsUserEntityCache.DeleteInUserEntityCache(categoryCacheItem);
         CategoryRepository.UpdateCachedData(categoryCacheItem, CategoryRepository.CreateDeleteUpdate.Delete);
+        ModifyRelationsUserEntityCache.Delete(categoryCacheItem);
         EntityCache.Remove(categoryCacheItem);
         UserCache.RemoveAllForCategory(category.Id);
+
+        _session.CreateSQLQuery("DELETE FROM relatedcategoriestorelatedcategories where Related_id = " + category.Id).ExecuteUpdate();
+        _session.CreateSQLQuery("DELETE FROM relatedcategoriestorelatedcategories where Category_id = " + category.Id).ExecuteUpdate();
+        _session.CreateSQLQuery("DELETE FROM categories_to_questions where Category_id = " + category.Id).ExecuteUpdate();
+        _session.CreateSQLQuery("DELETE FROM categories_to_sets where Category_id = " + category.Id).ExecuteUpdate();
     }
 }

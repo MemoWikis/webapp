@@ -25,7 +25,7 @@ public class UserEntityCache : BaseCache
 
         foreach (var cacheItem in _Categories[user.Id])
         {
-            ModifyRelationsUserEntityCache.CreateRelationsIncludetContentOf(cacheItem.Value);
+            ModifyRelationsUserEntityCache.AddToParents(cacheItem.Value);
         }
     }
 
@@ -39,7 +39,7 @@ public class UserEntityCache : BaseCache
     
         var childRelations = newItem
             .CategoryRelations
-            .Where(r => r.CategoryRelationType == CategoryRelationType.IsChildCategoryOf);
+            .Where(r => r.CategoryRelationType == CategoryRelationType.IsChildOf);
 
         var childRelationsInWuWi =
             childRelations.Where(cr => _Categories[Sl.CurrentUserId].ContainsKey(cr.RelatedCategoryId)).ToList(); 
@@ -51,7 +51,7 @@ public class UserEntityCache : BaseCache
                 new CategoryCacheRelation
                 {
                     CategoryId = newItem.Id,
-                    CategoryRelationType = CategoryRelationType.IsChildCategoryOf,
+                    CategoryRelationType = CategoryRelationType.IsChildOf,
                     RelatedCategoryId = GetNextParentInWishknowledge(relation.RelatedCategoryId).Id
                 }); 
         }
@@ -112,7 +112,6 @@ public class UserEntityCache : BaseCache
         var listParents = new ConcurrentDictionary<int, int>();
         foreach (var cacheWithUser in GetAllCaches())
         {
-            var user = cacheWithUser.Key;
             var cache = cacheWithUser.Value;
             if (cache.ContainsKey(entityCacheItem.Id))
             {
@@ -128,7 +127,7 @@ public class UserEntityCache : BaseCache
                        newRelation = new CategoryCacheRelation
                         {
                             CategoryId = entityCacheItem.Id,
-                            CategoryRelationType = CategoryRelationType.IsChildCategoryOf,
+                            CategoryRelationType = CategoryRelationType.IsChildOf,
                             RelatedCategoryId = categoryCacheRelation.RelatedCategoryId
                         }; 
                     }
@@ -138,7 +137,7 @@ public class UserEntityCache : BaseCache
                        newRelation = new CategoryCacheRelation
                         {
                             CategoryId = entityCacheItem.Id,
-                            CategoryRelationType = CategoryRelationType.IsChildCategoryOf,
+                            CategoryRelationType = CategoryRelationType.IsChildOf,
                             RelatedCategoryId = nextParentInUserCache.Id
                         };
                     }
@@ -209,7 +208,7 @@ public class UserEntityCache : BaseCache
 
         return allCategories.SelectMany(c =>
             c.CategoryRelations.Where(cr => 
-                    cr.CategoryRelationType == CategoryRelationType.IsChildCategoryOf
+                    cr.CategoryRelationType == CategoryRelationType.IsChildOf
                     && cr.RelatedCategoryId == category.Id)
                 .Select(cr => GetCategory( userId,cr.CategoryId)))
             .ToList();
@@ -224,6 +223,12 @@ public class UserEntityCache : BaseCache
     {
         userId = userId == -1 ? Sl.SessionUser.UserId : userId;
         return _Categories.ContainsKey(userId); 
+    }
+
+    public static IEnumerable<int> GetParentsIds(int userId, int topicId)
+    {
+        _Categories[userId].TryGetValue(topicId, out var topic);
+        return topic.CategoryRelations.Where(cr => cr.CategoryRelationType == CategoryRelationType.IsChildOf).Select(cr => cr.RelatedCategoryId);
     }
 }
 

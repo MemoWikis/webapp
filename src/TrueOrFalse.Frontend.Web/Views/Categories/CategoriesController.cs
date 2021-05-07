@@ -90,7 +90,7 @@ public class CategoriesController : BaseController
         if (category == null)
             throw new Exception("Category couldn't be deleted. Category with specified Id cannot be found.");
 
-        Resolve<CategoryDeleter>().Run(category);
+        Sl.CategoryDeleter.Run(category); 
 
         return new EmptyResult();
     }

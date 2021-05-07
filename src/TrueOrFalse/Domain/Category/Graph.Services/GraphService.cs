@@ -12,7 +12,7 @@ public class GraphService
 
     public static IList<CategoryCacheItem> GetAllParentsFromEntityCache(CategoryCacheItem category)
     {
-        var parentIds = GetDirektParents(category);
+        var parentIds = GetDirectParents(category);
         var allParents = new List<CategoryCacheItem>();
         var deletedIds = new Dictionary<int, int>();
 
@@ -25,7 +25,7 @@ public class GraphService
                 allParents.Add(parent);//Avoidance of circular references
 
                 deletedIds.Add(parentIds[0], parentIds[0]);
-                var currentParents = GetDirektParents(parent);
+                var currentParents = GetDirectParents(parent);
                 foreach (var currentParent in currentParents)
                 {
                     parentIds.Add(currentParent);
@@ -40,8 +40,8 @@ public class GraphService
     {
        var userCache =  UserEntityCache.GetUserCache(userId);
 
-
-       var parentIds = GetDirektParents(category);
+       userCache.TryGetValue(category.Id, out var userEntityCacheItem);
+       var parentIds = GetDirectParents(userEntityCacheItem);
        var allParents = new List<CategoryCacheItem>();
        var deletedIds = new Dictionary<int, int>();
 
@@ -54,7 +54,7 @@ public class GraphService
                allParents.Add(parent);//Avoidance of circular references
 
                deletedIds.Add(parentIds[0], parentIds[0]);
-               var currentParents = GetDirektParents(parent);
+               var currentParents = GetDirectParents(parent);
                foreach (var currentParent in currentParents)
                {
                    parentIds.Add(currentParent);
@@ -65,10 +65,10 @@ public class GraphService
        return allParents;
     }
 
-    public static List<int> GetDirektParents(CategoryCacheItem category)
+    public static List<int> GetDirectParents(CategoryCacheItem category)
     {
         return category.CategoryRelations
-            .Where(cr => cr.CategoryRelationType == CategoryRelationType.IsChildCategoryOf)
+            .Where(cr => cr.CategoryRelationType == CategoryRelationType.IsChildOf)
             .Select(cr => cr.RelatedCategoryId).ToList();
     }
 
@@ -106,7 +106,7 @@ public class GraphService
                 {
                     var categoryRelation = new CategoryCacheRelation()
                     {
-                        CategoryRelationType = CategoryRelationType.IsChildCategoryOf,
+                        CategoryRelationType = CategoryRelationType.IsChildOf,
                         CategoryId = child.Id,
                         RelatedCategoryId = parentId
                     };
@@ -143,7 +143,7 @@ public class GraphService
             {
                 listWithUserPersonelCategory.CategoryRelations.Add(new CategoryCacheRelation()
                 {
-                    CategoryRelationType = CategoryRelationType.IsChildCategoryOf,
+                    CategoryRelationType = CategoryRelationType.IsChildOf,
                     RelatedCategoryId = rootCategory.Id,
                     CategoryId = listWithUserPersonelCategory.Id
                 });
@@ -193,7 +193,7 @@ public class GraphService
         {
             foreach (var categoryRelation in category.CategoryRelations)
             {
-                if (categoryRelation.CategoryRelationType == CategoryRelationType.IsChildCategoryOf && categoryList.ContainsKey(categoryRelation.RelatedCategoryId))
+                if (categoryRelation.CategoryRelationType == CategoryRelationType.IsChildOf && categoryList.ContainsKey(categoryRelation.RelatedCategoryId))
                 {
                     categoryList[categoryRelation.RelatedCategoryId].CachedData.ChildrenIds
                         .Add(categoryList[categoryRelation.CategoryId].Id);
@@ -214,16 +214,16 @@ public class GraphService
         {
             var userCacheCategory = UserEntityCache.GetCategory(Sl.CurrentUserId, categoryId);
             return userCacheCategory.CategoryRelations
-                .Where(cr => cr.CategoryRelationType == CategoryRelationType.IsChildCategoryOf)
+                .Where(cr => cr.CategoryRelationType == CategoryRelationType.IsChildOf)
                 .Select(cr => cr.RelatedCategoryId);
         }
 
         return EntityCache.GetCategoryCacheItem(categoryId, getDataFromEntityCache: true)
-            .CategoryRelations.Where(cr => cr.CategoryRelationType == CategoryRelationType.IsChildCategoryOf)
+            .CategoryRelations.Where(cr => cr.CategoryRelationType == CategoryRelationType.IsChildOf)
             .Select(cr => cr.RelatedCategoryId);
     }
 
-    public static void AutomaticInclusionOfChildCategoriesForEntityCacheAndDb(CategoryCacheItem category)
+    public static void AutomaticInclusionOfChildCategoriesForEntityCacheAndDbUpdate(CategoryCacheItem category)
     {
         var parentsFromParentCategories = GetAllParentsFromEntityCache(category.Id, true);
 
@@ -231,6 +231,39 @@ public class GraphService
             ModifyRelationsForCategory.UpdateRelationsOfTypeIncludesContentOf(EntityCache.GetCategoryCacheItem(parentCategory.Id, getDataFromEntityCache: true));
     }
 
+    public static void AutomaticInclusionOfChildCategoriesForEntityCacheAndDbCreate(CategoryCacheItem category)
+    {
+        var parentsFromParentCategories = GetAllParentsFromEntityCache(category.Id, true);
+
+        foreach (var parent in parentsFromParentCategories)
+        {
+            var descendants = GetCategoryChildren.WithAppliedRules(parent);
+            var descendantsAsCategory = Sl.CategoryRepo.GetByIds(descendants.Select(cci => cci.Id).ToList());
+
+            var parentAsCategory = Sl.CategoryRepo.GetByIdEager(parent.Id);
+
+            var existingRelations =
+                ModifyRelationsForCategory.GetExistingRelations(parentAsCategory,
+                    CategoryRelationType.IncludesContentOf).ToList();
+
+            var relationsToAdd = ModifyRelationsForCategory.GetRelationsToAdd(parentAsCategory,
+                descendantsAsCategory,
+                CategoryRelationType.IncludesContentOf,
+                existingRelations);
+
+            ModifyRelationsForCategory.CreateIncludeContentOf(parentAsCategory, relationsToAdd);
+            Sl.CategoryRepo.Update(Sl.CategoryRepo.GetByIdEager(parent.Id), isFromModifiyRelations: true);
+
+            var parentAsCacheItem = EntityCache.GetCategoryCacheItem(parent.Id);
+            var relationsToAddEntityCache = ModifyRelationsEntityCache.GetRelationsToAdd(parentAsCacheItem,
+                descendantsAsCategory,
+                CategoryRelationType.IncludesContentOf,
+                existingRelations); 
+
+            ModifyRelationsEntityCache.CreateIncludeContentOf(parentAsCacheItem, relationsToAddEntityCache);
+            parent.UpdateCountQuestionsAggregated();
+        }
+    }
     public static bool IsCategoryParentEqual(IList<CategoryCacheItem> parent1, IList<CategoryCacheItem> parent2)
     {
         if (parent1 == null || parent2 == null)

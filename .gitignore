@@ -15,6 +15,7 @@ _Re[Ss]harper.*
 *.user
 *.js
 *.js.map
+*.orig
 src/TrueOrFalse.Frontend.Web/Images/*
 src/TrueOrFalse.Frontend.Web/TrueOrFalse.Frontend.Web.Publish.xml
 *.overwritten.config

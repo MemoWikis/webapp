@@ -20,4 +20,31 @@ class ModifyRelationsEntityCache
             }
         }
     }
+
+    public static IEnumerable<CategoryCacheRelation> GetRelationsToAdd(
+        CategoryCacheItem categoryCacheItem,
+        IEnumerable<Category> relatedCategoriesAsCategories,
+        CategoryRelationType relationType,
+        IEnumerable<CategoryRelation> existingRelationsOfType)
+    {
+        return relatedCategoriesAsCategories
+            .Except(existingRelationsOfType.Select(r => r.RelatedCategory))
+            .Select(c => new CategoryCacheRelation
+                {
+                    CategoryId = categoryCacheItem.Id,
+                    RelatedCategoryId = c.Id,
+                    CategoryRelationType = relationType
+                }
+            );
+    }
+
+    public static void CreateIncludeContentOf(CategoryCacheItem category, IEnumerable<CategoryCacheRelation> relationsToAdd)
+    {
+
+        foreach (var relation in relationsToAdd)
+        {
+            category.CategoryRelations.Add(relation);
+
+        }
+    }
 }

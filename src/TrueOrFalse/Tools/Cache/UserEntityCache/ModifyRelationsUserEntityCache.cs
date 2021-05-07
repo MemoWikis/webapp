@@ -1,16 +1,13 @@
-﻿using System;
-using System.Collections.Concurrent;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 
 public class ModifyRelationsUserEntityCache
 {
-    public static void CreateRelationsIncludetContentOf(CategoryCacheItem child)
+    public static void AddToParents(CategoryCacheItem child)
     {
         var parents = GraphService.GetAllParentsFromUserEntityCache(Sl.CurrentUserId, child); 
         foreach (var parent in parents)
         {
-
             var newRelation = new CategoryCacheRelation
             {
                 RelatedCategoryId = child.Id,
@@ -18,29 +15,13 @@ public class ModifyRelationsUserEntityCache
                 CategoryId = parent.Id
             };
 
-            var hasEqualRelation = false; 
-                foreach (var categoryRelation in parent.CategoryRelations)
-                {
-                    if (IsCategorRelationEqual(categoryRelation, newRelation))
-                    {
-                        hasEqualRelation = true; 
-                        break; 
-                    }
-                }
-
-                if(!hasEqualRelation)
-                    parent.CategoryRelations.Add(newRelation);
+            if(!parent.HasRelation(newRelation))
+                parent.CategoryRelations.Add(newRelation);
         }
-         
     }
 
-    private static bool IsCategorRelationEqual(CategoryCacheRelation relation1, CategoryCacheRelation relation2)
-    {
-        return relation1.RelatedCategoryId == relation2.RelatedCategoryId &&
-               relation1.CategoryRelationType == relation2.CategoryRelationType &&
-               relation1.CategoryId == relation2.CategoryId; 
-    }
-    public static void UpdateRelationsIncludetContentOf(CategoryCacheItem child)
+
+    public static void UpdateParents(CategoryCacheItem child)
     {
         foreach (var cacheWithUser in UserEntityCache.GetAllCaches())
         {
@@ -60,7 +41,7 @@ public class ModifyRelationsUserEntityCache
                     }
                 }
 
-                var parentsInner = GraphService.GetDirektParents(result);
+                var parentsInner = GraphService.GetDirectParents(result);
                 var parentHasBeenAdded = new Dictionary<int, int>();
 
                 while (parentsInner.Count > 0)
@@ -70,12 +51,11 @@ public class ModifyRelationsUserEntityCache
                         parentHasBeenAdded.Add(parentsInner[0], parentsInner[0]);
 
                         cache.TryGetValue(parentsInner[0], out var directParent);
-                        var directParentParents = GraphService.GetDirektParents(directParent);
+                        var directParentParents = GraphService.GetDirectParents(directParent);
                         foreach (var parentParent in directParentParents)
                         {
                             parentsInner.Add(parentParent);
                         }
-
                     }
                     parentsInner.RemoveAt(0);
                 }
@@ -83,18 +63,30 @@ public class ModifyRelationsUserEntityCache
                 foreach (var parent in parentHasBeenAdded)
                 {
                     cache.TryGetValue(parent.Key, out var parentToRelationAdd);
-                    parentToRelationAdd.CategoryRelations.Add(new CategoryCacheRelation { CategoryRelationType = CategoryRelationType.IncludesContentOf, RelatedCategoryId = child.Id, CategoryId = parent.Key });
+                    parentToRelationAdd?.CategoryRelations.Add(
+                        new CategoryCacheRelation
+                        {
+                            CategoryRelationType = CategoryRelationType.IncludesContentOf, 
+                            RelatedCategoryId = child.Id, 
+                            CategoryId = parent.Key
+                        });
                 }  
             }
         }
     }
 
-    public static void DeleteIncludetContentOfRelations(CategoryCacheItem category)
+    public static void Delete(CategoryCacheItem category)
+    {
+        DeleteFromDirectParents(category);
+        DeleteFromAllParents(category);
+    }
+
+    private static void DeleteFromDirectParents(CategoryCacheItem category)
     {
         foreach (var cacheWithUser in UserEntityCache.GetAllCaches())
         {
             var userId = cacheWithUser.Key;
-            var cache = cacheWithUser.Value; 
+            var cache = cacheWithUser.Value;
             if (cache.ContainsKey(category.Id))
             {
                 var allParents = GraphService.GetAllParentsFromUserEntityCache(userId, category);
@@ -107,13 +99,12 @@ public class ModifyRelationsUserEntityCache
                     }
                 }
             }
-            cache.TryRemove(category.Id, out var result); 
+            cache.TryRemove(category.Id, out var result);
         }
     }
-    public static void DeleteInUserEntityCache(CategoryCacheItem category)
-    {
-        DeleteIncludetContentOfRelations(EntityCache.GetCategoryCacheItem(category.Id));
 
+    private static void DeleteFromAllParents(CategoryCacheItem category)
+    {
         foreach (var userEntityCache in UserEntityCache.GetAllCaches().Values)
         {
             if (userEntityCache.ContainsKey(category.Id))
@@ -123,7 +114,7 @@ public class ModifyRelationsUserEntityCache
                 {
                     foreach (var relation in cacheItem.CategoryRelations)
                     {
-                        if(relation.RelatedCategoryId == category.Id)
+                        if (relation.RelatedCategoryId == category.Id)
                             cacheItem.CategoryRelations.Remove(relation);
                     }
                 }

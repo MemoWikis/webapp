@@ -2205,9 +2205,33 @@
     <Content Include="Views\Categories\Edit\Js\AddCategory\AddCategoryComponent.js">
       <DependentUpon>AddCategoryComponent.ts</DependentUpon>
     </Content>
+    <Content Include="Views\Messages\Js\Page.js">
+      <DependentUpon>Page.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Messages\Js\ShowAllMessages.js">
+      <DependentUpon>ShowAllMessages.ts</DependentUpon>
+    </Content>
     <Content Include="Views\Questions\AddQuestion\AddQuestionComponent.vue.ascx" />
     <Content Include="Views\Questions\AddQuestion\EditQuestionModal.vue.ascx" />
     <Content Include="Views\Categories\Detail\Partials\Segmentation\SegmentationComponent.vue.ascx" />
+    <Content Include="Views\Questions\Answer\LearningSession\Js\LearningSessionResult.js">
+      <DependentUpon>LearningSessionResult.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Questions\Answer\LearningSession\Js\LearningSessionResultCharts.js">
+      <DependentUpon>LearningSessionResultCharts.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Questions\Answer\LearningSession\Js\Page.js">
+      <DependentUpon>Page.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Questions\Js\AddQuestion\EditQuestionModalLoader.js">
+      <DependentUpon>EditQuestionModalLoader.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Questions\Js\QuestionList\QuestionComponent.js">
+      <DependentUpon>QuestionComponent.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Questions\Js\QuestionList\SessionConfig.js">
+      <DependentUpon>SessionConfig.ts</DependentUpon>
+    </Content>
     <Content Include="Views\Questions\QuestionList\QuestionComponent.vue.ascx" />
     <Content Include="Views\Questions\QuestionList\SessionConfigComponent.vue.ascx" />
     <Content Include="Views\Questions\QuestionList\QuestionListComponent.vue.ascx" />
@@ -2671,6 +2695,9 @@
     </Content>
     <Content Include="Views\Shared\Switch\Switch.css">
       <DependentUpon>Switch.less</DependentUpon>
+    </Content>
+    <Content Include="Views\Users\Account\WidgetStats\Js\WidgetStats.js">
+      <DependentUpon>WidgetStats.ts</DependentUpon>
     </Content>
     <Content Include="Views\Users\Account\WidgetStats\Partials\WidgetStatsDetailViews.ascx" />
     <Content Include="Views\Users\Account\WidgetStats\Partials\WidgetStatsForHost.ascx" />
@@ -4183,6 +4210,36 @@
     </Content>
     <Content Include="Views\Categories\Detail\JsEditMode\CategoryHeader\CategoryImageComponent.js.map">
       <DependentUpon>CategoryImageComponent.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Messages\Js\Page.js.map">
+      <DependentUpon>Page.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Messages\Js\ShowAllMessages.js.map">
+      <DependentUpon>ShowAllMessages.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Questions\Answer\LearningSession\Js\LearningSessionResult.js.map">
+      <DependentUpon>LearningSessionResult.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Questions\Answer\LearningSession\Js\LearningSessionResultCharts.js.map">
+      <DependentUpon>LearningSessionResultCharts.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Questions\Answer\LearningSession\Js\Page.js.map">
+      <DependentUpon>Page.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Questions\Js\AddQuestion\EditQuestionModalLoader.js.map">
+      <DependentUpon>EditQuestionModalLoader.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Questions\Js\AddQuestion\AddQuestion.js.map">
+      <DependentUpon>AddQuestion.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Questions\Js\QuestionList\QuestionComponent.js.map">
+      <DependentUpon>QuestionComponent.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Questions\Js\QuestionList\SessionConfig.js.map">
+      <DependentUpon>SessionConfig.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Users\Account\WidgetStats\Js\WidgetStats.js.map">
+      <DependentUpon>WidgetStats.ts</DependentUpon>
     </Content>
     <None Include="Web.overwritten.config.sample" />
     <Content Include="Views\Welcome\Logout.aspx" />

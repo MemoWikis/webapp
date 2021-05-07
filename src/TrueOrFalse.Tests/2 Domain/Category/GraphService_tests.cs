@@ -42,7 +42,7 @@ class GraphService_tests : BaseTest
         Assert.That(userPersonnelCategoriesWithRelations.ByName("SubSub1").Name, Is.EqualTo("SubSub1"));
         Assert.That(EntityCache.GetCategoryCacheItem(userPersonnelCategoriesWithRelations.ByName("SubSub1").CategoryRelations.First().RelatedCategoryId).Name, Is.EqualTo("RootElement"));
         Assert.That(EntityCache.GetCategoryCacheItem(userPersonnelCategoriesWithRelations.ByName("SubSub1").CategoryRelations.First().CategoryId).Name, Is.EqualTo("SubSub1"));
-        Assert.That(userPersonnelCategoriesWithRelations.ByName("SubSub1").CategoryRelations.First().CategoryRelationType, Is.EqualTo(CategoryRelationType.IsChildCategoryOf));
+        Assert.That(userPersonnelCategoriesWithRelations.ByName("SubSub1").CategoryRelations.First().CategoryRelationType, Is.EqualTo(CategoryRelationType.IsChildOf));
 
     }
 
@@ -154,7 +154,7 @@ class GraphService_tests : BaseTest
                 .ByName("G").CategoryRelations
                 .First()
                 .CategoryRelationType,
-            Is.EqualTo(CategoryRelationType.IsChildCategoryOf));
+            Is.EqualTo(CategoryRelationType.IsChildOf));
 
         Assert.That(userPersonelCategoriesWithRealtions
                 .ByName("G")
@@ -175,7 +175,7 @@ class GraphService_tests : BaseTest
                 .ByName("E").CategoryRelations
                 .First()
                 .CategoryRelationType,
-            Is.EqualTo(CategoryRelationType.IsChildCategoryOf));
+            Is.EqualTo(CategoryRelationType.IsChildOf));
 
         Assert.That(userPersonelCategoriesWithRealtions
                 .ByName("E")
@@ -467,7 +467,7 @@ class GraphService_tests : BaseTest
             new CategoryCacheRelation
             {
                 RelatedCategoryId = 222,
-                CategoryRelationType = CategoryRelationType.IsChildCategoryOf,
+                CategoryRelationType = CategoryRelationType.IsChildOf,
                 CategoryId = 111
             }
         };
@@ -477,7 +477,7 @@ class GraphService_tests : BaseTest
             new CategoryCacheRelation
             {
                 RelatedCategoryId = 222,
-                CategoryRelationType = CategoryRelationType.IsChildCategoryOf,
+                CategoryRelationType = CategoryRelationType.IsChildOf,
                 CategoryId = 111
             }
         };
@@ -491,7 +491,7 @@ class GraphService_tests : BaseTest
             new CategoryCacheRelation
             {
                 RelatedCategoryId = 222,
-                CategoryRelationType = CategoryRelationType.IsChildCategoryOf,
+                CategoryRelationType = CategoryRelationType.IsChildOf,
                 CategoryId = 113
             }
         };
@@ -504,7 +504,7 @@ class GraphService_tests : BaseTest
             new CategoryCacheRelation
             {
                 RelatedCategoryId = 222,
-                CategoryRelationType = CategoryRelationType.IsChildCategoryOf,
+                CategoryRelationType = CategoryRelationType.IsChildOf,
                 CategoryId = 111
             }
         };
@@ -514,7 +514,7 @@ class GraphService_tests : BaseTest
             new CategoryCacheRelation
             {
                 RelatedCategoryId = 222,
-                CategoryRelationType = CategoryRelationType.IsChildCategoryOf,
+                CategoryRelationType = CategoryRelationType.IsChildOf,
                 CategoryId = 112
             }
         };
@@ -528,7 +528,7 @@ class GraphService_tests : BaseTest
         var result = true;
         foreach (var cr in categoryCacheRelations)
         {
-            if (cr.CategoryRelationType != CategoryRelationType.IsChildCategoryOf)
+            if (cr.CategoryRelationType != CategoryRelationType.IsChildOf)
                 result = false;
         }
 

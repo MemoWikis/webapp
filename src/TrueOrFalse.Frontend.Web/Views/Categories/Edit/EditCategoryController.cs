@@ -68,8 +68,7 @@ public class EditCategoryController : BaseController
         model.FillReleatedCategoriesFromPostData(Request.Form);
         model.UpdateCategory(Sl.CategoryRepo.GetByIdEager(category.Id));
 
-        var isChangeParents = !GraphService.IsCategoryParentEqual(CategoryCacheItem.ToCacheCategories(model.ParentCategories).ToList(),
-            EntityCache.GetCategoryCacheItem(category.Id).ParentCategories());
+       
 
         if (model.Name != category.Name && categoryAllowed.No(model, category.Type))
         {
@@ -86,6 +85,9 @@ public class EditCategoryController : BaseController
                     $" <a href=\"{Links.CategoryDetail(category)}\">zur Detailansicht wechseln</a>.");
         }
         StoreImage(id);
+
+        var isChangeParents = !GraphService.IsCategoryParentEqual(CategoryCacheItem.ToCacheCategories(model.ParentCategories).ToList(),
+            EntityCache.GetCategoryCacheItem(category.Id).ParentCategories());
 
         if (isChangeParents)
             UserEntityCache.ReInitAllActiveCategoryCaches();
@@ -255,13 +257,25 @@ public class EditCategoryController : BaseController
             var hasNoPrivateRelation = childCategory.Visibility != CategoryVisibility.Owner && parentCategory.Visibility == CategoryVisibility.Owner;
             if (hasNoPrivateRelation)
                 continue;
+
             RemoveParent(parentCategoryId, childCategoryId);
             movedCategories.Add(childCategoryId);
-            var updatedParentList = Sl.CategoryRepo.GetByIdsEager(childCategory.ParentCategories().Where(c => c.Id != parentCategoryId).Select(c => c.Id).ToList()).ToList();
-            updatedParentList.Add(category);
+
+            var related = Sl.CategoryRepo
+                .GetByIdsEager(childCategory.ParentCategories()
+                .Where(c => c.Id != parentCategoryId)
+                .Select(c => c.Id).ToList())
+                .ToList();
+
+            related.Add(category);
 
             var childCategoryAsCategory = Sl.CategoryRepo.GetByIdEager(childCategory.Id);
-            ModifyRelationsForCategory.UpdateCategoryRelationsOfType(CategoryCacheItem.ToCacheCategory(childCategory), updatedParentList.Select(c => c.Id).ToList(), CategoryRelationType.IsChildCategoryOf);
+            ModifyRelationsForCategory.UpdateCategoryRelationsOfType(
+                childCategory.Id, 
+                related.Select(c => c.Id).ToList(), 
+                CategoryRelationType.IsChildOf
+            );
+
             Sl.CategoryRepo.Update(childCategoryAsCategory, _sessionUser.User);
         }
         UserEntityCache.ReInitAllActiveCategoryCaches();
@@ -348,7 +362,11 @@ public class EditCategoryController : BaseController
         if (updatedParentList.Count == 0)
             return false;
 
-        ModifyRelationsForCategory.UpdateCategoryRelationsOfType(CategoryCacheItem.ToCacheCategory(childCategoryAsCategory), updatedParentList.Select(c => c.Id).ToList(), CategoryRelationType.IsChildCategoryOf);
+        ModifyRelationsForCategory.UpdateCategoryRelationsOfType(
+            childCategoryAsCategory.Id, 
+            updatedParentList.Select(c => c.Id).ToList(), 
+            CategoryRelationType.IsChildOf);
+
         UserEntityCache.ReInitAllActiveCategoryCaches();
         EntityCache.AddOrUpdate(childCategory);
         Sl.CategoryRepo.Update(childCategoryAsCategory, _sessionUser.User);

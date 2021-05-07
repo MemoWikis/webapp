@@ -26,7 +26,7 @@ class Automatic_inclusion_tests : BaseTest
 
         context.Add(subCategories.ByName("Sub1").Name, subCategories[0].Type, parent: subCategories.ByName("Sub3"));
         EntityCache.Init();
-        GraphService.AutomaticInclusionOfChildCategoriesForEntityCacheAndDb( EntityCache.GetByName("Sub1").First());
+        GraphService.AutomaticInclusionOfChildCategoriesForEntityCacheAndDbUpdate( EntityCache.GetByName("Sub1").First());
 
         Assert.That(Sl.CategoryRepo.GetById(subCategories.ByName("Sub1").Id).ParentCategories().Count, Is.EqualTo(2));
         Assert.That(Sl.CategoryRepo.GetById(parentA.Id).CategoryRelations.Count(cr => cr.CategoryRelationType == CategoryRelationType.IncludesContentOf), Is.EqualTo(3));
@@ -152,7 +152,7 @@ class Automatic_inclusion_tests : BaseTest
 
         var subSub1 = Sl.CategoryRepo.GetByName("SubSub1").First(); 
         subSub1.CategoryRelations.RemoveAt(0);
-        subSub1.CategoryRelations.Add(new CategoryRelation{Category = subSub1, CategoryRelationType = CategoryRelationType.IsChildCategoryOf, RelatedCategory = Sl.CategoryRepo.GetByName("Sub2").First()});
+        subSub1.CategoryRelations.Add(new CategoryRelation{Category = subSub1, CategoryRelationType = CategoryRelationType.IsChildOf, RelatedCategory = Sl.CategoryRepo.GetByName("Sub2").First()});
         UserCache.GetItem(user.Id).IsFiltered = true;
         context.Update(subSub1); 
         
@@ -188,7 +188,7 @@ class Automatic_inclusion_tests : BaseTest
         context.All.ByName("Sub2").CategoryRelations.Add(new CategoryRelation
         {
             Category = context.All.ByName("Sub2"),
-            CategoryRelationType = CategoryRelationType.IsChildCategoryOf,
+            CategoryRelationType = CategoryRelationType.IsChildOf,
             RelatedCategory = context.All.ByName("Sub3")
         });
         Sl.CategoryRepo.Update(context.All.ByName("Sub2"));
@@ -202,7 +202,7 @@ class Automatic_inclusion_tests : BaseTest
         context.All.ByName("Sub3").CategoryRelations.Add(new CategoryRelation
         {
             Category = context.All.ByName("Sub3"),
-            CategoryRelationType = CategoryRelationType.IsChildCategoryOf,
+            CategoryRelationType = CategoryRelationType.IsChildOf,
             RelatedCategory = Sl.CategoryRepo.GetByName("Sub1").First() 
         });
         Sl.CategoryRepo.Update(context.All.ByName("Sub3"));

@@ -49,7 +49,7 @@ public class CategoryCacheItem
     {
         return CategoryRelations.Any()
             ? CategoryRelations
-                .Where(r => r.CategoryRelationType == CategoryRelationType.IsChildCategoryOf)
+                .Where(r => r.CategoryRelationType == CategoryRelationType.IsChildOf)
                 .Select(x => EntityCache.GetCategoryCacheItem(x.RelatedCategoryId, getDataFromEntityCache: getFromEntityCache))
                 .ToList()
             : new List<CategoryCacheItem>();
@@ -67,6 +67,7 @@ public class CategoryCacheItem
 
     private IEnumerable<int> _categoriesToIncludeIds;
     public virtual string CategoriesToIncludeIdsString { get; set; }
+
     public virtual IEnumerable<int> CategoriesToIncludeIds() =>
         _categoriesToIncludeIds ?? (_categoriesToIncludeIds = CategoriesToIncludeIdsString
             .Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries)
@@ -233,6 +234,12 @@ public class CategoryCacheItem
     public virtual bool HasPublicParent() {
         return ParentCategories().Any(c => c.Visibility == CategoryVisibility.All);
     }
+    public virtual bool HasRelation(CategoryCacheRelation newRelation)
+    {
+        foreach (var categoryRelation in this.CategoryRelations)
+            if (CategoryCacheRelation.IsCategorRelationEqual(categoryRelation, newRelation))
+                return true;
+
+        return false;
+    }
 }
-
-

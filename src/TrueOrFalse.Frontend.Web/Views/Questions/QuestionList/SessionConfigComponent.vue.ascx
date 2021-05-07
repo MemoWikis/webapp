@@ -1,7 +1,7 @@
 ﻿<%@ Control Language="C#" AutoEventWireup="true" Inherits="System.Web.Mvc.ViewUserControl<QuestionListModel>" %>
 <%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
 
-<session-config-component inline-template @update="updateQuestionsCount" :questions-count="questionsCount" :all-questions-count-from-category="allQuestionsCountFromCategory">
+<session-config-component inline-template @update="updateQuestionsCount" :questions-count="questionsCount" :all-questions-count-from-category="allQuestionsCountFromCategory" is-my-world="<%= UserCache.GetItem(Model.UserId).IsFiltered %>">
     <div class="rootElement">
                 <% if(Model.IsSessionNoteFadeIn){%>
                 <div id="LearningSessionReminderQuestionList">
@@ -49,7 +49,7 @@
                                         </label> 
                                         <br />
                                         <label class="checkbox-label">
-                                            <input id="QuestionInWishknowledge" type="checkbox" v-model="inWishknowledge" :disabled="!isLoggedIn" value="False"/>
+                                            <input id="QuestionInWishknowledge" type="checkbox" v-model="inWishknowledge" :disabled="!isLoggedIn || isMyWorld == 'True' " value="False"/>
                                             In meinem Wunschwissen
                                         </label>
                                     </div>
@@ -58,8 +58,8 @@
                                             <input id="UserIsAuthor" type="checkbox" v-model="createdByCurrentUser" :disabled="!isLoggedIn" value="False"/>
                                             Von mir erstellt
                                         </label> <br />
-                                        <label class="checkbox-label">
-                                            <input id="IsNotQuestionInWishKnowledge" type="checkbox" v-model="isNotQuestionInWishKnowledge" :disabled="!isLoggedIn" value="False"/>
+                                        <label class="checkbox-label" v-if="isMyWorld  == 'False'">
+                                            <input id="IsNotQuestionInWishKnowledge" type="checkbox" v-model="isNotQuestionInWishKnowledge" :disabled="!isLoggedIn || isMyWorld  == 'True'" value="True"/>
                                             Nicht in meinem Wunschwissen
                                         </label>
                                     </div>

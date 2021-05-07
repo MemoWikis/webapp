@@ -30,7 +30,7 @@ namespace TrueOrFalse
                 var categoryElement = document.Root.Elements("category").Single(x => x.Element("name").Value == category.Name);
                 var parentCategories = (from relatedElementId in categoryElement.Element("relatedCategories").Elements("id")
                                               select result.Categories.Single(x => x.Id == Convert.ToInt32(relatedElementId.Value))).ToList();
-                ModifyRelationsForCategory.UpdateCategoryRelationsOfType(category, parentCategories.Select(c => c.Id).ToList(), CategoryRelationType.IsChildCategoryOf);
+                ModifyRelationsForCategory.UpdateCategoryRelationsOfType(category.Id, parentCategories.Select(c => c.Id).ToList(), CategoryRelationType.IsChildOf);
             }
 
             result.Questions = from questionElement in document.Root.Elements("question")
