@@ -42,7 +42,7 @@ public class LearningSessionCreator
     public static int GetQuestionCount(LearningSessionConfig config)
     {
         config.MaxQuestionCount = 0;
-        if(config.AllQuestions || config.InWishknowledge && config.CreatedByCurrentUser && config.IsNotQuestionInWishKnowledge)
+        if(config.AllQuestions && !config.IsMyWorld())
             return RandomLimited(GetCategoryQuestionsFromEntityCache(config.CategoryId), config).Count;
         if (config.IsNotQuestionInWishKnowledge && config.InWishknowledge && !config.CreatedByCurrentUser)
             return RandomLimited(IsInWuWiFromCategoryAndIsNotInWuwi(config.CurrentUserId, config.CategoryId),config).Count; 
@@ -87,8 +87,8 @@ public class LearningSessionCreator
     private static List<Question> WuwiQuestionsFromCategoryAndUserIsAuthor(int userId, int categoryId)
     {
         var wuwi = WuwiQuestionsFromCategory(userId, categoryId); 
-
-        return UserIsQuestionAuthor(userId, categoryId).Concat(wuwi).ToList(); 
+        var c = UserIsQuestionAuthor(userId, categoryId).Concat(wuwi).Distinct() .ToList();
+        return c; 
     }
 
 
@@ -101,8 +101,9 @@ public class LearningSessionCreator
 
     private static List<Question> IsInWuWiFromCategoryAndIsNotInWuwi(int userId, int categoryId)
     {
-          
-        return GetCategoryQuestionsFromEntityCache(categoryId).Where(q => q.Creator.Id != userId).ToList();
+        return GetCategoryQuestionsFromEntityCache(categoryId).Where(q =>
+            new UserTinyModel(q.Creator).Id != userId)
+            .ToList();
     }
 
     private static List<Question> NotWuwiFromCategory(int userId, int categoryId)
@@ -113,7 +114,9 @@ public class LearningSessionCreator
     private static List<Question> UserIsQuestionAuthor(int userId, int categoryId)
     {
         return EntityCache.GetCategoryCacheItem(categoryId)
-            .GetAggregatedQuestionsFromMemoryCache().Where(q => q.Creator.Id == userId).ToList();
+            .GetAggregatedQuestionsFromMemoryCache().Where(q =>
+                 new UserTinyModel(q.Creator).Id == userId)
+            .ToList();
     }
 
     public static List<Question> GetCategoryQuestionsFromEntityCache(int categoryId)

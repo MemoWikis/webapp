@@ -28,5 +28,7 @@ public class LearningSessionConfig
     /// User is not logged in
     /// </summary>
     public bool IsAnonymous() => CurrentUserId == -1;
+
+    public bool IsMyWorld() => UserCache.GetItem(CurrentUserId).IsFiltered; 
 }
 

@@ -634,9 +634,22 @@ public class AnswerQuestionController : BaseController
             c.AllQuestions = true;
             c.CategoryId = categoryId;
             c.MaxProbability = 100;
+            c.CurrentUserId = Sl.CurrentUserId;
+
+            if (c.IsMyWorld())
+            {
+                c.InWishknowledge = true;
+                c.CreatedByCurrentUser = true; 
+            }
+
             return LearningSessionCreator.GetQuestionCount(c);
         }
         config.CurrentUserId = Sl.SessionUser.UserId;
+
+        if (config.IsMyWorld())
+        {
+            config.IsNotQuestionInWishKnowledge = false;
+        }
         return LearningSessionCreator.GetQuestionCount(config);
     }
 
