@@ -43,6 +43,7 @@ public class LearningSessionCreator
         return new LearningSession(questions.Select(q => new LearningSessionStep(q)).ToList(), config);
     }
 
+
     public static int GetQuestionCount(LearningSessionConfig config)
     {
         config.MaxQuestionCount = 0;
