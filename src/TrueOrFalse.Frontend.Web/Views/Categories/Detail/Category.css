@@ -4020,6 +4020,9 @@ p.is-editor-empty:first-child::before {
       -ms-flex-direction: column;
           flex-direction: column;
 }
+.categoryCardModal .modal-content .addCategoryCardModal .modalFooter .memo-button {
+  margin: 0;
+}
 .questionTitle p {
   margin: 0;
 }

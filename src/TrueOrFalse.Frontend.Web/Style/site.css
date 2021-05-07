@@ -1617,6 +1617,8 @@ h3 {
 }
 .memo-button.btn-link {
   color: #0065CA;
+}
+#AnswerBody .memo-button.btn-link {
   padding-left: 0 !important;
 }
 .overline-s,
