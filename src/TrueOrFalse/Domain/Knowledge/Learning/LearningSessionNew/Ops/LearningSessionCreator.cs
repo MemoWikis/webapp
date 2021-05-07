@@ -13,12 +13,7 @@ public class LearningSessionCreator
     public static LearningSession ForLoggedInUser(LearningSessionConfig config)
     {  
         List<Question> questions = new List<Question>();
-        if (UserCache.GetItem(config.CurrentUserId).IsFiltered)
-        {
-            var questionsFromCurrentCategoryAndChildren = GetCategoryQuestionsFromEntityCache(config.CategoryId);  
-            questions = questionsFromCurrentCategoryAndChildren.Where(q => q.IsInWishknowledge()).Distinct().ToList(); 
-        }
-        else if (config.AllQuestions || config.InWishknowledge && config.CreatedByCurrentUser && config.IsNotQuestionInWishKnowledge)
+        if (config.AllQuestions  && !UserCache.GetItem(config.CurrentUserId).IsFiltered)
             questions = OrderByProbability(RandomLimited(GetCategoryQuestionsFromEntityCache(config.CategoryId),
                 config)).ToList();
         else if (config.IsNotQuestionInWishKnowledge && config.InWishknowledge && !config.CreatedByCurrentUser) 
