@@ -24,10 +24,10 @@ public class SearchBoxElementsGet
 //        if (type == "Questions" || type == null)
             result.QuestionsResult = Sl.SearchQuestions.Run(term, searchSpec);
 
-        //if (type != null)
-        result.Ensure_max_elements_per_type_count_of_9("Categories");
-        //else
-        //    result.Ensure_max_element_count_of_12();
+        if (type != null)
+            result.Ensure_max_elements_per_type_count_of_9("Categories");
+        else
+            result.Ensure_max_element_count_of_12();
 
         return result;
     }
