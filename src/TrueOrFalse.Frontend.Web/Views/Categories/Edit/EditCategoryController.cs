@@ -227,6 +227,7 @@ public class EditCategoryController : BaseController
         var category = Sl.CategoryRepo.GetById(childCategoryId);
         ModifyRelationsForCategory.AddParentCategory(category, parentCategoryId);
         UserEntityCache.ReInitAllActiveCategoryCaches();
+        ModifyRelationsEntityCache.AddParent(EntityCache.GetCategoryCacheItem(childCategoryId, getDataFromEntityCache: true), parentCategoryId);
 
         return Json(new
         {
@@ -265,7 +266,7 @@ public class EditCategoryController : BaseController
                 .GetByIdsEager(childCategory.ParentCategories()
                 .Where(c => c.Id != parentCategoryId)
                 .Select(c => c.Id).ToList())
-                .ToList();
+                .ToList(); 
 
             related.Add(category);
 
