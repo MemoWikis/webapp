@@ -35,7 +35,7 @@ public class LearningSessionCreator
             questions = OrderByProbability(
                 RandomLimited(UserIsQuestionAuthor(config.CurrentUserId, config.CategoryId), config)).ToList();
 
-        return new LearningSession(questions.Select(q => new LearningSessionStep(q)).ToList(), config);
+        return new LearningSession(questions.Distinct().Select(q => new LearningSessionStep(q)).ToList(), config);
     }
 
 
@@ -86,9 +86,9 @@ public class LearningSessionCreator
 
     private static List<Question> WuwiQuestionsFromCategoryAndUserIsAuthor(int userId, int categoryId)
     {
-        var wuwi = WuwiQuestionsFromCategory(userId, categoryId); 
-        var c = UserIsQuestionAuthor(userId, categoryId).Concat(wuwi).Distinct() .ToList();
-        return c; 
+        return UserIsQuestionAuthor(userId, categoryId)
+            .Concat(WuwiQuestionsFromCategory(userId, categoryId))
+            .ToList();
     }
 
 
