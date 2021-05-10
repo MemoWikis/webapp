@@ -156,7 +156,7 @@ public class CategoryModel : BaseContentModule
         SingleQuestions = GetQuestionsForCategory.QuestionsNotIncludedInSet(Id);
         IsFilteredUserWorld = UserCache.GetItem(_sessionUser.UserId).IsFiltered;
 
-        AggregatedTopicCount = IsFilteredUserWorld ? CategoriesChildren.Count : GetTotalTopicCount(category);
+        AggregatedTopicCount = IsMyWorld ? CategoriesChildren.Count : GetTotalTopicCount(category);
         HardestQuestion = GetQuestion(true);
         EasiestQuestion = GetQuestion(false);
 
@@ -227,7 +227,15 @@ public class CategoryModel : BaseContentModule
 
     public Question GetDummyQuestion()
     {
-        var questionId = Category
+        var questionId = 0; 
+        if (IsMyWorld)
+             questionId = Category
+                .GetAggregatedQuestionsFromMemoryCache()
+                .Where(q => q.IsVisibleToCurrentUser() && q.IsInWishknowledge())
+                .Select(q => q.Id)
+                .FirstOrDefault();
+        else
+         questionId = Category
                 .GetAggregatedQuestionsFromMemoryCache()
                 .Where(q => q.IsVisibleToCurrentUser())
                 .Select(q => q.Id)
