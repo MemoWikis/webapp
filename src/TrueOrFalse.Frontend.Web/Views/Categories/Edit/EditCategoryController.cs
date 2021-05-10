@@ -226,8 +226,10 @@ public class EditCategoryController : BaseController
     {
         var category = Sl.CategoryRepo.GetById(childCategoryId);
         ModifyRelationsForCategory.AddParentCategory(category, parentCategoryId);
-        UserEntityCache.ReInitAllActiveCategoryCaches();
         ModifyRelationsEntityCache.AddParent(EntityCache.GetCategoryCacheItem(childCategoryId, getDataFromEntityCache: true), parentCategoryId);
+
+        if (EntityCache.GetCategoryCacheItem(childCategoryId).IsInWishknowledge()) 
+            UserEntityCache.ReInitAllActiveCategoryCaches();
 
         return Json(new
         {
