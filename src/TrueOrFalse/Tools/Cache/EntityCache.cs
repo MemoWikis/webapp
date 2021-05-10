@@ -173,44 +173,6 @@ public class EntityCache : BaseCache
         AddOrUpdate(Categories, categoryCacheItem);
     }
 
-    public static void Update(Category categoryNew, CategoryCacheItem categoryCacheItemOld)
-    {
-        
-        categoryCacheItemOld.Name = categoryNew.Name;
-        categoryCacheItemOld.Description = categoryNew.Description;
-        categoryCacheItemOld.WikipediaURL = categoryNew.WikipediaURL;
-        categoryCacheItemOld.Url = categoryNew.Url;
-        categoryCacheItemOld.UrlLinkText = categoryNew.UrlLinkText;
-        categoryCacheItemOld.DisableLearningFunctions = categoryNew.DisableLearningFunctions;
-        categoryCacheItemOld.Creator = categoryNew.Creator;
-        ChangeCategoryRelations(categoryNew, categoryCacheItemOld);
-        categoryCacheItemOld.CategoriesToExcludeIdsString = categoryNew.CategoriesToExcludeIdsString;
-        categoryCacheItemOld.CategoriesToIncludeIdsString = categoryNew.CategoriesToIncludeIdsString;
-        categoryCacheItemOld.CountQuestionsAggregated = categoryNew.CountQuestionsAggregated;
-        categoryCacheItemOld.CountQuestions = categoryNew.CountQuestions;
-        categoryCacheItemOld.Content = categoryNew.Content;
-        categoryCacheItemOld.CustomSegments = categoryNew.CustomSegments;
-        categoryCacheItemOld.Type = categoryNew.Type;
-        categoryCacheItemOld.TypeJson = categoryNew.TypeJson;
-        categoryCacheItemOld.CorrectnessProbability = categoryNew.CorrectnessProbability;
-        categoryCacheItemOld.CorrectnessProbabilityAnswerCount = categoryNew.CorrectnessProbabilityAnswerCount;
-        categoryCacheItemOld.TotalRelevancePersonalEntries = categoryNew.TotalRelevancePersonalEntries;
-        categoryCacheItemOld.IsHistoric = categoryNew.IsHistoric;
-        categoryCacheItemOld.Visibility = categoryNew.Visibility;
-        categoryCacheItemOld.FormerSetId = categoryNew.FormerSetId;
-    }
-
-    private static void ChangeCategoryRelations(Category categoryNew, CategoryCacheItem categoryCacheItemOld)
-    {
-        
-
-        foreach(var relation in categoryNew.CategoryRelations)
-        {
-            
-        }
-
-        throw new NotImplementedException(); 
-    } 
     public static void UpdateCategoryReferencesInQuestions(CategoryCacheItem categoryCacheItem, Category category)
     {
         var affectedQuestionsIds = GetQuestionsIdsForCategory(categoryCacheItem.Id);
