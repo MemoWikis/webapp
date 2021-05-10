@@ -44,26 +44,8 @@ public class LearningSessionCreator
 
     public static int GetQuestionCount(LearningSessionConfig config)
     {
-        //
-        //if(config.AllQuestions && !config.IsMyWorld())
-        //    return RandomLimited(GetCategoryQuestionsFromEntityCache(config.CategoryId), config).Count;
-        //if (config.IsNotQuestionInWishKnowledge && config.InWishknowledge && !config.CreatedByCurrentUser)
-        //    return RandomLimited(IsInWuWiFromCategoryAndIsNotInWuwi(config.CurrentUserId, config.CategoryId),config).Count; 
-        //if (config.IsNotQuestionInWishKnowledge && config.CreatedByCurrentUser)
-        //    return RandomLimited(NotWuwiFromCategoryOrIsAuthor(config.CurrentUserId, config.CategoryId),config).Count;
-        //if (config.IsNotQuestionInWishKnowledge)
-        //    return RandomLimited(NotWuwiFromCategory(config.CurrentUserId, config.CategoryId),config).Count;
-        //if (config.InWishknowledge && config.CreatedByCurrentUser)
-        //    return RandomLimited(WuwiQuestionsFromCategoryAndUserIsAuthor(config.CurrentUserId, config.CategoryId),config).Count;
-        //if (config.InWishknowledge)
-        //    return RandomLimited(WuwiQuestionsFromCategory(config.CurrentUserId, config.CategoryId),config).Count;
-        //if (config.CreatedByCurrentUser)
-        //    return RandomLimited(UserIsQuestionAuthor(config.CurrentUserId, config.CategoryId),config).Count;
-
-        //return 0; 
         config.MaxQuestionCount = 0;
-        var c = ForLoggedInUser(config).Steps.Count;
-        return c; 
+        return ForLoggedInUser(config).Steps.Count; 
     }
 
     private static List<Question> RandomLimited(List<Question> questions, LearningSessionConfig config)
