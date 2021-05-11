@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using Seedworks.Lib.Persistence;
 using TrueOrFalse.Search;
 
@@ -51,8 +52,9 @@ public class SearchBoxElementsGet
                     i --; 
                 }
             }
+            result.CategoriesResult = categoriesResult;
+            result.TotalElements = categoriesResult.CategoryIds.Count;
         }
-        result.CategoriesResult = categoriesResult;
 
         return result;
     }
@@ -60,12 +62,11 @@ public class SearchBoxElementsGet
 
 public class SearchBoxElements
 {
+    private int _elementsCounter = 0; 
     public SearchCategoriesResult CategoriesResult;
     private IList<Category> _categories;
     public IList<Category> Categories => _categories ?? (_categories = CategoriesResult.GetCategories());
-
     public int CategoriesResultCount => CategoriesResult.Count;
-
     public SearchQuestionsResult QuestionsResult;
     private IList<Question> _questions;
     public IList<Question> Questions => _questions ?? (_questions = QuestionsResult.GetQuestions());
@@ -76,7 +77,11 @@ public class SearchBoxElements
     public IList<User> Users => _users ?? (_users = UsersResult.GetUsers());
     public int UsersResultCount => UsersResult.Count;
 
-    public int TotalElements => Categories.Count + Questions.Count + Users.Count;
+    public int TotalElements
+    {
+        get => _elementsCounter == 0 ?  Categories.Count + Questions.Count + Users.Count : _elementsCounter ;
+        set => _elementsCounter= value; 
+    }
 
     public void Ensure_max_element_count_of_12()
     {
