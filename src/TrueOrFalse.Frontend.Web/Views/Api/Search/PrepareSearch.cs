@@ -22,7 +22,6 @@ public class SearchBoxElementsGet
         searchSpec.Filter.IgnorePrivates = true;
         searchSpec.PageSize = pageSize;
 
-//        if (type == "Questions" || type == null)
             result.QuestionsResult = Sl.SearchQuestions.Run(term, searchSpec);
 
         if (type != null)
@@ -55,7 +54,6 @@ public class SearchBoxElementsGet
             result.CategoriesResult = categoriesResult;
             result.TotalElements = categoriesResult.CategoryIds.Count;
         }
-
         return result;
     }
 }
