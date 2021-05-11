@@ -8,6 +8,7 @@ using TrueOrFalse.Frontend.Web.Code;
 
 public class SearchApiController : BaseController
 {
+    [HttpGet]
     public JsonResult ByName(string term, string type)
     {
         var items = new List<ResultItem>();
@@ -34,10 +35,16 @@ public class SearchApiController : BaseController
         return Json( new{ Items = items }, JsonRequestBehavior.AllowGet);
     }
 
+    [HttpGet]
     public JsonResult ByNameForVue(string term, string type)
     {
         var items = new List<MiniCategoryItem>();
-        var elements = SearchBoxElementsGet.GoAllCategories(term);
+        var elements = new SearchBoxElements(); 
+
+        if(UserCache.GetItem(Sl.CurrentUserId).IsFiltered)
+            elements = SearchBoxElementsGet.GoAllCategories(term, true);
+        else
+            elements = SearchBoxElementsGet.GoAllCategories(term, false);
 
         if (elements.Categories.Any())
         {
@@ -72,7 +79,6 @@ public class SearchApiController : BaseController
         public string ImageUrl;
     }
 
-
     private static void AddHeader(List<ResultItem> items, ResultItemType resultItemType, int resultCount, string term)
     {
         string searchUrl = "";
@@ -89,7 +95,6 @@ public class SearchApiController : BaseController
                 searchUrl = Links.UsersSearch(term);
                 break;
         }
-
 
         items.Add(new ResultItem
         {

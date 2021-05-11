@@ -32,26 +32,39 @@ public class SearchBoxElementsGet
         return result;
     }
 
-    public static SearchBoxElements GoAllCategories(string term)
+    public static SearchBoxElements GoAllCategories(string term, bool isMyWorld)
     {
         var result = new SearchBoxElements();
 
-        var categoriesResult = result.CategoriesResult = Sl.SearchCategories.Run(term, new Pager { QueryAll = true });
+        var categoriesResult = result.CategoriesResult = Sl.SearchCategories.Run(term, new Pager { QueryAll = true, PageSize = 1000000});
+        if (isMyWorld)
+        {
+            var userEntityCache = UserEntityCache.GetUserCache(Sl.CurrentUserId); 
+
+            for (int i = 0; i < categoriesResult.CategoryIds.Count; i++)
+            {
+                var isCategoryInWishknowledge = userEntityCache.ContainsKey(categoriesResult.CategoryIds[i]);
+
+                if (!isCategoryInWishknowledge)
+                {
+                    categoriesResult.CategoryIds.Remove(categoriesResult.CategoryIds[i]);
+                    i --; 
+                }
+            }
+        }
         result.CategoriesResult = categoriesResult;
 
         return result;
     }
 }
 
-
-
 public class SearchBoxElements
 {
     public SearchCategoriesResult CategoriesResult;
     private IList<Category> _categories;
     public IList<Category> Categories => _categories ?? (_categories = CategoriesResult.GetCategories());
-    public int CategoriesResultCount => CategoriesResult.Count;
 
+    public int CategoriesResultCount => CategoriesResult.Count;
 
     public SearchQuestionsResult QuestionsResult;
     private IList<Question> _questions;
