@@ -52,7 +52,7 @@ public class SearchApiController : BaseController
         }
         return Json(new
         {
-            totalCount = elements.TotalElements,
+            totalCount = elements.CategoriesResultCount,
             categories = items,
         }, JsonRequestBehavior.AllowGet);
     }

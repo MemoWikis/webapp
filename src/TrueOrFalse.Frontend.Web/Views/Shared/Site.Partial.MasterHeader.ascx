@@ -41,7 +41,6 @@
                             <img src="/Images/Logo/LogoSmall.png">
                         </div>
                     </a>
-
                     <div class="input-group" id="HeaderSearchBoxDiv">
                         <input type="text" class="form-control" placeholder="Suche" id="headerSearchBox">
                         <div class="input-group-btn">

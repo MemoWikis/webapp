@@ -36,31 +36,23 @@ public class SearchBoxElementsGet
     {
         var result = new SearchBoxElements();
 
-        var categoriesResult = result.CategoriesResult = Sl.SearchCategories.Run(term, new Pager { QueryAll = true, PageSize = 1000000});
+        var pager = new Pager();
+        pager.QueryAll = true;
         if (isMyWorld)
-        {
-            var userEntityCache = UserEntityCache.GetUserCache(Sl.CurrentUserId); 
+            pager.PageSize = 1000; 
 
-            for (int i = 0; i < categoriesResult.CategoryIds.Count; i++)
-            {
-                var isCategoryInWishknowledge = userEntityCache.ContainsKey(categoriesResult.CategoryIds[i]);
+        result.CategoriesResult = Sl.SearchCategories.Run(term, pager);
 
-                if (!isCategoryInWishknowledge)
-                {
-                    categoriesResult.CategoryIds.Remove(categoriesResult.CategoryIds[i]);
-                    i --; 
-                }
-            }
-            result.CategoriesResult = categoriesResult;
-            result.TotalElements = categoriesResult.CategoryIds.Count;
-        }
+        if (isMyWorld)
+            result.CategoriesResult.CategoryIds = result.CategoriesResult.CategoryIds
+                .Where(categoryId => UserEntityCache.IsInWishknowledge(Sl.CurrentUserId, categoryId)).ToList();
+
         return result;
     }
 }
 
 public class SearchBoxElements
 {
-    private int _elementsCounter = 0; 
     public SearchCategoriesResult CategoriesResult;
     private IList<Category> _categories;
     public IList<Category> Categories => _categories ?? (_categories = CategoriesResult.GetCategories());
@@ -75,11 +67,7 @@ public class SearchBoxElements
     public IList<User> Users => _users ?? (_users = UsersResult.GetUsers());
     public int UsersResultCount => UsersResult.Count;
 
-    public int TotalElements
-    {
-        get => _elementsCounter == 0 ?  Categories.Count + Questions.Count + Users.Count : _elementsCounter ;
-        set => _elementsCounter= value; 
-    }
+    public int TotalElements  =>  Categories.Count + Questions.Count + Users.Count;
 
     public void Ensure_max_element_count_of_12()
     {
@@ -98,7 +86,6 @@ public class SearchBoxElements
 
         //second round
         var two = 2;
-
 
         if (TotalElements >= maxElements)
             _questions = Questions.Take(two).ToList();

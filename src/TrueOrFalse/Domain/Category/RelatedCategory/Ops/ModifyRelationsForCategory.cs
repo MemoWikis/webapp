@@ -9,15 +9,15 @@ public class ModifyRelationsForCategory
     /// Updates relations with relatedCategories (keeps existing and deletes missing) with possible restrictions on type of relation (IsChildOf etc.) and type of category (Standard, Book etc.)
     /// </summary>
     /// <param name="categoryCacheItem"></param>
-    /// <param name="relatedCategories">Existing relations are updated with this collection (existing are kept, non-included are deleted)</param>
+    /// <param name="relatedCategorieIds">Existing relations are updated with this collection (existing are kept, non-included are deleted)</param>
     /// <param name="relationType">If specified only relations of this type will be updated</param>
     public static void UpdateCategoryRelationsOfType(
         int categoryId,
-        IList<int> relatedCategories, 
+        IList<int> relatedCategorieIds, 
         CategoryRelationType relationType)
     {
         var category = Sl.CategoryRepo.GetByIdEager(categoryId);
-        var relatedCategoriesAsCategories = Sl.CategoryRepo.GetByIdsEager(relatedCategories);
+        var relatedCategoriesAsCategories = Sl.CategoryRepo.GetByIdsEager(relatedCategorieIds);
         var existingRelationsOfType = GetExistingRelations(category, relationType).ToList();
 
         CreateIncludeContentOf(category, GetRelationsToAdd(category, relatedCategoriesAsCategories, relationType, existingRelationsOfType));

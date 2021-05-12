@@ -83,6 +83,16 @@ public class UserEntityCache : BaseCache
         return allCategories.TryGetValue(categoryId, out result) ?  result : null;
     }
 
+    public static bool IsInWishknowledge(int userId, int categoryId)
+    {
+        var userCache = GetUserCache(userId);
+
+        if (userCache == null)
+            return false;
+
+        return userCache.ContainsKey(categoryId); 
+    }
+
     public static IEnumerable<CategoryCacheItem> GetAllCategories(int userId) => _Categories[userId].Values;  
     public static ConcurrentDictionary<int, CategoryCacheItem> GetCategories(int userId)
     {
