@@ -81,7 +81,7 @@ public class CategoriesController : BaseController
         };
     }
 
-    [AccessOnlyAsAdmin]
+    [AccessOnlyAsLoggedIn]
     [HttpPost]
     public EmptyResult Delete(int id)
     {
