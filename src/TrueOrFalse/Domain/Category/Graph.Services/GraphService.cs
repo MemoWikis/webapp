@@ -254,13 +254,6 @@ public class GraphService
             ModifyRelationsForCategory.CreateIncludeContentOf(parentAsCategory, relationsToAdd);
             Sl.CategoryRepo.Update(Sl.CategoryRepo.GetByIdEager(parent.Id), isFromModifiyRelations: true);
 
-            var parentAsCacheItem = EntityCache.GetCategoryCacheItem(parent.Id);
-            var relationsToAddEntityCache = ModifyRelationsEntityCache.GetRelationsToAdd(parentAsCacheItem,
-                descendantsAsCategory,
-                CategoryRelationType.IncludesContentOf,
-                existingRelations); 
-
-            ModifyRelationsEntityCache.CreateIncludeContentOf(parentAsCacheItem, relationsToAddEntityCache);
             parent.UpdateCountQuestionsAggregated();
         }
     }
