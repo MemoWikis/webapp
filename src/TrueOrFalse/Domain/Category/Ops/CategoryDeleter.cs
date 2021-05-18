@@ -20,7 +20,6 @@ public class CategoryDeleter : IRegisterAsInstancePerLifetime
             Logg.r().Error("Category can´t deleted it has children");
             return;
         }
-
         _session.CreateSQLQuery("DELETE FROM relatedcategoriestorelatedcategories where Related_id = " + category.Id).ExecuteUpdate();
         _session.CreateSQLQuery("DELETE FROM relatedcategoriestorelatedcategories where Category_id = " + category.Id).ExecuteUpdate();
         _session.CreateSQLQuery("DELETE FROM categories_to_questions where Category_id = " + category.Id).ExecuteUpdate();
@@ -44,6 +43,5 @@ public class CategoryDeleter : IRegisterAsInstancePerLifetime
         ModifyRelationsUserEntityCache.Delete(categoryCacheItem);
         EntityCache.Remove(categoryCacheItem);
         UserCache.RemoveAllForCategory(category.Id);
-
     }
 }
