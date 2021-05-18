@@ -60,8 +60,8 @@ public class QuestionSolutionMatchList : QuestionSolution
 
     public static MatchListAnswerPairs DeserializeMatchListAnswer(string answerJson)
     {
-        var serilizer = new JavaScriptSerializer();
-        return serilizer.Deserialize<MatchListAnswerPairs>(answerJson);
+        var serializer = new JavaScriptSerializer();
+        return serializer.Deserialize<MatchListAnswerPairs>(answerJson);
     }
 
     public override bool IsCorrect(string answer)

@@ -154,6 +154,76 @@ public class EditQuestionController : BaseController
         return Redirect(Links.EditQuestion(question));
     }
 
+    //public JsonResult Create(QuestionDataJson questionDataJson)
+    //{
+    //    var serializer = new JavaScriptSerializer();
+    //    var question = new Question();
+    //    var questionRepo = Sl.QuestionRepo;
+    //    question.Creator = _sessionUser.User;
+    //    question.Text = questionDataJson.QuestionText;
+    //    question.SolutionType = (SolutionType)Enum.Parse(typeof(SolutionType), questionDataJson.SolutionType.ToString());
+    //    question.Categories.Add(Sl.CategoryRepo.GetById(questionDataJson.CategoryId));
+
+
+    //    switch (question.SolutionType)
+    //    {
+    //        case SolutionType.Text:
+    //            var solutionModel = new QuestionSolutionExact();
+    //            solutionModel.FillFromPostData(questionDataJson.Text, questionDataJson.MetadataSolutionJson);
+    //            question.Solution = questionDataJson.Text.Trim();
+    //            question.SolutionMetadataJson = questionDataJson.MetadataSolutionJson;
+    //            break;
+
+    //        case SolutionType.Sequence:
+    //            var solutionModel1 = new QuestionSolutionSequence();
+    //            solutionModel1.FillFromPostData(postData);
+    //            question.Solution = serializer.Serialize(solutionModel1);
+    //            break;
+
+    //        case SolutionType.MultipleChoice_SingleSolution:
+    //            var solutionModel2 = new QuestionSolutionMultipleChoice_SingleSolution();
+    //            solutionModel2.FillFromPostData(postData);
+    //            question.Solution = serializer.Serialize(solutionModel2);
+    //            break;
+
+    //        case SolutionType.MultipleChoice:
+    //            var solutionModel3 = new QuestionSolutionMultipleChoice();
+    //            solutionModel3.FillFromPostData(postData);
+    //            question.Solution = serializer.Serialize(solutionModel3);
+    //            break;
+
+    //        case SolutionType.MatchList:
+    //            var solutionModelMatchList = new QuestionSolutionMatchList();
+    //            solutionModelMatchList.FillFromPostData(postData);
+    //            question.Solution = serializer.Serialize(solutionModelMatchList);
+    //            break;
+
+    //        case SolutionType.FlashCard:
+    //            var solutionModelFlashCard = new QuestionSolutionFlashCard();
+    //            solutionModelFlashCard.Text = questionDataJson.Answer;
+    //            question.Solution = serializer.Serialize(solutionModelFlashCard);
+    //            break;
+    //    }
+
+
+    //    questionRepo.Create(question);
+
+    //    Sl.QuestionChangeRepo.AddUpdateEntry(question);
+    //    if (questionDataJson.AddToWishknowledge)
+    //        QuestionInKnowledge.Pin(Convert.ToInt32(question.Id), _sessionUser.User);
+    //}
+
+    public class QuestionDataJson
+    {
+        public int CategoryId { get; set; }
+        public string QuestionText { get; set; }
+        public string Answer { get; set; }
+        public int Visibility { get; set; }
+        public int SolutionType { get; set; }
+        public bool AddToWishknowledge { get; set; }
+        public int LastIndex { get; set; }
+    }
+
     private bool Validate(EditQuestionModel model)
     {
         if (!ModelState.IsValid)

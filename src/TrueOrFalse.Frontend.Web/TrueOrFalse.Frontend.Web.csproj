@@ -2223,6 +2223,18 @@
     <Content Include="Views\Questions\Answer\LearningSession\Js\Page.js">
       <DependentUpon>Page.ts</DependentUpon>
     </Content>
+    <Content Include="Views\Questions\EditQuestion\EditQuestionComponent.js">
+      <DependentUpon>EditQuestionComponent.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Questions\Edit\EditComponents\FlashCard\AddQuestion.js">
+      <DependentUpon>FlashCardComponent.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Questions\Edit\EditComponents\FlashCard\FlashCardComponent.vue.ascx" />
+    <Content Include="Views\Questions\Edit\EditComponents\MatchList\MatchListComponent.vue.ascx" />
+    <Content Include="Views\Questions\Edit\EditComponents\MultipleChoice\MultipleChoiceComponent.vue.ascx" />
+    <Content Include="Views\Questions\Edit\EditComponents\MultipleChoice_SingleSolution\MultipleChoice_SingleSolutionComponent.vue.ascx" />
+    <Content Include="Views\Questions\Edit\EditComponents\Numeric\NumericComponent.vue.ascx" />
+    <Content Include="Views\Questions\Edit\EditComponents\Text\TextComponent.vue.ascx" />
     <Content Include="Views\Questions\Js\AddQuestion\EditQuestionModalLoader.js">
       <DependentUpon>EditQuestionModalLoader.ts</DependentUpon>
     </Content>
@@ -2235,6 +2247,7 @@
     <Content Include="Views\Questions\QuestionList\QuestionComponent.vue.ascx" />
     <Content Include="Views\Questions\QuestionList\SessionConfigComponent.vue.ascx" />
     <Content Include="Views\Questions\QuestionList\QuestionListComponent.vue.ascx" />
+    <Content Include="Views\Questions\EditQuestion\EditQuestionComponent.vue.ascx" />
     <Content Include="Views\Shared\MyWorldToggle\MyWorldToggleComponent.js">
       <DependentUpon>MyWorldToggleComponent.ts</DependentUpon>
     </Content>
@@ -2658,6 +2671,7 @@
     <TypeScriptCompile Include="Views\Categories\Detail\JsEditMode\Segmentation\SegmentComponent.ts" />
     <TypeScriptCompile Include="Views\Questions\Answer\Js\QuestionDetails\AnswerQuestionDetailsApp.ts" />
     <TypeScriptCompile Include="Views\Questions\Answer\Js\QuestionDetails\AnswerQuestionDetailsComponent.ts" />
+    <TypeScriptCompile Include="Views\Questions\Edit\EditComponents\FlashCard\FlashCardComponent.ts" />
     <TypeScriptCompile Include="Views\Questions\Js\AddQuestion\EditQuestionModalLoader.ts" />
     <TypeScriptCompile Include="Views\Questions\Js\AddQuestion\AddQuestion.ts" />
     <TypeScriptCompile Include="Views\Questions\Js\QuestionList\QuestionComponent.ts" />
@@ -3655,6 +3669,7 @@
     <TypeScriptCompile Include="Views\Questions\Answer\LearningSession\Js\Page.ts" />
     <TypeScriptCompile Include="Views\Questions\Edit\EditSolutionControls\SolutionTypeFlashCard.ts" />
     <TypeScriptCompile Include="Views\Questions\Edit\Js\MarkdownDescription.ts" />
+    <TypeScriptCompile Include="Views\Questions\EditQuestion\EditQuestionComponent.ts" />
     <TypeScriptCompile Include="Views\Shared\PinComponentVue\PinComponent.vue.ts" />
     <TypeScriptCompile Include="Views\Shared\Spinner\Js\Spinner.ts" />
     <TypeScriptCompile Include="Views\Shared\MyWorldToggle\MyWorldToggleComponent.ts" />
@@ -4241,6 +4256,12 @@
     <Content Include="Views\Users\Account\WidgetStats\Js\WidgetStats.js.map">
       <DependentUpon>WidgetStats.ts</DependentUpon>
     </Content>
+    <Content Include="Views\Questions\EditQuestion\EditQuestionComponent.js.map">
+      <DependentUpon>EditQuestionComponent.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Questions\Edit\EditComponents\FlashCard\AddQuestion.js.map">
+      <DependentUpon>FlashCardComponent.ts</DependentUpon>
+    </Content>
     <None Include="Web.overwritten.config.sample" />
     <Content Include="Views\Welcome\Logout.aspx" />
     <Content Include="Views\Api\Export.aspx" />
@@ -4298,6 +4319,8 @@
   <ItemGroup>
     <Folder Include="bin\" />
     <Folder Include="Views\Categories\Detail\JsLearningTab\" />
+    <Folder Include="Views\Questions\Edit\EditComponents\Date\" />
+    <Folder Include="Views\Questions\Edit\EditComponents\Sequence\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

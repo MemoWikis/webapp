@@ -3,11 +3,11 @@
     public enum SolutionType
     {
         Text = 1,
-        Numeric = 4,
-        Date = 6,
         MultipleChoice_SingleSolution = 3,
-        MultipleChoice = 7,
+        Numeric = 4,
         Sequence = 5,
+        Date = 6,
+        MultipleChoice = 7,
         MatchList = 8,
         FlashCard = 9
     }    

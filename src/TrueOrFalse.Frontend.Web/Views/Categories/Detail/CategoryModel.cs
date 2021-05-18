@@ -69,6 +69,8 @@ public class CategoryModel : BaseContentModule
     public string ImageLicenseOwner { get; set; }
     public bool IsMyWorld { get; set; }
 
+    public EditQuestionModel EditQuestionModel;
+
     public CategoryModel()
     {
     }
@@ -161,6 +163,11 @@ public class CategoryModel : BaseContentModule
         EasiestQuestion = GetQuestion(false);
 
         TotalPins = category.TotalRelevancePersonalEntries.ToString();
+
+        var editQuestionModel = new EditQuestionModel();
+        editQuestionModel.Categories.Add(Sl.CategoryRepo.GetByIdEager((int)category.Id));
+
+        EditQuestionModel = editQuestionModel;
     }
 
     private List<Question> GetTopQuestionsInSubCats()
