@@ -237,7 +237,7 @@ public class GraphService
 
         foreach (var parent in parentsFromParentCategories)
         {
-            var descendants = GetCategoryChildren.WithAppliedRules(parent);
+            var descendants = GetCategoryChildren.WithAppliedRules(parent, true);
             var descendantsAsCategory = Sl.CategoryRepo.GetByIds(descendants.Select(cci => cci.Id).ToList());
 
             var parentAsCategory = Sl.CategoryRepo.GetByIdEager(parent.Id);

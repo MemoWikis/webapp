@@ -3,6 +3,7 @@ using NHibernate.Criterion;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using TrueOrFalse.Search;
 
 public class CategoryRepository : RepositoryDbBase<Category>
@@ -61,23 +62,20 @@ public class CategoryRepository : RepositoryDbBase<Category>
         Flush();
 
         UserActivityAdd.CreatedCategory(category);
-
         _searchIndexCategory.Update(category);
-        var categoryCacheItem = CategoryCacheItem.ToCacheCategory(category);
 
-        EntityCache.AddOrUpdate(categoryCacheItem); 
+        var categoryCacheItem = CategoryCacheItem.ToCacheCategory(category);
+        EntityCache.AddOrUpdate(categoryCacheItem);
 
         Sl.CategoryChangeRepo.AddCreateEntry(category, category.Creator);
         GraphService.AutomaticInclusionOfChildCategoriesForEntityCacheAndDbCreate(categoryCacheItem);
-
 
         if (UserEntityCache.HasUserCache(Sl.CurrentUserId))
         {
             UserEntityCache.Add(categoryCacheItem, Sl.CurrentUserId);
             ModifyRelationsUserEntityCache.AddToParents(categoryCacheItem);
         }
-
-        UpdateCachedData(categoryCacheItem, CreateDeleteUpdate.Create);
+        UpdateCachedData(categoryCacheItem, CreateDeleteUpdate.Create); 
     }
 
     public static void UpdateCachedData(CategoryCacheItem categoryCacheItem, CreateDeleteUpdate createDeleteUpdate)

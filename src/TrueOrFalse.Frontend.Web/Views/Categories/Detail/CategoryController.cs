@@ -1,12 +1,10 @@
-﻿using Newtonsoft.Json;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using TrueOrFalse.Frontend.Web.Code;
-
 
 [SetUserMenu(UserMenuEntry.None)]
 public class CategoryController : BaseController
@@ -99,7 +97,6 @@ public class CategoryController : BaseController
         categoryModel.WikipediaURL = historicCategory.WikipediaURL;
         categoryModel.NextRevExists = Sl.CategoryChangeRepo.GetNextRevision(categoryChange) != null;
     }
-
     private CategoryModel GetModelWithContentHtml(CategoryCacheItem category, int? version = null, bool isCategoryNull = false)
     {
         return new CategoryModel(category, true, isCategoryNull)

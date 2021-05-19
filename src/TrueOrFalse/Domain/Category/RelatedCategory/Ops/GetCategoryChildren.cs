@@ -4,7 +4,7 @@ using System.Linq;
 
 public class GetCategoryChildren
 {
-    public static List<CategoryCacheItem> WithAppliedRules(CategoryCacheItem category)
+    public static List<CategoryCacheItem> WithAppliedRules(CategoryCacheItem category, bool getFromEntityCache = true)
     {
         var categoriesToExclude = new List<CategoryCacheItem>();
         foreach (var categoryToExclude in category.CategoriesToExclude())
@@ -20,7 +20,7 @@ public class GetCategoryChildren
             categoriesToInclude.AddRange(EntityCache.GetDescendants(categoryToInclude.Id));
         }
 
-        return EntityCache.GetDescendants(category.Id).Except(categoriesToExclude)
+        return EntityCache.GetDescendants(category.Id, getFromEntityCache).Except(categoriesToExclude)
             .Union(categoriesToInclude)
             .ToList();
 

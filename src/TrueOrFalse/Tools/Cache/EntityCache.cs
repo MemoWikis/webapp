@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Web;
+using System.Windows.Forms;
+using Microsoft.Owin.Security.Provider;
 
 public class EntityCache : BaseCache
 {
@@ -243,20 +245,18 @@ public class EntityCache : BaseCache
 
     public static List<CategoryCacheItem> GetChildren(int categoryId, bool isFromEntityCache = false)
     {
-        var category = GetCategoryCacheItem(categoryId, isFromEntityCache);
-
         var allCategories = GetAllCategories();
 
         return allCategories.SelectMany(c =>
-            c.CategoryRelations.Where(cr => cr.CategoryRelationType == CategoryRelationType.IsChildOf && cr.RelatedCategoryId == category.Id)
+            c.CategoryRelations.Where(cr => cr.CategoryRelationType == CategoryRelationType.IsChildOf && cr.RelatedCategoryId == categoryId)
                 .Select(cr => GetCategoryCacheItem(cr.CategoryId, isFromEntityCache))).ToList();
     }
 
     public static List<CategoryCacheItem> GetChildren(CategoryCacheItem category, bool isFromEntityCache = false) => GetChildren(category.Id, isFromEntityCache);  
 
-    public static IList<CategoryCacheItem> GetDescendants(int parentId, bool isFromUserEntityCache = false)
+    public static IList<CategoryCacheItem> GetDescendants(int parentId, bool getFromEntityCache = false)
     {
-        var currentGeneration = GetChildren(parentId, isFromUserEntityCache).ToList();
+        var currentGeneration = GetChildren(parentId, getFromEntityCache).ToList();
         var nextGeneration = new List<CategoryCacheItem>();
         var descendants = new List<CategoryCacheItem>();
 
@@ -266,7 +266,7 @@ public class EntityCache : BaseCache
 
             foreach (var category in currentGeneration)
             {
-                var children = GetChildren(category.Id, isFromUserEntityCache).ToList();
+                var children = GetChildren(category.Id, getFromEntityCache).ToList();
                 if (children.Count > 0)
                 {
                     nextGeneration.AddRange(children);
