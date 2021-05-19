@@ -3,7 +3,6 @@ using NHibernate.Criterion;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using TrueOrFalse.Search;
 
 public class CategoryRepository : RepositoryDbBase<Category>
@@ -23,7 +22,6 @@ public class CategoryRepository : RepositoryDbBase<Category>
     public IList<Category> GetByIdsEager(IEnumerable<int> categoryIds = null)
     {
         var query = _session.QueryOver<Category>();
-
         if (categoryIds != null)
             query = query.Where(Restrictions.In("Id", categoryIds.ToArray()));
         else
@@ -47,7 +45,6 @@ public class CategoryRepository : RepositoryDbBase<Category>
             NHibernateUtil.Initialize(category.Creator);
             NHibernateUtil.Initialize(category.CategoryRelations);
         }
-
         return result;
     }
 

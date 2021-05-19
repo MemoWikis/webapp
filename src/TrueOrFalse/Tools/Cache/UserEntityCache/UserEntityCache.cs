@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
-using System.Diagnostics.Eventing.Reader;
 using System.Linq;
-using NHibernate.SqlCommand;
-using Seedworks.Lib;
+
 
 public class UserEntityCache : BaseCache
 {
