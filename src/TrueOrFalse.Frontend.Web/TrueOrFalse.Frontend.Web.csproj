@@ -2226,7 +2226,7 @@
     <Content Include="Views\Questions\EditQuestion\EditQuestionComponent.js">
       <DependentUpon>EditQuestionComponent.ts</DependentUpon>
     </Content>
-    <Content Include="Views\Questions\Edit\EditComponents\FlashCard\AddQuestion.js">
+    <Content Include="Views\Questions\Edit\EditComponents\FlashCard\FlashCardComponent.js">
       <DependentUpon>FlashCardComponent.ts</DependentUpon>
     </Content>
     <Content Include="Views\Questions\Edit\EditComponents\FlashCard\FlashCardComponent.vue.ascx" />
@@ -2672,6 +2672,9 @@
     <TypeScriptCompile Include="Views\Questions\Answer\Js\QuestionDetails\AnswerQuestionDetailsApp.ts" />
     <TypeScriptCompile Include="Views\Questions\Answer\Js\QuestionDetails\AnswerQuestionDetailsComponent.ts" />
     <TypeScriptCompile Include="Views\Questions\Edit\EditComponents\FlashCard\FlashCardComponent.ts" />
+    <TypeScriptCompile Include="Views\Questions\Edit\EditComponents\MatchList\MatchListComponent.ts" />
+    <TypeScriptCompile Include="Views\Questions\Edit\EditComponents\MultipleChoice\MultipleChoiceComponent.ts" />
+    <TypeScriptCompile Include="Views\Questions\Edit\EditComponents\MultipleChoice_SingleSolution\MultipleChoice_SingleSolutionComponentComponent.ts" />
     <TypeScriptCompile Include="Views\Questions\Js\AddQuestion\EditQuestionModalLoader.ts" />
     <TypeScriptCompile Include="Views\Questions\Js\AddQuestion\AddQuestion.ts" />
     <TypeScriptCompile Include="Views\Questions\Js\QuestionList\QuestionComponent.ts" />
@@ -4259,7 +4262,7 @@
     <Content Include="Views\Questions\EditQuestion\EditQuestionComponent.js.map">
       <DependentUpon>EditQuestionComponent.ts</DependentUpon>
     </Content>
-    <Content Include="Views\Questions\Edit\EditComponents\FlashCard\AddQuestion.js.map">
+    <Content Include="Views\Questions\Edit\EditComponents\FlashCard\FlashCardComponent.js.map">
       <DependentUpon>FlashCardComponent.ts</DependentUpon>
     </Content>
     <None Include="Web.overwritten.config.sample" />

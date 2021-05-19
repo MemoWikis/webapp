@@ -130,34 +130,5 @@ Vue.component('flashcard-component', {
         },
 
         methods: {
-            addFlashcard() {
-                var lastIndex = parseInt($('#QuestionListComponent').attr("data-last-index")) + 1;
-                var json = {
-                    CategoryId: this.currentCategoryId,
-                    Text: this.questionHtml,
-                    Answer: this.answerHtml,
-                    Visibility: this.visibility,
-                    AddToWishknowledge: this.addToWishknowledge,
-                    LastIndex: lastIndex,
-                }
-                $.ajax({
-                    type: 'post',
-                    contentType: "application/json",
-                    url: '/QuestionList/CreateFlashcard',
-                    data: JSON.stringify(json),
-                    success: function (data) {
-                        var answerBody = new AnswerBody();
-                        var skipIndex = this.questions != null ? -5 : 0;
-
-                        answerBody.Loader.loadNewQuestion("/AnswerQuestion/RenderAnswerBodyByLearningSession/" +
-                            "?skipStepIdx=" +
-                            skipIndex +
-                            "&index=" +
-                            lastIndex);
-                        eventBus.$emit('add-question-to-list', data.Data);
-                        eventBus.$emit("change-active-question", lastIndex);
-                    },
-                });
-            },
         }
     })

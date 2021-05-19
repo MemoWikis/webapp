@@ -6,9 +6,10 @@
                 <div class="input-group">
                     <input type="text" class="form-control" id="" placeholder="">
                 </div>
+                <button @click="choice.IsCorrect = !choice.IsCorrect" class="btn btn-primary"></button>
+                <button @click="deleteChoice(index)" class="btn btn-primary">Antwort loeschen</button>
             </div>
-            <button @click="toggle()" class="btn btn-primary">Transfer cash</button>
-            <button @click="deleteChoice(index)" class="btn btn-primary">Antwort loeschen</button>
+
         </form> 
         
         <button @click="addChoice()" class="btn btn-primary">Antwort loeschen</button>
