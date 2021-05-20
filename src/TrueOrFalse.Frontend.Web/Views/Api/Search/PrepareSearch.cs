@@ -11,9 +11,8 @@ public class SearchBoxElementsGet
         var result = new SearchBoxElements();
 
         var pageSize = 5;
-        var categoriesResult = result.CategoriesResult = Sl.SearchCategories.Run(term, new Pager { PageSize = pageSize });
+        result.CategoriesResult = Sl.SearchCategories.Run(term, new Pager { PageSize = pageSize });
 
-        result.CategoriesResult = categoriesResult;
         result.UsersResult = Sl.SearchUsers.Run(term, new Pager { PageSize = pageSize }, SearchUsersOrderBy.None);
 
         var searchSpec = Sl.SessionUiData.SearchSpecQuestionSearchBox;
