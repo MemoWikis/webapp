@@ -6,7 +6,8 @@ Vue.component('multiplechoice-component', {
                 choices: [{
                         Text: '',
                         IsCorrect: true
-                    }],
+                }],
+                isSolutionOrdered: false,
             }
         },
 
@@ -23,6 +24,12 @@ Vue.component('multiplechoice-component', {
         },
         deleteChoice(index) {
             this.choices.splice(index, 1);
+        },
+        answerBuilder() {
+            this.answer = {
+                Choices: this.choices,
+                IsSolutionOrdered: this.isSolutionOrdered
+            }
         }
     }
 })

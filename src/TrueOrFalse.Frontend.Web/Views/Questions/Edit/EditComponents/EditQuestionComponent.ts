@@ -1,19 +1,6 @@
-﻿////declare var SolutionType: {
-////    Text: 0,
-////    Numeric: 4,
-////    Date: 6,
-////    MultipleChoice_SingleSolution: 3,
-////    MultipleChoice: 7,
-////    Sequence: 5,
-////    MatchList: 8,
-////    FlashCard: 9,
-////}
-
-declare var eventBus: any;
+﻿declare var eventBus: any;
 if (eventBus == null)
     var eventBus = new Vue();
-
-
 
 Vue.component('edit-question-component',
     {
@@ -21,14 +8,14 @@ Vue.component('edit-question-component',
             return {
                 id: 0,
                 solutionType: null,
-                textAnswer: null,
-                singleSolutionAnswer: null,
-                numericAnswer: null,
-                sequenceAnswer: null,
-                dateAnswer: null,
-                multipleChoiceAnswer: null,
-                matchListAnswer: null,
-                flashCardSolution: null,
+                textJson: null,
+                singleJsonJson: null,
+                numericJson: null,
+                sequenceJson: null,
+                dateJson: null,
+                multipleChoiceJson: null,
+                matchListJson: null,
+                flashCardJson: null,
             }
         },
         mounted() {
@@ -41,27 +28,71 @@ Vue.component('edit-question-component',
         watch: {
         },
         methods: {
-            solutionBuilder() {
+            getSolution() {
                 let solution = "";
                 switch (this.solutionType) {
-                    case 0: solution = this.textAnswer;
+                    case SolutionType.Text: solution = this.textJson;
                         break;
-                    case 3: solution = this.singleSolutionAnswer;
+                    case SolutionType.MultipleChoice_SingleSolution: solution = this.singleJsonJson;
                         break;
-                    case 4: solution = this.numericAnswer;
+                    case SolutionType.Numeric: solution = this.numericJson;
                         break;
-                    case 5: solution = this.sequenceAnswer;
+                    case SolutionType.Sequence: solution = this.sequenceJson;
                         break;
-                    case 6: solution = this.dateAnswer;
+                    case SolutionType.Date: solution = this.dateJson;
                         break;
-                    case 7: solution = this.multipleChoiceAnswer;
+                    case SolutionType.MultipleChoice: solution = this.multipleChoiceJson;
                         break;
-                    case 8: solution = this.matchListAnswer;
+                    case SolutionType.MatchList: solution = this.matchListJson;
                         break;
-                    case 9: solution = this.flashcardAnswer;
+                    case SolutionType.FlashCard: solution = this.flashCardJson;
                         break;
                 }
 
+                return solution;
             },
+            sumbitQuestion() {
+                var lastIndex = parseInt($('#QuestionListComponent').attr("data-last-index")) + 1;
+                var url;
+                if (this.createQuestion)
+                    url = '/EditQuestion/CreateQuestion';
+                else
+                    url = '/EditQuestion/EditQuestion';
+                let solution = this.getSolution();
+                var questionJson = {
+                    Text: this.questionHtml,
+                    Answer: solution,
+                    Visibility: this.visibility,
+                    AddToWishknowledge: this.addToWishknowledge,
+                    CategoryIds: this.selectedCategoryIds,
+                }
+                var json = {
+                    CategoryId: this.currentCategoryId,
+                    Text: this.questionHtml,
+                    Answer: this.answerHtml,
+                    Visibility: this.visibility,
+                    AddToWishknowledge: this.addToWishknowledge,
+                    LastIndex: lastIndex,
+                }
+                $.ajax({
+                    type: 'post',
+                    contentType: "application/json",
+                    url: '/QuestionList/CreateFlashcard',
+                    data: JSON.stringify(json),
+                    success: function (data) {
+                        var answerBody = new AnswerBody();
+                        var skipIndex = this.questions != null ? -5 : 0;
+
+                        answerBody.Loader.loadNewQuestion("/AnswerQuestion/RenderAnswerBodyByLearningSession/" +
+                            "?skipStepIdx=" +
+                            skipIndex +
+                            "&index=" +
+                            lastIndex);
+                        eventBus.$emit('add-question-to-list', data.Data);
+                        eventBus.$emit("change-active-question", lastIndex);
+                    },
+                });
+            },
+
         }
     });

@@ -1,4 +1,4 @@
-﻿<flashcard-component :solution="flashCardSolution">
+﻿<flashcard-component :solution="flashCardJson">
     <div>
             <editor-menu-bar :editor="answerEditor" v-slot="{ commands, isActive, focused }">
         <div class="menubar is-hidden" :class="{ 'is-focused': focused }">

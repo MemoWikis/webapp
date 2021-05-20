@@ -21,6 +21,12 @@ Vue.component('multiplechoice-component', {
         },
         deletePair(index) {
             this.pairs.splice(index, 1);
+        },
+        answerBuilder() {
+            this.answer = {
+                Pairs: this.pairs,
+                IsSolutionOrdered: this.isSolutionOrdered
+            }
         }
     }
 })

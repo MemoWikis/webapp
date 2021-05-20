@@ -1,4 +1,4 @@
-﻿<multiplechoice-singlesolution-component :solution="singleSolutionAnswer">
+﻿<multiplechoice-singlesolution-component :solution="singleSolutionJson">
     <div>
         <form class="form-inline" v-for="(choice, index) in choices" :key="index">
             <div class="form-group">

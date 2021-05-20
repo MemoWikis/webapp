@@ -1,4 +1,4 @@
-﻿<numeric-component :solution="numericAnswer">
+﻿<numeric-component :solution="numericJson">
     <div>
         <form class="form-horizontal">
             <div class="form-group">

@@ -1,4 +1,4 @@
-﻿<matchlist-component :solution="matchlistAnswer">
+﻿<matchlist-component :solution="matchListJson">
     <div>
         <form class="form-inline" v-for="(pair, index) in pairs" :key="index">
             <div class="form-group">

@@ -154,70 +154,65 @@ public class EditQuestionController : BaseController
         return Redirect(Links.EditQuestion(question));
     }
 
-    //public JsonResult Create(QuestionDataJson questionDataJson)
-    //{
-    //    var serializer = new JavaScriptSerializer();
-    //    var question = new Question();
-    //    var questionRepo = Sl.QuestionRepo;
-    //    question.Creator = _sessionUser.User;
-    //    question.Text = questionDataJson.QuestionText;
-    //    question.SolutionType = (SolutionType)Enum.Parse(typeof(SolutionType), questionDataJson.SolutionType.ToString());
-    //    question.Categories.Add(Sl.CategoryRepo.GetById(questionDataJson.CategoryId));
+    public JsonResult Create(QuestionDataJson questionDataJson)
+    {
+        var question = new Question();
+        question.Creator = _sessionUser.User;
+        question.Text = questionDataJson.QuestionText;
+        question.SolutionType = (SolutionType)Enum.Parse(typeof(SolutionType), questionDataJson.SolutionType.ToString());
 
+        var categories = new List<Category>();
+        foreach (var categoryId in questionDataJson.CategoryIds)
+            categories.Add(Sl.CategoryRepo.GetById(categoryId));
+        question.Categories = categories;
 
-    //    switch (question.SolutionType)
-    //    {
-    //        case SolutionType.Text:
-    //            var solutionModel = new QuestionSolutionExact();
-    //            solutionModel.FillFromPostData(questionDataJson.Text, questionDataJson.MetadataSolutionJson);
-    //            question.Solution = questionDataJson.Text.Trim();
-    //            question.SolutionMetadataJson = questionDataJson.MetadataSolutionJson;
-    //            break;
+        question.Solution = questionDataJson.Solution;
+        question.SolutionMetadataJson = questionDataJson.SolutionMetadataJson;
 
-    //        case SolutionType.Sequence:
-    //            var solutionModel1 = new QuestionSolutionSequence();
-    //            solutionModel1.FillFromPostData(postData);
-    //            question.Solution = serializer.Serialize(solutionModel1);
-    //            break;
+        _questionRepo.Create(question);
 
-    //        case SolutionType.MultipleChoice_SingleSolution:
-    //            var solutionModel2 = new QuestionSolutionMultipleChoice_SingleSolution();
-    //            solutionModel2.FillFromPostData(postData);
-    //            question.Solution = serializer.Serialize(solutionModel2);
-    //            break;
+        Sl.QuestionChangeRepo.AddUpdateEntry(question);
+        if (questionDataJson.AddToWishknowledge)
+            QuestionInKnowledge.Pin(Convert.ToInt32(question.Id), _sessionUser.User);
 
-    //        case SolutionType.MultipleChoice:
-    //            var solutionModel3 = new QuestionSolutionMultipleChoice();
-    //            solutionModel3.FillFromPostData(postData);
-    //            question.Solution = serializer.Serialize(solutionModel3);
-    //            break;
+        var questionsController = new QuestionsController(_questionRepo);
 
-    //        case SolutionType.MatchList:
-    //            var solutionModelMatchList = new QuestionSolutionMatchList();
-    //            solutionModelMatchList.FillFromPostData(postData);
-    //            question.Solution = serializer.Serialize(solutionModelMatchList);
-    //            break;
+        return Json(questionsController.LoadQuestion(question.Id));
+    }
 
-    //        case SolutionType.FlashCard:
-    //            var solutionModelFlashCard = new QuestionSolutionFlashCard();
-    //            solutionModelFlashCard.Text = questionDataJson.Answer;
-    //            question.Solution = serializer.Serialize(solutionModelFlashCard);
-    //            break;
-    //    }
+    public JsonResult Edit(QuestionDataJson questionDataJson)
+    {
 
+        var question = Sl.QuestionRepo.GetById(questionDataJson.QuestionId);
+        question.Text = questionDataJson.QuestionText;
+        question.SolutionType = (SolutionType)Enum.Parse(typeof(SolutionType), questionDataJson.SolutionType.ToString());
 
-    //    questionRepo.Create(question);
+        var categories = new List<Category>();
+        foreach (var categoryId in questionDataJson.CategoryIds)
+            categories.Add(Sl.CategoryRepo.GetById(categoryId));
+        question.Categories = categories;
 
-    //    Sl.QuestionChangeRepo.AddUpdateEntry(question);
-    //    if (questionDataJson.AddToWishknowledge)
-    //        QuestionInKnowledge.Pin(Convert.ToInt32(question.Id), _sessionUser.User);
-    //}
+        question.Solution = questionDataJson.Solution;
+        question.SolutionMetadataJson = questionDataJson.SolutionMetadataJson;
+
+        _questionRepo.Update(question);
+        Sl.QuestionChangeRepo.AddUpdateEntry(question);
+
+        Sl.QuestionChangeRepo.AddUpdateEntry(question);
+
+        var questionsController = new QuestionsController(_questionRepo);
+
+        return Json(questionsController.LoadQuestion(question.Id));
+    }
+
 
     public class QuestionDataJson
     {
-        public int CategoryId { get; set; }
+        public int[] CategoryIds { get; set; }
+        public int QuestionId { get; set; }
         public string QuestionText { get; set; }
-        public string Answer { get; set; }
+        public string Solution { get; set; }
+        public string SolutionMetadataJson { get; set; }
         public int Visibility { get; set; }
         public int SolutionType { get; set; }
         public bool AddToWishknowledge { get; set; }
