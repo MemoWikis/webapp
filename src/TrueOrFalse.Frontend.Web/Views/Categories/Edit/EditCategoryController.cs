@@ -86,11 +86,17 @@ public class EditCategoryController : BaseController
         }
         StoreImage(id);
 
-        var isChangeParents = !GraphService.IsCategoryParentEqual(CategoryCacheItem.ToCacheCategories(model.ParentCategories).ToList(),
-            EntityCache.GetCategoryCacheItem(category.Id).ParentCategories());
+        var isChangeParents = !GraphService.IsCategoryParentEqual(
+            CategoryCacheItem.ToCacheCategories(model.ParentCategories).ToList(),
+            EntityCache.GetCategoryCacheItem(category.Id).ParentCategories()
+            );
 
         if (isChangeParents)
+        {
             UserEntityCache.ReInitAllActiveCategoryCaches();
+            EditAggregation(category.Id,category.CategoriesToExcludeIdsString,category.CategoriesToIncludeIdsString);
+        }
+
         else
             UserEntityCache.ChangeCategoryInUserEntityCaches(category);
 
