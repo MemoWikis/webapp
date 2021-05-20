@@ -107,7 +107,7 @@ public class SearchApiController : BaseController
     private static void AddCategoryItems(List<ResultItem> items, SearchBoxElements elements)
     {
         items.AddRange(
-            elements.Categories.Select(category => new ResultItem
+            elements.Categories.Where(c => c.IsVisibleToCurrentUser()).Select(category => new ResultItem
             {
                 Type = ResultItemType.Categories.ToString(),
                 Item = new ResultItemJson
