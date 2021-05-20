@@ -1,4 +1,4 @@
-﻿<numeric-component :answer="numericAnswer">
+﻿<numeric-component :solution="numericAnswer">
     <div>
         <form class="form-horizontal">
             <div class="form-group">

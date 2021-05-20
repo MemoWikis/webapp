@@ -1,4 +1,4 @@
-﻿<multiplechoice-component :answer="multipleChoiceAnswer">
+﻿<multiplechoice-component :solution="multipleChoiceAnswer">
     <div>
         <form class="form-inline" v-for="(choice, index) in choices" :key="index">
             <div class="form-group">
