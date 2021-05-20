@@ -235,8 +235,6 @@ public class CategoryRepository : RepositoryDbBase<Category>
         Flush();
 
         Sl.R<UpdateQuestionCountForCategory>().Run(category);
-
-       
     }
 
     public void UpdateWithoutCaches(Category category, User author = null, bool imageWasUpdated = false,
