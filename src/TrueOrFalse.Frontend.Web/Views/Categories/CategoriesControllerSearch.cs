@@ -10,8 +10,6 @@ public class CategoriesControllerSearch
     {
         var solrResult = Sl.R<SearchCategories>().Run(searchSpec);
         return EntityCache
-            .GetCategoryCacheItems(solrResult.CategoryIds.ToArray())
-            .Where(c => c.IsVisibleToCurrentUser())
-            .ToList();
+            .CategoryCacheItemsForSearch(solrResult.CategoryIds.ToArray());
     }
 }

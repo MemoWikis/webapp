@@ -35,12 +35,12 @@ public class CategoriesModel : BaseModel
     {
     }
 
-    public CategoriesModel(IList<Category> categories, CategorySearchSpec searchSpec, SearchTabType searchTab)
+    public CategoriesModel(IList<CategoryCacheItem> categories, CategorySearchSpec searchSpec, SearchTabType searchTab)
     {
         Init(categories, searchSpec, searchTab);
     }
 
-    public void Init(IList<Category> categories, CategorySearchSpec searchSpec, SearchTabType searchTab)
+    public void Init(IList<CategoryCacheItem> categories, CategorySearchSpec searchSpec, SearchTabType searchTab)
     {
         SetCategories(categories);
 
@@ -90,7 +90,7 @@ public class CategoriesModel : BaseModel
         }
     }
 
-    public void SetCategories(IList<Category> categories)
+    public void SetCategories(IList<CategoryCacheItem> categories)
     {
         var valuations = R<CategoryValuationRepo>().GetBy(categories.GetIds().ToArray(), _sessionUser.UserId);
 

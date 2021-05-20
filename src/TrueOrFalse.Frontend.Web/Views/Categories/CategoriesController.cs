@@ -47,7 +47,7 @@ public class CategoriesController : BaseController
 
         if (!_sessionUser.IsLoggedIn)
             return View(_viewLocation,
-                new CategoriesModel(new List<Category>(), searchSpec, SearchTabType.Wish));
+                new CategoriesModel(new List<CategoryCacheItem>(), searchSpec, SearchTabType.Wish));
 
         _util.SetSearchSpecVars(searchSpec, page, orderBy);
 

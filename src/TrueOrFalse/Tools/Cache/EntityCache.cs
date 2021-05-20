@@ -241,6 +241,19 @@ public class EntityCache : BaseCache
     public static IEnumerable<CategoryCacheItem> GetCategoryCacheItems(IList<int> getIds, bool getDataFromEntityCache = true) =>
         getIds.Select(categoryId => GetCategoryCacheItem(categoryId, getDataFromEntityCache: getDataFromEntityCache));
 
+    public static List<CategoryCacheItem> CategoryCacheItemsForSearch(IEnumerable<int> categoryIds)
+    {
+        var categories = new List<CategoryCacheItem>();
+        foreach (var categoryId in categoryIds)
+        {
+            Categories.TryGetValue(categoryId, out var category);
+            if(category != null)
+                categories.Add(category);
+        }
+
+        return categories.Where(c => c.IsVisibleToCurrentUser()).ToList();
+    }
+
     public static IList<CategoryCacheItem> GetAllCategories() => Categories.Values.ToList();
 
     public static List<CategoryCacheItem> GetChildren(int categoryId, bool isFromEntityCache = false)
