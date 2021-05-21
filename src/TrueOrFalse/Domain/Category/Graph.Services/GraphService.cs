@@ -227,17 +227,19 @@ public class GraphService
     {
         var parentsFromParentCategories = GetAllParentsFromEntityCache(category.Id, true);
 
+        foreach (var oldParent in oldParents)
+        {
+            for (var i = oldParent.CategoryRelations.Count - 1; i > 0; i--)
+            {
+                if (oldParent.CategoryRelations[i].RelatedCategoryId == category.Id)
+                    oldParent.CategoryRelations.RemoveAt(i);
+            }
+        }
+
         foreach (var parentCategory in parentsFromParentCategories)
             ModifyRelationsForCategory.UpdateRelationsOfTypeIncludesContentOf(EntityCache.GetCategoryCacheItem(parentCategory.Id, getDataFromEntityCache: true));
 
-        foreach (var oldParent in oldParents)
-        {
-            for (var i= oldParent.CategoryRelations.Count-1; i > 0 ; i--)
-            {
-                if(oldParent.CategoryRelations[i].RelatedCategoryId == category.Id)
-                    oldParent.CategoryRelations.RemoveAt(i); 
-            }
-        }
+    
     }
 
     public static void AutomaticInclusionOfChildCategoriesForEntityCacheAndDbCreate(CategoryCacheItem category)
