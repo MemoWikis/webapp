@@ -79,7 +79,7 @@ public class GraphService
     {
         var rootCategory = EntityCache.GetCategoryCacheItem(rootCategoryId, isFromUserEntityCache).DeepClone();
 
-        var children = EntityCache.GetDescendants(rootCategory.Id, true)
+        var children = EntityCache.GetAllChildren(rootCategory.Id, true)
             .Distinct()
             .Where(c => c.IsInWishknowledge())
             .Select(c => c.DeepClone());
@@ -223,12 +223,21 @@ public class GraphService
             .Select(cr => cr.RelatedCategoryId);
     }
 
-    public static void AutomaticInclusionOfChildCategoriesForEntityCacheAndDbUpdate(CategoryCacheItem category)
+    public static void AutomaticInclusionOfChildCategoriesForEntityCacheAndDbUpdate(CategoryCacheItem category, IList<CategoryCacheItem> oldParents)
     {
         var parentsFromParentCategories = GetAllParentsFromEntityCache(category.Id, true);
 
         foreach (var parentCategory in parentsFromParentCategories)
             ModifyRelationsForCategory.UpdateRelationsOfTypeIncludesContentOf(EntityCache.GetCategoryCacheItem(parentCategory.Id, getDataFromEntityCache: true));
+
+        foreach (var oldParent in oldParents)
+        {
+            for (var i= oldParent.CategoryRelations.Count-1; i > 0 ; i--)
+            {
+                if(oldParent.CategoryRelations[i].RelatedCategoryId == category.Id)
+                    oldParent.CategoryRelations.RemoveAt(i); 
+            }
+        }
     }
 
     public static void AutomaticInclusionOfChildCategoriesForEntityCacheAndDbCreate(CategoryCacheItem category)
