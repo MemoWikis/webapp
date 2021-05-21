@@ -10,17 +10,17 @@ public class GetCategoryChildren
         foreach (var categoryToExclude in category.CategoriesToExclude())
         {
             categoriesToExclude.Add(categoryToExclude);
-            categoriesToExclude.AddRange(EntityCache.GetDescendants(categoryToExclude.Id));
+            categoriesToExclude.AddRange(EntityCache.GetAllChildren(categoryToExclude.Id));
         }
 
         var categoriesToInclude = new List<CategoryCacheItem>();
         foreach (var categoryToInclude in category.CategoriesToInclude())
         {
             categoriesToInclude.Add(categoryToInclude);
-            categoriesToInclude.AddRange(EntityCache.GetDescendants(categoryToInclude.Id));
+            categoriesToInclude.AddRange(EntityCache.GetAllChildren(categoryToInclude.Id));
         }
 
-        return EntityCache.GetDescendants(category.Id, getFromEntityCache).Except(categoriesToExclude)
+        return EntityCache.GetAllChildren(category.Id, getFromEntityCache).Except(categoriesToExclude)
             .Union(categoriesToInclude)
             .ToList();
 

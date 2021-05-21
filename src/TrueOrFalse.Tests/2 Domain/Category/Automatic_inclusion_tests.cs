@@ -26,7 +26,7 @@ class Automatic_inclusion_tests : BaseTest
 
         context.Add(subCategories.ByName("Sub1").Name, subCategories[0].Type, parent: subCategories.ByName("Sub3"));
         EntityCache.Init();
-        GraphService.AutomaticInclusionOfChildCategoriesForEntityCacheAndDbUpdate( EntityCache.GetByName("Sub1").First());
+        GraphService.AutomaticInclusionOfChildCategoriesForEntityCacheAndDbCreate( EntityCache.GetByName("Sub1").First());
 
         Assert.That(Sl.CategoryRepo.GetById(subCategories.ByName("Sub1").Id).ParentCategories().Count, Is.EqualTo(2));
         Assert.That(Sl.CategoryRepo.GetById(parentA.Id).CategoryRelations.Count(cr => cr.CategoryRelationType == CategoryRelationType.IncludesContentOf), Is.EqualTo(3));

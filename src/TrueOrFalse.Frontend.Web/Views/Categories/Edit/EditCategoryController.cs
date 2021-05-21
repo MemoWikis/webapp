@@ -5,6 +5,7 @@ using System.Security;
 using System.Web;
 using System.Web.Mvc;
 using Newtonsoft.Json;
+using NHibernate;
 using NHibernate.Mapping;
 using TrueOrFalse.Frontend.Web.Code;
 using TrueOrFalse.Web;
@@ -57,52 +58,56 @@ public class EditCategoryController : BaseController
     [SetThemeMenu(true)]
     public ViewResult Edit(int id, EditCategoryModel model)
     {
-        var category = EntityCache.GetCategoryCacheItem(id);
-        _sessionUiData.VisitedCategories.Add(new CategoryHistoryItem(category, HistoryItemType.Edit));
+        var oldcategoryCacheItem = EntityCache.GetCategoryCacheItem(id);
+        _sessionUiData.VisitedCategories.Add(new CategoryHistoryItem(oldcategoryCacheItem, HistoryItemType.Edit));
 
-        if (!IsAllowedTo.ToEdit(category))
+        if (!IsAllowedTo.ToEdit(oldcategoryCacheItem))
             throw new SecurityException("Not allowed to edit categoty");
 
         var categoryAllowed = new CategoryNameAllowed();
 
         model.FillReleatedCategoriesFromPostData(Request.Form);
-        model.UpdateCategory(Sl.CategoryRepo.GetByIdEager(category.Id));
 
-       
+        var newParents = EntityCache.GetCategoryCacheItems(
+            model.ParentCategories.Select(c => c.Id))
+            .ToList();
+        var oldParents = oldcategoryCacheItem.ParentCategories();
 
-        if (model.Name != category.Name && categoryAllowed.No(model, category.Type))
+        var isChangeParents = !GraphService.IsCategoryParentEqual(newParents,oldParents);
+
+
+        model.UpdateCategory(Sl.CategoryRepo.GetByIdEager(oldcategoryCacheItem.Id));
+
+        if (model.Name != oldcategoryCacheItem.Name && categoryAllowed.No(model, oldcategoryCacheItem.Type))
         {
             model.Message = new ErrorMessage(
                 $"Es existiert bereits ein Thema mit dem Namen <strong>'{categoryAllowed.ExistingCategories.First().Name}'</strong>.");
         }
         else
         {
-            _categoryRepository.Update(Sl.CategoryRepo.GetByIdEager(category.Id), _sessionUser.User, Request["ImageIsNew"] == "true");
+            _categoryRepository.Update(Sl.CategoryRepo.GetByIdEager(oldcategoryCacheItem.Id), _sessionUser.User, Request["ImageIsNew"] == "true");
 
             model.Message
                 = new SuccessMessage(
                     "Das Thema wurde gespeichert. <br>" + "Du kannst es weiter bearbeiten oder" +
-                    $" <a href=\"{Links.CategoryDetail(category)}\">zur Detailansicht wechseln</a>.");
+                    $" <a href=\"{Links.CategoryDetail(oldcategoryCacheItem)}\">zur Detailansicht wechseln</a>.");
         }
         StoreImage(id);
 
-        var isChangeParents = !GraphService.IsCategoryParentEqual(
-            CategoryCacheItem.ToCacheCategories(model.ParentCategories).ToList(),
-            EntityCache.GetCategoryCacheItem(category.Id).ParentCategories()
-            );
-
         if (isChangeParents)
         {
+            Sl.Session.CreateSQLQuery("DELETE FROM relatedcategoriestorelatedcategories where Related_id = " + id + " AND CategoryRelationType = 2").ExecuteUpdate();
+            GraphService.AutomaticInclusionOfChildCategoriesForEntityCacheAndDbUpdate(EntityCache.GetCategoryCacheItem(id),  oldParents);
+
             UserEntityCache.ReInitAllActiveCategoryCaches();
-            EditAggregation(category.Id,category.CategoriesToExcludeIdsString,category.CategoriesToIncludeIdsString);
         }
 
         else
-            UserEntityCache.ChangeCategoryInUserEntityCaches(category);
+            UserEntityCache.ChangeCategoryInUserEntityCaches(oldcategoryCacheItem);
 
-        model.Init(Sl.CategoryRepo.GetByIdEager(category.Id));
+        model.Init(Sl.CategoryRepo.GetByIdEager(oldcategoryCacheItem.Id));
         model.IsEditing = true;
-        model.DescendantCategories = Sl.R<CategoryRepository>().GetDescendants(category.Id).ToList();
+        model.DescendantCategories = Sl.R<CategoryRepository>().GetDescendants(oldcategoryCacheItem.Id).ToList();
 
         return View(_viewPath, model);
     }

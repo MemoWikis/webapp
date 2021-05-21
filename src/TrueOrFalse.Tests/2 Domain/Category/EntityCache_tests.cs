@@ -51,7 +51,7 @@ class EntityCache_tests : BaseTest
             .All
             .ByName("SubSub1");
 
-        var allChildren = EntityCache.GetDescendants(parent.Id);
+        var allChildren = EntityCache.GetAllChildren(parent.Id);
         Assert.That(allChildren.Count(c => c.Name == "Sub1"), Is.EqualTo(1));
         Assert.That(allChildren.Count(c => c.Name == "SubSub1"), Is.EqualTo(1));
     }

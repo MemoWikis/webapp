@@ -267,7 +267,7 @@ public class EntityCache : BaseCache
 
     public static List<CategoryCacheItem> GetChildren(CategoryCacheItem category, bool isFromEntityCache = false) => GetChildren(category.Id, isFromEntityCache);  
 
-    public static IList<CategoryCacheItem> GetDescendants(int parentId, bool getFromEntityCache = false)
+    public static IList<CategoryCacheItem> GetAllChildren(int parentId, bool getFromEntityCache = false)
     {
         var currentGeneration = GetChildren(parentId, getFromEntityCache).ToList();
         var nextGeneration = new List<CategoryCacheItem>();
