@@ -57,7 +57,8 @@
             correctAnswers: "0",
             wrongAnswers: "0",
             questionTitleHtml: "<div class='body-m bold margin-bottom-0'>" + this.questionTitle + "</div>",
-            highlightedHtml: ""
+            highlightedHtml: "",
+            canBeEdited: false,
         }
     },
     mounted() {
@@ -184,6 +185,7 @@
                     this.answerCount = this.abbreviateNumber(data.answerCount);
                     this.correctAnswers = this.abbreviateNumber(data.correctAnswerCount);
                     this.wrongAnswers = this.abbreviateNumber(data.wrongAnswerCount);
+                    this.canBeEdited = data.canBeEdited;
                 },
             });
         },
@@ -221,6 +223,13 @@
             eventBus.$emit('change-active-page', this.selectedPage);
             eventBus.$emit('change-active-question', this.questionIndex);
             eventBus.$emit('update-progress-bar', this.lengthOfQuestionsArray, this.sessionIndex);
+        },
+        editQuestion() {
+            var question = {
+                id: this.questionId,
+                edit: true,
+            };
+            $('#EditQuestionModal').data('question', question).modal('show');
         }
     },
 });

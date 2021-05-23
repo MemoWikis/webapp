@@ -96,6 +96,18 @@ namespace TrueOrFalse.View
             bundles.Add(new ScriptBundle("~/bundles/js/tiptap")
                 .Include("~/Scripts/npm/tiptap-build/tiptap-build.js"));
 
+
+            bundles.Add(new ScriptBundle("~/bundles/js/EditQuestions")
+                .IncludeDirectory("~/Views/Questions/Edit/EditComponents/", "*.js")
+                .IncludeDirectory("~/Views/Questions/Edit/EditComponents/Date/", "*.js")
+                .IncludeDirectory("~/Views/Questions/Edit/EditComponents/FlashCard/", "*.js")
+                .IncludeDirectory("~/Views/Questions/Edit/EditComponents/MatchList/", "*.js")
+                .IncludeDirectory("~/Views/Questions/Edit/EditComponents/MultipleChoice/", "*.js")
+                .IncludeDirectory("~/Views/Questions/Edit/EditComponents/MultipleChoice_SinlgeSolution/", "*.js")
+                .IncludeDirectory("~/Views/Questions/Edit/EditComponents/Numeric/", "*.js")
+                .IncludeDirectory("~/Views/Questions/Edit/EditComponents/Sequence/", "*.js")
+                .IncludeDirectory("~/Views/Questions/Edit/EditComponents/Text/", "*.js"));
+
             bundles.Add(new ScriptBundle("~/bundles/js/CategoryEditMode")
                 .Include("~/Scripts/npm/vue-select/vue-select.js")
                 .Include("~/Scripts/npm/vue-sticky-directive/vue-sticky-directive.js")

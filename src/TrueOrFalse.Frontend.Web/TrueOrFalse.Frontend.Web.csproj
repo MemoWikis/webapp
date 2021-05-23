@@ -2247,6 +2247,7 @@
     </Content>
     <Content Include="Views\Questions\Edit\EditComponents\Numeric\NumericComponent.vue.ascx" />
     <Content Include="Views\Questions\Edit\EditComponents\Text\TextComponent.vue.ascx" />
+    <Content Include="Views\Questions\Edit\EditComponents\EditQuestionModal.vue.ascx" />
     <Content Include="Views\Questions\Js\AddQuestion\EditQuestionModalLoader.js">
       <DependentUpon>EditQuestionModalLoader.ts</DependentUpon>
     </Content>

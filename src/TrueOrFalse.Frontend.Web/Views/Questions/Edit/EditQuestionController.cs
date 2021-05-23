@@ -158,16 +158,7 @@ public class EditQuestionController : BaseController
     {
         var question = new Question();
         question.Creator = _sessionUser.User;
-        question.Text = questionDataJson.QuestionText;
-        question.SolutionType = (SolutionType)Enum.Parse(typeof(SolutionType), questionDataJson.SolutionType.ToString());
-
-        var categories = new List<Category>();
-        foreach (var categoryId in questionDataJson.CategoryIds)
-            categories.Add(Sl.CategoryRepo.GetById(categoryId));
-        question.Categories = categories;
-
-        question.Solution = questionDataJson.Solution;
-        question.SolutionMetadataJson = questionDataJson.SolutionMetadataJson;
+        question = UpdateQuestion(question, questionDataJson);
 
         _questionRepo.Create(question);
 
@@ -182,8 +173,19 @@ public class EditQuestionController : BaseController
 
     public JsonResult Edit(QuestionDataJson questionDataJson)
     {
-
         var question = Sl.QuestionRepo.GetById(questionDataJson.QuestionId);
+        question = UpdateQuestion(question, questionDataJson);
+
+        _questionRepo.Update(question);
+        Sl.QuestionChangeRepo.AddUpdateEntry(question);
+
+        var questionsController = new QuestionsController(_questionRepo);
+
+        return Json(questionsController.LoadQuestion(question.Id));
+    }
+    
+    private Question UpdateQuestion(Question question, QuestionDataJson questionDataJson)
+    {
         question.Text = questionDataJson.QuestionText;
         question.SolutionType = (SolutionType)Enum.Parse(typeof(SolutionType), questionDataJson.SolutionType.ToString());
 
@@ -195,16 +197,19 @@ public class EditQuestionController : BaseController
         question.Solution = questionDataJson.Solution;
         question.SolutionMetadataJson = questionDataJson.SolutionMetadataJson;
 
-        _questionRepo.Update(question);
-        Sl.QuestionChangeRepo.AddUpdateEntry(question);
+        var references = ReferenceJson.LoadFromJson(questionDataJson.ReferencesJson, question);
+        foreach (var reference in references)
+        {
+            reference.DateCreated = DateTime.Now;
+            reference.DateModified = DateTime.Now;
+            question.References.Add(reference);
+        }
 
-        Sl.QuestionChangeRepo.AddUpdateEntry(question);
-
-        var questionsController = new QuestionsController(_questionRepo);
-
-        return Json(questionsController.LoadQuestion(question.Id));
+        question.License = Sl.R<SessionUser>().IsInstallationAdmin
+            ? LicenseQuestionRepo.GetById(questionDataJson.LicenseId)
+            : LicenseQuestionRepo.GetDefaultLicense();
+        return question;
     }
-
 
     public class QuestionDataJson
     {
@@ -217,6 +222,8 @@ public class EditQuestionController : BaseController
         public int SolutionType { get; set; }
         public bool AddToWishknowledge { get; set; }
         public int LastIndex { get; set; }
+        public int LicenseId { get; set; }
+        public string ReferencesJson { get; set; }
     }
 
     private bool Validate(EditQuestionModel model)

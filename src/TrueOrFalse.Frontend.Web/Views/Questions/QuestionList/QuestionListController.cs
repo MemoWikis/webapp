@@ -109,6 +109,7 @@ public class QuestionListController : BaseController
             answerCount = history.TimesAnsweredUser,
             correctAnswerCount = history.TimesAnsweredUserTrue,
             wrongAnswerCount = history.TimesAnsweredUserWrong,
+            canBeEdited = (question.Creator == _sessionUser.User) || _sessionUser.IsInstallationAdmin,
         });
 
         return json;

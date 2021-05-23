@@ -49,7 +49,7 @@ Vue.component('editor-menu-bar', tiptap.EditorMenuBar);
 Vue.component('editor-content', tiptap.EditorContent);
 
 Vue.component('flashcard-component', {
-    props: ['current-category-id', 'answer'],
+    props: ['current-category-id', 'solution'],
         data() {
             return {
                 answerEditor: new tiptap.Editor({
@@ -120,7 +120,7 @@ Vue.component('flashcard-component', {
                     ],
                     onUpdate: ({ getJSON, getHTML }) => {
                         this.answerJson = getJSON();
-                        this.answer = getHTML();
+                        this.solution = getHTML();
                     },
                 }),
                 answerJson: null,

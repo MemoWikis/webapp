@@ -16,18 +16,38 @@ Vue.component('edit-question-component',
                 multipleChoiceJson: null,
                 matchListJson: null,
                 flashCardJson: null,
+                edit: false,
             }
         },
         mounted() {
-            $('#AddCategoryModal').on('show.bs.modal',
+            $('#EditQuestionModal').on('show.bs.modal',
                 event => {
-                    this.id = $('#AddCategoryModal').data('question').id;
-                    this.solutionType = $('#AddCategoryModal').data('question').type;
+                    this.id = $('#EditQuestionModal').data('question').id;
+                    if ($('#EditQuestionModal').data('question').edit) {
+                        this.edit = true;
+                        this.getQuestionData(this.id);
+                    } else {
+                        this.edit = false;
+                    }
                 });
         },
         watch: {
         },
         methods: {
+            getQuestionData(id) {
+                var json = { questionId: id };
+                var self = this;
+                $.ajax({
+                    type: 'post',
+                    contentType: "application/json",
+                    url: '/Questions/GetQuestionData',
+                    data: JSON.stringify(json),
+                    success: function (data) {
+                        self.solutionType = data.SolutionType;
+                        self.initiateSolution(data.SolutionType, data.Solution);
+                    },
+                });
+            },
             getSolution() {
                 let solution = "";
                 switch (this.solutionType) {
@@ -47,6 +67,36 @@ Vue.component('edit-question-component',
                         break;
                     case SolutionType.FlashCard: solution = this.flashCardJson;
                         break;
+                }
+
+                return solution;
+            },
+            initiateSolution(solutionType, solution) {
+                switch (this.solutionType) {
+                    case SolutionType.Text:
+                        this.textJson = solution;
+                    break;
+                    case SolutionType.MultipleChoice_SingleSolution:
+                        this.singleJsonJson = solution;
+                    break;
+                    case SolutionType.Numeric:
+                        this.numericJson = solution;
+                    break;
+                    case SolutionType.Sequence:
+                        this.sequenceJson = solution;
+                    break;
+                    case SolutionType.Date:
+                        this.dateJson = solution;
+                    break;
+                    case SolutionType.MultipleChoice:
+                        this.multipleChoiceJson = solution;
+                    break;
+                    case SolutionType.MatchList:
+                        this.matchListJson = solution;
+                    break;
+                    case SolutionType.FlashCard:
+                        this.flashCardJson = solution;
+                    break;
                 }
 
                 return solution;

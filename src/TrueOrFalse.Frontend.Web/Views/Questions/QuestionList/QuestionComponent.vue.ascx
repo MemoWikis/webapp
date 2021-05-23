@@ -106,6 +106,11 @@
                                         <div class="dropdown-icon"><i class="fas fa-trash"></i></div><span>Frage löschen</span>
                                     </a>
                                 </li>
+                                <li v-if="canBeEdited">
+                                    <a @click="editQuestion()">
+                                        <div class="dropdown-icon"><i class="fas fa-pen"></i></div><span>Frage bearbeiten</span>
+                                    </a>
+                                </li>
                             </ul>
                         </div>
                     </div>

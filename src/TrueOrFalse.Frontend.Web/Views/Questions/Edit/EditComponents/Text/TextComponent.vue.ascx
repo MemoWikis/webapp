@@ -1,4 +1,4 @@
-﻿<text-component :solution="textJson">
+﻿<text-question-component :solution="textJson">
     <div>
         <form class="form-horizontal">
             <div class="form-group">
@@ -29,4 +29,4 @@
 
     </div>
 
-</text-component>
+</text-question-component>

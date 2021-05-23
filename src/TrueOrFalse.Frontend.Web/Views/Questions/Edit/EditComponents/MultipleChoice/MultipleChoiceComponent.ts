@@ -1,17 +1,25 @@
 ﻿
 Vue.component('multiplechoice-component', {
-        props: ['current-category-id','answer'],
-        data() {
-            return {
-                choices: [{
-                        Text: '',
-                        IsCorrect: true
-                }],
-                isSolutionOrdered: false,
-            }
-        },
+    props: ['current-category-id','solution'],
+    data() {
+        return {
+            choices: [{
+                    Text: '',
+                    IsCorrect: true
+            }],
+            isSolutionOrdered: false,
+        }
+    },
+
+    mounted() {
+        if (this.answer.length > 0)
+            this.initiateSolution();
+    },
 
     methods: {
+        initiateSolution() {
+            this.choices = JSON.parse(this.solution);
+        },
         updateElement(index, newVal) {
             this.choices[index] = newVal;
         },
