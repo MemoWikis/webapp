@@ -1,57 +1,9 @@
-﻿var {
-    tiptap,
-    tiptapUtils,
-    tiptapCommands,
-    tiptapExtensions,
-} = tiptapBuild;
-var {
-    apache,
-    //cLike,
-    xml,
-    bash,
-    //c,
-    coffeescript,
-    csharp,
-    css,
-    markdown,
-    diff,
-    ruby,
-    go,
-    http,
-    ini,
-    java,
-    javascript,
-    json,
-    kotlin,
-    less,
-    lua,
-    makefile,
-    perl,
-    nginx,
-    objectivec,
-    php,
-    phpTemplate,
-    plaintext,
-    properties,
-    python,
-    pythonREPL,
-    rust,
-    scss,
-    shell,
-    sql,
-    swift,
-    yaml,
-    typescript,
-} = hljsBuild;
-
-
-Vue.component('editor-menu-bar', tiptap.EditorMenuBar);
-Vue.component('editor-content', tiptap.EditorContent);
-
+﻿
 Vue.component('flashcard-component', {
-    props: ['current-category-id', 'solution'],
+    props: ['solution'],
         data() {
             return {
+                content: null,
                 answerEditor: new tiptap.Editor({
                     editable: true,
                     extensions: [
@@ -118,6 +70,7 @@ Vue.component('flashcard-component', {
                             showOnlyCurrent: true,
                         })
                     ],
+                    content: this.content,
                     onUpdate: ({ getJSON, getHTML }) => {
                         this.answerJson = getJSON();
                         this.solution = getHTML();
@@ -126,7 +79,11 @@ Vue.component('flashcard-component', {
                 answerJson: null,
                 answerHtml: null,
             }
-        },
+    },
+
+    mounted() {
+        this.content = JSON.parse(this.solution).Text;
+    },
 
         methods: {
         }

@@ -1,6 +1,6 @@
 ﻿
 Vue.component('multiplechoice-singlesolution-component', {
-    props: ['current-category-id','answer'],
+    props: ['solution'],
     data() {
         return {
             choices: [{
@@ -10,13 +10,17 @@ Vue.component('multiplechoice-singlesolution-component', {
         }
     },
     mounted() {
-        if (this.answer.length > 0)
+        if (this.solution.length > 0)
             this.initiateSolution();
     },
 
     methods: {
         initiateSolution() {
-            this.choices = JSON.parse(this.solution);
+            var choices = JSON.parse(this.solution).Choices;
+            console.log(choices);
+            var formattedChoices = [];
+            choices.forEach(choice => formattedChoices.push({ value: choice }));
+            this.choices = formattedChoices;
         },
         trim() {
             this.choices.forEach(choice => {

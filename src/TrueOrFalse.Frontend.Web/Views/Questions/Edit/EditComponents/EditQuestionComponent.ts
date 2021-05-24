@@ -2,14 +2,64 @@
 if (eventBus == null)
     var eventBus = new Vue();
 
+var {
+    tiptap,
+    tiptapUtils,
+    tiptapCommands,
+    tiptapExtensions,
+} = tiptapBuild;
+var {
+    apache,
+    //cLike,
+    xml,
+    bash,
+    //c,
+    coffeescript,
+    csharp,
+    css,
+    markdown,
+    diff,
+    ruby,
+    go,
+    http,
+    ini,
+    java,
+    javascript,
+    json,
+    kotlin,
+    less,
+    lua,
+    makefile,
+    perl,
+    nginx,
+    objectivec,
+    php,
+    phpTemplate,
+    plaintext,
+    properties,
+    python,
+    pythonREPL,
+    rust,
+    scss,
+    shell,
+    sql,
+    swift,
+    yaml,
+    typescript,
+} = hljsBuild;
+
+
+Vue.component('editor-menu-bar', tiptap.EditorMenuBar);
+Vue.component('editor-content', tiptap.EditorContent);
 Vue.component('edit-question-component',
     {
         data() {
             return {
                 id: 0,
-                solutionType: null,
+                addToWuwi: false,
+                solutionType: 1,
                 textJson: null,
-                singleJsonJson: null,
+                singleSolutionJson: null,
                 numericJson: null,
                 sequenceJson: null,
                 dateJson: null,
@@ -17,11 +67,87 @@ Vue.component('edit-question-component',
                 matchListJson: null,
                 flashCardJson: null,
                 edit: false,
+                questionEditor: new tiptap.Editor({
+                    editable: true,
+                    extensions: [
+                        new tiptapExtensions.Blockquote(),
+                        new tiptapExtensions.BulletList(),
+                        new tiptapExtensions.CodeBlock(),
+                        new tiptapExtensions.HardBreak(),
+                        new tiptapExtensions.ListItem(),
+                        new tiptapExtensions.OrderedList(),
+                        new tiptapExtensions.TodoItem(),
+                        new tiptapExtensions.TodoList(),
+                        new tiptapExtensions.Link(),
+                        new tiptapExtensions.Bold(),
+                        new tiptapExtensions.Code(),
+                        new tiptapExtensions.Italic(),
+                        new tiptapExtensions.Strike(),
+                        new tiptapExtensions.Underline(),
+                        new tiptapExtensions.History(),
+                        //new tiptapExtensions.CodeBlockHighlight({
+                        //    languages: {
+                        //        apache,
+                        //        //cLike,
+                        //        xml,
+                        //        bash,
+                        //        //c,
+                        //        coffeescript,
+                        //        csharp,
+                        //        css,
+                        //        markdown,
+                        //        diff,
+                        //        ruby,
+                        //        go,
+                        //        http,
+                        //        ini,
+                        //        java,
+                        //        javascript,
+                        //        json,
+                        //        kotlin,
+                        //        less,
+                        //        lua,
+                        //        makefile,
+                        //        perl,
+                        //        nginx,
+                        //        objectivec,
+                        //        php,
+                        //        phpTemplate,
+                        //        plaintext,
+                        //        properties,
+                        //        python,
+                        //        pythonREPL,
+                        //        rust,
+                        //        scss,
+                        //        shell,
+                        //        sql,
+                        //        swift,
+                        //        yaml,
+                        //        typescript,
+                        //    },
+                        //}),
+                        new tiptapExtensions.Placeholder({
+                            emptyEditorClass: 'is-editor-empty',
+                            emptyNodeClass: 'is-empty',
+                            emptyNodeText: 'Gib den Fragetext ein',
+                            showOnlyCurrent: true,
+                        })
+                    ],
+                    onUpdate: ({ getJSON, getHTML }) => {
+                        this.questionJson = getJSON();
+                        this.questionHtml = getHTML();
+                    },
+                }),
+                question: null,
+                questionJson: null,
+                questionHtml: null,
+                visibility: 0,
             }
         },
         mounted() {
             $('#EditQuestionModal').on('show.bs.modal',
                 event => {
+                    this.solutionType = null;
                     this.id = $('#EditQuestionModal').data('question').id;
                     if ($('#EditQuestionModal').data('question').edit) {
                         this.edit = true;
@@ -53,7 +179,7 @@ Vue.component('edit-question-component',
                 switch (this.solutionType) {
                     case SolutionType.Text: solution = this.textJson;
                         break;
-                    case SolutionType.MultipleChoice_SingleSolution: solution = this.singleJsonJson;
+                    case SolutionType.MultipleChoice_SingleSolution: solution = this.singleSolutionJson;
                         break;
                     case SolutionType.Numeric: solution = this.numericJson;
                         break;
@@ -77,7 +203,7 @@ Vue.component('edit-question-component',
                         this.textJson = solution;
                     break;
                     case SolutionType.MultipleChoice_SingleSolution:
-                        this.singleJsonJson = solution;
+                        this.singleSolutionJson = solution;
                     break;
                     case SolutionType.Numeric:
                         this.numericJson = solution;

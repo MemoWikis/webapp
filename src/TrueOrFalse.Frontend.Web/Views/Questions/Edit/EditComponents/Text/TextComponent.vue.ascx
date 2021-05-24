@@ -1,4 +1,4 @@
-﻿<text-question-component :solution="textJson">
+﻿<text-question-component inline-template :solution="textJson">
     <div>
         <form class="form-horizontal">
             <div class="form-group">

@@ -83,9 +83,13 @@
                     </editor-menu-bar>
                     
                     <editor-content :editor="questionEditor" />
-                                <template v-if="solutionType == 1">
+
+
+                            </div>
+                            <div>
+                                <%--                                <template v-if="solutionType == 1">
                                     <%: Html.Partial("~/Views/Questions/Edit/EditComponents/Text/TextComponent.vue.ascx") %>
-                                </template>
+                                </template>--%>
                                 <template v-if="solutionType == 3">
                                     <%: Html.Partial("~/Views/Questions/Edit/EditComponents/MultipleChoice_SingleSolution/MultipleChoice_SingleSolutionComponent.vue.ascx") %>
                                 </template>
@@ -107,9 +111,7 @@
                                 <template v-if="solutionType == 9">
                                     <%: Html.Partial("~/Views/Questions/Edit/EditComponents/FlashCard/FlashCardComponent.vue.ascx") %>
                                 </template>
-
                             </div>
-
                         </div>
                         <div id="AddQuestionPrivacyContainer">
                             <div class="add-inline-question-label s-label">                

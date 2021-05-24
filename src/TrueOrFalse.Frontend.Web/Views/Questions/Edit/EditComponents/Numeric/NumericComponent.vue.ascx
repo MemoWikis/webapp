@@ -1,4 +1,4 @@
-﻿<numeric-component :solution="numericJson">
+﻿<numeric-component inline-template :solution="numericJson">
     <div>
         <form class="form-horizontal">
             <div class="form-group">

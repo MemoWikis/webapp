@@ -1,6 +1,6 @@
 ﻿
 Vue.component('multiplechoice-component', {
-    props: ['current-category-id','solution'],
+    props: ['solution'],
     data() {
         return {
             pairs: [{
@@ -12,7 +12,7 @@ Vue.component('multiplechoice-component', {
     },
 
     mounted() {
-        if (this.answer.length > 0)
+        if (this.solution.length > 0)
             this.initiateSolution();
     },
 

@@ -1,4 +1,4 @@
-﻿<matchlist-component :solution="matchListJson">
+﻿<matchlist-component inline-template :solution="matchListJson">
     <div>
         <form class="form-inline" v-for="(pair, index) in pairs" :key="index">
             <div class="form-group">
@@ -9,9 +9,9 @@
                 <label :for="'right-'+index">Email</label>
                 <input type="text" class="form-control" :id="'right-'+index" v-model="pair.ElementRight" placeholder="">
             </div>
-            <button @click="deletePair(index)" class="btn btn-default">Paar loeschen</button>
+            <div @click="deletePair(index)" class="btn btn-default">Paar loeschen</div>
         </form>
-        <button @click="addPair()" class="btn btn-default">Paar hinzufuegen</button>
+        <div @click="addPair()" class="btn btn-default">Paar hinzufuegen</div>
 
     </div>
 

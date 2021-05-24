@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
+using Newtonsoft.Json;
 using TrueOrFalse.Frontend.Web.Code;
 using TrueOrFalse.Search;
 
@@ -162,7 +163,7 @@ namespace TrueOrFalse
             var q = EntityCache.GetQuestionById(questionId);
             var question = new QuestionListJson.Question();
             question.Id = q.Id;
-            question.Title = q.Text;
+            question.Title = q.Text; 
             question.LinkToQuestion = Links.GetUrl(q);
             question.ImageData = new ImageFrontendData(Sl.ImageMetaDataRepo.GetBy(q.Id, ImageType.Question)).GetImageUrl(40, true).Url;
             question.LinkToQuestion = Links.GetUrl(q);
@@ -188,6 +189,23 @@ namespace TrueOrFalse
             }
 
             return Json(question);
+        }
+
+        [HttpPost]
+        public JsonResult GetQuestionData(int questionId)
+        {
+            var question = EntityCache.GetQuestionById(questionId);
+            var json = new JsonResult
+            {
+                Data = new
+                {
+                    SolutionType = (int)question.SolutionType,
+                    Solution = question.Solution,
+                    SolutionMetadataJson = question.SolutionMetadataJson
+                }
+            };
+
+            return json;
         }
     }
 
