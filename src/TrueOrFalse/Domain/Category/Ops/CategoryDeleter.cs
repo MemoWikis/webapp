@@ -12,21 +12,28 @@ public class CategoryDeleter : IRegisterAsInstancePerLifetime
         _session = session;
     }
 
-    public void Run(Category category, bool forSetMigration = false)
+    public HasDeleted Run(Category category)
     {
         var categoryCacheItem = EntityCache.GetCategoryCacheItem(category.Id, getDataFromEntityCache: true);
+        var hasDeleted = new HasDeleted();
+
         if (categoryCacheItem.CachedData.ChildrenIds.Count != 0)
         {
             Logg.r().Error("Category can´t deleted it has children");
-            return;
+            hasDeleted.HasChildren = true;
+            return hasDeleted;
         }
+
+        if (!Sl.SessionUser.IsInstallationAdmin || Sl.CurrentUserId != categoryCacheItem.Creator.Id)
+        {
+            hasDeleted.IsNotCreatorOrAdmin = true;
+            return hasDeleted;
+        }
+
         _session.CreateSQLQuery("DELETE FROM relatedcategoriestorelatedcategories where Related_id = " + category.Id).ExecuteUpdate();
         _session.CreateSQLQuery("DELETE FROM relatedcategoriestorelatedcategories where Category_id = " + category.Id).ExecuteUpdate();
         _session.CreateSQLQuery("DELETE FROM categories_to_questions where Category_id = " + category.Id).ExecuteUpdate();
         _session.CreateSQLQuery("DELETE FROM categories_to_sets where Category_id = " + category.Id).ExecuteUpdate();
-
-
-        ThrowIfNot_IsLoggedInUserOrAdmin.Run(category.Creator.Id);
 
         Sl.UserActivityRepo.DeleteForCategory(category.Id); 
         Sl.CategoryRepo.Delete(category);
@@ -39,5 +46,14 @@ public class CategoryDeleter : IRegisterAsInstancePerLifetime
         ModifyRelationsUserEntityCache.Delete(categoryCacheItem);
         EntityCache.Remove(categoryCacheItem);
         UserCache.RemoveAllForCategory(category.Id);
+        hasDeleted.DeletedSuccessful = true;
+        return hasDeleted; 
+    }
+
+    public class HasDeleted
+    {
+        public bool HasChildren { get;  set; }
+        public bool IsNotCreatorOrAdmin { get; set; }
+        public bool DeletedSuccessful { get; set; }
     }
 }

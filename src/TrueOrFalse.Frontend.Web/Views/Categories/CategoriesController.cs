@@ -83,16 +83,16 @@ public class CategoriesController : BaseController
 
     [AccessOnlyAsLoggedIn]
     [HttpPost]
-    public EmptyResult Delete(int id)
+    public CategoryDeleter.HasDeleted Delete(int id)
     {
         var category = _categoryRepo.GetById(id);
 
         if (category == null)
             throw new Exception("Category couldn't be deleted. Category with specified Id cannot be found.");
 
-        Sl.CategoryDeleter.Run(category); 
+      var hasDeleted =  Sl.CategoryDeleter. Run(category); 
 
-        return new EmptyResult();
+        return hasDeleted;
     }
 
     public class CategoriesControllerUtil : BaseUtil
