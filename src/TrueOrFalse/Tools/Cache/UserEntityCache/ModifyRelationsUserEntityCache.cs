@@ -20,7 +20,6 @@ public class ModifyRelationsUserEntityCache
         }
     }
 
-
     public static void UpdateParents(CategoryCacheItem child)
     {
         foreach (var cacheWithUser in UserEntityCache.GetAllCaches())
@@ -77,32 +76,9 @@ public class ModifyRelationsUserEntityCache
 
     public static void Delete(CategoryCacheItem category)
     {
-        DeleteFromDirectParents(category);
         DeleteFromAllParents(category);
     }
-
-    private static void DeleteFromDirectParents(CategoryCacheItem category)
-    {
-        foreach (var cacheWithUser in UserEntityCache.GetAllCaches())
-        {
-            var userId = cacheWithUser.Key;
-            var cache = cacheWithUser.Value;
-            if (cache.ContainsKey(category.Id))
-            {
-                var allParents = GraphService.GetAllParentsFromUserEntityCache(userId, category);
-                foreach (var parent in allParents)
-                {
-                    for (int i = 0; i < parent.CategoryRelations.Count; i++)
-                    {
-                        if (parent.CategoryRelations[i].RelatedCategoryId == category.Id && parent.CategoryRelations[i].CategoryRelationType == CategoryRelationType.IncludesContentOf)
-                            parent.CategoryRelations.RemoveAt(i);
-                    }
-                }
-            }
-            cache.TryRemove(category.Id, out var result);
-        }
-    }
-
+    
     private static void DeleteFromAllParents(CategoryCacheItem category)
     {
         foreach (var userEntityCache in UserEntityCache.GetAllCaches().Values)
