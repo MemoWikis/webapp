@@ -74,12 +74,7 @@ public class ModifyRelationsUserEntityCache
         }
     }
 
-    public static void Delete(CategoryCacheItem category)
-    {
-        DeleteFromAllParents(category);
-    }
-    
-    private static void DeleteFromAllParents(CategoryCacheItem category)
+    public static void DeleteFromAllParents(CategoryCacheItem category)
     {
         foreach (var userEntityCache in UserEntityCache.GetAllCaches().Values)
         {
