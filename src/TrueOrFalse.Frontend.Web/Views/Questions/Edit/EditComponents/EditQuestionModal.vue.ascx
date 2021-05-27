@@ -27,64 +27,11 @@
                     <div id="AddQuestionBody">
                         <div id="AddQuestionFormContainer"  class="inline-question-editor">
                             <div>
-                    <div class="add-inline-question-label s-label">Frage</div>
-                    <editor-menu-bar :editor="questionEditor" v-slot="{ commands, isActive, focused }">
-                        <div class="menubar is-hidden" :class="{ 'is-focused': focused }">
-                        
-                        <button class="menubar__button" :class="{ 'is-active': isActive.bold() }" @click="commands.bold">
-                            <i class="fas fa-bold"></i>
-                        </button>
-                        
-                        <button class="menubar__button" :class="{ 'is-active': isActive.italic() }" @click="commands.italic" >
-                            <i class="fas fa-italic"></i>
-                        </button>
-                        
-                        <button class="menubar__button":class="{ 'is-active': isActive.strike() }"@click="commands.strike">
-                            <i class="fas fa-strikethrough"></i>
-                        </button>
-                        
-                        <button class="menubar__button" :class="{ 'is-active': isActive.underline() }" @click="commands.underline">
-                            <i class="fas fa-underline"></i>
-                        </button>
-                          
-                        <button class="menubar__button" :class="{ 'is-active': isActive.paragraph() }" @click="commands.paragraph">
-                            <i class="fas fa-paragraph"></i>
-                        </button>
-                        
-                        <button class="menubar__button" :class="{ 'is-active': isActive.bullet_list() }" @click="commands.bullet_list">
-                          <i class="fas fa-list-ul"></i>
-                        </button>
-                        
-                         <button class="menubar__button" :class="{ 'is-active': isActive.ordered_list() }" @click="commands.ordered_list" >
-                          <i class="fas fa-list-ol"></i>
-                        </button>
-                        
-                        <button class="menubar__button" :class="{ 'is-active': isActive.blockquote() }" @click="commands.blockquote" >
-                          <i class="fas fa-quote-right"></i>
-                        </button>
-                        
-                        <button class="menubar__button" :class="{ 'is-active': isActive.code() }" @click="commands.code" >
-                            <i class="far fa-file-code"></i>
-                        </button>
-                        
-                        <button class="menubar__button" :class="{ 'is-active': isActive.code_block() }" @click="commands.code_block" >
-                          <i class="fas fa-file-code"></i>
-                        </button>
-
-                        <button class="menubar__button" @click="commands.undo" >
-                            <i class="fas fa-undo-alt"></i>
-                        </button>
-                        
-                        <button class="menubar__button" @click="commands.redo" >
-                            <i class="fas fa-redo-alt"></i>
-                        </button>
-                        
-                    </div>
-                    </editor-menu-bar>
-                    
-                    <editor-content :editor="questionEditor" />
-
-
+                                <div class="add-inline-question-label s-label">Frage</div>
+                                <editor-menu-bar :editor="questionEditor" v-slot="{ commands, isActive, focused }">
+                                    <%: Html.Partial("~/Views/Questions/Edit/EditComponents/EditorPartials/BasicEditorMenubar.vue.ascx") %>
+                                </editor-menu-bar>
+                                <editor-content :editor="questionEditor" />
                             </div>
                             <div>
                                 <%--                                <template v-if="solutionType == 1">
@@ -111,6 +58,12 @@
                                 <template v-if="solutionType == 9">
                                     <%: Html.Partial("~/Views/Questions/Edit/EditComponents/FlashCard/FlashCardComponent.vue.ascx") %>
                                 </template>
+                            </div>
+                            <div>
+                                <editor-menu-bar :editor="descriptionEditor" v-slot="{ commands, isActive, focused }">
+                                    <%: Html.Partial("~/Views/Questions/Edit/EditComponents/EditorPartials/BasicEditorMenubar.vue.ascx") %>
+                                </editor-menu-bar>
+                                <editor-content :editor="descriptionEditor" />
                             </div>
                         </div>
                         <div id="AddQuestionPrivacyContainer">
@@ -149,6 +102,31 @@
                             </div>
                         </div>
                     </div>
+                    
+                    <form v-on:submit.prevent>
+                        <div class="form-group dropdown categorySearchAutocomplete"  :class="{ 'open' : showDropdown}">
+                            <input ref="searchInput" class="form-control dropdown-toggle" type="text" v-model="searchTerm" id="questionCategoriesList" autocomplete="off" @click="lockDropdown = false"  aria-haspopup="true" placeholder="Bitte gib den Namen des Themas ein"/>
+                            <ul class="dropdown-menu" aria-labelledby="questionCategoriesList">
+                                <li class="searchResultItem" v-for="c in categories" @click="selectCategory(c)" data-toggle="tooltip" data-placement="top" :title="c.Name">
+                                    <img :src="c.ImageUrl"/>
+                                    <div>
+                                        <div class="searchResultLabel body-m">{{c.Name}}</div>
+                                        <div class="searchResultQuestionCount body-s">{{c.QuestionCount}} Frage<template v-if="c.QuestionCount != 1">n</template></div>
+                                    </div>
+                                </li>
+                                <li class="dropdownFooter body-m">
+                                    <b>{{totalCount}}</b> Treffer. <br/>
+                                    Deins ist nicht dabei? <span class="dropdownLink" @click="createCategory = true">Erstelle hier dein Thema</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </form>
+                    <template v-for="category in selectedCategories">
+                        <%: Html.Partial("~/Views/Shared/CategoryChip/CategoryChipComponent.vue.ascx") %>
+                    </template>
+
+                    <div @click="save()" class="btn btn-primary">Speichern</div>
+
                 </div>
             
             </edit-question-component>

@@ -4,7 +4,7 @@
             <div class="form-group">
                 <label class="sr-only" :for="'SolutionInput-'+index"></label>
                 <div class="input-group">
-                    <input type="text" class="form-control" :id="'SolutionInput-'+index" placeholder="" v-model="choice.value">
+                    <input type="text" class="form-control" :id="'SolutionInput-'+index" placeholder="" v-model="choice.value" @input="trim()">
                 </div>
                 <div @click="deleteChoice(index)" class="btn btn-primary">Antwort loeschen</div>
             </div>

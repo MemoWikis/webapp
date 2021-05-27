@@ -1,5 +1,5 @@
 ﻿
-Vue.component('multiplechoice-component', {
+Vue.component('matchlist-component', {
     props: ['solution'],
     data() {
         return {
@@ -7,6 +7,7 @@ Vue.component('multiplechoice-component', {
                 ElementRight: { Text: "" },
                 ElementLeft: { Text: "" }
             }],
+            rightElements: [{ Text: "" }],
             isSolutionOrdered: false,
         }
     },
@@ -30,11 +31,20 @@ Vue.component('multiplechoice-component', {
         deletePair(index) {
             this.pairs.splice(index, 1);
         },
+        addRightElement() {
+            let rightElement = { Text: "" }
+            this.rightElements.push(rightElement);
+        },
+        deleteRightElement(index) {
+            this.rightElements.splice(index, 1);
+        },
         answerBuilder() {
-            this.answer = {
+            let solution = {
                 Pairs: this.pairs,
+                RightElements: this.rightElements,
                 IsSolutionOrdered: this.isSolutionOrdered
             }
+            this.$parent.matchListJson = solution;
         }
     }
 })

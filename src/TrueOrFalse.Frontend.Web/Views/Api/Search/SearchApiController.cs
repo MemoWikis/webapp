@@ -52,6 +52,7 @@ public class SearchApiController : BaseController
 
     public static void AddMiniCategoryItems(List<MiniCategoryItem> items, SearchBoxElements elements)
     {
+
         items.AddRange(
             elements.Categories.Select(c => new MiniCategoryItem
             {
@@ -60,7 +61,49 @@ public class SearchApiController : BaseController
                 Url = Links.CategoryDetail(c.Name, c.Id),
                 QuestionCount = c.GetCountQuestionsAggregated(),
                 ImageUrl = new CategoryImageSettings(c.Id).GetUrl_128px(asSquare: true).Url,
+                IconHtml = GetIconHtml(c),
+                MiniImageUrl = new ImageFrontendData(Sl.ImageMetaDataRepo.GetBy(c.Id, ImageType.Category)).GetImageUrl(30, true, false, ImageType.Category).Url,
+                Visibility = (int)c.Visibility
             }));
+    }
+
+    public static string GetIconHtml(Category category)
+    {
+        var iconHTML = "";
+        switch (category.Type)
+        {
+            case CategoryType.Book:
+                iconHTML = "<i class=\"fa fa-book\">&nbsp;</i>";
+                break;
+            case CategoryType.VolumeChapter:
+                iconHTML = "<i class=\"fa fa-book\">&nbsp;</i>";
+                break;
+            case CategoryType.Magazine:
+                iconHTML = "<i class=\"fa fa-book\">&nbsp;</i>";
+                break;
+            case CategoryType.MagazineArticle:
+                iconHTML = "<i class=\"fa fa-book\">&nbsp;</i>";
+                break;
+            case CategoryType.MagazineIssue:
+                iconHTML = "<i class=\"fa fa-book\">&nbsp;</i>";
+                break;
+            case CategoryType.WebsiteArticle:
+                iconHTML = "<i class=\"fa fa-globe\">&nbsp;</i>";
+                break;
+            case CategoryType.Daily:
+                iconHTML = "<i class=\"fa fa-newspaper-o\">&nbsp;</i>";
+                break;
+            case CategoryType.DailyIssue:
+                iconHTML = "<i class=\"fa fa-newspaper-o\"&nbsp;></i>";
+                break;
+            case CategoryType.DailyArticle:
+                iconHTML = "<i class=\"fa fa-newspaper-o\">&nbsp;</i>";
+                break;
+        }
+        if (category.Type.GetCategoryTypeGroup() == CategoryTypeGroup.Education)
+            iconHTML = "<i class=\"fa fa-university\">&nbsp;</i>";
+
+        return iconHTML;
     }
 
     public class MiniCategoryItem
@@ -70,6 +113,9 @@ public class SearchApiController : BaseController
         public string Url;
         public int QuestionCount;
         public string ImageUrl;
+        public string MiniImageUrl;
+        public string IconHtml;
+        public int Visibility;
     }
 
 

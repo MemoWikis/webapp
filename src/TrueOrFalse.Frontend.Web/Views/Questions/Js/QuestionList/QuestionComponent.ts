@@ -226,7 +226,7 @@
         },
         editQuestion() {
             var question = {
-                id: this.questionId,
+                questionId: this.questionId,
                 edit: true,
             };
             $('#EditQuestionModal').data('question', question).modal('show');

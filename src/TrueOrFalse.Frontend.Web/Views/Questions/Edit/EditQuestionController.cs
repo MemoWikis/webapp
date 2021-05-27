@@ -5,6 +5,7 @@ using System.Security;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Script.Serialization;
+using Newtonsoft.Json;
 using QuestionListJson;
 using TrueOrFalse;
 using TrueOrFalse.Frontend.Web.Code;
@@ -154,7 +155,7 @@ public class EditQuestionController : BaseController
         return Redirect(Links.EditQuestion(question));
     }
 
-    public JsonResult Create(QuestionDataJson questionDataJson)
+    public JsonResult VueCreate(QuestionDataJson questionDataJson)
     {
         var question = new Question();
         question.Creator = _sessionUser.User;
@@ -171,7 +172,8 @@ public class EditQuestionController : BaseController
         return Json(questionsController.LoadQuestion(question.Id));
     }
 
-    public JsonResult Edit(QuestionDataJson questionDataJson)
+    [HttpPost]
+    public JsonResult VueEdit(QuestionDataJson questionDataJson)
     {
         var question = Sl.QuestionRepo.GetById(questionDataJson.QuestionId);
         question = UpdateQuestion(question, questionDataJson);
@@ -183,26 +185,38 @@ public class EditQuestionController : BaseController
 
         return Json(questionsController.LoadQuestion(question.Id));
     }
-    
+
+    [HttpPost]
     private Question UpdateQuestion(Question question, QuestionDataJson questionDataJson)
     {
-        question.Text = questionDataJson.QuestionText;
-        question.SolutionType = (SolutionType)Enum.Parse(typeof(SolutionType), questionDataJson.SolutionType.ToString());
+        question.Text = questionDataJson.Text;
+        question.SolutionType = (SolutionType)Enum.Parse(typeof(SolutionType), questionDataJson.SolutionType);
 
         var categories = new List<Category>();
         foreach (var categoryId in questionDataJson.CategoryIds)
             categories.Add(Sl.CategoryRepo.GetById(categoryId));
         question.Categories = categories;
 
-        question.Solution = questionDataJson.Solution;
+        if (question.SolutionType == SolutionType.FlashCard)
+        {
+            var serializer = new JavaScriptSerializer();
+
+            var solutionModelFlashCard = new QuestionSolutionFlashCard();
+            solutionModelFlashCard.Text = questionDataJson.Solution;
+            question.Solution = serializer.Serialize(solutionModelFlashCard);
+        } else
+            question.Solution = questionDataJson.Solution;
         question.SolutionMetadataJson = questionDataJson.SolutionMetadataJson;
 
-        var references = ReferenceJson.LoadFromJson(questionDataJson.ReferencesJson, question);
-        foreach (var reference in references)
+        if (!String.IsNullOrEmpty(questionDataJson.ReferencesJson))
         {
-            reference.DateCreated = DateTime.Now;
-            reference.DateModified = DateTime.Now;
-            question.References.Add(reference);
+            var references = ReferenceJson.LoadFromJson(questionDataJson.ReferencesJson, question);
+            foreach (var reference in references)
+            {
+                reference.DateCreated = DateTime.Now;
+                reference.DateModified = DateTime.Now;
+                question.References.Add(reference);
+            }
         }
 
         question.License = Sl.R<SessionUser>().IsInstallationAdmin
@@ -215,11 +229,11 @@ public class EditQuestionController : BaseController
     {
         public int[] CategoryIds { get; set; }
         public int QuestionId { get; set; }
-        public string QuestionText { get; set; }
-        public string Solution { get; set; }
+        public string Text { get; set; }
+        public dynamic Solution { get; set; }
         public string SolutionMetadataJson { get; set; }
         public int Visibility { get; set; }
-        public int SolutionType { get; set; }
+        public string SolutionType { get; set; }
         public bool AddToWishknowledge { get; set; }
         public int LastIndex { get; set; }
         public int LicenseId { get; set; }

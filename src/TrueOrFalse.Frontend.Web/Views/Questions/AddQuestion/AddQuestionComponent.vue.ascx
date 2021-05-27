@@ -6,7 +6,7 @@
             <div class="add-inline-question-label main-label">
                 Frage hinzufügen 
                 <span>(Karteikarte)</span>
-                <a href="<%: Model.CreateQuestionUrl %>">erweiterte Optionen</a>
+                <div @click="createQuestion()">erweiterte Optionen</div>
             </div>
             <div class="heart-container wuwi-red" @click="addToWishknowledge = !addToWishknowledge">
                 <div>
@@ -77,6 +77,7 @@
                     <editor-content :editor="questionEditor" />
                 </div>
                 <div>
+                    <%: Html.Partial("~/Views/Questions/Edit/EditComponents/FlashCard/FlashCardComponent.vue.ascx") %>
 
                 </div>
                 <div>

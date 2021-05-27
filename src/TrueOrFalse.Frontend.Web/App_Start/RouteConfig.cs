@@ -64,6 +64,8 @@ namespace TrueOrFalse
             routes.MapRoute("Question_AnswerInSet", "Fragen/{text}/{questionId}/im-Fragesatz/{setId}", new { controller = "AnswerQuestion", action = "Answer" });
             routes.MapRoute("Question_Answer", "Fragen/{text}/{id}/{elementOnPage}", new { controller = "AnswerQuestion", action = "Answer", elementOnPage = UrlParameter.Optional });
             routes.MapRoute("GetQuestionEditUrl", "Question/GetEditUrl", new { controller = "AnswerQuestion", action = "GetEditQuestionUrl" });
+            routes.MapRoute("Question_Vue_Create", "Question/Create", new { controller = "EditQuestion", action = "VueCreate" });
+            routes.MapRoute("Question_Vue_Edit", "Question/Edit", new { controller = "EditQuestion", action = "VueEdit" });
 
 
             routes.MapRoute("LearningSession_Result", "Lernen/{learningSessionName}/Ergebnis/{learningSessionId}", new { controller = "LearningSessionResult", action = "LearningSessionResult" });

@@ -37,8 +37,6 @@
 
     </div>
 
-<%: Html.Partial("~/Views/Questions/AddQuestion/EditQuestionModal.vue.ascx", Model.EditQuestionModel) %>
-
 <%= Scripts.Render("~/bundles/js/QuestionListApp") %>
 
 

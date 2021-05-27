@@ -72,8 +72,7 @@ Vue.component('flashcard-component', {
                     ],
                     content: this.content,
                     onUpdate: ({ getJSON, getHTML }) => {
-                        this.answerJson = getJSON();
-                        this.solution = getHTML();
+                        this.$parent.flashCardAnswer = getHTML();
                     },
                 }),
                 answerJson: null,
@@ -82,9 +81,13 @@ Vue.component('flashcard-component', {
     },
 
     mounted() {
-        this.content = JSON.parse(this.solution).Text;
+        if (this.solution) {
+            let content = JSON.parse(this.solution).Text;
+            this.answerEditor.setContent(content);
+        }
+
     },
 
-        methods: {
-        }
-    })
+    methods: {
+    }
+})

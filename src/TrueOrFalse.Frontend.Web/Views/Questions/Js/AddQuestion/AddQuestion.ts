@@ -130,6 +130,8 @@ Vue.component('add-question-component', {
                 questionJson: null,
                 questionHtml: null,
                 solutionType: 9,
+                flashCardAnswer: null,
+                flashCardJson: null,
             }
         },
 
@@ -139,7 +141,7 @@ Vue.component('add-question-component', {
                 var json = {
                     CategoryId: this.currentCategoryId,
                     Text: this.questionHtml,
-                    Answer: this.answerHtml,
+                    Answer: this.flashCardAnswer,
                     Visibility: this.visibility,
                     AddToWishknowledge: this.addToWishknowledge,
                     LastIndex: lastIndex,
@@ -163,5 +165,12 @@ Vue.component('add-question-component', {
                     },
                 });
             },
+            createQuestion() {
+                var question = {
+                    categoryId: this.currentCategoryId,
+                    edit: false,
+                };
+                $('#EditQuestionModal').data('question', question).modal('show');
+            }
         }
     })

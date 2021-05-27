@@ -103,7 +103,8 @@ namespace TrueOrFalse.View
                 .IncludeDirectory("~/Views/Questions/Edit/EditComponents/FlashCard/", "*.js")
                 .IncludeDirectory("~/Views/Questions/Edit/EditComponents/MatchList/", "*.js")
                 .IncludeDirectory("~/Views/Questions/Edit/EditComponents/MultipleChoice/", "*.js")
-                .IncludeDirectory("~/Views/Questions/Edit/EditComponents/MultipleChoice_SingleSolution/", "*.js"));
+                .IncludeDirectory("~/Views/Questions/Edit/EditComponents/MultipleChoice_SingleSolution/", "*.js")
+                .Include("~/Views/Shared/CategoryChip/CategoryChipComponent.js"));
                 //.IncludeDirectory("~/Views/Questions/Edit/EditComponents/Numeric/", "*.js")
                 //.IncludeDirectory("~/Views/Questions/Edit/EditComponents/Sequence/", "*.js")
                 //.IncludeDirectory("~/Views/Questions/Edit/EditComponents/Text/", "*.js"));

@@ -2212,7 +2212,6 @@
       <DependentUpon>ShowAllMessages.ts</DependentUpon>
     </Content>
     <Content Include="Views\Questions\AddQuestion\AddQuestionComponent.vue.ascx" />
-    <Content Include="Views\Questions\AddQuestion\EditQuestionModal.vue.ascx" />
     <Content Include="Views\Categories\Detail\Partials\Segmentation\SegmentationComponent.vue.ascx" />
     <Content Include="Views\Questions\Answer\LearningSession\Js\LearningSessionResult.js">
       <DependentUpon>LearningSessionResult.ts</DependentUpon>
@@ -2226,6 +2225,7 @@
     <Content Include="Views\Questions\EditQuestion\EditQuestionComponent.js">
       <DependentUpon>EditQuestionComponent.ts</DependentUpon>
     </Content>
+    <Content Include="Views\Questions\Edit\EditComponents\EditorPartials\BasicEditorMenubar.vue.ascx" />
     <Content Include="Views\Questions\Edit\EditComponents\EditQuestionComponent.js">
       <DependentUpon>EditQuestionComponent.ts</DependentUpon>
     </Content>
@@ -2261,6 +2261,10 @@
     <Content Include="Views\Questions\QuestionList\SessionConfigComponent.vue.ascx" />
     <Content Include="Views\Questions\QuestionList\QuestionListComponent.vue.ascx" />
     <Content Include="Views\Questions\EditQuestion\EditQuestionComponent.vue.ascx" />
+    <Content Include="Views\Shared\CategoryChip\CategoryChipComponent.vue.ascx" />
+    <Content Include="Views\Shared\CategoryChip\FlashCardComponent.js">
+      <DependentUpon>CategoryChipComponent.ts</DependentUpon>
+    </Content>
     <Content Include="Views\Shared\MyWorldToggle\MyWorldToggleComponent.js">
       <DependentUpon>MyWorldToggleComponent.ts</DependentUpon>
     </Content>
@@ -3687,6 +3691,7 @@
     <TypeScriptCompile Include="Views\Questions\Edit\EditSolutionControls\SolutionTypeFlashCard.ts" />
     <TypeScriptCompile Include="Views\Questions\Edit\Js\MarkdownDescription.ts" />
     <TypeScriptCompile Include="Views\Questions\EditQuestion\EditQuestionComponent.ts" />
+    <TypeScriptCompile Include="Views\Shared\CategoryChip\CategoryChipComponent.ts" />
     <TypeScriptCompile Include="Views\Shared\PinComponentVue\PinComponent.vue.ts" />
     <TypeScriptCompile Include="Views\Shared\Spinner\Js\Spinner.ts" />
     <TypeScriptCompile Include="Views\Shared\MyWorldToggle\MyWorldToggleComponent.ts" />
@@ -4290,6 +4295,9 @@
     </Content>
     <Content Include="Views\Questions\Edit\EditComponents\MatchList\MatchListComponent.js.map">
       <DependentUpon>MatchListComponent.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Shared\CategoryChip\FlashCardComponent.js.map">
+      <DependentUpon>CategoryChipComponent.ts</DependentUpon>
     </Content>
     <None Include="Web.overwritten.config.sample" />
     <Content Include="Views\Welcome\Logout.aspx" />

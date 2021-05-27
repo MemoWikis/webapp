@@ -6,7 +6,11 @@ Vue.component('multiplechoice-singlesolution-component', {
             choices: [{
                 value: '',
             }],
-            trimmedChoices: []
+        }
+    },
+    watch: {
+        choices() {
+            this.trim();
         }
     },
     mounted() {
@@ -17,16 +21,22 @@ Vue.component('multiplechoice-singlesolution-component', {
     methods: {
         initiateSolution() {
             var choices = JSON.parse(this.solution).Choices;
-            console.log(choices);
             var formattedChoices = [];
             choices.forEach(choice => formattedChoices.push({ value: choice }));
             this.choices = formattedChoices;
         },
         trim() {
+            let trimmedChoices = [];
+
             this.choices.forEach(choice => {
-                    this.trimmedChoices.push(choice.value);
+                trimmedChoices.push(choice.value);
                 }
             );
+            var solution = {
+                Choices: trimmedChoices
+            }
+            this.$parent.singleSolutionJson = solution;
+
         },
         addChoice() {
             let placeHolder = {

@@ -201,7 +201,21 @@ namespace TrueOrFalse
                 {
                     SolutionType = (int)question.SolutionType,
                     Solution = question.Solution,
-                    SolutionMetadataJson = question.SolutionMetadataJson
+                    SolutionMetadataJson = question.SolutionMetadataJson,
+                    Text = question.Text,
+                    CategoryIds = question.Categories.Select(c => c.Id).ToList(),
+                    DescriptionHtml = question.DescriptionHtml,
+                    Categories = question.Categories.Select(c => new SearchApiController.MiniCategoryItem
+                    {
+                        Id = c.Id,
+                        Name = c.Name,
+                        Url = Links.CategoryDetail(c.Name, c.Id),
+                        QuestionCount = c.GetCountQuestionsAggregated(),
+                        ImageUrl = new CategoryImageSettings(c.Id).GetUrl_128px(asSquare: true).Url,
+                        IconHtml = SearchApiController.GetIconHtml(c),
+                        MiniImageUrl = new ImageFrontendData(Sl.ImageMetaDataRepo.GetBy(c.Id, ImageType.Category)).GetImageUrl(30, true, false, ImageType.Category).Url,
+                        Visibility = (int)c.Visibility
+                    })
                 }
             };
 
