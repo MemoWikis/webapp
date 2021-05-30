@@ -106,18 +106,44 @@ public class SearchApiController : BaseController
         return iconHTML;
     }
 
-    public class MiniCategoryItem
+    public static string GetIconHtml(CategoryCacheItem category)
     {
-        public int Id;
-        public string Name;
-        public string Url;
-        public int QuestionCount;
-        public string ImageUrl;
-        public string MiniImageUrl;
-        public string IconHtml;
-        public int Visibility;
-    }
+        var iconHTML = "";
+        switch (category.Type)
+        {
+            case CategoryType.Book:
+                iconHTML = "<i class=\"fa fa-book\">&nbsp;</i>";
+                break;
+            case CategoryType.VolumeChapter:
+                iconHTML = "<i class=\"fa fa-book\">&nbsp;</i>";
+                break;
+            case CategoryType.Magazine:
+                iconHTML = "<i class=\"fa fa-book\">&nbsp;</i>";
+                break;
+            case CategoryType.MagazineArticle:
+                iconHTML = "<i class=\"fa fa-book\">&nbsp;</i>";
+                break;
+            case CategoryType.MagazineIssue:
+                iconHTML = "<i class=\"fa fa-book\">&nbsp;</i>";
+                break;
+            case CategoryType.WebsiteArticle:
+                iconHTML = "<i class=\"fa fa-globe\">&nbsp;</i>";
+                break;
+            case CategoryType.Daily:
+                iconHTML = "<i class=\"fa fa-newspaper-o\">&nbsp;</i>";
+                break;
+            case CategoryType.DailyIssue:
+                iconHTML = "<i class=\"fa fa-newspaper-o\"&nbsp;></i>";
+                break;
+            case CategoryType.DailyArticle:
+                iconHTML = "<i class=\"fa fa-newspaper-o\">&nbsp;</i>";
+                break;
+        }
+        if (category.Type.GetCategoryTypeGroup() == CategoryTypeGroup.Education)
+            iconHTML = "<i class=\"fa fa-university\">&nbsp;</i>";
 
+        return iconHTML;
+    }
 
     private static void AddHeader(List<ResultItem> items, ResultItemType resultItemType, int resultCount, string term)
     {

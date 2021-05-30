@@ -1,9 +1,10 @@
 ﻿
 Vue.component('categorychip-component', {
-    props: ['category'],
+    props: ['category', 'index'],
     data() {
         return {
             showImage: false,
+            hover: false,
         }
     },
 
@@ -13,5 +14,12 @@ Vue.component('categorychip-component', {
     },
 
     methods: {
+        removeCategory() {
+            let data = {
+                index: this.index,
+                categoryId: this.category.Id
+            }
+            this.$emit('remove-category-chip', data);
+        }
     }
 })

@@ -351,6 +351,43 @@ public class CategoryController : BaseController
             html
         });
     }
+
+    [HttpPost]
+    public JsonResult GetMiniCategoryItem(int categoryId)
+    {
+        var category = EntityCache.GetCategoryCacheItem(categoryId);
+
+        var json = new JsonResult {
+            Data = new
+            {
+                Category = FillMiniCategoryItem(category)
+            }};
+
+        return json;
+    }
+    public MiniCategoryItem FillMiniCategoryItem(Category category)
+    {
+        var cacheItem = EntityCache.GetCategoryCacheItem(category.Id);
+
+        return FillMiniCategoryItem(cacheItem);
+    }
+    public MiniCategoryItem FillMiniCategoryItem(CategoryCacheItem category)
+    {
+        var miniCategoryItem = new MiniCategoryItem
+        {
+            Id = category.Id,
+            Name = category.Name,
+            Url = Links.CategoryDetail(category.Name, category.Id),
+            QuestionCount = category.GetCountQuestionsAggregated(),
+            ImageUrl = new CategoryImageSettings(category.Id).GetUrl_128px(asSquare: true).Url,
+            IconHtml = SearchApiController.GetIconHtml(category),
+            MiniImageUrl = new ImageFrontendData(Sl.ImageMetaDataRepo.GetBy(category.Id, ImageType.Category))
+                .GetImageUrl(30, true, false, ImageType.Category).Url,
+            Visibility = (int) category.Visibility
+        };
+
+        return miniCategoryItem;
+    }
 }
 public class LoadModelResult
 {

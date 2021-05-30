@@ -122,6 +122,7 @@ namespace TrueOrFalse
             routes.MapRoute("Category_History_Detail", "{categoryName}/{categoryId}/Historie/{categoryChangeId}", new { controller = "CategoryHistoryDetail", action = "Detail" });
             routes.MapRoute("Category_Publish_Modal_Data", "GetCategoryPublishModalData", new { controller = "Category", action = "GetCategoryPublishModalData" });
             routes.MapRoute("Category_Authors", "GetAuthorsForHeader", new { controller = "Category", action = "GetCategoryHeaderAuthors" });
+            routes.MapRoute("Category_GetMiniItem", "Category/GetMiniCategoryItem", new { controller = "Category", action = "GetMiniCategoryItem" });
             /* API */ routes.MapRoute("Categories_AddSubCategoryRow", "Categories/AddSubCategoryRow", new { controller = "EditCategory", action = "AddSubCategoryRow" });
             /* API */ routes.MapRoute("Categories_EditSubCategoryItems", "Categories/EditSubCategoryItems/{id}", new { controller = "EditSubCategoryItems", action = "Edit" });
             /* API */ routes.MapRoute("Categories_AddSubCategoryItemRow", "Categories/EditSubCategoryItems/{id}/Add", new { controller = "EditSubCategoryItems", action = "AddSubCategoryItemRow" });

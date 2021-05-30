@@ -14,7 +14,7 @@ Vue.component('multiplechoice-singlesolution-component', {
         }
     },
     mounted() {
-        if (this.solution.length > 0)
+        if (this.solution)
             this.initiateSolution();
     },
 

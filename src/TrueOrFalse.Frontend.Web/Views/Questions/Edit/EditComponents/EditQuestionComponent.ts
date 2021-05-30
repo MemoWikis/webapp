@@ -61,11 +61,11 @@ var editQuestionComponent = Vue.component('edit-question-component',
                 id: null,
                 addToWuwi: false,
                 solutionType: 1,
-                textJson: null,
+                textSolution: null,
                 singleSolutionJson: null,
-                numericJson: null,
+                numericSolution: null,
                 sequenceJson: null,
-                dateJson: null,
+                dateSolution: null,
                 multipleChoiceJson: null,
                 matchListJson: null,
                 flashCardJson: null,
@@ -225,18 +225,33 @@ var editQuestionComponent = Vue.component('edit-question-component',
                 selectedCategories: [],
                 totalCount: 0,
                 showDropdown: false,
+                licenseId: 0,
+                lastIndex: 0,
+                solutionMetadataJson: null,
             }
         },
         mounted() {
             $('#EditQuestionModal').on('show.bs.modal',
                 event => {
-                    this.solutionType = null;
+                    this.solutionType = 1;
                     this.id = $('#EditQuestionModal').data('question').questionId;
                     if ($('#EditQuestionModal').data('question').edit) {
                         this.edit = true;
                         this.getQuestionData(this.id);
                     } else {
-                        this.categoryIds.push($('#EditQuestionModal').data('question').categoryId);
+                        let categoryId = $('#EditQuestionModal').data('question').categoryId
+                        this.categoryIds.push(categoryId);
+                        var json = { categoryId };
+                        var self = this;
+                        $.ajax({
+                            type: 'post',
+                            contentType: "application/json",
+                            url: '/Category/GetMiniCategoryItem',
+                            data: JSON.stringify(json),
+                            success: function (data) {
+                                self.selectedCategories.push(data.Category);
+                            },
+                        });
                         this.edit = false;
                     }
                 });
@@ -256,6 +271,10 @@ var editQuestionComponent = Vue.component('edit-question-component',
                 else
                     this.showDropdown = false;
             },
+
+            solutionType() {
+                this.solutionMetadataJson = null;
+            }
         },
         methods: {
             getQuestionData(id) {
@@ -274,21 +293,23 @@ var editQuestionComponent = Vue.component('edit-question-component',
                         self.categoryIds = data.CategoryIds;
                         self.descriptionHtml = data.DescriptionHtml;
                         self.selectedCategories = data.Categories;
+                        self.licenseId = data.LicenseId;
+                        self.solutionMetadataJson = data.SolutionMetadataJson;
                     },
                 });
             },
             getSolution() {
                 let solution = "";
                 switch (this.solutionType) {
-                    case SolutionType.Text: solution = this.textJson;
+                    case SolutionType.Text: solution = this.textSolution;
                         break;
                     case SolutionType.MultipleChoice_SingleSolution: solution = this.singleSolutionJson;
                         break;
-                    case SolutionType.Numeric: solution = this.numericJson;
+                    case SolutionType.Numeric: solution = this.numericSolution;
                         break;
                     case SolutionType.Sequence: solution = this.sequenceJson;
                         break;
-                    case SolutionType.Date: solution = this.dateJson;
+                    case SolutionType.Date: solution = this.dateSolution;
                         break;
                     case SolutionType.MultipleChoice: solution = this.multipleChoiceJson;
                         break;
@@ -302,19 +323,19 @@ var editQuestionComponent = Vue.component('edit-question-component',
             initiateSolution(solutionType, solution) {
                 switch (this.solutionType) {
                     case SolutionType.Text:
-                        this.textJson = solution;
+                        this.textSolution = solution;
                     break;
                     case SolutionType.MultipleChoice_SingleSolution:
                         this.singleSolutionJson = solution;
                     break;
                     case SolutionType.Numeric:
-                        this.numericJson = solution;
+                        this.numericSolution = solution;
                     break;
                     case SolutionType.Sequence:
                         this.sequenceJson = solution;
                     break;
                     case SolutionType.Date:
-                        this.dateJson = solution;
+                        this.dateSolution = solution;
                     break;
                     case SolutionType.MultipleChoice:
                         this.multipleChoiceJson = solution;
@@ -330,34 +351,16 @@ var editQuestionComponent = Vue.component('edit-question-component',
                 return solution;
             },
             save() {
-                var lastIndex = parseInt($('#QuestionListComponent').attr("data-last-index")) + 1;
+                this.lastIndex = parseInt($('#QuestionListComponent').attr("data-last-index")) + 1;
                 var url;
-                if (this.createQuestion)
-                    url = '/Question/Create';
-                else
+                if (this.edit)
                     url = '/Question/Edit';
-                let solution = this.getSolution();
-                var editJson = {
-                    Text: this.questionHtml,
-                    Solution: solution,
-                    SolutionType: this.solutionType,
-                    Visibility: this.visibility,
-                    CategoryIds: this.categoryIds,
-                    QuestionId: this.id,
-                }
-                var createJson = {
-                    CategoryIds: [this.currentCategoryId],
-                    Text: this.questionHtml,
-                    Solution: solution,
-                    SolutionType: this.solutionType,
-                    Visibility: this.visibility,
-                    AddToWishknowledge: this.addToWishknowledge,
-                    LastIndex: lastIndex,
-                }
-                var json;
-                if (this.createQuestion)
-                    json = createJson;
-                else json = editJson;
+                else
+                    url = '/Question/Create';
+
+                var json = this.getSaveJson();
+
+                var self = this;
                 $.ajax({
                     type: 'post',
                     contentType: "application/json",
@@ -371,11 +374,43 @@ var editQuestionComponent = Vue.component('edit-question-component',
                             "?skipStepIdx=" +
                             skipIndex +
                             "&index=" +
-                            lastIndex);
+                            self.lastIndex);
                         eventBus.$emit('add-question-to-list', data.Data);
-                        eventBus.$emit("change-active-question", lastIndex);
+                        eventBus.$emit("change-active-question", self.lastIndex);
                     },
                 });
+            },
+
+            getSaveJson() {
+                let solution = this.getSolution();
+                let solutionType = this.solutionType;
+                if (this.solutionType == 4 || this.solutionType == 7)
+                    solutionType = 1;
+                let licenseId = this.getLicenseId();
+
+                var editJson = {
+                    CategoryIds: this.categoryIds,
+                    QuestionId: this.id,
+                }
+                var createJson = {
+                    CategoryIds: [this.currentCategoryId],
+                    AddToWishknowledge: this.addToWishknowledge,
+                    LastIndex: this.lastIndex,
+                }
+
+                var jsonExtension = {
+                    Text: this.questionHtml,
+                    Solution: solution,
+                    SolutionType: solutionType,
+                    Visibility: this.visibility,
+                    SolutionMetadataJson: this.solutionMetadataJson,
+                    LicenseId: licenseId
+                }
+                var json = this.edit ? editJson : createJson;
+
+                $.extend(json, jsonExtension);
+
+                return json;
             },
 
             searchCategory() {
@@ -396,13 +431,34 @@ var editQuestionComponent = Vue.component('edit-question-component',
                     });
             },
 
+            getLicenseId() {
+                if (this.licenseId == 0) {
+                    if (this.visibility == 1)
+                        return 0;
+                    else return 1;
+                }
+                return this.licenseId;
+            },
+
             selectCategory(category) {
                 this.showDropdown = false;
                 this.lockDropdown = true;
                 this.searchTerm = '';
-                this.categoryIds.push(category.Id);
-                this.selectedCategories.push(category);
+
+                var index = this.categoryIds.indexOf(category.Id);
+                if (index < 0) {
+                    this.categoryIds.push(category.Id);
+                    this.selectedCategories.push(category);
+                }
             },
+
+            removeCategory(data) {
+                if (this.selectedCategories.length > 1) {
+                    this.selectedCategories.splice(data.index, 1);
+                    var categoryIdIndex = this.categoryIds.indexOf(data.categoryId);
+                    this.categoryIds.splice(categoryIdIndex, 1);
+                }
+            }
 
         }
     });
