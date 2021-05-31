@@ -228,6 +228,7 @@
             var question = {
                 questionId: this.questionId,
                 edit: true,
+                sessionIndex: this.sessionIndex
             };
             $('#EditQuestionModal').data('question', question).modal('show');
         }

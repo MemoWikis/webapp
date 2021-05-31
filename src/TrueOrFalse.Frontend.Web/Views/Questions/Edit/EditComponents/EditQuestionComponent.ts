@@ -226,7 +226,7 @@ var editQuestionComponent = Vue.component('edit-question-component',
                 totalCount: 0,
                 showDropdown: false,
                 licenseId: 0,
-                lastIndex: 0,
+                sessionIndex: 0,
                 solutionMetadataJson: null,
             }
         },
@@ -238,8 +238,9 @@ var editQuestionComponent = Vue.component('edit-question-component',
                     if ($('#EditQuestionModal').data('question').edit) {
                         this.edit = true;
                         this.getQuestionData(this.id);
+                        this.sessionIndex = $('#EditQuestionModal').data('question').sessionIndex;
                     } else {
-                        let categoryId = $('#EditQuestionModal').data('question').categoryId
+                        let categoryId = $('#EditQuestionModal').data('question').categoryId;
                         this.categoryIds.push(categoryId);
                         var json = { categoryId };
                         var self = this;
@@ -253,6 +254,7 @@ var editQuestionComponent = Vue.component('edit-question-component',
                             },
                         });
                         this.edit = false;
+                        this.sessionIndex = parseInt($('#QuestionListComponent').attr("data-last-index")) + 1;
                     }
                 });
 
@@ -345,22 +347,15 @@ var editQuestionComponent = Vue.component('edit-question-component',
                     break;
                     case SolutionType.FlashCard:
                         this.flashCardJson = solution;
-                    break;
                 }
 
                 return solution;
             },
             save() {
-                this.lastIndex = parseInt($('#QuestionListComponent').attr("data-last-index")) + 1;
-                var url;
-                if (this.edit)
-                    url = '/Question/Edit';
-                else
-                    url = '/Question/Create';
-
+                var url = this.edit ? '/Question/Edit' : '/Question/Create';
                 var json = this.getSaveJson();
-
                 var self = this;
+
                 $.ajax({
                     type: 'post',
                     contentType: "application/json",
@@ -374,9 +369,10 @@ var editQuestionComponent = Vue.component('edit-question-component',
                             "?skipStepIdx=" +
                             skipIndex +
                             "&index=" +
-                            self.lastIndex);
-                        eventBus.$emit('add-question-to-list', data.Data);
-                        eventBus.$emit("change-active-question", self.lastIndex);
+                            self.sessionIndex);
+                        eventBus.$emit('reload-question-id', self.questionId);
+                        eventBus.$emit("change-active-question", self.sessionIndex);
+                        $('#EditQuestionModal').modal('hide');
                     },
                 });
             },
@@ -395,7 +391,6 @@ var editQuestionComponent = Vue.component('edit-question-component',
                 var createJson = {
                     CategoryIds: [this.currentCategoryId],
                     AddToWishknowledge: this.addToWishknowledge,
-                    LastIndex: this.lastIndex,
                 }
 
                 var jsonExtension = {
@@ -404,7 +399,8 @@ var editQuestionComponent = Vue.component('edit-question-component',
                     SolutionType: solutionType,
                     Visibility: this.visibility,
                     SolutionMetadataJson: this.solutionMetadataJson,
-                    LicenseId: licenseId
+                    LicenseId: licenseId,
+                    SessionIndex: this.sessionIndex,
                 }
                 var json = this.edit ? editJson : createJson;
 

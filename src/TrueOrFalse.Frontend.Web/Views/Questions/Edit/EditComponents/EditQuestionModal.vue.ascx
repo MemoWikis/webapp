@@ -1,4 +1,8 @@
 ﻿<%@ Control Language="C#" AutoEventWireup="true"%>
+<% 
+    var userSession = new SessionUser();
+    var user = userSession.User;
+%>
 
 <div id="EditQuestionModal" class="modal fade">
     <div class="modal-dialog" role="document">
@@ -25,7 +29,7 @@
                         <select v-if="!edit" v-model="solutionType">
                             <option value="1">Text</option>
                             <option value="4">Numeric</option>
-                            <option value="5">Sequenz</option>
+<%--                            <option value="5">Sequenz</option>--%>
                             <option value="6">Datum</option>
                             <option value="3">Multiplechoice Single Solution</option>
                             <option value="7">MultipleChoice</option>
@@ -70,6 +74,8 @@
                                 </template>
                             </div>
                             <div v-if="solutionType != 9">
+                                <div class="add-inline-question-label s-label">Ergänzungen</div>
+
                                 <editor-menu-bar :editor="descriptionEditor" v-slot="{ commands, isActive, focused }">
                                     <%: Html.Partial("~/Views/Questions/Edit/EditComponents/EditorPartials/BasicEditorMenubar.vue.ascx") %>
                                 </editor-menu-bar>
@@ -113,6 +119,16 @@
                                 </div>
                             </div>
                         </div>
+                        <% if (user.IsInstallationAdmin) {%>
+                            <select v-model="licenseId">
+                                <option value="0">Keine Lizenz</option>
+                                <option value="1">CC BY 4.0</option>
+                                <option value="2">Amtliches Werk BAMF</option>
+                                <option value="3">ELWIS</option>
+                                <option value="4">BLAC</option>
+                            </select>
+                        <%} %>
+
                         <div @click="save()" class="btn btn-primary">Speichern</div>
 
                     </div>

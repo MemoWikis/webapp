@@ -167,6 +167,12 @@ public class EditQuestionController : BaseController
         if (questionDataJson.AddToWishknowledge)
             QuestionInKnowledge.Pin(Convert.ToInt32(question.Id), _sessionUser.User);
 
+        if (questionDataJson.SessionIndex > 0)
+        {
+            var questionListController = new QuestionListController();
+            questionListController.InsertNewQuestionToLearningSession(question, questionDataJson.SessionIndex);
+        }
+
         var questionsController = new QuestionsController(_questionRepo);
 
         return Json(questionsController.LoadQuestion(question.Id));
@@ -177,16 +183,22 @@ public class EditQuestionController : BaseController
     {
         var question = Sl.QuestionRepo.GetById(questionDataJson.QuestionId);
         question = UpdateQuestion(question, questionDataJson);
-
+            
         _questionRepo.Update(question);
         Sl.QuestionChangeRepo.AddUpdateEntry(question);
+        EntityCache.AddOrUpdate(question);
 
         var questionsController = new QuestionsController(_questionRepo);
+
+        if (questionDataJson.SessionIndex > 0)
+        {
+            var questionListController = new QuestionListController();
+            questionListController.InsertNewQuestionToLearningSession(question, questionDataJson.SessionIndex);
+        }
 
         return Json(questionsController.LoadQuestion(question.Id));
     }
 
-    [HttpPost]
     private Question UpdateQuestion(Question question, QuestionDataJson questionDataJson)
     {
         question.Text = questionDataJson.Text;
@@ -235,7 +247,7 @@ public class EditQuestionController : BaseController
         public int Visibility { get; set; }
         public string SolutionType { get; set; }
         public bool AddToWishknowledge { get; set; }
-        public int LastIndex { get; set; }
+        public int SessionIndex { get; set; }
         public int LicenseId { get; set; }
         public string ReferencesJson { get; set; }
     }

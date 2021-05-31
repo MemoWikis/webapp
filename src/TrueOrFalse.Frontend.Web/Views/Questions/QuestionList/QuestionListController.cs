@@ -60,11 +60,11 @@ public class QuestionListController : BaseController
         public int LastIndex { get; set; }
     }
 
-    public void InsertNewQuestionToLearningSession(Question question, int lastIndex)
+    public void InsertNewQuestionToLearningSession(Question question, int sessionIndex)
     {
         var learningSession = LearningSessionCache.GetLearningSession();
         var step = new LearningSessionStep(question);
-        learningSession.Steps.Insert(lastIndex, step);
+        learningSession.Steps.Insert(sessionIndex, step);
     }
 
     [HttpPost]
