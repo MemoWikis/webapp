@@ -302,7 +302,8 @@ var editQuestionComponent = Vue.component('edit-question-component',
             },
             getSolution() {
                 let solution = "";
-                switch (this.solutionType) {
+                let solutionType = parseInt(this.solutionType);
+                switch (solutionType) {
                     case SolutionType.Text: solution = this.textSolution;
                         break;
                     case SolutionType.MultipleChoice_SingleSolution: solution = this.singleSolutionJson;
@@ -322,8 +323,9 @@ var editQuestionComponent = Vue.component('edit-question-component',
                 
                 return JSON.stringify(solution);
             },
-            initiateSolution(solutionType, solution) {
-                switch (this.solutionType) {
+            initiateSolution(solution) {
+                let solutionType = parseInt(this.solutionType);
+                switch (solutionType) {
                     case SolutionType.Text:
                         this.textSolution = solution;
                     break;
@@ -354,7 +356,8 @@ var editQuestionComponent = Vue.component('edit-question-component',
             save() {
                 var url = this.edit ? '/Question/Edit' : '/Question/Create';
                 var json = this.getSaveJson();
-                var self = this;
+
+                var sessionIndex = this.sessionIndex;
 
                 $.ajax({
                     type: 'post',
@@ -369,9 +372,10 @@ var editQuestionComponent = Vue.component('edit-question-component',
                             "?skipStepIdx=" +
                             skipIndex +
                             "&index=" +
-                            self.sessionIndex);
-                        eventBus.$emit('reload-question-id', self.questionId);
-                        eventBus.$emit("change-active-question", self.sessionIndex);
+                            sessionIndex);
+                        eventBus.$emit('reload-question-id', data.Id);
+                        eventBus.$emit("change-active-question", sessionIndex);
+                        console.log(sessionIndex);
                         $('#EditQuestionModal').modal('hide');
                     },
                 });
@@ -379,21 +383,20 @@ var editQuestionComponent = Vue.component('edit-question-component',
 
             getSaveJson() {
                 let solution = this.getSolution();
-                let solutionType = this.solutionType;
+                let solutionType = parseInt(this.solutionType);
                 if (this.solutionType == 4 || this.solutionType == 7)
                     solutionType = 1;
                 let licenseId = this.getLicenseId();
 
                 var editJson = {
-                    CategoryIds: this.categoryIds,
                     QuestionId: this.id,
                 }
                 var createJson = {
-                    CategoryIds: [this.currentCategoryId],
                     AddToWishknowledge: this.addToWishknowledge,
                 }
 
                 var jsonExtension = {
+                    CategoryIds: this.categoryIds,
                     Text: this.questionHtml,
                     Solution: solution,
                     SolutionType: solutionType,

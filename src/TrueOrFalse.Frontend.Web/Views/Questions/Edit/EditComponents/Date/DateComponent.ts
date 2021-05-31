@@ -17,9 +17,9 @@ Vue.component('date-component', {
 
     methods: {
         dateEnumToArray() {
-            var stringIsNumber = value => isNaN(Number(value));
+            var stringIsNotANumber = value => isNaN(Number(value));
             this.precision = Object.keys(DatePrecision)
-                .filter(stringIsNumber)
+                .filter(stringIsNotANumber)
                 .map(key => 
                     SolutionMetadataDate.GetPrecisionLabel(DatePrecision[key])
                 );

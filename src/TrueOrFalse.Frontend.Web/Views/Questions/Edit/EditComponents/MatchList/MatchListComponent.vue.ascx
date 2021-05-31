@@ -3,13 +3,13 @@
         <form class="form-inline" v-for="(pair, index) in pairs" :key="'pair' + index">
             <div class="form-group">
                 <label :for="'left-'+index">Linkes Element</label>
-                <input type="text" class="form-control" :id="'left-'+index" v-model="pair.ElementLeft.Text" placeholder="">
+                <input type="text" class="form-control" :id="'left-'+index" v-model="pair.ElementLeft.Text" placeholder="" v-on:change="solutionBuilder()">
             </div>
             <div class="form-group">
                 <label :for="'right-'+index">Rechtes Element</label>
-                <select v-model="pair.ElementRight" id="'right-'+index">
+                <select v-model="pair.ElementRight.Text" id="'right-'+index" v-on:change="solutionBuilder()">
                     <template v-for="el in rightElements">
-                        <option v-if="el.Text != null && el.Text.length > 0" value="el">{{el.Text}}</option>
+                        <option v-if="el.Text != null && el.Text.length > 0" :value="el.Text">{{el.Text}}</option>
                     </template>
                 </select>
             </div>
@@ -19,7 +19,7 @@
         <label>Antwortoptionen</label>
         <form v-for="(element, i) in rightElements" :key="i">
             <div class="form-group">
-                <input type="text" class="form-control" :id="i" v-model="element.Text" placeholder="">
+                <input type="text" class="form-control" :id="i" v-model="element.Text" placeholder="" v-on:change="solutionBuilder()">
             </div>
         </form>
         <div @click="addRightElement()" class="btn btn-default">Rechtes Element hinzufuegen</div>
