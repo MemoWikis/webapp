@@ -47,7 +47,7 @@ public class CategoriesController : BaseController
 
         if (!_sessionUser.IsLoggedIn)
             return View(_viewLocation,
-                new CategoriesModel(new List<Category>(), searchSpec, SearchTabType.Wish));
+                new CategoriesModel(new List<CategoryCacheItem>(), searchSpec, SearchTabType.Wish));
 
         _util.SetSearchSpecVars(searchSpec, page, orderBy);
 
@@ -81,18 +81,18 @@ public class CategoriesController : BaseController
         };
     }
 
-    [AccessOnlyAsAdmin]
+    [AccessOnlyAsLoggedIn]
     [HttpPost]
-    public EmptyResult Delete(int id)
+    public CategoryDeleter.HasDeleted Delete(int id)
     {
         var category = _categoryRepo.GetById(id);
 
         if (category == null)
             throw new Exception("Category couldn't be deleted. Category with specified Id cannot be found.");
 
-        Sl.CategoryDeleter.Run(category); 
+        var hasDeleted =  Sl.CategoryDeleter. Run(category); 
 
-        return new EmptyResult();
+        return hasDeleted;
     }
 
     public class CategoriesControllerUtil : BaseUtil

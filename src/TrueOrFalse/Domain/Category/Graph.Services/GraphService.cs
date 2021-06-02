@@ -79,7 +79,7 @@ public class GraphService
     {
         var rootCategory = EntityCache.GetCategoryCacheItem(rootCategoryId, isFromUserEntityCache).DeepClone();
 
-        var children = EntityCache.GetDescendants(rootCategory.Id, true)
+        var children = EntityCache.GetAllChildren(rootCategory.Id, true)
             .Distinct()
             .Where(c => c.IsInWishknowledge())
             .Select(c => c.DeepClone());
@@ -223,12 +223,23 @@ public class GraphService
             .Select(cr => cr.RelatedCategoryId);
     }
 
-    public static void AutomaticInclusionOfChildCategoriesForEntityCacheAndDbUpdate(CategoryCacheItem category)
+    public static void AutomaticInclusionOfChildCategoriesForEntityCacheAndDbUpdate(CategoryCacheItem category, IList<CategoryCacheItem> oldParents)
     {
         var parentsFromParentCategories = GetAllParentsFromEntityCache(category.Id, true);
 
+        foreach (var oldParent in oldParents)
+        {
+            for (var i = oldParent.CategoryRelations.Count - 1; i > 0; i--)
+            {
+                if (oldParent.CategoryRelations[i].RelatedCategoryId == category.Id)
+                    oldParent.CategoryRelations.RemoveAt(i);
+            }
+        }
+
         foreach (var parentCategory in parentsFromParentCategories)
             ModifyRelationsForCategory.UpdateRelationsOfTypeIncludesContentOf(EntityCache.GetCategoryCacheItem(parentCategory.Id, getDataFromEntityCache: true));
+
+    
     }
 
     public static void AutomaticInclusionOfChildCategoriesForEntityCacheAndDbCreate(CategoryCacheItem category)
@@ -237,7 +248,7 @@ public class GraphService
 
         foreach (var parent in parentsFromParentCategories)
         {
-            var descendants = GetCategoryChildren.WithAppliedRules(parent);
+            var descendants = GetCategoryChildren.WithAppliedRules(parent, true);
             var descendantsAsCategory = Sl.CategoryRepo.GetByIds(descendants.Select(cci => cci.Id).ToList());
 
             var parentAsCategory = Sl.CategoryRepo.GetByIdEager(parent.Id);
@@ -254,13 +265,6 @@ public class GraphService
             ModifyRelationsForCategory.CreateIncludeContentOf(parentAsCategory, relationsToAdd);
             Sl.CategoryRepo.Update(Sl.CategoryRepo.GetByIdEager(parent.Id), isFromModifiyRelations: true);
 
-            var parentAsCacheItem = EntityCache.GetCategoryCacheItem(parent.Id);
-            var relationsToAddEntityCache = ModifyRelationsEntityCache.GetRelationsToAdd(parentAsCacheItem,
-                descendantsAsCategory,
-                CategoryRelationType.IncludesContentOf,
-                existingRelations); 
-
-            ModifyRelationsEntityCache.CreateIncludeContentOf(parentAsCacheItem, relationsToAddEntityCache);
             parent.UpdateCountQuestionsAggregated();
         }
     }

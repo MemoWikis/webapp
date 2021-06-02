@@ -274,6 +274,19 @@ class User_entity_cache_tests : BaseTest
     }
 
     [Test]
+    public void Create_category_test_case_2_without_my_world()
+    {
+        var context = ContextCategory.New();
+        context.Add("1").Persist();
+        context.Add("2", parent: context.All.ByName("1")).Persist();
+        context.Add("3", parent: context.All.ByName("2")).Persist();
+        context.Add("4", parent: context.All.ByName("3")).Persist();
+        context.Add("5", parent: context.All.ByName("4")).Persist();
+
+        Assert.That(EntityCache.GetByName("1").First().CategoryRelations.Count, Is.EqualTo(4));
+    }
+
+    [Test]
     public void Delete_category()
     {
         var cateContext = ContextCategory.New();

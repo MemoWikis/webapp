@@ -1,10 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-class ModifyRelationsEntityCache
+public class ModifyRelationsEntityCache
 {
     public static void DeleteIncludetContentOf(CategoryCacheItem category)
     {
@@ -38,13 +35,23 @@ class ModifyRelationsEntityCache
             );
     }
 
+    public static void AddParent(
+        CategoryCacheItem child, int parentId)
+    {
+        child.CategoryRelations.Add(new CategoryCacheRelation
+        {
+            RelatedCategoryId = parentId,
+            CategoryRelationType = CategoryRelationType.IsChildOf,
+            CategoryId = child.Id
+        }); 
+    }
+
     public static void CreateIncludeContentOf(CategoryCacheItem category, IEnumerable<CategoryCacheRelation> relationsToAdd)
     {
 
         foreach (var relation in relationsToAdd)
         {
             category.CategoryRelations.Add(relation);
-
         }
     }
 }

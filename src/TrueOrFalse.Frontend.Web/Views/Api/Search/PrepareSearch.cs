@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using Seedworks.Lib.Persistence;
 using TrueOrFalse.Search;
 
@@ -10,9 +11,8 @@ public class SearchBoxElementsGet
         var result = new SearchBoxElements();
 
         var pageSize = 5;
-        var categoriesResult = result.CategoriesResult = Sl.SearchCategories.Run(term, new Pager { PageSize = pageSize });
+        result.CategoriesResult = Sl.SearchCategories.Run(term, new Pager { PageSize = pageSize });
 
-        result.CategoriesResult = categoriesResult;
         result.UsersResult = Sl.SearchUsers.Run(term, new Pager { PageSize = pageSize }, SearchUsersOrderBy.None);
 
         var searchSpec = Sl.SessionUiData.SearchSpecQuestionSearchBox;
@@ -21,7 +21,6 @@ public class SearchBoxElementsGet
         searchSpec.Filter.IgnorePrivates = true;
         searchSpec.PageSize = pageSize;
 
-//        if (type == "Questions" || type == null)
             result.QuestionsResult = Sl.SearchQuestions.Run(term, searchSpec);
 
         if (type != null)
@@ -32,18 +31,27 @@ public class SearchBoxElementsGet
         return result;
     }
 
-    public static SearchBoxElements GoAllCategories(string term)
+    public static SearchBoxElements GoAllCategories(string term, bool isMyWorld)
     {
-        var result = new SearchBoxElements();
+        var pager = new Pager {QueryAll = true};
+        if (isMyWorld)
+            pager.PageSize = 1000;
 
-        var categoriesResult = result.CategoriesResult = Sl.SearchCategories.Run(term, new Pager { QueryAll = true });
-        result.CategoriesResult = categoriesResult;
+        var result = new SearchBoxElements
+        {
+            CategoriesResult = Sl.SearchCategories.Run(term, pager)
+        };
+       
+        if (isMyWorld)
+        {
+            result.CategoriesResult.CategoryIds = result.CategoriesResult.CategoryIds
+                .Where(categoryId => UserEntityCache.IsInWishknowledge(Sl.CurrentUserId, categoryId)).ToList();
+            result.CategoriesResult.Count = result.CategoriesResult.CategoryIds.Count; 
+        }
 
         return result;
     }
 }
-
-
 
 public class SearchBoxElements
 {
@@ -51,8 +59,6 @@ public class SearchBoxElements
     private IList<Category> _categories;
     public IList<Category> Categories => _categories ?? (_categories = CategoriesResult.GetCategories());
     public int CategoriesResultCount => CategoriesResult.Count;
-
-
     public SearchQuestionsResult QuestionsResult;
     private IList<Question> _questions;
     public IList<Question> Questions => _questions ?? (_questions = QuestionsResult.GetQuestions());
@@ -63,7 +69,7 @@ public class SearchBoxElements
     public IList<User> Users => _users ?? (_users = UsersResult.GetUsers());
     public int UsersResultCount => UsersResult.Count;
 
-    public int TotalElements => Categories.Count + Questions.Count + Users.Count;
+    public int TotalElements  =>  Categories.Count + Questions.Count + Users.Count;
 
     public void Ensure_max_element_count_of_12()
     {
@@ -82,7 +88,6 @@ public class SearchBoxElements
 
         //second round
         var two = 2;
-
 
         if (TotalElements >= maxElements)
             _questions = Questions.Take(two).ToList();

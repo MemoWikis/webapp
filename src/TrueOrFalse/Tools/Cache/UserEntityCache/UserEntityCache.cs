@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
-using System.Diagnostics.Eventing.Reader;
 using System.Linq;
-using NHibernate.SqlCommand;
-using Seedworks.Lib;
+
 
 public class UserEntityCache : BaseCache
 {
@@ -81,6 +79,16 @@ public class UserEntityCache : BaseCache
         var allCategories = GetCategories(userId);
         CategoryCacheItem result;
         return allCategories.TryGetValue(categoryId, out result) ?  result : null;
+    }
+
+    public static bool IsInWishknowledge(int userId, int categoryId)
+    {
+        var userCache = GetUserCache(userId);
+
+        if (userCache == null)
+            return false;
+
+        return userCache.ContainsKey(categoryId); 
     }
 
     public static IEnumerable<CategoryCacheItem> GetAllCategories(int userId) => _Categories[userId].Values;  

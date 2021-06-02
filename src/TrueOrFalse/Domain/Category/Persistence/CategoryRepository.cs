@@ -22,7 +22,6 @@ public class CategoryRepository : RepositoryDbBase<Category>
     public IList<Category> GetByIdsEager(IEnumerable<int> categoryIds = null)
     {
         var query = _session.QueryOver<Category>();
-
         if (categoryIds != null)
             query = query.Where(Restrictions.In("Id", categoryIds.ToArray()));
         else
@@ -46,7 +45,6 @@ public class CategoryRepository : RepositoryDbBase<Category>
             NHibernateUtil.Initialize(category.Creator);
             NHibernateUtil.Initialize(category.CategoryRelations);
         }
-
         return result;
     }
 
@@ -61,23 +59,20 @@ public class CategoryRepository : RepositoryDbBase<Category>
         Flush();
 
         UserActivityAdd.CreatedCategory(category);
-
         _searchIndexCategory.Update(category);
-        var categoryCacheItem = CategoryCacheItem.ToCacheCategory(category);
 
-        EntityCache.AddOrUpdate(categoryCacheItem); 
+        var categoryCacheItem = CategoryCacheItem.ToCacheCategory(category);
+        EntityCache.AddOrUpdate(categoryCacheItem);
 
         Sl.CategoryChangeRepo.AddCreateEntry(category, category.Creator);
         GraphService.AutomaticInclusionOfChildCategoriesForEntityCacheAndDbCreate(categoryCacheItem);
-
 
         if (UserEntityCache.HasUserCache(Sl.CurrentUserId))
         {
             UserEntityCache.Add(categoryCacheItem, Sl.CurrentUserId);
             ModifyRelationsUserEntityCache.AddToParents(categoryCacheItem);
         }
-
-        UpdateCachedData(categoryCacheItem, CreateDeleteUpdate.Create);
+        UpdateCachedData(categoryCacheItem, CreateDeleteUpdate.Create); 
     }
 
     public static void UpdateCachedData(CategoryCacheItem categoryCacheItem, CreateDeleteUpdate createDeleteUpdate)
@@ -240,8 +235,6 @@ public class CategoryRepository : RepositoryDbBase<Category>
         Flush();
 
         Sl.R<UpdateQuestionCountForCategory>().Run(category);
-
-       
     }
 
     public void UpdateWithoutCaches(Category category, User author = null, bool imageWasUpdated = false,

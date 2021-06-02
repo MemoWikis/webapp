@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Web;
+using System.Windows.Forms;
+using Microsoft.Owin.Security.Provider;
 
 public class EntityCache : BaseCache
 {
@@ -173,44 +175,6 @@ public class EntityCache : BaseCache
         AddOrUpdate(Categories, categoryCacheItem);
     }
 
-    public static void Update(Category categoryNew, CategoryCacheItem categoryCacheItemOld)
-    {
-        
-        categoryCacheItemOld.Name = categoryNew.Name;
-        categoryCacheItemOld.Description = categoryNew.Description;
-        categoryCacheItemOld.WikipediaURL = categoryNew.WikipediaURL;
-        categoryCacheItemOld.Url = categoryNew.Url;
-        categoryCacheItemOld.UrlLinkText = categoryNew.UrlLinkText;
-        categoryCacheItemOld.DisableLearningFunctions = categoryNew.DisableLearningFunctions;
-        categoryCacheItemOld.Creator = categoryNew.Creator;
-        ChangeCategoryRelations(categoryNew, categoryCacheItemOld);
-        categoryCacheItemOld.CategoriesToExcludeIdsString = categoryNew.CategoriesToExcludeIdsString;
-        categoryCacheItemOld.CategoriesToIncludeIdsString = categoryNew.CategoriesToIncludeIdsString;
-        categoryCacheItemOld.CountQuestionsAggregated = categoryNew.CountQuestionsAggregated;
-        categoryCacheItemOld.CountQuestions = categoryNew.CountQuestions;
-        categoryCacheItemOld.Content = categoryNew.Content;
-        categoryCacheItemOld.CustomSegments = categoryNew.CustomSegments;
-        categoryCacheItemOld.Type = categoryNew.Type;
-        categoryCacheItemOld.TypeJson = categoryNew.TypeJson;
-        categoryCacheItemOld.CorrectnessProbability = categoryNew.CorrectnessProbability;
-        categoryCacheItemOld.CorrectnessProbabilityAnswerCount = categoryNew.CorrectnessProbabilityAnswerCount;
-        categoryCacheItemOld.TotalRelevancePersonalEntries = categoryNew.TotalRelevancePersonalEntries;
-        categoryCacheItemOld.IsHistoric = categoryNew.IsHistoric;
-        categoryCacheItemOld.Visibility = categoryNew.Visibility;
-        categoryCacheItemOld.FormerSetId = categoryNew.FormerSetId;
-    }
-
-    private static void ChangeCategoryRelations(Category categoryNew, CategoryCacheItem categoryCacheItemOld)
-    {
-        
-
-        foreach(var relation in categoryNew.CategoryRelations)
-        {
-            
-        }
-
-        throw new NotImplementedException(); 
-    } 
     public static void UpdateCategoryReferencesInQuestions(CategoryCacheItem categoryCacheItem, Category category)
     {
         var affectedQuestionsIds = GetQuestionsIdsForCategory(categoryCacheItem.Id);
@@ -277,24 +241,35 @@ public class EntityCache : BaseCache
     public static IEnumerable<CategoryCacheItem> GetCategoryCacheItems(IList<int> getIds, bool getDataFromEntityCache = true) =>
         getIds.Select(categoryId => GetCategoryCacheItem(categoryId, getDataFromEntityCache: getDataFromEntityCache));
 
+    public static List<CategoryCacheItem> CategoryCacheItemsForSearch(IEnumerable<int> categoryIds)
+    {
+        var categories = new List<CategoryCacheItem>();
+        foreach (var categoryId in categoryIds)
+        {
+            Categories.TryGetValue(categoryId, out var category);
+            if(category != null)
+                categories.Add(category);
+        }
+
+        return categories.Where(c => c.IsVisibleToCurrentUser()).ToList();
+    }
+
     public static IList<CategoryCacheItem> GetAllCategories() => Categories.Values.ToList();
 
     public static List<CategoryCacheItem> GetChildren(int categoryId, bool isFromEntityCache = false)
     {
-        var category = GetCategoryCacheItem(categoryId, isFromEntityCache);
-
         var allCategories = GetAllCategories();
 
         return allCategories.SelectMany(c =>
-            c.CategoryRelations.Where(cr => cr.CategoryRelationType == CategoryRelationType.IsChildOf && cr.RelatedCategoryId == category.Id)
+            c.CategoryRelations.Where(cr => cr.CategoryRelationType == CategoryRelationType.IsChildOf && cr.RelatedCategoryId == categoryId)
                 .Select(cr => GetCategoryCacheItem(cr.CategoryId, isFromEntityCache))).ToList();
     }
 
     public static List<CategoryCacheItem> GetChildren(CategoryCacheItem category, bool isFromEntityCache = false) => GetChildren(category.Id, isFromEntityCache);  
 
-    public static IList<CategoryCacheItem> GetDescendants(int parentId, bool isFromUserEntityCache = false)
+    public static IList<CategoryCacheItem> GetAllChildren(int parentId, bool getFromEntityCache = false)
     {
-        var currentGeneration = GetChildren(parentId, isFromUserEntityCache).ToList();
+        var currentGeneration = GetChildren(parentId, getFromEntityCache).ToList();
         var nextGeneration = new List<CategoryCacheItem>();
         var descendants = new List<CategoryCacheItem>();
 
@@ -304,7 +279,7 @@ public class EntityCache : BaseCache
 
             foreach (var category in currentGeneration)
             {
-                var children = GetChildren(category.Id, isFromUserEntityCache).ToList();
+                var children = GetChildren(category.Id, getFromEntityCache).ToList();
                 if (children.Count > 0)
                 {
                     nextGeneration.AddRange(children);

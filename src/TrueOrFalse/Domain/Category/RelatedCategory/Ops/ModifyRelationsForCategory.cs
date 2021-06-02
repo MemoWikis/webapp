@@ -9,15 +9,15 @@ public class ModifyRelationsForCategory
     /// Updates relations with relatedCategories (keeps existing and deletes missing) with possible restrictions on type of relation (IsChildOf etc.) and type of category (Standard, Book etc.)
     /// </summary>
     /// <param name="categoryCacheItem"></param>
-    /// <param name="relatedCategories">Existing relations are updated with this collection (existing are kept, non-included are deleted)</param>
+    /// <param name="relatedCategorieIds">Existing relations are updated with this collection (existing are kept, non-included are deleted)</param>
     /// <param name="relationType">If specified only relations of this type will be updated</param>
     public static void UpdateCategoryRelationsOfType(
         int categoryId,
-        IList<int> relatedCategories, 
+        IList<int> relatedCategorieIds, 
         CategoryRelationType relationType)
     {
         var category = Sl.CategoryRepo.GetByIdEager(categoryId);
-        var relatedCategoriesAsCategories = Sl.CategoryRepo.GetByIdsEager(relatedCategories);
+        var relatedCategoriesAsCategories = Sl.CategoryRepo.GetByIdsEager(relatedCategorieIds);
         var existingRelationsOfType = GetExistingRelations(category, relationType).ToList();
 
         CreateIncludeContentOf(category, GetRelationsToAdd(category, relatedCategoriesAsCategories, relationType, existingRelationsOfType));
@@ -53,10 +53,10 @@ public class ModifyRelationsForCategory
 
     public static void UpdateRelationsOfTypeIncludesContentOf(CategoryCacheItem categoryCacheItem)
     {
-        var descendants = GetCategoryChildren.WithAppliedRules(categoryCacheItem);
-        var descendantsAsCategory = descendants.Select(cci => cci.Id).ToList();
+        var allChildren = GetCategoryChildren.WithAppliedRules(categoryCacheItem);
+        var allChildrenAsId = allChildren.Select(cci => cci.Id).ToList();
         
-        UpdateCategoryRelationsOfType(categoryCacheItem.Id, descendantsAsCategory, CategoryRelationType.IncludesContentOf);
+        UpdateCategoryRelationsOfType(categoryCacheItem.Id, allChildrenAsId, CategoryRelationType.IncludesContentOf);
 
         categoryCacheItem.UpdateCountQuestionsAggregated();
         Sl.CategoryRepo.Update(Sl.CategoryRepo.GetByIdEager(categoryCacheItem.Id), isFromModifiyRelations: true);
@@ -69,7 +69,10 @@ public class ModifyRelationsForCategory
             : new List<CategoryRelation>();
     }
 
-    public static IEnumerable<CategoryRelation> GetRelationsToAdd(Category category, IEnumerable<Category> relatedCategoriesAsCategories, CategoryRelationType relationType, IEnumerable<CategoryRelation> existingRelationsOfType)
+    public static IEnumerable<CategoryRelation> GetRelationsToAdd(Category category,
+        IEnumerable<Category> relatedCategoriesAsCategories,
+        CategoryRelationType relationType,
+        IEnumerable<CategoryRelation> existingRelationsOfType)
     {
         return relatedCategoriesAsCategories
             .Except(existingRelationsOfType.Select(r => r.RelatedCategory))
@@ -112,7 +115,6 @@ public class ModifyRelationsForCategory
     public static void RemoveIncludeContentOf(Category category, IEnumerable<CategoryRelation> relationsToRemove)
     {
         var relationsToRemoveList = relationsToRemove.ToList();
-        var relationsCount = relationsToRemove.Count();
 
         if (category.CategoryRelations.Count < 2)
             return; 

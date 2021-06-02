@@ -4,7 +4,7 @@ using TrueOrFalse.Frontend.Web.Code;
 
 public class CategoryRowModel : BaseModel
 {
-    public Category Category;
+    public CategoryCacheItem Category;
     public int QuestionCount;
     public int SetCount;
     public int CategoryId;
@@ -28,7 +28,7 @@ public class CategoryRowModel : BaseModel
 
     public bool IsInWishknowledge;
 
-    public CategoryRowModel(Category category, CategoryValuation valution)
+    public CategoryRowModel(CategoryCacheItem category, CategoryValuation valution)
     {
         Category = category;
         CategoryId = category.Id;
