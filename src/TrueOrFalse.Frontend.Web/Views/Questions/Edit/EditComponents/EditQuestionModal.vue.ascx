@@ -9,36 +9,39 @@
         <div class="modal-content">
            
             <edit-question-component inline-template>
-                <div id="AddModalQuestionContainer">
-            
-                    <div id="" class="">
-                        <div class="add-inline-question-label main-label">
-                            <template v-if="edit">Frage bearbeiten</template>
-                            <template v-else>Frage hinzufügen</template>
-                        </div>
-                        <div class="heart-container wuwi-red" @click="addToWuwi = !addToWuwi" v-if="!edit">
-                            <div>
-                                <i class="fa fa-heart" :class="" v-if="addToWuwi"></i>
-                                <i class="fa fa-heart-o" :class="" v-else></i>
-                            </div>
-                            <div>
-                                <span v-if="addToWuwi">Hinzugefügt</span>
-                                <span v-else class="wuwi-grey">Hinzufügen</span>
-                            </div>
-                        </div>
-                        <select v-if="!edit" v-model="solutionType">
-                            <option value="1">Text</option>
-                            <option value="4">Numeric</option>
-<%--                            <option value="5">Sequenz</option>--%>
-                            <option value="6">Datum</option>
-                            <option value="3">Multiplechoice Single Solution</option>
-                            <option value="7">MultipleChoice</option>
-                            <option value="8">Paare</option>
-                            <option value="9">Karteikarte</option>
-                        </select>
-                    </div>
 
-                    <div id="">
+                <div>
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <div id="" class="">
+                            <div class="add-inline-question-label main-label">
+                                <template v-if="edit">Frage bearbeiten</template>
+                                <template v-else>Frage hinzufügen</template>
+                            </div>
+                            <select v-if="!edit" v-model="solutionType">
+                                <option value="1">Text</option>
+                                <option value="4">Numeric</option>
+                                <option value="6">Datum</option>
+                                <option value="3">Multiplechoice Single Solution</option>
+                                <option value="7">MultipleChoice</option>
+                                <option value="8">Paare</option>
+                                <option value="9">Karteikarte</option>
+                            </select>
+                            
+                            <div class="heart-container wuwi-red" @click="addToWuwi = !addToWuwi" v-if="!edit">
+                                <div>
+                                    <i class="fa fa-heart" :class="" v-if="addToWuwi"></i>
+                                    <i class="fa fa-heart-o" :class="" v-else></i>
+                                </div>
+                                <div>
+                                    <span v-if="addToWuwi">Hinzugefügt</span>
+                                    <span v-else class="wuwi-grey">Hinzufügen</span>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="modal-body">
                         <div id=""  class="inline-question-editor">
                             <div>
                                 <div class="add-inline-question-label s-label">Frage</div>
@@ -128,13 +131,13 @@
                                 <option value="4">BLAC</option>
                             </select>
                         <%} %>
-
-                        <div @click="save()" class="btn btn-primary">Speichern</div>
-
                     </div>
 
+                    <div class="modal-footer">
+                        <div @click="save()" class="btn btn-primary">Speichern</div>
+                    </div>
                 </div>
-            
+
             </edit-question-component>
 
         </div>

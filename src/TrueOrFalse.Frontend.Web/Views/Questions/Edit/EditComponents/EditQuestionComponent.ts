@@ -289,7 +289,7 @@ var editQuestionComponent = Vue.component('edit-question-component',
                     data: JSON.stringify(json),
                     success: function (data) {
                         self.solutionType = data.SolutionType;
-                        self.initiateSolution(data.SolutionType, data.Solution);
+                        self.initiateSolution(data.Solution);
                         self.questionHtml = data.Text;
                         self.questionEditor.setContent(data.Text);
                         self.categoryIds = data.CategoryIds;
