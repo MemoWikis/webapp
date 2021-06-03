@@ -14,17 +14,24 @@ public class UserEntityCache : BaseCache
 
     public static void Init(int userId = -1)
     {
+        Logg.r().Warning("Cache UserEntityCache Init start");
+
         var user = userId == -1 ?  
             Sl.SessionUser.User : 
             UserCache.GetItem(userId).User;
 
+        Logg.r().Warning("Cache after user" + " / userId =" + user.Id);
+
         _Categories[user.Id] = new ConcurrentDictionary<int, CategoryCacheItem>(GraphService
             .GetAllPersonalCategoriesWithRelations(RootCategory.RootCategoryId, userId, true).ToConcurrentDictionary());
+
+        Logg.r().Warning("Cache after GetAllPersonalCategoriesWithRelations");
 
         foreach (var cacheItem in _Categories[user.Id])
         {
             ModifyRelationsUserEntityCache.AddToParents(cacheItem.Value);
         }
+        Logg.r().Warning("Cache UserEntityCache Init end");
     }
 
     public static bool IsCacheAvailable(int userId) => _Categories.ContainsKey(userId);
