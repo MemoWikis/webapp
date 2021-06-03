@@ -231,19 +231,31 @@ public class CategoryController : BaseController
 
     public void SetMyWorldCookie(bool showMyWorld)
     {
-        var myWorldCookieName = "memucho_myworld";
-        HttpCookie cookie = new HttpCookie(myWorldCookieName);
-        cookie.Expires = DateTime.Now.AddYears(1);
-        cookie.Values.Add("showMyWorld", showMyWorld.ToString());
+        Logg.r().Warning("start set cookie");
+        try
+        {
+            HttpCookie cookie = new HttpCookie("memucho_myworld");
+            cookie.Expires = DateTime.Now.AddYears(1);
+            cookie.Values.Add("showMyWorld", showMyWorld.ToString());
+            Response.Cookies.Add(cookie);
+        }
+        catch (Exception e)
+        {
+            Logg.r().Warning(e.ToString());
+        }
+        Logg.r().Warning("End Set Cookie");
 
         if (_sessionUser.IsLoggedIn)
         {
+            Logg.r().Warning("User Is Logging in ");
             if (!UserEntityCache.IsCategoryCacheKeyAvailable())
                 UserEntityCache.Init();
+            Logg.r().Warning("End User Is Logging in ");
         }
 
-        UserCache.GetItem(_sessionUser.UserId).IsFiltered = showMyWorld;
-        Response.Cookies.Add(cookie);
+        var logg = UserCache.GetItem(_sessionUser.UserId).IsFiltered = showMyWorld;
+        Logg.r().Warning(logg.ToString());
+        Logg.r().Warning("End SetMyWorldCookie ");
     }
 
     public bool GetMyWorldCookie()
