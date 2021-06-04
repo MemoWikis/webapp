@@ -30,14 +30,15 @@
     </p>    
     <p class="postalAddress">
         <i class="fa fa-map-marker">&nbsp;</i>&nbsp;memucho <br />
-        Kirchstraße 1<br />  
-        15745 Wildau<br />
+        Am Moorhof <br />
+        Nettgendorfer Str. 7<br />  
+        14947 Nuthe-Urstromtal<br />
     </p>
 
     <div id="approachSketch">
         <img src="<%= Links.GoogleMapsPreviewPath("Wildau.png") %>" alt="Wildau Peview" />
     </div>
     <p>
-        Deinen Anfahrtsweg kannst du <a href="http://maps.google.com/maps?daddr=Kirchstraße+1+15745+Wildau" target="blank"><b>hier</b></a> mit GoogleMaps planen.
+        Deinen Anfahrtsweg kannst du <a href="http://maps.google.com/maps/dir//Nettgendorfer+Str.+7,+14947+Nuthe-Urstromtal" target="blank"><b>hier</b></a> mit GoogleMaps planen.
     </p>
 </asp:Content>
