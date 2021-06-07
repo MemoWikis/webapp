@@ -152,8 +152,12 @@ public class CategoryInKnowledge
 
     private static void PinQuestionsInCategory(int categoryId, User user, SaveType saveType = SaveType.CacheAndDatabase)
     {
-        var questions = Sl.CategoryRepo.GetById(categoryId).GetAggregatedQuestionsFromMemoryCache();
-        QuestionInKnowledge.Pin(questions, user, saveType);
+        var category = Sl.CategoryRepo.GetById(categoryId);
+        if (category != null)
+        {
+            var questions = category.GetAggregatedQuestionsFromMemoryCache();
+            QuestionInKnowledge.Pin(questions, user, saveType);
+        }
     }
 
     private static void UpdateCategoryValuation(int categoryId, User user, int relevance = 50)

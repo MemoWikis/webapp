@@ -203,8 +203,12 @@ var categoryCardComponent = Vue.component('category-card-component', {
         },
 
         thisToSegment() {
-            if (!this.isCustomSegment)
+            if (!this.isCustomSegment) {
                 this.$parent.loadSegment(this.id);
+                var index = this.$parent.currentChildCategoryIds.indexOf(this.id);
+                if (index > -1)
+                    this.$parent.currentChildCategoryIds.splice(index, 1);
+            }
         },
         selectCategory() {
             if (this.editMode) {

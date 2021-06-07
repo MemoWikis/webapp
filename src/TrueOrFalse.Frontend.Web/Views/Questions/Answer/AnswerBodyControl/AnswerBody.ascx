@@ -47,7 +47,10 @@
                     <ul class="dropdown-menu dropdown-menu-right standard-question-drop-down">
                         <% if (Model.IsCreator || Model.IsInstallationAdmin){ %>
                             <li>
-                                <a href="<%=Links.EditQuestion( Model.QuestionText, Model.QuestionId) %>" data-allowed="logged-in">
+                                <a data-allowed="logged-in" onclick="eventBus.$emit('open-edit-question-modal', {
+                                        questionId: <%= Model.QuestionId %>,
+                                        edit: true
+                                    })">
                                     <div class="dropdown-icon">
                                         <i class="fa fa-pencil"></i>
                                     </div>

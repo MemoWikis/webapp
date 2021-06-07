@@ -139,13 +139,6 @@ var FAB = Vue.component('floating-action-button',
                     parent.addCategoryBtnId = null;
                 $('#AddCategoryModal').data('parent', parent).modal('show');
             },
-            createQuestion() {
-                if (NotLoggedIn.Yes()) {
-                    NotLoggedIn.ShowErrorMsg("CreateQuestion");
-                    return;
-                }
-                window.location.href = this.createQuestionUrl;
-            },
             handleScroll() {
                 if (window.scrollY == 0)
                     this.isExtended = true;
@@ -216,5 +209,16 @@ var FAB = Vue.component('floating-action-button',
                 this.contentHasChanged = false;
                 eventBus.$emit('cancel-edit-mode');
             },
+            createQuestion() {
+                if (NotLoggedIn.Yes()) {
+                    NotLoggedIn.ShowErrorMsg("CreateQuestion");
+                    return;
+                }
+                var question = {
+                    categoryId: parseInt(this.categoryId),
+                    edit: false,
+                };
+                eventBus.$emit('open-edit-question-modal', question);
+            }
         }
     });

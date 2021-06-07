@@ -22,7 +22,7 @@ Vue.component('matchlist-component', {
 
     methods: {
         initiateSolution() {
-            this.pairs = JSON.parse(this.solution);
+            this.pairs = JSON.parse(this.solution).Pairs;
             this.solutionBuilder();
         },
         addPair() {

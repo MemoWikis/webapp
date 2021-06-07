@@ -3,7 +3,7 @@
         <form class="form-inline" v-for="(pair, index) in pairs" :key="'pair' + index">
             <div class="form-group">
                 <label :for="'left-'+index">Linkes Element</label>
-                <input type="text" class="form-control" :id="'left-'+index" v-model="pair.ElementLeft.Text" placeholder="" v-on:change="solutionBuilder()">
+                <input type="text" class="form-control" :id="'left-'+index" v-model="pair.ElementLeft.Text" placeholder="Linkes Element" v-on:change="solutionBuilder()">
             </div>
             <div class="form-group">
                 <label :for="'right-'+index">Rechtes Element</label>

@@ -216,7 +216,7 @@ var editQuestionComponent = Vue.component('edit-question-component',
                     },
                 }),
                 descriptionHtml: null,
-                visibility: 0,
+                visibility: 1,
                 categoryIds: [],
                 categories: [],
                 searchTerm: '',
@@ -228,9 +228,20 @@ var editQuestionComponent = Vue.component('edit-question-component',
                 licenseId: 0,
                 sessionIndex: 0,
                 solutionMetadataJson: null,
+                licenseConfirmation: false,
             }
         },
         mounted() {
+            eventBus.$on('open-edit-question-modal',
+                e => {
+                    var question = {
+                        questionId: e.questionId,
+                        edit: e.edit,
+                        sessionIndex: e.sessionIndex,
+                        categoryId: e.categoryId
+                    };
+                    $('#EditQuestionModal').data('question', question).modal('show');
+                });
             $('#EditQuestionModal').on('show.bs.modal',
                 event => {
                     this.solutionType = 1;
@@ -238,7 +249,11 @@ var editQuestionComponent = Vue.component('edit-question-component',
                     if ($('#EditQuestionModal').data('question').edit) {
                         this.edit = true;
                         this.getQuestionData(this.id);
-                        this.sessionIndex = $('#EditQuestionModal').data('question').sessionIndex;
+                        var learningSessionIndex = $('#hddIsLearningSession').attr('data-current-step-idx');
+                        if ($('#EditQuestionModal').data('question').sessionIndex)
+                            this.sessionIndex = $('#EditQuestionModal').data('question').sessionIndex;
+                        else if (learningSessionIndex)
+                            this.sessionIndex = learningSessionIndex;
                     } else {
                         let categoryId = $('#EditQuestionModal').data('question').categoryId;
                         this.categoryIds.push(categoryId);

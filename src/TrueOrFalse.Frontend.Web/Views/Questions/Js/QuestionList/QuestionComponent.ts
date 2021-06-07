@@ -230,7 +230,8 @@
                 edit: true,
                 sessionIndex: this.sessionIndex
             };
-            $('#EditQuestionModal').data('question', question).modal('show');
+
+            eventBus.$emit('open-edit-question-modal', question);
         }
     },
 });

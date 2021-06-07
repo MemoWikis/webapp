@@ -31,7 +31,7 @@ public class SearchBoxElementsGet
         return result;
     }
 
-    public static SearchBoxElements GoAllCategories(string term, bool isMyWorld)
+    public static SearchBoxElements GoAllCategories(string term, bool isMyWorld = false)
     {
         var pager = new Pager {QueryAll = true};
         if (isMyWorld)

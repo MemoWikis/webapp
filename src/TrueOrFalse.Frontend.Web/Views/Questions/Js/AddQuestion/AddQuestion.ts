@@ -132,6 +132,7 @@ Vue.component('add-question-component', {
                 solutionType: 9,
                 flashCardAnswer: null,
                 flashCardJson: null,
+                licenseConfirmation: false,
             }
         },
 
@@ -167,10 +168,10 @@ Vue.component('add-question-component', {
             },
             createQuestion() {
                 var question = {
-                    categoryId: this.currentCategoryId,
+                    categoryId: parseInt(this.currentCategoryId),
                     edit: false,
                 };
-                $('#EditQuestionModal').data('question', question).modal('show');
+                eventBus.$emit('open-edit-question-modal', question);
             }
         }
     })

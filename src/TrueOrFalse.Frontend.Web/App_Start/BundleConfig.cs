@@ -97,8 +97,8 @@ namespace TrueOrFalse.View
                 .Include("~/Scripts/npm/tiptap-build/tiptap-build.js"));
 
 
-            bundles.Add(new ScriptBundle("~/bundles/js/EditQuestions")
-                .IncludeDirectory("~/Views/Questions/Edit/EditComponents/", "*.js")
+            bundles.Add(new ScriptBundle("~/bundles/js/EditQuestion")
+                .Include("~/Views/Questions/Edit/EditComponents/EditQuestionComponent.js")
                 .IncludeDirectory("~/Views/Questions/Edit/EditComponents/Date/", "*.js")
                 .IncludeDirectory("~/Views/Questions/Edit/EditComponents/FlashCard/", "*.js")
                 .IncludeDirectory("~/Views/Questions/Edit/EditComponents/MatchList/", "*.js")
@@ -106,8 +106,10 @@ namespace TrueOrFalse.View
                 .IncludeDirectory("~/Views/Questions/Edit/EditComponents/MultipleChoice_SingleSolution/", "*.js")
                 .Include("~/Views/Shared/CategoryChip/CategoryChipComponent.js")
                 .IncludeDirectory("~/Views/Questions/Edit/EditComponents/Numeric/", "*.js")
-                //.IncludeDirectory("~/Views/Questions/Edit/EditComponents/Sequence/", "*.js")
                 .IncludeDirectory("~/Views/Questions/Edit/EditComponents/Text/", "*.js"));
+
+            bundles.Add(new ScriptBundle("~/bundles/js/EditQuestionLoader")
+                .Include("~//Views/Questions/Edit/EditComponents/EditQuestionLoader.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/js/CategoryEditMode")
                 .Include("~/Scripts/npm/vue-select/vue-select.js")

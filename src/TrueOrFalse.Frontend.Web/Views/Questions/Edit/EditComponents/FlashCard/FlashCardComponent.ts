@@ -82,7 +82,7 @@ Vue.component('flashcard-component', {
 
     mounted() {
         if (this.solution) {
-            let content = JSON.parse(this.solution).Text;
+            let content = this.solution;
             this.answerEditor.setContent(content);
         }
 

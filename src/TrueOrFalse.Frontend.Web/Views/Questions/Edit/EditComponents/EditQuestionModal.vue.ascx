@@ -3,45 +3,39 @@
     var userSession = new SessionUser();
     var user = userSession.User;
 %>
+<edit-question-component inline-template>
 
-<div id="EditQuestionModal" class="modal fade">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-           
-            <edit-question-component inline-template>
-
-                <div>
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                        <div id="" class="">
-                            <div class="add-inline-question-label main-label">
-                                <template v-if="edit">Frage bearbeiten</template>
-                                <template v-else>Frage hinzufügen</template>
-                            </div>
-                            <select v-if="!edit" v-model="solutionType">
-                                <option value="1">Text</option>
-                                <option value="4">Numeric</option>
-                                <option value="6">Datum</option>
-                                <option value="3">Multiplechoice Single Solution</option>
-                                <option value="7">MultipleChoice</option>
-                                <option value="8">Paare</option>
-                                <option value="9">Karteikarte</option>
-                            </select>
+    <div id="EditQuestionModal" class="modal fade">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-body">
+                        <div id="" class="edit-question-modal-header overline-m">
                             
+                            <div class="d-flex">                            
+                                <div class="add-inline-question-label main-label">
+                                    <template v-if="edit">Frage bearbeiten</template>
+                                    <template v-else>Frage erstellen</template>
+                                </div>
+                            
+                                <div class="solutionType-selector">
+                                    <select v-if="!edit" v-model="solutionType">
+                                        <option value="1">Text</option>
+                                        <option value="4">Numeric</option>
+                                        <option value="6">Datum</option>
+                                        <option value="7">MultipleChoice</option>
+                                        <option value="8">Paare</option>
+                                        <option value="9">Karteikarte</option>
+                                    </select>
+                                </div>
+                            </div>
+
                             <div class="heart-container wuwi-red" @click="addToWuwi = !addToWuwi" v-if="!edit">
                                 <div>
                                     <i class="fa fa-heart" :class="" v-if="addToWuwi"></i>
                                     <i class="fa fa-heart-o" :class="" v-else></i>
                                 </div>
-                                <div>
-                                    <span v-if="addToWuwi">Hinzugefügt</span>
-                                    <span v-else class="wuwi-grey">Hinzufügen</span>
-                                </div>
                             </div>
                         </div>
-
-                    </div>
-                    <div class="modal-body">
                         <div id=""  class="inline-question-editor">
                             <div>
                                 <div class="add-inline-question-label s-label">Frage</div>
@@ -105,22 +99,19 @@
                                     </ul>
                                 </div>
                             </form>
-                            <template v-for="(category, index) in selectedCategories">
-                                <%: Html.Partial("~/Views/Shared/CategoryChip/CategoryChipComponent.vue.ascx") %>
-                            </template>
+                            <div class="related-categories-container">
+                                <template v-for="(category, index) in selectedCategories">
+                                    <%: Html.Partial("~/Views/Shared/CategoryChip/CategoryChipComponent.vue.ascx") %>
+                                </template>
+                            </div>
                         </div>
                         <div id="">
                             <div class="s-label">                
                                 Sichtbarkeit
                             </div>
                             
-                            <div class="col-sm-offset-2 col-sm-10">
-                                <div class="checkbox">
-                                    <label>
-                                        <input type="checkbox" v-model="visibility" true-value="1" false-value="0"> Private Frage
-                                    </label>
-                                </div>
-                            </div>
+                            <%: Html.Partial("~/Views/Questions/Edit/EditComponents/EditorPartials/PrivacySelector.vue.ascx") %>
+
                         </div>
                         <% if (user.IsInstallationAdmin) {%>
                             <select v-model="licenseId">
@@ -138,8 +129,6 @@
                     </div>
                 </div>
 
-            </edit-question-component>
-
         </div>
     </div>
-</div>
+</edit-question-component>

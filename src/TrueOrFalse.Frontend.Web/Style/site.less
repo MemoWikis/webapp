@@ -1749,10 +1749,15 @@ h3 {
             align-items: center;
             width: 20px;
             margin-right: 12.5px;
+            cursor: pointer;
 
             i {
                 transition: color .1s ease-in-out;
                 color: @memo-grey-darker !important;
+            }
+
+            span {
+                cursor: pointer;
             }
         }
 
@@ -1778,4 +1783,97 @@ h3 {
 
 b, strong {
     font-weight: 600;
+}
+
+#EditQuestionModal {
+
+    .modal-header, .modal-footer {
+        border: none;
+    }
+
+    .solutionType-selector {
+        select {
+            border: none;
+            background: @memo-grey-light;
+        }
+    }
+
+
+    .edit-question-modal-header {
+        display: flex;
+        justify-content: space-between;
+
+        .main-label {
+            padding-right: 20px;
+        }
+
+        .solutionType-selector {
+        }
+
+        .heart-container {
+            display: flex;
+            align-content: center;
+            align-items: center;
+            flex-direction: column;
+            width: 100px;
+            margin-right: -22px;
+            cursor: pointer;
+            color: @memo-wuwi-red;
+            font-size: 22px;
+        }
+    }
+
+    .ProseMirror, input {
+        border: solid 1px #DDDDDD;
+        border-radius: 4px;
+        margin-bottom: 26px;
+    }
+
+    .ProseMirror {
+        padding: 11px 15px 0;
+    }
+
+    .related-categories-container {
+        display: flex;
+        flex-wrap: wrap;
+
+        .category-chip-component {
+            display: flex;
+            align-items: center;
+            margin-right: 15px;
+            overflow: hidden;
+
+            .category-chip-container {
+                padding: 4px 0;
+            }
+
+            .category-chip-deleteBtn {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                transition: all 0.2s ease-in-out;
+                width: 16px;
+                height: 100%;
+                cursor: pointer;
+
+                i {
+                    transform: scale(0);
+                    transition: all 0.2s ease-in-out;
+                }
+            }
+
+            &:hover {
+                .category-chip-deleteBtn {
+
+                    i {
+                        transform: scale(1);
+                    }
+                }
+            }
+        }
+    }
+}
+
+.d-flex {
+    display: flex;
 }

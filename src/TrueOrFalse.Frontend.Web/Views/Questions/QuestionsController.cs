@@ -1,10 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Mime;
 using System.Web.Mvc;
+using System.Web;
 using Newtonsoft.Json;
 using TrueOrFalse.Frontend.Web.Code;
 using TrueOrFalse.Search;
+using TrueOrFalse.Web;
 
 namespace TrueOrFalse
 {
@@ -196,12 +199,13 @@ namespace TrueOrFalse
         {
             var question = EntityCache.GetQuestionById(questionId);
             var categoryController = new CategoryController();
+            var solution = question.SolutionType == SolutionType.FlashCard ? GetQuestionSolution.Run(question).GetCorrectAnswerAsHtml() : question.Solution;
             var json = new JsonResult
             {
                 Data = new
                 {
                     SolutionType = (int)question.SolutionType,
-                    Solution = question.Solution,
+                    Solution = solution,
                     SolutionMetadataJson = question.SolutionMetadataJson,
                     Text = question.Text,
                     CategoryIds = question.Categories.Select(c => c.Id).ToList(),

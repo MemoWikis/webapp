@@ -14,15 +14,16 @@
                             <input type="checkbox" v-model="matchCase" v-on:change="setSolution()"> Groß-/Kleinschreibung beachten
                         </label>
                     </div>
-                </div>
-            </div>
-            <div class="form-group">
-                <div class="col-sm-offset-2 col-sm-10">
                     <div class="checkbox">
                         <label>
                             <input type="checkbox" v-model="exactSpelling" v-on:change="setSolution()"> Exakte Schreibweise
                         </label>
                     </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-offset-2 col-sm-10">
+
                 </div>
             </div>
         </form>
