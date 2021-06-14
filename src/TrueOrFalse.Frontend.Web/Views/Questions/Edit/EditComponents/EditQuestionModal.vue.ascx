@@ -137,7 +137,7 @@
 
                     <div class="modal-footer">
                         
-                        <div class="btn btn-primary memo-button col-xs-12" @click="save()">Speichern</div>       
+                        <div class="btn btn-primary memo-button col-xs-12" @click="save()" :disabled="disabled">Speichern</div>       
                         <div class="btn btn-link memo-button" data-dismiss="modal" >Abbrechen</div>
 
                     </div>

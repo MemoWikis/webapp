@@ -306,7 +306,12 @@ var editQuestionComponent = Vue.component('edit-question-component',
             },
             visibility(val) {
                 if (this.solutionIsValid && (val == 1 || (val == 0 && this.licenseConfirmation == true)))
-                    this.disaled = false;
+                    this.disabled = false;
+                else this.disabled = true;
+            },
+            licenseConfirmation(val) {
+                if (this.solutionIsValid && (this.visibility == 1 || (this.visibility == 0 && val)))
+                    this.disabled = false;
                 else this.disabled = true;
             }
         },
