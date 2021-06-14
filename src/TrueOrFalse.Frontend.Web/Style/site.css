@@ -1888,6 +1888,7 @@ strong {
   width: 16px;
   height: 100%;
   cursor: pointer;
+  color: #FFA07A;
 }
 #EditQuestionModal .input-group-addon {
   background-color: #EFEFEF;

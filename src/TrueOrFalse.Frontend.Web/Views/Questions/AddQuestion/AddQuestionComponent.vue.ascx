@@ -6,7 +6,7 @@
             <div class="add-inline-question-label main-label">
                 Frage hinzufügen 
                 <span>(Karteikarte)</span>
-                <div @click="createQuestion()">erweiterte Optionen</div>
+                <div style="cursor: pointer"@click="createQuestion()">erweiterte Optionen</div>
             </div>
             <div class="heart-container wuwi-red" @click="addToWishknowledge = !addToWishknowledge">
                 <div>
