@@ -18,10 +18,10 @@
                 <i class="fa fa-ellipsis-v"></i>
             </a>
             <ul class="dropdown-menu dropdown-menu-right standard-question-drop-down">
-                <li><a onclick="eventBus.$emit('open-edit-question-modal', {
+                <li onclick="eventBus.$emit('open-edit-question-modal', {
                             categoryId: <%= Model.CategoryId %>,
                             edit: false
-                        })" data-allowed="logged-in">
+                        })" data-allowed="logged-in"><a>
                     <div class="dropdown-icon"><i class="fa fa-plus-circle"></i></div><span>Frage hinzufügen</span>
                 </a></li>
                 <li @click="toggleQuestionsList()" style="cursor: pointer"><a>
