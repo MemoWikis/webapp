@@ -9,18 +9,18 @@ Vue.component('textsolution-component', {
             }
     },
 
+    mounted() {
+        if (this.solution)
+            this.text = this.solution.slice(1, -1);
+    },
+
     watch: {
         text(val) {
             this.$parent.solutionIsValid = val.length > 0;
             this.setSolution();
-        },
-        solution(val) {
-            this.text = val;
-
         }
     },
-    mounted() {
-    },
+
 
     methods: {
         setSolution() {

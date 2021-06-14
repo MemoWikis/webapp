@@ -60,7 +60,7 @@ var editQuestionComponent = Vue.component('edit-question-component',
             return {
                 id: null,
                 addToWuwi: false,
-                solutionType: 1,
+                solutionType: null,
                 textSolution: null,
                 singleSolutionJson: null,
                 numericSolution: null,
@@ -249,7 +249,6 @@ var editQuestionComponent = Vue.component('edit-question-component',
                 });
             $('#EditQuestionModal').on('show.bs.modal',
                 event => {
-                    this.solutionType = 1;
                     this.id = $('#EditQuestionModal').data('question').questionId;
                     if ($('#EditQuestionModal').data('question').edit) {
                         this.edit = true;
@@ -262,6 +261,7 @@ var editQuestionComponent = Vue.component('edit-question-component',
                         else if (this.currentLearningSessionIndex)
                             this.sessionIndex = this.currentLearningSessionIndex;
                     } else {
+                        this.solutionType = 1;
                         let categoryId = $('#EditQuestionModal').data('question').categoryId;
                         this.categoryIds.push(categoryId);
                         var json = { categoryId };
@@ -342,12 +342,7 @@ var editQuestionComponent = Vue.component('edit-question-component',
                 let solution = "";
                 let solutionType = parseInt(this.solutionType);
                 switch (solutionType) {
-                    case SolutionType.Text: solution = this.textSolution;
-                        break;
-                    case SolutionType.Numeric: solution = this.numericSolution;
-                        break;
-                    case SolutionType.Date: solution = this.dateSolution;
-                        break;
+                    case SolutionType.Text: return this.textSolution;
                     case SolutionType.MultipleChoice: solution = this.multipleChoiceJson;
                         break;
                     case SolutionType.MatchList: solution = this.matchListJson;
@@ -362,12 +357,6 @@ var editQuestionComponent = Vue.component('edit-question-component',
                 switch (solutionType) {
                     case SolutionType.Text:
                         this.textSolution = solution;
-                    break;
-                    case SolutionType.Numeric:
-                        this.numericSolution = solution;
-                    break;
-                    case SolutionType.Date:
-                        this.dateSolution = solution;
                     break;
                     case SolutionType.MultipleChoice:
                         this.multipleChoiceJson = solution;
@@ -430,6 +419,7 @@ var editQuestionComponent = Vue.component('edit-question-component',
                 let solutionType = parseInt(this.solutionType);
                 if (this.solutionType == 4 || this.solutionType == 7)
                     solutionType = 1;
+
                 let licenseId = this.getLicenseId();
 
                 var editJson = {
