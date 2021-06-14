@@ -7,11 +7,13 @@ Vue.component('my-world-toggle-component',
         data() {
             return {
                 showMyWorld: false,
-                disabled: false,
+                disabled: true,
             }
         },
         mounted() {
             this.loadCookie();
+            if (IsLoggedIn.Yes)
+                this.disabled = false;
         },
         watch: {
             showMyWorld(val) {
