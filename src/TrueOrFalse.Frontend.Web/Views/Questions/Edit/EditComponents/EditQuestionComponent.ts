@@ -295,24 +295,22 @@ var editQuestionComponent = Vue.component('edit-question-component',
                 else
                     this.showDropdown = false;
             },
-
+            questionHtml() {
+                this.formValidator();
+            },
             solutionType() {
                 this.solutionIsValid = false;
                 this.solutionMetadataJson = null;
             },
 
-            solutionIsValid(val) {
-                this.disabled = !val || (this.visibility != 1 && this.licenseConfirmation != true);
+            solutionIsValid() {
+                this.formValidator();
             },
             visibility(val) {
-                if (this.solutionIsValid && (val == 1 || (val == 0 && this.licenseConfirmation == true)))
-                    this.disabled = false;
-                else this.disabled = true;
+                this.formValidator();
             },
-            licenseConfirmation(val) {
-                if (this.solutionIsValid && (this.visibility == 1 || (this.visibility == 0 && val)))
-                    this.disabled = false;
-                else this.disabled = true;
+            licenseConfirmation() {
+                this.formValidator();
             }
         },
         methods: {
@@ -491,7 +489,13 @@ var editQuestionComponent = Vue.component('edit-question-component',
                     var categoryIdIndex = this.categoryIds.indexOf(data.categoryId);
                     this.categoryIds.splice(categoryIdIndex, 1);
                 }
-            }
+            },
+            formValidator() {
+                var questionIsValid = this.questionHtml != null && this.questionHtml.length > 0;
+                var solutionIsValid = this.solutionIsValid;
+                var licenseIsValid = this.licenseConfirmation || this.visibility == 1;
 
+                this.disabled = !questionIsValid || !solutionIsValid || !licenseIsValid;
+            }
         }
     });
