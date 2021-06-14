@@ -34,7 +34,7 @@
                     <%: Html.Partial("~/Views/Questions/Edit/EditComponents/FlashCard/FlashCardComponent.vue.ascx") %>
 
                 </div>
-                <div id="">
+                <div class="input-container">
                     <div class="overline-s no-line">                
                         Sichtbarkeit
                     </div>

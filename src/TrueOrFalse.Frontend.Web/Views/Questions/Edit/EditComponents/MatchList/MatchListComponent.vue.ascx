@@ -36,7 +36,7 @@
             </div>
 
         </div>
-        <div class="col-sm-12 is-solutionordered-checkbox">
+        <div class="checkbox-container">
             <div class="checkbox">
                 <label> 
                     <input type="checkbox" v-model="isSolutionOrdered" :true-value="false" :false-value="true">Paare zufällig anordnen

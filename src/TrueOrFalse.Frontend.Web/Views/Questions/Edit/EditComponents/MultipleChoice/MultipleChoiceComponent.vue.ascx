@@ -17,7 +17,7 @@
             <div @click="addChoice()" class="btn grey-bg form-control col-md-6">Antwort hinzufügen</div>
             <div class="col-sm-12 hidden-xs"></div>
         </div>
-        <div class="col-sm-12 is-solutionordered-checkbox">
+        <div class="checkbox-container">
             <div class="checkbox">
                 <label> 
                     <input type="checkbox" v-model="isSolutionOrdered" :true-value="false" :false-value="true">Antworten zufällig anordnen

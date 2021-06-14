@@ -1800,9 +1800,6 @@ strong {
 #EditQuestionModal .matchlist-container .matchlist-right {
   width: 50%;
 }
-#EditQuestionModal .is-solutionordered-checkbox {
-  margin-bottom: 25px;
-}
 #EditQuestionModal .edit-question-modal-header {
   display: flex;
   justify-content: space-between;
@@ -2157,6 +2154,12 @@ p.is-editor-empty:first-child::before {
 .license-confirmation-box {
   background-color: #EFEFEF;
   margin-bottom: 20px;
+}
+.checkbox-container {
+  padding: 10px;
+}
+.checkbox-container .checkbox {
+  margin: 0;
 }
 textarea::placeholder,
 input::placeholder {
