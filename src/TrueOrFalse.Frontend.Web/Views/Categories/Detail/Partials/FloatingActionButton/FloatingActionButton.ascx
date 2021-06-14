@@ -19,7 +19,7 @@ Inherits="System.Web.Mvc.ViewUserControl<FloatingActionButtonModel>" %>
                     
                     <% if (Model.IsTopicTab)
                        { %>
-                        <div class="mini-fab-container" @click="contentHasChanged = true" v-ripple="{center,class: 'r-white'}">
+                        <div class="mini-fab-container" @click="contentHasChanged = true" v-ripple="{center,class: 'r-white'}" v-show="isNotRootCategory" >
                             <div class="mini-fab pop-fast" >
                                 <i class="fas fa-edit"></i>
                             </div>

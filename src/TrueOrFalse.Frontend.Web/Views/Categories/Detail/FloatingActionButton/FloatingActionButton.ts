@@ -35,7 +35,8 @@ var FAB = Vue.component('floating-action-button',
                 showSaveMsg: false,
                 saveMsg: '',
                 saveMsgTimer: null,
-            }
+                isNotRootCategory: this.categoryId != 1 
+        }
         },
         watch: {
             isExtended(val) {

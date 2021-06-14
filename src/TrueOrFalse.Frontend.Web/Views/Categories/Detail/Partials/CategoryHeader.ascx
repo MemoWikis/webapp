@@ -193,6 +193,8 @@
                                     Unterthema hinzufügen
                                 </a>
                             </li>
+                            <% if (Model.Category.Id != 1)
+                               { %>
                             <li>
                                 <a href="<%= Links.CategoryEdit(Url, Model.Name, Model.Id) %>" data-allowed="logged-in">
                                     <div class="dropdown-icon">
@@ -201,6 +203,7 @@
                                     bearbeiten (Expertenmodus)
                                 </a>
                             </li>
+                                <% } %>
                             <li>
                                 <a href="" id="AnalyticsTab" data-url="<%=Links.CategoryDetailAnalyticsTab(Model.Name, Model.Id) %>" data-allowed="logged-in" class="Tab" >
                                     <div class="dropdown-icon">

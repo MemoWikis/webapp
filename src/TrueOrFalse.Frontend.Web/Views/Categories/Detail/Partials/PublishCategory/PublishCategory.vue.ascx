@@ -56,7 +56,7 @@
                                 <i class="far fa-square" v-else></i>
                             </div>
                             <div class="checkbox-label" :class="{ blink : blink }">
-                                Ich stelle diesen Eintrag unter die Lizenz "Creative Commons - Namensnennung 4.0 International" (CC BY 4.0, Lizenztext, deutsche Zusammenfassung). 
+                                Ich stelle diesen Eintrag unter die Lizenz "Creative Commons - Namensnennung 4.0 International" (CC BY 4.0, <a href="https://creativecommons.org/licenses/by/4.0/legalcode.de" target="_blank">Lizenztext, deutsche Zusammenfassung</a>). 
                                 Der Eintrag kann bei angemessener Namensnennung ohne Einschränkung weiter genutzt werden. Die Texte und ggf. 
                                 Bilder sind meine eigene Arbeit und nicht aus urheberrechtlich geschützten Quellen kopiert. 
                             </div>

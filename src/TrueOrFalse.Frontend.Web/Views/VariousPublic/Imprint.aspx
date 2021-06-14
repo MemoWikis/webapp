@@ -37,9 +37,9 @@
 
             <h3>Angaben gemäß § 5 TMG:</h3>
             memucho GmbH<br />
-            Kirchstraße 1,
-            <br />
-            15745 Wildau<br />
+            Am Moorhof <br />
+            Nettgendorfer Str. 7 <br />
+            14947 Nuthe-Urstromtal<br />
 
             <h3>Registereintrag:</h3>
             Registergericht: Amtsgericht Cottbus, HRB 13499 CB<br />
