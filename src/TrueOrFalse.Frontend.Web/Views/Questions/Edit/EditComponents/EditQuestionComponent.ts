@@ -233,6 +233,7 @@ var editQuestionComponent = Vue.component('edit-question-component',
                 currentLearningSessionIndex: null,
                 solutionIsValid: false,
                 showMore: false,
+                disabled: true,
             }
         },
         mounted() {
@@ -299,6 +300,15 @@ var editQuestionComponent = Vue.component('edit-question-component',
                 this.solutionIsValid = false;
                 this.solutionMetadataJson = null;
             },
+
+            solutionIsValid(val) {
+                this.disabled = !val || (this.visibility != 1 && this.licenseConfirmation != true);
+            },
+            visibility(val) {
+                if (this.solutionIsValid && (val == 1 || (val == 0 && this.licenseConfirmation == true)))
+                    this.disaled = false;
+                else this.disabled = true;
+            }
         },
         methods: {
             getQuestionData(id) {

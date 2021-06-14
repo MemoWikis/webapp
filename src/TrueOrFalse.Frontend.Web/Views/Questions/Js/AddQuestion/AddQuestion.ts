@@ -133,6 +133,7 @@ Vue.component('add-question-component', {
                 flashCardAnswer: null,
                 flashCardJson: null,
                 licenseConfirmation: false,
+                showMore: false,
             }
         },
 

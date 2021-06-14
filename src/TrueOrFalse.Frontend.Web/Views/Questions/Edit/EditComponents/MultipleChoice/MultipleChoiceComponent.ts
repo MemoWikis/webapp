@@ -27,7 +27,9 @@ Vue.component('multiplechoice-component', {
 
     methods: {
         initiateSolution() {
-            this.choices = JSON.parse(this.solution).Choices;
+            var json = JSON.parse(this.solution);
+            this.choices = json.Choices;
+            this.isSolutionOrdered = json.IsSolutionOrdered;
             this.validateSolution();
         },
         updateElement(index, newVal) {

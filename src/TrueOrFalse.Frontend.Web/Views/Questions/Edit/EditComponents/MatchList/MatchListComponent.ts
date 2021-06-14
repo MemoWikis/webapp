@@ -22,7 +22,10 @@ Vue.component('matchlist-component', {
 
     methods: {
         initiateSolution() {
-            this.pairs = JSON.parse(this.solution).Pairs;
+            var json = JSON.parse(this.solution);
+            this.pairs = json.Pairs;
+            this.rightElements = json.RightElements;
+            this.isSolutionOrdered = json.IsSolutionOrdered;
             this.solutionBuilder();
         },
         addPair() {
@@ -53,6 +56,18 @@ Vue.component('matchlist-component', {
                 IsSolutionOrdered: this.isSolutionOrdered
             }
             this.$parent.matchListJson = solution;
+        },
+        validateSolution() {
+            var hasEmptyAnswer = this.rightElements.some((e) => {
+                return e.Text.trim() == '';
+            });
+            var leftElementHasNoAnswer = this.pairs.some((p) => {
+                return p.ElementLeft.Text.trim() == '';
+            });
+            var rightElementHasNoAnswer = this.pairs.some((p) => {
+                return p.ElementRight.Text.trim() == '';
+            });
+            this.$parent.solutionIsValid = !hasEmptyAnswer && !leftElementHasNoAnswer && !rightElementHasNoAnswer;
         }
     }
 })
