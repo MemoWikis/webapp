@@ -11,7 +11,7 @@ Vue.component('textsolution-component', {
 
     mounted() {
         if (this.solution)
-            this.text = this.solution.slice(1, -1);
+            this.text = this.solution;
     },
 
     watch: {
