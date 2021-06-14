@@ -13,11 +13,13 @@ Vue.component('textsolution-component', {
         text(val) {
             this.$parent.solutionIsValid = val.length > 0;
             this.setSolution();
+        },
+        solution(val) {
+            this.text = val;
+
         }
     },
     mounted() {
-        if (this.solution)
-            this.text = this.solution;
     },
 
     methods: {
