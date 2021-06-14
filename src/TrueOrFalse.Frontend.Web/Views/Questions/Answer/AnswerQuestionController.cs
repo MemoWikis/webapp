@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
 using System.Web.Script.Serialization;
+using FluentNHibernate.Data;
 using Newtonsoft.Json;
 using TrueOrFalse;
 using TrueOrFalse.Frontend.Web.Code;
@@ -337,6 +338,18 @@ public class AnswerQuestionController : BaseController
         if (hideAddToKnowledge.HasValue)
             answerQuestionModel.DisableAddKnowledgeButton = hideAddToKnowledge.Value;
 
+        return ViewRenderer.RenderPartialView(
+            "~/Views/Questions/Answer/AnswerBodyControl/AnswerBody.ascx",
+            new AnswerBodyModel(answerQuestionModel),
+            ControllerContext
+        );
+    }
+
+    [HttpPost]
+    public string RenderAnswerBody(int questionId)
+    {
+        var question = EntityCache.GetQuestionById(questionId);
+        var answerQuestionModel = new AnswerQuestionModel(question);
         return ViewRenderer.RenderPartialView(
             "~/Views/Questions/Answer/AnswerBodyControl/AnswerBody.ascx",
             new AnswerBodyModel(answerQuestionModel),

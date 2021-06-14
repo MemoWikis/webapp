@@ -212,6 +212,7 @@ namespace TrueOrFalse
                     DescriptionHtml = question.DescriptionHtml,
                     Categories = question.Categories.Select(c => categoryController.FillMiniCategoryItem(c)),
                     LicenseId = question.LicenseId,
+                    Visibility = question.Visibility
                 }
             };
 

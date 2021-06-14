@@ -9,6 +9,12 @@ Vue.component('textsolution-component', {
             }
     },
 
+    watch: {
+        text(val) {
+            this.$parent.solutionIsValid = val.length > 0;
+            this.setSolution();
+        }
+    },
     mounted() {
         if (this.solution)
             this.text = this.solution;
@@ -20,6 +26,7 @@ Vue.component('textsolution-component', {
 
             this.$parent.textSolution = this.text;
             this.$parent.solutionMetadataJson = metadataJson;
+
         }
     }
 })

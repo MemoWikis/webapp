@@ -16,9 +16,19 @@ Vue.component('multiplechoice-component', {
             this.initiateSolution();
     },
 
+    watch: {
+        choices() {
+            this.solutionBuilder();
+        },
+        isSolutionOrdered() {
+            this.solutionBuilder();
+        }
+    },
+
     methods: {
         initiateSolution() {
             this.choices = JSON.parse(this.solution).Choices;
+            this.validateSolution();
         },
         updateElement(index, newVal) {
             this.choices[index] = newVal;
@@ -33,11 +43,28 @@ Vue.component('multiplechoice-component', {
         deleteChoice(index) {
             this.choices.splice(index, 1);
         },
-        answerBuilder() {
-            this.answer = {
+        toggleCorrectness(index) {
+            this.choices[index].IsCorrect = !this.choices[index].IsCorrect;
+            this.solutionBuilder();
+        },
+        solutionBuilder() {
+            this.validateSolution();
+
+            let solution = {
                 Choices: this.choices,
                 IsSolutionOrdered: this.isSolutionOrdered
             }
+
+            this.$parent.multipleChoiceJson = solution;
+        },
+        validateSolution() {
+            //var hasCorrectAnswer = this.choices.some((c) => {
+            //    return c.IsCorrect == true;
+            //});
+            var hasEmptyAnswer = this.choices.some((c) => {
+                return c.Text.trim() == '';
+            });
+            this.$parent.solutionIsValid = !hasEmptyAnswer;
         }
     }
 })

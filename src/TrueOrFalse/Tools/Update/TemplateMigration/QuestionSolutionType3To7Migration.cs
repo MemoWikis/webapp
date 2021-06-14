@@ -22,21 +22,25 @@ namespace TemplateMigration
                 var newSolution = new Solution
                 {
                     isSolutionOrdered = false,
+                    Choices = new List<Choice>(),
                 };
+                int index = 0;
                 foreach (string choice in oldSolution.Choices)
                 {
+                    var isCorrect = false || index == 0;
                     var newChoice = new Choice
                     {
                         Text = choice, 
-                        IsCorrect = oldSolution.Choices.First() == choice
+                        IsCorrect = isCorrect
                     };
                     newSolution.Choices.Add(newChoice);
+                    index++;
                 }
 
                 question.Solution = JsonConvert.SerializeObject(newSolution);
                 question.SolutionType = SolutionType.MultipleChoice;
 
-                Sl.QuestionRepo.Update(question);
+                Sl.QuestionRepo.UpdateBeforeEntityCacheInit(question);
             }
         }
 

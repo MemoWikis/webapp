@@ -2247,10 +2247,6 @@
       <DependentUpon>MultipleChoiceComponent.ts</DependentUpon>
     </Content>
     <Content Include="Views\Questions\Edit\EditComponents\MultipleChoice\MultipleChoiceComponent.vue.ascx" />
-    <Content Include="Views\Questions\Edit\EditComponents\MultipleChoice_SingleSolution\MultipleChoice_SingleSolutionComponent.vue.ascx" />
-    <Content Include="Views\Questions\Edit\EditComponents\MultipleChoice_SingleSolution\MultipleChoice_SingleSolutionComponentComponent.js">
-      <DependentUpon>MultipleChoice_SingleSolutionComponentComponent.ts</DependentUpon>
-    </Content>
     <Content Include="Views\Questions\Edit\EditComponents\Numeric\NumericComponent.js">
       <DependentUpon>NumericComponent.ts</DependentUpon>
     </Content>
@@ -2702,7 +2698,6 @@
     <TypeScriptCompile Include="Views\Questions\Edit\EditComponents\FlashCard\FlashCardComponent.ts" />
     <TypeScriptCompile Include="Views\Questions\Edit\EditComponents\MatchList\MatchListComponent.ts" />
     <TypeScriptCompile Include="Views\Questions\Edit\EditComponents\MultipleChoice\MultipleChoiceComponent.ts" />
-    <TypeScriptCompile Include="Views\Questions\Edit\EditComponents\MultipleChoice_SingleSolution\MultipleChoice_SingleSolutionComponentComponent.ts" />
     <TypeScriptCompile Include="Views\Questions\Edit\EditComponents\Numeric\NumericComponent.ts" />
     <TypeScriptCompile Include="Views\Questions\Edit\EditComponents\Text\TextSolutionComponent.ts" />
     <TypeScriptCompile Include="Views\Questions\Js\AddQuestion\AddQuestion.ts" />
@@ -4290,9 +4285,6 @@
     </Content>
     <Content Include="Views\Questions\Edit\EditComponents\MultipleChoice\MultipleChoiceComponent.js.map">
       <DependentUpon>MultipleChoiceComponent.ts</DependentUpon>
-    </Content>
-    <Content Include="Views\Questions\Edit\EditComponents\MultipleChoice_SingleSolution\MultipleChoice_SingleSolutionComponentComponent.js.map">
-      <DependentUpon>MultipleChoice_SingleSolutionComponentComponent.ts</DependentUpon>
     </Content>
     <Content Include="Views\Questions\Edit\EditComponents\EditQuestionComponent.js.map">
       <DependentUpon>EditQuestionComponent.ts</DependentUpon>

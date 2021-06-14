@@ -7,7 +7,7 @@ Vue.component('matchlist-component', {
                 ElementRight: { Text: "" },
                 ElementLeft: { Text: "" }
             }],
-            rightElements: [{ Text: "" }],
+            rightElements: [],
             isSolutionOrdered: false,
         }
     },

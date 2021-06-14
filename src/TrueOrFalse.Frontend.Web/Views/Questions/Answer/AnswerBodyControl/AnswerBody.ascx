@@ -58,7 +58,7 @@
                                 </a>
                             </li>
                         <% } %>
-                        <li style="cursor: pointer">
+                        <li>
                             <a href="<%=Links.GetUrl(Model.Question) %>">
                                 <div class="dropdown-icon">
                                     <i class="fas fa-file"></i>
@@ -74,7 +74,7 @@
                                 <span>Bearbeitungshistorie der Frage</span>
                             </a>
                         </li>
-                        <li style="cursor: pointer">
+                        <li>
                             <a href="<%=Links.GetUrl(Model.Question) + "#JumpLabel" %>">
                                 <div class="dropdown-icon">
                                     <i class="fas fa-comment"></i>

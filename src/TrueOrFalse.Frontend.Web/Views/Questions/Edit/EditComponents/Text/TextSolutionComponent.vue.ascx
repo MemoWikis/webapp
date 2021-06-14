@@ -1,13 +1,26 @@
 ﻿<textsolution-component inline-template :solution="textSolution">
-    <div>
+
+    <div class="input-container">
+        <div class="overline-s no-line">Antwort</div>
+
         <form class="form-horizontal">
             <div class="form-group">
-                <label for="TextAnswer" class="col-sm-2 control-label">Antwort</label>
-                <div class="col-sm-10">
-                    <input type="text" class="form-control" id="TextSolutution" placeholder="" v-model="text" v-on:change="setSolution()">
+                <div class="col-sm-12">
+                    
+                    <textarea-autosize
+                        placeholder="Gib deine Antwort ein"
+                        ref="textSolutionInput"
+                        v-model="text"
+                        rows="1"
+                        @keydown.enter.native.prevent
+                        @keyup.enter.native.prevent
+                        :min-height="43"
+                        width="100%"
+                    />
                 </div>
             </div>
-            <div class="form-group">
+
+<%--            <div class="form-group">
                 <div class="col-sm-offset-2 col-sm-10">
                     <div class="checkbox">
                         <label>
@@ -20,12 +33,7 @@
                         </label>
                     </div>
                 </div>
-            </div>
-            <div class="form-group">
-                <div class="col-sm-offset-2 col-sm-10">
-
-                </div>
-            </div>
+            </div>--%>
         </form>
 
     </div>

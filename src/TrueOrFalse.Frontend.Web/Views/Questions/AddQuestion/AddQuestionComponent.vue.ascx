@@ -23,7 +23,7 @@
         <div id="AddQuestionBody">
             <div id="AddQuestionFormContainer"  class="inline-question-editor">
                 <div>
-                    <div class="add-inline-question-label s-label">Frage</div>
+                    <div class="overline-s no-line">Frage</div>
                     <editor-menu-bar :editor="questionEditor" v-slot="{ commands, isActive, focused }">
                         <%: Html.Partial("~/Views/Questions/Edit/EditComponents/EditorPartials/BasicEditorMenubar.vue.ascx") %>
                     </editor-menu-bar>
@@ -34,13 +34,13 @@
                     <%: Html.Partial("~/Views/Questions/Edit/EditComponents/FlashCard/FlashCardComponent.vue.ascx") %>
 
                 </div>
-                <div id="AddQuestionPrivacyContainer">
-                <div class="add-inline-question-label s-label">                
-                    Sichtbarkeit
-                </div>
-                    <%: Html.Partial("~/Views/Questions/Edit/EditComponents/EditorPartials/PrivacySelector.vue.ascx") %>
+                <div id="">
+                    <div class="overline-s no-line">                
+                        Sichtbarkeit
+                    </div>
+                        <%: Html.Partial("~/Views/Questions/Edit/EditComponents/EditorPartials/PrivacySelector.vue.ascx") %>
 
-            </div>
+                </div>
                 <div>
                     <div class="btn btn-lg btn-primary memo-button" @click="addFlashcard()">Hinzufügen</div>
                 </div>

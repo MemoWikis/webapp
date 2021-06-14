@@ -394,6 +394,7 @@ img {
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none;
+  border-radius: 0;
   display: inline-block;
   float: left;
   font-size: 36px !important;
@@ -449,6 +450,19 @@ fieldset[disabled] #StickyMenuButton {
   -webkit-box-shadow: none;
   box-shadow: none;
 }
+#MenuButton.grey-bg,
+#StickyMenuButton.grey-bg {
+  background-color: #EFEFEF;
+  transition: background-color 0.2s ease-in-out;
+}
+#MenuButton.grey-bg:hover,
+#StickyMenuButton.grey-bg:hover {
+  background-color: #DDDDDD;
+}
+#MenuButton.form-control,
+#StickyMenuButton.form-control {
+  box-shadow: none;
+}
 #MenuButton .caret,
 #StickyMenuButton .caret {
   margin-left: 3px;
@@ -500,6 +514,7 @@ fieldset[disabled] #StickyMenuButton {
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none;
+  border-radius: 0;
   color: #003264;
   padding: 3px 3px 3px 7px;
   margin-right: 10px;
@@ -542,6 +557,19 @@ fieldset[disabled] #StickyMenuButton:hover {
   opacity: 0.65;
   filter: alpha(opacity=65);
   -webkit-box-shadow: none;
+  box-shadow: none;
+}
+#MenuButton:hover.grey-bg,
+#StickyMenuButton:hover.grey-bg {
+  background-color: #EFEFEF;
+  transition: background-color 0.2s ease-in-out;
+}
+#MenuButton:hover.grey-bg:hover,
+#StickyMenuButton:hover.grey-bg:hover {
+  background-color: #DDDDDD;
+}
+#MenuButton:hover.form-control,
+#StickyMenuButton:hover.form-control {
   box-shadow: none;
 }
 @media (min-width: 768px) {
@@ -1630,13 +1658,17 @@ h3 {
 .overline-s.no-line,
 .overline-m.no-line {
   border: none;
-  margin-bottom: 0;
+  margin-bottom: 4px;
   padding-bottom: 0;
+}
+.overline-s.overline-title,
+.overline-m.overline-title {
+  color: #555555;
 }
 .overline-s {
   font-size: 12px;
   line-height: 18px;
-  letter-spacing: 0.25px;
+  letter-spacing: 1px;
   text-transform: uppercase;
   padding-bottom: 5px;
   margin-bottom: 25px;
@@ -1672,6 +1704,7 @@ h3 {
 .dropdown-menu li,
 .dropdown-menu div {
   line-height: 32px;
+  cursor: pointer;
 }
 .dropdown-menu li a,
 .dropdown-menu div a {
@@ -1717,9 +1750,58 @@ strong {
 #EditQuestionModal .modal-footer {
   border: none;
 }
+#EditQuestionModal .modal-footer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+#EditQuestionModal select {
+  border: solid 1px #DDDDDD;
+  border-radius: 0;
+  padding: 0 4px;
+  outline: none !important;
+}
 #EditQuestionModal .solutionType-selector select {
   border: none;
-  background: #DDDDDD;
+  background: #EFEFEF;
+  padding: 0 4px;
+  outline: none !important;
+}
+#EditQuestionModal .matchlist-container select {
+  height: 34px;
+  width: 190px;
+}
+#EditQuestionModal .matchlist-container select option:disabled {
+  font-style: italic;
+}
+#EditQuestionModal .matchlist-container select:focus,
+#EditQuestionModal .matchlist-container select:focus-visible {
+  border: solid 1px #AFD534;
+}
+#EditQuestionModal .matchlist-container .form-group {
+  display: flex;
+  align-items: center;
+}
+#EditQuestionModal .matchlist-container .matchlist-options,
+#EditQuestionModal .matchlist-container .matchlist-pairs {
+  display: flex;
+  justify-content: space-between;
+}
+#EditQuestionModal .matchlist-container .matchlist-options input,
+#EditQuestionModal .matchlist-container .matchlist-pairs input,
+#EditQuestionModal .matchlist-container .matchlist-options select,
+#EditQuestionModal .matchlist-container .matchlist-pairs select,
+#EditQuestionModal .matchlist-container .matchlist-options .input-group,
+#EditQuestionModal .matchlist-container .matchlist-pairs .input-group {
+  width: 100%;
+}
+#EditQuestionModal .matchlist-container .matchlist-left,
+#EditQuestionModal .matchlist-container .matchlist-right {
+  width: 50%;
+}
+#EditQuestionModal .is-solutionordered-checkbox {
+  margin-bottom: 25px;
 }
 #EditQuestionModal .edit-question-modal-header {
   display: flex;
@@ -1739,11 +1821,48 @@ strong {
   color: #FF001F;
   font-size: 22px;
 }
-#EditQuestionModal .ProseMirror,
-#EditQuestionModal input {
-  border: solid 1px #DDDDDD;
-  border-radius: 4px;
+#EditQuestionModal .form-group {
   margin-bottom: 26px;
+}
+#EditQuestionModal .ProseMirror,
+#EditQuestionModal input,
+#EditQuestionModal textarea {
+  border: solid 1px #DDDDDD;
+  border-radius: 0;
+}
+#EditQuestionModal .input-group-addon {
+  border: none;
+  border-radius: 0;
+}
+#EditQuestionModal input,
+#EditQuestionModal .input-group-addon {
+  box-shadow: none;
+  background: none;
+}
+#EditQuestionModal input.toggle-correctness,
+#EditQuestionModal .input-group-addon.toggle-correctness {
+  min-width: 38px;
+}
+#EditQuestionModal input.toggle-correctness.active,
+#EditQuestionModal .input-group-addon.toggle-correctness.active {
+  color: white;
+}
+#EditQuestionModal input.toggle-correctness.active.is-correct,
+#EditQuestionModal .input-group-addon.toggle-correctness.active.is-correct {
+  background-color: #AFD534;
+}
+#EditQuestionModal input.toggle-correctness.active.is-wrong,
+#EditQuestionModal .input-group-addon.toggle-correctness.active.is-wrong {
+  background-color: #FFA07A;
+}
+#EditQuestionModal input:focus,
+#EditQuestionModal .ProseMirror-focused:focus,
+#EditQuestionModal textarea:focus,
+#EditQuestionModal input:focus-visible,
+#EditQuestionModal .ProseMirror-focused:focus-visible,
+#EditQuestionModal textarea:focus-visible {
+  outline: none !important;
+  border: solid 1px #AFD534;
 }
 #EditQuestionModal .ProseMirror {
   padding: 11px 15px 0;
@@ -1770,13 +1889,301 @@ strong {
   height: 100%;
   cursor: pointer;
 }
-#EditQuestionModal .related-categories-container .category-chip-component .category-chip-deleteBtn i {
-  transform: scale(0);
-  transition: all 0.2s ease-in-out;
+#EditQuestionModal .input-group-addon {
+  background-color: #EFEFEF;
 }
-#EditQuestionModal .related-categories-container .category-chip-component:hover .category-chip-deleteBtn i {
-  transform: scale(1);
+#EditQuestionModal textarea {
+  width: 100%;
+  padding: 11px 15px 0;
+}
+#EditQuestionModal .description-container .ProseMirror {
+  height: 62px;
 }
 .d-flex {
   display: flex;
+  width: 100%;
+}
+.inline-text-editor,
+.inline-question-editor,
+#flashCardContent {
+  position: relative;
+}
+.inline-text-editor a,
+.inline-question-editor a,
+#flashCardContent a {
+  cursor: pointer;
+}
+.inline-text-editor .editor__floating-menu,
+.inline-question-editor .editor__floating-menu,
+#flashCardContent .editor__floating-menu {
+  position: absolute;
+  z-index: 1;
+  margin-top: -0.25rem;
+  visibility: hidden;
+  opacity: 0;
+  transition: opacity 0.2s, visibility 0.2s;
+}
+.inline-text-editor .editor__floating-menu.is-active,
+.inline-question-editor .editor__floating-menu.is-active,
+#flashCardContent .editor__floating-menu.is-active {
+  opacity: 1;
+  visibility: visible;
+}
+.inline-text-editor .menubar,
+.inline-question-editor .menubar,
+#flashCardContent .menubar {
+  top: 60px;
+  position: sticky;
+  background: white;
+  margin-top: -36px;
+  z-index: 10;
+  box-shadow: 0 6px 6px -6px rgba(0, 0, 0, 0.16);
+  border-radius: 2px;
+  font-size: 0;
+  height: 36px;
+}
+.inline-text-editor .menubar.is-hidden,
+.inline-question-editor .menubar.is-hidden,
+#flashCardContent .menubar.is-hidden {
+  visibility: hidden;
+  opacity: 0;
+  pointer-events: none;
+}
+.inline-text-editor .menubar.is-focused,
+.inline-question-editor .menubar.is-focused,
+#flashCardContent .menubar.is-focused {
+  visibility: visible;
+  opacity: 1;
+  transition: visibility 0.2s, opacity 0.2s;
+  pointer-events: auto !important;
+}
+.inline-text-editor .ProseMirror,
+.inline-question-editor .ProseMirror,
+#flashCardContent .ProseMirror,
+.inline-text-editor .flashCardContentSite,
+.inline-question-editor .flashCardContentSite,
+#flashCardContent .flashCardContentSite {
+  padding-top: 2px;
+}
+/*CodeHighlight*/
+.ProseMirror:focus,
+#AnswerBody:focus,
+.singleQuestionRow:focus {
+  outline: none !important;
+}
+.ProseMirror b,
+#AnswerBody b,
+.singleQuestionRow b,
+.ProseMirror strong,
+#AnswerBody strong,
+.singleQuestionRow strong {
+  font-weight: 600;
+}
+.ProseMirror p code,
+#AnswerBody p code,
+.singleQuestionRow p code {
+  color: #555555;
+  bckground-color: #EFEFEF;
+}
+.ProseMirror pre,
+#AnswerBody pre,
+.singleQuestionRow pre {
+  background-color: black;
+  border: none;
+}
+.ProseMirror pre::before,
+#AnswerBody pre::before,
+.singleQuestionRow pre::before {
+  content: attr(data-language);
+  text-transform: uppercase;
+  display: block;
+  text-align: right;
+  font-weight: bold;
+  font-size: 0.6rem;
+}
+.ProseMirror pre code,
+#AnswerBody pre code,
+.singleQuestionRow pre code {
+  color: white;
+}
+.ProseMirror code .hljs-comment,
+#AnswerBody code .hljs-comment,
+.singleQuestionRow code .hljs-comment,
+.ProseMirror code .hljs-quote,
+#AnswerBody code .hljs-quote,
+.singleQuestionRow code .hljs-quote {
+  color: #999999;
+}
+.ProseMirror code .hljs-variable,
+#AnswerBody code .hljs-variable,
+.singleQuestionRow code .hljs-variable,
+.ProseMirror code .hljs-template-variable,
+#AnswerBody code .hljs-template-variable,
+.singleQuestionRow code .hljs-template-variable,
+.ProseMirror code .hljs-attribute,
+#AnswerBody code .hljs-attribute,
+.singleQuestionRow code .hljs-attribute,
+.ProseMirror code .hljs-tag,
+#AnswerBody code .hljs-tag,
+.singleQuestionRow code .hljs-tag,
+.ProseMirror code .hljs-name,
+#AnswerBody code .hljs-name,
+.singleQuestionRow code .hljs-name,
+.ProseMirror code .hljs-regexp,
+#AnswerBody code .hljs-regexp,
+.singleQuestionRow code .hljs-regexp,
+.ProseMirror code .hljs-link,
+#AnswerBody code .hljs-link,
+.singleQuestionRow code .hljs-link,
+.ProseMirror code .hljs-name,
+#AnswerBody code .hljs-name,
+.singleQuestionRow code .hljs-name,
+.ProseMirror code .hljs-selector-id,
+#AnswerBody code .hljs-selector-id,
+.singleQuestionRow code .hljs-selector-id,
+.ProseMirror code .hljs-selector-class,
+#AnswerBody code .hljs-selector-class,
+.singleQuestionRow code .hljs-selector-class {
+  color: #f2777a;
+}
+.ProseMirror code .hljs-number,
+#AnswerBody code .hljs-number,
+.singleQuestionRow code .hljs-number,
+.ProseMirror code .hljs-meta,
+#AnswerBody code .hljs-meta,
+.singleQuestionRow code .hljs-meta,
+.ProseMirror code .hljs-built_in,
+#AnswerBody code .hljs-built_in,
+.singleQuestionRow code .hljs-built_in,
+.ProseMirror code .hljs-builtin-name,
+#AnswerBody code .hljs-builtin-name,
+.singleQuestionRow code .hljs-builtin-name,
+.ProseMirror code .hljs-literal,
+#AnswerBody code .hljs-literal,
+.singleQuestionRow code .hljs-literal,
+.ProseMirror code .hljs-type,
+#AnswerBody code .hljs-type,
+.singleQuestionRow code .hljs-type,
+.ProseMirror code .hljs-params,
+#AnswerBody code .hljs-params,
+.singleQuestionRow code .hljs-params {
+  color: #f99157;
+}
+.ProseMirror code .hljs-string,
+#AnswerBody code .hljs-string,
+.singleQuestionRow code .hljs-string,
+.ProseMirror code .hljs-symbol,
+#AnswerBody code .hljs-symbol,
+.singleQuestionRow code .hljs-symbol,
+.ProseMirror code .hljs-bullet,
+#AnswerBody code .hljs-bullet,
+.singleQuestionRow code .hljs-bullet {
+  color: #99cc99;
+}
+.ProseMirror code .hljs-title,
+#AnswerBody code .hljs-title,
+.singleQuestionRow code .hljs-title,
+.ProseMirror code .hljs-section,
+#AnswerBody code .hljs-section,
+.singleQuestionRow code .hljs-section {
+  color: #ffcc66;
+}
+.ProseMirror code .hljs-keyword,
+#AnswerBody code .hljs-keyword,
+.singleQuestionRow code .hljs-keyword,
+.ProseMirror code .hljs-selector-tag,
+#AnswerBody code .hljs-selector-tag,
+.singleQuestionRow code .hljs-selector-tag {
+  color: #6699cc;
+}
+.ProseMirror code .hljs-emphasis,
+#AnswerBody code .hljs-emphasis,
+.singleQuestionRow code .hljs-emphasis {
+  font-style: italic;
+}
+.ProseMirror code .hljs-strong,
+#AnswerBody code .hljs-strong,
+.singleQuestionRow code .hljs-strong {
+  font-weight: 700;
+}
+.singleQuestionRow pre {
+  margin: 0;
+}
+.singleQuestionRow .answer pre {
+  width: 80%;
+}
+.menubar__button {
+  background: white;
+  border: hidden;
+  font-size: 18px;
+  width: 36px;
+  height: 36px;
+  margin: 0px;
+  color: #555555;
+  text-align: center;
+  padding: 1px 6px;
+}
+.menubar__button:hover {
+  background: #EFEFEF;
+}
+.menubar__button.is-active {
+  background: #DDDDDD;
+}
+.link-modal .link-form {
+  display: inline-flex;
+  justify-content: space-between;
+  width: 100%;
+}
+.link-modal .link-form .link-input {
+  width: 100%;
+  margin-right: 15px;
+}
+.link-modal .link-form .link-btn {
+  font-size: 16px;
+  padding-top: 3px;
+}
+p.is-editor-empty:first-child::before {
+  content: attr(data-empty-text);
+  float: left;
+  color: #aaa;
+  pointer-events: none;
+  height: 0;
+  font-style: italic;
+}
+.input-container {
+  margin-bottom: 26px;
+}
+.license-confirmation-box {
+  background-color: #EFEFEF;
+  margin-bottom: 20px;
+}
+textarea::placeholder,
+input::placeholder {
+  color: #999999;
+  font-style: italic;
+}
+#AddCategoryApp input {
+  border: solid 1px #DDDDDD;
+  border-radius: 0;
+}
+/*Generic Bootstrap*/
+.btn {
+  border-radius: 0;
+}
+.btn.grey-bg {
+  background-color: #EFEFEF;
+  transition: background-color 0.2s ease-in-out;
+}
+.btn.grey-bg:hover {
+  background-color: #DDDDDD;
+}
+.btn.form-control {
+  box-shadow: none;
+}
+.modal-content {
+  border-radius: 0;
+}
+.modal-content .modal-body,
+.modal-content .modal-footer {
+  padding: 25px;
 }

@@ -207,7 +207,7 @@ var editQuestionComponent = Vue.component('edit-question-component',
                         new tiptapExtensions.Placeholder({
                             emptyEditorClass: 'is-editor-empty',
                             emptyNodeClass: 'is-empty',
-                            emptyNodeText: 'Gib den Fragetext ein',
+                            emptyNodeText: 'Erklärungen, Zusatzinfos, Merkhilfen, Abbildungen, weiterführende Literatur und Links etc.',
                             showOnlyCurrent: true,
                         })
                     ],
@@ -229,6 +229,10 @@ var editQuestionComponent = Vue.component('edit-question-component',
                 sessionIndex: 0,
                 solutionMetadataJson: null,
                 licenseConfirmation: false,
+                isLearningSession: false,
+                currentLearningSessionIndex: null,
+                solutionIsValid: false,
+                showMore: false,
             }
         },
         mounted() {
@@ -249,11 +253,13 @@ var editQuestionComponent = Vue.component('edit-question-component',
                     if ($('#EditQuestionModal').data('question').edit) {
                         this.edit = true;
                         this.getQuestionData(this.id);
-                        var learningSessionIndex = $('#hddIsLearningSession').attr('data-current-step-idx');
+                        if ($('#hddIsLearningSession').length > 0)
+                            this.isLearningSession = true;
+                        this.currentLearningSessionIndex = $('#hddIsLearningSession').attr('data-current-step-idx');
                         if ($('#EditQuestionModal').data('question').sessionIndex)
                             this.sessionIndex = $('#EditQuestionModal').data('question').sessionIndex;
-                        else if (learningSessionIndex)
-                            this.sessionIndex = learningSessionIndex;
+                        else if (this.currentLearningSessionIndex)
+                            this.sessionIndex = this.currentLearningSessionIndex;
                     } else {
                         let categoryId = $('#EditQuestionModal').data('question').categoryId;
                         this.categoryIds.push(categoryId);
@@ -290,8 +296,9 @@ var editQuestionComponent = Vue.component('edit-question-component',
             },
 
             solutionType() {
+                this.solutionIsValid = false;
                 this.solutionMetadataJson = null;
-            }
+            },
         },
         methods: {
             getQuestionData(id) {
@@ -312,6 +319,7 @@ var editQuestionComponent = Vue.component('edit-question-component',
                         self.selectedCategories = data.Categories;
                         self.licenseId = data.LicenseId;
                         self.solutionMetadataJson = data.SolutionMetadataJson;
+                        self.visibility = data.Visibility;
                     },
                 });
             },
@@ -321,11 +329,7 @@ var editQuestionComponent = Vue.component('edit-question-component',
                 switch (solutionType) {
                     case SolutionType.Text: solution = this.textSolution;
                         break;
-                    case SolutionType.MultipleChoice_SingleSolution: solution = this.singleSolutionJson;
-                        break;
                     case SolutionType.Numeric: solution = this.numericSolution;
-                        break;
-                    case SolutionType.Sequence: solution = this.sequenceJson;
                         break;
                     case SolutionType.Date: solution = this.dateSolution;
                         break;
@@ -344,14 +348,8 @@ var editQuestionComponent = Vue.component('edit-question-component',
                     case SolutionType.Text:
                         this.textSolution = solution;
                     break;
-                    case SolutionType.MultipleChoice_SingleSolution:
-                        this.singleSolutionJson = solution;
-                    break;
                     case SolutionType.Numeric:
                         this.numericSolution = solution;
-                    break;
-                    case SolutionType.Sequence:
-                        this.sequenceJson = solution;
                     break;
                     case SolutionType.Date:
                         this.dateSolution = solution;
@@ -371,27 +369,43 @@ var editQuestionComponent = Vue.component('edit-question-component',
             save() {
                 var url = this.edit ? '/Question/Edit' : '/Question/Create';
                 var json = this.getSaveJson();
-
-                var sessionIndex = this.sessionIndex;
+                var self = this;
 
                 $.ajax({
                     type: 'post',
                     contentType: "application/json",
                     url: url,
                     data: JSON.stringify(json),
-                    success: function (data) {
-                        var answerBody = new AnswerBody();
-                        var skipIndex = this.questions != null ? -5 : 0;
+                    success: function (result) {
+                        if (self.isLearningSession) {
+                            var answerBody = new AnswerBody();
+                            var skipIndex = this.questions != null ? -5 : 0;
+                            answerBody.Loader.loadNewQuestion("/AnswerQuestion/RenderAnswerBodyByLearningSession/" +
+                                "?skipStepIdx=" +
+                                skipIndex +
+                                "&index=" +
+                                self.sessionIndex);
 
-                        answerBody.Loader.loadNewQuestion("/AnswerQuestion/RenderAnswerBodyByLearningSession/" +
-                            "?skipStepIdx=" +
-                            skipIndex +
-                            "&index=" +
-                            sessionIndex);
-                        eventBus.$emit('reload-question-id', data.Id);
-                        eventBus.$emit("change-active-question", sessionIndex);
-                        console.log(sessionIndex);
+                            eventBus.$emit('reload-question-id', result.Data.Id);
+                            eventBus.$emit("change-active-question", self.sessionIndex);
+                        }
+                        else
+                            self.reloadAnswerBody(result.Data.Id);
+
                         $('#EditQuestionModal').modal('hide');
+                    },
+                });
+            },
+
+            reloadAnswerBody(id) {
+                $.ajax({
+                    type: 'post',
+                    contentType: "application/json",
+                    url: '/AnswerQuestion/RenderAnswerBody',
+                    data: JSON.stringify({ questionId: id }),
+                    success: function (html) {
+                        $('#AnswerBody').replaceWith(html);
+                        var answerBody = new AnswerBody();
                     },
                 });
             },
