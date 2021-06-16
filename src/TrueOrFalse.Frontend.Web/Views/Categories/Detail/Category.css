@@ -988,6 +988,8 @@ p:empty {
           border-radius: 50%;
   height: 20px;
   width: 20px;
+  -o-object-fit: cover;
+     object-fit: cover;
 }
 #CategoryHeader .category-sub-header #Authors .author-listitem {
   display: -webkit-box;

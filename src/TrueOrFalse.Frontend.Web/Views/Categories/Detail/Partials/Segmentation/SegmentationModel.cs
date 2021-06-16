@@ -21,9 +21,11 @@ public class SegmentationModel : BaseContentModule
     public List<Segment> Segments;
     public string NotInSegmentCategoryIds;
     public string SegmentJson;
+    public bool IsMyWorld { get; set; }
 
     public SegmentationModel(CategoryCacheItem category)
     {
+        IsMyWorld = UserCache.GetItem(Sl.CurrentUserId).IsFiltered;
         Category = category;
         
         var categoryList = UserCache.GetItem(_sessionUser.UserId).IsFiltered ? UserEntityCache.GetChildren(category.Id, UserId).Where(c => c.IsVisibleToCurrentUser()) : EntityCache.GetChildren(category.Id).Where(c => c.IsVisibleToCurrentUser());

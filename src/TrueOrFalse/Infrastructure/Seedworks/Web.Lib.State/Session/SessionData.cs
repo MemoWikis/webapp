@@ -20,7 +20,7 @@ namespace Seedworks.Web.State
 				if (ContextUtil.IsWebContext)
 				{
 					if (HttpContext.Current.Session == null)
-						throw new NullReferenceException("Probably you access session data to late or to early in the page life cycle.");
+						throw new NullReferenceException("Probably you access session data too late or too early in the page life cycle.");
 
 					return HttpContext.Current.Session[key];
 				}

@@ -271,7 +271,7 @@ var segmentComponent = Vue.component('segment-component', {
             visibility: 0,
             segmentTitle: null,
             knowledgeBarHtml: null,
-
+            disabled: true,
         };
     },
 
@@ -313,6 +313,9 @@ var segmentComponent = Vue.component('segment-component', {
         },
         currentChildCategoryIds() {
             this.currentChildCategoryIdsString = this.currentChildCategoryIds.join(',');
+        },
+        selectedCategoryIds(val) {
+            this.disabled = val.length <= 0;
         }
     },
 
@@ -389,6 +392,7 @@ var segmentComponent = Vue.component('segment-component', {
             });
         },
         filterChildren(selectedCategoryIds) {
+            console.log(selectedCategoryIds);
             let filteredCurrentChildCategoryIds = this.currentChildCategoryIds.filter(
                 function (e) {
                     return this.indexOf(e) < 0;
@@ -396,7 +400,11 @@ var segmentComponent = Vue.component('segment-component', {
                 selectedCategoryIds
             );
             this.currentChildCategoryIds = filteredCurrentChildCategoryIds;
+            this.selectedCategoryIds = [];
             eventBus.$emit('save-segments');
         },
+        hideChildren() {
+            this.filterChildren(this.selectedCategories);
+        }
     },
 });

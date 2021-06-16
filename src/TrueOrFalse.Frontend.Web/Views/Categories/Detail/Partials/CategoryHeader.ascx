@@ -138,7 +138,10 @@
                     <% Html.RenderPartial("~/Views/Categories/Detail/CategoryKnowledgeBar.ascx", new CategoryKnowledgeBarModel(Model.Category)); %>
                     <%--<div class="KnowledgeBarLegend">Dein Wissensstand</div>--%>
                 </div>
-                <div class="Border hide-sm"></div>
+                <% if (Model.Category.Id != RootCategory.RootCategoryId)
+                   { %> 
+                    <div class="Border hide-sm"></div>
+                <% } %>
                 <div class="Buttons"><%if (Model.Category.Id != RootCategory.RootCategoryId){%>
                         <div class="PinContainer hide-sm">
                             <div class="Button Pin pinHeader" data-category-id="<%= Model.Id %>">
@@ -158,7 +161,7 @@
                                 <b>Wunschwissen</b>
                             </div>
                         </div>
-                        <% Html.RenderPartial("~/Views/Shared/MyWorldToggle/MyWorldToggleComponent.vue.ascx"); %>
+                        <% Html.RenderPartial("~/Views/Shared/MyWorldToggle/MyWorldToggleComponent.vue.ascx", Model); %>
                     </div>
                     <div class="Button dropdown DropdownButton">
                         <% buttonId = Guid.NewGuid(); %>

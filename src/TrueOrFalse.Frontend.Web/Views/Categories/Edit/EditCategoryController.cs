@@ -329,7 +329,7 @@ public class EditCategoryController : BaseController
     {
         if (RootCategory.IsMainCategory(categoryId) && !IsInstallationAdmin)
             return Json("Die Startseite kann nur von einem Admin bearbeitet werden");
-        var category = EntityCache.GetCategoryCacheItem(categoryId);
+        var category = Sl.CategoryRepo.GetById(categoryId);
 
         if (category != null)
         {
@@ -338,8 +338,11 @@ public class EditCategoryController : BaseController
                 {
                     NullValueHandling = NullValueHandling.Ignore
                 });
+            var cacheItem = CategoryCacheItem.ToCacheCategory(category);
+            EntityCache.AddOrUpdate(cacheItem);
+            UserEntityCache.ReInitAllActiveCategoryCaches();
 
-            Sl.CategoryRepo.Update(Sl.CategoryRepo.GetByIdEager(category.Id), User_());
+            Sl.CategoryRepo.Update(category, User_());
 
             return Json(true);
         }

@@ -4,14 +4,15 @@ if (eventBus == null)
 
 Vue.component('my-world-toggle-component',
     {
+        props: ['isMyWorld'],
         data() {
             return {
                 showMyWorld: false,
                 disabled: true,
             }
         },
-        mounted() {
-            this.loadCookie();
+        created() {
+            this.showMyWorld = this.isMyWorld == 'True';
             if (IsLoggedIn.Yes)
                 this.disabled = false;
         },

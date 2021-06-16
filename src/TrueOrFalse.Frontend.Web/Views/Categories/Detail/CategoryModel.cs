@@ -68,7 +68,7 @@ public class CategoryModel : BaseContentModule
     public string ImageGuid { get; set; }
     public string ImageLicenseOwner { get; set; }
     public bool IsMyWorld { get; set; }
-
+    
     public EditQuestionModel EditQuestionModel;
 
     public CategoryModel()

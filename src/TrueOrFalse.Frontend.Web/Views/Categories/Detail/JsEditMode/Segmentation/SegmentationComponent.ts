@@ -11,6 +11,7 @@ var segmentationComponent = Vue.component('segmentation-component', {
         editMode: Boolean,
         childCategoryIds: String,
         segmentJson: String,
+        isMyWorldString: String
     },
 
     data() {
@@ -30,7 +31,8 @@ var segmentationComponent = Vue.component('segmentation-component', {
             loadComponents: true,
             currentChildCategoryIds: [],
             segments: [] as Segment[],
-        };
+            isMyWorld: this.isMyWorldString == 'True',
+    };
     },
 
     created() {
@@ -45,8 +47,10 @@ var segmentationComponent = Vue.component('segmentation-component', {
 
         var self = this;
         eventBus.$on('remove-segment', (id) => {
-            self.addCategoryToBaseList(id);
+            this.segments = this.segments.filter(s => s.CategoryId != id);
+            this.currentChildCategoryIds.push(id);
             this.hasCustomSegment = this.segments.length > 0;
+            eventBus.$emit('save-segments');
         });
         eventBus.$on('remove-category-cards',
             ids => {
@@ -95,9 +99,10 @@ var segmentationComponent = Vue.component('segmentation-component', {
                 data: JSON.stringify(data),
                 success: function(segment) {
                     if (segment) {
-                        eventBus.$emit('content-change');
                         self.hasCustomSegment = true;
-                        self.segments.push(segment);
+                        var index = self.segments.indexOf(segment);
+                        if (index == -1)
+                            self.segments.push(segment);
                         eventBus.$emit('save-segments');
                     } else {
                     };
@@ -112,7 +117,6 @@ var segmentationComponent = Vue.component('segmentation-component', {
                 data: JSON.stringify({ categoryId: id }),
                 success: function (data) {
                     if (data) {
-                        eventBus.$emit('content-change');
                         eventBus.$emit('save-segments');
                     } else {
 

@@ -19,13 +19,10 @@
                         <i class="fa fa-ellipsis-v"></i>
                     </a>
                     <ul class="dropdown-menu dropdown-menu-right" :aria-labelledby="dropdownId">
-                        <li><a @click="removeSegment">
+                        <li @click="removeSegment()"><a>
                             <div class="dropdown-icon"><i class="fas fa-trash"></i></div>Unterthema ausblenden
                         </a></li>
-                        <li><a @click="removeChildren">
-                            <div class="dropdown-icon"><i class="fas fa-eye-slash"></i></div>Themen ausblenden
-                        </a></li>
-                        <li><a @click="removeChildren">
+                        <li @click="removeChildren()" :disabled="disabled"><a>
                             <div class="dropdown-icon"><i class="fas fa-unlink"></i></div>Themen entfernen
                         </a></li>
                     </ul>
