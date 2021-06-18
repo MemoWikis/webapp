@@ -285,14 +285,7 @@ var segmentComponent = Vue.component('segment-component', {
             var baseChildCategoryIds = JSON.parse(this.childCategoryIds);
             this.currentChildCategoryIds = baseChildCategoryIds;
         }
-        var segment = {
-            CategoryId: parseInt(this.categoryId),
-            Title: this.title,
-            ChildCategoryIds: this.categories
-        }
         this.addCategoryId = "AddCategoryTo-" + this.segmentId + "-Btn";
-        if (this.categoryId != undefined)
-            eventBus.$emit('new-segment', segment);
         this.dropdownId = this.segmentId + '-Dropdown';
 
         this.$on('select-category', (id) => this.selectCategory(id));

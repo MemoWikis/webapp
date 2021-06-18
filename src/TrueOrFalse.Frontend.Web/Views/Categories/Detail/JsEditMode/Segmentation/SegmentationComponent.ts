@@ -88,6 +88,10 @@ var segmentationComponent = Vue.component('segmentation-component', {
                 NotLoggedIn.ShowErrorMsg("CreateSegment");
                 return;
             }
+            var idExists = (segment) => segment.CategoryId === id;
+            if (this.segments.some(idExists))
+                return;
+
             var self = this;
             var currentElement = $("#CustomSegmentSection");
             var data = { CategoryId: id }
