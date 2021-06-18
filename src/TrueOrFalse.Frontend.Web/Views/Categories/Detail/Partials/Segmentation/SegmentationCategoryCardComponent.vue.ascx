@@ -1,6 +1,6 @@
 ﻿<%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
 
- <category-card-component @select-category="selectCategory" @unselect-category="unselectCategory" inline-template :edit-mode="editMode" :ref="'card' + id" :is-custom-segment="isCustomSegment" :category-id="id" :selected-categories="selectedCategories" :segment-id="segmentId" hide="false">
+ <category-card-component @select-category="selectCategory" @unselect-category="unselectCategory" inline-template :edit-mode="editMode" :ref="'card' + id" :is-custom-segment="isCustomSegment" :category-id="id" :selected-categories="selectedCategories" :segment-id="segmentId" hide="false" :key="index">
     
     <div class="col-xs-6 topic segmentCategoryCard" v-if="visible" @mouseover="hover = true" @mouseleave="hover = false" :class="{ hover : showHover }">
         <div class="row">

@@ -65,7 +65,7 @@
         
                 <div class="topicNavigation row">
                     <template v-if="loadComponents" v-cloak>
-                        <template v-for="id in currentChildCategoryIds">
+                        <template v-for="(id, index) in currentChildCategoryIds">
                             <%: Html.Partial("~/Views/Categories/Detail/Partials/Segmentation/SegmentationCategoryCardComponent.vue.ascx")%>
                         </template>
                     </template>

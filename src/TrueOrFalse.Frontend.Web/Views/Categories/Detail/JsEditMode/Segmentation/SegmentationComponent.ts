@@ -72,10 +72,7 @@ var segmentationComponent = Vue.component('segmentation-component', {
 
     watch: {
         hover(val) {
-            if (val && this.editMode)
-                this.showHover = true;
-            else
-                this.showHover = false;
+            this.showHover = !!(val && this.editMode);
         }
     },
 
@@ -92,8 +89,9 @@ var segmentationComponent = Vue.component('segmentation-component', {
             if (this.segments.some(idExists))
                 return;
 
+            this.currentChildCategoryIds = this.currentChildCategoryIds.filter(c => c != id);
+
             var self = this;
-            var currentElement = $("#CustomSegmentSection");
             var data = { CategoryId: id }
 
             $.ajax({

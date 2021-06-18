@@ -168,17 +168,21 @@ var categoryCardComponent = Vue.component('category-card-component', {
             else
                 this.showHover = false;
         },
+        categoryId() {
+            this.init();
+        }
     },
     created() {
-        this.getCategoryData();
-    },
-    mounted() {
-        this.dropdownId = this.segmentId + '-Dropdown' + this.id ;
-        this.checkboxId = this.segmentId + '-Checkbox' + this.id;
-        if (this.isCustomSegment)
-            this.dropdownId += this.$parent.id;
+        this.init();
     },
     methods: {
+        init() {
+            this.getCategoryData();
+            this.dropdownId = this.segmentId + '-Dropdown' + this.id;
+            this.checkboxId = this.segmentId + '-Checkbox' + this.id;
+            if (this.isCustomSegment)
+                this.dropdownId += this.$parent.id;
+        },
         getCategoryData() {
             var self = this;
             var data = {
@@ -205,9 +209,6 @@ var categoryCardComponent = Vue.component('category-card-component', {
         thisToSegment() {
             if (!this.isCustomSegment) {
                 this.$parent.loadSegment(this.id);
-                var index = this.$parent.currentChildCategoryIds.indexOf(this.id);
-                if (index > -1)
-                    this.$parent.currentChildCategoryIds.splice(index, 1);
             }
         },
         selectCategory() {
