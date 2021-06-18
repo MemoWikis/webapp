@@ -39,7 +39,7 @@
                                         </div>
                                         <input v-show="!showSelectedCategory" ref="searchInput" class="form-control dropdown-toggle" type="text" v-model="searchTerm" id="searchList" autocomplete="off" @click="lockDropdown = false"  aria-haspopup="true" placeholder="Bitte gib den Namen des Themas ein"/>
                                         <ul class="dropdown-menu" aria-labelledby="searchList">
-                                            <li class="searchResultItem" v-for="c in categories" @click="selectCategory(c)" data-toggle="tooltip" data-placement="top" :title="c.Name">
+                                            <li class="searchResultItem" v-for="c in categories" @click="selectCategory(c)" data-toggle="tooltip" data-placement="top" :title="c.Name" :data-original-title="c.Name">
                                                 <img :src="c.ImageUrl"/>
                                                 <div>
                                                     <div class="searchResultLabel body-m">{{c.Name}}</div>
