@@ -349,6 +349,14 @@
   width: 28px !important;
   height: 28px !important;
 }
+#Breadcrumb #StickyHeaderContainer #UserProgressContainer {
+  white-space: unset;
+  padding: 0px;
+  display: block;
+}
+#Breadcrumb #StickyHeaderContainer #UserProgressContainer #activity-popover-container {
+  padding: 0px 20px 0px 20px;
+}
 #Breadcrumb #StickyHeaderContainer #StickySearchButton {
   border: none;
 }

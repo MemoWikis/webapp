@@ -70,8 +70,9 @@
             this.$parent.lastQuestionInListIndex = this.questionIndex;
     },
     watch: {
-        isQuestionListToShow() {
-            this.expandQuestion();
+        isQuestionListToShow(val) {
+            if (val != this.showFullQuestion)
+                this.expandQuestion();
         },
         knowledgeState(val) {
             this.setKnowledgebarData(val);

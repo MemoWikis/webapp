@@ -27,7 +27,7 @@
                                 <div class="dropdown-icon"><i class="fa fa-code-fork"></i></div>Unterthemen einblenden
                             </a></li>
                             <li><a @click="removeParent">
-                                <div class="dropdown-icon"><i class="fas fa-unlink"></i></div>Thema entfernen
+                                <div class="dropdown-icon"><i class="fas fa-unlink"></i></div>Verknüpfung entfernen
                             </a></li>
                         </ul>
                     </div>

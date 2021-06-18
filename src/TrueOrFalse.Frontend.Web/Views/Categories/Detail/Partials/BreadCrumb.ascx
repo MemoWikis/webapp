@@ -68,9 +68,9 @@
            </a>   
             <ul id="BreadcrumbUserDropdown" class="dropdown-menu pull-right" role="menu" aria-labelledby="dLabel" style="right:0; position: absolute; width: 220px;">
                 <li>
-                    <a style="white-space: unset; padding: 0px;" href="<%= Links.Knowledge()%>">
+                    <a id="UserProgressContainer" href="<%= Links.Knowledge()%>">
                             <div id="activity-popover-title">Deine Lernpunkte</div>
-                            <div style="padding: 3px 20px 0px 20px;">
+                            <div id="activity-popover-container">
                                 <% Html.RenderPartial("/Views/Shared/ActivityPopupContent.ascx"); %>
                             </div>
                         </a>
