@@ -9,6 +9,7 @@ Vue.component('my-world-toggle-component',
             return {
                 showMyWorld: false,
                 disabled: true,
+                isLoading: false,
             }
         },
         created() {
@@ -38,10 +39,12 @@ Vue.component('my-world-toggle-component',
                 this.showMyWorld = !this.showMyWorld;
                 var s = this.showMyWorld;
 
-                if(IsLoggedIn.Yes)
+                if (IsLoggedIn.Yes && !this.isLoading) {
                     $.post(`/Category/SetMyWorldCookie/?showMyWorld=${s}`).done(() => {
                         location.reload();
                     });
+                }
+
             },
             sendShowMyWorld() {
                 $.post("/User/SetUserWorldInUserCache",
