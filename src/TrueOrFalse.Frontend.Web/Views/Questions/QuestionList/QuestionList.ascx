@@ -18,10 +18,16 @@
                 <i class="fa fa-ellipsis-v"></i>
             </a>
             <ul class="dropdown-menu dropdown-menu-right standard-question-drop-down">
-                <li><a href="<%= Links.CreateQuestion(Model.CategoryId) %>" data-allowed="logged-in">
+                <li onclick="eventBus.$emit('open-edit-question-modal', {
+                            categoryId: <%= Model.CategoryId %>,
+                            edit: false
+                        })" data-allowed="logged-in"><a>
                     <div class="dropdown-icon"><i class="fa fa-plus-circle"></i></div><span>Frage hinzufügen</span>
                 </a></li>
-                <li @click="toggleQuestionsList()" style="cursor: pointer"><a>
+                <li v-if="isQuestionListToShow" @click="toggleQuestionsList()" style="cursor: pointer"><a>
+                    <div class="dropdown-icon"><i class="fa fa-angle-double-up"></i></div><span>Alle Fragen zuklappen</span>
+                </a></li>                
+                <li v-else @click="toggleQuestionsList()" style="cursor: pointer"><a>
                     <div class="dropdown-icon"><i class="fa fa-angle-double-down"></i></div><span>Alle Fragen erweitern</span>
                 </a></li>
                 <li style="cursor: pointer"><a data-allowed="logged-in" @click="startNewLearningSession()">
@@ -32,10 +38,7 @@
         </div>
     </div>
     <%: Html.Partial("~/Views/Questions/QuestionList/QuestionListComponent.vue.ascx", Model) %>
-
-    </div>
-
-<%: Html.Partial("~/Views/Questions/AddQuestion/EditQuestionModal.vue.ascx") %>
+</div>
 
 <%= Scripts.Render("~/bundles/js/QuestionListApp") %>
 

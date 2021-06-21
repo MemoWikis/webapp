@@ -44,7 +44,9 @@ public class QuestionListController : BaseController
             QuestionInKnowledge.Pin(Convert.ToInt32(question.Id), _sessionUser.User);
 
         InsertNewQuestionToLearningSession(question, flashCardJson.LastIndex);
-        var json = Json(LoadQuestion(question.Id));
+
+        var questionsController = new QuestionsController(questionRepo);
+        var json = Json(questionsController.LoadQuestion(question.Id));
 
         return json;
     }
@@ -58,48 +60,11 @@ public class QuestionListController : BaseController
         public int LastIndex { get; set; }
     }
 
-    public void InsertNewQuestionToLearningSession(Question question, int lastIndex)
+    public void InsertNewQuestionToLearningSession(Question question, int sessionIndex)
     {
         var learningSession = LearningSessionCache.GetLearningSession();
         var step = new LearningSessionStep(question);
-        learningSession.Steps.Insert(lastIndex, step);
-    }
-
-    [HttpPost]
-    public JsonResult LoadQuestion(int questionId)
-    {
-        var user =  Sl.R<SessionUser>().User;
-        var userQuestionValuation = UserCache.GetItem(user.Id).QuestionValuations;
-        var q = EntityCache.GetQuestionById(questionId);
-        var question = new QuestionListJson.Question();
-        question.Id = q.Id;
-        question.Title = q.Text;
-        //question.Title = Regex.Replace(q.Text, "<.*?>", String.Empty);
-        question.LinkToQuestion = Links.GetUrl(q);
-        question.ImageData = new ImageFrontendData(Sl.ImageMetaDataRepo.GetBy(q.Id, ImageType.Question)).GetImageUrl(40, true).Url;
-        question.LinkToQuestion = Links.GetUrl(q);
-        question.LinkToEditQuestion = Links.EditQuestion(q.Text, q.Id);
-        question.LinkToQuestionVersions = Links.QuestionHistory(q.Id);
-        question.LinkToComment = Links.GetUrl(q) + "#JumpLabel";
-        question.CorrectnessProbability = q.CorrectnessProbability;
-        question.Visibility = q.Visibility;
-
-        var learningSession = LearningSessionCache.GetLearningSession();
-        if (learningSession != null)
-        {
-            var steps = learningSession.Steps;
-            var index = steps.IndexOf(s => s.Question.Id == q.Id);
-            question.SessionIndex = index;
-        }
-
-        if (userQuestionValuation.ContainsKey(q.Id) && user != null)
-        {
-            question.CorrectnessProbability = userQuestionValuation[q.Id].CorrectnessProbability;
-            question.IsInWishknowledge = userQuestionValuation[q.Id].IsInWishKnowledge;
-            question.HasPersonalAnswer = userQuestionValuation[q.Id].CorrectnessProbabilityAnswerCount > 0;
-        }
-
-        return Json(question);
+        learningSession.Steps.Insert(sessionIndex, step);
     }
 
     [HttpPost]
@@ -144,6 +109,7 @@ public class QuestionListController : BaseController
             answerCount = history.TimesAnsweredUser,
             correctAnswerCount = history.TimesAnsweredUserTrue,
             wrongAnswerCount = history.TimesAnsweredUserWrong,
+            canBeEdited = (question.Creator == _sessionUser.User) || _sessionUser.IsInstallationAdmin,
         });
 
         return json;

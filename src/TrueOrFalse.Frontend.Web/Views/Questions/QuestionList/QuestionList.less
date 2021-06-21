@@ -618,8 +618,6 @@
 
                 .ProseMirror {
                     padding: 11px 15px 0;
-                    border: solid 1px @memo-grey-light;
-                    border-radius: 4px;
                     margin-bottom: 26px;
                 }
             }
@@ -658,6 +656,18 @@
 
         #QuestionListComponent {
             border: @memo-grey-dark solid 0.03125em;
+        }
+    }
+
+    .ProseMirror, input, textarea {
+        border: solid 1px @memo-grey-light;
+        border-radius: 0;
+    }
+
+    input, .ProseMirror-focused, textarea {
+        &:focus, &:focus-visible {
+            outline: none !important;
+            border: solid 1px @memo-green;
         }
     }
 }

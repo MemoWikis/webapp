@@ -27,7 +27,9 @@
     <%= Scripts.Render("~/bundles/js/DeleteQuestion") %>
     <%= Scripts.Render("~/bundles/js/Vue")%>
     <%= Scripts.Render("~/bundles/js/d3") %>
-    <%= Scripts.Render("~/Scripts/npm/tiptap-build/tiptap-build.js") %> 
+    <%= Scripts.Render("~/Scripts/npm/tiptap-build/tiptap-build.js") %>
+    <%: Html.Partial("~/Views/Questions/Edit/EditComponents/EditQuestionModalLoader.ascx") %>
+
     <script type="text/x-template" id="question-details-component">
         <%: Html.Partial("~/Views/Questions/Answer/AnswerQuestionDetailsComponent.vue.ascx") %>
     </script>

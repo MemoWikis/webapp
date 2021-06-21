@@ -5,6 +5,7 @@ using System.Security;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Script.Serialization;
+using Newtonsoft.Json;
 using QuestionListJson;
 using TrueOrFalse;
 using TrueOrFalse.Frontend.Web.Code;
@@ -152,6 +153,103 @@ public class EditQuestionController : BaseController
             $"Die Frage <i>'{question.Text.TruncateAtWord(30)}'</i> wurde erstellt. Du kannst sie nun weiter bearbeiten.");
 
         return Redirect(Links.EditQuestion(question));
+    }
+
+    public JsonResult VueCreate(QuestionDataJson questionDataJson)
+    {
+        var question = new Question();
+        question.Creator = _sessionUser.User;
+        question = UpdateQuestion(question, questionDataJson);
+
+        _questionRepo.Create(question);
+
+        Sl.QuestionChangeRepo.AddUpdateEntry(question);
+        if (questionDataJson.AddToWishknowledge)
+            QuestionInKnowledge.Pin(Convert.ToInt32(question.Id), _sessionUser.User);
+
+        if (questionDataJson.SessionIndex > 0)
+        {
+            var questionListController = new QuestionListController();
+            questionListController.InsertNewQuestionToLearningSession(question, questionDataJson.SessionIndex);
+        }
+
+        var questionsController = new QuestionsController(_questionRepo);
+
+        return Json(questionsController.LoadQuestion(question.Id));
+    }
+
+    [HttpPost]
+    public JsonResult VueEdit(QuestionDataJson questionDataJson)
+    {
+        var question = Sl.QuestionRepo.GetById(questionDataJson.QuestionId);
+        question = UpdateQuestion(question, questionDataJson);
+            
+        _questionRepo.Update(question);
+        Sl.QuestionChangeRepo.AddUpdateEntry(question);
+        EntityCache.AddOrUpdate(question);
+
+        var questionsController = new QuestionsController(_questionRepo);
+
+        if (questionDataJson.SessionIndex > 0)
+        {
+            var questionListController = new QuestionListController();
+            questionListController.InsertNewQuestionToLearningSession(question, questionDataJson.SessionIndex);
+        }
+
+        return Json(questionsController.LoadQuestion(question.Id));
+    }
+
+    private Question UpdateQuestion(Question question, QuestionDataJson questionDataJson)
+    {
+        question.Text = questionDataJson.Text;
+        question.SolutionType = (SolutionType)Enum.Parse(typeof(SolutionType), questionDataJson.SolutionType);
+
+        var categories = new List<Category>();
+        foreach (var categoryId in questionDataJson.CategoryIds)
+            categories.Add(Sl.CategoryRepo.GetById(categoryId));
+        question.Categories = categories;
+
+        if (question.SolutionType == SolutionType.FlashCard)
+        {
+            var serializer = new JavaScriptSerializer();
+
+            var solutionModelFlashCard = new QuestionSolutionFlashCard();
+            solutionModelFlashCard.Text = questionDataJson.Solution;
+            question.Solution = serializer.Serialize(solutionModelFlashCard);
+        } else
+            question.Solution = questionDataJson.Solution;
+        question.SolutionMetadataJson = questionDataJson.SolutionMetadataJson;
+
+        if (!String.IsNullOrEmpty(questionDataJson.ReferencesJson))
+        {
+            var references = ReferenceJson.LoadFromJson(questionDataJson.ReferencesJson, question);
+            foreach (var reference in references)
+            {
+                reference.DateCreated = DateTime.Now;
+                reference.DateModified = DateTime.Now;
+                question.References.Add(reference);
+            }
+        }
+
+        question.License = Sl.R<SessionUser>().IsInstallationAdmin
+            ? LicenseQuestionRepo.GetById(questionDataJson.LicenseId)
+            : LicenseQuestionRepo.GetDefaultLicense();
+        return question;
+    }
+
+    public class QuestionDataJson
+    {
+        public int[] CategoryIds { get; set; }
+        public int QuestionId { get; set; }
+        public string Text { get; set; }
+        public dynamic Solution { get; set; }
+        public string SolutionMetadataJson { get; set; }
+        public int Visibility { get; set; }
+        public string SolutionType { get; set; }
+        public bool AddToWishknowledge { get; set; }
+        public int SessionIndex { get; set; }
+        public int LicenseId { get; set; }
+        public string ReferencesJson { get; set; }
     }
 
     private bool Validate(EditQuestionModel model)

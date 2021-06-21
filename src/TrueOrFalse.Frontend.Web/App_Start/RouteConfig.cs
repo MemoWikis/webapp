@@ -52,6 +52,7 @@ namespace TrueOrFalse
             routes.MapRoute("Questions_Search", "Fragen/Suche/{searchTerm}", new { controller = "Questions", action = "QuestionsSearch", searchTerm = UrlParameter.Optional }, new[] { "TrueOrFalse" });
             routes.MapRoute("Question_Answer_History", "Fragen/{text}/{questionId}/Historie", new { controller = "QuestionHistory", action = "List" });
             routes.MapRoute("Questions", "Fragen", new { controller = "Questions", action = "Questions" }, new[] { "TrueOrFalse" });
+            routes.MapRoute("Questions_GetData", "Questions/GetQuestionData", new { controller = "Questions", action = "GetQuestionData" });
 
             routes.MapRoute("Question_Delete", "Fragen/Loesche/{id}", new { controller = "Questions", action = "Delete" }, new[] { "TrueOrFalse" });
             routes.MapRoute("Question_Create", "Fragen/Erstelle/", new { controller = "EditQuestion", action = "Create" });
@@ -63,6 +64,8 @@ namespace TrueOrFalse
             routes.MapRoute("Question_AnswerInSet", "Fragen/{text}/{questionId}/im-Fragesatz/{setId}", new { controller = "AnswerQuestion", action = "Answer" });
             routes.MapRoute("Question_Answer", "Fragen/{text}/{id}/{elementOnPage}", new { controller = "AnswerQuestion", action = "Answer", elementOnPage = UrlParameter.Optional });
             routes.MapRoute("GetQuestionEditUrl", "Question/GetEditUrl", new { controller = "AnswerQuestion", action = "GetEditQuestionUrl" });
+            routes.MapRoute("Question_Vue_Create", "Question/Create", new { controller = "EditQuestion", action = "VueCreate" });
+            routes.MapRoute("Question_Vue_Edit", "Question/Edit", new { controller = "EditQuestion", action = "VueEdit" });
 
 
             routes.MapRoute("LearningSession_Result", "Lernen/{learningSessionName}/Ergebnis/{learningSessionId}", new { controller = "LearningSessionResult", action = "LearningSessionResult" });
@@ -119,6 +122,7 @@ namespace TrueOrFalse
             routes.MapRoute("Category_History_Detail", "{categoryName}/{categoryId}/Historie/{categoryChangeId}", new { controller = "CategoryHistoryDetail", action = "Detail" });
             routes.MapRoute("Category_Publish_Modal_Data", "GetCategoryPublishModalData", new { controller = "Category", action = "GetCategoryPublishModalData" });
             routes.MapRoute("Category_Authors", "GetAuthorsForHeader", new { controller = "Category", action = "GetCategoryHeaderAuthors" });
+            routes.MapRoute("Category_GetMiniItem", "Category/GetMiniCategoryItem", new { controller = "Category", action = "GetMiniCategoryItem" });
             /* API */ routes.MapRoute("Categories_AddSubCategoryRow", "Categories/AddSubCategoryRow", new { controller = "EditCategory", action = "AddSubCategoryRow" });
             /* API */ routes.MapRoute("Categories_EditSubCategoryItems", "Categories/EditSubCategoryItems/{id}", new { controller = "EditSubCategoryItems", action = "Edit" });
             /* API */ routes.MapRoute("Categories_AddSubCategoryItemRow", "Categories/EditSubCategoryItems/{id}/Add", new { controller = "EditSubCategoryItems", action = "AddSubCategoryItemRow" });

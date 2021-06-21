@@ -19,7 +19,6 @@ new Vue({
             changedContent: false,
             footerIsVisible: '',
             fabIsOpen: false,
-            segments: [] as Segment[],
             categoryId: null,
             content: null,
             json: null,
@@ -51,9 +50,6 @@ new Vue({
             });
         eventBus.$on('request-save', () => this.debounceSaveContent());
         eventBus.$on('save-segments', () => this.debounceSaveSegments());
-        eventBus.$on('new-segment', (segment) => {
-            this.segments.push(segment);
-        });
     },
     destroyed() {
         window.removeEventListener('scroll', this.handleScroll);
@@ -65,11 +61,6 @@ new Vue({
         if ((this.$el.clientHeight + 450) < window.innerHeight)
             this.footerIsVisible = true;
         eventBus.$emit('content-is-ready');
-        eventBus.$on('remove-segment',
-            (categoryId) => {
-                var index = this.segments.map(s => s.CategoryId).indexOf(categoryId);
-                this.segments.splice(index, 1);
-            });
         eventBus.$on('name-is-valid', (data) => {
             this.nameIsValid = data.isValid;
             if (!data.isValid)

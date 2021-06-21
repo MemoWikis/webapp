@@ -8,7 +8,6 @@ using TrueOrFalse.Frontend.Web.Code;
 
 public class SearchApiController : BaseController
 {
-    [HttpGet]
     public JsonResult ByName(string term, string type)
     {
         var items = new List<ResultItem>();
@@ -35,16 +34,10 @@ public class SearchApiController : BaseController
         return Json( new{ Items = items }, JsonRequestBehavior.AllowGet);
     }
 
-    [HttpGet]
     public JsonResult ByNameForVue(string term, string type)
     {
         var items = new List<MiniCategoryItem>();
-        var elements = new SearchBoxElements(); 
-
-        if(UserCache.GetItem(Sl.CurrentUserId).IsFiltered)
-            elements = SearchBoxElementsGet.GoAllCategories(term, true);
-        else
-            elements = SearchBoxElementsGet.GoAllCategories(term, false);
+        var elements = SearchBoxElementsGet.GoAllCategories(term);
 
         if (elements.Categories.Any())
         {
@@ -59,6 +52,7 @@ public class SearchApiController : BaseController
 
     public static void AddMiniCategoryItems(List<MiniCategoryItem> items, SearchBoxElements elements)
     {
+
         items.AddRange(
             elements.Categories.Select(c => new MiniCategoryItem
             {
@@ -67,16 +61,88 @@ public class SearchApiController : BaseController
                 Url = Links.CategoryDetail(c.Name, c.Id),
                 QuestionCount = c.GetCountQuestionsAggregated(),
                 ImageUrl = new CategoryImageSettings(c.Id).GetUrl_128px(asSquare: true).Url,
+                IconHtml = GetIconHtml(c),
+                MiniImageUrl = new ImageFrontendData(Sl.ImageMetaDataRepo.GetBy(c.Id, ImageType.Category)).GetImageUrl(30, true, false, ImageType.Category).Url,
+                Visibility = (int)c.Visibility
             }));
     }
 
-    public class MiniCategoryItem
+    public static string GetIconHtml(Category category)
     {
-        public int Id;
-        public string Name;
-        public string Url;
-        public int QuestionCount;
-        public string ImageUrl;
+        var iconHTML = "";
+        switch (category.Type)
+        {
+            case CategoryType.Book:
+                iconHTML = "<i class=\"fa fa-book\">&nbsp;</i>";
+                break;
+            case CategoryType.VolumeChapter:
+                iconHTML = "<i class=\"fa fa-book\">&nbsp;</i>";
+                break;
+            case CategoryType.Magazine:
+                iconHTML = "<i class=\"fa fa-book\">&nbsp;</i>";
+                break;
+            case CategoryType.MagazineArticle:
+                iconHTML = "<i class=\"fa fa-book\">&nbsp;</i>";
+                break;
+            case CategoryType.MagazineIssue:
+                iconHTML = "<i class=\"fa fa-book\">&nbsp;</i>";
+                break;
+            case CategoryType.WebsiteArticle:
+                iconHTML = "<i class=\"fa fa-globe\">&nbsp;</i>";
+                break;
+            case CategoryType.Daily:
+                iconHTML = "<i class=\"fa fa-newspaper-o\">&nbsp;</i>";
+                break;
+            case CategoryType.DailyIssue:
+                iconHTML = "<i class=\"fa fa-newspaper-o\"&nbsp;></i>";
+                break;
+            case CategoryType.DailyArticle:
+                iconHTML = "<i class=\"fa fa-newspaper-o\">&nbsp;</i>";
+                break;
+        }
+        if (category.Type.GetCategoryTypeGroup() == CategoryTypeGroup.Education)
+            iconHTML = "<i class=\"fa fa-university\">&nbsp;</i>";
+
+        return iconHTML;
+    }
+
+    public static string GetIconHtml(CategoryCacheItem category)
+    {
+        var iconHTML = "";
+        switch (category.Type)
+        {
+            case CategoryType.Book:
+                iconHTML = "<i class=\"fa fa-book\">&nbsp;</i>";
+                break;
+            case CategoryType.VolumeChapter:
+                iconHTML = "<i class=\"fa fa-book\">&nbsp;</i>";
+                break;
+            case CategoryType.Magazine:
+                iconHTML = "<i class=\"fa fa-book\">&nbsp;</i>";
+                break;
+            case CategoryType.MagazineArticle:
+                iconHTML = "<i class=\"fa fa-book\">&nbsp;</i>";
+                break;
+            case CategoryType.MagazineIssue:
+                iconHTML = "<i class=\"fa fa-book\">&nbsp;</i>";
+                break;
+            case CategoryType.WebsiteArticle:
+                iconHTML = "<i class=\"fa fa-globe\">&nbsp;</i>";
+                break;
+            case CategoryType.Daily:
+                iconHTML = "<i class=\"fa fa-newspaper-o\">&nbsp;</i>";
+                break;
+            case CategoryType.DailyIssue:
+                iconHTML = "<i class=\"fa fa-newspaper-o\"&nbsp;></i>";
+                break;
+            case CategoryType.DailyArticle:
+                iconHTML = "<i class=\"fa fa-newspaper-o\">&nbsp;</i>";
+                break;
+        }
+        if (category.Type.GetCategoryTypeGroup() == CategoryTypeGroup.Education)
+            iconHTML = "<i class=\"fa fa-university\">&nbsp;</i>";
+
+        return iconHTML;
     }
 
     private static void AddHeader(List<ResultItem> items, ResultItemType resultItemType, int resultCount, string term)
@@ -96,6 +162,7 @@ public class SearchApiController : BaseController
                 break;
         }
 
+
         items.Add(new ResultItem
         {
             ResultCount = resultCount,
@@ -107,7 +174,7 @@ public class SearchApiController : BaseController
     private static void AddCategoryItems(List<ResultItem> items, SearchBoxElements elements)
     {
         items.AddRange(
-            elements.Categories.Where(c => c.IsVisibleToCurrentUser()).Select(category => new ResultItem
+            elements.Categories.Select(category => new ResultItem
             {
                 Type = ResultItemType.Categories.ToString(),
                 Item = new ResultItemJson

@@ -96,6 +96,22 @@ namespace TrueOrFalse.View
             bundles.Add(new ScriptBundle("~/bundles/js/tiptap")
                 .Include("~/Scripts/npm/tiptap-build/tiptap-build.js"));
 
+
+            bundles.Add(new ScriptBundle("~/bundles/js/EditQuestion")
+                .Include("~/Views/Questions/Edit/EditComponents/EditQuestionComponent.js")
+                //.IncludeDirectory("~/Views/Questions/Edit/EditComponents/Date/", "*.js")
+                .IncludeDirectory("~/Views/Questions/Edit/EditComponents/FlashCard/", "*.js")
+                .IncludeDirectory("~/Views/Questions/Edit/EditComponents/MatchList/", "*.js")
+                .IncludeDirectory("~/Views/Questions/Edit/EditComponents/MultipleChoice/", "*.js")
+                //.IncludeDirectory("~/Views/Questions/Edit/EditComponents/MultipleChoice_SingleSolution/", "*.js")
+                .Include("~/Views/Shared/CategoryChip/CategoryChipComponent.js")
+                //.IncludeDirectory("~/Views/Questions/Edit/EditComponents/Numeric/", "*.js")
+                .IncludeDirectory("~/Views/Questions/Edit/EditComponents/Text/", "*.js")
+                .Include("~/Scripts/npm/vue-textarea-autosize/vue-textarea-autosize.umd.js"));
+
+            bundles.Add(new ScriptBundle("~/bundles/js/EditQuestionLoader")
+                .Include("~//Views/Questions/Edit/EditComponents/EditQuestionLoader.js"));
+
             bundles.Add(new ScriptBundle("~/bundles/js/CategoryEditMode")
                 .Include("~/Scripts/npm/vue-select/vue-select.js")
                 .Include("~/Scripts/npm/vue-sticky-directive/vue-sticky-directive.js")

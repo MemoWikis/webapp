@@ -1,7 +1,7 @@
 ﻿<%@ Control Language="C#" AutoEventWireup="true" Inherits="System.Web.Mvc.ViewUserControl<InlineTextModel>" %>
 <keep-alive>
     <text-component content="<%: HttpUtility.HtmlDecode(Model.Content)%>" inline-template>
-    <div class="inline-text-editor">
+    <div class="inline-text-editor" @click="contentIsChanged = true">
         <editor-menu-bar :editor="editor" v-slot="{ commands, isActive, focused, getMarkAttrs }">
           <div
         class="menubar is-hidden"

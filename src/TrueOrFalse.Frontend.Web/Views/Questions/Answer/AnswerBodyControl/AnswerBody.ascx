@@ -47,7 +47,10 @@
                     <ul class="dropdown-menu dropdown-menu-right standard-question-drop-down">
                         <% if (Model.IsCreator || Model.IsInstallationAdmin){ %>
                             <li>
-                                <a href="<%=Links.EditQuestion( Model.QuestionText, Model.QuestionId) %>" data-allowed="logged-in">
+                                <a data-allowed="logged-in" onclick="eventBus.$emit('open-edit-question-modal', {
+                                        questionId: <%= Model.QuestionId %>,
+                                        edit: true
+                                    })">
                                     <div class="dropdown-icon">
                                         <i class="fa fa-pencil"></i>
                                     </div>
@@ -55,7 +58,7 @@
                                 </a>
                             </li>
                         <% } %>
-                        <li style="cursor: pointer">
+                        <li>
                             <a href="<%=Links.GetUrl(Model.Question) %>">
                                 <div class="dropdown-icon">
                                     <i class="fas fa-file"></i>
@@ -71,7 +74,7 @@
                                 <span>Bearbeitungshistorie der Frage</span>
                             </a>
                         </li>
-                        <li style="cursor: pointer">
+                        <li>
                             <a href="<%=Links.GetUrl(Model.Question) + "#JumpLabel" %>">
                                 <div class="dropdown-icon">
                                     <i class="fas fa-comment"></i>

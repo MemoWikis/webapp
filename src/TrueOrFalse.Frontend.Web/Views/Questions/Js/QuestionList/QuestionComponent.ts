@@ -57,7 +57,8 @@
             correctAnswers: "0",
             wrongAnswers: "0",
             questionTitleHtml: "<div class='body-m bold margin-bottom-0'>" + this.questionTitle + "</div>",
-            highlightedHtml: ""
+            highlightedHtml: "",
+            canBeEdited: false,
         }
     },
     mounted() {
@@ -69,8 +70,9 @@
             this.$parent.lastQuestionInListIndex = this.questionIndex;
     },
     watch: {
-        isQuestionListToShow() {
-            this.expandQuestion();
+        isQuestionListToShow(val) {
+            if (val != this.showFullQuestion)
+                this.expandQuestion();
         },
         knowledgeState(val) {
             this.setKnowledgebarData(val);
@@ -184,6 +186,7 @@
                     this.answerCount = this.abbreviateNumber(data.answerCount);
                     this.correctAnswers = this.abbreviateNumber(data.correctAnswerCount);
                     this.wrongAnswers = this.abbreviateNumber(data.wrongAnswerCount);
+                    this.canBeEdited = data.canBeEdited;
                 },
             });
         },
@@ -221,6 +224,15 @@
             eventBus.$emit('change-active-page', this.selectedPage);
             eventBus.$emit('change-active-question', this.questionIndex);
             eventBus.$emit('update-progress-bar', this.lengthOfQuestionsArray, this.sessionIndex);
+        },
+        editQuestion() {
+            var question = {
+                questionId: this.questionId,
+                edit: true,
+                sessionIndex: this.sessionIndex
+            };
+
+            eventBus.$emit('open-edit-question-modal', question);
         }
     },
 });

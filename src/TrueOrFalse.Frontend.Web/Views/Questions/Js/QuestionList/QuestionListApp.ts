@@ -20,7 +20,7 @@ var questionListApp = new Vue({
         hasNoQuestions: true,
     },
     methods: {
-        toggleQuestionsList: function() {
+        toggleQuestionsList() {
             this.isQuestionListToShow = !this.isQuestionListToShow;
         },
         startNewLearningSession: () => {

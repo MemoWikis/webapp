@@ -91,8 +91,9 @@ public class QuestionRepo : RepositoryDbBase<Question>
 
     public void UpdateBeforeEntityCacheInit(Question question)
     {
+        _searchIndexQuestion.Update(question);
         base.Update(question);
-        EntityCache.AddOrUpdate(question);
+
         Flush();
     }
 

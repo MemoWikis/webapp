@@ -3,12 +3,9 @@
 
 <%= Styles.Render("~/bundles/Segmentation") %>
 
-<segmentation-component inline-template :edit-mode="editMode" :category-id="<%= Model.Category.Id %>" child-category-ids="<%= Model.NotInSegmentCategoryIds %>" segment-json="<%= Model.SegmentJson %>">
+<segmentation-component inline-template :edit-mode="editMode" :category-id="<%= Model.Category.Id %>" child-category-ids="<%= Model.NotInSegmentCategoryIds %>" segment-json="<%= Model.SegmentJson %>" is-my-world-string="<%= Model.IsMyWorld %>">
     <div :key="componentKey" id="Segmentation" v-cloak>
-        <div v-if="hasCustomSegment" class="segmentationHeader overline-m">
-            Alle Unterthemen
-        </div>
-        <div v-else class="segmentationHeader overline-m">
+        <div class="segmentationHeader overline-m">
             Untergeordnete Themen
             <div v-if="editMode" class="Button dropdown DropdownButton segmentDropdown">
                 <a href="#" :id="dropdownId" class="dropdown-toggle  btn btn-link btn-sm ButtonEllipsis" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
@@ -68,7 +65,7 @@
         
                 <div class="topicNavigation row">
                     <template v-if="loadComponents" v-cloak>
-                        <template v-for="id in currentChildCategoryIds">
+                        <template v-for="(id, index) in currentChildCategoryIds">
                             <%: Html.Partial("~/Views/Categories/Detail/Partials/Segmentation/SegmentationCategoryCardComponent.vue.ascx")%>
                         </template>
                     </template>

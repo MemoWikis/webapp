@@ -517,8 +517,6 @@
 }
 #QuestionListApp #AddInlineQuestionContainer #AddQuestionBody #AddQuestionFormContainer .ProseMirror {
   padding: 11px 15px 0;
-  border: solid 1px #DDDDDD;
-  border-radius: 4px;
   margin-bottom: 26px;
 }
 #QuestionListApp #AddInlineQuestionContainer #AddQuestionBody #AddQuestionPrivacyContainer {
@@ -547,4 +545,19 @@
 }
 #QuestionListApp.no-questions #QuestionListComponent {
   border: #999999 solid 0.03125em;
+}
+#QuestionListApp .ProseMirror,
+#QuestionListApp input,
+#QuestionListApp textarea {
+  border: solid 1px #DDDDDD;
+  border-radius: 0;
+}
+#QuestionListApp input:focus,
+#QuestionListApp .ProseMirror-focused:focus,
+#QuestionListApp textarea:focus,
+#QuestionListApp input:focus-visible,
+#QuestionListApp .ProseMirror-focused:focus-visible,
+#QuestionListApp textarea:focus-visible {
+  outline: none !important;
+  border: solid 1px #AFD534;
 }

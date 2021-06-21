@@ -168,17 +168,21 @@ var categoryCardComponent = Vue.component('category-card-component', {
             else
                 this.showHover = false;
         },
+        categoryId() {
+            this.init();
+        }
     },
     created() {
-        this.getCategoryData();
-    },
-    mounted() {
-        this.dropdownId = this.segmentId + '-Dropdown' + this.id ;
-        this.checkboxId = this.segmentId + '-Checkbox' + this.id;
-        if (this.isCustomSegment)
-            this.dropdownId += this.$parent.id;
+        this.init();
     },
     methods: {
+        init() {
+            this.getCategoryData();
+            this.dropdownId = this.segmentId + '-Dropdown' + this.id;
+            this.checkboxId = this.segmentId + '-Checkbox' + this.id;
+            if (this.isCustomSegment)
+                this.dropdownId += this.$parent.id;
+        },
         getCategoryData() {
             var self = this;
             var data = {
@@ -203,8 +207,9 @@ var categoryCardComponent = Vue.component('category-card-component', {
         },
 
         thisToSegment() {
-            if (!this.isCustomSegment)
+            if (!this.isCustomSegment) {
                 this.$parent.loadSegment(this.id);
+            }
         },
         selectCategory() {
             if (this.editMode) {
@@ -267,7 +272,7 @@ var segmentComponent = Vue.component('segment-component', {
             visibility: 0,
             segmentTitle: null,
             knowledgeBarHtml: null,
-
+            disabled: true,
         };
     },
 
@@ -281,14 +286,7 @@ var segmentComponent = Vue.component('segment-component', {
             var baseChildCategoryIds = JSON.parse(this.childCategoryIds);
             this.currentChildCategoryIds = baseChildCategoryIds;
         }
-        var segment = {
-            CategoryId: parseInt(this.categoryId),
-            Title: this.title,
-            ChildCategoryIds: this.categories
-        }
         this.addCategoryId = "AddCategoryTo-" + this.segmentId + "-Btn";
-        if (this.categoryId != undefined)
-            eventBus.$emit('new-segment', segment);
         this.dropdownId = this.segmentId + '-Dropdown';
 
         this.$on('select-category', (id) => this.selectCategory(id));
@@ -309,6 +307,9 @@ var segmentComponent = Vue.component('segment-component', {
         },
         currentChildCategoryIds() {
             this.currentChildCategoryIdsString = this.currentChildCategoryIds.join(',');
+        },
+        selectedCategoryIds(val) {
+            this.disabled = val.length <= 0;
         }
     },
 
@@ -385,6 +386,7 @@ var segmentComponent = Vue.component('segment-component', {
             });
         },
         filterChildren(selectedCategoryIds) {
+            console.log(selectedCategoryIds);
             let filteredCurrentChildCategoryIds = this.currentChildCategoryIds.filter(
                 function (e) {
                     return this.indexOf(e) < 0;
@@ -392,7 +394,11 @@ var segmentComponent = Vue.component('segment-component', {
                 selectedCategoryIds
             );
             this.currentChildCategoryIds = filteredCurrentChildCategoryIds;
+            this.selectedCategoryIds = [];
             eventBus.$emit('save-segments');
         },
+        hideChildren() {
+            this.filterChildren(this.selectedCategories);
+        }
     },
 });

@@ -12,12 +12,19 @@ public class QuestionListModel : BaseModel
     public int AllQuestionsInCategory;
     public bool IsSessionNoteFadeIn { get; set; }
 
+    public EditQuestionModel EditQuestionModel;
+
 
     public QuestionListModel(int categoryId, bool isSessionNoteFadeIn = true)
     {
         CategoryId = categoryId;
         AllQuestionsInCategory = Sl.CategoryRepo.CountAggregatedQuestions(categoryId);
         IsSessionNoteFadeIn = isSessionNoteFadeIn;
+
+        var editQuestionModel = new EditQuestionModel();
+        editQuestionModel.Categories.Add(Sl.CategoryRepo.GetByIdEager((int)categoryId));
+
+        EditQuestionModel = editQuestionModel;
     }
 
     public static List<QuestionListJson.Question> PopulateQuestionsOnPage(int currentPage, int itemCountPerPage, bool isLoggedIn)

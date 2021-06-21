@@ -129,81 +129,11 @@ Vue.component('add-question-component', {
                 question: null,
                 questionJson: null,
                 questionHtml: null,
-                answerEditor: new tiptap.Editor({
-                    editable: true,
-                    extensions: [
-                        new tiptapExtensions.Blockquote(),
-                        new tiptapExtensions.BulletList(),
-                        new tiptapExtensions.CodeBlock(),
-                        new tiptapExtensions.HardBreak(),
-                        new tiptapExtensions.ListItem(),
-                        new tiptapExtensions.OrderedList(),
-                        new tiptapExtensions.TodoItem(),
-                        new tiptapExtensions.TodoList(),
-                        new tiptapExtensions.Link(),
-                        new tiptapExtensions.Bold(),
-                        new tiptapExtensions.Code(),
-                        new tiptapExtensions.Italic(),
-                        new tiptapExtensions.Strike(),
-                        new tiptapExtensions.Underline(),
-                        new tiptapExtensions.History(),
-                        //new tiptapExtensions.CodeBlockHighlight({
-                        //    languages: {
-                        //        apache,
-                        //        //cLike,
-                        //        xml,
-                        //        bash,
-                        //        //c,
-                        //        coffeescript,
-                        //        csharp,
-                        //        css,
-                        //        markdown,
-                        //        diff,
-                        //        ruby,
-                        //        go,
-                        //        http,
-                        //        ini,
-                        //        java,
-                        //        javascript,
-                        //        json,
-                        //        kotlin,
-                        //        less,
-                        //        lua,
-                        //        makefile,
-                        //        perl,
-                        //        nginx,
-                        //        objectivec,
-                        //        php,
-                        //        phpTemplate,
-                        //        plaintext,
-                        //        properties,
-                        //        python,
-                        //        pythonREPL,
-                        //        rust,
-                        //        scss,
-                        //        shell,
-                        //        sql,
-                        //        swift,
-                        //        yaml,
-                        //        typescript,
-                        //    },
-                        //}),
-                        new tiptapExtensions.Placeholder({
-                            emptyEditorClass: 'is-editor-empty',
-                            emptyNodeClass: 'is-empty',
-                            emptyNodeText: 'Rückseite der Karteikarte',
-                            showOnlyCurrent: true,
-                        })
-                    ],
-                    onUpdate: ({ getJSON, getHTML }) => {
-                        this.answerJson = getJSON();
-                        this.answerHtml = getHTML();
-                    },
-                }),
-                answer: null,
-                answerJson: null,
-                answerHtml: null,
                 solutionType: 9,
+                flashCardAnswer: null,
+                flashCardJson: null,
+                licenseConfirmation: false,
+                showMore: false,
             }
         },
 
@@ -213,7 +143,7 @@ Vue.component('add-question-component', {
                 var json = {
                     CategoryId: this.currentCategoryId,
                     Text: this.questionHtml,
-                    Answer: this.answerHtml,
+                    Answer: this.flashCardAnswer,
                     Visibility: this.visibility,
                     AddToWishknowledge: this.addToWishknowledge,
                     LastIndex: lastIndex,
@@ -237,5 +167,12 @@ Vue.component('add-question-component', {
                     },
                 });
             },
+            createQuestion() {
+                var question = {
+                    categoryId: parseInt(this.currentCategoryId),
+                    edit: false,
+                };
+                eventBus.$emit('open-edit-question-modal', question);
+            }
         }
     })

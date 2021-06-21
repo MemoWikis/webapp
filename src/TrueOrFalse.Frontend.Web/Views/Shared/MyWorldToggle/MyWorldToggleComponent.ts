@@ -4,14 +4,18 @@ if (eventBus == null)
 
 Vue.component('my-world-toggle-component',
     {
+        props: ['isMyWorld'],
         data() {
             return {
                 showMyWorld: false,
-                disabled: false,
+                disabled: true,
+                isLoading: false,
             }
         },
-        mounted() {
-            this.loadCookie();
+        created() {
+            this.showMyWorld = this.isMyWorld == 'True';
+            if (IsLoggedIn.Yes)
+                this.disabled = false;
         },
         watch: {
             showMyWorld(val) {
@@ -35,10 +39,12 @@ Vue.component('my-world-toggle-component',
                 this.showMyWorld = !this.showMyWorld;
                 var s = this.showMyWorld;
 
-                if(IsLoggedIn.Yes)
+                if (IsLoggedIn.Yes && !this.isLoading) {
                     $.post(`/Category/SetMyWorldCookie/?showMyWorld=${s}`).done(() => {
                         location.reload();
                     });
+                }
+
             },
             sendShowMyWorld() {
                 $.post("/User/SetUserWorldInUserCache",

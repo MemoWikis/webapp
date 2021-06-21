@@ -1,6 +1,6 @@
 ﻿<%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
 
- <category-card-component @select-category="selectCategory" @unselect-category="unselectCategory" inline-template :edit-mode="editMode" :ref="'card' + id" :is-custom-segment="isCustomSegment" :category-id="id" :selected-categories="selectedCategories" :segment-id="segmentId" hide="false">
+ <category-card-component @select-category="selectCategory" @unselect-category="unselectCategory" inline-template :edit-mode="editMode" :ref="'card' + id" :is-custom-segment="isCustomSegment" :category-id="id" :selected-categories="selectedCategories" :segment-id="segmentId" hide="false" :key="index">
     
     <div class="col-xs-6 topic segmentCategoryCard" v-if="visible" @mouseover="hover = true" @mouseleave="hover = false" :class="{ hover : showHover }">
         <div class="row">
@@ -26,11 +26,8 @@
                             <li v-if="!isCustomSegment"><a @click="thisToSegment">
                                 <div class="dropdown-icon"><i class="fa fa-code-fork"></i></div>Unterthemen einblenden
                             </a></li>
-                            <li v-if="isCustomSegment"><a @click="hideCategory">
-                                <div class="dropdown-icon"><i class="fas fa-eye-slash"></i></div>Thema ausblenden
-                            </a></li>
                             <li><a @click="removeParent">
-                                <div class="dropdown-icon"><i class="fas fa-unlink"></i></div>Thema entfernen
+                                <div class="dropdown-icon"><i class="fas fa-unlink"></i></div>Verknüpfung entfernen
                             </a></li>
                         </ul>
                     </div>

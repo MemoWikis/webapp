@@ -285,6 +285,7 @@
     <Compile Include="Domain\Category\History\EditData\CategoryRelation_EditData_V2.cs" />
     <Compile Include="Domain\Category\History\Ops\InitializeCategoryChanges.cs" />
     <Compile Include="Domain\Category\History\Ops\RestoreCategory.cs" />
+    <Compile Include="Domain\Category\MiniCategoryItem.cs" />
     <Compile Include="Domain\Category\Ops\GetAllCategoriesInSeveralRootCategories.cs" />
     <Compile Include="Domain\Category\Ops\GetAllCategoriesUnconnectedToRootCategories.cs" />
     <Compile Include="Domain\Category\Ops\GetPrimaryCategory.cs" />
@@ -848,6 +849,7 @@
     <Compile Include="Tools\Cache\UserCache\UserCacheItem.cs" />
     <Compile Include="Domain\Category\RootCategory.cs" />
     <Compile Include="Tools\Update\Steps\UpdateToVs219.cs" />
+    <Compile Include="Tools\Update\Steps\UpdateToVs226.cs" />
     <Compile Include="Tools\Update\Steps\UpdateToVs225.cs" />
     <Compile Include="Tools\Update\Steps\UpdateToVs224.cs" />
     <Compile Include="Tools\Update\Steps\UpdateToVs223.cs" />
@@ -860,6 +862,7 @@
     <Compile Include="Tools\Update\Steps\UpdateToVs214.cs" />
     <Compile Include="Tools\Update\Steps\UpdateToVs213.cs" />
     <Compile Include="Tools\Update\Steps\UpdateToVs212.cs" />
+    <Compile Include="Tools\Update\TemplateMigration\QuestionSolutionType3To7Migration.cs" />
     <Compile Include="Tools\Update\TemplateMigration\TopicNavigationMigration.cs" />
     <Compile Include="Web\IgnoreLog.cs" />
     <Compile Include="Tools\Import\Importer.cs" />

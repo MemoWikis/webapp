@@ -21,16 +21,18 @@ public class SegmentationModel : BaseContentModule
     public List<Segment> Segments;
     public string NotInSegmentCategoryIds;
     public string SegmentJson;
+    public bool IsMyWorld { get; set; }
 
     public SegmentationModel(CategoryCacheItem category)
     {
+        IsMyWorld = UserCache.GetItem(Sl.CurrentUserId).IsFiltered;
         Category = category;
         
         var categoryList = UserCache.GetItem(_sessionUser.UserId).IsFiltered ? UserEntityCache.GetChildren(category.Id, UserId).Where(c => c.IsVisibleToCurrentUser()) : EntityCache.GetChildren(category.Id).Where(c => c.IsVisibleToCurrentUser());
         CategoryList = categoryList.Where(c => c.Type.GetCategoryTypeGroup() == CategoryTypeGroup.Standard).ToList();
 
         var segments = new List<Segment>();
-        if (!String.IsNullOrEmpty(category.CustomSegments))
+        if (!String.IsNullOrEmpty(category.CustomSegments) && !UserCache.GetItem(_sessionUser.UserId).IsFiltered)
         {
             segments = GetSegments(category.Id);
             NotInSegmentCategoryList = GetNotInSegmentCategoryList(segments, categoryList.ToList());
@@ -66,7 +68,8 @@ public class SegmentationModel : BaseContentModule
             if (segmentItem.IsNotVisibleToCurrentUser)
                 continue;
             segment.Item = EntityCache.GetCategoryCacheItem(s.CategoryId);
-            segment.Title = s.Title;
+            segment.Title = String.IsNullOrEmpty(s.Title) ? segment.Item.Name : s.Title;
+                
             if (s.ChildCategoryIds != null)
                 segment.ChildCategories = UserCache.GetItem(_sessionUser.UserId).IsFiltered
                     ? EntityCache.GetCategoryCacheItems(s.ChildCategoryIds).Where(c => c.IsInWishknowledge()).ToList()

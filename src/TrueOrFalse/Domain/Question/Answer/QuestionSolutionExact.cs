@@ -66,4 +66,10 @@ public class QuestionSolutionExact : QuestionSolution
         Text = postData["Text"];
         MetadataSolutionJson = postData["MetadataSolutionJson"];
     }
+
+    public void FillFromPostData(string text, string metadataSolutionJson)
+    {
+        Text = text;
+        MetadataSolutionJson = metadataSolutionJson;
+    }
 }
