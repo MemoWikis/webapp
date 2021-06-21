@@ -11,7 +11,11 @@ public static class QuestionListExt
         questions.Select(q => q.Id).ToList();
 
     public static IEnumerable<CategoryCacheItem> GetAllCategories(this IEnumerable<Question> questions) => 
-        questions.SelectMany(q => CategoryCacheItem.ToCacheCategories(q.Categories)).Where(c => c != null).Distinct();
+        questions.SelectMany(q => 
+            EntityCache.GetCategoryCacheItems(
+                q.Categories.Where(c => c != null)
+                    .Select(c => c.Id)))
+            .Distinct();
 
     public static IEnumerable<QuestionsInCategory> QuestionsInCategories(this IEnumerable<Question> questions)
     {
