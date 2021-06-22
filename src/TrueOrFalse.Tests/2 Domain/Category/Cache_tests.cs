@@ -13,7 +13,7 @@ class User_entity_cache_tests : BaseTest
         var user = Sl.SessionUser.User;
        
         EntityCache.Init();
-        var userEntityCacheCategories = UserEntityCache.GetCategories(user.Id).Values.ToList();
+        var userEntityCacheCategories = UserEntityCache.GetAllCategoriesAsDictionary(user.Id).Values.ToList();
         var entityCacheCategories = EntityCache.GetAllCategories().ToList();
 
         // entityCacheCategories is uncut case and userEntityCacheCategoriess is cut case  https://app.diagrams.net/#G1CEMMm1iIhfNKvuKng5oM6erR0bVDWHr6
@@ -56,13 +56,13 @@ class User_entity_cache_tests : BaseTest
         ContextCategory.New().AddCaseThreeToCache();
         EntityCache.Init();
         var user = Sl.SessionUser.User;
-        Assert.That(UserEntityCache.GetCategories(user.Id).Values.ToList().Count, Is.EqualTo(7));
+        Assert.That(UserEntityCache.GetAllCategoriesAsDictionary(user.Id).Values.ToList().Count, Is.EqualTo(7));
 
         ContextCategory.New(false).AddCaseTwoToCache();
         Thread.Sleep(100);
         EntityCache.Init();
         user = Sl.SessionUser.User;
-        Assert.That(UserEntityCache.GetCategories(user.Id).Values.ToList().Count, Is.EqualTo(5));
+        Assert.That(UserEntityCache.GetAllCategoriesAsDictionary(user.Id).Values.ToList().Count, Is.EqualTo(5));
     }
 
     [Test]
@@ -122,17 +122,17 @@ class User_entity_cache_tests : BaseTest
         UserEntityCache.ReInitAllActiveCategoryCaches();
 
 
-        Assert.That(UserEntityCache.GetCategories(2).First().Value.Name, Is.EqualTo("Daniel"));
-        Assert.That(UserEntityCache.GetCategories(2).Count, Is.EqualTo(7));
+        Assert.That(UserEntityCache.GetAllCategoriesAsDictionary(2).First().Value.Name, Is.EqualTo("Daniel"));
+        Assert.That(UserEntityCache.GetAllCategoriesAsDictionary(2).Count, Is.EqualTo(7));
 
 
         var user = ContextUser.New().Add("Daniel").Persist().All.First();
         Sl.SessionUser.Login(user);
         UserEntityCache.Init();
 
-        var userEntityCacheAfterRenameForUser3 = UserEntityCache.GetCategories(3);
+        var userEntityCacheAfterRenameForUser3 = UserEntityCache.GetAllCategoriesAsDictionary(3);
         Assert.That(userEntityCacheAfterRenameForUser3.Count, Is.EqualTo(1)); // is RootKategorie
-        Assert.That(UserEntityCache.GetCategories(3).First().Value.Name, Is.EqualTo("Daniel"));
+        Assert.That(UserEntityCache.GetAllCategoriesAsDictionary(3).First().Value.Name, Is.EqualTo("Daniel"));
     }
 
     [Test]
@@ -145,16 +145,16 @@ class User_entity_cache_tests : BaseTest
         cate.Name = "Daniel";
         UserEntityCache.ChangeCategoryInUserEntityCaches(cate);
 
-        Assert.That(UserEntityCache.GetCategories(2).First().Value.Name, Is.EqualTo("Daniel"));
-        Assert.That(UserEntityCache.GetCategories(2).Count, Is.EqualTo(7));
+        Assert.That(UserEntityCache.GetAllCategoriesAsDictionary(2).First().Value.Name, Is.EqualTo("Daniel"));
+        Assert.That(UserEntityCache.GetAllCategoriesAsDictionary(2).Count, Is.EqualTo(7));
 
         var user = ContextUser.New().Add("Daniel").Persist().All.First();
         Sl.SessionUser.Login(user);
         UserEntityCache.Init();
          
-        var userEntityCacheAfterRenameForUser3 = UserEntityCache.GetCategories(3);
+        var userEntityCacheAfterRenameForUser3 = UserEntityCache.GetAllCategoriesAsDictionary(3);
         Assert.That(userEntityCacheAfterRenameForUser3.Count, Is.EqualTo(1)); // is RootKategorie
-        Assert.That(UserEntityCache.GetCategories(3).First().Value.Name, Is.EqualTo("Daniel"));
+        Assert.That(UserEntityCache.GetAllCategoriesAsDictionary(3).First().Value.Name, Is.EqualTo("Daniel"));
     }
 
 
@@ -167,7 +167,7 @@ class User_entity_cache_tests : BaseTest
         Sl.CategoryRepo.Delete(Sl.CategoryRepo.GetByName("E").First());
 
 
-        var userEntityCacheAfterDeleteForUser2 = UserEntityCache.GetCategories(user.Id).Select(x => x.Value).ToList();
+        var userEntityCacheAfterDeleteForUser2 = UserEntityCache.GetAllCategoriesAsDictionary(user.Id).Select(x => x.Value).ToList();
         var categoryIdForA = EntityCache.GetByName("A").First();
 
         UserCache.GetItem(user.Id).IsFiltered = true; 
