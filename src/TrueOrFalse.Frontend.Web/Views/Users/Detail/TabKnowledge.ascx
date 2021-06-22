@@ -19,7 +19,7 @@
     <div class="col-lg-10 col-xs-9 xxs-stack">
         <div style="clear: both; padding-top: 14px; margin-bottom: 3px; border-bottom: 1px solid #afd534;">Fragen (<%= Model.WishQuestions.Count %>):</div>
         <% if (Model.WishQuestions.Count > 0){ %>
-            <% foreach(var question in Model.WishQuestions){ %>
+            <% foreach(var question in Model.WishQuestions.Take(100)){ %>
                 <div>
                     <% if(question.IsPrivate()){ %> <i class="fa fa-lock show-tooltip" title="Private Frage"></i><% } %>
                     <a href="<%: Links.AnswerQuestion(question) %>"><%: question.Text %></a>
@@ -37,7 +37,7 @@
     <div class="col-lg-2 col-xs-3 xxs-stack">
         <% if(Model.User.ShowWishKnowledge || Model.IsCurrentUser){ %>
         <h4 style="margin-top: 20px;">Themen mit Wunschwissen</h4>
-            <% foreach (var item in Model.WishQuestionsCategories.OrderByDescending(x => x.Questions.Count)){ %>
+            <% foreach (var item in Model.WishQuestionsCategories.OrderByDescending(x => x.Questions.Count).Take(42)){ %>
                 <% Html.RenderPartial("CategoryLabel", item.CategoryCacheItem); %>
                 <% if(Model.IsCurrentUser) { %>
                     <a href="<%= Links.QuestionWish_WithCategoryFilter(item.CategoryCacheItem) %>" class="show-tooltip" title="<%: item.Questions.Count %> Fragen im Wunschwissen">
