@@ -83,7 +83,7 @@ public class UserEntityCache : BaseCache
 
     public static CategoryCacheItem GetCategory(int userId, int categoryId)
     {
-        var allCategories = GetCategories(userId);
+        var allCategories = GetAllCategoriesAsDictionary(userId);
         CategoryCacheItem result;
         return allCategories.TryGetValue(categoryId, out result) ?  result : null;
     }
@@ -99,7 +99,7 @@ public class UserEntityCache : BaseCache
     }
 
     public static IEnumerable<CategoryCacheItem> GetAllCategories(int userId) => _Categories[userId].Values;  
-    public static ConcurrentDictionary<int, CategoryCacheItem> GetCategories(int userId)
+    public static ConcurrentDictionary<int, CategoryCacheItem> GetAllCategoriesAsDictionary(int userId)
     {
         if (!_Categories.ContainsKey(userId))
             Init();
@@ -219,7 +219,7 @@ public class UserEntityCache : BaseCache
     {
         var category = GetCategoryWhenNotAvalaibleThenGetNextParent(categoryId,userId);
 
-        var allCategories = GetCategories(userId).Values.ToList();
+        var allCategories = GetAllCategoriesAsDictionary(userId).Values.ToList();
 
         return allCategories.SelectMany(c =>
             c.CategoryRelations.Where(cr => 
