@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections.Concurrent;
+using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
 using NHibernate.Linq.Expressions;
@@ -30,7 +31,7 @@ public class SearchApiController : BaseController
             AddHeader(items, ResultItemType.UsersHeader, elements.UsersResultCount, term);
             AddUsersItems(items, elements);
         }
-        
+
         return Json( new{ Items = items }, JsonRequestBehavior.AllowGet);
     }
 
@@ -174,7 +175,8 @@ public class SearchApiController : BaseController
     private static void AddCategoryItems(List<ResultItem> items, SearchBoxElements elements)
     {
         items.AddRange(
-            elements.Categories.Select(category => new ResultItem
+            elements.Categories
+                .Select(category => new ResultItem
             {
                 Type = ResultItemType.Categories.ToString(),
                 Item = new ResultItemJson
@@ -187,6 +189,7 @@ public class SearchApiController : BaseController
                 }
             })
         );
+      
     }
 
     private static void AddQuestionItems(List<ResultItem> items, SearchBoxElements elements)
