@@ -236,6 +236,8 @@ public class EditCategoryController : BaseController
     public JsonResult AddChild(int childCategoryId, int parentCategoryId)
     {
         var category = Sl.CategoryRepo.GetById(childCategoryId);
+        var allParents = GraphService.GetAllParentsFromEntityCache(childCategoryId); 
+        
         ModifyRelationsForCategory.AddParentCategory(category, parentCategoryId);
         ModifyRelationsEntityCache.AddParent(EntityCache.GetCategoryCacheItem(childCategoryId, getDataFromEntityCache: true), parentCategoryId);
 

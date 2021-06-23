@@ -201,7 +201,7 @@ class User_entity_cache_tests : BaseTest
         var parentNames = GraphService.GetAllParentsFromEntityCache(
             EntityCache.GetByName("I")
                 .Where(c => c.Name == "I")
-                .First().Id, true)
+                .First().Id)
             .Select(c => c.Name);
 
         Assert.That(parentNames.Contains("G"), Is.EqualTo(true));

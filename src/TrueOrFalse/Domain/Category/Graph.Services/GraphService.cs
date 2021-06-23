@@ -7,8 +7,8 @@ using FluentNHibernate.Conventions;
 
 public class GraphService
 {
-    public static IList<CategoryCacheItem> GetAllParentsFromEntityCache(int categoryId, bool getFromEntityCache = false) =>
-       GetAllParentsFromEntityCache(EntityCache.GetCategoryCacheItem(categoryId, getDataFromEntityCache: getFromEntityCache));
+    public static IList<CategoryCacheItem> GetAllParentsFromEntityCache(int categoryId) =>
+       GetAllParentsFromEntityCache(EntityCache.GetCategoryCacheItem(categoryId, getDataFromEntityCache: true));
 
     public static IList<CategoryCacheItem> GetAllParentsFromEntityCache(CategoryCacheItem category)
     {
@@ -225,7 +225,7 @@ public class GraphService
 
     public static void AutomaticInclusionOfChildCategoriesForEntityCacheAndDbUpdate(CategoryCacheItem category, IList<CategoryCacheItem> oldParents)
     {
-        var parentsFromParentCategories = GetAllParentsFromEntityCache(category.Id, true);
+        var parentsFromParentCategories = GetAllParentsFromEntityCache(category.Id);
 
         foreach (var oldParent in oldParents)
         {
@@ -244,7 +244,7 @@ public class GraphService
 
     public static void AutomaticInclusionOfChildCategoriesForEntityCacheAndDbCreate(CategoryCacheItem category)
     {
-        var parentsFromParentCategories = GetAllParentsFromEntityCache(category.Id, true);
+        var parentsFromParentCategories = GetAllParentsFromEntityCache(category.Id);
 
         foreach (var parent in parentsFromParentCategories)
         {
