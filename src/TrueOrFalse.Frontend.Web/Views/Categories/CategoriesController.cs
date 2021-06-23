@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Web.Mvc;
+using NHibernate.Util;
 using Seedworks.Lib;
 using static System.String;
 
@@ -93,6 +94,26 @@ public class CategoriesController : BaseController
         var hasDeleted =  Sl.CategoryDeleter. Run(category); 
 
         return hasDeleted;
+    }
+
+    [AccessOnlyAsLoggedIn]
+    [HttpPost]
+    public JsonResult GetDeleteData(int id)
+    {
+        var category = _categoryRepo.GetById(id);
+        var children = _categoryRepo.GetDescendants(id);
+        var hasChildren = children.Count > 0;
+        if (category == null)
+            throw new Exception("Category couldn't be deleted. Category with specified Id cannot be found.");
+
+        return new JsonResult
+        {
+            Data = new
+            {
+                CategoryName = category.Name,
+                HasChildren = hasChildren,
+            }
+        };
     }
 
     public class CategoriesControllerUtil : BaseUtil

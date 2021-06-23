@@ -192,7 +192,7 @@ class Site {
         }
     }
 
-    static RedirectToDashboard() { location.href = "/Wissenszentrale/Ueberblick"; }
+    static RedirectToDashboard() { location.href = window.location.origin; }
     static RedirectToRegistrationSuccess() { location.href = "/Register/RegisterSuccess"; }
     static RedirectToRegistration() { location.href = "/Registrieren"; }
 

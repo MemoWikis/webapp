@@ -153,7 +153,7 @@
                     <%} %>
 
 
-                    <div id="MyWorldToggleApp" :class="{'active': showMyWorld}">
+                    <div id="MyWorldToggleApp" :class="{'active': showMyWorld}" <%if (Model.IsMyWorld){%> class="active"<%} %> v-cloak>
                         <div class="toggle-label">
                             <div>
                                 Zeige nur mein
@@ -170,7 +170,7 @@
                         </a>
                         <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="<%= buttonId %>">
                             <li>
-                                <a href="<%= Links.CategoryHistory(Model.Id) %>">
+                                <a onclick="eventBus.$emit('open-add-category-modal', {categoryId: <%= Model.Category.Id %>})" data-allowed="logged-in">
                                     <div class="dropdown-icon">
                                         <i class="fa fa-code-fork"></i>
                                     </div>
@@ -189,24 +189,13 @@
                                 </a>
                             </li>
                             <li>
-                                <a href="<%= Links.CategoryCreate(Model.Id) %>" data-allowed="logged-in">
+                                <a onclick="eventBus.$emit('open-add-category-modal', <%= Model.Category.Id %>)" data-allowed="logged-in">
                                     <div class="dropdown-icon">
                                         <i class="fa fa-plus-circle"></i>
                                     </div>
                                     Unterthema hinzufügen
                                 </a>
                             </li>
-                            <% if (Model.Category.Id != 1)
-                               { %>
-                            <li>
-                                <a href="<%= Links.CategoryEdit(Url, Model.Name, Model.Id) %>" data-allowed="logged-in">
-                                    <div class="dropdown-icon">
-                                        <i class="fa fa-pencil"></i>
-                                    </div>
-                                    bearbeiten (Expertenmodus)
-                                </a>
-                            </li>
-                                <% } %>
                             <li>
                                 <a href="" id="AnalyticsTab" data-url="<%=Links.CategoryDetailAnalyticsTab(Model.Name, Model.Id) %>" data-allowed="logged-in" class="Tab" >
                                     <div class="dropdown-icon">
@@ -215,6 +204,16 @@
                                     Wissensnetz anzeigen
                                 </a>
                             </li>
+                            <%if (Model.IsOwnerOrAdmin) {%>
+                                <li>
+                                    <a onclick="eventBus.$emit('open-delete-category-modal', <%= Model.Category.Id %>)" data-allowed="logged-in">
+                                        <div class="dropdown-icon">
+                                            <i class="fas fa-trash"></i>
+                                        </div>
+                                        Thema löschen
+                                    </a>
+                                </li>
+                            <%}%>
                         </ul>
                     </div>
                 </div>

@@ -84,6 +84,7 @@ namespace TrueOrFalse.View
                 .Include("~/Views/Categories/Detail/JsEditMode/CategoryHeader/CategoryImageComponent.js")
                 .Include("~/Views/Categories/Detail/JsEditMode/CategoryHeader/CategoryNameComponent.js")
                 .Include("~/Views/Categories/Detail/JsEditMode/CategoryHeader/CategoryHeaderApp.js")
+                .Include("~/Views/Categories/Edit/Js/DeleteCategory/DeleteCategoryComponent.js")
                 .Include("~/Views/Categories/Edit/Js/AddCategory/AddCategoryComponent.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/js/d3")

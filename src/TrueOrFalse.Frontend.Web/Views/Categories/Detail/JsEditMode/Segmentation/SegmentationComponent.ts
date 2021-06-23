@@ -32,7 +32,7 @@ var segmentationComponent = Vue.component('segmentation-component', {
             currentChildCategoryIds: [],
             segments: [] as Segment[],
             isMyWorld: this.isMyWorldString == 'True',
-    };
+        };
     },
 
     created() {

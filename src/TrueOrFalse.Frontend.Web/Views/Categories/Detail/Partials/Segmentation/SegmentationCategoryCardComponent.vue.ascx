@@ -1,11 +1,11 @@
 ﻿<%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
 
- <category-card-component @select-category="selectCategory" @unselect-category="unselectCategory" inline-template :edit-mode="editMode" :ref="'card' + id" :is-custom-segment="isCustomSegment" :category-id="id" :selected-categories="selectedCategories" :segment-id="segmentId" hide="false" :key="index">
+ <category-card-component @select-category="selectCategory" @unselect-category="unselectCategory" inline-template :edit-mode="editMode" :ref="'card' + id" :is-custom-segment="isCustomSegment" :category-id="id" :selected-categories="selectedCategories" :segment-id="segmentId" hide="false" :key="index" :is-my-world="isMyWorld">
     
     <div class="col-xs-6 topic segmentCategoryCard" v-if="visible" @mouseover="hover = true" @mouseleave="hover = false" :class="{ hover : showHover }">
         <div class="row">
             <div class="col-xs-3">
-                <div class="checkBox" @click="selectCategory()" :class="{ show : showHover, selected : isSelected }">
+                <div class="checkBox" @click="selectCategory()" :class="{ show : showHover && isCustomSegment, selected : isSelected && isCustomSegment }">
                     <i class="fas fa-check-square" v-if="isSelected"></i>
                     <i class="far fa-square" v-else></i>
                 </div>
@@ -23,7 +23,7 @@
                             <i class="fa fa-ellipsis-v"></i>
                         </a>
                         <ul class="dropdown-menu dropdown-menu-right" :aria-labelledby="dropdownId">
-                            <li v-if="!isCustomSegment"><a @click="thisToSegment">
+                            <li v-if="!isCustomSegment && !isMyWorld"><a @click="thisToSegment">
                                 <div class="dropdown-icon"><i class="fa fa-code-fork"></i></div>Unterthemen einblenden
                             </a></li>
                             <li><a @click="removeParent">

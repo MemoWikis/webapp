@@ -242,7 +242,7 @@ public class CategoryController : BaseController
         {
             if (!UserEntityCache.IsCategoryCacheKeyAvailable())
                 Logg.r().Warning("Cache CacheKeyIsNotAvailable");
-                UserEntityCache.Init();
+            UserEntityCache.Init();
         }
 
      UserCache.GetItem(_sessionUser.UserId).IsFiltered = showMyWorld;

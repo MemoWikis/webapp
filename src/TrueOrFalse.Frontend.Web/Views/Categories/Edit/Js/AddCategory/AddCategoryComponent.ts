@@ -55,6 +55,18 @@ var addCategoryComponent = Vue.component('add-category-component', {
         }
     },
     mounted() {
+        eventBus.$on('open-add-category-modal',
+            id => {
+                var parent = {
+                    id: id,
+                    addCategoryBtnId: $("#AddToCurrentCategoryBtn"),
+                    moveCategories: false,
+                    redirect: true,
+                }
+                if ($('#LearningTabWithOptions').hasClass("active"))
+                    parent.addCategoryBtnId = null;
+                $('#AddCategoryModal').data('parent', parent).modal('show');
+            });
         $('#AddCategoryModal').on('show.bs.modal',
             event => {
                 this.parentId = $('#AddCategoryModal').data('parent').id;
@@ -135,8 +147,7 @@ var addCategoryComponent = Vue.component('add-category-component', {
                                     else
                                         $('#AddCategoryModal').modal('hide');
                                         Utils.HideSpinner();
-                                } else {
-                                };
+                                }
                             },
                         });
                     } else {
@@ -144,6 +155,7 @@ var addCategoryComponent = Vue.component('add-category-component', {
                         self.existingCategoryName = data.name;
                         self.existingCategoryUrl = data.url;
                         self.showErrorMsg = true;
+                        Utils.HideSpinner();
                     };
                 },
             });
@@ -194,6 +206,13 @@ var addCategoryComponent = Vue.component('add-category-component', {
                 parentCategoryId: self.parentId,
             }
 
+            if (this.selectedCategoryId == this.parentId) {
+                this.errorMsg = "Das untergeordnete Thema, darf nicht das selbe Thema sein";
+                this.showErrorMsg = true;
+                Utils.HideSpinner();
+                return;
+            }
+
             $.ajax({
                 type: 'Post',
                 contentType: "application/json",
@@ -212,6 +231,9 @@ var addCategoryComponent = Vue.component('add-category-component', {
                             $('#AddCategoryModal').modal('hide');
                         Utils.HideSpinner();
                     } else {
+                        self.errorMsg = data.errorMsg;
+                        self.showErrorMsg = true;
+                        Utils.HideSpinner();
                     };
                 },
             });
