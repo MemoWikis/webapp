@@ -4372,7 +4372,6 @@
   <ItemGroup>
     <Folder Include="bin\" />
     <Folder Include="Views\Categories\Detail\JsLearningTab\" />
-    <Folder Include="Views\Questions\Edit\EditComponents\Sequence\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

@@ -6,6 +6,8 @@ Vue.component('textsolution-component', {
                 text: '',
                 exactSpelling: false,
                 matchCase: false,
+                highlightEmptyField: false,
+                isEmpty: '',
             }
     },
 
@@ -15,9 +17,19 @@ Vue.component('textsolution-component', {
     },
 
     watch: {
+        highlightEmptyField(val) {
+            if (val)
+                this.isEmpty = 'is-empty';
+            else this.isEmpty = '';
+        },
         text(val) {
             this.$parent.solutionIsValid = val.length > 0;
             this.setSolution();
+
+            if (val.length == 0)
+                this.highlightEmptyField = true;
+            else
+                this.highlightEmptyField = false;
         }
     },
 
