@@ -19,10 +19,12 @@ public class SearchBoxElementsGet
             foreach (var category in categories)
             {
                 result.Categories.Remove(category);
-                result.CategoriesResult.Count = result.CategoriesResult.Count -1; 
             }
+
+            result.CategoriesResult.Count = result.Categories.Count; 
+
         }
-        
+
         result.UsersResult = Sl.SearchUsers.Run(term, new Pager { PageSize = pageSize }, SearchUsersOrderBy.None);
 
         var searchSpec = Sl.SessionUiData.SearchSpecQuestionSearchBox;
