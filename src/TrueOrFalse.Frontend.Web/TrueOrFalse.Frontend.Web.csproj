@@ -2584,7 +2584,6 @@
     <Compile Include="Views\Api\QuestionsApiController.cs" />
     <Compile Include="Views\Categories\Edit\CssJs.cs" />
     <Compile Include="Views\Categories\Edit\TypeControls\EditCategoryTypeModel.cs" />
-    <Compile Include="Views\Categories\CategoriesSearchResultModel.cs" />
     <Compile Include="Views\Error\ErrorController.cs" />
     <Compile Include="Views\Help\HelpController.cs" />
     <Compile Include="Views\Users\Detail\TabBadgesModel.cs" />
@@ -3118,7 +3117,6 @@
     <Content Include="Views\Beta\Js\Page.js">
       <DependentUpon>Page.ts</DependentUpon>
     </Content>
-    <Content Include="Views\Categories\CategoriesSearchResult.ascx" />
     <Content Include="Views\Drafts\FontAwesome.aspx" />
     <Content Include="Views\Knowledge\Knowledge.css">
       <DependentUpon>Knowledge.less</DependentUpon>
@@ -3613,7 +3611,6 @@
     <Compile Include="Views\Api\ExportController.cs" />
     <Compile Include="Views\Administrative\PersonaController.cs" />
     <Compile Include="Views\Api\ExportModel.cs" />
-    <Compile Include="Views\Categories\CategoriesModel.cs" />
     <Compile Include="Views\Categories\CategoryRowModel.cs" />
     <Compile Include="Views\Maintenance\MessagesModel.cs" />
     <Compile Include="Views\Maintenance\MaintenanceModel.cs" />
