@@ -46,21 +46,11 @@ public class SearchBoxElementsGet
     public static SearchBoxElements GoAllCategories(string term, bool isMyWorld = false)
     {
         var pager = new Pager {QueryAll = true};
-        if (isMyWorld)
-            pager.PageSize = 1000;
 
         var result = new SearchBoxElements
         {
             CategoriesResult = Sl.SearchCategories.Run(term, pager)
         };
-       
-        if (isMyWorld)
-        {
-            result.CategoriesResult.CategoryIds = result.CategoriesResult.CategoryIds
-                .Where(categoryId => UserEntityCache.IsInWishknowledge(Sl.CurrentUserId, categoryId)).ToList();
-            result.CategoriesResult.Count = result.CategoriesResult.CategoryIds.Count; 
-        }
-
         return result;
     }
 }
