@@ -16,6 +16,8 @@
                         @keyup.enter.native.prevent
                         :min-height="43"
                         width="100%"
+                        
+                        :class="isEmpty"
                     />
                 </div>
             </div>

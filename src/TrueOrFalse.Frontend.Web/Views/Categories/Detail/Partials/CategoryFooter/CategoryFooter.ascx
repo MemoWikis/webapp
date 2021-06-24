@@ -38,7 +38,7 @@
                     </a>
                 </li>
                 <li>
-                    <a href="<%= Links.CategoryCreate(Model.Id) %>" data-allowed="logged-in">
+                    <a onclick="eventBus.$emit('open-add-category-modal', <%= Model.Category.Id %>)"  data-allowed="logged-in">
                         <div class="dropdown-icon"><i class="fa fa-plus-circle"></i></div>
                         Unterthema hinzufügen
                     </a>

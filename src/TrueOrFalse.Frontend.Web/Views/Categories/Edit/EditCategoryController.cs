@@ -235,17 +235,23 @@ public class EditCategoryController : BaseController
     [HttpPost]
     public JsonResult AddChild(int childCategoryId, int parentCategoryId)
     {
+        if (childCategoryId == parentCategoryId)
+            return Json(new
+            {
+                success = false,
+                errorMsg = "Das untergeordnete Thema, darf nicht das selbe Thema sein"
+            });
+
         var category = Sl.CategoryRepo.GetById(childCategoryId);
         var allParents = GraphService.GetAllParentsFromEntityCache(parentCategoryId);
         var parentIsEqualChild = allParents.Where(c => c.Id == childCategoryId);
         if (parentIsEqualChild.Any())
         {
-            Logg.r().Error( "Child is Parent  " );
+            Logg.r().Error( "Child is Parent " );
             return Json(new
             {
                 success = false,
-                url = "",
-                id = -1
+                errorMsg = "Übergeordnete Themen können nicht untergeordnet werden."
             });
         }
         

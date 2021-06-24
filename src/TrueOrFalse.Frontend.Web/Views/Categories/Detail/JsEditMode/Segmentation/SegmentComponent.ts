@@ -137,6 +137,7 @@ var categoryCardComponent = Vue.component('category-card-component', {
         selectedCategories: Array,
         segmentId: [String, Number],
         hide: String,
+        isMyWorld: Boolean,
     },
 
     data() {
@@ -251,6 +252,7 @@ var segmentComponent = Vue.component('segment-component', {
         childCategoryIds: String,
         categoryId: [String, Number],
         editMode: Boolean,
+        isMyWorld: Boolean,
     },
 
     data() {

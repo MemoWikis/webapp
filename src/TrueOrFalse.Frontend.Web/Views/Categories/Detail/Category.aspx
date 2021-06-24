@@ -75,6 +75,7 @@
             <% } %>
         </div>
     <div id="AddCategoryApp">
+        <%: Html.Partial("~/Views/Categories/Edit/DeleteCategoryComponent.vue.ascx") %>
         <%: Html.Partial("~/Views/Categories/Edit/AddCategoryComponent.vue.ascx") %>
     </div>
 

@@ -1828,6 +1828,11 @@ strong {
   border: solid 1px #DDDDDD;
   border-radius: 0;
 }
+#EditQuestionModal .ProseMirror.is-empty,
+#EditQuestionModal input.is-empty,
+#EditQuestionModal textarea.is-empty {
+  border: solid 1px #FFA07A;
+}
 #EditQuestionModal .input-group-addon {
   border: none;
   border-radius: 0;
