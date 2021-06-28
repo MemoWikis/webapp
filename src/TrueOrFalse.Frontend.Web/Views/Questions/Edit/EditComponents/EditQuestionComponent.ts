@@ -58,6 +58,7 @@ var editQuestionComponent = Vue.component('edit-question-component',
     {
         data() {
             return {
+                highlightEmptyFields: false,
                 id: null,
                 addToWuwi: false,
                 solutionType: null,
@@ -72,6 +73,7 @@ var editQuestionComponent = Vue.component('edit-question-component',
                 flashCardAnswer: null,
                 edit: false,
                 empty: 'empty',
+                licenseIsValid: false,
                 questionEditor: new tiptap.Editor({
                     editable: true,
                     extensions: [
@@ -242,15 +244,9 @@ var editQuestionComponent = Vue.component('edit-question-component',
                 solutionIsValid: false,
                 showMore: false,
                 disabled: true,
-                highlightEmptyField: false,
             }
         },
         mounted() {
-            //eventBus.$on('show-missing-fields',
-            //    () => {
-            //        if (this.questionEditor.state.doc.textContent.length === 0)
-            //            this.highlightEmptyField = true;
-            //    });
             eventBus.$on('open-edit-question-modal',
                 e => {
                     var question = {
@@ -263,6 +259,9 @@ var editQuestionComponent = Vue.component('edit-question-component',
                 });
             $('#EditQuestionModal').on('show.bs.modal',
                 event => {
+                    this.highlightEmptyFields = false;
+                    if (this.visibility == 1)
+                        this.licenseIsValid = true;
                     this.id = $('#EditQuestionModal').data('question').questionId;
                     if ($('#EditQuestionModal').data('question').edit) {
                         this.edit = true;
@@ -301,12 +300,6 @@ var editQuestionComponent = Vue.component('edit-question-component',
             });
         },
         watch: {
-            highlightEmptyField(val) {
-                if (val)
-                    $('#QuestionInputField').addClass('is-empty');
-                else
-                    $('#QuestionInputField').removeClass('is-empty');
-            },
             searchTerm(term) {
                 if (term.length > 0 && this.lockDropdown == false) {
                     this.showDropdown = true;
@@ -317,16 +310,12 @@ var editQuestionComponent = Vue.component('edit-question-component',
             },
             questionHtml() {
                 this.formValidator();
-                if (this.questionEditor.state.doc.textContent.length > 0)
-                    this.highlightEmptyField = false;
-                else
-                    this.highlightEmptyField = true;
             },
             solutionType() {
                 this.solutionIsValid = false;
                 this.solutionMetadataJson = null;
+                this.highlightEmptyFields = false;
             },
-
             solutionIsValid() {
                 this.formValidator();
             },
@@ -335,7 +324,7 @@ var editQuestionComponent = Vue.component('edit-question-component',
             },
             licenseConfirmation() {
                 this.formValidator();
-            }
+            },
         },
         methods: {
             getQuestionData(id) {
@@ -393,6 +382,10 @@ var editQuestionComponent = Vue.component('edit-question-component',
                 return solution;
             },
             save() {
+                if (this.disabled) {
+                    this.highlightEmptyFields = true;
+                    return;
+                }
                 var url = this.edit ? '/Question/Edit' : '/Question/Create';
                 var json = this.getSaveJson();
                 var self = this;
@@ -423,6 +416,7 @@ var editQuestionComponent = Vue.component('edit-question-component',
                         else
                             self.reloadAnswerBody(result.Data.Id);
 
+                        self.highlightEmptyFields = false;
                         $('#EditQuestionModal').modal('hide');
                     },
                 });
@@ -520,11 +514,11 @@ var editQuestionComponent = Vue.component('edit-question-component',
                 }
             },
             formValidator() {
-                var questionIsValid = this.questionHtml != null && this.questionHtml.length > 0;
+                var questionIsValid = this.questionEditor.state.doc.textContent.length > 0;
                 var solutionIsValid = this.solutionIsValid;
-                var licenseIsValid = this.licenseConfirmation || this.visibility == 1;
+                this.licenseIsValid = this.licenseConfirmation || this.visibility == 1;
 
-                this.disabled = !questionIsValid || !solutionIsValid || !licenseIsValid;
+                this.disabled = !questionIsValid || !solutionIsValid || !this.licenseIsValid;
             }
         }
     });

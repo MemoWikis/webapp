@@ -659,9 +659,20 @@
         }
     }
 
-    .ProseMirror, input, textarea {
+    .ProseMirror, input, textarea, select {
         border: solid 1px @memo-grey-light;
         border-radius: 0;
+
+        &.is-empty {
+            border: solid 1px @memo-salmon;
+        }
+    }
+
+    .is-empty {
+
+        .ProseMirror {
+            border: solid 1px @memo-salmon;
+        }
     }
 
     input, .ProseMirror-focused, textarea {

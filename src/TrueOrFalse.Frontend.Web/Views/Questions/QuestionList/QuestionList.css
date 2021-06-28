@@ -548,9 +548,19 @@
 }
 #QuestionListApp .ProseMirror,
 #QuestionListApp input,
-#QuestionListApp textarea {
+#QuestionListApp textarea,
+#QuestionListApp select {
   border: solid 1px #DDDDDD;
   border-radius: 0;
+}
+#QuestionListApp .ProseMirror.is-empty,
+#QuestionListApp input.is-empty,
+#QuestionListApp textarea.is-empty,
+#QuestionListApp select.is-empty {
+  border: solid 1px #FFA07A;
+}
+#QuestionListApp .is-empty .ProseMirror {
+  border: solid 1px #FFA07A;
 }
 #QuestionListApp input:focus,
 #QuestionListApp .ProseMirror-focused:focus,

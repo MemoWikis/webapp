@@ -1,6 +1,6 @@
 ﻿
 Vue.component('multiplechoice-component', {
-    props: ['solution'],
+    props: ['solution','highlightEmptyFields'],
     data() {
         return {
             choices: [{
@@ -60,9 +60,6 @@ Vue.component('multiplechoice-component', {
             this.$parent.multipleChoiceJson = solution;
         },
         validateSolution() {
-            //var hasCorrectAnswer = this.choices.some((c) => {
-            //    return c.IsCorrect == true;
-            //});
             var hasEmptyAnswer = this.choices.some((c) => {
                 return c.Text.trim() == '';
             });

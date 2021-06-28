@@ -1,6 +1,6 @@
 ﻿
 Vue.component('matchlist-component', {
-    props: ['solution'],
+    props: ['solution','highlightEmptyFields'],
     data() {
         return {
             pairs: [{
@@ -68,6 +68,6 @@ Vue.component('matchlist-component', {
                 return p.ElementRight.Text.trim() == '';
             });
             this.$parent.solutionIsValid = !hasEmptyAnswer && !leftElementHasNoAnswer && !rightElementHasNoAnswer;
-        }
+        },
     }
 })

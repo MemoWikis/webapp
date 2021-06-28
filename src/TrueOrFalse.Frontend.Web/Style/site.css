@@ -1824,13 +1824,18 @@ strong {
 }
 #EditQuestionModal .ProseMirror,
 #EditQuestionModal input,
-#EditQuestionModal textarea {
+#EditQuestionModal textarea,
+#EditQuestionModal select {
   border: solid 1px #DDDDDD;
   border-radius: 0;
 }
 #EditQuestionModal .ProseMirror.is-empty,
 #EditQuestionModal input.is-empty,
-#EditQuestionModal textarea.is-empty {
+#EditQuestionModal textarea.is-empty,
+#EditQuestionModal select.is-empty {
+  border: solid 1px #FFA07A;
+}
+#EditQuestionModal .is-empty .ProseMirror {
   border: solid 1px #FFA07A;
 }
 #EditQuestionModal .input-group-addon {
@@ -2159,13 +2164,19 @@ p.is-editor-empty:first-child::before {
 }
 .license-confirmation-box {
   background-color: #EFEFEF;
-  margin-bottom: 20px;
 }
 .checkbox-container {
   padding: 10px;
 }
 .checkbox-container .checkbox {
   margin: 0;
+}
+.privacy-selector {
+  border: solid 1px rgba(255, 255, 255, 0);
+  margin-bottom: 20px;
+}
+.privacy-selector.not-selected {
+  border: solid 1px #FFA07A;
 }
 textarea::placeholder,
 input::placeholder {
@@ -2196,4 +2207,8 @@ input::placeholder {
 .modal-content .modal-body,
 .modal-content .modal-footer {
   padding: 25px;
+}
+.alert {
+  border: none;
+  border-radius: 0;
 }

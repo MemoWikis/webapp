@@ -69,16 +69,18 @@ public class SegmentationModel : BaseContentModule
                 continue;
             segment.Item = EntityCache.GetCategoryCacheItem(s.CategoryId);
             segment.Title = String.IsNullOrEmpty(s.Title) ? segment.Item.Name : s.Title;
+
+            var childCategories = new List<CategoryCacheItem>();
                 
             if (s.ChildCategoryIds != null)
-                segment.ChildCategories = UserCache.GetItem(_sessionUser.UserId).IsFiltered
-                    ? EntityCache.GetCategoryCacheItems(s.ChildCategoryIds).Where(c => c.IsInWishknowledge()).ToList()
-                    : EntityCache.GetCategoryCacheItems(s.ChildCategoryIds).ToList();
+                childCategories = UserCache.GetItem(_sessionUser.UserId).IsFiltered
+                    ? EntityCache.GetCategoryCacheItems(s.ChildCategoryIds).Where(c => c.IsInWishknowledge() && c.IsVisibleToCurrentUser()).ToList()
+                    : EntityCache.GetCategoryCacheItems(s.ChildCategoryIds).Where(c => c.IsVisibleToCurrentUser()).ToList();
             else
-                segment.ChildCategories = UserCache.GetItem(_sessionUser.UserId).IsFiltered ? 
-                    UserEntityCache.GetChildren(s.CategoryId, UserId).ToList() : 
-                    EntityCache.GetChildren(s.CategoryId);
-            segment.ChildCategories.Where(c => c.IsVisibleToCurrentUser()).ToList();
+                childCategories = UserCache.GetItem(_sessionUser.UserId).IsFiltered ? 
+                    UserEntityCache.GetChildren(s.CategoryId, UserId).Where(c => c.IsVisibleToCurrentUser()).ToList() : 
+                    EntityCache.GetChildren(s.CategoryId).Where(c => c.IsVisibleToCurrentUser()).ToList();
+            segment.ChildCategories = childCategories;
             segments.Add(segment);
         }
 

@@ -28,7 +28,7 @@
                         <%: Html.Partial("~/Views/Questions/Edit/EditComponents/EditorPartials/BasicEditorMenubar.vue.ascx") %>
                     </editor-menu-bar>
                     
-                    <editor-content :editor="questionEditor" />
+                    <editor-content :editor="questionEditor" :class="{ 'is-empty': highlightEmptyFields && questionEditor.state.doc.textContent.length <= 0 }"/>
                 </div>
                 <div>
                     <%: Html.Partial("~/Views/Questions/Edit/EditComponents/FlashCard/FlashCardComponent.vue.ascx") %>
@@ -38,10 +38,14 @@
                     <div class="overline-s no-line">                
                         Sichtbarkeit
                     </div>
+                    <div class="privacy-selector" :class="{ 'not-selected' : !licenseIsValid && highlightEmptyFields }">
                         <%: Html.Partial("~/Views/Questions/Edit/EditComponents/EditorPartials/PrivacySelector.vue.ascx") %>
-
+                    </div>
                 </div>
                 <div>
+                    <div v-if="highlightEmptyFields">
+                        ErrorMsg Platzhalter
+                    </div>
                     <div class="btn btn-lg btn-primary memo-button" @click="addFlashcard()">Hinzufügen</div>
                 </div>
             </div>
