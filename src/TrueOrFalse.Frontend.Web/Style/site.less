@@ -1883,11 +1883,18 @@ b, strong {
         margin-bottom: 26px;
     }
 
-    .ProseMirror, input, textarea {
+    .ProseMirror, input, textarea, select {
         border: solid 1px @memo-grey-light;
         border-radius: 0;
 
         &.is-empty {
+            border: solid 1px @memo-salmon;
+        }
+    }
+
+    .is-empty {
+
+        .ProseMirror {
             border: solid 1px @memo-salmon;
         }
     }
@@ -2184,7 +2191,6 @@ p.is-editor-empty:first-child::before {
 
 .license-confirmation-box {
     background-color: @memo-grey-lighter;
-    margin-bottom: 20px;
 }
 
 .checkbox-container {
@@ -2192,6 +2198,15 @@ p.is-editor-empty:first-child::before {
 
     .checkbox {
         margin: 0;
+    }
+}
+
+.privacy-selector {
+    border: solid 1px rgba(255,255,255,.0);
+    margin-bottom: 20px;
+
+    &.not-selected {
+        border: solid 1px @memo-salmon;
     }
 }
 
@@ -2238,4 +2253,9 @@ textarea, input {
     .modal-body, .modal-footer{
         padding: 25px;
     }
+}
+
+.alert {
+    border: none;
+    border-radius: 0;
 }

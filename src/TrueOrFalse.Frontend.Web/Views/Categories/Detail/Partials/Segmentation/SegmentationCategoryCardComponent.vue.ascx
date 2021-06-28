@@ -24,7 +24,7 @@
                         </a>
                         <ul class="dropdown-menu dropdown-menu-right" :aria-labelledby="dropdownId">
                             <li v-if="!isCustomSegment && !isMyWorld"><a @click="thisToSegment">
-                                <div class="dropdown-icon"><i class="fa fa-code-fork"></i></div>Unterthemen einblenden
+                                <div class="dropdown-icon"><i class="fas fa-sitemap"></i></div>Unterthemen einblenden
                             </a></li>
                             <li><a @click="removeParent">
                                 <div class="dropdown-icon"><i class="fas fa-unlink"></i></div>Verknüpfung entfernen

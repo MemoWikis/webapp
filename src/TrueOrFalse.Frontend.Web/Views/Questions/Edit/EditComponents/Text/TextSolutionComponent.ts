@@ -1,14 +1,14 @@
 ﻿
 Vue.component('textsolution-component', {
-    props: ['solution'],
-        data() {
-            return {
-                text: '',
-                exactSpelling: false,
-                matchCase: false,
-                highlightEmptyField: false,
-                isEmpty: '',
-            }
+    props: ['solution', 'highlightEmptyFields'],
+    data() {
+        return {
+            text: '',
+            exactSpelling: false,
+            matchCase: false,
+            highlightEmptyField: false,
+            isEmpty: '',
+        }
     },
 
     mounted() {
@@ -17,19 +17,14 @@ Vue.component('textsolution-component', {
     },
 
     watch: {
-        highlightEmptyField(val) {
-            if (val)
-                this.isEmpty = 'is-empty';
-            else this.isEmpty = '';
-        },
         text(val) {
             this.$parent.solutionIsValid = val.length > 0;
             this.setSolution();
 
             if (val.length == 0)
-                this.highlightEmptyField = true;
+                this.isEmpty = 'is-empty';
             else
-                this.highlightEmptyField = false;
+                this.isEmpty = '';
         }
     },
 
@@ -40,7 +35,6 @@ Vue.component('textsolution-component', {
 
             this.$parent.textSolution = this.text;
             this.$parent.solutionMetadataJson = metadataJson;
-
         }
     }
 })

@@ -1,4 +1,4 @@
-﻿<textsolution-component inline-template :solution="textSolution">
+﻿<textsolution-component inline-template :solution="textSolution" :highlight-empty-fields="highlightEmptyFields">
 
     <div class="input-container">
         <div class="overline-s no-line">Antwort</div>
@@ -10,14 +10,14 @@
                     <textarea-autosize
                         placeholder="Gib deine Antwort ein"
                         ref="textSolutionInput"
-                        v-model="text"
+                        v-model.trim="text"
                         rows="1"
                         @keydown.enter.native.prevent
                         @keyup.enter.native.prevent
                         :min-height="43"
                         width="100%"
                         
-                        :class="isEmpty"
+                        :class="{'is-empty':text.length === 0 && highlightEmptyFields}"
                     />
                 </div>
             </div>

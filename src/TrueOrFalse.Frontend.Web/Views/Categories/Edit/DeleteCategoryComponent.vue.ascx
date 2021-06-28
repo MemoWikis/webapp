@@ -9,7 +9,8 @@
             <div class="modal-content">
                 <div class="addCategoryCardModal">
                     <div class="modalHeader">
-                        <h4 class="modal-title">Thema löschen</h4>
+                        <h4 v-if="hasChildren" class="modal-title">Kann nicht gelöscht werden</h4>
+                        <h4 v-else class="modal-title">Thema löschen</h4>
                     </div>
                     <template v-if="hasChildren">
                         <div class="modalBody">
@@ -24,7 +25,7 @@
                     </template>
                     <template v-else>
                         <div class="modalBody">
-                            <div class="body-m">Möchtest Du "<strong>{{categoryName}}</strong>" unwideruflich löschen?</div>
+                            <div class="body-m">Möchtest Du "<strong>{{categoryName}}</strong>" unwiderruflich löschen?</div>
                             <div class="body-s">Fragen werden nicht gelöscht.</div>
                             <div class="alert alert-warning" role="alert" v-if="showErrorMsg">
                                 {{errorMsg}}

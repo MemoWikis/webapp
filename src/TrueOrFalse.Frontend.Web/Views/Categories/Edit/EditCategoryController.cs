@@ -232,6 +232,7 @@ public class EditCategoryController : BaseController
         });
     }
 
+    [AccessOnlyAsLoggedIn]
     [HttpPost]
     public JsonResult AddChild(int childCategoryId, int parentCategoryId)
     {
@@ -269,6 +270,7 @@ public class EditCategoryController : BaseController
         });
     }
 
+    [AccessOnlyAsLoggedIn]
     [HttpPost]
     public JsonResult QuickCreateWithCategories(string name, int parentCategoryId, int[] childCategoryIds)
     {
@@ -368,6 +370,7 @@ public class EditCategoryController : BaseController
         return Json(false);
     }
 
+    [AccessOnlyAsLoggedIn]
     [HttpPost]
     public JsonResult RemoveParent(int parentCategoryIdToRemove, int childCategoryId)
     {
@@ -410,6 +413,7 @@ public class EditCategoryController : BaseController
         return true;
     }
 
+    [AccessOnlyAsLoggedIn]
     [HttpPost]
     public JsonResult RemoveChildren(int parentCategoryId, int[] childCategoryIds)
     {
@@ -439,6 +443,8 @@ public class EditCategoryController : BaseController
         return View(string.Format(_viewPathTypeControls, type), new EditCategoryTypeModel(category, type));
     }
 
+
+    [AccessOnlyAsLoggedIn]
     private void StoreImage(int categoryId)
     {
         if (Request["ImageIsNew"] == "true")

@@ -7,7 +7,7 @@
     <div :key="componentKey" id="Segmentation" v-cloak>
         <div class="segmentationHeader overline-m">
             Untergeordnete Themen
-            <div v-if="editMode" class="Button dropdown DropdownButton segmentDropdown">
+            <div class="Button dropdown DropdownButton segmentDropdown">
                 <a href="#" :id="dropdownId" class="dropdown-toggle  btn btn-link btn-sm ButtonEllipsis" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
                     <i class="fa fa-ellipsis-v"></i>
                 </a>
@@ -79,7 +79,7 @@
                     <%} %>
                     <div id="AddToCurrentCategoryBtn" class="col-xs-6 addCategoryCard memo-button" @click="addCategory">
                         <div>
-                             <i class="fas fa-plus"></i> Neues Thema hinzufügen
+                             <i class="fas fa-plus"></i> Neues Thema erstellen
                         </div>                    
                     </div>
                 </div>

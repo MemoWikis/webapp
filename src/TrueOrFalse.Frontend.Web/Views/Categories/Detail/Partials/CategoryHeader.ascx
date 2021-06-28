@@ -71,6 +71,11 @@
                            else if (Model.AggregatedTopicCount > 1){ %> <%= Model.AggregatedTopicCount %> Unterthemen <% }
                            else { %> 0 Unterthemen
                         <% } %>
+                        und
+                        <% if (Model.CountAggregatedQuestions == 1) { %> 1 Frage <% }
+                           else if (Model.CountAggregatedQuestions > 1){ %> <%= Model.CountCategoryQuestions %> Fragen <% }
+                           else { %> 0 Fragen
+                        <% } %>
                     </div>
                     <div class="category-sub-header-divider">
                         <div class="vertical-line"></div>
@@ -193,7 +198,7 @@
                                     <div class="dropdown-icon">
                                         <i class="fa fa-plus-circle"></i>
                                     </div>
-                                    Unterthema hinzufügen
+                                    Thema Erstellen
                                 </a>
                             </li>
                             <li>

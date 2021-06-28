@@ -208,6 +208,10 @@ var categoryCardComponent = Vue.component('category-card-component', {
         },
 
         thisToSegment() {
+            if (NotLoggedIn.Yes()) {
+                NotLoggedIn.ShowErrorMsg("MoveToSegment");
+                return;
+            }
             if (!this.isCustomSegment) {
                 this.$parent.loadSegment(this.id);
             }
@@ -223,6 +227,10 @@ var categoryCardComponent = Vue.component('category-card-component', {
             }
         },
         removeParent() {
+            if (NotLoggedIn.Yes()) {
+                NotLoggedIn.ShowErrorMsg("RemoveParent");
+                return;
+            }
             var self = this;
             var data = {
                 parentCategoryIdToRemove: self.$parent.categoryId,
@@ -261,7 +269,6 @@ var segmentComponent = Vue.component('segment-component', {
             segmentId: null,
             cardsKey: null,
             isCustomSegment: true,
-            visible: true,
             selectedCategories: [],
             currentChildCategoryIds: [],
             currentChildCategoryIdsString: "",
@@ -354,8 +361,11 @@ var segmentComponent = Vue.component('segment-component', {
             this.categories = $("#" + this.segmentId + " > .topic").map((idx, elem) => $(elem).attr("category-id")).get();
         },
         removeSegment() {
+            if (NotLoggedIn.Yes()) {
+                NotLoggedIn.ShowErrorMsg("RemoveSegment");
+                return;
+            }
             eventBus.$emit('remove-segment', parseInt(this.categoryId));
-            this.visible = false;
         },
         addCategory() {
             if (NotLoggedIn.Yes()) {
@@ -371,6 +381,10 @@ var segmentComponent = Vue.component('segment-component', {
             $('#AddCategoryModal').data('parent', parent).modal('show');
         },
         removeChildren() {
+            if (NotLoggedIn.Yes()) {
+                NotLoggedIn.ShowErrorMsg("RemoveChildren");
+                return;
+            }
             var self = this;
             var data = {
                 parentCategoryId: self.categoryId,

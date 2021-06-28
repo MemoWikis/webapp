@@ -46,26 +46,14 @@
                                     <editor-menu-bar :editor="questionEditor" v-slot="{ commands, isActive, focused }">
                                         <%: Html.Partial("~/Views/Questions/Edit/EditComponents/EditorPartials/BasicEditorMenubar.vue.ascx") %>
                                     </editor-menu-bar>
-                                    <editor-content :editor="questionEditor" />
+                                    <editor-content :editor="questionEditor" :class="{ 'is-empty': highlightEmptyFields && questionEditor.state.doc.textContent.length <= 0 }"/>
                                 </div>
 
                             </div>
                                 <template v-if="solutionType == 1">
                                     <%: Html.Partial("~/Views/Questions/Edit/EditComponents/Text/TextSolutionComponent.vue.ascx") %>
                                 </template>
-<%--                                <template v-if="solutionType == 3">
-                                    <%: Html.Partial("~/Views/Questions/Edit/EditComponents/MultipleChoice_SingleSolution/MultipleChoice_SingleSolutionComponent.vue.ascx") %>
-                                </template>
-                                <template v-if="solutionType == 4">
-                                    <%: Html.Partial("~/Views/Questions/Edit/EditComponents/Numeric/NumericComponent.vue.ascx") %>
-                                </template>--%>
-<%--                                <template v-if="solutionType == 5">
-                                    <%: Html.Partial("~/Views/Questions/Edit/EditComponents/Sequence/SequenceComponent.vue.ascx") %>
-                                </template>--%>
-                                <template v-if="solutionType == 6">
-                                    <%: Html.Partial("~/Views/Questions/Edit/EditComponents/Date/DateComponent.vue.ascx") %>
-                                </template>
-                                <template v-if="solutionType == 7">
+                            <template v-if="solutionType == 7">
                                     <%: Html.Partial("~/Views/Questions/Edit/EditComponents/MultipleChoice/MultipleChoiceComponent.vue.ascx") %>
                                 </template>
                                 <template v-if="solutionType == 8">
@@ -114,8 +102,9 @@
                             <div class="overline-s no-line">                
                                 Sichtbarkeit
                             </div>
-                            
-                            <%: Html.Partial("~/Views/Questions/Edit/EditComponents/EditorPartials/PrivacySelector.vue.ascx") %>
+                            <div class="privacy-selector" :class="{ 'not-selected' : !licenseIsValid && highlightEmptyFields }">
+                                <%: Html.Partial("~/Views/Questions/Edit/EditComponents/EditorPartials/PrivacySelector.vue.ascx") %>
+                            </div>
 
                         </div>
                         </div>
@@ -133,11 +122,15 @@
                         </div>
 
                         <%} %>
+                    
+
                     </div>
 
                     <div class="modal-footer">
-                        
-                        <div class="btn btn-primary memo-button col-xs-12" @click="save()" :disabled="disabled">Speichern</div>       
+                        <div v-if="highlightEmptyFields">
+                            ErrorMsg Platzhalter
+                        </div>
+                        <div class="btn btn-primary memo-button col-xs-12" @click="save()">Speichern</div>       
                         <div class="btn btn-link memo-button" data-dismiss="modal" >Abbrechen</div>
 
                     </div>

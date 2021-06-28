@@ -2226,10 +2226,6 @@
     <Content Include="Views\Questions\Answer\LearningSession\Js\Page.js">
       <DependentUpon>Page.ts</DependentUpon>
     </Content>
-    <Content Include="Views\Questions\Edit\EditComponents\Date\DateComponent.js">
-      <DependentUpon>DateComponent.ts</DependentUpon>
-    </Content>
-    <Content Include="Views\Questions\Edit\EditComponents\Date\DateComponent.vue.ascx" />
     <Content Include="Views\Questions\Edit\EditComponents\EditorPartials\PrivacySelector.vue.ascx" />
     <Content Include="Views\Questions\Edit\EditComponents\EditorPartials\BasicEditorMenubar.vue.ascx" />
     <Content Include="Views\Questions\Edit\EditComponents\EditQuestionComponent.js">
@@ -2251,10 +2247,6 @@
       <DependentUpon>MultipleChoiceComponent.ts</DependentUpon>
     </Content>
     <Content Include="Views\Questions\Edit\EditComponents\MultipleChoice\MultipleChoiceComponent.vue.ascx" />
-    <Content Include="Views\Questions\Edit\EditComponents\Numeric\NumericComponent.js">
-      <DependentUpon>NumericComponent.ts</DependentUpon>
-    </Content>
-    <Content Include="Views\Questions\Edit\EditComponents\Numeric\NumericComponent.vue.ascx" />
     <Content Include="Views\Questions\Edit\EditComponents\Text\TextSolutionComponent.js">
       <DependentUpon>TextSolutionComponent.ts</DependentUpon>
     </Content>
@@ -2697,13 +2689,11 @@
     <TypeScriptCompile Include="Views\Categories\Detail\JsEditMode\Segmentation\SegmentComponent.ts" />
     <TypeScriptCompile Include="Views\Questions\Answer\Js\QuestionDetails\AnswerQuestionDetailsApp.ts" />
     <TypeScriptCompile Include="Views\Questions\Answer\Js\QuestionDetails\AnswerQuestionDetailsComponent.ts" />
-    <TypeScriptCompile Include="Views\Questions\Edit\EditComponents\Date\DateComponent.ts" />
     <TypeScriptCompile Include="Views\Questions\Edit\EditComponents\EditQuestionLoader.ts" />
     <TypeScriptCompile Include="Views\Questions\Edit\EditComponents\EditQuestionComponent.ts" />
     <TypeScriptCompile Include="Views\Questions\Edit\EditComponents\FlashCard\FlashCardComponent.ts" />
     <TypeScriptCompile Include="Views\Questions\Edit\EditComponents\MatchList\MatchListComponent.ts" />
     <TypeScriptCompile Include="Views\Questions\Edit\EditComponents\MultipleChoice\MultipleChoiceComponent.ts" />
-    <TypeScriptCompile Include="Views\Questions\Edit\EditComponents\Numeric\NumericComponent.ts" />
     <TypeScriptCompile Include="Views\Questions\Edit\EditComponents\Text\TextSolutionComponent.ts" />
     <TypeScriptCompile Include="Views\Questions\Js\AddQuestion\AddQuestion.ts" />
     <TypeScriptCompile Include="Views\Questions\Js\QuestionList\QuestionComponent.ts" />
@@ -4302,12 +4292,6 @@
     </Content>
     <Content Include="Views\Questions\Edit\EditComponents\Text\TextSolutionComponent.js.map">
       <DependentUpon>TextSolutionComponent.ts</DependentUpon>
-    </Content>
-    <Content Include="Views\Questions\Edit\EditComponents\Date\DateComponent.js.map">
-      <DependentUpon>DateComponent.ts</DependentUpon>
-    </Content>
-    <Content Include="Views\Questions\Edit\EditComponents\Numeric\NumericComponent.js.map">
-      <DependentUpon>NumericComponent.ts</DependentUpon>
     </Content>
     <Content Include="Views\Questions\Edit\EditComponents\EditQuestionLoader.js.map">
       <DependentUpon>EditQuestionLoader.ts</DependentUpon>
