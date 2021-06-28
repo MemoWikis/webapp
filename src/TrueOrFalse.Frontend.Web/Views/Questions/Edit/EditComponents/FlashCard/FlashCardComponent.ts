@@ -82,6 +82,7 @@ Vue.component('flashcard-component', {
     },
 
     mounted() {
+        eventBus.$on('clear-flashcard', () => this.answerEditor.setContent(''));
         if (this.solution) {
             let content = this.solution;
             this.answerEditor.setContent(content);

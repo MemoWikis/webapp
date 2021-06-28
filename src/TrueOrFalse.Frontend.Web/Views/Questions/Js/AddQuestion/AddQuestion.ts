@@ -148,6 +148,9 @@ Vue.component('add-question-component', {
         },
         licenseConfirmation() {
             this.formValidator();
+        },
+        flashCardAnswer() {
+            this.formValidator();
         }
     },
 
@@ -162,6 +165,7 @@ Vue.component('add-question-component', {
                 this.highlightEmptyFields = true;
                 return;
             }
+            var self = this;
             var lastIndex = parseInt($('#QuestionListComponent').attr("data-last-index")) + 1;
             var json = {
                 CategoryId: this.currentCategoryId,
@@ -187,7 +191,9 @@ Vue.component('add-question-component', {
                         lastIndex);
                     eventBus.$emit('add-question-to-list', data.Data);
                     eventBus.$emit("change-active-question", lastIndex);
-                    this.highlightEmptyFields = false;
+                    self.highlightEmptyFields = false;
+                    self.questionEditor.setContent('');
+                    eventBus.$emit('clear-flashcard');
                 },
             });
         },
