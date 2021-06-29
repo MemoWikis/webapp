@@ -41,7 +41,7 @@
 
             <div class="col-xs-6 addCategoryCard memo-button" @click="addCategory" :id="addCategoryId">
                 <div>
-                     <i class="fas fa-plus"></i> Neues Thema erstellen
+                     <i class="fas fa-plus"></i> Neues Thema
                 </div>
             </div>
         </div>

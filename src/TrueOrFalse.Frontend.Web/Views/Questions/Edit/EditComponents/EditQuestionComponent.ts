@@ -259,6 +259,7 @@ var editQuestionComponent = Vue.component('edit-question-component',
                 });
             $('#EditQuestionModal').on('show.bs.modal',
                 event => {
+                    this.isLearningSession = $('#hddIsLearningSession').length > 0;
                     this.highlightEmptyFields = false;
                     if (this.visibility == 1)
                         this.licenseIsValid = true;
@@ -266,8 +267,6 @@ var editQuestionComponent = Vue.component('edit-question-component',
                     if ($('#EditQuestionModal').data('question').edit) {
                         this.edit = true;
                         this.getQuestionData(this.id);
-                        if ($('#hddIsLearningSession').length > 0)
-                            this.isLearningSession = true;
                         this.currentLearningSessionIndex = $('#hddIsLearningSession').attr('data-current-step-idx');
                         if ($('#EditQuestionModal').data('question').sessionIndex)
                             this.sessionIndex = $('#EditQuestionModal').data('question').sessionIndex;
@@ -404,14 +403,19 @@ var editQuestionComponent = Vue.component('edit-question-component',
                         if (self.isLearningSession) {
                             var answerBody = new AnswerBody();
                             var skipIndex = this.questions != null ? -5 : 0;
+
                             answerBody.Loader.loadNewQuestion("/AnswerQuestion/RenderAnswerBodyByLearningSession/" +
                                 "?skipStepIdx=" +
                                 skipIndex +
                                 "&index=" +
                                 self.sessionIndex);
 
-                            eventBus.$emit('reload-question-id', result.Data.Id);
+                            if (!self.edit)
+                                eventBus.$emit('add-question-to-list', result.Data);
+                            else
+                                eventBus.$emit('reload-question-id', result.Data.Id);
                             eventBus.$emit("change-active-question", self.sessionIndex);
+
                         }
                         else
                             self.reloadAnswerBody(result.Data.Id);
@@ -487,9 +491,7 @@ var editQuestionComponent = Vue.component('edit-question-component',
 
             getLicenseId() {
                 if (this.licenseId == 0) {
-                    if (this.visibility == 1)
-                        return 0;
-                    else return 1;
+                    return 1;
                 }
                 return this.licenseId;
             },

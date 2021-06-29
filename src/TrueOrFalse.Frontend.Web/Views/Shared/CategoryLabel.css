@@ -24,6 +24,10 @@
   line-height: 32px;
   color: #555555;
   transition: background 0.8s;
+  display: flex;
+  flex-wrap: nowrap;
+  justify-content: center;
+  align-items: center;
 }
 .category-chip-container .category-chip img {
   margin: -3px 0 0 -9px;
@@ -36,6 +40,9 @@
 .category-chip-container .category-chip .category-chip-label {
   overflow: hidden;
   text-overflow: ellipsis;
+}
+.category-chip-container .category-chip i.fa-lock {
+  margin-left: 4px;
 }
 .category-main-chip {
   max-width: 100%;

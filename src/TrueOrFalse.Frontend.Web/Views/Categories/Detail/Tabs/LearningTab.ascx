@@ -33,7 +33,7 @@
        Html.RenderPartial("~/Views/Questions/Answer/LearningSession/LearningSessionHeader.ascx", new AnswerQuestionModel(dummyQuestion, null, true, Model)); 
     else
     { %>
-        <div class="NoQuestions" style="margin-top: 40px;">
+        <div id="NoQuestionsSessionBar" class="NoQuestions" style="margin-top: 40px;">
             Es sind leider noch keine Fragen zum Lernen in diesem Thema enthalten.
         </div>
   <% } %>

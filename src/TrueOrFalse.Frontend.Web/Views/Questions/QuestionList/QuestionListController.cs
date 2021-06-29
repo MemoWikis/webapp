@@ -17,6 +17,19 @@ public class QuestionListController : BaseController
     }
 
     [HttpPost]
+    public JsonResult RenderSessionHeaderWithQuestionId(int questionId, int categoryId)
+    {
+        var question = EntityCache.GetQuestionById(questionId);
+        var categoryCacheItem = EntityCache.GetCategoryCacheItem(categoryId);
+        var categoryModel = new CategoryModel(categoryCacheItem);
+        var html = ViewRenderer.RenderPartialView("~/Views/Questions/Answer/LearningSession/LearningSessionHeader.ascx", new AnswerQuestionModel(question, null, false, categoryModel), ControllerContext);
+        return Json(new {
+            html
+        });
+    }
+
+    [AccessOnlyAsLoggedIn]
+    [HttpPost]
     public JsonResult CreateFlashcard(FlashCardLoader flashCardJson)
     {
         var serializer = new JavaScriptSerializer();

@@ -18,6 +18,10 @@
         line-height: 32px;
         color: @memo-grey-darker;
         transition: background 0.8s;
+        display: flex;
+        flex-wrap: nowrap;
+        justify-content: center;
+        align-items: center;
 
         img {
             margin: -3px 0 0 -9px;
@@ -32,6 +36,10 @@
         .category-chip-label {
             overflow: hidden;
             text-overflow: ellipsis;
+        }
+
+        i.fa-lock {
+            margin-left: 4px;
         }
     }
 }

@@ -38,7 +38,7 @@ var questionListApp = new Vue({
                 data: {
                     config: null,
                     categoryId: $("#hhdCategoryId").val()
-        },
+                },
                 type: "POST",
                 success: result => {
                     result = parseInt(result);

@@ -199,7 +199,19 @@ let qlc = Vue.component('question-list-component', {
             });
         },
         addQuestionToList(q: QuestionListItem) {
+            if (this.questions.length <= 0)
+                this.renderNewSessionBar(q.Id);
             this.questions.push(q);
+        },
+        renderNewSessionBar(id) {
+            $.ajax({
+                url: "/QuestionList/RenderSessionHeaderWithQuestionId/",
+                data: { questionId: id, categoryId: this.categoryId },
+                type: "Post",
+                success: data => {
+                    $('#NoQuestionsSessionBar').replaceWith(data.html);
+                }
+            });
         }
     },
 });

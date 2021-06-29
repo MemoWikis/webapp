@@ -189,6 +189,7 @@ Vue.component('add-question-component', {
                         skipIndex +
                         "&index=" +
                         lastIndex);
+
                     eventBus.$emit('add-question-to-list', data.Data);
                     eventBus.$emit("change-active-question", lastIndex);
                     self.highlightEmptyFields = false;

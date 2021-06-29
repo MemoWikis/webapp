@@ -231,6 +231,10 @@ public class EditQuestionController : BaseController
             }
         }
 
+        var learningSession = LearningSessionCache.GetLearningSession();
+        var step = new LearningSessionStep(question);
+        learningSession.Steps.Insert(questionDataJson.SessionIndex, step);
+
         question.License = Sl.R<SessionUser>().IsInstallationAdmin
             ? LicenseQuestionRepo.GetById(questionDataJson.LicenseId)
             : LicenseQuestionRepo.GetDefaultLicense();

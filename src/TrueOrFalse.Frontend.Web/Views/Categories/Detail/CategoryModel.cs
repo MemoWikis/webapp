@@ -248,7 +248,7 @@ public class CategoryModel : BaseContentModule
                 .Select(q => q.Id)
                 .FirstOrDefault();
 
-            return EntityCache.GetQuestionById(questionId);
+        return EntityCache.GetQuestionById(questionId);
     }
     public int GetTotalTopicCount(CategoryCacheItem category)
     {
