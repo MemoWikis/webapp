@@ -246,6 +246,7 @@ public class EditCategoryController : BaseController
         var category = Sl.CategoryRepo.GetById(childCategoryId);
         var allParents = GraphService.GetAllParentsFromEntityCache(parentCategoryId);
         var parentIsEqualChild = allParents.Where(c => c.Id == childCategoryId);
+
         if (parentIsEqualChild.Any())
         {
             Logg.r().Error( "Child is Parent " );
@@ -255,8 +256,10 @@ public class EditCategoryController : BaseController
                 errorMsg = "Übergeordnete Themen können nicht untergeordnet werden."
             });
         }
-        
+        //change CategoryRelations
         ModifyRelationsForCategory.AddParentCategory(category, parentCategoryId);
+        ModifyRelationsForCategory.AddCategoryRelationOfType(Sl.CategoryRepo.GetByIdEager(parentCategoryId), category.Id, CategoryRelationType.IncludesContentOf);
+
         ModifyRelationsEntityCache.AddParent(EntityCache.GetCategoryCacheItem(childCategoryId, getDataFromEntityCache: true), parentCategoryId);
 
         if (EntityCache.GetCategoryCacheItem(childCategoryId).IsInWishknowledge()) 
@@ -396,7 +399,7 @@ public class EditCategoryController : BaseController
             throw new SecurityException("Not allowed to edit category");
 
         var childCategoryAsCategory = Sl.CategoryRepo.GetByIdEager(childCategory.Id);
-        var updatedParentList = childCategory.ParentCategories().Where(c => c.Id != parentCategoryIdToRemove).ToList();
+        var updatedParentList = childCategory.ParentCategories().ToList();
 
         if (updatedParentList.Count == 0)
             return false;
@@ -405,6 +408,11 @@ public class EditCategoryController : BaseController
             childCategoryAsCategory.Id, 
             updatedParentList.Select(c => c.Id).ToList(), 
             CategoryRelationType.IsChildOf);
+
+        ModifyRelationsForCategory.UpdateCategoryRelationsOfType(
+            childCategoryAsCategory.Id,
+            updatedParentList.Select(c => c.Id).ToList(),
+            CategoryRelationType.IncludesContentOf);
 
         UserEntityCache.ReInitAllActiveCategoryCaches();
         EntityCache.AddOrUpdate(childCategory);
