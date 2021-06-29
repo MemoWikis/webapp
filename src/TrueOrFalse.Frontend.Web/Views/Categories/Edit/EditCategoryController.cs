@@ -260,6 +260,7 @@ public class EditCategoryController : BaseController
         ModifyRelationsForCategory.AddParentCategory(category, parentCategoryId);
         ModifyRelationsForCategory.AddCategoryRelationOfType(Sl.CategoryRepo.GetByIdEager(parentCategoryId), category.Id, CategoryRelationType.IncludesContentOf);
 
+        //Change EntityCacheRelations
         ModifyRelationsEntityCache.AddParent(EntityCache.GetCategoryCacheItem(childCategoryId, getDataFromEntityCache: true), parentCategoryId);
 
         if (EntityCache.GetCategoryCacheItem(childCategoryId).IsInWishknowledge()) 
