@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using FluentNHibernate.Data;
 
 public class ModifyRelationsEntityCache
 {
@@ -44,6 +45,15 @@ public class ModifyRelationsEntityCache
             CategoryRelationType = CategoryRelationType.IsChildOf,
             CategoryId = child.Id
         }); 
+
+        EntityCache.GetCategoryCacheItem(parentId).CategoryRelations.Add(
+      new CategoryCacheRelation 
+      {
+          CategoryId = parentId,
+          CategoryRelationType = CategoryRelationType.IncludesContentOf,
+          RelatedCategoryId = child.Id
+
+      });
     }
 
     public static void CreateIncludeContentOf(CategoryCacheItem category, IEnumerable<CategoryCacheRelation> relationsToAdd)
