@@ -1,4 +1,14 @@
-﻿.category-chip-container {
+﻿@media (min-width: 768px) {
+}@media (min-width: 768px) {
+}@media (max-width: 767px) {
+}@media (min-width: 768px) {
+}@media (min-width: 768px) {
+}@media (min-width: 768px) {
+}@media (max-width: 767px) {
+}@media (max-width: 767px) {
+}@media (max-width: 649px) {
+}@media (min-width: 650px) {
+}.category-chip-container {
   padding: 4px 8px 4px 0;
   font-size: 13px;
   max-width: 100%;
@@ -8,10 +18,9 @@
   height: 32px;
   display: inline-block;
   border-radius: 16px;
-  background: #efefef;
+  background: #EFEFEF;
   padding: 0 12px;
   white-space: nowrap;
-  overflow: hidden;
   line-height: 32px;
   color: #555555;
   transition: background 0.8s;
@@ -23,6 +32,10 @@
 }
 .category-chip-container .category-chip:hover {
   background: #e2e2e2;
+}
+.category-chip-container .category-chip .category-chip-label {
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 .category-main-chip {
   max-width: 100%;
@@ -36,7 +49,7 @@
   height: 42px;
   display: inline-block;
   border-radius: 21px;
-  background: #efefef;
+  background: #EFEFEF;
   padding: 0 21px;
   white-space: nowrap;
   overflow: hidden;

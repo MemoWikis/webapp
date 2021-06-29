@@ -244,6 +244,9 @@ var categoryCardComponent = Vue.component('category-card-component', {
                 success: function (data) {
                     if (data.success == true)
                         self.visible = false;
+                    else {
+                        eventBus.$emit('show-error', data.errorMsg);
+                    }
                 },
             });
         },

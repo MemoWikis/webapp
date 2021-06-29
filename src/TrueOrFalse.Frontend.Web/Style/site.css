@@ -2207,6 +2207,7 @@ input::placeholder {
 .modal-content .modal-body,
 .modal-content .modal-footer {
   padding: 25px;
+  border-top: none;
 }
 .alert {
   border: none;

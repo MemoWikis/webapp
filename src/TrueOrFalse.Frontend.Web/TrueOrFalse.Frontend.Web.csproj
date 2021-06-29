@@ -2265,6 +2265,14 @@
       <DependentUpon>CategoryChipComponent.ts</DependentUpon>
     </Content>
     <Content Include="Views\Shared\CategoryChip\CategoryChipComponent.vue.ascx" />
+    <Content Include="Views\Shared\Modals\ErrorModal\ErrorModalComponent.js">
+      <DependentUpon>ErrorModalComponent.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Shared\Modals\ErrorModal\ErrorModalComponentLoader.ascx" />
+    <Content Include="Views\Shared\Modals\ErrorModal\ErrorModalComponent.vue.ascx" />
+    <Content Include="Views\Shared\Modals\ErrorModal\ErrorModalComponentLoader.js">
+      <DependentUpon>ErrorModalComponentLoader.ts</DependentUpon>
+    </Content>
     <Content Include="Views\Shared\MyWorldToggle\MyWorldToggleComponent.js">
       <DependentUpon>MyWorldToggleComponent.ts</DependentUpon>
     </Content>
@@ -3692,6 +3700,8 @@
     <TypeScriptCompile Include="Views\Questions\Edit\EditSolutionControls\SolutionTypeFlashCard.ts" />
     <TypeScriptCompile Include="Views\Questions\Edit\Js\MarkdownDescription.ts" />
     <TypeScriptCompile Include="Views\Shared\CategoryChip\CategoryChipComponent.ts" />
+    <TypeScriptCompile Include="Views\Shared\Modals\ErrorModal\ErrorModalComponentLoader.ts" />
+    <TypeScriptCompile Include="Views\Shared\Modals\ErrorModal\ErrorModalComponent.ts" />
     <TypeScriptCompile Include="Views\Shared\PinComponentVue\PinComponent.vue.ts" />
     <TypeScriptCompile Include="Views\Shared\Spinner\Js\Spinner.ts" />
     <TypeScriptCompile Include="Views\Shared\MyWorldToggle\MyWorldToggleComponent.ts" />
@@ -4298,6 +4308,12 @@
     </Content>
     <Content Include="Views\Categories\Edit\Js\DeleteCategory\AddCategoryComponent.js.map">
       <DependentUpon>DeleteCategoryComponent.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Shared\Modals\ErrorModal\ErrorModalComponent.js.map">
+      <DependentUpon>ErrorModalComponent.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Shared\Modals\ErrorModal\ErrorModalComponentLoader.js.map">
+      <DependentUpon>ErrorModalComponentLoader.ts</DependentUpon>
     </Content>
     <None Include="Web.overwritten.config.sample" />
     <Content Include="Views\Welcome\Logout.aspx" />

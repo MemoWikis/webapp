@@ -90,6 +90,9 @@ namespace TrueOrFalse.View
             bundles.Add(new ScriptBundle("~/bundles/js/d3")
                 .Include("~/Scripts/npm/d3/d3.js"));
 
+            bundles.Add(new ScriptBundle("~/bundles/js/errorModal")
+                .IncludeDirectory("~/Views/Shared/Modals/ErrorModal/","*.js"));
+
             bundles.Add(new ScriptBundle("~/bundles/js/CategorySort")
                 .Include("~/Scripts/npm/sortablejs/Sortable.js")
                 .Include("~/Scripts/npm/vue-sortable/vue-sortable.js"));

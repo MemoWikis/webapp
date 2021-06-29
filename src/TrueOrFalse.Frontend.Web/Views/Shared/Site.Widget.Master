@@ -22,6 +22,7 @@
         <% Html.RenderPartial("UnpinCategoryModal"); %>
         <% Html.RenderPartial("FeatureNotImplementedModal"); %>
         <div id="modalLoginContainer"></div>
+        <% Html.RenderPartial("/Views/Shared/Modals/ErrorModal/ErrorModalComponentLoader.ascx"); %>
     </div>
 </body>
 </html>

@@ -46,7 +46,7 @@
     </style>
         <% Html.RenderPartial("Site.Partial.MasterHeader"); %>    
     
-        <section id="MasterSection">
+    <section id="MasterSection">
         
         <section id="MasterMainContent" class="container" style="">
             <div class="col-lg-12 text-center">
