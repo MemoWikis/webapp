@@ -406,17 +406,27 @@ public class EditCategoryController : BaseController
         var childCategoryAsCategory = Sl.CategoryRepo.GetByIdEager(childCategory.Id);
         var parentCategoryAsCategory = Sl.CategoryRepo.GetByIdEager(parentCategoryIdToRemove); 
       
-        ModifyRelationsForCategory.RemoveRelation(childCategoryAsCategory,
-            childCategoryAsCategory,parentCategoryAsCategory,
+        ModifyRelationsForCategory.RemoveRelation(
+            childCategoryAsCategory, 
+            parentCategoryAsCategory, 
             CategoryRelationType.IsChildOf);
 
-        ModifyRelationsForCategory.RemoveRelation(parentCategoryAsCategory,
+        ModifyRelationsForCategory.RemoveRelation(
             parentCategoryAsCategory,
             childCategoryAsCategory,
             CategoryRelationType.IncludesContentOf);
 
+        ModifyRelationsEntityCache.RemoveRelation(
+            childCategory,
+            parentCategoryIdToRemove,
+            CategoryRelationType.IsChildOf);
+
+        ModifyRelationsEntityCache.RemoveRelation(
+            EntityCache.GetCategoryCacheItem(parentCategoryIdToRemove),
+            childCategoryId,
+            CategoryRelationType.IncludesContentOf);
+
         UserEntityCache.ReInitAllActiveCategoryCaches();
-        EntityCache.AddOrUpdate(childCategory);
 
         return true;
     }
