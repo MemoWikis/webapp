@@ -394,30 +394,29 @@ public class EditCategoryController : BaseController
 
     private bool ParentRemover(int parentCategoryIdToRemove, int childCategoryId)
     {
+
         var childCategory = EntityCache.GetCategoryCacheItem(childCategoryId);
+        var updatedParentList = childCategory.ParentCategories().Where(c => c.Id != parentCategoryIdToRemove).ToList();
+        if (updatedParentList.Count == 0)
+            return false;
 
         if (!IsAllowedTo.ToEdit(childCategory))
             throw new SecurityException("Not allowed to edit category");
 
         var childCategoryAsCategory = Sl.CategoryRepo.GetByIdEager(childCategory.Id);
-        var updatedParentList = childCategory.ParentCategories().ToList();
-
-        if (updatedParentList.Count == 0)
-            return false;
-
-        ModifyRelationsForCategory.UpdateCategoryRelationsOfType(
-            childCategoryAsCategory.Id, 
-            updatedParentList.Select(c => c.Id).ToList(), 
+        var parentCategoryAsCategory = Sl.CategoryRepo.GetByIdEager(parentCategoryIdToRemove); 
+      
+        ModifyRelationsForCategory.RemoveRelation(childCategoryAsCategory,
+            childCategoryAsCategory,parentCategoryAsCategory,
             CategoryRelationType.IsChildOf);
 
-        ModifyRelationsForCategory.UpdateCategoryRelationsOfType(
-            childCategoryAsCategory.Id,
-            updatedParentList.Select(c => c.Id).ToList(),
+        ModifyRelationsForCategory.RemoveRelation(parentCategoryAsCategory,
+            parentCategoryAsCategory,
+            childCategoryAsCategory,
             CategoryRelationType.IncludesContentOf);
 
         UserEntityCache.ReInitAllActiveCategoryCaches();
         EntityCache.AddOrUpdate(childCategory);
-        Sl.CategoryRepo.Update(childCategoryAsCategory, _sessionUser.User);
 
         return true;
     }

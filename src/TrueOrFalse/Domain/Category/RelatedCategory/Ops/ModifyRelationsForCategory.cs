@@ -132,4 +132,19 @@ public class ModifyRelationsForCategory
             }
         }
     }
+
+    public static void RemoveRelation(Category category, Category categoryFromRelation, Category relatedCategory, CategoryRelationType categoryRelationType)
+    {
+        for (int i = 0; i < category.CategoryRelations.Count; i++)
+        {
+            var relation = category.CategoryRelations[i];
+            if (relation.Category.Id == categoryFromRelation.Id &&
+                relation.RelatedCategory.Id == relatedCategory.Id &&
+                relation.CategoryRelationType == categoryRelationType)
+            {
+                category.CategoryRelations.RemoveAt(i);
+                break;
+            }
+        }
+    } 
 }
