@@ -133,12 +133,12 @@ public class ModifyRelationsForCategory
         }
     }
 
-    public static void RemoveRelation(Category category, Category categoryFromRelation, Category relatedCategory, CategoryRelationType categoryRelationType)
+    public static void RemoveRelation(Category category,Category relatedCategory, CategoryRelationType categoryRelationType)
     {
         for (int i = 0; i < category.CategoryRelations.Count; i++)
         {
             var relation = category.CategoryRelations[i];
-            if (relation.Category.Id == categoryFromRelation.Id &&
+            if (relation.Category.Id == category.Id &&
                 relation.RelatedCategory.Id == relatedCategory.Id &&
                 relation.CategoryRelationType == categoryRelationType)
             {
