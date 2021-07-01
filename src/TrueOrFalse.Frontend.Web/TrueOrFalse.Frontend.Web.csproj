@@ -316,6 +316,7 @@
     <Compile Include="Views\Api\ActivityPoints\ActivityLevelProgressModel.cs" />
     <Compile Include="Views\Api\ActivityPoints\LevelPopupModel.cs" />
     <Compile Include="Views\Api\AppController.cs" />
+    <Compile Include="Views\Api\CategoriesController.cs" />
     <Compile Include="Views\Api\CategoryApiModel.cs" />
     <Compile Include="Views\Api\CategoryStatisticsApiController.cs" />
     <Compile Include="Views\Api\EduSharingApiController.cs" />
@@ -2584,7 +2585,6 @@
     <Compile Include="Views\Api\QuestionsApiController.cs" />
     <Compile Include="Views\Categories\Edit\CssJs.cs" />
     <Compile Include="Views\Categories\Edit\TypeControls\EditCategoryTypeModel.cs" />
-    <Compile Include="Views\Categories\CategoriesSearchResultModel.cs" />
     <Compile Include="Views\Error\ErrorController.cs" />
     <Compile Include="Views\Help\HelpController.cs" />
     <Compile Include="Views\Users\Detail\TabBadgesModel.cs" />
@@ -3116,7 +3116,6 @@
     <Content Include="Views\Beta\Js\Page.js">
       <DependentUpon>Page.ts</DependentUpon>
     </Content>
-    <Content Include="Views\Categories\CategoriesSearchResult.ascx" />
     <Content Include="Views\Drafts\FontAwesome.aspx" />
     <Content Include="Views\Knowledge\Knowledge.css">
       <DependentUpon>Knowledge.less</DependentUpon>
@@ -3603,7 +3602,6 @@
     <Content Include="Scripts\typescript.defs\jqueryui.d.ts" />
     <Content Include="Scripts\vendor\underscore-1.4.3.js" />
     <Compile Include="Views\Categories\Detail\CategoryModel.cs" />
-    <Compile Include="Views\Categories\CategoriesControllerSearch.cs" />
     <Compile Include="Views\Drafts\DraftsController.cs" />
     <Compile Include="Views\Help\HelpModel.cs" />
     <Compile Include="Views\Images\ImagesController.cs" />
@@ -3612,8 +3610,6 @@
     <Compile Include="Views\Api\ExportController.cs" />
     <Compile Include="Views\Administrative\PersonaController.cs" />
     <Compile Include="Views\Api\ExportModel.cs" />
-    <Compile Include="Views\Categories\CategoriesController.cs" />
-    <Compile Include="Views\Categories\CategoriesModel.cs" />
     <Compile Include="Views\Categories\CategoryRowModel.cs" />
     <Compile Include="Views\Maintenance\MessagesModel.cs" />
     <Compile Include="Views\Maintenance\MaintenanceModel.cs" />
@@ -3769,9 +3765,6 @@
     <Content Include="Style\markdown-editor.css" />
     <Content Include="Style\site-debug.css">
       <DependentUpon>site-debug.less</DependentUpon>
-    </Content>
-    <Content Include="Views\Categories\Categories.css">
-      <DependentUpon>Categories.less</DependentUpon>
     </Content>
     <Content Include="Views\Categories\Detail\Category.aspx" />
     <TypeScriptCompile Include="Views\Categories\Js\Categories.ts" />
@@ -3951,7 +3944,6 @@
     <None Include="Content\blue.monday\spirites_blue.monday_2011.psd" />
     <Content Include="Views\Questions\Edit\EditQuestion.less" />
     <Content Include="Style\form.less" />
-    <Content Include="Views\Categories\Categories.less" />
     <Content Include="Views\Categories\Detail\Category.less" />
     <Content Include="Style\components.less" />
     <Content Include="Style\menu.less" />
@@ -4002,9 +3994,6 @@
       <DependentUpon>ImageUpload.ts</DependentUpon>
     </Content>
     <Content Include="Views\Sets\Detail\Set.less" />
-    <Content Include="Views\Categories\Categories.css.map">
-      <DependentUpon>Categories.css</DependentUpon>
-    </Content>
     <Content Include="Views\Questions\Edit\EditQuestion.css.map">
       <DependentUpon>EditQuestion.css</DependentUpon>
     </Content>
@@ -4318,7 +4307,6 @@
     <None Include="Web.overwritten.config.sample" />
     <Content Include="Views\Welcome\Logout.aspx" />
     <Content Include="Views\Api\Export.aspx" />
-    <Content Include="Views\Categories\Categories.aspx" />
     <Content Include="Views\Categories\CategoryRow.ascx" />
     <Content Include="Views\Categories\Edit\EditCategory.aspx" />
     <TypeScriptCompile Include="Scripts\autocompletes\AutocompleteCategories.ts" />

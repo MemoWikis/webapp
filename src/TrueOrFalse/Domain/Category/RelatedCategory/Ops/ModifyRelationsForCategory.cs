@@ -24,7 +24,7 @@ public class ModifyRelationsForCategory
         RemoveIncludeContentOf(category, GetRelationsToRemove(relatedCategoriesAsCategories, existingRelationsOfType)); 
     }
 
-    private static void AddCategoryRelationOfType(Category category, int relatedCategoryId, CategoryRelationType relationType)
+    public static void AddCategoryRelationOfType(Category category, int relatedCategoryId, CategoryRelationType relationType)
     {
         if(category.CategoryRelations.Any(r => r.RelatedCategory.Id == relatedCategoryId && r.CategoryRelationType == relationType))
             return;
@@ -38,9 +38,9 @@ public class ModifyRelationsForCategory
             });
     }
 
-    public static void AddParentCategory(Category category, int relatedCategoryId)
+    public static void AddParentCategory(Category child, int parent)
     {
-        AddCategoryRelationOfType(category, relatedCategoryId, CategoryRelationType.IsChildOf);
+        AddCategoryRelationOfType(child, parent, CategoryRelationType.IsChildOf);
     }
 
     public static void AddParentCategories(Category category, List<int> relatedCategoryIds)
@@ -132,4 +132,19 @@ public class ModifyRelationsForCategory
             }
         }
     }
+
+    public static void RemoveRelation(Category category,Category relatedCategory, CategoryRelationType categoryRelationType)
+    {
+        for (int i = 0; i < category.CategoryRelations.Count; i++)
+        {
+            var relation = category.CategoryRelations[i];
+            if (relation.Category.Id == category.Id &&
+                relation.RelatedCategory.Id == relatedCategory.Id &&
+                relation.CategoryRelationType == categoryRelationType)
+            {
+                category.CategoryRelations.RemoveAt(i);
+                break;
+            }
+        }
+    } 
 }

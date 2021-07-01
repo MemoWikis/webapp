@@ -246,6 +246,7 @@ public class EditCategoryController : BaseController
         var category = Sl.CategoryRepo.GetById(childCategoryId);
         var allParents = GraphService.GetAllParentsFromEntityCache(parentCategoryId);
         var parentIsEqualChild = allParents.Where(c => c.Id == childCategoryId);
+
         if (parentIsEqualChild.Any())
         {
             Logg.r().Error( "Child is Parent " );
@@ -255,8 +256,11 @@ public class EditCategoryController : BaseController
                 errorMsg = "Übergeordnete Themen können nicht untergeordnet werden."
             });
         }
-        
+        //change CategoryRelations
         ModifyRelationsForCategory.AddParentCategory(category, parentCategoryId);
+        ModifyRelationsForCategory.AddCategoryRelationOfType(Sl.CategoryRepo.GetByIdEager(parentCategoryId), category.Id, CategoryRelationType.IncludesContentOf);
+
+        //Change EntityCacheRelations
         ModifyRelationsEntityCache.AddParent(EntityCache.GetCategoryCacheItem(childCategoryId, getDataFromEntityCache: true), parentCategoryId);
 
         if (EntityCache.GetCategoryCacheItem(childCategoryId).IsInWishknowledge()) 
@@ -390,25 +394,39 @@ public class EditCategoryController : BaseController
 
     private bool ParentRemover(int parentCategoryIdToRemove, int childCategoryId)
     {
+
         var childCategory = EntityCache.GetCategoryCacheItem(childCategoryId);
+        var updatedParentList = childCategory.ParentCategories().Where(c => c.Id != parentCategoryIdToRemove).ToList();
+        if (updatedParentList.Count == 0)
+            return false;
 
         if (!IsAllowedTo.ToEdit(childCategory))
             throw new SecurityException("Not allowed to edit category");
 
         var childCategoryAsCategory = Sl.CategoryRepo.GetByIdEager(childCategory.Id);
-        var updatedParentList = childCategory.ParentCategories().Where(c => c.Id != parentCategoryIdToRemove).ToList();
-
-        if (updatedParentList.Count == 0)
-            return false;
-
-        ModifyRelationsForCategory.UpdateCategoryRelationsOfType(
-            childCategoryAsCategory.Id, 
-            updatedParentList.Select(c => c.Id).ToList(), 
+        var parentCategoryAsCategory = Sl.CategoryRepo.GetByIdEager(parentCategoryIdToRemove); 
+      
+        ModifyRelationsForCategory.RemoveRelation(
+            childCategoryAsCategory, 
+            parentCategoryAsCategory, 
             CategoryRelationType.IsChildOf);
 
+        ModifyRelationsForCategory.RemoveRelation(
+            parentCategoryAsCategory,
+            childCategoryAsCategory,
+            CategoryRelationType.IncludesContentOf);
+
+        ModifyRelationsEntityCache.RemoveRelation(
+            childCategory,
+            parentCategoryIdToRemove,
+            CategoryRelationType.IsChildOf);
+
+        ModifyRelationsEntityCache.RemoveRelation(
+            EntityCache.GetCategoryCacheItem(parentCategoryIdToRemove),
+            childCategoryId,
+            CategoryRelationType.IncludesContentOf);
+
         UserEntityCache.ReInitAllActiveCategoryCaches();
-        EntityCache.AddOrUpdate(childCategory);
-        Sl.CategoryRepo.Update(childCategoryAsCategory, _sessionUser.User);
 
         return true;
     }

@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using FluentNHibernate.Data;
 
 public class ModifyRelationsEntityCache
 {
@@ -18,23 +19,6 @@ public class ModifyRelationsEntityCache
         }
     }
 
-    public static IEnumerable<CategoryCacheRelation> GetRelationsToAdd(
-        CategoryCacheItem categoryCacheItem,
-        IEnumerable<Category> relatedCategoriesAsCategories,
-        CategoryRelationType relationType,
-        IEnumerable<CategoryRelation> existingRelationsOfType)
-    {
-        return relatedCategoriesAsCategories
-            .Except(existingRelationsOfType.Select(r => r.RelatedCategory))
-            .Select(c => new CategoryCacheRelation
-                {
-                    CategoryId = categoryCacheItem.Id,
-                    RelatedCategoryId = c.Id,
-                    CategoryRelationType = relationType
-                }
-            );
-    }
-
     public static void AddParent(
         CategoryCacheItem child, int parentId)
     {
@@ -44,14 +28,28 @@ public class ModifyRelationsEntityCache
             CategoryRelationType = CategoryRelationType.IsChildOf,
             CategoryId = child.Id
         }); 
+
+        EntityCache.GetCategoryCacheItem(parentId).CategoryRelations.Add(
+      new CategoryCacheRelation 
+      {
+          CategoryId = parentId,
+          CategoryRelationType = CategoryRelationType.IncludesContentOf,
+          RelatedCategoryId = child.Id
+
+      });
     }
-
-    public static void CreateIncludeContentOf(CategoryCacheItem category, IEnumerable<CategoryCacheRelation> relationsToAdd)
+    public static void RemoveRelation(CategoryCacheItem categoryCacheItem, int relatedId, CategoryRelationType categoryRelationType)
     {
-
-        foreach (var relation in relationsToAdd)
+        for (int i = 0; i < categoryCacheItem.CategoryRelations.Count; i++)
         {
-            category.CategoryRelations.Add(relation);
+            var relation = categoryCacheItem.CategoryRelations[i];
+            if (relation.CategoryId == categoryCacheItem.Id &&
+                relation.RelatedCategoryId == relatedId &&
+                relation.CategoryRelationType == categoryRelationType)
+            {
+                categoryCacheItem.CategoryRelations.RemoveAt(i);
+                break;
+            }
         }
     }
 }
