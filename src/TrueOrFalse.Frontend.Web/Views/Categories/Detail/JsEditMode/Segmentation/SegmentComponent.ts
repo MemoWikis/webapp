@@ -253,6 +253,10 @@ var categoryCardComponent = Vue.component('category-card-component', {
         hideCategory() {
             this.$parent.filterChildren([this.categoryId]);
         },
+
+        handler: function (e) {
+            console.log(e);
+        }
     }
 });
 

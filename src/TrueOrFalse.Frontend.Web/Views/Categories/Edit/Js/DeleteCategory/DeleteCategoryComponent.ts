@@ -7,7 +7,6 @@ var deleteCategoryComponent = Vue.component('delete-category-component', {
             categoryId: 0,
             showErrorMsg: false,
             errorMsg: '',
-            hasChildren: false,
         };
     },
     watch: {
@@ -17,7 +16,6 @@ var deleteCategoryComponent = Vue.component('delete-category-component', {
             id => {
                 this.categoryId = id;
                 this.loadCategoryData();
-                $('#DeleteCategoryModal').modal('show');
             });
         $('#DeleteCategoryModal').on('show.bs.modal',
             event => {
@@ -37,7 +35,10 @@ var deleteCategoryComponent = Vue.component('delete-category-component', {
                 data: JSON.stringify({id: this.categoryId}),
                 success: function (data) {
                     self.categoryName = data.CategoryName;
-                    self.hasChildren = data.HasChildren;
+                    if (data.HasChildren)
+                        eventBus.$emit('show-error', 'Dieses Thema kann nicht gelöscht werden, da weitere Themen untergeordnet sind. Bitte entferne alle Unterthemen und versuche es erneut.');
+                    else
+                        $('#DeleteCategoryModal').modal('show');
                 },
             });
         },
