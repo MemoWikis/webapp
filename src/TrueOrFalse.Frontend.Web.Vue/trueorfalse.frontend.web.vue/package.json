@@ -11,9 +11,13 @@
   },
   "dependencies": {
     "@vue/server-renderer": "^3.0.0-rc.5",
+    "axios": "^0.21.1",
     "core-js": "^3.6.5",
     "express": "^4.17.1",
+    "node-sass": "^4.14.1",
+    "universal-cookie": "^4.0.4",
     "vue": "^3.0.0-0",
+    "vue-cookies": "^1.7.4",
     "webpack-manifest-plugin": "^2.2.0",
     "webpack-node-externals": "^2.5.1"
   },
@@ -25,7 +29,8 @@
     "babel-eslint": "^10.1.0",
     "cross-env": "^7.0.2",
     "eslint": "^6.7.2",
-    "eslint-plugin-vue": "^7.0.0-0"
+    "eslint-plugin-vue": "^7.0.0-0",
+    "sass-loader": "^10.0.5"
   },
   "eslintConfig": {
     "root": true,
