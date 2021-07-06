@@ -1,7 +1,7 @@
 <template>
   <div>
-    <h1 v-if="cookie">You are logged in</h1>
-    <h1 v-else>You are not logged in</h1>
+    <h1>You are logged in</h1>
+    <h1>Total: {{ questionsTotal }}</h1>
   </div>
 </template>
 
@@ -16,15 +16,15 @@ export default {
   },
   data: function() {
     return {
-      cookie: Boolean
-      // questionsTotal: JSON
+      cookie: Boolean,
+      questionsTotal: 0
     };
   },
-  created: function() {
+  async created() {
     //this.cookie = VueCookies.isKey("memucho");
-    axios
-      .get("http://localhost:26590/EduSharingApi/Statistics", { mode: "cors" })
-      .then(response => console.log(response.data))
+    await axios
+      .get("http://localhost:26590/EduSharingApi/Statistics")
+      .then(response => (this.questionsTotal = response.data.overall.count))
       .catch(error => {
         this.errorMessage = error.message;
         console.error("There was an error!", error);

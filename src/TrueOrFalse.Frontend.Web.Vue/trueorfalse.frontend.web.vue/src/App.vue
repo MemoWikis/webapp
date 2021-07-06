@@ -1,18 +1,21 @@
 <template>
   <div id="app">
     <AppHeader />
-    <CookieHead msg="Welcome to Your Vue.js App" />
+    <Dashboard msg="Welcome to Your Vue.js App" />
   </div>
 </template>
 
 <script>
-import CookieHead from "./components/CookieHead.vue";
+import Dashboard from "./components/Dashboard.vue";
 import AppHeader from "./components/AppHeader.vue";
 export default {
   name: "App",
   components: {
-    CookieHead,
+    Dashboard,
     AppHeader
+  },
+  props: {
+    cookie: String
   }
 };
 </script>
