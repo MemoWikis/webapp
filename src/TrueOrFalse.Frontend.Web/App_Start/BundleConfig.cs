@@ -97,19 +97,16 @@ namespace TrueOrFalse.View
                 .Include("~/Scripts/npm/sortablejs/Sortable.js")
                 .Include("~/Scripts/npm/vue-sortable/vue-sortable.js"));
 
-            bundles.Add(new ScriptBundle("~/bundles/js/tiptap")
-                .Include("~/Scripts/npm/tiptap-build/tiptap-build.js"));
+            bundles.Add(new ScriptBundle("~/bundles/js/TipTap")
+                .IncludeDirectory("~/Scripts/npm/@tiptap/", "*.js"));
 
 
             bundles.Add(new ScriptBundle("~/bundles/js/EditQuestion")
                 .Include("~/Views/Questions/Edit/EditComponents/EditQuestionComponent.js")
-                //.IncludeDirectory("~/Views/Questions/Edit/EditComponents/Date/", "*.js")
                 .IncludeDirectory("~/Views/Questions/Edit/EditComponents/FlashCard/", "*.js")
                 .IncludeDirectory("~/Views/Questions/Edit/EditComponents/MatchList/", "*.js")
                 .IncludeDirectory("~/Views/Questions/Edit/EditComponents/MultipleChoice/", "*.js")
-                //.IncludeDirectory("~/Views/Questions/Edit/EditComponents/MultipleChoice_SingleSolution/", "*.js")
                 .Include("~/Views/Shared/CategoryChip/CategoryChipComponent.js")
-                //.IncludeDirectory("~/Views/Questions/Edit/EditComponents/Numeric/", "*.js")
                 .IncludeDirectory("~/Views/Questions/Edit/EditComponents/Text/", "*.js")
                 .Include("~/Scripts/npm/vue-textarea-autosize/vue-textarea-autosize.umd.js"));
 

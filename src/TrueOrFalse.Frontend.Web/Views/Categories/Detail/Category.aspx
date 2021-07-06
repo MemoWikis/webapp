@@ -21,6 +21,7 @@
     <%= Scripts.Render("~/bundles/js/DeleteQuestion") %>
     <%= Scripts.Render("~/bundles/js/AnswerQuestion") %> 
     <%= Scripts.Render("~/bundles/js/CategorySort") %>
+    <%= Scripts.Render("~/bundles/js/TipTap") %>
     <%= Scripts.Render("~/Scripts/npm/tiptap-build/tiptap-build.js") %>
     <script type="text/x-template" id="pin-category-template">
         <%: Html.Partial("~/Views/Shared/PinComponentVue/PinCategoryComponent.vue.ascx") %>

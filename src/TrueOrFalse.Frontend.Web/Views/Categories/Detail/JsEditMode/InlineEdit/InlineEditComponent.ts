@@ -74,7 +74,7 @@ Vue.component('text-component',
                         new tiptapExtensions.TodoItem(),
                         new tiptapExtensions.TodoList(),
                         new tiptapExtensions.Link({
-                            target: "_self"
+                            HTMLAttributes: { target: '_self', rel: 'noopener noreferrer nofollow' }
                         }),
                         new tiptapExtensions.Image(),
                         new tiptapExtensions.Bold(),

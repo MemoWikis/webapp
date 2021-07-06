@@ -2067,6 +2067,30 @@
     <Content Include="Scripts\KnowledgeSummaryBar.js">
       <DependentUpon>KnowledgeSummaryBar.ts</DependentUpon>
     </Content>
+    <Content Include="Scripts\npm\%40tiptap\prosemirror-commands\index.js" />
+    <Content Include="Scripts\npm\%40tiptap\prosemirror-model\index.js" />
+    <Content Include="Scripts\npm\%40tiptap\prosemirror-state\index.js" />
+    <Content Include="Scripts\npm\%40tiptap\prosemirror-view\index.js" />
+    <Content Include="Scripts\npm\%40tiptap\tiptap-core.umd.js" />
+    <Content Include="Scripts\npm\%40tiptap\tiptap-extension\tiptap-extension-blockquote.umd.js" />
+    <Content Include="Scripts\npm\%40tiptap\tiptap-extension\tiptap-extension-bold.umd.js" />
+    <Content Include="Scripts\npm\%40tiptap\tiptap-extension\tiptap-extension-bullet-list.umd.js" />
+    <Content Include="Scripts\npm\%40tiptap\tiptap-extension\tiptap-extension-code-block.umd.js" />
+    <Content Include="Scripts\npm\%40tiptap\tiptap-extension\tiptap-extension-code.umd.js" />
+    <Content Include="Scripts\npm\%40tiptap\tiptap-extension\tiptap-extension-document.umd.js" />
+    <Content Include="Scripts\npm\%40tiptap\tiptap-extension\tiptap-extension-dropcursor.umd.js" />
+    <Content Include="Scripts\npm\%40tiptap\tiptap-extension\tiptap-extension-gapcursor.umd.js" />
+    <Content Include="Scripts\npm\%40tiptap\tiptap-extension\tiptap-extension-hard-break.umd.js" />
+    <Content Include="Scripts\npm\%40tiptap\tiptap-extension\tiptap-extension-heading.umd.js" />
+    <Content Include="Scripts\npm\%40tiptap\tiptap-extension\tiptap-extension-history.umd.js" />
+    <Content Include="Scripts\npm\%40tiptap\tiptap-extension\tiptap-extension-horizontal-rule.umd.js" />
+    <Content Include="Scripts\npm\%40tiptap\tiptap-extension\tiptap-extension-italic.umd.js" />
+    <Content Include="Scripts\npm\%40tiptap\tiptap-extension\tiptap-extension-list-item.umd.js" />
+    <Content Include="Scripts\npm\%40tiptap\tiptap-extension\tiptap-extension-ordered-list.umd.js" />
+    <Content Include="Scripts\npm\%40tiptap\tiptap-extension\tiptap-extension-paragraph.umd.js" />
+    <Content Include="Scripts\npm\%40tiptap\tiptap-extension\tiptap-extension-strike.umd.js" />
+    <Content Include="Scripts\npm\%40tiptap\tiptap-extension\tiptap-extension-text.umd.js" />
+    <Content Include="Scripts\npm\%40tiptap\tiptap-starter-kit.umd.js" />
     <Content Include="Scripts\npm\d3\d3.js" />
     <Content Include="Scripts\npm\postscribe\postscribe.js" />
     <Content Include="Scripts\npm\sortablejs\Sortable.js" />
