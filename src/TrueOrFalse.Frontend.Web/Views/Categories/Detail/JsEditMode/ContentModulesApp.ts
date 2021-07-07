@@ -2,6 +2,7 @@
 declare var VueSelect: any;
 declare var Sticky: any;
 declare var tiptapBuild: any;
+declare var tiptapBuildV2: any;
 declare var hljsBuild: any;
 
 declare var eventBus: any;

@@ -6,6 +6,11 @@
 } = tiptapBuild;
 
 var {
+    tiptapVue,
+    tiptapStarterKit,
+} = tiptapBuildV2;
+
+var {
     apache,
     //cLike,
     xml,

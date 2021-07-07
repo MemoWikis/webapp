@@ -78,8 +78,6 @@
         <%: Html.Partial("~/Views/Categories/Edit/DeleteCategoryComponent.vue.ascx") %>
         <%: Html.Partial("~/Views/Categories/Edit/AddCategoryComponent.vue.ascx") %>
     </div>
-    <%= Scripts.Render("~/bundles/js/tiptap") %>
-
     <%= Scripts.Render("~/bundles/js/DeleteQuestion") %>
     <%= Scripts.Render("~/bundles/js/Category") %>
 </asp:Content>

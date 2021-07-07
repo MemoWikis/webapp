@@ -2067,7 +2067,6 @@
     <Content Include="Scripts\KnowledgeSummaryBar.js">
       <DependentUpon>KnowledgeSummaryBar.ts</DependentUpon>
     </Content>
-    <Content Include="Scripts\npm\%40tiptap\tiptap-core.umd.js" />
     <Content Include="Scripts\npm\d3\d3.js" />
     <Content Include="Scripts\npm\postscribe\postscribe.js" />
     <Content Include="Scripts\npm\sortablejs\Sortable.js" />
@@ -2211,6 +2210,9 @@
     </Content>
     <Content Include="Views\Categories\Edit\Js\AddCategory\AddCategoryComponent.js">
       <DependentUpon>AddCategoryComponent.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Categories\Edit\Js\DeleteCategory\DeleteCategoryComponent.js">
+      <DependentUpon>DeleteCategoryComponent.ts</DependentUpon>
     </Content>
     <Content Include="Views\Messages\Js\Page.js">
       <DependentUpon>Page.ts</DependentUpon>
@@ -4305,6 +4307,9 @@
     </Content>
     <Content Include="Views\Shared\Modals\ErrorModal\ErrorModalComponentLoader.js.map">
       <DependentUpon>ErrorModalComponentLoader.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Categories\Edit\Js\DeleteCategory\DeleteCategoryComponent.js.map">
+      <DependentUpon>DeleteCategoryComponent.ts</DependentUpon>
     </Content>
     <None Include="Web.overwritten.config.sample" />
     <Content Include="Views\Welcome\Logout.aspx" />

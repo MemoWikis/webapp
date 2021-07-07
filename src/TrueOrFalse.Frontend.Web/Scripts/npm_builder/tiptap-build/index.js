@@ -1,8 +1,13 @@
-window.tiptapBuild = {
-    tiptap: require("tiptap"),
-    tiptapUtils: require("tiptap-utils"),
-    tiptapCommands: require("tiptap-commands"),
-    tiptapExtensions: require("tiptap-extensions"),
+// window.tiptapBuild = {
+//     tiptap: require("tiptap"),
+//     tiptapUtils: require("tiptap-utils"),
+//     tiptapCommands: require("tiptap-commands"),
+//     tiptapExtensions: require("tiptap-extensions"),
+// };
+
+window.tiptapBuildV2 = {
+    tiptapVue: require("@tiptap/vue-2"),
+    tiptapStarterKit: require("@tiptap/starter-kit"),
 };
 
 window.hljsBuild = {

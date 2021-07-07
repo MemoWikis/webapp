@@ -8,6 +8,7 @@
     "@material/fab": "^1.1.1",
     "@tiptap/core": "*",
     "@tiptap/starter-kit": "*",
+    "@tiptap/vue-2": "*",
     "d3": "5.7.0",
     "gulp-run": "^1.7.1",
     "postscribe": "^2.0.8",
