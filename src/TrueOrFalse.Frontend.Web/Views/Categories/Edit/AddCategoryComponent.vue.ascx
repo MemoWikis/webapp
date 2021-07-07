@@ -9,7 +9,8 @@
                     <div class="modal-content">
                         <div class="addCategoryCardModal">
                             <div class="modalHeader">
-                                <h4 class="modal-title">Neues Thema erstellen</h4>
+                                <h4 v-if="createCategory" class="modal-title">Neues Thema erstellen</h4>
+                                <h4 v-else class="modal-title">Bestehendes Thema verknüpfen</h4>
                             </div>
                             <div class="modalBody" v-if="createCategory">
                                 <form v-on:submit.prevent="addCategory">

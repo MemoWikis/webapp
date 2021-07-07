@@ -388,7 +388,7 @@ public class EditCategoryController : BaseController
             return Json(new
             {
                 success = false,
-                errorMsg = "Das Thema muss einem Thema zugeordnet sein."
+                errorMsg = "Die Verknüpfung des Thema kann nicht gelöst werden, Das Thema muss mindestens einem Oberthema zugeordnet sein."
             });
     }
 
@@ -436,16 +436,20 @@ public class EditCategoryController : BaseController
     public JsonResult RemoveChildren(int parentCategoryId, int[] childCategoryIds)
     {
         var removedChildCategoryIds = new List<int>();
+        var notRemovedChildrenCategoryIds = new List<int>();
         foreach (int childCategoryId in childCategoryIds)
         {
             var parentHasBeenRemoved = ParentRemover(parentCategoryId, childCategoryId);
             if (parentHasBeenRemoved)
                 removedChildCategoryIds.Add(childCategoryId);
+            else
+                notRemovedChildrenCategoryIds.Add(childCategoryId);
         }
 
         return Json(new
         {
-            removedChildCategoryIds = "[" + String.Join(",", removedChildCategoryIds) + "]",
+            removedChildCategoryIds,
+            notRemovedChildrenCategoryIds,
         });
     }
 

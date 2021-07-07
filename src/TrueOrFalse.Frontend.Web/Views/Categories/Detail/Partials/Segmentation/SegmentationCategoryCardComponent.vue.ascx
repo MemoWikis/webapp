@@ -2,13 +2,13 @@
 
  <category-card-component @select-category="selectCategory" @unselect-category="unselectCategory" inline-template :edit-mode="editMode" :ref="'card' + id" :is-custom-segment="isCustomSegment" :category-id="id" :selected-categories="selectedCategories" :segment-id="segmentId" hide="false" :key="index" :is-my-world="isMyWorld">
     
-    <div class="col-xs-6 topic segmentCategoryCard" v-if="visible" @mouseover="hover = true" @mouseleave="hover = false" :class="{ hover : showHover }">
+    <div class="col-xs-6 topic segmentCategoryCard" v-if="visible" @mouseover="hover = true" @mouseleave="hover = false" :class="{ hover : showHover }" @contextmenu.prevent="handler($event)">
         <div class="row">
             <div class="col-xs-3">
-                <div class="checkBox" @click="selectCategory()" :class="{ show : showHover && isCustomSegment, selected : isSelected && isCustomSegment }">
+<%--                <div class="checkBox" @click="selectCategory()" :class="{ show : showHover && isCustomSegment, selected : isSelected && isCustomSegment }">
                     <i class="fas fa-check-square" v-if="isSelected"></i>
                     <i class="far fa-square" v-else></i>
-                </div>
+                </div>--%>
                 <div class="ImageContainer" v-html="imgHtml">
                 </div>
             </div>

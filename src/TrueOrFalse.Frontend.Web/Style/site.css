@@ -1647,6 +1647,14 @@ h3 {
 .memo-button.btn-link {
   color: #0065CA;
 }
+.memo-button.btn-error {
+  color: #fff;
+  background-color: #FFA07A;
+  transition: 0.2s ease-in-out;
+}
+.memo-button.btn-error:hover {
+  background-color: #ef8a62;
+}
 #AnswerBody .memo-button.btn-link {
   padding-left: 0 !important;
 }
@@ -2187,6 +2195,19 @@ input::placeholder {
   border: solid 1px #DDDDDD;
   border-radius: 0;
 }
+#ErrorModal .modal-body,
+#ErrorModal .modal-footer,
+#ErrorModal .modal-header {
+  display: flex;
+  justify-content: center;
+  text-align: center;
+}
+#ErrorModal .modal-body {
+  flex-direction: column;
+}
+#ErrorModal h3 {
+  color: #FFA07A;
+}
 /*Generic Bootstrap*/
 .btn {
   border-radius: 0;
@@ -2205,9 +2226,10 @@ input::placeholder {
   border-radius: 0;
 }
 .modal-content .modal-body,
-.modal-content .modal-footer {
+.modal-content .modal-footer,
+.modal-content .modal-header {
   padding: 25px;
-  border-top: none;
+  border: none;
 }
 .alert {
   border: none;

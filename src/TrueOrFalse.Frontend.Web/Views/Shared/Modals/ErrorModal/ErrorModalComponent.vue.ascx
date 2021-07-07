@@ -6,11 +6,13 @@
             <div class="modal-content">
 
                 <div class="modal-body">
-                    <div class="alert alert-danger">{{message}}</div>
+                    <h3><i class="far fa-times-circle"></i></h3>
+
+                    <div class="">{{message}}</div>
                 </div>
 
                 <div class="modal-footer">
-                    <div class="btn btn-primary memo-button col-xs-12" data-dismiss="modal">Ok</div>       
+                    <div class="btn memo-button col-xs-4 btn-error" data-dismiss="modal">Ok</div>       
                 </div>
 
             </div>

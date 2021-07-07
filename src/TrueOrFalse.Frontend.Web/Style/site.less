@@ -1668,6 +1668,16 @@ h3 {
     &.btn-link {
         color: @memo-blue-link;
     }
+
+    &.btn-error {
+        color: @white;
+        background-color: @memo-salmon;
+        transition: 0.2s ease-in-out;
+
+        &:hover {
+            background-color: #ef8a62;
+        }
+    }
 }
 
 #AnswerBody {
@@ -2224,17 +2234,27 @@ textarea, input {
         border-radius: 0;
     }
 }
+#ErrorModal {
+    .modal-body, .modal-footer, .modal-header {
+        display: flex;
+        justify-content: center;
+        text-align: center;
+    }
 
+    .modal-body {
+        flex-direction: column;
+    }
 
+    h3 {
+        color: @memo-salmon;
+    }
+}
 /*Generic Bootstrap*/
-
-
 .btn {
     border-radius: 0;
 
     &.grey-bg {
         background-color: @memo-grey-lighter;
-
         transition: background-color 0.2s ease-in-out;
 
         &:hover {
@@ -2250,9 +2270,9 @@ textarea, input {
 .modal-content {
     border-radius: 0;
 
-    .modal-body, .modal-footer {
+    .modal-body, .modal-footer, .modal-header {
         padding: 25px;
-        border-top: none;
+        border: none;
     }
 }
 

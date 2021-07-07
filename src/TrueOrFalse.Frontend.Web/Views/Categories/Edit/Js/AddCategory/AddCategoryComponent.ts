@@ -191,7 +191,7 @@ var addCategoryComponent = Vue.component('add-category-component', {
 
             $.get("/Api/Search/ByNameForVue", data,
                 function (result) {
-                    self.categories = result.categories;
+                    self.categories = result.categories.filter(c => c.Id != self.parentId);
                     self.totalCount = result.totalCount;
                     self.$nextTick(() => {
                         $('[data-toggle="tooltip"]').tooltip();

@@ -175,7 +175,7 @@
                         </a>
                         <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="<%= buttonId %>">
                             <li>
-                                <a onclick="eventBus.$emit('open-add-category-modal', {categoryId: <%= Model.Category.Id %>})" data-allowed="logged-in">
+                                <a href="<%= Links.CategoryHistory(Model.Id) %>" data-allowed="logged-in">
                                     <div class="dropdown-icon">
                                         <i class="fa fa-code-fork"></i>
                                     </div>
