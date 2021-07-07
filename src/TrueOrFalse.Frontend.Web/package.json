@@ -7,6 +7,9 @@
   "dependencies": {
     "@material/fab": "^1.1.1",
     "@tiptap/core": "*",
+    "@tiptap/extension-code-block-lowlight": "*",
+    "@tiptap/extension-image": "*",
+    "@tiptap/extension-link": "*",
     "@tiptap/starter-kit": "*",
     "@tiptap/vue-2": "*",
     "d3": "5.7.0",

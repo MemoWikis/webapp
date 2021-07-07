@@ -8,6 +8,27 @@
 window.tiptapBuildV2 = {
     tiptapVue: require("@tiptap/vue-2"),
     tiptapStarterKit: require("@tiptap/starter-kit"),
+    tiptapExtensionBlockquote: require("@tiptap/extension-blockquote"),
+    tiptapExtensionBold: require("@tiptap/extension-bold"),
+    tiptapExtensionBulletList: require("@tiptap/extension-bullet-list"),
+    tiptapExtensionCode: require("@tiptap/extension-code"),
+    tiptapExtensionCodeBlock: require("@tiptap/extension-code-block"),
+    tiptapExtensionCodeBlockLowlight: require("@tiptap/extension-code-block-lowlight"),
+    tiptapExtensionDocument: require("@tiptap/extension-document"),
+    tiptapExtensionDropCursor: require("@tiptap/extension-dropcursor"),
+    tiptapExtensionGapCursor: require("@tiptap/extension-gapcursor"),
+    tiptapExtensionHardBreak: require("@tiptap/extension-hard-break"),
+    tiptapExtensionHeading: require("@tiptap/extension-heading"),
+    tiptapExtensionHistory: require("@tiptap/extension-history"),
+    tiptapExtensionHorizontalRule: require("@tiptap/extension-horizontal-rule"),
+    tiptapExtensionImage: require("@tiptap/extension-image"),    
+    tiptapExtensionItalic: require("@tiptap/extension-italic"),
+    tiptapExtensionLink: require("@tiptap/extension-link"),
+    tiptapExtensionListItem: require("@tiptap/extension-list-item"),
+    tiptapExtensionOrderedList: require("@tiptap/extension-ordered-list"),
+    tiptapExtensionParagraph: require("@tiptap/extension-paragraph"),
+    tiptapExtensionStrike: require("@tiptap/extension-strike"),
+    tiptapExtensionText: require("@tiptap/extension-text")
 };
 
 window.hljsBuild = {

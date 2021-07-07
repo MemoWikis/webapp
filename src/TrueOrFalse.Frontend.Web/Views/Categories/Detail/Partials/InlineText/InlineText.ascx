@@ -2,7 +2,14 @@
 <keep-alive>
     <text-component content="<%: HttpUtility.HtmlDecode(Model.Content)%>" inline-template>
     <div class="inline-text-editor" @click="contentIsChanged = true">
-        <editor-menu-bar :editor="editor" v-slot="{ commands, isActive, focused, getMarkAttrs }">
+        <button
+            class="menubar__button"
+            :class="{ 'is-active': isActive.bold() }"
+            @click="editor.toggleBold()"
+        >
+            <i class="fas fa-bold"></i>
+        </button>
+<%--        <editor-menu-bar :editor="editor" v-slot="{ commands, isActive, focused, getMarkAttrs }">
           <div
         class="menubar is-hidden"
         :class="{ 'is-focused': focused }"
@@ -11,7 +18,7 @@
         <button
           class="menubar__button"
           :class="{ 'is-active': isActive.bold() }"
-          @click="commands.bold"
+          @click="editor.bold"
         >
             <i class="fas fa-bold"></i>
         </button>
@@ -134,7 +141,7 @@
           </button>
 
       </div>
-        </editor-menu-bar>
+        </editor-menu-bar>--%>
         
         <editor-menu-bubble class="link-modal" :editor="editor" @hide="hideLinkMenu" v-slot="{ commands, isActive, getMarkAttrs, menu }">
             <div class="modal fade" id="inlineEditLinkModal" tabindex="-1" role="dialog" aria-labelledby="inlineEditLinkModalLabel">
