@@ -2205,7 +2205,6 @@
     <Content Include="Views\Categories\Edit\DeleteCategoryComponent.vue.ascx" />
     <Content Include="Views\Categories\Edit\AddCategoryComponent.vue.ascx" />
     <Content Include="Views\Categories\Detail\Partials\Segmentation\SegmentComponent.vue.ascx" />
-    <Content Include="Views\Categories\Edit\Js\DeleteCategory\AddCategoryComponent.js">
       <DependentUpon>DeleteCategoryComponent.ts</DependentUpon>
     </Content>
     <Content Include="Views\Categories\Edit\Js\AddCategory\AddCategoryComponent.js">
@@ -4296,7 +4295,6 @@
     <Content Include="Views\Questions\Edit\EditComponents\EditQuestionLoader.js.map">
       <DependentUpon>EditQuestionLoader.ts</DependentUpon>
     </Content>
-    <Content Include="Views\Categories\Edit\Js\DeleteCategory\AddCategoryComponent.js.map">
       <DependentUpon>DeleteCategoryComponent.ts</DependentUpon>
     </Content>
     <Content Include="Views\Shared\Modals\ErrorModal\ErrorModalComponent.js.map">
