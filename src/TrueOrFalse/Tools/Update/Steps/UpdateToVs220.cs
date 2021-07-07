@@ -2,14 +2,14 @@
 
 namespace TrueOrFalse.Updates
 {
-    public class UpdateToVs217
+    public class UpdateToVs220
     {
         public static void Run()
         {
             Sl.Resolve<ISession>()
                 .CreateSQLQuery(
                     @"ALTER TABLE `category`
-                    ADD COLUMN `CustomSegments` LONGTEXT NULL DEFAULT NULL AFTER `Content`"
+                    ADD COLUMN `Visibility` INT(11) NULL DEFAULT 0 AFTER `SkipMigration`"
                 ).ExecuteUpdate();
         }
     }
