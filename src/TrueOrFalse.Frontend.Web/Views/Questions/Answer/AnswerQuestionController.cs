@@ -321,6 +321,7 @@ public class AnswerQuestionController : BaseController
                 ControllerContext
             );
         }
+
         var question = Sl.QuestionRepo.GetById(questionId);
         if (isVideo)
         {
@@ -330,6 +331,7 @@ public class AnswerQuestionController : BaseController
                 ControllerContext
             );
         }
+
         //For normal questions
         var activeSearchSpec = Resolve<QuestionSearchSpecSession>().ByKey(pager);
         var questionViewGuid = Guid.NewGuid();
