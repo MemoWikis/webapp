@@ -105,6 +105,7 @@ public class AnswerQuestionModel : BaseModel
         HasNextPage = HasPreviousPage = false;
         ContentRecommendationResult = ContentRecommendation.GetForQuestion(question, 6);
         ShowCategoryList = showCategoryList;
+        LearningSession = LearningSessionCache.GetLearningSession();  
 
         Populate(question);
     }
@@ -224,6 +225,7 @@ public class AnswerQuestionModel : BaseModel
 
         Categories = question.Categories;
         QuestionHasParentCategories = question.Categories.Any();
+
         //Find best suited primary category for question
         if (!IsTestSession && !IsLearningSession && QuestionHasParentCategories)
         {
