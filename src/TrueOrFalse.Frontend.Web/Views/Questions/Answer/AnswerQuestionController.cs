@@ -502,7 +502,7 @@ public class AnswerQuestionController : BaseController
     public JsonResult GetQuestionDetails(int questionId)
     {
         var question = EntityCache.GetQuestionById(questionId);
-        var answerQuestionModel = new AnswerQuestionModel(question);
+        var answerQuestionModel = new AnswerQuestionModel(question, true);
 
         var correctnessProbability = answerQuestionModel.HistoryAndProbability.CorrectnessProbability;
         var history = answerQuestionModel.HistoryAndProbability.AnswerHistory;
