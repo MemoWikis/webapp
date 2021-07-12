@@ -85,8 +85,6 @@ public class AnswerQuestionModel : BaseModel
     public int CurrentLearningStepIdx;
     public bool IsLastLearningStep;
 
-    public bool IsTestSession;
-
     public int TestSessionProgessAfterAnswering;
 
     public bool DisableCommentLink;
@@ -160,7 +158,7 @@ public class AnswerQuestionModel : BaseModel
         Creator = new UserTinyModel(question.Creator);
 
         if (question.Visibility != QuestionVisibility.All)
-            if(Creator.Id != _sessionUser.User.Id || IsTestSession)
+            if(Creator.Id != _sessionUser.User.Id )
                 throw new Exception("Invalid access to questionId" + question.Id);
 
         var questionValuationForUser = NotNull.Run(Sl.QuestionValuationRepo.GetByFromCache(question.Id, UserId));
