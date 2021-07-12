@@ -211,7 +211,8 @@ namespace TrueOrFalse
             routes.MapRoute("GetCategoryCard", "Segmentation/GetCategoryCard", new { controller = "Segmentation", action = "GetCategoryCard" });
             
             routes.MapRoute("Default", "{controller}/{action}/{id}", new { controller = "Welcome", action = "Welcome", id = UrlParameter.Optional });
-            routes.MapRoute("Various", "{action}", new {controller = "VariousPublic"});
+            routes.MapRoute("Various", "{action}", new { controller = "VariousPublic"});
+            routes.MapRoute("Test", "TestPage", new { controller = "TestPage", action = "TestPage" });
         }
 
         public static IEnumerable<string> GetAllControllerNames() 

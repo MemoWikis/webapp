@@ -21,8 +21,6 @@
                                 <div class="solutionType-selector">
                                     <select v-if="!edit" v-model="solutionType">
                                         <option value="1">Text</option>
-<%--                                        <option value="4">Numeric</option>
-                                        <option value="6">Datum</option>--%>
                                         <option value="7">MultipleChoice</option>
                                         <option value="8">Zuordnung (Liste)</option>
                                         <option value="9">Karteikarte</option>

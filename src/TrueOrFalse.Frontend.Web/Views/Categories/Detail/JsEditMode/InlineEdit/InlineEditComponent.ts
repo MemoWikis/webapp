@@ -1,74 +1,91 @@
-﻿var {
-    tiptapVue,
-    tiptapStarterKit,
-    tiptapExtensionBlockquote,
-    tiptapExtensionBold,
-    tiptapExtensionBulletList,
-    tiptapExtensionCode,
-    tiptapExtensionCodeBlock,
-    tiptapExtensionCodeBlockLowlight,
-    tiptapExtensionDocument,
-    tiptapExtensionDropCursor,
-    tiptapExtensionGapCursor,
-    tiptapExtensionHardBreak,
-    tiptapExtensionHeading,
-    tiptapExtensionHistory,
-    tiptapExtensionHorizontalRule,
-    tiptapExtensionImage,
-    tiptapExtensionItalic,
-    tiptapExtensionLink,
-    tiptapExtensionListItem,
-    tiptapExtensionOrderedList,
-    tiptapExtensionParagraph,
-    tiptapExtensionStrike,
-    tiptapExtensionText
-} = tiptapBuildV2;
+﻿//var {
+//    tiptapVue,
+//    tiptapStarterKit,
+//    tiptapExtensionCodeBlockLowlight,
+//    tiptapExtensionImage,
+//    tiptapExtensionLink,
+//    tiptapExtensionDocument,
+//    tiptapExtensionText,
+//    tiptapExtensionParagraph
+//} = tiptapBuild;
 
-var {
-    apache,
-    //cLike,
-    xml,
-    bash,
-    //c,
-    coffeescript,
-    csharp,
-    css,
-    markdown,
-    diff,
-    ruby,
-    go,
-    http,
-    ini,
-    java,
-    javascript,
-    json,
-    kotlin,
-    less,
-    lua,
-    makefile,
-    perl,
-    nginx,
-    objectivec,
-    php,
-    phpTemplate,
-    plaintext,
-    properties,
-    python,
-    pythonREPL,
-    rust,
-    scss,
-    shell,
-    sql,
-    swift,
-    yaml,
-    typescript,
-} = hljsBuild;
-Vue.component('editor-menu-bar', tiptapVue.EditorMenuBar);
-Vue.component('editor-menu-bubble', tiptapVue.EditorMenuBubble);
-Vue.component('editor-content', tiptapVue.EditorContent);
-Vue.component('editor-floating-menu', tiptapVue.EditorFloatingMenu);
+//var {
+//    apache,
+//    //cLike,
+//    xml,
+//    bash,
+//    //c,
+//    coffeescript,
+//    csharp,
+//    css,
+//    markdown,
+//    diff,
+//    ruby,
+//    go,
+//    http,
+//    ini,
+//    java,
+//    javascript,
+//    json,
+//    kotlin,
+//    less,
+//    lua,
+//    makefile,
+//    perl,
+//    nginx,
+//    objectivec,
+//    php,
+//    phpTemplate,
+//    plaintext,
+//    properties,
+//    python,
+//    pythonREPL,
+//    rust,
+//    scss,
+//    shell,
+//    sql,
+//    swift,
+//    yaml,
+//    typescript,
+//} = hljsBuild;
 
-Vue.component('text-component',
+declare var tiptapEditor: any;
+declare var tiptapEditorContent: any;
+declare var tiptapStarterKit: any;
+declare var tiptapLink: any;
+declare var tiptapCodeBlockLowlight: any;
+declare var lowlight: any;
+
+Vue.component('editor-content', tiptapEditorContent);
+
+Vue.component('editor-menu-bar-component',
+    {
+        props: ['editor'],
+        template: '#editor-menu-bar-template',
+        data() {
+            return {
+                focused: false,
+            }
+        },
+        mounted() {
+            this.editor.on('focus', () => this.focused = true);
+            this.editor.on('blur', () => this.focused = false);
+        },
+        methods: {
+            setLink() {
+                const url = window.prompt('URL');
+
+                this.editor
+                    .chain()
+                    .focus()
+                    .extendMarkRange('link')
+                    .setLink({ href: url })
+                    .run();
+            },
+        }
+    });
+
+var textComponent = Vue.component('text-component',
     {
         props: ['content'],
         data() {
@@ -87,84 +104,31 @@ Vue.component('text-component',
             this.$root.content = this.html;
         },
         mounted() {
-            this.editor = new tiptapVue.Editor({
+            this.editor = new tiptapEditor({
+                content: this.content,
                 extensions: [
-                    tiptapVue,
-                    tiptapStarterKit,
-                    tiptapExtensionBlockquote,
-                    tiptapExtensionBold,
-                    tiptapExtensionBulletList,
-                    tiptapExtensionCode,
-                    tiptapExtensionCodeBlock,
-                    tiptapExtensionDocument,
-                    tiptapExtensionDropCursor,
-                    tiptapExtensionGapCursor,
-                    tiptapExtensionHardBreak,
-                    tiptapExtensionHeading.configure({
-                        levels: [2, 3],
-                    }),,
-                    tiptapExtensionHistory,
-                    tiptapExtensionHorizontalRule,
-                    tiptapExtensionImage,
-                    tiptapExtensionItalic,
-                    tiptapExtensionListItem,
-                    tiptapExtensionOrderedList,
-                    tiptapExtensionParagraph,
-                    tiptapExtensionStrike,
-                    tiptapExtensionText,
-                    tiptapExtensionLink.configure({
-                        HTMLAttributes: { target: '_self', rel: 'noopener noreferrer nofollow' }
+                    tiptapStarterKit.configure({
+                        heading: {
+                            levels: [2, 3]
+                        }
                     }),
-                    new tiptapExtensions.CodeBlockHighlight({
-                        languages: {
-                            apache,
-                            //cLike,
-                            xml,
-                            bash,
-                            //c,
-                            coffeescript,
-                            csharp,
-                            css,
-                            markdown,
-                            diff,
-                            ruby,
-                            go,
-                            http,
-                            ini,
-                            java,
-                            javascript,
-                            json,
-                            kotlin,
-                            less,
-                            lua,
-                            makefile,
-                            perl,
-                            nginx,
-                            objectivec,
-                            php,
-                            phpTemplate,
-                            plaintext,
-                            properties,
-                            python,
-                            pythonREPL,
-                            rust,
-                            scss,
-                            shell,
-                            sql,
-                            swift,
-                            yaml,
-                            typescript,
-                        },
+                    tiptapLink.configure({
+                        HTMLAttributes: {
+                            target: '_self',
+                            rel: 'noopener noreferrer nofollow'
+                        }
                     }),
-                    new tiptapExtensions.Placeholder({
+                    tiptapPlaceholder.configure({
                         emptyEditorClass: 'is-editor-empty',
                         emptyNodeClass: 'is-empty',
-                        emptyNodeText: 'Klicke hier um zu tippen ...',
+                        placeholder: 'Klicke hier um zu tippen ...',
                         showOnlyWhenEditable: true,
                         showOnlyCurrent: true,
                     }),
+                    tiptapCodeBlockLowlight.configure({
+                        lowlight,
+                    })
                 ],
-                content: this.content,
                 editorProps: {
                     handleKeyDown: (e, k) => {
                         this.contentIsChanged = true;
@@ -173,9 +137,9 @@ Vue.component('text-component',
                 onPaste: () => {
                     this.contentIsChanged = true;
                 },
-                onUpdate: ({ getJSON, getHTML }) => {
-                    this.json = getJSON();
-                    this.html = getHTML();
+                onUpdate: ({ editor }) => {
+                    this.json = editor.getJSON();
+                    this.html = editor.getHTML();
                 },
                 nativeExtensions: [
                 ]
@@ -187,104 +151,49 @@ Vue.component('text-component',
                 });
             eventBus.$on('cancel-edit-mode',
                 () => {
-                    var newContent;
-                    if (this.contentHasBeenSaved)
-                        newContent = this.savedContent;
-                    else
-                        newContent = this.content;
+                    var newContent = this.contentHasBeenSaved ? this.savedContent : this.content;
                     this.contentIsChanged = false;
                     this.editor.destroy();
                     this.editor =
-                        new tiptap.Editor({
+                        new tiptapEditor({
+                            content: newContent,
                             extensions: [
-                                new tiptapExtensions.Blockquote(),
-                                new tiptapExtensions.BulletList(),
-                                new tiptapExtensions.CodeBlock(),
-                                new tiptapExtensions.HardBreak(),
-                                new tiptapExtensions.Heading({ levels: [2, 3] }),
-                                new tiptapExtensions.HorizontalRule(),
-                                new tiptapExtensions.ListItem(),
-                                new tiptapExtensions.OrderedList(),
-                                new tiptapExtensions.TodoItem(),
-                                new tiptapExtensions.TodoList(),
-                                new tiptapExtensions.Link({
-                                    target: "_self"
+                                tiptapStarterKit.configure({
+                                    heading: {
+                                        levels: [2, 3]
+                                    }
                                 }),
-                                new tiptapExtensions.Image(),
-                                new tiptapExtensions.Bold(),
-                                //new tiptapExtensions.Code(),
-                                new tiptapExtensions.Italic(),
-                                new tiptapExtensions.Strike(),
-                                new tiptapExtensions.Underline(),
-                                new tiptapExtensions.History(),
-                                new tiptapExtensions.TrailingNode({
-                                    node: 'paragraph',
-                                    notAfter: ['paragraph'],
+                                tiptapLink.configure({
+                                    HTMLAttributes: {
+                                        target: '_self',
+                                        rel: 'noopener noreferrer nofollow'
+                                    }
                                 }),
-                                new tiptapExtensions.CodeBlockHighlight({
-                                    languages: {
-                                        apache,
-                                        //cLike,
-                                        xml,
-                                        bash,
-                                        //c,
-                                        coffeescript,
-                                        csharp,
-                                        css,
-                                        markdown,
-                                        diff,
-                                        ruby,
-                                        go,
-                                        http,
-                                        ini,
-                                        java,
-                                        javascript,
-                                        json,
-                                        kotlin,
-                                        less,
-                                        lua,
-                                        makefile,
-                                        perl,
-                                        nginx,
-                                        objectivec,
-                                        php,
-                                        phpTemplate,
-                                        plaintext,
-                                        properties,
-                                        python,
-                                        pythonREPL,
-                                        rust,
-                                        scss,
-                                        shell,
-                                        sql,
-                                        swift,
-                                        yaml,
-                                        typescript,
-                                    },
-                                }),
-                                new tiptapExtensions.Placeholder({
+                                tiptapPlaceholder.configure({
                                     emptyEditorClass: 'is-editor-empty',
                                     emptyNodeClass: 'is-empty',
-                                    emptyNodeText: 'Klicke hier um zu tippen ...',
+                                    placeholder: 'Klicke hier um zu tippen ...',
                                     showOnlyWhenEditable: true,
                                     showOnlyCurrent: true,
+                                }),
+                                tiptapCodeBlockLowlight.configure({
+                                    lowlight,
                                 })
                             ],
-                            content: newContent,
                             editorProps: {
-                                handleKeyDown: () => {
+                                handleKeyDown: (e, k) => {
                                     this.contentIsChanged = true;
                                 },
                             },
                             onPaste: () => {
                                 this.contentIsChanged = true;
                             },
-                            onUpdate: ({ getJSON, getHTML }) => {
-                                this.json = getJSON();
-                                this.html = getHTML();
+                            onUpdate: () => {
+                                this.json = this.editor.getJSON();
+                                this.html = this.editor.getHTML();
                             },
                             nativeExtensions: [
-                            ],
+                            ]
                         });
                 });
         },

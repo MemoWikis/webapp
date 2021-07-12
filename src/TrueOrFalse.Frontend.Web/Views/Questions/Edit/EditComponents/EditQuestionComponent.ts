@@ -1,13 +1,11 @@
 ﻿declare var eventBus: any;
 if (eventBus == null)
     var eventBus = new Vue();
-
-var {
-    tiptap,
-    tiptapUtils,
-    tiptapCommands,
-    tiptapExtensions,
-} = tiptapBuild;
+declare var tiptapEditor: any;
+declare var tiptapEditorContent: any;
+declare var tiptapStarterKit: any;
+declare var tiptapLink: any;
+declare var tiptapPlaceholder: any;
 var {
     apache,
     //cLike,
@@ -47,10 +45,6 @@ var {
     yaml,
     typescript,
 } = hljsBuild;
-
-function initialState() {
-}
-
 
 Vue.component('editor-menu-bar', tiptap.EditorMenuBar);
 Vue.component('editor-content', tiptap.EditorContent);
@@ -133,7 +127,7 @@ var editQuestionComponent = Vue.component('edit-question-component',
                         //        typescript,
                         //    },
                         //}),
-                        new tiptapExtensions.Placeholder({
+                        tiptapPlaceholder.configure({
                             emptyEditorClass: 'is-editor-empty',
                             emptyNodeClass: 'is-empty',
                             emptyNodeText: 'Gib den Fragetext ein',

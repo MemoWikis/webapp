@@ -16,16 +16,18 @@
 
 <asp:Content ID="head" ContentPlaceHolderID="Head" runat="server">
     <link href="/Views/Questions/Answer/LearningSession/LearningSessionResult.css" rel="stylesheet" />
+    <%= Scripts.Render("~/Scripts/npm/tiptap-build/tiptap-build.js") %>
     <%= Styles.Render("~/bundles/AnswerQuestion") %>
     <%= Styles.Render("~/bundles/Category") %>
     <%= Scripts.Render("~/bundles/js/DeleteQuestion") %>
     <%= Scripts.Render("~/bundles/js/AnswerQuestion") %> 
     <%= Scripts.Render("~/bundles/js/CategorySort") %>
-    <%= Scripts.Render("~/Scripts/npm/tiptap-build/tiptap-build.js") %>
     <script type="text/x-template" id="pin-category-template">
         <%: Html.Partial("~/Views/Shared/PinComponentVue/PinCategoryComponent.vue.ascx") %>
     </script>
-    <script>hljsBuild.core.initHighlightingOnLoad;</script>
+    <script type="text/x-template" id="editor-menu-bar-template">
+        <%: Html.Partial("~/Views/Shared/Editor/EditorMenuBarComponent.vue.ascx") %>
+    </script>
 
     <script type="text/javascript" src="https://www.google.com/jsapi"></script>
     <%  
@@ -43,6 +45,7 @@
 
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
         
+
     <!-- Vue Templates must be loaded before Vue Apps --------------------------- -->
 
     <input type="hidden" id="hhdCategoryId" value="<%= Model.Category.Id %>"/>
@@ -79,5 +82,6 @@
         <%: Html.Partial("~/Views/Categories/Edit/AddCategoryComponent.vue.ascx") %>
     </div>
     <%= Scripts.Render("~/bundles/js/DeleteQuestion") %>
+
     <%= Scripts.Render("~/bundles/js/Category") %>
 </asp:Content>

@@ -75,6 +75,7 @@ namespace TrueOrFalse.View
                 .Include("~/Views/Categories/Detail/Partials/Segmentation/Segmentation.css"));
 
             bundles.Add(new ScriptBundle("~/bundles/js/Category")
+                .Include("~/Views/Shared/Editor/EditorMenuBarComponent.js")
                 .Include("~/Views/Knowledge/Wheel/KnowledgeWheel.js")
                 .Include("~/Scripts/npm/d3/d3.js")
                 .IncludeDirectory("~/Views/Categories/Detail/JsAnalyticsTab/", "*.js")
@@ -97,9 +98,19 @@ namespace TrueOrFalse.View
                 .Include("~/Scripts/npm/sortablejs/Sortable.js")
                 .Include("~/Scripts/npm/vue-sortable/vue-sortable.js"));
 
-            bundles.Add(new ScriptBundle("~/bundles/js/tiptap")
-                .Include("~/Scripts/npm/@tiptap/tiptap-core.umd.js"));
-
+            bundles.Add(new Bundle("~/bundles/js/tiptap")
+                .Include("~/Scripts/npm/prosemirror-commands/index.js")
+                .Include("~/Scripts/npm/prosemirror-dropcursor/index.js")
+                .Include("~/Scripts/npm/prosemirror-gapcursor/index.js")
+                .Include("~/Scripts/npm/prosemirror-history/index.js")
+                .Include("~/Scripts/npm/prosemirror-inputrules/index.js")
+                .Include("~/Scripts/npm/prosemirror-keymap/index.js")
+                .Include("~/Scripts/npm/prosemirror-model/index.js")
+                .Include("~/Scripts/npm/prosemirror-schema-list/index.js")
+                .Include("~/Scripts/npm/prosemirror-state/index.js")
+                .Include("~/Scripts/npm/prosemirror-transform/index.js")
+                .Include("~/Scripts/npm/prosemirror-view/index.js")
+                .IncludeDirectory("~/Scripts/npm/@tiptap/", "*.js", true));
 
             bundles.Add(new ScriptBundle("~/bundles/js/EditQuestion")
                 .Include("~/Views/Questions/Edit/EditComponents/EditQuestionComponent.js")
