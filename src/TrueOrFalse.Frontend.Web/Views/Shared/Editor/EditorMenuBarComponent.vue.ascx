@@ -5,42 +5,36 @@
     <button
         class="menubar__button"
         :class="{ 'is-active':  editor.isActive('bold') }"
-        @click="editor.chain().focus().toggleBold().run()">
+        @click="refocus()">
         <i class="fas fa-bold"></i>
     </button>
 
     <button
         class="menubar__button"
         :class="{ 'is-active':  editor.isActive('italic') }"
-        @click="editor.chain().focus().toggleItalic().run()">
+        @click="editor.chain().toggleItalic().focus().run()">
         <i class="fas fa-italic"></i>
     </button>
 
     <button
         class="menubar__button"
         :class="{ 'is-active': editor.isActive('strike') }"
-        @click="editor.chain().focus().toggleStrike().run()">
+        @click="editor.chain().toggleStrike().focus().run()">
         <i class="fas fa-strikethrough"></i>
     </button>
 
     <button
         class="menubar__button"
         :class="{ 'is-active': editor.isActive('underline') }"
-        @click="editor.chain().focus().toggleUnderline().run()">
+        @click="editor.chain().toggleUnderline().focus().run()">
         <i class="fas fa-underline"></i>
     </button>
 
     <button
-        class="menubar__button"
-        :class="{ 'is-active': editor.isActive('paragraph') }"
-        @click="editor.chain().focus().setParagraph().run()">
-        <i class="fas fa-paragraph"></i>
-    </button>
-
-    <button
+        v-if="heading"
         class="menubar__button"
         :class="{ 'is-active': editor.isActive('heading', { level: 2})}"
-        @click="editor.chain().focus().toggleHeading({ level: 2 }).run()">
+        @click="editor.chain().toggleHeading({ level: 2 }).focus().run()">
         <b>
             H2
 
@@ -48,9 +42,10 @@
     </button>
 
     <button
+        v-if="heading"
         class="menubar__button"
         :class="{ 'is-active': editor.isActive('heading', { level: 3 })}"
-        @click="editor.chain().focus().toggleHeading({ level: 3 }).run()">
+        @click="editor.chain().toggleHeading({ level: 3 }).focus().run()">
         <b>
             H3
         </b>

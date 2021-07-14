@@ -1,89 +1,4 @@
-﻿//var {
-//    tiptapVue,
-//    tiptapStarterKit,
-//    tiptapExtensionCodeBlockLowlight,
-//    tiptapExtensionImage,
-//    tiptapExtensionLink,
-//    tiptapExtensionDocument,
-//    tiptapExtensionText,
-//    tiptapExtensionParagraph
-//} = tiptapBuild;
-
-//var {
-//    apache,
-//    //cLike,
-//    xml,
-//    bash,
-//    //c,
-//    coffeescript,
-//    csharp,
-//    css,
-//    markdown,
-//    diff,
-//    ruby,
-//    go,
-//    http,
-//    ini,
-//    java,
-//    javascript,
-//    json,
-//    kotlin,
-//    less,
-//    lua,
-//    makefile,
-//    perl,
-//    nginx,
-//    objectivec,
-//    php,
-//    phpTemplate,
-//    plaintext,
-//    properties,
-//    python,
-//    pythonREPL,
-//    rust,
-//    scss,
-//    shell,
-//    sql,
-//    swift,
-//    yaml,
-//    typescript,
-//} = hljsBuild;
-
-declare var tiptapEditor: any;
-declare var tiptapEditorContent: any;
-declare var tiptapStarterKit: any;
-declare var tiptapLink: any;
-declare var tiptapCodeBlockLowlight: any;
-declare var lowlight: any;
-
-Vue.component('editor-content', tiptapEditorContent);
-
-Vue.component('editor-menu-bar-component',
-    {
-        props: ['editor'],
-        template: '#editor-menu-bar-template',
-        data() {
-            return {
-                focused: false,
-            }
-        },
-        mounted() {
-            this.editor.on('focus', () => this.focused = true);
-            this.editor.on('blur', () => this.focused = false);
-        },
-        methods: {
-            setLink() {
-                const url = window.prompt('URL');
-
-                this.editor
-                    .chain()
-                    .focus()
-                    .extendMarkRange('link')
-                    .setLink({ href: url })
-                    .run();
-            },
-        }
-    });
+﻿Vue.component('editor-content', tiptapEditorContent);
 
 var textComponent = Vue.component('text-component',
     {
@@ -127,12 +42,16 @@ var textComponent = Vue.component('text-component',
                     }),
                     tiptapCodeBlockLowlight.configure({
                         lowlight,
-                    })
+                    }),
+                    tiptapUnderline
                 ],
                 editorProps: {
                     handleKeyDown: (e, k) => {
                         this.contentIsChanged = true;
                     },
+                    attributes: {
+                        id: 'InlineEdit',
+                    }
                 },
                 onPaste: () => {
                     this.contentIsChanged = true;
@@ -140,6 +59,10 @@ var textComponent = Vue.component('text-component',
                 onUpdate: ({ editor }) => {
                     this.json = editor.getJSON();
                     this.html = editor.getHTML();
+                },
+                onFocus({ editor, event }) {
+                },
+                onBlur({ editor, event }) {
                 },
                 nativeExtensions: [
                 ]

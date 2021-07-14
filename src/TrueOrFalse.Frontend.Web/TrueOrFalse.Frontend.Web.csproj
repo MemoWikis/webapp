@@ -2070,6 +2070,7 @@
     <Content Include="Scripts\npm\d3\d3.js" />
     <Content Include="Scripts\npm\postscribe\postscribe.js" />
     <Content Include="Scripts\npm\sortablejs\Sortable.js" />
+    <Content Include="Scripts\npm\tiptap-build\tiptap-build.js" />
     <Content Include="Scripts\npm\tiptap-extensions\extensions.js" />
     <Content Include="Scripts\npm\vue-material-design-ripple-build\vue-material-design-ripple-build.js" />
     <Content Include="Scripts\npm\vue-select\vue-select.js" />
@@ -4372,7 +4373,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="bin\" />
-    <Folder Include="Scripts\npm\tiptap-build\" />
     <Folder Include="Views\Categories\Detail\JsLearningTab\" />
   </ItemGroup>
   <PropertyGroup>

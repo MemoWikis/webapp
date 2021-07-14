@@ -41,9 +41,9 @@
                                 <div class="overline-s no-line">Frage</div>
 
                                 <div>
-                                    <editor-menu-bar :editor="questionEditor" v-slot="{ commands, isActive, focused }">
-                                        <%: Html.Partial("~/Views/Questions/Edit/EditComponents/EditorPartials/BasicEditorMenubar.vue.ascx") %>
-                                    </editor-menu-bar>
+                                    <template v-if="questionEditor">
+                                        <editor-menu-bar-component :editor="questionEditor"/>
+                                    </template>
                                     <editor-content :editor="questionEditor" :class="{ 'is-empty': highlightEmptyFields && questionEditor.state.doc.textContent.length <= 0 }"/>
                                 </div>
 
@@ -63,9 +63,9 @@
                             <div v-if="solutionType != 9" class="input-container description-container">
                                 <div class="overline-s no-line">Ergänzungen</div>
                                 <div>
-                                    <editor-menu-bar :editor="descriptionEditor" v-slot="{ commands, isActive, focused }">
-                                        <%: Html.Partial("~/Views/Questions/Edit/EditComponents/EditorPartials/BasicEditorMenubar.vue.ascx") %>
-                                    </editor-menu-bar>
+                                    <template v-if="descriptionEditor">
+                                        <editor-menu-bar-component :editor="descriptionEditor"/>
+                                    </template>
                                     <editor-content :editor="descriptionEditor" />
                                 </div>
                             </div>

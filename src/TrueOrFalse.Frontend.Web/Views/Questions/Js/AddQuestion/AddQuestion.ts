@@ -1,52 +1,4 @@
-﻿var {
-    tiptap,
-    tiptapUtils,
-    tiptapCommands,
-    tiptapExtensions,
-} = tiptapBuild;
-var {
-    apache,
-    //cLike,
-    xml,
-    bash,
-    //c,
-    coffeescript,
-    csharp,
-    css,
-    markdown,
-    diff,
-    ruby,
-    go,
-    http,
-    ini,
-    java,
-    javascript,
-    json,
-    kotlin,
-    less,
-    lua,
-    makefile,
-    perl,
-    nginx,
-    objectivec,
-    php,
-    phpTemplate,
-    plaintext,
-    properties,
-    python,
-    pythonREPL,
-    rust,
-    scss,
-    shell,
-    sql,
-    swift,
-    yaml,
-    typescript,
-} = hljsBuild;
-
-
-Vue.component('editor-menu-bar', tiptap.EditorMenuBar);
-Vue.component('editor-content', tiptap.EditorContent);
+﻿Vue.component('editor-content', tiptapEditorContent);
 
 Vue.component('add-question-component', {
     props: ['current-category-id'],
@@ -56,75 +8,30 @@ Vue.component('add-question-component', {
             isLoggedIn: IsLoggedIn.Yes,
             visibility: 1,
             addToWishknowledge: true,
-            questionEditor: new tiptap.Editor({
+            questionEditor: new tiptapEditor({
                 editable: true,
                 extensions: [
-                    new tiptapExtensions.Blockquote(),
-                    new tiptapExtensions.BulletList(),
-                    new tiptapExtensions.CodeBlock(),
-                    new tiptapExtensions.HardBreak(),
-                    new tiptapExtensions.ListItem(),
-                    new tiptapExtensions.OrderedList(),
-                    new tiptapExtensions.TodoItem(),
-                    new tiptapExtensions.TodoList(),
-                    new tiptapExtensions.Link(),
-                    new tiptapExtensions.Bold(),
-                    new tiptapExtensions.Code(),
-                    new tiptapExtensions.Italic(),
-                    new tiptapExtensions.Strike(),
-                    new tiptapExtensions.Underline(),
-                    new tiptapExtensions.History(),
-                    //new tiptapExtensions.CodeBlockHighlight({
-                    //    languages: {
-                    //        apache,
-                    //        //cLike,
-                    //        xml,
-                    //        bash,
-                    //        //c,
-                    //        coffeescript,
-                    //        csharp,
-                    //        css,
-                    //        markdown,
-                    //        diff,
-                    //        ruby,
-                    //        go,
-                    //        http,
-                    //        ini,
-                    //        java,
-                    //        javascript,
-                    //        json,
-                    //        kotlin,
-                    //        less,
-                    //        lua,
-                    //        makefile,
-                    //        perl,
-                    //        nginx,
-                    //        objectivec,
-                    //        php,
-                    //        phpTemplate,
-                    //        plaintext,
-                    //        properties,
-                    //        python,
-                    //        pythonREPL,
-                    //        rust,
-                    //        scss,
-                    //        shell,
-                    //        sql,
-                    //        swift,
-                    //        yaml,
-                    //        typescript,
-                    //    },
-                    //}),
-                    new tiptapExtensions.Placeholder({
+                    tiptapStarterKit,
+                    tiptapLink.configure({
+                        HTMLAttributes: {
+                            target: '_self',
+                            rel: 'noopener noreferrer nofollow'
+                        }
+                    }),
+                    tiptapCodeBlockLowlight.configure({
+                        lowlight,
+                    }),
+                    tiptapUnderline,
+                    tiptapPlaceholder.configure({
                         emptyEditorClass: 'is-editor-empty',
                         emptyNodeClass: 'is-empty',
-                        emptyNodeText: 'Gib den Fragetext ein',
+                        placeholder: 'Gib den Fragetext ein',
                         showOnlyCurrent: true,
                     })
                 ],
-                onUpdate: ({ getJSON, getHTML }) => {
-                    this.questionJson = getJSON();
-                    this.questionHtml = getHTML();
+                onUpdate: ({ editor }) => {
+                    this.questionJson = editor.getJSON();
+                    this.questionHtml = editor.getHTML();
                     this.formValidator();
                 },
             }),

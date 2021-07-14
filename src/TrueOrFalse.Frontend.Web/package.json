@@ -14,6 +14,7 @@
     "@tiptap/extension-mention": "*",
     "@tiptap/extension-placeholder": "*",
     "@tiptap/extension-text-style": "*",
+    "@tiptap/extension-underline": "*",
     "@tiptap/starter-kit": "*",
     "@tiptap/vue-2": "*",
     "d3": "5.7.0",

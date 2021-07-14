@@ -24,10 +24,9 @@
             <div id="AddQuestionFormContainer"  class="inline-question-editor">
                 <div>
                     <div class="overline-s no-line">Frage</div>
-                    <editor-menu-bar :editor="questionEditor" v-slot="{ commands, isActive, focused }">
-                        <%: Html.Partial("~/Views/Questions/Edit/EditComponents/EditorPartials/BasicEditorMenubar.vue.ascx") %>
-                    </editor-menu-bar>
-                    
+                    <template v-if="questionEditor">
+                        <editor-menu-bar-component :editor="questionEditor"/>
+                    </template>
                     <editor-content :editor="questionEditor" :class="{ 'is-empty': highlightEmptyFields && questionEditor.state.doc.textContent.length <= 0 }"/>
                 </div>
                 <div>

@@ -5,6 +5,7 @@ import StarterKit from '@tiptap/starter-kit'
 import Link from '@tiptap/extension-link'
 import Placeholder from '@tiptap/extension-placeholder'
 import CodeBlockLowlight from '@tiptap/extension-code-block-lowlight'
+import Underline from '@tiptap/extension-underline'
 
 import lowlight from 'lowlight'
 
@@ -15,5 +16,6 @@ window.tiptapStarterKit = StarterKit;
 window.tiptapLink = Link;
 window.tiptapPlaceholder = Placeholder;
 window.tiptapCodeBlockLowlight = CodeBlockLowlight;
+window.tiptapUnderline = Underline;
 
 window.lowlight = lowlight;

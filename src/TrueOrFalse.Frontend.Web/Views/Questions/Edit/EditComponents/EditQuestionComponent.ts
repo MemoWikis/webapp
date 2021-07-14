@@ -1,53 +1,9 @@
 ﻿declare var eventBus: any;
 if (eventBus == null)
     var eventBus = new Vue();
-declare var tiptapEditor: any;
-declare var tiptapEditorContent: any;
-declare var tiptapStarterKit: any;
-declare var tiptapLink: any;
-declare var tiptapPlaceholder: any;
-var {
-    apache,
-    //cLike,
-    xml,
-    bash,
-    //c,
-    coffeescript,
-    csharp,
-    css,
-    markdown,
-    diff,
-    ruby,
-    go,
-    http,
-    ini,
-    java,
-    javascript,
-    json,
-    kotlin,
-    less,
-    lua,
-    makefile,
-    perl,
-    nginx,
-    objectivec,
-    php,
-    phpTemplate,
-    plaintext,
-    properties,
-    python,
-    pythonREPL,
-    rust,
-    scss,
-    shell,
-    sql,
-    swift,
-    yaml,
-    typescript,
-} = hljsBuild;
 
-Vue.component('editor-menu-bar', tiptap.EditorMenuBar);
-Vue.component('editor-content', tiptap.EditorContent);
+Vue.component('editor-content', tiptapEditorContent);
+
 var editQuestionComponent = Vue.component('edit-question-component',
     {
         data() {
@@ -68,69 +24,27 @@ var editQuestionComponent = Vue.component('edit-question-component',
                 edit: false,
                 empty: 'empty',
                 licenseIsValid: false,
-                questionEditor: new tiptap.Editor({
-                    editable: true,
+                questionEditor: new tiptapEditor({
                     extensions: [
-                        new tiptapExtensions.Blockquote(),
-                        new tiptapExtensions.BulletList(),
-                        new tiptapExtensions.CodeBlock(),
-                        new tiptapExtensions.HardBreak(),
-                        new tiptapExtensions.ListItem(),
-                        new tiptapExtensions.OrderedList(),
-                        new tiptapExtensions.TodoItem(),
-                        new tiptapExtensions.TodoList(),
-                        new tiptapExtensions.Link(),
-                        new tiptapExtensions.Bold(),
-                        new tiptapExtensions.Code(),
-                        new tiptapExtensions.Italic(),
-                        new tiptapExtensions.Strike(),
-                        new tiptapExtensions.Underline(),
-                        new tiptapExtensions.History(),
-                        //new tiptapExtensions.CodeBlockHighlight({
-                        //    languages: {
-                        //        apache,
-                        //        //cLike,
-                        //        xml,
-                        //        bash,
-                        //        //c,
-                        //        coffeescript,
-                        //        csharp,
-                        //        css,
-                        //        markdown,
-                        //        diff,
-                        //        ruby,
-                        //        go,
-                        //        http,
-                        //        ini,
-                        //        java,
-                        //        javascript,
-                        //        json,
-                        //        kotlin,
-                        //        less,
-                        //        lua,
-                        //        makefile,
-                        //        perl,
-                        //        nginx,
-                        //        objectivec,
-                        //        php,
-                        //        phpTemplate,
-                        //        plaintext,
-                        //        properties,
-                        //        python,
-                        //        pythonREPL,
-                        //        rust,
-                        //        scss,
-                        //        shell,
-                        //        sql,
-                        //        swift,
-                        //        yaml,
-                        //        typescript,
-                        //    },
-                        //}),
+                        tiptapStarterKit.configure({
+                            heading: {
+                                levels: [2, 3]
+                            }
+                        }),
+                        tiptapLink.configure({
+                            HTMLAttributes: {
+                                target: '_self',
+                                rel: 'noopener noreferrer nofollow'
+                            }
+                        }),
+                        tiptapCodeBlockLowlight.configure({
+                            lowlight,
+                        }),
+                        tiptapUnderline,
                         tiptapPlaceholder.configure({
                             emptyEditorClass: 'is-editor-empty',
                             emptyNodeClass: 'is-empty',
-                            emptyNodeText: 'Gib den Fragetext ein',
+                            placeholder: 'Gib den Fragetext ein',
                             showOnlyCurrent: true,
                         })
                     ],
@@ -141,82 +55,40 @@ var editQuestionComponent = Vue.component('edit-question-component',
                             id: 'QuestionInputField',
                         }
                     },
-                    onUpdate: ({ getJSON, getHTML }) => {
-                        this.questionJson = getJSON();
-                        this.questionHtml = getHTML();
+                    onUpdate: ({ editor }) => {
+                        this.questionJson = editor.getJSON();
+                        this.questionHtml = editor.getHTML();
                     },
                 }),
                 question: null,
                 questionJson: null,
                 questionHtml: null,
-                descriptionEditor: new tiptap.Editor({
-                    editable: true,
+                descriptionEditor: new tiptapEditor({
                     extensions: [
-                        new tiptapExtensions.Blockquote(),
-                        new tiptapExtensions.BulletList(),
-                        new tiptapExtensions.CodeBlock(),
-                        new tiptapExtensions.HardBreak(),
-                        new tiptapExtensions.ListItem(),
-                        new tiptapExtensions.OrderedList(),
-                        new tiptapExtensions.TodoItem(),
-                        new tiptapExtensions.TodoList(),
-                        new tiptapExtensions.Link(),
-                        new tiptapExtensions.Bold(),
-                        new tiptapExtensions.Code(),
-                        new tiptapExtensions.Italic(),
-                        new tiptapExtensions.Strike(),
-                        new tiptapExtensions.Underline(),
-                        new tiptapExtensions.History(),
-                        new tiptapExtensions.CodeBlockHighlight({
-                            languages: {
-                                apache,
-                                //cLike,
-                                xml,
-                                bash,
-                                //c,
-                                coffeescript,
-                                csharp,
-                                css,
-                                markdown,
-                                diff,
-                                ruby,
-                                go,
-                                http,
-                                ini,
-                                java,
-                                javascript,
-                                json,
-                                kotlin,
-                                less,
-                                lua,
-                                makefile,
-                                perl,
-                                nginx,
-                                objectivec,
-                                php,
-                                phpTemplate,
-                                plaintext,
-                                properties,
-                                python,
-                                pythonREPL,
-                                rust,
-                                scss,
-                                shell,
-                                sql,
-                                swift,
-                                yaml,
-                                typescript,
-                            },
+                        tiptapStarterKit.configure({
+                            heading: {
+                                levels: [2, 3]
+                            }
                         }),
-                        new tiptapExtensions.Placeholder({
+                        tiptapLink.configure({
+                            HTMLAttributes: {
+                                target: '_self',
+                                rel: 'noopener noreferrer nofollow'
+                            }
+                        }),
+                        tiptapCodeBlockLowlight.configure({
+                            lowlight,
+                        }),
+                        tiptapUnderline,
+                        tiptapPlaceholder.configure({
                             emptyEditorClass: 'is-editor-empty',
                             emptyNodeClass: 'is-empty',
-                            emptyNodeText: 'Erklärungen, Zusatzinfos, Merkhilfen, Abbildungen, weiterführende Literatur und Links etc.',
+                            placeholder: 'Erklärungen, Zusatzinfos, Merkhilfen, Abbildungen, weiterführende Literatur und Links etc.',
                             showOnlyCurrent: true,
                         })
                     ],
-                    onUpdate: ({ getJSON, getHTML }) => {
-                        this.descriptionHtml = getHTML();
+                    onUpdate: ({ editor }) => {
+                        this.descriptionHtml = editor.getHTML();
                     },
                 }),
                 descriptionHtml: null,

@@ -3,7 +3,7 @@
     <text-component content="<%: HttpUtility.HtmlDecode(Model.Content)%>" inline-template>
         <div class="inline-text-editor" @click="contentIsChanged = true">
             <template v-if="editor">
-                <editor-menu-bar-component :editor="editor"/>
+                <editor-menu-bar-component :editor="editor" :heading="true"/>
             </template>
             <template v-if="editor">
                 <editor-content :editor="editor">
