@@ -43,7 +43,8 @@ var textComponent = Vue.component('text-component',
                     tiptapCodeBlockLowlight.configure({
                         lowlight,
                     }),
-                    tiptapUnderline
+                    tiptapUnderline,
+                    tiptapImage
                 ],
                 editorProps: {
                     handleKeyDown: (e, k) => {

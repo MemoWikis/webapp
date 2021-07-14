@@ -27,7 +27,8 @@ Vue.component('add-question-component', {
                         emptyNodeClass: 'is-empty',
                         placeholder: 'Gib den Fragetext ein',
                         showOnlyCurrent: true,
-                    })
+                    }),
+                    tiptapImage
                 ],
                 onUpdate: ({ editor }) => {
                     this.questionJson = editor.getJSON();
@@ -100,7 +101,7 @@ Vue.component('add-question-component', {
                     eventBus.$emit('add-question-to-list', data.Data);
                     eventBus.$emit("change-active-question", lastIndex);
                     self.highlightEmptyFields = false;
-                    self.questionEditor.setContent('');
+                    self.questionEditor.commands.setContent('');
                     eventBus.$emit('clear-flashcard');
                 },
             });

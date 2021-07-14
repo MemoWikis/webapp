@@ -93,7 +93,7 @@ public class QuestionListController : BaseController
         var json = Json(new
         {
             answer = solution.GetCorrectAnswerAsHtml(),
-            extendedAnswer = question.Description != null ? MarkdownMarkdig.ToHtml(question.Description) : "",
+            extendedAnswer = question.DescriptionHtml != null ? question.DescriptionHtml : "",
             categories = question.Categories.Select(c => new
             {
                 name = c.Name,
@@ -110,7 +110,7 @@ public class QuestionListController : BaseController
             authorId = author.Id,
             authorImage = authorImage.Url,
             authorUrl = Links.UserDetail(author),
-            extendedQuestion = question.TextExtended != null ? MarkdownMarkdig.ToHtml(question.TextExtended) : "",
+            extendedQuestion = question.TextExtendedHtml != null ? question.TextExtendedHtml : "",
             commentCount = Resolve<CommentRepository>().GetForDisplay(question.Id)
                 .Where(c => !c.IsSettled)
                 .Select(c => new CommentModel(c))

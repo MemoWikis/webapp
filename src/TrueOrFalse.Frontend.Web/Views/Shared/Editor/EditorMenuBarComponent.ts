@@ -5,6 +5,7 @@ declare var tiptapLink: any;
 declare var tiptapCodeBlockLowlight: any;
 declare var tiptapPlaceholder: any;
 declare var tiptapUnderline: any;
+declare var tiptapImage: any;
 declare var lowlight: any;
 
 Vue.component('editor-menu-bar-component',
@@ -17,14 +18,13 @@ Vue.component('editor-menu-bar-component',
                 timer: null
             }
         },
-        mounted() {
+        created() {
             this.editor.on('focus', () => {
                 this.focused = true;
                 clearTimeout(this.timer);
             });
             this.editor.on('blur', () => {
                 var self = this;
-                console.log('blur');
                 this.timer = setTimeout(() => self.focused = false, 200);
             });
         },

@@ -24,73 +24,15 @@ var editQuestionComponent = Vue.component('edit-question-component',
                 edit: false,
                 empty: 'empty',
                 licenseIsValid: false,
-                questionEditor: new tiptapEditor({
-                    extensions: [
-                        tiptapStarterKit.configure({
-                            heading: {
-                                levels: [2, 3]
-                            }
-                        }),
-                        tiptapLink.configure({
-                            HTMLAttributes: {
-                                target: '_self',
-                                rel: 'noopener noreferrer nofollow'
-                            }
-                        }),
-                        tiptapCodeBlockLowlight.configure({
-                            lowlight,
-                        }),
-                        tiptapUnderline,
-                        tiptapPlaceholder.configure({
-                            emptyEditorClass: 'is-editor-empty',
-                            emptyNodeClass: 'is-empty',
-                            placeholder: 'Gib den Fragetext ein',
-                            showOnlyCurrent: true,
-                        })
-                    ],
-                    editorProps: {
-                        handleClick: (view, pos, event) => {
-                        },
-                        attributes: {
-                            id: 'QuestionInputField',
-                        }
-                    },
-                    onUpdate: ({ editor }) => {
-                        this.questionJson = editor.getJSON();
-                        this.questionHtml = editor.getHTML();
-                    },
-                }),
+                questionExtensionEditor: null,
+                questionExtension: null,
+                questionExtensionJson: null,
+                questionExtensionHtml: null,
+                questionEditor: null,
                 question: null,
                 questionJson: null,
                 questionHtml: null,
-                descriptionEditor: new tiptapEditor({
-                    extensions: [
-                        tiptapStarterKit.configure({
-                            heading: {
-                                levels: [2, 3]
-                            }
-                        }),
-                        tiptapLink.configure({
-                            HTMLAttributes: {
-                                target: '_self',
-                                rel: 'noopener noreferrer nofollow'
-                            }
-                        }),
-                        tiptapCodeBlockLowlight.configure({
-                            lowlight,
-                        }),
-                        tiptapUnderline,
-                        tiptapPlaceholder.configure({
-                            emptyEditorClass: 'is-editor-empty',
-                            emptyNodeClass: 'is-empty',
-                            placeholder: 'Erklärungen, Zusatzinfos, Merkhilfen, Abbildungen, weiterführende Literatur und Links etc.',
-                            showOnlyCurrent: true,
-                        })
-                    ],
-                    onUpdate: ({ editor }) => {
-                        this.descriptionHtml = editor.getHTML();
-                    },
-                }),
+                descriptionEditor: null,
                 descriptionHtml: null,
                 visibility: 1,
                 categoryIds: [],
@@ -110,6 +52,7 @@ var editQuestionComponent = Vue.component('edit-question-component',
                 solutionIsValid: false,
                 showMore: false,
                 disabled: true,
+                modalIsVisible: false,
             }
         },
         mounted() {
@@ -125,6 +68,8 @@ var editQuestionComponent = Vue.component('edit-question-component',
                 });
             $('#EditQuestionModal').on('show.bs.modal',
                 event => {
+                    this.modalIsVisible = true;
+                    this.loadEditors();
                     this.isLearningSession = $('#hddIsLearningSession').length > 0;
                     this.highlightEmptyFields = false;
                     if (this.visibility == 1)
@@ -159,8 +104,8 @@ var editQuestionComponent = Vue.component('edit-question-component',
                 });
 
             $('#EditQuestionModal').on('hidden.bs.modal', () => {
-                this.questionEditor.destroy();
-                this.descriptionEditor.destroy();
+                this.modalIsVisible = false;
+                this.destroyEditors();
                 Object.assign(this.$data, this.$options.data.apply(this));
             });
         },
@@ -192,6 +137,110 @@ var editQuestionComponent = Vue.component('edit-question-component',
             },
         },
         methods: {
+            loadEditors() {
+                this.questionEditor = new tiptapEditor({
+                        extensions: [
+                            tiptapStarterKit,
+                            tiptapLink.configure({
+                                HTMLAttributes: {
+                                    target: '_self',
+                                    rel: 'noopener noreferrer nofollow'
+                                }
+                            }),
+                            tiptapCodeBlockLowlight.configure({
+                                lowlight,
+                            }),
+                            tiptapUnderline,
+                            tiptapPlaceholder.configure({
+                                emptyEditorClass: 'is-editor-empty',
+                                emptyNodeClass: 'is-empty',
+                                placeholder: 'Ergänzungen zur Frage zB. Bilder, Code usw.',
+                                showOnlyCurrent: true,
+                            }),
+                            tiptapImage
+                        ],
+                        editorProps: {
+                            handleClick: (view, pos, event) => {
+                            },
+                            attributes: {
+                                id: 'QuestionInputField',
+                            }
+                        },
+                        onUpdate: ({ editor }) => {
+                            this.questionExtensionJson = editor.getJSON();
+                            this.questionExtensionHtml = editor.getHTML();
+                        },
+                }),
+
+                this.questionExtensionEditor = new tiptapEditor({
+                    extensions: [
+                        tiptapStarterKit,
+                        tiptapLink.configure({
+                            HTMLAttributes: {
+                                target: '_self',
+                                rel: 'noopener noreferrer nofollow'
+                            }
+                        }),
+                        tiptapCodeBlockLowlight.configure({
+                            lowlight,
+                        }),
+                        tiptapUnderline,
+                        tiptapPlaceholder.configure({
+                            emptyEditorClass: 'is-editor-empty',
+                            emptyNodeClass: 'is-empty',
+                            placeholder: 'Gib den Fragetext ein',
+                            showOnlyCurrent: true,
+                        }),
+                        tiptapImage
+                    ],
+                    editorProps: {
+                        handleClick: (view, pos, event) => {
+                        },
+                        attributes: {
+                            id: 'QuestionExtensionInputField',
+                        }
+                    },
+                    onUpdate: ({ editor }) => {
+                        this.questionJson = editor.getJSON();
+                        this.questionHtml = editor.getHTML();
+                    },
+                });
+
+                this.descriptionEditor = new tiptapEditor({
+                    extensions: [
+                        tiptapStarterKit,
+                        tiptapLink.configure({
+                            HTMLAttributes: {
+                                target: '_self',
+                                rel: 'noopener noreferrer nofollow'
+                            }
+                        }),
+                        tiptapCodeBlockLowlight.configure({
+                            lowlight,
+                        }),
+                        tiptapUnderline,
+                        tiptapPlaceholder.configure({
+                            emptyEditorClass: 'is-editor-empty',
+                            emptyNodeClass: 'is-empty',
+                            placeholder:
+                                'Erklärungen, Zusatzinfos, Merkhilfen, Abbildungen, weiterführende Literatur und Links etc.',
+                            showOnlyCurrent: true,
+                        }),
+                        tiptapImage
+                    ],
+                    onUpdate: ({ editor }) => {
+                        this.descriptionHtml = editor.getHTML();
+                    },
+                });
+            },
+            destroyEditors() {
+                this.questionEditor.destroy();
+                this.questionEditor = null;
+                this.questionExtensionEditor.destroy();
+                this.questionExtensionEditor = null;
+                this.descriptionEditor.destroy();
+                this.descriptionEditor = null;
+            },
             getQuestionData(id) {
                 var json = { questionId: id };
                 var self = this;
@@ -204,9 +253,12 @@ var editQuestionComponent = Vue.component('edit-question-component',
                         self.solutionType = data.SolutionType;
                         self.initiateSolution(data.Solution);
                         self.questionHtml = data.Text;
-                        self.questionEditor.setContent(data.Text);
+                        self.questionEditor.commands.setContent(data.Text);
+                        self.questionExtensionHtml = data.TextExtended;
+                        self.questionExtensionEditor.commands.setContent(data.TextExtended);
                         self.categoryIds = data.CategoryIds;
                         self.descriptionHtml = data.DescriptionHtml;
+                        self.descriptionEditor.commands.setContent(data.DescriptionHtml);
                         self.selectedCategories = data.Categories;
                         self.licenseId = data.LicenseId;
                         self.solutionMetadataJson = data.SolutionMetadataJson;
@@ -382,6 +434,8 @@ var editQuestionComponent = Vue.component('edit-question-component',
                 }
             },
             formValidator() {
+                if (!this.modalIsVisible)
+                    return;
                 var questionIsValid = this.questionEditor.state.doc.textContent.length > 0;
                 var solutionIsValid = this.solutionIsValid;
                 this.licenseIsValid = this.licenseConfirmation || this.visibility == 1;
