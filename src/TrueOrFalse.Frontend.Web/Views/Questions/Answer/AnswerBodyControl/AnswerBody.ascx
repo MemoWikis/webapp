@@ -45,7 +45,7 @@
                         <i class="fa fa-ellipsis-v"></i>
                     </a>
                     <ul class="dropdown-menu dropdown-menu-right standard-question-drop-down">
-                        <% if (Model.IsCreator || Model.IsInstallationAdmin){ %>
+                        <% if (Model.IsInLearningTab && (Model.IsCreator || Model.IsInstallationAdmin)){ %>
                             <li>
                                 <a data-allowed="logged-in" onclick="eventBus.$emit('open-edit-question-modal', {
                                         questionId: <%= Model.QuestionId %>,
