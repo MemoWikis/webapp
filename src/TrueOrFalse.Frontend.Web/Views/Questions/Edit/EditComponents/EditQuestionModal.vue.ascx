@@ -48,7 +48,6 @@
                                     <editor-content :editor="questionEditor" :class="{ 'is-empty': highlightEmptyFields && questionEditor.state.doc.textContent.length <= 0 }"/>
                                 </template>
                             </div>
-
                         </div>
 
                         <div class="input-container">
@@ -58,12 +57,9 @@
                                     <editor-menu-bar-component :editor="questionExtensionEditor"/>
                                 </template>
                                 <template>
-                                    <editor-content :editor="questionExtensionEditor" :class="{ 'is-empty': highlightEmptyFields && questionEditor.state.doc.textContent.length <= 0 }"/>
+                                    <editor-content :editor="questionExtensionEditor"/>
                                 </template>
-
-
                             </div>
-
                         </div>
 
 
