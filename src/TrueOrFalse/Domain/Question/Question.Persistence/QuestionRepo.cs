@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using NHibernate;
 using NHibernate.Criterion;
+using SolrNet.Mapping.Validation.Rules;
+using TrueOrFalse.Infrastructure;
 using TrueOrFalse.Search;
 
 public class QuestionRepo : RepositoryDbBase<Question>
@@ -89,8 +91,9 @@ public class QuestionRepo : RepositoryDbBase<Question>
         }
     }
 
-    public void UpdateBeforeEntityCacheInit(Question question)
+    public void UpdateBeforeEntityCacheInit(Question question, bool withSolr = true)
     {
+        if(withSolr)
         _searchIndexQuestion.Update(question);
         base.Update(question);
 

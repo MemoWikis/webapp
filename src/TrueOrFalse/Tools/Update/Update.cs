@@ -150,12 +150,12 @@
                 .Add(UpdateToVs217.Run)
                 .Add(UpdateToVs218.Run)
                 .Add(UpdateToVs219.Run)
+                .Add(UpdateToVs220.Run)
                 .Add(UpdateToVs221.Run)
                 .Add(UpdateToVs222.Run)
                 .Add(UpdateToVs223.Run)
                 .Add(UpdateToVs224.Run)
                 .Add(UpdateToVs225.Run)
-                .Add(UpdateToVs226.Run)
                 .Run();
         }
     }
