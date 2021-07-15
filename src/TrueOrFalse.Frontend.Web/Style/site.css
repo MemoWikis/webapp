@@ -1846,6 +1846,9 @@ strong {
 #EditQuestionModal .is-empty .ProseMirror {
   border: solid 1px #FFA07A;
 }
+#EditQuestionModal .btn.is-empty {
+  border: solid 1px #FFA07A;
+}
 #EditQuestionModal .input-group-addon {
   border: none;
   border-radius: 0;
@@ -2234,4 +2237,17 @@ input::placeholder {
 .alert {
   border: none;
   border-radius: 0;
+}
+.field-error {
+  color: #FFA07A;
+  width: 100%;
+  white-space: nowrap;
+  font-size: 12px;
+}
+.field-error-container {
+  position: relative;
+}
+.field-error-container .field-error {
+  position: absolute;
+  top: 17px;
 }

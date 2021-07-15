@@ -1909,6 +1909,12 @@ b, strong {
         }
     }
 
+    .btn {
+        &.is-empty {
+            border: solid 1px @memo-salmon;
+        }
+    }
+
     .input-group-addon {
         border: none;
         border-radius: 0;
@@ -2279,4 +2285,18 @@ textarea, input {
 .alert {
     border: none;
     border-radius: 0;
+}
+.field-error {
+    color: @memo-salmon;
+    width: 100%;
+    white-space: nowrap;
+    font-size: 12px;
+}
+.field-error-container {
+    position: relative;
+
+    .field-error {
+        position: absolute;
+        top: 17px;
+    }
 }
