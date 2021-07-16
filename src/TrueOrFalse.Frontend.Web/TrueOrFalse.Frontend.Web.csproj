@@ -2057,6 +2057,29 @@
     <Content Include="compilerconfig.json.bindings">
       <DependentUpon>compilerconfig.json</DependentUpon>
     </Content>
+    <Content Include="Scripts\npm\tiptap-build\137.js" />
+    <Content Include="Scripts\npm\tiptap-build\385.js" />
+    <Content Include="Scripts\npm\tiptap-build\756.js" />
+    <Content Include="Scripts\npm\tiptap-build\798.js" />
+    <Content Include="Scripts\npm\tiptap-build\912.js" />
+    <Content Include="Scripts\npm\tiptap-build\lowlight.js" />
+    <Content Include="Scripts\npm\tiptap-build\runtime.js" />
+    <Content Include="Scripts\npm\tiptap-build\tiptapCodeblocklowlight.js" />
+    <Content Include="Scripts\npm\tiptap-build\tiptapImage.js" />
+    <Content Include="Scripts\npm\tiptap-build\tiptapLink.js" />
+    <Content Include="Scripts\npm\tiptap-build\tiptapPlaceholder.js" />
+    <Content Include="Scripts\npm\tiptap-build\tiptapStarterkit.js" />
+    <Content Include="Scripts\npm\tiptap-build\tiptapUnderline.js" />
+    <Content Include="Scripts\npm\tiptap-build\tiptapVue2.js" />
+    <Content Include="Scripts\npm_builder\tiptap-build\lowlight.js" />
+    <Content Include="Scripts\npm_builder\tiptap-build\tiptap-codeblocklowlight.js" />
+    <Content Include="Scripts\npm_builder\tiptap-build\tiptap-image.js" />
+    <Content Include="Scripts\npm_builder\tiptap-build\tiptap-link.js" />
+    <Content Include="Scripts\npm_builder\tiptap-build\tiptap-placeholder.js" />
+    <Content Include="Scripts\npm_builder\tiptap-build\tiptap-starterkit.js" />
+    <Content Include="Scripts\npm_builder\tiptap-build\tiptap-underline.js" />
+    <Content Include="Scripts\npm_builder\tiptap-build\tiptap-vue2.js" />
+    <Content Include="webpack.config.js" />
     <None Include="job_scheduling_data_2_0.xsd">
       <SubType>Designer</SubType>
     </None>
@@ -2070,7 +2093,6 @@
     <Content Include="Scripts\npm\d3\d3.js" />
     <Content Include="Scripts\npm\postscribe\postscribe.js" />
     <Content Include="Scripts\npm\sortablejs\Sortable.js" />
-    <Content Include="Scripts\npm\tiptap-build\tiptap-build.js" />
     <Content Include="Scripts\npm\tiptap-extensions\extensions.js" />
     <Content Include="Scripts\npm\vue-material-design-ripple-build\vue-material-design-ripple-build.js" />
     <Content Include="Scripts\npm\vue-select\vue-select.js" />
@@ -2079,7 +2101,6 @@
     <Content Include="Scripts\npm\vue-sticky-directive\vue-sticky-directive.js" />
     <Content Include="Scripts\npm\vue-textarea-autosize\vue-textarea-autosize.umd.js" />
     <Content Include="Scripts\npm\vue\vue.js" />
-    <Content Include="Scripts\npm_builder\tiptap-build\tiptap-build.js" />
     <Content Include="Scripts\npm_builder\vue-material-design-ripple-build\index.js" />
     <Content Include="Scripts\SidebarCards.js">
       <DependentUpon>SidebarCards.ts</DependentUpon>

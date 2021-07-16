@@ -98,7 +98,11 @@ namespace TrueOrFalse.View
                 .Include("~/Scripts/npm/sortablejs/Sortable.js")
                 .Include("~/Scripts/npm/vue-sortable/vue-sortable.js"));
 
-            bundles.Add(new ScriptBundle("~/bundles/js/tiptap")
+
+            bundles.Add(new Bundle("~/bundles/js/tiptap")
+                .IncludeDirectory("~/Scripts/npm/tiptap-build/", "*.js"));
+
+            bundles.Add(new ScriptBundle("~/bundles/js/Editor")
                 .Include("~/Views/Shared/Editor/EditorMenuBarComponent.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/js/EditQuestion")

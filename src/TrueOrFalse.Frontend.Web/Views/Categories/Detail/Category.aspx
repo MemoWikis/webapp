@@ -16,13 +16,13 @@
 
 <asp:Content ID="head" ContentPlaceHolderID="Head" runat="server">
     <link href="/Views/Questions/Answer/LearningSession/LearningSessionResult.css" rel="stylesheet" />
-    <%= Scripts.Render("~/Scripts/npm/tiptap-build/tiptap-build.js") %>
     <%= Styles.Render("~/bundles/AnswerQuestion") %>
     <%= Styles.Render("~/bundles/Category") %>
     <%= Scripts.Render("~/bundles/js/DeleteQuestion") %>
     <%= Scripts.Render("~/bundles/js/AnswerQuestion") %> 
     <%= Scripts.Render("~/bundles/js/CategorySort") %>
     <%= Scripts.Render("~/bundles/js/tiptap") %>
+    <%= Scripts.Render("~/bundles/js/Editor") %>
 
     <script type="text/x-template" id="pin-category-template">
         <%: Html.Partial("~/Views/Shared/PinComponentVue/PinCategoryComponent.vue.ascx") %>
