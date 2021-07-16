@@ -2057,6 +2057,11 @@
     <Content Include="compilerconfig.json.bindings">
       <DependentUpon>compilerconfig.json</DependentUpon>
     </Content>
+    <Content Include="Scripts\npm\tiptap-build\137.js" />
+    <Content Include="Scripts\npm\tiptap-build\385.js" />
+    <Content Include="Scripts\npm\tiptap-build\756.js" />
+    <Content Include="Scripts\npm\tiptap-build\798.js" />
+    <Content Include="Scripts\npm\tiptap-build\912.js" />
     <Content Include="Scripts\npm\tiptap-build\lowlight.js" />
     <Content Include="Scripts\npm\tiptap-build\runtime.js" />
     <Content Include="Scripts\npm\tiptap-build\tiptapCodeblocklowlight.js" />
