@@ -12,13 +12,11 @@
 <script setup>
 import { validFeeds } from "@/common/api";
 import Dashboard from "./components/Dashboard.vue";
-//import AppHeader from "./components/AppHeader.vue";
 export const feeds = validFeeds;
 export default {
   name: "App",
   components: {
     Dashboard,
-    //AppHeader
   },
 };
 </script>
