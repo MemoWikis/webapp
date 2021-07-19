@@ -2995,12 +2995,6 @@
     <Content Include="Views\Welcome\Js\Page.js.map">
       <DependentUpon>Page.ts</DependentUpon>
     </Content>
-    <Content Include="Views\Welcome\Js\TourInit.js">
-      <DependentUpon>TourInit.ts</DependentUpon>
-    </Content>
-    <Content Include="Views\Welcome\Js\TourInit.js.map">
-      <DependentUpon>TourInit.ts</DependentUpon>
-    </Content>
     <Content Include="Views\Welcome\Js\Validation.js">
       <DependentUpon>Validation.ts</DependentUpon>
     </Content>
@@ -3715,7 +3709,6 @@
     <TypeScriptCompile Include="Views\Users\Detail\Js\Page.ts" />
     <TypeScriptCompile Include="Views\Welcome\Js\Page.ts" />
     <TypeScriptCompile Include="Views\Welcome\Js\SendRequestNewsletter.ts" />
-    <TypeScriptCompile Include="Views\Welcome\Js\TourInit.ts" />
     <TypeScriptCompile Include="Views\Welcome\Login\Login.ts" />
     <TypeScriptCompile Include="Views\Welcome\Registration\Js\FacebookRegistration.ts" />
     <TypeScriptCompile Include="Views\Welcome\Js\Validation.ts" />

@@ -86,7 +86,7 @@ Vue.component('add-question-component', {
             $.ajax({
                 type: 'post',
                 contentType: "application/json",
-                url: '/QuestionList/CreateFlashcard',
+                url: '/Question/CreateFlashcard',
                 data: JSON.stringify(json),
                 success: function (data) {
                     var answerBody = new AnswerBody();

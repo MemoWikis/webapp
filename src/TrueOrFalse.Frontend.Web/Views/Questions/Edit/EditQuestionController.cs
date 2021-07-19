@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Security;
 using System.Web;
 using System.Web.Mvc;
@@ -168,14 +169,9 @@ public class EditQuestionController : BaseController
             QuestionInKnowledge.Pin(Convert.ToInt32(question.Id), _sessionUser.User);
 
         if (questionDataJson.SessionIndex > 0)
-        {
-            var questionListController = new QuestionListController();
-            questionListController.InsertNewQuestionToLearningSession(question, questionDataJson.SessionIndex);
-        }
+            InsertNewQuestionToLearningSession(question, questionDataJson.SessionIndex);
 
-        var questionsController = new QuestionsController(_questionRepo);
-
-        return Json(questionsController.LoadQuestion(question.Id));
+        return LoadQuestion(question.Id);
     }
 
     [HttpPost]
@@ -188,15 +184,123 @@ public class EditQuestionController : BaseController
         Sl.QuestionChangeRepo.AddUpdateEntry(question);
         EntityCache.AddOrUpdate(question);
 
-        var questionsController = new QuestionsController(_questionRepo);
-
         if (questionDataJson.SessionIndex > 0)
+            InsertNewQuestionToLearningSession(question, questionDataJson.SessionIndex);
+        
+
+        return LoadQuestion(question.Id);
+    }
+
+    [AccessOnlyAsLoggedIn]
+    [HttpPost]
+    public JsonResult CreateFlashcard(FlashCardLoader flashCardJson)
+    {
+        var serializer = new JavaScriptSerializer();
+        var question = new Question();
+        var questionRepo = Sl.QuestionRepo;
+
+        question.Text = flashCardJson.Text;
+        question.SolutionType = (SolutionType)Enum.Parse(typeof(SolutionType), "9");
+
+        var solutionModelFlashCard = new QuestionSolutionFlashCard();
+        solutionModelFlashCard.Text = flashCardJson.Answer;
+        question.Solution = serializer.Serialize(solutionModelFlashCard);
+
+        question.Creator = _sessionUser.User;
+        question.Categories.Add(Sl.CategoryRepo.GetById(flashCardJson.CategoryId));
+        var visibility = (QuestionVisibility)flashCardJson.Visibility;
+        question.Visibility = visibility;
+        question.License = LicenseQuestionRepo.GetDefaultLicense();
+
+        questionRepo.Create(question);
+
+        Sl.QuestionChangeRepo.AddUpdateEntry(question);
+
+        if (flashCardJson.AddToWishknowledge)
+            QuestionInKnowledge.Pin(Convert.ToInt32(question.Id), _sessionUser.User);
+
+        InsertNewQuestionToLearningSession(question, flashCardJson.LastIndex);
+
+        var json = LoadQuestion(question.Id);
+
+        return json;
+    }
+
+
+    private void InsertNewQuestionToLearningSession(Question question, int sessionIndex)
+    {
+        var learningSession = LearningSessionCache.GetLearningSession();
+        var step = new LearningSessionStep(question);
+        learningSession.Steps.Insert(sessionIndex, step);
+    }
+    public class FlashCardLoader
+    {
+        public int CategoryId { get; set; }
+        public string Text { get; set; }
+        public string Answer { get; set; }
+        public int Visibility { get; set; }
+        public bool AddToWishknowledge { get; set; }
+        public int LastIndex { get; set; }
+    }
+    private JsonResult LoadQuestion(int questionId)
+    {
+        var user = Sl.R<SessionUser>().User;
+        var userQuestionValuation = UserCache.GetItem(user.Id).QuestionValuations;
+        var q = EntityCache.GetQuestionById(questionId);
+        var question = new QuestionListJson.Question();
+        question.Id = q.Id;
+        question.Title = q.Text;
+        question.LinkToQuestion = Links.GetUrl(q);
+        question.ImageData = new ImageFrontendData(Sl.ImageMetaDataRepo.GetBy(q.Id, ImageType.Question)).GetImageUrl(40, true).Url;
+        question.LinkToQuestion = Links.GetUrl(q);
+        question.LinkToEditQuestion = Links.EditQuestion(q.Text, q.Id);
+        question.LinkToQuestionVersions = Links.QuestionHistory(q.Id);
+        question.LinkToComment = Links.GetUrl(q) + "#JumpLabel";
+        question.CorrectnessProbability = q.CorrectnessProbability;
+        question.Visibility = q.Visibility;
+
+        var learningSession = LearningSessionCache.GetLearningSession();
+        if (learningSession != null)
         {
-            var questionListController = new QuestionListController();
-            questionListController.InsertNewQuestionToLearningSession(question, questionDataJson.SessionIndex);
+            var steps = learningSession.Steps;
+            var index = steps.IndexOf(s => s.Question.Id == q.Id);
+            question.SessionIndex = index;
         }
 
-        return Json(questionsController.LoadQuestion(question.Id));
+        if (userQuestionValuation.ContainsKey(q.Id) && user != null)
+        {
+            question.CorrectnessProbability = userQuestionValuation[q.Id].CorrectnessProbability;
+            question.IsInWishknowledge = userQuestionValuation[q.Id].IsInWishKnowledge;
+            question.HasPersonalAnswer = userQuestionValuation[q.Id].CorrectnessProbabilityAnswerCount > 0;
+        }
+
+        return Json(question);
+    }
+
+    [HttpPost]
+    public JsonResult GetQuestionData(int questionId)
+    {
+        var question = EntityCache.GetQuestionById(questionId);
+        var categoryController = new CategoryController();
+        var solution = question.SolutionType == SolutionType.FlashCard ? GetQuestionSolution.Run(question).GetCorrectAnswerAsHtml() : question.Solution;
+        var json = new JsonResult
+        {
+            Data = new
+            {
+                SolutionType = (int)question.SolutionType,
+                Solution = solution,
+                SolutionMetadataJson = question.SolutionMetadataJson,
+                Text = question.TextHtml,
+                TextExtended = question.TextExtendedHtml,
+                CategoryIds = question.Categories.Select(c => c.Id).ToList(),
+                DescriptionHtml = question.DescriptionHtml,
+                Categories = question.Categories.Select(c => categoryController.FillMiniCategoryItem(c)),
+                LicenseId = question.LicenseId,
+                Visibility = question.Visibility
+            }
+        };
+
+        return json;
     }
 
     private Question UpdateQuestion(Question question, QuestionDataJson questionDataJson)
