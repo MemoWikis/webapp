@@ -36,7 +36,7 @@
     },
 
     mounted() {
-        eventBus.$on('clear-flashcard', () => this.answerEditor.setContent(''));
+        eventBus.$on('clear-flashcard', () => this.answerEditor.commands.setContent(''));
         if (this.solution) {
             let content = this.solution;
             this.answerEditor.commands.setContent(content);
