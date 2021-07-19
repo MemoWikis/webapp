@@ -299,6 +299,10 @@ var editQuestionComponent = Vue.component('edit-question-component',
                 return solution;
             },
             save() {
+                if (NotLoggedIn.Yes()) {
+                    NotLoggedIn.ShowErrorMsg("EditQuestion");
+                    return;
+                }
                 if (this.disabled) {
                     this.highlightEmptyFields = true;
                     return;

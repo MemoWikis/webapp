@@ -156,6 +156,8 @@ public class EditQuestionController : BaseController
         return Redirect(Links.EditQuestion(question));
     }
 
+    [AccessOnlyAsLoggedIn]
+    [HttpPost]
     public JsonResult VueCreate(QuestionDataJson questionDataJson)
     {
         var question = new Question();
@@ -174,6 +176,7 @@ public class EditQuestionController : BaseController
         return LoadQuestion(question.Id);
     }
 
+    [AccessOnlyAsLoggedIn]
     [HttpPost]
     public JsonResult VueEdit(QuestionDataJson questionDataJson)
     {

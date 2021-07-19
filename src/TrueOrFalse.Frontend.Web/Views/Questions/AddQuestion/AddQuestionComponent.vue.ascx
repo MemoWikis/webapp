@@ -1,6 +1,6 @@
 ﻿<%@ Control Language="C#" Inherits="ViewUserControl<AddQuestionComponentModel>" %>
 <add-question-component inline-template current-category-id="<%: Model.CategoryId %>">
-    <div id="AddInlineQuestionContainer" v-if="isLoggedIn">
+    <div id="AddInlineQuestionContainer">
 
         <div id="AddQuestionHeader" class="">
             <div class="add-inline-question-label main-label">

@@ -69,6 +69,10 @@ Vue.component('add-question-component', {
 
     methods: {
         addFlashcard() {
+            if (NotLoggedIn.Yes()) {
+                NotLoggedIn.ShowErrorMsg("CreateFlashCard");
+                return;
+            }
             if (this.disabled) {
                 this.highlightEmptyFields = true;
                 return;
