@@ -13,6 +13,12 @@ export const validFeeds = {
 }
 
 export const api = {
+
+  async getTotalQuestions() {
+    
+},
+
+
   async getFeeds(feed, page, commit, optimistic) {
     commit(optimistic)
     const { data } = await $axios.get(`/${feed}?page=${page}`)

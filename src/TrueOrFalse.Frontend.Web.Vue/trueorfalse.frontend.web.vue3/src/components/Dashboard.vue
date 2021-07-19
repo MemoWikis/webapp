@@ -40,13 +40,6 @@ export default {
 
   methods: {
     fetchData() {
-      axios
-        .get("http://localhost:26590/EduSharingApi/Statistics")
-        .then((response) => (this.questionsTotal = response.data.overall.count))
-        .catch((error) => {
-          this.errorMessage = error.message;
-          console.error("There was an error!", error);
-        });
       // return the Promise from the action
       //return this.$store.dispatch('fetchItem', this.$route.params.id)
     },
