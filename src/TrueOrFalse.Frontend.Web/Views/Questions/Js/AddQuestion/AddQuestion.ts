@@ -81,7 +81,7 @@ Vue.component('add-question-component', {
             var lastIndex = parseInt($('#QuestionListComponent').attr("data-last-index")) + 1;
             var json = {
                 CategoryId: this.currentCategoryId,
-                Text: this.questionHtml,
+                TextHtml: this.questionHtml,
                 Answer: this.flashCardAnswer,
                 Visibility: this.visibility,
                 AddToWishknowledge: this.addToWishknowledge,

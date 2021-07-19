@@ -27,7 +27,10 @@
                     <template v-if="questionEditor">
                         <editor-menu-bar-component :editor="questionEditor"/>
                     </template>
-                    <editor-content :editor="questionEditor" :class="{ 'is-empty': highlightEmptyFields && questionEditor.state.doc.textContent.length <= 0 }"/>
+                    <template>
+                        <editor-content :editor="questionEditor" :class="{ 'is-empty': highlightEmptyFields && questionEditor.state.doc.textContent.length <= 0 }"/>
+                    </template>
+                    <div v-if="highlightEmptyFields && questionEditor.state.doc.textContent.length <= 0" class="field-error">Bitte formuliere eine Frage.</div>
                 </div>
                 <div>
                     <%: Html.Partial("~/Views/Questions/Edit/EditComponents/FlashCard/FlashCardComponent.vue.ascx") %>
@@ -42,9 +45,6 @@
                     </div>
                 </div>
                 <div>
-                    <div v-if="highlightEmptyFields">
-                        ErrorMsg Platzhalter
-                    </div>
                     <div class="btn btn-lg btn-primary memo-button" @click="addFlashcard()">Hinzufügen</div>
                 </div>
             </div>

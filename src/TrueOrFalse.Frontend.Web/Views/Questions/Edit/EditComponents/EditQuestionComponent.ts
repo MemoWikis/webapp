@@ -384,7 +384,7 @@ var editQuestionComponent = Vue.component('edit-question-component',
 
                 var jsonExtension = {
                     CategoryIds: this.categoryIds,
-                    Text: this.questionHtml,
+                    TextHtml: this.questionHtml,
                     Solution: solution,
                     SolutionType: solutionType,
                     Visibility: this.visibility,

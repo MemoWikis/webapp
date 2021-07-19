@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Security;
+using System.Text.RegularExpressions;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Script.Serialization;
@@ -205,7 +206,8 @@ public class EditQuestionController : BaseController
         var question = new Question();
         var questionRepo = Sl.QuestionRepo;
 
-        question.Text = flashCardJson.Text;
+        question.TextHtml = flashCardJson.TextHtml;
+        question.Text = Regex.Replace(flashCardJson.TextHtml, "<.*?>", "");
         question.SolutionType = (SolutionType)Enum.Parse(typeof(SolutionType), "9");
 
         var solutionModelFlashCard = new QuestionSolutionFlashCard();
@@ -244,7 +246,7 @@ public class EditQuestionController : BaseController
     public class FlashCardLoader
     {
         public int CategoryId { get; set; }
-        public string Text { get; set; }
+        public string TextHtml { get; set; }
         public string Answer { get; set; }
         public int Visibility { get; set; }
         public bool AddToWishknowledge { get; set; }
@@ -252,7 +254,8 @@ public class EditQuestionController : BaseController
     }
     private Question UpdateQuestion(Question question, QuestionDataJson questionDataJson)
     {
-        question.Text = questionDataJson.Text;
+        question.TextHtml = questionDataJson.TextHtml;
+        question.Text = Regex.Replace(questionDataJson.TextHtml, "<.*>", "");
         question.SolutionType = (SolutionType)Enum.Parse(typeof(SolutionType), questionDataJson.SolutionType);
 
         var categories = new List<Category>();
@@ -296,7 +299,7 @@ public class EditQuestionController : BaseController
     {
         public int[] CategoryIds { get; set; }
         public int QuestionId { get; set; }
-        public string Text { get; set; }
+        public string TextHtml { get; set; }
         public dynamic Solution { get; set; }
         public string SolutionMetadataJson { get; set; }
         public int Visibility { get; set; }
