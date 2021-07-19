@@ -173,7 +173,7 @@ public class EditQuestionController : BaseController
         if (questionDataJson.SessionIndex > 0)
             InsertNewQuestionToLearningSession(question, questionDataJson.SessionIndex);
 
-        var questionController = new QuestionController();
+        var questionController = new QuestionController(_questionRepo);
 
         return questionController.LoadQuestion(question.Id);
     }
@@ -192,7 +192,7 @@ public class EditQuestionController : BaseController
         if (questionDataJson.SessionIndex > 0)
             InsertNewQuestionToLearningSession(question, questionDataJson.SessionIndex);
 
-        var questionController = new QuestionController();
+        var questionController = new QuestionController(_questionRepo);
 
         return questionController.LoadQuestion(question.Id);
     }
@@ -227,7 +227,7 @@ public class EditQuestionController : BaseController
 
         InsertNewQuestionToLearningSession(question, flashCardJson.LastIndex);
 
-        var questionController = new QuestionController();
+        var questionController = new QuestionController(_questionRepo);
 
         var json = questionController.LoadQuestion(question.Id);
 

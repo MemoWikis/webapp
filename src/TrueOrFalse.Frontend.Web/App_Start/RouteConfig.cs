@@ -39,8 +39,8 @@ namespace TrueOrFalse
             routes.MapRoute("Users", "Nutzer", new { controller = "Users", action = "Users" }); //included: , page = UrlParameter.Optional 
             routes.MapRoute("Users_Network", "Netzwerk", new { controller = "Users", action = "Network"});
 
-            routes.MapRoute("Question_GetData", "Question/{id}", new { controller = "Question", action = "GetData" });
-            routes.MapRoute("Question_Delete", "Fragen/Loesche/{id}", new { controller = "Questions", action = "Delete" }, new[] { "TrueOrFalse" });
+            routes.MapRoute("Question_GetData", "Question/GetData/{id}", new { controller = "Question", action = "GetData" });
+            routes.MapRoute("Question_Delete", "Fragen/Loesche/{id}", new { controller = "Question", action = "Delete" }, new[] { "TrueOrFalse" });
             routes.MapRoute("Question_Create", "Fragen/Erstelle/", new { controller = "EditQuestion", action = "Create" });
             routes.MapRoute("Question_Create_Flashcard", "Question/CreateFlashcard/", new { controller = "EditQuestion", action = "CreateFlashcard" });
             routes.MapRoute("Question_StoreImage", "Fragen/Bearbeite/StoreImage", new { controller = "EditQuestion", action = "StoreImage" });
@@ -62,24 +62,14 @@ namespace TrueOrFalse
             /* API */ routes.MapRoute("TestSession_RegisterAnsweredQuestion", "TestSession/RegisterAnsweredQuestion/", new { controller = "TestSession", action = "RegisterQuestionAnswered" });
 
             /* API */
-            routes.MapRoute("Questions_DeleteDetails", "Questions/DeleteDetails/{questionId}", new { controller = "Questions", action = "DeleteDetails" });
-            /* API */ routes.MapRoute("Questions_Delete", "Questions/Delete/{questionId}", new { controller = "Questions", action = "Delete" });
+            routes.MapRoute("Questions_DeleteDetail", "Question/DeleteDetails/{questionId}", new { controller = "Question", action = "DeleteDetails" });
+            /* API */ routes.MapRoute("Questions_Delete", "Question/Delete/{questionId}", new { controller = "Question", action = "Delete" });
             /* API */ routes.MapRoute("Question_SendAnswer", "Questions/SendAnswer/{id}", new { controller = "AnswerQuestion", action = "SendAnswer" });
             /* API */ routes.MapRoute("Question_GetSolution", "Questions/GetSolution/{id}", new { controller = "AnswerQuestion", action = "GetSolution" });
             /* API */ routes.MapRoute("Question_CountLastAnswerAsCorrect", "Questions/CountLastAnswerAsCorrect/{id}", new { controller = "AnswerQuestion", action = "CountLastAnswerAsCorrect" });
             /* API */ routes.MapRoute("Question_SaveQuality", "Questions/SaveQuality/{id}/{newValue}", new { controller = "AnswerQuestion", action = "SaveQuality" });
             /* API */ routes.MapRoute("Question_SaveRelevancePersonal", "Questions/SaveRelevancePersonal/{id}/{newValue}", new { controller = "AnswerQuestion", action = "SaveRelevancePersonal" });
             /* API */ routes.MapRoute("Question_SaveRelevanceForAll", "Questions/SaveRelevanceForAll/{id}/{newValue}", new { controller = "AnswerQuestion", action = "SaveRelevanceForAll" });
-
-            /* API */ routes.MapRoute("Sets_DeleteDetails", "Sets/DeleteDetails/{setId}", new { controller = "Sets", action = "DeleteDetails" });
-            /* API */ routes.MapRoute("Sets_Delete", "Sets/Delete/{setId}", new { controller = "Sets", action = "Delete" });
-            /* API */ routes.MapRoute("Sets_SaveRelevancePersonal", "Sets/SaveRelevancePersonal/{id}/{newValue}", new { controller = "Sets", action = "SaveRelevancePersonal" });
-
-            routes.MapRoute("Set_StartLearningSession", "Fragesatz/Lernen/{setId}", new { controller = "Set", action = "StartLearningSession" });
-            routes.MapRoute("Set_StartTestSession", "Fragesatz/Testen/{setName}/{setId}", new { controller = "Set", action = "StartTestSession" });
-
-            /* API */ routes.MapRoute("Set_ChangeIndicies", "Set/UpdateQuestionsOrder", new { controller = "EditSet", action = "UpdateQuestionsOrder" });
-            /* API */ routes.MapRoute("Set_ImageUpload", "Set/UploadImage/{id}", new { controller = "EditSet", action = "UploadImage", id = UrlParameter.Optional });
 
             routes.MapRoute("Category_Changes_Overview", "Historie/{pageToShow}", new { controller = "CategoryChangesOverview", action = "List" });
             routes.MapRoute("Categories", "Kategorien", new { controller = "Categories", action = "Categories" });

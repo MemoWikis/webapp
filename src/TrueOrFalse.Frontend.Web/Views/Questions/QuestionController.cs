@@ -14,6 +14,13 @@ using TrueOrFalse.Web;
 
 public class QuestionController : BaseController
 {
+    private readonly QuestionRepo _questionRepo;
+
+    public QuestionController(QuestionRepo questionRepo)
+    {
+        _questionRepo = questionRepo;
+    }
+
     public JsonResult LoadQuestion(int questionId)
     {
         var user = Sl.R<SessionUser>().User;
@@ -73,5 +80,40 @@ public class QuestionController : BaseController
         };
 
         return json;
+    }
+
+    [HttpPost]
+    public JsonResult DeleteDetails(int questionId)
+    {
+        var question = _questionRepo.GetById(questionId);
+        var userTiny = new UserTinyModel(question.Creator);
+        var canBeDeleted = QuestionDelete.CanBeDeleted(userTiny.Id, questionId);
+
+        return new JsonResult
+        {
+            Data = new
+            {
+                questionTitle = question.Text.TruncateAtWord(90),
+                totalAnswers = question.TotalAnswers(),
+                canNotBeDeleted = !canBeDeleted.Yes,
+                canNotBeDeletedReason = canBeDeleted.IfNot_Reason
+            }
+        };
+    }
+
+    [HttpPost]
+    public EmptyResult Delete(int questionId)
+    {
+        QuestionDelete.Run(questionId);
+        return new EmptyResult();
+    }
+
+    [RedirectToErrorPage_IfNotLoggedIn]
+    public ActionResult Restore(int questionId, int questionChangeId)
+    {
+        RestoreQuestion.Run(questionChangeId, this.User_());
+
+        var question = Sl.QuestionRepo.GetById(questionId);
+        return Redirect(Links.AnswerQuestion(question));
     }
 }
