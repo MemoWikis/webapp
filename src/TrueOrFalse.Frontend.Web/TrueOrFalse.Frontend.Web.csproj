@@ -2960,10 +2960,6 @@
     <Content Include="mstile-310x310.png" />
     <Content Include="mstile-70x70.png" />
     <Content Include="safari-pinned-tab.svg" />
-    <Content Include="Scripts\guidedTour\bootstrap-tour.js" />
-    <Content Include="Scripts\guidedTour\tourWelcome.js">
-      <DependentUpon>tourWelcome.ts</DependentUpon>
-    </Content>
     <Content Include="Scripts\TrainingPlan.js">
       <DependentUpon>TrainingPlan.ts</DependentUpon>
     </Content>
@@ -3028,12 +3024,10 @@
     <TypeScriptCompile Include="Scripts\answerQuestion\AnswerQuestionUserFeedback.ts" />
     <TypeScriptCompile Include="Scripts\answerQuestion\AnswerEntry.ts" />
     <TypeScriptCompile Include="Scripts\answerQuestion\IAnswerEntry.ts" />
-    <TypeScriptCompile Include="Scripts\autocompletes\AutocompleteSets.ts" />
     <TypeScriptCompile Include="Scripts\header\ActivityPointsPopup.ts" />
     <TypeScriptCompile Include="Scripts\header\SearchBox.ts" />
     <TypeScriptCompile Include="Scripts\Pollyfills.ts" />
     <TypeScriptCompile Include="Scripts\socialLogins\Facebook.ts" />
-    <TypeScriptCompile Include="Scripts\guidedTour\tourWelcome.ts" />
     <TypeScriptCompile Include="Scripts\CategoryApi.ts" />
     <TypeScriptCompile Include="Scripts\NotLoggedIn.ts" />
     <TypeScriptCompile Include="Scripts\socialLogins\FacebookMemuchoUser.ts" />
@@ -3092,9 +3086,6 @@
     </Content>
     <Content Include="Scripts\answerQuestion\IAnswerEntry.js">
       <DependentUpon>IAnswerEntry.ts</DependentUpon>
-    </Content>
-    <Content Include="Scripts\autocompletes\AutocompleteSets.js">
-      <DependentUpon>AutocompleteSets.ts</DependentUpon>
     </Content>
     <Content Include="Scripts\BootstrapCustomUtils.js" />
     <Content Include="Scripts\CategoryApi.js">
@@ -3485,9 +3476,6 @@
     <Content Include="Style\animate.css.map">
       <DependentUpon>animate.css</DependentUpon>
     </Content>
-    <Content Include="Scripts\autocompletes\AutocompleteSets.js.map">
-      <DependentUpon>AutocompleteSets.ts</DependentUpon>
-    </Content>
     <Content Include="Scripts\NotLoggedIn.js.map">
       <DependentUpon>NotLoggedIn.ts</DependentUpon>
     </Content>
@@ -3519,9 +3507,6 @@
     </Content>
     <Content Include="Scripts\TrainingPlan.js.map">
       <DependentUpon>TrainingPlan.ts</DependentUpon>
-    </Content>
-    <Content Include="Scripts\guidedTour\tourWelcome.js.map">
-      <DependentUpon>tourWelcome.ts</DependentUpon>
     </Content>
     <Content Include="manifest.json" />
     <Content Include="Style\cards.less" />
@@ -3647,7 +3632,6 @@
       <DependentUpon>Comment.ascx</DependentUpon>
     </Compile>
     <Compile Include="Views\Questions\Edit\ReferenceJson.cs" />
-    <Compile Include="Views\Questions\QuestionsSearchResultModel.cs" />
     <Compile Include="Views\Sets\Detail\SetQuestionRowModel.cs" />
     <Compile Include="Views\Shared\HistoryAndProbabilityModel.cs" />
     <Compile Include="Views\Sets\Detail\SetController.cs" />
@@ -3661,10 +3645,6 @@
     <Compile Include="Views\Questions\Answer\AnswerQuestionModel.cs" />
     <Compile Include="Views\Categories\Edit\CategoryNameAllowed.cs" />
     <Compile Include="Views\Questions\Edit\EditQuestionModel_to_Question.cs" />
-    <Compile Include="Views\Questions\QuestionRowModel.cs" />
-    <Compile Include="Views\Questions\QuestionsController.cs" />
-    <Compile Include="Views\Questions\QuestionsControllerSearch.cs" />
-    <Compile Include="Views\Questions\QuestionsModel.cs" />
     <Compile Include="Views\Questions\Edit\EditQuestionController.cs" />
     <Compile Include="Views\Knowledge\KnowledgeController.cs" />
     <Compile Include="Views\Knowledge\KnowledgeModel.cs" />
@@ -3856,9 +3836,6 @@
     <Content Include="Views\Questions\Js\QuestionsSearch.js">
       <DependentUpon>QuestionsSearch.ts</DependentUpon>
     </Content>
-    <Content Include="Views\Questions\Questions.css">
-      <DependentUpon>Questions.less</DependentUpon>
-    </Content>
     <Content Include="Views\Error\_404.aspx" />
     <Content Include="Views\Shared\HistoryAndProbability.ascx" />
     <Content Include="Views\Questions\Edit\EditSolutionControls\SolutionTypeText.js">
@@ -3975,7 +3952,6 @@
     <Content Include="Style\menu.less" />
     <None Include="Style\site-debug.less" />
     <Content Include="Style\z_variables_2.3.2.less" />
-    <Content Include="Views\Questions\Questions.less" />
     <Content Include="Views\Users\Users.less" />
     <Content Include="Views\Questions\Answer\AnswerControls\SolutionTypeDate.js.map">
       <DependentUpon>SolutionTypeDate.ts</DependentUpon>
@@ -4055,9 +4031,6 @@
     <Content Include="Scripts\autocompletes\AutocompleteCategories.js.map">
       <DependentUpon>AutocompleteCategories.ts</DependentUpon>
     </Content>
-    <Content Include="Views\Questions\Questions.css.map">
-      <DependentUpon>Questions.less</DependentUpon>
-    </Content>
     <Content Include="Scripts\RowPin.js.map">
       <DependentUpon>RowPin.ts</DependentUpon>
     </Content>
@@ -4071,7 +4044,6 @@
     <Content Include="Views\Questions\Edit\Js\Validation.js.map">
       <DependentUpon>Validation.ts</DependentUpon>
     </Content>
-    <Content Include="Views\Questions\QuestionsSearchResult.ascx" />
     <Content Include="Views\Questions\Js\QuestionsSearch.js.map">
       <DependentUpon>QuestionsSearch.ts</DependentUpon>
     </Content>
@@ -4342,8 +4314,6 @@
     <Content Include="Views\Messages\Messages.aspx" />
     <Content Include="Views\Questions\Edit\EditSolutionControls\SolutionTypeText.ascx" />
     <Content Include="Views\Questions\Edit\EditSolutionControls\SolutionTypeMultipleChoice_SingleSolution.ascx" />
-    <Content Include="Views\Questions\QuestionRow.ascx" />
-    <Content Include="Views\Questions\Questions.aspx" />
     <Content Include="Scripts\JQueryExtensions.js" />
     <Content Include="Views\Shared\Message.ascx" />
     <Content Include="Views\Knowledge\Knowledge.aspx" />
