@@ -53,6 +53,8 @@ var editQuestionComponent = Vue.component('edit-question-component',
                 showMore: false,
                 disabled: true,
                 modalIsVisible: false,
+                showQuestionExtension: false,
+                showDescription: false,
             }
         },
         mounted() {
@@ -68,6 +70,8 @@ var editQuestionComponent = Vue.component('edit-question-component',
                 });
             $('#EditQuestionModal').on('show.bs.modal',
                 event => {
+                    this.showQuestionExtension = false;
+                    this.showDescription = false;
                     this.modalIsVisible = true;
                     this.loadEditors();
                     this.isLearningSession = $('#hddIsLearningSession').length > 0;
@@ -242,13 +246,11 @@ var editQuestionComponent = Vue.component('edit-question-component',
                 this.descriptionEditor = null;
             },
             getQuestionData(id) {
-                var json = { questionId: id };
                 var self = this;
                 $.ajax({
                     type: 'post',
                     contentType: "application/json",
-                    url: '/Questions/GetQuestionData',
-                    data: JSON.stringify(json),
+                    url: '/Question/GetData/' + id,
                     success: function (data) {
                         self.solutionType = data.SolutionType;
                         self.initiateSolution(data.Solution);
@@ -256,9 +258,13 @@ var editQuestionComponent = Vue.component('edit-question-component',
                         self.questionEditor.commands.setContent(data.Text);
                         self.questionExtensionHtml = data.TextExtended;
                         self.questionExtensionEditor.commands.setContent(data.TextExtended);
+                        if (data.TextExtended != null && data.TextExtended.length > 0)
+                            self.showQuestionExtension = true;
                         self.categoryIds = data.CategoryIds;
                         self.descriptionHtml = data.DescriptionHtml;
                         self.descriptionEditor.commands.setContent(data.DescriptionHtml);
+                        if (data.DescriptionHtml != null && data.DescriptionHtml.length > 0)
+                            self.showDescription = true;
                         self.selectedCategories = data.Categories;
                         self.licenseId = data.LicenseId;
                         self.solutionMetadataJson = data.SolutionMetadataJson;

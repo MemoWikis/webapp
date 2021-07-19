@@ -39,21 +39,7 @@ namespace TrueOrFalse
             routes.MapRoute("Users", "Nutzer", new { controller = "Users", action = "Users" }); //included: , page = UrlParameter.Optional 
             routes.MapRoute("Users_Network", "Netzwerk", new { controller = "Users", action = "Network"});
 
-            routes.MapRoute("Questions_Changes_Overview", "Fragen/Historie/{pageToShow}", new { controller = "QuestionChangesOverview", action = "List" });
-            routes.MapRoute("Questions_MineSearchApi", "Fragen/Meine/SucheApi", new { controller = "Questions", action = "QuestionsMineSearchApi" }, new[] { "TrueOrFalse" });
-            routes.MapRoute("Questions_MineSearch", "Fragen/Meine/Suche/{searchTerm}", new { controller = "Questions", action = "QuestionsMineSearch", searchTerm = UrlParameter.Optional }, new[]{"TrueOrFalse"});
-            routes.MapRoute("Questions_Mine", "Fragen/Meine", new { controller = "Questions", action = "QuestionsMine" }, new[]{"TrueOrFalse"});
-            routes.MapRoute("Questions_WishSearchApi", "Fragen/Wunschwissen/SucheApi", new { controller = "Questions", action = "QuestionsWishSearchApi"}, new[] { "TrueOrFalse" });
-            routes.MapRoute("Questions_WishSearch", "Fragen/Wunschwissen/Suche/{searchTerm}", new { controller = "Questions", action = "QuestionsWishSearch", searchTerm = UrlParameter.Optional }, new[] { "TrueOrFalse" });
-            routes.MapRoute("Questions_WishSearchFilterCategory", "Fragen/Wunschwissen/Suche/Kategorie/{categoryName}/{categoryId}", new { controller = "Questions", action = "QuestionsWishSearchCategoryFilter" }, new[] { "TrueOrFalse" });
-            routes.MapRoute("Questions_Wish", "Fragen/Wunschwissen", new { controller = "Questions", action = "QuestionsWish" }, new[] { "TrueOrFalse" });
-            routes.MapRoute("Questions_SearchApi", "Fragen/SucheApi", new { controller = "Questions", action = "QuestionsSearchApi" }, new[] { "TrueOrFalse" });
-            routes.MapRoute("Questions_SearchFilterCategory", "Fragen/Suche/Kategorie/{categoryName}/{categoryId}", new { controller = "Questions", action = "QuestionsSearchCategoryFilter"}, new[] { "TrueOrFalse" });
-            routes.MapRoute("Questions_Search", "Fragen/Suche/{searchTerm}", new { controller = "Questions", action = "QuestionsSearch", searchTerm = UrlParameter.Optional }, new[] { "TrueOrFalse" });
-            routes.MapRoute("Question_Answer_History", "Fragen/{text}/{questionId}/Historie", new { controller = "QuestionHistory", action = "List" });
-            routes.MapRoute("Questions", "Fragen", new { controller = "Questions", action = "Questions" }, new[] { "TrueOrFalse" });
-            routes.MapRoute("Questions_GetData", "Questions/GetQuestionData", new { controller = "EditQuestion", action = "GetQuestionData" });
-
+            routes.MapRoute("Question_GetData", "Question/{id}", new { controller = "Question", action = "GetData" });
             routes.MapRoute("Question_Delete", "Fragen/Loesche/{id}", new { controller = "Questions", action = "Delete" }, new[] { "TrueOrFalse" });
             routes.MapRoute("Question_Create", "Fragen/Erstelle/", new { controller = "EditQuestion", action = "Create" });
             routes.MapRoute("Question_Create_Flashcard", "Question/CreateFlashcard/", new { controller = "EditQuestion", action = "CreateFlashcard" });

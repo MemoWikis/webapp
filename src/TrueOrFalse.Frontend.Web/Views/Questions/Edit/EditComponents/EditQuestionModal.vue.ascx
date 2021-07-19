@@ -52,15 +52,21 @@
                         </div>
 
                         <div class="input-container">
-                            <div class="overline-s no-line">Ergänzungen zur Frage</div>
-                            <div v-if="questionExtensionEditor">
-                                <template>
-                                    <editor-menu-bar-component :editor="questionExtensionEditor"/>
+                                <div class="overline-s no-line">Ergänzungen zur Frage</div>
+                                <div v-if="showQuestionExtension && questionExtensionEditor">
+                                    <template>
+                                        <editor-menu-bar-component :editor="questionExtensionEditor"/>
+                                    </template>
+                                    <template>
+                                        <editor-content :editor="questionExtensionEditor"/>
+                                    </template>
+                                </div>
+                                <template v-else>
+                                    <div class="d-flex">
+                                        <div class="btn grey-bg form-control col-md-6" @click="showQuestionExtension = true">Ergänzungen hinzufügen</div> 
+                                        <div class="col-sm-12 hidden-xs"></div>
+                                    </div>
                                 </template>
-                                <template>
-                                    <editor-content :editor="questionExtensionEditor"/>
-                                </template>
-                            </div>
                         </div>
 
 
@@ -78,7 +84,7 @@
                         </template>
                         <div v-if="solutionType != 9" class="input-container description-container">
                             <div class="overline-s no-line">Ergänzungen zur Antwort</div>
-                            <div v-if="descriptionEditor">
+                            <div v-if="showDescription && descriptionEditor">
                                 <template>
                                     <editor-menu-bar-component :editor="descriptionEditor"/>
                                 </template>
@@ -86,6 +92,12 @@
                                     <editor-content :editor="descriptionEditor"/>
                                 </template>
                             </div>
+                            <template v-else>
+                                <div class="d-flex">
+                                    <div class="btn grey-bg form-control col-md-6" @click="showDescription = true">Ergänzungen hinzufügen</div> 
+                                    <div class="col-sm-12 hidden-xs"></div>
+                                </div>
+                            </template>
                         </div>
                         <div class="input-container">
                             <div class="overline-s no-line">Themenzuordnung</div>

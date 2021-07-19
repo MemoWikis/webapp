@@ -341,6 +341,7 @@
     <Compile Include="Views\Categories\Detail\TemplateToHtml\TemplateToHtml.cs" />
     <Compile Include="Views\Questions\AddQuestion\AddQuestionComponentModel.cs" />
     <Compile Include="Views\Questions\Answer\TopicToContinueLearningModel.cs" />
+    <Compile Include="Views\Questions\QuestionController.cs" />
     <Compile Include="Views\Questions\QuestionList\QuestionJson.cs" />
     <Compile Include="Views\Categories\Detail\Partials\KnowledgeGraph\KnowledgeGraphModel.cs" />
     <Compile Include="Views\Questions\QuestionList\QuestionListModel.cs" />
