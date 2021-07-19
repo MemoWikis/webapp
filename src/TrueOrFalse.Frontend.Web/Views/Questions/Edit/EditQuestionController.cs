@@ -1,14 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Security;
 using System.Text.RegularExpressions;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Script.Serialization;
-using Newtonsoft.Json;
-using QuestionListJson;
+using Microsoft.Ajax.Utilities;
 using TrueOrFalse;
 using TrueOrFalse.Frontend.Web.Code;
 using TrueOrFalse.Web;
@@ -161,9 +159,18 @@ public class EditQuestionController : BaseController
     [HttpPost]
     public JsonResult VueCreate(QuestionDataJson questionDataJson)
     {
+        var safeText = GetSafeText(questionDataJson.TextHtml);
+        if (safeText.Length <= 0)
+            return new JsonResult
+            {
+                Data = new
+                {
+                    ErrorMsg = "Fehlender Fragetext",
+                }
+            };
         var question = new Question();
         question.Creator = _sessionUser.User;
-        question = UpdateQuestion(question, questionDataJson);
+        question = UpdateQuestion(question, questionDataJson, safeText);
 
         _questionRepo.Create(question);
 
@@ -183,8 +190,17 @@ public class EditQuestionController : BaseController
     [HttpPost]
     public JsonResult VueEdit(QuestionDataJson questionDataJson)
     {
+        var safeText = GetSafeText(questionDataJson.TextHtml);
+        if (safeText.Length <= 0)
+            return new JsonResult
+            {
+                Data = new
+                {
+                    ErrorMsg = "Fehlender Fragetext",
+                }
+            };
         var question = Sl.QuestionRepo.GetById(questionDataJson.QuestionId);
-        question = UpdateQuestion(question, questionDataJson);
+        question = UpdateQuestion(question, questionDataJson, safeText);
             
         _questionRepo.Update(question);
         Sl.QuestionChangeRepo.AddUpdateEntry(question);
@@ -202,12 +218,18 @@ public class EditQuestionController : BaseController
     [HttpPost]
     public JsonResult CreateFlashcard(FlashCardLoader flashCardJson)
     {
+        var safeText = GetSafeText(flashCardJson.TextHtml);
+        if (safeText.Length <= 0)
+            return new JsonResult {Data = new
+            {
+                ErrorMsg = "Fehlender Fragetext",
+            }};
         var serializer = new JavaScriptSerializer();
         var question = new Question();
         var questionRepo = Sl.QuestionRepo;
 
         question.TextHtml = flashCardJson.TextHtml;
-        question.Text = Regex.Replace(flashCardJson.TextHtml, "<.*?>", "");
+        question.Text = safeText;
         question.SolutionType = (SolutionType)Enum.Parse(typeof(SolutionType), "9");
 
         var solutionModelFlashCard = new QuestionSolutionFlashCard();
@@ -236,6 +258,10 @@ public class EditQuestionController : BaseController
         return json;
     }
 
+    private string GetSafeText(string text)
+    {
+        return Regex.Replace(text, "<.*?>", "");
+    }
 
     private void InsertNewQuestionToLearningSession(Question question, int sessionIndex)
     {
@@ -252,10 +278,10 @@ public class EditQuestionController : BaseController
         public bool AddToWishknowledge { get; set; }
         public int LastIndex { get; set; }
     }
-    private Question UpdateQuestion(Question question, QuestionDataJson questionDataJson)
+    private Question UpdateQuestion(Question question, QuestionDataJson questionDataJson, string safeText)
     {
         question.TextHtml = questionDataJson.TextHtml;
-        question.Text = Regex.Replace(questionDataJson.TextHtml, "<.*>", "");
+        question.Text = safeText;
         question.SolutionType = (SolutionType)Enum.Parse(typeof(SolutionType), questionDataJson.SolutionType);
 
         var categories = new List<Category>();
