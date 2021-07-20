@@ -19,6 +19,7 @@
     "@tiptap/vue-2": "*",
     "d3": "5.7.0",
     "gulp-run": "^1.7.1",
+    "hast-util-to-html": "^8.0.0",
     "lowlight": "^1.20.0",
     "parcel": "^2.0.0-beta.3.1",
     "postscribe": "^2.0.8",

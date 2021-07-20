@@ -2080,6 +2080,9 @@
     <Content Include="Scripts\npm_builder\tiptap-build\tiptap-starterkit.js" />
     <Content Include="Scripts\npm_builder\tiptap-build\tiptap-underline.js" />
     <Content Include="Scripts\npm_builder\tiptap-build\tiptap-vue2.js" />
+    <Content Include="Views\Questions\Js\QuestionList\QuestionListComponent.js">
+      <DependentUpon>QuestionListComponent.ts</DependentUpon>
+    </Content>
     <Content Include="webpack.config.js" />
     <None Include="job_scheduling_data_2_0.xsd">
       <SubType>Designer</SubType>
@@ -2326,9 +2329,6 @@
     </Content>
     <Content Include="Views\Questions\Js\QuestionList\QuestionListApp.js">
       <DependentUpon>QuestionListApp.ts</DependentUpon>
-    </Content>
-    <Content Include="Views\Questions\Js\QuestionList\QuestionListComponents.js">
-      <DependentUpon>QuestionListComponents.ts</DependentUpon>
     </Content>
     <Content Include="Views\Questions\QuestionList\QuestionList.ascx" />
     <Content Include="Views\Categories\Detail\Partials\CategoryFooter\CategoryFooter.ascx" />
@@ -2731,7 +2731,7 @@
     <TypeScriptCompile Include="Views\Questions\Edit\EditComponents\Text\TextSolutionComponent.ts" />
     <TypeScriptCompile Include="Views\Questions\Js\AddQuestion\AddQuestion.ts" />
     <TypeScriptCompile Include="Views\Questions\Js\QuestionList\QuestionComponent.ts" />
-    <TypeScriptCompile Include="Views\Questions\Js\QuestionList\QuestionListComponents.ts" />
+    <TypeScriptCompile Include="Views\Questions\Js\QuestionList\QuestionListComponent.ts" />
     <TypeScriptCompile Include="Views\Questions\Js\QuestionList\QuestionListApp.ts" />
     <TypeScriptCompile Include="Views\Categories\Detail\Js\Category.ts" />
     <TypeScriptCompile Include="Views\Categories\Detail\Js\CategoryHeader.ts" />
@@ -4212,9 +4212,6 @@
     <Content Include="Views\Questions\Js\QuestionList\QuestionListApp.js.map">
       <DependentUpon>QuestionListApp.ts</DependentUpon>
     </Content>
-    <Content Include="Views\Questions\Js\QuestionList\QuestionListComponents.js.map">
-      <DependentUpon>QuestionListComponents.ts</DependentUpon>
-    </Content>
     <Content Include="Views\Shared\PinComponentVue\PinComponent.vue.js.map">
       <DependentUpon>PinComponent.vue.ts</DependentUpon>
     </Content>
@@ -4298,6 +4295,9 @@
     </Content>
     <Content Include="Views\Shared\Editor\EditorMenuBarComponent.js.map">
       <DependentUpon>EditorMenuBarComponent.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Questions\Js\QuestionList\QuestionListComponent.js.map">
+      <DependentUpon>QuestionListComponent.ts</DependentUpon>
     </Content>
     <None Include="Web.overwritten.config.sample" />
     <Content Include="Views\Welcome\Logout.aspx" />

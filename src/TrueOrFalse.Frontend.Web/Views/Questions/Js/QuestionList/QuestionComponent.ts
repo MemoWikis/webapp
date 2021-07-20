@@ -147,7 +147,7 @@
         },
         highlightCode(elementId) {
             document.getElementById(elementId).querySelectorAll('code').forEach(block => {
-                hljsBuild.core.highlightBlock(block);
+            //    hljsBuild.core.highlightBlock(block);
             });
         },
         loadQuestionBody() {

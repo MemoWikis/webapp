@@ -233,7 +233,7 @@ namespace TrueOrFalse.View
                 .Include("~/Views/Questions/Js/AddQuestion/AddQuestion.js")
                 .Include("~/Scripts/npm/vue-slider-component/vue-slider-component.umd.js")
                 .Include("~/Views/Questions/Js/QuestionList/SessionConfig.js")
-                .Include("~/Views/Questions/Js/QuestionList/QuestionListComponents.js")
+                .Include("~/Views/Questions/Js/QuestionList/QuestionListComponent.js")
                 .Include("~/Views/Questions/Js/QuestionList/QuestionComponent.js")
                 .Include("~/Views/Shared/PinComponentVue/PinComponent.vue.js"));
 
