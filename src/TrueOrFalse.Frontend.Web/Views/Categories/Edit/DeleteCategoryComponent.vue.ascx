@@ -1,7 +1,7 @@
 ﻿<%@ Import Namespace="System.Web.Optimization" %>
 <%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
 <delete-category-component inline-template>
-    <div class="categoryCardModal">
+    <div class="cardModal">
         <div class="modal fade" id="DeleteCategoryModal" tabindex="-1" role="dialog" aria-labelledby="modal-content-module-settings" aria-hidden="true">
             <div class="modal-dialog modal-m" role="document">
                 <button type="button" class="close dismissModal" data-dismiss="modal" aria-label="Close">
@@ -9,7 +9,7 @@
                 </button>
 
                 <div class="modal-content">
-                    <div class="addCategoryCardModal">
+                    <div class="cardModalContent">
                         <div class="modalHeader">
                             <h4 class="modal-title">Thema löschen</h4>
                         </div>
