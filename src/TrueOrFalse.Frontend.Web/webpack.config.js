@@ -10,6 +10,7 @@ module.exports = {
         tiptapPlaceholder: '/Scripts/npm_builder/tiptap-build/tiptap-placeholder.js',
         tiptapUnderline: '/Scripts/npm_builder/tiptap-build/tiptap-underline.js',
         lowlight: '/Scripts/npm_builder/tiptap-build/lowlight.js',
+        hastUtilToHtml: '/Scripts/npm_builder/tiptap-build/hast-util-to-html.js',
     },
     output: {
         path: path.resolve(__dirname, 'Scripts/npm/tiptap-build/'),

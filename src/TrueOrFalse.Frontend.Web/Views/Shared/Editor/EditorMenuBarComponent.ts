@@ -7,6 +7,7 @@ declare var tiptapPlaceholder: any;
 declare var tiptapUnderline: any;
 declare var tiptapImage: any;
 declare var lowlight: any;
+declare var toHtml: any;
 
 Vue.component('editor-menu-bar-component',
     {

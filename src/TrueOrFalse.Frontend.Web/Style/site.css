@@ -1627,6 +1627,7 @@ h3 {
 .body-m,
 .body-s,
 .body-xs {
+  width: 100%;
   margin-bottom: 10px;
 }
 .body-l.bold,
