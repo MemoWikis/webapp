@@ -57,15 +57,20 @@
                                     <span>Frage bearbeiten</span>
                                 </a>
                             </li>
+
                         <% } %>
-                        <li>
-                            <a href="<%=Links.GetUrl(Model.Question) %>">
-                                <div class="dropdown-icon">
-                                    <i class="fas fa-file"></i>
-                                </div>
-                                <span>Frageseite anzeigen</span>
-                            </a>
-                        </li>
+                        
+                        <% if (Model.IsInLearningTab){ %>
+                            <li>
+                                <a href="<%=Links.GetUrl(Model.Question) %>">
+                                    <div class="dropdown-icon">
+                                        <i class="fas fa-file"></i>
+                                    </div>
+                                    <span>Frageseite anzeigen</span>
+                                </a>
+                            </li>
+                        <% } %>
+
                         <li>
                             <a href="<%=Links.QuestionHistory(Model.QuestionId) %>" data-allowed="logged-in">
                                 <div class="dropdown-icon">
@@ -82,7 +87,7 @@
                                 <span>Frage kommentieren</span>
                             </a>
                         </li>
-                        <% if (Model.IsInstallationAdmin){ %>
+                        <% if (Model.IsInLearningTab && (Model.IsCreator || Model.IsInstallationAdmin)){ %>
                             <li>
                                 <a data-toggle="modal" data-questionid="<%=Model.QuestionId %>" href="#modalDeleteQuestion">
                                     <div class="dropdown-icon">
