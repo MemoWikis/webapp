@@ -92,6 +92,7 @@ namespace TrueOrFalse
             /* API */ routes.MapRoute("Category_StartLearningSessionForSets", "Category/StartLearningSessionForSets", new { controller = "Category", action = "StartLearningSessionForSets" });
             /* API */ routes.MapRoute("TopicTabAsync", "Category/GetTopicTabAsync", new { controller = "Category", action = "GetTopicTabAsync" });
             /* API */ routes.MapRoute("DeleteCookie", "Category/DeleteCookie", new { controller = "Category", action = "DeleteCookie" });
+            /* API */ routes.MapRoute("Category_Get_Delete_Data", "Categories/GetDeleteData", new { controller = "Categories", action = "GetDeleteData" });
 
             routes.MapRoute("Knowledge_Learn", "Lernen/Wunschwissen", new { controller = "Knowledge", action = "StartLearningSession" });
             routes.MapRoute("KnowledgeUeberblick", "Wissenszentrale/Ueberblick", new { controller = "Knowledge", action = "Knowledge" });
@@ -126,7 +127,6 @@ namespace TrueOrFalse
             routes.MapRoute("ApiActivityPoints", "Api/ActivityPoints/{action}", new { controller = "ActivityPointsApi" });
             routes.MapRoute("ApiLom", "Api/Lom/{action}", new { controller = "LomApi" });
             routes.MapRoute("ApiEduSharing", "Api/EduSharing/{action}", new { controller = "EduSharingApi" });
-
 
             routes.MapRoute("ImageUpload", "Images/ImageUpload/{action}", new { controller = "ImageUpload" });
             
