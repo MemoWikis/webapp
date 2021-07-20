@@ -60,7 +60,7 @@
 
                         <% } %>
                         
-                        <% if (Model.IsInLearningTab){ %>
+                        <% if (Model.IsInLearningTab && Model.IsInstallationAdmin){ %>
                             <li>
                                 <a href="<%=Links.GetUrl(Model.Question) %>">
                                     <div class="dropdown-icon">
