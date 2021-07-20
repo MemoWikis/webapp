@@ -339,9 +339,9 @@ var editQuestionComponent = Vue.component('edit-question-component',
                                 self.sessionIndex);
 
                             if (!self.edit)
-                                eventBus.$emit('add-question-to-list', result.Data);
+                                eventBus.$emit('add-question-to-list', result);
                             else
-                                eventBus.$emit('reload-question-id', result.Data.Id);
+                                eventBus.$emit('reload-question-id', result.Id);
                             eventBus.$emit("change-active-question", self.sessionIndex);
 
                         }
@@ -370,7 +370,7 @@ var editQuestionComponent = Vue.component('edit-question-component',
             getSaveJson() {
                 let solution = this.getSolution();
                 let solutionType = parseInt(this.solutionType);
-                if (this.solutionType == 4 || this.solutionType == 7)
+                if (this.solutionType == 4 || this.solutionType == 6)
                     solutionType = 1;
 
                 let licenseId = this.getLicenseId();
