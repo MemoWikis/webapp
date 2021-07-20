@@ -2063,6 +2063,8 @@
     <Content Include="Scripts\npm\tiptap-build\756.js" />
     <Content Include="Scripts\npm\tiptap-build\798.js" />
     <Content Include="Scripts\npm\tiptap-build\912.js" />
+    <Content Include="Scripts\npm\tiptap-build\956.js" />
+    <Content Include="Scripts\npm\tiptap-build\hastUtilToHtml.js" />
     <Content Include="Scripts\npm\tiptap-build\lowlight.js" />
     <Content Include="Scripts\npm\tiptap-build\runtime.js" />
     <Content Include="Scripts\npm\tiptap-build\tiptapCodeblocklowlight.js" />
