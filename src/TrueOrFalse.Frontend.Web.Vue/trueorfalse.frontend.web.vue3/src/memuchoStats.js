@@ -5,7 +5,7 @@ export const memuchoStatsData = {
     datasets: [
       {
         label: "neue Themen",
-        data: [12, 15, 20, 15, 13, 17, 10, 19],
+        data: [],
         backgroundColor: "rgba(54,73,93,.5)",
         borderColor: "#36495d",
         borderWidth: 3

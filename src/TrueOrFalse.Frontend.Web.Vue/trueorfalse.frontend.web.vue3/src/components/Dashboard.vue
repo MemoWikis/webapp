@@ -2,15 +2,34 @@
   <div style="padding: 0 80px 0 80px">
     <h1>Dashboard</h1>
     <h2>neue Themen und neue Fragen im Vergleich</h2>
-    <div style="padding: 0px 0px 16px 0px">
+    <div>
       <label>Der letzten </label>
-      <input style="width:40px" v-model="message" placeholder="x" />
-      <span> Tage</span>
+      <input
+        style="width:56px"
+        v-model="goBackDays"
+        placeholder="8"
+        type="number"
+      />
+      <span> Tage. Bestimme den Zeitintervall im Graphen </span>
+      <select v-model="selectedLabel">
+        <option
+          v-for="option in optionsLabel"
+          :value="option.value"
+          :key="option.id"
+        >
+          {{ option.text }}
+        </option>
+      </select>
+    </div>
+    <div>
+      <button style="margin: 8px 0px 16px 0px" v-on:click="calculateChart">
+        Berechnen
+      </button>
     </div>
     <div>
       <canvas
         id="questionStats"
-        style="max-width:50%; border: 5px solid;"
+        style="max-width:50%; border: 4px solid;"
       ></canvas>
     </div>
   </div>
@@ -19,6 +38,7 @@
 <script>
 import axios from "axios";
 import Chart from "chart.js";
+import moment from "moment";
 import memuchoStats from "../memuchoStats.js";
 
 export default {
@@ -31,7 +51,15 @@ export default {
     return {
       cookie: Boolean,
       questionsTotal: 0,
+      selectedLabel: "year",
+      optionsLabel: [
+        { text: "Tage", value: "day" },
+        { text: "Wochen", value: "week" },
+        { text: "Monate", value: "month" },
+        { text: "Jahre", value: "year" },
+      ],
       memuchoStats: memuchoStats,
+      goBackDays: 2678,
     };
   },
 
@@ -45,8 +73,16 @@ export default {
 
   // Client-side only
   mounted() {
-    const ctx = document.getElementById("questionStats");
-    new Chart(ctx, this.memuchoStats);
+    // this.memuchoStats.data.datasets[0].data = [12, 14, 20, 15, 13, 17, 10, 19];
+    // var fromDate = moment().subtract(this.goBackDays, "day");
+    // var toDate = moment();
+    // this.memuchoStats.data.labels = this.enumerateTimeBetweenDates(
+    //   fromDate,
+    //   toDate
+    // );
+    // const ctx = document.getElementById("questionStats");
+    // new Chart(ctx, this.memuchoStats);
+    this.calculateChart();
     // If we didn't already do it on the server
     // we fetch the item (will first show the loading text)
     if (this.questionsTotal == 0) {
@@ -58,6 +94,41 @@ export default {
     fetchData() {
       // return the Promise from the action
       //return this.$store.dispatch('fetchItem', this.$route.params.id)
+    },
+
+    calculateChart() {
+      this.memuchoStats.data.datasets[0].data = [
+        12,
+        14,
+        20,
+        15,
+        13,
+        17,
+        10,
+        19,
+      ];
+      var fromDate = moment().subtract(this.goBackDays, "day");
+      var toDate = moment();
+      this.memuchoStats.data.labels = this.enumerateTimeBetweenDates(
+        fromDate,
+        toDate
+      );
+      const ctx = document.getElementById("questionStats");
+      new Chart(ctx, this.memuchoStats);
+    },
+
+    enumerateTimeBetweenDates(startDate, endDate) {
+      var dates = [];
+
+      var currDate = moment(startDate).startOf(this.selectedLabel);
+      var lastDate = moment(endDate).startOf(this.selectedLabel);
+
+      while (currDate.add(1, this.selectedLabel).diff(lastDate) < 0) {
+        console.log(currDate.toDate());
+        dates.push(currDate.clone().format("DD/MM/YYYY"));
+      }
+      dates.push(lastDate.clone().format("DD/MM/YYYY"));
+      return dates;
     },
   },
 

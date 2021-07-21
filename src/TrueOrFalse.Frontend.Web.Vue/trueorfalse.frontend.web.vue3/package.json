@@ -10,6 +10,7 @@
     "chart.js": "^2.9.4",
     "core-js": "^3.6.5",
     "cross-env": "^7.0.2",
+    "moment": "^2.29.1",
     "serialize-javascript": "^5.0.1",
     "serve-favicon": "^2.5.0",
     "vue": "^3.0.2",
