@@ -1,12 +1,25 @@
 <template>
-  <div>
-    <h1>You are logged in</h1>
-    <h1>Total: {{ questionsTotal }}</h1>
+  <div style="padding: 0 80px 0 80px">
+    <h1>Dashboard</h1>
+    <h2>neue Themen und neue Fragen im Vergleich</h2>
+    <div style="padding: 0px 0px 16px 0px">
+      <label>Der letzten </label>
+      <input style="width:40px" v-model="message" placeholder="x" />
+      <span> Tage</span>
+    </div>
+    <div>
+      <canvas
+        id="questionStats"
+        style="max-width:50%; border: 5px solid;"
+      ></canvas>
+    </div>
   </div>
 </template>
 
 <script>
 import axios from "axios";
+import Chart from "chart.js";
+import memuchoStats from "../memuchoStats.js";
 
 export default {
   name: "CookieHead",
@@ -18,6 +31,7 @@ export default {
     return {
       cookie: Boolean,
       questionsTotal: 0,
+      memuchoStats: memuchoStats,
     };
   },
 
@@ -31,6 +45,8 @@ export default {
 
   // Client-side only
   mounted() {
+    const ctx = document.getElementById("questionStats");
+    new Chart(ctx, this.memuchoStats);
     // If we didn't already do it on the server
     // we fetch the item (will first show the loading text)
     if (this.questionsTotal == 0) {
