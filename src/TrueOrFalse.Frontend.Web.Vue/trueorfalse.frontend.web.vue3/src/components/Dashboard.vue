@@ -51,7 +51,7 @@ export default {
     return {
       cookie: Boolean,
       questionsTotal: 0,
-      selectedLabel: "year",
+      selectedLabel: "day",
       optionsLabel: [
         { text: "Tage", value: "day" },
         { text: "Wochen", value: "week" },
@@ -59,7 +59,7 @@ export default {
         { text: "Jahre", value: "year" },
       ],
       memuchoStats: memuchoStats,
-      goBackDays: 2678,
+      goBackDays: 8,
     };
   },
 
@@ -111,17 +111,18 @@ export default {
       var toDate = moment();
       this.memuchoStats.data.labels = this.enumerateTimeBetweenDates(
         fromDate,
-        toDate
+        toDate,
+        this.selectedLabel
       );
       const ctx = document.getElementById("questionStats");
       new Chart(ctx, this.memuchoStats);
     },
 
-    enumerateTimeBetweenDates(startDate, endDate) {
+    enumerateTimeBetweenDates(startDate, endDate, interval) {
       var dates = [];
 
-      var currDate = moment(startDate).startOf(this.selectedLabel);
-      var lastDate = moment(endDate).startOf(this.selectedLabel);
+      var currDate = moment(startDate).startOf(interval);
+      var lastDate = moment(endDate).startOf(interval);
 
       while (currDate.add(1, this.selectedLabel).diff(lastDate) < 0) {
         console.log(currDate.toDate());
