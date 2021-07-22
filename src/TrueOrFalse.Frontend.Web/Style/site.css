@@ -2249,6 +2249,9 @@ input::placeholder {
 #ErrorModal h3 {
   color: #FFA07A;
 }
+.ProseMirror li p {
+  margin: 0;
+}
 /*Generic Bootstrap*/
 .btn {
   border-radius: 0;
