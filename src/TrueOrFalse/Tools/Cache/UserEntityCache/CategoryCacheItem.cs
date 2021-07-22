@@ -130,6 +130,9 @@ public class CategoryCacheItem
         if (onlyVisible)
             questions = questions.Where(q => q.IsVisibleToCurrentUser());
 
+        if (UserCache.GetItem(Sl.CurrentUserId).IsFiltered)
+            questions = questions.Where(q => q.IsInWishknowledge()); 
+
         return questions.ToList();
     }
 
