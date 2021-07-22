@@ -1,7 +1,10 @@
 <template>
-  <div id="dashboard" style="padding: 0 80px 0 80px display: flex;">
-    <h1>Dashboard</h1>
-    <div style="padding: 0 16px 0 16px; width:40%;">
+  <div
+    id="dashboard"
+    style="display:flex; flex-wrap: wrap; justify-content:space-evenly;"
+  >
+    <h1 style="width:100%;">Dashboard</h1>
+    <div style="flex-basis:40%;">
       <chartOverTime
         headerText="Neue Fragen"
         :chartData="questionsData"
@@ -9,7 +12,15 @@
         lineLabel="erstellte Fragen"
       ></chartOverTime>
     </div>
-    <div style="padding: 0 16px 0 16px; width:40%;">
+    <div style="flex-basis:40%;">
+      <chartOverTime
+        headerText="Neue Fragen"
+        :chartData="questionsData"
+        chartId="questions2"
+        lineLabel="erstellte Fragen"
+      ></chartOverTime>
+    </div>
+    <div style="flex-basis:40%;">
       <chartOverTime
         headerText="Neue Themen"
         :chartData="themeData"
@@ -28,9 +39,6 @@ import chartOverTime from "./ChartOverTime.vue";
 export default {
   components: {
     chartOverTime,
-  },
-  props: {
-    msg: String,
   },
 
   data: function() {

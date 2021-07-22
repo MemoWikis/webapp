@@ -25,7 +25,7 @@
     </button>
   </div>
   <div>
-    <canvas :id="chartId" style=" border: 4px solid;"></canvas>
+    <canvas :id="chartId" style="border: 4px solid;"></canvas>
   </div>
 </template>
 

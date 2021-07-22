@@ -5,16 +5,14 @@
     </header>
     <router-view>
       <transition name="fade" mode="out-in">
-        <Dashboard msg="Welcome to Your Vue.js App" />
+        <Dashboard />
       </transition>
     </router-view>
   </div>
 </template>
 
 <script setup>
-import { validFeeds } from "@/common/api";
 import Dashboard from "./components/Dashboard.vue";
-export const feeds = validFeeds;
 export default {
   name: "App",
   components: {
@@ -56,7 +54,6 @@ a {
   height: 55px;
 
   .inner {
-    max-width: 800px;
     box-sizing: border-box;
     margin: 0px auto;
     padding: 15px 5px;
@@ -95,7 +92,6 @@ a {
 }
 
 .view {
-  max-width: 800px;
   margin: 0 auto;
   position: relative;
 }
@@ -121,7 +117,6 @@ a {
 }
 
 .view {
-  max-width: 800px;
   margin: 0 auto;
   position: relative;
 }
@@ -134,27 +129,5 @@ a {
 .fade-enter,
 .fade-leave-active {
   opacity: 0;
-}
-
-@media (max-width: 860px) {
-  .header .inner {
-    padding: 15px 30px;
-  }
-}
-
-@media (max-width: 600px) {
-  .header {
-    .inner {
-      padding: 15px;
-    }
-
-    a {
-      margin-right: 1em;
-    }
-
-    .github {
-      display: none;
-    }
-  }
 }
 </style>
