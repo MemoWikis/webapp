@@ -1,48 +1,34 @@
 <template>
-  <div style="padding: 0 80px 0 80px">
+  <div id="dashboard" style="padding: 0 80px 0 80px display: flex;">
     <h1>Dashboard</h1>
-    <h2>neue Themen und neue Fragen im Vergleich</h2>
-    <div>
-      <label>Der letzten </label>
-      <input
-        style="width:56px"
-        v-model="goBackDays"
-        placeholder="8"
-        type="number"
-      />
-      <span> Tage. Bestimme den Zeitintervall im Graphen </span>
-      <select v-model="selectedLabel">
-        <option
-          v-for="option in optionsLabel"
-          :value="option.value"
-          :key="option.id"
-        >
-          {{ option.text }}
-        </option>
-      </select>
+    <div style="padding: 0 16px 0 16px; width:40%;">
+      <chartOverTime
+        headerText="Neue Fragen"
+        :chartData="questionsData"
+        chartId="questions"
+        lineLabel="erstellte Fragen"
+      ></chartOverTime>
     </div>
-    <div>
-      <button style="margin: 8px 0px 16px 0px" v-on:click="calculateChart">
-        Berechnen
-      </button>
-    </div>
-    <div>
-      <canvas
-        id="questionStats"
-        style="max-width:50%; border: 4px solid;"
-      ></canvas>
+    <div style="padding: 0 16px 0 16px; width:40%;">
+      <chartOverTime
+        headerText="Neue Themen"
+        :chartData="themeData"
+        chartId="themes"
+        lineLabel="erstellte Themen"
+      ></chartOverTime>
     </div>
   </div>
 </template>
 
 <script>
 import axios from "axios";
-import Chart from "chart.js";
 import moment from "moment";
-import memuchoStats from "../memuchoStats.js";
+import chartOverTime from "./ChartOverTime.vue";
 
 export default {
-  name: "CookieHead",
+  components: {
+    chartOverTime,
+  },
   props: {
     msg: String,
   },
@@ -50,16 +36,8 @@ export default {
   data: function() {
     return {
       cookie: Boolean,
-      questionsTotal: 0,
-      selectedLabel: "day",
-      optionsLabel: [
-        { text: "Tage", value: "day" },
-        { text: "Wochen", value: "week" },
-        { text: "Monate", value: "month" },
-        { text: "Jahre", value: "year" },
-      ],
-      memuchoStats: memuchoStats,
-      goBackDays: 8,
+      themeData: [19, 12, 14, 16, 18, 21, 11, 19, 22, 17],
+      questionsData: [12, 14, 20, 15, 13, 17, 10, 19],
     };
   },
 
@@ -73,16 +51,6 @@ export default {
 
   // Client-side only
   mounted() {
-    // this.memuchoStats.data.datasets[0].data = [12, 14, 20, 15, 13, 17, 10, 19];
-    // var fromDate = moment().subtract(this.goBackDays, "day");
-    // var toDate = moment();
-    // this.memuchoStats.data.labels = this.enumerateTimeBetweenDates(
-    //   fromDate,
-    //   toDate
-    // );
-    // const ctx = document.getElementById("questionStats");
-    // new Chart(ctx, this.memuchoStats);
-    this.calculateChart();
     // If we didn't already do it on the server
     // we fetch the item (will first show the loading text)
     if (this.questionsTotal == 0) {
@@ -95,52 +63,16 @@ export default {
       // return the Promise from the action
       //return this.$store.dispatch('fetchItem', this.$route.params.id)
     },
-
-    calculateChart() {
-      this.memuchoStats.data.datasets[0].data = [
-        12,
-        14,
-        20,
-        15,
-        13,
-        17,
-        10,
-        19,
-      ];
-      var fromDate = moment().subtract(this.goBackDays, "day");
-      var toDate = moment();
-      this.memuchoStats.data.labels = this.enumerateTimeBetweenDates(
-        fromDate,
-        toDate,
-        this.selectedLabel
-      );
-      const ctx = document.getElementById("questionStats");
-      new Chart(ctx, this.memuchoStats);
-    },
-
-    enumerateTimeBetweenDates(startDate, endDate, interval) {
-      var dates = [];
-
-      var currDate = moment(startDate).startOf(interval);
-      var lastDate = moment(endDate).startOf(interval);
-
-      while (currDate.add(1, this.selectedLabel).diff(lastDate) < 0) {
-        console.log(currDate.toDate());
-        dates.push(currDate.clone().format("DD/MM/YYYY"));
-      }
-      dates.push(lastDate.clone().format("DD/MM/YYYY"));
-      return dates;
-    },
   },
 
-  async beforeCreate() {
-    await axios
-      .get("http://localhost:26590/EduSharingApi/Statistics")
-      .then((response) => (this.questionsTotal = response.data.overall.count))
-      .catch((error) => {
-        this.errorMessage = error.message;
-        console.error("There was an error!", error);
-      });
-  },
+  // async beforeCreate() {
+  //   await axios
+  //     .get("http://localhost:26590/EduSharingApi/Statistics")
+  //     .then((response) => (this.questionsTotal = response.data.overall.count))
+  //     .catch((error) => {
+  //       this.errorMessage = error.message;
+  //       console.error("There was an error!", error);
+  //     });
+  // },
 };
 </script>

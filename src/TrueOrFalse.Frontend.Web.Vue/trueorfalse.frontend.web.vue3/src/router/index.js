@@ -12,7 +12,7 @@ let history = isServer ? createMemoryHistory() : createWebHistory();
 const routes = [
   {
      path: '/',
-     redirect: '/news',
+     redirect: '/Dashboard',
   },
 ];
 
