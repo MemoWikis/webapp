@@ -1822,15 +1822,6 @@ b, strong {
         outline: none !important;
     }
 
-    .solutionType-selector {
-        select {
-            border: none;
-            background: @memo-grey-lighter;
-            padding: 0 4px;
-            outline: none !important;
-        }
-    }
-
     .matchlist-container {
         select {
             height: 34px;
@@ -1859,23 +1850,38 @@ b, strong {
             input, select, .input-group {
                 width: 100%;
             }
+
+            .matchlist-left, .matchlist-right {
+                width: 50%;
+            }
         }
 
-        .matchlist-left, .matchlist-right {
-            width: 50%;
+        .matchlist-options {
+            @media (max-width:576px) {
+                flex-direction: column;
+
+                .matchlist-left, .matchlist-right {
+                    width: 100%;
+                }
+
+                .matchlist-right {
+                    margin-top: 26px;
+                }
+
+                .xs-hide {
+                    &.col-spacer {
+                        min-width: 0px;
+                        width: 0px;
+                        padding: 0;
+                    }
+                }
+            }
         }
     }
 
     .edit-question-modal-header {
         display: flex;
         justify-content: space-between;
-
-        .main-label {
-            padding-right: 20px;
-        }
-
-        .solutionType-selector {
-        }
 
         .heart-container {
             display: flex;
@@ -1888,10 +1894,35 @@ b, strong {
             color: @memo-wuwi-red;
             font-size: 22px;
         }
+
+        .main-header {
+            display: flex;
+            align-items: baseline;
+            padding-bottom: 4px;
+
+            .main-label {
+                padding-right: 20px;
+            }
+
+            .solutionType-selector {
+                select {
+                    border: none;
+                    background: @memo-grey-lighter;
+                    padding: 0 4px;
+                    outline: none !important;
+                    height: 34px;
+                    width: 190px;
+                }
+            }
+
+            @media (max-width:576px) {
+                flex-direction: column;
+            }
+        }
     }
 
     .form-group {
-        margin-bottom: 26px;
+        margin-bottom: 16px;
     }
 
     .ProseMirror, input, textarea, select {
@@ -1993,6 +2024,14 @@ b, strong {
         .ProseMirror {
             height: 62px;
         }
+    }
+
+    .col-spacer {
+        min-width: 38px;
+    }
+
+    .form-control {
+        max-width: 100%;
     }
 }
 
@@ -2256,6 +2295,15 @@ textarea, input {
         color: @memo-salmon;
     }
 }
+
+.ProseMirror {
+    li {
+        p {
+            margin: 0;
+        }
+    }
+}
+
 /*Generic Bootstrap*/
 .btn {
     border-radius: 0;

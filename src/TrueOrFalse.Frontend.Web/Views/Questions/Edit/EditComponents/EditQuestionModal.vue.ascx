@@ -11,7 +11,7 @@
                 <div class="modal-body">
                     <div id="" class="edit-question-modal-header overline-m overline-title">
 
-                        <div class="d-flex">
+                        <div class="main-header">
                             <div class="add-inline-question-label main-label">
                                 <template v-if="edit">Frage bearbeiten</template>
                                 <template v-else>Frage erstellen</template>

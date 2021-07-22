@@ -1772,12 +1772,6 @@ strong {
   padding: 0 4px;
   outline: none !important;
 }
-#EditQuestionModal .solutionType-selector select {
-  border: none;
-  background: #EFEFEF;
-  padding: 0 4px;
-  outline: none !important;
-}
 #EditQuestionModal .matchlist-container select {
   height: 34px;
   width: 190px;
@@ -1806,16 +1800,32 @@ strong {
 #EditQuestionModal .matchlist-container .matchlist-pairs .input-group {
   width: 100%;
 }
-#EditQuestionModal .matchlist-container .matchlist-left,
-#EditQuestionModal .matchlist-container .matchlist-right {
+#EditQuestionModal .matchlist-container .matchlist-options .matchlist-left,
+#EditQuestionModal .matchlist-container .matchlist-pairs .matchlist-left,
+#EditQuestionModal .matchlist-container .matchlist-options .matchlist-right,
+#EditQuestionModal .matchlist-container .matchlist-pairs .matchlist-right {
   width: 50%;
+}
+@media (max-width: 576px) {
+  #EditQuestionModal .matchlist-container .matchlist-options {
+    flex-direction: column;
+  }
+  #EditQuestionModal .matchlist-container .matchlist-options .matchlist-left,
+  #EditQuestionModal .matchlist-container .matchlist-options .matchlist-right {
+    width: 100%;
+  }
+  #EditQuestionModal .matchlist-container .matchlist-options .matchlist-right {
+    margin-top: 26px;
+  }
+  #EditQuestionModal .matchlist-container .matchlist-options .xs-hide.col-spacer {
+    min-width: 0px;
+    width: 0px;
+    padding: 0;
+  }
 }
 #EditQuestionModal .edit-question-modal-header {
   display: flex;
   justify-content: space-between;
-}
-#EditQuestionModal .edit-question-modal-header .main-label {
-  padding-right: 20px;
 }
 #EditQuestionModal .edit-question-modal-header .heart-container {
   display: flex;
@@ -1828,8 +1838,29 @@ strong {
   color: #FF001F;
   font-size: 22px;
 }
+#EditQuestionModal .edit-question-modal-header .main-header {
+  display: flex;
+  align-items: baseline;
+  padding-bottom: 4px;
+}
+#EditQuestionModal .edit-question-modal-header .main-header .main-label {
+  padding-right: 20px;
+}
+#EditQuestionModal .edit-question-modal-header .main-header .solutionType-selector select {
+  border: none;
+  background: #EFEFEF;
+  padding: 0 4px;
+  outline: none !important;
+  height: 34px;
+  width: 190px;
+}
+@media (max-width: 576px) {
+  #EditQuestionModal .edit-question-modal-header .main-header {
+    flex-direction: column;
+  }
+}
 #EditQuestionModal .form-group {
-  margin-bottom: 26px;
+  margin-bottom: 16px;
 }
 #EditQuestionModal .ProseMirror,
 #EditQuestionModal input,
@@ -1919,6 +1950,12 @@ strong {
 }
 #EditQuestionModal .description-container .ProseMirror {
   height: 62px;
+}
+#EditQuestionModal .col-spacer {
+  min-width: 38px;
+}
+#EditQuestionModal .form-control {
+  max-width: 100%;
 }
 .d-flex {
   display: flex;
@@ -2211,6 +2248,9 @@ input::placeholder {
 }
 #ErrorModal h3 {
   color: #FFA07A;
+}
+.ProseMirror li p {
+  margin: 0;
 }
 /*Generic Bootstrap*/
 .btn {

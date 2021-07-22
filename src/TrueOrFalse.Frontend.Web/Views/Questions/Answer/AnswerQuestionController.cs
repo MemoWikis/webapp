@@ -519,7 +519,7 @@ public class AnswerQuestionController : BaseController
             overallAnswerCount = history.TimesAnsweredTotal,
             overallAnsweredCorrectly = history.TimesAnsweredCorrect,
             overallAnsweredWrongly = history.TimesAnsweredWrongTotal,
-            isInWishknowledge = answerQuestionModel.IsInWishknowledge,
+            isInWishknowledge = answerQuestionModel.HistoryAndProbability.QuestionValuation.IsInWishKnowledge,
             categories = question.Categories.Where(c => c.IsVisibleToCurrentUser()).Select(c => new
             {
                 name = c.Name,

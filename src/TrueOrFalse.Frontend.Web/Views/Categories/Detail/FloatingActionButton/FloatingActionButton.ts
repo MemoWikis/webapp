@@ -211,10 +211,6 @@ var FAB = Vue.component('floating-action-button',
                 eventBus.$emit('cancel-edit-mode');
             },
             createQuestion() {
-                if (NotLoggedIn.Yes()) {
-                    NotLoggedIn.ShowErrorMsg("CreateQuestion");
-                    return;
-                }
                 var question = {
                     categoryId: parseInt(this.categoryId),
                     edit: false,

@@ -186,7 +186,7 @@
                                 <a onclick="eventBus.$emit('open-edit-question-modal', {
                                                                             categoryId: <%= Model.Category.Id %>,
                                                                             edit: false
-                                                                        })" data-allowed="logged-in">
+                                                                        })">
                                     <div class="dropdown-icon">
                                         <i class="fa fa-plus-circle"></i>
                                     </div>
