@@ -2345,3 +2345,6 @@ input::placeholder {
 .cardModal .modal-content .cardModalContent .modalFooter .memo-button {
   margin: 0;
 }
+.footer-links-memucho {
+  margin-top: 40px;
+}
