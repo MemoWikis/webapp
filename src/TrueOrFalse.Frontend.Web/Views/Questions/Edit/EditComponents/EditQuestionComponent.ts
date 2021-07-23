@@ -171,8 +171,8 @@ var editQuestionComponent = Vue.component('edit-question-component',
                             }
                         },
                         onUpdate: ({ editor }) => {
-                            this.questionExtensionJson = editor.getJSON();
-                            this.questionExtensionHtml = editor.getHTML();
+                            this.questionJson = editor.getJSON();
+                            this.questionHtml = editor.getHTML();
                         },
                 }),
 
@@ -205,8 +205,8 @@ var editQuestionComponent = Vue.component('edit-question-component',
                         }
                     },
                     onUpdate: ({ editor }) => {
-                        this.questionJson = editor.getJSON();
-                        this.questionHtml = editor.getHTML();
+                        this.questionExtensionJson = editor.getJSON();
+                        this.questionExtensionHtml = editor.getHTML();
                     },
                 });
 
