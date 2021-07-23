@@ -1,16 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Security;
-using System.Web;
+﻿using System.Linq;
 using System.Web.Mvc;
-using System.Web.Script.Serialization;
-using Newtonsoft.Json;
-using QuestionListJson;
 using TrueOrFalse;
 using TrueOrFalse.Frontend.Web.Code;
-using TrueOrFalse.Web;
+
 
 public class QuestionController : BaseController
 {
