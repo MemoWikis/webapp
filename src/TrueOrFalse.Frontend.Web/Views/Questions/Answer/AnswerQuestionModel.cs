@@ -220,11 +220,12 @@ public class AnswerQuestionModel : BaseModel
         QuestionHasParentCategories = question.Categories.Any();
 
         //Find best suited primary category for question
-        if (!IsLearningSession && QuestionHasParentCategories)
+        if (QuestionHasParentCategories)
         {
             PrimaryCategory = GetPrimaryCategory.GetForQuestion(question);
             AnalyticsFooterModel = new AnalyticsFooterModel(PrimaryCategory, true);
             AllCategoriesParents = GraphService.GetAllParentsFromEntityCache(PrimaryCategory.Id);
+
             var allCategoryChildrens = EntityCache.GetChildren(PrimaryCategory.Id);
             AllCategorysWithChildrenAndParents = EntityCache.GetCategoryCacheItems(
                 question.Categories.Select(c => c.Id)

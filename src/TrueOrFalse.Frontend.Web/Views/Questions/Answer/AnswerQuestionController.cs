@@ -30,10 +30,8 @@ public class AnswerQuestionController : BaseController
     [SetThemeMenu(isQuestionPage: true)]
     public ActionResult Answer(string text, int? id, int? elementOnPage, string pager, int? setId, int? questionId, string category)
     {
-        
         if (id.HasValue && SeoUtils.HasUnderscores(text))
             return SeoUtils.RedirectToHyphendVersion(RedirectPermanent, id.Value);
-
         return AnswerQuestion(text, id, elementOnPage, pager, category);
     }
 
@@ -76,7 +74,7 @@ public class AnswerQuestionController : BaseController
             if (id == null)
                 throw new Exception("AnswerQuestionController: No id for question provided.");
 
-            var question2 = _questionRepo.GetById((int) id);
+            var question2 = EntityCache.GetQuestionById((int) id);
 
             if (question2 == null)
                 throw new Exception("question not found");

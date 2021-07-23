@@ -81,17 +81,7 @@
 
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">  
 <div class="" style="width: 100%; padding: 0 20px;">                             
-<input type="hidden" id="hddIsLandingPage" value="<%=Model.PageCurrent == null ? "2" : Model.PageCurrent %>"/>  <%-- value "1" is Questionsite , value 2 is LandingPage, Test or Learningsession is this input not available--%> 
-
-
-<% if (Model.IsLearningSession) { %>
-           <% Html.RenderPartial("~/Views/Questions/Answer/LearningSession/LearningSessionHeader.ascx", Model); %>
-<% }else { %>
-      <%-- value "1" is Questionsite , value 2 is LandingPage, Test or Learningsession is this input not available--%> 
-        <div class="AnswerQuestionHeader">
-            <% Html.RenderPartial("~/Views/Questions/Answer/AnswerQuestionPager.ascx", Model); %>
-        </div>
-   <% } %>
+<input type="hidden" id="hddIsLandingPage" value="<%=Model.PageCurrent == null ? "2" : Model.PageCurrent %>"/>  <%-- value "1" is Questionsite , value 2 is LandingPage, Test or Learningsession is this input not available--%>
 
     <div id="FirstRow"class="row">
         <% Html.RenderPartial("~/Views/Questions/Answer/AnswerBodyControl/AnswerBody.ascx", new AnswerBodyModel(Model)); %>
