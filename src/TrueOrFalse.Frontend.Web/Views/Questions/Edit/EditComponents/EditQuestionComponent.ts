@@ -345,24 +345,9 @@ var editQuestionComponent = Vue.component('edit-question-component',
                             eventBus.$emit("change-active-question", self.sessionIndex);
 
                         }
-                        else
-                            self.reloadAnswerBody(result.Data.Id);
 
                         self.highlightEmptyFields = false;
                         $('#EditQuestionModal').modal('hide');
-                    },
-                });
-            },
-
-            reloadAnswerBody(id) {
-                $.ajax({
-                    type: 'post',
-                    contentType: "application/json",
-                    url: '/AnswerQuestion/RenderAnswerBody',
-                    data: JSON.stringify({ questionId: id }),
-                    success: function (html) {
-                        $('#AnswerBody').replaceWith(html);
-                        var answerBody = new AnswerBody();
                     },
                 });
             },
