@@ -184,16 +184,16 @@ let qlc = Vue.component('question-list-component', {
             }
         },
         getUpdatedCorrectnessProbability(id) {
+            var self = this;
             $.ajax({
                 url: "/QuestionList/GetUpdatedCorrectnessProbability/",
                 data: { questionId: id },
                 type: "Post",
-                success: correctnessProbability => {
-                    for (var q in this.questions) {
-                        if (this.questions[q].Id == id) {
-                            this.questions[q].CorrectnessProbability = correctnessProbability;
-                            break;
-                        }
+                success: result => {
+                    var index = self.questions.findIndex((q) => { return q.Id == id });
+                    if (index >= 0) {
+                        self.questions[index].CorrectnessProbability = result.correctnessProbability;
+                        self.questions[index].HasPersonalAnswer = result.hasPersonalAnswer;
                     }
                 }
             });
