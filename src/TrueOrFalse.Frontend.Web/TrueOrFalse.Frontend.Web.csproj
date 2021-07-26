@@ -2574,6 +2574,8 @@
     <Compile Include="Views\Shared\Cards\UserCardBaseModel.cs" />
     <Compile Include="Views\Shared\SharedController.cs" />
     <Compile Include="Views\Shared\SponsorModel.cs" />
+    <Compile Include="Views\StatisticsDashboard\StatisticsDashboardController.cs" />
+    <Compile Include="Views\StatisticsDashboard\StatisticsDashboardModel.cs" />
     <Compile Include="Views\Topics\TopicModel.cs" />
     <Compile Include="Views\Topics\TopicsController.cs" />
     <Compile Include="Views\Users\Account\WidgetStats\Partials\WidgetStatsDetailViewsModel.cs" />

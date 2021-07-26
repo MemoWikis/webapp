@@ -175,7 +175,10 @@ namespace TrueOrFalse
 
             routes.MapRoute("Übersicht", "Übersicht/Förderer", new { controller = "Welcome", action = "Promoter" });
 
-            
+
+            routes.MapRoute("Statistics Dashboard", "StatisticsDashboard/{action}", new { controller = "StatisticsDashboard" });
+
+
 
             foreach (var typeName in GetAllControllerNames())
             {
