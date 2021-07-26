@@ -532,13 +532,6 @@ public class AnswerQuestionController : BaseController
         return json;
     }
 
-    public string RenderCategoryList(int questionId)
-    {
-        var question = EntityCache.GetQuestionById(questionId);
-
-        return ViewRenderer.RenderPartialView("~/Views/Shared/CategoriesOfQuestion.ascx", question, ControllerContext);
-    }
-
     private string GetQuestionPageData(
         AnswerQuestionModel answerQuestionModel, 
         string currentUrl, 

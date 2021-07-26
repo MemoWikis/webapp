@@ -13,7 +13,7 @@ public class TopicToContinueLearningModel
     {
         IsLearningSession = answerQuestionModel.IsLearningSession;
         ContentRecommendationResult = answerQuestionModel.ContentRecommendationResult;
-        Categories = categoryList;
+        Categories = categoryList.Distinct().OrderBy(c => c.Id).ToList();
     }
 
 }

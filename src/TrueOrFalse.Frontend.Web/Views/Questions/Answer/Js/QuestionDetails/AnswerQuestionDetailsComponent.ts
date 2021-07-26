@@ -59,7 +59,6 @@ Vue.component('question-details-component', {
             avgProbabilityLabelWidth: 0,
             arcSvgWidth: 0,
             showPersonalArc: false,
-            categoryList: "",
             personalStartAngle: 0,
             overallStartAngle: 0,
 
@@ -80,7 +79,6 @@ Vue.component('question-details-component', {
             categories: [],
             isLandingPage: !this.isInLearningTab,
             questionIdHasChanged: false,
-            categoryListHasLoaded: false,
         };
     },
 
@@ -98,9 +96,7 @@ Vue.component('question-details-component', {
                         self.questionIdHasChanged = true;
                         self.questionId = id;
                         self.$refs.personalCounter = null;
-                        self.categoryListHasLoaded = false;
                     }
-                    self.loadCategoryList();
                     self.loadData();
                 }
             });
@@ -165,7 +161,6 @@ Vue.component('question-details-component', {
 
     mounted: function () {
         if (!this.arcLoaded) {
-            this.loadCategoryList();
             this.loadData();
         }
     },
@@ -181,20 +176,6 @@ Vue.component('question-details-component', {
                 newVal = val / 1000000;
                 return newVal.toFixed(2).toLocaleString("de-DE") + " Mio.";
             }
-        },
-
-        loadCategoryList() {
-            if (this.categoryListHasLoaded)
-                return;
-            $.ajax({
-                url: "/AnswerQuestion/RenderCategoryList/",
-                data: { questionId: this.questionId },
-                type: "Post",
-                success: categoryListView => {
-                    this.categoryList = categoryListView;
-                    this.categoryListHasLoaded = true;
-                }
-            });
         },
 
         loadData() {
