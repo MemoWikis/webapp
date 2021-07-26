@@ -294,6 +294,8 @@ public class CategoryController : BaseController
     [HttpPost]
     public bool GetWishknowledge(int categoryId)
     {
+        return false;
+
         if (!IsLoggedIn)
             return false;
 
