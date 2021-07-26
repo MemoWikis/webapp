@@ -46,12 +46,6 @@ namespace TrueOrFalse.View
                 .Include("~/Scripts/vendor.file-uploader/uploader.js")
                 .Include("~/Scripts/vendor.file-uploader/jquery-plugin.js"));
 
-            bundles.Add(new ScriptBundle("~/bundles/guidedTourScript")
-                .IncludeDirectory("~/Scripts/guidedTour/", "*.js"));
-
-            bundles.Add(new StyleBundle("~/bundles/guidedTourStyle")
-                .Include("~/Style/guidedTour/bootstrap-tour.css"));
-
             bundles.Add(new ScriptBundle("~/bundles/Welcome")
                 .IncludeDirectory("~/Views/Welcome/Js", "*.js"));
 
