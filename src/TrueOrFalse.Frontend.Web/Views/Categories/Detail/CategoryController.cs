@@ -6,6 +6,7 @@ using System.Web;
 using System.Web.Mvc;
 using TrueOrFalse.Frontend.Web.Code;
 
+[SessionState(System.Web.SessionState.SessionStateBehavior.ReadOnly)]
 [SetUserMenu(UserMenuEntry.None)]
 public class CategoryController : BaseController
 {

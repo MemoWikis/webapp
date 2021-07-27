@@ -1,11 +1,8 @@
-﻿using System;
-using System.Linq;
-using System.Text.RegularExpressions;
+﻿using System.Linq;
 using System.Web.Mvc;
-using System.Web.Script.Serialization;
-using TrueOrFalse;
 using TrueOrFalse.Frontend.Web.Code;
-using TrueOrFalse.Web;
+
+[SessionState(System.Web.SessionState.SessionStateBehavior.ReadOnly)]
 public class QuestionListController : BaseController
 {
  

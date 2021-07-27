@@ -1,11 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
-using Microsoft.Ajax.Utilities;
-using Microsoft.AspNet.SignalR;
 using TrueOrFalse.Frontend.Web.Code;
 
+[SessionState(System.Web.SessionState.SessionStateBehavior.ReadOnly)]
 public class SegmentationController : BaseController
 {
     [HttpPost]

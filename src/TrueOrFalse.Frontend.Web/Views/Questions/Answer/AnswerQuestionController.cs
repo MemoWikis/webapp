@@ -13,6 +13,7 @@ using TrueOrFalse.Search;
 using TrueOrFalse.Web;
 using static System.String;
 
+[SessionState(System.Web.SessionState.SessionStateBehavior.ReadOnly)]
 public class AnswerQuestionController : BaseController
 {
     private readonly QuestionRepo _questionRepo;

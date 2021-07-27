@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Web.Mvc;
-             
+
+[SessionState(System.Web.SessionState.SessionStateBehavior.ReadOnly)]
 public class ActivityPointsApiController : BaseController
 {
     public JsonResult Add(string activityTypeString, int points)
