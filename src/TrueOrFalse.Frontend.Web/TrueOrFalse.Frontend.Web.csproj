@@ -3013,7 +3013,6 @@
       <DependentUpon>NotLoggedIn.ts</DependentUpon>
     </Content>
     <Content Include="Scripts\vendor\jquery.countdown.js" />
-    <Content Include="Scripts\vendor\jquery.signalR-2.2.0.js" />
     <Content Include="Scripts\SearchInTabs.js">
       <DependentUpon>SearchInTabs.ts</DependentUpon>
     </Content>
