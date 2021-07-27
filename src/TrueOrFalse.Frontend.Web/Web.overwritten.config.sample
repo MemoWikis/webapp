@@ -8,8 +8,8 @@
   <betaCode>betaCode</betaCode>
 
   <debugUserNHProfiler>false</debugUserNHProfiler>
-  <debugMiniProfiler>false</debugMiniProfiler>
+  <debugMiniProfiler>true</debugMiniProfiler>
 
-  <disableAllJobs>false</disableAllJobs>
+  <disableAllJobs>true</disableAllJobs>
 
 </configuration>

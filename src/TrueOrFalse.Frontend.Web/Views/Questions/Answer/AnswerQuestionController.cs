@@ -134,7 +134,6 @@ public class AnswerQuestionController : BaseController
 
     private ActionResult GetViewBySearchSpec(QuestionSearchSpec searchSpec)
     {
-
         using (MiniProfiler.Current.Step("GetViewBySearchSpec"))
         {
             var question = AnswerQuestionControllerSearch.Run(searchSpec);
