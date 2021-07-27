@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Concurrent;
+﻿using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Web;
-using System.Windows.Forms;
-using Microsoft.Owin.Security.Provider;
 
 public class EntityCache : BaseCache
 {

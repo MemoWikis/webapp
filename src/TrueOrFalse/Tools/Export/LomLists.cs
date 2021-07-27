@@ -1,18 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.Policy;
-using System.Text;
-using System.Threading.Tasks;
-using Microsoft.Owin.Security.Provider;
-
-public enum LomAggregationLevel
+﻿public enum LomAggregationLevel
 {
     Level1Fragment = 1,
     Level2Lesson = 2,
     Level3Course = 3,
     Level4Certificate = 4
-
 }
 
 public enum LomGeneralStructure
