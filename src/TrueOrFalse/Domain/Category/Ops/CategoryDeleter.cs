@@ -46,6 +46,7 @@ public class CategoryDeleter : IRegisterAsInstancePerLifetime
         ModifyRelationsUserEntityCache.DeleteFromAllParents(categoryCacheItem);
         EntityCache.Remove(categoryCacheItem);
         UserCache.RemoveAllForCategory(category.Id);
+        UserEntityCache.DeleteCategory(category.Id);
         hasDeleted.DeletedSuccessful = true;
         return hasDeleted; 
     }

@@ -83,10 +83,16 @@ public class ModifyRelationsUserEntityCache
                 var allCacheItems = userEntityCache.Values;
                 foreach (var cacheItem in allCacheItems)
                 {
-                    foreach (var relation in cacheItem.CategoryRelations)
+                    for (var i = 0; i < cacheItem.CategoryRelations.Count; i++)
                     {
+                        var relation = cacheItem.CategoryRelations[i];
+
                         if (relation.RelatedCategoryId == category.Id)
+                        {
                             cacheItem.CategoryRelations.Remove(relation);
+                            break;
+                        }
+                            
                     }
                 }
             }

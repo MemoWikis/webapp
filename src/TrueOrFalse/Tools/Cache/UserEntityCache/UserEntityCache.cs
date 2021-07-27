@@ -117,6 +117,15 @@ public class UserEntityCache : BaseCache
         if (Sl.SessionUser != null) 
             _Categories.TryRemove(Sl.SessionUser.UserId, out _);
     }
+
+    public static void DeleteCategory(int categoryId)
+    {
+        foreach (var userCache in _Categories.Values)
+        {
+            if (userCache.ContainsKey(categoryId))
+                userCache.TryRemove(categoryId, out var outobj); 
+        }
+    }
     public static void ReInitAllActiveCategoryCaches()
     {
         foreach (var userId in _Categories.Keys)
