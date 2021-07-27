@@ -1,7 +1,6 @@
 ﻿<%@ Control Language="C#" AutoEventWireup="true"
     Inherits="System.Web.Mvc.ViewUserControl<CategoryModel>" %>
 <%@ Import Namespace="System.Web.Optimization" %>
-<%@ Import Namespace="Microsoft.VisualBasic.Activities" %>
 
 <input type="hidden" id="hddCategoryId" value="<%= Model.Category.Id %>" />
 <input type="hidden" id="hddIsLearningSessionOnCategoryPage" value="true" />
