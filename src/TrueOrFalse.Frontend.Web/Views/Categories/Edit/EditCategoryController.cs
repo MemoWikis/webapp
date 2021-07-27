@@ -389,7 +389,7 @@ public class EditCategoryController : BaseController
             return Json(new
             {
                 success = false,
-                errorMsg = "Die Verknüpfung des Thema kann nicht gelöst werden, Das Thema muss mindestens einem Oberthema zugeordnet sein."
+                errorMsg = "Die Verknüpfung des Themas kann nicht gelöst werden. Das Thema muss mindestens einem Oberthema zugeordnet sein."
             });
     }
 
