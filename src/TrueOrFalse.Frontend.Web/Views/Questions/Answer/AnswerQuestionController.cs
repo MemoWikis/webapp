@@ -135,7 +135,6 @@ public class AnswerQuestionController : BaseController
 
     private ActionResult GetViewBySearchSpec(QuestionSearchSpec searchSpec)
     {
-
         using (MiniProfiler.Current.Step("GetViewBySearchSpec"))
         {
             var question = AnswerQuestionControllerSearch.Run(searchSpec);
@@ -531,13 +530,6 @@ public class AnswerQuestionController : BaseController
             endTimer = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds()
         });
         return json;
-    }
-
-    public string RenderCategoryList(int questionId)
-    {
-        var question = EntityCache.GetQuestionById(questionId);
-
-        return ViewRenderer.RenderPartialView("~/Views/Shared/CategoriesOfQuestion.ascx", question, ControllerContext);
     }
 
     private string GetQuestionPageData(

@@ -7,10 +7,20 @@
     <div id="questionDetailsContainer" class="row" style="min-height:265px">
         <div id="categoryList" class="col-sm-5" :class="{ isLandingPage:'isLandingPage'}">
             <div class="overline-s no-line">Themen</div>
-            <div class="categoryListChips" v-html="categoryList">
-            </div>
-            <div class="categoryListLinks">
-                <a v-for="(c, i) in categories" :href="c.linkToCategory">{{c.name}}{{i != categories.length - 1 ? ', ' : ''}}</a>
+            <div class="categoryListChips">
+                <div style="display: flex; flex-wrap: wrap;">
+                    <div v-for="(c, i) in categories" class="category-chip-container">
+                        <a :href="c.linkToCategory">
+                            <div class="category-chip show-tooltip" :title="c.Name">
+            
+                                <div class="category-chip-label">{{c.name}}</div>
+            
+                                <span class="remove-category-chip"></span>
+                            </div>
+                        </a>
+                    </div>
+
+                </div>
             </div>
         </div>
         <div id="questionStatistics" class="col-sm-7 row">

@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
-using FluentNHibernate.Utils;
 using TrueOrFalse.Search;
 
 public class CategoryApiController : BaseController

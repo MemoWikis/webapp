@@ -1,5 +1,10 @@
-﻿using System.Linq;
+﻿using System;
+using System.Collections.Concurrent;
+using System.Linq;
+using System.Text.RegularExpressions;
 using System.Web.Mvc;
+using System.Web.Script.Serialization;
+using TrueOrFalse;
 using TrueOrFalse.Frontend.Web.Code;
 
 [SessionState(System.Web.SessionState.SessionStateBehavior.ReadOnly)]
@@ -80,11 +85,23 @@ public class QuestionListController : BaseController
     }
 
     [HttpPost]
-    public int GetUpdatedCorrectnessProbability(int questionId)
+    public JsonResult GetUpdatedCorrectnessProbability(int questionId)
     {
-        var question = Sl.QuestionRepo.GetById(questionId);
+        var question = EntityCache.GetQuestionById(questionId);
+        var hasPersonalAnswer = false;
         var model = new AnswerQuestionModel(question, true);
+        if (_sessionUser.IsLoggedIn)
+        {
+            ConcurrentDictionary<int, QuestionValuationCacheItem> userQuestionValuation = new ConcurrentDictionary<int, QuestionValuationCacheItem>();
+            userQuestionValuation = UserCache.GetItem(_sessionUser.UserId).QuestionValuations;
+            if (userQuestionValuation.ContainsKey(questionId))
+                hasPersonalAnswer = userQuestionValuation[questionId].CorrectnessProbabilityAnswerCount > 0;
+        }
 
-        return model.HistoryAndProbability.CorrectnessProbability.CPPersonal;
+        return Json(new
+        {
+            correctnessProbability = model.HistoryAndProbability.CorrectnessProbability.CPPersonal,
+            hasPersonalAnswer
+        });
     }
 }

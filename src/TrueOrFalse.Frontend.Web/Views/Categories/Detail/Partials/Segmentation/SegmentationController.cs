@@ -8,7 +8,6 @@ public class SegmentationController : BaseController
 {
     [HttpPost]
     public JsonResult GetSegment(SegmentJson json)
- 
     {
         var categoryId = json.CategoryId;
         var segment = new Segment();
