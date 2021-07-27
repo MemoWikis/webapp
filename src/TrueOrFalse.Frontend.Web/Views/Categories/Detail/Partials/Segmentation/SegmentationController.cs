@@ -43,18 +43,6 @@ public class SegmentationController : BaseController
     [HttpPost]
     public JsonResult GetCategoryData(int categoryId)
     {
-        return Json(new
-        {
-            categoryName = "categoryCacheItem.Name",
-            visibility = true,
-            linkToCategory = "",
-            categoryTypeHtml = "",
-            imgHtml  = "",
-            childCategoryCount = 1,
-            questionCount = 1,
-            knowledgeBarHtml = ""
-        });
-
         var categoryCacheItem = EntityCache.GetCategoryCacheItem(categoryId);
 
         var linkToCategory = Links.CategoryDetail(categoryCacheItem);
