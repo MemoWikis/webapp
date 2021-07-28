@@ -35,7 +35,7 @@
             </div>
         </div>
         <div class="topicNavigation row" :key="cardsKey">
-            <template v-for="(id, index) in currentChildCategoryIds">
+            <template v-for="(category, index) in categories">
                 <%: Html.Partial("~/Views/Categories/Detail/Partials/Segmentation/SegmentationCategoryCardComponent.vue.ascx")%>
             </template>
 

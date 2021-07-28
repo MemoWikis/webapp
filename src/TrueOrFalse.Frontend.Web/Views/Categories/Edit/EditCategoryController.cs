@@ -241,10 +241,18 @@ public class EditCategoryController : BaseController
             return Json(new
             {
                 success = false,
-                errorMsg = "Das untergeordnete Thema, darf nicht das selbe Thema sein"
+                errorMsg = "Das untergeordnete Thema, darf nicht das selbe Thema sein."
             });
 
         var category = Sl.CategoryRepo.GetById(childCategoryId);
+        var children = EntityCache.GetChildren(parentCategoryId);
+        if (children.Any(c => c.Id == childCategoryId))
+            return Json(new
+            {
+                success = false,
+                errorMsg = "Das Thema ist schon untergeordnet."
+            });
+
         var allParents = GraphService.GetAllParentsFromEntityCache(parentCategoryId);
         var parentIsEqualChild = allParents.Where(c => c.Id == childCategoryId);
 

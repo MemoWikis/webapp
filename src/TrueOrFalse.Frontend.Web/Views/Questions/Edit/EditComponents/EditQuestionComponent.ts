@@ -389,7 +389,8 @@ var editQuestionComponent = Vue.component('edit-question-component',
                 var self = this;
                 var data = {
                     term: self.searchTerm,
-                    type: 'Categories'
+                    type: 'Categories',
+                    categoriesToFilter: [],
                 };
 
                 $.get("/Api/Search/ByNameForVue", data,

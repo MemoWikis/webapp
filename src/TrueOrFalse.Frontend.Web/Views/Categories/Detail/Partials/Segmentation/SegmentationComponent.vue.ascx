@@ -7,19 +7,6 @@
     <div :key="componentKey" id="Segmentation" v-cloak>
         <div class="segmentationHeader overline-m">
             Untergeordnete Themen
-            <div class="Button dropdown DropdownButton segmentDropdown">
-                <a href="#" :id="dropdownId" class="dropdown-toggle  btn btn-link btn-sm ButtonEllipsis" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                    <i class="fa fa-ellipsis-v"></i>
-                </a>
-                <ul class="dropdown-menu dropdown-menu-right" :aria-labelledby="dropdownId">
-                    <li><a @click="moveToNewCategory">
-                        <div class="dropdown-icon"><i class="fas fa-code-branch"></i></div>In neues Thema verschieben
-                    </a></li>
-                    <li><a @click="removeChildren">
-                        <div class="dropdown-icon"><i class="fas fa-unlink"></i></div>Themen entfernen
-                    </a></li>
-                </ul>
-            </div>
         </div>
 
         <div id="CustomSegmentSection" v-if="loadComponents" v-cloak>
@@ -42,19 +29,6 @@
                         Weitere untergeordnete Themen
                     </h2>
                 </div>
-                <div class="Button dropdown DropdownButton segmentDropdown" :class="{ hover : showHover }">
-                    <a href="#" :id="dropdownId" class="dropdown-toggle  btn btn-link btn-sm ButtonEllipsis" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                        <i class="fa fa-ellipsis-v"></i>
-                    </a>
-                    <ul class="dropdown-menu dropdown-menu-right" :aria-labelledby="dropdownId">
-                        <li><a @click="moveToNewCategory">
-                            <div class="dropdown-icon"><i class="fas fa-code-branch"></i></div>In neues Thema verschieben
-                        </a></li>
-                        <li><a @click="removeChildren">
-                            <div class="dropdown-icon"><i class="fas fa-unlink"></i></div>Themen entfernen
-                        </a></li>
-                    </ul>
-                </div>
             </div>
             <%if(!String.IsNullOrEmpty(Model.Title)){%>
                 <h2><%: Model.Title %></h2>
@@ -65,7 +39,7 @@
         
                 <div class="topicNavigation row">
                     <template v-if="loadComponents" v-cloak>
-                        <template v-for="(id, index) in currentChildCategoryIds">
+                        <template v-for="(category, index) in categories">
                             <%: Html.Partial("~/Views/Categories/Detail/Partials/Segmentation/SegmentationCategoryCardComponent.vue.ascx")%>
                         </template>
                     </template>
