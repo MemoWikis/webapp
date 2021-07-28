@@ -68,6 +68,9 @@ var questionListApp = new Vue({
             () => {
                 this.getAllQuestionsCountFromCategory();
             });
+        eventBus.$on('init-new-session', () => {
+            this.$nextTick(() => this.selectedQuestionCount = 'alle');
+        });
     },
     mounted() {
         $('#CustomSessionConfigBtn').tooltip();
