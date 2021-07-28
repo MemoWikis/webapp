@@ -5,56 +5,62 @@ using System.Web;
 using System.Web.Mvc;
 using NHibernate;
 using NHibernate.Util;
+using System.Web.Http.Cors;
 
-
-    public class StatisticsDashboardController : Controller
+[EnableCors(origins: "localhost:8080", headers: "*", methods: "*")]
+public class StatisticsDashboardController : Controller
+{
+    [HttpGet]
+    public int[] GetCreatedQuestionsInTimeWindow(int amount, string interval)
     {
-        [HttpGet]
-        public int[] GetCreatedQuestionsInTimeWindow(int amount, string interval)
+        var _session = Sl.R<ISession>();
+        var i = 0;
+        var questionsPerInterval = new List<int>();
+
+        switch (interval)
         {
-            DateTime since;
-            int _memuchoId = 26;
-
-
-            switch (interval)
-            {
-                case "day":
+            case "day":
                 {
-                    since = DateTime.Now.AddDays(-amount);
+                    while (i < amount)
+                    {
+                        var questionsInInterval = _session
+                            .CreateSQLQuery("SELECT DateCreated FROM questionset WHERE YEAR(DateCreated) =" + DateTime.Now.AddDays(-i).Year + " AND MONTH(DateCreated) =" + DateTime.Now.AddDays(-i).Month + " AND DAY(DateCreated) =" + DateTime.Now.AddDays(-i).Day)
+                            .List<DateTime>();
+                        questionsPerInterval.Add(questionsInInterval.Count);
+                        i++;
+                    }
                     break;
                 }
-                case "week":
+            case "month":
                 {
-                    since = DateTime.Now.AddDays(-amount*7);
+                    while (i < amount)
+                    {
+                        var questionsInInterval = _session
+                            .CreateSQLQuery("SELECT DateCreated FROM questionset WHERE YEAR(DateCreated) =" + DateTime.Now.AddMonths(-i).Year + " AND MONTH(DateCreated) =" + DateTime.Now.AddMonths(-i).Month)
+                            .List<DateTime>();
+                        questionsPerInterval.Add(questionsInInterval.Count);
+                        i++;
+                    }
                     break;
                 }
-                case "month":
+            case "year":
                 {
-                    since = DateTime.Now.AddMonths(-amount);
+                    while (i < amount)
+                    {
+                        var questionsInInterval = _session
+                            .CreateSQLQuery("SELECT DateCreated FROM questionset WHERE YEAR(DateCreated) =" + DateTime.Now.AddYears(-i).Year)
+                            .List<DateTime>();
+                        questionsPerInterval.Add(questionsInInterval.Count);
+                        i++;
+                    }
                     break;
                 }
-                case "year":
-                {
-                    since = DateTime.Now.AddYears(-amount);
-                    break;
-                }
-                default:
-                    return null;
-            }
-            var _session = Sl.R<ISession>();
-            var QuestionsCreatedPerDayResults = _session
-                .QueryOver<Question>()
-                .Where(q => q.DateCreated.Date >= since)
-                .List()
-                .GroupBy(q => q.DateCreated.Date)
-                .Select(r => new QuestionsCreatedPerDayResult
-                {
-                    DateTime = r.Key,
-                    CountByMemucho = r.Count(q => q.Creator.Id == _memuchoId),
-                    CountByOthers = r.Count(q => q.Creator.Id != _memuchoId),
-                })
-                .ToList();
-            var result = QuestionsCreatedPerDayResults.Select(i => i.TotalCount).ToArray();
-            return result;
+            default:
+                return null;
         }
+
+
+        var result = questionsPerInterval.ToArray();
+        return result;
     }
+}

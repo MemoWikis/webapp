@@ -9,7 +9,7 @@
       type="number"
     />
     <span> Tage. Bestimme den Zeitintervall im Graphen </span>
-    <select v-model="selectedLabel">
+    <select v-model="selectedInterval">
       <option
         v-for="option in optionsLabel"
         :value="option.value"
@@ -32,6 +32,7 @@
 <script>
 import Chart from "chart.js";
 import moment from "moment";
+import axios from "axios";
 
 export default {
   props: {
@@ -43,7 +44,7 @@ export default {
 
   data: function() {
     return {
-      selectedLabel: "day",
+      selectedInterval: "day",
       optionsLabel: [
         { text: "Tage", value: "day" },
         { text: "Wochen", value: "week" },
@@ -95,18 +96,33 @@ export default {
 
   mounted() {
     this.memuchoStats.data.datasets[0].label = this.lineLabel;
-    this.calculateChart();
+    //this.calculateChart();
   },
 
   methods: {
     calculateChart() {
-      this.memuchoStats.data.datasets[0].data = this.chartData;
+      var url =
+        "http://localhost:26590/StatisticsDashboard/GetCreatedQuestionsInTimeWindow?amount=30&interval=month"; //"http://localhost:26590/StatisticsDashboard/GetCreatedQuestionsInTimeWindow?amount=" +
+      //this.goBackDays + "&interval=" + this.selectedInterval;
+      axios
+        .get(url)
+        .then(
+          (response) =>
+            (this.memuchoStats.data.datasets[0].data = response.data)
+        )
+        .catch((error) => {
+          this.errorMessage = error.message;
+          console.error("There was an error!", error);
+        });
+      console.log(this.memuchoStats.data.datasets[0].data);
+
+      //this.memuchoStats.data.datasets[0].data = this.chartData;
       var fromDate = moment().subtract(this.goBackDays, "day");
       var toDate = moment();
       this.memuchoStats.data.labels = this.enumerateTimeBetweenDates(
         fromDate,
         toDate,
-        this.selectedLabel
+        this.selectedInterval
       );
       const ctx = document.getElementById(this.chartId);
       new Chart(ctx, this.memuchoStats);
@@ -118,8 +134,8 @@ export default {
       var currDate = moment(startDate).startOf(interval);
       var lastDate = moment(endDate).startOf(interval);
 
-      while (currDate.add(1, this.selectedLabel).diff(lastDate) < 0) {
-        console.log(currDate.toDate());
+      while (currDate.add(1, this.selectedInterval).diff(lastDate) < 0) {
+        //console.log(currDate.toDate());
         dates.push(currDate.clone().format("DD/MM/YYYY"));
       }
       dates.push(lastDate.clone().format("DD/MM/YYYY"));
