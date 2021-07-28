@@ -63,10 +63,7 @@ public class SegmentationController : BaseController
         {
             CategoryCardData categoryCardData;
 
-            if (IsLoggedIn)
-                categoryCardData = GetCategoryCardData(categoryId, userValuation);
-            else
-                categoryCardData = GetCategoryCardData(categoryId);
+            categoryCardData = IsLoggedIn ? GetCategoryCardData(categoryId, userValuation) : GetCategoryCardData(categoryId);
 
             categoryDataList.Add(categoryCardData);
         }
