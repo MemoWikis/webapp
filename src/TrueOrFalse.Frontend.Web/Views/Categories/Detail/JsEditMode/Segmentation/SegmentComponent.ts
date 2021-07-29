@@ -4,6 +4,7 @@
     props: {
         categoryId: [Number, String],
         initialWishknowledgeState: Boolean,
+        isHistoric: Boolean,
     },
     data() {
         return {
@@ -116,7 +117,8 @@ var categoryCardComponent = Vue.component('category-card-component', {
         segmentId: [String, Number],
         hide: String,
         isMyWorld: Boolean,
-        category: Object
+        category: Object,
+        isHistoric: Boolean,
     },
 
     data() {
@@ -217,7 +219,7 @@ var categoryCardComponent = Vue.component('category-card-component', {
         },
 
         handler: function (e) {
-            console.log(e);
+        //    console.log(e);
         }
     }
 });
@@ -230,6 +232,7 @@ var segmentComponent = Vue.component('segment-component', {
         categoryId: [String, Number],
         editMode: Boolean,
         isMyWorld: Boolean,
+        isHistoric: Boolean,
     },
 
     data() {
