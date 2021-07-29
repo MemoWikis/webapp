@@ -11,7 +11,8 @@ var segmentationComponent = Vue.component('segmentation-component', {
         editMode: Boolean,
         childCategoryIds: String,
         segmentJson: String,
-        isMyWorldString: String
+        isMyWorldString: String,
+        isHistoricString: String,
     },
 
     data() {
@@ -33,6 +34,7 @@ var segmentationComponent = Vue.component('segmentation-component', {
             segments: [] as Segment[],
             isMyWorld: this.isMyWorldString == 'True',
             categories: [],
+            isHistoric: this.isHistoricString == 'True',
         };
     },
 

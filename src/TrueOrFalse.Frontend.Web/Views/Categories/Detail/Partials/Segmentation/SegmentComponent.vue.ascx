@@ -1,6 +1,6 @@
 ﻿<%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
 
-<segment-component inline-template :edit-mode="editMode" :ref="'segment'+ s.CategoryId" :title="s.Title" :child-category-ids="s.ChildCategoryIds" :category-id="s.CategoryId">
+<segment-component inline-template :edit-mode="editMode" :ref="'segment'+ s.CategoryId" :title="s.Title" :child-category-ids="s.ChildCategoryIds" :category-id="s.CategoryId" :is-historic="isHistoric">
     <div class="segment" :data-category-id="categoryId" :data-child-category-ids="currentChildCategoryIdsString" @mouseover="hover = true" @mouseleave="hover = false" :class="{ hover : showHover }">
         <div class="segmentSubHeader">
             <div class="segmentHeader">
@@ -14,7 +14,7 @@
                     <pin-category-component :category-id="categoryId"/>
 
                 </div>
-                <div class="Button dropdown DropdownButton segmentDropdown" :class="{ hover : showHover }">
+                <div v-if="!isHistoric" class="Button dropdown DropdownButton segmentDropdown" :class="{ hover : showHover && !isHistoric }">
                     <a href="#" :id="dropdownId" class="dropdown-toggle  btn btn-link btn-sm ButtonEllipsis" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
                         <i class="fa fa-ellipsis-v"></i>
                     </a>
@@ -39,7 +39,7 @@
                 <%: Html.Partial("~/Views/Categories/Detail/Partials/Segmentation/SegmentationCategoryCardComponent.vue.ascx")%>
             </template>
 
-            <div class="col-xs-6 addCategoryCard memo-button" @click="addCategory" :id="addCategoryId">
+            <div v-if="!isHistoric" class="col-xs-6 addCategoryCard memo-button" @click="addCategory" :id="addCategoryId">
                 <div>
                      <i class="fas fa-plus"></i> Neues Thema
                 </div>

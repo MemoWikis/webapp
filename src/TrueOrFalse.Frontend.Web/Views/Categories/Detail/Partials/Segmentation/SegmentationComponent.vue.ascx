@@ -3,7 +3,7 @@
 
 <%= Styles.Render("~/bundles/Segmentation") %>
 
-<segmentation-component inline-template :edit-mode="editMode" :category-id="<%= Model.Category.Id %>" child-category-ids="<%= Model.NotInSegmentCategoryIds %>" segment-json="<%= Model.SegmentJson %>" is-my-world-string="<%= Model.IsMyWorld %>">
+<segmentation-component inline-template :edit-mode="editMode" :category-id="<%= Model.Category.Id %>" child-category-ids="<%= Model.NotInSegmentCategoryIds %>" segment-json="<%= Model.SegmentJson %>" is-my-world-string="<%= Model.IsMyWorld %>" is-historic-string="<%= Model.Category.IsHistoric %>">
     <div :key="componentKey" id="Segmentation" v-cloak>
         <div class="segmentationHeader overline-m">
             Untergeordnete Themen
@@ -22,7 +22,7 @@
                 <% }
                   } %>
         </div>
-        <div id="GeneratedSegmentSection" @mouseover="hover = true" @mouseleave="hover = false" :class="{ hover : showHover }">
+        <div id="GeneratedSegmentSection" @mouseover="hover = true" @mouseleave="hover = false" :class="{ hover : showHover && !isHistoric }">
             <div class="segmentHeader" v-if="hasCustomSegment">
                 <div class="segmentTitle">
                     <h2>
@@ -51,11 +51,12 @@
                         </template>                    <%}else { %>
                         <div class="hidden">&nbsp;</div><% //if empty, templateparser throws error %>
                     <%} %>
-                    <div id="AddToCurrentCategoryBtn" class="col-xs-6 addCategoryCard memo-button" @click="addCategory">
+                    <div v-if="!isHistoric" id="AddToCurrentCategoryBtn" class="col-xs-6 addCategoryCard memo-button" @click="addCategory">
                         <div>
-                             <i class="fas fa-plus"></i> Neues Thema
+                            <i class="fas fa-plus"></i> Neues Thema
                         </div>                    
                     </div>
+
                 </div>
 
         </div>
