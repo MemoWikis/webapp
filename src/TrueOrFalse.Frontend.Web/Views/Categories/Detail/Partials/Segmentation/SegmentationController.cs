@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Concurrent;
+using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
 using TrueOrFalse.Frontend.Web.Code;
@@ -44,6 +46,33 @@ public class SegmentationController : BaseController
     [HttpPost]
     public JsonResult GetCategoryData(int categoryId)
     {
+        var categoryCardData = IsLoggedIn ? GetCategoryCardData(categoryId, UserCache.GetItem(UserId).CategoryValuations) : GetCategoryCardData(categoryId);
+        return Json(categoryCardData);
+    }
+
+    [HttpPost]
+    public JsonResult GetCategoriesData(int[] categoryIds)
+    {
+        ConcurrentDictionary<int, CategoryValuation> userValuation = null;
+
+        if (IsLoggedIn)
+            userValuation = UserCache.GetItem(UserId).CategoryValuations;
+        
+        var categoryDataList = new List<CategoryCardData>();
+        foreach (int categoryId in categoryIds)
+        {
+            CategoryCardData categoryCardData;
+
+            categoryCardData = IsLoggedIn ? GetCategoryCardData(categoryId, userValuation) : GetCategoryCardData(categoryId);
+
+            categoryDataList.Add(categoryCardData);
+        }
+
+        return Json(categoryDataList);
+    }
+
+    private CategoryCardData GetCategoryCardData(int categoryId, ConcurrentDictionary<int, CategoryValuation> userValuation = null)
+    {
         var categoryCacheItem = EntityCache.GetCategoryCacheItem(categoryId);
 
         var linkToCategory = Links.CategoryDetail(categoryCacheItem);
@@ -59,17 +88,38 @@ public class SegmentationController : BaseController
         if (questionCount > 0)
             knowledgeBarHtml = ViewRenderer.RenderPartialView("~/Views/Categories/Detail/CategoryKnowledgeBar.ascx", new CategoryKnowledgeBarModel(categoryCacheItem), ControllerContext);
 
-        return Json(new
+        var isInWishknowledge = false;
+        if (IsLoggedIn)
+            if (userValuation.ContainsKey(categoryId))
+                isInWishknowledge = userValuation[categoryId].IsInWishKnowledge();
+
+        return new CategoryCardData
         {
-            categoryName = categoryCacheItem.Name,
-            visibility = categoryCacheItem.Visibility,
-            linkToCategory,
-            categoryTypeHtml,
-            imgHtml,
-            childCategoryCount,
-            questionCount,
-            knowledgeBarHtml
-        });
+            Id = categoryCacheItem.Id,
+            Name = categoryCacheItem.Name,
+            Visibility = (int)categoryCacheItem.Visibility,
+            LinkToCategory = linkToCategory,
+            CategoryTypeHtml = categoryTypeHtml,
+            ImgHtml = imgHtml,
+            KnowledgeBarHtml = knowledgeBarHtml,
+            ChildCategoryCount = childCategoryCount,
+            QuestionCount = questionCount,
+            IsInWishknowledge = isInWishknowledge
+        };
+    }
+
+    private class CategoryCardData
+    {
+        public int Id;
+        public string Name;
+        public int Visibility;
+        public string LinkToCategory;
+        public string CategoryTypeHtml;
+        public string ImgHtml;
+        public string KnowledgeBarHtml;
+        public int ChildCategoryCount;
+        public int QuestionCount;
+        public bool IsInWishknowledge = false;
     }
 
     [HttpPost]
@@ -82,7 +132,6 @@ public class SegmentationController : BaseController
         var knowledgeBarHtml = "";
         if (questionCount > 0)
             knowledgeBarHtml = ViewRenderer.RenderPartialView("~/Views/Categories/Detail/CategoryKnowledgeBar.ascx", new CategoryKnowledgeBarModel(categoryCacheItem), ControllerContext);
-
         return Json(new
         {
             categoryId = categoryCacheItem.Id,

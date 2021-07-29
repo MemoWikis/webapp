@@ -28,6 +28,7 @@ var addCategoryComponent = Vue.component('add-category-component', {
             lockDropdown: true,
             selectedCategory: null,
             showSelectedCategory: false,
+            categoriesToFilter: []
         };
     },
     watch: {
@@ -77,6 +78,8 @@ var addCategoryComponent = Vue.component('add-category-component', {
                 if ($('#AddCategoryModal').data('parent').redirect != null &&
                     $('#AddCategoryModal').data('parent').redirect)
                     this.redirect = true;
+
+                this.categoriesToFilter = $('#AddCategoryModal').data('parent').categoriesToFilter;
             });
 
         $('#AddCategoryModal').on('hidden.bs.modal',
@@ -97,6 +100,7 @@ var addCategoryComponent = Vue.component('add-category-component', {
             this.redirect = false;
             this.showDropdown = false;
             this.selectedCategoryId = 0;
+            this.categoriesToFilter = [];
         },
         closeModal() {
             $('#AddCategoryModal').modal('hide');
@@ -190,17 +194,23 @@ var addCategoryComponent = Vue.component('add-category-component', {
             var self = this;
             var data = {
                 term: self.searchTerm,
-                type: 'Categories'
+                type: 'Categories',
+                categoriesToFilter: self.categoriesToFilter,
             };
 
-            $.get("/Api/Search/ByNameForVue", data,
-                function (result) {
+            $.ajax({
+                type: 'Post',
+                contentType: "application/json",
+                url: '/Api/Search/ByNameForVue',
+                data: JSON.stringify(data),
+                success: function (result) {
                     self.categories = result.categories.filter(c => c.Id != self.parentId);
                     self.totalCount = result.totalCount;
                     self.$nextTick(() => {
                         $('[data-toggle="tooltip"]').tooltip();
                     });
-                });
+                },
+            });
         },
         addExistingCategory() {
             Utils.ShowSpinner();

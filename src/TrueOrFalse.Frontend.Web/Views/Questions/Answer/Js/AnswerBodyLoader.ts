@@ -173,7 +173,7 @@ class AnswerBodyLoader {
                         $(".FooterQuestionDetails").fadeIn();
                         //$("#QuestionListApp").show(); 
                         if (isNewSession)
-                            eventBus.$emit('load-questions-list');
+                            eventBus.$emit('init-new-session');
                     } 
                         //$("#QuestionListApp").hide();
                 eventBus.$emit('change-active-question');

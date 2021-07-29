@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Text.RegularExpressions;
 using TrueOrFalse.Web;
 
 public class CategoryModel : BaseContentModule 
@@ -82,7 +83,8 @@ public class CategoryModel : BaseContentModule
         CategoryIsDeleted = isCategoryNull;
         AnalyticsFooterModel = new AnalyticsFooterModel(category, false, isCategoryNull);
         MetaTitle = category.Name;
-        MetaDescription = SeoUtils.ReplaceDoubleQuotes(category.Description).Truncate(250, true);
+        var safeText = Regex.Replace(category.Content, "<.*?>", "");
+        MetaDescription = SeoUtils.ReplaceDoubleQuotes(safeText).Truncate(250, true);
 
         _questionRepo = R<QuestionRepo>();
         _categoryRepo = R<CategoryRepository>();
