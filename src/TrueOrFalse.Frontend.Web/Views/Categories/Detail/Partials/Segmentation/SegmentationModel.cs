@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using System.Web.WebPages;
 using Newtonsoft.Json;
 
 public class SegmentationModel : BaseContentModule
@@ -56,7 +57,9 @@ public class SegmentationModel : BaseContentModule
     public List<Segment> GetSegments(int id)
     {
         var segments = new List<Segment>();
-        var segmentJson = JsonConvert.DeserializeObject<List<SegmentJson>>(EntityCache.GetCategoryCacheItem(id).CustomSegments);
+
+        var categoryCustomSegments = EntityCache.GetCategoryCacheItem(id).CustomSegments; 
+        var segmentJson = categoryCustomSegments == "\"\"" ?  new List<SegmentJson>() :  JsonConvert.DeserializeObject<List<SegmentJson>>(categoryCustomSegments);
         foreach (var s in segmentJson)
         {
             var segment = new Segment();
