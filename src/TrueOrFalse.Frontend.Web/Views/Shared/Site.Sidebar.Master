@@ -51,7 +51,7 @@
     <% Html.RenderPartial("FeatureNotImplementedModal"); %>
     <div id="modalLoginContainer"></div>
     <div id="modalContainer"></div>
-    <% Html.RenderPartial("/Views/Shared/Modals/ErrorModal/ErrorModalComponentLoader.ascx"); %>
+    <% Html.RenderPartial("/Views/Shared/Modals/AlertModal/AlertModalComponentLoader.ascx"); %>
 
 </body>
 </html>

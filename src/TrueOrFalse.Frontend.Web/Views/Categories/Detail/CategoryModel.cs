@@ -83,8 +83,12 @@ public class CategoryModel : BaseContentModule
         CategoryIsDeleted = isCategoryNull;
         AnalyticsFooterModel = new AnalyticsFooterModel(category, false, isCategoryNull);
         MetaTitle = category.Name;
-        var safeText = Regex.Replace(category.Content, "<.*?>", "");
-        MetaDescription = SeoUtils.ReplaceDoubleQuotes(safeText).Truncate(250, true);
+        if (category.Content != null)
+        {
+            var safeText = Regex.Replace(category.Content, "<.*?>", "");
+            MetaDescription = SeoUtils.ReplaceDoubleQuotes(safeText).Truncate(250, true);
+        }
+
 
         _questionRepo = R<QuestionRepo>();
         _categoryRepo = R<CategoryRepository>();

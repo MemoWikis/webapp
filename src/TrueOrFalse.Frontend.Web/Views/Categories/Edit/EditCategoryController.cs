@@ -568,6 +568,41 @@ public class EditCategoryController : BaseController
     }
 
     [HttpPost]
+    [AccessOnlyAsAdmin]
+    public JsonResult SetCategoryToPrivate(int categoryId)
+    {
+        var categoryCacheItem = EntityCache.GetCategoryCacheItem(categoryId);
+        var aggregatedCategories = categoryCacheItem.AggregatedCategories(false)
+            .Where(c => c.Visibility == CategoryVisibility.All);
+
+        foreach (var c in aggregatedCategories)
+        {
+            bool childHasPublicParent = c.ParentCategories().Any(p => p.Visibility == CategoryVisibility.All && p.Id != categoryId);
+            if (!childHasPublicParent)
+                return Json(new
+                {
+                    success = false,
+                    msg = "Dieses Thema hat öffentliche untergeordnete Themen."
+                });
+        }
+
+        categoryCacheItem.Visibility = CategoryVisibility.Owner;
+
+        JobExecute.RunAsTask(scope =>
+        {
+            var category = Sl.CategoryRepo.GetById(categoryId);
+            category.Visibility = CategoryVisibility.Owner;
+            _categoryRepository.Update(category, _sessionUser.User);
+        }, "SetCategoryToPrivate");
+
+        return Json(new
+        {
+            success = true,
+            msg = "Das Thema wurde erfolgreich auf Privat gesetzt."
+        });
+    }
+
+    [HttpPost]
     [AccessOnlyAsLoggedIn]
     public JsonResult SaveName(int categoryId, string name)
     {

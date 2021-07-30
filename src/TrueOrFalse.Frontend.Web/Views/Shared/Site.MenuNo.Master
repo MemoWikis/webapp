@@ -51,7 +51,7 @@
         </div>
     </footer>
     <div id="modalLoginContainer"></div>
-    <% Html.RenderPartial("/Views/Shared/Modals/ErrorModal/ErrorModalComponentLoader.ascx"); %>
+    <% Html.RenderPartial("/Views/Shared/Modals/AlertModal/AlertModalComponentLoader.ascx"); %>
 
 </body>
 </html>

@@ -2214,14 +2214,8 @@
       <DependentUpon>EditorMenuBarComponent.ts</DependentUpon>
     </Content>
     <Content Include="Views\Shared\Editor\EditorMenuBarComponent.vue.ascx" />
-    <Content Include="Views\Shared\Modals\ErrorModal\ErrorModalComponent.js">
-      <DependentUpon>ErrorModalComponent.ts</DependentUpon>
-    </Content>
-    <Content Include="Views\Shared\Modals\ErrorModal\ErrorModalComponentLoader.ascx" />
-    <Content Include="Views\Shared\Modals\ErrorModal\ErrorModalComponent.vue.ascx" />
-    <Content Include="Views\Shared\Modals\ErrorModal\ErrorModalComponentLoader.js">
-      <DependentUpon>ErrorModalComponentLoader.ts</DependentUpon>
-    </Content>
+    <Content Include="Views\Shared\Modals\AlertModal\AlertModalComponentLoader.ascx" />
+    <Content Include="Views\Shared\Modals\AlertModal\AlertModalComponent.vue.ascx" />
     <Content Include="Views\Shared\MyWorldToggle\MyWorldToggleComponent.js">
       <DependentUpon>MyWorldToggleComponent.ts</DependentUpon>
     </Content>
@@ -3614,8 +3608,8 @@
     <TypeScriptCompile Include="Views\Questions\Edit\Js\MarkdownDescription.ts" />
     <TypeScriptCompile Include="Views\Shared\CategoryChip\CategoryChipComponent.ts" />
     <TypeScriptCompile Include="Views\Shared\Editor\EditorMenuBarComponent.ts" />
-    <TypeScriptCompile Include="Views\Shared\Modals\ErrorModal\ErrorModalComponentLoader.ts" />
-    <TypeScriptCompile Include="Views\Shared\Modals\ErrorModal\ErrorModalComponent.ts" />
+    <TypeScriptCompile Include="Views\Shared\Modals\AlertModal\AlertModalComponentLoader.ts" />
+    <TypeScriptCompile Include="Views\Shared\Modals\AlertModal\AlertModalComponent.ts" />
     <TypeScriptCompile Include="Views\Shared\PinComponentVue\PinComponent.vue.ts" />
     <TypeScriptCompile Include="Views\Shared\Spinner\Js\Spinner.ts" />
     <TypeScriptCompile Include="Views\Shared\MyWorldToggle\MyWorldToggleComponent.ts" />
@@ -4200,12 +4194,6 @@
     </Content>
     <Content Include="Views\Questions\Edit\EditComponents\EditQuestionLoader.js.map">
       <DependentUpon>EditQuestionLoader.ts</DependentUpon>
-    </Content>
-    <Content Include="Views\Shared\Modals\ErrorModal\ErrorModalComponent.js.map">
-      <DependentUpon>ErrorModalComponent.ts</DependentUpon>
-    </Content>
-    <Content Include="Views\Shared\Modals\ErrorModal\ErrorModalComponentLoader.js.map">
-      <DependentUpon>ErrorModalComponentLoader.ts</DependentUpon>
     </Content>
     <Content Include="Views\Categories\Edit\Js\DeleteCategory\DeleteCategoryComponent.js.map">
       <DependentUpon>DeleteCategoryComponent.ts</DependentUpon>

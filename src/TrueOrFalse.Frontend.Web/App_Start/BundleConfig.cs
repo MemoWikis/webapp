@@ -84,8 +84,8 @@ namespace TrueOrFalse.View
             bundles.Add(new ScriptBundle("~/bundles/js/d3")
                 .Include("~/Scripts/npm/d3/d3.js"));
 
-            bundles.Add(new ScriptBundle("~/bundles/js/errorModal")
-                .IncludeDirectory("~/Views/Shared/Modals/ErrorModal/","*.js"));
+            bundles.Add(new ScriptBundle("~/bundles/js/alertModal")
+                .IncludeDirectory("~/Views/Shared/Modals/AlertModal/","*.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/js/CategorySort")
                 .Include("~/Scripts/npm/sortablejs/Sortable.js")

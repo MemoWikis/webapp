@@ -219,6 +219,16 @@
                                     </a>
                                 </li>
                             <%}%>
+                            <%if (Model.IsInstallationAdmin && Model.Category.Visibility == CategoryVisibility.All) {%>
+                                <li>
+                                    <a onclick="eventBus.$emit('set-category-to-private', <%= Model.Category.Id %>)" data-allowed="logged-in">
+                                        <div class="dropdown-icon">
+                                            <i class="fas fa-lock"></i>
+                                        </div>
+                                        Thema auf privat setzen
+                                    </a>
+                                </li>
+                            <%}%>
                         </ul>
                     </div>
                 </div>
