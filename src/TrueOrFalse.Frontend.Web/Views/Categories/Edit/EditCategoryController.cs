@@ -351,7 +351,10 @@ public class EditCategoryController : BaseController
                 category.Content = content;
             else category.Content = null;
 
-            Sl.CategoryRepo.Update(Sl.CategoryRepo.GetByIdEager(category), User_());
+            var categoryDb = Sl.CategoryRepo.GetByIdEager(category); 
+                categoryDb.Content = content; 
+            Sl.CategoryRepo.Update(categoryDb, User_());
+
             return Json(true);
         }
         return Json(false);
