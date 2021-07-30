@@ -85,7 +85,9 @@ public class CategoryModel : BaseContentModule
         MetaTitle = category.Name;
         var safeText =  category.Content == null ? null : Regex.Replace(category.Content, "<.*?>", ""); ; 
         
-        MetaDescription = SeoUtils.ReplaceDoubleQuotes(safeText).Truncate(250, true);
+            MetaDescription = SeoUtils.ReplaceDoubleQuotes(safeText).Truncate(250, true);
+        }
+
 
         _questionRepo = R<QuestionRepo>();
         _categoryRepo = R<CategoryRepository>();

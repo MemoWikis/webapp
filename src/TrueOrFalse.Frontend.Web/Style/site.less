@@ -1674,9 +1674,21 @@ h3 {
         color: @white;
         background-color: @memo-salmon;
         transition: 0.2s ease-in-out;
+        border: darken(@memo-salmon, 5%);
 
         &:hover {
-            background-color: #ef8a62;
+            background-color: darken(@memo-salmon, 5%);
+        }
+    }
+
+    &.btn-success {
+        color: @white;
+        background-color: @memo-green;
+        transition: 0.2s ease-in-out;
+        border: darken(@memo-green, 5%);
+
+        &:hover {
+            background-color: darken(@memo-green, 5%);
         }
     }
 }
@@ -2280,7 +2292,7 @@ textarea, input {
         border-radius: 0;
     }
 }
-#ErrorModal {
+#ErrorModal, #SuccessModal {
     .modal-body, .modal-footer, .modal-header {
         display: flex;
         justify-content: center;
@@ -2290,12 +2302,18 @@ textarea, input {
     .modal-body {
         flex-direction: column;
     }
-
+}
+#ErrorModal {
     h3 {
         color: @memo-salmon;
     }
 }
 
+#SuccessModal {
+    h3 {
+        color: @memo-green;
+    }
+}
 .ProseMirror {
     li {
         p {

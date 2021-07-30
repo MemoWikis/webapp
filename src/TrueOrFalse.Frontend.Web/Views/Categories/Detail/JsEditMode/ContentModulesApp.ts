@@ -48,6 +48,30 @@ new Vue({
             });
         eventBus.$on('request-save', () => this.debounceSaveContent());
         eventBus.$on('save-segments', () => this.debounceSaveSegments());
+        eventBus.$on('set-category-to-private', (id) => {
+            $.ajax({
+                type: 'post',
+                contentType: "application/json",
+                url: '/EditCategory/SetCategoryToPrivate',
+                data: JSON.stringify({
+                    categoryId: id
+                }),
+                success: function (result) {
+                    if (result.success == true) {
+                        let data = {
+                            msg: result.msg,
+                            reload: true,
+                        }
+                        eventBus.$emit('show-success', data);
+                    } else {
+                        let data = {
+                            msg: result.msg,
+                        }
+                        eventBus.$emit('show-error', data);
+                    };
+                },
+            });
+        });
     },
     destroyed() {
         window.removeEventListener('scroll', this.handleScroll);

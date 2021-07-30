@@ -83,12 +83,24 @@ Vue.component('publish-category-component',{
                 url: '/EditCategory/PublishCategory',
                 data: JSON.stringify(data),
                 success: function (result) {
-                    self.publishRequestConfirmation = true;
-                    self.publishSuccess = result.success;
-                    if (self.publishQuestions && result.success)
-                        self.publishPrivateQuestions();
+                    if (result.success) {
+                        $('#PublishCategoryModal').modal('hide');
+                        let data = {
+                            msg: 'Dein Thema wurde erfolgreich veröffentlicht.',
+                            reload: true,
+                        }
+                        eventBus.$emit('show-success', data);
+                        if (self.publishQuestions)
+                            self.publishPrivateQuestions();
+                    } else {
+                        $('#PublishCategoryModal').modal('hide');
+                        let data = {
+                            msg: 'Veröffentlichung ist nicht möglich. Das übergeordnete Thema ist privat.',
+                        }
+                        eventBus.$emit('show-error', data);
+                    }
                 },
-            })
+            });
         },
         publishPrivateQuestions() {
             var self = this;
@@ -100,9 +112,9 @@ Vue.component('publish-category-component',{
                 contentType: "application/json",
                 url: '/EditQuestion/PublishQuestions',
                 data: JSON.stringify(data),
-                success: function () {
+                success: function() {
                 },
-            })
+            });
         }
     },
 });

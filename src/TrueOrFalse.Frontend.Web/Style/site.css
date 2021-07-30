@@ -1652,9 +1652,19 @@ h3 {
   color: #fff;
   background-color: #FFA07A;
   transition: 0.2s ease-in-out;
+  border: #ff8e61;
 }
 .memo-button.btn-error:hover {
-  background-color: #ef8a62;
+  background-color: #ff8e61;
+}
+.memo-button.btn-success {
+  color: #fff;
+  background-color: #AFD534;
+  transition: 0.2s ease-in-out;
+  border: #a1c629;
+}
+.memo-button.btn-success:hover {
+  background-color: #a1c629;
 }
 #AnswerBody .memo-button.btn-link {
   padding-left: 0 !important;
@@ -2237,17 +2247,24 @@ input::placeholder {
   border-radius: 0;
 }
 #ErrorModal .modal-body,
+#SuccessModal .modal-body,
 #ErrorModal .modal-footer,
-#ErrorModal .modal-header {
+#SuccessModal .modal-footer,
+#ErrorModal .modal-header,
+#SuccessModal .modal-header {
   display: flex;
   justify-content: center;
   text-align: center;
 }
-#ErrorModal .modal-body {
+#ErrorModal .modal-body,
+#SuccessModal .modal-body {
   flex-direction: column;
 }
 #ErrorModal h3 {
   color: #FFA07A;
+}
+#SuccessModal h3 {
+  color: #AFD534;
 }
 .ProseMirror li p {
   margin: 0;
