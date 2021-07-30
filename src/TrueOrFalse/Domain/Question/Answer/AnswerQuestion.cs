@@ -110,7 +110,7 @@ public class AnswerQuestion : IRegisterAsInstancePerLifetime
             var answer =   Sl.AnswerRepo.GetByQuestionViewGuid(questionViewGuid).OrderByDescending(a => a.Id).First();
             answer.AnswerredCorrectly = AnswerCorrectness.MarkedAsTrue;
             return Run(questionId, "", userId, (question, answerQuestionResult) =>
-                    _answerLog.CountLastAnswerAsCorrect(questionViewGuid), countLastAnswerAsCorrect: true);
+                    _answerLog.CountLastAnswerAsCorrect(questionViewGuid), countLastAnswerAsCorrect: countLastAnswerAsCorrect, countUnansweredAsCorrect: countUnansweredAsCorrect);
 
             // Sl.AnswerRepo.Update(learningSessionStep.AnswerWithInput);
         }
@@ -133,7 +133,6 @@ public class AnswerQuestion : IRegisterAsInstancePerLifetime
             IsCorrect = solution.IsCorrect(answer),
             CorrectAnswer = solution.CorrectAnswer(),
             AnswerGiven = answer
-            
         };
 
         action(question, result);
@@ -142,7 +141,7 @@ public class AnswerQuestion : IRegisterAsInstancePerLifetime
         if (countLastAnswerAsCorrect)
             Sl.R<UpdateQuestionAnswerCount>().ChangeOneWrongAnswerToCorrect(questionId);
         else
-            Sl.R<UpdateQuestionAnswerCount>().Run(questionId, countUnansweredAsCorrect || result.IsCorrect);
+            Sl.R<UpdateQuestionAnswerCount>().Run(questionId, countUnansweredAsCorrect, result.IsCorrect);
 
         ProbabilityUpdate_Valuation.Run(questionId, userId);
 
@@ -178,7 +177,7 @@ public class AnswerQuestion : IRegisterAsInstancePerLifetime
         if (countLastAnswerAsCorrect)
             Sl.R<UpdateQuestionAnswerCount>().ChangeOneWrongAnswerToCorrect(questionId);
         else
-            Sl.R<UpdateQuestionAnswerCount>().Run(questionId, countUnansweredAsCorrect || result.IsCorrect);
+            Sl.R<UpdateQuestionAnswerCount>().Run(questionId, countUnansweredAsCorrect,  result.IsCorrect);
 
         ProbabilityUpdate_Valuation.Run(questionId, userId);
 
