@@ -102,7 +102,7 @@ export default {
   methods: {
     calculateChart() {
       var url =
-        "http://localhost:26590/StatisticsDashboard/GetCreatedQuestionsInTimeWindow?amount=30&interval=month"; //"http://localhost:26590/StatisticsDashboard/GetCreatedQuestionsInTimeWindow?amount=" +
+        "/api/StatisticsDashboard/GetCreatedQuestionsInTimeWindow?amount=30&interval=month"; //"http://localhost:26590/StatisticsDashboard/GetCreatedQuestionsInTimeWindow?amount=" +
       //this.goBackDays + "&interval=" + this.selectedInterval;
       axios
         .get(url)
