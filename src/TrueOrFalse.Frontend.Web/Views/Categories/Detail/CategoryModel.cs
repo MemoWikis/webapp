@@ -86,8 +86,6 @@ public class CategoryModel : BaseContentModule
         var safeText =  category.Content == null ? null : Regex.Replace(category.Content, "<.*?>", ""); ; 
         
             MetaDescription = SeoUtils.ReplaceDoubleQuotes(safeText).Truncate(250, true);
-        }
-
 
         _questionRepo = R<QuestionRepo>();
         _categoryRepo = R<CategoryRepository>();
@@ -97,6 +95,7 @@ public class CategoryModel : BaseContentModule
 
         var userValuationCategory = UserCache.GetCategoryValuations(UserId).Where(cv => cv.CategoryId == category.Id).ToList();
    
+
         if (userValuationCategory.Count() == 0)
             IsInWishknowledge = false;
         else 
@@ -259,7 +258,5 @@ public class CategoryModel : BaseContentModule
     {
         return EntityCache.GetChildren(category.Id).Count(c =>
                 c.Type == CategoryType.Standard);
-
-
     }
 }

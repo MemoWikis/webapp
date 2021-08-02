@@ -19,13 +19,15 @@ public class UpdateQuestionAnswerCount : IRegisterAsInstancePerLifetime
     private void AddCorrectAnswer(int questionId)
     {
         _session.CreateSQLQuery("UPDATE Question SET TotalTrueAnswers = TotalTrueAnswers + 1 where Id = " +
-                                questionId).ExecuteUpdate();            
+                                questionId).ExecuteUpdate();
+        EntityCache.GetQuestionById(questionId).TotalTrueAnswers++;
     }
 
     private void AddWrongAnswer(int questionId)
     {
         _session.CreateSQLQuery("UPDATE Question SET TotalFalseAnswers = TotalFalseAnswers + 1 where Id = " +
                                 questionId).ExecuteUpdate();
+        EntityCache.GetQuestionById(questionId).TotalFalseAnswers++;
     }
 
     public void ChangeOneWrongAnswerToCorrect(int questionId)
@@ -34,6 +36,9 @@ public class UpdateQuestionAnswerCount : IRegisterAsInstancePerLifetime
                                 questionId).ExecuteUpdate();
         _session.CreateSQLQuery("UPDATE Question SET TotalFalseAnswers = TotalFalseAnswers - 1 where Id = " +
                                 questionId).ExecuteUpdate();
+
+        EntityCache.GetQuestionById(questionId).TotalTrueAnswers++;
+        EntityCache.GetQuestionById(questionId).TotalFalseAnswers--;
     }
 
 }
