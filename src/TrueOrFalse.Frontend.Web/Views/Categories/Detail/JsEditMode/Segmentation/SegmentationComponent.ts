@@ -113,6 +113,7 @@ var segmentationComponent = Vue.component('segmentation-component', {
                 data: JSON.stringify(data),
                 success: function (data) {
                     data.forEach(c => self.categories.push(c));
+                    self.$nextTick(() => Images.ReplaceDummyImages());
                 },
             });
         },

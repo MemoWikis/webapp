@@ -307,7 +307,7 @@ var segmentComponent = Vue.component('segment-component', {
                 success: function (c) {
                     self.categories.push(c);
                     self.currentChildCategoryIds.push(c.Id);
-
+                    self.$nextTick(() => Images.ReplaceDummyImages());
                 },
             });
         },
