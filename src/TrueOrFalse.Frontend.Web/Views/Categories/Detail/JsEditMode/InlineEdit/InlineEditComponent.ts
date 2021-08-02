@@ -13,6 +13,7 @@ var textComponent = Vue.component('text-component',
                 contentIsChanged: false,
                 savedContent: null,
                 editor: null,
+                menuBarComponentKey: '0',
             }
         },
         created() {
@@ -119,6 +120,7 @@ var textComponent = Vue.component('text-component',
                             nativeExtensions: [
                             ]
                         });
+                    this.menuBarComponentKey = !this.menuBarComponentKey;
                 });
         },
         watch: {
