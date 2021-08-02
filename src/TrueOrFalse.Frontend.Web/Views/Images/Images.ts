@@ -11,7 +11,10 @@ class Images {
     public static ReplaceDummyImages() {
         $('.LicensedImage').each(function () {
             if (!$(this).hasClass('JS-CantBeDisplayed')) {
-                $(this).attr('src', $(this).attr('data-image-url')).removeAttr('data-image-url');
+                let dataImgUrl = $(this).attr('data-image-url');
+                $(this).attr('src', dataImgUrl).removeAttr('data-image-url');
+                if ($(this).attr('id') == 'CategoryHeaderImg')
+                    eventBus.$emit('set-category-img-src', dataImgUrl);
             }
         });        
     }
