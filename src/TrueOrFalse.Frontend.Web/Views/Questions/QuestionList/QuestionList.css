@@ -15,6 +15,11 @@
   margin-right: 0;
   margin-left: 0;
 }
+@media (max-width: 767px) {
+  #QuestionListApp h4.header {
+    text-transform: capitalize;
+  }
+}
 #QuestionListApp #QuestionListHeaderDropDown .btn {
   font-size: 18px;
   color: #999999;

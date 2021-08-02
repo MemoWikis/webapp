@@ -9,7 +9,7 @@
 <%= Scripts.Render("~/bundles/js/QuestionListComponents") %>
 <div id="QuestionListApp" class="row" v-cloak :class="{'no-questions': hasNoQuestions }">
     <div class="col-xs-12 drop-down-question-sort" v-show="questionsCount > 0">
-        <h4 class="header">Du lernst <b>{{selectedQuestionCount}}</b> Fragen aus diesem Thema ({{allQuestionsCountFromCategory}})</h4>
+        <h4 class="header"><span class="hidden-xs">Du lernst</span> <b>{{selectedQuestionCount}}</b> Fragen <span class="hidden-xs">aus diesem Thema</span> ({{allQuestionsCountFromCategory}})</h4>
         <div id="ButtonAndDropdown">
             <%: Html.Partial("~/Views/Questions/QuestionList/SessionConfigComponent.vue.ascx", Model) %>
 
