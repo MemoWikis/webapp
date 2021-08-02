@@ -111,7 +111,6 @@
 var categoryCardComponent = Vue.component('category-card-component', {
     props: {
         categoryId: [String, Number],
-        editMode: Boolean,
         isCustomSegment: Boolean,
         selectedCategories: Array,
         segmentId: [String, Number],
@@ -145,10 +144,7 @@ var categoryCardComponent = Vue.component('category-card-component', {
             this.isSelected = this.selectedCategories.includes(this.id);
         },
         hover(val) {
-            if (val && this.editMode)
-                this.showHover = true;
-            else
-                this.showHover = false;
+            this.showHover = val;
         },
         categoryId() {
             this.init();
@@ -174,16 +170,16 @@ var categoryCardComponent = Vue.component('category-card-component', {
                 this.$parent.loadSegment(this.id);
             }
         },
-        selectCategory() {
-            if (this.editMode) {
-                this.isSelected = this.selectedCategories.includes(this.id);
+        //selectCategory() {
+        //    if (this.editMode) {
+        //        this.isSelected = this.selectedCategories.includes(this.id);
 
-                if (this.isSelected)
-                    this.$emit('unselect-category', this.id);
-                else
-                    this.$emit('select-category', this.id);
-            }
-        },
+        //        if (this.isSelected)
+        //            this.$emit('unselect-category', this.id);
+        //        else
+        //            this.$emit('select-category', this.id);
+        //    }
+        //},
         removeParent() {
             if (NotLoggedIn.Yes()) {
                 NotLoggedIn.ShowErrorMsg("RemoveParent");
@@ -218,9 +214,6 @@ var categoryCardComponent = Vue.component('category-card-component', {
             this.$parent.filterChildren([this.categoryId]);
         },
 
-        handler: function (e) {
-        //    console.log(e);
-        }
     }
 });
 
