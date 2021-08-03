@@ -55,6 +55,7 @@ var editQuestionComponent = Vue.component('edit-question-component',
                 modalIsVisible: false,
                 showQuestionExtension: false,
                 showDescription: false,
+                isPrivate: true,
             }
         },
         mounted() {
@@ -76,7 +77,7 @@ var editQuestionComponent = Vue.component('edit-question-component',
                     this.loadEditors();
                     this.isLearningSession = $('#hddIsLearningSession').length > 0;
                     this.highlightEmptyFields = false;
-                    if (this.visibility == 1)
+                    if (this.isPrivate)
                         this.licenseIsValid = true;
                     this.id = $('#EditQuestionModal').data('question').questionId;
                     if ($('#EditQuestionModal').data('question').edit) {
@@ -133,7 +134,7 @@ var editQuestionComponent = Vue.component('edit-question-component',
             solutionIsValid() {
                 this.formValidator();
             },
-            visibility(val) {
+            isPrivate() {
                 this.formValidator();
             },
             licenseConfirmation() {
@@ -268,7 +269,7 @@ var editQuestionComponent = Vue.component('edit-question-component',
                         self.selectedCategories = data.Categories;
                         self.licenseId = data.LicenseId;
                         self.solutionMetadataJson = data.SolutionMetadataJson;
-                        self.visibility = data.Visibility;
+                        self.isPrivate = data.Visibility == 1;
                     },
                 });
             },
@@ -327,7 +328,7 @@ var editQuestionComponent = Vue.component('edit-question-component',
                     contentType: "application/json",
                     url: url,
                     data: JSON.stringify(json),
-                    success: function (result) {
+                    success: (result) => {
                         if (self.isLearningSession) {
                             var answerBody = new AnswerBody();
                             var skipIndex = this.questions != null ? -5 : 0;
@@ -343,12 +344,21 @@ var editQuestionComponent = Vue.component('edit-question-component',
                             else
                                 eventBus.$emit('reload-question-id', result.Id);
                             eventBus.$emit("change-active-question", self.sessionIndex);
-
                         }
 
                         self.highlightEmptyFields = false;
                         $('#EditQuestionModal').modal('hide');
+                        let data = {
+                            msg: 'Deine Frage wurde erfolgreich gespeichert.',
+                        }
+                        eventBus.$emit('show-success', data);
                     },
+                    error:() => {
+                        let data = {
+                            msg: 'Deine Frage konnte nicht gespeichert werden.',
+                        }
+                        eventBus.$emit('show-error', data);
+                    }
                 });
             },
 
@@ -366,13 +376,13 @@ var editQuestionComponent = Vue.component('edit-question-component',
                 var createJson = {
                     AddToWishknowledge: this.addToWishknowledge,
                 }
-
+                var visibility = this.isPrivate ? 1 : 0;
                 var jsonExtension = {
                     CategoryIds: this.categoryIds,
                     TextHtml: this.questionHtml,
                     Solution: solution,
                     SolutionType: solutionType,
-                    Visibility: this.visibility,
+                    Visibility: visibility,
                     SolutionMetadataJson: this.solutionMetadataJson,
                     LicenseId: licenseId,
                     SessionIndex: this.sessionIndex,
@@ -434,7 +444,7 @@ var editQuestionComponent = Vue.component('edit-question-component',
                     return;
                 var questionIsValid = this.questionEditor.state.doc.textContent.length > 0;
                 var solutionIsValid = this.solutionIsValid;
-                this.licenseIsValid = this.licenseConfirmation || this.visibility == 1;
+                this.licenseIsValid = this.licenseConfirmation || this.isPrivate;
 
                 this.disabled = !questionIsValid || !solutionIsValid || !this.licenseIsValid;
             }

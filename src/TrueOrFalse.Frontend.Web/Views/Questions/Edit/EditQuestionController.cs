@@ -287,6 +287,7 @@ public class EditQuestionController : BaseController
         foreach (var categoryId in questionDataJson.CategoryIds)
             categories.Add(Sl.CategoryRepo.GetById(categoryId));
         question.Categories = categories;
+        question.Visibility = (QuestionVisibility) questionDataJson.Visibility;
 
         if (question.SolutionType == SolutionType.FlashCard)
         {
@@ -310,9 +311,12 @@ public class EditQuestionController : BaseController
             }
         }
 
-        var learningSession = LearningSessionCache.GetLearningSession();
-        var step = new LearningSessionStep(question);
-        learningSession.Steps.Insert(questionDataJson.SessionIndex, step);
+        if (questionDataJson.SessionIndex > 0)
+        {
+            var learningSession = LearningSessionCache.GetLearningSession();
+            var step = new LearningSessionStep(question);
+            learningSession.Steps.Insert(questionDataJson.SessionIndex, step);
+        }
 
         question.License = Sl.R<SessionUser>().IsInstallationAdmin
             ? LicenseQuestionRepo.GetById(questionDataJson.LicenseId)

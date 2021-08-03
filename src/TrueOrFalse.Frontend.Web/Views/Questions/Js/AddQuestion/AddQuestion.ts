@@ -6,7 +6,6 @@ Vue.component('add-question-component', {
         return {
             highlightEmptyFields: false,
             isLoggedIn: IsLoggedIn.Yes,
-            visibility: 1,
             addToWishknowledge: true,
             questionEditor: new tiptapEditor({
                 editable: true,
@@ -47,11 +46,12 @@ Vue.component('add-question-component', {
             licenseIsValid: false,
             solutionIsValid: false,
             disabled: true,
+            isPrivate: true,
         }
     },
 
     watch: {
-        visibility() {
+        isPrivate() {
             this.formValidator();
         },
         licenseConfirmation() {
@@ -63,7 +63,7 @@ Vue.component('add-question-component', {
     },
 
     mounted() {
-        if (this.visibility == 1)
+        if (this.isPrivate)
             this.licenseIsValid = true;
     },
 
@@ -83,7 +83,7 @@ Vue.component('add-question-component', {
                 CategoryId: this.currentCategoryId,
                 TextHtml: this.questionHtml,
                 Answer: this.flashCardAnswer,
-                Visibility: this.visibility,
+                Visibility: this.isPrivate ? 1 : 0,
                 AddToWishknowledge: this.addToWishknowledge,
                 LastIndex: lastIndex,
             }
@@ -120,7 +120,7 @@ Vue.component('add-question-component', {
         formValidator() {
             var questionIsValid = this.questionEditor.state.doc.textContent.length > 0;
             var solutionIsValid = this.solutionIsValid;
-            this.licenseIsValid = this.licenseConfirmation || this.visibility == 1;
+            this.licenseIsValid = this.licenseConfirmation || this.isPrivate;
 
             this.disabled = !questionIsValid || !solutionIsValid || !this.licenseIsValid;
         }

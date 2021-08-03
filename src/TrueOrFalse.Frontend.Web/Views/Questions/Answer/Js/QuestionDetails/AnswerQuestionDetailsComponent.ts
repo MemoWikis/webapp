@@ -191,7 +191,7 @@ Vue.component('question-details-component', {
                     this.personalAnsweredCorrectly = data.personalAnsweredCorrectly;
                     this.personalAnsweredWrongly = data.personalAnsweredWrongly;
                     this.visibility = data.visibility;
-                    if (this.visibility == 1) {
+                    if (this.isPrivate == 1) {
                         this.overallAnswerCount = 0;
                         this.overallAnsweredCorrectly = 0;
                         this.overallAnsweredWrongly = 0;

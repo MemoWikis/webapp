@@ -50,6 +50,7 @@ Vue.component('matchlist-component', {
             this.solutionBuilder();
         },
         solutionBuilder() {
+            this.validateSolution();
             let solution = {
                 Pairs: this.pairs,
                 RightElements: this.rightElements,
