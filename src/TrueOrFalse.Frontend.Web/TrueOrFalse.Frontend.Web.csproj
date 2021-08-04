@@ -2886,9 +2886,6 @@
     <Content Include="mstile-310x310.png" />
     <Content Include="mstile-70x70.png" />
     <Content Include="safari-pinned-tab.svg" />
-    <Content Include="Scripts\TrainingPlan.js">
-      <DependentUpon>TrainingPlan.ts</DependentUpon>
-    </Content>
     <Content Include="Style\guidedTour\bootstrap-tour.css" />
     <Content Include="Views\AlgoInsight\AlgoInsight.aspx" />
     <Content Include="Views\AlgoInsight\ComparisonTable.ascx" />
@@ -2953,7 +2950,6 @@
     <TypeScriptCompile Include="Scripts\socialLogins\FacebookMemuchoUser.ts" />
     <TypeScriptCompile Include="Scripts\socialLogins\Google.ts" />
     <TypeScriptCompile Include="Scripts\socialLogins\GoogleMemuchoUser.ts" />
-    <TypeScriptCompile Include="Scripts\TrainingPlan.ts" />
     <TypeScriptCompile Include="Scripts\typescript.defs\fbsdk.d.ts" />
     <TypeScriptCompile Include="Scripts\typescript.defs\gapi-auth2.d.ts" />
     <TypeScriptCompile Include="Scripts\typescript.defs\gapi.d.ts" />
@@ -3423,9 +3419,6 @@
     </Content>
     <Content Include="Style\includes\extends.css.map">
       <DependentUpon>extends.css</DependentUpon>
-    </Content>
-    <Content Include="Scripts\TrainingPlan.js.map">
-      <DependentUpon>TrainingPlan.ts</DependentUpon>
     </Content>
     <Content Include="manifest.json" />
     <Content Include="Style\cards.less" />
