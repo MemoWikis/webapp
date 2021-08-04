@@ -7,23 +7,29 @@
     <div style="flex-basis:40%;">
       <chartOverTime
         headerText="Neue Fragen"
-        :chartData="questionsData"
+        :chartURL="
+          'http://localhost:26590/StatisticsDashboard/GetCreatedQuestionsInTimeWindow?'
+        "
         chartId="questions"
         lineLabel="erstellte Fragen"
       ></chartOverTime>
     </div>
     <div style="flex-basis:40%;">
       <chartOverTime
-        headerText="Neue Fragen"
-        :chartData="questionsData"
-        chartId="questions2"
-        lineLabel="erstellte Fragen"
+        headerText="Neue Nutzer"
+        :chartURL="
+          'http://localhost:26590/api/StatisticsDashboard/GetCreatedUsersInTimeWindow?'
+        "
+        chartId="user"
+        lineLabel="neu registrierte Nutzer"
       ></chartOverTime>
     </div>
     <div style="flex-basis:40%;">
       <chartOverTime
         headerText="Neue Themen"
-        :chartData="themeData"
+        :chartURL="
+          'http://localhost:26590/api/StatisticsDashboard/GetCreatedThemesInTimeWindow?'
+        "
         chartId="themes"
         lineLabel="erstellte Themen"
       ></chartOverTime>

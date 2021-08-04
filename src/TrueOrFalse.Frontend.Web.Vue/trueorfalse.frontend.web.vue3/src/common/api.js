@@ -2,7 +2,7 @@
 import { useStore } from 'vuex'
 import axios from 'axios'
 const isArray = Array.isArray
-const $axios = axios.create({ baseURL: 'http://localhost:26590' })
+const $axios = axios.create({ baseURL: 'api' })
 
 export const validFeeds = {
   news: { title: 'News', pages: 10 },

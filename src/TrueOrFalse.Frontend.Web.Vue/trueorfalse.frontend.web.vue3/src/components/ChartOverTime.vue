@@ -2,13 +2,7 @@
   <h2>{{ headerText }}</h2>
   <div>
     <label>Der letzten </label>
-    <input
-      style="width:56px"
-      v-model="goBackDays"
-      placeholder="8"
-      type="number"
-    />
-    <span> Tage. Bestimme den Zeitintervall im Graphen </span>
+    <input style="width:56px" v-model="amount" placeholder="8" type="number" />
     <select v-model="selectedInterval">
       <option
         v-for="option in optionsLabel"
@@ -37,7 +31,7 @@ import axios from "axios";
 export default {
   props: {
     headerText: String,
-    chartData: Array,
+    chartURL: String,
     chartId: String,
     lineLabel: String,
   },
@@ -51,7 +45,7 @@ export default {
         { text: "Monate", value: "month" },
         { text: "Jahre", value: "year" },
       ],
-      goBackDays: 8,
+      amount: 8,
 
       memuchoStats: {
         type: "line",
@@ -102,8 +96,11 @@ export default {
   methods: {
     calculateChart() {
       var url =
-        "/api/StatisticsDashboard/GetCreatedQuestionsInTimeWindow?amount=30&interval=month"; //"http://localhost:26590/StatisticsDashboard/GetCreatedQuestionsInTimeWindow?amount=" +
-      //this.goBackDays + "&interval=" + this.selectedInterval;
+        this.chartURL +
+        "amount=" +
+        this.amount +
+        "&interval=" +
+        this.selectedInterval;
       axios
         .get(url)
         .then(
