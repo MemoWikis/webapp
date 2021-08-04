@@ -1,8 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using FluentNHibernate.Data;
-using TrueOrFalse;
-
 public class CategoryNameAllowed
 {
     public IList<Category> ExistingCategories { get; private set; }

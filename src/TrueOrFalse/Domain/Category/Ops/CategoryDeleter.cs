@@ -24,7 +24,7 @@ public class CategoryDeleter : IRegisterAsInstancePerLifetime
             return hasDeleted;
         }
 
-        if (!Sl.SessionUser.IsInstallationAdmin || Sl.CurrentUserId != categoryCacheItem.Creator.Id)
+        if (!Sl.SessionUser.IsInstallationAdmin && Sl.CurrentUserId != categoryCacheItem.Creator.Id)
         {
             hasDeleted.IsNotCreatorOrAdmin = true;
             return hasDeleted;
@@ -46,6 +46,7 @@ public class CategoryDeleter : IRegisterAsInstancePerLifetime
         ModifyRelationsUserEntityCache.DeleteFromAllParents(categoryCacheItem);
         EntityCache.Remove(categoryCacheItem);
         UserCache.RemoveAllForCategory(category.Id);
+        UserEntityCache.DeleteCategory(category.Id);
         hasDeleted.DeletedSuccessful = true;
         return hasDeleted; 
     }

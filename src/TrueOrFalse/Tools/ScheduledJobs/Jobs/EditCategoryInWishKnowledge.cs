@@ -3,9 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web.Script.Serialization;
 using Autofac;
-using Serilog;
 using Quartz;
-using Renci.SshNet;
 using RollbarSharp;
 
 namespace TrueOrFalse.Utilities.ScheduledJobs

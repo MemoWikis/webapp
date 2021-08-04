@@ -47,7 +47,8 @@ let sc= Vue.component('session-config-component', {
             displayMinus: false,
             isFirstLoad: true
         };
-    }, created() {
+    },
+    created() {
         eventBus.$on('openLearnOptions', () => { this.openModal() });
         eventBus.$on("start-learning-session", () => { this.loadCustomSession() });
     },
@@ -75,6 +76,9 @@ let sc= Vue.component('session-config-component', {
                 if (self.openLogin)
                     Login.OpenModal();
             });
+        eventBus.$on('init-new-session', () => {
+            this.$nextTick(() => this.selectedQuestionCount = this.maxSelectableQuestionCount);
+        });
     },
     watch: {
         probabilityRange: function () {

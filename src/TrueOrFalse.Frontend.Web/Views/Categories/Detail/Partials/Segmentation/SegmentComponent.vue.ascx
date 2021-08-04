@@ -1,6 +1,6 @@
 ﻿<%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
 
-<segment-component inline-template :edit-mode="editMode" :ref="'segment'+ s.CategoryId" :title="s.Title" :child-category-ids="s.ChildCategoryIds" :category-id="s.CategoryId">
+<segment-component inline-template :edit-mode="editMode" :ref="'segment'+ s.CategoryId" :title="s.Title" :child-category-ids="s.ChildCategoryIds" :category-id="s.CategoryId" :is-historic="isHistoric">
     <div class="segment" :data-category-id="categoryId" :data-child-category-ids="currentChildCategoryIdsString" @mouseover="hover = true" @mouseleave="hover = false" :class="{ hover : showHover }">
         <div class="segmentSubHeader">
             <div class="segmentHeader">
@@ -14,17 +14,17 @@
                     <pin-category-component :category-id="categoryId"/>
 
                 </div>
-                <div class="Button dropdown DropdownButton segmentDropdown" :class="{ hover : showHover }">
+                <div v-if="!isHistoric" class="Button dropdown DropdownButton segmentDropdown" :class="{ hover : showHover && !isHistoric }">
                     <a href="#" :id="dropdownId" class="dropdown-toggle  btn btn-link btn-sm ButtonEllipsis" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
                         <i class="fa fa-ellipsis-v"></i>
                     </a>
                     <ul class="dropdown-menu dropdown-menu-right" :aria-labelledby="dropdownId">
                         <li @click="removeSegment()"><a>
-                            <div class="dropdown-icon"><i class="fas fa-trash"></i></div>Unterthema ausblenden
+                            <div class="dropdown-icon"><img class="fas" src="/Images/Icons/sitemap-disable.svg"/></div>Unterthema ausblenden
                         </a></li>
-                        <li @click="removeChildren()" :disabled="disabled"><a>
-                            <div class="dropdown-icon"><i class="fas fa-unlink"></i></div>Themen entfernen
-                        </a></li>
+<%--                        <li @click="removeChildren()" :disabled="disabled"><a>
+                            <div class="dropdown-icon"><i class="fas fa-unlink"></i></div>Verknüpfungen entfernen
+                        </a></li>--%>
                     </ul>
                 </div>
             </div>
@@ -35,11 +35,11 @@
             </div>
         </div>
         <div class="topicNavigation row" :key="cardsKey">
-            <template v-for="(id, index) in currentChildCategoryIds">
+            <template v-for="(category, index) in categories">
                 <%: Html.Partial("~/Views/Categories/Detail/Partials/Segmentation/SegmentationCategoryCardComponent.vue.ascx")%>
             </template>
 
-            <div class="col-xs-6 addCategoryCard memo-button" @click="addCategory" :id="addCategoryId">
+            <div v-if="!isHistoric" class="col-xs-6 addCategoryCard memo-button" @click="addCategory" :id="addCategoryId">
                 <div>
                      <i class="fas fa-plus"></i> Neues Thema
                 </div>

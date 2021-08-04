@@ -1,9 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using Microsoft.Ajax.Utilities;
-using Newtonsoft.Json;
-using NHibernate.Mapping;
 
 public class SegmentModel : BaseContentModule
 {
@@ -24,9 +20,3 @@ public class SegmentModel : BaseContentModule
         ChildCategoryIds = "[" + String.Join(",", childCategoryIds) + "]";
     }
 }
-
-
-
-
-
-

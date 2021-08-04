@@ -1,6 +1,7 @@
 ﻿using StackExchange.Profiling;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Web.Mvc;
 using System.Web.Script.Serialization;
@@ -12,6 +13,7 @@ using TrueOrFalse.Search;
 using TrueOrFalse.Web;
 using static System.String;
 
+[SessionState(System.Web.SessionState.SessionStateBehavior.ReadOnly)]
 public class AnswerQuestionController : BaseController
 {
     private readonly QuestionRepo _questionRepo;
@@ -29,10 +31,8 @@ public class AnswerQuestionController : BaseController
     [SetThemeMenu(isQuestionPage: true)]
     public ActionResult Answer(string text, int? id, int? elementOnPage, string pager, int? setId, int? questionId, string category)
     {
-        
         if (id.HasValue && SeoUtils.HasUnderscores(text))
             return SeoUtils.RedirectToHyphendVersion(RedirectPermanent, id.Value);
-
         return AnswerQuestion(text, id, elementOnPage, pager, category);
     }
 
@@ -75,7 +75,7 @@ public class AnswerQuestionController : BaseController
             if (id == null)
                 throw new Exception("AnswerQuestionController: No id for question provided.");
 
-            var question2 = _questionRepo.GetById((int) id);
+            var question2 = EntityCache.GetQuestionById((int) id);
 
             if (question2 == null)
                 throw new Exception("question not found");
@@ -135,7 +135,6 @@ public class AnswerQuestionController : BaseController
 
     private ActionResult GetViewBySearchSpec(QuestionSearchSpec searchSpec)
     {
-
         using (MiniProfiler.Current.Step("GetViewBySearchSpec"))
         {
             var question = AnswerQuestionControllerSearch.Run(searchSpec);
@@ -321,6 +320,7 @@ public class AnswerQuestionController : BaseController
                 ControllerContext
             );
         }
+
         var question = Sl.QuestionRepo.GetById(questionId);
         if (isVideo)
         {
@@ -330,6 +330,7 @@ public class AnswerQuestionController : BaseController
                 ControllerContext
             );
         }
+
         //For normal questions
         var activeSearchSpec = Resolve<QuestionSearchSpecSession>().ByKey(pager);
         var questionViewGuid = Guid.NewGuid();
@@ -491,20 +492,20 @@ public class AnswerQuestionController : BaseController
 
     public string RenderUpdatedQuestionDetails(int questionId, bool showCategoryList = true)
     {
-        var question = Sl.QuestionRepo.GetById(questionId);
+        var question = EntityCache.GetQuestionById(questionId);
         var model = new AnswerQuestionModel(question, showCategoryList:showCategoryList);
 
         return ViewRenderer.RenderPartialView("~/Views/Questions/Answer/AnswerQuestionDetails.ascx", model, ControllerContext);
     }
 
+    [HttpPost]
     public JsonResult GetQuestionDetails(int questionId)
     {
+        var dateNow = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds();
         var question = EntityCache.GetQuestionById(questionId);
-        var answerQuestionModel = new AnswerQuestionModel(question);
-
+        var answerQuestionModel = new AnswerQuestionModel(question, true);
         var correctnessProbability = answerQuestionModel.HistoryAndProbability.CorrectnessProbability;
         var history = answerQuestionModel.HistoryAndProbability.AnswerHistory;
-
         var json = Json(new
         {
             personalProbability = correctnessProbability.CPPersonal,
@@ -516,7 +517,7 @@ public class AnswerQuestionController : BaseController
             overallAnswerCount = history.TimesAnsweredTotal,
             overallAnsweredCorrectly = history.TimesAnsweredCorrect,
             overallAnsweredWrongly = history.TimesAnsweredWrongTotal,
-            isInWishknowledge = answerQuestionModel.IsInWishknowledge,
+            isInWishknowledge = answerQuestionModel.HistoryAndProbability.QuestionValuation.IsInWishKnowledge,
             categories = question.Categories.Where(c => c.IsVisibleToCurrentUser()).Select(c => new
             {
                 name = c.Name,
@@ -525,16 +526,10 @@ public class AnswerQuestionController : BaseController
                 isPrivate = c.Visibility == CategoryVisibility.Owner,
             }).AsEnumerable().Distinct().ToList(),
             visibility = question.Visibility,
+            dateNow,
+            endTimer = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds()
         });
-
         return json;
-    }
-
-    public string RenderCategoryList(int questionId)
-    {
-        var question = Sl.QuestionRepo.GetById(questionId);
-
-        return ViewRenderer.RenderPartialView("~/Views/Shared/CategoriesOfQuestion.ascx", question, ControllerContext);
     }
 
     private string GetQuestionPageData(

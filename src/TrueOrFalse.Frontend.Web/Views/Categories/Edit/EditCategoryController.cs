@@ -210,6 +210,7 @@ public class EditCategoryController : BaseController
         });
     }
 
+    [AccessOnlyAsLoggedIn]
     [HttpPost]
     public JsonResult QuickCreate(string name, int parentCategoryId)
     {
@@ -240,10 +241,18 @@ public class EditCategoryController : BaseController
             return Json(new
             {
                 success = false,
-                errorMsg = "Das untergeordnete Thema, darf nicht das selbe Thema sein"
+                errorMsg = "Das untergeordnete Thema, darf nicht das selbe Thema sein."
             });
 
         var category = Sl.CategoryRepo.GetById(childCategoryId);
+        var children = EntityCache.GetChildren(parentCategoryId);
+        if (children.Any(c => c.Id == childCategoryId))
+            return Json(new
+            {
+                success = false,
+                errorMsg = "Das Thema ist schon untergeordnet."
+            });
+
         var allParents = GraphService.GetAllParentsFromEntityCache(parentCategoryId);
         var parentIsEqualChild = allParents.Where(c => c.Id == childCategoryId);
 
@@ -342,7 +351,10 @@ public class EditCategoryController : BaseController
                 category.Content = content;
             else category.Content = null;
 
-            Sl.CategoryRepo.Update(Sl.CategoryRepo.GetByIdEager(category), User_());
+            var categoryDb = Sl.CategoryRepo.GetByIdEager(category); 
+                categoryDb.Content = content; 
+            Sl.CategoryRepo.Update(categoryDb, User_());
+
             return Json(true);
         }
         return Json(false);
@@ -388,7 +400,7 @@ public class EditCategoryController : BaseController
             return Json(new
             {
                 success = false,
-                errorMsg = "Das Thema muss einem Thema zugeordnet sein."
+                errorMsg = "Die Verknüpfung des Themas kann nicht gelöst werden. Das Thema muss mindestens einem Oberthema zugeordnet sein."
             });
     }
 
@@ -436,16 +448,20 @@ public class EditCategoryController : BaseController
     public JsonResult RemoveChildren(int parentCategoryId, int[] childCategoryIds)
     {
         var removedChildCategoryIds = new List<int>();
+        var notRemovedChildrenCategoryIds = new List<int>();
         foreach (int childCategoryId in childCategoryIds)
         {
             var parentHasBeenRemoved = ParentRemover(parentCategoryId, childCategoryId);
             if (parentHasBeenRemoved)
                 removedChildCategoryIds.Add(childCategoryId);
+            else
+                notRemovedChildrenCategoryIds.Add(childCategoryId);
         }
 
         return Json(new
         {
-            removedChildCategoryIds = "[" + String.Join(",", removedChildCategoryIds) + "]",
+            removedChildCategoryIds,
+            notRemovedChildrenCategoryIds,
         });
     }
 
@@ -551,6 +567,41 @@ public class EditCategoryController : BaseController
         {
             success = false,
             parentList = categoryCacheItem.ParentCategories().Select(c => c.Id).ToList()
+        });
+    }
+
+    [HttpPost]
+    [AccessOnlyAsAdmin]
+    public JsonResult SetCategoryToPrivate(int categoryId)
+    {
+        var categoryCacheItem = EntityCache.GetCategoryCacheItem(categoryId);
+        var aggregatedCategories = categoryCacheItem.AggregatedCategories(false)
+            .Where(c => c.Visibility == CategoryVisibility.All);
+
+        foreach (var c in aggregatedCategories)
+        {
+            bool childHasPublicParent = c.ParentCategories().Any(p => p.Visibility == CategoryVisibility.All && p.Id != categoryId);
+            if (!childHasPublicParent)
+                return Json(new
+                {
+                    success = false,
+                    msg = "Dieses Thema hat öffentliche untergeordnete Themen."
+                });
+        }
+
+        categoryCacheItem.Visibility = CategoryVisibility.Owner;
+
+        JobExecute.RunAsTask(scope =>
+        {
+            var category = Sl.CategoryRepo.GetById(categoryId);
+            category.Visibility = CategoryVisibility.Owner;
+            _categoryRepository.Update(category, _sessionUser.User);
+        }, "SetCategoryToPrivate");
+
+        return Json(new
+        {
+            success = true,
+            msg = "Das Thema wurde erfolgreich auf Privat gesetzt."
         });
     }
 

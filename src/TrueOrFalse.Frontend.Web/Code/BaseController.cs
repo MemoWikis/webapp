@@ -2,7 +2,7 @@
 
 public class BaseController : Controller
 {
-    protected SessionUser _sessionUser => Resolve<SessionUser>();
+    protected SessionUser _sessionUser => Sl.SessionUser;
     protected SessionUiData _sessionUiData => Resolve<SessionUiData>();
 
     public int UserId => _sessionUser.UserId;

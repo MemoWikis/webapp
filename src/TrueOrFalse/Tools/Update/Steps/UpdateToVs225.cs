@@ -1,4 +1,5 @@
 ﻿using NHibernate;
+using TemplateMigration;
 
 namespace TrueOrFalse.Updates
 {
@@ -6,11 +7,7 @@ namespace TrueOrFalse.Updates
     {
         public static void Run()
         {
-            Sl.Resolve<ISession>()
-                .CreateSQLQuery(
-                    @"ALTER TABLE `category`
-                    ADD COLUMN `Visibility` INT(11) NULL DEFAULT 0 AFTER `SkipMigration`"
-                ).ExecuteUpdate();
+            QuestionSolutionType3To7Migration.Run();
         }
     }
 }

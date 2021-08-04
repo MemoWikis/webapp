@@ -41,12 +41,16 @@ public class CategoryChangeDayModel
 {
     public string Date;
     public IList<CategoryChangeDetailModel> Items;
-    private string _catName; 
+    private string _catName;
+    public DateTime DateTime;
 
     public CategoryChangeDayModel(DateTime date, IList<CategoryChange> changes)
     {
         Date = date.ToString("dd.MM.yyyy");
-        Items = changes.Select(cc =>
+        DateTime = date;
+        Items = changes
+            .Where(cc => cc.Category != null)
+            .Select(cc =>
         {
             var typ = "";
             var categoryId = cc.Category == null ? Sl.CategoryChangeRepo.GetCategoryId(cc.Id): -1;
@@ -75,7 +79,6 @@ public class CategoryChangeDayModel
 
             return new CategoryChangeDetailModel
             {
-
                 Author = new UserTinyModel(cc.Author),
                 AuthorName = new UserTinyModel(cc.Author).Name,
                 AuthorImageUrl = new UserImageSettings(new UserTinyModel( cc.Author).Id).GetUrl_85px_square( new UserTinyModel(cc.Author)).Url,

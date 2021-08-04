@@ -3,23 +3,10 @@
 
 <%= Styles.Render("~/bundles/Segmentation") %>
 
-<segmentation-component inline-template :edit-mode="editMode" :category-id="<%= Model.Category.Id %>" child-category-ids="<%= Model.NotInSegmentCategoryIds %>" segment-json="<%= Model.SegmentJson %>" is-my-world-string="<%= Model.IsMyWorld %>">
+<segmentation-component inline-template :edit-mode="editMode" :category-id="<%= Model.Category.Id %>" child-category-ids="<%= Model.NotInSegmentCategoryIds %>" segment-json="<%= Model.SegmentJson %>" is-my-world-string="<%= Model.IsMyWorld %>" is-historic-string="<%= Model.Category.IsHistoric %>">
     <div :key="componentKey" id="Segmentation" v-cloak>
         <div class="segmentationHeader overline-m">
             Untergeordnete Themen
-            <div class="Button dropdown DropdownButton segmentDropdown">
-                <a href="#" :id="dropdownId" class="dropdown-toggle  btn btn-link btn-sm ButtonEllipsis" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                    <i class="fa fa-ellipsis-v"></i>
-                </a>
-                <ul class="dropdown-menu dropdown-menu-right" :aria-labelledby="dropdownId">
-                    <li><a @click="moveToNewCategory">
-                        <div class="dropdown-icon"><i class="fas fa-code-branch"></i></div>In neues Thema verschieben
-                    </a></li>
-                    <li><a @click="removeChildren">
-                        <div class="dropdown-icon"><i class="fas fa-unlink"></i></div>Themen entfernen
-                    </a></li>
-                </ul>
-            </div>
         </div>
 
         <div id="CustomSegmentSection" v-if="loadComponents" v-cloak>
@@ -35,25 +22,12 @@
                 <% }
                   } %>
         </div>
-        <div id="GeneratedSegmentSection" @mouseover="hover = true" @mouseleave="hover = false" :class="{ hover : showHover }">
+        <div id="GeneratedSegmentSection" @mouseover="hover = true" @mouseleave="hover = false" :class="{ hover : showHover && !isHistoric }">
             <div class="segmentHeader" v-if="hasCustomSegment">
                 <div class="segmentTitle">
                     <h2>
                         Weitere untergeordnete Themen
                     </h2>
-                </div>
-                <div class="Button dropdown DropdownButton segmentDropdown" :class="{ hover : showHover }">
-                    <a href="#" :id="dropdownId" class="dropdown-toggle  btn btn-link btn-sm ButtonEllipsis" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                        <i class="fa fa-ellipsis-v"></i>
-                    </a>
-                    <ul class="dropdown-menu dropdown-menu-right" :aria-labelledby="dropdownId">
-                        <li><a @click="moveToNewCategory">
-                            <div class="dropdown-icon"><i class="fas fa-code-branch"></i></div>In neues Thema verschieben
-                        </a></li>
-                        <li><a @click="removeChildren">
-                            <div class="dropdown-icon"><i class="fas fa-unlink"></i></div>Themen entfernen
-                        </a></li>
-                    </ul>
                 </div>
             </div>
             <%if(!String.IsNullOrEmpty(Model.Title)){%>
@@ -65,7 +39,7 @@
         
                 <div class="topicNavigation row">
                     <template v-if="loadComponents" v-cloak>
-                        <template v-for="(id, index) in currentChildCategoryIds">
+                        <template v-for="(category, index) in categories">
                             <%: Html.Partial("~/Views/Categories/Detail/Partials/Segmentation/SegmentationCategoryCardComponent.vue.ascx")%>
                         </template>
                     </template>
@@ -77,11 +51,12 @@
                         </template>                    <%}else { %>
                         <div class="hidden">&nbsp;</div><% //if empty, templateparser throws error %>
                     <%} %>
-                    <div id="AddToCurrentCategoryBtn" class="col-xs-6 addCategoryCard memo-button" @click="addCategory">
+                    <div v-if="!isHistoric" id="AddToCurrentCategoryBtn" class="col-xs-6 addCategoryCard memo-button" @click="addCategory">
                         <div>
-                             <i class="fas fa-plus"></i> Neues Thema
+                            <i class="fas fa-plus"></i> Neues Thema
                         </div>                    
                     </div>
+
                 </div>
 
         </div>

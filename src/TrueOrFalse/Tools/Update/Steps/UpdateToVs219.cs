@@ -1,4 +1,7 @@
-﻿using NHibernate;
+﻿using System;
+using System.Collections.Generic;
+using NHibernate;
+using TemplateMigration;
 
 namespace TrueOrFalse.Updates
 {
@@ -8,11 +11,7 @@ namespace TrueOrFalse.Updates
         {
             Sl.Resolve<ISession>()
                 .CreateSQLQuery(
-                    @"ALTER TABLE `question`
-	                    ADD INDEX `Visibility` (`Visibility`),
-	                    ADD INDEX `TotalRelevancePersonalEntries` (`TotalRelevancePersonalEntries`),
-	                    ADD INDEX `DateCreated` (`DateCreated`);
-                    ")
+                    @"ALTER TABLE `categorychange` CHANGE COLUMN `Data` `Data` LONGTEXT NULL DEFAULT NULL;")
                 .ExecuteUpdate();
         }
     }

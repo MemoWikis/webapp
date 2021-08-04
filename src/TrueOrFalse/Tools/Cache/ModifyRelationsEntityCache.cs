@@ -13,8 +13,12 @@ public class ModifyRelationsEntityCache
             {
                 var relation = parent.CategoryRelations[i];
 
-                if (relation.RelatedCategoryId == category.Id && relation.CategoryRelationType == CategoryRelationType.IncludesContentOf)
+                if (relation.RelatedCategoryId == category.Id &&
+                    relation.CategoryRelationType == CategoryRelationType.IncludesContentOf)
+                {
                     parent.CategoryRelations.Remove(relation);
+                    break;
+                }
             }
         }
     }
@@ -43,6 +47,7 @@ public class ModifyRelationsEntityCache
         for (int i = 0; i < categoryCacheItem.CategoryRelations.Count; i++)
         {
             var relation = categoryCacheItem.CategoryRelations[i];
+
             if (relation.CategoryId == categoryCacheItem.Id &&
                 relation.RelatedCategoryId == relatedId &&
                 relation.CategoryRelationType == categoryRelationType)

@@ -70,7 +70,7 @@ namespace TrueOrFalse.Frontend.Web
             Thread.CurrentThread.CurrentUICulture = new CultureInfo("de-DE");
 #if DEBUG
             if (Settings.DebugEnableMiniProfiler())
-                MiniProfiler.Start();
+                MiniProfiler.StartNew();
 
             var app = (HttpApplication)source;
             var uriObject = app.Context.Request.Url;
@@ -86,8 +86,8 @@ namespace TrueOrFalse.Frontend.Web
         protected void Application_EndRequest(object source, EventArgs e)
         {
 #if DEBUG
-            if (Settings.DebugEnableMiniProfiler())
-                MiniProfiler.Stop();
+            //if (Settings.DebugEnableMiniProfiler())
+                //MiniProfiler.Current.Stop();
 
             var app = (HttpApplication)source;
             var uriObject = app.Context.Request.Url;

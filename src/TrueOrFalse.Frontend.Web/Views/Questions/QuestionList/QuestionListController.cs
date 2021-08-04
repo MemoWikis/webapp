@@ -1,11 +1,13 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Web.Mvc;
 using System.Web.Script.Serialization;
 using TrueOrFalse;
 using TrueOrFalse.Frontend.Web.Code;
-using TrueOrFalse.Web;
+
+[SessionState(System.Web.SessionState.SessionStateBehavior.ReadOnly)]
 public class QuestionListController : BaseController
 {
  
@@ -28,58 +30,6 @@ public class QuestionListController : BaseController
         });
     }
 
-    [AccessOnlyAsLoggedIn]
-    [HttpPost]
-    public JsonResult CreateFlashcard(FlashCardLoader flashCardJson)
-    {
-        var serializer = new JavaScriptSerializer();
-        var question = new Question();
-        var questionRepo = Sl.QuestionRepo;
-
-        question.Text = flashCardJson.Text;
-        question.SolutionType = (SolutionType)Enum.Parse(typeof(SolutionType), "9");
-
-        var solutionModelFlashCard = new QuestionSolutionFlashCard();
-        solutionModelFlashCard.Text = flashCardJson.Answer;
-        question.Solution = serializer.Serialize(solutionModelFlashCard);
-
-        question.Creator = _sessionUser.User;
-        question.Categories.Add(Sl.CategoryRepo.GetById(flashCardJson.CategoryId));
-        var visibility = (QuestionVisibility)flashCardJson.Visibility;
-        question.Visibility = visibility;
-        question.License = LicenseQuestionRepo.GetDefaultLicense();
-
-        questionRepo.Create(question);
-
-        Sl.QuestionChangeRepo.AddUpdateEntry(question);
-
-        if (flashCardJson.AddToWishknowledge)
-            QuestionInKnowledge.Pin(Convert.ToInt32(question.Id), _sessionUser.User);
-
-        InsertNewQuestionToLearningSession(question, flashCardJson.LastIndex);
-
-        var questionsController = new QuestionsController(questionRepo);
-        var json = Json(questionsController.LoadQuestion(question.Id));
-
-        return json;
-    }
-    public class FlashCardLoader
-    {
-        public int CategoryId { get; set; }
-        public string Text { get; set; }
-        public string Answer { get; set; }
-        public int Visibility { get; set; }
-        public bool AddToWishknowledge { get; set; }
-        public int LastIndex { get; set; }
-    }
-
-    public void InsertNewQuestionToLearningSession(Question question, int sessionIndex)
-    {
-        var learningSession = LearningSessionCache.GetLearningSession();
-        var step = new LearningSessionStep(question);
-        learningSession.Steps.Insert(sessionIndex, step);
-    }
-
     [HttpPost]
     public JsonResult LoadQuestionBody(int questionId)
     {
@@ -87,13 +37,13 @@ public class QuestionListController : BaseController
         var author = new UserTinyModel(question.Creator);
         var authorImage = new UserImageSettings(author.Id).GetUrl_128px_square(author);
         var solution = GetQuestionSolution.Run(question);
-        var answerQuestionModel = new AnswerQuestionModel(question);
+        var answerQuestionModel = new AnswerQuestionModel(question, true);
         var history = answerQuestionModel.HistoryAndProbability.AnswerHistory;
 
         var json = Json(new
         {
             answer = solution.GetCorrectAnswerAsHtml(),
-            extendedAnswer = question.Description != null ? MarkdownMarkdig.ToHtml(question.Description) : "",
+            extendedAnswer = question.DescriptionHtml != null ? question.DescriptionHtml : "",
             categories = question.Categories.Select(c => new
             {
                 name = c.Name,
@@ -110,7 +60,7 @@ public class QuestionListController : BaseController
             authorId = author.Id,
             authorImage = authorImage.Url,
             authorUrl = Links.UserDetail(author),
-            extendedQuestion = question.TextExtended != null ? MarkdownMarkdig.ToHtml(question.TextExtended) : "",
+            extendedQuestion = question.TextExtendedHtml != null ? question.TextExtendedHtml : "",
             commentCount = Resolve<CommentRepository>().GetForDisplay(question.Id)
                 .Where(c => !c.IsSettled)
                 .Select(c => new CommentModel(c))
@@ -135,11 +85,23 @@ public class QuestionListController : BaseController
     }
 
     [HttpPost]
-    public int GetUpdatedCorrectnessProbability(int questionId)
+    public JsonResult GetUpdatedCorrectnessProbability(int questionId)
     {
-        var question = Sl.QuestionRepo.GetById(questionId);
-        var model = new AnswerQuestionModel(question);
+        var question = EntityCache.GetQuestionById(questionId);
+        var hasPersonalAnswer = false;
+        var model = new AnswerQuestionModel(question, true);
+        if (_sessionUser.IsLoggedIn)
+        {
+            ConcurrentDictionary<int, QuestionValuationCacheItem> userQuestionValuation = new ConcurrentDictionary<int, QuestionValuationCacheItem>();
+            userQuestionValuation = UserCache.GetItem(_sessionUser.UserId).QuestionValuations;
+            if (userQuestionValuation.ContainsKey(questionId))
+                hasPersonalAnswer = userQuestionValuation[questionId].CorrectnessProbabilityAnswerCount > 0;
+        }
 
-        return model.HistoryAndProbability.CorrectnessProbability.CPPersonal;
+        return Json(new
+        {
+            correctnessProbability = model.HistoryAndProbability.CorrectnessProbability.CPPersonal,
+            hasPersonalAnswer
+        });
     }
 }

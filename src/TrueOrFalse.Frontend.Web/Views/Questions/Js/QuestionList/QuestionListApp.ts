@@ -62,12 +62,17 @@ var questionListApp = new Vue({
                 : this.selectedQuestionCount = "alle";
         });
         eventBus.$on('update-selected-page', (selectedPage) => {
-            this.selectedPageFromActiveQuestion = selectedPage;
+            this.$nextTick(() => this.selectedPageFromActiveQuestion = selectedPage);
         });
         eventBus.$on('add-question-to-list',
             () => {
                 this.getAllQuestionsCountFromCategory();
             });
+        eventBus.$on('init-new-session', () => {
+            this.$nextTick(() => this.selectedQuestionCount = 'alle');
+            this.$nextTick(() => this.selectedPageFromActiveQuestion = 1);
+
+        });
     },
     mounted() {
         $('#CustomSessionConfigBtn').tooltip();

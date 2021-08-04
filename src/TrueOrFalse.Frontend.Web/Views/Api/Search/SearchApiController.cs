@@ -35,15 +35,17 @@ public class SearchApiController : BaseController
         return Json( new{ Items = items }, JsonRequestBehavior.AllowGet);
     }
 
-    public JsonResult ByNameForVue(string term, string type)
+    [HttpPost]
+    public JsonResult ByNameForVue(string term, string type, int[] categoriesToFilter)
     {
         var items = new List<MiniCategoryItem>();
         var elements = SearchBoxElementsGet.GoAllCategories(term);
 
         if (elements.Categories.Any())
-        {
             AddMiniCategoryItems(items, elements);
-        }
+
+        items.RemoveAll(i => categoriesToFilter.Contains(i.Id));
+
         return Json(new
         {
             totalCount = elements.CategoriesResultCount,

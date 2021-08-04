@@ -1,7 +1,7 @@
 ﻿    <div class="checkbox-container">
         <div class="checkbox">
             <label> 
-                <input type="checkbox" v-model.number="visibility" value="1"> Private Frage <i class="fas fa-lock show-tooltip tooltip-min-200" title="" data-placement="top" data-html="true" data-original-title="
+                <input type="checkbox" v-model="isPrivate" :value="1"> Private Frage <i class="fas fa-lock show-tooltip tooltip-min-200" title="" data-placement="top" data-html="true" data-original-title="
                             <ul class='show-tooltip-ul'>
                                 <li>Die Frage kann nur von dir genutzt werden.</li>
                                 <li>Niemand sonst kann die Frage sehen oder nutzen.</li>
@@ -10,7 +10,7 @@
             </label>
         </div>
     </div>
-    <div class="checkbox-container license-confirmation-box" v-if="visibility == 0">
+    <div class="checkbox-container license-confirmation-box" v-if="!isPrivate">
         <div class="checkbox">
             <label>
                 <input type="checkbox" v-model="licenseConfirmation" value="false">

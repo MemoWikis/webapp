@@ -59,7 +59,6 @@ Vue.component('question-details-component', {
             avgProbabilityLabelWidth: 0,
             arcSvgWidth: 0,
             showPersonalArc: false,
-            categoryList: "",
             personalStartAngle: 0,
             overallStartAngle: 0,
 
@@ -80,7 +79,6 @@ Vue.component('question-details-component', {
             categories: [],
             isLandingPage: !this.isInLearningTab,
             questionIdHasChanged: false,
-            categoryListHasLoaded: false,
         };
     },
 
@@ -98,9 +96,7 @@ Vue.component('question-details-component', {
                         self.questionIdHasChanged = true;
                         self.questionId = id;
                         self.$refs.personalCounter = null;
-                        self.categoryListHasLoaded = false;
                     }
-                    self.loadCategoryList();
                     self.loadData();
                 }
             });
@@ -165,7 +161,6 @@ Vue.component('question-details-component', {
 
     mounted: function () {
         if (!this.arcLoaded) {
-            this.loadCategoryList();
             this.loadData();
         }
     },
@@ -183,20 +178,6 @@ Vue.component('question-details-component', {
             }
         },
 
-        loadCategoryList() {
-            if (this.categoryListHasLoaded)
-                return;
-            $.ajax({
-                url: "/AnswerQuestion/RenderCategoryList/",
-                data: { questionId: this.questionId },
-                type: "Post",
-                success: categoryListView => {
-                    this.categoryList = categoryListView;
-                    this.categoryListHasLoaded = true;
-                }
-            });
-        },
-
         loadData() {
             $.ajax({
                 url: "/AnswerQuestion/GetQuestionDetails/",
@@ -210,7 +191,7 @@ Vue.component('question-details-component', {
                     this.personalAnsweredCorrectly = data.personalAnsweredCorrectly;
                     this.personalAnsweredWrongly = data.personalAnsweredWrongly;
                     this.visibility = data.visibility;
-                    if (this.visibility == 1) {
+                    if (this.isPrivate == 1) {
                         this.overallAnswerCount = 0;
                         this.overallAnsweredCorrectly = 0;
                         this.overallAnsweredWrongly = 0;

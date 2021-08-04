@@ -119,22 +119,19 @@ public class CategoryCacheItem
         IEnumerable<Question> questions;
 
         if (fullList)
-        {
             questions = AggregatedCategories()
                 .SelectMany(c => EntityCache.GetQuestionsForCategory(c.Id))
                 .Distinct();
-        }
         else
-        {
             questions = EntityCache.GetQuestionsForCategory(categoryId)
                 .Distinct();
-        }
 
 
         if (onlyVisible)
-        {
             questions = questions.Where(q => q.IsVisibleToCurrentUser());
-        }
+
+        if (UserCache.GetItem(Sl.CurrentUserId).IsFiltered)
+            questions = questions.Where(q => q.IsInWishknowledge()); 
 
         return questions.ToList();
     }
@@ -234,6 +231,7 @@ public class CategoryCacheItem
     public virtual bool HasPublicParent() {
         return ParentCategories().Any(c => c.Visibility == CategoryVisibility.All);
     }
+
     public virtual bool HasRelation(CategoryCacheRelation newRelation)
     {
         foreach (var categoryRelation in this.CategoryRelations)

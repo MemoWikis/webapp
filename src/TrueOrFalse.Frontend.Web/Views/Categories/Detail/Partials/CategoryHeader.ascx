@@ -73,7 +73,7 @@
                         <% } %>
                         und
                         <% if (Model.CountAggregatedQuestions == 1) { %> 1 Frage <% }
-                           else if (Model.CountAggregatedQuestions > 1){ %> <%= Model.CountCategoryQuestions %> Fragen <% }
+                           else if (Model.CountAggregatedQuestions > 1){ %> <%= Model.Category.GetCountQuestionsAggregated() %> Fragen <% }
                            else { %> 0 Fragen
                         <% } %>
                     </div>
@@ -175,7 +175,7 @@
                         </a>
                         <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="<%= buttonId %>">
                             <li>
-                                <a onclick="eventBus.$emit('open-add-category-modal', {categoryId: <%= Model.Category.Id %>})" data-allowed="logged-in">
+                                <a href="<%= Links.CategoryHistory(Model.Id) %>" data-allowed="logged-in">
                                     <div class="dropdown-icon">
                                         <i class="fa fa-code-fork"></i>
                                     </div>
@@ -186,7 +186,7 @@
                                 <a onclick="eventBus.$emit('open-edit-question-modal', {
                                                                             categoryId: <%= Model.Category.Id %>,
                                                                             edit: false
-                                                                        })" data-allowed="logged-in">
+                                                                        })">
                                     <div class="dropdown-icon">
                                         <i class="fa fa-plus-circle"></i>
                                     </div>
@@ -216,6 +216,16 @@
                                             <i class="fas fa-trash"></i>
                                         </div>
                                         Thema löschen
+                                    </a>
+                                </li>
+                            <%}%>
+                            <%if (Model.IsInstallationAdmin && Model.Category.Visibility == CategoryVisibility.All) {%>
+                                <li>
+                                    <a onclick="eventBus.$emit('set-category-to-private', <%= Model.Category.Id %>)" data-allowed="logged-in">
+                                        <div class="dropdown-icon">
+                                            <i class="fas fa-lock"></i>
+                                        </div>
+                                        Thema auf privat setzen
                                     </a>
                                 </li>
                             <%}%>

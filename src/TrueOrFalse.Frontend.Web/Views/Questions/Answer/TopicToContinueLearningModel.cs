@@ -12,9 +12,8 @@ public class TopicToContinueLearningModel
     public TopicToContinueLearningModel(AnswerQuestionModel answerQuestionModel, IList<CategoryCacheItem> categoryList)
     {
         IsLearningSession = answerQuestionModel.IsLearningSession;
-        IsTestSession = answerQuestionModel.IsTestSession;
         ContentRecommendationResult = answerQuestionModel.ContentRecommendationResult;
-        Categories = categoryList;
+        Categories = categoryList.Distinct().OrderBy(c => c.Id).ToList();
     }
 
 }

@@ -1650,6 +1650,7 @@ h3 {
 }
 
 .body-l,.body-m,.body-s,.body-xs{
+    width: 100%;
     margin-bottom: 10px;
     &.bold {
         font-weight: 700;
@@ -1667,6 +1668,28 @@ h3 {
 
     &.btn-link {
         color: @memo-blue-link;
+    }
+
+    &.btn-error {
+        color: @white;
+        background-color: @memo-salmon;
+        transition: 0.2s ease-in-out;
+        border: darken(@memo-salmon, 5%);
+
+        &:hover {
+            background-color: darken(@memo-salmon, 5%);
+        }
+    }
+
+    &.btn-success {
+        color: @white;
+        background-color: @memo-green;
+        transition: 0.2s ease-in-out;
+        border: darken(@memo-green, 5%);
+
+        &:hover {
+            background-color: darken(@memo-green, 5%);
+        }
     }
 }
 
@@ -1811,15 +1834,6 @@ b, strong {
         outline: none !important;
     }
 
-    .solutionType-selector {
-        select {
-            border: none;
-            background: @memo-grey-lighter;
-            padding: 0 4px;
-            outline: none !important;
-        }
-    }
-
     .matchlist-container {
         select {
             height: 34px;
@@ -1848,23 +1862,38 @@ b, strong {
             input, select, .input-group {
                 width: 100%;
             }
+
+            .matchlist-left, .matchlist-right {
+                width: 50%;
+            }
         }
 
-        .matchlist-left, .matchlist-right {
-            width: 50%;
+        .matchlist-options {
+            @media (max-width:576px) {
+                flex-direction: column;
+
+                .matchlist-left, .matchlist-right {
+                    width: 100%;
+                }
+
+                .matchlist-right {
+                    margin-top: 26px;
+                }
+
+                .xs-hide {
+                    &.col-spacer {
+                        min-width: 0px;
+                        width: 0px;
+                        padding: 0;
+                    }
+                }
+            }
         }
     }
 
     .edit-question-modal-header {
         display: flex;
         justify-content: space-between;
-
-        .main-label {
-            padding-right: 20px;
-        }
-
-        .solutionType-selector {
-        }
 
         .heart-container {
             display: flex;
@@ -1877,10 +1906,35 @@ b, strong {
             color: @memo-wuwi-red;
             font-size: 22px;
         }
+
+        .main-header {
+            display: flex;
+            align-items: baseline;
+            padding-bottom: 4px;
+
+            .main-label {
+                padding-right: 20px;
+            }
+
+            .solutionType-selector {
+                select {
+                    border: none;
+                    background: @memo-grey-lighter;
+                    padding: 0 4px;
+                    outline: none !important;
+                    height: 34px;
+                    width: 190px;
+                }
+            }
+
+            @media (max-width:576px) {
+                flex-direction: column;
+            }
+        }
     }
 
     .form-group {
-        margin-bottom: 26px;
+        margin-bottom: 16px;
     }
 
     .ProseMirror, input, textarea, select {
@@ -1895,6 +1949,12 @@ b, strong {
     .is-empty {
 
         .ProseMirror {
+            border: solid 1px @memo-salmon;
+        }
+    }
+
+    .btn {
+        &.is-empty {
             border: solid 1px @memo-salmon;
         }
     }
@@ -1976,6 +2036,14 @@ b, strong {
         .ProseMirror {
             height: 62px;
         }
+    }
+
+    .col-spacer {
+        min-width: 38px;
+    }
+
+    .form-control {
+        max-width: 100%;
     }
 }
 
@@ -2224,17 +2292,42 @@ textarea, input {
         border-radius: 0;
     }
 }
+#ErrorModal, #SuccessModal {
+    .modal-body, .modal-footer, .modal-header {
+        display: flex;
+        justify-content: center;
+        text-align: center;
+    }
 
+    .modal-body {
+        flex-direction: column;
+    }
+}
+#ErrorModal {
+    h3 {
+        color: @memo-salmon;
+    }
+}
+
+#SuccessModal {
+    h3 {
+        color: @memo-green;
+    }
+}
+.ProseMirror {
+    li {
+        p {
+            margin: 0;
+        }
+    }
+}
 
 /*Generic Bootstrap*/
-
-
 .btn {
     border-radius: 0;
 
     &.grey-bg {
         background-color: @memo-grey-lighter;
-
         transition: background-color 0.2s ease-in-out;
 
         &:hover {
@@ -2250,13 +2343,104 @@ textarea, input {
 .modal-content {
     border-radius: 0;
 
-    .modal-body, .modal-footer {
+    .modal-body, .modal-footer, .modal-header {
         padding: 25px;
-        border-top: none;
+        border: none;
     }
 }
 
 .alert {
     border: none;
     border-radius: 0;
+}
+.field-error {
+    color: @memo-salmon;
+    width: 100%;
+    white-space: nowrap;
+    font-size: 12px;
+}
+.field-error-container {
+    position: relative;
+
+    .field-error {
+        position: absolute;
+        top: 17px;
+    }
+}
+
+
+.cardModal {
+    .modal-s {
+        width: 430px;
+    }
+
+    .dismissModal {
+        position: absolute;
+        right: 15px;
+        z-index: 10;
+        top: 10px;
+    }
+
+    .modal-content {
+        padding: 34px 50px;
+
+        .cardModalContent {
+
+            h4 {
+                font-size: 25px;
+                text-align: center;
+                padding-bottom: 24px;
+            }
+
+
+            .modalBody {
+                font-size: 14px;
+                padding: 10px 0 20px;
+                margin-bottom: 10px;
+
+                .form-control {
+                    width: 100%;
+                    max-width: 100%;
+                }
+
+                .alert {
+                    line-height: 18px;
+                }
+
+                a {
+                    color: @memo-blue;
+                    transition: 0.2s;
+
+                    &:hover {
+                        text-decoration: none;
+                        color: @memo-blue-link;
+                    }
+                }
+
+                .checkBox {
+                    user-select: none;
+                    color: @memo-grey-dark;
+
+                    i {
+                        color: @memo-grey-dark;
+                    }
+                }
+            }
+
+            .modalFooter {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                flex-direction: column;
+
+                .memo-button {
+                    margin: 0;
+                }
+            }
+        }
+    }
+}
+
+.footer-links-memucho {
+    margin-top: 40px;
 }

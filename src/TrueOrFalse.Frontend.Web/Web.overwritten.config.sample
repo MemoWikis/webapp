@@ -12,7 +12,7 @@
   <signalrPassword>pass</signalrPassword>
 
   <debugUserNHProfiler>false</debugUserNHProfiler>
-  <debugMiniProfiler>false</debugMiniProfiler>
+  <debugMiniProfiler>true</debugMiniProfiler>
 
   <disableAllJobs>true</disableAllJobs>
 

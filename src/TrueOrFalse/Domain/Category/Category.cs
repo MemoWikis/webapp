@@ -3,8 +3,6 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using System.Windows.Forms;
-using MySqlX.XDevAPI;
 
 [DebuggerDisplay("Id={Id} Name={Name}")]
 [Serializable]

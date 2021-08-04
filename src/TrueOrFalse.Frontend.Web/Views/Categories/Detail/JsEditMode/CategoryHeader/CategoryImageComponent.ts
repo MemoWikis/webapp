@@ -8,8 +8,7 @@
             }
         },
         created() {
-            this.imgSrc = $("#CategoryHeaderImg").attr('src');
-
+            eventBus.$on('set-category-img-src', (src) => this.imgSrc = src);
         },
         mounted() {
             if (this.isLearningTab == 'True') {

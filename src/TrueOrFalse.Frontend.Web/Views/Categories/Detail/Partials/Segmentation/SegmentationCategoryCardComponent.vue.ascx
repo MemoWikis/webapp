@@ -1,24 +1,24 @@
 ﻿<%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
 
- <category-card-component @select-category="selectCategory" @unselect-category="unselectCategory" inline-template :edit-mode="editMode" :ref="'card' + id" :is-custom-segment="isCustomSegment" :category-id="id" :selected-categories="selectedCategories" :segment-id="segmentId" hide="false" :key="index" :is-my-world="isMyWorld">
+ <category-card-component @select-category="selectCategory" @unselect-category="unselectCategory" inline-template :ref="'card' + category.Id" :is-custom-segment="isCustomSegment" :category-id="category.Id" :selected-categories="selectedCategories" :segment-id="segmentId" hide="false" :key="index" :is-my-world="isMyWorld" :category="category" :is-historic="isHistoric">
     
     <div class="col-xs-6 topic segmentCategoryCard" v-if="visible" @mouseover="hover = true" @mouseleave="hover = false" :class="{ hover : showHover }">
         <div class="row">
             <div class="col-xs-3">
-                <div class="checkBox" @click="selectCategory()" :class="{ show : showHover && isCustomSegment, selected : isSelected && isCustomSegment }">
+<%--                <div class="checkBox" @click="selectCategory()" :class="{ show : showHover && isCustomSegment, selected : isSelected && isCustomSegment }">
                     <i class="fas fa-check-square" v-if="isSelected"></i>
                     <i class="far fa-square" v-else></i>
-                </div>
-                <div class="ImageContainer" v-html="imgHtml">
+                </div>--%>
+                <div class="ImageContainer" v-html="category.ImgHtml">
                 </div>
             </div>
             <div class="col-xs-9">
-                <a class="topic-name" :href="linkToCategory">
+                <a class="topic-name" :href="category.LinkToCategory">
                     <div class="topic-name">
-                        <template v-html="categoryTypeHtml"></template> {{categoryName}}
-                        <i v-if="visibility == 1" class="fas fa-lock"></i>
+                        <template v-html="category.CategoryTypeHtml"></template> {{category.Name}}
+                        <i v-if="category.Visibility == 1" class="fas fa-lock"></i>
                     </div>
-                    <div class="Button dropdown DropdownButton" :class="{ hover : showHover }">
+                    <div v-if="!isHistoric" class="Button dropdown DropdownButton" :class="{ hover : showHover && !isHistoric }">
                         <a href="#" :id="dropdownId" class="dropdown-toggle  btn btn-link btn-sm ButtonEllipsis" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
                             <i class="fa fa-ellipsis-v"></i>
                         </a>
@@ -35,15 +35,15 @@
 
                 <div class="set-question-count">
                     <span>
-                        <pin-category-component :category-id="categoryId"/>
+                        <pin-category-component :category-id="categoryId" :initial-wishknowledge-state="category.IsInWishknowledge"/>
                     </span>
                     
-                    <template v-if="childCategoryCount == 1">1 Unterthema</template>
-                    <template v-else-if="childCategoryCount > 1">{{childCategoryCount}} Unterthemen</template>
-                    {{questionCount}} Frage<template v-if="questionCount != 1">n</template>
+                    <template v-if="category.ChildCategoryCount == 1">1 Unterthema</template>
+                    <template v-else-if="category.ChildCategoryCount > 1">{{category.ChildCategoryCount}} Unterthemen</template>
+                    {{category.QuestionCount}} Frage<template v-if="category.QuestionCount != 1">n</template>
                 </div>
-                <div v-if="questionCount > 0" class="KnowledgeBarWrapper">
-                    <div v-html="knowledgeBarHtml"></div>
+                <div v-if="category.QuestionCount > 0" class="KnowledgeBarWrapper">
+                    <div v-html="category.KnowledgeBarHtml"></div>
                     <div class="KnowledgeBarLegend">Dein Wissensstand</div>
                 </div>
 

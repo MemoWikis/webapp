@@ -1,52 +1,4 @@
-﻿var {
-    tiptap,
-    tiptapUtils,
-    tiptapCommands,
-    tiptapExtensions,
-} = tiptapBuild;
-var {
-    apache,
-    //cLike,
-    xml,
-    bash,
-    //c,
-    coffeescript,
-    csharp,
-    css,
-    markdown,
-    diff,
-    ruby,
-    go,
-    http,
-    ini,
-    java,
-    javascript,
-    json,
-    kotlin,
-    less,
-    lua,
-    makefile,
-    perl,
-    nginx,
-    objectivec,
-    php,
-    phpTemplate,
-    plaintext,
-    properties,
-    python,
-    pythonREPL,
-    rust,
-    scss,
-    shell,
-    sql,
-    swift,
-    yaml,
-    typescript,
-} = hljsBuild;
-
-
-Vue.component('editor-menu-bar', tiptap.EditorMenuBar);
-Vue.component('editor-content', tiptap.EditorContent);
+﻿Vue.component('editor-content', tiptapEditorContent);
 
 Vue.component('add-question-component', {
     props: ['current-category-id'],
@@ -54,77 +6,32 @@ Vue.component('add-question-component', {
         return {
             highlightEmptyFields: false,
             isLoggedIn: IsLoggedIn.Yes,
-            visibility: 1,
             addToWishknowledge: true,
-            questionEditor: new tiptap.Editor({
+            questionEditor: new tiptapEditor({
                 editable: true,
                 extensions: [
-                    new tiptapExtensions.Blockquote(),
-                    new tiptapExtensions.BulletList(),
-                    new tiptapExtensions.CodeBlock(),
-                    new tiptapExtensions.HardBreak(),
-                    new tiptapExtensions.ListItem(),
-                    new tiptapExtensions.OrderedList(),
-                    new tiptapExtensions.TodoItem(),
-                    new tiptapExtensions.TodoList(),
-                    new tiptapExtensions.Link(),
-                    new tiptapExtensions.Bold(),
-                    new tiptapExtensions.Code(),
-                    new tiptapExtensions.Italic(),
-                    new tiptapExtensions.Strike(),
-                    new tiptapExtensions.Underline(),
-                    new tiptapExtensions.History(),
-                    //new tiptapExtensions.CodeBlockHighlight({
-                    //    languages: {
-                    //        apache,
-                    //        //cLike,
-                    //        xml,
-                    //        bash,
-                    //        //c,
-                    //        coffeescript,
-                    //        csharp,
-                    //        css,
-                    //        markdown,
-                    //        diff,
-                    //        ruby,
-                    //        go,
-                    //        http,
-                    //        ini,
-                    //        java,
-                    //        javascript,
-                    //        json,
-                    //        kotlin,
-                    //        less,
-                    //        lua,
-                    //        makefile,
-                    //        perl,
-                    //        nginx,
-                    //        objectivec,
-                    //        php,
-                    //        phpTemplate,
-                    //        plaintext,
-                    //        properties,
-                    //        python,
-                    //        pythonREPL,
-                    //        rust,
-                    //        scss,
-                    //        shell,
-                    //        sql,
-                    //        swift,
-                    //        yaml,
-                    //        typescript,
-                    //    },
-                    //}),
-                    new tiptapExtensions.Placeholder({
+                    tiptapStarterKit,
+                    tiptapLink.configure({
+                        HTMLAttributes: {
+                            target: '_self',
+                            rel: 'noopener noreferrer nofollow'
+                        }
+                    }),
+                    tiptapCodeBlockLowlight.configure({
+                        lowlight,
+                    }),
+                    tiptapUnderline,
+                    tiptapPlaceholder.configure({
                         emptyEditorClass: 'is-editor-empty',
                         emptyNodeClass: 'is-empty',
-                        emptyNodeText: 'Gib den Fragetext ein',
+                        placeholder: 'Gib den Fragetext ein',
                         showOnlyCurrent: true,
-                    })
+                    }),
+                    tiptapImage
                 ],
-                onUpdate: ({ getJSON, getHTML }) => {
-                    this.questionJson = getJSON();
-                    this.questionHtml = getHTML();
+                onUpdate: ({ editor }) => {
+                    this.questionJson = editor.getJSON();
+                    this.questionHtml = editor.getHTML();
                     this.formValidator();
                 },
             }),
@@ -139,11 +46,12 @@ Vue.component('add-question-component', {
             licenseIsValid: false,
             solutionIsValid: false,
             disabled: true,
+            isPrivate: true,
         }
     },
 
     watch: {
-        visibility() {
+        isPrivate() {
             this.formValidator();
         },
         licenseConfirmation() {
@@ -155,12 +63,16 @@ Vue.component('add-question-component', {
     },
 
     mounted() {
-        if (this.visibility == 1)
+        if (this.isPrivate)
             this.licenseIsValid = true;
     },
 
     methods: {
         addFlashcard() {
+            if (NotLoggedIn.Yes()) {
+                NotLoggedIn.ShowErrorMsg("CreateFlashCard");
+                return;
+            }
             if (this.disabled) {
                 this.highlightEmptyFields = true;
                 return;
@@ -169,16 +81,16 @@ Vue.component('add-question-component', {
             var lastIndex = parseInt($('#QuestionListComponent').attr("data-last-index")) + 1;
             var json = {
                 CategoryId: this.currentCategoryId,
-                Text: this.questionHtml,
+                TextHtml: this.questionHtml,
                 Answer: this.flashCardAnswer,
-                Visibility: this.visibility,
+                Visibility: this.isPrivate ? 1 : 0,
                 AddToWishknowledge: this.addToWishknowledge,
                 LastIndex: lastIndex,
             }
             $.ajax({
                 type: 'post',
                 contentType: "application/json",
-                url: '/QuestionList/CreateFlashcard',
+                url: '/Question/CreateFlashcard',
                 data: JSON.stringify(json),
                 success: function (data) {
                     var answerBody = new AnswerBody();
@@ -190,10 +102,10 @@ Vue.component('add-question-component', {
                         "&index=" +
                         lastIndex);
 
-                    eventBus.$emit('add-question-to-list', data.Data);
+                    eventBus.$emit('add-question-to-list', data);
                     eventBus.$emit("change-active-question", lastIndex);
                     self.highlightEmptyFields = false;
-                    self.questionEditor.setContent('');
+                    self.questionEditor.commands.setContent('');
                     eventBus.$emit('clear-flashcard');
                 },
             });
@@ -208,7 +120,7 @@ Vue.component('add-question-component', {
         formValidator() {
             var questionIsValid = this.questionEditor.state.doc.textContent.length > 0;
             var solutionIsValid = this.solutionIsValid;
-            this.licenseIsValid = this.licenseConfirmation || this.visibility == 1;
+            this.licenseIsValid = this.licenseConfirmation || this.isPrivate;
 
             this.disabled = !questionIsValid || !solutionIsValid || !this.licenseIsValid;
         }

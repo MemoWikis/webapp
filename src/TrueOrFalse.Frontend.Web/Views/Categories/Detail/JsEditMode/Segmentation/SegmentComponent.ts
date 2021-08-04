@@ -3,6 +3,8 @@
 
     props: {
         categoryId: [Number, String],
+        initialWishknowledgeState: Boolean,
+        isHistoric: Boolean,
     },
     data() {
         return {
@@ -14,34 +16,11 @@
     watch: {
     },
     mounted() {
-        this.loadWishknowledge();
+        this.isInWishknowledge = this.initialWishknowledgeState;
+        if (this.isInWishknowledge)
+            this.stateLoad = 'added';
     },
     methods: {
-        loadWishknowledge() {
-            if (NotLoggedIn.Yes())
-                return;
-            var self = this;
-            self.stateLoad = 'loading';
-            var data = {
-                categoryId: self.categoryId,
-            };
-            $.ajax({
-                type: 'Post',
-                contentType: "application/json",
-                url: '/Category/GetWishknowledge',
-                data: JSON.stringify(data),
-                success: function (result) {
-                    if (result == 'True')
-                        self.isInWishknowledge = true;
-                    else
-                        self.isInWishknowledge = false;
-                    if (self.isInWishknowledge)
-                        self.stateLoad = 'added';
-                    else
-                        self.stateLoad = 'notAdded';
-                },
-            });
-        },
         addToWishknowledge() {
             if (NotLoggedIn.Yes()) {
                 NotLoggedIn.ShowErrorMsg("PinCategory");
@@ -132,12 +111,13 @@
 var categoryCardComponent = Vue.component('category-card-component', {
     props: {
         categoryId: [String, Number],
-        editMode: Boolean,
         isCustomSegment: Boolean,
         selectedCategories: Array,
         segmentId: [String, Number],
         hide: String,
         isMyWorld: Boolean,
+        category: Object,
+        isHistoric: Boolean,
     },
 
     data() {
@@ -164,10 +144,7 @@ var categoryCardComponent = Vue.component('category-card-component', {
             this.isSelected = this.selectedCategories.includes(this.id);
         },
         hover(val) {
-            if (val && this.editMode)
-                this.showHover = true;
-            else
-                this.showHover = false;
+            this.showHover = val;
         },
         categoryId() {
             this.init();
@@ -178,33 +155,10 @@ var categoryCardComponent = Vue.component('category-card-component', {
     },
     methods: {
         init() {
-            this.getCategoryData();
             this.dropdownId = this.segmentId + '-Dropdown' + this.id;
             this.checkboxId = this.segmentId + '-Checkbox' + this.id;
             if (this.isCustomSegment)
                 this.dropdownId += this.$parent.id;
-        },
-        getCategoryData() {
-            var self = this;
-            var data = {
-                categoryId: parseInt(self.categoryId),
-            };
-            $.ajax({
-                type: 'Post',
-                contentType: "application/json",
-                url: '/Segmentation/GetCategoryData',
-                data: JSON.stringify(data),
-                success: function (data) {
-                    self.imgHtml = data.imgHtml;
-                    self.linkToCategory = data.linkToCategory;
-                    self.visibility = data.visibility;
-                    self.categoryTypeHtml = data.categoryTypeHtml;
-                    self.knowledgeBarHtml = data.knowledgeBarHtml;
-                    self.questionCount = data.questionCount;
-                    self.childCategoryCount = data.childCategoryCount;
-                    self.categoryName = data.categoryName;
-                },
-            });
         },
 
         thisToSegment() {
@@ -216,16 +170,16 @@ var categoryCardComponent = Vue.component('category-card-component', {
                 this.$parent.loadSegment(this.id);
             }
         },
-        selectCategory() {
-            if (this.editMode) {
-                this.isSelected = this.selectedCategories.includes(this.id);
+        //selectCategory() {
+        //    if (this.editMode) {
+        //        this.isSelected = this.selectedCategories.includes(this.id);
 
-                if (this.isSelected)
-                    this.$emit('unselect-category', this.id);
-                else
-                    this.$emit('select-category', this.id);
-            }
-        },
+        //        if (this.isSelected)
+        //            this.$emit('unselect-category', this.id);
+        //        else
+        //            this.$emit('select-category', this.id);
+        //    }
+        //},
         removeParent() {
             if (NotLoggedIn.Yes()) {
                 NotLoggedIn.ShowErrorMsg("RemoveParent");
@@ -242,8 +196,14 @@ var categoryCardComponent = Vue.component('category-card-component', {
                 url: '/EditCategory/RemoveParent',
                 data: JSON.stringify(data),
                 success: function (data) {
-                    if (data.success == true)
-                        self.visible = false;
+                    if (data.success == true) {
+                        self.$parent.currentChildCategoryIds = self.$parent.currentChildCategoryIds.filter((id) => {
+                            return id != self.categoryId;
+                        });
+                        self.$parent.categories = self.$parent.categories.filter((c) => {
+                            return c.Id != self.categoryId;
+                        });
+                    }
                     else {
                         eventBus.$emit('show-error', data.errorMsg);
                     }
@@ -253,6 +213,7 @@ var categoryCardComponent = Vue.component('category-card-component', {
         hideCategory() {
             this.$parent.filterChildren([this.categoryId]);
         },
+
     }
 });
 
@@ -264,6 +225,7 @@ var segmentComponent = Vue.component('segment-component', {
         categoryId: [String, Number],
         editMode: Boolean,
         isMyWorld: Boolean,
+        isHistoric: Boolean,
     },
 
     data() {
@@ -285,6 +247,7 @@ var segmentComponent = Vue.component('segment-component', {
             segmentTitle: null,
             knowledgeBarHtml: null,
             disabled: true,
+            knowledgeBarData: null
         };
     },
 
@@ -306,8 +269,10 @@ var segmentComponent = Vue.component('segment-component', {
         eventBus.$on('add-category-card',
             (e) => {
                 if (this.categoryId == e.parentId)
-                    this.currentChildCategoryIds.push(e.newCategoryId);
+                    this.addNewCategoryCard(e.newCategoryId);
             });
+        if (this.currentChildCategoryIds.length > 0)
+            this.getCategoriesData();
     },
 
     watch: {
@@ -329,6 +294,38 @@ var segmentComponent = Vue.component('segment-component', {
     },
 
     methods: {
+        addNewCategoryCard(id) {
+            var self = this;
+            var data = {
+                categoryId: id,
+            };
+            $.ajax({
+                type: 'Post',
+                contentType: "application/json",
+                url: '/Segmentation/GetCategoryData',
+                data: JSON.stringify(data),
+                success: function (c) {
+                    self.categories.push(c);
+                    self.currentChildCategoryIds.push(c.Id);
+                    self.$nextTick(() => Images.ReplaceDummyImages());
+                },
+            });
+        },
+        getCategoriesData() {
+            var self = this;
+            var data = {
+                categoryIds: self.currentChildCategoryIds,
+            };
+            $.ajax({
+                type: 'Post',
+                contentType: "application/json",
+                url: '/Segmentation/GetCategoriesData',
+                data: JSON.stringify(data),
+                success: function (data) {
+                    data.forEach(c => self.categories.push(c));
+                },
+            });
+        },
         getSegmentData() {
             var self = this;
             var data = {
@@ -343,6 +340,7 @@ var segmentComponent = Vue.component('segment-component', {
                     self.linkToCategory = data.linkToCategory;
                     self.visibility = data.visibility;
                     self.knowledgeBarHtml = data.knowledgeBarHtml;
+                    self.knowledgeBarData = data.knowledgeBarData;
                     if (self.title)
                         self.segmentTitle = self.title;
                     else self.segmentTitle = data.categoryName;
@@ -376,10 +374,14 @@ var segmentComponent = Vue.component('segment-component', {
                 return;
             }
             var self = this;
+            var categoriesToFilter = Array.from(self.currentChildCategoryIds);
+            categoriesToFilter.push(parseInt(self.categoryId));
+
             var parent = {
                 id: self.categoryId,
                 addCategoryBtnId: $("#" + self.addCategoryId),
                 moveCategories: false,
+                categoriesToFilter,
             }
             $('#AddCategoryModal').data('parent', parent).modal('show');
         },

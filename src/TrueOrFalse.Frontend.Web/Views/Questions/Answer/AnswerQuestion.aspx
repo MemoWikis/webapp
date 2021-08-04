@@ -5,7 +5,7 @@
 
 <asp:Content ID="ContentHeadSEO" ContentPlaceHolderID="HeadSEO" runat="server">
     <% Title = Model.QuestionTitle; %>
-    <% if (Model.IsLearningSession || Model.IsTestSession ) { %>
+    <% if (Model.IsLearningSession ) { %>
         <meta name="robots" content="noindex" />
     <%}else { %>
         <link rel="canonical" href="<%= Settings.CanonicalHost %><%= Links.AnswerQuestion(Model.Question) %>" />
@@ -27,7 +27,7 @@
     <%= Scripts.Render("~/bundles/js/DeleteQuestion") %>
     <%= Scripts.Render("~/bundles/js/Vue")%>
     <%= Scripts.Render("~/bundles/js/d3") %>
-    <%= Scripts.Render("~/Scripts/npm/tiptap-build/tiptap-build.js") %>
+    <%= Scripts.Render("~/bundles/js/tiptap") %>
     <%: Html.Partial("~/Views/Questions/Edit/EditComponents/EditQuestionModalLoader.ascx") %>
 
     <script type="text/x-template" id="question-details-component">
@@ -81,17 +81,7 @@
 
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">  
 <div class="" style="width: 100%; padding: 0 20px;">                             
-<input type="hidden" id="hddIsLandingPage" value="<%=Model.PageCurrent == null ? "2" : Model.PageCurrent %>"/>  <%-- value "1" is Questionsite , value 2 is LandingPage, Test or Learningsession is this input not available--%> 
-
-
-<% if (Model.IsLearningSession) { %>
-           <% Html.RenderPartial("~/Views/Questions/Answer/LearningSession/LearningSessionHeader.ascx", Model); %>
-<% }else { %>
-      <%-- value "1" is Questionsite , value 2 is LandingPage, Test or Learningsession is this input not available--%> 
-        <div class="AnswerQuestionHeader">
-            <% Html.RenderPartial("~/Views/Questions/Answer/AnswerQuestionPager.ascx", Model); %>
-        </div>
-   <% } %>
+<input type="hidden" id="hddIsLandingPage" value="<%=Model.PageCurrent == null ? "2" : Model.PageCurrent %>"/>  <%-- value "1" is Questionsite , value 2 is LandingPage, Test or Learningsession is this input not available--%>
 
     <div id="FirstRow"class="row">
         <% Html.RenderPartial("~/Views/Questions/Answer/AnswerBodyControl/AnswerBody.ascx", new AnswerBodyModel(Model)); %>
@@ -108,7 +98,7 @@
         <div class="">
 
            <div class= "col-sm-12">
-                <% if (Model.QuestionHasParentCategories &&!Model.IsLearningSession && !Model.IsTestSession && Model.ContentRecommendationResult.Categories.Count != 0)
+                <% if (Model.QuestionHasParentCategories &&!Model.IsLearningSession && Model.ContentRecommendationResult.Categories.Count != 0)
                    {
                        Html.RenderPartial("~/Views/Shared/AnalyticsFooter.ascx", Model.AnalyticsFooterModel);
                    } %>

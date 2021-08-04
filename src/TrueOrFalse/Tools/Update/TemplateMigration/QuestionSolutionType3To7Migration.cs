@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using TrueOrFalse;
+using TrueOrFalse.Infrastructure;
 
 namespace TemplateMigration
 {
@@ -13,6 +14,11 @@ namespace TemplateMigration
         public static void Run()
         {
             var allQuestions = Sl.QuestionRepo.GetAll();
+
+            Settings.UseWebConfig = true;
+            var container = AutofacWebInitializer.Run();
+            ServiceLocator.Init(container);
+
             foreach (var question in allQuestions)
             {
                 if (question.SolutionType != SolutionType.MultipleChoice_SingleSolution)
@@ -39,8 +45,8 @@ namespace TemplateMigration
 
                 question.Solution = JsonConvert.SerializeObject(newSolution);
                 question.SolutionType = SolutionType.MultipleChoice;
-
-                Sl.QuestionRepo.UpdateBeforeEntityCacheInit(question);
+                Sl.QuestionRepo.UpdateBeforeEntityCacheInit(question, false);
+              
             }
         }
 

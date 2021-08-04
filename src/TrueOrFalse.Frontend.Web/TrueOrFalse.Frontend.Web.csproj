@@ -60,116 +60,53 @@
   <ItemGroup>
     <Reference Include="Antlr3.Runtime, Version=3.5.0.2, Culture=neutral, PublicKeyToken=eb42632606e9261f, processorArchitecture=MSIL">
       <HintPath>..\packages\Antlr3.Runtime.3.5.1\lib\net40-client\Antlr3.Runtime.dll</HintPath>
-      <Private>True</Private>
     </Reference>
-    <Reference Include="Autofac, Version=3.5.0.0, Culture=neutral, PublicKeyToken=17863af14b0044da, processorArchitecture=MSIL">
-      <HintPath>..\packages\Autofac.3.5.2\lib\net40\Autofac.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="Autofac, Version=6.0.0.0, Culture=neutral, PublicKeyToken=17863af14b0044da, processorArchitecture=MSIL">
+      <HintPath>..\packages\Autofac.6.0.0\lib\netstandard2.0\Autofac.dll</HintPath>
     </Reference>
-    <Reference Include="Autofac.Integration.Mvc, Version=3.3.0.0, Culture=neutral, PublicKeyToken=17863af14b0044da, processorArchitecture=MSIL">
-      <HintPath>..\packages\Autofac.Mvc5.3.3.4\lib\net45\Autofac.Integration.Mvc.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="Autofac.Integration.Owin, Version=3.1.0.0, Culture=neutral, PublicKeyToken=17863af14b0044da, processorArchitecture=MSIL">
-      <HintPath>..\packages\Autofac.Owin.3.1.0\lib\net45\Autofac.Integration.Owin.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="Autofac.Integration.SignalR, Version=3.0.0.0, Culture=neutral, PublicKeyToken=17863af14b0044da, processorArchitecture=MSIL">
-      <HintPath>..\packages\Autofac.SignalR.3.0.2\lib\net40\Autofac.Integration.SignalR.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="AutofacContrib.SolrNet">
-      <HintPath>..\libs\AutofacContrib.SolrNet.dll</HintPath>
-    </Reference>
-    <Reference Include="BouncyCastle.Crypto, Version=1.8.3.0, Culture=neutral, PublicKeyToken=0e99375e54769942">
-      <HintPath>..\packages\BouncyCastle.1.8.3.1\lib\BouncyCastle.Crypto.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="Autofac.Integration.Mvc, Version=6.0.0.0, Culture=neutral, PublicKeyToken=17863af14b0044da, processorArchitecture=MSIL">
+      <HintPath>..\packages\Autofac.Mvc5.6.0.0\lib\net472\Autofac.Integration.Mvc.dll</HintPath>
     </Reference>
     <Reference Include="Common.Logging, Version=3.0.0.0, Culture=neutral, PublicKeyToken=af08829b84f0328e, processorArchitecture=MSIL">
       <HintPath>..\packages\Common.Logging.3.0.0\lib\net40\Common.Logging.dll</HintPath>
-      <Private>True</Private>
     </Reference>
     <Reference Include="Common.Logging.Core, Version=3.0.0.0, Culture=neutral, PublicKeyToken=af08829b84f0328e, processorArchitecture=MSIL">
       <HintPath>..\packages\Common.Logging.Core.3.0.0\lib\net40\Common.Logging.Core.dll</HintPath>
-      <Private>True</Private>
     </Reference>
-    <Reference Include="EntityFramework, Version=5.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
-      <HintPath>..\packages\EntityFramework.5.0.0\lib\net45\EntityFramework.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="FluentNHibernate, Version=2.1.2.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\FluentNHibernate.2.1.2\lib\net461\FluentNHibernate.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="Google.Protobuf, Version=3.6.1.0, Culture=neutral, PublicKeyToken=a7d26565bac4d604, processorArchitecture=MSIL">
-      <HintPath>..\packages\Google.Protobuf.3.6.1\lib\net45\Google.Protobuf.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="HttpWebAdapters">
-      <HintPath>..\libs\HttpWebAdapters.dll</HintPath>
+    <Reference Include="FluentNHibernate">
+      <HintPath>..\packages\FluentNHibernate.3.1.0\lib\net461\FluentNHibernate.dll</HintPath>
     </Reference>
     <Reference Include="Iesi.Collections, Version=4.0.0.4000, Culture=neutral, PublicKeyToken=aa95f207798dfdb4, processorArchitecture=MSIL">
       <HintPath>..\packages\Iesi.Collections.4.0.4\lib\net461\Iesi.Collections.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="log4net, Version=1.2.11.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
-      <HintPath>..\packages\log4net.2.0.0\lib\net40-full\log4net.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="MarkdownSharp">
       <HintPath>..\libs\MarkdownSharp.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.AspNet.SignalR.Core, Version=2.2.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.AspNet.SignalR.Core.2.2.1\lib\net45\Microsoft.AspNet.SignalR.Core.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="Microsoft.AspNet.SignalR.SystemWeb, Version=2.2.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.AspNet.SignalR.SystemWeb.2.2.1\lib\net45\Microsoft.AspNet.SignalR.SystemWeb.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="Microsoft.Bcl.AsyncInterfaces, Version=1.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Bcl.AsyncInterfaces.1.1.0\lib\net461\Microsoft.Bcl.AsyncInterfaces.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
-    <Reference Include="Microsoft.Owin, Version=3.0.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.Owin.3.0.1\lib\net45\Microsoft.Owin.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="Microsoft.Owin.Host.SystemWeb, Version=3.0.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.Owin.Host.SystemWeb.3.0.1\lib\net45\Microsoft.Owin.Host.SystemWeb.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="Microsoft.Owin.Security, Version=3.0.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.Owin.Security.3.0.1\lib\net45\Microsoft.Owin.Security.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="Microsoft.Extensions.DependencyInjection.Abstractions, Version=2.0.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.DependencyInjection.Abstractions.2.0.0\lib\netstandard2.0\Microsoft.Extensions.DependencyInjection.Abstractions.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
-      <Private>True</Private>
     </Reference>
-    <Reference Include="MiniProfiler, Version=3.1.1.140, Culture=neutral, PublicKeyToken=b44f9351044011a3, processorArchitecture=MSIL">
-      <HintPath>..\packages\MiniProfiler.3.1.1.140\lib\net40\MiniProfiler.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="MiniProfiler, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b44f9351044011a3, processorArchitecture=MSIL">
+      <HintPath>..\packages\MiniProfiler.4.2.22\lib\net461\MiniProfiler.dll</HintPath>
     </Reference>
-    <Reference Include="MySql.Data, Version=8.0.18.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d, processorArchitecture=MSIL">
-      <HintPath>..\packages\MySql.Data.8.0.18\lib\net452\MySql.Data.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="MiniProfiler.Shared, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b44f9351044011a3, processorArchitecture=MSIL">
+      <HintPath>..\packages\MiniProfiler.Shared.4.2.22\lib\net461\MiniProfiler.Shared.dll</HintPath>
     </Reference>
-    <Reference Include="Newtonsoft.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\packages\Newtonsoft.Json.10.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.13.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
-    <Reference Include="NHibernate, Version=5.3.0.0, Culture=neutral, PublicKeyToken=aa95f207798dfdb4, processorArchitecture=MSIL">
-      <HintPath>..\packages\NHibernate.5.3.5\lib\net461\NHibernate.dll</HintPath>
-    </Reference>
-    <Reference Include="Owin, Version=1.0.0.0, Culture=neutral, PublicKeyToken=f0ebd12fd5e55cc5, processorArchitecture=MSIL">
-      <HintPath>..\packages\Owin.1.0\lib\net40\Owin.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="NHibernate">
+      <HintPath>..\packages\NHibernate.5.3.9\lib\net461\NHibernate.dll</HintPath>
     </Reference>
     <Reference Include="Quartz, Version=2.3.2.0, Culture=neutral, PublicKeyToken=f6b8c98a402cc8a4, processorArchitecture=MSIL">
       <HintPath>..\packages\Quartz.2.3.2\lib\net40\Quartz.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="RabbitMQ.Client, Version=3.5.2.0, Culture=neutral, PublicKeyToken=89e7d7c5feba84ce, processorArchitecture=MSIL">
-      <HintPath>..\packages\RabbitMQ.Client.3.5.2\lib\net40\RabbitMQ.Client.dll</HintPath>
-      <Private>True</Private>
     </Reference>
     <Reference Include="Remotion.Linq, Version=2.2.0.0, Culture=neutral, PublicKeyToken=fee00910d6e5f53b, processorArchitecture=MSIL">
       <HintPath>..\packages\Remotion.Linq.2.2.0\lib\net45\Remotion.Linq.dll</HintPath>
@@ -179,64 +116,55 @@
       <HintPath>..\packages\Remotion.Linq.EagerFetching.2.2.0\lib\net45\Remotion.Linq.EagerFetching.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Renci.SshNet, Version=2016.1.0.0, Culture=neutral, PublicKeyToken=1cee9f8bde3db106, processorArchitecture=MSIL">
-      <HintPath>..\packages\SSH.NET.2016.1.0\lib\net40\Renci.SshNet.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="RollbarSharp, Version=0.3.3.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\RollbarSharp.0.3.3.0\lib\net40\RollbarSharp.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="Serilog, Version=2.0.0.0, Culture=neutral, PublicKeyToken=24c2f752a8e58a10, processorArchitecture=MSIL">
-      <HintPath>..\packages\Serilog.2.8.0\lib\net46\Serilog.dll</HintPath>
-      <Private>True</Private>
+      <HintPath>..\packages\Serilog.2.10.0\lib\net46\Serilog.dll</HintPath>
     </Reference>
-    <Reference Include="Serilog.Formatting.Compact, Version=1.0.0.0, Culture=neutral, PublicKeyToken=24c2f752a8e58a10, processorArchitecture=MSIL">
-      <HintPath>..\packages\Serilog.Formatting.Compact.1.0.0\lib\net45\Serilog.Formatting.Compact.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="Serilog.Formatting.Compact, Version=1.1.0.0, Culture=neutral, PublicKeyToken=24c2f752a8e58a10, processorArchitecture=MSIL">
+      <HintPath>..\packages\Serilog.Formatting.Compact.1.1.0\lib\net452\Serilog.Formatting.Compact.dll</HintPath>
     </Reference>
-    <Reference Include="Serilog.Sinks.File, Version=2.0.0.0, Culture=neutral, PublicKeyToken=24c2f752a8e58a10, processorArchitecture=MSIL">
-      <HintPath>..\packages\Serilog.Sinks.File.3.0.1\lib\net45\Serilog.Sinks.File.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="Serilog.Sinks.File, Version=5.0.0.0, Culture=neutral, PublicKeyToken=24c2f752a8e58a10, processorArchitecture=MSIL">
+      <HintPath>..\packages\Serilog.Sinks.File.5.0.0\lib\net45\Serilog.Sinks.File.dll</HintPath>
     </Reference>
     <Reference Include="Serilog.Sinks.PeriodicBatching, Version=2.0.0.0, Culture=neutral, PublicKeyToken=24c2f752a8e58a10, processorArchitecture=MSIL">
-      <HintPath>..\packages\Serilog.Sinks.PeriodicBatching.2.0.0\lib\net45\Serilog.Sinks.PeriodicBatching.dll</HintPath>
-      <Private>True</Private>
+      <HintPath>..\packages\Serilog.Sinks.PeriodicBatching.2.3.0\lib\net45\Serilog.Sinks.PeriodicBatching.dll</HintPath>
     </Reference>
     <Reference Include="Serilog.Sinks.RollingFile, Version=2.0.0.0, Culture=neutral, PublicKeyToken=24c2f752a8e58a10, processorArchitecture=MSIL">
       <HintPath>..\packages\Serilog.Sinks.RollingFile.3.0.1\lib\net45\Serilog.Sinks.RollingFile.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Serilog.Sinks.Seq, Version=3.0.1.0, Culture=neutral, PublicKeyToken=24c2f752a8e58a10, processorArchitecture=MSIL">
-      <HintPath>..\packages\Serilog.Sinks.Seq.3.0.1\lib\net45\Serilog.Sinks.Seq.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="SolrNet, Version=1.0.19.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\SolrNet.Core.1.0.19\lib\net46\SolrNet.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="System" />
-    <Reference Include="System.Activities" />
+    <Reference Include="System.Buffers, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Buffers.4.5.1\lib\net461\System.Buffers.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System.ComponentModel" />
-    <Reference Include="System.Configuration.Install" />
     <Reference Include="System.Data" />
     <Reference Include="System.ComponentModel.DataAnnotations">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
-    <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="System.Data.Entity" />
     <Reference Include="System.Design" />
-    <Reference Include="System.Diagnostics.DiagnosticSource, Version=4.0.2.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Diagnostics.DiagnosticSource.4.4.1\lib\net46\System.Diagnostics.DiagnosticSource.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="System.Diagnostics.DiagnosticSource, Version=5.0.0.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Diagnostics.DiagnosticSource.5.0.1\lib\net46\System.Diagnostics.DiagnosticSource.dll</HintPath>
     </Reference>
-    <Reference Include="System.Drawing.Design" />
-    <Reference Include="System.Management" />
-    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Memory, Version=4.0.1.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Memory.4.5.4\lib\net461\System.Memory.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Numerics" />
+    <Reference Include="System.Numerics.Vectors, Version=4.1.4.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Numerics.Vectors.4.5.0\lib\net46\System.Numerics.Vectors.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Runtime.Caching" />
+    <Reference Include="System.Runtime.CompilerServices.Unsafe, Version=5.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Runtime.CompilerServices.Unsafe.5.0.0\lib\net45\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
+    </Reference>
     <Reference Include="System.Net.Http.Formatting, Version=5.2.7.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.AspNet.WebApi.Client.5.2.7\lib\net45\System.Net.Http.Formatting.dll</HintPath>
     </Reference>
     <Reference Include="System.ServiceModel" />
+    <Reference Include="System.Threading.Tasks.Extensions, Version=4.2.0.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Threading.Tasks.Extensions.4.5.4\lib\net461\System.Threading.Tasks.Extensions.dll</HintPath>
+    </Reference>
     <Reference Include="System.Transactions" />
     <Reference Include="System.ValueTuple, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\packages\System.ValueTuple.4.5.0\lib\net47\System.ValueTuple.dll</HintPath>
@@ -246,15 +174,12 @@
     <Reference Include="System.Web.Cors, Version=5.2.7.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.AspNet.Cors.5.2.7\lib\net45\System.Web.Cors.dll</HintPath>
     </Reference>
-    <Reference Include="System.Web.DynamicData" />
-    <Reference Include="System.Web.Entity" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Web" />
     <Reference Include="System.Web.Abstractions" />
     <Reference Include="System.Web.Extensions" />
     <Reference Include="System.Web.Helpers, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.7\lib\net45\System.Web.Helpers.dll</HintPath>
-      <Private>True</Private>
     </Reference>
     <Reference Include="System.Web.Http, Version=5.2.7.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.AspNet.WebApi.Core.5.2.7\lib\net45\System.Web.Http.dll</HintPath>
@@ -264,28 +189,22 @@
     </Reference>
     <Reference Include="System.Web.Mvc, Version=5.2.7.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.AspNet.Mvc.5.2.7\lib\net45\System.Web.Mvc.dll</HintPath>
-      <Private>True</Private>
     </Reference>
     <Reference Include="System.Web.Optimization, Version=1.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.AspNet.Web.Optimization.1.1.3\lib\net40\System.Web.Optimization.dll</HintPath>
-      <Private>True</Private>
     </Reference>
     <Reference Include="System.Web.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.AspNet.Razor.3.2.7\lib\net45\System.Web.Razor.dll</HintPath>
-      <Private>True</Private>
     </Reference>
     <Reference Include="System.Web.Routing" />
     <Reference Include="System.Web.WebPages, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.7\lib\net45\System.Web.WebPages.dll</HintPath>
-      <Private>True</Private>
     </Reference>
     <Reference Include="System.Web.WebPages.Deployment, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.7\lib\net45\System.Web.WebPages.Deployment.dll</HintPath>
-      <Private>True</Private>
     </Reference>
     <Reference Include="System.Web.WebPages.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.7\lib\net45\System.Web.WebPages.Razor.dll</HintPath>
-      <Private>True</Private>
     </Reference>
     <Reference Include="System.Xml" />
     <Reference Include="System.Configuration" />
@@ -293,18 +212,15 @@
     <Reference Include="System.EnterpriseServices" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="WebActivatorEx, Version=2.0.0.0, Culture=neutral, PublicKeyToken=7b26dc2a43f6a0d4, processorArchitecture=MSIL">
-      <HintPath>..\packages\WebActivatorEx.2.0.5\lib\net40\WebActivatorEx.dll</HintPath>
-      <Private>True</Private>
+      <HintPath>..\packages\WebActivatorEx.2.2.0\lib\net40\WebActivatorEx.dll</HintPath>
     </Reference>
     <Reference Include="WebGrease, Version=1.6.5135.21930, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\WebGrease.1.6.0\lib\WebGrease.dll</HintPath>
-      <Private>True</Private>
     </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
-    <Compile Include="App_Start\Startup.cs" />
     <Compile Include="Code\AssemblyLinker.cs" />
     <Compile Include="Code\BaseController.cs" />
     <Compile Include="Code\BaseModel.cs" />
@@ -353,6 +269,7 @@
     <Compile Include="Views\Categories\Detail\TemplateToHtml\TemplateToHtml.cs" />
     <Compile Include="Views\Questions\AddQuestion\AddQuestionComponentModel.cs" />
     <Compile Include="Views\Questions\Answer\TopicToContinueLearningModel.cs" />
+    <Compile Include="Views\Questions\QuestionController.cs" />
     <Compile Include="Views\Questions\QuestionList\QuestionJson.cs" />
     <Compile Include="Views\Categories\Detail\Partials\KnowledgeGraph\KnowledgeGraphModel.cs" />
     <Compile Include="Views\Questions\QuestionList\QuestionListModel.cs" />
@@ -2012,6 +1929,7 @@
     <Content Include="Images\DocumentationHelp\TopicNavigation.png" />
     <Content Include="Images\DocumentationHelp\VideoWidget.png" />
     <Content Include="Images\GoogleMapsPreview\Wildau.png" />
+    <Content Include="Images\Icons\sitemap-disable.svg" />
     <Content Include="Images\Illustrations\PreviewFullResponsiveScreens.jpg" />
     <Content Include="Images\LogosPartners\badge_nominiert_2017.png" />
     <Content Include="Images\LogosPartners\badge_nominiert_2017_250real.png" />
@@ -2068,12 +1986,41 @@
     <Content Include="compilerconfig.json.bindings">
       <DependentUpon>compilerconfig.json</DependentUpon>
     </Content>
+    <Content Include="Scripts\npm\tiptap-build\137.js" />
+    <Content Include="Scripts\npm\tiptap-build\385.js" />
+    <Content Include="Scripts\npm\tiptap-build\756.js" />
+    <Content Include="Scripts\npm\tiptap-build\798.js" />
+    <Content Include="Scripts\npm\tiptap-build\912.js" />
+    <Content Include="Scripts\npm\tiptap-build\956.js" />
+    <Content Include="Scripts\npm\tiptap-build\hastUtilToHtml.js" />
+    <Content Include="Scripts\npm\tiptap-build\lowlight.js" />
+    <Content Include="Scripts\npm\tiptap-build\runtime.js" />
+    <Content Include="Scripts\npm\tiptap-build\tiptapCodeblocklowlight.js" />
+    <Content Include="Scripts\npm\tiptap-build\tiptapImage.js" />
+    <Content Include="Scripts\npm\tiptap-build\tiptapLink.js" />
+    <Content Include="Scripts\npm\tiptap-build\tiptapPlaceholder.js" />
+    <Content Include="Scripts\npm\tiptap-build\tiptapStarterkit.js" />
+    <Content Include="Scripts\npm\tiptap-build\tiptapUnderline.js" />
+    <Content Include="Scripts\npm\tiptap-build\tiptapVue2.js" />
+    <Content Include="Scripts\npm_builder\tiptap-build\lowlight.js" />
+    <Content Include="Scripts\npm_builder\tiptap-build\tiptap-codeblocklowlight.js" />
+    <Content Include="Scripts\npm_builder\tiptap-build\tiptap-image.js" />
+    <Content Include="Scripts\npm_builder\tiptap-build\tiptap-link.js" />
+    <Content Include="Scripts\npm_builder\tiptap-build\tiptap-placeholder.js" />
+    <Content Include="Scripts\npm_builder\tiptap-build\tiptap-starterkit.js" />
+    <Content Include="Scripts\npm_builder\tiptap-build\tiptap-underline.js" />
+    <Content Include="Scripts\npm_builder\tiptap-build\tiptap-vue2.js" />
+    <Content Include="Views\Questions\Js\QuestionList\QuestionListComponent.js">
+      <DependentUpon>QuestionListComponent.ts</DependentUpon>
+    </Content>
+    <Content Include="webpack.config.js" />
     <None Include="job_scheduling_data_2_0.xsd">
       <SubType>Designer</SubType>
     </None>
     <Content Include="Scripts\answerQuestion\AnswerEntry.js.map">
       <DependentUpon>AnswerEntry.ts</DependentUpon>
     </Content>
+    <None Include="packages.config" />
     <None Include="Properties\PublishProfiles\TeamcityLive.pubxml" />
     <Content Include="Scripts\KnowledgeSummaryBar.js">
       <DependentUpon>KnowledgeSummaryBar.ts</DependentUpon>
@@ -2081,9 +2028,7 @@
     <Content Include="Scripts\npm\d3\d3.js" />
     <Content Include="Scripts\npm\postscribe\postscribe.js" />
     <Content Include="Scripts\npm\sortablejs\Sortable.js" />
-    <Content Include="Scripts\npm\tiptap-build\tiptap-build.js" />
     <Content Include="Scripts\npm\tiptap-extensions\extensions.js" />
-    <Content Include="Scripts\npm\tiptap\tiptap.js" />
     <Content Include="Scripts\npm\vue-material-design-ripple-build\vue-material-design-ripple-build.js" />
     <Content Include="Scripts\npm\vue-select\vue-select.js" />
     <Content Include="Scripts\npm\vue-slider-component\vue-slider-component.umd.js" />
@@ -2091,7 +2036,6 @@
     <Content Include="Scripts\npm\vue-sticky-directive\vue-sticky-directive.js" />
     <Content Include="Scripts\npm\vue-textarea-autosize\vue-textarea-autosize.umd.js" />
     <Content Include="Scripts\npm\vue\vue.js" />
-    <Content Include="Scripts\npm_builder\tiptap-build\index.js" />
     <Content Include="Scripts\npm_builder\vue-material-design-ripple-build\index.js" />
     <Content Include="Scripts\SidebarCards.js">
       <DependentUpon>SidebarCards.ts</DependentUpon>
@@ -2216,11 +2160,11 @@
     <Content Include="Views\Categories\Edit\DeleteCategoryComponent.vue.ascx" />
     <Content Include="Views\Categories\Edit\AddCategoryComponent.vue.ascx" />
     <Content Include="Views\Categories\Detail\Partials\Segmentation\SegmentComponent.vue.ascx" />
-    <Content Include="Views\Categories\Edit\Js\DeleteCategory\AddCategoryComponent.js">
-      <DependentUpon>DeleteCategoryComponent.ts</DependentUpon>
-    </Content>
     <Content Include="Views\Categories\Edit\Js\AddCategory\AddCategoryComponent.js">
       <DependentUpon>AddCategoryComponent.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Categories\Edit\Js\DeleteCategory\DeleteCategoryComponent.js">
+      <DependentUpon>DeleteCategoryComponent.ts</DependentUpon>
     </Content>
     <Content Include="Views\Messages\Js\Page.js">
       <DependentUpon>Page.ts</DependentUpon>
@@ -2278,14 +2222,12 @@
       <DependentUpon>CategoryChipComponent.ts</DependentUpon>
     </Content>
     <Content Include="Views\Shared\CategoryChip\CategoryChipComponent.vue.ascx" />
-    <Content Include="Views\Shared\Modals\ErrorModal\ErrorModalComponent.js">
-      <DependentUpon>ErrorModalComponent.ts</DependentUpon>
+    <Content Include="Views\Shared\Editor\EditorMenuBarComponent.js">
+      <DependentUpon>EditorMenuBarComponent.ts</DependentUpon>
     </Content>
-    <Content Include="Views\Shared\Modals\ErrorModal\ErrorModalComponentLoader.ascx" />
-    <Content Include="Views\Shared\Modals\ErrorModal\ErrorModalComponent.vue.ascx" />
-    <Content Include="Views\Shared\Modals\ErrorModal\ErrorModalComponentLoader.js">
-      <DependentUpon>ErrorModalComponentLoader.ts</DependentUpon>
-    </Content>
+    <Content Include="Views\Shared\Editor\EditorMenuBarComponent.vue.ascx" />
+    <Content Include="Views\Shared\Modals\AlertModal\AlertModalComponentLoader.ascx" />
+    <Content Include="Views\Shared\Modals\AlertModal\AlertModalComponent.vue.ascx" />
     <Content Include="Views\Shared\MyWorldToggle\MyWorldToggleComponent.js">
       <DependentUpon>MyWorldToggleComponent.ts</DependentUpon>
     </Content>
@@ -2312,9 +2254,6 @@
     </Content>
     <Content Include="Views\Questions\Js\QuestionList\QuestionListApp.js">
       <DependentUpon>QuestionListApp.ts</DependentUpon>
-    </Content>
-    <Content Include="Views\Questions\Js\QuestionList\QuestionListComponents.js">
-      <DependentUpon>QuestionListComponents.ts</DependentUpon>
     </Content>
     <Content Include="Views\Questions\QuestionList\QuestionList.ascx" />
     <Content Include="Views\Categories\Detail\Partials\CategoryFooter\CategoryFooter.ascx" />
@@ -2487,7 +2426,6 @@
     <Content Include="Fonts\font-awesome-5.7.2\webfonts\fa-solid-900.woff" />
     <Content Include="Fonts\font-awesome-5.7.2\webfonts\fa-solid-900.woff2" />
     <None Include="Log.ignore" />
-    <None Include="packages.config" />
     <Content Include="Scripts\header\SearchBox.js.map">
       <DependentUpon>SearchBox.ts</DependentUpon>
     </Content>
@@ -2718,7 +2656,7 @@
     <TypeScriptCompile Include="Views\Questions\Edit\EditComponents\Text\TextSolutionComponent.ts" />
     <TypeScriptCompile Include="Views\Questions\Js\AddQuestion\AddQuestion.ts" />
     <TypeScriptCompile Include="Views\Questions\Js\QuestionList\QuestionComponent.ts" />
-    <TypeScriptCompile Include="Views\Questions\Js\QuestionList\QuestionListComponents.ts" />
+    <TypeScriptCompile Include="Views\Questions\Js\QuestionList\QuestionListComponent.ts" />
     <TypeScriptCompile Include="Views\Questions\Js\QuestionList\QuestionListApp.ts" />
     <TypeScriptCompile Include="Views\Categories\Detail\Js\Category.ts" />
     <TypeScriptCompile Include="Views\Categories\Detail\Js\CategoryHeader.ts" />
@@ -2948,10 +2886,6 @@
     <Content Include="mstile-310x310.png" />
     <Content Include="mstile-70x70.png" />
     <Content Include="safari-pinned-tab.svg" />
-    <Content Include="Scripts\guidedTour\bootstrap-tour.js" />
-    <Content Include="Scripts\guidedTour\tourWelcome.js">
-      <DependentUpon>tourWelcome.ts</DependentUpon>
-    </Content>
     <Content Include="Scripts\TrainingPlan.js">
       <DependentUpon>TrainingPlan.ts</DependentUpon>
     </Content>
@@ -2987,12 +2921,6 @@
     <Content Include="Views\Welcome\Js\Page.js.map">
       <DependentUpon>Page.ts</DependentUpon>
     </Content>
-    <Content Include="Views\Welcome\Js\TourInit.js">
-      <DependentUpon>TourInit.ts</DependentUpon>
-    </Content>
-    <Content Include="Views\Welcome\Js\TourInit.js.map">
-      <DependentUpon>TourInit.ts</DependentUpon>
-    </Content>
     <Content Include="Views\Welcome\Js\Validation.js">
       <DependentUpon>Validation.ts</DependentUpon>
     </Content>
@@ -3016,12 +2944,10 @@
     <TypeScriptCompile Include="Scripts\answerQuestion\AnswerQuestionUserFeedback.ts" />
     <TypeScriptCompile Include="Scripts\answerQuestion\AnswerEntry.ts" />
     <TypeScriptCompile Include="Scripts\answerQuestion\IAnswerEntry.ts" />
-    <TypeScriptCompile Include="Scripts\autocompletes\AutocompleteSets.ts" />
     <TypeScriptCompile Include="Scripts\header\ActivityPointsPopup.ts" />
     <TypeScriptCompile Include="Scripts\header\SearchBox.ts" />
     <TypeScriptCompile Include="Scripts\Pollyfills.ts" />
     <TypeScriptCompile Include="Scripts\socialLogins\Facebook.ts" />
-    <TypeScriptCompile Include="Scripts\guidedTour\tourWelcome.ts" />
     <TypeScriptCompile Include="Scripts\CategoryApi.ts" />
     <TypeScriptCompile Include="Scripts\NotLoggedIn.ts" />
     <TypeScriptCompile Include="Scripts\socialLogins\FacebookMemuchoUser.ts" />
@@ -3081,9 +3007,6 @@
     <Content Include="Scripts\answerQuestion\IAnswerEntry.js">
       <DependentUpon>IAnswerEntry.ts</DependentUpon>
     </Content>
-    <Content Include="Scripts\autocompletes\AutocompleteSets.js">
-      <DependentUpon>AutocompleteSets.ts</DependentUpon>
-    </Content>
     <Content Include="Scripts\BootstrapCustomUtils.js" />
     <Content Include="Scripts\CategoryApi.js">
       <DependentUpon>CategoryApi.ts</DependentUpon>
@@ -3098,7 +3021,6 @@
       <DependentUpon>NotLoggedIn.ts</DependentUpon>
     </Content>
     <Content Include="Scripts\vendor\jquery.countdown.js" />
-    <Content Include="Scripts\vendor\jquery.signalR-2.2.0.js" />
     <Content Include="Scripts\SearchInTabs.js">
       <DependentUpon>SearchInTabs.ts</DependentUpon>
     </Content>
@@ -3473,9 +3395,6 @@
     <Content Include="Style\animate.css.map">
       <DependentUpon>animate.css</DependentUpon>
     </Content>
-    <Content Include="Scripts\autocompletes\AutocompleteSets.js.map">
-      <DependentUpon>AutocompleteSets.ts</DependentUpon>
-    </Content>
     <Content Include="Scripts\NotLoggedIn.js.map">
       <DependentUpon>NotLoggedIn.ts</DependentUpon>
     </Content>
@@ -3507,9 +3426,6 @@
     </Content>
     <Content Include="Scripts\TrainingPlan.js.map">
       <DependentUpon>TrainingPlan.ts</DependentUpon>
-    </Content>
-    <Content Include="Scripts\guidedTour\tourWelcome.js.map">
-      <DependentUpon>tourWelcome.ts</DependentUpon>
     </Content>
     <Content Include="manifest.json" />
     <Content Include="Style\cards.less" />
@@ -3635,7 +3551,6 @@
       <DependentUpon>Comment.ascx</DependentUpon>
     </Compile>
     <Compile Include="Views\Questions\Edit\ReferenceJson.cs" />
-    <Compile Include="Views\Questions\QuestionsSearchResultModel.cs" />
     <Compile Include="Views\Sets\Detail\SetQuestionRowModel.cs" />
     <Compile Include="Views\Shared\HistoryAndProbabilityModel.cs" />
     <Compile Include="Views\Sets\Detail\SetController.cs" />
@@ -3649,10 +3564,6 @@
     <Compile Include="Views\Questions\Answer\AnswerQuestionModel.cs" />
     <Compile Include="Views\Categories\Edit\CategoryNameAllowed.cs" />
     <Compile Include="Views\Questions\Edit\EditQuestionModel_to_Question.cs" />
-    <Compile Include="Views\Questions\QuestionRowModel.cs" />
-    <Compile Include="Views\Questions\QuestionsController.cs" />
-    <Compile Include="Views\Questions\QuestionsControllerSearch.cs" />
-    <Compile Include="Views\Questions\QuestionsModel.cs" />
     <Compile Include="Views\Questions\Edit\EditQuestionController.cs" />
     <Compile Include="Views\Knowledge\KnowledgeController.cs" />
     <Compile Include="Views\Knowledge\KnowledgeModel.cs" />
@@ -3709,8 +3620,9 @@
     <TypeScriptCompile Include="Views\Questions\Edit\EditSolutionControls\SolutionTypeFlashCard.ts" />
     <TypeScriptCompile Include="Views\Questions\Edit\Js\MarkdownDescription.ts" />
     <TypeScriptCompile Include="Views\Shared\CategoryChip\CategoryChipComponent.ts" />
-    <TypeScriptCompile Include="Views\Shared\Modals\ErrorModal\ErrorModalComponentLoader.ts" />
-    <TypeScriptCompile Include="Views\Shared\Modals\ErrorModal\ErrorModalComponent.ts" />
+    <TypeScriptCompile Include="Views\Shared\Editor\EditorMenuBarComponent.ts" />
+    <TypeScriptCompile Include="Views\Shared\Modals\AlertModal\AlertModalComponentLoader.ts" />
+    <TypeScriptCompile Include="Views\Shared\Modals\AlertModal\AlertModalComponent.ts" />
     <TypeScriptCompile Include="Views\Shared\PinComponentVue\PinComponent.vue.ts" />
     <TypeScriptCompile Include="Views\Shared\Spinner\Js\Spinner.ts" />
     <TypeScriptCompile Include="Views\Shared\MyWorldToggle\MyWorldToggleComponent.ts" />
@@ -3722,7 +3634,6 @@
     <TypeScriptCompile Include="Views\Users\Detail\Js\Page.ts" />
     <TypeScriptCompile Include="Views\Welcome\Js\Page.ts" />
     <TypeScriptCompile Include="Views\Welcome\Js\SendRequestNewsletter.ts" />
-    <TypeScriptCompile Include="Views\Welcome\Js\TourInit.ts" />
     <TypeScriptCompile Include="Views\Welcome\Login\Login.ts" />
     <TypeScriptCompile Include="Views\Welcome\Registration\Js\FacebookRegistration.ts" />
     <TypeScriptCompile Include="Views\Welcome\Js\Validation.ts" />
@@ -3843,9 +3754,6 @@
     <Content Include="Views\Questions\Js\QuestionsSearch.js">
       <DependentUpon>QuestionsSearch.ts</DependentUpon>
     </Content>
-    <Content Include="Views\Questions\Questions.css">
-      <DependentUpon>Questions.less</DependentUpon>
-    </Content>
     <Content Include="Views\Error\_404.aspx" />
     <Content Include="Views\Shared\HistoryAndProbability.ascx" />
     <Content Include="Views\Questions\Edit\EditSolutionControls\SolutionTypeText.js">
@@ -3962,7 +3870,6 @@
     <Content Include="Style\menu.less" />
     <None Include="Style\site-debug.less" />
     <Content Include="Style\z_variables_2.3.2.less" />
-    <Content Include="Views\Questions\Questions.less" />
     <Content Include="Views\Users\Users.less" />
     <Content Include="Views\Questions\Answer\AnswerControls\SolutionTypeDate.js.map">
       <DependentUpon>SolutionTypeDate.ts</DependentUpon>
@@ -4042,9 +3949,6 @@
     <Content Include="Scripts\autocompletes\AutocompleteCategories.js.map">
       <DependentUpon>AutocompleteCategories.ts</DependentUpon>
     </Content>
-    <Content Include="Views\Questions\Questions.css.map">
-      <DependentUpon>Questions.less</DependentUpon>
-    </Content>
     <Content Include="Scripts\RowPin.js.map">
       <DependentUpon>RowPin.ts</DependentUpon>
     </Content>
@@ -4058,7 +3962,6 @@
     <Content Include="Views\Questions\Edit\Js\Validation.js.map">
       <DependentUpon>Validation.ts</DependentUpon>
     </Content>
-    <Content Include="Views\Questions\QuestionsSearchResult.ascx" />
     <Content Include="Views\Questions\Js\QuestionsSearch.js.map">
       <DependentUpon>QuestionsSearch.ts</DependentUpon>
     </Content>
@@ -4233,9 +4136,6 @@
     <Content Include="Views\Questions\Js\QuestionList\QuestionListApp.js.map">
       <DependentUpon>QuestionListApp.ts</DependentUpon>
     </Content>
-    <Content Include="Views\Questions\Js\QuestionList\QuestionListComponents.js.map">
-      <DependentUpon>QuestionListComponents.ts</DependentUpon>
-    </Content>
     <Content Include="Views\Shared\PinComponentVue\PinComponent.vue.js.map">
       <DependentUpon>PinComponent.vue.ts</DependentUpon>
     </Content>
@@ -4308,14 +4208,14 @@
     <Content Include="Views\Questions\Edit\EditComponents\EditQuestionLoader.js.map">
       <DependentUpon>EditQuestionLoader.ts</DependentUpon>
     </Content>
-    <Content Include="Views\Categories\Edit\Js\DeleteCategory\AddCategoryComponent.js.map">
+    <Content Include="Views\Categories\Edit\Js\DeleteCategory\DeleteCategoryComponent.js.map">
       <DependentUpon>DeleteCategoryComponent.ts</DependentUpon>
     </Content>
-    <Content Include="Views\Shared\Modals\ErrorModal\ErrorModalComponent.js.map">
-      <DependentUpon>ErrorModalComponent.ts</DependentUpon>
+    <Content Include="Views\Shared\Editor\EditorMenuBarComponent.js.map">
+      <DependentUpon>EditorMenuBarComponent.ts</DependentUpon>
     </Content>
-    <Content Include="Views\Shared\Modals\ErrorModal\ErrorModalComponentLoader.js.map">
-      <DependentUpon>ErrorModalComponentLoader.ts</DependentUpon>
+    <Content Include="Views\Questions\Js\QuestionList\QuestionListComponent.js.map">
+      <DependentUpon>QuestionListComponent.ts</DependentUpon>
     </Content>
     <None Include="Web.overwritten.config.sample" />
     <Content Include="Views\Welcome\Logout.aspx" />
@@ -4326,8 +4226,6 @@
     <Content Include="Views\Messages\Messages.aspx" />
     <Content Include="Views\Questions\Edit\EditSolutionControls\SolutionTypeText.ascx" />
     <Content Include="Views\Questions\Edit\EditSolutionControls\SolutionTypeMultipleChoice_SingleSolution.ascx" />
-    <Content Include="Views\Questions\QuestionRow.ascx" />
-    <Content Include="Views\Questions\Questions.aspx" />
     <Content Include="Scripts\JQueryExtensions.js" />
     <Content Include="Views\Shared\Message.ascx" />
     <Content Include="Views\Knowledge\Knowledge.aspx" />
@@ -4408,10 +4306,8 @@
     <PropertyGroup>
       <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
     </PropertyGroup>
-    <Error Condition="!Exists('..\packages\OctoPack.3.6.1\build\OctoPack.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\OctoPack.3.6.1\build\OctoPack.targets'))" />
     <Error Condition="!Exists('..\packages\Microsoft.TypeScript.MSBuild.4.0.3\build\Microsoft.TypeScript.MSBuild.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.TypeScript.MSBuild.4.0.3\build\Microsoft.TypeScript.MSBuild.props'))" />
     <Error Condition="!Exists('..\packages\Microsoft.TypeScript.MSBuild.4.0.3\build\Microsoft.TypeScript.MSBuild.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.TypeScript.MSBuild.4.0.3\build\Microsoft.TypeScript.MSBuild.targets'))" />
   </Target>
-  <Import Project="..\packages\OctoPack.3.6.1\build\OctoPack.targets" Condition="Exists('..\packages\OctoPack.3.6.1\build\OctoPack.targets')" />
   <Import Project="..\packages\Microsoft.TypeScript.MSBuild.4.0.3\build\Microsoft.TypeScript.MSBuild.targets" Condition="Exists('..\packages\Microsoft.TypeScript.MSBuild.4.0.3\build\Microsoft.TypeScript.MSBuild.targets')" />
 </Project>

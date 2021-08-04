@@ -46,6 +46,7 @@
             $("#spanPercentageDone").text("0%");
             $(".ProgressBarSegment .ProgressBarLegend").show();
             Utils.ShowSpinner();
+            eventBus.$emit('init-new-session');
         });
 
         new LearningSessionResultCharts();
