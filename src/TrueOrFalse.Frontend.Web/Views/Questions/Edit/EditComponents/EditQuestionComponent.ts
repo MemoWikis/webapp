@@ -56,6 +56,7 @@ var editQuestionComponent = Vue.component('edit-question-component',
                 showQuestionExtension: false,
                 showDescription: false,
                 isPrivate: true,
+                isLearningTab: false,
             }
         },
         mounted() {
@@ -71,6 +72,7 @@ var editQuestionComponent = Vue.component('edit-question-component',
                 });
             $('#EditQuestionModal').on('show.bs.modal',
                 event => {
+                    this.isLearningTab = $('#LearningTabWithOptions').hasClass('active');
                     this.showQuestionExtension = false;
                     this.showDescription = false;
                     this.modalIsVisible = true;
@@ -386,6 +388,7 @@ var editQuestionComponent = Vue.component('edit-question-component',
                     SolutionMetadataJson: this.solutionMetadataJson,
                     LicenseId: licenseId,
                     SessionIndex: this.sessionIndex,
+                    IsLearningTab: this.isLearningTab
                 }
                 var json = this.edit ? editJson : createJson;
 

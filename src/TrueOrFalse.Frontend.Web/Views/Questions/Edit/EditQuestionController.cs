@@ -177,7 +177,7 @@ public class EditQuestionController : BaseController
         if (questionDataJson.AddToWishknowledge)
             QuestionInKnowledge.Pin(Convert.ToInt32(question.Id), _sessionUser.User);
 
-        if (questionDataJson.SessionIndex > 0)
+        if (questionDataJson.IsLearningTab)
             InsertNewQuestionToLearningSession(question, questionDataJson.SessionIndex);
 
         var questionController = new QuestionController(_questionRepo);
@@ -205,7 +205,7 @@ public class EditQuestionController : BaseController
         Sl.QuestionChangeRepo.AddUpdateEntry(question);
         EntityCache.AddOrUpdate(question);
 
-        if (questionDataJson.SessionIndex > 0)
+        if (questionDataJson.IsLearningTab)
             InsertNewQuestionToLearningSession(question, questionDataJson.SessionIndex);
 
         var questionController = new QuestionController(_questionRepo);
@@ -337,6 +337,7 @@ public class EditQuestionController : BaseController
         public int SessionIndex { get; set; }
         public int LicenseId { get; set; }
         public string ReferencesJson { get; set; }
+        public bool IsLearningTab { get; set; }
     }
 
     private bool Validate(EditQuestionModel model)
