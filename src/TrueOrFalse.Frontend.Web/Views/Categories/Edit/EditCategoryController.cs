@@ -395,12 +395,13 @@ public class EditCategoryController : BaseController
             return Json(new
             {
                 success = true,
+                id = 2,
             });
         else
             return Json(new
             {
                 success = false,
-                errorMsg = "Die Verknüpfung des Themas kann nicht gelöst werden. Das Thema muss mindestens einem Oberthema zugeordnet sein."
+                id = 4
             });
     }
 
@@ -585,10 +586,21 @@ public class EditCategoryController : BaseController
                 return Json(new
                 {
                     success = false,
-                    msg = "Dieses Thema hat öffentliche untergeordnete Themen."
+                    id = 1
                 });
         }
 
+        var aggregatedQuestions = categoryCacheItem.GetAggregatedQuestionsFromMemoryCache(true);
+        foreach (var q in aggregatedQuestions)
+        {
+            bool childHasPublicParent = q.Categories.Any(p => p.Visibility == CategoryVisibility.All && p.Id != categoryId);
+            if (!childHasPublicParent)
+                return Json(new
+                {
+                    success = false,
+                    id = 2
+                });
+        }
         categoryCacheItem.Visibility = CategoryVisibility.Owner;
 
         JobExecute.RunAsTask(scope =>
@@ -601,7 +613,7 @@ public class EditCategoryController : BaseController
         return Json(new
         {
             success = true,
-            msg = "Das Thema wurde erfolgreich auf Privat gesetzt."
+            id = 0
         });
     }
 

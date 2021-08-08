@@ -28,7 +28,7 @@ public class MessageModel : BaseModel
                             <p>Wir wünschen dir weiter viel Spaß beim Stöbern.</p>
                             <p>
                                 Viele Grüße,<br>
-                                Christof, Jule & Robert
+                                Jule & Robert
                             </p>",
                 DateCreated = DateTime.Now,
                 IsRead = false

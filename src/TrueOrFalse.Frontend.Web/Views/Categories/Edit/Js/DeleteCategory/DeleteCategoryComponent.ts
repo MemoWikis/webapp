@@ -35,8 +35,14 @@ var deleteCategoryComponent = Vue.component('delete-category-component', {
                 data: JSON.stringify({id: this.categoryId}),
                 success: function (data) {
                     self.categoryName = data.CategoryName;
-                    if (data.HasChildren)
-                        eventBus.$emit('show-error', 'Dieses Thema kann nicht gelöscht werden, da weitere Themen untergeordnet sind. Bitte entferne alle Unterthemen und versuche es erneut.');
+                    if (data.HasChildren) {
+                        let eventData = {
+                            type: MessageType.Category,
+                            id: 3
+                        }
+                        eventBus.$emit('show-error', eventData);
+                    }
+
                     else
                         $('#DeleteCategoryModal').modal('show');
                 },

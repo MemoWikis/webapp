@@ -203,9 +203,18 @@ var categoryCardComponent = Vue.component('category-card-component', {
                         self.$parent.categories = self.$parent.categories.filter((c) => {
                             return c.Id != self.categoryId;
                         });
+                        let eventData = {
+                            type: MessageType.Category,
+                            id: data.id
+                        }
+                        eventBus.$emit('show-success', eventData);
                     }
                     else {
-                        eventBus.$emit('show-error', data.errorMsg);
+                        let eventData = {
+                            type: MessageType.Category,
+                            id: data.id
+                        }
+                        eventBus.$emit('show-error', eventData);
                     }
                 },
             });

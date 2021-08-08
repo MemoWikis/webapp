@@ -17,7 +17,7 @@ public class WelcomeMsg
 <p>memucho ist in der Beta-Phase, es gibt noch viel zu tun und wir haben viel vor. Du kannst uns unterstützen, indem du deinen Freunden von uns erzählst und Fehler und Verbesserungsvorschläge an uns weiterleitest (nutze dazu am besten das Feedback-Werkzeug in der Mitte des rechten Bildschirm-Rands). Solltest du irgendwelche Fragen haben, helfen wir dir gerne.</p>
 
 <p>Viele Grüße,<br>
-Christof, Jule & Robert</p>
+Jule & Robert</p>
 <p style='font-size: 12px; margin-top: 20px'>E-Mail: team@memucho.de | Telefon: +49-178 186 68 48 (Robert)</p>
 ", user.Name);
 

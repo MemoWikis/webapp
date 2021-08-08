@@ -86,7 +86,8 @@ Vue.component('publish-category-component',{
                     if (result.success) {
                         $('#PublishCategoryModal').modal('hide');
                         let data = {
-                            msg: 'Dein Thema wurde erfolgreich veröffentlicht.',
+                            type: MessageType.Category,
+                            id: 0,
                             reload: true,
                         }
                         eventBus.$emit('show-success', data);
@@ -95,7 +96,8 @@ Vue.component('publish-category-component',{
                     } else {
                         $('#PublishCategoryModal').modal('hide');
                         let data = {
-                            msg: 'Veröffentlichung ist nicht möglich. Das übergeordnete Thema ist privat.',
+                            type: MessageType.Category,
+                            id: 0,
                         }
                         eventBus.$emit('show-error', data);
                     }

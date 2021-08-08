@@ -6,6 +6,7 @@ Vue.component('editor-content', tiptapEditorContent);
 
 var editQuestionComponent = Vue.component('edit-question-component',
     {
+        props: ['isAdmin'],
         data() {
             return {
                 highlightEmptyFields: false,
@@ -57,6 +58,7 @@ var editQuestionComponent = Vue.component('edit-question-component',
                 showDescription: false,
                 isPrivate: true,
                 isLearningTab: false,
+                showPrivacyContainer: false,
             }
         },
         mounted() {
@@ -90,6 +92,8 @@ var editQuestionComponent = Vue.component('edit-question-component',
                             this.sessionIndex = $('#EditQuestionModal').data('question').sessionIndex;
                         else if (this.currentLearningSessionIndex)
                             this.sessionIndex = this.currentLearningSessionIndex;
+                        if (this.isAdmin == 'True')
+                            this.showPrivacyContainer = true;
                     } else {
                         this.solutionType = 1;
                         let categoryId = $('#EditQuestionModal').data('question').categoryId;
@@ -107,6 +111,7 @@ var editQuestionComponent = Vue.component('edit-question-component',
                         });
                         this.edit = false;
                         this.sessionIndex = parseInt($('#QuestionListComponent').attr("data-last-index")) + 1;
+                        this.showPrivacyContainer = true;
                     }
                 });
 
@@ -271,7 +276,12 @@ var editQuestionComponent = Vue.component('edit-question-component',
                         self.selectedCategories = data.Categories;
                         self.licenseId = data.LicenseId;
                         self.solutionMetadataJson = data.SolutionMetadataJson;
-                        self.isPrivate = data.Visibility == 1;
+                        if (data.Visibility == 1)
+                            self.isPrivate = true;
+                        else {
+                            self.isPrivate = false;
+                            self.licenseConfirmation = true;
+                        }
                     },
                 });
             },
@@ -351,13 +361,15 @@ var editQuestionComponent = Vue.component('edit-question-component',
                         self.highlightEmptyFields = false;
                         $('#EditQuestionModal').modal('hide');
                         let data = {
-                            msg: 'Deine Frage wurde erfolgreich gespeichert.',
+                            type: MessageType.Question,
+                            id: 0
                         }
                         eventBus.$emit('show-success', data);
                     },
                     error:() => {
                         let data = {
-                            msg: 'Deine Frage konnte nicht gespeichert werden.',
+                            type: MessageType.Question,
+                            id: 1
                         }
                         eventBus.$emit('show-error', data);
                     }

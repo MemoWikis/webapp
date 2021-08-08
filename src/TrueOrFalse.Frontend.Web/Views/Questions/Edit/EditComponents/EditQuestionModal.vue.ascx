@@ -3,7 +3,7 @@
     var userSession = new SessionUser();
     var user = userSession.User;
 %>
-<edit-question-component inline-template>
+<edit-question-component inline-template is-admin="<%= user.IsInstallationAdmin %>">
 
     <div id="EditQuestionModal" class="modal fade">
         <div class="modal-dialog" role="document">
