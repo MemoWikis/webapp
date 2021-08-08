@@ -2,8 +2,9 @@
 <%
     var userSession = new SessionUser();
     var user = userSession.User;
+    var isAdmin = user != null && user.IsInstallationAdmin;
 %>
-<edit-question-component inline-template is-admin="<%= user.IsInstallationAdmin %>">
+<edit-question-component inline-template is-admin="<%= isAdmin %>">
 
     <div id="EditQuestionModal" class="modal fade">
         <div class="modal-dialog" role="document">
@@ -138,7 +139,7 @@
                     </div>
 
 
-                    <% if (user != null && user.IsInstallationAdmin)
+                    <% if (isAdmin)
                        { %>
                         <div class="">
                             <select v-model="licenseId">
