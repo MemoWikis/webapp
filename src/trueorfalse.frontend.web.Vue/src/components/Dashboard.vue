@@ -28,7 +28,7 @@
       <chartOverTime
         headerText="Neue Themen"
         :chartURL="
-          'http://localhost:26590/api/StatisticsDashboard/GetCreatedThemesInTimeWindow?'
+          'http://localhost:26590/api/StatisticsDashboard/GetCreatedCategoriesInTimeWindow?'
         "
         chartId="themes"
         lineLabel="erstellte Themen"
