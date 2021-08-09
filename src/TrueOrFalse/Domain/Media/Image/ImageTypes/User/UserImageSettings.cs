@@ -62,7 +62,7 @@ public class UserImageSettings : ImageSettings, IImageSettings
 
         if (user.IsGoogleUser)
         {
-            var url = $"https://admin.googleapis.com/admin/directory/v1/users/{user.GoogleId}/photos/thumbnail";
+            var url = $"https://admin.googleapis.com/admin/directory/v1/users/{user.GoogleId}/photos/thumbnail&key={Settings.GoogleApiKey}";
 
             try
             {
