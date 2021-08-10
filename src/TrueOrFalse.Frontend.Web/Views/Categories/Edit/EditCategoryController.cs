@@ -375,6 +375,9 @@ public class EditCategoryController : BaseController
                 {
                     NullValueHandling = NullValueHandling.Ignore
                 });
+            else
+                category.CustomSegments = null;
+
             var cacheItem = CategoryCacheItem.ToCacheCategory(category);
             EntityCache.AddOrUpdate(cacheItem);
             UserEntityCache.ReInitAllActiveCategoryCaches();
