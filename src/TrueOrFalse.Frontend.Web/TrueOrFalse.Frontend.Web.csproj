@@ -3758,9 +3758,6 @@
     <Content Include="Views\Questions\Edit\Js\References.js">
       <DependentUpon>References.ts</DependentUpon>
     </Content>
-    <Content Include="Views\Questions\Js\ToQuestionSet.js">
-      <DependentUpon>ToQuestionSet.ts</DependentUpon>
-    </Content>
     <Content Include="Views\Sets\Detail\Set.aspx" />
     <Content Include="Views\Sets\Detail\Set.css">
       <DependentUpon>Set.less</DependentUpon>
@@ -3806,9 +3803,7 @@
     <Content Include="Views\Questions\Js\QuestionRowSelection.js">
       <DependentUpon>QuestionRowSelection.ts</DependentUpon>
     </Content>
-    <TypeScriptCompile Include="Views\Questions\Js\ToQuestionSet.ts" />
     <Content Include="Views\Questions\Modals\ModalDeleteQuestion.ascx" />
-    <Content Include="Views\Questions\Modals\ToQuestionSet.ascx" />
     <Content Include="Views\Questions\Js\Questions.js" />
     <TypeScriptCompile Include="Views\Questions\Js\QuestionRowSelection.ts" />
     <Content Include="Views\Maintenance\Maintenance.aspx" />
@@ -3878,9 +3873,6 @@
     </Content>
     <Content Include="Views\Questions\Js\QuestionRowSelection.js.map">
       <DependentUpon>QuestionRowSelection.ts</DependentUpon>
-    </Content>
-    <Content Include="Views\Questions\Js\ToQuestionSet.js.map">
-      <DependentUpon>ToQuestionSet.ts</DependentUpon>
     </Content>
     <Content Include="Views\Users\Js\users.js.map">
       <DependentUpon>Users.ts</DependentUpon>

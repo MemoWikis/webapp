@@ -181,7 +181,6 @@ namespace TrueOrFalse
 
             routes.MapRoute("AnalyticsGetKnowledgeDisplay", "Category/GetKnowledgeGraphDisplay", new { controller = "Category", action = "GetKnowledgeGraphDisplay" });
             routes.MapRoute("RenderNewKnowledgeSummaryBar", "Category/RenderNewKnowledgeSummaryBar", new { controller = "Category", action = "RenderNewKnowledgeSummaryBar" });
-            routes.MapRoute("GetQuestion", "Questions/AddToQuestionSet", new { controller = "Questions", action = "AddToQuestionSet" });
             routes.MapRoute("Category_Learning_Button", "{categoryName}/{Id}/Lernen", new { controller = "Category", action = "CategoryLearningTab" });
             routes.MapRoute("Analytics_Tab", "{categoryName}/{Id}/Wissensnetz", new { controller = "Category", action = "CategoryAnalyticsTab" });
 
