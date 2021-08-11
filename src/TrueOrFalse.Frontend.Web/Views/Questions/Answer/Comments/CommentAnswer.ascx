@@ -3,7 +3,7 @@
 
 <div class="panel-body" style="position: relative">
     <div class="col-xs-2">
-        <img class="pull-right" style="width:50%; border-radius:5px;" src="<%= Model.ImageUrl %>">
+        <img class="pull-right" style="width:50%; border-radius:50%;" src="<%= Model.ImageUrl %>">
     </div>
     <div class="col-xs-10" style="height: 100%; padding-bottom: 15px; ">
         <div>

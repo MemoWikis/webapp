@@ -107,7 +107,7 @@
         <div class="row" style="margin-top: 30px; color: darkgray; font-weight: bold;">
             <div id="JumpLabel"></div>
             <div class="col-xs-4">
-                <h4 style="padding:0; margin:0;">Kommentare<a name="comments"></a></h4>    
+                <h4 style="padding:0; margin:0;">Kommentare<a name="comments"></a> (<%=Model.Comments.Count %>)</h4>    
             </div>
             
             <div class="col-xs-8 " style="vertical-align: text-bottom; 
@@ -127,26 +127,25 @@
                     
         <% if (Model.IsLoggedIn)
            { %>
-            <div class="panel panel-default" style="margin-top: 7px;">
-                <div class="panel-heading">Neuen Kommentar hinzufügen</div>
-                <div class="panel-body">
+            <div style="border-top: 1px solid #DDDDDD">
+                <div class="panel-body" style="padding-top: 40px;">
                     <div class="col-xs-2">
-                        <img style="width:100%; border-radius:5px;" src="<%= Model.ImageUrlAddComment %>">
+                        <img style="border-radius:50%; height: 96px;" src="<%= Model.ImageUrlAddComment %>">
                     </div>
                     <div class="col-xs-10">
                         <i class="fa fa-spinner fa-spin hide2" id="saveCommentSpinner"></i>
-                        <textarea style="width: 100%; min-height: 82px;" class="form-control" id="txtNewComment" placeholder="Bitte höflich, freundlich und sachlich schreiben :-)"></textarea>
+                        <textarea style="resize: none; width: 100%; background-color: #EFEFEF; min-height: 96px; border: none; border-radius: 0;" class="form-control" id="txtNewComment" placeholder="Neuen Kommentar hinzufügen. Bitte höflich, freundlich und sachlich schreiben."></textarea>
                     </div>
                 
-                    <div class="col-xs-12" style="padding-top: 7px;">
-                        <a href="#" class="btn btn-default pull-right" id="btnSaveComment">Speichern</a>
+                    <div class="col-xs-12" style="padding-top: 18px;">
+                        <a href="#" class="btn btn-secondary memo-button pull-right" style="border: 1px solid #0065CA; color: #0065ca" id="btnSaveComment">Speichern</a>
                     </div>
                 </div>                
             </div>
         <% } else { %> 
-            <div class="row" style="margin-bottom: 20px;">
+            <div class="row" style="margin-bottom: 18px;">
                 <div class="col-xs-12" style="padding-top: 10px; color: darkgray">
-                    Um zu kommentieren, musst du eingeloggt sein.
+                    Um zu kommentieren, musst du eingeloggt sein. <a @click="showLoginModal">Jetzt anmelden</a>
                 </div>                     
             </div>
         <% } %>

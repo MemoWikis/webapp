@@ -3,7 +3,7 @@
 <div id="comments">
                 <% foreach (var comment in Model.Comments){ %>
                     <div class="comment">
-                        <% Html.RenderPartial("~/Views/Questions/Answer/Comments/Comment.ascx", comment); %>
+                        <% Html.RenderPartial("~/Views/Questions/Answer/Comments/Comment.vue.ascx", comment); %>
                     </div>
                 <% } %>
                 <% if (Model.CommentsSettledCount > 0) { %>
