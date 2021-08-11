@@ -2974,7 +2974,6 @@
     <TypeScriptCompile Include="Views\Images\Images.ts" />
     <TypeScriptCompile Include="Scripts\Log.ts" />
     <TypeScriptCompile Include="Scripts\Menu.ts" />
-    <TypeScriptCompile Include="Scripts\SetsApi.ts" />
     <TypeScriptCompile Include="Scripts\QuestionsApi.ts" />
     <TypeScriptCompile Include="Scripts\Site.ts" />
     <TypeScriptCompile Include="Scripts\typescript.defs\jquery.validation.d.ts" />
@@ -3089,9 +3088,6 @@
     </Content>
     <Content Include="Scripts\QuestionsApi.js">
       <DependentUpon>QuestionsApi.ts</DependentUpon>
-    </Content>
-    <Content Include="Scripts\SetsApi.js">
-      <DependentUpon>SetsApi.ts</DependentUpon>
     </Content>
     <Content Include="Scripts\Site.js">
       <DependentUpon>Site.ts</DependentUpon>
@@ -3349,9 +3345,6 @@
     </Content>
     <Content Include="Scripts\Menu.js.map">
       <DependentUpon>Menu.ts</DependentUpon>
-    </Content>
-    <Content Include="Scripts\SetsApi.js.map">
-      <DependentUpon>SetsApi.ts</DependentUpon>
     </Content>
     <Content Include="Scripts\CategoryApi.js.map">
       <DependentUpon>CategoryApi.ts</DependentUpon>
