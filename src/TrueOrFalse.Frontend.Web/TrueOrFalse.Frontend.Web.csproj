@@ -158,6 +158,9 @@
     <Reference Include="System.Runtime.CompilerServices.Unsafe, Version=5.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Runtime.CompilerServices.Unsafe.5.0.0\lib\net45\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
     </Reference>
+    <Reference Include="System.Net.Http.Formatting, Version=5.2.7.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Client.5.2.7\lib\net45\System.Net.Http.Formatting.dll</HintPath>
+    </Reference>
     <Reference Include="System.ServiceModel" />
     <Reference Include="System.Threading.Tasks.Extensions, Version=4.2.0.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Threading.Tasks.Extensions.4.5.4\lib\net461\System.Threading.Tasks.Extensions.dll</HintPath>
@@ -168,12 +171,21 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="System.Web.ApplicationServices" />
+    <Reference Include="System.Web.Cors, Version=5.2.7.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.Cors.5.2.7\lib\net45\System.Web.Cors.dll</HintPath>
+    </Reference>
     <Reference Include="System.Drawing" />
     <Reference Include="System.Web" />
     <Reference Include="System.Web.Abstractions" />
     <Reference Include="System.Web.Extensions" />
     <Reference Include="System.Web.Helpers, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.7\lib\net45\System.Web.Helpers.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Http, Version=5.2.7.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Core.5.2.7\lib\net45\System.Web.Http.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Http.Cors, Version=5.2.7.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Cors.5.2.7\lib\net45\System.Web.Http.Cors.dll</HintPath>
     </Reference>
     <Reference Include="System.Web.Mvc, Version=5.2.7.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.AspNet.Mvc.5.2.7\lib\net45\System.Web.Mvc.dll</HintPath>
@@ -2513,6 +2525,7 @@
     <Compile Include="Views\Shared\Cards\UserCardBaseModel.cs" />
     <Compile Include="Views\Shared\SharedController.cs" />
     <Compile Include="Views\Shared\SponsorModel.cs" />
+    <Compile Include="Views\StatisticsDashboard\StatisticsDashboardController.cs" />
     <Compile Include="Views\Topics\TopicModel.cs" />
     <Compile Include="Views\Topics\TopicsController.cs" />
     <Compile Include="Views\Users\Account\WidgetStats\Partials\WidgetStatsDetailViewsModel.cs" />
@@ -2874,9 +2887,6 @@
     <Content Include="mstile-310x310.png" />
     <Content Include="mstile-70x70.png" />
     <Content Include="safari-pinned-tab.svg" />
-    <Content Include="Scripts\TrainingPlan.js">
-      <DependentUpon>TrainingPlan.ts</DependentUpon>
-    </Content>
     <Content Include="Style\guidedTour\bootstrap-tour.css" />
     <Content Include="Views\AlgoInsight\AlgoInsight.aspx" />
     <Content Include="Views\AlgoInsight\ComparisonTable.ascx" />
@@ -2941,7 +2951,6 @@
     <TypeScriptCompile Include="Scripts\socialLogins\FacebookMemuchoUser.ts" />
     <TypeScriptCompile Include="Scripts\socialLogins\Google.ts" />
     <TypeScriptCompile Include="Scripts\socialLogins\GoogleMemuchoUser.ts" />
-    <TypeScriptCompile Include="Scripts\TrainingPlan.ts" />
     <TypeScriptCompile Include="Scripts\typescript.defs\fbsdk.d.ts" />
     <TypeScriptCompile Include="Scripts\typescript.defs\gapi-auth2.d.ts" />
     <TypeScriptCompile Include="Scripts\typescript.defs\gapi.d.ts" />
@@ -3412,9 +3421,6 @@
     <Content Include="Style\includes\extends.css.map">
       <DependentUpon>extends.css</DependentUpon>
     </Content>
-    <Content Include="Scripts\TrainingPlan.js.map">
-      <DependentUpon>TrainingPlan.ts</DependentUpon>
-    </Content>
     <Content Include="manifest.json" />
     <Content Include="Style\cards.less" />
     <Content Include="Scripts\socialLogins\Facebook.js.map">
@@ -3542,7 +3548,6 @@
     <Compile Include="Views\Sets\Detail\SetQuestionRowModel.cs" />
     <Compile Include="Views\Shared\HistoryAndProbabilityModel.cs" />
     <Compile Include="Views\Sets\Detail\SetController.cs" />
-    <Compile Include="Views\Sets\Detail\SetModel.cs" />
     <Compile Include="Views\Questions\Answer\AnswerQuestionControllerSearch.cs" />
     <Compile Include="Views\Categories\Edit\EditCategoryController.cs" />
     <Compile Include="Views\Categories\Edit\EditCategoryModel.cs" />

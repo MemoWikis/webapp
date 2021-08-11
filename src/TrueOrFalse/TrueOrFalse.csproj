@@ -296,7 +296,6 @@
     <Compile Include="Domain\Category\Ops\GetBreadCrumb.cs" />
     <Compile Include="Domain\Category\Ops\GetQuestionsForCategory.cs" />
     <Compile Include="Domain\Category\Ops\IsSpoilerCategory.cs" />
-    <Compile Include="Domain\Category\Ops\UpdateSetCountForCategory.cs" />
     <Compile Include="Domain\Category\RelatedCategory\CategoryRelation.cs" />
     <Compile Include="Domain\Category\RelatedCategory\CategoryRelationType.cs" />
     <Compile Include="Domain\Category\RelatedCategory\Ops\CategoryAggregation.cs" />
@@ -479,8 +478,6 @@
     <Compile Include="Infrastructure\YoutubeVideo.cs" />
     <Compile Include="Tools\Analytics\QuestionsCreatedPerDayResult.cs" />
     <Compile Include="Tools\Analytics\AmountPerDay.cs" />
-    <Compile Include="Tools\Analytics\SetViewStats.cs" />
-    <Compile Include="Tools\Analytics\SetViewStatsResult.cs" />
     <Compile Include="Tools\Analytics\UsageStatisticsOfLoggedInUsersResult.cs" />
     <Compile Include="Domain\User\Activity\Ops\GetSampleUserActivities.cs" />
     <Compile Include="Domain\User\Ops\IsFacebookAccessToken.cs" />
@@ -649,8 +646,6 @@
       <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
     </Compile>
     <Compile Include="Domain\QuestionSet\Set.Persistence\SetSearchSpec.cs" />
-    <Compile Include="Domain\QuestionSet\SetActiveMemory\SetActiveMemory.cs" />
-    <Compile Include="Domain\QuestionSet\SetActiveMemory\SetActiveMemoryLoader.cs" />
     <Compile Include="Domain\QuestionSet\SetListExt.cs" />
     <Compile Include="Domain\Question\AnswerHistory\Ops.Stats\GetAnswerStatsInPeriod.cs" />
     <Compile Include="Domain\Question\AnswerHistory\Ops.Stats\GetAnswerStatsInPeriodResult.cs" />

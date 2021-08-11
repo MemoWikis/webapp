@@ -35,22 +35,6 @@ public class SetController : BaseController
         Response.Redirect(Links.CategoryDetail(Sl.CategoryRepo.GetBySetId(set.Id)));
     }
 
-    public JsonResult GetRows(int id)
-    {
-        var set = Resolve<SetRepo>().GetById(id);
-
-        var sbHtmlRows = new StringBuilder();
-        foreach (var rowModel in set.QuestionsInSet)
-            sbHtmlRows.Append(
-                ViewRenderer.RenderPartialView(
-                    "~/Views/Sets/Detail/SetQuestionRowResult.ascx",
-                    rowModel,
-                    ControllerContext)
-            );
-
-        return Json(new {Html = sbHtmlRows.ToString()});
-    }
-
     [RedirectToErrorPage_IfNotLoggedIn]
     public ActionResult StartLearningSession(int setId)
     {

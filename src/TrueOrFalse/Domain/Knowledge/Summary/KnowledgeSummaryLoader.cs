@@ -87,9 +87,6 @@ public class KnowledgeSummaryLoader
             Sl.CategoryRepo.GetById(categoryId).GetAggregatedQuestionsFromMemoryCache().GetIds(),
             onlyValuated);
 
-    public static KnowledgeSummary Run(int userId, Set set, bool onlyValuated = true) 
-        => Run(userId, set.QuestionIds(), onlyValuated);
-
     public static KnowledgeSummary Run(
         int userId, 
         IList<int> questionIds = null, 

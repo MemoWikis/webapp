@@ -22,13 +22,6 @@ namespace TrueOrFalse
             //Logg.r().Information("Calculated probability in {elapsed} for question {questionId} and user {userId}: ", sp.Elapsed, question.Id, user.Id);
         }
 
-        public static void Run(IEnumerable<Set> sets, int userId)
-        {
-            sets
-                .SelectMany(s => s.QuestionsInSet.Select(qis => qis.Question.Id))
-                .ForEach(questionId => Run(questionId, userId));
-        }
-
         public static void Run(int questionId, int userId)
         {
             if (userId == -1)
