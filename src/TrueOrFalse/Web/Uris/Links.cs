@@ -261,20 +261,6 @@ namespace TrueOrFalse.Frontend.Web.Code
         public static string StartCategoryLearningSession(int categoryId) =>
            GetUrlHelper().Action("StartLearningSession", CategoryController, new { categoryId = categoryId });
 
-        public static string StartLearningSessionForSet(int setId)
-        {
-            return GetUrlHelper().Action("StartLearningSession", SetController, new { setId = setId });
-        }
-        public static string StartLearningSessionForSets(List<int> setIds, string setListTitle)
-        {
-            return GetUrlHelper().Action("StartLearningSessionForSets", CategoryController, new { setListTitle })
-                + "&setIds="
-                + Join("&setIds=", setIds);
-        }
-
-        /* Testing / TestSession*/
-        public const string TestSessionController = "TestSession";
-
         public static string TestSession(string categoryName, int categoryId) =>
             CategoryDetailLearningTab(categoryName, categoryId);
 
