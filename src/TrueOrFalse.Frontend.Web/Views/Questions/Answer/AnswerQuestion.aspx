@@ -25,7 +25,6 @@
     <%= Styles.Render("~/bundles/AnswerQuestion") %>
     <%= Scripts.Render("~/bundles/js/AnswerQuestion") %>
     <%= Scripts.Render("~/bundles/js/DeleteQuestion") %>
-    <%= Scripts.Render("~/bundles/js/Vue")%>
     <%= Scripts.Render("~/bundles/js/d3") %>
     <%= Scripts.Render("~/bundles/js/tiptap") %>
     <%: Html.Partial("~/Views/Questions/Edit/EditComponents/EditQuestionModalLoader.ascx") %>
@@ -96,15 +95,7 @@
     </div>
     <div class="row">
         <div class="">
-
-           <div class= "col-sm-12">
-                <% if (Model.QuestionHasParentCategories &&!Model.IsLearningSession && Model.ContentRecommendationResult.Categories.Count != 0)
-                   {
-                       Html.RenderPartial("~/Views/Shared/AnalyticsFooter.ascx", Model.AnalyticsFooterModel);
-                   } %>
-            
-           </div>
-        <div class="row" style="margin-top: 30px; color: darkgray; font-weight: bold;">
+            <div class="row" style="margin-top: 30px; color: darkgray; font-weight: bold;">
             <div id="JumpLabel"></div>
             <div class="col-xs-4">
                 <h4 style="padding:0; margin:0;">Kommentare<a name="comments"></a></h4>    

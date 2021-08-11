@@ -1991,6 +1991,7 @@
     <Content Include="Scripts\npm\tiptap-build\tiptapStarterkit.js" />
     <Content Include="Scripts\npm\tiptap-build\tiptapUnderline.js" />
     <Content Include="Scripts\npm\tiptap-build\tiptapVue2.js" />
+    <Content Include="Scripts\npm\vue\vue.min.js" />
     <Content Include="Scripts\npm_builder\tiptap-build\lowlight.js" />
     <Content Include="Scripts\npm_builder\tiptap-build\tiptap-codeblocklowlight.js" />
     <Content Include="Scripts\npm_builder\tiptap-build\tiptap-image.js" />
@@ -3099,7 +3100,6 @@
     <Content Include="Scripts\typescript.defs\jquery.d.ts" />
     <Content Include="Scripts\typescript.defs\qunit.d.ts" />
     <Content Include="Scripts\typescript.defs\underscore.d.ts" />
-    <Content Include="Scripts\vendor\jquery-ui-1.11.1.js" />
     <Content Include="Scripts\vendor\jquery.validate.zz.additional-methods.js" />
     <Content Include="Scripts\vendor\jquery.validate.MEM.custom.js" />
     <Content Include="Style\bootstrap\bootstrap.css">

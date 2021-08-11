@@ -11,8 +11,6 @@ namespace TrueOrFalse.View
                   "~/Style/bootstrap/bootstrap.css",
                   "~/Style/includes/shared.css",
                   "~/Style/*.css",
-                  "~/Style/jquery-ui/jquery-ui.structure.css", 
-                  "~/Style/jquery-ui/jquery-ui.theme.css",
                   "~/Fonts/font-awesome-5.7.2/css/all.css",
                   "~/Fonts/font-awesome-5.7.2/css/v4-shims.css",
                   "~/Views/Shared/CategoryLabel.css"));
@@ -23,15 +21,25 @@ namespace TrueOrFalse.View
             bundles.Add(new StyleBundle("~/bundles/message")
                 .Include("~/Views/Messages/*.css"));
 
-            bundles.Add(new ScriptBundle("~/bundles/shared")
-                .IncludeDirectory("~/Scripts/", "*.js")
-                .IncludeDirectory("~/Scripts/vendor", "*.js")
-                .IncludeDirectory("~/Scripts/header", "*.js")
-                .IncludeDirectory("~/Scripts/socialLogins", "*.js")
-                .IncludeDirectory("~/Views/Images", "*.js")
-                .IncludeDirectory("~/Views/Welcome/Login", "*.js")
-                .Include("~/Scripts/vendor/vuetable-2.js")
-                .Include("~/Scripts/npm/vue/vue.js"));
+            if (Settings.Environment() == "live") {
+                bundles.Add(new ScriptBundle("~/bundles/shared")
+                    .IncludeDirectory("~/Scripts/", "*.js")
+                    .IncludeDirectory("~/Scripts/vendor", "*.js")
+                    .IncludeDirectory("~/Scripts/header", "*.js")
+                    .IncludeDirectory("~/Scripts/socialLogins", "*.js")
+                    .IncludeDirectory("~/Views/Images", "*.js")
+                    .IncludeDirectory("~/Views/Welcome/Login", "*.js")
+                    .Include("~/Scripts/npm/vue/vue.js"));
+            } else {
+                bundles.Add(new ScriptBundle("~/bundles/shared")
+                    .IncludeDirectory("~/Scripts/", "*.js")
+                    .IncludeDirectory("~/Scripts/vendor", "*.js")
+                    .IncludeDirectory("~/Scripts/header", "*.js")
+                    .IncludeDirectory("~/Scripts/socialLogins", "*.js")
+                    .IncludeDirectory("~/Views/Images", "*.js")
+                    .IncludeDirectory("~/Views/Welcome/Login", "*.js")
+                    .Include("~/Scripts/npm/vue/vue.min.js"));
+            }
 
             bundles.Add(new ScriptBundle("~/bundles/fileUploader")
                 .Include("~/Scripts/vendor.file-uploader/header.js")
@@ -318,10 +326,6 @@ namespace TrueOrFalse.View
                 .Include("~/Views/Knowledge/Css/KnowledgeQuestions.css"));
 
             //------------------------ END KNOWLEDGECENTRAL------------------------------------------------------------
-
-            bundles.Add(new ScriptBundle("~/bundles/js/Vue")
-                .Include("~/Scripts/vendor/vuetable-2.js")
-                .Include("~/Scripts/npm/vue/vue.js"));
 
             bundles.Add(new StyleBundle("~/bundles/Promoter")
                 .Include("~/Views/Welcome/Promoter.css"));
