@@ -29,7 +29,7 @@ namespace TrueOrFalse
                 "&titles=File:" + HttpUtility.UrlEncode(fileName);
             System.Net.ServicePointManager.SecurityProtocol = System.Net.SecurityProtocolType.Tls11 | System.Net.SecurityProtocolType.Tls12;
             var webRequest = (HttpWebRequest)HttpWebRequest.Create(new Uri(url));
-            webRequest.UserAgent = "TrueOrFalseBot/1.0 (http://www.memucho.de/)";
+            SetUserAgent(webRequest);
 
             string resultString;
             using (var response = webRequest.GetResponse())
@@ -73,6 +73,11 @@ namespace TrueOrFalse
                     ImageUrl = page[pageName].imageinfo[0].thumburl,
                     JSonResult = resultString
                 };
-        }        
+        }
+
+        public static void SetUserAgent(HttpWebRequest webRequest)
+        {
+            webRequest.UserAgent = "MemuchoBot/1.1 (http://www.memucho.de/; team@memucho.de)/MemuchoImageLoaderLib/1.1";
+        }
     }
 }
