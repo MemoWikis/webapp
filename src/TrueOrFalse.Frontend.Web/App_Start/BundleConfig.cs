@@ -81,6 +81,7 @@ namespace TrueOrFalse.View
                 .Include("~/Views/Categories/Edit/Js/AddCategory/AddCategoryComponent.js")
                 .Include("~/Views/Shared/Editor/EditorMenuBarComponent.js"));
 
+
             bundles.Add(new ScriptBundle("~/bundles/js/d3")
                 .Include("~/Scripts/npm/d3/d3.js"));
 
@@ -204,7 +205,9 @@ namespace TrueOrFalse.View
                 .Include("~/Views/Questions/Answer/TestSession/Js/TestSessionResult.js")
                 .Include("~/Views/Categories/ResultTestSession/Js/GetResultTestSession.js")
                 .Include("~/Views/Questions/Answer/LearningSession/Js/LearningSessionResult.js")
-                .Include("~/Views/Questions/Answer/LearningSession/Js/LearningSessionResultCharts.js"));
+                .Include("~/Views/Questions/Answer/LearningSession/Js/LearningSessionResultCharts.js")
+                .Include("~/Views/Questions/Answer/Comments/CommentComponent.js")
+            );
 
             bundles.Add(new StyleBundle("~/bundles/AnswerQuestion")
                 .Include("~/Views/Questions/Answer/*.css"));
