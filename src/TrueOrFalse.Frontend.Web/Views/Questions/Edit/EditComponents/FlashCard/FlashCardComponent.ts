@@ -41,6 +41,8 @@
             let content = this.solution;
             this.answerEditor.commands.setContent(content);
         }
+        this.$parent.solutionIsValid = this.answerEditor.state.doc.textContent.length > 0;
+
     },
 
     methods: {

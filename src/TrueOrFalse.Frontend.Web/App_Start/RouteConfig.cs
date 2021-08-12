@@ -47,7 +47,6 @@ namespace TrueOrFalse
             routes.MapRoute("Question_SolutionEditBody", "Fragen/Bearbeite/SolutionEditBody", new { controller = "EditQuestion", action = "SolutionEditBody" });
             routes.MapRoute("Question_ReferencePartial", "Fragen/Bearbeite/ReferencePartial", new { controller = "EditQuestion", action = "ReferencePartial" });
             routes.MapRoute("Question_Edit", "Fragen/{text}/Bearbeite/{id}", new { controller = "EditQuestion", action = "Edit" });
-            routes.MapRoute("Question_AnswerInSet", "Fragen/{text}/{questionId}/im-Fragesatz/{setId}", new { controller = "AnswerQuestion", action = "Answer" });
             routes.MapRoute("Question_Answer", "Fragen/{text}/{id}/{elementOnPage}", new { controller = "AnswerQuestion", action = "Answer", elementOnPage = UrlParameter.Optional });
             routes.MapRoute("GetQuestionEditUrl", "Question/GetEditUrl", new { controller = "AnswerQuestion", action = "GetEditQuestionUrl" });
             routes.MapRoute("Question_Vue_Create", "Question/Create", new { controller = "EditQuestion", action = "VueCreate" });
@@ -89,7 +88,6 @@ namespace TrueOrFalse
             /* API */ routes.MapRoute("Categories_AddSubCategoryItemRow", "Categories/EditSubCategoryItems/{id}/Add", new { controller = "EditSubCategoryItems", action = "AddSubCategoryItemRow" });
             /* API */ routes.MapRoute("Category_StartTestSession", "Kategorie/Testen/{categoryName}/{categoryId}", new { controller = "Category", action = "StartTestSession" });
             /* API */ routes.MapRoute("Category_StartLearningSession", "Category/StartLearningSession", new { controller = "Category", action = "StartLearningSession" });
-            /* API */ routes.MapRoute("Category_StartLearningSessionForSets", "Category/StartLearningSessionForSets", new { controller = "Category", action = "StartLearningSessionForSets" });
             /* API */ routes.MapRoute("TopicTabAsync", "Category/GetTopicTabAsync", new { controller = "Category", action = "GetTopicTabAsync" });
             /* API */ routes.MapRoute("DeleteCookie", "Category/DeleteCookie", new { controller = "Category", action = "DeleteCookie" });
             /* API */ routes.MapRoute("Category_Get_Delete_Data", "Categories/GetDeleteData", new { controller = "Categories", action = "GetDeleteData" });
@@ -119,7 +117,6 @@ namespace TrueOrFalse
             routes.MapRoute("ApiExport", "Api/Export/{action}", new { controller = "Export", action = "Export" });
             routes.MapRoute("ApiCategory", "Api/Category/{action}", new { controller = "CategoryApi" });
             routes.MapRoute("ApiCategoryStatistics", "Api/CategoryStatistics/{action}", new { controller = "CategoryStatisticsApi" });
-            routes.MapRoute("ApiSets", "Api/Sets/{action}", new { controller = "SetsApi" });
             routes.MapRoute("ApiUserFacebook", "Api/FacebookUsers/{action}", new { controller = "FacebookUsersApi" });
             routes.MapRoute("ApiUserGoogle", "Api/GoogleUsers/{action}", new { controller = "GoogleUsersApi" });
             routes.MapRoute("ApiQuestions", "Api/Questions/{action}", new { controller = "QuestionsApi" });
@@ -151,7 +148,10 @@ namespace TrueOrFalse
 
             routes.MapRoute("Übersicht", "Übersicht/Förderer", new { controller = "Welcome", action = "Promoter" });
 
-            
+
+            routes.MapRoute("Statistics Dashboard", "StatisticsDashboard/{action}", new { controller = "StatisticsDashboard" });
+
+
 
             foreach (var typeName in GetAllControllerNames())
             {
@@ -164,7 +164,6 @@ namespace TrueOrFalse
                 }
             }
 
-            routes.MapRoute("GetQuestionSets", "Questions/GetQuestionSets", new { controller = "Questions", action = "GetQuestionSets" });
             /*Api*/routes.MapRoute("EditPreview", "Category/RenderContentModule", new { controller = "Category", action = "RenderContentModule" });
             /*Api*/routes.MapRoute("EditSave", "Category/SaveCategoryContent", new { controller = "EditCategory", action = "SaveCategoryContent" });
             /*Api*/routes.MapRoute("EditSegments", "Category/SaveSegments", new { controller = "EditCategory", action = "SaveSegments" });
@@ -178,7 +177,6 @@ namespace TrueOrFalse
 
             routes.MapRoute("AnalyticsGetKnowledgeDisplay", "Category/GetKnowledgeGraphDisplay", new { controller = "Category", action = "GetKnowledgeGraphDisplay" });
             routes.MapRoute("RenderNewKnowledgeSummaryBar", "Category/RenderNewKnowledgeSummaryBar", new { controller = "Category", action = "RenderNewKnowledgeSummaryBar" });
-            routes.MapRoute("GetQuestion", "Questions/AddToQuestionSet", new { controller = "Questions", action = "AddToQuestionSet" });
             routes.MapRoute("Category_Learning_Button", "{categoryName}/{Id}/Lernen", new { controller = "Category", action = "CategoryLearningTab" });
             routes.MapRoute("Analytics_Tab", "{categoryName}/{Id}/Wissensnetz", new { controller = "Category", action = "CategoryAnalyticsTab" });
 
