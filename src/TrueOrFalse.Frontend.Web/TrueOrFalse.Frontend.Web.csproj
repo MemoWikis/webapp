@@ -2003,6 +2003,9 @@
     <Content Include="Views\Questions\Js\QuestionList\QuestionListComponent.js">
       <DependentUpon>QuestionListComponent.ts</DependentUpon>
     </Content>
+    <Content Include="Views\Shared\Lazy\LazyLoader.ascx" />
+    <Content Include="Views\Shared\Lazy\LazyComponent.vue.ascx" />
+    <Content Include="Views\Shared\Search\SearchComponent.vue.ascx" />
     <Content Include="webpack.config.js" />
     <None Include="job_scheduling_data_2_0.xsd">
       <SubType>Designer</SubType>
@@ -3609,9 +3612,11 @@
     <TypeScriptCompile Include="Views\Questions\Edit\Js\MarkdownDescription.ts" />
     <TypeScriptCompile Include="Views\Shared\CategoryChip\CategoryChipComponent.ts" />
     <TypeScriptCompile Include="Views\Shared\Editor\EditorMenuBarComponent.ts" />
+    <TypeScriptCompile Include="Views\Shared\Lazy\LazyComponent.ts" />
     <TypeScriptCompile Include="Views\Shared\Modals\AlertModal\AlertModalComponentLoader.ts" />
     <TypeScriptCompile Include="Views\Shared\Modals\AlertModal\AlertModalComponent.ts" />
     <TypeScriptCompile Include="Views\Shared\PinComponentVue\PinComponent.vue.ts" />
+    <TypeScriptCompile Include="Views\Shared\Search\SearchComponent.ts" />
     <TypeScriptCompile Include="Views\Shared\Spinner\Js\Spinner.ts" />
     <TypeScriptCompile Include="Views\Shared\MyWorldToggle\MyWorldToggleComponent.ts" />
     <TypeScriptCompile Include="Views\Users\Account\Js\Membership.ts" />

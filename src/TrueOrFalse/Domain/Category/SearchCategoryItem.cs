@@ -1,4 +1,4 @@
-﻿public class MiniCategoryItem
+﻿public class SearchCategoryItem
 {
     public int Id;
     public string Name;

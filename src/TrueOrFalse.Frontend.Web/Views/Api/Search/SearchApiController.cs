@@ -11,38 +11,38 @@ public class SearchApiController : BaseController
 {
     public JsonResult ByName(string term, string type)
     {
-        var items = new List<ResultItem>();
+        var categoryItems = new List<SearchCategoryItem>();
+        var questionItems = new List<SearchQuestionItem>();
+        var userItems = new List<SearchUserItem>();
         var elements = SearchBoxElementsGet.Go(term, type);
 
         if (elements.Categories.Any())
-        {
-            AddHeader(items, ResultItemType.CategoriesHeader, elements.CategoriesResultCount, term);
-            AddCategoryItems(items, elements);
-        }
+            AddCategoryItems(categoryItems, elements);
 
         if (elements.Questions.Any())
-        {
-            AddHeader(items, ResultItemType.QuestionsHeader, elements.QuestionsResultCount, term);
-            AddQuestionItems(items, elements);
-        }
+            AddMiniQuestionItems(questionItems, elements);
 
         if (elements.Users.Any())
-        {
-            AddHeader(items, ResultItemType.UsersHeader, elements.UsersResultCount, term);
-            AddUsersItems(items, elements);
-        }
+            AddMiniUserItems(userItems, elements);
 
-        return Json( new{ Items = items }, JsonRequestBehavior.AllowGet);
+
+        return Json(new
+        {
+            totalCount = elements.CategoriesResultCount,
+            categories = categoryItems,
+            questions = questionItems,
+            users = userItems
+        }, JsonRequestBehavior.AllowGet);
     }
 
     [HttpPost]
     public JsonResult ByNameForVue(string term, string type, int[] categoriesToFilter)
     {
-        var items = new List<MiniCategoryItem>();
+        var items = new List<SearchCategoryItem>();
         var elements = SearchBoxElementsGet.GoAllCategories(term);
 
         if (elements.Categories.Any())
-            AddMiniCategoryItems(items, elements);
+            AddCategoryItems(items, elements);
 
         items.RemoveAll(i => categoriesToFilter.Contains(i.Id));
 
@@ -53,11 +53,10 @@ public class SearchApiController : BaseController
         }, JsonRequestBehavior.AllowGet);
     }
 
-    public static void AddMiniCategoryItems(List<MiniCategoryItem> items, SearchBoxElements elements)
+    public static void AddCategoryItems(List<SearchCategoryItem> items, SearchBoxElements elements)
     {
-
         items.AddRange(
-            elements.Categories.Select(c => new MiniCategoryItem
+            elements.Categories.Select(c => new SearchCategoryItem
             {
                 Id = c.Id,
                 Name = c.Name,
@@ -172,26 +171,6 @@ public class SearchApiController : BaseController
             Type = resultItemType.ToString(),
             Item = new ResultSplitter{ SearchUrl = searchUrl }
         });
-    }
-
-    private static void AddCategoryItems(List<ResultItem> items, SearchBoxElements elements)
-    {
-        items.AddRange(
-            elements.Categories
-                .Select(category => new ResultItem
-            {
-                Type = ResultItemType.Categories.ToString(),
-                Item = new ResultItemJson
-                {
-                    Id = category.Id,
-                    Name = category.Name,
-                    IconHtml = category.Type.GetCategoryTypeIconHtml(),
-                    ImageUrl = new CategoryImageSettings(category.Id).GetUrl_50px(asSquare:true).Url,
-                    ItemUrl = Links.CategoryDetail(category.Name, category.Id)
-                }
-            })
-        );
-      
     }
 
     private static void AddQuestionItems(List<ResultItem> items, SearchBoxElements elements)

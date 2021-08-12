@@ -1,10 +1,4 @@
-﻿////interface ResultItem {
-////    ResultCount: Number,
-////    Type: String, 
-////    Item: Object,
-////}
-
-var addCategoryComponent = Vue.component('add-category-component', {
+﻿var addCategoryComponent = Vue.component('add-category-component', {
     data() {
         return {
             name: "",

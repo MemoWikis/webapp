@@ -228,7 +228,9 @@
     <Compile Include="Domain\Category\History\EditData\CategoryRelation_EditData_V2.cs" />
     <Compile Include="Domain\Category\History\Ops\InitializeCategoryChanges.cs" />
     <Compile Include="Domain\Category\History\Ops\RestoreCategory.cs" />
-    <Compile Include="Domain\Category\MiniCategoryItem.cs" />
+    <Compile Include="Domain\Category\SearchUserItem.cs" />
+    <Compile Include="Domain\Category\SearchQuestionItem.cs" />
+    <Compile Include="Domain\Category\SearchCategoryItem.cs" />
     <Compile Include="Domain\Category\Ops\GetAllCategoriesInSeveralRootCategories.cs" />
     <Compile Include="Domain\Category\Ops\GetAllCategoriesUnconnectedToRootCategories.cs" />
     <Compile Include="Domain\Category\Ops\GetPrimaryCategory.cs" />

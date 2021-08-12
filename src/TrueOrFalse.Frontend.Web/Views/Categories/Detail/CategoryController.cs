@@ -370,15 +370,15 @@ public class CategoryController : BaseController
 
         return json;
     }
-    public MiniCategoryItem FillMiniCategoryItem(Category category)
+    public SearchCategoryItem FillMiniCategoryItem(Category category)
     {
         var cacheItem = EntityCache.GetCategoryCacheItem(category.Id);
 
         return FillMiniCategoryItem(cacheItem);
     }
-    public MiniCategoryItem FillMiniCategoryItem(CategoryCacheItem category)
+    public SearchCategoryItem FillMiniCategoryItem(CategoryCacheItem category)
     {
-        var miniCategoryItem = new MiniCategoryItem
+        var miniCategoryItem = new SearchCategoryItem
         {
             Id = category.Id,
             Name = category.Name,
