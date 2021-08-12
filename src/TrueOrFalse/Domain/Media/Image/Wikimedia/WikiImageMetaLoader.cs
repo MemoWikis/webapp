@@ -25,7 +25,7 @@ namespace TrueOrFalse
                 "&iiprop=timestamp|user|userid|url|size|metadata|sha1" +
                 "&iilimit=1" + //return 1 revision
                 "&iiextmetadatalanguage=de" +
-                "&iiurlwidth=" + imgWidth +
+                "&iiurlwidth=688" + 
                 "&titles=File:" + HttpUtility.UrlEncode(fileName);
             System.Net.ServicePointManager.SecurityProtocol = System.Net.SecurityProtocolType.Tls11 | System.Net.SecurityProtocolType.Tls12;
             var webRequest = (HttpWebRequest)HttpWebRequest.Create(new Uri(url));
