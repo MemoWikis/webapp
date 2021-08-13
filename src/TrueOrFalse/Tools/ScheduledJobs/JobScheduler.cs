@@ -144,6 +144,7 @@ namespace TrueOrFalse.Utilities.ScheduledJobs
         public static void StartImmediately_RecalcKnowledgeStati() { StartImmediately<RecalcKnowledgeStati>(); }
         public static void StartImmediately_RefreshEntityCache() { StartImmediately<RefreshEntityCache>(); }
         public static void StartImmediately_RecalcTotalWishInOthersPeople() { StartImmediately<RecalcTotalWishInOthersPeople>(); }
+        public static void StartImmediately_CreateSitemap() { StartImmediately<CreateSitemap>(); }
 
         public static void StartImmediately<TypeToStart>() where TypeToStart : IJob
         {

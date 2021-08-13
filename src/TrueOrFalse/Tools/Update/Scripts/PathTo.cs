@@ -19,6 +19,19 @@ public class PathTo
         return path;
     }
 
+    public static string Sitmap_xml(string fIleName)
+    {
+        var path = GetPath("Log.ignore");
+
+        if (path.Contains("Test"))
+            path = path.Substring(0, path.IndexOf("TrueOrFalse.Tests")) + "TrueOrFalse.Frontend.Web\\"+ fIleName;
+        else if(path.Contains("TrueOrFalse") && Settings.Environment() == "develop")
+            path = path.Substring(0, path.IndexOf("TrueOrFalse")) + "TrueOrFalse.Frontend.Web\\" + fIleName;
+
+        return path;
+    }
+
+
     public static string SolrSchema(string fileName)
     {
         return GetPath("Infrastructure/SolrSchemas/" + fileName);

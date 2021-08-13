@@ -787,6 +787,7 @@
     <Compile Include="Tools\Cache\UserCache\UserCache.cs" />
     <Compile Include="Tools\Cache\UserCache\UserCacheItem.cs" />
     <Compile Include="Domain\Category\RootCategory.cs" />
+    <Compile Include="Tools\ScheduledJobs\Jobs\CreateSitemap.cs" />
     <Compile Include="Tools\Update\Steps\UpdateToVs218.cs" />
     <Compile Include="Tools\Update\Steps\UpdateToVs225.cs" />
     <Compile Include="Tools\Update\Steps\UpdateToVs220.cs" />
