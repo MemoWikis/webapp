@@ -17,6 +17,7 @@ namespace TrueOrFalse
 
             // das hier später per Konvention, siehe: http://mvccontrib.codeplex.com/SourceControl/changeset/view/351a6de404cb#src%2fMVCContrib%2fSimplyRestful%2fSimplyRestfulRouteHandler.cs
 
+            routes.MapRoute("Sitemap", "sitemap.xml", new { controller = "Home", action = "SiteMap" });
             routes.MapRoute("Logout", "Ausloggen", new { controller = "Welcome", action = "Logout" });
             routes.MapRoute("CheckUserNameForAvailability", "Registrieren/IsUserNameAvailable", new { controller = "Login", action = "IsUserNameAvailable" });
             routes.MapRoute("CheckEmailForAvailability", "Registrieren/IsEmailAvailable", new { controller = "Login", action = "IsEmailAvailable" });
@@ -183,6 +184,7 @@ namespace TrueOrFalse
             routes.MapRoute("Category", "{text}/{id}", new { controller = "Category", action = "Category" });
             routes.MapRoute("GetSegmentHtml", "Segmentation/GetSegmentHtml", new { controller = "Segmentation", action = "GetSegmentHtml" });
             routes.MapRoute("GetCategoryCard", "Segmentation/GetCategoryCard", new { controller = "Segmentation", action = "GetCategoryCard" });
+
             
             routes.MapRoute("Default", "{controller}/{action}/{id}", new { controller = "Welcome", action = "Welcome", id = UrlParameter.Optional });
             routes.MapRoute("Various", "{action}", new { controller = "VariousPublic"});
