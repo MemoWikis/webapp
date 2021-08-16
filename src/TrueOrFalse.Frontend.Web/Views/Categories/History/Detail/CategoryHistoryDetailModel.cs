@@ -28,6 +28,8 @@ public class CategoryHistoryDetailModel : BaseModel
     public string CurrentDescription;
     public string CurrentWikipediaUrl;
     public string CurrentRelations;
+    public CategoryVisibility CurrentVisibility;
+
 
     public string PrevName;
     public DateTime PrevDateCreated;
@@ -37,6 +39,7 @@ public class CategoryHistoryDetailModel : BaseModel
     public string PrevDescription;
     public string PrevWikipediaUrl;
     public string PrevRelations;
+    public CategoryVisibility PrevVisibility;
 
     
     public CategoryHistoryDetailModel(CategoryChange currentRevision, CategoryChange previousRevision, CategoryChange nextRevision, bool isCategoryDeleted)
@@ -77,6 +80,7 @@ public class CategoryHistoryDetailModel : BaseModel
         CurrentSegments = currentRevisionData.CustomSegments;
         CurrentDescription = currentRevisionData.Description?.Replace("\\r\\n", "\r\n");
         CurrentWikipediaUrl = currentVersionTypeDelete ? ""  : currentRevisionData.WikipediaURL;
+        CurrentVisibility = currentRevisionData.Visibility;
 
         if (currentRevision.DataVersion == 2)
         {
@@ -91,9 +95,10 @@ public class CategoryHistoryDetailModel : BaseModel
             PrevName = prevRevisionData?.Name;
             PrevMarkdown = prevRevisionData?.TopicMardkown?.Replace("\\r\\n", "\r\n");
             PrevContent = prevRevisionData?.Content;
-            PrevSegments = currentRevisionData?.CustomSegments;
+            PrevSegments = prevRevisionData?.CustomSegments;
             PrevDescription = prevRevisionData?.Description?.Replace("\\r\\n", "\r\n");
             PrevWikipediaUrl = prevRevisionData?.WikipediaURL;
+            PrevVisibility = prevRevisionData != null ?  prevRevisionData.Visibility : CategoryVisibility.Owner;
 
             if (currentRevision.DataVersion >= 2 && previousRevision.DataVersion >= 2)
             {
