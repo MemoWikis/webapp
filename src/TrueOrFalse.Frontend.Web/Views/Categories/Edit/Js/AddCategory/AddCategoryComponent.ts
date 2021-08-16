@@ -1,16 +1,10 @@
-﻿////interface ResultItem {
-////    ResultCount: Number,
-////    Type: String, 
-////    Item: Object,
-////}
-
-var addCategoryComponent = Vue.component('add-category-component', {
+﻿var addCategoryComponent = Vue.component('add-category-component', {
     data() {
         return {
             name: "",
             errorMsg: "",
             parentId: null,
-            existingCategoryName: "",
+            forbiddenCategoryName: "",
             existingCategoryUrl: "",
             showErrorMsg: false,
             disabled: false,
@@ -93,7 +87,7 @@ var addCategoryComponent = Vue.component('add-category-component', {
             this.errorMsg = "";
             this.showErrorMsg = false;
             this.parentId = null;
-            this.existingCategoryName = "";
+            this.forbiddenCategoryName = "";
             this.existingCategoryUrl = "";
             this.selectedCategories = [];
             this.moveCategories = false;
@@ -149,18 +143,17 @@ var addCategoryComponent = Vue.component('add-category-component', {
                                         window.open(data.url, '_self');
                                     if (self.addCategoryBtnId != null)
                                         self.loadCategoryCard(data.id);
-                                    if (self.moveCategories) {
+                                    if (self.moveCategories)
                                         eventBus.$emit('remove-category-cards', data.movedCategories);
-                                    }
                                     else
                                         $('#AddCategoryModal').modal('hide');
-                                        Utils.HideSpinner();
+                                    Utils.HideSpinner();
                                 }
                             },
                         });
                     } else {
-                        self.errorMsg = data.errorMsg;
-                        self.existingCategoryName = data.name;
+                        self.errorMsg = messages.error.category[data.key];
+                        self.forbiddenCategoryName = data.name;
                         self.existingCategoryUrl = data.url;
                         self.showErrorMsg = true;
                         Utils.HideSpinner();
@@ -221,7 +214,7 @@ var addCategoryComponent = Vue.component('add-category-component', {
             }
 
             if (this.selectedCategoryId == this.parentId) {
-                this.errorMsg = "Das untergeordnete Thema, darf nicht das selbe Thema sein";
+                this.errorMsg = messages.error.category.loopLink;
                 this.showErrorMsg = true;
                 Utils.HideSpinner();
                 return;
@@ -245,7 +238,7 @@ var addCategoryComponent = Vue.component('add-category-component', {
                             $('#AddCategoryModal').modal('hide');
                         Utils.HideSpinner();
                     } else {
-                        self.errorMsg = data.errorMsg;
+                        self.errorMsg = messages.error.category[data.key];
                         self.showErrorMsg = true;
                         Utils.HideSpinner();
                     };
