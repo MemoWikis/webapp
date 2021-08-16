@@ -3917,3 +3917,7 @@ p:empty {
   height: auto;
   margin-right: 10px;
 }
+.categorySearchAutocomplete .searchResultItem img.authorImg {
+  -webkit-border-radius: 50%;
+          border-radius: 50%;
+}

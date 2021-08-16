@@ -3,6 +3,7 @@
 var textComponent = Vue.component('text-component',
     {
         props: ['content'],
+        template: '#text-component',
         data() {
             return {
                 linkUrl: null,
