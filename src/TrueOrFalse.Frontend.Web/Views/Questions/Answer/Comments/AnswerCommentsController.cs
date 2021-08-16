@@ -30,7 +30,7 @@ public class AnswerCommentsController : BaseController
 
         Resolve<CommentRepository>().Create(comment);
 
-        return View("~/Views/Questions/Answer/Comments/Comment.ascx",
+        return View("~/Views/Questions/Answer/Comments/Comment.vue.ascx",
             new CommentModel(comment));
     }
 
@@ -49,13 +49,13 @@ public class AnswerCommentsController : BaseController
 
         commentRepo.Create(comment);
 
-        return View("~/Views/Questions/Answer/Comments/CommentAnswer.ascx",
+        return View("~/Views/Questions/Answer/Comments/CommentAnswer.vue.ascx",
             new CommentModel(comment));
     }
 
     public ActionResult GetAnswerHtml()
     {
-        return View("~/Views/Questions/Answer/Comments/CommentAnswerAdd.ascx",
+        return View("~/Views/Questions/Answer/Comments/CommentAnswerAdd.vue.ascx",
             new CommentAnswerAddModel());
     }
 

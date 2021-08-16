@@ -11,7 +11,7 @@ namespace TrueOrFalse.View
                   "~/Style/bootstrap/bootstrap.css",
                   "~/Style/includes/shared.css",
                   "~/Style/*.css",
-                  "~/Style/jquery-ui/jquery-ui.structure.css", 
+                  "~/Style/jquery-ui/jquery-ui.structure.css",
                   "~/Style/jquery-ui/jquery-ui.theme.css",
                   "~/Fonts/font-awesome-5.7.2/css/all.css",
                   "~/Fonts/font-awesome-5.7.2/css/v4-shims.css",
@@ -86,7 +86,7 @@ namespace TrueOrFalse.View
                 .Include("~/Scripts/npm/d3/d3.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/js/alertModal")
-                .IncludeDirectory("~/Views/Shared/Modals/AlertModal/","*.js"));
+                .IncludeDirectory("~/Views/Shared/Modals/AlertModal/", "*.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/js/CategorySort")
                 .Include("~/Scripts/npm/sortablejs/Sortable.js")
@@ -129,7 +129,7 @@ namespace TrueOrFalse.View
             bundles.Add(new ScriptBundle("~/bundles/js/FloatingActionButton")
                 .Include("~/Scripts/npm/vue-material-design-ripple-build/vue-material-design-ripple-build.js")
                 .Include("~/Views/Categories/Detail/FloatingActionButton/FloatingActionButton.js"));
-            
+
             bundles.Add(new ScriptBundle("~/bundles/js/TopicTabFABLoader")
                 .Include("~/Views/Categories/Detail/FloatingActionButton/TopicTabFabLoader.js"));
             bundles.Add(new ScriptBundle("~/bundles/js/LearningTabFABLoader")
@@ -206,8 +206,11 @@ namespace TrueOrFalse.View
                 .Include("~/Views/Categories/ResultTestSession/Js/GetResultTestSession.js")
                 .Include("~/Views/Questions/Answer/LearningSession/Js/LearningSessionResult.js")
                 .Include("~/Views/Questions/Answer/LearningSession/Js/LearningSessionResultCharts.js")
-                .Include("~/Views/Questions/Answer/Comments/CommentComponent.js")
             );
+
+            bundles.Add(new ScriptBundle("~/bundles/js/CommentsSection")
+                .IncludeDirectory("~/Views/Questions/Answer/Comments/","*.js")
+                );
 
             bundles.Add(new StyleBundle("~/bundles/AnswerQuestion")
                 .Include("~/Views/Questions/Answer/*.css"));
@@ -254,7 +257,7 @@ namespace TrueOrFalse.View
                 .Include("~/Views/Questions/Answer/AnswerQuestion.css")
                 .Include("~/Views/Questions/Answer/AnswerQuestionSolution.css")
                 .Include("~/Views/Sets/Detail/Set.css"));
-                
+
             bundles.Add(new ScriptBundle("~/bundles/js/Messages")
                 .IncludeDirectory("~/Views/Messages/Js/", "*.js"));
 
@@ -270,7 +273,7 @@ namespace TrueOrFalse.View
             //Markdown
             bundles.Add(new ScriptBundle("~/bundles/markdown")
                 .Include("~/Scripts/Markdown.Converter.js",
-                         "~/Scripts/Markdown.Sanitizer.js", 
+                         "~/Scripts/Markdown.Sanitizer.js",
                          "~/Scripts/Markdown.Editor.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/js/Maintenance")
@@ -306,7 +309,7 @@ namespace TrueOrFalse.View
                 .Include("~/Views/Knowledge/Js/WishKnowledgeContent.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/js/_dashboard")
-                .Include("~/Views/Knowledge/Js/_dashboard.js")); 
+                .Include("~/Views/Knowledge/Js/_dashboard.js"));
 
             bundles.Add(new StyleBundle("~/bundles/_dashboard")
                 .Include("~/Views/Knowledge/Css/_dashBoard.css"));

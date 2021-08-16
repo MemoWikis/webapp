@@ -1999,6 +1999,13 @@
     <Content Include="Scripts\npm_builder\tiptap-build\tiptap-starterkit.js" />
     <Content Include="Scripts\npm_builder\tiptap-build\tiptap-underline.js" />
     <Content Include="Scripts\npm_builder\tiptap-build\tiptap-vue2.js" />
+    <Content Include="Views\Questions\Answer\Comments\AddCommentComponent.vue.ascx" />
+    <Content Include="Views\Questions\Answer\Comments\CommentComponent.js">
+      <DependentUpon>CommentComponent.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Questions\Answer\Comments\CommentsSection.js">
+      <DependentUpon>CommentsSection.ts</DependentUpon>
+    </Content>
     <Content Include="Views\Questions\Js\QuestionList\QuestionListComponent.js">
       <DependentUpon>QuestionListComponent.ts</DependentUpon>
     </Content>
@@ -2636,6 +2643,7 @@
     <TypeScriptCompile Include="Views\Categories\Detail\JsEditMode\Segmentation\SegmentComponent.ts" />
     <TypeScriptCompile Include="Views\Questions\AnswerQuestionComponent.ts" />
     <TypeScriptCompile Include="Views\Questions\Answer\Comments\CommentComponent.ts" />
+    <TypeScriptCompile Include="Views\Questions\Answer\Comments\CommentsSection.ts" />
     <TypeScriptCompile Include="Views\Questions\Answer\Js\QuestionDetails\AnswerQuestionDetailsApp.ts" />
     <TypeScriptCompile Include="Views\Questions\Answer\Js\QuestionDetails\AnswerQuestionDetailsComponent.ts" />
     <TypeScriptCompile Include="Views\Questions\Edit\EditComponents\EditQuestionLoader.ts" />
@@ -3534,8 +3542,8 @@
     <Compile Include="Views\Maintenance\MaintenanceModel.cs" />
     <Compile Include="Views\Maintenance\Images\ImagesModel.cs" />
     <Compile Include="Views\Questions\Answer\Comments\AnswerCommentsController.cs" />
-    <Compile Include="Views\Questions\Answer\Comments\CommentAnswerAddModel.cs">
-      <DependentUpon>CommentAnswerAdd.ascx</DependentUpon>
+    <Compile Include="Views\Questions\Answer\Comments\CommentAnswerAdd.vue.ascx.cs">
+      <DependentUpon>CommentAnswerAdd.vue.ascx</DependentUpon>
     </Compile>
     <Compile Include="Views\Questions\Answer\Comments\Comment.vue.ascx.cs">
       <DependentUpon>Comment.vue.ascx</DependentUpon>
@@ -3723,8 +3731,8 @@
     <Content Include="Views\Questions\Answer\AnswerControls\SolutionTypeText.js">
       <DependentUpon>SolutionTypeText.ts</DependentUpon>
     </Content>
-    <Content Include="Views\Questions\Answer\Comments\CommentAnswerAdd.ascx" />
-    <Content Include="Views\Questions\Answer\Comments\CommentAnswer.ascx" />
+    <Content Include="Views\Questions\Answer\Comments\CommentAnswerAdd.vue.ascx" />
+    <Content Include="Views\Questions\Answer\Comments\CommentAnswer.vue.ascx" />
     <Content Include="Views\Questions\Answer\Comments\Comment.vue.ascx" />
     <Content Include="Scripts\answerQuestion\AnswerQuestion.js">
       <DependentUpon>AnswerQuestion.ts</DependentUpon>
@@ -4206,6 +4214,12 @@
     </Content>
     <Content Include="Views\Questions\Js\QuestionList\QuestionListComponent.js.map">
       <DependentUpon>QuestionListComponent.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Questions\Answer\Comments\CommentComponent.js.map">
+      <DependentUpon>CommentComponent.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Questions\Answer\Comments\CommentsSection.js.map">
+      <DependentUpon>CommentsSection.ts</DependentUpon>
     </Content>
     <None Include="Web.overwritten.config.sample" />
     <Content Include="Views\Welcome\Logout.aspx" />

@@ -1,6 +1,7 @@
 ﻿<%@ Control Language="C#" Inherits="ViewUserControl<CommentModel>" %>
 <%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
 <comment-component inline-template>
+
     <div style="margin-top: 7px; border-top: 1px solid #DDDDDD;">
         <div class="panel-heading">
 
@@ -102,7 +103,7 @@
                         <a href="#" class="btnMarkAsSettled btn btn-link" data-type="btn-markAsSettled" style="<%= Html.CssHide(Model.IsSettled) %>" data-comment-id="<%= Model.Id %>">Als erledigt markieren</a>
                         <a href="#" class="btnMarkAsUnsettled btn btn-link" data-type="btn-markAsUnsettled" style="<%= Html.CssHide(!Model.IsSettled) %>" data-comment-id="<%= Model.Id %>">Als nicht erledigt markieren</a>
                     <% } %>
-                    <a href="#" class="btnAnswerComment btn btn-link" style="font-size: 14px; font-weight: 400;" data-comment-id="<%= Model.Id %>">
+                    <a @click="markAsSettled(<%= Model.Id %>)" href="#" class="btnAnswerComment btn btn-link" style="font-size: 14px; font-weight: 400;" data-comment-id="<%= Model.Id %>">
                         <i class="fa fa-check" aria-hidden="true"></i>
                         Als Erledigt Markieren
                     </a>
@@ -111,9 +112,11 @@
 
             <% } %>
         </div>
-        <div v-if="showAnsweringPanel" class="comment-answer-add">
-            <% Html.RenderPartial("~/Views/Questions/Answer/Comments/CommentAnswerAdd.ascx", Model); %>
+        <div v-if="showAnsweringPanel" class="comment-answer-add-component">
+            <% var answerAddModel = new CommentAnswerAddModel();
+               answerAddModel.AuthorImageUrl = Model.ImageUrl;
+               answerAddModel.ParentCommentId = Model.Id;
+               Html.RenderPartial("~/Views/Questions/Answer/Comments/CommentAnswerAdd.vue.ascx", answerAddModel); %>
         </div>   
         </div>
-
 </comment-component>
