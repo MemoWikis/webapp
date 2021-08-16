@@ -41,14 +41,10 @@
                             <img src="/Images/Logo/LogoSmall.png">
                         </div>
                     </a>
-                    <div class="input-group" id="HeaderSearchBoxDiv">
-                        <input type="text" class="form-control" placeholder="Suche" id="headerSearchBox">
-                        <div class="input-group-btn">
-                            <button class="btn btn-default" style="border: 1px #979797 solid; border-left:none; height: 44px;" type="submit">
-                                <i class="fa fa-search" style = "font-size: 30px"  aria-hidden="true"></i>
-                            </button>
-                        </div>
-                    </div>
+
+                </div>
+                <div id="StickySearch">
+                    <search-component v-on:select-item="openUrl" :search-type="searchType" id="StickySearchComponent"/>
                 </div>
                 <div class="col-xs-6 col-LoginAndHelp">
             	    <div id="loginAndHelp" >

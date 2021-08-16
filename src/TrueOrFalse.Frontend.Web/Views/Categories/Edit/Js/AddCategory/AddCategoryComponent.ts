@@ -195,7 +195,7 @@
             $.ajax({
                 type: 'Post',
                 contentType: "application/json",
-                url: '/Api/Search/ByNameForVue',
+                url: '/Api/Search/Category',
                 data: JSON.stringify(data),
                 success: function (result) {
                     self.categories = result.categories.filter(c => c.Id != self.parentId);

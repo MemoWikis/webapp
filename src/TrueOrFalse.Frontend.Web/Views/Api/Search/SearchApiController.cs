@@ -20,15 +20,14 @@ public class SearchApiController : BaseController
             AddCategoryItems(categoryItems, elements);
 
         if (elements.Questions.Any())
-            AddMiniQuestionItems(questionItems, elements);
+            AddQuestionItems(questionItems, elements);
 
         if (elements.Users.Any())
-            AddMiniUserItems(userItems, elements);
+            AddUserItems(userItems, elements);
 
 
         return Json(new
         {
-            totalCount = elements.CategoriesResultCount,
             categories = categoryItems,
             questions = questionItems,
             users = userItems
@@ -36,7 +35,7 @@ public class SearchApiController : BaseController
     }
 
     [HttpPost]
-    public JsonResult ByNameForVue(string term, string type, int[] categoriesToFilter)
+    public JsonResult Category(string term, string type, int[] categoriesToFilter)
     {
         var items = new List<SearchCategoryItem>();
         var elements = SearchBoxElementsGet.GoAllCategories(term);
@@ -66,6 +65,30 @@ public class SearchApiController : BaseController
                 IconHtml = GetIconHtml(c),
                 MiniImageUrl = new ImageFrontendData(Sl.ImageMetaDataRepo.GetBy(c.Id, ImageType.Category)).GetImageUrl(30, true, false, ImageType.Category).Url,
                 Visibility = (int)c.Visibility
+            }));
+    }
+
+    public static void AddQuestionItems(List<SearchQuestionItem> items, SearchBoxElements elements)
+    {
+        items.AddRange(
+            elements.Questions.Select((q, index) => new SearchQuestionItem
+            {
+                Id = q.Id,
+                Name = q.Text.Wrap(200),
+                ImageUrl = new QuestionImageSettings(q.Id).GetUrl_50px_square().Url,
+                Url = Links.AnswerQuestion(q, index, "searchbox")
+            }));
+    }
+
+    public static void AddUserItems(List<SearchUserItem> items, SearchBoxElements elements)
+    {
+        items.AddRange(
+            elements.Users.Select(u => new SearchUserItem
+            {
+                Id = u.Id,
+                Name = u.Name,
+                ImageUrl = new UserImageSettings(u.Id).GetUrl_50px_square(u).Url,
+                Url = Links.UserDetail(u)
             }));
     }
 

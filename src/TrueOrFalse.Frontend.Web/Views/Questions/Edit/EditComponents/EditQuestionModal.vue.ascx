@@ -103,7 +103,7 @@
                         <div class="input-container">
                             <div class="overline-s no-line">Themenzuordnung</div>
                             <form class="" v-on:submit.prevent>
-                                <div class="form-group dropdown categorySearchAutocomplete" :class="{ 'open' : showDropdown}">
+                                <div class="form-group dropdown categorySearchAutocomplete" :class="{ 'open' : showDropdown }">
                                     <div class="related-categories-container">
                                         <template v-for="(category, index) in selectedCategories">
                                             <%: Html.Partial("~/Views/Shared/CategoryChip/CategoryChipComponent.vue.ascx") %>

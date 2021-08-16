@@ -23,7 +23,9 @@ new Vue({
             nameIsValid: true,
             errorMsg: '',
             debounceSaveContent: _.debounce(this.saveContent, 400),
-            debounceSaveSegments: _.debounce(this.saveSegments, 400)
+            debounceSaveSegments: _.debounce(this.saveSegments, 400),
+            tiptapIsLoaded: false,
+            decodedHtml: '',
         };
     },
 

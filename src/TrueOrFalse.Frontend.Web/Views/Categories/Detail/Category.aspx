@@ -24,6 +24,8 @@
     <%= Scripts.Render("~/bundles/js/tiptap") %>
     <%= Scripts.Render("~/bundles/js/Editor") %>
 
+    <%: Html.Partial("~/Views/Shared/Search/SearchTemplateLoader.ascx") %>
+
     <script type="text/x-template" id="pin-category-template">
         <%: Html.Partial("~/Views/Shared/PinComponentVue/PinCategoryComponent.vue.ascx") %>
     </script>
@@ -85,5 +87,6 @@
     </div>
     <%= Scripts.Render("~/bundles/js/DeleteQuestion") %>
     <%= Scripts.Render("~/bundles/js/Category") %>
+    <%= Scripts.Render("~/bundles/js/StickySearch") %>
 
 </asp:Content>

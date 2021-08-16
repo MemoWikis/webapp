@@ -418,7 +418,7 @@ var editQuestionComponent = Vue.component('edit-question-component',
                     categoriesToFilter: [],
                 };
 
-                $.get("/Api/Search/ByNameForVue", data,
+                $.get("/Api/Search/Category", data,
                     function (result) {
                         self.categories = result.categories;
                         self.totalCount = result.totalCount;

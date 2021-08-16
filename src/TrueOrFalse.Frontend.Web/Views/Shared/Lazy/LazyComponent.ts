@@ -1,4 +1,4 @@
-﻿Vue.component('lazy-component',
+﻿Vue.component('lazy',
     {
         template: '#lazy-component',
 
