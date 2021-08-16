@@ -1,4 +1,8 @@
-﻿Vue.component('answer-comment-component',
+﻿declare var eventBus: any;
+if (eventBus == null)
+    var eventBus = new Vue();
+
+Vue.component('comment-answer-component',
     {
         props: ['idString', 'isSettledString'],
         data() {
@@ -24,6 +28,37 @@ Vue.component('comment-component',
         data() {
             return {
                 readMore: false,
+                showAnsweringPanel: false,
+        }
+        },
+
+        mounted() {
+
+        },
+
+        methods: {
+        }
+    });
+Vue.component('comment-answer-add',
+    {
+        props: [],
+        data() {
+            return {
+            }
+        },
+
+        mounted() {
+
+        },
+
+        methods: {
+        }
+    });
+
+Vue.component('add-comment-component',
+    {
+        data() {
+            return {
             }
         },
 

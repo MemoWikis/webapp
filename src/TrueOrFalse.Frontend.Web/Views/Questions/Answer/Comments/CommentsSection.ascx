@@ -1,6 +1,7 @@
 ﻿<%@ Control Language="C#" Inherits="ViewUserControl<AnswerQuestionModel>" %>
+<%@ Import Namespace="System.Web.Optimization" %>
 
-<div id="comments">
+<div id="CommentsSection">
     <% foreach (var comment in Model.Comments)
        { %>
         <div class="comment">
@@ -16,4 +17,9 @@
             (<a href="#" id="showAllCommentsInclSettled" data-question-id="<%= Model.QuestionId %>">alle anzeigen</a>).
         </div>
     <% } %>
+    <div class="addCommentComponent">
+        <% Html.RenderPartial("~/Views/Questions/Answer/Comments/AddCommentComponent.vue.ascx", Model); %>
+    </div>
+
 </div>
+<%= Scripts.Render("~/bundles/js/CommentsSection") %>

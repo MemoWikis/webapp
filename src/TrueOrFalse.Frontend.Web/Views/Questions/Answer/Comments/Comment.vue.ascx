@@ -12,7 +12,7 @@
         </div>
         <div class="panel-body" style="position: relative">
             <div class="col-xs-2" style="">
-                <img style="border-radius: 50%; height: 96px;" src="<%= Model.ImageUrl %>">
+                <img style="border-radius: 50%; max-height: 96px;" src="<%= Model.ImageUrl %>">
             </div>
             <div class="col-xs-10" style="height: 100%;">
                 <div style="padding-bottom: 12px;">
@@ -57,25 +57,21 @@
                 <%
                     else
                     { %>
-
-                    <span v-if="!readMore"><%= Model.Text.LineBreaksToBRs().Substring(0, 200) %></span>
+                    <span v-if="readMore"><p style="width: 634px;"><%= Model.Text.LineBreaksToBRs()%></p>
+                        <a class="" @click="readMore=false" style="cursor: pointer;">
+                            ...Weniger
+                        </a>
+                    </span>
+                    <span v-else><p><%= Model.Text.LineBreaksToBRs().Substring(0, 200) %></p>
                     <a class="" @click="readMore=true" style="cursor: pointer;">
                         ...Mehr
                     </a>
-                    <%--                <p v-if="readMore" style="width: 634px;"><%= Model.Text.LineBreaksToBRs()%></p>--%>
-
+                    </span>
                 <% } %>
             </div>
         </div>
         <div class="commentAnswers" style="margin-top: 40px;">
-            <div>
-                <a style="font-size: 18px; color: #999999; padding-right: 24px; padding-left: 156px;">
-                    <i class="fa fa-thumbs-up" aria-hidden="true"></i> &nbsp 0
-                </a>
-                <a style="font-size: 18px; color: #999999;">
-                    <i class="fa fa-comments-o" aria-hidden="true"></i> &nbsp <%= Model.Answers.Count() %>
-                </a>
-            </div>
+
             <% foreach (var answer in Model.Answers)
                 { %>
                 <% Html.RenderPartial("~/Views/Questions/Answer/Comments/CommentAnswer.vue.ascx", answer); %>
@@ -90,6 +86,14 @@
             </div>
         <% } %>
         <div class="panel-body" style="position: relative">
+            <div style="position: absolute; bottom: 8px; left: 20px;">
+                <a v-if="false" style="font-size: 18px; color: #999999; padding-right: 24px; padding-left: 156px;">
+                    <i class="fa fa-thumbs-up" aria-hidden="true"></i> &nbsp 0
+                </a>
+                <span style="font-size: 18px; color: #999999;">
+                <i class="fa fa-comments-o" aria-hidden="true"></i> &nbsp <%= Model.Answers.Count() %>
+                </span>
+            </div>
             <% if (Model.IsLoggedIn)
                 { %>
                 <div style="position: absolute; bottom: 8px; right: 20px;">
@@ -102,10 +106,14 @@
                         <i class="fa fa-check" aria-hidden="true"></i>
                         Als Erledigt Markieren
                     </a>
-                    <a href="#" class="btnAnswerComment btn btn-link" style="font-size: 14px; font-weight: 400;" data-comment-id="<%= Model.Id %>">Antworten</a>
+                    <a @click="showAnsweringPanel=true" class="btnAnswerComment btn btn-link" style="font-size: 14px; font-weight: 400;" data-comment-id="<%= Model.Id %>">Antworten</a>
                 </div>
+
             <% } %>
         </div>
-    </div>
+        <div v-if="showAnsweringPanel" class="comment-answer-add">
+            <% Html.RenderPartial("~/Views/Questions/Answer/Comments/CommentAnswerAdd.ascx", Model); %>
+        </div>   
+        </div>
 
 </comment-component>

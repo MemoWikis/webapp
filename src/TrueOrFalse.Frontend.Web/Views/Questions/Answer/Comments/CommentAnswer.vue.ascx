@@ -1,10 +1,10 @@
 ﻿<%@ Control Language="C#" Inherits="ViewUserControl<CommentModel>" %>
 <%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
 
-<answer-comment-component inline-template id-string="<%= Model.Id %>" is-settled-string="<%= Model.IsSettled %>">
+<comment-answer-component inline-template id-string="<%= Model.Id %>" is-settled-string="<%= Model.IsSettled %>">
     <div class="panel-body" style="position: relative">
         <div class="col-xs-2">
-            <img class="pull-right" style="width:50%; border-radius:50%;" src="<%= Model.ImageUrl %>">
+            <img class="pull-right" style="max-height: 48px; border-radius:50%;" src="<%= Model.ImageUrl %>">
         </div>
         <div class="col-xs-10" style="height: 100%; padding-bottom: 15px; ">
             <div>
@@ -27,4 +27,4 @@
             </div>
         </div>
     </div>
-</answer-comment-component>
+</comment-answer-component>
