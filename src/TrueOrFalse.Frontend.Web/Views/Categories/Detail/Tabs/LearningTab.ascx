@@ -49,4 +49,6 @@
 </div>
 <%= Scripts.Render("~/bundles/js/FloatingActionButton") %>
 <%= Scripts.Render("~/bundles/js/LearningTabFABLoader") %>
+<%= Scripts.Render("~/bundles/js/d3") %>
+
 

@@ -64,7 +64,7 @@ var fnAddMethodWithOptionalCallback = function (
     callbackOnSuccess: (val, elem) => any = function (val, elem) { },
     callbackOnError: (val, elem) => any = function (val, elem) { }
     ) {
-    jQuery.validator.addMethod(
+    $.validator.addMethod(
         ruleName,
         function (value, element) {
             if (condition(value)) {
@@ -100,7 +100,7 @@ var fnNumberFormatCorrect = function (value): boolean {
 
 var fnAddRegExMethod = function(name, regEx, message){
 
-    jQuery.validator.addMethod(
+    $.validator.addMethod(
         name,
         function (value, element) {
 
@@ -118,7 +118,7 @@ var fnAddRegExMethod = function(name, regEx, message){
 
 var fnAddAllOrNothingMethod = function (name, message) {
 
-    jQuery.validator.addMethod(
+    $.validator.addMethod(
         name,
         function (value, element) {
             var members = $(element).closest('.JS-ValidationGroup').find('.JS-ValidationGroupMember');

@@ -21,8 +21,9 @@ namespace TrueOrFalse.View
             bundles.Add(new StyleBundle("~/bundles/message")
                 .Include("~/Views/Messages/*.css"));
 
-            if (Settings.Environment() == "live") {
+            if (Settings.Environment() == "develop") {
                 bundles.Add(new ScriptBundle("~/bundles/shared")
+                    .Include("~/Scripts/npm/jquery/jquery.js")
                     .IncludeDirectory("~/Scripts/", "*.js")
                     .IncludeDirectory("~/Scripts/vendor", "*.js")
                     .IncludeDirectory("~/Scripts/header", "*.js")
@@ -32,6 +33,7 @@ namespace TrueOrFalse.View
                     .Include("~/Scripts/npm/vue/vue.js"));
             } else {
                 bundles.Add(new ScriptBundle("~/bundles/shared")
+                    .Include("~/Scripts/npm/jquery/jquery.js")
                     .IncludeDirectory("~/Scripts/", "*.js")
                     .IncludeDirectory("~/Scripts/vendor", "*.js")
                     .IncludeDirectory("~/Scripts/header", "*.js")
@@ -40,6 +42,15 @@ namespace TrueOrFalse.View
                     .IncludeDirectory("~/Views/Welcome/Login", "*.js")
                     .Include("~/Scripts/npm/vue/vue.min.js"));
             }
+
+            bundles.Add(new ScriptBundle("~/bundles/js/lazy")
+                .Include("~/Views/Shared/Lazy/LazyComponent.js"));
+
+            bundles.Add(new ScriptBundle("~/bundles/js/searchTemplate")
+                .Include("~/Views/Shared/Search/SearchComponent.js"));
+
+            bundles.Add(new ScriptBundle("~/bundles/js/stickySearch")
+                .Include("~/Views/Shared/Search/StickySearch.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/fileUploader")
                 .Include("~/Scripts/vendor.file-uploader/header.js")
@@ -77,7 +88,6 @@ namespace TrueOrFalse.View
 
             bundles.Add(new ScriptBundle("~/bundles/js/Category")
                 .Include("~/Views/Knowledge/Wheel/KnowledgeWheel.js")
-                .Include("~/Scripts/npm/d3/d3.js")
                 .IncludeDirectory("~/Views/Categories/Detail/JsAnalyticsTab/", "*.js")
                 .IncludeDirectory("~/Views/Categories/Detail/Js/", "*.js")
                 .Include("~/Views/Categories/ResultTestSession/Js/GetResultTestSession.js")
@@ -238,10 +248,8 @@ namespace TrueOrFalse.View
                 .Include("~/Views/Questions/Js/QuestionList/QuestionComponent.js")
                 .Include("~/Views/Shared/PinComponentVue/PinComponent.vue.js"));
 
-
             bundles.Add(new StyleBundle("~/bundles/QuestionList")
                 .Include("~/Views/Questions/QuestionList/QuestionList.css"));
-
 
             bundles.Add(new StyleBundle("~/bundles/QuestionHistory")
                 .Include("~/Views/Questions/History/*.css"));

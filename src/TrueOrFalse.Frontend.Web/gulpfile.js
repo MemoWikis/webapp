@@ -18,6 +18,9 @@ var deps = {
     "vue-slider-component" : {
         "dist/vue-slider-component.umd.js": ""
     },
+    "jquery": {
+        "dist/jquery.js" : ""
+    }
 };
 
 var merge = require('merge-stream'); 

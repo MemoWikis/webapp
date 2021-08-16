@@ -5,7 +5,7 @@
         var categoryIdToDelete;
         var self = this;
 
-        $(document).on("click", 'a[href*=#modalDeleteCategory]', function (e) {
+        $("a[href='#modalDeleteCategory']").click(function (e) {
             categoryIdToDelete = $(this).attr("data-categoryId");
             self.PopulateDeleteCategory(categoryIdToDelete);
         });
