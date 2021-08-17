@@ -1,5 +1,4 @@
 ﻿using Newtonsoft.Json;
-using NHibernate;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -72,7 +71,7 @@ public class CategoryChangeDayModel
                 case CategoryChangeType.Delete: 
                     typ = "Gelöscht";
                     break;
-                case CategoryChangeType.Publish:
+                case CategoryChangeType.madePublish:
                     typ = "Publish";
                     break;
                 default: 
