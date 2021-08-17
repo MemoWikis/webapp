@@ -58,5 +58,6 @@ public enum CategoryChangeType
     Create = 0,
     Update = 1,
     Delete = 2,
-    Publish = 3
+    madePublish = 3,
+    madePrivate = 4
 }
