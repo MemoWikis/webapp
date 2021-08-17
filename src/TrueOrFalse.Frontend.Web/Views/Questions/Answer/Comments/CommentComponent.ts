@@ -2,6 +2,52 @@
 if (eventBus == null)
     var eventBus = new Vue();
 
+class CommentModel {
+    Id: Number;
+    CreatorName : String;
+    CreationDate: String;
+    CreationDateNiceText: String;
+    ImageUrl: String;
+    Text: String;
+
+
+}
+Vue.component('comments-section-component',
+    {
+        props: [],
+        data() {
+            return {
+                
+                addedComments: CommentModel,
+                showSettledComments: false,
+            }
+        },
+
+        mounted() {
+            eventBus.$on('addedComment', function (commentHTML) {
+
+            });
+        },
+
+        methods: {
+            revealSettledComments(commentId) {
+                $.ajax({
+                    type: 'POST',
+                    url: "/AnswerComments/GetAllAnswersInclSettledHtml",
+                    data: { commentId: commentId },
+                    cache: false,
+                    success(data) {
+                        this.settledComments = data;
+                        console.log(data);
+                    },
+                    error(e) {
+                        console.log(e);
+                        window.alert("Ein Fehler ist aufgetreten.");
+                    }
+                });
+            }
+        }
+    }),
 
 Vue.component('comment-answer-component',
     {
@@ -77,8 +123,9 @@ Vue.component('comment-answer-add-component',
 
                 var parentContainer = $($(this.el).parents(".panel")[0]);
                 $.post("/AnswerComments/SaveAnswer", params, function (data) {
-                    parentContainer.append(data);
                     console.log(data);
+
+                    parentContainer.append(data);
                 });
             }
         }
@@ -88,6 +135,7 @@ Vue.component('add-comment-component',
     {
         data() {
             return {
+                commentText: "",
             }
         },
 
@@ -96,5 +144,19 @@ Vue.component('add-comment-component',
         },
 
         methods: {
+            saveComment(currentQuestionId) {
+                var params = {
+                    questionId: currentQuestionId,
+                    text: $("#txtNewComment").val()
+                };
+                $.post("/AnswerComments/SaveComment",
+                    params,
+                    function (data) {
+                        console.log('"'+data+'"');
+                        this.commentText = "";
+                        eventBus.$emit('addedComment', data);
+                        $("#comments").append(data);
+                    });
+            }
         }
     });

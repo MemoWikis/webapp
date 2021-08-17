@@ -196,6 +196,7 @@
             data: { commentId: commentId },
             cache: false,
             success(data) {
+                
                 var commentDiv = buttonElem.parents(".comment");
                 commentDiv.html(data);
                 commentDiv.animate({ opacity: 0.00 }, 0)

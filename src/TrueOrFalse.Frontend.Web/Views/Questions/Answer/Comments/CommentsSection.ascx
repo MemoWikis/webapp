@@ -2,24 +2,48 @@
 <%@ Import Namespace="System.Web.Optimization" %>
 
 <div id="CommentsSection">
-    <% foreach (var comment in Model.Comments)
-       { %>
+    <comments-section-component inline-template>
+        <div>
+
+           <% foreach (var comment in Model.Comments)
+               { %>
         <div class="comment">
             <% Html.RenderPartial("~/Views/Questions/Answer/Comments/Comment.vue.ascx", comment); %>
         </div>
     <% } %>
+            <div>
+            </div>  
+
+
     <% if (Model.CommentsSettledCount > 0)
-       { %>
-        <div class="commentSettledInfo" style="margin: 5px 10px 15px;">
-            Diese Frage hat <%= Model.CommentsSettledCount %>
-            <% if (Model.Comments.Any()) Response.Write("weitere "); %>
-            als erledigt markierte<%= StringUtils.PluralSuffix(Model.CommentsSettledCount, "", "n") %> Kommentar<%= StringUtils.PluralSuffix(Model.CommentsSettledCount, "e") %>
-            (<a href="#" id="showAllCommentsInclSettled" data-question-id="<%= Model.QuestionId %>">alle anzeigen</a>).
+        { %>
+                <div v-if="showSettledComments" class="commentSettledInfo" style="margin: 5px 10px 15px;">
+                    Diese Frage hat <%= Model.CommentsSettledCount %>
+                    <% if (Model.Comments.Any()) Response.Write("weitere "); %>
+                    als erledigt markierte<%= StringUtils.PluralSuffix(Model.CommentsSettledCount, "", "n") %> Kommentar<%= StringUtils.PluralSuffix(Model.CommentsSettledCount, "e") %>
+                    (<a @click="showSettledComments = false" data-question-id="<%= Model.QuestionId %>">alle verstecken</a>).
+                </div>
+                <div v-else class="commentSettledInfo" style="margin: 5px 10px 15px;">
+                    Diese Frage hat <%= Model.CommentsSettledCount %>
+                    <% if (Model.Comments.Any()) Response.Write("weitere "); %>
+                    als erledigt markierte<%= StringUtils.PluralSuffix(Model.CommentsSettledCount, "", "n") %> Kommentar<%= StringUtils.PluralSuffix(Model.CommentsSettledCount, "e") %>
+                    (<a @click="showSettledComments = true" data-question-id="<%= Model.QuestionId %>">alle anzeigen</a>).
+                </div>
+                <div v-if="showSettledComments">
+
+                    <% foreach (var settledComment in Model.SettledComments)
+                        {%>
+                        <div class="comment">
+                            <% Html.RenderPartial("~/Views/Questions/Answer/Comments/Comment.vue.ascx", settledComment); %>
+                        </div>  
+                    <% } %>
         </div>
     <% } %>
     <div class="addCommentComponent">
         <% Html.RenderPartial("~/Views/Questions/Answer/Comments/AddCommentComponent.vue.ascx", Model); %>
     </div>
+        </div>
+    </comments-section-component>
 
 </div>
 <%= Scripts.Render("~/bundles/js/CommentsSection") %>

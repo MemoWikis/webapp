@@ -1,7 +1,7 @@
 ﻿<%@ Control Language="C#" Inherits="ViewUserControl<CommentModel>" %>
 <%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
-<comment-component inline-template>
 
+<comment-component inline-template >
     <div style="margin-top: 7px; border-top: 1px solid #DDDDDD;">
         <div class="panel-heading">
 
@@ -117,6 +117,6 @@
                answerAddModel.AuthorImageUrl = Model.ImageUrl;
                answerAddModel.ParentCommentId = Model.Id;
                Html.RenderPartial("~/Views/Questions/Answer/Comments/CommentAnswerAdd.vue.ascx", answerAddModel); %>
-        </div>   
         </div>
+    </div>
 </comment-component>

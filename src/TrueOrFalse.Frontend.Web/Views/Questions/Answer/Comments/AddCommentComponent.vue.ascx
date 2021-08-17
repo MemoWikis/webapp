@@ -16,7 +16,7 @@
                     </div>
 
                     <div class="col-xs-12" style="padding-top: 18px;">
-                        <a href="#" class="btn btn-secondary memo-button pull-right" style="border: 1px solid #0065CA; color: #0065ca" id="btnSaveComment">Speichern</a>
+                        <a class="btn btn-secondary memo-button pull-right" style="border: 1px solid #0065CA; color: #0065ca" @click="saveComment(<%= Model.QuestionId %>)">Speichern</a>
                     </div>
                 </div>
             </div>

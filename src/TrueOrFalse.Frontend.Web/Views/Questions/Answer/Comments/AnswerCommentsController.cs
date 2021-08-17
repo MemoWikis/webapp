@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Text;
 using System.Web.Mvc;
 
@@ -80,23 +81,21 @@ public class AnswerCommentsController : BaseController
     {
         var comment = Resolve<CommentRepository>().GetById(commentId);
 
-        return View("~/Views/Questions/Answer/Comments/Comment.ascx",
+        return View("~/Views/Questions/Answer/Comments/Comment.vue.ascx",
             new CommentModel(comment, true));
     }
 
     [HttpPost]
-    public string GetAllCommentsInclSettledHtml(int questionId)
+    public List<CommentModel> GetAllCommentsInclSettledHtml(int questionId)
     {
         var comments = Resolve<CommentRepository>().GetForDisplay(questionId);
 
-        var result = new StringBuilder();
+        var result = new List<CommentModel>();
         foreach (var comment in comments)
         {
-            result.AppendLine("<div class=\"comment " + (comment.IsSettled ? "commentIsSettled" : "") + "\">");
-            result.AppendLine(ViewRenderer.RenderPartialView("~/Views/Questions/Answer/Comments/Comment.ascx", new CommentModel(comment), ControllerContext));
-            result.AppendLine("</div>");
+            result.Add(new CommentModel(comment));
         }
-        return result.ToString();
+        return result;
     }
 
 }
