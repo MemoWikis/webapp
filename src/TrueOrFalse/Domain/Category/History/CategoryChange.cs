@@ -1,6 +1,5 @@
 ﻿using Seedworks.Lib.Persistence;
 using System;
-using System.Runtime.DesignerServices;
 
 public class CategoryChange : Entity, WithDateCreated
 {
