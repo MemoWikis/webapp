@@ -315,7 +315,7 @@ public class EditCategoryController : BaseController
                 .Where(c => c.Id != parentCategoryId)
                 .Select(c => c.Id).ToList())
                 .ToList(); 
-
+                
             related.Add(category);
 
             var childCategoryAsCategory = Sl.CategoryRepo.GetByIdEager(childCategory.Id);
@@ -395,14 +395,18 @@ public class EditCategoryController : BaseController
     public JsonResult RemoveParent(int parentCategoryIdToRemove, int childCategoryId)
     {
         var parentHasBeenRemoved = ParentRemover(parentCategoryIdToRemove, childCategoryId);
+
+        var parent = Sl.CategoryRepo.GetById(parentCategoryIdToRemove);
+       Sl.CategoryChangeRepo.AddUpdateEntry(parent, Sl.SessionUser.User, false);
+
         if (parentHasBeenRemoved)
             return Json(new
             {
                 success = true,
                 id = 2,
             });
-        else
-            return Json(new
+
+        return Json(new
             {
                 success = false,
                 id = 4
