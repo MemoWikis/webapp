@@ -72,6 +72,9 @@ public class CategoryChangeDayModel
                 case CategoryChangeType.Delete: 
                     typ = "Gelöscht";
                     break;
+                case CategoryChangeType.Publish:
+                    typ = "Publish";
+                    break;
                 default: 
                     Logg.r().Error("CategoryHistoryModel CategoryChangeType is invalid");
                     break;

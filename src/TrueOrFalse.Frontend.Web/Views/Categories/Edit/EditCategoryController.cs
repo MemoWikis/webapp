@@ -253,6 +253,7 @@ public class EditCategoryController : BaseController
                 errorMsg = "Das Thema ist schon untergeordnet."
             });
 
+
         var allParents = GraphService.GetAllParentsFromEntityCache(parentCategoryId);
         var parentIsEqualChild = allParents.Where(c => c.Id == childCategoryId);
 
@@ -559,8 +560,11 @@ public class EditCategoryController : BaseController
                 var category = Sl.CategoryRepo.GetById(categoryId);
                 category.Visibility = CategoryVisibility.All;
                 _categoryRepository.Update(category, _sessionUser.User);
+              
             }, "PublishCategory");
-            
+
+            Sl.CategoryChangeRepo.AddPublishEntry(Sl.CategoryRepo.GetById(categoryId), _sessionUser.User, false);
+
             return Json(new
             {
                 success = true,
