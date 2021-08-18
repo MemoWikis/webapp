@@ -95,28 +95,11 @@
   margin-top: 2px;
   float: right !important;
 }
-#mainMenu .list-group-item .set-color {
-  color: #FFD700;
-}
 #mainMenu .list-group-item .quest-color {
   color: #AFD534;
 }
 #mainMenu .list-group-item .cat-color {
   color: #45aece;
-}
-#mainMenu .list-group-item.set {
-  border-left-color: #FFD700;
-  border-right-color: #FFD700;
-}
-#mainMenu .list-group-item.set i.fa-caret-right {
-  color: #FFD700;
-}
-#mainMenu .list-group-item.set:hover {
-  background-color: #ffeb80;
-  color: black;
-}
-#mainMenu .list-group-item.set:hover i.fa-caret-right {
-  color: white;
 }
 #mainMenu .list-group-item.quest {
   border-left-color: #AFD534;

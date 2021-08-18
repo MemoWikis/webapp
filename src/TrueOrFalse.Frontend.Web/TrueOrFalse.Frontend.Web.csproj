@@ -2021,6 +2021,15 @@
     <Content Include="Views\Questions\Js\QuestionList\QuestionListComponent.js">
       <DependentUpon>QuestionListComponent.ts</DependentUpon>
     </Content>
+    <Content Include="Views\Shared\Modals\AlertModal\AlertModalComponent.js">
+      <DependentUpon>AlertModalComponent.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Shared\Modals\AlertModal\AlertModalComponentLoader.js">
+      <DependentUpon>AlertModalComponentLoader.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Shared\Modals\AlertModal\AlertModalComponentLoader.js.map">
+      <DependentUpon>AlertModalComponentLoader.ts</DependentUpon>
+    </Content>
     <Content Include="webpack.config.js" />
     <None Include="job_scheduling_data_2_0.xsd">
       <SubType>Designer</SubType>
@@ -4210,6 +4219,9 @@
     </Content>
     <Content Include="Views\Questions\Answer\Comments\CommentsSection.js.map">
       <DependentUpon>CommentsSection.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Shared\Modals\AlertModal\AlertModalComponent.js.map">
+      <DependentUpon>AlertModalComponent.ts</DependentUpon>
     </Content>
     <None Include="Web.overwritten.config.sample" />
     <Content Include="Views\Welcome\Logout.aspx" />
