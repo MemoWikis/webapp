@@ -71,7 +71,7 @@ public class CategoryChangeDayModel
                 case CategoryChangeType.Delete: 
                     typ = "Gelöscht";
                     break;
-                case CategoryChangeType.madePublish:
+                case CategoryChangeType.Published:
                     typ = "Publish";
                     break;
                 default: 
