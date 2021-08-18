@@ -11,6 +11,9 @@
             <% Html.RenderPartial("~/Views/Questions/Answer/Comments/Comment.vue.ascx", comment); %>
         </div>
     <% } %>
+            <div v-for="comment in addedComments">
+                <div v-html="comment"></div>
+            </div>
             <div>
             </div>  
 

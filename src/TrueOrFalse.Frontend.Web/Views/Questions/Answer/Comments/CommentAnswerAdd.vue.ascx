@@ -10,11 +10,11 @@
                         <img style="border-radius: 50%; max-height:96px;" src="<%= Model.AuthorImageUrl%>">
                     </div>
                     <div class="col-xs-10">
-                        <textarea style="resize: none; width: 100%; background-color: #EFEFEF; min-height: 96px; border: none; border-radius: 0;" class="form-control" v-model="commentAnswerText" placeholder="Neuen Kommentar hinzufügen. Bitte höflich, freundlich und sachlich schreiben."></textarea>
+                        <textarea style="resize: none; width: 100%; background-color: #EFEFEF; min-height: 96px; border: none; border-radius: 0;" class="form-control" v-model="commentAnswerText" placeholder="Neue Antwort hinzufügen. Bitte höflich, freundlich und sachlich schreiben."></textarea>
                     </div>
 
                     <div class="col-xs-12" style="padding-top: 18px;">
-                        <a class="btn btn-secondary memo-button pull-right saveAnswer" style="border: 1px solid #0065CA; color: #0065ca" @click="saveCommentAnswer(<%= Model.ParentCommentId%>)">Speichern</a>
+                        <a class="btn btn-secondary memo-button pull-right saveAnswer" style="border: 1px solid #0065CA; color: #0065ca" @click="saveCommentAnswer(<%= Model.ParentCommentId%>); commentAnswerText=''">Speichern</a>
                     </div>
                 </div>
             </div>

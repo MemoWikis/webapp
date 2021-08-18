@@ -1,10 +1,9 @@
 ﻿<%@ Control Language="C#" Inherits="ViewUserControl<CommentModel>" %>
 <%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
 
-<comment-component inline-template >
+<comment-component inline-template  comment-Id-String="<%= Model.Id %>" is-Admin-String="<%= Model.IsInstallationAdmin %>">
     <div style="margin-top: 7px; border-top: 1px solid #DDDDDD;">
         <div class="panel-heading">
-
             <% if (Model.IsSettled)
                 { %>
                 <br/>
@@ -71,13 +70,7 @@
                 <% } %>
             </div>
         </div>
-        <div class="commentAnswers" style="margin-top: 40px;">
 
-            <% foreach (var answer in Model.Answers)
-                { %>
-                <% Html.RenderPartial("~/Views/Questions/Answer/Comments/CommentAnswer.vue.ascx", answer); %>
-            <% } %>
-        </div>
         <% if (!Model.ShowSettledAnswers && (Model.AnswersSettledCount > 0))
             { %>
             <div class="panel-body commentSettledInfo" style="text-align: right;">
@@ -98,21 +91,32 @@
             <% if (Model.IsLoggedIn)
                 { %>
                 <div style="position: absolute; bottom: 8px; right: 20px;">
-                    <% if (Model.IsInstallationAdmin)
-                        { %>
-                        <a href="#" class="btnMarkAsSettled btn btn-link" data-type="btn-markAsSettled" style="<%= Html.CssHide(Model.IsSettled) %>" data-comment-id="<%= Model.Id %>">Als erledigt markieren</a>
-                        <a href="#" class="btnMarkAsUnsettled btn btn-link" data-type="btn-markAsUnsettled" style="<%= Html.CssHide(!Model.IsSettled) %>" data-comment-id="<%= Model.Id %>">Als nicht erledigt markieren</a>
-                    <% } %>
-                    <a @click="markAsSettled(<%= Model.Id %>)" href="#" class="btnAnswerComment btn btn-link" style="font-size: 14px; font-weight: 400;" data-comment-id="<%= Model.Id %>">
+
+                    <a v-if="isInstallationAdmin && !settled" @click="markAsSettled(<%= Model.Id %>)" href="#" class="btnAnswerComment btn btn-link" style="font-size: 14px; font-weight: 400;" data-comment-id="<%= Model.Id %>">
                         <i class="fa fa-check" aria-hidden="true"></i>
                         Als Erledigt Markieren
                     </a>
-                    <a @click="showAnsweringPanel=true" class="btnAnswerComment btn btn-link" style="font-size: 14px; font-weight: 400;" data-comment-id="<%= Model.Id %>">Antworten</a>
+                    <a v-if="isInstallationAdmin && settled" @click="markAsUnsettled(<%= Model.Id %>)" href="#" class="btnAnswerComment btn btn-link" style="font-size: 14px; font-weight: 400;" data-comment-id="<%= Model.Id %>">
+                        <i class="fa fa-check" aria-hidden="true"></i>
+                        Als nicht Erledigt Markieren
+                    </a>
+                    <a @click="showAnsweringPanel = true" class="btnAnswerComment btn btn-link" style="font-size: 14px; font-weight: 400;" >Antworten</a>
                 </div>
 
             <% } %>
         </div>
-        <div v-if="showAnsweringPanel" class="comment-answer-add-component">
+        <div class="commentAnswers" style="margin-top: 40px;">
+
+            <% foreach (var answer in Model.Answers)
+               { %>
+                <% Html.RenderPartial("~/Views/Questions/Answer/Comments/CommentAnswer.vue.ascx", answer); %>
+            <% } %>
+
+            <div v-for="answer in addedAnswers">
+                <div v-html="answer"></div>
+            </div>
+        </div>
+        <div v-if="showAnsweringPanel" >
             <% var answerAddModel = new CommentAnswerAddModel();
                answerAddModel.AuthorImageUrl = Model.ImageUrl;
                answerAddModel.ParentCommentId = Model.Id;
