@@ -114,17 +114,30 @@ public class CategoryHistoryDetailModel : BaseModel
     private string Relation2String(CategoryRelation_EditData relation)
     {
         var relatedCategory = Sl.CategoryRepo.GetById(relation.RelatedCategoryId);
+        var isRelatedCategoryNull = relatedCategory == null;
+        
+        var name = ""; 
+        if (isRelatedCategoryNull) // then is category deleted
+        {
+           var  prevVersion = Sl.CategoryChangeRepo.GetForCategory(relation.RelatedCategoryId)
+                .Where(cc => cc.Type != CategoryChangeType.Delete).OrderByDescending(cc => cc.DateCreated).Select(cc => CategoryEditData_V2.CreateFromJson( cc.Data)).First();
+           name = prevVersion.Name; 
+        }
+        else
+        {
+            name = relatedCategory.Name; 
+        }
         string res;
         switch (relation.RelationType)
         {
             case CategoryRelationType.IsChildOf:
-                res = $"\"{relatedCategory.Name}\" (ist übergeordnet)";
+                res = $"\"{name}\" (ist übergeordnet)";
                 break;
             case CategoryRelationType.IncludesContentOf:
-                res = $"\"{relatedCategory.Name}\" (ist untergeordnet)";
+                res = $"\"{name}\" (ist untergeordnet)";
                 break;
             default:
-                res = $"\"{relatedCategory.Name}\" (hat undefinierte Beziehung)";
+                res = $"\"{name}\" (hat undefinierte Beziehung)";
                 break;
         }
 
