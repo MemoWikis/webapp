@@ -91,7 +91,7 @@ public class EduSharingApiController : BaseController
             isAccessibleForFree = "true"
         }, JsonRequestBehavior.AllowGet);
     }
-
+    [HttpGet]
     public JsonResult Statistics()
     {
         var totalPublicQuestionCount = Sl.R<QuestionRepo>().TotalPublicQuestionCount();

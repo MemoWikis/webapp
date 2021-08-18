@@ -195,7 +195,8 @@ public class EditQuestionController : BaseController
             {
                 Data = new
                 {
-                    ErrorMsg = "Fehlender Fragetext",
+                    error = true,
+                    key = "missingText",
                 }
             };
         var question = Sl.QuestionRepo.GetById(questionDataJson.QuestionId);
@@ -219,10 +220,13 @@ public class EditQuestionController : BaseController
     {
         var safeText = GetSafeText(flashCardJson.TextHtml);
         if (safeText.Length <= 0)
-            return new JsonResult {Data = new
-            {
-                ErrorMsg = "Fehlender Fragetext",
-            }};
+            return new JsonResult {
+                Data = new
+                {
+                    error = true,
+                    key = "missingText",
+                }
+            };
         var serializer = new JavaScriptSerializer();
         var question = new Question();
         var questionRepo = Sl.QuestionRepo;
@@ -233,6 +237,15 @@ public class EditQuestionController : BaseController
 
         var solutionModelFlashCard = new QuestionSolutionFlashCard();
         solutionModelFlashCard.Text = flashCardJson.Answer;
+        if (solutionModelFlashCard.Text.Length <= 0)
+            return new JsonResult
+            {
+                Data = new
+                {
+                    error = true,
+                    key = "missingAnswer",
+                }
+            };
         question.Solution = serializer.Serialize(solutionModelFlashCard);
 
         question.Creator = _sessionUser.User;

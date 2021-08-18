@@ -159,7 +159,7 @@ public class CategoryModel : BaseContentModule
 
         TopWishQuestions = wishQuestions.Items;
 
-        SingleQuestions = GetQuestionsForCategory.QuestionsNotIncludedInSet(Id);
+        SingleQuestions = GetQuestionsForCategory.QuestionsWithCategoryAssigned(Id);
         IsFilteredUserWorld = UserCache.GetItem(_sessionUser.UserId).IsFiltered;
 
         AggregatedTopicCount = IsMyWorld ? CategoriesChildren.Count : GetTotalTopicCount(category);

@@ -14,6 +14,8 @@ Vue.component('textsolution-component', {
     mounted() {
         if (this.solution)
             this.text = this.solution;
+
+        this.$parent.solutionIsValid = this.text.length > 0;
     },
 
     watch: {

@@ -38,6 +38,7 @@ namespace TrueOrFalse
         public Stream GetThumbImageStream()
         { 
             var request = (HttpWebRequest)WebRequest.Create(ImageUrl);
+            WikiImageMetaLoader.SetUserAgent(request);
             var response = (HttpWebResponse)request.GetResponse();
 
             return response.GetResponseStream();

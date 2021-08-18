@@ -59,6 +59,7 @@ var editQuestionComponent = Vue.component('edit-question-component',
                 isPrivate: true,
                 isLearningTab: false,
                 showPrivacyContainer: false,
+                lockSaveButton: false,
             }
         },
         mounted() {
@@ -326,6 +327,8 @@ var editQuestionComponent = Vue.component('edit-question-component',
                     this.highlightEmptyFields = true;
                     return;
                 }
+                this.lockSaveButton = true;
+                Utils.ShowSpinner();
                 var url = this.edit ? '/Question/Edit' : '/Question/Create';
                 var json = this.getSaveJson();
                 var self = this;
@@ -359,19 +362,30 @@ var editQuestionComponent = Vue.component('edit-question-component',
                         }
 
                         self.highlightEmptyFields = false;
-                        $('#EditQuestionModal').modal('hide');
-                        let data = {
-                            type: MessageType.Question,
-                            id: 0
+                        Utils.HideSpinner();
+                        if (result.error) {
+                            let data = {
+                                msg: messages.error.question[result.key]
+                            }
+                            eventBus.$emit('show-error', data);
+                        } else {
+                            let data = {
+                                msg: self.edit ? messages.success.question.saved : messages.success.question.created
+                            }
+                            eventBus.$emit('show-success', data);
                         }
-                        eventBus.$emit('show-success', data);
+                        $('#EditQuestionModal').modal('hide');
+    
+                        self.lockSaveButton = false;
+
                     },
                     error:() => {
                         let data = {
-                            type: MessageType.Question,
-                            id: 1
+                            msg: self.edit ? messages.error.question.save : messages.error.question.creation
                         }
+                        Utils.HideSpinner();
                         eventBus.$emit('show-error', data);
+                        self.lockSaveButton = false;
                     }
                 });
             },

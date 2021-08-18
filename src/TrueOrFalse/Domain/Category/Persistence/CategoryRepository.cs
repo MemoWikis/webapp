@@ -421,27 +421,12 @@ public class CategoryRepository : RepositoryDbBase<Category>
             FROM categories_to_questions cq
             WHERE cq.Category_id = {categoryId}
 
-            UNION
-
-            SELECT DISTINCT(qs.Question_id) questionId
-	        FROM relatedcategoriestorelatedcategories rc
-	        INNER JOIN category c
-	        ON rc.Related_Id = c.Id
-	        INNER JOIN categories_to_sets cs
-	        ON c.Id = cs.Category_id
-	        INNER JOIN questioninset qs
-	        ON cs.Set_id = qs.Set_id
-	        WHERE rc.Category_id = {categoryId}
-	        AND rc.CategoryRelationType = {(int)CategoryRelationType.IncludesContentOf} 
-	
 	        UNION
 	
 	        SELECT DISTINCT(cq.Question_id) questionId 
 	        FROM relatedcategoriestorelatedcategories rc
 	        INNER JOIN category c
 	        ON rc.Related_Id = c.Id
-	        INNER JOIN categories_to_sets cs
-	        ON c.Id = cs.Category_id
 	        INNER JOIN categories_to_questions cq
 	        ON c.Id = cq.Category_id
 	        WHERE rc.Category_id = {categoryId}

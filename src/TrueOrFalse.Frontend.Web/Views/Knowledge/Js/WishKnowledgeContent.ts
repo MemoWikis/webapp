@@ -21,12 +21,6 @@
         $(".fa-heart").on("click",
             function (e) {
                 e.preventDefault();
-                if ($(this).attr("data-set") != null) {
-                    SetsApi.Unpin($(this).attr("data-id"));
-                    $(this).closest(".topic").remove();
-                    WishKnowledgeContent.alertFadeInWhenNoWhisKnowledge(".topic", "#noWishKnowledge");
-                    return;
-                }
 
                 CategoryApi.Unpin($(this).attr("data-id"));
                 $(this).closest(".topic").remove();

@@ -115,13 +115,6 @@ public class KnowledgeTopics : BaseModel
         return KnowledgeBarPartial;
     }
 
-    private string KnowledgeWishPartial(Set set, ControllerContext controllerContext)
-    {
-        var KnowledgeBarPartial = ViewRenderer.RenderPartialView("~/Views/Sets/Detail/SetKnowledgeBar.ascx", new SetKnowledgeBarModel(set), controllerContext);
-
-        return KnowledgeBarPartial;
-    }
-
     private int CountDesiredKnowledge(object categoryOrSet)
     {
         var solid = 0;
@@ -143,17 +136,6 @@ public class KnowledgeTopics : BaseModel
             notLearned = categoryKnowledge.NotLearned;
             notInWishKnowledge = categoryKnowledge.NotInWishknowledge;
 
-        }
-        else if (categoryOrSet is Set)
-        {
-            var set = (Set)categoryOrSet;
-            var setKnowledge = KnowledgeSummaryLoader.Run(UserId, set);
-
-            solid = setKnowledge.Solid;
-            needsConsolidation = setKnowledge.NeedsConsolidation;
-            notLearned = setKnowledge.NotLearned;
-            needsLearning = setKnowledge.NeedsLearning;
-            notInWishKnowledge = setKnowledge.NotInWishknowledge;
         }
         else
         {

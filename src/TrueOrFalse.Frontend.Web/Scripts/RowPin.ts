@@ -104,15 +104,6 @@ class Pin {
             }
         });
 
-        $("#UnpinSetModal").off("click").on("click", "#JS-RemoveQuestions", () => {
-            $.when(
-                SetsApi.UnpinQuestionsInSet($('#JS-RemoveQuestions').attr('data-set-id'), onPinChanged))
-             .then(() => {
-                Utils.UnpinQuestionsInSetDetail();
-                Utils.SetMenuPins();
-            });
-        });
-
         $(".RoundHeartButton.iAdded").hover(hoverIn, hoverOut);
 
         function hoverIn() {
@@ -175,8 +166,6 @@ class Pin {
         if (this.IsQuestionRow()) {
             QuestionsApi.Pin(id, onPinChanged);
             this.UpdateWishknowledgeCount(1 , false, id, elemPin);
-        } else if (this.IsSetRow() || this.IsSetDetail()) {
-            SetsApi.Pin(id, onPinChanged);
         } else if (this.IsCategoryRow() || this.IsCategoryDetail()) {
             CategoryApi.Pin(id, onPinChanged);
             if (this._isInLearningTab)
@@ -188,13 +177,6 @@ class Pin {
         if (this.IsQuestionRow()) {
             QuestionsApi.Unpin(id, onPinChanged);
             this.UpdateWishknowledgeCount(-1, false, id, elemPin);
-        } else if (this.IsSetRow() || this.IsSetDetail()) {
-
-            SetsApi.Unpin(id);
-
-            $("#JS-RemoveQuestions").attr("data-set-id", id);
-            $("#UnpinSetModal").modal('show');
-
         } else if (this.IsCategoryRow() || this.IsCategoryDetail()) {
 
             CategoryApi.Unpin(id);
