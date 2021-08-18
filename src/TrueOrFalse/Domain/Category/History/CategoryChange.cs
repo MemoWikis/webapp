@@ -59,5 +59,5 @@ public enum CategoryChangeType
     Update = 1,
     Delete = 2,
     Published = 3,
-    Pirivatized = 4
+    Privatized = 4
 }
