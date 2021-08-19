@@ -1,7 +1,7 @@
 ﻿<%@ Control Language="C#" Inherits="ViewUserControl<CommentModel>" %>
 <%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
 
-<comment-component inline-template  comment-Id-String="<%= Model.Id %>" is-Admin-String="<%= Model.IsInstallationAdmin %>">
+<comment-component inline-template  comment-Id-String="<%= Model.Id %>" is-Admin-String="<%= Model.IsInstallationAdmin %>" is-Owner-String="<%= Model.UserId == Model.Creator.Id %>">
     <div class="commentPanel">
         <div class="panel-heading">
             <% if (Model.IsSettled)
@@ -92,11 +92,11 @@
                 { %>
                 <div class="commentMarkAsSettledContainer">
 
-                    <a v-if="isInstallationAdmin && !settled" @click="markAsSettled(<%= Model.Id %>)" href="#" class="btnAnswerComment btn btn-link commentMarkAsSettled commentFooterText" data-comment-id="<%= Model.Id %>">
+                    <a v-if="isInstallationAdmin && !settled || isOwner && !settled" @click="markAsSettled(<%= Model.Id %>)" href="#" class="btnAnswerComment btn btn-link commentMarkAsSettled commentFooterText" data-comment-id="<%= Model.Id %>">
                         <i class="fa fa-check" aria-hidden="true"></i>
                         Als Erledigt Markieren
                     </a>
-                    <a v-if="isInstallationAdmin && settled" @click="markAsUnsettled(<%= Model.Id %>)" href="#" class="btnAnswerComment btn btn-link commentMarkAsSettled commentFooterText" data-comment-id="<%= Model.Id %>">
+                    <a v-if="isInstallationAdmin && settled || isOwner && settled" @click="markAsUnsettled(<%= Model.Id %>)" href="#" class="btnAnswerComment btn btn-link commentMarkAsSettled commentFooterText" data-comment-id="<%= Model.Id %>">
                         <i class="fa fa-check" aria-hidden="true"></i>
                         Als nicht Erledigt Markieren
                     </a>

@@ -68,7 +68,7 @@ Vue.component('comments-section-component',
 
 Vue.component('comment-component',
     {
-        props: ['commentIdString', 'isAdminString'],
+        props: ['commentIdString', 'isAdminString', 'isOwnerString'],
         data() {
             return {
                 readMore: false,
@@ -77,6 +77,7 @@ Vue.component('comment-component',
                 commentId: this.commentIdString,
                 addedAnswers: [''],
                 isInstallationAdmin: this.isAdminString == 'True',
+                isOwner: this.isOwnerString == 'True',
             }
         },
 
