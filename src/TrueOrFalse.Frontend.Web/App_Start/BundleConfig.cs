@@ -88,6 +88,9 @@ namespace TrueOrFalse.View
             bundles.Add(new ScriptBundle("~/bundles/js/alertModal")
                 .IncludeDirectory("~/Views/Shared/Modals/AlertModal/", "*.js"));
 
+            bundles.Add(new ScriptBundle("~/bundles/js/defaultModal")
+                .Include("~/Views/Shared/Modals/DefaultModal/DefaultModalComponent.js"));
+
             bundles.Add(new ScriptBundle("~/bundles/js/CategorySort")
                 .Include("~/Scripts/npm/sortablejs/Sortable.js")
                 .Include("~/Scripts/npm/vue-sortable/vue-sortable.js"));
@@ -137,6 +140,7 @@ namespace TrueOrFalse.View
 
             bundles.Add(new ScriptBundle("~/bundles/js/EditQuestionModalLoader")
                 .Include("~/Views/Questions/Js/EditQuestionModalLoader/EditQuestionModalLoader.js"));
+
 
             bundles.Add(new StyleBundle("~/bundles/CategoryHistory")
                 .Include("~/Views/Categories/History/*.css"));

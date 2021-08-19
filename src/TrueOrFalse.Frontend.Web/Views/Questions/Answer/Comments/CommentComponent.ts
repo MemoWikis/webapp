@@ -78,7 +78,8 @@ Vue.component('comment-component',
                 addedAnswers: [''],
                 isInstallationAdmin: this.isAdminString == 'True',
                 isOwner: this.isOwnerString == 'True',
-            }
+                showModal: false,
+        }
         },
 
         created() {
@@ -90,6 +91,11 @@ Vue.component('comment-component',
         },
 
         methods: {
+
+            openModal() {
+                eventBus.$emit('openModal');
+                this.showModal = true;
+            },
 
             addAnswer(answerHTML) {
                 this.addedAnswers.push(answerHTML);

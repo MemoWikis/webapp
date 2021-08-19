@@ -1,4 +1,5 @@
 ﻿<%@ Control Language="C#" Inherits="ViewUserControl<CommentModel>" %>
+<%@ Import Namespace="System.Web.Optimization" %>
 <%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
 
 <comment-component inline-template  comment-Id-String="<%= Model.Id %>" is-Admin-String="<%= Model.IsInstallationAdmin %>" is-Owner-String="<%= Model.UserId == Model.Creator.Id %>">

@@ -2030,6 +2030,10 @@
     <Content Include="Views\Shared\Modals\AlertModal\AlertModalComponentLoader.js.map">
       <DependentUpon>AlertModalComponentLoader.ts</DependentUpon>
     </Content>
+    <Content Include="Views\Shared\Modals\DefaultModal\DefaultModalComponent.vue.ascx" />
+    <Content Include="Views\Shared\Modals\DefaultModal\DefaultModalComponent.js">
+      <DependentUpon>DefaultModalComponent.ts</DependentUpon>
+    </Content>
     <Content Include="webpack.config.js" />
     <None Include="job_scheduling_data_2_0.xsd">
       <SubType>Designer</SubType>
@@ -2641,7 +2645,7 @@
       <DependentUpon>AnswerQuestion.less</DependentUpon>
     </Content>
     <Content Include="Views\Questions\Answer\AnswerQuestionDetails.ascx" />
-    <Content Include="Views\Questions\Answer\Comments\CommentsSection.ascx" />
+    <Content Include="Views\Questions\Answer\Comments\CommentsSection.vue.ascx" />
     <Content Include="Views\Questions\Answer\AnswerQuestionPager.ascx" />
     <Content Include="Views\Questions\Answer\Sponsor.ascx" />
     <Content Include="Views\Questions\Edit\EditSolutionControls\SolutionTypeFlashCard.ascx" />
@@ -3628,6 +3632,7 @@
     <TypeScriptCompile Include="Views\Shared\Editor\EditorMenuBarComponent.ts" />
     <TypeScriptCompile Include="Views\Shared\Modals\AlertModal\AlertModalComponentLoader.ts" />
     <TypeScriptCompile Include="Views\Shared\Modals\AlertModal\AlertModalComponent.ts" />
+    <TypeScriptCompile Include="Views\Shared\Modals\DefaultModal\DefaultModalComponent.ts" />
     <TypeScriptCompile Include="Views\Shared\PinComponentVue\PinComponent.vue.ts" />
     <TypeScriptCompile Include="Views\Shared\Spinner\Js\Spinner.ts" />
     <TypeScriptCompile Include="Views\Shared\MyWorldToggle\MyWorldToggleComponent.ts" />
@@ -4222,6 +4227,9 @@
     </Content>
     <Content Include="Views\Shared\Modals\AlertModal\AlertModalComponent.js.map">
       <DependentUpon>AlertModalComponent.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Shared\Modals\DefaultModal\DefaultModalComponent.js.map">
+      <DependentUpon>DefaultModalComponent.ts</DependentUpon>
     </Content>
     <None Include="Web.overwritten.config.sample" />
     <Content Include="Views\Welcome\Logout.aspx" />
