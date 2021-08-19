@@ -1,6 +1,6 @@
 ﻿<%@ Import Namespace="System.Web.Optimization" %>
 <default-modal-component inline-template @close="showModal = false" show-Close-Button="true" >
-    <div id="defaultModal">
+    <div id="defaultModal" v-if="showModal">
     <transition name="modal">
         <div class="modal-default-mask">
             <div class="modal-default-wrapper">

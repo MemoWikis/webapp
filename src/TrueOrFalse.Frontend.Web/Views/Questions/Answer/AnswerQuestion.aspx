@@ -146,7 +146,7 @@
                     </div>
                 </div>
 
-                <% Html.RenderPartial("~/Views/Questions/Answer/Comments/CommentsSection.ascx", Model); %>
+                <% Html.RenderPartial("~/Views/Questions/Answer/Comments/CommentsSection.vue.ascx", Model); %>
 
 
                 <%--MODAL IMPROVE--%>
