@@ -260,6 +260,7 @@ public class EditCategoryController : BaseController
                 key = "isAlreadyLinkedAsChild"
             });
 
+
         var allParents = GraphService.GetAllParentsFromEntityCache(parentCategoryId);
         var parentIsEqualChild = allParents.Where(c => c.Id == childCategoryId);
 
@@ -321,7 +322,7 @@ public class EditCategoryController : BaseController
                 .Where(c => c.Id != parentCategoryId)
                 .Select(c => c.Id).ToList())
                 .ToList(); 
-
+                
             related.Add(category);
 
             var childCategoryAsCategory = Sl.CategoryRepo.GetByIdEager(childCategory.Id);
@@ -401,14 +402,18 @@ public class EditCategoryController : BaseController
     public JsonResult RemoveParent(int parentCategoryIdToRemove, int childCategoryId)
     {
         var parentHasBeenRemoved = ParentRemover(parentCategoryIdToRemove, childCategoryId);
+
+        var parent = Sl.CategoryRepo.GetById(parentCategoryIdToRemove);
+       Sl.CategoryChangeRepo.AddUpdateEntry(parent, Sl.SessionUser.User, false);
+
         if (parentHasBeenRemoved)
             return Json(new
             {
                 success = true,
                 key = "unlinked",
             });
-        else
-            return Json(new
+
+        return Json(new
             {
                 success = false,
                 key = "noRemainingParents"
@@ -572,8 +577,11 @@ public class EditCategoryController : BaseController
                 var category = Sl.CategoryRepo.GetById(categoryId);
                 category.Visibility = CategoryVisibility.All;
                 _categoryRepository.Update(category, _sessionUser.User);
+              
             }, "PublishCategory");
-            
+
+            Sl.CategoryChangeRepo.AddPublishEntry(Sl.CategoryRepo.GetById(categoryId), _sessionUser.User, false);
+
             return Json(new
             {
                 success = true,

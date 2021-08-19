@@ -28,6 +28,8 @@ public class CategoryHistoryDetailModel : BaseModel
     public string CurrentDescription;
     public string CurrentWikipediaUrl;
     public string CurrentRelations;
+    public CategoryVisibility CurrentVisibility;
+
 
     public string PrevName;
     public DateTime PrevDateCreated;
@@ -37,6 +39,7 @@ public class CategoryHistoryDetailModel : BaseModel
     public string PrevDescription;
     public string PrevWikipediaUrl;
     public string PrevRelations;
+    public CategoryVisibility PrevVisibility;
 
     
     public CategoryHistoryDetailModel(CategoryChange currentRevision, CategoryChange previousRevision, CategoryChange nextRevision, bool isCategoryDeleted)
@@ -77,6 +80,7 @@ public class CategoryHistoryDetailModel : BaseModel
         CurrentSegments = currentRevisionData.CustomSegments;
         CurrentDescription = currentRevisionData.Description?.Replace("\\r\\n", "\r\n");
         CurrentWikipediaUrl = currentVersionTypeDelete ? ""  : currentRevisionData.WikipediaURL;
+        CurrentVisibility = currentRevisionData.Visibility;
 
         if (currentRevision.DataVersion == 2)
         {
@@ -91,9 +95,10 @@ public class CategoryHistoryDetailModel : BaseModel
             PrevName = prevRevisionData?.Name;
             PrevMarkdown = prevRevisionData?.TopicMardkown?.Replace("\\r\\n", "\r\n");
             PrevContent = prevRevisionData?.Content;
-            PrevSegments = currentRevisionData?.CustomSegments;
+            PrevSegments = prevRevisionData?.CustomSegments;
             PrevDescription = prevRevisionData?.Description?.Replace("\\r\\n", "\r\n");
             PrevWikipediaUrl = prevRevisionData?.WikipediaURL;
+            PrevVisibility = prevRevisionData != null ?  prevRevisionData.Visibility : CategoryVisibility.Owner;
 
             if (currentRevision.DataVersion >= 2 && previousRevision.DataVersion >= 2)
             {
@@ -109,17 +114,30 @@ public class CategoryHistoryDetailModel : BaseModel
     private string Relation2String(CategoryRelation_EditData relation)
     {
         var relatedCategory = Sl.CategoryRepo.GetById(relation.RelatedCategoryId);
+        var isRelatedCategoryNull = relatedCategory == null;
+        
+        var name = ""; 
+        if (isRelatedCategoryNull) // then is category deleted
+        {
+           var  prevVersion = Sl.CategoryChangeRepo.GetForCategory(relation.RelatedCategoryId)
+                .Where(cc => cc.Type != CategoryChangeType.Delete).OrderByDescending(cc => cc.DateCreated).Select(cc => CategoryEditData_V2.CreateFromJson( cc.Data)).First();
+           name = prevVersion.Name; 
+        }
+        else
+        {
+            name = relatedCategory.Name; 
+        }
         string res;
         switch (relation.RelationType)
         {
             case CategoryRelationType.IsChildOf:
-                res = $"\"{relatedCategory.Name}\" (ist übergeordnet)";
+                res = $"\"{name}\" (ist übergeordnet)";
                 break;
             case CategoryRelationType.IncludesContentOf:
-                res = $"\"{relatedCategory.Name}\" (ist untergeordnet)";
+                res = $"\"{name}\" (ist untergeordnet)";
                 break;
             default:
-                res = $"\"{relatedCategory.Name}\" (hat undefinierte Beziehung)";
+                res = $"\"{name}\" (hat undefinierte Beziehung)";
                 break;
         }
 
