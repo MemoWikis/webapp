@@ -46,7 +46,10 @@ new Vue({
                     this.changedContent = true;
                 }
             });
-        eventBus.$on('request-save', () => this.debounceSaveContent());
+        eventBus.$on('request-save', (val) => {
+            if (val !== "categoryName")
+                this.debounceSaveContent();
+        });
         eventBus.$on('save-segments', () => this.debounceSaveSegments());
         eventBus.$on('set-category-to-private', (id) => {
             $.ajax({

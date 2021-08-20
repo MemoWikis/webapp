@@ -358,7 +358,8 @@ public class EditCategoryController : BaseController
             else category.Content = null;
 
             var categoryDb = Sl.CategoryRepo.GetByIdEager(category); 
-                categoryDb.Content = content; 
+            categoryDb.Content = content; 
+            Sl.CategoryChangeRepo.AddUpdateEntry(categoryDb,Sl.SessionUser.User, false);
 
             return Json(true);
         }
@@ -651,6 +652,7 @@ public class EditCategoryController : BaseController
             {
                 nameHasChanged = true,
                 newUrl,
+                categoryName= category.Name
             });
         }
 
