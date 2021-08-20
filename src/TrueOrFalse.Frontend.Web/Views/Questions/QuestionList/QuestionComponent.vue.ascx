@@ -113,5 +113,8 @@
                 </div>
             </div>
         </div>
+        <template>
+            <%: Html.Partial("~/Views/Questions/QuestionList/QuestionComponent.vue.ascx")%>
+        </template>
     </div>
 </question-component>

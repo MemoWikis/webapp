@@ -2030,6 +2030,7 @@
     <Content Include="Views\Shared\Modals\AlertModal\AlertModalComponentLoader.js.map">
       <DependentUpon>AlertModalComponentLoader.ts</DependentUpon>
     </Content>
+    <Content Include="Views\Shared\Modals\DefaultModal\DefaultModalComponentLoader.ascx" />
     <Content Include="Views\Shared\Modals\DefaultModal\DefaultModalComponent.vue.ascx" />
     <Content Include="Views\Shared\Modals\DefaultModal\DefaultModalComponent.js">
       <DependentUpon>DefaultModalComponent.ts</DependentUpon>
@@ -3632,6 +3633,7 @@
     <TypeScriptCompile Include="Views\Shared\Editor\EditorMenuBarComponent.ts" />
     <TypeScriptCompile Include="Views\Shared\Modals\AlertModal\AlertModalComponentLoader.ts" />
     <TypeScriptCompile Include="Views\Shared\Modals\AlertModal\AlertModalComponent.ts" />
+    <TypeScriptCompile Include="Views\Shared\Modals\DefaultModal\DefaultModalComponentLoader.ts" />
     <TypeScriptCompile Include="Views\Shared\Modals\DefaultModal\DefaultModalComponent.ts" />
     <TypeScriptCompile Include="Views\Shared\PinComponentVue\PinComponent.vue.ts" />
     <TypeScriptCompile Include="Views\Shared\Spinner\Js\Spinner.ts" />

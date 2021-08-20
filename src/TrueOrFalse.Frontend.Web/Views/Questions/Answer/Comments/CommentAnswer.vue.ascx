@@ -20,10 +20,10 @@
                 <%= Model.Text.LineBreaksToBRs() %>    
             </div>
             <div>
-                <% if (Model.IsInstallationAdmin) { %>
+<%--                <% if (Model.IsInstallationAdmin) { %>
                     <a v-if="isSettled" class="btnMarkAsUnsettled btn btn-sm btn-link answerFooter" data-type="btn-markAsUnsettled" style="<%= Html.CssHide(!Model.IsSettled) %>">Als nicht erledigt markieren</a>
                     <a v-else class="btnMarkAsSettled btn btn-sm btn-link answerFooter" @click="markAsSettled()">Als erledigt markieren</a>
-                <% } %>
+                <% } %>--%>
             </div>
         </div>
     </div>

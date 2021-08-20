@@ -89,7 +89,7 @@ namespace TrueOrFalse.View
                 .IncludeDirectory("~/Views/Shared/Modals/AlertModal/", "*.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/js/defaultModal")
-                .Include("~/Views/Shared/Modals/DefaultModal/DefaultModalComponent.js"));
+                .IncludeDirectory("~/Views/Shared/Modals/DefaultModal/", "*.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/js/CategorySort")
                 .Include("~/Scripts/npm/sortablejs/Sortable.js")

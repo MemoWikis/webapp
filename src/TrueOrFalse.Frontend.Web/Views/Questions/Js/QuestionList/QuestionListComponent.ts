@@ -46,7 +46,8 @@ let qlc = Vue.component('question-list-component', {
             pageIsLoading: false,
             lastQuestionInListIndex: null,
             answerBodyHasLoaded: false,
-        };
+            showCommentModal: false,
+    };
     },
     created() {
         eventBus.$on('reload-knowledge-state', () => this.loadQuestions(this.selectedPage));

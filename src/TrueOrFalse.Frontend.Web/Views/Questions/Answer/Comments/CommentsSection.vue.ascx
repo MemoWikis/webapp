@@ -24,13 +24,13 @@
                     Diese Frage hat <%= Model.CommentsSettledCount %>
                     <% if (Model.Comments.Any()) Response.Write("weitere "); %>
                     als erledigt markierte<%= StringUtils.PluralSuffix(Model.CommentsSettledCount, "", "n") %> Kommentar<%= StringUtils.PluralSuffix(Model.CommentsSettledCount, "e") %>
-                    (<a @click="showSettledComments = false" data-question-id="<%= Model.QuestionId %>">alle verstecken</a>).
+                    (<a class="cursor-hand" @click="showSettledComments = false" data-question-id="<%= Model.QuestionId %>">alle verstecken</a>).
                 </div>
                 <div v-else class="commentSettledInfo">
                     Diese Frage hat <%= Model.CommentsSettledCount %>
                     <% if (Model.Comments.Any()) Response.Write("weitere "); %>
                     als erledigt markierte<%= StringUtils.PluralSuffix(Model.CommentsSettledCount, "", "n") %> Kommentar<%= StringUtils.PluralSuffix(Model.CommentsSettledCount, "e") %>
-                    (<a @click="showSettledComments = true" data-question-id="<%= Model.QuestionId %>">alle anzeigen</a>).
+                    (<a class="cursor-hand" @click="showSettledComments = true" data-question-id="<%= Model.QuestionId %>">alle anzeigen</a>).
                 </div>
                 <div v-if="showSettledComments">
 
