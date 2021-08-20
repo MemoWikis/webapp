@@ -5,8 +5,6 @@ using System.Security;
 using System.Web;
 using System.Web.Mvc;
 using Newtonsoft.Json;
-using NHibernate;
-using NHibernate.Mapping;
 using TrueOrFalse.Frontend.Web.Code;
 using TrueOrFalse.Web;
 
@@ -361,7 +359,6 @@ public class EditCategoryController : BaseController
 
             var categoryDb = Sl.CategoryRepo.GetByIdEager(category); 
                 categoryDb.Content = content; 
-            Sl.CategoryRepo.Update(categoryDb, User_());
 
             return Json(true);
         }
@@ -571,16 +568,10 @@ public class EditCategoryController : BaseController
                     key = "parentIsRoot"
                 });
             categoryCacheItem.Visibility = CategoryVisibility.All;
-
-            JobExecute.RunAsTask(scope =>
-            {
-                var category = Sl.CategoryRepo.GetById(categoryId);
-                category.Visibility = CategoryVisibility.All;
-                _categoryRepository.Update(category, _sessionUser.User);
-              
-            }, "PublishCategory");
-
-            Sl.CategoryChangeRepo.AddPublishEntry(Sl.CategoryRepo.GetById(categoryId), _sessionUser.User, false);
+            var category = Sl.CategoryRepo.GetById(categoryId);
+            category.Visibility = CategoryVisibility.All;
+            _categoryRepository.Update(category, _sessionUser.User);
+            Sl.CategoryChangeRepo.AddPublishEntry(Sl.CategoryRepo.GetById(categoryId), _sessionUser.User);
 
             return Json(new
             {
@@ -627,13 +618,9 @@ public class EditCategoryController : BaseController
                 });
         }
         categoryCacheItem.Visibility = CategoryVisibility.Owner;
-
-        JobExecute.RunAsTask(scope =>
-        {
-            var category = Sl.CategoryRepo.GetById(categoryId);
-            category.Visibility = CategoryVisibility.Owner;
-            _categoryRepository.Update(category, _sessionUser.User);
-        }, "SetCategoryToPrivate");
+        var category = Sl.CategoryRepo.GetById(categoryId);
+        category.Visibility = CategoryVisibility.Owner;
+        _categoryRepository.Update(category, _sessionUser.User);
 
         return Json(new
         {
@@ -654,15 +641,12 @@ public class EditCategoryController : BaseController
         {
             var categoryCacheItem = EntityCache.GetCategoryCacheItem(categoryId);
             categoryCacheItem.Name = name;
-
-            JobExecute.RunAsTask(scope =>
-            {
-                var category = Sl.CategoryRepo.GetById(categoryId);
-                category.Name = name;
-                Sl.CategoryRepo.Update(category, User_());
-            }, "UpdateCategoryName");
-
+            var category = Sl.CategoryRepo.GetById(categoryId);
+            category.Name = name;
+            //Sl.CategoryRepo.Update(category, User_(), false, false, true);
+            Sl.CategoryChangeRepo.AddTitelIsChangedEntry(category, Sl.SessionUser.User);
             var newUrl = Links.CategoryDetail(categoryCacheItem);
+
             return Json(new
             {
                 nameHasChanged = true,
