@@ -88,7 +88,6 @@ Vue.component('category-name-component',
                             document.title = name;
                             $('#BreadCrumbTrail > div:last-child a').text(name).attr("href", result.newUrl);
                             window.history.pushState("", name, result.newUrl);
-                        } else {
                         }
                     },
                 });
