@@ -61,15 +61,13 @@ new Vue({
                 success: function (result) {
                     if (result.success == true) {
                         let data = {
-                            type: MessageType.Category,
-                            id: result.id,
+                            msg: messages.success.category[result.key],
                             reload: true,
                         }
                         eventBus.$emit('show-success', data);
                     } else {
                         let data = {
-                            type: MessageType.Category,
-                            id: result.id,
+                            msg: messages.error.category[result.key],
                         }
                         eventBus.$emit('show-error', data);
                     };

@@ -83,14 +83,6 @@ new Vue({
                         Vue.delete(self.$refs.vuetable.tableData, index);
                     });
                 $.post("/Api/Category/UnpinQuestionsInCategory/", { categoryId: id }, () => { });
-            } else {
-                // Controller is /Api/SetsApi/Unpin
-                $.post("/Api/Sets/Unpin/",
-                    { setId: id },
-                    function () {
-                        Vue.delete(self.$refs.vuetable.tableData, index);
-                    });
-                $.post("/Api/Sets/UnpinQuestionsInSet/", { setId: id }, () => {});
             }
         },
         onLoading() {

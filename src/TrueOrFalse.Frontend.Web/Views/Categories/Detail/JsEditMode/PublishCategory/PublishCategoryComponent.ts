@@ -86,8 +86,7 @@ Vue.component('publish-category-component',{
                     if (result.success) {
                         $('#PublishCategoryModal').modal('hide');
                         let data = {
-                            type: MessageType.Category,
-                            id: 0,
+                            msg: messages.success.category.publish,
                             reload: true,
                         }
                         eventBus.$emit('show-success', data);
@@ -96,9 +95,8 @@ Vue.component('publish-category-component',{
                     } else {
                         $('#PublishCategoryModal').modal('hide');
                         let data = {
-                            type: MessageType.Category,
-                            id: 0,
-                        }
+                            msg: messages.error.category[result.key]
+                        };
                         eventBus.$emit('show-error', data);
                     }
                 },

@@ -1959,7 +1959,7 @@ strong {
   padding: 11px 15px 0;
 }
 #EditQuestionModal .description-container .ProseMirror {
-  height: 62px;
+  min-height: 62px;
 }
 #EditQuestionModal .col-spacer {
   min-width: 38px;

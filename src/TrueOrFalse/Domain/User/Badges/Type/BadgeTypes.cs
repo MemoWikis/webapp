@@ -143,31 +143,6 @@ public class BadgeTypes
                 AwardCheck = BadgeAwardCheck.GetLevel(fp => fp.Questions_InOtherPeopleWuwi())
             },
             
-            //Sets
-            new BadgeType
-            {
-                Key = "DonDoItSelf",
-                Name = "IchMachsDochNichtSelbst",
-                Description = "{badgePoints} Lernsets mit mehr als 10 Fragen, mit mind. 1 fremden Frage zusammengestellt",
-                Group =  BadgeTypeGroups.GetByKey(BadgeTypeGroupKeys.Sets),
-                Levels = new List<BadgeLevel>
-                {
-                    BadgeLevel.GetBronze(1),
-                    BadgeLevel.GetSilver(30),
-                    BadgeLevel.GetGold(200)
-                },
-                BadgeCheckOn = new []{ BadgeCheckOn.SetUpdateOrCreate },
-                AwardCheck = BadgeAwardCheck.GetLevel(fp =>
-                {
-                    var sets = fp.SetsWithAtLeast10Questions();
-
-                    return sets.Count(s => 
-                        s.QuestionsInSet.Any(y => 
-                            y.Question.Creator.Id != fp.CurrentUser.Id)
-                    );
-                })
-            },
-
             //Categories
             new BadgeType
             {

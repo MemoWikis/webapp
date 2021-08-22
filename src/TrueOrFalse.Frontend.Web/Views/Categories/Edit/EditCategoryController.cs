@@ -185,12 +185,14 @@ public class EditCategoryController : BaseController
         var categoryNameAllowed = new CategoryNameAllowed();
         if (categoryNameAllowed.No(dummyCategory))
         {
+            var category = EntityCache.GetByName(name).FirstOrDefault();
+            var url = category.Visibility == CategoryVisibility.All ? Links.CategoryDetail(category) : "";
             return Json(new
             {
                 categoryNameAllowed = false,
                 name,
-                url = Links.CategoryDetail(dummyCategory),
-                errorMsg = " ist bereits vergeben, bitte wähle einen anderen Namen!"
+                url,
+                key = "nameIsTaken"
             });
         }
 
@@ -200,7 +202,7 @@ public class EditCategoryController : BaseController
             {
                 categoryNameAllowed = false,
                 name,
-                errorMsg = " ist verboten, bitte wähle einen anderen Namen!"
+                key = "nameIsForbidden"
             });
         }
 
@@ -241,16 +243,21 @@ public class EditCategoryController : BaseController
             return Json(new
             {
                 success = false,
-                errorMsg = "Das untergeordnete Thema, darf nicht das selbe Thema sein."
+                key = "loopLink"
             });
-
+        if (parentCategoryId == RootCategory.RootCategoryId && !_sessionUser.IsInstallationAdmin)
+            return Json(new
+            {
+                success = false,
+                key = "parentIsRoot"
+            });
         var category = Sl.CategoryRepo.GetById(childCategoryId);
         var children = EntityCache.GetChildren(parentCategoryId);
         if (children.Any(c => c.Id == childCategoryId))
             return Json(new
             {
                 success = false,
-                errorMsg = "Das Thema ist schon untergeordnet."
+                key = "isAlreadyLinkedAsChild"
             });
 
         var allParents = GraphService.GetAllParentsFromEntityCache(parentCategoryId);
@@ -262,7 +269,7 @@ public class EditCategoryController : BaseController
             return Json(new
             {
                 success = false,
-                errorMsg = "Übergeordnete Themen können nicht untergeordnet werden."
+                key = "childIsParent"
             });
         }
         //change CategoryRelations
@@ -375,6 +382,9 @@ public class EditCategoryController : BaseController
                 {
                     NullValueHandling = NullValueHandling.Ignore
                 });
+            else
+                category.CustomSegments = null;
+
             var cacheItem = CategoryCacheItem.ToCacheCategory(category);
             EntityCache.AddOrUpdate(cacheItem);
             UserEntityCache.ReInitAllActiveCategoryCaches();
@@ -395,13 +405,13 @@ public class EditCategoryController : BaseController
             return Json(new
             {
                 success = true,
-                id = 2,
+                key = "unlinked",
             });
         else
             return Json(new
             {
                 success = false,
-                id = 4
+                key = "noRemainingParents"
             });
     }
 
@@ -549,6 +559,12 @@ public class EditCategoryController : BaseController
 
         if (categoryCacheItem.HasPublicParent())
         {
+            if (categoryCacheItem.ParentCategories(true).Any(c => c.Id == 1))
+                return Json(new
+                {
+                    success = false,
+                    key = "parentIsRoot"
+                });
             categoryCacheItem.Visibility = CategoryVisibility.All;
 
             JobExecute.RunAsTask(scope =>
@@ -567,6 +583,7 @@ public class EditCategoryController : BaseController
         return Json(new
         {
             success = false,
+            key = "parentIsPrivate",
             parentList = categoryCacheItem.ParentCategories().Select(c => c.Id).ToList()
         });
     }
@@ -586,7 +603,7 @@ public class EditCategoryController : BaseController
                 return Json(new
                 {
                     success = false,
-                    id = 1
+                    key = "publicChildCategories"
                 });
         }
 
@@ -598,7 +615,7 @@ public class EditCategoryController : BaseController
                 return Json(new
                 {
                     success = false,
-                    id = 2
+                    key = "publicQuestions"
                 });
         }
         categoryCacheItem.Visibility = CategoryVisibility.Owner;
@@ -613,7 +630,7 @@ public class EditCategoryController : BaseController
         return Json(new
         {
             success = true,
-            id = 0
+            key = "setToPrivate"
         });
     }
 

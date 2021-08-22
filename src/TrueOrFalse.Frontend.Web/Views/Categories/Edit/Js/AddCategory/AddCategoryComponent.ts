@@ -4,7 +4,7 @@
             name: "",
             errorMsg: "",
             parentId: null,
-            existingCategoryName: "",
+            forbiddenCategoryName: "",
             existingCategoryUrl: "",
             showErrorMsg: false,
             disabled: false,
@@ -87,7 +87,7 @@
             this.errorMsg = "";
             this.showErrorMsg = false;
             this.parentId = null;
-            this.existingCategoryName = "";
+            this.forbiddenCategoryName = "";
             this.existingCategoryUrl = "";
             this.selectedCategories = [];
             this.moveCategories = false;
@@ -143,18 +143,17 @@
                                         window.open(data.url, '_self');
                                     if (self.addCategoryBtnId != null)
                                         self.loadCategoryCard(data.id);
-                                    if (self.moveCategories) {
+                                    if (self.moveCategories)
                                         eventBus.$emit('remove-category-cards', data.movedCategories);
-                                    }
                                     else
                                         $('#AddCategoryModal').modal('hide');
-                                        Utils.HideSpinner();
+                                    Utils.HideSpinner();
                                 }
                             },
                         });
                     } else {
-                        self.errorMsg = data.errorMsg;
-                        self.existingCategoryName = data.name;
+                        self.errorMsg = messages.error.category[data.key];
+                        self.forbiddenCategoryName = data.name;
                         self.existingCategoryUrl = data.url;
                         self.showErrorMsg = true;
                         Utils.HideSpinner();
@@ -215,7 +214,7 @@
             }
 
             if (this.selectedCategoryId == this.parentId) {
-                this.errorMsg = "Das untergeordnete Thema, darf nicht das selbe Thema sein";
+                this.errorMsg = messages.error.category.loopLink;
                 this.showErrorMsg = true;
                 Utils.HideSpinner();
                 return;
@@ -239,7 +238,7 @@
                             $('#AddCategoryModal').modal('hide');
                         Utils.HideSpinner();
                     } else {
-                        self.errorMsg = data.errorMsg;
+                        self.errorMsg = messages.error.category[data.key];
                         self.showErrorMsg = true;
                         Utils.HideSpinner();
                     };

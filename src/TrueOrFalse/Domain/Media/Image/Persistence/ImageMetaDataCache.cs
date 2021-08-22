@@ -4,17 +4,6 @@ using System.Web;
 
 public class ImageMetaDataCache
 {
-    public static void WarmupRequestCache(Set set)
-    {
-        SetRequestItemsCache(set.QuestionIds(), "imageMetaDatasQuestion", ImageType.Question);
-
-        var allCategoryIds = set.Questions().GetAllCategories().Select(c => c.Id)
-               .Concat(set.Categories.Select(c => c.Id))
-               .ToList();
-
-        SetRequestItemsCache(allCategoryIds, "imageMetaDatasCategories", ImageType.Category);
-    }
-
     public static IDictionary<int, ImageMetaData> RequestCache_Questions => GetRequestItemsCache("imageMetaDatasQuestion");
     public static IDictionary<int, ImageMetaData> RequestCache_Categories => GetRequestItemsCache("imageMetaDatasCategories");
 

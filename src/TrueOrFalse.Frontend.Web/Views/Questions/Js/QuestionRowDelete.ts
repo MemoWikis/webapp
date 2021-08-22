@@ -43,6 +43,8 @@ class QuestionRowDelete {
                 url: "/Question/DeleteDetails/" + questionId,
                 cache: false,
                 success: function (result) {
+                    $("#spanQuestionTitle").html(result.questionTitle.toString());
+
                     if (result.canNotBeDeleted) {
                         $("#questionDeleteCanDelete").hide();
                         $("#questionDeleteCanNotDelete").show();
@@ -53,7 +55,6 @@ class QuestionRowDelete {
                         $("#questionDeleteCanDelete").show();
                         $("#questionDeleteCanNotDelete").hide();
                         $("#confirmQuestionDelete").show();
-                        $("#spanQuestionTitle").html(result.questionTitle.toString());
                         $("#btnCloseQuestionDelete").html("Abbrechen");
                     }
                     

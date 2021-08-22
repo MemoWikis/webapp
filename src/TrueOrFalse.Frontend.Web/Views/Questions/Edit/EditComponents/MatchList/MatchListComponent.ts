@@ -27,6 +27,7 @@ Vue.component('matchlist-component', {
             this.rightElements = json.RightElements;
             this.isSolutionOrdered = json.IsSolutionOrdered;
             this.solutionBuilder();
+            this.validateSolution();
         },
         addPair() {
             let placeHolder = {

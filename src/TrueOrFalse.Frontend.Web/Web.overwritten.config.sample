@@ -7,6 +7,10 @@
   <environment>develop</environment>  
   <betaCode>betaCode</betaCode>
 
+  <signalrUrl>url</signalrUrl>
+  <signalrUser>usr</signalrUser>
+  <signalrPassword>pass</signalrPassword>
+
   <debugUserNHProfiler>false</debugUserNHProfiler>
   <debugMiniProfiler>true</debugMiniProfiler>
 

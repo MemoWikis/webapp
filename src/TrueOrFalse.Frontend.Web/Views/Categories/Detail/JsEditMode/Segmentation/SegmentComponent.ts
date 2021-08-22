@@ -204,15 +204,13 @@ var categoryCardComponent = Vue.component('category-card-component', {
                             return c.Id != self.categoryId;
                         });
                         let eventData = {
-                            type: MessageType.Category,
-                            id: data.id
+                            msg: messages.success.category[data.key]
                         }
                         eventBus.$emit('show-success', eventData);
                     }
                     else {
                         let eventData = {
-                            type: MessageType.Category,
-                            id: data.id
+                            msg: messages.error.category[data.key]
                         }
                         eventBus.$emit('show-error', eventData);
                     }
