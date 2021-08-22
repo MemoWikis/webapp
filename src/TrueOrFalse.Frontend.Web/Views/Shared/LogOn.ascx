@@ -9,10 +9,10 @@
 <div style="display: flex;">
     <div class="header-item" style="margin-top: -1px; margin-right: 3px;">
         <div id="SmallHeaderSearch">
-            <div class="searchButton" :class="{ 'showSearch' : showSearch}" @click="showSearch = !showSearch">
+            <div class="searchButton" :class="{ 'showSearch' : showSearch }" @click="showSearch = !showSearch">
                 <i class="fa fa-search" style="font-size:25px; padding:0;margin:0; margin-top:-3px" aria-hidden="true"></i>
             </div>
-            <div class="StickySearchContainer" :class="{ 'showSearch' : showSearch}">
+            <div class="StickySearchContainer" :class="{ 'showSearch' : showSearch }">
                 <search-component v-on:select-item="openUrl" :search-type="searchType" id="SmallHeaderSearchComponent"/>
             </div>
         </div>

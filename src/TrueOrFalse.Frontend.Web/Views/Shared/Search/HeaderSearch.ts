@@ -1,4 +1,4 @@
-﻿var headerSearchComponent = new Vue({
+﻿new Vue({
     el: '#HeaderSearch',
     data() {
         return {
@@ -12,7 +12,7 @@
     }
 });
 
-var smallHeaderSearchComponent = new Vue({
+new Vue({
     el: '#SmallHeaderSearch',
     data() {
         return {

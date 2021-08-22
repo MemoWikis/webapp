@@ -5,6 +5,6 @@
         <text-component :content="decodedHtml"/>
     </keep-alive>
 </div>
-<div v-else ref="rawHtml" @mouseover.once="loadTiptap()" class="contentPlaceholder">
+<div v-else ref="rawHtml" class="contentPlaceholder">
     <%: Html.Raw(Model.Content)  %>
 </div>

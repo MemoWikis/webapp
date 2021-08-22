@@ -13,7 +13,7 @@ var EditQuestionLoader = new Vue({
     mounted() {
         if (typeof (tiptapEditor) !== 'undefined' && tiptapEditor != null)
             this.tiptapIsReady = true;
-        eventBus.$on('tiptap-is-ready', () => {this.tiptapIsReady = true;});
+        eventBus.$on('tiptap-is-ready', () => this.tiptapIsReady = true);
         eventBus.$on('edit-question-is-ready', () => this.modalIsReady = true);
         eventBus.$on('open-edit-question-modal',
             e => {
@@ -36,10 +36,9 @@ var EditQuestionLoader = new Vue({
             var self = this;
             $.ajax({
                 type: 'get',
-                cache: true,
                 url: '/EditQuestion/GetEditQuestionModal/',
                 success: function (html) {
-                    $(html).insertAfter('script#pin-category-template');
+                    $(html).insertBefore('#EditQuestionLoaderApp');
                     if (question != null)
                         self.loadModal(question);
                 },
@@ -54,7 +53,6 @@ var EditQuestionLoader = new Vue({
             var self = this;
             $.ajax({
                 type: 'get',
-                cache: true,
                 url: '/EditCategory/GetTiptap/',
                 success: function (html) {
                     $(html).insertAfter('script#pin-category-template');

@@ -25,7 +25,6 @@
     <script type="text/x-template" id="pin-category-template">
         <%: Html.Partial("~/Views/Shared/PinComponentVue/PinCategoryComponent.vue.ascx") %>
     </script>
-    <%: Html.Partial("~/Views/Questions/Edit/EditComponents/EditQuestionModalLoader.ascx") %>
 
     <script type="text/javascript" src="https://www.google.com/jsapi"></script>
     <%  
@@ -39,6 +38,8 @@
             Model.SidebarModel.CategorySuggestionImageUrl = Model.GetCategoryImageUrl(suggestionCategory).Url;
         }
     %>    
+    <%: Html.Partial("~/Views/Questions/Edit/EditComponents/EditQuestionModalLoader.ascx") %>
+
 </asp:Content>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">

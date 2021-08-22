@@ -97,10 +97,9 @@
                 var self = this;
                 $.ajax({
                     type: 'get',
-                    cache: true,
                     url: '/EditQuestion/GetEditQuestionModal/',
                     success: function (html) {
-                        $(html).insertAfter('script#pin-category-template');
+                        $(html).insertBefore('#EditQuestionLoaderApp');
                         self.$nextTick(() => {
                             self.tiptapIsReady = true;
                             self.initQuickCreate();
@@ -110,10 +109,8 @@
             }
         },
         loadTiptap() {
-            var self = this;
             $.ajax({
                 type: 'get',
-                cache: true,
                 url: '/EditCategory/GetTiptap/',
                 success: function (html) {
                     $(html).insertAfter('script#pin-category-template');

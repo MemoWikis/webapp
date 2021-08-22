@@ -96,6 +96,8 @@ new Vue({
             if (!data.isValid)
                 this.errorMsg = data.msg;
         });
+
+        this.$nextTick(() => this.loadTiptap());
     },
 
     updated() {
@@ -103,12 +105,9 @@ new Vue({
     },
 
     methods: {
-
         loadTiptap() {
-            var self = this;
             $.ajax({
                 type: 'get',
-                cache: true,
                 url: '/EditCategory/GetTiptap/',
                 success: function (html) {
                     $(html).insertAfter('script#pin-category-template');
