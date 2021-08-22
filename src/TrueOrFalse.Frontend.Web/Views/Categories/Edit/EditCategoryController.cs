@@ -661,4 +661,11 @@ public class EditCategoryController : BaseController
             Resolve<ImageStore>().RunUploaded<CategoryImageSettings>(
                 _sessionUiData.TmpImagesStore.ByGuid(guid), categoryId, _sessionUser.User.Id, licenseOwner);
     }
+
+    [HttpGet]
+    public string GetTiptap()
+    {
+        var tiptapHtml = ViewRenderer.RenderPartialView("~/Views/Shared/Editor/tiptapLoader.ascx", null, ControllerContext);
+        return tiptapHtml;
+    }
 }

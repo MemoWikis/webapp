@@ -1,12 +1,9 @@
-﻿declare var eventBus: any;
-if (eventBus == null)
-    var eventBus = new Vue();
+﻿Vue.component('editor-content', tiptapEditorContent);
 
-Vue.component('editor-content', tiptapEditorContent);
-
-var editQuestionComponent = Vue.component('edit-question-component',
+var editQuestionComponent = Vue.component('edit-question-modal-component',
     {
         props: ['isAdmin'],
+        template: '#edit-question-modal-template',
         data() {
             return {
                 highlightEmptyFields: false,
@@ -62,16 +59,6 @@ var editQuestionComponent = Vue.component('edit-question-component',
             }
         },
         mounted() {
-            eventBus.$on('open-edit-question-modal',
-                e => {
-                    var question = {
-                        questionId: e.questionId,
-                        edit: e.edit,
-                        sessionIndex: e.sessionIndex,
-                        categoryId: e.categoryId
-                    };
-                    $('#EditQuestionModal').data('question', question).modal('show');
-                });
             $('#EditQuestionModal').on('show.bs.modal',
                 event => {
                     this.isLearningTab = $('#LearningTabWithOptions').hasClass('active');

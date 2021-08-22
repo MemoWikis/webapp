@@ -1,40 +1,11 @@
-﻿Vue.component('editor-content', tiptapEditorContent);
-
-Vue.component('add-question-component', {
+﻿Vue.component('add-question-component', {
     props: ['current-category-id'],
     data() {
         return {
             highlightEmptyFields: false,
             isLoggedIn: IsLoggedIn.Yes,
             addToWishknowledge: true,
-            questionEditor: new tiptapEditor({
-                editable: true,
-                extensions: [
-                    tiptapStarterKit,
-                    tiptapLink.configure({
-                        HTMLAttributes: {
-                            target: '_self',
-                            rel: 'noopener noreferrer nofollow'
-                        }
-                    }),
-                    tiptapCodeBlockLowlight.configure({
-                        lowlight,
-                    }),
-                    tiptapUnderline,
-                    tiptapPlaceholder.configure({
-                        emptyEditorClass: 'is-editor-empty',
-                        emptyNodeClass: 'is-empty',
-                        placeholder: 'Gib den Fragetext ein',
-                        showOnlyCurrent: true,
-                    }),
-                    tiptapImage
-                ],
-                onUpdate: ({ editor }) => {
-                    this.questionJson = editor.getJSON();
-                    this.questionHtml = editor.getHTML();
-                    this.formValidator();
-                },
-            }),
+            questionEditor: null,
             question: null,
             questionJson: null,
             questionHtml: null,
@@ -47,6 +18,8 @@ Vue.component('add-question-component', {
             solutionIsValid: false,
             disabled: true,
             isPrivate: true,
+            tiptapIsReady: false,
+            editQuestionIsReady: false,
         }
     },
 
@@ -65,9 +38,88 @@ Vue.component('add-question-component', {
     mounted() {
         if (this.isPrivate)
             this.licenseIsValid = true;
+        if (typeof (tiptapEditor) !== 'undefined' && tiptapEditor != null) {
+            this.tiptapIsReady = true;
+            this.initEditor();
+        } else {
+            this.loadTiptap();
+        }
+        eventBus.$on('tiptap-is-ready', () => {
+            this.initEditor();
+        });
+        eventBus.$on('edit-question-is-ready', () => {
+            this.editQuestionIsReady = true;
+        });
     },
 
     methods: {
+        initQuickCreate() {
+            var self = this;
+            self.$nextTick(() => {
+
+                Vue.component('editor-content', tiptapEditorContent);
+                self.questionEditor = new tiptapEditor({
+                    editable: true,
+                    extensions: [
+                        tiptapStarterKit,
+                        tiptapLink.configure({
+                            HTMLAttributes: {
+                                target: '_self',
+                                rel: 'noopener noreferrer nofollow'
+                            }
+                        }),
+                        tiptapCodeBlockLowlight.configure({
+                            lowlight,
+                        }),
+                        tiptapUnderline,
+                        tiptapPlaceholder.configure({
+                            emptyEditorClass: 'is-editor-empty',
+                            emptyNodeClass: 'is-empty',
+                            placeholder: 'Gib den Fragetext ein',
+                            showOnlyCurrent: true,
+                        }),
+                        tiptapImage
+                    ],
+                    onUpdate: ({ editor }) => {
+                        self.questionJson = editor.getJSON();
+                        self.questionHtml = editor.getHTML();
+                        self.formValidator();
+                    },
+                });
+            });
+        },
+        initEditor() {
+            if (this.questionEditor != null)
+                return;
+            if (this.editQuestionIsReady) {
+                this.initQuickCreate();
+            } else {
+                var self = this;
+                $.ajax({
+                    type: 'get',
+                    cache: true,
+                    url: '/EditQuestion/GetEditQuestionModal/',
+                    success: function (html) {
+                        $(html).insertAfter('script#pin-category-template');
+                        self.$nextTick(() => {
+                            self.tiptapIsReady = true;
+                            self.initQuickCreate();
+                        });
+                    },
+                });
+            }
+        },
+        loadTiptap() {
+            var self = this;
+            $.ajax({
+                type: 'get',
+                cache: true,
+                url: '/EditCategory/GetTiptap/',
+                success: function (html) {
+                    $(html).insertAfter('script#pin-category-template');
+                },
+            });
+        },
         addFlashcard() {
             if (NotLoggedIn.Yes()) {
                 NotLoggedIn.ShowErrorMsg("CreateFlashCard");

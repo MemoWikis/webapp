@@ -24,7 +24,7 @@ new Vue({
             errorMsg: '',
             debounceSaveContent: _.debounce(this.saveContent, 400),
             debounceSaveSegments: _.debounce(this.saveSegments, 400),
-            tiptapIsLoaded: false,
+            tiptapIsReady: false,
             decodedHtml: '',
         };
     },
@@ -83,6 +83,10 @@ new Vue({
     },
 
     mounted() {
+        if (typeof (tiptapEditor) !== 'undefined' && tiptapEditor != null)
+            this.tiptapIsReady = true;
+        eventBus.$on('tiptap-is-ready', () => this.tiptapIsReady = true);
+        this.decodedHtml = this.$refs.rawHtml.innerHTML;
         this.changedContent = false;
         if ((this.$el.clientHeight + 450) < window.innerHeight)
             this.footerIsVisible = true;
@@ -99,6 +103,18 @@ new Vue({
     },
 
     methods: {
+
+        loadTiptap() {
+            var self = this;
+            $.ajax({
+                type: 'get',
+                cache: true,
+                url: '/EditCategory/GetTiptap/',
+                success: function (html) {
+                    $(html).insertAfter('script#pin-category-template');
+                },
+            });
+        },
 
         updateAuthors() {
             var self = this;

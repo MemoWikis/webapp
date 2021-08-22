@@ -1,10 +1,10 @@
 ﻿<%@ Control Language="C#" AutoEventWireup="true" Inherits="System.Web.Mvc.ViewUserControl<InlineTextModel>" %>
 
-<div v-if="tiptapIsLoaded">
+<div v-if="tiptapIsReady">
     <keep-alive>
         <text-component :content="decodedHtml"/>
     </keep-alive>
 </div>
-<div v-else>
+<div v-else ref="rawHtml" @mouseover.once="loadTiptap()" class="contentPlaceholder">
     <%: Html.Raw(Model.Content)  %>
 </div>
